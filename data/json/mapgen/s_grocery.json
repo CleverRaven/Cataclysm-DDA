@@ -12,7 +12,7 @@
         "sswsssssssssssssssssssss",
         "__|====-====-=[[=-====|_",
         "__|tttt^ttttt^RR^# b  |_",
-        "__|t             #%## |_",
+        "__|t             #%a# |_",
         "__|t  rrr  rrr        |_",
         "__|r  r|r  r|r  f|rrr |_",
         "__|r  r|r  r|r  f|777 |_",
@@ -34,6 +34,7 @@
       "terrain": {
         " ": "t_linoleum_white",
         "#": "t_linoleum_white",
+        "a": "t_linoleum_white",
         "%": "t_console_broken",
         "*": "t_floor",
         "+": "t_door_c",
@@ -64,6 +65,7 @@
       },
       "furniture": {
         "#": "f_counter",
+        "a": "f_counter",
         "7": "f_bookcase",
         "C": "f_crate_c",
         "S": "f_sink",
@@ -101,9 +103,11 @@
         { "item": "cleaning", "x": 21, "y": [ 16, 18 ], "chance": 60, "repeat": [ 1, 2 ] },
         { "item": "groce_frozen", "x": [ 8, 12 ], "y": 21, "chance": 60, "repeat": [ 1, 2 ] },
         { "item": "groce_meat", "x": [ 13, 17 ], "y": 21, "chance": 60, "repeat": [ 1, 2 ] },
-        { "item": "groce_dairyegg", "x": [ 18, 21 ], "y": 21, "chance": 60, "repeat": [ 1, 2 ] },
-        { "item": "miniatm", "x": [ 19, 20 ], "y": 6, "chance": 1, "repeat": 1 }
+        { "item": "groce_dairyegg", "x": [ 18, 21 ], "y": 21, "chance": 60, "repeat": [ 1, 2 ] }
       ],
+      "items": {
+        "a": { "item": "miniatm", "chance": 2 }
+      },
       "place_vehicles": [
         { "vehicle": "shopping_cart", "x": 3, "y": 2, "chance": 10 },
         { "vehicle": "shopping_cart", "x": 4, "y": 2, "chance": 10 },
@@ -202,7 +206,7 @@
         "  |&..{{..{{..{{....{|  ",
         "  |..................|  ",
         "  |..................|  ",
-        "  |---|.........#####|  ",
+        "  |---|.........##R##|  ",
         "  |T.S|.........#.b..|  ",
         "  |L..+.&&&&&&&....&&|  ",
         "  --------------------  ",
@@ -218,7 +222,7 @@
         "4": "t_gutter_downspout",
         "|": "t_wall"
       },
-      "furniture": { "#": "f_counter", "&": "f_glass_fridge", "{": "f_rack", "b": "f_stool", "S": "f_sink", "L": "f_locker" },
+      "furniture": { "#": "f_counter", "R": "f_counter", "&": "f_glass_fridge", "{": "f_rack", "b": "f_stool", "S": "f_sink", "L": "f_locker" },
       "toilets": { "T": {  } },
       "place_items": [
         { "item": "fridgesnacks", "x": 3, "y": [ 10, 15 ], "chance": 65, "repeat": [ 1, 3 ] },
@@ -241,9 +245,11 @@
         { "item": "magazines", "x": 16, "y": 7, "chance": 70, "repeat": 1 },
         { "item": "snacks", "x": 20, "y": [ 5, 6 ], "chance": 50, "repeat": 1 },
         { "item": "magazines", "x": 20, "y": 7, "chance": 70, "repeat": 1 },
-        { "item": "coat_rack", "x": 3, "y": 20, "chance": 70, "repeat": 1 },
-        { "item": "miniatm", "x": [ 17, 19 ], "y": 18, "chance": 1, "repeat": 1 }
+        { "item": "coat_rack", "x": 3, "y": 20, "chance": 70, "repeat": 1 }
       ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      },
       "place_monsters": [
         { "monster": "GROUP_GROCERY", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] },
         { "monster": "GROUP_ROACH", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 20 }

@@ -19,7 +19,7 @@
         "..dCC_________________d.",
         "..|w'||||___##__##____d.",
         "..|cc-ff+___tt__tt__v|..",
-        "..|ffcff+___##__##__v|..",
+        "..|ffRff+___##__##__v|..",
         "..|efcff||||||||||||||..",
         "..|ff-ff-T&-j{{{c&ccc|..",
         "..|ff-ffgfc-fffffffff|..",
@@ -45,6 +45,7 @@
         "a": "t_dirt",
         "b": "t_dirt",
         "c": "t_floor",
+        "R": "t_floor",
         "d": "t_dirt",
         "e": "t_floor",
         "f": "t_floor",
@@ -74,6 +75,7 @@
         "a": "f_dandelion",
         "b": "f_bluebell",
         "c": "f_counter",
+        "R": "f_counter",
         "e": "f_chair",
         "h": "f_cupboard",
         "i": "f_dumpster",
@@ -111,6 +113,9 @@
         { "item": "candy_shop", "x": 19, "y": 15, "chance": 75 },
         { "item": "light_reading", "x": 5, "y": 14, "chance": 25 }
       ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      },
       "place_item": [
         { "item": "cookies", "x": 18, "y": 15 },
         { "item": "candy", "x": 20, "y": 17 },

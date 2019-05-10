@@ -58,6 +58,7 @@
         "A": "t_floor",
         "B": "t_floor",
         "C": "t_floor",
+        "R": "t_floor",
         "D": "t_floor",
         "E": "t_dirtfloor",
         "F": "t_floor",
@@ -186,6 +187,7 @@
       ],
       "terrain": {
         "#": "t_floor",
+        "R": "t_floor",
         "&": "t_floor",
         "+": "t_door_glass_c",
         "-": "t_wall",
@@ -291,6 +293,7 @@
       ],
       "terrain": {
         "#": "t_floor",
+        "R": "t_floor",
         "&": "t_floor",
         "+": "t_door_glass_c",
         "-": "t_wall_glass",

@@ -43,6 +43,7 @@
       ],
       "terrain": {
         "#": "t_linoleum_white",
+        "R": "t_linoleum_white",
         "%": "t_sidewalk",
         "&": "t_linoleum_white",
         "+": "t_door_c",
@@ -152,6 +153,7 @@
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_dirt", "t_grass", "t_shrub", "t_tree_young" ],
         "#": "t_linoleum_white",
+        "R": "t_linoleum_white",
         "P": "t_floor",
         "p": "t_floor",
         ",": "t_floor",

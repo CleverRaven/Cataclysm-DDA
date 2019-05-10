@@ -34,6 +34,7 @@
       "terrain": {
         " ": "t_floor",
         "#": "t_floor",
+        "R": "t_floor",
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
         "-": "t_wall",

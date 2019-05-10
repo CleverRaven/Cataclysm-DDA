@@ -146,6 +146,7 @@
         "D": "t_door_c",
         "M": "t_metal_floor",
         "c": "t_floor",
+        "R": "t_floor",
         "L": "t_floor",
         "r": "t_floor",
         "h": "t_floor",

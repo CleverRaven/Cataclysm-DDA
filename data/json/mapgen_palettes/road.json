@@ -22,6 +22,7 @@
       "{": "f_glass_fridge",
       "1": [ "f_indoor_plant", "f_indoor_plant_y" ],
       "C": "f_counter",
+      "R": "f_counter",
       "H": "f_sofa",
       "c": "f_chair",
       "s": "f_stool",

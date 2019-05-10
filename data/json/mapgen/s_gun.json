@@ -38,6 +38,7 @@
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "#": "t_floor",
+        "R": "t_floor",
         "*": "t_pavement_y",
         "+": "t_door_metal_pickable",
         "-": "t_wall",
@@ -51,7 +52,7 @@
         "{": "t_floor",
         "|": "t_wall"
       },
-      "furniture": { "#": "f_counter", "S": "f_stool", "l": "f_locker", "s": "f_sandbag_wall", "{": "f_rack" },
+      "furniture": { "#": "f_counter", "R": "f_counter", "S": "f_stool", "l": "f_locker", "s": "f_sandbag_wall", "{": "f_rack" },
       "place_loot": [
         { "group": "guns_pistol_common", "x": 12, "y": 9, "chance": 75, "magazine": 100 },
         { "group": "guns_pistol_common", "x": 13, "y": 9, "chance": 75, "magazine": 100 },
@@ -90,6 +91,9 @@
         { "item": "ear_plugs", "x": 2, "y": 14, "chance": 50, "repeat": 2 },
         { "item": "powered_earmuffs", "x": 2, "y": 14, "chance": 30 }
       ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      },
       "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 0, 0 ], "y": [ 23, 23 ], "chance": 2, "repeat": [ 2, 3 ] } ]
     }
   },
@@ -118,7 +122,7 @@
         "_||..................|s_",
         "_s|..................|s_",
         "_s||D|||&&&&&&&&||L|||s_",
-        "_s|....|..####..|..cE|s_",
+        "_s|....|..####..|..cR|s_",
         "_s|....|........D...E|s_",
         "_s|S..;|lll##lll|l...|s_",
         "_s|||||||||||||||||L||s_",
@@ -138,6 +142,7 @@
         "A": "t_atm",
         "D": "t_door_c",
         "E": "t_floor",
+        "R": "t_floor",
         "L": "t_door_metal_locked",
         "S": "t_floor",
         "^": "t_floor",
@@ -152,6 +157,7 @@
       "furniture": {
         "#": "f_counter",
         "E": "f_desk",
+        "R": "f_desk",
         "S": "f_sink",
         "^": "f_indoor_plant",
         "c": "f_chair",
@@ -175,7 +181,10 @@
         { "group": "guns_rifle_common", "x": 16, "y": [ 9, 10 ], "chance": 75 },
         { "group": "mags_common", "x": [ 14, 16 ], "y": 12, "chance": 100, "repeat": [ 1, 4 ] },
         { "group": "mags_rare", "x": [ 14, 16 ], "y": 13, "chance": 75, "repeat": [ 1, 3 ] }
-      ]
+      ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      }
     }
   },
   {

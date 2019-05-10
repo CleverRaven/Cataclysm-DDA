@@ -96,6 +96,7 @@
       ],
       "terrain": {
         "#": "t_linoleum_gray",
+        "R": "t_linoleum_gray",
         "%": "t_shrub",
         "+": "t_door_glass_c",
         ",": "t_pavement_y",

@@ -12,7 +12,7 @@
         " |.C.h.H......O.O.&.&.| ",
         " |B......c............| ",
         " |B......c............| ",
-        " |cccccccc...#.m..e..B| ",
+        " |ccccRccc...#.m..e..B| ",
         " |bb...........m..e..B| ",
         " |d..........mm...e..B| ",
         " |bb.................B| ",
@@ -43,6 +43,7 @@
         "O": "f_oven",
         "b": "f_bed",
         "c": "f_counter",
+        "R": "f_counter",
         "d": "f_dresser",
         "e": "f_desk",
         "h": "f_chair",
@@ -55,7 +56,10 @@
         { "item": "hardware", "x": [ 8, 21 ], "y": 15, "chance": 75, "repeat": 4 },
         { "item": "tools_carpentry", "x": [ 2, 5 ], "y": 18, "chance": 75, "repeat": 2 },
         { "item": "magazines", "x": 2, "y": [ 3, 4 ], "chance": 75, "repeat": 1 }
-      ]
+      ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      }
     }
   }
 ]

@@ -107,7 +107,7 @@
         " ~~~~~~~~~~~~~~~~~~~~~~ ",
         " *--OO--OO--::--------* ",
         " *-TccccccTy..#%.c-?R-* ",
-        " *-...........#c.d-sl-* ",
+        " *-...........Ac.d-sl-* ",
         " *-.ccccccT...--+---+-* ",
         " *-...........-E.#...-* ",
         " *--+---+---..-E...T.-* ",
@@ -148,6 +148,7 @@
       },
       "furniture": {
         "#": "f_counter",
+        "A": "f_counter",
         "$": "f_safe_l",
         "?": "f_counter",
         "D": "f_trashcan",
@@ -182,6 +183,9 @@
         { "item": "office", "x": [ 7, 9 ], "y": 13, "chance": 40, "repeat": [ 2, 5 ] },
         { "item": "doctors_books", "x": 5, "y": 14, "chance": 35, "repeat": [ 1, 3 ] }
       ],
+      "items": {
+        "A": { "item": "miniatm", "chance": 2 }
+      },
       "place_monsters": [
         { "monster": "GROUP_VETS", "x": 20, "y": 19, "chance": 10 },
         { "monster": "GROUP_VETS", "x": 20, "y": 17, "chance": 10 },

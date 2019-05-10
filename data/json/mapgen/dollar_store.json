@@ -68,6 +68,7 @@
       ],
       "terrain": {
         "#": "t_floor",
+        "R": "t_floor",
         "&": "t_floor",
         "l": "t_floor",
         "+": "t_reinforced_door_glass_c",
@@ -153,6 +154,7 @@
       ],
       "terrain": {
         "#": "t_floor",
+        "R": "t_floor",
         "+": "t_reinforced_door_glass_c",
         "-": "t_wall_glass_alarm",
         ".": "t_floor",

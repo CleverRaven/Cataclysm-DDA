@@ -93,6 +93,7 @@
       ],
       "terrain": {
         "#": "t_floor",
+        "R": "t_floor",
         "&": "t_floor",
         "+": "t_door_glass_c",
         "-": "t_wall_glass",
@@ -196,6 +197,9 @@
         { "item": "cannabis", "repeat": 1, "x": 15, "y": 21 },
         { "item": "cannabis", "repeat": 1, "x": 18, "y": 21 }
       ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      },
       "furniture": {
         "#": "f_null",
         "&": "f_trashcan",
@@ -204,6 +208,7 @@
         ".": "f_null",
         "4": "f_null",
         "C": "f_counter",
+        "R": "f_counter",
         "D": "f_beaded_door",
         "^": "f_indoor_plant",
         "_": "f_null",
@@ -243,7 +248,7 @@
         ".._.wbfffffffffbw__._.._",
         "....wfffffffffff|#._..._",
         "...#wfffbbffffff|3#.#.._",
-        "_..#|ff||||CCCC||||||...",
+        "_..#|ff||||CRCC||||||...",
         "....|ff|&fffdfff|ccc|#..",
         "....|ff|fffffffffffc|_..",
         "._.#|ffDffffffffffff|...",
@@ -266,6 +271,7 @@
         ".": "t_grass",
         "4": "t_tree_pine",
         "C": "t_floor",
+        "R": "t_floor",
         "X": "t_door_c",
         "^": "t_floor",
         "_": "t_dirt",

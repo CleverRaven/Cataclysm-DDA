@@ -37,6 +37,7 @@
       ],
       "terrain": {
         "#": "t_floor",
+        "R": "t_floor",
         "%": "t_shrub",
         "+": "t_door_metal_pickable",
         ",": "t_pavement_y",

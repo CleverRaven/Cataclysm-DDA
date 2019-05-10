@@ -74,7 +74,7 @@
         "#r..rrrrr.....rrrrr..{#]",
         "#r...................{#]",
         "#r...................{#]",
-        "#&.AFFD#.CCCCC#rrrrrr1#]",
+        "#&.AFFD#.CCRCC#rrrrrr1#]",
         "##+#####...s..#########]",
         "#S.#...+......+.......~]",
         "#T.#TSl#.rrrrr#HHtcCfl#]",
@@ -83,7 +83,7 @@
       ],
       "palettes": [ "road" ],
       "signs": { "P": { "signage": "Wide selection of storage batteries!  Discounts!" } },
-      "items": { "l": { "item": "cleaning", "chance": 70 }, "&": { "item": "trash_cart", "chance": 50 } },
+      "items": { "l": { "item": "cleaning", "chance": 70 }, "&": { "item": "trash_cart", "chance": 50 }, "R": { "item": "miniatm", "chance": 2 } },
       "place_loot": [
         { "group": "fridgesnacks", "x": 21, "y": [ 13, 17 ], "chance": 70, "repeat": [ 1, 2 ] },
         { "group": "fridge", "x": 20, "y": 21, "chance": 60, "repeat": [ 1, 2 ] },
@@ -124,7 +124,7 @@
         ".[                    [.",
         ".####0#####33#####0####.",
         ".#9999  99      >S   9#.",
-        ".#      99      >    9#.",
+        ".#      99      R    9#.",
         ".#9999  99      >     #.",
         ".#              >  >>>#.",
         ".#FFFFFFFF            #.",
@@ -154,6 +154,7 @@
         ";": "t_floor",
         "=": "t_rock_floor",
         ">": "t_floor",
+        "R": "t_floor",
         "?": "t_floor",
         "@": "t_floor",
         "A": "t_floor",
@@ -173,6 +174,7 @@
         ":": "f_dresser",
         "=": "f_woodstove",
         ">": "f_counter",
+        "R": "f_counter",
         "?": "f_sofa",
         "@": "f_bed",
         "A": "f_sink",
@@ -202,7 +204,10 @@
         { "item": "shotgun_s", "x": 3, "y": 20 },
         { "item": "pot", "x": 18, "y": 21 },
         { "item": "shot_00", "x": 7, "y": 19, "chance": 50 }
-      ]
+      ],
+      "items": {
+        "R": { "item": "miniatm", "chance": 2 }
+      }
     }
   }
 ]
