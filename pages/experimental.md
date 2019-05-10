@@ -11,6 +11,9 @@ The most recent stable release is {{ site.github.latest_release.tag_name }} {{ s
 Cataclysm: DDA is under constant development. As such, stable can lag behind with features. If you would like access to the bleeding edge of features and any bugs that may come along with them, you can download the latest experimental builds below:
 
 ------------------
+<!-- Trying to display all releases seems to cause issues with only ~15 loading, so make a counter
+     and only display the most recent 10 releases for which at least one artifact was generated -->
+{% assign i = 0 %}
 
 {% for release in site.github.releases %}
 
@@ -29,6 +32,11 @@ Timestamp: {{ release.published_at }}
 * [{{ asset.name }}]({{ asset.browser_download_url }})
 
             {% endfor %}
+
+            {% assign i = i | plus:1 %}
+            {% if i >= 10 %}
+                {% break %}
+            {% endif %}
 
         {% endunless %}
 
