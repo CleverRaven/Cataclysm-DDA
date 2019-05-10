@@ -2234,8 +2234,8 @@ tripoint game::mouse_edge_scrolling( input_context ctxt, const int speed )
     }
     const input_event event = ctxt.get_raw_input();
     if( event.type == CATA_INPUT_MOUSE ) {
-        const int threshold_x = projected_window_width() / 20;
-        const int threshold_y = projected_window_height() / 20;
+        const int threshold_x = projected_window_width() / 100;
+        const int threshold_y = projected_window_height() / 100;
         if( event.mouse_x <= threshold_x ) {
             ret.x -= speed;
         } else if( event.mouse_x >= projected_window_width() - threshold_x ) {
