@@ -643,7 +643,7 @@ class game
         * @note: Only works for SDL/TILES (otherwise the function returns `false`). A window (more precisely, a viewport) must already exist and the SDL renderer must be valid.
         * @returns `true` if the screenshot generation was successful, `false` otherwise.
         */
-        bool take_screenshot( const std::string &path ) const;
+        bool take_screenshot( const std::string &file_path ) const;
 
         // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
         int get_temperature( const tripoint &location );
