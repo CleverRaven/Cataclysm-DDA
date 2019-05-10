@@ -13,16 +13,26 @@
   {
     "type": "item_group",
     "id": "bionics",
-    "items": [ [ "bio_chest_gun", 5 ] ]
+    "items": [ [ "bio_chest_gun", 5 ], [ "bio_furnace", 10 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "bionics_common",
+    "items": [ [ "bio_furnace", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "bionics_mil",
-    "items": [ [ "bio_chest_gun", 1 ] ]
+    "items": [ [ "bio_chest_gun", 1 ], [ "bio_furnace", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "bionics_op",
-    "items": [ [ "bio_chest_gun", 1 ] ]
+    "items": [ [ "bio_chest_gun", 1 ], [ "bio_furnace", 15 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "bionics_sci",
+    "items": [ [ "bio_furnace", 5 ] ]
   }
 ]
