@@ -926,32 +926,33 @@ bool is_wind_blocker( const tripoint &location )
     return g->m.has_flag( "BLOCK_WIND", location );
 }
 
+//Description of Wind Speed - https://en.wikipedia.org/wiki/Beaufort_scale
 std::string get_wind_desc( double windpower )
 {
     std::string winddesc;
     if( windpower < 1 ) {
         winddesc = "Calm";
-    } else if( windpower < 3 ) {
+    } else if( windpower <= 3 ) {
         winddesc = "Light Air";
-    } else if( windpower < 7 ) {
+    } else if( windpower <= 7 ) {
         winddesc = "Light Breeze";
-    } else if( windpower < 12 ) {
+    } else if( windpower <= 12 ) {
         winddesc = "Gentle Breeze";
-    } else if( windpower < 18 ) {
+    } else if( windpower <= 18 ) {
         winddesc = "Moderate Breeze";
-    } else if( windpower < 24 ) {
+    } else if( windpower <= 24 ) {
         winddesc = "Fresh Breeze";
-    } else if( windpower < 31 ) {
+    } else if( windpower <= 31 ) {
         winddesc = "Strong Breeze";
-    } else if( windpower < 38 ) {
+    } else if( windpower <= 38 ) {
         winddesc = "Moderate Gale";
-    } else if( windpower < 46 ) {
+    } else if( windpower <= 46 ) {
         winddesc = "Gale";
-    } else if( windpower < 54 ) {
+    } else if( windpower <= 54 ) {
         winddesc = "Strong Gale";
-    } else if( windpower < 63 ) {
+    } else if( windpower <= 63 ) {
         winddesc = "Whole Gale";
-    } else if( windpower < 72 ) {
+    } else if( windpower <= 72 ) {
         winddesc = "Violent Storm";
     } else if( windpower > 72 ) {
         winddesc =
