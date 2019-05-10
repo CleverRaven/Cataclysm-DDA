@@ -2223,8 +2223,9 @@ tripoint game::mouse_edge_scrolling( input_context ctxt, const int speed )
         // Fast return when the option is disabled.
         return ret;
     }
-    // Ensure this variable is used even if the #if below is false
+    // Ensure the parameters are used even if the #if below is false
     ( void ) ctxt;
+    ( void ) speed;
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
     auto now = std::chrono::steady_clock::now();
     if( now < last_mouse_edge_scroll + std::chrono::milliseconds( rate ) ) {
