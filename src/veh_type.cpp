@@ -120,6 +120,10 @@ static const std::vector<std::pair<std::string, int>> treads_terrain_mod = {{
         { "FLAT", 3 }
     }
 };
+static const std::vector<std::pair<std::string, int>> rail_terrain_mod = {{
+        { "RAIL", 8 }
+    }
+};
 
 static std::map<vpart_id, vpart_info> vpart_info_all;
 
@@ -245,6 +249,9 @@ void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo
         } else if( wheel_type == "treads" ) {
             wh_info.terrain_mod = treads_terrain_mod;
             wh_info.or_rating = 0.9;
+        } else if( wheel_type == "rail" ) {
+            wh_info.terrain_mod = rail_terrain_mod;
+            wh_info.or_rating = 0.05;
         }
     }
 

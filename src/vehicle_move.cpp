@@ -1011,19 +1011,16 @@ float get_collision_factor( const float delta_v )
     }
 }
 
-void vehicle::precalculate_vehicle_turning( int new_turn_dir, bool falling_only,
-        bool check_rail_direction,
-        const ter_bitflags ter_flag_to_check,
-        int &wheels_on_rail,
-        bool &all_wheels_on_one_axis,
-        int &turning_wheels_that_are_one_axis )
+void vehicle::precalculate_vehicle_turning( int new_turn_dir, bool check_rail_direction,
+        const ter_bitflags ter_flag_to_check, int &wheels_on_rail,
+        int &turning_wheels_that_are_one_axis ) const
 {
     tileray mdir; // The direction we're moving
     mdir.init( new_turn_dir ); // calculate direction after turn
     tripoint dp;
     bool is_diagonal_movement = new_turn_dir % 90 == 45;
 
-    if( abs( velocity ) >= 20 && !falling_only ) {
+    if( abs( velocity ) >= 20 ) {
         mdir.advance( velocity < 0 ? -1 : 1 );
         dp.x = mdir.dx();
         dp.y = mdir.dy();
@@ -1032,11 +1029,8 @@ void vehicle::precalculate_vehicle_turning( int new_turn_dir, bool falling_only,
     // number of wheels that will land on rail
     wheels_on_rail = 0;
 
+    // used to count wheels that will land on different axis
     int yVal = INT_MAX;
-    // is all wheels of vehicle on one axis?(bike)
-    all_wheels_on_one_axis = true;
-    // store mount.y of first wheel to determine above flag ^
-    int first_wheel_y_mount = parts[ wheelcache[ 0 ] ].mount.y;
     /*
     number of wheels that are on one axis and will land on rail
     (not sometimes correct, for vehicle with 4 wheels, wheels_on_rail==3
@@ -1073,7 +1067,7 @@ void vehicle::precalculate_vehicle_turning( int new_turn_dir, bool falling_only,
             // special case for rails
             if( check_rail_direction ) {
                 ter_id terrain_at_wheel = g->m.ter( wheel_tripoint );
-                // check correct is it correct tile to turn into
+                // check is it correct tile to turn into
                 if( !is_diagonal_movement &&
                     ( terrain_at_wheel == t_railroad_track_d || terrain_at_wheel == t_railroad_track_d1 ||
                       terrain_at_wheel == t_railroad_track_d2 || terrain_at_wheel == t_railroad_track_d_on_tie ) ) {
@@ -1090,10 +1084,6 @@ void vehicle::precalculate_vehicle_turning( int new_turn_dir, bool falling_only,
                     break;
                 }
             }
-        }
-        if( first_wheel_y_mount != wheel.mount.y ) {
-            // vehicle have wheels on different axis
-            all_wheels_on_one_axis = false;
         }
         if( rails_ahead ) { // found a wheel that turns correctly on rails
             if( yVal == INT_MAX ) { // if wheel that lands on rail still not found
@@ -1124,6 +1114,70 @@ int get_corrected_turn_dir( int turn_dir, int face_dir )
         corrected_turn_dir -= 360;
     }
     return corrected_turn_dir;
+}
+
+bool vehicle::allow_manual_turn_on_rails( int &corrected_turn_dir ) const
+{
+    bool allow_turn_on_rail = false;
+    if( turn_dir != face.dir() ) { // driver tried to turn rails vehicle
+        corrected_turn_dir = get_corrected_turn_dir( turn_dir, face.dir() );
+
+        int wheels_on_rail, turning_wheels_that_are_one_axis;
+        precalculate_vehicle_turning( corrected_turn_dir, true, TFLAG_RAIL, wheels_on_rail,
+                                      turning_wheels_that_are_one_axis );
+        if( is_wheel_state_correct_to_turn_on_rails( wheels_on_rail, rail_wheelcache.size(),
+                turning_wheels_that_are_one_axis ) ) {
+            allow_turn_on_rail = true;
+        }
+    }
+    return allow_turn_on_rail;
+}
+
+bool vehicle::allow_auto_turn_on_rails( int &corrected_turn_dir ) const
+{
+    bool allow_turn_on_rail = false;
+    if( turn_dir == face.dir() ) {  // check if autoturn is possible
+        // precalculate wheels for every direction
+        int straight_wheels_on_rail, straight_turning_wheels_that_are_one_axis;
+        precalculate_vehicle_turning( face.dir(), true, TFLAG_RAIL, straight_wheels_on_rail,
+                                      straight_turning_wheels_that_are_one_axis );
+
+        int left_turn_dir = get_corrected_turn_dir( face.dir() - 45, face.dir() );
+        int leftturn_wheels_on_rail, leftturn_turning_wheels_that_are_one_axis;
+        precalculate_vehicle_turning( left_turn_dir, true, TFLAG_RAIL, leftturn_wheels_on_rail,
+                                      leftturn_turning_wheels_that_are_one_axis );
+
+        int right_turn_dir = get_corrected_turn_dir( face.dir() + 45, face.dir() );
+        int rightturn_wheels_on_rail, rightturn_turning_wheels_that_are_one_axis;
+        precalculate_vehicle_turning( right_turn_dir, true, TFLAG_RAIL, rightturn_wheels_on_rail,
+                                      rightturn_turning_wheels_that_are_one_axis );
+
+        // if bad terrain ahead (landing wheels num is low)
+        if( straight_wheels_on_rail <= leftturn_wheels_on_rail && !all_wheels_on_one_axis &&
+            is_wheel_state_correct_to_turn_on_rails( leftturn_wheels_on_rail, rail_wheelcache.size(),
+                    leftturn_turning_wheels_that_are_one_axis ) ) {
+            allow_turn_on_rail = true;
+            corrected_turn_dir = left_turn_dir;
+        } else if( straight_wheels_on_rail <= rightturn_wheels_on_rail &&
+                   !all_wheels_on_one_axis &&
+                   is_wheel_state_correct_to_turn_on_rails( rightturn_wheels_on_rail, rail_wheelcache.size(),
+                           rightturn_turning_wheels_that_are_one_axis ) ) {
+            allow_turn_on_rail = true;
+            corrected_turn_dir = right_turn_dir;
+        }
+    }
+    return allow_turn_on_rail;
+}
+
+bool vehicle::is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int wheel_count,
+        int turning_wheels_that_are_one_axis ) const
+{
+    return ( wheels_on_rail >= 2 || // minimum wheels to be able to turn (excluding one axis vehicles)
+             ( wheels_on_rail == 1 && ( wheel_count == 1 ||
+                                        all_wheels_on_one_axis ) ) ) // for bikes or 1 wheel vehicle
+           && ( wheels_on_rail !=
+                turning_wheels_that_are_one_axis // wheels that want to turn is not on same axis
+                || all_wheels_on_one_axis ) ;
 }
 
 bool vehicle::act_on_map()
@@ -1183,8 +1237,6 @@ bool vehicle::act_on_map()
         return true;
     }
 
-    bool can_use_rails = this->can_use_rails();
-
     const float wheel_traction_area = g->m.vehicle_wheel_traction( *this );
     const float traction = k_traction( wheel_traction_area );
     if( traction < 0.001f ) {
@@ -1218,6 +1270,7 @@ bool vehicle::act_on_map()
         of_turn -= turn_cost;
     }
 
+    bool can_use_rails = this->can_use_rails();
     if( one_in( 10 ) ) {
         bool controlled = false;
         // It can even be a NPC, but must be at the controls
@@ -1249,67 +1302,14 @@ bool vehicle::act_on_map()
     }
 
     bool allow_turn_on_rail = false;
-    if( can_use_rails ) {
-        auto allow_turning_lambda = [&]( int wheels_on_rail, int wheel_count,
-        int turning_wheels_that_are_one_axis, bool all_wheels_on_one_axis ) {
-            return ( wheels_on_rail >= 2 || // minimum wheels to be able to turn (excluding one axis vehicles)
-                     ( wheels_on_rail == 1 && ( wheel_count == 1 ||
-                                                all_wheels_on_one_axis ) ) ) // for bikes or 1 wheel vehicle
-                   && ( wheels_on_rail !=
-                        turning_wheels_that_are_one_axis // wheels that want to turn is not on same axis
-                        || all_wheels_on_one_axis ) ;
-        };
-        if( turn_dir != face.dir() ) { // driver tried to turn rails vehicle
-            int corrected_turn_dir = get_corrected_turn_dir( turn_dir, face.dir() );
-
-            int wheels_on_rail, turning_wheels_that_are_one_axis;
-            bool all_wheels_on_one_axis;
-            precalculate_vehicle_turning( corrected_turn_dir, falling_only, true, TFLAG_RAIL, wheels_on_rail,
-                                          all_wheels_on_one_axis, turning_wheels_that_are_one_axis );
-            if( allow_turning_lambda( wheels_on_rail, wheelcache.size(),
-                                      turning_wheels_that_are_one_axis,
-                                      all_wheels_on_one_axis ) ) { // for bikes, it allows to turn            // prevent wheels on one axis of car
-                allow_turn_on_rail = true;
-                turn_dir = corrected_turn_dir;
-                skidding = false;
-            }
-        } else { // check if autoturn is possible
-            // if bad terrain ahead (landing wheels num is low)
-            int straight_wheels_on_rail, straight_turning_wheels_that_are_one_axis;
-            bool straight_all_wheels_on_one_axis;
-            precalculate_vehicle_turning( face.dir(), falling_only, true, TFLAG_RAIL, straight_wheels_on_rail,
-                                          straight_all_wheels_on_one_axis, straight_turning_wheels_that_are_one_axis );
-
-            int left_turn_dir = get_corrected_turn_dir( face.dir() - 45, face.dir() );
-            int leftturn_wheels_on_rail, leftturn_turning_wheels_that_are_one_axis;
-            bool leftturn_all_wheels_on_one_axis;
-            precalculate_vehicle_turning( left_turn_dir, falling_only, true, TFLAG_RAIL,
-                                          leftturn_wheels_on_rail,
-                                          leftturn_all_wheels_on_one_axis, leftturn_turning_wheels_that_are_one_axis );
-
-            int right_turn_dir = get_corrected_turn_dir( face.dir() + 45, face.dir() );
-            int rightturn_wheels_on_rail, rightturn_turning_wheels_that_are_one_axis;
-            bool rightturn_all_wheels_on_one_axis;
-            precalculate_vehicle_turning( right_turn_dir, falling_only, true, TFLAG_RAIL,
-                                          rightturn_wheels_on_rail,
-                                          rightturn_all_wheels_on_one_axis, rightturn_turning_wheels_that_are_one_axis );
-
-            if( straight_wheels_on_rail <= leftturn_wheels_on_rail && !leftturn_all_wheels_on_one_axis &&
-                allow_turning_lambda( leftturn_wheels_on_rail, wheelcache.size(),
-                                      leftturn_turning_wheels_that_are_one_axis,
-                                      leftturn_all_wheels_on_one_axis ) ) {
-                allow_turn_on_rail = true;
-                turn_dir = left_turn_dir;
-                skidding = false;
-            } else if( straight_wheels_on_rail <= rightturn_wheels_on_rail &&
-                       !rightturn_all_wheels_on_one_axis &&
-                       allow_turning_lambda( rightturn_wheels_on_rail, wheelcache.size(),
-                                             rightturn_turning_wheels_that_are_one_axis,
-                                             rightturn_all_wheels_on_one_axis ) ) {
-                allow_turn_on_rail = true;
-                turn_dir = right_turn_dir;
-                skidding = false;
-            }
+    if( can_use_rails && !falling_only ) {
+        int corrected_turn_dir;
+        allow_turn_on_rail = allow_manual_turn_on_rails( corrected_turn_dir );
+        if( !allow_turn_on_rail ) {
+            allow_turn_on_rail = allow_auto_turn_on_rails( corrected_turn_dir );
+        }
+        if( allow_turn_on_rail ) {
+            turn_dir = corrected_turn_dir;
         }
     }
 
@@ -1407,6 +1407,9 @@ float map::vehicle_wheel_traction( const vehicle &veh ) const
             // Vehicle locked in wall
             // Shouldn't happen, but does
             return 0.0f;
+        }
+        if( tr.has_flag( TFLAG_RAIL ) && veh.part_info( p ).has_flag( VPFLAG_RAIL ) ) {
+            move_mod = 2;
         }
 
         for( const auto &terrain_mod : veh.part_info( p ).wheel_terrain_mod() ) {

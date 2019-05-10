@@ -1449,23 +1449,22 @@ class vehicle
         // check if the vehicle should be falling or is in water
         void check_falling_or_floating();
 
-        /** Precalculate vehicle turn. Warning: modifies .precalc[1] array
+        /** Precalculate vehicle turn. Counts wheels that will land on ter_flag_to_check
          * new_turn_dir             - turn direction to calculate
          * falling_only             - is vehicle falling
          * check_rail_direction     - check if vehicle should land on diagonal/not rail tile (use for trucks only)
          * ter_flag_to_check        - terrain flag vehicle wheel should land on
          ** Results:
          * &wheels_on_rail          - resulting wheels that land on ter_flag_to_check
-         * &all_wheels_on_one_axis  - all wheels that landed is on same X axis
          * &turning_wheels_that_are_one_axis_counter - number of wheels that are on one axis and will land on rail
          */
-        void precalculate_vehicle_turning( int new_turn_dir, bool falling_only,
-                                           bool check_rail_direction,
-                                           const ter_bitflags ter_flag_to_check,
-                                           int &wheels_on_rail,
-                                           bool &all_wheels_on_one_axis,
-                                           int &turning_wheels_that_are_one_axis_counter ) ;
-
+        void precalculate_vehicle_turning( int new_turn_dir, bool check_rail_direction,
+                                           const ter_bitflags ter_flag_to_check, int &wheels_on_rail,
+                                           int &turning_wheels_that_are_one_axis_counter ) const;
+        bool allow_auto_turn_on_rails( int &corrected_turn_dir ) const;
+        bool allow_manual_turn_on_rails( int &corrected_turn_dir ) const;
+        bool is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int wheel_count,
+                int turning_wheels_that_are_one_axis ) const;
         /**
          * Update the submap coordinates smx, smy, and update the tracker info in the overmap
          * (if enabled).
@@ -1513,6 +1512,7 @@ class vehicle
         std::vector<int> heaters;          // List of heater parts
         std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
         std::vector<int> wheelcache;       // List of wheels
+        std::vector<int> rail_wheelcache;  // List of rail wheels
         std::vector<int> steering;         // List of STEERABLE parts
         std::vector<int>
         speciality;       // List of parts that will not be on a vehicle very often, or which only one will be present
@@ -1521,6 +1521,7 @@ class vehicle
         // After fuel consumption, this tracks the remainder of fuel < 1, and applies it the next time.
         std::map<itype_id, float> fuel_remainder;
         active_item_cache active_items;
+        bool all_wheels_on_one_axis;
 
         bounding_box get_bounding_box();
 

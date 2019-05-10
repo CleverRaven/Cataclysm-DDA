@@ -15,13 +15,31 @@
     "rolling_resistance": 0.375,
     "wheel_type": "rigid",
     "contact_area": 80,
+    "flags": [ "WHEEL" ]
+  },
+  {
+    "id": "rail_wheel",
+    "type": "vehicle_part",
+    "name": "rail wheel",
+    "item": "wheel_rail",
+    "location": "under",
+    "symbol": "|",
+    "broken_symbol": "x",
+    "difficulty": 2,
+    "durability": 180,
+    "description": "A strong metal wheel.  A flange helps keep it on a rail, but makes it perform terribly when not on a rail.",
+    "damage_modifier": 70,
+    "breaks_into": [ { "item": "scrap", "count": [ 4, 6 ] }, { "item": "steel_chunk", "count": [ 2, 3 ] } ],
+    "rolling_resistance": 0.25,
+    "wheel_type": "rail",
+    "contact_area": 80,
     "flags": [ "WHEEL", "RAIL" ]
   },
   {
-    "id": "metal_wheel_steerable",
-    "copy-from": "metal_wheel",
+    "id": "rail_wheel_steerable",
+    "copy-from": "rail_wheel",
     "type": "vehicle_part",
-    "name": "metal wheel (steerable)",
+    "name": "rail wheel (steerable)",
     "extend": { "flags": [ "STEERABLE" ] }
   },
   {
