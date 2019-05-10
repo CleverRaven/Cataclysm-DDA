@@ -71,6 +71,7 @@ bool upgrade( monster *z );
 bool breathe( monster *z );
 bool brandish( monster *z );
 bool flesh_golem( monster *z );
+bool absorb_meat( monster *z );
 bool lunge( monster *z );
 bool longswipe( monster *z );
 bool parrot( monster *z );
