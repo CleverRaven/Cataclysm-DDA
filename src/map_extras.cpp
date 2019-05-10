@@ -459,7 +459,7 @@ void mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
 {
     const tripoint leader_pos( rng( 4, 19 ), rng( 4, 19 ), abs_sub.z );
     const int max_followers = rng( 3, 12 );
-    int rad = 3;
+    const int rad = 3;
     tripoint_range spawnzone = m.points_in_radius( leader_pos, rad );
 
     m.place_npc( leader_pos.x, leader_pos.y, string_id<npc_template>( "marloss_voice" ) );
