@@ -2947,6 +2947,11 @@ void item::on_charges_changed()
                 it.charges = charges;
             }
         }
+    } else if( ( ( is_tool() || is_gun() ) && is_container_empty() ) &&
+               charges > 0 ) { // if for some reason the tool/gun has charges but no content
+        item ammo( ammo_type().str(), calendar::turn );
+        ammo.charges = charges;
+        contents.emplace_back( ammo );
     }
 }
 
