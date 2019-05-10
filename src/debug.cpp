@@ -833,7 +833,7 @@ std::string game_info::game_version()
 
 std::string game_info::graphics_version()
 {
-#if defined (TILES)
+#if defined(TILES)
     return "Tiles";
 #else
     return "Curses";
