@@ -458,7 +458,7 @@ void mx_roadblock( map &m, const tripoint &abs_sub )
 void mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
 {
     const tripoint leader_pos( rng( 4, 19 ), rng( 4, 19 ), abs_sub.z );
-    int max_followers = rng( 3, 12 );
+    const int max_followers = rng( 3, 12 );
     int rad = 3;
     tripoint_range spawnzone = m.points_in_radius( leader_pos, rad );
 
