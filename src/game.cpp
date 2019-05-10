@@ -10937,7 +10937,8 @@ void game::vertical_move( int movez, bool force )
 
     if( m.has_zlevels() && abs( movez ) == 1 ) {
         for( monster &critter : all_monsters() ) {
-            if( critter.attack_target() == &g->u ) {
+            if( critter.attack_target() == &g->u || ( critter.has_effect( effect_pet ) &&
+                    critter.friendly == -1 ) ) {
                 monsters_following.push_back( &critter );
             }
         }
