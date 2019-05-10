@@ -2026,12 +2026,15 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
 
 void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
 {
+    // Hand-crank chargers seem to range from 2 watt (very common easily verified)
+    // to 10 watt (suspicious claims from some manufacturers) sustained output.
     // It takes 2.4 minutes to produce 1kj at just slightly under 7 watts (25 kj per hour)
     // time-based instead of speed based because it's a sustained activity
     act->moves_left -= 100;
     item &hand_crank_item = p ->i_at( act->position );
 
-    // TODO: This should be 144 seconds, rather than 24 (6-second) turns, but we don't have a seconds time macro?
+    // TODO: This should be 144 seconds, rather than 24 (6-second) turns
+    // but we don't have a seconds time macro?
     if( calendar::once_every( 24_turns ) ) {
         p->mod_fatigue( 1 );
         if( hand_crank_item.ammo_capacity() > hand_crank_item.ammo_remaining() ) {
