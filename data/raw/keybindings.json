@@ -1551,6 +1551,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Consume Item Menu",
+    "category": "DEFAULTMODE",
+    "id": "open_consume"
+  },
+  {
+    "type": "keybinding",
     "name": "Read",
     "category": "DEFAULTMODE",
     "id": "read",

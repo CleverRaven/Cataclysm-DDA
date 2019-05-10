@@ -102,7 +102,13 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
     std::pair<size_t, size_t> init_pair;
     bool init_selection = false;
 
-    if( u.has_activity( activity_id( "ACT_EAT_MENU" ) ) && u.activity.values.size() >= 2 ) {
+    const std::vector<activity_id> consuming {
+        activity_id( "ACT_EAT_MENU" ),
+        activity_id( "ACT_CONSUME_FOOD_MENU" ),
+        activity_id( "ACT_CONSUME_DRINK_MENU" ),
+        activity_id( "ACT_CONSUME_MEDS_MENU" ) };
+
+    if( u.has_activity( consuming ) && u.activity.values.size() >= 2 ) {
         init_pair.first = u.activity.values[0];
         init_pair.second = u.activity.values[1];
         init_selection = true;
@@ -136,7 +142,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
             continue;
         }
 
-        if( u.has_activity( activity_id( "ACT_EAT_MENU" ) ) ) {
+        if( u.has_activity( consuming ) ) {
             u.activity.values.clear();
             init_pair = inv_s.get_selection_position();
             u.activity.values.push_back( init_pair.first );
@@ -626,9 +632,68 @@ class comestible_inventory_preset : public inventory_selector_preset
 
 item_location game_menus::inv::consume( player &p )
 {
+    if( !g->u.has_activity( activity_id( "ACT_EAT_MENU" ) ) ) {
+        g->u.assign_activity( activity_id( "ACT_EAT_MENU" ) );
+    }
+
     return inv_internal( p, comestible_inventory_preset( p ),
                          _( "Consume item" ), 1,
                          _( "You have nothing to consume." ) );
+}
+
+class comestible_filtered_inventory_preset : public comestible_inventory_preset
+{
+    public:
+        comestible_filtered_inventory_preset( const player &p, bool( *predicate )( const item &it ) ) :
+            comestible_inventory_preset( p ), predicate( predicate ) {}
+
+        bool is_shown( const item_location &loc ) const override {
+            return comestible_inventory_preset::is_shown( loc ) &&
+                   predicate( get_comestible_item( loc ) );
+        }
+
+    private:
+        bool( *predicate )( const item &it );
+};
+
+
+item_location game_menus::inv::consume_food( player &p )
+{
+    if( !g->u.has_activity( activity_id( "ACT_CONSUME_FOOD_MENU" ) ) ) {
+        g->u.assign_activity( activity_id( "ACT_CONSUME_FOOD_MENU" ) );
+    }
+
+    return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
+        return it.get_comestible()->comesttype == "FOOD" || it.has_flag( "USE_EAT_VERB" );
+    } ),
+    _( "Consume food" ), 1,
+    _( "You have no food to consume." ) );
+}
+
+item_location game_menus::inv::consume_drink( player &p )
+{
+    if( !g->u.has_activity( activity_id( "ACT_CONSUME_DRINK_MENU" ) ) ) {
+        g->u.assign_activity( activity_id( "ACT_CONSUME_DRINK_MENU" ) );
+    }
+
+    return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
+        return it.get_comestible()->comesttype == "DRINK" && !it.has_flag( "USE_EAT_VERB" );
+    } ),
+    _( "Consume drink" ), 1,
+    _( "You have no drink to consume." ) );
+}
+
+item_location game_menus::inv::consume_meds( player &p )
+{
+    if( !g->u.has_activity( activity_id( "ACT_CONSUME_MEDS_MENU" ) ) ) {
+        g->u.assign_activity( activity_id( "ACT_CONSUME_MEDS_MENU" ) );
+    }
+
+    return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
+        return it.get_comestible()->comesttype == "MED";
+    } ),
+    _( "Consume medication" ), 1,
+    _( "You have no medication to consume." ) );
 }
 
 class activatable_inventory_preset : public pickup_inventory_preset

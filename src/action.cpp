@@ -213,6 +213,8 @@ std::string action_ident( action_id act )
             return "take_off";
         case ACTION_EAT:
             return "eat";
+        case ACTION_OPEN_CONSUME:
+            return "open_consume";
         case ACTION_READ:
             return "read";
         case ACTION_WIELD:
@@ -781,6 +783,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_WEAR );
             REGISTER_ACTION( ACTION_TAKE_OFF );
             REGISTER_ACTION( ACTION_EAT );
+            REGISTER_ACTION( ACTION_OPEN_CONSUME );
             REGISTER_ACTION( ACTION_READ );
             REGISTER_ACTION( ACTION_WIELD );
             REGISTER_ACTION( ACTION_UNLOAD );
