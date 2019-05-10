@@ -4971,7 +4971,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
 
             smenu.addentry_desc( 8, !active, 'z',
                                  active ? _( "You cannot disassemble this smoking rack while it is active!" ) :
-                                 _( "Disassemble the smoking rack" ), _( "" ) );
+                                 _( "Disassemble the smoking rack" ), "" );
 
         } else {
             smenu.addentry_desc( 2, !full, 'f',
