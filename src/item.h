@@ -674,7 +674,7 @@ class item : public visitable<item>
          * @param carrier The current carrier
          * @param flag to specify special temperature situations
          */
-        void process_temperature_rot( int temp, float insulation, const tripoint pos, player *carrier,
+        void process_temperature_rot( float insulation, const tripoint pos, player *carrier,
                                       const temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /** Set the item to HOT */
