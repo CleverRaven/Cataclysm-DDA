@@ -7074,8 +7074,8 @@ void item::process_temperature_rot( float insulation, const tripoint pos,
         last_rot_check = now;
         return;
     }
-	
-	int temp = g->get_temperature( pos );
+
+    int temp = g->get_temperature( pos );
 
     switch( flag ) {
         case TEMP_NORMAL:
@@ -7111,7 +7111,7 @@ void item::process_temperature_rot( float insulation, const tripoint pos,
     // body heat increases inventory temperature by 5F and insulation by 50%
     if( carried ) {
         insulation *= 1.5;
-		temp += 5;
+        temp += 5;
     }
 
     time_point time;

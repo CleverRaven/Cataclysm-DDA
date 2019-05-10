@@ -341,7 +341,7 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
     // for now we only care about processing food containers since things like
     // fuel don't care about temperature yet
     if( base.is_food_container() ) {
-		temperature_flag flag = temperature_flag::TEMP_NORMAL;
+        temperature_flag flag = temperature_flag::TEMP_NORMAL;
         if( e_heater ) {
             flag = temperature_flag::TEMP_HEATER;
         }
