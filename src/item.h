@@ -980,8 +980,7 @@ class item : public visitable<item>
          * should than delete the item wherever it was stored.
          * Returns false if the item is not destroyed.
          */
-        bool process( player *carrier, const tripoint &pos, bool activate );
-        bool process( player *carrier, const tripoint &pos, bool activate, int temp, float insulation,
+        bool process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
                       const temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /**
