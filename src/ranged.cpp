@@ -1102,7 +1102,7 @@ void update_targets( player &pc, int range, std::vector<Creature *> &targets, in
 // magic mod
 std::vector<tripoint> target_handler::target_ui( spell_id sp )
 {
-    return target_ui( g->u.get_spell( sp ) );
+    return target_ui( g->u.magic.get_spell( sp ) );
 }
 // does not have a targeting mode because we know this is the spellcasting version of this function
 std::vector<tripoint> target_handler::target_ui( spell &casting )
@@ -1232,11 +1232,11 @@ std::vector<tripoint> target_handler::target_ui( spell &casting )
                    casting.get_level() );
         if( casting.energy_source() == hp_energy ) {
             line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, c_light_gray,
-                                           _( "Cost: %s %s" ), casting.energy_cost_string( pc ), casting.energy_string() );
+                                           _( "Cost: %s %s" ), casting.energy_cost_string(), casting.energy_string() );
         } else {
             line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, c_light_gray,
-                                           _( "Cost: %s %s (Current: %s)" ), casting.energy_cost_string( pc ), casting.energy_string(),
-                                           casting.energy_cur_string( pc ) );
+                                           _( "Cost: %s %s (Current: %s)" ), casting.energy_cost_string(), casting.energy_string(),
+                                           casting.energy_cur_string() );
         }
         nc_color clr = c_light_gray;
         print_colored_text( w_target, line_number++, 1, clr, clr,

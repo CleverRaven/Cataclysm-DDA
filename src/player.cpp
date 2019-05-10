@@ -489,8 +489,6 @@ player::player() : Character()
     power_level = 0;
     max_power_level = 0;
     stamina = 1000; //Temporary value for stamina. It will be reset later from external json option.
-    mana_base = 1000; // base mana you start with
-    mana = max_mana();
     stim = 0;
     pkill = 0;
     radiation = 0;
@@ -4198,7 +4196,7 @@ void player::update_body( const time_point &from, const time_point &to )
     update_stamina( to_turns<int>( to - from ) );
     update_stomach( from, to );
     if( ticks_between( from, to, 10_turns ) > 0 ) {
-        update_mana( to_turns<float>( 10_turns ) );
+        magic.update_mana( to_turns<float>( 10_turns ) );
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {

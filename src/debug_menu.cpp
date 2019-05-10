@@ -1332,7 +1332,7 @@ void debug()
                     add_msg( m_bad, _( "There are no spells to learn. You must install a mod that adds some." ) );
                 } else {
                     for( const spell_type &learn : spell_type::get_all() ) {
-                        g->u.learn_spell( &learn, true );
+                        g->u.magic.learn_spell( &learn, true );
                     }
                     add_msg( m_good, _( "You have become an Archwizardpriest! What will you do with your newfound power?" ) );
                 }

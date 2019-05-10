@@ -4,6 +4,7 @@
 #include "color.h"
 #include "damage.h"
 #include "game.h"
+#include "generic_factory.h"
 #include "line.h"
 #include "map.h"
 #include "mapdata.h"
@@ -809,7 +810,7 @@ void teleport( int min_distance, int max_distance )
         tries++;
     } while( g->m.impassable( target ) && tries < 20 );
     if( tries == 20 ) {
-        add_msg( m_bad, _( "Unable to vind a valid target for teleport." ) );
+        add_msg( m_bad, _( "Unable to find a valid target for teleport." ) );
         return;
     }
     g->place_player( target );
@@ -818,7 +819,7 @@ void teleport( int min_distance, int max_distance )
 void pain_split()
 {
     player &p = g->u;
-    add_msg( m_info, "Your injuries even out." );
+    add_msg( m_info, _( "Your injuries even out." ) );
     int num_limbs = 0; // number of limbs effected (broken don't count)
     int total_hp = 0; // total hp among limbs
 

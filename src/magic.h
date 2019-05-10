@@ -6,7 +6,6 @@
 
 #include "damage.h"
 #include "enum_bitset.h"
-#include "generic_factory.h"
 #include "type_id.h"
 
 struct mutation_branch;
@@ -16,6 +15,8 @@ struct damage_instance;
 
 class player;
 class JsonObject;
+class time_duration;
+class nc_color;
 
 enum energy_type {
     hp_energy,
@@ -30,6 +31,7 @@ enum valid_target {
     target_hostile,
     target_self,
     target_ground,
+    target_none,
     _LAST
 };
 
@@ -220,9 +222,9 @@ class spell
         std::string description() const;
         // energy source as a string (translated)
         std::string energy_string() const;
-        std::string energy_cost_string( const player &p ) const;
+        std::string energy_cost_string() const;
         // current energy the player has available as a string
-        std::string energy_cur_string( const player &p ) const;
+        std::string energy_cur_string() const;
         // energy source enum
         energy_type energy_source() const;
         // the color that's representative of the damage type

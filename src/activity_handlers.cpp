@@ -3533,7 +3533,7 @@ void blood_magic( player *p, int cost )
 void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 {
     act->set_to_null();
-    spell &casting = p->get_spell( spell_id( act->name ) );
+    spell &casting = p->magic.get_spell( spell_id( act->name ) );
 
     // choose target for spell (if the spell has a range > 0)
 
@@ -3598,7 +3598,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     int cost = casting.energy_cost();
     switch( casting.energy_source() ) {
         case mana_energy:
-            p->mod_mana( -cost );
+            p->magic.mod_mana( -cost );
             break;
         case stamina_energy:
             p->stamina -= cost;
@@ -3622,7 +3622,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
 {
     if( act->get_str_value( 1 ) == "study" ) {
-        spell &studying = p->get_spell( spell_id( act->name ) );
+        spell &studying = p->magic.get_spell( spell_id( act->name ) );
         if( act->get_str_value( 0 ) == "gain_level" ) {
             if( studying.get_level() < act->get_value( 1 ) ) {
                 act->moves_left = 1000000;
@@ -3645,8 +3645,8 @@ void activity_handlers::study_spell_finish( player_activity *act, player *p )
         p->add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
                               act->get_value( 0 ) );
         p->practice( skill_id( "spellcraft" ), act->get_value( 0 ) / 5,
-                     p->get_spell( spell_id( act->name ) ).get_difficulty() );
+                     p->magic.get_spell( spell_id( act->name ) ).get_difficulty() );
     } else if( act->get_str_value( 1 ) == "learn" ) {
-        p->learn_spell( act->name );
+        p->magic.learn_spell( act->name );
     }
 }

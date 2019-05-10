@@ -1261,7 +1261,7 @@ static void cast_spell()
         return;
     }
 
-    std::vector<spell_id> spells = u.spells();
+    std::vector<spell_id> spells = u.magic.spells();
 
     if( spells.empty() ) {
         add_msg( m_bad, _( "You don't know any spells to cast." ) );
@@ -1280,7 +1280,7 @@ static void cast_spell()
         spell_names.emplace_back( dummy );
     }
     for( spell_id sp : spells ) {
-        spell temp_spell = u.get_spell( sp );
+        spell temp_spell = u.magic.get_spell( sp );
         std::string nm = temp_spell.name();
         uilist_entry entry( nm );
         if( temp_spell.can_cast() ) {
@@ -1329,9 +1329,9 @@ static void cast_spell()
         return;
     }
 
-    spell sp = u.get_spell( spells[action] );
+    spell sp = u.magic.get_spell( spells[action] );
 
-    if( !u.has_enough_energy( sp ) ) {
+    if( !u.magic.has_enough_energy( sp ) ) {
         add_msg( m_bad, _( "You don't have enough %s to cast the spell." ), sp.energy_string() );
         return;
     }
