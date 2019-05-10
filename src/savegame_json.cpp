@@ -1105,6 +1105,9 @@ void npc_follower_rules::deserialize( JsonIn &jsin )
         } else {
             clear_override( rule.second.rule );
         }
+
+        // This and the following two entries are for legacy save game handling.
+        // "avoid_combat" was renamed "follow_close" to better reflect behavior.
         data.read( "rule_avoid_combat", tmpflag );
         if( tmpflag ) {
             set_flag( ally_rule::follow_close );
