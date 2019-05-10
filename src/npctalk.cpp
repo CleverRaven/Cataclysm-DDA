@@ -209,6 +209,13 @@ int npc_select_menu( const std::vector<npc *> &npc_list, const std::string promp
 
 }
 
+void npc_batch_override_toggle( const std::vector<npc *> npc_list, ally_rule rule, bool state )
+{
+    for( npc *p : npc_list ) {
+        p->rules.toggle_specific_override_state( rule , state );
+    }
+}
+
 void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 {
     if( npc_list.empty() ) {
@@ -268,34 +275,22 @@ void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 
         switch( nmenu.ret ) {
             case NPC_CHAT_FORBID_ENGAGE:
-                for( npc *p : npc_list ) {
-                    p->rules.toggle_specific_override_state( ally_rule::forbid_engage, true );
-                }
+                npc_batch_override_toggle( npc_list, ally_rule::forbid_engage, true );
                 break;
             case NPC_CHAT_NO_GUNS:
-                for( npc *p : npc_list ) {
-                    p->rules.toggle_specific_override_state( ally_rule::use_guns, false );
-                }
+                npc_batch_override_toggle( npc_list, ally_rule::use_guns, false );
                 break;
             case NPC_CHAT_PULP:
-                for( npc *p : npc_list ) {
-                    p->rules.toggle_specific_override_state( ally_rule::allow_pulp, false );
-                }
+                npc_batch_override_toggle( npc_list, ally_rule::allow_pulp, false );
                 break;
             case NPC_CHAT_FOLLOW_CLOSE:
-                for( npc *p : npc_list ) {
-                    p->rules.toggle_specific_override_state( ally_rule::follow_close, true );
-                }
+                npc_batch_override_toggle( npc_list, ally_rule::follow_close, true );
                 break;
             case NPC_CHAT_MOVE_FREELY:
-                for( npc *p : npc_list ) {
-                    p->rules.toggle_specific_override_state( ally_rule::follow_close, false );
-                }
+                npc_batch_override_toggle( npc_list, ally_rule::follow_close, false );
                 break;
             case NPC_CHAT_SLEEP:
-                for( npc *p : npc_list ) {
-                    p->rules.toggle_specific_override_state( ally_rule::allow_sleep, true );
-                }
+                npc_batch_override_toggle( npc_list, ally_rule::allow_sleep, true );
                 break;
             case NPC_CHAT_CLEAR_OVERRIDES:
                 for( npc *p : npc_list ) {
