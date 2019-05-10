@@ -6,16 +6,21 @@
 
 #include "calendar.h"
 #include "game_constants.h"
-#include "generic_factory.h"
 #include "item.h"
 #include "itype.h"
 #include "output.h"
 #include "skill.h"
 #include "uistate.h"
 #include "string_formatter.h"
-
-struct oter_t;
-using oter_str_id = string_id<oter_t>;
+#include "assign.h"
+#include "cata_utility.h"
+#include "character.h"
+#include "json.h"
+#include "optional.h"
+#include "player.h"
+#include "translations.h"
+#include "type_id.h"
+#include "string_id.h"
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -422,8 +427,7 @@ const std::function<bool( const item & )> recipe::get_component_filter() const
     const item result = create_result();
 
     // Disallow crafting of non-perishables with rotten components
-    // Make an exception for seeds
-    // TODO: move seed extraction recipes to uncraft
+    // Make an exception for items with the ALLOW_ROTTEN flag such as seeds
     std::function<bool( const item & )> rotten_filter = return_true<item>;
     if( result.is_food() && !result.goes_bad() && !has_flag( "ALLOW_ROTTEN" ) ) {
         rotten_filter = []( const item & component ) {
@@ -441,9 +445,20 @@ const std::function<bool( const item & )> recipe::get_component_filter() const
         };
     }
 
-    return [ rotten_filter, frozen_filter ]( const item & component ) {
-        return is_crafting_component( component ) && rotten_filter( component ) &&
-               frozen_filter( component );
+    // Disallow usage of non-full magazines as components
+    // This is primarily used to require a fully charged battery, but works for any magazine.
+    std::function<bool( const item & )> magazine_filter = return_true<item>;
+    if( has_flag( "FULL_MAGAZINE" ) ) {
+        magazine_filter = []( const item & component ) {
+            return !component.is_magazine() || ( component.ammo_remaining() >= component.ammo_capacity() );
+        };
+    }
+
+    return [ rotten_filter, frozen_filter, magazine_filter ]( const item & component ) {
+        return is_crafting_component( component ) &&
+               rotten_filter( component ) &&
+               frozen_filter( component ) &&
+               magazine_filter( component );
     };
 }
 

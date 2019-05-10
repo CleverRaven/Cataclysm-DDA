@@ -1,11 +1,14 @@
 #include "mapdata.h"
 
 #include <unordered_map>
+#include <algorithm>
+#include <iterator>
+#include <map>
+#include <utility>
 
 #include "calendar.h"
 #include "color.h"
 #include "debug.h"
-#include "game_constants.h"
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
@@ -14,6 +17,8 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
+#include "assign.h"
+#include "json.h"
 
 namespace
 {
@@ -915,7 +920,9 @@ furn_id f_null,
         f_floor_canvas,
         f_tatami,
         f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
-        f_smoking_rack, f_smoking_rack_active,
+        f_smoking_rack, f_smoking_rack_active, f_metal_smoking_rack, f_metal_smoking_rack_active,
+        f_water_mill, f_water_mill_active,
+        f_wind_mill, f_wind_mill_active,
         f_robotic_arm, f_vending_reinforced,
         f_brazier,
         f_autodoc_couch;
@@ -1020,6 +1027,12 @@ void set_furn_ids()
     f_kiln_metal_full = furn_id( "f_kiln_metal_full" );
     f_smoking_rack = furn_id( "f_smoking_rack" );
     f_smoking_rack_active = furn_id( "f_smoking_rack_active" );
+    f_metal_smoking_rack = furn_id( "f_metal_smoking_rack" );
+    f_metal_smoking_rack_active = furn_id( "f_metal_smoking_rack_active" );
+    f_water_mill = furn_id( "f_water_mill" );
+    f_water_mill_active = furn_id( "f_water_mill_active" );
+    f_wind_mill = furn_id( "f_wind_mill" );
+    f_wind_mill_active = furn_id( "f_wind_mill_active" );
     f_robotic_arm = furn_id( "f_robotic_arm" );
     f_brazier = furn_id( "f_brazier" );
     f_autodoc_couch = furn_id( "f_autodoc_couch" );

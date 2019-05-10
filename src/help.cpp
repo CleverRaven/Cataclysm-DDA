@@ -1,7 +1,11 @@
 #include "help.h"
 
+#include <stddef.h>
 #include <algorithm>
 #include <vector>
+#include <array>
+#include <iterator>
+#include <list>
 
 #include "action.h"
 #include "catacharset.h"
@@ -12,6 +16,10 @@
 #include "path_info.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "cata_utility.h"
+#include "color.h"
+#include "debug.h"
+#include "string_formatter.h"
 
 help &get_help()
 {

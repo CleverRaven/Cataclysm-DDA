@@ -1,11 +1,15 @@
 #include "requirements.h"
 
+#include <stdlib.h>
 #include <algorithm>
-#include <cmath>
 #include <limits>
 #include <sstream>
+#include <iterator>
+#include <list>
+#include <memory>
+#include <set>
+#include <unordered_map>
 
-#include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
@@ -18,6 +22,9 @@
 #include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "color.h"
+#include "item.h"
+#include "visitable.h"
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -459,7 +466,21 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
         for( const T &component : comp_list ) {
             nc_color color = component.get_color( has_one, crafting_inv, filter, batch );
             const std::string color_tag = get_tag_from_color( color );
-            const std::string text = component.to_string( batch );
+            std::string text = component.to_string( batch );
+            if( component.get_component_type() == COMPONENT_ITEM ) {
+                const itype_id item_id = static_cast<itype_id>( component.type );
+                long qty;
+                if( item::count_by_charges( item_id ) ) {
+                    qty = crafting_inv.charges_of( item_id, std::numeric_limits<long>::max(), filter );
+                } else {
+                    qty = crafting_inv.amount_of( item_id, false, std::numeric_limits<int>::max(), filter );
+                }
+                if( qty > 0 ) {
+                    text = item::count_by_charges( item_id ) ?
+                           string_format( _( "%s (%d of %ld)" ), item::nname( item_id ), component.count * batch, qty ) :
+                           string_format( _( "%s of %ld" ), text, qty );
+                }
+            }
 
             if( std::find( buffer_has.begin(), buffer_has.end(), text + color_tag ) != buffer_has.end() ) {
                 continue;

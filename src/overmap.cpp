@@ -3,15 +3,15 @@
 
 #include <algorithm>
 #include <cassert>
-#include <chrono>
 #include <cmath>
-#include <cstdlib>
 #include <cstring>
 #include <numeric>
 #include <ostream>
 #include <queue>
 #include <random>
 #include <vector>
+#include <exception>
+#include <unordered_set>
 
 #include "catacharset.h"
 #include "cata_utility.h"
@@ -35,6 +35,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmap_connection.h"
+#include "overmap_noise.h"
 #include "overmap_location.h"
 #include "overmap_types.h"
 #include "overmapbuffer.h"
@@ -43,6 +44,10 @@
 #include "rotatable_symbols.h"
 #include "simple_pathfinding.h"
 #include "translations.h"
+#include "assign.h"
+#include "math_defines.h"
+#include "monster.h"
+#include "string_formatter.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1459,10 +1464,10 @@ void overmap::generate( const overmap *north, const overmap *east,
         }
     }
 
-    // Cities and forests come next.
-    // These are agnostic of adjacent maps, so it's very simple.
+    place_forests();
+    place_swamps();
+
     place_cities();
-    place_forest();
 
     place_forest_trails();
 
@@ -2050,108 +2055,6 @@ void overmap::signal_hordes( const tripoint &p, const int sig_power )
     }
 }
 
-void grow_forest_oter_id( oter_id &oid, bool swampy )
-{
-    if( swampy && ( oid == ot_field || oid == ot_forest ) ) {
-        oid = ot_forest_water;
-    } else if( oid == ot_forest ) {
-        oid = ot_forest_thick;
-    } else if( oid == ot_field ) {
-        oid = ot_forest;
-    }
-}
-
-void overmap::place_forest()
-{
-    int forests_placed = 0;
-    for( int i = 0; i < settings.num_forests; i++ ) {
-        int forx = 0;
-        int fory = 0;
-        int fors = 0;
-        // try to place this forest
-        int tries = 100;
-        do {
-            // forx and fory determine the epicenter of the forest
-            forx = rng( 0, OMAPX - 1 );
-            fory = rng( 0, OMAPY - 1 );
-            // fors determines its basic size
-            fors = rng( settings.forest_size_min, settings.forest_size_max );
-            const auto iter = std::find_if(
-                                  cities.begin(),
-                                  cities.end(),
-            [&]( const city & c ) {
-                return
-                    // is this city too close?
-                    trig_dist( forx, fory, c.pos.x, c.pos.y ) - fors / 2 < c.size &&
-                    // occasionally accept near a city if we've been failing
-                    tries > rng( -1000 / ( i - forests_placed + 1 ), 2 );
-            }
-                              );
-            if( iter == cities.end() ) { // every city was too close
-                break;
-            }
-        } while( tries-- );
-
-        // if we gave up, don't bother trying to place another forest
-        if( tries == 0 ) {
-            break;
-        }
-
-        forests_placed++;
-
-        int swamps = settings.swamp_maxsize; // How big the swamp may be...
-        int x = forx;
-        int y = fory;
-
-        // Depending on the size on the forest...
-        for( int j = 0; j < fors; j++ ) {
-            int swamp_chance = 0;
-            for( int k = -2; k <= 2; k++ ) {
-                for( int l = -2; l <= 2; l++ ) {
-                    if( ter( x + k, y + l, 0 ) == "forest_water" ||
-                        check_ot_type( "river", x + k, y + l, 0 ) ) {
-                        swamp_chance += settings.swamp_river_influence;
-                    }
-                }
-            }
-            bool swampy = false;
-            if( swamps > 0 && swamp_chance > 0 && !one_in( swamp_chance ) &&
-                ( ter( x, y, 0 ) == "forest" || ter( x, y, 0 ) == "forest_thick" ||
-                  ter( x, y, 0 ) == "field" || one_in( settings.swamp_spread_chance ) ) ) {
-                // ...and make a swamp.
-                ter( x, y, 0 ) = oter_id( "forest_water" );
-                swampy = true;
-                swamps--;
-            } else if( swamp_chance == 0 ) {
-                swamps = settings.swamp_maxsize;
-            }
-
-            // Place or enlarge forest
-            for( int mx = -1; mx < 2; mx++ ) {
-                for( int my = -1; my < 2; my++ ) {
-                    grow_forest_oter_id( ter( x + mx, y + my, 0 ),
-                                         ( mx == 0 && my == 0 ? false : swampy ) );
-                }
-            }
-            // Random walk our forest
-            x += rng( -2, 2 );
-            if( x < 0 ) {
-                x = 0;
-            }
-            if( x > OMAPX ) {
-                x = OMAPX;
-            }
-            y += rng( -2, 2 );
-            if( y < 0 ) {
-                y = 0;
-            }
-            if( y > OMAPY ) {
-                y = OMAPY;
-            }
-        }
-    }
-}
-
 void overmap::place_forest_trails()
 {
     std::unordered_set<point> visited;
@@ -2372,6 +2275,88 @@ void overmap::place_forest_trailheads()
         // ...then connect our road points with local_road connections.
         const string_id<overmap_connection> local_road( "local_road" );
         connect_closest_points( road_points, 0, *local_road );
+    }
+}
+
+void overmap::place_forests()
+{
+    const oter_id default_oter_id( settings.default_oter );
+    const oter_id forest( "forest" );
+    const oter_id forest_thick( "forest_thick" );
+
+    const om_noise::om_noise_layer_forest f( global_base_point(), g->get_seed() );
+
+    for( int x = 0; x < OMAPX; x++ ) {
+        for( int y = 0; y < OMAPY; y++ ) {
+            oter_id &oter = ter( x, y, 0 );
+
+            // At this point in the process, we only want to consider converting the terrain into
+            // a forest if it's currently the default terrain type (e.g. a field).
+            if( oter != default_oter_id ) {
+                continue;
+            }
+
+            const point p( x, y );
+            const float n = f.noise_at( p );
+
+            // If the noise here meets our threshold, turn it into a forest.
+            if( n > settings.overmap_forest.noise_threshold_forest_thick ) {
+                oter = forest_thick;
+            } else if( n > settings.overmap_forest.noise_threshold_forest ) {
+                oter = forest;
+            }
+        }
+    }
+}
+
+void overmap::place_swamps()
+{
+    // Buffer our river terrains by a variable radius and increment a counter for the location each
+    // time it's included in a buffer. It's a floodplain that we'll then intersect later with some
+    // noise to adjust how frequently it occurs.
+    std::vector<std::vector<int>> floodplain( OMAPX, std::vector<int>( OMAPY, 0 ) );
+    for( int x = 0; x < OMAPX; x++ ) {
+        for( int y = 0; y < OMAPY; y++ ) {
+            if( is_ot_subtype( "river", ter( x, y, 0 ) ) ) {
+                std::vector<point> buffered_points = closest_points_first( rng(
+                        settings.overmap_forest.river_floodplain_buffer_distance_min,
+                        settings.overmap_forest.river_floodplain_buffer_distance_max ), x, y );
+                for( const point &p : buffered_points )  {
+                    if( !inbounds( p ) ) {
+                        continue;
+                    }
+                    floodplain[p.x][p.y] += 1;
+                }
+            }
+        }
+    }
+
+    const oter_id forest_water( "forest_water" );
+
+    // Get a layer of noise to use in conjunction with our river buffered floodplain.
+    const om_noise::om_noise_layer_floodplain f( global_base_point(), g->get_seed() );
+
+    for( int x = 0; x < OMAPX; x++ ) {
+        for( int y = 0; y < OMAPY; y++ ) {
+            // If this location isn't a forest, there's nothing to do here. We'll only grow swamps in existing
+            // forest terrain.
+            if( !is_ot_subtype( "forest", ter( x, y, 0 ) ) ) {
+                continue;
+            }
+
+            // If this was a part of our buffered floodplain, and the noise here meets the threshold, and the one_in rng
+            // triggers, then we should flood this location and make it a swamp.
+            const bool should_flood = ( floodplain[x][y] > 0 && !one_in( floodplain[x][y] ) && f.noise_at( { x, y } )
+                                        > settings.overmap_forest.noise_threshold_swamp_adjacent_water );
+
+            // If this location meets our isolated swamp threshold, regardless of floodplain values, we'll make it
+            // into a swamp.
+            const bool should_isolated_swamp = f.noise_at( { x, y } ) >
+                                               settings.overmap_forest.noise_threshold_swamp_isolated;
+            if( should_flood || should_isolated_swamp )  {
+                ter( x, y, 0 ) = forest_water;
+            }
+        }
     }
 }
 

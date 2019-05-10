@@ -5,12 +5,13 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <utility>
 
 #include "optional.h"
+#include "item.h"
 
 typedef std::string Item_tag;
 typedef std::string Group_tag;
-class item;
 class JsonObject;
 class JsonIn;
 class time_point;

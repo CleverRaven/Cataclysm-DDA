@@ -1,14 +1,21 @@
 #include "bionics.h"
 
+#include <limits.h>
+#include <math.h>
+#include <stdlib.h>
 #include <algorithm> //std::min
 #include <sstream>
+#include <array>
+#include <iterator>
+#include <list>
+#include <memory>
 
 #include "action.h"
 #include "ballistics.h"
 #include "cata_utility.h"
 #include "debug.h"
-#include "dispersion.h"
 #include "effect.h"
+#include "explosion.h"
 #include "field.h"
 #include "game.h"
 #include "input.h"
@@ -19,10 +26,8 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "morale_types.h"
-#include "mutation.h"
 #include "options.h"
 #include "output.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "projectile.h"
@@ -35,6 +40,16 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "calendar.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "damage.h"
+#include "enums.h"
+#include "line.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "pldata.h"
+#include "units.h"
 
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
@@ -363,7 +378,7 @@ bool player::activate_bionic( int b, bool eff_only )
         mod_moves( -100 );
     } else if( bio.id == "bio_evap" ) {
         item water = item( "water_clean", 0 );
-        water.reset_temp_check();
+        water.set_item_temperature( 283.15 );
         int humidity = weatherPoint.humidity;
         int water_charges = lround( humidity * 3.0 / 100.0 );
         // At 50% relative humidity or more, the player will draw 2 units of water
@@ -408,7 +423,7 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_emp" ) {
         g->refresh_all();
         if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Create an EMP where?" ) ) ) {
-            g->emp_blast( *pnt );
+            explosion_handler::emp_blast( *pnt );
             mod_moves( -100 );
         } else {
             charge_power( bionics[bionic_id( "bio_emp" )].power_activate );
@@ -428,6 +443,7 @@ bool player::activate_bionic( int b, bool eff_only )
                     query_yn( _( "Extract water from the %s" ),
                               colorize( it->tname(), it->color_in_inventory() ) ) ) {
                     item water( "water_clean", calendar::turn, avail );
+                    water.set_item_temperature( 0.00001 * it->temperature );
                     if( g->consume_liquid( water ) ) {
                         extracted = true;
                         it->set_var( "remaining_water", static_cast<int>( water.charges ) );
@@ -489,10 +505,10 @@ bool player::activate_bionic( int b, bool eff_only )
 
         mod_moves( -100 );
     } else if( bio.id == "bio_flashbang" ) {
-        g->flashbang( pos(), true );
+        explosion_handler::flashbang( pos(), true );
         mod_moves( -100 );
     } else if( bio.id == "bio_shockwave" ) {
-        g->shockwave( pos(), 3, 4, 2, 8, true );
+        explosion_handler::shockwave( pos(), 3, 4, 2, 8, true );
         add_msg_if_player( m_neutral, _( "You unleash a powerful shockwave!" ) );
         mod_moves( -100 );
     } else if( bio.id == "bio_meteorologist" ) {
@@ -1039,6 +1055,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
         }
         bionics_uninstall_failure( installer, difficulty, success, adjusted_skill );
     }
+    g->m.invalidate_map_cache( g->get_levz() );
     g->refresh_all();
     return true;
 }
@@ -1133,6 +1150,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
         }
         bionics_install_failure( installer, difficult, success, adjusted_skill );
     }
+    g->m.invalidate_map_cache( g->get_levz() );
     g->refresh_all();
     return true;
 }
@@ -1636,7 +1654,7 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
                                _( "You feel excited as the Autodoc slices painlessly into you.  You enjoy the sight of scalpels slicing you apart, but as operation proceeds you suddenly feel tired and pass out." ) );
         } else {
             add_msg_if_player( m_mixed,
-                               _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) );
+                               _( "You stay very, very still, focusing intently on an interesting stain on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) );
         }
     }
 

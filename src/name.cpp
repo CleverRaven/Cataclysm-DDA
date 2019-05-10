@@ -1,7 +1,10 @@
 #include "name.h"
 
+#include <stddef.h>
 #include <map>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "cata_utility.h"
 #include "json.h"
@@ -124,8 +127,8 @@ std::string get( nameFlags searchFlags )
 std::string generate( bool is_male )
 {
     const nameFlags baseSearchFlags = is_male ? nameIsMaleName : nameIsFemaleName;
-    //One in four chance to pull from the backer list, otherwise generate a name from the parts list
-    if( one_in( 4 ) ) {
+    //One in twenty chance to pull from the backer list, otherwise generate a name from the parts list
+    if( one_in( 20 ) ) {
         return get( baseSearchFlags | nameIsFullName );
     } else {
         //~ Used for constructing full name: %1$s is `family name`, %2$s is `given name`

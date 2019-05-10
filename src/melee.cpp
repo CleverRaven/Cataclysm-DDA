@@ -1,12 +1,22 @@
 #include "melee.h"
 
+#include <limits.h>
 #include <algorithm>
 #include <cstdlib>
 #include <sstream>
+#include <array>
+#include <limits>
+#include <list>
+#include <memory>
+#include <set>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+#include <cmath>
 
 #include "cata_utility.h"
 #include "debug.h"
-#include "field.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "itype.h"
@@ -16,7 +26,6 @@
 #include "martialarts.h"
 #include "messages.h"
 #include "monster.h"
-#include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
 #include "output.h"
@@ -25,6 +34,22 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "character.h"
+#include "creature.h"
+#include "damage.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "item.h"
+#include "item_location.h"
+#include "optional.h"
+#include "pldata.h"
+#include "string_id.h"
+#include "units.h"
+#include "weighted_list.h"
+#include "material.h"
+#include "type_id.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
 
@@ -301,7 +326,7 @@ std::string player::get_miss_reason()
     // in one turn
     add_miss_reason(
         _( "Your torso encumbrance throws you off-balance." ),
-        divide_roll_remainder( encumb( bp_torso ), 10.0f ) );
+        roll_remainder( encumb( bp_torso ) / 10.0 ) );
     const int farsightedness = 2 * ( has_trait( trait_HYPEROPIC ) &&
                                      !worn_with_flag( "FIX_FARSIGHT" ) &&
                                      !has_effect( effect_contacts ) );
@@ -1936,7 +1961,7 @@ double player::weapon_value( const item &weap, long ammo ) const
 
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
     const double my_val = more + ( less / 2.0 );
-    add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.tname(), ammo, my_val );
+    add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id(), ammo, my_val );
     return my_val;
 }
 
@@ -1984,7 +2009,7 @@ double player::melee_value( const item &weap ) const
         my_value *= 1.0f + 0.5f * ( sqrtf( reach ) - 1.0f );
     }
 
-    add_msg( m_debug, "%s as melee: %.1f", weap.tname(), my_value );
+    add_msg( m_debug, "%s as melee: %.1f", weap.type->get_id(), my_value );
 
     return std::max( 0.0, my_value );
 }

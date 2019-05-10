@@ -4,13 +4,14 @@
 #include <set>
 #include <sstream>
 #include <vector>
+#include <array>
+#include <stdexcept>
 
 #include "bodypart.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h" // tripoint
 #include "json.h"
-#include "pldata.h" // traits
 #include "trait_group.h"
 #include "translations.h"
 #include "generic_factory.h"

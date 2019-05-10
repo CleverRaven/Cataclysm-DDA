@@ -2,15 +2,17 @@
 
 // FILE I/O
 #include <sys/stat.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <cerrno>
-#include <cstddef>
 #include <cstdio>
 #include <cstring>
 #include <deque>
 #include <fstream>
 #include <string>
 #include <vector>
+#include <iterator>
+#include <utility>
 
 #include "debug.h"
 
@@ -63,7 +65,7 @@ bool do_mkdir( const std::string &path, const int mode )
 
 bool assure_dir_exist( const std::string &path )
 {
-    return dir_exist( path ) || do_mkdir( path, 0777 );
+    return do_mkdir( path, 0777 ) || ( errno == EEXIST && dir_exist( path ) );
 }
 
 bool dir_exist( const std::string &path )

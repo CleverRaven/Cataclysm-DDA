@@ -6,10 +6,14 @@
 #include <map>
 #include <unordered_set>
 #include <vector>
+#include <list>
 
 #include "player_activity.h"
 
 class player;
+class Character;
+class item;
+struct tripoint;
 
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
@@ -66,6 +70,9 @@ void aim_do_turn( player_activity *act, player *p );
 void pickup_do_turn( player_activity *act, player *p );
 void wear_do_turn( player_activity *act, player *p );
 void eat_menu_do_turn( player_activity *act, player *p );
+void consume_food_menu_do_turn( player_activity *act, player *p );
+void consume_drink_menu_do_turn( player_activity *act, player *p );
+void consume_meds_menu_do_turn( player_activity *act, player *p );
 void move_items_do_turn( player_activity *act, player *p );
 void move_loot_do_turn( player_activity *act, player *p );
 void adv_inventory_do_turn( player_activity *act, player *p );

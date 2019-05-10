@@ -1807,13 +1807,31 @@
       { "point": [ 0, 0, 0 ], "overmap": "campground_1a_north" },
       { "point": [ 1, 0, 0 ], "overmap": "campground_1b_north" },
       { "point": [ 0, 1, 0 ], "overmap": "campground_2a_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "campground_2b_north" }
+      { "point": [ 1, 1, 0 ], "overmap": "campground_2b_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "campground_roof_north" }
     ],
-    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road" } ],
+    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] } ],
     "locations": [ "forest" ],
     "city_distance": [ 10, -1 ],
     "city_sizes": [ 3, 12 ],
     "occurrences": [ 0, 5 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "campground_npc",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "campground_1a_npc_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "campground_1b_npc_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "campground_2a_npc_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "campground_2b_npc_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "campground_roof_npc_north" }
+    ],
+    "connections": [ { "point": [ 1, -1, 0 ], "terrain": "road", "connection": "local_road", "from": [ 1, 0, 0 ] } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 10, -1 ],
+    "city_sizes": [ 3, 12 ],
+    "occurrences": [ 3, 100 ],
     "flags": [ "CLASSIC" ]
   },
   {
@@ -2328,6 +2346,37 @@
     "city_distance": [ 12, 18 ],
     "city_sizes": [ 12, 20 ],
     "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Lumbermill",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lumbermill_0_0_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "lumbermill_1_0_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "lumbermill_0_1_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "lumbermill_1_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "lumbermill_0_0_roof_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "lumbermill_1_0_roof_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "lumbermill_0_1_roof_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "lumbermill_1_1_roof_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "lumbermill_dforest_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "lumbermill_dforest_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "lumbermill_dforest_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "lumbermill_dforest_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "lumbermill_dforest_north" },
+      { "point": [ 3, 0, 0 ], "overmap": "lumbermill_dforest_north" },
+      { "point": [ 3, 1, 0 ], "overmap": "lumbermill_dforest_north" },
+      { "point": [ 3, 2, 0 ], "overmap": "lumbermill_dforest_north" },
+      { "point": [ 0, 3, 0 ], "overmap": "lumbermill_dforest_north" },
+      { "point": [ 1, 3, 0 ], "overmap": "lumbermill_dforest_north" },
+      { "point": [ 2, 3, 0 ], "overmap": "lumbermill_dforest_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" }, { "point": [ 1, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "forest" ],
+    "city_distance": [ 10, 100 ],
+    "city_sizes": [ 3, 12 ],
+    "occurrences": [ 1, 5 ],
     "flags": [ "CLASSIC" ]
   }
 ]

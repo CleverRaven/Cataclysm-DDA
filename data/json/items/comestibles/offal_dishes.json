@@ -86,6 +86,26 @@
     "vitamins": [ [ "vitA", 36 ], [ "vitC", 15 ], [ "calcium", 1 ], [ "iron", 40 ], [ "vitB", 171 ] ]
   },
   {
+    "id": "stewed_tripe",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": "stewed tripe",
+    "symbol": "%",
+    "looks_like": "small_stomach_boiled",
+    "quench": 2,
+    "healthy": 1,
+    "fun": 3,
+    "description": "Stomach lining, cut up and stewed for an hour in broth. Better than it sounds.",
+    "material": [ "flesh" ],
+    "primary_material": "flesh",
+    "color": "brown",
+    "spoils_in": "1 days",
+    "volume": 1,
+    "weight": 70,
+    "flag": [ "EATEN_HOT" ],
+    "calories": 130
+  },
+  {
     "id": "fried_tripe",
     "type": "COMESTIBLE",
     "comestible_type": "FOOD",

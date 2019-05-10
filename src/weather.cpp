@@ -4,6 +4,10 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <array>
+#include <list>
+#include <memory>
 
 #include "calendar.h"
 #include "cata_utility.h"
@@ -14,7 +18,6 @@
 #include "map.h"
 #include "messages.h"
 #include "options.h"
-#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
@@ -23,6 +26,15 @@
 #include "translations.h"
 #include "trap.h"
 #include "weather_gen.h"
+#include "bodypart.h"
+#include "enums.h"
+#include "item.h"
+#include "mapdata.h"
+#include "math_defines.h"
+#include "rng.h"
+#include "string_id.h"
+#include "units.h"
+#include "int_id.h"
 
 const efftype_id effect_glare( "glare" );
 const efftype_id effect_snow_glare( "snow_glare" );
@@ -99,7 +111,7 @@ time_duration get_rot_since( const time_point &start, const time_point &end,
     /* Hoisting loop invariants */
     const auto location_temp = g->get_temperature( pos );
     const auto local = g->m.getlocal( pos );
-    const auto local_mod = g->new_game ? 0 : g->m.temperature( local );
+    const auto local_mod = g->new_game ? 0 : g->m.get_temperature( local );
     const auto seed = g->get_seed();
 
     const auto temp_modify = ( !g->new_game ) && ( g->m.ter( local ) == t_rootcellar );
@@ -194,15 +206,13 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point 
 
     // Technically 0.0 division is OK, but it will be cleaner without it
     if( data.rain_amount > 0 ) {
-        const int rain = divide_roll_remainder( 1.0 / tr.funnel_turns_per_charge( data.rain_amount ),
-                                                1.0f );
+        const int rain = roll_remainder( 1.0 / tr.funnel_turns_per_charge( data.rain_amount ) );
         it.add_rain_to_container( false, rain );
         // add_msg(m_debug, "Retroactively adding %d water from turn %d to %d", rain, startturn, endturn);
     }
 
     if( data.acid_amount > 0 ) {
-        const int acid = divide_roll_remainder( 1.0 / tr.funnel_turns_per_charge( data.acid_amount ),
-                                                1.0f );
+        const int acid = roll_remainder( 1.0 / tr.funnel_turns_per_charge( data.acid_amount ) );
         it.add_rain_to_container( true, acid );
     }
 }
@@ -916,32 +926,33 @@ bool is_wind_blocker( const tripoint &location )
     return g->m.has_flag( "BLOCK_WIND", location );
 }
 
+//Description of Wind Speed - https://en.wikipedia.org/wiki/Beaufort_scale
 std::string get_wind_desc( double windpower )
 {
     std::string winddesc;
     if( windpower < 1 ) {
         winddesc = "Calm";
-    } else if( windpower < 3 ) {
+    } else if( windpower <= 3 ) {
         winddesc = "Light Air";
-    } else if( windpower < 7 ) {
+    } else if( windpower <= 7 ) {
         winddesc = "Light Breeze";
-    } else if( windpower < 12 ) {
+    } else if( windpower <= 12 ) {
         winddesc = "Gentle Breeze";
-    } else if( windpower < 18 ) {
+    } else if( windpower <= 18 ) {
         winddesc = "Moderate Breeze";
-    } else if( windpower < 24 ) {
+    } else if( windpower <= 24 ) {
         winddesc = "Fresh Breeze";
-    } else if( windpower < 31 ) {
+    } else if( windpower <= 31 ) {
         winddesc = "Strong Breeze";
-    } else if( windpower < 38 ) {
+    } else if( windpower <= 38 ) {
         winddesc = "Moderate Gale";
-    } else if( windpower < 46 ) {
+    } else if( windpower <= 46 ) {
         winddesc = "Gale";
-    } else if( windpower < 54 ) {
+    } else if( windpower <= 54 ) {
         winddesc = "Strong Gale";
-    } else if( windpower < 63 ) {
+    } else if( windpower <= 63 ) {
         winddesc = "Whole Gale";
-    } else if( windpower < 72 ) {
+    } else if( windpower <= 72 ) {
         winddesc = "Violent Storm";
     } else if( windpower > 72 ) {
         winddesc =

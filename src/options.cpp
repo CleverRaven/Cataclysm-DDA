@@ -1,5 +1,7 @@
 #include "options.h"
 
+#include <limits.h>
+
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "cursesdef.h"
@@ -19,6 +21,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "worldfactory.h"
+#include "color.h"
 
 #if defined(TILES)
 #include "cata_tiles.h"
@@ -34,6 +37,8 @@
 #include <memory>
 #include <sstream>
 #include <string>
+#include <exception>
+#include <iterator>
 
 bool trigdist;
 bool use_tiles;
@@ -1595,7 +1600,11 @@ void options_manager::add_options_graphics()
 
     add( "TILES", "graphics", translate_marker( "Choose tileset" ),
          translate_marker( "Choose the tileset you want to use." ),
+#if !defined(__ANDROID__)
          build_tilesets_list(), "MSX++DEAD_PEOPLE", COPT_CURSES_HIDE
+#else
+         build_tilesets_list(), "retrodays", COPT_CURSES_HIDE
+#endif
        ); // populate the options dynamically
 
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );

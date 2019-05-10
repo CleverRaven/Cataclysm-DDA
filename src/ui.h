@@ -6,6 +6,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <initializer_list>
 
 #include "color.h"
 #include "cursesdef.h"
@@ -128,6 +129,7 @@ class ui_container
  *
  */
 class uilist;
+
 /**
 * uilist::query() handles most input events first,
 * and then passes the event to the callback if it can't handle it.
@@ -152,9 +154,6 @@ class uilist_callback
 /**
  * uilist: scrolling vertical list menu
  */
-
-class ui_element;
-class ui_element_input;
 
 class uilist: public ui_container
 {

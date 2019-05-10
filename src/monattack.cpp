@@ -1,13 +1,22 @@
 #include "monattack.h"
 
+#include <limits.h>
+#include <stdlib.h>
 #include <algorithm>
 #include <cmath>
 #include <map>
+#include <array>
+#include <list>
+#include <memory>
+#include <ostream>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "ballistics.h"
 #include "bodypart.h"
 #include "debug.h"
-#include "dispersion.h"
 #include "effect.h"
 #include "event.h"
 #include "field.h"
@@ -38,6 +47,22 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weighted_list.h"
+#include "calendar.h"
+#include "creature.h"
+#include "damage.h"
+#include "enums.h"
+#include "explosion.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_stack.h"
+#include "iuse.h"
+#include "optional.h"
+#include "pathfinding.h"
+#include "player.h"
+#include "string_formatter.h"
+#include "tileray.h"
+#include "type_id.h"
 
 const mtype_id mon_ant( "mon_ant" );
 const mtype_id mon_ant_acid( "mon_ant_acid" );
@@ -614,7 +639,9 @@ bool mattack::shockstorm( monster *z )
         auto msg_type = target == &g->u ? m_bad : m_neutral;
         add_msg( msg_type, _( "A bolt of electricity arcs towards %s!" ), target->disp_name() );
     }
-    sfx::play_variant_sound( "fire_gun", "bio_lightning", sfx::get_heard_volume( z->pos() ) );
+    if( !g->u.is_deaf() ) {
+        sfx::play_variant_sound( "fire_gun", "bio_lightning", sfx::get_heard_volume( z->pos() ) );
+    }
     tripoint tarp( target->posx() + rng( -1, 1 ) + rng( -1, 1 ),
                    target->posy() + rng( -1, 1 ) + rng( -1, 1 ),
                    target->posz() );

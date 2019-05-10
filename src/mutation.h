@@ -7,6 +7,8 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <memory>
+#include <string>
 
 #include "bodypart.h"
 #include "calendar.h"
@@ -15,29 +17,17 @@
 #include "enums.h" // tripoint
 #include "string_id.h"
 #include "tuple_hash.h"
+#include "type_id.h"
 
 class nc_color;
 class JsonObject;
-class vitamin;
-using vitamin_id = string_id<vitamin>;
-class martialart;
-using matype_id = string_id<martialart>;
+class player;
 struct dream;
-struct mutation_branch;
-class item;
-using trait_id = string_id<mutation_branch>;
-using itype_id = std::string;
-struct mutation_category_trait;
-
 class Trait_group;
-class Trait_creation_data;
-class JsonObject;
-class JsonArray;
+class item;
 
-namespace trait_group
-{
-using Trait_group_tag = string_id<Trait_group>;
-}
+using itype_id = std::string;
+class JsonArray;
 
 extern std::vector<dream> dreams;
 extern std::map<std::string, std::vector<trait_id> > mutations_category;

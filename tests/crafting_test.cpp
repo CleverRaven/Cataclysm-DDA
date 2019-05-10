@@ -1,16 +1,33 @@
+#include <limits.h>
 #include <sstream>
+#include <algorithm>
+#include <list>
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
 
 #include "catch/catch.hpp"
-#include "crafting.h"
 #include "game.h"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "npc.h"
-#include "output.h"
 #include "player.h"
 #include "player_helpers.h"
 #include "recipe_dictionary.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "enums.h"
+#include "inventory.h"
+#include "item.h"
+#include "optional.h"
+#include "player_activity.h"
+#include "recipe.h"
+#include "requirements.h"
+#include "string_id.h"
+#include "material.h"
+#include "type_id.h"
 
 TEST_CASE( "recipe_subset" )
 {
@@ -208,6 +225,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
 
         g->load_npcs();
 
+        CHECK( !dummy.in_vehicle );
         dummy.setpos( who.pos() );
         const auto helpers( dummy.get_crafting_helpers() );
 
@@ -397,6 +415,7 @@ static void set_time( int time )
     g->reset_light_level();
     int z = g->u.posz();
     g->m.update_visibility_cache( z );
+    g->m.invalidate_map_cache( z );
     g->m.build_map_cache( z );
 }
 
@@ -411,6 +430,11 @@ static int actually_test_craft( const recipe_id &rid, const std::vector<item> to
     REQUIRE( g->u.morale_crafting_speed_multiplier( rec ) == 1.0 );
     REQUIRE( g->u.lighting_craft_speed_multiplier( rec ) == 1.0 );
     REQUIRE( !g->u.activity );
+
+    // This really shouldn't be needed, but for some reason the tests fail for mingw builds without it
+    g->u.learn_recipe( &rec );
+    REQUIRE( g->u.has_recipe( &rec, g->u.crafting_inventory(), g->u.get_crafting_helpers() ) != -1 );
+
     g->u.make_craft( rid, 1 );
     CHECK( g->u.activity );
     CHECK( g->u.activity.id() == activity_id( "ACT_CRAFT" ) );

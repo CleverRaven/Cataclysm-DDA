@@ -1,5 +1,15 @@
 #include "map_extras.h"
 
+#include <stdlib.h>
+#include <math.h>
+#include <array>
+#include <list>
+#include <memory>
+#include <set>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
 #include "cellular_automata.h"
 #include "debug.h"
 #include "field.h"
@@ -8,8 +18,8 @@
 #include "map.h"
 #include "mapdata.h"
 #include "mapgen_functions.h"
-#include "omdata.h"
 #include "overmapbuffer.h"
+#include "overmap.h"
 #include "rng.h"
 #include "trap.h"
 #include "veh_type.h"
@@ -17,6 +27,20 @@
 #include "vehicle_group.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "line.h"
+#include "optional.h"
+#include "string_id.h"
+#include "translations.h"
+#include "vpart_reference.h"
+#include "type_id.h"
+
+class npc_template;
 
 namespace MapExtras
 {
@@ -449,15 +473,15 @@ void mx_roadblock( map &m, const tripoint &abs_sub )
 
 void mx_bandits_block( map &m, const tripoint &abs_sub )
 {
-    std::string north = overmap_buffer.ter( abs_sub.x, abs_sub.y - 1, abs_sub.z ).id().c_str();
-    std::string south = overmap_buffer.ter( abs_sub.x, abs_sub.y + 1, abs_sub.z ).id().c_str();
-    std::string west = overmap_buffer.ter( abs_sub.x - 1, abs_sub.y, abs_sub.z ).id().c_str();
-    std::string east = overmap_buffer.ter( abs_sub.x + 1, abs_sub.y, abs_sub.z ).id().c_str();
+    const oter_id &north = overmap_buffer.ter( abs_sub.x, abs_sub.y - 1, abs_sub.z );
+    const oter_id &south = overmap_buffer.ter( abs_sub.x, abs_sub.y + 1, abs_sub.z );
+    const oter_id &west = overmap_buffer.ter( abs_sub.x - 1, abs_sub.y, abs_sub.z );
+    const oter_id &east = overmap_buffer.ter( abs_sub.x + 1, abs_sub.y, abs_sub.z );
 
-    const bool forest_at_north = north.find( "forest" ) == 0;
-    const bool forest_at_south = south.find( "forest" ) == 0;
-    const bool forest_at_west = west.find( "forest" ) == 0;
-    const bool forest_at_east = east.find( "forest" ) == 0;
+    const bool forest_at_north = is_ot_type( "forest", north );
+    const bool forest_at_south = is_ot_type( "forest", south );
+    const bool forest_at_west = is_ot_type( "forest", west );
+    const bool forest_at_east = is_ot_type( "forest", east );
 
     if( forest_at_north && forest_at_south ) {
         line( &m, t_trunk, 1, 3, 1, 6 );

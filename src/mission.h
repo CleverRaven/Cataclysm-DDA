@@ -14,28 +14,25 @@
 #include "npc_favor.h"
 #include "overmap.h"
 #include "item_group.h"
+#include "string_id.h"
+#include "mtype.h"
+#include "type_id.h"
+#include "game_constants.h"
+#include "omdata.h"
+#include "optional.h"
 
 class player;
 class mission;
-class game;
-class npc;
 class Creature;
-class npc_class;
 class JsonObject;
 class JsonArray;
 class JsonIn;
 class JsonOut;
-struct mission_type;
-struct oter_type_t;
-struct species_type;
-struct mtype;
+class overmapbuffer;
+class item;
+class npc;
 
 enum npc_mission : int;
-
-using npc_class_id = string_id<npc_class>;
-using mission_type_id = string_id<mission_type>;
-using species_id = string_id<species_type>;
-using mtype_id = string_id<mtype>;
 
 namespace debug_menu
 {
@@ -141,24 +138,46 @@ struct mission_fail {
     static void standard( mission * ) {} // Nothing special happens
 };
 
-struct mission_util {
-    static tripoint reveal_om_ter( const std::string &omter, int reveal_rad, bool must_see,
-                                   int target_z = 0 );
-    static tripoint target_om_ter( const std::string &omter, int reveal_rad, mission *miss,
-                                   bool must_see, int target_z = 0 );
-    static tripoint target_om_ter_random( const std::string &omter, int reveal_rad, mission *miss,
-                                          bool must_see, int range,
-                                          tripoint loc = overmap::invalid_tripoint );
-    static void set_reveal( const std::string &terrain,
-                            std::vector<std::function<void( mission *miss )>> &funcs );
-    static void set_reveal_any( JsonArray &ja,
-                                std::vector<std::function<void( mission *miss )>> &funcs );
-    static void set_assign_om_target( JsonObject &jo,
-                                      std::vector<std::function<void( mission *miss )>> &funcs );
-    static bool set_update_mapgen( JsonObject &jo,
-                                   std::vector<std::function<void( mission *miss )>> &funcs );
-    static bool load_funcs( JsonObject jo,
-                            std::vector<std::function<void( mission *miss )>> &funcs );
+struct mission_target_params {
+    std::string overmap_terrain_subtype;
+    mission *mission_pointer;
+
+    bool origin_u = true;
+    cata::optional<tripoint> offset;
+    cata::optional<std::string> replaceable_overmap_terrain_subtype;
+    cata::optional<overmap_special_id> overmap_special;
+    cata::optional<int> reveal_radius;
+    int min_distance = 0;
+
+    bool must_see = false;
+    bool cant_see = false;
+    bool random = false;
+    bool create_if_necessary = true;
+    int search_range = OMAPX;
+    cata::optional<int> z;
+    npc *guy = nullptr;
+};
+
+namespace mission_util
+{
+tripoint random_house_in_closest_city();
+tripoint target_closest_lab_entrance( const tripoint &origin, int reveal_rad, mission *miss );
+bool reveal_road( const tripoint &source, const tripoint &dest, overmapbuffer &omb );
+tripoint reveal_om_ter( const std::string &omter, int reveal_rad, bool must_see, int target_z = 0 );
+tripoint target_om_ter( const std::string &omter, int reveal_rad, mission *miss, bool must_see,
+                        int target_z = 0 );
+tripoint target_om_ter_random( const std::string &omter, int reveal_rad, mission *miss,
+                               bool must_see, int range, tripoint loc = overmap::invalid_tripoint );
+void set_reveal( const std::string &terrain,
+                 std::vector<std::function<void( mission *miss )>> &funcs );
+void set_reveal_any( JsonArray &ja, std::vector<std::function<void( mission *miss )>> &funcs );
+mission_target_params parse_mission_om_target( JsonObject &jo );
+cata::optional<tripoint> assign_mission_target( const mission_target_params &params );
+tripoint get_om_terrain_pos( const mission_target_params &params );
+void set_assign_om_target( JsonObject &jo,
+                           std::vector<std::function<void( mission *miss )>> &funcs );
+bool set_update_mapgen( JsonObject &jo, std::vector<std::function<void( mission *miss )>> &funcs );
+bool load_funcs( JsonObject jo, std::vector<std::function<void( mission *miss )>> &funcs );
 };
 
 

@@ -1,9 +1,11 @@
 #include "weather.h" // IWYU pragma: associated
 
+#include <stddef.h>
 #include <array>
 #include <cmath>
 #include <map>
 #include <vector>
+#include <iterator>
 
 #include "color.h"
 #include "game_constants.h"
@@ -108,73 +110,6 @@ weather_datum const weather_data( weather_type const type )
     }
 
     return data[0];
-}
-
-////////////////////////////////////////////////
-//////// food decay, based on weather. static chart
-
-/**
- * Food decay calculation.
- * Calculate how much food rots per hour, based on 10 = 1 minute of decay @ 65 F.
- * IRL this tends to double every 10c a few degrees above freezing, but past a certain
- * point the rate decreases until even extremophiles find it too hot. Here we just stop
- * further acceleration at 105 F. This should only need to run once when the game starts.
- * @see calc_rot_array
- * @see rot_chart
- */
-int calc_hourly_rotpoints_at_temp( const int temp )
-{
-    // default temp = 65, so generic->rotten() assumes 600 decay points per hour
-    const int dropoff = 38;     // ditch our fancy equation and do a linear approach to 0 rot at 31f
-    const int cutoff = 105;     // stop torturing the player at this temperature, which is
-    const int cutoffrot = 3540; // ..almost 6 times the base rate. bacteria hate the heat too
-
-    const int dsteps = dropoff - temperatures::freezing;
-    const int dstep = ( 35.91 * std::pow( 2.0, static_cast<float>( dropoff ) / 16.0 ) / dsteps );
-
-    if( temp < temperatures::freezing ) {
-        return 0;
-    } else if( temp > cutoff ) {
-        return cutoffrot;
-    } else if( temp < dropoff ) {
-        return ( ( temp - temperatures::freezing ) * dstep );
-    } else {
-        return lround( 35.91 * std::pow( 2.0, static_cast<float>( temp ) / 16.0 ) );
-    }
-}
-
-/**
- * Initialize the rot table.
- * @see rot_chart
- */
-std::vector<int> calc_rot_array( const size_t cap )
-{
-    std::vector<int> ret;
-    ret.reserve( cap );
-    for( size_t i = 0; i < cap; ++i ) {
-        ret.push_back( calc_hourly_rotpoints_at_temp( static_cast<int>( i ) ) );
-    }
-    return ret;
-}
-
-/**
- * Get the hourly rot for a given temperature from the precomputed table.
- * @see rot_chart
- */
-int get_hourly_rotpoints_at_temp( const int temp )
-{
-    /**
-     * Precomputed rot lookup table.
-     */
-    static const std::vector<int> rot_chart = calc_rot_array( 200 );
-
-    if( temp < 0 ) {
-        return 0;
-    }
-    if( temp > 150 ) {
-        return 3540;
-    }
-    return rot_chart[temp];
 }
 
 ///@}

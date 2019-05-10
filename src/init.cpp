@@ -1,16 +1,20 @@
 #include "init.h"
 
+#include <stddef.h>
 #include <cassert>
 #include <fstream>
 #include <sstream> // for throwing errors
 #include <string>
 #include <vector>
+#include <exception>
+#include <iterator>
+#include <memory>
+#include <stdexcept>
 
 #include "activity_type.h"
 #include "ammo.h"
 #include "anatomy.h"
 #include "bionics.h"
-#include "clzones.h"
 #include "construction.h"
 #include "crafting_gui.h"
 #include "debug.h"
@@ -64,6 +68,9 @@
 #include "vehicle_group.h"
 #include "vitamin.h"
 #include "worldfactory.h"
+#include "bodypart.h"
+#include "translations.h"
+#include "type_id.h"
 
 #if defined(TILES)
 void load_tileset();

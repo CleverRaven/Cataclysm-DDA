@@ -1,6 +1,9 @@
 #include "mutation.h"
 
+#include <stddef.h>
 #include <algorithm>
+#include <list>
+#include <unordered_set>
 
 #include "action.h"
 #include "field.h"
@@ -12,11 +15,17 @@
 #include "mapdata.h"
 #include "monster.h"
 #include "morale_types.h"
-#include "output.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "translations.h"
 #include "ui.h"
+#include "int_id.h"
+#include "messages.h"
+#include "omdata.h"
+#include "optional.h"
+#include "player_activity.h"
+#include "rng.h"
+#include "string_id.h"
 
 const efftype_id effect_stunned( "stunned" );
 
@@ -43,6 +52,7 @@ static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
+static const trait_id trait_HAIRROOTS( "HAIRROOTS" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
@@ -527,12 +537,25 @@ void player::activate_mutation( const trait_id &mut )
             return;
         }
 
-        add_msg_if_player( _( "You reach out to the trees with your roots." ) );
+        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
+            add_msg_if_player( _( "You reach out to the trees with your roots." ) );
+        } else {
+            add_msg_if_player(
+                _( "You lay next to the trees letting your hair roots tangle with the trees." ) );
+        }
+
         assign_activity( activity_id( "ACT_TREE_COMMUNION" ) );
-        const time_duration startup_time = has_trait( trait_ROOTS3 ) ? rng( 15_minutes,
-                                           30_minutes ) : rng( 60_minutes, 90_minutes );
-        activity.values.push_back( to_turns<int>( startup_time ) );
-        return;
+
+        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
+            const time_duration startup_time = has_trait( trait_ROOTS3 ) ? rng( 15_minutes,
+                                               30_minutes ) : rng( 60_minutes, 90_minutes );
+            activity.values.push_back( to_turns<int>( startup_time ) );
+            return;
+        } else {
+            const time_duration startup_time = rng( 120_minutes, 180_minutes );
+            activity.values.push_back( to_turns<int>( startup_time ) );
+            return;
+        }
     } else if( mut == trait_DEBUG_BIONIC_POWER ) {
         max_power_level += 100;
         add_msg_if_player( m_good, _( "Bionic power storage increased by 100." ) );

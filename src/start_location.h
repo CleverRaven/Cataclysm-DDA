@@ -2,21 +2,20 @@
 #ifndef START_LOCATION_H
 #define START_LOCATION_H
 
+#include <stddef.h>
 #include <set>
 #include <vector>
+#include <string>
 
 #include "string_id.h"
+#include "type_id.h"
 
-class overmap;
 class tinymap;
 class player;
 class JsonObject;
 struct tripoint;
-class start_location;
 template<typename T>
 class generic_factory;
-struct MonsterGroup;
-using mongroup_id = string_id<MonsterGroup>;
 
 class start_location
 {

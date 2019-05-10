@@ -1,5 +1,12 @@
 #include "visitable.h"
 
+#include <limits.h>
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <unordered_map>
+#include <utility>
+
 #include "bionics.h"
 #include "character.h"
 #include "debug.h"
@@ -9,11 +16,13 @@
 #include "map.h"
 #include "map_selector.h"
 #include "player.h"
-#include "string_id.h"
 #include "submap.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "active_item_cache.h"
+#include "enums.h"
+#include "pimpl.h"
 
 /** @relates visitable */
 template <typename T>

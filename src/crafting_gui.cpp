@@ -1,14 +1,19 @@
 #include "crafting_gui.h"
 
+#include <stddef.h>
 #include <algorithm>
 #include <map>
 #include <string>
 #include <vector>
+#include <iterator>
+#include <list>
+#include <memory>
+#include <set>
+#include <utility>
 
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "crafting.h"
-#include "debug.h"
 #include "game.h"
 #include "input.h"
 #include "itype.h"
@@ -23,6 +28,15 @@
 #include "translations.h"
 #include "ui.h"
 #include "uistate.h"
+#include "calendar.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "item.h"
+#include "recipe.h"
+#include "type_id.h"
+
+class inventory;
+class npc;
 
 enum TAB_MODE {
     NORMAL,

@@ -2,20 +2,24 @@
 #ifndef VEH_INTERACT_H
 #define VEH_INTERACT_H
 
+#include <stddef.h>
 #include <map>
 #include <sstream>
 #include <vector>
+#include <functional>
+#include <string>
 
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
 #include "inventory.h"
 #include "player_activity.h"
-#include "requirements.h"
-#include "string_id.h"
+#include "item_location.h"
+#include "type_id.h"
 
+struct requirement_data;
+struct tripoint;
 class vpart_info;
-using vpart_id = string_id<vpart_info>;
 
 /** Represents possible return values from the cant_do function. */
 enum task_reason {
@@ -31,6 +35,9 @@ enum task_reason {
 
 class vehicle;
 struct vehicle_part;
+
+// For marking 'leaking' tanks/reactors/batteries
+const std::string leak_marker = "<color_red>*</color>";
 
 class veh_interact
 {
@@ -159,6 +166,9 @@ class veh_interact
         void move_overview_line( int );
 
         void count_durability();
+
+        /** Show durability symbol/name as prefix */
+        std::string name_with_durability() const;
 
         std::string total_durability_text;
         nc_color total_durability_color;

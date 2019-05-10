@@ -2,12 +2,13 @@
 
 #include <algorithm>
 #include <array>
-#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <sstream>
+#include <memory>
+#include <tuple>
+#include <type_traits>
 
-#include "coordinate_conversions.h"
 #include "activity_handlers.h"
 #include "debug.h"
 #include "game.h"
@@ -19,20 +20,30 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "mtype.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "pickup.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
 #include "veh_interact.h"
 #include "veh_type.h"
-#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
 #include "string_input_popup.h"
+#include "color.h"
+#include "input.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "iuse.h"
+#include "player.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "requirements.h"
+#include "rng.h"
+#include "string_id.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
@@ -1355,12 +1366,13 @@ void vehicle::use_bike_rack( int part )
         success = try_to_rack_nearby_vehicle( racks_parts );
     }
     if( success ) {
+        g->m.invalidate_map_cache( g->get_levz() );
         g->refresh_all();
     }
 }
 
 // Handles interactions with a vehicle in the examine menu.
-veh_interact_results vehicle::interact_with( const tripoint &pos, int interact_part )
+void vehicle::interact_with( const tripoint &pos, int interact_part )
 {
     std::vector<std::string> menu_items;
     std::vector<uilist_entry> options_message;
@@ -1476,7 +1488,8 @@ veh_interact_results vehicle::interact_with( const tripoint &pos, int interact_p
         if( fuel_left( "battery" ) < pseudo.ammo_required() ) {
             return false;
         }
-        auto qty = pseudo.ammo_capacity() - discharge_battery( pseudo.ammo_capacity() );
+        auto capacity = pseudo.ammo_capacity( true );
+        auto qty = capacity - discharge_battery( capacity );
         pseudo.ammo_set( "battery", qty );
         g->u.invoke_item( &pseudo );
         charge_battery( pseudo.ammo_remaining() );
@@ -1486,23 +1499,23 @@ veh_interact_results vehicle::interact_with( const tripoint &pos, int interact_p
     switch( choice ) {
         case USE_BIKE_RACK: {
             use_bike_rack( bike_rack_part );
-            return DONE;
+            return;
         }
         case USE_MONSTER_CAPTURE: {
             use_monster_capture( monster_capture_part, pos );
-            return DONE;
+            return;
         }
         case USE_HOTPLATE: {
             veh_tool( "hotplate" );
-            return DONE;
+            return;
         }
         case USE_WASHMACHINE: {
             use_washing_machine( washing_machine_part );
-            return DONE;
+            return;
         }
         case FILL_CONTAINER: {
             g->u.siphon( *this, "water_clean" );
-            return DONE;
+            return;
         }
         case DRINK: {
             item water( "water_clean", 0 );
@@ -1510,7 +1523,7 @@ veh_interact_results vehicle::interact_with( const tripoint &pos, int interact_p
                 drain( "water_clean", 1 );
                 g->u.moves -= 250;
             }
-            return DONE;
+            return;
         }
         case USE_WELDER: {
             if( veh_tool( "welder" ) ) {
@@ -1526,11 +1539,11 @@ veh_interact_results vehicle::interact_with( const tripoint &pos, int interact_p
                     act.values[1] = part_with_feature( interact_part, "WELDRIG", true );
                 }
             }
-            return DONE;
+            return;
         }
         case USE_PURIFIER: {
             veh_tool( "water_purifier" );
-            return DONE;
+            return;
         }
         case PURIFY_TANK: {
             auto sel = []( const vehicle_part & pt ) {
@@ -1552,11 +1565,11 @@ veh_interact_results vehicle::interact_with( const tripoint &pos, int interact_p
                     tank.ammo_set( "water_clean", tank.ammo_remaining() );
                 }
             }
-            return DONE;
+            return;
         }
         case UNLOAD_TURRET: {
             g->unload( *turret.base() );
-            return DONE;
+            return;
         }
         case RELOAD_TURRET: {
             item::reload_option opt = g->u.select_ammo( *turret.base(), true );
@@ -1565,42 +1578,48 @@ veh_interact_results vehicle::interact_with( const tripoint &pos, int interact_p
                 g->u.activity.targets.emplace_back( turret.base() );
                 g->u.activity.targets.push_back( std::move( opt.ammo ) );
             }
-            return DONE;
+            return;
         }
         case FOLD_VEHICLE: {
             fold_up();
-            return DONE;
+            return;
         }
         case CONTROL: {
             use_controls( pos );
-            return DONE;
+            return;
         }
         case CONTROL_ELECTRONICS: {
             control_electronics();
-            return DONE;
+            return;
         }
         case EXAMINE: {
             g->exam_vehicle( *this );
-            return DONE;
+            return;
         }
         case TRACK: {
             toggle_tracking( );
-            return DONE;
+            return;
         }
         case GET_ITEMS_ON_GROUND: {
-            return ITEMS_FROM_GROUND;
+            Pickup::pick_up( pos, 0, Pickup::from_ground );
+            return;
         }
         case GET_ITEMS: {
-            return from_vehicle ? ITEMS_FROM_CARGO : ITEMS_FROM_GROUND;
+            if( from_vehicle ) {
+                Pickup::pick_up( pos, 0, Pickup::from_cargo );
+            } else {
+                Pickup::pick_up( pos, 0, Pickup::from_ground );
+            }
+            return;
         }
         case RELOAD_PLANTER: {
             reload_seeds( pos );
-            return DONE;
+            return;
         }
         case WORKBENCH: {
             iexamine::workbench_internal( g->u, pos, vpart_reference( *this, workbench_part ) );
-            return DONE;
+            return;
         }
     }
-    return DONE;
+    return;
 }

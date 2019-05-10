@@ -1,16 +1,17 @@
 #include "creature.h"
 
+#include <stdlib.h>
+#include <math.h>
 #include <algorithm>
-#include <cmath>
 #include <map>
+#include <array>
+#include <memory>
 
-#include "item.h"
 #include "anatomy.h"
 #include "debug.h"
 #include "effect.h"
 #include "field.h"
 #include "game.h"
-#include "itype.h"
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
@@ -22,6 +23,19 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "calendar.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "damage.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "lightmap.h"
+#include "line.h"
+#include "mapdata.h"
+#include "optional.h"
+#include "player.h"
+#include "string_id.h"
 
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_bounced( "bounced" );
@@ -180,7 +194,7 @@ bool Creature::sees( const Creature &critter ) const
         return false;
     }
     if( const player *p = dynamic_cast<const player *>( &critter ) ) {
-        if( p->move_mode == "crouch" ) {
+        if( p->get_movement_mode() == "crouch" ) {
             const int coverage = g->m.obstacle_coverage( pos(), critter.pos() );
             if( coverage < 30 ) {
                 return sees( critter.pos(), critter.is_player() );

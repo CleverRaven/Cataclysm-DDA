@@ -1,9 +1,20 @@
+#include <limits.h>
+#include <stddef.h>
+#include <list>
+#include <memory>
+#include <string>
+#include <vector>
+
 #include "catch/catch.hpp"
 #include "ammo.h"
 #include "bionics.h"
 #include "game.h"
 #include "item.h"
 #include "player.h"
+#include "calendar.h"
+#include "pimpl.h"
+#include "string_id.h"
+#include "type_id.h"
 
 void clear_bionics( player &p )
 {
@@ -100,7 +111,7 @@ TEST_CASE( "bionics", "[bionics] [item]" )
         }
 
         static const std::list<std::string> never = {
-            "battery_atomic", // TOOLMOD, no ammo actually
+            "light_atomic_battery_cell", // TOOLMOD, no ammo actually
             "rm13_armor"      // TOOL_ARMOR
         };
         for( auto it : never ) {
@@ -129,6 +140,6 @@ TEST_CASE( "bionics", "[bionics] [item]" )
         }
     }
 
-    // TODO: bio_cable bio_furnace bio_reactor
+    // TODO: bio_cable bio_reactor
     // TODO: (pick from stuff with power_source)
 }

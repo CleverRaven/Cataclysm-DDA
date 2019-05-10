@@ -1,13 +1,19 @@
+#include <memory>
+#include <set>
+#include <vector>
+
 #include "catch/catch.hpp"
 #include "game.h"
 #include "map.h"
 #include "player.h"
-#include "veh_type.h"
 #include "vehicle.h"
+#include "enums.h"
+#include "type_id.h"
 
 TEST_CASE( "vehicle_split_section" )
 {
     for( int dir = 0; dir < 360; dir += 15 ) {
+        CHECK( !g->u.in_vehicle );
         const tripoint test_origin( 15, 15, 0 );
         g->u.setpos( test_origin );
         tripoint vehicle_origin = tripoint( 10, 10, 0 );

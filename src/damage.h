@@ -4,17 +4,15 @@
 
 #include <array>
 #include <vector>
+#include <string>
 
-#include "enums.h"
-#include "string_id.h"
+#include "type_id.h"
 
 class item;
 class monster;
 class JsonObject;
 class JsonArray;
-
-class Skill;
-using skill_id = string_id<Skill>;
+class JsonIn;
 
 enum body_part : int;
 

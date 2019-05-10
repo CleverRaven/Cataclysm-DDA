@@ -1,5 +1,13 @@
 #include "debug_menu.h" // IWYU pragma: associated
 
+#include <stddef.h>
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
+
 #include "debug.h"
 #include "game.h"
 #include "input.h"
@@ -17,6 +25,14 @@
 #include "translations.h"
 #include "ui.h"
 #include "uistate.h"
+#include "calendar.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "item.h"
+#include "itype.h"
+#include "optional.h"
+#include "type_id.h"
 
 class wish_mutate_callback: public uilist_callback
 {

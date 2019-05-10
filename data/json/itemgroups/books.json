@@ -27,6 +27,22 @@
     ]
   },
   {
+    "id": "boxing_books",
+    "type": "item_group",
+    "items": [
+      [ "mag_unarmed", 40 ],
+      [ "manual_boxing", 50 ],
+      [ "mag_melee", 25 ],
+      [ "mag_bashing", 10 ],
+      [ "manual_melee", 15 ],
+      [ "recipe_melee", 10 ],
+      [ "manual_taekwondo", 10 ],
+      [ "manual_karate", 10 ],
+      [ "manual_muay_thai", 2 ],
+      [ "manual_krav_maga", 10 ]
+    ]
+  },
+  {
     "type": "item_group",
     "id": "book_martial",
     "//": "Books about martial arts",
@@ -521,5 +537,29 @@
       [ "manual_tiger", 1 ],
       [ "manual_zui_quan", 1 ]
     ]
+  },
+  {
+    "id": "doctors_books",
+    "type": "item_group",
+    "items": [
+      [ "mag_firstaid", 50 ],
+      [ "textbook_firstaid", 200 ],
+      [ "manual_swimming", 50 ],
+      [ "manual_first_aid", 200 ],
+      [ "pocket_firstaid", 100 ],
+      [ "textbook_chemistry", 200 ],
+      [ "adv_chemistry", 200 ],
+      [ "emergency_book", 200 ],
+      [ "record_patient", 100 ],
+      [ "recipe_medicalmut", 50 ],
+      [ "recipe_serum", 10 ],
+      [ "recipe_labchem", 100 ],
+      [ "recipe_augs", 100 ]
+    ]
+  },
+  {
+    "id": "record_patient",
+    "type": "item_group",
+    "items": [ [ "record_patient", 100 ] ]
   }
 ]

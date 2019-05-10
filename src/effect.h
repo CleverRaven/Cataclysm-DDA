@@ -2,25 +2,23 @@
 #ifndef EFFECT_H
 #define EFFECT_H
 
+#include <stddef.h>
 #include <unordered_map>
 #include <tuple>
 #include <vector>
+#include <string>
+#include <utility>
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "enums.h"
-#include "pldata.h"
 #include "string_id.h"
 #include "translations.h"
 #include "tuple_hash.h"
+#include "type_id.h"
 
-class effect_type;
-class Creature;
 class player;
+
 enum game_message_type : int;
-using efftype_id = string_id<effect_type>;
-struct mutation_branch;
-using trait_id = string_id<mutation_branch>;
 class JsonObject;
 class JsonIn;
 class JsonOut;

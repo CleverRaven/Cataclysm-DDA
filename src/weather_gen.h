@@ -2,11 +2,13 @@
 #ifndef WEATHER_GEN_H
 #define WEATHER_GEN_H
 
+#include <string>
+
 #include "calendar.h"
-struct point;
+
 struct tripoint;
-class time_point;
 class JsonObject;
+
 enum weather_type : int;
 
 struct w_point {
@@ -44,7 +46,6 @@ class weather_generator
         weather_type get_weather_conditions( const w_point & ) const;
         int get_wind_direction( const season_type, unsigned seed ) const;
         int convert_winddir( const int ) const;
-        std::string get_wind_desc( double ) const;
         int get_water_temperature() const;
         void test_weather() const;
 

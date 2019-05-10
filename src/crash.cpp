@@ -2,12 +2,16 @@
 
 #include "crash.h"
 
+#include <stdlib.h>
 #include <csignal>
 #include <cstdio>
-#include <cstdint>
 #include <exception>
 #include <initializer_list>
 #include <typeinfo>
+#include <iostream>
+#include <map>
+#include <string>
+#include <utility>
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

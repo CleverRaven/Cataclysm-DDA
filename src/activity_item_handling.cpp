@@ -1,13 +1,18 @@
 #include "activity_handlers.h" // IWYU pragma: associated
 
+#include <limits.h>
+#include <stddef.h>
 #include <algorithm>
 #include <cassert>
 #include <list>
 #include <vector>
+#include <iterator>
+#include <memory>
+#include <set>
+#include <string>
+#include <utility>
 
-#include "action.h"
 #include "clzones.h"
-#include "creature.h"
 #include "debug.h"
 #include "enums.h"
 #include "field.h"
@@ -33,6 +38,14 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
+#include "calendar.h"
+#include "character.h"
+#include "game_constants.h"
+#include "inventory.h"
+#include "item_stack.h"
+#include "line.h"
+#include "units.h"
+#include "type_id.h"
 
 void cancel_aim_processing();
 
@@ -1045,7 +1058,8 @@ void activity_on_turn_move_loot( player_activity &, player &p )
             continue;
         }
 
-        auto items = std::vector<item *>();
+        // the boolean in this pair being true indicates the item is from a vehicle storage space
+        auto items = std::vector<std::pair<item *, bool>>();
 
         //Check source for cargo part
         //map_stack and vehicle_stack are different types but inherit from item_stack
@@ -1055,25 +1069,31 @@ void activity_on_turn_move_loot( player_activity &, player &p )
             src_veh = &vp->vehicle();
             src_part = vp->part_index();
             for( auto &it : src_veh->get_items( src_part ) ) {
-                if( !it.made_of_from_type( LIQUID ) ) { // skip unpickable liquid
-                    items.push_back( &it );
-                }
+                items.push_back( std::make_pair( &it, true ) );
             }
         } else {
             src_veh = nullptr;
             src_part = -1;
-            for( auto &it : g->m.i_at( src_loc ) ) {
-                if( !it.made_of_from_type( LIQUID ) ) { // skip unpickable liquid
-                    items.push_back( &it );
-                }
-            }
+        }
+        for( auto &it : g->m.i_at( src_loc ) ) {
+            items.push_back( std::make_pair( &it, false ) );
         }
         //Skip items that have already been processed
         for( auto it = items.begin() + mgr.get_num_processed( src ); it < items.end(); it++ ) {
 
             mgr.increment_num_processed( src );
 
-            const auto id = mgr.get_near_zone_type_for_item( **it, abspos );
+            const auto thisitem = it->first;
+
+            if( thisitem->made_of_from_type( LIQUID ) ) { // skip unpickable liquid
+                continue;
+            }
+
+            // Only if it's from a vehicle do we use the vehicle source location information.
+            vehicle *this_veh = it->second ? src_veh : nullptr;
+            const int this_part = it->second ? src_part : -1;
+
+            const auto id = mgr.get_near_zone_type_for_item( *thisitem, abspos );
 
             // checks whether the item is already on correct loot zone or not
             // if it is, we can skip such item, if not we move the item to correct pile
@@ -1107,7 +1127,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                         free_space = g->m.free_volume( dest_loc );
                     }
                     // check free space at destination
-                    if( free_space >= ( *it )->volume() ) {
+                    if( free_space >= thisitem->volume() ) {
                         // before we move any item, check if player is at or
                         // adjacent to the loot source tile
                         if( !is_adjacent_or_closer ) {
@@ -1147,8 +1167,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                             mgr.end_sort();
                             return;
                         }
-                        move_item( p, **it, ( *it )->count(), src_loc, dest_loc, src_veh,
-                                   src_part );
+                        move_item( p, *thisitem, thisitem->count(), src_loc, dest_loc, this_veh, this_part );
 
                         // moved item away from source so decrement
                         mgr.decrement_num_processed( src );

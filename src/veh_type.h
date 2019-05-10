@@ -10,6 +10,7 @@
 #include <set>
 #include <utility>
 #include <vector>
+#include <sstream>
 
 #include "calendar.h"
 #include "color.h"
@@ -17,26 +18,15 @@
 #include "enums.h"
 #include "optional.h"
 #include "string_id.h"
+#include "type_id.h"
 #include "units.h"
+#include "vehicle.h"
+#include "requirements.h"
 
 using itype_id = std::string;
 
-class vpart_info;
-using vpart_id = string_id<vpart_info>;
-struct vehicle_prototype;
-using vproto_id = string_id<vehicle_prototype>;
-class vehicle;
 class JsonObject;
-struct vehicle_item_spawn;
-struct quality;
-using quality_id = string_id<quality>;
 class Character;
-
-struct requirement_data;
-using requirement_id = string_id<requirement_data>;
-
-class Skill;
-using skill_id = string_id<Skill>;
 
 // bitmask backing store of -certain- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently

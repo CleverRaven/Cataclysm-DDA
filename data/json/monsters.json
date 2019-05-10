@@ -4348,7 +4348,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "burn_into": "mon_zombie_scorched",
-    "upgrades": { "half_life": 10, "into": "mon_zombie_hunter" },
+    "upgrades": { "half_life": 20, "into": "mon_zombie_hunter" },
     "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
@@ -4860,6 +4860,36 @@
       "PUSH_MON",
       "FILTHY"
     ]
+  },
+  {
+    "id": "mon_zombeaver",
+    "type": "MONSTER",
+    "name": "zombeaver",
+    "description": "This wall-eyed beast has a large wound on its side, and ribs with some flesh on them are seen through it.  The most prominent feature of this abomination is large incisors in its ominously open mouth, strange black goo is oozing out of it.  Seems like it isn't interested in trees anymore and is looking for some warm fresh to feed.",
+    "default_faction": "zombie",
+    "bodytype": "bear",
+    "species": [ "ZOMBIE" ],
+    "volume": "20250 ml",
+    "weight": 20000,
+    "hp": 30,
+    "speed": 80,
+    "material": [ "flesh" ],
+    "symbol": "r",
+    "color": "green",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 1,
+    "melee_dice": 1,
+    "melee_dice_sides": 6,
+    "melee_cut": 6,
+    "dodge": 2,
+    "vision_day": 30,
+    "vision_night": 5,
+    "harvest": "zombie_leather",
+    "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
+    "fear_triggers": [ "FIRE" ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
     "id": "mon_zoose",

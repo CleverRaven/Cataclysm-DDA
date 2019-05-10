@@ -2,6 +2,8 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
+#include <limits.h>
+#include <stddef.h>
 #include <bitset>
 #include <functional>
 #include <map>
@@ -13,25 +15,32 @@
 #include "calendar.h"
 #include "creature.h"
 #include "enums.h"
-#include "int_id.h"
+#include "bodypart.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "damage.h"
+#include "item.h"
+#include "mtype.h"
+#include "optional.h"
+#include "pldata.h"
+#include "type_id.h"
+#include "units.h"
 
 class JsonObject;
 class JsonIn;
 class JsonOut;
-class map;
-class game;
-class item;
-class monfaction;
 class player;
 class Character;
-struct mtype;
+class effect;
+struct dealt_projectile_attack;
+struct pathfinding_settings;
+struct trap;
+
 enum class mon_trigger;
 enum field_id : int;
 
-using mfaction_id = int_id<monfaction>;
-using mtype_id = string_id<mtype>;
-
 class monster;
+
 typedef std::map< mfaction_id, std::set< monster * > > mfactions;
 
 class mon_special_attack

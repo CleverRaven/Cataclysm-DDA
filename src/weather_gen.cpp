@@ -1,17 +1,14 @@
 #include "weather_gen.h"
 
 #include <algorithm>
-#include <chrono>
 #include <cmath>
-#include <cstdlib>
 #include <fstream>
-#include <iostream>
 #include <random>
 #include <string>
 
 #include "enums.h"
+#include "game_constants.h"
 #include "json.h"
-#include "messages.h"
 #include "rng.h"
 #include "simplexnoise.h"
 #include "weather.h"
@@ -40,7 +37,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
 
     //limit the random seed during noise calculation, a large value flattens the noise generator to zero
     //Windows has a rand limit of 32768, other operating systems can have higher limits
-    const unsigned modSEED = seed % 32768;
+    const unsigned modSEED = seed % SIMPLEX_NOISE_RANDOM_SEED_LIMIT;
     // Noise factors
     double T( raw_noise_4d( x, y, z, modSEED ) * 4.0 );
     double H( raw_noise_4d( x, y, z / 5, modSEED + 101 ) );
@@ -182,41 +179,6 @@ int weather_generator::get_wind_direction( const season_type season, unsigned se
     }
 }
 
-//Description of Wind Speed - https://en.wikipedia.org/wiki/Beaufort_scale
-std::string weather_generator::get_wind_desc( double windpower ) const
-{
-    std::string winddesc;
-    if( windpower < 1 ) {
-        winddesc = "Calm";
-    } else if( windpower < 3 ) {
-        winddesc = "Light Air";
-    } else if( windpower < 7 ) {
-        winddesc = "Light Breeze";
-    } else if( windpower < 12 ) {
-        winddesc = "Gentle Breeze";
-    } else if( windpower < 18 ) {
-        winddesc = "Moderate Breeze";
-    } else if( windpower < 24 ) {
-        winddesc = "Fresh Breeze";
-    } else if( windpower < 31 ) {
-        winddesc = "Moderate Breeze";
-    } else if( windpower < 38 ) {
-        winddesc = "Moderate Gale";
-    } else if( windpower < 46 ) {
-        winddesc = "Gale";
-    } else if( windpower < 54 ) {
-        winddesc = "Strong Gale";
-    } else if( windpower < 63 ) {
-        winddesc = "Whole Gale";
-    } else if( windpower < 72 ) {
-        winddesc = "Violent Storm";
-    } else if( windpower > 72 ) {
-        winddesc =
-            "Hurricane";  //Anything above Whole Gale is very unlikely to happen and has no additional effects.
-    }
-    return winddesc;
-}
-
 int weather_generator::convert_winddir( const int inputdir ) const
 {
     //convert from discrete distribution output to angle
@@ -257,12 +219,12 @@ void weather_generator::test_weather() const
 {
     // Outputs a Cata year's worth of weather data to a CSV file.
     // Usage:
-    // TODO: this is wrong. weather_generator does not have such a constructor
-    // weather_generator WEATHERGEN(0); // Seeds the weather object.
+    // weather_generator WEATHERGEN; // Instantiate the class.
     // WEATHERGEN.test_weather(); // Runs this test.
     std::ofstream testfile;
     testfile.open( "weather.output", std::ofstream::trunc );
-    testfile << "turn;temperature(F);humidity(%);pressure(mB);weatherdesc;windspeed(mph);winddirection"
+    testfile <<
+             "|;year;season;day;hour;minute;temperature(F);humidity(%);pressure(mB);weatherdesc;windspeed(mph);winddirection"
              << std::endl;
 
     const time_point begin = calendar::turn;
@@ -271,8 +233,20 @@ void weather_generator::test_weather() const
         w_point w = get_weather( tripoint_zero, to_turn<int>( i ), 1000 );
         weather_type c =  get_weather_conditions( w );
         weather_datum wd = weather_data( c );
-        testfile << to_turn<int>( i ) << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure <<
-                 ";" << wd.name << ";" << w.windpower << ";" << w.winddirection << std::endl;
+
+        int year = to_turns<int>( i - calendar::time_of_cataclysm ) / to_turns<int>
+                   ( calendar::year_length() ) + 1;
+        const int hour = hour_of_day<int>( i );
+        const int minute = minute_of_hour<int>( i );
+        int day;
+        if( calendar::eternal_season() ) {
+            day = to_days<int>( time_past_new_year( i ) );
+        } else {
+            day = day_of_season<int>( i );
+        }
+        testfile << "|;" << year << ";" << season_of_year( i ) << ";" << day << ";" << hour << ";" << minute
+                 << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure << ";" << wd.name << ";" <<
+                 w.windpower << ";" << w.winddirection << std::endl;
     }
 }
 

@@ -1,8 +1,14 @@
 #include "lightmap.h" // IWYU pragma: associated
 #include "shadowcasting.h" // IWYU pragma: associated
 
+#include <stdint.h>
+#include <stdlib.h>
 #include <cmath>
 #include <cstring>
+#include <list>
+#include <memory>
+#include <utility>
+#include <vector>
 
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "game.h"
@@ -19,6 +25,16 @@
 #include "vpart_range.h"
 #include "vpart_reference.h"
 #include "weather.h"
+#include "calendar.h"
+#include "enums.h"
+#include "field.h"
+#include "item.h"
+#include "line.h"
+#include "optional.h"
+#include "player.h"
+#include "string_formatter.h"
+#include "tileray.h"
+#include "type_id.h"
 
 #define LIGHTMAP_CACHE_X MAPSIZE_X
 #define LIGHTMAP_CACHE_Y MAPSIZE_Y

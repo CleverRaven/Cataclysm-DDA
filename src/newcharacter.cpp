@@ -1,11 +1,16 @@
 #include "player.h" // IWYU pragma: associated
 
+#include <stdlib.h>
+#include <algorithm>
+#include <sstream>
+#include <vector>
+#include <iterator>
+#include <tuple>
+
 #include "addiction.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "crafting.h"
-#include "debug.h"
 #include "game.h"
 #include "input.h"
 #include "json.h"
@@ -27,15 +32,8 @@
 #include "translations.h"
 #include "ui.h"
 #include "worldfactory.h"
-
-#if !defined(_MSC_VER)
-#   include <unistd.h>
-#endif
-
-#include <algorithm>
-#include <cassert>
-#include <sstream>
-#include <vector>
+#include "recipe.h"
+#include "string_id.h"
 
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_STAT_ACT        c_white   // Selected stat

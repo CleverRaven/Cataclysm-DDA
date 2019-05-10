@@ -1,6 +1,12 @@
 #include "trap.h" // IWYU pragma: associated
 
+#include <algorithm>
+#include <memory>
+#include <unordered_map>
+#include <utility>
+
 #include "debug.h"
+#include "explosion.h"
 #include "event.h"
 #include "game.h"
 #include "map.h"
@@ -14,6 +20,15 @@
 #include "rng.h"
 #include "sounds.h"
 #include "translations.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "creature.h"
+#include "damage.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "item.h"
+#include "player.h"
+#include "int_id.h"
 
 const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_shadow( "mon_shadow" );
@@ -463,8 +478,6 @@ void trapfunc::snare_heavy( Creature *c, const tripoint &p )
             int damage;
             switch( z->type->size ) {
                 case MS_TINY:
-                    damage = 20;
-                    break;
                 case MS_SMALL:
                     damage = 20;
                     break;
@@ -492,7 +505,7 @@ void trapfunc::landmine( Creature *c, const tripoint &p )
         c->add_memorial_log( pgettext( "memorial_male", "Stepped on a land mine." ),
                              pgettext( "memorial_female", "Stepped on a land mine." ) );
     }
-    g->explosion( p, 18, 0.5, false, 8 );
+    explosion_handler::explosion( p, 18, 0.5, false, 8 );
     g->m.remove_trap( p );
 }
 
@@ -504,7 +517,7 @@ void trapfunc::boobytrap( Creature *c, const tripoint &p )
         c->add_memorial_log( pgettext( "memorial_male", "Triggered a booby trap." ),
                              pgettext( "memorial_female", "Triggered a booby trap." ) );
     }
-    g->explosion( p, 18, 0.6, false, 12 );
+    explosion_handler::explosion( p, 18, 0.6, false, 12 );
     g->m.remove_trap( p );
 }
 
@@ -1138,7 +1151,7 @@ void trapfunc::glow( Creature *c, const tripoint &p )
                 n->irradiate( rng( 10, 30 ) );
             } else if( one_in( 4 ) ) {
                 n->add_msg_if_player( m_bad, _( "A blinding flash strikes you!" ) );
-                g->flashbang( p );
+                explosion_handler::flashbang( p );
             } else {
                 c->add_msg_if_player( _( "Small flashes surround you." ) );
             }

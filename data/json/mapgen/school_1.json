@@ -134,7 +134,7 @@
         "r": [ "f_rack" ],
         "t": [ "f_table" ]
       },
-      "toilets": { "T": {} },
+      "toilets": { "T": {  } },
       "items": {
         "a": { "item": "fast_food", "chance": 95 },
         "d": { "item": "school", "chance": 50 },
@@ -145,7 +145,7 @@
         "o": { "item": "book_school", "chance": 100 },
         "r": { "item": "cannedfood", "chance": 95 }
       },
-      "place_items": [],
+      "place_items": [  ],
       "place_item": [ { "item": "american_flag", "x": 36, "y": 58, "amount": 1 } ],
       "place_monsters": [
         { "monster": "GROUP_SCHOOL", "x": [ 0, 23 ], "y": [ 0, 23 ], "repeat": [ 1, 1 ], "density": 2 },

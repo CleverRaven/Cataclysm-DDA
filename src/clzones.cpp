@@ -1,5 +1,12 @@
 #include "clzones.h"
 
+#include <stddef.h>
+#include <limits.h>
+#include <iosfwd>
+#include <iterator>
+#include <list>
+#include <tuple>
+
 #include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
@@ -15,6 +22,9 @@
 #include "ui.h"
 #include "vehicle.h"
 #include "vpart_reference.h"
+#include "item.h"
+#include "player.h"
+#include "vpart_position.h"
 
 zone_manager::zone_manager()
 {
@@ -24,6 +34,15 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "NO_NPC_PICKUP" ),
                    zone_type( translate_marker( "No NPC Pickup" ),
                               translate_marker( "Friendly NPCs don't pickup items inside the zone." ) ) );
+    types.emplace( zone_type_id( "NPC_RETREAT" ),
+                   zone_type( translate_marker( "NPC Retreat" ),
+                              translate_marker( "When fleeing, friendly NPCs will attempt to retreat toward this zone if it is within 60 tiles." ) ) );
+    types.emplace( zone_type_id( "NPC_NO_INVESTIGATE" ),
+                   zone_type( translate_marker( "NPC Ignore Sounds" ),
+                              translate_marker( "Friendly NPCs won't investigate unseen sounds coming from this zone." ) ) );
+    types.emplace( zone_type_id( "NPC_INVESTIGATE_ONLY" ),
+                   zone_type( translate_marker( "NPC Investigation Area" ),
+                              translate_marker( "Friendly NPCs will investigate unseen sounds only if they come from inside this area." ) ) );
     types.emplace( zone_type_id( "LOOT_UNSORTED" ),
                    zone_type( translate_marker( "Loot: Unsorted" ),
                               translate_marker( "Place to drop unsorted loot. You can use \"sort out loot\" zone-action to sort items inside. It can overlap with Loot zones of different types." ) ) );
@@ -356,6 +375,12 @@ bool zone_manager::has_type( const zone_type_id &type ) const
     return types.count( type ) > 0;
 }
 
+bool zone_manager::has_defined( const zone_type_id &type ) const
+{
+    const auto &type_iter = area_cache.find( type );
+    return type_iter != area_cache.end();
+}
+
 void zone_manager::cache_data()
 {
     area_cache.clear();
@@ -436,12 +461,12 @@ bool zone_manager::has( const zone_type_id &type, const tripoint &where ) const
     return point_set.find( where ) != point_set.end() || vzone_set.find( where ) != vzone_set.end();
 }
 
-bool zone_manager::has_near( const zone_type_id &type, const tripoint &where ) const
+bool zone_manager::has_near( const zone_type_id &type, const tripoint &where, int range ) const
 {
     const auto &point_set = get_point_set( type );
     for( auto &point : point_set ) {
         if( point.z == where.z ) {
-            if( square_dist( point, where ) <= MAX_DISTANCE ) {
+            if( square_dist( point, where ) <= range ) {
                 return true;
             }
         }
@@ -450,7 +475,7 @@ bool zone_manager::has_near( const zone_type_id &type, const tripoint &where ) c
     const auto &vzone_set = get_vzone_set( type );
     for( auto &point : vzone_set ) {
         if( point.z == where.z ) {
-            if( square_dist( point, where ) <= MAX_DISTANCE ) {
+            if( square_dist( point, where ) <= range ) {
                 return true;
             }
         }
@@ -476,14 +501,14 @@ bool zone_manager::has_loot_dest_near( const tripoint &where ) const
 }
 
 std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
-        const tripoint &where ) const
+        const tripoint &where, int range ) const
 {
     const auto &point_set = get_point_set( type );
     auto near_point_set = std::unordered_set<tripoint>();
 
     for( auto &point : point_set ) {
         if( point.z == where.z ) {
-            if( square_dist( point, where ) <= MAX_DISTANCE ) {
+            if( square_dist( point, where ) <= range ) {
                 near_point_set.insert( point );
             }
         }
@@ -492,13 +517,51 @@ std::unordered_set<tripoint> zone_manager::get_near( const zone_type_id &type,
     const auto &vzone_set = get_vzone_set( type );
     for( auto &point : vzone_set ) {
         if( point.z == where.z ) {
-            if( square_dist( point, where ) <= MAX_DISTANCE ) {
+            if( square_dist( point, where ) <= range ) {
                 near_point_set.insert( point );
             }
         }
     }
 
     return near_point_set;
+}
+
+cata::optional<tripoint> zone_manager::get_nearest( const zone_type_id &type, const tripoint &where,
+        int range ) const
+{
+    if( range < 0 ) {
+        return cata::nullopt;
+    }
+
+    tripoint nearest_pos = tripoint( INT_MIN, INT_MIN, INT_MIN );
+    int nearest_dist = range + 1;
+    const std::unordered_set<tripoint> &point_set = get_point_set( type );
+    for( const tripoint &p : point_set ) {
+        int cur_dist = square_dist( p, where );
+        if( cur_dist < nearest_dist ) {
+            nearest_dist = cur_dist;
+            nearest_pos = p;
+            if( nearest_dist == 0 ) {
+                return nearest_pos;
+            }
+        }
+    }
+
+    const std::unordered_set<tripoint> &vzone_set = get_vzone_set( type );
+    for( const tripoint &p : vzone_set ) {
+        int cur_dist = square_dist( p, where );
+        if( cur_dist < nearest_dist ) {
+            nearest_dist = cur_dist;
+            nearest_pos = p;
+            if( nearest_dist == 0 ) {
+                return nearest_pos;
+            }
+        }
+    }
+    if( nearest_dist > range ) {
+        return cata::nullopt;
+    }
+    return nearest_pos;
 }
 
 zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,

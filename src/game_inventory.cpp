@@ -1,6 +1,14 @@
 #include "game_inventory.h"
 
+#include <limits.h>
+#include <stddef.h>
 #include <functional>
+#include <bitset>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
 
 #include "game.h"
 #include "inventory_ui.h"
@@ -14,6 +22,27 @@
 #include "recipe_dictionary.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "calendar.h"
+#include "cata_utility.h"
+#include "color.h"
+#include "compatibility.h"
+#include "damage.h"
+#include "debug.h"
+#include "enums.h"
+#include "input.h"
+#include "inventory.h"
+#include "item_location.h"
+#include "iuse.h"
+#include "optional.h"
+#include "player_activity.h"
+#include "recipe.h"
+#include "requirements.h"
+#include "ret_val.h"
+#include "translations.h"
+#include "units.h"
+#include "type_id.h"
+
+class Character;
 
 typedef std::function<bool( const item & )> item_filter;
 typedef std::function<bool( const item_location & )> item_location_filter;
@@ -73,7 +102,13 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
     std::pair<size_t, size_t> init_pair;
     bool init_selection = false;
 
-    if( u.has_activity( activity_id( "ACT_EAT_MENU" ) ) && u.activity.values.size() >= 2 ) {
+    const std::vector<activity_id> consuming {
+        activity_id( "ACT_EAT_MENU" ),
+        activity_id( "ACT_CONSUME_FOOD_MENU" ),
+        activity_id( "ACT_CONSUME_DRINK_MENU" ),
+        activity_id( "ACT_CONSUME_MEDS_MENU" ) };
+
+    if( u.has_activity( consuming ) && u.activity.values.size() >= 2 ) {
         init_pair.first = u.activity.values[0];
         init_pair.second = u.activity.values[1];
         init_selection = true;
@@ -107,7 +142,7 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
             continue;
         }
 
-        if( u.has_activity( activity_id( "ACT_EAT_MENU" ) ) ) {
+        if( u.has_activity( consuming ) ) {
             u.activity.values.clear();
             init_pair = inv_s.get_selection_position();
             u.activity.values.push_back( init_pair.first );
@@ -597,9 +632,68 @@ class comestible_inventory_preset : public inventory_selector_preset
 
 item_location game_menus::inv::consume( player &p )
 {
+    if( !g->u.has_activity( activity_id( "ACT_EAT_MENU" ) ) ) {
+        g->u.assign_activity( activity_id( "ACT_EAT_MENU" ) );
+    }
+
     return inv_internal( p, comestible_inventory_preset( p ),
                          _( "Consume item" ), 1,
                          _( "You have nothing to consume." ) );
+}
+
+class comestible_filtered_inventory_preset : public comestible_inventory_preset
+{
+    public:
+        comestible_filtered_inventory_preset( const player &p, bool( *predicate )( const item &it ) ) :
+            comestible_inventory_preset( p ), predicate( predicate ) {}
+
+        bool is_shown( const item_location &loc ) const override {
+            return comestible_inventory_preset::is_shown( loc ) &&
+                   predicate( get_comestible_item( loc ) );
+        }
+
+    private:
+        bool( *predicate )( const item &it );
+};
+
+
+item_location game_menus::inv::consume_food( player &p )
+{
+    if( !g->u.has_activity( activity_id( "ACT_CONSUME_FOOD_MENU" ) ) ) {
+        g->u.assign_activity( activity_id( "ACT_CONSUME_FOOD_MENU" ) );
+    }
+
+    return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
+        return it.get_comestible()->comesttype == "FOOD" || it.has_flag( "USE_EAT_VERB" );
+    } ),
+    _( "Consume food" ), 1,
+    _( "You have no food to consume." ) );
+}
+
+item_location game_menus::inv::consume_drink( player &p )
+{
+    if( !g->u.has_activity( activity_id( "ACT_CONSUME_DRINK_MENU" ) ) ) {
+        g->u.assign_activity( activity_id( "ACT_CONSUME_DRINK_MENU" ) );
+    }
+
+    return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
+        return it.get_comestible()->comesttype == "DRINK" && !it.has_flag( "USE_EAT_VERB" );
+    } ),
+    _( "Consume drink" ), 1,
+    _( "You have no drink to consume." ) );
+}
+
+item_location game_menus::inv::consume_meds( player &p )
+{
+    if( !g->u.has_activity( activity_id( "ACT_CONSUME_MEDS_MENU" ) ) ) {
+        g->u.assign_activity( activity_id( "ACT_CONSUME_MEDS_MENU" ) );
+    }
+
+    return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
+        return it.get_comestible()->comesttype == "MED";
+    } ),
+    _( "Consume medication" ), 1,
+    _( "You have no medication to consume." ) );
 }
 
 class activatable_inventory_preset : public pickup_inventory_preset
@@ -759,11 +853,14 @@ class read_inventory_preset: public pickup_inventory_preset
                     return unknown;
                 }
                 const auto &book = get_book( loc );
-                if( book.skill && p.get_skill_level_object( book.skill ).can_train() ) {
-                    return string_format( _( "%s to %d" ), book.skill->name(), book.level );
+                if( book.skill ) {
+                    const SkillLevel &skill = p.get_skill_level_object( book.skill );
+                    if( skill.can_train() ) {
+                        return string_format( _( "%s to %d (%d)" ), book.skill->name(), book.level, skill.level() );
+                    }
                 }
                 return std::string();
-            }, _( "TRAINS" ), unknown );
+            }, _( "TRAINS (CURRENT)" ), unknown );
 
             append_cell( [ this ]( const item_location & loc ) -> std::string {
                 if( !is_known( loc ) ) {
