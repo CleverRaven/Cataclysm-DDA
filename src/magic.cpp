@@ -5,6 +5,7 @@
 #include "damage.h"
 #include "game.h"
 #include "generic_factory.h"
+#include "json.h"
 #include "line.h"
 #include "map.h"
 #include "mapdata.h"
@@ -620,6 +621,42 @@ known_magic::known_magic( player *p )
     mana_base = 1000;
     mana = mana_base;
     owner = p;
+}
+
+void known_magic::serialize( JsonOut &json ) const
+{
+    json.start_object();
+
+    json.member( "mana", mana );
+
+    json.member( "spellbook" );
+    json.start_array();
+    for( auto pair : spellbook ) {
+        json.start_object();
+        json.member( "id", pair.second.id() );
+        json.member( "xp", pair.second.xp() );
+        json.end_object();
+    }
+    json.end_array();
+
+    json.end_object();
+}
+
+void known_magic::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "mana", mana );
+
+    JsonArray parray = data.get_array( "spellbook" );
+    while( parray.has_more() ) {
+        JsonObject jo = parray.next_object();
+        std::string id;
+        jo.read( "id", id );
+        spell_id sp = spell_id( id );
+        int xp;
+        jo.read( "xp", xp );
+        spellbook.emplace( sp, spell( sp, owner, xp ) );
+    }
 }
 
 bool known_magic::knows_spell( const std::string &sp ) const
