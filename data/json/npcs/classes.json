@@ -140,6 +140,8 @@
       { "group": "BG_survival_story_RURAL" },
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },
+      [ "MARLOSS", 100 ],
+      [ "MARLOSS_BLUE", 40 ],
       [ "MYCUS_FRIEND", 100 ],
       [ "FLIMSY2", 100 ]
     ],
