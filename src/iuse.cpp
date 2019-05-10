@@ -4240,7 +4240,7 @@ int iuse::hand_crank( player *p, item *it, bool, const tripoint & )
                                       magazine->tname() ) ) ;
         }
     } else {
-        p->add_msg_if_player( m_info, _( "You need a rechargable battery cell to charge." ) );
+        p->add_msg_if_player( m_info, _( "You need a rechargeable battery cell to charge." ) );
     }
     return 0;
 }
