@@ -27,4 +27,19 @@
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ] ] ],
     "components": [ [ [ "308_casing", 1 ], [ "3006_casing", 1 ] ] ]
   }
+  {
+    "type": "recipe",
+    "result": "380_casing",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_COMPONENTS",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "skills_required": [ "gun", 3 ],
+    "time": 2100,
+    "batch_time_factors": [ 80, 5 ],
+    "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
+    "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
+    "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ] ] ],
+    "components": [ [ "223_casing", 1 ] ]
+  }
 ]
