@@ -49,7 +49,7 @@
     "responses": [
       { "text": "Alright.", "topic": "TALK_MARLOSS_VOICE" },
       {
-        "text": "Can I join you?.",
+        "text": "Can I join you?",
         "topic": "TALK_MARLOSS_VOICE_WITH_US",
         "condition": { "u_has_trait_flag": "mycus" }
       },
