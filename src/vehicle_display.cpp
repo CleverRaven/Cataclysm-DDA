@@ -132,9 +132,10 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
  * @param width The width of the window.
  * @param p The index of the part being examined.
  * @param hl The index of the part to highlight (if any).
+ * @param detail Whether or not to show detailed contents for fuel components.
  */
 int vehicle::print_part_list( const catacurses::window &win, int y1, const int max_y, int width,
-                              int p, int hl /*= -1*/ ) const
+                              int p, int hl /*= -1*/, bool detail ) const
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) ) {
         return y1;
@@ -153,13 +154,18 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
         std::string partname = vp.name();
 
         if( vp.is_fuel_store() && vp.ammo_current() != "null" ) {
-            if( vp.ammo_current() == "battery" ) {
-                partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining(), vp.ammo_capacity() );
+            if( detail ) {
+                if( vp.ammo_current() == "battery" ) {
+                    partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining(), vp.ammo_capacity() );
+                } else {
+                    const itype *pt_ammo_cur = item::find_type( vp.ammo_current() );
+                    auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
+                    partname += string_format( _( " (%.1fL %s)" ),
+                                               round_up( units::to_liter( vp.ammo_remaining() * stack ),
+                                                         1 ), item::nname( vp.ammo_current() ) );
+                }
             } else {
-                const itype *pt_ammo_cur = item::find_type( vp.ammo_current() );
-                auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
-                partname += string_format( _( " (%.1fL %s)" ), round_up( units::to_liter( vp.ammo_remaining() * stack ),
-                                           1 ), item::nname( vp.ammo_current() ) );
+                partname += string_format( " (%s)", item::nname( vp.ammo_current() ) );
             }
         }
 
