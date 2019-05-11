@@ -251,6 +251,8 @@ class calendar
 template<typename T>
 constexpr T to_turns( const time_duration &duration );
 template<typename T>
+constexpr T to_seconds( const time_duration &duration );
+template<typename T>
 constexpr T to_minutes( const time_duration &duration );
 template<typename T>
 constexpr T to_hours( const time_duration &duration );

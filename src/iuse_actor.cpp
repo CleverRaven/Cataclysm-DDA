@@ -962,15 +962,15 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     p.practice( skill_mechanics, 1 );
-    /** @EFFECT_DEX speeds up door lock picking */
 
+    /** @EFFECT_DEX speeds up door lock picking */
     /** @EFFECT_MECHANICS speeds up door lock picking */
-    p.moves -= std::max( 0, ( 1000 - ( pick_quality * 100 ) ) - ( p.dex_cur + p.get_skill_level(
-                             skill_mechanics ) ) * 5 );
-    /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
+    p.moves -= std::max( 0, to_turns<int>( 10_minutes - time_duration::from_minutes( pick_quality ) )
+                            - ( p.dex_cur + p.get_skill_level( skill_mechanics ) ) * 5 );
 
     bool destroy = false;
 
+    /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
     /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
     int pick_roll = ( dice( 2, p.get_skill_level( skill_mechanics ) ) + dice( 2,
                       p.dex_cur ) - it.damage_level( 4 ) / 2 ) * pick_quality;
@@ -1053,7 +1053,7 @@ int deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) con
     }
 
     g->m.furn_set( pnt, furn_type );
-    p.mod_moves( -200 );
+    p.mod_moves( to_turns<int>( 2_seconds ) );
     return 1;
 }
 
@@ -1832,7 +1832,7 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     int success = rng( 0, skills ) - rng( 0, difficulty );
 
     /** @EFFECT_FIRSTAID speeds up enzlavement */
-    const int moves = difficulty * 1200 / p.get_skill_level( skill_firstaid );
+    const int moves = difficulty * to_turns<int>( 12_seconds ) / p.get_skill_level( skill_firstaid );
 
     p.assign_activity( activity_id( "ACT_MAKE_ZLAVE" ), moves );
     p.activity.values.push_back( success );
