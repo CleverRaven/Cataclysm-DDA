@@ -598,7 +598,7 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "difficulty": 3,
-    "skills_required": [ "stabbing", 1 ],
+    "skills_required": [ "melee", 1 ],
     "time": 15000,
     "autolearn": true,
     "qualities": [ { "id": "SEW", "level": 1 } ],
