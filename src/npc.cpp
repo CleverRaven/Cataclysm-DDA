@@ -1217,9 +1217,11 @@ void npc::say( const std::string &line, const int priority ) const
     // Sound happens even if we can't hear it
     sounds::sound_t spriority = static_cast<sounds::sound_t>( priority );
     if( spriority == sounds::sound_t::order || spriority == sounds::sound_t::alert ) {
-        sounds::sound( pos(), get_shout_volume(), spriority, sound );
+        sounds::sound( pos(), get_shout_volume(), spriority, sound, false, "speech",
+                       male ? "NPC_m" : "NPC_f" );
     } else {
-        sounds::sound( pos(), 16, sounds::sound_t::speech, sound );
+        sounds::sound( pos(), 16, sounds::sound_t::speech, sound, false, "speech",
+                       male ? "NPC_m_loud" : "NPC_f_loud" );
     }
 }
 

@@ -406,7 +406,7 @@ long explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) con
     if( t ) {
         if( sound_volume >= 0 ) {
             sounds::sound( pos, sound_volume, sounds::sound_t::alarm,
-                           sound_msg.empty() ? _( "Tick." ) : _( sound_msg ) );
+                           sound_msg.empty() ? _( "Tick." ) : _( sound_msg ), true, "misc", "bomb_ticking" );
         }
         return 0;
     }
@@ -967,7 +967,8 @@ long pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
     }
     if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll ) {
-        sounds::sound( p.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ) );
+        sounds::sound( p.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
+                       "alarm" );
         if( !g->events.queued( EVENT_WANTED ) ) {
             g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
         }
@@ -1948,6 +1949,8 @@ void manualnoise_actor::load( JsonObject &obj )
     no_charges_message  = obj.get_string( "no_charges_message" );
     use_message         = obj.get_string( "use_message" );
     noise_message       = obj.get_string( "noise_message", "hsss" );
+    noise_id            = obj.get_string( "noise_id", "misc" );
+    noise_variant       = obj.get_string( "noise_variant", "default" );
     noise               = obj.get_int( "noise", 0 );
     moves               = obj.get_int( "moves", 0 );
 }
@@ -1970,7 +1973,7 @@ long manualnoise_actor::use( player &p, item &it, bool t, const tripoint & ) con
         p.moves -= moves;
         if( noise > 0 ) {
             sounds::sound( p.pos(), noise, sounds::sound_t::activity,
-                           noise_message.empty() ? _( "Hsss" ) : _( noise_message ) );
+                           noise_message.empty() ? _( "Hsss" ) : _( noise_message ), true, noise_id, noise_variant );
         }
         p.add_msg_if_player( _( use_message ) );
     }
@@ -2090,7 +2093,14 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
         }
     }
 
-    sounds::ambient_sound( p.pos(), volume, sounds::sound_t::music, desc );
+    if( morale_effect >= 0 ) {
+        sounds::sound( p.pos(), volume, sounds::sound_t::music, desc, true, "musical_instrument",
+                       it.typeId() );
+    } else {
+        sounds::sound( p.pos(), volume, sounds::sound_t::music, desc, true, "musical_instrument_bad",
+                       it.typeId() );
+    }
+
 
     if( !p.has_effect( effect_music ) && p.can_hear( p.pos(), volume ) ) {
         // Sound code doesn't describe noises at the player position
@@ -3907,7 +3917,7 @@ long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.mod_pain( m_category.iv_pain );
         /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
         sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, sounds::sound_t::alert,
-                       m_category.iv_sound_message() );
+                       m_category.iv_sound_message(), true, m_category.iv_sound_id(), m_category.iv_sound_variant() );
     }
 
     int mut_count = m_category.iv_min_mutations;

@@ -1557,6 +1557,8 @@ bool game::do_turn()
         sfx::remove_hearing_loss();
     }
     sfx::do_danger_music();
+    sfx::do_vehicle_engine_sfx();
+    sfx::do_vehicle_exterior_engine_sfx();
     sfx::do_fatigue();
 
     // reset player noise
@@ -9493,18 +9495,21 @@ bool game::walk_move( const tripoint &dest_loc )
             if( auto displayed_part = vp_there.part_displayed() ) {
                 add_msg( m_warning, _( "Moving onto this %s is slow!" ),
                          displayed_part->part().name() );
+                sfx::do_obstacle( displayed_part->part().info().get_id().str() );
             } else {
                 add_msg( m_warning, _( "Moving onto this %s is slow!" ), m.name( dest_loc ) );
+                sfx::do_obstacle( m.ter( dest_loc ).id().str() );
             }
         } else {
             if( auto displayed_part = vp_here.part_displayed() ) {
                 add_msg( m_warning, _( "Moving off of this %s is slow!" ),
                          displayed_part->part().name() );
+                sfx::do_obstacle( displayed_part->part().info().get_id().str() );
             } else {
                 add_msg( m_warning, _( "Moving off of this %s is slow!" ), m.name( u.pos() ) );
+                sfx::do_obstacle( m.ter( u.pos() ).id().str() );
             }
         }
-        sfx::play_variant_sound( "plmove", "clear_obstacle", sfx::get_heard_volume( u.pos() ) );
     }
 
     if( u.has_trait( trait_id( "LEG_TENT_BRACE" ) ) && ( !u.footwear_factor() ||
@@ -9542,7 +9547,8 @@ bool game::walk_move( const tripoint &dest_loc )
         }
 
         if( one_in( 20 ) && u.has_artifact_with( AEP_MOVEMENT_NOISE ) ) {
-            sounds::sound( u.pos(), 40, sounds::sound_t::movement, _( "a rattling sound." ) );
+            sounds::sound( u.pos(), 40, sounds::sound_t::movement, _( "a rattling sound." ), true,
+                           "misc", "rattling" );
         }
     }
 
@@ -10044,7 +10050,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
         }
     }
     sounds::sound( fdest, furntype.move_str_req * 2, sounds::sound_t::movement,
-                   _( "a scraping noise." ) );
+                   _( "a scraping noise." ), true, "misc", "scraping" );
 
     // Actually move the furniture.
     m.furn_set( fdest, m.furn( fpos ) );
@@ -11157,7 +11163,7 @@ void game::update_stair_monsters()
             add_msg( m_warning, dump.str() );
         } else {
             sounds::sound( dest, 5, sounds::sound_t::movement,
-                           _( "a sound nearby from the stairs!" ) );
+                           _( "a sound nearby from the stairs!" ), true, "misc", "stairs_movement" );
         }
 
         if( critter.staircount > 0 ) {

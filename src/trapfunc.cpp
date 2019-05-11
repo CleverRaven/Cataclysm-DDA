@@ -82,7 +82,7 @@ void trapfunc::bubble( Creature *c, const tripoint &p )
         c->add_memorial_log( pgettext( "memorial_male", "Stepped on bubble wrap." ),
                              pgettext( "memorial_female", "Stepped on bubble wrap." ) );
     }
-    sounds::sound( p, 18, sounds::sound_t::alarm, _( "Pop!" ) );
+    sounds::sound( p, 18, sounds::sound_t::alarm, _( "Pop!" ), false, "trap", "bubble_wrap" );
     g->m.remove_trap( p );
 }
 
@@ -102,7 +102,7 @@ void trapfunc::beartrap( Creature *c, const tripoint &p )
     if( c != nullptr && c->get_size() == MS_TINY ) {
         return;
     }
-    sounds::sound( p, 8, sounds::sound_t::combat, _( "SNAP!" ) );
+    sounds::sound( p, 8, sounds::sound_t::combat, _( "SNAP!" ), false, "trap", "bear_trap" );
     g->m.remove_trap( p );
     if( c != nullptr ) {
         // What got hit?
@@ -325,7 +325,8 @@ void trapfunc::crossbow( Creature *c, const tripoint &p )
 
 void trapfunc::shotgun( Creature *c, const tripoint &p )
 {
-    sounds::sound( p, 60, sounds::sound_t::combat, _( "Kerblam!" ) );
+    sounds::sound( p, 60, sounds::sound_t::combat, _( "Kerblam!" ), false, "fire_gun",
+                   g->m.tr_at( p ).loadid == tr_shotgun_1 ? "shotgun_s" : "shotgun_d" );
     int shots = 1;
     if( c != nullptr ) {
         c->add_msg_player_or_npc( m_neutral, _( "You trigger a shotgun trap!" ),
@@ -432,7 +433,7 @@ void trapfunc::blade( Creature *c, const tripoint & )
 
 void trapfunc::snare_light( Creature *c, const tripoint &p )
 {
-    sounds::sound( p, 2, sounds::sound_t::combat, _( "Snap!" ) );
+    sounds::sound( p, 2, sounds::sound_t::combat, _( "Snap!" ), false, "trap", "snare" );
     g->m.remove_trap( p );
     if( c != nullptr ) {
         // Determine what gets hit
@@ -455,7 +456,7 @@ void trapfunc::snare_light( Creature *c, const tripoint &p )
 
 void trapfunc::snare_heavy( Creature *c, const tripoint &p )
 {
-    sounds::sound( p, 4, sounds::sound_t::combat, _( "Snap!" ) );
+    sounds::sound( p, 4, sounds::sound_t::combat, _( "Snap!" ), false, "trap", "snare" );
     g->m.remove_trap( p );
     if( c != nullptr ) {
         // Determine what got hit
@@ -524,7 +525,7 @@ void trapfunc::boobytrap( Creature *c, const tripoint &p )
 void trapfunc::telepad( Creature *c, const tripoint &p )
 {
     //~ the sound of a telepad functioning
-    sounds::sound( p, 6, sounds::sound_t::movement, _( "vvrrrRRMM*POP!*" ) );
+    sounds::sound( p, 6, sounds::sound_t::movement, _( "vvrrrRRMM*POP!*" ), false, "trap", "teleport" );
     if( c != nullptr ) {
         monster *z = dynamic_cast<monster *>( c );
         // TODO: NPC don't teleport?
@@ -608,14 +609,15 @@ void trapfunc::dissector( Creature *c, const tripoint &p )
     if( z != nullptr && z->type->in_species( ROBOT ) ) {
         //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
         sounds::sound( p, 4, sounds::sound_t::speech,
-                       _( "BEEPBOOP! Please remove non-organic object." ) ); //Dissector error sound.
+                       _( "BEEPBOOP! Please remove non-organic object." ), false, "speech",
+                       "robot" ); //Dissector error sound.
         c->add_msg_player_or_npc( m_bad, _( "The dissector lights up, and shuts down." ),
                                   _( "The dissector lights up, and shuts down." ) );
         return;
     }
 
     //~ the sound of a dissector dissecting
-    sounds::sound( p, 10, sounds::sound_t::combat, _( "BRZZZAP!" ) );
+    sounds::sound( p, 10, sounds::sound_t::combat, _( "BRZZZAP!" ), false, "trap", "dissector" );
     c->add_msg_player_or_npc( m_bad, _( "Electrical beams emit from the floor and slice your flesh!" ),
                               _( "Electrical beams emit from the floor and slice <npcname>s flesh!" ) );
     c->add_memorial_log( pgettext( "memorial_male", "Stepped into a dissector." ),
@@ -1180,7 +1182,7 @@ void trapfunc::hum( Creature * /*c*/, const tripoint &p )
         //~ a very loud humming sound
         sfx = _( "VRMMMMMM" );
     }
-    sounds::sound( p, volume, sounds::sound_t::activity, sfx );
+    sounds::sound( p, volume, sounds::sound_t::activity, sfx, false, "humming", "machinery" );
 }
 
 void trapfunc::shadow( Creature *c, const tripoint &p )
@@ -1233,7 +1235,7 @@ void trapfunc::drain( Creature *c, const tripoint & )
 void trapfunc::snake( Creature *c, const tripoint &p )
 {
     //~ the sound a snake makes
-    sounds::sound( p, 10, sounds::sound_t::movement, _( "ssssssss" ) );
+    sounds::sound( p, 10, sounds::sound_t::movement, _( "ssssssss" ), "misc", "snake_hiss" );
     if( one_in( 6 ) ) {
         g->m.remove_trap( p );
     }
