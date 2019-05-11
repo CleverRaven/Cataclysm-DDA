@@ -558,7 +558,7 @@ void flashbang( const tripoint &p, bool player_immune )
             }
         }
     }
-    sounds::sound( p, 12, sounds::sound_t::combat, _( "a huge boom!" ) );
+    sounds::sound( p, 12, sounds::sound_t::combat, _( "a huge boom!" ), false, "misc", "flashbang" );
     // TODO: Blind/deafen NPC
 }
 
@@ -567,7 +567,8 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
 {
     draw_explosion( p, radius, c_blue );
 
-    sounds::sound( p, force * force * dam_mult / 2, sounds::sound_t::combat, _( "Crack!" ) );
+    sounds::sound( p, force * force * dam_mult / 2, sounds::sound_t::combat, _( "Crack!" ), false,
+                   "misc", "shockwave" );
 
     for( monster &critter : g->all_monsters() ) {
         if( rl_dist( critter.pos(), p ) <= radius ) {
