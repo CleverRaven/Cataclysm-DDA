@@ -55,8 +55,9 @@ void activity_type::load( JsonObject &jo )
     assign( jo, "no_resume", result.no_resume_, true );
     assign( jo, "refuel_fires", result.refuel_fires, false );
 
-    result.activity_level = activity_levels.count( jo.get_string( "activity_level" ) ) > 0 ?
-                            activity_levels.find( jo.get_string( "activity_level" ) )->second : NO_EXERCISE;
+    result.activity_level = activity_levels.count( jo.get_string( "activity_level",
+                            "LIGHT_EXERCISE" ) ) > 0 ?
+                            activity_levels.find( jo.get_string( "activity_level", "LIGHT_EXERCISE" ) )->second : NO_EXERCISE;
 
     result.based_on_ = io::string_to_enum_look_up( based_on_type_values, jo.get_string( "based_on" ) );
 
