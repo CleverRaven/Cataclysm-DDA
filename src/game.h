@@ -802,7 +802,6 @@ class game
                                int last_line );
         void print_graffiti_info( const tripoint &lp, const catacurses::window &w_look, int column,
                                   int &line, int last_line );
-        void get_lookaround_dimensions( int &lookWidth, int &begin_y, int &begin_x ) const;
 
         input_context get_player_input( std::string &action );
 

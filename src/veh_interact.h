@@ -167,9 +167,6 @@ class veh_interact
 
         void count_durability();
 
-        /** Show durability symbol/name as prefix */
-        std::string name_with_durability() const;
-
         std::string total_durability_text;
         nc_color total_durability_color;
 
