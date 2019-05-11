@@ -133,7 +133,9 @@
           "light_minus_battery_cell",
           "light_plus_battery_cell",
           "light_minus_atomic_battery_cell",
-          "light_atomic_battery_cell"
+          "light_atomic_battery_cell",
+		  "light_minus_disposable_cell",
+		  "light_disposable_cell"
         ]
       ]
     ]
@@ -148,19 +150,7 @@
     "turns_per_charge": 20,
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "The %s flicks off.", "target": "afs_hev_helmet" },
     "flags": [ "LIGHT_500", "WATERPROOF", "FLASH_PROTECTION", "ONLY_ONE", "STURDY" ],
-    "looks_like": "depowered_helmet",
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_atomic_battery_cell"
-        ]
-      ]
-    ]
+    "looks_like": "depowered_helmet"
   },
   {
     "id": "afs_quilt",

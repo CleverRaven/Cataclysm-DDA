@@ -24,7 +24,7 @@
       "need_charges_msg": "The lantern has no batteries."
     },
     "flags": [ "RADIO_MODABLE", "ALLOWS_REMOTE_USE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ] ] ]
   },
   {
     "id": "electric_lantern_on",
@@ -67,7 +67,9 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+		  "light_minus_disposable_cell",
+		  "light_disposable_cell"
         ]
       ]
     ]
@@ -149,7 +151,9 @@
           "light_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+		  "light_minus_disposable_cell",
+		  "light_disposable_cell"
         ]
       ]
     ]
