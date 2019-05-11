@@ -515,26 +515,8 @@ void game::init_ui( const bool resized )
     //Otherwise it segfaults when the overmap needs a bigger buffer size than it provides
     reinitialize_framebuffer();
 
-    // minimapX x minimapY is always MINIMAP_WIDTH x MINIMAP_HEIGHT in size
-    int minimapX = 0;
-    int minimapY = 0;
-    int pixelminimapW = 0;
-    int pixelminimapH = 0;
-    bool pixel_minimap_custom_height = false;
-
-#if defined(TILES)
-    pixel_minimap_custom_height = get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) > 0;
-#endif // TILES
-
-    minimapX = 0;
-    minimapY = 0;
-    pixelminimapW = MINIMAP_WIDTH;
-
-    int _y = VIEW_OFFSET_Y;
-    int _x = VIEW_OFFSET_X;
-
     w_minimap = w_minimap_ptr =
-                    catacurses::newwin( MINIMAP_HEIGHT, MINIMAP_WIDTH, _y + minimapY, _x + minimapX );
+                    catacurses::newwin( MINIMAP_HEIGHT, MINIMAP_WIDTH, VIEW_OFFSET_Y, VIEW_OFFSET_X );
     werase( w_minimap );
 
     w_panel_adm = w_panel_adm_ptr = catacurses::newwin( 15, 65, ( TERMY / 2 ) - 8, ( TERMX / 2 ) - 33 );
