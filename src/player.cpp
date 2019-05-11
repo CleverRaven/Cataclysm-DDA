@@ -8676,23 +8676,10 @@ if ( !it.is_gun() ) {
         default:
             break;
     }
-    } else if ( it.is_gun ) {
-      switch( it.gunmod_find() ) {
-        case shoulder_strap:
-            mv /= 2.0;
-            break;
-
-        case shoulder_strap_single:
-            mv *= 0.8;
-            break;
-
-        case shoulder_strap_three:
-            mv /= 1.6;
-            break;
-        default:
-            break;
-    } }
-
+    } else if( it.is_gun() ) {  // single points fast, 3points slow
+      if( it.gunmod_find( "shoulder_strap_single" ) ) { mv *= 0.01; }
+      if( it.gunmod_find( "shoulder_strap_three" ) ) { mv *= 3; }
+    }
     mv *= std::max( it.get_encumber( *this ) / 10.0, 1.0 );
 
     return mv;
@@ -8943,7 +8930,12 @@ bool player::takeoff( const item &it, std::list<item> *res )
                            _( "<npcname> takes off their %s." ),
                            it.tname() );
 
-    mod_moves( -250 );    // TODO: Make this variable
+    double rmv = item_handling_cost( it );
+    if( it.is_gun() ) {
+                             if( it.gunmod_find( "shoulder_strap_single" ) ) { rmv *= 0.01 * ( std::max( it.get_encumber( *this ) / 10.0, 1.0 ) );
+                             } else if( it.gunmod_find( "shoulder_strap_three" ) ) { rmv *= 3 * ( std::max( encumb( bp_torso )/20, 1 )); }
+      } else { rmv = -250; } // TODO: Make this variable
+    mod_moves( -rmv );
     worn.erase( iter );
 
     recalc_sight_limits();
