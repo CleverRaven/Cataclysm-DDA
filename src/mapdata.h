@@ -2,7 +2,7 @@
 #ifndef MAPDATA_H
 #define MAPDATA_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <array>
 #include <bitset>
 #include <set>

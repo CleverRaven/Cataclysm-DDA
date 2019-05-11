@@ -1,7 +1,7 @@
 #include "explosion.h" // IWYU pragma: associated
 #include "fragment_cloud.h" // IWYU pragma: associated
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <queue>
 #include <random>

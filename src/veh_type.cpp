@@ -1,7 +1,7 @@
 #include "veh_type.h"
 
-#include <assert.h>
-#include <stddef.h>
+#include <cassert>
+#include <cstddef>
 #include <numeric>
 #include <sstream>
 #include <unordered_map>

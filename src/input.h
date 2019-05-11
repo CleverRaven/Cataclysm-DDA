@@ -2,7 +2,7 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <functional>
 #include <map>
 #include <string>

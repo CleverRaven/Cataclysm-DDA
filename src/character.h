@@ -2,7 +2,7 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <bitset>
 #include <map>
 #include <unordered_map>

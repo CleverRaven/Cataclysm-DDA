@@ -1,7 +1,7 @@
 #include "player.h" // IWYU pragma: associated
 
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 
 #include "effect.h"
 #include "fungal_effects.h"

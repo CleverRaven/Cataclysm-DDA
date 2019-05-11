@@ -2,8 +2,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <limits.h>
-#include <stddef.h>
+#include <climits>
+#include <cstddef>
 #include <array>
 #include <memory>
 #include <unordered_set>

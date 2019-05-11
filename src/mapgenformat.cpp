@@ -1,6 +1,6 @@
 #include "mapgenformat.h"
 
-#include <ctype.h>
+#include <cctype>
 #include <algorithm>
 #include <string>
 

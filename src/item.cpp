@@ -1,8 +1,8 @@
 #include "item.h"
 
-#include <ctype.h>
-#include <stdint.h>
-#include <stdlib.h>
+#include <cctype>
+#include <cstdint>
+#include <cstdlib>
 #include <algorithm>
 #include <array>
 #include <cassert>

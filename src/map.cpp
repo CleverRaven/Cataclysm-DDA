@@ -1,6 +1,6 @@
 #include "map.h"
 
-#include <limits.h>
+#include <climits>
 #include <algorithm>
 #include <cassert>
 #include <cmath>

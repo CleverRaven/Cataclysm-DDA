@@ -2,7 +2,7 @@
 #ifndef MAPGENFORMAT_H
 #define MAPGENFORMAT_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <string>
 #include <vector>
 #include <utility>

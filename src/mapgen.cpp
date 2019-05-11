@@ -1,6 +1,6 @@
 #include "mapgen.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <list>
 #include <random>

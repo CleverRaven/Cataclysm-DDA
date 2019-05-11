@@ -2,7 +2,7 @@
 #ifndef OVERMAP_H
 #define OVERMAP_H
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <array>
 #include <climits>

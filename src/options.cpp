@@ -1,6 +1,6 @@
 #include "options.h"
 
-#include <limits.h>
+#include <climits>
 
 #include "cata_utility.h"
 #include "catacharset.h"

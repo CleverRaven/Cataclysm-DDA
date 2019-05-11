@@ -1,6 +1,6 @@
 #include "mondeath.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <cmath>
 #include <vector>

@@ -1,7 +1,7 @@
 #include "game_inventory.h"
 
-#include <limits.h>
-#include <stddef.h>
+#include <climits>
+#include <cstddef>
 #include <functional>
 #include <bitset>
 #include <map>

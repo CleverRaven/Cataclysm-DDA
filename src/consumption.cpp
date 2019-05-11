@@ -1,6 +1,6 @@
 #include "player.h" // IWYU pragma: associated
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <string>
 #include <limits>

@@ -2,8 +2,8 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
-#include <limits.h>
-#include <stddef.h>
+#include <climits>
+#include <cstddef>
 #include <bitset>
 #include <functional>
 #include <map>

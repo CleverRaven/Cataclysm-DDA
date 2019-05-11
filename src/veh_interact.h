@@ -2,7 +2,7 @@
 #ifndef VEH_INTERACT_H
 #define VEH_INTERACT_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <sstream>
 #include <vector>

@@ -1,6 +1,6 @@
 #include "crafting_gui.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <map>
 #include <string>

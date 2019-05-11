@@ -2,8 +2,8 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
-#include <limits.h>
-#include <stddef.h>
+#include <climits>
+#include <cstddef>
 #include <array>
 #include <list>
 #include <map>

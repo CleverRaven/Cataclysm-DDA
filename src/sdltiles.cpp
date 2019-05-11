@@ -2,7 +2,7 @@
 
 #include "cursesdef.h" // IWYU pragma: associated
 
-#include <limits.h>
+#include <climits>
 #include <algorithm>
 #include <cassert>
 #include <cstring>

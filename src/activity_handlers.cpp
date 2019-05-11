@@ -1,7 +1,7 @@
 #include "activity_handlers.h"
 
-#include <limits.h>
-#include <stddef.h>
+#include <climits>
+#include <cstddef>
 #include <algorithm>
 #include <cmath>
 #include <queue>

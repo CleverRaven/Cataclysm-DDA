@@ -2,9 +2,9 @@
 #ifndef OMDATA_H
 #define OMDATA_H
 
-#include <limits.h>
-#include <stddef.h>
-#include <stdint.h>
+#include <climits>
+#include <cstddef>
+#include <cstdint>
 #include <bitset>
 #include <list>
 #include <set>

@@ -1,7 +1,7 @@
 #include "ballistics.h"
 
-#include <math.h>
-#include <stddef.h>
+#include <cmath>
+#include <cstddef>
 #include <algorithm>
 #include <list>
 #include <memory>

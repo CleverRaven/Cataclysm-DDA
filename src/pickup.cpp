@@ -1,7 +1,7 @@
 #include "pickup.h"
 
-#include <limits.h>
-#include <stddef.h>
+#include <climits>
+#include <cstddef>
 #include <map>
 #include <string>
 #include <vector>

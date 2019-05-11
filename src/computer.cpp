@@ -1,8 +1,8 @@
 #include "computer.h"
 
-#include <limits.h>
-#include <stdlib.h>
-#include <math.h>
+#include <climits>
+#include <cstdlib>
+#include <cmath>
 #include <algorithm>
 #include <sstream>
 #include <string>

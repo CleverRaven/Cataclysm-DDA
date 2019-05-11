@@ -2,7 +2,7 @@
 #ifndef BASECAMP_H
 #define BASECAMP_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <memory>
 #include <vector>
 #include <map>

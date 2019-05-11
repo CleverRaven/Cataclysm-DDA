@@ -1,6 +1,6 @@
 #include "npc_class.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <list>
 #include <algorithm>
 #include <array>

@@ -1,8 +1,8 @@
 #include "output.h"
 
-#include <ctype.h>
+#include <cctype>
 #include <errno.h>
-#include <stdio.h>
+#include <cstdio>
 #include <algorithm>
 #include <cstdarg>
 #include <cstdlib>

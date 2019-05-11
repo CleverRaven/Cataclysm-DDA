@@ -1,6 +1,6 @@
 #include "melee.h"
 
-#include <limits.h>
+#include <climits>
 #include <algorithm>
 #include <cstdlib>
 #include <sstream>

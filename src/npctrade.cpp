@@ -1,6 +1,6 @@
 #include "npctrade.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <string>
 #include <vector>

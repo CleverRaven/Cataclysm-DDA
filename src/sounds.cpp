@@ -1,6 +1,6 @@
 #include "sounds.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <chrono>
 #include <cmath>

@@ -2,8 +2,8 @@
 #ifndef SUBMAP_H
 #define SUBMAP_H
 
-#include <stddef.h>
-#include <stdint.h>
+#include <cstddef>
+#include <cstdint>
 #include <list>
 #include <memory>
 #include <vector>

@@ -1,6 +1,6 @@
 #include "player.h"
 
-#include <ctype.h>
+#include <cctype>
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>

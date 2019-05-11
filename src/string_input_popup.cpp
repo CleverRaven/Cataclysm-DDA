@@ -1,6 +1,6 @@
 #include "string_input_popup.h"
 
-#include <ctype.h>
+#include <cctype>
 
 #include "catacharset.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers

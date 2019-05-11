@@ -1,7 +1,7 @@
 #include "iuse_actor.h"
 
-#include <ctype.h>
-#include <stddef.h>
+#include <cctype>
+#include <cstddef>
 #include <algorithm>
 #include <sstream>
 #include <array>

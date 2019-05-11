@@ -1,7 +1,7 @@
 #include "field.h"
 
-#include <math.h>
-#include <stddef.h>
+#include <cmath>
+#include <cstddef>
 #include <algorithm>
 #include <queue>
 #include <tuple>

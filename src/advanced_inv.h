@@ -2,8 +2,8 @@
 #ifndef ADVANCED_INV_H
 #define ADVANCED_INV_H
 
-#include <ctype.h>
-#include <stddef.h>
+#include <cctype>
+#include <cstddef>
 #include <array>
 #include <functional>
 #include <list>

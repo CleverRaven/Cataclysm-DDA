@@ -1,7 +1,7 @@
 #include "iexamine.h"
 
-#include <limits.h>
-#include <math.h>
+#include <climits>
+#include <cmath>
 #include <algorithm>
 #include <cstdlib>
 #include <sstream>

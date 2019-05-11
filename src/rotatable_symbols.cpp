@@ -1,6 +1,6 @@
 #include "rotatable_symbols.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <array>
 #include <vector>
 #include <algorithm>

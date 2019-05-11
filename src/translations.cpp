@@ -1,6 +1,6 @@
 #include "translations.h"
 
-#include <locale.h>
+#include <clocale>
 
 #if defined(LOCALIZE) && defined(__STRICT_ANSI__)
 #undef __STRICT_ANSI__ // _putenv in minGW need that

@@ -1,7 +1,7 @@
 #include "npc.h" // IWYU pragma: associated
 
-#include <limits.h>
-#include <stdlib.h>
+#include <climits>
+#include <cstdlib>
 #include <algorithm>
 #include <memory>
 #include <numeric>

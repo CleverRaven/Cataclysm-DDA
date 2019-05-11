@@ -1,6 +1,6 @@
 #include "requirements.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <limits>
 #include <sstream>

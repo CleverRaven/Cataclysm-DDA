@@ -2,7 +2,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <limits.h>
+#include <climits>
 #include <array>
 #include <list>
 #include <map>

@@ -2,7 +2,7 @@
 #ifndef CATA_TILES_H
 #define CATA_TILES_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <memory>
 #include <map>
 #include <set>

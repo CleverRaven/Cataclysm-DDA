@@ -4,9 +4,9 @@
  * Who knows
  */
 #include <sys/stat.h>
-#include <dirent.h>
-#include <locale.h>
-#include <stdio.h>
+#include <cdirent>
+#include <clocale>
+#include <cstdio>
 #include <cstring>  // for strcmp
 #include <stack>    // for stack (obviously)
 #include <string>

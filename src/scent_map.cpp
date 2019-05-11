@@ -1,6 +1,6 @@
 #include "scent_map.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <cassert>
 #include <algorithm>
 

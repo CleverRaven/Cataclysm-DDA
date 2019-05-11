@@ -1,7 +1,7 @@
 #include "creature.h"
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 #include <algorithm>
 #include <map>
 #include <array>

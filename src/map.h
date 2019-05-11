@@ -2,8 +2,8 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include <stddef.h>
-#include <stdint.h>
+#include <cstddef>
+#include <cstdint>
 #include <array>
 #include <bitset>
 #include <list>

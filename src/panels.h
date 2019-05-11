@@ -2,7 +2,7 @@
 #ifndef PANELS_H
 #define PANELS_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <functional>
 #include <map>
 #include <string>

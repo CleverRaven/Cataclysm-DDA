@@ -1,8 +1,8 @@
 #include "bionics.h"
 
-#include <limits.h>
-#include <math.h>
-#include <stdlib.h>
+#include <climits>
+#include <cmath>
+#include <cstdlib>
 #include <algorithm> //std::min
 #include <sstream>
 #include <array>

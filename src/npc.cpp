@@ -1,8 +1,8 @@
 #include "npc.h"
 
-#include <limits.h>
-#include <math.h>
-#include <stdlib.h>
+#include <climits>
+#include <cmath>
+#include <cstdlib>
 #include <algorithm>
 #include <functional>
 #include <limits>

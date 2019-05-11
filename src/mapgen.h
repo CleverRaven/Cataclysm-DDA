@@ -2,7 +2,7 @@
 #ifndef MAPGEN_H
 #define MAPGEN_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <memory>
 #include <string>

@@ -1,8 +1,8 @@
 #if defined(TILES)
 #include "cata_tiles.h"
 
-#include <math.h>
-#include <stdint.h>
+#include <cmath>
+#include <cstdint>
 #include <algorithm>
 #include <array>
 #include <cassert>

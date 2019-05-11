@@ -1,6 +1,6 @@
 #include "morale_types.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <set>
 #include <vector>
 

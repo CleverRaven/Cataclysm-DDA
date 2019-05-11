@@ -1,6 +1,6 @@
 #include "worldfactory.h"
 
-#include <stdio.h>
+#include <cstdio>
 #include <algorithm>
 #include <array>
 #include <cstdlib>

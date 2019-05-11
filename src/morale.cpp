@@ -1,6 +1,6 @@
 #include "morale.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <set>
 #include <cmath>

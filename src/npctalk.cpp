@@ -1,8 +1,8 @@
 #include "dialogue.h" // IWYU pragma: associated
 
-#include <limits.h>
-#include <math.h>
-#include <stddef.h>
+#include <climits>
+#include <cmath>
+#include <cstddef>
 #include <algorithm>
 #include <sstream>
 #include <string>

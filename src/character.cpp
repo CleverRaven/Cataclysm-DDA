@@ -1,7 +1,7 @@
 #include "character.h"
 
-#include <limits.h>
-#include <stdlib.h>
+#include <climits>
+#include <cstdlib>
 #include <algorithm>
 #include <numeric>
 #include <sstream>

@@ -1,7 +1,7 @@
 #include "map_extras.h"
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 #include <array>
 #include <list>
 #include <memory>

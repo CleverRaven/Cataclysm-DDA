@@ -1,6 +1,6 @@
 #include "game.h"
 
-#include <stdio.h>
+#include <cstdio>
 #include <wctype.h>
 #include <algorithm>
 #include <chrono>

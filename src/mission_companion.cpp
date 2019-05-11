@@ -1,7 +1,7 @@
 #include "mission_companion.h"
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 #include <algorithm>
 #include <cassert>
 #include <vector>

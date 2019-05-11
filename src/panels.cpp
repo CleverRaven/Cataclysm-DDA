@@ -1,6 +1,6 @@
 #include "panels.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <cmath>
 #include <string>
 #include <array>
