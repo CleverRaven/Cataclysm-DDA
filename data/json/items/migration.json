@@ -545,5 +545,11 @@
     "id": "battery_compartment",
     "type": "MIGRATION",
     "replace": "magazine_battery_heavy_mod"
+  },
+  {
+    "id": "dry_mushroom_magic",
+    "type": "MIGRATION",
+    "replace": "dry_mushroom",
+    "flags": [ "HIDDEN_HALLU" ]
   }
 ]

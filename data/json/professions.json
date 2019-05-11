@@ -1473,7 +1473,7 @@
   {
     "type": "profession",
     "ident": "broken_cyborg",
-    "name": "Broken Cyborg",
+    "name": "Prototype Cyborg",
     "description": "You were normal once.  Before the tests, before the procedures, before they stripped away every outward sign of your humanity.  You're more machine than man now, but that might prove an advantage against the horrors that await.",
     "points": -2,
     "CBMs": [

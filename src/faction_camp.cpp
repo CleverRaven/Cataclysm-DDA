@@ -1101,7 +1101,6 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             comp_list npc_list = get_mission_workers( "_faction_exp_plant_" + dir );
             const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_exp_plant_" ];
             if( npc_list.empty() ) {
-                std::string title_e = dir + " Plant Fields";
                 entry = _( "Notes:\n"
                            "Plant designated seeds in the spaces that have already been "
                            "tilled.\n \n" ) +
@@ -1130,7 +1129,6 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             comp_list npc_list = get_mission_workers( "_faction_exp_harvest_" + dir );
             const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_exp_harvest_" ];
             if( npc_list.empty() ) {
-                std::string title_e = dir + " Harvest Fields";
                 entry = _( "Notes:\n"
                            "Harvest any plants that are ripe and bring the produce back.\n \n" ) +
                         farm_description( omt_trg, plots, farm_ops::harvest ) +
@@ -1711,10 +1709,10 @@ void basecamp::start_fortifications( std::string &bldg_exp, bool by_radio )
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
             consume_components( total_inv, making, fortify_om.size() * 2 - 2, by_radio );
-        }
-        comp->companion_mission_role_id = bldg_exp;
-        for( auto pt : fortify_om ) {
-            comp->companion_mission_points.push_back( pt );
+            comp->companion_mission_role_id = bldg_exp;
+            for( auto pt : fortify_om ) {
+                comp->companion_mission_points.push_back( pt );
+            }
         }
     }
 }
@@ -2096,7 +2094,6 @@ bool basecamp::upgrade_return( const std::string &dir, const std::string &miss )
     }
     const tripoint upos = e->second.pos;
 
-
     const std::string bldg = next_upgrade( dir, 1 );
     if( bldg == "null" ) {
         return false;
@@ -2337,14 +2334,15 @@ void basecamp::recruit_return( const std::string &task, int score )
             break;
         }
     }
-    //Roll for recruitment
+    // Roll for recruitment
     if( rng( 1, 20 ) + appeal >= 10 ) {
         popup( _( "%s has been convinced to join!" ), recruit->name );
     } else {
         popup( _( "%s wasn't interested..." ), recruit->name );
-        return;// nullptr;
+        // nullptr;
+        return;
     }
-    // time durations always subtract from camp food supply
+    // Time durations always subtract from camp food supply
     camp_food_supply( 1_days * food_desire );
     recruit->spawn_at_precise( { g->get_levx(), g->get_levy() }, g->u.pos() + point( -4, -4 ) );
     overmap_buffer.insert_npc( recruit );
@@ -3257,6 +3255,10 @@ int basecamp::recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, i
 {
     auto e = expansions.find( "[B]" );
     if( e == expansions.end() ) {
+        sbase = 0;
+        sexpansions = 0;
+        sfaction = 0;
+        sbonus = 0;
         return 0;
     }
     sbase = e->second.cur_level * 5;

@@ -142,6 +142,7 @@ automatically_convertible = {
     "skill",
     "snippet",
     "speech",
+    "SPELL",
     "start_location",
     "STATIONARY_ITEM",
     "terrain",

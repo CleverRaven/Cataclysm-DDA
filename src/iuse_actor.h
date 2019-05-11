@@ -784,6 +784,8 @@ class repair_item_actor : public iuse_actor
             RT_NOTHING = 0,
             RT_REPAIR,          // Just repairing damage
             RT_REFIT,           // Refitting
+            RT_DOWNSIZING,      // When small, reduce clothing to small size
+            RT_UPSIZING,        // When normal, increase clothing to normal size
             RT_REINFORCE,       // Getting damage below 0
             RT_PRACTICE,        // Wanted to reinforce, but can't
             NUM_REPAIR_TYPES

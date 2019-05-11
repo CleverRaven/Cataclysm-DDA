@@ -1251,6 +1251,32 @@ static void open_movement_mode_menu()
     }
 }
 
+void game::open_consume_item_menu()
+{
+    uilist as_m;
+
+    as_m.text = _( "What do you want to consume?" );
+
+    as_m.entries.emplace_back( 0, true, 'f', _( "Food" ) );
+    as_m.entries.emplace_back( 1, true, 'd', _( "Drink" ) );
+    as_m.entries.emplace_back( 2, true, 'm', _( "Medication" ) );
+    as_m.query();
+
+    switch( as_m.ret ) {
+        case 0:
+            eat( game_menus::inv::consume_food );
+            break;
+        case 1:
+            eat( game_menus::inv::consume_drink );
+            break;
+        case 2:
+            eat( game_menus::inv::consume_meds );
+            break;
+        default:
+            break;
+    }
+}
+
 bool game::handle_action()
 {
     std::string action;
@@ -1566,6 +1592,14 @@ bool game::handle_action()
                 }
                 break;
 
+            case ACTION_PICKUP_FEET:
+                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                    add_msg( m_info, _( "You can't pick anything up while you're in your shell." ) );
+                } else {
+                    pickup_feet();
+                }
+                break;
+
             case ACTION_GRAB:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't grab things while you're in your shell." ) );
@@ -1646,6 +1680,10 @@ bool game::handle_action()
 
             case ACTION_EAT:
                 eat();
+                break;
+
+            case ACTION_OPEN_CONSUME:
+                open_consume_item_menu();
                 break;
 
             case ACTION_READ:

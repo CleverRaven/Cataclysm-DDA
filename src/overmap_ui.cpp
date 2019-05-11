@@ -1023,7 +1023,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             std::string title = _( "Note:" );
 
             const std::string old_note = overmap_buffer.note( curs );
-            std::string new_note = old_note, tmp_note;
+            std::string new_note = old_note;
             const auto map_around = get_overmap_neighbors( curs );
 
             const int max_note_length = 45;

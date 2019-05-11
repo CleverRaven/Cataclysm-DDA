@@ -1130,7 +1130,8 @@ void vehicle::operate_scoop()
             item *that_item_there = nullptr;
             const map_stack q = g->m.i_at( position );
             if( g->m.has_flag( "SEALED", position ) ) {
-                continue;//ignore it. Street sweepers are not known for their ability to harvest crops.
+                // Ignore it. Street sweepers are not known for their ability to harvest crops.
+                continue;
             }
             size_t itemdex = 0;
             for( const item &it : q ) {

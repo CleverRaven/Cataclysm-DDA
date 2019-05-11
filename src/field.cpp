@@ -903,8 +903,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                         break;
                     case fd_plasma:
-                        dirty_transparency_cache = true;
-                        break;
                     case fd_laser:
                         dirty_transparency_cache = true;
                         break;
@@ -1381,10 +1379,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     break;
 
                     case fd_smoke:
-                        dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 10, 0_turns );
-                        break;
-
                     case fd_tear_gas:
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 10, 0_turns );

@@ -11,6 +11,7 @@
 #include <type_traits>
 #include <utility>
 
+#include "explosion.h"
 #include "event.h"
 #include "field.h"
 #include "fungal_effects.h"
@@ -592,7 +593,7 @@ void mdeath::explode( monster &z )
             size = 26;
             break;
     }
-    g->explosion( z.pos(), size );
+    explosion_handler::explosion( z.pos(), size );
 }
 
 void mdeath::focused_beam( monster &z )
@@ -627,7 +628,7 @@ void mdeath::focused_beam( monster &z )
 
     z.inv.clear();
 
-    g->explosion( z.pos(), 8 );
+    explosion_handler::explosion( z.pos(), 8 );
 }
 
 void mdeath::broken( monster &z )
@@ -865,7 +866,6 @@ void mdeath::fireball( monster &z )
         normal( z );
     }
 }
-
 
 void mdeath::conflagration( monster &z )
 {

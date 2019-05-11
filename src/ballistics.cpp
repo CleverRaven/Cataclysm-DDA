@@ -61,6 +61,20 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         return;
     }
 
+    if( effects.count( "BURST" ) ) {
+        // Drop the contents, not the thrown item
+        if( g->u.sees( pt ) ) {
+            add_msg( _( "The %s bursts!" ), drop_item.tname() );
+        }
+
+        for( const item &i : drop_item.contents ) {
+            g->m.add_item_or_charges( pt, i );
+        }
+
+        //TODO: Sound
+        return;
+    }
+
     // Copy the item
     item dropped_item = drop_item;
 
@@ -398,7 +412,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     apply_ammo_effects( tp, proj.proj_effects );
     const auto &expl = proj.get_custom_explosion();
     if( expl.power > 0.0f ) {
-        g->explosion( tp, proj.get_custom_explosion() );
+        explosion_handler::explosion( tp, proj.get_custom_explosion() );
     }
 
     // TODO: Move this outside now that we have hit point in return values?

@@ -2632,12 +2632,12 @@ bool npc::wield_better_weapon()
     // Until then, the NPCs should reload the guns as a last resort
 
     if( best == &weapon ) {
-        add_msg( m_debug, "Wielded %s is best at %.1f, not switching", best->display_name(),
+        add_msg( m_debug, "Wielded %s is best at %.1f, not switching", best->type->get_id(),
                  best_value );
         return false;
     }
 
-    add_msg( m_debug, "Wielding %s at value %.1f", best->display_name(), best_value );
+    add_msg( m_debug, "Wielding %s at value %.1f", best->type->get_id(), best_value );
 
     wield( *best );
     return true;
@@ -3233,7 +3233,6 @@ void npc::set_omt_destination()
         return;
     }
 
-
     decide_needs();
     if( needs.empty() ) { // We don't need anything in particular.
         needs.push_back( need_none );
@@ -3253,7 +3252,6 @@ void npc::set_omt_destination()
         goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
         return;
     }
-
 
     DebugLog( D_INFO, DC_ALL ) << "npc::set_omt_destination - new goal for NPC [" << get_name() <<
                                "] with ["
@@ -3340,53 +3338,53 @@ std::string npc_action_name( npc_action action )
 {
     switch( action ) {
         case npc_undecided:
-            return _( "Undecided" );
+            return "Undecided";
         case npc_pause:
-            return _( "Pause" );
+            return "Pause";
         case npc_reload:
-            return _( "Reload" );
+            return "Reload";
         case npc_investigate_sound:
-            return _( "Investigate sound" );
+            return "Investigate sound";
         case npc_return_to_guard_pos:
-            return _( "Returning to guard position" );
+            return "Returning to guard position";
         case npc_sleep:
-            return _( "Sleep" );
+            return "Sleep";
         case npc_pickup:
-            return _( "Pick up items" );
+            return "Pick up items";
         case npc_heal:
-            return _( "Heal self" );
+            return "Heal self";
         case npc_use_painkiller:
-            return _( "Use painkillers" );
+            return "Use painkillers";
         case npc_drop_items:
-            return _( "Drop items" );
+            return "Drop items";
         case npc_flee:
-            return _( "Flee" );
+            return "Flee";
         case npc_melee:
-            return _( "Melee" );
+            return "Melee";
         case npc_reach_attack:
-            return _( "Reach attack" );
+            return "Reach attack";
         case npc_aim:
-            return _( "Aim" );
+            return "Aim";
         case npc_shoot:
-            return _( "Shoot" );
+            return "Shoot";
         case npc_look_for_player:
-            return _( "Look for player" );
+            return "Look for player";
         case npc_heal_player:
-            return _( "Heal player or ally" );
+            return "Heal player or ally";
         case npc_follow_player:
-            return _( "Follow player" );
+            return "Follow player";
         case npc_follow_embarked:
-            return _( "Follow player (embarked)" );
+            return "Follow player (embarked)";
         case npc_talk_to_player:
-            return _( "Talk to player" );
+            return "Talk to player";
         case npc_mug_player:
-            return _( "Mug player" );
+            return "Mug player";
         case npc_goto_destination:
-            return _( "Go to destination" );
+            return "Go to destination";
         case npc_avoid_friendly_fire:
-            return _( "Avoid friendly fire" );
+            return "Avoid friendly fire";
         case npc_escape_explosion:
-            return _( "Escape explosion" );
+            return "Escape explosion";
         default:
             return "Unnamed action";
     }

@@ -44,7 +44,6 @@ void controls_gate( player &p, const tripoint &examp );
 void cardreader( player &p, const tripoint &examp );
 void cvdmachine( player &p, const tripoint &examp );
 void rubble( player &p, const tripoint &examp );
-void crate( player &p, const tripoint &examp );
 void chainfence( player &p, const tripoint &examp );
 void bars( player &p, const tripoint &examp );
 void deployed_furniture( player &p, const tripoint &pos );

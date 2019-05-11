@@ -47,7 +47,6 @@ class om_noise_layer
         float seed;
 };
 
-
 class om_noise_layer_forest : public om_noise_layer
 {
     public:

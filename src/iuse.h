@@ -136,6 +136,7 @@ class iuse
         int gasmask( player *, item *, bool, const tripoint & );
         int portable_game( player *, item *, bool, const tripoint & );
         int vibe( player *, item *, bool, const tripoint & );
+        int hand_crank( player *, item *, bool, const tripoint & );
         int vortex( player *, item *, bool, const tripoint & );
         int dog_whistle( player *, item *, bool, const tripoint & );
         int blood_draw( player *, item *, bool, const tripoint & );

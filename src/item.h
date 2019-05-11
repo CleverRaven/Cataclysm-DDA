@@ -653,8 +653,9 @@ class item : public visitable<item>
          * This function should not be called directly. since it does not have all the needed checks or temperature calculations.
          * If you need to calc rot of item call process_temperature_rot instead.
          * @param time Time point to which rot is calculated
+         * @param temp Temperature at which the rot is calculated
          */
-        void calc_rot( time_point time );
+        void calc_rot( time_point time, int temp );
 
         /**
          * This is part of a workaround so that items don't rot away to nothing if the smoking rack
@@ -671,8 +672,10 @@ class item : public visitable<item>
          * @param insulation Amount of insulation item has from surroundings
          * @param pos The current position
          * @param carrier The current carrier
+         * @param flag to specify special temperature situations
          */
-        void process_temperature_rot( int temp, float insulation, const tripoint pos, player *carrier );
+        void process_temperature_rot( int temp, float insulation, const tripoint pos, player *carrier,
+                                      const temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /** Set the item to HOT */
         void heat_up();
@@ -978,7 +981,8 @@ class item : public visitable<item>
          * Returns false if the item is not destroyed.
          */
         bool process( player *carrier, const tripoint &pos, bool activate );
-        bool process( player *carrier, const tripoint &pos, bool activate, int temp, float insulation );
+        bool process( player *carrier, const tripoint &pos, bool activate, int temp, float insulation,
+                      const temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /**
          * Gets the point (vehicle tile) the cable is connected to.
@@ -1857,6 +1861,21 @@ class item : public visitable<item>
 
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
+
+        enum class sizing {
+            human_sized_human_char = 0,
+            big_sized_human_char,
+            small_sized_human_char,
+            big_sized_big_char,
+            human_sized_big_char,
+            small_sized_big_char,
+            small_sized_small_char,
+            human_sized_small_char,
+            big_sized_small_char,
+            not_wearable
+        };
+
+        sizing get_sizing( const Character &, bool ) const;
 
     protected:
         // Sub-functions of @ref process, they handle the processing for different
