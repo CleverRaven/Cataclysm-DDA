@@ -1700,21 +1700,6 @@
     "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
-    "id": "catfood",
-    "type": "TOOL",
-    "name": "cat food",
-    "name_plural": "cat food",
-    "description": "This is food for cats.  It smells strange, but cats seem to love it.",
-    "weight": 223,
-    "volume": 1,
-    "price": 300,
-    "to_hit": -5,
-    "material": "flesh",
-    "symbol": ";",
-    "color": "brown",
-    "use_action": "CATFOOD"
-  },
-  {
     "id": "cavalry_sabre",
     "type": "TOOL",
     "category": "weapons",
@@ -2716,21 +2701,6 @@
     "symbol": ";",
     "color": "yellow",
     "use_action": "DOG_WHISTLE"
-  },
-  {
-    "id": "dogfood",
-    "type": "TOOL",
-    "name": "dog food",
-    "name_plural": "dog food",
-    "description": "This is food for dogs.  It smells strange, but dogs seem to love it.",
-    "weight": 554,
-    "volume": 1,
-    "price": 300,
-    "to_hit": -5,
-    "material": "flesh",
-    "symbol": ";",
-    "color": "brown",
-    "use_action": "DOGFOOD"
   },
   {
     "id": "dynamite",
@@ -8803,36 +8773,6 @@
     "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
-  },
-  {
-    "id": "cattlefodder",
-    "type": "TOOL",
-    "name": "cattle fodder",
-    "name_plural": "cattle fodder",
-    "description": "What cattle eat.  Mainly made of grass, silage or legumes.  It's perfect for ruminants.",
-    "weight": 300,
-    "volume": 1,
-    "price": 100,
-    "to_hit": -5,
-    "material": "veggy",
-    "symbol": ";",
-    "color": "brown",
-    "use_action": "CATTLEFODDER"
-  },
-  {
-    "id": "birdfood",
-    "type": "TOOL",
-    "name": "bird food",
-    "name_plural": "bird food",
-    "description": "What birds eat.  Mainly made of seeds, silage or legumes.  It's perfect for small birds.",
-    "weight": 60,
-    "volume": 1,
-    "price": 20,
-    "to_hit": -5,
-    "material": "veggy",
-    "symbol": ";",
-    "color": "brown",
-    "use_action": "BIRDFOOD"
   },
   {
     "id": "link_sheet",
