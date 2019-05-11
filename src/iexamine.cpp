@@ -172,7 +172,7 @@ void iexamine::cvdmachine( player &p, const tripoint & )
     // Apply flag to item
     loc->item_tags.insert( "DIAMOND" );
     add_msg( m_good, _( "You apply a diamond coating to your %s" ), loc->type_name() );
-    p.mod_moves( -1000 );
+    p.mod_moves( -to_turns<int>( 10_seconds ) );
 }
 
 /**
@@ -378,7 +378,7 @@ class atm_menu
                 add_msg( m_info, _( "Your account now holds %s." ), format_money( u.cash ) );
             }
 
-            u.moves -= 100;
+            u.moves -= to_turns<int>( 5_seconds );
         }
 
         //! Prompt for an integral value clamped to [0, max].
@@ -406,7 +406,7 @@ class atm_menu
             card.charges = 0;
             u.i_add( card );
             u.cash -= 100;
-            u.moves -= 100;
+            u.moves -= to_turns<int>( 5_seconds );
             finish_interaction();
 
             return true;
@@ -432,7 +432,7 @@ class atm_menu
             add_msg( m_info, "amount: %d", amount );
             u.use_charges( "cash_card", amount );
             u.cash += amount;
-            u.moves -= 100;
+            u.moves -= to_turns<int>( 10_seconds );
             finish_interaction();
 
             return true;
@@ -466,7 +466,7 @@ class atm_menu
 
             dst->charges += amount;
             u.cash -= amount;
-            u.moves -= 100;
+            u.moves -= to_turns<int>( 10_seconds );
             finish_interaction();
 
             return true;
@@ -528,7 +528,7 @@ void iexamine::atm( player &p, const tripoint & )
  */
 void iexamine::vending( player &p, const tripoint &examp )
 {
-    constexpr int moves_cost = 250;
+    constexpr int moves_cost = to_turns<int>( 5_seconds );
     int money = p.charges_of( "cash_card" );
     auto vend_items = g->m.i_at( examp );
 
@@ -738,7 +738,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
     itype_id card_type = ( g->m.ter( examp ) == t_card_science ? "id_science" :
                            g->m.ter( examp ) == t_card_military ? "id_military" : "id_industrial" );
     if( p.has_amount( card_type, 1 ) && query_yn( _( "Swipe your ID card?" ) ) ) {
-        p.mod_moves( -100 );
+        p.mod_moves( -to_turns<int>( 1_seconds ) );
         for( const tripoint &tmp : g->m.points_in_radius( examp, 3 ) ) {
             if( g->m.ter( tmp ) == t_door_metal_locked ) {
                 g->m.ter_set( tmp, t_floor );
@@ -825,9 +825,9 @@ void iexamine::rubble( player &p, const tripoint &examp )
 {
     int moves;
     if( p.has_quality( quality_id( "DIG" ), 3 ) || p.has_trait( trait_BURROW ) ) {
-        moves = 1250;
+        moves = to_turns<int>( 1_minutes );
     } else if( p.has_quality( quality_id( "DIG" ), 2 ) ) {
-        moves = 2500;
+        moves = to_turns<int>( 2_minutes );
     } else {
         add_msg( m_info, _( "If only you had a shovel..." ) );
         return;
@@ -919,7 +919,7 @@ void iexamine::bars( player &p, const tripoint &examp )
         none( p, examp );
         return;
     }
-    p.moves -= 200;
+    p.moves -= to_turns<int>( 2_seconds );
     add_msg( _( "You slide right between the bars." ) );
     p.setpos( examp );
 }
@@ -993,7 +993,7 @@ void iexamine::portable_structure( player &p, const tripoint &examp )
         return;
     }
 
-    p.moves -= 200;
+    p.moves -= to_turns<int>( 2_seconds );
     for( const tripoint &pt : g->m.points_in_radius( examp, radius ) ) {
         g->m.furn_set( pt, f_null );
     }
@@ -1024,7 +1024,7 @@ void iexamine::pit( player &p, const tripoint &examp )
             g->m.ter_set( examp, t_pit_glass_covered );
         }
         add_msg( _( "You place a plank of wood over the pit." ) );
-        p.mod_moves( -100 );
+        p.mod_moves( -to_turns<int>( 1_seconds ) );
     }
 }
 
@@ -1049,7 +1049,7 @@ void iexamine::pit_covered( player &p, const tripoint &examp )
     } else if( g->m.ter( examp ) == t_pit_glass_covered ) {
         g->m.ter_set( examp, t_pit_glass );
     }
-    p.mod_moves( -100 );
+    p.mod_moves( -to_turns<int>( 1_seconds ) );
 }
 
 /**
@@ -1095,7 +1095,7 @@ void iexamine::safe( player &p, const tripoint &examp )
     } );
 
     if( !( !cracking_tool.empty() || p.has_bionic( bionic_id( "bio_ears" ) ) ) ) {
-        p.moves -= 100;
+        p.moves -= to_turns<int>( 10_seconds );
         // one_in(30^3) chance of guessing
         if( one_in( 27000 ) ) {
             p.add_msg_if_player( m_good, _( "You mess with the dial for a little bit... and it opens!" ) );
@@ -1150,13 +1150,13 @@ void iexamine::gunsafe_ml( player &p, const tripoint &examp )
     }
 
     p.practice( skill_mechanics, 1 );
+
     ///\EFFECT_DEX speeds up lock picking gun safe
-
     ///\EFFECT_MECHANICS speeds up lock picking gun safe
-    p.moves -= ( 1000 - ( pick_quality * 100 ) ) - ( p.dex_cur + p.get_skill_level(
-                   skill_mechanics ) ) * 5;
-    ///\EFFECT_DEX increases chance of lock picking gun safe
+    p.moves -= std::max( 0, to_turns<int>( 10_minutes - time_duration::from_minutes( pick_quality ) )
+                            - ( p.dex_cur + p.get_skill_level( skill_mechanics ) ) * 5 );
 
+    ///\EFFECT_DEX increases chance of lock picking gun safe
     ///\EFFECT_MECHANICS increases chance of lock picking gun safe
     int pick_roll = ( dice( 2, p.get_skill_level( skill_mechanics ) ) + dice( 2,
                       p.dex_cur ) ) * pick_quality;
@@ -1345,7 +1345,7 @@ void iexamine::fswitch( player &p, const tripoint &examp )
         return;
     }
     ter_id terid = g->m.ter( examp );
-    p.moves -= 100;
+    p.moves -= to_moves<int>( 1_seconds );
     tripoint tmp;
     tmp.z = examp.z;
     for( tmp.y = examp.y; tmp.y <= examp.y + 5; tmp.y++ ) {
@@ -1438,7 +1438,7 @@ static bool can_drink_nectar( const player &p )
 static bool drink_nectar( player &p )
 {
     if( can_drink_nectar( p ) ) {
-        p.moves -= 50; // Takes 30 seconds
+        p.moves -= to_moves<int>( 30_seconds );
         add_msg( _( "You drink some nectar." ) );
         item nectar( "nectar", calendar::turn, 1 );
         p.eat( nectar );
@@ -1466,7 +1466,7 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
                        g->m.furnname( examp ) ) ) {
             return;
         }
-        p.moves -= 150; // You take your time...
+        p.moves -= to_moves<int>( 30_seconds ); // You take your time...
         add_msg( _( "You slowly suck up the nectar." ) );
         item poppy( "poppy_nectar", calendar::turn, 1 );
         p.eat( poppy );
@@ -1685,7 +1685,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         p.add_msg_if_player( m_bad, _( "You couldn't harvest anything." ) );
     }
 
-    p.mod_moves( -rng( 100, 300 ) );
+    p.mod_moves( -to_moves<int>( rng( 5_seconds, 15_seconds ) ) );
     return true;
 }
 
@@ -1747,7 +1747,7 @@ void iexamine::flower_marloss( player &p, const tripoint &examp )
                        g->m.furnname( examp ) ) ) {
             return;
         }
-        p.moves -= 50; // Takes 30 seconds
+        p.moves -= to_moves<int>( 30_seconds ); // Takes 30 seconds
         add_msg( m_bad, _( "This flower tastes very wrong..." ) );
         // If you can drink flowers, you're post-thresh and the Mycus does not want you.
         p.add_effect( effect_teleglow, 10_minutes );
@@ -1903,7 +1903,7 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
     } else {
         g->m.set( examp, t_dirt, f_plant_seed );
     }
-    p.moves -= 500;
+    p.moves -= to_moves<int>( 30_seconds );
     add_msg( _( "Planted %s." ), item::nname( seed_id ) );
 }
 
@@ -2057,7 +2057,7 @@ void iexamine::harvest_plant( player &p, const tripoint &examp )
             g->m.add_item_or_charges( examp, i );
         }
         g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
-        p.moves -= 500;
+        p.moves -= to_moves<int>( 10_seconds );
     }
 }
 
@@ -2103,7 +2103,7 @@ void iexamine::fertilize_plant( player &p, const tripoint &tile, const itype_id 
     g->m.furn_set( tile, f_null );
     g->m.spawn_item( tile, "fertilizer", 1, 1, calendar::turn );
     g->m.furn_set( tile, old_furn );
-    p.mod_moves( -500 );
+    p.mod_moves( -to_moves<int>( 10_seconds ) );
 
     add_msg( m_info, _( "You fertilize the %s with the %s." ), seed.get_plant_name(),
              planted.front().tname() );
@@ -2376,7 +2376,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
         case 2: {
             if( g->m.add_field( examp, fd_fire, 1 ) ) {
                 p.charge_power( -bionic_id( "bio_lighter" )->power_activate );
-                p.mod_moves( -100 );
+                p.mod_moves( -to_moves<int>( 1_seconds ) );
             } else {
                 p.add_msg_if_player( m_info, _( "You can't light a fire there." ) );
             }
@@ -2510,7 +2510,7 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
         g->m.i_clear( examp );
         //This is needed to bypass NOITEM
         g->m.add_item( examp, brew );
-        p.moves -= 250;
+        p.moves -= to_moves<int>( 20_seconds );
         if( !vat_full ) {
             ferment = query_yn( _( "Start fermenting cycle?" ) );
         }
@@ -2584,7 +2584,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
                 }
             }
 
-            p.moves -= 500;
+            p.moves -= to_moves<int>( 5_seconds );
             p.practice( skill_cooking, std::min( to_minutes<int>( brew_time ) / 10, 100 ) );
         }
 
@@ -2690,7 +2690,7 @@ void iexamine::keg( player &p, const tripoint &examp )
             add_msg( _( "You fill the %1$s with %2$s." ),
                      keg_name, item::nname( drink_type ) );
         }
-        p.moves -= 250;
+        p.moves -= to_moves<int>( 10_seconds );
         g->m.i_clear( examp );
         g->m.add_item( examp, drink );
         return;
@@ -2733,7 +2733,7 @@ void iexamine::keg( player &p, const tripoint &examp )
                              drink_tname, keg_name );
                     g->m.i_clear( examp );
                 }
-                p.moves -= 250;
+                p.moves -= to_moves<int>( 5_seconds );
                 return;
 
             case REFILL: {
@@ -2751,7 +2751,7 @@ void iexamine::keg( player &p, const tripoint &examp )
                 pour_into_keg( examp, tmp );
                 p.use_charges( drink->typeId(), charges_held - tmp.charges );
                 add_msg( _( "You fill the %1$s with %2$s." ), keg_name, drink_nname );
-                p.moves -= 250;
+                p.moves -= to_moves<int>( 10_seconds );
                 return;
             }
 
@@ -2852,7 +2852,7 @@ void iexamine::tree_hickory( player &p, const tripoint &examp )
                      calendar::turn );
     g->m.ter_set( examp, t_tree_hickory_dead );
     ///\EFFECT_SURVIVAL speeds up hickory root digging
-    p.moves -= 2000 / ( p.get_skill_level( skill_survival ) + 1 ) + 100;
+    p.moves -= to_moves<int>( 20_seconds ) / ( p.get_skill_level( skill_survival ) + 1 ) + 100;
 }
 
 static item_location maple_tree_sap_container()
@@ -2888,7 +2888,7 @@ void iexamine::tree_maple( player &p, const tripoint &examp )
     comps.push_back( item_comp( "tree_spile", 1 ) );
     p.consume_items( comps, 1, is_crafting_component );
 
-    p.mod_moves( -200 );
+    p.mod_moves( -to_moves<int>( 20_seconds ) );
     g->m.ter_set( examp, t_tree_maple_tapped );
 
     auto cont_loc = maple_tree_sap_container();
@@ -2956,7 +2956,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
             }
             g->m.i_clear( examp );
 
-            p.mod_moves( -200 );
+            p.mod_moves( -to_moves<int>( 20_seconds ) );
             g->m.ter_set( examp, t_tree_maple );
 
             return;
@@ -3297,7 +3297,7 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
         g->m.add_item( examp, it );
     }
     add_msg( _( "You reload the %s." ), g->m.furnname( examp ) );
-    p.moves -= 100;
+    p.moves -= to_moves<int>( 5_seconds );
 }
 
 void iexamine::curtains( player &p, const tripoint &examp )
@@ -3338,7 +3338,7 @@ void iexamine::curtains( player &p, const tripoint &examp )
         g->m.spawn_item( p.pos(), "sheet", 2, 0, calendar::turn );
         g->m.spawn_item( p.pos(), "stick", 1, 0, calendar::turn );
         g->m.spawn_item( p.pos(), "string_36", 1, 0, calendar::turn );
-        p.moves -= 200;
+        p.moves -= to_moves<int>( 10_seconds );
         p.add_msg_if_player( _( "You tear the curtains and curtain rod off the windowframe." ) );
     } else {
         p.add_msg_if_player( _( "Never mind." ) );
@@ -3729,7 +3729,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         p.use_charges( "cash_card", cost );
 
         add_msg( m_info, _( "Your cash cards now hold %s." ), format_money( money ) );
-        p.moves -= 100;
+        p.moves -= to_moves<int>( 5_seconds );
         return;
     }
 
@@ -3781,7 +3781,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
                            "gaspump" );
             cashcard->charges += amount * pricePerUnit / 1000.0f;
             add_msg( m_info, _( "Your cash cards now hold %s." ), format_money( p.charges_of( "cash_card" ) ) );
-            p.moves -= 100;
+            p.moves -= to_moves<int>( 5_seconds );
             return;
         } else {
             popup( _( "Unable to refund, no fuel in pump." ) );
@@ -3871,7 +3871,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
                 }
             }
 
-            p.moves -= 100 + 100 * fall_mod;
+            p.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod);
             p.setpos( examp );
             if( climb_cost > 0 || rng_float( 0.8, 1.0 ) > fall_mod ) {
                 // One tile of falling less (possibly zero)
@@ -4134,7 +4134,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     }
 
                 }
-                installer.mod_moves( -500 );
+                installer.mod_moves( -to_moves<int>( 1_minutes ) );
             }
             break;
         }
@@ -4191,7 +4191,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     }
 
                 }
-                installer.mod_moves( -500 );
+                installer.mod_moves( -to_moves<int>( 1_minutes ) );
             }
             break;
         }
@@ -5336,7 +5336,7 @@ hack_result iexamine::hack_attempt( player &p )
         return HACK_UNABLE;
     }
 
-    p.moves -= 500;
+    p.moves -= to_moves<int>( 5_minutes );
     p.practice( skill_computer, 20 );
     ///\EFFECT_COMPUTER increases success chance of hacking card readers
     int player_computer_skill_level = p.get_skill_level( skill_computer );
