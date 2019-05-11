@@ -1750,7 +1750,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
                         g->m.update_vehicle_list( destsm, target.z ); // update real map's vcaches
 
-                        if( !destsm->spawns.empty()) {                               // trigger spawnpoints
+                        if( !destsm->spawns.empty() ) {                              // trigger spawnpoints
                             g->m.spawn_monsters( true );
                         }
                     }
