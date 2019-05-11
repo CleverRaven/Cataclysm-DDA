@@ -102,5 +102,6 @@ else
         run_tests ./tests/cata_test $MODS &
         wait -n
     fi
+    wait -n
 fi
 ccache --show-stats
