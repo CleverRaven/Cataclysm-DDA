@@ -1068,7 +1068,7 @@ void iexamine::safe( player &p, const tripoint &examp )
         return temporary_item.has_flag( "SAFECRACK" );
     } );
 
-    if( !( cracking_tool.size() > 0 || p.has_bionic( bionic_id( "bio_ears" ) ) ) ) {
+    if( !( !cracking_tool.empty() || p.has_bionic( bionic_id( "bio_ears" ) ) ) ) {
         p.moves -= 100;
         // one_in(30^3) chance of guessing
         if( one_in( 27000 ) ) {
@@ -1189,7 +1189,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
         return temporary_item.has_quality( quality_id( "PRY" ), 1 );
     } );
 
-    if( prying_items.size() == 0 ) {
+    if( prying_items.empty() ) {
         add_msg( m_info, _( "If only you had something to pry with..." ) );
         return;
     }

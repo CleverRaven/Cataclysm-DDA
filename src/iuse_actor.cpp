@@ -211,9 +211,9 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
     item *obj;
     if( container.empty() ) {
         obj = &it.convert( target );
-        if( ammo_qty >= 0 || random_ammo_qty.size() > 0 ) {
+        if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
             long qty;
-            if( random_ammo_qty.size() > 0 ) {
+            if( !random_ammo_qty.empty() ) {
                 const auto index = rng( 1, random_ammo_qty.size() - 1 );
                 qty = rng( random_ammo_qty[index - 1], random_ammo_qty[index] );
             } else {

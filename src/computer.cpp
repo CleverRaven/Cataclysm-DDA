@@ -1429,7 +1429,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                 break;
             }
             auto items = g->m.i_at( platform );
-            if( items.size() != 0 ) {
+            if( !items.empty() ) {
                 print_line( _( "Moving items: PLATFORM --> UNLOADING BAY." ) );
             } else {
                 print_line( _( "No items detected at: PLATFORM." ) );
@@ -1439,7 +1439,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
             }
             g->m.i_clear( platform );
             items = g->m.i_at( loading );
-            if( items.size() != 0 ) {
+            if( !items.empty() ) {
                 print_line( _( "Moving items: LOADING BAY --> PLATFORM." ) );
             } else {
                 print_line( _( "No items detected at: LOADING BAY." ) );
