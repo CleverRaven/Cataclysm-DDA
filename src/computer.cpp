@@ -15,6 +15,7 @@
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h"
+#include "explosion.h"
 #include "event.h"
 #include "field.h"
 #include "game.h"
@@ -41,7 +42,6 @@
 #include "translations.h"
 #include "trap.h"
 #include "bodypart.h"
-#include "character.h"
 #include "color.h"
 #include "creature.h"
 #include "enums.h"
@@ -53,6 +53,7 @@
 #include "optional.h"
 #include "pldata.h"
 #include "string_id.h"
+#include "type_id.h"
 
 const mtype_id mon_manhack( "mon_manhack" );
 const mtype_id mon_secubot( "mon_secubot" );
@@ -534,7 +535,7 @@ void computer::activate_function( computer_action action )
                     cascade_points.push_back( dest );
                 }
             }
-            g->resonance_cascade( random_entry( cascade_points, g->u.pos() ) );
+            explosion_handler::resonance_cascade( random_entry( cascade_points, g->u.pos() ) );
         }
         break;
 
@@ -615,7 +616,8 @@ void computer::activate_function( computer_action action )
             }
             if( query_yn( _( "Confirm nuclear missile launch." ) ) ) {
                 add_msg( m_info, _( "Nuclear missile launched!" ) );
-                options.clear();//Remove the option to fire another missile.
+                //Remove the option to fire another missile.
+                options.clear();
             } else {
                 add_msg( m_info, _( "Nuclear missile launch aborted." ) );
                 return;
@@ -632,8 +634,9 @@ void computer::activate_function( computer_action action )
                 }
             }
 
-            g->explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200, 0.7,
-                          true ); //Only explode once. But make it large.
+            explosion_handler::explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200,
+                                          0.7,
+                                          true ); //Only explode once. But make it large.
 
             //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
             // For each level between here and the surface, remove the missile
@@ -662,7 +665,7 @@ void computer::activate_function( computer_action action )
                         !( x == ( target.x + 2 ) && ( y == ( target.y - 2 ) ) ) &&
                         !( x == ( target.x + 2 ) && ( y == ( target.y + 2 ) ) ) ) {
                         // TODO: Z
-                        g->nuke( tripoint( x, y, 0 ) );
+                        explosion_handler::nuke( tripoint( x, y, 0 ) );
                     }
 
                 }
@@ -677,7 +680,8 @@ void computer::activate_function( computer_action action )
                 g->u.add_memorial_log( pgettext( "memorial_male", "Disarmed a nuclear missile." ),
                                        pgettext( "memorial_female", "Disarmed a nuclear missile." ) );
                 add_msg( m_info, _( "Nuclear missile disarmed!" ) );
-                options.clear();//disable missile.
+                //disable missile.
+                options.clear();
                 activate_failure( COMPFAIL_SHUTDOWN );
             } else {
                 add_msg( m_neutral, _( "Nuclear missile remains active." ) );
@@ -1247,7 +1251,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                     tripoint p( x, y, g->get_levz() );
                     if( g->m.ter( x, y ) == t_elevator || g->m.ter( x, y ) == t_vat ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
-                        g->explosion( p, 40, 0.7, true );
+                        explosion_handler::explosion( p, 40, 0.7, true );
                     }
                     if( g->m.ter( x, y ) == t_wall_glass ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
@@ -1258,7 +1262,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                     }
                     if( g->m.ter( x, y ) == t_sewage_pump ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
-                        g->explosion( p, 50, 0.7, true );
+                        explosion_handler::explosion( p, 50, 0.7, true );
                     }
                 }
             }
@@ -1305,7 +1309,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                             }
                             // critical failure - radiation spike sets off electronic detonators
                             if( it->typeId() == "mininuke" || it->typeId() == "mininuke_act" || it->typeId() == "c4" ) {
-                                g->explosion( dest, 40 );
+                                explosion_handler::explosion( dest, 40 );
                                 reset_terminal();
                                 print_error( _( "WARNING [409]: Primary sensors offline!" ) );
                                 print_error( _( "  >> Initialize secondary sensors:  Geiger profiling..." ) );
@@ -1386,7 +1390,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                     sum_rads += g->m.get_radiation( platform );
                     tiles_counted ++;
                     if( g->m.get_radiation( platform ) > peak_rad ) {
-                        peak_rad = g->m.get_radiation( dest );
+                        peak_rad = g->m.get_radiation( platform );
                     }
                 }
                 print_error( _( "GEIGER COUNTER @ ZONE:... AVG %s mSv/h." ), sum_rads / tiles_counted );
@@ -1619,7 +1623,7 @@ void computer::activate_failure( computer_failure_type fail )
                     if( g->m.ter( x, y ) == t_sewage_pump ) {
                         tripoint p( x, y, g->get_levz() );
                         g->m.make_rubble( p );
-                        g->explosion( p, 10 );
+                        explosion_handler::explosion( p, 10 );
                     }
                 }
             }
@@ -1662,10 +1666,12 @@ void computer::activate_failure( computer_failure_type fail )
         case COMPFAIL_AMIGARA:
             g->events.add( EVENT_AMIGARA, calendar::turn + 5_turns );
             g->u.add_effect( effect_amigara, 2_minutes );
-            g->explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ), 10,
-                          0.7, false, 10 );
-            g->explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ), 10,
-                          0.7, false, 10 );
+            explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
+                                          10,
+                                          0.7, false, 10 );
+            explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
+                                          10,
+                                          0.7, false, 10 );
             remove_option( COMPACT_AMIGARA_START );
             break;
 

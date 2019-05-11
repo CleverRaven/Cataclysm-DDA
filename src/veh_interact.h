@@ -14,15 +14,12 @@
 #include "input.h"
 #include "inventory.h"
 #include "player_activity.h"
-#include "string_id.h"
-#include "item.h"
 #include "item_location.h"
+#include "type_id.h"
 
-class vpart_info;
 struct requirement_data;
 struct tripoint;
-
-using vpart_id = string_id<vpart_info>;
+class vpart_info;
 
 /** Represents possible return values from the cant_do function. */
 enum task_reason {

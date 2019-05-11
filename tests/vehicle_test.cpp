@@ -8,6 +8,7 @@
 #include "player.h"
 #include "vehicle.h"
 #include "enums.h"
+#include "type_id.h"
 
 TEST_CASE( "detaching_vehicle_unboards_passengers" )
 {

@@ -580,6 +580,7 @@
         "cs_open_sewer": 100
       },
       "shops": {
+        "bus_station": 200,
         "town_hall": 150,
         "craft_shop": 100,
         "s_gas": 500,
@@ -713,7 +714,8 @@
         "cs_internet_cafe": 100,
         "cs_market_small": 100,
         "cs_sex_shop": 100,
-        "cs_tire_shop": 100
+        "cs_tire_shop": 100,
+        "homeless_shelter": 100
       }
     },
     "weather": {

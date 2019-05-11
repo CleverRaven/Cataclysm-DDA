@@ -30,7 +30,7 @@
 #include "line.h"
 #include "mapdata.h"
 #include "units.h"
-#include "mtype.h"
+#include "type_id.h"
 
 class monster;
 

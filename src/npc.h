@@ -23,22 +23,17 @@
 #include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"
-#include "int_id.h"
 #include "inventory.h"
 #include "item_location.h"
-#include "itype.h"
-#include "pldata.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "material.h"
+#include "type_id.h"
 
 class JsonObject;
 class JsonIn;
 class JsonOut;
 class item;
-class npc_class;
-class monfaction;
-struct mission_type;
 struct overmap_location;
 class Character;
 class faction;
@@ -49,9 +44,6 @@ struct pathfinding_settings;
 enum game_message_type : int;
 class gun_mode;
 
-using npc_class_id = string_id<npc_class>;
-using mission_type_id = string_id<mission_type>;
-using mfaction_id = int_id<monfaction>;
 using overmap_location_str_id = string_id<overmap_location>;
 
 void parse_tags( std::string &phrase, const player &u, const player &me,
@@ -315,7 +307,6 @@ struct healing_options {
     void clear_all();
     void set_all();
 };
-
 
 // Data relevant only for this action
 struct npc_short_term_cache {
@@ -605,7 +596,8 @@ class npc : public player
         void starting_weapon( const npc_class_id &type );
 
         // Save & load
-        void load_info( std::string data ) override; // Overloaded from player
+        // Overloaded from player
+        void load_info( std::string data ) override;
         std::string save_info() const override;
 
         void deserialize( JsonIn &jsin ) override;
@@ -622,9 +614,12 @@ class npc : public player
         std::string pick_talk_topic( const player &u );
         float character_danger( const Character &u ) const;
         float vehicle_danger( int radius ) const;
-        bool turned_hostile() const; // True if our anger is at least equal to...
-        int hostile_anger_level() const; // ... this value!
-        void make_angry(); // Called if the player attacks us
+        // True if our anger is at least equal to...
+        bool turned_hostile() const;
+        // ... this value!
+        int hostile_anger_level() const;
+        // Called if the player attacks us
+        void make_angry();
         /*
         * Angers and makes the NPC consider the creature an attacker
         * if the creature is a player and the NPC is not already hostile
@@ -642,19 +637,30 @@ class npc : public player
          */
         std::vector<matype_id> styles_offered_to( const player &p ) const;
         // State checks
-        int get_faction_ver() const; // faction version number
+        // Faction version number
+        int get_faction_ver() const;
         void set_faction_ver( int new_version );
-        bool is_enemy() const; // We want to kill/mug/etc the player
-        bool is_following() const; // Traveling w/ player (whether as a friend or a slave)
+        // We want to kill/mug/etc the player
+        bool is_enemy() const;
+        // Traveling w/ player (whether as a friend or a slave)
+        bool is_following() const;
         bool is_obeying( const player &p ) const;
-        bool is_friendly( const player &p ) const; // ally of or travelling with p
-        bool is_leader() const; // Leading the player
-        bool is_walking_with() const; // Leading, following, or waiting for the player
-        bool is_ally( const player &p ) const; // in the same faction
-        bool is_player_ally() const; // is an ally of the player
-        bool is_stationary( bool include_guards = true ) const; // isn't moving
-        bool is_guarding() const; // has a guard mission
-        bool is_patrolling() const; // has a guard patrol mission
+        // Ally of or travelling with p
+        bool is_friendly( const player &p ) const;
+        // Leading the player
+        bool is_leader() const;
+        // Leading, following, or waiting for the player
+        bool is_walking_with() const;
+        // In the same faction
+        bool is_ally( const player &p ) const;
+        // Is an ally of the player
+        bool is_player_ally() const;
+        // Isn't moving
+        bool is_stationary( bool include_guards = true ) const;
+        // Has a guard mission
+        bool is_guarding() const;
+        // Has a guard patrol mission
+        bool is_patrolling() const;
         bool is_assigned_to_camp() const;
         /** is performing a player_activity */
         bool has_player_activity() const;
@@ -668,15 +674,18 @@ class npc : public player
         /** For mutant NPCs. Returns how monsters perceive said NPC. Doesn't imply NPC sees them the same. */
         mfaction_id get_monster_faction() const;
         // What happens when the player makes a request
-        int  follow_distance() const; // How closely do we follow the player?
+        // How closely do we follow the player?
+        int follow_distance() const;
 
         // Dialogue and bartering--see npctalk.cpp
         void talk_to_u( bool text_only = false, bool radio_contact = false );
         // Re-roll the inventory of a shopkeeper
         void shop_restock();
         // Use and assessment of items
-        int  minimum_item_value() const; // The minimum value to want to pick up an item
-        void update_worst_item_value(); // Find the worst value in our inventory
+        // The minimum value to want to pick up an item
+        int minimum_item_value() const;
+        // Find the worst value in our inventory
+        void update_worst_item_value();
         int value( const item &it ) const;
         int value( const item &it, int market_price ) const;
         bool wear_if_wanted( const item &it );
@@ -709,7 +718,8 @@ class npc : public player
 
         // Interaction and assessment of the world around us
         float danger_assessment();
-        float average_damage_dealt(); // Our guess at how much damage we can deal
+        // Our guess at how much damage we can deal
+        float average_damage_dealt();
         bool need_heal( const player &n );
         bool bravery_check( int diff );
         bool emergency() const;
@@ -723,7 +733,8 @@ class npc : public player
         void decide_needs();
         void die( Creature *killer ) override;
         bool is_dead() const;
-        int smash_ability() const; // How well we smash terrain (not corpses!)
+        // How well we smash terrain (not corpses!)
+        int smash_ability() const;
 
         // complain about a specific issue if enough time has passed
         // @param issue string identifier of the issue
@@ -737,7 +748,8 @@ class npc : public player
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
                          const std::string &name = "" );
-        bool complain(); // Finds something to complain about and complains. Returns if complained.
+        // Finds something to complain about and complains. Returns if complained.
+        bool complain();
 
         void handle_sound( int priority, const std::string &description, int heard_volume,
                            const tripoint &spos );
@@ -812,23 +824,29 @@ class npc : public player
 
         // nomove is used to resolve recursive invocation
         void move_to( const tripoint &p, bool no_bashing = false, std::set<tripoint> *nomove = nullptr );
-        void move_to_next(); // Next in <path>
-        void avoid_friendly_fire(); // Maneuver so we won't shoot u
+        // Next in <path>
+        void move_to_next();
+        // Maneuver so we won't shoot u
+        void avoid_friendly_fire();
         void escape_explosion();
         // nomove is used to resolve recursive invocation
         void move_away_from( const tripoint &p, bool no_bashing = false,
                              std::set<tripoint> *nomove = nullptr );
         void move_away_from( const std::vector<sphere> &spheres, bool no_bashing = false );
-        void move_pause(); // Same as if the player pressed '.'
+        // Same as if the player pressed '.'
+        void move_pause();
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;
         std::set<tripoint> get_path_avoid() const override;
 
         // Item discovery and fetching
-        void find_item();   // Look around and pick an item
-        void pick_up_item();  // Move to, or grab, our targeted item
-        void drop_items( int weight, int volume ); // Drop wgt and vol
+        // Look around and pick an item
+        void find_item();
+        // Move to, or grab, our targeted item
+        void pick_up_item();
+        // Drop wgt and vol
+        void drop_items( int weight, int volume );
 
         /** Picks up items and returns a list of them. */
         std::list<item> pick_up_item_map( const tripoint &where );
@@ -846,25 +864,31 @@ class npc : public player
         bool do_player_activity();
 
         // Combat functions and player interaction functions
-        bool alt_attack(); // Returns true if did something
+        // Returns true if did something
+        bool alt_attack();
         void heal_player( player &patient );
         void heal_self();
         void mug_player( player &mark );
         void look_for_player( const player &sought );
-        bool saw_player_recently() const;// Do we have an idea of where u are?
+        // Do we have an idea of where u are?
+        bool saw_player_recently() const;
         /** Returns true if food was consumed, false otherwise. */
         bool consume_food();
         int get_thirst() const override;
 
         // Movement on the overmap scale
-        bool has_omt_destination() const; // Do we have a long-term destination?
-        void set_omt_destination(); // Pick a place to go
-        void go_to_omt_destination(); // Move there; on the micro scale
-        void reach_omt_destination(); // We made it!
+        // Do we have a long-term destination?
+        bool has_omt_destination() const;
+        // Pick a place to go
+        void set_omt_destination();
+        // Move there; on the micro scale
+        void go_to_omt_destination();
+        // We made it!
+        void reach_omt_destination();
 
         void guard_current_pos();
 
-        //message related stuff
+        // Message related stuff
         using player::add_msg_if_npc;
         void add_msg_if_npc( const std::string &msg ) const override;
         void add_msg_if_npc( game_message_type type, const std::string &msg ) const override;
@@ -962,8 +986,6 @@ class npc : public player
          */
         tripoint goal;
         std::vector<tripoint> omt_path;
-        tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
-        int wander_time;
 
         /**
          * Location and index of the corpse we'd like to pulp (if any).

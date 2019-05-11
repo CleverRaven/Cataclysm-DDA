@@ -18,6 +18,7 @@
 #include "item_category.h"
 #include "item_group.h"
 #include "iuse.h"
+#include "type_id.h"
 
 namespace cata
 {

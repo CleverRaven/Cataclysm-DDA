@@ -24,7 +24,6 @@
 #include "translations.h"
 #include "color.h"
 #include "item.h"
-#include "pldata.h"
 #include "visitable.h"
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );

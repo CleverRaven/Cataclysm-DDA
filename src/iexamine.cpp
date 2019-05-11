@@ -29,6 +29,7 @@
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "handle_liquid.h"
 #include "harvest.h"
 #include "input.h"
 #include "inventory.h"
@@ -79,7 +80,7 @@
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pldata.h"
-#include "character.h"
+#include "string_id.h"
 
 const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
@@ -256,7 +257,7 @@ void iexamine::gaspump( player &p, const tripoint &examp )
                 }
 
             } else {
-                g->handle_liquid_from_ground( item_it, examp, 1 );
+                liquid_handler::handle_liquid_from_ground( item_it, examp, 1 );
             }
             return;
         }
@@ -699,7 +700,7 @@ void iexamine::toilet( player &p, const tripoint &examp )
         water->poison = one_in( 3 ) ? 0 : rng( 1, 3 );
 
         ( void ) p; // TODO: use me
-        g->handle_liquid_from_ground( water, examp );
+        liquid_handler::handle_liquid_from_ground( water, examp );
     }
 }
 
@@ -814,37 +815,6 @@ void iexamine::rubble( player &p, const tripoint &examp )
     p.assign_activity( activity_id( "ACT_CLEAR_RUBBLE" ), moves, -1, 0 );
     p.activity.placement = examp;
     return;
-}
-
-/**
- * Try to pry crate open with crowbar.
- */
-void iexamine::crate( player &p, const tripoint &examp )
-{
-    // PRY 1 is sufficient for popping open a nailed-shut crate.
-    auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
-        item temporary_item( it.type );
-        return temporary_item.has_quality( quality_id( "PRY" ), 1 );
-    } );
-
-
-    if( prying_items.size() == 0 ) {
-        add_msg( m_info, _( "If only you had something to pry with..." ) );
-        return;
-    }
-
-    // Sort by their quality level.
-    std::sort( prying_items.begin(), prying_items.end(), []( const item * a, const item * b ) -> bool {
-        return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
-    } );
-
-    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
-    // changes to the original item.
-    iuse dummy;
-    item temporary_item( prying_items[0]->type );
-    p.add_msg_if_player( string_format( _( "You attempt to pry open the %s using your %s..." ),
-                                        g->m.furnname( examp ), prying_items[0]->tname() ) );
-    dummy.crowbar( &p, &temporary_item, false, examp );
 }
 
 /**
@@ -1218,7 +1188,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
 {
     auto prying_items = p.crafting_inventory().items_with( []( const item & it ) -> bool {
         item temporary_item( it.type );
-        return temporary_item.has_quality( quality_id( "PRY" ), 2 );
+        return temporary_item.has_quality( quality_id( "PRY" ), 1 );
     } );
 
     if( prying_items.size() == 0 ) {
@@ -1231,10 +1201,14 @@ void iexamine::locked_object( player &p, const tripoint &examp )
         return a->get_quality( quality_id( "PRY" ) ) > b->get_quality( quality_id( "PRY" ) );
     } );
 
+    p.add_msg_if_player( string_format( _( "You attempt to pry open the %s using your %s..." ),
+                                        g->m.has_furn( examp ) ? g->m.furnname( examp ) : g->m.tername( examp ),
+                                        prying_items[0]->tname() ) );
+
+    // if crowbar() ever eats charges or otherwise alters the passed item, rewrite this to reflect
+    // changes to the original item.
     iuse dummy;
     item temporary_item( prying_items[0]->type );
-    p.add_msg_if_player( string_format( _( "You attempt to pry open the %s using your %s..." ),
-                                        g->m.tername( examp ), prying_items[0]->tname() ) );
     dummy.crowbar( &p, &temporary_item, false, examp );
 }
 
@@ -2499,7 +2473,7 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
                 break;
             }
             case REMOVE_BREW: {
-                g->handle_liquid_from_ground( g->m.i_at( examp ).begin(), examp );
+                liquid_handler::handle_liquid_from_ground( g->m.i_at( examp ).begin(), examp );
                 return;
             }
             case START_FERMENT: {
@@ -2612,7 +2586,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
     }
 
     const std::string booze_name = items_here.front().tname();
-    if( g->handle_liquid_from_ground( items_here.begin(), examp ) ) {
+    if( liquid_handler::handle_liquid_from_ground( items_here.begin(), examp ) ) {
         g->m.furn_set( examp, f_fvat_empty );
         add_msg( _( "You squeeze the last drops of %s from the vat." ), booze_name );
     }
@@ -2735,7 +2709,7 @@ void iexamine::keg( player &p, const tripoint &examp )
 
         switch( selectmenu.ret ) {
             case DISPENSE:
-                if( g->handle_liquid_from_ground( drink, examp ) ) {
+                if( liquid_handler::handle_liquid_from_ground( drink, examp ) ) {
                     add_msg( _( "You squeeze the last drops of %1$s from the %2$s." ),
                              drink_tname, keg_name );
                 }
@@ -3000,7 +2974,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
                 if( ( it.is_bucket() || it.is_watertight_container() ) && !it.is_container_empty() ) {
                     auto &liquid = it.contents.front();
                     if( liquid.typeId() == "maple_sap" ) {
-                        g->handle_liquid_from_container( it, PICKUP_RANGE );
+                        liquid_handler::handle_liquid_from_container( it, PICKUP_RANGE );
                     }
                 }
             }
@@ -3214,7 +3188,7 @@ void iexamine::water_source( player &p, const tripoint &examp )
 {
     item water = g->m.water_from( examp );
     ( void ) p; // TODO: use me
-    g->handle_liquid( water, nullptr, 0, &examp );
+    liquid_handler::handle_liquid( water, nullptr, 0, &examp );
 }
 
 const itype *furn_t::crafting_pseudo_item_type() const
@@ -4011,7 +3985,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-
             uilist cmenu;
             cmenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
             cmenu.addentry( 1, true, 'i', _( "Choose Compact Bionic Module to install." ) );
@@ -4049,7 +4022,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     }
 
     bool needs_anesthesia = true;
-    std::vector<item_comp> acomps;//legacy
+    // Legacy
+    std::vector<item_comp> acomps;
     std::vector<tool_comp> anesth_kit;
     if( p.has_trait( trait_NOPAIN ) || p.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
         needs_anesthesia = false;
@@ -4136,10 +4110,12 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 comps.push_back( item_comp( it->typeId(), 1 ) );
                 p.consume_items( comps, 1, is_crafting_component );
                 if( needs_anesthesia ) {
-                    if( acomps.empty() ) { // consume obsolete anesthesia first
+                    // Consume obsolete anesthesia first
+                    if( acomps.empty() ) {
                         p.consume_tools( anesth_kit, 1 );
                     } else {
-                        p.consume_items( acomps, 1, is_crafting_component );//legacy
+                        // Legacy
+                        p.consume_items( acomps, 1, is_crafting_component );
                     }
 
                 }
@@ -4215,6 +4191,7 @@ namespace sm_rack
 const int MIN_CHARCOAL = 100;
 const int CHARCOAL_PER_LITER = 25;
 const units::volume MAX_FOOD_VOLUME = units::from_liter( 20 );
+const units::volume MAX_FOOD_VOLUME_PORTABLE = units::from_liter( 15 );
 }
 
 static int get_charcoal_charges( units::volume food )
@@ -4299,8 +4276,12 @@ void smoker_activate( player &p, const tripoint &examp )
 {
     furn_id cur_smoker_type = g->m.furn( examp );
     furn_id next_smoker_type = f_null;
+    const bool portable = g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack" ) ||
+                          g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" );
     if( cur_smoker_type == f_smoking_rack ) {
         next_smoker_type = f_smoking_rack_active;
+    } else if( cur_smoker_type == f_metal_smoking_rack ) {
+        next_smoker_type = f_metal_smoking_rack_active;
     } else {
         debugmsg( "Examined furniture has action smoker_activate, but is of type %s",
                   g->m.furn( examp ).id().c_str() );
@@ -4349,7 +4330,12 @@ void smoker_activate( player &p, const tripoint &examp )
         add_msg( _( "There is no charcoal in the rack." ) );
         return;
     }
-    if( food_volume > sm_rack::MAX_FOOD_VOLUME ) {
+    if( portable && food_volume > sm_rack::MAX_FOOD_VOLUME_PORTABLE ) {
+        add_msg( _( "This rack is overloaded with food, and it blocks the flow of smoke.  Remove some and try again." ) );
+        add_msg( _( "You think that you can load about %s %s in it." ),
+                 format_volume( sm_rack::MAX_FOOD_VOLUME_PORTABLE ), volume_units_long() );
+        return;
+    } else if( food_volume > sm_rack::MAX_FOOD_VOLUME ) {
         add_msg( _( "This rack is overloaded with food, and it blocks the flow of smoke.  Remove some and try again." ) );
         add_msg( _( "You think that you can load about %s %s in it." ),
                  format_volume( sm_rack::MAX_FOOD_VOLUME ), volume_units_long() );
@@ -4437,6 +4423,8 @@ void smoker_finalize( player &, const tripoint &examp, const time_point &start_t
     furn_id next_smoker_type = f_null;
     if( cur_smoker_type == f_smoking_rack_active ) {
         next_smoker_type = f_smoking_rack;
+    } else if( cur_smoker_type == f_metal_smoking_rack_active ) {
+        next_smoker_type = f_metal_smoking_rack;
     } else {
         debugmsg( "Furniture executed action smoker_finalize, but is of type %s",
                   g->m.furn( examp ).id().c_str() );
@@ -4478,7 +4466,8 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
 {
     std::vector<item_comp> comps;
 
-    if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ) {
+    if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ||
+        g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" ) ) {
         p.add_msg_if_player( _( "You can't place more food while it's smoking." ) );
         return;
     }
@@ -4693,7 +4682,8 @@ void mill_load_food( player &p, const tripoint &examp, const units::volume &rema
 
 void iexamine::on_smoke_out( const tripoint &examp, const time_point &start_time )
 {
-    if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ) {
+    if( g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ||
+        g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" ) ) {
         smoker_finalize( g->u, examp, start_time );
     }
 }
@@ -4790,7 +4780,6 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
                              _( "Applying the brake will stop milling process." ) );
     }
 
-
     smenu.query();
 
     switch( smenu.ret ) {
@@ -4880,16 +4869,27 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
 
 void iexamine::smoker_options( player &p, const tripoint &examp )
 {
-    bool active = g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" );
+    const bool active = g->m.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ||
+                        g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" );
+    const bool portable = g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack" ) ||
+                          g->m.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" );
     auto items_here = g->m.i_at( examp );
 
-    if( items_here.empty() && active ) {
+    if( portable && items_here.empty() && active ) {
+        debugmsg( "f_metal_smoking_rack_active was empty!" );
+        g->m.furn_set( examp, f_metal_smoking_rack );
+        return;
+    } else if( items_here.empty() && active ) {
         debugmsg( "f_smoking_rack_active was empty!" );
         g->m.furn_set( examp, f_smoking_rack );
         return;
     }
-
-    if( items_here.size() == 1 && items_here.begin()->typeId() == "fake_smoke_plume" ) {
+    if( portable && items_here.size() == 1 && items_here.begin()->typeId() == "fake_smoke_plume" ) {
+        debugmsg( "f_metal_smoking_rack_active was empty, and had fake_smoke_plume!" );
+        g->m.furn_set( examp, f_metal_smoking_rack );
+        items_here.erase( items_here.begin() );
+        return;
+    } else if( items_here.size() == 1 && items_here.begin()->typeId() == "fake_smoke_plume" ) {
         debugmsg( "f_smoking_rack_active was empty, and had fake_smoke_plume!" );
         g->m.furn_set( examp, f_smoking_rack );
         items_here.erase( items_here.begin() );
@@ -4919,7 +4919,9 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
 
     const bool empty = f_volume == 0_ml;
     const bool full = f_volume >= sm_rack::MAX_FOOD_VOLUME;
+    const bool full_portable = f_volume >= sm_rack::MAX_FOOD_VOLUME_PORTABLE;
     const auto remaining_capacity = sm_rack::MAX_FOOD_VOLUME - f_volume;
+    const auto remaining_capacity_portable = sm_rack::MAX_FOOD_VOLUME_PORTABLE - f_volume;
     const auto has_coal_in_inventory = p.charges_of( "charcoal" ) > 0;
     const auto coal_charges = count_charges_in_list( item::find_type( "charcoal" ), items_here );
     const auto need_charges = get_charcoal_charges( f_volume );
@@ -4940,12 +4942,24 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                                  need_charges - coal_charges ) :
                              _( "Light up and smoke food" ),
                              _( "Light up the smoking rack and start smoking. Smoking will take about 6 hours." ) );
+        if( portable ) {
+            smenu.addentry_desc( 2, !full_portable, 'f',
+                                 full_portable ? _( "Insert food for smoking... smoking rack is full" ) :
+                                 string_format( _( "Insert food for smoking... remaining capacity is %s %s" ),
+                                                format_volume( remaining_capacity_portable ), volume_units_abbr() ),
+                                 _( "Fill the smoking rack with raw meat, fish or sausages for smoking or fruit or vegetable or smoked meat for drying." ) );
 
-        smenu.addentry_desc( 2, !full, 'f',
-                             full ? _( "Insert food for smoking... smoking rack is full" ) :
-                             string_format( _( "Insert food for smoking... remaining capacity is %s %s" ),
-                                            format_volume( remaining_capacity ), volume_units_abbr() ),
-                             _( "Fill the smoking rack with raw meat, fish or sausages for smoking or fruit or vegetable or smoked meat for drying." ) );
+            smenu.addentry_desc( 8, !active, 'z',
+                                 active ? _( "You cannot disassemble this smoking rack while it is active!" ) :
+                                 _( "Disassemble the smoking rack" ), "" );
+
+        } else {
+            smenu.addentry_desc( 2, !full, 'f',
+                                 full ? _( "Insert food for smoking... smoking rack is full" ) :
+                                 string_format( _( "Insert food for smoking... remaining capacity is %s %s" ),
+                                                format_volume( remaining_capacity ), volume_units_abbr() ),
+                                 _( "Fill the smoking rack with raw meat, fish or sausages for smoking or fruit or vegetable or smoked meat for drying." ) );
+        }
 
         if( f_check ) {
             smenu.addentry( 4, f_check, 'e', _( "Remove food from smoking rack" ) );
@@ -4958,6 +4972,7 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                                  _( "You need %d charges of charcoal for %s %s of food. Minimal amount of charcoal is %d charges." ),
                                  sm_rack::CHARCOAL_PER_LITER, format_volume( 1000_ml ), volume_units_long(),
                                  sm_rack::MIN_CHARCOAL ) );
+
     } else {
         smenu.addentry_desc( 7, true, 'x',
                              _( "Quench burning charcoal" ),
@@ -4984,9 +4999,10 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                                                         "It will finish smoking in about %d hours.",
                                                         hours_left ), hours_left ) << "\n \n ";
                     } else if( minutes_left > 30 ) {
-                        pop << _( "It will finish smoking in less than an hour." );
+                        pop << _( "It will finish smoking in less than an hour." ) << "\n ";
                     } else {
-                        pop << string_format( _( "It should take about %d minutes to finish smoking." ), minutes_left );
+                        pop << string_format( _( "It should take about %d minutes to finish smoking." ),
+                                              minutes_left ) << "\n ";
                     }
                 }
             } else {
@@ -5018,7 +5034,11 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             }
             break;
         case 2: // load food
-            smoker_load_food( p, examp, remaining_capacity );
+            if( portable ) {
+                smoker_load_food( p, examp, remaining_capacity_portable );
+            } else {
+                smoker_load_food( p, examp, remaining_capacity );
+            }
             break;
         case 3: // load charcoal
             reload_furniture( p, examp );
@@ -5040,7 +5060,10 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
                     i--;
                 }
             }
-            if( active && rem_f_opt ) {
+            if( portable && active && rem_f_opt ) {
+                g->m.furn_set( examp, f_metal_smoking_rack );
+                add_msg( m_info, _( "You stop the smoking process." ) );
+            } else if( active && rem_f_opt ) {
                 g->m.furn_set( examp, f_smoking_rack );
                 add_msg( m_info, _( "You stop the smoking process." ) );
             }
@@ -5050,8 +5073,17 @@ void iexamine::smoker_options( player &p, const tripoint &examp )
             add_msg( m_info, _( "Never mind." ) );
             break;
         case 7:
-            g->m.furn_set( examp, f_smoking_rack );
-            add_msg( m_info, _( "You stop the smoking process." ) );
+            if( portable ) {
+                g->m.furn_set( examp, f_metal_smoking_rack );
+                add_msg( m_info, _( "You stop the smoking process." ) );
+            } else {
+                g->m.furn_set( examp, f_smoking_rack );
+                add_msg( m_info, _( "You stop the smoking process." ) );
+            }
+            break;
+        case 8:
+            g->m.furn_set( examp, f_metal_smoking_rack );
+            deployed_furniture( p, examp );
             break;
     }
 }
@@ -5202,7 +5234,6 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "controls_gate", &iexamine::controls_gate },
             { "cardreader", &iexamine::cardreader },
             { "rubble", &iexamine::rubble },
-            { "crate", &iexamine::crate },
             { "chainfence", &iexamine::chainfence },
             { "bars", &iexamine::bars },
             { "portable_structure", &iexamine::portable_structure },

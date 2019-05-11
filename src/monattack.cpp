@@ -48,7 +48,6 @@
 #include "vpart_position.h"
 #include "weighted_list.h"
 #include "calendar.h"
-#include "character.h"
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
@@ -63,8 +62,7 @@
 #include "player.h"
 #include "string_formatter.h"
 #include "tileray.h"
-#include "material.h"
-#include "pldata.h"
+#include "type_id.h"
 
 const mtype_id mon_ant( "mon_ant" );
 const mtype_id mon_ant_acid( "mon_ant_acid" );
@@ -646,7 +644,9 @@ bool mattack::shockstorm( monster *z )
         auto msg_type = target == &g->u ? m_bad : m_neutral;
         add_msg( msg_type, _( "A bolt of electricity arcs towards %s!" ), target->disp_name() );
     }
-    sfx::play_variant_sound( "fire_gun", "bio_lightning", sfx::get_heard_volume( z->pos() ) );
+    if( !g->u.is_deaf() ) {
+        sfx::play_variant_sound( "fire_gun", "bio_lightning", sfx::get_heard_volume( z->pos() ) );
+    }
     tripoint tarp( target->posx() + rng( -1, 1 ) + rng( -1, 1 ),
                    target->posy() + rng( -1, 1 ) + rng( -1, 1 ),
                    target->posz() );
@@ -3343,9 +3343,10 @@ bool mattack::copbot( monster *z )
                                    _( "a robotic voice boom, \"\
 Please put down your weapon.\"" ), false, "speech", z->type->id.str() );
                 }
-            } else
+            } else {
                 sounds::sound( z->pos(), 18, sounds::sound_t::alert,
                                _( "a robotic voice boom, \"Come out with your hands up!\"" ), false, "speech", z->type->id.str() );
+            }
         } else {
             sounds::sound( z->pos(), 18, sounds::sound_t::alarm,
                            _( "a police siren, whoop WHOOP" ), false, "environment", "police_siren" );

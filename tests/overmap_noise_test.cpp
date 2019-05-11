@@ -1,7 +1,7 @@
 #include <fstream>
+#include <string>
 
 #include "catch/catch.hpp"
-#include "enums.h"
 #include "game_constants.h"
 #include "overmap_noise.h"
 

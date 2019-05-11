@@ -36,11 +36,9 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "color.h"
-#include "creature.h"
 #include "damage.h"
 #include "explosion.h"
 #include "game_constants.h"
-#include "omdata.h"
 #include "optional.h"
 #include "recipe.h"
 #include "string_id.h"
@@ -751,6 +749,7 @@ void Item_factory::init()
     add_iuse( "VACCINE", &iuse::vaccine );
     add_iuse( "BLOOD_DRAW", &iuse::blood_draw );
     add_iuse( "VIBE", &iuse::vibe );
+    add_iuse( "HAND_CRANK", &iuse::hand_crank );
     add_iuse( "VORTEX", &iuse::vortex );
     add_iuse( "WASHCLOTHES", &iuse::washclothes );
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );

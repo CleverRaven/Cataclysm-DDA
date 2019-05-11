@@ -30,6 +30,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "rng.h"
+#include "string_id.h"
 
 namespace
 {

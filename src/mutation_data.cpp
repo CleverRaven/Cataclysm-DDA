@@ -15,8 +15,6 @@
 #include "trait_group.h"
 #include "translations.h"
 #include "generic_factory.h"
-#include "itype.h"
-#include "player.h"
 
 typedef std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>> TraitGroupMap;
 typedef std::set<trait_id> TraitSet;

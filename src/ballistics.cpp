@@ -28,11 +28,10 @@
 #include "debug.h"
 #include "enums.h"
 #include "item.h"
-#include "itype.h"
 #include "optional.h"
 #include "translations.h"
 #include "units.h"
-#include "mtype.h"
+#include "type_id.h"
 
 const efftype_id effect_bounced( "bounced" );
 
@@ -60,6 +59,20 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         // TODO: Wine glass breaking vs. entire sheet of glass breaking
         sounds::sound( pt, 16, sounds::sound_t::combat, _( "glass breaking!" ), false, "bullet_hit",
                        "hit_glass" );
+        return;
+    }
+
+    if( effects.count( "BURST" ) ) {
+        // Drop the contents, not the thrown item
+        if( g->u.sees( pt ) ) {
+            add_msg( _( "The %s bursts!" ), drop_item.tname() );
+        }
+
+        for( const item &i : drop_item.contents ) {
+            g->m.add_item_or_charges( pt, i );
+        }
+
+        //TODO: Sound
         return;
     }
 
@@ -400,7 +413,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     apply_ammo_effects( tp, proj.proj_effects );
     const auto &expl = proj.get_custom_explosion();
     if( expl.power > 0.0f ) {
-        g->explosion( tp, proj.get_custom_explosion() );
+        explosion_handler::explosion( tp, proj.get_custom_explosion() );
     }
 
     // TODO: Move this outside now that we have hit point in return values?

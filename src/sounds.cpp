@@ -22,7 +22,6 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
-#include "mtype.h"
 #include "npc.h"
 #include "overmapbuffer.h"
 #include "player.h"
@@ -31,7 +30,6 @@
 #include "weather.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "character.h"
 #include "creature.h"
 #include "game_constants.h"
 #include "mapdata.h"
@@ -44,6 +42,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "veh_type.h"
+#include "type_id.h"
 
 #if defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

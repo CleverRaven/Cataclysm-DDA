@@ -319,8 +319,8 @@ bool SkillLevelMap::has_recipe_requirements( const recipe &rec ) const
     return exceeds_recipe_requirements( rec ) >= 0;
 }
 
-//Actually take the difference in barter skill between the two parties involved
-//Caps at 200% when you are 5 levels ahead, int comparison is handled in npctalk.cpp
+// Actually take the difference in barter skill between the two parties involved
+// Caps at 200% when you are 5 levels ahead, int comparison is handled in npctalk.cpp
 double price_adjustment( int barter_skill )
 {
     if( barter_skill <= 0 ) {
@@ -339,6 +339,7 @@ double price_adjustment( int barter_skill )
         case 4:
             return 1.65;
         default:
-            return 1.0;//should never occur
+            // Should never occur
+            return 1.0;
     }
 }
