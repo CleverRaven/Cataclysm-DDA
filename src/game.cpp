@@ -6002,7 +6002,6 @@ void game::zones_manager()
     int start_index = 0;
     int active_index = 0;
     bool blink = false;
-    bool redraw_info = true;
     bool stuff_changed = false;
     bool show_all_zones = false;
     int zone_cnt = 0;
@@ -6128,7 +6127,6 @@ void game::zones_manager()
 
             draw_ter();
             blink = false;
-            redraw_info = true;
 
             zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
             zones_manager_shortcuts( w_zones_info );
@@ -6138,7 +6136,6 @@ void game::zones_manager()
             zones = get_zones();
             active_index = 0;
             draw_ter();
-            redraw_info = true;
 
         } else if( zone_cnt > 0 ) {
             if( action == "UP" ) {
@@ -6148,7 +6145,6 @@ void game::zones_manager()
                 }
                 draw_ter();
                 blink = false;
-                redraw_info = true;
 
             } else if( action == "DOWN" ) {
                 active_index++;
@@ -6157,7 +6153,6 @@ void game::zones_manager()
                 }
                 draw_ter();
                 blink = false;
-                redraw_info = true;
 
             } else if( action == "REMOVE_ZONE" ) {
                 if( active_index < zone_cnt ) {
@@ -6174,7 +6169,6 @@ void game::zones_manager()
                     draw_panels();
                 }
                 blink = false;
-                redraw_info = true;
                 stuff_changed = true;
 
             } else if( action == "CONFIRM" ) {
@@ -6221,7 +6215,6 @@ void game::zones_manager()
                 draw_ter();
 
                 blink = false;
-                redraw_info = true;
 
                 zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
                 zones_manager_shortcuts( w_zones_info );
@@ -6233,7 +6226,6 @@ void game::zones_manager()
                     active_index++;
                 }
                 blink = false;
-                redraw_info = true;
                 stuff_changed = true;
 
             } else if( action == "MOVE_ZONE_DOWN" && zone_cnt > 1 ) {
@@ -6243,7 +6235,6 @@ void game::zones_manager()
                     active_index--;
                 }
                 blink = false;
-                redraw_info = true;
                 stuff_changed = true;
 
             } else if( action == "SHOW_ZONE_ON_MAP" ) {
@@ -6258,18 +6249,14 @@ void game::zones_manager()
 
                 draw_ter();
 
-                redraw_info = true;
-
             } else if( action == "ENABLE_ZONE" ) {
                 zones[active_index].get().set_enabled( true );
 
-                redraw_info = true;
                 stuff_changed = true;
 
             } else if( action == "DISABLE_ZONE" ) {
                 zones[active_index].get().set_enabled( false );
 
-                redraw_info = true;
                 stuff_changed = true;
             }
         }
@@ -6279,8 +6266,7 @@ void game::zones_manager()
             wrefresh( w_zones_border );
             mvwprintz( w_zones, 5, 2, c_white, _( "No Zones defined." ) );
 
-        } else if( redraw_info ) {
-            redraw_info = false;
+        } else {
             werase( w_zones );
 
             calcStartPos( start_index, active_index, max_rows, zone_cnt );
@@ -6387,7 +6373,6 @@ void game::zones_manager()
         wrefresh( w_terrain );
         zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
         zones_manager_shortcuts( w_zones_info );
-        redraw_info = true;
         draw_panels();
         wrefresh( w_zones );
         wrefresh( w_zones_border );
@@ -7063,7 +7048,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     int iStartPos = 0;
     tripoint active_pos;
     cata::optional<tripoint> iLastActive;
-    bool reset = true;
     bool refilter = true;
     int page_num = 0;
     int iCatSortNum = 0;
@@ -7095,7 +7079,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     do {
         if( action == "COMPARE" ) {
             game_menus::inv::compare( u, active_pos );
-            reset = true;
             refresh_all();
         } else if( action == "FILTER" ) {
             draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::FILTER );
@@ -7106,7 +7089,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             .identifier( "item_filter" )
             .max_length( 256 )
             .edit( sFilter );
-            reset = true;
             refilter = true;
             addcategory = !sort_radius;
             uistate.list_item_filter_active = !sFilter.empty();
@@ -7114,7 +7096,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             sFilter.clear();
             filtered_items = ground_items;
             iLastActive.reset();
-            reset = true;
             refilter = true;
             uistate.list_item_filter_active = false;
             addcategory = !sort_radius;
@@ -7129,7 +7110,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                             false, false, true );
             // wait until the user presses a key to wipe the screen
             iLastActive.reset();
-            reset = true;
         } else if( action == "PRIORITY_INCREASE" ) {
             draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::HIGH_PRIORITY );
             list_item_upvote = string_input_popup()
@@ -7141,7 +7121,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                .max_length( 256 )
                                .query_string();
             refilter = true;
-            reset = true;
             addcategory = !sort_radius;
             uistate.list_item_priority_active = !list_item_upvote.empty();
         } else if( action == "PRIORITY_DECREASE" ) {
@@ -7155,7 +7134,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                  .max_length( 256 )
                                  .query_string();
             refilter = true;
-            reset = true;
             addcategory = !sort_radius;
             uistate.list_item_downvote_active = !list_item_downvote.empty();
         } else if( action == "SORT" ) {
@@ -7173,7 +7151,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 
             mSortCategory.clear();
             refilter = true;
-            reset = true;
         } else if( action == "TRAVEL_TO" ) {
             if( !u.sees( u.pos() + active_pos ) ) {
                 add_msg( _( "You can't see that destination." ) );
@@ -7231,11 +7208,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             iItemNum = static_cast<int>( filtered_items.size() ) + iCatSortNum;
         }
 
-        if( reset ) {
-            reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
-            reset = false;
-            iScrollPos = 0;
-        }
+        reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
+        iScrollPos = 0;
 
         if( action == "HELP_KEYBINDINGS" ) {
             game::draw_ter();
@@ -7269,10 +7243,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             page_num = std::max( 0, page_num - 1 );
         } else if( action == "PAGE_UP" ) {
             iScrollPos--;
-            reset = true;
         } else if( action == "PAGE_DOWN" ) {
             iScrollPos++;
-            reset = true;
         } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
             u.view_offset = stored_view_offset;
             return game::vmenu_ret::CHANGE_TAB;
@@ -7382,7 +7354,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         const bool bDrawLeft = ground_items.empty() || filtered_items.empty();
 
         draw_custom_border( w_item_info, bDrawLeft, true, false, true, LINE_XOXO, LINE_XOXO, true, true );
-        reset = true;
         wrefresh( w_items );
         wrefresh( w_item_info );
         catacurses::refresh();
