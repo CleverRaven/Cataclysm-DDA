@@ -400,7 +400,6 @@ void construction_menu()
                     std::vector<construction *> options = constructions_by_desc( current_desc );
 
                     construct_buffers.clear();
-                    total_project_breakpoints = 0;
                     current_construct_breakpoint = 0;
                     construct_buffer_breakpoints.clear();
                     full_construct_buffer.clear();
