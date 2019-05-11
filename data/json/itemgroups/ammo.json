@@ -391,7 +391,7 @@
       { "item": "light_battery_cell", "prob": 50, "charges-min": 0, "charges-max": 100 },
       { "item": "light_minus_battery_cell", "prob": 30, "charges-min": 0, "charges-max": 50 },
       { "item": "light_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 150 },
-	  { "item": "light_disposable_cell", "prob": 25, "charges-min": 0, "charges-max": 300 }
+      { "item": "light_disposable_cell", "prob": 25, "charges-min": 0, "charges-max": 300 }
     ]
   },
   {
@@ -401,7 +401,7 @@
       { "item": "light_battery_cell", "prob": 50, "charges-min": 100, "charges-max": 100 },
       { "item": "light_minus_battery_cell", "prob": 30, "charges-min": 50, "charges-max": 50 },
       { "item": "light_plus_battery_cell", "prob": 20, "charges-min": 150, "charges-max": 150 },
-	  { "item": "light_disposable_cell", "prob": 25, "charges-min": 300, "charges-max": 300 }
+      { "item": "light_disposable_cell", "prob": 25, "charges-min": 300, "charges-max": 300 }
     ]
   },
   {
@@ -410,7 +410,7 @@
     "items": [
       { "item": "medium_battery_cell", "prob": 80, "charges-min": 0, "charges-max": 500 },
       { "item": "medium_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 600 },
-	  { "item": "medium_disposable_cell", "prob": 40, "charges-min": 0, "charges-max": 1200 }
+      { "item": "medium_disposable_cell", "prob": 40, "charges-min": 0, "charges-max": 1200 }
     ]
   },
   {
@@ -419,7 +419,7 @@
     "items": [
       { "item": "medium_battery_cell", "prob": 80, "charges-min": 500, "charges-max": 500 },
       { "item": "medium_plus_battery_cell", "prob": 20, "charges-min": 600, "charges-max": 600 },
-	  { "item": "medium_disposable_cell", "prob": 40, "charges-min": 1200, "charges-max": 1200 }
+      { "item": "medium_disposable_cell", "prob": 40, "charges-min": 1200, "charges-max": 1200 }
     ]
   },
   {
@@ -428,7 +428,7 @@
     "items": [
       { "item": "heavy_battery_cell", "prob": 80, "charges-min": 0, "charges-max": 1000 },
       { "item": "heavy_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 1250 },
-	  { "item": "heavy_disposable_cell", "prob": 40, "charges-min": 0, "charges-max": 2500 }
+      { "item": "heavy_disposable_cell", "prob": 40, "charges-min": 0, "charges-max": 2500 }
     ]
   },
   {
@@ -437,7 +437,7 @@
     "items": [
       { "item": "heavy_battery_cell", "prob": 80, "charges-min": 1000, "charges-max": 1000 },
       { "item": "heavy_plus_battery_cell", "prob": 20, "charges-min": 1250, "charges-max": 1250 },
-	  { "item": "heavy_disposable_cell", "prob": 40, "charges-min": 2500, "charges-max": 2500 }
+      { "item": "heavy_disposable_cell", "prob": 40, "charges-min": 2500, "charges-max": 2500 }
     ]
   },
   {
