@@ -40,7 +40,6 @@
 #include "creature_tracker.h"
 #include "cursesport.h"
 #include "debug.h"
-#include "debug_menu.h"
 #include "dependency_tree.h"
 #include "editmap.h"
 #include "enums.h"
@@ -246,6 +245,7 @@ std::unique_ptr<game> g;
 #if defined(TILES)
 extern std::unique_ptr<cata_tiles> tilecontext;
 extern void toggle_fullscreen_window();
+extern bool save_screenshot( const std::string &file_path );
 #endif // TILES
 
 uistatedata uistate;
@@ -6917,6 +6917,16 @@ int game::get_moves_since_last_save() const
 int game::get_user_action_counter() const
 {
     return user_action_counter;
+}
+
+bool game::take_screenshot( const std::string &path ) const
+{
+#if defined(TILES)
+    return save_screenshot( path );
+#else
+    ( void )path; // unused
+    return false;
+#endif
 }
 
 //helper method so we can keep list_items shorter
