@@ -257,7 +257,7 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
 {
     int curshot = 0;
     if( g->u.sees( *source ) && one_in( 50 ) ) {
-        add_msg( m_info, _( "%1$s shoots something." ), this->disp_name() );
+        add_msg( m_info, _( "%s shoots something." ), source->disp_name() );
     }
     while( curshot != shots ) {
         if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
