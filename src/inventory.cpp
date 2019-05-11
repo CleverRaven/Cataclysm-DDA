@@ -391,7 +391,7 @@ void inventory::form_from_map( map &m, const tripoint &origin, int range, bool a
     for( const tripoint &p : m.points_in_radius( origin, range ) ) {
         // can not reach this -> can not access its contents
         if( clear_path ) {
-            if( origin != p && !m.clear_path( origin, p, range, 1, 100 ) ) {
+            if( origin != p && !m.clear_path_flood_steps( origin, p, range, 1, 100 ) ) {
                 continue;
             }
         }
