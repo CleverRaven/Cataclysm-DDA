@@ -4263,8 +4263,7 @@ void player::update_stomach( const time_point &from, const time_point &to )
     const bool foodless = debug_ls || npc_no_food;
     const bool mouse = has_trait( trait_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );
-    // @TODO: move to kcal altogether
-    const float kcal_per_time = get_bmr() / ( 12 * 24 );
+    const float kcal_per_time = get_bmr() / ( 12.0f * 24.0f );
     const int five_mins = ticks_between( from, to, 5_minutes );
 
     if( five_mins > 0 ) {
@@ -4306,7 +4305,7 @@ void player::update_stomach( const time_point &from, const time_point &to )
         if( !foodless && rates.hunger > 0.0f ) {
             mod_hunger( roll_remainder( rates.hunger * five_mins ) );
             // instead of hunger keeping track of how you're living, burn calories instead
-            mod_stored_kcal( roll_remainder( five_mins * -kcal_per_time ) );
+            mod_stored_kcal( -roll_remainder( five_mins * kcal_per_time ) );
         }
     } else
         // you fill up when you eat fast, but less so than if you eat slow
@@ -13036,18 +13035,25 @@ float player::get_bmi() const
     return 12 * get_kcal_percent() + 13;
 }
 
+units::mass player::bodyweight() const
+{
+    return units::from_gram( round( get_bmi() * pow( height() / 100, 2 ) ) );
+}
+
+int player::height() const
+{
+    return 175;
+}
+
 int player::get_bmr() const
 {
     /**
         Values are for males, and average!
      */
-    const float bmi = get_bmi();
-    const unsigned int height = 175; // cm
-    const units::mass weight = units::from_gram( round( bmi * pow( height / 100, 2 ) ) );
-    const unsigned int age = 25;
-    const unsigned int equation_constant = male ? 5 : -161;
-    return metabolic_rate_base() * activity_level * ( units::to_gram<int>( 10 * weight ) +
-            ( 6.25 * height ) - ( 5 * age ) + equation_constant );
+    const int age = 25;
+    const int equation_constant = 5;
+    return ceil( metabolic_rate_base() * activity_level * ( units::to_gram<int>( 10 * bodyweight() ) +
+                 ( 6.25 * height() ) - ( 5 * age ) + equation_constant ) );
 }
 
 void player::increase_activity_level( float new_level )

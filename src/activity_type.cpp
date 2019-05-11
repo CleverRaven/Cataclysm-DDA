@@ -57,7 +57,8 @@ void activity_type::load( JsonObject &jo )
 
     std::string activity_level = jo.get_string( "activity_level", "" );
     if( activity_level == "" ) {
-        debugmsg( "Warning. %s has undefined activity level. defaulting to LIGHT_EXERCISE", result.id().c_str );
+        debugmsg( "Warning. %s has undefined activity level. defaulting to LIGHT_EXERCISE",
+                  result.id().c_str() );
         activity_level = "LIGHT_EXERCISE";
     }
     result.activity_level = activity_levels.find( activity_level )->second;

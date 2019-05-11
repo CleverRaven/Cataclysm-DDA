@@ -1275,6 +1275,10 @@ class player : public Character
         /** Returns the effect of pain on stats */
         stat_mod get_pain_penalty() const;
         float get_bmi() const;
+        // returns the height of the player character in cm
+        int height() const;
+        // returns bodyweight of the player
+        units::mass bodyweight() const;
         // returns amount of calories burned in a day given various metabolic factors
         int get_bmr() const;
         int kcal_speed_penalty();
