@@ -191,7 +191,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "40", [ "glock40mag", "glock40bigmag", "smg_40_mag" ] ] ]
+    "magazines": [ [ "45", [ "mac10mag", "smg_45_mag" ] ] ]
   },
   {
     "id": "surv_hand_cannon",
