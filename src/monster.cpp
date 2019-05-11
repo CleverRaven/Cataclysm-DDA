@@ -920,6 +920,9 @@ monster_attitude monster::attitude( const Character *u ) const
         if( np != nullptr && np->get_attitude() != NPCATT_KILL && !type->in_species( ZOMBIE ) ) {
             return MATT_FRIEND;
         }
+        if( np->is_hallucination() ) {
+            return MATT_IGNORE;
+        }
     }
     if( effect_cache[FLEEING] ) {
         return MATT_FLEE;

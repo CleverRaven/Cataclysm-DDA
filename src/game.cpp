@@ -4714,6 +4714,20 @@ void game::clear_zombies()
  */
 bool game::spawn_hallucination( const tripoint &p )
 {
+    if( one_in( 100 ) ) {
+        std::shared_ptr<npc> tmp = std::make_shared<npc>();
+        tmp->normalize();
+        tmp->randomize( NC_HALLU );
+        tmp->spawn_at_precise( { get_levx(), get_levy() }, p );
+        if( !critter_at( p, true ) ) {
+            overmap_buffer.insert_npc( tmp );
+            load_npcs();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     monster phantasm( MonsterGenerator::generator().get_valid_hallucination() );
     phantasm.hallucination = true;
     phantasm.spawn( p );
@@ -12148,7 +12162,11 @@ overmap &game::get_cur_om() const
 std::vector<npc *> game::allies()
 {
     return get_npcs_if( [&]( const npc & guy ) {
-        return guy.is_ally( g->u );
+        if( !guy.is_hallucination() ) {
+            return guy.is_ally( g->u );
+        } else {
+            return false;
+        }
     } );
 }
 

@@ -614,6 +614,7 @@ class npc : public player
         std::string pick_talk_topic( const player &u );
         float character_danger( const Character &u ) const;
         float vehicle_danger( int radius ) const;
+        void pretend_fire( npc *source, int shots, item &gun ); // fake ranged attack for hallucination
         // True if our anger is at least equal to...
         bool turned_hostile() const;
         // ... this value!
@@ -645,6 +646,9 @@ class npc : public player
         // Traveling w/ player (whether as a friend or a slave)
         bool is_following() const;
         bool is_obeying( const player &p ) const;
+
+        bool is_hallucination() const override; // true if the NPC isn't actually real
+
         // Ally of or travelling with p
         bool is_friendly( const player &p ) const;
         // Leading the player
@@ -841,13 +845,15 @@ class npc : public player
         std::set<tripoint> get_path_avoid() const override;
 
         // Item discovery and fetching
+        
+        // Comment on item seen
+        void see_item_say_smth( const itype_id item, const std::string smth ); 
         // Look around and pick an item
         void find_item();
         // Move to, or grab, our targeted item
         void pick_up_item();
         // Drop wgt and vol
         void drop_items( int weight, int volume );
-
         /** Picks up items and returns a list of them. */
         std::list<item> pick_up_item_map( const tripoint &where );
         std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
@@ -868,6 +874,7 @@ class npc : public player
         bool alt_attack();
         void heal_player( player &patient );
         void heal_self();
+        void pretend_heal( player &patient, item used ); // healing action of hallucinations
         void mug_player( player &mark );
         void look_for_player( const player &sought );
         // Do we have an idea of where u are?
@@ -1018,6 +1025,7 @@ class npc : public player
         npc_follower_rules rules;
         bool marked_for_death; // If true, we die as soon as we respawn!
         bool hit_by_player;
+        bool hallucination; // If true, NPC is an hallucination
         std::vector<npc_need> needs;
         // Dummy point that indicates that the goal is invalid.
         static constexpr tripoint no_goal_point = tripoint_min;

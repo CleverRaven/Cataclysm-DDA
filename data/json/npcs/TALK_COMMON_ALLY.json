@@ -57,10 +57,19 @@
         "failure": { "topic": "TALK_TRAIN_PERSUADE" }
       },
       {
+        "text": "Let's trade items",
+        "topic": "TRADE_HALLU",
+        "condition": { "npc_has_trait": "HALLUCINATION" },
+        "switch": true,
+        "default": false
+      },
+      {
         "text": "Let's trade items.",
         "condition": { "not": "is_by_radio" },
         "topic": "TALK_FRIEND",
-        "effect": "start_trade"
+        "effect": "start_trade",
+        "switch": true,
+        "default": true
       },
       {
         "text": "Guard this position.",
@@ -616,5 +625,11 @@
         "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
       }
     ]
+  },
+  {
+    "id": "TRADE_HALLU",
+    "type": "talk_topic",
+    "dynamic_line": "<hallu_dont_trade>",
+    "responses": [ { "text": "Fair enough.", "topic": "TALK_NONE" } ]
   }
 ]
