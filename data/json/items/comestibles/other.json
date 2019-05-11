@@ -556,7 +556,7 @@
     "material": "veggy",
     "symbol": ";",
     "healthy": 1,
-    "calories": 500,
+    "calories": 400,
     "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ] ],
     "fun": 5,
     "color": "brown",
