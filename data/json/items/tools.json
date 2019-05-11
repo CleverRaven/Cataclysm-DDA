@@ -8308,6 +8308,35 @@
     "flags": [ "SPEAR" ]
   },
   {
+    "id": "hand_crank_charger",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "hand-crank charger",
+    "description": "This is a hand-powered battery charger.  It has an adjustable receptacle designed to accept a wide variety of rechargeable battery cells.",
+    "weight": 2000,
+    "volume": 2,
+    "price": 1000,
+    "material": "plastic",
+    "symbol": ":",
+    "color": "light_gray",
+    "ammo": "battery",
+    "use_action": "HAND_CRANK",
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "heavy_battery_cell",
+          "heavy_plus_battery_cell"
+        ]
+      ]
+    ]
+  },
+  {
     "id": "vibrator",
     "type": "TOOL",
     "name": "vibrator",

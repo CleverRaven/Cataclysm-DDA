@@ -166,6 +166,13 @@
     "no_resume": true
   },
   {
+    "id": "ACT_HAND_CRANK",
+    "type": "activity_type",
+    "stop_phrase": "Stop cranking?",
+    "rooted": true,
+    "based_on": "time"
+  },
+  {
     "id": "ACT_VIBE",
     "type": "activity_type",
     "stop_phrase": "Stop de-stressing?",
