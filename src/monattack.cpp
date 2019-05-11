@@ -3804,7 +3804,6 @@ bool mattack::absorb_meat( monster *z )
     const float average_meat_chunk_volume = 0.5;
     //TODO: dynamically get volume of meat
     const int max_meat_absorbed = ( monster_volume / 10 ) * average_meat_chunk_volume;
-    add_msg( m_debug, _( "Max Meat Absorbed: %1$s" ), max_meat_absorbed );
     //For every milliliter of meat absorbed, heal this many HP
     const float meat_absorption_factor = 0.01;
     //Search surrounding tiles for meat
