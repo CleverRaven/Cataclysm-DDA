@@ -77,6 +77,7 @@ mission *mission::find( int id )
 std::vector<mission *> mission::get_all_active()
 {
     std::vector<mission *> ret;
+    ret.reserve( world_missions.size() );
     for( auto &pr : world_missions ) {
         ret.push_back( &pr.second );
     }
@@ -111,6 +112,7 @@ std::vector<mission *> mission::to_ptr_vector( const std::vector<int> &vec )
 std::vector<int> mission::to_uid_vector( const std::vector<mission *> &vec )
 {
     std::vector<int> result;
+    result.reserve( vec.size() );
     for( auto &miss : vec ) {
         result.push_back( miss->uid );
     }

@@ -1808,6 +1808,7 @@ vehicle *editmap::mapgen_veh_query( const tripoint &omt_tgt )
     }
 
     std::vector<std::string> car_titles;
+    car_titles.reserve( possible_vehicles.size() );
     for( auto &elem : possible_vehicles ) {
         car_titles.push_back( elem->name );
     }

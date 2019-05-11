@@ -1091,6 +1091,7 @@ void vehicle_prototype::finalize()
 std::vector<vproto_id> vehicle_prototype::get_all()
 {
     std::vector<vproto_id> result;
+    result.reserve( vtypes.size() );
     for( auto &vp : vtypes ) {
         result.push_back( vp.first );
     }

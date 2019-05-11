@@ -3070,6 +3070,7 @@ std::vector<item *> basecamp::give_equipment( std::vector<item *> equipment,
         wrefresh( g->w_terrain );
 
         std::vector<std::string> names;
+        names.reserve( equipment.size() );
         for( auto &i : equipment ) {
             names.push_back( i->tname() + " [" + to_string( i->charges ) + "]" );
         }
