@@ -10,6 +10,7 @@
 #include "debug.h"
 #include "json.h"
 #include "translations.h"
+#include "sounds.h"
 #include "player_activity.h"
 
 // activity_type functions
@@ -96,6 +97,7 @@ bool activity_type::call_finish( player_activity *act, player *p ) const
     const auto &pair = activity_handlers::finish_functions.find( id_ );
     if( pair != activity_handlers::finish_functions.end() ) {
         pair->second( act, p );
+        sfx::end_activity_sounds(); // kill activity sounds at finish
         return true;
     }
     return false;

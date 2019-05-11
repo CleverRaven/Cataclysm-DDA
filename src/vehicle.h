@@ -1603,6 +1603,8 @@ class vehicle
         time_point last_fluid_check = calendar::time_of_cataclysm;
         // zone_data positions are outdated and need refreshing
         bool zones_dirty = true;
+        // current noise of vehicle (engine working, etc.)
+        unsigned char vehicle_noise = 0;
 
     private:
         // refresh pivot_cache, clear pivot_dirty

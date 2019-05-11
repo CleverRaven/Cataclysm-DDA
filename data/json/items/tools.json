@@ -177,6 +177,8 @@
       "moves": 100,
       "noise": 50,
       "noise_message": "HOOOOONK!",
+      "noise_id": "misc",
+      "noise_variant": "airhorn",
       "use_message": "You honk your airhorn.",
       "no_charges_message": "You depress the button but no sound comes out.",
       "//": "Use of %s not currently supported."
@@ -4071,6 +4073,8 @@
       "moves": 100,
       "noise": 15,
       "noise_message": "honk.",
+      "noise_id": "misc",
+      "noise_variant": "horn_bicycle",
       "use_message": "You honk the bicycle horn.",
       "no_charges_message": "Seeing this is an error.",
       "//": "Use of %s not currently supported."
