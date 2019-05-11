@@ -887,7 +887,7 @@ void player::process_turn()
                 // Reduce the tracked time spent in this overmap tile.
                 const time_duration decay_amount = std::min( since_visit - modified_decay_time, 1_hours );
                 const time_duration updated_value = it->second - decay_amount;
-                if( updated_value <= 0 ) {
+                if( updated_value <= 0_turns ) {
                     // We can stop tracking this tile if there's no longer any time recorded there.
                     it = overmap_time.erase( it );
                     continue;
@@ -2485,7 +2485,7 @@ time_duration player::estimate_effect_dur( const skill_id &relevant_skill,
         const efftype_id &target_effect, const time_duration &error_magnitude,
         int threshold, const Creature &target ) const
 {
-    const time_duration zero_duration = 0;
+    const time_duration zero_duration = 0_turns;
 
     int skill_lvl = get_skill_level( relevant_skill );
 

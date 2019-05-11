@@ -3890,7 +3890,7 @@ time_duration item::get_shelf_life() const
             return CORPSE_ROT_TIME;
         }
     }
-    return 0;
+    return 0_turns;
 }
 
 double item::get_relative_rot() const
