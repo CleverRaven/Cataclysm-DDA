@@ -3,7 +3,7 @@
     "type": "COMESTIBLE",
     "id": "brew_mycus_wine",
     "name": "mycus wine must",
-    "description": "Unfermented mycus wine.  A goopy white mess, made from berries of marloss.  It smells sweetly of mushrooms.",
+    "description": "Unfermented mycus wine.  A goopy white mess, made from berries of mycus.  It smells sweetly of mushrooms.",
     "weight": 33,
     "color": "white",
     "container": "bottle_glass",
