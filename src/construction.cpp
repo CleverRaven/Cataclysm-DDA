@@ -965,9 +965,9 @@ void construct::done_grave( const tripoint &p )
                         add_msg( m_neutral, _( "You bury remains of a human, whose name is lost in the Cataclysm." ) );
                     }
                     g->u.add_memorial_log( pgettext( "memorial_male",
-                                                     string_format( "You buried unknown victim of the Cataclysm.", it.type_name() ) ),
+                                                     string_format( "You buried unknown victim of the Cataclysm.", it.type_name() ).c_str() ),
                                            pgettext( "memorial_female", string_format( "You buried unknown victim of The Cataclysm.",
-                                                     it.type_name() ) ) );
+                                                     it.type_name() ).c_str() ) );
                 }
             } else {
                 if( g->u.has_trait( trait_SPIRITUAL ) ) {
@@ -981,8 +981,8 @@ void construct::done_grave( const tripoint &p )
                              it.get_corpse_name() );
                 }
                 g->u.add_memorial_log( pgettext( "memorial_male", string_format( "You buried %s.",
-                                                 it.get_corpse_name() ) ),
-                                       pgettext( "memorial_female", string_format( "You buried %s.", it.get_corpse_name() ) ) );
+                                                 it.get_corpse_name() ).c_str() ),
+                                       pgettext( "memorial_female", string_format( "You buried %s.", it.get_corpse_name() ).c_str() ) );
             }
         }
     }

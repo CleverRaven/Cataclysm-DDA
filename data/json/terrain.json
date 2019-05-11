@@ -10298,7 +10298,7 @@
     "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE" ],
     "bash": { "sound": "thump", "ter_set": "t_dirt", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   },
-   {
+  {
     "type": "terrain",
     "id": "t_grave_new",
     "name": "grave",

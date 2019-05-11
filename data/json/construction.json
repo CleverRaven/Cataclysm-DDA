@@ -1251,10 +1251,7 @@
     "category": "DIG",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": 60,
-    "qualities": [
-      [ { "id": "HAMMER", "level": 1 } ],
-      [ { "id": "DIG", "level": 2 } ]
-    ],
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 2 } ] ],
     "components": [ [ [ "rock", 20 ], [ "2x4", 2 ] ] ],
     "pre_flags": "DIGGABLE",
     "pre_terrain": "f_coffin_c",
