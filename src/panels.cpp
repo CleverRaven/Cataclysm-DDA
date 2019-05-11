@@ -1084,10 +1084,10 @@ void draw_needs( const player &u, const catacurses::window &w )
 void draw_limb( player &u, const catacurses::window &w )
 {
     werase( w );
-    int ny = 0;
     int ny2 = 0;
-    int nx = 0;
     for( int i = 0; i < num_hp_parts; i++ ) {
+        int ny;
+        int nx;
         if( i < 3 ) {
             ny = i;
             nx = 8;
@@ -1104,10 +1104,10 @@ void draw_limb( player &u, const catacurses::window &w )
             bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
         }
     };
-    ny = 0;
     ny2 = 0;
-    nx = 0;
     for( size_t i = 0; i < part.size(); i++ ) {
+        int ny;
+        int nx;
         if( i < 3 ) {
             ny = i;
             nx = 1;
