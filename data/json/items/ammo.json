@@ -12,11 +12,11 @@
     "flags": "TRADER_AVOID",
     "material": "iron",
     "volume": 1,
-    "weight": 0,
+	"//": "Setting battery volume to 0 causes weirdness in vehicle tests.  Please don't do that.",
     "ammo_type": "battery",
     "reload_time": 1,
     "count": 100,
-    "//": "1 battery is 1 kJ of energy. 40 batteries is an alkaline C-cell.",
+    "//2": "1 battery is 1 kJ of energy. 40 batteries is an alkaline C-cell.",
     "fuel": { "energy": 1 }
   },
   {
@@ -275,7 +275,7 @@
     "type": "MAGAZINE",
     "category": "spare_parts",
     "name": "heavy disposable battery",
-	"name_plural": "heavy disposable batteries"
+	"name_plural": "heavy disposable batteries",
     "description": "This is a heavy battery cell, universally compatible with all kinds of industrial-grade equipment and large tools. The battery's chemistry means that it has a very high capacity, but cannot be recharged.",
     "weight": 950,
     "volume": "1000ml",
