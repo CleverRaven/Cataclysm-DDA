@@ -4042,7 +4042,7 @@ void item::calc_rot( time_point time, int temp )
     }
 
     // bday and/or last_rot_check might be zero, if both are then we want calendar::start
-    const time_point since = std::max( {last_rot_check, ( time_point ) calendar::start} );
+    const time_point since = std::max( {last_rot_check, time_point( calendar::start )} );
 
     // simulation of different age of food at the start of the game and good/bad storage
     // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
