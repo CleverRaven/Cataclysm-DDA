@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "calendar.h"
-#include "itype.h"
+#include "type_id.h"
 
 class npc;
 class item;

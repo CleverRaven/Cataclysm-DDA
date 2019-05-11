@@ -31,6 +31,7 @@
 #include "game.h"
 #include "get_version.h"
 #include "gun_mode.h"
+#include "handle_liquid.h"
 #include "help.h" // get_hint
 #include "input.h"
 #include "inventory.h"
@@ -94,6 +95,7 @@
 #include "rng.h"
 #include "units.h"
 #include "visitable.h"
+#include "string_id.h"
 
 constexpr double SQRT_2 = 1.41421356237309504880;
 
@@ -1163,8 +1165,8 @@ void player::update_bodytemp()
                                -1.5f * get_fatigue() ) );
 
     // Sunlight
-    const int sunlight_warmth = g->is_in_sunlight( pos() ) ? 0 :
-                                ( g->weather == WEATHER_SUNNY ? 1000 : 500 );
+    const int sunlight_warmth = g->is_in_sunlight( pos() ) ? ( g->weather == WEATHER_SUNNY ? 1000 :
+                                500 ) : 0;
     const int best_fire = get_heat_radiation( pos(), true );
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
@@ -1786,7 +1788,6 @@ void player::recalc_speed_bonus()
     }
     // fat or underweight, you get slower. cumulative with hunger
     mod_speed_bonus( kcal_speed_penalty() );
-
 
     for( const auto &maps : *effects ) {
         for( auto i : maps.second ) {
@@ -2479,6 +2480,21 @@ void player::disp_morale()
     morale->display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
 }
 
+time_duration player::estimate_effect_dur( const skill_id &relevant_skill,
+        const efftype_id &target_effect, const time_duration &error_magnitude,
+        int threshold, const Creature &target ) const
+{
+    const time_duration zero_duration = 0;
+
+    int skill_lvl = get_skill_level( relevant_skill );
+
+    time_duration estimate = std::max( zero_duration, target.get_effect_dur( target_effect ) +
+                                       rng( -1, 1 ) * error_magnitude *
+                                       rng( 0, std::max( 0, threshold - skill_lvl ) ) );
+
+    return estimate;
+}
+
 bool player::has_conflicting_trait( const trait_id &flag ) const
 {
     return ( has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) ||
@@ -3111,7 +3127,7 @@ void player::shout( std::string msg, bool order )
     sounds::sound( pos(), noise, order ? sounds::sound_t::order : sounds::sound_t::alert, msg );
 }
 
-void player::set_movement_mode( std::string new_mode )
+void player::set_movement_mode( const std::string &new_mode )
 {
     if( new_mode == "run" ) {
         if( stamina > 0 && !has_effect( effect_winded ) ) {
@@ -4238,7 +4254,7 @@ void player::update_stomach( const time_point &from, const time_point &to )
     const bool mouse = has_trait( trait_NO_THIRST );
     const bool mycus = has_trait( trait_M_DEPENDENT );
     // @TODO: move to kcal altogether
-    const float kcal_per_nutr = 2500.0f / ( 12 * 24 );
+    const float kcal_per_nutr = 2400.0f / ( 12 * 24 );
     const int five_mins = ticks_between( from, to, 5_minutes );
 
     if( five_mins > 0 ) {
@@ -4576,6 +4592,7 @@ needs_rates player::calc_needs_rates()
 
     needs_rates rates;
     rates.hunger = metabolic_rate();
+    rates.fatigue = 1.0f;
     // TODO: this is where calculating basal metabolic rate, in kcal per day would go
     rates.kcal = 2500.0;
 
@@ -4606,7 +4623,6 @@ needs_rates player::calc_needs_rates()
             const int accelerated_recovery_chance = 24 - intense + 1;
             const float accelerated_recovery_rate = 1.0f / accelerated_recovery_chance;
             rates.recovery += accelerated_recovery_rate;
-
         } else {
             // Hunger and thirst advance *much* more slowly whilst we hibernate.
             rates.hunger *= ( 2.0f / 7.0f );
@@ -4656,7 +4672,7 @@ void player::update_needs( int rate_multiplier )
     // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
     if( get_fatigue() < 1050 && !asleep && !debug_ls ) {
         if( rates.fatigue > 0.0f ) {
-            int fatigue_roll = divide_roll_remainder( rates.fatigue * rate_multiplier, 1.0 );
+            int fatigue_roll = roll_remainder( rates.fatigue * rate_multiplier );
             mod_fatigue( fatigue_roll );
 
             if( get_option< bool >( "SLEEP_DEPRIVATION" ) ) {
@@ -4678,7 +4694,7 @@ void player::update_needs( int rate_multiplier )
         }
     } else if( asleep ) {
         if( rates.recovery > 0.0f ) {
-            int recovered = divide_roll_remainder( rates.recovery * rate_multiplier, 1.0 );
+            int recovered = roll_remainder( rates.recovery * rate_multiplier );
             if( get_fatigue() - recovered < -20 ) {
                 // Should be wake up, but that could prevent some retroactive regeneration
                 sleep.set_duration( 1_turns );
@@ -4980,7 +4996,7 @@ void player::siphon( vehicle &veh, const itype_id &type )
     if( liquid.is_food() ) {
         liquid.set_item_specific_energy( veh.fuel_specific_energy( type ) );
     }
-    if( g->handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
+    if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
         veh.drain( type, qty - liquid.charges );
     }
 }
@@ -6988,8 +7004,7 @@ void player::update_body_wetness( const w_point &weather )
     // A modifier on drying time
     double delay = 1.0;
     // Weather slows down drying
-    delay -= ( weather.temperature - 65 ) / 100.0;
-    delay += ( weather.humidity - 66 ) / 100.0;
+    delay += ( ( weather.humidity - 66 ) - ( weather.temperature - 65 ) ) / 100;
     delay = std::max( 0.1, delay );
     // Fur/slime retains moisture
     if( has_trait( trait_LIGHTFUR ) || has_trait( trait_FUR ) || has_trait( trait_FELINE_FUR ) ||
@@ -6998,10 +7013,10 @@ void player::update_body_wetness( const w_point &weather )
         delay = delay * 6 / 5;
     }
     if( has_trait( trait_URSINE_FUR ) || has_trait( trait_SLIMY ) ) {
-        delay = delay * 3 / 2;
+        delay *= 1.5;
     }
 
-    if( !one_in_improved( average_drying * delay / 100.0 ) ) {
+    if( !x_in_y( 1, average_drying / 100.0 * delay ) ) {
         // No drying this turn
         return;
     }
@@ -8111,7 +8126,7 @@ ret_val<bool> player::can_wear( const item &it ) const
 
     if( it.covers( bp_head ) &&
         ( it.has_flag( "SKINTIGHT" ) || it.has_flag( "HELMET_COMPAT" ) ) &&
-        ( head_cloth_encumbrance() + it.get_encumber( *this ) > 20 ) ) {
+        ( head_cloth_encumbrance() + it.get_encumber( *this ) > 40 ) ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You can't wear that much on your head!" )
                                               : string_format( _( "%s can't wear that much on their head!" ), name ) ) );
     }
@@ -8316,6 +8331,7 @@ bool player::pick_style() // Style selection menu
 
     if( selection >= STYLE_OFFSET ) {
         style_selected = selectable_styles[selection - STYLE_OFFSET];
+        add_msg_if_player( m_info, _( style_selected.obj().get_initiate_player_message() ) );
     } else if( selection == KEEP_HANDS_FREE ) {
         keep_hands_free = !keep_hands_free;
     } else {
@@ -8980,7 +8996,7 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &t
 bool player::add_or_drop_with_msg( item &it, const bool unloading )
 {
     if( it.made_of( LIQUID ) ) {
-        g->consume_liquid( it, 1 );
+        liquid_handler::consume_liquid( it, 1 );
         return it.charges <= 0;
     }
     it.charges = this->i_add_to_container( it, unloading );
@@ -9718,8 +9734,8 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
     const skill_id &skill = type->skill;
     const int skill_level = get_skill_level( skill );
     if( skill && skill_level < type->req && has_identified( book.typeId() ) ) {
-        reasons.push_back( string_format( _( "You need %s %d to understand the jargon!" ),
-                                          skill.obj().name(), type->req ) );
+        reasons.push_back( string_format( _( "%s %d needed to understand. You have %d" ),
+                                          skill.obj().name(), type->req, skill_level ) );
         return nullptr;
     }
 
@@ -9754,8 +9770,8 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
                                               elem->disp_name() ) );
         } else if( skill && elem->get_skill_level( skill ) < type->req &&
                    has_identified( book.typeId() ) ) {
-            reasons.push_back( string_format( _( "%s needs %s %d to understand the jargon!" ),
-                                              elem->disp_name(), skill.obj().name(), type->req ) );
+            reasons.push_back( string_format( _( "%s %d needed to understand. %s has %d" ),
+                                              skill.obj().name(), type->req, elem->disp_name(), elem->get_skill_level( skill ) ) );
         } else if( elem->has_trait( trait_HYPEROPIC ) && !elem->worn_with_flag( "FIX_FARSIGHT" ) &&
                    !elem->has_effect( effect_contacts ) ) {
             reasons.push_back( string_format( _( "%s needs reading glasses!" ),
@@ -11589,6 +11605,11 @@ bool player::has_activity( const activity_id &type ) const
     return activity.id() == type;
 }
 
+bool player::has_activity( const std::vector<activity_id> &types ) const
+{
+    return std::find( types.begin(), types.end(), activity.id() ) != types.end() ;
+}
+
 void player::cancel_activity()
 {
     if( has_activity( activity_id( "ACT_MOVE_ITEMS" ) ) && is_hauling() ) {
@@ -11639,7 +11660,7 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
 std::string player::weapname( unsigned int truncate ) const
 {
     if( weapon.is_gun() ) {
-        std::string str = string_format( "(%s) %s", weapon.gun_current_mode().name(), weapon.type_name() );
+        std::string str = string_format( "(%s) %s", weapon.gun_current_mode().tname(), weapon.type_name() );
 
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
         bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );

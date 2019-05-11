@@ -15,6 +15,7 @@
 #include "game_constants.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
+#include "type_id.h"
 
 void wipe_map_terrain()
 {
@@ -40,14 +41,12 @@ void clear_creatures()
 
 void clear_npcs()
 {
-    // Unload and reaload to ensure that all active NPCs are in the
-    // overmap_buffer.
-    g->unload_npcs();
-    g->load_npcs();
+    // Reload to ensure that all active NPCs are in the overmap_buffer.
+    g->reload_npcs();
     for( npc &n : g->all_npcs() ) {
         n.die( nullptr );
-        overmap_buffer.remove_npc( n.getID() );
     }
+    g->cleanup_dead();
 }
 
 void clear_fields( const int zlevel )
@@ -75,9 +74,9 @@ void clear_map()
         clear_fields( z );
     }
     wipe_map_terrain();
-    g->m.clear_traps();
     clear_npcs();
     clear_creatures();
+    g->m.clear_traps();
 }
 
 void clear_map_and_put_player_underground()

@@ -11,6 +11,7 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
+#include "explosion.h"
 #include "field.h"
 #include "game.h"
 #include "item.h"
@@ -41,11 +42,11 @@
 #include "character.h"
 #include "compatibility.h"
 #include "game_constants.h"
-#include "itype.h"
 #include "mattack_common.h"
 #include "pimpl.h"
 #include "player.h"
-#include "material.h"
+#include "int_id.h"
+#include "string_id.h"
 
 struct pathfinding_settings;
 
@@ -1868,12 +1869,12 @@ void monster::process_turn()
                     }
                 }
                 if( zap != pos() ) {
-                    g->emp_blast( zap ); // Fries electronics due to the intensity of the field
+                    explosion_handler::emp_blast( zap ); // Fries electronics due to the intensity of the field
                 }
                 const auto t = g->m.ter( zap );
                 if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
                     if( one_in( 4 ) ) {
-                        g->explosion( pos(), 40, 0.8, true );
+                        explosion_handler::explosion( pos(), 40, 0.8, true );
                         if( player_sees ) {
                             add_msg( m_warning, _( "The %s explodes in a fiery inferno!" ), g->m.tername( zap ) );
                         }
@@ -2552,7 +2553,7 @@ void monster::on_load()
         regen = 0.25f / HOURS( 1 );
     }
 
-    const int heal_amount = divide_roll_remainder( regen * to_turns<int>( dt ), 1.0 );
+    const int heal_amount = roll_remainder( regen * to_turns<int>( dt ) );
     const int healed = heal( heal_amount );
     int healed_speed = 0;
     if( healed < heal_amount && get_speed_base() < type->speed ) {

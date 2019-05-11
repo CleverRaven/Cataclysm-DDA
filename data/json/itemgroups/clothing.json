@@ -385,5 +385,17 @@
       [ "sports_drink", 30 ],
       [ "1st_aid", 20 ]
     ]
+  },
+  {
+    "id": "donated_clothes",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "underwear" },
+      { "group": "clothing_outdoor_torso" },
+      { "group": "clothing_outdoor_pants" },
+      { "item": "socks" },
+      { "item": "boots" }
+    ]
   }
 ]

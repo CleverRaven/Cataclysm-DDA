@@ -22,6 +22,7 @@
 #include "debug.h"
 #include "game.h"
 #include "game_inventory.h"
+#include "handle_liquid.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -59,8 +60,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "units.h"
-#include "mtype.h"
-#include "pldata.h"
+#include "type_id.h"
 
 const efftype_id effect_contacts( "contacts" );
 
@@ -589,7 +589,7 @@ static item *set_item_inventory( player &p, item &newit )
 {
     item *ret_val = nullptr;
     if( newit.made_of( LIQUID ) ) {
-        g->handle_all_liquid( newit, PICKUP_RANGE );
+        liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
     } else {
         p.inv.assign_empty_invlet( newit, p );
         // We might not have space for the item
@@ -835,7 +835,7 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
         // Normalize experience gain to crafting time, giving a bonus for longer crafting
         const double batch_mult = batch_size + base_time_to_craft( making, batch_size ) / 30000.0;
         // This is called after every 5% crafting progress, so divide by 20
-        const int base_practice = divide_roll_remainder( ( making.difficulty * 15 + 10 ) * batch_mult,
+        const int base_practice = roll_remainder( ( making.difficulty * 15 + 10 ) * batch_mult /
                                   20.0 ) * multiplier;
         const int skill_cap = static_cast<int>( making.difficulty * 1.25 );
         practice( making.skill_used, base_practice, skill_cap );
@@ -844,8 +844,7 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
         for( auto &helper : helpers ) {
             //If the NPC can understand what you are doing, they gain more exp
             if( helper->get_skill_level( making.skill_used ) >= making.difficulty ) {
-                helper->practice( making.skill_used,
-                                  divide_roll_remainder( base_practice, 2.0 ),
+                helper->practice( making.skill_used, roll_remainder( base_practice / 2.0 ),
                                   skill_cap );
                 if( batch_size > 1 && one_in( 3 ) ) {
                     add_msg( m_info, _( "%s assists with crafting..." ), helper->name );
@@ -855,8 +854,7 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
                 }
                 // NPCs around you understand the skill used better
             } else {
-                helper->practice( making.skill_used,
-                                  divide_roll_remainder( base_practice, 10.0 ),
+                helper->practice( making.skill_used, roll_remainder( base_practice / 10.0 ),
                                   skill_cap );
                 if( one_in( 3 ) ) {
                     add_msg( m_info, _( "%s watches you craft..." ), helper->name );
@@ -1071,7 +1069,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
 
         finalize_crafted_item( newit );
         if( newit.made_of( LIQUID ) ) {
-            g->handle_all_liquid( newit, PICKUP_RANGE );
+            liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
         } else if( loc == tripoint_zero ) {
             wield_craft( *this, newit );
         } else {
@@ -1095,7 +1093,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
             }
             finalize_crafted_item( bp );
             if( bp.made_of( LIQUID ) ) {
-                g->handle_all_liquid( bp, PICKUP_RANGE );
+                liquid_handler::handle_all_liquid( bp, PICKUP_RANGE );
             } else if( loc == tripoint_zero ) {
                 set_item_inventory( *this, bp );
             } else {
@@ -1311,7 +1309,6 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
 {
     return consume_items( g->m, is, batch, filter, pos(), PICKUP_RANGE );
 }
-
 
 std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter, tripoint origin, int radius )
@@ -1849,6 +1846,11 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
                 }
             }
 
+            // If the recipe has a `FULL_MAGAZINE` flag, spawn any magazines full of ammo
+            if( newit.is_magazine() && dis.has_flag( "FULL_MAGAZINE" ) ) {
+                newit.ammo_set( newit.type->magazine->type.obj().default_ammotype(), newit.ammo_capacity() );
+            }
+
             for( ; compcount > 0; compcount-- ) {
                 components.emplace_back( newit );
             }
@@ -1898,7 +1900,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         }
 
         if( act_item.made_of( LIQUID ) ) {
-            g->handle_all_liquid( act_item, PICKUP_RANGE );
+            liquid_handler::handle_all_liquid( act_item, PICKUP_RANGE );
         } else {
             drop_items.push_back( act_item );
         }
@@ -1910,7 +1912,8 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         if( can_decomp_learn( dis ) ) {
             // TODO: make this depend on intelligence
             if( one_in( 4 ) ) {
-                learn_recipe( &dis.ident().obj() );// TODO: change to forward an id or a reference
+                // TODO: change to forward an id or a reference
+                learn_recipe( &dis.ident().obj() );
                 add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
                          dis_item.tname() );
             } else {
@@ -1933,7 +1936,7 @@ void remove_ammo( std::list<item> &dis_items, player &p )
 void drop_or_handle( const item &newit, player &p )
 {
     if( newit.made_of( LIQUID ) && &p == &g->u ) { // TODO: what about NPCs?
-        g->handle_all_liquid( newit, PICKUP_RANGE );
+        liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
     } else {
         item tmp( newit );
         p.i_add_or_drop( tmp );

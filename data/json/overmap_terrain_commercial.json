@@ -703,6 +703,20 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "furniture_roof",
+    "name": "furniture store roof",
+    "copy-from": "generic_city_building",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "furniture_upper_roof",
+    "name": "furniture store roof",
+    "copy-from": "generic_city_building",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_music",
     "copy-from": "generic_city_building",
     "name": "music store",
@@ -1652,6 +1666,22 @@
     "id": "cs_internet_cafe",
     "copy-from": "generic_city_building",
     "name": "internet cafe",
+    "sym": "i",
+    "color": "light_green_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_internet_cafe_roof",
+    "copy-from": "generic_city_building",
+    "name": "internet cafe roof",
+    "sym": "i",
+    "color": "light_green_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_internet_cafe_upper_roof",
+    "copy-from": "generic_city_building",
+    "name": "internet cafe roof",
     "sym": "i",
     "color": "light_green_cyan"
   },

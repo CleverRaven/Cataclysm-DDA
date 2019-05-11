@@ -9,23 +9,9 @@
 
 #include "string_id.h"
 #include "int_id.h"
+#include "type_id.h"
 
 class JsonObject;
-class npc_class;
-
-using npc_class_id = string_id<npc_class>;
-
-class Skill;
-
-using skill_id = string_id<Skill>;
-
-struct mutation_branch;
-
-using trait_id = string_id<mutation_branch>;
-
-struct bionic_data;
-
-using bionic_id = string_id<bionic_data>;
 
 typedef std::string Group_tag;
 typedef std::string Mutation_category_tag;

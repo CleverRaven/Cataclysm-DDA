@@ -30,6 +30,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npctalk.h"
+#include "options.h"
 #include "overmap_location.h"
 #include "overmapbuffer.h"
 #include "projectile.h"
@@ -45,7 +46,6 @@
 #include "vpart_reference.h"
 #include "bodypart.h"
 #include "character.h"
-#include "clzones.h"
 #include "damage.h"
 #include "explosion.h"
 #include "game_constants.h"
@@ -55,6 +55,7 @@
 #include "player_activity.h"
 #include "ret_val.h"
 #include "units.h"
+#include "pldata.h"
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
@@ -1347,8 +1348,9 @@ npc_action npc::address_needs( float danger )
         return npc_noop;
     }
 
-    if( ( danger <= NPC_DANGER_VERY_LOW && ( get_hunger() > 40 || get_thirst() > 40 ) ) ||
-        get_thirst() > 80 || get_hunger() > 160 ) {
+    if( ( danger <= NPC_DANGER_VERY_LOW &&
+          ( get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.95 || get_thirst() > 40 ) ) ||
+        get_thirst() > 80 || get_stored_kcal() + stomach.get_calories() < get_healthy_kcal() * 0.75 ) {
         if( consume_food() ) {
             return npc_noop;
         }
@@ -2675,12 +2677,12 @@ bool npc::wield_better_weapon()
     // Until then, the NPCs should reload the guns as a last resort
 
     if( best == &weapon ) {
-        add_msg( m_debug, "Wielded %s is best at %.1f, not switching", best->display_name(),
+        add_msg( m_debug, "Wielded %s is best at %.1f, not switching", best->type->get_id(),
                  best_value );
         return false;
     }
 
-    add_msg( m_debug, "Wielding %s at value %.1f", best->display_name(), best_value );
+    add_msg( m_debug, "Wielding %s at value %.1f", best->type->get_id(), best_value );
 
     wield( *best );
     return true;
@@ -3284,22 +3286,41 @@ void npc::set_omt_destination()
         return;
     }
 
+    tripoint surface_omt_loc = global_omt_location();
+    // We need that, otherwise find_closest won't work properly
+    surface_omt_loc.z = 0;
+
+    // also, don't bother looking if the CITY_SIZE is 0, just go somewhere at random
+    const int city_size = get_option<int>( "CITY_SIZE" );
+    if( city_size == 0 ) {
+        goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
+        return;
+    }
+
     decide_needs();
     if( needs.empty() ) { // We don't need anything in particular.
         needs.push_back( need_none );
     }
 
-    // We need that, otherwise find_closest won't work properly
-    // TODO: Allow finding sewers and stuff
-    tripoint surface_omt_loc = global_omt_location();
-    surface_omt_loc.z = 0;
+    std::string dest_type;
+    for( const auto &fulfill : needs ) {
+        dest_type = get_location_for( fulfill )->get_random_terrain().id().str();
+        goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 150, false );
+        if( goal != overmap::invalid_tripoint ) {
+            break;
+        }
+    }
 
-    std::string dest_type = get_location_for( needs.front() )->get_random_terrain().id().str();
-    goal = overmap_buffer.find_closest( surface_omt_loc, dest_type, 0, false );
+    // couldn't find any places to go, so go somewhere.
+    if( goal == overmap::invalid_tripoint ) {
+        goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
+        return;
+    }
 
     DebugLog( D_INFO, DC_ALL ) << "npc::set_omt_destination - new goal for NPC [" << get_name() <<
                                "] with ["
-                               << get_need_str_id( needs.front() ) << "] is [" << dest_type << "] in ["
+                               << get_need_str_id( needs.front() ) << "] is [" << dest_type <<
+                               "] in ["
                                << goal.x << "," << goal.y << "," << goal.z << "].";
 }
 
@@ -3381,53 +3402,53 @@ std::string npc_action_name( npc_action action )
 {
     switch( action ) {
         case npc_undecided:
-            return _( "Undecided" );
+            return "Undecided";
         case npc_pause:
-            return _( "Pause" );
+            return "Pause";
         case npc_reload:
-            return _( "Reload" );
+            return "Reload";
         case npc_investigate_sound:
-            return _( "Investigate sound" );
+            return "Investigate sound";
         case npc_return_to_guard_pos:
-            return _( "Returning to guard position" );
+            return "Returning to guard position";
         case npc_sleep:
-            return _( "Sleep" );
+            return "Sleep";
         case npc_pickup:
-            return _( "Pick up items" );
+            return "Pick up items";
         case npc_heal:
-            return _( "Heal self" );
+            return "Heal self";
         case npc_use_painkiller:
-            return _( "Use painkillers" );
+            return "Use painkillers";
         case npc_drop_items:
-            return _( "Drop items" );
+            return "Drop items";
         case npc_flee:
-            return _( "Flee" );
+            return "Flee";
         case npc_melee:
-            return _( "Melee" );
+            return "Melee";
         case npc_reach_attack:
-            return _( "Reach attack" );
+            return "Reach attack";
         case npc_aim:
-            return _( "Aim" );
+            return "Aim";
         case npc_shoot:
-            return _( "Shoot" );
+            return "Shoot";
         case npc_look_for_player:
-            return _( "Look for player" );
+            return "Look for player";
         case npc_heal_player:
-            return _( "Heal player or ally" );
+            return "Heal player or ally";
         case npc_follow_player:
-            return _( "Follow player" );
+            return "Follow player";
         case npc_follow_embarked:
-            return _( "Follow player (embarked)" );
+            return "Follow player (embarked)";
         case npc_talk_to_player:
-            return _( "Talk to player" );
+            return "Talk to player";
         case npc_mug_player:
-            return _( "Mug player" );
+            return "Mug player";
         case npc_goto_destination:
-            return _( "Go to destination" );
+            return "Go to destination";
         case npc_avoid_friendly_fire:
-            return _( "Avoid friendly fire" );
+            return "Avoid friendly fire";
         case npc_escape_explosion:
-            return _( "Escape explosion" );
+            return "Escape explosion";
         default:
             return "Unnamed action";
     }

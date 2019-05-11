@@ -22,6 +22,7 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
+#include "explosion.h"
 #include "event.h"
 #include "field.h"
 #include "fungal_effects.h"
@@ -53,7 +54,6 @@
 #include "speech.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
-#include "submap.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
@@ -76,7 +76,6 @@
 #include "item_location.h"
 #include "itype.h"
 #include "monster.h"
-#include "omdata.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -87,7 +86,7 @@
 #include "string_id.h"
 #include "vpart_reference.h"
 #include "weather_gen.h"
-#include "material.h"
+#include "type_id.h"
 
 #define RADIO_PER_TURN 25 // how many characters per turn of radio
 
@@ -1674,9 +1673,12 @@ int iuse::sew_advanced( player *p, item *it, bool, const tripoint & )
     rn -= mod_count * 10;                              // Other mods
 
     if( rn <= 8 ) {
-        p->add_msg_if_player( m_bad, _( "You damage your %s trying to modify it!" ),
-                              mod.tname() );
-        if( mod.inc_damage() ) {
+        const std::string startdurability = mod.durability_indicator( true );
+        const auto destroyed = mod.inc_damage();
+        const std::string resultdurability = mod.durability_indicator( true );
+        p->add_msg_if_player( m_bad, _( "You damage your %s trying to modify it! ( %s-> %s)" ),
+                              mod.tname( 1, false ), startdurability, resultdurability );
+        if( destroyed ) {
             p->add_msg_if_player( m_bad, _( "You destroy it!" ) );
             p->i_rem_keep_contents( pos );
         }
@@ -1991,7 +1993,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
         dest.x += ( dest.x - p->posx() );
         dest.y += ( dest.y - p->posy() );
 
-        g->m.adjust_field_strength( dest, fd_fire, std::min( 0 - rng( 0, 1 ) + rng( 0, 1 ), 0L ) );
+        g->m.adjust_field_strength( dest, fd_fire, std::min( 0 - rng( 0, 1 ) + rng( 0, 1 ), 0 ) );
     }
 
     return it->type->charges_to_use();
@@ -2646,7 +2648,6 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
 
     // Modify the number of moves based on the help.
     // TODO: this block of code is all over the place and could probably be consolidated.
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
     moves = moves * ( 1 - ( helpersize / 10 ) );
 
@@ -2807,7 +2808,6 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
     act.str_values.emplace_back( moves_and_byproducts.result_terrain.id().str() );
     act.coords.emplace_back( deposit_point );
     p->assign_activity( act );
-
 
     return it->type->charges_to_use();
 }
@@ -3385,7 +3385,7 @@ int iuse::granade_act( player *, item *it, bool t, const tripoint &pos )
         switch( effect_roll ) {
             case 1:
                 sounds::sound( pos, 100, sounds::sound_t::speech, _( "BUGFIXES!" ) );
-                g->draw_explosion( pos, explosion_radius, c_light_cyan );
+                explosion_handler::draw_explosion( pos, explosion_radius, c_light_cyan );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     monster *const mon = g->critter_at<monster>( dest, true );
                     if( mon && ( mon->type->in_species( INSECT ) || mon->is_hallucination() ) ) {
@@ -3396,7 +3396,7 @@ int iuse::granade_act( player *, item *it, bool t, const tripoint &pos )
 
             case 2:
                 sounds::sound( pos, 100, sounds::sound_t::speech, _( "BUFFS!" ) );
-                g->draw_explosion( pos, explosion_radius, c_green );
+                explosion_handler::draw_explosion( pos, explosion_radius, c_green );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
                         monster &critter = *mon_ptr;
@@ -3434,7 +3434,7 @@ int iuse::granade_act( player *, item *it, bool t, const tripoint &pos )
 
             case 3:
                 sounds::sound( pos, 100, sounds::sound_t::speech, _( "NERFS!" ) );
-                g->draw_explosion( pos, explosion_radius, c_red );
+                explosion_handler::draw_explosion( pos, explosion_radius, c_red );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
                         monster &critter = *mon_ptr;
@@ -3471,7 +3471,7 @@ int iuse::granade_act( player *, item *it, bool t, const tripoint &pos )
 
             case 4:
                 sounds::sound( pos, 100, sounds::sound_t::speech, _( "REVERTS!" ) );
-                g->draw_explosion( pos, explosion_radius, c_pink );
+                explosion_handler::draw_explosion( pos, explosion_radius, c_pink );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
                         monster &critter = *mon_ptr;
@@ -3488,7 +3488,7 @@ int iuse::granade_act( player *, item *it, bool t, const tripoint &pos )
                 break;
             case 5:
                 sounds::sound( pos, 100, sounds::sound_t::speech, _( "BEES!" ) );
-                g->draw_explosion( pos, explosion_radius, c_yellow );
+                explosion_handler::draw_explosion( pos, explosion_radius, c_yellow );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( one_in( 5 ) && !g->critter_at( dest ) ) {
                         g->m.add_field( dest, fd_bees, rng( 1, 3 ) );
@@ -3548,7 +3548,7 @@ int iuse::grenade_inc_act( player *p, item *it, bool t, const tripoint &pos )
                 g->m.add_field( flame, fd_fire, rng( 0, 2 ) );
             }
         }
-        g->explosion( pos, 8, 0.8, true );
+        explosion_handler::explosion( pos, 8, 0.8, true );
         for( const tripoint &dest : g->m.points_in_radius( pos, 2 ) ) {
             g->m.add_field( dest, fd_incendiary, 3 );
         }
@@ -4209,6 +4209,41 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
+int iuse::hand_crank( player *p, item *it, bool, const tripoint & )
+{
+    if( p->is_npc() ) {
+        // Long action
+        return 0;
+    }
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "It's not waterproof enough to work underwater." ) );
+        return 0;
+    }
+    if( p->get_fatigue() >= DEAD_TIRED ) {
+        p->add_msg_if_player( m_info, _( "You're too exhausted to keep cranking." ) );
+        return 0;
+    }
+    item *magazine = it->magazine_current();
+    if( magazine && magazine->has_flag( "RECHARGE" ) ) {
+        // 1600 minutes. It shouldn't ever run this long, but it's an upper bound.
+        // expectation is it runs until the player is too tired.
+        int time = 1600000;
+        if( it->ammo_capacity() > it->ammo_remaining() ) {
+            p->add_msg_if_player( string_format( _( "You start cranking the %s to charge its %s." ),
+                                                 it->tname(), it->magazine_current()->tname() ) ) ;
+            p->assign_activity( activity_id( "ACT_HAND_CRANK" ), time, -1, p->get_item_position( it ),
+                                "hand-cranking" );
+        } else {
+            p->add_msg_if_player( string_format(
+                                      _( "You could use the %s to charge its %s, but it's already charged." ), it->tname(),
+                                      magazine->tname() ) ) ;
+        }
+    } else {
+        p->add_msg_if_player( m_info, _( "You need a rechargeable battery cell to charge." ) );
+    }
+    return 0;
+}
+
 int iuse::vibe( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ) {
@@ -4426,7 +4461,6 @@ static int chop_moves( player *p, item *it )
     const int attr = it->has_flag( "POWERED" ) ? p->dex_cur : p->str_cur;
 
     int moves = MINUTES( 60 - attr ) / std::pow( 2, quality - 1 ) * 100;
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
     moves = moves * ( 1 - ( helpersize / 10 ) );
     return moves;
@@ -4733,7 +4767,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_FIREBALL: {
                 if( const cata::optional<tripoint> fireball = g->look_around() ) {
-                    g->explosion( *fireball, 180, 0.5, true );
+                    explosion_handler::explosion( *fireball, 180, 0.5, true );
                 }
             }
             break;
@@ -4944,7 +4978,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_FLASH:
                 p->add_msg_if_player( _( "The %s flashes brightly!" ), it->tname() );
-                g->flashbang( p->pos() );
+                explosion_handler::flashbang( p->pos() );
                 break;
 
             case AEA_VOMIT:
@@ -5435,27 +5469,32 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     /** @EFFECT_MECHANICS >=8 allows accurizing ranged weapons */
+    const std::string startdurability = fix.durability_indicator( true );
+    std::string resultdurability;
     if( fix.damage() <= 0 ) {
         sounds::sound( p->pos(), 6, sounds::sound_t::activity, "crunch" );
         p->moves -= 2000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
-        p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname() );
         fix.mod_damage( -itype::damage_scale );
+        p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname( 1, false ) );
 
     } else if( fix.damage() > itype::damage_scale ) {
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch" );
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
-        p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname() );
         fix.mod_damage( -itype::damage_scale );
+        resultdurability = fix.durability_indicator( true );
+        p->add_msg_if_player( m_good, _( "You repair your %s! ( %s-> %s)" ), fix.tname( 1, false ),
+                              startdurability, resultdurability );
 
     } else {
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch" );
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
-        p->add_msg_if_player( m_good, _( "You repair your %s completely!" ),
-                              fix.tname() );
         fix.set_damage( 0 );
+        resultdurability = fix.durability_indicator( true );
+        p->add_msg_if_player( m_good, _( "You repair your %s completely! ( %s-> %s)" ),
+                              fix.tname( 1, false ), startdurability, resultdurability );
     }
     return it->type->charges_to_use();
 }
@@ -5568,23 +5607,29 @@ int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
                               fix.tname() );
         return 0;
     }
+    const std::string startdurability = fix.durability_indicator( true );
+    std::string resultdurability;
     if( fix.damage() <= 0 ) {
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
-        p->add_msg_if_player( m_good, _( "You reinforce your %s." ), fix.tname() );
         fix.mod_damage( -itype::damage_scale );
+        p->add_msg_if_player( m_good, _( "You reinforce your %s." ), fix.tname() );
 
     } else if( fix.damage() > itype::damage_scale ) {
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
-        p->add_msg_if_player( m_good, _( "You repair your %s!" ), fix.tname() );
         fix.mod_damage( -itype::damage_scale );
+        resultdurability = fix.durability_indicator( true );
+        p->add_msg_if_player( m_good, _( "You repair your %s! ( %s-> %s)" ), fix.tname( 1, false ),
+                              startdurability, resultdurability );
 
     } else {
         p->moves -= 250 * p->fine_detail_vision_mod();
         p->practice( skill_fabrication, 10 );
-        p->add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix.tname() );
         fix.set_damage( 0 );
+        resultdurability = fix.durability_indicator( true );
+        p->add_msg_if_player( m_good, _( "You repair your %s completely! ( %s-> %s)" ),
+                              fix.tname( 1, false ), startdurability, resultdurability );
     }
     return it->type->charges_to_use();
 }

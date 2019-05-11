@@ -47,6 +47,21 @@
     "use_action": { "type": "deploy_furn", "furn_type": "f_metal_butcher_rack" }
   },
   {
+    "id": "metal_smoking_rack",
+    "type": "TOOL",
+    "name": "metal smoking rack",
+    "description": "A metal rack designed to smoke food for better preservation and taste.  It is folded for easy transportation and can be deployed as a furniture.",
+    "weight": 5000,
+    "volume": 100,
+    "price": 5000,
+    "to_hit": -4,
+    "bashing": 7,
+    "material": [ "steel" ],
+    "symbol": "=",
+    "color": "light_gray",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_metal_smoking_rack" }
+  },
+  {
     "id": "tourist_table",
     "type": "TOOL",
     "name": "tourist table",

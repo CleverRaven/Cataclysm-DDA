@@ -989,5 +989,10 @@
       "Put the fire out!  Put it out!",
       "Fire bad! <move>!"
     ]
+  },
+  {
+    "type": "snippet",
+    "category": "<granny_name_g>",
+    "text": [ "child", "my child", "dear", "my dear", "friend", "survivor" ]
   }
 ]

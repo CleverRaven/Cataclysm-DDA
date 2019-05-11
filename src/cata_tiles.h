@@ -9,7 +9,6 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include <algorithm>
 #include <utility>
 
 #include "sdl_wrappers.h"
@@ -98,7 +97,6 @@ extern SDL_Texture_Ptr alt_rect_tex;
 extern bool alt_rect_tex_enabled;
 extern void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
                            Uint32 r, Uint32 g, Uint32 b );
-
 
 // a texture pool to avoid recreating textures every time player changes their view
 // at most 142 out of 144 textures can be in use due to regular player movement

@@ -17,6 +17,7 @@
 #include "construction.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "debug_menu.h"
 #include "faction.h"
 #include "field.h"
 #include "game_constants.h"
@@ -37,7 +38,6 @@
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
-#include "pickup.h"
 #include "player.h"
 #include "popup.h"
 #include "ranged.h"
@@ -51,7 +51,6 @@
 #include "weather.h"
 #include "worldfactory.h"
 #include "bodypart.h"
-#include "character.h"
 #include "color.h"
 #include "damage.h"
 #include "lightmap.h"
@@ -62,6 +61,7 @@
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
+#include "string_id.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -375,6 +375,11 @@ static void rcdrive( int dx, int dy )
     }
 }
 
+inline static void rcdrive( point d )
+{
+    return rcdrive( d.x, d.y );
+}
+
 static void pldrive( int x, int y )
 {
     if( !g->check_safe_mode_allowed() ) {
@@ -412,6 +417,11 @@ static void pldrive( int x, int y )
     }
 
     veh->pldrive( x, y );
+}
+
+inline static void pldrive( point d )
+{
+    return pldrive( d.x, d.y );
 }
 
 static void open()
@@ -1241,6 +1251,32 @@ static void open_movement_mode_menu()
     }
 }
 
+void game::open_consume_item_menu()
+{
+    uilist as_m;
+
+    as_m.text = _( "What do you want to consume?" );
+
+    as_m.entries.emplace_back( 0, true, 'f', _( "Food" ) );
+    as_m.entries.emplace_back( 1, true, 'd', _( "Drink" ) );
+    as_m.entries.emplace_back( 2, true, 'm', _( "Medication" ) );
+    as_m.query();
+
+    switch( as_m.ret ) {
+        case 0:
+            eat( game_menus::inv::consume_food );
+            break;
+        case 1:
+            eat( game_menus::inv::consume_drink );
+            break;
+        case 2:
+            eat( game_menus::inv::consume_meds );
+            break;
+        default:
+            break;
+    }
+}
+
 bool game::handle_action()
 {
     std::string action;
@@ -1437,6 +1473,7 @@ bool game::handle_action()
 
     // actions allowed only while alive
     if( !u.is_dead_state() ) {
+        point dest_delta;
         switch( act ) {
             case ACTION_NULL:
             case NUM_ACTIONS:
@@ -1478,93 +1515,15 @@ bool game::handle_action()
                 break;
 
             case ACTION_MOVE_N:
-                if( !( u.get_value( "remote_controlling" ).empty() ) && ( ( u.has_active_item( "radiocontrol" ) ) ||
-                        ( u.has_active_bionic( bio_remote ) ) ) ) {
-                    rcdrive( 0, -1 );
-                } else if( veh_ctrl ) {
-                    pldrive( 0, -1 );
-                } else {
-                    continue_auto_move = plmove( 0, -1 );
-                }
-                break;
-
             case ACTION_MOVE_NE:
-                if( !( u.get_value( "remote_controlling" ).empty() ) && ( ( u.has_active_item( "radiocontrol" ) ) ||
-                        ( u.has_active_bionic( bio_remote ) ) ) ) {
-                    rcdrive( 1, -1 );
-                } else if( veh_ctrl ) {
-                    pldrive( 1, -1 );
-                } else {
-                    continue_auto_move = plmove( 1, -1 );
-                }
-                break;
-
             case ACTION_MOVE_E:
-                if( !( u.get_value( "remote_controlling" ).empty() ) && ( ( u.has_active_item( "radiocontrol" ) ) ||
-                        ( u.has_active_bionic( bio_remote ) ) ) ) {
-                    rcdrive( 1, 0 );
-                } else if( veh_ctrl ) {
-                    pldrive( 1, 0 );
-                } else {
-                    continue_auto_move = plmove( 1, 0 );
-                }
-                break;
-
             case ACTION_MOVE_SE:
-                if( !( u.get_value( "remote_controlling" ).empty() ) && ( ( u.has_active_item( "radiocontrol" ) ) ||
-                        ( u.has_active_bionic( bio_remote ) ) ) ) {
-                    rcdrive( 1, 1 );
-                } else if( veh_ctrl ) {
-                    pldrive( 1, 1 );
-                } else {
-                    continue_auto_move = plmove( 1, 1 );
-                }
-                break;
-
             case ACTION_MOVE_S:
-                if( !( u.get_value( "remote_controlling" ).empty() ) && ( ( u.has_active_item( "radiocontrol" ) ) ||
-                        ( u.has_active_bionic( bio_remote ) ) ) ) {
-                    rcdrive( 0, 1 );
-                } else if( veh_ctrl ) {
-                    pldrive( 0, 1 );
-                } else {
-                    continue_auto_move = plmove( 0, 1 );
-                }
-                break;
-
             case ACTION_MOVE_SW:
-                if( !( u.get_value( "remote_controlling" ).empty() ) && ( ( u.has_active_item( "radiocontrol" ) ) ||
-                        ( u.has_active_bionic( bio_remote ) ) ) ) {
-                    rcdrive( -1, 1 );
-                } else if( veh_ctrl ) {
-                    pldrive( -1, 1 );
-                } else {
-                    continue_auto_move = plmove( -1, 1 );
-                }
-                break;
-
             case ACTION_MOVE_W:
-                if( !( u.get_value( "remote_controlling" ).empty() ) && ( ( u.has_active_item( "radiocontrol" ) ) ||
-                        ( u.has_active_bionic( bio_remote ) ) ) ) {
-                    rcdrive( -1, 0 );
-                } else if( veh_ctrl ) {
-                    pldrive( -1, 0 );
-                } else {
-                    continue_auto_move = plmove( -1, 0 );
-                }
-                break;
-
             case ACTION_MOVE_NW:
-                if( !( u.get_value( "remote_controlling" ).empty() ) && ( ( u.has_active_item( "radiocontrol" ) ) ||
-                        ( u.has_active_bionic( bio_remote ) ) ) ) {
-                    rcdrive( -1, -1 );
-                } else if( veh_ctrl ) {
-                    pldrive( -1, -1 );
-                } else {
-                    continue_auto_move = plmove( -1, -1 );
-                }
+                dest_delta = get_delta_from_movement_direction( act );
                 break;
-
             case ACTION_MOVE_DOWN:
                 if( !u.in_vehicle ) {
                     vertical_move( -1, false );
@@ -1630,6 +1589,14 @@ bool game::handle_action()
                     pickup( *mouse_target );
                 } else {
                     pickup();
+                }
+                break;
+
+            case ACTION_PICKUP_FEET:
+                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                    add_msg( m_info, _( "You can't pick anything up while you're in your shell." ) );
+                } else {
+                    pickup_feet();
                 }
                 break;
 
@@ -1713,6 +1680,10 @@ bool game::handle_action()
 
             case ACTION_EAT:
                 eat();
+                break;
+
+            case ACTION_OPEN_CONSUME:
+                open_consume_item_menu();
                 break;
 
             case ACTION_READ:
@@ -1868,6 +1839,11 @@ bool game::handle_action()
                 } else {
                     control_vehicle();
                 }
+                break;
+
+            case ACTION_TOGGLE_AUTO_TRAVEL_MODE:
+                auto_travel_mode = !auto_travel_mode;
+                add_msg( m_info, auto_travel_mode ? _( "Auto travel mode ON!" ) : _( "Auto travel mode OFF!" ) );
                 break;
 
             case ACTION_TOGGLE_SAFEMODE:
@@ -2029,7 +2005,7 @@ bool game::handle_action()
                 if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                     break;    //don't do anything when sharing and not debugger
                 }
-                debug();
+                debug_menu::debug();
                 break;
 
             case ACTION_TOGGLE_FULLSCREEN:
@@ -2121,6 +2097,37 @@ bool game::handle_action()
 
             default:
                 break;
+        }
+        if( dest_delta != point_zero ) {
+            if( !u.get_value( "remote_controlling" ).empty() &&
+                ( u.has_active_item( "radiocontrol" ) || u.has_active_bionic( bio_remote ) ) ) {
+                rcdrive( dest_delta );
+            } else if( veh_ctrl ) {
+                pldrive( dest_delta );
+            } else {
+                if( auto_travel_mode ) {
+                    for( int i = 0; i < SEEX; i++ ) {
+                        tripoint auto_travel_destination( u.posx() + dest_delta.x * ( SEEX - i ),
+                                                          u.posy() + dest_delta.y * ( SEEX - i ),
+                                                          u.posz() );
+                        destination_preview = m.route( u.pos(),
+                                                       auto_travel_destination,
+                                                       u.get_pathfinding_settings(),
+                                                       u.get_path_avoid() );
+                        if( !destination_preview.empty() ) {
+                            u.set_destination( destination_preview );
+                            break;
+                        }
+                    }
+                    act = u.get_next_auto_move_direction();
+                    point dest_next = get_delta_from_movement_direction( act );
+                    if( dest_next == point_zero ) {
+                        u.clear_destination();
+                    }
+                    dest_delta = dest_next;
+                }
+                continue_auto_move = plmove( dest_delta );
+            }
         }
     }
     if( !continue_auto_move ) {

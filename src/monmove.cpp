@@ -32,6 +32,8 @@
 #include "mattack_common.h"
 #include "pathfinding.h"
 #include "player.h"
+#include "int_id.h"
+#include "string_id.h"
 
 #define MONSTER_FOLLOW_DIST 8
 
@@ -551,6 +553,12 @@ void monster::move()
         --friendly;
     }
 
+    // don't move if a passenger in a moving vehicle
+    auto vp = g->m.veh_at( pos() );
+    if( vp && vp->vehicle().is_moving() && vp->vehicle().get_pet( vp->part_index() ) ) {
+        moves = 0;
+        return;
+    }
     // Set attitude to attitude to our current target
     monster_attitude current_attitude = attitude( nullptr );
     if( !wander() ) {

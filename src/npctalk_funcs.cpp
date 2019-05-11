@@ -38,8 +38,9 @@
 #include "player.h"
 #include "player_activity.h"
 #include "pldata.h"
-#include "itype.h"
-#include "mtype.h"
+#include "string_id.h"
+
+struct itype;
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 

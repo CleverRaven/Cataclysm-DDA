@@ -6,7 +6,6 @@
 
 #include "debug.h"
 #include "json.h"
-#include "itype.h"
 
 static std::map<emit_id, emit> emits_all;
 

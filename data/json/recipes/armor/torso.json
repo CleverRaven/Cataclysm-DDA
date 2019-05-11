@@ -322,6 +322,18 @@
     "components": [ [ [ "felt_patch", 33 ] ] ]
   },
   {
+    "result": "haori",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": 60000,
+    "book_learn": [ [ "tailor_japanese", 5 ] ],
+    "using": [ [ "sewing_standard", 15 ] ],
+    "components": [ [ [ "rag", 20 ] ] ]
+  },
+  {
     "result": "hoodie",
     "type": "recipe",
     "category": "CC_ARMOR",
@@ -1117,11 +1129,6 @@
     "time": 70000,
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 7 ] ],
-    "components": [
-      [ [ "link_sheet", 7 ] ],
-      [ [ "chain_link", 175 ] ],
-      [ [ "wire", 1 ] ],
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
-    ]
+    "components": [ [ [ "link_sheet", 7 ] ], [ [ "chain_link", 175 ] ], [ [ "wire", 1 ] ], [ [ "rag", 6 ] ] ]
   }
 ]

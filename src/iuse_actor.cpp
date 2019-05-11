@@ -26,6 +26,7 @@
 #include "vpart_position.h"
 #include "effect.h"
 #include "event.h"
+#include "explosion.h"
 #include "field.h"
 #include "game.h"
 #include "game_inventory.h"
@@ -69,7 +70,6 @@
 #include "player_activity.h"
 #include "recipe.h"
 #include "rng.h"
-#include "character.h"
 
 class npc;
 
@@ -423,14 +423,14 @@ long explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) con
     }
 
     if( explosion.power >= 0.0f ) {
-        g->explosion( pos, explosion );
+        explosion_handler::explosion( pos, explosion );
     }
 
     if( draw_explosion_radius >= 0 ) {
-        g->draw_explosion( pos, draw_explosion_radius, draw_explosion_color );
+        explosion_handler::draw_explosion( pos, draw_explosion_radius, draw_explosion_color );
     }
     if( do_flashbang ) {
-        g->flashbang( pos, flashbang_player_immune );
+        explosion_handler::flashbang( pos, flashbang_player_immune );
     }
     if( fields_radius >= 0 && fields_type != fd_null ) {
         std::vector<tripoint> gas_sources = points_for_gas_cloud( pos, fields_radius );
@@ -441,12 +441,12 @@ long explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) con
     }
     if( scrambler_blast_radius >= 0 ) {
         for( const tripoint &dest : g->m.points_in_radius( pos, scrambler_blast_radius ) ) {
-            g->scrambler_blast( dest );
+            explosion_handler::scrambler_blast( dest );
         }
     }
     if( emp_blast_radius >= 0 ) {
         for( const tripoint &dest : g->m.points_in_radius( pos, emp_blast_radius ) ) {
-            g->emp_blast( dest );
+            explosion_handler::emp_blast( dest );
         }
     }
     return 1;
@@ -2608,7 +2608,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     // TODO: should 250_ml be part of the cost_scaling?
     const int items_needed = std::max<int>( 1, just_check ?
                                             ceil( fix.volume() / 250_ml * cost_scaling ) :
-                                            divide_roll_remainder( fix.volume() / 250_ml * cost_scaling, 1.0f ) );
+                                            roll_remainder( fix.volume() / 250_ml * cost_scaling ) );
 
     std::function<bool( const item & )> filter;
     if( fix.is_filthy() ) {
@@ -2729,12 +2729,15 @@ bool repair_item_actor::can_repair_target( player &pl, const item &fix,
         return false;
     }
 
-    if( fix.has_flag( "VARSIZE" ) && !fix.has_flag( "FIT" ) ) {
+    const bool can_be_refitted = fix.has_flag( "VARSIZE" );
+    if( can_be_refitted && !fix.has_flag( "FIT" ) ) {
         return true;
     }
 
+    const bool resizing_matters = fix.get_encumber( pl ) != 0;
     const bool small = pl.has_trait( trait_SMALL2 ) || pl.has_trait( trait_SMALL_OK );
-    if( small != fix.has_flag( "UNDERSIZE" ) ) {
+    const bool can_resize = small != fix.has_flag( "UNDERSIZE" );
+    if( can_be_refitted && resizing_matters && can_resize ) {
         return true;
     }
 
@@ -2811,15 +2814,31 @@ std::pair<float, float> repair_item_actor::repair_chance(
 repair_item_actor::repair_type repair_item_actor::default_action( const item &fix,
         int current_skill_level ) const
 {
-    const bool small = g->u.has_trait( trait_id( "SMALL2" ) ) ||
-                       g->u.has_trait( trait_id( "SMALL_OK" ) );
     if( fix.damage() > 0 ) {
         return RT_REPAIR;
     }
 
-    if( fix.has_flag( "VARSIZE" ) &&
-        ( !fix.has_flag( "FIT" ) ||  small != fix.has_flag( "UNDERSIZE" ) ) ) {
+    const bool can_be_refitted = fix.has_flag( "VARSIZE" );
+    const bool doesnt_fit = !fix.has_flag( "FIT" );
+    if( doesnt_fit && can_be_refitted ) {
         return RT_REFIT;
+    }
+
+    const bool smol = g->u.has_trait( trait_id( "SMALL2" ) ) ||
+                      g->u.has_trait( trait_id( "SMALL_OK" ) );
+
+    const bool is_undersized = fix.has_flag( "UNDERSIZE" );
+    const bool is_oversized = fix.has_flag( "OVERSIZE" );
+    const bool resizing_matters = fix.get_encumber( g->u ) != 0;
+
+    const bool too_big_while_smol = smol && !is_undersized && !is_oversized;
+    if( too_big_while_smol && can_be_refitted && resizing_matters ) {
+        return RT_DOWNSIZING;
+    }
+
+    const bool too_small_while_big = !smol && is_undersized && !is_oversized;
+    if( too_small_while_big && can_be_refitted && resizing_matters ) {
+        return RT_UPSIZING;
     }
 
     if( fix.damage() > fix.min_damage() ) {
@@ -2835,8 +2854,12 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
 
 bool damage_item( player &pl, item_location &fix )
 {
-    pl.add_msg_if_player( m_bad, _( "You damage your %s!" ), fix->tname() );
-    if( fix->inc_damage() ) {
+    const std::string startdurability = fix->durability_indicator( true );
+    const auto destroyed = fix->inc_damage();
+    const std::string resultdurability = fix->durability_indicator( true );
+    pl.add_msg_if_player( m_bad, _( "You damage your %s! ( %s-> %s)" ), fix->tname( 1, false ),
+                          startdurability, resultdurability );
+    if( destroyed ) {
         pl.add_msg_if_player( m_bad, _( "You destroy it!" ) );
         if( fix.where() == item_location::type::character ) {
             pl.i_rem_keep_contents( pl.get_item_position( fix.get_item() ) );
@@ -2901,13 +2924,18 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
     if( action == RT_REPAIR ) {
         if( roll == SUCCESS ) {
-            if( fix->damage() > itype::damage_scale ) {
-                pl.add_msg_if_player( m_good, _( "You repair your %s!" ), fix->tname() );
-            } else {
-                pl.add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix->tname() );
-            }
+            const std::string startdurability = fix->durability_indicator( true );
+            const auto damage = fix->damage();
             handle_components( pl, *fix, false, false );
-            fix->set_damage( std::max( fix->damage() - itype::damage_scale, 0 ) );
+            fix->set_damage( std::max( damage - itype::damage_scale, 0 ) );
+            const std::string resultdurability = fix->durability_indicator( true );
+            if( damage > itype::damage_scale ) {
+                pl.add_msg_if_player( m_good, _( "You repair your %s! ( %s-> %s)" ), fix->tname( 1, false ),
+                                      startdurability, resultdurability );
+            } else {
+                pl.add_msg_if_player( m_good, _( "You repair your %s completely! ( %s-> %s)" ), fix->tname( 1,
+                                      false ), startdurability, resultdurability );
+            }
             return AS_SUCCESS;
         }
 
@@ -2916,26 +2944,39 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
     if( action == RT_REFIT ) {
         if( roll == SUCCESS ) {
-            const bool small = g->u.has_trait( trait_id( "SMALL2" ) ) ||
-                               g->u.has_trait( trait_id( "SMALL_OK" ) );
             if( !fix->has_flag( "FIT" ) ) {
                 pl.add_msg_if_player( m_good, _( "You take your %s in, improving the fit." ),
                                       fix->tname() );
                 fix->item_tags.insert( "FIT" );
             }
-            if( small && !fix->has_flag( "UNDERSIZE" ) ) {
-                pl.add_msg_if_player( m_good, _( "You resize the %s to accommodate your tiny build." ),
-                                      fix->tname() );
-                fix->item_tags.insert( "UNDERSIZE" );
-            } else if( !small && fix->has_flag( "UNDERSIZE" ) ) {
-                pl.add_msg_if_player( m_good, _( "You adjust the %s back to its normal size." ),
-                                      fix->tname() );
-                fix->item_tags.erase( "UNDERSIZE" );
-            }
             handle_components( pl, *fix, false, false );
             return AS_SUCCESS;
         }
 
+        return AS_RETRY;
+    }
+
+    if( action == RT_DOWNSIZING ) {
+        //We dont need to check for smallness or undersize because DOWNSIZING already guarantees that
+        if( roll == SUCCESS ) {
+            pl.add_msg_if_player( m_good, _( "You resize the %s to accommodate your tiny build." ),
+                                  fix->tname().c_str() );
+            fix->item_tags.insert( "UNDERSIZE" );
+            handle_components( pl, *fix, false, false );
+            return AS_SUCCESS;
+        }
+        return AS_RETRY;
+    }
+
+    if( action == RT_UPSIZING ) {
+        //We dont need to check for smallness or undersize because UPSIZING already guarantees that
+        if( roll == SUCCESS ) {
+            pl.add_msg_if_player( m_good, _( "You adjust the %s back to its normal size." ),
+                                  fix->tname().c_str() );
+            fix->item_tags.erase( "UNDERSIZE" );
+            handle_components( pl, *fix, false, false );
+            return AS_SUCCESS;
+        }
         return AS_RETRY;
     }
 
@@ -2966,6 +3007,8 @@ const std::string &repair_item_actor::action_description( repair_item_actor::rep
             _( "Nothing" ),
             _( "Repairing" ),
             _( "Refitting" ),
+            _( "Downsizing" ),
+            _( "Upsizing" ),
             _( "Reinforcing" ),
             _( "Practicing" )
         }
@@ -3725,7 +3768,6 @@ long detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) co
 
     if( prompt.ret >= 0 ) {
         item *gm = mods[ prompt.ret ];
-        const auto mod_name = gm->tname();
         p.gunmod_remove( it, *gm );
     } else {
         p.add_msg_if_player( _( "Never mind." ) );

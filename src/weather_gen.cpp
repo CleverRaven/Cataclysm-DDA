@@ -26,17 +26,17 @@ int weather_generator::current_winddir = 1000;
 w_point weather_generator::get_weather( const tripoint &location, const time_point &t,
                                         unsigned seed ) const
 {
-    const double x( location.x /
-                    2000.0 ); // Integer x position / widening factor of the Perlin function.
-    const double y( location.y /
-                    2000.0 ); // Integer y position / widening factor of the Perlin function.
-    const double z( to_turn<int>( t + calendar::season_length() ) /
-                    2000.0 ); // Integer turn / widening factor of the Perlin function.
+    // Integer x position / widening factor of the Perlin function.
+    const double x( location.x / 2000.0 );
+    // Integer y position / widening factor of the Perlin function.
+    const double y( location.y / 2000.0 );
+    // Integer turn / widening factor of the Perlin function.
+    const double z( to_turn<int>( t + calendar::season_length() ) / 2000.0 );
 
     const double dayFraction = time_past_midnight( t ) / 1_days;
 
-    //limit the random seed during noise calculation, a large value flattens the noise generator to zero
-    //Windows has a rand limit of 32768, other operating systems can have higher limits
+    // Limit the random seed during noise calculation, a large value flattens the noise generator to zero
+    // Windows has a rand limit of 32768, other operating systems can have higher limits
     const unsigned modSEED = seed % SIMPLEX_NOISE_RANDOM_SEED_LIMIT;
     // Noise factors
     double T( raw_noise_4d( x, y, z, modSEED ) * 4.0 );
@@ -51,45 +51,51 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     const double ctn( cos( tau * now ) );
     const season_type season = season_of_year( now );
     // Temperature variation
-    const double mod_t( 0 ); // TODO: make this depend on latitude and altitude?
-    const double current_t( base_temperature +
-                            mod_t ); // Current baseline temperature. Degrees Celsius.
-    const double seasonal_variation( ctn * -1 ); // Start and end at -1 going up to 1 in summer.
-    const double season_atenuation( ctn / 2 + 1 ); // Harsh winter nights, hot summers.
-    const double season_dispersion( pow( 2,
-                                         ctn + 1 ) - 2.3 ); // Make summers peak faster and winters not perma-frozen.
+    // TODO: make this depend on latitude and altitude?
+    const double mod_t( 0 );
+    // Current baseline temperature. Degrees Celsius.
+    const double current_t( base_temperature + mod_t );
+    // Start and end at -1 going up to 1 in summer.
+    const double seasonal_variation( ctn * -1 );
+    // Harsh winter nights, hot summers.
+    const double season_atenuation( ctn / 2 + 1 );
+    // Make summers peak faster and winters not perma-frozen.
+    const double season_dispersion( pow( 2, ctn + 1 ) - 2.3 );
+    // Day-night temperature variation.
     const double daily_variation( cos( tau * dayFraction - tau / 8 ) * -1 * season_atenuation / 2 +
-                                  season_dispersion * -1 ); // Day-night temperature variation.
+                                  season_dispersion * -1 );
 
-    T += current_t; // Add baseline to the noise.
-    T += seasonal_variation * 8 * exp( -pow( current_t * 2.7 / 10 - 0.5,
-                                       2 ) ); // Add season curve offset to account for the winter-summer difference in day-night difference.
-    T += daily_variation * 8 * exp( -pow( current_t / 30,
-                                          2 ) ); // Add daily variation scaled to the inverse of the current baseline. A very specific and finicky adjustment curve.
-    T = T * 9 / 5 + 32; // Convert to imperial. =|
+    // Add baseline to the noise.
+    T += current_t;
+    // Add season curve offset to account for the winter-summer difference in day-night difference.
+    T += seasonal_variation * 8 * exp( -pow( current_t * 2.7 / 10 - 0.5, 2 ) );
+    // Add daily variation scaled to the inverse of the current baseline. A very specific and finicky adjustment curve.
+    T += daily_variation * 8 * exp( -pow( current_t / 30, 2 ) );
+    // Convert to imperial. =|
+    T = T * 9 / 5 + 32;
 
     // Humidity variation
     const double mod_h( 0 );
     const double current_h( base_humidity + mod_h );
+    // Humidity stays mostly at the mean level, but has low peaks rarely. It's a percentage.
     H = std::max( std::min( ( ctn / 10.0 + ( -pow( H, 2 ) * 3 + H2 ) ) * current_h / 2.0 + current_h,
-                            100.0 ),
-                  0.0 ); // Humidity stays mostly at the mean level, but has low peaks rarely. It's a percentage.
+                            100.0 ), 0.0 );
 
     // Pressure variation
-    P += seasonal_variation * 20 +
-         base_pressure; // Pressure is mostly random, but a bit higher on summer and lower on winter. In millibars.
+    // Pressure is mostly random, but a bit higher on summer and lower on winter. In millibars.
+    P += seasonal_variation * 20 + base_pressure;
 
     // Wind power
     W = std::max( 0, static_cast<int>( base_wind  / pow( P / 1014.78, rng( 9,
                                        base_wind_distrib_peaks ) ) +
                                        ( seasonal_variation / base_wind_season_variation ) * rng( 1, 2 ) * W ) );
     // Wind direction
-    // initial static variable
+    // Initial static variable
     if( current_winddir == 1000 ) {
         current_winddir = get_wind_direction( season, seed );
         current_winddir = convert_winddir( current_winddir );
     } else {
-        //when wind strength is low, wind direction is more variable
+        // When wind strength is low, wind direction is more variable
         bool changedir = one_in( W * 360 );
         if( changedir ) {
             current_winddir = get_wind_direction( season, seed );
@@ -161,7 +167,7 @@ int weather_generator::get_wind_direction( const season_type season, unsigned se
 {
     unsigned dirseed = seed;
     std::default_random_engine wind_dir_gen( dirseed );
-    //assign chance to angle direction
+    // Assign chance to angle direction
     if( season == SPRING ) {
         std::discrete_distribution<int> distribution {3, 3, 5, 8, 11, 10, 5, 2, 5, 6, 6, 5, 8, 10, 8, 6};
         return distribution( wind_dir_gen );
@@ -179,44 +185,9 @@ int weather_generator::get_wind_direction( const season_type season, unsigned se
     }
 }
 
-//Description of Wind Speed - https://en.wikipedia.org/wiki/Beaufort_scale
-std::string weather_generator::get_wind_desc( double windpower ) const
-{
-    std::string winddesc;
-    if( windpower < 1 ) {
-        winddesc = "Calm";
-    } else if( windpower < 3 ) {
-        winddesc = "Light Air";
-    } else if( windpower < 7 ) {
-        winddesc = "Light Breeze";
-    } else if( windpower < 12 ) {
-        winddesc = "Gentle Breeze";
-    } else if( windpower < 18 ) {
-        winddesc = "Moderate Breeze";
-    } else if( windpower < 24 ) {
-        winddesc = "Fresh Breeze";
-    } else if( windpower < 31 ) {
-        winddesc = "Moderate Breeze";
-    } else if( windpower < 38 ) {
-        winddesc = "Moderate Gale";
-    } else if( windpower < 46 ) {
-        winddesc = "Gale";
-    } else if( windpower < 54 ) {
-        winddesc = "Strong Gale";
-    } else if( windpower < 63 ) {
-        winddesc = "Whole Gale";
-    } else if( windpower < 72 ) {
-        winddesc = "Violent Storm";
-    } else if( windpower > 72 ) {
-        winddesc =
-            "Hurricane";  //Anything above Whole Gale is very unlikely to happen and has no additional effects.
-    }
-    return winddesc;
-}
-
 int weather_generator::convert_winddir( const int inputdir ) const
 {
-    //convert from discrete distribution output to angle
+    // Convert from discrete distribution output to angle
     float finputdir = inputdir * 22.5;
     return static_cast<int>( finputdir );
 }
@@ -254,12 +225,12 @@ void weather_generator::test_weather() const
 {
     // Outputs a Cata year's worth of weather data to a CSV file.
     // Usage:
-    // TODO: this is wrong. weather_generator does not have such a constructor
-    // weather_generator WEATHERGEN(0); // Seeds the weather object.
+    // weather_generator WEATHERGEN; // Instantiate the class.
     // WEATHERGEN.test_weather(); // Runs this test.
     std::ofstream testfile;
     testfile.open( "weather.output", std::ofstream::trunc );
-    testfile << "turn;temperature(F);humidity(%);pressure(mB);weatherdesc;windspeed(mph);winddirection"
+    testfile <<
+             "|;year;season;day;hour;minute;temperature(F);humidity(%);pressure(mB);weatherdesc;windspeed(mph);winddirection"
              << std::endl;
 
     const time_point begin = calendar::turn;
@@ -268,8 +239,20 @@ void weather_generator::test_weather() const
         w_point w = get_weather( tripoint_zero, to_turn<int>( i ), 1000 );
         weather_type c =  get_weather_conditions( w );
         weather_datum wd = weather_data( c );
-        testfile << to_turn<int>( i ) << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure <<
-                 ";" << wd.name << ";" << w.windpower << ";" << w.winddirection << std::endl;
+
+        int year = to_turns<int>( i - calendar::time_of_cataclysm ) / to_turns<int>
+                   ( calendar::year_length() ) + 1;
+        const int hour = hour_of_day<int>( i );
+        const int minute = minute_of_hour<int>( i );
+        int day;
+        if( calendar::eternal_season() ) {
+            day = to_days<int>( time_past_new_year( i ) );
+        } else {
+            day = day_of_season<int>( i );
+        }
+        testfile << "|;" << year << ";" << season_of_year( i ) << ";" << day << ";" << hour << ";" << minute
+                 << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure << ";" << wd.name << ";" <<
+                 w.windpower << ";" << w.winddirection << std::endl;
     }
 }
 

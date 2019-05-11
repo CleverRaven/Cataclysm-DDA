@@ -27,6 +27,7 @@ void wishskill( player *p );
 void mutation_wish();
 void draw_benchmark( const int max_difference );
 
+void debug();
 
 }
 
