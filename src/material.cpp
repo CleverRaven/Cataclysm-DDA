@@ -329,7 +329,8 @@ material_list materials::get_compactable()
 {
     material_list all = get_all();
     material_list compactable;
-    std::copy_if( all.begin(), all.end(), std::back_inserter( compactable ), []( material_type mt ) {
+    std::copy_if( all.begin(), all.end(),
+    std::back_inserter( compactable ), []( const material_type & mt ) {
         return !mt.compacts_into().empty();
     } );
     return compactable;

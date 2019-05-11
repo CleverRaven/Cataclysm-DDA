@@ -349,7 +349,7 @@ int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
     return it->second;
 }
 
-void player::vitamins_mod( std::map<vitamin_id, int> vitamins, bool capped )
+void player::vitamins_mod( const std::map<vitamin_id, int> &vitamins, bool capped )
 {
     for( auto vit : vitamins ) {
         vitamin_mod( vit.first, vit.second, capped );

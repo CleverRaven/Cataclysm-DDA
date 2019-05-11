@@ -103,7 +103,7 @@ void sounds::ambient_sound( const tripoint &p, int vol, sound_t category,
     sound( p, vol, category, description, true );
 }
 
-void sounds::sound( const tripoint &p, int vol, sound_t category, std::string description,
+void sounds::sound( const tripoint &p, int vol, sound_t category, const std::string &description,
                     bool ambient, const std::string &id, const std::string &variant )
 {
     if( vol < 0 ) {

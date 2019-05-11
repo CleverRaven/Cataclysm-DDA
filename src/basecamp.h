@@ -42,8 +42,8 @@ class basecamp
         basecamp();
         basecamp( const std::string &name_, const tripoint &omt_pos );
         basecamp( const std::string &name_, const tripoint &bb_pos_,
-                  std::vector<std::string> directions_,
-                  std::map<std::string, expansion_data> expansions_ );
+                  const std::vector<std::string> &directions_,
+                  const std::map<std::string, expansion_data> &expansions_ );
 
         inline bool is_valid() const {
             return !name.empty() && omt_pos != tripoint_zero;

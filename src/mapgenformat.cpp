@@ -40,7 +40,7 @@ void formatted_set_simple( map *m, const int startx, const int starty, const cha
 }
 
 template<typename ID>
-format_effect<ID>::format_effect( std::string chars, std::vector<ID> dets )
+format_effect<ID>::format_effect( const std::string &chars, std::vector<ID> dets )
     : characters( chars ), determiners( dets )
 {
     characters.erase( std::remove_if( characters.begin(), characters.end(), isspace ),

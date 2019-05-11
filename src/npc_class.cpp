@@ -260,7 +260,8 @@ void npc_class::load( JsonObject &jo, const std::string & )
             mutation_category_trait::get_all();
         auto jo2 = jo.get_object( "mutation_rounds" );
         for( auto &mutation : jo2.get_member_names() ) {
-            const auto category_match = [&mutation]( std::pair<const std::string, mutation_category_trait> p ) {
+            const auto category_match = [&mutation]( const std::pair<const std::string, mutation_category_trait>
+            &p ) {
                 return p.second.id == mutation;
             };
             if( std::find_if( mutation_categories.begin(), mutation_categories.end(),

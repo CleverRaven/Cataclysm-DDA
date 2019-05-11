@@ -399,7 +399,7 @@ class Character : public Creature, public visitable<Character>
 
     private:
         /** Retrieves a stat mod of a mutation. */
-        int get_mod( const trait_id &mut, std::string arg ) const;
+        int get_mod( const trait_id &mut, const std::string &arg ) const;
         /** Applies skill-based boosts to stats **/
         void apply_skill_boost();
 

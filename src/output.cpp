@@ -64,7 +64,7 @@ extern bool use_tiles;
 extern bool test_mode;
 
 // utf8 version
-std::vector<std::string> foldstring( std::string str, int width, const char split )
+std::vector<std::string> foldstring( const std::string &str, int width, const char split )
 {
     std::vector<std::string> lines;
     if( width < 1 ) {

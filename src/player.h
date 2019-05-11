@@ -914,7 +914,7 @@ class player : public Character
          */
         int vitamin_mod( const vitamin_id &vit, int qty, bool capped = true );
 
-        void vitamins_mod( const std::map<vitamin_id, int>, bool capped = true );
+        void vitamins_mod( const std::map<vitamin_id, int> &, bool capped = true );
 
         /**
          * Check current level of a vitamin

@@ -1157,7 +1157,7 @@ bool overmap::mongroup_check( const mongroup &candidate ) const
 {
     const auto matching_range = zg.equal_range( candidate.pos );
     return std::find_if( matching_range.first, matching_range.second,
-    [candidate]( std::pair<tripoint, mongroup> match ) {
+    [candidate]( const std::pair<tripoint, mongroup> &match ) {
         // This is extra strict since we're using it to test serialization.
         return candidate.type == match.second.type && candidate.pos == match.second.pos &&
                candidate.radius == match.second.radius &&
@@ -1174,7 +1174,7 @@ bool overmap::monster_check( const std::pair<tripoint, monster> &candidate ) con
 {
     const auto matching_range = monster_map.equal_range( candidate.first );
     return std::find_if( matching_range.first, matching_range.second,
-    [candidate]( std::pair<tripoint, monster> match ) {
+    [candidate]( const std::pair<tripoint, monster> &match ) {
         return candidate.second.pos() == match.second.pos() &&
                candidate.second.type == match.second.type;
     } ) != matching_range.second;

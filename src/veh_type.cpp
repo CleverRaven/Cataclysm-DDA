@@ -921,7 +921,7 @@ void vehicle_prototype::load( JsonObject &jo )
         vproto.parts.push_back( pt );
     };
 
-    const auto add_part_string = [&]( std::string part, point pos ) {
+    const auto add_part_string = [&]( const std::string & part, point pos ) {
         part_def pt;
         pt.pos = pos;
         pt.part = vpart_id( part );

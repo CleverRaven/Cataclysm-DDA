@@ -2665,7 +2665,7 @@ void activity_handlers::cracking_do_turn( player_activity *act, player *p )
         item temporary_item( it.type );
         return temporary_item.has_flag( "SAFECRACK" );
     } );
-    if( !( !cracking_tool.empty()|| p->has_bionic( bionic_id( "bio_ears" ) ) ) ) {
+    if( !( !cracking_tool.empty() || p->has_bionic( bionic_id( "bio_ears" ) ) ) ) {
         // We lost our cracking tool somehow, bail out.
         act->set_to_null();
         return;
@@ -3382,7 +3382,7 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
 
         const auto seeds = get_seeds( tile );
 
-        return std::all_of( seeds.begin(), seeds.end(), [&]( std::string seed ) {
+        return std::all_of( seeds.begin(), seeds.end(), [&]( const std::string & seed ) {
             return std::all_of( seed_inv.begin(), seed_inv.end(), [seed]( item * it ) {
                 return it->typeId() != itype_id( seed );
             } );
@@ -3392,7 +3392,7 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
     const auto plant_appropriate_seed = [&]( player & p, const tripoint & tile_loc ) {
         const auto seeds = get_seeds( tile_loc );
         std::vector<item *> seed_inv = p.items_with( [seeds]( const item & itm ) {
-            return itm.is_seed() && std::any_of( seeds.begin(), seeds.end(), [itm]( std::string seed ) {
+            return itm.is_seed() && std::any_of( seeds.begin(), seeds.end(), [itm]( const std::string & seed ) {
                 return itm.typeId() == itype_id( seed );
             } );
         } );

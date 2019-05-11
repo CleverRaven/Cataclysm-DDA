@@ -126,7 +126,7 @@ void Character::unset_mutation( const trait_id &flag )
     reset_encumbrance();
 }
 
-int Character::get_mod( const trait_id &mut, std::string arg ) const
+int Character::get_mod( const trait_id &mut, const std::string &arg ) const
 {
     auto &mod_data = mut->mods;
     int ret = 0;

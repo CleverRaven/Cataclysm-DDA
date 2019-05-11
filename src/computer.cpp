@@ -75,7 +75,7 @@ computer_option::computer_option()
 {
 }
 
-computer_option::computer_option( std::string N, computer_action A, int S )
+computer_option::computer_option( const std::string &N, computer_action A, int S )
     : name( N ), action( A ), security( S )
 {
 }

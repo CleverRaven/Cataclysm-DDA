@@ -38,7 +38,7 @@ class format_effect
         std::vector<ID> determiners;
 
     public:
-        format_effect( std::string chars,
+        format_effect( const std::string &chars,
                        std::vector<ID> dets );
 
         ID translate( char c ) const;

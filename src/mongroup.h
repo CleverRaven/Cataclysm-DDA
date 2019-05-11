@@ -110,7 +110,7 @@ struct mongroup {
         , population( ppop )
         , target() {
     }
-    mongroup( std::string ptype, tripoint ppos, unsigned int prad, unsigned int ppop,
+    mongroup( const std::string &ptype, tripoint ppos, unsigned int prad, unsigned int ppop,
               tripoint ptarget, int pint, bool pdie, bool phorde, bool pdiff ) :
         type( ptype ), pos( ppos ), radius( prad ), population( ppop ), target( ptarget ),
         interest( pint ), dying( pdie ), horde( phorde ), diffuse( pdiff ) { }

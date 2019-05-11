@@ -248,7 +248,7 @@ void cata_tiles::reinit_minimap()
     minimap_reinit_flag = true;
 }
 
-static void get_tile_information( std::string config_path, std::string &json_path,
+static void get_tile_information( const std::string &config_path, std::string &json_path,
                                   std::string &tileset_path )
 {
     const std::string default_json = FILENAMES["defaulttilejson"];
@@ -429,7 +429,7 @@ static void extend_vector_by( std::vector<T> &vec, const size_t additional_size 
     vec.resize( vec.size() + additional_size );
 }
 
-void tileset_loader::load_tileset( std::string img_path )
+void tileset_loader::load_tileset( const std::string &img_path )
 {
     const SDL_Surface_Ptr tile_atlas = load_image( img_path.c_str() );
     assert( tile_atlas );

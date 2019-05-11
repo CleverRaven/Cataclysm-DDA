@@ -3845,7 +3845,7 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
             remove_med -= reduce_healing_effect( effect_bandaged, remove_med, hurt );
         }
         if( remove_med > 0 && has_effect( effect_disinfected, hurt ) ) {
-           reduce_healing_effect( effect_disinfected, remove_med, hurt );
+            reduce_healing_effect( effect_disinfected, remove_med, hurt );
         }
     }
 }
@@ -9972,8 +9972,9 @@ bool player::read( int inventory_position, const bool continuous )
             };
 
             auto max_length = [&length]( const std::map<npc *, std::string> &m ) {
-                auto max_ele = std::max_element( m.begin(), m.end(), [&length]( std::pair<npc *, std::string> left,
-                std::pair<npc *, std::string> right ) {
+                auto max_ele = std::max_element( m.begin(),
+                                                 m.end(), [&length]( const std::pair<npc *, std::string> &left,
+                const std::pair<npc *, std::string> &right ) {
                     return length( left ) < length( right );
                 } );
                 return max_ele == m.end() ? 0 : length( *max_ele );
@@ -10050,7 +10051,7 @@ bool player::read( int inventory_position, const bool continuous )
     }
 
     if( !continuous ||
-    !std::all_of( learners.begin(), learners.end(), [&]( std::pair<npc *, std::string> elem ) {
+    !std::all_of( learners.begin(), learners.end(), [&]( const std::pair<npc *, std::string> &elem ) {
     return std::count( activity.values.begin(), activity.values.end(), elem.first->getID() ) != 0;
     } ) ||
     !std::all_of( activity.values.begin(), activity.values.end(), [&]( int elem ) {
@@ -10061,7 +10062,7 @@ bool player::read( int inventory_position, const bool continuous )
             add_msg( m_info, _( "%s studies with you." ), learners.begin()->first->disp_name() );
         } else if( !learners.empty() ) {
             const std::string them = enumerate_as_string( learners.begin(),
-            learners.end(), [&]( std::pair<npc *, std::string> elem ) {
+            learners.end(), [&]( const std::pair<npc *, std::string> &elem ) {
                 return elem.first->disp_name();
             } );
             add_msg( m_info, _( "%s study with you." ), them );

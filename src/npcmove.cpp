@@ -378,8 +378,8 @@ void npc::assess_danger()
         }
     }
 
-    const auto handle_hostile = [&]( const player & guy, float guy_threat, std::string bogey,
-    std::string warning ) {
+    const auto handle_hostile = [&]( const player & guy, float guy_threat, const std::string & bogey,
+    const std::string & warning ) {
         if( guy_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
             warn_about( "monster", 10_minutes, bogey );
         }

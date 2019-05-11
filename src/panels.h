@@ -27,8 +27,8 @@ enum face_type : int {
 class window_panel
 {
     public:
-        window_panel( std::function<void( player &, const catacurses::window & )> draw_func, std::string nm,
-                      int ht, int wd, bool default_toggle );
+        window_panel( std::function<void( player &, const catacurses::window & )> draw_func,
+                      const std::string &nm, int ht, int wd, bool default_toggle );
 
         std::function<void( player &, const catacurses::window & )> draw;
         int get_height() const;
