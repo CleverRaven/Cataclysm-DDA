@@ -546,4 +546,9 @@
     "type": "MIGRATION",
     "replace": "magazine_battery_heavy_mod"
   }
+  {
+    "id": "hk_ucp",
+    "type": "MIGRATION",
+    "replace": "hk_mp7"
+  }
 ]
