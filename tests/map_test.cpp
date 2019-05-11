@@ -7,7 +7,7 @@
 #include "player.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "mapdata.h"
+#include "type_id.h"
 
 TEST_CASE( "destroy_grabbed_furniture" )
 {

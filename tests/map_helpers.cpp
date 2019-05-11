@@ -15,6 +15,7 @@
 #include "game_constants.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
+#include "type_id.h"
 
 void wipe_map_terrain()
 {

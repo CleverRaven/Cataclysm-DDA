@@ -7,7 +7,6 @@
 #include "game.h"
 #include "generic_factory.h"
 #include "gun_mode.h"
-#include "itype.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -22,7 +21,6 @@
 #include "item.h"
 #include "json.h"
 #include "player.h"
-#include "pldata.h"
 #include "rng.h"
 #include "material.h"
 

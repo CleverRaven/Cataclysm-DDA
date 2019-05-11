@@ -12,7 +12,6 @@
 #include <list>
 #include <memory>
 #include <set>
-#include <type_traits>
 #include <utility>
 
 #include "calendar.h"
@@ -642,7 +641,8 @@ void editmap::update_view( bool update_info )
         }
 
         mvwprintw( w_info, off, 1, "%s %s", g->m.features( target ).c_str(), extras );
-        off++;  // 9
+        // 9
+        off++;
 
         for( auto &fld : *cur_field ) {
             const field_entry &cur = fld.second;

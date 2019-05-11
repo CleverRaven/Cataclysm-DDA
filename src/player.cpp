@@ -31,6 +31,7 @@
 #include "game.h"
 #include "get_version.h"
 #include "gun_mode.h"
+#include "handle_liquid.h"
 #include "help.h" // get_hint
 #include "input.h"
 #include "inventory.h"
@@ -94,6 +95,7 @@
 #include "rng.h"
 #include "units.h"
 #include "visitable.h"
+#include "string_id.h"
 
 constexpr double SQRT_2 = 1.41421356237309504880;
 
@@ -772,10 +774,11 @@ void player::process_turn()
     // Didn't just pick something up
     last_item = itype_id( "null" );
 
-    if( has_active_bionic( bio_metabolics ) && power_level + 25 <= max_power_level &&
-        0.8f < get_kcal_percent() && calendar::once_every( 5_turns ) ) {
-        mod_stored_kcal( -25 );
-        charge_power( 25 );
+    if( has_active_bionic( bio_metabolics ) && power_level < max_power_level &&
+        0.8f < get_kcal_percent() && calendar::once_every( 3_turns ) ) {
+        // Efficiency is approximately 25%, power output is ~60W
+        mod_stored_kcal( -1 );
+        charge_power( 1 );
     }
     if( has_trait( trait_DEBUG_BIONIC_POWER ) ) {
         charge_power( max_power_level );
@@ -1787,7 +1790,6 @@ void player::recalc_speed_bonus()
     // fat or underweight, you get slower. cumulative with hunger
     mod_speed_bonus( kcal_speed_penalty() );
 
-
     for( const auto &maps : *effects ) {
         for( auto i : maps.second ) {
             bool reduced = resists_effect( i.second );
@@ -2479,6 +2481,21 @@ void player::disp_morale()
     morale->display( ( calc_focus_equilibrium() - focus_pool ) / 100.0 );
 }
 
+time_duration player::estimate_effect_dur( const skill_id &relevant_skill,
+        const efftype_id &target_effect, const time_duration &error_magnitude,
+        int threshold, const Creature &target ) const
+{
+    const time_duration zero_duration = 0;
+
+    int skill_lvl = get_skill_level( relevant_skill );
+
+    time_duration estimate = std::max( zero_duration, target.get_effect_dur( target_effect ) +
+                                       rng( -1, 1 ) * error_magnitude *
+                                       rng( 0, std::max( 0, threshold - skill_lvl ) ) );
+
+    return estimate;
+}
+
 bool player::has_conflicting_trait( const trait_id &flag ) const
 {
     return ( has_opposite_trait( flag ) || has_lower_trait( flag ) || has_higher_trait( flag ) ||
@@ -3111,7 +3128,7 @@ void player::shout( std::string msg, bool order )
     sounds::sound( pos(), noise, order ? sounds::sound_t::order : sounds::sound_t::alert, msg );
 }
 
-void player::set_movement_mode( std::string new_mode )
+void player::set_movement_mode( const std::string &new_mode )
 {
     if( new_mode == "run" ) {
         if( stamina > 0 && !has_effect( effect_winded ) ) {
@@ -4576,6 +4593,7 @@ needs_rates player::calc_needs_rates()
 
     needs_rates rates;
     rates.hunger = metabolic_rate();
+    rates.fatigue = 1.0f;
     // TODO: this is where calculating basal metabolic rate, in kcal per day would go
     rates.kcal = 2500.0;
 
@@ -4593,7 +4611,6 @@ needs_rates player::calc_needs_rates()
         rates.hunger = std::min( rates.hunger, std::max( 0.5f, rates.hunger - 0.5f ) );
         rates.thirst = std::min( rates.thirst, std::max( 0.5f, rates.thirst - 0.5f ) );
     }
-
 
     if( asleep ) {
         rates.recovery = 1.0f + mutation_value( "fatigue_regen_modifier" );
@@ -4980,7 +4997,7 @@ void player::siphon( vehicle &veh, const itype_id &type )
     if( liquid.is_food() ) {
         liquid.set_item_specific_energy( veh.fuel_specific_energy( type ) );
     }
-    if( g->handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
+    if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, &veh ) ) {
         veh.drain( type, qty - liquid.charges );
     }
 }
@@ -8110,7 +8127,7 @@ ret_val<bool> player::can_wear( const item &it ) const
 
     if( it.covers( bp_head ) &&
         ( it.has_flag( "SKINTIGHT" ) || it.has_flag( "HELMET_COMPAT" ) ) &&
-        ( head_cloth_encumbrance() + it.get_encumber( *this ) > 20 ) ) {
+        ( head_cloth_encumbrance() + it.get_encumber( *this ) > 40 ) ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You can't wear that much on your head!" )
                                               : string_format( _( "%s can't wear that much on their head!" ), name ) ) );
     }
@@ -8315,6 +8332,7 @@ bool player::pick_style() // Style selection menu
 
     if( selection >= STYLE_OFFSET ) {
         style_selected = selectable_styles[selection - STYLE_OFFSET];
+        add_msg_if_player( m_info, _( style_selected.obj().get_initiate_player_message() ) );
     } else if( selection == KEEP_HANDS_FREE ) {
         keep_hands_free = !keep_hands_free;
     } else {
@@ -8979,7 +8997,7 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &t
 bool player::add_or_drop_with_msg( item &it, const bool unloading )
 {
     if( it.made_of( LIQUID ) ) {
-        g->consume_liquid( it, 1 );
+        liquid_handler::consume_liquid( it, 1 );
         return it.charges <= 0;
     }
     it.charges = this->i_add_to_container( it, unloading );
@@ -9723,8 +9741,8 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
     const skill_id &skill = type->skill;
     const int skill_level = get_skill_level( skill );
     if( skill && skill_level < type->req && has_identified( book.typeId() ) ) {
-        reasons.push_back( string_format( _( "You need %s %d to understand the jargon!" ),
-                                          skill.obj().name(), type->req ) );
+        reasons.push_back( string_format( _( "%s %d needed to understand. You have %d" ),
+                                          skill.obj().name(), type->req, skill_level ) );
         return nullptr;
     }
 
@@ -9759,8 +9777,8 @@ const player *player::get_book_reader( const item &book, std::vector<std::string
                                               elem->disp_name() ) );
         } else if( skill && elem->get_skill_level( skill ) < type->req &&
                    has_identified( book.typeId() ) ) {
-            reasons.push_back( string_format( _( "%s needs %s %d to understand the jargon!" ),
-                                              elem->disp_name(), skill.obj().name(), type->req ) );
+            reasons.push_back( string_format( _( "%s %d needed to understand. %s has %d" ),
+                                              skill.obj().name(), type->req, elem->disp_name(), elem->get_skill_level( skill ) ) );
         } else if( elem->has_trait( trait_HYPEROPIC ) && !elem->worn_with_flag( "FIX_FARSIGHT" ) &&
                    !elem->has_effect( effect_contacts ) ) {
             reasons.push_back( string_format( _( "%s needs reading glasses!" ),
@@ -11594,6 +11612,11 @@ bool player::has_activity( const activity_id &type ) const
     return activity.id() == type;
 }
 
+bool player::has_activity( const std::vector<activity_id> &types ) const
+{
+    return std::find( types.begin(), types.end(), activity.id() ) != types.end() ;
+}
+
 void player::cancel_activity()
 {
     if( has_activity( activity_id( "ACT_MOVE_ITEMS" ) ) && is_hauling() ) {
@@ -11644,7 +11667,7 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
 std::string player::weapname( unsigned int truncate ) const
 {
     if( weapon.is_gun() ) {
-        std::string str = string_format( "(%s) %s", weapon.gun_current_mode().name(), weapon.type_name() );
+        std::string str = string_format( "(%s) %s", weapon.gun_current_mode().tname(), weapon.type_name() );
 
         // Is either the base item or at least one auxiliary gunmod loaded (includes empty magazines)
         bool base = weapon.ammo_capacity() > 0 && !weapon.has_flag( "RELOAD_AND_SHOOT" );

@@ -38,20 +38,19 @@
 #include "enums.h"
 #include "inventory.h"
 #include "item_location.h"
-#include "itype.h"
 #include "pldata.h"
-#include "string_id.h"
+#include "type_id.h"
 
 class effect;
 class map;
 class npc;
 struct pathfinding_settings;
+class recipe;
+struct islot_comestible;
+struct itype;
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
-class ammunition_type;
-
-using ammotype = string_id<ammunition_type>;
 class craft_command;
 class recipe_subset;
 
@@ -72,25 +71,13 @@ nc_color encumb_color( int level );
 enum game_message_type : int;
 class ma_technique;
 class martialart;
-class recipe;
-
-using recipe_id = string_id<recipe>;
 struct item_comp;
 struct tool_comp;
 template<typename CompType> struct comp_selection;
 class vehicle;
-class vitamin;
-
-using vitamin_id = string_id<vitamin>;
-class start_location;
-
-using start_location_id = string_id<start_location>;
 struct w_point;
 struct points_left;
 struct targeting_data;
-class morale_type_data;
-
-using morale_type = string_id<morale_type_data>;
 
 namespace debug_menu
 {
@@ -260,6 +247,11 @@ class player : public Character
         void disp_info();
         /** Provides the window and detailed morale data */
         void disp_morale();
+
+        /**Estimate effect duration based on player relevant skill*/
+        time_duration estimate_effect_dur( const skill_id &relevant_skill, const efftype_id &effect,
+                                           const time_duration &error_magnitude,
+                                           int threshold, const Creature &target ) const;
 
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
@@ -482,7 +474,7 @@ class player : public Character
 
         void pause(); // '.' command; pauses & reduces recoil
 
-        void set_movement_mode( std::string mode );
+        void set_movement_mode( const std::string &mode );
         const std::string get_movement_mode() const;
 
         void cycle_move_mode(); // Cycles to the next move mode.
@@ -1289,7 +1281,10 @@ class player : public Character
                               const std::string &name = "" );
         /** Assigns activity to player, possibly resuming old activity if it's similar enough. */
         void assign_activity( const player_activity &act, bool allow_resume = true );
+        /** Check if player currently has a given activity */
         bool has_activity( const activity_id &type ) const;
+        /** Check if player currently has any of the given activities */
+        bool has_activity( const std::vector<activity_id> &types ) const;
         void cancel_activity();
         void resume_backlog_activity();
 
@@ -1348,10 +1343,14 @@ class player : public Character
         */
         bool can_interface_armor() const;
 
-        const martialart &get_combat_style() const; // Returns the combat style object
-        std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
-        void place_corpse(); // put corpse+inventory on map at the place where this is.
-        void place_corpse( const tripoint &om_target ); // put corpse+inventory on defined om tile
+        // Returns the combat style object
+        const martialart &get_combat_style() const;
+        // Inventory + weapon + worn (for death, etc)
+        std::vector<item *> inv_dump();
+        // Put corpse+inventory on map at the place where this is.
+        void place_corpse();
+        // Put corpse+inventory on defined om tile
+        void place_corpse( const tripoint &om_target );
 
         bool covered_with_flag( const std::string &flag, const body_part_set &parts ) const;
         bool is_waterproof( const body_part_set &parts ) const;
@@ -1360,10 +1359,12 @@ class player : public Character
         // has_charges works ONLY for charges.
         std::list<item> use_amount( itype_id it, int quantity,
                                     const std::function<bool( const item & )> &filter = return_true<item> );
-        bool use_charges_if_avail( const itype_id &it, long quantity );// Uses up charges
+        // Uses up charges
+        bool use_charges_if_avail( const itype_id &it, long quantity );
 
+        // Uses up charges
         std::list<item> use_charges( const itype_id &what, long qty,
-                                     const std::function<bool( const item & )> &filter = return_true<item> ); // Uses up charges
+                                     const std::function<bool( const item & )> &filter = return_true<item> );
 
         bool has_charges( const itype_id &it, long quantity,
                           const std::function<bool( const item & )> &filter = return_true<item> ) const;
@@ -1371,7 +1372,8 @@ class player : public Character
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
 
-        int  leak_level( const std::string &flag ) const; // carried items may leak radiation or chemicals
+        // Carried items may leak radiation or chemicals
+        int  leak_level( const std::string &flag ) const;
 
         // Has a weapon, inventory item or worn item with flag
         bool has_item_with_flag( const std::string &flag, bool need_charges = false ) const;
@@ -1567,8 +1569,10 @@ class player : public Character
             position = p;
         }
         tripoint view_offset;
-        bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
-        bool controlling_vehicle;  // Is currently in control of a vehicle
+        // Means player sit inside vehicle on the tile he is now
+        bool in_vehicle;
+        // Is currently in control of a vehicle
+        bool controlling_vehicle;
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
         bool hauling;
@@ -1594,7 +1598,8 @@ class player : public Character
         double recoil = MAX_RECOIL;
         std::weak_ptr<Creature> last_target;
         cata::optional<tripoint> last_target_pos;
-        item_location ammo_location; //Save favorite ammo location
+        // Save favorite ammo location
+        item_location ammo_location;
         int scent;
         int dodges_left;
         int blocks_left;
@@ -1602,9 +1607,11 @@ class player : public Character
         int radiation;
         unsigned long cash;
         int movecounter;
-        bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
+        // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
+        bool death_drops;
         std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
-        void temp_equalizer( body_part bp1, body_part bp2 ); // Equalizes heat between body parts
+        // Equalizes heat between body parts
+        void temp_equalizer( body_part bp1, body_part bp2 );
 
         // Drench cache
         enum water_tolerance {

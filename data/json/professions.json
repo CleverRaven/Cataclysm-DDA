@@ -1473,7 +1473,7 @@
   {
     "type": "profession",
     "ident": "broken_cyborg",
-    "name": "Broken Cyborg",
+    "name": "Prototype Cyborg",
     "description": "You were normal once.  Before the tests, before the procedures, before they stripped away every outward sign of your humanity.  You're more machine than man now, but that might prove an advantage against the horrors that await.",
     "points": -2,
     "CBMs": [
@@ -3586,6 +3586,21 @@
       ],
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "urban_samurai",
+    "name": "Urban Samurai",
+    "description": "You were always an inexplicable sight in town, always with the funny hair, always wearing what appeared to be some kind of Japanese bathrobe. Some claimed you were a visiting Shinto god. Little of this concerns you, but last week the grocery service stopped coming and now the TV no longer turns on. This displeases you.",
+    "points": 2,
+    "skills": { "level": 2, "name": "melee" },
+    "items": {
+      "both": {
+        "items": [ "haori", "kimono", "hakama", "loincloth", "tabi_dress", "geta" ],
+        "entries": [ { "item": "bokken_inferior", "container-item": "scabbard" } ]
+      },
+      "female": [ "chestwrap" ]
     }
   }
 ]

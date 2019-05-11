@@ -21,6 +21,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "optional.h"
+#include "type_id.h"
 
 template <typename T>
 static int count_items( const T &src, const itype_id &id )

@@ -17,6 +17,7 @@
 #include "compatibility.h"
 #include "enums.h"
 #include "string_id.h"
+#include "type_id.h"
 
 static const std::string null_item_id( "null" );
 

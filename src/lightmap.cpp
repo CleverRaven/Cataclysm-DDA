@@ -29,12 +29,12 @@
 #include "enums.h"
 #include "field.h"
 #include "item.h"
-#include "itype.h"
 #include "line.h"
 #include "optional.h"
 #include "player.h"
 #include "string_formatter.h"
 #include "tileray.h"
+#include "type_id.h"
 
 #define LIGHTMAP_CACHE_X MAPSIZE_X
 #define LIGHTMAP_CACHE_Y MAPSIZE_Y

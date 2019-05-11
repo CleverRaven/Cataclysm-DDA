@@ -9,9 +9,7 @@
 
 #include "enums.h"
 #include "omdata.h"
-
-class ammunition_type;
-using ammotype = string_id<ammunition_type>;
+#include "type_id.h"
 
 class item;
 

@@ -38,6 +38,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "vpart_reference.h"
+#include "type_id.h"
 
 class npc_template;
 
