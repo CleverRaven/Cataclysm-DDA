@@ -31,8 +31,6 @@ extern bool test_mode;
 namespace
 {
 
-const mtype_id mon_generator( "mon_generator" );
-
 const std::map<std::string, mon_trigger> trigger_map = {
     { "STALK",              mon_trigger::STALK },
     { "MEAT",               mon_trigger::MEAT },
