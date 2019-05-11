@@ -1412,7 +1412,7 @@
   },
   {
     "type": "recipe",
-    "result": "cataclysm_coffee",
+    "result": "coffee_substitute",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
