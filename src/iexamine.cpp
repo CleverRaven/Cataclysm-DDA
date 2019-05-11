@@ -4476,11 +4476,10 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
     uilist smenu;
     smenu.text = _( "Load smoking rack with what kind of food?" );
     // count and ask for item to be placed ...
-    int count = 0;
     std::list<std::string> names;
     std::vector<const item *> entries;
     for( const item *smokable_item : filtered ) {
-
+        int count;
         if( smokable_item->count_by_charges() ) {
             count = inv.charges_of( smokable_item->typeId() );
         } else {
@@ -4495,7 +4494,6 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
             names.push_back( item::nname( smokable_item->typeId(), 1 ) );
             comps.push_back( item_comp( smokable_item->typeId(), count ) );
         }
-        count = 0;
     }
 
     if( comps.empty() ) {
@@ -4509,7 +4507,7 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
         add_msg( m_info, _( "Never mind." ) );
         return;
     }
-    count = 0;
+    int count = 0;
     auto what = entries[smenu.ret];
     for( const auto &c : comps ) {
         if( c.type == what->typeId() ) {
@@ -4585,11 +4583,10 @@ void mill_load_food( player &p, const tripoint &examp, const units::volume &rema
     uilist smenu;
     smenu.text = _( "Load mill with what kind of product?" );
     // count and ask for item to be placed ...
-    int count = 0;
     std::list<std::string> names;
     std::vector<const item *> entries;
     for( const item *millable_item : filtered ) {
-
+        int count;
         if( millable_item->count_by_charges() ) {
             count = inv.charges_of( millable_item->typeId() );
         } else {
@@ -4604,7 +4601,6 @@ void mill_load_food( player &p, const tripoint &examp, const units::volume &rema
             names.push_back( item::nname( millable_item->typeId(), 1 ) );
             comps.push_back( item_comp( millable_item->typeId(), count ) );
         }
-        count = 0;
     }
 
     if( comps.empty() ) {
@@ -4618,7 +4614,7 @@ void mill_load_food( player &p, const tripoint &examp, const units::volume &rema
         add_msg( m_info, _( "Never mind." ) );
         return;
     }
-    count = 0;
+    int count = 0;
     auto what = entries[smenu.ret];
     for( const auto &c : comps ) {
         if( c.type == what->typeId() ) {
