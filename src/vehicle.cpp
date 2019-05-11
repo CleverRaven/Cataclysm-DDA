@@ -1289,7 +1289,7 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
                 "REAPER",
                 "PLANTER",
                 "SCOOP",
-                "SPACE_HEATER"
+                "SPACE_HEATER",
                 "WATER_PURIFIER",
                 "ROCKWHEEL"
             }
