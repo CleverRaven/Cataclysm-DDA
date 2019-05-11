@@ -1862,6 +1862,21 @@ class item : public visitable<item>
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
 
+        enum class sizing {
+            human_sized_human_char = 0,
+            big_sized_human_char,
+            small_sized_human_char,
+            big_sized_big_char,
+            human_sized_big_char,
+            small_sized_big_char,
+            small_sized_small_char,
+            human_sized_small_char,
+            big_sized_small_char,
+            not_wearable
+        };
+
+        sizing get_sizing( const Character &, bool ) const;
+
     protected:
         // Sub-functions of @ref process, they handle the processing for different
         // processing types, just to make the process function cleaner.
