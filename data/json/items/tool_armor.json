@@ -42,7 +42,8 @@
 		  "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+	"magazine_well": 1
   },
   {
     "id": "miner_hat_on",
@@ -68,7 +69,8 @@
     "warmth": 5,
     "encumbrance": 15,
     "coverage": 80,
-    "material_thickness": 4
+    "material_thickness": 4,
+	"magazine_well": 1
   },
   {
     "type": "TOOL_ARMOR",
@@ -178,7 +180,8 @@
 		  "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+	"magazine_well": 1
   },
   {
     "id": "thermal_socks_on",
@@ -201,7 +204,8 @@
     "covers": [ "FEET" ],
     "warmth": 60,
     "coverage": 100,
-    "material_thickness": 1
+    "material_thickness": 1,
+	"magazine_well": 1
   },
   {
     "id": "thermal_suit",
@@ -243,7 +247,8 @@
 		  "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+	"magazine_well": 1
   },
   {
     "id": "thermal_suit_on",
@@ -266,7 +271,8 @@
     "covers": [ "TORSO", "ARMS", "LEGS" ],
     "warmth": 60,
     "coverage": 100,
-    "material_thickness": 1
+    "material_thickness": 1,
+	"magazine_well": 1
   },
   {
     "id": "thermal_gloves",
@@ -309,7 +315,8 @@
 		  "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+	"magazine_well": 1
   },
   {
     "id": "thermal_gloves_on",
@@ -332,7 +339,8 @@
     "covers": [ "HANDS" ],
     "warmth": 60,
     "coverage": 100,
-    "material_thickness": 1
+    "material_thickness": 1,
+	"magazine_well": 1
   },
   {
     "id": "thermal_mask",
@@ -374,7 +382,8 @@
 		  "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+	"magazine_well": 1
   },
   {
     "id": "thermal_mask_on",
@@ -397,7 +406,8 @@
     "covers": [ "HEAD", "MOUTH" ],
     "warmth": 60,
     "coverage": 100,
-    "material_thickness": 1
+    "material_thickness": 1,
+	"magazine_well": 1
   },
   {
     "id": "binoculars",
@@ -461,7 +471,8 @@
 		  "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+	"magazine_well": 1
   },
   {
     "id": "wearable_light_on",
@@ -484,7 +495,8 @@
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "wearable_light" },
     "covers": [ "HEAD" ],
     "coverage": 15,
-    "material_thickness": 1
+    "material_thickness": 1,
+	"magazine_well": 1
   },
   {
     "id": "survivor_light",
@@ -526,7 +538,8 @@
 		  "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+	"magazine_well": 1
   },
   {
     "id": "survivor_light_on",
@@ -549,7 +562,8 @@
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "survivor_light" },
     "covers": [ "HEAD" ],
     "coverage": 20,
-    "material_thickness": 1
+    "material_thickness": 1,
+	"magazine_well": 1
   },
   {
     "id": "rm13_armor",
@@ -1102,7 +1116,8 @@
 		  "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+	"magazine_well": 1
   },
   {
     "id": "goggles_nv_on",
@@ -1128,7 +1143,8 @@
     "environmental_protection": 6,
     "encumbrance": 20,
     "coverage": 100,
-    "material_thickness": 2
+    "material_thickness": 2,
+	"magazine_well": 1
   },
   {
     "id": "goggles_ir",
@@ -1174,7 +1190,8 @@
 		  "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+	"magazine_well": 1
   },
   {
     "id": "goggles_ir_on",
@@ -1200,7 +1217,8 @@
     "environmental_protection": 6,
     "encumbrance": 20,
     "coverage": 100,
-    "material_thickness": 2
+    "material_thickness": 2,
+	"magazine_well": 1
   },
   {
     "id": "wearable_rx12",
@@ -2005,7 +2023,8 @@
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ] ] ],
+	"magazine_well": 2
   },
   {
     "id": "thermal_outfit_on",
@@ -2028,7 +2047,8 @@
     "covers": [ "HEAD", "MOUTH", "TORSO", "ARMS", "LEGS", "HANDS", "FEET" ],
     "warmth": 60,
     "coverage": 100,
-    "material_thickness": 1
+    "material_thickness": 1,
+	"magazine_well": 2
   },
   {
     "type": "TOOL_ARMOR",
@@ -2329,7 +2349,8 @@
 		  "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+	"magazine_well": 1
   },
   {
     "id": "powered_earmuffs_on",
@@ -2353,7 +2374,8 @@
     "warmth": 5,
     "encumbrance": 5,
     "coverage": 10,
-    "material_thickness": 2
+    "material_thickness": 2,
+	"magazine_well": 1
   },
   {
     "id": "stethoscope",
@@ -2643,7 +2665,8 @@
       "need_charges_msg": "The blanket's batteries are dead."
     },
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "RECHARGE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ] ] ]
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ] ] ],
+	"magazine_well": 2
   },
   {
     "id": "electric_blanket_on",
@@ -2654,6 +2677,7 @@
     "copy-from": "electric_blanket",
     "warmth": 90,
     "turns_per_charge": 3,
-    "use_action": { "type": "transform", "msg": "You turn the blanket's heating elements off.", "target": "electric_blanket" }
+    "use_action": { "type": "transform", "msg": "You turn the blanket's heating elements off.", "target": "electric_blanket" },
+	"magazine_well": 2
   }
 ]
