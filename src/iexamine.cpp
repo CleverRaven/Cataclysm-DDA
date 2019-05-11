@@ -29,6 +29,7 @@
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "handle_liquid.h"
 #include "harvest.h"
 #include "input.h"
 #include "inventory.h"
@@ -256,7 +257,7 @@ void iexamine::gaspump( player &p, const tripoint &examp )
                 }
 
             } else {
-                g->handle_liquid_from_ground( item_it, examp, 1 );
+                liquid_handler::handle_liquid_from_ground( item_it, examp, 1 );
             }
             return;
         }
@@ -699,7 +700,7 @@ void iexamine::toilet( player &p, const tripoint &examp )
         water->poison = one_in( 3 ) ? 0 : rng( 1, 3 );
 
         ( void ) p; // TODO: use me
-        g->handle_liquid_from_ground( water, examp );
+        liquid_handler::handle_liquid_from_ground( water, examp );
     }
 }
 
@@ -2470,7 +2471,7 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
                 break;
             }
             case REMOVE_BREW: {
-                g->handle_liquid_from_ground( g->m.i_at( examp ).begin(), examp );
+                liquid_handler::handle_liquid_from_ground( g->m.i_at( examp ).begin(), examp );
                 return;
             }
             case START_FERMENT: {
@@ -2583,7 +2584,7 @@ void iexamine::fvat_full( player &p, const tripoint &examp )
     }
 
     const std::string booze_name = items_here.front().tname();
-    if( g->handle_liquid_from_ground( items_here.begin(), examp ) ) {
+    if( liquid_handler::handle_liquid_from_ground( items_here.begin(), examp ) ) {
         g->m.furn_set( examp, f_fvat_empty );
         add_msg( _( "You squeeze the last drops of %s from the vat." ), booze_name );
     }
@@ -2706,7 +2707,7 @@ void iexamine::keg( player &p, const tripoint &examp )
 
         switch( selectmenu.ret ) {
             case DISPENSE:
-                if( g->handle_liquid_from_ground( drink, examp ) ) {
+                if( liquid_handler::handle_liquid_from_ground( drink, examp ) ) {
                     add_msg( _( "You squeeze the last drops of %1$s from the %2$s." ),
                              drink_tname, keg_name );
                 }
@@ -2971,7 +2972,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
                 if( ( it.is_bucket() || it.is_watertight_container() ) && !it.is_container_empty() ) {
                     auto &liquid = it.contents.front();
                     if( liquid.typeId() == "maple_sap" ) {
-                        g->handle_liquid_from_container( it, PICKUP_RANGE );
+                        liquid_handler::handle_liquid_from_container( it, PICKUP_RANGE );
                     }
                 }
             }
@@ -3185,7 +3186,7 @@ void iexamine::water_source( player &p, const tripoint &examp )
 {
     item water = g->m.water_from( examp );
     ( void ) p; // TODO: use me
-    g->handle_liquid( water, nullptr, 0, &examp );
+    liquid_handler::handle_liquid( water, nullptr, 0, &examp );
 }
 
 const itype *furn_t::crafting_pseudo_item_type() const
