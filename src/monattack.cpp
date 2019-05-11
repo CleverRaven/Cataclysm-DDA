@@ -3797,6 +3797,51 @@ bool mattack::flesh_golem( monster *z )
     return true;
 }
 
+bool mattack::absorb_meat( monster *z )
+{
+    const int max_meat_absorbed = 10;
+    const float meat_absorption_factor = 0.01;
+    //Search surrounding tiles for meat
+    for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
+        auto items = g->m.i_at( p );
+        for( auto &current_item : items ) {
+            const material_id current_item_material = current_item.get_base_material().ident();
+            if( current_item_material == material_id( "flesh" ) ||
+                current_item_material == material_id( "hflesh" ) ) {
+                //We have something meaty! Calculate how much it will heal the monster
+                const int grams_of_meat = units::to_milliliter<int>( current_item.volume() );
+                const int total_charges = current_item.count();
+                const int grams_per_charge = grams_of_meat / total_charges;
+                //We have a max size of meat here to avoid absorbing whole corpses. 500 grams is a typical meat chunk
+                if( grams_per_charge > max_meat_absorbed * 500 ) {
+                    return false;
+                }
+                if( current_item.count_by_charges() ) {
+                    //Choose a random amount of meat charges to absorb
+                    long meat_absorbed = std::min( max_meat_absorbed, rng( 1, total_charges ) );
+                    const int hp_to_heal = meat_absorbed * grams_per_charge * meat_absorption_factor;
+                    z->heal( hp_to_heal, true );
+                    g->m.use_charges( p, 0, current_item.type->get_id(), meat_absorbed );
+
+                } else {
+                    //Only absorb one meaty item
+                    long meat_absorbed = 1;
+                    const int hp_to_heal = meat_absorbed * grams_per_charge * meat_absorption_factor;
+                    z->heal( hp_to_heal, true );
+                    g->m.use_amount( p, 0, current_item.type->get_id(), meat_absorbed );
+                }
+                if( g->u.sees( *z ) ) {
+                    add_msg( m_warning, _( "The %1$s absorbs some meat, growing larger." ), z->name() );
+                    add_msg( m_debug, _( "The %1$s now has %2$s out of %3$s hp" ), z->name(), z->get_hp(),
+                             z->get_hp_max() );
+                }
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 bool mattack::lunge( monster *z )
 {
     if( !z->can_act() ) {
