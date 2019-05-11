@@ -3805,7 +3805,7 @@ bool mattack::absorb_meat( monster *z )
     //TODO: dynamically get volume of meat
     const int max_meat_absorbed = ( monster_volume / 10 ) * average_meat_chunk_volume;
     add_msg( m_debug, _( "Max Meat Absorbed: %1$s" ), max_meat_absorbed );
-    //For every gram of meat absorbed, heal this many HP
+    //For every milliliter of meat absorbed, heal this many HP
     const float meat_absorption_factor = 0.01;
     //Search surrounding tiles for meat
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
@@ -3815,11 +3815,11 @@ bool mattack::absorb_meat( monster *z )
             if( current_item_material == material_id( "flesh" ) ||
                 current_item_material == material_id( "hflesh" ) ) {
                 //We have something meaty! Calculate how much it will heal the monster
-                const int grams_of_meat = units::to_milliliter<int>( current_item.volume() );
+                const int ml_of_meat = units::to_milliliter<int>( current_item.volume() );
                 const int total_charges = current_item.count();
-                const int grams_per_charge = grams_of_meat / total_charges;
+                const int ml_per_charge = ml_of_meat / total_charges;
                 //We have a max size of meat here to avoid absorbing whole corpses.
-                if( grams_per_charge > max_meat_absorbed * 1000 ) {
+                if( ml_per_charge > max_meat_absorbed * 1000 ) {
                     add_msg( m_info, _( "The %1$s quivers hungrily in the direction of the %2$s." ), z->name(),
                              current_item.tname() );
                     return false;
@@ -3827,14 +3827,14 @@ bool mattack::absorb_meat( monster *z )
                 if( current_item.count_by_charges() ) {
                     //Choose a random amount of meat charges to absorb
                     long meat_absorbed = std::min( max_meat_absorbed, rng( 1, total_charges ) );
-                    const int hp_to_heal = meat_absorbed * grams_per_charge * meat_absorption_factor;
+                    const int hp_to_heal = meat_absorbed * ml_per_charge * meat_absorption_factor;
                     z->heal( hp_to_heal, true );
                     g->m.use_charges( p, 0, current_item.type->get_id(), meat_absorbed );
 
                 } else {
                     //Only absorb one meaty item
                     long meat_absorbed = 1;
-                    const int hp_to_heal = meat_absorbed * grams_per_charge * meat_absorption_factor;
+                    const int hp_to_heal = meat_absorbed * ml_per_charge * meat_absorption_factor;
                     z->heal( hp_to_heal, true );
                     g->m.use_amount( p, 0, current_item.type->get_id(), meat_absorbed );
                 }
