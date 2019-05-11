@@ -212,7 +212,7 @@ int npc_select_menu( const std::vector<npc *> &npc_list, const std::string promp
 void npc_batch_override_toggle( const std::vector<npc *> npc_list, ally_rule rule, bool state )
 {
     for( npc *p : npc_list ) {
-        p->rules.toggle_specific_override_state( rule , state );
+        p->rules.toggle_specific_override_state( rule, state );
     }
 }
 
