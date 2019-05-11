@@ -551,7 +551,7 @@
     "type": "MIGRATION",
     "replace": "dry_mushroom",
     "flags": [ "HIDDEN_HALLU" ]
-  }
+  },
   {
     "id": "hk_ucp",
     "type": "MIGRATION",
