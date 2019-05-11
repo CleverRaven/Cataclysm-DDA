@@ -26,8 +26,6 @@
 #include "pathfinding.h"
 #include "units.h"
 
-extern bool test_mode;
-
 namespace
 {
 
