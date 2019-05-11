@@ -4883,7 +4883,8 @@ void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installe
         popup( _( "WARNING: Patient's body is damaged.  Difficulty of the procedure is increased by %s." ),
                dmg_lvl );
 
-        difficulty += dmg_lvl;// damage of the cyborg increases difficulty
+        // Damage of the cyborg increases difficulty
+        difficulty += dmg_lvl;
     }
 
     int chance_of_success = bionic_manip_cos( adjusted_skill, true, difficulty );

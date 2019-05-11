@@ -18,7 +18,8 @@ void mission_end::deposit_box( mission *miss )
         debugmsg( "could not find mission NPC %d", miss->get_npc_id() );
         return;
     }
-    p->set_attitude( NPCATT_NULL );//npc leaves your party
+    // Npc leaves your party
+    p->set_attitude( NPCATT_NULL );
     std::string itemName = "deagle_44";
     if( one_in( 4 ) ) {
         itemName = "katana";

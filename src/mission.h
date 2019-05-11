@@ -129,13 +129,17 @@ struct mission_start {
     static void reveal_lab_train_depot( mission * );  // Find lab train depot
 };
 
-struct mission_end { // These functions are run when a mission ends
-    static void standard( mission * ) {}     // Nothing special happens
-    static void deposit_box( mission * );    // random valuable reward
+// These functions are run when a mission ends
+struct mission_end {
+    // Nothing special happens
+    static void standard( mission * ) {}
+    // random valuable reward
+    static void deposit_box( mission * );
 };
 
 struct mission_fail {
-    static void standard( mission * ) {} // Nothing special happens
+    // Nothing special happens
+    static void standard( mission * ) {}
 };
 
 struct mission_target_params {
@@ -181,17 +185,25 @@ bool load_funcs( JsonObject jo, std::vector<std::function<void( mission *miss )>
 };
 
 struct mission_type {
-    mission_type_id id = mission_type_id( "MISSION_NULL" ); // Matches it to a mission_type_id above
+    // Matches it to a mission_type_id above
+    mission_type_id id = mission_type_id( "MISSION_NULL" );
     bool was_loaded = false;
-    std::string name = "Bugged mission type"; // The name the mission is given in menus
-    mission_goal goal; // The basic goal type
-    int difficulty = 0; // Difficulty; TODO: come up with a scale
-    int value = 0; // Value; determines rewards and such
-    time_duration deadline_low = 0_turns; // Low and high deadlines
+    // The name the mission is given in menus
+    std::string name = "Bugged mission type";
+    // The basic goal type
+    mission_goal goal;
+    // Difficulty; TODO: come up with a scale
+    int difficulty = 0;
+    // Value; determines rewards and such
+    int value = 0;
+    // Low and high deadlines
+    time_duration deadline_low = 0_turns;
     time_duration deadline_high = 0_turns;
-    bool urgent = false; // If true, the NPC will press this mission!
+    // If true, the NPC will press this mission!
+    bool urgent = false;
 
-    std::vector<mission_origin> origins; // Points of origin
+    // Points of origin
+    std::vector<mission_origin> origins;
     itype_id item_id = "null";
     Group_tag group_id = "null";
     itype_id container_id = "null";
@@ -261,34 +273,54 @@ class mission
             failure
         };
     private:
-        friend struct mission_type; // so mission_type::create is simpler
-        friend struct mission_start; // so it can initialize some properties
+        // So mission_type::create is simpler
+        friend struct mission_type;
+        // So it can initialize some properties
+        friend struct mission_start;
         friend class debug_menu::mission_debug;
 
         const mission_type *type;
-        std::string description;// Basic descriptive text
+        // Basic descriptive text
+        std::string description;
         mission_status status;
-        unsigned long value;    // Cash/Favor value of completing this
-        npc_favor reward;       // If there's a special reward for completing it
-        int uid;                // Unique ID number, used for referencing elsewhere
+        // Cash/Favor value of completing this
+        unsigned long value;
+        // If there's a special reward for completing it
+        npc_favor reward;
+        // Unique ID number, used for referencing elsewhere
+        int uid;
         // Marked on the player's map. (INT_MIN, INT_MIN) for none,
         // global overmap terrain coordinates.
         tripoint target;
-        itype_id item_id;       // Item that needs to be found (or whatever)
-        int item_count;         // The number of above items needed
-        string_id<oter_type_t> target_id;      // Destination type to be reached
-        npc_class_id recruit_class;// The type of NPC you are to recruit
-        int target_npc_id;     // The ID of a specific NPC to interact with
-        mtype_id monster_type;    // Monster ID that are to be killed
-        species_id monster_species;  // Monster species that are to be killed
-        int monster_kill_goal;  // The number of monsters you need to kill
-        int kill_count_to_reach; // The kill count you need to reach to complete mission
+        // Item that needs to be found (or whatever)
+        itype_id item_id;
+        // The number of above items needed
+        int item_count;
+        // Destination type to be reached
+        string_id<oter_type_t> target_id;
+        // The type of NPC you are to recruit
+        npc_class_id recruit_class;
+        // The ID of a specific NPC to interact with
+        int target_npc_id;
+        // Monster ID that are to be killed
+        mtype_id monster_type;
+        // Monster species that are to be killed
+        species_id monster_species;
+        // The number of monsters you need to kill
+        int monster_kill_goal;
+        // The kill count you need to reach to complete mission
+        int kill_count_to_reach;
         time_point deadline;
-        int npc_id;             // ID of a related npc
-        int good_fac_id, bad_fac_id; // IDs of the protagonist/antagonist factions
-        int step;               // How much have we completed?
-        mission_type_id follow_up;   // What mission do we get after this succeeds?
-        int player_id; // The id of the player that has accepted this mission.
+        // ID of a related npc
+        int npc_id;
+        // IDs of the protagonist/antagonist factions
+        int good_fac_id, bad_fac_id;
+        // How much have we completed?
+        int step;
+        // What mission do we get after this succeeds?
+        mission_type_id follow_up;
+        // The id of the player that has accepted this mission.
+        int player_id;
     public:
 
         std::string name();

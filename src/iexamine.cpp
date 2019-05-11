@@ -4016,7 +4016,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     }
 
     bool needs_anesthesia = true;
-    std::vector<item_comp> acomps;//legacy
+    // Legacy
+    std::vector<item_comp> acomps;
     std::vector<tool_comp> anesth_kit;
     if( p.has_trait( trait_NOPAIN ) || p.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
         needs_anesthesia = false;
@@ -4103,10 +4104,12 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 comps.push_back( item_comp( it->typeId(), 1 ) );
                 p.consume_items( comps, 1, is_crafting_component );
                 if( needs_anesthesia ) {
-                    if( acomps.empty() ) { // consume obsolete anesthesia first
+                    // Consume obsolete anesthesia first
+                    if( acomps.empty() ) {
                         p.consume_tools( anesth_kit, 1 );
                     } else {
-                        p.consume_items( acomps, 1, is_crafting_component );//legacy
+                        // Legacy
+                        p.consume_items( acomps, 1, is_crafting_component );
                     }
 
                 }

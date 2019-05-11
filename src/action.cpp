@@ -58,7 +58,8 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
         std::string id;
         keymap_txt >> id;
         if( id.empty() ) {
-            getline( keymap_txt, id );  // Empty line, chomp it
+            // Empty line, chomp it
+            getline( keymap_txt, id );
         } else if( id == "unbind" ) {
             keymap_txt >> id;
             const action_id act = look_up_action( id );

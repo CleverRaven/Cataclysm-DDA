@@ -677,7 +677,8 @@ void construction_menu()
             load_available_constructions( available, cat_available, hide_unconstructable );
         } else if( action == "CONFIRM" ) {
             if( constructs.empty() || select >= static_cast<int>( constructs.size() ) ) {
-                continue;// Nothing to be done here
+                // Nothing to be done here
+                continue;
             }
             if( player_can_build( g->u, total_inv, constructs[select] ) ) {
                 place_construction( constructs[select] );
