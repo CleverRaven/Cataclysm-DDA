@@ -410,7 +410,7 @@
     "items": [
       { "item": "medium_battery_cell", "prob": 80, "charges-min": 0, "charges-max": 500 },
       { "item": "medium_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 600 },
-	  { "item": "medium_disposable_battery", "prob": 40, "charges-min": 0, "charges-max": 1200 }
+	  { "item": "medium_disposable_cell", "prob": 40, "charges-min": 0, "charges-max": 1200 }
     ]
   },
   {
