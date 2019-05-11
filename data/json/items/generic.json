@@ -109,6 +109,68 @@
   },
   {
     "type": "GENERIC",
+    "abstract": "robot_module_abstract",
+    "name": "module template",
+    "description": "This is a template for robot module.  If found in a game it is a bug.",
+    "symbol": "§",
+    "color": "cyan",
+    "material": [ "plastic", "steel" ],
+    "weight": 250,
+    "volume": 2,
+    "price": 32000,
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "targeting_module",
+    "name": "targeting module",
+    "description": "This module integrate visual and proprioceptive information from peripheric sensors and outpouts information necessary for accurate aiming.",
+    "copy-from": "robot_module_abstract"
+  },
+  {
+    "type": "GENERIC",
+    "id": "identification_module",
+    "name": "identification module",
+    "description": "This module continuously runs image recogntion algorithms to identify friends from foe.",
+    "copy-from": "robot_module_abstract"
+  },
+  {
+    "type": "GENERIC",
+    "id": "pathfinding_module",
+    "name": "pathfinding module",
+    "description": "This module uses a combination of vector integration and egocentric mapping to find the best path available.",
+    "copy-from": "robot_module_abstract"
+  },
+  {
+    "type": "GENERIC",
+    "id": "memory_module",
+    "name": "memory banks",
+    "description": "Allows for storage and recovery of information. ",
+    "copy-from": "robot_module_abstract"
+  },
+  {
+    "type": "GENERIC",
+    "id": "sensor_module",
+    "name": "sensor array",
+    "description": "A wide range of sensors meant to give the ability to perceive the surronding world.",
+    "copy-from": "robot_module_abstract"
+  },
+  {
+    "type": "GENERIC",
+    "id": "self_monitoring_module",
+    "name": "self monitoring sensors",
+    "description": "A array of sensors and diagnostic modules allowing the robot to perceive itslef.",
+    "copy-from": "robot_module_abstract"
+  },
+  {
+    "type": "GENERIC",
+    "id": "central_module",
+    "name": "central integrating module",
+    "description": "This module is responsible for decision making, it's basically the seige of the AI of the robot.",
+    "copy-from": "robot_module_abstract"
+  },
+  {
+    "type": "GENERIC",
     "id": "fur",
     "symbol": ",",
     "color": "brown",
