@@ -7075,6 +7075,13 @@ void item::process_temperature_rot( float insulation, const tripoint pos,
         return;
     }
 
+    // process temperature and rot at most once every 100_turns (10 min)
+    // note we're also gated by item::processing_speed
+    time_duration smallest_interval = 10_minutes;
+    if( now - last_temp_check < smallest_interval && specific_energy > 0 ) {
+        return;
+    }
+
     int temp = g->get_temperature( pos );
 
     switch( flag ) {
@@ -7094,20 +7101,10 @@ void item::process_temperature_rot( float insulation, const tripoint pos,
             temp = AVERAGE_ANNUAL_TEMPERATURE;
             break;
         default:
-            temp = temp;
             debugmsg( "Temperature flag enum not valid. Using current temperature." );
     }
 
-    // body heat increases inventory temperature by 5F and clothes increase insulation
     bool carried = carrier != nullptr && carrier->has_item( *this );
-
-    // process temperature and rot at most once every 100_turns (10 min)
-    // note we're also gated by item::processing_speed
-    time_duration smallest_interval = 10_minutes;
-    if( now - last_temp_check < smallest_interval && specific_energy > 0 ) {
-        return;
-    }
-
     // body heat increases inventory temperature by 5F and insulation by 50%
     if( carried ) {
         insulation *= 1.5;
@@ -7153,9 +7150,9 @@ void item::process_temperature_rot( float insulation, const tripoint pos,
             double env_temperature = 0;
             if( pos.z >= 0 ) {
                 w_point weather = wgen.get_weather( pos, time, seed );
-                env_temperature = weather.temperature + enviroment_mod + local_mod;
+                env_temperature = weather.temperature + local_mod;
             } else {
-                env_temperature = AVERAGE_ANNUAL_TEMPERATURE + enviroment_mod + local_mod;
+                env_temperature = AVERAGE_ANNUAL_TEMPERATURE + local_mod;
             }
 
             switch( flag ) {
@@ -7175,8 +7172,7 @@ void item::process_temperature_rot( float insulation, const tripoint pos,
                     env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
                     break;
                 default:
-                    env_temperature = temp;
-                    debugmsg( "Temperature flag enum not valid. Using current temperature." );
+                    debugmsg( "Temperature flag enum not valid. Using normal temperature." );
             }
 
             // Calculate item temperature from enviroment temperature
