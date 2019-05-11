@@ -1072,25 +1072,31 @@ int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
 units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) const
 {
     const std::map<const item *, int> empty;
-    const auto &without = tweaks.without_items ? tweaks.without_items->get() : empty;
+    const std::map<const item *, int> &without = tweaks.without_items ? tweaks.without_items->get() :
+            empty;
 
     units::mass ret = 0_gram;
-    if( !without.count( &weapon ) ) {
-
-        const auto thisweight = weapon.weight();
-        const auto liftrequirement = ceil( units::to_gram<float>( thisweight ) / units::to_gram<float>
-                                           ( TOOL_LIFT_FACTOR ) );
-        if( g->new_game || best_nearby_lifting_assist() < liftrequirement ) {
-            ret += thisweight;
-        }
-    }
     for( auto &i : worn ) {
         if( !without.count( &i ) ) {
             ret += i.weight();
         }
     }
-    const auto &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
+    const inventory &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
     ret += i.weight_without( without );
+
+    if( !without.count( &weapon ) ) {
+
+        const units::mass thisweight = weapon.weight();
+        if( thisweight + ret > weight_capacity() ) {
+            const float liftrequirement = ceil( units::to_gram<float>( thisweight ) / units::to_gram<float>
+                                                ( TOOL_LIFT_FACTOR ) );
+            if( g->new_game || best_nearby_lifting_assist() < liftrequirement ) {
+                ret += thisweight;
+            }
+        } else {
+            ret += thisweight;
+        }
+    }
     return ret;
 }
 
