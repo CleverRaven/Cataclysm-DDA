@@ -1984,8 +1984,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                 for( size_t i = source_index; i != target_index; i += step_dir ) {
                     std::swap( panels[i], panels[i + step_dir] );
                 }
-                counter = 0;
-                selected = false;
                 werase( w );
                 wrefresh( g->w_terrain );
                 g->reinitmap = true;
@@ -2003,9 +2001,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
             update_offsets( width );
             int h; // to_map_font_dimension needs a second input
             to_map_font_dimension( width, h );
-            if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
-                width *= -1;
-            }
             werase( w );
             wrefresh( g->w_terrain );
             g->reinitmap = true;
@@ -2030,7 +2025,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
         }
         if( action == "TOGGLE_PANEL" && column == 0 ) {
             panels[index - 1].toggle = !panels[index - 1].toggle;
-            redraw = true;
             wrefresh( g->w_terrain );
             g->reinitmap = true;
             g->draw_panels( column, index );

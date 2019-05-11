@@ -1551,7 +1551,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             if( !confirm_non_enemy_target( dst ) || dst == src ) {
                 continue;
             }
-            target = find_target( t, dst );
             if( src == dst ) {
                 ret.clear();
             }
@@ -1565,7 +1564,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         } else if( action == "QUIT" ) { // return empty vector (cancel)
             ret.clear();
             pc.last_target_pos = cata::nullopt;
-            target = -1;
             break;
         }
 
