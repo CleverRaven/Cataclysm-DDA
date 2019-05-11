@@ -6241,7 +6241,7 @@ bool map::clear_path_flood_steps(const tripoint &f, const tripoint &t, const int
                                     f_map.clear();
                                     return true;
                                 }
-                                if ((f_map.at(k).second < r && r > 1) || (tp.x == f_map.at(k).first.x && tp.y == f_map.at(k).first.y)
+                                if ( (tp.x == f_map.at(k).first.x && tp.y == f_map.at(k).first.y)
                                     || cost < cost_min || cost > cost_max || !has_floor_or_support(tp)) {
                                     continue;
                                 }
