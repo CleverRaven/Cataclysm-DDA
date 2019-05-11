@@ -3799,7 +3799,13 @@ bool mattack::flesh_golem( monster *z )
 
 bool mattack::absorb_meat( monster *z )
 {
-    const int max_meat_absorbed = 10;
+    //Absorb no more than 1/10th monster's volume, times the volume of a meat chunk
+    const int monster_volume = units::to_liter( z->get_volume() );
+    const float average_meat_chunk_volume = 0.5;
+    //TODO: dynamically get volume of meat
+    const int max_meat_absorbed = ( monster_volume / 10 ) * average_meat_chunk_volume;
+    add_msg( m_debug, _( "Max Meat Absorbed: %1$s" ), max_meat_absorbed );
+    //For every gram of meat absorbed, heal this many HP
     const float meat_absorption_factor = 0.01;
     //Search surrounding tiles for meat
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
@@ -3831,7 +3837,8 @@ bool mattack::absorb_meat( monster *z )
                     g->m.use_amount( p, 0, current_item.type->get_id(), meat_absorbed );
                 }
                 if( g->u.sees( *z ) ) {
-                    add_msg( m_warning, _( "The %1$s absorbs some meat, growing larger." ), z->name() );
+                    add_msg( m_warning, _( "The %1$s absorbs %2$s, growing larger." ), z->name(),
+                             current_item.tname() );
                     add_msg( m_debug, _( "The %1$s now has %2$s out of %3$s hp" ), z->name(), z->get_hp(),
                              z->get_hp_max() );
                 }
