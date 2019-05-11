@@ -25,12 +25,7 @@
       {
         "text": "I don't know what kind of heresy you are spreading, but I'm putting an end to it!",
         "topic": "TALK_DONE",
-        "condition": { 
-          "and": [ 
-            { "u_has_trait": "SPIRITUAL" },
-            { "not": { "u_has_trait_flag": "mycus" } }
-            ] 
-        },
+        "condition": { "and": [ { "u_has_trait": "SPIRITUAL" }, { "not": { "u_has_trait_flag": "mycus" } } ] },
         "effect": "hostile"
       },
       {
