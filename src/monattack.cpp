@@ -3818,8 +3818,10 @@ bool mattack::absorb_meat( monster *z )
                 const int grams_of_meat = units::to_milliliter<int>( current_item.volume() );
                 const int total_charges = current_item.count();
                 const int grams_per_charge = grams_of_meat / total_charges;
-                //We have a max size of meat here to avoid absorbing whole corpses. 500 grams is a typical meat chunk
-                if( grams_per_charge > max_meat_absorbed * 500 ) {
+                //We have a max size of meat here to avoid absorbing whole corpses.
+                if( grams_per_charge > max_meat_absorbed * 1000 ) {
+                    add_msg( m_info, _( "The %1$s quivers hungrily in the direction of the %2$s." ), z->name(),
+                             current_item.tname() );
                     return false;
                 }
                 if( current_item.count_by_charges() ) {
@@ -3837,7 +3839,7 @@ bool mattack::absorb_meat( monster *z )
                     g->m.use_amount( p, 0, current_item.type->get_id(), meat_absorbed );
                 }
                 if( g->u.sees( *z ) ) {
-                    add_msg( m_warning, _( "The %1$s absorbs %2$s, growing larger." ), z->name(),
+                    add_msg( m_warning, _( "The %1$s absorbs the %2$s, growing larger." ), z->name(),
                              current_item.tname() );
                     add_msg( m_debug, _( "The %1$s now has %2$s out of %3$s hp" ), z->name(), z->get_hp(),
                              z->get_hp_max() );
