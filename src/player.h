@@ -40,6 +40,7 @@
 #include "item_location.h"
 #include "pldata.h"
 #include "type_id.h"
+#include "magic.h"
 
 class effect;
 class map;
@@ -1830,6 +1831,9 @@ class player : public Character
         void set_targeting_data( const targeting_data &td );
 
         std::set<tripoint> camps;
+
+        // magic mod
+        known_magic magic;
 
     protected:
         // The player's position on the local map.
