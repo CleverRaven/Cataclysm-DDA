@@ -12,7 +12,7 @@
     "flags": "TRADER_AVOID",
     "material": "iron",
     "volume": 1,
-    "weight": 1,
+    "weight": 0,
     "ammo_type": "battery",
     "reload_time": 1,
     "count": 100,
@@ -53,6 +53,25 @@
     "capacity": 500,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
+    "id": "light_minus_disposable_cell",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
+    "name": "ultra-light disposable battery",
+	"name_plural": "ultra-light disposable batteries",
+    "description": "This is a light battery cell designed for small size over everything else.  It retains its universal compatibility, though.  The battery's chemistry means that it has a very high capacity, but cannot be recharged.",
+    "weight": 5,
+    "volume": 0,
+    "price": 3000,
+    "material": [ "iron" ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "battery",
+    "count": 100,
+    "capacity": 100,
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
   },
   {
     "id": "light_battery_cell",
@@ -108,6 +127,25 @@
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
   },
   {
+    "id": "light_disposable_cell",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
+    "name": "light disposable battery",
+	"name_plural": "light disposable batteries",
+    "description": "This is a light battery cell, universally compatible with all kinds of small devices.  The battery's chemistry means that it has a very high capacity, but cannot be recharged.",
+    "weight": 75,
+    "volume": "115ml",
+    "price": 10000,
+    "material": [ "iron" ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "battery",
+    "count": 300,
+    "capacity": 300,
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
+  },
+  {
     "id": "medium_battery_cell",
     "type": "MAGAZINE",
     "category": "spare_parts",
@@ -161,6 +199,25 @@
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
   },
   {
+    "id": "medium_disposable_cell",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
+    "name": "medium disposable battery",
+	"name_plural": "medium disposable batteries",
+    "description": "This is a medium battery cell, universally compatible with all kinds of appliances and power tools.  The battery's chemistry means that it has a very high capacity, but cannot be recharged.",
+    "weight": 350,
+    "volume": "450ml",
+    "price": 10000,
+    "material": [ "iron" ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "battery",
+    "count": 1200,
+    "capacity": 1200,
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
+  },
+  {
     "id": "heavy_battery_cell",
     "type": "MAGAZINE",
     "category": "spare_parts",
@@ -212,6 +269,25 @@
     "capacity": 10000,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+  },
+  {
+    "id": "heavy_disposable_cell",
+    "type": "MAGAZINE",
+    "category": "spare_parts",
+    "name": "heavy disposable battery",
+	"name_plural": "heavy disposable batteries"
+    "description": "This is a heavy battery cell, universally compatible with all kinds of industrial-grade equipment and large tools. The battery's chemistry means that it has a very high capacity, but cannot be recharged.",
+    "weight": 950,
+    "volume": "1000ml",
+    "price": 10000,
+    "material": [ "iron" ],
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "battery",
+	"count": 2500,
+    "capacity": 2500,
+    "looks_like": "battery",
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
   },
   {
     "type": "AMMO",
