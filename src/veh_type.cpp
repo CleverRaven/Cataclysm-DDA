@@ -100,28 +100,28 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "RAIL", VPFLAG_RAIL },
 };
 
-static const std::vector<std::pair<std::string, int>> standard_terrain_mod = {{
-        { "FLAT", 4 }, { "ROAD", 2 }
+static const std::vector<std::pair<std::string, veh_ter_mod>> standard_terrain_mod = {{
+        { "FLAT", { 0, 4 } }, { "ROAD", { 0, 2 } }
     }
 };
-static const std::vector<std::pair<std::string, int>> rigid_terrain_mod = {{
-        { "FLAT", 6 }, { "ROAD", 3 }
+static const std::vector<std::pair<std::string, veh_ter_mod>> rigid_terrain_mod = {{
+        { "FLAT", { 0, 6 } }, { "ROAD", { 0, 3 } }
     }
 };
-static const std::vector<std::pair<std::string, int>> racing_terrain_mod = {{
-        { "FLAT", 5 }, { "ROAD", 2 }
+static const std::vector<std::pair<std::string, veh_ter_mod>> racing_terrain_mod = {{
+        { "FLAT", { 0, 5 } }, { "ROAD", { 0, 2 } }
     }
 };
-static const std::vector<std::pair<std::string, int>> off_road_terrain_mod = {{
-        { "FLAT", 3 }, { "ROAD", 1 }
+static const std::vector<std::pair<std::string, veh_ter_mod>> off_road_terrain_mod = {{
+        { "FLAT", { 0, 3 } }, { "ROAD", { 0, 1 } }
     }
 };
-static const std::vector<std::pair<std::string, int>> treads_terrain_mod = {{
-        { "FLAT", 3 }
+static const std::vector<std::pair<std::string, veh_ter_mod>> treads_terrain_mod = {{
+        { "FLAT", { 0, 3 } }
     }
 };
-static const std::vector<std::pair<std::string, int>> rail_terrain_mod = {{
-        { "RAIL", 8 }
+static const std::vector<std::pair<std::string, veh_ter_mod>> rail_terrain_mod = {{
+        { "RAIL", { 2, 8 } }
     }
 };
 
@@ -233,8 +233,10 @@ void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo
     }
     assign( jo, "rolling_resistance", wh_info.rolling_resistance );
     assign( jo, "contact_area", wh_info.contact_area );
-    wh_info.terrain_mod = standard_terrain_mod;
-    wh_info.or_rating = 0.5f;
+    if( !jo.has_member( "copy-from" ) ) { // if flag presented, it is already set
+        wh_info.terrain_mod = standard_terrain_mod;
+        wh_info.or_rating = 0.5f;
+    }
     if( jo.has_string( "wheel_type" ) ) {
         const std::string wheel_type = jo.get_string( "wheel_type" );
         if( wheel_type == "rigid" ) {
@@ -855,9 +857,9 @@ int vpart_info::wheel_area() const
     return has_flag( VPFLAG_WHEEL ) ? wheel_info->contact_area : 0;
 }
 
-std::vector<std::pair<std::string, int>> vpart_info::wheel_terrain_mod() const
+std::vector<std::pair<std::string, veh_ter_mod>> vpart_info::wheel_terrain_mod() const
 {
-    const std::vector<std::pair<std::string, int>> null_map;
+    const std::vector<std::pair<std::string, veh_ter_mod>> null_map;
     return has_flag( VPFLAG_WHEEL ) ? wheel_info->terrain_mod : null_map;
 }
 

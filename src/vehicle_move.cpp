@@ -1408,13 +1408,14 @@ float map::vehicle_wheel_traction( const vehicle &veh ) const
             // Shouldn't happen, but does
             return 0.0f;
         }
-        if( tr.has_flag( TFLAG_RAIL ) && veh.part_info( p ).has_flag( VPFLAG_RAIL ) ) {
-            move_mod = 2;
-        }
 
         for( const auto &terrain_mod : veh.part_info( p ).wheel_terrain_mod() ) {
-            if( !tr.has_flag( terrain_mod.first ) ) {
-                move_mod += terrain_mod.second;
+            if( terrain_mod.second.movecost && terrain_mod.second.movecost > 0 &&
+                tr.has_flag( terrain_mod.first ) ) {
+                move_mod = terrain_mod.second.movecost;
+                break;
+            } else if( terrain_mod.second.penalty && !tr.has_flag( terrain_mod.first ) ) {
+                move_mod += terrain_mod.second.penalty;
                 break;
             }
         }
