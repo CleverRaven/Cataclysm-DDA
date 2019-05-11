@@ -2668,9 +2668,9 @@ bool map::is_flammable( const tripoint &p )
 
 void map::decay_fields_and_scent( const time_duration &amount )
 {
+    // TODO: Make this happen on all z-levels
+
     // Decay scent separately, so that later we can use field count to skip empty submaps
-    tripoint tmp;
-    tmp.z = abs_sub.z; // TODO: Make this happen on all z-levels
     g->scent.decay();
 
     const time_duration amount_fire = amount / 3; // Decay fire by this much

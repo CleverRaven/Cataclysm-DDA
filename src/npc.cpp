@@ -717,14 +717,12 @@ skill_id npc::best_skill() const
 int npc::best_skill_level() const
 {
     int highest_level = std::numeric_limits<int>::min();
-    skill_id highest_skill( skill_id::NULL_ID() );
 
     for( const auto &p : *_skills ) {
         if( p.first.obj().is_combat_skill() ) {
             const int level = p.second.level();
             if( level > highest_level ) {
                 highest_level = level;
-                highest_skill = p.first;
             }
         }
     }

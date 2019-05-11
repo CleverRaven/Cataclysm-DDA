@@ -600,7 +600,6 @@ void iexamine::vending( player &p, const tripoint &examp )
         int page_end = page_size;
         if( cur_pos < num_items - cur_pos ) {
             page_beg = std::max( 0, cur_pos - lines_above );
-            page_end = std::min( num_items, page_beg + list_lines );
         } else {
             page_end = std::min( num_items, cur_pos + lines_below );
             page_beg = std::max( 0, page_end - list_lines );

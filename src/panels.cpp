@@ -1104,9 +1104,7 @@ void draw_limb( player &u, const catacurses::window &w )
             bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
         }
     };
-    ny = 0;
     ny2 = 0;
-    nx = 0;
     for( size_t i = 0; i < part.size(); i++ ) {
         if( i < 3 ) {
             ny = i;
@@ -1984,8 +1982,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                 for( size_t i = source_index; i != target_index; i += step_dir ) {
                     std::swap( panels[i], panels[i + step_dir] );
                 }
-                counter = 0;
-                selected = false;
                 werase( w );
                 wrefresh( g->w_terrain );
                 g->reinitmap = true;
@@ -2030,7 +2026,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
         }
         if( action == "TOGGLE_PANEL" && column == 0 ) {
             panels[index - 1].toggle = !panels[index - 1].toggle;
-            redraw = true;
             wrefresh( g->w_terrain );
             g->reinitmap = true;
             g->draw_panels( column, index );

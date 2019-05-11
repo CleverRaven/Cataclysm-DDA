@@ -529,11 +529,6 @@ void game::init_ui( const bool resized )
     minimapX = 0;
     minimapY = 0;
     pixelminimapW = MINIMAP_WIDTH;
-    pixelminimapH = ( pixelminimapW / 2 );
-    if( pixel_minimap_custom_height &&
-        pixelminimapH > get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) ) {
-        pixelminimapH = get_option<int>( "PIXEL_MINIMAP_HEIGHT" );
-    }
 
     int _y = VIEW_OFFSET_Y;
     int _x = VIEW_OFFSET_X;

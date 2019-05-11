@@ -3845,7 +3845,7 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
             remove_med -= reduce_healing_effect( effect_bandaged, remove_med, hurt );
         }
         if( remove_med > 0 && has_effect( effect_disinfected, hurt ) ) {
-            remove_med -= reduce_healing_effect( effect_disinfected, remove_med, hurt );
+           reduce_healing_effect( effect_disinfected, remove_med, hurt );
         }
     }
 }
@@ -4591,7 +4591,7 @@ needs_rates player::calc_needs_rates()
 
     needs_rates rates;
     rates.hunger = metabolic_rate();
-    rates.fatigue = 1.0f;
+
     // TODO: this is where calculating basal metabolic rate, in kcal per day would go
     rates.kcal = 2500.0;
 
@@ -4602,6 +4602,9 @@ needs_rates player::calc_needs_rates()
     if( worn_with_flag( "SLOWS_THIRST" ) ) {
         rates.thirst *= 0.7f;
     }
+
+    rates.fatigue = get_option< float >( "PLAYER_FATIGUE_RATE" );
+    rates.fatigue *= 1.0f + mutation_value( "fatigue_modifier" );
 
     // Note: intentionally not in metabolic rate
     if( has_recycler ) {
@@ -4647,8 +4650,6 @@ needs_rates player::calc_needs_rates()
         rates.hunger *= 0.25f;
         rates.thirst *= 0.25f;
     }
-    rates.fatigue = get_option< float >( "PLAYER_FATIGUE_RATE" );
-    rates.fatigue *= 1.0f + mutation_value( "fatigue_modifier" );
 
     return rates;
 }
