@@ -18,9 +18,7 @@
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 5 ] ],
     "armor_data": { "covers": [ "ARM_EITHER", "HAND_EITHER" ], "coverage": 10, "encumbrance": 30, "material_thickness": 1 },
-    "magazines": [
-      [ "9mm", [ "stenmag", "survivor9mm_mag" ] ]
-    ],
+    "magazines": [ [ "9mm", [ "stenmag", "survivor9mm_mag" ] ] ],
     "flags": [ "OVERSIZE", "BELTED", "FANCY", "RESTRICT_HANDS" ]
   },
   {
@@ -98,9 +96,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [
-      [ "9mm", [ "m9bigmag", "m9mag" ] ]
-    ]
+    "magazines": [ [ "9mm", [ "m9bigmag", "m9mag" ] ] ]
   },
   {
     "id": "glock_19",
@@ -121,9 +117,7 @@
     "dispersion": 480,
     "durability": 6,
     "magazine_well": 1,
-    "magazines": [
-      [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ]
-    ]
+    "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
   },
   {
     "id": "hk_mp5",
@@ -159,9 +153,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [
-      [ "9mm", [ "mp5mag", "mp5bigmag" ] ]
-    ]
+    "magazines": [ [ "9mm", [ "mp5mag", "mp5bigmag" ] ] ]
   },
   {
     "id": "hk_mp5sd",
@@ -222,9 +214,7 @@
       [ "sling", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [
-      [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ]
-    ]
+    "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
   },
   {
     "id": "l_lookout_9mm",
@@ -292,9 +282,7 @@
     "dispersion": 480,
     "durability": 6,
     "magazine_well": 1,
-    "magazines": [
-      [ "9mm", [ "m9mag", "m9bigmag" ] ]
-    ]
+    "magazines": [ [ "9mm", [ "m9mag", "m9bigmag" ] ] ]
   },
   {
     "id": "rifle_9mm",
@@ -381,9 +369,7 @@
     "durability": 5,
     "modes": [ [ "DEFAULT", "auto", 10 ] ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
-    "magazines": [
-      [ "9mm", [ "stenmag", "survivor9mm_mag" ] ]
-    ]
+    "magazines": [ [ "9mm", [ "stenmag", "survivor9mm_mag" ] ] ]
   },
   {
     "id": "tec9",
@@ -420,9 +406,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [
-      [ "9mm", [ "tec9mag" ] ]
-    ]
+    "magazines": [ [ "9mm", [ "tec9mag" ] ] ]
   },
   {
     "id": "usp_9mm",
@@ -444,9 +428,7 @@
     "dispersion": 400,
     "durability": 9,
     "magazine_well": 1,
-    "magazines": [
-      [ "9mm", [ "usp9mag" ] ]
-    ]
+    "magazines": [ [ "9mm", [ "usp9mag" ] ] ]
   },
   {
     "id": "uzi",
@@ -484,9 +466,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [
-      [ "9mm", [ "uzimag" ] ]
-    ]
+    "magazines": [ [ "9mm", [ "uzimag" ] ] ]
   },
   {
     "id": "glock_17",
@@ -506,9 +486,7 @@
     "dispersion": 480,
     "durability": 6,
     "magazine_well": 1,
-    "magazines": [
-      [ "9mm", [ "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ] ]
-    ]
+    "magazines": [ [ "9mm", [ "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ] ] ]
   },
   {
     "id": "glock_18c",

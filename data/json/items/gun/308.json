@@ -267,9 +267,7 @@
     "ammo": "308",
     "ranged_damage": -3,
     "magazine_well": 1,
-    "magazines": [
-      [ "308", [ "scarhmag", "scarhbigmag" ] ]
-    ]
+    "magazines": [ [ "308", [ "scarhmag", "scarhbigmag" ] ] ]
   },
   {
     "id": "M24",

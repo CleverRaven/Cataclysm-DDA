@@ -33,9 +33,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [
-      [ "762", [ "akmmag", "akmbigmag" ] ]
-    ],
+    "magazines": [ [ "762", [ "akmmag", "akmbigmag" ] ] ],
     "flags": [ "NEVER_JAMS" ]
   },
   {
@@ -75,9 +73,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [
-      [ "762", [ "akmmag", "akmbigmag" ] ]
-    ]
+    "magazines": [ [ "762", [ "akmmag", "akmbigmag" ] ] ]
   },
   {
     "id": "sks",
