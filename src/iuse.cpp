@@ -8068,7 +8068,7 @@ washing_requirements washing_requirements_for_volume( units::volume vol )
 {
     int water = divide_round_up( vol, 125_ml );
     int cleanser = divide_round_up( vol, 1000_ml );
-    int time = to_turns<int>( 10_seconds * vol / 250_ml );
+    int time = to_turns<int>( 10_seconds * ( vol / 250_ml ) );
     return { water, cleanser, time };
 }
 
