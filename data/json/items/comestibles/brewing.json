@@ -1,6 +1,26 @@
 [
   {
     "type": "COMESTIBLE",
+    "id": "brew_mycus_wine",
+    "name": "mycus wine must",
+    "description": "Unfermented mycus wine.  A goopy white mess, made from berries of marloss.  It smells sweetly of mushrooms.",
+    "weight": 33,
+    "color": "white",
+    "container": "bottle_glass",
+    "flags": [ "EATEN_COLD", "MYCUS_OK" ],
+    "symbol": "~",
+    "calories": 25,
+    "quench": -5,
+    "fun": 4,
+    "price": 4,
+    "volume": 1,
+    "charges": 5,
+    "phase": "liquid",
+    "comestible_type": "DRINK",
+    "brewable": { "time": "15 hours", "results": [ "wine_mycus", "yeast" ] }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "brew_whiskey",
     "name": "whiskey wort",
     "description": "Unfermented whiskey.  The base of a fine drink.  Not the traditional preparation, but you don't have the time.",
