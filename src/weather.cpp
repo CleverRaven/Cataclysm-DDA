@@ -119,7 +119,7 @@ time_duration get_rot_since( const time_point &start, const time_point &end,
     for( time_point i = start; i < end; i += 1_hours ) {
         w_point w = wgen.get_weather( pos, i, seed );
 
-        //Use weather if above ground, use map temp if below
+        // Use weather if above ground, use map temp if below
         double temperature = ( pos.z >= 0 ? w.temperature : location_temp ) + local_mod;
         // If in a root celler: use AVERAGE_ANNUAL_TEMPERATURE
         // If not: use calculated temperature
@@ -201,7 +201,8 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point 
         return;
     }
 
-    it.set_birthday( end ); // bday == last fill check
+    // bday == last fill check
+    it.set_birthday( end );
     auto data = sum_conditions( start, end, pos );
 
     // Technically 0.0 division is OK, but it will be cleaner without it
@@ -289,8 +290,9 @@ double funnel_charges_per_turn( const double surface_area_mm2, const double rain
 
     // Calculate once, because that part is expensive
     static const item water( "water", 0 );
+    // 250ml
     static const double charge_ml = static_cast<double>( to_gram( water.weight() ) ) /
-                                    water.charges; // 250ml
+                                    water.charges;
 
     const double vol_mm3_per_hour = surface_area_mm2 * rain_depth_mm_per_hour;
     const double vol_mm3_per_turn = vol_mm3_per_hour / HOURS( 1 );
@@ -834,7 +836,7 @@ std::string get_shortdirstring( int angle )
 
 std::string get_dirstring( int angle )
 {
-    //convert angle to cardinal directions
+    // Convert angle to cardinal directions
     std::string dirstring;
     int dirangle = angle;
     if( dirangle <= 23 || dirangle > 338 ) {
@@ -886,7 +888,8 @@ int get_local_humidity( double humidity, weather_type weather, bool sheltered )
 {
     int tmphumidity = humidity;
     if( sheltered ) {
-        tmphumidity = humidity * ( 100 - humidity ) / 100 + humidity; // norm for a house?
+        // Norm for a house?
+        tmphumidity = humidity * ( 100 - humidity ) / 100 + humidity;
     } else if( weather == WEATHER_RAINY || weather == WEATHER_DRIZZLE || weather == WEATHER_THUNDER ||
                weather == WEATHER_LIGHTNING ) {
         tmphumidity = 100;
@@ -914,7 +917,7 @@ double get_local_windpower( double windpower, const oter_id &omter, const tripoi
     } else if( omter.id() == "forest_thick" || omter.id() == "hive" ) {
         tmpwind *= 0.4;
     }
-    // an adjacent wall will block wind
+    // An adjacent wall will block wind
     if( is_wind_blocker( triblocker ) ) {
         tmpwind *= 0.1;
     }
@@ -926,7 +929,7 @@ bool is_wind_blocker( const tripoint &location )
     return g->m.has_flag( "BLOCK_WIND", location );
 }
 
-//Description of Wind Speed - https://en.wikipedia.org/wiki/Beaufort_scale
+// Description of Wind Speed - https://en.wikipedia.org/wiki/Beaufort_scale
 std::string get_wind_desc( double windpower )
 {
     std::string winddesc;
@@ -955,8 +958,8 @@ std::string get_wind_desc( double windpower )
     } else if( windpower <= 72 ) {
         winddesc = "Violent Storm";
     } else if( windpower > 72 ) {
-        winddesc =
-            "Hurricane";  //Anything above Whole Gale is very unlikely to happen and has no additional effects.
+        // Anything above Whole Gale is very unlikely to happen and has no additional effects.
+        winddesc = "Hurricane";
     }
     return winddesc;
 }

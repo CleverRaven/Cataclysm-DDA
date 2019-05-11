@@ -3481,10 +3481,14 @@ template<>
 SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int b )
 {
     SDL_Color result;
-    result.b = b;  //Blue
-    result.g = g;  //Green
-    result.r = r;  //Red
-    //result.a=0;//The Alpha, is not used, so just set it to 0
+    //Blue
+    result.b = b;
+    //Green
+    result.g = g;
+    //Red
+    result.r = r;
+    //The Alpha, is not used, so just set it to 0
+    //result.a = 0;
     return result;
 }
 

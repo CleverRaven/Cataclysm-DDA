@@ -2809,7 +2809,6 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
     act.coords.emplace_back( deposit_point );
     p->assign_activity( act );
 
-
     return it->type->charges_to_use();
 }
 

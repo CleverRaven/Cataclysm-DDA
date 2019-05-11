@@ -7183,7 +7183,6 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
                 calc_temp( env_temperature, insulation, time );
             }
 
-
             // Calculate item rot from item temperature
             if( time - last_rot_check >  smallest_interval ) {
                 calc_rot( time, env_temperature );
@@ -7213,8 +7212,6 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         set_item_temperature( temp_to_kelvin( temp ) );
     }
 }
-
-
 
 void item::calc_temp( const int temp, const float insulation, const time_point &time )
 {
@@ -7855,7 +7852,6 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
     for( const auto &e : type->emits ) {
         g->m.emit_field( pos, e );
     }
-
 
     if( has_flag( "FAKE_SMOKE" ) && process_fake_smoke( carrier, pos ) ) {
         return true;

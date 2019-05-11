@@ -4883,7 +4883,8 @@ void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installe
         popup( _( "WARNING: Patient's body is damaged.  Difficulty of the procedure is increased by %s." ),
                dmg_lvl );
 
-        difficulty += dmg_lvl;// damage of the cyborg increases difficulty
+        // Damage of the cyborg increases difficulty
+        difficulty += dmg_lvl;
     }
 
     int chance_of_success = bionic_manip_cos( adjusted_skill, true, difficulty );
@@ -6460,7 +6461,6 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                                  ( debug_mode || fov_3d || u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) ) );
 
     temp_exit_fullscreen();
-
 
     const int offset_x = ( u.posx() + u.view_offset.x ) - getmaxx( w_terrain ) / 2;
     const int offset_y = ( u.posy() + u.view_offset.y ) - getmaxy( w_terrain ) / 2;
@@ -8969,7 +8969,6 @@ void game::reload( item_location &loc, bool prompt, bool empty )
 
     refresh_all();
 }
-
 
 // Reload something.
 void game::reload_item()

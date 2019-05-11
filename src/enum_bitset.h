@@ -5,10 +5,8 @@
 #include <bitset>
 #include <type_traits>
 
-
 template<typename E>
 struct enum_traits;
-
 
 namespace detail
 {
@@ -23,7 +21,6 @@ template<typename E>
 struct has_proper_traits<E, last_type<E>> : std::true_type {};
 
 } // namespace detail
-
 
 template<typename E>
 class enum_bitset

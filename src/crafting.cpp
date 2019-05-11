@@ -1309,7 +1309,6 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
     return consume_items( g->m, is, batch, filter, pos(), PICKUP_RANGE );
 }
 
-
 std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter, tripoint origin, int radius )
 {
@@ -1912,7 +1911,8 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         if( can_decomp_learn( dis ) ) {
             // TODO: make this depend on intelligence
             if( one_in( 4 ) ) {
-                learn_recipe( &dis.ident().obj() );// TODO: change to forward an id or a reference
+                // TODO: change to forward an id or a reference
+                learn_recipe( &dis.ident().obj() );
                 add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
                          dis_item.tname() );
             } else {

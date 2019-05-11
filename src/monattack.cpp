@@ -3334,9 +3334,10 @@ bool mattack::copbot( monster *z )
                                    _( "a robotic voice boom, \"\
 Please put down your weapon.\"" ) );
                 }
-            } else
+            } else {
                 sounds::sound( z->pos(), 18, sounds::sound_t::alert,
                                _( "a robotic voice boom, \"Come out with your hands up!\"" ) );
+            }
         } else {
             sounds::sound( z->pos(), 18, sounds::sound_t::alarm,
                            _( "a police siren, whoop WHOOP" ) );

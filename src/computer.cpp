@@ -614,7 +614,8 @@ void computer::activate_function( computer_action action )
             }
             if( query_yn( _( "Confirm nuclear missile launch." ) ) ) {
                 add_msg( m_info, _( "Nuclear missile launched!" ) );
-                options.clear();//Remove the option to fire another missile.
+                //Remove the option to fire another missile.
+                options.clear();
             } else {
                 add_msg( m_info, _( "Nuclear missile launch aborted." ) );
                 return;
@@ -677,7 +678,8 @@ void computer::activate_function( computer_action action )
                 g->u.add_memorial_log( pgettext( "memorial_male", "Disarmed a nuclear missile." ),
                                        pgettext( "memorial_female", "Disarmed a nuclear missile." ) );
                 add_msg( m_info, _( "Nuclear missile disarmed!" ) );
-                options.clear();//disable missile.
+                //disable missile.
+                options.clear();
                 activate_failure( COMPFAIL_SHUTDOWN );
             } else {
                 add_msg( m_neutral, _( "Nuclear missile remains active." ) );

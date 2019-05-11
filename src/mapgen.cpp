@@ -280,7 +280,6 @@ std::map<std::string, std::vector<std::shared_ptr<mapgen_function>> > oter_mapge
 std::map<std::string, std::vector<std::unique_ptr<mapgen_function_json_nested>> > nested_mapgen;
 std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> > update_mapgen;
 
-
 /*
  * index to the above, adjusted to allow for rarity
  */
@@ -1648,7 +1647,6 @@ class jmapgen_translate : public jmapgen_piece
         }
 };
 
-
 static void load_weighted_entries( JsonObject &jsi, const std::string &json_key,
                                    weighted_int_list<std::string> &list )
 {
@@ -2545,7 +2543,6 @@ bool jmapgen_setmap::has_vehicle_collision( const mapgendata &dat, int offset_x,
     }
     return false;
 }
-
 
 void mapgen_function_json_base::formatted_set_incredibly_simple( map &m, int offset_x,
         int offset_y ) const
@@ -8292,7 +8289,6 @@ void add_corpse( map *m, int x, int y )
 {
     m->add_corpse( tripoint( x, y, m->get_abs_sub().z ) );
 }
-
 
 //////////////////// mapgen update
 update_mapgen_function_json::update_mapgen_function_json( const std::string &s ) :

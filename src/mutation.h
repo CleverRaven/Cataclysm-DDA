@@ -328,12 +328,15 @@ struct mutation_branch {
 struct mutation_category_trait {
     private:
         std::string raw_name;
-        std::string raw_mutagen_message; // message when you consume mutagen
-        std::string raw_iv_message; //message when you inject an iv;
+        // Message when you consume mutagen
+        std::string raw_mutagen_message;
+        // Message when you inject an iv
+        std::string raw_iv_message;
         std::string raw_iv_sound_message = "NULL";
         std::string raw_iv_sleep_message = "NULL";
         std::string raw_junkie_message;
-        std::string raw_memorial_message; //memorial message when you cross a threshold
+        // Memorial message when you cross a threshold
+        std::string raw_memorial_message;
 
     public:
         std::string name() const;
@@ -350,23 +353,29 @@ struct mutation_category_trait {
         // The trait that you gain when you break the threshold for this category
         trait_id threshold_mut;
 
-        int mutagen_hunger  = 10;//these are defaults
+        // These are defaults
+        int mutagen_hunger  = 10;
         int mutagen_thirst  = 10;
         int mutagen_pain    = 2;
         int mutagen_fatigue = 5;
         int mutagen_morale  = 0;
-        int iv_min_mutations    = 1; //the minimum mutations an injection provides
+        // The minimum mutations an injection provides
+        int iv_min_mutations    = 1;
         int iv_additional_mutations = 2;
-        int iv_additional_mutations_chance = 3; //chance of additional mutations
+        // Chance of additional mutations
+        int iv_additional_mutations_chance = 3;
         int iv_hunger   = 10;
         int iv_thirst   = 10;
         int iv_pain     = 2;
         int iv_fatigue  = 5;
         int iv_morale   = 0;
         int iv_morale_max = 0;
-        bool iv_sound = false;  //determines if you make a sound when you inject mutagen
-        int iv_noise = 0;    //the amount of noise produced by the sound
-        bool iv_sleep = false;  //whether the iv has a chance of knocking you out.
+        // Determines if you make a sound when you inject mutagen
+        bool iv_sound = false;
+        // The amount of noise produced by the sound
+        int iv_noise = 0;
+        // Whether the iv has a chance of knocking you out.
+        bool iv_sleep = false;
         int iv_sleep_dur = 0;
 
         static const std::map<std::string, mutation_category_trait> &get_all();

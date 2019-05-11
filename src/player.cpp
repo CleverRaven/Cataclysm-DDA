@@ -1788,7 +1788,6 @@ void player::recalc_speed_bonus()
     // fat or underweight, you get slower. cumulative with hunger
     mod_speed_bonus( kcal_speed_penalty() );
 
-
     for( const auto &maps : *effects ) {
         for( auto i : maps.second ) {
             bool reduced = resists_effect( i.second );
@@ -4592,6 +4591,7 @@ needs_rates player::calc_needs_rates()
 
     needs_rates rates;
     rates.hunger = metabolic_rate();
+    rates.fatigue = 1.0f;
     // TODO: this is where calculating basal metabolic rate, in kcal per day would go
     rates.kcal = 2500.0;
 
@@ -4609,7 +4609,6 @@ needs_rates player::calc_needs_rates()
         rates.hunger = std::min( rates.hunger, std::max( 0.5f, rates.hunger - 0.5f ) );
         rates.thirst = std::min( rates.thirst, std::max( 0.5f, rates.thirst - 0.5f ) );
     }
-
 
     if( asleep ) {
         rates.recovery = 1.0f + mutation_value( "fatigue_regen_modifier" );

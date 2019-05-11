@@ -523,7 +523,6 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
                        thrown.get_property_long( "burst_when_filled" ) <= ( ( double )
                                thrown.get_contained().volume().value() ) / thrown.get_container_capacity().value() * 100;
 
-
     // Add some flags to the projectile
     if( weight > 500_gram ) {
         proj_effects.insert( "HEAVY_HIT" );

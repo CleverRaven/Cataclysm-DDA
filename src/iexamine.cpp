@@ -1189,7 +1189,6 @@ void iexamine::locked_object( player &p, const tripoint &examp )
         return temporary_item.has_quality( quality_id( "PRY" ), 1 );
     } );
 
-
     if( prying_items.size() == 0 ) {
         add_msg( m_info, _( "If only you had something to pry with..." ) );
         return;
@@ -3980,7 +3979,6 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
-
             uilist cmenu;
             cmenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
             cmenu.addentry( 1, true, 'i', _( "Choose Compact Bionic Module to install." ) );
@@ -4018,7 +4016,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     }
 
     bool needs_anesthesia = true;
-    std::vector<item_comp> acomps;//legacy
+    // Legacy
+    std::vector<item_comp> acomps;
     std::vector<tool_comp> anesth_kit;
     if( p.has_trait( trait_NOPAIN ) || p.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
         needs_anesthesia = false;
@@ -4105,10 +4104,12 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 comps.push_back( item_comp( it->typeId(), 1 ) );
                 p.consume_items( comps, 1, is_crafting_component );
                 if( needs_anesthesia ) {
-                    if( acomps.empty() ) { // consume obsolete anesthesia first
+                    // Consume obsolete anesthesia first
+                    if( acomps.empty() ) {
                         p.consume_tools( anesth_kit, 1 );
                     } else {
-                        p.consume_items( acomps, 1, is_crafting_component );//legacy
+                        // Legacy
+                        p.consume_items( acomps, 1, is_crafting_component );
                     }
 
                 }
@@ -4772,7 +4773,6 @@ void iexamine::quern_examine( player &p, const tripoint &examp )
                              _( "Apply brake to mill" ),
                              _( "Applying the brake will stop milling process." ) );
     }
-
 
     smenu.query();
 
