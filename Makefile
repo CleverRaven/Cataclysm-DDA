@@ -307,9 +307,9 @@ ifndef RELEASE
 endif
 
 ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-  OTHERS += -std=gnu++11
+  OTHERS += -std=gnu++14
 else
-  OTHERS += -std=c++11
+  OTHERS += -std=c++14
 endif
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
