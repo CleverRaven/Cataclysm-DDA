@@ -1360,10 +1360,13 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 mvwprintw( w_target, line_number++, 1, _( "%s Delay: %i" ), aim_mode->name, predicted_delay );
             }
         } else if( mode == TARGET_MODE_TURRET ) {
+            // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             line_number = draw_turret_aim( pc, w_target, line_number, dst );
         } else if( mode == TARGET_MODE_THROW ) {
+            // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             line_number = draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, false );
         } else if( mode == TARGET_MODE_THROW_BLIND ) {
+            // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             line_number = draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, true );
         }
 

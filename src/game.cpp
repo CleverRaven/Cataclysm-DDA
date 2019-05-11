@@ -5907,15 +5907,18 @@ static void zones_manager_shortcuts( const catacurses::window &w_info )
     tmpx += shortcut_print( w_info, 1, tmpx, c_white, c_light_green, _( "<A>dd" ) ) + 2;
     tmpx += shortcut_print( w_info, 1, tmpx, c_white, c_light_green, _( "<R>emove" ) ) + 2;
     tmpx += shortcut_print( w_info, 1, tmpx, c_white, c_light_green, _( "<E>nable" ) ) + 2;
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     tmpx += shortcut_print( w_info, 1, tmpx, c_white, c_light_green, _( "<D>isable" ) ) + 2;
 
     tmpx = 1;
     tmpx += shortcut_print( w_info, 2, tmpx, c_white, c_light_green, _( "<+-> Move up/down" ) ) + 2;
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     tmpx += shortcut_print( w_info, 2, tmpx, c_white, c_light_green, _( "<Enter>-Edit" ) ) + 2;
 
     tmpx = 1;
     tmpx += shortcut_print( w_info, 3, tmpx, c_white, c_light_green,
                             _( "<S>how all / hide distant" ) ) + 2;
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     tmpx += shortcut_print( w_info, 3, tmpx, c_white, c_light_green, _( "<M>ap" ) ) + 2;
 
     wrefresh( w_info );
