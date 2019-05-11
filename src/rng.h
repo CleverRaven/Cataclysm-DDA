@@ -41,6 +41,15 @@ inline double rng_normal( double hi )
 
 double normal_roll( double mean, double stddev );
 
+double rng_exponential( double min, double mean );
+
+inline double rng_exponential( double mean )
+{
+    return rng_exponential( 0.0, mean );
+}
+
+double exponential_roll( double lambda );
+
 /**
  * Returns a random entry in the container.
  * The container must have a `size()` function and must support iterators as usual.
