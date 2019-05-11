@@ -399,7 +399,7 @@ std::string spell::energy_cost_string( const player &p ) const
         auto pair = get_hp_bar( energy_cost(), p.get_stamina_max() );
         return colorize( pair.first, pair.second );
     }
-    debugmsg( _( "ERROR: Spell %s has invalid energy source." ), id().c_str() );
+    debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
 }
 
@@ -421,7 +421,7 @@ std::string spell::energy_cur_string( const player &p ) const
     if( energy_source() == hp_energy ) {
         return "";
     }
-    debugmsg( _( "ERROR: Spell %s has invalid energy source." ), id().c_str() );
+    debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
 }
 
