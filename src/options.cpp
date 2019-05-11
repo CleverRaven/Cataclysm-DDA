@@ -1494,10 +1494,10 @@ void options_manager::add_options_interface()
 
     add( "EDGE_SCROLL", "interface", translate_marker( "Edge scrolling" ),
     translate_marker( "Edge scrolling with the mouse." ), {
-        { -1, translate_marker( "Disabled" ) },
-        { 100, translate_marker( "Slow" ) },
-        { 30, translate_marker( "Normal" ) },
-        { 10, translate_marker( "Fast" ) }
+        std::make_tuple( -1, translate_marker( "Disabled" ) ),
+        std::make_tuple( 100, translate_marker( "Slow" ) ),
+        std::make_tuple( 30, translate_marker( "Normal" ) ),
+        std::make_tuple( 10, translate_marker( "Fast" ) )
     },
     30, 30, COPT_CURSES_HIDE );
 
