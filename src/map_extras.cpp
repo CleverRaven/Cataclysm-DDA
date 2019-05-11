@@ -467,7 +467,7 @@ void mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
         tripoint where = random_entry( spawnzone );
         if( g->is_empty( where ) ) {
             one_in( 2 ) ? m.add_spawn( mon_marloss_zealot_f, 1, where.x,
-                                           where.y ) : m.add_spawn( mon_marloss_zealot_m, 1, where.x, where.y );
+                                       where.y ) : m.add_spawn( mon_marloss_zealot_m, 1, where.x, where.y );
         }
     }
 
