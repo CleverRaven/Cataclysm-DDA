@@ -31,6 +31,7 @@
 #include "iexamine.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -145,7 +146,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_FERTILIZE_PLOT" ), fertilize_plot_do_turn },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn },
     { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn },
-    { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_do_turn }
+    { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_do_turn },
+    { activity_id( "ACT_STUDY_SPELL" ), study_spell_do_turn}
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -208,7 +210,8 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish },
     { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish },
     { activity_id( "ACT_HACK_DOOR" ), hack_door_finish },
-    { activity_id( "ACT_HACK_SAFE" ), hack_safe_finish }
+    { activity_id( "ACT_HACK_SAFE" ), hack_safe_finish },
+    { activity_id( "ACT_STUDY_SPELL" ), study_spell_finish }
 };
 
 static void messages_in_process( const player_activity &act, const player &p )
@@ -3586,4 +3589,44 @@ void activity_handlers::hack_safe_finish( player_activity *act, player *p )
 
     p->practice( skill_id( "computer" ), 20 );
     act->set_to_null();
+}
+
+void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
+{
+    if( p->fine_detail_vision_mod() > 4 ) {
+        act->values[2] = -1;
+        act->moves_left = 0;
+        return;
+    }
+    if( act->get_str_value( 1 ) == "study" ) {
+        spell &studying = p->magic.get_spell( spell_id( act->name ) );
+        if( act->get_str_value( 0 ) == "gain_level" ) {
+            if( studying.get_level() < act->get_value( 1 ) ) {
+                act->moves_left = 1000000;
+            } else {
+                act->moves_left = 0;
+            }
+        }
+        const int xp = roll_remainder( studying.exp_modifier( *p ) );
+        act->values[0] += xp;
+        studying.gain_exp( xp );
+    }
+    act->moves_left -= 100;
+}
+
+void activity_handlers::study_spell_finish( player_activity *act, player *p )
+{
+    act->set_to_null();
+
+    if( act->get_str_value( 1 ) == "study" ) {
+        p->add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
+                              act->get_value( 0 ) );
+        p->practice( skill_id( "spellcraft" ), act->get_value( 0 ) / 5,
+                     p->magic.get_spell( spell_id( act->name ) ).get_difficulty() );
+    } else if( act->get_str_value( 1 ) == "learn" && act->values[2] == 0 ) {
+        p->magic.learn_spell( act->name, *p );
+    }
+    if( act->values[2] == -1 ) {
+        p->add_msg_if_player( m_bad, _( "It's too dark to read." ) );
+    }
 }
