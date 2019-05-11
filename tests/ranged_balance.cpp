@@ -20,6 +20,7 @@
 #include "item_location.h"
 #include "player.h"
 #include "material.h"
+#include "type_id.h"
 
 typedef statistics<bool> firing_statistics;
 
@@ -80,6 +81,7 @@ static void arm_shooter( npc &shooter, const std::string &gun_type,
 static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel )
 {
     const tripoint shooter_pos( 60, 60, 0 );
+    CHECK( !shooter.in_vehicle );
     shooter.setpos( shooter_pos );
     shooter.worn.clear();
     shooter.inv.clear();

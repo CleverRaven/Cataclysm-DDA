@@ -21,6 +21,7 @@
 #include "inventory.h"
 #include "item.h"
 #include "optional.h"
+#include "type_id.h"
 
 template <typename T>
 static int count_items( const T &src, const itype_id &id )
@@ -68,6 +69,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     p.setz( 0 );
     // move player randomly until we find a suitable position
     while( !suitable( p.pos(), 1 ) ) {
+        CHECK( !p.in_vehicle );
         p.setpos( random_entry( closest_tripoints_first( 1, p.pos() ) ) );
     }
 

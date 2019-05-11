@@ -1,0 +1,6 @@
+Checks: 'clang-diagnostic-*,-clang-analyzer-deadcode.DeadStores,-clang-analyzer-security.FloatLoopCounter,-clang-analyzer-core.UndefinedBinaryOperatorResult,-clang-analyzer-core.uninitialized.Assign,-clang-analyzer-cplusplus.NewDeleteLeaks,-clang-analyzer-core.CallAndMessage,-clang-analyzer-core.NonNullParamChecker,-clang-analyzer-optin.cplusplus.VirtualCall,-clang-analyzer-core.NullDereference'
+WarningsAsErrors: '*'
+HeaderFilterRegex: '.*'
+FormatStyle:     none
+
+# vim:tw=0

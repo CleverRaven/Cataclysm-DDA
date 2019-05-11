@@ -9,6 +9,7 @@
 #include "npc.h"
 #include "player.h"
 #include "string_id.h"
+#include "type_id.h"
 
 std::string get_mutations_as_string( const player &p );
 

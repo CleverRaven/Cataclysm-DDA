@@ -11,17 +11,6 @@
     "acceptable_ammo": [ "battery" ]
   },
   {
-    "id": "battery_atomic",
-    "copy-from": "mod_battery",
-    "type": "TOOLMOD",
-    "category": "spare_parts",
-    "name": "atomic battery mod",
-    "description": "This plutonium cell has been adapted to fit conventional battery connections.  You can attach it to any battery-operated equipment, converting it to use power off the plutonium cell instead.",
-    "ammo_modifier": "plutonium",
-    "capacity_multiplier": 100,
-    "flags": [ "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
-  },
-  {
     "id": "battery_ups",
     "copy-from": "mod_battery",
     "type": "TOOLMOD",

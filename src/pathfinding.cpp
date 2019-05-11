@@ -24,6 +24,7 @@
 #include "vpart_position.h"
 #include "vpart_reference.h"
 #include "line.h"
+#include "type_id.h"
 
 enum astar_state {
     ASL_NONE,

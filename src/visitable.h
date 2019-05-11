@@ -9,12 +9,9 @@
 #include <vector>
 
 #include "cata_utility.h"
-#include "string_id.h"
+#include "type_id.h"
 
 class item;
-struct quality;
-
-using quality_id = string_id<quality>;
 
 enum class VisitResponse {
     ABORT, // Stop processing after this node

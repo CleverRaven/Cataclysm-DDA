@@ -26,11 +26,10 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "line.h"
-#include "mapdata.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "string_id.h"
-#include "mtype.h"
+#include "type_id.h"
 
 void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
@@ -443,6 +442,7 @@ TEST_CASE( "npc_can_target_player" )
 
         npc *guy = g->find_npc( model_id );
         REQUIRE( guy != nullptr );
+        CHECK( !guy->in_vehicle );
         guy->setpos( g->u.pos() + point( x, y ) );
         return guy;
     };

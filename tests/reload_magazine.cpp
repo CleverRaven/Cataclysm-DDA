@@ -13,6 +13,7 @@
 #include "item.h"
 #include "item_location.h"
 #include "string_id.h"
+#include "type_id.h"
 
 struct itype;
 

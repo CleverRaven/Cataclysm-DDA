@@ -43,6 +43,7 @@
 #include "options.h"
 #include "pldata.h"
 #include "rng.h"
+#include "type_id.h"
 
 typedef std::pair<std::string, std::string> name_value_pair_t;
 typedef std::vector<name_value_pair_t> option_overrides_t;
