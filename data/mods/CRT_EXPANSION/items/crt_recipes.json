@@ -1,17 +1,5 @@
 [
   {
-    "result": "withered",
-    "type": "recipe",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_OTHER",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "time": 100,
-    "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "pine_bough", 1 ], [ "willowbark", 1 ], [ "tanbark", 1 ], [ "birchbark", 1 ] ] ]
-  },
-  {
     "result": "withered_bundle",
     "type": "uncraft",
     "skill_used": "fabrication",
