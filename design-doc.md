@@ -44,35 +44,35 @@ The primary platform target is laptop or desktop computers, but affordances for 
 
 DDA has two kinds of inspirations, games and game elements that it emulates, and games and game elements that it avoids.
 
-##### Games to emulate
+### Games to emulate
 
-Ultima, especially Ultima III and IV.
+#### Ultima, especially Ultima III and IV.
 
 The player-guided exploration of the Ultima games was groundbreaking, as was the insight that the game doesn't have to be about defeating enemies and killing the big bad guy.
 
-Fallout Series.
+#### Fallout Series.
 
 Surviving in a realistic setting while scavenging for resources as your dominant means of survival is the main contribution of Fallout to DDA.  Special mention to Fallout Tactics for fusing many of the concepts from Fallout and X-com games.
 
-X-Com 1 and 2.
+#### X-Com 1 and 2.
 
 Early X-Com games made deep and punishing tactical turn based combat interspersed with long-term character building a reality.
 
-Dwarf Fortress
+#### Dwarf Fortress
 
 DF is an inspiration in many ways, it takes itself seriously without *being* too serious, it doesn't suffer (much) from "chosen one syndrome", it shows that investment in game world system verisimilitude pays off once it reaches completion, and that players have a taste for punishing and deep gameplay.
 
-##### Games to avoid
+### Games to avoid
 
-JRPGs
+#### JRPGs
 
 Suffer from "chosen one syndrome" to a huge degree.  Limited ability to interact with the environment.  Game world is often barely deep enough to hold up if you play as expected, *any* deviation from the chosen path usually causes the player to encounter shortcomings.
 
-Minecraft
+#### Minecraft
 
 Minecraft suffers from "Bang rocks together crafting" to a massive degree.  Crafting is evocative rather than literal, leading to absurdities like a wooden wood axe.
 
-Dwarf Fortress
+#### Dwarf Fortress
 
 DF seems to over-invest in world building.  The progress made by the game is astounding, but the lack of pragmatism around some aspects of the game are worrying.  Additionally the lack of emphasis on UI is IMO a much greater barrier to players than the depth of the game, which is surmountable.
 
