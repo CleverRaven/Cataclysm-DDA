@@ -8324,6 +8324,30 @@
   },
   {
     "type": "terrain",
+    "id": "t_water_dispenser",
+    "name": "water dispenser",
+    "description": "A machine with several taps that dispenses clean water.",
+    "symbol": "W",
+    "color": "light_blue",
+    "move_cost": 0,
+    "coverage": 40,
+    "flags": [ "TRANSPARENT" ],
+    "bash": {
+      "str_min": 15,
+      "str_max": 80,
+      "sound": "whack!",
+      "sound_fail": "thunk.",
+      "ter_set": "t_concrete",
+      "items": [
+        { "item": "steel_chunk", "count": [ 0, 2 ] },
+        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "pipe", "count": [ 0, 2 ] }
+      ]
+    },
+    "examine_action": "clean_water_source"
+  },
+  {
+    "type": "terrain",
     "id": "t_improvised_shelter",
     "name": "improvised shelter",
     "description": "Improvised shelter providing little bit of protection from the elements.",

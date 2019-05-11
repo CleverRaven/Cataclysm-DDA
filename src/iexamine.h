@@ -88,6 +88,7 @@ void shrub_wildveggies( player &p, const tripoint &examp );
 void recycle_compactor( player &p, const tripoint &examp );
 void trap( player &p, const tripoint &examp );
 void water_source( player &p, const tripoint &examp );
+void clean_water_source( player &p, const tripoint &examp );
 void kiln_empty( player &p, const tripoint &examp );
 void kiln_full( player &p, const tripoint &examp );
 void fireplace( player &p, const tripoint &examp );
