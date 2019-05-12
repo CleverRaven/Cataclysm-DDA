@@ -3556,6 +3556,7 @@ void activity_handlers::hack_door_finish( player_activity *act, player *p )
     if( p->has_trait( trait_id( "ILLITERATE" ) ) ) {
         add_msg( _( "You can't read anything on the screen." ) );
         act->set_to_null();
+        return;
     }
     bool using_electrohack = ( p->has_charges( "electrohack", 25 ) &&
                                query_yn( _( "Use electrohack?" ) ) );
@@ -3565,6 +3566,7 @@ void activity_handlers::hack_door_finish( player_activity *act, player *p )
     if( !( using_electrohack || using_fingerhack ) ) {
         add_msg( _( "You need a hacking tool for that." ) );
         act->set_to_null();
+        return;
     }
 
     ///\EFFECT_COMPUTER increases success chance of hacking door controls
