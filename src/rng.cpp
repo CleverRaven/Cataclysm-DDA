@@ -53,7 +53,7 @@ double rng_exponential( double min, double mean )
         return 0.0;
     }
     // lambda = 1 / mean
-    return exponential_roll( 1.0 / adjusted_mean );
+    return min + exponential_roll( 1.0 / adjusted_mean );
 }
 
 bool one_in( int chance )

@@ -1841,9 +1841,19 @@ class item : public visitable<item>
 
         int get_min_str() const;
 
+        const cata::optional<islot_comestible> &get_comestible() const;
+
+
+        // For in progress crafts
         const recipe &get_making() const;
 
-        const cata::optional<islot_comestible> &get_comestible() const;
+        int get_next_failure_point() const;
+        void set_next_failure_point( const player &p );
+
+        void handle_craft_failure( player &p );
+
+        requirement_data get_continue_reqs();
+
 
     private:
         /**
@@ -1910,7 +1920,10 @@ class item : public visitable<item>
         const mtype *corpse = nullptr;
         std::string corpse_name;       // Name of the late lamented
         std::set<matec_id> techniques; // item specific techniques
-        const recipe *making = nullptr; // Only for in-progress crafts
+
+        // Only for in-progress crafts
+        const recipe *making = nullptr;
+        int next_failure_point = -1;
 
     public:
         long charges;

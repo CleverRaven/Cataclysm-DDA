@@ -1451,6 +1451,8 @@ class player : public Character
         void make_all_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
         /** consume components and create an active, in progress craft containing them */
         void start_craft( craft_command &command, const tripoint &loc );
+        /** Handle failure during crafting */
+        void craft_failure( item &craft ) const;
         void complete_craft( item &craft, const tripoint &loc = tripoint_zero );
         /**
          * Check if the player meets the requirements to continue the in progress craft and if
@@ -1458,7 +1460,7 @@ class player : public Character
          * @param craft the currently in progress craft
          * @return if the craft can be continued
          */
-        bool can_continue_craft( const item &craft );
+        bool can_continue_craft( item &craft );
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
         int get_num_crafting_helpers( int max ) const;

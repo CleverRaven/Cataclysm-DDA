@@ -5185,7 +5185,7 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
                 break;
             }
 
-            const item *selected_craft = crafts[amenu2.ret].get_item();
+            item *selected_craft = crafts[amenu2.ret].get_item();
 
             if( !p.can_continue_craft( *selected_craft ) ) {
                 break;
