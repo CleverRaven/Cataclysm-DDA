@@ -639,8 +639,12 @@ class input_context
         /**
          * Keys (and only keys, other input types are not included) that
          * trigger the given action.
+         * @param action_descriptor The action descriptor for which to get the bound keys.
+         * @param restrict_to_printable If `true` the function returns the bound keys only if they are printable. If `false`, all keys (whether they are printable or not) are returned.
+         * @returns All keys bound to the given action descriptor.
          */
-        std::vector<char> keys_bound_to( const std::string &action_id ) const;
+        std::vector<char> keys_bound_to( const std::string &action_descriptor,
+                                         bool restrict_to_printable = true ) const;
 
         /**
         * Get/Set edittext to display IME unspecified string.
