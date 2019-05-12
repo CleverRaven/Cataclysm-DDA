@@ -102,6 +102,9 @@ else
         run_tests ./tests/cata_test $MODS &
         wait -n
     fi
-    wait -n
+    if [ "$TRAVIS_OS_NAME" != "osx" ]
+    then
+        wait -n
+    fi
 fi
 ccache --show-stats
