@@ -620,8 +620,9 @@ bool tool_comp::has( const inventory &crafting_inv,
     if( !by_charges() ) {
         return crafting_inv.has_tools( type, std::abs( count ), filter );
     } else {
-        int charges_found = crafting_inv.charges_of( type, count * batch, filter );
-        if( charges_found == count * batch ) {
+        const int charges_required = count * batch * item::find_type( type )->charge_factor();
+        int charges_found = crafting_inv.charges_of( type, charges_required, filter );
+        if( charges_found == charges_required ) {
             return true;
         }
         const auto &binned = crafting_inv.get_binned_items();
@@ -641,13 +642,13 @@ bool tool_comp::has( const inventory &crafting_inv,
         }
         if( has_UPS ) {
             const int UPS_charges_used =
-                crafting_inv.charges_of( "UPS", ( count * batch ) - charges_found, filter );
-            if( visitor && UPS_charges_used + charges_found >= ( count * batch ) ) {
+                crafting_inv.charges_of( "UPS", charges_required - charges_found, filter );
+            if( visitor && UPS_charges_used + charges_found >= charges_required ) {
                 visitor( UPS_charges_used );
             }
             charges_found += UPS_charges_used;
         }
-        return charges_found == count * batch;
+        return charges_found == charges_required;
     }
 }
 
