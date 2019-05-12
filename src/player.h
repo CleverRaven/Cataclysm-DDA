@@ -891,7 +891,7 @@ class player : public Character
         /**
          * Returns a reference to the item itself (if it's consumable),
          * the first of its contents (if it's consumable) or null item otherwise.
-         * consumable does not necessarily guarantee the comestible type.
+         * WARNING: consumable does not necessarily guarantee the comestible type.
          */
         item &get_consumable_from( item &it ) const;
 
