@@ -204,7 +204,8 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_SHAVE" ), shaving_finish },
     { activity_id( "ACT_HAIRCUT" ), haircut_finish },
     { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish },
-    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish }
+    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish },
+    { activity_id( "ACT_HACK_DOOR" ), hack_door_finish }
 };
 
 void messages_in_process( const player_activity &act, const player &p )
@@ -3547,5 +3548,69 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
         q.pop();
     }
     p->add_msg_if_player( m_info, _( "The trees have shown you what they will." ) );
+    act->set_to_null();
+}
+
+void activity_handlers::hack_door_finish( player_activity *act, player *p )
+{
+    if( p->has_trait( trait_id( "ILLITERATE" ) ) ) {
+        add_msg( _( "You can't read anything on the screen." ) );
+        act->set_to_null();
+    }
+    bool using_electrohack = ( p->has_charges( "electrohack", 25 ) &&
+                               query_yn( _( "Use electrohack?" ) ) );
+    bool using_fingerhack = ( !using_electrohack && p->has_bionic( bionic_id( "bio_fingerhack" ) ) &&
+                              p->power_level  > 24  && query_yn( _( "Use fingerhack?" ) ) );
+
+    if( !( using_electrohack || using_fingerhack ) ) {
+        add_msg( _( "You need a hacking tool for that." ) );
+        act->set_to_null();
+    }
+
+    ///\EFFECT_COMPUTER increases success chance of hacking door controls
+    int player_computer_skill_level = p->get_skill_level( skill_id( "computer" ) );
+    int success = rng( player_computer_skill_level / 4 - 2, player_computer_skill_level * 2 );
+    success += rng( -3, 3 );
+    if( using_fingerhack ) {
+        p->charge_power( -25 );
+        success++;
+    }
+    if( using_electrohack ) {
+        p->use_charges( "electrohack", 25 );
+        success++;
+    }
+
+    // odds go up with int>8, down with int<8
+    // 4 int stat is worth 1 computer skill here
+    ///\EFFECT_INT increases success chance of hacking card readers
+    success += rng( 0, static_cast<int>( ( p->int_cur - 8 ) / 2 ) );
+
+    if( success < 0 ) {
+        add_msg( _( "You cause a short circuit!" ) );
+        if( success <= -5 ) {
+            if( using_electrohack ) {
+                add_msg( m_bad, _( "Your electrohack is ruined!" ) );
+                p->use_amount( "electrohack", 1 );
+            } else {
+                add_msg( m_bad, _( "Your power is drained!" ) );
+                p->charge_power( -rng( 0, p->power_level ) );
+            }
+        }
+        act->set_to_null();
+    } else if( success < 6 ) {
+        add_msg( _( "Nothing happens." ) );
+        act->set_to_null();
+    } else {
+        add_msg( _( "You activate the panel!" ) );
+        add_msg( m_good, _( "The nearby doors slide into the floor." ) );
+        g->m.ter_set( act->placement, t_card_reader_broken );
+        for( const tripoint &tmp : g->m.points_in_radius( ( act->placement ), 3 ) ) {
+            if( g->m.ter( tmp ) == t_door_metal_locked ) {
+                g->m.ter_set( tmp, t_floor );
+            }
+        }
+    }
+
+    p->practice( skill_id( "computer" ), 20 );
     act->set_to_null();
 }

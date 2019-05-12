@@ -760,34 +760,8 @@ void iexamine::cardreader( player &p, const tripoint &examp )
             add_msg( _( "The nearby doors are already opened." ) );
         }
     } else {
-        switch( hack_attempt( p ) ) {
-            case HACK_FAIL:
-                g->m.ter_set( examp, t_card_reader_broken );
-                break;
-            case HACK_NOTHING:
-                add_msg( _( "Nothing happens." ) );
-                break;
-            case HACK_SUCCESS: {
-                add_msg( _( "You activate the panel!" ) );
-                add_msg( m_good, _( "The nearby doors slide into the floor." ) );
-                g->m.ter_set( examp, t_card_reader_broken );
-                for( const tripoint &tmp : g->m.points_in_radius( examp, 3 ) ) {
-                    if( g->m.ter( tmp ) == t_door_metal_locked ) {
-                        g->m.ter_set( tmp, t_floor );
-                    }
-                }
-            }
-            break;
-            case HACK_UNABLE:
-                add_msg(
-                    m_info,
-                    p.get_skill_level( skill_computer ) > 0 ?
-                    _( "Looks like you need a %s, or a tool to hack it with." ) :
-                    _( "Looks like you need a %s." ),
-                    item::nname( card_type )
-                );
-                break;
-        }
+        p.assign_activity( activity_id( "ACT_HACK_DOOR" ) );
+        p.activity.placement = examp;
     }
 }
 
