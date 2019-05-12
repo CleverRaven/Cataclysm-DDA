@@ -684,7 +684,9 @@ void editmap::update_view( bool update_info )
         }
 
         if( g->m.has_graffiti_at( target ) ) {
-            mvwprintw( w_info, off, 1, _( "Graffiti: %s" ), g->m.graffiti_at( target ) );
+            mvwprintw( w_info, off, 1,
+                       g->m.ter( target ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Incription: %s" ),
+                       g->m.graffiti_at( target ) );
         }
 
         wrefresh( w_info );

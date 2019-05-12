@@ -8214,6 +8214,14 @@ std::string item::type_name( unsigned int quantity ) const
     }
 }
 
+std::string item::get_corpse_name()
+{
+    if( corpse_name.empty() ) {
+        return std::string();
+    }
+    return corpse_name;
+}
+
 std::string item::nname( const itype_id &id, unsigned int quantity )
 {
     const auto t = find_type( id );

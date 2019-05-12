@@ -2678,8 +2678,11 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
 
     const tripoint dig_point = p->pos();
 
-    const bool can_dig_here = g->m.has_flag( "DIGGABLE", dig_point ) && !g->m.has_furn( dig_point ) &&
-                              g->m.tr_at( dig_point ).is_null() && g->m.i_at( dig_point ).empty() && !g->m.veh_at( dig_point );
+    const bool can_dig_here = g->m.has_flag( "DIGGABLE", dig_point ) &&
+                              !g->m.has_furn( dig_point ) &&
+                              g->m.tr_at( dig_point ).is_null() &&
+                              ( g->m.ter( dig_point ) == t_grave_new || g->m.i_at( dig_point ).empty() ) &&
+                              !g->m.veh_at( dig_point );
 
     if( !can_dig_here ) {
         p->add_msg_if_player(
@@ -5056,10 +5059,10 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
 int iuse::spray_can( player *p, item *it, bool, const tripoint & )
 {
-    return handle_ground_graffiti( *p, it, _( "Spray what?" ) );
+    return handle_ground_graffiti( *p, it, _( "Spray what?" ), p->pos() );
 }
 
-int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix )
+int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix, tripoint pt )
 {
     std::string message = string_input_popup()
                           .title( prefix + " " + _( "(To delete, input one '.')" ) )
@@ -5069,26 +5072,38 @@ int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix
     if( message.empty() ) {
         return 0;
     } else {
-        const auto where = p.pos();
+        const auto where = pt != p.pos() ? pt : p.pos();
+        bool grave = g->m.ter( where ) == t_grave_new;
         int move_cost;
         if( message == "." ) {
             if( g->m.has_graffiti_at( where ) ) {
                 move_cost = 3 * g->m.graffiti_at( where ).length();
                 g->m.delete_graffiti( where );
-                add_msg( _( "You manage to get rid of the message on the ground." ) );
+                if( grave ) {
+                    add_msg( _( "You blur the inscription on the grave." ) );
+                } else {
+                    add_msg( _( "You manage to get rid of the message on the ground." ) );
+                }
             } else {
                 add_msg( _( "There isn't anything to erase here." ) );
                 return 0;
             }
         } else {
             g->m.set_graffiti( where, message );
-            add_msg( _( "You write a message on the ground." ) );
+            if( grave ) {
+                add_msg( _( "You carve an inscription on the grave." ) );
+            } else {
+                add_msg( _( "You write a message on the ground." ) );
+            }
             move_cost = 2 * message.length();
         }
         p.moves -= move_cost;
     }
-
-    return it->type->charges_to_use();
+    if( it != nullptr ) {
+        return it->type->charges_to_use();
+    } else {
+        return 0;
+    }
 }
 
 /**
