@@ -260,7 +260,18 @@
     "material": [ "steel", "plastic" ],
     "category": "spare_parts"
   },
-
+  {
+    "type": "GENERIC",
+    "id": "tank_tread",
+    "name": "set of small tank tread",
+    "name_plural": "sets of small tank tread",
+    "description": "A set of small tank tread, like the one used by the beagle mini-tank.",
+    "weight": 60000,
+    "volume": 120,
+    "price": 600000,
+    "material": [ "steel", "plastic" ],
+    "category": "spare_parts"
+  },
   {
     "type": "GENERIC",
     "id": "turret_chassis",
