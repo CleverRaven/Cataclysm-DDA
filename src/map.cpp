@@ -6238,6 +6238,66 @@ std::vector<tripoint> map::find_clear_path( const tripoint &source,
     return line_to( source, destination, ideal_start_offset, 0 );
 }
 
+<<<<<<< HEAD
+=======
+
+
+void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tripoint &f,
+                                 int range, const int cost_min, const int cost_max ) const
+{
+    // the starting spot for the search should definitely be included
+    reachable_pts.push_back( f );
+    std::vector < std::pair<tripoint, int>> f_map = { {f, 0} };
+    // iterate out to the maximum number of steps
+    for( unsigned int r = 1; r < range; r++ ) {
+        int f_map_size = f_map.size();
+        for( unsigned int k = 0; k < f_map_size; k++ ) {
+            for( int i = -1; i <= 1; i++ ) {
+                for( int j = -1; j <= 1; j++ ) {
+                    tripoint tp = { f_map[k].first.x + i, f_map[k].first.y + j, f.z };
+                    const int cost = this->move_cost( { tp.x, tp.y, tp.z } );
+                    // rejection conditions
+                    if( ( tp.x == f_map[k].first.x && tp.y == f_map[k].first.y ) ||
+                        cost < cost_min || cost > cost_max || !has_floor_or_support( tp ) ) {
+                        continue;
+                    } else {
+                        // now make sure we haven't already stepped on this spot
+                        bool np = true;
+                        for( unsigned int l = 0; l < f_map.size(); l++ ) {
+                            if( tp == f_map[l].first ) {
+                                np = false;
+                                break;
+                            }
+                        }
+                        if( !np ) {
+                            continue;
+                        } else {
+                            // add this point to our lists of reachables
+                            f_map.push_back( { tp, r } );
+                            reachable_pts.push_back( tp );
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+bool map::check_reachables( const std::vector<tripoint> &reachable_pts, const tripoint &f ) const
+{
+    const int s = reachable_pts.size();
+    for( unsigned int i = 0; i < s; i++ ) {
+        // if we can physically walk to a spot, then we can grab things from it's neighboring tiles too
+        if( reachable_pts[i] == f || ( abs( f.x - reachable_pts[i].x ) <= 1 &&
+                                       abs( f.y - reachable_pts[i].y ) <= 1 ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+>>>>>>> 96ac91ac1e... Rewrote flood fill, changed form_from_map()
 bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
                       const int cost_min, const int cost_max ) const
 {

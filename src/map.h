@@ -467,6 +467,31 @@ class map
         bool clear_path( const tripoint &f, const tripoint &t, const int range,
                          const int cost_min, const int cost_max ) const;
 
+<<<<<<< HEAD
+=======
+
+        /**
+         * Populates a vector of points that are reachable within a number of steps from a
+         * point. It could be generalized to take advantage of z levels, but would need some
+         * additional code to detect whether a valid transition was on a tile.
+         *
+         * Does the following:
+         * 1. Checks if a point is reachable using a flood fill and if it is, adds it to a vector.
+         *
+         */
+        void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tripoint &f,
+                                         const int range,
+                                         const int cost_min, const int cost_max ) const;
+
+        /**
+        * Checks a vector to see if the tripoint is in it
+        *
+        * Does the following:
+        * 1. iterates over 'reachable_pts' and returns true if 'f' is in 'reachable_pts'
+        */
+        bool map::check_reachables( const std::vector<tripoint> &reachable_pts, const tripoint &f ) const;
+
+>>>>>>> 96ac91ac1e... Rewrote flood fill, changed form_from_map()
         /**
          * Iteratively tries Bresenham lines with different biases
          * until it finds a clear line or decides there isn't one.

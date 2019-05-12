@@ -388,11 +388,19 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
 void inventory::form_from_map( map &m, const tripoint &origin, int range, bool assign_invlet,
                                bool clear_path )
 {
+    // populate a grid of spots that can be reached
+    std::vector<tripoint> reachable_pts = {};
+    m.reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+
     items.clear();
     for( const tripoint &p : m.points_in_radius( origin, range ) ) {
         // can not reach this -> can not access its contents
         if( clear_path ) {
+<<<<<<< HEAD
             if( origin != p && !m.clear_path( origin, p, range, 1, 100 ) ) {
+=======
+            if( origin != p && !m.check_reachables( reachable_pts, p ) ) {
+>>>>>>> 96ac91ac1e... Rewrote flood fill, changed form_from_map()
                 continue;
             }
         }
