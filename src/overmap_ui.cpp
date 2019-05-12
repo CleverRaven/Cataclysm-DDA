@@ -986,7 +986,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     std::string action;
     bool show_explored = true;
     bool fast_scroll = false; /* fast scroll state should reset every time overmap UI is opened */
-    int fast_scroll_offset = get_option<int>( "MOVE_VIEW_OFFSET" );
+    int fast_scroll_offset = get_option<int>( "FAST_SCROLL_OFFSET" );
 
     do {
         draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored,
