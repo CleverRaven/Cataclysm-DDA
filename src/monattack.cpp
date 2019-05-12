@@ -3839,7 +3839,7 @@ bool mattack::absorb_meat( monster *z )
                 if( g->u.sees( *z ) ) {
                     add_msg( m_warning, _( "The %1$s absorbs the %2$s, growing larger." ), z->name(),
                              current_item.tname() );
-                    add_msg( m_debug, _( "The %1$s now has %2$s out of %3$s hp" ), z->name(), z->get_hp(),
+                    add_msg( m_debug, "The %1$s now has %2$s out of %3$s hp", z->name(), z->get_hp(),
                              z->get_hp_max() );
                 }
                 return true;
