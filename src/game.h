@@ -586,6 +586,8 @@ class game
         // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
         int get_temperature( const tripoint &location );
 
+        void clear_temp_cache();
+
         /**
          * The top left corner of the reality bubble (in submaps coordinates). This is the same
          * as @ref map::abs_sub of the @ref m map.
@@ -1020,7 +1022,7 @@ class game
         /** True if the game has just started or loaded, else false. */
         bool new_game;
 
-        signed char temperature;              // The air temperature
+        int temperature;              // The air temperature
         bool lightning_active;
         weather_type weather;   // Weather pattern--SEE weather.h
         int winddirection;

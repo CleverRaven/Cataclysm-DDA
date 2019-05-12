@@ -1834,6 +1834,11 @@ int game::get_temperature( const tripoint &location )
     return temp;
 }
 
+void game::clear_temp_cache()
+{
+    temperature_cache.clear();
+}
+
 int game::assign_mission_id()
 {
     int ret = next_mission_id;
