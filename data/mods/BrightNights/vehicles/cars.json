@@ -296,6 +296,7 @@
       { "x": 0, "y": 2, "part": "frame_vertical" },
       { "x": -1, "y": 0, "part": "frame_vertical_2" },
       { "x": -1, "y": 1, "part": "frame_vertical_2" },
+      { "x": -1, "y": 1, "part": "minireactor" },
       { "x": -1, "y": -1, "part": "frame_vertical" },
       { "x": -1, "y": -1, "part": "wheel" },
       { "x": -1, "y": -1, "part": "storage_battery" },
