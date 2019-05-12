@@ -48,6 +48,8 @@
     "id": "guns_pistol_milspec",
     "//": "Military specification pistols only ever found at military sites.",
     "items": [
+      { "item": "glock_17", "prob": 100, "charges-min": 0, "charges-max": 17 },
+      { "item": "glock_18c", "prob": 70, "charges-min": 0, "charges-max": 17 },
       { "item": "l_mp_45", "prob": 70, "charges-min": 0, "charges-max": 12 },
       { "item": "l_mp_9mm", "prob": 100, "charges-min": 0, "charges-max": 21 },
       { "item": "needlepistol", "prob": 45, "charges-min": 0, "charges-max": 50 },
