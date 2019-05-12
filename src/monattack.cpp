@@ -3831,10 +3831,9 @@ bool mattack::absorb_meat( monster *z )
                     g->m.use_charges( p, 0, current_item.type->get_id(), meat_absorbed );
                 } else {
                     //Only absorb one meaty item
-                    long meat_absorbed = 1;
                     const int hp_to_heal = meat_absorbed * ml_per_charge * meat_absorption_factor;
                     z->heal( hp_to_heal, true );
-                    g->m.use_amount( p, 0, current_item.type->get_id(), meat_absorbed );
+                    g->m.use_amount( p, 0, current_item.type->get_id(), 1 );
                 }
                 if( g->u.sees( *z ) ) {
                     add_msg( m_warning, _( "The %1$s absorbs the %2$s, growing larger." ), z->name(),
