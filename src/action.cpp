@@ -97,10 +97,10 @@ Fix \"%s\" at your next chance!", ch, id, FILENAMES["keymap"] );
     }
 }
 
-std::vector<char> keys_bound_to( action_id act )
+std::vector<char> keys_bound_to( action_id act, const bool restrict_to_printable )
 {
     input_context ctxt = get_default_mode_input_context();
-    return ctxt.keys_bound_to( action_ident( act ) );
+    return ctxt.keys_bound_to( action_ident( act ), restrict_to_printable );
 }
 
 action_id action_from_key( char ch )
@@ -525,16 +525,12 @@ point get_delta_from_movement_direction( action_id act )
     }
 }
 
-// Get the key for an action, used in the action menu to give each action the
-// hotkey it is bound to.
-// We ignore bindings to '?' because that will already do something else in
-// this menu (open the menu keybindings).
-long hotkey_for_action( action_id action )
+long hotkey_for_action( action_id action, const bool restrict_to_printable )
 {
     auto is_valid_key = []( char key ) {
         return key != '?';
     };
-    std::vector<char> keys = keys_bound_to( action );
+    std::vector<char> keys = keys_bound_to( action, restrict_to_printable );
     auto valid = std::find_if( keys.begin(), keys.end(), is_valid_key );
     return valid == keys.end() ? -1 : *valid;
 }
@@ -938,6 +934,7 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_ACTIONMENU );
     REGISTER_ACTION( ACTION_QUICKSAVE );
     REGISTER_ACTION( ACTION_SAVE );
+    REGISTER_ACTION( ACTION_DEBUG );
 
     int width = 0;
     for( auto &entry : entries ) {

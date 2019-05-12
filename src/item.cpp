@@ -4054,8 +4054,7 @@ void item::calc_rot( time_point time, int temp )
     }
 
     time_duration time_delta = time - since;
-    rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( kelvin_to_fahrenheit(
-                0.00001 * temp ) ) * 1_turns;
+    rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temp ) * 1_turns;
     last_rot_check = time;
 }
 
@@ -8212,6 +8211,14 @@ std::string item::type_name( unsigned int quantity ) const
     } else {
         return type->nname( quantity );
     }
+}
+
+std::string item::get_corpse_name()
+{
+    if( corpse_name.empty() ) {
+        return std::string();
+    }
+    return corpse_name;
 }
 
 std::string item::nname( const itype_id &id, unsigned int quantity )

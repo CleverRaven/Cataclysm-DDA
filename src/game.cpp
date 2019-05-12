@@ -40,7 +40,6 @@
 #include "creature_tracker.h"
 #include "cursesport.h"
 #include "debug.h"
-#include "debug_menu.h"
 #include "dependency_tree.h"
 #include "editmap.h"
 #include "enums.h"
@@ -246,6 +245,7 @@ std::unique_ptr<game> g;
 #if defined(TILES)
 extern std::unique_ptr<cata_tiles> tilecontext;
 extern void toggle_fullscreen_window();
+extern bool save_screenshot( const std::string &file_path );
 #endif // TILES
 
 uistatedata uistate;
@@ -517,31 +517,11 @@ void game::init_ui( const bool resized )
     //Otherwise it segfaults when the overmap needs a bigger buffer size than it provides
     reinitialize_framebuffer();
 
-    // minimapX x minimapY is always MINIMAP_WIDTH x MINIMAP_HEIGHT in size
-    int minimapX = 0;
-    int minimapY = 0;
-    int pixelminimapW = 0;
-    int pixelminimapH = 0;
-    bool pixel_minimap_custom_height = false;
-
-#if defined(TILES)
-    pixel_minimap_custom_height = get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) > 0;
-#endif // TILES
-
-    minimapX = 0;
-    minimapY = 0;
-    pixelminimapW = MINIMAP_WIDTH;
-    pixelminimapH = ( pixelminimapW / 2 );
-    if( pixel_minimap_custom_height &&
-        pixelminimapH > get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) ) {
-        pixelminimapH = get_option<int>( "PIXEL_MINIMAP_HEIGHT" );
-    }
-
+    // minimap is always MINIMAP_WIDTH x MINIMAP_HEIGHT in size
     int _y = VIEW_OFFSET_Y;
     int _x = VIEW_OFFSET_X;
 
-    w_minimap = w_minimap_ptr =
-                    catacurses::newwin( MINIMAP_HEIGHT, MINIMAP_WIDTH, _y + minimapY, _x + minimapX );
+    w_minimap = w_minimap_ptr = catacurses::newwin( MINIMAP_HEIGHT, MINIMAP_WIDTH, _y, _x );
     werase( w_minimap );
 
     w_panel_adm = w_panel_adm_ptr = catacurses::newwin( 15, 65, ( TERMY / 2 ) - 8, ( TERMX / 2 ) - 33 );
@@ -1557,6 +1537,8 @@ bool game::do_turn()
         sfx::remove_hearing_loss();
     }
     sfx::do_danger_music();
+    sfx::do_vehicle_engine_sfx();
+    sfx::do_vehicle_exterior_engine_sfx();
     sfx::do_fatigue();
 
     // reset player noise
@@ -4712,6 +4694,20 @@ void game::clear_zombies()
  */
 bool game::spawn_hallucination( const tripoint &p )
 {
+    if( one_in( 100 ) ) {
+        std::shared_ptr<npc> tmp = std::make_shared<npc>();
+        tmp->normalize();
+        tmp->randomize( NC_HALLU );
+        tmp->spawn_at_precise( { get_levx(), get_levy() }, p );
+        if( !critter_at( p, true ) ) {
+            overmap_buffer.insert_npc( tmp );
+            load_npcs();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     monster phantasm( MonsterGenerator::generator().get_valid_hallucination() );
     phantasm.hallucination = true;
     phantasm.spawn( p );
@@ -5879,7 +5875,8 @@ void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_
 
     const int max_width = getmaxx( w_look ) - column - 2;
     if( m.has_graffiti_at( lp ) ) {
-        fold_and_print( w_look, ++line, column, max_width, c_light_gray, _( "Graffiti: %s" ),
+        fold_and_print( w_look, ++line, column, max_width, c_light_gray,
+                        m.ter( lp ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Incription: %s" ),
                         m.graffiti_at( lp ) );
     }
 }
@@ -5907,15 +5904,18 @@ static void zones_manager_shortcuts( const catacurses::window &w_info )
     tmpx += shortcut_print( w_info, 1, tmpx, c_white, c_light_green, _( "<A>dd" ) ) + 2;
     tmpx += shortcut_print( w_info, 1, tmpx, c_white, c_light_green, _( "<R>emove" ) ) + 2;
     tmpx += shortcut_print( w_info, 1, tmpx, c_white, c_light_green, _( "<E>nable" ) ) + 2;
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     tmpx += shortcut_print( w_info, 1, tmpx, c_white, c_light_green, _( "<D>isable" ) ) + 2;
 
     tmpx = 1;
     tmpx += shortcut_print( w_info, 2, tmpx, c_white, c_light_green, _( "<+-> Move up/down" ) ) + 2;
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     tmpx += shortcut_print( w_info, 2, tmpx, c_white, c_light_green, _( "<Enter>-Edit" ) ) + 2;
 
     tmpx = 1;
     tmpx += shortcut_print( w_info, 3, tmpx, c_white, c_light_green,
                             _( "<S>how all / hide distant" ) ) + 2;
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     tmpx += shortcut_print( w_info, 3, tmpx, c_white, c_light_green, _( "<M>ap" ) ) + 2;
 
     wrefresh( w_info );
@@ -5980,19 +5980,17 @@ void game::zones_manager()
     int zone_options_height = 7;
 
     const int width = 45;
-    const int offsetX = get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ? TERMX + VIEW_OFFSET_X
-                        -
-                        width : VIEW_OFFSET_X;
-    catacurses::window w_zones = catacurses::newwin( TERMY - 2 - zone_ui_height - VIEW_OFFSET_Y * 2,
-                                 width - 2, VIEW_OFFSET_Y + 1, offsetX + 1 );
-    catacurses::window w_zones_border = catacurses::newwin( TERMY - zone_ui_height - VIEW_OFFSET_Y * 2,
-                                        width,
+    const int offsetX = get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ?
+                        TERMX + VIEW_OFFSET_X - width : VIEW_OFFSET_X;
+    int w_zone_height = TERMY - zone_ui_height - VIEW_OFFSET_Y * 2;
+    catacurses::window w_zones = catacurses::newwin( w_zone_height - 2, width - 2,
+                                 VIEW_OFFSET_Y + 1, offsetX + 1 );
+    catacurses::window w_zones_border = catacurses::newwin( w_zone_height, width,
                                         VIEW_OFFSET_Y, offsetX );
     catacurses::window w_zones_info = catacurses::newwin( zone_ui_height - zone_options_height - 1,
-                                      width - 2,
-                                      TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX + 1 );
+                                      width - 2, w_zone_height + VIEW_OFFSET_Y, offsetX + 1 );
     catacurses::window w_zones_info_border = catacurses::newwin( zone_ui_height, width,
-            TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX );
+            w_zone_height + VIEW_OFFSET_Y, offsetX );
     catacurses::window w_zones_options = catacurses::newwin( zone_options_height - 1, width - 2,
                                          TERMY - zone_options_height - VIEW_OFFSET_Y, offsetX + 1 );
 
@@ -6015,11 +6013,10 @@ void game::zones_manager()
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     auto &mgr = zone_manager::get_manager();
-    const int max_rows = TERMY - zone_ui_height - 2 - VIEW_OFFSET_Y * 2;
+    const int max_rows = w_zone_height - 2;
     int start_index = 0;
     int active_index = 0;
     bool blink = false;
-    bool redraw_info = true;
     bool stuff_changed = false;
     bool show_all_zones = false;
     int zone_cnt = 0;
@@ -6027,7 +6024,6 @@ void game::zones_manager()
     // get zones on the same z-level, with distance between player and
     // zone center point <= 50 or all zones, if show_all_zones is true
     auto get_zones = [&]() {
-
         std::vector<zone_manager::ref_zone_data> zones;
         if( show_all_zones ) {
             zones = mgr.get_zones();
@@ -6076,25 +6072,29 @@ void game::zones_manager()
 
         tripoint center = u.pos() + u.view_offset;
 
-        const look_around_result first = look_around( w_zones_info, center, center, false, true, false );
+        const look_around_result first = look_around( w_zones_info, center, center, false, true,
+                false );
         if( first.position )
         {
             mvwprintz( w_zones_info, 3, 2, c_white, _( "Select second point." ) );
             wrefresh( w_zones_info );
 
-            const look_around_result second = look_around( w_zones_info, center, *first.position, true, true,
-                    false );
+            const look_around_result second = look_around( w_zones_info, center, *first.position,
+                    true, true, false );
             if( second.position ) {
                 werase( w_zones_info );
                 wrefresh( w_zones_info );
 
-                tripoint first_abs = m.getabs( tripoint( std::min( first.position->x, second.position->x ),
+                tripoint first_abs = m.getabs( tripoint( std::min( first.position->x,
+                                               second.position->x ),
                                                std::min( first.position->y, second.position->y ),
-                                               std::min( first.position->z, second.position->z ) ) );
-                tripoint second_abs = m.getabs( tripoint( std::max( first.position->x, second.position->x ),
+                                               std::min( first.position->z,
+                                                       second.position->z ) ) );
+                tripoint second_abs = m.getabs( tripoint( std::max( first.position->x,
+                                                second.position->x ),
                                                 std::max( first.position->y, second.position->y ),
-                                                std::max( first.position->z, second.position->z ) ) );
-
+                                                std::max( first.position->z,
+                                                        second.position->z ) ) );
                 return std::pair<tripoint, tripoint>( first_abs, second_abs );
             }
         }
@@ -6105,7 +6105,8 @@ void game::zones_manager()
     zones_manager_open = true;
     do {
         if( action == "ADD_ZONE" ) {
-            zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
+            zones_manager_draw_borders( w_zones_border, w_zones_info_border,
+                                        zone_ui_height, width );
 
             do { // not a loop, just for quick bailing out if canceled
                 const auto maybe_id = mgr.query_type();
@@ -6135,7 +6136,8 @@ void game::zones_manager()
                     break;
                 }
 
-                mgr.add( name, id, false, true, position->first, position->second, options );
+                mgr.add( name, id, your_followers, false, true, position->first, position->second,
+                         options );
 
                 zones = get_zones();
                 active_index = zone_cnt - 1;
@@ -6145,9 +6147,9 @@ void game::zones_manager()
 
             draw_ter();
             blink = false;
-            redraw_info = true;
 
-            zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
+            zones_manager_draw_borders( w_zones_border, w_zones_info_border,
+                                        zone_ui_height, width );
             zones_manager_shortcuts( w_zones_info );
 
         } else if( action == "SHOW_ALL_ZONES" ) {
@@ -6155,7 +6157,6 @@ void game::zones_manager()
             zones = get_zones();
             active_index = 0;
             draw_ter();
-            redraw_info = true;
 
         } else if( zone_cnt > 0 ) {
             if( action == "UP" ) {
@@ -6165,7 +6166,6 @@ void game::zones_manager()
                 }
                 draw_ter();
                 blink = false;
-                redraw_info = true;
 
             } else if( action == "DOWN" ) {
                 active_index++;
@@ -6174,7 +6174,6 @@ void game::zones_manager()
                 }
                 draw_ter();
                 blink = false;
-                redraw_info = true;
 
             } else if( action == "REMOVE_ZONE" ) {
                 if( active_index < zone_cnt ) {
@@ -6191,7 +6190,6 @@ void game::zones_manager()
                     draw_panels();
                 }
                 blink = false;
-                redraw_info = true;
                 stuff_changed = true;
 
             } else if( action == "CONFIRM" ) {
@@ -6224,8 +6222,8 @@ void game::zones_manager()
                         break;
                     case 4: {
                         const auto pos = query_position();
-                        if( pos && ( pos->first != zone.get_start_point() || pos->second != zone.get_end_point() ) ) {
-
+                        if( pos && ( pos->first != zone.get_start_point() ||
+                                     pos->second != zone.get_end_point() ) ) {
                             zone.set_position( *pos );
                             stuff_changed = true;
                         }
@@ -6238,9 +6236,9 @@ void game::zones_manager()
                 draw_ter();
 
                 blink = false;
-                redraw_info = true;
 
-                zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
+                zones_manager_draw_borders( w_zones_border, w_zones_info_border,
+                                            zone_ui_height, width );
                 zones_manager_shortcuts( w_zones_info );
 
             } else if( action == "MOVE_ZONE_UP" && zone_cnt > 1 ) {
@@ -6250,7 +6248,6 @@ void game::zones_manager()
                     active_index++;
                 }
                 blink = false;
-                redraw_info = true;
                 stuff_changed = true;
 
             } else if( action == "MOVE_ZONE_DOWN" && zone_cnt > 1 ) {
@@ -6260,7 +6257,6 @@ void game::zones_manager()
                     active_index--;
                 }
                 blink = false;
-                redraw_info = true;
                 stuff_changed = true;
 
             } else if( action == "SHOW_ZONE_ON_MAP" ) {
@@ -6270,23 +6266,20 @@ void game::zones_manager()
 
                 ui::omap::display_zones( player_overmap_position, zone_overmap, active_index );
 
-                zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
+                zones_manager_draw_borders( w_zones_border, w_zones_info_border,
+                                            zone_ui_height, width );
                 zones_manager_shortcuts( w_zones_info );
 
                 draw_ter();
 
-                redraw_info = true;
-
             } else if( action == "ENABLE_ZONE" ) {
                 zones[active_index].get().set_enabled( true );
 
-                redraw_info = true;
                 stuff_changed = true;
 
             } else if( action == "DISABLE_ZONE" ) {
                 zones[active_index].get().set_enabled( false );
 
-                redraw_info = true;
                 stuff_changed = true;
             }
         }
@@ -6296,8 +6289,7 @@ void game::zones_manager()
             wrefresh( w_zones_border );
             mvwprintz( w_zones, 5, 2, c_white, _( "No Zones defined." ) );
 
-        } else if( redraw_info ) {
-            redraw_info = false;
+        } else {
             werase( w_zones );
 
             calcStartPos( start_index, active_index, max_rows, zone_cnt );
@@ -6335,7 +6327,8 @@ void game::zones_manager()
                     //Draw direction + distance
                     mvwprintz( w_zones, iNum - start_index, 32, colorLine, "%*d %s",
                                5, static_cast<int>( trig_dist( player_absolute_pos, center ) ),
-                               direction_name_short( direction_from( player_absolute_pos, center ) ) );
+                               direction_name_short( direction_from( player_absolute_pos,
+                                                     center ) ) );
 
                     //Draw Vehicle Indicator
                     mvwprintz( w_zones, iNum - start_index, 41, colorLine,
@@ -6383,10 +6376,11 @@ void game::zones_manager()
                                           u.pos() + u.view_offset );
                             } else {
                                 if( u.has_effect( effect_boomered ) ) {
-                                    mvwputch( w_terrain, iY - offset_y, iX - offset_x, c_magenta, '#' );
-
+                                    mvwputch( w_terrain, iY - offset_y, iX - offset_x,
+                                              c_magenta, '#' );
                                 } else {
-                                    mvwputch( w_terrain, iY - offset_y, iX - offset_x, c_black, ' ' );
+                                    mvwputch( w_terrain, iY - offset_y, iX - offset_x,
+                                              c_black, ' ' );
                                 }
                             }
                         }
@@ -6404,7 +6398,6 @@ void game::zones_manager()
         wrefresh( w_terrain );
         zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
         zones_manager_shortcuts( w_zones_info );
-        redraw_info = true;
         draw_panels();
         wrefresh( w_zones );
         wrefresh( w_zones_border );
@@ -6917,6 +6910,16 @@ int game::get_user_action_counter() const
     return user_action_counter;
 }
 
+bool game::take_screenshot( const std::string &path ) const
+{
+#if defined(TILES)
+    return save_screenshot( path );
+#else
+    ( void )path; // unused
+    return false;
+#endif
+}
+
 //helper method so we can keep list_items shorter
 void game::reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort )
 {
@@ -7080,7 +7083,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     int iStartPos = 0;
     tripoint active_pos;
     cata::optional<tripoint> iLastActive;
-    bool reset = true;
     bool refilter = true;
     int page_num = 0;
     int iCatSortNum = 0;
@@ -7112,7 +7114,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     do {
         if( action == "COMPARE" ) {
             game_menus::inv::compare( u, active_pos );
-            reset = true;
             refresh_all();
         } else if( action == "FILTER" ) {
             draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::FILTER );
@@ -7123,7 +7124,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             .identifier( "item_filter" )
             .max_length( 256 )
             .edit( sFilter );
-            reset = true;
             refilter = true;
             addcategory = !sort_radius;
             uistate.list_item_filter_active = !sFilter.empty();
@@ -7131,7 +7131,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             sFilter.clear();
             filtered_items = ground_items;
             iLastActive.reset();
-            reset = true;
             refilter = true;
             uistate.list_item_filter_active = false;
             addcategory = !sort_radius;
@@ -7146,7 +7145,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                             false, false, true );
             // wait until the user presses a key to wipe the screen
             iLastActive.reset();
-            reset = true;
         } else if( action == "PRIORITY_INCREASE" ) {
             draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::HIGH_PRIORITY );
             list_item_upvote = string_input_popup()
@@ -7158,7 +7156,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                .max_length( 256 )
                                .query_string();
             refilter = true;
-            reset = true;
             addcategory = !sort_radius;
             uistate.list_item_priority_active = !list_item_upvote.empty();
         } else if( action == "PRIORITY_DECREASE" ) {
@@ -7172,7 +7169,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                  .max_length( 256 )
                                  .query_string();
             refilter = true;
-            reset = true;
             addcategory = !sort_radius;
             uistate.list_item_downvote_active = !list_item_downvote.empty();
         } else if( action == "SORT" ) {
@@ -7190,7 +7186,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 
             mSortCategory.clear();
             refilter = true;
-            reset = true;
         } else if( action == "TRAVEL_TO" ) {
             if( !u.sees( u.pos() + active_pos ) ) {
                 add_msg( _( "You can't see that destination." ) );
@@ -7248,11 +7243,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             iItemNum = static_cast<int>( filtered_items.size() ) + iCatSortNum;
         }
 
-        if( reset ) {
-            reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
-            reset = false;
-            iScrollPos = 0;
-        }
+        reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
+        iScrollPos = 0;
 
         if( action == "HELP_KEYBINDINGS" ) {
             game::draw_ter();
@@ -7286,10 +7278,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             page_num = std::max( 0, page_num - 1 );
         } else if( action == "PAGE_UP" ) {
             iScrollPos--;
-            reset = true;
         } else if( action == "PAGE_DOWN" ) {
             iScrollPos++;
-            reset = true;
         } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
             u.view_offset = stored_view_offset;
             return game::vmenu_ret::CHANGE_TAB;
@@ -7399,7 +7389,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         const bool bDrawLeft = ground_items.empty() || filtered_items.empty();
 
         draw_custom_border( w_item_info, bDrawLeft, true, false, true, LINE_XOXO, LINE_XOXO, true, true );
-        reset = true;
         wrefresh( w_items );
         wrefresh( w_item_info );
         catacurses::refresh();
@@ -9493,18 +9482,21 @@ bool game::walk_move( const tripoint &dest_loc )
             if( auto displayed_part = vp_there.part_displayed() ) {
                 add_msg( m_warning, _( "Moving onto this %s is slow!" ),
                          displayed_part->part().name() );
+                sfx::do_obstacle( displayed_part->part().info().get_id().str() );
             } else {
                 add_msg( m_warning, _( "Moving onto this %s is slow!" ), m.name( dest_loc ) );
+                sfx::do_obstacle( m.ter( dest_loc ).id().str() );
             }
         } else {
             if( auto displayed_part = vp_here.part_displayed() ) {
                 add_msg( m_warning, _( "Moving off of this %s is slow!" ),
                          displayed_part->part().name() );
+                sfx::do_obstacle( displayed_part->part().info().get_id().str() );
             } else {
                 add_msg( m_warning, _( "Moving off of this %s is slow!" ), m.name( u.pos() ) );
+                sfx::do_obstacle( m.ter( u.pos() ).id().str() );
             }
         }
-        sfx::play_variant_sound( "plmove", "clear_obstacle", sfx::get_heard_volume( u.pos() ) );
     }
 
     if( u.has_trait( trait_id( "LEG_TENT_BRACE" ) ) && ( !u.footwear_factor() ||
@@ -9542,7 +9534,8 @@ bool game::walk_move( const tripoint &dest_loc )
         }
 
         if( one_in( 20 ) && u.has_artifact_with( AEP_MOVEMENT_NOISE ) ) {
-            sounds::sound( u.pos(), 40, sounds::sound_t::movement, _( "a rattling sound." ) );
+            sounds::sound( u.pos(), 40, sounds::sound_t::movement, _( "a rattling sound." ), true,
+                           "misc", "rattling" );
         }
     }
 
@@ -10044,7 +10037,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
         }
     }
     sounds::sound( fdest, furntype.move_str_req * 2, sounds::sound_t::movement,
-                   _( "a scraping noise." ) );
+                   _( "a scraping noise." ), true, "misc", "scraping" );
 
     // Actually move the furniture.
     m.furn_set( fdest, m.furn( fpos ) );
@@ -11157,7 +11150,7 @@ void game::update_stair_monsters()
             add_msg( m_warning, dump.str() );
         } else {
             sounds::sound( dest, 5, sounds::sound_t::movement,
-                           _( "a sound nearby from the stairs!" ) );
+                           _( "a sound nearby from the stairs!" ), true, "misc", "stairs_movement" );
         }
 
         if( critter.staircount > 0 ) {
@@ -12132,7 +12125,11 @@ overmap &game::get_cur_om() const
 std::vector<npc *> game::allies()
 {
     return get_npcs_if( [&]( const npc & guy ) {
-        return guy.is_ally( g->u );
+        if( !guy.is_hallucination() ) {
+            return guy.is_ally( g->u );
+        } else {
+            return false;
+        }
     } );
 }
 

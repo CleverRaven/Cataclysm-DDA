@@ -710,7 +710,7 @@ class vehicle
         void deserialize( JsonIn &jsin );
         // Vehicle parts list - all the parts on a single tile
         int print_part_list( const catacurses::window &win, int y1, int max_y, int width, int p,
-                             int hl = -1 ) const;
+                             int hl = -1, bool detail = false ) const;
 
         // Vehicle parts descriptions - descriptions for all the parts on a single tile
         void print_vparts_descs( const catacurses::window &win, int max_y, int width, int &p,
@@ -1603,6 +1603,8 @@ class vehicle
         time_point last_fluid_check = calendar::time_of_cataclysm;
         // zone_data positions are outdated and need refreshing
         bool zones_dirty = true;
+        // current noise of vehicle (engine working, etc.)
+        unsigned char vehicle_noise = 0;
 
     private:
         // refresh pivot_cache, clear pivot_dirty

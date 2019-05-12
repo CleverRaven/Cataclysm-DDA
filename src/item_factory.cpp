@@ -2440,7 +2440,6 @@ void Item_factory::load_item_group( JsonObject &jsobj, const Group_tag &group_id
                                     const std::string &subtype )
 {
     std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
-    Item_group *ig = dynamic_cast<Item_group *>( isd.get() );
 
     Item_group::Type type = Item_group::G_COLLECTION;
     if( subtype == "old" || subtype == "distribution" ) {
@@ -2448,8 +2447,8 @@ void Item_factory::load_item_group( JsonObject &jsobj, const Group_tag &group_id
     } else if( subtype != "collection" ) {
         jsobj.throw_error( "unknown item group type", "subtype" );
     }
-    ig = make_group_or_throw( group_id, isd, type, jsobj.get_int( "ammo", 0 ),
-                              jsobj.get_int( "magazine", 0 ) );
+    Item_group *ig = make_group_or_throw( group_id, isd, type, jsobj.get_int( "ammo", 0 ),
+                                          jsobj.get_int( "magazine", 0 ) );
 
     if( subtype == "old" ) {
         JsonArray items = jsobj.get_array( "items" );
