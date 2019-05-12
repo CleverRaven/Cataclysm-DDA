@@ -493,17 +493,26 @@ class map
                          const int cost_min, const int cost_max ) const;
 
 
+        /**
+         * Populates a vector of points that are reachable within a number of steps from a
+         * point. It could be generalized to take advantage of z levels, but would need some
+         * additional code to detect whether a valid transition was on a tile.
+         *
+         * Does the following:
+         * 1. Checks if a point is reachable using a flood fill and if it is, adds it to a vector.
+         *
+         */
+        void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tripoint &f,
+                                         const int range,
+                                         const int cost_min, const int cost_max ) const;
 
         /**
-         * Check whether 'F' and 'T' are less than 'range' steps away from each other,
-         * using a flood fill, with the additional movecost restraints.
-         *
-         * Checks the following
-         * 1. Uses clear_path to see if we can avoid using the flood fill since it's quicker
-         * 2. Checks iteratively if we can get to 'T' from 'F' with a flood fill
-         */
-        bool clear_path_flood_steps( const tripoint &f, const tripoint &t, const int range,
-                                     const int cost_min, const int cost_max ) const;
+        * Checks a vector to see if the tripoint is in it
+        *
+        * Does the following:
+        * 1. iterates over 'reachable_pts' and returns true if 'f' is in 'reachable_pts'
+        */
+        bool map::check_reachables( const std::vector<tripoint> &reachable_pts, const tripoint &f ) const;
 
         /**
          * Iteratively tries Bresenham lines with different biases
