@@ -74,6 +74,7 @@
       <PreprocessorDefinitions>SDL_MAIN_HANDLED;_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;..\src;$(SDL2ROOT)include;$(SDL2TTF)include;$(SDL2MIXER)include;$(SDL2IMAGE)include;$(GETTEXT)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <UseFullPaths>true</UseFullPaths>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
