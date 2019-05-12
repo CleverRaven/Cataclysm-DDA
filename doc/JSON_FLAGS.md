@@ -1056,6 +1056,8 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```NO_ROTATE``` The terrain can't be rotated (ID_north, ID_east, ID_south, and ID_west instances will NOT be generated, just ID).
 - ```RIVER``` It's a river tile.
 - ```SIDEWALK``` Has sidewalks on the sides adjacent to roads.
+- ```LAKE``` Consider this location to be a valid lake terrain for mapgen purposes.
+- ```LAKE_SHORE``` Consider this location to be a valid lake shore terrain for mapgen purposes.
 
 
 ## Recipes
