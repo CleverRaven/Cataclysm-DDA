@@ -6238,9 +6238,6 @@ std::vector<tripoint> map::find_clear_path( const tripoint &source,
     return line_to( source, destination, ideal_start_offset, 0 );
 }
 
-<<<<<<< HEAD
-=======
-
 
 void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tripoint &f,
                                  int range, const int cost_min, const int cost_max ) const
@@ -6297,7 +6294,6 @@ bool map::check_reachables( const std::vector<tripoint> &reachable_pts, const tr
     return false;
 }
 
->>>>>>> 96ac91ac1e... Rewrote flood fill, changed form_from_map()
 bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
                       const int cost_min, const int cost_max ) const
 {

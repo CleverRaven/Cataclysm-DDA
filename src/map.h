@@ -467,8 +467,6 @@ class map
         bool clear_path( const tripoint &f, const tripoint &t, const int range,
                          const int cost_min, const int cost_max ) const;
 
-<<<<<<< HEAD
-=======
 
         /**
          * Populates a vector of points that are reachable within a number of steps from a
@@ -491,7 +489,6 @@ class map
         */
         bool map::check_reachables( const std::vector<tripoint> &reachable_pts, const tripoint &f ) const;
 
->>>>>>> 96ac91ac1e... Rewrote flood fill, changed form_from_map()
         /**
          * Iteratively tries Bresenham lines with different biases
          * until it finds a clear line or decides there isn't one.
