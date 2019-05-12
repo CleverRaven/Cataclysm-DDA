@@ -1149,9 +1149,12 @@ void vehicle::operate_scoop()
                 sounds::sound( position, rng( 10,
                                               that_item_there->volume() / units::legacy_volume_factor * 2 + 10 ),
                                sounds::sound_t::combat, _( "BEEEThump" ) );
+            } 
+            int scoopvol = units::to_milliliter<int>( that_item_there->volume() );
+            if (scoopvol < 1000) {
+                scoopvol = 1000;
             }
-            const int battery_deficit = discharge_battery( that_item_there->weight() / 1_gram *
-                                        -part_epower_w( scoop ) / rng( 8, 15 ) );
+            const int battery_deficit = discharge_battery( scoopvol/1000 );
             if( battery_deficit == 0 && add_item( scoop, *that_item_there ) ) {
                 g->m.i_rem( position, itemdex );
             } else {
