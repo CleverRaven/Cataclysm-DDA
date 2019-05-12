@@ -1197,7 +1197,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                            direction_name_short( direction_from( orig, tripoint( locations[i], orig.z ) ) )
                          );
 
-                mvwprintz( w_search, 6, 1, c_white, _( "'<' '>' Cycle targets." ) );
+                mvwprintz( w_search, 6, 1, c_white, _( "'<-' '->' Cycle targets." ) );
                 mvwprintz( w_search, 10, 1, c_white, _( "Enter/Spacebar to select." ) );
                 mvwprintz( w_search, 11, 1, c_white, _( "q or ESC to return." ) );
                 draw_border( w_search );
