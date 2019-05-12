@@ -184,7 +184,7 @@
     "allowed_locs": [ "cabin" ],
     "start_name": "Abandoned Cabin",
     "flags": [ "SUR_START", "WIN_START", "LONE_START" ],
-    "professions": [ "winter_survivor", "winter_scavenger", "winter_army", "unemployed" ]
+    "professions": [ "winter_survivor", "winter_scavenger", "winter_army" ]
   },
   {
     "type": "scenario",
@@ -195,7 +195,7 @@
     "allowed_locs": [ "forest", "field", "cabin" ],
     "start_name": "Outside Town",
     "flags": [ "SUM_ADV_START", "LONE_START" ],
-    "professions": [ "naturalist", "road_warrior", "player_bandit", "winter_scavenger", "winter_army", "waste_ranger", "unemployed" ]
+    "professions": [ "naturalist", "road_warrior", "player_bandit", "winter_scavenger", "winter_army", "waste_ranger" ]
   },
   {
     "type": "scenario",
