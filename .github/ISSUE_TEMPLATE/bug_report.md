@@ -32,7 +32,7 @@ Ideally also describe *why* you expect it to happen.
 
 # Versions and configuration
 
-<!-- Please complete the following information; as of build 8943 (0.D-2815-g2ce1bfa) you can now go to:
+<!-- Please complete the following information; you can now go to:
     - "Main menu (ESC) > Debug Menu > Info > Generate game report" to generate this report.
     - Please update your OS version with a more precise version. -->
 
