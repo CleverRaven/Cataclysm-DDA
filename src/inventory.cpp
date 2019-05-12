@@ -390,16 +390,17 @@ void inventory::form_from_map( map &m, const tripoint &origin, int range, bool a
 {
     // populate a grid of spots that can be reached
     std::vector<tripoint> reachable_pts = {};
-    m.reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+    // If we need a clear path we care about the reachability of points
+    if( clear_path ) {
+        m.reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+    } else {
+        // Fill reachable points with points_in_radius
+        tripoint_range in_radius = m.points_in_radius( origin, range );
+        reachable_pts.insert( reachable_pts.begin(), in_radius.begin(), in_radius.end() );
+    }
 
     items.clear();
-    for( const tripoint &p : m.points_in_radius( origin, range ) ) {
-        // can not reach this -> can not access its contents
-        if( clear_path ) {
-            if( origin != p && !m.check_reachables( reachable_pts, p ) ) {
-                continue;
-            }
-        }
+    for( const tripoint &p : reachable_pts ) {
         if( m.has_furn( p ) ) {
             const furn_t &f = m.furn( p ).obj();
             const itype *type = f.crafting_pseudo_item_type();

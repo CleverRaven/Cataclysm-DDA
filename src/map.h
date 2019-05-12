@@ -478,16 +478,8 @@ class map
          *
          */
         void reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tripoint &f,
-                                         const int range,
-                                         const int cost_min, const int cost_max ) const;
-
-        /**
-        * Checks a vector to see if the tripoint is in it
-        *
-        * Does the following:
-        * 1. iterates over 'reachable_pts' and returns true if 'f' is in 'reachable_pts'
-        */
-        bool check_reachables( const std::vector<tripoint> &reachable_pts, const tripoint &f ) const;
+                                    const int range,
+                                    const int cost_min, const int cost_max ) const;
 
         /**
          * Iteratively tries Bresenham lines with different biases
