@@ -2670,7 +2670,7 @@ void activity_handlers::cracking_do_turn( player_activity *act, player *p )
         item temporary_item( it.type );
         return temporary_item.has_flag( "SAFECRACK" );
     } );
-    if( !( !cracking_tool.empty() || p->has_bionic( bionic_id( "bio_ears" ) ) ) ) {
+    if( cracking_tool.empty() && !p->has_bionic( bionic_id( "bio_ears" ) ) ) {
         // We lost our cracking tool somehow, bail out.
         act->set_to_null();
         return;
