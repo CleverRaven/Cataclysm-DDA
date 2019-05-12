@@ -495,17 +495,15 @@ class map
 
 
         /**
-         * Check whether 'F' and 'T' are less than 'range' steps away from each other, 
+         * Check whether 'F' and 'T' are less than 'range' steps away from each other,
          * using a flood fill, with the additional movecost restraints.
-         * 
+         *
          * Checks the following
          * 1. Uses clear_path to see if we can avoid using the flood fill since it's quicker
          * 2. Checks iteratively if we can get to 'T' from 'F' with a flood fill
-         * 3. That moving over the line of sight would have a move_cost between
-         *    `cost_min` and `cost_max`.
          */
-        bool clear_path_flood_steps(const tripoint &f, const tripoint &t, const int range,
-            const int cost_min, const int cost_max) const;
+        bool clear_path_flood_steps( const tripoint &f, const tripoint &t, const int range,
+                                     const int cost_min, const int cost_max ) const;
 
         /**
          * Iteratively tries Bresenham lines with different biases

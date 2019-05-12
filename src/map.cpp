@@ -6207,58 +6207,54 @@ std::vector<tripoint> map::find_clear_path( const tripoint &source,
     return line_to( source, destination, ideal_start_offset, 0 );
 }
 
-bool map::clear_path_flood_steps(const tripoint &f, const tripoint &t, const int range,
-    const int cost_min, const int cost_max) const
+bool map::clear_path_flood_steps( const tripoint &f, const tripoint &t, const int range,
+                                  const int cost_min, const int cost_max ) const
 {
     // check using clear_path first because it's cheaper
-    const bool clear_line = clear_path(f, t, range, cost_min, cost_max);
-    if (clear_line) {
+    const bool clear_line = clear_path( f, t, range, cost_min, cost_max );
+    if( clear_line ) {
         return true;
-    }
-    else{ 
+    } else {
         // first make sure it's on the same z level
-        if (!fov_3d && f.z != t.z) {
+        if( !fov_3d && f.z != t.z ) {
             return false;
-        }
-        else {
+        } else {
             //now make sure it's less than range away
-            if ((range >= 0 && range < rl_dist(f, t)) || !inbounds(t)) {
+            if( ( range >= 0 && range < rl_dist( f, t ) ) || !inbounds( t ) ) {
                 return false; // Out of range!
-            } 
-            else {
+            } else {
                 // the maximum possible size the flood filled map could take
                 std::vector< std::pair<tripoint, int> > f_map;
-                f_map.push_back({ f, 0 });
-                for (int r = 1; r <= range; r++) {
+                f_map.push_back( { f, 0 } );
+                for( int r = 1; r <= range; r++ ) {
                     const int f_map_size = f_map.size();
-                    for (int k = 0; k < f_map_size; k++) {
-                        for (int i = -1; i <= 1; i++) {
-                            for (int j = -1; j <= 1; j++) {
-                                tripoint tp = { f_map.at(k).first.x + i, f_map.at(k).first.y + j, f.z };
-                                const int cost = this->move_cost({ tp.x,tp.y, tp.z });
-                                if (tp == t) {
+                    for( int k = 0; k < f_map_size; k++ ) {
+                        for( int i = -1; i <= 1; i++ ) {
+                            for( int j = -1; j <= 1; j++ ) {
+                                tripoint tp = { f_map[ k ].first.x + i, f_map[ k ].first.y + j, f.z };
+                                const int cost = this->move_cost( { tp.x, tp.y, tp.z } );
+                                if( tp == t ) {
                                     // if we reached the point, then we're done
                                     f_map.clear();
                                     return true;
                                 }
-                                if ( (tp.x == f_map.at(k).first.x && tp.y == f_map.at(k).first.y)
-                                    || cost < cost_min || cost > cost_max || !has_floor_or_support(tp)) {
+                                if( ( tp.x == f_map[ k ].first.x && tp.y == f_map[ k ].first.y )
+                                    || cost < cost_min || cost > cost_max || !has_floor_or_support( tp ) ||
+                                    ( rl_dist( tp, t ) + rl_dist( tp, f ) ) > range ) {
                                     continue;
-                                }
-                                else {
+                                } else {
                                     // now make sure we haven't already stepped on this spot
                                     bool np = true;
-                                    for (int l = 0; l < f_map.size(); l++) {
-                                        if (tp == f_map.at(l).first) {
+                                    for( int l = 0; l < f_map.size(); l++ ) {
+                                        if( tp == f_map[ l ].first ) {
                                             np = false;
                                             break;
                                         }
                                     }
-                                    if (!np) {
+                                    if( !np ) {
                                         continue;
-                                    }
-                                    else {
-                                        f_map.push_back({ tp, r });
+                                    } else {
+                                        f_map.push_back( { tp, r } );
                                     }
                                 }
                             }
