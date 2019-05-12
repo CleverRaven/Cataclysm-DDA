@@ -14,12 +14,14 @@
 #include <cmath>
 
 #include "ammo.h"
+#include "clzones.h"
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "drawing_primitives.h"
 #include "enums.h"
+#include "faction.h"
 #include "game.h"
 #include "item_group.h"
 #include "itype.h"
@@ -1657,6 +1659,34 @@ class jmapgen_translate : public jmapgen_piece
             dat.m.translate( from, to );
         }
 };
+/**
+ * Place a zone
+ */
+class jmapgen_zone : public jmapgen_piece
+{
+    public:
+        zone_type_id zone_type;
+        faction_id faction;
+        std::string name = "";
+        jmapgen_zone( JsonObject &jsi ) : jmapgen_piece() {
+            if( jsi.has_string( "faction" ) && jsi.has_string( "type" ) ) {
+                std::string fac_id = jsi.get_string( "faction" );
+                faction = faction_id( fac_id );
+                std::string zone_id = jsi.get_string( "type" );
+                zone_type = zone_type_id( zone_id );
+                if( jsi.has_string( "name" ) ) {
+                    name = jsi.get_string( "name" );
+                }
+            }
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const float /*mdensity*/, mission * /*miss*/ ) const override {
+            zone_manager &mgr = zone_manager::get_manager();
+            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, 0 ) );
+            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, 0 ) );
+            mgr.add( name, zone_type, faction, false, true, start, end );
+        }
+};
 
 static void load_weighted_entries( JsonObject &jsi, const std::string &json_key,
                                    weighted_int_list<std::string> &list )
@@ -2144,6 +2174,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_liquid_item>( jo, "liquids", format_placings );
     new_pal.load_place_mapings<jmapgen_graffiti>( jo, "graffiti", format_placings );
     new_pal.load_place_mapings<jmapgen_translate>( jo, "translate", format_placings );
+    new_pal.load_place_mapings<jmapgen_zone>( jo, "zones", format_placings );
 
     return new_pal;
 }
@@ -2322,6 +2353,7 @@ bool mapgen_function_json_base::setup_common( JsonObject jo )
     objects.load_objects<jmapgen_nested>( jo, "place_nested" );
     objects.load_objects<jmapgen_graffiti>( jo, "place_graffiti" );
     objects.load_objects<jmapgen_translate>( jo, "translate_ter" );
+    objects.load_objects<jmapgen_zone>( jo, "place_zones" );
 
     if( !mapgen_defer::defer ) {
         is_ready = true; // skip setup attempts from any additional pointers
@@ -7297,6 +7329,10 @@ void map::rotate( int turns )
             }
         }
     }
+
+    // rotate zones
+    zone_manager &mgr = zone_manager::get_manager();
+    mgr.rotate_zones( *this, turns );
 }
 
 // Hideous function, I admit...

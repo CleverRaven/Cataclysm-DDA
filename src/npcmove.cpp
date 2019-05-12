@@ -152,11 +152,12 @@ bool clear_shot_reach( const tripoint &from, const tripoint &to )
 
 tripoint npc::good_escape_direction( bool include_pos )
 {
-    if( !is_enemy() && path.empty() ) {
+    if( path.empty() ) {
         zone_type_id retreat_zone = zone_type_id( "NPC_RETREAT" );
         const tripoint &abs_pos = global_square_location();
         const zone_manager &mgr = zone_manager::get_manager();
-        cata::optional<tripoint> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60 );
+        cata::optional<tripoint> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
+                fac_id );
         if( retreat_target && *retreat_target != abs_pos ) {
             update_path( g->m.getlocal( *retreat_target ) );
             if( !path.empty() ) {
@@ -488,7 +489,7 @@ void npc::regen_ai_cache()
 {
     auto i = std::begin( ai_cache.sound_alerts );
     while( i != std::end( ai_cache.sound_alerts ) ) {
-        if( sees( i->pos ) ) {
+        if( sees( g->m.getlocal( i->abs_pos ) ) ) {
             i = ai_cache.sound_alerts.erase( i );
             if( ai_cache.sound_alerts.size() == 1 ) {
                 path.clear();
@@ -597,8 +598,9 @@ void npc::move()
     } else if( target != nullptr && ai_cache.danger > 0 ) {
         action = method_of_attack();
     } else if( !ai_cache.sound_alerts.empty() && !is_walking_with() ) {
+        tripoint cur_s_abs_pos = ai_cache.s_abs_pos;
         if( !ai_cache.guard_pos ) {
-            ai_cache.guard_pos = pos();
+            ai_cache.guard_pos = g->m.getabs( pos() );
         }
         if( ai_cache.sound_alerts.size() > 1 ) {
             std::sort( ai_cache.sound_alerts.begin(), ai_cache.sound_alerts.end(),
@@ -607,10 +609,23 @@ void npc::move()
                 ai_cache.sound_alerts.resize( 10 );
             }
         }
-        ai_cache.spos = ai_cache.sound_alerts.front().pos;
-        add_msg( m_debug, "NPC %s: investigating sound at x(%d) y(%d)", name, ai_cache.spos.x,
-                 ai_cache.spos.y );
         action = npc_investigate_sound;
+        if( ai_cache.sound_alerts.front().abs_pos != cur_s_abs_pos ) {
+            ai_cache.stuck = 0;
+            ai_cache.s_abs_pos = ai_cache.sound_alerts.front().abs_pos;
+        } else if( ai_cache.stuck > 10 ) {
+            ai_cache.stuck = 0;
+            if( ai_cache.sound_alerts.size() == 1 ) {
+                ai_cache.sound_alerts.clear();
+                action = npc_return_to_guard_pos;
+            } else {
+                ai_cache.s_abs_pos = ai_cache.sound_alerts.at( 1 ).abs_pos;
+            }
+        }
+        if( action == npc_investigate_sound ) {
+            add_msg( m_debug, "NPC %s: investigating sound at x(%d) y(%d)", name,
+                     ai_cache.s_abs_pos.x, ai_cache.s_abs_pos.y );
+        }
     } else if( ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
         tripoint return_guard_pos = *ai_cache.guard_pos;
         add_msg( m_debug, "NPC %s: returning to guard spot at x(%d) y(%d)", name,
@@ -728,14 +743,19 @@ void npc::execute_action( npc_action action )
         break;
 
         case npc_investigate_sound: {
-            update_path( ai_cache.spos );
+            tripoint cur_pos = pos();
+            update_path( g->m.getlocal( ai_cache.s_abs_pos ) );
             move_to_next();
+            if( pos() == cur_pos ) {
+                ai_cache.stuck += 1;
+            }
         }
         break;
 
         case npc_return_to_guard_pos: {
-            update_path( *ai_cache.guard_pos );
-            if( pos() == *ai_cache.guard_pos || path.empty() ) {
+            const tripoint local_guard_pos = g->m.getlocal( *ai_cache.guard_pos );
+            update_path( local_guard_pos );
+            if( pos() == local_guard_pos || path.empty() ) {
                 move_pause();
                 ai_cache.guard_pos = cata::nullopt;
                 path.clear();
@@ -1878,8 +1898,8 @@ void npc::move_to_next()
     }
 
     if( path.empty() ) {
-        add_msg( m_debug,
-                 "npc::move_to_next() called with an empty path or path containing only current position" );
+        add_msg( m_debug, "npc::move_to_next() called with an empty path or path "
+                 "containing only current position" );
         move_pause();
         return;
     }
@@ -3221,14 +3241,14 @@ void npc::reach_omt_destination()
 {
     if( is_travelling() ) {
         talk_function::assign_guard( *this );
-        guard_pos = global_square_location();
+        guard_pos = g->m.getabs( pos() );
         omt_path.clear();
         goal = no_goal_point;
         if( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) {
             if( g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
                 has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
-                add_msg( m_info, _( "From your two-way radio you hear %s reporting in, 'I've arrived, boss!'" ),
-                         disp_name() );
+                add_msg( m_info, _( "From your two-way radio you hear %s reporting in, "
+                                    " 'I've arrived, boss!'" ), disp_name() );
             }
         }
         return;
@@ -3241,7 +3261,7 @@ void npc::reach_omt_destination()
     }
     // If we are guarding, remember our position in case we get forcibly moved
     goal = global_omt_location();
-    if( guard_pos == global_square_location() ) {
+    if( guard_pos == g->m.getabs( pos() ) ) {
         // This is the specific point
         return;
     }
@@ -3250,14 +3270,10 @@ void npc::reach_omt_destination()
         // No point recalculating the path to get home
         move_to_next();
     } else if( guard_pos != no_goal_point ) {
-        const tripoint sm_dir = goal - submap_coords;
-        const tripoint dest( sm_dir.x * SEEX + guard_pos.x - posx(),
-                             sm_dir.y * SEEY + guard_pos.y - posy(),
-                             guard_pos.z );
-        update_path( dest );
+        update_path( g->m.getlocal( guard_pos ) );
         move_to_next();
     } else {
-        guard_pos = global_square_location();
+        guard_pos = g->m.getabs( pos() );
     }
 }
 
@@ -3318,16 +3334,15 @@ void npc::set_omt_destination()
     }
 
     DebugLog( D_INFO, DC_ALL ) << "npc::set_omt_destination - new goal for NPC [" << get_name() <<
-                               "] with ["
-                               << get_need_str_id( needs.front() ) << "] is [" << dest_type <<
-                               "] in ["
-                               << goal.x << "," << goal.y << "," << goal.z << "].";
+                               "] with [" << get_need_str_id( needs.front() ) <<
+                               "] is [" << dest_type <<
+                               "] in [" << goal.x << "," << goal.y << "," << goal.z << "].";
 }
 
 void npc::go_to_omt_destination()
 {
     if( ai_cache.guard_pos ) {
-        if( pos() == *ai_cache.guard_pos ) {
+        if( g->m.getabs( pos() ) == *ai_cache.guard_pos ) {
             path.clear();
             ai_cache.guard_pos = cata::nullopt;
             move_pause();
@@ -3349,7 +3364,8 @@ void npc::go_to_omt_destination()
     add_msg( m_debug, "%s going (%d,%d,%d)->(%d,%d,%d)", name,
              omt_pos.x, omt_pos.y, omt_pos.z, goal.x, goal.y, goal.z );
     if( goal == omt_pos ) {
-        // We're at our desired map square!
+        // We're at our desired map square!  Pause to keep the NPC infinite loop counter happy
+        move_pause();
         reach_omt_destination();
         return;
     }
@@ -3395,7 +3411,7 @@ void npc::go_to_omt_destination()
 void npc::guard_current_pos()
 {
     goal = global_omt_location();
-    guard_pos = global_square_location();
+    guard_pos = g->m.getabs( pos() );
 }
 
 std::string npc_action_name( npc_action action )

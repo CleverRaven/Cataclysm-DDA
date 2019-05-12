@@ -5980,19 +5980,17 @@ void game::zones_manager()
     int zone_options_height = 7;
 
     const int width = 45;
-    const int offsetX = get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ? TERMX + VIEW_OFFSET_X
-                        -
-                        width : VIEW_OFFSET_X;
-    catacurses::window w_zones = catacurses::newwin( TERMY - 2 - zone_ui_height - VIEW_OFFSET_Y * 2,
-                                 width - 2, VIEW_OFFSET_Y + 1, offsetX + 1 );
-    catacurses::window w_zones_border = catacurses::newwin( TERMY - zone_ui_height - VIEW_OFFSET_Y * 2,
-                                        width,
+    const int offsetX = get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ?
+                        TERMX + VIEW_OFFSET_X - width : VIEW_OFFSET_X;
+    int w_zone_height = TERMY - zone_ui_height - VIEW_OFFSET_Y * 2;
+    catacurses::window w_zones = catacurses::newwin( w_zone_height - 2, width - 2,
+                                 VIEW_OFFSET_Y + 1, offsetX + 1 );
+    catacurses::window w_zones_border = catacurses::newwin( w_zone_height, width,
                                         VIEW_OFFSET_Y, offsetX );
     catacurses::window w_zones_info = catacurses::newwin( zone_ui_height - zone_options_height - 1,
-                                      width - 2,
-                                      TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX + 1 );
+                                      width - 2, w_zone_height + VIEW_OFFSET_Y, offsetX + 1 );
     catacurses::window w_zones_info_border = catacurses::newwin( zone_ui_height, width,
-            TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX );
+            w_zone_height + VIEW_OFFSET_Y, offsetX );
     catacurses::window w_zones_options = catacurses::newwin( zone_options_height - 1, width - 2,
                                          TERMY - zone_options_height - VIEW_OFFSET_Y, offsetX + 1 );
 
@@ -6015,7 +6013,7 @@ void game::zones_manager()
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     auto &mgr = zone_manager::get_manager();
-    const int max_rows = TERMY - zone_ui_height - 2 - VIEW_OFFSET_Y * 2;
+    const int max_rows = w_zone_height - 2;
     int start_index = 0;
     int active_index = 0;
     bool blink = false;
@@ -6026,7 +6024,6 @@ void game::zones_manager()
     // get zones on the same z-level, with distance between player and
     // zone center point <= 50 or all zones, if show_all_zones is true
     auto get_zones = [&]() {
-
         std::vector<zone_manager::ref_zone_data> zones;
         if( show_all_zones ) {
             zones = mgr.get_zones();
@@ -6075,25 +6072,29 @@ void game::zones_manager()
 
         tripoint center = u.pos() + u.view_offset;
 
-        const look_around_result first = look_around( w_zones_info, center, center, false, true, false );
+        const look_around_result first = look_around( w_zones_info, center, center, false, true,
+                false );
         if( first.position )
         {
             mvwprintz( w_zones_info, 3, 2, c_white, _( "Select second point." ) );
             wrefresh( w_zones_info );
 
-            const look_around_result second = look_around( w_zones_info, center, *first.position, true, true,
-                    false );
+            const look_around_result second = look_around( w_zones_info, center, *first.position,
+                    true, true, false );
             if( second.position ) {
                 werase( w_zones_info );
                 wrefresh( w_zones_info );
 
-                tripoint first_abs = m.getabs( tripoint( std::min( first.position->x, second.position->x ),
+                tripoint first_abs = m.getabs( tripoint( std::min( first.position->x,
+                                               second.position->x ),
                                                std::min( first.position->y, second.position->y ),
-                                               std::min( first.position->z, second.position->z ) ) );
-                tripoint second_abs = m.getabs( tripoint( std::max( first.position->x, second.position->x ),
+                                               std::min( first.position->z,
+                                                       second.position->z ) ) );
+                tripoint second_abs = m.getabs( tripoint( std::max( first.position->x,
+                                                second.position->x ),
                                                 std::max( first.position->y, second.position->y ),
-                                                std::max( first.position->z, second.position->z ) ) );
-
+                                                std::max( first.position->z,
+                                                        second.position->z ) ) );
                 return std::pair<tripoint, tripoint>( first_abs, second_abs );
             }
         }
@@ -6104,7 +6105,8 @@ void game::zones_manager()
     zones_manager_open = true;
     do {
         if( action == "ADD_ZONE" ) {
-            zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
+            zones_manager_draw_borders( w_zones_border, w_zones_info_border,
+                                        zone_ui_height, width );
 
             do { // not a loop, just for quick bailing out if canceled
                 const auto maybe_id = mgr.query_type();
@@ -6134,7 +6136,8 @@ void game::zones_manager()
                     break;
                 }
 
-                mgr.add( name, id, false, true, position->first, position->second, options );
+                mgr.add( name, id, your_followers, false, true, position->first, position->second,
+                         options );
 
                 zones = get_zones();
                 active_index = zone_cnt - 1;
@@ -6145,7 +6148,8 @@ void game::zones_manager()
             draw_ter();
             blink = false;
 
-            zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
+            zones_manager_draw_borders( w_zones_border, w_zones_info_border,
+                                        zone_ui_height, width );
             zones_manager_shortcuts( w_zones_info );
 
         } else if( action == "SHOW_ALL_ZONES" ) {
@@ -6218,8 +6222,8 @@ void game::zones_manager()
                         break;
                     case 4: {
                         const auto pos = query_position();
-                        if( pos && ( pos->first != zone.get_start_point() || pos->second != zone.get_end_point() ) ) {
-
+                        if( pos && ( pos->first != zone.get_start_point() ||
+                                     pos->second != zone.get_end_point() ) ) {
                             zone.set_position( *pos );
                             stuff_changed = true;
                         }
@@ -6233,7 +6237,8 @@ void game::zones_manager()
 
                 blink = false;
 
-                zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
+                zones_manager_draw_borders( w_zones_border, w_zones_info_border,
+                                            zone_ui_height, width );
                 zones_manager_shortcuts( w_zones_info );
 
             } else if( action == "MOVE_ZONE_UP" && zone_cnt > 1 ) {
@@ -6261,7 +6266,8 @@ void game::zones_manager()
 
                 ui::omap::display_zones( player_overmap_position, zone_overmap, active_index );
 
-                zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
+                zones_manager_draw_borders( w_zones_border, w_zones_info_border,
+                                            zone_ui_height, width );
                 zones_manager_shortcuts( w_zones_info );
 
                 draw_ter();
@@ -6321,7 +6327,8 @@ void game::zones_manager()
                     //Draw direction + distance
                     mvwprintz( w_zones, iNum - start_index, 32, colorLine, "%*d %s",
                                5, static_cast<int>( trig_dist( player_absolute_pos, center ) ),
-                               direction_name_short( direction_from( player_absolute_pos, center ) ) );
+                               direction_name_short( direction_from( player_absolute_pos,
+                                                     center ) ) );
 
                     //Draw Vehicle Indicator
                     mvwprintz( w_zones, iNum - start_index, 41, colorLine,
@@ -6369,10 +6376,11 @@ void game::zones_manager()
                                           u.pos() + u.view_offset );
                             } else {
                                 if( u.has_effect( effect_boomered ) ) {
-                                    mvwputch( w_terrain, iY - offset_y, iX - offset_x, c_magenta, '#' );
-
+                                    mvwputch( w_terrain, iY - offset_y, iX - offset_x,
+                                              c_magenta, '#' );
                                 } else {
-                                    mvwputch( w_terrain, iY - offset_y, iX - offset_x, c_black, ' ' );
+                                    mvwputch( w_terrain, iY - offset_y, iX - offset_x,
+                                              c_black, ' ' );
                                 }
                             }
                         }

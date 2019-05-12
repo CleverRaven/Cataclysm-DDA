@@ -66,6 +66,7 @@
     * 2.5.17 "sealed_item"
     * 2.5.18 "graffiti"
     * 2.6.19 "translate_ter"
+    * 2.6.20 "zones"
   * 2.6 "rotation"
 * 3 update_mapgen
   * 3.1 overmap tile specification
@@ -697,6 +698,12 @@ Translates one type of terrain into another type of terrain.  There is no reason
 normal mapgen, but it is useful for setting a baseline with update_mapgen.
 - "from": (required, string) the terrain id of the terrain to be transformed
 - "to": (required, string) the terrain id that the from terrain will transformed into
+
+### 2.5.20 "zones"
+Places a zone for an NPC faction.  NPCs in the faction will use the zone to influence the AI.
+- "type": (required, string) must be one of NPC_RETREAT, NPC_NO_INVESTIGATE, or NPC_INVESTIGATE_ONLY.  NPCs will prefer to retreat towards NPC_RETREAT zones.  They will not move to the see the source of unseen sounds coming from NPC_NO_INVESTIGATE zones.  They will not move to the see the source of unseen sounds coming from outside NPC_INVESTIGATE_ONLY zones.
+- "faction": (required, string) the faction id of the NPC faction that will use the zone.
+- "name": (optional, string) the name of the zone.
 
 # 2.7 "rotation"
 Rotates the generated map after all the other mapgen stuff has been done. The value can be a single integer or a range (out of which a value will be randomly chosen). Example:
