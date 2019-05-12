@@ -8677,8 +8677,8 @@ if ( !it.is_gun() ) {
             break;
     }
     } else if( it.is_gun() ) {  // single points fast, 3points slow
-      if( it.gunmod_find( "shoulder_strap_single" ) ) { mv *= 0.01; }
-      if( it.gunmod_find( "shoulder_strap_three" ) ) { mv *= 3; }
+      if( it.has_flag( "SLUNG1" ) ) { mv *= 0.01; }
+      if( it.has_flag( "SLUNG3" ) ) { mv *= 3; }
     }
     mv *= std::max( it.get_encumber( *this ) / 10.0, 1.0 );
 
@@ -8932,8 +8932,8 @@ bool player::takeoff( const item &it, std::list<item> *res )
 
     double rmv = item_handling_cost( it );
     if( it.is_gun() ) {
-                             if( it.gunmod_find( "shoulder_strap_single" ) ) { rmv *= 0.01 * ( std::max( it.get_encumber( *this ) / 10.0, 1.0 ) );
-                             } else if( it.gunmod_find( "shoulder_strap_three" ) ) { rmv *= 3 * ( std::max( encumb( bp_torso )/20, 1 )); }
+                             if( it.has_flag( "SLUNG1" ) ) { rmv *= 0.01 * ( std::max( it.get_encumber( *this ) / 10.0, 1.0 ) );
+                             } else if( it.has_flag( "SLUNG3" ) ) { rmv *= 3 * ( std::max( encumb( bp_torso )/20, 1 )); }
       } else { rmv = -250; } // TODO: Make this variable
     mod_moves( -rmv );
     worn.erase( iter );

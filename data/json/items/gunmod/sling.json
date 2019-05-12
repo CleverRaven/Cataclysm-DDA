@@ -13,20 +13,24 @@
     "color": "green",
     "location": "sling",
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow", "launcher" ],
-    "flags": [ "IS_ARMOR", "BELTED", "OVERSIZE",  "WATER_FRIENDLY" ]
+    "flags": [ "IS_ARMOR", "BELTED", "OVERSIZE", "SLUNG2"  "WATER_FRIENDLY" ]
   },
   {
     "id": "shoulder_strap_single",
     "type": "GUNMOD",
     "name": "single point sling",
     "description": "A single point sling allows a longarm to be worn suspended from a strap. It is very quick to draw and even quicker to stow, but very encumbering.  It offers no protection.",
-    "copy-from": "shoulder_strap"
+    "copy-from": "shoulder_strap",
+    "delete": { "flags": [ "SLUNG2" ] },
+    "extend": { "flags": [ "SLUNG1" ] }
   },
   {
     "id": "shoulder_strap_three",
     "type": "GUNMOD",
     "name": "three point sling",
     "description": "A three point sling allows a longarm to be worn in a precise location.  It's not very encumbering at all, but requires additional time to stow over a traditional sling.  It offers no protection.",
-    "copy-from": "shoulder_strap"
+    "copy-from": "shoulder_strap",
+    "delete": { "flags": [ "SLUNG2" ] },
+    "extend": { "flags": [ "SLUNG3" ] }
   }
 ]

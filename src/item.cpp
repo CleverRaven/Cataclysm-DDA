@@ -3991,12 +3991,12 @@ int item::get_encumber_when_containing(
     if( t == nullptr && is_gun() ) {
       int enc_worn = 0;
         // handle wearable guns (e.g. shoulder strap) as special case
-        if ( gunmod_find( "shoulder_strap" ) ) {
+        if ( has_flag( "SLUNG2" ) ) {
           enc_worn = volume() / 750_ml;
-    } else if ( gunmod_find( "shoulder_strap_single" ) ) {
+    } else if ( has_flag( "SLUNG1" ) ) {
         // single point slings are very dangly and awkward
           enc_worn = volume() / 100_ml;
-    } else if ( gunmod_find (  "shoulder_strap_three" ) ) {
+    } else if ( has_flag( "SLUNG3" ) ) {
         // three point slings snug up real good, if it's not the above it's this one.
         enc_worn =  volume() / 1000_ml;
     } return enc_worn;
