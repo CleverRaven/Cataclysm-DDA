@@ -265,7 +265,7 @@
     "id": "tank_tread",
     "name": "set of small tank tread",
     "name_plural": "sets of small tank tread",
-    "description": "A set of small tank tread, like the one used by the beagle mini-tank.",
+    "description": "A set of small tank tread, like the one used by the "Beagle" mini-tank.",
     "weight": 60000,
     "volume": 120,
     "price": 600000,
