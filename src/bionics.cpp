@@ -18,6 +18,7 @@
 #include "explosion.h"
 #include "field.h"
 #include "game.h"
+#include "handle_liquid.h"
 #include "input.h"
 #include "item.h"
 #include "itype.h"
@@ -242,7 +243,8 @@ bool player::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == "bio_resonator" ) {
         //~Sound of a bionic sonic-resonator shaking the area
-        sounds::sound( pos(), 30, sounds::sound_t::combat, _( "VRRRRMP!" ) );
+        sounds::sound( pos(), 30, sounds::sound_t::combat, _( "VRRRRMP!" ), false, "bionic",
+                       "bio_resonator" );
         for( const tripoint &bashpoint : g->m.points_in_radius( pos(), 1 ) ) {
             g->m.bash( bashpoint, 110 );
             g->m.bash( bashpoint, 110 ); // Multibash effect, so that doors &c will fall
@@ -387,7 +389,7 @@ bool player::activate_bionic( int b, bool eff_only )
         if( water_charges == 0 ) {
             add_msg_if_player( m_bad,
                                _( "There was not enough moisture in the air from which to draw water!" ) );
-        } else if( !g->consume_liquid( water ) ) {
+        } else if( !liquid_handler::consume_liquid( water ) ) {
             charge_power( bionics[bionic_id( "bio_evap" )].power_activate );
         }
     } else if( bio.id == "bio_torsionratchet" ) {
@@ -431,7 +433,8 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_hydraulics" ) {
         add_msg( m_good, _( "Your muscles hiss as hydraulic strength fills them!" ) );
         //~ Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ) );
+        sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
+                       "bio_hydraulics" );
     } else if( bio.id == "bio_water_extractor" ) {
         bool extracted = false;
         for( auto it = g->m.i_at( pos() ).begin();
@@ -444,7 +447,7 @@ bool player::activate_bionic( int b, bool eff_only )
                               colorize( it->tname(), it->color_in_inventory() ) ) ) {
                     item water( "water_clean", calendar::turn, avail );
                     water.set_item_temperature( 0.00001 * it->temperature );
-                    if( g->consume_liquid( water ) ) {
+                    if( liquid_handler::consume_liquid( water ) ) {
                         extracted = true;
                         it->set_var( "remaining_water", static_cast<int>( water.charges ) );
                     }
@@ -758,7 +761,8 @@ void player::process_bionic( int b )
         }
     } else if( bio.id == "bio_hydraulics" ) {
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ) );
+        sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
+                       "bio_hydraulics" );
     } else if( bio.id == "bio_nanobots" ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
             if( power_level >= 5 && hp_cur[i] > 0 && hp_cur[i] < hp_max[i] ) {

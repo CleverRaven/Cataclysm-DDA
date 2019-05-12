@@ -253,6 +253,29 @@ bool player::handle_gun_damage( item &it )
     return true;
 }
 
+void npc::pretend_fire( npc *source, int shots, item &gun )
+{
+    int curshot = 0;
+    if( g->u.sees( *source ) && one_in( 50 ) ) {
+        add_msg( m_info, _( "%s shoots something." ), source->disp_name() );
+    }
+    while( curshot != shots ) {
+        if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
+            debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
+            break;
+        }
+
+        item *weapon = &gun;
+        const auto data = weapon->gun_noise( shots > 1 );
+
+        if( g->u.sees( *source ) ) {
+            add_msg( m_warning, _( "You hear %s." ), data.sound );
+        }
+        curshot++;
+        moves -= 100;
+    }
+}
+
 int player::fire_gun( const tripoint &target, int shots )
 {
     return fire_gun( target, shots, weapon );
@@ -522,7 +545,6 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
                        thrown.get_property_long( "burst_when_filled" ) <= ( ( double )
                                thrown.get_contained().volume().value() ) / thrown.get_container_capacity().value() * 100;
-
 
     // Add some flags to the projectile
     if( weight > 500_gram ) {
@@ -1366,10 +1388,13 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                     mvwprintw( w_target, line_number++, 1, _( "%s Delay: %i" ), aim_mode->name, predicted_delay );
                 }
             } else if( mode == TARGET_MODE_TURRET ) {
+                // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
                 line_number = draw_turret_aim( pc, w_target, line_number, dst );
             } else if( mode == TARGET_MODE_THROW ) {
+                // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
                 line_number = draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, false );
             } else if( mode == TARGET_MODE_THROW_BLIND ) {
+                // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
                 line_number = draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, true );
             }
 
@@ -1555,7 +1580,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             if( !confirm_non_enemy_target( dst ) || dst == src ) {
                 continue;
             }
-            target = find_target( t, dst );
             if( src == dst ) {
                 ret.clear();
             }
@@ -1575,7 +1599,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         } else if( action == "QUIT" ) { // return empty vector (cancel)
             ret.clear();
             pc.last_target_pos = cata::nullopt;
-            target = -1;
             break;
         } else if( action == "zoom_in" ) {
             g->zoom_in();

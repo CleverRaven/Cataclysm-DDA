@@ -1343,10 +1343,14 @@ class player : public Character
         */
         bool can_interface_armor() const;
 
-        const martialart &get_combat_style() const; // Returns the combat style object
-        std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)
-        void place_corpse(); // put corpse+inventory on map at the place where this is.
-        void place_corpse( const tripoint &om_target ); // put corpse+inventory on defined om tile
+        // Returns the combat style object
+        const martialart &get_combat_style() const;
+        // Inventory + weapon + worn (for death, etc)
+        std::vector<item *> inv_dump();
+        // Put corpse+inventory on map at the place where this is.
+        void place_corpse();
+        // Put corpse+inventory on defined om tile
+        void place_corpse( const tripoint &om_target );
 
         bool covered_with_flag( const std::string &flag, const body_part_set &parts ) const;
         bool is_waterproof( const body_part_set &parts ) const;
@@ -1355,10 +1359,12 @@ class player : public Character
         // has_charges works ONLY for charges.
         std::list<item> use_amount( itype_id it, int quantity,
                                     const std::function<bool( const item & )> &filter = return_true<item> );
-        bool use_charges_if_avail( const itype_id &it, long quantity );// Uses up charges
+        // Uses up charges
+        bool use_charges_if_avail( const itype_id &it, long quantity );
 
+        // Uses up charges
         std::list<item> use_charges( const itype_id &what, long qty,
-                                     const std::function<bool( const item & )> &filter = return_true<item> ); // Uses up charges
+                                     const std::function<bool( const item & )> &filter = return_true<item> );
 
         bool has_charges( const itype_id &it, long quantity,
                           const std::function<bool( const item & )> &filter = return_true<item> ) const;
@@ -1366,7 +1372,8 @@ class player : public Character
         /** Returns the amount of item `type' that is currently worn */
         int  amount_worn( const itype_id &id ) const;
 
-        int  leak_level( const std::string &flag ) const; // carried items may leak radiation or chemicals
+        // Carried items may leak radiation or chemicals
+        int  leak_level( const std::string &flag ) const;
 
         // Has a weapon, inventory item or worn item with flag
         bool has_item_with_flag( const std::string &flag, bool need_charges = false ) const;
@@ -1562,8 +1569,10 @@ class player : public Character
             position = p;
         }
         tripoint view_offset;
-        bool in_vehicle;       // Means player sit inside vehicle on the tile he is now
-        bool controlling_vehicle;  // Is currently in control of a vehicle
+        // Means player sit inside vehicle on the tile he is now
+        bool in_vehicle;
+        // Is currently in control of a vehicle
+        bool controlling_vehicle;
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
         bool hauling;
@@ -1589,7 +1598,8 @@ class player : public Character
         double recoil = MAX_RECOIL;
         std::weak_ptr<Creature> last_target;
         cata::optional<tripoint> last_target_pos;
-        item_location ammo_location; //Save favorite ammo location
+        // Save favorite ammo location
+        item_location ammo_location;
         int scent;
         int dodges_left;
         int blocks_left;
@@ -1597,9 +1607,11 @@ class player : public Character
         int radiation;
         unsigned long cash;
         int movecounter;
-        bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
+        // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
+        bool death_drops;
         std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
-        void temp_equalizer( body_part bp1, body_part bp2 ); // Equalizes heat between body parts
+        // Equalizes heat between body parts
+        void temp_equalizer( body_part bp1, body_part bp2 );
 
         // Drench cache
         enum water_tolerance {

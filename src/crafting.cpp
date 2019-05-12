@@ -22,6 +22,7 @@
 #include "debug.h"
 #include "game.h"
 #include "game_inventory.h"
+#include "handle_liquid.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -588,7 +589,7 @@ static item *set_item_inventory( player &p, item &newit )
 {
     item *ret_val = nullptr;
     if( newit.made_of( LIQUID ) ) {
-        g->handle_all_liquid( newit, PICKUP_RANGE );
+        liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
     } else {
         p.inv.assign_empty_invlet( newit, p );
         // We might not have space for the item
@@ -1068,7 +1069,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
 
         finalize_crafted_item( newit );
         if( newit.made_of( LIQUID ) ) {
-            g->handle_all_liquid( newit, PICKUP_RANGE );
+            liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
         } else if( loc == tripoint_zero ) {
             wield_craft( *this, newit );
         } else {
@@ -1092,7 +1093,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
             }
             finalize_crafted_item( bp );
             if( bp.made_of( LIQUID ) ) {
-                g->handle_all_liquid( bp, PICKUP_RANGE );
+                liquid_handler::handle_all_liquid( bp, PICKUP_RANGE );
             } else if( loc == tripoint_zero ) {
                 set_item_inventory( *this, bp );
             } else {
@@ -1139,7 +1140,6 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
     for( const auto &component : components ) {
         itype_id type = component.type;
         int count = ( component.count > 0 ) ? component.count * batch : abs( component.count );
-        bool found = false;
 
         if( item::count_by_charges( type ) && count > 0 ) {
             long map_charges = map_inv.charges_of( type, std::numeric_limits<long>::max(), filter );
@@ -1152,6 +1152,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             }
             if( player_inv ) {
                 long player_charges = charges_of( type, std::numeric_limits<long>::max(), filter );
+                bool found = false;
                 if( player_charges >= count ) {
                     player_has.push_back( component );
                     found = true;
@@ -1166,13 +1167,13 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             } else {
                 if( map_charges >= count ) {
                     map_has.push_back( component );
-                    found = true;
                 }
             }
         } else { // Counting by units, not charges
 
             // Can't use pseudo items as components
             if( player_inv ) {
+                bool found = false;
                 if( has_amount( type, count, false, filter ) ) {
                     player_has.push_back( component );
                     found = true;
@@ -1189,7 +1190,6 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             } else {
                 if( map_inv.has_components( type, count, filter ) ) {
                     map_has.push_back( component );
-                    found = true;
                 }
             }
         }
@@ -1308,7 +1308,6 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
 {
     return consume_items( g->m, is, batch, filter, pos(), PICKUP_RANGE );
 }
-
 
 std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter, tripoint origin, int radius )
@@ -1900,7 +1899,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         }
 
         if( act_item.made_of( LIQUID ) ) {
-            g->handle_all_liquid( act_item, PICKUP_RANGE );
+            liquid_handler::handle_all_liquid( act_item, PICKUP_RANGE );
         } else {
             drop_items.push_back( act_item );
         }
@@ -1912,7 +1911,8 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         if( can_decomp_learn( dis ) ) {
             // TODO: make this depend on intelligence
             if( one_in( 4 ) ) {
-                learn_recipe( &dis.ident().obj() );// TODO: change to forward an id or a reference
+                // TODO: change to forward an id or a reference
+                learn_recipe( &dis.ident().obj() );
                 add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
                          dis_item.tname() );
             } else {
@@ -1935,7 +1935,7 @@ void remove_ammo( std::list<item> &dis_items, player &p )
 void drop_or_handle( const item &newit, player &p )
 {
     if( newit.made_of( LIQUID ) && &p == &g->u ) { // TODO: what about NPCs?
-        g->handle_all_liquid( newit, PICKUP_RANGE );
+        liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
     } else {
         item tmp( newit );
         p.i_add_or_drop( tmp );

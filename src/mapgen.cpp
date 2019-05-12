@@ -14,12 +14,14 @@
 #include <cmath>
 
 #include "ammo.h"
+#include "clzones.h"
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "drawing_primitives.h"
 #include "enums.h"
+#include "faction.h"
 #include "game.h"
 #include "item_group.h"
 #include "itype.h"
@@ -280,7 +282,6 @@ std::map<std::string, std::vector<std::shared_ptr<mapgen_function>> > oter_mapge
 std::map<std::string, std::vector<std::unique_ptr<mapgen_function_json_nested>> > nested_mapgen;
 std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> > update_mapgen;
 
-
 /*
  * index to the above, adjusted to allow for rarity
  */
@@ -532,16 +533,30 @@ size_t mapgen_function_json_base::calc_index( const size_t x, const size_t y ) c
     return y * mapgensize_y + x;
 }
 
-bool mapgen_function_json_base::check_inbounds( const jmapgen_int &x, const jmapgen_int &y ) const
+bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y, const int mapgensize_x,
+                          const int mapgensize_y, JsonObject &jso )
 {
-    const int min = 0;
-    const int max_x = mapgensize_x - 1;
-    const int max_y = mapgensize_y - 1;
-    if( x.val < min || x.val > max_x || x.valmax < min || x.valmax > max_x ||
-        y.val < min || y.val > max_y || y.valmax < min || y.valmax > max_y ) {
+    if( x.val < 0 || x.val > mapgensize_x - 1 || y.val < 0 || y.val > mapgensize_y - 1 ) {
         return false;
     }
+
+    if( x.valmax > mapgensize_x - 1 ) {
+        jso.throw_error( "coordinate range cannot cross grid boundaries", "x" );
+        return false;
+    }
+
+    if( y.valmax > mapgensize_y - 1 ) {
+        jso.throw_error( "coordinate range cannot cross grid boundaries", "y" );
+        return false;
+    }
+
     return true;
+}
+
+bool mapgen_function_json_base::check_inbounds( const jmapgen_int &x, const jmapgen_int &y,
+        JsonObject &jso ) const
+{
+    return common_check_bounds( x, y, mapgensize_x, mapgensize_y, jso );
 }
 
 mapgen_function_json_base::mapgen_function_json_base( const std::string &s )
@@ -637,13 +652,6 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
     jmapgen_setmap_op tmpop;
     int setmap_optype = 0;
 
-    const auto inboundchk = [this]( const jmapgen_int & x, const jmapgen_int & y, JsonObject & jo ) {
-        if( !check_inbounds( x, y ) ) {
-            jo.throw_error( string_format( "Point must be between [0,0] and [%d,%d]", mapgensize_x,
-                                           mapgensize_y ) );
-        }
-    };
-
     while( parray.has_more() ) {
         JsonObject pjo = parray.next_object();
         if( pjo.read( "point", tmpval ) ) {
@@ -675,11 +683,15 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
 
         const jmapgen_int tmp_x( pjo, "x" );
         const jmapgen_int tmp_y( pjo, "y" );
-        inboundchk( tmp_x, tmp_y, pjo );
+        if( !check_inbounds( tmp_x, tmp_y, pjo ) ) {
+            continue;
+        }
         if( setmap_optype != JMAPGEN_SETMAP_OPTYPE_POINT ) {
             tmp_x2 = jmapgen_int( pjo, "x2" );
             tmp_y2 = jmapgen_int( pjo, "y2" );
-            inboundchk( tmp_x2, tmp_y2, pjo );
+            if( !check_inbounds( tmp_x2, tmp_y2, pjo ) ) {
+                continue;
+            }
         }
         if( tmpop == JMAPGEN_SETMAP_RADIATION ) {
             tmp_i = jmapgen_int( pjo, "amount" );
@@ -1647,7 +1659,34 @@ class jmapgen_translate : public jmapgen_piece
             dat.m.translate( from, to );
         }
 };
-
+/**
+ * Place a zone
+ */
+class jmapgen_zone : public jmapgen_piece
+{
+    public:
+        zone_type_id zone_type;
+        faction_id faction;
+        std::string name = "";
+        jmapgen_zone( JsonObject &jsi ) : jmapgen_piece() {
+            if( jsi.has_string( "faction" ) && jsi.has_string( "type" ) ) {
+                std::string fac_id = jsi.get_string( "faction" );
+                faction = faction_id( fac_id );
+                std::string zone_id = jsi.get_string( "type" );
+                zone_type = zone_type_id( zone_id );
+                if( jsi.has_string( "name" ) ) {
+                    name = jsi.get_string( "name" );
+                }
+            }
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const float /*mdensity*/, mission * /*miss*/ ) const override {
+            zone_manager &mgr = zone_manager::get_manager();
+            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, 0 ) );
+            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, 0 ) );
+            mgr.add( name, zone_type, faction, false, true, start, end );
+        }
+};
 
 static void load_weighted_entries( JsonObject &jsi, const std::string &json_key,
                                    weighted_int_list<std::string> &list )
@@ -1764,22 +1803,7 @@ jmapgen_objects::jmapgen_objects( int offset_x, int offset_y, size_t mapsize_x, 
 
 bool jmapgen_objects::check_bounds( const jmapgen_place place, JsonObject &jso )
 {
-    if( place.x.val < 0 || place.x.val > static_cast<int>( mapgensize_x ) - 1 ||
-        place.y.val < 0 || place.y.val > static_cast<int>( mapgensize_y ) - 1 ) {
-        return false;
-    }
-
-    if( static_cast<size_t>( place.x.valmax ) > mapgensize_x - 1 ) {
-        jso.throw_error( "coordinate range cannot cross grid boundaries", "x" );
-        return false;
-    }
-
-    if( static_cast<size_t>( place.y.valmax ) > mapgensize_y - 1 ) {
-        jso.throw_error( "coordinate range cannot cross grid boundaries", "y" );
-        return false;
-    }
-
-    return true;
+    return common_check_bounds( place.x, place.y, mapgensize_x, mapgensize_y, jso );
 }
 
 void jmapgen_objects::add( const jmapgen_place &place, std::shared_ptr<const jmapgen_piece> piece )
@@ -2150,6 +2174,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_liquid_item>( jo, "liquids", format_placings );
     new_pal.load_place_mapings<jmapgen_graffiti>( jo, "graffiti", format_placings );
     new_pal.load_place_mapings<jmapgen_translate>( jo, "translate", format_placings );
+    new_pal.load_place_mapings<jmapgen_zone>( jo, "zones", format_placings );
 
     return new_pal;
 }
@@ -2328,6 +2353,7 @@ bool mapgen_function_json_base::setup_common( JsonObject jo )
     objects.load_objects<jmapgen_nested>( jo, "place_nested" );
     objects.load_objects<jmapgen_graffiti>( jo, "place_graffiti" );
     objects.load_objects<jmapgen_translate>( jo, "translate_ter" );
+    objects.load_objects<jmapgen_zone>( jo, "place_zones" );
 
     if( !mapgen_defer::defer ) {
         is_ready = true; // skip setup attempts from any additional pointers
@@ -2546,7 +2572,6 @@ bool jmapgen_setmap::has_vehicle_collision( const mapgendata &dat, int offset_x,
     return false;
 }
 
-
 void mapgen_function_json_base::formatted_set_incredibly_simple( map &m, int offset_x,
         int offset_y ) const
 {
@@ -2721,7 +2746,7 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
             draw_silo( terrain_type, dat, when, density );
         } else if( is_ot_type( "anthill", terrain_type ) ) {
             draw_anthill( terrain_type, dat, when, density );
-        } else if( is_ot_type( "lab", terrain_type ) ) {
+        } else if( is_ot_subtype( "lab", terrain_type ) ) {
             draw_lab( terrain_type, dat, when, density );
         } else {
             found = false;
@@ -7304,6 +7329,10 @@ void map::rotate( int turns )
             }
         }
     }
+
+    // rotate zones
+    zone_manager &mgr = zone_manager::get_manager();
+    mgr.rotate_zones( *this, turns );
 }
 
 // Hideous function, I admit...
@@ -8292,7 +8321,6 @@ void add_corpse( map *m, int x, int y )
 {
     m->add_corpse( tripoint( x, y, m->get_abs_sub().z ) );
 }
-
 
 //////////////////// mapgen update
 update_mapgen_function_json::update_mapgen_function_json( const std::string &s ) :

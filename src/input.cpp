@@ -656,7 +656,8 @@ void input_context::register_action( const std::string &action_descriptor, const
     }
 }
 
-std::vector<char> input_context::keys_bound_to( const std::string &action_descriptor ) const
+std::vector<char> input_context::keys_bound_to( const std::string &action_descriptor,
+        const bool restrict_to_printable ) const
 {
     std::vector<char> result;
     const std::vector<input_event> &events = inp_mngr.get_input_for_action( action_descriptor,
@@ -664,9 +665,11 @@ std::vector<char> input_context::keys_bound_to( const std::string &action_descri
     for( const auto &events_event : events ) {
         // Ignore multi-key input and non-keyboard input
         // TODO: fix for Unicode.
-        if( events_event.type == CATA_INPUT_KEYBOARD && events_event.sequence.size() == 1 &&
-            events_event.sequence.front() < 0xFF && isprint( events_event.sequence.front() ) ) {
-            result.push_back( static_cast<char>( events_event.sequence.front() ) );
+        if( events_event.type == CATA_INPUT_KEYBOARD && events_event.sequence.size() == 1 ) {
+            if( !restrict_to_printable || ( events_event.sequence.front() < 0xFF &&
+                                            isprint( events_event.sequence.front() ) ) ) {
+                result.push_back( static_cast<char>( events_event.sequence.front() ) );
+            }
         }
     }
     return result;
