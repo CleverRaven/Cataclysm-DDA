@@ -27,12 +27,14 @@ namespace trapfunc
 // creature can be NULL.
 void none( Creature *, const tripoint & );
 void bubble( Creature *creature, const tripoint &p );
+void glass( Creature *creature, const tripoint &p );
 void cot( Creature *creature, const tripoint &p );
 void beartrap( Creature *creature, const tripoint &p );
 void snare_light( Creature *creature, const tripoint &p );
 void snare_heavy( Creature *creature, const tripoint &p );
 void board( Creature *creature, const tripoint &p );
 void caltrops( Creature *creature, const tripoint &p );
+void caltrops_glass( Creature *creature, const tripoint &p );
 void tripwire( Creature *creature, const tripoint &p );
 void crossbow( Creature *creature, const tripoint &p );
 void shotgun( Creature *creature, const tripoint &p );
@@ -207,6 +209,7 @@ const trap_function &trap_function_from_string( const std::string &function_name
 extern trap_id
 tr_null,
 tr_bubblewrap,
+tr_glass,
 tr_cot,
 tr_funnel,
 tr_metal_funnel,
@@ -218,6 +221,7 @@ tr_beartrap,
 tr_beartrap_buried,
 tr_nailboard,
 tr_caltrops,
+tr_caltrops_glass,
 tr_tripwire,
 tr_crossbow,
 tr_shotgun_2,

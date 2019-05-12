@@ -775,6 +775,9 @@ void vehicle::handle_trap( const tripoint &p, int part )
     if( t == tr_bubblewrap ) {
         noise = 18;
         snd = _( "Pop!" );
+    } else if( t == tr_glass ) {
+        noise = 10;
+        snd = _( "Crunch!" );
     } else if( t == tr_beartrap || t == tr_beartrap_buried ) {
         noise = 8;
         snd = _( "SNAP!" );
@@ -783,7 +786,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
         part_damage = 300;
         g->m.remove_trap( p );
         g->m.spawn_item( p, "beartrap" );
-    } else if( t == tr_nailboard || t == tr_caltrops ) {
+    } else if( t == tr_nailboard || t == tr_caltrops || t == tr_caltrops_glass ) {
         part_damage = 300;
     } else if( t == tr_blade ) {
         noise = 1;

@@ -1645,6 +1645,13 @@
     "weight": 89,
     "volume": 1,
     "cutting": 6,
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_glass",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You carefuly place the shards on the ground, ready to be cracked by something passing by."
+    },
     "flags": [ "HURT_WHEN_WIELDED", "HURT_WHEN_PULLED", "TRADER_AVOID" ],
     "to_hit": -1
   },
@@ -1676,7 +1683,14 @@
     "weight": 24176,
     "volume": 50,
     "bashing": 4,
-    "to_hit": -5
+    "to_hit": -5,
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_glass",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You break the pane and place the shards on the ground, ready to be cracked by something passing by."
+    }
   },
   {
     "type": "GENERIC",
