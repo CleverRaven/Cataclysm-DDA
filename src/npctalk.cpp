@@ -414,7 +414,7 @@ void game::chat()
             }
             if( npcselect == guard_count ) {
                 for( npc *them : guards ) {
-                    talk_function::assign_guard( *them );
+                    talk_function::stop_guard( *them );
                 }
                 yell_msg =  _( "Everyone follow me!" );
             } else {
