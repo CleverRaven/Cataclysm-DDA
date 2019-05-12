@@ -1125,32 +1125,8 @@ void iexamine::gunsafe_ml( player &p, const tripoint &examp )
  */
 void iexamine::gunsafe_el( player &p, const tripoint &examp )
 {
-    switch( hack_attempt( p ) ) {
-        case HACK_FAIL:
-            p.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
-                                pgettext( "memorial_female", "Set off an alarm." ) );
-            sounds::sound( p.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
-                           "alarm" );
-            if( examp.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
-                g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
-            }
-            break;
-        case HACK_NOTHING:
-            add_msg( _( "Nothing happens." ) );
-            break;
-        case HACK_SUCCESS:
-            add_msg( _( "You successfully hack the gun safe." ) );
-            g->m.furn_set( examp, furn_str_id( "f_safe_o" ) );
-            break;
-        case HACK_UNABLE:
-            add_msg(
-                m_info,
-                p.get_skill_level( skill_computer ) > 0 ?
-                _( "You can't hack this gun safe without a hacking tool." ) :
-                _( "This electronic safe looks too complicated to open." )
-            );
-            break;
-    }
+    p.assign_activity( activity_id( "ACT_HACK_SAFE" ), to_moves<int>( 5_minutes ) );
+    p.activity.placement = examp;
 }
 
 /**

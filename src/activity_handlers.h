@@ -151,6 +151,7 @@ void haircut_finish( player_activity *act, player *p );
 void unload_mag_finish( player_activity *act, player *p );
 void robot_control_finish( player_activity *act, player *p );
 void hack_door_finish( player_activity *act, player *p );
+void hack_safe_finish( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >
