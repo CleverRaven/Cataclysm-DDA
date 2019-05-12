@@ -2227,7 +2227,6 @@ bool mattack::formblob( monster *z )
                 // Brain blobs don't get sped up, they heal at the cost of the other blob.
                 // But only if they are hurt badly.
                 if( othermon.get_hp() < othermon.get_hp_max() / 2 ) {
-                    didit = true;
                     othermon.heal( z->get_speed_base(), true );
                     z->set_hp( 0 );
                     return true;

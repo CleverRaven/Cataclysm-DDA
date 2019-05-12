@@ -1383,10 +1383,13 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 mvwprintw( w_target, line_number++, 1, _( "%s Delay: %i" ), aim_mode->name, predicted_delay );
             }
         } else if( mode == TARGET_MODE_TURRET ) {
+            // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             line_number = draw_turret_aim( pc, w_target, line_number, dst );
         } else if( mode == TARGET_MODE_THROW ) {
+            // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             line_number = draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, false );
         } else if( mode == TARGET_MODE_THROW_BLIND ) {
+            // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
             line_number = draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, true );
         }
 
@@ -1571,7 +1574,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             if( !confirm_non_enemy_target( dst ) || dst == src ) {
                 continue;
             }
-            target = find_target( t, dst );
             if( src == dst ) {
                 ret.clear();
             }
@@ -1585,7 +1587,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
         } else if( action == "QUIT" ) { // return empty vector (cancel)
             ret.clear();
             pc.last_target_pos = cata::nullopt;
-            target = -1;
             break;
         }
 
