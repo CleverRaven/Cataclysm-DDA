@@ -256,6 +256,7 @@
     "weight": 275,
     "volume": 1,
     "price": 100,
+    "charges": 10,
     "symbol": "~",
     "color": "white",
     "phase": "liquid",
