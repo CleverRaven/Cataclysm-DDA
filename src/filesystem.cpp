@@ -416,3 +416,21 @@ bool copy_file( const std::string &source_path, const std::string &dest_path )
 
     return dest_stream && source_stream;
 }
+
+std::string ensure_valid_file_name( const std::string &file_name )
+{
+    const char replacement_char = ' ';
+    const std::string invalid_chars = "\\/:?\"<>|";
+
+    // do any replacement in the file name, if needed.
+    std::string new_file_name = file_name;
+    std::transform( new_file_name.begin(), new_file_name.end(),
+    new_file_name.begin(), [&]( const char c ) {
+        if( invalid_chars.find( c ) != std::string::npos ) {
+            return replacement_char;
+        }
+        return c;
+    } );
+
+    return new_file_name;
+}

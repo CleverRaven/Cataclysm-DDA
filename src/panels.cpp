@@ -1084,10 +1084,10 @@ void draw_needs( const player &u, const catacurses::window &w )
 void draw_limb( player &u, const catacurses::window &w )
 {
     werase( w );
-    int ny = 0;
     int ny2 = 0;
-    int nx = 0;
     for( int i = 0; i < num_hp_parts; i++ ) {
+        int ny;
+        int nx;
         if( i < 3 ) {
             ny = i;
             nx = 8;
@@ -1106,6 +1106,8 @@ void draw_limb( player &u, const catacurses::window &w )
     };
     ny2 = 0;
     for( size_t i = 0; i < part.size(); i++ ) {
+        int ny;
+        int nx;
         if( i < 3 ) {
             ny = i;
             nx = 1;
@@ -1999,9 +2001,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
             update_offsets( width );
             int h; // to_map_font_dimension needs a second input
             to_map_font_dimension( width, h );
-            if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
-                width *= -1;
-            }
             werase( w );
             wrefresh( g->w_terrain );
             g->reinitmap = true;

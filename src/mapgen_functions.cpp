@@ -2440,10 +2440,12 @@ void mapgen_generic_house( map *m, oter_id terrain_type, mapgendata dat, const t
     int x = 0;
     int y = 0;
     lw = rng( 0, 4 ); // West external wall
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     mw = lw + rng( 7, 10 ); // Middle wall between bedroom & kitchen/bath
     rw = SEEX * 2 - rng( 1, 5 ); // East external wall
     tw = rng( 1, 6 ); // North external wall
     bw = SEEX * 2 - rng( 2, 5 ); // South external wall
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     cw = tw + rng( 4, 7 ); // Middle wall between living room & kitchen/bed
     actual_house_height = bw - rng( 4,
                                     6 ); //reserving some space for backyard. Actual south external wall.

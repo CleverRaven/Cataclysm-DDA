@@ -3076,22 +3076,26 @@ int player::get_shout_volume() const
 void player::shout( std::string msg, bool order )
 {
     int base = 10;
+    std::string shout = "";
 
     // Mutations make shouting louder, they also define the default message
     if( has_trait( trait_SHOUT3 ) ) {
         base = 20;
         if( msg.empty() ) {
             msg = is_player() ? _( "yourself let out a piercing howl!" ) : _( "a piercing howl!" );
+            shout = "howl";
         }
     } else if( has_trait( trait_SHOUT2 ) ) {
         base = 15;
         if( msg.empty() ) {
             msg = is_player() ? _( "yourself scream loudly!" ) : _( "a loud scream!" );
+            shout = "scream";
         }
     }
 
     if( msg.empty() ) {
         msg = is_player() ? _( "yourself shout loudly!" ) : _( "a loud shout!" );
+        shout = "default";
     }
     int noise = get_shout_volume();
 
@@ -3123,7 +3127,8 @@ void player::shout( std::string msg, bool order )
         add_msg_if_player( m_warning, _( "The sound of your voice is significantly muffled!" ) );
     }
 
-    sounds::sound( pos(), noise, order ? sounds::sound_t::order : sounds::sound_t::alert, msg );
+    sounds::sound( pos(), noise, order ? sounds::sound_t::order : sounds::sound_t::alert, msg, false,
+                   "shout", shout );
 }
 
 void player::set_movement_mode( const std::string &new_mode )
@@ -3845,7 +3850,8 @@ void player::apply_damage( Creature *source, body_part hurt, int dam, const bool
             remove_med -= reduce_healing_effect( effect_bandaged, remove_med, hurt );
         }
         if( remove_med > 0 && has_effect( effect_disinfected, hurt ) ) {
-            reduce_healing_effect( effect_disinfected, remove_med, hurt );
+            // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
+            remove_med -= reduce_healing_effect( effect_disinfected, remove_med, hurt );
         }
     }
 }
@@ -5018,7 +5024,7 @@ void player::cough( bool harmful, int loudness )
     if( !is_npc() ) {
         add_msg( m_bad, _( "You cough heavily." ) );
     }
-    sounds::sound( pos(), loudness, sounds::sound_t::speech, _( "a hacking cough." ) );
+    sounds::sound( pos(), loudness, sounds::sound_t::speech, _( "a hacking cough." ), "misc", "cough" );
 
     moves -= 80;
 
@@ -5477,7 +5483,7 @@ void player::suffer()
 
     if( has_active_mutation( trait_id( "WINGS_INSECT" ) ) ) {
         //~Sound of buzzing Insect Wings
-        sounds::sound( pos(), 10, sounds::sound_t::movement, _( "BZZZZZ" ) );
+        sounds::sound( pos(), 10, sounds::sound_t::movement, _( "BZZZZZ" ), false, "misc", "insect_wings" );
     }
 
     bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
@@ -5853,6 +5859,7 @@ void player::suffer()
                         add_msg( m_bad, str );
                         drop( get_item_position( &weapon ), pos() );
                     }
+                    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
                     done_effect = true;
                 }
             }
@@ -6344,7 +6351,7 @@ void player::suffer()
             add_msg( m_bad, _( "You feel your faulty bionic shuddering." ) );
             sfx::play_variant_sound( "bionics", "elec_blast_muffled", 100 );
         }
-        sounds::sound( pos(), 60, sounds::sound_t::movement, _( "Crackle!" ) );
+        sounds::sound( pos(), 60, sounds::sound_t::movement, _( "Crackle!" ) ); //sfx above
     }
     if( has_bionic( bio_power_weakness ) && max_power_level > 0 &&
         power_level >= max_power_level * .75 ) {
@@ -9394,6 +9401,12 @@ void player::use( item_location loc )
         }
         invoke_item( &used, loc.position() );
 
+    } else if( used.type->can_use( "DOGFOOD" ) ||
+               used.type->can_use( "CATFOOD" ) ||
+               used.type->can_use( "BIRDFOOD" ) ||
+               used.type->can_use( "CATTLEFODDER" ) ) {
+        invoke_item( &used, loc.position() );
+
     } else if( !used.is_craft() && ( used.is_food() ||
                                      used.is_medication() ||
                                      used.get_contained().is_food() ||
@@ -11627,6 +11640,7 @@ void player::cancel_activity()
     if( activity && activity.is_suspendable() ) {
         backlog.push_front( activity );
     }
+    sfx::end_activity_sounds(); // kill activity sounds when canceled
     activity = player_activity();
 }
 
@@ -12084,6 +12098,14 @@ bool player::has_weapon() const
 
 m_size player::get_size() const
 {
+    if( has_trait( trait_id( "SMALL2" ) ) || has_trait( trait_id( "SMALL_OK" ) ) ||
+        has_trait( trait_id( "SMALL" ) ) ) {
+        return MS_SMALL;
+    } else if( has_trait( trait_LARGE ) || has_trait( trait_LARGE_OK ) ) {
+        return MS_LARGE;
+    } else if( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) {
+        return MS_HUGE;
+    }
     return MS_MEDIUM;
 }
 
@@ -12661,7 +12683,7 @@ void player::spores()
 {
     fungal_effects fe( *g, g->m );
     //~spore-release sound
-    sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ) );
+    sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
     for( const tripoint &sporep : g->m.points_in_radius( pos(), 1 ) ) {
         if( sporep == pos() ) {
             continue;
@@ -12673,7 +12695,7 @@ void player::spores()
 void player::blossoms()
 {
     // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
-    sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ) );
+    sounds::sound( pos(), 10, sounds::sound_t::combat, _( "Pouf!" ), false, "misc", "puff" );
     for( const tripoint &tmp : g->m.points_in_radius( pos(), 2 ) ) {
         g->m.add_field( tmp, fd_fungal_haze, rng( 1, 2 ) );
     }

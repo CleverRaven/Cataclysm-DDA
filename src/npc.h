@@ -25,6 +25,7 @@
 #include "enums.h"
 #include "inventory.h"
 #include "item_location.h"
+#include "translations.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "material.h"
@@ -237,26 +238,125 @@ enum class ally_rule {
     allow_complain = 128,
     allow_pulp = 256,
     close_doors = 512,
-    avoid_combat = 1024,
+    follow_close = 1024,
     avoid_doors = 2048,
     hold_the_line = 4096,
-    ignore_noise = 8192
+    ignore_noise = 8192,
+    forbid_engage = 16384
 };
-const std::unordered_map<std::string, ally_rule> ally_rule_strs = { {
-        { "use_guns", ally_rule::use_guns },
-        { "use_grenades", ally_rule::use_grenades },
-        { "use_silent", ally_rule::use_silent },
-        { "avoid_friendly_fire", ally_rule::avoid_friendly_fire },
-        { "allow_pick_up", ally_rule::allow_pick_up },
-        { "allow_bash", ally_rule::allow_bash },
-        { "allow_sleep", ally_rule::allow_sleep },
-        { "allow_complain", ally_rule::allow_complain },
-        { "allow_pulp", ally_rule::allow_pulp },
-        { "close_doors", ally_rule::close_doors },
-        { "avoid_combat", ally_rule::avoid_combat },
-        { "avoid_doors", ally_rule::avoid_doors },
-        { "hold_the_line", ally_rule::hold_the_line },
-        { "ignore_noise", ally_rule::ignore_noise }
+
+struct ally_rule_data {
+    ally_rule rule;
+    std::string rule_true_text;
+    std::string rule_false_text;
+};
+
+const std::unordered_map<std::string, ally_rule_data> ally_rule_strs = { {
+        {
+            "use_guns", {
+                ally_rule::use_guns,
+                "<ally_rule_use_guns_true_text>",
+                "<ally_rule_use_guns_false_text>"
+            }
+        },
+        {
+            "use_grenades", {
+                ally_rule::use_grenades,
+                "<ally_rule_use_grenades_true_text>",
+                "<ally_rule_use_grenades_false_text>"
+            }
+        },
+        {
+            "use_silent", {
+                ally_rule::use_silent,
+                "<ally_rule_use_silent_true_text>",
+                "<ally_rule_use_silent_false_text>"
+            }
+        },
+        {
+            "avoid_friendly_fire", {
+                ally_rule::avoid_friendly_fire,
+                "<ally_rule_avoid_friendly_fire_true_text>",
+                "<ally_rule_avoid_friendly_fire_false_text>"
+            }
+        },
+        {
+            "allow_pick_up", {
+                ally_rule::allow_pick_up,
+                "<ally_rule_allow_pick_up_true_text>",
+                "<ally_rule_allow_pick_up_false_text>"
+            }
+        },
+        {
+            "allow_bash", {
+                ally_rule::allow_bash,
+                "<ally_rule_allow_bash_true_text>",
+                "<ally_rule_allow_bash_false_text>"
+            }
+        },
+        {
+            "allow_sleep", {
+                ally_rule::allow_sleep,
+                "<ally_rule_allow_sleep_true_text>",
+                "<ally_rule_allow_sleep_false_text>"
+            }
+        },
+        {
+            "allow_complain", {
+                ally_rule::allow_complain,
+                "<ally_rule_allow_complain_true_text>",
+                "<ally_rule_allow_complain_false_text>"
+            }
+        },
+        {
+            "allow_pulp", {
+                ally_rule::allow_pulp,
+                "<ally_rule_allow_pulp_true_text>",
+                "<ally_rule_allow_pulp_false_text>"
+            }
+        },
+        {
+            "close_doors", {
+                ally_rule::close_doors,
+                "<ally_rule_close_doors_true_text>",
+                "<ally_rule_close_doors_false_text>"
+            }
+        },
+        {
+            "follow_close", {
+                ally_rule::follow_close,
+                "<ally_rule_follow_close_true_text>",
+                "<ally_rule_follow_close_false_text>"
+            }
+        },
+        {
+            "avoid_doors", {
+                ally_rule::avoid_doors,
+                "<ally_rule_avoid_doors_true_text>",
+                "<ally_rule_avoid_doors_false_text>"
+            }
+        },
+        {
+            "hold_the_line", {
+                ally_rule::hold_the_line,
+                "<ally_rule_hold_the_line_true_text>",
+                "<ally_rule_hold_the_line_false_text>"
+            }
+        },
+        {
+            "ignore_noise", {
+                ally_rule::ignore_noise,
+                "<ally_rule_ignore_noise_true_text>",
+                "<ally_rule_ignore_noise_false_text>"
+            }
+        },
+        {
+            "forbid_engage", {
+                ally_rule::forbid_engage,
+                "<ally_rule_forbid_engage_true_text>",
+                "<ally_rule_forbid_engage_false_text>"
+            }
+        }
     }
 };
 
@@ -278,6 +378,8 @@ struct npc_follower_rules {
     void set_flag( ally_rule setit );
     void clear_flag( ally_rule clearit );
     void toggle_flag( ally_rule toggle );
+    void set_specific_override_state( ally_rule, bool state );
+    void toggle_specific_override_state( ally_rule rule, bool state );
     bool has_override_enable( ally_rule test ) const;
     void enable_override( ally_rule setit );
     void disable_override( ally_rule setit );
@@ -290,7 +392,7 @@ struct npc_follower_rules {
 };
 
 struct dangerous_sound {
-    tripoint pos;
+    tripoint abs_pos;
     int type;
     int volume;
 };
@@ -321,7 +423,9 @@ struct npc_short_term_cache {
     // map of positions / type / volume of suspicious sounds
     std::vector<dangerous_sound> sound_alerts;
     // current sound position being investigated
-    tripoint spos;
+    tripoint s_abs_pos;
+    // number of times we haven't moved when investigating a sound
+    int stuck = 0;
     // Position to return to guarding
     cata::optional<tripoint> guard_pos;
     double my_weapon_value;
@@ -614,6 +718,7 @@ class npc : public player
         std::string pick_talk_topic( const player &u );
         float character_danger( const Character &u ) const;
         float vehicle_danger( int radius ) const;
+        void pretend_fire( npc *source, int shots, item &gun ); // fake ranged attack for hallucination
         // True if our anger is at least equal to...
         bool turned_hostile() const;
         // ... this value!
@@ -645,6 +750,9 @@ class npc : public player
         // Traveling w/ player (whether as a friend or a slave)
         bool is_following() const;
         bool is_obeying( const player &p ) const;
+
+        bool is_hallucination() const override; // true if the NPC isn't actually real
+
         // Ally of or travelling with p
         bool is_friendly( const player &p ) const;
         // Leading the player
@@ -841,13 +949,15 @@ class npc : public player
         std::set<tripoint> get_path_avoid() const override;
 
         // Item discovery and fetching
+
+        // Comment on item seen
+        void see_item_say_smth( const itype_id item, const std::string smth );
         // Look around and pick an item
         void find_item();
         // Move to, or grab, our targeted item
         void pick_up_item();
         // Drop wgt and vol
         void drop_items( int weight, int volume );
-
         /** Picks up items and returns a list of them. */
         std::list<item> pick_up_item_map( const tripoint &where );
         std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
@@ -868,6 +978,7 @@ class npc : public player
         bool alt_attack();
         void heal_player( player &patient );
         void heal_self();
+        void pretend_heal( player &patient, item used ); // healing action of hallucinations
         void mug_player( player &mark );
         void look_for_player( const player &sought );
         // Do we have an idea of where u are?
@@ -1018,6 +1129,7 @@ class npc : public player
         npc_follower_rules rules;
         bool marked_for_death; // If true, we die as soon as we respawn!
         bool hit_by_player;
+        bool hallucination; // If true, NPC is an hallucination
         std::vector<npc_need> needs;
         // Dummy point that indicates that the goal is invalid.
         static constexpr tripoint no_goal_point = tripoint_min;

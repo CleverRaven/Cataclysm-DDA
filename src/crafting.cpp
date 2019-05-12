@@ -1140,7 +1140,6 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
     for( const auto &component : components ) {
         itype_id type = component.type;
         int count = ( component.count > 0 ) ? component.count * batch : abs( component.count );
-        bool found = false;
 
         if( item::count_by_charges( type ) && count > 0 ) {
             long map_charges = map_inv.charges_of( type, std::numeric_limits<long>::max(), filter );
@@ -1153,6 +1152,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             }
             if( player_inv ) {
                 long player_charges = charges_of( type, std::numeric_limits<long>::max(), filter );
+                bool found = false;
                 if( player_charges >= count ) {
                     player_has.push_back( component );
                     found = true;
@@ -1167,13 +1167,13 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             } else {
                 if( map_charges >= count ) {
                     map_has.push_back( component );
-                    found = true;
                 }
             }
         } else { // Counting by units, not charges
 
             // Can't use pseudo items as components
             if( player_inv ) {
+                bool found = false;
                 if( has_amount( type, count, false, filter ) ) {
                     player_has.push_back( component );
                     found = true;
@@ -1190,7 +1190,6 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             } else {
                 if( map_inv.has_components( type, count, filter ) ) {
                     map_has.push_back( component );
-                    found = true;
                 }
             }
         }

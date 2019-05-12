@@ -897,7 +897,8 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     if( !related_results.empty() ) {
         rel_menu.addentry( ++np_last, false, -1, _( "RESULTS" ) );
     }
-    related_menu_fill( rel_menu, related_results, available );
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
+    np_last = related_menu_fill( rel_menu, related_results, available );
 
     rel_menu.settext( _( "Related recipes:" ) );
     rel_menu.query();

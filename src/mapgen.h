@@ -281,7 +281,7 @@ struct jmapgen_objects {
 class mapgen_function_json_base
 {
     public:
-        bool check_inbounds( const jmapgen_int &x, const jmapgen_int &y ) const;
+        bool check_inbounds( const jmapgen_int &x, const jmapgen_int &y, JsonObject &jso ) const;
         size_t calc_index( size_t x, size_t y ) const;
 
     private:
