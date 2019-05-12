@@ -230,7 +230,7 @@
     "name": "set of rotors",
     "name_plural": "sets of rotors",
     "description": "A set of rotors able to lift a small drone.",
-    "weight": 100,
+    "weight": 130,
     "volume": 2,
     "price": 40000,
     "material": [ "steel", "plastic" ],
