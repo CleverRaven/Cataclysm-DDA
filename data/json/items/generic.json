@@ -152,7 +152,7 @@
     "type": "GENERIC",
     "id": "sensor_module",
     "name": "sensor array",
-    "description": "A wide range of sensors meant to give the ability to perceive the surronding world.",
+    "description": "A wide range of sensors meant to give the ability to perceive the surrounding world.",
     "copy-from": "robot_module_abstract"
   },
   {
