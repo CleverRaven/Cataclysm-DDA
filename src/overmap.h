@@ -333,9 +333,14 @@ class overmap
         // Overall terrain
         void place_river( point pa, point pb );
         void place_forests();
+        void place_rivers( const overmap *north, const overmap *east, const overmap *south,
+                           const overmap *west );
         void place_swamps();
         void place_forest_trails();
         void place_forest_trailheads();
+
+        void place_roads( const overmap *north, const overmap *east, const overmap *south,
+                          const overmap *west );
 
         // City Building
         overmap_special_id pick_random_building_to_place( int town_dist ) const;

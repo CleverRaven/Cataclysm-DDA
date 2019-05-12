@@ -1314,224 +1314,14 @@ void overmap::generate( const overmap *north, const overmap *east,
                         overmap_special_batch &enabled_specials )
 {
     dbg( D_INFO ) << "overmap::generate start...";
-    // West/North endpoints of rivers
-    std::vector<point> river_start;
-    // East/South endpoints of rivers
-    std::vector<point> river_end;
 
-    // Determine points where rivers & roads should connect w/ adjacent maps
-    // optimized comparison.
-    const oter_id river_center( "river_center" );
-
-    if( north != nullptr ) {
-        for( int i = 2; i < OMAPX - 2; i++ ) {
-            if( is_river( north->get_ter( i, OMAPY - 1, 0 ) ) ) {
-                ter( i, 0, 0 ) = river_center;
-            }
-            if( is_river( north->get_ter( i, OMAPY - 1, 0 ) ) &&
-                is_river( north->get_ter( i - 1, OMAPY - 1, 0 ) ) &&
-                is_river( north->get_ter( i + 1, OMAPY - 1, 0 ) ) ) {
-                if( river_start.empty() ||
-                    river_start[river_start.size() - 1].x < i - 6 ) {
-                    river_start.push_back( point( i, 0 ) );
-                }
-            }
-        }
-        for( auto &i : north->roads_out ) {
-            if( i.pos.y == OMAPY - 1 ) {
-                roads_out.push_back( city( i.pos.x, 0, 0 ) );
-            }
-        }
-    }
-    size_t rivers_from_north = river_start.size();
-    if( west != nullptr ) {
-        for( int i = 2; i < OMAPY - 2; i++ ) {
-            if( is_river( west->get_ter( OMAPX - 1, i, 0 ) ) ) {
-                ter( 0, i, 0 ) = river_center;
-            }
-            if( is_river( west->get_ter( OMAPX - 1, i, 0 ) ) &&
-                is_river( west->get_ter( OMAPX - 1, i - 1, 0 ) ) &&
-                is_river( west->get_ter( OMAPX - 1, i + 1, 0 ) ) ) {
-                if( river_start.size() == rivers_from_north ||
-                    river_start[river_start.size() - 1].y < i - 6 ) {
-                    river_start.push_back( point( 0, i ) );
-                }
-            }
-        }
-        for( auto &i : west->roads_out ) {
-            if( i.pos.x == OMAPX - 1 ) {
-                roads_out.push_back( city( 0, i.pos.y, 0 ) );
-            }
-        }
-    }
-    if( south != nullptr ) {
-        for( int i = 2; i < OMAPX - 2; i++ ) {
-            if( is_river( south->get_ter( i, 0, 0 ) ) ) {
-                ter( i, OMAPY - 1, 0 ) = river_center;
-            }
-            if( is_river( south->get_ter( i,     0, 0 ) ) &&
-                is_river( south->get_ter( i - 1, 0, 0 ) ) &&
-                is_river( south->get_ter( i + 1, 0, 0 ) ) ) {
-                if( river_end.empty() ||
-                    river_end[river_end.size() - 1].x < i - 6 ) {
-                    river_end.push_back( point( i, OMAPY - 1 ) );
-                }
-            }
-        }
-        for( auto &i : south->roads_out ) {
-            if( i.pos.y == 0 ) {
-                roads_out.push_back( city( i.pos.x, OMAPY - 1, 0 ) );
-            }
-        }
-    }
-    size_t rivers_to_south = river_end.size();
-    if( east != nullptr ) {
-        for( int i = 2; i < OMAPY - 2; i++ ) {
-            if( is_river( east->get_ter( 0, i, 0 ) ) ) {
-                ter( OMAPX - 1, i, 0 ) = river_center;
-            }
-            if( is_river( east->get_ter( 0, i, 0 ) ) &&
-                is_river( east->get_ter( 0, i - 1, 0 ) ) &&
-                is_river( east->get_ter( 0, i + 1, 0 ) ) ) {
-                if( river_end.size() == rivers_to_south ||
-                    river_end[river_end.size() - 1].y < i - 6 ) {
-                    river_end.push_back( point( OMAPX - 1, i ) );
-                }
-            }
-        }
-        for( auto &i : east->roads_out ) {
-            if( i.pos.x == 0 ) {
-                roads_out.push_back( city( OMAPX - 1, i.pos.y, 0 ) );
-            }
-        }
-    }
-
-    // Even up the start and end points of rivers. (difference of 1 is acceptable)
-    // Also ensure there's at least one of each.
-    std::vector<point> new_rivers;
-    if( north == nullptr || west == nullptr ) {
-        while( river_start.empty() || river_start.size() + 1 < river_end.size() ) {
-            new_rivers.clear();
-            if( north == nullptr ) {
-                new_rivers.push_back( point( rng( 10, OMAPX - 11 ), 0 ) );
-            }
-            if( west == nullptr ) {
-                new_rivers.push_back( point( 0, rng( 10, OMAPY - 11 ) ) );
-            }
-            river_start.push_back( random_entry( new_rivers ) );
-        }
-    }
-    if( south == nullptr || east == nullptr ) {
-        while( river_end.empty() || river_end.size() + 1 < river_start.size() ) {
-            new_rivers.clear();
-            if( south == nullptr ) {
-                new_rivers.push_back( point( rng( 10, OMAPX - 11 ), OMAPY - 1 ) );
-            }
-            if( east == nullptr ) {
-                new_rivers.push_back( point( OMAPX - 1, rng( 10, OMAPY - 11 ) ) );
-            }
-            river_end.push_back( random_entry( new_rivers ) );
-        }
-    }
-
-    // Now actually place those rivers.
-    if( river_start.size() > river_end.size() && !river_end.empty() ) {
-        std::vector<point> river_end_copy = river_end;
-        while( !river_start.empty() ) {
-            const point start = random_entry_removed( river_start );
-            if( !river_end.empty() ) {
-                place_river( start, river_end[0] );
-                river_end.erase( river_end.begin() );
-            } else {
-                place_river( start, random_entry( river_end_copy ) );
-            }
-        }
-    } else if( river_end.size() > river_start.size() && !river_start.empty() ) {
-        std::vector<point> river_start_copy = river_start;
-        while( !river_end.empty() ) {
-            const point end = random_entry_removed( river_end );
-            if( !river_start.empty() ) {
-                place_river( river_start[0], end );
-                river_start.erase( river_start.begin() );
-            } else {
-                place_river( random_entry( river_start_copy ), end );
-            }
-        }
-    } else if( !river_end.empty() ) {
-        if( river_start.size() != river_end.size() ) {
-            river_start.push_back( point( rng( OMAPX / 4, ( OMAPX * 3 ) / 4 ),
-                                          rng( OMAPY / 4, ( OMAPY * 3 ) / 4 ) ) );
-        }
-        for( size_t i = 0; i < river_start.size(); i++ ) {
-            place_river( river_start[i], river_end[i] );
-        }
-    }
-
+    place_rivers( north, east, south, west );
     place_forests();
     place_swamps();
-
     place_cities();
-
     place_forest_trails();
-
-    // Ideally we should have at least two exit points for roads, on different sides
-    if( roads_out.size() < 2 ) {
-        std::vector<city> viable_roads;
-        int tmp;
-        // Populate viable_roads with one point for each neighborless side.
-        // Make sure these points don't conflict with rivers.
-        // TODO: In theory this is a potential infinite loop...
-        if( north == nullptr ) {
-            do {
-                tmp = rng( 10, OMAPX - 11 );
-            } while( is_river( ter( tmp, 0, 0 ) ) || is_river( ter( tmp - 1, 0, 0 ) ) ||
-                     is_river( ter( tmp + 1, 0, 0 ) ) );
-            viable_roads.push_back( city( tmp, 0, 0 ) );
-        }
-        if( east == nullptr ) {
-            do {
-                tmp = rng( 10, OMAPY - 11 );
-            } while( is_river( ter( OMAPX - 1, tmp, 0 ) ) || is_river( ter( OMAPX - 1, tmp - 1, 0 ) ) ||
-                     is_river( ter( OMAPX - 1, tmp + 1, 0 ) ) );
-            viable_roads.push_back( city( OMAPX - 1, tmp, 0 ) );
-        }
-        if( south == nullptr ) {
-            do {
-                tmp = rng( 10, OMAPX - 11 );
-            } while( is_river( ter( tmp, OMAPY - 1, 0 ) ) || is_river( ter( tmp - 1, OMAPY - 1, 0 ) ) ||
-                     is_river( ter( tmp + 1, OMAPY - 1, 0 ) ) );
-            viable_roads.push_back( city( tmp, OMAPY - 1, 0 ) );
-        }
-        if( west == nullptr ) {
-            do {
-                tmp = rng( 10, OMAPY - 11 );
-            } while( is_river( ter( 0, tmp, 0 ) ) || is_river( ter( 0, tmp - 1, 0 ) ) ||
-                     is_river( ter( 0, tmp + 1, 0 ) ) );
-            viable_roads.push_back( city( 0, tmp, 0 ) );
-        }
-        while( roads_out.size() < 2 && !viable_roads.empty() ) {
-            roads_out.push_back( random_entry_removed( viable_roads ) );
-        }
-    }
-
-    std::vector<point> road_points; // cities and roads_out together
-    // Compile our master list of roads; it's less messy if roads_out is first
-    road_points.reserve( roads_out.size() + cities.size() );
-    for( const auto &elem : roads_out ) {
-        road_points.emplace_back( elem.pos );
-    }
-    for( const auto &elem : cities ) {
-        road_points.emplace_back( elem.pos.x, elem.pos.y );
-    }
-
-    // And finally connect them via roads.
-    const string_id<overmap_connection> local_road( "local_road" );
-    connect_closest_points( road_points, 0, *local_road );
-
+    place_roads( north, east, south, west );
     place_specials( enabled_specials );
-
-    // After we've placed all the specials and connected everything else via roads,
-    // try and place some trailheads.
     place_forest_trailheads();
 
     polish_river();
@@ -2308,6 +2098,143 @@ void overmap::place_forests()
             } else if( n > settings.overmap_forest.noise_threshold_forest ) {
                 oter = forest;
             }
+        }
+    }
+}
+
+void overmap::place_rivers( const overmap *north, const overmap *east, const overmap *south,
+                            const overmap *west )
+{
+    // West/North endpoints of rivers
+    std::vector<point> river_start;
+    // East/South endpoints of rivers
+    std::vector<point> river_end;
+
+    // Determine points where rivers & roads should connect w/ adjacent maps
+    // optimized comparison.
+    const oter_id river_center( "river_center" );
+
+    if( north != nullptr ) {
+        for( int i = 2; i < OMAPX - 2; i++ ) {
+            if( is_river( north->get_ter( i, OMAPY - 1, 0 ) ) ) {
+                ter( i, 0, 0 ) = river_center;
+            }
+            if( is_river( north->get_ter( i, OMAPY - 1, 0 ) ) &&
+                is_river( north->get_ter( i - 1, OMAPY - 1, 0 ) ) &&
+                is_river( north->get_ter( i + 1, OMAPY - 1, 0 ) ) ) {
+                if( river_start.empty() ||
+                    river_start[river_start.size() - 1].x < i - 6 ) {
+                    river_start.push_back( point( i, 0 ) );
+                }
+            }
+        }
+    }
+    size_t rivers_from_north = river_start.size();
+    if( west != nullptr ) {
+        for( int i = 2; i < OMAPY - 2; i++ ) {
+            if( is_river( west->get_ter( OMAPX - 1, i, 0 ) ) ) {
+                ter( 0, i, 0 ) = river_center;
+            }
+            if( is_river( west->get_ter( OMAPX - 1, i, 0 ) ) &&
+                is_river( west->get_ter( OMAPX - 1, i - 1, 0 ) ) &&
+                is_river( west->get_ter( OMAPX - 1, i + 1, 0 ) ) ) {
+                if( river_start.size() == rivers_from_north ||
+                    river_start[river_start.size() - 1].y < i - 6 ) {
+                    river_start.push_back( point( 0, i ) );
+                }
+            }
+        }
+    }
+    if( south != nullptr ) {
+        for( int i = 2; i < OMAPX - 2; i++ ) {
+            if( is_river( south->get_ter( i, 0, 0 ) ) ) {
+                ter( i, OMAPY - 1, 0 ) = river_center;
+            }
+            if( is_river( south->get_ter( i, 0, 0 ) ) &&
+                is_river( south->get_ter( i - 1, 0, 0 ) ) &&
+                is_river( south->get_ter( i + 1, 0, 0 ) ) ) {
+                if( river_end.empty() ||
+                    river_end[river_end.size() - 1].x < i - 6 ) {
+                    river_end.push_back( point( i, OMAPY - 1 ) );
+                }
+            }
+        }
+    }
+    size_t rivers_to_south = river_end.size();
+    if( east != nullptr ) {
+        for( int i = 2; i < OMAPY - 2; i++ ) {
+            if( is_river( east->get_ter( 0, i, 0 ) ) ) {
+                ter( OMAPX - 1, i, 0 ) = river_center;
+            }
+            if( is_river( east->get_ter( 0, i, 0 ) ) &&
+                is_river( east->get_ter( 0, i - 1, 0 ) ) &&
+                is_river( east->get_ter( 0, i + 1, 0 ) ) ) {
+                if( river_end.size() == rivers_to_south ||
+                    river_end[river_end.size() - 1].y < i - 6 ) {
+                    river_end.push_back( point( OMAPX - 1, i ) );
+                }
+            }
+        }
+    }
+
+    // Even up the start and end points of rivers. (difference of 1 is acceptable)
+    // Also ensure there's at least one of each.
+    std::vector<point> new_rivers;
+    if( north == nullptr || west == nullptr ) {
+        while( river_start.empty() || river_start.size() + 1 < river_end.size() ) {
+            new_rivers.clear();
+            if( north == nullptr ) {
+                new_rivers.push_back( point( rng( 10, OMAPX - 11 ), 0 ) );
+            }
+            if( west == nullptr ) {
+                new_rivers.push_back( point( 0, rng( 10, OMAPY - 11 ) ) );
+            }
+            river_start.push_back( random_entry( new_rivers ) );
+        }
+    }
+    if( south == nullptr || east == nullptr ) {
+        while( river_end.empty() || river_end.size() + 1 < river_start.size() ) {
+            new_rivers.clear();
+            if( south == nullptr ) {
+                new_rivers.push_back( point( rng( 10, OMAPX - 11 ), OMAPY - 1 ) );
+            }
+            if( east == nullptr ) {
+                new_rivers.push_back( point( OMAPX - 1, rng( 10, OMAPY - 11 ) ) );
+            }
+            river_end.push_back( random_entry( new_rivers ) );
+        }
+    }
+
+    // Now actually place those rivers.
+    if( river_start.size() > river_end.size() && !river_end.empty() ) {
+        std::vector<point> river_end_copy = river_end;
+        while( !river_start.empty() ) {
+            const point start = random_entry_removed( river_start );
+            if( !river_end.empty() ) {
+                place_river( start, river_end[0] );
+                river_end.erase( river_end.begin() );
+            } else {
+                place_river( start, random_entry( river_end_copy ) );
+            }
+        }
+    } else if( river_end.size() > river_start.size() && !river_start.empty() ) {
+        std::vector<point> river_start_copy = river_start;
+        while( !river_end.empty() ) {
+            const point end = random_entry_removed( river_end );
+            if( !river_start.empty() ) {
+                place_river( river_start[0], end );
+                river_start.erase( river_start.begin() );
+            } else {
+                place_river( random_entry( river_start_copy ), end );
+            }
+        }
+    } else if( !river_end.empty() ) {
+        if( river_start.size() != river_end.size() ) {
+            river_start.push_back( point( rng( OMAPX / 4, ( OMAPX * 3 ) / 4 ),
+                                          rng( OMAPY / 4, ( OMAPY * 3 ) / 4 ) ) );
+        }
+        for( size_t i = 0; i < river_start.size(); i++ ) {
+            place_river( river_start[i], river_end[i] );
         }
     }
 }
