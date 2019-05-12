@@ -441,7 +441,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         comestible_inventory_preset( const player &p ) : inventory_selector_preset(), p( p ) {
 
             append_cell( [ &p, this ]( const item_location & loc ) {
-                return good_bad_none( p.kcal_for( get_comestible_item( loc ) ) );
+                return good_bad_none( p.kcal_for( get_consumable_item( loc ) ) );
             }, _( "CALORIES" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
@@ -449,11 +449,11 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "QUENCH" ) );
 
             append_cell( [ &p, this ]( const item_location & loc ) {
-                const item &it = get_comestible_item( loc );
+                const item &it = get_consumable_item( loc );
                 if( it.has_flag( "MUSHY" ) ) {
-                    return highlight_good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
+                    return highlight_good_bad_none( p.fun_for( get_consumable_item( loc ) ).first );
                 } else {
-                    return good_bad_none( p.fun_for( get_comestible_item( loc ) ).first );
+                    return good_bad_none( p.fun_for( get_consumable_item( loc ) ).first );
                 }
             }, _( "JOY" ) );
 
@@ -481,7 +481,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 if( g->u.can_estimate_rot() ) {
                     const islot_comestible item = get_edible_comestible( loc );
                     if( item.spoils > 0_turns ) {
-                        if( !get_comestible_item( loc ).rotten() ) {
+                        if( !get_consumable_item( loc ).rotten() ) {
                             return get_time_left_rounded( loc );
                         }
                     }
@@ -493,7 +493,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             append_cell( [ this, &p ]( const item_location & loc ) {
                 std::string cbm_name;
 
-                switch( p.get_cbm_rechargeable_with( get_comestible_item( loc ) ) ) {
+                switch( p.get_cbm_rechargeable_with( get_consumable_item( loc ) ) ) {
                     case rechargeable_cbm::none:
                         break;
                     case rechargeable_cbm::battery:
@@ -515,7 +515,7 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "CBM" ) );
 
             append_cell( [ this, &p ]( const item_location & loc ) {
-                return good_bad_none( p.get_acquirable_energy( get_comestible_item( loc ) ) );
+                return good_bad_none( p.get_acquirable_energy( get_consumable_item( loc ) ) );
             }, _( "ENERGY" ) );
         }
 
@@ -528,7 +528,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return _( "Can't drink spilt liquids" );
             }
 
-            const auto &it = get_comestible_item( loc );
+            const auto &it = get_consumable_item( loc );
             const auto res = p.can_eat( it );
             const auto cbm = p.get_cbm_rechargeable_with( it );
 
@@ -542,8 +542,8 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         bool sort_compare( const inventory_entry &lhs, const inventory_entry &rhs ) const override {
-            const auto &a = get_comestible_item( lhs.location );
-            const auto &b = get_comestible_item( rhs.location );
+            const auto &a = get_consumable_item( lhs.location );
+            const auto &b = get_consumable_item( rhs.location );
 
             const int freshness = rate_freshness( a, *lhs.location ) - rate_freshness( b, *rhs.location );
             if( freshness != 0 ) {
@@ -570,12 +570,14 @@ class comestible_inventory_preset : public inventory_selector_preset
             return 0;
         }
 
-        const item &get_comestible_item( const item_location &loc ) const {
-            return p.get_comestible_from( const_cast<item &>( *loc ) );
+        // WARNING: this can return consumables which are not necessarily possessing
+        // the comestible type. please dereference responsibly.
+        const item &get_consumable_item( const item_location &loc ) const {
+            return p.get_consumable_from( const_cast<item &>( *loc ) );
         }
 
         const islot_comestible &get_edible_comestible( const item_location &loc ) const {
-            return get_edible_comestible( get_comestible_item( loc ) );
+            return get_edible_comestible( get_consumable_item( loc ) );
         }
 
         const islot_comestible &get_edible_comestible( const item &it ) const {
@@ -588,7 +590,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_time_left_rounded( const item_location &loc ) {
-            const item &it = get_comestible_item( loc );
+            const item &it = get_consumable_item( loc );
             const double relative_rot = it.get_relative_rot();
             const time_duration shelf_life = get_edible_comestible( loc ).spoils;
             time_duration time_left = shelf_life - shelf_life * relative_rot;
@@ -607,7 +609,7 @@ class comestible_inventory_preset : public inventory_selector_preset
         }
 
         std::string get_freshness( const item_location &loc ) {
-            const item &it = get_comestible_item( loc );
+            const item &it = get_consumable_item( loc );
             const double rot_progress = it.get_relative_rot();
             if( it.is_fresh() ) {
                 return _( "fresh" );
@@ -649,7 +651,7 @@ class comestible_filtered_inventory_preset : public comestible_inventory_preset
 
         bool is_shown( const item_location &loc ) const override {
             return comestible_inventory_preset::is_shown( loc ) &&
-                   predicate( get_comestible_item( loc ) );
+                   predicate( get_consumable_item( loc ) );
         }
 
     private:
@@ -663,7 +665,8 @@ item_location game_menus::inv::consume_food( player &p )
     }
 
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
-        return it.get_comestible()->comesttype == "FOOD" || it.has_flag( "USE_EAT_VERB" );
+        return ( it.is_comestible() && it.get_comestible()->comesttype == "FOOD" ) ||
+               it.has_flag( "USE_EAT_VERB" );
     } ),
     _( "Consume food" ), 1,
     _( "You have no food to consume." ) );
@@ -676,7 +679,8 @@ item_location game_menus::inv::consume_drink( player &p )
     }
 
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
-        return it.get_comestible()->comesttype == "DRINK" && !it.has_flag( "USE_EAT_VERB" );
+        return it.is_comestible() && it.get_comestible()->comesttype == "DRINK" &&
+               !it.has_flag( "USE_EAT_VERB" );
     } ),
     _( "Consume drink" ), 1,
     _( "You have no drink to consume." ) );
@@ -689,7 +693,7 @@ item_location game_menus::inv::consume_meds( player &p )
     }
 
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
-        return it.get_comestible()->comesttype == "MED";
+        return it.is_medication();
     } ),
     _( "Consume medication" ), 1,
     _( "You have no medication to consume." ) );

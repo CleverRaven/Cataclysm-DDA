@@ -7627,7 +7627,7 @@ bool player::consume_item( item &target )
         return false;
     }
 
-    item &comest = get_comestible_from( target );
+    item &comest = get_consumable_from( target );
 
     if( comest.is_null() || target.is_craft() ) {
         add_msg_if_player( m_info, _( "You can't eat your %s." ), target.tname() );
