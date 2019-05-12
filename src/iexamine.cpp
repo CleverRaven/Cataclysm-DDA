@@ -5255,10 +5255,10 @@ hack_result iexamine::hack_attempt( player &p )
     if( p.has_trait( trait_ILLITERATE ) ) {
         return HACK_UNABLE;
     }
-    bool using_electrohack = ( p.has_charges( "electrohack", 25 ) &&
-                               query_yn( _( "Use electrohack?" ) ) );
-    bool using_fingerhack = ( !using_electrohack && p.has_bionic( bionic_id( "bio_fingerhack" ) ) &&
-                              p.power_level  > 24  && query_yn( _( "Use fingerhack?" ) ) );
+    bool using_electrohack = p.has_charges( "electrohack", 25 ) &&
+                             query_yn( _( "Use electrohack?" ) );
+    bool using_fingerhack = !using_electrohack && p.has_bionic( bionic_id( "bio_fingerhack" ) ) &&
+                            p.power_level  > 24  && query_yn( _( "Use fingerhack?" ) );
 
     if( !( using_electrohack || using_fingerhack ) ) {
         return HACK_UNABLE;

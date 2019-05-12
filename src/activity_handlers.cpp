@@ -3560,10 +3560,10 @@ void activity_handlers::hack_door_finish( player_activity *act, player *p )
         act->set_to_null();
         return;
     }
-    bool using_electrohack = ( p->has_charges( "electrohack", 25 ) &&
-                               query_yn( _( "Use electrohack?" ) ) );
-    bool using_fingerhack = ( !using_electrohack && p->has_bionic( bionic_id( "bio_fingerhack" ) ) &&
-                              p->power_level  > 24  && query_yn( _( "Use fingerhack?" ) ) );
+    bool using_electrohack = p->has_charges( "electrohack", 25 ) &&
+                             query_yn( _( "Use electrohack?" ) );
+    bool using_fingerhack = !using_electrohack && p->has_bionic( bionic_id( "bio_fingerhack" ) ) &&
+                            p->power_level  > 24  && query_yn( _( "Use fingerhack?" ) );
 
     if( !( using_electrohack || using_fingerhack ) ) {
         add_msg( _( "You need a hacking tool for that." ) );
@@ -3626,10 +3626,10 @@ void activity_handlers::hack_safe_finish( player_activity *act, player *p )
         act->set_to_null();
         return;
     }
-    bool using_electrohack = ( p->has_charges( "electrohack", 25 ) &&
-                               query_yn( _( "Use electrohack?" ) ) );
-    bool using_fingerhack = ( !using_electrohack && p->has_bionic( bionic_id( "bio_fingerhack" ) ) &&
-                              p->power_level  > 24  && query_yn( _( "Use fingerhack?" ) ) );
+    bool using_electrohack = p->has_charges( "electrohack", 25 ) &&
+                             query_yn( _( "Use electrohack?" ) );
+    bool using_fingerhack = !using_electrohack && p->has_bionic( bionic_id( "bio_fingerhack" ) ) &&
+                            p->power_level  > 24  && query_yn( _( "Use fingerhack?" ) );
 
     if( !( using_electrohack || using_fingerhack ) ) {
         add_msg( _( "You need a hacking tool for that." ) );
