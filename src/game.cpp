@@ -6462,7 +6462,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     wrefresh( w_terrain );
     draw_panels();
 
-    int soffset = get_option<int>( "MOVE_VIEW_OFFSET" );
+    int soffset = get_option<int>( "FAST_SCROLL_OFFSET" );
     bool fast_scroll = false;
 
     bool bNewWindow = false;
