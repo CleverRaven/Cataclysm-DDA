@@ -3921,8 +3921,7 @@ void item::calc_rot( time_point time, int temp )
     }
 
     time_duration time_delta = time - since;
-    rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( kelvin_to_fahrenheit(
-                0.00001 * temp ) ) * 1_turns;
+    rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temp ) * 1_turns;
     last_rot_check = time;
 }
 
@@ -7128,8 +7127,7 @@ void item::process_temperature_rot( float insulation, const tripoint pos,
 
         int enviroment_mod;
         // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
-        // So lets not take them into account for items that were created before calendar::start
-        if( to_turn<int>( last_temp_check ) > to_turn<int>( calendar::start ) ) {
+        if( !g->new_game ) {
             enviroment_mod = get_heat_radiation( pos, false );
             enviroment_mod += get_convection_temperature( pos );
         } else {
