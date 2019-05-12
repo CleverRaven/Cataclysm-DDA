@@ -531,16 +531,30 @@ size_t mapgen_function_json_base::calc_index( const size_t x, const size_t y ) c
     return y * mapgensize_y + x;
 }
 
-bool mapgen_function_json_base::check_inbounds( const jmapgen_int &x, const jmapgen_int &y ) const
+bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y, const int mapgensize_x,
+                          const int mapgensize_y, JsonObject &jso )
 {
-    const int min = 0;
-    const int max_x = mapgensize_x - 1;
-    const int max_y = mapgensize_y - 1;
-    if( x.val < min || x.val > max_x || x.valmax < min || x.valmax > max_x ||
-        y.val < min || y.val > max_y || y.valmax < min || y.valmax > max_y ) {
+    if( x.val < 0 || x.val > mapgensize_x - 1 || y.val < 0 || y.val > mapgensize_y - 1 ) {
         return false;
     }
+
+    if( x.valmax > mapgensize_x - 1 ) {
+        jso.throw_error( "coordinate range cannot cross grid boundaries", "x" );
+        return false;
+    }
+
+    if( y.valmax > mapgensize_y - 1 ) {
+        jso.throw_error( "coordinate range cannot cross grid boundaries", "y" );
+        return false;
+    }
+
     return true;
+}
+
+bool mapgen_function_json_base::check_inbounds( const jmapgen_int &x, const jmapgen_int &y,
+        JsonObject &jso ) const
+{
+    return common_check_bounds( x, y, mapgensize_x, mapgensize_y, jso );
 }
 
 mapgen_function_json_base::mapgen_function_json_base( const std::string &s )
@@ -636,13 +650,6 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
     jmapgen_setmap_op tmpop;
     int setmap_optype = 0;
 
-    const auto inboundchk = [this]( const jmapgen_int & x, const jmapgen_int & y, JsonObject & jo ) {
-        if( !check_inbounds( x, y ) ) {
-            jo.throw_error( string_format( "Point must be between [0,0] and [%d,%d]", mapgensize_x,
-                                           mapgensize_y ) );
-        }
-    };
-
     while( parray.has_more() ) {
         JsonObject pjo = parray.next_object();
         if( pjo.read( "point", tmpval ) ) {
@@ -674,11 +681,15 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
 
         const jmapgen_int tmp_x( pjo, "x" );
         const jmapgen_int tmp_y( pjo, "y" );
-        inboundchk( tmp_x, tmp_y, pjo );
+        if( !check_inbounds( tmp_x, tmp_y, pjo ) ) {
+            continue;
+        }
         if( setmap_optype != JMAPGEN_SETMAP_OPTYPE_POINT ) {
             tmp_x2 = jmapgen_int( pjo, "x2" );
             tmp_y2 = jmapgen_int( pjo, "y2" );
-            inboundchk( tmp_x2, tmp_y2, pjo );
+            if( !check_inbounds( tmp_x2, tmp_y2, pjo ) ) {
+                continue;
+            }
         }
         if( tmpop == JMAPGEN_SETMAP_RADIATION ) {
             tmp_i = jmapgen_int( pjo, "amount" );
@@ -1762,22 +1773,7 @@ jmapgen_objects::jmapgen_objects( int offset_x, int offset_y, size_t mapsize_x, 
 
 bool jmapgen_objects::check_bounds( const jmapgen_place place, JsonObject &jso )
 {
-    if( place.x.val < 0 || place.x.val > static_cast<int>( mapgensize_x ) - 1 ||
-        place.y.val < 0 || place.y.val > static_cast<int>( mapgensize_y ) - 1 ) {
-        return false;
-    }
-
-    if( static_cast<size_t>( place.x.valmax ) > mapgensize_x - 1 ) {
-        jso.throw_error( "coordinate range cannot cross grid boundaries", "x" );
-        return false;
-    }
-
-    if( static_cast<size_t>( place.y.valmax ) > mapgensize_y - 1 ) {
-        jso.throw_error( "coordinate range cannot cross grid boundaries", "y" );
-        return false;
-    }
-
-    return true;
+    return common_check_bounds( place.x, place.y, mapgensize_x, mapgensize_y, jso );
 }
 
 void jmapgen_objects::add( const jmapgen_place &place, std::shared_ptr<const jmapgen_piece> piece )
