@@ -4916,7 +4916,8 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
 }
 
 std::list<item> map::use_charges( const tripoint &origin, const int range,
-                                  const itype_id type, long &quantity, const std::function<bool( const item & )> &filter )
+                                  const itype_id type, long &quantity,
+                                  const std::function<bool( const item & )> &filter, basecamp *bcp )
 {
     std::list<item> ret;
 
@@ -4934,6 +4935,13 @@ std::list<item> map::use_charges( const tripoint &origin, const int range,
             water.charges = quantity;
             ret.push_back( water );
             quantity = 0;
+            return ret;
+        }
+    }
+
+    if( bcp ) {
+        ret = bcp->use_charges( type, quantity );
+        if( quantity <= 0 ) {
             return ret;
         }
     }

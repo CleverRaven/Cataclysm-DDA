@@ -5,6 +5,7 @@
 #include <cstddef>
 #include <memory>
 #include <vector>
+#include <list>
 #include <map>
 #include <string>
 
@@ -30,11 +31,25 @@ struct expansion_data {
 using npc_ptr = std::shared_ptr<npc>;
 using comp_list = std::vector<npc_ptr>;
 using Group_tag = std::string;
+using itype_id = std::string;
 
 namespace catacurses
 {
 class window;
 }
+
+// camp resource structures
+struct basecamp_resource {
+    itype_id fake_id;
+    itype_id ammo_id;
+    long available = 0;
+    long consumed = 0;
+};
+
+struct basecamp_fuel {
+    itype_id ammo_id;
+    long available = 0;
+};
 
 class basecamp
 {
@@ -104,6 +119,7 @@ class basecamp
         std::map<std::string, std::string> recipe_deck( const std::string &dir ) const;
         int recipe_batch_max( const recipe &making, const inventory &total_inv ) const;
         inventory crafting_inventory( bool by_radio = false );
+        std::list<item> use_charges( const itype_id fake_id, long &quantity );
         void consume_components( inventory &cmp_inv, const recipe &making, int batch_size,
                                  bool by_radio = false );
         const std::string get_gatherlist() const;
@@ -236,6 +252,8 @@ class basecamp
         std::map<std::string, expansion_data> expansions;
         comp_list camp_workers;
         tripoint dumping_spot;
+        std::vector<basecamp_fuel> fuels;
+        std::vector<basecamp_resource> resources;
 };
 
 #endif
