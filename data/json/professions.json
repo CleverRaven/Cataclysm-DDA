@@ -2620,7 +2620,10 @@
     "points": 3,
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "firstaid" } ],
     "items": {
-      "both": [ "shorts", "tshirt", "socks", "lowtops", "gobag", "cell_phone", "wristwatch" ],
+      "both": {
+        "items": [ "shorts", "tshirt", "socks", "lowtops", "cell_phone", "wristwatch" ],
+        "entries": [ { "item": "gobag", "custom-flags": [ "FIT" ] } ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
