@@ -347,39 +347,5 @@
     "description": "When this bionic is active, you can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others.",
     "price": 450000,
     "difficulty": 4
-  },
-  {
-    "id": "hk_ucp",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "name": "H&K UCP",
-    "description": "Designed to work with H&K's proprietary 4.6x30mm round, the UCP is a small pistol with a very high capacity, best used against armored opponents.",
-    "weight": 730,
-    "volume": 2,
-    "price": 125000,
-    "to_hit": -2,
-    "bashing": 6,
-    "material": [ "steel", "plastic" ],
-    "symbol": "(",
-    "color": "light_gray",
-    "ammo": "46",
-    "skill": "pistol",
-    "ranged_damage": -1,
-    "dispersion": 440,
-    "durability": 8,
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "magazine_well": 1,
-    "magazines": [ [ "46", [ "hk46mag", "hk46bigmag" ] ], [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ] ]
   }
 ]
