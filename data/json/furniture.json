@@ -1510,7 +1510,7 @@
       "MOUNTABLE",
       "SHORT"
     ],
-    "examine_action": "crate",
+    "examine_action": "locked_object",
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
     "max_volume": 4000,
     "bash": {
@@ -3205,6 +3205,50 @@
       "sound": "crunch!",
       "sound_fail": "whump!",
       "items": [ { "item": "rock", "count": 8 }, { "item": "stick", "count": [ 8, 12 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_metal_smoking_rack",
+    "name": "metal smoking rack",
+    "description": "A special rack designed to smoke food for better preservation and taste.",
+    "symbol": "=",
+    "bgcolor": "light_gray",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "deployed_item": "metal_smoking_rack",
+    "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "crafting_pseudo_item": "char_smoker",
+    "examine_action": "smoker_options",
+    "deconstruct": { "items": [ { "item": "metal_smoking_rack", "count": 1 } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": 4 }, { "item": "pipe", "count": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_metal_smoking_rack_active",
+    "name": "active metal smoking rack",
+    "description": "A special rack designed to smoke food for better preservation and taste.",
+    "symbol": "=",
+    "bgcolor": "light_gray",
+    "move_cost_mod": 2,
+    "required_str": -1,
+    "deployed_item": "metal_smoking_rack",
+    "flags": [ "TRANSPARENT", "SEALED", "ALLOW_FIELD_EFFECT", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "crafting_pseudo_item": "char_smoker",
+    "examine_action": "smoker_options",
+    "deconstruct": { "items": [ { "item": "metal_smoking_rack", "count": 1 } ] },
+    "bash": {
+      "str_min": 18,
+      "str_max": 50,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": 4 }, { "item": "pipe", "count": [ 3, 5 ] } ]
     }
   },
   {

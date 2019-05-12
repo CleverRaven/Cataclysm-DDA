@@ -30,6 +30,7 @@
 #include "player.h"
 #include "rng.h"
 #include "material.h"
+#include "type_id.h"
 
 struct itype;
 

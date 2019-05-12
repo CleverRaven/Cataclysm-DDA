@@ -22,7 +22,6 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "monster.h"
-#include "mtype.h"
 #include "npc.h"
 #include "overmapbuffer.h"
 #include "player.h"
@@ -31,7 +30,6 @@
 #include "weather.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "character.h"
 #include "creature.h"
 #include "game_constants.h"
 #include "mapdata.h"
@@ -41,6 +39,10 @@
 #include "units.h"
 #include "material.h"
 #include "pldata.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "veh_type.h"
+#include "type_id.h"
 
 #if defined(SDL_SOUND)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -58,11 +60,15 @@
 
 weather_type previous_weather;
 int prev_hostiles = 0;
+int previous_speed = 0;
+int previous_gear = 0;
 bool audio_muted = false;
 float g_sfx_volume_multiplier = 1;
 auto start_sfx_timestamp = std::chrono::high_resolution_clock::now();
 auto end_sfx_timestamp = std::chrono::high_resolution_clock::now();
 auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
+activity_id act;
+std::pair<std::string, std::string> engine_external_id_and_variant;
 
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_deaf( "deaf" );
@@ -72,6 +78,9 @@ const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 
 static const trait_id trait_HEAVYSLEEPER2( "HEAVYSLEEPER2" );
 static const trait_id trait_HEAVYSLEEPER( "HEAVYSLEEPER" );
+static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_wind( "wind" );
+static const itype_id fuel_type_battery( "battery" );
 
 struct sound_event {
     int volume;
@@ -490,10 +499,6 @@ std::string sounds::sound_at( const tripoint &location )
 
 #if defined(SDL_SOUND)
 
-bool is_underground( const tripoint &p )
-{
-    return p.z < 0;
-}
 
 void sfx::fade_audio_group( int tag, int duration )
 {
@@ -514,6 +519,218 @@ void sfx::stop_sound_effect_fade( int channel, int duration )
 {
     if( Mix_FadeOutChannel( channel, duration ) == -1 ) {
         dbg( D_ERROR ) << "Failed to stop sound effect: " << Mix_GetError();
+    }
+}
+
+int sfx::set_channel_volume( int channel, int volume )
+{
+    if( !Mix_Playing( channel ) ) {
+        return -1;
+    }
+    if( Mix_FadingChannel( channel ) != MIX_NO_FADING ) {
+        return -1;
+    }
+    return Mix_Volume( channel, volume );
+}
+
+void sfx::do_vehicle_engine_sfx()
+{
+    /** Channel Assignments:
+        23: engine working internal
+    **/
+    if( !g->u.in_vehicle ) {
+        fade_audio_channel( 23, 300 );
+        add_msg( m_debug, "STOP 23, OUT OF CAR" );
+        return;
+    }
+    if( g->u.in_sleep_state() && !audio_muted ) {
+        fade_audio_channel( -1, 300 );
+        audio_muted = true;
+        return;
+    } else if( g->u.in_sleep_state() && audio_muted ) {
+        return;
+    }
+
+    vehicle *veh = &g->m.veh_at( g->u.pos() )->vehicle();
+    if( !veh->engine_on ) {
+        fade_audio_channel( 23, 100 );
+        add_msg( m_debug, "STOP 23" );
+        return;
+    }
+
+    std::pair<std::string, std::string> id_and_variant;
+
+    for( size_t e = 0; e < veh->engines.size(); ++e ) {
+        if( veh->is_engine_on( e ) ) {
+            if( sfx::has_variant_sound( "engine_working",
+                                        veh->part_info( veh->engines[ e ] ).get_id().str() ) ) {
+                id_and_variant = std::make_pair( "engine_working_internal",
+                                                 veh->part_info( veh->engines[ e ] ).get_id().str() );
+            } else if( veh->is_engine_type( e, fuel_type_muscle ) ) {
+                id_and_variant = std::make_pair( "engine_working_internal", "muscle" );
+            } else if( veh->is_engine_type( e, fuel_type_wind ) ) {
+                id_and_variant = std::make_pair( "engine_working_internal", "wind" );
+            } else if( veh->is_engine_type( e, fuel_type_battery ) ) {
+                id_and_variant = std::make_pair( "engine_working_internal", "electric" );
+            } else {
+                id_and_variant = std::make_pair( "engine_working_internal", "combustion" );
+            }
+        }
+    }
+
+    if( !is_channel_playing( 23 ) ) {
+        play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
+                                    sfx::get_heard_volume( g->u.pos() ), 23, 1000 );
+        add_msg( m_debug, "START %s %s", id_and_variant.first, id_and_variant.second );
+    } else {
+        add_msg( m_debug, "PLAYING" );
+    }
+    int current_speed = veh->velocity;
+    bool in_reverse = false;
+    if( current_speed <= -1 ) {
+        current_speed = current_speed * -1;
+        in_reverse = true;
+    }
+    float pitch = 1.0f;
+    int safe_speed = veh->safe_velocity();
+    int current_gear;
+    if( in_reverse == true ) {
+        current_gear = -1;
+    } else if( current_speed == 0 ) {
+        current_gear = 0;
+    } else if( current_speed > 0 && current_speed <= safe_speed / 12 ) {
+        current_gear = 1;
+    } else if( current_speed > safe_speed / 12 && current_speed <= safe_speed / 5 ) {
+        current_gear = 2;
+    } else if( current_speed > safe_speed / 5 && current_speed <= safe_speed / 4 ) {
+        current_gear = 3;
+    } else if( current_speed > safe_speed / 4 && current_speed <= safe_speed / 3 ) {
+        current_gear = 4;
+    } else if( current_speed > safe_speed / 5 && current_speed <= safe_speed / 4 ) {
+        current_gear = 5;
+    } else {
+        current_gear = 6;
+    }
+    if( veh->has_engine_type( fuel_type_muscle, true ) ||
+        veh->has_engine_type( fuel_type_wind, true ) ) {
+        current_gear = previous_gear;
+    }
+
+    if( current_gear > previous_gear ) {
+        play_variant_sound_pitch( "vehicle", "gear_shift", get_heard_volume( g->u.pos() ), 0, 0.8 );
+        add_msg( m_debug, "GEAR UP" );
+    } else if( current_gear < previous_gear ) {
+        play_variant_sound_pitch( "vehicle", "gear_shift", get_heard_volume( g->u.pos() ), 0, 1.2 );
+        add_msg( m_debug, "GEAR DOWN" );
+    }
+    if( ( safe_speed != 0 ) ) {
+        if( current_gear == 0 ) {
+            pitch = 1.0f;
+        } else if( current_gear == -1 ) {
+            pitch = 1.2f;
+        } else {
+            pitch = 1.0f - ( float )current_speed / ( float )safe_speed * 1.0f;
+        }
+    }
+    if( pitch <= 0.5f ) {
+        pitch = 0.5f;
+    }
+
+    if( current_speed != previous_speed ) {
+        Mix_HaltChannel( 23 );
+        add_msg( m_debug, "STOP speed %d =/= %d", current_speed, previous_speed );
+        play_ambient_variant_sound( id_and_variant.first, id_and_variant.second,
+                                    sfx::get_heard_volume( g->u.pos() ), 23, 1000, pitch );
+        add_msg( m_debug, string_format( "PITCH %f", pitch ) );
+    }
+    previous_speed = current_speed;
+    previous_gear = current_gear;
+}
+
+void sfx::do_vehicle_exterior_engine_sfx()
+{
+
+    /** Channel Assignments:
+        22: engine working external
+    **/
+
+    // early bail-outs for efficiency
+    if( g->u.in_vehicle ) {
+        fade_audio_channel( 22, 300 );
+        add_msg( m_debug, "STOP 22, IN CAR" );
+        return;
+    }
+    if( g->u.in_sleep_state() && !audio_muted ) {
+        fade_audio_channel( -1, 300 );
+        audio_muted = true;
+        return;
+    } else if( g->u.in_sleep_state() && audio_muted ) {
+        return;
+    }
+
+    VehicleList vehs = g->m.get_vehicles();
+    unsigned char noise_factor = 0;
+    unsigned char vol = 0;
+    vehicle *veh = nullptr;
+
+    for( wrapped_vehicle vehicle : vehs ) {
+        if( vehicle.v->vehicle_noise > 0 &&
+            vehicle.v->vehicle_noise - rl_dist( g->u.pos(), vehicle.v->global_pos3() ) > noise_factor ) {
+
+            noise_factor = vehicle.v->vehicle_noise - rl_dist( g->u.pos(), vehicle.v->global_pos3() );
+            veh = vehicle.v;
+        }
+    }
+    if( !noise_factor || !veh ) {
+        fade_audio_channel( 22, 300 );
+        add_msg( m_debug, "STOP 22, NO NOISE" );
+        return;
+    }
+
+    vol = MIX_MAX_VOLUME * noise_factor / veh->vehicle_noise;
+    std::pair<std::string, std::string> id_and_variant;
+
+    for( size_t e = 0; e < veh->engines.size(); ++e ) {
+        if( veh->is_engine_on( e ) ) {
+            if( sfx::has_variant_sound( "engine_working_exterior",
+                                        veh->part_info( veh->engines[ e ] ).get_id().str() ) ) {
+                id_and_variant = std::make_pair( "engine_working_external",
+                                                 veh->part_info( veh->engines[ e ] ).get_id().str() );
+            } else if( veh->is_engine_type( e, fuel_type_muscle ) ) {
+                id_and_variant = std::make_pair( "engine_working_external", "muscle" );
+            } else if( veh->is_engine_type( e, fuel_type_wind ) ) {
+                id_and_variant = std::make_pair( "engine_working_external", "wind" );
+            } else if( veh->is_engine_type( e, fuel_type_battery ) ) {
+                id_and_variant = std::make_pair( "engine_working_external", "electric" );
+            } else {
+                id_and_variant = std::make_pair( "engine_working_external", "combustion" );
+            }
+        }
+    }
+
+    if( is_channel_playing( 22 ) ) {
+        if( engine_external_id_and_variant == id_and_variant ) {
+            Mix_SetPosition( 22, get_heard_angle( veh->global_pos3() ), 0 );
+            set_channel_volume( 22, vol );
+            add_msg( m_debug, "PLAYING, vol: ex:%d true:%d", vol, Mix_Volume( 22, -1 ) );
+        } else {
+            engine_external_id_and_variant = id_and_variant;
+            Mix_HaltChannel( 22 );
+            add_msg( m_debug, "STOP, change id/var" );
+            play_ambient_variant_sound( id_and_variant.first, id_and_variant.second, 128, 22, 0 );
+            Mix_SetPosition( 22, get_heard_angle( veh->global_pos3() ), 0 );
+            set_channel_volume( 22, vol );
+            add_msg( m_debug, "START22 %s %s vol: %d", id_and_variant.first, id_and_variant.second,
+                     Mix_Volume( 22, -1 ) );
+        }
+    } else {
+        play_ambient_variant_sound( id_and_variant.first, id_and_variant.second, 128, 22, 0 );
+        add_msg( m_debug, "Vol: %d %d", vol, Mix_Volume( 22, -1 ) );
+        Mix_SetPosition( 22, get_heard_angle( veh->global_pos3() ), 0 );
+        add_msg( m_debug, "Vol: %d %d", vol, Mix_Volume( 22, -1 ) );
+        set_channel_volume( 22, vol );
+        add_msg( m_debug, "START22 NEW %s %s vol: ex:%d true:%d", id_and_variant.first,
+                 id_and_variant.second, vol, Mix_Volume( 22, -1 ) );
     }
 }
 
@@ -541,6 +758,9 @@ void sfx::do_ambient()
     18: Idle chainsaw
     19: Chainsaw theme
     20: Outdoor blizzard
+    21: Player activities
+    22: Exterior engine sound
+    23: Interior engine sound
     Group Assignments:
     1: SFX related to weather
     2: SFX related to time of day
@@ -557,7 +777,7 @@ void sfx::do_ambient()
     audio_muted = false;
     const bool is_deaf = g->u.is_deaf();
     const int heard_volume = get_heard_volume( g->u.pos() );
-    const bool is_underground = ::is_underground( g->u.pos() );
+    const bool is_underground = g->u.pos().z < 0;
     const bool is_sheltered = g->is_sheltered( g->u.pos() );
     const bool weather_changed = g->weather != previous_weather;
     // Step in at night time / we are not indoors
@@ -1080,6 +1300,10 @@ void sfx::do_footstep()
             play_variant_sound( "plmove", "walk_barefoot", heard_volume, 0, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
             return;
+        } else if( sfx::has_variant_sound( "plmove", terrain.str() ) ) {
+            play_variant_sound( "plmove", terrain.str(), heard_volume, 0, 0.8, 1.2 );
+            start_sfx_timestamp = std::chrono::high_resolution_clock::now();
+            return;
         } else if( grass.count( terrain ) > 0 ) {
             play_variant_sound( "plmove", "walk_grass", heard_volume, 0, 0.8, 1.2 );
             start_sfx_timestamp = std::chrono::high_resolution_clock::now();
@@ -1108,25 +1332,41 @@ void sfx::do_footstep()
     }
 }
 
-void sfx::do_obstacle()
+void sfx::do_obstacle( const std::string &obst )
 {
     int heard_volume = sfx::get_heard_volume( g->u.pos() );
-    const auto terrain = g->m.ter( g->u.pos() ).id();
-    static const std::set<ter_str_id> water = {
-        ter_str_id( "t_water_sh" ),
-        ter_str_id( "t_water_dp" ),
-        ter_str_id( "t_water_moving_sh" ),
-        ter_str_id( "t_water_moving_dp" ),
-        ter_str_id( "t_swater_sh" ),
-        ter_str_id( "t_swater_dp" ),
-        ter_str_id( "t_water_pool" ),
-        ter_str_id( "t_sewage" ),
+    //const auto terrain = g->m.ter( g->u.pos() ).id();
+    static const std::set<std::string> water = {
+        "t_water_sh",
+        "t_water_dp",
+        "t_water_moving_sh",
+        "t_water_moving_dp",
+        "t_swater_sh",
+        "t_swater_dp",
+        "t_water_pool",
+        "t_sewage",
     };
-    if( water.count( terrain ) > 0 ) {
-        return;
+    if( sfx::has_variant_sound( "plmove", obst ) ) {
+        play_variant_sound( "plmove", obst, heard_volume, 0, 0.8, 1.2 );
+    } else if( water.count( obst ) > 0 ) {
+        play_variant_sound( "plmove", "walk_water", heard_volume, 0, 0.8, 1.2 );
     } else {
         play_variant_sound( "plmove", "clear_obstacle", heard_volume, 0, 0.8, 1.2 );
     }
+}
+
+void sfx::play_activity_sound( const std::string &id, const std::string &variant, int volume )
+{
+    if( act != g->u.activity.id() ) {
+        act = g->u.activity.id();
+        play_ambient_variant_sound( id, variant, volume, 21, 0 );
+    }
+}
+
+void sfx::end_activity_sounds()
+{
+    act = activity_id::NULL_ID();
+    fade_audio_channel( 21, 2000 );
 }
 
 #else // if defined(SDL_SOUND)
@@ -1138,7 +1378,10 @@ void sfx::load_sound_effect_preload( JsonObject & ) { }
 void sfx::load_playlist( JsonObject & ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int, int, float, float ) { }
 void sfx::play_variant_sound( const std::string &, const std::string &, int ) { }
-void sfx::play_ambient_variant_sound( const std::string &, const std::string &, int, int, int ) { }
+void sfx::play_ambient_variant_sound( const std::string &, const std::string &, int, int, int,
+                                      float ) { }
+void sfx::play_activity_sound( const std::string &, const std::string &, int ) { }
+void sfx::end_activity_sounds() { }
 void sfx::generate_gun_sound( const player &, const item & ) { }
 void sfx::generate_melee_sound( const tripoint &, const tripoint &, bool, bool,
                                 const std::string & ) { }
@@ -1147,17 +1390,27 @@ void sfx::remove_hearing_loss() { }
 void sfx::do_projectile_hit( const Creature & ) { }
 void sfx::do_footstep() { }
 void sfx::do_danger_music() { }
+void sfx::do_vehicle_engine_sfx() { }
+void sfx::do_vehicle_exterior_engine_sfx() { }
 void sfx::do_ambient() { }
 void sfx::fade_audio_group( int, int ) { }
 void sfx::fade_audio_channel( int, int ) { }
-bool is_channel_playing( int )
+bool sfx::is_channel_playing( int )
+{
+    return false;
+}
+int sfx::set_channel_volume( int, int )
+{
+    return 0;
+}
+bool sfx::has_variant_sound( const std::string &, const std::string & )
 {
     return false;
 }
 void sfx::stop_sound_effect_fade( int, int ) { }
 void sfx::do_player_death_hurt( const player &, bool ) { }
 void sfx::do_fatigue() { }
-void sfx::do_obstacle() { }
+void sfx::do_obstacle( const std::string & ) { }
 /*@}*/
 
 #endif // if defined(SDL_SOUND)

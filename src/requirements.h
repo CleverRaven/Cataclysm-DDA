@@ -9,21 +9,16 @@
 #include <utility>
 
 #include "string_id.h"
+#include "type_id.h"
 
 class nc_color;
 class JsonObject;
 class JsonArray;
 class inventory;
-struct requirement_data;
 class item;
-
-using requirement_id = string_id<requirement_data>;
 
 // Denotes the id of an item type
 typedef std::string itype_id;
-struct quality;
-
-using quality_id = string_id<quality>;
 
 enum available_status {
     a_true = +1, // yes, it's available

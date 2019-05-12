@@ -1,6 +1,8 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <functional>
 
 #include "coordinate_conversions.h"
 #include "dialogue.h"
@@ -15,6 +17,12 @@
 #include "enums.h"
 #include "player.h"
 #include "rng.h"
+#include "debug.h"
+#include "line.h"
+#include "omdata.h"
+#include "optional.h"
+#include "translations.h"
+#include "type_id.h"
 
 const tripoint reveal_destination( const std::string &type )
 {
@@ -250,8 +258,7 @@ cata::optional<tripoint> mission_util::assign_mission_target( const mission_targ
     // use the player or NPC's current position, adjust for the z value if any
     tripoint origin_pos = get_mission_om_origin( params );
 
-    cata::optional<tripoint> target_pos = cata::nullopt;
-    target_pos = find_or_create_om_terrain( origin_pos, params );
+    cata::optional<tripoint> target_pos = find_or_create_om_terrain( origin_pos, params );
 
     if( target_pos ) {
         if( params.offset ) {

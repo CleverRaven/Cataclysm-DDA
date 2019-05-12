@@ -112,5 +112,24 @@
     "crime": 1,
     "cult": -1,
     "description": "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat."
+  },
+  {
+    "type": "faction",
+    "id": "gods_community",
+    "name": "God's Community",
+    "likes_u": 35,
+    "respects_u": 35,
+    "known_by_u": false,
+    "size": 20,
+    "power": 50,
+    "combat_ability": 50,
+    "food_supply": 20000,
+    "wealth": 10000,
+    "good": 1,
+    "strength": 0,
+    "sneak": 0,
+    "crime": -1,
+    "cult": 1,
+    "description": "A small group of churchgoers that formed a community in the woods. They welcome anyone in their faction, but hate the unnatural."
   }
 ]

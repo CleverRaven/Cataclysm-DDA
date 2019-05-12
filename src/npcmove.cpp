@@ -46,7 +46,6 @@
 #include "vpart_reference.h"
 #include "bodypart.h"
 #include "character.h"
-#include "clzones.h"
 #include "damage.h"
 #include "explosion.h"
 #include "game_constants.h"
@@ -56,6 +55,7 @@
 #include "player_activity.h"
 #include "ret_val.h"
 #include "units.h"
+#include "pldata.h"
 
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
@@ -70,6 +70,7 @@ const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_catch_up( "catch_up" );
+const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_infection( "infection" );
@@ -840,7 +841,11 @@ void npc::execute_action( npc_action action )
                 break;
             }
             aim();
-            fire_gun( tar, mode.qty, *mode );
+            if( !is_hallucination() ) {
+                fire_gun( tar, mode.qty, *mode );
+            } else {
+                pretend_fire( this, mode.qty, *mode );
+            }
             break;
         }
 
@@ -1388,6 +1393,12 @@ npc_action npc::address_needs( float danger )
             return npc_sleep;
         }
     }
+    //Does the hallucination needs to disappear ?
+    if( g->u.sees( *this ) && is_hallucination() ) {
+        if( !g->u.has_effect( effect_hallu ) ) {
+            die( nullptr );
+        }
+    }
 
     // TODO: Mutation & trait related needs
     // e.g. finding glasses; getting out of sunlight if we're an albino; etc.
@@ -1667,8 +1678,9 @@ bool npc::can_open_door( const tripoint &p, const bool inside ) const
 bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
 {
     // Allow moving into any bashable spots, but penalize them during pathing
+    // Doors are not passable for hallucinations
     return( rl_dist( pos(), p ) <= 1 &&
-            ( g->m.passable( p ) || can_open_door( p, !g->m.is_outside( pos() ) ) ||
+            ( g->m.passable( p ) || ( can_open_door( p, !g->m.is_outside( pos() ) ) && !is_hallucination() ) ||
               ( !no_bashing && g->m.bash_rating( smash_ability(), p ) > 0 ) )
           );
 }
@@ -1791,8 +1803,14 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         moves -= run_cost( g->m.combined_movecost( pos(), p ), diag );
         moved = true;
-    } else if( g->m.open_door( p, !g->m.is_outside( pos() ) ) ) {
-        moves -= 100;
+    } else if( g->m.open_door( p, !g->m.is_outside( pos() ), true ) ) {
+        if( !is_hallucination() ) { // hallucinations don't open doors
+            g->m.open_door( p, !g->m.is_outside( pos() ) );
+            moves -= 100;
+        } else { // hallucinations teleport through doors
+            moves -= 100;
+            moved = true;
+        }
     } else if( get_dex() > 1 && g->m.has_flag_ter_or_furn( "CLIMBABLE", p ) ) {
         ///\EFFECT_DEX_NPC increases chance to climb CLIMBABLE furniture or terrain
         int climb = get_dex();
@@ -1840,7 +1858,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
 
         // Close doors behind self (if you can)
-        if( rules.has_flag( ally_rule::close_doors ) && is_player_ally() ) {
+        if( ( rules.has_flag( ally_rule::close_doors ) && is_player_ally() ) && !is_hallucination() ) {
             doors::close_door( g->m, *this, old_pos );
         }
 
@@ -2064,9 +2082,29 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
     }
 }
 
+void npc::see_item_say_smth( const itype_id object, const std::string smth )
+{
+    for( const tripoint &p : closest_tripoints_first( 6, pos() ) ) {
+        if( g->m.sees_some_items( p, *this ) && sees( p ) ) {
+            for( const item &it : g->m.i_at( p ) ) {
+                if( one_in( 100 ) && ( it.typeId() == object ) ) {
+                    say( smth );
+                }
+            }
+        }
+    }
+}
+
 void npc::find_item()
 {
+    if( is_hallucination() ) {
+        see_item_say_smth( "thorazine", "<no_to_thorazine>" );
+        see_item_say_smth( "lsd", "<yes_to_lsd>" );
+        return;
+    }
+
     if( is_player_ally() && !rules.has_flag( ally_rule::allow_pick_up ) ) {
+
         // Grabbing stuff not allowed by our "owner"
         return;
     }
@@ -2201,6 +2239,10 @@ void npc::find_item()
 
 void npc::pick_up_item()
 {
+    if( is_hallucination() ) {
+        return;
+    }
+
     if( !rules.has_flag( ally_rule::allow_pick_up ) && is_player_ally() ) {
         add_msg( m_debug, "%s::pick_up_item(); Cancelling on player's request", name );
         fetching_item = false;
@@ -2438,7 +2480,9 @@ void npc::drop_items( int weight, int volume )
         } else if( num_items_dropped == 2 ) {
             item_name << _( " and " ) << dropped.tname();
         }
-        g->m.add_item_or_charges( pos(), dropped );
+        if( !is_hallucination() ) { // hallucinations can't drop real items
+            g->m.add_item_or_charges( pos(), dropped );
+        }
     }
     // Finally, describe the action if u can see it
     if( g->u.sees( *this ) ) {
@@ -2454,7 +2498,8 @@ void npc::drop_items( int weight, int volume )
 
 bool npc::find_corpse_to_pulp()
 {
-    if( is_player_ally() && ( !rules.has_flag( ally_rule::allow_pulp ) || g->u.in_vehicle ) ) {
+    if( ( is_player_ally() && ( !rules.has_flag( ally_rule::allow_pulp ) || g->u.in_vehicle ) ) ||
+        is_hallucination() ) {
         return false;
     }
 
@@ -2632,12 +2677,12 @@ bool npc::wield_better_weapon()
     // Until then, the NPCs should reload the guns as a last resort
 
     if( best == &weapon ) {
-        add_msg( m_debug, "Wielded %s is best at %.1f, not switching", best->display_name(),
+        add_msg( m_debug, "Wielded %s is best at %.1f, not switching", best->type->get_id(),
                  best_value );
         return false;
     }
 
-    add_msg( m_debug, "Wielding %s at value %.1f", best->display_name(), best_value );
+    add_msg( m_debug, "Wielding %s at value %.1f", best->type->get_id(), best_value );
 
     wield( *best );
     return true;
@@ -2668,7 +2713,9 @@ void npc_throw( npc &np, item &it, int index, const tripoint &pos )
         stack_size = it.charges;
         it.charges = 1;
     }
-    np.throw_item( pos, it );
+    if( !np.is_hallucination() ) { // hallucinations only pretend to throw
+        np.throw_item( pos, it );
+    }
     // Throw a single charge of a stacking object.
     if( stack_size == -1 || stack_size == 1 ) {
         np.i_rem( index );
@@ -2679,7 +2726,7 @@ void npc_throw( npc &np, item &it, int index, const tripoint &pos )
 
 bool npc::alt_attack()
 {
-    if( is_player_ally() && !rules.has_flag( ally_rule::use_grenades ) ) {
+    if( ( is_player_ally() && !rules.has_flag( ally_rule::use_grenades ) ) || is_hallucination() ) {
         return false;
     }
 
@@ -2851,9 +2898,12 @@ void npc::heal_player( player &patient )
         debugmsg( "%s tried to heal you but has no healing item", disp_name() );
         return;
     }
-
-    long charges_used = used.type->invoke( *this, used, patient.pos(), "heal" );
-    consume_charges( used, charges_used );
+    if( !is_hallucination() ) {
+        long charges_used = used.type->invoke( *this, used, patient.pos(), "heal" );
+        consume_charges( used, charges_used );
+    } else {
+        pretend_heal( patient, used );
+    }
 
     if( !patient.is_npc() ) {
         // Test if we want to heal the player further
@@ -2864,6 +2914,16 @@ void npc::heal_player( player &patient )
             say( _( "Hold still, I can heal you more." ) );
         }
     }
+}
+
+void npc:: pretend_heal( player &patient, item used )
+{
+    if( g->u.sees( *this ) ) {
+        add_msg( _( "%1$s heals %2$s." ), disp_name(),
+                 patient.disp_name() ); // you can tell that it's not real by looking at your HP though
+    }
+    consume_charges( used, 1 ); // empty hallucination's inventory to avoid spammming
+    moves -= 100; // consumes moves to avoid infinite loop
 }
 
 void npc::heal_self()
@@ -3042,8 +3102,10 @@ void npc::mug_player( player &mark )
 
     const bool u_see = g->u.sees( *this ) || g->u.sees( mark );
     if( mark.cash > 0 ) {
-        cash += mark.cash;
-        mark.cash = 0;
+        if( !is_hallucination() ) { // hallucinations can't take items
+            cash += mark.cash;
+            mark.cash = 0;
+        }
         moves = 0;
         // Describe the action
         if( mark.is_npc() ) {
@@ -3085,8 +3147,11 @@ void npc::mug_player( player &mark )
         moves -= 100;
         return;
     }
-
-    item stolen = mark.i_rem( item_index );
+    item stolen;
+    if( !is_hallucination() ) {
+        stolen = mark.i_rem( item_index );
+        i_add( stolen );
+    }
     if( mark.is_npc() ) {
         if( u_see ) {
             add_msg( _( "%1$s takes %2$s's %3$s." ), name, mark.name, stolen.tname() );
@@ -3094,7 +3159,6 @@ void npc::mug_player( player &mark )
     } else {
         add_msg( m_bad, _( "%1$s takes your %2$s." ), name, stolen.tname() );
     }
-    i_add( stolen );
     moves -= 100;
     if( !mark.is_npc() ) {
         op_of_u.value -= rng( 0, 1 );  // Decrease the value of the player
@@ -3233,7 +3297,6 @@ void npc::set_omt_destination()
         return;
     }
 
-
     decide_needs();
     if( needs.empty() ) { // We don't need anything in particular.
         needs.push_back( need_none );
@@ -3253,7 +3316,6 @@ void npc::set_omt_destination()
         goal = surface_omt_loc + point( rng( -90, 90 ), rng( -90, 90 ) );
         return;
     }
-
 
     DebugLog( D_INFO, DC_ALL ) << "npc::set_omt_destination - new goal for NPC [" << get_name() <<
                                "] with ["
@@ -3340,53 +3402,53 @@ std::string npc_action_name( npc_action action )
 {
     switch( action ) {
         case npc_undecided:
-            return _( "Undecided" );
+            return "Undecided";
         case npc_pause:
-            return _( "Pause" );
+            return "Pause";
         case npc_reload:
-            return _( "Reload" );
+            return "Reload";
         case npc_investigate_sound:
-            return _( "Investigate sound" );
+            return "Investigate sound";
         case npc_return_to_guard_pos:
-            return _( "Returning to guard position" );
+            return "Returning to guard position";
         case npc_sleep:
-            return _( "Sleep" );
+            return "Sleep";
         case npc_pickup:
-            return _( "Pick up items" );
+            return "Pick up items";
         case npc_heal:
-            return _( "Heal self" );
+            return "Heal self";
         case npc_use_painkiller:
-            return _( "Use painkillers" );
+            return "Use painkillers";
         case npc_drop_items:
-            return _( "Drop items" );
+            return "Drop items";
         case npc_flee:
-            return _( "Flee" );
+            return "Flee";
         case npc_melee:
-            return _( "Melee" );
+            return "Melee";
         case npc_reach_attack:
-            return _( "Reach attack" );
+            return "Reach attack";
         case npc_aim:
-            return _( "Aim" );
+            return "Aim";
         case npc_shoot:
-            return _( "Shoot" );
+            return "Shoot";
         case npc_look_for_player:
-            return _( "Look for player" );
+            return "Look for player";
         case npc_heal_player:
-            return _( "Heal player or ally" );
+            return "Heal player or ally";
         case npc_follow_player:
-            return _( "Follow player" );
+            return "Follow player";
         case npc_follow_embarked:
-            return _( "Follow player (embarked)" );
+            return "Follow player (embarked)";
         case npc_talk_to_player:
-            return _( "Talk to player" );
+            return "Talk to player";
         case npc_mug_player:
-            return _( "Mug player" );
+            return "Mug player";
         case npc_goto_destination:
-            return _( "Go to destination" );
+            return "Go to destination";
         case npc_avoid_friendly_fire:
-            return _( "Avoid friendly fire" );
+            return "Avoid friendly fire";
         case npc_escape_explosion:
-            return _( "Escape explosion" );
+            return "Escape explosion";
         default:
             return "Unnamed action";
     }

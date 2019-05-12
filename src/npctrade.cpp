@@ -23,6 +23,7 @@
 #include "player.h"
 #include "units.h"
 #include "visitable.h"
+#include "type_id.h"
 
 const skill_id skill_barter( "barter" );
 

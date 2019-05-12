@@ -15,10 +15,9 @@
 #include "rng.h"
 #include "skill.h"
 #include "trait_group.h"
-#include "itype.h"
 #include "json.h"
 
-static const std::array<npc_class_id, 18> legacy_ids = {{
+static const std::array<npc_class_id, 19> legacy_ids = {{
         npc_class_id( "NC_NONE" ),
         npc_class_id( "NC_EVAC_SHOPKEEP" ),  // Found in the Evacuation Center, unique, has more goods than he should be able to carry
         npc_class_id( "NC_SHOPKEEP" ),       // Found in towns.  Stays in his shop mostly.
@@ -36,7 +35,8 @@ static const std::array<npc_class_id, 18> legacy_ids = {{
         npc_class_id( "NC_HUNTER" ),         // Survivor type good with bow or rifle
         npc_class_id( "NC_SOLDIER" ),        // Well equipped and trained combatant, good with rifles and melee
         npc_class_id( "NC_BARTENDER" ),      // Stocks alcohol
-        npc_class_id( "NC_JUNK_SHOPKEEP" )   // Stocks wide range of items...
+        npc_class_id( "NC_JUNK_SHOPKEEP" ),   // Stocks wide range of items...
+        npc_class_id( "NC_HALLU" )           // Hallucinatory NPCs
     }
 };
 
@@ -58,6 +58,7 @@ npc_class_id NC_HUNTER( "NC_HUNTER" );
 npc_class_id NC_SOLDIER( "NC_SOLDIER" );
 npc_class_id NC_BARTENDER( "NC_BARTENDER" );
 npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
+npc_class_id NC_HALLU( "NC_HALLU" );
 
 generic_factory<npc_class> npc_class_factory( "npc_class" );
 

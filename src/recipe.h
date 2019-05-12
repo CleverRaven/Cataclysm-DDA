@@ -11,18 +11,12 @@
 #include <utility>
 
 #include "requirements.h"
-#include "string_id.h"
+#include "type_id.h"
 
-class Skill;
 class item;
 class JsonObject;
 
-using skill_id = string_id<Skill>;
 using itype_id = std::string; // From itype.h
-using requirement_id = string_id<requirement_data>;
-class recipe;
-
-using recipe_id = string_id<recipe>;
 class Character;
 
 class recipe

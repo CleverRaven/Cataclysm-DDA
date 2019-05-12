@@ -267,6 +267,7 @@ The syntax listed here is still valid.
     "specific_heat_solid": 2.15,
     "latent_heat": 260,
     "edible": true,
+    "rotting": true,
     "bash_resist": 1,
     "cut_resist": 1,
     "acid_resist": 1,

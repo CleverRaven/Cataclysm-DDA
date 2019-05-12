@@ -11,6 +11,7 @@
 
 #include "pimpl.h"
 #include "string_id.h"
+#include "type_id.h"
 
 struct WORLD;
 
@@ -22,10 +23,6 @@ class mod_manager;
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs();
 const std::map<std::string, std::string> &get_mod_list_cat_tab();
-
-struct MOD_INFORMATION;
-
-using mod_id = string_id<MOD_INFORMATION>;
 
 struct MOD_INFORMATION {
     private:

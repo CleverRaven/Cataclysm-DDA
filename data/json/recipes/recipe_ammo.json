@@ -884,5 +884,32 @@
     "qualities": [ { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "oxy_powder", 100 ] ], [ [ "lye_powder", 100 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "tinder",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "difficulty": 1,
+    "time": 1000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [
+        [ "stick", 1 ],
+        [ "2x4", 1 ],
+        [ "splinter", 2 ],
+        [ "pine_bough", 1 ],
+        [ "rag", 1 ],
+        [ "paper", 5 ],
+        [ "rolling_paper", 30 ],
+        [ "wrapper", 5 ],
+        [ "withered", 2 ],
+        [ "cattail_stalk", 1 ],
+        [ "birchbark", 1 ],
+        [ "willowbark", 1 ]
+      ]
+    ]
   }
 ]

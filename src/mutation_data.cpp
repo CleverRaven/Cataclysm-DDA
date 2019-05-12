@@ -15,8 +15,6 @@
 #include "trait_group.h"
 #include "translations.h"
 #include "generic_factory.h"
-#include "itype.h"
-#include "player.h"
 
 typedef std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>> TraitGroupMap;
 typedef std::set<trait_id> TraitSet;
@@ -103,6 +101,8 @@ void mutation_category_trait::load( JsonObject &jsobj )
     new_category.iv_sound = jsobj.get_bool( "iv_sound", false );
     new_category.raw_iv_sound_message = jsobj.get_string( "iv_sound_message",
                                         translate_marker( "You inject yoursel-arRGH!" ) );
+    new_category.raw_iv_sound_id = jsobj.get_string( "iv_sound_id", "shout" );
+    new_category.raw_iv_sound_variant = jsobj.get_string( "iv_sound_variant", "default" );
     new_category.iv_noise = jsobj.get_int( "iv_noise", 0 );
     new_category.iv_sleep = jsobj.get_bool( "iv_sleep", false );
     new_category.raw_iv_sleep_message = jsobj.get_string( "iv_sleep_message",
@@ -136,6 +136,16 @@ std::string mutation_category_trait::iv_message() const
 std::string mutation_category_trait::iv_sound_message() const
 {
     return _( raw_iv_sound_message );
+}
+
+std::string mutation_category_trait::iv_sound_id() const
+{
+    return _( raw_iv_sound_id );
+}
+
+std::string mutation_category_trait::iv_sound_variant() const
+{
+    return _( raw_iv_sound_variant );
 }
 
 std::string mutation_category_trait::iv_sleep_message() const

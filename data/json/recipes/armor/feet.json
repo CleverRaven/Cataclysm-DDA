@@ -266,6 +266,18 @@
     "components": [ [ [ "2x4", 2 ], [ "stick", 2 ] ] ]
   },
   {
+    "result": "geta",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": 40000,
+    "book_learn": [ [ "tailor_japanese", 2 ] ],
+    "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "2x4", 1 ] ], [ [ "string_6", 1 ] ] ]
+  },
+  {
     "result": "footrags",
     "type": "recipe",
     "category": "CC_ARMOR",

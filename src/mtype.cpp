@@ -8,9 +8,10 @@
 #include "item.h"
 #include "itype.h"
 #include "mondeath.h"
-#include "monstergenerator.h"
 #include "translations.h"
 #include "mapdata.h"
+
+struct species_type;
 
 const species_id MOLLUSK( "MOLLUSK" );
 
