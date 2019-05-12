@@ -5,6 +5,8 @@
 #include <set>
 #include <string>
 
+#include "translations.h"
+
 class item;
 
 class gun_mode
@@ -52,6 +54,10 @@ class gun_mode
 
         std::string name() const {
             return name_;
+        }
+
+        std::string tname() const {
+            return _( name_ );
         }
 };
 

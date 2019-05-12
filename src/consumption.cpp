@@ -30,6 +30,7 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "rng.h"
+#include "string_id.h"
 
 namespace
 {
@@ -161,11 +162,15 @@ std::pair<int, int> player::fun_for( const item &comest ) const
     static const trait_id trait_GOURMAND( "GOURMAND" );
     static const trait_id trait_SAPROPHAGE( "SAPROPHAGE" );
     static const trait_id trait_SAPROVORE( "SAPROVORE" );
+    static const trait_id trait_LUPINE( "THRESH_LUPINE" );
+    static const trait_id trait_FELINE( "THRESH_FELINE" );
     static const std::string flag_EATEN_COLD( "EATEN_COLD" );
     static const std::string flag_COLD( "COLD" );
     static const std::string flag_FROZEN( "FROZEN" );
     static const std::string flag_MUSHY( "MUSHY" );
     static const std::string flag_MELTS( "MELTS" );
+    static const std::string flag_LUPINE( "LUPINE" );
+    static const std::string flag_FELINE( "FELINE" );
     if( !comest.is_comestible() ) {
         return std::pair<int, int>( 0, 0 );
     }
@@ -210,6 +215,14 @@ std::pair<int, int> player::fun_for( const item &comest ) const
         } else {
             fun *= 1.25; // melted freezable food tastes 25% worse than frozen freezable food
             // frozen freezable food... say that 5 times fast
+        }
+    }
+
+    if( ( comest.has_flag( flag_LUPINE ) && has_trait( trait_LUPINE ) ) ||
+        ( comest.has_flag( flag_FELINE ) && has_trait( trait_FELINE ) ) ) {
+        if( fun < 0 ) {
+            fun = -fun;
+            fun /= 2;
         }
     }
 
@@ -438,6 +451,15 @@ ret_val<edible_rating> player::can_eat( const item &food ) const
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
     }
 
+    if( food.has_flag( "INEDIBLE" ) ) {
+        if( ( food.has_flag( "CATTLE" ) && !has_trait( trait_id( "THRESH_CATTLE" ) ) ) ||
+            ( food.has_flag( "FELINE" ) && !has_trait( trait_id( "THRESH_FELINE" ) ) ) ||
+            ( food.has_flag( "LUPINE" ) && !has_trait( trait_id( "THRESH_LUPINE" ) ) ) ||
+            ( food.has_flag( "BIRD" ) && !has_trait( trait_id( "THRESH_BIRD" ) ) ) ) {
+            return ret_val<edible_rating>::make_failure( _( "That doesn't look edible to you." ) );
+        }
+    }
+
     if( food.is_craft() ) {
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible in its current form." ) );
     }
@@ -609,8 +631,13 @@ bool player::eat( item &food, bool force )
     }
 
     if( food.type->has_use() ) {
-        if( food.type->invoke( *this, food, pos() ) <= 0 ) {
-            return false;
+        if( !food.type->can_use( "DOGFOOD" ) &&
+            !food.type->can_use( "CATFOOD" ) &&
+            !food.type->can_use( "BIRDFOOD" ) &&
+            !food.type->can_use( "CATTLEFODDER" ) ) {
+            if( food.type->invoke( *this, food, pos() ) <= 0 ) {
+                return false;
+            }
         }
     }
 

@@ -38,7 +38,6 @@
 #include "options.h"
 #include "output.h"
 #include "overmap_ui.h"
-#include "pickup.h"
 #include "player.h"
 #include "popup.h"
 #include "ranged.h"
@@ -52,7 +51,6 @@
 #include "weather.h"
 #include "worldfactory.h"
 #include "bodypart.h"
-#include "character.h"
 #include "color.h"
 #include "damage.h"
 #include "lightmap.h"
@@ -63,6 +61,7 @@
 #include "translations.h"
 #include "ui.h"
 #include "units.h"
+#include "string_id.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -362,11 +361,11 @@ static void rcdrive( int dx, int dy )
     if( m.impassable( dest ) || !m.can_put_items_ter_furn( dest ) ||
         m.has_furn( dest ) ) {
         sounds::sound( dest, 7, sounds::sound_t::combat,
-                       _( "sound of a collision with an obstacle." ) );
+                       _( "sound of a collision with an obstacle." ), true, "misc", "rc_car_hits_obstacle" );
         return;
     } else if( !m.add_item_or_charges( dest, *rc_car ).is_null() ) {
         //~ Sound of moving a remote controlled car
-        sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz..." ) );
+        sounds::sound( src, 6, sounds::sound_t::movement, _( "zzz..." ), true, "misc", "rc_car_drives" );
         u.moves -= 50;
         m.i_rem( src, rc_car );
         car_location_string.clear();
@@ -626,7 +625,7 @@ static void smash()
 
     if( m.get_field( smashp, fd_web ) != nullptr ) {
         m.remove_field( smashp, fd_web );
-        sounds::sound( smashp, 2, sounds::sound_t::combat, "hsh!" );
+        sounds::sound( smashp, 2, sounds::sound_t::combat, "hsh!", true, "smash", "web" );
         add_msg( m_info, _( "You brush aside some webs." ) );
         u.moves -= 100;
         return;
@@ -659,7 +658,7 @@ static void smash()
             for( auto &elem : u.weapon.contents ) {
                 m.add_item_or_charges( u.pos(), elem );
             }
-            sounds::sound( u.pos(), 24, sounds::sound_t::combat, "CRACK!" );
+            sounds::sound( u.pos(), 24, sounds::sound_t::combat, "CRACK!", true, "smash", "glass" );
             u.deal_damage( nullptr, bp_hand_r, damage_instance( DT_CUT, rng( 0, vol ) ) );
             if( vol > 20 ) {
                 // Hurt left arm too, if it was big
@@ -1252,6 +1251,32 @@ static void open_movement_mode_menu()
     }
 }
 
+void game::open_consume_item_menu()
+{
+    uilist as_m;
+
+    as_m.text = _( "What do you want to consume?" );
+
+    as_m.entries.emplace_back( 0, true, 'f', _( "Food" ) );
+    as_m.entries.emplace_back( 1, true, 'd', _( "Drink" ) );
+    as_m.entries.emplace_back( 2, true, 'm', _( "Medication" ) );
+    as_m.query();
+
+    switch( as_m.ret ) {
+        case 0:
+            eat( game_menus::inv::consume_food );
+            break;
+        case 1:
+            eat( game_menus::inv::consume_drink );
+            break;
+        case 2:
+            eat( game_menus::inv::consume_meds );
+            break;
+        default:
+            break;
+    }
+}
+
 bool game::handle_action()
 {
     std::string action;
@@ -1567,6 +1592,14 @@ bool game::handle_action()
                 }
                 break;
 
+            case ACTION_PICKUP_FEET:
+                if( u.has_active_mutation( trait_SHELL2 ) ) {
+                    add_msg( m_info, _( "You can't pick anything up while you're in your shell." ) );
+                } else {
+                    pickup_feet();
+                }
+                break;
+
             case ACTION_GRAB:
                 if( u.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't grab things while you're in your shell." ) );
@@ -1647,6 +1680,10 @@ bool game::handle_action()
 
             case ACTION_EAT:
                 eat();
+                break;
+
+            case ACTION_OPEN_CONSUME:
+                open_consume_item_menu();
                 break;
 
             case ACTION_READ:

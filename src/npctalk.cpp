@@ -30,7 +30,6 @@
 #include "line.h"
 #include "map.h"
 #include "mapgen_functions.h"
-#include "map_selector.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
@@ -313,7 +312,7 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
         say( "<acknowledged>" );
     }
 
-    if( sees( spos ) ) {
+    if( sees( spos ) || is_hallucination() ) {
         return;
     }
     // ignore low priority sounds if the NPC "knows" it came from a friend.
@@ -567,8 +566,9 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     }
     if( topic == "TALK_SEDATED" ) {
         return string_format(
-                   _( "%s is sedated and can't be moved or woken up until the medication or sedation wears off." ),
-                   beta->name );
+                   _( "%1$s is sedated and can't be moved or woken up until the medication or sedation wears off.\nYou estimate it will wear off in %2$s." ),
+                   beta->name, to_string_approx( g->u.estimate_effect_dur( skill_id( "firstaid" ), effect_narcosis,
+                           15_minutes, 6, *beta ) ) );
     }
 
     const auto &p = beta; // for compatibility, later replace it in the code below
@@ -2224,7 +2224,6 @@ json_talk_repeat_response::json_talk_repeat_response( JsonObject jo )
     }
 }
 
-
 json_talk_response::json_talk_response( JsonObject jo )
     : actual_response( jo )
 {
@@ -3490,6 +3489,9 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
 
 std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
 {
+    if( p.is_hallucination() ) {
+        return _( "No thanks, I'm good." );
+    }
     const int inv_pos = g->inv_for_all( _( "Offer what?" ), _( "You have no items to offer." ) );
     item &given = g->u.i_at( inv_pos );
     if( given.is_null() ) {
@@ -3528,9 +3530,9 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
     const double cur_weapon_value = p.weapon_value( p.weapon, our_ammo );
     if( allow_use ) {
         add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
-                 p.weapon.tname(), our_ammo, cur_weapon_value );
+                 p.weapon.type->get_id(), our_ammo, cur_weapon_value );
         add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
-                 given.tname(), new_ammo, new_weapon_value );
+                 given.type->get_id(), new_ammo, new_weapon_value );
         if( new_weapon_value > cur_weapon_value ) {
             p.wield( given );
             taken = true;

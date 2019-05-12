@@ -3,7 +3,7 @@
 #define WEATHER_H
 
 #include "color.h"
-#include "int_id.h"
+#include "type_id.h"
 
 /**
  * @name BODYTEMP
@@ -34,9 +34,6 @@ struct point;
 struct tripoint;
 struct trap;
 struct rl_vec2d;
-struct oter_t;
-
-using oter_id = int_id<oter_t>;
 
 /**
  * Weather type enum.
@@ -166,7 +163,6 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const time_point 
                                      const time_point &end, const tripoint &pos );
 
 double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_per_hour );
-
 
 rl_vec2d convert_wind_to_coord( const int angle );
 

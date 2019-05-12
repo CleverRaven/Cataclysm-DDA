@@ -11,6 +11,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "options.h"
+#include "string_id.h"
 
 // '!', '-' and '=' are uses as default bindings in the menu
 const invlet_wrapper
@@ -343,7 +344,8 @@ void player::power_bionics()
     bionic_menu_mode menu_mode = ACTIVATING;
     // offset for display: bionic with index i is drawn at y=list_start_y+i
     // drawing the bionics starts with bionic[scroll_position]
-    const int list_start_y = HEADER_LINE_Y;// - scroll_position;
+    // scroll_position;
+    const int list_start_y = HEADER_LINE_Y;
     int half_list_view_location = LIST_HEIGHT / 2;
     int max_scroll_position = std::max( 0, static_cast<int>( active.size() ) );
 

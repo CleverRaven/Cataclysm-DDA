@@ -9,7 +9,7 @@
 #include <vector>
 
 #include "enums.h"
-#include "material.h"
+#include "type_id.h"
 
 class JsonOut;
 class JsonIn;

@@ -35,8 +35,7 @@
 #include "mapdata.h"
 #include "optional.h"
 #include "player.h"
-#include "material.h"
-#include "pldata.h"
+#include "string_id.h"
 
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_bounced( "bounced" );
@@ -463,6 +462,9 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
 void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
                                const damage_instance &dam, dealt_damage_instance &dealt_dam )
 {
+    if( source->is_hallucination() ) {
+        return;
+    }
     damage_instance d = dam; // copy, since we will mutate in block_hit
 
     body_part bp_hit = select_body_part( source, hit_spread );

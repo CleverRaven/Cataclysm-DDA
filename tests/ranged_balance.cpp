@@ -20,6 +20,7 @@
 #include "item_location.h"
 #include "player.h"
 #include "material.h"
+#include "type_id.h"
 
 typedef statistics<bool> firing_statistics;
 

@@ -11,14 +11,13 @@
 #include <vector>
 
 #include "recipe.h"
-#include "string_id.h"
+#include "type_id.h"
 
 class JsonIn;
 class JsonOut;
 class JsonObject;
 
 typedef std::string itype_id;
-using recipe_id = string_id<recipe>;
 
 class recipe_dictionary
 {

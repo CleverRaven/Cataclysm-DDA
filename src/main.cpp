@@ -16,6 +16,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <type_traits>
 #if defined(_WIN32)
 #include "platform_win.h"
 #else
@@ -36,7 +37,7 @@
 #include "rng.h"
 #include "translations.h"
 #include "input.h"
-#include "worldfactory.h"
+#include "type_id.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

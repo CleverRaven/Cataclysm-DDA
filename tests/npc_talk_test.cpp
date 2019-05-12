@@ -21,12 +21,12 @@
 #include "enums.h"
 #include "inventory.h"
 #include "item.h"
-#include "npc_class.h"
 #include "pimpl.h"
 #include "string_id.h"
 #include "npctalk.h"
 #include "mapdata.h"
-#include "mtype.h"
+#include "material.h"
+#include "type_id.h"
 
 const efftype_id effect_gave_quest_item( "gave_quest_item" );
 const efftype_id effect_currently_busy( "currently_busy" );

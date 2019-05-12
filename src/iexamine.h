@@ -8,18 +8,16 @@
 #include <vector>
 
 #include "itype.h"
-#include "string_id.h"
 #include "calendar.h"
 #include "optional.h"
 #include "ret_val.h"
+#include "type_id.h"
 
 class item;
 class player;
 class vpart_reference;
 struct tripoint;
-struct mtype;
 
-using mtype_id = string_id<mtype>;
 using seed_tuple = std::tuple<itype_id, std::string, int>;
 
 enum hack_result {
@@ -46,7 +44,6 @@ void controls_gate( player &p, const tripoint &examp );
 void cardreader( player &p, const tripoint &examp );
 void cvdmachine( player &p, const tripoint &examp );
 void rubble( player &p, const tripoint &examp );
-void crate( player &p, const tripoint &examp );
 void chainfence( player &p, const tripoint &examp );
 void bars( player &p, const tripoint &examp );
 void deployed_furniture( player &p, const tripoint &pos );

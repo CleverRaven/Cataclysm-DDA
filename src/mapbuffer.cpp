@@ -32,6 +32,7 @@
 #include "item.h"
 #include "string_id.h"
 #include "visitable.h"
+#include "type_id.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 

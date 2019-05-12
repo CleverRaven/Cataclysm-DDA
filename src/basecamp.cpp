@@ -29,8 +29,8 @@
 #include "calendar.h"
 #include "color.h"
 #include "compatibility.h"
-#include "omdata.h"
 #include "string_id.h"
+#include "type_id.h"
 
 static const std::string base_dir = "[B]";
 static const std::string prefix = "faction_base_";

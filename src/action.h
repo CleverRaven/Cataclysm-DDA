@@ -103,8 +103,10 @@ enum action_id : int {
     ACTION_SMASH,
     /** Examine or pick up items from adjacent square */
     ACTION_EXAMINE,
-    /** Pick up items from current square */
+    /** Pick up items from current/adjacent squares */
     ACTION_PICKUP,
+    /** Pick up items from current square. Auto pickup if only one item */
+    ACTION_PICKUP_FEET,
     /** Grab or let go of an object */
     ACTION_GRAB,
     /** Haul pile of items, or let go of them */
@@ -143,8 +145,10 @@ enum action_id : int {
     ACTION_WEAR,
     /** Open the take-off clothing selection menu */
     ACTION_TAKE_OFF,
-    /** Open the consume item menu */
+    /** Open the default consume item menu */
     ACTION_EAT,
+    /** Open the custom consume item menu */
+    ACTION_OPEN_CONSUME,
     /** Open the read menu */
     ACTION_READ,
     /** Open the wield menu */
@@ -333,6 +337,14 @@ void load_keyboard_settings( std::map<char, action_id> &keymap,
  * @returns all keys (as characters) currently bound to a give action ID
  */
 std::vector<char> keys_bound_to( action_id act );
+
+/**
+ * Get the key for an action, used in the action menu to give each action the hotkey it is bound to.
+ * @param action Action ID to lookup in keymap.
+ * @returns the key code for the hotkey or -1 if no key is associated with the given action.
+ * @note We ignore bindings to '?' because that will already do something else in this menu (open the menu keybindings).
+ */
+long hotkey_for_action( action_id action );
 
 /**
  * Lookup an action ID by its unique string identifier

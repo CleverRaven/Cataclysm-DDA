@@ -19,6 +19,7 @@
 #include "optional.h"
 #include "string_id.h"
 #include "units.h"
+#include "type_id.h"
 
 static std::vector<const vpart_info *> turret_types()
 {

@@ -19,6 +19,7 @@
 #include "player.h"
 #include "requirements.h"
 #include "units.h"
+#include "string_id.h"
 
 recipe_dictionary recipe_dict;
 
@@ -290,9 +291,7 @@ recipe &recipe_dictionary::load( JsonObject &jo, const std::string &src,
 
     r.load( jo, src );
 
-    out[ r.ident() ] = std::move( r );
-
-    return out[ r.ident() ];
+    return out[ r.ident() ] = std::move( r );
 }
 
 size_t recipe_dictionary::size() const

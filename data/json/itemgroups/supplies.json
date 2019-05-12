@@ -27,7 +27,8 @@
       [ "motor_micro", 40 ],
       [ "jumper_cable", 15 ],
       [ "jumper_cable_heavy", 5 ],
-      [ "recharge_station", 20 ]
+      [ "recharge_station", 20 ],
+      [ "hand_crank_charger", 30 ]
     ]
   },
   {
