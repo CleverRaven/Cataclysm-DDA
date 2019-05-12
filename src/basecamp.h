@@ -3,13 +3,16 @@
 #define BASECAMP_H
 
 #include <cstddef>
+#include <list>
 #include <memory>
 #include <vector>
 #include <list>
 #include <map>
+#include <set>
 #include <string>
 
 #include "enums.h"
+#include "inventory.h"
 
 class JsonIn;
 class JsonOut;
@@ -18,8 +21,8 @@ class time_duration;
 
 enum class farm_ops;
 class item;
+class map;
 class recipe;
-class inventory;
 class mission_data;
 
 struct expansion_data {
@@ -117,10 +120,12 @@ class basecamp
 
         // recipes, gathering, and craft support functions
         std::map<std::string, std::string> recipe_deck( const std::string &dir ) const;
-        int recipe_batch_max( const recipe &making, const inventory &total_inv ) const;
-        inventory crafting_inventory( bool by_radio = false );
+        int recipe_batch_max( const recipe &making ) const;
+        void form_crafting_inventory( const bool by_radio = false );
+        void form_crafting_inventory( map &target_map );
         std::list<item> use_charges( const itype_id fake_id, long &quantity );
-        void consume_components( inventory &cmp_inv, const recipe &making, int batch_size,
+        void consume_components( const recipe &making, int batch_size, bool by_radio = false );
+        void consume_components( map &target_map, const recipe &making, int batch_size,
                                  bool by_radio = false );
         const std::string get_gatherlist() const;
         /**
@@ -154,6 +159,9 @@ class basecamp
         void place_results( item result, bool by_radio );
 
         // mission description functions
+        void add_available_recipes( mission_data &mission_key, const std::string &dir,
+                                    const std::map<std::string, std::string> &craft_recipes );
+
         std::string recruit_description( int npc_count );
         /// Provides a "guess" for some of the things your gatherers will return with
         /// to upgrade the camp
@@ -163,10 +171,10 @@ class basecamp
         std::string farm_description( const tripoint &omt_pos, size_t &plots_count,
                                       farm_ops operation );
         /// Returns the description for the recipe of the next building @ref bldg
-        std::string upgrade_description( const std::string &bldg, bool by_radio = false );
+        std::string upgrade_description( const std::string &bldg );
         /// Returns the description of a camp crafting options. converts fire charges to charcoal,
         /// allows dark crafting
-        std::string craft_description( const std::string &itm, bool by_radio = false );
+        std::string craft_description( const std::string &itm );
 
         // main mission description collection
         void get_available_missions( mission_data &mission_key, bool by_radio = false );
@@ -200,8 +208,7 @@ class basecamp
         void start_combat_mission( const std::string &miss );
         /// Called when a companion starts a chop shop @ref task mission
         bool start_garage_chop( const std::string &dir, const tripoint &omt_tgt );
-        void start_farm_op( const std::string &dir, const tripoint &omt_tgt, farm_ops op,
-                            bool by_radio );
+        void start_farm_op( const std::string &dir, const tripoint &omt_tgt, farm_ops op );
         ///Display items listed in @ref equipment to let the player pick what to give the departing
         ///NPC, loops until quit or empty.
         std::vector<item *> give_equipment( std::vector<item *> equipment, const std::string &msg );
@@ -244,6 +251,10 @@ class basecamp
         void deserialize( JsonIn &jsin );
         void load_data( const std::string &data );
     private:
+        // lazy re-evaluation of available camp resources
+        void reset_camp_resources( bool by_radio = false );
+        void add_resource( const itype_id &camp_resource );
+        bool resources_updated = false;
         // omt pos
         tripoint omt_pos;
         std::vector<npc_ptr> assigned_npcs;
@@ -252,8 +263,12 @@ class basecamp
         std::map<std::string, expansion_data> expansions;
         comp_list camp_workers;
         tripoint dumping_spot;
+
+        std::set<itype_id> fuel_types;
         std::vector<basecamp_fuel> fuels;
         std::vector<basecamp_resource> resources;
+        static const int range = 20;
+        inventory _inv;
 };
 
 #endif
