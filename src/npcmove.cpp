@@ -289,12 +289,17 @@ void npc::assess_danger()
     float assessment = 0.0f;
     float highest_priority = 1.0f;
 
+
     // Radius we can attack without moving
     const int max_range = std::max( weapon.reach_range( *this ),
                                     confident_shoot_range( weapon,
                                             get_most_accurate_sight( weapon ) ) );
 
     const auto ok_by_rules = [max_range, this]( const Creature & c, int dist, int scaled_dist ) {
+        // If we're forbidden to attack, no need to check engagement rules
+        if( rules.has_flag( ally_rule::forbid_engage ) ) {
+            return false;
+        }
         switch( rules.engagement ) {
             case ENGAGE_NONE:
                 return false;

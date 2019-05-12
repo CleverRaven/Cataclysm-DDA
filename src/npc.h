@@ -25,6 +25,7 @@
 #include "enums.h"
 #include "inventory.h"
 #include "item_location.h"
+#include "translations.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "material.h"
@@ -237,26 +238,125 @@ enum class ally_rule {
     allow_complain = 128,
     allow_pulp = 256,
     close_doors = 512,
-    avoid_combat = 1024,
+    follow_close = 1024,
     avoid_doors = 2048,
     hold_the_line = 4096,
-    ignore_noise = 8192
+    ignore_noise = 8192,
+    forbid_engage = 16384
 };
-const std::unordered_map<std::string, ally_rule> ally_rule_strs = { {
-        { "use_guns", ally_rule::use_guns },
-        { "use_grenades", ally_rule::use_grenades },
-        { "use_silent", ally_rule::use_silent },
-        { "avoid_friendly_fire", ally_rule::avoid_friendly_fire },
-        { "allow_pick_up", ally_rule::allow_pick_up },
-        { "allow_bash", ally_rule::allow_bash },
-        { "allow_sleep", ally_rule::allow_sleep },
-        { "allow_complain", ally_rule::allow_complain },
-        { "allow_pulp", ally_rule::allow_pulp },
-        { "close_doors", ally_rule::close_doors },
-        { "avoid_combat", ally_rule::avoid_combat },
-        { "avoid_doors", ally_rule::avoid_doors },
-        { "hold_the_line", ally_rule::hold_the_line },
-        { "ignore_noise", ally_rule::ignore_noise }
+
+struct ally_rule_data {
+    ally_rule rule;
+    std::string rule_true_text;
+    std::string rule_false_text;
+};
+
+const std::unordered_map<std::string, ally_rule_data> ally_rule_strs = { {
+        {
+            "use_guns", {
+                ally_rule::use_guns,
+                "<ally_rule_use_guns_true_text>",
+                "<ally_rule_use_guns_false_text>"
+            }
+        },
+        {
+            "use_grenades", {
+                ally_rule::use_grenades,
+                "<ally_rule_use_grenades_true_text>",
+                "<ally_rule_use_grenades_false_text>"
+            }
+        },
+        {
+            "use_silent", {
+                ally_rule::use_silent,
+                "<ally_rule_use_silent_true_text>",
+                "<ally_rule_use_silent_false_text>"
+            }
+        },
+        {
+            "avoid_friendly_fire", {
+                ally_rule::avoid_friendly_fire,
+                "<ally_rule_avoid_friendly_fire_true_text>",
+                "<ally_rule_avoid_friendly_fire_false_text>"
+            }
+        },
+        {
+            "allow_pick_up", {
+                ally_rule::allow_pick_up,
+                "<ally_rule_allow_pick_up_true_text>",
+                "<ally_rule_allow_pick_up_false_text>"
+            }
+        },
+        {
+            "allow_bash", {
+                ally_rule::allow_bash,
+                "<ally_rule_allow_bash_true_text>",
+                "<ally_rule_allow_bash_false_text>"
+            }
+        },
+        {
+            "allow_sleep", {
+                ally_rule::allow_sleep,
+                "<ally_rule_allow_sleep_true_text>",
+                "<ally_rule_allow_sleep_false_text>"
+            }
+        },
+        {
+            "allow_complain", {
+                ally_rule::allow_complain,
+                "<ally_rule_allow_complain_true_text>",
+                "<ally_rule_allow_complain_false_text>"
+            }
+        },
+        {
+            "allow_pulp", {
+                ally_rule::allow_pulp,
+                "<ally_rule_allow_pulp_true_text>",
+                "<ally_rule_allow_pulp_false_text>"
+            }
+        },
+        {
+            "close_doors", {
+                ally_rule::close_doors,
+                "<ally_rule_close_doors_true_text>",
+                "<ally_rule_close_doors_false_text>"
+            }
+        },
+        {
+            "follow_close", {
+                ally_rule::follow_close,
+                "<ally_rule_follow_close_true_text>",
+                "<ally_rule_follow_close_false_text>"
+            }
+        },
+        {
+            "avoid_doors", {
+                ally_rule::avoid_doors,
+                "<ally_rule_avoid_doors_true_text>",
+                "<ally_rule_avoid_doors_false_text>"
+            }
+        },
+        {
+            "hold_the_line", {
+                ally_rule::hold_the_line,
+                "<ally_rule_hold_the_line_true_text>",
+                "<ally_rule_hold_the_line_false_text>"
+            }
+        },
+        {
+            "ignore_noise", {
+                ally_rule::ignore_noise,
+                "<ally_rule_ignore_noise_true_text>",
+                "<ally_rule_ignore_noise_false_text>"
+            }
+        },
+        {
+            "forbid_engage", {
+                ally_rule::forbid_engage,
+                "<ally_rule_forbid_engage_true_text>",
+                "<ally_rule_forbid_engage_false_text>"
+            }
+        }
     }
 };
 
@@ -278,6 +378,8 @@ struct npc_follower_rules {
     void set_flag( ally_rule setit );
     void clear_flag( ally_rule clearit );
     void toggle_flag( ally_rule toggle );
+    void set_specific_override_state( ally_rule, bool state );
+    void toggle_specific_override_state( ally_rule rule, bool state );
     bool has_override_enable( ally_rule test ) const;
     void enable_override( ally_rule setit );
     void disable_override( ally_rule setit );
