@@ -1419,7 +1419,7 @@ void options_manager::add_options_interface()
        );
 
     add( "FAST_SCROLL_OFFSET", "interface", translate_marker( "Overmap fast scroll offset" ),
-        translate_marker( "With Fast Scroll option enabled, shift view on the overmap by this many squares per keypress." ),
+        translate_marker( "With Fast Scroll option enabled, shift view on the overmap and while looking around by this many squares per keypress." ),
         1, 50, 5
     );
 
