@@ -1523,6 +1523,7 @@ class vehicle
         active_item_cache active_items;
         bool all_wheels_on_one_axis;
 
+        bounding_box rail_wheel_bounding_box;
         bounding_box get_bounding_box();
 
         /**

@@ -4604,6 +4604,11 @@ void vehicle::refresh()
     mount_max.x = -123;
     mount_max.y = -123;
 
+    int railwheel_xmin = INT_MAX;
+    int railwheel_ymin = INT_MAX;
+    int railwheel_xmax = INT_MIN;
+    int railwheel_ymax = INT_MIN;
+
     // Main loop over all vehicle parts.
     for( const vpart_reference &vp : get_all_parts() ) {
         const size_t p = vp.part_index();
@@ -4673,6 +4678,11 @@ void vehicle::refresh()
                 // vehicle have wheels on different axis
                 all_wheels_on_one_axis = false;
             }
+
+            railwheel_xmin = std::min( railwheel_xmin, pt.x );
+            railwheel_ymin = std::min( railwheel_ymin, pt.y );
+            railwheel_xmax = std::max( railwheel_xmax, pt.x );
+            railwheel_ymax = std::max( railwheel_ymax, pt.y );
         }
         if( vpi.has_flag( "STEERABLE" ) || vpi.has_flag( "TRACKED" ) ) {
             // TRACKED contributes to steering effectiveness but
@@ -4696,6 +4706,9 @@ void vehicle::refresh()
             vp.part().enabled = false;
         }
     }
+
+    rail_wheel_bounding_box.p1 = point( railwheel_xmin, railwheel_ymin );
+    rail_wheel_bounding_box.p2 = point( railwheel_xmax, railwheel_ymax );
 
     // NB: using the _old_ pivot point, don't recalc here, we only do that when moving!
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );

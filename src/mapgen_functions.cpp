@@ -1245,14 +1245,14 @@ void mapgen_subway( map *m, oter_id terrain_type, mapgendata dat, const time_poi
     switch( num_dirs ) {
         case 4: // 4-way intersection
             mapf::formatted_set_simple( m, 0, 0, "\
-..^DD^^DD^....^DD^^DD^..\n\
-.^DDX^DDX......XDD^XDD^.\n\
-^DD^XDD^X......X^DDX^DD^\n\
-DD^^DD^.X......X.^DD^^DD\n\
+..^/D^^/D^....^D/^^D/^..\n\
+.^/DX^/DX......XD/^XD/^.\n\
+^/D^X/D^X......X^D/X^D/^\n\
+/D^^XD^.X......X.^DX^^D/\n\
 DXXDDXXXXXXXXXXXXXXDDXXD\n\
-^^DDX^^^X^^^^^^X^^^XDD^^\n\
-^DD^X^^^X^^^^^^X^^^X^DD^\n\
-DD^^X^^^X^^^^^^X^^^X^^DD\n\
+^^/DX^^^X^^^^^^X^^^XD/^^\n\
+^/D^X^^^X^^^^^^X^^^X^D/^\n\
+/D^^X^^^X^^^^^^X^^^X^^D/\n\
 DXXXXXXXXXXXXXXXXXXXXXXD\n\
 ^^^^X^^^X^^^^^^X^^^X^^^^\n\
 ...^X^^^X^....^X^^^X^...\n\
@@ -1261,21 +1261,23 @@ DXXXXXXXXXXXXXXXXXXXXXXD\n\
 ...^X^^^X^....^X^^^X^...\n\
 ^^^^X^^^X^^^^^^X^^^X^^^^\n\
 DXXXXXXXXXXXXXXXXXXXXXXD\n\
-DD^^X^^^X^^^^^^X^^^X^^DD\n\
-^DD^X^^^X^^^^^^X^^^X^DD^\n\
-^^DDX^^^X^^^^^^X^^^XDD^^\n\
-DXXDDXXXXXXXXXXXXXXDDXXD\n\
-DD^^DD^.X......X.^DD^^DD\n\
-^DD^XDD^X......X^DDX^DD^\n\
-.^DDX^DDX......XDD^XDD^.\n\
-..^DD^^DD^....^DD^^DD^..",
-                                        mapf::ter_bind( ". # ^ D X",
+/D^^X^^^X^^^^^^X^^^X^^D/\n\
+^/D^X^^^X^^^^^^X^^^X^D/^\n\
+^^/DX^^^X^^^^^^X^^^XD/^^\n\
+DXXDDXXXXXXXXXXXXXXDDDDD\n\
+/D^^XD^.X......X.^DX^^D/\n\
+^/D^X/D^X......X^D/X^D/^\n\
+.^/DX^/DX......XD/^XD/^.\n\
+..^/D^^/D^....^D/^^D/^..",
+                                        mapf::ter_bind( ". # ^ / D X",
                                                 t_rock_floor,
                                                 t_rock,
                                                 t_railroad_rubble,
+                                                t_railroad_tie_d,
                                                 t_railroad_track_d,
                                                 t_railroad_track ),
-                                        mapf::furn_bind( ". # ^ D X",
+                                        mapf::furn_bind( ". # ^ / D X",
+                                                f_null,
                                                 f_null,
                                                 f_null,
                                                 f_null,

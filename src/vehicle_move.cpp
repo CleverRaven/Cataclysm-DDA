@@ -1176,7 +1176,9 @@ bool vehicle::is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int w
                                         all_wheels_on_one_axis ) ) ) // for bikes or 1 wheel vehicle
            && ( wheels_on_rail !=
                 turning_wheels_that_are_one_axis // wheels that want to turn is not on same axis
-                || all_wheels_on_one_axis ) ;
+                || all_wheels_on_one_axis ||
+                ( abs( rail_wheel_bounding_box.p2.x - rail_wheel_bounding_box.p1.x ) < 4 && velocity < 0 ) );
+    // allow turn for vehicles with wheel distance < 4 when moving backwards
 }
 
 bool vehicle::act_on_map()
