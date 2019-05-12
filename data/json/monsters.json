@@ -1979,7 +1979,7 @@
     "volume": "300000 ml",
     "weight": 120000,
     "hp": 200,
-    "speed": 90,
+    "speed": 80,
     "material": [ "flesh" ],
     "symbol": "j",
     "color": "dark_gray_red",
