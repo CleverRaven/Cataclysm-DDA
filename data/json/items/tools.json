@@ -1530,6 +1530,28 @@
     }
   },
   {
+    "id": "caltrops_glass",
+    "type": "TOOL",
+    "name": "loose glass caltrops",
+    "name_plural": "loose glass caltrops",
+    "description": "These are glass shards glued together to expose their sharp edges.  If an unsuspecting victim steps on one, they'll get cut.",
+    "weight": 264,
+    "volume": 2,
+    "price": 100,
+    "to_hit": -4,
+    "cutting": 6,
+    "material": "glass",
+    "symbol": ";",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_caltrops_glass",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You scatter the glass caltrops on the %s."
+    }
+  },
+  {
     "id": "camera",
     "type": "TOOL",
     "name": "camera",

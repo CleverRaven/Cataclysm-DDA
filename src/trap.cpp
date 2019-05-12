@@ -215,6 +215,7 @@ void trap::on_disarmed( map &m, const tripoint &p ) const
 trap_id
 tr_null,
 tr_bubblewrap,
+tr_glass,
 tr_cot,
 tr_funnel,
 tr_metal_funnel,
@@ -226,6 +227,7 @@ tr_beartrap,
 tr_beartrap_buried,
 tr_nailboard,
 tr_caltrops,
+tr_caltrops_glass,
 tr_tripwire,
 tr_crossbow,
 tr_shotgun_2,
@@ -279,6 +281,7 @@ void trap::finalize()
     };
     tr_null = trap_str_id::NULL_ID().id();
     tr_bubblewrap = trapfind( "tr_bubblewrap" );
+    tr_glass = trapfind( "tr_glass" );
     tr_cot = trapfind( "tr_cot" );
     tr_funnel = trapfind( "tr_funnel" );
     tr_metal_funnel = trapfind( "tr_metal_funnel" );
@@ -290,6 +293,7 @@ void trap::finalize()
     tr_beartrap_buried = trapfind( "tr_beartrap_buried" );
     tr_nailboard = trapfind( "tr_nailboard" );
     tr_caltrops = trapfind( "tr_caltrops" );
+    tr_caltrops_glass = trapfind( "tr_caltrops_glass" );
     tr_tripwire = trapfind( "tr_tripwire" );
     tr_crossbow = trapfind( "tr_crossbow" );
     tr_shotgun_2 = trapfind( "tr_shotgun_2" );

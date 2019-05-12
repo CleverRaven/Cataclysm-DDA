@@ -86,6 +86,33 @@ void trapfunc::bubble( Creature *c, const tripoint &p )
     g->m.remove_trap( p );
 }
 
+void trapfunc::glass( Creature *c, const tripoint &p )
+{
+    // tiny animals don't trigger glass trap
+    if( ( c != nullptr && c->get_size() == MS_TINY ) || c->is_hallucination() ) {
+        return;
+    }
+    if( c != nullptr ) {
+        c->add_msg_player_or_npc( m_warning, _( "You step on some glass!" ),
+                                  _( "<npcname> steps on some glass!" ) );
+        c->add_memorial_log( pgettext( "memorial_male", "Stepped on glass." ),
+                             pgettext( "memorial_female", "Stepped on glass." ) );
+        
+        monster *z = dynamic_cast<monster *>( c );
+        const char dmg = std::max( 0, rng( -10, 10 ) );
+        if( z != nullptr && dmg > 0 ) {
+            z->moves -= 80;
+        } 
+        if( dmg > 0) {
+            c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, dmg ) );
+            c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, dmg ) );
+            c->check_dead_state();
+        }
+    }
+    sounds::sound( p, 10, sounds::sound_t::combat, _( "glass cracking!" ), false, "trap", "glass" );
+    g->m.remove_trap( p );
+}
+
 void trapfunc::cot( Creature *c, const tripoint & )
 {
     monster *z = dynamic_cast<monster *>( c );
@@ -188,6 +215,35 @@ void trapfunc::caltrops( Creature *c, const tripoint & )
             c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, rng( 9, 30 ) ) );
         }
         c->check_dead_state();
+    }
+}
+
+void trapfunc::caltrops_glass( Creature *c, const tripoint &p )
+{
+    // tiny animals don't trigger caltrops, they can squeeze between them
+    if( ( c != nullptr && c->get_size() == MS_TINY ) || c->is_hallucination() ) {
+        return;
+    }
+    if( c != nullptr ) {
+        c->add_memorial_log( pgettext( "memorial_male", "Stepped on a glass caltrop." ),
+                             pgettext( "memorial_female", "Stepped on a glass caltrop." ) );
+        c->add_msg_player_or_npc( m_bad, _( "You step on a sharp glass caltrop!" ),
+                                  _( "<npcname> steps on a sharp glass caltrop!" ) );
+        monster *z = dynamic_cast<monster *>( c );
+        if( z != nullptr ) {
+            z->moves -= 80;
+            c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, rng( 9, 15 ) ) );
+            c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, rng( 9, 15 ) ) );
+        } else {
+            c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, rng( 9, 30 ) ) );
+            c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, rng( 9, 30 ) ) );
+        }
+        c->check_dead_state();
+        if( g->u.sees( p ) ) {
+            add_msg( _( "The shards shatter!" ) );
+            sounds::sound( p, 8, sounds::sound_t::combat, _( "glass cracking!" ), false, "trap", "glass_caltrops" );
+        }
+        g->m.remove_trap( p );
     }
 }
 
@@ -1323,10 +1379,12 @@ const trap_function &trap_function_from_string( const std::string &function_name
     static const std::unordered_map<std::string, trap_function> funmap = {{
             { "none", trapfunc::none },
             { "bubble", trapfunc::bubble },
+            { "glass", trapfunc::glass },
             { "cot", trapfunc::cot },
             { "beartrap", trapfunc::beartrap },
             { "board", trapfunc::board },
             { "caltrops", trapfunc::caltrops },
+            { "caltrops_glass", trapfunc::caltrops_glass },
             { "tripwire", trapfunc::tripwire },
             { "crossbow", trapfunc::crossbow },
             { "shotgun", trapfunc::shotgun },
