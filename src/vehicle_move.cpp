@@ -1153,13 +1153,12 @@ bool vehicle::allow_auto_turn_on_rails( int &corrected_turn_dir ) const
                                       rightturn_turning_wheels_that_are_one_axis );
 
         // if bad terrain ahead (landing wheels num is low)
-        if( straight_wheels_on_rail <= leftturn_wheels_on_rail && !all_wheels_on_one_axis &&
+        if( straight_wheels_on_rail <= leftturn_wheels_on_rail &&
             is_wheel_state_correct_to_turn_on_rails( leftturn_wheels_on_rail, rail_wheelcache.size(),
                     leftturn_turning_wheels_that_are_one_axis ) ) {
             allow_turn_on_rail = true;
             corrected_turn_dir = left_turn_dir;
         } else if( straight_wheels_on_rail <= rightturn_wheels_on_rail &&
-                   !all_wheels_on_one_axis &&
                    is_wheel_state_correct_to_turn_on_rails( rightturn_wheels_on_rail, rail_wheelcache.size(),
                            rightturn_turning_wheels_that_are_one_axis ) ) {
             allow_turn_on_rail = true;
