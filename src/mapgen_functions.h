@@ -230,6 +230,8 @@ void mapgen_ants_queen( map *m, oter_id terrain_type, mapgendata dat, const time
                         float density );
 void mapgen_tutorial( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
                       float density );
+void mapgen_lake_shore( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
+                        float density );
 
 // Temporary wrappers
 void mremove_trap( map *m, int x, int y );
