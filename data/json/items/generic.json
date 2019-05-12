@@ -166,7 +166,7 @@
     "type": "GENERIC",
     "id": "central_module",
     "name": "central integrating module",
-    "description": "This module is responsible for decision making, it's basically the seige of the AI of the robot.",
+    "description": "This module is responsible for decision making, it's basically the siege of the AI of the robot.",
     "copy-from": "robot_module_abstract"
   },
   {
