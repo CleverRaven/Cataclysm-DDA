@@ -320,7 +320,7 @@
     "type": "GENERIC",
     "id": "tankbot_chassis",
     "name": "Beagle chassis",
-    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Beagle tank",
+    "description": "What's left when you remove all moving parts and electronics.  It's the skeleton and armor of the Beagle tank.",
     "weight": 150000,
     "volume": "575000 ml",
     "price": 1000000,
