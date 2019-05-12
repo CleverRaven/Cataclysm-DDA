@@ -270,9 +270,9 @@
     ]
   },
   {
-    "id": "electric_car_flame",
+    "id": "car_atomic_flame",
     "type": "vehicle",
-    "name": "Flaming Electric Car",
+    "name": "Flaming Atomic Car",
     "blueprint": [
       [ "##++-o" ],
       [ "+=##'|" ],
