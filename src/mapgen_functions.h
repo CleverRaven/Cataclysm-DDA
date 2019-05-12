@@ -242,4 +242,6 @@ mapgen_update_func add_mapgen_update_func( JsonObject &jo, bool &defer );
 bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint &omt_pos,
                              mission *miss = nullptr, bool cancel_on_collision = true );
 
+bool run_mapgen_func( const std::string &mapgen_id, map *m, oter_id terrain_type, mapgendata dat,
+                      const time_point &turn, float density );
 #endif
