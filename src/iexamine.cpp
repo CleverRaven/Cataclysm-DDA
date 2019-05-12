@@ -760,7 +760,7 @@ void iexamine::cardreader( player &p, const tripoint &examp )
             add_msg( _( "The nearby doors are already opened." ) );
         }
     } else {
-        p.assign_activity( activity_id( "ACT_HACK_DOOR" ) );
+        p.assign_activity( activity_id( "ACT_HACK_DOOR" ), to_moves<int>( 5_minutes ) );
         p.activity.placement = examp;
     }
 }
