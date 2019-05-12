@@ -6243,12 +6243,11 @@ std::vector<tripoint> map::find_clear_path( const tripoint &source,
 void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tripoint &f,
                                  int range, const int cost_min, const int cost_max ) const
 {
-    range = 50;
     // the starting spot for the search should definitely be included
     reachable_pts.push_back( f );
     std::vector < std::pair<tripoint, int>> f_map = { {f, 0} };
     // iterate out to the maximum number of steps
-    for( unsigned int r = 1; r <= range; r++ ) {
+    for( unsigned int r = 1; r < range; r++ ) {
         int f_map_size = f_map.size();
         for( unsigned int k = 0; k < f_map_size; k++ ) {
             for( int i = -1; i <= 1; i++ ) {
