@@ -16,7 +16,6 @@
 #include "optional.h"
 #include "rng.h"
 
-
 stomach_contents::stomach_contents() = default;
 
 stomach_contents::stomach_contents( units::volume max_vol )

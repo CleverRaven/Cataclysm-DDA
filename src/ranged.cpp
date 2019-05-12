@@ -253,6 +253,29 @@ bool player::handle_gun_damage( item &it )
     return true;
 }
 
+void npc::pretend_fire( npc *source, int shots, item &gun )
+{
+    int curshot = 0;
+    if( g->u.sees( *source ) && one_in( 50 ) ) {
+        add_msg( m_info, _( "%s shoots something." ), source->disp_name() );
+    }
+    while( curshot != shots ) {
+        if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
+            debugmsg( "Unexpected shortage of ammo whilst firing %s", gun.tname().c_str() );
+            break;
+        }
+
+        item *weapon = &gun;
+        const auto data = weapon->gun_noise( shots > 1 );
+
+        if( g->u.sees( *source ) ) {
+            add_msg( m_warning, _( "You hear %s." ), data.sound );
+        }
+        curshot++;
+        moves -= 100;
+    }
+}
+
 int player::fire_gun( const tripoint &target, int shots )
 {
     return fire_gun( target, shots, weapon );
@@ -518,6 +541,11 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     const bool shatter = !thrown.active && thrown.made_of( material_id( "glass" ) ) &&
                          rng( 0, units::to_milliliter( 2000_ml - volume ) ) < get_str() * 100;
 
+    // Item will burst upon landing, destroying the item, and spilling its contents
+    const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
+                       thrown.get_property_long( "burst_when_filled" ) <= ( ( double )
+                               thrown.get_contained().volume().value() ) / thrown.get_container_capacity().value() * 100;
+
     // Add some flags to the projectile
     if( weight > 500_gram ) {
         proj_effects.insert( "HEAVY_HIT" );
@@ -543,6 +571,11 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     if( shatter ) {
         impact.add_damage( DT_CUT, units::to_milliliter( volume ) / 500.0f );
         proj_effects.insert( "SHATTER_SELF" );
+    }
+
+    //TODO: Add wet effect if other things care about that
+    if( burst ) {
+        proj_effects.insert( "BURST" );
     }
 
     // Some minor (skill/2) armor piercing for skillful throws
@@ -1284,12 +1317,12 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             nc_color col = c_light_gray;
             if( relevant != m.target ) {
                 str = string_format( _( "Firing mode: <color_cyan>%s %s (%d)</color>" ),
-                                     m->tname(), m.name(), m.qty );
+                                     m->tname(), m.tname(), m.qty );
 
                 print_colored_text( w_target, line_number++, 1, col, col, str );
             } else {
                 str = string_format( _( "Firing mode: <color_cyan> %s (%d)</color>" ),
-                                     m.name(), m.qty );
+                                     m.tname(), m.qty );
                 print_colored_text( w_target, line_number++, 1, col, col, str );
             }
 
@@ -1975,7 +2008,7 @@ double player::gun_value( const item &weap, long ammo ) const
     double gun_value = damage_and_accuracy * capacity_factor;
 
     add_msg( m_debug, "%s as gun: %.1f total, %.1f dispersion, %.1f damage, %.1f capacity",
-             weap.tname(), gun_value, dispersion_factor, damage_factor,
+             weap.type->get_id(), gun_value, dispersion_factor, damage_factor,
              capacity_factor );
     return std::max( 0.0, gun_value );
 }

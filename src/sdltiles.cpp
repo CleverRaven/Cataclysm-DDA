@@ -2538,25 +2538,22 @@ void CheckMessages()
                             const optional_vpart_position vp = g->m.veh_at( pos );
                             vehicle *const veh = veh_pointer_or_null( vp );
                             if( veh ) {
-                                int veh_part = vp ? vp->part_index() : -1;
+                                const int veh_part = vp ? vp->part_index() : -1;
                                 if( veh->part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
                                     actions.insert( ACTION_CONTROL_VEHICLE );
                                 }
-                                int openablepart = veh->part_with_feature( veh_part, "OPENABLE", true );
+                                const int openablepart = veh->part_with_feature( veh_part, "OPENABLE", true );
                                 if( openablepart >= 0 && veh->is_open( openablepart ) && ( dx != 0 ||
                                         dy != 0 ) ) { // an open door adjacent to us
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                int curtainpart = veh->part_with_feature( veh_part, "CURTAIN", true );
+                                const int curtainpart = veh->part_with_feature( veh_part, "CURTAIN", true );
                                 if( curtainpart >= 0 && veh->is_open( curtainpart ) && ( dx != 0 || dy != 0 ) ) {
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                if( dx == 0 && dy == 0 ) {
-                                    int cargopart = veh->part_with_feature( veh_part, "CARGO", true );
-                                    bool can_pickup = cargopart >= 0 && ( !veh->get_items( cargopart ).empty() );
-                                    if( can_pickup ) {
-                                        actions.insert( ACTION_PICKUP );
-                                    }
+                                const int cargopart = veh->part_with_feature( veh_part, "CARGO", true );
+                                if( cargopart >= 0 && ( !veh->get_items( cargopart ).empty() ) ) {
+                                    actions.insert( ACTION_PICKUP );
                                 }
                             }
                         }
@@ -3484,10 +3481,14 @@ template<>
 SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int b )
 {
     SDL_Color result;
-    result.b = b;  //Blue
-    result.g = g;  //Green
-    result.r = r;  //Red
-    //result.a=0;//The Alpha, is not used, so just set it to 0
+    //Blue
+    result.b = b;
+    //Green
+    result.g = g;
+    //Red
+    result.r = r;
+    //The Alpha, is not used, so just set it to 0
+    //result.a = 0;
     return result;
 }
 
@@ -3836,6 +3837,37 @@ SDL_Color cursesColorToSDL( const nc_color &color )
     }
 
     return windowsPalette[palette_index];
+}
+
+/** Saves a screenshot of the current viewport, as a PNG file, to the given location.
+* @param file_path: A full path to the file where the screenshot should be saved.
+* @returns `true` if the screenshot generation was successful, `false` otherwise.
+*/
+bool save_screenshot( const std::string &file_path )
+{
+    // Note: the viewport is returned by SDL and we don't have to manage its lifetime.
+    SDL_Rect viewport;
+
+    // Get the viewport size (width and heigth of the screen)
+    SDL_RenderGetViewport( renderer.get(), &viewport );
+
+    // Create SDL_Surface with depth of 32 bits (note: using zeros for the RGB masks sets a default value, based on the depth; Alpha mask will be 0).
+    SDL_Surface_Ptr surface = CreateRGBSurface( 0, viewport.w, viewport.h, 32, 0, 0, 0, 0 );
+
+    // Get data from SDL_Renderer and save them into surface
+    if( printErrorIf( SDL_RenderReadPixels( renderer.get(), nullptr, surface->format->format,
+                                            surface->pixels, surface->pitch ) != 0,
+                      "save_screenshot: cannot read data from SDL_Renderer." ) ) {
+        return false;
+    }
+
+    // Save screenshot as PNG file
+    if( printErrorIf( IMG_SavePNG( surface.get(), file_path.c_str() ) != 0,
+                      std::string( "save_screenshot: cannot save screenshot file: " + file_path ).c_str() ) ) {
+        return false;
+    }
+
+    return true;
 }
 
 #endif // TILES

@@ -2094,7 +2094,6 @@ bool basecamp::upgrade_return( const std::string &dir, const std::string &miss )
     }
     const tripoint upos = e->second.pos;
 
-
     const std::string bldg = next_upgrade( dir, 1 );
     if( bldg == "null" ) {
         return false;
@@ -2335,14 +2334,15 @@ void basecamp::recruit_return( const std::string &task, int score )
             break;
         }
     }
-    //Roll for recruitment
+    // Roll for recruitment
     if( rng( 1, 20 ) + appeal >= 10 ) {
         popup( _( "%s has been convinced to join!" ), recruit->name );
     } else {
         popup( _( "%s wasn't interested..." ), recruit->name );
-        return;// nullptr;
+        // nullptr;
+        return;
     }
-    // time durations always subtract from camp food supply
+    // Time durations always subtract from camp food supply
     camp_food_supply( 1_days * food_desire );
     recruit->spawn_at_precise( { g->get_levx(), g->get_levy() }, g->u.pos() + point( -4, -4 ) );
     overmap_buffer.insert_npc( recruit );

@@ -1,6 +1,54 @@
 [
   {
     "type": "snippet",
+    "category": "<no_to_thorazine>",
+    "text": [
+      "I hate thorazine!",
+      "Arg thorazine, don't touch it!",
+      "Thorazine is bad for you, you know.",
+      "Thorazine is poison.",
+      "You don't need thorazine, it's limiting you.",
+      "Thorazine... That's what 'they' use to keep you tame."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<yes_to_lsd>",
+    "text": [
+      "Pink tablets! I love those!",
+      "Hey there's some pink tablets, take some!",
+      "Look, some LSD, let's play cataclysm: fun times ahead!",
+      "Say yes to LSD, say yes to Fun!",
+      "Perfect, those pink tablets will keep us going, take some!",
+      "You know what would make all this more bearable? Pink Tablets!"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<hallu_dont_trade>",
+    "text": [
+      "No thanks, I'm good.",
+      "I don't want to trade with you.",
+      "I have the best stuff. And I'm keeping it!",
+      "No trading, that's my rule.",
+      "I'm not interested.",
+      "How about no?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<hallu_dont_camp>",
+    "text": [
+      "No thanks, I really don't feel like it.",
+      "Well, I would, but I don't want to right now.",
+      "I have better things to do.",
+      "I'll pass, it's too much work.",
+      "Who put you in charge of what I do?",
+      "Great idea! Call me when you find SOMEONE ELSE to do it."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<name_b>",
     "text": [
       "<swear> <name_b>",

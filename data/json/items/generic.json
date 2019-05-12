@@ -2913,22 +2913,6 @@
     "bashing": 5
   },
   {
-    "id": "condom",
-    "type": "GENERIC",
-    "category": "other",
-    "name": "condom",
-    "looks_like": "lens",
-    "description": "A gentleman's balloon.  A single use life preventer.  A thumbless latex mitten.   This could be used as a makeshift water container, but otherwise it's anyone's guess what it's for.",
-    "weight": 5,
-    "volume": "5ml",
-    "price": 200,
-    "material": "plastic",
-    "symbol": "*",
-    "color": "white",
-    "bashing": 5,
-    "to_hit": -3
-  },
-  {
     "type": "GENERIC",
     "id": "lock",
     "category": "spare_parts",

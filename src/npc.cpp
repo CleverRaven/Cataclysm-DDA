@@ -130,6 +130,7 @@ npc::npc()
     death_drops = true;
     dead = false;
     hit_by_player = false;
+    hallucination = false;
     moves = 100;
     mission = NPC_MISSION_NULL;
     myclass = npc_class_id::NULL_ID();
@@ -1113,6 +1114,9 @@ void npc::make_angry()
 
 void npc::on_attacked( const Creature &attacker )
 {
+    if( is_hallucination() ) {
+        die( nullptr );
+    }
     if( attacker.is_player() && !is_enemy() ) {
         make_angry();
         hit_by_player = true;
@@ -1214,12 +1218,19 @@ void npc::say( const std::string &line, const int priority ) const
     if( g->u.sees( *this ) && g->u.is_deaf() ) {
         add_msg( m_warning, _( "%1$s says something but you can't hear it!" ), name );
     }
+    // Hallucinations don't make noise when they speak
+    if( !is_hallucination() ) {
+        add_msg( _( "%1$s saying \"%2$s\"" ), name, formatted_line );
+        return;
+    }
     // Sound happens even if we can't hear it
     sounds::sound_t spriority = static_cast<sounds::sound_t>( priority );
     if( spriority == sounds::sound_t::order || spriority == sounds::sound_t::alert ) {
-        sounds::sound( pos(), get_shout_volume(), spriority, sound );
+        sounds::sound( pos(), get_shout_volume(), spriority, sound, false, "speech",
+                       male ? "NPC_m" : "NPC_f" );
     } else {
-        sounds::sound( pos(), 16, sounds::sound_t::speech, sound );
+        sounds::sound( pos(), 16, sounds::sound_t::speech, sound, false, "speech",
+                       male ? "NPC_m_loud" : "NPC_f_loud" );
     }
 }
 
@@ -1652,7 +1663,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 
 int npc::smash_ability() const
 {
-    if( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) {
+    if( !is_hallucination() && ( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) ) {
         ///\EFFECT_STR_NPC increases smash ability
         return str_cur + weapon.damage_melee( DT_BASH );
     }
@@ -1912,6 +1923,13 @@ void npc::die( Creature *nkiller )
     dead = true;
     Character::die( nkiller );
 
+    if( is_hallucination() ) {
+        if( g->u.sees( *this ) ) {
+            add_msg( _( "%s disappears." ), name.c_str() );
+        }
+        return;
+    }
+
     if( g->u.sees( *this ) ) {
         add_msg( _( "%s dies!" ), name );
     }
@@ -2119,6 +2137,9 @@ void npc::on_load()
     if( g->m.veh_at( pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
         g->m.board_vehicle( pos(), this );
     }
+    if( has_trait( trait_id( "HALLUCINATION" ) ) ) {
+        hallucination = true;
+    }
 }
 
 void npc_chatbin::add_new_mission( mission *miss )
@@ -2296,6 +2317,10 @@ std::ostream &operator<< ( std::ostream &os, const npc_need &need )
 
 bool npc::will_accept_from_player( const item &it ) const
 {
+    if( is_hallucination() ) {
+        return false;
+    }
+
     if( is_minion() || g->u.has_trait( trait_id( "DEBUG_MIND_CONTROL" ) ) ||
         it.has_flag( "NPC_SAFE" ) ) {
         return true;
@@ -2633,6 +2658,11 @@ void npc_follower_rules::toggle_specific_override_state( ally_rule rule, bool st
     } else {
         set_specific_override_state( rule, state );
     }
+}
+
+bool npc::is_hallucination() const
+{
+    return hallucination;
 }
 
 bool npc_follower_rules::has_override_enable( ally_rule test ) const

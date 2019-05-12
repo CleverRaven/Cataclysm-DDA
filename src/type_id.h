@@ -80,6 +80,9 @@ using skill_id = string_id<Skill>;
 struct species_type;
 using species_id = string_id<species_type>;
 
+class spell_type;
+using spell_id = string_id<spell_type>;
+
 class start_location;
 using start_location_id = string_id<start_location>;
 

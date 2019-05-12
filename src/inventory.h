@@ -211,7 +211,6 @@ class inventory : public visitable<inventory>
 
         invlets_bitset allocated_invlets() const;
 
-
         /**
          * Returns visitable items binned by their itype.
          * May not contain items that wouldn't be visited by @ref visitable methods.

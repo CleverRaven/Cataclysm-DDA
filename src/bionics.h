@@ -109,7 +109,6 @@ struct bionic {
     /* Ammount of ammo actually held inside by this bionic gun in deactivated state */
     unsigned int         ammo_count = 0;
 
-
     bionic()
         : id( "bio_batteries" ) { }
     bionic( bionic_id pid, char pinvlet )

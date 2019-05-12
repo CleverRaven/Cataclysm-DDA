@@ -635,6 +635,9 @@ void talk_function::player_leaving( npc &p )
 
 void talk_function::drop_weapon( npc &p )
 {
+    if( p.is_hallucination() ) {
+        return;
+    }
     g->m.add_item_or_charges( p.pos(), p.remove_weapon() );
 }
 

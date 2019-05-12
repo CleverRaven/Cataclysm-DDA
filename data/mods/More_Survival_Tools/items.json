@@ -487,6 +487,8 @@
         "moves": 100,
         "noise": 34,
         "noise_message": "FWEEEET!",
+        "noise_id": "misc",
+        "noise_variant": "whistle",
         "use_message": "You blow the whistle.",
         "no_charges_message": "Seeing this is an error.",
         "//": "Somewhat lower than the proper whistle."
