@@ -3669,9 +3669,9 @@ void activity_handlers::hack_safe_finish( player_activity *act, player *p )
         act->set_to_null();
 
         p->add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
-                            pgettext( "memorial_female", "Set off an alarm." ) );
+                             pgettext( "memorial_female", "Set off an alarm." ) );
         sounds::sound( p->pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
-                        "alarm" );
+                       "alarm" );
         if( act->placement.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
             g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p->global_sm_location() );
         }
