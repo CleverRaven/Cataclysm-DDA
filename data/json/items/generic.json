@@ -145,7 +145,7 @@
     "type": "GENERIC",
     "id": "memory_module",
     "name": "memory banks",
-    "description": "Allows for storage and recovery of information. ",
+    "description": "Allows for storage and recovery of information.",
     "copy-from": "robot_module_abstract"
   },
   {
