@@ -128,6 +128,9 @@ struct w_map {
     catacurses::window win;
 };
 
+// There is only one game instance, so losing a few bytes of memory
+// due to padding is not much of a concern.
+// NOLINTNEXTLINE(clang-analyzer-optin.performance.Padding)
 class game
 {
         friend class editmap;
