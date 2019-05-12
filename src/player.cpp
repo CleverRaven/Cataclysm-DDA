@@ -12096,6 +12096,14 @@ bool player::has_weapon() const
 
 m_size player::get_size() const
 {
+    if( has_trait( trait_id( "SMALL2" ) ) || has_trait( trait_id( "SMALL_OK" ) ) ||
+        has_trait( trait_id( "SMALL" ) ) ) {
+        return MS_SMALL;
+    } else if( has_trait( trait_LARGE ) || has_trait( trait_LARGE_OK ) ) {
+        return MS_LARGE;
+    } else if( has_trait( trait_HUGE ) || has_trait( trait_HUGE_OK ) ) {
+        return MS_HUGE;
+    }
     return MS_MEDIUM;
 }
 
