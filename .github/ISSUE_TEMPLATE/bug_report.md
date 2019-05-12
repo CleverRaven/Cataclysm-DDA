@@ -30,7 +30,6 @@ Ideally also describe *why* you expect it to happen.
 
 <!-- Do not take a screenshot of the crashing window. Please provide the crash logs in the "Additional context" -->
 
-
 # Versions and configuration
 
 <!-- Please complete the following information; as of build 8943 (0.D-2815-g2ce1bfa) you can now go to:
