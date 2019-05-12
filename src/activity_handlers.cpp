@@ -207,8 +207,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish },
     { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish },
     { activity_id( "ACT_HACK_DOOR" ), hack_door_finish },
-    { activity_id( "ACT_HACK_SAFE" ), hack_safe_finish },
-    { activity_id( "ACT_HACK_FUEL_TERMINAL" ), hack_fuel_terminal_finish }
+    { activity_id( "ACT_HACK_SAFE" ), hack_safe_finish }
 };
 
 void messages_in_process( const player_activity &act, const player &p )
