@@ -452,7 +452,7 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
     int hit_spread = hitroll - dodge_roll() - size_melee_penalty( get_size() );
 
     // If attacker missed call targets on_dodge event
-    if( hit_spread <= 0 && !source->is_hallucination() ) {
+    if( hit_spread <= 0 && source != nullptr && !source->is_hallucination() ) {
         on_dodge( source, source->get_melee() );
     }
 
@@ -462,7 +462,7 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
 void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
                                const damage_instance &dam, dealt_damage_instance &dealt_dam )
 {
-    if( source->is_hallucination() ) {
+    if( source == nullptr || source->is_hallucination() ) {
         return;
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
