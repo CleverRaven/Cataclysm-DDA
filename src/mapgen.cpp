@@ -1611,8 +1611,17 @@ class jmapgen_sealed_item : public jmapgen_piece
                                   summary, chance );
                         return;
                     }
+                    std::string group_id = item_group_spawner->group_id;
+                    for( const itype *type : item_group::every_possible_item_from( group_id ) ) {
+                        if( !type->seed ) {
+                            debugmsg( "%s (with flag PLANT) spawns item group %s which can "
+                                      "spawn item %s which is not a seed.",
+                                      summary, group_id, type->get_id() );
+                            return;
+                        }
+                    }
 
-                    /// TODO: Somehow check that the item group always produces exactly one seed.
+                    /// TODO: Somehow check that the item group always produces exactly one item.
                 }
             }
         }
