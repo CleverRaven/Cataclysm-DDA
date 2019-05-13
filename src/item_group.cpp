@@ -179,6 +179,7 @@ std::set<const itype *> Single_item_creator::every_item() const
             return {};
     }
     assert( !"Unexpected type" );
+    return {};
 }
 
 void Single_item_creator::inherit_ammo_mag_chances( const int ammo, const int mag )
