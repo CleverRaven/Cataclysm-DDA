@@ -104,7 +104,7 @@
     "responses": [
       { "text": "Why don't you go somewhere else?", "topic": "TALK_REFUGEE_BEGGAR_1_LEAVE" },
       { "text": "Why don't you scavenge your own food?", "topic": "TALK_REFUGEE_BEGGAR_1_SCAVENGE" },
-      { "text": "What did you do before the cataclysm?", "topic": "TALK_REFUGEE_BEGGAR_1_EXPERTISE" },
+      { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_1_EXPERTISE" },
       {
         "condition": { "not": { "npc_has_effect": "beggar_has_eaten" } },
         "text": "I might have some food for you.  Let me check.",
@@ -166,7 +166,7 @@
     "dynamic_line": "Where else?  I can't fight those things out there.  I'm in terrible physical condition, don't have any useful skills, and I'm terrified of <zombies> and violence.  How am I supposed to find a safe place?",
     "responses": [
       { "text": "Why don't you scavenge your own food?", "topic": "TALK_REFUGEE_BEGGAR_1_SCAVENGE" },
-      { "text": "What did you do before the cataclysm?", "topic": "TALK_REFUGEE_BEGGAR_1_EXPERTISE" },
+      { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_1_EXPERTISE" },
       {
         "condition": { "and": [ "u_has_camp", { "not": { "u_has_var": "reena_recruited" } } ] },
         "text": "I have a camp of my own, away from here.  You could come there.  There aren't many people left, we could use anyone regardless of skills.",
@@ -191,7 +191,7 @@
     "dynamic_line": "Out there?  That's suicide!  People that go out there don't come back, people who can hold their own... unlike me.  I'd rather take my chances begging for scraps and waiting for someone in the center to die and make room for me, thanks.",
     "responses": [
       { "text": "Why don't you go somewhere else?", "topic": "TALK_REFUGEE_BEGGAR_1_LEAVE" },
-      { "text": "What did you do before the cataclysm?", "topic": "TALK_REFUGEE_BEGGAR_1_EXPERTISE" },
+      { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_1_EXPERTISE" },
       {
         "condition": { "and": [ "u_has_camp", { "not": { "u_has_var": "reena_recruited" } } ] },
         "text": "I have a camp of my own, away from here.  Maybe you can't scavenge, but we can use any warm bodies that can lift a tool.  You'd be safer and better fed there.",
