@@ -173,19 +173,16 @@ output_name = argsDict.get("output_name", "")
 if output_name and not output_name.endswith(".json"):
     output_name += ".json"
 
-# very first pass, find the minimum X and Y values
+# very first pass, sort the overmaps and find the minimum X and Y values
 for special in specials:
     if special.get("type") in OM_SPEC_TYPES:
         overmaps = special.get("overmaps")
-        for om_data in overmaps:
-            om_point = om_data.get("point", [])
-            if len(om_point) == 3:
-                x = om_point[0]
-                y = om_point[1]
-                if x < MIN_X:
-                    MIN_X = x
-                if y < MIN_Y:
-                    MIN_Y = y
+        if not overmaps:
+            continue
+        overmaps.sort(key=lambda om_data: om_data.get("point", [1000, 0])[0])
+        MIN_X = overmaps[0].get("point", [1000, 0])[0]
+        overmaps.sort(key=lambda om_data: om_data.get("point", [0, 1000])[1])
+        MIN_Y = overmaps[0].get("point", [0, 1000])[1]
 
 # create the merge sets of maps
 merge_sets = {}
