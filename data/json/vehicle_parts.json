@@ -2463,7 +2463,7 @@
     "broken_color": "dark_gray",
     "durability": 100,
     "description": "A scoop.  Use the vehicle controls to turn it on or off.  When turned on, it will scoop up any loose items that it travels over, putting them into the vehicle's storage.",
-    "epower": -5,
+    "epower": -10,
     "size": 400,
     "damage_modifier": 10,
     "item": "v_scoop_item",
