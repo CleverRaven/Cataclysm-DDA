@@ -889,10 +889,11 @@ class player : public Character
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;
         /**
-         * Returns a reference to the item itself (if it's comestible),
-         * the first of its contents (if it's comestible) or null item otherwise.
+         * Returns a reference to the item itself (if it's consumable),
+         * the first of its contents (if it's consumable) or null item otherwise.
+         * WARNING: consumable does not necessarily guarantee the comestible type.
          */
-        item &get_comestible_from( item &it ) const;
+        item &get_consumable_from( item &it ) const;
 
         stomach_contents stomach;
         stomach_contents guts;
