@@ -32,10 +32,10 @@ void full_map_test( const std::vector<std::string> &setup,
     const efftype_id effect_narcosis( "narcosis" );
 
     g->place_player( tripoint( 60, 60, 0 ) );
-    g->reset_light_level();
     g->u.worn.clear(); // Remove any light-emitting clothing
     g->u.clear_effects();
     clear_map();
+    g->reset_light_level();
 
     REQUIRE( !g->u.is_blind() );
     REQUIRE( !g->u.in_sleep_state() );

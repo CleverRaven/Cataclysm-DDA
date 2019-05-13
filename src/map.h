@@ -1436,6 +1436,7 @@ class map
                                const float density );
 
         void build_transparency_cache( int zlev );
+        void build_sunlight_cache( int zlev );
     public:
         void build_outside_cache( int zlev );
         void build_floor_cache( int zlev );
