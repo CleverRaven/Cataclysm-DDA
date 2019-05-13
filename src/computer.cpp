@@ -564,6 +564,21 @@ void computer::activate_function( computer_action action )
         }
         break;
 
+        case COMPACT_RADIO_ARCHIVE: {
+            g->u.moves -= 300;
+            sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, 21, 2000 );
+            print_text( "Accessing archive. Playing audio recording nr %d.\n%s", rng( 1, 9999 ),
+                        SNIPPET.random_from_category( "radio_archive" ) );
+            if( one_in( 3 ) ) {
+                query_any( _( "Warning: resticted data access. Attempt logged. Press any key..." ) );
+                alerts ++;
+            } else {
+                query_any( _( "Press any key..." ) );
+            }
+            sfx::fade_audio_channel( 21, 100 );
+        }
+        break;
+
         case COMPACT_MAPS: {
             g->u.moves -= 30;
             const tripoint center = g->u.global_omt_location();
@@ -1956,6 +1971,7 @@ computer_action computer_action_from_string( const std::string &str )
             { "shutters", COMPACT_SHUTTERS },
             { "extract_rad_source", COMPACT_EXTRACT_RAD_SOURCE },
             { "deactivate_shock_vent", COMPACT_DEACTIVATE_SHOCK_VENT },
+            { "radio_archive", COMPACT_RADIO_ARCHIVE }
         }
     };
 
