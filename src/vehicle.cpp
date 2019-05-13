@@ -732,9 +732,9 @@ int vehicle::part_vpower_w( const int index, const bool at_full_hp ) const
         pwr += ( g->u.str_cur - 8 ) * part_info( index ).engine_muscle_power_factor();
         /// wind-powered vehicles have differing power depending on wind direction
         if( vp.info().fuel_type == fuel_type_wind ) {
-            int windpower = g->windspeed;
+            int windpower = g->weather.windspeed;
             rl_vec2d windvec;
-            double raddir = ( ( g->winddirection + 180 ) % 360 ) * ( M_PI / 180 );
+            double raddir = ( ( g->weather.winddirection + 180 ) % 360 ) * ( M_PI / 180 );
             windvec = windvec.normalized();
             windvec.y = -cos( raddir );
             windvec.x = sin( raddir );
@@ -3226,7 +3226,7 @@ bool vehicle::do_environmental_effects()
          * - The weather is any effect that would cause the player to be wet. */
         if( vp.part().blood > 0 && g->m.is_outside( vp.pos() ) ) {
             needed = true;
-            if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN ) {
+            if( g->weather.weather >= WEATHER_DRIZZLE && g->weather.weather <= WEATHER_ACID_RAIN ) {
                 vp.part().blood--;
             }
         }
@@ -5561,7 +5561,7 @@ void vehicle::update_time( const time_point &update_to )
     }
     if( !wind_turbines.empty() ) {
         const oter_id &cur_om_ter = overmap_buffer.ter( g->m.getabs( global_pos3() ) );
-        const w_point weatherPoint = *g->weather_precise;
+        const w_point weatherPoint = *g->weather.weather_precise;
         int epower_w = 0;
         for( int part : wind_turbines ) {
             if( parts[ part ].is_unavailable() ) {
@@ -5572,9 +5572,9 @@ void vehicle::update_time( const time_point &update_to )
                 continue;
             }
 
-            double windpower = get_local_windpower( g->windspeed, cur_om_ter, global_part_pos3( part ),
-                                                    g->winddirection, false );
-            if( windpower <= ( g->windspeed / 10 ) ) {
+            double windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, global_part_pos3( part ),
+                                                    g->weather.winddirection, false );
+            if( windpower <= ( g->weather.windspeed / 10 ) ) {
                 continue;
             }
             epower_w += part_epower_w( part ) * windpower;

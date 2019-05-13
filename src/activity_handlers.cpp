@@ -1353,7 +1353,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         liquid.charges = std::min( charges_per_turn, liquid.charges );
         const long original_charges = liquid.charges;
         if( liquid.has_temperature() && liquid.specific_energy < 0 ) {
-            liquid.set_item_temperature( std::max( temp_to_kelvin( g->get_temperature( p->pos() ) ), 277.15 ) );
+            liquid.set_item_temperature( std::max( temp_to_kelvin( g->weather.get_temperature( p->pos() ) ),
+                                                   277.15 ) );
         }
 
         // 2. Transfer charges.

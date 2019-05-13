@@ -148,7 +148,7 @@ input_context game::get_player_input( std::string &action )
         }
 
         //x% of the Viewport, only shown on visible areas
-        const auto weather_info = get_weather_animation( weather );
+        const auto weather_info = get_weather_animation( weather.weather );
         int offset_x = u.posx() + u.view_offset.x - getmaxx( w_terrain ) / 2;
         int offset_y = u.posy() + u.view_offset.y - getmaxy( w_terrain ) / 2;
 
@@ -170,7 +170,7 @@ input_context game::get_player_input( std::string &action )
         weather_printable wPrint;
         wPrint.colGlyph = weather_info.color;
         wPrint.cGlyph = weather_info.glyph;
-        wPrint.wtype = weather;
+        wPrint.wtype = weather.weather;
         wPrint.vdrops.clear();
         wPrint.startx = iStartX;
         wPrint.starty = iStartY;

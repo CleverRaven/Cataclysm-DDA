@@ -7767,10 +7767,10 @@ int iuse::hairkit( player *p, item *it, bool, const tripoint & )
 
 int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
 {
-    const w_point weatherPoint = *g->weather_precise;
+    const w_point weatherPoint = *g->weather.weather_precise;
 
     /* Possibly used twice. Worth spending the time to precalculate. */
-    const auto player_local_temp = g->get_temperature( g->u.pos() );
+    const auto player_local_temp = g->weather.get_temperature( g->u.pos() );
 
     if( it->typeId() == "weather_reader" ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data..." ),
@@ -7789,12 +7789,12 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         if( it->typeId() == "hygrometer" ) {
             p->add_msg_if_player(
                 m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
-                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather,
+                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather.weather,
                                                     g->is_sheltered( g->u.pos() ) ) ) );
         } else {
             p->add_msg_if_player(
                 m_neutral, _( "Relative Humidity: %s." ),
-                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather,
+                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather.weather,
                                                     g->is_sheltered( g->u.pos() ) ) ) );
         }
     }
@@ -7816,8 +7816,9 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        double windpower = static_cast<int>( 100.0f * get_local_windpower( g->windspeed + vehwindspeed,
-                                             cur_om_ter, p->pos(), g->winddirection, g->is_sheltered( p->pos() ) ) );
+        double windpower = static_cast<int>( 100.0f * get_local_windpower( g->weather.windspeed +
+                                             vehwindspeed,
+                                             cur_om_ter, p->pos(), g->weather.winddirection, g->is_sheltered( p->pos() ) ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower, VU_WIND ),
@@ -7827,7 +7828,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
             print_temperature(
                 get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower / 100 ) +
                 player_local_temp ) );
-        std::string dirstring = get_dirstring( g->winddirection );
+        std::string dirstring = get_dirstring( g->weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
     }
 

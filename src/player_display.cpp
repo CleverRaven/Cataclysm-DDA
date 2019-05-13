@@ -290,9 +290,9 @@ void player::disp_info()
     }
 
     if( ( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
-          g->weather == WEATHER_SUNNY ) ||
+          g->weather.weather == WEATHER_SUNNY ) ||
         ( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) &&
-          g->weather != WEATHER_SUNNY ) ) {
+          g->weather.weather != WEATHER_SUNNY ) ) {
         effect_name.push_back( _( "In Sunlight" ) );
         effect_text.push_back( _( "The sunlight irritates you.\n\
 Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" ) );
@@ -694,7 +694,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         line++;
     }
     /* Cache result of calculation, possibly used multiple times later. */
-    const auto player_local_temp = g->get_temperature( pos() );
+    const auto player_local_temp = g->weather.get_temperature( pos() );
     if( has_trait( trait_id( "COLDBLOOD4" ) ) && player_local_temp > 65 ) {
         pen = ( player_local_temp - 65 ) / 2;
         mvwprintz( w_speed, line, 1, c_green, _( "Cold-Blooded        +%s%d%%" ),

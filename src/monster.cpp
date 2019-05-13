@@ -1887,8 +1887,9 @@ void monster::process_turn()
                     }
                 }
             }
-            if( g->lightning_active && !has_effect( effect_supercharged ) && g->m.is_outside( pos() ) ) {
-                g->lightning_active = false; // only one supercharge per strike
+            if( g->weather.lightning_active && !has_effect( effect_supercharged ) &&
+                g->m.is_outside( pos() ) ) {
+                g->weather.lightning_active = false; // only one supercharge per strike
                 sounds::sound( pos(), 300, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ), false, "environment",
                                "thunder_near" );
                 sounds::sound( pos(), 20, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ), false, "explosion",
