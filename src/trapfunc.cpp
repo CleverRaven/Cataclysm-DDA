@@ -99,7 +99,7 @@ void trapfunc::cot( Creature *c, const tripoint & )
 void trapfunc::beartrap( Creature *c, const tripoint &p )
 {
     // tiny animals don't trigger bear traps
-    if( c != nullptr && c->get_size() == MS_TINY || c->is_hallucination() ) {
+    if( c != nullptr && ( c->get_size() == MS_TINY || c->is_hallucination() ) ) {
         return;
     }
     sounds::sound( p, 8, sounds::sound_t::combat, _( "SNAP!" ), false, "trap", "bear_trap" );
