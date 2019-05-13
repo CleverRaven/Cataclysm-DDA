@@ -78,7 +78,7 @@ bool is_mouse_enabled()
 }
 
 //helper function for those have problem inputting certain characters.
-std::string get_input_string_from_file( std::string fname )
+std::string get_input_string_from_file( const std::string &fname )
 {
     std::string ret;
     read_from_file_optional( fname, [&ret]( std::istream & fin ) {

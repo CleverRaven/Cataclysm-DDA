@@ -287,7 +287,7 @@ struct requirement_data {
         template<typename T>
         std::vector<std::string> get_folded_list( int width, const inventory &crafting_inv,
                 const std::function<bool( const item & )> &filter, const std::vector< std::vector<T> > &objs,
-                int batch = 1, std::string hilite = "" ) const;
+                int batch = 1, const std::string &hilite = "" ) const;
 
         template<typename T>
         static bool any_marked_available( const std::vector<T> &comps );

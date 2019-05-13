@@ -1,6 +1,6 @@
 #include "action.h"
 
-#include <limits.h>
+#include <climits>
 #include <algorithm>
 #include <istream>
 #include <iterator>

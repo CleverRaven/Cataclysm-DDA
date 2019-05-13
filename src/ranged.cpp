@@ -1,7 +1,7 @@
 #include "ranged.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <algorithm>
 #include <cmath>
 #include <string>
@@ -543,8 +543,8 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     // Item will burst upon landing, destroying the item, and spilling its contents
     const bool burst = thrown.has_property( "burst_when_filled" ) && thrown.is_container() &&
-                       thrown.get_property_long( "burst_when_filled" ) <= ( ( double )
-                               thrown.get_contained().volume().value() ) / thrown.get_container_capacity().value() * 100;
+                       thrown.get_property_long( "burst_when_filled" ) <= static_cast<double>
+                       ( thrown.get_contained().volume().value() ) / thrown.get_container_capacity().value() * 100;
 
     // Add some flags to the projectile
     if( weight > 500_gram ) {

@@ -2,7 +2,7 @@
 #ifndef MARTIALARTS_H
 #define MARTIALARTS_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <set>
 #include <string>

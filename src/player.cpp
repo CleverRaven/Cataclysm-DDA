@@ -1,6 +1,6 @@
 #include "player.h"
 
-#include <ctype.h>
+#include <cctype>
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
@@ -262,7 +262,6 @@ static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_BARK( "BARK" );
-static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
@@ -383,7 +382,6 @@ static const trait_id trait_RADIOACTIVE3( "RADIOACTIVE3" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
 static const trait_id trait_REGEN( "REGEN" );
 static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
-static const trait_id trait_HAIRROOTS( "HAIRROOTS" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
@@ -887,7 +885,7 @@ void player::process_turn()
                 // Reduce the tracked time spent in this overmap tile.
                 const time_duration decay_amount = std::min( since_visit - modified_decay_time, 1_hours );
                 const time_duration updated_value = it->second - decay_amount;
-                if( updated_value <= 0 ) {
+                if( updated_value <= 0_turns ) {
                     // We can stop tracking this tile if there's no longer any time recorded there.
                     it = overmap_time.erase( it );
                     continue;
@@ -2485,7 +2483,7 @@ time_duration player::estimate_effect_dur( const skill_id &relevant_skill,
         const efftype_id &target_effect, const time_duration &error_magnitude,
         int threshold, const Creature &target ) const
 {
-    const time_duration zero_duration = 0;
+    const time_duration zero_duration = 0_turns;
 
     int skill_lvl = get_skill_level( relevant_skill );
 
@@ -4599,7 +4597,7 @@ needs_rates player::calc_needs_rates()
 
     needs_rates rates;
     rates.hunger = metabolic_rate();
-    rates.fatigue = 1.0f;
+
     // TODO: this is where calculating basal metabolic rate, in kcal per day would go
     rates.kcal = 2500.0;
 
@@ -4610,6 +4608,9 @@ needs_rates player::calc_needs_rates()
     if( worn_with_flag( "SLOWS_THIRST" ) ) {
         rates.thirst *= 0.7f;
     }
+
+    rates.fatigue = get_option< float >( "PLAYER_FATIGUE_RATE" );
+    rates.fatigue *= 1.0f + mutation_value( "fatigue_modifier" );
 
     // Note: intentionally not in metabolic rate
     if( has_recycler ) {
@@ -4655,8 +4656,6 @@ needs_rates player::calc_needs_rates()
         rates.hunger *= 0.25f;
         rates.thirst *= 0.25f;
     }
-    rates.fatigue = get_option< float >( "PLAYER_FATIGUE_RATE" );
-    rates.fatigue *= 1.0f + mutation_value( "fatigue_modifier" );
 
     return rates;
 }
@@ -9986,8 +9985,9 @@ bool player::read( int inventory_position, const bool continuous )
             };
 
             auto max_length = [&length]( const std::map<npc *, std::string> &m ) {
-                auto max_ele = std::max_element( m.begin(), m.end(), [&length]( std::pair<npc *, std::string> left,
-                std::pair<npc *, std::string> right ) {
+                auto max_ele = std::max_element( m.begin(),
+                                                 m.end(), [&length]( const std::pair<npc *, std::string> &left,
+                const std::pair<npc *, std::string> &right ) {
                     return length( left ) < length( right );
                 } );
                 return max_ele == m.end() ? 0 : length( *max_ele );
@@ -10064,7 +10064,7 @@ bool player::read( int inventory_position, const bool continuous )
     }
 
     if( !continuous ||
-    !std::all_of( learners.begin(), learners.end(), [&]( std::pair<npc *, std::string> elem ) {
+    !std::all_of( learners.begin(), learners.end(), [&]( const std::pair<npc *, std::string> &elem ) {
     return std::count( activity.values.begin(), activity.values.end(), elem.first->getID() ) != 0;
     } ) ||
     !std::all_of( activity.values.begin(), activity.values.end(), [&]( int elem ) {
@@ -10075,7 +10075,7 @@ bool player::read( int inventory_position, const bool continuous )
             add_msg( m_info, _( "%s studies with you." ), learners.begin()->first->disp_name() );
         } else if( !learners.empty() ) {
             const std::string them = enumerate_as_string( learners.begin(),
-            learners.end(), [&]( std::pair<npc *, std::string> elem ) {
+            learners.end(), [&]( const std::pair<npc *, std::string> &elem ) {
                 return elem.first->disp_name();
             } );
             add_msg( m_info, _( "%s study with you." ), them );

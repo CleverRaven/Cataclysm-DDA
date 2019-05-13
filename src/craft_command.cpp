@@ -1,6 +1,6 @@
 #include "craft_command.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <sstream>
 #include <algorithm>
 #include <limits>

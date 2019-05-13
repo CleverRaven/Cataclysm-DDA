@@ -58,8 +58,6 @@ static const fault_id fault_starter( "fault_engine_starter" );
 
 const skill_id skill_mechanics( "mechanics" );
 
-static const trait_id trait_SHELL2( "SHELL2" );
-
 enum change_types : int {
     OPENCURTAINS = 0,
     OPENBOTH,

@@ -1,6 +1,6 @@
 #include "overmap_ui.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <array>
 #include <list>

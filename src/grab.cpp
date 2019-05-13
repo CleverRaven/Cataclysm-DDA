@@ -1,7 +1,7 @@
 #include "game.h" // IWYU pragma: associated
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 #include <algorithm>
 
 #include "map.h"

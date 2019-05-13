@@ -2,7 +2,7 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
-#include <assert.h>
+#include <cassert>
 #include <climits>
 #include <ostream>
 #include <cstdint>

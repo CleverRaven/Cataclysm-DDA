@@ -208,7 +208,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
                 mvwprintz( w, i - start_pos, 1, line_color, "%d", i + 1 );
                 mvwprintz( w, i - start_pos, 5, c_yellow, ( line == i ) ? ">> " : "   " );
 
-                auto draw_column = [&]( Columns column_in, std::string text_in ) {
+                auto draw_column = [&]( Columns column_in, const std::string & text_in ) {
                     mvwprintz( w, i - start_pos, column_pos[column_in] + 2,
                                ( line == i && column == column_in ) ? hilite( line_color ) : line_color,
                                text_in

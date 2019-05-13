@@ -1,6 +1,6 @@
 #include "tutorial.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <array>
 #include <memory>
 #include <string>

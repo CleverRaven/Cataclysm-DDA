@@ -1,6 +1,6 @@
 #include "debug_menu.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <chrono>
 #include <vector>

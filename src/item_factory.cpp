@@ -1,6 +1,6 @@
 #include "item_factory.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <cassert>
 #include <cmath>

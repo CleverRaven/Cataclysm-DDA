@@ -1,6 +1,6 @@
 #include "mapgen.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <list>
 #include <random>
@@ -6072,6 +6072,7 @@ void map::draw_megastore( const oter_id &terrain_type, mapgendata &dat, const ti
         ter_set( SEEX + 1, 0, t_door_glass_c );
         //Vending
         std::vector<int> vset;
+        vset.reserve( 21 );
         int vnum = rng( 2, 6 );
         for( int a = 0; a < 21; a++ ) {
             vset.push_back( a );

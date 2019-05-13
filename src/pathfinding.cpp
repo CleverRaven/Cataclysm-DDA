@@ -1,7 +1,7 @@
 #include "pathfinding.h"
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 #include <algorithm>
 #include <queue>
 #include <set>

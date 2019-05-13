@@ -1,6 +1,6 @@
 #include "monster.h"
 
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 #include <sstream>
 #include <memory>

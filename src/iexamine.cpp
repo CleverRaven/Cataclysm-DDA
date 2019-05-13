@@ -1,7 +1,7 @@
 #include "iexamine.h"
 
-#include <limits.h>
-#include <math.h>
+#include <climits>
+#include <cmath>
 #include <algorithm>
 #include <cstdlib>
 #include <sstream>
@@ -1067,7 +1067,7 @@ void iexamine::safe( player &p, const tripoint &examp )
         return temporary_item.has_flag( "SAFECRACK" );
     } );
 
-    if( !( cracking_tool.size() > 0 || p.has_bionic( bionic_id( "bio_ears" ) ) ) ) {
+    if( !( !cracking_tool.empty() || p.has_bionic( bionic_id( "bio_ears" ) ) ) ) {
         p.moves -= 100;
         // one_in(30^3) chance of guessing
         if( one_in( 27000 ) ) {
@@ -1189,7 +1189,7 @@ void iexamine::locked_object( player &p, const tripoint &examp )
         return temporary_item.has_quality( quality_id( "PRY" ), 1 );
     } );
 
-    if( prying_items.size() == 0 ) {
+    if( prying_items.empty() ) {
         add_msg( m_info, _( "If only you had something to pry with..." ) );
         return;
     }
@@ -1839,6 +1839,7 @@ std::vector<seed_tuple> iexamine::get_seed_entries( const std::vector<item *> &s
     }
 
     std::vector<seed_tuple> seed_entries;
+    seed_entries.reserve( seed_map.size() );
     for( const auto &pr : seed_map ) {
         seed_entries.emplace_back(
             pr.first, item::nname( pr.first, pr.second ), pr.second );
@@ -3348,6 +3349,7 @@ void iexamine::sign( player &p, const tripoint &examp )
     std::vector<const item *> filter = p.crafting_inventory().items_with( []( const item & it ) {
         return it.has_flag( "WRITE_MESSAGE" ) && it.charges > 0;
     } );
+    tools.reserve( filter.size() );
     for( const item *writing_item : filter ) {
         tools.push_back( tool_comp( writing_item->typeId(), 1 ) );
     }

@@ -1,7 +1,7 @@
 #include "clzones.h"
 
-#include <stddef.h>
-#include <limits.h>
+#include <cstddef>
+#include <climits>
 #include <iosfwd>
 #include <iterator>
 #include <list>

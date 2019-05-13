@@ -1,7 +1,7 @@
 #include "mission_companion.h"
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 #include <algorithm>
 #include <cassert>
 #include <vector>
@@ -729,7 +729,9 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const std::
     std::vector<npc_ptr> caravan_party;
     std::vector<npc_ptr> bandit_party;
     std::vector<npc_ptr> npc_list = companion_list( p, id );
-    for( int i = 0; i < rng( 1, 3 ); i++ ) {
+    const int rand_caravan_size = rng( 1, 3 );
+    caravan_party.reserve( npc_list.size() + rand_caravan_size );
+    for( int i = 0; i < rand_caravan_size; i++ ) {
         caravan_party.push_back( temp_npc( string_id<npc_template>( "commune_guard" ) ) );
     }
     for( auto &elem : npc_list ) {
@@ -742,7 +744,9 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const std::
     int time = 200 + distance * 100;
     int experience = rng( 10, time / 300 );
 
-    for( int i = 0; i < rng( 1, 3 ); i++ ) {
+    const int rand_bandit_size = rng( 1, 3 );
+    bandit_party.reserve( rand_bandit_size * 2 );
+    for( int i = 0; i < rand_bandit_size * 2; i++ ) {
         bandit_party.push_back( temp_npc( string_id<npc_template>( "bandit" ) ) );
         bandit_party.push_back( temp_npc( string_id<npc_template>( "thug" ) ) );
     }

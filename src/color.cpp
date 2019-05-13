@@ -1,6 +1,6 @@
 #include "color.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm> // for std::count
 #include <iterator>
 #include <map>
