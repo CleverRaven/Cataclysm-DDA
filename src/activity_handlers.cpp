@@ -3570,7 +3570,7 @@ hack_result try_hack( player &p )
     }
 
     ///\EFFECT_COMPUTER increases success chance of hacking card readers
-    int player_computer_skill_level = p.get_skill_level( skill_id( "COMPUTER" ) );
+    int player_computer_skill_level = p.get_skill_level( skill_id( "computer" ) );
     int success = rng( player_computer_skill_level / 4 - 2, player_computer_skill_level * 2 );
     success += rng( -3, 3 );
     if( using_fingerhack ) {
@@ -3613,10 +3613,6 @@ void activity_handlers::hack_door_finish( player_activity *act, player *p )
     if( result == HACK_UNABLE ) {
         act->set_to_null();
         return;
-    } else if( result == HACK_FAIL ) {
-        act->set_to_null();
-    } else if( result == HACK_NOTHING ) {
-        act->set_to_null();
     } else if( result == HACK_SUCCESS ) {
         add_msg( _( "You activate the panel!" ) );
         add_msg( m_good, _( "The nearby doors slide into the floor." ) );
@@ -3648,8 +3644,6 @@ void activity_handlers::hack_safe_finish( player_activity *act, player *p )
         if( act->placement.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
             g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p->global_sm_location() );
         }
-    } else if( result == HACK_NOTHING ) {
-        act->set_to_null();
     } else if( result == HACK_SUCCESS ) {
         add_msg( m_good, _( "The door on the safe swings open." ) );
         g->m.furn_set( act->placement, furn_str_id( "f_safe_o" ) );
