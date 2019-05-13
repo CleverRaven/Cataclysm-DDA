@@ -29,6 +29,7 @@ void full_map_test( const std::vector<std::string> &setup,
     const ter_id t_window_frame( "t_window_frame" );
     const ter_id t_floor( "t_floor" );
     const ter_id t_utility_light( "t_utility_light" );
+    const ter_id t_flat_roof( "t_flat_roof" );
     const efftype_id effect_narcosis( "narcosis" );
 
     g->place_player( tripoint( 60, 60, 0 ) );
@@ -89,11 +90,13 @@ void full_map_test( const std::vector<std::string> &setup,
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const tripoint p = origin + point( x, y );
+            const tripoint above = p + { 0, 0, 1 };
             switch( setup[y][x] ) {
                 case ' ':
                     break;
                 case 'L':
                     g->m.ter_set( p, t_utility_light );
+                    g->m.ter_set( p, t_flat_roof );
                     break;
                 case '#':
                     g->m.ter_set( p, t_brick_wall );
@@ -104,6 +107,7 @@ void full_map_test( const std::vector<std::string> &setup,
                 case '-':
                 case 'u':
                     g->m.ter_set( p, t_floor );
+                    g->m.ter_set( p, t_flat_roof );
                     break;
                 case 'U':
                 case 'V':
