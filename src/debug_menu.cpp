@@ -1361,7 +1361,6 @@ void debug()
             }
                 break;
 
-
             case DEBUG_SAVE_SCREENSHOT: {
 #if defined(TILES)
                 // check that the current '<world>/screenshots' directory exists

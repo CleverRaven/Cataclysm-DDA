@@ -289,7 +289,6 @@ void npc::assess_danger()
     float assessment = 0.0f;
     float highest_priority = 1.0f;
 
-
     // Radius we can attack without moving
     const int max_range = std::max( weapon.reach_range( *this ),
                                     confident_shoot_range( weapon,

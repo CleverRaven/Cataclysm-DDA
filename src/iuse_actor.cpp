@@ -2101,7 +2101,6 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
                        it.typeId() );
     }
 
-
     if( !p.has_effect( effect_music ) && p.can_hear( p.pos(), volume ) ) {
         // Sound code doesn't describe noises at the player position
         if( p.is_player() && desc != "music" ) {

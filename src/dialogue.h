@@ -359,7 +359,7 @@ const std::unordered_set<std::string> complex_conds = { {
         "days_since_cataclysm", "is_season", "mission_goal", "u_has_var", "npc_has_var"
     }
 };
-};
+}
 
 // the truly awful declaration for the conditional_t loading helper_function
 void read_dialogue_condition( JsonObject &jo, std::function<bool( const dialogue & )> &condition,

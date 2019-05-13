@@ -1113,19 +1113,19 @@ void npc_follower_rules::deserialize( JsonIn &jsin )
             set_flag( ally_rule::follow_close );
         } else {
             clear_flag( ally_rule::follow_close );
-        };
+        }
         data.read( "override_enable_avoid_combat", tmpflag );
         if( tmpflag ) {
             enable_override( ally_rule::follow_close );
         } else {
             disable_override( ally_rule::follow_close );
-        };
+        }
         data.read( "override_avoid_combat", tmpflag );
         if( tmpflag ) {
             set_override( ally_rule::follow_close );
         } else {
             clear_override( ally_rule::follow_close );
-        };
+        }
     }
 
     data.read( "pickup_whitelist", *pickup_whitelist );

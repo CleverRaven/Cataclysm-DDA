@@ -240,10 +240,10 @@ class JsonIn
         bool test_number();
         bool test_int() {
             return test_number();
-        };
+        }
         bool test_float() {
             return test_number();
-        };
+        }
         bool test_string();
         bool test_bitset();
         bool test_array();
@@ -727,10 +727,10 @@ class JsonObject
         bool has_number( const std::string &name );
         bool has_int( const std::string &name ) {
             return has_number( name );
-        };
+        }
         bool has_float( const std::string &name ) {
             return has_number( name );
-        };
+        }
         bool has_string( const std::string &name );
         bool has_array( const std::string &name );
         bool has_object( const std::string &name );
@@ -835,7 +835,7 @@ class JsonArray
     public:
         JsonArray( JsonIn &jsin );
         JsonArray( const JsonArray &jsarr );
-        JsonArray() : start( 0 ), index( 0 ), end( 0 ), jsin( NULL ) {};
+        JsonArray() : start( 0 ), index( 0 ), end( 0 ), jsin( NULL ) {}
         ~JsonArray() {
             finish();
         }
@@ -879,10 +879,10 @@ class JsonArray
         bool test_number();
         bool test_int() {
             return test_number();
-        };
+        }
         bool test_float() {
             return test_number();
-        };
+        }
         bool test_string();
         bool test_bitset();
         bool test_array();
@@ -894,10 +894,10 @@ class JsonArray
         bool has_number( int index );
         bool has_int( int index ) {
             return has_number( index );
-        };
+        }
         bool has_float( int index ) {
             return has_number( index );
-        };
+        }
         bool has_string( int index );
         bool has_array( int index );
         bool has_object( int index );

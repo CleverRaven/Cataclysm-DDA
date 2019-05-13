@@ -498,8 +498,6 @@ std::string sounds::sound_at( const tripoint &location )
 }
 
 #if defined(SDL_SOUND)
-
-
 void sfx::fade_audio_group( int tag, int duration )
 {
     Mix_FadeOutGroup( tag, duration );

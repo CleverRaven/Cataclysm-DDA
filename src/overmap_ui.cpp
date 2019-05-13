@@ -183,7 +183,7 @@ void update_note_preview( const std::string &note,
     mvwputch( *w_preview_map, npm_height / 2 + npm_offset_y, npm_width / 2 + npm_offset_x,
               note_color, symbol );
     wrefresh( *w_preview_map );
-};
+}
 
 weather_type get_weather_at_point( const tripoint &pos )
 {

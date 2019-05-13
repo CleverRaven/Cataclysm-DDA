@@ -305,7 +305,6 @@ void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 
 }
 
-
 void game::chat()
 {
     int volume = g->u.get_shout_volume();

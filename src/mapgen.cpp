@@ -307,7 +307,7 @@ std::string member;
 std::string message;
 bool defer;
 JsonObject jsi;
-};
+}
 
 void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
                        const std::string &message )
