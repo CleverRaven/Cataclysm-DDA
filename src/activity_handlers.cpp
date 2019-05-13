@@ -3553,58 +3553,71 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
     act->set_to_null();
 }
 
-void activity_handlers::hack_door_finish( player_activity *act, player *p )
+hack_result try_hack( player &p )
 {
-    if( p->has_trait( trait_id( "ILLITERATE" ) ) ) {
+    if( p.has_trait( trait_id( "ILLITERATE" ) ) ) {
         add_msg( _( "You can't read anything on the screen." ) );
-        act->set_to_null();
-        return;
+        return HACK_UNABLE;
     }
-    bool using_electrohack = p->has_charges( "electrohack", 25 ) &&
+    bool using_electrohack = p.has_charges( "electrohack", 25 ) &&
                              query_yn( _( "Use electrohack?" ) );
-    bool using_fingerhack = !using_electrohack && p->has_bionic( bionic_id( "bio_fingerhack" ) ) &&
-                            p->power_level  > 24  && query_yn( _( "Use fingerhack?" ) );
+    bool using_fingerhack = !using_electrohack && p.has_bionic( bionic_id( "bio_fingerhack" ) ) &&
+                            p.power_level > 24 && query_yn( _( "Use fingerhack?" ) );
 
     if( !( using_electrohack || using_fingerhack ) ) {
         add_msg( _( "You need a hacking tool for that." ) );
-        act->set_to_null();
-        return;
+        return HACK_UNABLE;
     }
 
-    ///\EFFECT_COMPUTER increases success chance of hacking door controls
-    int player_computer_skill_level = p->get_skill_level( skill_id( "computer" ) );
+    ///\EFFECT_COMPUTER increases success chance of hacking card readers
+    int player_computer_skill_level = p.get_skill_level( skill_id( "COMPUTER" ) );
     int success = rng( player_computer_skill_level / 4 - 2, player_computer_skill_level * 2 );
     success += rng( -3, 3 );
     if( using_fingerhack ) {
-        p->charge_power( -25 );
+        p.charge_power( -25 );
         success++;
     }
     if( using_electrohack ) {
-        p->use_charges( "electrohack", 25 );
+        p.use_charges( "electrohack", 25 );
         success++;
     }
 
     // odds go up with int>8, down with int<8
     // 4 int stat is worth 1 computer skill here
     ///\EFFECT_INT increases success chance of hacking card readers
-    success += rng( 0, static_cast<int>( ( p->int_cur - 8 ) / 2 ) );
+    success += rng( 0, static_cast<int>( ( p.int_cur - 8 ) / 2 ) );
 
     if( success < 0 ) {
         add_msg( _( "You cause a short circuit!" ) );
         if( success <= -5 ) {
             if( using_electrohack ) {
                 add_msg( m_bad, _( "Your electrohack is ruined!" ) );
-                p->use_amount( "electrohack", 1 );
+                p.use_amount( "electrohack", 1 );
             } else {
                 add_msg( m_bad, _( "Your power is drained!" ) );
-                p->charge_power( -rng( 0, p->power_level ) );
+                p.charge_power( -rng( 0, p.power_level ) );
             }
         }
-        act->set_to_null();
+        return HACK_FAIL;
     } else if( success < 6 ) {
         add_msg( _( "Nothing happens." ) );
-        act->set_to_null();
+        return HACK_NOTHING;
     } else {
+        return HACK_SUCCESS;
+    }
+}
+
+void activity_handlers::hack_door_finish( player_activity *act, player *p )
+{
+    hack_result result = try_hack( *p );
+    if( result == HACK_UNABLE ) {
+        act->set_to_null();
+        return;
+    } else if( result == HACK_FAIL ) {
+        act->set_to_null();
+    } else if( result == HACK_NOTHING ) {
+        act->set_to_null();
+    } else if( result == HACK_SUCCESS ) {
         add_msg( _( "You activate the panel!" ) );
         add_msg( m_good, _( "The nearby doors slide into the floor." ) );
         g->m.ter_set( act->placement, t_card_reader_broken );
@@ -3621,51 +3634,11 @@ void activity_handlers::hack_door_finish( player_activity *act, player *p )
 
 void activity_handlers::hack_safe_finish( player_activity *act, player *p )
 {
-    if( p->has_trait( trait_id( "ILLITERATE" ) ) ) {
-        add_msg( _( "You can't read anything on the screen." ) );
+    hack_result result = try_hack( *p );
+    if( result == HACK_UNABLE ) {
         act->set_to_null();
         return;
-    }
-    bool using_electrohack = p->has_charges( "electrohack", 25 ) &&
-                             query_yn( _( "Use electrohack?" ) );
-    bool using_fingerhack = !using_electrohack && p->has_bionic( bionic_id( "bio_fingerhack" ) ) &&
-                            p->power_level  > 24  && query_yn( _( "Use fingerhack?" ) );
-
-    if( !( using_electrohack || using_fingerhack ) ) {
-        add_msg( _( "You need a hacking tool for that." ) );
-        act->set_to_null();
-        return;
-    }
-
-    ///\EFFECT_COMPUTER increases success chance of hacking safes
-    int player_computer_skill_level = p->get_skill_level( skill_id( "computer" ) );
-    int success = rng( player_computer_skill_level / 4 - 2, player_computer_skill_level * 2 );
-    success += rng( -3, 3 );
-    if( using_fingerhack ) {
-        p->charge_power( -25 );
-        success++;
-    }
-    if( using_electrohack ) {
-        p->use_charges( "electrohack", 25 );
-        success++;
-    }
-
-    // odds go up with int>8, down with int<8
-    // 4 int stat is worth 1 computer skill here
-    ///\EFFECT_INT increases success chance of hacking safes
-    success += rng( 0, static_cast<int>( ( p->int_cur - 8 ) / 2 ) );
-
-    if( success < 0 ) {
-        add_msg( _( "You cause a short circuit!" ) );
-        if( success <= -5 ) {
-            if( using_electrohack ) {
-                add_msg( m_bad, _( "Your electrohack is ruined!" ) );
-                p->use_amount( "electrohack", 1 );
-            } else {
-                add_msg( m_bad, _( "Your power is drained!" ) );
-                p->charge_power( -rng( 0, p->power_level ) );
-            }
-        }
+    } else if( result == HACK_FAIL ) {
         act->set_to_null();
 
         p->add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
@@ -3675,11 +3648,9 @@ void activity_handlers::hack_safe_finish( player_activity *act, player *p )
         if( act->placement.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
             g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p->global_sm_location() );
         }
-
-    } else if( success < 6 ) {
-        add_msg( _( "Nothing happens." ) );
+    } else if( result == HACK_NOTHING ) {
         act->set_to_null();
-    } else {
+    } else if( result == HACK_SUCCESS ) {
         add_msg( m_good, _( "The door on the safe swings open." ) );
         g->m.furn_set( act->placement, furn_str_id( "f_safe_o" ) );
     }
