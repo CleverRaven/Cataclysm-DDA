@@ -100,7 +100,7 @@
       },
       {
         "condition": { "not": { "npc_has_effect": "beggar_has_eaten" } },
-        "text": "I might have some food for you.  Are you hungry?.",
+        "text": "I might have some food for you.  Are you hungry?",
         "topic": "TALK_REFUGEE_BEGGAR_3_GIVE_FOOD"
       },
       { "text": "Ok... see ya.", "topic": "TALK_DONE" }
