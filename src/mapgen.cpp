@@ -2753,7 +2753,7 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
             draw_mine( terrain_type, dat, when, density );
         } else if( is_ot_type( "silo", terrain_type ) ) {
             draw_silo( terrain_type, dat, when, density );
-        } else if( is_ot_type( "anthill", terrain_type ) ) {
+        } else if( is_ot_subtype( "anthill", terrain_type ) ) {
             draw_anthill( terrain_type, dat, when, density );
         } else if( is_ot_subtype( "lab", terrain_type ) ) {
             draw_lab( terrain_type, dat, when, density );
