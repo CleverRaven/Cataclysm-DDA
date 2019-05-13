@@ -311,7 +311,7 @@
     "description": "A plastic bowl with a convenient sealing lid.  Holds 750 ml of liquid.",
     "copy-from": "base_plastic_dish",
     "contains": 3,
-    "volume": "750ml",
+    "volume": "750 ml",
     "seals": true,
     "watertight": true,
     "qualities": [ [ "CONTAIN", 1 ] ]
