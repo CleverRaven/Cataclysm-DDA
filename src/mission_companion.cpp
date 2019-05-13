@@ -927,7 +927,7 @@ void talk_function::field_build_2( npc &p )
 
 void talk_function::field_plant( npc &p, const std::string &place )
 {
-    if( g->get_temperature( g->u.pos() ) < 50 ) {
+    if( g->weather.get_temperature( g->u.pos() ) < 50 ) {
         popup( _( "It is too cold to plant anything now." ) );
         return;
     }

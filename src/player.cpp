@@ -1120,19 +1120,20 @@ void player::update_bodytemp()
         return;
     }
     /* Cache calls to g->get_temperature( player position ), used in several places in function */
-    const auto player_local_temp = g->get_temperature( pos() );
+    const auto player_local_temp = g->weather.get_temperature( pos() );
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10
     int Ctemperature = static_cast<int>( 100 * temp_to_celsius( player_local_temp ) );
-    const w_point weather = *g->weather_precise;
+    const w_point weather = *g->weather.weather_precise;
     int vehwindspeed = 0;
     if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
         vehwindspeed = abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     bool sheltered = g->is_sheltered( pos() );
-    double total_windpower = get_local_windpower( g->windspeed + vehwindspeed, cur_om_ter, pos(),
-                             g->winddirection, sheltered );
+    double total_windpower = get_local_windpower( g->weather.windspeed + vehwindspeed, cur_om_ter,
+                             pos(),
+                             g->weather.winddirection, sheltered );
     // Let's cache this not to check it num_bp times
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );
@@ -1164,13 +1165,14 @@ void player::update_bodytemp()
                                -1.5f * get_fatigue() ) );
 
     // Sunlight
-    const int sunlight_warmth = g->is_in_sunlight( pos() ) ? ( g->weather == WEATHER_SUNNY ? 1000 :
+    const int sunlight_warmth = g->is_in_sunlight( pos() ) ? ( g->weather.weather == WEATHER_SUNNY ?
+                                1000 :
                                 500 ) : 0;
     const int best_fire = get_heat_radiation( pos(), true );
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
     const int water_temperature =
-        100 * temp_to_celsius( g->get_cur_weather_gen().get_water_temperature() );
+        100 * temp_to_celsius( g->weather.get_cur_weather_gen().get_water_temperature() );
 
     // Correction of body temperature due to traits and mutations
     // Lower heat is applied always
@@ -1205,7 +1207,7 @@ void player::update_bodytemp()
                                              bp ) / 100.0 ) );
         // Calculate windchill
         int windchill = get_local_windchill( player_local_temp,
-                                             get_local_humidity( weather.humidity, g->weather,
+                                             get_local_humidity( weather.humidity, g->weather.weather,
                                                      sheltered ),
                                              bp_windpower );
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
@@ -1806,7 +1808,7 @@ void player::recalc_speed_bonus()
             mod_speed_bonus( -( g->light_level( posz() ) >= 12 ? 5 : 10 ) );
         }
         /* Cache call to game::get_temperature( player position ) since it can be used several times here */
-        const auto player_local_temp = g->get_temperature( pos() );
+        const auto player_local_temp = g->weather.get_temperature( pos() );
         if( has_trait( trait_COLDBLOOD4 ) || ( has_trait( trait_COLDBLOOD3 ) && player_local_temp < 65 ) ) {
             mod_speed_bonus( ( player_local_temp - 65 ) / 2 );
         } else if( has_trait( trait_COLDBLOOD2 ) && player_local_temp < 65 ) {
@@ -6050,7 +6052,7 @@ void player::suffer()
     }
 
     if( ( has_trait( trait_TROGLO ) || has_trait( trait_TROGLO2 ) ) &&
-        g->is_in_sunlight( pos() ) && g->weather == WEATHER_SUNNY ) {
+        g->is_in_sunlight( pos() ) && g->weather.weather == WEATHER_SUNNY ) {
         mod_str_bonus( -1 );
         mod_dex_bonus( -1 );
         add_miss_reason( _( "The sunlight distracts you." ), 1 );
@@ -12423,7 +12425,7 @@ bool player::can_hear( const tripoint &source, const int volume ) const
     }
     const int dist = rl_dist( source, pos() );
     const float volume_multiplier = hearing_ability();
-    return ( volume - weather_data( g->weather ).sound_attn ) * volume_multiplier >= dist;
+    return ( volume - weather_data( g->weather.weather ).sound_attn ) * volume_multiplier >= dist;
 }
 
 float player::hearing_ability() const

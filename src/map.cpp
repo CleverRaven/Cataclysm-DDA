@@ -4632,7 +4632,7 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
             loc_temp = AVERAGE_ANNUAL_TEMPERATURE;
             flag = temperature_flag::TEMP_ROOT_CELLAR;
         } else {
-            loc_temp = g->get_temperature( map_location );
+            loc_temp = g->weather.get_temperature( map_location );
         }
         auto items = i_at( map_location );
         processor( items, active_item.item_iterator, map_location, signal, loc_temp, 1, flag );
@@ -4693,7 +4693,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
         const vehicle_part &pt = it->part();
         const tripoint item_loc = it->pos();
         auto items = cur_veh.get_items( static_cast<int>( it->part_index() ) );
-        int it_temp = g->get_temperature( item_loc );
+        int it_temp = g->weather.get_temperature( item_loc );
         float it_insulation = 1.0;
         temperature_flag flag = temperature_flag::TEMP_NORMAL;
         if( item_iter->has_temperature() || item_iter->is_food_container() ) {
@@ -6736,7 +6736,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
 
 bool map::has_rotten_away( item &itm, const tripoint &pnt ) const
 {
-    int temp = g->get_temperature( pnt );
+    int temp = g->weather.get_temperature( pnt );
     if( itm.is_corpse() && itm.goes_bad() ) {
         itm.process_temperature_rot( temp, 1, pnt, nullptr );
         return itm.get_rot() > 10_days && !itm.can_revive();
