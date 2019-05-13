@@ -363,7 +363,7 @@
     ],
     "common": false,
     "worn_override": "NC_CYBORG_worn",
-    "carry_override": "EMPTY_GROUP",
+    "carry_override": "NC_CYBORG_carried",
     "weapon_override": "EMPTY_GROUP",
     "bionics": [
       { "id": "bio_ankles", "chance": 100 },
