@@ -137,7 +137,17 @@
       [ "O-O" ]
     ],
     "parts": [
-      { "x": 0, "y": 1, "parts": [ "xlframe_vertical_2", "engine_vtwin", "alternator_motorbike", "battery_motorbike", { "part": "tank_small", "fuel": "gasoline" } ] },
+      {
+        "x": 0,
+        "y": 1,
+        "parts": [
+          "xlframe_vertical_2",
+          "engine_vtwin",
+          "alternator_motorbike",
+          "battery_motorbike",
+          { "part": "tank_small", "fuel": "gasoline" }
+        ]
+      },
       { "x": 1, "y": 1, "part": "xlframe_horizontal" },
       { "x": -1, "y": 1, "part": "xlframe_horizontal" },
       { "x": -1, "y": 2, "part": "xlframe_horizontal" },
@@ -193,7 +203,17 @@
       { "x": -5, "y": 3, "parts": [ "xlframe_se", "rail_wheel" ] },
       { "x": -1, "y": 3, "part": "xlframe_vertical" },
       { "x": -1, "y": -1, "part": "xlframe_vertical" },
-      { "x": 0, "y": 1, "parts": [ "xlframe_vertical_2", "engine_vtwin", "alternator_motorbike", "battery_motorbike", { "part": "tank_small", "fuel": "gasoline" } ] },
+      {
+        "x": 0,
+        "y": 1,
+        "parts": [
+          "xlframe_vertical_2",
+          "engine_vtwin",
+          "alternator_motorbike",
+          "battery_motorbike",
+          { "part": "tank_small", "fuel": "gasoline" }
+        ]
+      },
       { "x": 1, "y": 2, "parts": [ "xlframe_horizontal", "xlhalfboard_horizontal" ] },
       { "x": 1, "y": 0, "parts": [ "xlframe_horizontal", "xlhalfboard_horizontal" ] },
       { "x": 1, "y": 1, "parts": [ "xlframe_horizontal", "xlhalfboard_horizontal" ] },
