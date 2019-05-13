@@ -9,7 +9,7 @@
 #include "item.h"
 #include "stomach.h"
 #include "units.h"
-#include "pldata.h"
+#include "type_id.h"
 
 void reset_time()
 {

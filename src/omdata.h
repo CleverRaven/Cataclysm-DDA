@@ -2,9 +2,9 @@
 #ifndef OMDATA_H
 #define OMDATA_H
 
-#include <limits.h>
-#include <stddef.h>
-#include <stdint.h>
+#include <climits>
+#include <cstddef>
+#include <cstdint>
 #include <bitset>
 #include <list>
 #include <set>
@@ -19,13 +19,12 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 #include "optional.h"
 
-struct MonsterGroup;
-
-using mongroup_id = string_id<MonsterGroup>;
 struct city;
 class overmap_land_use_code;
+struct MonsterGroup;
 
 using overmap_land_use_code_id = string_id<overmap_land_use_code>;
 struct oter_t;
@@ -164,9 +163,6 @@ enum oter_flags {
     subway_connection,
     num_oter_flags
 };
-
-using oter_id = int_id<oter_t>;
-using oter_str_id = string_id<oter_t>;
 
 struct oter_type_t {
     public:

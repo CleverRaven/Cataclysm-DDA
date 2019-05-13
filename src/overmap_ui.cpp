@@ -1,6 +1,6 @@
 #include "overmap_ui.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <array>
 #include <list>
@@ -43,12 +43,12 @@
 #include "omdata.h"
 #include "optional.h"
 #include "overmap_types.h"
-#include "pldata.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -1023,7 +1023,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             std::string title = _( "Note:" );
 
             const std::string old_note = overmap_buffer.note( curs );
-            std::string new_note = old_note, tmp_note;
+            std::string new_note = old_note;
             const auto map_around = get_overmap_neighbors( curs );
 
             const int max_note_length = 45;
@@ -1197,7 +1197,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                            direction_name_short( direction_from( orig, tripoint( locations[i], orig.z ) ) )
                          );
 
-                mvwprintz( w_search, 6, 1, c_white, _( "'<' '>' Cycle targets." ) );
+                mvwprintz( w_search, 6, 1, c_white, _( "'<-' '->' Cycle targets." ) );
                 mvwprintz( w_search, 10, 1, c_white, _( "Enter/Spacebar to select." ) );
                 mvwprintz( w_search, 11, 1, c_white, _( "q or ESC to return." ) );
                 draw_border( w_search );

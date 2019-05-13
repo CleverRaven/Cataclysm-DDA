@@ -1,4 +1,5 @@
 #include <cmath>
+#include <algorithm>
 
 #include "overmap_noise.h"
 #include "simplexnoise.h"

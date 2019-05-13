@@ -2,7 +2,7 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <array>
 #include <list>
 #include <string>
@@ -210,7 +210,6 @@ class inventory : public visitable<inventory>
         void set_stack_favorite( const int position, const bool favorite );
 
         invlets_bitset allocated_invlets() const;
-
 
         /**
          * Returns visitable items binned by their itype.

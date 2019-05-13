@@ -10296,6 +10296,18 @@
     "color": "green",
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE" ],
-    "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
+    "bash": { "sound": "thump", "ter_set": "t_dirt", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
+  },
+  {
+    "type": "terrain",
+    "id": "t_grave_new",
+    "name": "grave",
+    "looks_like": "t_dirtmound",
+    "description": "A fresh grave, covered with stones, either to keep something from digging it out or to keep one inside from digging out of it.  Two planks mark this place of someone's eternal rest.",
+    "symbol": "#",
+    "color": "brown",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE", "CONTAINER", "SEALED" ],
+    "bash": { "sound": "thump", "ter_set": "t_dirt", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
   }
 ]

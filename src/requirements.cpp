@@ -1,6 +1,6 @@
 #include "requirements.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <limits>
 #include <sstream>
@@ -24,7 +24,6 @@
 #include "translations.h"
 #include "color.h"
 #include "item.h"
-#include "pldata.h"
 #include "visitable.h"
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
@@ -454,7 +453,7 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
 template<typename T>
 std::vector<std::string> requirement_data::get_folded_list( int width,
         const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
-        const std::vector< std::vector<T> > &objs, int batch, std::string hilite ) const
+        const std::vector< std::vector<T> > &objs, int batch, const std::string &hilite ) const
 {
     // hack: ensure 'cached' availability is up to date
     can_make_with_inventory( crafting_inv, filter );

@@ -1,7 +1,7 @@
 #include "map_extras.h"
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 #include <array>
 #include <list>
 #include <memory>
@@ -38,6 +38,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "vpart_reference.h"
+#include "type_id.h"
 
 class npc_template;
 

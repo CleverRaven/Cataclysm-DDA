@@ -24,7 +24,6 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
-#include "overmapbuffer.h"
 #include "scent_map.h"
 #include "translations.h"
 #include "tuple_hash.h"
@@ -34,7 +33,8 @@
 #include "overmap_types.h"
 #include "player.h"
 #include "regional_settings.h"
-#include "itype.h"
+#include "int_id.h"
+#include "string_id.h"
 
 #if defined(__ANDROID__)
 #include "input.h"

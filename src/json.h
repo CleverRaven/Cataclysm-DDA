@@ -2,7 +2,7 @@
 #ifndef JSON_H
 #define JSON_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <type_traits>
 #include <iostream>
 #include <string>

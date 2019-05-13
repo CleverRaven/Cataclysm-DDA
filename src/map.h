@@ -2,8 +2,8 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include <stddef.h>
-#include <stdint.h>
+#include <cstddef>
+#include <cstdint>
 #include <array>
 #include <bitset>
 #include <list>
@@ -19,22 +19,22 @@
 #include "calendar.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_stack.h"
 #include "lightmap.h"
 #include "shadowcasting.h"
-#include "string_id.h"
+#include "type_id.h"
 #include "units.h"
 #include "cata_utility.h"
+
+struct furn_t;
+struct ter_t;
+template <typename T> class string_id;
 
 namespace catacurses
 {
 class window;
 } // namespace catacurses
-class emit;
-
-using emit_id = string_id<emit>;
 class optional_vpart_position;
 class player;
 class monster;
@@ -50,38 +50,22 @@ class submap;
 class item_location;
 class map_cursor;
 struct maptile;
+struct mapgendata;
 class basecamp;
 class computer;
 class Character;
 class zone_data;
 struct trap;
-struct oter_t;
 
 enum direction : unsigned;
 using itype_id = std::string;
-using trap_id = int_id<trap>;
-using oter_id = int_id<oter_t>;
 template<typename T>
 class visitable;
 struct regional_settings;
 struct mongroup;
-struct ter_t;
-
-using ter_id = int_id<ter_t>;
-using ter_str_id = string_id<ter_t>;
-struct furn_t;
-
-using furn_id = int_id<furn_t>;
-using furn_str_id = string_id<furn_t>;
-struct mtype;
-
-using mtype_id = string_id<mtype>;
 struct projectile;
 struct veh_collision;
 class tileray;
-class harvest_list;
-
-using harvest_id = string_id<harvest_list>;
 class npc_template;
 class vpart_reference;
 
@@ -97,15 +81,6 @@ struct wrapped_vehicle {
 
 typedef std::vector<wrapped_vehicle> VehicleList;
 typedef std::string items_location;
-struct vehicle_prototype;
-
-using vproto_id = string_id<vehicle_prototype>;
-class VehicleGroup;
-
-using vgroup_id = string_id<VehicleGroup>;
-struct MonsterGroup;
-
-using mongroup_id = string_id<MonsterGroup>;
 class map;
 
 enum ter_bitflags : int;
@@ -1427,7 +1402,41 @@ class map
                        const oter_id &t_above, const oter_id &t_below, const time_point &when,
                        const float density, const int zlevel, const regional_settings *rsettings );
 
+        void draw_office_tower( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                                const float density );
+        void draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                       const float density );
+        void draw_silo( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                        const float density );
+        void draw_temple( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                          const float density );
+        void draw_sewer( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                         const float density );
+        void draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                        const float density );
+        void draw_spiral( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                          const float density );
+        void draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                               const float density );
+        void draw_toxic_dump( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                              const float density );
+        void draw_megastore( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                             const float density );
+        void draw_fema( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                        const float density );
+        void draw_anthill( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                           const float density );
+        void draw_slimepit( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                            const float density );
+        void draw_spider_pit( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                              const float density );
+        void draw_triffid( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                           const float density );
+        void draw_connections( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                               const float density );
+
         void build_transparency_cache( int zlev );
+        void build_sunlight_cache( int zlev );
     public:
         void build_outside_cache( int zlev );
         void build_floor_cache( int zlev );
@@ -1565,7 +1574,7 @@ class map
          * solution in this instance.
          */
         typedef bool ( *map_process_func )( item_stack &, std::list<item>::iterator &, const tripoint &,
-                                            const std::string &, int, float );
+                                            const std::string &, int, float, temperature_flag );
     private:
 
         // Iterates over every item on the map, passing each item to the provided function.
