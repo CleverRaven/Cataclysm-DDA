@@ -3569,7 +3569,7 @@ hack_result try_hack( player &p )
         return HACK_UNABLE;
     }
 
-    ///\EFFECT_COMPUTER increases success chance of hacking card readers
+    ///\EFFECT_COMPUTER increases success chance of hacking
     int player_computer_skill_level = p.get_skill_level( skill_id( "computer" ) );
     int success = rng( player_computer_skill_level / 4 - 2, player_computer_skill_level * 2 );
     success += rng( -3, 3 );
@@ -3584,7 +3584,7 @@ hack_result try_hack( player &p )
 
     // odds go up with int>8, down with int<8
     // 4 int stat is worth 1 computer skill here
-    ///\EFFECT_INT increases success chance of hacking card readers
+    ///\EFFECT_INT increases success chance of hacking
     success += rng( 0, static_cast<int>( ( p.int_cur - 8 ) / 2 ) );
 
     if( success < 0 ) {
