@@ -1078,6 +1078,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```BLIND_HARD``` Possible to craft with little to no light, but difficult
 - ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
 - ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
+- ```FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.  For deconstruction recipes, it will spawn a full magazine when deconstructed.
 
 
 ## Scenarios
