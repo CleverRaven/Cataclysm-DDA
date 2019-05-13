@@ -123,10 +123,8 @@ bool monexamine::pet_menu( monster &z )
             break;
         case give_items:
             return give_items_to( z );
-            break;
         case mon_armor_add:
             return add_armor( z );
-            break;
         case mon_armor_remove:
             remove_armor( z );
             break;

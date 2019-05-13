@@ -2011,7 +2011,6 @@ std::string npc_attitude_name( npc_attitude att )
         case NPCATT_LEGACY_5:
         case NPCATT_LEGACY_6:
             return _( "NPC Legacy Attitude" );
-            break;
         default:
             break;
     }
