@@ -46,16 +46,12 @@ const mtype_id mon_beekeeper( "mon_beekeeper" );
 const mtype_id mon_fungaloid_queen( "mon_fungaloid_queen" );
 const mtype_id mon_fungaloid_seeder( "mon_fungaloid_seeder" );
 const mtype_id mon_fungaloid_tower( "mon_fungaloid_tower" );
-const mtype_id mon_jabberwock( "mon_jabberwock" );
 const mtype_id mon_rat_king( "mon_rat_king" );
 const mtype_id mon_sewer_rat( "mon_sewer_rat" );
-const mtype_id mon_shia( "mon_shia" );
-const mtype_id mon_spider_web( "mon_spider_web" );
 const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 const mtype_id mon_wasp( "mon_wasp" );
 const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
-const mtype_id mon_zombie( "mon_zombie" );
 
 mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west,
                         oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
