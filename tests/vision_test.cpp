@@ -90,7 +90,7 @@ void full_map_test( const std::vector<std::string> &setup,
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const tripoint p = origin + point( x, y );
-            const tripoint above = p + { 0, 0, 1 };
+            const tripoint above = p + tripoint( 0, 0, 1 );
             switch( setup[y][x] ) {
                 case ' ':
                     break;
