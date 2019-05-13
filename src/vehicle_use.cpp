@@ -1150,17 +1150,8 @@ void vehicle::operate_scoop()
                                               that_item_there->volume() / units::legacy_volume_factor * 2 + 10 ),
                                sounds::sound_t::combat, _( "BEEEThump" ) );
             } 
-            //I used real world data from both industrial vacuums and street sweepers to get this formula.
-            //I took the CFM of the vacuums and the Wh consumption of said vacuums to get a semi accurate L/joule number. 
-            //I did similar math with the street sweeper but for the street sweeper formula I had to use a lot of assumptions, which I leaned on the generous side of.
-            //Although I used assumptions where needed that assumed worst case, least efficient scenario, I still consistently wound up with a value that was less than 1 ePower per liter.
-            //I figured that 1 ePower/liter would therefore be a fair value to use.
-            int scoopvol = units::to_milliliter<int>( that_item_there->volume() ); 
-            if ( scoopvol < 1000 ) {
-                scoopvol = 1000;
-            }
-            const int battery_deficit = discharge_battery( scoopvol/1000 );
-            if( battery_deficit == 0 && add_item( scoop, *that_item_there ) ) {
+            //This attempts to add the item to the scoop inventory and if successful, removes it from the map.
+            if( add_item( scoop, *that_item_there ) ) {
                 g->m.i_rem( position, itemdex );
             } else {
                 break;
