@@ -4,7 +4,7 @@
  * Who knows
  */
 #include <sys/stat.h>
-#include <cdirent>
+#include <dirent.h>
 #include <clocale>
 #include <cstdio>
 #include <cstring>  // for strcmp
