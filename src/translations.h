@@ -48,7 +48,7 @@
 const char *_( const char *msg ) ATTRIBUTE_FORMAT_ARG( 1 );
 inline const char *_( const char *msg )
 {
-    return ( msg[0] == '\0' ) ? msg : gettext( msg );
+    return msg[0] == '\0' ? msg : gettext( msg );
 }
 inline std::string _( const std::string &msg )
 {

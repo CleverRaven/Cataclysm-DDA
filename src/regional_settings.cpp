@@ -317,7 +317,7 @@ void load_region_settings( JsonObject &jo )
     if( ! jo.read( "id", new_region.id ) ) {
         jo.throw_error( "No 'id' field." );
     }
-    bool strict = ( new_region.id == "default" );
+    bool strict = new_region.id == "default";
     if( ! jo.read( "default_oter", new_region.default_oter ) && strict ) {
         jo.throw_error( "default_oter required for default ( though it should probably remain 'field' )" );
     }
