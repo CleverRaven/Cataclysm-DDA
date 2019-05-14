@@ -9,21 +9,16 @@
 #include <utility>
 
 #include "string_id.h"
+#include "type_id.h"
 
 class nc_color;
 class JsonObject;
 class JsonArray;
 class inventory;
-struct requirement_data;
 class item;
-
-using requirement_id = string_id<requirement_data>;
 
 // Denotes the id of an item type
 typedef std::string itype_id;
-struct quality;
-
-using quality_id = string_id<quality>;
 
 enum available_status {
     a_true = +1, // yes, it's available
@@ -292,7 +287,7 @@ struct requirement_data {
         template<typename T>
         std::vector<std::string> get_folded_list( int width, const inventory &crafting_inv,
                 const std::function<bool( const item & )> &filter, const std::vector< std::vector<T> > &objs,
-                int batch = 1, std::string hilite = "" ) const;
+                int batch = 1, const std::string &hilite = "" ) const;
 
         template<typename T>
         static bool any_marked_available( const std::vector<T> &comps );

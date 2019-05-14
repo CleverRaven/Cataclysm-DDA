@@ -1,8 +1,8 @@
 #if defined(TILES)
 #include "cata_tiles.h"
 
-#include <math.h>
-#include <stdint.h>
+#include <cmath>
+#include <cstdint>
 #include <algorithm>
 #include <array>
 #include <cassert>
@@ -61,6 +61,7 @@
 #include "string_id.h"
 #include "tileray.h"
 #include "translations.h"
+#include "type_id.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -247,7 +248,7 @@ void cata_tiles::reinit_minimap()
     minimap_reinit_flag = true;
 }
 
-static void get_tile_information( std::string config_path, std::string &json_path,
+static void get_tile_information( const std::string &config_path, std::string &json_path,
                                   std::string &tileset_path )
 {
     const std::string default_json = FILENAMES["defaulttilejson"];
@@ -428,7 +429,7 @@ static void extend_vector_by( std::vector<T> &vec, const size_t additional_size 
     vec.resize( vec.size() + additional_size );
 }
 
-void tileset_loader::load_tileset( std::string img_path )
+void tileset_loader::load_tileset( const std::string &img_path )
 {
     const SDL_Surface_Ptr tile_atlas = load_image( img_path.c_str() );
     assert( tile_atlas );
@@ -2635,7 +2636,7 @@ bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d
         return false;
     }
 
-    const auto mgr = zone_manager::get_manager();
+    const zone_manager &mgr = zone_manager::get_manager();
     const tripoint &abs = g->m.getabs( p );
     const auto zone = mgr.get_bottom_zone( abs );
 

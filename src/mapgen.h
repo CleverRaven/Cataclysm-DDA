@@ -2,27 +2,18 @@
 #ifndef MAPGEN_H
 #define MAPGEN_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
 #include <utility>
 
-#include "int_id.h"
 #include "mapgen_functions.h"
 #include "regional_settings.h"
+#include "type_id.h"
 
 class time_point;
-struct ter_t;
-
-using ter_id = int_id<ter_t>;
-struct furn_t;
-
-using furn_id = int_id<furn_t>;
-struct oter_t;
-
-using oter_id = int_id<oter_t>;
 struct point;
 class JsonArray;
 class JsonObject;
@@ -290,7 +281,7 @@ struct jmapgen_objects {
 class mapgen_function_json_base
 {
     public:
-        bool check_inbounds( const jmapgen_int &x, const jmapgen_int &y ) const;
+        bool check_inbounds( const jmapgen_int &x, const jmapgen_int &y, JsonObject &jso ) const;
         size_t calc_index( size_t x, size_t y ) const;
 
     private:

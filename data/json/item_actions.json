@@ -886,6 +886,11 @@
   },
   {
     "type": "item_action",
+    "id": "HAND_CRANK",
+    "name": "Recharge a battery"
+  },
+  {
+    "type": "item_action",
     "id": "VIBE",
     "name": "Well, you know"
   },

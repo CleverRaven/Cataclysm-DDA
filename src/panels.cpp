@@ -1,6 +1,6 @@
 #include "panels.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <cmath>
 #include <string>
 #include <array>
@@ -36,17 +36,16 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "catacharset.h"
-#include "character.h"
 #include "compatibility.h"
 #include "debug.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "int_id.h"
-#include "itype.h"
 #include "omdata.h"
 #include "pldata.h"
 #include "string_formatter.h"
 #include "tileray.h"
+#include "type_id.h"
 
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
@@ -55,7 +54,7 @@ static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
 // constructor
 window_panel::window_panel( std::function<void( player &, const catacurses::window & )>
-                            draw_func, std::string nm, int ht, int wd, bool def_toggle )
+                            draw_func, const std::string &nm, int ht, int wd, bool def_toggle )
 {
     draw = draw_func;
     name = nm;
@@ -69,7 +68,7 @@ window_panel::window_panel( std::function<void( player &, const catacurses::wind
 // panels prettify and helper functions
 // ====================================
 
-std::string trunc_ellipse( std::string input, unsigned int trunc )
+std::string trunc_ellipse( const std::string &input, unsigned int trunc )
 {
     if( utf8_width( input ) > static_cast<int>( trunc ) ) {
         return utf8_truncate( input, trunc - 1 ) + "…";
@@ -100,7 +99,6 @@ void draw_rectangle( const catacurses::window &w, nc_color, point top_left,
 std::pair<nc_color, std::string> str_string( const player &p )
 {
     nc_color clr;
-    std::string str;
 
     if( p.get_str() == p.get_str_base() ) {
         clr = c_white;
@@ -115,7 +113,6 @@ std::pair<nc_color, std::string> str_string( const player &p )
 std::pair<nc_color, std::string> dex_string( const player &p )
 {
     nc_color clr;
-    std::string str;
 
     if( p.get_dex() == p.get_dex_base() ) {
         clr = c_white;
@@ -130,7 +127,6 @@ std::pair<nc_color, std::string> dex_string( const player &p )
 std::pair<nc_color, std::string> int_string( const player &p )
 {
     nc_color clr;
-    std::string str;
 
     if( p.get_int() == p.get_int_base() ) {
         clr = c_white;
@@ -145,7 +141,6 @@ std::pair<nc_color, std::string> int_string( const player &p )
 std::pair<nc_color, std::string> per_string( const player &p )
 {
     nc_color clr;
-    std::string str;
 
     if( p.get_per() == p.get_per_base() ) {
         clr = c_white;
@@ -400,7 +395,7 @@ void draw_minimap( const player &u, const catacurses::window &w_minimap )
     }
 }
 
-void decorate_panel( const std::string name, const catacurses::window &w )
+void decorate_panel( const std::string &name, const catacurses::window &w )
 {
     werase( w );
     draw_border( w );
@@ -1089,10 +1084,10 @@ void draw_needs( const player &u, const catacurses::window &w )
 void draw_limb( player &u, const catacurses::window &w )
 {
     werase( w );
-    int ny = 0;
     int ny2 = 0;
-    int nx = 0;
     for( int i = 0; i < num_hp_parts; i++ ) {
+        int ny;
+        int nx;
         if( i < 3 ) {
             ny = i;
             nx = 8;
@@ -1109,10 +1104,10 @@ void draw_limb( player &u, const catacurses::window &w )
             bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
         }
     };
-    ny = 0;
     ny2 = 0;
-    nx = 0;
     for( size_t i = 0; i < part.size(); i++ ) {
+        int ny;
+        int nx;
         if( i < 3 ) {
             ny = i;
             nx = 1;
@@ -1989,8 +1984,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                 for( size_t i = source_index; i != target_index; i += step_dir ) {
                     std::swap( panels[i], panels[i + step_dir] );
                 }
-                counter = 0;
-                selected = false;
                 werase( w );
                 wrefresh( g->w_terrain );
                 g->reinitmap = true;
@@ -2008,9 +2001,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
             update_offsets( width );
             int h; // to_map_font_dimension needs a second input
             to_map_font_dimension( width, h );
-            if( get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ) {
-                width *= -1;
-            }
             werase( w );
             wrefresh( g->w_terrain );
             g->reinitmap = true;
@@ -2035,7 +2025,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
         }
         if( action == "TOGGLE_PANEL" && column == 0 ) {
             panels[index - 1].toggle = !panels[index - 1].toggle;
-            redraw = true;
             wrefresh( g->w_terrain );
             g->reinitmap = true;
             g->draw_panels( column, index );

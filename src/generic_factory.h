@@ -876,7 +876,6 @@ class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
         }
 };
 
-
 template<typename T>
 typed_flag_reader<T> make_flag_reader( const std::map<std::string, T> &m, const std::string &e )
 {

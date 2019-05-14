@@ -1,6 +1,6 @@
 #include "visitable.h"
 
-#include <limits.h>
+#include <climits>
 #include <algorithm>
 #include <map>
 #include <memory>
@@ -22,9 +22,7 @@
 #include "vehicle_selector.h"
 #include "active_item_cache.h"
 #include "enums.h"
-#include "itype.h"
 #include "pimpl.h"
-#include "pldata.h"
 
 /** @relates visitable */
 template <typename T>

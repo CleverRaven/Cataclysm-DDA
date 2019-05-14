@@ -15,6 +15,7 @@
 #include "item.h"
 #include "optional.h"
 #include "string_id.h"
+#include "type_id.h"
 
 struct all_stats {
     statistics<int> calories;

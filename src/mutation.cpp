@@ -1,6 +1,6 @@
 #include "mutation.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <list>
 #include <unordered_set>
@@ -24,9 +24,8 @@
 #include "omdata.h"
 #include "optional.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "rng.h"
-#include "mtype.h"
+#include "string_id.h"
 
 const efftype_id effect_stunned( "stunned" );
 
@@ -53,7 +52,6 @@ static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
 static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
-static const trait_id trait_HAIRROOTS( "HAIRROOTS" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
@@ -128,7 +126,7 @@ void Character::unset_mutation( const trait_id &flag )
     reset_encumbrance();
 }
 
-int Character::get_mod( const trait_id &mut, std::string arg ) const
+int Character::get_mod( const trait_id &mut, const std::string &arg ) const
 {
     auto &mod_data = mut->mods;
     int ret = 0;

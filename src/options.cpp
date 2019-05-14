@@ -1,6 +1,6 @@
 #include "options.h"
 
-#include <limits.h>
+#include <climits>
 
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -1594,7 +1594,11 @@ void options_manager::add_options_graphics()
 
     add( "TILES", "graphics", translate_marker( "Choose tileset" ),
          translate_marker( "Choose the tileset you want to use." ),
+#if !defined(__ANDROID__)
          build_tilesets_list(), "MSX++DEAD_PEOPLE", COPT_CURSES_HIDE
+#else
+         build_tilesets_list(), "retrodays", COPT_CURSES_HIDE
+#endif
        ); // populate the options dynamically
 
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );

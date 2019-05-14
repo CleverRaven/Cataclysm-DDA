@@ -1,6 +1,6 @@
 #include "game.h" // IWYU pragma: associated
 
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 #include <iostream>
 #include <iterator>
@@ -28,6 +28,7 @@
 #include "translations.h"
 #include "units.h"
 #include "material.h"
+#include "string_id.h"
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )

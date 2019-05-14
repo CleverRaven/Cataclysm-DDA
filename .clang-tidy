@@ -1,4 +1,4 @@
-Checks: 'clang-diagnostic-*,-clang-analyzer-deadcode.DeadStores,-clang-analyzer-security.FloatLoopCounter,-clang-analyzer-core.UndefinedBinaryOperatorResult,-clang-analyzer-core.uninitialized.Assign,-clang-analyzer-cplusplus.NewDelete,-clang-analyzer-cplusplus.NewDeleteLeaks,-clang-analyzer-core.CallAndMessage,-clang-analyzer-core.NonNullParamChecker,-clang-analyzer-core.DivideZero,-clang-diagnostic-defaulted-function-deleted,-clang-analyzer-optin.cplusplus.VirtualCall,-clang-analyzer-core.uninitialized.UndefReturn'
+Checks: 'clang-diagnostic-*,-clang-analyzer-security.FloatLoopCounter,-clang-analyzer-core.UndefinedBinaryOperatorResult,-clang-analyzer-core.uninitialized.Assign,-clang-analyzer-cplusplus.NewDeleteLeaks,-clang-analyzer-core.CallAndMessage,-clang-analyzer-core.NonNullParamChecker,-clang-analyzer-optin.cplusplus.VirtualCall,-clang-analyzer-core.NullDereference'
 WarningsAsErrors: '*'
 HeaderFilterRegex: '.*'
 FormatStyle:     none

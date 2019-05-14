@@ -9,6 +9,7 @@
 #include "material.h"
 #include "requirements.h"
 #include "string_id.h"
+#include "type_id.h"
 
 std::pair<std::string, std::string> get_both( const std::string &a );
 

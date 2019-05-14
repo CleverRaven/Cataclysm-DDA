@@ -5,8 +5,8 @@
 #include "npc_favor.h" // IWYU pragma: associated
 #include "pldata.h" // IWYU pragma: associated
 
-#include <ctype.h>
-#include <stddef.h>
+#include <cctype>
+#include <cstddef>
 #include <algorithm>
 #include <limits>
 #include <numeric>
@@ -37,7 +37,6 @@
 #include "item_factory.h"
 #include "json.h"
 #include "mission.h"
-#include "monfaction.h"
 #include "monster.h"
 #include "morale.h"
 #include "mtype.h"
@@ -78,8 +77,10 @@
 #include "stomach.h"
 #include "tileray.h"
 #include "visitable.h"
+#include "string_id.h"
 
 struct oter_type_t;
+struct mutation_branch;
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1052,13 +1053,13 @@ void npc_follower_rules::serialize( JsonOut &json ) const
 
     // serialize the flags so they can be changed between save games
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "rule_" + rule.first, has_flag( rule.second, false ) );
+        json.member( "rule_" + rule.first, has_flag( rule.second.rule, false ) );
     }
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "override_enable_" + rule.first, has_override_enable( rule.second ) );
+        json.member( "override_enable_" + rule.first, has_override_enable( rule.second.rule ) );
     }
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "override_" + rule.first, has_override( rule.second ) );
+        json.member( "override_" + rule.first, has_override( rule.second.rule ) );
     }
 
     json.member( "pickup_whitelist", *pickup_whitelist );
@@ -1082,28 +1083,49 @@ void npc_follower_rules::deserialize( JsonIn &jsin )
         // legacy to handle rules that were saved before overrides
         data.read( rule.first, tmpflag );
         if( tmpflag ) {
-            set_flag( rule.second );
+            set_flag( rule.second.rule );
         } else {
-            clear_flag( rule.second );
+            clear_flag( rule.second.rule );
         }
         data.read( "rule_" + rule.first, tmpflag );
         if( tmpflag ) {
-            set_flag( rule.second );
+            set_flag( rule.second.rule );
         } else {
-            clear_flag( rule.second );
+            clear_flag( rule.second.rule );
         }
         data.read( "override_enable_" + rule.first, tmpflag );
         if( tmpflag ) {
-            enable_override( rule.second );
+            enable_override( rule.second.rule );
         } else {
-            disable_override( rule.second );
+            disable_override( rule.second.rule );
         }
         data.read( "override_" + rule.first, tmpflag );
         if( tmpflag ) {
-            set_override( rule.second );
+            set_override( rule.second.rule );
         } else {
-            clear_override( rule.second );
+            clear_override( rule.second.rule );
         }
+
+        // This and the following two entries are for legacy save game handling.
+        // "avoid_combat" was renamed "follow_close" to better reflect behavior.
+        data.read( "rule_avoid_combat", tmpflag );
+        if( tmpflag ) {
+            set_flag( ally_rule::follow_close );
+        } else {
+            clear_flag( ally_rule::follow_close );
+        };
+        data.read( "override_enable_avoid_combat", tmpflag );
+        if( tmpflag ) {
+            enable_override( ally_rule::follow_close );
+        } else {
+            disable_override( ally_rule::follow_close );
+        };
+        data.read( "override_avoid_combat", tmpflag );
+        if( tmpflag ) {
+            set_override( ally_rule::follow_close );
+        } else {
+            clear_override( ally_rule::follow_close );
+        };
     }
 
     data.read( "pickup_whitelist", *pickup_whitelist );
@@ -1275,13 +1297,6 @@ void npc::load( JsonObject &data )
     }
 
     data.read( "personality", personality );
-
-    data.read( "wandf", wander_time );
-    data.read( "wandx", wander_pos.x );
-    data.read( "wandy", wander_pos.y );
-    if( !data.read( "wandz", wander_pos.z ) ) {
-        wander_pos.z = posz();
-    }
 
     if( !data.read( "submap_coords", submap_coords ) ) {
         // Old submap coordinates are for the point (0, 0, 0) on local map
@@ -1466,10 +1481,6 @@ void npc::store( JsonOut &json ) const
     json.member( "myclass", myclass.str() );
 
     json.member( "personality", personality );
-    json.member( "wandf", wander_time );
-    json.member( "wandx", wander_pos.x );
-    json.member( "wandy", wander_pos.y );
-    json.member( "wandz", wander_pos.z );
 
     json.member( "submap_coords", submap_coords );
 

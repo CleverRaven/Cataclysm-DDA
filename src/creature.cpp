@@ -1,7 +1,7 @@
 #include "creature.h"
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 #include <algorithm>
 #include <map>
 #include <array>
@@ -35,8 +35,7 @@
 #include "mapdata.h"
 #include "optional.h"
 #include "player.h"
-#include "material.h"
-#include "pldata.h"
+#include "string_id.h"
 
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_bounced( "bounced" );
@@ -453,7 +452,7 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
     int hit_spread = hitroll - dodge_roll() - size_melee_penalty( get_size() );
 
     // If attacker missed call targets on_dodge event
-    if( hit_spread <= 0 && !source->is_hallucination() ) {
+    if( hit_spread <= 0 && source != nullptr && !source->is_hallucination() ) {
         on_dodge( source, source->get_melee() );
     }
 
@@ -463,6 +462,9 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
 void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
                                const damage_instance &dam, dealt_damage_instance &dealt_dam )
 {
+    if( source == nullptr || source->is_hallucination() ) {
+        return;
+    }
     damage_instance d = dam; // copy, since we will mutate in block_hit
 
     body_part bp_hit = select_body_part( source, hit_spread );
