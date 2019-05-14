@@ -93,6 +93,7 @@ static bool crafting_allowed( const player &p, const recipe &rec )
 float player::lighting_craft_speed_multiplier( const recipe &rec ) const
 {
     // negative is bright, 0 is just bright enough, positive is dark, +7.0f is pitch black
+    // if the fnv_crafting mod is enabled and the player has the mutation, treats all light as bright light.
     float darkness = fine_detail_vision_mod() - 4.0f;
     if( darkness <= 0.0f || ( has_trait( trait_id( "NIGHTVISION_3" ) ) && get_option < bool > ( "FNV_CRAFTING" ) ){
         return 1.0f; // it's bright, go for it
