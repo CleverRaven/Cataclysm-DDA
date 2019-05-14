@@ -100,9 +100,11 @@ void full_map_test( const std::vector<std::string> &setup,
                     break;
                 case '#':
                     g->m.ter_set( p, t_brick_wall );
+                    g->m.ter_set( above, t_flat_roof );
                     break;
                 case '=':
                     g->m.ter_set( p, t_window_frame );
+                    g->m.ter_set( above, t_flat_roof );
                     break;
                 case '-':
                 case 'u':
