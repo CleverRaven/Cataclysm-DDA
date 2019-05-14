@@ -19,6 +19,8 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "optional.h"
+#include "color.h"
+#include "string_id.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
@@ -78,7 +80,7 @@ item vehicle_part::properties_to_item() const
     return tmp;
 }
 
-std::string vehicle_part::name() const
+std::string vehicle_part::name( bool with_prefix ) const
 {
     auto res = info().name();
 
@@ -97,15 +99,10 @@ std::string vehicle_part::name() const
         res += string_format( _( " holding %s" ), base.get_var( "contained_name" ) );
     }
 
-    std::string symbol = this->base.damage_symbol();
-    nc_color color = this->base.damage_color();
-
-    if( is_broken() ) {
-        color = c_dark_gray;
-        symbol = _( R"(XX)" );
+    if( with_prefix ) {
+        res.insert( 0, "<color_" + string_from_color( this->base.damage_color() ) + ">" +
+                    this->base.damage_symbol() + "</color> " );
     }
-
-    res.insert( 0, "<color_" + string_from_color( color ) + ">" + symbol + "</color> " );
     return res;
 }
 
@@ -343,12 +340,14 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
 {
     // for now we only care about processing food containers since things like
     // fuel don't care about temperature yet
+    temperature_flag flag = temperature_flag::TEMP_NORMAL;
     if( base.is_food_container() ) {
         int temp = g->get_temperature( pos );
         if( e_heater ) {
             temp = std::max( temp, temperatures::normal );
+            flag = temperature_flag::TEMP_HEATER;
         }
-        base.process( nullptr, pos, false, temp, 1 );
+        base.process( nullptr, pos, false, temp, 1, flag );
     }
 }
 

@@ -2,7 +2,7 @@
 #ifndef BASECAMP_H
 #define BASECAMP_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <memory>
 #include <vector>
 #include <map>
@@ -42,8 +42,8 @@ class basecamp
         basecamp();
         basecamp( const std::string &name_, const tripoint &omt_pos );
         basecamp( const std::string &name_, const tripoint &bb_pos_,
-                  std::vector<std::string> directions_,
-                  std::map<std::string, expansion_data> expansions_ );
+                  const std::vector<std::string> &directions_,
+                  const std::map<std::string, expansion_data> &expansions_ );
 
         inline bool is_valid() const {
             return !name.empty() && omt_pos != tripoint_zero;
@@ -62,6 +62,7 @@ class basecamp
         }
         std::string board_name() const;
         std::vector<std::string> directions;
+        std::vector<tripoint> fortifications;
         std::string name;
         void faction_display( const catacurses::window &fac_w, const int width ) const;
 

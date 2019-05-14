@@ -1,6 +1,6 @@
 #include "craft_command.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <sstream>
 #include <algorithm>
 #include <limits>
@@ -16,7 +16,7 @@
 #include "requirements.h"
 #include "translations.h"
 #include "uistate.h"
-#include "pldata.h"
+#include "type_id.h"
 
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const

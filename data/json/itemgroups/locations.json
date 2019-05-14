@@ -469,6 +469,38 @@
   },
   {
     "type": "item_group",
+    "id": "ic_merch_vending",
+    "//": "for cs_internet_cafe",
+    "items": [
+      [ "water_clean", 100 ],
+      [ "water_mineral", 100 ],
+      [ "coffee", 100 ],
+      [ "atomic_coffee", 100 ],
+      [ "chips", 100 ],
+      [ "chips2", 100 ],
+      [ "chips3", 100 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ic_merch",
+    "//": "for cs_internet_cafe",
+    "items": [
+      [ "cell_phone", 20 ],
+      [ "mag_computer", 20 ],
+      { "group": "ammo_pocket_batteries_full", "prob": 20 },
+      [ "radio", 20 ],
+      [ "television", 20 ],
+      [ "two_way_radio", 20 ],
+      [ "noise_emitter", 20 ],
+      [ "eyedrops", 20 ],
+      [ "mag_electronics", 20 ],
+      [ "ecig", 20 ],
+      [ "usb_drive", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "oa_ig_cd_fuel",
     "//": "for cs_car_dealership",
     "items": [

@@ -5,8 +5,8 @@
 #include "npc_favor.h" // IWYU pragma: associated
 #include "pldata.h" // IWYU pragma: associated
 
-#include <ctype.h>
-#include <stddef.h>
+#include <cctype>
+#include <cstddef>
 #include <algorithm>
 #include <limits>
 #include <numeric>
@@ -37,7 +37,6 @@
 #include "item_factory.h"
 #include "json.h"
 #include "mission.h"
-#include "monfaction.h"
 #include "monster.h"
 #include "morale.h"
 #include "mtype.h"
@@ -51,6 +50,7 @@
 #include "rng.h"
 #include "scenario.h"
 #include "skill.h"
+#include "submap.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vitamin.h"
@@ -77,8 +77,10 @@
 #include "stomach.h"
 #include "tileray.h"
 #include "visitable.h"
+#include "string_id.h"
 
 struct oter_type_t;
+struct mutation_branch;
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1051,13 +1053,13 @@ void npc_follower_rules::serialize( JsonOut &json ) const
 
     // serialize the flags so they can be changed between save games
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "rule_" + rule.first, has_flag( rule.second, false ) );
+        json.member( "rule_" + rule.first, has_flag( rule.second.rule, false ) );
     }
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "override_enable_" + rule.first, has_override_enable( rule.second ) );
+        json.member( "override_enable_" + rule.first, has_override_enable( rule.second.rule ) );
     }
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "override_" + rule.first, has_override( rule.second ) );
+        json.member( "override_" + rule.first, has_override( rule.second.rule ) );
     }
 
     json.member( "pickup_whitelist", *pickup_whitelist );
@@ -1081,28 +1083,49 @@ void npc_follower_rules::deserialize( JsonIn &jsin )
         // legacy to handle rules that were saved before overrides
         data.read( rule.first, tmpflag );
         if( tmpflag ) {
-            set_flag( rule.second );
+            set_flag( rule.second.rule );
         } else {
-            clear_flag( rule.second );
+            clear_flag( rule.second.rule );
         }
         data.read( "rule_" + rule.first, tmpflag );
         if( tmpflag ) {
-            set_flag( rule.second );
+            set_flag( rule.second.rule );
         } else {
-            clear_flag( rule.second );
+            clear_flag( rule.second.rule );
         }
         data.read( "override_enable_" + rule.first, tmpflag );
         if( tmpflag ) {
-            enable_override( rule.second );
+            enable_override( rule.second.rule );
         } else {
-            disable_override( rule.second );
+            disable_override( rule.second.rule );
         }
         data.read( "override_" + rule.first, tmpflag );
         if( tmpflag ) {
-            set_override( rule.second );
+            set_override( rule.second.rule );
         } else {
-            clear_override( rule.second );
+            clear_override( rule.second.rule );
         }
+
+        // This and the following two entries are for legacy save game handling.
+        // "avoid_combat" was renamed "follow_close" to better reflect behavior.
+        data.read( "rule_avoid_combat", tmpflag );
+        if( tmpflag ) {
+            set_flag( ally_rule::follow_close );
+        } else {
+            clear_flag( ally_rule::follow_close );
+        };
+        data.read( "override_enable_avoid_combat", tmpflag );
+        if( tmpflag ) {
+            enable_override( ally_rule::follow_close );
+        } else {
+            disable_override( ally_rule::follow_close );
+        };
+        data.read( "override_avoid_combat", tmpflag );
+        if( tmpflag ) {
+            set_override( ally_rule::follow_close );
+        } else {
+            clear_override( ally_rule::follow_close );
+        };
     }
 
     data.read( "pickup_whitelist", *pickup_whitelist );
@@ -1274,13 +1297,6 @@ void npc::load( JsonObject &data )
     }
 
     data.read( "personality", personality );
-
-    data.read( "wandf", wander_time );
-    data.read( "wandx", wander_pos.x );
-    data.read( "wandy", wander_pos.y );
-    if( !data.read( "wandz", wander_pos.z ) ) {
-        wander_pos.z = posz();
-    }
 
     if( !data.read( "submap_coords", submap_coords ) ) {
         // Old submap coordinates are for the point (0, 0, 0) on local map
@@ -1465,10 +1481,6 @@ void npc::store( JsonOut &json ) const
     json.member( "myclass", myclass.str() );
 
     json.member( "personality", personality );
-    json.member( "wandf", wander_time );
-    json.member( "wandx", wander_pos.x );
-    json.member( "wandy", wander_pos.y );
-    json.member( "wandz", wander_pos.z );
 
     json.member( "submap_coords", submap_coords );
 
@@ -2997,6 +3009,14 @@ void basecamp::serialize( JsonOut &json ) const
             json.end_object();
         }
         json.end_array();
+        json.member( "fortifications" );
+        json.start_array();
+        for( const auto &fortification : fortifications ) {
+            json.start_object();
+            json.member( "pos", fortification );
+            json.end_object();
+        }
+        json.end_array();
         json.end_object();
     } else {
         return;
@@ -3021,5 +3041,431 @@ void basecamp::deserialize( JsonIn &jsin )
         if( dir != "[B]" ) {
             directions.push_back( dir );
         }
+    }
+    JsonArray jo = data.get_array( "fortifications" );
+    while( jo.has_more() ) {
+        JsonObject edata = jo.next_object();
+        tripoint restore_pos;
+        edata.read( "pos", restore_pos );
+        fortifications.push_back( restore_pos );
+    }
+}
+
+void submap::store( JsonOut &jsout ) const
+{
+    jsout.member( "turn_last_touched", last_touched );
+    jsout.member( "temperature", temperature );
+
+    // Terrain is saved using a simple RLE scheme.  Legacy saves don't have
+    // this feature but the algorithm is backward compatible.
+    jsout.member( "terrain" );
+    jsout.start_array();
+    std::string last_id;
+    int num_same = 1;
+    for( int j = 0; j < SEEY; j++ ) {
+        for( int i = 0; i < SEEX; i++ ) {
+            const std::string this_id = ter[i][j].obj().id.str();
+            if( !last_id.empty() ) {
+                if( this_id == last_id ) {
+                    num_same++;
+                } else {
+                    if( num_same == 1 ) {
+                        // if there's only one element don't write as an array
+                        jsout.write( last_id );
+                    } else {
+                        jsout.start_array();
+                        jsout.write( last_id );
+                        jsout.write( num_same );
+                        jsout.end_array();
+                        num_same = 1;
+                    }
+                    last_id = this_id;
+                }
+            } else {
+                last_id = this_id;
+            }
+        }
+    }
+    // Because of the RLE scheme we have to do one last pass
+    if( num_same == 1 ) {
+        jsout.write( last_id );
+    } else {
+        jsout.start_array();
+        jsout.write( last_id );
+        jsout.write( num_same );
+        jsout.end_array();
+    }
+    jsout.end_array();
+
+    // Write out the radiation array in a simple RLE scheme.
+    // written in intensity, count pairs
+    jsout.member( "radiation" );
+    jsout.start_array();
+    int lastrad = -1;
+    int count = 0;
+    for( int j = 0; j < SEEY; j++ ) {
+        for( int i = 0; i < SEEX; i++ ) {
+            const point p( i, j );
+            // Save radiation, re-examine this because it doesn't look like it works right
+            int r = get_radiation( p );
+            if( r == lastrad ) {
+                count++;
+            } else {
+                if( count ) {
+                    jsout.write( count );
+                }
+                jsout.write( r );
+                lastrad = r;
+                count = 1;
+            }
+        }
+    }
+    jsout.write( count );
+    jsout.end_array();
+
+    jsout.member( "furniture" );
+    jsout.start_array();
+    for( int j = 0; j < SEEY; j++ ) {
+        for( int i = 0; i < SEEX; i++ ) {
+            const point p( i, j );
+            // Save furniture
+            if( get_furn( p ) ) {
+                jsout.start_array();
+                jsout.write( p.x );
+                jsout.write( p.y );
+                jsout.write( get_furn( p ).obj().id );
+                jsout.end_array();
+            }
+        }
+    }
+    jsout.end_array();
+
+    jsout.member( "items" );
+    jsout.start_array();
+    for( int j = 0; j < SEEY; j++ ) {
+        for( int i = 0; i < SEEX; i++ ) {
+            if( itm[i][j].empty() ) {
+                continue;
+            }
+            jsout.write( i );
+            jsout.write( j );
+            jsout.write( itm[i][j] );
+        }
+    }
+    jsout.end_array();
+
+    jsout.member( "traps" );
+    jsout.start_array();
+    for( int j = 0; j < SEEY; j++ ) {
+        for( int i = 0; i < SEEX; i++ ) {
+            const point p( i, j );
+            // Save traps
+            if( get_trap( p ) ) {
+                jsout.start_array();
+                jsout.write( p.x );
+                jsout.write( p.y );
+                // TODO: jsout should support writing an id like jsout.write( trap_id )
+                jsout.write( get_trap( p ).id().str() );
+                jsout.end_array();
+            }
+        }
+    }
+    jsout.end_array();
+
+    jsout.member( "fields" );
+    jsout.start_array();
+    for( int j = 0; j < SEEY; j++ ) {
+        for( int i = 0; i < SEEX; i++ ) {
+            // Save fields
+            if( fld[i][j].fieldCount() > 0 ) {
+                jsout.write( i );
+                jsout.write( j );
+                jsout.start_array();
+                for( auto &elem : fld[i][j] ) {
+                    const field_entry &cur = elem.second;
+                    // We don't seem to have a string identifier for fields anywhere.
+                    jsout.write( cur.getFieldType() );
+                    jsout.write( cur.getFieldDensity() );
+                    jsout.write( cur.getFieldAge() );
+                }
+                jsout.end_array();
+            }
+        }
+    }
+    jsout.end_array();
+
+    // Write out as array of arrays of single entries
+    jsout.member( "cosmetics" );
+    jsout.start_array();
+    for( const auto &cosm : cosmetics ) {
+        jsout.start_array();
+        jsout.write( cosm.pos.x );
+        jsout.write( cosm.pos.y );
+        jsout.write( cosm.type );
+        jsout.write( cosm.str );
+        jsout.end_array();
+    }
+    jsout.end_array();
+
+    // Output the spawn points
+    jsout.member( "spawns" );
+    jsout.start_array();
+    for( auto &elem : spawns ) {
+        jsout.start_array();
+        jsout.write( elem.type.str() ); // TODO: json should know how to write string_ids
+        jsout.write( elem.count );
+        jsout.write( elem.pos.x );
+        jsout.write( elem.pos.y );
+        jsout.write( elem.faction_id );
+        jsout.write( elem.mission_id );
+        jsout.write( elem.friendly );
+        jsout.write( elem.name );
+        jsout.end_array();
+    }
+    jsout.end_array();
+
+    jsout.member( "vehicles" );
+    jsout.start_array();
+    for( auto &elem : vehicles ) {
+        // json lib doesn't know how to turn a vehicle * into a vehicle,
+        // so we have to iterate manually.
+        jsout.write( *elem );
+    }
+    jsout.end_array();
+
+    // Output the computer
+    if( comp != nullptr ) {
+        jsout.member( "computers", comp->save_data() );
+    }
+
+    // Output base camp if any
+    if( camp.is_valid() ) {
+        jsout.member( "camp", camp );
+    }
+}
+
+void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_update )
+{
+    if( member_name == "turn_last_touched" ) {
+        last_touched = jsin.get_int();
+    } else if( member_name == "temperature" ) {
+        temperature = jsin.get_int();
+    } else if( member_name == "terrain" ) {
+        // TODO: try block around this to error out if we come up short?
+        jsin.start_array();
+        // Small duplication here so that the update check is only performed once
+        if( rubpow_update ) {
+            item rock = item( "rock", 0 );
+            item chunk = item( "steel_chunk", 0 );
+            for( int j = 0; j < SEEY; j++ ) {
+                for( int i = 0; i < SEEX; i++ ) {
+                    const ter_str_id tid( jsin.get_string() );
+
+                    if( tid == "t_rubble" ) {
+                        ter[i][j] = ter_id( "t_dirt" );
+                        frn[i][j] = furn_id( "f_rubble" );
+                        itm[i][j].push_back( rock );
+                        itm[i][j].push_back( rock );
+                    } else if( tid == "t_wreckage" ) {
+                        ter[i][j] = ter_id( "t_dirt" );
+                        frn[i][j] = furn_id( "f_wreckage" );
+                        itm[i][j].push_back( chunk );
+                        itm[i][j].push_back( chunk );
+                    } else if( tid == "t_ash" ) {
+                        ter[i][j] = ter_id( "t_dirt" );
+                        frn[i][j] = furn_id( "f_ash" );
+                    } else if( tid == "t_pwr_sb_support_l" ) {
+                        ter[i][j] = ter_id( "t_support_l" );
+                    } else if( tid == "t_pwr_sb_switchgear_l" ) {
+                        ter[i][j] = ter_id( "t_switchgear_l" );
+                    } else if( tid == "t_pwr_sb_switchgear_s" ) {
+                        ter[i][j] = ter_id( "t_switchgear_s" );
+                    } else {
+                        ter[i][j] = tid.id();
+                    }
+                }
+            }
+        } else {
+            // terrain is encoded using simple RLE
+            int remaining = 0;
+            int_id<ter_t> iid;
+            for( int j = 0; j < SEEY; j++ ) {
+                for( int i = 0; i < SEEX; i++ ) {
+                    if( !remaining ) {
+                        if( jsin.test_string() ) {
+                            iid = ter_str_id( jsin.get_string() ).id();
+                        } else if( jsin.test_array() ) {
+                            jsin.start_array();
+                            iid = ter_str_id( jsin.get_string() ).id();
+                            remaining = jsin.get_int() - 1;
+                            jsin.end_array();
+                        } else {
+                            debugmsg( "Mapbuffer terrain data is corrupt, expected string or array." );
+                        }
+                    } else {
+                        --remaining;
+                    }
+                    ter[i][j] = iid;
+                }
+            }
+            if( remaining ) {
+                debugmsg( "Mapbuffer terrain data is corrupt, tile data remaining." );
+            }
+        }
+        jsin.end_array();
+    } else if( member_name == "radiation" ) {
+        int rad_cell = 0;
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            int rad_strength = jsin.get_int();
+            int rad_num = jsin.get_int();
+            for( int i = 0; i < rad_num; ++i ) {
+                // A little array trick here, assign to it as a 1D array.
+                // If it's not in bounds we're kinda hosed anyway.
+                set_radiation( { 0, rad_cell }, rad_strength );
+                rad_cell++;
+            }
+        }
+    } else if( member_name == "furniture" ) {
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            jsin.start_array();
+            int i = jsin.get_int();
+            int j = jsin.get_int();
+            frn[i][j] = furn_id( jsin.get_string() );
+            jsin.end_array();
+        }
+    } else if( member_name == "items" ) {
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            int i = jsin.get_int();
+            int j = jsin.get_int();
+            const point p( i, j );
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                item tmp;
+                jsin.read( tmp );
+
+                if( tmp.is_emissive() ) {
+                    update_lum_add( p, tmp );
+                }
+
+                tmp.visit_items( [ this, &p ]( item * it ) {
+                    for( auto &e : it->magazine_convert() ) {
+                        itm[p.x][p.y].push_back( e );
+                    }
+                    return VisitResponse::NEXT;
+                } );
+
+                itm[p.x][p.y].push_back( tmp );
+                if( tmp.needs_processing() ) {
+                    active_items.add( std::prev( itm[p.x][p.y].end() ), p );
+                }
+            }
+        }
+    } else if( member_name == "traps" ) {
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            jsin.start_array();
+            int i = jsin.get_int();
+            int j = jsin.get_int();
+            const point p( i, j );
+            // TODO: jsin should support returning an id like jsin.get_id<trap>()
+            const trap_str_id trid( jsin.get_string() );
+            if( trid == "tr_brazier" ) {
+                frn[p.x][p.y] = furn_id( "f_brazier" );
+            } else {
+                trp[p.x][p.y] = trid.id();
+            }
+            // TODO: remove brazier trap-to-furniture conversion after 0.D
+            jsin.end_array();
+        }
+    } else if( member_name == "fields" ) {
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            // Coordinates loop
+            int i = jsin.get_int();
+            int j = jsin.get_int();
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                int type = jsin.get_int();
+                int density = jsin.get_int();
+                int age = jsin.get_int();
+                if( fld[i][j].findField( field_id( type ) ) == nullptr ) {
+                    field_count++;
+                }
+                fld[i][j].addField( field_id( type ), density, time_duration::from_turns( age ) );
+            }
+        }
+    } else if( member_name == "graffiti" ) {
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            jsin.start_array();
+            int i = jsin.get_int();
+            int j = jsin.get_int();
+            const point p( i, j );
+            set_graffiti( p, jsin.get_string() );
+            jsin.end_array();
+        }
+    } else if( member_name == "cosmetics" ) {
+        jsin.start_array();
+        std::map<std::string, std::string> tcosmetics;
+
+        while( !jsin.end_array() ) {
+            jsin.start_array();
+            int i = jsin.get_int();
+            int j = jsin.get_int();
+            const point p( i, j );
+            std::string type, str;
+            // Try to read as current format
+            if( jsin.test_string() ) {
+                type = jsin.get_string();
+                str = jsin.get_string();
+                insert_cosmetic( p, type, str );
+            } else {
+                // Otherwise read as most recent old format
+                jsin.read( tcosmetics );
+                for( auto &cosm : tcosmetics ) {
+                    insert_cosmetic( p, cosm.first, cosm.second );
+                }
+                tcosmetics.clear();
+            }
+
+            jsin.end_array();
+        }
+    } else if( member_name == "spawns" ) {
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            jsin.start_array();
+            // TODO: json should know how to read an string_id
+            const mtype_id type = mtype_id( jsin.get_string() );
+            int count = jsin.get_int();
+            int i = jsin.get_int();
+            int j = jsin.get_int();
+            const point p( i, j );
+            int faction_id = jsin.get_int();
+            int mission_id = jsin.get_int();
+            bool friendly = jsin.get_bool();
+            std::string name = jsin.get_string();
+            jsin.end_array();
+            spawn_point tmp( type, count, p, faction_id, mission_id, friendly, name );
+            spawns.push_back( tmp );
+        }
+    } else if( member_name == "vehicles" ) {
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            std::unique_ptr<vehicle> tmp( new vehicle() );
+            jsin.read( *tmp );
+            vehicles.push_back( std::move( tmp ) );
+        }
+    } else if( member_name == "computers" ) {
+        std::string computer_data = jsin.get_string();
+        std::unique_ptr<computer> new_comp( new computer( "BUGGED_COMPUTER", -100 ) );
+        new_comp->load_data( computer_data );
+        comp = std::move( new_comp );
+    } else if( member_name == "camp" ) {
+        jsin.read( camp );
+    } else {
+        jsin.skip_value();
     }
 }

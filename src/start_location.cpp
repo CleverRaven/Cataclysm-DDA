@@ -1,6 +1,6 @@
 #include "start_location.h"
 
-#include <limits.h>
+#include <climits>
 #include <algorithm>
 #include <random>
 #include <memory>
@@ -21,12 +21,9 @@
 #include "calendar.h"
 #include "game_constants.h"
 #include "int_id.h"
-#include "mapgen.h"
 #include "pldata.h"
 #include "rng.h"
 #include "translations.h"
-#include "mongroup.h"
-#include "mtype.h"
 
 class item;
 
@@ -310,6 +307,7 @@ void start_location::place_player( player &u ) const
     u.setx( HALF_MAPSIZE_X );
     u.sety( HALF_MAPSIZE_Y );
     u.setz( g->get_levz() );
+    m.invalidate_map_cache( m.get_abs_sub().z );
     m.build_map_cache( m.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain

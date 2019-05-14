@@ -1,8 +1,8 @@
 #include "bionics.h"
 
-#include <limits.h>
-#include <math.h>
-#include <stdlib.h>
+#include <climits>
+#include <cmath>
+#include <cstdlib>
 #include <algorithm> //std::min
 #include <sstream>
 #include <array>
@@ -15,8 +15,10 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "effect.h"
+#include "explosion.h"
 #include "field.h"
 #include "game.h"
+#include "handle_liquid.h"
 #include "input.h"
 #include "item.h"
 #include "itype.h"
@@ -25,7 +27,6 @@
 #include "map_iterator.h"
 #include "messages.h"
 #include "morale_types.h"
-#include "mutation.h"
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
@@ -41,7 +42,6 @@
 #include "weather.h"
 #include "weather_gen.h"
 #include "calendar.h"
-#include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "damage.h"
@@ -51,7 +51,6 @@
 #include "pimpl.h"
 #include "pldata.h"
 #include "units.h"
-#include "mtype.h"
 
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
@@ -244,7 +243,8 @@ bool player::activate_bionic( int b, bool eff_only )
         }
     } else if( bio.id == "bio_resonator" ) {
         //~Sound of a bionic sonic-resonator shaking the area
-        sounds::sound( pos(), 30, sounds::sound_t::combat, _( "VRRRRMP!" ) );
+        sounds::sound( pos(), 30, sounds::sound_t::combat, _( "VRRRRMP!" ), false, "bionic",
+                       "bio_resonator" );
         for( const tripoint &bashpoint : g->m.points_in_radius( pos(), 1 ) ) {
             g->m.bash( bashpoint, 110 );
             g->m.bash( bashpoint, 110 ); // Multibash effect, so that doors &c will fall
@@ -389,7 +389,7 @@ bool player::activate_bionic( int b, bool eff_only )
         if( water_charges == 0 ) {
             add_msg_if_player( m_bad,
                                _( "There was not enough moisture in the air from which to draw water!" ) );
-        } else if( !g->consume_liquid( water ) ) {
+        } else if( !liquid_handler::consume_liquid( water ) ) {
             charge_power( bionics[bionic_id( "bio_evap" )].power_activate );
         }
     } else if( bio.id == "bio_torsionratchet" ) {
@@ -425,7 +425,7 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_emp" ) {
         g->refresh_all();
         if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Create an EMP where?" ) ) ) {
-            g->emp_blast( *pnt );
+            explosion_handler::emp_blast( *pnt );
             mod_moves( -100 );
         } else {
             charge_power( bionics[bionic_id( "bio_emp" )].power_activate );
@@ -433,7 +433,8 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_hydraulics" ) {
         add_msg( m_good, _( "Your muscles hiss as hydraulic strength fills them!" ) );
         //~ Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ) );
+        sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
+                       "bio_hydraulics" );
     } else if( bio.id == "bio_water_extractor" ) {
         bool extracted = false;
         for( auto it = g->m.i_at( pos() ).begin();
@@ -446,7 +447,7 @@ bool player::activate_bionic( int b, bool eff_only )
                               colorize( it->tname(), it->color_in_inventory() ) ) ) {
                     item water( "water_clean", calendar::turn, avail );
                     water.set_item_temperature( 0.00001 * it->temperature );
-                    if( g->consume_liquid( water ) ) {
+                    if( liquid_handler::consume_liquid( water ) ) {
                         extracted = true;
                         it->set_var( "remaining_water", static_cast<int>( water.charges ) );
                     }
@@ -507,10 +508,10 @@ bool player::activate_bionic( int b, bool eff_only )
 
         mod_moves( -100 );
     } else if( bio.id == "bio_flashbang" ) {
-        g->flashbang( pos(), true );
+        explosion_handler::flashbang( pos(), true );
         mod_moves( -100 );
     } else if( bio.id == "bio_shockwave" ) {
-        g->shockwave( pos(), 3, 4, 2, 8, true );
+        explosion_handler::shockwave( pos(), 3, 4, 2, 8, true );
         add_msg_if_player( m_neutral, _( "You unleash a powerful shockwave!" ) );
         mod_moves( -100 );
     } else if( bio.id == "bio_meteorologist" ) {
@@ -760,7 +761,8 @@ void player::process_bionic( int b )
         }
     } else if( bio.id == "bio_hydraulics" ) {
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
-        sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ) );
+        sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
+                       "bio_hydraulics" );
     } else if( bio.id == "bio_nanobots" ) {
         for( int i = 0; i < num_hp_parts; i++ ) {
             if( power_level >= 5 && hp_cur[i] > 0 && hp_cur[i] < hp_max[i] ) {
@@ -1057,6 +1059,7 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
         }
         bionics_uninstall_failure( installer, difficulty, success, adjusted_skill );
     }
+    g->m.invalidate_map_cache( g->get_levz() );
     g->refresh_all();
     return true;
 }
@@ -1151,6 +1154,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
         }
         bionics_install_failure( installer, difficult, success, adjusted_skill );
     }
+    g->m.invalidate_map_cache( g->get_levz() );
     g->refresh_all();
     return true;
 }
@@ -1654,7 +1658,7 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
                                _( "You feel excited as the Autodoc slices painlessly into you.  You enjoy the sight of scalpels slicing you apart, but as operation proceeds you suddenly feel tired and pass out." ) );
         } else {
             add_msg_if_player( m_mixed,
-                               _( "You stay very, very still, focusing intently on an interesting rock on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) );
+                               _( "You stay very, very still, focusing intently on an interesting stain on the ceiling, as the Autodoc slices painlessly into you.  Mercifully, you pass out when the blades reach your line of sight." ) );
         }
     }
 

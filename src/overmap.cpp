@@ -1157,7 +1157,7 @@ bool overmap::mongroup_check( const mongroup &candidate ) const
 {
     const auto matching_range = zg.equal_range( candidate.pos );
     return std::find_if( matching_range.first, matching_range.second,
-    [candidate]( std::pair<tripoint, mongroup> match ) {
+    [candidate]( const std::pair<tripoint, mongroup> &match ) {
         // This is extra strict since we're using it to test serialization.
         return candidate.type == match.second.type && candidate.pos == match.second.pos &&
                candidate.radius == match.second.radius &&
@@ -1174,7 +1174,7 @@ bool overmap::monster_check( const std::pair<tripoint, monster> &candidate ) con
 {
     const auto matching_range = monster_map.equal_range( candidate.first );
     return std::find_if( matching_range.first, matching_range.second,
-    [candidate]( std::pair<tripoint, monster> match ) {
+    [candidate]( const std::pair<tripoint, monster> &match ) {
         return candidate.second.pos() == match.second.pos() &&
                candidate.second.type == match.second.type;
     } ) != matching_range.second;
@@ -1314,11 +1314,14 @@ void overmap::generate( const overmap *north, const overmap *east,
                         overmap_special_batch &enabled_specials )
 {
     dbg( D_INFO ) << "overmap::generate start...";
-    std::vector<point> river_start;// West/North endpoints of rivers
-    std::vector<point> river_end; // East/South endpoints of rivers
+    // West/North endpoints of rivers
+    std::vector<point> river_start;
+    // East/South endpoints of rivers
+    std::vector<point> river_end;
 
     // Determine points where rivers & roads should connect w/ adjacent maps
-    const oter_id river_center( "river_center" ); // optimized comparison.
+    // optimized comparison.
+    const oter_id river_center( "river_center" );
 
     if( north != nullptr ) {
         for( int i = 2; i < OMAPX - 2; i++ ) {

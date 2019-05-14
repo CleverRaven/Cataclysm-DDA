@@ -2,6 +2,7 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
+#include <cassert>
 #include <climits>
 #include <ostream>
 #include <cstdint>
@@ -15,6 +16,14 @@ constexpr inline int sgn( const T x )
 {
     return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
 }
+
+enum temperature_flag : int {
+    TEMP_NORMAL = 0,
+    TEMP_HEATER,
+    TEMP_FRIDGE,
+    TEMP_FREEZER,
+    TEMP_ROOT_CELLAR
+};
 
 //Used for autopickup and safemode rules
 enum rule_state : int {
@@ -183,6 +192,27 @@ struct point {
         y -= rhs.y;
         return *this;
     }
+
+    /**
+     * Rotate point clockwise @param turns times, 90 degrees per turn,
+     * around the center of a rectangle with the dimensions specified
+     * by @param dim. By default rotates around the origin (0, 0).
+     */
+    point rotate( int turns, const point &dim = { 1, 1 } ) const {
+        assert( turns >= 0 );
+        assert( turns <= 4 );
+
+        switch( turns ) {
+            case 1:
+                return { dim.y - y - 1, x };
+            case 2:
+                return { dim.x - x - 1, dim.y - y - 1 };
+            case 3:
+                return { y, dim.x - x - 1 };
+        }
+
+        return *this;
+    }
 };
 
 void serialize( const point &p, JsonOut &jsout );
@@ -239,6 +269,15 @@ struct tripoint {
     }
     constexpr tripoint operator-() const {
         return tripoint( -x, -y, -z );
+    }
+    constexpr tripoint operator*( const int rhs ) const {
+        return tripoint( x * rhs, y * rhs, z * rhs );
+    }
+    tripoint &operator*=( const int rhs ) {
+        x *= rhs;
+        y *= rhs;
+        z *= rhs;
+        return *this;
     }
     /*** some point operators and functions ***/
     constexpr tripoint operator+( const point &rhs ) const {
@@ -336,6 +375,15 @@ static constexpr tripoint tripoint_max{ INT_MAX, INT_MAX, INT_MAX };
 static constexpr point point_min{ tripoint_min.x, tripoint_min.y };
 static constexpr point point_zero{ tripoint_zero.x, tripoint_zero.y };
 static constexpr point point_max{ tripoint_max.x, tripoint_max.y };
+
+static constexpr point point_north{ 0, -1 };
+static constexpr point point_north_east{ 1, -1 };
+static constexpr point point_east{ 1, 0 };
+static constexpr point point_south_east{ 1, 1 };
+static constexpr point point_south{ 0, 1 };
+static constexpr point point_south_west{ -1, 1 };
+static constexpr point point_west{ -1, 0 };
+static constexpr point point_north_west{ -1, -1 };
 
 static constexpr box box_zero( tripoint_zero, tripoint_zero );
 static constexpr rectangle rectangle_zero( point_zero, point_zero );

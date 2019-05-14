@@ -267,6 +267,7 @@ The syntax listed here is still valid.
     "specific_heat_solid": 2.15,
     "latent_heat": 260,
     "edible": true,
+    "rotting": true,
     "bash_resist": 1,
     "cut_resist": 1,
     "acid_resist": 1,
@@ -837,6 +838,7 @@ See also VEHICLE_JSON.md
 "recoil" : 18,        // Recoil caused when firing
 "count" : 25,         // Number of rounds that spawn together
 "stack_size" : 50,    // (Optional) How many rounds are in the above-defined volume. If omitted, is the same as 'count'
+"show_stats" : true,  // (Optional) Force stat display for combat ammo. (for projectiles lacking both damage and prop_damage)
 "effects" : ["COOKOFF", "SHOT"]
 ```
 

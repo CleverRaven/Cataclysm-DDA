@@ -2,7 +2,7 @@
 #ifndef MESSAGES_H
 #define MESSAGES_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <string>
 #include <utility>
 #include <vector>

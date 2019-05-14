@@ -338,5 +338,14 @@
     "loudness_modifier": -1,
     "min_skills": [ [ "weapon", 4 ], [ "mechanics", 3 ], [ "gun", 2 ] ],
     "flags": [ "NEVER_JAMS", "INSTALL_DIFFICULT", "IRREMOVABLE" ]
+  },
+  {
+    "id": "bio_furnace",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Internal Furnace CBM",
+    "description": "When this bionic is active, you can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others.",
+    "price": 450000,
+    "difficulty": 4
   }
 ]

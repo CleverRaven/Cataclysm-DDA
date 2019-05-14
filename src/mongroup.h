@@ -12,19 +12,13 @@
 #include "io_tags.h"
 #include "monster.h"
 #include "string_id.h"
+#include "type_id.h"
 
 // from overmap.h
 class overmap;
 class JsonObject;
 class JsonIn;
 class JsonOut;
-struct MonsterGroup;
-
-using mongroup_id = string_id<MonsterGroup>;
-
-struct mtype;
-
-using mtype_id = string_id<mtype>;
 
 struct MonsterGroupEntry;
 
@@ -116,7 +110,7 @@ struct mongroup {
         , population( ppop )
         , target() {
     }
-    mongroup( std::string ptype, tripoint ppos, unsigned int prad, unsigned int ppop,
+    mongroup( const std::string &ptype, tripoint ppos, unsigned int prad, unsigned int ppop,
               tripoint ptarget, int pint, bool pdie, bool phorde, bool pdiff ) :
         type( ptype ), pos( ppos ), radius( prad ), population( ppop ), target( ptarget ),
         interest( pint ), dying( pdie ), horde( phorde ), diffuse( pdiff ) { }

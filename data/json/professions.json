@@ -207,7 +207,7 @@
     "description": "You knew the end was coming.  You augmented yourself with some basic bionics and got additional survival training.  Now the end has come, and it is time to see if your efforts have paid off.",
     "points": 6,
     "CBMs": [
-      "bio_furnace",
+      "bio_metabolics",
       "bio_power_storage_mkII",
       "bio_tools",
       "bio_flashlight",
@@ -1473,7 +1473,7 @@
   {
     "type": "profession",
     "ident": "broken_cyborg",
-    "name": "Broken Cyborg",
+    "name": "Prototype Cyborg",
     "description": "You were normal once.  Before the tests, before the procedures, before they stripped away every outward sign of your humanity.  You're more machine than man now, but that might prove an advantage against the horrors that await.",
     "points": -2,
     "CBMs": [
@@ -2187,7 +2187,7 @@
       "bio_sleepy",
       "bio_trip",
       "bio_spasm",
-      "bio_furnace",
+      "bio_metabolics",
       "bio_power_storage_mkII",
       "bio_painkiller",
       "bio_climate"
@@ -2620,7 +2620,10 @@
     "points": 3,
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "firstaid" } ],
     "items": {
-      "both": [ "shorts", "tshirt", "socks", "lowtops", "gobag", "cell_phone", "wristwatch" ],
+      "both": {
+        "items": [ "shorts", "tshirt", "socks", "lowtops", "cell_phone", "wristwatch" ],
+        "entries": [ { "item": "gobag", "custom-flags": [ "FIT" ] } ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
@@ -3586,6 +3589,21 @@
       ],
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "urban_samurai",
+    "name": "Urban Samurai",
+    "description": "You were always an inexplicable sight in town, always with the funny hair, always wearing what appeared to be some kind of Japanese bathrobe. Some claimed you were a visiting Shinto god. Little of this concerns you, but last week the grocery service stopped coming and now the TV no longer turns on. This displeases you.",
+    "points": 2,
+    "skills": { "level": 2, "name": "melee" },
+    "items": {
+      "both": {
+        "items": [ "haori", "kimono", "hakama", "loincloth", "tabi_dress", "geta" ],
+        "entries": [ { "item": "bokken_inferior", "container-item": "scabbard" } ]
+      },
+      "female": [ "chestwrap" ]
     }
   }
 ]

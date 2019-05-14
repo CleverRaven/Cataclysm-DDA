@@ -12,11 +12,10 @@
 
 #include "dialogue_win.h"
 #include "npc.h"
-#include "npc_class.h"
 #include "json.h"
-#include "pldata.h"
 #include "string_id.h"
 #include "material.h"
+#include "type_id.h"
 
 class mission;
 struct dialogue;
@@ -117,6 +116,7 @@ struct talk_effect_fun_t {
         void set_npc_aim_rule( const std::string &setting );
         void set_mapgen_update( JsonObject jo, const std::string &member );
         void set_bulk_trade_accept( bool is_trade, bool is_npc = false );
+        void set_npc_gets_item( bool to_use );
 
         void operator()( const dialogue &d ) const {
             if( !function ) {
@@ -234,6 +234,7 @@ struct dialogue {
         dialogue() = default;
 
         mutable itype_id cur_item;
+        mutable std::string reason;
 
         std::string dynamic_line( const talk_topic &topic ) const;
         void apply_speaker_effects( const talk_topic &the_topic );
@@ -342,7 +343,7 @@ const std::unordered_set<std::string> simple_string_conds = { {
         "at_safe_space", "is_day", "is_outside", "u_has_camp",
         "u_can_stow_weapon", "npc_can_stow_weapon", "u_has_weapon", "npc_has_weapon",
         "u_driving", "npc_driving",
-        "has_pickup_list", "is_by_radio",
+        "has_pickup_list", "is_by_radio", "has_reason"
     }
 };
 const std::unordered_set<std::string> complex_conds = { {
@@ -432,6 +433,7 @@ struct conditional_t {
         void set_is_by_radio();
         void set_u_has_camp();
         void set_has_pickup_list();
+        void set_has_reason();
         void set_is_gender( bool is_male, bool is_npc = false );
 
         bool operator()( const dialogue &d ) const {

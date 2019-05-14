@@ -2,19 +2,13 @@
 #ifndef MAPGENFORMAT_H
 #define MAPGENFORMAT_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <string>
 #include <vector>
 #include <utility>
 
-#include "int_id.h"
+#include "type_id.h"
 
-struct ter_t;
-
-using ter_id = int_id<ter_t>;
-struct furn_t;
-
-using furn_id = int_id<furn_t>;
 class map;
 
 namespace mapf
@@ -44,7 +38,7 @@ class format_effect
         std::vector<ID> determiners;
 
     public:
-        format_effect( std::string chars,
+        format_effect( const std::string &chars,
                        std::vector<ID> dets );
 
         ID translate( char c ) const;

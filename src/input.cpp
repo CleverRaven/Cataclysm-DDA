@@ -78,7 +78,7 @@ bool is_mouse_enabled()
 }
 
 //helper function for those have problem inputting certain characters.
-std::string get_input_string_from_file( std::string fname )
+std::string get_input_string_from_file( const std::string &fname )
 {
     std::string ret;
     read_from_file_optional( fname, [&ret]( std::istream & fin ) {
@@ -656,7 +656,8 @@ void input_context::register_action( const std::string &action_descriptor, const
     }
 }
 
-std::vector<char> input_context::keys_bound_to( const std::string &action_descriptor ) const
+std::vector<char> input_context::keys_bound_to( const std::string &action_descriptor,
+        const bool restrict_to_printable ) const
 {
     std::vector<char> result;
     const std::vector<input_event> &events = inp_mngr.get_input_for_action( action_descriptor,
@@ -664,9 +665,11 @@ std::vector<char> input_context::keys_bound_to( const std::string &action_descri
     for( const auto &events_event : events ) {
         // Ignore multi-key input and non-keyboard input
         // TODO: fix for Unicode.
-        if( events_event.type == CATA_INPUT_KEYBOARD && events_event.sequence.size() == 1 &&
-            events_event.sequence.front() < 0xFF && isprint( events_event.sequence.front() ) ) {
-            result.push_back( static_cast<char>( events_event.sequence.front() ) );
+        if( events_event.type == CATA_INPUT_KEYBOARD && events_event.sequence.size() == 1 ) {
+            if( !restrict_to_printable || ( events_event.sequence.front() < 0xFF &&
+                                            isprint( events_event.sequence.front() ) ) ) {
+                result.push_back( static_cast<char>( events_event.sequence.front() ) );
+            }
         }
     }
     return result;
@@ -792,7 +795,9 @@ const std::string &input_context::handle_input()
 const std::string &input_context::handle_input( const int timeout )
 {
     const auto old_timeout = inp_mngr.get_timeout();
-    inp_mngr.set_timeout( timeout );
+    if( timeout >= 0 ) {
+        inp_mngr.set_timeout( timeout );
+    }
     next_action.type = CATA_INPUT_ERROR;
     const std::string *result = &CATA_ERROR;
     while( true ) {
@@ -1248,8 +1253,15 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         return cata::nullopt;
     }
 
-    const int x = g->ter_view_x - ( ( view_columns / 2 ) - coordinate_x );
-    const int y = g->ter_view_y - ( ( view_rows / 2 ) - coordinate_y );
+    int view_offset_x = 0;
+    int view_offset_y = 0;
+    if( capture_win == g->w_terrain ) {
+        view_offset_x = g->ter_view_x;
+        view_offset_y = g->ter_view_y;
+    }
+
+    const int x = view_offset_x - ( ( view_columns / 2 ) - coordinate_x );
+    const int y = view_offset_y - ( ( view_rows / 2 ) - coordinate_y );
 
     return tripoint( x, y, g->get_levz() );
 }

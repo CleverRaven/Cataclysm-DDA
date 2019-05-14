@@ -276,7 +276,7 @@
     "time": 18000,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ] ]
+    "components": [ [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ], [ [ "gambeson", 1 ] ] ]
   },
   {
     "result": "chainmail_suit",
@@ -288,7 +288,13 @@
     "time": 20000,
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "chainmail_hood", 1 ] ], [ [ "chainmail_vest", 1 ] ], [ [ "chainmail_arms", 1 ] ], [ [ "chainmail_legs", 1 ] ] ]
+    "components": [
+      [ [ "chainmail_hood", 1 ] ],
+      [ [ "chainmail_vest", 1 ] ],
+      [ [ "chainmail_arms", 1 ] ],
+      [ [ "chainmail_legs", 1 ] ],
+      [ [ "gambeson", 1 ] ]
+    ]
   },
   {
     "result": "chainmail_suit",
@@ -519,6 +525,18 @@
     "book_learn": [ [ "textbook_tailor", 4 ], [ "manual_tailor", 5 ], [ "tailor_portfolio", 4 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
     "components": [ [ [ "jumpsuit", 1 ] ], [ [ "rag", 10 ] ] ]
+  },
+  {
+    "result": "kimono",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": 150000,
+    "book_learn": [ [ "tailor_japanese", 4 ] ],
+    "using": [ [ "sewing_standard", 35 ] ],
+    "components": [ [ [ "rag", 25 ] ] ]
   },
   {
     "result": "lsurvivor_suit",
@@ -779,5 +797,17 @@
       [ [ "duct_tape", 400 ] ],
       [ [ "kevlar", 2 ], [ "modularvest", 2 ], [ "swat_armor", 2 ], [ "kevlar_plate", 42 ] ]
     ]
+  },
+  {
+    "result": "yukata",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 90000,
+    "book_learn": [ [ "tailor_japanese", 3 ] ],
+    "using": [ [ "sewing_standard", 18 ] ],
+    "components": [ [ [ "rag", 16 ] ] ]
   }
 ]

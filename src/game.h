@@ -2,7 +2,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <limits.h>
+#include <climits>
 #include <array>
 #include <list>
 #include <map>
@@ -14,19 +14,24 @@
 #include <functional>
 #include <iosfwd>
 #include <string>
+#include <chrono>
 
 #include "calendar.h"
 #include "cursesdef.h"
 #include "enums.h"
+#include "explosion.h"
 #include "game_constants.h"
-#include "int_id.h"
+#include "handle_liquid.h"
 #include "item_location.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "creature.h"
 #include "item.h"
-#include "string_id.h"
+#include "type_id.h"
 #include "monster.h"
+#include "game_inventory.h"
+
+#define DEFAULT_TILESET_ZOOM 16
 
 extern bool test_mode;
 
@@ -76,27 +81,13 @@ enum target_mode : int;
 
 struct targeting_data;
 struct special_game;
-struct mtype;
 
-using mtype_id = string_id<mtype>;
-struct species_type;
-
-using species_id = string_id<species_type>;
 using itype_id = std::string;
-class ammunition_type;
-
-using ammotype = string_id<ammunition_type>;
 class map;
-class zone_type;
-
-using zone_type_id = string_id<zone_type>;
 class faction_manager;
 class new_faction_manager;
 class player;
 class npc;
-struct MOD_INFORMATION;
-
-using mod_id = string_id<MOD_INFORMATION>;
 class vehicle;
 class Creature_tracker;
 class scenario;
@@ -109,36 +100,16 @@ class overmap;
 class event_manager;
 
 enum event_type : int;
-struct ter_t;
-
-using ter_id = int_id<ter_t>;
 class weather_generator;
 struct weather_printable;
 class live_view;
 class nc_color;
 struct w_point;
-struct explosion_data;
 struct visibility_variables;
 class scent_map;
 class loading_ui;
 
 typedef std::function<bool( const item & )> item_filter;
-
-enum liquid_dest : int {
-    LD_NULL,
-    LD_CONSUME,
-    LD_ITEM,
-    LD_VEH,
-    LD_KEG,
-    LD_GROUND
-};
-
-struct liquid_dest_opt {
-    liquid_dest dest_opt = LD_NULL;
-    tripoint pos;
-    item_location item_loc;
-    vehicle *veh = nullptr;
-};
 
 enum peek_act : int {
     PA_BLIND_THROW
@@ -157,6 +128,9 @@ struct w_map {
     catacurses::window win;
 };
 
+// There is only one game instance, so losing a few bytes of memory
+// due to padding is not much of a concern.
+// NOLINTNEXTLINE(clang-analyzer-optin.performance.Padding)
 class game
 {
         friend class editmap;
@@ -221,6 +195,7 @@ class game
 
         /** Returns false if saving failed. */
         bool save();
+
         /** Returns a list of currently active character saves. */
         std::vector<std::string> list_active_characters();
         void write_memorial_file( std::string sLastWords );
@@ -243,35 +218,6 @@ class game
         cata::optional<tripoint> get_veh_dir_indicator_location( bool next ) const;
         void draw_veh_dir_indicator( bool next );
 
-        /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
-            Explosion intensity formula is roughly power*factor^distance.
-            If factor <= 0, no blast is produced */
-        void explosion(
-            const tripoint &p, float power, float factor = 0.8f,
-            bool fire = false, int casing_mass = 0, float fragment_mass = 0.05
-        );
-
-        void explosion(
-            const tripoint &p, const explosion_data &ex
-        );
-
-        /** Helper for explosion, does the actual blast. */
-        void do_blast( const tripoint &p, float power, float factor, bool fire );
-
-        /*
-         * Emits shrapnel damaging creatures and sometimes terrain/furniture within range
-         * @param src source from which shrapnel radiates outwards in a uniformly random distribution
-         * @param power raw kinetic energy which is responsible for damage and reduced by effects of cover
-         * @param casing_mass total mass of bomb casing, determines fragment velocity.
-         * @param fragment_mass mass of individual fragments, affects range, damage and coverage.
-         * @param range maximum distance shrapnel may travel
-         * @return vector containing all tiles that took damage.
-         */
-        std::vector<tripoint> shrapnel( const tripoint &src, int power, int casing_mass,
-                                        float fragment_mass, int range = -1 );
-
-        /** Triggers a flashbang explosion at p. */
-        void flashbang( const tripoint &p, bool player_immune = false );
         /** Moves the player vertically. If force == true then they are falling. */
         void vertical_move( int z, bool force );
         /** Returns the other end of the stairs (if any). May query, affect u etc.  */
@@ -282,12 +228,6 @@ class game
         void vertical_notes( int z_before, int z_after );
         /** Checks to see if a player can use a computer (not illiterate, etc.) and uses if able. */
         void use_computer( const tripoint &p );
-        /** Triggers a resonance cascade at p. */
-        void resonance_cascade( const tripoint &p );
-        /** Triggers a scrambler blast at p. */
-        void scrambler_blast( const tripoint &p );
-        /** Triggers an EMP blast at p. */
-        void emp_blast( const tripoint &p );
         /**
          * @return The living creature with the given id. Returns null if no living
          * creature with such an id exists. Never returns a dead creature.
@@ -500,8 +440,16 @@ class game
         npc *find_npc( int id );
         /** Makes any nearby NPCs on the overmap active. */
         void load_npcs();
-        /** Unloads all NPCs */
+    private:
+        /** Unloads all NPCs.
+         *
+         * If you call this you must later call load_npcs, lest caches get
+         * rather confused.  The tests used to call this a lot when they
+         * shouldn't. It is now private to reduce the chance of similar
+         * problems in the future.
+         */
         void unload_npcs();
+    public:
         /** Unloads, then loads the NPCs */
         void reload_npcs();
         /** Returns the number of kills of the given mon_id by the player. */
@@ -543,8 +491,6 @@ class game
         /** Flings the input creature in the given direction. */
         void fling_creature( Creature *c, const int &dir, float flvel, bool controlled = false );
 
-        /** Nuke the area at p - global overmap terrain coordinates! */
-        void nuke( const tripoint &p );
         float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.
@@ -629,6 +575,13 @@ class game
         int get_moves_since_last_save() const;
         int get_user_action_counter() const;
 
+        /** Saves a screenshot of the current viewport, as a PNG file, to the given location.
+        * @param file_path: A full path to the file where the screenshot should be saved.
+        * @note: Only works for SDL/TILES (otherwise the function returns `false`). A window (more precisely, a viewport) must already exist and the SDL renderer must be valid.
+        * @returns `true` if the screenshot generation was successful, `false` otherwise.
+        */
+        bool take_screenshot( const std::string &file_path ) const;
+
         // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
         int get_temperature( const tripoint &location );
 
@@ -660,103 +613,6 @@ class game
         // the function set the driving offset to (0,0)
         void calc_driving_offset( vehicle *veh = nullptr );
 
-        /**
-         * @name Liquid handling
-         */
-        /**@{*/
-        /**
-         * Consume / handle all of the liquid. The function can be used when the liquid needs
-         * to be handled and can not be put back to where it came from (e.g. when it's a newly
-         * created item from crafting).
-         * The player is forced to handle all of it, which may required them to pour it onto
-         * the ground (if they don't have enough container space available) and essentially
-         * loose the item.
-         * @return Whether any of the liquid has been consumed. `false` indicates the player has
-         * declined all options to handle the liquid (essentially canceled the action) and no
-         * charges of the liquid have been transferred.
-         * `true` indicates some charges have been transferred (but not necessarily all of them).
-         */
-        void handle_all_liquid( item liquid, int radius );
-
-        /**
-         * Consume / handle as much of the liquid as possible in varying ways. This function can
-         * be used when the action can be canceled, which implies the liquid can be put back
-         * to wherever it came from and is *not* lost if the player cancels the action.
-         * It returns when all liquid has been handled or if the player has explicitly canceled
-         * the action (use the charges count to distinguish).
-         * @return Whether any of the liquid has been consumed. `false` indicates the player has
-         * declined all options to handle the liquid and no charges of the liquid have been transferred.
-         * `true` indicates some charges have been transferred (but not necessarily all of them).
-         */
-        bool consume_liquid( item &liquid, int radius = 0 );
-
-        /**
-         * Handle finite liquid from ground. The function also handles consuming move points.
-         * This may start a player activity.
-         * @param on_ground Iterator to the item on the ground. Must be valid and point to an
-         * item in the stack at `m.i_at(pos)`
-         * @param pos The position of the item on the map.
-         * @param radius around position to handle liquid for
-         * @return Whether the item has been removed (which implies it was handled completely).
-         * The iterator is invalidated in that case. Otherwise the item remains but may have
-         * fewer charges.
-         */
-        bool handle_liquid_from_ground( std::list<item>::iterator on_ground, const tripoint &pos,
-                                        int radius = 0 );
-
-        /**
-         * Handle liquid from inside a container item. The function also handles consuming move points.
-         * @param in_container Iterator to the liquid. Must be valid and point to an
-         * item in the @ref item::contents of the container.
-         * @param container Container of the liquid
-         * @param radius around position to handle liquid for
-         * @return Whether the item has been removed (which implies it was handled completely).
-         * The iterator is invalidated in that case. Otherwise the item remains but may have
-         * fewer charges.
-         */
-        bool handle_liquid_from_container( std::list<item>::iterator in_container, item &container,
-                                           int radius = 0 );
-        /**
-         * Shortcut to the above: handles the first item in the container.
-         */
-        bool handle_liquid_from_container( item &container, int radius = 0 );
-
-        /**
-         * This may start a player activity if either \p source_pos or \p source_veh is not
-         * null.
-         * The function consumes moves of the player as needed.
-         * Supply one of the source parameters to prevent the player from pouring the liquid back
-         * into that "container". If no source parameter is given, the liquid must not be in a
-         * container at all (e.g. freshly crafted, or already removed from the container).
-         * @param liquid The actual liquid
-         * @param source The container that currently contains the liquid.
-         * @param radius Radius to look for liquid around pos
-         * @param source_pos The source of the liquid when it's from the map.
-         * @param source_veh The vehicle that currently contains the liquid in its tank.
-         * @return Whether the user has handled the liquid (at least part of it). `false` indicates
-         * the user has rejected all possible actions. But note that `true` does *not* indicate any
-         * liquid was actually consumed, the user may have chosen an option that turned out to be
-         * invalid (chose to fill into a full/unsuitable container).
-         * Basically `false` indicates the user does not *want* to handle the liquid, `true`
-         * indicates they want to handle it.
-         */
-        bool handle_liquid( item &liquid, item *source = nullptr, int radius = 0,
-                            const tripoint *source_pos = nullptr,
-                            const vehicle *source_veh = nullptr, const int part_num = -1,
-                            const monster *source_mon = nullptr );
-        /**
-             * These are helper functions for transfer liquid, for times when you just want to
-             * get the target of the transfer, or know the target and just want to transfer the
-             * liquid. They take the same arguments as handle_liquid, plus
-             * @param target structure containing information about the target
-             */
-        bool get_liquid_target( item &liquid, item *const source, const int radius,
-                                const tripoint *source_pos, const vehicle *const source_veh,
-                                const monster *const source_mon, liquid_dest_opt &target );
-        bool perform_liquid_transfer( item &liquid,
-                                      const tripoint *source_pos,
-                                      const vehicle *const source_veh, const int part_num,
-                                      const monster *const source_mon, liquid_dest_opt &target );
         /**@}*/
 
         void open_gate( const tripoint &p );
@@ -770,15 +626,7 @@ class game
         void knockback( const tripoint &s, const tripoint &t, int force, int stun, int dam_mult );
         void knockback( std::vector<tripoint> &traj, int force, int stun, int dam_mult );
 
-        // shockwave applies knockback to all targets within radius of p
-        // parameters force, stun, and dam_mult are passed to knockback()
-        // ignore_player determines if player is affected, useful for bionic, etc.
-        void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult,
-                        bool ignore_player );
-
         // Animation related functions
-        void draw_explosion( const tripoint &p, int radius, const nc_color &col );
-        void draw_custom_explosion( const tripoint &p, const std::map<tripoint, nc_color> &area );
         void draw_bullet( const tripoint &pos, int i, const std::vector<tripoint> &trajectory,
                           char bullet );
         void draw_hit_mon( const tripoint &p, const monster &critter, bool dead = false );
@@ -879,6 +727,12 @@ class game
         // Standard movement; handles attacks, traps, &c. Returns false if auto move
         // should be canceled
         bool plmove( int dx, int dy, int dz = 0 );
+        inline bool plmove( tripoint d ) {
+            return plmove( d.x, d.y, d.z );
+        }
+        inline bool plmove( point d ) {
+            return plmove( d.x, d.y );
+        }
         // Handle pushing during move, returns true if it handled the move
         bool grabbed_move( const tripoint &dp );
         bool grabbed_veh_move( const tripoint &dp );
@@ -895,8 +749,9 @@ class game
         void examine( const tripoint &p ); // Examine nearby terrain  'e'
         void examine();
 
-        void pickup(); // Pickup neaby items 'g'
+        void pickup(); // Pickup nearby items 'g', min 0
         void pickup( const tripoint &p );
+        void pickup_feet(); // Pick items at player position ',', min 1
 
         void drop(); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
@@ -910,7 +765,11 @@ class game
         void mend( int pos = INT_MIN );
         void autoattack();
     public:
-        void eat( int pos = INT_MIN ); // Eat food or fuel  'E' (or 'a')
+        /** Eat food or fuel  'E' (or 'a') */
+        void eat();
+        void eat( item_location( *menu )( player &p ) );
+        void eat( int pos );
+        void eat( item_location( *menu )( player &p ), int pos );
         void reload_item(); // Reload an item
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
@@ -928,6 +787,7 @@ class game
         void set_critter_died();
         void mon_info( const catacurses::window &,
                        int hor_padding = 0 ); // Prints a list of nearby monsters
+        void cleanup_dead();     // Delete any dead NPCs/monsters
     private:
         void wield();
         void wield( int pos ); // Wield a weapon  'w'
@@ -956,7 +816,6 @@ class game
                                int last_line );
         void print_graffiti_info( const tripoint &lp, const catacurses::window &w_look, int column,
                                   int &line, int last_line );
-        void get_lookaround_dimensions( int &lookWidth, int &begin_y, int &begin_x ) const;
 
         input_context get_player_input( std::string &action );
 
@@ -982,12 +841,12 @@ class game
         void rebuild_mon_at_cache();
 
         // Routine loop functions, approximately in order of execution
-        void cleanup_dead();     // Delete any dead NPCs/monsters
         void monmove();          // Monster movement
         void overmap_npc_move(); // NPC overmap movement
         void process_activity(); // Processes and enacts the player's activity
         void update_weather();   // Updates the temperature and weather patten
         void handle_key_blocking_activity(); // Abort reading etc.
+        void open_consume_item_menu(); // Custom menu for consuming specific group of items
         bool handle_action();
         bool try_get_right_click_action( action_id &act, const tripoint &mouse_target );
         bool try_get_left_click_action( action_id &act, const tripoint &mouse_target );
@@ -1015,6 +874,19 @@ class game
         void autosave();         // automatic quicksaves - Performs some checks before calling quicksave()
     public:
         void quicksave();        // Saves the game without quitting
+        void disp_NPCs();        // Currently for debug use.  Lists global NPCs.
+
+        /** Used to implement mouse "edge scrolling". Returns a
+         *  tripoint which is a vector of the resulting "move", i.e.
+         *  (0, 0, 0) if the mouse is not at the edge of the screen,
+         *  otherwise some (x, y, 0) depending on which edges are
+         *  hit.
+         *  This variant adjust scrolling speed according to zoom
+         *  level, making it suitable when viewing the "terrain".
+         */
+        tripoint mouse_edge_scrolling_terrain( input_context &ctxt );
+        /** This variant is suitable for the overmap. */
+        tripoint mouse_edge_scrolling_overmap( input_context &ctxt );
     private:
         void quickload();        // Loads the previously saved game if it exists
 
@@ -1026,11 +898,9 @@ class game
         void disp_kills();          // Display the player's kill counts
         void disp_faction_ends();   // Display the faction endings
         void disp_NPC_epilogues();  // Display NPC endings
-        void disp_NPCs();           // Currently UNUSED.  Lists global NPCs.
         void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
 
         // Debug functions
-        void debug();           // All-encompassing debug screen. TODO: This.
         void display_scent();   // Displays the scent map
 
         Creature *is_hostile_within( int distance );
@@ -1104,12 +974,14 @@ class game
 
         //pixel minimap management
         int pixel_minimap_option;
+        bool auto_travel_mode = false;
         safe_mode_type safe_mode;
         int turnssincelastmon; // needed for auto run mode
         cata::optional<int> wind_direction_override;
         cata::optional<int> windspeed_override;
         weather_type weather_override;
-
+        // not only sets nextweather, but updates weather as well
+        void set_nextweather( time_point t );
     private:
         std::shared_ptr<player> u_shared_ptr;
         std::vector<std::shared_ptr<npc>> active_npc;
@@ -1159,6 +1031,10 @@ class game
 
         // Preview for auto move route
         std::vector<tripoint> destination_preview;
+
+        std::chrono::time_point<std::chrono::steady_clock> last_mouse_edge_scroll;
+        tripoint last_mouse_edge_scroll_vector;
+        tripoint mouse_edge_scrolling( input_context ctxt, const int speed );
 
 };
 

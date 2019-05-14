@@ -18,53 +18,21 @@
 #include "iuse.h" // use_function
 #include "optional.h"
 #include "pldata.h" // add_type
-#include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
 
 // see item.h
 class item_category;
-class gun_mode;
-
-using gun_mode_id = string_id<gun_mode>;
 class Item_factory;
-class emit;
-
-using emit_id = string_id<emit>;
-class Skill;
-
-using skill_id = string_id<Skill>;
-struct bionic_data;
-
-using bionic_id = string_id<bionic_data>;
 class player;
 class item;
-class vitamin;
 
-using vitamin_id = string_id<vitamin>;
-class ma_technique;
-
-using matec_id = string_id<ma_technique>;
 enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_passive : int;
-class material_type;
-
-using material_id = string_id<material_type>;
 typedef std::string itype_id;
-class ammunition_type;
-
-using ammotype = string_id<ammunition_type>;
-class fault;
-
-using fault_id = string_id<fault>;
-struct quality;
-
-using quality_id = string_id<quality>;
-struct MonsterGroup;
-
-using mongroup_id = string_id<MonsterGroup>;
 
 enum field_id : int;
 
@@ -81,8 +49,11 @@ class gun_modifier_data
          */
         gun_modifier_data( const std::string &n, const int q, const std::set<std::string> &f ) : name_( n ),
             qty_( q ), flags_( f ) { }
-        /// @returns The translated name of the gun mode.
         std::string name() const {
+            return name_;
+        }
+        /// @returns The translated name of the gun mode.
+        std::string tname() const {
             return _( name_ );
         }
         int qty() const {
@@ -646,9 +617,6 @@ struct islot_ammo : common_ranged_data {
      * Type id of casings, if any.
      */
     cata::optional<itype_id> casing;
-    /**
-     * Default charges.
-     */
 
     /**
      * Control chance for and state of any items dropped at ranged target
@@ -660,7 +628,11 @@ struct islot_ammo : common_ranged_data {
     bool drop_active = true;
     /*@}*/
 
+    /**
+     * Default charges.
+     */
     long def_charges = 1;
+
     /**
      * TODO: document me.
      */
@@ -693,6 +665,12 @@ struct islot_ammo : common_ranged_data {
      * damage of the gun by this value.
      */
     cata::optional<float> prop_damage;
+
+    /**
+     * Some combat ammo might not have a damage or prop_damage value
+     * Set this to make it show as combat ammo anyway
+     */
+    cata::optional<bool> force_stat_display;
 };
 
 struct islot_bionic {

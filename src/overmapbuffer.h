@@ -12,18 +12,16 @@
 #include <utility>
 
 #include "enums.h"
-#include "int_id.h"
 #include "omdata.h"
 #include "overmap_types.h"
 #include "optional.h"
+#include "type_id.h"
 
 struct mongroup;
 class monster;
 class npc;
 struct om_vehicle;
 class overmap_special_batch;
-
-using oter_id = int_id<oter_t>;
 class overmap;
 struct radio_tower;
 struct regional_settings;
@@ -205,7 +203,7 @@ class overmapbuffer
         /**
          * Remove basecamp
          */
-        void remove_camp( const basecamp camp );
+        void remove_camp( const basecamp &camp );
         /**
          * Remove the vehicle from being tracked in the overmap.
          */
@@ -213,7 +211,7 @@ class overmapbuffer
         /**
          * Add Basecamp to overmapbuffer
          */
-        void add_camp( basecamp camp );
+        void add_camp( const basecamp &camp );
 
         cata::optional<basecamp *> find_camp( const int x, const int y );
         /**

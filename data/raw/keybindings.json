@@ -915,6 +915,20 @@
   },
   {
     "type": "keybinding",
+    "name": "Zoom In",
+    "category": "TARGET",
+    "id": "zoom_in",
+    "bindings": [ { "input_method": "keyboard", "key": "z" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Zoom Out",
+    "category": "TARGET",
+    "id": "zoom_out",
+    "bindings": [ { "input_method": "keyboard", "key": "Z" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "CENTER",
     "name": "Center On Character",
     "bindings": [ { "input_method": "keyboard", "key": "0" } ]
@@ -1425,10 +1439,16 @@
   },
   {
     "type": "keybinding",
-    "name": "Pick up Item(s)",
+    "name": "Pick up Nearby Item(s)",
     "category": "DEFAULTMODE",
     "id": "pickup",
-    "bindings": [ { "input_method": "keyboard", "key": "," }, { "input_method": "keyboard", "key": "g" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "g" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Pickup Item(s) at Player Feet",
+    "category": "DEFAULTMODE",
+    "id": "pickup_feet"
   },
   {
     "type": "keybinding",
@@ -1548,6 +1568,12 @@
     "category": "DEFAULTMODE",
     "id": "eat",
     "bindings": [ { "input_method": "keyboard", "key": "E" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Consume Item Menu",
+    "category": "DEFAULTMODE",
+    "id": "open_consume"
   },
   {
     "type": "keybinding",
@@ -1695,6 +1721,13 @@
     "category": "DEFAULTMODE",
     "id": "control_vehicle",
     "bindings": [ { "input_method": "keyboard", "key": "^" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Auto Travel Mode",
+    "category": "DEFAULTMODE",
+    "id": "auto_travel_mode",
+    "bindings": [ { "input_method": "keyboard", "key": "" } ]
   },
   {
     "type": "keybinding",

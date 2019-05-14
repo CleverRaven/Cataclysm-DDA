@@ -27,6 +27,7 @@
 #include "requirements.h"
 #include "string_id.h"
 #include "material.h"
+#include "type_id.h"
 
 TEST_CASE( "recipe_subset" )
 {
@@ -224,6 +225,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
 
         g->load_npcs();
 
+        CHECK( !dummy.in_vehicle );
         dummy.setpos( who.pos() );
         const auto helpers( dummy.get_crafting_helpers() );
 
@@ -413,6 +415,7 @@ static void set_time( int time )
     g->reset_light_level();
     int z = g->u.posz();
     g->m.update_visibility_cache( z );
+    g->m.invalidate_map_cache( z );
     g->m.build_map_cache( z );
 }
 

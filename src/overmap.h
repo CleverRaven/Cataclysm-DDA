@@ -2,9 +2,10 @@
 #ifndef OVERMAP_H
 #define OVERMAP_H
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <array>
+#include <climits>
 #include <functional>
 #include <iosfwd>
 #include <map>
@@ -23,6 +24,7 @@
 #include "enums.h"
 #include "mongroup.h"
 #include "optional.h"
+#include "type_id.h"
 
 class npc;
 class overmap_connection;
@@ -80,10 +82,10 @@ struct radio_tower {
     radio_type type;
     std::string message;
     int frequency;
-    radio_tower( int X = -1, int Y = -1, int S = -1, std::string M = "",
+    radio_tower( int X = -1, int Y = -1, int S = -1, const std::string &M = "",
                  radio_type T = MESSAGE_BROADCAST ) :
         x( X ), y( Y ), strength( S ), type( T ), message( M ) {
-        frequency = rand();
+        frequency = rng( 0, INT_MAX );
     }
 };
 

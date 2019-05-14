@@ -6123,6 +6123,16 @@
   },
   {
     "type": "mutation",
+    "id": "HALLUCINATION",
+    "name": "Hallucination",
+    "points": 0,
+    "valid": false,
+    "description": "NPC trait that makes them be hallucination.  It is a bug if you have it.",
+    "player_display": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_NIGHTVISION",
     "name": "Debug Vision",
     "points": 99,

@@ -1,6 +1,6 @@
 #include "monexamine.h"
 
-#include <limits.h>
+#include <climits>
 #include <string>
 #include <utility>
 #include <list>
@@ -11,6 +11,7 @@
 #include "calendar.h"
 #include "game.h"
 #include "game_inventory.h"
+#include "handle_liquid.h"
 #include "item.h"
 #include "iuse.h"
 #include "map.h"
@@ -29,6 +30,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "units.h"
+#include "type_id.h"
 
 const species_id ZOMBIE( "ZOMBIE" );
 
@@ -434,7 +436,7 @@ void monexamine::milk_source( monster &source_mon )
 
         item milk( milked_item->first, calendar::turn, remaining_milk );
         milk.set_item_temperature( 311.75 );
-        if( g->handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, &source_mon ) ) {
+        if( liquid_handler::handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, &source_mon ) ) {
             add_msg( _( "You milk the %s." ), source_mon.get_name() );
             long transferred_milk = remaining_milk - milk.charges;
             source_mon.add_effect( effect_milked, milking_freq * transferred_milk );

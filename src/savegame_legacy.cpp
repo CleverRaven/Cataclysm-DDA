@@ -1,4 +1,4 @@
-#include <stddef.h>
+#include <cstddef>
 #include <sstream>
 #include <string>
 #include <unordered_map>
@@ -28,9 +28,9 @@
 #include "game_constants.h"
 #include "inventory.h"
 #include "monster.h"
-#include "omdata.h"
 #include "regional_settings.h"
 #include "rng.h"
+#include "type_id.h"
 
 namespace std
 {

@@ -1,7 +1,7 @@
 #include "map_extras.h"
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 #include <array>
 #include <list>
 #include <memory>
@@ -19,6 +19,7 @@
 #include "mapdata.h"
 #include "mapgen_functions.h"
 #include "overmapbuffer.h"
+#include "overmap.h"
 #include "rng.h"
 #include "trap.h"
 #include "veh_type.h"
@@ -37,26 +38,22 @@
 #include "string_id.h"
 #include "translations.h"
 #include "vpart_reference.h"
+#include "type_id.h"
 
 class npc_template;
 
 namespace MapExtras
 {
 
+static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
-static const mtype_id mon_blank( "mon_blank" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
 static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
 static const mtype_id mon_chickenbot( "mon_chickenbot" );
 static const mtype_id mon_dispatch( "mon_dispatch" );
-static const mtype_id mon_gelatin( "mon_gelatin" );
-static const mtype_id mon_flaming_eye( "mon_flaming_eye" );
-static const mtype_id mon_gracke( "mon_gracke" );
-static const mtype_id mon_kreck( "mon_kreck" );
-static const mtype_id mon_mi_go( "mon_mi_go" );
 static const mtype_id mon_tankbot( "mon_tankbot" );
 static const mtype_id mon_turret( "mon_turret" );
 static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
@@ -259,15 +256,10 @@ void mx_military( map &m, const tripoint & )
         }
 
     }
-    static const std::array<mtype_id, 4> monsters = { {
-            mon_gelatin, mon_mi_go, mon_kreck, mon_gracke,
-        }
-    };
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
-        const mtype_id &type = random_entry( monsters );
         int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
-        m.add_spawn( type, 1, mx, my );
+        m.place_spawns( GROUP_NETHER, 1, mx, my, mx, my, 1, true );
     }
     m.place_spawns( GROUP_MAYBE_MIL, 2, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1,
                     0.1f ); //0.1 = 1-5
@@ -288,15 +280,10 @@ void mx_science( map &m, const tripoint & )
             }
         }
     }
-    static const std::array<mtype_id, 4> monsters = { {
-            mon_gelatin, mon_mi_go, mon_kreck, mon_gracke
-        }
-    };
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
-        const mtype_id &type = random_entry( monsters );
         int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
-        m.add_spawn( type, 1, mx, my );
+        m.place_spawns( GROUP_NETHER, 1, mx, my, mx, my, 1, true );
     }
     m.place_items( "rare", 45, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0 );
 }
@@ -324,15 +311,10 @@ void mx_collegekids( map &m, const tripoint & )
             }
         }
     }
-    static const std::array<mtype_id, 4> monsters = { {
-            mon_gelatin, mon_mi_go, mon_kreck, mon_gracke
-        }
-    };
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
-        const mtype_id &type = random_entry( monsters );
         int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
-        m.add_spawn( type, 1, mx, my );
+        m.place_spawns( GROUP_NETHER, 1, mx, my, mx, my, 1, true );
     }
 }
 
@@ -471,15 +453,15 @@ void mx_roadblock( map &m, const tripoint &abs_sub )
 
 void mx_bandits_block( map &m, const tripoint &abs_sub )
 {
-    std::string north = overmap_buffer.ter( abs_sub.x, abs_sub.y - 1, abs_sub.z ).id().c_str();
-    std::string south = overmap_buffer.ter( abs_sub.x, abs_sub.y + 1, abs_sub.z ).id().c_str();
-    std::string west = overmap_buffer.ter( abs_sub.x - 1, abs_sub.y, abs_sub.z ).id().c_str();
-    std::string east = overmap_buffer.ter( abs_sub.x + 1, abs_sub.y, abs_sub.z ).id().c_str();
+    const oter_id &north = overmap_buffer.ter( abs_sub.x, abs_sub.y - 1, abs_sub.z );
+    const oter_id &south = overmap_buffer.ter( abs_sub.x, abs_sub.y + 1, abs_sub.z );
+    const oter_id &west = overmap_buffer.ter( abs_sub.x - 1, abs_sub.y, abs_sub.z );
+    const oter_id &east = overmap_buffer.ter( abs_sub.x + 1, abs_sub.y, abs_sub.z );
 
-    const bool forest_at_north = north.find( "forest" ) == 0;
-    const bool forest_at_south = south.find( "forest" ) == 0;
-    const bool forest_at_west = west.find( "forest" ) == 0;
-    const bool forest_at_east = east.find( "forest" ) == 0;
+    const bool forest_at_north = is_ot_type( "forest", north );
+    const bool forest_at_south = is_ot_type( "forest", south );
+    const bool forest_at_west = is_ot_type( "forest", west );
+    const bool forest_at_east = is_ot_type( "forest", east );
 
     if( forest_at_north && forest_at_south ) {
         line( &m, t_trunk, 1, 3, 1, 6 );
@@ -625,15 +607,10 @@ void mx_drugdeal( map &m, const tripoint &abs_sub )
             }
         }
     }
-    static const std::array<mtype_id, 4> monsters = { {
-            mon_gelatin, mon_mi_go, mon_kreck, mon_gracke
-        }
-    };
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
-        const mtype_id &type = random_entry( monsters );
         int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
-        m.add_spawn( type, 1, mx, my );
+        m.place_spawns( GROUP_NETHER, 1, mx, my, mx, my, 1, true );
     }
 }
 
@@ -681,10 +658,6 @@ void mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
 
 void mx_portal( map &m, const tripoint &abs_sub )
 {
-    static const std::array<mtype_id, 5> monsters = { {
-            mon_gelatin, mon_flaming_eye, mon_kreck, mon_gracke, mon_blank
-        }
-    };
     int x = rng( 1, SEEX * 2 - 2 ), y = rng( 1, SEEY * 2 - 2 );
     for( int i = x - 1; i <= x + 1; i++ ) {
         for( int j = y - 1; j <= y + 1; j++ ) {
@@ -694,10 +667,9 @@ void mx_portal( map &m, const tripoint &abs_sub )
     mtrap_set( &m, x, y, tr_portal );
     int num_monsters = rng( 0, 4 );
     for( int i = 0; i < num_monsters; i++ ) {
-        const mtype_id &type = random_entry( monsters );
         int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
         m.make_rubble( tripoint( mx,  my, abs_sub.z ), f_rubble_rock, true );
-        m.add_spawn( type, 1, mx, my );
+        m.place_spawns( GROUP_NETHER, 1, mx, my, mx, my, 1, true );
     }
 }
 
@@ -828,10 +800,6 @@ void mx_fumarole( map &m, const tripoint &abs_sub )
 
 void mx_portal_in( map &m, const tripoint &abs_sub )
 {
-    static const std::array<mtype_id, 5> monsters = { {
-            mon_gelatin, mon_flaming_eye, mon_kreck, mon_gracke, mon_blank
-        }
-    };
     int x = rng( 5, SEEX * 2 - 6 ), y = rng( 5, SEEY * 2 - 6 );
     m.add_field( {x, y, abs_sub.z}, fd_fatigue, 3, 0_turns );
     fungal_effects fe( *g, m );
@@ -840,7 +808,7 @@ void mx_portal_in( map &m, const tripoint &abs_sub )
             if( rng( 1, 9 ) >= trig_dist( x, y, i, j ) ) {
                 fe.marlossify( tripoint( i, j, abs_sub.z ) );
                 if( one_in( 15 ) ) {
-                    m.add_spawn( random_entry( monsters ), 1, i, j );
+                    m.place_spawns( GROUP_NETHER, 1, i, j, i, j, 1, true );
                 }
             }
         }

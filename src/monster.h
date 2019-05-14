@@ -2,8 +2,8 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
-#include <limits.h>
-#include <stddef.h>
+#include <climits>
+#include <cstddef>
 #include <bitset>
 #include <functional>
 #include <map>
@@ -15,7 +15,6 @@
 #include "calendar.h"
 #include "creature.h"
 #include "enums.h"
-#include "int_id.h"
 #include "bodypart.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -24,13 +23,12 @@
 #include "mtype.h"
 #include "optional.h"
 #include "pldata.h"
-#include "string_id.h"
+#include "type_id.h"
 #include "units.h"
 
 class JsonObject;
 class JsonIn;
 class JsonOut;
-class monfaction;
 class player;
 class Character;
 class effect;
@@ -40,9 +38,6 @@ struct trap;
 
 enum class mon_trigger;
 enum field_id : int;
-
-using mfaction_id = int_id<monfaction>;
-using mtype_id = string_id<mtype>;
 
 class monster;
 

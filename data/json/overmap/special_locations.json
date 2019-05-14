@@ -62,36 +62,6 @@
   },
   {
     "type": "overmap_location",
-    "id": "need_none",
-    "terrains": [ "house", "s_gas", "s_pharm", "s_hardware", "s_sports", "s_liquor", "s_gun", "s_library" ]
-  },
-  {
-    "type": "overmap_location",
-    "id": "need_ammo",
-    "terrains": [ "house", "s_gun" ]
-  },
-  {
-    "type": "overmap_location",
-    "id": "need_gun",
-    "terrains": [ "s_gun" ]
-  },
-  {
-    "type": "overmap_location",
-    "id": "need_weapon",
-    "terrains": [ "s_gun", "s_sports", "s_hardware" ]
-  },
-  {
-    "type": "overmap_location",
-    "id": "need_drink",
-    "terrains": [ "s_gas", "s_pharm", "s_liquor", "s_grocery" ]
-  },
-  {
-    "type": "overmap_location",
-    "id": "need_food",
-    "terrains": [ "s_grocery" ]
-  },
-  {
-    "type": "overmap_location",
     "id": "forest_trail",
     "terrains": [ "forest_trail" ]
   },
