@@ -693,13 +693,13 @@ void mx_minefield( map &m, const tripoint &abs_sub )
     const int x1 = rng( 0, SEEX * 2 ), x2 = rng( 0, SEEX * 2 );
     const int y1 = rng( 0, SEEY * 2 ), y2 = rng( 0, SEEY * 2 );
 
-    m.furn_set( x1, 0, furn_str_id( "f_sign" ) );
+    m.furn_set( x1, 0, furn_str_id( "f_sign_warning" ) );
     m.set_signage( tripoint( x1,  0, abs_sub.z ), text );
-    m.furn_set( x2, y, furn_str_id( "f_sign" ) );
+    m.furn_set( x2, y, furn_str_id( "f_sign_warning" ) );
     m.set_signage( tripoint( x2,  y, abs_sub.z ), text );
-    m.furn_set( 0, y1, furn_str_id( "f_sign" ) );
+    m.furn_set( 0, y1, furn_str_id( "f_sign_warning" ) );
     m.set_signage( tripoint( 0, y1, abs_sub.z ), text );
-    m.furn_set( x, y2, furn_str_id( "f_sign" ) );
+    m.furn_set( x, y2, furn_str_id( "f_sign_warning" ) );
     m.set_signage( tripoint( x, y2, abs_sub.z ), text );
 }
 

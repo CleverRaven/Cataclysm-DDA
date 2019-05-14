@@ -938,6 +938,28 @@
   },
   {
     "type": "furniture",
+    "id": "f_sign_warning",
+    "name": "warning sign",
+    "symbol": "P",
+    "description": "A triangle-shaped sign on a post meant to indicate something important or hazard.",
+    "color": "red",
+    "examine_action": "sign",
+    "looks_like": "f_sign",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE" ],
+    "deconstruct": { "items": [ { "item": "2x4", "count": 3 }, { "item": "nail", "charges": [ 2, 5 ] } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "2x4", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 2, 4 ] }, { "item": "splinter", "count": 2 } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_mailbox",
     "name": "mailbox",
     "symbol": "P",
