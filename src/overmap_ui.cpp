@@ -277,7 +277,7 @@ void draw_camp_labels( const catacurses::window &w, const tripoint &center )
     const point screen_center_pos( win_x_max / 2, win_y_max / 2 );
 
     for( const auto &element : overmap_buffer.get_camps_near( omt_to_sm_copy( center ), sm_radius ) ) {
-        const point camp_pos( sm_to_omt_copy( element.abs_sm_pos.x, element.abs_sm_pos.y ) );
+        const point camp_pos( element.camp->camp_omt_pos().x, element.camp->camp_omt_pos().y );
         const point screen_pos( camp_pos - point( center.x, center.y ) + screen_center_pos );
         const int text_width = utf8_width( element.camp->name, true );
         const int text_x_min = screen_pos.x - text_width / 2;
