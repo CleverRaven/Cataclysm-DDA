@@ -1,6 +1,6 @@
 #include "debug_menu.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <chrono>
 #include <vector>
@@ -926,7 +926,7 @@ void draw_benchmark( const int max_difference )
 
 void debug()
 {
-    bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG ) != -1;
+    bool debug_menu_has_hotkey = hotkey_for_action( ACTION_DEBUG, false ) != -1;
     int action = debug_menu_uilist( debug_menu_has_hotkey );
     g->refresh_all();
     player &u = g->u;

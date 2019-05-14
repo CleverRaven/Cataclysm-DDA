@@ -1,6 +1,6 @@
 #include "mapgen.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <list>
 #include <random>
@@ -14,12 +14,14 @@
 #include <cmath>
 
 #include "ammo.h"
+#include "clzones.h"
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "drawing_primitives.h"
 #include "enums.h"
+#include "faction.h"
 #include "game.h"
 #include "item_group.h"
 #include "itype.h"
@@ -66,58 +68,6 @@
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define MON_RADIUS 3
-
-const mtype_id mon_biollante( "mon_biollante" );
-const mtype_id mon_blank( "mon_blank" );
-const mtype_id mon_blob( "mon_blob" );
-const mtype_id mon_boomer( "mon_boomer" );
-const mtype_id mon_breather( "mon_breather" );
-const mtype_id mon_breather_hub( "mon_breather_hub" );
-const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
-const mtype_id mon_chickenbot( "mon_chickenbot" );
-const mtype_id mon_crawler( "mon_crawler" );
-const mtype_id mon_creeper_hub( "mon_creeper_hub" );
-const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
-const mtype_id mon_dog_thing( "mon_dog_thing" );
-const mtype_id mon_eyebot( "mon_eyebot" );
-const mtype_id mon_flaming_eye( "mon_flaming_eye" );
-const mtype_id mon_flying_polyp( "mon_flying_polyp" );
-const mtype_id mon_fungaloid( "mon_fungaloid" );
-const mtype_id mon_fungal_fighter( "mon_fungal_fighter" );
-const mtype_id mon_gelatin( "mon_gelatin" );
-const mtype_id mon_gozu( "mon_gozu" );
-const mtype_id mon_gracke( "mon_gracke" );
-const mtype_id mon_hazmatbot( "mon_hazmatbot" );
-const mtype_id mon_hunting_horror( "mon_hunting_horror" );
-const mtype_id mon_kreck( "mon_kreck" );
-const mtype_id mon_mi_go( "mon_mi_go" );
-const mtype_id mon_secubot( "mon_secubot" );
-const mtype_id mon_sewer_snake( "mon_sewer_snake" );
-const mtype_id mon_shoggoth( "mon_shoggoth" );
-const mtype_id mon_spider_web( "mon_spider_web" );
-const mtype_id mon_tankbot( "mon_tankbot" );
-const mtype_id mon_triffid( "mon_triffid" );
-const mtype_id mon_triffid_heart( "mon_triffid_heart" );
-const mtype_id mon_turret( "mon_turret" );
-const mtype_id mon_turret_bmg( "mon_turret_bmg" );
-const mtype_id mon_turret_rifle( "mon_turret_rifle" );
-const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
-const mtype_id mon_yugg( "mon_yugg" );
-const mtype_id mon_zombie( "mon_zombie" );
-const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
-const mtype_id mon_zombie_brute( "mon_zombie_brute" );
-const mtype_id mon_zombie_child( "mon_zombie_child" );
-const mtype_id mon_zombie_cop( "mon_zombie_cop" );
-const mtype_id mon_zombie_dog( "mon_zombie_dog" );
-const mtype_id mon_zombie_electric( "mon_zombie_electric" );
-const mtype_id mon_zombie_flamer( "mon_zombie_flamer" );
-const mtype_id mon_zombie_grabber( "mon_zombie_grabber" );
-const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
-const mtype_id mon_zombie_shrieker( "mon_zombie_shrieker" );
-const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
-const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
-const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
-const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
 const mongroup_id GROUP_DARK_WYRM( "GROUP_DARK_WYRM" );
 const mongroup_id GROUP_DOG_THING( "GROUP_DOG_THING" );
@@ -1609,8 +1559,17 @@ class jmapgen_sealed_item : public jmapgen_piece
                                   summary, chance );
                         return;
                     }
+                    std::string group_id = item_group_spawner->group_id;
+                    for( const itype *type : item_group::every_possible_item_from( group_id ) ) {
+                        if( !type->seed ) {
+                            debugmsg( "%s (with flag PLANT) spawns item group %s which can "
+                                      "spawn item %s which is not a seed.",
+                                      summary, group_id, type->get_id() );
+                            return;
+                        }
+                    }
 
-                    /// TODO: Somehow check that the item group always produces exactly one seed.
+                    /// TODO: Somehow check that the item group always produces exactly one item.
                 }
             }
         }
@@ -1655,6 +1614,34 @@ class jmapgen_translate : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &/*x*/, const jmapgen_int &/*y*/,
                     const float /*mdensity*/, mission * ) const override {
             dat.m.translate( from, to );
+        }
+};
+/**
+ * Place a zone
+ */
+class jmapgen_zone : public jmapgen_piece
+{
+    public:
+        zone_type_id zone_type;
+        faction_id faction;
+        std::string name = "";
+        jmapgen_zone( JsonObject &jsi ) : jmapgen_piece() {
+            if( jsi.has_string( "faction" ) && jsi.has_string( "type" ) ) {
+                std::string fac_id = jsi.get_string( "faction" );
+                faction = faction_id( fac_id );
+                std::string zone_id = jsi.get_string( "type" );
+                zone_type = zone_type_id( zone_id );
+                if( jsi.has_string( "name" ) ) {
+                    name = jsi.get_string( "name" );
+                }
+            }
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const float /*mdensity*/, mission * /*miss*/ ) const override {
+            zone_manager &mgr = zone_manager::get_manager();
+            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, 0 ) );
+            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, 0 ) );
+            mgr.add( name, zone_type, faction, false, true, start, end );
         }
 };
 
@@ -2144,6 +2131,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_liquid_item>( jo, "liquids", format_placings );
     new_pal.load_place_mapings<jmapgen_graffiti>( jo, "graffiti", format_placings );
     new_pal.load_place_mapings<jmapgen_translate>( jo, "translate", format_placings );
+    new_pal.load_place_mapings<jmapgen_zone>( jo, "zones", format_placings );
 
     return new_pal;
 }
@@ -2322,6 +2310,7 @@ bool mapgen_function_json_base::setup_common( JsonObject jo )
     objects.load_objects<jmapgen_nested>( jo, "place_nested" );
     objects.load_objects<jmapgen_graffiti>( jo, "place_graffiti" );
     objects.load_objects<jmapgen_translate>( jo, "translate_ter" );
+    objects.load_objects<jmapgen_zone>( jo, "place_zones" );
 
     if( !mapgen_defer::defer ) {
         is_ready = true; // skip setup attempts from any additional pointers
@@ -2712,7 +2701,7 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
             draw_mine( terrain_type, dat, when, density );
         } else if( is_ot_type( "silo", terrain_type ) ) {
             draw_silo( terrain_type, dat, when, density );
-        } else if( is_ot_type( "anthill", terrain_type ) ) {
+        } else if( is_ot_subtype( "anthill", terrain_type ) ) {
             draw_anthill( terrain_type, dat, when, density );
         } else if( is_ot_subtype( "lab", terrain_type ) ) {
             draw_lab( terrain_type, dat, when, density );
@@ -4200,12 +4189,6 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                     bool monsters_end = false;
                     if( !one_in( 4 ) ) { // Trapped netherworld monsters
                         monsters_end = true;
-                        static const std::array<mtype_id, 11> nethercreatures = { {
-                                mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg,
-                                mon_gelatin, mon_flaming_eye, mon_kreck, mon_gracke, mon_blank,
-                                mon_gozu, mon_shoggoth,
-                            }
-                        };
                         tw = rng( SEEY + 3, SEEY + 5 );
                         bw = tw + 4;
                         lw = rng( SEEX - 6, SEEX - 2 );
@@ -6040,6 +6023,7 @@ void map::draw_megastore( const oter_id &terrain_type, mapgendata &dat, const ti
         ter_set( SEEX + 1, 0, t_door_glass_c );
         //Vending
         std::vector<int> vset;
+        vset.reserve( 21 );
         int vnum = rng( 2, 6 );
         for( int a = 0; a < 21; a++ ) {
             vset.push_back( a );
@@ -7297,6 +7281,10 @@ void map::rotate( int turns )
             }
         }
     }
+
+    // rotate zones
+    zone_manager &mgr = zone_manager::get_manager();
+    mgr.rotate_zones( *this, turns );
 }
 
 // Hideous function, I admit...

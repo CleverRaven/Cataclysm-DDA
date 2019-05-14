@@ -1,8 +1,8 @@
 #include "debug.h"
 
 #include <sys/stat.h>
-#include <ctype.h>
-#include <stdio.h>
+#include <cctype>
+#include <cstdio>
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>

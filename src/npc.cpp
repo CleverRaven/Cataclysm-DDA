@@ -1,8 +1,8 @@
 #include "npc.h"
 
-#include <limits.h>
-#include <math.h>
-#include <stdlib.h>
+#include <climits>
+#include <cmath>
+#include <cstdlib>
 #include <algorithm>
 #include <functional>
 #include <limits>
@@ -718,14 +718,12 @@ skill_id npc::best_skill() const
 int npc::best_skill_level() const
 {
     int highest_level = std::numeric_limits<int>::min();
-    skill_id highest_skill( skill_id::NULL_ID() );
 
     for( const auto &p : *_skills ) {
         if( p.first.obj().is_combat_skill() ) {
             const int level = p.second.level();
             if( level > highest_level ) {
                 highest_level = level;
-                highest_skill = p.first;
             }
         }
     }
@@ -2600,10 +2598,11 @@ npc_follower_rules::npc_follower_rules()
     set_flag( ally_rule::allow_complain );
     set_flag( ally_rule::allow_pulp );
     clear_flag( ally_rule::close_doors );
-    clear_flag( ally_rule::avoid_combat );
+    clear_flag( ally_rule::follow_close );
     clear_flag( ally_rule::avoid_doors );
     clear_flag( ally_rule::hold_the_line );
     clear_flag( ally_rule::ignore_noise );
+    clear_flag( ally_rule::forbid_engage );
 }
 
 bool npc_follower_rules::has_flag( ally_rule test, bool check_override ) const
@@ -2639,6 +2638,25 @@ void npc_follower_rules::toggle_flag( ally_rule toggle )
     }
 }
 
+void npc_follower_rules::set_specific_override_state( ally_rule rule, bool state )
+{
+    if( state ) {
+        set_override( rule );
+    } else {
+        clear_override( rule );
+    }
+    enable_override( rule );
+}
+
+void npc_follower_rules::toggle_specific_override_state( ally_rule rule, bool state )
+{
+    if( has_override_enable( rule ) && has_override( rule ) == state ) {
+        clear_override( rule );
+        disable_override( rule );
+    } else {
+        set_specific_override_state( rule, state );
+    }
+}
 
 bool npc::is_hallucination() const
 {
@@ -2682,10 +2700,10 @@ void npc_follower_rules::set_danger_overrides()
 {
     overrides = ally_rule::DEFAULT;
     override_enable = ally_rule::DEFAULT;
-    set_override( ally_rule::avoid_combat );
+    set_override( ally_rule::follow_close );
     set_override( ally_rule::avoid_doors );
     set_override( ally_rule::hold_the_line );
-    enable_override( ally_rule::avoid_combat );
+    enable_override( ally_rule::follow_close );
     enable_override( ally_rule::allow_sleep );
     enable_override( ally_rule::close_doors );
     enable_override( ally_rule::avoid_doors );

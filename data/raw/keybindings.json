@@ -915,6 +915,20 @@
   },
   {
     "type": "keybinding",
+    "name": "Zoom In",
+    "category": "TARGET",
+    "id": "zoom_in",
+    "bindings": [ { "input_method": "keyboard", "key": "z" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Zoom Out",
+    "category": "TARGET",
+    "id": "zoom_out",
+    "bindings": [ { "input_method": "keyboard", "key": "Z" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "CENTER",
     "name": "Center On Character",
     "bindings": [ { "input_method": "keyboard", "key": "0" } ]

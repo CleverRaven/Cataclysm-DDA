@@ -1,6 +1,6 @@
 #include "panels.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <cmath>
 #include <string>
 #include <array>
@@ -54,7 +54,7 @@ static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
 // constructor
 window_panel::window_panel( std::function<void( player &, const catacurses::window & )>
-                            draw_func, std::string nm, int ht, int wd, bool def_toggle )
+                            draw_func, const std::string &nm, int ht, int wd, bool def_toggle )
 {
     draw = draw_func;
     name = nm;
@@ -395,7 +395,7 @@ void draw_minimap( const player &u, const catacurses::window &w_minimap )
     }
 }
 
-void decorate_panel( const std::string name, const catacurses::window &w )
+void decorate_panel( const std::string &name, const catacurses::window &w )
 {
     werase( w );
     draw_border( w );

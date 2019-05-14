@@ -2,8 +2,8 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
-#include <stddef.h>
-#include <stdint.h>
+#include <cstddef>
+#include <cstdint>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -210,7 +210,7 @@ std::string remove_color_tags( const std::string &text );
  * @return A vector of lines, it may contain empty strings. Each entry is at most `width`
  * console cells width.
  */
-std::vector<std::string> foldstring( std::string str, int width, const char split = ' ' );
+std::vector<std::string> foldstring( const std::string &str, int width, const char split = ' ' );
 
 /**
  * Print text with embedded @ref color_tags, x, y are in curses system.

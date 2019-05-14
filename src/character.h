@@ -2,7 +2,7 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <bitset>
 #include <map>
 #include <unordered_map>
@@ -399,7 +399,7 @@ class Character : public Creature, public visitable<Character>
 
     private:
         /** Retrieves a stat mod of a mutation. */
-        int get_mod( const trait_id &mut, std::string arg ) const;
+        int get_mod( const trait_id &mut, const std::string &arg ) const;
         /** Applies skill-based boosts to stats **/
         void apply_skill_boost();
 
@@ -687,6 +687,8 @@ class Character : public Creature, public visitable<Character>
         void die( Creature *nkiller ) override;
 
         std::string get_name() const override;
+
+        std::vector<std::string> get_grammatical_genders() const override;
 
         /**
          * It is supposed to hide the query_yn to simplify player vs. npc code.

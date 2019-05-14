@@ -2,7 +2,7 @@
 #ifndef TRAP_H
 #define TRAP_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <functional>
 #include <vector>
 #include <string>

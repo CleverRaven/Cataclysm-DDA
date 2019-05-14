@@ -1,7 +1,7 @@
 #if defined(TILES) || defined(_WIN32)
 #include "cursesport.h"
 
-#include <stdint.h>
+#include <cstdint>
 #include <memory>
 
 #include "catacharset.h"

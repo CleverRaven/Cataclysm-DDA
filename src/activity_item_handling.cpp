@@ -1,7 +1,7 @@
 #include "activity_handlers.h" // IWYU pragma: associated
 
-#include <limits.h>
-#include <stddef.h>
+#include <climits>
+#include <cstddef>
 #include <algorithm>
 #include <cassert>
 #include <list>

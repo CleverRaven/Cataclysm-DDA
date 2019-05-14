@@ -1289,7 +1289,7 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
                 "REAPER",
                 "PLANTER",
                 "SCOOP",
-                "SPACE_HEATER"
+                "SPACE_HEATER",
                 "WATER_PURIFIER",
                 "ROCKWHEEL"
             }
@@ -1812,7 +1812,7 @@ bool vehicle::find_and_split_vehicles( int exclude )
 
         std::queue<std::pair<int, std::vector<int>>> search_queue;
 
-        const auto push_neighbor = [&]( int p, std::vector<int> with_p ) {
+        const auto push_neighbor = [&]( int p, const std::vector<int> &with_p ) {
             std::pair<int, std::vector<int>> data( p, with_p );
             search_queue.push( data );
         };

@@ -1,7 +1,7 @@
 #include "crafting.h"
 
-#include <limits.h>
-#include <stdlib.h>
+#include <climits>
+#include <cstdlib>
 #include <algorithm>
 #include <cmath>
 #include <sstream>

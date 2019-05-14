@@ -8283,7 +8283,7 @@
       [ "seed_zucchini", 60 ],
       [ "seed_cotton_boll", 10 ],
       [ "seed_tobacco", 10 ],
-      [ "raw_beans", 60 ],
+      [ "seed_beans", 60 ],
       [ "seed_chili_pepper", 60 ],
       [ "seed_tomato", 60 ]
     ]
@@ -8683,6 +8683,7 @@
     "items": [
       [ "rope_30", 10 ],
       [ "hatchet", 50 ],
+      [ "iceaxe", 20 ],
       [ "mess_kit", 100 ],
       [ "teapot", 50 ],
       [ "binoculars", 30 ],

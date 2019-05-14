@@ -2,7 +2,7 @@
 #ifndef ITEMINFO_QUERY_H
 #define ITEMINFO_QUERY_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <bitset>
 #include <string>
 #include <vector>

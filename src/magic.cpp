@@ -63,7 +63,7 @@ void spell_type::load_spell( JsonObject &jo, const std::string &src )
     spell_factory.load( jo, src );
 }
 
-energy_type energy_source_from_string( std::string str )
+energy_type energy_source_from_string( const std::string &str )
 {
     if( str == "MANA" ) {
         return mana_energy;
@@ -81,7 +81,7 @@ energy_type energy_source_from_string( std::string str )
     }
 }
 
-damage_type damage_type_from_string( std::string str )
+damage_type damage_type_from_string( const std::string &str )
 {
     if( str == "fire" ) {
         return DT_HEAT;

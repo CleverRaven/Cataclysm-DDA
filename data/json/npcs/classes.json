@@ -330,6 +330,7 @@
     "name": "Real Person",
     "job_description": "I'm just wandering, like a totally real and normal NP... Person!",
     "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "group": "NPC_starting_traits" }, [ "HALLUCINATION", 100 ] ],
+    "common": false,
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
     ]

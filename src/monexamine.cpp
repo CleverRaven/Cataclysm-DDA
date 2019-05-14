@@ -1,6 +1,6 @@
 #include "monexamine.h"
 
-#include <limits.h>
+#include <climits>
 #include <string>
 #include <utility>
 #include <list>

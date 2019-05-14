@@ -334,17 +334,19 @@ void load_keyboard_settings( std::map<char, action_id> &keymap,
  * given action then the returned vector is simply left empty.
  *
  * @param act Action ID to lookup in keymap
+ * @param restrict_to_printable If `true` the function returns the bound keys only if they are printable. If `false`, all keys (whether they are printable or not) are returned.
  * @returns all keys (as characters) currently bound to a give action ID
  */
-std::vector<char> keys_bound_to( action_id act );
+std::vector<char> keys_bound_to( action_id act, bool restrict_to_printable = true );
 
 /**
  * Get the key for an action, used in the action menu to give each action the hotkey it is bound to.
  * @param action Action ID to lookup in keymap.
+ * @param restrict_to_printable If `true` the function returns the bound key only if it is printable. If `false`, any key (whether they it is printable or not) is returned.
  * @returns the key code for the hotkey or -1 if no key is associated with the given action.
  * @note We ignore bindings to '?' because that will already do something else in this menu (open the menu keybindings).
  */
-long hotkey_for_action( action_id action );
+long hotkey_for_action( action_id action, bool restrict_to_printable = true );
 
 /**
  * Lookup an action ID by its unique string identifier

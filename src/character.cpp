@@ -1,7 +1,7 @@
 #include "character.h"
 
-#include <limits.h>
-#include <stdlib.h>
+#include <climits>
+#include <cstdlib>
 #include <algorithm>
 #include <numeric>
 #include <sstream>
@@ -2452,6 +2452,15 @@ nc_color Character::limb_color( body_part bp, bool bleed, bool bite, bool infect
 std::string Character::get_name() const
 {
     return name;
+}
+
+std::vector<std::string> Character::get_grammatical_genders() const
+{
+    if( male ) {
+        return { "m" };
+    } else {
+        return { "f" };
+    }
 }
 
 nc_color Character::symbol_color() const

@@ -1,6 +1,6 @@
 #include "vehicle_group.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <functional>
 #include <utility>
 

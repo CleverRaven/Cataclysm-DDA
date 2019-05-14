@@ -1,7 +1,7 @@
 #include "explosion.h" // IWYU pragma: associated
 #include "fragment_cloud.h" // IWYU pragma: associated
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <queue>
 #include <random>
@@ -417,7 +417,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                     };
                     std::string impact_count = std::find_if(
                                                    impact_count_descriptions.begin(), impact_count_descriptions.end(),
-                    [total_hits]( std::pair<int, std::string> desc ) {
+                    [total_hits]( const std::pair<int, std::string> &desc ) {
                         return desc.first >= total_hits;
                     } )->second;
                     std::string damage_description = ( damage_taken > 0 ) ?

@@ -1,8 +1,8 @@
 #include "item.h"
 
-#include <ctype.h>
-#include <stdint.h>
-#include <stdlib.h>
+#include <cctype>
+#include <cstdint>
+#include <cstdlib>
 #include <algorithm>
 #include <array>
 #include <cassert>
@@ -3890,7 +3890,7 @@ time_duration item::get_shelf_life() const
             return CORPSE_ROT_TIME;
         }
     }
-    return 0;
+    return 0_turns;
 }
 
 double item::get_relative_rot() const
@@ -4042,7 +4042,7 @@ void item::calc_rot( time_point time, int temp )
     }
 
     // bday and/or last_rot_check might be zero, if both are then we want calendar::start
-    const time_point since = std::max( {last_rot_check, ( time_point ) calendar::start} );
+    const time_point since = std::max( {last_rot_check, time_point( calendar::start )} );
 
     // simulation of different age of food at the start of the game and good/bad storage
     // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
@@ -4054,8 +4054,7 @@ void item::calc_rot( time_point time, int temp )
     }
 
     time_duration time_delta = time - since;
-    rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( kelvin_to_fahrenheit(
-                0.00001 * temp ) ) * 1_turns;
+    rot += factor * time_delta / 1_hours * get_hourly_rotpoints_at_temp( temp ) * 1_turns;
     last_rot_check = time;
 }
 

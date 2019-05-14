@@ -1,6 +1,6 @@
 #include "iuse.h"
 
-#include <limits.h>
+#include <climits>
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>

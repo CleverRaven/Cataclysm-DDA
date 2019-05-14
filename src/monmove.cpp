@@ -2,7 +2,7 @@
 
 #include "monster.h" // IWYU pragma: associated
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <cmath>
 #include <algorithm>
 #include <memory>

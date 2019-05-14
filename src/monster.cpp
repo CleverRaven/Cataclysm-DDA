@@ -1,6 +1,6 @@
 #include "monster.h"
 
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 #include <sstream>
 #include <memory>
@@ -920,7 +920,7 @@ monster_attitude monster::attitude( const Character *u ) const
         if( np != nullptr && np->get_attitude() != NPCATT_KILL && !type->in_species( ZOMBIE ) ) {
             return MATT_FRIEND;
         }
-        if( np->is_hallucination() ) {
+        if( np != nullptr && np->is_hallucination() ) {
             return MATT_IGNORE;
         }
     }

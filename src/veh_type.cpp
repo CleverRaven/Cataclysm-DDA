@@ -1,7 +1,7 @@
 #include "veh_type.h"
 
-#include <assert.h>
-#include <stddef.h>
+#include <cassert>
+#include <cstddef>
 #include <numeric>
 #include <sstream>
 #include <unordered_map>
@@ -921,7 +921,7 @@ void vehicle_prototype::load( JsonObject &jo )
         vproto.parts.push_back( pt );
     };
 
-    const auto add_part_string = [&]( std::string part, point pos ) {
+    const auto add_part_string = [&]( const std::string & part, point pos ) {
         part_def pt;
         pt.pos = pos;
         pt.part = vpart_id( part );
@@ -1091,6 +1091,7 @@ void vehicle_prototype::finalize()
 std::vector<vproto_id> vehicle_prototype::get_all()
 {
     std::vector<vproto_id> result;
+    result.reserve( vtypes.size() );
     for( auto &vp : vtypes ) {
         result.push_back( vp.first );
     }
