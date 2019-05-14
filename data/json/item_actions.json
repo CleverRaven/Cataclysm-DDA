@@ -56,6 +56,11 @@
   },
   {
     "type": "item_action",
+    "id": "BURROW",
+    "name": "Burrow through rock"
+  },
+  {
+    "type": "item_action",
     "id": "GEIGER",
     "name": "Use geiger counter"
   },
