@@ -322,9 +322,7 @@
     "durability": 8,
     "burst": 10,
     "built_in_mods": [ "adjustable_stock" ],
-    "magazines": [
-      [ "308", [ "hk417mag_20rd", "hk417mag_10rd" ] ]
-    ]
+    "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd" ] ] ]
   },
   {
     "id": "g28_e3",
@@ -345,9 +343,7 @@
     "dispersion": 120,
     "durability": 8,
     "built_in_mods": [ "adjustable_stock", "bipod", "rifle_scope" ],
-    "magazines": [
-      [ "308", [ "hk417mag_20rd", "hk417mag_10rd" ] ]
-    ]
+    "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd" ] ] ]
   },
   {
     "id": "ar10",
@@ -367,8 +363,6 @@
     "ranged_damage": -1,
     "dispersion": 150,
     "durability": 7,
-    "magazines": [
-      [ "308", [ "ar10mag_20rd" ] ]
-    ]
+    "magazines": [ [ "308", [ "ar10mag_20rd" ] ] ]
   }
 ]
