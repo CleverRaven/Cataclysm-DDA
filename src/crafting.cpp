@@ -837,49 +837,37 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
     }
 }
 
-int item::get_next_failure_point() const
+double player::crafting_success_roll( const recipe &making ) const
 {
-    return next_failure_point >= 0 ? next_failure_point : INT_MAX;
-}
-
-void item::set_next_failure_point( const player &p )
-{
-    if( !is_craft() ) {
-        debugmsg( "set_next_failure_point() called on non-craft '%s.'  Aborting.", tname() );
-        return;
-    }
-
-    const recipe &making = get_making();
-
     int secondary_dice = 0;
     int secondary_difficulty = 0;
     for( const auto &pr : making.required_skills ) {
-        secondary_dice += p.get_skill_level( pr.first );
+        secondary_dice += get_skill_level( pr.first );
         secondary_difficulty += pr.second;
     }
 
     // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
     int skill_dice;
     if( secondary_difficulty > 0 ) {
-        skill_dice = p.get_skill_level( making.skill_used ) * 3 + secondary_dice;
+        skill_dice = get_skill_level( making.skill_used ) * 3 + secondary_dice;
     } else {
-        skill_dice = p.get_skill_level( making.skill_used ) * 4;
+        skill_dice = get_skill_level( making.skill_used ) * 4;
     }
 
-    for( const npc *np : p.get_crafting_helpers() ) {
+    for( const npc *np : get_crafting_helpers() ) {
         if( np->get_skill_level( making.skill_used ) >=
-            p.get_skill_level( making.skill_used ) ) {
+            get_skill_level( making.skill_used ) ) {
             // NPC assistance is worth half a skill level
             skill_dice += 2;
-            p.add_msg_if_player( m_info, _( "%s helps with crafting..." ), np->name );
+            add_msg_if_player( m_info, _( "%s helps with crafting..." ), np->name );
             break;
         }
     }
 
     // farsightedness can impose a penalty on electronics and tailoring success
     // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
-    if( p.has_trait( trait_id( "HYPEROPIC" ) ) && !p.worn_with_flag( "FIX_FARSIGHT" ) &&
-        !p.has_effect( effect_contacts ) ) {
+    if( has_trait( trait_id( "HYPEROPIC" ) ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
+        !has_effect( effect_contacts ) ) {
         int main_rank_penalty = 0;
         if( making.skill_used == skill_id( "electronics" ) ) {
             main_rank_penalty = 2;
@@ -891,9 +879,9 @@ void item::set_next_failure_point( const player &p )
 
     // It's tough to craft with paws.  Fortunately it's just a matter of grip and fine-motor,
     // not inability to see what you're doing
-    if( p.has_trait( trait_PAWS ) || p.has_trait( trait_PAWS_LARGE ) ) {
+    if( has_trait( trait_PAWS ) || has_trait( trait_PAWS_LARGE ) ) {
         int paws_rank_penalty = 0;
-        if( p.has_trait( trait_PAWS_LARGE ) ) {
+        if( has_trait( trait_PAWS_LARGE ) ) {
             paws_rank_penalty += 1;
         }
         if( making.skill_used == skill_id( "electronics" )
@@ -906,7 +894,7 @@ void item::set_next_failure_point( const player &p )
 
     // Sides on dice is 16 plus your current intelligence
     ///\EFFECT_INT increases crafting success chance
-    const int skill_sides = 16 + p.int_cur;
+    const int skill_sides = 16 + int_cur;
 
     int diff_dice;
     if( secondary_difficulty > 0 ) {
@@ -919,63 +907,86 @@ void item::set_next_failure_point( const player &p )
     const int diff_sides = 24; // 16 + 8 (default intelligence)
 
     const double skill_roll = dice( skill_dice, skill_sides );
-    const double diff_roll  = dice( diff_dice,  diff_sides );
+    const double diff_roll = dice( diff_dice, diff_sides );
 
-    const double ratio = skill_roll / diff_roll;
-    std::cout << "ratio: " << ratio << std::endl;
-
-    const int percent_left = 10000000 - item_counter;
-    const int failure_point_delta = ratio * percent_left;
-
-    next_failure_point = item_counter + failure_point_delta;
-    std::cout << "next_failure_point: " << next_failure_point << std::endl << std::endl;
+    return skill_roll / diff_roll;
 }
 
-static item_comp destroy_random_component( item &craft, const player &p )
+int item::get_next_failure_point() const
+{
+    if( !is_craft() ) {
+        debugmsg( "get_next_failure_point() called on non-craft '%s.'  Aborting.", tname() );
+        return INT_MAX;
+    }
+    return next_failure_point >= 0 ? next_failure_point : INT_MAX;
+}
+
+void item::set_next_failure_point( const player &crafter )
+{
+    if( !is_craft() ) {
+        debugmsg( "set_next_failure_point() called on non-craft '%s.'  Aborting.", tname() );
+        return;
+    }
+
+    const int percent_left = 10000000 - item_counter;
+    const int failure_point_delta = crafter.crafting_success_roll( get_making() ) * percent_left;
+
+    next_failure_point = item_counter + failure_point_delta;
+}
+
+static void destroy_random_component( item &craft, const player &crafter )
 {
     if( craft.components.empty() ) {
-        debugmsg( "destroy_random_component() called on craft with no componets! Aborting" );
-        return item_comp( itype_id( "null" ), 0 );
+        debugmsg( "destroy_random_component() called on craft with no components! Aborting" );
+        return;
     }
 
     item destroyed = random_entry_removed( craft.components );
 
-    p.add_msg_player_or_npc(
+    crafter.add_msg_player_or_npc(
         string_format( _( "You mess up and destroy the %s." ), destroyed.tname() ),
         string_format( _( "<npcname> messes up and destroys the %s" ), destroyed.tname() )
     );
-    return item_comp( destroyed.typeId(), destroyed.count() );
 }
 
-void item::handle_craft_failure( player &p )
+void item::handle_craft_failure( player &crafter )
 {
     if( !is_craft() ) {
         debugmsg( "handle_craft_failure() called on non-craft '%s.'  Aborting.", tname() );
         return;
     }
 
-    // TODO: only a chance of destruction, based on skill
-    std::vector<std::vector<item_comp>> destroyed_comps;
-    for( int i = 0; i < charges; i++ ) {
+    const double success_roll = crafter.crafting_success_roll( get_making() );
+
+    // Destroy at most 75% of the components, always a chance of losing 1 though
+    const size_t max_destroyed = std::max<size_t>( 1, components.size() * 3 / 4 );
+    for( size_t i = 0; i < max_destroyed; i++ ) {
+        // This shouldn't happen
         if( components.empty() ) {
             break;
         }
-        std::vector<item_comp> destroyed_comp;
-        destroyed_comp.emplace_back( destroy_random_component( *this, p ) );
-        destroyed_comps.emplace_back( destroyed_comp );
+        // If we roll success, skip destroying a component
+        if( x_in_y( success_roll, 1.0 ) ) {
+            continue;
+        }
+        destroy_random_component( *this, crafter );
     }
 
-    // Minimum 25% progess lost, average 35%.  Falls off exponentially
-    // TODO: make this based on skill
-    const int adjusted_progress = item_counter * rng_exponential( 0.25, 0.35 );
+    // Minimum 25% progress lost, average 35%.  Falls off exponentially
+    // Loss is scaled by the success roll
+    const double percent_progress_loss = rng_exponential( 0.25, 0.35 ) * ( 1.0 - success_roll );
+    crafter.add_msg_player_or_npc(
+        string_format( _( "You mess up and lose %.0lf%% progress." ), 100 * percent_progress_loss ),
+        string_format( _( "<npcname> messes up and loses %.0lf%% progress." ), 100 * percent_progress_loss )
+    );
+    const int adjusted_progress = item_counter * percent_progress_loss;
     item_counter = clamp( adjusted_progress, 0, 10000000 );
 
-    set_next_failure_point( p );
+    set_next_failure_point( crafter );
 
-
-    // Check if we can consume a new component to continue
-    if( !p.can_continue_craft( *this ) ) {
-        p.cancel_activity();
+    // Check if we can consume a new component and continue
+    if( !crafter.can_continue_craft( *this ) ) {
+        crafter.cancel_activity();
     }
 }
 

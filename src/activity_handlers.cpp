@@ -2826,9 +2826,7 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
                 p->last_craft->execute( loc );
             }
         }
-    }
-
-    if( craft->item_counter >= craft->get_next_failure_point() ) {
+    } else if( craft->item_counter >= craft->get_next_failure_point() ) {
         craft->handle_craft_failure( *p );
     }
 }
