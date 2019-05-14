@@ -96,25 +96,25 @@ float player::lighting_craft_speed_multiplier( const recipe &rec ) const
     // if the fnv_crafting mod is enabled and the player has the mutation, treats all light as bright light.
     float darkness = fine_detail_vision_mod() - 4.0f;
     if( darkness <= 0.0f || ( has_trait( trait_id( "NIGHTVISION_3" ) ) &&
-    get_option < bool > ( "FNV_CRAFTING" ) ) {
-    return 1.0f; // it's bright, go for it
-}
-bool rec_blind = rec.has_flag( "BLIND_HARD" ) || rec.has_flag( "BLIND_EASY" );
-if( darkness > 0 && !rec_blind ) {
-    return 0.0f; // it's dark and this recipe can't be crafted in the dark
-}
-if( rec.has_flag( "BLIND_EASY" ) ) {
-    // 100% speed in well lit area at skill+0
-    // 25% speed in pitch black at skill+0
-    // skill+2 removes speed penalty
-    return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
+                              get_option < bool > ( "FNV_CRAFTING" ) ) ) {
+        return 1.0f; // it's bright, go for it
+    }
+    bool rec_blind = rec.has_flag( "BLIND_HARD" ) || rec.has_flag( "BLIND_EASY" );
+    if( darkness > 0 && !rec_blind ) {
+        return 0.0f; // it's dark and this recipe can't be crafted in the dark
+    }
+    if( rec.has_flag( "BLIND_EASY" ) ) {
+        // 100% speed in well lit area at skill+0
+        // 25% speed in pitch black at skill+0
+        // skill+2 removes speed penalty
+        return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
                 2 - exceeds_recipe_requirements( rec ) ) / 2.0f;
     }
     if( rec.has_flag( "BLIND_HARD" ) && exceeds_recipe_requirements( rec ) >= 2 ) {
-    // 100% speed in well lit area at skill+2
-    // 25% speed in pitch black at skill+2
-    // skill+8 removes speed penalty
-    return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
+        // 100% speed in well lit area at skill+2
+        // 25% speed in pitch black at skill+2
+        // skill+8 removes speed penalty
+        return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
                 8 - exceeds_recipe_requirements( rec ) ) / 6.0f;
     }
     return 0.0f; // it's dark and you could craft this if you had more skill
