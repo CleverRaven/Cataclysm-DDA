@@ -866,7 +866,7 @@ std::string get_wind_arrow( int dirangle )
     if( ( dirangle <= 23 && dirangle >= 0 ) || ( dirangle > 338 && dirangle < 360 ) ) {
         wind_arrow = "\u21D3";
     } else if( dirangle <= 68 && dirangle > 23 ) {
-        wind_arrow = "\u21D8";
+        wind_arrow = "\u21D9";
     } else if( dirangle <= 113 && dirangle > 68 ) {
         wind_arrow = "\u21D0";
     } else if( dirangle <= 158 && dirangle > 113 ) {
@@ -878,7 +878,7 @@ std::string get_wind_arrow( int dirangle )
     } else if( dirangle <= 293 && dirangle > 248 ) {
         wind_arrow = "\u21D2";
     } else if( dirangle <= 338 && dirangle > 293 ) {
-        wind_arrow = "\u21D9";
+        wind_arrow = "\u21D8";
     } else {
         wind_arrow.clear();
     }
