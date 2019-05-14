@@ -95,25 +95,25 @@ float player::lighting_craft_speed_multiplier( const recipe &rec ) const
     // negative is bright, 0 is just bright enough, positive is dark, +7.0f is pitch black
     // if the fnv_crafting mod is enabled and the player has the mutation, treats all light as bright light.
     float darkness = fine_detail_vision_mod() - 4.0f;
-    if( darkness <= 0.0f || ( has_trait( trait_id( "NIGHTVISION_3" ) ) && get_option < bool > ( "FNV_CRAFTING" ) ) {
-    return 1.0f; // it's bright, go for it
-}
-bool rec_blind = rec.has_flag( "BLIND_HARD" ) || rec.has_flag( "BLIND_EASY" );
-if( darkness > 0 && !rec_blind ) {
-    return 0.0f; // it's dark and this recipe can't be crafted in the dark
-}
-if( rec.has_flag( "BLIND_EASY" ) ) {
-    // 100% speed in well lit area at skill+0
-    // 25% speed in pitch black at skill+0
-    // skill+2 removes speed penalty
-    return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
+    if( darkness <= 0.0f || ( has_trait( trait_id( "NIGHTVISION_3" ) ) && get_option < bool > ( "FNV_CRAFTING" ) ){
+        return 1.0f; // it's bright, go for it
+    }
+    bool rec_blind = rec.has_flag( "BLIND_HARD" ) || rec.has_flag( "BLIND_EASY" );
+    if( darkness > 0 && !rec_blind ) {
+        return 0.0f; // it's dark and this recipe can't be crafted in the dark
+    }
+    if( rec.has_flag( "BLIND_EASY" ) ) {
+        // 100% speed in well lit area at skill+0
+        // 25% speed in pitch black at skill+0
+        // skill+2 removes speed penalty
+        return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
                 2 - exceeds_recipe_requirements( rec ) ) / 2.0f;
     }
     if( rec.has_flag( "BLIND_HARD" ) && exceeds_recipe_requirements( rec ) >= 2 ) {
-    // 100% speed in well lit area at skill+2
-    // 25% speed in pitch black at skill+2
-    // skill+8 removes speed penalty
-    return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
+        // 100% speed in well lit area at skill+2
+        // 25% speed in pitch black at skill+2
+        // skill+8 removes speed penalty
+        return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
                 8 - exceeds_recipe_requirements( rec ) ) / 6.0f;
     }
     return 0.0f; // it's dark and you could craft this if you had more skill
@@ -478,8 +478,8 @@ bool player::can_make( const recipe *r, int batch_size )
 const inventory &player::crafting_inventory()
 {
     if( cached_moves == moves
-            && cached_time == calendar::turn
-            && cached_position == pos() ) {
+        && cached_time == calendar::turn
+        && cached_position == pos() ) {
         return cached_crafting_inventory;
     }
     cached_crafting_inventory.form_from_map( pos(), PICKUP_RANGE, false );
@@ -489,7 +489,7 @@ const inventory &player::crafting_inventory()
     for( const auto &bio : *my_bionics ) {
         const auto &bio_data = bio.info();
         if( ( !bio_data.activated || bio.powered ) &&
-                !bio_data.fake_item.empty() ) {
+            !bio_data.fake_item.empty() ) {
             cached_crafting_inventory += item( bio.info().fake_item,
                                                calendar::turn, power_level );
         }
@@ -776,27 +776,27 @@ void player::start_craft( craft_command &command, const tripoint &loc )
             amenu.query();
             const option choice = amenu.ret == UILIST_CANCEL ? DROP : static_cast<option>( amenu.ret );
             switch( choice ) {
-            case WIELD_CRAFT: {
-                if( cata::optional<item_location> it_loc = wield_craft( *this, craft ) ) {
-                    craft_in_world = it_loc->clone();
-                } else {
-                    // This almost certianly shouldn't happen
-                    put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, {craft} );
+                case WIELD_CRAFT: {
+                    if( cata::optional<item_location> it_loc = wield_craft( *this, craft ) ) {
+                        craft_in_world = it_loc->clone();
+                    } else {
+                        // This almost certianly shouldn't happen
+                        put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, {craft} );
+                    }
+                    break;
                 }
-                break;
-            }
-            case DROP_CRAFT: {
-                craft_in_world = set_item_map_or_vehicle( *this, pos(), craft );
-                break;
-            }
-            case STASH: {
-                set_item_inventory( *this, craft );
-                break;
-            }
-            case DROP: {
-                put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, {craft} );
-                break;
-            }
+                case DROP_CRAFT: {
+                    craft_in_world = set_item_map_or_vehicle( *this, pos(), craft );
+                    break;
+                }
+                case STASH: {
+                    set_item_inventory( *this, craft );
+                    break;
+                }
+                case DROP: {
+                    put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, {craft} );
+                    break;
+                }
             }
         }
     } else {
@@ -895,7 +895,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
 
     for( const npc *np : helpers ) {
         if( np->get_skill_level( making.skill_used ) >=
-                get_skill_level( making.skill_used ) ) {
+            get_skill_level( making.skill_used ) ) {
             // NPC assistance is worth half a skill level
             skill_dice += 2;
             add_msg( m_info, _( "%s helps with crafting..." ), np->name );
@@ -906,7 +906,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
     // farsightedness can impose a penalty on electronics and tailoring success
     // it's equivalent to a 2-rank electronics penalty, 1-rank tailoring
     if( has_trait( trait_id( "HYPEROPIC" ) ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
-            !has_effect( effect_contacts ) ) {
+        !has_effect( effect_contacts ) ) {
         int main_rank_penalty = 0;
         if( making.skill_used == skill_id( "electronics" ) ) {
             main_rank_penalty = 2;
@@ -924,8 +924,8 @@ void player::complete_craft( item &craft, const tripoint &loc )
             paws_rank_penalty += 1;
         }
         if( making.skill_used == skill_id( "electronics" )
-                || making.skill_used == skill_id( "tailor" )
-                || making.skill_used == skill_id( "mechanics" ) ) {
+            || making.skill_used == skill_id( "tailor" )
+            || making.skill_used == skill_id( "mechanics" ) ) {
             paws_rank_penalty += 1;
         }
         skill_dice -= paws_rank_penalty * 4;
@@ -1012,7 +1012,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
         // Don't store components for things made by charges,
         // Don't store components for things that can't be uncrafted.
         if( recipe_dictionary::get_uncraft( making.result() ) && !newit.count_by_charges() &&
-                making.is_reversible() ) {
+            making.is_reversible() ) {
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
             // which would either lose this information or merge it somehow.
@@ -1184,8 +1184,8 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                     found = true;
                 }
                 if( !found &&
-                        amount_of( type, false, std::numeric_limits<int>::max(), filter ) +
-                        map_inv.amount_of( type, false, std::numeric_limits<int>::max(), filter ) >= count ) {
+                    amount_of( type, false, std::numeric_limits<int>::max(), filter ) +
+                    map_inv.amount_of( type, false, std::numeric_limits<int>::max(), filter ) >= count ) {
                     mixed.push_back( component );
                 }
             } else {
@@ -1264,7 +1264,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         cmenu.query();
 
         if( cmenu.ret < 0 ||
-                static_cast<size_t>( cmenu.ret ) >= map_has.size() + player_has.size() + mixed.size() ) {
+            static_cast<size_t>( cmenu.ret ) >= map_has.size() + player_has.size() + mixed.size() ) {
             selected.use_from = cancel;
             return selected;
         }
@@ -1613,9 +1613,9 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
 
         if( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) ) {
             if( !query_yn(
-                        _( "Disassembling the %s may yield:\n%s\nReally disassemble?\nYou feel you may be able to understand this object's construction.\n" ),
-                        colorize( obj.tname(), obj.color_in_inventory() ),
-                        list.str() ) ) {
+                    _( "Disassembling the %s may yield:\n%s\nReally disassemble?\nYou feel you may be able to understand this object's construction.\n" ),
+                    colorize( obj.tname(), obj.color_in_inventory() ),
+                    list.str() ) ) {
                 return false;
             }
         } else if( !query_yn( _( "Disassembling the %s may yield:\n%s\nReally disassemble?" ),
@@ -1689,8 +1689,8 @@ void player::complete_disassemble()
     // Warning: Breaks old saves with disassembly in progress!
     // But so would adding a new recipe...
     if( activity.values.empty() ||
-            activity.values.size() != activity.str_values.size() ||
-            activity.values.size() != activity.coords.size() ) {
+        activity.values.size() != activity.str_values.size() ||
+        activity.values.size() != activity.coords.size() ) {
         debugmsg( "bad disassembly activity values" );
         activity.set_to_null();
         return;
@@ -1893,7 +1893,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         }
 
         for( std::list<item>::iterator a = dis_item.components.begin(); a != dis_item.components.end();
-                ++a ) {
+             ++a ) {
             if( a->type == newit.type ) {
                 act_item = *a;
                 dis_item.components.erase( a );
