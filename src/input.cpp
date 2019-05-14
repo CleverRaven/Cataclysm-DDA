@@ -532,7 +532,11 @@ void input_manager::remove_input_for_action(
                 // user will fallback to the hotkey in the default context.
                 actions.erase( action );
             } else {
-                action->second.input_events.clear();
+                if( action->second.input_events.empty() ) {
+                    actions.erase( action );
+                } else {
+                    action->second.input_events.clear();
+                }
             }
         }
     }
@@ -705,11 +709,12 @@ const std::string input_context::get_desc( const std::string &action_descriptor,
         return "(*)"; // * for wildcard
     }
 
+    bool is_local = false;
     const std::vector<input_event> &events = inp_mngr.get_input_for_action( action_descriptor,
-            category );
+            category, &is_local );
 
     if( events.empty() ) {
-        return _( "Unbound!" );
+        return is_local ? _( "Unbound locally!" ) : _( "Unbound globally!" ) ;
     }
 
     std::vector<input_event> inputs_to_show;
@@ -1096,11 +1101,13 @@ void input_context::display_menu()
 
             // Check if this entry is local or global.
             bool is_local = false;
-            inp_mngr.get_action_attributes( action_id, category, &is_local );
+            const action_attributes &actions = inp_mngr.get_action_attributes( action_id, category, &is_local );
             const std::string name = get_action_name( action_id );
 
             if( status == s_remove && ( !get_option<bool>( "QUERY_KEYBIND_REMOVAL" ) ||
-                                        query_yn( _( "Clear keys for %s?" ), name ) ) ) {
+                                        query_yn( is_local && actions.input_events.empty() ?
+                                                  _( "Reset to global for %s?" ) :
+                                                  _( "Clear keys for %s?" ), name ) ) ) {
 
                 // If it's global, reset the global actions.
                 std::string category_to_access = category;
