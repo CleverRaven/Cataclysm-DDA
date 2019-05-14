@@ -3217,6 +3217,49 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint & )
     return 0; // handled when the activity finishes
 }
 
+int iuse::burrow( player *p, item *it, bool, const tripoint &pos )
+{
+    if( p->is_npc() ) {
+        // Long action
+        return 0;
+    }
+
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+        return 0;
+    }
+
+    tripoint pnt = pos;
+    if( pos == p->pos() ) {
+        const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Burrow where?" ) );
+        if( !pnt_ ) {
+            return 0;
+        }
+        pnt = *pnt_;
+    }
+
+    if( !g->m.has_flag( "MINEABLE", pnt ) ) {
+        p->add_msg_if_player( m_info, _( "You can't burrow there." ) );
+        return 0;
+    }
+    if( g->m.veh_at( pnt ) ) {
+        p->add_msg_if_player( _( "There's a vehicle in the way!" ) );
+        return 0;
+    }
+
+    int turns = 100;
+    if( g->m.move_cost( pnt ) == 2 ) {
+        // We're breaking up some flat surface like pavement, which is much easier
+        turns /= 2;
+    }
+    turns *= ( ( MAX_STAT + 3 ) - std::min( p->str_cur, MAX_STAT ) ) * MINUTES( 2 );
+    p->assign_activity( activity_id( "ACT_BURROW" ), turns, -1, 0 );
+    p->activity.placement = pnt;
+    p->add_msg_if_player( _( "You start tearing into the %1$s with your %2$s." ),
+                          g->m.tername( pnt ), it->tname() );
+    return 0; // handled when the activity finishes
+}
+
 int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) { // Every-turn use when it's on
