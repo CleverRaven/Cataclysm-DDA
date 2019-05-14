@@ -1,0 +1,9 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "FNV_CRAFTING",
+    "info": "Allows crafting in darkness if the player has the Full Nightvision mutation.",
+    "stype": "bool",
+    "value": true
+  }
+]

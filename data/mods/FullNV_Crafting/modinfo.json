@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "fullnv_crafting",
+    "name": "Full Night Vision Crafting",
+    "authors": [ "Greev" ],
+    "maintainers": [ "Greev" ],
+    "description": "Allows for crafting in darkness if the player has the Full Nightvision mutation.",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]
