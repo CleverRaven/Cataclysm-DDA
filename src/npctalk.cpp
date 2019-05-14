@@ -3302,6 +3302,25 @@ bool json_talk_response::gen_repeat_response( dialogue &d, const itype_id &item_
     return false;
 }
 
+static std::string translate_gendered_line(
+    const std::string &line,
+    const std::vector<std::string> &relevant_genders,
+    const dialogue &d
+)
+{
+    GenderMap gender_map;
+    for( const std::string &subject : relevant_genders ) {
+        if( subject == "npc" ) {
+            gender_map[subject] = d.beta->get_grammatical_genders();
+        } else if( subject == "u" ) {
+            gender_map[subject] = d.alpha->get_grammatical_genders();
+        } else {
+            debugmsg( "Unsupported subject '%s' for grammatical gender in dialogue", subject );
+        }
+    }
+    return gettext_gendered( gender_map, line );
+}
+
 dynamic_line_t dynamic_line_t::from_member( JsonObject &jo, const std::string &member_name )
 {
     if( jo.has_array( member_name ) ) {
@@ -3354,6 +3373,25 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
             std::string tmp = d.reason;
             d.reason.clear();
             return tmp;
+        };
+    } else if( jo.has_string( "gendered_line" ) ) {
+        const std::string line = jo.get_string( "gendered_line" );
+        if( !jo.has_array( "relevant_genders" ) ) {
+            jo.throw_error(
+                "dynamic line with \"gendered_line\" must also have \"relevant_genders\"" );
+        }
+        JsonArray ja = jo.get_array( "relevant_genders" );
+        std::vector<std::string> relevant_genders;
+        while( ja.has_more() ) {
+            relevant_genders.push_back( ja.next_string() );
+        }
+        for( const std::string &gender : relevant_genders ) {
+            if( gender != "npc" && gender != "u" ) {
+                jo.throw_error( "Unexpected subject in relevant_genders; expected 'npc' or 'u'" );
+            }
+        }
+        function = [line, relevant_genders]( const dialogue & d ) {
+            return translate_gendered_line( line, relevant_genders, d );
         };
     } else {
         conditional_t dcondition;

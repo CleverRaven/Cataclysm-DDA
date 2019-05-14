@@ -2454,6 +2454,15 @@ std::string Character::get_name() const
     return name;
 }
 
+std::vector<std::string> Character::get_grammatical_genders() const
+{
+    if( male ) {
+        return { "m" };
+    } else {
+        return { "f" };
+    }
+}
+
 nc_color Character::symbol_color() const
 {
     nc_color basic = basic_symbol_color();
