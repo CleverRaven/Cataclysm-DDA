@@ -64,11 +64,85 @@ static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
 static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
 static const mtype_id mon_shia( "mon_shia" );
 static const mtype_id mon_spider_web( "mon_spider_web" );
+static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
+static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
+static const mtype_id mon_wasp( "mon_wasp" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
 
 void mx_null( map &, const tripoint & )
 {
     debugmsg( "Tried to generate null map extra." );
+}
+
+void mx_house_wasp( map &m, const tripoint & )
+{
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            if( m.ter( i, j ) == t_door_c || m.ter( i, j ) == t_door_locked ) {
+                m.ter_set( i, j, t_door_frame );
+            }
+            if( m.ter( i, j ) == t_window_domestic && !one_in( 3 ) ) {
+                m.ter_set( i, j, t_window_frame );
+            }
+            if( m.ter( i, j ) == t_wall && one_in( 8 ) ) {
+                m.ter_set( i, j, t_paper );
+            }
+        }
+    }
+    const int num_pods = rng( 8, 12 );
+    for( int i = 0; i < num_pods; i++ ) {
+        const int podx = rng( 1, SEEX * 2 - 2 );
+        const int pody = rng( 1, SEEY * 2 - 2 );
+        int nonx = 0;
+        int nony = 0;
+        while( nonx == 0 && nony == 0 ) {
+            nonx = rng( -1, 1 );
+            nony = rng( -1, 1 );
+        }
+        for( int x = -1; x <= 1; x++ ) {
+            for( int y = -1; y <= 1; y++ ) {
+                if( ( x != nonx || y != nony ) && ( x != 0 || y != 0 ) ) {
+                    m.ter_set( podx + x, pody + y, t_paper );
+                }
+            }
+        }
+        m.add_spawn( mon_wasp, 1, podx, pody );
+    }
+    m.place_items( "rare", 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, 0 );
+}
+
+void mx_house_spider( map &m, const tripoint & )
+{
+    auto spider_type = mon_spider_widow_giant;
+    auto egg_type = f_egg_sackbw;
+    if( one_in( 2 ) ) {
+        spider_type = mon_spider_cellar_giant;
+        egg_type = f_egg_sackcs;
+    }
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            if( m.ter( i, j ) == t_floor ) {
+                if( one_in( 15 ) ) {
+                    m.add_spawn( spider_type, rng( 1, 2 ), i, j );
+                    for( int x = i - 1; x <= i + 1; x++ ) {
+                        for( int y = j - 1; y <= j + 1; y++ ) {
+                            if( m.ter( x, y ) == t_floor ) {
+                                madd_field( &m, x, y, fd_web, rng( 2, 3 ) );
+                                if( one_in( 4 ) ) {
+                                    m.furn_set( i, j, egg_type );
+                                    m.remove_field( {i, j, m.get_abs_sub().z}, fd_web );
+                                }
+                            }
+                        }
+                    }
+                } else if( m.passable( i, j ) && one_in( 5 ) ) {
+                    madd_field( &m, i, j, fd_web, 1 );
+                }
+            }
+        }
+    }
+    m.place_items( "rare", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, 0 );
+
 }
 
 void mx_helicopter( map &m, const tripoint &abs_sub )
@@ -1050,6 +1124,8 @@ void mx_clay_deposit( map &m, const tripoint &abs_sub )
 typedef std::unordered_map<std::string, map_special_pointer> FunctionMap;
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
+    { "mx_house_wasp", mx_house_wasp },
+    { "mx_house_spider", mx_house_spider },
     { "mx_helicopter", mx_helicopter },
     { "mx_military", mx_military },
     { "mx_science", mx_science },

@@ -50,7 +50,6 @@ const mtype_id mon_rat_king( "mon_rat_king" );
 const mtype_id mon_sewer_rat( "mon_sewer_rat" );
 const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
-const mtype_id mon_wasp( "mon_wasp" );
 const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 
 mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west,
@@ -2443,8 +2442,6 @@ void mapgen_generic_house( map *m, oter_id terrain_type, mapgendata dat, const t
     int actual_house_height = 0;
     int bw_old = 0;
 
-    int x = 0;
-    int y = 0;
     lw = rng( 0, 4 ); // West external wall
     // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     mw = lw + rng( 7, 10 ); // Middle wall between bedroom & kitchen/bath
@@ -2808,75 +2805,8 @@ void mapgen_generic_house( map *m, oter_id terrain_type, mapgendata dat, const t
 
     place_stairs( m, terrain_type, dat );
 
-    if( one_in( 100 ) ) { // TODO: region data // Houses have a 1 in 100 chance of wasps!
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
-                if( m->ter( i, j ) == t_door_c || m->ter( i, j ) == t_door_locked ) {
-                    m->ter_set( i, j, t_door_frame );
-                }
-                if( m->ter( i, j ) == t_window_domestic && !one_in( 3 ) ) {
-                    m->ter_set( i, j, t_window_frame );
-                }
-                if( m->ter( i, j ) == t_wall && one_in( 8 ) ) {
-                    m->ter_set( i, j, t_paper );
-                }
-            }
-        }
-        int num_pods = rng( 8, 12 );
-        for( int i = 0; i < num_pods; i++ ) {
-            int podx = rng( 1, SEEX * 2 - 2 );
-            int pody = rng( 1, SEEY * 2 - 2 );
-            int nonx = 0;
-            int nony = 0;
-            while( nonx == 0 && nony == 0 ) {
-                nonx = rng( -1, 1 );
-                nony = rng( -1, 1 );
-            }
-            for( int x = -1; x <= 1; x++ ) {
-                for( int y = -1; y <= 1; y++ ) {
-                    if( ( x != nonx || y != nony ) && ( x != 0 || y != 0 ) ) {
-                        m->ter_set( podx + x, pody + y, t_paper );
-                    }
-                }
-            }
-            m->add_spawn( mon_wasp, 1, podx, pody );
-        }
-        m->place_items( "rare", 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn );
-
-    } else if( one_in( 150 ) ) { // TODO: region_data // No wasps; black widows?
-        auto spider_type = mon_spider_widow_giant;
-        auto egg_type = f_egg_sackbw;
-        if( one_in( 2 ) ) {
-            spider_type = mon_spider_cellar_giant;
-            egg_type = f_egg_sackcs;
-        }
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
-                if( m->ter( i, j ) == t_floor ) {
-                    if( one_in( 15 ) ) {
-                        m->add_spawn( spider_type, rng( 1, 2 ), i, j );
-                        for( int x = i - 1; x <= i + 1; x++ ) {
-                            for( int y = j - 1; y <= j + 1; y++ ) {
-                                if( m->ter( x, y ) == t_floor ) {
-                                    madd_field( m, x, y, fd_web, rng( 2, 3 ) );
-                                    if( one_in( 4 ) ) {
-                                        m->furn_set( i, j, egg_type );
-                                        m->remove_field( {i, j, m->get_abs_sub().z}, fd_web );
-                                    }
-                                }
-                            }
-                        }
-                    } else if( m->passable( i, j ) && one_in( 5 ) ) {
-                        madd_field( m, x, y, fd_web, 1 );
-                    }
-                }
-            }
-        }
-        m->place_items( "rare", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn );
-
-    } else { // Just boring old zombies
-        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density );
-    }
+    // Just boring old zombies
+    m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density );
 
     m->rotate( static_cast<int>( terrain_type->get_dir() ) );
 }
