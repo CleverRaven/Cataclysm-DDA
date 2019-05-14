@@ -6540,7 +6540,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 wprintz( w_info, c_green, title );
                 wprintz( w_info, c_white, title_suffix );
 
-                std::string fast_scroll_text = string_format( _( "%s - %s" ), 
+                std::string fast_scroll_text = string_format( _( "%s - %s" ),
                                                ctxt.get_desc( "TOGGLE_FAST_SCROLL" ),
                                                ctxt.get_action_name( "TOGGLE_FAST_SCROLL" ) );
                 center_print( w_info, getmaxy( w_info ) - 1, fast_scroll ? c_light_green : c_green,
