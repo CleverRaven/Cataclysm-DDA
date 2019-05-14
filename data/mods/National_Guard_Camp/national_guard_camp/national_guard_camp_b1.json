@@ -26,380 +26,9 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_1",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_2",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_3",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_4",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_5",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_6",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_7",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_8",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_9",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_10",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~eeee",
         "~~~~~~~~~~~~~~~~~~eee___"
       ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_11",
@@ -436,7 +65,6 @@
         "eeeeeeeeeeeeeeeeeeeeeeee",
         "________________________"
       ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_12",
@@ -473,7 +101,6 @@
         "eeeeeeeeeeeeeeeeeeeeeeee",
         "________________________"
       ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_13",
@@ -510,7 +137,6 @@
         "eeeeeeeeeeeeeeeeeeeeeeee",
         "________________________"
       ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_14",
@@ -547,7 +173,6 @@
         "eeeeeeeeeeeeeeeeeeeeeeee",
         "________________________"
       ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_15",
@@ -584,7 +209,6 @@
         "eeeeeeeeeeeeeeeeeeeeeeee",
         "________________________"
       ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_16",
@@ -671,7 +295,6 @@
         "L": { "item": "army_personal_locker", "chance": 40 },
         "r": { "item": "mechanics", "chance": 45 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_18",
@@ -708,7 +331,6 @@
         "eeeeeeeeeeeeeeeeeeeeeeee",
         "________________________"
       ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_19",
@@ -745,195 +367,9 @@
         "eeeee~~~~~~~~~~~~~~~~~~~",
         "____eee~~~~~~~~~~~~~~~~~"
       ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_20",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_21",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_22",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_23",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_24",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~``",
-        "~~~~~~~~~~~~~~~~~~~~~^``"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_25",
     "type": "mapgen",
     "weight": 250
   },
@@ -968,7 +404,6 @@
         "``````````~~~~~~~~``````"
       ],
       "items": { "`": { "item": "cavern", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_26",
@@ -1006,7 +441,6 @@
         "````````````````````~~~~"
       ],
       "items": { "`": { "item": "cavern", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_27",
@@ -1045,7 +479,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
       "items": { "`": { "item": "cavern", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_28",
@@ -1090,7 +523,6 @@
         "c": { "item": "mechanics", "chance": 30 }
       },
       "place_vehicles": [ { "vehicle": "golf_cart", "x": [ 17, 19 ], "y": [ 18, 20 ], "chance": 75, "rotation": 90 } ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_29",
@@ -1130,7 +562,6 @@
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "r": { "item": "supplies_spares_vehicle", "chance": 40 }, "c": { "item": "mechanics", "chance": 30 } },
       "place_vehicles": [ { "vehicle": "golf_cart", "x": [ 3, 6 ], "y": [ 17, 19 ], "chance": 75, "rotation": 90 } ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_30",
@@ -1169,7 +600,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "r": { "item": "electronics", "chance": 40 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_31",
@@ -1208,7 +638,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "r": { "item": "sewage_plant", "chance": 45 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_32",
@@ -1248,7 +677,6 @@
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "place_fields": [ { "field": "fd_blood", "x": [ 20, 22 ], "y": [ 0, 2 ], "age": 0, "density": 1, "repeat": 8 } ],
       "place_vehicles": [ { "vehicle": "golf_cart", "x": 18, "y": 10, "chance": 25, "rotation": 270 } ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_33",
@@ -1288,7 +716,6 @@
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "place_fields": [ { "field": "fd_blood", "x": [ 16, 18 ], "y": [ 0, 2 ], "age": 0, "density": 1, "repeat": 8 } ],
       "place_vehicles": [ { "vehicle": "golf_cart", "x": [ 3, 18 ], "y": 1, "chance": 15, "rotation": 0 } ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_34",
@@ -1327,7 +754,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "(": { "item": "sewer", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_35",
@@ -1366,7 +792,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "place_vehicles": [ { "vehicle": "golf_cart", "x": [ 3, 18 ], "y": 1, "chance": 15, "rotation": 0 } ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_36",
@@ -1493,7 +918,6 @@
         "L": { "item": "reactor_equipment", "chance": 45 },
         "r": { "item": "electronics", "chance": 45 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_39",
@@ -1537,7 +961,6 @@
         "L": { "item": "reactor_equipment", "chance": 45 },
         "r": { "item": "chem_school", "chance": 45 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_40",
@@ -1615,158 +1038,9 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "place_vehicles": [ { "vehicle": "golf_cart", "x": 5, "y": [ 6, 12 ], "chance": 50, "rotation": 90 } ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_42",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_43",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_44",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_45",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_46",
     "type": "mapgen",
     "weight": 250
   },
@@ -1802,7 +1076,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "`": { "item": "cavern", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_47",
@@ -1841,7 +1114,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "`": { "item": "cavern", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_48",
@@ -1880,7 +1152,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "`": { "item": "cavern", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_49",
@@ -1919,7 +1190,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "`": { "item": "cavern", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_50",
@@ -2173,7 +1443,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "L": { "item": "sewage_plant", "chance": 40 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_56",
@@ -2249,7 +1518,6 @@
         "~~~~~~e   8  eeeeeeeeee "
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_58",
@@ -2333,7 +1601,6 @@
         "O": { "item": "reactor_core", "chance": 30 },
         "r": { "item": "electronics", "chance": 45 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_60",
@@ -2377,7 +1644,6 @@
         "L": { "item": "reactor_equipment", "chance": 45 },
         "r": { "item": "electronics", "chance": 45 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_61",
@@ -2458,7 +1724,6 @@
         "    e~~~~~~((~~~~~~~~~~~"
       ],
       "items": { "(": { "item": "sewer", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_63",
@@ -2497,7 +1762,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "`": { "item": "cavern", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_64",
@@ -2536,7 +1800,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "`": { "item": "cavern", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_65",
@@ -2575,84 +1838,9 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "`": { "item": "cavern", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_66",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_67",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_68",
     "type": "mapgen",
     "weight": 250
   },
@@ -2688,7 +1876,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "place_vehicles": [ { "vehicle": "golf_cart", "x": 9, "y": [ 6, 19 ], "chance": 25, "rotation": 270 } ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_69",
@@ -2726,7 +1913,6 @@
         "~~~~~~~~~~~(((~~~~~~~~~~"
       ],
       "items": { "(": { "item": "sewer", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_70",
@@ -2764,7 +1950,6 @@
         "~eeeeee e~ee          ee"
       ],
       "items": { "r": { "item": "weapon_testing_lab", "chance": 35 }, "(": { "item": "sewer", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_71",
@@ -2804,7 +1989,6 @@
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "place_fields": [ { "field": "fd_blood", "x": [ 8, 10 ], "y": [ 19, 21 ], "age": 0, "density": 1, "repeat": 8 } ],
       "items": { "k": { "item": "mil_armor_torso", "chance": 100 }, "(": { "item": "sewer", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_72",
@@ -2886,7 +2070,6 @@
         "~ec      ec   e~~~~~~e@ "
       ],
       "items": { "c": { "item": "weapon_testing_lab", "chance": 20 }, "(": { "item": "sewer", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_74",
@@ -2929,7 +2112,6 @@
         "c": { "item": "weapon_testing_lab", "chance": 20 },
         "(": { "item": "sewer", "chance": 1 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_75",
@@ -2973,7 +2155,6 @@
         "r": { "item": "cleaning", "chance": 30 },
         "(": { "item": "sewer", "chance": 1 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_76",
@@ -3018,7 +2199,6 @@
         "(": { "item": "sewer", "chance": 1 }
       },
       "place_vehicles": [ { "vehicle": "golf_cart", "x": 18, "y": [ 6, 19 ], "chance": 25, "rotation": 90 } ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_77",
@@ -3134,7 +2314,6 @@
         "ee e~~~~~~~(((~~e e~e@  "
       ],
       "items": { "(": { "item": "sewer", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_80",
@@ -3172,7 +2351,6 @@
         "e~~e11 e~e  e   488 rrrr"
       ],
       "items": { "r": { "item": "electronics", "chance": 30 }, "(": { "item": "sewer", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_81",
@@ -3210,7 +2388,6 @@
         " 884  e~~~~~~~~~~~~~~~~~"
       ],
       "items": { "r": { "item": "tools_blacksmith", "chance": 30 }, "(": { "item": "sewer", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_82",
@@ -3248,7 +2425,6 @@
         "~~~~~~~~e7777777777e  Y "
       ],
       "items": { "r": { "item": "tools_blacksmith", "chance": 30 }, "(": { "item": "sewer", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_83",
@@ -3324,7 +2500,6 @@
         "~~~~~~~~~~~(((~~~~~~~~~~"
       ],
       "items": { "L": { "item": "chem_school", "chance": 30 }, "(": { "item": "sewer", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_85",
@@ -3364,7 +2539,6 @@
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "`": { "item": "cavern", "chance": 1 } },
       "place_vehicles": [ { "vehicle": "golf_cart", "x": [ 15, 16 ], "y": [ 6, 15 ], "chance": 75, "rotation": 180 } ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_86",
@@ -3403,7 +2577,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "`": { "item": "cavern", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_87",
@@ -3442,84 +2615,9 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "`": { "item": "cavern", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_88",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_89",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_90",
     "type": "mapgen",
     "weight": 250
   },
@@ -3556,7 +2654,6 @@
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "k": { "item": "mil_armor_torso", "chance": 100 }, "c": { "item": "mags_milspec", "chance": 20 } },
       "place_vehicles": [ { "vehicle": "golf_cart", "x": 9, "y": [ 4, 20 ], "chance": 25, "rotation": 90 } ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_91",
@@ -3637,7 +2734,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "L": { "item": "mechanics", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_93",
@@ -3774,7 +2870,6 @@
         "c": { "item": "weapon_testing_lab", "chance": 20 },
         "r": { "item": "ammo_parts", "chance": 45 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_96",
@@ -3818,7 +2913,6 @@
         "r": { "item": "cleaning", "chance": 30 },
         "(": { "item": "sewer", "chance": 1 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_97",
@@ -3861,7 +2955,6 @@
         "L": { "item": "army_personal_locker", "chance": 30 },
         "(": { "item": "sewer", "chance": 1 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_98",
@@ -3904,7 +2997,6 @@
         "L": { "item": "army_personal_locker", "chance": 30 },
         "r": { "item": "cleaning", "chance": 30 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_99",
@@ -4227,7 +3319,6 @@
         "6e~~~~~~~~~(((~~~~~~~~~~"
       ],
       "items": { "(": { "item": "sewer", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_107",
@@ -4266,7 +3357,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "`": { "item": "cavern", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_108",
@@ -4309,7 +3399,6 @@
         "g": { "item": "virology_lab_fridge", "chance": 40 },
         "`": { "item": "cavern", "chance": 1 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_109",
@@ -4348,84 +3437,9 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_CONSTRUCTION", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "c": { "item": "virology_lab", "chance": 20 }, "`": { "item": "cavern", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_110",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_111",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_112",
     "type": "mapgen",
     "weight": 250
   },
@@ -4462,7 +3476,6 @@
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "L": { "item": "weapon_testing_lab", "chance": 30 }, "c": { "item": "weapon_testing_lab", "chance": 20 } },
       "place_vehicles": [ { "vehicle": "golf_cart", "x": [ 13, 14 ], "y": [ 16, 19 ], "chance": 75, "rotation": 180 } ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_113",
@@ -4588,7 +3601,6 @@
         "c": { "item": "weapon_testing_lab", "chance": 20 },
         "r": { "item": "ammo_parts", "chance": 45 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_116",
@@ -4717,7 +3729,6 @@
         "L": { "item": "army_personal_locker", "chance": 30 },
         "r": { "item": "mechanics", "chance": 45 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_119",
@@ -4756,7 +3767,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "B": { "item": "army_bed", "chance": 40 }, "L": { "item": "army_personal_locker", "chance": 30 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_120",
@@ -4799,7 +3809,6 @@
         "L": { "item": "army_personal_locker", "chance": 30 },
         "Z": { "item": "building_rubble", "chance": 60 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_121",
@@ -5098,7 +4107,6 @@
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.1 } ],
       "place_fields": [ { "field": "fd_blood", "x": [ 19, 21 ], "y": [ 9, 11 ], "age": 0, "density": 1, "repeat": 8 } ],
       "items": { "r": { "item": "electronics", "chance": 40 }, "c": { "item": "robots", "chance": 25 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_128",
@@ -5141,7 +4149,6 @@
         "r": { "item": "electronics", "chance": 40 },
         "c": { "item": "robots", "chance": 25 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_129",
@@ -5184,7 +4191,6 @@
         "g": { "item": "virology_lab_fridge", "chance": 40 },
         "L": { "item": "sewage_plant", "chance": 40 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_130",
@@ -5228,7 +4234,6 @@
         "r": { "item": "cleaning", "chance": 40 },
         "L": { "item": "sewage_plant", "chance": 40 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_131",
@@ -5266,84 +4271,9 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "items": { "c": { "item": "virology_lab", "chance": 20 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_132",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_133",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_134",
     "type": "mapgen",
     "weight": 250
   },
@@ -5379,7 +4309,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "place_vehicles": [ { "vehicle": "golf_cart", "x": 9, "y": [ 4, 20 ], "chance": 25, "rotation": 90 } ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_135",
@@ -5500,7 +4429,6 @@
         "`````$$$$````e~~~~~~~~~~",
         "``22$$$$$$22`e~~~~~~~~~~"
       ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_138",
@@ -5537,7 +4465,6 @@
         "~~~~~~~~~~~~~~~~~~~~~~e3",
         "~~eeeeeeeeeeeeeeeeeeeee3"
       ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_139",
@@ -5575,7 +4502,6 @@
         "                        "
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_140",
@@ -5614,7 +4540,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "r": { "item": "mechanics", "chance": 80 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_141",
@@ -5658,7 +4583,6 @@
         "(": { "item": "sewer", "chance": 1 },
         "r": { "item": "cleaning", "chance": 40 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_142",
@@ -5702,7 +4626,6 @@
         "(": { "item": "sewer", "chance": 1 },
         "r": { "item": "cleaning", "chance": 40 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_143",
@@ -5817,7 +4740,6 @@
         "________________________"
       ],
       "items": { "(": { "item": "sewer", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_146",
@@ -5855,7 +4777,6 @@
         "____________________eeee"
       ],
       "items": { "(": { "item": "sewer", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_147",
@@ -5897,7 +4818,6 @@
         "r": { "item": "electronics", "chance": 40 },
         "(": { "item": "sewer", "chance": 1 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_148",
@@ -5940,7 +4860,6 @@
         "o": { "item": "robots", "chance": 40 },
         "r": { "item": "electronics", "chance": 40 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_149",
@@ -6022,7 +4941,6 @@
         "(": { "item": "sewer", "chance": 1 },
         "r": { "item": "electronics", "chance": 40 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_151",
@@ -6122,117 +5040,6 @@
     "object": {
       "fill_ter": "t_floor",
       "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_154",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_155",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_156",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
         "~~~~~~~~~~eeeeeeeeeeeeee",
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~",
@@ -6303,7 +5110,6 @@
         { "vehicle": "golf_cart", "x": [ 13, 14 ], "y": [ 12, 15 ], "chance": 50, "rotation": 0 },
         { "vehicle": "golf_cart", "x": [ 13, 14 ], "y": [ 17, 19 ], "chance": 50, "rotation": 0 }
       ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_158",
@@ -6465,7 +5271,6 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "items": { "d": { "item": "office", "chance": 40 }, "o": { "item": "mil_surplus", "chance": 45 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_162",
@@ -6548,7 +5353,6 @@
         "     ,____e~~~~~~~~~~~~~"
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_164",
@@ -6587,7 +5391,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "B": { "item": "army_bed", "chance": 40 }, "L": { "item": "army_personal_locker", "chance": 30 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_165",
@@ -6630,7 +5433,6 @@
         "L": { "item": "army_personal_locker", "chance": 30 },
         "r": { "item": "cleaning", "chance": 40 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_166",
@@ -6669,7 +5471,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "B": { "item": "army_bed", "chance": 40 }, "L": { "item": "army_personal_locker", "chance": 30 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_167",
@@ -6711,7 +5512,6 @@
         "L": { "item": "army_personal_locker", "chance": 30 },
         "(": { "item": "sewer", "chance": 1 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_168",
@@ -6749,7 +5549,6 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_169",
@@ -6788,7 +5587,6 @@
       ],
       "items": { "(": { "item": "sewer", "chance": 1 } },
       "place_vehicles": [ { "vehicle": "golf_cart", "x": [ 4, 19 ], "y": 3, "chance": 25, "rotation": 180 } ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_170",
@@ -6826,7 +5624,6 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "items": { "(": { "item": "sewer", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_171",
@@ -6864,7 +5661,6 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "items": { "(": { "item": "sewer", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_172",
@@ -6903,7 +5699,6 @@
       ],
       "items": { "(": { "item": "sewer", "chance": 1 } },
       "place_vehicles": [ { "vehicle": "golf_cart", "x": [ 4, 19 ], "y": 3, "chance": 25, "rotation": 0 } ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_173",
@@ -6951,7 +5746,6 @@
         "r": { "item": "virology_lab", "chance": 40 },
         "L": { "item": "chem_lab", "chance": 40 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_174",
@@ -6996,47 +5790,9 @@
         "r": { "item": "cleaning", "chance": 40 },
         "L": { "item": "sewage_plant", "chance": 40 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_175",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_176",
     "type": "mapgen",
     "weight": 250
   },
@@ -7070,7 +5826,6 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_177",
@@ -7148,7 +5903,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "c": { "item": "chem_lab", "chance": 25 }, "r": { "item": "electronics", "chance": 45 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_179",
@@ -7186,13 +5940,13 @@
         "~~~~~~~~~~~~~~~~e       "
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
+      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "items": {
         "T": { "item": "office_breakroom", "chance": 25 },
         "g": { "item": "fridgesnacks", "chance": 60 },
         "(": { "item": "sewer", "chance": 1 },
         "r": { "item": "chem_lab", "chance": 45 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_180",
@@ -7231,7 +5985,6 @@
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
       "items": { "c": { "item": "chem_lab", "chance": 25 }, "r": { "item": "mechanics", "chance": 45 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_181",
@@ -7269,8 +6022,8 @@
         "G=GG e~~~~~~~~~~~~~~~~~~"
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
-      "items": { "r": { "item": "tools_common", "chance": 45 } },
       "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
+      "items": { "r": { "item": "tools_common", "chance": 45 } },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_182",
@@ -7307,7 +6060,6 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_183",
@@ -7345,7 +6097,6 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_184",
@@ -7383,7 +6134,6 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "place_monsters": [ { "monster": "GROUP_WRAITHEON_INFANTRY", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.075 } ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_185",
@@ -7421,7 +6171,6 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "items": { "O": { "item": "dresser", "chance": 60 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_186",
@@ -7463,7 +6212,6 @@
         "O": { "item": "dresser", "chance": 60 },
         "r": { "item": "dresser", "chance": 60 }
       },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_187",
@@ -7501,7 +6249,6 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "items": { "(": { "item": "dresser", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_188",
@@ -7539,7 +6286,6 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "items": { "(": { "item": "dresser", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_189",
@@ -7577,7 +6323,6 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "items": { "(": { "item": "dresser", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_190",
@@ -7615,306 +6360,9 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "items": { "(": { "item": "dresser", "chance": 1 } },
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_191",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_192",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_193",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_194",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_195",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_196",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_197",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_198",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_199",
     "type": "mapgen",
     "weight": 250
   },
@@ -8108,602 +6556,9 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~",
         "~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
       "palettes": [ "national_guard_camp_b" ]
     },
     "om_terrain": "national_guard_camp_b1_204",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_205",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_206",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_207",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_208",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_209",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_210",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_211",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_212",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_213",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_214",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_215",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_216",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_217",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_218",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_219",
-    "type": "mapgen",
-    "weight": 250
-  },
-  {
-    "method": "json",
-    "object": {
-      "fill_ter": "t_floor",
-      "rows": [
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~",
-        "~~~~~~~~~~~~~~~~~~~~~~~~"
-      ],
-      "terrain": { "=": [ "t_door_metal_c", "t_door_metal_locked", "t_door_metal_locked", "t_door_metal_locked" ] },
-      "palettes": [ "national_guard_camp_b" ]
-    },
-    "om_terrain": "national_guard_camp_b1_220",
     "type": "mapgen",
     "weight": 250
   }
