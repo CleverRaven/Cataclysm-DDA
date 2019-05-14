@@ -690,8 +690,8 @@ void mx_minefield( map &m, const tripoint &abs_sub )
     const std::string text = _( "DANGER! MINEFIELD!" );
     const int x = SEEX * 2 - 1;
     const int y = SEEY * 2 - 1;
-    const int x1 = rng( 0, SEEX * 2 ), x2 = rng( 0, SEEX * 2 );
-    const int y1 = rng( 0, SEEY * 2 ), y2 = rng( 0, SEEY * 2 );
+    const int x1 = rng( SEEX / 2, SEEX / 2 + SEEX ), x2 = rng( SEEX / 2, SEEX / 2 + SEEX );
+    const int y1 = rng( SEEY / 2, SEEY / 2 + SEEY ), y2 = rng( SEEY / 2, SEEY / 2 + SEEY );
 
     m.furn_set( x1, 0, furn_str_id( "f_sign_warning" ) );
     m.set_signage( tripoint( x1,  0, abs_sub.z ), text );
