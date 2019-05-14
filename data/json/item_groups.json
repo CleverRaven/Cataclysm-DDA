@@ -9715,8 +9715,6 @@
     "type": "item_group",
     "subtype": "distribution",
     "id": "miniatm",
-    "items": [
-      { "item": "mini_atm" }
-    ]
+    "items": [ { "item": "mini_atm" } ]
   }
 ]
