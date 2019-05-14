@@ -451,7 +451,7 @@ The Blob is vast. It cannot be communicated with nor reasoned with. The most we 
 With the Blob itself, there really aren't any. You can't convince Azathoth to go away and leave us alone, it's not a thing. Zombies cannot be cured; their brains are mush, they are dead. Perhaps sufficient purifier could clear your own XE-037 infestation for a while, but unless you plan to drink treated water the rest of your life, it's going to come back, and what have you really accomplished? Survivors' best hope is to get the Blob to leave them alone, which is mostly wants to do anyway.
 
 **Ubiquitous, reanimatory, mutagenic**
-See "Effects of Blob Infection" for more information.
+See [Effects of Blob Infection](#effects-of-blob-infection) for more information.
 
 The groundwater is infected with XE-037. Every creature on Earth is contaminated. In larger mammals, this contamination allows XE-037 to reanimate us after we die, becoming zombies. In insects, it causes mutation to larger forms.
 
