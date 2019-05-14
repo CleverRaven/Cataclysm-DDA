@@ -680,7 +680,11 @@ void mx_minefield( map &m, const tripoint &abs_sub )
     for( int i = 0; i < num_mines; i++ ) {
         // No mines at the extreme edges: safe to walk on a sign tile
         const int x = rng( 1, SEEX * 2 - 2 ), y = rng( 1, SEEY * 2 - 2 );
-        mtrap_set( &m, x, y, tr_landmine_buried );
+        if( m.has_flag( "DIGGABLE", x, y ) ) {
+            mtrap_set( &m, x, y, tr_landmine_buried );
+        } else {
+            mtrap_set( &m, x, y, tr_landmine );
+        }
     }
 
     const std::string text = _( "DANGER! MINEFIELD!" );
