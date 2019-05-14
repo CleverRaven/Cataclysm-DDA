@@ -1684,17 +1684,21 @@ std::vector<window_panel> initialize_default_classic_panels()
 {
     std::vector<window_panel> ret;
 
-    ret.emplace_back( window_panel( draw_health_classic, "Health", 7, 44, true ) );
-    ret.emplace_back( window_panel( draw_location_classic, "Location", 1, 44, true ) );
-    ret.emplace_back( window_panel( draw_weather_classic, "Weather", 1, 44, true ) );
-    ret.emplace_back( window_panel( draw_lighting_classic, "Lighting", 1, 44, true ) );
-    ret.emplace_back( window_panel( draw_weapon_classic, "Weapon", 1, 44, true ) );
-    ret.emplace_back( window_panel( draw_time_classic, "Time", 1, 44, true ) );
-    ret.emplace_back( window_panel( draw_armor, "Armor", 5, 44, false ) );
-    ret.emplace_back( window_panel( draw_compass_padding, "Compass", 8, 44, true ) );
-    ret.emplace_back( window_panel( draw_messages_classic, "Log", -2, 44, true ) );
+    ret.emplace_back( window_panel( draw_health_classic, translate_marker( "Health" ), 7, 44, true ) );
+    ret.emplace_back( window_panel( draw_location_classic, translate_marker( "Location" ), 1, 44,
+                                    true ) );
+    ret.emplace_back( window_panel( draw_weather_classic, translate_marker( "Weather" ), 1, 44,
+                                    true ) );
+    ret.emplace_back( window_panel( draw_lighting_classic, translate_marker( "Lighting" ), 1, 44,
+                                    true ) );
+    ret.emplace_back( window_panel( draw_weapon_classic, translate_marker( "Weapon" ), 1, 44, true ) );
+    ret.emplace_back( window_panel( draw_time_classic, translate_marker( "Time" ), 1, 44, true ) );
+    ret.emplace_back( window_panel( draw_armor, translate_marker( "Armor" ), 5, 44, false ) );
+    ret.emplace_back( window_panel( draw_compass_padding, translate_marker( "Compass" ), 8, 44,
+                                    true ) );
+    ret.emplace_back( window_panel( draw_messages_classic, translate_marker( "Log" ), -2, 44, true ) );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 44, true ) );
+    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 44, true ) );
 #endif // TILES
 
     return ret;
@@ -1704,18 +1708,18 @@ std::vector<window_panel> initialize_default_compact_panels()
 {
     std::vector<window_panel> ret;
 
-    ret.emplace_back( window_panel( draw_limb2, "Limbs", 3, 32, true ) );
-    ret.emplace_back( window_panel( draw_stealth, "Sound", 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_stats, "Stats", 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_time, "Time", 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_needs, "Needs", 3, 32, true ) );
-    ret.emplace_back( window_panel( draw_env_compact, "Env", 6, 32, true ) );
-    ret.emplace_back( window_panel( draw_veh_compact, "Vehicle", 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_armor, "Armor", 5, 32, false ) );
-    ret.emplace_back( window_panel( draw_messages_classic, "Log", -2, 32, true ) );
-    ret.emplace_back( window_panel( draw_compass, "Compass", 8, 32, true ) );
+    ret.emplace_back( window_panel( draw_limb2, translate_marker( "Limbs" ), 3, 32, true ) );
+    ret.emplace_back( window_panel( draw_stealth, translate_marker( "Sound" ), 1, 32, true ) );
+    ret.emplace_back( window_panel( draw_stats, translate_marker( "Stats" ), 1, 32, true ) );
+    ret.emplace_back( window_panel( draw_time, translate_marker( "Time" ), 1, 32, true ) );
+    ret.emplace_back( window_panel( draw_needs, translate_marker( "Needs" ), 3, 32, true ) );
+    ret.emplace_back( window_panel( draw_env_compact, translate_marker( "Env" ), 6, 32, true ) );
+    ret.emplace_back( window_panel( draw_veh_compact, translate_marker( "Vehicle" ), 1, 32, true ) );
+    ret.emplace_back( window_panel( draw_armor, translate_marker( "Armor" ), 5, 32, false ) );
+    ret.emplace_back( window_panel( draw_messages_classic, translate_marker( "Log" ), -2, 32, true ) );
+    ret.emplace_back( window_panel( draw_compass, translate_marker( "Compass" ), 8, 32, true ) );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 32, true ) );
+    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true ) );
 #endif // TILES
 
     return ret;
@@ -1725,20 +1729,21 @@ std::vector<window_panel> initialize_default_label_panels()
 {
     std::vector<window_panel> ret;
 
-    ret.emplace_back( window_panel( draw_hint, "Hint", 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_limb, "Limbs", 3, 32, true ) );
-    ret.emplace_back( window_panel( draw_char, "Movement", 3, 32, true ) );
-    ret.emplace_back( window_panel( draw_stat, "Stats", 3, 32, true ) );
-    ret.emplace_back( window_panel( draw_veh_padding, "Vehicle", 1, 32, true ) );
-    ret.emplace_back( window_panel( draw_env1, "Location", 5, 32, true ) );
-    ret.emplace_back( window_panel( draw_weapon_labels, "Weapon", 2, 32, true ) );
-    ret.emplace_back( window_panel( draw_mod1, "Needs", 5, 32, true ) );
-    ret.emplace_back( window_panel( draw_messages, "Log", -2, 32, true ) );
-    ret.emplace_back( window_panel( draw_env2, "Moon", 2, 32, false ) );
-    ret.emplace_back( window_panel( draw_mod2, "Armor", 5, 32, false ) );
-    ret.emplace_back( window_panel( draw_compass_padding, "Compass", 8, 32, true ) );
+    ret.emplace_back( window_panel( draw_hint, translate_marker( "Hint" ), 1, 32, true ) );
+    ret.emplace_back( window_panel( draw_limb, translate_marker( "Limbs" ), 3, 32, true ) );
+    ret.emplace_back( window_panel( draw_char, translate_marker( "Movement" ), 3, 32, true ) );
+    ret.emplace_back( window_panel( draw_stat, translate_marker( "Stats" ), 3, 32, true ) );
+    ret.emplace_back( window_panel( draw_veh_padding, translate_marker( "Vehicle" ), 1, 32, true ) );
+    ret.emplace_back( window_panel( draw_env1, translate_marker( "Location" ), 5, 32, true ) );
+    ret.emplace_back( window_panel( draw_weapon_labels, translate_marker( "Weapon" ), 2, 32, true ) );
+    ret.emplace_back( window_panel( draw_mod1, translate_marker( "Needs" ), 5, 32, true ) );
+    ret.emplace_back( window_panel( draw_messages, translate_marker( "Log" ), -2, 32, true ) );
+    ret.emplace_back( window_panel( draw_env2, translate_marker( "Moon" ), 2, 32, false ) );
+    ret.emplace_back( window_panel( draw_mod2, translate_marker( "Armor" ), 5, 32, false ) );
+    ret.emplace_back( window_panel( draw_compass_padding, translate_marker( "Compass" ), 8, 32,
+                                    true ) );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, "Map", -1, 32, true ) );
+    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true ) );
 #endif // TILES
 
     return ret;
@@ -1748,9 +1753,9 @@ std::map<std::string, std::vector<window_panel>> initialize_default_panel_layout
 {
     std::map<std::string, std::vector<window_panel>> ret;
 
-    ret.emplace( std::make_pair( "classic", initialize_default_classic_panels() ) );
-    ret.emplace( std::make_pair( "compact", initialize_default_compact_panels() ) );
-    ret.emplace( std::make_pair( "labels", initialize_default_label_panels() ) );
+    ret.emplace( std::make_pair( translate_marker( "classic" ), initialize_default_classic_panels() ) );
+    ret.emplace( std::make_pair( translate_marker( "compact" ), initialize_default_compact_panels() ) );
+    ret.emplace( std::make_pair( translate_marker( "labels" ), initialize_default_label_panels() ) );
 
     return ret;
 }
@@ -1933,12 +1938,13 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                            panels[i].toggle ?
                            source_index == i && selected ? c_yellow : c_white : c_dark_gray,
                            selected && index - 1 == i ? " %s" : "%s",
-                           selected && index - 1 == i ? saved_name : panels[i].get_name() );
+                           selected && index - 1 == i ? _( saved_name ) : _( panels[i].get_name() ) );
 
             }
             int i = 1;
             for( const auto &layout : layouts ) {
-                mvwprintz( w, i, 47, current_layout_id == layout.first ? c_light_blue : c_white, layout.first );
+                mvwprintz( w, i, 47, current_layout_id == layout.first ? c_light_blue : c_white,
+                           _( layout.first ) );
                 i++;
             }
             mvwprintz( w, index, 1 + ( column_width * column ), c_yellow, ">>" );
