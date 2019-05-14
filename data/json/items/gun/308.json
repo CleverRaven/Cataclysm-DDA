@@ -310,7 +310,7 @@
     "description": "A German battle rifle with a 13\" barrel and telescopic stock.  It is a gas operated, rotating bolt rifle with a short-stroke piston design similar to that of the G36.",
     "weight": 3870,
     "volume": 7,
-    "price": 280000,
+    "price": 320000,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
@@ -327,14 +327,14 @@
     ]
   },
   {
-    "id": "hk417_20",
-    "copy-from": "rifle_auto",
+    "id": "g28_e3",
+    "copy-from": "rifle_semi",
     "type": "GUN",
-    "name": "HK417 A2",
-    "description": "A German battle rifle with a 20\" barrel and telescopic stock.  It is a gas operated, rotating bolt rifle with a short-stroke piston design similar to that of the G36.",
-    "weight": 4390,
+    "name": "G28 E3",
+    "description": "A German DMR derived from the HK417.  It is a gas operated, rotating bolt rifle accurate to 1.5 MOA with standard ammunition.",
+    "weight": 5150,
     "volume": 8,
-    "price": 280000,
+    "price": 320000,
     "to_hit": -1,
     "bashing": 12,
     "material": [ "steel", "plastic" ],
@@ -344,7 +344,6 @@
     "ranged_damage": -1,
     "dispersion": 120,
     "durability": 8,
-    "burst": 10,
     "built_in_mods": [ "adjustable_stock", "bipod", "rifle_scope" ],
     "magazines": [
       [ "308", [ "hk417mag_20rd", "hk417mag_10rd" ] ]
