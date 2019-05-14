@@ -267,117 +267,116 @@ These are descriptions of factions that are already in the game.
 "A conglomeration of entrepreneurs and businessmen that stand together to hammer-out an existence through trade and industry."
 
 
-Description: The Free Merchants are the remnants of "6 busloads of office workers and soccer moms" after the courageous people died fighting zombies.  The survivors want to fortify their evacuee center of a base and survive as a trading hub.
+**Description**: The Free Merchants are the remnants of "6 busloads of office workers and soccer moms" after the courageous people died fighting zombies.  The survivors want to fortify their evacuee center of a base and survive as a trading hub.
 
 They have a lifeboat mentality at this point, and their lifeboat is full.  They are not charitable or nice and they pretty much require that people be able to pull their own weight or be abandoned.
 
-Structure: The upper floor of the Evac Center is staffed by the few remaining combat capable people, while the rest live in the basement.
+**Structure**: The upper floor of the Evac Center is staffed by the few remaining combat capable people, while the rest live in the basement.
 
 They're nominally a democracy on a town hall model, though currently there's an emergency manager for the first year or two post-Cataclysm.
 
-Goals: Survive through trade.
+**Goals**: Survive through trade.
 
-Size: 60-160+ people?
+**Size**: 60-160+ people?
 
-Attitudes: Allied to the Old Guard as the last remnants of military force and organized government.  The Tacoma Commune is an allied off-shoot.  Trades with the Robofac, random scavengers, God's Chosen, the Great Library, the Campus, the Brotherhood of the Tentacle, Strongarm Survivalists, Marloss Evangelists, and Fence Men.  Preyed on by the Hell's Raiders.
+**Attitudes**: Allied to the Old Guard as the last remnants of military force and organized government.  The Tacoma Commune is an allied off-shoot.  Trades with the Robofac, random scavengers, God's Chosen, the Great Library, the Campus, the Brotherhood of the Tentacle, Strongarm Survivalists, Marloss Evangelists, and Fence Men.  Preyed on by the Hell's Raiders.
 
 Opposed to Mycus, triffids, zombies, and nether creatures, though has no ability to take the fight to them and can barely defend itself against zombie hordes.
 
 Mildly anti-mutant.  Neither for or against augmentation.  Doesn't quite get that the Marloss Evangelists are mutants.
 
-Bases: Controls an evacuee center.  The Tacoma Commune is a farm project on a nearby ranch.
+**Bases**: Controls an evacuee center.  The Tacoma Commune is a farm project on a nearby ranch.
 
-Trade/Economics: Has a robust internal economy, using specifically stamped US greenbacks as scrip.  Honors their scrip, however it comes to them.  Will buy eCards at a huge discount and sell them at a significant discount.  Will buy money bundles at a premium (compared to their value as paper).
+**Trade/Economics**: Has a robust internal economy, using specifically stamped US greenbacks as scrip.  Honors their scrip, however it comes to them.  Will buy eCards at a huge discount and sell them at a significant discount.  Will buy money bundles at a premium (compared to their value as paper).
 
-Missions (fairly complete): Deal with monsters and bandits, get parts for the center, help the Tacoma Commune.
+**Missions** (fairly complete): Deal with monsters and bandits, get parts for the center, help the Tacoma Commune.
 
 ##### Hell's Raiders
 
-"The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat."
+*"The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat."*
 
+**Description**: The Hell's Raiders are a collection of smaller gangs, some of which existed before the Cataclysm.  Much of the membership was already willing to commit armed robbery or more violent crimes, and their attitudes haven't changed now that law enforcement is defunct and zombies roam the land.
 
-Description: The Hell's Raiders are a collection of smaller gangs, some of which existed before the Cataclysm.  Much of the membership was already willing to commit armed robbery or more violent crimes, and their attitudes haven't changed now that law enforcement is defunct and zombies roam the land.
-
-Structure: Most gangs are led by a boss with an aptitude for leadership and violence.  The members consist of former criminals, along with some desperate people who figure having a rough bunch of thugs on your side is a good survival strategy.  Slaves round out the gang structure and perform menial labor, gardening, and other low risk but necessary work.
+**Structure**: Most gangs are led by a boss with an aptitude for leadership and violence.  The members consist of former criminals, along with some desperate people who figure having a rough bunch of thugs on your side is a good survival strategy.  Slaves round out the gang structure and perform menial labor, gardening, and other low risk but necessary work.
 
 The gang leaders themselves are led by a junta of fairly nasty mutants and augmentees who view themselves as Nietzschean ubermensch with a Will to Power (not all of them take this view explicitly, but that's the general attitude).  They are the post-Human rulers of a brave new world.  Psychopathy is common, and at least a few are post-Threshold mutants with sapiovore.  At least some of these people were involved in creating the Cataclysm, though not intentionally.  Some of them are looking for other post- and trans-humans to serve as lieutenants.
 
-Goals: The junta leadership seeks power and are willing to do what it takes to get it.  In their zero-sum worldview, other powerful factions mean less power for them, so they seek to destabilize the other factions, but they also seek to control or destroy monster factions like the Mycus, the triffids, and the mi-go.
+**Goals**: The junta leadership seeks power and are willing to do what it takes to get it.  In their zero-sum worldview, other powerful factions mean less power for them, so they seek to destabilize the other factions, but they also seek to control or destroy monster factions like the Mycus, the triffids, and the mi-go.
 
 Most gang members want to survive and be comfortable.
 
-Size: Dozens of gangs.  Gangs range from 2-3 people to 40+.  The leadership junta has 4-7 members and fights among itself with some regularly and/or gets betrayed by ambitious underlings.
+**Size**: Dozens of gangs.  Gangs range from 2-3 people to 40+.  The leadership junta has 4-7 members and fights among itself with some regularly and/or gets betrayed by ambitious underlings.
 
-Attitudes: Hostile to the Old Guard, as the other remaining powerful human faction.  Individual gangs prey on the Free Merchants, Tacoma Commune, Farm Survivalists, Strongarm Survivalists, Gods Chosen, the Campus, and the Great Library.  Performs limited trade with the Robofac.  Generally friendly with Fence Men.  The leadership despises the Neo Natives but individual gangs sometimes trade with them.  Some gangs prey on the BOTT, but the leadership would prefer to recruit the more promising members.  Marloss Evangelists sometimes poach individual gangs or even junta members, but the junta can't quite decide if Marloss berries are a path to power or not.
+**Attitudes**: Hostile to the Old Guard, as the other remaining powerful human faction.  Individual gangs prey on the Free Merchants, Tacoma Commune, Farm Survivalists, Strongarm Survivalists, Gods Chosen, the Campus, and the Great Library.  Performs limited trade with the Robofac.  Generally friendly with Fence Men.  The leadership despises the Neo Natives but individual gangs sometimes trade with them.  Some gangs prey on the BOTT, but the leadership would prefer to recruit the more promising members.  Marloss Evangelists sometimes poach individual gangs or even junta members, but the junta can't quite decide if Marloss berries are a path to power or not.
 
 Generally pro-mutant and pro-augmentation; post-Threshold mutants or powerful augmentees are more likely to be recruited than enslaved.
 
 Generally hostile to the Mycus, triffids, zombies, and nether cults.
 
-Bases: Individual gangs prefer to take over existing buildings, especially prepper cabins, LMOE shelters, apartments, or military outposts and bunkers.  Some gangs have built forts.  Any given lead has a base in a LMOE shelter, semi-functioning lab, or military outpost.
+**Bases**: Individual gangs prefer to take over existing buildings, especially prepper cabins, LMOE shelters, apartments, or military outposts and bunkers.  Some gangs have built forts.  Any given lead has a base in a LMOE shelter, semi-functioning lab, or military outpost.
 
-Trade/Economics: Has a fairly robust internal economic system based on precious metals, but no formal currency within the first year.  Favored allies (the Fence Men basically) can also trade gold/silver with them.  Other people get promissory notes to round out barter, with no guarantee that the promissory notes will be honored in the future.  The double-dealing nature of the Hell's Raiders will cause them problems in the future.
+**Trade/Economics**: Has a fairly robust internal economic system based on precious metals, but no formal currency within the first year.  Favored allies (the Fence Men basically) can also trade gold/silver with them.  Other people get promissory notes to round out barter, with no guarantee that the promissory notes will be honored in the future.  The double-dealing nature of the Hell's Raiders will cause them problems in the future.
 
-Missions: Spy on Free Merchant and Tacoma Commune caravans, subvert the Old Guard, destroy fungal infestations, destroy triffids.
+**Missions**: Spy on Free Merchant and Tacoma Commune caravans, subvert the Old Guard, destroy fungal infestations, destroy triffids.
 
-
-Note: Current members of the Hell's Raiders shoot the player on sight, so if they're going to be developed as a real faction, that needs to change.
+**Note**: Current members of the Hell's Raiders shoot the player on sight, so if they're going to be developed as a real faction, that needs to change.
 
 ##### Old Guard
 
 "The remains of the federal government.  The extent of their strength is unknown but squads of patrolling soldiers have been seen under their banner."
 
 
-Description: The Old Guard claims to be the remnants of the US Federal government, with an armada of ships in the Atlantic Ocean and a few walled off cities near the coast.  In practice, there's a pair of Old Guard agents at the Evacuee Center working with the Free Merchants, and a few squads caught in the Necropolis.
+**Description**: The Old Guard claims to be the remnants of the US Federal government, with an armada of ships in the Atlantic Ocean and a few walled off cities near the coast.  In practice, there's a pair of Old Guard agents at the Evacuee Center working with the Free Merchants, and a few squads caught in the Necropolis.
 
 The Old Guard, on the surface, seems like the "good" faction, but they're making claims they can't support and are stretched way too thin.  Their leadership also caused the Cataclysm, so it's not obvious why anyone would want to put them back in control.
 
-Structure: Practically speaking, the Old Guard is a support network that can provide limited supplies and goods to independent contractors and Federal Marshals who perform necessary tasks.
+**Structure**: Practically speaking, the Old Guard is a support network that can provide limited supplies and goods to independent contractors and Federal Marshals who perform necessary tasks.
 
-Goals: Undo the Cataclysm, or failing that, re-establish civilization under the Old Guard's control.
+**Goals**: Undo the Cataclysm, or failing that, re-establish civilization under the Old Guard's control.
 
-Size: Theoretically, tens of thousands of people.  Practically, a few dozen.
+**Size**: Theoretically, tens of thousands of people.  Practically, a few dozen.
 
-Attitudes: Friendly to any organization that accepts Old Guard guidance and seeks to stabilize the Cataclysm.  They're on good terms with the Free Merchants, Tacoma Commune, God's Chosen, the Great Library, and the Campus.  Opposed to the Fence Men, Hell's Raider, Neo-Natives, and Bravo Deserters.  Wants to establish control over the Strongarm Survivalists, Farm Survivalists, and Robofac, and would be willing to use force to settle the issue.  To the extent that the Old Guard understands that Marloss Evangelists are a front for the Mycus, they're against them.
+**Attitudes**: Friendly to any organization that accepts Old Guard guidance and seeks to stabilize the Cataclysm.  They're on good terms with the Free Merchants, Tacoma Commune, God's Chosen, the Great Library, and the Campus.  Opposed to the Fence Men, Hell's Raider, Neo-Natives, and Bravo Deserters.  Wants to establish control over the Strongarm Survivalists, Farm Survivalists, and Robofac, and would be willing to use force to settle the issue.  To the extent that the Old Guard understands that Marloss Evangelists are a front for the Mycus, they're against them.
 
 Completely neutral on the subject of mutants and augmentees.
 
 Explicitly hostile to the Mycus, triffids, zombies, and nether cults.
 
-Bases: The Old Guard has outposts at the Evacuee Center.
+**Bases**: The Old Guard has outposts at the Evacuee Center.
 
-Trade/Economics: The Old Guard is the US government, and thus thinks that trade should be handled via US greenbacks (money bundles) and eCash.  The reality of the Cataclysm means that there's been 1000% inflation, so while they technically honor eCash, they don't pay much for it.
+**Trade/Economics**: The Old Guard is the US government, and thus thinks that trade should be handled via US greenbacks (money bundles) and eCash.  The reality of the Cataclysm means that there's been 1000% inflation, so while they technically honor eCash, they don't pay much for it.
 
-Missions (partially complete): Deal with bandits, investigate labs, rescue soldiers from the Necropolis, bring Farm/Strongarm Survivalists into the fold.
+**Missions** (partially complete): Deal with bandits, investigate labs, rescue soldiers from the Necropolis, bring Farm/Strongarm Survivalists into the fold.
 
-Resources: The key resource of the Old Guard is their fleets.  Due to the isolated, regimented and self-sufficient nature of naval vessels (including merchant vessels), there was a vastly higher survival rate among in-transit ships than among the general population. While the fleets took losses from many sources, there are a number of fully-crewed and operational ships, including some very large vessels. This resource comes at a great cost however, the manpower required to operate and maintain these vessels accounts for the majority of the Old Guard population, and the resources they require is an unsustainable drain on the faction.
+**Resources**: The key resource of the Old Guard is their fleets.  Due to the isolated, regimented and self-sufficient nature of naval vessels (including merchant vessels), there was a vastly higher survival rate among in-transit ships than among the general population. While the fleets took losses from many sources, there are a number of fully-crewed and operational ships, including some very large vessels. This resource comes at a great cost however, the manpower required to operate and maintain these vessels accounts for the majority of the Old Guard population, and the resources they require is an unsustainable drain on the faction.
 
-Development Direction: The major challenge facing the old guard immediately after the Cataclysm is extracting as much value as possible from the fleet while decommissioning it. Each remaining ship can either be operated as a combat vessel at great resource cost (food, equipment, provisions, fuel and manpower) or decommissioned to provide a core around which a community can be built. Even the smallest ship has a large diesel engine that can be configured as a generator, as well as secured storage facilities, sleeping berths, stocks of ammunition and weapons, and various facilities such a cooking, machine shops and medical facilities. The expected trajectory is that the Old Guard recruits survivors to act as settlers, and once they have a sufficient number and have located a strategic location for a settlement, they establish a settlement there and decommission a ship to act as the core of the settlement. In parallel with this decommissioning effort, the Old Guard would prioritize establishing a provisional and then permanent government to maintain their legitimacy.
+**Development Direction**: The major challenge facing the old guard immediately after the Cataclysm is extracting as much value as possible from the fleet while decommissioning it. Each remaining ship can either be operated as a combat vessel at great resource cost (food, equipment, provisions, fuel and manpower) or decommissioned to provide a core around which a community can be built. Even the smallest ship has a large diesel engine that can be configured as a generator, as well as secured storage facilities, sleeping berths, stocks of ammunition and weapons, and various facilities such a cooking, machine shops and medical facilities. The expected trajectory is that the Old Guard recruits survivors to act as settlers, and once they have a sufficient number and have located a strategic location for a settlement, they establish a settlement there and decommission a ship to act as the core of the settlement. In parallel with this decommissioning effort, the Old Guard would prioritize establishing a provisional and then permanent government to maintain their legitimacy.
 
-Steady State: Eventually the majority of the fleet is decommissioned as the cores of new settlements scattered across the eastern seaboard. A remaining skeleton fleet, operating with skeleton crews might continue to patrol the Atlantic coast to provide support to these settlements. The faction at this point is transitioned into expanding their control and solidifying their holdings. Settlements built around a decommissioned ship have a massive head start compared to most settlements, but at the same time Old Guard settlers would be the least equipped among the factions to adapt to the new realities of founding an inshore settlement.
+One possible ongoing campaign for hte Old Guard might be clearing and forming a permanent zombie-free zone on Nantucket, then launching a similar campaign to attempt to retake Martha's Vineyard. Player/mercenary involvement in the Martha's Vineyard campaign would be an option.
+
+**Steady State**: Eventually the majority of the fleet is decommissioned as the cores of new settlements scattered across the eastern seaboard. A remaining skeleton fleet, operating with skeleton crews might continue to patrol the Atlantic coast to provide support to these settlements. The faction at this point is transitioned into expanding their control and solidifying their holdings. Settlements built around a decommissioned ship have a massive head start compared to most settlements, but at the same time Old Guard settlers would be the least equipped among the factions to adapt to the new realities of founding an inshore settlement.
 
 ##### Tacoma Commune
 
-"An outpost started by the Free Merchants to provide a source of food and raw materials."
+*"An outpost started by the Free Merchants to provide a source of food and raw materials."*
 
-
-Description: The Free Merchants send their idle hands to work at the Tacoma Commune.  Hard work as a subsistence farmer at the Commune is unpleasant, but it's better than starving to death at the Evac Center, and Commune workers get first dibs on any food produced.
+**Description**: The Free Merchants send their idle hands to work at the Tacoma Commune.  Hard work as a subsistence farmer at the Commune is unpleasant, but it's better than starving to death at the Evac Center, and Commune workers get first dibs on any food produced.
 
 Over time, the interests of the Commune and Merchants are going to diverge, and the Commune workers are going to be less and less interested in paying taxes to the Free Merchant.
 
-Structure: The foreman and crop overseer run the joint.
+**Structure**: The foreman and crop overseer run the joint.
 
-Goals: Build a small village at a ranch.
+**Goals**: Build a small village at a ranch.
 
-Size: 2 people initially but increases over time.
+**Size**: 2 people initially but increases over time.
 
-Attitudes: A colony of the Free Merchants that initially takes their attitudes.
+**Attitudes**: A colony of the Free Merchants that initially takes their attitudes.
 
-Bases: Controls a ranch.
+**Bases**: Controls a ranch.
 
-Trade/Economics: Uses Free Merchant scrip for commerce, with substantial black market trading in cut logs and healthcare services.
+**Trade/Economics**: Uses Free Merchant scrip for commerce, with substantial black market trading in cut logs and healthcare services.
 
-Missions (fairly complete): acquire supplies necessary to expand the commune, help build the commune, defend caravans to the evac center.
+**Missions** (fairly complete): acquire supplies necessary to expand the commune, help build the commune, defend caravans to the evac center.
 
 #### Proposed Factions
 
@@ -419,44 +418,45 @@ Further extradimensional factions not only could exist, but probably should.
 #### The Mycus
 
 
-Description
+**Description**
 The Mycus loves you, and it just wants to be together forever.
 
 If the Blob is a mugger in an alley that hits you over the head and takes your stuff, the Mycus is a creepy guy with a candy van that tries to tempt you over to it.
 
-Goals
+**Goals**
 The Mycus' goals are actually rather similar to the Blob. It wants our world and our people to become part of it. Its mind, however, seems to be more suited to understanding the individual, at least somewhat. If it can't make you part of it the easy way - by filling your body with spores and using you as soil - it will try to make you part of it another way. Have you tried this fruit? It's delicious, and provides all the nutrients you need to live. Try another, go ahead. We can make all you need. Don't you want to come with us now?
 
 Didn't the fruit work? Hm. Perhaps we'll need to try something else. I know we can find a way to be together.
 
-For Survivors
+**For Survivors**
 It's dangerous and tempting to think the Mycus can be reasoned with. As interactions with NPCs become increasingly complicated it is likely the Mycus can play a big role there. It's the sort of intelligence that would send a sleeper agent into your base and try to put spores into the water. It's the sort of entity that is really tempting to build cults around. After all, if you join us, we will provide for you.
 
-Philosophically speaking
-Is joining the Mycus all that bad? I guess it depends how much you value individuality. One could see the Blob and the Mycus representing opposite ends of a transhuman spectrum. The Blob is cold and uncaring, but offers freedom. You can use it to become anything you can imagine. The Mycus will help you, but you must give yourself up to it completely.
+**Notes**: 
+Philosophically speaking... is joining the Mycus all that bad? I guess it depends how much you value individuality. One could see the Blob and the Mycus representing opposite ends of a transhuman spectrum. The Blob is cold and uncaring, but offers freedom. You can use it to become anything you can imagine. The Mycus will help you, but you must give yourself up to it completely.
 
 Also you must like mushrooms a lot.
 
 #### "The Blob", XE-037
 
-Discovery:
-See "Events of the Cataclysm" for full details.
+**Discovery**:
+See [the Background document](./lore-background.md) for full details.
 
-General Description:
+**General Description**:
 The Blob is a dispersed intelligence vastly greater than anything conceivable to a human mind. To it, we are as significant as individual cells of a body. Human researchers obtained samples of the Blob. While XEDRA experimented on it, it passively observed them and then decided Earth was a worthwhile location to add to its dispersed body. So, with less effort than a human takes to scratch its ear, the Blob rolled into our world and made us part of it.
 
-What does it want?
+**What does it want**?
 The Blob is vast. It cannot be communicated with nor reasoned with. The most we could possible manage would be to annoy it enough that it would reach out and slap us, and that would be that. Far preferable would be for us to convince it to leave us alone - which really isn't that hard, since it doesn't really care about the human survivors whatsoever. It is in many ways analogous to a Lovecraftian elder god, but one that has already woken up, devastated the world, and moved on to other things.
 
-Quest options
+**Quest options**
 With the Blob itself, there really aren't any. You can't convince Azathoth to go away and leave us alone, it's not a thing. Zombies cannot be cured; their brains are mush, they are dead. Perhaps sufficient purifier could clear your own XE-037 infestation for a while, but unless you plan to drink treated water the rest of your life, it's going to come back, and what have you really accomplished? Survivors' best hope is to get the Blob to leave them alone, which is mostly wants to do anyway.
 
-Ubiquitous, reanimatory, mutagenic
+**Ubiquitous, reanimatory, mutagenic**
+See "Effects of Blob Infection" for more information.
+
 The groundwater is infected with XE-037. Every creature on Earth is contaminated. In larger mammals, this contamination allows XE-037 to reanimate us after we die, becoming zombies. In insects, it causes mutation to larger forms.
 
 The XE-037 contaminating all living things is not the Blob, any more than a transistor is a computer processor. This basic Blob biomatter can be coerced into causing mutations in infected targets (i.e. anyone), using mutagen.
 
-TK: there should be full articles on these topics.
 
 # Gameplay
 
@@ -696,3 +696,41 @@ Things are a bit more stable now, but nobody is left alive to appreciate that.
 
 For a detailed explanation of how the Cataclysm came to be, see [the Background document](./lore-background.md).
 
+### Effects of Blob Infection
+
+Every living thing on earth is infected by the blob.  In humans, passive blob infection has a few effects.  This has some serious ramifications for gameplay and storytelling.
+
+**Increased Healing**
+Blob infection means everyone heals more quickly from basic soft tissue injuries. It doesn't affect immune systems and doesn't have as powerful an effect on broken bones. It also doesn't allow regeneration... Not unless you die, first.
+
+In-game this is an explanation for rapid player healing; note that this means that rapid healing is diegetic, ie. characters in the game world are conscious of the fact that they heal much faster than before, and may comment on it.
+
+**Mutation**
+The Blob seems to somehow store a base state for the infected creature (purifier triggers it to revert to this state). That base state can be copied and imposed on the blob by crafting mutagen that has been exposed to a target organism. The blob also responds to radiation and certain other toxic challenges by sometimes causing random mutations.
+
+Mutagens work in part by copying a particular creature's phenotype onto the blob, then merging that phenotype with the person consuming the mutagen.
+
+**Cognition**
+The blob has a potent, albeit often subtle, effect on human cognition.
+
+In about one quarter of the population, changes are basically unnoticeable.
+
+For about half the population, the blob causes an increase in risk-taking behaviour, ranging from mild unsafe practices all the way to people attacking hordes of zombies with a stick.
+
+The remaining quarter see a heavy increase in aggressive, violent behaviour, often completely out of character. The worst of these, about 1/20 of the population, become "ferals", a form of living zombie. These ferals actually contain a much higher concentration of blob, are not seen as hostile to zombies, and mutate naturally with time just as zombies do. Ferals still maintain a degree of human intelligence, depending on how severely affected they are... Some can remember tool use, for example. Ferals led to a great deal of confusion over whether the reports of the dead rising were true, as feral behavior is very similar to that of zombies.
+
+"Blob psychosis" is an out of game term for the increased violence experienced by this quarter of the population. Nobody in game calls it that. Strictly speaking it's not a psychosis, but that term seems to have stuck in our game discussions.
+
+#### Blob psychosis after the Cataclysm
+Over time, most affected people acclimate and return to normal. Some remain somewhat less risk-averse than before (eg players). Those that tended towards high violence also drift back towards normal cognition slowly, although their actions and the memory of them likely leave them changed permanently.
+
+True ferals are permanently altered. Like all living humans, their numbers were severely thinned during the Cataclysm; the fact that they weren't targeted by zombies is balanced by the fact that they didn't make much effort to avoid confrontation with police and military forces.
+
+**Ferals Now**
+The majority of feral humans are difficult to distinguish from zombies. They can grasp and use simple tools like clubs and melee weapons, and will avoid dangerous obstacles, open doors, and other very simple actions largely governed by motor memory, but that's about it. These comprise around 1% of the zombie faction.
+
+About a third of ferals remember more complex things. These ferals might use complex tools properly, and would understand for example how to use a gun, activate a Hack, or put on a kevlar vest. They lack forward thinking and executive reasoning, and would be unlikely to engage in complex tactics (they might know how to arm c4, but would not think to put it onto your base wall to blast a way in) but can nevertheless be extremely dangerous. These comprise around 0.3% of the zombie faction.
+
+A very dangerous tenth or so of ferals maintain most of their human intelligence. They can use any tools they would have in life, can plan tactics, and can assess your weaknesses and use salvaged materiel to exploit them... Basically anything an NPC should be able to do.  Likely they can talk as well, although probably it would be difficult for them to be too deceptive. These comprise about 1/1000 of the zombie faction. Over time these will probably evolve into a variant living form of zombie Masters and become another nemesis level villain for the late game. Feral Masters would be exceedingly rare, probably 1/10,000 or less, given the low odds of an intelligent feral living long enough to evolve.
+
+Many of the Blob Lieutenants sent to earth were probably the equivalent to Feral Masters among their own species.
