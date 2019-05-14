@@ -2,7 +2,7 @@
 #ifndef TRAP_H
 #define TRAP_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <functional>
 #include <vector>
 #include <string>
@@ -10,18 +10,15 @@
 #include "color.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "type_id.h"
 #include "units.h"
 
 class Creature;
 class item;
 class player;
 class map;
-struct trap;
 struct tripoint;
 class JsonObject;
-
-using trap_id = int_id<trap>;
-using trap_str_id = string_id<trap>;
 
 namespace trapfunc
 {

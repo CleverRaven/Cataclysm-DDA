@@ -18,29 +18,15 @@
 #include "enums.h"
 #include "optional.h"
 #include "string_id.h"
+#include "type_id.h"
 #include "units.h"
 #include "vehicle.h"
+#include "requirements.h"
 
 using itype_id = std::string;
 
-class vpart_info;
-
-using vpart_id = string_id<vpart_info>;
-struct vehicle_prototype;
-
-using vproto_id = string_id<vehicle_prototype>;
 class JsonObject;
-struct quality;
-
-using quality_id = string_id<quality>;
 class Character;
-struct requirement_data;
-
-using requirement_id = string_id<requirement_data>;
-
-class Skill;
-
-using skill_id = string_id<Skill>;
 
 // bitmask backing store of -certain- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
@@ -84,6 +70,7 @@ enum vpart_bitflags : int {
     VPFLAG_WASHING_MACHINE,
     VPFLAG_FLUIDTANK,
     VPFLAG_REACTOR,
+    VPFLAG_RAIL,
 
     NUM_VPFLAGS
 };
@@ -110,10 +97,16 @@ struct vpslot_engine {
     std::vector<itype_id> fuel_opts;
 };
 
+struct veh_ter_mod {
+    int movecost;   /* movecost for moving through this terrain (overrides current terrain movecost)
+                     * if movecost <= 0 ignore this parameter */
+    int penalty;    // penalty while not on this terrain (adds to movecost)
+};
+
 struct vpslot_wheel {
     float rolling_resistance = 1;
     int contact_area = 1;
-    std::vector<std::pair<std::string, int>> terrain_mod;
+    std::vector<std::pair<std::string, veh_ter_mod>> terrain_mod;
     float or_rating;
 };
 
@@ -281,7 +274,7 @@ class vpart_info
          */
         float wheel_rolling_resistance() const;
         int wheel_area() const;
-        std::vector<std::pair<std::string, int>> wheel_terrain_mod() const;
+        std::vector<std::pair<std::string, veh_ter_mod>> wheel_terrain_mod() const;
         float wheel_or_rating() const;
 
         /**

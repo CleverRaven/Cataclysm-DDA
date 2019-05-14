@@ -1,7 +1,7 @@
 #include "mapgen_functions.h"
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 #include <algorithm>
 #include <array>
 #include <iterator>
@@ -32,7 +32,7 @@
 #include "regional_settings.h"
 #include "rng.h"
 #include "string_id.h"
-#include "mongroup.h"
+#include "int_id.h"
 
 class npc_template;
 
@@ -46,16 +46,12 @@ const mtype_id mon_beekeeper( "mon_beekeeper" );
 const mtype_id mon_fungaloid_queen( "mon_fungaloid_queen" );
 const mtype_id mon_fungaloid_seeder( "mon_fungaloid_seeder" );
 const mtype_id mon_fungaloid_tower( "mon_fungaloid_tower" );
-const mtype_id mon_jabberwock( "mon_jabberwock" );
 const mtype_id mon_rat_king( "mon_rat_king" );
 const mtype_id mon_sewer_rat( "mon_sewer_rat" );
-const mtype_id mon_shia( "mon_shia" );
-const mtype_id mon_spider_web( "mon_spider_web" );
 const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 const mtype_id mon_wasp( "mon_wasp" );
 const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
-const mtype_id mon_zombie( "mon_zombie" );
 
 mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west,
                         oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
@@ -1244,68 +1240,72 @@ void mapgen_subway( map *m, oter_id terrain_type, mapgendata dat, const time_poi
 
     switch( num_dirs ) {
         case 4: // 4-way intersection
-            mapf::formatted_set_simple( m, 0, 0, "\
-.DD^^DD^.######.^DD^^DD.\n\
-DD^^DD^..######..^DD^^DD\n\
-D^^DD^....####....^DD^^D\n\
-^^DD^..............^DD^^\n\
-^DD^................^DD^\n\
-DD^..................^DD\n\
-D^....................^D\n\
-........................\n\
-........................\n\
-##........####........##\n\
-###......######......###\n\
-###......######......###\n\
-###......######......###\n\
-###......######......###\n\
-##........####........##\n\
-........................\n\
-........................\n\
-D^....................^D\n\
-DD^..................^DD\n\
-^DD^................^DD^\n\
-^^DD^..............^DD^^\n\
-D^^DD^....####....^DD^^D\n\
-DD^^DD^..######..^DD^^DD\n\
-.DD^^DD^.######.^DD^^DD.",
-                                        mapf::ter_bind( ". # ^ D",
+            mapf::formatted_set_simple( m, 0, 0,
+                                        "..^/D^^/D^....^D/^^D/^..\n"
+                                        ".^/DX^/DX......XD/^XD/^.\n"
+                                        "^/D^X/D^X......X^D/X^D/^\n"
+                                        "/D^^XD^.X......X.^DX^^D/\n"
+                                        "DXXDDXXXXXXXXXXXXXXDDXXD\n"
+                                        "^^/DX^^^X^^^^^^X^^^XD/^^\n"
+                                        "^/D^X^^^X^^^^^^X^^^X^D/^\n"
+                                        "/D^^X^^^X^^^^^^X^^^X^^D/\n"
+                                        "DXXXXXXXXXXXXXXXXXXXXXXD\n"
+                                        "^^^^X^^^X^^^^^^X^^^X^^^^\n"
+                                        "...^X^^^X^....^X^^^X^...\n"
+                                        "...^X^^^X^....^X^^^X^...\n"
+                                        "...^X^^^X^....^X^^^X^...\n"
+                                        "...^X^^^X^....^X^^^X^...\n"
+                                        "^^^^X^^^X^^^^^^X^^^X^^^^\n"
+                                        "DXXXXXXXXXXXXXXXXXXXXXXD\n"
+                                        "/D^^X^^^X^^^^^^X^^^X^^D/\n"
+                                        "^/D^X^^^X^^^^^^X^^^X^D/^\n"
+                                        "^^/DX^^^X^^^^^^X^^^XD/^^\n"
+                                        "DXXDDXXXXXXXXXXXXXXDDDDD\n"
+                                        "/D^^XD^.X......X.^DX^^D/\n"
+                                        "^/D^X/D^X......X^D/X^D/^\n"
+                                        ".^/DX^/DX......XD/^XD/^.\n"
+                                        "..^/D^^/D^....^D/^^D/^..",
+                                        mapf::ter_bind( ". # ^ / D X",
                                                 t_rock_floor,
                                                 t_rock,
                                                 t_railroad_rubble,
-                                                t_railroad_track_d ),
-                                        mapf::furn_bind( ". # ^ D",
+                                                t_railroad_tie_d,
+                                                t_railroad_track_d,
+                                                t_railroad_track ),
+                                        mapf::furn_bind( ". # ^ / D X",
+                                                f_null,
+                                                f_null,
                                                 f_null,
                                                 f_null,
                                                 f_null,
                                                 f_null ) );
             break;
         case 3: // tee
-            mapf::formatted_set_simple( m, 0, 0, "\
-.DD^^DD^.######.^DD^^DD.\n\
-DD^^DD^..######..^DD^^DD\n\
-D^^DD^....####....^DD^^D\n\
-^^DD^..............^DD^^\n\
-^DD^................^DD^\n\
-DD^..................^DD\n\
-D^....................^D\n\
-........................\n\
-........................\n\
-##........####........##\n\
-###......######......###\n\
-###......######......###\n\
-###......######......###\n\
-###......######......###\n\
-##........####........##\n\
-........................\n\
-^|^^|^^|^^|^^|^^|^^|^^|^\n\
-XxXXxXXxXXxXXxXXxXXxXXxX\n\
-^|^^|^^|^^|^^|^^|^^|^^|^\n\
-^|^^|^^|^^|^^|^^|^^|^^|^\n\
-^|^^|^^|^^|^^|^^|^^|^^|^\n\
-XxXXxXXxXXxXXxXXxXXxXXxX\n\
-^|^^|^^|^^|^^|^^|^^|^^|^\n\
-........................",
+            mapf::formatted_set_simple( m, 0, 0,
+                                        "..^/D^^/D^....^D/^^D/^..\n"
+                                        ".^/D^^/D^......^D/^^D/^.\n"
+                                        "^/D^^/D^........^D/^^D/^\n"
+                                        "/D^^/D^..........^D/^^D/\n"
+                                        "DXXDDXXXXXXXXXXXXXXDDXXD\n"
+                                        "^^/D^^^^^^^^^^^^^^^^D/^^\n"
+                                        "^/D^^^^^^^^^^^^^^^^^^D/^\n"
+                                        "/D^^^^^^^^^^^^^^^^^^^^D/\n"
+                                        "DXXXXXXXXXXXXXXXXXXXXXXD\n"
+                                        "........................\n"
+                                        "........................\n"
+                                        "........................\n"
+                                        "........................\n"
+                                        "........................\n"
+                                        "^|^^|^^|^^|^^|^^|^^|^^|^\n"
+                                        "XxXXxXXxXXxXXxXXxXXxXXxX\n"
+                                        "^|^^|^^|^^|^^|^^|^^|^^|^\n"
+                                        "^|^^|^^|^^|^^|^^|^^|^^|^\n"
+                                        "^|^^|^^|^^|^^|^^|^^|^^|^\n"
+                                        "XxXXxXXxXXxXXxXXxXXxXXxX\n"
+                                        "^|^^|^^|^^|^^|^^|^^|^^|^\n"
+                                        "........................\n"
+                                        "........................\n"
+                                        "........................",
                                         mapf::ter_bind( ". # ^ | X x / D",
                                                 t_rock_floor,
                                                 t_rock,
@@ -1327,31 +1327,31 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
             break;
         case 2: // straight or diagonal
             if( diag ) { // diagonal subway get drawn differently from all other types
-                mapf::formatted_set_simple( m, 0, 0, "\
-.^DD^^DD^.####..^DD^^DD^\n\
-#.^DD^^DD^.......^DD^^DD\n\
-##.^DD^^DD^.......^DD^^D\n\
-###.^DD^^DD^.......^DD^^\n\
-####.^DD^^DD^.......^DD^\n\
-#####.^DD^^DD^.......^DD\n\
-######.^DD^^DD^.......^D\n\
-#######.^DD^^DD^.......^\n\
-########.^DD^^DD^.......\n\
-#########.^DD^^DD^......\n\
-##########.^DD^^DD^....#\n\
-###########.^DD^^DD^...#\n\
-############.^DD^^DD^..#\n\
-#############.^DD^^DD^.#\n\
-##############.^DD^^DD^.\n\
-###############.^DD^^DD^\n\
-################.^DD^^DD\n\
-#################.^DD^^D\n\
-##################.^DD^^\n\
-###################.^DD^\n\
-####################.^DD\n\
-#####################.^D\n\
-######################.^\n\
-#######################.",
+                mapf::formatted_set_simple( m, 0, 0,
+                                            "...^DD^^DD^...^DD^^DD^..\n"
+                                            "....^DD^^DD^...^DD^^DD^.\n"
+                                            ".....^DD^^DD^...^DD^^DD^\n"
+                                            "......^DD^^DD^...^DD^^DD\n"
+                                            ".......^DD^^DD^...^DD^^D\n"
+                                            "#.......^DD^^DD^...^DD^^\n"
+                                            "##.......^DD^^DD^...^DD^\n"
+                                            "###.......^DD^^DD^...^DD\n"
+                                            "####.......^DD^^DD^...^D\n"
+                                            "#####.......^DD^^DD^...^\n"
+                                            "######.......^DD^^DD^...\n"
+                                            "#######.......^DD^^DD^..\n"
+                                            "########.......^DD^^DD^.\n"
+                                            "#########.......^DD^^DD^\n"
+                                            "##########.......^DD^^DD\n"
+                                            "###########.......^DD^^D\n"
+                                            "############.......^DD^^\n"
+                                            "#############.......^DD^\n"
+                                            "##############.......^DD\n"
+                                            "###############.......^D\n"
+                                            "################.......^\n"
+                                            "#################.......\n"
+                                            "##################......\n"
+                                            "###################.....",
                                             mapf::ter_bind( ". # ^ D",
                                                     t_rock_floor,
                                                     t_rock,
@@ -1363,31 +1363,31 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
                                                     f_null,
                                                     f_null ) );
             } else { // normal subway drawing
-                mapf::formatted_set_simple( m, 0, 0, "\
-.^X^^^X^.######.^X^^^X^.\n\
-.-x---x-.######.-x---x-.\n\
-.^X^^^X^..####..^X^^^X^.\n\
-.^X^^^X^........^X^^^X^.\n\
-.-x---x-........-x---x-.\n\
-.^X^^^X^........^X^^^X^.\n\
-.^X^^^X^........^X^^^X^.\n\
-.-x---x-........-x---x-.\n\
-.^X^^^X^........^X^^^X^.\n\
-.^X^^^X^..####..^X^^^X^.\n\
-.-x---x-.######.-x---x-.\n\
-.^X^^^X^.######.^X^^^X^.\n\
-.^X^^^X^.######.^X^^^X^.\n\
-.-x---x-.######.-x---x-.\n\
-.^X^^^X^..####..^X^^^X^.\n\
-.^X^^^X^........^X^^^X^.\n\
-.-x---x-........-x---x-.\n\
-.^X^^^X^........^X^^^X^.\n\
-.^X^^^X^........^X^^^X^.\n\
-.-x---x-........-x---x-.\n\
-.^X^^^X^........^X^^^X^.\n\
-.^X^^^X^..####..^X^^^X^.\n\
-.-x---x-.######.-x---x-.\n\
-.^X^^^X^.######.^X^^^X^.",
+                mapf::formatted_set_simple( m, 0, 0,
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...-x---x-....-x---x-...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...-x---x-....-x---x-...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...-x---x-....-x---x-...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...-x---x-....-x---x-...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...-x---x-....-x---x-...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...-x---x-....-x---x-...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...-x---x-....-x---x-...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...-x---x-....-x---x-...\n"
+                                            "...^X^^^X^....^X^^^X^...",
                                             mapf::ter_bind( ". # ^ - X x",
                                                     t_rock_floor,
                                                     t_rock,
@@ -1405,39 +1405,45 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
             }
             break;
         case 1:  // dead end
-            mapf::formatted_set_simple( m, 0, 0, "\
-.^X^^^X^.######.^X^^^X^.\n\
-.-x---x-.######.-x---x-.\n\
-.^X^^^X^..####..^X^^^X^.\n\
-.^X^^^X^........^X^^^X^.\n\
-.-x---x-........-x---x-.\n\
-.^X^^^X^........^X^^^X^.\n\
-.^X^^^X^........^X^^^X^.\n\
-.-x---x-........-x---x-.\n\
-.^X^^^X^........^X^^^X^.\n\
-.^X^^^X^..####..^X^^^X^.\n\
-.-x---x-.######.-x---x-.\n\
-.^X^^^X^.######.^X^^^X^.\n\
-.........######.........\n\
-.........######.........\n\
-.........######.........\n\
-#.......########.......#\n\
-########################\n\
-########################\n\
-########################\n\
-########################\n\
-########################\n\
-########################\n\
-########################\n\
-########################",
-                                        mapf::ter_bind( ". # ^ - X x",
+            mapf::formatted_set_simple( m, 0, 0,
+                                        "...^X^^^X^..../D^^/D^...\n"
+                                        "...-x---x-.../DX^/DX^...\n"
+                                        "...^X^^^X^../D^X/D^X^...\n"
+                                        "...^X^^^X^./D.^XD^^X^...\n"
+                                        "...^X^^^X^/D../D^^^X^...\n"
+                                        "...^X^^^X/D../DX^^^X^...\n"
+                                        "...^X^^^XD../D^X^^^X^...\n"
+                                        "...^X^^/D^./D.-x---x-...\n"
+                                        "...^X^/DX^/D..^X^^^X^...\n"
+                                        "...^X/D^X/D...^X^^^X^...\n"
+                                        "...^XD^^XD....-x---x-...\n"
+                                        "...^D^^^D^....^X^^^X^...\n"
+                                        "...^X^^^X^....^X^^^X^...\n"
+                                        "...-x---x-....-x---x-...\n"
+                                        "...^X^^^X^....^X^^^X^...\n"
+                                        "...^X^^^X^....^X^^^X^...\n"
+                                        "...-x---x-....-x---x-...\n"
+                                        "...^X^^^X^....^X^^^X^...\n"
+                                        "...^X^^^X^....^X^^^X^...\n"
+                                        "...^S^^^S^....^S^^^S^...\n"
+                                        "...^^^^^^^....^^^^^^^...\n"
+                                        "#......................#\n"
+                                        "##....................##\n"
+                                        "########################",
+                                        mapf::ter_bind( ". # S ^ - / D X x",
                                                 t_rock_floor,
                                                 t_rock,
+                                                t_buffer_stop,
                                                 t_railroad_rubble,
                                                 t_railroad_tie,
+                                                t_railroad_tie_d,
+                                                t_railroad_track_d,
                                                 t_railroad_track,
                                                 t_railroad_track_on_tie ),
-                                        mapf::furn_bind( ". # ^ - X x",
+                                        mapf::furn_bind( ". # S ^ - / D X x",
+                                                f_null,
+                                                f_null,
+                                                f_null,
                                                 f_null,
                                                 f_null,
                                                 f_null,
@@ -2440,10 +2446,12 @@ void mapgen_generic_house( map *m, oter_id terrain_type, mapgendata dat, const t
     int x = 0;
     int y = 0;
     lw = rng( 0, 4 ); // West external wall
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     mw = lw + rng( 7, 10 ); // Middle wall between bedroom & kitchen/bath
     rw = SEEX * 2 - rng( 1, 5 ); // East external wall
     tw = rng( 1, 6 ); // North external wall
     bw = SEEX * 2 - rng( 2, 5 ); // South external wall
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     cw = tw + rng( 4, 7 ); // Middle wall between living room & kitchen/bed
     actual_house_height = bw - rng( 4,
                                     6 ); //reserving some space for backyard. Actual south external wall.

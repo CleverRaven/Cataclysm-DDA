@@ -1,6 +1,6 @@
 #include "npctalk.h" // IWYU pragma: associated
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -38,8 +38,9 @@
 #include "player.h"
 #include "player_activity.h"
 #include "pldata.h"
-#include "itype.h"
-#include "mtype.h"
+#include "string_id.h"
+
+struct itype;
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -634,6 +635,9 @@ void talk_function::player_leaving( npc &p )
 
 void talk_function::drop_weapon( npc &p )
 {
+    if( p.is_hallucination() ) {
+        return;
+    }
     g->m.add_item_or_charges( p.pos(), p.remove_weapon() );
 }
 

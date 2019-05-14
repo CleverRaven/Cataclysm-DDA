@@ -389,7 +389,7 @@
       [ "kippah", 1 ],
       [ "robe", 3 ],
       [ "thawb", 1 ],
-      [ "kimono", 1 ],
+      [ "yukata", 1 ],
       [ "eclipse_glasses", 1 ],
       [ "reading_light", 9 ]
     ]
@@ -1139,7 +1139,11 @@
       [ "robe", 10 ],
       [ "eboshi", 1 ],
       [ "kariginu", 1 ],
-      [ "kimono", 5 ],
+      [ "geta", 1 ],
+      [ "kimono", 2 ],
+      [ "yukata", 6 ],
+      [ "haori", 2 ],
+      [ "hakama", 4 ],
       [ "eclipse_glasses", 1 ],
       [ "thermos", 20 ]
     ]
@@ -3044,7 +3048,11 @@
       [ "robe", 5 ],
       [ "eboshi", 1 ],
       [ "kariginu", 1 ],
-      [ "kimono", 3 ]
+      [ "geta", 1 ],
+      [ "kimono", 2 ],
+      [ "yukata", 4 ],
+      [ "haori", 1 ],
+      [ "hakama", 2 ]
     ]
   },
   {
@@ -4419,7 +4427,11 @@
       [ "cassock", 1 ],
       [ "eboshi", 1 ],
       [ "kariginu", 2 ],
-      [ "kimono", 3 ],
+      [ "kimono", 2 ],
+      [ "yukata", 4 ],
+      [ "haori", 1 ],
+      [ "hakama", 2 ],
+      [ "geta", 1 ],
       [ "l-stick", 1 ],
       [ "solarpack", 5 ],
       [ "tourist_table", 10 ],
@@ -8208,6 +8220,8 @@
       [ "cavalry_sabre", 2 ],
       [ "glaive", 2 ],
       [ "naginata", 2 ],
+      [ "naginata_fake", 2 ],
+      [ "naginata_inferior", 3 ],
       [ "estoc", 2 ],
       [ "estoc_fake", 6 ],
       [ "qiang", 3 ],
@@ -8269,7 +8283,7 @@
       [ "seed_zucchini", 60 ],
       [ "seed_cotton_boll", 10 ],
       [ "seed_tobacco", 10 ],
-      [ "raw_beans", 60 ],
+      [ "seed_beans", 60 ],
       [ "seed_chili_pepper", 60 ],
       [ "seed_tomato", 60 ]
     ]
@@ -8669,6 +8683,7 @@
     "items": [
       [ "rope_30", 10 ],
       [ "hatchet", 50 ],
+      [ "iceaxe", 20 ],
       [ "mess_kit", 100 ],
       [ "teapot", 50 ],
       [ "binoculars", 30 ],

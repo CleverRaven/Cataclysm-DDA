@@ -19,8 +19,8 @@
 #include "enums.h"
 #include "game_constants.h"
 #include "inventory.h"
-#include "itype.h"
 #include "material.h"
+#include "type_id.h"
 
 TEST_CASE( "throwing distance test", "[throwing], [balance]" )
 {

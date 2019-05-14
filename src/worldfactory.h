@@ -2,7 +2,7 @@
 #ifndef WORLDFACTORY_H
 #define WORLDFACTORY_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <functional>
 #include <iosfwd>
 #include <map>
@@ -12,7 +12,7 @@
 
 #include "options.h"
 #include "pimpl.h"
-#include "string_id.h"
+#include "type_id.h"
 
 class JsonIn;
 class JsonObject;
@@ -22,9 +22,6 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
-struct MOD_INFORMATION;
-
-using mod_id = string_id<MOD_INFORMATION>;
 
 class save_t
 {

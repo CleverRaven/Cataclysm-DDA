@@ -392,6 +392,66 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "campground_roof",
+    "name": "campground roof",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campground_1a_npc",
+    "name": "campground",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campground_1b_npc",
+    "name": "campground",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campground_2a_npc",
+    "name": "campground",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campground_2b_npc",
+    "name": "campground",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campground_roof_npc",
+    "name": "campground roof",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "desolatebarn",
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "desolate barn",

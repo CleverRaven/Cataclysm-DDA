@@ -541,5 +541,43 @@
     "color": "i_light_cyan",
     "see_cost": 5,
     "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bus_stat_0",
+    "name": "bus station",
+    "sym": "B",
+    "color": "i_light_cyan",
+    "see_cost": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bus_stat_1",
+    "name": "bus station",
+    "sym": "B",
+    "color": "i_light_cyan",
+    "see_cost": 2,
+    "extras": "build",
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bus_stat_0_roof",
+    "name": "bus station roof",
+    "sym": "B",
+    "color": "i_light_cyan",
+    "see_cost": 2,
+    "extras": "build"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "bus_stat_1_roof",
+    "name": "bus station roof",
+    "sym": "B",
+    "color": "i_light_cyan",
+    "see_cost": 2,
+    "extras": "build"
   }
 ]

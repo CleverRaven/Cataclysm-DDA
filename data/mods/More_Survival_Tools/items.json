@@ -1,57 +1,5 @@
 [
   {
-    "id": "hobo_stove",
-    "type": "TOOL",
-    "name": "hobo stove",
-    "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  Useful for cooking, uses simple tinder.",
-    "weight": 1366,
-    "volume": 6,
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 2,
-    "material": "steel",
-    "symbol": ",",
-    "color": "light_gray",
-    "ammo": "tinder",
-    "sub": "hotplate",
-    "max_charges": 50,
-    "charges_per_use": 1,
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
-  },
-  {
-    "id": "hobo_stove_on",
-    "type": "TOOL",
-    "name": "hobo stove (lit)",
-    "name_plural": "hobo stoves (lit)",
-    "//": "Dummied out due to reverting hobo stove behavior, to be consistent with existing items. -Chaosvolt",
-    "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  Useful for cooking, uses simple tinder.",
-    "weight": 1366,
-    "volume": 6,
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 2,
-    "material": "steel",
-    "symbol": ",",
-    "color": "light_gray",
-    "ammo": "tinder",
-    "sub": "hotplate",
-    "max_charges": 50,
-    "charges_per_use": 1,
-    "turns_per_charge": 300,
-    "revert_to": "hobo_stove",
-    "qualities": [ [ "COOK", 1 ] ],
-    "use_action": [
-      {
-        "target": "hobo_stove",
-        "msg": "The ember is extinguished.",
-        "active": false,
-        "menu_text": "Extinguish",
-        "type": "transform"
-      }
-    ],
-    "flags": [ "LIGHT_3" ]
-  },
-  {
     "id": "flint_steel",
     "type": "TOOL",
     "name": "flint and steel",
@@ -539,6 +487,8 @@
         "moves": 100,
         "noise": 34,
         "noise_message": "FWEEEET!",
+        "noise_id": "misc",
+        "noise_variant": "whistle",
         "use_message": "You blow the whistle.",
         "no_charges_message": "Seeing this is an error.",
         "//": "Somewhat lower than the proper whistle."

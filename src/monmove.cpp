@@ -2,7 +2,7 @@
 
 #include "monster.h" // IWYU pragma: associated
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <cmath>
 #include <algorithm>
 #include <memory>
@@ -32,6 +32,8 @@
 #include "mattack_common.h"
 #include "pathfinding.h"
 #include "player.h"
+#include "int_id.h"
+#include "string_id.h"
 
 #define MONSTER_FOLLOW_DIST 8
 
@@ -551,6 +553,12 @@ void monster::move()
         --friendly;
     }
 
+    // don't move if a passenger in a moving vehicle
+    auto vp = g->m.veh_at( pos() );
+    if( vp && vp->vehicle().is_moving() && vp->vehicle().get_pet( vp->part_index() ) ) {
+        moves = 0;
+        return;
+    }
     // Set attitude to attitude to our current target
     monster_attitude current_attitude = attitude( nullptr );
     if( !wander() ) {
@@ -1074,6 +1082,7 @@ bool monster::attack_at( const tripoint &p )
         // For now we're always attacking NPCs that are getting into our
         // way. This is consistent with how it worked previously, but
         // later on not hitting allied NPCs would be cool.
+        guy->on_attacked( *this ); // allow NPC hallucination to be one shot by monsters
         melee_attack( *guy );
         return true;
     }

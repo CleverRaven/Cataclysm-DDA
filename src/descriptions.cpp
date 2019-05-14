@@ -13,9 +13,8 @@
 #include "player.h"
 #include "string_formatter.h"
 #include "color.h"
-#include "itype.h"
-#include "pldata.h"
 #include "translations.h"
+#include "string_id.h"
 
 const skill_id skill_survival( "survival" );
 

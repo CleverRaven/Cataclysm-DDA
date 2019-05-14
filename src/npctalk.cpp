@@ -1,8 +1,8 @@
 #include "dialogue.h" // IWYU pragma: associated
 
-#include <limits.h>
-#include <math.h>
-#include <stddef.h>
+#include <climits>
+#include <cmath>
+#include <cstddef>
 #include <algorithm>
 #include <sstream>
 #include <string>
@@ -30,7 +30,6 @@
 #include "line.h"
 #include "map.h"
 #include "mapgen_functions.h"
-#include "map_selector.h"
 #include "martialarts.h"
 #include "messages.h"
 #include "mission.h"
@@ -164,6 +163,149 @@ int cash_to_favor( const npc &, int cash )
     return roll_remainder( scaled_mission_val );
 }
 
+enum npc_chat_menu {
+    NPC_CHAT_DONE,
+    NPC_CHAT_TALK,
+    NPC_CHAT_YELL,
+    NPC_CHAT_SENTENCE,
+    NPC_CHAT_GUARD,
+    NPC_CHAT_FOLLOW,
+    NPC_CHAT_AWAKE,
+    NPC_CHAT_DANGER,
+    NPC_CHAT_ORDERS,
+    NPC_CHAT_NO_GUNS,
+    NPC_CHAT_PULP,
+    NPC_CHAT_FOLLOW_CLOSE,
+    NPC_CHAT_MOVE_FREELY,
+    NPC_CHAT_SLEEP,
+    NPC_CHAT_FORBID_ENGAGE,
+    NPC_CHAT_CLEAR_OVERRIDES
+};
+
+// given a vector of NPCs, presents a menu to allow a player to pick one.
+// everyone == true adds another entry at the end to allow selecting all listed NPCs
+// this implies a return value of npc_list.size() means "everyone"
+int npc_select_menu( const std::vector<npc *> &npc_list, const std::string prompt,
+                     const bool everyone = true )
+{
+    if( npc_list.empty() ) {
+        return -1;
+    }
+    const int npc_count = npc_list.size();
+    if( npc_count == 1 ) {
+        return 0;
+    } else {
+        uilist nmenu;
+        nmenu.text = prompt;
+        for( auto &elem : npc_list ) {
+            nmenu.addentry( -1, true, MENU_AUTOASSIGN, ( elem )->name );
+        }
+        if( npc_count > 1 && everyone ) {
+            nmenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Everyone" ) );
+        }
+        nmenu.query();
+        return nmenu.ret;
+    }
+
+}
+
+void npc_batch_override_toggle( const std::vector<npc *> npc_list, ally_rule rule, bool state )
+{
+    for( npc *p : npc_list ) {
+        p->rules.toggle_specific_override_state( rule, state );
+    }
+}
+
+void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
+{
+    if( npc_list.empty() ) {
+        return;
+    }
+    npc *guy = npc_list.front();
+
+    bool done = false;
+    uilist nmenu;
+
+    while( !done ) {
+        int override_count = 0;
+        std::ostringstream override_string;
+        override_string << string_format( _( "%s currently has these temporary orders:" ), guy->name );
+        for( const auto &rule : ally_rule_strs ) {
+            if( guy->rules.has_override_enable( rule.second.rule ) ) {
+                override_count++;
+                override_string << "\n  ";
+                override_string << ( guy->rules.has_override( rule.second.rule ) ?
+                                     rule.second.rule_true_text : rule.second.rule_false_text );
+            }
+        }
+        if( override_count == 0 ) {
+            override_string << "\n  " << _( "None." ) << "\n";
+        }
+        if( npc_list.size() > 1 ) {
+            override_string << "\n" << _( "Other followers might have different temporary orders." );
+        }
+        g->refresh_all();
+        nmenu.reset();
+        nmenu.text = _( "Issue what temporary order?" );
+        nmenu.desc_enabled = true;
+        std::string output_string = override_string.str();
+        parse_tags( output_string, g->u, *guy );
+        nmenu.footer_text = output_string;
+        nmenu.addentry( NPC_CHAT_DONE, true, 'd', _( "Done issuing orders" ) );
+        nmenu.addentry( NPC_CHAT_FORBID_ENGAGE, true, 'f',
+                        guy->rules.has_override_enable( ally_rule::forbid_engage ) ?
+                        _( "Go back to your usual engagement habits" ) : _( "Don't engage hostiles for the time being" ) );
+        nmenu.addentry( NPC_CHAT_NO_GUNS, true, 'g', guy->rules.has_override_enable( ally_rule::use_guns ) ?
+                        _( "Use whatever weapon you normally would" ) : _( "Don't use ranged weapons for a while" ) );
+        nmenu.addentry( NPC_CHAT_PULP, true, 'p', guy->rules.has_override_enable( ally_rule::allow_pulp ) ?
+                        _( "Pulp zombies if you like" ) : _( "Hold off on pulping zombies for a while" ) );
+        nmenu.addentry( NPC_CHAT_FOLLOW_CLOSE, true, 'c',
+                        guy->rules.has_override_enable( ally_rule::follow_close ) &&
+                        guy->rules.has_override( ally_rule::follow_close ) ?
+                        _( "Go back to keeping your usual distance" ) : _( "Stick close to me for now" ) );
+        nmenu.addentry( NPC_CHAT_MOVE_FREELY, true, 'm',
+                        guy->rules.has_override_enable( ally_rule::follow_close ) &&
+                        !guy->rules.has_override( ally_rule::follow_close ) ?
+                        _( "Go back to keeping your usual distance" ) : _( "Move farther from me if you need to" ) );
+        nmenu.addentry( NPC_CHAT_SLEEP, true, 's',
+                        guy->rules.has_override_enable( ally_rule::allow_sleep ) ?
+                        _( "Go back to your usual sleeping habits" ) : _( "Take a nap if you need it" ) );
+        nmenu.addentry( NPC_CHAT_CLEAR_OVERRIDES, true, 'o', _( "Let's go back to your usual behaviors" ) );
+        nmenu.query();
+
+        switch( nmenu.ret ) {
+            case NPC_CHAT_FORBID_ENGAGE:
+                npc_batch_override_toggle( npc_list, ally_rule::forbid_engage, true );
+                break;
+            case NPC_CHAT_NO_GUNS:
+                npc_batch_override_toggle( npc_list, ally_rule::use_guns, false );
+                break;
+            case NPC_CHAT_PULP:
+                npc_batch_override_toggle( npc_list, ally_rule::allow_pulp, false );
+                break;
+            case NPC_CHAT_FOLLOW_CLOSE:
+                npc_batch_override_toggle( npc_list, ally_rule::follow_close, true );
+                break;
+            case NPC_CHAT_MOVE_FREELY:
+                npc_batch_override_toggle( npc_list, ally_rule::follow_close, false );
+                break;
+            case NPC_CHAT_SLEEP:
+                npc_batch_override_toggle( npc_list, ally_rule::allow_sleep, true );
+                break;
+            case NPC_CHAT_CLEAR_OVERRIDES:
+                for( npc *p : npc_list ) {
+                    p->rules.clear_overrides();
+                }
+                break;
+            default:
+                done = true;
+                break;
+        }
+    }
+
+}
+
+
 void game::chat()
 {
     int volume = g->u.get_shout_volume();
@@ -173,119 +315,140 @@ void game::chat()
         return u.posz() == guy.posz() && u.sees( guy.pos() ) &&
                rl_dist( u.pos(), guy.pos() ) <= SEEX * 2;
     } );
+    const int available_count = available.size();
     const std::vector<npc *> followers = get_npcs_if( [&]( const npc & guy ) {
         return guy.is_player_ally() && guy.is_following() && guy.can_hear( u.pos(), volume );
     } );
+    const int follower_count = followers.size();
     const std::vector<npc *> guards = get_npcs_if( [&]( const npc & guy ) {
         return guy.mission == NPC_MISSION_GUARD_ALLY &&
                guy.companion_mission_role_id != "FACTION_CAMP" &&
                guy.can_hear( u.pos(), volume );
     } );
+    const int guard_count = guards.size();
 
     uilist nmenu;
-    nmenu.text = std::string( _( "Who do you want to talk to or yell at?" ) );
+    nmenu.text = std::string( _( "What do you want to do?" ) );
 
-    int i = 0;
-
-    for( auto &elem : available ) {
-        nmenu.addentry( i++, true, MENU_AUTOASSIGN, ( elem )->name );
+    if( !available.empty() ) {
+        nmenu.addentry( NPC_CHAT_TALK, true, 't', available_count == 1 ?
+                        string_format( _( "Talk to %s" ), available.front()->name ) :
+                        _( "Talk to ..." )
+                      );
     }
-
-    int yell = 0;
-    int yell_sentence = 0;
-    int yell_guard = -1;
-    int yell_follow = -1;
-    int yell_awake = -1;
-    int yell_sleep = -1;
-    int yell_flee = -1;
-    int yell_stop = -1;
-    int yell_danger = -1;
-    int yell_relax = -1;
-
-    nmenu.addentry( yell = i++, true, 'a', _( "Yell" ) );
-    nmenu.addentry( yell_sentence = i++, true, 'b', _( "Yell a sentence" ) );
-    if( !followers.empty() ) {
-        nmenu.addentry( yell_guard = i++, true, 'g', _( "Tell all your allies to guard" ) );
-        nmenu.addentry( yell_awake = i++, true, 'w', _( "Tell all your allies to stay awake" ) );
-        nmenu.addentry( yell_sleep = i++, true, 's',
-                        _( "Tell all your allies to relax and sleep when tired" ) );
-        nmenu.addentry( yell_flee = i++, true, 'R', _( "Tell all your allies to flee" ) );
-        nmenu.addentry( yell_stop = i++, true, 'S', _( "Tell all your allies stop running" ) );
-        nmenu.addentry( yell_danger = i++, true, 'D',
-                        _( "Tell all your allies to prepare for danger" ) );
-        nmenu.addentry( yell_relax = i++, true, 'C',
-                        _( "Tell all your allies to relax from danger" ) );
-    }
+    nmenu.addentry( NPC_CHAT_YELL, true, 'a', _( "Yell" ) );
+    nmenu.addentry( NPC_CHAT_SENTENCE, true, 'b', _( "Yell a sentence" ) );
     if( !guards.empty() ) {
-        nmenu.addentry( yell_follow = i++, true, 'f', _( "Tell all your allies to follow" ) );
+        nmenu.addentry( NPC_CHAT_FOLLOW, true, 'f', guard_count == 1 ?
+                        string_format( _( "Tell %s to follow" ), guards.front()->name ) :
+                        _( "Tell someone to follow..." )
+                      );
     }
-
+    if( !followers.empty() ) {
+        nmenu.addentry( NPC_CHAT_GUARD, true, 'g', follower_count == 1 ?
+                        string_format( _( "Tell %s to guard" ), followers.front()->name ) :
+                        _( "Tell someone to guard..." )
+                      );
+        nmenu.addentry( NPC_CHAT_AWAKE, true, 'w', _( "Tell everyone on your team to wake up" ) );
+        nmenu.addentry( NPC_CHAT_DANGER, true, 'D',
+                        _( "Tell everyone on your team to prepare for danger" ) );
+        nmenu.addentry( NPC_CHAT_CLEAR_OVERRIDES, true, 'r',
+                        _( "Tell everyone on your team to relax (Clear Overrides)" ) );
+        nmenu.addentry( NPC_CHAT_ORDERS, true, 'o', _( "Tell everyone on your team to temporarily..." ) );
+    }
     std::string message;
     std::string yell_msg;
     bool is_order = true;
     nmenu.query();
+
     if( nmenu.ret < 0 ) {
         return;
-    } else if( nmenu.ret == yell ) {
-        is_order = false;
-        message = _( "loudly." );
-    } else if( nmenu.ret == yell_sentence ) {
-        std::string popupdesc = string_format( _( "Enter a sentence to yell" ) );
-        string_input_popup popup;
-        popup.title( string_format( _( "Yell a sentence" ) ) )
-        .width( 64 )
-        .description( popupdesc )
-        .identifier( "sentence" )
-        .max_length( 128 )
-        .query();
-        yell_msg = popup.text() + ".";
-        is_order = false;
-    } else if( nmenu.ret == yell_guard ) {
-        for( npc *p : followers ) {
-            talk_function::assign_guard( *p );
-        }
-        yell_msg =  _( "Guard here!" );
-    } else if( nmenu.ret == yell_awake ) {
-        for( npc *p : followers ) {
-            talk_function::wake_up( *p );
-        }
-        yell_msg = _( "Stay awake!" );
-    } else if( nmenu.ret == yell_sleep ) {
-        for( npc *p : followers ) {
-            p->rules.set_flag( ally_rule::allow_sleep );
-        }
-        yell_msg = _( "We're safe!  Take a nap if you're tired." );
-    } else if( nmenu.ret == yell_follow ) {
-        for( npc *p : guards ) {
-            talk_function::stop_guard( *p );
-        }
-        yell_msg = _( "Follow me!" );
-    } else if( nmenu.ret == yell_flee ) {
-        for( npc *p : followers ) {
-            p->rules.set_flag( ally_rule::avoid_combat );
-        }
-        yell_msg = _( "Fall back to safety!  Flee, you fools!" );
-    } else if( nmenu.ret == yell_stop ) {
-        for( npc *p : followers ) {
-            p->rules.clear_flag( ally_rule::avoid_combat );
-        }
-        yell_msg = _( "No need to run any more, we can fight here." );
-    } else if( nmenu.ret == yell_danger ) {
-        for( npc *p : followers ) {
-            p->rules.set_danger_overrides();
-        }
-        yell_msg = _( "We're in danger.  Stay awake, stay close, don't go wandering off, "
-                      "and don't open any doors." );
-    } else if( nmenu.ret == yell_relax ) {
-        for( npc *p : followers ) {
-            talk_function::clear_overrides( *p );
-        }
-        yell_msg = _( "Relax and stand down." );
-    } else if( nmenu.ret <= static_cast<int>( available.size() ) ) {
-        available[nmenu.ret]->talk_to_u();
-    } else {
-        return;
     }
+
+    switch( nmenu.ret ) {
+        case NPC_CHAT_TALK: {
+            const int npcselect = npc_select_menu( available, _( "Talk to whom?" ), false );
+            if( npcselect < 0 ) {
+                return;
+            }
+            available[npcselect]->talk_to_u();
+            break;
+        }
+        case NPC_CHAT_YELL:
+            is_order = false;
+            message = _( "loudly." );
+            break;
+        case NPC_CHAT_SENTENCE: {
+            std::string popupdesc = string_format( _( "Enter a sentence to yell" ) );
+            string_input_popup popup;
+            popup.title( string_format( _( "Yell a sentence" ) ) )
+            .width( 64 )
+            .description( popupdesc )
+            .identifier( "sentence" )
+            .max_length( 128 )
+            .query();
+            yell_msg = popup.text() + ".";
+            is_order = false;
+            break;
+        }
+        case NPC_CHAT_GUARD: {
+            const int npcselect = npc_select_menu( followers, _( "Who should guard here?" ) );
+            if( npcselect < 0 ) {
+                return;
+            }
+            if( npcselect == follower_count ) {
+                for( npc *them : followers ) {
+                    talk_function::assign_guard( *them );
+                }
+                yell_msg =  _( "Everyone guard here!" );
+            } else {
+                talk_function::assign_guard( *followers[npcselect] );
+                yell_msg =  string_format( _( "Guard here, %s!" ), followers[npcselect]->name );
+            }
+            break;
+        }
+        case NPC_CHAT_FOLLOW: {
+            const int npcselect = npc_select_menu( guards, _( "Who should follow you?" ) );
+            if( npcselect < 0 ) {
+                return;
+            }
+            if( npcselect == guard_count ) {
+                for( npc *them : guards ) {
+                    talk_function::stop_guard( *them );
+                }
+                yell_msg =  _( "Everyone follow me!" );
+            } else {
+                talk_function::stop_guard( *guards[npcselect] );
+                yell_msg =  string_format( _( "Follow me, %s!" ), guards[npcselect]->name );
+            }
+            break;
+        }
+        case NPC_CHAT_AWAKE:
+            for( npc *them : followers ) {
+                talk_function::wake_up( *them );
+            }
+            yell_msg = _( "Stay awake!" );
+            break;
+        case NPC_CHAT_DANGER:
+            for( npc *them : followers ) {
+                them->rules.set_danger_overrides();
+            }
+            yell_msg = _( "We're in danger.  Stay awake, stay close, don't go wandering off, "
+                          "and don't open any doors." );
+            break;
+        case NPC_CHAT_CLEAR_OVERRIDES:
+            for( npc *p : followers ) {
+                talk_function::clear_overrides( *p );
+            }
+            yell_msg = _( "As you were." );
+            break;
+        case NPC_CHAT_ORDERS:
+            npc_temp_orders_menu( followers );
+            break;
+        default:
+            return;
+    }
+
     if( !yell_msg.empty() ) {
         message = string_format( "\"%s\"", yell_msg );
     }
@@ -301,8 +464,12 @@ void game::chat()
 void npc::handle_sound( int priority, const std::string &description, int heard_volume,
                         const tripoint &spos )
 {
+    const tripoint s_abs_pos = g->m.getabs( spos );
+    const tripoint my_abs_pos = g->m.getabs( pos() );
+
     add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
-             disp_name(), description, priority, heard_volume, spos.x, spos.y, pos().x, pos().y );
+             disp_name(), description, priority, heard_volume, s_abs_pos.x, s_abs_pos.y,
+             my_abs_pos.x, my_abs_pos.y );
 
     const sounds::sound_t spriority = static_cast<sounds::sound_t>( priority );
     bool player_ally = g->u.pos() == spos && is_player_ally();
@@ -313,7 +480,7 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
         say( "<acknowledged>" );
     }
 
-    if( sees( spos ) ) {
+    if( sees( spos ) || is_hallucination() ) {
         return;
     }
     // ignore low priority sounds if the NPC "knows" it came from a friend.
@@ -355,30 +522,30 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
             warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
         } else if( spriority > sounds::sound_t::movement ) {
             if( !( player_ally || npc_ally ) && ( spriority == sounds::sound_t::speech ||
-                                                  spriority == sounds::sound_t::alert || spriority == sounds::sound_t::order ) ) {
+                                                  spriority == sounds::sound_t::alert ||
+                                                  spriority == sounds::sound_t::order ) ) {
                 warn_about( "speech_noise", rng( 1, 10 ) * 1_minutes );
             } else if( spriority > sounds::sound_t::activity ) {
                 warn_about( "combat_noise", rng( 1, 10 ) * 1_minutes );
             }
             bool should_check = rl_dist( pos(), spos ) < investigate_dist;
-            if( should_check && is_ally( g->u ) ) {
+            if( should_check ) {
                 const zone_manager &mgr = zone_manager::get_manager();
-                const tripoint &s_abs_pos = g->m.getabs( spos );
-                if( mgr.has( zone_no_investigate, s_abs_pos ) ) {
+                if( mgr.has( zone_no_investigate, s_abs_pos, fac_id ) ) {
                     should_check = false;
-                } else if( mgr.has_defined( zone_investigate_only ) &&
-                           !mgr.has( zone_investigate_only, s_abs_pos ) ) {
+                } else if( mgr.has( zone_investigate_only, my_abs_pos, fac_id ) &&
+                           !mgr.has( zone_investigate_only, s_abs_pos, fac_id ) ) {
                     should_check = false;
                 }
             }
             if( should_check ) {
-                add_msg( m_debug, "NPC %s added noise at pos %d:%d", name, spos.x, spos.y );
+                add_msg( m_debug, "%s added noise at pos %d:%d", name, s_abs_pos.x, s_abs_pos.y );
                 dangerous_sound temp_sound;
-                temp_sound.pos = spos;
+                temp_sound.abs_pos = s_abs_pos;
                 temp_sound.volume = heard_volume;
                 temp_sound.type = priority;
                 if( !ai_cache.sound_alerts.empty() ) {
-                    if( ai_cache.sound_alerts.back().pos != spos ) {
+                    if( ai_cache.sound_alerts.back().abs_pos != s_abs_pos ) {
                         ai_cache.sound_alerts.push_back( temp_sound );
                     }
                 } else {
@@ -567,8 +734,9 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     }
     if( topic == "TALK_SEDATED" ) {
         return string_format(
-                   _( "%s is sedated and can't be moved or woken up until the medication or sedation wears off." ),
-                   beta->name );
+                   _( "%1$s is sedated and can't be moved or woken up until the medication or sedation wears off.\nYou estimate it will wear off in %2$s." ),
+                   beta->name, to_string_approx( g->u.estimate_effect_dur( skill_id( "firstaid" ), effect_narcosis,
+                           15_minutes, 6, *beta ) ) );
     }
 
     const auto &p = beta; // for compatibility, later replace it in the code below
@@ -1722,7 +1890,7 @@ void talk_effect_fun_t::set_toggle_npc_rule( const std::string &rule )
         if( toggle == ally_rule_strs.end() ) {
             return;
         }
-        d.beta->rules.toggle_flag( toggle->second );
+        d.beta->rules.toggle_flag( toggle->second.rule );
         d.beta->wield_better_weapon();
     };
 }
@@ -1734,7 +1902,7 @@ void talk_effect_fun_t::set_set_npc_rule( const std::string &rule )
         if( flag == ally_rule_strs.end() ) {
             return;
         }
-        d.beta->rules.set_flag( flag->second );
+        d.beta->rules.set_flag( flag->second.rule );
         d.beta->wield_better_weapon();
     };
 }
@@ -1746,7 +1914,7 @@ void talk_effect_fun_t::set_clear_npc_rule( const std::string &rule )
         if( flag == ally_rule_strs.end() ) {
             return;
         }
-        d.beta->rules.clear_flag( flag->second );
+        d.beta->rules.clear_flag( flag->second.rule );
         d.beta->wield_better_weapon();
     };
 }
@@ -2224,7 +2392,6 @@ json_talk_repeat_response::json_talk_repeat_response( JsonObject jo )
     }
 }
 
-
 json_talk_response::json_talk_response( JsonObject jo )
     : actual_response( jo )
 {
@@ -2596,7 +2763,7 @@ void conditional_t::set_npc_rule( JsonObject &jo )
     condition = [rule]( const dialogue & d ) {
         auto flag = ally_rule_strs.find( rule );
         if( flag != ally_rule_strs.end() ) {
-            return d.beta->rules.has_flag( flag->second );
+            return d.beta->rules.has_flag( flag->second.rule );
         }
         return false;
     };
@@ -2608,7 +2775,7 @@ void conditional_t::set_npc_override( JsonObject &jo )
     condition = [rule]( const dialogue & d ) {
         auto flag = ally_rule_strs.find( rule );
         if( flag != ally_rule_strs.end() ) {
-            return d.beta->rules.has_override_enable( flag->second );
+            return d.beta->rules.has_override_enable( flag->second.rule );
         }
         return false;
     };
@@ -3135,6 +3302,25 @@ bool json_talk_response::gen_repeat_response( dialogue &d, const itype_id &item_
     return false;
 }
 
+static std::string translate_gendered_line(
+    const std::string &line,
+    const std::vector<std::string> &relevant_genders,
+    const dialogue &d
+)
+{
+    GenderMap gender_map;
+    for( const std::string &subject : relevant_genders ) {
+        if( subject == "npc" ) {
+            gender_map[subject] = d.beta->get_grammatical_genders();
+        } else if( subject == "u" ) {
+            gender_map[subject] = d.alpha->get_grammatical_genders();
+        } else {
+            debugmsg( "Unsupported subject '%s' for grammatical gender in dialogue", subject );
+        }
+    }
+    return gettext_gendered( gender_map, line );
+}
+
 dynamic_line_t dynamic_line_t::from_member( JsonObject &jo, const std::string &member_name )
 {
     if( jo.has_array( member_name ) ) {
@@ -3187,6 +3373,25 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
             std::string tmp = d.reason;
             d.reason.clear();
             return tmp;
+        };
+    } else if( jo.has_string( "gendered_line" ) ) {
+        const std::string line = jo.get_string( "gendered_line" );
+        if( !jo.has_array( "relevant_genders" ) ) {
+            jo.throw_error(
+                "dynamic line with \"gendered_line\" must also have \"relevant_genders\"" );
+        }
+        JsonArray ja = jo.get_array( "relevant_genders" );
+        std::vector<std::string> relevant_genders;
+        while( ja.has_more() ) {
+            relevant_genders.push_back( ja.next_string() );
+        }
+        for( const std::string &gender : relevant_genders ) {
+            if( gender != "npc" && gender != "u" ) {
+                jo.throw_error( "Unexpected subject in relevant_genders; expected 'npc' or 'u'" );
+            }
+        }
+        function = [line, relevant_genders]( const dialogue & d ) {
+            return translate_gendered_line( line, relevant_genders, d );
         };
     } else {
         conditional_t dcondition;
@@ -3490,6 +3695,9 @@ consumption_result try_consume( npc &p, item &it, std::string &reason )
 
 std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
 {
+    if( p.is_hallucination() ) {
+        return _( "No thanks, I'm good." );
+    }
     const int inv_pos = g->inv_for_all( _( "Offer what?" ), _( "You have no items to offer." ) );
     item &given = g->u.i_at( inv_pos );
     if( given.is_null() ) {
@@ -3528,9 +3736,9 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
     const double cur_weapon_value = p.weapon_value( p.weapon, our_ammo );
     if( allow_use ) {
         add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
-                 p.weapon.tname(), our_ammo, cur_weapon_value );
+                 p.weapon.type->get_id(), our_ammo, cur_weapon_value );
         add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
-                 given.tname(), new_ammo, new_weapon_value );
+                 given.type->get_id(), new_ammo, new_weapon_value );
         if( new_weapon_value > cur_weapon_value ) {
             p.wield( given );
             taken = true;

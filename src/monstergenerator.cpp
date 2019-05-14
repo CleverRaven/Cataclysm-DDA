@@ -17,23 +17,17 @@
 #include "mondeath.h"
 #include "mondefense.h"
 #include "monfaction.h"
-#include "mongroup.h"
 #include "options.h"
 #include "rng.h"
 #include "assign.h"
 #include "bodypart.h"
 #include "damage.h"
 #include "game.h"
-#include "itype.h"
 #include "pathfinding.h"
 #include "units.h"
 
-extern bool test_mode;
-
 namespace
 {
-
-const mtype_id mon_generator( "mon_generator" );
 
 const std::map<std::string, mon_trigger> trigger_map = {
     { "STALK",              mon_trigger::STALK },

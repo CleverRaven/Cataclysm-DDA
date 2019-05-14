@@ -1,6 +1,6 @@
 #include "item_factory.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <cassert>
 #include <cmath>
@@ -36,11 +36,9 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "color.h"
-#include "creature.h"
 #include "damage.h"
 #include "explosion.h"
 #include "game_constants.h"
-#include "omdata.h"
 #include "optional.h"
 #include "recipe.h"
 #include "string_id.h"
@@ -611,6 +609,7 @@ void Item_factory::init()
     add_iuse( "CHAINSAW_ON", &iuse::chainsaw_on );
     add_iuse( "CHEW", &iuse::chew );
     add_iuse( "BIRDFOOD", &iuse::feedbird );
+    add_iuse( "BURROW", &iuse::burrow );
     add_iuse( "CHOP_TREE", &iuse::chop_tree );
     add_iuse( "CHOP_LOGS", &iuse::chop_logs );
     add_iuse( "CIRCSAW_ON", &iuse::circsaw_on );
@@ -751,6 +750,7 @@ void Item_factory::init()
     add_iuse( "VACCINE", &iuse::vaccine );
     add_iuse( "BLOOD_DRAW", &iuse::blood_draw );
     add_iuse( "VIBE", &iuse::vibe );
+    add_iuse( "HAND_CRANK", &iuse::hand_crank );
     add_iuse( "VORTEX", &iuse::vortex );
     add_iuse( "WASHCLOTHES", &iuse::washclothes );
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
@@ -2441,7 +2441,6 @@ void Item_factory::load_item_group( JsonObject &jsobj, const Group_tag &group_id
                                     const std::string &subtype )
 {
     std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
-    Item_group *ig = dynamic_cast<Item_group *>( isd.get() );
 
     Item_group::Type type = Item_group::G_COLLECTION;
     if( subtype == "old" || subtype == "distribution" ) {
@@ -2449,8 +2448,8 @@ void Item_factory::load_item_group( JsonObject &jsobj, const Group_tag &group_id
     } else if( subtype != "collection" ) {
         jsobj.throw_error( "unknown item group type", "subtype" );
     }
-    ig = make_group_or_throw( group_id, isd, type, jsobj.get_int( "ammo", 0 ),
-                              jsobj.get_int( "magazine", 0 ) );
+    Item_group *ig = make_group_or_throw( group_id, isd, type, jsobj.get_int( "ammo", 0 ),
+                                          jsobj.get_int( "magazine", 0 ) );
 
     if( subtype == "old" ) {
         JsonArray items = jsobj.get_array( "items" );

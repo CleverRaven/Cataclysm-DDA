@@ -703,6 +703,20 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "furniture_roof",
+    "name": "furniture store roof",
+    "copy-from": "generic_city_building",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "furniture_upper_roof",
+    "name": "furniture store roof",
+    "copy-from": "generic_city_building",
+    "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_music",
     "copy-from": "generic_city_building",
     "name": "music store",
