@@ -19,13 +19,10 @@
     "name": "enhanced electric motor",
     "description": "A very powerful and yet lightweight electric motor.  Useful for crafting.",
     "weight": 81600,
-    "color": "light_cyan",
-    "symbol": ",",
     "material": [ "superalloy" ],
     "volume": "2650 ml",
-    "bashing": 4,
-    "category": "veh_parts",
-    "price": 68000
+    "price": 68000,
+    "copy-from": "motor"
   },
   {
     "type": "GENERIC",
@@ -33,13 +30,9 @@
     "name": "super electric motor",
     "description": "The most powerfull electric motor on the market.  Useful for crafting.",
     "weight": 133800,
-    "color": "light_cyan",
-    "symbol": ",",
-    "material": [ "steel" ],
     "volume": "111 L",
-    "bashing": 4,
-    "category": "veh_parts",
-    "price": 80000
+    "price": 80000,
+    "copy-from": "motor"
   },
   {
     "type": "GENERIC",
@@ -48,13 +41,11 @@
     "description": "A large and very powerful electric motor.  Useful for crafting.",
     "weight": 68000,
     "to_hit": -3,
-    "color": "light_cyan",
     "symbol": ":",
-    "material": [ "steel" ],
     "volume": "1740 ml",
     "bashing": 9,
-    "category": "veh_parts",
-    "price": 22000
+    "price": 22000,
+    "copy-from": "motor"
   },
   {
     "type": "GENERIC",
@@ -62,13 +53,10 @@
     "name": "small electric motor",
     "description": "A small electric motor.  Useful for crafting.",
     "weight": 7500,
-    "color": "light_cyan",
-    "symbol": ",",
-    "material": [ "steel" ],
     "volume": "5 L",
     "bashing": 1,
-    "category": "veh_parts",
-    "price": 2000
+    "price": 2000,
+    "copy-from": "motor"
   },
   {
     "type": "GENERIC",

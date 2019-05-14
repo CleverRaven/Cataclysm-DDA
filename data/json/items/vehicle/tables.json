@@ -21,14 +21,7 @@
     "name": "wooden table",
     "description": "A crude wooden table.",
     "weight": 10071,
-    "to_hit": -8,
-    "color": "red",
-    "symbol": "0",
-    "material": [ "wood" ],
-    "volume": 42,
-    "bashing": 6,
-    "category": "veh_parts",
-    "price": 20000
+    "copy-from": "v_table"
   },
   {
     "type": "GENERIC",
@@ -36,13 +29,9 @@
     "name": "workbench",
     "description": "A sturdy workbench built out of metal.  It is perfect for crafting large and heavy things.",
     "weight": 23000,
-    "to_hit": -8,
-    "color": "red",
-    "symbol": "0",
     "material": [ "steel" ],
-    "volume": 42,
     "bashing": 8,
-    "category": "veh_parts",
-    "price": 40000
+    "price": 40000,
+    "copy-from": "v_table"
   }
 ]

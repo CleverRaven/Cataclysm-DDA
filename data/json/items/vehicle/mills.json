@@ -18,17 +18,13 @@
     "type": "GENERIC",
     "id": "xl_wind_turbine",
     "name": "large wind turbine",
-    "looks_like": "wind_turbine",
     "description": "A large turbine that can convert wind into electric power.",
     "weight": 150000,
     "to_hit": -7,
-    "color": "yellow",
     "symbol": "Y",
-    "material": [ "steel" ],
     "volume": 240,
-    "bashing": 1,
-    "category": "veh_parts",
-    "price": 150000
+    "price": 150000,
+    "copy-from": "wind_turbine"
   },
   {
     "type": "GENERIC",
@@ -37,13 +33,12 @@
     "description": "A water wheel.  Will slowly recharge the vehicle's electrical power when built over shallow moving water.",
     "weight": 300000,
     "to_hit": -5,
-    "color": "yellow",
     "symbol": "*",
     "material": [ "wood" ],
     "volume": 120,
     "bashing": 3,
-    "category": "veh_parts",
-    "price": 120000
+    "price": 120000,
+    "copy-from": "wind_turbine"
   },
   {
     "type": "GENERIC",
@@ -51,13 +46,9 @@
     "name": "large water wheel",
     "description": "A large water wheel with wooden supports.  Will recharge the vehicle's electrical power when built over shallow moving water.",
     "weight": 600000,
-    "to_hit": -5,
-    "color": "yellow",
     "symbol": "o",
-    "material": [ "wood" ],
     "volume": 240,
-    "bashing": 3,
-    "category": "veh_parts",
-    "price": 200000
+    "price": 200000,
+    "copy-from": "water_wheel"
   }
 ]

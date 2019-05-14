@@ -23,19 +23,11 @@
     "id": "jumper_cable_heavy",
     "name": "heavy-duty cable",
     "description": "A long, thick, heavy-duty cable with power leads on either end.  It looks like you could use it to hook up two vehicles to each other, though you expect the power loss would be noticeable.",
-    "to_hit": 1,
-    "color": "light_blue",
-    "symbol": "&",
-    "material": [ "steel", "plastic" ],
     "volume": 6,
     "weight": 750,
-    "bashing": 2,
-    "category": "tools",
-    "price": 1,
     "max_charges": 20,
     "initial_charges": 20,
-    "use_action": "CABLE_ATTACH",
-    "flags": [ "CABLE_SPOOL" ]
+    "copy-from": "jumper_cable"
   },
   {
     "type": "TOOL",
@@ -43,17 +35,9 @@
     "name": "shiny cable",
     "description": "This is the cable of the gods: 50 meters long, no power loss, light as a feather and fits in a matchbook.  You're sure this wasn't supposed to exist, and the way it shimmers makes you uneasy.",
     "weight": 1,
-    "to_hit": 1,
-    "color": "light_blue",
-    "symbol": "&",
-    "material": [ "steel", "plastic" ],
     "volume": 0,
-    "bashing": 2,
-    "category": "tools",
-    "price": 1,
     "max_charges": 50,
     "initial_charges": 50,
-    "use_action": "CABLE_ATTACH",
-    "flags": [ "CABLE_SPOOL" ]
+    "copy-from": "jumper_cable"
   }
 ]

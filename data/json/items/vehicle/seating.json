@@ -20,13 +20,10 @@
     "name": "saddle",
     "description": "A leather-covered seat designed to be straddled.",
     "weight": 300,
-    "to_hit": -4,
-    "color": "red",
-    "symbol": "0",
     "material": [ "plastic", "aluminum" ],
     "volume": 5,
     "bashing": 2,
-    "category": "veh_parts",
-    "price": 2500
+    "price": 2500,
+    "copy-from": "seat"
   }
 ]
