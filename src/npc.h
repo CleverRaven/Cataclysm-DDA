@@ -183,7 +183,7 @@ struct npc_opinion {
     }
 
     npc_opinion operator+( const npc_opinion &rhs ) {
-        return ( npc_opinion( *this ) += rhs );
+        return npc_opinion( *this ) += rhs;
     }
 
     void serialize( JsonOut &jsout ) const;

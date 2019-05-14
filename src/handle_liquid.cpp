@@ -86,8 +86,6 @@ bool handle_liquid_from_container( item &container, int radius )
     return handle_liquid_from_container( container.contents.begin(), container, radius );
 }
 
-
-
 static bool get_liquid_target( item &liquid, item *const source, const int radius,
                                const tripoint *const source_pos,
                                const vehicle *const source_veh,

@@ -34,7 +34,7 @@ using Group_tag = std::string;
 namespace catacurses
 {
 class window;
-};
+}
 
 class basecamp
 {

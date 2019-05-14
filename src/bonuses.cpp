@@ -245,12 +245,12 @@ std::string bonus_container::get_description() const
 
         for( const auto &sf : boni.second ) {
             if( sf.stat ) {
-                dump << string_format( "%s: <stat>%s%d%%</stat>", type, ( sf.scale < 0 ) ? "" : "+",
+                dump << string_format( "%s: <stat>%s%d%%</stat>", type, sf.scale < 0 ? "" : "+",
                                        static_cast<int>( sf.scale * 100 ) );
                 //~ bash damage +80% of strength
                 dump << _( " of " ) << string_from_scaling_stat( sf.stat );
             } else {
-                dump << string_format( "%s: <stat>%s%d</stat>", type, ( sf.scale < 0 ) ? "" : "+",
+                dump << string_format( "%s: <stat>%s%d</stat>", type, sf.scale < 0 ? "" : "+",
                                        static_cast<int>( sf.scale ) );
             }
 
