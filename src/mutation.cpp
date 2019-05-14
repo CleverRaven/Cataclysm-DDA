@@ -345,7 +345,7 @@ void player::activate_mutation( const trait_id &mut )
     } else if( mut == "BURROW" ) {
         tdata.powered = false;
         item burrowing_item( itype_id( "fake_burrowing" ) );
-        invoke_item ( &burrowing_item );
+        invoke_item( &burrowing_item );
         return;  // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
         std::vector<tripoint> valid;

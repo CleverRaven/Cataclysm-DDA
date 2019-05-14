@@ -9115,7 +9115,7 @@ bool game::plmove( int dx, int dy, int dz )
                     }
                 } else if( u.has_trait( trait_BURROW ) ) {
                     item burrowing_item( itype_id( "fake_burrowing" ) );
-                    u.invoke_item ( &burrowing_item, "BURROW", dest_loc );
+                    u.invoke_item( &burrowing_item, "BURROW", dest_loc );
                     u.defer_move( dest_loc ); // don't move into the tile until done mining
                     return true;
                 }
