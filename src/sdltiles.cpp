@@ -827,17 +827,17 @@ void set_displaybuffer_rendertarget()
 // Populate a map with the available video displays and their name
 void find_videodisplays()
 {
-    std::map<int, std::string> displays;
+    std::vector< std::tuple<int, std::string> > displays;
 
     int numdisplays = SDL_GetNumVideoDisplays();
     for( int i = 0 ; i < numdisplays ; i++ ) {
-        displays.insert( { i, SDL_GetDisplayName( i ) } );
+        displays.push_back( std::make_tuple( i, std::string( SDL_GetDisplayName( i ) ) ) );
     }
 
     int current_display = get_option<int>( "DISPLAY" );
     get_options().add( "DISPLAY", "graphics", _( "Display" ),
                        _( "Sets which video display will be used to show the game. Requires restart." ),
-                       displays, current_display, 0, options_manager::COPT_CURSES_HIDE
+                       displays, current_display, 0, options_manager::COPT_CURSES_HIDE, true
                      );
 }
 
@@ -3587,6 +3587,9 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         // map font (if any) might differ from standard font
         fw = map_font->fontwidth;
         fh = map_font->fontheight;
+    } else if( overmap_font && capture_win == g->w_overmap ) {
+        fw = overmap_font->fontwidth;
+        fh = overmap_font->fontheight;
     }
 
     // multiplied by the user's specified scaling factor regardless of whether tiles are in use
@@ -3608,6 +3611,13 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         return cata::nullopt;
     }
 
+    int view_offset_x = 0;
+    int view_offset_y = 0;
+    if( capture_win == g->w_terrain ) {
+        view_offset_x = g->ter_view_x;
+        view_offset_y = g->ter_view_y;
+    }
+
     int x, y;
     if( tile_iso && use_tiles ) {
         const int screen_column = round( static_cast<float>( coordinate_x - win_left - ( (
@@ -3616,14 +3626,14 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
                                       ( win_bottom - win_top ) / 2 + win_top ) / ( fw / 4 ) );
         const int selected_x = ( screen_column - screen_row ) / 2;
         const int selected_y = ( screen_row + screen_column ) / 2;
-        x = g->ter_view_x + selected_x;
-        y = g->ter_view_y + selected_y;
+        x = view_offset_x + selected_x;
+        y = view_offset_y + selected_y;
     } else {
         const int selected_column = ( coordinate_x - win_left ) / fw;
         const int selected_row = ( coordinate_y - win_top ) / fh;
 
-        x = g->ter_view_x - ( ( capture_win->width / 2 ) - selected_column );
-        y = g->ter_view_y - ( ( capture_win->height / 2 ) - selected_row );
+        x = view_offset_x + selected_column - capture_win->width / 2;
+        y = view_offset_y + selected_row - capture_win->height / 2;
     }
 
     return tripoint( x, y, g->get_levz() );

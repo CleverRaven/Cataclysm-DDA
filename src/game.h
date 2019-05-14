@@ -14,6 +14,7 @@
 #include <functional>
 #include <iosfwd>
 #include <string>
+#include <chrono>
 
 #include "calendar.h"
 #include "cursesdef.h"
@@ -29,6 +30,8 @@
 #include "type_id.h"
 #include "monster.h"
 #include "game_inventory.h"
+
+#define DEFAULT_TILESET_ZOOM 16
 
 extern bool test_mode;
 
@@ -125,6 +128,9 @@ struct w_map {
     catacurses::window win;
 };
 
+// There is only one game instance, so losing a few bytes of memory
+// due to padding is not much of a concern.
+// NOLINTNEXTLINE(clang-analyzer-optin.performance.Padding)
 class game
 {
         friend class editmap;
@@ -869,6 +875,18 @@ class game
     public:
         void quicksave();        // Saves the game without quitting
         void disp_NPCs();        // Currently for debug use.  Lists global NPCs.
+
+        /** Used to implement mouse "edge scrolling". Returns a
+         *  tripoint which is a vector of the resulting "move", i.e.
+         *  (0, 0, 0) if the mouse is not at the edge of the screen,
+         *  otherwise some (x, y, 0) depending on which edges are
+         *  hit.
+         *  This variant adjust scrolling speed according to zoom
+         *  level, making it suitable when viewing the "terrain".
+         */
+        tripoint mouse_edge_scrolling_terrain( input_context &ctxt );
+        /** This variant is suitable for the overmap. */
+        tripoint mouse_edge_scrolling_overmap( input_context &ctxt );
     private:
         void quickload();        // Loads the previously saved game if it exists
 
@@ -1013,6 +1031,10 @@ class game
 
         // Preview for auto move route
         std::vector<tripoint> destination_preview;
+
+        std::chrono::time_point<std::chrono::steady_clock> last_mouse_edge_scroll;
+        tripoint last_mouse_edge_scroll_vector;
+        tripoint mouse_edge_scrolling( input_context ctxt, const int speed );
 
 };
 

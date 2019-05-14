@@ -795,7 +795,9 @@ const std::string &input_context::handle_input()
 const std::string &input_context::handle_input( const int timeout )
 {
     const auto old_timeout = inp_mngr.get_timeout();
-    inp_mngr.set_timeout( timeout );
+    if( timeout >= 0 ) {
+        inp_mngr.set_timeout( timeout );
+    }
     next_action.type = CATA_INPUT_ERROR;
     const std::string *result = &CATA_ERROR;
     while( true ) {
@@ -1251,8 +1253,15 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         return cata::nullopt;
     }
 
-    const int x = g->ter_view_x - ( ( view_columns / 2 ) - coordinate_x );
-    const int y = g->ter_view_y - ( ( view_rows / 2 ) - coordinate_y );
+    int view_offset_x = 0;
+    int view_offset_y = 0;
+    if( capture_win == g->w_terrain ) {
+        view_offset_x = g->ter_view_x;
+        view_offset_y = g->ter_view_y;
+    }
+
+    const int x = view_offset_x - ( ( view_columns / 2 ) - coordinate_x );
+    const int y = view_offset_y - ( ( view_rows / 2 ) - coordinate_y );
 
     return tripoint( x, y, g->get_levz() );
 }

@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <algorithm>
 #include <array>
+#include <chrono>
 #include <list>
 #include <map>
 #include <memory>
@@ -962,6 +963,8 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     ictxt.register_action( "LEVEL_UP" );
     ictxt.register_action( "LEVEL_DOWN" );
     ictxt.register_action( "HELP_KEYBINDINGS" );
+    ictxt.register_action( "MOUSE_MOVE" );
+    ictxt.register_action( "SELECT" );
 
     // Actions whose keys we want to display.
     ictxt.register_action( "CENTER" );
@@ -987,16 +990,37 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     bool show_explored = true;
     bool fast_scroll = false; /* fast scroll state should reset every time overmap UI is opened */
     int fast_scroll_offset = get_option<int>( "MOVE_VIEW_OFFSET" );
-
+    cata::optional<tripoint> mouse_pos;
+    bool redraw = true;
+    auto last_blink = std::chrono::steady_clock::now();
     do {
-        draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored,
-              fast_scroll, &ictxt, data );
+        if( redraw ) {
+            draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays,
+                  show_explored, fast_scroll, &ictxt, data );
+        }
+        redraw = true;
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+        action = ictxt.handle_input( get_option<int>( "EDGE_SCROLL" ) );
+#else
         action = ictxt.handle_input( BLINK_SPEED );
-
+#endif
         if( const cata::optional<tripoint> vec = ictxt.get_direction( action ) ) {
             int scroll_d = fast_scroll ? fast_scroll_offset : 1;
             curs.x += vec->x * scroll_d;
             curs.y += vec->y * scroll_d;
+        } else if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
+            tripoint edge_scroll = g->mouse_edge_scrolling_terrain( ictxt );
+            if( edge_scroll == tripoint_zero ) {
+                redraw = false;
+            } else {
+                if( action == "MOUSE_MOVE" ) {
+                    edge_scroll *= 2;
+                }
+                curs += edge_scroll;
+            }
+        } else if( action == "SELECT" && ( mouse_pos = ictxt.get_coordinates( g->w_overmap ) ) ) {
+            curs.x += mouse_pos->x;
+            curs.y += mouse_pos->y;
         } else if( action == "CENTER" ) {
             curs = orig;
         } else if( action == "LEVEL_DOWN" && curs.z > -OVERMAP_DEPTH ) {
@@ -1331,14 +1355,15 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 uistate.place_special = nullptr;
                 action.clear();
             }
-        } else if( action == "TIMEOUT" ) {
+        }
+
+        auto now = std::chrono::steady_clock::now();
+        if( now > last_blink + std::chrono::milliseconds( BLINK_SPEED ) ) {
             if( uistate.overmap_blinking ) {
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
+                redraw = true;
             }
-        } else if( action == "ANY_INPUT" ) {
-            if( uistate.overmap_blinking ) {
-                uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
-            }
+            last_blink = now;
         }
     } while( action != "QUIT" && action != "CONFIRM" );
     werase( g->w_overmap );
