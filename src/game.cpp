@@ -3192,7 +3192,7 @@ void game::draw_panels( size_t column, size_t index )
                 auto label = catacurses::newwin( 1, panel.get_name().length(), y, sidebar_right ?
                                                  TERMX - panel.get_width() - panel.get_name().length() - 1 : panel.get_width() + 1 );
                 werase( label );
-                mvwprintz( label, 0, 0, c_light_red, panel.get_name() );
+                mvwprintz( label, 0, 0, c_light_red, _( panel.get_name() ) );
                 wrefresh( label );
                 label = catacurses::newwin( h, 1, y,
                                             sidebar_right ? TERMX - panel.get_width() - 1 : panel.get_width() );
