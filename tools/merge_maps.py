@@ -13,19 +13,30 @@ STRIDE_X = 3
 STRIDE_Y = 2
 MIN_X = 10000
 MIN_Y = 10000
+OM_SPEC_TYPES = ["overmap_special", "city_building"]
 KEYED_TERMS = [
     "terrain", "furniture", "fields", "npcs", "signs", "vendingmachines", "toilets", "gaspumps",
     "items", "monsters", "vehicles", "item", "traps", "monster", "rubble", "liquids",
     "sealed_item", "graffiti", "mapping"
 ]
 PLACE_TERMS = ["set", "place_groups"]
+MAP_ROTATE = [
+    {"dir": "_south", "x": 1, "y": 1},
+    {"dir": "_north", "x": 0, "y": 0}
+]
+
 
 def x_y_bucket(x, y):
     return "{}__{}".format(math.floor((x - MIN_X) / STRIDE_X), math.floor((y - MIN_Y) / STRIDE_Y))
 
 
-def x_y_sub(x, y):
-    return "{}__{}".format((x - MIN_X) % STRIDE_X, (y - MIN_Y) % STRIDE_Y)
+def x_y_sub(x, y, is_north):
+    if is_north:
+        return "{}__{}".format((x - MIN_X) % STRIDE_X, (y - MIN_Y) % STRIDE_Y)
+    else:
+        return "{}__{}".format((x - MIN_X - 1) % STRIDE_X,
+                               (y - MIN_Y - 1) % STRIDE_Y)
+
 
 
 def x_y_simple(x, y):
@@ -162,40 +173,45 @@ output_name = argsDict.get("output_name", "")
 if output_name and not output_name.endswith(".json"):
     output_name += ".json"
 
-# very first pass, find the minimum X and Y values
+# very first pass, sort the overmaps and find the minimum X and Y values
 for special in specials:
-    if special.get("type") == "overmap_special":
+    if special.get("type") in OM_SPEC_TYPES:
         overmaps = special.get("overmaps")
-        for om_data in overmaps:
-            om_point = om_data.get("point", [])
-            if len(om_point) == 3:
-                x = om_point[0]
-                y = om_point[1]
-                if x < MIN_X:
-                    MIN_X = x
-                if y < MIN_Y:
-                    MIN_Y = y
+        if not overmaps:
+            continue
+        overmaps.sort(key=lambda om_data: om_data.get("point", [1000, 0])[0])
+        MIN_X = overmaps[0].get("point", [1000, 0])[0]
+        overmaps.sort(key=lambda om_data: om_data.get("point", [0, 1000])[1])
+        MIN_Y = overmaps[0].get("point", [0, 1000])[1]
 
 # create the merge sets of maps
 merge_sets = {}
 for special in specials:
-    if special.get("type") == "overmap_special":
+    if special.get("type") in OM_SPEC_TYPES:
         overmaps = special.get("overmaps")
         for om_data in overmaps:
             om_map = om_data.get("overmap")
-            om_map = om_map.split("_north")[0]
+            for map_dir in MAP_ROTATE:
+                if om_map.endswith(map_dir["dir"]):
+                    om_map = om_map.split(map_dir["dir"])[0]
+                    break
             om_point = om_data.get("point", [])
             if len(om_point) == 3:
+                is_north = map_dir["dir"] == "_north"
                 x = om_point[0]
                 y = om_point[1]
                 z = om_point[2]
                 merge_sets.setdefault(z, {})
                 merge_sets[z].setdefault(x_y_bucket(x, y), {})
-                merge_sets[z][x_y_bucket(x, y)][x_y_sub(x, y)] = om_map
+                merge_sets[z][x_y_bucket(x, y)][x_y_sub(x, y, is_north)] = om_map
 
 # convert the mapgen list into a dictionary for easier access
 map_dict = {}
+new_mapgen = []
 for om_map in mapgen:
+    if om_map.get("type") != "mapgen":
+        new_mapgen.append(om_map)
+        continue
     om_id = om_map["om_terrain"]
     if isinstance(om_id, list):
         if len(om_id) == 1:
@@ -208,7 +224,6 @@ for om_map in mapgen:
 for term in KEYED_TERMS:
     PLACE_TERMS.append("place_" + term)
 
-new_mapgen = []
 basic_entry = {
     "method": "json",
     "object": {
