@@ -51,7 +51,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_3",
     "dialogue": {
-      "describe": "No I said ... [*You Hear a short, muffled conversation from across the intercom*] /nWell it seems we do have a use for you.  It's dangerous and you are likely to die, but if you complete it we will allow you limited access to our resources.",
+      "describe": "No, I said ... [*You hear a short, muffled conversation from across the intercom*]/nWell, it seems we do have a use for you.  It's dangerous and you are likely to die, but if you complete it we will allow you limited access to our resources.",
       "offer": "One of our scientists recently left the lab to perform a field test on a prototype robot, but failed to return, and has not been heard of since.  Investigate the test and return with her and the prototype. Failing that, return with the data recorder that was attached to our prototype.",
       "accepted": "We appreciate your help, good luck.",
       "rejected": "Don't expect our help then.",
