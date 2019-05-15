@@ -171,6 +171,21 @@
   },
   {
     "type": "GENERIC",
+    "id": "ai_module_basic",
+    "name": "basic AI core",
+    "description": "A very basic AI core with minimal cognitive abilities.",
+    "weight": 125;
+    "copy-from": "ai_module"
+  },
+  {
+    "type": "GENERIC",
+    "id": "ai_module_advanced",
+    "name": "advanced AI core",
+    "description": "An advanced AI core with impressive cognitive abilities.",
+    "copy-from": "ai_module"
+  },
+  {
+    "type": "GENERIC",
     "id": "gun_module",
     "name": "gun operating system",
     "description": "This system can operate most conventional weapons.",
