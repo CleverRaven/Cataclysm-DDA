@@ -42,6 +42,10 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
     time_point timestamp_in_turns  = 0;
     int               timestamp_in_user_actions = 0;
     int               count = 1;
+    // number of times this message has been seen while it was in cooldown.
+    unsigned cooldown_seen = 1;
+    // hide the message, because at some point it was in cooldown period.
+    bool hide = false;
     game_message_type type  = m_neutral;
 
     game_message() = default;
@@ -62,6 +66,10 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
         }
         //~ Message %s on the message log was repeated %d times, e.g. "You hear a whack! x 12"
         return string_format( _( "%s x %d" ), message, count );
+    }
+
+    bool is_hidden() const {
+        return hide;
     }
 
     bool is_new( const time_point &current ) const {
@@ -108,6 +116,7 @@ class messages_impl
 {
     public:
         std::deque<game_message> messages;   // Messages to be printed
+        std::vector<game_message> cooldown_templates; // Message cooldown
         time_point curmes = 0; // The last-seen message.
         bool active = true;
 
@@ -142,6 +151,43 @@ class messages_impl
             return true;
         }
 
+        void refresh_cooldown( const std::string &msg_string, game_message_type const type ) {
+            // is cooldown used?
+            if(message_cooldown <= 0) {
+                return;                
+            }
+
+            // housekeeping: remove any cooldown message with an expired cooldown time from the cooldown queue.
+            const auto now = calendar::turn;
+            for (auto it = cooldown_templates.begin(); it != cooldown_templates.end(); )
+            {
+                auto diff = now - it->turn();
+                const auto turns = to_turns<int>(diff);
+                if(turns >= message_cooldown) {
+                    // time elapsed! remove it.
+                    it = cooldown_templates.erase(it);
+                } else {
+                    ++it;
+                }
+            }
+
+            // Is the message string already in the cooldown queue?
+            // If it's not we must put it in the cooldown queue now, otherwise just increment the number of times we have seen it.
+            const auto cooldown_message_it = std::find_if(cooldown_templates.begin(), cooldown_templates.end(), [&msg_string](game_message &msg) -> bool
+            {
+                return msg.message == msg_string;
+            });
+            if (cooldown_message_it == cooldown_templates.end()) {
+                // note: the game_message ctor use the std::move idiom, thus we need a copy of the string.
+                std::string msg_string_copy;
+                msg_string_copy.assign(msg_string);
+                cooldown_templates.emplace_back( std::move(msg_string_copy), type);
+            } else {
+                // increment the number of time we have seen this message.
+                cooldown_message_it->cooldown_seen++;
+            }
+        }
+
         void add_msg_string( std::string &&msg ) {
             add_msg_string( std::move( msg ), m_neutral );
         }
@@ -155,6 +201,8 @@ class messages_impl
                 return;
             }
 
+            refresh_cooldown(msg, type);
+
             if( coalesce_messages( msg, type ) ) {
                 return;
             }
@@ -164,6 +212,49 @@ class messages_impl
             }
 
             messages.emplace_back( std::move( msg ), type );
+        }
+
+        bool message_in_cooldown(const game_message &message, int i)
+        {
+            if (message_cooldown <= 0) {
+                return false;
+            }
+
+            // We look for **exactly the same** message string; if there is one, this means the same message was already displayed.
+            const auto cooldown_it = std::find_if(cooldown_templates.begin(), cooldown_templates.end(),
+                [&message](game_message &m) -> bool
+            {
+                return m.message == message.message;
+            });
+            if (cooldown_it == cooldown_templates.end()) {
+                // nothing found, not in cooldown.
+                return false;
+            }
+
+            // check if message has been seen only once.
+            if (cooldown_it->cooldown_seen == 1) {
+                return false;
+            }
+
+            // note: if we are here, we have already seen this message string.
+            // we need to display it at least once in the sidebar. We search for the message that started the cooldown timer.
+            const auto message_it = std::find_if(messages.begin(), messages.end(), [&message, &cooldown_it](game_message &m) -> bool
+            {
+                return m.message == message.message && cooldown_it->turn() == m.turn();
+            });
+            if (message_it == messages.end()) {
+                return false;
+            }
+
+            // note: dist is the index of the message, in the message queue, that started the cooldown for all messages with the same string.
+            const auto dist = std::distance(messages.begin(), message_it);
+            if (i > dist) {
+                messages[i].hide = true;
+                return true;
+            }
+
+            // 
+            return false;
         }
 
         std::vector<std::pair<std::string, std::string>> recent_messages( size_t count ) const {
@@ -706,6 +797,11 @@ void Messages::display_messages( const catacurses::window &ipk_target, const int
             const game_message &m = player_messages.messages[i];
             if( message_exceeds_ttl( m ) ) {
                 break;
+            }
+
+            if( player_messages.message_in_cooldown( m, i ) || m.is_hidden() ) {
+                // message appeared recently and is still into its cooldown period.
+                continue;
             }
 
             const nc_color col = m.get_color( player_messages.curmes );
