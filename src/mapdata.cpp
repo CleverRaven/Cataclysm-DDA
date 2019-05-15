@@ -283,6 +283,21 @@ bool furn_workbench_info::load( JsonObject &jsobj, const std::string &member )
     return true;
 }
 
+plant_data::plant_data() : transform( furn_str_id::NULL_ID() ), base( furn_str_id::NULL_ID() ),
+    growth_multiplier( 1.0f ), harvest_multiplier( 1.0f ) {}
+
+bool plant_data::load( JsonObject &jsobj, const std::string &member )
+{
+    JsonObject j = jsobj.get_object( member );
+
+    assign( j, "transform", transform );
+    assign( j, "base", base );
+    assign( j, "growth_multiplier", growth_multiplier );
+    assign( j, "harvest_multiplier", harvest_multiplier );
+
+    return true;
+}
+
 furn_t null_furniture_t()
 {
     furn_t new_furniture;
@@ -1220,9 +1235,6 @@ void furn_t::load( JsonObject &jo, const std::string &src )
               DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, "" );
     optional( jo, was_loaded, "deployed_item", deployed_item );
-    optional( jo, was_loaded, "plant_transform", plant_transform );
-    optional( jo, was_loaded, "plant_base", plant_base );
-
     load_symbol( jo );
     transparent = false;
 
@@ -1239,6 +1251,10 @@ void furn_t::load( JsonObject &jo, const std::string &src )
     if( jo.has_object( "workbench" ) ) {
         workbench = furn_workbench_info();
         workbench->load( jo, "workbench" );
+    }
+    if( jo.has_object( "plant_data" ) ) {
+        plant = plant_data();
+        plant->load( jo, "plant_data" );
     }
 }
 

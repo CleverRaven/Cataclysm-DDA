@@ -2143,8 +2143,7 @@
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEED" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 1, "str_max": 5, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_transform": "f_plant_seedling",
-    "plant_base": "f_null"
+    "plant_data": { "transform": "f_plant_seedling", "base": "f_null" }
   },
   {
     "type": "furniture",
@@ -2158,8 +2157,7 @@
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_transform": "f_plant_mature",
-    "plant_base": "f_null"
+    "plant_data": { "transform": "f_plant_mature", "base": "f_null" }
   },
   {
     "type": "furniture",
@@ -2173,8 +2171,7 @@
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 3, "str_max": 8, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_transform": "f_plant_harvest",
-    "plant_base": "f_null"
+    "plant_data": { "transform": "f_plant_harvest", "base": "f_null" }
   },
   {
     "type": "furniture",
@@ -2188,8 +2185,7 @@
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_transform": "f_null",
-    "plant_base": "f_null"
+    "plant_data": { "transform": "f_null", "base": "f_null" }
   },
   {
     "type": "furniture",
@@ -2201,7 +2197,6 @@
     "move_cost_mod": 1,
     "required_str": 10,
     "looks_like": "t_dirtmound",
-    "plant_transform": "f_planter_seed",
     "flags": [ "TRANSPARENT", "PLANTABLE", "FLAT", "MOUNTABLE" ],
     "deconstruct": {
       "items": [
@@ -2223,6 +2218,7 @@
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
+    "plant_data": { "transform": "f_planter_seed" },
     "examine_action": "dirtmound"
   },
   {
@@ -2257,8 +2253,7 @@
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
-    "plant_transform": "f_planter_seedling",
-    "plant_base": "f_planter"
+    "plant_data": { "transform": "f_planter_seedling", "base": "f_planter" }
   },
   {
     "type": "furniture",
@@ -2292,8 +2287,7 @@
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
-    "plant_transform": "f_planter_mature",
-    "plant_base": "f_planter"
+    "plant_data": { "transform": "f_planter_mature", "base": "f_planter" }
   },
   {
     "type": "furniture",
@@ -2327,8 +2321,7 @@
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
-    "plant_transform": "f_planter_harvest",
-    "plant_base": "f_planter"
+    "plant_data": { "transform": "f_planter_harvest", "base": "f_planter" }
   },
   {
     "type": "furniture",
@@ -2362,8 +2355,7 @@
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
-    "plant_transform": "f_planter",
-    "plant_base": "f_planter"
+    "plant_data": { "transform": "f_planter", "base": "f_planter" }
   },
   {
     "type": "furniture",

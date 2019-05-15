@@ -166,5 +166,12 @@
     "info": "Disable additional spawn of large groups of monsters fighting each other on swamps.",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "MAX_HARVEST_COUNT",
+    "info": "The maximum amount of produce that can be harvested from a plant.",
+    "stype": "int",
+    "value": 12
   }
 ]

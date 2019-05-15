@@ -1899,7 +1899,7 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
     used_seed.front().set_age( 0_turns );
     g->m.add_item_or_charges( examp, used_seed.front() );
     if( g->m.has_flag_furn( "PLANTABLE", examp ) ) {
-        g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant_transform ) );
+        g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
     } else {
         g->m.set( examp, t_dirt, f_plant_seed );
     }
@@ -2041,20 +2041,22 @@ void iexamine::harvest_plant( player &p, const tripoint &examp )
     } else { // Generic seed, use the seed item data
         const itype &type = *seed.type;
         g->m.i_clear( examp );
-        g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant_transform ) );
 
         int skillLevel = p.get_skill_level( skill_survival );
         ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
-        int plantCount = rng( skillLevel / 2, skillLevel );
-        if( plantCount >= 12 ) {
-            plantCount = 12;
-        } else if( plantCount <= 0 ) {
-            plantCount = 1;
+        int plant_count = rng( skillLevel / 2, skillLevel );
+        plant_count *= g->m.furn( examp )->plant->harvest_multiplier;
+        const int max_harvest_count = get_option<int>( "MAX_HARVEST_COUNT" );
+        if( plant_count >= max_harvest_count ) {
+            plant_count = max_harvest_count;
+        } else if( plant_count <= 0 ) {
+            plant_count = 1;
         }
-        const int seedCount = std::max( 1, rng( plantCount / 4, plantCount / 2 ) );
-        for( auto &i : get_harvest_items( type, plantCount, seedCount, true ) ) {
+        const int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
+        for( auto &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
             g->m.add_item_or_charges( examp, i );
         }
+        g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
         p.moves -= 500;
     }
 }

@@ -815,7 +815,6 @@ See also VEHICLE_JSON.md
 "weight" : 350,                   // Weight of the item in grams. For stackable items (ammo, comestibles) this is the weight per charge.
 "volume" : 1,                     // Volume, measured in 1/4 liters. For stackable items (ammo, comestibles) this is the volume of stack_size charges. Volume in ml and L can be used - "50ml" or "2L"
 "integral_volume" : 0,            // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
-"integral_weight" : 0,            // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
 "rigid": false,                   // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "insulation": 1,                  // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
 "price" : 100,                    // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges.
@@ -1942,6 +1941,33 @@ The terrain / furniture that will be set after the original has been deconstruct
 ### `items`
 
 (Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". Upon deconstruction the object, items from that group will be spawned.
+
+### `plant_data`
+
+```JSON
+{
+  "transform": "f_planter_harvest",
+  "base": "f_planter",
+  "growth_multiplier": 1.2,
+  "harvest_multiplier": 0.8
+}
+```
+
+#### `transform`
+
+What the `PLANT` furniture turn into when it grows a stage, or what a `PLANTABLE` furniture turns into when it is planted on.
+
+#### `base`
+
+What the 'base' furniture of the `PLANT` furniture is - what it would be if there was not a plant growing there. Used when monsters 'eat' the plant to preserve what furniture it is.
+
+#### `growth_multiplier`
+
+A flat multiplier on the growth speed on the plant. For numbers greater than one, it will take longer to grow, and for numbers less than one it will take less time to grow.
+
+#### `harvest_multiplier`
+
+A flat multiplier on the harvest count of the plant. For numbers greater than one, the plant will give more produce from harvest, for numbers less than one it will give less produce from harvest.
 
 # Scenarios
 
