@@ -10,17 +10,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "Lake",
-    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "river_center" } ],
-    "locations": [ "wilderness" ],
-    "city_distance": [ 1, -1 ],
-    "city_sizes": [ 0, 12 ],
-    "occurrences": [ 0, 10 ],
-    "rotate": false,
-    "flags": [ "BLOB", "CLASSIC" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "motel-twd",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "motel_twd_1_north" },

@@ -2660,20 +2660,11 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
                     t_below, zlevel, *rsettings, *this );
 
     const std::string function_key = terrain_type->get_mapgen_id();
-
     bool found = true;
-    const auto fmapit = oter_mapgen.find( function_key );
-    if( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
-        // int fidx = rng(0, fmapit->second.size() - 1); // simple unweighted list
-        std::map<std::string, std::map<int, int> >::const_iterator weightit = oter_mapgen_weights.find(
-                    function_key );
-        const int rlast = weightit->second.rbegin()->first;
-        const int roll = rng( 1, rlast );
-        const int fidx = weightit->second.lower_bound( roll )->second;
-        //add_msg("draw_map: %s (%s): %d/%d roll %d/%d den %.4f", terrain_type.c_str(), function_key.c_str(), fidx+1, fmapit->second.size(), roll, rlast, density );
 
-        fmapit->second[fidx]->generate( this, terrain_type, dat, when, density );
-    } else {
+    const bool generated = run_mapgen_func( function_key, this, terrain_type, dat, when, density );
+
+    if( !generated ) {
         if( is_ot_type( "megastore", terrain_type ) ) {
             draw_megastore( terrain_type, dat, when, density );
         } else if( is_ot_type( "slimepit", terrain_type ) ||
@@ -8391,4 +8382,20 @@ bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint
         return false;
     }
     return update_function->second[0]->update_map( omt_pos, 0, 0, miss, cancel_on_collision );
+}
+
+bool run_mapgen_func( const std::string &mapgen_id, map *m, oter_id terrain_type, mapgendata dat,
+                      const time_point &turn, float density )
+{
+    const auto fmapit = oter_mapgen.find( mapgen_id );
+    if( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
+        std::map<std::string, std::map<int, int> >::const_iterator weightit = oter_mapgen_weights.find(
+                    mapgen_id );
+        const int rlast = weightit->second.rbegin()->first;
+        const int roll = rng( 1, rlast );
+        const int fidx = weightit->second.lower_bound( roll )->second;
+        fmapit->second[fidx]->generate( m, terrain_type, dat, turn, density );
+        return true;
+    }
+    return false;
 }
