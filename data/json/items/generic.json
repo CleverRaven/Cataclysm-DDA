@@ -164,9 +164,9 @@
   },
   {
     "type": "GENERIC",
-    "id": "central_module",
-    "name": "central integrating module",
-    "description": "This module is responsible for decision making, it's basically runs the AI of the robot.",
+    "id": "ai_module",
+    "name": "AI core",
+    "description": "This module is responsible for decision making, it basically runs the AI of the robot.",
     "copy-from": "robot_module_abstract"
   },
   {
