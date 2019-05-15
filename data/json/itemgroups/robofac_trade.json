@@ -4,10 +4,7 @@
     "id": "robofac_basic_robots",
     "items": [
       [ "bot_manhack", 40 ],
-      [ "bot_skitterbot", 25 ],
-      [ "months_old_newspaper", 1 ],
-      [ "weeks_old_newspaper", 2 ],
-      [ "newest_newspaper", 3 ]
+      [ "bot_skitterbot", 25 ]
     ]
   }
 ]
