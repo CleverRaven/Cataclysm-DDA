@@ -10107,6 +10107,26 @@
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "RAD_PROOF", "ELECTRIC_IMMUNE", "OUTER" ]
   },
   {
+    "id": "robofac_enviro_suit",
+    "type": "ARMOR",
+    "name": "Hub 01 enviromental suit",
+    "description": "A lightweith environmental suit worn by Hub personnel in their rare forays aboveground.  Colored brown and blue, the white seal of Hub 01 is embroidered on both of its upper arms.  It requires a separate gas mask for full protection.",
+    "weight": 5000,
+    "volume": 68,
+    "price": 117500,
+    "material": [ "nomex" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "HEAD", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "coverage": 100,
+    "encumbrance": 15,
+    "warmth": 40,
+    "storage": 60,
+    "material_thickness": 2,
+    "environmental_protection": 20,
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "HELMET_COMPAT", "RAD_PROOF", "ELECTRIC_IMMUNE", "STURDY" ]
+  },
+  {
     "id": "entry_suit",
     "type": "ARMOR",
     "name": "entry suit",

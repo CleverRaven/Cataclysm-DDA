@@ -938,6 +938,24 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_robofac_prototype",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken prototype robot",
+    "category": "other",
+    "description": "A broken prototype robot, well more broken than before.  Could be gutted for parts.",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 140000,
+    "volume": 250,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_molebot",
     "symbol": ",",
     "color": "green",
@@ -2681,6 +2699,21 @@
       100000
     ],
     "ammo": "money"
+  },
+  {
+    "id": "robofac_test_data",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "yellow",
+    "name": "prototype I/O recorder",
+    "description": "This small transparent card was attached to the prototype robot's CPU.  It might contain the data the intercom spoke off.",
+    "category": "other",
+    "price": 500,
+    "material": "plastic",
+    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_1" ],
+    "weight": 6,
+    "volume": 0,
+    "to_hit": -3
   },
   {
     "id": "gasdiscount_silver",
