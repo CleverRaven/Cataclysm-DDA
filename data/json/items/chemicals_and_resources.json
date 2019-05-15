@@ -420,7 +420,7 @@
     "weight": 8.4,
     "bashing": 1,
     "ammo_type": "components",
-    "container": "bag_plastic",
+    "container": "bottle_plastic_small",
     "count": 100
   },
   {
