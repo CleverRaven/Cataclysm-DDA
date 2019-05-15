@@ -1938,6 +1938,26 @@ void talk_effect_fun_t::set_npc_aim_rule( const std::string &setting )
     };
 }
 
+void talk_effect_fun_t::set_npc_cbm_reserve_rule( const std::string &setting )
+{
+    function = [setting]( const dialogue & d ) {
+        auto rule = cbm_reserve_strs.find( setting );
+        if( rule != cbm_reserve_strs.end() ) {
+            d.beta->rules.cbm_reserve = rule->second;
+        }
+    };
+}
+
+void talk_effect_fun_t::set_npc_cbm_recharge_rule( const std::string &setting )
+{
+    function = [setting]( const dialogue & d ) {
+        auto rule = cbm_recharge_strs.find( setting );
+        if( rule != cbm_recharge_strs.end() ) {
+            d.beta->rules.cbm_recharge = rule->second;
+        }
+    };
+}
+
 void talk_effect_fun_t::set_mapgen_update( JsonObject jo, const std::string &member )
 {
     mission_target_params target_params = mission_util::parse_mission_om_target( jo );
@@ -2175,6 +2195,12 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
     } else if( jo.has_string( "set_npc_aim_rule" ) ) {
         const std::string setting = jo.get_string( "set_npc_aim_rule" );
         subeffect_fun.set_npc_aim_rule( setting );
+    } else if( jo.has_string( "set_npc_cbm_reserve_rule" ) ) {
+        const std::string setting = jo.get_string( "set_npc_cbm_reserve_rule" );
+        subeffect_fun.set_npc_cbm_reserve_rule( setting );
+    } else if( jo.has_string( "set_npc_cbm_recharge_rule" ) ) {
+        const std::string setting = jo.get_string( "set_npc_cbm_recharge_rule" );
+        subeffect_fun.set_npc_cbm_recharge_rule( setting );
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
     } else {
@@ -2756,6 +2782,30 @@ void conditional_t::set_npc_engagement_rule( JsonObject &jo )
     };
 }
 
+void conditional_t::set_npc_cbm_reserve_rule( JsonObject &jo )
+{
+    const std::string &setting = jo.get_string( "npc_cbm_reserve_rule" );
+    condition = [setting]( const dialogue & d ) {
+        auto rule = cbm_reserve_strs.find( setting );
+        if( rule != cbm_reserve_strs.end() ) {
+            return d.beta->rules.cbm_reserve == rule->second;
+        }
+        return false;
+    };
+}
+
+void conditional_t::set_npc_cbm_recharge_rule( JsonObject &jo )
+{
+    const std::string &setting = jo.get_string( "npc_cbm_recharge_rule" );
+    condition = [setting]( const dialogue & d ) {
+        auto rule = cbm_recharge_strs.find( setting );
+        if( rule != cbm_recharge_strs.end() ) {
+            return d.beta->rules.cbm_recharge == rule->second;
+        }
+        return false;
+    };
+}
+
 void conditional_t::set_npc_rule( JsonObject &jo )
 {
     std::string rule = jo.get_string( "npc_rule" );
@@ -3160,6 +3210,10 @@ conditional_t::conditional_t( JsonObject jo )
         set_npc_aim_rule( jo );
     } else if( jo.has_string( "npc_engagement_rule" ) ) {
         set_npc_engagement_rule( jo );
+    } else if( jo.has_string( "npc_cbm_reserve_rule" ) ) {
+        set_npc_cbm_reserve_rule( jo );
+    } else if( jo.has_string( "npc_cbm_recharge_rule" ) ) {
+        set_npc_cbm_recharge_rule( jo );
     } else if( jo.has_string( "npc_rule" ) ) {
         set_npc_rule( jo );
     } else if( jo.has_string( "npc_override" ) ) {

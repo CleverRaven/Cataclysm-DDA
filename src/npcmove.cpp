@@ -11,6 +11,7 @@
 #include <cmath>
 
 #include "ammo.h"
+#include "bionics.h"
 #include "cata_algo.h"
 #include "clzones.h"
 #include "debug.h"
@@ -83,6 +84,45 @@ const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
 const efftype_id effect_npc_flee_player( "npc_flee_player" );
 const efftype_id effect_npc_player_looking( "npc_player_still_looking" );
 
+// power source CBMs
+const bionic_id bio_advreactor( "bio_advreactor" );
+const bionic_id bio_batteries( "bio_batteries" );
+const bionic_id bio_ethanol( "bio_ethanol" );
+const bionic_id bio_furnace( "bio_furnace" );
+const bionic_id bio_metabolics( "bio_metabolics" );
+const bionic_id bio_reactor( "bio_reactor" );
+const bionic_id bio_torsionratchet( "bio_torsionratchet" );
+
+// active defense CBMs - activate when in danger
+const bionic_id bio_ads( "bio_ads" );
+const bionic_id bio_faraday( "bio_faraday" );
+const bionic_id bio_heat_absorb( "bio_heat_absorb" );
+const bionic_id bio_heat_sink( "bio_heatsink" );
+const bionic_id bio_ods( "bio_ods" );
+const bionic_id bio_shock( "bio_shock" );
+
+// special health CBMs - activate as needed
+const bionic_id bio_painkiller( "bio_painkiller" );
+const bionic_id bio_nanobots( "bio_nanobots" );
+const bionic_id bio_radscrubber( "bio_radscrubber" );
+const bionic_id bio_soporific( "bio_soporific" );
+
+// health CBMs - always activate
+const bionic_id bio_leukocyte( "bio_leukocyte" );
+const bionic_id bio_plutfilter( "bio_plutfilter" );
+
+// melee CBMs - activate for melee combat
+const bionic_id bio_hydraulics( "bio_hydraulics" );
+
+// weapon CBMs - activate in combat if they're better than what we have
+const bionic_id bio_lightning( "bio_chain_lightning" );
+const bionic_id bio_laser( "bio_laser" );
+const bionic_id bio_blade( "bio_blade" );
+const bionic_id bio_claws( "bio_claws" );
+
+const ammotype reactor_slurry( "reactor_slurry" );
+const ammotype plutonium( "plutonium" );
+
 enum npc_action : int {
     npc_undecided = 0,
     npc_pause,
@@ -106,6 +146,40 @@ enum npc_action : int {
 
 namespace
 {
+const std::vector<bionic_id> power_cbms = { {
+        bio_advreactor,
+        bio_batteries,
+        bio_ethanol,
+        bio_furnace,
+        bio_metabolics,
+        bio_reactor,
+        bio_torsionratchet
+    }
+};
+const std::vector<bionic_id> defense_cbms = { {
+        bio_ads,
+        bio_faraday,
+        bio_heat_absorb,
+        bio_heat_sink,
+        bio_ods,
+        bio_shock
+    }
+};
+
+const std::vector<bionic_id> health_cbms = { {
+        bio_leukocyte,
+        bio_plutfilter
+    }
+};
+
+// lightning, laser, blade, claws in order of use priority
+const std::vector<bionic_id> weapon_cbms = { {
+        bio_lightning,
+        bio_laser,
+        bio_blade,
+        bio_claws
+    }
+};
 
 const int avoidance_vehicles_radius = 5;
 
@@ -547,6 +621,8 @@ void npc::move()
         set_attitude( NPCATT_NULL );
     }
     regen_ai_cache();
+    adjust_power_cbms();
+
     npc_action action = npc_undecided;
 
     static const std::string no_target_str = "none";
@@ -637,6 +713,8 @@ void npc::move()
         action = npc_return_to_guard_pos;
     } else {
         // No present danger
+        deactivate_combat_cbms();
+
         action = address_needs();
         print_action( "address_needs %s", action );
 
@@ -795,6 +873,7 @@ void npc::execute_action( npc_action action )
             if( best_spot == pos() || path.empty() ) {
                 move_pause();
                 if( !has_effect( effect_lying_down ) ) {
+                    activate_bionic_by_id( bio_soporific );
                     add_effect( effect_lying_down, 30_minutes, num_bp, false, 1 );
                     if( g->u.sees( *this ) && !g->u.in_sleep_state() ) {
                         add_msg( _( "%s lies down to sleep." ), name );
@@ -837,6 +916,9 @@ void npc::execute_action( npc_action action )
         case npc_reach_attack:
             if( weapon.reach_range( *this ) >= rl_dist( pos(), tar ) &&
                 clear_shot_reach( pos(), tar ) ) {
+                if( can_use_offensive_cbm() ) {
+                    activate_bionic_by_id( bio_hydraulics );
+                }
                 reach_attack( tar );
                 break;
             }
@@ -847,6 +929,9 @@ void npc::execute_action( npc_action action )
                 move_to_next();
             } else if( path.size() == 1 ) {
                 if( cur != nullptr ) {
+                    if( can_use_offensive_cbm() ) {
+                        activate_bionic_by_id( bio_hydraulics );
+                    }
                     melee_attack( *cur, true );
                 }
             } else {
@@ -865,10 +950,14 @@ void npc::execute_action( npc_action action )
                 break;
             }
             aim();
-            if( !is_hallucination() ) {
-                fire_gun( tar, mode.qty, *mode );
-            } else {
+            if( is_hallucination() ) {
                 pretend_fire( this, mode.qty, *mode );
+            } else {
+                fire_gun( tar, mode.qty, *mode );
+                // "discard" the fake bio weapon after shooting it
+                if( cbm_weapon_index >= 0 ) {
+                    discharge_cbm_weapon();
+                }
             }
             break;
         }
@@ -1082,6 +1171,9 @@ npc_action npc::method_of_attack()
     // TODO: Change the in_vehicle check to actual "are we driving" check
     const bool dont_move = in_vehicle || rules.engagement == ENGAGE_NO_MOVE;
 
+    // if there's enough of a threat to be here, power up the combat CBMs
+    activate_combat_cbms();
+
     long ups_charges = charges_of( "UPS" );
 
     // get any suitable modes excluding melee, any forbidden to NPCs and those without ammo
@@ -1160,15 +1252,18 @@ npc_action npc::method_of_attack()
         return npc_melee;
     }
 
-    // TODO: Add a time check now that wielding takes a lot of time
-    if( wield_better_weapon() ) {
-        add_msg( m_debug, "%s is changing weapons", disp_name() );
-        return npc_noop;
-    }
+    // don't mess with CBM weapons
+    if( cbm_weapon_index < 0 ) {
+        // TODO: Add a time check now that wielding takes a lot of time
+        if( wield_better_weapon() ) {
+            add_msg( m_debug, "%s is changing weapons", disp_name() );
+            return npc_noop;
+        }
 
-    if( !weapon.ammo_sufficient() && can_reload_current() ) {
-        add_msg( m_debug, "%s is reloading", disp_name() );
-        return npc_reload;
+        if( !weapon.ammo_sufficient() && can_reload_current() ) {
+            add_msg( m_debug, "%s is reloading", disp_name() );
+            return npc_reload;
+        }
     }
 
     // TODO: Needs a check for transparent but non-passable tiles on the way
@@ -1333,16 +1428,196 @@ const item_location npc::find_usable_ammo( const item &weap ) const
     return const_cast<npc *>( this )->find_usable_ammo( weap );
 }
 
+void npc::adjust_power_cbms()
+{
+    if( !is_player_ally() || wants_to_recharge_cbm() ) {
+        return;
+    }
+    for( const bionic_id &cbm_id : power_cbms ) {
+        deactivate_bionic_by_id( cbm_id );
+    }
+}
+
+void npc::activate_combat_cbms()
+{
+    for( const bionic_id &cbm_id : defense_cbms ) {
+        activate_bionic_by_id( cbm_id );
+    }
+    if( can_use_offensive_cbm() ) {
+        for( const bionic_id &cbm_id : weapon_cbms ) {
+            check_or_use_weapon_cbm( cbm_id );
+        }
+    }
+}
+
+void npc::deactivate_combat_cbms()
+{
+    for( const bionic_id &cbm_id : defense_cbms ) {
+        deactivate_bionic_by_id( cbm_id );
+    }
+    deactivate_bionic_by_id( bio_hydraulics );
+    for( const bionic_id &cbm_id : weapon_cbms ) {
+        deactivate_bionic_by_id( cbm_id );
+    }
+    cbm_weapon_index = -1;
+}
+
+bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
+{
+    int index = 0;
+    for( auto &i : *my_bionics ) {
+        if( i.id == cbm_id ) {
+            if( !i.powered ) {
+                return activate_bionic( index, eff_only );
+            } else {
+                return false;
+            }
+        }
+        index += 1;
+    }
+    return false;
+}
+
+bool npc::use_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
+{
+    int index = 0;
+    for( auto &i : *my_bionics ) {
+        if( i.id == cbm_id ) {
+            if( !i.powered ) {
+                return activate_bionic( index, eff_only );
+            } else {
+                return true;
+            }
+        }
+        index += 1;
+    }
+    return false;
+}
+
+bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
+{
+    int index = 0;
+    for( auto &i : *my_bionics ) {
+        if( i.id == cbm_id ) {
+            if( i.powered ) {
+                return deactivate_bionic( index, eff_only );
+            } else {
+                return false;
+            }
+        }
+        index += 1;
+    }
+    return false;
+}
+
+bool npc::wants_to_recharge_cbm()
+{
+    return power_level < ( max_power_level * static_cast<int>( rules.cbm_recharge ) / 100 );
+}
+
+bool npc::can_use_offensive_cbm() const
+{
+    return power_level > ( max_power_level * static_cast<int>( rules.cbm_reserve ) / 100 );
+}
+
+bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
+{
+    invslice slice = inv.slice();
+    int index = -1;
+    for( unsigned int i = 0; i < slice.size(); i++ ) {
+        const item &it = slice[i]->front();
+        const item &real_item = it.is_container() ?  it.contents.front() : it;
+        if( filter( real_item ) ) {
+            index = i;
+            break;
+        }
+    }
+    if( index < 0 ) {
+        return false;
+    }
+    int old_moves = moves;
+    return consume( index ) && old_moves != moves;
+}
+
+bool npc::recharge_cbm()
+{
+    // non-allied NPCs don't consume resources to recharge
+    if( !is_player_ally() ) {
+        charge_power( max_power_level );
+        return true;
+    }
+
+    use_bionic_by_id( bio_torsionratchet );
+    use_bionic_by_id( bio_metabolics );
+
+    if( use_bionic_by_id( bio_furnace ) ) {
+        const std::function<bool( const item & )> furnace_filter = []( const item & it ) {
+            return it.typeId() == itype_id( "withered" ) || it.typeId() == itype_id( "file" ) ||
+                   it.has_flag( "FIREWOOD" );
+        };
+        if( consume_cbm_items( furnace_filter ) ) {
+            return true;
+        } else {
+            complain_about( "need_junk", 3_hours, "<need_junk>", false );
+        }
+    }
+
+    if( use_bionic_by_id( bio_batteries ) ) {
+        const std::function<bool( const item & )> battery_filter = []( const item & it ) {
+            return it.typeId() == itype_id( "battery" );
+        };
+        if( consume_cbm_items( battery_filter ) ) {
+            return true;
+        } else {
+            complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
+        }
+    }
+
+    if( use_bionic_by_id( bio_ethanol ) ) {
+        const std::function<bool( const item & )> ethanol_filter = []( const item & it ) {
+            return it.type->can_use( "WEAK_ALCOHOL" ) || it.type->can_use( "ALCOHOL" ) ||
+                   it.type->can_use( "STRONG_ALOCHOL" );
+        };
+        if( consume_cbm_items( ethanol_filter ) ) {
+            return true;
+        } else {
+            complain_about( "need_booze", 3_hours, "<need_booze>", false );
+        }
+    }
+
+    if( use_bionic_by_id( bio_reactor ) || use_bionic_by_id( bio_advreactor ) ) {
+        const std::function<bool( const item & )> reactor_filter = []( const item & it ) {
+            return it.is_ammo() && ( it.type->ammo->type.count( plutonium ) > 0 ||
+                                     it.type->ammo->type.count( reactor_slurry ) > 0 );
+        };
+        if( consume_cbm_items( reactor_filter ) ) {
+            return true;
+        } else {
+            complain_about( "need_radioactives", 3_hours, "<need_radioactives>", false );
+        }
+    }
+
+    return false;
+}
+
 npc_action npc::address_needs( float danger )
 {
     ai_cache.can_heal = has_healing_options();
 
     if( need_heal( *this ) ) {
-        return npc_heal;
+        if( !use_bionic_by_id( bio_nanobots ) ) {
+            return npc_heal;
+        }
+    } else {
+        deactivate_bionic_by_id( bio_nanobots );
     }
 
-    if( get_perceived_pain() >= 15 && has_painkiller() && !took_painkiller() ) {
-        return npc_use_painkiller;
+    if( get_perceived_pain() >= 15 ) {
+        if( !activate_bionic_by_id( bio_painkiller ) && has_painkiller() && !took_painkiller() ) {
+            return npc_use_painkiller;
+        }
+    } else {
+        deactivate_bionic_by_id( bio_nanobots );
     }
 
     if( is_player_ally() && need_heal( g->u ) ) {
@@ -1380,16 +1655,21 @@ npc_action npc::address_needs( float danger )
         }
     }
 
-    if( danger <= NPC_DANGER_VERY_LOW && find_corpse_to_pulp() ) {
-        if( !do_pulp() ) {
-            move_to_next();
+    if( danger <= NPC_DANGER_VERY_LOW ) {
+        if( wants_to_recharge_cbm() && recharge_cbm() ) {
+            return npc_noop;
         }
 
-        return npc_noop;
-    }
+        if( find_corpse_to_pulp() ) {
+            if( !do_pulp() ) {
+                move_to_next();
+            }
+            return npc_noop;
+        }
 
-    if( danger <= NPC_DANGER_VERY_LOW && adjust_worn() ) {
-        return npc_noop;
+        if( adjust_worn() ) {
+            return npc_noop;
+        }
     }
 
     const auto could_sleep = [&]() {
@@ -2012,8 +2292,14 @@ void npc::move_pause()
 
 {
     // make sure we're using the best weapon
-    if( calendar::once_every( 1_hours ) && wield_better_weapon() ) {
-        return;
+    if( calendar::once_every( 1_hours ) ) {
+        deactivate_bionic_by_id( bio_soporific );
+        for( const bionic_id &bio_id : health_cbms ) {
+            activate_bionic_by_id( bio_id );
+        }
+        if( wield_better_weapon() ) {
+            return;
+        }
     }
     // NPCs currently always aim when using a gun, even with no target
     // This simulates them aiming at stuff just at the edge of their range
@@ -3647,10 +3933,13 @@ bool npc::complain()
 
     // Radiation every 10 minutes
     if( radiation > 90 ) {
+        activate_bionic_by_id( bio_radscrubber );
         std::string speech = _( "I'm suffering from radiation sickness..." );
         if( complain_about( radiation_string, 10_minutes, speech, radiation > 150 ) ) {
             return true;
         }
+    } else if( !radiation ) {
+        deactivate_bionic_by_id( bio_radscrubber );
     }
 
     // Hunger every 3-6 hours

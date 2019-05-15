@@ -4025,7 +4025,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     // Legacy
     std::vector<item_comp> acomps;
     std::vector<tool_comp> anesth_kit;
-    if( p.has_trait( trait_NOPAIN ) || p.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
+    if( patient.has_trait( trait_NOPAIN ) || patient.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
         needs_anesthesia = false;
     } else {
         std::vector<const item *> a_filter = p.crafting_inventory().items_with( []( const item & it ) {

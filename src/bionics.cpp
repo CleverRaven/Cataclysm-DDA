@@ -30,6 +30,7 @@
 #include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
+#include "npc.h"
 #include "player.h"
 #include "projectile.h"
 #include "rng.h"
@@ -152,6 +153,81 @@ void force_comedown( effect &eff )
     eff.set_duration( std::min( eff.get_duration(), eff.get_int_dur_factor() ) );
 }
 
+void npc::discharge_cbm_weapon()
+{
+    if( cbm_weapon_index < 0 ) {
+        return;
+    }
+    bionic &bio = ( *my_bionics )[cbm_weapon_index];
+    charge_power( -bionics[bio.id].power_activate );
+    weapon = real_weapon;
+    cbm_weapon_index = -1;
+}
+
+void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
+{
+    // if we're already using a bio_weapon, keep using it
+    if( cbm_weapon_index >= 0 ) {
+        return;
+    }
+
+    int free_power = std::max( 0, power_level - max_power_level *
+                               static_cast<int>( rules.cbm_reserve ) / 100 );
+    if( free_power == 0 ) {
+        return;
+    }
+
+    int index = 0;
+    bool found = false;
+    for( auto &i : *my_bionics ) {
+        if( i.id == cbm_id && !i.powered ) {
+            found = true;
+            break;
+        }
+        index += 1;
+    }
+    if( !found ) {
+        return;
+    }
+    bionic &bio = ( *my_bionics )[index];
+
+    if( bionics[bio.id].gun_bionic ) {
+        item cbm_weapon = item( bionics[bio.id].fake_item );
+        bool not_allowed = !rules.has_flag( ally_rule::use_guns ) ||
+                           ( rules.has_flag( ally_rule::use_silent ) && !cbm_weapon.is_silent() );
+        if( is_player_ally() && not_allowed ) {
+            return;
+        }
+
+        int ups_charges = charges_of( "UPS" );
+        int ammo_count = weapon.ammo_remaining();
+        int ups_drain = weapon.get_gun_ups_drain();
+        if( ups_drain > 0 ) {
+            ammo_count = std::min( ammo_count, ups_charges / ups_drain );
+        }
+        int cbm_ammo = free_power / bionics[bio.id].power_activate;
+
+        if( weapon_value( weapon, ammo_count ) < weapon_value( cbm_weapon, cbm_ammo ) ) {
+            real_weapon = weapon;
+            weapon = cbm_weapon;
+            cbm_weapon_index = index;
+        }
+    } else if( bionics[bio.id].weapon_bionic && !weapon.has_flag( "NO_UNWIELD" ) &&
+               free_power > bionics[bio.id].power_activate ) {
+        if( is_armed() ) {
+            stow_item( weapon );
+        }
+        if( g->u.sees( pos() ) ) {
+            add_msg( m_info, "%s activates their %s", disp_name(), bionics[bio.id].name );
+        }
+
+        weapon = item( bionics[bio.id].fake_item );
+        charge_power( -bionics[bio.id].power_activate );
+        bio.powered = true;
+        cbm_weapon_index = index;
+    }
+}
+
 // Why put this in a Big Switch?  Why not let bionics have pointers to
 // functions, much like monsters and items?
 //
@@ -177,8 +253,8 @@ bool player::activate_bionic( int b, bool eff_only )
             return false;
         }
         if( power_level < bionics[bio.id].power_activate ) {
-            add_msg( m_info, _( "You don't have the power to activate your %s." ),
-                     bionics[bio.id].name );
+            add_msg_if_player( m_info, _( "You don't have the power to activate your %s." ),
+                               bionics[bio.id].name );
             return false;
         }
 
@@ -190,7 +266,7 @@ bool player::activate_bionic( int b, bool eff_only )
         if( bionics[bio.id].charge_time > 0 ) {
             bio.charge = bionics[bio.id].charge_time;
         }
-        add_msg( m_info, _( "You activate your %s." ), bionics[bio.id].name );
+        add_msg_if_player( m_info, _( "You activate your %s." ), bionics[bio.id].name );
     }
 
     item tmp_item;
@@ -204,14 +280,14 @@ bool player::activate_bionic( int b, bool eff_only )
         g->plfire( bio_gun, bionics[bio.id].power_activate );
     } else if( bionics[ bio.id ].weapon_bionic ) {
         if( weapon.has_flag( "NO_UNWIELD" ) ) {
-            add_msg( m_info, _( "Deactivate your %s first!" ), weapon.tname() );
+            add_msg_if_player( m_info, _( "Deactivate your %s first!" ), weapon.tname() );
             charge_power( bionics[bio.id].power_activate );
             bio.powered = false;
             return false;
         }
 
         if( !weapon.is_null() ) {
-            add_msg( m_warning, _( "You're forced to drop your %s." ), weapon.tname() );
+            add_msg_if_player( m_warning, _( "You're forced to drop your %s." ), weapon.tname() );
             g->m.add_item_or_charges( pos(), weapon );
         }
 
@@ -226,14 +302,16 @@ bool player::activate_bionic( int b, bool eff_only )
         for( auto &i : *my_bionics ) {
             if( i.id == "bio_earplugs" ) {
                 i.powered = false;
-                add_msg( m_info, _( "Your %s automatically turn off." ), bionics[i.id].name );
+                add_msg_if_player( m_info, _( "Your %s automatically turn off." ),
+                                   bionics[i.id].name );
             }
         }
     } else if( bio.id == "bio_earplugs" && has_active_bionic( bionic_id( "bio_ears" ) ) ) {
         for( auto &i : *my_bionics ) {
             if( i.id == "bio_ears" ) {
                 i.powered = false;
-                add_msg( m_info, _( "Your %s automatically turns off." ), bionics[i.id].name );
+                add_msg_if_player( m_info, _( "Your %s automatically turns off." ),
+                                   bionics[i.id].name );
             }
         }
     } else if( bio.id == "bio_tools" ) {
@@ -241,7 +319,7 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_cqb" ) {
         if( !pick_style() ) {
             bio.powered = false;
-            add_msg( m_info, _( "You change your mind and turn it off." ) );
+            add_msg_if_player( m_info, _( "You change your mind and turn it off." ) );
             return false;
         }
     } else if( bio.id == "bio_resonator" ) {
@@ -258,9 +336,9 @@ bool player::activate_bionic( int b, bool eff_only )
     } else if( bio.id == "bio_time_freeze" ) {
         mod_moves( power_level );
         power_level = 0;
-        add_msg( m_good, _( "Your speed suddenly increases!" ) );
+        add_msg_if_player( m_good, _( "Your speed suddenly increases!" ) );
         if( one_in( 3 ) ) {
-            add_msg( m_bad, _( "Your muscles tear with the strain." ) );
+            add_msg_if_player( m_bad, _( "Your muscles tear with the strain." ) );
             apply_damage( nullptr, bp_arm_l, rng( 5, 10 ) );
             apply_damage( nullptr, bp_arm_r, rng( 5, 10 ) );
             apply_damage( nullptr, bp_leg_l, rng( 7, 12 ) );
@@ -409,7 +487,7 @@ bool player::activate_bionic( int b, bool eff_only )
             charge_power( bionics[bionic_id( "bio_lighter" )].power_activate );
         }
     } else if( bio.id == "bio_geiger" ) {
-        add_msg( m_info, _( "Your radiation level: %d" ), radiation );
+        add_msg_if_player( m_info, _( "Your radiation level: %d" ), radiation );
     } else if( bio.id == "bio_radscrubber" ) {
         if( radiation > 4 ) {
             radiation -= 5;
@@ -434,7 +512,7 @@ bool player::activate_bionic( int b, bool eff_only )
             charge_power( bionics[bionic_id( "bio_emp" )].power_activate );
         }
     } else if( bio.id == "bio_hydraulics" ) {
-        add_msg( m_good, _( "Your muscles hiss as hydraulic strength fills them!" ) );
+        add_msg_if_player( m_good, _( "Your muscles hiss as hydraulic strength fills them!" ) );
         //~ Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
         sounds::sound( pos(), 19, sounds::sound_t::activity, _( "HISISSS!" ), false, "bionic",
                        "bio_hydraulics" );
@@ -623,24 +701,30 @@ bool player::deactivate_bionic( int b, bool eff_only )
         }
         if( !bionics[bio.id].toggled ) {
             // It's a fire-and-forget bionic, we can't turn it off but have to wait for it to run out of charge
-            add_msg( m_info, _( "You can't deactivate your %s manually!" ), bionics[bio.id].name );
+            add_msg_if_player( m_info, _( "You can't deactivate your %s manually!" ),
+                               bionics[bio.id].name );
             return false;
         }
         if( power_level < bionics[bio.id].power_deactivate ) {
-            add_msg( m_info, _( "You don't have the power to deactivate your %s." ), bionics[bio.id].name );
+            add_msg( m_info, _( "You don't have the power to deactivate your %s." ),
+                     bionics[bio.id].name );
             return false;
         }
 
         //We can actually deactivate now, do deactivation-y things
         charge_power( -bionics[bio.id].power_deactivate );
         bio.powered = false;
-        add_msg( m_neutral, _( "You deactivate your %s." ), bionics[bio.id].name );
+        add_msg_if_player( m_neutral, _( "You deactivate your %s." ), bionics[bio.id].name );
     }
 
     // Deactivation effects go here
     if( bionics[ bio.id ].weapon_bionic ) {
         if( weapon.typeId() == bionics[ bio.id ].fake_item ) {
-            add_msg( _( "You withdraw your %s." ), weapon.tname() );
+            add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
+            if( g->u.sees( pos() ) ) {
+                add_msg_if_npc( m_info, string_format( _( "%s withdraws %s %s." ), disp_name(), disp_name( true ),
+                                                       weapon.tname() ) );
+            }
             bio.ammo_loaded = weapon.ammo_data() != nullptr ? weapon.ammo_data()->get_id() : "null";
             bio.ammo_count = static_cast<unsigned int>( weapon.ammo_remaining() );
             weapon = item();
@@ -740,7 +824,7 @@ void player::process_bionic( int b )
             if( !recharged ) {
                 // No power to recharge, so deactivate
                 bio.powered = false;
-                add_msg( m_neutral, _( "Your %s powers down." ), bio.info().name );
+                add_msg_if_player( m_neutral, _( "Your %s powers down." ), bio.info().name );
                 // This purposely bypasses the deactivation cost
                 deactivate_bionic( b, true );
                 return;
@@ -754,13 +838,13 @@ void player::process_bionic( int b )
     // Bionic effects on every turn they are active go here.
     if( bio.id == "bio_night" ) {
         if( calendar::once_every( 5_turns ) ) {
-            add_msg( m_neutral, _( "Artificial night generator active!" ) );
+            add_msg_if_player( m_neutral, _( "Artificial night generator active!" ) );
         }
     } else if( bio.id == "bio_remote" ) {
         if( g->remoteveh() == nullptr && get_value( "remote_controlling" ).empty() ) {
             bio.powered = false;
-            add_msg( m_warning, _( "Your %s has lost connection and is turning off." ),
-                     bionics[bio.id].name );
+            add_msg_if_player( m_warning, _( "Your %s has lost connection and is turning off." ),
+                               bionics[bio.id].name );
         }
     } else if( bio.id == "bio_hydraulics" ) {
         // Sound of hissing hydraulic muscle! (not quite as loud as a car horn)
@@ -829,7 +913,8 @@ void player::process_bionic( int b )
         }
     } else if( bio.id == "bio_gills" ) {
         if( has_effect( effect_asthma ) ) {
-            add_msg( m_good, _( "You feel your throat open up and air filling your lungs!" ) );
+            add_msg_if_player( m_good,
+                               _( "You feel your throat open up and air filling your lungs!" ) );
             remove_effect( effect_asthma );
         }
     } else if( bio.id == "afs_bio_dopamine_stimulators" ) { // Aftershock
