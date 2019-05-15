@@ -671,7 +671,7 @@
     "id": "f_sofa",
     "name": "sofa",
     "symbol": "H",
-    "description": "Lay down OR sit down!  Perfect!",
+    "description": "Lie down OR sit down!  Perfect!",
     "bgcolor": "red",
     "move_cost_mod": 1,
     "coverage": 60,
