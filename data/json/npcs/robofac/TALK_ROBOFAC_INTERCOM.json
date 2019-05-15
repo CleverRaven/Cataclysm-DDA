@@ -53,7 +53,7 @@
         "failure": { "topic": "TALK_ROBOFAC_INTERCOM_NO_TRADE" }
       },
       {
-        "text": "Its the apocalypse out here!  Please let me in!",
+        "text": "It's the apocalypse out here!  Please let me in!",
         "condition": {
           "and": [
             { "not": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" } },
@@ -63,7 +63,7 @@
         "topic": "TALK_ROBOFAC_INTERCOM_PLEAD"
       },
       {
-        "text": "What the hell were you testing out there!",
+        "text": "What the hell were you testing out there?",
         "condition": { "u_has_var": "completed_robofac_intercom_1", "type": "dialogue", "context": "intercom", "value": "yes" },
         "topic": "TALK_ROBOFAC_INTERCOM_PROTOTYPE_ASK"
       },
@@ -71,7 +71,7 @@
         "truefalsetext": {
           "condition": { "npc_has_var": "npc_intercom_trade", "type": "dialogue", "context": "intercom", "value": "yes" },
           "true": "I gotta go.",
-          "false": "Alright I'm leaving."
+          "false": "Alright, I'm leaving."
         },
         "topic": "TALK_DONE"
       }
