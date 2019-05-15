@@ -1002,7 +1002,7 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-JSON_FILES = $(shell find data -name *.json | sed "s|^\./||")
+JSON_FILES = $(shell find data -name "*.json" | sed "s|^\./||")
 JSON_WHITELIST = $(filter-out $(shell cat json_blacklist), $(JSON_FILES))
 ifeq ($(MSYS2), 1)
   JSON_FORMATTER_BIN=tools/format/json_formatter.exe
