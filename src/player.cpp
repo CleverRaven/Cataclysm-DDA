@@ -4660,7 +4660,7 @@ needs_rates player::calc_needs_rates()
 
     if( has_trait( trait_TRANSPIRATION ) ) {
         // Tranpiration, the act of moving nutrients with evaporating water, can take a very heavy toll on your thirst when it's really hot.
-        rates.thirst *= ( ( g->get_temperature( pos() ) - 65 / 2 ) / 40.0f );
+        rates.thirst *= ( ( g->weather.get_temperature( pos() ) - 65 / 2 ) / 40.0f );
     }
 
     if( is_npc() ) {
@@ -5997,7 +5997,7 @@ void player::suffer()
         }
     }
 
-    const auto player_local_temp = g->get_temperature( pos() );
+    const auto player_local_temp = g->weather.get_temperature( pos() );
     double sleeve_factor = armwear_factor();
     bool has_hat = wearing_something_on( bp_head );
     bool leafy = has_trait( trait_LEAVES ) || has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
