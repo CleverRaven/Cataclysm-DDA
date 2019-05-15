@@ -2005,8 +2005,11 @@
     "color": "brown",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
-    "examine_action": "aggie_plant"
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEED" ],
+    "examine_action": "aggie_plant",
+    "bash": { "str_min": 1, "str_max": 5, "sound": "crunch.", "sound_fail": "whish." },
+    "plant_transform": "f_plant_seedling",
+    "plant_base": "f_null"
   },
   {
     "type": "furniture",
@@ -2016,9 +2019,11 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING" ],
     "examine_action": "aggie_plant",
-    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
+    "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." },
+    "plant_transform": "f_plant_mature",
+    "plant_base": "f_null"
   },
   {
     "type": "furniture",
@@ -2028,9 +2033,11 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE" ],
     "examine_action": "aggie_plant",
-    "bash": { "str_min": 3, "str_max": 8, "sound": "crunch.", "sound_fail": "whish." }
+    "bash": { "str_min": 3, "str_max": 8, "sound": "crunch.", "sound_fail": "whish." },
+    "plant_transform": "f_plant_harvest",
+    "plant_base": "f_null"
   },
   {
     "type": "furniture",
@@ -2040,9 +2047,185 @@
     "color": "light_green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN" ],
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
     "examine_action": "aggie_plant",
-    "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." }
+    "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." },
+    "plant_transform": "f_null",
+    "plant_base": "f_null"
+  },
+  {
+    "type": "furniture",
+    "id": "f_planter",
+    "name": "planter",
+    "description": "A garden planter full of soil and slatted to allow adequate drainage. Can be used for planting crops.",
+    "symbol": "^",
+    "color": "green",
+    "move_cost_mod": 1,
+    "required_str": 10,
+    "looks_like": "t_dirtmound",
+    "plant_transform": "f_planter_seed",
+    "flags": [ "TRANSPARENT", "PLANTABLE", "FLAT", "MOUNTABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": [ 11, 12 ] },
+        { "item": "nail", "count": [ 30, 36 ] },
+        { "item": "pebble", "count": [ 180, 200 ] },
+        { "item": "material_soil", "count": [ 70, 75 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 14,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 10 ] },
+        { "item": "nail", "count": [ 15, 30 ] },
+        { "item": "pebble", "count": [ 150, 200 ] },
+        { "item": "material_soil", "count": [ 60, 75 ] }
+      ]
+    },
+    "examine_action": "dirtmound"
+  },
+  {
+    "type": "furniture",
+    "id": "f_planter_seed",
+    "name": "planter with seed",
+    "description": "A garden planter full of soil and slatted to allow adequate drainage. Can be used for planting crops. This one contains a planted seed",
+    "symbol": "^",
+    "color": "brown",
+    "looks_like": "f_plant_seed",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEED" ],
+    "examine_action": "aggie_plant",
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": [ 11, 12 ] },
+        { "item": "nail", "count": [ 30, 36 ] },
+        { "item": "pebble", "count": [ 180, 200 ] },
+        { "item": "material_soil", "count": [ 70, 75 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 14,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 10 ] },
+        { "item": "nail", "count": [ 15, 30 ] },
+        { "item": "pebble", "count": [ 150, 200 ] },
+        { "item": "material_soil", "count": [ 60, 75 ] }
+      ]
+    },
+    "plant_transform": "f_planter_seedling",
+    "plant_base": "f_planter"
+  },
+  {
+    "type": "furniture",
+    "id": "f_planter_seedling",
+    "name": "planter with seedling",
+    "description": "A garden planter full of soil and slatted to allow adequate drainage. Can be used for planting crops. This one contains a planted seedling",
+    "symbol": "^",
+    "color": "green",
+    "looks_like": "f_plant_seedling",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING" ],
+    "examine_action": "aggie_plant",
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": [ 11, 12 ] },
+        { "item": "nail", "count": [ 30, 36 ] },
+        { "item": "pebble", "count": [ 180, 200 ] },
+        { "item": "material_soil", "count": [ 70, 75 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 14,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 10 ] },
+        { "item": "nail", "count": [ 15, 30 ] },
+        { "item": "pebble", "count": [ 150, 200 ] },
+        { "item": "material_soil", "count": [ 60, 75 ] }
+      ]
+    },
+    "plant_transform": "f_planter_mature",
+    "plant_base": "f_planter"
+  },
+  {
+    "type": "furniture",
+    "id": "f_planter_mature",
+    "name": "planter with mature plant",
+    "description": "A garden planter full of soil and slatted to allow adequate drainage. Can be used for planting crops. This one contains a planted seed",
+    "symbol": "#",
+    "color": "green",
+    "looks_like": "f_plant_mature",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE" ],
+    "examine_action": "aggie_plant",
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": [ 11, 12 ] },
+        { "item": "nail", "count": [ 30, 36 ] },
+        { "item": "pebble", "count": [ 180, 200 ] },
+        { "item": "material_soil", "count": [ 70, 75 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 14,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 10 ] },
+        { "item": "nail", "count": [ 15, 30 ] },
+        { "item": "pebble", "count": [ 150, 200 ] },
+        { "item": "material_soil", "count": [ 60, 75 ] }
+      ]
+    },
+    "plant_transform": "f_planter_harvest",
+    "plant_base": "f_planter"
+  },
+  {
+    "type": "furniture",
+    "id": "f_planter_harvest",
+    "name": "planter with harvestable plant",
+    "description": "A garden planter full of soil and slatted to allow adequate drainage. Can be used for planting crops. This one contains a planted seed",
+    "symbol": "#",
+    "color": "light_green",
+    "looks_like": "f_plant_harvest",
+    "move_cost_mod": 0,
+    "required_str": -1,
+    "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
+    "examine_action": "aggie_plant",
+    "deconstruct": {
+      "items": [
+        { "item": "2x4", "count": [ 11, 12 ] },
+        { "item": "nail", "count": [ 30, 36 ] },
+        { "item": "pebble", "count": [ 180, 200 ] },
+        { "item": "material_soil", "count": [ 70, 75 ] }
+      ]
+    },
+    "bash": {
+      "str_min": 6,
+      "str_max": 14,
+      "sound": "crunch.",
+      "sound_fail": "whish.",
+      "items": [
+        { "item": "2x4", "count": [ 4, 10 ] },
+        { "item": "nail", "count": [ 15, 30 ] },
+        { "item": "pebble", "count": [ 150, 200 ] },
+        { "item": "material_soil", "count": [ 60, 75 ] }
+      ]
+    },
+    "plant_transform": "f_planter",
+    "plant_base": "f_planter"
   },
   {
     "type": "furniture",

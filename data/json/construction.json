@@ -1924,6 +1924,16 @@
   },
   {
     "type": "construction",
+    "description": "Build Planter",
+    "catergory": "FURN",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": 25,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 36 ] ], [ [ "pebble", 200 ] ], [ [ "material_soil", 75 ] ] ],
+    "post_terrain": "f_planter"
+  },
+  {
+    "type": "construction",
     "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],

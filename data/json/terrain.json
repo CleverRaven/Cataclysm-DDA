@@ -371,7 +371,7 @@
     "symbol": "#",
     "color": "brown",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE", "PLANTABLE" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 50, "str_max": 100, "str_min_supported": 100 },
     "examine_action": "dirtmound"
   },

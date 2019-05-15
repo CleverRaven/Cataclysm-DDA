@@ -1845,7 +1845,11 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
     }
     used_seed.front().set_age( 0_turns );
     g->m.add_item_or_charges( examp, used_seed.front() );
-    g->m.set( examp, t_dirt, f_plant_seed );
+    if( g->m.has_flag_furn( "PLANTABLE", examp ) ) {
+        g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant_transform ) );
+    } else {
+        g->m.set( examp, t_dirt, f_plant_seed );
+    }
     p.moves -= 500;
     add_msg( _( "Planted %s." ), item::nname( seed_id ) );
 }
@@ -1984,7 +1988,7 @@ void iexamine::harvest_plant( player &p, const tripoint &examp )
     } else { // Generic seed, use the seed item data
         const itype &type = *seed.type;
         g->m.i_clear( examp );
-        g->m.furn_set( examp, f_null );
+        g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant_transform ) );
 
         int skillLevel = p.get_skill_level( skill_survival );
         ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
@@ -2099,9 +2103,9 @@ void iexamine::aggie_plant( player &p, const tripoint &examp )
 
     const std::string pname = seed.get_plant_name();
 
-    if( g->m.furn( examp ) == f_plant_harvest && query_yn( _( "Harvest the %s?" ), pname ) ) {
+    if( g->m.has_flag_furn( "GROWTH_HARVEST", examp ) && query_yn( _( "Harvest the %s?" ), pname ) ) {
         harvest_plant( p, examp );
-    } else if( g->m.furn( examp ) != f_plant_harvest ) {
+    } else if( !g->m.has_flag_furn( "GROWTH_HARVEST", examp ) ) {
         if( g->m.i_at( examp ).size() > 1 ) {
             add_msg( m_info, _( "This %s has already been fertilized." ), pname );
             return;

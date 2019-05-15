@@ -3285,7 +3285,7 @@ static void perform_zone_activity_turn( player *p,
 void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
 {
     const auto reject_tile = [p]( const tripoint & tile ) {
-        return !p->sees( tile ) || g->m.furn( tile ) != f_plant_harvest;
+        return !p->sees( tile ) || !g->m.has_flag_furn( "GROWTH_HARVEST", tile );
     };
     perform_zone_activity_turn( p,
                                 zone_type_id( "FARM_PLOT" ),
@@ -3298,8 +3298,7 @@ void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
 void activity_handlers::till_plot_do_turn( player_activity *, player *p )
 {
     const auto reject_tile = [p]( const tripoint & tile ) {
-        return !p->sees( tile ) || !g->m.has_flag( "PLOWABLE", tile ) || g->m.has_flag( "PLANT", tile ) ||
-               g->m.ter( tile ) == t_dirtmound;
+        return !p->sees( tile ) || !g->m.has_flag( "PLOWABLE", tile ) || g->m.has_furn( tile );
     };
 
     const auto dig = []( player & p, const tripoint & tile_loc ) {
@@ -3392,7 +3391,8 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
 
     // cleanup unwanted tiles (local coords)
     const auto reject_tiles = [&]( const tripoint & tile ) {
-        if( !p->sees( tile ) || g->m.ter( tile ) != t_dirtmound || !g->m.i_at( tile ).empty() ) {
+        if( !p->sees( tile ) || !g->m.has_flag_ter_or_furn( "PLANTABLE", tile ) ||
+            g->m.has_items( tile ) ) {
             return true;
         }
 
