@@ -45,7 +45,7 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
     // number of times this message has been seen while it was in cooldown.
     unsigned cooldown_seen = 1;
     // hide the message, because at some point it was in cooldown period.
-    bool hide = false;
+    bool cooldown_hidden = false;
     game_message_type type  = m_neutral;
 
     game_message() = default;
@@ -68,8 +68,8 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
         return string_format( _( "%s x %d" ), message, count );
     }
 
-    bool is_hidden() const {
-        return hide;
+    bool is_in_cooldown() const {
+        return cooldown_hidden;
     }
 
     bool is_new( const time_point &current ) const {
@@ -213,7 +213,7 @@ class messages_impl
 
             // check if it's the message that started the cooldown timer.
             if( message.turn() == cooldown_it->turn() ) {
-                message.hide = false;
+                message.cooldown_hidden = false;
                 return;
             }
 
@@ -223,7 +223,7 @@ class messages_impl
             const auto max_cooldown_range = to_turn<int>( cooldown_it->turn() ) + message_cooldown;
 
             if( cm_turn <= max_cooldown_range ) {
-                message.hide = true;
+                message.cooldown_hidden = true;
             }
         }
 
@@ -803,7 +803,7 @@ void Messages::display_messages( const catacurses::window &ipk_target, const int
                 break;
             }
 
-            if( m.is_hidden() ) {
+            if( m.is_in_cooldown() ) {
                 // message is still (or was at some point) into a cooldown period.
                 continue;
             }
