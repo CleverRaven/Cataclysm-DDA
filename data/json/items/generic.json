@@ -2686,7 +2686,6 @@
     "category": "other",
     "price": 500,
     "material": "plastic",
-    "flags": [ "GAS_DISCOUNT", "DISCOUNT_VALUE_1" ],
     "weight": 6,
     "volume": 0,
     "to_hit": -3
