@@ -56,6 +56,11 @@
   },
   {
     "type": "item_action",
+    "id": "BURROW",
+    "name": "Burrow through rock"
+  },
+  {
+    "type": "item_action",
     "id": "GEIGER",
     "name": "Use geiger counter"
   },
@@ -881,6 +886,11 @@
   },
   {
     "type": "item_action",
+    "id": "HAND_CRANK",
+    "name": "Recharge a battery"
+  },
+  {
+    "type": "item_action",
     "id": "VIBE",
     "name": "Well, you know"
   },
@@ -1028,5 +1038,10 @@
     "type": "item_action",
     "id": "PANACEA",
     "name": "Take"
+  },
+  {
+    "type": "item_action",
+    "id": "CRAFT",
+    "name": "Work on craft"
   }
 ]

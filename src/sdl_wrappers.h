@@ -6,9 +6,11 @@
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL.h>
 #   include <SDL2/SDL_ttf.h>
+#   include <SDL2/SDL_image.h>
 #else
 #   include <SDL.h>
 #   include <SDL_ttf.h>
+#   include <SDL_image.h>
 #endif
 // IWYU pragma: end_exports
 
@@ -90,6 +92,27 @@ void SetRenderTarget( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &t
 void RenderClear( const SDL_Renderer_Ptr &renderer );
 SDL_Surface_Ptr CreateRGBSurface( Uint32 flags, int width, int height, int depth, Uint32 Rmask,
                                   Uint32 Gmask, Uint32 Bmask, Uint32 Amask );
+/**@}*/
+
+/**
+ * Comparison operators which SDL lacks being a C-ish lib.
+ */
+/**@{*/
+
+inline bool operator==( const SDL_Color &lhs, const SDL_Color &rhs )
+{
+    return
+        lhs.r == rhs.r &&
+        lhs.g == rhs.g &&
+        lhs.b == rhs.b &&
+        lhs.a == rhs.a;
+}
+
+inline bool operator!=( const SDL_Color &lhs, const SDL_Color &rhs )
+{
+    return !operator==( lhs, rhs );
+}
+
 /**@}*/
 
 #endif

@@ -1,6 +1,8 @@
 #include "skill_boost.h"
 
 #include <cmath>
+#include <algorithm>
+#include <set>
 
 #include "generic_factory.h"
 #include "json.h"
@@ -54,7 +56,7 @@ const std::vector<std::string> &skill_boost::skills() const
 
 float skill_boost::calc_bonus( int skill_total ) const
 {
-    if( ( skill_total + _offset ) <= 0 ) {
+    if( skill_total + _offset <= 0 ) {
         return 0.0;
     }
     return std::max( 0.0, std::floor( std::pow( skill_total + _offset, _power ) ) );

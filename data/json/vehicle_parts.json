@@ -344,7 +344,7 @@
     "durability": 400,
     "description": "An aisle.  A hatch lets you access a cargo space beneath it.",
     "size": 350,
-    "item": "sheet_metal",
+    "item": "cargo_aisle",
     "difficulty": 1,
     "location": "center",
     "flags": [ "AISLE", "BOARDABLE", "CARGO", "LOCKABLE_CARGO", "COVERED" ],
@@ -509,7 +509,7 @@
     "item": "frame",
     "difficulty": 2,
     "location": "center",
-    "flags": [ "CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "TOOL_WRENCH" ],
+    "flags": [ "CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED" ],
     "breaks_into": "ig_vp_frame"
   },
   {
@@ -527,7 +527,7 @@
     "item": "frame",
     "difficulty": 2,
     "location": "center",
-    "flags": [ "CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "TOOL_WRENCH", "OPAQUE" ],
+    "flags": [ "CARGO", "LOCKABLE_CARGO", "OBSTACLE", "OPENABLE", "MULTISQUARE", "BOARDABLE", "COVERED", "OPAQUE" ],
     "breaks_into": "ig_vp_frame"
   },
   {
@@ -969,12 +969,13 @@
     "item": "v_table",
     "difficulty": 1,
     "location": "center",
-    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF" ],
+    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF", "WORKBENCH" ],
     "breaks_into": [
       { "item": "2x4", "count": [ 1, 6 ] },
       { "item": "splinter", "count": [ 4, 6 ] },
       { "item": "nail", "charges": [ 4, 7 ] }
-    ]
+    ],
+    "workbench": { "multiplier": 1.0, "mass": 80000, "volume": "80L" }
   },
   {
     "type": "vehicle_part",
@@ -990,12 +991,38 @@
     "item": "w_table",
     "difficulty": 1,
     "location": "center",
-    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF" ],
+    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF", "WORKBENCH" ],
     "breaks_into": [
       { "item": "2x4", "count": [ 1, 6 ] },
       { "item": "splinter", "count": [ 4, 6 ] },
       { "item": "nail", "charges": [ 4, 7 ] }
-    ]
+    ],
+    "workbench": { "multiplier": 1.0, "mass": 80000, "volume": "80L" }
+  },
+  {
+    "type": "vehicle_part",
+    "id": "workbench",
+    "name": "workbench",
+    "symbol": "#",
+    "color": "red",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "looks_like": "veh_table_wood",
+    "damage_modifier": 60,
+    "durability": 300,
+    "size": 20,
+    "item": "workbench",
+    "difficulty": 1,
+    "location": "center",
+    "flags": [ "CARGO", "OBSTACLE", "TOOL_WRENCH", "FLAT_SURF", "WORKBENCH" ],
+    "breaks_into": [
+      { "item": "pipe", "count": [ 4, 6 ] },
+      { "item": "sheet_metal", "count": [ 0, 1 ] },
+      { "item": "sheet_metal_small", "count": [ 12, 24 ] },
+      { "item": "steel_chunk", "count": [ 4, 8 ] },
+      { "item": "scrap", "count": [ 12, 24 ] }
+    ],
+    "workbench": { "multiplier": 1.2, "mass": 1500000, "volume": "150L" }
   },
   {
     "type": "vehicle_part",
@@ -1947,14 +1974,14 @@
   {
     "type": "vehicle_part",
     "id": "recharge_station",
-    "name": "UPS-compatible recharging station",
+    "name": "recharging station",
     "symbol": "o",
     "color": "light_green",
     "broken_symbol": "#",
     "broken_color": "blue",
     "damage_modifier": 10,
     "durability": 20,
-    "description": "A recharger for UPS devices.  When turned on, it charges any UPS devices in the cargo space.",
+    "description": "A device for recharging batteries.  When turned on, it charges any rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly in the attached storage space.",
     "epower": -25,
     "bonus": 600,
     "item": "recharge_station",
@@ -2265,7 +2292,7 @@
     "broken_color": "red",
     "damage_modifier": 10,
     "durability": 200,
-    "description": "A sophisticated set of electronic controls that allow you to control the vehicle from a vehicle remote while you are not in it.  You can 'e'xamine the tile or attempt to pick-up items (default ',') to access the controls, or use the vehicle control key (default '^').",
+    "description": "A sophisticated set of electronic controls that allow you to control the vehicle from a vehicle remote while you are not in it.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^').",
     "item": "drive_by_wire_controls",
     "difficulty": 3,
     "flags": [ "CONTROLS", "REMOTE_CONTROLS" ],
@@ -2281,7 +2308,7 @@
     "broken_color": "blue",
     "damage_modifier": 20,
     "durability": 200,
-    "description": "An LCD display attached to one or more cameras.  When turned on, it lets you see from the cameras, but drains power from the vehicle's batteries.  You can 'e'xamine the tile or attempt to pick-up items (default ',') to access the controls, or use the vehicle control key (default '^').",
+    "description": "An LCD display attached to one or more cameras.  When turned on, it lets you see from the cameras, but drains power from the vehicle's batteries.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^').",
     "folded_volume": 10,
     "item": "camera_control",
     "epower": -100,

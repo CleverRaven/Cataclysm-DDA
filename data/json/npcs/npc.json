@@ -101,6 +101,7 @@
     "attitude": 0,
     "mission": 8,
     "chat": "TALK_EVAC_GUARD1",
+    "mission_offered": "MISSION_EVAC_SMOKER_GET_CIGARETTES",
     "faction": "free_merchants"
   },
   {
@@ -420,7 +421,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_REFUGEE_BEGGAR_1",
-    "faction": "wasteland_scavengers"
+    "faction": "lobby_beggars"
   },
   {
     "type": "npc",
@@ -433,7 +434,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_REFUGEE_BEGGAR_2",
-    "faction": "wasteland_scavengers"
+    "faction": "lobby_beggars"
   },
   {
     "type": "npc",
@@ -446,7 +447,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_REFUGEE_BEGGAR_3",
-    "faction": "wasteland_scavengers"
+    "faction": "lobby_beggars"
   },
   {
     "type": "npc",
@@ -459,7 +460,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_REFUGEE_BEGGAR_4",
-    "faction": "wasteland_scavengers"
+    "faction": "lobby_beggars"
   },
   {
     "type": "npc",
@@ -472,6 +473,50 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_REFUGEE_BEGGAR_5",
+    "faction": "lobby_beggars"
+  },
+  {
+    "type": "npc",
+    "id": "survivor_chef",
+    "//": "A chef hiding at their job since the cataclysm. They spawn in a slightly fortified back room of a restaurant with a stockpile of food.",
+    "name_suffix": "chef",
+    "class": "NC_SURVIVOR_CHEF",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_NC_SURVIVOR_CHEF",
     "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc",
+    "id": "cyborg_rescued",
+    "//": "A broken cyborg you saved.",
+    "name_suffix": "Cyborg",
+    "class": "NC_CYBORG",
+    "attitude": 1,
+    "mission": 0,
+    "chat": "TALK_CYBORG_1",
+    "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc",
+    "id": "survivor_cop",
+    "//": "A police officer who has taken over the station since the cataclysm.  They sell items out of the evidence locker.",
+    "name_suffix": "officer",
+    "class": "NC_CITY_COP",
+    "attitude": 0,
+    "mission": 7,
+    "mission_offered": "MISSION_GET_CITY_COP_MOMENTO",
+    "chat": "TALK_CITY_COP",
+    "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc",
+    "id": "tracker_gunslinger",
+    "//": "the gunslinger that spawns for MISSION_RECRUIT_TRACKER",
+    "class": "NC_COWBOY",
+    "attitude": 1,
+    "mission": 3,
+    "mission_offered": "MISSION_JOIN_TRACKER",
+    "chat": "TALK_STRANGER_FRIENDLY"
   }
 ]

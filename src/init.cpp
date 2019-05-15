@@ -1,16 +1,20 @@
 #include "init.h"
 
+#include <cstddef>
 #include <cassert>
 #include <fstream>
 #include <sstream> // for throwing errors
 #include <string>
 #include <vector>
+#include <exception>
+#include <iterator>
+#include <memory>
+#include <stdexcept>
 
 #include "activity_type.h"
 #include "ammo.h"
 #include "anatomy.h"
 #include "bionics.h"
-#include "clzones.h"
 #include "construction.h"
 #include "crafting_gui.h"
 #include "debug.h"
@@ -32,6 +36,7 @@
 #include "martialarts.h"
 #include "material.h"
 #include "mission.h"
+#include "magic.h"
 #include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -64,6 +69,9 @@
 #include "vehicle_group.h"
 #include "vitamin.h"
 #include "worldfactory.h"
+#include "bodypart.h"
+#include "translations.h"
+#include "type_id.h"
 
 #if defined(TILES)
 void load_tileset();
@@ -117,7 +125,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                 discarded << elem.first;
             }
             debugmsg( "JSON contains circular dependency. Discarded %i objects:\n%s",
-                      data.size(), discarded.str().c_str() );
+                      data.size(), discarded.str() );
             data.clear();
             return; // made no progress on this cycle so abort
         }
@@ -351,6 +359,7 @@ void DynamicDataLoader::initialize()
     add( "body_part", &body_part_struct::load_bp );
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
+    add( "SPELL", &spell_type::load_spell );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -545,6 +554,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Martial arts" ), &finialize_martial_arts },
             { _( "Constructions" ), &finalize_constructions },
             { _( "NPC classes" ), &npc_class::finalize_all },
+            { _( "Missions" ), &mission_type::finalize },
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
 #if defined(TILES)
@@ -627,7 +637,8 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Harvest lists" ), &harvest_list::check_consistency },
             { _( "NPC templates" ), &npc_template::check_consistency },
             { _( "Body parts" ), &body_part_struct::check_consistency },
-            { _( "Anatomies" ), &anatomy::check_consistency }
+            { _( "Anatomies" ), &anatomy::check_consistency },
+            { _( "Spells" ), &spell_type::check_consistency }
         }
     };
 

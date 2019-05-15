@@ -1,12 +1,15 @@
-#ifdef TILES
+#if defined(TILES)
 
 #include "sdl_wrappers.h"
 
 #include <cassert>
+#include <ostream>
+#include <stdexcept>
+#include <string>
 
 #include "debug.h"
 
-#ifdef TILES
+#if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #       include <SDL2/SDL_image.h>
 #   else

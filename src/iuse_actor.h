@@ -2,9 +2,12 @@
 #ifndef IUSE_ACTOR_H
 #define IUSE_ACTOR_H
 
+#include <climits>
 #include <map>
 #include <set>
 #include <vector>
+#include <string>
+#include <utility>
 
 #include "calendar.h"
 #include "color.h"
@@ -13,36 +16,24 @@
 #include "iuse.h"
 #include "ret_val.h"
 #include "string_id.h"
+#include "type_id.h"
 #include "units.h"
+#include "optional.h"
 
-class vitamin;
-using vitamin_id = string_id<vitamin>;
-struct vehicle_prototype;
-using vproto_id = string_id<vehicle_prototype>;
+class item;
+class player;
+struct iteminfo;
+struct tripoint;
+
 enum field_id : int;
 enum hp_part : int;
 enum body_part : int;
-struct mtype;
-using mtype_id = string_id<mtype>;
 class JsonObject;
-class Skill;
-using skill_id = string_id<Skill>;
-class effect_type;
-using efftype_id = string_id<effect_type>;
-class ammunition_type;
-using ammotype = string_id<ammunition_type>;
+
 using itype_id = std::string;
-class material_type;
-using material_id = string_id<material_type>;
-class emit;
-using emit_id = string_id<emit>;
-struct bionic_data;
-using bionic_id = string_id<bionic_data>;
 struct furn_t;
 struct itype;
 class item_location;
-struct quality;
-using quality_id = string_id<quality>;
 
 /**
  * Transform an item into a specific type.
@@ -68,6 +59,9 @@ class iuse_transform : public iuse_actor
 
         /** if zero or positive set remaining ammo of @ref target to this (after transformation) */
         long ammo_qty = -1;
+
+        /** if this has values, set remaining ammo of @ref target to one of them chosen at random (after transformation) */
+        std::vector<long> random_ammo_qty;
 
         /** if positive set transformed item active and start countdown */
         int countdown = 0;
@@ -607,6 +601,8 @@ class manualnoise_actor : public iuse_actor
         std::string no_charges_message;
         std::string use_message;
         std::string noise_message;
+        std::string noise_id;
+        std::string noise_variant;
         int noise = 0; // Should work even with no volume, even if it seems impossible
         int moves = 0;
 
@@ -790,13 +786,15 @@ class repair_item_actor : public iuse_actor
             RT_NOTHING = 0,
             RT_REPAIR,          // Just repairing damage
             RT_REFIT,           // Refitting
+            RT_DOWNSIZING,      // When small, reduce clothing to small size
+            RT_UPSIZING,        // When normal, increase clothing to normal size
             RT_REINFORCE,       // Getting damage below 0
             RT_PRACTICE,        // Wanted to reinforce, but can't
             NUM_REPAIR_TYPES
         };
 
         /** Attempts to repair target item with selected tool */
-        attempt_hint repair( player &pl, item &tool, item &target ) const;
+        attempt_hint repair( player &pl, item &tool, item_location &target ) const;
         /** Checks if repairs on target item are possible. Excludes checks on tool.
           * Doesn't just estimate - should not return true if repairs are not possible or false if they are. */
         bool can_repair_target( player &pl, const item &target, bool print_msg ) const;
@@ -894,13 +892,9 @@ class heal_actor : public iuse_actor
         void info( const item &, std::vector<iteminfo> & ) const override;
 };
 
-struct ter_t;
-struct trap;
 class place_trap_actor : public iuse_actor
 {
     public:
-        using trap_str_id = string_id<trap>;
-        using ter_str_id = string_id<ter_t>;
         struct data {
             data();
             trap_str_id trap;

@@ -1,8 +1,11 @@
 #include "options.h"
 
+#include <climits>
+
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "cursesdef.h"
+#include "cursesport.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
@@ -18,16 +21,13 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "worldfactory.h"
+#include "color.h"
 
-#ifdef TILES
+#if defined(TILES)
 #include "cata_tiles.h"
 #endif // TILES
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "cursesport.h"
-#endif
-
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <jni.h>
 #endif
 
@@ -37,6 +37,8 @@
 #include <memory>
 #include <sstream>
 #include <string>
+#include <exception>
+#include <iterator>
 
 bool trigdist;
 bool use_tiles;
@@ -45,7 +47,7 @@ int message_ttl;
 bool fov_3d;
 bool tile_iso;
 
-#ifdef TILES
+#if defined(TILES)
 extern std::unique_ptr<cata_tiles> tilecontext;
 #endif // TILES
 
@@ -281,8 +283,8 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
 //add int map option
 void options_manager::add( const std::string &sNameIn, const std::string &sPageIn,
                            const std::string &sMenuTextIn, const std::string &sTooltipIn,
-                           const std::map<int, std::string> &mIntValuesIn, int iInitialIn,
-                           int iDefaultIn, copt_hide_t opt_hide )
+                           const std::vector< std::tuple<int, std::string> > &mIntValuesIn,
+                           int iInitialIn, int iDefaultIn, copt_hide_t opt_hide, const bool verbose )
 {
     cOpt thisOpt;
 
@@ -292,6 +294,7 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = "int_map";
     thisOpt.eType = get_value_type( thisOpt.sType );
+    thisOpt.verbose = verbose;
 
     thisOpt.format = "%i";
 
@@ -299,14 +302,14 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
 
     thisOpt.mIntValues = mIntValuesIn;
 
-    auto item = mIntValuesIn.find( iInitialIn );
-    if( item == mIntValuesIn.cend() ) {
-        iInitialIn = mIntValuesIn.cbegin()->first;
+    auto item = thisOpt.findInt( iInitialIn );
+    if( !item ) {
+        iInitialIn = std::get<0>( mIntValuesIn[0] );
     }
 
-    item = mIntValuesIn.find( iDefaultIn );
-    if( item == mIntValuesIn.cend() ) {
-        iDefaultIn = mIntValuesIn.cbegin()->first;
+    item = thisOpt.findInt( iDefaultIn );
+    if( !item ) {
+        iDefaultIn = std::get<0>( mIntValuesIn[0] );
     }
 
     thisOpt.iDefault = iDefaultIn;
@@ -361,7 +364,7 @@ void options_manager::cOpt::setPrerequisites( const std::string &sOption,
 {
     const bool hasOption = get_options().has_option( sOption );
     if( !hasOption ) {
-        debugmsg( "setPrerequisite: unknown option %s", sType.c_str() );
+        debugmsg( "setPrerequisite: unknown option %s", sType );
         return;
     }
 
@@ -376,7 +379,7 @@ void options_manager::cOpt::setPrerequisites( const std::string &sOption,
     }
 
     if( !isOfSupportType ) {
-        debugmsg( "setPrerequisite: option %s not of supported type", sType.c_str() );
+        debugmsg( "setPrerequisite: option %s not of supported type", sType );
         return;
     }
 
@@ -418,14 +421,14 @@ bool options_manager::cOpt::is_hidden() const
             return false;
 
         case COPT_SDL_HIDE:
-#ifdef TILES
+#if defined(TILES)
             return true;
 #else
             return false;
 #endif
 
         case COPT_CURSES_HIDE:
-#ifndef TILES // If not defined.  it's curses interface.
+#if !defined(TILES) // If not defined.  it's curses interface.
             return true;
 #else
             return false;
@@ -433,14 +436,14 @@ bool options_manager::cOpt::is_hidden() const
 
         case COPT_POSIX_CURSES_HIDE:
             // Check if we on windows and using wincurses.
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if defined(TILES) || defined(_WIN32)
             return false;
 #else
             return true;
 #endif
 
         case COPT_NO_SOUND_HIDE:
-#ifndef SDL_SOUND // If not defined, we have no sound support.
+#if !defined(SDL_SOUND) // If not defined, we have no sound support.
             return true;
 #else
             return false;
@@ -481,12 +484,12 @@ std::string options_manager::cOpt::getPage() const
 
 std::string options_manager::cOpt::getMenuText() const
 {
-    return _( sMenuText.c_str() );
+    return _( sMenuText );
 }
 
 std::string options_manager::cOpt::getTooltip() const
 {
-    return _( sTooltip.c_str() );
+    return _( sTooltip );
 }
 
 std::string options_manager::cOpt::getType() const
@@ -509,7 +512,7 @@ bool options_manager::cOpt::operator==( const cOpt &rhs ) const
     } else if( sType == "VOID" ) {
         return true;
     } else {
-        debugmsg( "unknown option type %s", sType.c_str() );
+        debugmsg( "unknown option type %s", sType );
         return false;
     }
 }
@@ -541,7 +544,7 @@ template<>
 std::string options_manager::cOpt::value_as<std::string>() const
 {
     if( eType != CVT_STRING ) {
-        debugmsg( "%s tried to get string value from option of type %s", sName.c_str(), sType.c_str() );
+        debugmsg( "%s tried to get string value from option of type %s", sName, sType );
     }
     return sSet;
 }
@@ -550,7 +553,7 @@ template<>
 bool options_manager::cOpt::value_as<bool>() const
 {
     if( eType != CVT_BOOL ) {
-        debugmsg( "%s tried to get boolean value from option of type %s", sName.c_str(), sType.c_str() );
+        debugmsg( "%s tried to get boolean value from option of type %s", sName, sType );
     }
     return bSet;
 }
@@ -559,7 +562,7 @@ template<>
 float options_manager::cOpt::value_as<float>() const
 {
     if( eType != CVT_FLOAT ) {
-        debugmsg( "%s tried to get float value from option of type %s", sName.c_str(), sType.c_str() );
+        debugmsg( "%s tried to get float value from option of type %s", sName, sType );
     }
     return fSet;
 }
@@ -568,7 +571,7 @@ template<>
 int options_manager::cOpt::value_as<int>() const
 {
     if( eType != CVT_INT ) {
-        debugmsg( "%s tried to get integer value from option of type %s", sName.c_str(), sType.c_str() );
+        debugmsg( "%s tried to get integer value from option of type %s", sName, sType );
     }
     return iSet;
 }
@@ -588,7 +591,12 @@ std::string options_manager::cOpt::getValueName() const
         return ( bSet ) ? _( "True" ) : _( "False" );
 
     } else if( sType == "int_map" ) {
-        return string_format( _( "%d: %s" ), iSet, mIntValues.find( iSet )->second.c_str() );
+        const auto name = std::get<1>( *findInt( iSet ) ).c_str();
+        if( verbose ) {
+            return string_format( _( "%d: %s" ), iSet, name );
+        } else {
+            return string_format( _( "%s" ), name );
+        }
     }
 
     return getValue();
@@ -607,11 +615,10 @@ std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) cons
         [bTranslated]( const id_and_option & elem ) {
             return bTranslated ? elem.second.translated() : elem.first;
         }, enumeration_conjunction::none );
-        return string_format( _( "Default: %s - Values: %s" ),
-                              defaultName.c_str(), sItems.c_str() );
+        return string_format( _( "Default: %s - Values: %s" ), defaultName, sItems );
 
     } else if( sType == "string_input" ) {
-        return string_format( _( "Default: %s" ), sDefault.c_str() );
+        return string_format( _( "Default: %s" ), sDefault );
 
     } else if( sType == "bool" ) {
         return ( bDefault ) ? _( "Default: True" ) : _( "Default: False" );
@@ -620,8 +627,12 @@ std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) cons
         return string_format( _( "Default: %d - Min: %d, Max: %d" ), iDefault, iMin, iMax );
 
     } else if( sType == "int_map" ) {
-        return string_format( _( "Default: %d: %s" ), iDefault,
-                              mIntValues.find( iDefault )->second.c_str() );
+        const auto name = std::get<1>( *findInt( iDefault ) ).c_str();
+        if( verbose ) {
+            return string_format( _( "Default: %d: %s" ), iDefault, name );
+        } else {
+            return string_format( _( "Default: %s" ), name );
+        }
 
     } else if( sType == "float" ) {
         return string_format( _( "Default: %.2f - Min: %.2f, Max: %.2f" ), fDefault, fMin, fMax );
@@ -646,6 +657,29 @@ int options_manager::cOpt::getItemPos( const std::string &sSearch ) const
 std::vector<options_manager::id_and_option> options_manager::cOpt::getItems() const
 {
     return vItems;
+}
+
+int options_manager::cOpt::getIntPos( const int iSearch ) const
+{
+    if( sType == "int_map" ) {
+        for( size_t i = 0; i < mIntValues.size(); i++ ) {
+            if( std::get<0>( mIntValues[i] ) == iSearch ) {
+                return i;
+            }
+        }
+    }
+
+    return -1;
+}
+
+cata::optional< std::tuple<int, std::string> > options_manager::cOpt::findInt(
+    const int iSearch ) const
+{
+    int i = static_cast<int>( getIntPos( iSearch ) );
+    if( i == -1 ) {
+        return cata::nullopt;
+    }
+    return mIntValues[i];
 }
 
 int options_manager::cOpt::getMaxLength() const
@@ -673,7 +707,7 @@ void options_manager::cOpt::setNext()
         string_input_popup()
         .width( ( iMaxLength > 80 ) ? 80 : ( ( iMaxLength < iMenuTextLength ) ? iMenuTextLength : iMaxLength
                                              + 1 ) )
-        .description( _( sMenuText.c_str() ) )
+        .description( _( sMenuText ) )
         .max_length( iMaxLength )
         .edit( sSet );
 
@@ -687,12 +721,11 @@ void options_manager::cOpt::setNext()
         }
 
     } else if( sType == "int_map" ) {
-        auto next = std::next( mIntValues.find( iSet ) );
-        if( next == mIntValues.cend() ) {
-            iSet = mIntValues.cbegin()->first;
-        } else {
-            iSet = next->first;
+        long unsigned int iNext = getIntPos( iSet ) + 1;
+        if( iNext >= mIntValues.size() ) {
+            iNext = 0;
         }
+        iSet = std::get<0>( mIntValues[iNext] );
 
     } else if( sType == "float" ) {
         fSet += fStep;
@@ -706,7 +739,7 @@ void options_manager::cOpt::setNext()
 void options_manager::cOpt::setPrev()
 {
     if( sType == "string_select" ) {
-        int iPrev = getItemPos( sSet ) - 1;
+        int iPrev = static_cast<int>( getItemPos( sSet ) ) - 1;
         if( iPrev < 0 ) {
             iPrev = vItems.size() - 1;
         }
@@ -726,14 +759,11 @@ void options_manager::cOpt::setPrev()
         }
 
     } else if( sType == "int_map" ) {
-        auto item = mIntValues.find( iSet );
-        if( item == mIntValues.cbegin() ) {
-            auto prev = std::prev( mIntValues.cend() );
-            iSet = prev->first;
-        } else {
-            auto prev = std::prev( item );
-            iSet = prev->first;
+        int iPrev = static_cast<int>( getIntPos( iSet ) ) - 1;
+        if( iPrev < 0 ) {
+            iPrev = mIntValues.size() - 1;
         }
+        iSet = std::get<0>( mIntValues[iPrev] );
 
     } else if( sType == "float" ) {
         fSet -= fStep;
@@ -747,7 +777,7 @@ void options_manager::cOpt::setPrev()
 void options_manager::cOpt::setValue( float fSetIn )
 {
     if( sType != "float" ) {
-        debugmsg( "tried to set a float value to a %s option", sType.c_str() );
+        debugmsg( "tried to set a float value to a %s option", sType );
         return;
     }
     fSet = fSetIn;
@@ -760,7 +790,7 @@ void options_manager::cOpt::setValue( float fSetIn )
 void options_manager::cOpt::setValue( int iSetIn )
 {
     if( sType != "int" ) {
-        debugmsg( "tried to set an int value to a %s option", sType.c_str() );
+        debugmsg( "tried to set an int value to a %s option", sType );
         return;
     }
     iSet = iSetIn;
@@ -793,8 +823,8 @@ void options_manager::cOpt::setValue( std::string sSetIn )
     } else if( sType == "int_map" ) {
         iSet = atoi( sSetIn.c_str() );
 
-        auto item = mIntValues.find( iSet );
-        if( item == mIntValues.cend() ) {
+        auto item = findInt( iSet );
+        if( !item ) {
             iSet = iDefault;
         }
 
@@ -806,7 +836,7 @@ void options_manager::cOpt::setValue( std::string sSetIn )
         if( ssTemp ) {
             setValue( tmpFloat );
         } else {
-            debugmsg( "invalid floating point option: %s", sSetIn.c_str() );
+            debugmsg( "invalid floating point option: %s", sSetIn );
         }
     }
 }
@@ -914,7 +944,7 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
     return result;
 }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 bool android_get_default_setting( const char *settings_name, bool default_value )
 {
     JNIEnv *env = ( JNIEnv * )SDL_AndroidGetJNIEnv();
@@ -949,7 +979,7 @@ void options_manager::init()
         vPages.emplace_back( "world_default", translate_marker( "World Defaults" ) );
     }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     vPages.emplace_back( "android", translate_marker( "Android" ) );
 #endif
 
@@ -1199,6 +1229,13 @@ void options_manager::add_options_general()
        );
 
     get_option( "SOUND_EFFECT_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
+
+    add( "AMBIENT_SOUND_VOLUME", "general", translate_marker( "Ambient sound volume" ),
+         translate_marker( "Adjust the volume of ambient sounds being played by the game." ),
+         0, 200, 100, COPT_NO_SOUND_HIDE
+       );
+
+    get_option( "AMBIENT_SOUND_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
 }
 
 void options_manager::add_options_interface()
@@ -1301,7 +1338,7 @@ void options_manager::add_options_interface()
 
     mOptionsSort["interface"]++;
 
-#ifndef __ANDROID__
+#if !defined(__ANDROID__)
     add( "DIAG_MOVE_WITH_MODIFIERS_MODE", "interface",
          translate_marker( "Diagonal movement with cursor keys and modifiers" ),
          /*
@@ -1454,6 +1491,16 @@ void options_manager::add_options_interface()
         { "hidekb", translate_marker( "HideKB" ) }
     },
     "show", COPT_CURSES_HIDE );
+
+    add( "EDGE_SCROLL", "interface", translate_marker( "Edge scrolling" ),
+    translate_marker( "Edge scrolling with the mouse." ), {
+        std::make_tuple( -1, translate_marker( "Disabled" ) ),
+        std::make_tuple( 100, translate_marker( "Slow" ) ),
+        std::make_tuple( 30, translate_marker( "Normal" ) ),
+        std::make_tuple( 10, translate_marker( "Fast" ) )
+    },
+    30, 30, COPT_CURSES_HIDE );
+
 }
 
 void options_manager::add_options_graphics()
@@ -1518,6 +1565,63 @@ void options_manager::add_options_graphics()
 
     mOptionsSort["graphics"]++;
 
+    add( "FONT_BLENDING", "graphics", translate_marker( "Font blending" ),
+         translate_marker( "If true, fonts will look better." ),
+         false, COPT_CURSES_HIDE
+       );
+
+    add( "FONT_WIDTH", "graphics", translate_marker( "Font width" ),
+         translate_marker( "Set the font width.  Requires restart." ),
+         8, 100, 8, COPT_CURSES_HIDE
+       );
+
+    add( "FONT_HEIGHT", "graphics", translate_marker( "Font height" ),
+         translate_marker( "Set the font height.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "FONT_SIZE", "graphics", translate_marker( "Font size" ),
+         translate_marker( "Set the font size.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "MAP_FONT_WIDTH", "graphics", translate_marker( "Map font width" ),
+         translate_marker( "Set the map font width.  Requires restart." ),
+         8, 100, 8, COPT_CURSES_HIDE
+       );
+
+    add( "MAP_FONT_HEIGHT", "graphics", translate_marker( "Map font height" ),
+         translate_marker( "Set the map font height.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "MAP_FONT_SIZE", "graphics", translate_marker( "Map font size" ),
+         translate_marker( "Set the map font size.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "OVERMAP_FONT_WIDTH", "graphics", translate_marker( "Overmap font width" ),
+         translate_marker( "Set the overmap font width.  Requires restart." ),
+         8, 100, 8, COPT_CURSES_HIDE
+       );
+
+    add( "OVERMAP_FONT_HEIGHT", "graphics", translate_marker( "Overmap font height" ),
+         translate_marker( "Set the overmap font height.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "OVERMAP_FONT_SIZE", "graphics", translate_marker( "Overmap font size" ),
+         translate_marker( "Set the overmap font size.  Requires restart." ),
+         8, 100, 16, COPT_CURSES_HIDE
+       );
+
+    add( "USE_DRAW_ASCII_LINES_ROUTINE", "graphics", translate_marker( "SDL ASCII lines" ),
+         translate_marker( "Use SDL ASCII line drawing routine instead of Unicode Line Drawing characters.  Use this option when your selected font doesn't contain necessary glyphs." ),
+         true, COPT_CURSES_HIDE
+       );
+
+    mOptionsSort["graphics"]++;
+
     add( "USE_TILES", "graphics", translate_marker( "Use tiles" ),
          translate_marker( "If true, replaces some TTF rendered text with tiles." ),
          true, COPT_CURSES_HIDE
@@ -1525,7 +1629,11 @@ void options_manager::add_options_graphics()
 
     add( "TILES", "graphics", translate_marker( "Choose tileset" ),
          translate_marker( "Choose the tileset you want to use." ),
+#if !defined(__ANDROID__)
          build_tilesets_list(), "MSX++DEAD_PEOPLE", COPT_CURSES_HIDE
+#else
+         build_tilesets_list(), "retrodays", COPT_CURSES_HIDE
+#endif
        ); // populate the options dynamically
 
     get_option( "TILES" ).setPrerequisite( "USE_TILES" );
@@ -1580,7 +1688,7 @@ void options_manager::add_options_graphics()
          0, 10000, 0, COPT_CURSES_HIDE
        );
 
-#ifndef __ANDROID__ // Android is always fullscreen
+#if !defined(__ANDROID__) // Android is always fullscreen
     add( "FULLSCREEN", "graphics", translate_marker( "Fullscreen" ),
          translate_marker( "Starts Cataclysm in one of the fullscreen modes.  Requires restart." ),
     { { "no", translate_marker( "No" ) }, { "fullscreen", translate_marker( "Fullscreen" ) }, { "windowedbl", translate_marker( "Windowed borderless" ) } },
@@ -1588,8 +1696,8 @@ void options_manager::add_options_graphics()
        );
 #endif
 
-#ifndef __ANDROID__
-#   ifndef TILES
+#if !defined(__ANDROID__)
+#   if !defined(TILES)
     // No renderer selection in non-TILES mode
     add( "RENDERER", "graphics", translate_marker( "Renderer" ),
     translate_marker( "Set which renderer to use.  Requires restart." ),   {   { "software", translate_marker( "software" ) } },
@@ -1615,7 +1723,7 @@ void options_manager::add_options_graphics()
          false, COPT_CURSES_HIDE
        );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "SOFTWARE_RENDERING" );
 #else
     get_option( "FRAMEBUFFER_ACCEL" ).setPrerequisite( "RENDERER", "software" );
@@ -1637,7 +1745,7 @@ void options_manager::add_options_graphics()
     },
     "none", COPT_CURSES_HIDE );
 
-#ifndef __ANDROID__
+#if !defined(__ANDROID__)
     add( "SCALING_FACTOR", "graphics", translate_marker( "Scaling factor" ),
     translate_marker( "Factor by which to scale the display. Requires restart." ), {
         { "1", translate_marker( "1x" ) },
@@ -1842,7 +1950,7 @@ void options_manager::add_options_world_default()
 
     add( "STATIC_NPC", "world_default", translate_marker( "Static NPCs" ),
          translate_marker( "If true, static NPCs will spawn at pre-defined locations. Requires world reset." ),
-         false
+         true
        );
 
     add( "STARTING_NPC", "world_default", translate_marker( "Starting NPCs spawn" ),
@@ -1868,8 +1976,8 @@ void options_manager::add_options_world_default()
     mOptionsSort["world_default"]++;
 
     add( "ZLEVELS", "world_default", translate_marker( "Experimental z-levels" ),
-         translate_marker( "If true, experimental z-level maps will be enabled.  This feature is not finished yet and turning it on will only slow the game down." ),
-         false
+         translate_marker( "If true, experimental z-level maps will be enabled.  Turn this off if you experience excessive slowdown." ),
+         true
        );
 
     mOptionsSort["world_default"]++;
@@ -1890,7 +1998,7 @@ void options_manager::add_options_world_default()
 
 void options_manager::add_options_android()
 {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     add( "ANDROID_QUICKSAVE", "android", translate_marker( "Quicksave on app lose focus" ),
          translate_marker( "If true, quicksave whenever the app loses focus (screen locked, app moved into background etc.) WARNING: Experimental. This may result in corrupt save games." ),
          false
@@ -2133,7 +2241,7 @@ void options_manager::add_options_android()
 #endif
 }
 
-#ifdef TILES
+#if defined(TILES)
 // Helper method to isolate #ifdeffed tiles code.
 static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_changed, bool ingame )
 {
@@ -2295,7 +2403,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
             sTemp.str( "" );
             sTemp << i + 1 - iBlankOffset;
-            mvwprintz( w_options, line_pos, 1, c_white, sTemp.str().c_str() );
+            mvwprintz( w_options, line_pos, 1, c_white, sTemp.str() );
 
             if( iCurrentLine == i ) {
                 mvwprintz( w_options, line_pos, name_col, c_yellow, ">> " );
@@ -2336,7 +2444,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                              ( iCurrentPage == i ) ? hilite( c_light_green ) : c_light_green, _( "Current world" ) );
                 } else {
                     wprintz( w_options_header, ( iCurrentPage == i ) ?
-                             hilite( c_light_green ) : c_light_green, "%s", _( vPages[i].second.c_str() ) );
+                             hilite( c_light_green ) : c_light_green, "%s", _( vPages[i].second ) );
                 }
                 wprintz( w_options_header, c_white, "]" );
                 wputch( w_options_header, BORDER_COLOR, LINE_OXOX );
@@ -2345,7 +2453,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
         wrefresh( w_options_header );
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if defined(TILES) || defined(_WIN32)
         if( mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_X" ) {
             int new_terminal_x = 0;
             int new_window_width = 0;
@@ -2359,8 +2467,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                             ngettext( "%s #%s -- The window will be %d pixel wide with the selected value.",
                                       "%s #%s -- The window will be %d pixels wide with the selected value.",
                                       new_window_width ),
-                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(),
-                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(),
+                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip(),
+                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText(),
                             new_window_width );
         } else if( mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_Y" ) {
             int new_terminal_y = 0;
@@ -2375,15 +2483,15 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                             ngettext( "%s #%s -- The window will be %d pixel tall with the selected value.",
                                       "%s #%s -- The window will be %d pixels tall with the selected value.",
                                       new_window_height ),
-                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(),
-                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str(),
+                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip(),
+                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText(),
                             new_window_height );
         } else
 #endif
         {
             fold_and_print( w_options_tooltip, 0, 0, 78, c_white, "%s #%s",
-                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip().c_str(),
-                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText().c_str() );
+                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getTooltip(),
+                            OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getDefaultText() );
         }
 
         if( iCurrentPage != iLastPage ) {
@@ -2451,7 +2559,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             sfx::play_variant_sound( "menu_move", "default", 100 );
         } else if( !mPageItems[iCurrentPage].empty() && action == "CONFIRM" ) {
             if( current_opt.getType() == "bool" || current_opt.getType() == "string_select" ||
-                current_opt.getType() == "string_input" ) {
+                current_opt.getType() == "string_input" || current_opt.getType() == "int_map" ) {
                 current_opt.setNext();
             } else {
                 const bool is_int = current_opt.getType() == "int";
@@ -2552,7 +2660,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         set_language();
     }
 
-#if !defined(__ANDROID__) && (defined TILES || defined _WIN32 || defined WINDOWS)
+#if !defined(__ANDROID__) && (defined(TILES) || defined(_WIN32))
     if( terminal_size_changed ) {
         int scaling_factor = get_scaling_factor();
         int TERMX = ::get_option<int>( "TERMINAL_X" );
@@ -2678,7 +2786,7 @@ void options_manager::load()
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
-#ifdef SDL_SOUND
+#if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 #endif
 }
@@ -2716,7 +2824,7 @@ bool options_manager::has_option( const std::string &name ) const
 options_manager::cOpt &options_manager::get_option( const std::string &name )
 {
     if( options.count( name ) == 0 ) {
-        debugmsg( "requested non-existing option %s", name.c_str() );
+        debugmsg( "requested non-existing option %s", name );
     }
     if( !world_generator || !world_generator->active_world ) {
         // Global options contains the default for new worlds, which is good enough here.

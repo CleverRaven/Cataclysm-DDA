@@ -1,17 +1,17 @@
 #include "scenario.h"
 
+#include <cstdlib>
 #include <algorithm>
-#include <cmath>
 
-#include "addiction.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "map_extras.h"
+#include "mission.h"
 #include "mutation.h"
-#include "player.h"
 #include "profession.h"
 #include "translations.h"
+#include "rng.h"
 
 namespace
 {
@@ -81,6 +81,7 @@ void scenario::load( JsonObject &jo, const std::string & )
     }
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
     optional( jo, was_loaded, "map_special", _map_special, "mx_null" );
+    optional( jo, was_loaded, "missions", _missions, auto_flags_reader<mission_type_id> {} );
 }
 
 const scenario *scenario::generic()
@@ -165,6 +166,17 @@ void scenario::check_definition() const
     check_traits( _forced_traits, id );
     check_traits( _forbidden_traits, id );
     MapExtras::get_function( _map_special ); // triggers a debug message upon invalid input
+
+    for( auto &m : _missions ) {
+        if( !m.is_valid() ) {
+            debugmsg( "starting mission %s for scenario %s does not exist", m.c_str(), id.c_str() );
+        }
+
+        if( std::find( m->origins.begin(), m->origins.end(), ORIGIN_GAME_START ) == m->origins.end() ) {
+            debugmsg( "starting mission %s for scenario %s must include an origin of ORIGIN_GAME_START",
+                      m.c_str(), id.c_str() );
+        }
+    }
 }
 
 const string_id<scenario> &scenario::ident() const
@@ -305,5 +317,9 @@ bool scenario::has_map_special() const
 const std::string &scenario::get_map_special() const
 {
     return _map_special;
+}
+const std::vector<mission_type_id> &scenario::missions() const
+{
+    return _missions;
 }
 // vim:ts=4:sw=4:et:tw=0:fdm=marker:

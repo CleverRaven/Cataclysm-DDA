@@ -37,9 +37,7 @@
     "monsters": [
       { "monster": "mon_zombie_fat", "freq": 30, "cost_multiplier": 2 },
       { "monster": "mon_zombie_fat", "freq": 15, "cost_multiplier": 8, "pack_size": [ 2, 6 ] },
-      { "monster": "mon_zombie_tough", "freq": 5, "cost_multiplier": 3 },
-      { "monster": "mon_zombie_brute", "freq": 2, "cost_multiplier": 15 },
-      { "monster": "mon_zombie_hulk", "freq": 1, "cost_multiplier": 50 }
+      { "monster": "mon_zombie_tough", "freq": 8, "cost_multiplier": 3 }
     ]
   },
   {

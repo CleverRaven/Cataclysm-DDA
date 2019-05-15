@@ -2,31 +2,44 @@
 #ifndef OMDATA_H
 #define OMDATA_H
 
+#include <climits>
+#include <cstddef>
+#include <cstdint>
 #include <bitset>
 #include <list>
 #include <set>
 #include <vector>
+#include <array>
+#include <string>
 
+#include "catacharset.h"
 #include "color.h"
 #include "common_types.h"
 #include "enums.h"
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
+#include "optional.h"
 
-struct MonsterGroup;
-using mongroup_id = string_id<MonsterGroup>;
 struct city;
 class overmap_land_use_code;
+struct MonsterGroup;
+
 using overmap_land_use_code_id = string_id<overmap_land_use_code>;
 struct oter_t;
-struct oter_type_t;
 struct overmap_location;
 class JsonObject;
 class overmap_connection;
 class overmap_special_batch;
 class overmap_special;
+
 using overmap_special_id = string_id<overmap_special>;
+
+const overmap_land_use_code_id land_use_code_forest( "forest" );
+const overmap_land_use_code_id land_use_code_wetland( "wetland" );
+const overmap_land_use_code_id land_use_code_wetland_forest( "wetland_forest" );
+const overmap_land_use_code_id land_use_code_wetland_saltwater( "wetland_saltwater" );
 
 /** Direction on the overmap. */
 namespace om_direction
@@ -57,7 +70,7 @@ const std::string &name( type dir );
 /** Various rotations. */
 point rotate( const point &p, type dir );
 tripoint rotate( const tripoint &p, type dir );
-std::string rotate_symbol( const std::string &sym, type dir );
+uint32_t rotate_symbol( uint32_t sym, type dir );
 
 /** Returns point(0, 0) displaced in specified direction by a specified distance
  * @param dir Direction of displacement
@@ -151,9 +164,6 @@ enum oter_flags {
     num_oter_flags
 };
 
-using oter_id = int_id<oter_t>;
-using oter_str_id = string_id<oter_t>;
-
 struct oter_type_t {
     public:
         static const oter_type_t null_type;
@@ -227,11 +237,11 @@ struct oter_t {
         oter_id get_rotated( om_direction::type dir ) const;
 
         const std::string get_name() const {
-            return _( type->name.c_str() );
+            return _( type->name );
         }
 
-        std::string get_sym( const bool from_land_use_code = false ) const {
-            return from_land_use_code ? sym_alt : sym;
+        std::string get_symbol( const bool from_land_use_code = false ) const {
+            return utf32_to_utf8( from_land_use_code ? symbol_alt : symbol );
         }
 
         nc_color get_color( const bool from_land_use_code = false ) const {
@@ -265,6 +275,10 @@ struct oter_t {
             return type->static_spawns;
         }
 
+        const overmap_land_use_code_id get_land_use_code() const {
+            return type->land_use_code;
+        }
+
         bool type_is( const int_id<oter_type_t> &type_id ) const;
         bool type_is( const oter_type_t &type ) const;
 
@@ -288,12 +302,17 @@ struct oter_t {
             return type->has_flag( river_tile );
         }
 
+        bool is_wooded() const {
+            return type->land_use_code == land_use_code_forest ||
+                   type->land_use_code == land_use_code_wetland ||
+                   type->land_use_code == land_use_code_wetland_forest ||
+                   type->land_use_code == land_use_code_wetland_saltwater;
+        }
+
     private:
         om_direction::type dir = om_direction::type::none;
-        /** UTF-8 encoded symbol, should be exactly one cell wide. */
-        std::string sym;
-        /** UTF-8 encoded symbol, should be exactly one cell wide. */
-        std::string sym_alt;
+        uint32_t symbol;
+        uint32_t symbol_alt;
         size_t line = 0;         // Index of line. Only valid in case of line drawing.
 };
 

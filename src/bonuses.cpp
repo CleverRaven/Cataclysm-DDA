@@ -3,12 +3,14 @@
 #include <sstream>
 #include <string>
 #include <utility>
+#include <algorithm>
+#include <type_traits>
 
 #include "character.h"
 #include "damage.h"
 #include "json.h"
-#include "output.h"
 #include "translations.h"
+#include "string_formatter.h"
 
 bool needs_damage_type( affected_stat as )
 {
@@ -73,7 +75,7 @@ static const std::map<affected_stat, std::string> affected_stat_map_translation 
 std::string string_from_affected_stat( const affected_stat &s )
 {
     const auto &iter = affected_stat_map_translation.find( s );
-    return iter != affected_stat_map_translation.end() ? _( iter->second.c_str() ) : "";
+    return iter != affected_stat_map_translation.end() ? _( iter->second ) : "";
 }
 
 static const std::map<scaling_stat, std::string> scaling_stat_map_translation = {{
@@ -87,7 +89,7 @@ static const std::map<scaling_stat, std::string> scaling_stat_map_translation = 
 std::string string_from_scaling_stat( const scaling_stat &s )
 {
     const auto &iter = scaling_stat_map_translation.find( s );
-    return iter != scaling_stat_map_translation.end() ? _( iter->second.c_str() ) : "";
+    return iter != scaling_stat_map_translation.end() ? _( iter->second ) : "";
 }
 
 bonus_container::bonus_container() = default;
@@ -243,12 +245,12 @@ std::string bonus_container::get_description() const
 
         for( const auto &sf : boni.second ) {
             if( sf.stat ) {
-                dump << string_format( "%s: <stat>%s%d%%</stat>", type, ( sf.scale < 0 ) ? "" : "+",
+                dump << string_format( "%s: <stat>%s%d%%</stat>", type, sf.scale < 0 ? "" : "+",
                                        static_cast<int>( sf.scale * 100 ) );
                 //~ bash damage +80% of strength
                 dump << _( " of " ) << string_from_scaling_stat( sf.stat );
             } else {
-                dump << string_format( "%s: <stat>%s%d</stat>", type, ( sf.scale < 0 ) ? "" : "+",
+                dump << string_format( "%s: <stat>%s%d</stat>", type, sf.scale < 0 ? "" : "+",
                                        static_cast<int>( sf.scale ) );
             }
 

@@ -8,6 +8,12 @@
   {
     "type": "speech",
     "speaker": "mon_mi_go",
+    "sound": "\"Papaya!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mi_go",
     "sound": "\"Who's there?\"",
     "volume": 40
   },
@@ -1510,6 +1516,54 @@
     "speaker": "mon_broken_cyborg",
     "sound": "\"Not that way!  Go left!\"",
     "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_prototype_cyborg",
+    "sound": "\"Have you seen my friend?  He went into surgery yesterday... or maybe the day before...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_prototype_cyborg",
+    "sound": "\"Is it done?  Am I perfect now?\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_prototype_cyborg",
+    "sound": "\"I have done what you asked.  Please let me go!\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_prototype_cyborg",
+    "sound": "Screems of pain.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_prototype_cyborg",
+    "sound": "\"You lied to me!  Look at what you've done!\", followed by an electronic voice saying \"YOU'LL PAY FOR THIS!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_nursebot_defective",
+    "sound": "a soft robotic voice say, \"Come here.  I'll give you a check-up.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_nursebot_defective",
+    "sound": "a soft robotic voice say, \"Come on.  I don't bite, I promise it won't hurt one bit.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_nursebot_defective",
+    "sound": "a soft robotic voice say, \"Here we go.  Just hold still.\"",
+    "volume": 8
   },
   {
     "type": "speech",

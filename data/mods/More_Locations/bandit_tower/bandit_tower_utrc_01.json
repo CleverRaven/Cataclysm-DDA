@@ -1,57 +1,47 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "bandit_tower_utrc",
-        "comment" : "underground, top right corner",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_concrete_floor",
-            "rows": [
-                "===#######=  =#######===",
-                "=#########=  =##########",
-                "=#########=  =##########",
-                "##########=  =########==",
-                "##########=  =########==",
-                "#####===##=  =########==",
-                "#####===##=  =##########",
-                "#####======!!===========",
-                "#######=Y0        l|  CC",
-                "#######=Y    HH    3    ",
-                "========     HH    |q  T",
-                "       !           |q  T",
-                "       ! hh  HH    |q   ",
-                "======== hh  HH    |q   ",
-                "#######=           |q   ",
-                "#######= hh        |v   ",
-                "#######= hh     ========",
-                "#######=        =====M==",
-                "#######=-3------==<<<M==",
-                "#######=  QQQQQ   <<<M==",
-                "#######=          <<<M==",
-                "=######=        =MMMMMMM",
-                "=######=C       =====M==",
-                "=##===#=C TT    =====M=="
-            ],
-            "rotation": 1,
-            "palettes": [
-                "tri_tower",
-                "lower_level",
-                "bandit_tower_stuff"
-            ],
-            "terrain":{
-                "Y": "t_sewage_pump",
-                "3": "t_door_metal_pickable"
-            },
-            "furniture":{
-                "v": "f_vending_o",
-                "0": "f_standing_tank"
-            },
-            "items": {
-                "v": { "item": "trash_cart", "chance": 15 },
-                "x": [ { "item": "plumber_gear", "chance": 20 }, { "item": "hardware_bulk", "chance": 20 } ],
-                "X": { "item": "hardware_bulk", "chance": 35 }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "bandit_tower_utrc",
+    "comment": "underground, top right corner",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_concrete_floor",
+      "rows": [
+        "===#######=  =#######===",
+        "=#########=  =##########",
+        "=#########=  =##########",
+        "##########=  =########==",
+        "##########=  =########==",
+        "#####===##=  =########==",
+        "#####===##=  =##########",
+        "#####======!!===========",
+        "#######=Y0        l|  CC",
+        "#######=Y    HH    3    ",
+        "========     HH    |q  T",
+        "       !           |q  T",
+        "       ! hh  HH    |q   ",
+        "======== hh  HH    |q   ",
+        "#######=           |q   ",
+        "#######= hh        |v   ",
+        "#######= hh     ========",
+        "#######=        =====M==",
+        "#######=-3------==<<<M==",
+        "#######=  QQQQQ   <<<M==",
+        "#######=          <<<M==",
+        "=######=        =MMMMMMM",
+        "=######=C       =====M==",
+        "=##===#=C TT    =====M=="
+      ],
+      "rotation": 1,
+      "palettes": [ "tri_tower", "lower_level", "bandit_tower_stuff" ],
+      "terrain": { "Y": "t_sewage_pump", "3": "t_door_metal_pickable" },
+      "furniture": { "v": "f_vending_o", "0": "f_standing_tank" },
+      "items": {
+        "v": { "item": "trash_cart", "chance": 15 },
+        "x": [ { "item": "hardware_plumbing", "chance": 20 }, { "item": "hardware_bulk", "chance": 20 } ],
+        "X": { "item": "hardware_bulk", "chance": 35 }
+      }
     }
+  }
 ]

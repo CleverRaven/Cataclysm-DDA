@@ -1,11 +1,17 @@
 #include "monexamine.h"
 
+#include <climits>
 #include <string>
 #include <utility>
+#include <list>
+#include <map>
+#include <memory>
+#include <vector>
 
 #include "calendar.h"
 #include "game.h"
 #include "game_inventory.h"
+#include "handle_liquid.h"
 #include "item.h"
 #include "iuse.h"
 #include "map.h"
@@ -17,6 +23,14 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
+#include "bodypart.h"
+#include "debug.h"
+#include "enums.h"
+#include "player_activity.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "units.h"
+#include "type_id.h"
 
 const species_id ZOMBIE( "ZOMBIE" );
 
@@ -109,10 +123,8 @@ bool monexamine::pet_menu( monster &z )
             break;
         case give_items:
             return give_items_to( z );
-            break;
         case mon_armor_add:
             return add_armor( z );
-            break;
         case mon_armor_remove:
             remove_armor( z );
             break;
@@ -381,7 +393,7 @@ void monexamine::kill_zslave( monster &z )
         g->u.add_msg_if_player( _( "You tear out the pheromone ball from the zombie slave." ) );
         item ball( "pheromone", 0 );
         iuse pheromone;
-        pheromone.pheromone( &( g->u ), &ball, true, g->u.pos() );
+        pheromone.pheromone( &g->u, &ball, true, g->u.pos() );
     }
 }
 
@@ -402,7 +414,7 @@ void monexamine::milk_source( monster &source_mon )
     const auto milked_item = source_mon.type->starting_ammo.find( "milk" );
     if( milked_item == source_mon.type->starting_ammo.end() ) {
         debugmsg( "%s is milkable but has no milk in its starting ammo!",
-                  source_mon.get_name().c_str() );
+                  source_mon.get_name() );
         return;
     }
     const long milk_per_day = milked_item->second;
@@ -421,7 +433,8 @@ void monexamine::milk_source( monster &source_mon )
         }
 
         item milk( milked_item->first, calendar::turn, remaining_milk );
-        if( g->handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, &source_mon ) ) {
+        milk.set_item_temperature( 311.75 );
+        if( liquid_handler::handle_liquid( milk, nullptr, 1, nullptr, nullptr, -1, &source_mon ) ) {
             add_msg( _( "You milk the %s." ), source_mon.get_name() );
             long transferred_milk = remaining_milk - milk.charges;
             source_mon.add_effect( effect_milked, milking_freq * transferred_milk );

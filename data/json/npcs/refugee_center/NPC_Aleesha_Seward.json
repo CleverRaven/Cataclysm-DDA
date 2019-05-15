@@ -12,7 +12,8 @@
     "bonus_per": { "rng": [ -1, 1 ] },
     "worn_override": "REFUGEE_Aleesha_worn",
     "carry_override": "REFUGEE_Aleesha_carried",
-    "weapon_override": "REFUGEE_Aleesha_wield"
+    "weapon_override": "REFUGEE_Aleesha_wield",
+    "traits": [ { "group": "Appearance_African" } ]
   },
   {
     "type": "item_group",
@@ -157,8 +158,11 @@
     "id": "TALK_REFUGEE_Aleesha_2_veryearly",
     "dynamic_line": "I don't know what's up.  I'm not sure what we've even doing here.  They say we're supposed to wait until we can be moved to the shelter downstairs, but we've been here days and there's no word on how long we'll be waiting.  It's all so stupid, and nobody can tell me anything.",
     "responses": [
-      { "text": "What's your story?  How did you get here?", "topic": "TALK_REFUGEE_Aleesha_Story1" },
-      { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_Aleesha_Refugees1" },
+      { "text": "What's your story?  How did you get here?", "topic": "TALK_REFUGEE_Aleesha_2_Story1" },
+      {
+        "text": "Can you tell me anything about the other refugees here?",
+        "topic": "TALK_REFUGEE_Aleesha_2_Refugees1"
+      },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -167,7 +171,7 @@
     "id": "TALK_REFUGEE_Aleesha_2_early",
     "dynamic_line": "We're just standing around here waiting, like a bunch of idiots.  We're supposedly waiting to go downstairs to the shelter, but it's been over a month.  I don't think it's happening.  I don't know what we're doing here.  I've read all the books, and there's zombies outside so we're stuck in here.  We can hear them at night.",
     "responses": [
-      { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_Aleesha_Refugees1" },
+      { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_Aleesha_2_Refugees1" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -177,8 +181,11 @@
     "//": "TK: not written yet",
     "dynamic_line": "We're just standing around here waiting, like a bunch of idiots.  We're supposedly waiting to go downstairs to the shelter, but it's been over a month.  I don't think it's happening.  I don't know what we're doing here.  I've read all the books, and there's zombies outside so we're stuck in here.  We can hear them at night.",
     "responses": [
-      { "text": "What's your story?  How did you get here?", "topic": "TALK_REFUGEE_Aleesha_Story1" },
-      { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_Aleesha_Refugees1" },
+      { "text": "What's your story?  How did you get here?", "topic": "TALK_REFUGEE_Aleesha_2_Story1" },
+      {
+        "text": "Can you tell me anything about the other refugees here?",
+        "topic": "TALK_REFUGEE_Aleesha_2_Refugees1"
+      },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -188,28 +195,31 @@
     "//": "TK: not written yet",
     "dynamic_line": "We're just standing around here waiting, like a bunch of idiots.  We're supposedly waiting to go downstairs to the shelter, but it's been over a month.  I don't think it's happening.  I don't know what we're doing here.  I've read all the books, and there's zombies outside so we're stuck in here.  We can hear them at night.",
     "responses": [
-      { "text": "What's your story?  How did you get here?", "topic": "TALK_REFUGEE_Aleesha_Story1" },
-      { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_Aleesha_Refugees1" },
+      { "text": "What's your story?  How did you get here?", "topic": "TALK_REFUGEE_Aleesha_2_Story1" },
+      {
+        "text": "Can you tell me anything about the other refugees here?",
+        "topic": "TALK_REFUGEE_Aleesha_2_Refugees1"
+      },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Aleesha_Story1",
+    "id": "TALK_REFUGEE_Aleesha_2_Story1",
     "//": "TK: not written yet",
     "dynamic_line": "I don't really want to talk about that right now.",
     "responses": [
-      { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_Aleesha_Refugees1" },
+      { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_Aleesha_2_Refugees1" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Aleesha_Refugees1",
+    "id": "TALK_REFUGEE_Aleesha_2_Refugees1",
     "//": "TK: not written yet",
     "dynamic_line": "I don't really want to talk about that right now.",
     "responses": [
-      { "text": "What's your story?  How did you get here?", "topic": "TALK_REFUGEE_Aleesha_Story1" },
+      { "text": "What's your story?  How did you get here?", "topic": "TALK_REFUGEE_Aleesha_2_Story1" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   }

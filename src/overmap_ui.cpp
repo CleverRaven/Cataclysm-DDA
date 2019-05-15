@@ -1,18 +1,28 @@
 #include "overmap_ui.h"
 
+#include <cstddef>
+#include <algorithm>
+#include <array>
+#include <chrono>
+#include <list>
+#include <map>
+#include <memory>
+#include <string>
+#include <tuple>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
 #include "basecamp.h"
 #include "cata_utility.h"
 #include "clzones.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
-#include "faction_camp.h"
 #include "game.h"
 #include "input.h"
 #include "line.h"
 #include "map_iterator.h"
-#include "map.h"
 #include "mapbuffer.h"
-#include "messages.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "options.h"
@@ -26,8 +36,22 @@
 #include "uistate.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "calendar.h"
+#include "catacharset.h"
+#include "color.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "omdata.h"
+#include "optional.h"
+#include "overmap_types.h"
+#include "regional_settings.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
+#include "type_id.h"
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 #endif
 
@@ -110,7 +134,7 @@ std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_overmap_
             // Only load terrain if we can actually see it
             oter_id cur_ter = overmap_buffer.ter( dest );
             ter_color = cur_ter->get_color();
-            ter_sym = cur_ter->get_sym();
+            ter_sym = cur_ter->get_symbol();
         } else {
             ter_color = c_dark_gray;
             ter_sym = "#";
@@ -159,7 +183,7 @@ void update_note_preview( const std::string &note,
     mvwputch( *w_preview_map, npm_height / 2 + npm_offset_y, npm_width / 2 + npm_offset_x,
               note_color, symbol );
     wrefresh( *w_preview_map );
-};
+}
 
 weather_type get_weather_at_point( const tripoint &pos )
 {
@@ -253,7 +277,7 @@ void draw_camp_labels( const catacurses::window &w, const tripoint &center )
     const point screen_center_pos( win_x_max / 2, win_y_max / 2 );
 
     for( const auto &element : overmap_buffer.get_camps_near( omt_to_sm_copy( center ), sm_radius ) ) {
-        const point camp_pos( sm_to_omt_copy( element.abs_sm_pos.x, element.abs_sm_pos.y ) );
+        const point camp_pos( element.camp->camp_omt_pos().x, element.camp->camp_omt_pos().y );
         const point screen_pos( camp_pos - point( center.x, center.y ) + screen_center_pos );
         const int text_width = utf8_width( element.camp->name, true );
         const int text_x_min = screen_pos.x - text_width / 2;
@@ -303,9 +327,9 @@ point draw_notes( int z )
     bool redraw = true;
     point result( -1, -1 );
 
-    mvwprintz( w_notes, 1, 1, c_white, title.c_str() );
+    mvwprintz( w_notes, 1, 1, c_white, title );
     do {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         input_context ctxt( "DRAW_NOTES" );
 #endif
         if( redraw ) {
@@ -330,16 +354,16 @@ point draw_notes( int z )
                                              std::get<0>( om_symbol ),
                                              note_text.substr( std::get<2>( om_symbol ),
                                                      std::string::npos ) );
-                trim_and_print( w_notes, i + 2, 5, FULL_SCREEN_WIDTH - 7, c_light_gray, "%s", tmp_note.c_str() );
-#ifdef __ANDROID__
+                trim_and_print( w_notes, i + 2, 5, FULL_SCREEN_WIDTH - 7, c_light_gray, "%s", tmp_note );
+#if defined(__ANDROID__)
                 ctxt.register_manual_key( 'a' + i, notes[cur_it].second.c_str() );
 #endif
             }
             if( start >= maxitems ) {
-                mvwprintw( w_notes, maxitems + 2, 1, back_msg.c_str() );
+                mvwprintw( w_notes, maxitems + 2, 1, back_msg );
             }
             if( start + maxitems < notes.size() ) {
-                mvwprintw( w_notes, maxitems + 2, 2 + back_len, forward_msg.c_str() );
+                mvwprintw( w_notes, maxitems + 2, 2 + back_len, forward_msg );
             }
             mvwprintz( w_notes, 1, 40, c_white, _( "Press letter to center on note" ) );
             mvwprintz( w_notes, FULL_SCREEN_HEIGHT - 2, 40, c_white, _( "Spacebar - Return to map  " ) );
@@ -445,7 +469,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         if( info ) {
             const bool explored = show_explored && overmap_buffer.is_explored( omx, omy, z );
             ter_color = explored ? c_dark_gray : info->get_color( uistate.overmap_land_use_codes );
-            ter_sym = info->get_sym( uistate.overmap_land_use_codes );
+            ter_sym = info->get_symbol( uistate.overmap_land_use_codes );
         }
     };
 
@@ -464,7 +488,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 const oter_id oter =  s_ter.terrain->get_rotated( uistate.omedit_rotation );
 
                 special_cache.insert( std::make_pair(
-                                          rp, std::make_pair( oter->get_sym(), oter->get_color() ) ) );
+                                          rp, std::make_pair( oter->get_symbol(), oter->get_color() ) ) );
 
                 s_begin.x = std::min( s_begin.x, rp.x );
                 s_begin.y = std::min( s_begin.y, rp.y );
@@ -506,6 +530,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         std::vector<npc *> followers;
         for( auto &elem : g->get_follower_list() ) {
             std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+            if( !npc_to_get ) {
+                continue;
+            }
             npc *npc_to_add = npc_to_get.get();
             followers.push_back( npc_to_add );
         }
@@ -653,7 +680,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             if( uistate.place_terrain || uistate.place_special ) {
                 if( blink && uistate.place_terrain && omx == cursx && omy == cursy ) {
                     ter_color = uistate.place_terrain->get_color();
-                    ter_sym = uistate.place_terrain->get_sym();
+                    ter_sym = uistate.place_terrain->get_symbol();
                 } else if( blink && uistate.place_special ) {
                     if( omx - cursx >= s_begin.x && omx - cursx <= s_end.x &&
                         omy - cursy >= s_begin.y && omy - cursy <= s_end.y ) {
@@ -760,7 +787,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         for( size_t i = 0; i < corner_text.size(); i++ ) {
             const auto &pr = corner_text[ i ];
             // clear line, print line, print vertical line at the right side.
-            mvwprintz( w, i, 0, c_yellow, spacer.c_str() );
+            mvwprintz( w, i, 0, c_yellow, spacer );
             mvwprintz( w, i, 0, pr.first, pr.second );
             mvwputch( w, i, maxlen, c_white, LINE_XOXO );
         }
@@ -820,7 +847,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
             const auto &ter = ccur_ter.obj();
             const auto sm_pos = omt_to_sm_copy( tripoint( cursx, cursy, z ) );
 
-            mvwputch( wbar, 1, 1, ter.get_color(), ter.get_sym() );
+            mvwputch( wbar, 1, 1, ter.get_color(), ter.get_symbol() );
 
             lines = fold_and_print( wbar, 1, 3, 25, ter.get_color(),
                                     overmap_buffer.get_description_at( sm_pos ) );
@@ -860,8 +887,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
         const auto print_hint = [&]( const std::string & action, nc_color color = c_magenta ) {
             y += fold_and_print( wbar, y, 1, 27, color, string_format( _( "%s - %s" ),
-                                 inp_ctxt->get_desc( action ).c_str(),
-                                 inp_ctxt->get_action_name( action ).c_str() ) );
+                                 inp_ctxt->get_desc( action ),
+                                 inp_ctxt->get_action_name( action ) ) );
         };
 
         if( data.debug_editor ) {
@@ -936,6 +963,8 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     ictxt.register_action( "LEVEL_UP" );
     ictxt.register_action( "LEVEL_DOWN" );
     ictxt.register_action( "HELP_KEYBINDINGS" );
+    ictxt.register_action( "MOUSE_MOVE" );
+    ictxt.register_action( "SELECT" );
 
     // Actions whose keys we want to display.
     ictxt.register_action( "CENTER" );
@@ -961,16 +990,37 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     bool show_explored = true;
     bool fast_scroll = false; /* fast scroll state should reset every time overmap UI is opened */
     int fast_scroll_offset = get_option<int>( "MOVE_VIEW_OFFSET" );
-
+    cata::optional<tripoint> mouse_pos;
+    bool redraw = true;
+    auto last_blink = std::chrono::steady_clock::now();
     do {
-        draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored,
-              fast_scroll, &ictxt, data );
+        if( redraw ) {
+            draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays,
+                  show_explored, fast_scroll, &ictxt, data );
+        }
+        redraw = true;
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+        action = ictxt.handle_input( get_option<int>( "EDGE_SCROLL" ) );
+#else
         action = ictxt.handle_input( BLINK_SPEED );
-
+#endif
         if( const cata::optional<tripoint> vec = ictxt.get_direction( action ) ) {
             int scroll_d = fast_scroll ? fast_scroll_offset : 1;
             curs.x += vec->x * scroll_d;
             curs.y += vec->y * scroll_d;
+        } else if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
+            tripoint edge_scroll = g->mouse_edge_scrolling_terrain( ictxt );
+            if( edge_scroll == tripoint_zero ) {
+                redraw = false;
+            } else {
+                if( action == "MOUSE_MOVE" ) {
+                    edge_scroll *= 2;
+                }
+                curs += edge_scroll;
+            }
+        } else if( action == "SELECT" && ( mouse_pos = ictxt.get_coordinates( g->w_overmap ) ) ) {
+            curs.x += mouse_pos->x;
+            curs.y += mouse_pos->y;
         } else if( action == "CENTER" ) {
             curs = orig;
         } else if( action == "LEVEL_DOWN" && curs.z > -OVERMAP_DEPTH ) {
@@ -986,7 +1036,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             for( const auto &color_pair : get_note_color_names() ) {
                 // The color index is not translatable, but the name is.
                 color_notes += string_format( "%1$s:<color_%3$s>%2$s</color>, ", color_pair.first.c_str(),
-                                              _( color_pair.second.c_str() ), string_replace( color_pair.second, " ", "_" ).c_str() );
+                                              _( color_pair.second ), string_replace( color_pair.second, " ", "_" ) );
             }
 
             std::string helper_text = string_format( ".\n\n%s\n%s\n%s\n",
@@ -997,7 +1047,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             std::string title = _( "Note:" );
 
             const std::string old_note = overmap_buffer.note( curs );
-            std::string new_note = old_note, tmp_note;
+            std::string new_note = old_note;
             const auto map_around = get_overmap_neighbors( curs );
 
             const int max_note_length = 45;
@@ -1007,7 +1057,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, 2, 0 );
             auto preview_windows = std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
                 SDL_StartTextInput();
             }
@@ -1160,7 +1210,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                       draw_data_t() );
                 //Draw search box
                 mvwprintz( w_search, 1, 1, c_light_blue, _( "Search:" ) );
-                mvwprintz( w_search, 1, 10, c_light_red, "%*s", 12, term.c_str() );
+                mvwprintz( w_search, 1, 10, c_light_red, "%*s", 12, term );
 
                 mvwprintz( w_search, 2, 1, c_light_blue, _( "Result(s):" ) );
                 mvwprintz( w_search, 2, 16, c_light_red, "%*d/%d", 3, i + 1, locations.size() );
@@ -1168,10 +1218,10 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 mvwprintz( w_search, 3, 1, c_light_blue, _( "Direction:" ) );
                 mvwprintz( w_search, 3, 14, c_white, "%*d %s",
                            5, static_cast<int>( trig_dist( orig, tripoint( locations[i], orig.z ) ) ),
-                           direction_name_short( direction_from( orig, tripoint( locations[i], orig.z ) ) ).c_str()
+                           direction_name_short( direction_from( orig, tripoint( locations[i], orig.z ) ) )
                          );
 
-                mvwprintz( w_search, 6, 1, c_white, _( "'<' '>' Cycle targets." ) );
+                mvwprintz( w_search, 6, 1, c_white, _( "'<-' '->' Cycle targets." ) );
                 mvwprintz( w_search, 10, 1, c_white, _( "Enter/Spacebar to select." ) );
                 mvwprintz( w_search, 11, 1, c_white, _( "q or ESC to return." ) );
                 draw_border( w_search );
@@ -1256,7 +1306,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                     const std::string &rotation = om_direction::name( uistate.omedit_rotation );
 
                     mvwprintz( w_editor, 3, 1, c_light_gray, "                         " );
-                    mvwprintz( w_editor, 3, 1, c_light_gray, _( "Rotation: %s %s" ), rotation.c_str(),
+                    mvwprintz( w_editor, 3, 1, c_light_gray, _( "Rotation: %s %s" ), rotation,
                                can_rotate ? "" : _( "(fixed)" ) );
                     mvwprintz( w_editor, 5, 1, c_red, _( "Areas highlighted in red" ) );
                     mvwprintz( w_editor, 6, 1, c_red, _( "already have map content" ) );
@@ -1266,10 +1316,10 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                     if( ( terrain && uistate.place_terrain->is_rotatable() ) ||
                         ( !terrain && uistate.place_special->rotatable ) ) {
                         mvwprintz( w_editor, 11, 1, c_white, _( "[%s] Rotate" ),
-                                   ctxt.get_desc( "ROTATE" ).c_str() );
+                                   ctxt.get_desc( "ROTATE" ) );
                     }
                     mvwprintz( w_editor, 12, 1, c_white, _( "[%s] Apply" ),
-                               ctxt.get_desc( "CONFIRM" ).c_str() );
+                               ctxt.get_desc( "CONFIRM" ) );
                     mvwprintz( w_editor, 13, 1, c_white, _( "[ESCAPE/Q] Cancel" ) );
                     wrefresh( w_editor );
 
@@ -1305,14 +1355,15 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 uistate.place_special = nullptr;
                 action.clear();
             }
-        } else if( action == "TIMEOUT" ) {
+        }
+
+        auto now = std::chrono::steady_clock::now();
+        if( now > last_blink + std::chrono::milliseconds( BLINK_SPEED ) ) {
             if( uistate.overmap_blinking ) {
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
+                redraw = true;
             }
-        } else if( action == "ANY_INPUT" ) {
-            if( uistate.overmap_blinking ) {
-                uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
-            }
+            last_blink = now;
         }
     } while( action != "QUIT" && action != "CONFIRM" );
     werase( g->w_overmap );

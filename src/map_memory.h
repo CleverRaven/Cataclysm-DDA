@@ -2,41 +2,17 @@
 #ifndef MAP_MEMORY_H
 #define MAP_MEMORY_H
 
-#include <list>
-#include <string>
-#include <unordered_map>
-
-#include "enums.h" // IWYU pragma: keep
+#include "lru_cache.h"
 
 class JsonOut;
 class JsonObject;
+class JsonIn;
 
 struct memorized_terrain_tile {
     std::string tile;
     int subtile;
     int rotation;
 };
-
-template<typename T>
-class lru_cache
-{
-    public:
-        using Pair = std::pair<tripoint, T>;
-
-        void insert( int limit, const tripoint &, const T & );
-        T get( const tripoint &, const T &default_ ) const;
-        void remove( const tripoint & );
-
-        void clear();
-        const std::list<Pair> &list() const;
-    private:
-        void trim( int limit );
-        std::list<Pair> ordered_list;
-        std::unordered_map<tripoint, typename std::list<Pair>::iterator> map;
-};
-
-extern template class lru_cache<memorized_terrain_tile>;
-extern template class lru_cache<long>;
 
 class map_memory
 {
@@ -56,8 +32,8 @@ class map_memory
 
         void clear_memorized_tile( const tripoint &pos );
     private:
-        lru_cache<memorized_terrain_tile> tile_cache;
-        lru_cache<long> symbol_cache;
+        lru_cache<tripoint, memorized_terrain_tile> tile_cache;
+        lru_cache<tripoint, long> symbol_cache;
 };
 
 #endif

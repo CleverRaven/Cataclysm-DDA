@@ -40,7 +40,7 @@
   },
   {
     "id": "bio_ads",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Active Defense System CBM",
     "description": "A thin forcefield surrounds your body, continually draining power.  Anything attempting to penetrate this field has a chance of being deflected at the cost of energy.  Bullets will be stopped more often than swords and those in turn more often than massive objects.",
@@ -49,7 +49,7 @@
   },
   {
     "id": "bio_advreactor",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Advanced Microreactor CBM",
     "description": "This stripped down mini-reactor is safer than it appears due to integrated radiation cleansers.  There is no way to shut it down, but you can toggle additional fuel intake.",
@@ -112,7 +112,7 @@
   },
   {
     "id": "bio_batteries",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Battery System CBM",
     "description": "You have a battery draining attachment, and thus can make use of the energy contained in normal, everyday batteries.  Use 'E' to consume batteries.  Can be toggled on and off at will.",
@@ -121,7 +121,7 @@
   },
   {
     "id": "bio_blade",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Monomolecular Blade CBM",
     "description": "A deadly foot-long blade made of advanced material now resides inside your forearm, capable of being extended through the back of your wrist at the cost of a small amount of power.  Though exceptionally sharp, it will prevent you from holding anything else while extended.",
@@ -184,7 +184,7 @@
   },
   {
     "id": "bio_chain_lightning",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Chain Lightning CBM",
     "description": "Your body is equipped with a chain lightning generator, allowing you to emit a blast of lightning at a target, leaving a trail of lightning in its wake, jumping to additional targets within 4 tiles of the previous target.",
@@ -193,7 +193,7 @@
   },
   {
     "id": "bio_claws",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Bionic Claws CBM",
     "description": "Vicious claws have been installed inside your fingers, allowing you to extend and retract them at the cost of a small amount of power.  These do considerable cutting damage, but prevent you from holding anything else while extended.",
@@ -319,7 +319,7 @@
   },
   {
     "id": "bio_faraday",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Dielectric Capacitance System CBM",
     "description": "Throughout your body lies a network of miniature piezoelectric capacitors which can be charged with bionic power to temporarily protect you from external electrical discharge.",
@@ -363,15 +363,6 @@
     "difficulty": 1
   },
   {
-    "id": "bio_furnace",
-    "copy-from": "bionic_general",
-    "type": "BIONIC_ITEM",
-    "name": "Internal Furnace CBM",
-    "description": "When this bionic is active, you can burn nearly any organic material as fuel (use 'E'), recharging your power level.  Some materials will burn better than others.",
-    "price": 450000,
-    "difficulty": 4
-  },
-  {
     "id": "bio_geiger",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
@@ -394,13 +385,13 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Terranian Sonar CBM",
-    "description": "Your feet are equipped with precision sonar equipment, allowing you to detect the movements of creatures below the ground.",
+    "description": "Your feet are equipped with precision sonar equipment, allowing you to detect the movements of creatures below the ground, buried traps, and unstable terrain.",
     "price": 450000,
     "difficulty": 5
   },
   {
     "id": "bio_heat_absorb",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Heat Drain CBM",
     "description": "While fighting unarmed against a warm-blooded opponent, there is a chance that a successful hit will drain body heat, inflicting a small amount of extra damage, and increasing your power reserves slightly.",
@@ -409,7 +400,7 @@
   },
   {
     "id": "bio_heatsink",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Thermal Dissipation CBM",
     "description": "Powerful heatsinks and supermaterials are woven into your flesh.  While powered, this system will prevent heat damage up to 2000 degrees Fahrenheit.  Note that this does not affect your internal temperature.",
@@ -418,7 +409,7 @@
   },
   {
     "id": "bio_hydraulics",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Hydraulic Muscles CBM",
     "description": "While activated, your muscles will be greatly enhanced, increasing your strength by 20.",
@@ -445,7 +436,7 @@
   },
   {
     "id": "bio_laser",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Finger-Mounted Laser CBM",
     "description": "One of your fingers has a small high-powered laser embedded in it.  This long range weapon is not incredibly damaging, but is very accurate, and has the potential to start fires.",
@@ -454,7 +445,7 @@
   },
   {
     "id": "bio_leukocyte",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Leukocyte Breeder System CBM",
     "description": "You are equipped with bionic stimulators which augment your haematopoiesis system, allowing you to accelerate white blood cell production using bionic power.  It is supposed to run continuously and may cause unpleasant side effects when turned off.",
@@ -508,7 +499,7 @@
   },
   {
     "id": "bio_metabolics",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Metabolic Interchange CBM",
     "description": "Your digestive system and power supply are interconnected.  Bionic energy is replenished at the cost of increasing hunger.  Can be toggled on and off at will.",
@@ -526,7 +517,7 @@
   },
   {
     "id": "bio_nanobots",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Repair Nanobots CBM",
     "description": "Inside your body is a fleet of tiny dormant robots.  While activated they will flit about your body, repairing damage and stopping bleeding at the cost of power.",
@@ -553,7 +544,7 @@
   },
   {
     "id": "bio_ods",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Offensive Defense System CBM",
     "description": "A thin forcefield surrounds your body, continually draining power.  This field does not deflect penetration, but rather delivers a strong shock, damaging unarmed attackers and those with a conductive weapon.",
@@ -562,7 +553,7 @@
   },
   {
     "id": "bio_painkiller",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Sensory Dulling CBM",
     "description": "Your nervous system is wired to allow you to inhibit the signals of pain, allowing you to dull your senses at will.  However, the use of this system may cause delayed reaction time and drowsiness.",
@@ -571,7 +562,7 @@
   },
   {
     "id": "bio_plut_filter",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Plutonium Filter CBM",
     "description": "System of tanks and filters to extract plutonium more rapidly from slurry for a microreactor.",
@@ -635,7 +626,7 @@
   },
   {
     "id": "bio_radscrubber",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Radiation Scrubber System CBM",
     "description": "A system of advanced piezomechanical blood filters have been implanted throughout your body, allowing you to purge yourself of absorbed radiation at the cost of some bionic power.",
@@ -647,7 +638,7 @@
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",
     "name": "Railgun CBM",
-    "description": "EM field generators in your arms double the range and damage of thrown iron and steel objects at a cost of 1 power per throw, causing them to leave a trail of electricity that can cause additional damage.",
+    "description": "EM field generators in your arms increase the range and damage of thrown iron and steel objects at a cost of 1 power per throw, causing them to leave a trail of electricity that can cause additional damage.",
     "price": 220000,
     "difficulty": 3
   },
@@ -662,7 +653,7 @@
   },
   {
     "id": "bio_reactor",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Internal Microreactor CBM",
     "description": "This stripped down mini-reactor may not be the best thing to have in your chest.  There is no way to shut it down, but you can toggle additional fuel intake.",
@@ -672,7 +663,7 @@
   {
     "id": "bio_reactor_upgrade",
     "bionic_id": "bio_advreactor",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Microreactor Upgrade CBM",
     "description": "A kit for upgrading a pre-installed microreactor with enhanced maximum yield and automatic radiation scrubbing.",
@@ -727,7 +718,7 @@
   },
   {
     "id": "bio_shock",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Electroshock Unit CBM",
     "description": "While fighting unarmed, or with a weapon that conducts electricity, there is a chance that a successful hit will shock your opponent, inflicting extra damage and disabling them temporarily at the cost of some energy.",
@@ -781,7 +772,7 @@
   },
   {
     "id": "bio_sunglasses",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Anti-Glare Compensators CBM",
     "description": "Your eyes have quick-reacting transition lenses installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding.",
@@ -817,7 +808,7 @@
   },
   {
     "id": "bio_tools",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Integrated Toolset CBM",
     "description": "Surgically implanted in your hands and fingers is a complete tool set - screwdriver, hammer, wrench, hacksaw, wood saw, boltcutters, drill and heating elements.  You can use this in place of many tools when crafting.",
@@ -916,7 +907,7 @@
   },
   {
     "id": "bio_soporific",
-    "copy-from": "bionic_general",
+    "copy-from": "bionic_general_npc_usable",
     "type": "BIONIC_ITEM",
     "name": "Soporific Induction CBM",
     "description": "A microscopic electrode designed to gently stimulate a particular cluster of neurons in your hypothalamus, helping you fall asleep.",
@@ -969,6 +960,14 @@
     "type": "BIONIC_ITEM",
     "name": "Itchy Metal Thing",
     "description": "You can't recognise what this is suppose to be, but it's a very awkward thing to have in one's body.",
+    "difficulty": 3
+  },
+  {
+    "id": "bio_glowy",
+    "copy-from": "bionic_general_faulty",
+    "type": "BIONIC_ITEM",
+    "name": "Glowy Thing",
+    "description": "It's a... thing?  And it glows, at least it did when it was plugged in.",
     "difficulty": 3
   },
   {

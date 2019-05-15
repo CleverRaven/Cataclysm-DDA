@@ -1221,17 +1221,6 @@
   },
   {
     "type": "construction",
-    "description": "Seal Coffin",
-    "category": "FURN",
-    "required_skills": [ [ "mechanics", 0 ] ],
-    "time": 10,
-    "components": [ [ [ "nail", 6 ] ] ],
-    "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
-    "pre_terrain": "f_coffin_o",
-    "post_terrain": "f_coffin_c"
-  },
-  {
-    "type": "construction",
     "description": "Build Coffin",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
@@ -1244,6 +1233,30 @@
     ],
     "pre_special": "check_empty",
     "post_terrain": "f_coffin_o"
+  },
+  {
+    "type": "construction",
+    "description": "Seal Coffin",
+    "category": "FURN",
+    "required_skills": [ [ "mechanics", 0 ] ],
+    "time": 10,
+    "components": [ [ [ "nail", 6 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
+    "pre_terrain": "f_coffin_o",
+    "post_terrain": "f_coffin_c"
+  },
+  {
+    "type": "construction",
+    "description": "Dig Grave and Bury Sealed Coffin",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 60,
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "rock", 20 ], [ "2x4", 2 ] ] ],
+    "pre_flags": "DIGGABLE",
+    "pre_terrain": "f_coffin_c",
+    "post_terrain": "t_grave_new",
+    "post_special": "done_grave"
   },
   {
     "type": "construction",
@@ -1353,6 +1366,27 @@
     "components": [ [ [ "w_table", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_table"
+  },
+  {
+    "type": "construction",
+    "description": "Build Workbench",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": 60,
+    "using": [ [ "welding_standard", 5 ] ],
+    "components": [ [ [ "pipe", 8 ] ], [ [ "sheet_metal", 2 ] ], [ [ "sheet_metal_small", 4 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_workbench"
+  },
+  {
+    "type": "construction",
+    "description": "Place Workbench",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 1,
+    "components": [ [ [ "workbench", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_workbench"
   },
   {
     "type": "construction",
@@ -1854,6 +1888,30 @@
   },
   {
     "type": "construction",
+    "description": "Place Water Mill",
+    "//": "Set up Water Mill",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": 40,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "water_mill", 1 ] ] ],
+    "pre_terrain": "t_water_moving_sh",
+    "post_terrain": "f_water_mill"
+  },
+  {
+    "type": "construction",
+    "description": "Place Wind Mill",
+    "//": "Set up Wind Mill",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": 40,
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "components": [ [ [ "wind_mill", 1 ] ] ],
+    "pre_terrain": "t_pit_shallow",
+    "post_terrain": "f_wind_mill"
+  },
+  {
+    "type": "construction",
     "description": "Build Shallow Temporary Bridge",
     "//": "Set up shallow bridge",
     "category": "CONSTRUCT",
@@ -1870,6 +1928,7 @@
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": 6,
+    "byproducts": [ { "item": "straw_pile" } ],
     "pre_terrain": "t_grass_long",
     "post_terrain": "t_grass",
     "tools": [ [ [ "scythe", -1 ], [ "sickle", -1 ] ] ]
@@ -1880,6 +1939,7 @@
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": 6,
+    "byproducts": [ { "item": "straw_pile", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_grass_tall",
     "post_terrain": "t_grass",
     "tools": [ [ [ "scythe", -1 ], [ "sickle", -1 ] ] ]
@@ -1891,6 +1951,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": 6,
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "straw_pile", "count": [ 0, 1 ] } ],
     "pre_terrain": "t_grass",
     "post_terrain": "t_dirt"
   },
@@ -1901,6 +1962,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": 6,
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "straw_pile" } ],
     "pre_terrain": "t_grass_long",
     "post_terrain": "t_dirt"
   },
@@ -1911,6 +1973,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": 6,
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "straw_pile", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_grass_tall",
     "post_terrain": "t_dirt"
   },
@@ -1921,6 +1984,7 @@
     "required_skills": [ [ "survival", 0 ] ],
     "time": 6,
     "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "byproducts": [ { "item": "straw_pile", "count": [ 0, 1 ] } ],
     "pre_terrain": "t_grass_dead",
     "post_terrain": "t_dirt"
   },

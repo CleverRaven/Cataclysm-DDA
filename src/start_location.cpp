@@ -1,8 +1,9 @@
 #include "start_location.h"
 
+#include <climits>
 #include <algorithm>
-#include <chrono>
 #include <random>
+#include <memory>
 
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -10,7 +11,6 @@
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "map.h"
 #include "map_extras.h"
 #include "mapdata.h"
@@ -18,6 +18,14 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
+#include "calendar.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "pldata.h"
+#include "rng.h"
+#include "translations.h"
+
+class item;
 
 const efftype_id effect_bleed( "bleed" );
 
@@ -52,7 +60,7 @@ const string_id<start_location> &start_location::ident() const
 
 std::string start_location::name() const
 {
-    return _( _name.c_str() );
+    return _( _name );
 }
 
 std::string start_location::target() const
@@ -299,6 +307,7 @@ void start_location::place_player( player &u ) const
     u.setx( HALF_MAPSIZE_X );
     u.sety( HALF_MAPSIZE_Y );
     u.setz( g->get_levz() );
+    m.invalidate_map_cache( m.get_abs_sub().z );
     m.build_map_cache( m.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain

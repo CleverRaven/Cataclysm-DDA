@@ -2,21 +2,21 @@
 #ifndef RECIPE_H
 #define RECIPE_H
 
+#include <cstddef>
 #include <map>
 #include <set>
 #include <vector>
+#include <functional>
+#include <string>
+#include <utility>
 
 #include "requirements.h"
-#include "string_id.h"
+#include "type_id.h"
 
-class recipe_dictionary;
-class Skill;
 class item;
-using skill_id = string_id<Skill>;
+class JsonObject;
+
 using itype_id = std::string; // From itype.h
-using requirement_id = string_id<requirement_data>;
-class recipe;
-using recipe_id = string_id<recipe>;
 class Character;
 
 class recipe
@@ -59,6 +59,8 @@ class recipe
         bool is_blacklisted() const {
             return requirements_.is_blacklisted();
         }
+
+        const std::function<bool( const item & )> get_component_filter() const;
 
         /** Prevent this recipe from ever being added to the player's learned recipies ( used for special NPC crafting ) */
         bool never_learn = false;
@@ -114,6 +116,11 @@ class recipe
         /** Returns a non-empty string describing an inconsistency (if any) in the recipe. */
         std::string get_consistency_error() const;
 
+        bool is_blueprint() const;
+        std::string get_blueprint() const;
+
+        bool hot_result() const;
+
     private:
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
 
@@ -154,6 +161,8 @@ class recipe
         double batch_rscale = 0.0;
         int batch_rsize = 0; // minimum batch size to needed to reach batch_rscale
         int result_mult = 1; // used by certain batch recipes that create more than one stack of the result
+        std::string blueprint;
+
 };
 
 #endif // RECIPE_H

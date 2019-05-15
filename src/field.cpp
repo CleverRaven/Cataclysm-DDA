@@ -1,8 +1,16 @@
 #include "field.h"
 
+#include <cmath>
+#include <cstddef>
 #include <algorithm>
 #include <queue>
 #include <tuple>
+#include <iterator>
+#include <list>
+#include <memory>
+#include <set>
+#include <utility>
+#include <vector>
 
 #include "calendar.h"
 #include "cata_utility.h"
@@ -22,7 +30,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "output.h"
 #include "overmapbuffer.h"
 #include "rng.h"
 #include "scent_map.h"
@@ -31,7 +38,19 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "weather_gen.h"
+#include "bodypart.h"
+#include "creature.h"
+#include "damage.h"
+#include "int_id.h"
+#include "item.h"
+#include "line.h"
+#include "math_defines.h"
+#include "optional.h"
+#include "player.h"
+#include "pldata.h"
+#include "string_id.h"
+#include "units.h"
+#include "type_id.h"
 
 const species_id FUNGUS( "FUNGUS" );
 
@@ -620,8 +639,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
     int percent_spread, const time_duration & outdoor_age_speedup ) {
         const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
         bool sheltered = g->is_sheltered( p );
-        int winddirection = g->winddirection;
-        int windpower = get_local_windpower( g->windspeed, cur_om_ter, p, winddirection, sheltered );
+        int winddirection = g->weather.winddirection;
+        int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
+                                             sheltered );
         // Reset nearby scents to zero
         for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
             g->scent.set( tmp, 0 );
@@ -884,8 +904,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                         break;
                     case fd_plasma:
-                        dirty_transparency_cache = true;
-                        break;
                     case fd_laser:
                         dirty_transparency_cache = true;
                         break;
@@ -895,8 +913,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // Entire objects for ter/frn for flags
                         const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
                         bool sheltered = g->is_sheltered( p );
-                        int winddirection = g->winddirection;
-                        int windpower = get_local_windpower( g->windspeed, cur_om_ter, p, winddirection, sheltered );
+                        int winddirection = g->weather.winddirection;
+                        int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
+                                                             sheltered );
                         const auto &ter = map_tile.get_ter_t();
                         const auto &frn = map_tile.get_furn_t();
 
@@ -1362,10 +1381,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     break;
 
                     case fd_smoke:
-                        dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 10, 0_turns );
-                        break;
-
                     case fd_tear_gas:
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 10, 0_turns );
@@ -1402,10 +1417,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                         if( one_in( 20 ) ) {
                             if( npc *const np = g->critter_at<npc>( p ) ) {
-                                if( np->is_friend() ) {
-                                    np->say( one_in( 10 ) ? _( "Whew... smells like skunk!" ) :
-                                             _( "Man, that smells like some good shit!" ) );
-                                }
+                                np->complain_about( "weed_smell", 10_minutes, "<weed_smell>" );
                             }
                         }
 
@@ -1415,12 +1427,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_methsmoke: {
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 175, 7_minutes );
-
                         if( one_in( 20 ) ) {
                             if( npc *const np = g->critter_at<npc>( p ) ) {
-                                if( np->is_friend() ) {
-                                    np->say( _( "I don't know... should you really be smoking that stuff?" ) );
-                                }
+                                np->complain_about( "meth_smell", 30_minutes, "<meth_smell>" );
                             }
                         }
                     }
@@ -1432,9 +1441,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                         if( one_in( 20 ) ) {
                             if( npc *const np = g->critter_at<npc>( p ) ) {
-                                if( np->is_friend() ) {
-                                    np->say( one_in( 2 ) ? _( "Ew, smells like burning rubber!" ) : _( "Ugh, that smells rancid!" ) );
-                                }
+                                np->complain_about( "crack_smell", 30_minutes, "<crack_smell>" );
                             }
                         }
                     }
@@ -1589,7 +1596,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     tripoint newp = random_entry( valid );
                                     add_item_or_charges( newp, tmp );
                                     if( g->u.pos() == newp ) {
-                                        add_msg( m_bad, _( "A %s hits you!" ), tmp.tname().c_str() );
+                                        add_msg( m_bad, _( "A %s hits you!" ), tmp.tname() );
                                         body_part hit = random_body_part();
                                         g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
                                         g->u.check_dead_state();
@@ -1600,14 +1607,13 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         body_part hit = random_body_part();
                                         p->deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
                                         if( g->u.sees( newp ) ) {
-                                            add_msg( _( "A %1$s hits %2$s!" ), tmp.tname().c_str(), p->name.c_str() );
+                                            add_msg( _( "A %1$s hits %2$s!" ), tmp.tname(), p->name );
                                         }
                                         p->check_dead_state();
                                     } else if( monster *const mon = g->critter_at<monster>( newp ) ) {
                                         mon->apply_damage( nullptr, bp_torso, 6 - mon->get_armor_bash( bp_torso ) );
                                         if( g->u.sees( newp ) ) {
-                                            add_msg( _( "A %1$s hits the %2$s!" ), tmp.tname().c_str(),
-                                                     mon->name().c_str() );
+                                            add_msg( _( "A %1$s hits the %2$s!" ), tmp.tname(), mon->name() );
                                         }
                                         mon->check_dead_state();
                                     }
@@ -2023,12 +2029,9 @@ void map::player_in_field( player &u )
                         total_damage += dealt.type_damage( DT_HEAT );
                     }
                     if( total_damage > 0 ) {
-                        u.add_msg_player_or_npc( m_bad,
-                                                 _( player_burn_msg[msg_num].c_str() ),
-                                                 _( npc_burn_msg[msg_num].c_str() ) );
+                        u.add_msg_player_or_npc( m_bad, _( player_burn_msg[msg_num] ), _( npc_burn_msg[msg_num] ) );
                     } else {
-                        u.add_msg_if_player( m_warning,
-                                             _( player_warn_msg[msg_num].c_str() ) );
+                        u.add_msg_if_player( m_warning, _( player_warn_msg[msg_num] ) );
                     }
                     u.check_dead_state();
                 }
@@ -2101,7 +2104,7 @@ void map::player_in_field( player &u )
                 }
                 if( inhaled ) {
                     // player does not know how the npc feels, so no message.
-                    u.add_msg_if_player( m_bad, _( "You feel sick from inhaling the %s" ), cur.name().c_str() );
+                    u.add_msg_if_player( m_bad, _( "You feel sick from inhaling the %s" ), cur.name() );
                 }
             }
             break;
@@ -2270,11 +2273,11 @@ void map::player_in_field( player &u )
                 if( u.has_trait( trait_id( "THRESH_MYCUS" ) ) || u.has_trait( trait_id( "THRESH_MARLOSS" ) ) ) {
                     inhaled |= u.add_env_effect( effect_badpoison, bp_mouth, 5, density * 1_minutes );
                     u.hurtall( rng( density, density * 2 ), nullptr );
-                    u.add_msg_if_player( m_bad, _( "The %s burns your skin." ), cur.name().c_str() );
+                    u.add_msg_if_player( m_bad, _( "The %s burns your skin." ), cur.name() );
                 }
 
                 if( inhaled ) {
-                    u.add_msg_if_player( m_bad, _( "The %s makes you feel sick." ), cur.name().c_str() );
+                    u.add_msg_if_player( m_bad, _( "The %s makes you feel sick." ), cur.name() );
                 }
             }
             break;
@@ -2510,7 +2513,7 @@ void map::monster_in_field( monster &z )
                     } else if( monster *const other = g->critter_at<monster>( newpos ) ) {
                         if( g->u.sees( z ) ) {
                             add_msg( _( "The %1$s teleports into a %2$s, killing them both!" ),
-                                     z.name().c_str(), other->name().c_str() );
+                                     z.name(), other->name() );
                         }
                         other->die_in_explosion( &z );
                     } else {
@@ -2556,7 +2559,7 @@ void map::monster_in_field( monster &z )
 
             case fd_fungal_haze:
                 if( !z.type->in_species( FUNGUS ) &&
-                    !z.type->has_flag( "NO_BREATHE" ) &&
+                    !z.type->has_flag( MF_NO_BREATHE ) &&
                     !z.make_fungus() ) {
                     // Don't insta-kill jabberwocks, that's silly
                     const int density = cur.getFieldDensity();
@@ -2805,7 +2808,7 @@ std::map<field_id, field_entry>::const_iterator field::end() const
 std::string field_t::name( const int density ) const
 {
     const std::string &n = untranslated_name[std::min( std::max( 0, density ), MAX_FIELD_DENSITY - 1 )];
-    return n.empty() ? n : _( n.c_str() );
+    return n.empty() ? n : _( n );
 }
 
 /*

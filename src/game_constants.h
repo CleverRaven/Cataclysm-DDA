@@ -2,11 +2,8 @@
 #ifndef GAME_CONSTANTS_H
 #define GAME_CONSTANTS_H
 
+#include "calendar.h"
 #include "units.h"
-
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
 
 // Fixed window sizes
 #define HP_HEIGHT 14
@@ -101,6 +98,9 @@ constexpr int freezer = 23; // -5 Celsius
 constexpr int freezing = 32; // 0 Celsius
 }
 
+// Shelf life of corpse. This should be kept same as raw flesh.
+constexpr time_duration CORPSE_ROT_TIME = 24_hours;
+
 /** Weight per level of LIFT/JACK tool quality */
 #define TOOL_LIFT_FACTOR 500_kilogram // 500kg/level
 
@@ -148,5 +148,9 @@ constexpr double accuracy_grazing  = 1.0;
 
 /** Character's base weight in units::mass */
 constexpr units::mass CHARACTER_WEIGHT = 81500_gram;
+
+/** Used to limit the random seed during noise calculation. A large value flattens the noise generator to zero.
+    Windows has a rand limit of 32768, other operating systems can have higher limits. */
+constexpr int SIMPLEX_NOISE_RANDOM_SEED_LIMIT = 32768;
 
 #endif

@@ -1,17 +1,21 @@
+#include <stdio.h>
+#include <algorithm>
+#include <list>
+#include <map>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "catch/catch.hpp"
-#include "crafting.h"
-#include "game.h"
 #include "itype.h"
-#include "map_helpers.h"
-#include "npc.h"
-#include "player.h"
-#include "player_helpers.h"
 #include "recipe_dictionary.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "test_statistics.h"
-#include "recipe_dictionary.h"
 #include "item.h"
+#include "optional.h"
+#include "string_id.h"
+#include "type_id.h"
 
 struct all_stats {
     statistics<int> calories;

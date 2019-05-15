@@ -1,100 +1,58 @@
 [
   {
-    "type" : "recipe",
+    "type": "recipe",
     "result": "mjolnir_replica",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
     "skill_used": "fabrication",
     "difficulty": 9,
     "time": 480000,
-    "book_learn": [[ "book_asgard", 10 ]],
+    "book_learn": [ [ "book_asgard", 10 ] ],
     "using": [ [ "forging_standard", 3 ] ],
-    "qualities": [
-      {"id":"HAMMER","level":3},
-      {"id":"CHISEL","level":3}
-    ],
-    "tools": [
-      [ ["tongs", -1] ],
-      [ ["anvil", -1] ],
-      [ ["swage", -1] ]
-    ],
-    "components": [
-      [ [ "warhammer", 1 ] ],
-      [ [ "gold_small", 1 ] ],
-      [ [ "silver_small", 2 ] ],
-      [ [ "rebar", 1 ] ]
-    ]
-},{
-    "type" : "recipe",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "warhammer", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "silver_small", 2 ] ], [ [ "rebar", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "gungnir_replica",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
     "skill_used": "fabrication",
     "difficulty": 9,
     "time": 480000,
-    "book_learn": [[ "book_asgard", 10 ]],
+    "book_learn": [ [ "book_asgard", 10 ] ],
     "using": [ [ "forging_standard", 3 ] ],
-    "qualities": [
-      {"id":"HAMMER","level":3},
-      {"id":"CHISEL","level":3}
-    ],
-    "tools": [
-      [ ["tongs", -1] ],
-      [ ["anvil", -1] ],
-      [ ["swage", -1] ]
-    ],
-    "components": [
-      [ [ "spear_steel", 1 ] ],
-      [ [ "gold_small", 1 ] ],
-      [ [ "silver_small", 2 ] ]
-    ]
-},{
-    "type" : "recipe",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "spear_steel", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "silver_small", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "ichaival_replica",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
     "difficulty": 9,
     "time": 480000,
-    "book_learn": [[ "book_asgard", 10 ]],
+    "book_learn": [ [ "book_asgard", 10 ] ],
     "using": [ [ "forging_standard", 3 ] ],
-    "qualities": [
-      {"id":"HAMMER","level":3},
-      {"id":"CHISEL","level":3}
-    ],
-    "tools": [
-      [ ["tongs", -1] ],
-      [ ["anvil", -1] ],
-      [ ["swage", -1] ]
-    ],
-    "components": [
-      [ [ "reflexrecurvebow", 1 ] ],
-      [ [ "gold_small", 1 ] ],
-      [ [ "silver_small", 2 ] ]
-    ]
-},{
-    "type" : "recipe",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "reflexrecurvebow", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "silver_small", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "laevateinn_replica",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_CUTTING",
     "skill_used": "fabrication",
     "difficulty": 9,
     "time": 480000,
-    "book_learn": [[ "book_asgard", 10 ]],
+    "book_learn": [ [ "book_asgard", 10 ] ],
     "using": [ [ "forging_standard", 3 ] ],
-    "qualities": [
-      {"id":"HAMMER","level":3},
-      {"id":"CHISEL","level":3}
-    ],
-    "tools": [
-      [ ["tongs", -1] ],
-      [ ["anvil", -1] ],
-      [ ["swage", -1] ]
-    ],
-    "components": [
-      [ [ "arming_sword", 1 ] ],
-      [ [ "gold_small", 1 ] ],
-      [ [ "silver_small", 2 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "arming_sword", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "silver_small", 2 ] ] ]
   }
 ]

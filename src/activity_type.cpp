@@ -2,13 +2,16 @@
 
 #include <map>
 #include <unordered_map>
+#include <functional>
+#include <utility>
 
 #include "activity_handlers.h"
 #include "assign.h"
 #include "debug.h"
 #include "json.h"
-#include "player.h"
 #include "translations.h"
+#include "sounds.h"
+#include "player_activity.h"
 
 // activity_type functions
 static std::map< activity_id, activity_type > activity_type_all;
@@ -38,7 +41,7 @@ void activity_type::load( JsonObject &jo )
 
     result.id_ = activity_id( jo.get_string( "id" ) );
     assign( jo, "rooted", result.rooted_, true );
-    result.stop_phrase_ = _( jo.get_string( "stop_phrase" ).c_str() );
+    result.stop_phrase_ = _( jo.get_string( "stop_phrase" ) );
     assign( jo, "suspendable", result.suspendable_, true );
     assign( jo, "no_resume", result.no_resume_, true );
     assign( jo, "refuel_fires", result.refuel_fires, false );
@@ -94,6 +97,7 @@ bool activity_type::call_finish( player_activity *act, player *p ) const
     const auto &pair = activity_handlers::finish_functions.find( id_ );
     if( pair != activity_handlers::finish_functions.end() ) {
         pair->second( act, p );
+        sfx::end_activity_sounds(); // kill activity sounds at finish
         return true;
     }
     return false;

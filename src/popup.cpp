@@ -1,7 +1,12 @@
 #include "popup.h"
 
+#include <algorithm>
+#include <array>
+#include <memory>
+
 #include "input.h"
 #include "output.h"
+#include "catacharset.h"
 
 extern bool test_mode;
 

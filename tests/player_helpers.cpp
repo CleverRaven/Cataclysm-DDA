@@ -1,13 +1,17 @@
 #include "player_helpers.h"
 
 #include <list>
+#include <memory>
+#include <vector>
 
 #include "enums.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
-#include "map.h"
 #include "player.h"
+#include "inventory.h"
+#include "player_activity.h"
+#include "type_id.h"
 
 int get_remaining_charges( const std::string &tool_id )
 {
@@ -18,7 +22,7 @@ int get_remaining_charges( const std::string &tool_id )
     } );
     int remaining_charges = 0;
     for( const item *instance : items ) {
-        remaining_charges += instance->charges;
+        remaining_charges += instance->ammo_remaining();
     }
     return remaining_charges;
 }
@@ -54,6 +58,8 @@ void clear_player()
 
     dummy.clear_bionics();
 
+    dummy.activity.set_to_null();
+
     // Make stats nominal.
     dummy.str_cur = 8;
     dummy.dex_cur = 8;
@@ -61,7 +67,7 @@ void clear_player()
     dummy.per_cur = 8;
 
     const tripoint spot( 60, 60, 0 );
-    dummy.setpos( spot );
+    g->place_player( spot );
 }
 
 void process_activity( player &dummy )

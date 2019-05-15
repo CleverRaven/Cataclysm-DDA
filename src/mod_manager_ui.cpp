@@ -1,12 +1,15 @@
 #include "mod_manager.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <exception>
+#include <sstream>
 
 #include "debug.h"
 #include "dependency_tree.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "string_id.h"
 
 mod_ui::mod_ui( mod_manager &mman )
     : active_manager( mman )
@@ -24,12 +27,18 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
 
     if( !mod->authors.empty() ) {
         info << "<color_light_blue>" << ngettext( "Author", "Authors", mod->authors.size() )
-             << "</color>: " << enumerate_as_string( mod->authors ) << "\n";
+             << "</color>: " << enumerate_as_string( mod->authors );
+        if( mod->maintainers.empty() ) {
+            info << "\n";
+        } else {
+            info << "  ";
+        }
     }
 
     if( !mod->maintainers.empty() ) {
         info << "<color_light_blue>" << ngettext( "Maintainer", "Maintainers", mod->maintainers.size() )
-             << "</color>: " << enumerate_as_string( mod->maintainers ) << "\n";
+             << u8"</color>:\u00a0"/*non-breaking space*/
+             << enumerate_as_string( mod->maintainers ) << "\n";
     }
 
     if( !mod->dependencies.empty() ) {
@@ -51,7 +60,7 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
     }
 
     if( !mod->description.empty() ) {
-        info << _( mod->description.c_str() ) << "\n";
+        info << _( mod->description ) << "\n";
     }
 
     std::string note = !mm_tree.is_available( mod->ident ) ? mm_tree.get_node(
@@ -95,9 +104,8 @@ void mod_ui::try_add( const mod_id &mod_to_add,
 
     // check to see if mod is a core, and if so check to see if there is already a core in the mod list
     if( mod.core ) {
-        //  (more than 0 active elements) && (active[0] is a CORE)                            &&    active[0] is not the add candidate
-        if( !active_list.empty() && active_list[0]->core &&
-            ( active_list[0] != mod_to_add ) ) {
+        //  (more than 0 active elements) && (active[0] is a CORE) && active[0] is not the add candidate
+        if( !active_list.empty() && active_list[0]->core && active_list[0] != mod_to_add ) {
             // remove existing core
             try_rem( 0, active_list );
         }

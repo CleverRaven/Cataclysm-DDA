@@ -254,7 +254,8 @@
     "name_plural": "L2032 Lookout",
     "description": "After the Enforcer's success, Leadworks LLC reworked their autorevolver design to cater to the 9x19mm market.  The Lookout takes advantage of the smaller 9x19mm to hold a seventh round, without sacrificing the ease of handling or reloading the Enforcer made legendary.  Comes with built in holographic and laser sights.  Similar to other Leadworks products it doesn't accept third-party modifications.",
     "ammo": "9mm",
-    "clip_size": 7
+    "clip_size": 7,
+    "magazines": [ [ "9mm", [ "9mm_speedloader7" ] ] ]
   },
   {
     "id": "l_mp_9mm",
@@ -338,7 +339,7 @@
     "ammo": "9mm",
     "skill": "rifle",
     "ranged_damage": 1,
-    "dispersion": 180,
+    "dispersion": 550,
     "durability": 6,
     "loudness": 25,
     "clip_size": 1,
@@ -346,6 +347,43 @@
     "barrel_length": 3,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
     "flags": [ "RELOAD_EJECT" ]
+  },
+  {
+    "id": "smg_9mm",
+    "copy-from": "smg_base",
+    "type": "GUN",
+    "name": "Luty SMG: 9x19mm",
+    "name_plural": "Luty SMGs: 9x19mm",
+    "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using some of the more advanced powered hand tools; likely one of the most complex guns that are feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for 9x19mm cartridges and accepts STEN magazines, or alternatively custom-made makeshift ones.",
+    "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game.",
+    "weight": 3274,
+    "volume": 7,
+    "price": 20000,
+    "to_hit": -1,
+    "bashing": 10,
+    "material": "steel",
+    "color": "dark_gray",
+    "ammo": "9mm",
+    "ranged_damage": -3,
+    "dispersion": 590,
+    "durability": 4,
+    "modes": [ [ "DEFAULT", "auto", 10 ] ],
+    "loudness": 25,
+    "barrel_length": 1,
+    "valid_mod_locations": [
+      [ "accessories", 3 ],
+      [ "barrel", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "magazine", 1 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "magazines": [ [ "9mm", [ "stenmag", "survivor9mm_mag" ] ] ]
   },
   {
     "id": "sten",
@@ -515,5 +553,18 @@
       [ "46", [ "hk46mag", "hk46bigmag" ] ],
       [ "57", [ "fn57mag" ] ]
     ]
+  },
+  {
+    "id": "kpf9",
+    "copy-from": "kp32",
+    "type": "GUN",
+    "name": "Kel-Tec PF-9",
+    "description": "The Kel-Tec PF-9 remains one of the most popular backup pistols due to its history of reliability, affordability, and concealability.  Chambered in 9x19mm, recoil is best described as unpleasant, and follow up shots are difficult to place quickly.",
+    "weight": 360,
+    "volume": "360ml",
+    "ranged_damage": -1,
+    "price": 18000,
+    "bashing": 2,
+    "ammo": "9mm"
   }
 ]

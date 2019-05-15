@@ -9,6 +9,70 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "church_roof",
+    "copy-from": "generic_city_building",
+    "name": "church roof",
+    "sym": "C",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "church_steeple",
+    "copy-from": "generic_city_building",
+    "name": "church steeple",
+    "sym": "C",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "church_steeple_end",
+    "copy-from": "generic_city_building",
+    "name": "church steeple",
+    "sym": "C",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "church_steeple_roof",
+    "copy-from": "generic_city_building",
+    "name": "church steeple",
+    "sym": "C",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "church_1",
+    "copy-from": "generic_city_building",
+    "name": "church",
+    "sym": "C",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "church_2ndfloor_1",
+    "copy-from": "generic_city_building",
+    "name": "church roof",
+    "sym": "C",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "church_3rdfloor_1",
+    "copy-from": "generic_city_building",
+    "name": "church roof",
+    "sym": "C",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "church_roof_1",
+    "copy-from": "generic_city_building",
+    "name": "church roof",
+    "sym": "C",
+    "color": "light_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "cathedral_1_NW",
     "name": "cathedral",
     "sym": "C",
@@ -65,6 +129,55 @@
     "type": "overmap_terrain",
     "id": "police",
     "name": "police station",
+    "copy-from": "generic_city_building",
+    "color": "h_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "police_roof",
+    "name": "police station roof",
+    "copy-from": "generic_city_building",
+    "color": "h_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "police_1",
+    "name": "police station",
+    "copy-from": "generic_city_building",
+    "color": "h_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "police_2ndfloor_1",
+    "name": "police station 2nd floor",
+    "copy-from": "generic_city_building",
+    "color": "h_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "police_roof_1",
+    "name": "police station roof",
+    "copy-from": "generic_city_building",
+    "color": "h_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "police_2",
+    "name": "police station",
+    "copy-from": "generic_city_building",
+    "color": "h_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "police_roof_2",
+    "name": "police station roof",
+    "copy-from": "generic_city_building",
+    "color": "h_yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "police_upper_roof_2",
+    "name": "police station roof",
     "copy-from": "generic_city_building",
     "color": "h_yellow"
   },
@@ -412,5 +525,79 @@
     "copy-from": "generic_city_building",
     "sym": "F",
     "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "homeless_0_0_0",
+    "name": "homeless shelter",
+    "sym": "H",
+    "color": "green",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "homeless_1_0_0",
+    "name": "homeless shelter",
+    "sym": "H",
+    "color": "green",
+    "see_cost": 2,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "homeless_0_0_1",
+    "name": "homeless shelter",
+    "sym": "H",
+    "color": "green",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "homeless_1_0_1",
+    "name": "homeless shelter",
+    "sym": "H",
+    "color": "green",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "homeless_0_0_2",
+    "name": "homeless shelter",
+    "sym": "H",
+    "color": "green",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "homeless_1_0_2",
+    "name": "homeless shelter",
+    "sym": "H",
+    "color": "green",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "homeless_0_0_roof",
+    "name": "homeless shelter",
+    "sym": "H",
+    "color": "green",
+    "see_cost": 2,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "homeless_1_0_roof",
+    "name": "homeless shelter",
+    "sym": "H",
+    "color": "green",
+    "see_cost": 2,
+    "mondensity": 2
   }
 ]

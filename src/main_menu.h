@@ -2,8 +2,7 @@
 #ifndef MAIN_MENU_H
 #define MAIN_MENU_H
 
-class player;
-
+#include <cstddef>
 #include <string>
 #include <vector>
 
