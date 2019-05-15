@@ -100,6 +100,10 @@ Vehicles in various states of repair litter the world, and can be driven, repair
 
 NPCs can form factions either independently or with the player.
 
+Players can acquire and install bionic modules that give them abilities unheard of in unaugmented individuals.
+
+Alternately, the player can more directly abandon their humanity and mutate into an entirely different kind of creature.
+
 ### Senses
 
 The player character can perceive their surroundings by sight, hearing, smell and touch.
@@ -140,6 +144,8 @@ For example cars are extrordinarally common, but robust and functional cars that
 
 Likewise improvised melee weapons appear in vast numbers, but quality melee weapons and powerful firearms and ammunition are somewhat harder to come by.
 
+Clothing is totally ubiquitous, but an article of clothing that improves on the player's current ensemble and fits properly is cause for celebration.
+
 ### Crafting
 
 The player can accumulate raw materials and tools to craft a wide variety of items to supplement what they scavenge.
@@ -159,6 +165,14 @@ Scavenged or built, vehicles provide a trump card of sorts for the player, provi
 Pre-cataclysm vehicles are modeled on existing real world vehicles.
 
 The survivor can repair, modify and even build vehicles from scratch, but the quality is never the same as the original.
+
+### Bionics
+
+The player can acquire Compact Bionic Modules via various means and install them in their own bodies. Once installed, these modules can provide capabilities unheard of in the unaugmented, but at the cost of pervasive tradeoffs due to side effects inflicted by the bionics. Bionics must also be supplied with power by installing battery modules and some kind of charging module. The most straightforward power source is a cable charging system that can rapidlyvrefil the player's reserves as long as they arrange for an external source of power, but other modules can provide a trickle of power from various other sources.
+
+### Mutations
+
+Various mutagenic substances exist that can manipulate the player's own body structure, either helping or hindering the player's abilities in unpredictable ways.
 
 ## Reward System
 
