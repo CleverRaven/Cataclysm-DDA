@@ -803,44 +803,6 @@ void iexamine::cardreader_robofac( player &p, const tripoint &examp )
     }
 }
 
-void iexamine::cardreader_robofac( player &p, const tripoint &examp )
-{
-    itype_id card_type = "id_science";
-    if( p.has_amount( card_type, 1 ) && query_yn( _( "Swipe your ID card?" ) ) ) {
-        p.mod_moves( -100 );
-        p.use_amount( card_type, 1 );
-        add_msg( m_bad, _( "The card reader short circuits!" ) );
-        g->m.ter_set( examp, t_card_reader_broken );
-        intercom( p, examp );
-
-    } else {
-        switch( hack_attempt( p ) ) {
-            case HACK_FAIL:
-                add_msg( _( "Nothing happens." ) );
-                break;
-            case HACK_NOTHING:
-                add_msg( _( "Nothing happens." ) );
-                break;
-            case HACK_SUCCESS: {
-                add_msg( _( "You activate the panel!" ) );
-                add_msg( m_bad, _( "The card reader short circuits!" ) );
-                g->m.ter_set( examp, t_card_reader_broken );
-                intercom( p, examp );
-            }
-            break;
-            case HACK_UNABLE:
-                add_msg(
-                    m_info,
-                    p.get_skill_level( skill_computer ) > 0 ?
-                    _( "Looks like you need a %s, or a tool to hack it with." ) :
-                    _( "Looks like you need a %s." ),
-                    item::nname( card_type )
-                );
-                break;
-        }
-    }
-}
-
 void iexamine::intercom( player &p, const tripoint &examp )
 {
     const std::vector<npc *> intercom_npcs = g->get_npcs_if( [examp]( const npc & guy ) {
