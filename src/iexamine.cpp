@@ -3194,7 +3194,7 @@ void iexamine::water_source( player &p, const tripoint &examp )
 void iexamine::clean_water_source( player &, const tripoint &examp )
 {
     item water = item( "water_clean", 0, item::INFINITE_CHARGES );
-    g->handle_liquid( water, nullptr, 0, &examp );
+    liquid_handler::handle_liquid( water, nullptr, 0, &examp );
 }
 
 const itype *furn_t::crafting_pseudo_item_type() const
