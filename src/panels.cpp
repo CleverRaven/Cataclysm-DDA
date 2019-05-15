@@ -59,7 +59,8 @@ const efftype_id effect_got_checked( "got_checked" );
 
 // constructor
 window_panel::window_panel( std::function<void( player &, const catacurses::window & )>
-                            draw_func, const std::string &nm, int ht, int wd, bool def_toggle, bool force_draw )
+                            draw_func, const std::string &nm, int ht, int wd, bool def_toggle,
+                            std::function<bool( void )> render_func,  bool force_draw )
 {
     draw = draw_func;
     name = nm;
@@ -68,6 +69,7 @@ window_panel::window_panel( std::function<void( player &, const catacurses::wind
     toggle = def_toggle;
     default_toggle = def_toggle;
     always_draw = force_draw;
+    render = render_func;
 }
 
 // ====================================
@@ -803,6 +805,24 @@ static std::pair<nc_color, std::string> power_stat( const player &u )
         s_pwr = to_string( u.power_level );
     }
     return std::make_pair( c_pwr, s_pwr );
+}
+
+static std::pair<nc_color, std::string> mana_stat( const player &u )
+{
+    nc_color c_mana = c_red;
+    std::string s_mana;
+    if( u.magic.max_mana( u ) <= 0 ) {
+        s_mana = "--";
+        c_mana = c_light_gray;
+    } else {
+        if( u.magic.available_mana() >= u.magic.max_mana( u ) / 2 ) {
+            c_mana = c_light_blue;
+        } else if( u.magic.available_mana() >= u.magic.max_mana( u ) / 3 ) {
+            c_mana = c_yellow;
+        }
+        s_mana = to_string( u.magic.available_mana() );
+    }
+    return std::make_pair( c_mana, s_mana );
 }
 
 static nc_color safe_color()
@@ -1677,9 +1697,30 @@ static void draw_hint( const player &, const catacurses::window &w )
     wrefresh( w );
 }
 
+static void draw_mana( const player &u, const catacurses::window &w )
+{
+    werase( w );
+
+    auto mana_pair = mana_stat( u );
+    mvwprintz( w, 0, getmaxx( w ) - 10, c_light_gray, "Mana" );
+    mvwprintz( w, 0, getmaxx( w ) - 5, mana_pair.first, mana_pair.second );
+
+    wrefresh( w );
+}
+
 // ============
 // INITIALIZERS
 // ============
+
+static bool spell_panel()
+{
+    return !spell_type::get_all().empty();
+}
+
+bool default_render()
+{
+    return true;
+}
 
 static std::vector<window_panel> initialize_default_classic_panels()
 {
@@ -1688,6 +1729,7 @@ static std::vector<window_panel> initialize_default_classic_panels()
     ret.emplace_back( window_panel( draw_health_classic, translate_marker( "Health" ), 7, 44, true ) );
     ret.emplace_back( window_panel( draw_location_classic, translate_marker( "Location" ), 1, 44,
                                     true ) );
+    ret.emplace_back( window_panel( draw_mana, translate_marker( "Mana" ), 1, 44, true, spell_panel ) );
     ret.emplace_back( window_panel( draw_weather_classic, translate_marker( "Weather" ), 1, 44,
                                     true ) );
     ret.emplace_back( window_panel( draw_lighting_classic, translate_marker( "Lighting" ), 1, 44,
@@ -1699,7 +1741,8 @@ static std::vector<window_panel> initialize_default_classic_panels()
                                     true ) );
     ret.emplace_back( window_panel( draw_messages_classic, translate_marker( "Log" ), -2, 44, true ) );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 44, true, true ) );
+    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 44, true,
+                                    default_render, true ) );
 #endif // TILES
     ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 44, false ) );
     return ret;
@@ -1712,6 +1755,7 @@ static std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( window_panel( draw_limb2, translate_marker( "Limbs" ), 3, 32, true ) );
     ret.emplace_back( window_panel( draw_stealth, translate_marker( "Sound" ), 1, 32, true ) );
     ret.emplace_back( window_panel( draw_stats, translate_marker( "Stats" ), 1, 32, true ) );
+    ret.emplace_back( window_panel( draw_mana, translate_marker( "Mana" ), 1, 32, true, spell_panel ) );
     ret.emplace_back( window_panel( draw_time, translate_marker( "Time" ), 1, 32, true ) );
     ret.emplace_back( window_panel( draw_needs, translate_marker( "Needs" ), 3, 32, true ) );
     ret.emplace_back( window_panel( draw_env_compact, translate_marker( "Env" ), 6, 32, true ) );
@@ -1720,7 +1764,8 @@ static std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( window_panel( draw_messages_classic, translate_marker( "Log" ), -2, 32, true ) );
     ret.emplace_back( window_panel( draw_compass, translate_marker( "Compass" ), 8, 32, true ) );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true, true ) );
+    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true,
+                                    default_render, true ) );
 #endif // TILES
     ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 32, false ) );
 
@@ -1734,6 +1779,7 @@ static std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_hint, translate_marker( "Hint" ), 1, 32, true ) );
     ret.emplace_back( window_panel( draw_limb, translate_marker( "Limbs" ), 3, 32, true ) );
     ret.emplace_back( window_panel( draw_char, translate_marker( "Movement" ), 3, 32, true ) );
+    ret.emplace_back( window_panel( draw_mana, translate_marker( "Mana" ), 1, 32, true, spell_panel ) );
     ret.emplace_back( window_panel( draw_stat, translate_marker( "Stats" ), 3, 32, true ) );
     ret.emplace_back( window_panel( draw_veh_padding, translate_marker( "Vehicle" ), 1, 32, true ) );
     ret.emplace_back( window_panel( draw_env1, translate_marker( "Location" ), 5, 32, true ) );
@@ -1745,7 +1791,8 @@ static std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_compass_padding, translate_marker( "Compass" ), 8, 32,
                                     true ) );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true, true ) );
+    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true,
+                                    default_render, true ) );
 #endif // TILES
     ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 32, false ) );
 

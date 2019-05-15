@@ -460,6 +460,7 @@ void DynamicDataLoader::unload_data()
     mutations_category.clear();
     mutation_category_trait::reset();
     mutation_branch::reset_all();
+    spell_type::reset_all();
     reset_bionics();
     clear_tutorial_messages();
     reset_furn_ter();

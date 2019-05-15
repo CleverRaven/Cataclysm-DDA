@@ -40,6 +40,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -4003,6 +4004,9 @@ void player::update_body( const time_point &from, const time_point &to )
 {
     update_stamina( to_turns<int>( to - from ) );
     update_stomach( from, to );
+    if( ticks_between( from, to, 10_turns ) > 0 ) {
+        magic.update_mana( *this, to_turns<float>( 10_turns ) );
+    }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
         check_needs_extremes();
