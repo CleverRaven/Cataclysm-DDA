@@ -168,11 +168,11 @@ The survivor can repair, modify and even build vehicles from scratch, but the qu
 
 ### Bionics
 
-The player can acquire Compact Bionic Modules via various means and install them in their own bodies. Once installed, these modules can provide capabilities unheard of in the unaugmented, but at the cost of pervasive tradeoffs due to side effects inflicted by the bionics. Bionics must also be supplied with power by installing battery modules and some kind of charging module. The most straightforward power source is a cable charging system that can rapidlyvrefil the player's reserves as long as they arrange for an external source of power, but other modules can provide a trickle of power from various other sources.
+The player can acquire Compact Bionic Modules via various means and install them in their own bodies. Once installed, these modules can provide capabilities unheard of in the unaugmented, but at the cost of pervasive tradeoffs due to side effects inflicted by the bionics. Bionics must also be supplied with power by installing battery modules and some kind of charging module. The most straightforward power source is a cable charging system that can rapidly refill the player's reserves as long as they arrange for an external source of power, but other modules can provide a trickle of power from various other sources.
 
 ### Mutations
 
-Various mutagenic substances exist that can manipulate the player's own body structure, either helping or hindering the player's abilities in unpredictable ways.
+Various mutagenic substances exist that can manipulate the player's own body structure, either helping or hindering the player's abilities in unpredictable ways. Some variants of these substances can direct the progress of the mutation in a direction more or less advantageous to the player.
 
 ## Reward System
 
