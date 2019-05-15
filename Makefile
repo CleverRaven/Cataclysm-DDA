@@ -150,6 +150,11 @@ ifndef RUNTESTS
   RUNTESTS = 1
 endif
 
+# Auto-detect MSYS2
+ifdef MSYSTEM
+  MSYS2 = 1
+endif
+
 # Enable backtrace by default
 ifndef BACKTRACE
   # ...except not on native Windows builds, because the relevant headers are
