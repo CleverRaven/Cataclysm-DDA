@@ -8216,7 +8216,11 @@ bool player::wield( item &target )
 
     bool worn = is_worn( target );
     int mv = item_handling_cost( target, true,
-                                 worn ? INVENTORY_HANDLING_PENALTY / 2 : INVENTORY_HANDLING_PENALTY );
+                                if( worn ) {
+                                                         if( it.has_flag( "SLUNG1" ) ) { mv *= 0.01 * ( std::max( it.get_encumber( *this ) / 10.0, 1.0 ) );
+                                                         } else if( it.has_flag( "SLUNG3" ) ) { mv *= 3 * ( std::max( encumb( bp_torso )/20, 1 ));
+                                                         } else { INVENTORY_HANDLING_PENALTY / 2; }
+                                } else {  INVENTORY_HANDLING_PENALTY; }
 
     if( worn ) {
         target.on_takeoff( *this );
