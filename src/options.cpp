@@ -1393,9 +1393,8 @@ void options_manager::add_options_interface()
          0, 1000, 0
        );
 
-    // TODO proper english
     add("MESSAGE_COOLDOWN", "interface", translate_marker("Message cooldown"),
-        translate_marker("Number of turns between two similar messages.  '0' disables this option."),
+        translate_marker("Number of turns during which similar messages are hidden.  '0' disables this option."),
         0, 1000, 0
     );
 
