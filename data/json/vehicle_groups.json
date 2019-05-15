@@ -494,5 +494,10 @@
       [ "car_sports", 30 ],
       [ "car_sports_atomic", 5 ]
     ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "trains_draisine",
+    "vehicles": [ [ "motorized_draisine_6seats", 500 ], [ "motorized_draisine_2seats", 2000 ] ]
   }
 ]

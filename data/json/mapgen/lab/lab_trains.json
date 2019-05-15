@@ -57,23 +57,83 @@
         { "chunks": [ "lab_train_subway_west" ], "x": 0, "y": 0, "neighbors": { "west": [ "subway" ] } },
         { "chunks": [ "lab_train_subway_north" ], "x": 0, "y": 0, "neighbors": { "north": [ "subway" ] } },
         { "chunks": [ "lab_train_subway_south" ], "x": 0, "y": 0, "neighbors": { "south": [ "subway" ] } },
-        { "chunks": [ "lab_train_subway_north_east" ], "x": 0, "y": 0, "neighbors": { "north": [ "subway" ], "east": [ "subway" ] } },
-        { "chunks": [ "lab_train_subway_south_west" ], "x": 0, "y": 0, "neighbors": { "south": [ "subway" ], "west": [ "subway" ] } },
-        { "chunks": [ "lab_train_subway_south_east" ], "x": 0, "y": 0, "neighbors": { "south": [ "subway" ], "east": [ "subway" ] } },
-        { "chunks": [ "lab_train_subway_north_west" ], "x": 0, "y": 0, "neighbors": { "north": [ "subway" ], "west": [ "subway" ] } },
+        {
+          "chunks": [ "lab_train_subway_north_east" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "north": [ "subway" ], "east": [ "subway" ] }
+        },
+        {
+          "chunks": [ "lab_train_subway_south_west" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south": [ "subway" ], "west": [ "subway" ] }
+        },
+        {
+          "chunks": [ "lab_train_subway_south_east" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south": [ "subway" ], "east": [ "subway" ] }
+        },
+        {
+          "chunks": [ "lab_train_subway_north_west" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "north": [ "subway" ], "west": [ "subway" ] }
+        },
         { "chunks": [ "lab_train_entrance_north" ], "x": 0, "y": 0, "neighbors": { "north": [ "lab" ] } },
         { "chunks": [ "lab_train_entrance_south" ], "x": 0, "y": 0, "neighbors": { "south": [ "lab" ] } },
         { "chunks": [ "lab_train_entrance_east" ], "x": 0, "y": 0, "neighbors": { "east": [ "lab" ] } },
         { "chunks": [ "lab_train_entrance_west" ], "x": 0, "y": 0, "neighbors": { "west": [ "lab" ] } },
-        { "chunks": [ "lab_train_mask_north_subway_south_west" ], "x": 0, "y": 0, "neighbors": { "north": [ "lab" ], "south": [ "subway" ], "west": [ "subway" ] } },
-        { "chunks": [ "lab_train_mask_east_subway_south_west" ], "x": 0, "y": 0, "neighbors": { "east": [ "lab" ], "south": [ "subway" ], "west": [ "subway" ] } },
-        { "chunks": [ "lab_train_mask_north_subway_south_east" ], "x": 0, "y": 0, "neighbors": { "north": [ "lab" ], "south": [ "subway" ], "east": [ "subway" ] } },
-        { "chunks": [ "lab_train_mask_west_subway_south_east" ], "x": 0, "y": 0, "neighbors": { "west": [ "lab" ], "south": [ "subway" ], "east": [ "subway" ] } },
-        { "chunks": [ "lab_train_mask_south_subway_north_east" ], "x": 0, "y": 0, "neighbors": { "south": [ "lab" ], "north": [ "subway" ], "east": [ "subway" ] } },
-        { "chunks": [ "lab_train_mask_west_subway_north_east" ], "x": 0, "y": 0, "neighbors": { "west": [ "lab" ], "north": [ "subway" ], "east": [ "subway" ] } },
-        { "chunks": [ "lab_train_mask_south_subway_north_west" ], "x": 0, "y": 0, "neighbors": { "south": [ "lab" ], "north": [ "subway" ], "west": [ "subway" ] } },
-        { "chunks": [ "lab_train_mask_east_subway_north_west" ], "x": 0, "y": 0, "neighbors": { "east": [ "lab" ], "north": [ "subway" ], "west": [ "subway" ] } }
-     ]
+        {
+          "chunks": [ "lab_train_mask_north_subway_south_west" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "north": [ "lab" ], "south": [ "subway" ], "west": [ "subway" ] }
+        },
+        {
+          "chunks": [ "lab_train_mask_east_subway_south_west" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "east": [ "lab" ], "south": [ "subway" ], "west": [ "subway" ] }
+        },
+        {
+          "chunks": [ "lab_train_mask_north_subway_south_east" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "north": [ "lab" ], "south": [ "subway" ], "east": [ "subway" ] }
+        },
+        {
+          "chunks": [ "lab_train_mask_west_subway_south_east" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "west": [ "lab" ], "south": [ "subway" ], "east": [ "subway" ] }
+        },
+        {
+          "chunks": [ "lab_train_mask_south_subway_north_east" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south": [ "lab" ], "north": [ "subway" ], "east": [ "subway" ] }
+        },
+        {
+          "chunks": [ "lab_train_mask_west_subway_north_east" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "west": [ "lab" ], "north": [ "subway" ], "east": [ "subway" ] }
+        },
+        {
+          "chunks": [ "lab_train_mask_south_subway_north_west" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "south": [ "lab" ], "north": [ "subway" ], "west": [ "subway" ] }
+        },
+        {
+          "chunks": [ "lab_train_mask_east_subway_north_west" ],
+          "x": 0,
+          "y": 0,
+          "neighbors": { "east": [ "lab" ], "north": [ "subway" ], "west": [ "subway" ] }
+        }
+      ]
     }
   },
   {
@@ -510,17 +570,17 @@
         "                        ",
         "                        ",
         "                        ",
-        "                ^       ",
-        "                S       ",
-        "                ^       ",
-        "                ^       ",
-        "                ^       ",
-        "                S       ",
-        "              __^       ",
+        "                ....... ",
+        "                ......^ ",
+        "                .....   ",
+        "                ....    ",
+        "                ...     ",
+        "                ..^ /^^ ",
+        "              __.       ",
+        "              __        ",
+        "              _         ",
         "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
+        "             ^          ",
         "                        ",
         "                        ",
         "                        ",
@@ -532,7 +592,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "subway_underground" ]
+      "palettes": [ "subway_underground" ],
+      "place_vehicles": [ { "vehicle": "trains_draisine", "x": 7, "y": 16, "chance": 5, "rotation": 90 } ]
     }
   },
   {
@@ -545,17 +606,17 @@
         "                        ",
         "                        ",
         "                        ",
-        "       ^                ",
-        "       S                ",
-        "       ^                ",
-        "       ^                ",
-        "       ^                ",
-        "       S                ",
-        "       ^__              ",
+        " .......                ",
+        " ^......                ",
+        "   .....                ",
+        "    ....                ",
+        "     ...                ",
+        " ^^/ ^..                ",
+        "       .__              ",
+        "        __              ",
+        "         _              ",
         "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
+        "          ^             ",
         "                        ",
         "                        ",
         "                        ",
@@ -567,7 +628,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "subway_underground" ]
+      "palettes": [ "subway_underground" ],
+      "place_vehicles": [ { "vehicle": "trains_draisine", "x": 16, "y": 12, "chance": 5, "rotation": 270 } ]
     }
   },
   {
@@ -587,22 +649,23 @@
         "                        ",
         "                        ",
         "                        ",
+        "          ^             ",
         "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "       ^__              ",
-        "       S                ",
-        "       ^                ",
-        "       ^                ",
-        "       ^                ",
-        "       S                ",
-        "       ^                ",
+        "         _              ",
+        "        __              ",
+        "       .__              ",
+        " ^^/ ^..                ",
+        "     ...                ",
+        "    ....                ",
+        "   .....                ",
+        " ^......                ",
+        " .......                ",
         "                        ",
         "                        ",
         "                        "
       ],
-      "palettes": [ "subway_underground" ]
+      "palettes": [ "subway_underground" ],
+      "place_vehicles": [ { "vehicle": "trains_draisine", "x": 16, "y": 7, "chance": 5, "rotation": 270 } ]
     }
   },
   {
@@ -622,22 +685,23 @@
         "                        ",
         "                        ",
         "                        ",
+        "             ^          ",
         "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "              __^       ",
-        "                S       ",
-        "                ^       ",
-        "                ^       ",
-        "                ^       ",
-        "                S       ",
-        "                ^       ",
+        "              _         ",
+        "              __        ",
+        "              __.       ",
+        "                ..^ /^^ ",
+        "                ...     ",
+        "                ....    ",
+        "                .....   ",
+        "                ......^ ",
+        "                ....... ",
         "                        ",
         "                        ",
         "                        "
       ],
-      "palettes": [ "subway_underground" ]
+      "palettes": [ "subway_underground" ],
+      "place_vehicles": [ { "vehicle": "trains_draisine", "x": 7, "y": 11, "chance": 5, "rotation": 90 } ]
     }
   },
   {
@@ -648,16 +712,16 @@
       "mapgensize": [ 24, 24 ],
       "rows": [
         "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "   ^S^^^S^              ",
-        "         _              ",
-        "         _              ",
-        "                        ",
+        "   .^   ^               ",
+        "   ..   ^               ",
+        "   ...  /               ",
+        "   ....                 ",
+        "   .....^               ",
+        "   ......               ",
+        "   .......              ",
+        "         __             ",
+        "         ___            ",
+        "             ^          ",
         "                        ",
         "                        ",
         "                        ",
@@ -672,7 +736,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "subway_underground" ]
+      "palettes": [ "subway_underground" ],
+      "place_vehicles": [ { "vehicle": "trains_draisine", "x": 16, "y": 16, "chance": 5, "rotation": 0 } ]
     }
   },
   {
@@ -695,19 +760,20 @@
         "                        ",
         "                        ",
         "                        ",
-        "                        ",
-        "         _              ",
-        "         _              ",
-        "   ^S^^^S^              ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
+        "             ^          ",
+        "         ___            ",
+        "         __             ",
+        "   .......              ",
+        "   ......               ",
+        "   .....^                ",
+        "   ....                 ",
+        "   ...  /               ",
+        "   ..   ^               ",
+        "   .^   ^               ",
         "                        "
       ],
-      "palettes": [ "subway_underground" ]
+      "palettes": [ "subway_underground" ],
+      "place_vehicles": [ { "vehicle": "trains_draisine", "x": 12, "y": 7, "chance": 5, "rotation": 180 } ]
     }
   },
   {
@@ -730,19 +796,20 @@
         "                        ",
         "                        ",
         "                        ",
-        "                        ",
-        "              _         ",
-        "              _         ",
-        "              ^S^^^S^   ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
+        "          ^             ",
+        "            ___         ",
+        "             __         ",
+        "              .......   ",
+        "               ......   ",
+        "               ^.....   ",
+        "                 ....   ",
+        "               /  ...   ",
+        "               ^   ..   ",
+        "               ^   ^.   ",
         "                        "
       ],
-      "palettes": [ "subway_underground" ]
+      "palettes": [ "subway_underground" ],
+      "place_vehicles": [ { "vehicle": "trains_draisine", "x": 7, "y": 7, "chance": 5, "rotation": 180 } ]
     }
   },
   {
@@ -753,16 +820,16 @@
       "mapgensize": [ 24, 24 ],
       "rows": [
         "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "                        ",
-        "              ^S^^^S^   ",
-        "              _         ",
-        "              _         ",
-        "                        ",
+        "               ^   ^.   ",
+        "               ^   ..   ",
+        "               /  ...   ",
+        "                 ....   ",
+        "               ^.....   ",
+        "               ......   ",
+        "              .......   ",
+        "             __         ",
+        "            ___         ",
+        "          ^             ",
         "                        ",
         "                        ",
         "                        ",
@@ -777,7 +844,8 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "subway_underground" ]
+      "palettes": [ "subway_underground" ],
+      "place_vehicles": [ { "vehicle": "trains_draisine", "x": 11, "y": 16, "chance": 5, "rotation": 0 } ]
     }
   }
 ]
