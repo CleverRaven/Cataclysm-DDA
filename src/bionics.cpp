@@ -1899,6 +1899,15 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
                            _( "As your conciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
     }
 
-    add_effect( effect_narcosis, duration );
-    fall_asleep( duration );
+    if( has_effect( effect_narcosis ) ) {
+        const time_duration remaining_time = get_effect_dur( effect_narcosis );
+        if( remaining_time <= duration ) {
+            const time_duration top_off_time = duration - remaining_time;
+            add_effect( effect_narcosis, top_off_time );
+            fall_asleep( top_off_time );
+        }
+    } else {
+        add_effect( effect_narcosis, duration );
+        fall_asleep( duration );
+    }
 }
