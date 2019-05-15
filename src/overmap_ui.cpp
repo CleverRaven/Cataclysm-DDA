@@ -989,7 +989,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     std::string action;
     bool show_explored = true;
     bool fast_scroll = false; /* fast scroll state should reset every time overmap UI is opened */
-    int fast_scroll_offset = get_option<int>( "MOVE_VIEW_OFFSET" );
+    int fast_scroll_offset = get_option<int>( "FAST_SCROLL_OFFSET" );
     cata::optional<tripoint> mouse_pos;
     bool redraw = true;
     auto last_blink = std::chrono::steady_clock::now();

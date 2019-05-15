@@ -1448,6 +1448,11 @@ void options_manager::add_options_interface()
          1, 50, 1
        );
 
+    add( "FAST_SCROLL_OFFSET", "interface", translate_marker( "Overmap fast scroll offset" ),
+         translate_marker( "With Fast Scroll option enabled, shift view on the overmap and while looking around by this many squares per keypress." ),
+         1, 50, 5
+       );
+
     add( "MENU_SCROLL", "interface", translate_marker( "Centered menu scrolling" ),
          translate_marker( "If true, menus will start scrolling in the center of the list, and keep the list centered." ),
          true
