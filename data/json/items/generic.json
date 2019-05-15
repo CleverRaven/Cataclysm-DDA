@@ -2682,7 +2682,7 @@
     "symbol": ",",
     "color": "yellow",
     "name": "prototype I/O recorder",
-    "description": "This small transparent card was attached to the prototype robot's CPU.  It might contain the data the intercom spoke off.",
+    "description": "This small transparent card was attached to the prototype robot's CPU.  It might contain the data the intercom spoke of.",
     "category": "other",
     "price": 500,
     "material": "plastic",
