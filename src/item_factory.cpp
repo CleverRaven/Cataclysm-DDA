@@ -1492,6 +1492,7 @@ void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &sr
     assign( jo, "initial_charges", slot.def_charges, strict, 0L );
     assign( jo, "charges_per_use", slot.charges_per_use, strict,
             static_cast<decltype( slot.charges_per_use )>( 0 ) );
+    assign( jo, "charge_factor", slot.charge_factor, strict, 1 );
     assign( jo, "turns_per_charge", slot.turns_per_charge, strict,
             static_cast<decltype( slot.turns_per_charge )>( 0 ) );
     assign( jo, "revert_to", slot.revert_to, strict );

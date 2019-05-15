@@ -99,6 +99,7 @@ struct islot_tool {
     long max_charges = 0;
     long def_charges = 0;
     std::vector<long> rand_charges;
+    int charge_factor = 1;
     unsigned char charges_per_use = 0;
     unsigned char turns_per_charge = 0;
 };
@@ -949,9 +950,14 @@ struct itype {
 
         int charges_to_use() const {
             if( tool ) {
-                return tool->charges_per_use;
+                return static_cast<int>( tool->charges_per_use );
             }
             return 1;
+        }
+
+        // for tools that sub another tool, but use a different ratio of charges
+        int charge_factor() const {
+            return tool ? tool->charge_factor : 1;
         }
 
         int maximum_charges() const {
