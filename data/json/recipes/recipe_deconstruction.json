@@ -182,7 +182,15 @@
     "time": 2000,
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [
+      [ [ "ai_module_basic", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "quad_rotors", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module" ], 1 ]
+    ]
   },
   {
     "result": "broken_c4_hack",
@@ -192,7 +200,15 @@
     "time": 2000,
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [
+      [ [ "ai_module_basic", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "quad_rotors", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module" ], 1 ]
+    ]
   },
   {
     "result": "broken_copbot",
@@ -203,12 +219,17 @@
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "omni_wheel", 1 ] ],
+      [ [ "copbot_chassis", 1 ] ],
+      [ [ "android_arms", 1 ] ],
       [ [ "power_supply", 4 ] ],
       [ [ "solar_cell", 2 ] ],
-      [ [ "motor", 1 ] ],
-      [ [ "tazer", 1 ] ],
-      [ [ "e_scrap", 3 ] ],
-      [ [ "steel_chunk", 12 ] ]
+      [ [ "tazer", 1 ] ]
     ]
   },
   {
@@ -219,7 +240,16 @@
     "time": 30000,
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "processor", 1 ] ], [ [ "lens", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "quad_rotors", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "lens", 1 ] ],
+      [ [ "identification_module" ], 1 ]
+    ]
   },
   {
     "result": "broken_flashbang_hack",
@@ -229,7 +259,15 @@
     "time": 2000,
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [
+      [ [ "ai_module_basic", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "quad_rotors", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module" ], 1 ]
+    ]
   },
   {
     "result": "broken_gasbomb_hack",
@@ -239,7 +277,15 @@
     "time": 2000,
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [
+      [ [ "ai_module_basic", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "quad_rotors", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module" ], 1 ]
+    ]
   },
   {
     "result": "broken_grenade_hack",
@@ -249,7 +295,15 @@
     "time": 2000,
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [
+      [ [ "ai_module_basic", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "quad_rotors", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module" ], 1 ]
+    ]
   },
   {
     "result": "broken_manhack",
@@ -259,7 +313,16 @@
     "time": 2000,
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "spike", 2 ] ], [ [ "processor", 1 ] ], [ [ "RAM", 1 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [
+      [ [ "ai_module_basic", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "quad_rotors", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "spike", 2 ] ],
+      [ [ "identification_module" ], 1 ]
+    ]
   },
   {
     "result": "broken_mininuke_hack",
@@ -269,7 +332,15 @@
     "time": 4000,
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "processor", 2 ] ], [ [ "RAM", 2 ] ], [ [ "scrap", 2 ] ] ]
+    "components": [
+      [ [ "ai_module_basic", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "quad_rotors", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module" ], 1 ]
+    ]
   },
   {
     "result": "broken_molebot",
@@ -279,7 +350,15 @@
     "time": 180000,
     "using": [ [ "welding_standard", 6 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "power_supply", 4 ] ], [ [ "motor", 1 ] ], [ [ "steel_chunk", 20 ] ] ]
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "medium_storage_battery", 1 ] ],
+      [ [ "motor", 1 ] ],
+      [ [ "steel_chunk", 20 ] ]
+    ]
   },
   {
     "result": "broken_riotbot",
@@ -290,12 +369,17 @@
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "omni_wheel", 1 ] ],
+      [ [ "copbot_chassis", 1 ] ],
+      [ [ "android_arms", 1 ] ],
       [ [ "power_supply", 4 ] ],
       [ [ "solar_cell", 2 ] ],
-      [ [ "motor", 1 ] ],
-      [ [ "canister_empty", 1 ] ],
-      [ [ "e_scrap", 3 ] ],
-      [ [ "steel_chunk", 12 ] ]
+      [ [ "canister_empty", 1 ] ]
     ]
   },
   {
@@ -306,7 +390,19 @@
     "time": 60000,
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 1 ] ], [ [ "tazer", 2 ] ], [ [ "e_scrap", 2 ] ], [ [ "scrap", 4 ] ] ]
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "spidery_legs_small", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module" ], 1 ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "tazer", 2 ] ],
+      [ [ "scrap", 4 ] ]
+    ]
   },
   {
     "result": "broken_science_bot",
@@ -317,14 +413,17 @@
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "medium_storage_battery", 1 ] ],
+      [ [ "spidery_legs_small", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module" ], 1 ],
       [ [ "power_supply", 3 ] ],
       [ [ "geiger_off", 1 ] ],
       [ [ "tazer", 2 ] ],
-      [ [ "e_scrap", 4 ] ],
-      [ [ "solder_wire", 10 ] ],
-      [ [ "cable", 4 ] ],
       [ [ "scrap", 6 ] ],
-      [ [ "motor", 1 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "steel_chunk", 6 ] ]
     ]
@@ -338,16 +437,22 @@
     "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "tank_tread", 1 ] ],
+      [ [ "tankbot_chassis", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 3 ] ],
       [ [ "flamethrower", 1 ] ],
       [ [ "tazer", 1 ] ],
       [ [ "m4a1", 1 ] ],
-      [ [ "motor_large", 1 ] ],
       [ [ "power_supply", 20 ] ],
+      [ [ "storage_battery", 1 ] ],
       [ [ "plut_cell", 4 ] ],
-      [ [ "RAM", 2 ] ],
-      [ [ "steel_chunk", 15 ] ],
-      [ [ "mil_plate", 2 ] ],
-      [ [ "robot_controls", 1 ] ]
+      [ [ "mil_plate", 2 ] ]
     ]
   },
   {
@@ -359,13 +464,18 @@
     "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "spidery_legs_big", 1 ] ],
+      [ [ "tripod_chassis", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
       [ [ "power_supply", 12 ] ],
-      [ [ "processor", 1 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "flamethrower", 1 ] ],
-      [ [ "wire", 4 ] ],
-      [ [ "motor", 2 ] ],
-      [ [ "steel_chunk", 60 ] ]
+      [ [ "storage_battery", 1 ] ],
+      [ [ "flamethrower", 1 ] ]
     ]
   },
   {
@@ -377,12 +487,17 @@
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "omni_wheel", 1 ] ],
+      [ [ "copbot_chassis", 1 ] ],
+      [ [ "android_arms", 1 ] ],
       [ [ "power_supply", 4 ] ],
       [ [ "solar_cell", 2 ] ],
-      [ [ "motor", 1 ] ],
-      [ [ "tazer", 1 ] ],
-      [ [ "e_scrap", 3 ] ],
-      [ [ "steel_chunk", 12 ] ]
+      [ [ "tazer", 1 ] ]
     ]
   },
   {
@@ -393,7 +508,16 @@
     "time": 37500,
     "using": [ [ "soldering_standard", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "processor", 1 ] ], [ [ "lens", 1 ] ], [ [ "e_scrap", 1 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "quad_rotors", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "lens", 1 ] ],
+      [ [ "identification_module" ], 1 ]
+    ]
   },
   {
     "result": "bot_molebot",
@@ -403,7 +527,15 @@
     "time": 225000,
     "using": [ [ "welding_standard", 6 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "power_supply", 4 ] ], [ [ "motor", 1 ] ], [ [ "steel_chunk", 20 ] ] ]
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "medium_storage_battery", 1 ] ],
+      [ [ "motor", 1 ] ],
+      [ [ "steel_chunk", 20 ] ]
+    ]
   },
   {
     "result": "bot_riotbot",
@@ -414,12 +546,17 @@
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "omni_wheel", 1 ] ],
+      [ [ "copbot_chassis", 1 ] ],
+      [ [ "android_arms", 1 ] ],
       [ [ "power_supply", 4 ] ],
       [ [ "solar_cell", 2 ] ],
-      [ [ "motor", 1 ] ],
-      [ [ "canister_empty", 1 ] ],
-      [ [ "e_scrap", 3 ] ],
-      [ [ "steel_chunk", 12 ] ]
+      [ [ "canister_empty", 1 ] ]
     ]
   },
   {
@@ -430,7 +567,19 @@
     "time": 75000,
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 1 ] ], [ [ "tazer", 2 ] ], [ [ "e_scrap", 2 ] ], [ [ "scrap", 4 ] ] ]
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "scrap", 1 ] ],
+      [ [ "spidery_legs_small", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module" ], 1 ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "tazer", 2 ] ],
+      [ [ "scrap", 4 ] ]
+    ]
   },
   {
     "result": "bot_science_bot",
@@ -441,14 +590,17 @@
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "medium_storage_battery", 1 ] ],
+      [ [ "spidery_legs_small", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module" ], 1 ],
       [ [ "power_supply", 3 ] ],
       [ [ "geiger_off", 1 ] ],
       [ [ "tazer", 2 ] ],
-      [ [ "e_scrap", 4 ] ],
-      [ [ "solder_wire", 10 ] ],
-      [ [ "cable", 4 ] ],
       [ [ "scrap", 6 ] ],
-      [ [ "motor", 1 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "steel_chunk", 6 ] ]
     ]
@@ -462,16 +614,22 @@
     "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "tank_tread", 1 ] ],
+      [ [ "tankbot_chassis", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 3 ] ],
       [ [ "flamethrower", 1 ] ],
       [ [ "tazer", 1 ] ],
       [ [ "m4a1", 1 ] ],
-      [ [ "motor_large", 1 ] ],
       [ [ "power_supply", 20 ] ],
+      [ [ "storage_battery", 1 ] ],
       [ [ "plut_cell", 4 ] ],
-      [ [ "RAM", 2 ] ],
-      [ [ "steel_chunk", 15 ] ],
-      [ [ "mil_plate", 2 ] ],
-      [ [ "robot_controls", 1 ] ]
+      [ [ "mil_plate", 2 ] ]
     ]
   },
   {
@@ -483,13 +641,45 @@
     "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "spidery_legs_big", 1 ] ],
+      [ [ "tripod_chassis", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 1 ] ],
       [ [ "power_supply", 12 ] ],
-      [ [ "processor", 1 ] ],
-      [ [ "RAM", 1 ] ],
-      [ [ "flamethrower", 1 ] ],
-      [ [ "wire", 4 ] ],
-      [ [ "motor", 2 ] ],
-      [ [ "steel_chunk", 60 ] ]
+      [ [ "storage_battery", 1 ] ],
+      [ [ "flamethrower", 1 ] ]
+    ]
+  },
+  {
+    "result": "bot_chickenbot",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 9,
+    "time": 750000,
+    "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "reverse_jointed_legs", 1 ] ],
+      [ [ "chickenbot_chassis", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "gun_module", 3 ] ],
+      [ [ "mark19", 1 ] ],
+      [ [ "tazer", 1 ] ],
+      [ [ "m4a1", 1 ] ],
+      [ [ "power_supply", 20 ] ],
+      [ [ "storage_battery", 1 ] ],
+      [ [ "plut_cell", 4 ] ],
+      [ [ "mil_plate", 2 ] ]
     ]
   },
   {
@@ -501,18 +691,19 @@
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "tank_tread", 1 ] ],
+      [ [ "tankbot_chassis", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
       [ [ "power_supply", 3 ] ],
-      [ [ "e_scrap", 6 ] ],
-      [ [ "solder_wire", 50 ] ],
-      [ [ "cable", 20 ] ],
-      [ [ "scrap", 6 ] ],
-      [ [ "motor", 1 ] ],
-      [ [ "wire", 9 ] ],
       [ [ "plut_cell", 1 ] ],
-      [ [ "steel_chunk", 6 ] ],
       [ [ "broken_manhack", 4 ] ],
       [ [ "omnicamera", 1 ] ],
-      [ [ "robot_controls", 1 ] ]
+      [ [ "storage_battery", 1 ] ]
     ]
   },
   {
@@ -524,18 +715,19 @@
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "WRENCH", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
+      [ [ "ai_module", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "memory_module", 1 ] ],
+      [ [ "pathfinding_module", 1 ] ],
+      [ [ "identification_module", 1 ] ],
+      [ [ "tank_tread", 1 ] ],
+      [ [ "tankbot_chassis", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
       [ [ "power_supply", 3 ] ],
-      [ [ "e_scrap", 6 ] ],
-      [ [ "solder_wire", 60 ] ],
-      [ [ "cable", 35 ] ],
-      [ [ "scrap", 6 ] ],
-      [ [ "motor_large", 1 ] ],
-      [ [ "wire", 9 ] ],
-      [ [ "plut_cell", 2 ] ],
-      [ [ "steel_chunk", 6 ] ],
-      [ [ "broken_manhack", 7 ] ],
+      [ [ "plut_cell", 1 ] ],
+      [ [ "broken_manhack", 4 ] ],
       [ [ "omnicamera", 1 ] ],
-      [ [ "robot_controls", 1 ] ]
+      [ [ "storage_battery", 1 ] ]
     ]
   },
   {

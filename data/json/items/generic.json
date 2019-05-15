@@ -131,7 +131,7 @@
     "type": "GENERIC",
     "id": "identification_module",
     "name": "identification module",
-    "description": "This module continuously runs image recogntion algorithms to identify friends from foe.",
+    "description": "This module continuously runs image recognition algorithms to identify friends from foe.",
     "copy-from": "robot_module_abstract"
   },
   {
@@ -205,7 +205,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "spidery_legs_smal",
+    "id": "spidery_legs_small",
     "name": "set of tiny spidery legs",
     "name_plural": "sets of tiny spidery legs",
     "description": "A set of tiny pointy legs, like the ones found under a skitterbot.",
