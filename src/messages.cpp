@@ -279,7 +279,7 @@ class messages_impl
             // Is the message string already in the cooldown queue?
             // If it's not we must put it in the cooldown queue now, otherwise just increment the number of times we have seen it.
             const auto cooldown_message_it = std::find_if( cooldown_templates.begin(),
-            cooldown_templates.end(), [&message]( game_message &cooldown_message ) -> bool {
+            cooldown_templates.end(), [&message]( game_message & cooldown_message ) -> bool {
                 return cooldown_message.message == message.message;
             } );
             if( cooldown_message_it == cooldown_templates.end() ) {
