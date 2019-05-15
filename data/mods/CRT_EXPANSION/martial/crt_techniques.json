@@ -40,7 +40,14 @@
     "min_unarmed": 5,
     "weighting": 2,
     "unarmed_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.9 ], [ "damage", "bash", 0.2 ], [ "damage", "cut", 1.25 ], [ "arpen", "cut", "dex", 0.15 ], [ "damage", "stab", 1.5 ], [ "arpen", "stab", "dex", 0.3 ] ],
+    "mult_bonuses": [
+      [ "movecost", 0.9 ],
+      [ "damage", "bash", 0.2 ],
+      [ "damage", "cut", 1.25 ],
+      [ "arpen", "cut", "dex", 0.15 ],
+      [ "damage", "stab", 1.5 ],
+      [ "arpen", "stab", "dex", 0.3 ]
+    ],
     "flat_bonuses": [ [ "damage", "stab", "dex", 0.5 ], [ "damage", "cut", "dex", 0.25 ], [ "movecost", "dex", -0.5 ] ],
     "crit_tec": true,
     "messages": [
@@ -131,7 +138,14 @@
     "min_unarmed": 5,
     "weighting": 2,
     "unarmed_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.9 ], [ "damage", "bash", 0.2 ], [ "damage", "cut", 1.25 ], [ "arpen", "cut", "dex", 0.15 ], [ "damage", "stab", 1.5 ], [ "arpen", "stab", "dex", 0.3 ] ],
+    "mult_bonuses": [
+      [ "movecost", 0.9 ],
+      [ "damage", "bash", 0.2 ],
+      [ "damage", "cut", 1.25 ],
+      [ "arpen", "cut", "dex", 0.15 ],
+      [ "damage", "stab", 1.5 ],
+      [ "arpen", "stab", "dex", 0.3 ]
+    ],
     "flat_bonuses": [ [ "damage", "stab", "dex", 0.5 ], [ "damage", "cut", "dex", 0.25 ], [ "movecost", "dex", -0.5 ] ],
     "crit_tec": true,
     "messages": [
@@ -186,7 +200,14 @@
     "min_melee": 5,
     "weighting": 2,
     "unarmed_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.95 ], [ "damage", "bash", 0.2 ], [ "damage", "cut", 1.1 ], [ "arpen", "stab", "dex", 0.15 ], [ "damage", "stab", 1.1 ], [ "arpen", "cut", "dex", 0.3 ] ],
+    "mult_bonuses": [
+      [ "movecost", 0.95 ],
+      [ "damage", "bash", 0.2 ],
+      [ "damage", "cut", 1.1 ],
+      [ "arpen", "stab", "dex", 0.15 ],
+      [ "damage", "stab", 1.1 ],
+      [ "arpen", "cut", "dex", 0.3 ]
+    ],
     "flat_bonuses": [ [ "damage", "stab", "dex", 0.25 ], [ "damage", "cut", "dex", 0.35 ], [ "movecost", "dex", -0.5 ] ],
     "crit_tec": true,
     "messages": [
