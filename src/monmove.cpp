@@ -651,7 +651,7 @@ void monster::move()
 
     // don't move if a passenger in a moving vehicle
     auto vp = g->m.veh_at( pos() );
-    if( vp && vp->vehicle().is_moving() && vp->vehicle().get_pet( vp->part_index() ) ) {
+    if( friendly && vp && vp->vehicle().is_moving() && vp->vehicle().get_pet( vp->part_index() ) ) {
         moves = 0;
         return;
     }

@@ -447,9 +447,27 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         return ret;
     }
 
-    // critters on a BOARDABLE part in this vehicle aren't colliding
-    if( is_body_collision && ovp && ( &ovp->vehicle() == this ) && get_pet( ovp->part_index() ) ) {
-        return ret;
+    if( is_body_collision ) {
+        // critters on a BOARDABLE part in this vehicle aren't colliding
+        if( ovp && ( &ovp->vehicle() == this ) && get_pet( ovp->part_index() ) ) {
+            return ret;
+        }
+        // we just ran into a fish, so move it out of the way
+        if( g->m.has_flag( "SWIMMABLE", critter->pos() ) ) {
+            tripoint end_pos = critter->pos();
+            tripoint start_pos;
+            const int angle = move.dir() + 45 * ( parts[part].mount.x > pivot_point().x ? -1 : 1 );
+            std::set<tripoint> &cur_points = get_points( true );
+            // push the animal out of way until it's no longer in our vehicle and not in
+            // anyone else's position
+            while( g->critter_at( end_pos, true ) ||
+                   cur_points.find( end_pos ) != cur_points.end() ) {
+                start_pos = end_pos;
+                calc_ray_end( angle, 2, start_pos, end_pos );
+            }
+            critter->setpos( end_pos );
+            return ret;
+        }
     }
 
     // Damage armor before damaging any other parts
