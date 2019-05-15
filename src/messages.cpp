@@ -152,7 +152,6 @@ class messages_impl
                 cooldown_it->timestamp_in_turns = calendar::turn;
             }
 
-
             // coalesce messages
             last_msg.count++;
             last_msg.timestamp_in_turns = calendar::turn;
@@ -175,9 +174,10 @@ class messages_impl
                 return;
             }
 
-            const game_message m = game_message( std::move( msg ), type );
+            game_message m = game_message( std::move( msg ), type );
 
             refresh_cooldown( m );
+            hide_message_in_cooldown( m );
 
             if( coalesce_messages( m ) ) {
                 return;
@@ -190,9 +190,9 @@ class messages_impl
             messages.emplace_back( m );
         }
 
-        bool message_in_cooldown( const game_message &message, int i ) {
-            if (message_cooldown <= 0 || message.turn() <= 0) {
-                return false;
+        void hide_message_in_cooldown( game_message &message ) {
+            if( message_cooldown <= 0 || message.turn() <= 0 ) {
+                return;
             }
 
             // We look for **exactly the same** message string in the cooldown templates
@@ -203,33 +203,28 @@ class messages_impl
             } );
             if( cooldown_it == cooldown_templates.end() ) {
                 // nothing found, not in cooldown.
-                return false;
+                return;
             }
 
             // check if message has been seen only once during cooldown.
             if( cooldown_it->cooldown_seen == 1 ) {
-                return false;
+                return;
             }
 
-            // note: if we land here, we have already seen this message string.
-            // We need to display it at least once in the sidebar. We search for the message that started the cooldown timer.
-            const auto message_it = std::find_if( messages.begin(), messages.end(), [&message,
-            &cooldown_it]( game_message & m ) -> bool {
-                return m.message == message.message && cooldown_it->turn() == m.turn();
-            } );
-            if( message_it == messages.end() ) {
-                return false;
+            // check if it's the message that started the cooldown timer.
+            if( message.turn() == cooldown_it->turn() ) {
+                message.hide = false;
+                return;
             }
 
-            // note: dist is the index of the message, in the message queue, that started the cooldown for all messages with the same string.
-            const auto dist = std::distance( messages.begin(), message_it );
-            if( i > dist ) {
-                messages[i].hide = true;
-                return true;
-            }
+            // current message turn
+            const auto cm_turn = to_turn<int>( message.turn() );
+            // maximum range of the cooldown timer.
+            const auto max_cooldown_range = to_turn<int>( cooldown_it->turn() ) + message_cooldown;
 
-            //
-            return false;
+            if( cm_turn <= max_cooldown_range ) {
+                message.hide = true;
+            }
         }
 
         std::vector<std::pair<std::string, std::string>> recent_messages( size_t count ) const {
@@ -259,7 +254,7 @@ class messages_impl
             const auto now = calendar::turn;
             for( auto it = cooldown_templates.begin(); it != cooldown_templates.end(); ) {
                 // number of turns elapsed since the cooldown started.
-                const auto turns = to_turns<int>(now - it->turn());
+                const auto turns = to_turns<int>( now - it->turn() );
                 if( turns >= message_cooldown ) {
                     // time elapsed! remove it.
                     it = cooldown_templates.erase( it );
@@ -808,8 +803,8 @@ void Messages::display_messages( const catacurses::window &ipk_target, const int
                 break;
             }
 
-            if( player_messages.message_in_cooldown( m, i ) || m.is_hidden() ) {
-                // message appeared recently and is still into its cooldown period.
+            if( m.is_hidden() ) {
+                // message is still (or was at some point) into a cooldown period.
                 continue;
             }
 
