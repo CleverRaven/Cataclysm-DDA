@@ -3,7 +3,7 @@
     "type": "overmap_terrain",
     "id": "robofachq_surface_parking",
     "name": "melchior hub parking space",
-    "sym": 48,
+    "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
@@ -12,7 +12,7 @@
     "type": "overmap_terrain",
     "id": "robofachq_surface_entrance",
     "name": "melchior hub",
-    "sym": 48,
+    "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
@@ -21,7 +21,7 @@
     "type": "overmap_terrain",
     "id": "robofachq_surface_car_entrance",
     "name": "melchior hub",
-    "sym": 48,
+    "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
@@ -30,7 +30,7 @@
     "type": "overmap_terrain",
     "id": "robofachq_surface_a3",
     "name": "melchior hub",
-    "sym": 48,
+    "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
@@ -39,7 +39,7 @@
     "type": "overmap_terrain",
     "id": "robofachq_surface_b0",
     "name": "melchior hub",
-    "sym": 48,
+    "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
@@ -48,7 +48,7 @@
     "type": "overmap_terrain",
     "id": "robofachq_surface_b1",
     "name": "melchior hub",
-    "sym": 48,
+    "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
@@ -57,7 +57,7 @@
     "type": "overmap_terrain",
     "id": "robofachq_surface_b2",
     "name": "melchior hub",
-    "sym": 48,
+    "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
@@ -66,7 +66,7 @@
     "type": "overmap_terrain",
     "id": "robofachq_surface_b3",
     "name": "melchior hub",
-    "sym": 48,
+    "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
@@ -75,7 +75,7 @@
     "type": "overmap_terrain",
     "id": "robofachq_hab_a0",
     "name": "melchior hub",
-    "sym": 48,
+    "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
@@ -84,7 +84,7 @@
     "type": "overmap_terrain",
     "id": "robofachq_hab_a1",
     "name": "melchior hub",
-    "sym": 48,
+    "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
@@ -93,7 +93,7 @@
     "type": "overmap_terrain",
     "id": "robofachq_hab_a2",
     "name": "melchior hub",
-    "sym": 48,
+    "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
@@ -102,7 +102,7 @@
     "type": "overmap_terrain",
     "id": "robofachq_hab_a3",
     "name": "melchior hub",
-    "sym": 48,
+    "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
@@ -111,7 +111,7 @@
     "type": "overmap_terrain",
     "id": "robofachq_hab_b0",
     "name": "melchior hub",
-    "sym": 48,
+    "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
@@ -120,7 +120,7 @@
     "type": "overmap_terrain",
     "id": "robofachq_hab_b1",
     "name": "melchior hub",
-    "sym": 48,
+    "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
@@ -129,7 +129,7 @@
     "type": "overmap_terrain",
     "id": "robofachq_hab_b2",
     "name": "melchior hub",
-    "sym": 48,
+    "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
@@ -138,7 +138,7 @@
     "type": "overmap_terrain",
     "id": "robofachq_hab_b3",
     "name": "melchior hub",
-    "sym": 48,
+    "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ]
