@@ -1532,7 +1532,6 @@ class vehicle
         // After fuel consumption, this tracks the remainder of fuel < 1, and applies it the next time.
         std::map<itype_id, float> fuel_remainder;
         active_item_cache active_items;
-        bool all_wheels_on_one_axis;
 
         bounding_box rail_wheel_bounding_box;
         bounding_box get_bounding_box();
@@ -1603,6 +1602,7 @@ class vehicle
         float of_turn_carry;
 
         int extra_drag          = 0;
+        bool all_wheels_on_one_axis;
         // TODO: change these to a bitset + enum?
         // cruise control on/off
         bool cruise_on                  = true;
@@ -1623,12 +1623,12 @@ class vehicle
         bool insides_dirty              = true;
         // Is the vehicle hanging in the air and expected to fall down in the next turn?
         bool is_falling                 = false;
-        // last time point the fluid was inside tanks was checked for processing
-        time_point last_fluid_check = calendar::time_of_cataclysm;
         // zone_data positions are outdated and need refreshing
         bool zones_dirty = true;
         // current noise of vehicle (engine working, etc.)
         unsigned char vehicle_noise = 0;
+        // last time point the fluid was inside tanks was checked for processing
+        time_point last_fluid_check = calendar::time_of_cataclysm;
 
     private:
         // refresh pivot_cache, clear pivot_dirty
@@ -1659,13 +1659,13 @@ class vehicle
          */
         int automatic_fire_turret( vehicle_part &pt );
 
+        mutable point mass_center_precalc;
+        mutable point mass_center_no_precalc;
+        mutable units::mass mass_cache;
+
         mutable bool mass_dirty                     = true;
         mutable bool mass_center_precalc_dirty      = true;
         mutable bool mass_center_no_precalc_dirty   = true;
-
-        mutable units::mass mass_cache;
-        mutable point mass_center_precalc;
-        mutable point mass_center_no_precalc;
 
         // cached values for air, water, and  rolling resistance;
         mutable bool coeff_rolling_dirty = true;
@@ -1677,13 +1677,14 @@ class vehicle
         // the coeffs once per turn, even if multiple parts are destroyed in a collision
         mutable bool coeff_air_changed = true;
 
+        // is the vehicle currently mostly in water
+        mutable bool is_floating = false;
+
         mutable double coefficient_air_resistance = 1;
         mutable double coefficient_rolling_resistance = 1;
         mutable double coefficient_water_resistance = 1;
         mutable double draft_m = 1;
         mutable double hull_height = 0.3;
-        // is the vehicle currently mostly in water
-        mutable bool is_floating = false;
 };
 
 #endif
