@@ -10110,7 +10110,7 @@
     "id": "robofac_enviro_suit",
     "type": "ARMOR",
     "name": "Hub 01 enviromental suit",
-    "description": "A lightweith environmental suit worn by Hub personnel in their rare forays aboveground.  Colored brown and blue, the white seal of Hub 01 is embroidered on both of its upper arms.  It requires a separate gas mask for full protection.",
+    "description": "A lightweight environmental suit worn by Hub personnel in their rare forays aboveground.  Colored brown and blue, the white seal of Hub 01 is embroidered on both of its upper arms.  It requires a separate gas mask for full protection.",
     "weight": 5000,
     "volume": 68,
     "price": 117500,

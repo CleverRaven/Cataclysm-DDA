@@ -1,7 +1,7 @@
 {
   "type": "npc",
   "id": "robofac_intercom",
-  "//": "Voice behid the robofac hq intercom.  For the player to chat with an NPC through the intercom, the npc must have name_unique: the_intercom .",
+  "//": "Voice behind the robofac hq intercom.  For the player to chat with an NPC through the intercom, the npc must have name_unique: the intercom.",
   "name_unique": "the intercom",
   "gender": "female",
   "class": "NC_ROBOFAC_INTERCOM",
