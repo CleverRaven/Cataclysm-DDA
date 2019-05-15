@@ -1656,6 +1656,14 @@ class map
 
         std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius ) const;
 
+        /**returns positions of furnitures matching target in the specified radius*/
+        std::list<tripoint> find_furnitures_in_radius( const tripoint &center, size_t radius,
+                furn_id target,
+                size_t radiusz = 0 );
+        /**returns creatures in specified radius*/
+        std::list<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,
+                size_t radiusz = 0 );
+
         level_cache &access_cache( int zlev );
         const level_cache &access_cache( int zlev ) const;
         bool need_draw_lower_floor( const tripoint &p );

@@ -184,6 +184,7 @@ const species_id PLANT( "PLANT" );
 const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_amigara( "amigara" );
+const efftype_id effect_assisted( "assisted" );
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_bouldering( "bouldering" );
@@ -4834,6 +4835,8 @@ bool game::revive_corpse( const tripoint &p, item &it )
 
 void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installer )
 {
+    int assist_bonus = installer.get_effect_int( effect_assisted );
+
     float adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
                            skill_computer,
                            skill_electronics,
@@ -4852,7 +4855,7 @@ void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installe
         difficulty += dmg_lvl;
     }
 
-    int chance_of_success = bionic_manip_cos( adjusted_skill, true, difficulty );
+    int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, true, difficulty );
     int success = chance_of_success - rng( 1, 100 ) ;
 
     if( !g->u.query_yn(

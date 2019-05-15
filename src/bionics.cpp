@@ -60,6 +60,7 @@ const skill_id skilll_computer( "computer" );
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 const efftype_id effect_asthma( "asthma" );
+const efftype_id effect_assisted( "assisted" );
 const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_bloodworms( "bloodworms" );
 const efftype_id effect_brainworms( "brainworms" );
@@ -73,6 +74,7 @@ const efftype_id effect_high( "high" );
 const efftype_id effect_iodine( "iodine" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_meth( "meth" );
+const efftype_id effect_operating( "operating" );
 const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_pblue( "pblue" );
 const efftype_id effect_pkill1( "pkill1" );
@@ -80,6 +82,7 @@ const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_pkill_l( "pkill_l" );
 const efftype_id effect_poison( "poison" );
+const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_stung( "stung" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_teleglow( "teleglow" );
@@ -899,6 +902,75 @@ void player::bionics_uninstall_failure( player &installer, int difficulty, int s
 
 }
 
+void player::bionics_uninstall_failure( monster &installer, player &patient, int difficulty,
+                                        int success,
+                                        float adjusted_skill )
+{
+
+    // "success" should be passed in as a negative integer representing how far off we
+    // were for a successful removal.  We use this to determine consequences for failing.
+    success = abs( success );
+
+    // failure level is decided by how far off the monster was from a successful removal, and
+    // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
+    // difficulties), only minor consequences occur.  At low skill levels, severe consequences
+    // are more likely.
+    const int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
+    const int fail_type = std::min( 5, failure_level );
+
+    bool u_see = sees( patient );
+
+    if( u_see || patient.is_player() ) {
+        if( fail_type <= 0 ) {
+            add_msg( m_neutral, _( "The removal fails without incident." ) );
+            return;
+        }
+        switch( rng( 1, 5 ) ) {
+            case 1:
+                add_msg( m_mixed, _( "The %s flub the operation." ), installer.name() );
+                break;
+            case 2:
+                add_msg( m_mixed, _( "The %s messes up the operation." ), installer.name() );
+                break;
+            case 3:
+                add_msg( m_mixed, _( "The The operation fails." ) );
+                break;
+            case 4:
+                add_msg( m_mixed, _( "The operation is a failure." ) );
+                break;
+            case 5:
+                add_msg( m_mixed, _( "The %s screws up the operation." ), installer.name() );
+                break;
+        }
+    }
+
+    switch( fail_type ) {
+        case 1:
+            if( !has_trait( trait_id( "NOPAIN" ) ) ) {
+                patient.add_msg_if_player( m_bad, _( "It really hurts!" ) );
+                patient.mod_pain( rng( failure_level * 3, failure_level * 6 ) );
+            }
+            break;
+
+        case 2:
+        case 3:
+            if( u_see ) {
+                add_msg( m_bad, _( "%s body is damaged!" ), patient.disp_name( true ) );
+            }
+            patient.hurtall( rng( failure_level, failure_level * 2 ), this );
+            break;
+
+        case 4:
+        case 5:
+            if( u_see ) {
+                add_msg( m_bad, _( "%s body is severely damaged!" ), patient.disp_name( true ) );
+            }
+            patient.hurtall( rng( 30, 80 ), this );
+            break;
+    }
+
+}
+
 // bionic manipulation adjusted skill
 float player::bionics_adjusted_skill( const skill_id &most_important_skill,
                                       const skill_id &important_skill,
@@ -1003,12 +1075,14 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
         return false;
     }
 
+    int assist_bonus = installer.get_effect_int( effect_assisted );
+
     // removal of bionics adds +2 difficulty over installation
     float adjusted_skill = installer.bionics_adjusted_skill( skilll_firstaid,
                            skilll_computer,
                            skilll_electronics,
                            skill_level );
-    int chance_of_success = bionic_manip_cos( adjusted_skill, autodoc, difficulty + 2 );
+    int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficulty + 2 );
 
     if( chance_of_success >= 100 ) {
         if( !g->u.query_yn(
@@ -1064,12 +1138,83 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     return true;
 }
 
+bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
+                               float adjusted_skill, bool autodoc )
+{
+    const std::string ammo_type( "anesthetic" );
+
+    if( installer.ammo[ammo_type] <= 0 ) {
+        if( g->u.sees( installer ) ) {
+            add_msg( "The %s's anesthesia kit looks empty", installer.name() );
+        }
+        return false;
+    }
+
+    item bionic_to_uninstall = item( target_cbm.id.str(), 0 );
+    const itype *itemtype = bionic_to_uninstall.type;
+    int difficulty = itemtype->bionic->difficulty;
+    int chance_of_success = bionic_manip_cos( adjusted_skill, autodoc, difficulty + 2 );
+    int success = chance_of_success - rng( 1, 100 );
+
+    const time_duration duration = difficulty * 20_minutes;
+    if( !installer.has_effect( effect_operating ) ) { // don't stack up the effect
+        installer.add_effect( effect_operating, duration + 5_turns );
+    }
+
+    if( patient.is_player() ) {
+        add_msg( m_bad,
+                 _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
+    } else if( g->u.sees( installer ) ) {
+        add_msg( m_bad,
+                 _( "The %1$s gently inserts a syringe into %2$s's arm and starts injecting something while holding them down." ),
+                 installer.name(), patient.disp_name() );
+    }
+
+    installer.ammo[ammo_type] -= 1 ;
+
+    patient.add_effect( effect_narcosis, duration );
+    patient.add_effect( effect_sleep, duration );
+
+    if( g->u.sees( patient ) ) {
+        add_msg( "%1$s falls asleep and %2$s starts operating.", patient.disp_name(),
+                 installer.disp_name() );
+    }
+
+    if( success > 0 ) {
+
+        if( patient.is_player() ) {
+            add_msg( m_neutral, _( "Your parts are jiggled back into their familiar places." ) );
+            add_msg( m_mixed, _( "Successfully removed %s." ), target_cbm.info().name );
+        } else if( patient.is_npc() && g->u.sees( patient ) ) {
+            add_msg( m_neutral, _( "%s's parts are jiggled back into their familiar places." ),
+                     patient.disp_name() );
+            add_msg( m_mixed, _( "Successfully removed %s." ), target_cbm.info().name );
+        }
+
+        // remove power bank provided by bionic
+        patient.max_power_level -= target_cbm.info().capacity;
+        patient.remove_bionic( target_cbm.id );
+        if( item::type_is_defined( target_cbm.id.c_str() ) ) {
+            g->m.spawn_item( patient.pos(), target_cbm.id.c_str(), 1 );
+        } else {
+            g->m.spawn_item( patient.pos(), "burnt_out_bionic", 1 );
+        }
+    } else {
+        bionics_uninstall_failure( installer, patient, difficulty, success, adjusted_skill );
+    }
+    g->refresh_all();
+
+    return false;
+}
+
 bool player::install_bionics( const itype &type, player &installer, bool autodoc, int skill_level )
 {
     if( !type.bionic ) {
         debugmsg( "Tried to install NULL bionic" );
         return false;
     }
+
+    int assist_bonus = installer.get_effect_int( effect_assisted );
 
     const bionic_id &bioid = type.bionic->id;
     const int difficult = type.bionic->difficulty;
@@ -1085,7 +1230,7 @@ bool player::install_bionics( const itype &type, player &installer, bool autodoc
                          skilll_mechanics,
                          skill_level );
     }
-    int chance_of_success = bionic_manip_cos( adjusted_skill, autodoc, difficult );
+    int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, autodoc, difficult );
 
     const std::map<body_part, int> &issues = bionic_installation_issues( bioid );
     // show all requirements which are not satisfied

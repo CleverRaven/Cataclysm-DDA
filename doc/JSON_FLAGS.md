@@ -875,6 +875,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```NO_BREATHE``` Creature can't drown and is unharmed by gas, smoke or poison.
 - ```NO_BREED``` Creature doesn't reproduce even though it has reproduction data - useful when using copy-from to make child versions of adult creatures
 - ```NULL``` Source use only.
+- ```PACIFIST``` That monster will never do melee attacks.
 - ```PARALYZE``` Attack may paralyze the player with venom.
 - ```PLASTIC``` Absorbs physical damage to a great degree.
 - ```POISON``` Poisonous to eat.

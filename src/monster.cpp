@@ -1715,6 +1715,11 @@ float monster::dodge_roll()
     return get_dodge() * 5;
 }
 
+int monster::get_grab_strength() const
+{
+    return type->grab_strength;
+}
+
 float monster::fall_damage_mod() const
 {
     if( has_flag( MF_FLIES ) ) {

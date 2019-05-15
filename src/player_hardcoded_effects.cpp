@@ -847,8 +847,10 @@ void player::hardcoded_effects( effect &it )
         set_num_blocks_bonus( get_num_blocks_bonus() - 1 );
         int zed_number = 0;
         for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
-            if( g->critter_at<monster>( dest ) ) {
-                zed_number ++;
+            const monster *const mon = g->critter_at<monster>( dest );
+            if( mon && ( mon->has_flag( MF_GRABS ) ||
+                         mon->type->has_special_attack( "GRAB" ) ) ) {
+                zed_number += mon->get_grab_strength();
             }
         }
         if( zed_number > 0 ) {
