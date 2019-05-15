@@ -760,34 +760,8 @@ void iexamine::cardreader( player &p, const tripoint &examp )
             add_msg( _( "The nearby doors are already opened." ) );
         }
     } else {
-        switch( hack_attempt( p ) ) {
-            case HACK_FAIL:
-                g->m.ter_set( examp, t_card_reader_broken );
-                break;
-            case HACK_NOTHING:
-                add_msg( _( "Nothing happens." ) );
-                break;
-            case HACK_SUCCESS: {
-                add_msg( _( "You activate the panel!" ) );
-                add_msg( m_good, _( "The nearby doors slide into the floor." ) );
-                g->m.ter_set( examp, t_card_reader_broken );
-                for( const tripoint &tmp : g->m.points_in_radius( examp, 3 ) ) {
-                    if( g->m.ter( tmp ) == t_door_metal_locked ) {
-                        g->m.ter_set( tmp, t_floor );
-                    }
-                }
-            }
-            break;
-            case HACK_UNABLE:
-                add_msg(
-                    m_info,
-                    p.get_skill_level( skill_computer ) > 0 ?
-                    _( "Looks like you need a %s, or a tool to hack it with." ) :
-                    _( "Looks like you need a %s." ),
-                    item::nname( card_type )
-                );
-                break;
-        }
+        p.assign_activity( activity_id( "ACT_HACK_DOOR" ), to_moves<int>( 5_minutes ) );
+        p.activity.placement = examp;
     }
 }
 
@@ -1151,32 +1125,8 @@ void iexamine::gunsafe_ml( player &p, const tripoint &examp )
  */
 void iexamine::gunsafe_el( player &p, const tripoint &examp )
 {
-    switch( hack_attempt( p ) ) {
-        case HACK_FAIL:
-            p.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
-                                pgettext( "memorial_female", "Set off an alarm." ) );
-            sounds::sound( p.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
-                           "alarm" );
-            if( examp.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
-                g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
-            }
-            break;
-        case HACK_NOTHING:
-            add_msg( _( "Nothing happens." ) );
-            break;
-        case HACK_SUCCESS:
-            add_msg( _( "You successfully hack the gun safe." ) );
-            g->m.furn_set( examp, furn_str_id( "f_safe_o" ) );
-            break;
-        case HACK_UNABLE:
-            add_msg(
-                m_info,
-                p.get_skill_level( skill_computer ) > 0 ?
-                _( "You can't hack this gun safe without a hacking tool." ) :
-                _( "This electronic safe looks too complicated to open." )
-            );
-            break;
-    }
+    p.assign_activity( activity_id( "ACT_HACK_SAFE" ), to_moves<int>( 5_minutes ) );
+    p.activity.placement = examp;
 }
 
 /**
@@ -5307,10 +5257,10 @@ hack_result iexamine::hack_attempt( player &p )
     if( p.has_trait( trait_ILLITERATE ) ) {
         return HACK_UNABLE;
     }
-    bool using_electrohack = ( p.has_charges( "electrohack", 25 ) &&
-                               query_yn( _( "Use electrohack?" ) ) );
-    bool using_fingerhack = ( !using_electrohack && p.has_bionic( bionic_id( "bio_fingerhack" ) ) &&
-                              p.power_level  > 24  && query_yn( _( "Use fingerhack?" ) ) );
+    bool using_electrohack = p.has_charges( "electrohack", 25 ) &&
+                             query_yn( _( "Use electrohack?" ) );
+    bool using_fingerhack = !using_electrohack && p.has_bionic( bionic_id( "bio_fingerhack" ) ) &&
+                            p.power_level > 24 && query_yn( _( "Use fingerhack?" ) );
 
     if( !( using_electrohack || using_fingerhack ) ) {
         return HACK_UNABLE;
