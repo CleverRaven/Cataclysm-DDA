@@ -26,7 +26,7 @@
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ] ] ],
     "components": [ [ [ "308_casing", 1 ], [ "3006_casing", 1 ] ] ]
-  }
+  },
   {
     "type": "recipe",
     "result": "380_casing",
