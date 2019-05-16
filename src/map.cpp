@@ -1526,7 +1526,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
         set_outside_cache_dirty( p.z );
     }
 
-    if( new_t.has_flag( TFLAG_NO_FLOOR ) && !old_t.has_flag( TFLAG_NO_FLOOR ) ) {
+    if( new_t.has_flag( TFLAG_NO_FLOOR ) != old_t.has_flag( TFLAG_NO_FLOOR ) ) {
         set_floor_cache_dirty( p.z );
         // It's a set, not a flag
         support_cache_dirty.insert( p );
