@@ -61,6 +61,7 @@ std::vector<iteminfo_parts> {
     iteminfo_parts::DESCRIPTION_CBM_SLOTS,
     iteminfo_parts::DESCRIPTION_TWOHANDED,
     iteminfo_parts::DESCRIPTION_GUNMOD_DISABLESSIGHTS,
+    iteminfo_parts::DESCRIPTION_GUNMOD_CONSUMABLE,
     iteminfo_parts::DESCRIPTION_RADIOACTIVITY_DAMAGED,
     iteminfo_parts::DESCRIPTION_RADIOACTIVITY_ALWAYS,
     iteminfo_parts::DESCRIPTION_BREWABLE_DURATION,

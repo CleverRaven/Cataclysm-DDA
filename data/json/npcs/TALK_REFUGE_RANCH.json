@@ -5,7 +5,7 @@
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
       "yes": "Can I help you, marshal?",
-      "no": { "u_male": "Morning sir, how can I help you?", "u_female": "Morning ma'am, how can I help you?" }
+      "no": { "u_male": true, "yes": "Morning sir, how can I help you?", "no": "Morning ma'am, how can I help you?" }
     },
     "responses": [
       {
@@ -253,6 +253,32 @@
     "type": "talk_topic",
     "id": "TALK_RANCH_NURSE_HIRE",
     "dynamic_line": "I'm willing to pay a premium for medical supplies that you might be able to scavenge up.  I also have a few miscellaneous jobs from time to time.",
+    "repeat_responses": {
+      "for_item": [
+        "1st_aid",
+        "antibiotics",
+        "aspirin",
+        "bandages",
+        "bfipowder",
+        "chem_hydrogen_peroxide",
+        "codeine",
+        "dayquil",
+        "disinfectant",
+        "flu_shot",
+        "morphine",
+        "nyquil",
+        "oxycodone",
+        "poppy_pain",
+        "poppysyrup",
+        "quikclot",
+        "thyme_oil",
+        "tramadol",
+        "vaccine_shot",
+        "weak_antibiotic",
+        "cattail_jelly"
+      ],
+      "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
+    },
     "responses": [
       { "text": "What kind of jobs do you have for me?", "topic": "TALK_MISSION_LIST" },
       { "text": "Not now.", "topic": "TALK_RANCH_NURSE" }
@@ -269,13 +295,13 @@
     "responses": [
       {
         "text": "[$200, 30m] I need you to patch me up.",
-        "topic": "TALK_DONE",
+        "topic": "TALK_RANCH_NURSE_AID_DONE",
         "effect": [ "give_aid", { "u_spend_cash": 20000 } ],
         "condition": { "npc_service": 20000 }
       },
       {
         "text": "[$500, 1h] I need you to patch me up.",
-        "topic": "TALK_DONE",
+        "topic": "TALK_RANCH_NURSE_AID_DONE",
         "effect": [ "give_all_aid", { "u_spend_cash": 50000 } ],
         "condition": { "npc_service": 50000 }
       },

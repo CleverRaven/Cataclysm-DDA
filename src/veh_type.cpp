@@ -1,16 +1,19 @@
 #include "veh_type.h"
 
+#include <cassert>
+#include <cstddef>
 #include <numeric>
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
+#include <algorithm>
 
 #include "ammo.h"
 #include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "flag.h"
-#include "generic_factory.h"
+#include "game.h"
 #include "init.h"
 #include "item_group.h"
 #include "itype.h"
@@ -21,6 +24,14 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
+#include "assign.h"
+#include "cata_utility.h"
+#include "game_constants.h"
+#include "item.h"
+#include "player.h"
+#include "mapdata.h"
+
+class npc;
 
 const skill_id skill_mechanics( "mechanics" );
 
@@ -77,32 +88,40 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "CARGO", VPFLAG_CARGO },
     { "INTERNAL", VPFLAG_INTERNAL },
     { "SOLAR_PANEL", VPFLAG_SOLAR_PANEL },
+    { "WIND_TURBINE", VPFLAG_WIND_TURBINE },
+    { "SPACE_HEATER", VPFLAG_SPACE_HEATER, },
+    { "WATER_WHEEL", VPFLAG_WATER_WHEEL },
     { "RECHARGE", VPFLAG_RECHARGE },
     { "VISION", VPFLAG_EXTENDS_VISION },
     { "ENABLED_DRAINS_EPOWER", VPFLAG_ENABLED_DRAINS_EPOWER },
     { "WASHING_MACHINE", VPFLAG_WASHING_MACHINE },
     { "FLUIDTANK", VPFLAG_FLUIDTANK },
     { "REACTOR", VPFLAG_REACTOR },
+    { "RAIL", VPFLAG_RAIL },
 };
 
-static const std::vector<std::pair<std::string, int>> standard_terrain_mod = {{
-        { "FLAT", 4 }, { "ROAD", 2 }
+static const std::vector<std::pair<std::string, veh_ter_mod>> standard_terrain_mod = {{
+        { "FLAT", { 0, 4 } }, { "ROAD", { 0, 2 } }
     }
 };
-static const std::vector<std::pair<std::string, int>> rigid_terrain_mod = {{
-        { "FLAT", 6 }, { "ROAD", 3 }
+static const std::vector<std::pair<std::string, veh_ter_mod>> rigid_terrain_mod = {{
+        { "FLAT", { 0, 6 } }, { "ROAD", { 0, 3 } }
     }
 };
-static const std::vector<std::pair<std::string, int>> racing_terrain_mod = {{
-        { "FLAT", 5 }, { "ROAD", 2 }
+static const std::vector<std::pair<std::string, veh_ter_mod>> racing_terrain_mod = {{
+        { "FLAT", { 0, 5 } }, { "ROAD", { 0, 2 } }
     }
 };
-static const std::vector<std::pair<std::string, int>> off_road_terrain_mod = {{
-        { "FLAT", 3 }, { "ROAD", 1 }
+static const std::vector<std::pair<std::string, veh_ter_mod>> off_road_terrain_mod = {{
+        { "FLAT", { 0, 3 } }, { "ROAD", { 0, 1 } }
     }
 };
-static const std::vector<std::pair<std::string, int>> treads_terrain_mod = {{
-        { "FLAT", 3 }
+static const std::vector<std::pair<std::string, veh_ter_mod>> treads_terrain_mod = {{
+        { "FLAT", { 0, 3 } }
+    }
+};
+static const std::vector<std::pair<std::string, veh_ter_mod>> rail_terrain_mod = {{
+        { "RAIL", { 2, 8 } }
     }
 };
 
@@ -214,8 +233,10 @@ void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo
     }
     assign( jo, "rolling_resistance", wh_info.rolling_resistance );
     assign( jo, "contact_area", wh_info.contact_area );
-    wh_info.terrain_mod = standard_terrain_mod;
-    wh_info.or_rating = 0.5f;
+    if( !jo.has_member( "copy-from" ) ) { // if flag presented, it is already set
+        wh_info.terrain_mod = standard_terrain_mod;
+        wh_info.or_rating = 0.5f;
+    }
     if( jo.has_string( "wheel_type" ) ) {
         const std::string wheel_type = jo.get_string( "wheel_type" );
         if( wheel_type == "rigid" ) {
@@ -230,11 +251,31 @@ void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo
         } else if( wheel_type == "treads" ) {
             wh_info.terrain_mod = treads_terrain_mod;
             wh_info.or_rating = 0.9;
+        } else if( wheel_type == "rail" ) {
+            wh_info.terrain_mod = rail_terrain_mod;
+            wh_info.or_rating = 0.05;
         }
     }
 
     whptr = wh_info;
     assert( whptr );
+}
+
+void vpart_info::load_workbench( cata::optional<vpslot_workbench> &wbptr, JsonObject &jo )
+{
+    vpslot_workbench wb_info;
+    if( wbptr ) {
+        wb_info = *wbptr;
+    }
+
+    JsonObject wb_jo = jo.get_object( "workbench" );
+
+    assign( wb_jo, "multiplier", wb_info.multiplier );
+    assign( wb_jo, "mass", wb_info.allowed_mass );
+    assign( wb_jo, "volume", wb_info.allowed_volume );
+
+    wbptr = wb_info;
+    assert( wbptr );
 }
 
 /**
@@ -343,6 +384,10 @@ void vpart_info::load( JsonObject &jo, const std::string &src )
         load_wheel( def.wheel_info, jo );
     }
 
+    if( def.has_flag( "WORKBENCH" ) ) {
+        load_workbench( def.workbench_info, jo );
+    }
+
     if( jo.has_string( "abstract" ) ) {
         abstract_parts[def.id] = def;
     } else {
@@ -367,7 +412,7 @@ void vpart_info::finalize()
         // if part name specified ensure it is translated
         // otherwise the name of the base item will be used
         if( !e.second.name_.empty() ) {
-            e.second.name_ = _( e.second.name_.c_str() );
+            e.second.name_ = _( e.second.name_ );
         }
 
         if( e.second.folded_volume > 0_ml ) {
@@ -433,7 +478,7 @@ void vpart_info::check()
         auto &part = vp.second;
 
         // handle legacy parts without requirement data
-        // @todo: deprecate once requirements are entirely loaded from JSON
+        // TODO: deprecate once requirements are entirely loaded from JSON
         if( part.legacy ) {
 
             part.install_skills.emplace( skill_mechanics, part.difficulty );
@@ -474,7 +519,7 @@ void vpart_info::check()
         }
 
         // add the base item to the installation requirements
-        // @todo: support multiple/alternative base items
+        // TODO: support multiple/alternative base items
         requirement_data ins;
         ins.components.push_back( { { { part.item, 1 } } } );
 
@@ -553,7 +598,7 @@ void vpart_info::check()
             debugmsg( "vehicle part %s has negative folded volume", part.id.c_str() );
         }
         if( part.has_flag( "FOLDABLE" ) && part.folded_volume == 0_ml ) {
-            debugmsg( "vehicle part %s has folding part with zero folded volume", part.name().c_str() );
+            debugmsg( "vehicle part %s has folding part with zero folded volume", part.name() );
         }
         if( !item::type_is_defined( part.default_ammo ) ) {
             debugmsg( "vehicle part %s has undefined default ammo %s", part.id.c_str(), part.item.c_str() );
@@ -592,7 +637,7 @@ void vpart_info::check()
         static const std::vector<std::string> handled = {{
                 "ENABLED_DRAINS_EPOWER", "SECURITY", "ENGINE",
                 "ALTERNATOR", "SOLAR_PANEL", "POWER_TRANSFER",
-                "REACTOR", "WIND_TURBINE"
+                "REACTOR", "WIND_TURBINE", "WATER_WHEEL"
             }
         };
         if( part.epower != 0 &&
@@ -635,7 +680,7 @@ int vpart_info::format_description( std::ostringstream &msg, const std::string &
     class::item base( item );
     std::ostringstream long_descrip;
     if( ! description.empty() ) {
-        long_descrip << _( description.c_str() );
+        long_descrip << _( description );
     }
     for( const auto &flagid : flags ) {
         if( flagid == "ALARMCLOCK" || flagid == "WATCH" ) {
@@ -646,16 +691,16 @@ int vpart_info::format_description( std::ostringstream &msg, const std::string &
             if( ! long_descrip.str().empty() ) {
                 long_descrip << "  ";
             }
-            long_descrip << _( flag.info().c_str() );
+            long_descrip << _( flag.info() );
         }
     }
     if( ( has_flag( "SEAT" ) || has_flag( "BED" ) ) && ! has_flag( "BELTABLE" ) ) {
         json_flag nobelt = json_flag::get( "NONBELTABLE" );
-        long_descrip << "  " << _( nobelt.info().c_str() );
+        long_descrip << "  " << _( nobelt.info() );
     }
     if( has_flag( "BOARDABLE" ) && has_flag( "OPENABLE" ) ) {
         json_flag nobelt = json_flag::get( "DOOR" );
-        long_descrip << "  " << _( nobelt.info().c_str() );
+        long_descrip << "  " << _( nobelt.info() );
     }
     if( has_flag( "TURRET" ) ) {
         long_descrip << string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
@@ -678,7 +723,7 @@ int vpart_info::format_description( std::ostringstream &msg, const std::string &
     const quality_id quality_lift( "LIFT" );
     for( const auto &qual : qualities ) {
         msg << "> " << format_color << string_format( _( "Has level %1$d %2$s quality" ),
-                qual.second, qual.first.obj().name.c_str() );
+                qual.second, qual.first.obj().name );
         if( qual.first == quality_jack || qual.first == quality_lift ) {
             msg << string_format( _( " and is rated at %1$d %2$s" ),
                                   static_cast<int>( convert_weight( qual.second * TOOL_LIFT_FACTOR ) ),
@@ -725,13 +770,17 @@ static int scale_time( const std::map<skill_id, int> &sk, int mv, const Characte
         return mv;
     }
 
-    int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&ch]( int lhs,
+    const int lvl = std::accumulate( sk.begin(), sk.end(), 0, [&ch]( int lhs,
     const std::pair<skill_id, int> &rhs ) {
         return lhs + std::max( std::min( ch.get_skill_level( rhs.first ), MAX_SKILL ) - rhs.second,
                                0 );
     } );
     // 10% per excess level (reduced proportionally if >1 skill required) with max 50% reduction
-    return mv * ( 1.0 - std::min( double( lvl ) / sk.size() / 10.0, 0.5 ) );
+    // 10% reduction per assisting NPC
+    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    return mv * ( 1.0 - std::min( static_cast<double>( lvl ) / sk.size() / 10.0,
+                                  0.5 ) ) * ( 1 - ( helpersize / 10 ) );
 }
 
 int vpart_info::install_time( const Character &ch ) const
@@ -808,15 +857,20 @@ int vpart_info::wheel_area() const
     return has_flag( VPFLAG_WHEEL ) ? wheel_info->contact_area : 0;
 }
 
-std::vector<std::pair<std::string, int>> vpart_info::wheel_terrain_mod() const
+std::vector<std::pair<std::string, veh_ter_mod>> vpart_info::wheel_terrain_mod() const
 {
-    std::vector<std::pair<std::string, int>> null_map;
+    const std::vector<std::pair<std::string, veh_ter_mod>> null_map;
     return has_flag( VPFLAG_WHEEL ) ? wheel_info->terrain_mod : null_map;
 }
 
 float vpart_info::wheel_or_rating() const
 {
     return has_flag( VPFLAG_WHEEL ) ? wheel_info->or_rating : 0.0f;
+}
+
+const cata::optional<vpslot_workbench> &vpart_info::get_workbench_info() const
+{
+    return workbench_info;
 }
 
 /** @relates string_id */
@@ -877,7 +931,7 @@ void vehicle_prototype::load( JsonObject &jo )
         vproto.parts.push_back( pt );
     };
 
-    const auto add_part_string = [&]( std::string part, point pos ) {
+    const auto add_part_string = [&]( const std::string & part, point pos ) {
         part_def pt;
         pt.pos = pos;
         pt.part = vpart_id( part );
@@ -915,7 +969,7 @@ void vehicle_prototype::load( JsonObject &jo )
         next_spawn.chance = spawn_info.get_int( "chance" );
         if( next_spawn.chance <= 0 || next_spawn.chance > 100 ) {
             debugmsg( "Invalid spawn chance in %s (%d, %d): %d%%",
-                      vproto.name.c_str(), next_spawn.pos.x, next_spawn.pos.y, next_spawn.chance );
+                      vproto.name, next_spawn.pos.x, next_spawn.pos.y, next_spawn.chance );
         }
 
         // constrain both with_magazine and with_ammo to [0-100]
@@ -968,10 +1022,11 @@ void vehicle_prototype::finalize()
         proto.blueprint.reset( new vehicle() );
         vehicle &blueprint = *proto.blueprint;
         blueprint.type = id;
-        blueprint.name = _( proto.name.c_str() );
+        blueprint.name = _( proto.name );
 
+        blueprint.suspend_refresh();
         for( auto &pt : proto.parts ) {
-            auto base = item::find_type( pt.part->item );
+            const auto base = item::find_type( pt.part->item );
 
             if( !pt.part.is_valid() ) {
                 debugmsg( "unknown vehicle part %s in %s", pt.part.c_str(), id.c_str() );
@@ -980,7 +1035,7 @@ void vehicle_prototype::finalize()
 
             if( blueprint.install_part( pt.pos, pt.part ) < 0 ) {
                 debugmsg( "init_vehicles: '%s' part '%s'(%d) can't be installed to %d,%d",
-                          blueprint.name.c_str(), pt.part.c_str(),
+                          blueprint.name, pt.part.c_str(),
                           blueprint.parts.size(), pt.pos.x, pt.pos.y );
             }
 
@@ -997,7 +1052,7 @@ void vehicle_prototype::finalize()
 
             } else {
                 for( const auto &e : pt.ammo_types ) {
-                    auto ammo = item::find_type( e );
+                    const auto ammo = item::find_type( e );
                     if( !ammo->ammo && ammo->ammo->type.count( base->gun->ammo ) ) {
                         debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
                                   pt.part.c_str(), e.c_str(), id.c_str() );
@@ -1022,11 +1077,12 @@ void vehicle_prototype::finalize()
                 cargo_spots.insert( pt.pos );
             }
         }
+        blueprint.enable_refresh();
 
         for( auto &i : proto.item_spawns ) {
             if( cargo_spots.count( i.pos ) == 0 ) {
                 debugmsg( "Invalid spawn location (no CARGO vpart) in %s (%d, %d): %d%%",
-                          proto.name.c_str(), i.pos.x, i.pos.y, i.chance );
+                          proto.name, i.pos.x, i.pos.y, i.chance );
             }
             for( auto &j : i.item_ids ) {
                 if( !item::type_is_defined( j ) ) {
@@ -1045,6 +1101,7 @@ void vehicle_prototype::finalize()
 std::vector<vproto_id> vehicle_prototype::get_all()
 {
     std::vector<vproto_id> result;
+    result.reserve( vtypes.size() );
     for( auto &vp : vtypes ) {
         result.push_back( vp.first );
     }

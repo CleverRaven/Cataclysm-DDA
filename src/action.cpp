@@ -1,8 +1,11 @@
 #include "action.h"
 
+#include <climits>
 #include <algorithm>
 #include <istream>
 #include <iterator>
+#include <memory>
+#include <utility>
 
 #include "cata_utility.h"
 #include "debug.h"
@@ -22,6 +25,14 @@
 #include "ui.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "item.h"
+#include "ret_val.h"
+#include "type_id.h"
+
+class inventory;
 
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                    std::set<action_id> &unbound_keymap );
@@ -47,21 +58,22 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
         std::string id;
         keymap_txt >> id;
         if( id.empty() ) {
-            getline( keymap_txt, id );  // Empty line, chomp it
+            // Empty line, chomp it
+            getline( keymap_txt, id );
         } else if( id == "unbind" ) {
             keymap_txt >> id;
-            action_id act = look_up_action( id );
+            const action_id act = look_up_action( id );
             if( act != ACTION_NULL ) {
                 unbound_keymap.insert( act );
             }
             break;
         } else if( id[0] != '#' ) {
-            action_id act = look_up_action( id );
-            if( act == ACTION_NULL )
+            const action_id act = look_up_action( id );
+            if( act == ACTION_NULL ) {
                 debugmsg( "\
 Warning! keymap.txt contains an unknown action, \"%s\"\n\
-Fix \"%s\" at your next chance!", id.c_str(), FILENAMES["keymap"].c_str() );
-            else {
+Fix \"%s\" at your next chance!", id, FILENAMES["keymap"] );
+            } else {
                 while( !keymap_txt.eof() ) {
                     char ch;
                     keymap_txt >> std::noskipws >> ch >> std::skipws;
@@ -72,7 +84,7 @@ Fix \"%s\" at your next chance!", id.c_str(), FILENAMES["keymap"].c_str() );
                             debugmsg( "\
 Warning!  '%c' assigned twice in the keymap!\n\
 %s is being ignored.\n\
-Fix \"%s\" at your next chance!", ch, id.c_str(), FILENAMES["keymap"].c_str() );
+Fix \"%s\" at your next chance!", ch, id, FILENAMES["keymap"] );
                         } else {
                             kmap[ ch ] = act;
                         }
@@ -85,16 +97,16 @@ Fix \"%s\" at your next chance!", ch, id.c_str(), FILENAMES["keymap"].c_str() );
     }
 }
 
-std::vector<char> keys_bound_to( action_id act )
+std::vector<char> keys_bound_to( action_id act, const bool restrict_to_printable )
 {
     input_context ctxt = get_default_mode_input_context();
-    return ctxt.keys_bound_to( action_ident( act ) );
+    return ctxt.keys_bound_to( action_ident( act ), restrict_to_printable );
 }
 
 action_id action_from_key( char ch )
 {
     input_context ctxt = get_default_mode_input_context();
-    input_event event( static_cast<long>( ch ), CATA_INPUT_KEYBOARD );
+    const input_event event( static_cast<long>( ch ), CATA_INPUT_KEYBOARD );
     const std::string &action = ctxt.input_to_action( event );
     return look_up_action( action );
 }
@@ -146,8 +158,16 @@ std::string action_ident( action_id act )
             return "shift_w";
         case ACTION_SHIFT_NW:
             return "shift_nw";
-        case ACTION_TOGGLE_MOVE:
-            return "toggle_move";
+        case ACTION_CYCLE_MOVE:
+            return "cycle_move";
+        case ACTION_RESET_MOVE:
+            return "reset_move";
+        case ACTION_TOGGLE_RUN:
+            return "toggle_run";
+        case ACTION_TOGGLE_CROUCH:
+            return "toggle_crouch";
+        case ACTION_OPEN_MOVEMENT:
+            return "open_movement";
         case ACTION_OPEN:
             return "open";
         case ACTION_CLOSE:
@@ -160,6 +180,8 @@ std::string action_ident( action_id act )
             return "advinv";
         case ACTION_PICKUP:
             return "pickup";
+        case ACTION_PICKUP_FEET:
+            return "pickup_feet";
         case ACTION_GRAB:
             return "grab";
         case ACTION_HAUL:
@@ -194,14 +216,18 @@ std::string action_ident( action_id act )
             return "take_off";
         case ACTION_EAT:
             return "eat";
+        case ACTION_OPEN_CONSUME:
+            return "open_consume";
         case ACTION_READ:
             return "read";
         case ACTION_WIELD:
             return "wield";
         case ACTION_PICK_STYLE:
             return "pick_style";
-        case ACTION_RELOAD:
-            return "reload";
+        case ACTION_RELOAD_ITEM:
+            return "reload_item";
+        case ACTION_RELOAD_WEAPON:
+            return "reload_weapon";
         case ACTION_UNLOAD:
             return "unload";
         case ACTION_MEND:
@@ -240,6 +266,8 @@ std::string action_ident( action_id act )
             return "sleep";
         case ACTION_CONTROL_VEHICLE:
             return "control_vehicle";
+        case ACTION_TOGGLE_AUTO_TRAVEL_MODE:
+            return "auto_travel_mode";
         case ACTION_TOGGLE_SAFEMODE:
             return "safemode";
         case ACTION_TOGGLE_AUTOSAFE:
@@ -260,6 +288,8 @@ std::string action_ident( action_id act )
             return "player_data";
         case ACTION_MAP:
             return "map";
+        case ACTION_SKY:
+            return "sky";
         case ACTION_MISSIONS:
             return "missions";
         case ACTION_FACTIONS:
@@ -282,12 +312,14 @@ std::string action_ident( action_id act )
             return "zoom_out";
         case ACTION_ZOOM_IN:
             return "zoom_in";
-        case ACTION_TOGGLE_SIDEBAR_STYLE:
-            return "toggle_sidebar_style";
         case ACTION_TOGGLE_FULLSCREEN:
             return "toggle_fullscreen";
         case ACTION_TOGGLE_PIXEL_MINIMAP:
             return "toggle_pixel_minimap";
+        case ACTION_TOGGLE_PANEL_ADM:
+            return "toggle_panel_adm";
+        case ACTION_PANEL_MGMT:
+            return "panel_mgmt";
         case ACTION_RELOAD_TILESET:
             return "reload_tileset";
         case ACTION_TOGGLE_AUTO_FEATURES:
@@ -355,6 +387,7 @@ bool can_action_change_worldstate( const action_id act )
         // Info Screens
         case ACTION_PL_INFO:
         case ACTION_MAP:
+        case ACTION_SKY:
         case ACTION_MISSIONS:
         case ACTION_KILLS:
         case ACTION_FACTIONS:
@@ -369,13 +402,14 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_COLOR:
         case ACTION_WORLD_MODS:
         // Debug Functions
-        case ACTION_TOGGLE_SIDEBAR_STYLE:
         case ACTION_TOGGLE_FULLSCREEN:
         case ACTION_DEBUG:
         case ACTION_DISPLAY_SCENT:
         case ACTION_ZOOM_OUT:
         case ACTION_ZOOM_IN:
         case ACTION_TOGGLE_PIXEL_MINIMAP:
+        case ACTION_TOGGLE_PANEL_ADM:
+        case ACTION_PANEL_MGMT:
         case ACTION_RELOAD_TILESET:
         case ACTION_TIMEOUT:
         case ACTION_TOGGLE_AUTO_FEATURES:
@@ -467,12 +501,38 @@ action_id get_movement_direction_from_delta( const int dx, const int dy, const i
     }
 }
 
-// Get the key for an action, used in the action menu to give each action the
-// hotkey it is bound to.
-long hotkey_for_action( action_id action )
+point get_delta_from_movement_direction( action_id act )
 {
-    std::vector<char> keys = keys_bound_to( action );
-    return keys.empty() ? -1 : keys[0];
+    switch( act ) {
+        case ACTION_MOVE_N:
+            return point_north;
+        case ACTION_MOVE_NE:
+            return point_north_east;
+        case ACTION_MOVE_E:
+            return point_east;
+        case ACTION_MOVE_SE:
+            return point_south_east;
+        case ACTION_MOVE_S:
+            return point_south;
+        case ACTION_MOVE_SW:
+            return point_south_west;
+        case ACTION_MOVE_W:
+            return point_west;
+        case ACTION_MOVE_NW:
+            return point_north_west;
+        default:
+            return point_zero;
+    }
+}
+
+long hotkey_for_action( action_id action, const bool restrict_to_printable )
+{
+    auto is_valid_key = []( char key ) {
+        return key != '?';
+    };
+    std::vector<char> keys = keys_bound_to( action, restrict_to_printable );
+    auto valid = std::find_if( keys.begin(), keys.end(), is_valid_key );
+    return valid == keys.end() ? -1 : *valid;
 }
 
 bool can_butcher_at( const tripoint &p )
@@ -539,6 +599,17 @@ bool can_examine_at( const tripoint &p )
     return tr.can_see( p, g->u );
 }
 
+bool can_pickup_at( const tripoint &p )
+{
+    bool veh_has_items = false;
+    const optional_vpart_position vp = g->m.veh_at( p );
+    if( vp ) {
+        const int cargo_part = vp->vehicle().part_with_feature( vp->part_index(), "CARGO", false );
+        veh_has_items = cargo_part >= 0 && !vp->vehicle().get_items( cargo_part ).empty();
+    }
+    return g->m.has_items( p ) || veh_has_items;
+}
+
 bool can_interact_at( action_id action, const tripoint &p )
 {
     switch( action ) {
@@ -559,6 +630,9 @@ bool can_interact_at( action_id action, const tripoint &p )
             return can_move_vertical_at( p, -1 );
         case ACTION_EXAMINE:
             return can_examine_at( p );
+        case ACTION_PICKUP:
+        case ACTION_PICKUP_FEET:
+            return can_pickup_at( p );
         default:
             return false;
     }
@@ -585,7 +659,7 @@ action_id handle_action_menu()
     if( !g->u.get_hostile_creatures( 60 ).empty() ) {
         // Only prioritize movement options if we're not driving.
         if( !g->u.controlling_vehicle ) {
-            action_weightings[ACTION_TOGGLE_MOVE] = 400;
+            action_weightings[ACTION_CYCLE_MOVE] = 400;
         }
         // Only prioritize fire weapon options if we're wielding a ranged weapon.
         if( g->u.weapon.is_gun() || g->u.weapon.has_flag( "REACH_ATTACK" ) ) {
@@ -594,8 +668,12 @@ action_id handle_action_menu()
     }
 
     // If we're already running, make it simple to toggle running to off.
-    if( g->u.move_mode != "walk" ) {
-        action_weightings[ACTION_TOGGLE_MOVE] = 300;
+    if( g->u.get_movement_mode() == "run" ) {
+        action_weightings[ACTION_TOGGLE_RUN] = 300;
+    }
+    // If we're already crouching, make it simple to toggle crouching to off.
+    if( g->u.get_movement_mode() == "crouch" ) {
+        action_weightings[ACTION_TOGGLE_CROUCH] = 300;
     }
 
     // Check if we're on a vehicle, if so, vehicle controls should be top.
@@ -688,6 +766,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_LIST_ITEMS );
             REGISTER_ACTION( ACTION_ZONES );
             REGISTER_ACTION( ACTION_MAP );
+            REGISTER_ACTION( ACTION_SKY );
         } else if( category == _( "Inventory" ) ) {
             REGISTER_ACTION( ACTION_INVENTORY );
             REGISTER_ACTION( ACTION_ADVANCEDINV );
@@ -704,6 +783,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_WEAR );
             REGISTER_ACTION( ACTION_TAKE_OFF );
             REGISTER_ACTION( ACTION_EAT );
+            REGISTER_ACTION( ACTION_OPEN_CONSUME );
             REGISTER_ACTION( ACTION_READ );
             REGISTER_ACTION( ACTION_WIELD );
             REGISTER_ACTION( ACTION_UNLOAD );
@@ -712,14 +792,14 @@ action_id handle_action_menu()
             if( ( entry = &entries.back() ) ) {
                 entry->txt += "..."; // debug _is_a menu.
             }
-            REGISTER_ACTION( ACTION_TOGGLE_SIDEBAR_STYLE );
-#ifndef TILES
+#if !defined(TILES)
             REGISTER_ACTION( ACTION_TOGGLE_FULLSCREEN );
 #endif
-#ifdef TILES
+#if defined(TILES)
             REGISTER_ACTION( ACTION_TOGGLE_PIXEL_MINIMAP );
             REGISTER_ACTION( ACTION_RELOAD_TILESET );
 #endif // TILES
+            REGISTER_ACTION( ACTION_TOGGLE_PANEL_ADM );
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
         } else if( category == _( "Interact" ) ) {
@@ -731,18 +811,25 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_CLOSE );
             REGISTER_ACTION( ACTION_CHAT );
             REGISTER_ACTION( ACTION_PICKUP );
+            REGISTER_ACTION( ACTION_PICKUP_FEET );
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_HAUL );
             REGISTER_ACTION( ACTION_BUTCHER );
             REGISTER_ACTION( ACTION_LOOT );
         } else if( category == _( "Combat" ) ) {
-            REGISTER_ACTION( ACTION_TOGGLE_MOVE );
+            REGISTER_ACTION( ACTION_CYCLE_MOVE );
+            REGISTER_ACTION( ACTION_RESET_MOVE );
+            REGISTER_ACTION( ACTION_TOGGLE_RUN );
+            REGISTER_ACTION( ACTION_TOGGLE_CROUCH );
+            REGISTER_ACTION( ACTION_OPEN_MOVEMENT );
             REGISTER_ACTION( ACTION_FIRE );
-            REGISTER_ACTION( ACTION_RELOAD );
+            REGISTER_ACTION( ACTION_RELOAD_ITEM );
+            REGISTER_ACTION( ACTION_RELOAD_WEAPON );
             REGISTER_ACTION( ACTION_SELECT_FIRE_MODE );
             REGISTER_ACTION( ACTION_THROW );
             REGISTER_ACTION( ACTION_FIRE_BURST );
             REGISTER_ACTION( ACTION_PICK_STYLE );
+            REGISTER_ACTION( ACTION_TOGGLE_AUTO_TRAVEL_MODE );
             REGISTER_ACTION( ACTION_TOGGLE_SAFEMODE );
             REGISTER_ACTION( ACTION_TOGGLE_AUTOSAFE );
             REGISTER_ACTION( ACTION_IGNORE_ENEMY );
@@ -770,7 +857,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_MUTATIONS );
             REGISTER_ACTION( ACTION_CONTROL_VEHICLE );
             REGISTER_ACTION( ACTION_ITEMACTION );
-#ifdef TILES
+#if defined(TILES)
             if( use_tiles ) {
                 REGISTER_ACTION( ACTION_ZOOM_OUT );
                 REGISTER_ACTION( ACTION_ZOOM_IN );
@@ -787,7 +874,7 @@ action_id handle_action_menu()
 
         std::string title = _( "Actions" );
         if( category != "back" ) {
-            catgname = _( category.c_str() );
+            catgname = _( category );
             capitalize_letter( catgname, 0 );
             title += ": " + catgname;
         }
@@ -800,8 +887,8 @@ action_id handle_action_menu()
         }
         //border=2, selectors=3, after=3 for balance.
         width += 2 + 3 + 3;
-        int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
-        int iy = ( TERMY > static_cast<int>( entries.size() ) + 2 ) ? ( TERMY - static_cast<int>
+        int ix = TERMX > width ? ( TERMX - width ) / 2 - 1 : 0;
+        int iy = TERMY > static_cast<int>( entries.size() ) + 2 ? ( TERMY - static_cast<int>
                  ( entries.size() ) - 2 ) / 2 - 1 : 0;
         int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
                                 std::max( iy, 0 ), title, entries );
@@ -832,7 +919,7 @@ action_id handle_main_menu()
     const input_context ctxt = get_default_mode_input_context();
     std::vector<uilist_entry> entries;
 
-    auto REGISTER_ACTION = [&]( action_id name ) {
+    const auto REGISTER_ACTION = [&]( action_id name ) {
         entries.emplace_back( name, true, hotkey_for_action( name ),
                               ctxt.get_action_name( action_ident( name ) ) );
     };
@@ -847,6 +934,7 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_ACTIONMENU );
     REGISTER_ACTION( ACTION_QUICKSAVE );
     REGISTER_ACTION( ACTION_SAVE );
+    REGISTER_ACTION( ACTION_DEBUG );
 
     int width = 0;
     for( auto &entry : entries ) {
@@ -856,9 +944,9 @@ action_id handle_main_menu()
     }
     //border=2, selectors=3, after=3 for balance.
     width += 2 + 3 + 3;
-    int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
-    int iy = ( TERMY > static_cast<int>( entries.size() ) + 2 ) ? ( TERMY - static_cast<int>
-             ( entries.size() ) - 2 ) / 2 - 1 : 0;
+    const int ix = TERMX > width ? ( TERMX - width ) / 2 - 1 : 0;
+    const int iy = TERMY > static_cast<int>( entries.size() ) + 2 ? ( TERMY - static_cast<int>
+                   ( entries.size() ) - 2 ) / 2 - 1 : 0;
     int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
                             std::max( iy, 0 ), _( "MAIN MENU" ), entries );
 
@@ -895,6 +983,12 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
 
     const std::string action = ctxt.handle_input();
     if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+        // Make player's sprite face left/right if interacting with something to the left or right
+        if( vec->x > 0 ) {
+            g->u.facing = FD_RIGHT;
+        } else if( vec->x < 0 ) {
+            g->u.facing = FD_LEFT;
+        }
         return vec;
     } else if( action == "pause" ) {
         return tripoint_zero;
@@ -928,10 +1022,19 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const action_id action_to_highlight, const bool allow_vertical )
 {
+    const std::function<bool( tripoint )> f = [&action_to_highlight]( tripoint p ) {
+        return can_interact_at( action_to_highlight, p );
+    };
+    return choose_adjacent_highlight( message, f, allow_vertical );
+}
+
+cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
+        const std::function<bool ( tripoint )> &should_highlight, const bool allow_vertical )
+{
     // Highlight nearby terrain according to the highlight function
     bool highlighted = false;
     for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
-        if( can_interact_at( action_to_highlight, pos ) ) {
+        if( should_highlight( pos ) ) {
             highlighted = true;
             g->m.drawsq( g->w_terrain, g->u, pos,
                          true, true, g->u.pos() + g->u.view_offset );
@@ -939,6 +1042,8 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
     }
     if( highlighted ) {
         wrefresh( g->w_terrain );
+        // prevent hiding panels when examining an object
+        g->draw_panels();
     }
 
     return choose_adjacent( message, allow_vertical );

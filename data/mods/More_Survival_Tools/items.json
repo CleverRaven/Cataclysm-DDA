@@ -1,57 +1,5 @@
 [
   {
-    "id": "hobo_stove",
-    "type": "TOOL",
-    "name": "hobo stove",
-    "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  Useful for cooking, uses simple tinder.",
-    "weight": 1366,
-    "volume": 6,
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 2,
-    "material": "steel",
-    "symbol": ",",
-    "color": "light_gray",
-    "ammo": "tinder",
-    "sub": "hotplate",
-    "max_charges": 50,
-    "charges_per_use": 1,
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
-  },
-  {
-    "id": "hobo_stove_on",
-    "type": "TOOL",
-    "name": "hobo stove (lit)",
-    "name_plural": "hobo stoves (lit)",
-    "//": "Dummied out due to reverting hobo stove behavior, to be consistent with existing items. -Chaosvolt",
-    "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  Useful for cooking, uses simple tinder.",
-    "weight": 1366,
-    "volume": 6,
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 2,
-    "material": "steel",
-    "symbol": ",",
-    "color": "light_gray",
-    "ammo": "tinder",
-    "sub": "hotplate",
-    "max_charges": 50,
-    "charges_per_use": 1,
-    "turns_per_charge": 300,
-    "revert_to": "hobo_stove",
-    "qualities": [ [ "COOK", 1 ] ],
-    "use_action": [
-      {
-        "target": "hobo_stove",
-        "msg": "The ember is extinguished.",
-        "active": false,
-        "menu_text": "Extinguish",
-        "type": "transform"
-      }
-    ],
-    "flags": [ "LIGHT_3" ]
-  },
-  {
     "id": "flint_steel",
     "type": "TOOL",
     "name": "flint and steel",
@@ -67,11 +15,7 @@
     "initial_charges": 2000,
     "max_charges": 2000,
     "charges_per_use": 1,
-    "use_action": {
-      "type": "firestarter",
-      "moves": 1000,
-      "moves_slow": 5000
-    },
+    "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 5000 },
     "flags": [ "FIRESTARTER" ]
   },
   {
@@ -113,11 +57,7 @@
     "turns_per_charge": 600,
     "revert_to": "tinderbox",
     "use_action": [
-      {
-        "type": "firestarter",
-        "moves": 200,
-        "moves_slow": 2000
-      },
+      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
       {
         "target": "tinderbox",
         "msg": "The ember is extinguished.",
@@ -165,33 +105,11 @@
     "use_action": "MISC_REPAIR"
   },
   {
-    "id": "throwing_stick",
-    "type": "AMMO",
-    "category": "weapons",
-    "name": "throwing stick",
-    "name_plural": "throwing sticks",
-    "description": "A stick carved into a shape suitable for throwing at a target.  Not a boomerang, so don't expect it to return to your hand.",
-    "weight": 574,
-    "volume": 2,
-    "price": 200,
-    "bashing": 14,
-    "material": "wood",
-    "symbol": ";",
-    "color": "brown",
-    "count": 4,
-    "ammo_type": "thrown",
-    "range": 0,
-    "damage": 0,
-    "dispersion": 0,
-    "effects": [ "BEANBAG" ],
-    "flags": [ "NOGIB" ]
-  },
-  {
     "id": "hand_axe",
     "type": "TOOL",
     "name": "hand axe",
     "name_plural": "hand axes",
-    "description": "This is a broad piece of sharpened stone, with enough left untouched to hold safely.  The swiss army knife of the lower paleolithic.",
+    "description": "This is a broad piece of sharpened stone, with enough left untouched to hold safely.  The Swiss Army knife of the lower paleolithic.",
     "weight": 453,
     "volume": 2,
     "price": 0,
@@ -258,14 +176,8 @@
     "range": 13,
     "damage": 8,
     "pierce": 1,
-    "relative": {
-      "weight": 100,
-      "cutting": 2
-    },
-    "proportional": {
-      "price": 0.5,
-      "bashing": 0.8
-    }
+    "relative": { "weight": 100, "cutting": 2 },
+    "proportional": { "price": 0.5, "bashing": 0.8 }
   },
   {
     "id": "javelin_iron",
@@ -299,10 +211,7 @@
     "damage": 9,
     "pierce": 2,
     "relative": { "weight": 30 },
-    "proportional": {
-      "price": 0.5,
-      "cutting": 0.85
-    }
+    "proportional": { "price": 0.5, "cutting": 0.85 }
   },
   {
     "id": "spear_stone",
@@ -488,10 +397,7 @@
     "material": "steel",
     "symbol": ")",
     "color": "light_gray",
-    "container_data": {
-      "contains": 4,
-      "watertight": true
-    },
+    "container_data": { "contains": 4, "watertight": true },
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": "HEAT_FOOD"
   },
@@ -509,10 +415,7 @@
     "material": "copper",
     "symbol": ")",
     "color": "light_red",
-    "container_data": {
-      "contains": 4,
-      "watertight": true
-    },
+    "container_data": { "contains": 4, "watertight": true },
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
     "use_action": "HEAT_FOOD"
   },
@@ -532,12 +435,7 @@
     "contains": 6,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "TORSO" ],
-      "coverage": 5,
-      "encumbrance": 5,
-      "material_thickness": 2
-    },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "encumbrance": 5, "material_thickness": 2 },
     "flags": [ "WAIST" ]
   },
   {
@@ -589,17 +487,14 @@
         "moves": 100,
         "noise": 34,
         "noise_message": "FWEEEET!",
+        "noise_id": "misc",
+        "noise_variant": "whistle",
         "use_message": "You blow the whistle.",
         "no_charges_message": "Seeing this is an error.",
         "//": "Somewhat lower than the proper whistle."
       },
       "WEATHER_TOOL",
-      {
-        "type": "firestarter",
-        "moves": 1000,
-        "moves_slow": 25000,
-        "need_sunlight": true
-      }
+      { "type": "firestarter", "moves": 1000, "moves_slow": 25000, "need_sunlight": true }
     ],
     "flags": [ "FIRESTARTER", "THERMOMETER" ]
   },

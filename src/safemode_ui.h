@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <array>
 
 #include "creature.h"
 #include "enums.h"
@@ -32,8 +33,9 @@ class safemode
 
                 rules_class() : active( false ), whitelist( false ), attitude( Creature::A_HOSTILE ),
                     proximity( 0 ) {}
-                rules_class( std::string rule_in, bool active_in, bool whitelist_in, Creature::Attitude attitude_in,
-                             int proximity_in ) : rule( rule_in ), active( active_in ), whitelist( whitelist_in ),
+                rules_class( const std::string &rule_in, bool active_in, bool whitelist_in,
+                             Creature::Attitude attitude_in, int proximity_in ) : rule( rule_in ),
+                    active( active_in ), whitelist( whitelist_in ),
                     attitude( attitude_in ), proximity( proximity_in ) {}
         };
 
@@ -71,7 +73,7 @@ class safemode
         bool is_character;
 
         void create_rules();
-        void add_rules( std::vector<rules_class> &rules_in );
+        void add_rules( const std::vector<rules_class> &rules_in );
         void set_rule( const rules_class &rule_in, const std::string &name_in, rule_state rs_in );
 
     public:

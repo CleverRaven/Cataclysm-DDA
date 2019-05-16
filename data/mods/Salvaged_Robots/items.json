@@ -64,7 +64,7 @@
     "type": "BOOK",
     "name": "Hacking Robots for Fun & Profit",
     "name_plural": "Hacking Robots for Fun & Profit",
-    "description": "A book on illegaly obtaining, reprogramming, and modifying robots. It has lots of helpful step-by-step guides and example blueprints.",
+    "description": "A book on illegally obtaining, reprogramming, and modifying robots. It has lots of helpful step-by-step guides and example blueprints.",
     "weight": 2063,
     "volume": 8,
     "price": 1000,
@@ -128,7 +128,7 @@
     "type": "GENERIC",
     "copy-from": "robopart_base",
     "name": "integral paintball gun",
-    "description": "A highpowered paintball module used for safely testing robots or training soldiers.",
+    "description": "A high-powered paintball module used for safely testing robots or training soldiers.",
     "color": "light_gray"
   },
   {
@@ -148,8 +148,6 @@
     "bashing": 8,
     "to_hit": -3,
     "ammo": "battery",
-    "initial_charges": 0,
-    "max_charges": 500,
     "qualities": [
       [ "CONTAIN", 1 ],
       [ "BUTCHER", 10 ],
@@ -193,7 +191,8 @@
         "move_cost": 1000
       },
       { "type": "place_monster", "monster_id": "mon_craftbuddy", "moves": 100 }
-    ]
+    ],
+    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
   },
   {
     "type": "TOOL",
@@ -318,7 +317,7 @@
     "type": "TOOL",
     "copy-from": "bot_hack_base",
     "name": "inactive spore hack",
-    "description": "An inactive spore hack, a fist-sized robot that flies through the air speading alien contaminants.  The robot will dust hostile targets, and intermitently cover the terrain with puffs of fungal spores.  Activate this item to depoly the robot.",
+    "description": "An inactive spore hack, a fist-sized robot that flies through the air spreading alien contaminants.  The robot will dust hostile targets, and intermittently cover the terrain with puffs of fungal spores.  Activate this item to deploy the robot.",
     "color": "light_gray",
     "looks_like": "bot_manhack",
     "use_action": {
@@ -372,7 +371,7 @@
     "type": "TOOL",
     "copy-from": "bot_eyebot_base",
     "name": "inactive floating heater",
-    "description": "A salvaged eyebot repurposed into a floating space heater. It emits a constant jet of warm air to heat an enclosed space.  It is non-aggessive and has no weapons systems.  Activate this item to deploy the robot.",
+    "description": "A salvaged eyebot repurposed into a floating space heater. It emits a constant jet of warm air to heat an enclosed space.  It is non-aggressive and has no weapons systems.  Activate this item to deploy the robot.",
     "color": "pink",
     "use_action": {
       "type": "place_monster",
@@ -388,7 +387,7 @@
     "type": "TOOL",
     "copy-from": "bot_eyebot_base",
     "name": "inactive floating furnace",
-    "description": "A salvaged eyebot repurposed into a floating space heater. It emits a constant jet of dangerously hot air to heat an enclosed space.  It is non-aggessive and has no weapons systems.  Activate this item to deploy the robot.",
+    "description": "A salvaged eyebot repurposed into a floating space heater. It emits a constant jet of dangerously hot air to heat an enclosed space.  It is non-aggressive and has no weapons systems.  Activate this item to deploy the robot.",
     "color": "red",
     "use_action": {
       "type": "place_monster",
@@ -484,7 +483,7 @@
     "type": "TOOL",
     "copy-from": "bot_utilibot_base",
     "name": "inactive bee-bot",
-    "description": "A salvaged utility robot converted into an ambulatory bee hive that periodically removes and delivers segments of fresh honey comb.  It protects the insect colony with a mechanical crossbow mounted to its chasis.  Activate this item, with wooden bolts in your inventory, to load and deploy the robot.",
+    "description": "A salvaged utility robot converted into an ambulatory bee hive that periodically removes and delivers segments of fresh honey comb.  It protects the insect colony with a mechanical crossbow mounted to its chassis.  Activate this item, with wooden bolts in your inventory, to load and deploy the robot.",
     "color": "yellow",
     "use_action": {
       "type": "place_monster",
@@ -708,7 +707,7 @@
     "type": "TOOL",
     "copy-from": "bot_defbot_base",
     "name": "inactive slapdash paladin",
-    "description": "A salvaged defense robot refitted with a homemade flamethrower and two searing hot blades.  Activate this item, with gasoline in your inventory, to load and deploy the robot... preferably far from anything flamable",
+    "description": "A salvaged defense robot refitted with a homemade flamethrower and two searing hot blades.  Activate this item, with gasoline in your inventory, to load and deploy the robot... preferably far from anything flammable",
     "color": "red",
     "use_action": {
       "type": "place_monster",
@@ -755,7 +754,7 @@
     "id": "bot_milbot_gaurdian",
     "type": "TOOL",
     "copy-from": "bot_milbot_base",
-    "name": "inactive robo-gaurdian",
+    "name": "inactive robo-guardian",
     "description": "A salvaged military robot refitted with a pair of integrated 9mm firearms.  Activate this item, with ammo in your inventory, to load and deploy the robot.",
     "color": "green",
     "use_action": {
@@ -773,7 +772,7 @@
     "copy-from": "bot_milbot_base",
     "name": "inactive robote deluxe",
     "//": "the extra E makes it European.",
-    "description": "A diamond-studded gold-plated robot armed with a pair of integrated 9mm firearms.  An opulent luxury-bot suitable for those who wish to survive the apoyalypse in style.  Activate this item, with ammo in your inventory, to load and deploy the robot.",
+    "description": "A diamond-studded gold-plated robot armed with a pair of integrated 9mm firearms.  An opulent luxury-bot suitable for those who wish to survive the apocalypse in style.  Activate this item, with ammo in your inventory, to load and deploy the robot.",
     "color": "yellow",
     "use_action": {
       "type": "place_monster",

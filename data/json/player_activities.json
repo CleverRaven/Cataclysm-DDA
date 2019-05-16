@@ -37,13 +37,6 @@
     "refuel_fires": true
   },
   {
-    "id": "ACT_LONGCRAFT",
-    "type": "activity_type",
-    "stop_phrase": "Stop crafting?",
-    "based_on": "neither",
-    "refuel_fires": true
-  },
-  {
     "id": "ACT_DISASSEMBLE",
     "type": "activity_type",
     "stop_phrase": "Stop disassembly?",
@@ -79,6 +72,12 @@
     "id": "ACT_QUARTER",
     "type": "activity_type",
     "stop_phrase": "Stop quartering?",
+    "based_on": "speed"
+  },
+  {
+    "id": "ACT_DISMEMBER",
+    "type": "activity_type",
+    "stop_phrase": "Stop dismembering?",
     "based_on": "speed"
   },
   {
@@ -165,6 +164,13 @@
     "stop_phrase": "Stop smashing?",
     "based_on": "neither",
     "no_resume": true
+  },
+  {
+    "id": "ACT_HAND_CRANK",
+    "type": "activity_type",
+    "stop_phrase": "Stop cranking?",
+    "rooted": true,
+    "based_on": "time"
   },
   {
     "id": "ACT_VIBE",
@@ -336,13 +342,15 @@
     "id": "ACT_REPAIR_ITEM",
     "type": "activity_type",
     "stop_phrase": "Stop repairing?",
-    "based_on": "neither"
+    "based_on": "neither",
+    "refuel_fires": true
   },
   {
     "id": "ACT_MEND_ITEM",
     "type": "activity_type",
     "stop_phrase": "Stop mending?",
-    "based_on": "speed"
+    "based_on": "speed",
+    "refuel_fires": true
   },
   {
     "id": "ACT_GUNMOD_ADD",
@@ -416,6 +424,12 @@
     "based_on": "speed"
   },
   {
+    "id": "ACT_DIG_CHANNEL",
+    "type": "activity_type",
+    "stop_phrase": "Stop digging?",
+    "based_on": "speed"
+  },
+  {
     "id": "ACT_FILL_PIT",
     "type": "activity_type",
     "stop_phrase": "Stop filling?",
@@ -459,7 +473,7 @@
     "type": "activity_type",
     "stop_phrase": "Stop programming override?",
     "suspendable": false,
-    "based_on": "speed",
+    "based_on": "time",
     "no_resume": true
   },
   {
@@ -468,6 +482,63 @@
     "stop_phrase": "Stop putting on items?",
     "suspendable": false,
     "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_TREE_COMMUNION",
+    "type": "activity_type",
+    "stop_phrase": "Stop communing with the trees?",
+    "rooted": true,
+    "suspendable": false,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_EAT_MENU",
+    "type": "activity_type",
+    "stop_phrase": "Stop consuming?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_CONSUME_FOOD_MENU",
+    "type": "activity_type",
+    "stop_phrase": "Stop eating?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_CONSUME_DRINK_MENU",
+    "type": "activity_type",
+    "stop_phrase": "Stop drinking?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_CONSUME_MEDS_MENU",
+    "type": "activity_type",
+    "stop_phrase": "Stop using drugs?",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_HACK_DOOR",
+    "type": "activity_type",
+    "stop_phrase": "Stop hacking console?",
+    "suspendable": false,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_HACK_SAFE",
+    "type": "activity_type",
+    "stop_phrase": "Stop hacking console?",
+    "suspendable": false,
+    "based_on": "time",
     "no_resume": true
   }
 ]

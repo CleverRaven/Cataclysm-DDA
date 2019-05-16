@@ -3,6 +3,7 @@
 
 import json
 import os
+import itertools
 import subprocess
 from optparse import OptionParser
 from sys import platform
@@ -26,8 +27,6 @@ class WrongJSONItem(Exception):
 # there may be some non-json files in data/raw
 not_json = {os.path.normpath(i) for i in {
     "sokoban.txt",
-    "main.lua",
-    "preload.lua",
     "LOADING_ORDER.md"
 }}
 
@@ -42,7 +41,6 @@ warning_suppressed_list = {os.path.normpath(i) for i in {
     "data/json/vehicleparts/",
     "data/raw/keybindings.json",
     "data/mods/alt_map_key/overmap_terrain.json",
-    "data/mods/Arcana/monsters.json",
     "data/mods/DeoxyMod/Deoxy_vehicle_parts.json",
     "data/mods/More_Survival_Tools/start_locations.json",
     "data/mods/NPC_Traits/npc_classes.json",
@@ -77,6 +75,7 @@ ignorable = {
     "MIGRATION",
     "mod_tileset",
     "monitems",
+    "monster_adjustment",
     "MONSTER_BLACKLIST",
     "MONSTER_FACTION",
     "monstergroup",
@@ -92,6 +91,7 @@ ignorable = {
     "region_settings",
     "requirement",
     "rotatable_symbol",
+    "skill_boost",
     "SPECIES",
     "trait_group",
     "uncraft",
@@ -137,10 +137,13 @@ automatically_convertible = {
     "morale_type",
     "npc",
     "npc_class",
+    "overmap_land_use_code",
     "overmap_terrain",
+    "PET_ARMOR",
     "skill",
     "snippet",
     "speech",
+    "SPELL",
     "start_location",
     "STATIONARY_ITEM",
     "terrain",
@@ -179,6 +182,12 @@ needs_plural = {
 use_format_strings = {
     "technique",
 }
+
+# For handling grammatical gender
+all_genders = ["f", "m", "n"]
+
+def gender_options(subject):
+    return [subject + ":" + g for g in all_genders]
 
 ##
 ##  SPECIALIZED EXTRACTION FUNCTIONS
@@ -491,6 +500,14 @@ def extract_recipe_group(item):
         for i in item.get("recipes"):
             writestr(outfile, i.get("description"))
 
+def extract_gendered_dynamic_line_optional(line, outfile):
+    if "gendered_line" in line:
+        msg = line["gendered_line"]
+        subjects = line["relevant_genders"]
+        options = [gender_options(subject) for subject in subjects]
+        for context_list in itertools.product(*options):
+            context = " ".join(context_list)
+            writestr(outfile, msg, context=context)
 
 def extract_dynamic_line_optional(line, member, outfile):
     if member in line:
@@ -501,13 +518,14 @@ def extract_dynamic_line(line, outfile):
         for l in line:
             extract_dynamic_line(l, outfile)
     elif type(line) == dict:
+        extract_gendered_dynamic_line_optional(line, outfile)
         extract_dynamic_line_optional(line, "u_male", outfile)
         extract_dynamic_line_optional(line, "u_female", outfile)
         extract_dynamic_line_optional(line, "npc_male", outfile)
         extract_dynamic_line_optional(line, "npc_female", outfile)
         extract_dynamic_line_optional(line, "yes", outfile)
         extract_dynamic_line_optional(line, "no", outfile)
-    else:
+    elif type(line) == str:
         writestr(outfile, line)
 
 def extract_talk_response(response, outfile):
@@ -859,6 +877,9 @@ def extract(item, infilename):
         else:
             c = None
         writestr(outfile, item["description"], comment=c, **kwargs)
+        wrote = True
+    if "detailed_definition" in item:
+        writestr(outfile, item["detailed_definition"], **kwargs)
         wrote = True
     if "sound" in item:
         writestr(outfile, item["sound"], **kwargs)

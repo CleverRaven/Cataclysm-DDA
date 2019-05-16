@@ -194,7 +194,7 @@
       { "item": "solar_cell", "count": [ 20, 60 ] }
     ],
     "flags": [ "SOLAR_PANEL", "OBSTACLE" ]
-  },  
+  },
   {
     "id": "tread1",
     "type": "vehicle_part",

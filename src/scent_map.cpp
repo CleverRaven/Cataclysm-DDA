@@ -1,13 +1,15 @@
 #include "scent_map.h"
 
+#include <cstdlib>
 #include <cassert>
-#include <cmath>
+#include <algorithm>
 
 #include "calendar.h"
 #include "color.h"
 #include "game.h"
 #include "map.h"
 #include "output.h"
+#include "cursesdef.h"
 
 static constexpr int SCENT_RADIUS = 40;
 
@@ -110,7 +112,7 @@ bool scent_map::inbounds( const tripoint &p ) const
                                                     gm.m.valid_move( p, tripoint( p.x, p.y, gm.get_levz() ), false, true ) );
     if( !scent_map_z_level_inbounds ) {
         return false;
-    };
+    }
     const point scent_map_boundary_min( point_zero );
     const point scent_map_boundary_max( MAPSIZE_X, MAPSIZE_Y );
     const point scent_map_clearance_min( point_zero );
@@ -191,9 +193,9 @@ void scent_map::update( const tripoint &center, map &m )
             if( !blocks_scent[x][y] ) {
                 // to how many neighboring squares do we diffuse out? (include our own square
                 // since we also include our own square when diffusing in)
-                int squares_used = squares_used_y[y][x - 1]
-                                   + squares_used_y[y][x]
-                                   + squares_used_y[y][x + 1];
+                const int squares_used = squares_used_y[y][x - 1]
+                                         + squares_used_y[y][x]
+                                         + squares_used_y[y][x + 1];
 
                 int this_diffusivity;
                 if( !reduces_scent[x][y] ) {

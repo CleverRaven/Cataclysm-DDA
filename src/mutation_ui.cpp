@@ -4,13 +4,12 @@
 #include <sstream>
 
 #include "mutation.h"
-#include "catacharset.h"
-#include "debug.h"
 #include "game.h"
 #include "input.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "string_id.h"
 
 // '!' and '=' are uses as default bindings in the menu
 const invlet_wrapper
@@ -18,7 +17,7 @@ mutation_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:
 
 void draw_exam_window( const catacurses::window &win, const int border_y )
 {
-    int width = getmaxx( win );
+    const int width = getmaxx( win );
     mvwputch( win, border_y, 0, BORDER_COLOR, LINE_XXXO );
     mvwhline( win, border_y, 1, LINE_OXOX, width - 2 );
     mvwputch( win, border_y, width - 1, BORDER_COLOR, LINE_XOXX );
@@ -26,12 +25,11 @@ void draw_exam_window( const catacurses::window &win, const int border_y )
 
 const auto shortcut_desc = []( const std::string &comment, const std::string &keys )
 {
-    return string_format( comment.c_str(),
-                          string_format( "<color_yellow>%s</color>", keys.c_str() ).c_str() );
+    return string_format( comment, string_format( "<color_yellow>%s</color>", keys ) );
 };
 
-void show_mutations_titlebar( const catacurses::window &window, std::string &menu_mode,
-                              input_context &ctxt )
+void show_mutations_titlebar( const catacurses::window &window, const std::string &menu_mode,
+                              const input_context &ctxt )
 {
     werase( window );
     std::ostringstream desc;
@@ -128,7 +126,7 @@ void player::power_mutations()
     ctxt.register_action( "TOGGLE_EXAMINE" );
     ctxt.register_action( "REASSIGN" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     for( const auto &p : passive ) {
         ctxt.register_manual_key( my_mutations[p].key, p.obj().name() );
     }
@@ -213,7 +211,7 @@ void player::power_mutations()
                         mut_desc << _( " - Active" );
                     }
                     mvwprintz( wBio, list_start_y + i, second_column + 2, type,
-                               mut_desc.str().c_str() );
+                               mut_desc.str() );
                 }
             }
 
@@ -246,7 +244,7 @@ void player::power_mutations()
             }
             if( !mutation_chars.valid( newch ) ) {
                 popup( _( "Invalid mutation letter. Only those characters are valid:\n\n%s" ),
-                       mutation_chars.get_allowed_chars().c_str() );
+                       mutation_chars.get_allowed_chars() );
                 continue;
             }
             const auto other_mut_id = trait_by_invlet( newch );
@@ -290,7 +288,7 @@ void player::power_mutations()
                         deactivate_mutation( mut_id );
                         // Action done, leave screen
                         break;
-                    } else if( ( !mut_data.hunger || get_hunger() <= 400 ) &&
+                    } else if( ( !mut_data.hunger || get_kcal_percent() >= 0.8f ) &&
                                ( !mut_data.thirst || get_thirst() <= 400 ) &&
                                ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
 

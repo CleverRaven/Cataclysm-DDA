@@ -348,6 +348,7 @@
   {
     "id": "boots_steel",
     "type": "ARMOR",
+    "category": "armor",
     "name": "pair of steeltoed boots",
     "name_plural": "pairs of steeltoed boots",
     "description": "Leather boots with a steel toe.  Extremely durable.",
@@ -398,20 +399,8 @@
     "name_plural": "pairs of western boots",
     "description": "Stiff leather boots with intricate embroidery and one-inch heels.  They look good, but aren't made for running.  Each boot is large enough to conceal a small holdout pistol.",
     "coverage": 95,
-    "proportional": {
-      "weight": 1.2,
-      "volume": 1.2,
-      "price": 2,
-      "encumbrance": 2
-    },
-    "use_action": {
-      "type": "holster",
-      "max_volume": 1,
-      "max_weight": 600,
-      "draw_cost": 80,
-      "multi": 2,
-      "skills": [ "pistol" ]
-    },
+    "proportional": { "weight": 1.2, "volume": 1.2, "price": 2, "encumbrance": 2 },
+    "use_action": { "type": "holster", "max_volume": 1, "max_weight": 600, "draw_cost": 80, "multi": 2, "skills": [ "pistol" ] },
     "extend": { "flags": [ "FANCY" ] }
   },
   {
@@ -701,6 +690,28 @@
     "warmth": 15,
     "material_thickness": 1,
     "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
+    "id": "geta",
+    "type": "ARMOR",
+    "name": "pair of geta",
+    "name_plural": "pairs of geta",
+    "description": "Simple wooden geta.",
+    "weight": 460,
+    "volume": 4,
+    "price": 6500,
+    "to_hit": -2,
+    "bashing": 5,
+    "material": [ "wood", "cotton" ],
+    "symbol": "[",
+    "color": "yellow",
+    "covers": [ "FEET" ],
+    "coverage": 50,
+    "encumbrance": 10,
+    "warmth": 5,
+    "material_thickness": 2,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
     "id": "heels",

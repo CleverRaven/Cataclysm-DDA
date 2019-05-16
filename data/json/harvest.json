@@ -252,7 +252,7 @@
     "type": "harvest",
     "entries": [
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.4 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.05 }
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.01 }
     ]
   },
   {
@@ -262,7 +262,7 @@
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.05 }
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.01 }
     ]
   },
   {
@@ -272,7 +272,7 @@
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.3 },
       { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.03 },
       { "drop": "fat", "type": "flesh", "mass_ratio": 0.18 },
-      { "drop": "feather", "type": "skin", "mass_ratio": 0.03 },
+      { "drop": "feather", "type": "skin", "mass_ratio": 0.02 },
       { "drop": "bone", "type": "bone", "mass_ratio": 0.1 }
     ]
   },
@@ -354,7 +354,8 @@
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 }
+      { "drop": "raw_tainted_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "pheromone", "type": "bionic", "max": 1 }
     ]
   },
   {
@@ -365,7 +366,8 @@
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "raw_tainted_fur", "type": "skin", "mass_ratio": 0.02 }
+      { "drop": "raw_tainted_fur", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "pheromone", "type": "bionic", "max": 1 }
     ]
   },
   {
@@ -385,7 +387,32 @@
     "entries": [
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
-      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 }
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "pheromone", "type": "bionic", "max": 1 }
+    ]
+  },
+  {
+    "id": "zombie_thorny",
+    "//": "mix of animal and plant",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.2 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "veggy_tainted", "type": "flesh", "mass_ratio": 0.25 }
+    ]
+  },
+  {
+    "id": "zombie_kevlar",
+    "//": "zombies with kevlar infused into their skin",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
+      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },
+      { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
+      { "drop": "kevlar_plate", "type": "skin", "mass_ratio": 0.015 },
+      { "drop": "pheromone", "type": "bionic", "max": 1 }
     ]
   },
   {
@@ -459,7 +486,6 @@
     "id": "CBM_SCI",
     "type": "harvest",
     "entries": [
-      { "drop": "bio_power_storage", "type": "bionic" },
       { "drop": "bionics_sci", "type": "bionic_group" },
       { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.25 },
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.08 },

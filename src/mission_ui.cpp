@@ -3,16 +3,20 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 #include "mission.h"
 #include "calendar.h"
 // needed for the workaround for the std::to_string bug in some compilers
 #include "compatibility.h" // IWYU pragma: keep
-#include "game.h"
 #include "input.h"
 #include "output.h"
 #include "player.h"
 #include "npc.h"
+#include "color.h"
+#include "debug.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 void game::list_missions()
 {
@@ -41,7 +45,7 @@ void game::list_missions()
         werase( w_missions );
         std::vector<mission *> umissions;
         if( tab < tab_mode::FIRST_TAB || tab >= tab_mode::NUM_TABS ) {
-            debugmsg( "The sanity check failed because tab=%d", ( int )tab );
+            debugmsg( "The sanity check failed because tab=%d", static_cast<int>( tab ) );
             tab = tab_mode::FIRST_TAB;
         }
         switch( tab ) {
@@ -59,7 +63,8 @@ void game::list_missions()
         }
         if( ( !umissions.empty() && selection >= umissions.size() ) ||
             ( umissions.empty() && selection != 0 ) ) {
-            debugmsg( "Sanity check failed: selection=%d, size=%d", ( int )selection, ( int )umissions.size() );
+            debugmsg( "Sanity check failed: selection=%d, size=%d", static_cast<int>( selection ),
+                      static_cast<int>( umissions.size() ) );
             selection = 0;
         }
         // entries_per_page * page number
@@ -126,7 +131,7 @@ void game::list_missions()
 
                 if( tab != tab_mode::TAB_COMPLETED ) {
                     // There's no point in displaying this for a completed mission.
-                    // @TODO: But displaying when you completed it would be useful.
+                    // @ TODO: But displaying when you completed it would be useful.
                     const time_duration remaining = deadline - calendar::turn;
                     std::string remaining_time;
 
@@ -138,7 +143,7 @@ void game::list_missions()
                         remaining_time = to_string_approx( remaining );
                     }
 
-                    mvwprintz( w_missions, ++y, 31, c_white, _( "Time remaining: %s" ), remaining_time.c_str() );
+                    mvwprintz( w_missions, ++y, 31, c_white, _( "Time remaining: %s" ), remaining_time );
                 }
             }
             if( miss->has_target() ) {

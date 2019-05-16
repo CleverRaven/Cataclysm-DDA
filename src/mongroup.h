@@ -5,25 +5,23 @@
 #include <map>
 #include <set>
 #include <vector>
+#include <string>
 
 #include "calendar.h"
 #include "enums.h"
 #include "io_tags.h"
 #include "monster.h"
 #include "string_id.h"
+#include "type_id.h"
 
 // from overmap.h
 class overmap;
 class JsonObject;
 class JsonIn;
 class JsonOut;
-struct MonsterGroup;
-using mongroup_id = string_id<MonsterGroup>;
-
-struct mtype;
-using mtype_id = string_id<mtype>;
 
 struct MonsterGroupEntry;
+
 typedef std::vector<MonsterGroupEntry> FreqDef;
 typedef FreqDef::iterator FreqDef_iter;
 
@@ -37,7 +35,7 @@ struct MonsterGroupEntry {
     time_duration starts;
     time_duration ends;
     bool lasts_forever() const {
-        return ( ends <= 0_turns );
+        return ends <= 0_turns;
     }
 
     MonsterGroupEntry( const mtype_id &id, int new_freq, int new_cost,
@@ -69,6 +67,7 @@ struct MonsterGroup {
     mtype_id defaultMonster;
     FreqDef  monsters;
     bool IsMonsterInGroup( const mtype_id &id ) const;
+    bool is_animal;
     // replaces this group after a period of
     // time when exploring an unexplored portion of the map
     bool replace_monster_group;
@@ -111,7 +110,7 @@ struct mongroup {
         , population( ppop )
         , target() {
     }
-    mongroup( std::string ptype, tripoint ppos, unsigned int prad, unsigned int ppop,
+    mongroup( const std::string &ptype, tripoint ppos, unsigned int prad, unsigned int ppop,
               tripoint ptarget, int pint, bool pdie, bool phorde, bool pdiff ) :
         type( ptype ), pos( ppos ), radius( prad ), population( ppop ), target( ptarget ),
         interest( pint ), dying( pdie ), horde( phorde ), diffuse( pdiff ) { }
@@ -123,7 +122,7 @@ struct mongroup {
         target.x = x;
         target.y = y;
     }
-    void wander( overmap & );
+    void wander( const overmap & );
     void inc_interest( int inc ) {
         interest += inc;
         if( interest > 100 ) {
@@ -181,6 +180,8 @@ class MonsterGroupManager
         static void ClearMonsterGroups();
 
         static bool monster_is_blacklisted( const mtype_id &m );
+
+        static bool is_animal( const mongroup_id &group );
 
     private:
         static std::map<mongroup_id, MonsterGroup> monsterGroupMap;

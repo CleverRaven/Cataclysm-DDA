@@ -62,7 +62,6 @@ mkdir -p $1/share/save
 mkdir -p $1/share/memorial
 cp -r ./data/. $1/share/cataclysm-dda
 cp -r ./gfx $1/share/cataclysm-dda
-cp -r ./lua $1/share/cataclysm-dda
 cp -r ./lang $1/share/cataclysm-dda
 
 # Copying games.json

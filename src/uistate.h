@@ -9,9 +9,7 @@
 
 #include "enums.h"
 #include "omdata.h"
-
-class ammunition_type;
-using ammotype = string_id<ammunition_type>;
+#include "type_id.h"
 
 class item;
 
@@ -56,6 +54,7 @@ class uistatedata
         bool editmap_nsa_viewmode = false;      // true: ignore LOS and lighting
         bool overmap_blinking = true;           // toggles active blinking of overlays.
         bool overmap_show_overlays = false;     // whether overlays are shown or not.
+        bool overmap_land_use_codes = false;    // toggle land use code sym/color for terrain
         bool overmap_show_city_labels = true;
         bool overmap_show_hordes = true;
         bool overmap_show_forest_trails = true;
@@ -140,6 +139,7 @@ class uistatedata
             json.member( "editmap_nsa_viewmode", editmap_nsa_viewmode );
             json.member( "overmap_blinking", overmap_blinking );
             json.member( "overmap_show_overlays", overmap_show_overlays );
+            json.member( "overmap_land_use_codes", overmap_land_use_codes );
             json.member( "overmap_show_city_labels", overmap_show_city_labels );
             json.member( "overmap_show_hordes", overmap_show_hordes );
             json.member( "overmap_show_forest_trails", overmap_show_forest_trails );
@@ -231,6 +231,7 @@ class uistatedata
             jo.read( "adv_inv_container_content_type", adv_inv_container_content_type );
             jo.read( "overmap_blinking", overmap_blinking );
             jo.read( "overmap_show_overlays", overmap_show_overlays );
+            jo.read( "overmap_land_use_codes", overmap_land_use_codes );
             jo.read( "overmap_show_city_labels", overmap_show_city_labels );
             jo.read( "overmap_show_hordes", overmap_show_hordes );
             jo.read( "overmap_show_forest_trails", overmap_show_forest_trails );

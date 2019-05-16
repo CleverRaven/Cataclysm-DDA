@@ -1,14 +1,17 @@
 #include "game.h" // IWYU pragma: associated
 
+#include <cmath>
 #include <algorithm>
 #include <iostream>
 #include <iterator>
+#include <exception>
+#include <set>
+#include <utility>
 
 #include "ammo.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "init.h"
 #include "item_factory.h"
-#include "iuse_actor.h"
 #include "loading_ui.h"
 #include "npc.h"
 #include "player.h"
@@ -17,6 +20,15 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vitamin.h"
+#include "bodypart.h"
+#include "damage.h"
+#include "itype.h"
+#include "recipe.h"
+#include "ret_val.h"
+#include "translations.h"
+#include "units.h"
+#include "material.h"
+#include "string_id.h"
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )
@@ -131,9 +143,9 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
             r.push_back( to_string( obj.type->stack_size ) );
-            r.push_back( to_string( obj.type->comestible->get_calories() ) );
-            r.push_back( to_string( obj.type->comestible->quench ) );
-            r.push_back( to_string( obj.type->comestible->healthy ) );
+            r.push_back( to_string( obj.get_comestible()->get_calories() ) );
+            r.push_back( to_string( obj.get_comestible()->quench ) );
+            r.push_back( to_string( obj.get_comestible()->healthy ) );
             auto vits = g->u.vitamins_from( obj );
             for( const auto &v : vitamin::all() ) {
                 r.push_back( to_string( vits[ v.first ] ) );
@@ -220,7 +232,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             if( r.second.skill_used == skill_id( s ) && r.second.difficulty > 0 ) {
                     return true;
                 }
-                auto iter = r.second.required_skills.find( skill_id( s ) );
+                const auto iter = r.second.required_skills.find( skill_id( s ) );
                 return iter != r.second.required_skills.end() && iter->second > 0;
             } ) ) {
                 dict.include( &r.second );
@@ -293,7 +305,8 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             std::vector<std::string> r;
             r.push_back( obj.name() );
             r.push_back( obj.location );
-            r.push_back( to_string( int( ceil( to_gram( item( obj.item ).weight() ) / 1000.0 ) ) ) );
+            r.push_back( to_string( static_cast<int>( ceil( to_gram( item( obj.item ).weight() ) /
+                                    1000.0 ) ) ) );
             r.push_back( to_string( obj.size / units::legacy_volume_factor ) );
             rows.push_back( r );
         };

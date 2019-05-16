@@ -4,8 +4,8 @@
     "ident": "brightnights",
     "name": "Bright Nights",
     "authors": [ "Coolthulhu" ],
-    "description": "More action-centered, sci-fi, experimental, Cataclysm.",
+    "description": "More action-centered, sci-fi, experimental, Cataclysm.  NOTE: Incompatible with Aftershock.",
     "category": "content",
-    "dependencies": [ "dda", "craftgp", "safeautodoc" ]
+    "dependencies": [ "dda", "craftgp" ]
   }
 ]

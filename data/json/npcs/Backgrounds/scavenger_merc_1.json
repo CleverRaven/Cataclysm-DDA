@@ -175,9 +175,6 @@
   {
     "type": "effect_type",
     "id": "BGSS_Merc_haswhisky",
-    "//": "Defined here because this should be the only time this effect is referenced.",
-    "name": [ "I got whisky" ],
-    "player_visible": false,
-    "desc": [ "AI tag: This merc is happy with the whisky you brought.  This is a bug if you have it." ]
+    "//": "Defined here because this should be the only time this effect is referenced."
   }
 ]

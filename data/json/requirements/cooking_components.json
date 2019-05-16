@@ -79,6 +79,12 @@
     "components": [ [ [ "hard_liquor_chem", 1, "LIST" ], [ "denat_alcohol", 125 ] ] ]
   },
   {
+    "id": "meat_offal",
+    "type": "requirement",
+    "//": "Anything you might consider offal or intestines.",
+    "components": [ [ [ "lung", 4 ], [ "liver", 4 ], [ "kidney", 4 ], [ "sweetbread", 4 ], [ "offal", 1 ] ] ]
+  },
+  {
     "id": "meat_red",
     "type": "requirement",
     "//": "Anything you might consider raw 'red' meat.  About 300-400kcal of meat.",
@@ -173,7 +179,7 @@
         [ "cranberries", 1 ],
         [ "grapefruit", 1 ],
         [ "grapes", 1 ],
-        [ "kiwi", 1 ],
+        [ "kiwi", 2 ],
         [ "mango", 1 ],
         [ "melon", 1 ],
         [ "orange", 1 ],
@@ -207,7 +213,7 @@
         [ "irradiated_cranberries", 1 ],
         [ "irradiated_grapefruit", 1 ],
         [ "irradiated_grapes", 1 ],
-        [ "irradiated_kiwi", 1 ],
+        [ "irradiated_kiwi", 2 ],
         [ "irradiated_mango", 1 ],
         [ "irradiated_melon", 1 ],
         [ "irradiated_orange", 1 ],
@@ -293,8 +299,8 @@
         [ "onion", 1 ],
         [ "irradiated_onion", 1 ],
         [ "plant_sac", 1 ],
-        [ "potato_raw", 1 ],
-        [ "potato_irradiated", 1 ],
+        [ "potato", 1 ],
+        [ "irradiated_potato", 1 ],
         [ "pumpkin", 1 ],
         [ "irradiated_pumpkin", 1 ],
         [ "raw_dandelion", 1 ],

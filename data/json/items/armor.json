@@ -455,6 +455,28 @@
     "flags": [ "VARSIZE", "POCKETS", "WATERPROOF", "STURDY" ]
   },
   {
+    "id": "armor_lamellar",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "lamellar cuirass",
+    "name_plural": "lamellar cuirasses",
+    "description": "A cuirass made of multiple pieces of tough leather, laced together for durable yet flexible protection.",
+    "weight": 2108,
+    "volume": 37,
+    "price": 26000,
+    "to_hit": -5,
+    "bashing": 2,
+    "material": [ "leather", "cotton" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "TORSO" ],
+    "coverage": 80,
+    "encumbrance": 20,
+    "warmth": 20,
+    "material_thickness": 8,
+    "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
     "id": "armor_larmor",
     "type": "ARMOR",
     "category": "armor",
@@ -494,6 +516,27 @@
     "coverage": 95,
     "encumbrance": 20,
     "warmth": 20,
+    "material_thickness": 4,
+    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+  },
+  {
+    "id": "armor_lorica",
+    "type": "ARMOR",
+    "name": "lorica segmentata",
+    "name_plural": "lorica segmentata",
+    "description": "An ancient Roman laminar armor, made of overlapping metal strips connected to internal leather straps.",
+    "weight": 5286,
+    "volume": 24,
+    "price": 50000,
+    "to_hit": -5,
+    "bashing": 6,
+    "material": [ "iron", "leather" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "TORSO", "ARMS" ],
+    "coverage": 90,
+    "encumbrance": 15,
+    "warmth": 15,
     "material_thickness": 4,
     "flags": [ "VARSIZE", "OUTER", "STURDY" ]
   },
@@ -583,6 +626,28 @@
     "warmth": 20,
     "material_thickness": 5,
     "flags": [ "VARSIZE", "OUTER", "FANCY" ]
+  },
+  {
+    "id": "armor_riot",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "riot armor",
+    "description": "Black armor used by riot police officers.  The padded layers and hard plastic shoulder guards offer good protection without much encumbrance.  The word POLICE is emblazoned across the front.",
+    "looks_like": "kevlar",
+    "weight": 4000,
+    "volume": 30,
+    "price": 35000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "plastic", "cotton" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "TORSO", "ARMS" ],
+    "coverage": 70,
+    "encumbrance": 10,
+    "warmth": 10,
+    "material_thickness": 5,
+    "flags": [ "STURDY", "OUTER" ]
   },
   {
     "id": "armor_samurai",
@@ -744,7 +809,7 @@
     "abstract": "badge_abstract",
     "type": "ARMOR",
     "name": "badge template",
-    "description": "This is a template for police badges.  If found in a game it is a bug.",
+    "description": "This is a template for police/medical badges.  If found in a game it is a bug.",
     "weight": 60,
     "volume": 0,
     "price": 5000,
@@ -793,6 +858,15 @@
     "type": "ARMOR",
     "name": "SWAT badge",
     "description": "A matte-finish silver shield identifies the wearer as an authority who goes in when the bots just aren't enough."
+  },
+  {
+    "id": "badge_doctor",
+    "copy-from": "badge_abstract",
+    "type": "ARMOR",
+    "name": "doctor badge",
+    "material": [ "plastic" ],
+    "weight": 10,
+    "description": "A plastic name tag marking the wearer as a real doctor of the medical kind."
   },
   {
     "id": "balclava",
@@ -1149,7 +1223,7 @@
     "warmth": 30,
     "material_thickness": 2,
     "environmental_protection": 1,
-    "flags": [ "VARSIZE" ],
+    "flags": [ "VARSIZE", "SKINTIGHT" ],
     "use_action": {
       "menu_text": "Zip up",
       "type": "transform",
@@ -1562,12 +1636,12 @@
     "category": "armor",
     "name": "pair of chainmail sleeves",
     "name_plural": "pairs of chainmail sleeves",
-    "description": "Customized chainmail arms.  Each sleeve has leather straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
+    "description": "Customized chainmail arms.  Each sleeve has straps to connect them with each other.  The lack of fingers makes them less cumbersome and allows them to be used with gloves.",
     "weight": 2812,
     "volume": 3,
     "price": 7500,
     "to_hit": -1,
-    "material": [ "iron", "leather" ],
+    "material": [ "iron", "cotton" ],
     "symbol": "[",
     "color": "light_red",
     "covers": [ "ARMS" ],
@@ -1586,7 +1660,7 @@
     "volume": 2,
     "price": 5012,
     "to_hit": -1,
-    "material": [ "iron", "leather" ],
+    "material": [ "iron", "cotton" ],
     "symbol": "[",
     "color": "light_red",
     "covers": [ "HEAD" ],
@@ -1601,12 +1675,12 @@
     "category": "armor",
     "name": "chainmail leggings",
     "name_plural": "pairs of chainmail leggings",
-    "description": "Customized chainmail legs.  Their leather straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
+    "description": "Customized chainmail legs.  Their straps keep everything in place, and the lack of toes and heels allows them to work perfectly well with footwear.",
     "weight": 4212,
     "volume": 6,
     "price": 7500,
     "to_hit": -1,
-    "material": [ "iron", "leather" ],
+    "material": [ "iron", "cotton" ],
     "symbol": "[",
     "color": "light_red",
     "covers": [ "LEGS" ],
@@ -1616,22 +1690,43 @@
     "flags": [ "VARSIZE", "STURDY" ]
   },
   {
+    "id": "chainmail_hauberk",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "chainmail hauberk",
+    "description": "A fully customized chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with straps and combined with a gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
+    "weight": 14430,
+    "volume": 11,
+    "price": 35988,
+    "to_hit": -1,
+    "material": [ "iron", "cotton" ],
+    "symbol": "[",
+    "color": "light_red",
+    "covers": [ "TORSO", "ARMS", "LEGS" ],
+    "coverage": 95,
+    "encumbrance": 20,
+    "warmth": 30,
+    "material_thickness": 6,
+    "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
     "id": "chainmail_suit",
     "type": "ARMOR",
     "category": "armor",
     "name": "chainmail armor",
-    "description": "A fully customized chainmail suit.  The coif, shirt, arms, and leggings have been modified with leather straps to deal with uneven weight distribution and to allow them to be used separately.",
-    "weight": 15983,
-    "volume": 12,
-    "price": 30000,
+    "description": "A fully customized chainmail suit.  The coif, shirt, arms, and leggings have been modified with straps and combined with a gambeson to deal with uneven weight distribution, cold environments and to allow them to be used separately.",
+    "weight": 16436,
+    "volume": 13,
+    "price": 45000,
     "to_hit": -1,
-    "material": [ "iron", "leather" ],
+    "material": [ "iron", "cotton" ],
     "symbol": "[",
     "color": "light_red",
     "covers": [ "TORSO", "HEAD", "ARMS", "LEGS" ],
     "coverage": 95,
     "encumbrance": 20,
-    "material_thickness": 4,
+    "warmth": 30,
+    "material_thickness": 6,
     "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
   },
   {
@@ -1639,12 +1734,12 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "chainmail vest",
-    "description": "A customized chainmail vest.  It's a sleeveless piece of chainmail with small leather straps designed to better distribute the weight.",
+    "description": "A customized chainmail vest.  It's a sleeveless piece of chainmail with small straps designed to better distribute the weight.",
     "weight": 6953,
     "volume": 4,
     "price": 10000,
     "to_hit": -1,
-    "material": [ "iron", "leather" ],
+    "material": [ "iron", "cotton" ],
     "symbol": "[",
     "color": "light_red",
     "covers": [ "TORSO" ],
@@ -2035,6 +2130,34 @@
     "color": "brown"
   },
   {
+    "id": "bead_bracelet",
+    "type": "ARMOR",
+    "name": "beaded bracelet",
+    "description": "A simple bracelet of string and wooden beads, there is enough space to inscribe something.",
+    "looks_like": "copper_bracelet",
+    "weight": 20,
+    "volume": 0,
+    "price": 100,
+    "flags": [ "VARSIZE", "FANCY" ],
+    "material": [ "wood" ],
+    "symbol": "[",
+    "color": "brown"
+  },
+  {
+    "id": "bead_necklace",
+    "type": "ARMOR",
+    "name": "beaded necklace",
+    "description": "A simple necklace made of string and wooden beads, there is enough space to inscribe something.",
+    "looks_like": "necklace",
+    "weight": 20,
+    "volume": 0,
+    "price": 100,
+    "material": [ "wood" ],
+    "flags": [ "VARSIZE", "FANCY" ],
+    "symbol": "u",
+    "color": "brown"
+  },
+  {
     "id": "corset",
     "type": "ARMOR",
     "name": "leather corset",
@@ -2279,7 +2402,7 @@
     "covers": [ "HAND_EITHER" ],
     "coverage": 5,
     "use_action": "WEATHER_TOOL",
-    "flags": [ "WATCH", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
   },
   {
     "id": "down_blanket",
@@ -2987,7 +3110,7 @@
     "volume": 12,
     "price": 20000,
     "to_hit": -5,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "symbol": "[",
     "color": "light_gray",
     "covers": [ "TORSO", "ARMS", "LEGS" ],
@@ -2995,7 +3118,7 @@
     "encumbrance": 15,
     "warmth": 30,
     "material_thickness": 5,
-    "flags": [ "VARSIZE", "SKINTIGHT", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
     "id": "gauntlets_bone",
@@ -3076,28 +3199,6 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS" ]
-  },
-  {
-    "id": "geta",
-    "type": "ARMOR",
-    "name": "pair of geta",
-    "name_plural": "pairs of geta",
-    "description": "Simple wooden geta.",
-    "weight": 460,
-    "volume": 4,
-    "price": 6500,
-    "to_hit": -2,
-    "bashing": 5,
-    "material": [ "wood", "cotton" ],
-    "symbol": "[",
-    "color": "yellow",
-    "covers": [ "FEET" ],
-    "coverage": 50,
-    "encumbrance": 10,
-    "warmth": 5,
-    "material_thickness": 2,
-    "environmental_protection": 1,
-    "flags": [ "VARSIZE", "WATERPROOF" ]
   },
   {
     "id": "glasses_bal",
@@ -3995,10 +4096,28 @@
     "color": "dark_gray",
     "covers": [ "LEGS" ],
     "coverage": 100,
+    "encumbrance": 6,
+    "warmth": 10,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
+    "id": "hakama",
+    "type": "ARMOR",
+    "name": "hakama",
+    "description": "A flowing, pleated garment which can be worn over a kimono.",
+    "weight": 500,
+    "volume": 6,
+    "price": 3000,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "blue",
+    "covers": [ "LEGS" ],
+    "coverage": 100,
     "encumbrance": 10,
     "warmth": 15,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "OUTER" ]
   },
   {
     "id": "halter_top",
@@ -4230,7 +4349,7 @@
     "encumbrance": 17,
     "warmth": 5,
     "material_thickness": 1,
-    "flags": [ "DEAF" ]
+    "flags": [ "DEAF", "HELMET_COMPAT" ]
   },
   {
     "id": "hat_sombrero",
@@ -4402,6 +4521,27 @@
     "flags": [ "WATERPROOF", "STURDY" ]
   },
   {
+    "id": "helmet_conical",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "conical helm",
+    "description": "A conical iron helm with additional protection for the neck, associated with the Mongol Empire.",
+    "weight": 1425,
+    "volume": 14,
+    "price": 40000,
+    "bashing": 6,
+    "material": [ "iron", "fur" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "HEAD" ],
+    "coverage": 90,
+    "encumbrance": 20,
+    "warmth": 35,
+    "material_thickness": 3,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
     "id": "helmet_acidchitin",
     "copy-from": "helmet_chitin",
     "type": "ARMOR",
@@ -4429,6 +4569,28 @@
     "warmth": 10,
     "material_thickness": 4,
     "flags": [ "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "helmet_galea",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "galea",
+    "name_plural": "galeae",
+    "description": "An Imperial Roman helmet, with distinct projections protecting the sides of the head.",
+    "weight": 1310,
+    "volume": 10,
+    "price": 35000,
+    "bashing": 10,
+    "material": [ "iron", "leather" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "HEAD" ],
+    "coverage": 85,
+    "encumbrance": 10,
+    "warmth": 10,
+    "material_thickness": 3,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
     "id": "helmet_hsurvivor",
@@ -4561,6 +4723,27 @@
     "flags": [ "WATERPROOF", "STURDY" ]
   },
   {
+    "id": "helmet_nasal",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "nasal helm",
+    "description": "An early medieval helmet with a projection guarding the nose, to better protect the face without obstructing vision.  Proper viking gear, unlike the stereotypical horned helm.",
+    "weight": 907,
+    "volume": 8,
+    "price": 26000,
+    "bashing": 10,
+    "material": [ "iron", "leather" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "HEAD", "EYES" ],
+    "coverage": 80,
+    "encumbrance": 10,
+    "warmth": 10,
+    "material_thickness": 3,
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "STURDY" ]
+  },
+  {
     "id": "helmet_nomad",
     "type": "ARMOR",
     "name": "nomad cowl",
@@ -4600,7 +4783,7 @@
     "material_thickness": 5,
     "environmental_protection": 1,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "STURDY" ]
+    "flags": [ "VARSIZE", "STURDY", "HELMET_COMPAT" ]
   },
   {
     "id": "helmet_scavenger",
@@ -4771,7 +4954,7 @@
     "warmth": 15,
     "material_thickness": 5,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
     "id": "hood_h20survivor",
@@ -4793,7 +4976,7 @@
     "warmth": 15,
     "material_thickness": 2,
     "environmental_protection": 10,
-    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
     "id": "hood_lsurvivor",
@@ -4815,7 +4998,7 @@
     "warmth": 15,
     "material_thickness": 4,
     "environmental_protection": 3,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
     "id": "hood_rain",
@@ -4833,7 +5016,7 @@
     "warmth": 10,
     "material_thickness": 1,
     "environmental_protection": 1,
-    "flags": [ "WATERPROOF", "OUTER" ]
+    "flags": [ "WATERPROOF", "OUTER", "HELMET_COMPAT" ]
   },
   {
     "id": "hood_survivor",
@@ -4856,7 +5039,7 @@
     "material_thickness": 4,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
     "id": "hood_wsurvivor",
@@ -4878,7 +5061,7 @@
     "warmth": 75,
     "material_thickness": 5,
     "environmental_protection": 5,
-    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
     "id": "hood_xlsurvivor",
@@ -4901,7 +5084,7 @@
     "material_thickness": 3,
     "environmental_protection": 3,
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY", "OUTER" ]
+    "flags": [ "OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "HELMET_COMPAT" ]
   },
   {
     "id": "hoodie",
@@ -5018,6 +5201,27 @@
     "material_thickness": 6,
     "environmental_protection": 3,
     "flags": [ "VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY" ]
+  },
+  {
+    "id": "iggaak",
+    "type": "ARMOR",
+    "name": "pair of snow goggles",
+    "name_plural": "pairs of snow goggles",
+    "description": "Eyewear carved from from wood or bone, with only a thin slit to see out of.  Helps reduce glare, traditionally used by the Inuit to protect against snow blindness.",
+    "weight": 70,
+    "volume": 1,
+    "price": 4500,
+    "to_hit": -2,
+    "material": [ "bone" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "covers": [ "EYES" ],
+    "coverage": 90,
+    "encumbrance": 9,
+    "warmth": 5,
+    "material_thickness": 1,
+    "qualities": [ [ "GLARE", 1 ] ],
+    "flags": [ "WATER_FRIENDLY", "SUN_GLASSES" ]
   },
   {
     "id": "jacket_army",
@@ -5277,7 +5481,7 @@
     "warmth": 50,
     "material_thickness": 2,
     "environmental_protection": 5,
-    "flags": [ "OVERSIZE", "OUTER" ]
+    "flags": [ "OVERSIZE", "OUTER", "HELMET_COMPAT" ]
   },
   {
     "id": "jerrypack",
@@ -5443,9 +5647,9 @@
     "covers": [ "ARMS", "LEGS", "TORSO" ],
     "coverage": 95,
     "encumbrance": 10,
-    "warmth": 15,
+    "warmth": 10,
     "material_thickness": 3,
-    "flags": [ "VARSIZE" ]
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
     "id": "jumpsuit",
@@ -5499,9 +5703,10 @@
     "symbol": "[",
     "color": "white",
     "covers": [ "ARMS", "LEGS", "TORSO" ],
-    "coverage": 100,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "coverage": 80,
+    "warmth": 5,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
     "id": "kariginu",
@@ -5549,16 +5754,16 @@
     "name": "keikogi",
     "description": "Plain white keikogi for use in martial arts.",
     "weight": 250,
-    "volume": 2,
+    "volume": 3,
     "price": 2500,
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "white",
     "covers": [ "ARMS", "TORSO" ],
-    "coverage": 100,
-    "warmth": 10,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "coverage": 80,
+    "warmth": 5,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
     "id": "kevlar",
@@ -5638,6 +5843,45 @@
     "flags": [ "VARSIZE", "FANCY" ]
   },
   {
+    "id": "yukata",
+    "type": "ARMOR",
+    "name": "yukata",
+    "description": "An easy to wear, breezy robe secured with a sash. Essentially Japanese pajamas. Great for summer nights.",
+    "weight": 900,
+    "volume": 12,
+    "price": 5000,
+    "to_hit": -5,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "blue",
+    "covers": [ "LEGS", "TORSO", "ARMS" ],
+    "coverage": 80,
+    "encumbrance": 3,
+    "storage": 4,
+    "warmth": 5,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "FANCY" ]
+  },
+  {
+    "id": "haori",
+    "type": "ARMOR",
+    "name": "haori",
+    "description": "A loose coat with wide sleeves that is worn unfastened over a kimono. It is jet black with sparse, tasteful golden embroidery.",
+    "weight": 800,
+    "volume": 8,
+    "price": 30000,
+    "to_hit": -5,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "black",
+    "covers": [ "TORSO", "ARMS" ],
+    "coverage": 60,
+    "encumbrance": 3,
+    "warmth": 10,
+    "material_thickness": 1,
+    "flags": [ "VARSIZE", "SUPER_FANCY", "OUTER" ]
+  },
+  {
     "id": "kippah",
     "type": "ARMOR",
     "name": "kippah",
@@ -5652,7 +5896,8 @@
     "covers": [ "HEAD" ],
     "coverage": 40,
     "warmth": 3,
-    "material_thickness": 1
+    "material_thickness": 1,
+    "flags": [ "HELMET_COMPAT" ]
   },
   {
     "id": "kittel",
@@ -6996,6 +7241,33 @@
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
+    "id": "police_belt",
+    "type": "ARMOR",
+    "name": "police duty belt",
+    "description": "Black leather belt used by police officers.  It has several pouches and a holder for a baton.",
+    "looks_like": "fireman_belt",
+    "weight": 250,
+    "volume": 8,
+    "price": 10000,
+    "bashing": 5,
+    "material": [ "leather", "steel" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "TORSO" ],
+    "encumbrance": 4,
+    "storage": 8,
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Attach what to holder?",
+      "holster_msg": "You attach your %s to your %s.",
+      "max_volume": 9,
+      "max_weight": 3600,
+      "draw_cost": 50,
+      "flags": [ "BELT_CLIP" ]
+    },
+    "flags": [ "WAIST", "WATER_FRIENDLY" ]
+  },
+  {
     "id": "polo_shirt",
     "type": "ARMOR",
     "name": "polo shirt",
@@ -7151,7 +7423,7 @@
     "warmth": 90,
     "power_armor": true,
     "material_thickness": 11,
-    "environmental_protection": 10,
+    "environmental_protection": 16,
     "use_action": { "type": "ups_based_armor", "activate_msg": "Your power armor engages." },
     "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
@@ -7221,7 +7493,7 @@
     "warmth": 90,
     "power_armor": true,
     "material_thickness": 11,
-    "environmental_protection": 10,
+    "environmental_protection": 16,
     "qualities": [ [ "GLARE", 2 ] ],
     "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ]
   },
@@ -7269,7 +7541,7 @@
     "warmth": 60,
     "power_armor": true,
     "material_thickness": 9,
-    "environmental_protection": 8,
+    "environmental_protection": 16,
     "qualities": [ [ "GLARE", 2 ] ],
     "flags": [ "WATCH", "WATERPROOF", "STURDY", "PARTIAL_DEAF", "THERMOMETER", "SUN_GLASSES" ]
   },
@@ -7294,7 +7566,7 @@
     "warmth": 60,
     "power_armor": true,
     "material_thickness": 9,
-    "environmental_protection": 8,
+    "environmental_protection": 16,
     "use_action": { "type": "ups_based_armor", "activate_msg": "Your power armor engages." },
     "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
@@ -8016,7 +8288,7 @@
     "color": "brown",
     "covers": [ "TORSO" ],
     "coverage": 90,
-    "encumbrance": 25,
+    "encumbrance": 19,
     "storage": 24,
     "warmth": 50,
     "material_thickness": 3,
@@ -8049,7 +8321,7 @@
     "color": "brown",
     "covers": [ "TORSO" ],
     "coverage": 90,
-    "encumbrance": 20,
+    "encumbrance": 17,
     "storage": 24,
     "warmth": 30,
     "material_thickness": 3,
@@ -8762,7 +9034,6 @@
     "color": "dark_gray",
     "covers": [ "FEET" ],
     "coverage": 100,
-    "encumbrance": 10,
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
@@ -8781,7 +9052,6 @@
     "color": "white",
     "covers": [ "FEET" ],
     "coverage": 100,
-    "encumbrance": 10,
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
@@ -9032,7 +9302,7 @@
     "encumbrance": 15,
     "storage": 1,
     "warmth": 25,
-    "material_thickness": 2,
+    "material_thickness": 3,
     "environmental_protection": 2,
     "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF" ]
   },
@@ -9071,7 +9341,7 @@
     "color": "brown",
     "covers": [ "TORSO", "ARMS" ],
     "coverage": 90,
-    "encumbrance": 25,
+    "encumbrance": 19,
     "storage": 24,
     "warmth": 50,
     "material_thickness": 3,
@@ -9103,7 +9373,7 @@
     "color": "brown",
     "covers": [ "TORSO", "ARMS" ],
     "coverage": 90,
-    "encumbrance": 20,
+    "encumbrance": 17,
     "storage": 24,
     "warmth": 30,
     "material_thickness": 3,
@@ -9262,6 +9532,25 @@
     "coverage": 50,
     "encumbrance": 5,
     "warmth": 10,
+    "material_thickness": 1,
+    "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
+    "id": "headscarf",
+    "type": "ARMOR",
+    "name": "headscarf",
+    "description": "A loose cloth worn over the head and around the neck.",
+    "weight": 70,
+    "volume": 1,
+    "price": 85,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "yellow",
+    "covers": [ "HEAD" ],
+    "coverage": 70,
+    "encumbrance": 4,
+    "warmth": 7,
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
@@ -9745,17 +10034,17 @@
     "type": "ARMOR",
     "name": "zubon",
     "description": "Plain white zubon for use in martial arts.",
-    "weight": 250,
-    "volume": 2,
+    "weight": 150,
+    "volume": 3,
     "price": 2500,
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "white",
     "covers": [ "LEGS" ],
-    "coverage": 100,
-    "warmth": 10,
-    "material_thickness": 1,
-    "flags": [ "VARSIZE" ]
+    "coverage": 80,
+    "warmth": 5,
+    "material_thickness": 2,
+    "flags": [ "VARSIZE", "STURDY" ]
   },
   {
     "id": "case_violin",
@@ -9834,7 +10123,7 @@
     "warmth": 30,
     "material_thickness": 5,
     "environmental_protection": 20,
-    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "RAINPROOF", "GAS_PROOF", "STURDY", "OUTER" ]
   },
   {
     "id": "gloves_golf",

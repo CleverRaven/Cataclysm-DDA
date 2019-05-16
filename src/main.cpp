@@ -1,19 +1,27 @@
 /* Entry point and main loop for Cataclysm
  */
 
+#include <clocale>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <iostream>
 #include <locale>
 #include <map>
-#if (!(defined _WIN32 || defined WINDOWS))
+#include <array>
+#include <exception>
+#include <functional>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+#include <type_traits>
+#if defined(_WIN32)
+#include "platform_win.h"
+#else
 #include <signal.h>
 #endif
-#include <stdexcept>
-#ifdef LOCALIZE
-#include <libintl.h>
-#endif
-
 #include "color.h"
 #include "crash.h"
 #include "cursesdef.h"
@@ -28,8 +36,10 @@
 #include "path_info.h"
 #include "rng.h"
 #include "translations.h"
+#include "input.h"
+#include "type_id.h"
 
-#ifdef TILES
+#if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #      include <SDL2/SDL_version.h>
 #   else
@@ -37,7 +47,7 @@
 #   endif
 #endif
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <unistd.h>
 #include <SDL_system.h>
 #include <SDL_filesystem.h>
@@ -92,8 +102,6 @@ int start_logger( const char *app_name )
 
 void exit_handler( int s );
 
-extern bool test_dirty;
-
 namespace
 {
 
@@ -115,19 +123,19 @@ void printHelpMessage( const arg_handler *first_pass_arguments, size_t num_first
                        const arg_handler *second_pass_arguments, size_t num_second_pass_arguments );
 }  // namespace
 
-#if defined USE_WINMAIN
+#if defined(USE_WINMAIN)
 int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
     int argc = __argc;
     char **argv = __argv;
-#elif defined __ANDROID__
+#elif defined(__ANDROID__)
 extern "C" int SDL_main( int argc, char **argv ) {
 #else
 int main( int argc, char *argv[] )
 {
 #endif
     init_crash_handlers();
-    int seed = time( NULL );
+    int seed = time( nullptr );
     bool verifyexit = false;
     bool check_mods = false;
     std::string dump;
@@ -135,7 +143,7 @@ int main( int argc, char *argv[] )
     std::vector<std::string> opts;
     std::string world; /** if set try to load first save in this world on startup */
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     // Start the standard output logging redirector
     start_logger( "cdda" );
 
@@ -149,7 +157,7 @@ int main( int argc, char *argv[] )
     PATH_INFO::init_base_path( external_storage_path );
 #else
     // Set default file paths
-#ifdef PREFIX
+#if defined(PREFIX)
 #define Q(STR) #STR
 #define QUOTE(STR) Q(STR)
     PATH_INFO::init_base_path( std::string( QUOTE( PREFIX ) ) );
@@ -158,14 +166,14 @@ int main( int argc, char *argv[] )
 #endif
 #endif
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     PATH_INFO::init_user_dir( external_storage_path.c_str() );
 #else
-#if (defined USE_HOME_DIR || defined USE_XDG_DIR)
+#   if defined(USE_HOME_DIR) || defined(USE_XDG_DIR)
     PATH_INFO::init_user_dir();
-#else
+#   else
     PATH_INFO::init_user_dir( "./" );
-#endif
+#   endif
 #endif
     PATH_INFO::set_standard_filenames();
 
@@ -184,7 +192,7 @@ int main( int argc, char *argv[] )
                         {
                             return -1;
                         }
-                        const unsigned char *hash_input = ( const unsigned char * ) params[0];
+                        const unsigned char *hash_input = reinterpret_cast<const unsigned char *>( params[0] );
                         seed = djb2_hash( hash_input );
                         return 1;
                     }
@@ -473,7 +481,7 @@ int main( int argc, char *argv[] )
         const size_t num_second_pass_arguments =
             sizeof( second_pass_arguments ) / sizeof( second_pass_arguments[0] );
         int saved_argc = --argc; // skip program name
-        const char **saved_argv = ( const char ** )++argv;
+        const char **saved_argv = const_cast<const char **>( ++argv );
         while( argc ) {
             if( !strcmp( argv[0], "--help" ) ) {
                 printHelpMessage( first_pass_arguments.data(), num_first_pass_arguments,
@@ -486,7 +494,7 @@ int main( int argc, char *argv[] )
                     if( !strcmp( argv[0], arg_handler.flag ) ) {
                         argc--;
                         argv++;
-                        int args_consumed = arg_handler.handler( argc, ( const char ** )argv );
+                        int args_consumed = arg_handler.handler( argc, const_cast<const char **>( argv ) );
                         if( args_consumed < 0 ) {
                             printf( "Failed parsing parameter '%s'\n", *( argv - 1 ) );
                             exit( 1 );
@@ -530,6 +538,12 @@ int main( int argc, char *argv[] )
         }
     }
 
+    if( !dir_exist( FILENAMES["datadir"] ) ) {
+        printf( "Fatal: Can't find directory \"%s\"\nPlease ensure the current working directory is correct. Perhaps you meant to start \"cataclysm-launcher\"?\n",
+                FILENAMES["datadir"].c_str() );
+        exit( 1 );
+    }
+
     if( !assure_dir_exist( FILENAMES["user_dir"] ) ) {
         printf( "Can't open or create %s. Check permissions.\n",
                 FILENAMES["user_dir"].c_str() );
@@ -542,8 +556,8 @@ int main( int argc, char *argv[] )
      * OS X does not populate locale env vars correctly (they usually default to
      * "C") so don't bother trying to set the locale based on them.
      */
-#if (!defined MACOSX)
-    if( setlocale( LC_ALL, "" ) == NULL ) {
+#if !defined(MACOSX)
+    if( setlocale( LC_ALL, "" ) == nullptr ) {
         DebugLog( D_WARNING, D_MAIN ) << "Error while setlocale(LC_ALL, '').";
     } else {
 #endif
@@ -559,7 +573,7 @@ int main( int argc, char *argv[] )
                 exit_handler( -999 );
             }
         }
-#if (!defined MACOSX)
+#if !defined(MACOSX)
     }
 #endif
 
@@ -567,7 +581,7 @@ int main( int argc, char *argv[] )
     get_options().load();
     set_language();
 
-#ifdef TILES
+#if defined(TILES)
     SDL_version compiled;
     SDL_VERSION( &compiled );
     DebugLog( D_INFO, DC_ALL ) << "SDL version used during compile is "
@@ -586,6 +600,9 @@ int main( int argc, char *argv[] )
     // in test mode don't initialize curses to avoid escape sequences being inserted into output stream
     if( !test_mode ) {
         try {
+            // set minimum FULL_SCREEN sizes
+            FULL_SCREEN_WIDTH = 80;
+            FULL_SCREEN_HEIGHT = 24;
             catacurses::init_interface();
         } catch( const std::exception &err ) {
             // can't use any curses function as it has not been initialized
@@ -595,7 +612,6 @@ int main( int argc, char *argv[] )
         }
     }
 
-    srand( seed );
     rng_set_engine_seed( seed );
 
     g.reset( new game );
@@ -614,7 +630,7 @@ int main( int argc, char *argv[] )
             init_colors();
             loading_ui ui( false );
             const std::vector<mod_id> mods( opts.begin(), opts.end() );
-            exit( g->check_mod_data( mods, ui ) && !test_dirty ? 0 : 1 );
+            exit( g->check_mod_data( mods, ui ) && !debug_has_error_been_observed() ? 0 : 1 );
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );
@@ -627,7 +643,7 @@ int main( int argc, char *argv[] )
 
     catacurses::curs_set( 0 ); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
 
-#if (!(defined _WIN32 || defined WINDOWS))
+#if !defined(_WIN32)
     struct sigaction sigIntHandler;
     sigIntHandler.sa_handler = exit_handler;
     sigemptyset( &sigIntHandler.sa_mask );
@@ -635,9 +651,9 @@ int main( int argc, char *argv[] )
     sigaction( SIGINT, &sigIntHandler, NULL );
 #endif
 
-#ifdef LOCALIZE
+#if defined(LOCALIZE)
     std::string lang;
-#if (defined _WIN32 || defined WINDOWS)
+#if defined(_WIN32)
     lang = getLangFromLCID( GetUserDefaultLCID() );
 #else
     const char *v = setlocale( LC_ALL, NULL );

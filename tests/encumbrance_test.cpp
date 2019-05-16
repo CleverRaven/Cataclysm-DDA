@@ -1,7 +1,19 @@
+#include <array>
+#include <functional>
+#include <list>
+#include <memory>
+#include <string>
+#include <vector>
+
 #include "catch/catch.hpp"
 #include "game.h"
 #include "npc.h"
 #include "player.h"
+#include "bodypart.h"
+#include "character.h"
+#include "item.h"
+#include "material.h"
+#include "type_id.h"
 
 void test_encumbrance_on(
     player &p,

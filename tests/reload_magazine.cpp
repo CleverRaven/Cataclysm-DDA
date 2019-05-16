@@ -1,8 +1,21 @@
+#include <list>
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
+
 #include "catch/catch.hpp"
 #include "game.h"
-#include "itype.h"
 #include "player.h"
 #include "visitable.h"
+#include "calendar.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_location.h"
+#include "string_id.h"
+#include "type_id.h"
+
+struct itype;
 
 TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
 {

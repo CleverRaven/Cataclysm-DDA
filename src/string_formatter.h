@@ -2,6 +2,7 @@
 #ifndef STRING_FORMATTER_H
 #define STRING_FORMATTER_H
 
+#include <cstddef>
 #include <string>
 #include <type_traits>
 #include <typeinfo>
@@ -9,7 +10,7 @@
 
 // needed for the workaround for the std::to_string bug in some compilers
 #include "compatibility.h" // IWYU pragma: keep
-//@todo: replace with std::optional
+// TODO: replace with std::optional
 #include "optional.h"
 
 namespace cata

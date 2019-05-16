@@ -46,8 +46,18 @@
   },
   {
     "type": "item_action",
+    "id": "DIG_CHANNEL",
+    "name": "Dig water channel here"
+  },
+  {
+    "type": "item_action",
     "id": "PICKAXE",
     "name": "Dig through rock"
+  },
+  {
+    "type": "item_action",
+    "id": "BURROW",
+    "name": "Burrow through rock"
   },
   {
     "type": "item_action",
@@ -256,11 +266,6 @@
   },
   {
     "type": "item_action",
-    "id": "BATTLETORCH_LIT",
-    "name": "Extinguish"
-  },
-  {
-    "type": "item_action",
     "id": "BELL",
     "name": "Ring"
   },
@@ -392,7 +397,7 @@
   {
     "type": "item_action",
     "id": "DIG",
-    "name": "Dig pit"
+    "name": "Dig pit here"
   },
   {
     "type": "item_action",
@@ -621,6 +626,11 @@
   },
   {
     "type": "item_action",
+    "id": "DIVE_TANK",
+    "name": "Use regulator"
+  },
+  {
+    "type": "item_action",
     "id": "SOLARPACK",
     "name": "Unfold"
   },
@@ -846,11 +856,6 @@
   },
   {
     "type": "item_action",
-    "id": "TORCH_LIT",
-    "name": "..."
-  },
-  {
-    "type": "item_action",
     "id": "TOWEL",
     "name": "Dry/clean yourself"
   },
@@ -881,6 +886,11 @@
   },
   {
     "type": "item_action",
+    "id": "HAND_CRANK",
+    "name": "Recharge a battery"
+  },
+  {
+    "type": "item_action",
     "id": "VIBE",
     "name": "Well, you know"
   },
@@ -906,7 +916,7 @@
   },
   {
     "type": "item_action",
-    "id": "WEED_BROWNIE",
+    "id": "WEED_CAKE",
     "name": "Consume"
   },
   {
@@ -1028,5 +1038,10 @@
     "type": "item_action",
     "id": "PANACEA",
     "name": "Take"
+  },
+  {
+    "type": "item_action",
+    "id": "CRAFT",
+    "name": "Work on craft"
   }
 ]

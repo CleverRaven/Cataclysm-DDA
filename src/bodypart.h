@@ -2,8 +2,11 @@
 #ifndef BODYPART_H
 #define BODYPART_H
 
+#include <cstddef>
 #include <array>
 #include <bitset>
+#include <initializer_list>
+#include <string>
 
 #include "int_id.h"
 #include "string_id.h"
@@ -45,6 +48,7 @@ constexpr std::array<body_part, 12> all_body_parts = {{
 };
 
 struct body_part_struct;
+
 using bodypart_ids = string_id<body_part_struct>;
 using bodypart_id = int_id<body_part_struct>;
 
@@ -76,7 +80,7 @@ struct body_part_struct {
          */
         float hit_difficulty = 0.0f;
         // "Parent" of this part - main parts are their own "parents"
-        // @todo: Connect head and limbs to torso
+        // TODO: Connect head and limbs to torso
         bodypart_ids main_part;
         // A part that has no opposite is its own opposite (that's pretty Zen)
         bodypart_ids opposite_part;

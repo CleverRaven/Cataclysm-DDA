@@ -18,6 +18,6 @@
     "loudness": 40,
     "clip_size": 1,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "stock", 1 ] ],
-    "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS", "RELOAD_EJECT" ]
   }
 ]

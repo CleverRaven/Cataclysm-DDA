@@ -2,29 +2,44 @@
 #ifndef OMDATA_H
 #define OMDATA_H
 
+#include <climits>
+#include <cstddef>
+#include <cstdint>
 #include <bitset>
 #include <list>
 #include <set>
 #include <vector>
+#include <array>
+#include <string>
 
+#include "catacharset.h"
 #include "color.h"
 #include "common_types.h"
 #include "enums.h"
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
+#include "optional.h"
 
-struct MonsterGroup;
-using mongroup_id = string_id<MonsterGroup>;
 struct city;
+class overmap_land_use_code;
+struct MonsterGroup;
+
+using overmap_land_use_code_id = string_id<overmap_land_use_code>;
 struct oter_t;
-struct oter_type_t;
 struct overmap_location;
 class JsonObject;
 class overmap_connection;
 class overmap_special_batch;
 class overmap_special;
+
 using overmap_special_id = string_id<overmap_special>;
+
+const overmap_land_use_code_id land_use_code_forest( "forest" );
+const overmap_land_use_code_id land_use_code_wetland( "wetland" );
+const overmap_land_use_code_id land_use_code_wetland_forest( "wetland_forest" );
+const overmap_land_use_code_id land_use_code_wetland_saltwater( "wetland_saltwater" );
 
 /** Direction on the overmap. */
 namespace om_direction
@@ -44,7 +59,7 @@ const std::array<type, 4> all = {{ type::north, type::east, type::south, type::w
 const size_t size = all.size();
 
 /** Number of bits needed to store directions. */
-const size_t bits = size_t( -1 ) >> ( CHAR_BIT *sizeof( size_t ) - size );
+const size_t bits = static_cast<size_t>( -1 ) >> ( CHAR_BIT *sizeof( size_t ) - size );
 
 /** Identifier for serialization purposes. */
 const std::string &id( type dir );
@@ -55,7 +70,7 @@ const std::string &name( type dir );
 /** Various rotations. */
 point rotate( const point &p, type dir );
 tripoint rotate( const tripoint &p, type dir );
-long rotate_symbol( long sym, type dir );
+uint32_t rotate_symbol( uint32_t sym, type dir );
 
 /** Returns point(0, 0) displaced in specified direction by a specified distance
  * @param dir Direction of displacement
@@ -83,6 +98,26 @@ type random();
 bool are_parallel( type dir1, type dir2 );
 
 }
+
+class overmap_land_use_code
+{
+    public:
+        overmap_land_use_code_id id = overmap_land_use_code_id::NULL_ID();
+
+        int land_use_code;
+        std::string name;
+        std::string detailed_definition;
+        uint32_t symbol;
+        nc_color color = c_black;
+
+        std::string get_symbol() const;
+
+        // Used by generic_factory
+        bool was_loaded = false;
+        void load( JsonObject &jo, const std::string &src );
+        void finalize();
+        void check() const;
+};
 
 struct overmap_spawns {
         overmap_spawns() : group( mongroup_id::NULL_ID() ) {}
@@ -126,11 +161,10 @@ enum oter_flags {
     has_sidewalk,
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
     subway_connection,
+    lake,
+    lake_shore,
     num_oter_flags
 };
-
-using oter_id = int_id<oter_t>;
-using oter_str_id = string_id<oter_t>;
 
 struct oter_type_t {
     public:
@@ -139,14 +173,18 @@ struct oter_type_t {
     public:
         string_id<oter_type_t> id;
         std::string name;               // Untranslated name
-        long sym = '\0';                // This is a long, so we can support curses line drawing
+        uint32_t symbol;
         nc_color color = c_black;
+        overmap_land_use_code_id land_use_code = overmap_land_use_code_id::NULL_ID();
         unsigned char see_cost = 0;     // Affects how far the player can see in the overmap
+        unsigned char travel_cost = 5;  // Affects the pathfinding and travel times
         std::string extras = "none";
         int mondensity = 0;
         // Spawns are added to the submaps *once* upon mapgen of the submaps
         overmap_static_spawns static_spawns;
         bool was_loaded = false;
+
+        std::string get_symbol() const;
 
         oter_type_t() {}
 
@@ -201,15 +239,15 @@ struct oter_t {
         oter_id get_rotated( om_direction::type dir ) const;
 
         const std::string get_name() const {
-            return _( type->name.c_str() );
+            return _( type->name );
         }
 
-        long get_sym() const {
-            return sym;
+        std::string get_symbol( const bool from_land_use_code = false ) const {
+            return utf32_to_utf8( from_land_use_code ? symbol_alt : symbol );
         }
 
-        nc_color get_color() const {
-            return type->color;
+        nc_color get_color( const bool from_land_use_code = false ) const {
+            return from_land_use_code ? type->land_use_code->color : type->color;
         }
 
         om_direction::type get_dir() const {
@@ -223,6 +261,9 @@ struct oter_t {
         unsigned char get_see_cost() const {
             return type->see_cost;
         }
+        unsigned char get_travel_cost() const {
+            return type->travel_cost;
+        }
 
         const std::string &get_extras() const {
             return type->extras;
@@ -234,6 +275,10 @@ struct oter_t {
 
         const overmap_static_spawns &get_static_spawns() const {
             return type->static_spawns;
+        }
+
+        const overmap_land_use_code_id get_land_use_code() const {
+            return type->land_use_code;
         }
 
         bool type_is( const int_id<oter_type_t> &type_id ) const;
@@ -259,13 +304,29 @@ struct oter_t {
             return type->has_flag( river_tile );
         }
 
+        bool is_wooded() const {
+            return type->land_use_code == land_use_code_forest ||
+                   type->land_use_code == land_use_code_wetland ||
+                   type->land_use_code == land_use_code_wetland_forest ||
+                   type->land_use_code == land_use_code_wetland_saltwater;
+        }
+
+        bool is_lake() const {
+            return type->has_flag( lake );
+        }
+
+        bool is_lake_shore() const {
+            return type->has_flag( lake_shore );
+        }
+
     private:
         om_direction::type dir = om_direction::type::none;
-        long sym = '\0';         // This is a long, so we can support curses line drawing.
+        uint32_t symbol;
+        uint32_t symbol_alt;
         size_t line = 0;         // Index of line. Only valid in case of line drawing.
 };
 
-// @todo: Deprecate these operators
+// TODO: Deprecate these operators
 bool operator==( const oter_id &lhs, const char *rhs );
 bool operator!=( const oter_id &lhs, const char *rhs );
 
@@ -314,6 +375,8 @@ struct overmap_special_terrain {
 
 struct overmap_special_connection {
     tripoint p;
+    cata::optional<tripoint> from;
+    om_direction::type initial_dir = om_direction::type::invalid;
     string_id<oter_type_t> terrain; // TODO: Remove it.
     string_id<overmap_connection> connection;
     bool existing = false;
@@ -325,6 +388,7 @@ struct overmap_special_connection {
         jo.read( "terrain", terrain );
         jo.read( "existing", existing );
         jo.read( "connection", connection );
+        assign( jo, "from", from );
     }
 };
 
@@ -372,6 +436,18 @@ void finalize();
 void reset();
 
 const std::vector<oter_t> &get_all();
+
+}
+
+namespace overmap_land_use_codes
+{
+
+void load( JsonObject &jo, const std::string &src );
+void finalize();
+void check_consistency();
+void reset();
+
+const std::vector<overmap_land_use_code> &get_all();
 
 }
 

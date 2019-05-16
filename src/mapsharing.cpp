@@ -1,12 +1,13 @@
 #include "mapsharing.h"
 
-#ifdef __linux__
+#include <cstdlib>
+
+#if defined(__linux__)
 #include <sys/file.h>
 #include <sys/stat.h>
-#include <sys/types.h>
-#include <cstdio>
 #include <fcntl.h>
 #include <unistd.h>
+#include <cstdio>
 #endif // __linux__
 
 bool MAP_SHARING::sharing;
@@ -95,7 +96,7 @@ void MAP_SHARING::setDefaults()
     MAP_SHARING::addAdmin( "admin" );
 }
 
-#ifndef __linux__ // make non-Linux operating systems happy
+#if !defined(__linux__) // make non-Linux operating systems happy
 
 int getLock( const char * )
 {
@@ -135,7 +136,7 @@ void releaseLock( int fd, const char *lockName )
 std::map<std::string, int> lockFiles;
 
 void fopen_exclusive( std::ofstream &fout, const char *filename,
-                      std::ios_base::openmode mode )  //TODO: put this in an ofstream_exclusive class?
+                      std::ios_base::openmode mode )  // TODO: put this in an ofstream_exclusive class?
 {
     std::string lockfile = std::string( filename ) + ".lock";
     lockFiles[lockfile] = getLock( lockfile.c_str() );

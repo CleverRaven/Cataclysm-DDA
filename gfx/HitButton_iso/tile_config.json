@@ -90,12 +90,12 @@
           "fg": 18
         },
         {
-          "id": ["t_door_c", "t_door_makeshift_c", "t_door_locked", "t_door_locked_alarm", "t_door_locked_interior", "t_door_lab_c" ],
+          "id": ["t_door_c", "t_door_makeshift_c", "t_door_locked", "t_door_locked_alarm", "t_door_locked_interior", "t_door_lab_c", "t_door_red_c", "t_door_green_c", "t_door_white_c", "t_door_gray_c" ],
           "multitile": true,
           "fg": [ 19, 20 ]
         },
         {
-          "id": ["t_door_o", "t_door_o_peep", "t_door_curtain_o", "t_door_makeshift_o", "t_door_frame", "t_door_lab_o", "t_door_lab_frame" ],
+          "id": ["t_door_o", "t_door_o_peep", "t_door_curtain_o", "t_door_makeshift_o", "t_door_frame", "t_door_lab_o", "t_door_lab_frame", "t_door_red_o", "t_door_green_o", "t_door_white_o", "t_door_gray_o", "t_door_red_frame", "t_door_green_frame", "t_door_white_frame", "t_door_gray_frame" ],
           "multitile": true,
           "fg": [ 21, 22 ]
         },
@@ -1194,7 +1194,7 @@
           "fg": 244
         },
         {
-          "id": ["cursor", "line_target", "vehicle_pointer" ],
+          "id": ["cursor", "highlight", "line_target", "vehicle_pointer" ],
           "fg": 245
         },
         {
@@ -1937,7 +1937,7 @@
           "fg": 525
         },
         {
-          "id": [ "t_door_b", "t_door_b_peep", "t_door_lab_b" ],
+          "id": [ "t_door_b", "t_door_b_peep", "t_door_lab_b", "t_door_red_b", "t_door_green_b", "t_door_white_b", "t_door_gray_b" ],
           "multitile": true,
           "fg": [ 526 , 527 ]
         },
@@ -2077,12 +2077,12 @@
           "fg": 591
         },
         {
-          "id": [ "t_door_glass_c", "t_door_glass_frosted_c", "t_reinforced_door_glass_c", "t_reinforced_door_glass_lab_c", "t_door_glass_lab_c", "t_door_glass_frosted_lab_c" ],
+          "id": [ "t_door_glass_c", "t_door_glass_frosted_c", "t_reinforced_door_glass_c", "t_reinforced_door_glass_lab_c", "t_door_glass_lab_c", "t_door_glass_frosted_lab_c", "t_door_glass_red_c", "t_door_glass_green_c", "t_door_glass_white_c", "t_door_glass_gray_c" ],
           "multitile": true,
           "fg": [ 592 , 593 ]
         },
         {
-          "id": [ "t_door_glass_o", "t_door_glass_frosted_o", "t_reinforced_door_glass_o", "t_reinforced_door_glass_lab_o", "t_door_glass_lab_o", "t_door_glass_frosted_lab_o" ],
+          "id": [ "t_door_glass_o", "t_door_glass_frosted_o", "t_reinforced_door_glass_o", "t_reinforced_door_glass_lab_o", "t_door_glass_lab_o", "t_door_glass_frosted_lab_o", "t_door_glass_red_o", "t_door_glass_green_o", "t_door_glass_white_o", "t_door_glass_gray_o" ],
           "multitile": true,
           "fg": [ 594 , 595 ]
         },
@@ -6306,7 +6306,7 @@
           "fg": 1900
         },
         {
-          "id": ["oj", "lemonade", "lemonlime", "orangesoda", "broth", "broth_bone", "broth_human", "tequila", "drink_screwdriver", "mead", "brew_mead", "dandelion_wine", "brew_dandelion_wine", "fertilizer_liquid", "iv_mutagen_plant", "dandelion_tea", "dayquil", "mustard", "honey_bottled", "brew_vinegar", "cooking_oil", "protein_shake", "hflesh_shake", "drink_sewerbrew", "drink_hobo", "drink_beeknees", "drink_wsour", "honey_gold", "thyme_oil", "mugwort_oil", "gas_fungicidal", "nicotine_liquid", "lamp_oil" ],
+          "id": ["oj", "lemonade", "lemonlime", "orangesoda", "broth", "broth_bone", "broth_human", "tequila", "drink_screwdriver", "mead", "brew_mead", "dandelion_wine", "brew_dandelion_wine", "fertilizer_liquid", "iv_mutagen_plant", "dandelion_tea", "dayquil", "mustard", "honey_bottled", "brew_vinegar", "cooking_oil", "cooking_oil2", "protein_shake", "hflesh_shake", "drink_sewerbrew", "drink_hobo", "drink_beeknees", "drink_wsour", "honey_gold", "thyme_oil", "mugwort_oil", "gas_fungicidal", "nicotine_liquid", "lamp_oil" ],
           "fg": 1901
         },
         {
@@ -6603,7 +6603,7 @@
           "fg": 1980
         },
         {
-          "id": ["frozen_dinner", "cooked_dinner", "frozen_burrito", "cooked_burrito", "flatbread", "bread", "brownie_weed", "brioche", "toastem", "toastem2", "toastem3", "toasterpastryfrozen", "toasterpastry", "hardtack", "wastebread", "cornbread", "johnnycake", "sugar_beet", "potato_raw", "potato_irradiated", "potato_baked", "pie", "pie_veggy", "pie_meat", "pie_human", "coconut", "cotton_boll" ],
+          "id": ["frozen_dinner", "cooked_dinner", "frozen_burrito", "cooked_burrito", "flatbread", "bread", "brownie_weed", "brioche", "toastem", "toastem2", "toastem3", "toasterpastryfrozen", "toasterpastry", "hardtack", "wastebread", "cornbread", "johnnycake", "sugar_beet", "potato", "irradiated_potato", "potato_baked", "pie", "pie_veggy", "pie_meat", "pie_human", "coconut", "cotton_boll" ],
           "fg": 1981
         },
         {

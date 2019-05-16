@@ -54,12 +54,6 @@ IF(TILES)
 	target_link_libraries(cataclysm-tiles libcataclysm-tiles)
 	target_compile_definitions(libcataclysm-tiles PUBLIC TILES )
 
-	IF (LUA)
-		ADD_DEPENDENCIES(libcataclysm-tiles lua_bindings)
-		target_include_directories(libcataclysm-tiles PUBLIC ${LUA_INCLUDE_DIR})
-		target_link_libraries(libcataclysm-tiles ${LUA_LIBRARIES})
-	ENDIF(LUA)
-
 	IF (LOCALIZE)
 		target_include_directories(libcataclysm-tiles PUBLIC
 			${LIBINTL_INCLUDE_DIR}
@@ -162,12 +156,6 @@ IF(CURSES)
 
 	target_link_libraries(cataclysm libcataclysm)
 
-	IF (LUA)
-		ADD_DEPENDENCIES(libcataclysm lua_bindings)
-		target_include_directories(libcataclysm PUBLIC ${LUA_INCLUDE_DIR})
-		target_link_libraries(libcataclysm ${LUA_LIBRARIES})
-	ENDIF(LUA)
-
 	IF (LOCALIZE)
 		target_include_directories(libcataclysm PUBLIC
 			${LIBINTL_INCLUDE_DIR}
@@ -224,11 +212,6 @@ IF(MINGW AND NOT RELEASE)
 		${RuntimeLib_STDC_PP_6}
 		${RuntimeLib_WINPTHREAD_1}
 	)
-	IF (LUA)
-		SET(RuntimeLib_LUA
-			${LUA_LIBRARIES}
-		)
-	ENDIF (LUA)
 	IF (LOCALIZE)
 		find_library(RuntimeLib_iconv  "libiconv-2")
 		find_library(RuntimeLib_intl  "libintl-8")
@@ -298,7 +281,6 @@ IF(MINGW AND NOT RELEASE)
 	ENDIF (TILES)
 	install(FILES ${RuntimeLib_GCC_ALL}
 			${RuntimeLib_LOCALIZE}
-			${RuntimeLib_LUA}
 			${RuntimeLib_SDL}
 			${RuntimeLib_SDL_SOUND}
 		DESTINATION ${BIN_PREFIX}

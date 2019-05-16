@@ -4,8 +4,9 @@
     "type": "talk_topic",
     "dynamic_line": [
       {
-        "npc_female": "I lived alone, on the old family property way out of town.  My husband passed away a bit over a month before this started...  cancer.  If anything good has come out of all this, it's that I finally see a positive to losing him so young.  I'd been shut in for a while anyway.  When the news started talking about Chinese bio weapons and sleeper agents, and showing the rioting in Boston and such, I curled up with my canned soup and changed the channel.",
-        "npc_male": "I lived alone, on the old family property way out of town.  My wife passed away a bit over a month before this started...  cancer.  If anything good has come out of all this, it's that I finally see a positive to losing her so young.  I'd been shut in for a while anyway.  When the news started talking about Chinese bio weapons and sleeper agents, and showing the rioting in Boston and such, I curled up with my canned soup and changed the channel."
+        "npc_female": true,
+        "yes": "I lived alone, on the old family property way out of town.  My husband passed away a bit over a month before this started...  cancer.  If anything good has come out of all this, it's that I finally see a positive to losing him so young.  I'd been shut in for a while anyway.  When the news started talking about Chinese bio weapons and sleeper agents, and showing the rioting in Boston and such, I curled up with my canned soup and changed the channel.",
+        "no": "I lived alone, on the old family property way out of town.  My wife passed away a bit over a month before this started...  cancer.  If anything good has come out of all this, it's that I finally see a positive to losing her so young.  I'd been shut in for a while anyway.  When the news started talking about Chinese bio weapons and sleeper agents, and showing the rioting in Boston and such, I curled up with my canned soup and changed the channel."
       }
     ],
     "responses": [

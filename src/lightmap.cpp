@@ -1,8 +1,14 @@
 #include "lightmap.h" // IWYU pragma: associated
 #include "shadowcasting.h" // IWYU pragma: associated
 
+#include <cstdint>
+#include <cstdlib>
 #include <cmath>
 #include <cstring>
+#include <list>
+#include <memory>
+#include <utility>
+#include <vector>
 
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "game.h"
@@ -19,6 +25,16 @@
 #include "vpart_range.h"
 #include "vpart_reference.h"
 #include "weather.h"
+#include "calendar.h"
+#include "enums.h"
+#include "field.h"
+#include "item.h"
+#include "line.h"
+#include "optional.h"
+#include "player.h"
+#include "string_formatter.h"
+#include "tileray.h"
+#include "type_id.h"
 
 #define LIGHTMAP_CACHE_X MAPSIZE_X
 #define LIGHTMAP_CACHE_Y MAPSIZE_Y
@@ -62,7 +78,7 @@ void map::add_light_from_items( const tripoint &p, std::list<item>::iterator beg
     }
 }
 
-// TODO Consider making this just clear the cache and dynamically fill it in as trans() is called
+// TODO: Consider making this just clear the cache and dynamically fill it in as trans() is called
 void map::build_transparency_cache( const int zlev )
 {
     auto &map_cache = get_cache( zlev );
@@ -78,7 +94,7 @@ void map::build_transparency_cache( const int zlev )
         &transparency_cache[0][0], MAPSIZE_X * MAPSIZE_Y,
         static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR ) );
 
-    float sight_penalty = weather_data( g->weather ).sight_penalty;
+    const float sight_penalty = weather_data( g->weather.weather ).sight_penalty;
 
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
@@ -170,6 +186,86 @@ void map::apply_character_light( player &p )
     }
 }
 
+// This function raytraces starting at the upper limit of the simulated area descending
+// toward the lower limit. Since it's sunlight, the rays are parallel.
+// Each layer consults the next layer up to determine the intensity of the light that reaches it.
+// Once this is complete, additional operations add more dynamic lighting.
+void map::build_sunlight_cache( int zlev )
+{
+    level_cache &map_cache = get_cache( zlev );
+    auto &lm = map_cache.lm;
+    // Grab illumination at ground level.
+    const float outside_light_level = g->natural_light_level( 0 );
+    const float inside_light_level = ( outside_light_level > LIGHT_SOURCE_BRIGHT ) ?
+                                     LIGHT_AMBIENT_LOW + 1.0 : LIGHT_AMBIENT_MINIMAL;
+    // Handling when z-levels are disabled is based on whether a tile is considered "outside".
+    if( !zlevels ) {
+        const auto &outside_cache = map_cache.outside_cache;
+        for( int x = 0; x < MAPSIZE_X; x++ ) {
+            for( int y = 0; y < MAPSIZE_Y; y++ ) {
+                if( outside_cache[x][y] ) {
+                    lm[x][y].fill( outside_light_level );
+                } else {
+                    lm[x][y].fill( inside_light_level );
+                }
+            }
+        }
+        return;
+    }
+    // If uppermost level, just apply weather illumination since there's no opportunity
+    // for light to be blocked.
+    if( zlev == OVERMAP_HEIGHT ) {
+        for( int x = 0; x < MAPSIZE_X; x++ ) {
+            for( int y = 0; y < MAPSIZE_Y; y++ ) {
+                lm[x][y].fill( outside_light_level );
+            }
+        }
+        return;
+    }
+
+    // Replace this with a calculated shift based on time of day and date.
+    // At first compress the angle such that it takes no more than one tile of shift per level.
+    // To exceed that, we'll have to handle casting light from the side instead of the top.
+    point offset( 0, 0 );
+    const level_cache &prev_map_cache = get_cache_ref( zlev + 1 );
+    const auto &prev_lm = prev_map_cache.lm;
+    const auto &prev_transparency_cache = prev_map_cache.transparency_cache;
+    const auto &prev_floor_cache = prev_map_cache.floor_cache;
+    const auto &outside_cache = map_cache.outside_cache;
+    const float sight_penalty = weather_data( g->weather.weather ).sight_penalty;
+    for( int x = 0, prev_x = offset.x; x < MAPSIZE_X; x++, prev_x++ ) {
+        bool x_inbounds = true;
+        if( prev_x < 0 || prev_x >= MAPSIZE_X ) {
+            x_inbounds = false;
+        }
+        for( int y = 0, prev_y = offset.y; y < MAPSIZE_Y; y++, prev_y++ ) {
+            bool inbounds = true;
+            if( !x_inbounds || prev_y < 0 || prev_y >= MAPSIZE_Y ) {
+                inbounds = false;
+            }
+            four_quadrants prev_light( outside_light_level );
+            float prev_transparency = static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR );
+            if( inbounds ) {
+                prev_light = prev_lm[ prev_x ][ prev_y ];
+                prev_transparency = prev_transparency_cache[ prev_x ][ prev_y ];
+                // This is pretty gross, this cancels out the per-tile transparency effect
+                // derived from weather.
+                if( outside_cache[x][y] ) {
+                    prev_transparency /= sight_penalty;
+                }
+            }
+            // The formula to apply transparency to the light rays doesn't handle full opacity,
+            // so handle that seperately.
+            if( prev_transparency > LIGHT_TRANSPARENCY_SOLID &&
+                !prev_floor_cache[x][y] && prev_light.max() > 0.0 ) {
+                lm[x][y].fill( prev_light.max() * LIGHT_TRANSPARENCY_OPEN_AIR / prev_transparency );
+            } else {
+                lm[x][y].fill( inside_light_level );
+            }
+        }
+    }
+}
+
 void map::generate_lightmap( const int zlev )
 {
     auto &map_cache = get_cache( zlev );
@@ -203,20 +299,12 @@ void map::generate_lightmap( const int zlev )
     };
 
     const float natural_light  = g->natural_light_level( zlev );
-    const float inside_light = ( natural_light > LIGHT_SOURCE_BRIGHT ) ?
-                               LIGHT_AMBIENT_LOW + 1.0 : LIGHT_AMBIENT_MINIMAL;
-    // Apply sunlight, first light source so just assign
-    for( int sx = 0; sx < LIGHTMAP_CACHE_X; ++sx ) {
-        for( int sy = 0; sy < LIGHTMAP_CACHE_Y; ++sy ) {
-            // In bright light indoor light exists to some degree
-            if( !outside_cache[sx][sy] ) {
-                lm[sx][sy].fill( inside_light );
-            } else {
-                lm[sx][sy].fill( natural_light );
-            }
-        }
+    const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
+    const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
+    // Iterate top to bottom because sunlight cache needs to construct in that order.
+    for( int z = maxz; z >= minz; z-- ) {
+        build_sunlight_cache( z );
     }
-
     apply_character_light( g->u );
     for( npc &guy : g->all_npcs() ) {
         apply_character_light( guy );
@@ -408,7 +496,8 @@ void map::generate_lightmap( const int zlev )
                 continue;
             }
             if( vp.has_feature( VPFLAG_CARGO ) && !vp.has_feature( "COVERED" ) ) {
-                add_light_from_items( pp, v->get_items( p ).begin(), v->get_items( p ).end() );
+                add_light_from_items( pp, v->get_items( static_cast<int>( p ) ).begin(),
+                                      v->get_items( static_cast<int>( p ) ).end() );
             }
         }
     }
@@ -955,14 +1044,21 @@ void castLight( Out( &output_cache )[MAPSIZE_X][MAPSIZE_Y],
         delta.y = -distance;
         bool started_row = false;
         T current_transparency = 0.0;
-        for( delta.x = -distance; delta.x <= 0; delta.x++ ) {
+        float away = start - ( -distance + 0.5f ) / ( -distance -
+                     0.5f ); //The distance between our first leadingEdge and start
+
+        //We initialise delta.x to -distance adjusted so that the commented start < leadingEdge condition below is never false
+        delta.x = -distance + std::max( static_cast<int>( ceil( away * ( -distance - 0.5f ) ) ),
+                                        0 );
+
+        for( ; delta.x <= 0; delta.x++ ) {
             int currentX = offsetX + delta.x * xx + delta.y * xy;
             int currentY = offsetY + delta.x * yx + delta.y * yy;
             float trailingEdge = ( delta.x - 0.5f ) / ( delta.y + 0.5f );
             float leadingEdge = ( delta.x + 0.5f ) / ( delta.y - 0.5f );
 
             if( !( currentX >= 0 && currentY >= 0 && currentX < MAPSIZE_X &&
-                   currentY < MAPSIZE_Y ) || start < leadingEdge ) {
+                   currentY < MAPSIZE_Y ) /* || start < leadingEdge */ ) {
                 continue;
             } else if( end > trailingEdge ) {
                 break;
@@ -1132,10 +1228,10 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             seen_cache[mirror_pos.x][mirror_pos.y] < LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
             continue;
         } else if( !vp.info().has_flag( "CAMERA_CONTROL" ) ) {
-            mirrors.emplace_back( vp.part_index() );
+            mirrors.emplace_back( static_cast<int>( vp.part_index() ) );
         } else {
             if( square_dist( origin, mirror_pos ) <= 1 && veh->camera_on ) {
-                cam_control = vp.part_index();
+                cam_control = static_cast<int>( vp.part_index() );
             }
         }
     }
@@ -1159,7 +1255,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             camera_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
 
-        // @todo: Factor in the mirror facing and only cast in the
+        // TODO: Factor in the mirror facing and only cast in the
         // directions the player's line of sight reflects to.
         //
         // The naive solution of making the mirrors act like a second player
@@ -1169,11 +1265,26 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     }
 }
 
-static float light_calc( const float &numerator, const float &transparency, const int &distance )
+//Schraudolph's algorithm with John's constants
+static inline
+float fastexp( float x )
+{
+    union {
+        float f;
+        int i;
+    } u, v;
+    u.i = static_cast<long long>( 6051102 * x + 1056478197 );
+    v.i = static_cast<long long>( 1056478197 - 6051102 * x );
+    return u.f / v.f;
+}
+
+static float light_calc( const float &numerator, const float &transparency,
+                         const int &distance )
 {
     // Light needs inverse square falloff in addition to attenuation.
-    return numerator / static_cast<float>( exp( transparency * distance ) * distance );
+    return numerator  / ( fastexp( transparency * distance ) * distance );
 }
+
 static bool light_check( const float &transparency, const float &intensity )
 {
     return transparency > LIGHT_TRANSPARENCY_SOLID && intensity > LIGHT_AMBIENT_LOW;
@@ -1336,12 +1447,16 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
         if( trigdist ) {
             double fdist = ( ao * HALFPI ) / wangle;
             double orad = ( PI * ao / 180.0 );
-            end.x = int( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( rad + orad ) );
-            end.y = int( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( rad + orad ) );
+            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos(
+                                          rad + orad ) );
+            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin(
+                                          rad + orad ) );
             apply_light_ray( lit, p, end, luminance );
 
-            end.x = int( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos( rad - orad ) );
-            end.y = int( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin( rad - orad ) );
+            end.x = static_cast<int>( p.x + ( static_cast<double>( range ) - fdist * 2.0 ) * cos(
+                                          rad - orad ) );
+            end.y = static_cast<int>( p.y + ( static_cast<double>( range ) - fdist * 2.0 ) * sin(
+                                          rad - orad ) );
             apply_light_ray( lit, p, end, luminance );
         } else {
             calc_ray_end( nangle + ao, range, p, end );
@@ -1395,7 +1510,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                 if( !lit[x][y] ) {
                     // Multiple rays will pass through the same squares so we need to record that
                     lit[x][y] = true;
-                    float lm_val = luminance / ( expf( transparency * distance ) * distance );
+                    float lm_val = luminance / ( fastexp( transparency * distance ) * distance );
                     quadrant q = is_opaque ? quad : quadrant::default_;
                     lm[x][y][q] = std::max( lm[x][y][q], lm_val );
                 }
@@ -1427,7 +1542,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
                 if( !lit[x][y] ) {
                     // Multiple rays will pass through the same squares so we need to record that
                     lit[x][y] = true;
-                    float lm_val = luminance / ( expf( transparency * distance ) * distance );
+                    float lm_val = luminance / ( fastexp( transparency * distance ) * distance );
                     quadrant q = is_opaque ? quad : quadrant::default_;
                     lm[x][y][q] = std::max( lm[x][y][q], lm_val );
                 }

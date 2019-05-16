@@ -10,7 +10,7 @@
     "symbol": "o",
     "quench": 4,
     "healthy": 1,
-    "calories": 180,
+    "calories": 80,
     "description": "Nutritious egg laid by a bird.",
     "price": 250,
     "material": "egg",
@@ -19,7 +19,7 @@
     "fun": -8,
     "flags": [ "FREEZERBURN" ],
     "rot_spawn": "GROUP_EGG_BIRD_WILD",
-    "vitamins": [ [ "vitA", 2 ], [ "iron", 1 ], [ "vitB", 5 ] ],
+    "vitamins": [ [ "vitA", 9 ], [ "calcium", 3 ], [ "iron", 4 ], [ "vitB", 21 ] ],
     "rot_spawn_chance": 50
   },
   {
@@ -52,7 +52,7 @@
     "calories": 130,
     "volume": "83 ml",
     "weight": 70,
-    "vitamins": [ [ "vitA", 3 ], [ "calcium", 1 ], [ "iron", 3 ], [ "vitB", 38 ] ],
+    "vitamins": [ [ "vitA", 15 ], [ "calcium", 5 ], [ "iron", 15 ], [ "vitB", 158 ] ],
     "rot_spawn": "GROUP_EGG_DUCK"
   },
   {
@@ -63,7 +63,7 @@
     "calories": 266,
     "volume": "125 ml",
     "weight": 144,
-    "vitamins": [ [ "vitA", 6 ], [ "calcium", 2 ], [ "iron", 7 ], [ "vitB", 73 ] ],
+    "vitamins": [ [ "vitA", 30 ], [ "calcium", 9 ], [ "iron", 29 ], [ "vitB", 306 ] ],
     "rot_spawn": "GROUP_EGG_GOOSE_CANADIAN"
   },
   {
@@ -74,7 +74,7 @@
     "volume": "83 ml",
     "weight": 79,
     "calories": 135,
-    "vitamins": [ [ "vitA", 3 ], [ "calcium", 2 ], [ "iron", 4 ], [ "vitB", 13 ] ],
+    "vitamins": [ [ "vitA", 15 ], [ "calcium", 8 ], [ "iron", 18 ], [ "vitB", 56 ] ],
     "rot_spawn": "GROUP_EGG_TURKEY"
   },
   {
@@ -126,7 +126,7 @@
     "volume": 1,
     "fun": -10,
     "proportional": { "weight": 4.4, "calories": 4.4 },
-    "relative": { "vitamins": [ [ "vitA", 6 ], [ "iron", 3 ], [ "vitB", 15 ] ] },
+    "vitamins": [ [ "vitA", 40 ], [ "calcium", 13 ], [ "iron", 18 ], [ "vitB", 92 ] ],
     "rot_spawn": "GROUP_EGG_ANT",
     "rot_spawn_chance": 60
   },
@@ -143,7 +143,7 @@
     "material": "egg",
     "volume": 1,
     "proportional": { "weight": 4.4, "calories": 4.4 },
-    "relative": { "vitamins": [ [ "vitA", 6 ], [ "iron", 3 ], [ "vitB", 15 ] ] },
+    "vitamins": [ [ "vitA", 40 ], [ "calcium", 13 ], [ "iron", 18 ], [ "vitB", 92 ] ],
     "fun": -20
   },
   {
@@ -203,7 +203,7 @@
     "price": 3000,
     "material": "flesh",
     "volume": 1,
-    "vitamins": [ [ "vitA", 6 ], [ "vitC", 10 ], [ "calcium", 1 ], [ "iron", 2 ], [ "vitB", 236 ] ],
+    "vitamins": [ [ "vitA", 24 ], [ "vitC", 42 ], [ "calcium", 5 ], [ "iron", 8 ], [ "vitB", 985 ] ],
     "fun": 5
   },
   {
@@ -224,9 +224,7 @@
     "volume": "25 ml",
     "stack_size": 4,
     "fun": 1,
-    "vitamins": [ [ "vitC", 1 ], [ "vitB", 24 ] ],
-    "rot_spawn": "GROUP_CARRION",
-    "rot_spawn_chance": 20
+    "vitamins": [ [ "vitC", 1 ], [ "vitB", 24 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -239,15 +237,16 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -2,
-    "calories": 27,
+    "calories": 80,
     "description": "Whole fresh eggs, dehydrated into an easy to store powder.",
     "price": 1120,
     "material": [ "powder", "egg" ],
+    "primary_material": "powder",
     "volume": 1,
-    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
-    "//": "according to USDA website info on powdered egg, you lose most of the vitamins by powderizing them",
+    "flags": [ "EDIBLE_FROZEN" ],
     "charges": 16,
-    "fun": -4
+    "fun": -4,
+    "vitamins": [ [ "vitB", 2 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -264,8 +263,7 @@
     "volume": "125 ml",
     "charges": 2,
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
-    "fun": 3,
-    "rot_spawn": "GROUP_CARRION"
+    "fun": 3
   },
   {
     "type": "COMESTIBLE",
@@ -280,8 +278,7 @@
     "price": 95,
     "material": "egg",
     "fun": 2,
-    "flags": [ "FREEZERBURN" ],
-    "rot_spawn": "GROUP_CARRION"
+    "flags": [ "FREEZERBURN" ]
   },
   {
     "type": "COMESTIBLE",
@@ -295,7 +292,6 @@
     "description": "A pickled egg.  Rather salty, but tastes good and lasts for a long time.",
     "price": 95,
     "material": "egg",
-    "fun": 2,
-    "rot_spawn": "GROUP_CARRION"
+    "fun": 2
   }
 ]

@@ -78,7 +78,7 @@
     "type": "talk_topic",
     "dynamic_line": "Somehow, I don't know how, I managed to fall asleep in there.  I think it might have started with me hyperventilating and passing out.  When I woke up it was night, I was starving and parched, and...  and the screaming had died down.  At first I tried to go out the way I came in, but I peaked out the window and saw one of the nurses stumbling around, spitting that black shit up.  Her name was Becky.  She wasn't Becky anymore.  So, I went back up and somehow made it into the storage area.  From there, the roof.  I drank water from some nasty old puddle and I camped out there for a while, watching the city around me burn.",
     "responses": [
-      { "text": "How did you get out of there?", "topic": "BGSS_HOSPITAL_2_STORY3" },
+      { "text": "What finally brought you down?", "topic": "BGSS_HOSPITAL_2_STORY4" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
@@ -89,7 +89,7 @@
     "dynamic_line": "Well, I still didn't have any food.  Eventually I had to climb down the side of the building...  so I did, as quietly as I could.  It was night, and I have pretty good nightvision.  Apparently the zombies don't, because I was able to slip right past them and steal a bicycle that was just laying on the side of the road.  I'd kind of scouted out my route from above...  I'm not from a big city, the hospital was the tallest building around.  I avoided the major military blockades, and headed out of town towards a friend's old cabin.  I had to fight off a couple of the <zombies>, but I managed to avoid any big fuss, by some miracle.  I never made it to the cabin, but that's not important now.",
     "//": "In the future this NPC should give you the map coordinates to the cabin if you persuade.",
     "responses": [
-      { "text": "What did you see, up there on the roof?", "topic": "BGSS_HOSPITAL_2_ROOF1" },
+      { "text": "What did you see, up there on the roof?", "topic": "BGSS_HOSPITAL_2_ROOF" },
       { "text": "Thanks for telling me all that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
@@ -97,7 +97,7 @@
   {
     "id": "BGSS_HOSPITAL_2_ROOF",
     "type": "talk_topic",
-    "dynamic_line": "My hospital was the tallest building in town, so I saw quite a bit.  The military set up blockades on the roads coming in and out of the town, and there was quite a lightshow going on out there when I started up.  I think it was mostly automated turrets and robots, I didn't hear much shouting.  I saw a few cars and trucks try to run the barricade and get blown to high hell.  There were swarms of <zombies> in the streets, travelling in packs towards sounds and noises.  I watched them rip a few running cars to shreds, including the people inside who were trying to get away.  You know.  The usual stuff.  I was pretty numb by that point.",
+    "dynamic_line": "My hospital was the tallest building in town, so I saw quite a bit.  The military set up blockades on the roads coming in and out of the town, and there was quite a lightshow going on out there when I started up.  I think it was mostly automated turrets and robots, I didn't hear much shouting.  I saw a few cars and trucks try to run the barricade and get blown to high hell.  There were swarms of <zombies> in the streets, traveling in packs towards sounds and noises.  I watched them rip a few running cars to shreds, including the people inside who were trying to get away.  You know.  The usual stuff.  I was pretty numb by that point.",
     "responses": [
       { "text": "How did you get down?", "topic": "BGSS_HOSPITAL_2_STORY4" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },

@@ -1,3 +1,6 @@
+#include <list>
+#include <utility>
+
 #include "catch/catch.hpp"
 #include "item.h"
 #include "item_location.h"

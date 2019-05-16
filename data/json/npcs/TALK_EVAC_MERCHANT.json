@@ -84,12 +84,12 @@
       {
         "text": "[INT 11] I'm sure I can organize salvage operations to increase the bounty scavengers bring in!",
         "topic": "TALK_EVAC_MERCHANT_NO",
-        "condition": { "u_has_intellince": 11 }
+        "condition": { "u_has_intelligence": 11 }
       },
       {
         "text": "[STR 11] I punch things in face real good!",
         "topic": "TALK_EVAC_MERCHANT_NO",
-        "condition": { "and": [ { "no": { "u_has_intelligence": 7 } }, { "u_has_strength": 11 } ] }
+        "condition": { "and": [ { "not": { "u_has_intelligence": 7 } }, { "u_has_strength": 11 } ] }
       },
       { "text": "I guess I'll look somewhere else...", "topic": "TALK_EVAC_MERCHANT" }
     ]

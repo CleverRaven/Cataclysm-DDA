@@ -52,11 +52,7 @@
     "book_learn": [ [ "manual_pistol", 4 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [
-      [ [ "40_casing", 1 ] ],
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 5 ] ]
-    ]
+    "components": [ [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 5 ] ] ]
   },
   {
     "result": "reloaded_32_acp",
@@ -71,11 +67,7 @@
     "book_learn": [ [ "recipe_bullets", 5 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [
-      [ [ "32_casing", 1 ] ],
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 2 ] ]
-    ]
+    "components": [ [ [ "32_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 2 ] ] ]
   },
   {
     "result": "reloaded_38_fmj",
@@ -90,12 +82,7 @@
     "book_learn": [ [ "manual_pistol", 2 ], [ "recipe_bullets", 3 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [
-      [ [ "38_casing", 1 ] ],
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 2 ] ],
-      [ [ "copper", 1 ] ]
-    ]
+    "components": [ [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 2 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_38_special",
@@ -110,11 +97,7 @@
     "book_learn": [ [ "manual_pistol", 1 ], [ "recipe_bullets", 2 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [
-      [ [ "38_casing", 1 ] ],
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 2 ] ]
-    ]
+    "components": [ [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 2 ] ] ]
   },
   {
     "result": "reloaded_38_super",
@@ -129,11 +112,7 @@
     "book_learn": [ [ "manual_pistol", 3 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [
-      [ [ "38_casing", 1 ] ],
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 3 ] ]
-    ]
+    "components": [ [ [ "38_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 3 ] ] ]
   },
   {
     "result": "reloaded_40fmj",
@@ -148,12 +127,7 @@
     "book_learn": [ [ "manual_pistol", 3 ], [ "recipe_bullets", 4 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [
-      [ [ "40_casing", 1 ] ],
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 4 ] ],
-      [ [ "copper", 1 ] ]
-    ]
+    "components": [ [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 4 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_40sw",
@@ -168,11 +142,7 @@
     "book_learn": [ [ "manual_pistol", 2 ], [ "recipe_bullets", 3 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [
-      [ [ "40_casing", 1 ] ],
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 4 ] ]
-    ]
+    "components": [ [ [ "40_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 4 ] ] ]
   },
   {
     "result": "reloaded_44fmj",
@@ -187,12 +157,7 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
-    "components": [
-      [ [ "44_casing", 1 ] ],
-      [ [ "lgpistol_primer", 1 ] ],
-      [ [ "gunpowder", 6 ] ],
-      [ [ "copper", 2 ] ]
-    ]
+    "components": [ [ [ "44_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 6 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "reloaded_44magnum",
@@ -207,11 +172,7 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 5 ] ],
-    "components": [
-      [ [ "44_casing", 1 ] ],
-      [ [ "lgpistol_primer", 1 ] ],
-      [ [ "gunpowder", 6 ] ]
-    ]
+    "components": [ [ [ "44_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 6 ] ] ]
   },
   {
     "result": "reloaded_45_acp",
@@ -226,11 +187,7 @@
     "book_learn": [ [ "manual_pistol", 3 ], [ "manual_smg", 3 ], [ "recipe_bullets", 4 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
-    "components": [
-      [ [ "45_casing", 1 ] ],
-      [ [ "lgpistol_primer", 1 ] ],
-      [ [ "gunpowder", 4 ] ]
-    ]
+    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 4 ] ] ]
   },
   {
     "result": "reloaded_45_jhp",
@@ -245,11 +202,7 @@
     "book_learn": [ [ "manual_pistol", 2 ], [ "manual_smg", 2 ], [ "recipe_bullets", 3 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
-    "components": [
-      [ [ "45_casing", 1 ] ],
-      [ [ "lgpistol_primer", 1 ] ],
-      [ [ "gunpowder", 4 ] ]
-    ]
+    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 4 ] ] ]
   },
   {
     "result": "reloaded_45_super",
@@ -264,11 +217,7 @@
     "book_learn": [ [ "manual_pistol", 4 ], [ "manual_smg", 4 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
-    "components": [
-      [ [ "45_casing", 1 ] ],
-      [ [ "lgpistol_primer", 1 ] ],
-      [ [ "gunpowder", 5 ] ]
-    ]
+    "components": [ [ [ "45_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 5 ] ] ]
   },
   {
     "result": "reloaded_454_Casull",
@@ -283,12 +232,7 @@
     "book_learn": [ [ "recipe_bullets", 6 ], [ "manual_pistol", 7 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 5 ], [ "ammo_bullet", 4 ] ],
-    "components": [
-      [ [ "454_casing", 1 ] ],
-      [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder", 6 ] ],
-      [ [ "copper", 2 ] ]
-    ]
+    "components": [ [ [ "454_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder", 6 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "reloaded_46mm",
@@ -303,11 +247,7 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [
-      [ [ "46mm_casing", 1 ] ],
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 4 ] ]
-    ]
+    "components": [ [ [ "46mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 4 ] ] ]
   },
   {
     "result": "reloaded_460_fmj",
@@ -317,17 +257,12 @@
     "skill_used": "fabrication",
     "difficulty": 5,
     "skills_required": [ "gun", 4 ],
-    "time": 1,
+    "time": 2000,
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
-    "components": [
-      [ [ "460_casing", 1 ] ],
-      [ [ "lgpistol_primer", 1 ] ],
-      [ [ "gunpowder", 6 ] ],
-      [ [ "copper", 2 ] ]
-    ]
+    "components": [ [ [ "460_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 6 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "reloaded_460_rowland",
@@ -337,16 +272,12 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "skills_required": [ "gun", 3 ],
-    "time": 1,
+    "time": 2000,
     "batch_time_factors": [ 60, 5 ],
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 3 ], [ "ammo_bullet", 3 ] ],
-    "components": [
-      [ [ "460_casing", 1 ] ],
-      [ [ "lgpistol_primer", 1 ] ],
-      [ [ "gunpowder", 6 ] ]
-    ]
+    "components": [ [ [ "460_casing", 1 ] ], [ [ "lgpistol_primer", 1 ] ], [ [ "gunpowder", 6 ] ] ]
   },
   {
     "result": "reloaded_500_Magnum",
@@ -361,12 +292,7 @@
     "book_learn": [ [ "recipe_bullets", 7 ], [ "manual_pistol", 8 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 6 ], [ "ammo_bullet", 5 ] ],
-    "components": [
-      [ [ "500_casing", 1 ] ],
-      [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 8 ] ],
-      [ [ "copper", 2 ] ]
-    ]
+    "components": [ [ [ "500_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 8 ] ], [ [ "copper", 2 ] ] ]
   },
   {
     "result": "reloaded_57mm",
@@ -381,11 +307,7 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "mag_rifle", 4 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [
-      [ [ "57mm_casing", 1 ] ],
-      [ [ "smrifle_primer", 1 ] ],
-      [ [ "gunpowder", 4 ] ]
-    ]
+    "components": [ [ [ "57mm_casing", 1 ] ], [ [ "smrifle_primer", 1 ] ], [ [ "gunpowder", 4 ] ] ]
   },
   {
     "result": "reloaded_762_25",
@@ -460,10 +382,7 @@
     "book_learn": [ [ "manual_pistol", 2 ], [ "manual_smg", 2 ], [ "recipe_bullets", 3 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_9mm", 1 ] ],
-    "components": [
-      [ [ "gunpowder", 3 ] ],
-      [ [ "copper", 1 ] ]
-    ]
+    "components": [ [ [ "gunpowder", 3 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_9x18mm",
@@ -478,11 +397,7 @@
     "book_learn": [ [ "recipe_bullets", 1 ], [ "manual_pistol", 2 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [
-      [ [ "9x18mm_casing", 1 ] ],
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 3 ] ]
-    ]
+    "components": [ [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 3 ] ] ]
   },
   {
     "result": "reloaded_9x18mmfmj",
@@ -497,12 +412,7 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [
-      [ [ "9x18mm_casing", 1 ] ],
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 3 ] ],
-      [ [ "copper", 1 ] ]
-    ]
+    "components": [ [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 3 ] ], [ [ "copper", 1 ] ] ]
   },
   {
     "result": "reloaded_9x18mmP2",
@@ -517,10 +427,51 @@
     "book_learn": [ [ "recipe_bullets", 3 ], [ "manual_pistol", 4 ] ],
     "charges": 1,
     "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ] ],
-    "components": [
-      [ [ "9x18mm_casing", 1 ] ],
-      [ [ "smpistol_primer", 1 ] ],
-      [ [ "gunpowder", 5 ] ]
-    ]
+    "components": [ [ [ "9x18mm_casing", 1 ] ], [ [ "smpistol_primer", 1 ] ], [ [ "gunpowder", 5 ] ] ]
+  },
+  {
+    "result": "reloaded_380_JHP",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 4 ],
+    "time": 2000,
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "manual_pistol", 1 ], [ "manual_smg", 1 ], [ "recipe_bullets", 2 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_380", 1 ] ],
+    "components": [ [ [ "gunpowder", 2 ] ] ]
+  },
+  {
+    "result": "reloaded_380_p",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "skills_required": [ "gun", 3 ],
+    "time": 2000,
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "manual_pistol", 3 ], [ "manual_smg", 3 ], [ "recipe_bullets", 4 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_380", 1 ] ],
+    "components": [ [ [ "gunpowder", 3 ] ] ]
+  },
+  {
+    "result": "reloaded_380_FMJ",
+    "type": "recipe",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_PISTOL",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "skills_required": [ "gun", 1 ],
+    "time": 2000,
+    "batch_time_factors": [ 60, 5 ],
+    "book_learn": [ [ "manual_pistol", 2 ], [ "manual_smg", 2 ], [ "recipe_bullets", 3 ] ],
+    "charges": 1,
+    "using": [ [ "bullet_forming", 2 ], [ "ammo_bullet", 2 ], [ "ammo_380", 1 ] ],
+    "components": [ [ [ "gunpowder", 2 ] ], [ [ "copper", 1 ] ] ]
   }
 ]

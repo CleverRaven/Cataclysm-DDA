@@ -13,7 +13,7 @@
     "worn_override": "REFUGEE_Jenny_worn",
     "carry_override": "REFUGEE_Jenny_carried",
     "weapon_override": "REFUGEE_Jenny_wield",
-    "traits": [ { "trait": "PACIFIST" }, { "trait": "Exp_Eng_Mechanical2" } ],
+    "traits": [ { "trait": "PACIFIST" }, { "trait": "Exp_Eng_Mechanical2" }, { "group": "Appearance_Caucasian" } ],
     "skills": [
       { "skill": "mechanics", "bonus": { "rng": [ 5, 7 ] } },
       { "skill": "computer", "bonus": { "rng": [ 2, 5 ] } },
@@ -157,7 +157,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Project1_early",
-    "dynamic_line": "I recently came into possession of this mold for making high-calibre air rifle bullets.  I'm kinda working on a design that would use them to protect the base.  Got a long way to go, though.",
+    "dynamic_line": "I recently came into possession of this mold for making high-caliber air rifle bullets.  I'm kinda working on a design that would use them to protect the base.  Got a long way to go, though.",
     "responses": [
       { "text": "What are you planning?", "topic": "TALK_REFUGEE_JENNY_Project2_early" },
       { "text": "What's it like living here?", "topic": "TALK_REFUGEE_JENNY_Personal1_early" },
@@ -168,7 +168,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Project2_early",
-    "dynamic_line": "Well, these things are a standard .30 calibre.  They should be compatible with any similar rifle barrel.  It would be pretty easy to repurpose some rifle parts into large air weapons that we could use without relying on gunpowder, and without so much noise.  I'm still drawing up an actual design though, I have a bunch of features I want.  Ask me again in a couple weeks and I'll give you some more info.",
+    "dynamic_line": "Well, these things are a standard .30 caliber.  They should be compatible with any similar rifle barrel.  It would be pretty easy to repurpose some rifle parts into large air weapons that we could use without relying on gunpowder, and without so much noise.  I'm still drawing up an actual design though, I have a bunch of features I want.  Ask me again in a couple weeks and I'll give you some more info.",
     "responses": [
       { "text": "What's it like living here?", "topic": "TALK_REFUGEE_JENNY_Personal1_early" },
       { "text": "Can you tell me anything about the other refugees here?", "topic": "TALK_REFUGEE_JENNY_Refugees1" },
@@ -188,7 +188,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Project1_developed",
-    "dynamic_line": "About a month ago, I got a mold for making high-calibre air rifle bullets.  I've been designing some turrets that would use a central air system to power pneumatic rifle turrets around the center.  It's a lot easier than trying to make gunpowder!",
+    "dynamic_line": "About a month ago, I got a mold for making high-caliber air rifle bullets.  I've been designing some turrets that would use a central air system to power pneumatic rifle turrets around the center.  It's a lot easier than trying to make gunpowder!",
     "responses": [
       { "text": "Tell me more about those turrets.", "topic": "TALK_REFUGEE_JENNY_Project2_developed" },
       {

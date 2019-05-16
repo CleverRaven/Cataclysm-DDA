@@ -23,7 +23,7 @@
     "durability": 7,
     "clip_size": 150,
     "reload": 50,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "sling",
@@ -118,6 +118,7 @@
       [ "mechanism", 4 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ]
@@ -146,7 +147,15 @@
     "durability": 9,
     "clip_size": 2,
     "reload": 600,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "rail", 1 ], [ "sights", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ]
   },
   {
     "id": "LAW",
@@ -170,7 +179,7 @@
     "durability": 9,
     "clip_size": 1,
     "reload": 150,
-    "valid_mod_locations": [ [ "accessories", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 1 ], [ "sling", 1 ] ]
   },
   {
     "id": "TANK",
@@ -224,6 +233,7 @@
       [ "mechanism", 4 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ]
@@ -239,7 +249,7 @@
     "price": 40000,
     "//": "Part of price shifted to integral mod.",
     "material": [ "steel", "wood" ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
     "skill": "shotgun",
     "ammo": "3006",
     "weight": 2267,
@@ -247,13 +257,13 @@
     "volume": 8,
     "bashing": 12,
     "to_hit": -1,
-    "dispersion": 450,
+    "dispersion": 550,
     "durability": 6,
     "clip_size": 1,
     "loudness": 25,
     "barrel_length": 2,
     "built_in_mods": [ "combination_gun_shotgun_pipe" ],
-    "valid_mod_locations": [ [ "muzzle", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "tihar",
@@ -280,7 +290,7 @@
     "clip_size": 15,
     "reload": 1000,
     "loudness": 18,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "helsing",
@@ -306,7 +316,7 @@
     "clip_size": 8,
     "reload": 1000,
     "loudness": 22,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "mininuke_launcher",
@@ -318,7 +328,7 @@
     "description": "A powerful handheld launcher handcrafted from scrap.  Made to launch modified handheld nuclear weapons, it is an exceedingly powerful weapon.",
     "price": 750000,
     "material": [ "aluminum", "wood" ],
-    "flags": [ "RELOAD_ONE", "STR_RELOAD", "NEVER_JAMS" ],
+    "flags": [ "STR_RELOAD", "NEVER_JAMS" ],
     "skill": "launcher",
     "ammo": "mininuke_mod",
     "weight": 11260,
@@ -329,7 +339,8 @@
     "dispersion": 600,
     "durability": 7,
     "clip_size": 1,
-    "reload": 800
+    "reload": 800,
+    "valid_mod_locations": [ [ "sling", 1 ] ]
   },
   {
     "id": "m202_flash",
@@ -355,7 +366,7 @@
     "clip_size": 4,
     "reload": 600,
     "loudness": 200,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "sling", 1 ] ]
   },
   {
     "id": "RPG",
@@ -380,7 +391,7 @@
     "durability": 10,
     "clip_size": 1,
     "reload": 150,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "sling", 1 ] ]
   },
   {
     "id": "speargun",
@@ -392,7 +403,7 @@
     "description": "An underwater fishing implement designed to fire a specialized type of spear using tension in a rubber band.  While highly effective when used underwater, it is nearly useless on dry land.",
     "price": 11500,
     "material": [ "wood", "plastic" ],
-    "flags": [ "RELOAD_ONE", "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS" ],
+    "flags": [ "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS" ],
     "skill": "rifle",
     "ammo": "fishspear",
     "weight": 2100,
@@ -405,7 +416,7 @@
     "durability": 8,
     "clip_size": 1,
     "reload": 700,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "minispeargun",
@@ -417,7 +428,7 @@
     "description": "A small underwater fishing implement designed to fire a specialized type of spear using tension in a rubber band.  While highly effective when used underwater, it is nearly useless on dry land.",
     "price": 10000,
     "material": [ "wood", "plastic" ],
-    "flags": [ "RELOAD_ONE", "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS" ],
+    "flags": [ "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS" ],
     "skill": "pistol",
     "ammo": "fishspear",
     "weight": 840,
@@ -453,7 +464,7 @@
     "durability": 7,
     "clip_size": 2,
     "reload": 700,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "airspeargun",
@@ -479,7 +490,7 @@
     "clip_size": 4,
     "reload": 1000,
     "loudness": 11,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
   },
   {
     "id": "combination_gun",
@@ -491,7 +502,7 @@
     "description": "A break action firearm comprised of a .30-06 barrel over two 12 gauge smooth bore barrels.  Historically used by egomaniac hunters in Africa, now used by their egomaniac descendants in New England.",
     "price": 259500,
     "material": [ "steel", "wood" ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
     "skill": "rifle",
     "ammo": "3006",
     "weight": 4200,
@@ -511,6 +522,7 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ]
@@ -522,7 +534,6 @@
     "symbol": "/",
     "color": "light_gray",
     "name": "crude rocket launcher",
-    "name_plural": "crude rocket launchers",
     "description": "An improvised, direct ignition launcher for home-made rockets.  Essentially, a thick-walled steel pipe, equipped with a pilot light, several batteries and a simple circuit board.  Effective only at medium range, barely.",
     "price": 5000,
     "material": "steel",
@@ -538,7 +549,8 @@
     "burst": 1,
     "clip_size": 1,
     "reload": 800,
-    "loudness": 200
+    "loudness": 200,
+    "valid_mod_locations": [ [ "sling", 1 ] ]
   },
   {
     "id": "watercannon",
@@ -562,57 +574,7 @@
     "durability": 10,
     "burst": 5,
     "clip_size": 100,
-    "reload": 0
-  },
-  {
-    "id": "abzats",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "symbol": "(",
-    "color": "dark_gray",
-    "name": "heavy automatic shotgun",
-    "description": "Modified from the massive M2 Browning, this heavy machine gun has been re-chambered and re-bored for shotgun shells, and completely redesigned to be wielded unmounted by one user.",
-    "price": 750000,
-    "material": [ "hardsteel", "wood" ],
-    "flags": [ "MODE_BURST", "RELOAD_EJECT" ],
-    "skill": "shotgun",
-    "ammo": "shot",
-    "weight": 22000,
-    "volume": 18,
-    "bashing": 12,
-    "to_hit": -3,
-    "dispersion": 450,
-    "durability": 6,
-    "burst": 5,
-    "clip_size": 20,
-    "reload": 800,
-    "loudness": 25,
-    "barrel_length": 3,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "mechanism", 4 ], [ "rail", 1 ], [ "sights", 1 ] ]
-  },
-  {
-    "id": "chemical_thrower",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "reload_noise": "slosh.",
-    "symbol": "(",
-    "color": "dark_gray",
-    "name": "chemical thrower",
-    "name_plural": "chemical throwers",
-    "description": "A bulky, self-made chemical sprayer with an internal conversion mechanism that allows all sorts of chemicals to be dispersed to your surroundings.",
-    "price": 15000,
-    "material": [ "steel", "plastic" ],
-    "flags": [ "FIRE_50", "NEVER_JAMS" ],
-    "skill": "launcher",
-    "ammo": "chemical_spray",
-    "weight": 1150,
-    "volume": 25,
-    "bashing": 9,
-    "to_hit": -1,
-    "ranged_damage": -5,
-    "dispersion": 300,
-    "durability": 6,
-    "clip_size": 1000,
-    "reload": 10
+    "reload": 0,
+    "valid_mod_locations": [ [ "sling", 1 ] ]
   }
 ]

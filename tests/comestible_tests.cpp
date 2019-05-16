@@ -1,17 +1,21 @@
+#include <stdio.h>
+#include <algorithm>
+#include <list>
+#include <map>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "catch/catch.hpp"
-#include "crafting.h"
-#include "game.h"
 #include "itype.h"
-#include "map_helpers.h"
-#include "npc.h"
-#include "player.h"
-#include "player_helpers.h"
 #include "recipe_dictionary.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "test_statistics.h"
-#include "recipe_dictionary.h"
 #include "item.h"
+#include "optional.h"
+#include "string_id.h"
+#include "type_id.h"
 
 struct all_stats {
     statistics<int> calories;
@@ -76,11 +80,33 @@ std::vector<std::vector<item_comp>> recipe_permutations( const
     return output;
 }
 
-all_stats run_stats( std::vector<std::vector<item_comp>> permutations )
+int byproduct_calories( const recipe &recipe_obj )
+{
+
+    std::vector<item> byproducts = recipe_obj.create_byproducts();
+    int kcal = 0;
+    for( const item &it : byproducts ) {
+        if( it.is_comestible() ) {
+            kcal += it.type->comestible->get_calories();
+        }
+    }
+    return kcal;
+}
+
+void print_itemcomp( const std::vector<item_comp> &list )
+{
+    printf( "error in permutation. list of components:\n" );
+    for( const item_comp &itc : list ) {
+        printf( "%s, %d\n", itc.to_string().c_str(), itc.count );
+    }
+    printf( "\n" );
+}
+
+all_stats run_stats( std::vector<std::vector<item_comp>> permutations, int byproduct_calories )
 {
     all_stats mystats;
     for( const std::vector<item_comp> &permut : permutations ) {
-        mystats.calories.add( comp_calories( permut ) );
+        mystats.calories.add( comp_calories( permut ) - byproduct_calories );
     }
     return mystats;
 }
@@ -93,30 +119,35 @@ item food_or_food_container( item it )
 TEST_CASE( "recipe_permutations" )
 {
     for( auto i = recipe_dict.begin(); i != recipe_dict.end(); i++ ) {
-        all_stats mystats = run_stats( recipe_permutations(
-                                           i->first.obj().requirements().get_components() ) );
         // the resulting item
-        item res_it = food_or_food_container( i->first.obj().create_result() );
+        const recipe &recipe_obj = i->first.obj();
+        item res_it = food_or_food_container( recipe_obj.create_result() );
         const bool is_food = res_it.is_food();
         const bool has_override = res_it.has_flag( "NUTRIENT_OVERRIDE" );
-        int default_calories = 0;
-        if( res_it.type->comestible ) {
-            default_calories = res_it.type->comestible->get_calories();
-        }
-        if( res_it.charges > 0 ) {
-            default_calories *= res_it.charges;
-        }
-        const float lower_bound = std::min( default_calories - mystats.calories.stddev() * 2,
-                                            default_calories * 0.8 );
-        const float upper_bound = std::max( default_calories + mystats.calories.stddev() * 2,
-                                            default_calories * 1.2 );
-        if( mystats.calories.min() != mystats.calories.max() && is_food && !has_override ) {
-            if( lower_bound >= mystats.calories.avg() || mystats.calories.avg() >= upper_bound )  {
-                printf( "\n\nRecipeID: %s, Lower Bound: %f, Average: %f, Upper Bound: %f\n\n", i->first.c_str(),
-                        lower_bound, mystats.calories.avg(), upper_bound );
+        if( is_food && !has_override ) {
+            all_stats mystats = run_stats( recipe_permutations( recipe_obj.requirements().get_components() ),
+                                           byproduct_calories( recipe_obj ) );
+            int default_calories = 0;
+            if( res_it.type->comestible ) {
+                default_calories = res_it.type->comestible->get_calories();
             }
-            REQUIRE( lower_bound < mystats.calories.avg() );
-            REQUIRE( mystats.calories.avg() < upper_bound );
+            if( res_it.charges > 0 ) {
+                default_calories *= res_it.charges;
+            }
+            const float lower_bound = std::min( default_calories - mystats.calories.stddev() * 2,
+                                                default_calories * 0.8 );
+            const float upper_bound = std::max( default_calories + mystats.calories.stddev() * 2,
+                                                default_calories * 1.2 );
+            if( mystats.calories.min() != mystats.calories.max() ) {
+                if( mystats.calories.min() < 0 || lower_bound >= mystats.calories.avg() ||
+                    mystats.calories.avg() >= upper_bound ) {
+                    printf( "\n\nRecipeID: %s, Lower Bound: %f, Average: %f, Upper Bound: %f\n\n", i->first.c_str(),
+                            lower_bound, mystats.calories.avg(), upper_bound );
+                }
+                CHECK( mystats.calories.min() >= 0 );
+                CHECK( lower_bound < mystats.calories.avg() );
+                CHECK( mystats.calories.avg() < upper_bound );
+            }
         }
     }
 }
