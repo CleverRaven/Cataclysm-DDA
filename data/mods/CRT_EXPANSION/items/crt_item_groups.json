@@ -3,7 +3,7 @@
     "type": "item_group",
     "id": "gunmod_common",
     "//": "Common gunmods typically owned by citizens and found in many locations.",
-    "items": [ [ "bthk_stock", 100 ] ]
+    "items": [ [ "bthk_stock", 50 ] ]
   },
   {
     "type": "item_group",
