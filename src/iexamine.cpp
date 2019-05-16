@@ -29,6 +29,7 @@
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "game_inventory.h"
 #include "handle_liquid.h"
 #include "harvest.h"
 #include "input.h"
@@ -4011,9 +4012,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     switch( amenu.ret ) {
         case INSTALL_CBM: {
-            const item_location bionic = g->inv_map_splice( []( const item & e ) {
-                return e.is_bionic();
-            }, _( "Choose CBM to install" ), PICKUP_RANGE, _( "You don't have any CBMs to install." ) );
+            const item_location bionic = game_menus::inv::install_bionic(p, patient);
 
             if( !bionic ) {
                 return;
