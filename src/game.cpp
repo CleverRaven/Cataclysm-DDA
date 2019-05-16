@@ -6637,7 +6637,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 }
                 center += edge_scroll;
             } else if( action == "MOUSE_MOVE" ) {
-                
+
                 const tripoint old_lp = lp;
                 const tripoint old_center = center;
 
