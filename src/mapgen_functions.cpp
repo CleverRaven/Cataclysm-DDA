@@ -1452,6 +1452,7 @@ void mapgen_subway( map *m, oter_id terrain_type, mapgendata dat, const time_poi
                                                 f_null,
                                                 f_null,
                                                 f_null ) );
+            VehicleSpawn::apply( vspawn_id( "default_subway_deadend" ), *m, "subway" );
             break;
     }
 
