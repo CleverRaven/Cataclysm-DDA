@@ -2321,7 +2321,7 @@
 	"byproducts": [ { "item": "frame_wood_light", "count": 1 }, { "item": "stick_long", "count": 1} ],
     "components": [
       [ [ "frame_wood_light", 1 ] ],
-	  [ [ "stick_long", 1 ] ]
+	  [ [ "stick_long", 1 ] ],
       [ [ "material_soil", 50 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ],
