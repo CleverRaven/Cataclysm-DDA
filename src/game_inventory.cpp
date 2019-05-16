@@ -1410,10 +1410,7 @@ static item_location autodoc_internal( player &u, player &patient,
                 drug_count += anesthesia_item->ammo_remaining();
             }
         }
-        for( const item *anesthesia_item : b_filter ) {
-            drug_count += 1; // legacy
-        }
-
+        drug_count += b_filter.size(); // legacy
         hint = string_format( _( "<color_yellow>Available Anesthesia: %i</color>" ), drug_count );
     }
 
