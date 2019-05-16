@@ -30,6 +30,7 @@ void full_map_test( const std::vector<std::string> &setup,
     const ter_id t_floor( "t_floor" );
     const ter_id t_utility_light( "t_utility_light" );
     const efftype_id effect_narcosis( "narcosis" );
+    const ter_id t_flat_roof( "t_flat_roof" );
 
     g->place_player( tripoint( 60, 60, 0 ) );
     g->u.worn.clear(); // Remove any light-emitting clothing
@@ -77,6 +78,7 @@ void full_map_test( const std::vector<std::string> &setup,
 
     {
         // Sanity check on player placement
+        REQUIRE( origin.z < OVERMAP_HEIGHT );
         tripoint player_offset = g->u.pos() - origin;
         REQUIRE( player_offset.y >= 0 );
         REQUIRE( player_offset.y < height );
@@ -89,21 +91,26 @@ void full_map_test( const std::vector<std::string> &setup,
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const tripoint p = origin + point( x, y );
+            const tripoint above = p + tripoint( 0, 0, 1 );
             switch( setup[y][x] ) {
                 case ' ':
                     break;
                 case 'L':
                     g->m.ter_set( p, t_utility_light );
+                    g->m.ter_set( above, t_flat_roof );
                     break;
                 case '#':
                     g->m.ter_set( p, t_brick_wall );
+                    g->m.ter_set( above, t_flat_roof );
                     break;
                 case '=':
                     g->m.ter_set( p, t_window_frame );
+                    g->m.ter_set( above, t_flat_roof );
                     break;
                 case '-':
                 case 'u':
                     g->m.ter_set( p, t_floor );
+                    g->m.ter_set( above, t_flat_roof );
                     break;
                 case 'U':
                 case 'V':
@@ -127,7 +134,6 @@ void full_map_test( const std::vector<std::string> &setup,
     g->m.build_map_cache( origin.z );
 
     const level_cache &cache = g->m.access_cache( origin.z );
-    REQUIRE( origin.z < OVERMAP_HEIGHT );
     const level_cache &above_cache = g->m.access_cache( origin.z + 1 );
     const visibility_variables &vvcache =
         g->m.get_visibility_variables_cache();
