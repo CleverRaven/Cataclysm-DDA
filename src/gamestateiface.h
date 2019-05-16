@@ -90,19 +90,28 @@ public:
    */
     bool update_input(std::vector<std::string> registered_actions, std::string category);
 
-    /**
-     * Update attributes relevant to the advanced inventory UI.
-     *
-     *
-     *
-     *
-     */
+  /**
+   * Update attributes relevant to the advanced inventory UI.
+   *
+   *
+   *
+   *
+   */
     bool update_ui_adv_inventory();
     
     // Valid (not red) focuses.  [1]-[9], then [C]ontainer and [D]ragged
     std::vector<bool> advinv_isvalid;
     // Whether a given focus has a <V>ehicle tile. [1]-[9].
     std::vector<int> advinv_isvehicle;
+  /**
+   * Updates attributes from choose adjacent prompts.
+   *
+   *
+   */
+    bool update_choose_adjacent(std::vector<bool> points);
+
+    // In order: 1-9, <, >
+    std::vector<bool> adjacents;
 
   /**
    * Output the current game state information in JSON format.

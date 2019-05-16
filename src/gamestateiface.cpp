@@ -133,6 +133,16 @@ bool gsi::update_ui_adv_inventory()
     return false;
 }
 
+bool gsi::update_choose_adjacent(std::vector<bool> points)
+{
+#ifdef GSI
+    adjacents = points;
+    gsi_socket::get().sockout();
+    return true;
+#endif
+    return false;
+}
+
 void gsi::update_needs()
 {
     hunger_level = g->u.get_hunger_description().first;
