@@ -469,6 +469,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
                                const damage_instance &dam, dealt_damage_instance &dealt_dam )
 {
     if( source == nullptr || source->is_hallucination() ) {
+        dealt_dam.bp_hit = get_random_body_part();
         return;
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
