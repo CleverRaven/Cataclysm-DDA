@@ -264,7 +264,7 @@
     "type": "MAGAZINE",
     "category": "spare_parts",
     "name": "atomic heavy battery",
-    "name": "atomic heavy batteries",
+    "name_plural": "atomic heavy batteries",
     "description": "This is an atomic battery, universally compatible with all kinds of industrial-grade equipment and large tools.  It cannot be recharged.",
     "weight": 1600,
     "volume": "750ml",
