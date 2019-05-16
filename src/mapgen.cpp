@@ -1,6 +1,6 @@
 #include "mapgen.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <list>
 #include <random>
@@ -14,12 +14,14 @@
 #include <cmath>
 
 #include "ammo.h"
+#include "clzones.h"
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "drawing_primitives.h"
 #include "enums.h"
+#include "faction.h"
 #include "game.h"
 #include "item_group.h"
 #include "itype.h"
@@ -66,58 +68,6 @@
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define MON_RADIUS 3
-
-const mtype_id mon_biollante( "mon_biollante" );
-const mtype_id mon_blank( "mon_blank" );
-const mtype_id mon_blob( "mon_blob" );
-const mtype_id mon_boomer( "mon_boomer" );
-const mtype_id mon_breather( "mon_breather" );
-const mtype_id mon_breather_hub( "mon_breather_hub" );
-const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
-const mtype_id mon_chickenbot( "mon_chickenbot" );
-const mtype_id mon_crawler( "mon_crawler" );
-const mtype_id mon_creeper_hub( "mon_creeper_hub" );
-const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
-const mtype_id mon_dog_thing( "mon_dog_thing" );
-const mtype_id mon_eyebot( "mon_eyebot" );
-const mtype_id mon_flaming_eye( "mon_flaming_eye" );
-const mtype_id mon_flying_polyp( "mon_flying_polyp" );
-const mtype_id mon_fungaloid( "mon_fungaloid" );
-const mtype_id mon_fungal_fighter( "mon_fungal_fighter" );
-const mtype_id mon_gelatin( "mon_gelatin" );
-const mtype_id mon_gozu( "mon_gozu" );
-const mtype_id mon_gracke( "mon_gracke" );
-const mtype_id mon_hazmatbot( "mon_hazmatbot" );
-const mtype_id mon_hunting_horror( "mon_hunting_horror" );
-const mtype_id mon_kreck( "mon_kreck" );
-const mtype_id mon_mi_go( "mon_mi_go" );
-const mtype_id mon_secubot( "mon_secubot" );
-const mtype_id mon_sewer_snake( "mon_sewer_snake" );
-const mtype_id mon_shoggoth( "mon_shoggoth" );
-const mtype_id mon_spider_web( "mon_spider_web" );
-const mtype_id mon_tankbot( "mon_tankbot" );
-const mtype_id mon_triffid( "mon_triffid" );
-const mtype_id mon_triffid_heart( "mon_triffid_heart" );
-const mtype_id mon_turret( "mon_turret" );
-const mtype_id mon_turret_bmg( "mon_turret_bmg" );
-const mtype_id mon_turret_rifle( "mon_turret_rifle" );
-const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
-const mtype_id mon_yugg( "mon_yugg" );
-const mtype_id mon_zombie( "mon_zombie" );
-const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
-const mtype_id mon_zombie_brute( "mon_zombie_brute" );
-const mtype_id mon_zombie_child( "mon_zombie_child" );
-const mtype_id mon_zombie_cop( "mon_zombie_cop" );
-const mtype_id mon_zombie_dog( "mon_zombie_dog" );
-const mtype_id mon_zombie_electric( "mon_zombie_electric" );
-const mtype_id mon_zombie_flamer( "mon_zombie_flamer" );
-const mtype_id mon_zombie_grabber( "mon_zombie_grabber" );
-const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
-const mtype_id mon_zombie_shrieker( "mon_zombie_shrieker" );
-const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
-const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
-const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
-const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
 const mongroup_id GROUP_DARK_WYRM( "GROUP_DARK_WYRM" );
 const mongroup_id GROUP_DOG_THING( "GROUP_DOG_THING" );
@@ -280,7 +230,6 @@ std::map<std::string, std::vector<std::shared_ptr<mapgen_function>> > oter_mapge
 std::map<std::string, std::vector<std::unique_ptr<mapgen_function_json_nested>> > nested_mapgen;
 std::map<std::string, std::vector<std::unique_ptr<update_mapgen_function_json>> > update_mapgen;
 
-
 /*
  * index to the above, adjusted to allow for rarity
  */
@@ -358,7 +307,7 @@ std::string member;
 std::string message;
 bool defer;
 JsonObject jsi;
-};
+}
 
 void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
                        const std::string &message )
@@ -532,16 +481,30 @@ size_t mapgen_function_json_base::calc_index( const size_t x, const size_t y ) c
     return y * mapgensize_y + x;
 }
 
-bool mapgen_function_json_base::check_inbounds( const jmapgen_int &x, const jmapgen_int &y ) const
+bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y, const int mapgensize_x,
+                          const int mapgensize_y, JsonObject &jso )
 {
-    const int min = 0;
-    const int max_x = mapgensize_x - 1;
-    const int max_y = mapgensize_y - 1;
-    if( x.val < min || x.val > max_x || x.valmax < min || x.valmax > max_x ||
-        y.val < min || y.val > max_y || y.valmax < min || y.valmax > max_y ) {
+    if( x.val < 0 || x.val > mapgensize_x - 1 || y.val < 0 || y.val > mapgensize_y - 1 ) {
         return false;
     }
+
+    if( x.valmax > mapgensize_x - 1 ) {
+        jso.throw_error( "coordinate range cannot cross grid boundaries", "x" );
+        return false;
+    }
+
+    if( y.valmax > mapgensize_y - 1 ) {
+        jso.throw_error( "coordinate range cannot cross grid boundaries", "y" );
+        return false;
+    }
+
     return true;
+}
+
+bool mapgen_function_json_base::check_inbounds( const jmapgen_int &x, const jmapgen_int &y,
+        JsonObject &jso ) const
+{
+    return common_check_bounds( x, y, mapgensize_x, mapgensize_y, jso );
 }
 
 mapgen_function_json_base::mapgen_function_json_base( const std::string &s )
@@ -637,13 +600,6 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
     jmapgen_setmap_op tmpop;
     int setmap_optype = 0;
 
-    const auto inboundchk = [this]( const jmapgen_int & x, const jmapgen_int & y, JsonObject & jo ) {
-        if( !check_inbounds( x, y ) ) {
-            jo.throw_error( string_format( "Point must be between [0,0] and [%d,%d]", mapgensize_x,
-                                           mapgensize_y ) );
-        }
-    };
-
     while( parray.has_more() ) {
         JsonObject pjo = parray.next_object();
         if( pjo.read( "point", tmpval ) ) {
@@ -675,11 +631,15 @@ void mapgen_function_json_base::setup_setmap( JsonArray &parray )
 
         const jmapgen_int tmp_x( pjo, "x" );
         const jmapgen_int tmp_y( pjo, "y" );
-        inboundchk( tmp_x, tmp_y, pjo );
+        if( !check_inbounds( tmp_x, tmp_y, pjo ) ) {
+            continue;
+        }
         if( setmap_optype != JMAPGEN_SETMAP_OPTYPE_POINT ) {
             tmp_x2 = jmapgen_int( pjo, "x2" );
             tmp_y2 = jmapgen_int( pjo, "y2" );
-            inboundchk( tmp_x2, tmp_y2, pjo );
+            if( !check_inbounds( tmp_x2, tmp_y2, pjo ) ) {
+                continue;
+            }
         }
         if( tmpop == JMAPGEN_SETMAP_RADIATION ) {
             tmp_i = jmapgen_int( pjo, "amount" );
@@ -1599,8 +1559,17 @@ class jmapgen_sealed_item : public jmapgen_piece
                                   summary, chance );
                         return;
                     }
+                    std::string group_id = item_group_spawner->group_id;
+                    for( const itype *type : item_group::every_possible_item_from( group_id ) ) {
+                        if( !type->seed ) {
+                            debugmsg( "%s (with flag PLANT) spawns item group %s which can "
+                                      "spawn item %s which is not a seed.",
+                                      summary, group_id, type->get_id() );
+                            return;
+                        }
+                    }
 
-                    /// TODO: Somehow check that the item group always produces exactly one seed.
+                    /// TODO: Somehow check that the item group always produces exactly one item.
                 }
             }
         }
@@ -1647,7 +1616,34 @@ class jmapgen_translate : public jmapgen_piece
             dat.m.translate( from, to );
         }
 };
-
+/**
+ * Place a zone
+ */
+class jmapgen_zone : public jmapgen_piece
+{
+    public:
+        zone_type_id zone_type;
+        faction_id faction;
+        std::string name = "";
+        jmapgen_zone( JsonObject &jsi ) : jmapgen_piece() {
+            if( jsi.has_string( "faction" ) && jsi.has_string( "type" ) ) {
+                std::string fac_id = jsi.get_string( "faction" );
+                faction = faction_id( fac_id );
+                std::string zone_id = jsi.get_string( "type" );
+                zone_type = zone_type_id( zone_id );
+                if( jsi.has_string( "name" ) ) {
+                    name = jsi.get_string( "name" );
+                }
+            }
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const float /*mdensity*/, mission * /*miss*/ ) const override {
+            zone_manager &mgr = zone_manager::get_manager();
+            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, 0 ) );
+            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, 0 ) );
+            mgr.add( name, zone_type, faction, false, true, start, end );
+        }
+};
 
 static void load_weighted_entries( JsonObject &jsi, const std::string &json_key,
                                    weighted_int_list<std::string> &list )
@@ -1764,22 +1760,7 @@ jmapgen_objects::jmapgen_objects( int offset_x, int offset_y, size_t mapsize_x, 
 
 bool jmapgen_objects::check_bounds( const jmapgen_place place, JsonObject &jso )
 {
-    if( place.x.val < 0 || place.x.val > static_cast<int>( mapgensize_x ) - 1 ||
-        place.y.val < 0 || place.y.val > static_cast<int>( mapgensize_y ) - 1 ) {
-        return false;
-    }
-
-    if( static_cast<size_t>( place.x.valmax ) > mapgensize_x - 1 ) {
-        jso.throw_error( "coordinate range cannot cross grid boundaries", "x" );
-        return false;
-    }
-
-    if( static_cast<size_t>( place.y.valmax ) > mapgensize_y - 1 ) {
-        jso.throw_error( "coordinate range cannot cross grid boundaries", "y" );
-        return false;
-    }
-
-    return true;
+    return common_check_bounds( place.x, place.y, mapgensize_x, mapgensize_y, jso );
 }
 
 void jmapgen_objects::add( const jmapgen_place &place, std::shared_ptr<const jmapgen_piece> piece )
@@ -2150,6 +2131,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_liquid_item>( jo, "liquids", format_placings );
     new_pal.load_place_mapings<jmapgen_graffiti>( jo, "graffiti", format_placings );
     new_pal.load_place_mapings<jmapgen_translate>( jo, "translate", format_placings );
+    new_pal.load_place_mapings<jmapgen_zone>( jo, "zones", format_placings );
 
     return new_pal;
 }
@@ -2328,6 +2310,7 @@ bool mapgen_function_json_base::setup_common( JsonObject jo )
     objects.load_objects<jmapgen_nested>( jo, "place_nested" );
     objects.load_objects<jmapgen_graffiti>( jo, "place_graffiti" );
     objects.load_objects<jmapgen_translate>( jo, "translate_ter" );
+    objects.load_objects<jmapgen_zone>( jo, "place_zones" );
 
     if( !mapgen_defer::defer ) {
         is_ready = true; // skip setup attempts from any additional pointers
@@ -2546,7 +2529,6 @@ bool jmapgen_setmap::has_vehicle_collision( const mapgendata &dat, int offset_x,
     return false;
 }
 
-
 void mapgen_function_json_base::formatted_set_incredibly_simple( map &m, int offset_x,
         int offset_y ) const
 {
@@ -2678,20 +2660,11 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
                     t_below, zlevel, *rsettings, *this );
 
     const std::string function_key = terrain_type->get_mapgen_id();
-
     bool found = true;
-    const auto fmapit = oter_mapgen.find( function_key );
-    if( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
-        // int fidx = rng(0, fmapit->second.size() - 1); // simple unweighted list
-        std::map<std::string, std::map<int, int> >::const_iterator weightit = oter_mapgen_weights.find(
-                    function_key );
-        const int rlast = weightit->second.rbegin()->first;
-        const int roll = rng( 1, rlast );
-        const int fidx = weightit->second.lower_bound( roll )->second;
-        //add_msg("draw_map: %s (%s): %d/%d roll %d/%d den %.4f", terrain_type.c_str(), function_key.c_str(), fidx+1, fmapit->second.size(), roll, rlast, density );
 
-        fmapit->second[fidx]->generate( this, terrain_type, dat, when, density );
-    } else {
+    const bool generated = run_mapgen_func( function_key, this, terrain_type, dat, when, density );
+
+    if( !generated ) {
         if( is_ot_type( "megastore", terrain_type ) ) {
             draw_megastore( terrain_type, dat, when, density );
         } else if( is_ot_type( "slimepit", terrain_type ) ||
@@ -2719,9 +2692,9 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
             draw_mine( terrain_type, dat, when, density );
         } else if( is_ot_type( "silo", terrain_type ) ) {
             draw_silo( terrain_type, dat, when, density );
-        } else if( is_ot_type( "anthill", terrain_type ) ) {
+        } else if( is_ot_subtype( "anthill", terrain_type ) ) {
             draw_anthill( terrain_type, dat, when, density );
-        } else if( is_ot_type( "lab", terrain_type ) ) {
+        } else if( is_ot_subtype( "lab", terrain_type ) ) {
             draw_lab( terrain_type, dat, when, density );
         } else {
             found = false;
@@ -4207,12 +4180,6 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                     bool monsters_end = false;
                     if( !one_in( 4 ) ) { // Trapped netherworld monsters
                         monsters_end = true;
-                        static const std::array<mtype_id, 11> nethercreatures = { {
-                                mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg,
-                                mon_gelatin, mon_flaming_eye, mon_kreck, mon_gracke, mon_blank,
-                                mon_gozu, mon_shoggoth,
-                            }
-                        };
                         tw = rng( SEEY + 3, SEEY + 5 );
                         bw = tw + 4;
                         lw = rng( SEEX - 6, SEEX - 2 );
@@ -6047,6 +6014,7 @@ void map::draw_megastore( const oter_id &terrain_type, mapgendata &dat, const ti
         ter_set( SEEX + 1, 0, t_door_glass_c );
         //Vending
         std::vector<int> vset;
+        vset.reserve( 21 );
         int vnum = rng( 2, 6 );
         for( int a = 0; a < 21; a++ ) {
             vset.push_back( a );
@@ -7304,6 +7272,10 @@ void map::rotate( int turns )
             }
         }
     }
+
+    // rotate zones
+    zone_manager &mgr = zone_manager::get_manager();
+    mgr.rotate_zones( *this, turns );
 }
 
 // Hideous function, I admit...
@@ -8293,7 +8265,6 @@ void add_corpse( map *m, int x, int y )
     m->add_corpse( tripoint( x, y, m->get_abs_sub().z ) );
 }
 
-
 //////////////////// mapgen update
 update_mapgen_function_json::update_mapgen_function_json( const std::string &s ) :
     mapgen_function_json_base( s )
@@ -8411,4 +8382,20 @@ bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint
         return false;
     }
     return update_function->second[0]->update_map( omt_pos, 0, 0, miss, cancel_on_collision );
+}
+
+bool run_mapgen_func( const std::string &mapgen_id, map *m, oter_id terrain_type, mapgendata dat,
+                      const time_point &turn, float density )
+{
+    const auto fmapit = oter_mapgen.find( mapgen_id );
+    if( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
+        std::map<std::string, std::map<int, int> >::const_iterator weightit = oter_mapgen_weights.find(
+                    mapgen_id );
+        const int rlast = weightit->second.rbegin()->first;
+        const int roll = rng( 1, rlast );
+        const int fidx = weightit->second.lower_bound( roll )->second;
+        fmapit->second[fidx]->generate( m, terrain_type, dat, turn, density );
+        return true;
+    }
+    return false;
 }

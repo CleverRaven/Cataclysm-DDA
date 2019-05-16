@@ -267,6 +267,7 @@ The syntax listed here is still valid.
     "specific_heat_solid": 2.15,
     "latent_heat": 260,
     "edible": true,
+    "rotting": true,
     "bash_resist": 1,
     "cut_resist": 1,
     "acid_resist": 1,
@@ -1126,6 +1127,8 @@ Gun mods can be defined like this:
 "max_charges": 75,    // Maximum charges tool can hold
 "initial_charges": 75, // Charges when spawned
 "rand_charges: [10, 15, 25], // Randomize the charges when spawned. This example has a 50% chance of rng(10, 15) charges and a 50% chance of rng(15, 25) (The endpoints are included)
+"sub": "hotplate",    // optional; this tool has the same functions as another tool
+"charge_factor": 5,   // this tool uses charge_factor charges for every charge required in a recipe; intended for tools that have a "sub" field but use a different ammo that the original tool
 "charges_per_use": 1, // Charges consumed per tool use
 "turns_per_charge": 20, // Charges consumed over time
 "ammo": "NULL",       // Ammo type used for reloading
@@ -1704,6 +1707,14 @@ Strength required to move the furniture around. Negative values indicate an unmo
 #### `workbench`
 
 (Optional) Can craft here.  Must specify a speed multiplier, allowed mass, and allowed volume.  Mass/volume over these limits incur a speed penalty.  Must be paired with a `"workbench"` `examine_action` to function.
+
+#### `plant_transform`
+
+(Optional) What the furniture turns into when it is planted on or grows.
+
+#### `plant_base``
+
+(Optional) What the plant furniture turns into when it is eaten by something that eats crops - this should be what it is planted in. Requires `PLANT` flag to function. 
 
 ### Terrain
 

@@ -1,6 +1,6 @@
 #include "monster.h"
 
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 #include <sstream>
 #include <memory>
@@ -920,6 +920,9 @@ monster_attitude monster::attitude( const Character *u ) const
         if( np != nullptr && np->get_attitude() != NPCATT_KILL && !type->in_species( ZOMBIE ) ) {
             return MATT_FRIEND;
         }
+        if( np != nullptr && np->is_hallucination() ) {
+            return MATT_IGNORE;
+        }
     }
     if( effect_cache[FLEEING] ) {
         return MATT_FLEE;
@@ -1712,6 +1715,11 @@ float monster::dodge_roll()
     return get_dodge() * 5;
 }
 
+int monster::get_grab_strength() const
+{
+    return type->grab_strength;
+}
+
 float monster::fall_damage_mod() const
 {
     if( has_flag( MF_FLIES ) ) {
@@ -1852,7 +1860,7 @@ void monster::process_turn()
     if( has_flag( MF_ELECTRIC_FIELD ) ) {
         if( has_effect( effect_emp ) ) {
             if( calendar::once_every( 10_turns ) ) {
-                sounds::sound( pos(), 5, sounds::sound_t::combat, _( "hummmmm." ) );
+                sounds::sound( pos(), 5, sounds::sound_t::combat, _( "hummmmm." ), false, "humming", "electric" );
             }
         } else {
             for( const tripoint &zap : g->m.points_in_radius( pos(), 1 ) ) {
@@ -1861,7 +1869,7 @@ void monster::process_turn()
                 for( const auto &item : items ) {
                     if( item.made_of( LIQUID ) && item.flammable() ) { // start a fire!
                         g->m.add_field( zap, fd_fire, 2, 1_minutes );
-                        sounds::sound( pos(), 30, sounds::sound_t::combat,  _( "fwoosh!" ) );
+                        sounds::sound( pos(), 30, sounds::sound_t::combat,  _( "fwoosh!" ), false, "fire", "ignition" );
                         break;
                     }
                 }
@@ -1884,10 +1892,13 @@ void monster::process_turn()
                     }
                 }
             }
-            if( g->lightning_active && !has_effect( effect_supercharged ) && g->m.is_outside( pos() ) ) {
-                g->lightning_active = false; // only one supercharge per strike
-                sounds::sound( pos(), 300, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ) );
-                sounds::sound( pos(), 20, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ) );
+            if( g->weather.lightning_active && !has_effect( effect_supercharged ) &&
+                g->m.is_outside( pos() ) ) {
+                g->weather.lightning_active = false; // only one supercharge per strike
+                sounds::sound( pos(), 300, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ), false, "environment",
+                               "thunder_near" );
+                sounds::sound( pos(), 20, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ), false, "explosion",
+                               "default" );
                 if( g->u.sees( pos() ) ) {
                     add_msg( m_bad, _( "Lightning strikes the %s!" ), name() );
                     add_msg( m_bad, _( "Your vision goes white!" ) );
@@ -1895,7 +1906,8 @@ void monster::process_turn()
                 }
                 add_effect( effect_supercharged, 12_hours );
             } else if( has_effect( effect_supercharged ) && calendar::once_every( 5_turns ) ) {
-                sounds::sound( pos(), 20, sounds::sound_t::combat, _( "VMMMMMMMMM!" ) );
+                sounds::sound( pos(), 20, sounds::sound_t::combat, _( "VMMMMMMMMM!" ), false, "humming",
+                               "electric" );
             }
         }
     }

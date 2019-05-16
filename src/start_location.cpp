@@ -1,6 +1,6 @@
 #include "start_location.h"
 
-#include <limits.h>
+#include <climits>
 #include <algorithm>
 #include <random>
 #include <memory>

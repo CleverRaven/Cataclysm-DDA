@@ -2,7 +2,7 @@
 #ifndef MARTIALARTS_H
 #define MARTIALARTS_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <set>
 #include <string>
@@ -213,7 +213,6 @@ class martialart
         std::string get_initiate_player_message() const;
         // Getter for NPC style change message
         std::string get_initiate_npc_message() const;
-
 
         matype_id id;
         bool was_loaded = false;

@@ -2,7 +2,7 @@
 #ifndef RECIPE_DICTIONARY_H
 #define RECIPE_DICTIONARY_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <functional>
 #include <map>

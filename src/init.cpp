@@ -1,6 +1,6 @@
 #include "init.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <cassert>
 #include <fstream>
 #include <sstream> // for throwing errors
@@ -36,6 +36,7 @@
 #include "martialarts.h"
 #include "material.h"
 #include "mission.h"
+#include "magic.h"
 #include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -358,6 +359,7 @@ void DynamicDataLoader::initialize()
     add( "body_part", &body_part_struct::load_bp );
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
+    add( "SPELL", &spell_type::load_spell );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -635,7 +637,8 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Harvest lists" ), &harvest_list::check_consistency },
             { _( "NPC templates" ), &npc_template::check_consistency },
             { _( "Body parts" ), &body_part_struct::check_consistency },
-            { _( "Anatomies" ), &anatomy::check_consistency }
+            { _( "Anatomies" ), &anatomy::check_consistency },
+            { _( "Spells" ), &spell_type::check_consistency }
         }
     };
 

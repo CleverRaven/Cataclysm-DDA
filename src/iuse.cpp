@@ -1,6 +1,6 @@
 #include "iuse.h"
 
-#include <limits.h>
+#include <climits>
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
@@ -2195,6 +2195,13 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
             message = messtream.str();
         }
         sounds::ambient_sound( pos, 6, sounds::sound_t::speech, message );
+        if( one_in( 10 ) ) {
+            sfx::play_variant_sound( "radio", "static", 100, 21, 100 );
+            sfx::fade_audio_channel( 21, 100 );
+        } else if( one_in( 10 ) ) {
+            sfx::play_ambient_variant_sound( "radio", "inaudible_chatter", 100, 21, 100 );
+            sfx::fade_audio_channel( 21, 100 );
+        }
     } else { // Activated
         int ch = 1;
         if( it->ammo_remaining() > 0 ) {
@@ -2253,7 +2260,8 @@ int iuse::noise_emitter_on( player *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) { // Normal use
         //~ the sound of a noise emitter when turned on
-        sounds::ambient_sound( pos, 30, sounds::sound_t::alarm, _( "KXSHHHHRRCRKLKKK!" ) );
+        sounds::sound( pos, 30, sounds::sound_t::alarm, _( "KXSHHHHRRCRKLKKK!" ), true, "tool",
+                       "noise_emitter" );
     } else { // Turning it off
         p->add_msg_if_player( _( "The infernal racket dies as the noise emitter turns off." ) );
         it->convert( "noise_emitter" ).active = false;
@@ -2467,7 +2475,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         }
 
         if( noisy ) {
-            sounds::sound( pnt, 12, sounds::sound_t::combat, _( "crunch!" ) );
+            sounds::sound( pnt, 12, sounds::sound_t::combat, _( "crunch!" ), true, "tool", "crowbar" );
         }
         if( type == t_manhole_cover ) {
             g->m.spawn_item( pnt, "manhole_cover" );
@@ -2475,7 +2483,8 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
         if( type == t_door_locked_alarm ) {
             p->add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
                                  pgettext( "memorial_female", "Set off an alarm." ) );
-            sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ) );
+            sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
+                           "alarm" );
             if( !g->events.queued( EVENT_WANTED ) ) {
                 g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p->global_sm_location() );
             }
@@ -2489,7 +2498,7 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
             if( dice( 4, difficulty ) > dice( 2, p->get_skill_level( skill_mechanics ) ) + dice( 2,
                     p->str_cur ) ) {
                 p->add_msg_if_player( m_mixed, _( "You break the glass." ) );
-                sounds::sound( pnt, 24, sounds::sound_t::combat, _( "glass breaking!" ) );
+                sounds::sound( pnt, 24, sounds::sound_t::combat, _( "glass breaking!" ), true, "smash", "glass" );
                 g->m.ter_set( pnt, t_window_frame );
                 g->m.spawn_item( pnt, "sheet", 2 );
                 g->m.spawn_item( pnt, "stick" );
@@ -2669,8 +2678,11 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
 
     const tripoint dig_point = p->pos();
 
-    const bool can_dig_here = g->m.has_flag( "DIGGABLE", dig_point ) && !g->m.has_furn( dig_point ) &&
-                              g->m.tr_at( dig_point ).is_null() && g->m.i_at( dig_point ).empty() && !g->m.veh_at( dig_point );
+    const bool can_dig_here = g->m.has_flag( "DIGGABLE", dig_point ) &&
+                              !g->m.has_furn( dig_point ) &&
+                              g->m.tr_at( dig_point ).is_null() &&
+                              ( g->m.ter( dig_point ) == t_grave_new || g->m.i_at( dig_point ).empty() ) &&
+                              !g->m.veh_at( dig_point );
 
     if( !can_dig_here ) {
         p->add_msg_if_player(
@@ -2808,7 +2820,6 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
     act.str_values.emplace_back( moves_and_byproducts.result_terrain.id().str() );
     act.coords.emplace_back( deposit_point );
     p->assign_activity( act );
-
 
     return it->type->charges_to_use();
 }
@@ -3206,6 +3217,49 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint & )
     return 0; // handled when the activity finishes
 }
 
+int iuse::burrow( player *p, item *it, bool, const tripoint &pos )
+{
+    if( p->is_npc() ) {
+        // Long action
+        return 0;
+    }
+
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+        return 0;
+    }
+
+    tripoint pnt = pos;
+    if( pos == p->pos() ) {
+        const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Burrow where?" ) );
+        if( !pnt_ ) {
+            return 0;
+        }
+        pnt = *pnt_;
+    }
+
+    if( !g->m.has_flag( "MINEABLE", pnt ) ) {
+        p->add_msg_if_player( m_info, _( "You can't burrow there." ) );
+        return 0;
+    }
+    if( g->m.veh_at( pnt ) ) {
+        p->add_msg_if_player( _( "There's a vehicle in the way!" ) );
+        return 0;
+    }
+
+    int turns = 100;
+    if( g->m.move_cost( pnt ) == 2 ) {
+        // We're breaking up some flat surface like pavement, which is much easier
+        turns /= 2;
+    }
+    turns *= ( ( MAX_STAT + 3 ) - std::min( p->str_cur, MAX_STAT ) ) * MINUTES( 2 );
+    p->assign_activity( activity_id( "ACT_BURROW" ), turns, -1, 0 );
+    p->activity.placement = pnt;
+    p->add_msg_if_player( _( "You start tearing into the %1$s with your %2$s." ),
+                          g->m.tername( pnt ), it->tname() );
+    return 0; // handled when the activity finishes
+}
+
 int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) { // Every-turn use when it's on
@@ -3215,8 +3269,10 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
         }
         std::string description = rads > 50 ? _( "buzzing" ) :
                                   rads > 25 ? _( "rapid clicking" ) : _( "clicking" );
+        std::string sound_var = rads > 50 ? _( "geiger_high" ) :
+                                rads > 25 ? _( "geiger_medium" ) : _( "geiger_low" );
 
-        sounds::sound( pos, 6, sounds::sound_t::alarm, description );
+        sounds::sound( pos, 6, sounds::sound_t::alarm, description, true, "tool", sound_var );
         if( !p->can_hear( pos, 6 ) ) {
             // can not hear it, but may have alarmed other creatures
             return it->type->charges_to_use();
@@ -3371,7 +3427,7 @@ int iuse::granade_act( player *, item *it, bool t, const tripoint &pos )
     }
     if( t ) { // Simple timer effects
         // Vol 0 = only heard if you hold it
-        sounds::sound( pos, 0, sounds::sound_t::speech, _( "Merged!" ) );
+        sounds::sound( pos, 0, sounds::sound_t::speech, _( "Merged!" ), true, "speech", it->typeId() );
     } else if( it->charges > 0 ) {
         add_msg( m_info, _( "You've already pulled the %s's pin, try throwing it instead." ),
                  it->tname() );
@@ -3385,7 +3441,7 @@ int iuse::granade_act( player *, item *it, bool t, const tripoint &pos )
         };
         switch( effect_roll ) {
             case 1:
-                sounds::sound( pos, 100, sounds::sound_t::speech, _( "BUGFIXES!" ) );
+                sounds::sound( pos, 100, sounds::sound_t::speech, _( "BUGFIXES!" ), true, "speech", it->typeId() );
                 explosion_handler::draw_explosion( pos, explosion_radius, c_light_cyan );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     monster *const mon = g->critter_at<monster>( dest, true );
@@ -3396,7 +3452,7 @@ int iuse::granade_act( player *, item *it, bool t, const tripoint &pos )
                 break;
 
             case 2:
-                sounds::sound( pos, 100, sounds::sound_t::speech, _( "BUFFS!" ) );
+                sounds::sound( pos, 100, sounds::sound_t::speech, _( "BUFFS!" ), true, "speech", it->typeId() );
                 explosion_handler::draw_explosion( pos, explosion_radius, c_green );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
@@ -3434,7 +3490,7 @@ int iuse::granade_act( player *, item *it, bool t, const tripoint &pos )
                 break;
 
             case 3:
-                sounds::sound( pos, 100, sounds::sound_t::speech, _( "NERFS!" ) );
+                sounds::sound( pos, 100, sounds::sound_t::speech, _( "NERFS!" ), true, "speech", it->typeId() );
                 explosion_handler::draw_explosion( pos, explosion_radius, c_red );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
@@ -3471,7 +3527,7 @@ int iuse::granade_act( player *, item *it, bool t, const tripoint &pos )
                 break;
 
             case 4:
-                sounds::sound( pos, 100, sounds::sound_t::speech, _( "REVERTS!" ) );
+                sounds::sound( pos, 100, sounds::sound_t::speech, _( "REVERTS!" ), true, "speech", it->typeId() );
                 explosion_handler::draw_explosion( pos, explosion_radius, c_pink );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
@@ -3488,7 +3544,7 @@ int iuse::granade_act( player *, item *it, bool t, const tripoint &pos )
                 }
                 break;
             case 5:
-                sounds::sound( pos, 100, sounds::sound_t::speech, _( "BEES!" ) );
+                sounds::sound( pos, 100, sounds::sound_t::speech, _( "BEES!" ), true, "speech", it->typeId() );
                 explosion_handler::draw_explosion( pos, explosion_radius, c_yellow );
                 for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
                     if( one_in( 5 ) && !g->critter_at( dest ) ) {
@@ -3536,7 +3592,7 @@ int iuse::grenade_inc_act( player *p, item *it, bool t, const tripoint &pos )
 
     if( t ) { // Simple timer effects
         // Vol 0 = only heard if you hold it
-        sounds::sound( pos, 0, sounds::sound_t::alarm, _( "Tick!" ) );
+        sounds::sound( pos, 0, sounds::sound_t::alarm, _( "Tick!" ), true, "misc", "bomb_ticking" );
     } else if( it->charges > 0 ) {
         p->add_msg_if_player( m_info, _( "You've already released the handle, try throwing it instead." ) );
         return 0;
@@ -3626,7 +3682,7 @@ int iuse::firecracker_pack_act( player *, item *it, bool, const tripoint &pos )
 {
     time_duration timer = it->age();
     if( timer < 2_turns ) {
-        sounds::sound( pos, 0, sounds::sound_t::alarm, _( "ssss..." ) );
+        sounds::sound( pos, 0, sounds::sound_t::alarm, _( "ssss..." ), true, "misc", "lit_fuse" );
         it->inc_damage();
     } else if( it->charges > 0 ) {
         int ex = rng( 4, 6 );
@@ -3635,7 +3691,7 @@ int iuse::firecracker_pack_act( player *, item *it, bool, const tripoint &pos )
             ex = it->charges;
         }
         for( i = 0; i < ex; i++ ) {
-            sounds::sound( pos, 20, sounds::sound_t::combat, _( "Bang!" ) );
+            sounds::sound( pos, 20, sounds::sound_t::combat, _( "Bang!" ), "explosion", "small" );
         }
         it->charges -= ex;
     }
@@ -3668,12 +3724,12 @@ int iuse::firecracker_act( player *, item *it, bool t, const tripoint &pos )
         return 0;
     }
     if( t ) { // Simple timer effects
-        sounds::sound( pos, 0,  sounds::sound_t::alarm, _( "ssss..." ) );
+        sounds::sound( pos, 0,  sounds::sound_t::alarm, _( "ssss..." ), true, "misc", "lit_fuse" );
     } else if( it->charges > 0 ) {
         add_msg( m_info, _( "You've already lit the %s, try throwing it instead." ), it->tname() );
         return 0;
     } else { // When that timer runs down...
-        sounds::sound( pos, 20, sounds::sound_t::combat, _( "Bang!" ) );
+        sounds::sound( pos, 20, sounds::sound_t::combat, _( "Bang!" ), true, "explosion", "small" );
     }
     return 0;
 }
@@ -4210,6 +4266,41 @@ int iuse::portable_game( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
+int iuse::hand_crank( player *p, item *it, bool, const tripoint & )
+{
+    if( p->is_npc() ) {
+        // Long action
+        return 0;
+    }
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "It's not waterproof enough to work underwater." ) );
+        return 0;
+    }
+    if( p->get_fatigue() >= DEAD_TIRED ) {
+        p->add_msg_if_player( m_info, _( "You're too exhausted to keep cranking." ) );
+        return 0;
+    }
+    item *magazine = it->magazine_current();
+    if( magazine && magazine->has_flag( "RECHARGE" ) ) {
+        // 1600 minutes. It shouldn't ever run this long, but it's an upper bound.
+        // expectation is it runs until the player is too tired.
+        int time = 1600000;
+        if( it->ammo_capacity() > it->ammo_remaining() ) {
+            p->add_msg_if_player( string_format( _( "You start cranking the %s to charge its %s." ),
+                                                 it->tname(), it->magazine_current()->tname() ) ) ;
+            p->assign_activity( activity_id( "ACT_HAND_CRANK" ), time, -1, p->get_item_position( it ),
+                                "hand-cranking" );
+        } else {
+            p->add_msg_if_player( string_format(
+                                      _( "You could use the %s to charge its %s, but it's already charged." ), it->tname(),
+                                      magazine->tname() ) ) ;
+        }
+    } else {
+        p->add_msg_if_player( m_info, _( "You need a rechargeable battery cell to charge." ) );
+    }
+    return 0;
+}
+
 int iuse::vibe( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ) {
@@ -4619,12 +4710,13 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
     if( g->m.ter( pnt ) == t_chaingate_l ) {
         p->moves -= 100;
         g->m.ter_set( pnt, t_chaingate_c );
-        sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Gachunk!" ) );
+        sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Gachunk!" ), true, "tool", "boltcutters" );
         g->m.spawn_item( p->posx(), p->posy(), "scrap", 3 );
     } else if( g->m.ter( pnt ) == t_chainfence ) {
         p->moves -= 500;
         g->m.ter_set( pnt, t_chainfence_posts );
-        sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ) );
+        sounds::sound( pnt, 5, sounds::sound_t::combat, _( "Snick, snick, gachunk!" ), true, "tool",
+                       "boltcutters" );
         g->m.spawn_item( pnt, "wire", 20 );
     } else {
         add_msg( m_info, _( "You can't cut that." ) );
@@ -4697,7 +4789,8 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
         switch( used ) {
             case AEA_STORM: {
-                sounds::sound( p->pos(), 10, sounds::sound_t::combat, _( "Ka-BOOM!" ) );
+                sounds::sound( p->pos(), 10, sounds::sound_t::combat, _( "Ka-BOOM!" ), true, "environment",
+                               "thunder_near" );
                 int num_bolts = rng( 2, 4 );
                 for( int j = 0; j < num_bolts; j++ ) {
                     int xdir = 0;
@@ -4785,7 +4878,8 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
             break;
 
             case AEA_PULSE:
-                sounds::sound( p->pos(), 30, sounds::sound_t::combat, _( "The earth shakes!" ) );
+                sounds::sound( p->pos(), 30, sounds::sound_t::combat, _( "The earth shakes!" ), true, "misc",
+                               "earthquake" );
                 for( const tripoint &pt : g->m.points_in_radius( p->pos(), 2 ) ) {
                     g->m.bash( pt, 40 );
                     g->m.bash( pt, 40 );  // Multibash effect, so that doors &c will fall
@@ -4925,13 +5019,13 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
             case AEA_NOISE:
                 sounds::sound( p->pos(), 100, sounds::sound_t::combat,
                                string_format( _( "a deafening boom from %s %s" ),
-                                              p->disp_name( true ), it->tname() ) );
+                                              p->disp_name( true ), it->tname() ), true, "misc", "shockwave" );
                 break;
 
             case AEA_SCREAM:
                 sounds::sound( p->pos(), 40, sounds::sound_t::alert,
                                string_format( _( "a disturbing scream from %s %s" ),
-                                              p->disp_name( true ), it->tname() ) );
+                                              p->disp_name( true ), it->tname() ), true, "shout", "scream" );
                 if( !p->is_deaf() ) {
                     p->add_morale( MORALE_SCREAM, -10, 0, 30_minutes, 1_minutes );
                 }
@@ -5008,10 +5102,10 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
 int iuse::spray_can( player *p, item *it, bool, const tripoint & )
 {
-    return handle_ground_graffiti( *p, it, _( "Spray what?" ) );
+    return handle_ground_graffiti( *p, it, _( "Spray what?" ), p->pos() );
 }
 
-int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix )
+int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix, tripoint pt )
 {
     std::string message = string_input_popup()
                           .title( prefix + " " + _( "(To delete, input one '.')" ) )
@@ -5021,26 +5115,38 @@ int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix
     if( message.empty() ) {
         return 0;
     } else {
-        const auto where = p.pos();
+        const auto where = pt != p.pos() ? pt : p.pos();
+        bool grave = g->m.ter( where ) == t_grave_new;
         int move_cost;
         if( message == "." ) {
             if( g->m.has_graffiti_at( where ) ) {
                 move_cost = 3 * g->m.graffiti_at( where ).length();
                 g->m.delete_graffiti( where );
-                add_msg( _( "You manage to get rid of the message on the ground." ) );
+                if( grave ) {
+                    add_msg( _( "You blur the inscription on the grave." ) );
+                } else {
+                    add_msg( _( "You manage to get rid of the message on the ground." ) );
+                }
             } else {
                 add_msg( _( "There isn't anything to erase here." ) );
                 return 0;
             }
         } else {
             g->m.set_graffiti( where, message );
-            add_msg( _( "You write a message on the ground." ) );
+            if( grave ) {
+                add_msg( _( "You carve an inscription on the grave." ) );
+            } else {
+                add_msg( _( "You write a message on the ground." ) );
+            }
             move_cost = 2 * message.length();
         }
         p.moves -= move_cost;
     }
-
-    return it->type->charges_to_use();
+    if( it != nullptr ) {
+        return it->type->charges_to_use();
+    } else {
+        return 0;
+    }
 }
 
 /**
@@ -5385,7 +5491,8 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
 
     const SpeechBubble speech = get_speech( it->typeId() );
 
-    sounds::ambient_sound( p->pos(), speech.volume, sounds::sound_t::speech, speech.text );
+    sounds::sound( p->pos(), speech.volume, sounds::sound_t::speech, speech.text, true, "speech",
+                   it->typeId() );
 
     // Sound code doesn't describe noises at the player position
     if( p->can_hear( p->pos(), speech.volume ) ) {
@@ -5438,14 +5545,14 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
     const std::string startdurability = fix.durability_indicator( true );
     std::string resultdurability;
     if( fix.damage() <= 0 ) {
-        sounds::sound( p->pos(), 6, sounds::sound_t::activity, "crunch" );
+        sounds::sound( p->pos(), 6, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
         p->moves -= 2000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
         fix.mod_damage( -itype::damage_scale );
         p->add_msg_if_player( m_good, _( "You accurize your %s." ), fix.tname( 1, false ) );
 
     } else if( fix.damage() > itype::damage_scale ) {
-        sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch" );
+        sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
         p->moves -= 1000 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
         fix.mod_damage( -itype::damage_scale );
@@ -5454,7 +5561,7 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
                               startdurability, resultdurability );
 
     } else {
-        sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch" );
+        sounds::sound( p->pos(), 8, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10 );
         fix.set_damage( 0 );
@@ -5603,7 +5710,8 @@ int iuse::misc_repair( player *p, item *it, bool, const tripoint & )
 int iuse::bell( player *p, item *it, bool, const tripoint & )
 {
     if( it->typeId() == "cow_bell" ) {
-        sounds::sound( p->pos(), 12, sounds::sound_t::music, _( "Clank! Clank!" ) );
+        sounds::sound( p->pos(), 12, sounds::sound_t::music, _( "Clank! Clank!" ), true, "misc",
+                       "cow_bell" );
         if( !p->is_deaf() ) {
             const int cow_factor = 1 + ( p->mutation_category_level.find( "CATTLE" ) ==
                                          p->mutation_category_level.end() ?
@@ -5615,7 +5723,7 @@ int iuse::bell( player *p, item *it, bool, const tripoint & )
             }
         }
     } else {
-        sounds::sound( p->pos(), 4, sounds::sound_t::music, _( "Ring! Ring!" ) );
+        sounds::sound( p->pos(), 4, sounds::sound_t::music, _( "Ring! Ring!" ), true, "misc", "bell" );
     }
     return it->type->charges_to_use();
 }
@@ -6339,7 +6447,8 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         trajectory.push_back( aim_point );
 
         p->moves -= 50;
-        sounds::sound( p->pos(), 8, sounds::sound_t::activity, _( "Click." ) );
+        sounds::sound( p->pos(), 8, sounds::sound_t::activity, _( "Click." ), true, "tool",
+                       "camera_shutter" );
 
         for( auto &i : trajectory ) {
 
@@ -6662,7 +6771,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
 
         if( it->charges == 0 ) {
 
-            sounds::sound( pos, 2, sounds::sound_t::combat, "Click." );
+            sounds::sound( pos, 2, sounds::sound_t::combat, "Click.", true, "tools", "handcuffs" );
             it->item_tags.erase( "NO_UNWIELD" );
             it->active = false;
 
@@ -6688,7 +6797,8 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
         }
 
         if( calendar::once_every( 1_minutes ) ) {
-            sounds::sound( pos, 10, sounds::sound_t::alarm, _( "a police siren, whoop WHOOP." ) );
+            sounds::sound( pos, 10, sounds::sound_t::alarm, _( "a police siren, whoop WHOOP." ), true,
+                           "environment", "police_siren" );
         }
 
         const int x = it->get_var( "HANDCUFFS_X", 0 );
@@ -6816,7 +6926,7 @@ int iuse::radiocaron( player *p, item *it, bool t, const tripoint &pos )
 {
     if( t ) {
         //~Sound of a radio controlled car moving around
-        sounds::sound( pos, 6, sounds::sound_t::movement, _( "buzzz..." ) );
+        sounds::sound( pos, 6, sounds::sound_t::movement, _( "buzzz..." ), true, "misc", "rc_car_drives" );
 
         return it->type->charges_to_use();
     } else if( !it->ammo_sufficient() ) {
@@ -6849,7 +6959,7 @@ void sendRadioSignal( player &p, const std::string &signal )
         item &it = p.inv.find_item( i );
 
         if( it.has_flag( "RADIO_ACTIVATION" ) && it.has_flag( signal ) ) {
-            sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep." ) );
+            sounds::sound( p.pos(), 6, sounds::sound_t::alarm, _( "beep." ), true, "misc", "beep" );
 
             if( it.has_flag( "RADIO_INVOKE_PROC" ) ) {
                 // Invoke twice: first to transform, then later to proc
@@ -7213,7 +7323,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             it->erase_var( "COOKTIME" );
 
             //~ sound of a multi-cooker finishing its cycle!
-            sounds::sound( pos, 8, sounds::sound_t::alarm, _( "ding!" ) );
+            sounds::sound( pos, 8, sounds::sound_t::alarm, _( "ding!" ), true, "misc", "ding" );
 
             return 0;
         } else {
@@ -7657,10 +7767,10 @@ int iuse::hairkit( player *p, item *it, bool, const tripoint & )
 
 int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
 {
-    const w_point weatherPoint = *g->weather_precise;
+    const w_point weatherPoint = *g->weather.weather_precise;
 
     /* Possibly used twice. Worth spending the time to precalculate. */
-    const auto player_local_temp = g->get_temperature( g->u.pos() );
+    const auto player_local_temp = g->weather.get_temperature( g->u.pos() );
 
     if( it->typeId() == "weather_reader" ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data..." ),
@@ -7679,12 +7789,12 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         if( it->typeId() == "hygrometer" ) {
             p->add_msg_if_player(
                 m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
-                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather,
+                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather.weather,
                                                     g->is_sheltered( g->u.pos() ) ) ) );
         } else {
             p->add_msg_if_player(
                 m_neutral, _( "Relative Humidity: %s." ),
-                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather,
+                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather.weather,
                                                     g->is_sheltered( g->u.pos() ) ) ) );
         }
     }
@@ -7706,8 +7816,9 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        double windpower = static_cast<int>( 100.0f * get_local_windpower( g->windspeed + vehwindspeed,
-                                             cur_om_ter, p->pos(), g->winddirection, g->is_sheltered( p->pos() ) ) );
+        double windpower = static_cast<int>( 100.0f * get_local_windpower( g->weather.windspeed +
+                                             vehwindspeed,
+                                             cur_om_ter, p->pos(), g->weather.winddirection, g->is_sheltered( p->pos() ) ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower, VU_WIND ),
@@ -7717,7 +7828,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
             print_temperature(
                 get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower / 100 ) +
                 player_local_temp ) );
-        std::string dirstring = get_dirstring( g->winddirection );
+        std::string dirstring = get_dirstring( g->weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
     }
 

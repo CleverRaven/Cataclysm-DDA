@@ -1,6 +1,6 @@
 #include "visitable.h"
 
-#include <limits.h>
+#include <climits>
 #include <algorithm>
 #include <map>
 #include <memory>

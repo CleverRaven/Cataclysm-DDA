@@ -35,7 +35,7 @@ struct MonsterGroupEntry {
     time_duration starts;
     time_duration ends;
     bool lasts_forever() const {
-        return ( ends <= 0_turns );
+        return ends <= 0_turns;
     }
 
     MonsterGroupEntry( const mtype_id &id, int new_freq, int new_cost,
@@ -110,7 +110,7 @@ struct mongroup {
         , population( ppop )
         , target() {
     }
-    mongroup( std::string ptype, tripoint ppos, unsigned int prad, unsigned int ppop,
+    mongroup( const std::string &ptype, tripoint ppos, unsigned int prad, unsigned int ppop,
               tripoint ptarget, int pint, bool pdie, bool phorde, bool pdiff ) :
         type( ptype ), pos( ppos ), radius( prad ), population( ppop ), target( ptarget ),
         interest( pint ), dying( pdie ), horde( phorde ), diffuse( pdiff ) { }

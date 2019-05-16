@@ -166,6 +166,13 @@
     "no_resume": true
   },
   {
+    "id": "ACT_HAND_CRANK",
+    "type": "activity_type",
+    "stop_phrase": "Stop cranking?",
+    "rooted": true,
+    "based_on": "time"
+  },
+  {
     "id": "ACT_VIBE",
     "type": "activity_type",
     "stop_phrase": "Stop de-stressing?",
@@ -516,6 +523,22 @@
     "stop_phrase": "Stop using drugs?",
     "suspendable": false,
     "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_HACK_DOOR",
+    "type": "activity_type",
+    "stop_phrase": "Stop hacking console?",
+    "suspendable": false,
+    "based_on": "time",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_HACK_SAFE",
+    "type": "activity_type",
+    "stop_phrase": "Stop hacking console?",
+    "suspendable": false,
+    "based_on": "time",
     "no_resume": true
   }
 ]

@@ -16,7 +16,6 @@
 #include "optional.h"
 #include "rng.h"
 
-
 stomach_contents::stomach_contents() = default;
 
 stomach_contents::stomach_contents( units::volume max_vol )
@@ -224,7 +223,7 @@ void stomach_contents::ingest( player &p, item &food, int charges = 1 )
         mod_quench( comest_t->quench );
     }
     // @TODO: Move quench values to mL and remove the magic number here
-    mod_contents( ( comest.base_volume() * charges ) - add_water );
+    mod_contents( comest.base_volume() * charges - add_water );
 
     last_ate = calendar::turn;
 

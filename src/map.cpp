@@ -1,6 +1,6 @@
 #include "map.h"
 
-#include <limits.h>
+#include <climits>
 #include <algorithm>
 #include <cassert>
 #include <cmath>
@@ -2668,9 +2668,9 @@ bool map::is_flammable( const tripoint &p )
 
 void map::decay_fields_and_scent( const time_duration &amount )
 {
+    // TODO: Make this happen on all z-levels
+
     // Decay scent separately, so that later we can use field count to skip empty submaps
-    tripoint tmp;
-    tmp.z = abs_sub.z; // TODO: Make this happen on all z-levels
     g->scent.decay();
 
     const time_duration amount_fire = amount / 3; // Decay fire by this much
@@ -3106,7 +3106,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         if( impassable( p ) ) {
             if( !params.silent ) {
                 sounds::sound( p, 18, sounds::sound_t::combat, _( "thump!" ),
-                               false, "smash_thump", "smash_success" );
+                               false, "smash_fail", "default" );
             }
 
             params.did_bash = true;
@@ -3510,7 +3510,8 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     const auto &ammo_effects = proj.proj_effects;
 
     if( has_flag( "ALARMED", p ) && !g->events.queued( EVENT_WANTED ) ) {
-        sounds::sound( p, 30, sounds::sound_t::alarm, _( "an alarm sound!" ) );
+        sounds::sound( p, 30, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
+                       "alarm" );
         const tripoint abs = ms_to_sm_copy( getabs( p ) );
         g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, abs );
     }
@@ -3645,7 +3646,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     } else if( terrain == t_paper ) {
         dam -= rng( 4, 16 );
         if( dam > 0 ) {
-            sounds::sound( p, 8, sounds::sound_t::combat, _( "rrrrip!" ) );
+            sounds::sound( p, 8, sounds::sound_t::combat, _( "rrrrip!" ), true, "smash", "paper_torn" );
             ter_set( p, t_dirt );
         }
         if( inc ) {
@@ -3666,7 +3667,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                         }
                     }
 
-                    sounds::sound( p, 10, sounds::sound_t::combat, _( "smash!" ) );
+                    sounds::sound( p, 10, sounds::sound_t::combat, _( "smash!" ), true, "bullet_hit", "hit_metal" );
                 }
                 ter_set( p, t_gas_pump_smashed );
             }
@@ -3674,7 +3675,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         }
     } else if( terrain == t_vat ) {
         if( dam >= 10 ) {
-            sounds::sound( p, 20, sounds::sound_t::combat, _( "ke-rash!" ) );
+            sounds::sound( p, 20, sounds::sound_t::combat, _( "ke-rash!" ), true, "bullet_hit", "hit_metal" );
             ter_set( p, t_floor );
         } else {
             dam = 0;
@@ -5133,7 +5134,7 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
 {
     bool trigger_item = false;
     if( n->has_flag( "RADIO_ACTIVATION" ) && n->has_flag( signal ) ) {
-        sounds::sound( pos, 6, sounds::sound_t::alarm, _( "beep." ) );
+        sounds::sound( pos, 6, sounds::sound_t::alarm, _( "beep." ), true, "misc", "beep" );
         if( n->has_flag( "RADIO_INVOKE_PROC" ) ) {
             // Invoke twice: first to transform, then later to proc
             // Can't use process_item here - invalidates our iterator
@@ -6840,33 +6841,32 @@ void map::grow_plant( const tripoint &p )
         return;
     }
     const time_duration plantEpoch = seed.get_plant_epoch();
-    furn_id cur_furn = this->furn( p ).id();
-    if( seed.age() >= plantEpoch && cur_furn != furn_str_id( "f_plant_harvest" ) ) {
+    if( seed.age() >= plantEpoch && !furn.has_flag( "GROWTH_HARVEST" ) ) {
         if( seed.age() < plantEpoch * 2 ) {
-            if( cur_furn == furn_str_id( "f_plant_seedling" ) ) {
+            if( has_flag_furn( "GROWTH_SEEDLING", p ) ) {
                 return;
             }
             i_rem( p, 1 );
             rotten_item_spawn( seed, p );
-            furn_set( p, furn_str_id( "f_plant_seedling" ) );
+            furn_set( p, furn_str_id( furn.plant_transform ) );
         } else if( seed.age() < plantEpoch * 3 ) {
-            if( cur_furn == furn_str_id( "f_plant_mature" ) ) {
+            if( has_flag_furn( "GROWTH_MATURE", p ) ) {
                 return;
             }
             i_rem( p, 1 );
             rotten_item_spawn( seed, p );
             //You've skipped the seedling stage so roll monsters twice
-            if( cur_furn != furn_str_id( "f_plant_seedling" ) ) {
+            if( !has_flag_furn( "GROWTH_SEEDLING", p ) ) {
                 rotten_item_spawn( seed, p );
             }
-            furn_set( p, furn_str_id( "f_plant_mature" ) );
+            furn_set( p, furn_str_id( furn.plant_transform ) );
         } else {
             //You've skipped two stages so roll monsters two times
-            if( cur_furn == furn_str_id( "f_plant_seedling" ) ) {
+            if( has_flag_furn( "GROWTH_SEEDLING", p ) ) {
                 rotten_item_spawn( seed, p );
                 rotten_item_spawn( seed, p );
                 //One stage change
-            } else if( cur_furn == furn_str_id( "f_plant_mature" ) ) {
+            } else if( has_flag_furn( "GROWTH_MATURE", p ) ) {
                 rotten_item_spawn( seed, p );
                 //Goes from seed to harvest in one check
             } else {
@@ -6874,7 +6874,7 @@ void map::grow_plant( const tripoint &p )
                 rotten_item_spawn( seed, p );
                 rotten_item_spawn( seed, p );
             }
-            furn_set( p, furn_str_id( "f_plant_harvest" ) );
+            furn_set( p, furn_str_id( furn.plant_transform ) );
         }
     }
 }
@@ -8249,6 +8249,33 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
     }
 
     return result;
+}
+
+std::list<tripoint> map::find_furnitures_in_radius( const tripoint &center, size_t radius,
+        furn_id target,
+        size_t radiusz )
+{
+    std::list<tripoint> furn_locs;
+    for( const auto &furn_loc : g->m.points_in_radius( center, radius, radiusz ) ) {
+        if( g->m.furn( furn_loc ) == target ) {
+            furn_locs.push_back( furn_loc );
+        }
+    }
+    return furn_locs;
+}
+
+std::list<Creature *> map::get_creatures_in_radius( const tripoint &center, size_t radius,
+        size_t radiusz )
+{
+    std::list<Creature *> creatures;
+    for( const auto &loc : points_in_radius( center, radius, radiusz ) ) {
+        Creature *tmp_critter = g->critter_at( loc );
+        if( tmp_critter != nullptr ) {
+            creatures.push_back( tmp_critter );
+        }
+
+    }
+    return creatures;
 }
 
 level_cache &map::access_cache( int zlev )

@@ -1,6 +1,6 @@
 #include "npctrade.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -261,10 +261,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 const auto &offset = they ? them_off : you_off;
                 const auto &person = they ? p : g->u;
                 auto &w_whose = they ? w_them : w_you;
-                int win_h = getmaxy( w_whose );
                 int win_w = getmaxx( w_whose );
                 // Borders
-                win_h -= 2;
                 win_w -= 2;
                 for( size_t i = offset; i < list.size() && i < entries_per_page + offset; i++ ) {
                     const item_pricing &ip = list[i];

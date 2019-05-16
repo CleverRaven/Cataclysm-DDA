@@ -2,7 +2,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <limits.h>
+#include <climits>
 #include <array>
 #include <list>
 #include <map>
@@ -14,12 +14,14 @@
 #include <functional>
 #include <iosfwd>
 #include <string>
+#include <chrono>
 
 #include "calendar.h"
 #include "cursesdef.h"
 #include "enums.h"
 #include "explosion.h"
 #include "game_constants.h"
+#include "handle_liquid.h"
 #include "item_location.h"
 #include "optional.h"
 #include "pimpl.h"
@@ -28,6 +30,9 @@
 #include "type_id.h"
 #include "monster.h"
 #include "game_inventory.h"
+#include "weather.h"
+
+#define DEFAULT_TILESET_ZOOM 16
 
 extern bool test_mode;
 
@@ -107,22 +112,6 @@ class loading_ui;
 
 typedef std::function<bool( const item & )> item_filter;
 
-enum liquid_dest : int {
-    LD_NULL,
-    LD_CONSUME,
-    LD_ITEM,
-    LD_VEH,
-    LD_KEG,
-    LD_GROUND
-};
-
-struct liquid_dest_opt {
-    liquid_dest dest_opt = LD_NULL;
-    tripoint pos;
-    item_location item_loc;
-    vehicle *veh = nullptr;
-};
-
 enum peek_act : int {
     PA_BLIND_THROW
     // obvious future additional value is PA_BLIND_FIRE
@@ -140,6 +129,9 @@ struct w_map {
     catacurses::window win;
 };
 
+// There is only one game instance, so losing a few bytes of memory
+// due to padding is not much of a concern.
+// NOLINTNEXTLINE(clang-analyzer-optin.performance.Padding)
 class game
 {
         friend class editmap;
@@ -204,6 +196,7 @@ class game
 
         /** Returns false if saving failed. */
         bool save();
+
         /** Returns a list of currently active character saves. */
         std::vector<std::string> list_active_characters();
         void write_memorial_file( std::string sLastWords );
@@ -583,8 +576,12 @@ class game
         int get_moves_since_last_save() const;
         int get_user_action_counter() const;
 
-        // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
-        int get_temperature( const tripoint &location );
+        /** Saves a screenshot of the current viewport, as a PNG file, to the given location.
+        * @param file_path: A full path to the file where the screenshot should be saved.
+        * @note: Only works for SDL/TILES (otherwise the function returns `false`). A window (more precisely, a viewport) must already exist and the SDL renderer must be valid.
+        * @returns `true` if the screenshot generation was successful, `false` otherwise.
+        */
+        bool take_screenshot( const std::string &file_path ) const;
 
         void clear_temp_cache();
 
@@ -604,7 +601,6 @@ class game
          * The overmap which contains the center submap of the reality bubble.
          */
         overmap &get_cur_om() const;
-        const weather_generator &get_cur_weather_gen() const;
 
         /** Get all living player allies */
         std::vector<npc *> allies();
@@ -616,103 +612,6 @@ class game
         // the function set the driving offset to (0,0)
         void calc_driving_offset( vehicle *veh = nullptr );
 
-        /**
-         * @name Liquid handling
-         */
-        /**@{*/
-        /**
-         * Consume / handle all of the liquid. The function can be used when the liquid needs
-         * to be handled and can not be put back to where it came from (e.g. when it's a newly
-         * created item from crafting).
-         * The player is forced to handle all of it, which may required them to pour it onto
-         * the ground (if they don't have enough container space available) and essentially
-         * loose the item.
-         * @return Whether any of the liquid has been consumed. `false` indicates the player has
-         * declined all options to handle the liquid (essentially canceled the action) and no
-         * charges of the liquid have been transferred.
-         * `true` indicates some charges have been transferred (but not necessarily all of them).
-         */
-        void handle_all_liquid( item liquid, int radius );
-
-        /**
-         * Consume / handle as much of the liquid as possible in varying ways. This function can
-         * be used when the action can be canceled, which implies the liquid can be put back
-         * to wherever it came from and is *not* lost if the player cancels the action.
-         * It returns when all liquid has been handled or if the player has explicitly canceled
-         * the action (use the charges count to distinguish).
-         * @return Whether any of the liquid has been consumed. `false` indicates the player has
-         * declined all options to handle the liquid and no charges of the liquid have been transferred.
-         * `true` indicates some charges have been transferred (but not necessarily all of them).
-         */
-        bool consume_liquid( item &liquid, int radius = 0 );
-
-        /**
-         * Handle finite liquid from ground. The function also handles consuming move points.
-         * This may start a player activity.
-         * @param on_ground Iterator to the item on the ground. Must be valid and point to an
-         * item in the stack at `m.i_at(pos)`
-         * @param pos The position of the item on the map.
-         * @param radius around position to handle liquid for
-         * @return Whether the item has been removed (which implies it was handled completely).
-         * The iterator is invalidated in that case. Otherwise the item remains but may have
-         * fewer charges.
-         */
-        bool handle_liquid_from_ground( std::list<item>::iterator on_ground, const tripoint &pos,
-                                        int radius = 0 );
-
-        /**
-         * Handle liquid from inside a container item. The function also handles consuming move points.
-         * @param in_container Iterator to the liquid. Must be valid and point to an
-         * item in the @ref item::contents of the container.
-         * @param container Container of the liquid
-         * @param radius around position to handle liquid for
-         * @return Whether the item has been removed (which implies it was handled completely).
-         * The iterator is invalidated in that case. Otherwise the item remains but may have
-         * fewer charges.
-         */
-        bool handle_liquid_from_container( std::list<item>::iterator in_container, item &container,
-                                           int radius = 0 );
-        /**
-         * Shortcut to the above: handles the first item in the container.
-         */
-        bool handle_liquid_from_container( item &container, int radius = 0 );
-
-        /**
-         * This may start a player activity if either \p source_pos or \p source_veh is not
-         * null.
-         * The function consumes moves of the player as needed.
-         * Supply one of the source parameters to prevent the player from pouring the liquid back
-         * into that "container". If no source parameter is given, the liquid must not be in a
-         * container at all (e.g. freshly crafted, or already removed from the container).
-         * @param liquid The actual liquid
-         * @param source The container that currently contains the liquid.
-         * @param radius Radius to look for liquid around pos
-         * @param source_pos The source of the liquid when it's from the map.
-         * @param source_veh The vehicle that currently contains the liquid in its tank.
-         * @return Whether the user has handled the liquid (at least part of it). `false` indicates
-         * the user has rejected all possible actions. But note that `true` does *not* indicate any
-         * liquid was actually consumed, the user may have chosen an option that turned out to be
-         * invalid (chose to fill into a full/unsuitable container).
-         * Basically `false` indicates the user does not *want* to handle the liquid, `true`
-         * indicates they want to handle it.
-         */
-        bool handle_liquid( item &liquid, item *source = nullptr, int radius = 0,
-                            const tripoint *source_pos = nullptr,
-                            const vehicle *source_veh = nullptr, const int part_num = -1,
-                            const monster *source_mon = nullptr );
-        /**
-             * These are helper functions for transfer liquid, for times when you just want to
-             * get the target of the transfer, or know the target and just want to transfer the
-             * liquid. They take the same arguments as handle_liquid, plus
-             * @param target structure containing information about the target
-             */
-        bool get_liquid_target( item &liquid, item *const source, const int radius,
-                                const tripoint *source_pos, const vehicle *const source_veh,
-                                const monster *const source_mon, liquid_dest_opt &target );
-        bool perform_liquid_transfer( item &liquid,
-                                      const tripoint *source_pos,
-                                      const vehicle *const source_veh, const int part_num,
-                                      const monster *const source_mon, liquid_dest_opt &target );
         /**@}*/
 
         void open_gate( const tripoint &p );
@@ -916,7 +815,6 @@ class game
                                int last_line );
         void print_graffiti_info( const tripoint &lp, const catacurses::window &w_look, int column,
                                   int &line, int last_line );
-        void get_lookaround_dimensions( int &lookWidth, int &begin_y, int &begin_x ) const;
 
         input_context get_player_input( std::string &action );
 
@@ -945,7 +843,6 @@ class game
         void monmove();          // Monster movement
         void overmap_npc_move(); // NPC overmap movement
         void process_activity(); // Processes and enacts the player's activity
-        void update_weather();   // Updates the temperature and weather patten
         void handle_key_blocking_activity(); // Abort reading etc.
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
         bool handle_action();
@@ -976,6 +873,18 @@ class game
     public:
         void quicksave();        // Saves the game without quitting
         void disp_NPCs();        // Currently for debug use.  Lists global NPCs.
+
+        /** Used to implement mouse "edge scrolling". Returns a
+         *  tripoint which is a vector of the resulting "move", i.e.
+         *  (0, 0, 0) if the mouse is not at the edge of the screen,
+         *  otherwise some (x, y, 0) depending on which edges are
+         *  hit.
+         *  This variant adjust scrolling speed according to zoom
+         *  level, making it suitable when viewing the "terrain".
+         */
+        tripoint mouse_edge_scrolling_terrain( input_context &ctxt );
+        /** This variant is suitable for the overmap. */
+        tripoint mouse_edge_scrolling_overmap( input_context &ctxt );
     private:
         void quickload();        // Loads the previously saved game if it exists
 
@@ -1022,12 +931,6 @@ class game
         /** True if the game has just started or loaded, else false. */
         bool new_game;
 
-        int temperature;              // The air temperature
-        bool lightning_active;
-        weather_type weather;   // Weather pattern--SEE weather.h
-        int winddirection;
-        int windspeed;
-        pimpl<w_point> weather_precise; // Cached weather data
         const scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairz;
@@ -1066,11 +969,8 @@ class game
         bool auto_travel_mode = false;
         safe_mode_type safe_mode;
         int turnssincelastmon; // needed for auto run mode
-        cata::optional<int> wind_direction_override;
-        cata::optional<int> windspeed_override;
-        weather_type weather_override;
-        // not only sets nextweather, but updates weather as well
-        void set_nextweather( time_point t );
+
+        weather_manager weather;
     private:
         std::shared_ptr<player> u_shared_ptr;
         std::vector<std::shared_ptr<npc>> active_npc;
@@ -1086,7 +986,6 @@ class game
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
         bool safe_mode_warning_logged;
         bool bVMonsterLookFire;
-        time_point nextweather; // The time on which weather will shift next.
         int next_npc_id, next_mission_id; // Keep track of UIDs
         std::set<int> follower_ids; // Keep track of follower NPC IDs
         std::map<mtype_id, int> kills;         // Player's kill count
@@ -1097,8 +996,6 @@ class game
         // remoteveh() cache
         time_point remoteveh_cache_time;
         vehicle *remoteveh_cache;
-        /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures */
-        std::unordered_map< tripoint, int > temperature_cache;
         /** Has a NPC been spawned since last load? */
         bool npcs_dirty;
         /** Has anything died in this turn and needs to be cleaned up? */
@@ -1120,6 +1017,10 @@ class game
 
         // Preview for auto move route
         std::vector<tripoint> destination_preview;
+
+        std::chrono::time_point<std::chrono::steady_clock> last_mouse_edge_scroll;
+        tripoint last_mouse_edge_scroll_vector;
+        tripoint mouse_edge_scrolling( input_context ctxt, const int speed );
 
 };
 

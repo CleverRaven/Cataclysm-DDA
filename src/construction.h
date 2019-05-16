@@ -2,7 +2,7 @@
 #ifndef CONSTRUCTION_H
 #define CONSTRUCTION_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <functional>
 #include <map>
 #include <set>
@@ -22,38 +22,52 @@ class nc_color;
 struct tripoint;
 
 struct construction {
-        std::string category; //Construction type category
-        std::string description; // how the action is displayed to the player
-        std::string pre_note; // Additional note displayed along with construction requirements.
-        std::string pre_terrain; // beginning terrain for construction
-        std::string post_terrain;// final terrain after construction
+        // Construction type category
+        std::string category;
+        // How the action is displayed to the player
+        std::string description;
+        // Additional note displayed along with construction requirements.
+        std::string pre_note;
+        // Beginning terrain for construction
+        std::string pre_terrain;
+        // Final terrain after construction
+        std::string post_terrain;
 
         // Item group of byproducts created by the construction on success.
         cata::optional<std::string> byproduct_item_group;
 
-        std::set<std::string> pre_flags; // flags beginning terrain must have
+        // Flags beginning terrain must have
+        std::set<std::string> pre_flags;
 
         /** Skill->skill level mapping. Can be empty. */
         std::map<skill_id, int> required_skills;
         requirement_id requirements;
 
-        size_t id; // Index in construction vector
+        // Index in construction vector
+        size_t id;
         int time;
 
         // If true, the requirements are generated during finalization
         bool vehicle_start;
 
-        std::function<bool( const tripoint & )> pre_special; // custom constructibility check
-        std::function<void( const tripoint & )> post_special; // custom after-effects
-        std::function<void( const tripoint & )> explain_failure; // Custom error message display
+        // Custom constructibility check
+        std::function<bool( const tripoint & )> pre_special;
+        // Custom after-effects
+        std::function<void( const tripoint & )> post_special;
+        // Custom error message display
+        std::function<void( const tripoint & )> explain_failure;
 
-        bool pre_is_furniture; // whether it's furniture or terrain
-        bool post_is_furniture; // whether it's furniture or terrain
+        // Whether it's furniture or terrain
+        bool pre_is_furniture;
+        // Whether it's furniture or terrain
+        bool post_is_furniture;
 
-        int adjusted_time() const; // NPC assistance adjusted
+        // NPC assistance adjusted
+        int adjusted_time() const;
         int print_time( const catacurses::window &w, int ypos, int xpos, int width, nc_color col ) const;
         std::vector<std::string> get_folded_time_string( int width ) const;
-        float time_scale() const; //result of construction scaling option
+        // Result of construction scaling option
+        float time_scale() const;
     private:
         std::string get_time_string() const;
 };

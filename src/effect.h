@@ -2,7 +2,7 @@
 #ifndef EFFECT_H
 #define EFFECT_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <unordered_map>
 #include <tuple>
 #include <vector>

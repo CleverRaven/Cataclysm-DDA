@@ -25,6 +25,18 @@
   },
   {
     "type": "trap",
+    "id": "tr_glass",
+    "name": "glass shards",
+    "color": "light_cyan",
+    "symbol": "_",
+    "visibility": 6,
+    "avoidance": 8,
+    "difficulty": 0,
+    "action": "glass",
+    "drops": [ "glass_shard" ]
+  },
+  {
+    "type": "trap",
     "id": "tr_cot",
     "name": "cot",
     "color": "green",
@@ -139,6 +151,18 @@
     "difficulty": 0,
     "action": "caltrops",
     "drops": [ "caltrops" ]
+  },
+  {
+    "type": "trap",
+    "id": "tr_caltrops_glass",
+    "name": "glass caltrops",
+    "color": "dark_gray",
+    "symbol": "_",
+    "visibility": 6,
+    "avoidance": 6,
+    "difficulty": 0,
+    "action": "caltrops_glass",
+    "drops": [ "caltrops_glass" ]
   },
   {
     "type": "trap",

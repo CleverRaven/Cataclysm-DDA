@@ -1,9 +1,8 @@
-#include "calendar.h"
-
 #pragma once
 #ifndef GAME_CONSTANTS_H
 #define GAME_CONSTANTS_H
 
+#include "calendar.h"
 #include "units.h"
 
 // Fixed window sizes

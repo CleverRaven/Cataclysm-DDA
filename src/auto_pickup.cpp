@@ -1,6 +1,6 @@
 #include "auto_pickup.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <sstream>
 #include <functional>

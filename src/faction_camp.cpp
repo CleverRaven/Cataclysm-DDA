@@ -1,6 +1,6 @@
 #include "faction_camp.h" // IWYU pragma: associated
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -1116,7 +1116,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                            "Time: 1 Min / Plot \n"
                            "Positions: 0/1 \n" );
                 mission_key.add_start( dir + miss_info.miss_id, dir + miss_info.desc, dir, entry,
-                                       plots > 0 && g->get_temperature( omt_trg ) > 50 );
+                                       plots > 0 && g->weather.get_temperature( omt_trg ) > 50 );
             } else {
                 entry = miss_info.action;
                 bool avail = update_time_left( entry, npc_list );
@@ -2094,7 +2094,6 @@ bool basecamp::upgrade_return( const std::string &dir, const std::string &miss )
     }
     const tripoint upos = e->second.pos;
 
-
     const std::string bldg = next_upgrade( dir, 1 );
     if( bldg == "null" ) {
         return false;
@@ -2335,14 +2334,15 @@ void basecamp::recruit_return( const std::string &task, int score )
             break;
         }
     }
-    //Roll for recruitment
+    // Roll for recruitment
     if( rng( 1, 20 ) + appeal >= 10 ) {
         popup( _( "%s has been convinced to join!" ), recruit->name );
     } else {
         popup( _( "%s wasn't interested..." ), recruit->name );
-        return;// nullptr;
+        // nullptr;
+        return;
     }
-    // time durations always subtract from camp food supply
+    // Time durations always subtract from camp food supply
     camp_food_supply( 1_days * food_desire );
     recruit->spawn_at_precise( { g->get_levx(), g->get_levy() }, g->u.pos() + point( -4, -4 ) );
     overmap_buffer.insert_npc( recruit );
@@ -3070,6 +3070,7 @@ std::vector<item *> basecamp::give_equipment( std::vector<item *> equipment,
         wrefresh( g->w_terrain );
 
         std::vector<std::string> names;
+        names.reserve( equipment.size() );
         for( auto &i : equipment ) {
             names.push_back( i->tname() + " [" + to_string( i->charges ) + "]" );
         }

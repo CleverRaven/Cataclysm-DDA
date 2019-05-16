@@ -5,8 +5,8 @@
 #include "npc_favor.h" // IWYU pragma: associated
 #include "pldata.h" // IWYU pragma: associated
 
-#include <ctype.h>
-#include <stddef.h>
+#include <cctype>
+#include <cstddef>
 #include <algorithm>
 #include <limits>
 #include <numeric>
@@ -1050,16 +1050,18 @@ void npc_follower_rules::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "engagement", static_cast<int>( engagement ) );
     json.member( "aim", static_cast<int>( aim ) );
+    json.member( "cbm_reserve", static_cast<int>( cbm_reserve ) );
+    json.member( "cbm_recharge", static_cast<int>( cbm_recharge ) );
 
     // serialize the flags so they can be changed between save games
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "rule_" + rule.first, has_flag( rule.second, false ) );
+        json.member( "rule_" + rule.first, has_flag( rule.second.rule, false ) );
     }
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "override_enable_" + rule.first, has_override_enable( rule.second ) );
+        json.member( "override_enable_" + rule.first, has_override_enable( rule.second.rule ) );
     }
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "override_" + rule.first, has_override( rule.second ) );
+        json.member( "override_" + rule.first, has_override( rule.second.rule ) );
     }
 
     json.member( "pickup_whitelist", *pickup_whitelist );
@@ -1076,6 +1078,12 @@ void npc_follower_rules::deserialize( JsonIn &jsin )
     int tmpaim = 0;
     data.read( "aim", tmpaim );
     aim = static_cast<aim_rule>( tmpaim );
+    int tmpreserve = 50;
+    data.read( "cbm_reserve", tmpreserve );
+    cbm_reserve = static_cast<cbm_reserve_rule>( tmpreserve );
+    int tmprecharge = 50;
+    data.read( "cbm_recharge", tmprecharge );
+    cbm_recharge = static_cast<cbm_recharge_rule>( tmprecharge );
 
     // deserialize the flags so they can be changed between save games
     for( const auto &rule : ally_rule_strs ) {
@@ -1083,27 +1091,48 @@ void npc_follower_rules::deserialize( JsonIn &jsin )
         // legacy to handle rules that were saved before overrides
         data.read( rule.first, tmpflag );
         if( tmpflag ) {
-            set_flag( rule.second );
+            set_flag( rule.second.rule );
         } else {
-            clear_flag( rule.second );
+            clear_flag( rule.second.rule );
         }
         data.read( "rule_" + rule.first, tmpflag );
         if( tmpflag ) {
-            set_flag( rule.second );
+            set_flag( rule.second.rule );
         } else {
-            clear_flag( rule.second );
+            clear_flag( rule.second.rule );
         }
         data.read( "override_enable_" + rule.first, tmpflag );
         if( tmpflag ) {
-            enable_override( rule.second );
+            enable_override( rule.second.rule );
         } else {
-            disable_override( rule.second );
+            disable_override( rule.second.rule );
         }
         data.read( "override_" + rule.first, tmpflag );
         if( tmpflag ) {
-            set_override( rule.second );
+            set_override( rule.second.rule );
         } else {
-            clear_override( rule.second );
+            clear_override( rule.second.rule );
+        }
+
+        // This and the following two entries are for legacy save game handling.
+        // "avoid_combat" was renamed "follow_close" to better reflect behavior.
+        data.read( "rule_avoid_combat", tmpflag );
+        if( tmpflag ) {
+            set_flag( ally_rule::follow_close );
+        } else {
+            clear_flag( ally_rule::follow_close );
+        }
+        data.read( "override_enable_avoid_combat", tmpflag );
+        if( tmpflag ) {
+            enable_override( ally_rule::follow_close );
+        } else {
+            disable_override( ally_rule::follow_close );
+        }
+        data.read( "override_avoid_combat", tmpflag );
+        if( tmpflag ) {
+            set_override( ally_rule::follow_close );
+        } else {
+            clear_override( ally_rule::follow_close );
         }
     }
 
@@ -1419,6 +1448,10 @@ void npc::load( JsonObject &data )
         data.read( "misc_rules", rules );
         data.read( "combat_rules", rules );
     }
+    real_weapon = item( "null", 0 );
+    data.read( "real_weapon", real_weapon );
+    cbm_weapon_index = -1;
+    data.read( "cbm_weapon_index", cbm_weapon_index );
 
     if( !data.read( "last_updated", last_updated ) ) {
         last_updated = calendar::turn;
@@ -1484,6 +1517,11 @@ void npc::store( JsonOut &json ) const
     json.member( "op_of_u", op_of_u );
     json.member( "chatbin", chatbin );
     json.member( "rules", rules );
+
+    if( !real_weapon.is_null() ) {
+        json.member( "real_weapon", real_weapon ); // also saves contents
+    }
+    json.member( "cbm_weapon_index", cbm_weapon_index );
 
     json.member( "comp_mission_id", comp_mission.mission_id );
     json.member( "comp_mission_pt", comp_mission.position );

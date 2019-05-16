@@ -65,6 +65,7 @@ void pulp_do_turn( player_activity *act, player *p );
 void game_do_turn( player_activity *act, player *p );
 void start_fire_do_turn( player_activity *act, player *p );
 void vibe_do_turn( player_activity *act, player *p );
+void hand_crank_do_turn( player_activity *act, player *p );
 void oxytorch_do_turn( player_activity *act, player *p );
 void aim_do_turn( player_activity *act, player *p );
 void pickup_do_turn( player_activity *act, player *p );
@@ -132,6 +133,7 @@ void try_sleep_finish( player_activity *act, player *p );
 void disassemble_finish( player_activity *act, player *p );
 void build_finish( player_activity *act, player *p );
 void vibe_finish( player_activity *act, player *p );
+void hand_crank_finish( player_activity *act, player *p );
 void atm_finish( player_activity *act, player *p );
 void aim_finish( player_activity *act, player *p );
 void eat_menu_finish( player_activity *act, player *p );
@@ -148,6 +150,8 @@ void shaving_finish( player_activity *act, player *p );
 void haircut_finish( player_activity *act, player *p );
 void unload_mag_finish( player_activity *act, player *p );
 void robot_control_finish( player_activity *act, player *p );
+void hack_door_finish( player_activity *act, player *p );
+void hack_safe_finish( player_activity *act, player *p );
 
 // defined in activity_handlers.cpp
 extern const std::map< activity_id, std::function<void( player_activity *, player * )> >

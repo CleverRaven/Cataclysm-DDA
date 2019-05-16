@@ -1,6 +1,6 @@
 #include "veh_interact.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <cmath>
 #include <functional>
@@ -21,6 +21,7 @@
 #include "debug.h"
 #include "fault.h"
 #include "game.h"
+#include "handle_liquid.h"
 #include "itype.h"
 #include "map.h"
 #include "map_selector.h"
@@ -1044,7 +1045,7 @@ bool veh_interact::do_repair( std::string &msg )
 
         werase( w_parts );
         veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart,
-                              need_repair[pos] );
+                              need_repair[pos], true );
         wrefresh( w_parts );
 
         const std::string action = main_context.handle_input();
@@ -1060,7 +1061,7 @@ bool veh_interact::do_repair( std::string &msg )
 
         } else if( action == "QUIT" ) {
             werase( w_parts );
-            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1 );
+            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1, true );
             wrefresh( w_parts );
             werase( w_msg );
             wrefresh( w_msg );
@@ -1634,7 +1635,7 @@ bool veh_interact::do_remove( std::string &msg )
     while( true ) {
         //redraw list of parts
         werase( w_parts );
-        veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, pos );
+        veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, pos, true );
         wrefresh( w_parts );
         int part = parts_here[ pos ];
 
@@ -1656,7 +1657,7 @@ bool veh_interact::do_remove( std::string &msg )
             break;
         } else if( action == "QUIT" ) {
             werase( w_parts );
-            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1 );
+            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1, true );
             wrefresh( w_parts );
             werase( w_msg );
             wrefresh( w_msg );
@@ -1699,7 +1700,7 @@ bool veh_interact::do_siphon( std::string &msg )
         const int idx = veh->find_part( base );
         item liquid( base.contents.back() );
         const int liq_charges = liquid.charges;
-        if( g->handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
+        if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( idx, liq_charges - liquid.charges );
         }
         return true;
@@ -1933,7 +1934,7 @@ void veh_interact::move_cursor( int dx, int dy, int dstart_at )
               special_symbol( sym ) );
     wrefresh( w_disp );
     werase( w_parts );
-    veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1 );
+    veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1, true );
     wrefresh( w_parts );
 
     werase( w_msg );
@@ -2595,7 +2596,7 @@ void veh_interact::count_durability()
         return lhs + rhs.base.max_damage();
     } );
 
-    int pct = 100 * qty / total;
+    int pct = total ? 100 * qty / total : 0;
 
     if( pct < 5 ) {
         total_durability_text = _( "like new" );
@@ -2712,7 +2713,7 @@ void act_vehicle_siphon( vehicle *veh )
         const int idx = veh->find_part( base );
         item liquid( base.contents.back() );
         const int liq_charges = liquid.charges;
-        if( g->handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
+        if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( idx, liq_charges - liquid.charges );
             veh->invalidate_mass();
         }

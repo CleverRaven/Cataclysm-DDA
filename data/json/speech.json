@@ -1549,6 +1549,24 @@
   },
   {
     "type": "speech",
+    "speaker": "mon_nursebot_defective",
+    "sound": "a soft robotic voice say, \"Come here.  I'll give you a check-up.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_nursebot_defective",
+    "sound": "a soft robotic voice say, \"Come on.  I don't bite, I promise it won't hurt one bit.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_nursebot_defective",
+    "sound": "a soft robotic voice say, \"Here we go.  Just hold still.\"",
+    "volume": 8
+  },
+  {
+    "type": "speech",
     "speaker": "mon_eyebot",
     "sound": "\"Stop where you are!\"",
     "volume": 15

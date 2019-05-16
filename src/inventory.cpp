@@ -1,9 +1,9 @@
 #include "inventory.h"
 
-#include <limits.h>
-#include <math.h>
-#include <stdint.h>
-#include <stdlib.h>
+#include <climits>
+#include <cmath>
+#include <cstdint>
+#include <cstdlib>
 #include <algorithm>
 #include <iterator>
 #include <memory>

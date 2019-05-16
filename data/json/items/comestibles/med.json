@@ -11,7 +11,8 @@
     "material": "plastic",
     "symbol": "!",
     "color": "red",
-    "use_action": "DISASSEMBLE"
+    "use_action": "DISASSEMBLE",
+    "flags": [ "NO_REPAIR" ]
   },
   {
     "id": "adderall",
