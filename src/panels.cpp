@@ -1815,7 +1815,7 @@ bool panel_manager::save()
     return write_to_file( FILENAMES["panel_options"], [&]( std::ostream & fout ) {
         JsonOut jout( fout, true );
         serialize( jout );
-    }, _( "panel_options" ) );
+    }, _( "panel options" ) );
 }
 
 bool panel_manager::load()
