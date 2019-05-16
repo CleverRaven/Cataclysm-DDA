@@ -23,8 +23,8 @@ bool is_nearly( float value, float expected )
 
 void set_map_temperature( int new_temperature )
 {
-    g->temperature = new_temperature;
-    g->clear_temp_cache();
+    g->weather.temperature = new_temperature;
+    g->weather.clear_temp_cache();
 }
 
 TEST_CASE( "Item spawns with right thermal attributes" )
