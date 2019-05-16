@@ -583,8 +583,6 @@ class game
         */
         bool take_screenshot( const std::string &file_path ) const;
 
-        void clear_temp_cache();
-
         /**
          * The top left corner of the reality bubble (in submaps coordinates). This is the same
          * as @ref map::abs_sub of the @ref m map.
