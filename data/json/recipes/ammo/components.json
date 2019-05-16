@@ -40,6 +40,6 @@
     "book_learn": [ [ "manual_pistol", 5 ], [ "recipe_bullets", 3 ] ],
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "DRILL", "level": 2 } ],
     "tools": [ [ [ "press", -1 ] ], [ [ "cordless_drill", 2 ] ] ],
-    "components": [ [ "223_casing", 1 ] ]
+    "components": [ [ [ "223_casing", 1 ] ] ]
   }
 ]
