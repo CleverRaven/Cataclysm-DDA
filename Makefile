@@ -150,6 +150,11 @@ ifndef RUNTESTS
   RUNTESTS = 1
 endif
 
+# Auto-detect MSYS2
+ifdef MSYSTEM
+  MSYS2 = 1
+endif
+
 # Enable backtrace by default
 ifndef BACKTRACE
   # ...except not on native Windows builds, because the relevant headers are
@@ -307,9 +312,9 @@ ifndef RELEASE
 endif
 
 ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-  OTHERS += -std=gnu++11
+  OTHERS += -std=gnu++14
 else
-  OTHERS += -std=c++11
+  OTHERS += -std=c++14
 endif
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
@@ -997,23 +1002,28 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-JSON_FILES = $(shell find data -name *.json | sed "s|^\./||")
+JSON_FILES = $(shell find data -name "*.json" | sed "s|^\./||")
 JSON_WHITELIST = $(filter-out $(shell cat json_blacklist), $(JSON_FILES))
+ifeq ($(MSYS2), 1)
+  JSON_FORMATTER_BIN=tools/format/json_formatter.exe
+else
+  JSON_FORMATTER_BIN=tools/format/json_formatter.cgi
+endif
 
 style-json: $(JSON_WHITELIST)
 
 $(JSON_WHITELIST): json_blacklist json_formatter
 ifndef CROSS
-	@tools/format/json_formatter.cgi $@
+	@$(JSON_FORMATTER_BIN) $@
 else
 	@echo Cannot run json formatter in cross compiles.
 endif
 
 style-all-json: json_formatter
-	find data -name "*.json" -print0 | xargs -0 -L 1 tools/format/json_formatter.cgi
+	find data -name "*.json" -print0 | xargs -0 -L 1 $(JSON_FORMATTER_BIN)
 
 json_formatter: tools/format/format.cpp src/json.cpp
-	$(CXX) $(CXXFLAGS) -Itools/format -Isrc tools/format/format.cpp src/json.cpp -o tools/format/json_formatter.cgi
+	$(CXX) $(CXXFLAGS) -Itools/format -Isrc tools/format/format.cpp src/json.cpp -o $(JSON_FORMATTER_BIN)
 
 tests: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C tests

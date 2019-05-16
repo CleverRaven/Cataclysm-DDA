@@ -2,7 +2,7 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <bitset>
 #include <map>
 #include <unordered_map>
@@ -30,16 +30,13 @@
 #include "optional.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "type_id.h"
 #include "units.h"
 
-class Skill;
 struct pathfinding_settings;
 class item_location;
-
-using skill_id = string_id<Skill>;
 class SkillLevel;
 class SkillLevelMap;
-
 enum field_id : int;
 class JsonObject;
 class JsonIn;
@@ -47,9 +44,6 @@ class JsonOut;
 class vehicle;
 struct mutation_branch;
 class bionic_collection;
-struct bionic_data;
-
-using bionic_id = string_id<bionic_data>;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -405,7 +399,7 @@ class Character : public Creature, public visitable<Character>
 
     private:
         /** Retrieves a stat mod of a mutation. */
-        int get_mod( const trait_id &mut, std::string arg ) const;
+        int get_mod( const trait_id &mut, const std::string &arg ) const;
         /** Applies skill-based boosts to stats **/
         void apply_skill_boost();
 
@@ -451,6 +445,8 @@ class Character : public Creature, public visitable<Character>
         bool has_bionic( const bionic_id &b ) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
         bool has_active_bionic( const bionic_id &b ) const;
+        /**Returns true if the player has any bionic*/
+        bool has_any_bionic() const;
 
         // --------------- Generic Item Stuff ---------------
 
@@ -693,6 +689,8 @@ class Character : public Creature, public visitable<Character>
         void die( Creature *nkiller ) override;
 
         std::string get_name() const override;
+
+        std::vector<std::string> get_grammatical_genders() const override;
 
         /**
          * It is supposed to hide the query_yn to simplify player vs. npc code.

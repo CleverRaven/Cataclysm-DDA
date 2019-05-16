@@ -21,12 +21,12 @@
 #include "enums.h"
 #include "inventory.h"
 #include "item.h"
-#include "npc_class.h"
 #include "pimpl.h"
 #include "string_id.h"
 #include "npctalk.h"
 #include "mapdata.h"
-#include "mtype.h"
+#include "material.h"
+#include "type_id.h"
 
 const efftype_id effect_gave_quest_item( "gave_quest_item" );
 const efftype_id effect_currently_busy( "currently_busy" );
@@ -559,7 +559,7 @@ TEST_CASE( "npc_talk_test" )
     gen_response_lines( d, 9 );
     CHECK( d.responses[0].text == "Change your engagement rules..." );
     CHECK( d.responses[1].text == "Change your aiming rules..." );
-    CHECK( d.responses[2].text == "If you see me running away, you follow me." );
+    CHECK( d.responses[2].text == "Stick close to me, no matter what." );
     CHECK( d.responses[3].text == "Don't use ranged weapons anymore." );
     CHECK( d.responses[4].text == "Use only silent weapons." );
     CHECK( d.responses[5].text == "Don't use grenades anymore." );

@@ -1,6 +1,6 @@
 #include "craft_command.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <sstream>
 #include <algorithm>
 #include <limits>
@@ -16,7 +16,7 @@
 #include "requirements.h"
 #include "translations.h"
 #include "uistate.h"
-#include "pldata.h"
+#include "type_id.h"
 
 template<typename CompType>
 std::string comp_selection<CompType>::nname() const
@@ -178,7 +178,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
     for( const auto &item_sel : item_selections ) {
         itype_id type = item_sel.comp.type;
         const item_comp component = item_sel.comp;
-        const long count = ( component.count > 0 ) ? component.count * batch_size : abs( component.count );
+        const long count = component.count > 0 ? component.count * batch_size : abs( component.count );
 
         if( item::count_by_charges( type ) && count > 0 ) {
             switch( item_sel.use_from ) {

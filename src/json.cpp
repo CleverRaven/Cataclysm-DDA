@@ -1,7 +1,7 @@
 #include "json.h"
 
-#include <stdint.h>
-#include <stdio.h>
+#include <cstdint>
+#include <cstdio>
 #include <cmath> // pow
 #include <cstdlib> // strtoul
 #include <cstring> // strcmp

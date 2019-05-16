@@ -12,7 +12,6 @@
 #include <list>
 #include <memory>
 #include <set>
-#include <type_traits>
 #include <utility>
 
 #include "calendar.h"
@@ -642,7 +641,8 @@ void editmap::update_view( bool update_info )
         }
 
         mvwprintw( w_info, off, 1, "%s %s", g->m.features( target ).c_str(), extras );
-        off++;  // 9
+        // 9
+        off++;
 
         for( auto &fld : *cur_field ) {
             const field_entry &cur = fld.second;
@@ -684,7 +684,9 @@ void editmap::update_view( bool update_info )
         }
 
         if( g->m.has_graffiti_at( target ) ) {
-            mvwprintw( w_info, off, 1, _( "Graffiti: %s" ), g->m.graffiti_at( target ) );
+            mvwprintw( w_info, off, 1,
+                       g->m.ter( target ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Incription: %s" ),
+                       g->m.graffiti_at( target ) );
         }
 
         wrefresh( w_info );
@@ -1750,7 +1752,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
                         g->m.update_vehicle_list( destsm, target.z ); // update real map's vcaches
 
-                        if( destsm->spawns.size() > 0 ) {                               // trigger spawnpoints
+                        if( !destsm->spawns.empty() ) {                              // trigger spawnpoints
                             g->m.spawn_monsters( true );
                         }
                     }
@@ -1808,6 +1810,7 @@ vehicle *editmap::mapgen_veh_query( const tripoint &omt_tgt )
     }
 
     std::vector<std::string> car_titles;
+    car_titles.reserve( possible_vehicles.size() );
     for( auto &elem : possible_vehicles ) {
         car_titles.push_back( elem->name );
     }

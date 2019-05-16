@@ -18,53 +18,21 @@
 #include "iuse.h" // use_function
 #include "optional.h"
 #include "pldata.h" // add_type
-#include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
 
 // see item.h
 class item_category;
-class gun_mode;
-
-using gun_mode_id = string_id<gun_mode>;
 class Item_factory;
-class emit;
-
-using emit_id = string_id<emit>;
-class Skill;
-
-using skill_id = string_id<Skill>;
-struct bionic_data;
-
-using bionic_id = string_id<bionic_data>;
 class player;
 class item;
-class vitamin;
 
-using vitamin_id = string_id<vitamin>;
-class ma_technique;
-
-using matec_id = string_id<ma_technique>;
 enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_passive : int;
-class material_type;
-
-using material_id = string_id<material_type>;
 typedef std::string itype_id;
-class ammunition_type;
-
-using ammotype = string_id<ammunition_type>;
-class fault;
-
-using fault_id = string_id<fault>;
-struct quality;
-
-using quality_id = string_id<quality>;
-struct MonsterGroup;
-
-using mongroup_id = string_id<MonsterGroup>;
 
 enum field_id : int;
 
@@ -81,8 +49,11 @@ class gun_modifier_data
          */
         gun_modifier_data( const std::string &n, const int q, const std::set<std::string> &f ) : name_( n ),
             qty_( q ), flags_( f ) { }
-        /// @returns The translated name of the gun mode.
         std::string name() const {
+            return name_;
+        }
+        /// @returns The translated name of the gun mode.
+        std::string tname() const {
             return _( name_ );
         }
         int qty() const {
@@ -128,6 +99,7 @@ struct islot_tool {
     long max_charges = 0;
     long def_charges = 0;
     std::vector<long> rand_charges;
+    int charge_factor = 1;
     unsigned char charges_per_use = 0;
     unsigned char turns_per_charge = 0;
 };
@@ -978,9 +950,14 @@ struct itype {
 
         int charges_to_use() const {
             if( tool ) {
-                return tool->charges_per_use;
+                return static_cast<int>( tool->charges_per_use );
             }
             return 1;
+        }
+
+        // for tools that sub another tool, but use a different ratio of charges
+        int charge_factor() const {
+            return tool ? tool->charge_factor : 1;
         }
 
         int maximum_charges() const {

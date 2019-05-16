@@ -2,8 +2,8 @@
 #ifndef SUBMAP_H
 #define SUBMAP_H
 
-#include <stddef.h>
-#include <stdint.h>
+#include <cstddef>
+#include <cstdint>
 #include <list>
 #include <memory>
 #include <vector>
@@ -15,10 +15,9 @@
 #include "computer.h"
 #include "field.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "item.h"
-#include "string_id.h"
 #include "enums.h"
+#include "type_id.h"
 #include "vehicle.h"
 
 class JsonIn;
@@ -30,12 +29,6 @@ struct trap;
 struct ter_t;
 struct furn_t;
 
-using mtype_id = string_id<mtype>;
-using trap_id = int_id<trap>;
-using ter_id = int_id<ter_t>;
-using furn_id = int_id<furn_t>;
-using furn_str_id = string_id<furn_t>;
-
 struct spawn_point {
     point pos;
     int count;
@@ -46,7 +39,7 @@ struct spawn_point {
     std::string name;
     spawn_point( const mtype_id &T = mtype_id::NULL_ID(), int C = 0, point P = point_zero,
                  int FAC = -1, int MIS = -1, bool F = false,
-                 std::string N = "NONE" ) :
+                 const std::string &N = "NONE" ) :
         pos( P ), count( C ), type( T ), faction_id( FAC ),
         mission_id( MIS ), friendly( F ), name( N ) {}
 };
@@ -221,7 +214,7 @@ struct maptile {
         size_t y;
         point pos() const {
             return point( x, y );
-        };
+        }
 
         maptile( submap *sub, const size_t nx, const size_t ny ) :
             sm( sub ), x( nx ), y( ny ) { }

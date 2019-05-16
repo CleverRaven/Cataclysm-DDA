@@ -1,6 +1,6 @@
 #include "morale.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <set>
 #include <cmath>
@@ -21,10 +21,8 @@
 #include "output.h"
 #include "translations.h"
 #include "color.h"
-#include "creature.h"
 #include "enums.h"
 #include "iuse.h"
-#include "player.h"
 
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );
@@ -353,7 +351,6 @@ int player_morale::get_level() const
     if( !level_is_valid ) {
         const morale_mult mult = get_temper_mult();
 
-        level = 0;
         int sum_of_positive_squares = 0;
         int sum_of_negative_squares = 0;
 

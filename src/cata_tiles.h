@@ -2,14 +2,13 @@
 #ifndef CATA_TILES_H
 #define CATA_TILES_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <memory>
 #include <map>
 #include <set>
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include <algorithm>
 #include <utility>
 
 #include "sdl_wrappers.h"
@@ -98,7 +97,6 @@ extern SDL_Texture_Ptr alt_rect_tex;
 extern bool alt_rect_tex_enabled;
 extern void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
                            Uint32 r, Uint32 g, Uint32 b );
-
 
 // a texture pool to avoid recreating textures every time player changes their view
 // at most 142 out of 144 textures can be in use due to regular player movement
@@ -193,7 +191,7 @@ class tileset
 
         static const texture *get_if_available( const size_t index,
                                                 const decltype( shadow_tile_values ) &tiles ) {
-            return index < tiles.size() ? &( tiles[index] ) : nullptr;
+            return index < tiles.size() ? & tiles[index] : nullptr;
         }
 
         friend class tileset_loader;
@@ -284,7 +282,7 @@ class tileset_loader
          * Returns the number of tiles that have been loaded from this tileset image
          * @throw std::exception If the image can not be loaded.
          */
-        void load_tileset( std::string path );
+        void load_tileset( const std::string &path );
         /**
          * Load tiles from json data.This expects a "tiles" array in
          * <B>config</B>. That array should contain all the tile definition that

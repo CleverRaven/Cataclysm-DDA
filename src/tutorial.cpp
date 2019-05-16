@@ -1,6 +1,6 @@
 #include "tutorial.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <array>
 #include <memory>
 #include <string>
@@ -29,10 +29,9 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_stack.h"
-#include "omdata.h"
 #include "pldata.h"
 #include "units.h"
-#include "mongroup.h"
+#include "type_id.h"
 
 const mtype_id mon_zombie( "mon_zombie" );
 
@@ -47,7 +46,7 @@ bool tutorial_game::init()
         elem = false;
     }
     g->scent.reset();
-    g->temperature = 65;
+    g->weather.temperature = 65;
     // We use a Z-factor of 10 so that we don't plop down tutorial rooms in the
     // middle of the "real" game world
     g->u.normalize();

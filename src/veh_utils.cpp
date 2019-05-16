@@ -54,10 +54,10 @@ int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who
                       2 ) ) );
 }
 
-vehicle_part &most_repairable_part( vehicle &veh, const Character &who_arg, bool only_repairable )
+vehicle_part &most_repairable_part( vehicle &veh, Character &who_arg, bool only_repairable )
 {
     // TODO: Get rid of this cast after moving relevant functions down to Character
-    player &who = ( player & )who_arg;
+    player &who = static_cast<player &>( who_arg );
     const auto &inv = who.crafting_inventory();
 
     enum repairable_status {
@@ -111,7 +111,7 @@ vehicle_part &most_repairable_part( vehicle &veh, const Character &who_arg, bool
 bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
 {
     // TODO: Get rid of this cast after moving relevant functions down to Character
-    player &who = ( player & )who_c;
+    player &who = static_cast<player &>( who_c );
     int part_index = veh.index_of_part( &pt );
     auto &vp = pt.info();
 

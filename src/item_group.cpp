@@ -17,6 +17,7 @@
 #include "compatibility.h"
 #include "enums.h"
 #include "string_id.h"
+#include "type_id.h"
 
 static const std::string null_item_id( "null" );
 
@@ -160,6 +161,25 @@ bool Single_item_creator::remove_item( const Item_tag &itemid )
 bool Single_item_creator::has_item( const Item_tag &itemid ) const
 {
     return type == S_ITEM && itemid == id;
+}
+
+std::set<const itype *> Single_item_creator::every_item() const
+{
+    switch( type ) {
+        case S_ITEM:
+            return { item::find_type( id ) };
+        case S_ITEM_GROUP: {
+            Item_spawn_data *isd = item_controller->get_group( id );
+            if( isd != nullptr ) {
+                return isd->every_item();
+            }
+            return {};
+        }
+        case S_NONE:
+            return {};
+    }
+    assert( !"Unexpected type" );
+    return {};
 }
 
 void Single_item_creator::inherit_ammo_mag_chances( const int ammo, const int mag )
@@ -439,6 +459,16 @@ bool Item_group::has_item( const Item_tag &itemid ) const
     return false;
 }
 
+std::set<const itype *> Item_group::every_item() const
+{
+    std::set<const itype *> result;
+    for( const auto &spawn_data : items ) {
+        std::set<const itype *> these_items = spawn_data->every_item();
+        result.insert( these_items.begin(), these_items.end() );
+    }
+    return result;
+}
+
 item_group::ItemList item_group::items_from( const Group_tag &group_id, const time_point &birthday )
 {
     const auto group = item_controller->get_group( group_id );
@@ -479,6 +509,15 @@ bool item_group::group_contains_item( const Group_tag &group_id, const itype_id 
         return false;
     }
     return group->has_item( type_id );
+}
+
+std::set<const itype *> item_group::every_possible_item_from( const Group_tag &group_id )
+{
+    Item_spawn_data *group = item_controller->get_group( group_id );
+    if( group == nullptr ) {
+        return {};
+    }
+    return group->every_item();
 }
 
 void item_group::load_item_group( JsonObject &jsobj, const Group_tag &group_id,

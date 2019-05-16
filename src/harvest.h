@@ -9,12 +9,10 @@
 #include <utility>
 
 #include "string_id.h"
+#include "type_id.h"
 
 typedef std::string itype_id;
 class JsonObject;
-class harvest_list;
-
-using harvest_id = string_id<harvest_list>;
 
 // Could be reused for butchery
 struct harvest_entry {

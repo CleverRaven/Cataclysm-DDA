@@ -1,7 +1,7 @@
 #include "pickup.h"
 
-#include <limits.h>
-#include <stddef.h>
+#include <climits>
+#include <cstddef>
 #include <map>
 #include <string>
 #include <vector>
@@ -30,7 +30,6 @@
 #include "vpart_position.h"
 #include "vpart_reference.h"
 #include "character.h"
-#include "clzones.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "enums.h"
@@ -42,6 +41,7 @@
 #include "ret_val.h"
 #include "string_id.h"
 #include "units.h"
+#include "type_id.h"
 
 typedef std::pair<item, int> ItemCount;
 typedef std::map<std::string, ItemCount> PickupMap;
@@ -557,7 +557,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
         std::string filter;
         std::string new_filter;
-        std::vector<int> matches;//Indexes of items that match the filter
+        // Indexes of items that match the filter
+        std::vector<int> matches;
         bool filter_changed = true;
         if( g->was_fullscreen ) {
             g->draw_ter();

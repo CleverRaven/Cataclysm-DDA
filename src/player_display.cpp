@@ -1,6 +1,6 @@
 #include "player.h" // IWYU pragma: associated
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <sstream>
 
@@ -19,6 +19,7 @@
 #include "weather.h"
 #include "catacharset.h"
 #include "translations.h"
+#include "string_id.h"
 
 const skill_id skill_swimming( "swimming" );
 
@@ -289,9 +290,9 @@ void player::disp_info()
     }
 
     if( ( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
-          g->weather == WEATHER_SUNNY ) ||
+          g->weather.weather == WEATHER_SUNNY ) ||
         ( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) &&
-          g->weather != WEATHER_SUNNY ) ) {
+          g->weather.weather != WEATHER_SUNNY ) ) {
         effect_name.push_back( _( "In Sunlight" ) );
         effect_text.push_back( _( "The sunlight irritates you.\n\
 Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" ) );
@@ -579,7 +580,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     const std::string title_BIONICS = _( "BIONICS" );
     center_print( w_bionics, 0, c_light_gray, title_BIONICS );
     trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
-                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), max_power_level ) );
+                    string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
+                                   power_level,  max_power_level ) );
     for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y; i++ ) {
         trim_and_print( w_bionics, static_cast<int>( i ) + 2, 1, getmaxx( w_bionics ) - 1, c_white,
                         bionicslist[i].info().name );
@@ -693,7 +695,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         line++;
     }
     /* Cache result of calculation, possibly used multiple times later. */
-    const auto player_local_temp = g->get_temperature( pos() );
+    const auto player_local_temp = g->weather.get_temperature( pos() );
     if( has_trait( trait_id( "COLDBLOOD4" ) ) && player_local_temp > 65 ) {
         pen = ( player_local_temp - 65 ) / 2;
         mvwprintz( w_speed, line, 1, c_green, _( "Cold-Blooded        +%s%d%%" ),

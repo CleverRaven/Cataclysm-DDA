@@ -1,7 +1,7 @@
 #include "crafting.h"
 
-#include <limits.h>
-#include <stdlib.h>
+#include <climits>
+#include <cstdlib>
 #include <algorithm>
 #include <cmath>
 #include <sstream>
@@ -22,6 +22,7 @@
 #include "debug.h"
 #include "game.h"
 #include "game_inventory.h"
+#include "handle_liquid.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -59,8 +60,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "units.h"
-#include "mtype.h"
-#include "pldata.h"
+#include "type_id.h"
 
 const efftype_id effect_contacts( "contacts" );
 
@@ -589,7 +589,7 @@ static item *set_item_inventory( player &p, item &newit )
 {
     item *ret_val = nullptr;
     if( newit.made_of( LIQUID ) ) {
-        g->handle_all_liquid( newit, PICKUP_RANGE );
+        liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
     } else {
         p.inv.assign_empty_invlet( newit, p );
         // We might not have space for the item
@@ -1069,7 +1069,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
 
         finalize_crafted_item( newit );
         if( newit.made_of( LIQUID ) ) {
-            g->handle_all_liquid( newit, PICKUP_RANGE );
+            liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
         } else if( loc == tripoint_zero ) {
             wield_craft( *this, newit );
         } else {
@@ -1093,7 +1093,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
             }
             finalize_crafted_item( bp );
             if( bp.made_of( LIQUID ) ) {
-                g->handle_all_liquid( bp, PICKUP_RANGE );
+                liquid_handler::handle_all_liquid( bp, PICKUP_RANGE );
             } else if( loc == tripoint_zero ) {
                 set_item_inventory( *this, bp );
             } else {
@@ -1140,7 +1140,6 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
     for( const auto &component : components ) {
         itype_id type = component.type;
         int count = ( component.count > 0 ) ? component.count * batch : abs( component.count );
-        bool found = false;
 
         if( item::count_by_charges( type ) && count > 0 ) {
             long map_charges = map_inv.charges_of( type, std::numeric_limits<long>::max(), filter );
@@ -1153,6 +1152,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             }
             if( player_inv ) {
                 long player_charges = charges_of( type, std::numeric_limits<long>::max(), filter );
+                bool found = false;
                 if( player_charges >= count ) {
                     player_has.push_back( component );
                     found = true;
@@ -1167,13 +1167,13 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             } else {
                 if( map_charges >= count ) {
                     map_has.push_back( component );
-                    found = true;
                 }
             }
         } else { // Counting by units, not charges
 
             // Can't use pseudo items as components
             if( player_inv ) {
+                bool found = false;
                 if( has_amount( type, count, false, filter ) ) {
                     player_has.push_back( component );
                     found = true;
@@ -1190,7 +1190,6 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
             } else {
                 if( map_inv.has_components( type, count, filter ) ) {
                     map_has.push_back( component );
-                    found = true;
                 }
             }
         }
@@ -1310,7 +1309,6 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
     return consume_items( g->m, is, batch, filter, pos(), PICKUP_RANGE );
 }
 
-
 std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter, tripoint origin, int radius )
 {
@@ -1323,7 +1321,7 @@ std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &
     item_comp selected_comp = is.comp;
 
     const tripoint &loc = origin;
-    const bool by_charges = ( item::count_by_charges( selected_comp.type ) && selected_comp.count > 0 );
+    const bool by_charges = item::count_by_charges( selected_comp.type ) && selected_comp.count > 0;
     // Count given to use_amount/use_charges, changed by those functions!
     long real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch : abs(
                           selected_comp.count );
@@ -1388,7 +1386,7 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
     for( auto it = tools.begin(); it != tools.end() && !found_nocharge; ++it ) {
         itype_id type = it->type;
         if( it->count > 0 ) {
-            long count = it->count * batch;
+            const long count = item::find_type( type )->charge_factor() * it->count * batch;
             if( player_inv ) {
                 if( has_charges( type, count ) ) {
                     player_has.push_back( *it );
@@ -1419,10 +1417,11 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         // Populate the list
         uilist tmenu( hotkeys );
         for( auto &map_ha : map_has ) {
-            if( item::find_type( map_ha.type )->maximum_charges() > 1 ) {
+            const itype *tmp = item::find_type( map_ha.type );
+            if( tmp->maximum_charges() > 1 ) {
+                const int charge_count = map_ha.count * batch * tmp->charge_factor();
                 std::string tmpStr = string_format( _( "%s (%d/%d charges nearby)" ),
-                                                    item::nname( map_ha.type ),
-                                                    ( map_ha.count * batch ),
+                                                    item::nname( map_ha.type ), charge_count,
                                                     map_inv.charges_of( map_ha.type ) );
                 tmenu.addentry( tmpStr );
             } else {
@@ -1431,10 +1430,11 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
             }
         }
         for( auto &player_ha : player_has ) {
-            if( item::find_type( player_ha.type )->maximum_charges() > 1 ) {
+            const itype *tmp = item::find_type( player_ha.type );
+            if( tmp->maximum_charges() > 1 ) {
+                const int charge_count = player_ha.count * batch * tmp->charge_factor();
                 std::string tmpStr = string_format( _( "%s (%d/%d charges on person)" ),
-                                                    item::nname( player_ha.type ),
-                                                    ( player_ha.count * batch ),
+                                                    item::nname( player_ha.type ), charge_count,
                                                     charges_of( player_ha.type ) );
                 tmenu.addentry( tmpStr );
             } else {
@@ -1485,11 +1485,12 @@ void player::consume_tools( map &m, const comp_selection<tool_comp> &tool, int b
         return;
     }
 
+    const itype *tmp = item::find_type( tool.comp.type );
+    long quantity = tool.comp.count * batch * tmp->charge_factor();
     if( tool.use_from & use_from_player ) {
-        use_charges( tool.comp.type, tool.comp.count * batch );
+        use_charges( tool.comp.type, quantity );
     }
     if( tool.use_from & use_from_map ) {
-        long quantity = tool.comp.count * batch;
         m.use_charges( origin, radius, tool.comp.type, quantity );
     }
 
@@ -1879,7 +1880,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         item act_item = newit;
 
         if( act_item.has_temperature() ) {
-            act_item.set_item_temperature( temp_to_kelvin( g->get_temperature( loc ) ) );
+            act_item.set_item_temperature( temp_to_kelvin( g->weather.get_temperature( loc ) ) );
         }
 
         // Refitted clothing disassembles into refitted components (when applicable)
@@ -1901,7 +1902,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         }
 
         if( act_item.made_of( LIQUID ) ) {
-            g->handle_all_liquid( act_item, PICKUP_RANGE );
+            liquid_handler::handle_all_liquid( act_item, PICKUP_RANGE );
         } else {
             drop_items.push_back( act_item );
         }
@@ -1913,7 +1914,8 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         if( can_decomp_learn( dis ) ) {
             // TODO: make this depend on intelligence
             if( one_in( 4 ) ) {
-                learn_recipe( &dis.ident().obj() );// TODO: change to forward an id or a reference
+                // TODO: change to forward an id or a reference
+                learn_recipe( &dis.ident().obj() );
                 add_msg( m_good, _( "You learned a recipe for %s from disassembling it!" ),
                          dis_item.tname() );
             } else {
@@ -1936,7 +1938,7 @@ void remove_ammo( std::list<item> &dis_items, player &p )
 void drop_or_handle( const item &newit, player &p )
 {
     if( newit.made_of( LIQUID ) && &p == &g->u ) { // TODO: what about NPCs?
-        g->handle_all_liquid( newit, PICKUP_RANGE );
+        liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
     } else {
         item tmp( newit );
         p.i_add_or_drop( tmp );
