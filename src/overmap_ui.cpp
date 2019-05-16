@@ -1006,7 +1006,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
         if( scroll_timeout < 0 ) {
             scroll_timeout = BLINK_SPEED;
         }
-        action = ictxt.handle_input( timeout );
+        action = ictxt.handle_input( scroll_timeout );
 #else
         action = ictxt.handle_input( BLINK_SPEED );
 #endif
