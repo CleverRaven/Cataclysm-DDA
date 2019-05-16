@@ -17,7 +17,15 @@
   {
     "type": "item_group",
     "id": "guns_pistol_rare",
-    "items": [ [ "boomlighter", 2 ], [ "ficrico", 2 ], [ "gunsword", 2 ], [ "gunknife", 2 ], [ "50pistol", 2 ], [ "m1911ds", 2 ] ]
+    "items": [
+      [ "boomlighter", 2 ],
+      [ "ficrico", 2 ],
+      [ "gunsword", 2 ],
+      [ "gunknife", 2 ],
+      [ "hk_p46", 2 ],
+      [ "50pistol", 2 ],
+      [ "m1911ds", 2 ]
+    ]
   },
   {
     "type": "item_group",

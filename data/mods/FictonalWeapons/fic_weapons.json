@@ -114,6 +114,25 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]
   },
   {
+    "id": "hk_p46",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "H&K P46",
+    "description": "Designed to work with H&K's proprietary 4.6x30mm round, the P46 is a small pistol with a very high capacity, best used against armored opponents.  It never left the prototype stage due to inadequate ballistic performance.",
+    "weight": 730,
+    "volume": 2,
+    "price": 125000,
+    "to_hit": -2,
+    "bashing": 6,
+    "material": [ "steel", "plastic" ],
+    "ammo": "46",
+    "ranged_damage": -1,
+    "dispersion": 440,
+    "durability": 8,
+    "magazine_well": 1,
+    "magazines": [ [ "46", [ "hk46mag", "hk46bigmag" ] ] ]
+  },
+  {
     "id": "50pistol",
     "type": "GUN",
     "reload_noise_volume": 10,
