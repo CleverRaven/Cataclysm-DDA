@@ -97,13 +97,13 @@ void trapfunc::glass( Creature *c, const tripoint &p )
                                   _( "<npcname> steps on some glass!" ) );
         c->add_memorial_log( pgettext( "memorial_male", "Stepped on glass." ),
                              pgettext( "memorial_female", "Stepped on glass." ) );
-        
+
         monster *z = dynamic_cast<monster *>( c );
         const char dmg = std::max( 0, rng( -10, 10 ) );
         if( z != nullptr && dmg > 0 ) {
             z->moves -= 80;
-        } 
-        if( dmg > 0) {
+        }
+        if( dmg > 0 ) {
             c->deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, dmg ) );
             c->deal_damage( nullptr, bp_foot_r, damage_instance( DT_CUT, dmg ) );
             c->check_dead_state();
@@ -241,7 +241,8 @@ void trapfunc::caltrops_glass( Creature *c, const tripoint &p )
         c->check_dead_state();
         if( g->u.sees( p ) ) {
             add_msg( _( "The shards shatter!" ) );
-            sounds::sound( p, 8, sounds::sound_t::combat, _( "glass cracking!" ), false, "trap", "glass_caltrops" );
+            sounds::sound( p, 8, sounds::sound_t::combat, _( "glass cracking!" ), false, "trap",
+                           "glass_caltrops" );
         }
         g->m.remove_trap( p );
     }
