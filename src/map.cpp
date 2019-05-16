@@ -4433,7 +4433,6 @@ item map::water_from( const tripoint &p )
     }
     if( furn( p ).obj().examine == &iexamine::water_source ) {
         int poison_chance = 0;
-            }
         if( one_in( poison_chance ) ) {
             ret.poison = rng( 1, 4 );
         return ret;
