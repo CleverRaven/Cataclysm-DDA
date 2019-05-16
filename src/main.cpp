@@ -1,9 +1,9 @@
 /* Entry point and main loop for Cataclysm
  */
 
-#include <locale.h>
-#include <stdio.h>
-#include <stdlib.h>
+#include <clocale>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <iostream>

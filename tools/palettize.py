@@ -110,30 +110,31 @@ for om_tile in mapgen:
         else:
             del om_object["furniture"]
 
-    if ter_conflicts:
-        om_ter = om_object.get("terrain", {})
-        om_ter_final = resolve_conflicts(om_ter, ter_pal, ter_conflicts)
-        if om_ter_final:
-            om_object["terrain"] = om_ter_final
+    if om_object.get("terrain"):
+        if ter_conflicts:
+            om_ter = om_object.get("terrain", {})
+            om_ter_final = resolve_conflicts(om_ter, ter_pal, ter_conflicts)
+            if om_ter_final:
+                om_object["terrain"] = om_ter_final
+            else:
+                 del om_object["terrain"]
         else:
-             del om_object["terrain"]
-    else:
-        del om_object["terrain"]
+            del om_object["terrain"]
 
 with open(mapgen_source, 'w') as mapgen_file:
-   mapgen_file.write(json.dumps(mapgen))
+   mapgen_file.write(json.dumps(mapgen, indent=2))
 
 palette_json = [
     {
         "type": "palette",
-        "id": "pallete_name",
+        "id": palette_name,
         "furniture": furn_pal,
         "terrain": ter_pal
     }
 ]
 
 with open(palette_source, 'w') as palette_file:
-   palette_file.write(json.dumps(palette_json))
+   palette_file.write(json.dumps(palette_json, indent=2))
 
 #print("furniture palette {}".format(json.dumps(furn_pal, indent=2)))
 #print("terrain palette {}".format(json.dumps(ter_pal, indent=2)))

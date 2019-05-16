@@ -2,7 +2,7 @@
 #ifndef IUSE_ACTOR_H
 #define IUSE_ACTOR_H
 
-#include <limits.h>
+#include <climits>
 #include <map>
 #include <set>
 #include <vector>

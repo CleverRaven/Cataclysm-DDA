@@ -513,6 +513,10 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```FLAT``` Player can build and move furniture on.
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
+- ```GROWTH_SEED``` This plant is in its seed stage of growth.
+- ```GROWTH_SEEDLING``` This plant is in its seedling stage of growth.
+- ```GROWTH_MATURE``` This plant is in a mature stage of a growth.
+- ```GROWTH_HARVEST``` This plant is ready for harvest.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
 - ```HIDE_PLACE``` Creatures on this tile can't be seen by creatures not standing on adjacent tiles
 - ```INDOORS``` Has a roof over it; blocks rain, sunlight, etc.
@@ -530,6 +534,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```PERMEABLE``` Permeable for gases.
 - ```PLACE_ITEM``` Valid terrain for `place_item()` to put items on.
 - ```PLANT``` A 'furniture' that grows and fruits.
+- ```PLANTABLE``` This terrain or furniture can have seeds planted in it.
 - ```PLOWABLE``` Terrain can be plowed.
 - ```RAMP_END```
 - ```RAMP``` Can be used to move up a z-level
@@ -875,6 +880,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```NO_BREATHE``` Creature can't drown and is unharmed by gas, smoke or poison.
 - ```NO_BREED``` Creature doesn't reproduce even though it has reproduction data - useful when using copy-from to make child versions of adult creatures
 - ```NULL``` Source use only.
+- ```PACIFIST``` That monster will never do melee attacks.
 - ```PARALYZE``` Attack may paralyze the player with venom.
 - ```PLASTIC``` Absorbs physical damage to a great degree.
 - ```POISON``` Poisonous to eat.
@@ -1056,6 +1062,8 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```NO_ROTATE``` The terrain can't be rotated (ID_north, ID_east, ID_south, and ID_west instances will NOT be generated, just ID).
 - ```RIVER``` It's a river tile.
 - ```SIDEWALK``` Has sidewalks on the sides adjacent to roads.
+- ```LAKE``` Consider this location to be a valid lake terrain for mapgen purposes.
+- ```LAKE_SHORE``` Consider this location to be a valid lake shore terrain for mapgen purposes.
 
 
 ## Recipes
@@ -1078,6 +1086,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```BLIND_HARD``` Possible to craft with little to no light, but difficult
 - ```UNCRAFT_LIQUIDS_CONTAINED``` Spawn liquid items in its default container.
 - ```UNCRAFT_SINGLE_CHARGE``` Lists returned amounts for one charge of an item that is counted by charges.
+- ```FULL_MAGAZINE``` If this recipe requires magazines, it needs one that is full.  For deconstruction recipes, it will spawn a full magazine when deconstructed.
 
 
 ## Scenarios

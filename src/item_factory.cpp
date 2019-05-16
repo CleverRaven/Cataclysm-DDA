@@ -1,6 +1,6 @@
 #include "item_factory.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <cassert>
 #include <cmath>
@@ -609,6 +609,7 @@ void Item_factory::init()
     add_iuse( "CHAINSAW_ON", &iuse::chainsaw_on );
     add_iuse( "CHEW", &iuse::chew );
     add_iuse( "BIRDFOOD", &iuse::feedbird );
+    add_iuse( "BURROW", &iuse::burrow );
     add_iuse( "CHOP_TREE", &iuse::chop_tree );
     add_iuse( "CHOP_LOGS", &iuse::chop_logs );
     add_iuse( "CIRCSAW_ON", &iuse::circsaw_on );
@@ -1491,6 +1492,7 @@ void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &sr
     assign( jo, "initial_charges", slot.def_charges, strict, 0L );
     assign( jo, "charges_per_use", slot.charges_per_use, strict,
             static_cast<decltype( slot.charges_per_use )>( 0 ) );
+    assign( jo, "charge_factor", slot.charge_factor, strict, 1 );
     assign( jo, "turns_per_charge", slot.turns_per_charge, strict,
             static_cast<decltype( slot.turns_per_charge )>( 0 ) );
     assign( jo, "revert_to", slot.revert_to, strict );

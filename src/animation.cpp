@@ -453,9 +453,9 @@ void game::draw_bullet( const tripoint &t, const int i, const std::vector<tripoi
     static const std::string bullet_shrapnel {"animation_bullet_shrapnel"};
 
     const std::string &bullet_type =
-        ( bullet == '*' ) ? bullet_normal
-        : ( bullet == '#' ) ? bullet_flame
-        : ( bullet == '`' ) ? bullet_shrapnel
+        bullet == '*' ? bullet_normal
+        : bullet == '#' ? bullet_flame
+        : bullet == '`' ? bullet_shrapnel
         : bullet_unknown;
 
     tilecontext->init_draw_bullet( t, bullet_type );
@@ -535,7 +535,7 @@ void game::draw_hit_player( const player &p, const int dam )
     static const std::string npc_female    {"npc_female"};
 
     const std::string &type = p.is_player() ? ( p.male ? player_male : player_female )
-                              : ( p.male ? npc_male    : npc_female );
+                              : p.male ? npc_male : npc_female;
     tilecontext->init_draw_hit( p.pos(), type );
     bullet_animation().progress();
 }

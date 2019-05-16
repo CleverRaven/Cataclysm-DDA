@@ -1752,7 +1752,7 @@ int editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
                         g->m.update_vehicle_list( destsm, target.z ); // update real map's vcaches
 
-                        if( destsm->spawns.size() > 0 ) {                               // trigger spawnpoints
+                        if( !destsm->spawns.empty() ) {                              // trigger spawnpoints
                             g->m.spawn_monsters( true );
                         }
                     }
@@ -1810,6 +1810,7 @@ vehicle *editmap::mapgen_veh_query( const tripoint &omt_tgt )
     }
 
     std::vector<std::string> car_titles;
+    car_titles.reserve( possible_vehicles.size() );
     for( auto &elem : possible_vehicles ) {
         car_titles.push_back( elem->name );
     }

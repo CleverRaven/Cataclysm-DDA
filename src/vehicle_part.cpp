@@ -342,7 +342,7 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
     // fuel don't care about temperature yet
     temperature_flag flag = temperature_flag::TEMP_NORMAL;
     if( base.is_food_container() ) {
-        int temp = g->get_temperature( pos );
+        int temp = g->weather.get_temperature( pos );
         if( e_heater ) {
             temp = std::max( temp, temperatures::normal );
             flag = temperature_flag::TEMP_HEATER;

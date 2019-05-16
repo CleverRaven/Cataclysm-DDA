@@ -1,6 +1,6 @@
 #include "player.h"
 
-#include <ctype.h>
+#include <cctype>
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
@@ -262,7 +262,6 @@ static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
 static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_BARK( "BARK" );
-static const trait_id trait_BIRD_EYE( "BIRD_EYE" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CEPH_EYES( "CEPH_EYES" );
@@ -383,7 +382,6 @@ static const trait_id trait_RADIOACTIVE3( "RADIOACTIVE3" );
 static const trait_id trait_RADIOGENIC( "RADIOGENIC" );
 static const trait_id trait_REGEN( "REGEN" );
 static const trait_id trait_REGEN_LIZ( "REGEN_LIZ" );
-static const trait_id trait_HAIRROOTS( "HAIRROOTS" );
 static const trait_id trait_ROOTS2( "ROOTS2" );
 static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
@@ -887,7 +885,7 @@ void player::process_turn()
                 // Reduce the tracked time spent in this overmap tile.
                 const time_duration decay_amount = std::min( since_visit - modified_decay_time, 1_hours );
                 const time_duration updated_value = it->second - decay_amount;
-                if( updated_value <= 0 ) {
+                if( updated_value <= 0_turns ) {
                     // We can stop tracking this tile if there's no longer any time recorded there.
                     it = overmap_time.erase( it );
                     continue;
@@ -1122,19 +1120,20 @@ void player::update_bodytemp()
         return;
     }
     /* Cache calls to g->get_temperature( player position ), used in several places in function */
-    const auto player_local_temp = g->get_temperature( pos() );
+    const auto player_local_temp = g->weather.get_temperature( pos() );
     // NOTE : visit weather.h for some details on the numbers used
     // Converts temperature to Celsius/10
     int Ctemperature = static_cast<int>( 100 * temp_to_celsius( player_local_temp ) );
-    const w_point weather = *g->weather_precise;
+    const w_point weather = *g->weather.weather_precise;
     int vehwindspeed = 0;
     if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
         vehwindspeed = abs( vp->vehicle().velocity / 100 ); // vehicle velocity in mph
     }
     const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
     bool sheltered = g->is_sheltered( pos() );
-    double total_windpower = get_local_windpower( g->windspeed + vehwindspeed, cur_om_ter, pos(),
-                             g->winddirection, sheltered );
+    double total_windpower = get_local_windpower( g->weather.windspeed + vehwindspeed, cur_om_ter,
+                             pos(),
+                             g->weather.winddirection, sheltered );
     // Let's cache this not to check it num_bp times
     const bool has_bark = has_trait( trait_BARK );
     const bool has_sleep = has_effect( effect_sleep );
@@ -1166,13 +1165,14 @@ void player::update_bodytemp()
                                -1.5f * get_fatigue() ) );
 
     // Sunlight
-    const int sunlight_warmth = g->is_in_sunlight( pos() ) ? ( g->weather == WEATHER_SUNNY ? 1000 :
+    const int sunlight_warmth = g->is_in_sunlight( pos() ) ? ( g->weather.weather == WEATHER_SUNNY ?
+                                1000 :
                                 500 ) : 0;
     const int best_fire = get_heat_radiation( pos(), true );
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
     const int water_temperature =
-        100 * temp_to_celsius( g->get_cur_weather_gen().get_water_temperature() );
+        100 * temp_to_celsius( g->weather.get_cur_weather_gen().get_water_temperature() );
 
     // Correction of body temperature due to traits and mutations
     // Lower heat is applied always
@@ -1207,7 +1207,7 @@ void player::update_bodytemp()
                                              bp ) / 100.0 ) );
         // Calculate windchill
         int windchill = get_local_windchill( player_local_temp,
-                                             get_local_humidity( weather.humidity, g->weather,
+                                             get_local_humidity( weather.humidity, g->weather.weather,
                                                      sheltered ),
                                              bp_windpower );
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
@@ -1808,7 +1808,7 @@ void player::recalc_speed_bonus()
             mod_speed_bonus( -( g->light_level( posz() ) >= 12 ? 5 : 10 ) );
         }
         /* Cache call to game::get_temperature( player position ) since it can be used several times here */
-        const auto player_local_temp = g->get_temperature( pos() );
+        const auto player_local_temp = g->weather.get_temperature( pos() );
         if( has_trait( trait_COLDBLOOD4 ) || ( has_trait( trait_COLDBLOOD3 ) && player_local_temp < 65 ) ) {
             mod_speed_bonus( ( player_local_temp - 65 ) / 2 );
         } else if( has_trait( trait_COLDBLOOD2 ) && player_local_temp < 65 ) {
@@ -2485,7 +2485,7 @@ time_duration player::estimate_effect_dur( const skill_id &relevant_skill,
         const efftype_id &target_effect, const time_duration &error_magnitude,
         int threshold, const Creature &target ) const
 {
-    const time_duration zero_duration = 0;
+    const time_duration zero_duration = 0_turns;
 
     int skill_lvl = get_skill_level( relevant_skill );
 
@@ -4599,7 +4599,7 @@ needs_rates player::calc_needs_rates()
 
     needs_rates rates;
     rates.hunger = metabolic_rate();
-    rates.fatigue = 1.0f;
+
     // TODO: this is where calculating basal metabolic rate, in kcal per day would go
     rates.kcal = 2500.0;
 
@@ -4610,6 +4610,9 @@ needs_rates player::calc_needs_rates()
     if( worn_with_flag( "SLOWS_THIRST" ) ) {
         rates.thirst *= 0.7f;
     }
+
+    rates.fatigue = get_option< float >( "PLAYER_FATIGUE_RATE" );
+    rates.fatigue *= 1.0f + mutation_value( "fatigue_modifier" );
 
     // Note: intentionally not in metabolic rate
     if( has_recycler ) {
@@ -4655,8 +4658,6 @@ needs_rates player::calc_needs_rates()
         rates.hunger *= 0.25f;
         rates.thirst *= 0.25f;
     }
-    rates.fatigue = get_option< float >( "PLAYER_FATIGUE_RATE" );
-    rates.fatigue *= 1.0f + mutation_value( "fatigue_modifier" );
 
     return rates;
 }
@@ -6051,7 +6052,7 @@ void player::suffer()
     }
 
     if( ( has_trait( trait_TROGLO ) || has_trait( trait_TROGLO2 ) ) &&
-        g->is_in_sunlight( pos() ) && g->weather == WEATHER_SUNNY ) {
+        g->is_in_sunlight( pos() ) && g->weather.weather == WEATHER_SUNNY ) {
         mod_str_bonus( -1 );
         mod_dex_bonus( -1 );
         add_miss_reason( _( "The sunlight distracts you." ), 1 );
@@ -7627,7 +7628,7 @@ bool player::consume_item( item &target )
         return false;
     }
 
-    item &comest = get_comestible_from( target );
+    item &comest = get_consumable_from( target );
 
     if( comest.is_null() || target.is_craft() ) {
         add_msg_if_player( m_info, _( "You can't eat your %s." ), target.tname() );
@@ -9986,8 +9987,9 @@ bool player::read( int inventory_position, const bool continuous )
             };
 
             auto max_length = [&length]( const std::map<npc *, std::string> &m ) {
-                auto max_ele = std::max_element( m.begin(), m.end(), [&length]( std::pair<npc *, std::string> left,
-                std::pair<npc *, std::string> right ) {
+                auto max_ele = std::max_element( m.begin(),
+                                                 m.end(), [&length]( const std::pair<npc *, std::string> &left,
+                const std::pair<npc *, std::string> &right ) {
                     return length( left ) < length( right );
                 } );
                 return max_ele == m.end() ? 0 : length( *max_ele );
@@ -10064,7 +10066,7 @@ bool player::read( int inventory_position, const bool continuous )
     }
 
     if( !continuous ||
-    !std::all_of( learners.begin(), learners.end(), [&]( std::pair<npc *, std::string> elem ) {
+    !std::all_of( learners.begin(), learners.end(), [&]( const std::pair<npc *, std::string> &elem ) {
     return std::count( activity.values.begin(), activity.values.end(), elem.first->getID() ) != 0;
     } ) ||
     !std::all_of( activity.values.begin(), activity.values.end(), [&]( int elem ) {
@@ -10075,7 +10077,7 @@ bool player::read( int inventory_position, const bool continuous )
             add_msg( m_info, _( "%s studies with you." ), learners.begin()->first->disp_name() );
         } else if( !learners.empty() ) {
             const std::string them = enumerate_as_string( learners.begin(),
-            learners.end(), [&]( std::pair<npc *, std::string> elem ) {
+            learners.end(), [&]( const std::pair<npc *, std::string> &elem ) {
                 return elem.first->disp_name();
             } );
             add_msg( m_info, _( "%s study with you." ), them );
@@ -12423,7 +12425,7 @@ bool player::can_hear( const tripoint &source, const int volume ) const
     }
     const int dist = rl_dist( source, pos() );
     const float volume_multiplier = hearing_ability();
-    return ( volume - weather_data( g->weather ).sound_attn ) * volume_multiplier >= dist;
+    return ( volume - weather_data( g->weather.weather ).sound_attn ) * volume_multiplier >= dist;
 }
 
 float player::hearing_ability() const

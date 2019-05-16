@@ -1,6 +1,6 @@
 #include "mattack_actors.h"
 
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 #include <memory>
 

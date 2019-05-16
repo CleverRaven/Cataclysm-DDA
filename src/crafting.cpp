@@ -1,7 +1,7 @@
 #include "crafting.h"
 
-#include <limits.h>
-#include <stdlib.h>
+#include <climits>
+#include <cstdlib>
 #include <algorithm>
 #include <cmath>
 #include <sstream>
@@ -1321,7 +1321,7 @@ std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &
     item_comp selected_comp = is.comp;
 
     const tripoint &loc = origin;
-    const bool by_charges = ( item::count_by_charges( selected_comp.type ) && selected_comp.count > 0 );
+    const bool by_charges = item::count_by_charges( selected_comp.type ) && selected_comp.count > 0;
     // Count given to use_amount/use_charges, changed by those functions!
     long real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch : abs(
                           selected_comp.count );
@@ -1386,7 +1386,7 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
     for( auto it = tools.begin(); it != tools.end() && !found_nocharge; ++it ) {
         itype_id type = it->type;
         if( it->count > 0 ) {
-            long count = it->count * batch;
+            const long count = item::find_type( type )->charge_factor() * it->count * batch;
             if( player_inv ) {
                 if( has_charges( type, count ) ) {
                     player_has.push_back( *it );
@@ -1417,10 +1417,11 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         // Populate the list
         uilist tmenu( hotkeys );
         for( auto &map_ha : map_has ) {
-            if( item::find_type( map_ha.type )->maximum_charges() > 1 ) {
+            const itype *tmp = item::find_type( map_ha.type );
+            if( tmp->maximum_charges() > 1 ) {
+                const int charge_count = map_ha.count * batch * tmp->charge_factor();
                 std::string tmpStr = string_format( _( "%s (%d/%d charges nearby)" ),
-                                                    item::nname( map_ha.type ),
-                                                    ( map_ha.count * batch ),
+                                                    item::nname( map_ha.type ), charge_count,
                                                     map_inv.charges_of( map_ha.type ) );
                 tmenu.addentry( tmpStr );
             } else {
@@ -1429,10 +1430,11 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
             }
         }
         for( auto &player_ha : player_has ) {
-            if( item::find_type( player_ha.type )->maximum_charges() > 1 ) {
+            const itype *tmp = item::find_type( player_ha.type );
+            if( tmp->maximum_charges() > 1 ) {
+                const int charge_count = player_ha.count * batch * tmp->charge_factor();
                 std::string tmpStr = string_format( _( "%s (%d/%d charges on person)" ),
-                                                    item::nname( player_ha.type ),
-                                                    ( player_ha.count * batch ),
+                                                    item::nname( player_ha.type ), charge_count,
                                                     charges_of( player_ha.type ) );
                 tmenu.addentry( tmpStr );
             } else {
@@ -1483,11 +1485,12 @@ void player::consume_tools( map &m, const comp_selection<tool_comp> &tool, int b
         return;
     }
 
+    const itype *tmp = item::find_type( tool.comp.type );
+    long quantity = tool.comp.count * batch * tmp->charge_factor();
     if( tool.use_from & use_from_player ) {
-        use_charges( tool.comp.type, tool.comp.count * batch );
+        use_charges( tool.comp.type, quantity );
     }
     if( tool.use_from & use_from_map ) {
-        long quantity = tool.comp.count * batch;
         m.use_charges( origin, radius, tool.comp.type, quantity );
     }
 
@@ -1877,7 +1880,7 @@ void player::complete_disassemble( int item_pos, const tripoint &loc,
         item act_item = newit;
 
         if( act_item.has_temperature() ) {
-            act_item.set_item_temperature( temp_to_kelvin( g->get_temperature( loc ) ) );
+            act_item.set_item_temperature( temp_to_kelvin( g->weather.get_temperature( loc ) ) );
         }
 
         // Refitted clothing disassembles into refitted components (when applicable)

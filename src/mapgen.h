@@ -2,7 +2,7 @@
 #ifndef MAPGEN_H
 #define MAPGEN_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <memory>
 #include <string>
@@ -153,7 +153,7 @@ class jmapgen_piece
         jmapgen_piece() : repeat( 1, 1 ) { }
     public:
         /** Sanity-check this piece */
-        virtual void check( const std::string &/*oter_name*/ ) const { };
+        virtual void check( const std::string &/*oter_name*/ ) const { }
         /** Place something on the map from mapgendata dat, at (x,y). mon_density */
         virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
                             float mon_density, mission *miss = nullptr ) const = 0;

@@ -1,6 +1,6 @@
 #include "debug_menu.h" // IWYU pragma: associated
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <map>
 #include <memory>

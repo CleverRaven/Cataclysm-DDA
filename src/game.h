@@ -2,7 +2,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <limits.h>
+#include <climits>
 #include <array>
 #include <list>
 #include <map>
@@ -14,6 +14,7 @@
 #include <functional>
 #include <iosfwd>
 #include <string>
+#include <chrono>
 
 #include "calendar.h"
 #include "cursesdef.h"
@@ -29,6 +30,9 @@
 #include "type_id.h"
 #include "monster.h"
 #include "game_inventory.h"
+#include "weather.h"
+
+#define DEFAULT_TILESET_ZOOM 16
 
 extern bool test_mode;
 
@@ -125,6 +129,9 @@ struct w_map {
     catacurses::window win;
 };
 
+// There is only one game instance, so losing a few bytes of memory
+// due to padding is not much of a concern.
+// NOLINTNEXTLINE(clang-analyzer-optin.performance.Padding)
 class game
 {
         friend class editmap;
@@ -576,9 +583,6 @@ class game
         */
         bool take_screenshot( const std::string &file_path ) const;
 
-        // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
-        int get_temperature( const tripoint &location );
-
         /**
          * The top left corner of the reality bubble (in submaps coordinates). This is the same
          * as @ref map::abs_sub of the @ref m map.
@@ -595,7 +599,6 @@ class game
          * The overmap which contains the center submap of the reality bubble.
          */
         overmap &get_cur_om() const;
-        const weather_generator &get_cur_weather_gen() const;
 
         /** Get all living player allies */
         std::vector<npc *> allies();
@@ -810,7 +813,6 @@ class game
                                int last_line );
         void print_graffiti_info( const tripoint &lp, const catacurses::window &w_look, int column,
                                   int &line, int last_line );
-        void get_lookaround_dimensions( int &lookWidth, int &begin_y, int &begin_x ) const;
 
         input_context get_player_input( std::string &action );
 
@@ -839,7 +841,6 @@ class game
         void monmove();          // Monster movement
         void overmap_npc_move(); // NPC overmap movement
         void process_activity(); // Processes and enacts the player's activity
-        void update_weather();   // Updates the temperature and weather patten
         void handle_key_blocking_activity(); // Abort reading etc.
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
         bool handle_action();
@@ -870,6 +871,18 @@ class game
     public:
         void quicksave();        // Saves the game without quitting
         void disp_NPCs();        // Currently for debug use.  Lists global NPCs.
+
+        /** Used to implement mouse "edge scrolling". Returns a
+         *  tripoint which is a vector of the resulting "move", i.e.
+         *  (0, 0, 0) if the mouse is not at the edge of the screen,
+         *  otherwise some (x, y, 0) depending on which edges are
+         *  hit.
+         *  This variant adjust scrolling speed according to zoom
+         *  level, making it suitable when viewing the "terrain".
+         */
+        tripoint mouse_edge_scrolling_terrain( input_context &ctxt );
+        /** This variant is suitable for the overmap. */
+        tripoint mouse_edge_scrolling_overmap( input_context &ctxt );
     private:
         void quickload();        // Loads the previously saved game if it exists
 
@@ -916,12 +929,6 @@ class game
         /** True if the game has just started or loaded, else false. */
         bool new_game;
 
-        signed char temperature;              // The air temperature
-        bool lightning_active;
-        weather_type weather;   // Weather pattern--SEE weather.h
-        int winddirection;
-        int windspeed;
-        pimpl<w_point> weather_precise; // Cached weather data
         const scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairz;
@@ -960,11 +967,8 @@ class game
         bool auto_travel_mode = false;
         safe_mode_type safe_mode;
         int turnssincelastmon; // needed for auto run mode
-        cata::optional<int> wind_direction_override;
-        cata::optional<int> windspeed_override;
-        weather_type weather_override;
-        // not only sets nextweather, but updates weather as well
-        void set_nextweather( time_point t );
+
+        weather_manager weather;
     private:
         std::shared_ptr<player> u_shared_ptr;
         std::vector<std::shared_ptr<npc>> active_npc;
@@ -980,7 +984,6 @@ class game
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
         bool safe_mode_warning_logged;
         bool bVMonsterLookFire;
-        time_point nextweather; // The time on which weather will shift next.
         int next_npc_id, next_mission_id; // Keep track of UIDs
         std::set<int> follower_ids; // Keep track of follower NPC IDs
         std::map<mtype_id, int> kills;         // Player's kill count
@@ -991,8 +994,6 @@ class game
         // remoteveh() cache
         time_point remoteveh_cache_time;
         vehicle *remoteveh_cache;
-        /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures */
-        std::unordered_map< tripoint, int > temperature_cache;
         /** Has a NPC been spawned since last load? */
         bool npcs_dirty;
         /** Has anything died in this turn and needs to be cleaned up? */
@@ -1014,6 +1015,10 @@ class game
 
         // Preview for auto move route
         std::vector<tripoint> destination_preview;
+
+        std::chrono::time_point<std::chrono::steady_clock> last_mouse_edge_scroll;
+        tripoint last_mouse_edge_scroll_vector;
+        tripoint mouse_edge_scrolling( input_context ctxt, const int speed );
 
 };
 

@@ -48,6 +48,8 @@
     "id": "guns_pistol_milspec",
     "//": "Military specification pistols only ever found at military sites.",
     "items": [
+      { "item": "glock_17", "prob": 100, "charges-min": 0, "charges-max": 17 },
+      { "item": "glock_18c", "prob": 70, "charges-min": 0, "charges-max": 17 },
       { "item": "l_mp_45", "prob": 70, "charges-min": 0, "charges-max": 12 },
       { "item": "l_mp_9mm", "prob": 100, "charges-min": 0, "charges-max": 21 },
       { "item": "needlepistol", "prob": 45, "charges-min": 0, "charges-max": 50 },
@@ -134,7 +136,7 @@
     "type": "item_group",
     "id": "guns_smg_improvised",
     "//": "Makeshift or otherwise poor quality SMGs.",
-    "items": [  ]
+    "items": [ [ "smg_22", 50 ], [ "smg_38", 30 ], [ "smg_40", 40 ], [ "smg_45", 40 ], [ "smg_9mm", 100 ] ]
   },
   {
     "type": "item_group",

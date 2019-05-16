@@ -165,6 +165,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "BLOCK_WIND",               TFLAG_BLOCK_WIND },     // This tile will partially block the wind.
         { "FLAT",                     TFLAG_FLAT },           // This tile is flat.
         { "RAMP",                     TFLAG_RAMP },           // Can be used to move up a z-level
+        { "RAIL",                     TFLAG_RAIL },           // Rail tile (used heavily)
     }
 };
 
@@ -1218,6 +1219,8 @@ void furn_t::load( JsonObject &jo, const std::string &src )
               DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, "" );
     optional( jo, was_loaded, "deployed_item", deployed_item );
+    optional( jo, was_loaded, "plant_transform", plant_transform );
+    optional( jo, was_loaded, "plant_base", plant_base );
 
     load_symbol( jo );
     transparent = false;

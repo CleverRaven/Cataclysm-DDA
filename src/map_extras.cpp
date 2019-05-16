@@ -1,7 +1,7 @@
 #include "map_extras.h"
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 #include <array>
 #include <list>
 #include <memory>
@@ -45,20 +45,15 @@ class npc_template;
 namespace MapExtras
 {
 
+static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
-static const mtype_id mon_blank( "mon_blank" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
 static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
 static const mtype_id mon_chickenbot( "mon_chickenbot" );
 static const mtype_id mon_dispatch( "mon_dispatch" );
-static const mtype_id mon_gelatin( "mon_gelatin" );
-static const mtype_id mon_flaming_eye( "mon_flaming_eye" );
-static const mtype_id mon_gracke( "mon_gracke" );
-static const mtype_id mon_kreck( "mon_kreck" );
-static const mtype_id mon_mi_go( "mon_mi_go" );
 static const mtype_id mon_tankbot( "mon_tankbot" );
 static const mtype_id mon_turret( "mon_turret" );
 static const mtype_id mon_turret_bmg( "mon_turret_bmg" );
@@ -69,11 +64,85 @@ static const mtype_id mon_zombie_military_pilot( "mon_zombie_military_pilot" );
 static const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
 static const mtype_id mon_shia( "mon_shia" );
 static const mtype_id mon_spider_web( "mon_spider_web" );
+static const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
+static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
+static const mtype_id mon_wasp( "mon_wasp" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
 
 void mx_null( map &, const tripoint & )
 {
     debugmsg( "Tried to generate null map extra." );
+}
+
+void mx_house_wasp( map &m, const tripoint & )
+{
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            if( m.ter( i, j ) == t_door_c || m.ter( i, j ) == t_door_locked ) {
+                m.ter_set( i, j, t_door_frame );
+            }
+            if( m.ter( i, j ) == t_window_domestic && !one_in( 3 ) ) {
+                m.ter_set( i, j, t_window_frame );
+            }
+            if( m.ter( i, j ) == t_wall && one_in( 8 ) ) {
+                m.ter_set( i, j, t_paper );
+            }
+        }
+    }
+    const int num_pods = rng( 8, 12 );
+    for( int i = 0; i < num_pods; i++ ) {
+        const int podx = rng( 1, SEEX * 2 - 2 );
+        const int pody = rng( 1, SEEY * 2 - 2 );
+        int nonx = 0;
+        int nony = 0;
+        while( nonx == 0 && nony == 0 ) {
+            nonx = rng( -1, 1 );
+            nony = rng( -1, 1 );
+        }
+        for( int x = -1; x <= 1; x++ ) {
+            for( int y = -1; y <= 1; y++ ) {
+                if( ( x != nonx || y != nony ) && ( x != 0 || y != 0 ) ) {
+                    m.ter_set( podx + x, pody + y, t_paper );
+                }
+            }
+        }
+        m.add_spawn( mon_wasp, 1, podx, pody );
+    }
+    m.place_items( "rare", 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, 0 );
+}
+
+void mx_house_spider( map &m, const tripoint & )
+{
+    auto spider_type = mon_spider_widow_giant;
+    auto egg_type = f_egg_sackbw;
+    if( one_in( 2 ) ) {
+        spider_type = mon_spider_cellar_giant;
+        egg_type = f_egg_sackcs;
+    }
+    for( int i = 0; i < SEEX * 2; i++ ) {
+        for( int j = 0; j < SEEY * 2; j++ ) {
+            if( m.ter( i, j ) == t_floor ) {
+                if( one_in( 15 ) ) {
+                    m.add_spawn( spider_type, rng( 1, 2 ), i, j );
+                    for( int x = i - 1; x <= i + 1; x++ ) {
+                        for( int y = j - 1; y <= j + 1; y++ ) {
+                            if( m.ter( x, y ) == t_floor ) {
+                                madd_field( &m, x, y, fd_web, rng( 2, 3 ) );
+                                if( one_in( 4 ) ) {
+                                    m.furn_set( i, j, egg_type );
+                                    m.remove_field( {i, j, m.get_abs_sub().z}, fd_web );
+                                }
+                            }
+                        }
+                    }
+                } else if( m.passable( i, j ) && one_in( 5 ) ) {
+                    madd_field( &m, i, j, fd_web, 1 );
+                }
+            }
+        }
+    }
+    m.place_items( "rare", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, 0 );
+
 }
 
 void mx_helicopter( map &m, const tripoint &abs_sub )
@@ -261,15 +330,10 @@ void mx_military( map &m, const tripoint & )
         }
 
     }
-    static const std::array<mtype_id, 4> monsters = { {
-            mon_gelatin, mon_mi_go, mon_kreck, mon_gracke,
-        }
-    };
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
-        const mtype_id &type = random_entry( monsters );
         int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
-        m.add_spawn( type, 1, mx, my );
+        m.place_spawns( GROUP_NETHER, 1, mx, my, mx, my, 1, true );
     }
     m.place_spawns( GROUP_MAYBE_MIL, 2, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1,
                     0.1f ); //0.1 = 1-5
@@ -290,15 +354,10 @@ void mx_science( map &m, const tripoint & )
             }
         }
     }
-    static const std::array<mtype_id, 4> monsters = { {
-            mon_gelatin, mon_mi_go, mon_kreck, mon_gracke
-        }
-    };
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
-        const mtype_id &type = random_entry( monsters );
         int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
-        m.add_spawn( type, 1, mx, my );
+        m.place_spawns( GROUP_NETHER, 1, mx, my, mx, my, 1, true );
     }
     m.place_items( "rare", 45, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0 );
 }
@@ -326,15 +385,10 @@ void mx_collegekids( map &m, const tripoint & )
             }
         }
     }
-    static const std::array<mtype_id, 4> monsters = { {
-            mon_gelatin, mon_mi_go, mon_kreck, mon_gracke
-        }
-    };
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
-        const mtype_id &type = random_entry( monsters );
         int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
-        m.add_spawn( type, 1, mx, my );
+        m.place_spawns( GROUP_NETHER, 1, mx, my, mx, my, 1, true );
     }
 }
 
@@ -627,15 +681,10 @@ void mx_drugdeal( map &m, const tripoint &abs_sub )
             }
         }
     }
-    static const std::array<mtype_id, 4> monsters = { {
-            mon_gelatin, mon_mi_go, mon_kreck, mon_gracke
-        }
-    };
     int num_monsters = rng( 0, 3 );
     for( int i = 0; i < num_monsters; i++ ) {
-        const mtype_id &type = random_entry( monsters );
         int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
-        m.add_spawn( type, 1, mx, my );
+        m.place_spawns( GROUP_NETHER, 1, mx, my, mx, my, 1, true );
     }
 }
 
@@ -683,10 +732,6 @@ void mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
 
 void mx_portal( map &m, const tripoint &abs_sub )
 {
-    static const std::array<mtype_id, 5> monsters = { {
-            mon_gelatin, mon_flaming_eye, mon_kreck, mon_gracke, mon_blank
-        }
-    };
     int x = rng( 1, SEEX * 2 - 2 ), y = rng( 1, SEEY * 2 - 2 );
     for( int i = x - 1; i <= x + 1; i++ ) {
         for( int j = y - 1; j <= y + 1; j++ ) {
@@ -696,10 +741,9 @@ void mx_portal( map &m, const tripoint &abs_sub )
     mtrap_set( &m, x, y, tr_portal );
     int num_monsters = rng( 0, 4 );
     for( int i = 0; i < num_monsters; i++ ) {
-        const mtype_id &type = random_entry( monsters );
         int mx = rng( 1, SEEX * 2 - 2 ), my = rng( 1, SEEY * 2 - 2 );
         m.make_rubble( tripoint( mx,  my, abs_sub.z ), f_rubble_rock, true );
-        m.add_spawn( type, 1, mx, my );
+        m.place_spawns( GROUP_NETHER, 1, mx, my, mx, my, 1, true );
     }
 }
 
@@ -830,10 +874,6 @@ void mx_fumarole( map &m, const tripoint &abs_sub )
 
 void mx_portal_in( map &m, const tripoint &abs_sub )
 {
-    static const std::array<mtype_id, 5> monsters = { {
-            mon_gelatin, mon_flaming_eye, mon_kreck, mon_gracke, mon_blank
-        }
-    };
     int x = rng( 5, SEEX * 2 - 6 ), y = rng( 5, SEEY * 2 - 6 );
     m.add_field( {x, y, abs_sub.z}, fd_fatigue, 3, 0_turns );
     fungal_effects fe( *g, m );
@@ -842,7 +882,7 @@ void mx_portal_in( map &m, const tripoint &abs_sub )
             if( rng( 1, 9 ) >= trig_dist( x, y, i, j ) ) {
                 fe.marlossify( tripoint( i, j, abs_sub.z ) );
                 if( one_in( 15 ) ) {
-                    m.add_spawn( random_entry( monsters ), 1, i, j );
+                    m.place_spawns( GROUP_NETHER, 1, i, j, i, j, 1, true );
                 }
             }
         }
@@ -1084,6 +1124,8 @@ void mx_clay_deposit( map &m, const tripoint &abs_sub )
 typedef std::unordered_map<std::string, map_special_pointer> FunctionMap;
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
+    { "mx_house_wasp", mx_house_wasp },
+    { "mx_house_spider", mx_house_spider },
     { "mx_helicopter", mx_helicopter },
     { "mx_military", mx_military },
     { "mx_science", mx_science },

@@ -1,8 +1,8 @@
 #include "ui.h"
 
-#include <ctype.h>
-#include <limits.h>
-#include <stdlib.h>
+#include <cctype>
+#include <climits>
+#include <cstdlib>
 #include <algorithm>
 #include <iterator>
 #include <memory>

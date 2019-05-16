@@ -2,7 +2,7 @@
 #ifndef RECIPE_H
 #define RECIPE_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <set>
 #include <vector>

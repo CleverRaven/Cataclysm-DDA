@@ -2,7 +2,7 @@
 #ifndef CATA_TILES_H
 #define CATA_TILES_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <memory>
 #include <map>
 #include <set>
@@ -191,7 +191,7 @@ class tileset
 
         static const texture *get_if_available( const size_t index,
                                                 const decltype( shadow_tile_values ) &tiles ) {
-            return index < tiles.size() ? &( tiles[index] ) : nullptr;
+            return index < tiles.size() ? & tiles[index] : nullptr;
         }
 
         friend class tileset_loader;
@@ -282,7 +282,7 @@ class tileset_loader
          * Returns the number of tiles that have been loaded from this tileset image
          * @throw std::exception If the image can not be loaded.
          */
-        void load_tileset( std::string path );
+        void load_tileset( const std::string &path );
         /**
          * Load tiles from json data.This expects a "tiles" array in
          * <B>config</B>. That array should contain all the tile definition that

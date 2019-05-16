@@ -1,6 +1,6 @@
 #include "action.h"
 
-#include <limits.h>
+#include <climits>
 #include <algorithm>
 #include <istream>
 #include <iterator>
@@ -887,8 +887,8 @@ action_id handle_action_menu()
         }
         //border=2, selectors=3, after=3 for balance.
         width += 2 + 3 + 3;
-        int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
-        int iy = ( TERMY > static_cast<int>( entries.size() ) + 2 ) ? ( TERMY - static_cast<int>
+        int ix = TERMX > width ? ( TERMX - width ) / 2 - 1 : 0;
+        int iy = TERMY > static_cast<int>( entries.size() ) + 2 ? ( TERMY - static_cast<int>
                  ( entries.size() ) - 2 ) / 2 - 1 : 0;
         int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
                                 std::max( iy, 0 ), title, entries );
@@ -944,8 +944,8 @@ action_id handle_main_menu()
     }
     //border=2, selectors=3, after=3 for balance.
     width += 2 + 3 + 3;
-    const int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
-    const int iy = ( TERMY > static_cast<int>( entries.size() ) + 2 ) ? ( TERMY - static_cast<int>
+    const int ix = TERMX > width ? ( TERMX - width ) / 2 - 1 : 0;
+    const int iy = TERMY > static_cast<int>( entries.size() ) + 2 ? ( TERMY - static_cast<int>
                    ( entries.size() ) - 2 ) / 2 - 1 : 0;
     int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
                             std::max( iy, 0 ), _( "MAIN MENU" ), entries );

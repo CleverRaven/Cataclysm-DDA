@@ -1,6 +1,6 @@
 #include "iuse.h"
 
-#include <limits.h>
+#include <climits>
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
@@ -3213,6 +3213,49 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint & )
     p->assign_activity( activity_id( "ACT_PICKAXE" ), turns * 100, -1, p->get_item_position( it ) );
     p->activity.placement = pnt;
     p->add_msg_if_player( _( "You attack the %1$s with your %2$s." ),
+                          g->m.tername( pnt ), it->tname() );
+    return 0; // handled when the activity finishes
+}
+
+int iuse::burrow( player *p, item *it, bool, const tripoint &pos )
+{
+    if( p->is_npc() ) {
+        // Long action
+        return 0;
+    }
+
+    if( p->is_underwater() ) {
+        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
+        return 0;
+    }
+
+    tripoint pnt = pos;
+    if( pos == p->pos() ) {
+        const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Burrow where?" ) );
+        if( !pnt_ ) {
+            return 0;
+        }
+        pnt = *pnt_;
+    }
+
+    if( !g->m.has_flag( "MINEABLE", pnt ) ) {
+        p->add_msg_if_player( m_info, _( "You can't burrow there." ) );
+        return 0;
+    }
+    if( g->m.veh_at( pnt ) ) {
+        p->add_msg_if_player( _( "There's a vehicle in the way!" ) );
+        return 0;
+    }
+
+    int turns = 100;
+    if( g->m.move_cost( pnt ) == 2 ) {
+        // We're breaking up some flat surface like pavement, which is much easier
+        turns /= 2;
+    }
+    turns *= ( ( MAX_STAT + 3 ) - std::min( p->str_cur, MAX_STAT ) ) * MINUTES( 2 );
+    p->assign_activity( activity_id( "ACT_BURROW" ), turns, -1, 0 );
+    p->activity.placement = pnt;
+    p->add_msg_if_player( _( "You start tearing into the %1$s with your %2$s." ),
                           g->m.tername( pnt ), it->tname() );
     return 0; // handled when the activity finishes
 }
@@ -7724,10 +7767,10 @@ int iuse::hairkit( player *p, item *it, bool, const tripoint & )
 
 int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
 {
-    const w_point weatherPoint = *g->weather_precise;
+    const w_point weatherPoint = *g->weather.weather_precise;
 
     /* Possibly used twice. Worth spending the time to precalculate. */
-    const auto player_local_temp = g->get_temperature( g->u.pos() );
+    const auto player_local_temp = g->weather.get_temperature( g->u.pos() );
 
     if( it->typeId() == "weather_reader" ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data..." ),
@@ -7746,12 +7789,12 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         if( it->typeId() == "hygrometer" ) {
             p->add_msg_if_player(
                 m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
-                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather,
+                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather.weather,
                                                     g->is_sheltered( g->u.pos() ) ) ) );
         } else {
             p->add_msg_if_player(
                 m_neutral, _( "Relative Humidity: %s." ),
-                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather,
+                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather.weather,
                                                     g->is_sheltered( g->u.pos() ) ) ) );
         }
     }
@@ -7773,8 +7816,9 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        double windpower = static_cast<int>( 100.0f * get_local_windpower( g->windspeed + vehwindspeed,
-                                             cur_om_ter, p->pos(), g->winddirection, g->is_sheltered( p->pos() ) ) );
+        double windpower = static_cast<int>( 100.0f * get_local_windpower( g->weather.windspeed +
+                                             vehwindspeed,
+                                             cur_om_ter, p->pos(), g->weather.winddirection, g->is_sheltered( p->pos() ) ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower, VU_WIND ),
@@ -7784,7 +7828,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
             print_temperature(
                 get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower / 100 ) +
                 player_local_temp ) );
-        std::string dirstring = get_dirstring( g->winddirection );
+        std::string dirstring = get_dirstring( g->weather.winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
     }
 
