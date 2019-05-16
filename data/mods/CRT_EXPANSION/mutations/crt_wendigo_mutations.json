@@ -1,49 +1,47 @@
 [
-     {
-        "type" : "mutation",
-        "id" : "THRESH_WENDIGO",
-        "name" : "Forest Guardian",
-        "points" : 1,
-        "description" : "The forests have longed for your help, and this last cry shook the world.", 
-        "//": "Parallel reference to Woken Furies quote from the Altered Carbon series and song.",
-        "valid": false,
-        "purifiable": false,
-        "threshold": true
-    },
-    {
-        "type" : "mutation",
-        "id" : "SHMELD",
-        "name" : "Nature's Boon",
-        "points" : 3,
-        "description" : "Your very prescence is masked by nature itself. You are slightly harder to detect.",
-        "valid" : false,
-        "purifiable" : false,
-        "prereqs" : ["WEAKSCENT"],
-        "threshreq" : ["THRESH_WENDIGO"],
-        "category" : ["WENDIGO"],
-        "stealth_modifier" : 15
-    },
-    {
-        "type" : "mutation",
-        "id" : "SLASHERS",
-        "name" : "Slashers",
-        "points" : 5,
-        "visibility" : 8,
-        "ugliness" : 10,
-        "description" : "Your torso has grown an extra set of 'arms' that have burst out of your back, they are tipped with massive bone blades at the end, and look like they can do some serious damage; especially with that thick acid that they secrete.",
-        "prereqs" : ["FANGS"],
-        "threshreq" : ["THRESH_WENDIGO"],
-        "category" : ["WENDIGO"],
-        "social_modifiers" : {
-            "intimidate" : 15
-        },
-        "attacks" : {
-            "attack_text_u" : "You tear into %s with your blades",
-            "attack_text_npc" : "%1$s tears into %2$s with their blades",
-            "body_part" : "TORSO",
-            "chance" : 33,
-            "base_damage" : { "damage_type" : "cut", "amount" : 10},
-            "strength_damage" : { "damage_type" : "acid", "amount" : 0.5}
-        }
-     }
+  {
+    "type": "mutation",
+    "id": "THRESH_WENDIGO",
+    "name": "Forest Guardian",
+    "points": 1,
+    "description": "The forests have longed for your help, and this last cry shook the world.",
+    "//": "Parallel reference to Woken Furies quote from the Altered Carbon series and song.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "SHMELD",
+    "name": "Nature's Boon",
+    "points": 3,
+    "description": "Your very prescence is masked by nature itself. You are slightly harder to detect.",
+    "valid": false,
+    "purifiable": false,
+    "prereqs": [ "WEAKSCENT" ],
+    "threshreq": [ "THRESH_WENDIGO" ],
+    "category": [ "WENDIGO" ],
+    "stealth_modifier": 15
+  },
+  {
+    "type": "mutation",
+    "id": "SLASHERS",
+    "name": "Slashers",
+    "points": 5,
+    "visibility": 8,
+    "ugliness": 10,
+    "description": "Your torso has grown an extra set of 'arms' that have burst out of your back, they are tipped with massive bone blades at the end, and look like they can do some serious damage; especially with that thick acid that they secrete.",
+    "prereqs": [ "FANGS" ],
+    "threshreq": [ "THRESH_WENDIGO" ],
+    "category": [ "WENDIGO" ],
+    "social_modifiers": { "intimidate": 15 },
+    "attacks": {
+      "attack_text_u": "You tear into %s with your blades",
+      "attack_text_npc": "%1$s tears into %2$s with their blades",
+      "body_part": "TORSO",
+      "chance": 33,
+      "base_damage": { "damage_type": "cut", "amount": 10 },
+      "strength_damage": { "damage_type": "acid", "amount": 0.5 }
+    }
+  }
 ]
