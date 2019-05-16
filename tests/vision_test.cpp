@@ -127,6 +127,8 @@ void full_map_test( const std::vector<std::string> &setup,
     g->m.build_map_cache( origin.z );
 
     const level_cache &cache = g->m.access_cache( origin.z );
+    REQUIRE( origin.z < OVERMAP_HEIGHT );
+    const level_cache &above_cache = g->m.access_cache( origin.z + 1 );
     const visibility_variables &vvcache =
         g->m.get_visibility_variables_cache();
 
@@ -136,6 +138,7 @@ void full_map_test( const std::vector<std::string> &setup,
     std::ostringstream lm;
     std::ostringstream apparent_light;
     std::ostringstream obstructed;
+    std::ostringstream floor_above;
     transparency << std::setprecision( 3 );
     seen << std::setprecision( 3 );
     apparent_light << std::setprecision( 3 );
@@ -155,6 +158,7 @@ void full_map_test( const std::vector<std::string> &setup,
             lm << this_lm.to_string() << ' ';
             apparent_light << std::setw( 6 ) << al.apparent_light << ' ';
             obstructed << ( al.obstructed ? '#' : '.' ) << ' ';
+            floor_above << ( above_cache.floor_cache[p.x][p.y] ? '#' : '.' ) << ' ';
         }
         fields << '\n';
         transparency << '\n';
@@ -162,8 +166,10 @@ void full_map_test( const std::vector<std::string> &setup,
         lm << '\n';
         apparent_light << '\n';
         obstructed << '\n';
+        floor_above << '\n';
     }
 
+    INFO( "zlevels: " << g->m.has_zlevels() );
     INFO( "origin: " << origin );
     INFO( "player: " << g->u.pos() );
     INFO( "unimpaired_range: " << g->u.unimpaired_range() );
@@ -174,6 +180,7 @@ void full_map_test( const std::vector<std::string> &setup,
     INFO( "lm:\n" << lm.str() );
     INFO( "apparent_light:\n" << apparent_light.str() );
     INFO( "obstructed:\n" << obstructed.str() );
+    INFO( "floor_above:\n" << floor_above.str() );
 
     bool success = true;
     std::ostringstream expected;
