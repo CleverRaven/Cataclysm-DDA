@@ -1389,14 +1389,14 @@ static item_location autodoc_internal( player &u, player &patient,
                                    int radius)
 {
     inventory_pick_selector inv_s( u, preset );
-    std::string hint = "";
+    std::string hint;
     int drug_count = 0;
 
     if( patient.has_trait( trait_NOPAIN ) ) {
-        hint = _( "<color_yellow>Patient has Deadened nerves. Anesthesia unneeded.</color>" );
+        hint = _( "<color_yellow>Patient has Deadened nerves.  Anesthesia unneeded.</color>" );
     }
     else if( patient.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
-        hint = _( "<color_yellow>Patient has Sensory Dulling CBM. Anesthesia unneeded.</color>" );
+        hint = _( "<color_yellow>Patient has Sensory Dulling CBM installed.  Anesthesia unneeded.</color>" );
     }
     else {
         std::vector<const item *> a_filter = u.crafting_inventory().items_with( []( const item & it ) {
@@ -1411,10 +1411,10 @@ static item_location autodoc_internal( player &u, player &patient,
             }
         }
         drug_count += b_filter.size(); // legacy
-        hint = string_format( _( "<color_yellow>Available Anesthesia: %i</color>" ), drug_count );
+        hint = string_format( _( "<color_yellow>Available anesthesia: %i</color>" ), drug_count );
     }
 
-    inv_s.set_title( string_format( _( "Bionic Installation Patient: %s" ), patient.get_name() ) );
+    inv_s.set_title( string_format( _( "Bionic installation patient: %s" ), patient.get_name() ) );
     inv_s.set_hint( hint );
     inv_s.set_display_stats( false );
 
@@ -1435,7 +1435,7 @@ static item_location autodoc_internal( player &u, player &patient,
         }
 
         if( inv_s.empty() ) {
-            popup( _ ( "You don't have any bionics to install" ), PF_GET_KEY );
+            popup( _ ( "You don't have any bionics to install." ), PF_GET_KEY );
             return item_location();
         }
 
@@ -1477,21 +1477,21 @@ class bionic_install_preset: public inventory_selector_preset
             const bionic_id &bid = itemtype->bionic->id;
 
             if( pa.has_bionic( bid ) ) {
-                return "ALREADY INSTALLED";
+                return _( "CBM already installed" );
             }
             else if( bid->upgraded_bionic &&
                      !pa.has_bionic( bid->upgraded_bionic ) &&
                      it->is_upgrade() ) {
-                return "NO BASE VERSION INSTALLED";
+                return _( "No base version installed" );
             }
             else if( std::any_of( bid->available_upgrades.begin(),
                      bid->available_upgrades.end(),
                      std::bind( &player::has_bionic, &pa,
                      std::placeholders::_1 ) ) ) {
-                return "SUPERIOR VERSION INSTALLED";
+                return _( "Superior version installed" );
             }
             else if( pa.is_npc() && !bid->npc_usable ) {
-                return "CBM NOT COMPATIBLE WITH PATIENT";
+                return _( "CBM not compatible with patient" );
             }
 
             return std::string();
