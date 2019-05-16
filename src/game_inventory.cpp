@@ -1385,8 +1385,8 @@ void game_menus::inv::swap_letters( player &p )
 }
 
 static item_location autodoc_internal( player &u, player &patient,
-                                   const inventory_selector_preset &preset,
-                                   int radius)
+                                       const inventory_selector_preset &preset,
+                                       int radius)
 {
     inventory_pick_selector inv_s( u, preset );
     std::string hint;
@@ -1451,7 +1451,6 @@ static item_location autodoc_internal( player &u, player &patient,
     } while( true );
 }
 
-
 // Menu used by autodoc when installing a bionic
 class bionic_install_preset: public inventory_selector_preset
 {
@@ -1485,9 +1484,9 @@ class bionic_install_preset: public inventory_selector_preset
                 return _( "No base version installed" );
             }
             else if( std::any_of( bid->available_upgrades.begin(),
-                     bid->available_upgrades.end(),
-                     std::bind( &player::has_bionic, &pa,
-                     std::placeholders::_1 ) ) ) {
+                                  bid->available_upgrades.end(),
+                                  std::bind( &player::has_bionic, &pa,
+                                             std::placeholders::_1 ) ) ) {
                 return _( "Superior version installed" );
             }
             else if( pa.is_npc() && !bid->npc_usable ) {
@@ -1512,13 +1511,13 @@ class bionic_install_preset: public inventory_selector_preset
             int hours = difficulty / 3;
             int minutes = (difficulty % 3) * 20;
             std::string minutes_string = minutes > 0
-                                        ? string_format( _( "%i minutes" ), minutes )
-                                        : std::string();
+                                         ? string_format( _( "%i minutes" ), minutes )
+                                         : std::string();
 
             if( hours > 0 ) {
                 std::string hours_string = hours >= 2
-                                        ? string_format( _( "%i hours" ), hours )
-                                        : string_format( _( "%i hour" ), hours );
+                                           ? string_format( _( "%i hours" ), hours )
+                                           : string_format( _( "%i hour" ), hours );
 
                 if( minutes > 0 ) {
                     return string_format( _( "%s, %s" ), hours_string, minutes_string );
@@ -1541,19 +1540,19 @@ class bionic_install_preset: public inventory_selector_preset
             player & installer = p;
 
             const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
-                             skill_computer,
-                             skill_electronics,
-                             -1 );
+                                       skill_computer,
+                                       skill_electronics,
+                                       -1 );
 
             if( ( get_option < bool > ( "SAFE_AUTODOC" ) ) ||
-                g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+                    g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
                 chance_of_failure = 0;
             }
             else {
                 float skill_difficulty_parameter = static_cast<float>( adjusted_skill /
-                                           ( 4.0 * difficulty ) );
+                                                   ( 4.0 * difficulty ) );
                 chance_of_failure = 100 - static_cast<int>( ( 100 * skill_difficulty_parameter ) /
-                                     ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
+                                    ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
             }
 
             return string_format( _( "%i%%" ), chance_of_failure );
