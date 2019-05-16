@@ -7669,7 +7669,8 @@ void map::build_floor_cache( const int zlev )
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
                     // Note: furniture currently can't affect existence of floor
-                    if( cur_submap->get_ter( { sx, sy } ).obj().has_flag( TFLAG_NO_FLOOR ) ) {
+                    const ter_t &terrain = cur_submap->get_ter( { sx, sy } ).obj();
+                    if( terrain.has_flag( TFLAG_NO_FLOOR ) ) {
                         const int x = sx + ( smx * SEEX );
                         const int y = sy + ( smy * SEEY );
                         floor_cache[x][y] = false;
