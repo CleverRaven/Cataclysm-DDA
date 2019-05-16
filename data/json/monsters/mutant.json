@@ -1,0 +1,41 @@
+[
+  {
+    "id": "mon_mutant_experimental",
+    "type": "MONSTER",
+    "name": "experimental mutant",
+    "description": "A deformed amalgamation of man and animal.  His grotesque humanoid body is covered in fur and the tattered remains of a jumpsuit.  The sinister fangs, claws and the look of insanity in his eyes are testament to that he lost all of his humanity.",
+    "default_faction": "mutants",
+    "bodytype": "human",
+    "species": [ "MUTANT" ],
+    "volume": "62500 ml",
+    "weight": 81500,
+    "hp": 150,
+    "speed": 100,
+    "material": [ "flesh" ],
+    "symbol": "M",
+    "color": "brown",
+    "aggression": 20,
+    "morale": 30,
+    "melee_skill": 4,
+    "melee_dice": 3,
+    "melee_dice_sides": 4,
+    "melee_cut": 4,
+    "dodge": 4,
+    "armor_bash": 3,
+    "armor_cut": 3,
+    "vision_day": 30,
+    "vision_night": 5,
+    "harvest": "human",
+    "special_attacks": [
+      [ "PARROT", 100 ],
+      [ "scratch", 20 ]
+    ],
+    "path_settings": { "max_dist": 10 },
+    "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "STALK", "SOUND" ],
+    "fear_triggers": [ "FIRE", "HURT" ],
+    "placate_triggers": [ "MEAT" ],
+    "death_function": [ "NORMAL" ],
+    "death_drops": "mon_mutant_experimental_death_drops",
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "BLEED", "PATH_AVOID_DANGER_2", "LOUDMOVES" ]
+  }
+]
