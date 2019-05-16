@@ -10023,22 +10023,24 @@ bool game::grabbed_furn_move( const tripoint &dp )
         m.i_clear( fdest );
     }
 
-    if( dst_item_ok && src_item_ok ) {
-        // Assume contents of both cells are legal, so we can just swap contents.
-        std::list<item> temp;
-        std::move( m.i_at( fpos ).begin(), m.i_at( fpos ).end(),
-                   std::back_inserter( temp ) );
-        m.i_clear( fpos );
-        for( auto item_iter = m.i_at( fdest ).begin();
-             item_iter != m.i_at( fdest ).end(); ++item_iter ) {
-            m.i_at( fpos ).push_back( *item_iter );
+    if( src_items > 0 ) { // Move the stuff inside.
+        if( dst_item_ok && src_item_ok ) {
+            // Assume contents of both cells are legal, so we can just swap contents.
+            std::list<item> temp;
+            std::move( m.i_at( fpos ).begin(), m.i_at( fpos ).end(),
+                       std::back_inserter( temp ) );
+            m.i_clear( fpos );
+            for( auto item_iter = m.i_at( fdest ).begin();
+                 item_iter != m.i_at( fdest ).end(); ++item_iter ) {
+                m.i_at( fpos ).push_back( *item_iter );
+            }
+            m.i_clear( fdest );
+            for( auto &cur_item : temp ) {
+                m.i_at( fdest ).push_back( cur_item );
+            }
+        } else {
+            add_msg( _( "Stuff spills from the %s!" ), furntype.name() );
         }
-        m.i_clear( fdest );
-        for( auto &cur_item : temp ) {
-            m.i_at( fdest ).push_back( cur_item );
-        }
-    } else {
-        add_msg( _( "Stuff spills from the %s!" ), furntype.name() );
     }
 
     if( shifting_furniture ) {
