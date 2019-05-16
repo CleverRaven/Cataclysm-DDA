@@ -2027,6 +2027,11 @@ void player::disarm( npc &target )
         return;
     }
 
+    if( target.is_hallucination() ) {
+        target.on_attacked( *this );
+        return;
+    }
+
     /** @EFFECT_STR increases chance to disarm, primary stat */
     /** @EFFECT_DEX increases chance to disarm, secondary stat */
     int my_roll = dice( 3, 2 * get_str() + get_dex() );
