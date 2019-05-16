@@ -2,7 +2,7 @@
 #ifndef IUSE_ACTOR_H
 #define IUSE_ACTOR_H
 
-#include <limits.h>
+#include <climits>
 #include <map>
 #include <set>
 #include <vector>
@@ -601,6 +601,8 @@ class manualnoise_actor : public iuse_actor
         std::string no_charges_message;
         std::string use_message;
         std::string noise_message;
+        std::string noise_id;
+        std::string noise_variant;
         int noise = 0; // Should work even with no volume, even if it seems impossible
         int moves = 0;
 
@@ -784,6 +786,8 @@ class repair_item_actor : public iuse_actor
             RT_NOTHING = 0,
             RT_REPAIR,          // Just repairing damage
             RT_REFIT,           // Refitting
+            RT_DOWNSIZING,      // When small, reduce clothing to small size
+            RT_UPSIZING,        // When normal, increase clothing to normal size
             RT_REINFORCE,       // Getting damage below 0
             RT_PRACTICE,        // Wanted to reinforce, but can't
             NUM_REPAIR_TYPES

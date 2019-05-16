@@ -353,7 +353,7 @@ void vehicle::turrets_set_mode()
 
         for( auto &p : turrets ) {
             menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]",
-                           p->name(), p->base.gun_current_mode().name() );
+                           p->name(), p->base.gun_current_mode().tname() );
         }
 
         menu.query();

@@ -1,6 +1,6 @@
 #include "action.h"
 
-#include <limits.h>
+#include <climits>
 #include <algorithm>
 #include <istream>
 #include <iterator>
@@ -58,7 +58,8 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
         std::string id;
         keymap_txt >> id;
         if( id.empty() ) {
-            getline( keymap_txt, id );  // Empty line, chomp it
+            // Empty line, chomp it
+            getline( keymap_txt, id );
         } else if( id == "unbind" ) {
             keymap_txt >> id;
             const action_id act = look_up_action( id );
@@ -96,10 +97,10 @@ Fix \"%s\" at your next chance!", ch, id, FILENAMES["keymap"] );
     }
 }
 
-std::vector<char> keys_bound_to( action_id act )
+std::vector<char> keys_bound_to( action_id act, const bool restrict_to_printable )
 {
     input_context ctxt = get_default_mode_input_context();
-    return ctxt.keys_bound_to( action_ident( act ) );
+    return ctxt.keys_bound_to( action_ident( act ), restrict_to_printable );
 }
 
 action_id action_from_key( char ch )
@@ -179,6 +180,8 @@ std::string action_ident( action_id act )
             return "advinv";
         case ACTION_PICKUP:
             return "pickup";
+        case ACTION_PICKUP_FEET:
+            return "pickup_feet";
         case ACTION_GRAB:
             return "grab";
         case ACTION_HAUL:
@@ -213,6 +216,8 @@ std::string action_ident( action_id act )
             return "take_off";
         case ACTION_EAT:
             return "eat";
+        case ACTION_OPEN_CONSUME:
+            return "open_consume";
         case ACTION_READ:
             return "read";
         case ACTION_WIELD:
@@ -520,16 +525,12 @@ point get_delta_from_movement_direction( action_id act )
     }
 }
 
-// Get the key for an action, used in the action menu to give each action the
-// hotkey it is bound to.
-// We ignore bindings to '?' because that will already do something else in
-// this menu (open the menu keybindings).
-long hotkey_for_action( action_id action )
+long hotkey_for_action( action_id action, const bool restrict_to_printable )
 {
     auto is_valid_key = []( char key ) {
         return key != '?';
     };
-    std::vector<char> keys = keys_bound_to( action );
+    std::vector<char> keys = keys_bound_to( action, restrict_to_printable );
     auto valid = std::find_if( keys.begin(), keys.end(), is_valid_key );
     return valid == keys.end() ? -1 : *valid;
 }
@@ -630,6 +631,7 @@ bool can_interact_at( action_id action, const tripoint &p )
         case ACTION_EXAMINE:
             return can_examine_at( p );
         case ACTION_PICKUP:
+        case ACTION_PICKUP_FEET:
             return can_pickup_at( p );
         default:
             return false;
@@ -781,6 +783,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_WEAR );
             REGISTER_ACTION( ACTION_TAKE_OFF );
             REGISTER_ACTION( ACTION_EAT );
+            REGISTER_ACTION( ACTION_OPEN_CONSUME );
             REGISTER_ACTION( ACTION_READ );
             REGISTER_ACTION( ACTION_WIELD );
             REGISTER_ACTION( ACTION_UNLOAD );
@@ -808,6 +811,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_CLOSE );
             REGISTER_ACTION( ACTION_CHAT );
             REGISTER_ACTION( ACTION_PICKUP );
+            REGISTER_ACTION( ACTION_PICKUP_FEET );
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_HAUL );
             REGISTER_ACTION( ACTION_BUTCHER );
@@ -883,8 +887,8 @@ action_id handle_action_menu()
         }
         //border=2, selectors=3, after=3 for balance.
         width += 2 + 3 + 3;
-        int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
-        int iy = ( TERMY > static_cast<int>( entries.size() ) + 2 ) ? ( TERMY - static_cast<int>
+        int ix = TERMX > width ? ( TERMX - width ) / 2 - 1 : 0;
+        int iy = TERMY > static_cast<int>( entries.size() ) + 2 ? ( TERMY - static_cast<int>
                  ( entries.size() ) - 2 ) / 2 - 1 : 0;
         int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
                                 std::max( iy, 0 ), title, entries );
@@ -930,6 +934,7 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_ACTIONMENU );
     REGISTER_ACTION( ACTION_QUICKSAVE );
     REGISTER_ACTION( ACTION_SAVE );
+    REGISTER_ACTION( ACTION_DEBUG );
 
     int width = 0;
     for( auto &entry : entries ) {
@@ -939,8 +944,8 @@ action_id handle_main_menu()
     }
     //border=2, selectors=3, after=3 for balance.
     width += 2 + 3 + 3;
-    const int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
-    const int iy = ( TERMY > static_cast<int>( entries.size() ) + 2 ) ? ( TERMY - static_cast<int>
+    const int ix = TERMX > width ? ( TERMX - width ) / 2 - 1 : 0;
+    const int iy = TERMY > static_cast<int>( entries.size() ) + 2 ? ( TERMY - static_cast<int>
                    ( entries.size() ) - 2 ) / 2 - 1 : 0;
     int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
                             std::max( iy, 0 ), _( "MAIN MENU" ), entries );

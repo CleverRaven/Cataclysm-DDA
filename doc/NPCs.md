@@ -126,6 +126,20 @@ The dynamic line is a list of dynamic lines, all of which are displayed.  The dy
 }
 ```
 
+#### A line to be translated with gender context
+The line is to be given a gender context for the NPC, player, or both, to aid
+translation in languages where that matters. For example:
+```json
+{
+    "gendered_line": "Thank you.",
+    "relevant_genders": [ "npc" ]
+}
+```
+("Thank you" is different for male and female speakers in e.g. Portuguese).
+
+Valid choices for entries in the `"relevant_genders"` list are `"npc"` and
+`"u"`.
+
 #### A randomly selected hint
 The dynamic line will be randomly chosen from the hints snippets.
 

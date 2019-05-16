@@ -2,8 +2,8 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
-#include <limits.h>
-#include <stddef.h>
+#include <climits>
+#include <cstddef>
 #include <array>
 #include <list>
 #include <map>
@@ -31,6 +31,7 @@
 #include "item_location.h"
 #include "type_id.h"
 
+class Creature;
 class nc_color;
 class player;
 class npc;
@@ -46,6 +47,7 @@ template <typename T> class visitable;
 class vpart_info;
 
 enum vpart_bitflags : int;
+enum ter_bitflags : int;
 template<typename feature_type>
 class vehicle_part_with_feature_range;
 
@@ -60,6 +62,11 @@ extern point cardinal_d[5];
 constexpr double rolling_constant_to_variable = 33.33;
 constexpr float vmiph_per_tile = 400.0f;
 }
+struct rider_data {
+    Creature *psg = nullptr;
+    int prt = -1;
+    bool moved = false;
+};
 //collision factor for vehicle-vehicle collision; delta_v in mph
 float get_collision_factor( float delta_v );
 
@@ -704,7 +711,7 @@ class vehicle
         void deserialize( JsonIn &jsin );
         // Vehicle parts list - all the parts on a single tile
         int print_part_list( const catacurses::window &win, int y1, int max_y, int width, int p,
-                             int hl = -1 ) const;
+                             int hl = -1, bool detail = false ) const;
 
         // Vehicle parts descriptions - descriptions for all the parts on a single tile
         void print_vparts_descs( const catacurses::window &win, int max_y, int width, int &p,
@@ -948,8 +955,13 @@ class vehicle
         // get a list of part indices where is a passenger inside
         std::vector<int> boarded_parts() const;
 
+        // get a list of part indices and Creature pointers with a rider
+        std::vector<rider_data> get_riders() const;
+
         // get passenger at part p
         player *get_passenger( int p ) const;
+        // get monster on a boardable part at p
+        monster *get_pet( int p ) const;
 
         /**
          * Get the coordinates (in map squares) of this vehicle, it's the same
@@ -1076,6 +1088,10 @@ class vehicle
 
         // is the vehicle currently moving?
         bool is_moving() const;
+
+        // can the vehicle use rails?
+        bool can_use_rails() const;
+
         // Get maximum ground velocity gained by combined power of all engines.
         // If fueled == true, then only the engines which the vehicle has fuel for are included
         int max_ground_velocity( bool fueled = true ) const;
@@ -1444,6 +1460,22 @@ class vehicle
         // check if the vehicle should be falling or is in water
         void check_falling_or_floating();
 
+        /** Precalculate vehicle turn. Counts wheels that will land on ter_flag_to_check
+         * new_turn_dir             - turn direction to calculate
+         * falling_only             - is vehicle falling
+         * check_rail_direction     - check if vehicle should land on diagonal/not rail tile (use for trucks only)
+         * ter_flag_to_check        - terrain flag vehicle wheel should land on
+         ** Results:
+         * &wheels_on_rail          - resulting wheels that land on ter_flag_to_check
+         * &turning_wheels_that_are_one_axis_counter - number of wheels that are on one axis and will land on rail
+         */
+        void precalculate_vehicle_turning( int new_turn_dir, bool check_rail_direction,
+                                           const ter_bitflags ter_flag_to_check, int &wheels_on_rail,
+                                           int &turning_wheels_that_are_one_axis_counter ) const;
+        bool allow_auto_turn_on_rails( int &corrected_turn_dir ) const;
+        bool allow_manual_turn_on_rails( int &corrected_turn_dir ) const;
+        bool is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int wheel_count,
+                int turning_wheels_that_are_one_axis ) const;
         /**
          * Update the submap coordinates smx, smy, and update the tracker info in the overmap
          * (if enabled).
@@ -1491,6 +1523,7 @@ class vehicle
         std::vector<int> heaters;          // List of heater parts
         std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
         std::vector<int> wheelcache;       // List of wheels
+        std::vector<int> rail_wheelcache;  // List of rail wheels
         std::vector<int> steering;         // List of STEERABLE parts
         std::vector<int>
         speciality;       // List of parts that will not be on a vehicle very often, or which only one will be present
@@ -1499,7 +1532,9 @@ class vehicle
         // After fuel consumption, this tracks the remainder of fuel < 1, and applies it the next time.
         std::map<itype_id, float> fuel_remainder;
         active_item_cache active_items;
+        bool all_wheels_on_one_axis;
 
+        bounding_box rail_wheel_bounding_box;
         bounding_box get_bounding_box();
 
         /**
@@ -1592,6 +1627,8 @@ class vehicle
         time_point last_fluid_check = calendar::time_of_cataclysm;
         // zone_data positions are outdated and need refreshing
         bool zones_dirty = true;
+        // current noise of vehicle (engine working, etc.)
+        unsigned char vehicle_noise = 0;
 
     private:
         // refresh pivot_cache, clear pivot_dirty

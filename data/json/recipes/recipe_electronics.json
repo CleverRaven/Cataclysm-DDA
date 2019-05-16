@@ -1303,6 +1303,36 @@
   },
   {
     "type": "recipe",
+    "result": "hand_crank_charger",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 3 ],
+    "difficulty": 4,
+    "time": 3000,
+    "reversible": true,
+    "decomp_learn": 3,
+    "book_learn": [
+      [ "textbook_robots", 4 ],
+      [ "mag_electronics", 3 ],
+      [ "mag_mechanics", 3 ],
+      [ "textbook_electronics", 3 ],
+      [ "textbook_fabrication", 3 ],
+      [ "manual_fabrication", 4 ]
+    ],
+    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 5 ] ],
+      [ [ "superglue", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "e_scrap", 3 ] ],
+      [ [ "scrap", 3 ] ],
+      [ [ "motor_tiny", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "motor_micro",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",

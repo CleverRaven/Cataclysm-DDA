@@ -177,6 +177,8 @@
       "moves": 100,
       "noise": 50,
       "noise_message": "HOOOOONK!",
+      "noise_id": "misc",
+      "noise_variant": "airhorn",
       "use_message": "You honk your airhorn.",
       "no_charges_message": "You depress the button but no sound comes out.",
       "//": "Use of %s not currently supported."
@@ -910,6 +912,30 @@
       "monster_id": "mon_secubot",
       "friendly_msg": "The security bot beeps affirmatively and begins scanning for hostiles.",
       "hostile_msg": "You misprogram the security bot and it trains its gun on you. RUN!",
+      "difficulty": 6,
+      "moves": 150,
+      "skill1": "electronics",
+      "skill2": "computer"
+    }
+  },
+  {
+    "id": "bot_nursebot",
+    "type": "TOOL",
+    "name": "inactive nurse bot",
+    "description": "This is an inactive nurse bot.  Using this item involves placing it on the ground and reactivating its mechanical body.  If reprogrammed and rewired successfully the nurse bot will then identify you as a friendly, roam around or follow you, and assist you in surgeries.",
+    "volume": "62500 ml",
+    "weight": 81500,
+    "price": 750000,
+    "to_hit": -3,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_blue",
+    "use_action": {
+      "type": "place_monster",
+      "monster_id": "mon_nursebot",
+      "friendly_msg": "The nurse bot beeps affirmatively and awaits orders.",
+      "hostile_msg": "You misprogram the nurse bot. It's looking at you funny.",
       "difficulty": 6,
       "moves": 150,
       "skill1": "electronics",
@@ -1696,21 +1722,6 @@
     "use_action": "CARVER_ON",
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
     "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
-  },
-  {
-    "id": "catfood",
-    "type": "TOOL",
-    "name": "cat food",
-    "name_plural": "cat food",
-    "description": "This is food for cats.  It smells strange, but cats seem to love it.",
-    "weight": 223,
-    "volume": 1,
-    "price": 300,
-    "to_hit": -5,
-    "material": "flesh",
-    "symbol": ";",
-    "color": "brown",
-    "use_action": "CATFOOD"
   },
   {
     "id": "cavalry_sabre",
@@ -2714,21 +2725,6 @@
     "symbol": ";",
     "color": "yellow",
     "use_action": "DOG_WHISTLE"
-  },
-  {
-    "id": "dogfood",
-    "type": "TOOL",
-    "name": "dog food",
-    "name_plural": "dog food",
-    "description": "This is food for dogs.  It smells strange, but dogs seem to love it.",
-    "weight": 554,
-    "volume": 1,
-    "price": 300,
-    "to_hit": -5,
-    "material": "flesh",
-    "symbol": ";",
-    "color": "brown",
-    "use_action": "DOGFOOD"
   },
   {
     "id": "dynamite",
@@ -4071,6 +4067,8 @@
       "moves": 100,
       "noise": 15,
       "noise_message": "honk.",
+      "noise_id": "misc",
+      "noise_variant": "horn_bicycle",
       "use_message": "You honk the bicycle horn.",
       "no_charges_message": "Seeing this is an error.",
       "//": "Use of %s not currently supported."
@@ -8308,6 +8306,35 @@
     "flags": [ "SPEAR" ]
   },
   {
+    "id": "hand_crank_charger",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "hand-crank charger",
+    "description": "This is a hand-powered battery charger.  It has an adjustable receptacle designed to accept a wide variety of rechargeable battery cells.",
+    "weight": 2000,
+    "volume": 2,
+    "price": 1000,
+    "material": "plastic",
+    "symbol": ":",
+    "color": "light_gray",
+    "ammo": "battery",
+    "use_action": "HAND_CRANK",
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "heavy_battery_cell",
+          "heavy_plus_battery_cell"
+        ]
+      ]
+    ]
+  },
+  {
     "id": "vibrator",
     "type": "TOOL",
     "name": "vibrator",
@@ -8770,36 +8797,6 @@
     "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
     "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
-  },
-  {
-    "id": "cattlefodder",
-    "type": "TOOL",
-    "name": "cattle fodder",
-    "name_plural": "cattle fodder",
-    "description": "What cattle eat.  Mainly made of grass, silage or legumes.  It's perfect for ruminants.",
-    "weight": 300,
-    "volume": 1,
-    "price": 100,
-    "to_hit": -5,
-    "material": "veggy",
-    "symbol": ";",
-    "color": "brown",
-    "use_action": "CATTLEFODDER"
-  },
-  {
-    "id": "birdfood",
-    "type": "TOOL",
-    "name": "bird food",
-    "name_plural": "bird food",
-    "description": "What birds eat.  Mainly made of seeds, silage or legumes.  It's perfect for small birds.",
-    "weight": 60,
-    "volume": 1,
-    "price": 20,
-    "to_hit": -5,
-    "material": "veggy",
-    "symbol": ";",
-    "color": "brown",
-    "use_action": "BIRDFOOD"
   },
   {
     "id": "link_sheet",

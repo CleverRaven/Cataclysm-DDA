@@ -2,7 +2,7 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
-#include <assert.h>
+#include <cassert>
 #include <climits>
 #include <ostream>
 #include <cstdint>
@@ -16,6 +16,14 @@ constexpr inline int sgn( const T x )
 {
     return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
 }
+
+enum temperature_flag : int {
+    TEMP_NORMAL = 0,
+    TEMP_HEATER,
+    TEMP_FRIDGE,
+    TEMP_FREEZER,
+    TEMP_ROOT_CELLAR
+};
 
 //Used for autopickup and safemode rules
 enum rule_state : int {
@@ -261,6 +269,15 @@ struct tripoint {
     }
     constexpr tripoint operator-() const {
         return tripoint( -x, -y, -z );
+    }
+    constexpr tripoint operator*( const int rhs ) const {
+        return tripoint( x * rhs, y * rhs, z * rhs );
+    }
+    tripoint &operator*=( const int rhs ) {
+        x *= rhs;
+        y *= rhs;
+        z *= rhs;
+        return *this;
     }
     /*** some point operators and functions ***/
     constexpr tripoint operator+( const point &rhs ) const {

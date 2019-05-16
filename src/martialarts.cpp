@@ -198,6 +198,7 @@ void martialart::load( JsonObject &jo, const std::string & )
 
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
+    mandatory( jo, was_loaded, "initiate", initiate );
 
     optional( jo, was_loaded, "static_buffs", static_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onmove_buffs", onmove_buffs, ma_buff_reader{} );
@@ -660,6 +661,15 @@ bool martialart::weapon_valid( const item &it ) const
     return !strictly_unarmed && it.has_flag( "UNARMED_WEAPON" );
 }
 
+std::string martialart::get_initiate_player_message() const
+{
+    return initiate[0];
+}
+
+std::string martialart::get_initiate_npc_message() const
+{
+    return initiate[1];
+}
 // Player stuff
 
 // technique

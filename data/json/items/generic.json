@@ -896,6 +896,30 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_nursebot",
+    "symbol": ",",
+    "color": "dark_gray",
+    "name": "broken nurse bot",
+    "category": "other",
+    "description": "A broken nurse bot.  Its smooth face staring vacantly into empty space.  Could be gutted for parts.",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 140000,
+    "volume": 250,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_nursebot_defective",
+    "name": "broken nurse bot",
+    "copy-from": "broken_nursebot"
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_riotbot",
     "symbol": ",",
     "color": "green",
@@ -2911,22 +2935,6 @@
     "weight": 1000,
     "volume": 2,
     "bashing": 5
-  },
-  {
-    "id": "condom",
-    "type": "GENERIC",
-    "category": "other",
-    "name": "condom",
-    "looks_like": "lens",
-    "description": "A gentleman's balloon.  A single use life preventer.  A thumbless latex mitten.   This could be used as a makeshift water container, but otherwise it's anyone's guess what it's for.",
-    "weight": 5,
-    "volume": "5ml",
-    "price": 200,
-    "material": "plastic",
-    "symbol": "*",
-    "color": "white",
-    "bashing": 5,
-    "to_hit": -3
   },
   {
     "type": "GENERIC",
