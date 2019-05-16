@@ -7264,7 +7264,7 @@ void item::process_temperature_rot( float insulation, const tripoint pos,
         const auto &wgen = g->weather.get_cur_weather_gen();
         const auto seed = g->get_seed();
         const auto local = g->m.getlocal( pos );
-        auto local_mod = g->new_game ? 0 : g->weather.get_temperature( local );
+        auto local_mod = g->new_game ? 0 : g->m.get_temperature( local );
 
         int enviroment_mod;
         // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
