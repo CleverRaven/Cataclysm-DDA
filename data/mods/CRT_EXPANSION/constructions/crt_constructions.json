@@ -23,7 +23,7 @@
   },
   {
     "type": "construction",
-    "description": "Remove Grass",
+    "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": 6,
@@ -34,7 +34,7 @@
   },
   {
     "type": "construction",
-    "description": "Remove Grass",
+    "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": 12,
@@ -45,7 +45,7 @@
   },
   {
     "type": "construction",
-    "description": "Remove Grass",
+    "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": 12,
@@ -56,7 +56,7 @@
   },
   {
     "type": "construction",
-    "description": "Remove Grass",
+    "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": 6,
@@ -67,7 +67,7 @@
   },
   {
     "type": "construction",
-    "description": "Remove Grass",
+    "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": 6,
@@ -78,7 +78,7 @@
   },
   {
     "type": "construction",
-    "description": "Remove Grass",
+    "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
     "time": 6,
@@ -94,7 +94,7 @@
     "required_skills": [ [ "survival", 2 ] ],
     "time": 50,
     "qualities": [ [ { "id": "AXE", "level": 2 }, { "id": "SAW_W", "level": 1 } ] ],
-    "byproducts": [ { "item": "log", "charges": [ 2, 3 ] } ],
+    "byproducts": [ { "item": "log", "count": [ 2, 3 ] } ],
     "pre_terrain": "t_trunk",
     "post_terrain": "t_dirt"
   },
@@ -121,13 +121,14 @@
   {
     "type": "construction",
     "description": "Makeshift Wall",
-    "category": "DIG",
+    "category": "OTHER",
     "required_skills": [ [ "survival", 2 ] ],
     "time": 30,
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "qualities": [ [ { "id": "DIG", "level": 1 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [
       [ [ "stick", 6 ], [ "2x4", 3 ] ],
-      [ [ "rock", 2 ], [ "pebble", 7 ] ],
+      [ [ "rock", 2 ], [ "pebble", 15 ] ],
+      [ [ "material_soil", 40 ] ],
       [ [ "withered", 6 ], [ "withered_bundle", 2 ] ]
     ],
     "pre_terrain": "t_pit_shallow",
