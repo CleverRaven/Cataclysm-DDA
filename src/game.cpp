@@ -6569,7 +6569,14 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
         redraw = true;
         //Wait for input
-        action = ctxt.handle_input( get_option<int>( "EDGE_SCROLL" ) );
+        // only specify a timeout here if "EDGE_SCROLL" is enabled
+        // otherwise use the previously set timeout
+        int scroll_timeout = get_option<int>( "EDGE_SCROLL" );
+        if( scroll_timeout >= 0 ) {
+            action = ctxt.handle_input( scroll_timeout );
+        } else {
+            action = ctxt.handle_input();
+        }
         if( action == "LIST_ITEMS" ) {
             list_items_monsters();
         } else if( action == "TOGGLE_FAST_SCROLL" ) {
@@ -6615,34 +6622,41 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             lp = u.pos();
             u.view_offset.z = 0;
         } else if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
+            // This block is structured this way so that edge scroll can work
+            // whether the mouse is moving at the edge or simply stationary
+            // at the edge. But even if edge scroll isn't in play, there's
+            // other things for us to do here.
+
             if( action == "TIMEOUT" ) {
                 blink = !blink;
             }
-            const tripoint old_lp = lp;
-            const tripoint old_center = center;
             tripoint edge_scroll = mouse_edge_scrolling_terrain( ctxt );
             if( edge_scroll != tripoint_zero ) {
                 if( action == "MOUSE_MOVE" ) {
                     edge_scroll *= 2;
                 }
                 center += edge_scroll;
-            } else {
+            } else if( action == "MOUSE_MOVE" ) {
+
+                const tripoint old_lp = lp;
+                const tripoint old_center = center;
+
                 const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
                 if( mouse_pos ) {
                     lx = mouse_pos->x;
                     ly = mouse_pos->y;
                 }
-            }
-            lx = clamp( lx, 0, MAPSIZE_X );
-            ly = clamp( ly, 0, MAPSIZE_Y );
-            if( select_zone && has_first_point ) { // is blinking
-                if( blink && lp == old_lp ) { // blink symbols drawn (blink == true) and cursor not changed
+                lx = clamp( lx, 0, MAPSIZE_X );
+                ly = clamp( ly, 0, MAPSIZE_Y );
+                if( select_zone && has_first_point ) { // is blinking
+                    if( blink && lp == old_lp ) { // blink symbols drawn (blink == true) and cursor not changed
+                        redraw = false; // no need to redraw, so don't redraw to save CPU
+                    } else {
+                        blink = true; // Always draw blink symbols when moving cursor
+                    }
+                } else if( lp == old_lp && center == old_center ) { // not blinking and cursor not changed
                     redraw = false; // no need to redraw, so don't redraw to save CPU
-                } else {
-                    blink = true; // Always draw blink symbols when moving cursor
                 }
-            } else if( lp == old_lp && center == old_center ) { // not blinking and cursor not changed
-                redraw = false; // no need to redraw, so don't redraw to save CPU
             }
         } else if( cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             if( fast_scroll ) {
