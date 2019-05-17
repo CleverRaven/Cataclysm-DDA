@@ -118,7 +118,8 @@ jobs:
           sources: *apt_sources
 
     # GCC 8
-    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough'
+    # Also, adding _GLIBCXX_DEBUG so that one build can test with that
+    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough -D_GLIBCXX_DEBUG'
       compiler: gcc
       addons: &gcc8
         apt:
