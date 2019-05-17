@@ -469,11 +469,11 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
             std::string text = component.to_string( batch );
             if( component.get_component_type() == COMPONENT_ITEM ) {
                 const itype_id item_id = static_cast<itype_id>( component.type );
-                long qty;
+                int qty;
                 if( item::count_by_charges( item_id ) ) {
-                    qty = crafting_inv.charges_of( item_id, std::numeric_limits<long>::max(), filter );
+                    qty = crafting_inv.charges_of( item_id, INT_MAX, filter );
                 } else {
-                    qty = crafting_inv.amount_of( item_id, false, std::numeric_limits<int>::max(), filter );
+                    qty = crafting_inv.amount_of( item_id, false, INT_MAX, filter );
                 }
                 if( qty > 0 ) {
                     text = item::count_by_charges( item_id ) ?

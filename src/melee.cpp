@@ -1956,7 +1956,7 @@ int player::attack_speed( const item &weap ) const
     return move_cost;
 }
 
-double player::weapon_value( const item &weap, long ammo ) const
+double player::weapon_value( const item &weap, int ammo ) const
 {
     const double val_gun = gun_value( weap, ammo );
     const double val_melee = melee_value( weap );
