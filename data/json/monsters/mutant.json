@@ -3,7 +3,7 @@
     "id": "mon_mutant_experimental",
     "type": "MONSTER",
     "name": "experimental mutant",
-    "description": "A deformed amalgamation of man and animal.  Grotesque humanoid covered in fur and the tattered remains of a jumpsuit.  The sinister fangs, claws and the look of insanity in his pale yellow eyes are testament to that he lost all of his humanity.",
+    "description": "A deformed amalgamation of man and animal.  Grotesque humanoid covered in fur and a torn jumpsuit.  The sinister fangs, claws and the look of insanity in his pale yellow eyes are a testament to that he lost all of his humanity.",
     "default_faction": "mutants",
     "bodytype": "human",
     "species": [ "MUTANT" ],
@@ -40,13 +40,13 @@
     "death_function": [ "NORMAL" ],
     "death_drops": "mon_mutant_experimental_death_drops",
     "upgrades": { "half_life": 30, "into": "mon_mutant_evolved" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "BLEED", "BASHES", "PATH_AVOID_DANGER_2" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "BLEED", "BASHES", "PATH_AVOID_DANGER_2", "REGEN_MORALE" ]
   },
   {
     "id": "mon_mutant_evolved",
     "type": "MONSTER",
     "name": "evolved mutant",
-    "description": "A towering beast that is not human, nor animal anymore.  A malformed, huge creature covered in thick fur and the tattered remains of a jumpsuit. The sinister fangs, claws and the look of insanity in his pale yellow eyes are testament to that he lost all of his humanity.",
+    "description": "A towering beast that is not human, nor animal anymore.  A malformed, huge creature covered in thick fur and the torn bottom part of a jumpsuit.  The sinister fangs, claws and the look of insanity in his pale yellow eyes are a testament to that he lost all of his humanity.",
     "default_faction": "mutants",
     "bodytype": "human",
     "species": [ "MUTANT" ],
@@ -84,7 +84,7 @@
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "STALK", "SOUND" ],
     "fear_triggers": [ "FIRE", "HURT" ],
     "death_function": [ "NORMAL" ],
-    "death_drops": "mon_mutant_experimental_death_drops",
+    "death_drops": "mon_mutant_evolved_death_drops",
     "flags": [
       "SEES",
       "HEARS",
