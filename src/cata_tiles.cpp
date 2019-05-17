@@ -2701,7 +2701,7 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
         }
     }
 
-    if( !is_player ) {
+    if( result && !is_player ) {
         std::ostringstream tmp_id;
         tmp_id << "overlay_" << Creature::attitude_raw_string( attitude );
         if( sees_player ) {
