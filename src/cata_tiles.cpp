@@ -2665,7 +2665,7 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
     bool result = false;
     bool sees_player = false;
     bool is_player = false;
-    Creature::Attitude attitude;
+    Creature::Attitude attitude = Creature::A_ANY;
     const monster *m = dynamic_cast<const monster *>( &critter );
     if( m != nullptr ) {
         const auto ent_name = m->type->id;
