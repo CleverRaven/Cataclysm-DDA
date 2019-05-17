@@ -337,6 +337,17 @@
   },
   {
     "type": "GENERIC",
+    "id": "android_chassis",
+    "name": "android skeleton",
+    "description": "What's left when you strip an android body from its components.",
+    "weight": 20000,
+    "volume": "40000 ml",
+    "price": 100000,
+    "material": [ "steel" ],
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
     "id": "tankbot_chassis",
     "name": "Beagle chassis",
     "name_plural": "Beagle chassis",
