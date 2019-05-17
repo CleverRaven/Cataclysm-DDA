@@ -122,6 +122,11 @@ class Creature
         };
 
         /**
+         * Simplified attitude string for unlocalized needs.
+         */
+        static const std::string attitude_raw_string( Attitude att );
+
+        /**
          * Creature Attitude as String and color
          */
         static const std::pair<std::string, nc_color> &get_attitude_ui_data( Attitude att );

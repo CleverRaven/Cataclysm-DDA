@@ -1530,6 +1530,24 @@ void Creature::check_dead_state()
     }
 }
 
+const std::string Creature::attitude_raw_string( Attitude att )
+{
+    switch( att ) {
+        case Creature::A_HOSTILE:
+            return "hostile";
+            break;
+        case Creature::A_NEUTRAL:
+            return "neutral";
+            break;
+        case Creature::A_FRIENDLY:
+            return "friendly";
+            break;
+        default:
+            return "other";
+            break;
+    }
+}
+
 const std::pair<std::string, nc_color> &Creature::get_attitude_ui_data( Attitude att )
 {
     using pair_t = std::pair<std::string, nc_color>;

@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "sees_player_less_attitude",
+    "name": "sees player, less attitude",
+    "authors": [ "esotericist" ],
+    "description": "displays an attitude-tinted indicator if a creature sees a player without attitudes when player is unseen",
+    "category": "none",
+    "dependencies": [ "dda" ]
+  }
+]
