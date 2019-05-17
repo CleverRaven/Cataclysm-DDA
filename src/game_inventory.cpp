@@ -1386,7 +1386,7 @@ void game_menus::inv::swap_letters( player &p )
 
 static item_location autodoc_internal( player &u, player &patient,
                                        const inventory_selector_preset &preset,
-                                       int radius)
+                                       int radius )
 {
     inventory_pick_selector inv_s( u, preset );
     std::string hint;
@@ -1394,11 +1394,9 @@ static item_location autodoc_internal( player &u, player &patient,
 
     if( patient.has_trait( trait_NOPAIN ) ) {
         hint = _( "<color_yellow>Patient has Deadened nerves.  Anesthesia unneeded.</color>" );
-    }
-    else if( patient.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
+    } else if( patient.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
         hint = _( "<color_yellow>Patient has Sensory Dulling CBM installed.  Anesthesia unneeded.</color>" );
-    }
-    else {
+    } else {
         std::vector<const item *> a_filter = u.crafting_inventory().items_with( []( const item & it ) {
             return it.has_quality( quality_id( "ANESTHESIA" ) );
         } );
@@ -1435,7 +1433,7 @@ static item_location autodoc_internal( player &u, player &patient,
         }
 
         if( inv_s.empty() ) {
-            popup( _ ( "You don't have any bionics to install." ), PF_GET_KEY );
+            popup( _( "You don't have any bionics to install." ), PF_GET_KEY );
             return item_location();
         }
 
@@ -1477,19 +1475,16 @@ class bionic_install_preset: public inventory_selector_preset
 
             if( pa.has_bionic( bid ) ) {
                 return _( "CBM already installed" );
-            }
-            else if( bid->upgraded_bionic &&
-                     !pa.has_bionic( bid->upgraded_bionic ) &&
-                     it->is_upgrade() ) {
+            } else if( bid->upgraded_bionic &&
+                       !pa.has_bionic( bid->upgraded_bionic ) &&
+                       it->is_upgrade() ) {
                 return _( "No base version installed" );
-            }
-            else if( std::any_of( bid->available_upgrades.begin(),
-                                  bid->available_upgrades.end(),
-                                  std::bind( &player::has_bionic, &pa,
-                                             std::placeholders::_1 ) ) ) {
+            } else if( std::any_of( bid->available_upgrades.begin(),
+                                    bid->available_upgrades.end(),
+                                    std::bind( &player::has_bionic, &pa,
+                                               std::placeholders::_1 ) ) ) {
                 return _( "Superior version installed" );
-            }
-            else if( pa.is_npc() && !bid->npc_usable ) {
+            } else if( pa.is_npc() && !bid->npc_usable ) {
                 return _( "CBM not compatible with patient" );
             }
 
@@ -1502,14 +1497,14 @@ class bionic_install_preset: public inventory_selector_preset
 
     private:
         // Returns a formatted string of how long the operation will take.
-        std::string get_operation_duration( const item_location & loc ) {
+        std::string get_operation_duration( const item_location &loc ) {
             const item *it = loc.get_item();
             const itype *itemtype = it->type;
             const int difficulty = itemtype->bionic->difficulty;
 
             // 20 minutes per bionic difficulty.
             int hours = difficulty / 3;
-            int minutes = (difficulty % 3) * 20;
+            int minutes = ( difficulty % 3 ) * 20;
             std::string minutes_string = minutes > 0
                                          ? string_format( _( "%i minutes" ), minutes )
                                          : std::string();
@@ -1521,23 +1516,21 @@ class bionic_install_preset: public inventory_selector_preset
 
                 if( minutes > 0 ) {
                     return string_format( _( "%s, %s" ), hours_string, minutes_string );
-                }
-                else {
+                } else {
                     return hours_string;
                 }
-            }
-            else {
+            } else {
                 return minutes_string;
             }
         }
 
         // Failure chance for bionic install. Combines multiple other functions together.
-        std::string get_failure_chance( const item_location & loc ) {
+        std::string get_failure_chance( const item_location &loc ) {
             const item *it = loc.get_item();
             const itype *itemtype = it->type;
             const int difficulty = itemtype->bionic->difficulty;
             int chance_of_failure = 100;
-            player & installer = p;
+            player &installer = p;
 
             const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
                                        skill_computer,
@@ -1545,10 +1538,9 @@ class bionic_install_preset: public inventory_selector_preset
                                        -1 );
 
             if( ( get_option < bool > ( "SAFE_AUTODOC" ) ) ||
-                    g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
+                g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
                 chance_of_failure = 0;
-            }
-            else {
+            } else {
                 float skill_difficulty_parameter = static_cast<float>( adjusted_skill /
                                                    ( 4.0 * difficulty ) );
                 chance_of_failure = 100 - static_cast<int>( ( 100 * skill_difficulty_parameter ) /
