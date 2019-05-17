@@ -39,7 +39,7 @@
     "fear_triggers": [ "FIRE", "HURT" ],
     "death_function": [ "NORMAL" ],
     "death_drops": "mon_mutant_experimental_death_drops",
-    "upgrades": { "half_life": 30, "into": "mon_mutant_evolved" },
+    "upgrades": { "half_life": 50, "into": "mon_mutant_evolved" },
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "WARM", "BLEED", "BASHES", "PATH_AVOID_DANGER_2", "REGEN_MORALE" ]
   },
   {

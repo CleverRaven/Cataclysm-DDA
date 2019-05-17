@@ -18,6 +18,7 @@
       { "monster": "mon_science_bot", "freq": 50, "cost_multiplier": 15 },
       { "monster": "mon_manhack", "freq": 200, "cost_multiplier": 0 },
       { "monster": "mon_manhack", "freq": 45, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_mutant_experimental", "freq": 50, "cost_multiplier": 3 },
       { "monster": "mon_nakedmolerat_giant", "freq": 45, "cost_multiplier": 3 },
       { "monster": "mon_skitterbot", "freq": 85, "cost_multiplier": 0 },
       { "monster": "mon_skitterbot", "freq": 85, "cost_multiplier": 0, "pack_size": [ 2, 3 ] },
