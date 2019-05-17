@@ -124,12 +124,23 @@
         "effect": { "npc_add_var": "apology_luo", "type": "general", "context": "conversation", "value": "yes" },
         "topic": "TALK_REFUGEE_BEGGAR_3_APOLOGY"
       },
+      {
+        "condition": {
+          "and": [
+            { "npc_add_var": "luo_mycus_mission", "type": "general", "context": "mission", "value": "yes" },
+            { "u_has_item": "veggy_tainted" },
+            { "not": { "npc_has_effect": "insulted_luo" } }
+          ]
+        },
+        "text": "I found a sample of alien fungus for you.",
+        "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS4"
+      },
       { "text": "Ok... see ya.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_BEGGAR_1_GIVE_FOOD",
+    "id": "TALK_REFUGEE_BEGGAR_3_GIVE_FOOD",
     "dynamic_line": "Actually yeah, I'm always hungry these days.  I don't like taking handouts, but I wouldn't say no.",
     "responses": [
       {
@@ -207,6 +218,18 @@
         "text": "I have a camp of my own, away from here.  No paperwork required.  Want to come?",
         "topic": "TALK_REFUGEE_BEGGAR_3_RECRUIT1"
       },
+      {
+        "condition": {
+          "and": [
+            { "npc_add_var": "luo_mycus_mission", "type": "general", "context": "mission", "value": "yes" },
+            { "u_has_item": "veggy_tainted" },
+            { "not": { "npc_has_effect": "insulted_luo" } }
+          ]
+        },
+        "text": "I found a sample of alien fungus for you.",
+        "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS4"
+      },
+      { "text": "Ok... see ya.", "topic": "TALK_DONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -285,7 +308,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_WHYSTAY2",
-    "dynamic_line": "Don't get me wrong, I hate this place and this situation, and especially the selfish racist fucks that landed me here... but these other losers that landed out here with me?  I like them.  We might be miserable, but we're miserable togheter.",
+    "dynamic_line": "Don't get me wrong, I hate this place and this situation, and especially the selfish racist fucks that landed me here... but these other losers that landed out here with me?  I like them.  We might be miserable, but we're miserable together.",
     "responses": [
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_3_EXPERTISE" },
       {
@@ -437,9 +460,30 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_MYCUS3",
     "dynamic_line": "If you get me a sample, I'll join your crazy camp expedition.  Hell, if you bring me a sample maybe I'll help you set up a lab to study this stuff.  Almost anything could work, but if this stuff is as dangerous as you make it sound, maybe make sure it's not a sporulating body.",
+    "speaker_effect": [ { "effect": { "npc_add_var": "luo_mycus_mission", "type": "general", "context": "mission", "value": "yes" } } ],
     "responses": [
+      {
+        "condition": { "u_has_item": "veggy_tainted" },
+        "text": "It just so happens I have a chunk of fungal matter on me right now.",
+        "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS4"
+      },
       { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "Sure, I'd better get going.  I'll see if I can find you something.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_3_MYCUS4",
+    "dynamic_line": "Well.  Well, well, well.  This is really interesting.  Look, you can see reticulations here, it looks sort of like an enlarged piece of a stipe from a basidiocarp... but look at this, these fibres are clearly unlike anything I've seen before.  I wonder if they're motile?/n/nOkay, listen: you've got yourself a deal.  I'll come to your base, but you've gotta get me hooked up with a microscope as soon as you can.  This could be the beginning of something really cool.  Oh, and it should go without saying that I'm not coming unless you can find a place for my friends here in your base.  I'm sure you anticipated that.  Talk them into going and I'm in.  It should be easy, they're a bunch of sweet hearted saps.",
+    "speaker_effect": [ { "effect": { "u_add_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } } ],
+    "responses": [
+      {
+        "condition": { "u_has_item": "veggy_tainted" },
+        "text": "It just so happens I have a chunk of fungal matter on me right now.",
+        "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS4"
+      },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
+      { "text": "Sure, I'd better get going.  I'll see if I can find you something.", "topic": "TALK_DONE" }
     ]
   }
 ]
