@@ -13,7 +13,8 @@
     "type": "overmap_terrain",
     "abstract": "generic_river_bank",
     "copy-from": "generic_river",
-    "name": "river bank"
+    "name": "river bank",
+    "color": "light_blue"
   },
   {
     "type": "overmap_terrain",
