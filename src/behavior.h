@@ -87,6 +87,6 @@ void finalize();
 
 void check_consistency();
 
-};
+}
 
 #endif

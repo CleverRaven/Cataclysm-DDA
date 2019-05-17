@@ -40,6 +40,6 @@ class sequential_until_done_t : public strategy_t
 
 extern std::unordered_map<std::string, const strategy_t *> strategy_map;
 
-};
+}
 
 #endif

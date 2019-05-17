@@ -2,6 +2,7 @@
 
 #include "behavior.h"
 #include "bodypart.h"
+#include "itype.h"
 #include "player.h"
 #include "weather.h"
 
