@@ -2664,6 +2664,7 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
     }
     bool result = false;
     bool sees_player = false;
+    bool is_player = false;
     Creature::Attitude attitude;
     const monster *m = dynamic_cast<const monster *>( &critter );
     if( m != nullptr ) {
@@ -2692,20 +2693,24 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
     if( pl != nullptr ) {
         draw_entity_with_overlays( *pl, p, ll, height_3d );
         result = true;
-        if( !pl->is_player() ) {
+        if( pl->is_player() ) {
+            is_player = true;
+        } else {
             sees_player = pl->sees( g-> u );
             attitude = pl->attitude_to( g-> u );
         }
     }
 
-    std::ostringstream tmp_id;
-    tmp_id << "overlay_" << Creature::attitude_raw_string( attitude );
-    if( sees_player ) {
-        tmp_id << "_sees_player";
-    }
-    const std::string draw_id = tmp_id.str();
-    if( tileset_ptr->find_tile_type( draw_id ) ) {
-        draw_from_id_string( draw_id, C_NONE, empty_string, p, 0, 0, LL_LIT, false, height_3d );
+    if( !is_player ) {
+        std::ostringstream tmp_id;
+        tmp_id << "overlay_" << Creature::attitude_raw_string( attitude );
+        if( sees_player ) {
+            tmp_id << "_sees_player";
+        }
+        const std::string draw_id = tmp_id.str();
+        if( tileset_ptr->find_tile_type( draw_id ) ) {
+            draw_from_id_string( draw_id, C_NONE, empty_string, p, 0, 0, LL_LIT, false, height_3d );
+        }
     }
     return result;
 }
