@@ -610,6 +610,7 @@ void new_faction_manager::display() const
                                         camps[i]->camp_name() );
                     }
                     if( selection < camps.size() ) {
+                        assert( camp ); // To appease static analysis
                         camp->faction_display( w_missions, 31 );
                     } else {
                         mvwprintz( w_missions, 4, 31, c_light_red, no_camp );
@@ -629,6 +630,7 @@ void new_faction_manager::display() const
                                         followers[i]->disp_name() );
                     }
                     if( selection < followers.size() ) {
+                        assert( guy ); // To appease static analysis
                         int retval = guy->faction_display( w_missions, 31 );
                         if( retval == 2 ) {
                             radio_interactable = true;

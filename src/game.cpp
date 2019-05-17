@@ -7231,8 +7231,11 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 iActive = mSortCategory[0].empty() ? 0 : 1;
             }
         } else if( action == "RIGHT" ) {
-            if( !filtered_items.empty() && ++page_num >= static_cast<int>( activeItem->vIG.size() ) ) {
-                page_num = activeItem->vIG.size() - 1;
+            if( !filtered_items.empty() ) {
+                assert( activeItem ); // To appease static analysis
+                if( ++page_num >= static_cast<int>( activeItem->vIG.size() ) ) {
+                    page_num = activeItem->vIG.size() - 1;
+                }
             }
         } else if( action == "LEFT" ) {
             page_num = std::max( 0, page_num - 1 );
@@ -8316,6 +8319,7 @@ void game::butcher()
                                 to_string_clipped( time_duration::from_turns( time_to_disassemble_all / 100 ) ) );
         }
         if( salvageables.size() > 1 ) {
+            assert( salvage_iuse ); // To appease static analysis
             int time_to_salvage = 0;
             for( const auto &stack : salvage_stacks ) {
                 const item &it = items[ stack.first ];
