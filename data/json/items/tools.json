@@ -5665,7 +5665,7 @@
     "id": "pike",
     "type": "GENERIC",
     "category": "weapons",
-    "name": "awl pike",
+    "name": "pike",
     "description": "This is a medieval weapon consisting of a wood shaft tipped with an iron spike.",
     "weight": 2500,
     "volume": 14,
