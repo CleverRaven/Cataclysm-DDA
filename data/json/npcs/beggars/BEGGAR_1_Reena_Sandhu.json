@@ -171,6 +171,11 @@
       { "text": "Why don't you scavenge your own food?", "topic": "TALK_REFUGEE_BEGGAR_1_SCAVENGE" },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_1_EXPERTISE" },
       {
+        "condition": { "not": "u_has_camp" },
+        "text": "Come with me.  Maybe you're not the greatest adventurer, but it's better than living here.",
+        "topic": "TALK_REFUGEE_BEGGAR_1_JOIN"
+      },
+      {
         "condition": {
           "and": [ "u_has_camp", { "not": { "u_has_var": "reena_recruited", "type": "general", "context": "recruit", "value": "yes" } } ]
         },
@@ -197,6 +202,11 @@
     "responses": [
       { "text": "Why don't you go somewhere else?", "topic": "TALK_REFUGEE_BEGGAR_1_LEAVE" },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_1_EXPERTISE" },
+      {
+        "condition": { "not": "u_has_camp" },
+        "text": "Come with me.  Maybe you're not the greatest adventurer, but it's better than living here.",
+        "topic": "TALK_REFUGEE_BEGGAR_1_JOIN"
+      },
       {
         "condition": {
           "and": [ "u_has_camp", { "not": { "u_has_var": "reena_recruited", "type": "general", "context": "recruit", "value": "yes" } } ]
@@ -225,12 +235,38 @@
       { "text": "Why don't you go somewhere else?", "topic": "TALK_REFUGEE_BEGGAR_1_LEAVE" },
       { "text": "Why don't you scavenge your own food?", "topic": "TALK_REFUGEE_BEGGAR_1_SCAVENGE" },
       {
+        "condition": { "not": "u_has_camp" },
+        "text": "Come with me.  Maybe you're not the greatest adventurer, but it's better than living here.",
+        "topic": "TALK_REFUGEE_BEGGAR_1_JOIN"
+      },
+      {
         "condition": {
           "and": [ "u_has_camp", { "not": { "u_has_var": "reena_recruited", "type": "general", "context": "recruit", "value": "yes" } } ]
         },
         "text": "I have a camp of my own, away from here.  Maybe they can't use your skills here, but I could.",
         "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT1"
       },
+      {
+        "condition": { "not": { "npc_has_effect": "beggar_has_eaten" } },
+        "text": "I might have some food for you.  Let me check.",
+        "topic": "TALK_REFUGEE_BEGGAR_1_GIVE_FOOD"
+      },
+      { "condition": { "npc_has_effect": "beggar_has_eaten" }, "text": "I'd better get going.", "topic": "TALK_DONE" },
+      {
+        "condition": { "not": { "npc_has_effect": "beggar_has_eaten" } },
+        "text": "I'm sorry, I can't help you.",
+        "topic": "TALK_DONE"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_1_JOIN",
+    "dynamic_line": "That's a kind offer of you, but I think I'd rather take my chances here than risking it out there again.  I remember <the_cataclysm>, I'm not in any hurry to face that again.",
+    "responses": [
+      { "text": "Why don't you go somewhere else?", "topic": "TALK_REFUGEE_BEGGAR_1_LEAVE" },
+      { "text": "Why don't you scavenge your own food?", "topic": "TALK_REFUGEE_BEGGAR_1_SCAVENGE" },
+      { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_1_EXPERTISE" },
       {
         "condition": { "not": { "npc_has_effect": "beggar_has_eaten" } },
         "text": "I might have some food for you.  Let me check.",
