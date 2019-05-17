@@ -2317,7 +2317,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 2 ] ],
     "time": 80,
-    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SMOOTH", "level": 1 } ],
+    "qualities": [ { "id": "CUT", "level": 1 } ],
 	"byproducts": [ { "item": "frame_wood_light", "count": 1 }, { "item": "stick_long", "count": 1} ],
     "components": [
       [ [ "frame_wood_light", 1 ] ],
