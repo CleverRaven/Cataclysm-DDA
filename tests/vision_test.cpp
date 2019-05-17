@@ -30,6 +30,7 @@ void full_map_test( const std::vector<std::string> &setup,
     const ter_id t_floor( "t_floor" );
     const ter_id t_utility_light( "t_utility_light" );
     const efftype_id effect_narcosis( "narcosis" );
+    const ter_id t_flat_roof( "t_flat_roof" );
 
     g->place_player( tripoint( 60, 60, 0 ) );
     g->u.worn.clear(); // Remove any light-emitting clothing
@@ -77,6 +78,7 @@ void full_map_test( const std::vector<std::string> &setup,
 
     {
         // Sanity check on player placement
+        REQUIRE( origin.z < OVERMAP_HEIGHT );
         tripoint player_offset = g->u.pos() - origin;
         REQUIRE( player_offset.y >= 0 );
         REQUIRE( player_offset.y < height );
@@ -89,21 +91,26 @@ void full_map_test( const std::vector<std::string> &setup,
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const tripoint p = origin + point( x, y );
+            const tripoint above = p + tripoint( 0, 0, 1 );
             switch( setup[y][x] ) {
                 case ' ':
                     break;
                 case 'L':
                     g->m.ter_set( p, t_utility_light );
+                    g->m.ter_set( above, t_flat_roof );
                     break;
                 case '#':
                     g->m.ter_set( p, t_brick_wall );
+                    g->m.ter_set( above, t_flat_roof );
                     break;
                 case '=':
                     g->m.ter_set( p, t_window_frame );
+                    g->m.ter_set( above, t_flat_roof );
                     break;
                 case '-':
                 case 'u':
                     g->m.ter_set( p, t_floor );
+                    g->m.ter_set( above, t_flat_roof );
                     break;
                 case 'U':
                 case 'V':
@@ -127,6 +134,7 @@ void full_map_test( const std::vector<std::string> &setup,
     g->m.build_map_cache( origin.z );
 
     const level_cache &cache = g->m.access_cache( origin.z );
+    const level_cache &above_cache = g->m.access_cache( origin.z + 1 );
     const visibility_variables &vvcache =
         g->m.get_visibility_variables_cache();
 
@@ -136,6 +144,7 @@ void full_map_test( const std::vector<std::string> &setup,
     std::ostringstream lm;
     std::ostringstream apparent_light;
     std::ostringstream obstructed;
+    std::ostringstream floor_above;
     transparency << std::setprecision( 3 );
     seen << std::setprecision( 3 );
     apparent_light << std::setprecision( 3 );
@@ -155,6 +164,7 @@ void full_map_test( const std::vector<std::string> &setup,
             lm << this_lm.to_string() << ' ';
             apparent_light << std::setw( 6 ) << al.apparent_light << ' ';
             obstructed << ( al.obstructed ? '#' : '.' ) << ' ';
+            floor_above << ( above_cache.floor_cache[p.x][p.y] ? '#' : '.' ) << ' ';
         }
         fields << '\n';
         transparency << '\n';
@@ -162,8 +172,10 @@ void full_map_test( const std::vector<std::string> &setup,
         lm << '\n';
         apparent_light << '\n';
         obstructed << '\n';
+        floor_above << '\n';
     }
 
+    INFO( "zlevels: " << g->m.has_zlevels() );
     INFO( "origin: " << origin );
     INFO( "player: " << g->u.pos() );
     INFO( "unimpaired_range: " << g->u.unimpaired_range() );
@@ -174,6 +186,7 @@ void full_map_test( const std::vector<std::string> &setup,
     INFO( "lm:\n" << lm.str() );
     INFO( "apparent_light:\n" << apparent_light.str() );
     INFO( "obstructed:\n" << obstructed.str() );
+    INFO( "floor_above:\n" << floor_above.str() );
 
     bool success = true;
     std::ostringstream expected;
