@@ -480,9 +480,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             .viewport_pos( info_offset )
             .viewport_size( info_height )
             .apply( w_info );
-            if( info_offset < mission_text.size() ) {
-                end_line = std::min( info_height, mission_text.size() - info_offset );
-            }
+            end_line = info_offset < mission_text.size() ?
+                       std::min( info_height, mission_text.size() - info_offset ) : 0;
 
             // Display the current subset of the mission text.
             for( size_t start_line = 0; start_line < end_line; start_line++ ) {
