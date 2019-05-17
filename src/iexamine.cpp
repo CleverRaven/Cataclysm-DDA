@@ -4214,7 +4214,7 @@ void mill_activate( player &p, const tripoint &examp )
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( "MILLABLE" ) ) {
             // Do one final rot check before milling, then apply the PROCESSING flag to prevent further checks.
-            it.process_temperature_rot( g->weather.get_temperature( examp ), 1, examp, nullptr );
+            it.process_temperature_rot( 1, examp, nullptr );
             it.set_flag( "PROCESSING" );
         }
     }
@@ -4315,7 +4315,7 @@ void smoker_activate( player &p, const tripoint &examp )
     p.use_charges( "fire", 1 );
     for( auto &it : g->m.i_at( examp ) ) {
         if( it.has_flag( "SMOKABLE" ) ) {
-            it.process_temperature_rot( g->weather.get_temperature( examp ), 1, examp, nullptr );
+            it.process_temperature_rot( 1, examp, nullptr );
             it.set_flag( "PROCESSING" );
         }
     }

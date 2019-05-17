@@ -675,7 +675,7 @@ class item : public visitable<item>
          * @param carrier The current carrier
          * @param flag to specify special temperature situations
          */
-        void process_temperature_rot( int temp, float insulation, const tripoint pos, player *carrier,
+        void process_temperature_rot( float insulation, const tripoint pos, player *carrier,
                                       const temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /** Set the item to HOT */
@@ -981,8 +981,7 @@ class item : public visitable<item>
          * should than delete the item wherever it was stored.
          * Returns false if the item is not destroyed.
          */
-        bool process( player *carrier, const tripoint &pos, bool activate );
-        bool process( player *carrier, const tripoint &pos, bool activate, int temp, float insulation,
+        bool process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
                       const temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /**
