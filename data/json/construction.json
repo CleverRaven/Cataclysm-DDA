@@ -2313,13 +2313,12 @@
  {
     "type": "construction",
     "description": "Build Rammed Earth Wall",
-    "//": "No wood required! Cleans up dirt quick! Frame is used only to shape the earth, and can be reused afterward.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 2 ] ],
-    "time": 300,
+    "time": 360,
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "tools": [ [ "frame_wood_light" ], [ "log" ] ],
-    "components": [ [ [ "material_soil", 100 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ],
+    "components": [ [ [ "material_soil", 240 ] ], [ [ "water", 100 ], [ "water_clean", 100 ] ] ],
     "pre_terrain": "t_fence_post",
     "post_terrain": "t_wall_rammed_earth"
   }

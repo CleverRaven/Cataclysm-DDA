@@ -10263,12 +10263,12 @@
   ],
   "connects_to": "WALL",
   "bash": {
-    "str_min": 40,
+    "str_min": 60,
     "str_max": 200,
     "sound": "heavy rumbling!",
-    "sound_fail": "thud",
-    "ter_set": "t_dirtmound",
-    "items": [ { "item": "material_soil", "count": [ 20, 40 ] } ]
+    "sound_fail": "thump",
+    "ter_set": "t_fence_post",
+    "items": [ { "item": "material_soil", "count": [ 100, 150 ] } ]
   }
 }
 
