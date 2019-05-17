@@ -68,6 +68,9 @@
     "id": "TALK_REFUGEE_BEGGAR_1",
     "dynamic_line": {
       "u_has_var": "reena_recruited",
+      "type": "general",
+      "context": "recruit",
+      "value": "yes",
       "yes": {
         "npc_has_effect": "beggar_has_eaten",
         "yes": "So, any luck with convincing the others to come on your crazy adventure yet?",
@@ -154,7 +157,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_1_GAVE_FOOD",
     "dynamic_line": "This is wonderful of you, I really appreciate it.",
-    "speaker_effect": [ { "effect": { "npc_add_effect: ": "beggar_has_eaten", "duration": 3600 } } ],
+    "speaker_effect": [ { "effect": { "npc_add_effect": "beggar_has_eaten", "duration": 3600 } } ],
     "responses": [
       { "text": "What are you doing here?", "topic": "TALK_REFUGEE_BEGGAR_1_INTRO", "effect": "u_bulk_trade_accept" },
       { "text": "No problem.  See you around.", "topic": "TALK_DONE", "effect": "u_bulk_trade_accept" }
@@ -168,7 +171,9 @@
       { "text": "Why don't you scavenge your own food?", "topic": "TALK_REFUGEE_BEGGAR_1_SCAVENGE" },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_1_EXPERTISE" },
       {
-        "condition": { "and": [ "u_has_camp", { "not": { "u_has_var": "reena_recruited" } } ] },
+        "condition": {
+          "and": [ "u_has_camp", { "not": { "u_has_var": "reena_recruited", "type": "general", "context": "recruit", "value": "yes" } } ]
+        },
         "text": "I have a camp of my own, away from here.  You could come there.  There aren't many people left, we could use anyone regardless of skills.",
         "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT1"
       },
@@ -193,7 +198,9 @@
       { "text": "Why don't you go somewhere else?", "topic": "TALK_REFUGEE_BEGGAR_1_LEAVE" },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_1_EXPERTISE" },
       {
-        "condition": { "and": [ "u_has_camp", { "not": { "u_has_var": "reena_recruited" } } ] },
+        "condition": {
+          "and": [ "u_has_camp", { "not": { "u_has_var": "reena_recruited", "type": "general", "context": "recruit", "value": "yes" } } ]
+        },
         "text": "I have a camp of my own, away from here.  Maybe you can't scavenge, but we can use any warm bodies that can lift a tool.  You'd be safer and better fed there.",
         "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT1"
       },
@@ -218,7 +225,9 @@
       { "text": "Why don't you go somewhere else?", "topic": "TALK_REFUGEE_BEGGAR_1_LEAVE" },
       { "text": "Why don't you scavenge your own food?", "topic": "TALK_REFUGEE_BEGGAR_1_SCAVENGE" },
       {
-        "condition": { "and": [ "u_has_camp", { "not": { "u_has_var": "reena_recruited" } } ] },
+        "condition": {
+          "and": [ "u_has_camp", { "not": { "u_has_var": "reena_recruited", "type": "general", "context": "recruit", "value": "yes" } } ]
+        },
         "text": "I have a camp of my own, away from here.  Maybe they can't use your skills here, but I could.",
         "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT1"
       },
@@ -253,7 +262,10 @@
           "//": "This is a very difficult sell-job unless you've earned her trust with food",
           "mod": [ [ "TRUST", 4 ], [ "VALUE", 2 ], [ "OWED", 3 ], [ "ANGER", -2 ], [ "FEAR", -6 ], [ "BRAVERY", 1 ] ]
         },
-        "success": { "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT2", "effect": { "u_add_var": "reena_recruited", "value": "yes" } },
+        "success": {
+          "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT2",
+          "effect": { "u_add_var": "reena_recruited", "type": "general", "context": "recruit", "value": "yes" }
+        },
         "failure": { "topic": "TALK_REFUGEE_BEGGAR_1_RECRUIT_NO" }
       },
       {
