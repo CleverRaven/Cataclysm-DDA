@@ -10243,25 +10243,33 @@
     "move_cost": 3,
     "flags": [ "TRANSPARENT", "DIGGABLE", "MOUNTABLE", "NOCOLLIDE", "CONTAINER", "SEALED" ],
     "bash": { "sound": "thump", "ter_set": "t_dirt", "str_min": 50, "str_max": 100, "str_min_supported": 100 }
-  }
+  },
   {
-"type": "terrain",
-    "id": "t_wall_rammed_earth",
-    "name": "rammed earth wall",
-    "description": "A solid wall of compressed dirt, sturdy enough to support a roof with enough walls and keep out some unwanted visitors.",
-    "symbol": "LINE_OXOX",
-    "color": "brown",
-    "move_cost": 0,
-    "coverage": 100,
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
-    "bash": {
-      "str_min": 40,
-      "str_max": 200,
-      "sound": "heavy rumbling!",
-      "sound_fail": "thud.",
-      "ter_set": "t_dirtmound",
-      "items": [ { "item": "material_soil", "count": [ 20, 40 ] } ]
-	  }
-	},
+  "type": "terrain",
+  "id": "t_wall_rammed_earth",
+  "name": "rammed earth wall",
+  "description": "A solid wall of compressed dirt, sturdy enough to support a roof with enough walls and keep out some unwanted visitors.",
+  "symbol": "LINE_OXOX",
+  "color": "brown",
+  "move_cost": 0,
+  "coverage": 100,
+  "flags": [
+    "NOITEM",
+    "SUPPORTS_ROOF",
+    "WALL",
+    "AUTO_WALL_SYMBOL",
+    "MINEABLE",
+    "BLOCK_WIND"
+  ],
+  "connects_to": "WALL",
+  "bash": {
+    "str_min": 40,
+    "str_max": 200,
+    "sound": "heavy rumbling!",
+    "sound_fail": "thud.",
+    "ter_set": "t_dirtmound",
+    "items": [ { "item": "material_soil", "count": [ 20, 40 ] } ]
+  }
+}
+
 ]
