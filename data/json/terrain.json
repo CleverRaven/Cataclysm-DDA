@@ -232,6 +232,29 @@
   },
   {
     "type": "terrain",
+    "id": "t_thconc_y",
+    "name": "concrete floor",
+    "description": "A bare and cold concrete floor with a streak of yellow paint, could still insulate from the outdoors but roof collapse is possible if supporting walls are broken down.",
+    "symbol": ".",
+    "color": "yellow",
+    "looks_like": "t_wall_y",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 100,
+      "str_max": 400,
+      "str_min_supported": 150,
+      "items": [
+        { "item": "rock", "count": [ 5, 10 ] },
+        { "item": "scrap", "count": [ 5, 8 ] },
+        { "item": "rebar", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_thconc_floor_olight",
     "name": "concrete floor, overhead light",
     "description": "A bare and cold concrete floor with a still-functioning light attached to the ceiling above.",
@@ -6287,6 +6310,30 @@
         { "item": "pipe", "count": [ 1, 2 ] },
         { "item": "sheet_metal_small", "charges": [ 1, 4 ] },
         { "item": "scrap", "count": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_concrete_railing",
+    "aliases": [ "t_concrete_railing_h", "t_concrete_railing_v" ],
+    "name": "concrete railing",
+    "symbol": "LINE_OXOX",
+    "color": "cyan",
+    "looks_like": "t_ponywall",
+    "move_cost": 3,
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
+    "connects_to": "RAILING",
+    "bash": {
+      "str_min": 100,
+      "str_max": 400,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_thconc_floor",
+      "items": [
+        { "item": "rock", "count": [ 5, 10 ] },
+        { "item": "scrap", "count": [ 5, 8 ] },
+        { "item": "rebar", "count": [ 0, 2 ] }
       ]
     }
   },
