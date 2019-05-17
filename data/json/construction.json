@@ -2310,22 +2310,17 @@
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "f_firering"
   },
-  {
+ {
     "type": "construction",
     "description": "Build Rammed Earth Wall",
     "//": "No wood required! Cleans up dirt quick! Frame is used only to shape the earth, and can be reused afterward.",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ], [ "survival", 2 ] ],
-    "time": 180,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "byproducts": [ { "item": "frame_wood_light", "count": 1 }, { "item": "stick_long", "count": 1 } ],
-    "components": [
-      [ [ "frame_wood_light", 1 ] ],
-      [ [ "stick_long", 1 ] ],
-      [ [ "material_soil", 50 ] ],
-      [ [ "water", 2 ], [ "water_clean", 2 ] ]
-    ],
-    "pre_terrain": "t_dirtmound",
+    "time": 300,
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ "frame_wood_light" ], [ "log" ] ],
+    "components": [ [ [ "material_soil", 100 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ],
+    "pre_terrain": "t_fence_post",
     "post_terrain": "t_wall_rammed_earth"
   }
 ]

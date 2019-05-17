@@ -10266,7 +10266,7 @@
     "str_min": 40,
     "str_max": 200,
     "sound": "heavy rumbling!",
-    "sound_fail": "thud.",
+    "sound_fail": "thud",
     "ter_set": "t_dirtmound",
     "items": [ { "item": "material_soil", "count": [ 20, 40 ] } ]
   }
