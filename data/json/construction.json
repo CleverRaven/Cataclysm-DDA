@@ -704,8 +704,8 @@
     "//": "Step 1: Build sandbag barricade",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
-    "time": 60,
-    "components": [ [ [ "bag_canvas", 2 ] ], [ [ "material_sand", 20 ] ] ],
+    "time": 16,
+    "components": [ [ [ "sandbag", 16 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_sandbag_half"
@@ -716,11 +716,35 @@
     "//": "Step 2: Finish the sandbag wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
-    "time": 90,
-    "components": [ [ [ "bag_canvas", 4 ] ], [ [ "material_sand", 40 ] ] ],
+    "time": 20,
+    "components": [ [ [ "sandbag", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "f_sandbag_half",
     "post_terrain": "f_sandbag_wall"
+  },
+  {
+    "type": "construction",
+    "description": "Build Earthbag Wall",
+    "//": "Step 1: Build earthbag barricade",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 16,
+    "components": [ [ [ "earthbag", 16 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_earthbag_half"
+  },
+  {
+    "type": "construction",
+    "description": "Build Earthbag Wall",
+    "//": "Step 2: Finish the earthbag wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 20,
+    "components": [ [ [ "earthbag", 20 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_terrain": "f_earthbag_half",
+    "post_terrain": "f_earthbag_wall"
   },
   {
     "type": "construction",
