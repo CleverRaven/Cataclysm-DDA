@@ -1,6 +1,6 @@
 #include "worldfactory.h"
 
-#include <stdio.h>
+#include <cstdio>
 #include <algorithm>
 #include <array>
 #include <cstdlib>
@@ -651,7 +651,6 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
 
                 } else {
                     if( iNum == iActive ) {
-                        cursor = iActive - iCatBeforeCursor;
                         //mvwprintw( w, iNum - start + iCatSortOffset, 1, "   " );
                         if( is_active_list ) {
                             mvwprintz( w, iNum - start, 1, c_yellow, ">> " );

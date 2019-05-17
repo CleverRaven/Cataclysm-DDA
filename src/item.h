@@ -17,6 +17,7 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "enums.h"
+#include "flat_set.h"
 #include "io_tags.h"
 #include "item_location.h"
 #include "string_id.h"
@@ -674,7 +675,7 @@ class item : public visitable<item>
          * @param carrier The current carrier
          * @param flag to specify special temperature situations
          */
-        void process_temperature_rot( int temp, float insulation, const tripoint pos, player *carrier,
+        void process_temperature_rot( float insulation, const tripoint pos, player *carrier,
                                       const temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /** Set the item to HOT */
@@ -980,8 +981,7 @@ class item : public visitable<item>
          * should than delete the item wherever it was stored.
          * Returns false if the item is not destroyed.
          */
-        bool process( player *carrier, const tripoint &pos, bool activate );
-        bool process( player *carrier, const tripoint &pos, bool activate, int temp, float insulation,
+        bool process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
                       const temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /**
@@ -1781,7 +1781,10 @@ class item : public visitable<item>
          * @param qty units required, if unspecified use item default
          */
         bool units_sufficient( const Character &ch, int qty = -1 ) const;
-
+        /**
+         * Returns name of deceased being if it had any or empty string if not
+         **/
+        std::string get_corpse_name();
         /**
          * Returns the translated item name for the item with given id.
          * The name is in the proper plural form as specified by the
@@ -1899,7 +1902,7 @@ class item : public visitable<item>
         std::list<item> components;
         /** What faults (if any) currently apply to this item */
         std::set<fault_id> faults;
-        std::set<std::string> item_tags; // generic item specific flags
+        cata::flat_set<std::string> item_tags; // generic item specific flags
 
     private:
         const itype *curammo = nullptr;

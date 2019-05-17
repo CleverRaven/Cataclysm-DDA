@@ -1,6 +1,6 @@
 #include "monexamine.h"
 
-#include <limits.h>
+#include <climits>
 #include <string>
 #include <utility>
 #include <list>
@@ -123,10 +123,8 @@ bool monexamine::pet_menu( monster &z )
             break;
         case give_items:
             return give_items_to( z );
-            break;
         case mon_armor_add:
             return add_armor( z );
-            break;
         case mon_armor_remove:
             remove_armor( z );
             break;
@@ -395,7 +393,7 @@ void monexamine::kill_zslave( monster &z )
         g->u.add_msg_if_player( _( "You tear out the pheromone ball from the zombie slave." ) );
         item ball( "pheromone", 0 );
         iuse pheromone;
-        pheromone.pheromone( &( g->u ), &ball, true, g->u.pos() );
+        pheromone.pheromone( &g->u, &ball, true, g->u.pos() );
     }
 }
 

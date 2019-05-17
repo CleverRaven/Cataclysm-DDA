@@ -2,7 +2,7 @@
 #ifndef MOD_MANAGER_H
 #define MOD_MANAGER_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <set>
 #include <string>

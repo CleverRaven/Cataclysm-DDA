@@ -2,7 +2,7 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <array>
 #include <list>
 #include <string>

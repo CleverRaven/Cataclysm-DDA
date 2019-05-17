@@ -2,8 +2,8 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include <stddef.h>
-#include <stdint.h>
+#include <cstddef>
+#include <cstdint>
 #include <array>
 #include <bitset>
 #include <list>
@@ -1436,6 +1436,7 @@ class map
                                const float density );
 
         void build_transparency_cache( int zlev );
+        void build_sunlight_cache( int zlev );
     public:
         void build_outside_cache( int zlev );
         void build_floor_cache( int zlev );
@@ -1573,7 +1574,7 @@ class map
          * solution in this instance.
          */
         typedef bool ( *map_process_func )( item_stack &, std::list<item>::iterator &, const tripoint &,
-                                            const std::string &, int, float, temperature_flag );
+                                            const std::string &, float, temperature_flag );
     private:
 
         // Iterates over every item on the map, passing each item to the provided function.
@@ -1654,6 +1655,14 @@ class map
         tripoint_range points_in_radius( const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
 
         std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius ) const;
+
+        /**returns positions of furnitures matching target in the specified radius*/
+        std::list<tripoint> find_furnitures_in_radius( const tripoint &center, size_t radius,
+                furn_id target,
+                size_t radiusz = 0 );
+        /**returns creatures in specified radius*/
+        std::list<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,
+                size_t radiusz = 0 );
 
         level_cache &access_cache( int zlev );
         const level_cache &access_cache( int zlev ) const;

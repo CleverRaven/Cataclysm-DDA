@@ -1,6 +1,6 @@
 #include "trait_group.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <cassert>
 #include <sstream>

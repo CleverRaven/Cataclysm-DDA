@@ -1,7 +1,7 @@
 #include "activity_handlers.h"
 
-#include <limits.h>
-#include <stddef.h>
+#include <climits>
+#include <cstddef>
 #include <algorithm>
 #include <cmath>
 #include <queue>
@@ -78,6 +78,7 @@
 #include "string_id.h"
 #include "units.h"
 #include "type_id.h"
+#include "event.h"
 
 class npc;
 
@@ -204,7 +205,9 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_SHAVE" ), shaving_finish },
     { activity_id( "ACT_HAIRCUT" ), haircut_finish },
     { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish },
-    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish }
+    { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish },
+    { activity_id( "ACT_HACK_DOOR" ), hack_door_finish },
+    { activity_id( "ACT_HACK_SAFE" ), hack_safe_finish }
 };
 
 void messages_in_process( const player_activity &act, const player &p )
@@ -229,6 +232,7 @@ void messages_in_process( const player_activity &act, const player &p )
 
 void activity_handlers::burrow_do_turn( player_activity *act, player *p )
 {
+    sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a Rat mutant burrowing!
         sounds::sound( act->placement, 10, sounds::sound_t::movement,
@@ -1352,7 +1356,8 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         liquid.charges = std::min( charges_per_turn, liquid.charges );
         const long original_charges = liquid.charges;
         if( liquid.has_temperature() && liquid.specific_energy < 0 ) {
-            liquid.set_item_temperature( std::max( temp_to_kelvin( g->get_temperature( p->pos() ) ), 277.15 ) );
+            liquid.set_item_temperature( std::max( temp_to_kelvin( g->weather.get_temperature( p->pos() ) ),
+                                                   277.15 ) );
         }
 
         // 2. Transfer charges.
@@ -1750,6 +1755,7 @@ void activity_handlers::make_zlave_finish( player_activity *act, player *p )
 void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
 {
     const tripoint &pos = act->placement;
+    sfx::play_activity_sound( "tool", "pickaxe", sfx::get_heard_volume( pos ) );
     if( calendar::once_every( 1_minutes ) ) { // each turn is too much
         //~ Sound of a Pickaxe at work!
         sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK! CHNK! CHNK!" ) );
@@ -2123,6 +2129,8 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
 
     //Did any engines start?
     veh->engine_on = started;
+    //init working engine noise
+    sfx::do_vehicle_engine_sfx();
 
     if( attempted == 0 ) {
         add_msg( m_info, _( "The %s doesn't have an engine!" ), veh->name );
@@ -2162,6 +2170,7 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
     it.ammo_consume( charges_used, p->pos() );
     act->values[0] -= static_cast<int>( charges_used );
 
+    sfx::play_activity_sound( "tool", "oxytorch", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 2_turns ) ) {
         sounds::sound( act->placement, 10, sounds::sound_t::destructive_activity, _( "hissssssssss!" ) );
     }
@@ -2665,7 +2674,7 @@ void activity_handlers::cracking_do_turn( player_activity *act, player *p )
         item temporary_item( it.type );
         return temporary_item.has_flag( "SAFECRACK" );
     } );
-    if( !( cracking_tool.size() > 0 || p->has_bionic( bionic_id( "bio_ears" ) ) ) ) {
+    if( cracking_tool.empty() && !p->has_bionic( bionic_id( "bio_ears" ) ) ) {
         // We lost our cracking tool somehow, bail out.
         act->set_to_null();
         return;
@@ -2863,6 +2872,7 @@ void activity_handlers::eat_menu_finish( player_activity *, player * )
 
 void activity_handlers::hacksaw_do_turn( player_activity *act, player *p )
 {
+    sfx::play_activity_sound( "tool", "hacksaw", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a metal sawing tool at work!
         sounds::sound( act->placement, 15, sounds::sound_t::destructive_activity, _( "grnd grnd grnd" ) );
@@ -2928,6 +2938,7 @@ void activity_handlers::hacksaw_finish( player_activity *act, player *p )
 
 void activity_handlers::chop_tree_do_turn( player_activity *act, player *p )
 {
+    sfx::play_activity_sound( "tool", "axe", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a wood chopping tool at work!
         sounds::sound( act->placement, 15, sounds::sound_t::activity, _( "CHK!" ) );
@@ -2962,7 +2973,8 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish chopping down a tree." ) );
-
+    // sound of falling tree
+    sfx::play_variant_sound( "misc", "timber", sfx::get_heard_volume( act->placement ) );
     act->set_to_null();
 }
 
@@ -2990,6 +3002,7 @@ void activity_handlers::chop_logs_finish( player_activity *act, player *p )
 
 void activity_handlers::jackhammer_do_turn( player_activity *act, player *p )
 {
+    sfx::play_activity_sound( "tool", "jackhammer", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a jackhammer at work!
         sounds::sound( act->placement, 15, sounds::sound_t::destructive_activity, _( "TATATATATATATAT!" ) );
@@ -3014,6 +3027,7 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
 
 void activity_handlers::dig_do_turn( player_activity *act, player *p )
 {
+    sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
         sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
@@ -3023,6 +3037,7 @@ void activity_handlers::dig_do_turn( player_activity *act, player *p )
 
 void activity_handlers::dig_channel_do_turn( player_activity *act, player *p )
 {
+    sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( act->placement ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
         sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
@@ -3113,6 +3128,7 @@ void activity_handlers::dig_channel_finish( player_activity *act, player *p )
 
 void activity_handlers::fill_pit_do_turn( player_activity *act, player *p )
 {
+    sfx::play_activity_sound( "tool", "shovel", 100 );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel filling a pit or mound at work!
         sounds::sound( act->placement, 10, sounds::sound_t::activity, _( "hsh!" ) );
@@ -3269,7 +3285,7 @@ static void perform_zone_activity_turn( player *p,
 void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
 {
     const auto reject_tile = [p]( const tripoint & tile ) {
-        return !p->sees( tile ) || g->m.furn( tile ) != f_plant_harvest;
+        return !p->sees( tile ) || !g->m.has_flag_furn( "GROWTH_HARVEST", tile );
     };
     perform_zone_activity_turn( p,
                                 zone_type_id( "FARM_PLOT" ),
@@ -3282,8 +3298,7 @@ void activity_handlers::harvest_plot_do_turn( player_activity *, player *p )
 void activity_handlers::till_plot_do_turn( player_activity *, player *p )
 {
     const auto reject_tile = [p]( const tripoint & tile ) {
-        return !p->sees( tile ) || !g->m.has_flag( "PLOWABLE", tile ) || g->m.has_flag( "PLANT", tile ) ||
-               g->m.ter( tile ) == t_dirtmound;
+        return !p->sees( tile ) || !g->m.has_flag( "PLOWABLE", tile ) || g->m.has_furn( tile );
     };
 
     const auto dig = []( player & p, const tripoint & tile_loc ) {
@@ -3376,13 +3391,14 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
 
     // cleanup unwanted tiles (local coords)
     const auto reject_tiles = [&]( const tripoint & tile ) {
-        if( !p->sees( tile ) || g->m.ter( tile ) != t_dirtmound || !g->m.i_at( tile ).empty() ) {
+        if( !p->sees( tile ) || !g->m.has_flag_ter_or_furn( "PLANTABLE", tile ) ||
+            g->m.has_items( tile ) ) {
             return true;
         }
 
         const auto seeds = get_seeds( tile );
 
-        return std::all_of( seeds.begin(), seeds.end(), [&]( std::string seed ) {
+        return std::all_of( seeds.begin(), seeds.end(), [&]( const std::string & seed ) {
             return std::all_of( seed_inv.begin(), seed_inv.end(), [seed]( item * it ) {
                 return it->typeId() != itype_id( seed );
             } );
@@ -3392,7 +3408,7 @@ void activity_handlers::plant_plot_do_turn( player_activity *, player *p )
     const auto plant_appropriate_seed = [&]( player & p, const tripoint & tile_loc ) {
         const auto seeds = get_seeds( tile_loc );
         std::vector<item *> seed_inv = p.items_with( [seeds]( const item & itm ) {
-            return itm.is_seed() && std::any_of( seeds.begin(), seeds.end(), [itm]( std::string seed ) {
+            return itm.is_seed() && std::any_of( seeds.begin(), seeds.end(), [itm]( const std::string & seed ) {
                 return itm.typeId() == itype_id( seed );
             } );
         } );
@@ -3535,5 +3551,105 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
         q.pop();
     }
     p->add_msg_if_player( m_info, _( "The trees have shown you what they will." ) );
+    act->set_to_null();
+}
+
+hack_result try_hack( player &p )
+{
+    if( p.has_trait( trait_id( "ILLITERATE" ) ) ) {
+        add_msg( _( "You can't read anything on the screen." ) );
+        return HACK_UNABLE;
+    }
+    bool using_electrohack = p.has_charges( "electrohack", 25 ) &&
+                             query_yn( _( "Use electrohack?" ) );
+    bool using_fingerhack = !using_electrohack && p.has_bionic( bionic_id( "bio_fingerhack" ) ) &&
+                            p.power_level > 24 && query_yn( _( "Use fingerhack?" ) );
+
+    if( !( using_electrohack || using_fingerhack ) ) {
+        add_msg( _( "You need a hacking tool for that." ) );
+        return HACK_UNABLE;
+    }
+
+    ///\EFFECT_COMPUTER increases success chance of hacking
+    int player_computer_skill_level = p.get_skill_level( skill_id( "computer" ) );
+    int success = rng( player_computer_skill_level / 4 - 2, player_computer_skill_level * 2 );
+    success += rng( -3, 3 );
+    if( using_fingerhack ) {
+        p.charge_power( -25 );
+        success++;
+    }
+    if( using_electrohack ) {
+        p.use_charges( "electrohack", 25 );
+        success++;
+    }
+
+    // odds go up with int>8, down with int<8
+    // 4 int stat is worth 1 computer skill here
+    ///\EFFECT_INT increases success chance of hacking
+    success += rng( 0, static_cast<int>( ( p.int_cur - 8 ) / 2 ) );
+
+    if( success < 0 ) {
+        add_msg( _( "You cause a short circuit!" ) );
+        if( success <= -5 ) {
+            if( using_electrohack ) {
+                add_msg( m_bad, _( "Your electrohack is ruined!" ) );
+                p.use_amount( "electrohack", 1 );
+            } else {
+                add_msg( m_bad, _( "Your power is drained!" ) );
+                p.charge_power( -rng( 0, p.power_level ) );
+            }
+        }
+        return HACK_FAIL;
+    } else if( success < 6 ) {
+        add_msg( _( "Nothing happens." ) );
+        return HACK_NOTHING;
+    } else {
+        return HACK_SUCCESS;
+    }
+}
+
+void activity_handlers::hack_door_finish( player_activity *act, player *p )
+{
+    hack_result result = try_hack( *p );
+    if( result == HACK_UNABLE ) {
+        act->set_to_null();
+        return;
+    } else if( result == HACK_SUCCESS ) {
+        add_msg( _( "You activate the panel!" ) );
+        add_msg( m_good, _( "The nearby doors slide into the floor." ) );
+        g->m.ter_set( act->placement, t_card_reader_broken );
+        for( const tripoint &tmp : g->m.points_in_radius( ( act->placement ), 3 ) ) {
+            if( g->m.ter( tmp ) == t_door_metal_locked ) {
+                g->m.ter_set( tmp, t_floor );
+            }
+        }
+    }
+
+    p->practice( skill_id( "computer" ), 20 );
+    act->set_to_null();
+}
+
+void activity_handlers::hack_safe_finish( player_activity *act, player *p )
+{
+    hack_result result = try_hack( *p );
+    if( result == HACK_UNABLE ) {
+        act->set_to_null();
+        return;
+    } else if( result == HACK_FAIL ) {
+        act->set_to_null();
+
+        p->add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
+                             pgettext( "memorial_female", "Set off an alarm." ) );
+        sounds::sound( p->pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
+                       "alarm" );
+        if( act->placement.z > 0 && !g->events.queued( EVENT_WANTED ) ) {
+            g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p->global_sm_location() );
+        }
+    } else if( result == HACK_SUCCESS ) {
+        add_msg( m_good, _( "The door on the safe swings open." ) );
+        g->m.furn_set( act->placement, furn_str_id( "f_safe_o" ) );
+    }
+
+    p->practice( skill_id( "computer" ), 20 );
     act->set_to_null();
 }

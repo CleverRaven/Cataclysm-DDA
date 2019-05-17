@@ -333,6 +333,8 @@ struct mutation_category_trait {
         // Message when you inject an iv
         std::string raw_iv_message;
         std::string raw_iv_sound_message = "NULL";
+        std::string raw_iv_sound_id = "shout";
+        std::string raw_iv_sound_variant = "default";
         std::string raw_iv_sleep_message = "NULL";
         std::string raw_junkie_message;
         // Memorial message when you cross a threshold
@@ -343,6 +345,8 @@ struct mutation_category_trait {
         std::string mutagen_message() const;
         std::string iv_message() const;
         std::string iv_sound_message() const;
+        std::string iv_sound_id() const;
+        std::string iv_sound_variant() const;
         std::string iv_sleep_message() const;
         std::string junkie_message() const;
         std::string memorial_message_male() const;

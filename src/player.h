@@ -2,8 +2,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <limits.h>
-#include <stddef.h>
+#include <climits>
+#include <cstddef>
 #include <array>
 #include <memory>
 #include <unordered_set>
@@ -356,7 +356,14 @@ class player : public Character
         /** Used by the player to perform surgery to remove bionics and possibly retrieve parts */
         bool uninstall_bionic( const bionic_id &b_id, player &installer, bool autodoc = false,
                                int skill_level = -1 );
+        /**Used by monster to perform surgery*/
+        bool uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
+                               float adjusted_skill, bool autodoc = false );
+        /**When a player fails the surgery*/
         void bionics_uninstall_failure( player &installer, int difficulty, int success,
+                                        float adjusted_skill );
+        /**When a monster fails the surgery*/
+        void bionics_uninstall_failure( monster &installer, player &patient, int difficulty, int success,
                                         float adjusted_skill );
         /** Adds the entered amount to the player's bionic power_level */
         void charge_power( int amount );
@@ -882,17 +889,16 @@ class player : public Character
         int kcal_for( const item &comest ) const;
         /** Handles the nutrition value for a comestible **/
         int nutrition_for( const item &comest ) const;
-        // easy way to get calorie value from nutrition_for
-        int calories_for( const item &comest ) const;
         /** Handles the enjoyability value for a comestible. First value is enjoyability, second is cap. **/
         std::pair<int, int> fun_for( const item &comest ) const;
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;
         /**
-         * Returns a reference to the item itself (if it's comestible),
-         * the first of its contents (if it's comestible) or null item otherwise.
+         * Returns a reference to the item itself (if it's consumable),
+         * the first of its contents (if it's consumable) or null item otherwise.
+         * WARNING: consumable does not necessarily guarantee the comestible type.
          */
-        item &get_comestible_from( item &it ) const;
+        item &get_consumable_from( item &it ) const;
 
         stomach_contents stomach;
         stomach_contents guts;
@@ -916,7 +922,7 @@ class player : public Character
          */
         int vitamin_mod( const vitamin_id &vit, int qty, bool capped = true );
 
-        void vitamins_mod( const std::map<vitamin_id, int>, bool capped = true );
+        void vitamins_mod( const std::map<vitamin_id, int> &, bool capped = true );
 
         /**
          * Check current level of a vitamin

@@ -128,5 +128,6 @@ extern npc_class_id NC_HUNTER;
 extern npc_class_id NC_SOLDIER;
 extern npc_class_id NC_BARTENDER;
 extern npc_class_id NC_JUNK_SHOPKEEP;
+extern npc_class_id NC_HALLU;
 
 #endif

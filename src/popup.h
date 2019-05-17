@@ -2,7 +2,7 @@
 #ifndef POPUP_H
 #define POPUP_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <functional>
 #include <string>
 #include <vector>

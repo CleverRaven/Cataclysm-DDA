@@ -47,6 +47,7 @@
         "f_lily": 4.3333,
         "f_flower_tulip": 8.3333,
         "f_flower_spurge": 8.3333,
+        "f_chamomile": 8.3333,
         "f_mutpoppy": 8.3333,
         "f_bluebell": 8.3333,
         "f_dahlia": 8.3333,
@@ -105,6 +106,11 @@
         "f_dandelion": 5.0
       },
       "boosted_other_percent": 50.0
+    },
+    "overmap_lake_settings": {
+      "noise_threshold_lake": 0.25,
+      "lake_size_min": 20,
+      "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ]
     },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.2,
@@ -502,6 +508,8 @@
       "build": {
         "chance": 90,
         "extras": {
+          "mx_house_spider": 40,
+          "mx_house_wasp": 60,
           "mx_military": 5,
           "mx_science": 12,
           "mx_collegekids": 15,
@@ -715,7 +723,8 @@
         "cs_market_small": 100,
         "cs_sex_shop": 100,
         "cs_tire_shop": 100,
-        "homeless_shelter": 100
+        "homeless_shelter": 100,
+        "parking_garage": 200
       }
     },
     "weather": {

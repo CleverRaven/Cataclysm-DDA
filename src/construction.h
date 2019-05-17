@@ -2,7 +2,7 @@
 #ifndef CONSTRUCTION_H
 #define CONSTRUCTION_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <functional>
 #include <map>
 #include <set>

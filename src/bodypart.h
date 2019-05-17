@@ -2,7 +2,7 @@
 #ifndef BODYPART_H
 #define BODYPART_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <array>
 #include <bitset>
 #include <initializer_list>

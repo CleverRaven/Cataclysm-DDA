@@ -1,6 +1,6 @@
 #include "crafting_gui.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <map>
 #include <string>
@@ -897,6 +897,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     if( !related_results.empty() ) {
         rel_menu.addentry( ++np_last, false, -1, _( "RESULTS" ) );
     }
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     np_last = related_menu_fill( rel_menu, related_results, available );
 
     rel_menu.settext( _( "Related recipes:" ) );

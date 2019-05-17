@@ -2,9 +2,9 @@
 #ifndef OMDATA_H
 #define OMDATA_H
 
-#include <limits.h>
-#include <stddef.h>
-#include <stdint.h>
+#include <climits>
+#include <cstddef>
+#include <cstdint>
 #include <bitset>
 #include <list>
 #include <set>
@@ -161,6 +161,8 @@ enum oter_flags {
     has_sidewalk,
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
     subway_connection,
+    lake,
+    lake_shore,
     num_oter_flags
 };
 
@@ -307,6 +309,14 @@ struct oter_t {
                    type->land_use_code == land_use_code_wetland ||
                    type->land_use_code == land_use_code_wetland_forest ||
                    type->land_use_code == land_use_code_wetland_saltwater;
+        }
+
+        bool is_lake() const {
+            return type->has_flag( lake );
+        }
+
+        bool is_lake_shore() const {
+            return type->has_flag( lake_shore );
         }
 
     private:

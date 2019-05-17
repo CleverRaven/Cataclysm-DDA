@@ -1,6 +1,6 @@
 #include "game.h"
 
-#include <stdio.h>
+#include <cstdio>
 #include <wctype.h>
 #include <algorithm>
 #include <chrono>
@@ -40,7 +40,6 @@
 #include "creature_tracker.h"
 #include "cursesport.h"
 #include "debug.h"
-#include "debug_menu.h"
 #include "dependency_tree.h"
 #include "editmap.h"
 #include "enums.h"
@@ -185,6 +184,7 @@ const species_id PLANT( "PLANT" );
 const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_amigara( "amigara" );
+const efftype_id effect_assisted( "assisted" );
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_bouldering( "bouldering" );
@@ -222,8 +222,6 @@ static const trait_id trait_INFRESIST( "INFRESIST" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
-static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
-static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_VINES2( "VINES2" );
@@ -246,6 +244,7 @@ std::unique_ptr<game> g;
 #if defined(TILES)
 extern std::unique_ptr<cata_tiles> tilecontext;
 extern void toggle_fullscreen_window();
+extern bool save_screenshot( const std::string &file_path );
 #endif // TILES
 
 uistatedata uistate;
@@ -254,8 +253,6 @@ bool is_valid_in_w_terrain( int x, int y )
 {
     return x >= 0 && x < TERRAIN_WINDOW_WIDTH && y >= 0 && y < TERRAIN_WINDOW_HEIGHT;
 }
-
-#define DEFAULT_TILESET_ZOOM 16
 
 // This is the main game set-up process.
 game::game() :
@@ -267,23 +264,18 @@ game::game() :
     events( *event_manager_ptr ),
     uquit( QUIT_NO ),
     new_game( false ),
-    lightning_active( false ),
-    weather( WEATHER_CLEAR ),
     displaying_scent( false ),
     pixel_minimap_option( 0 ),
     safe_mode( SAFE_MODE_ON ),
-    weather_override( WEATHER_NULL ),
     u_shared_ptr( &u, null_deleter{} ),
     mostseen( 0 ),
     safe_mode_warning_logged( false ),
-    nextweather( calendar::before_time_starts ),
     next_npc_id( 1 ),
     next_mission_id( 1 ),
     remoteveh_cache_time( calendar::before_time_starts ),
     user_action_counter( 0 ),
     tileset_zoom( DEFAULT_TILESET_ZOOM )
 {
-    temperature = 0;
     player_was_sleeping = false;
     reset_light_level();
     world_generator.reset( new worldfactory() );
@@ -517,31 +509,11 @@ void game::init_ui( const bool resized )
     //Otherwise it segfaults when the overmap needs a bigger buffer size than it provides
     reinitialize_framebuffer();
 
-    // minimapX x minimapY is always MINIMAP_WIDTH x MINIMAP_HEIGHT in size
-    int minimapX = 0;
-    int minimapY = 0;
-    int pixelminimapW = 0;
-    int pixelminimapH = 0;
-    bool pixel_minimap_custom_height = false;
-
-#if defined(TILES)
-    pixel_minimap_custom_height = get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) > 0;
-#endif // TILES
-
-    minimapX = 0;
-    minimapY = 0;
-    pixelminimapW = MINIMAP_WIDTH;
-    pixelminimapH = ( pixelminimapW / 2 );
-    if( pixel_minimap_custom_height &&
-        pixelminimapH > get_option<int>( "PIXEL_MINIMAP_HEIGHT" ) ) {
-        pixelminimapH = get_option<int>( "PIXEL_MINIMAP_HEIGHT" );
-    }
-
+    // minimap is always MINIMAP_WIDTH x MINIMAP_HEIGHT in size
     int _y = VIEW_OFFSET_Y;
     int _x = VIEW_OFFSET_X;
 
-    w_minimap = w_minimap_ptr =
-                    catacurses::newwin( MINIMAP_HEIGHT, MINIMAP_WIDTH, _y + minimapY, _x + minimapX );
+    w_minimap = w_minimap_ptr = catacurses::newwin( MINIMAP_HEIGHT, MINIMAP_WIDTH, _y, _x );
     werase( w_minimap );
 
     w_panel_adm = w_panel_adm_ptr = catacurses::newwin( 15, 65, ( TERMY / 2 ) - 8, ( TERMX / 2 ) - 33 );
@@ -641,11 +613,11 @@ void game::setup()
     uquit = QUIT_NO;   // We haven't quit the game
     bVMonsterLookFire = true;
 
-    weather = WEATHER_CLEAR; // Start with some nice weather...
+    weather.weather = WEATHER_CLEAR; // Start with some nice weather...
     // Weather shift in 30
     // TODO: shouldn't that use calendar::start instead of INITIAL_TIME?
-    nextweather = calendar::time_of_cataclysm + time_duration::from_hours(
-                      get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
+    weather.nextweather = calendar::time_of_cataclysm + time_duration::from_hours(
+                              get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
 
     turnssincelastmon = 0; //Auto safe mode init
 
@@ -697,10 +669,13 @@ bool game::start_game()
     seed = rng_bits();
     new_game = true;
     start_calendar();
-    nextweather = calendar::turn;
+    weather.nextweather = calendar::turn;
     safe_mode = ( get_option<bool>( "SAFEMODE" ) ? SAFE_MODE_ON : SAFE_MODE_OFF );
     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
     get_safemode().load_global();
+
+    last_mouse_edge_scroll = std::chrono::steady_clock::now();
+    last_mouse_edge_scroll_vector = tripoint_zero;
 
     init_autosave();
 
@@ -743,8 +718,8 @@ bool game::start_game()
     u.moves = 0;
     u.process_turn(); // process_turn adds the initial move points
     u.stamina = u.get_stamina_max();
-    temperature = SPRING_TEMPERATURE;
-    update_weather();
+    weather.temperature = SPRING_TEMPERATURE;
+    weather.update_weather();
     u.next_climate_control_check = calendar::before_time_starts; // Force recheck at startup
     u.last_climate_control_ret = false;
 
@@ -1365,7 +1340,7 @@ bool game::do_turn()
     }
 
     // starting a new turn, clear out temperature cache
-    temperature_cache.clear();
+    weather.temperature_cache.clear();
 
     if( npcs_dirty ) {
         load_npcs();
@@ -1395,7 +1370,7 @@ bool game::do_turn()
         autosave();
     }
 
-    update_weather();
+    weather.update_weather();
     reset_light_level();
 
     perhaps_add_random_npc();
@@ -1513,7 +1488,7 @@ bool game::do_turn()
     u.process_active_items();
 
     if( get_levz() >= 0 && !u.is_underwater() ) {
-        weather_data( weather ).effect();
+        weather_data( weather.weather ).effect();
     }
 
     const bool player_is_sleeping = u.has_effect( effect_sleep );
@@ -1541,8 +1516,8 @@ bool game::do_turn()
     player_was_sleeping = player_is_sleeping;
 
     u.update_bodytemp();
-    u.update_body_wetness( *weather_precise );
-    u.apply_wetness_morale( temperature );
+    u.update_body_wetness( *weather.weather_precise );
+    u.apply_wetness_morale( weather.temperature );
     u.do_skill_rust();
 
     if( calendar::once_every( 1_minutes ) ) {
@@ -1557,6 +1532,8 @@ bool game::do_turn()
         sfx::remove_hearing_loss();
     }
     sfx::do_danger_music();
+    sfx::do_vehicle_engine_sfx();
+    sfx::do_vehicle_exterior_engine_sfx();
     sfx::do_fatigue();
 
     // reset player noise
@@ -1676,13 +1653,6 @@ bool game::cancel_activity_query( const std::string &text )
     return false;
 }
 
-const weather_generator &game::get_cur_weather_gen() const
-{
-    const auto &om = get_cur_om();
-    const auto &settings = om.get_settings();
-    return settings.weather;
-}
-
 unsigned int game::get_seed() const
 {
     return seed;
@@ -1696,53 +1666,6 @@ void game::set_npcs_dirty()
 void game::set_critter_died()
 {
     critter_died = true;
-}
-
-void game::set_nextweather( time_point t )
-{
-    nextweather = t;
-    update_weather();
-}
-
-void game::update_weather()
-{
-    w_point &w = *weather_precise;
-    winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
-    windspeed = windspeed_override ? *windspeed_override : w.windpower;
-    if( weather == WEATHER_NULL || calendar::turn >= nextweather ) {
-        const weather_generator &weather_gen = get_cur_weather_gen();
-        w = weather_gen.get_weather( u.global_square_location(), calendar::turn, seed );
-        weather_type old_weather = weather;
-        weather = weather_override == WEATHER_NULL ?
-                  weather_gen.get_weather_conditions( w )
-                  : weather_override;
-        if( weather == WEATHER_SUNNY && calendar::turn.is_night() ) {
-            weather = WEATHER_CLEAR;
-        }
-        sfx::do_ambient();
-        temperature = w.temperature;
-        lightning_active = false;
-        // Check weather every few turns, instead of every turn.
-        // TODO: predict when the weather changes and use that time.
-        nextweather = calendar::turn + 50_turns;
-        if( weather != old_weather && weather_data( weather ).dangerous &&
-            get_levz() >= 0 && m.is_outside( u.pos() )
-            && !u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
-            cancel_activity_or_ignore_query( distraction_type::weather_change,
-                                             string_format( _( "The weather changed to %s!" ), weather_data( weather ).name ) );
-        }
-
-        if( weather != old_weather && u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
-            u.assign_activity( activity_id( "ACT_WAIT_WEATHER" ), 0, 0 );
-        }
-
-        if( weather_data( weather ).sight_penalty !=
-            weather_data( old_weather ).sight_penalty ) {
-            for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
-                m.set_transparency_cache_dirty( i );
-            }
-        }
-    }
 }
 
 int get_heat_radiation( const tripoint &location, bool direct )
@@ -1811,27 +1734,6 @@ int get_convection_temperature( const tripoint &location )
     temp_mod += tile_strength_mod( location, fd_hot_air4, 70, 100, 160 );
 
     return temp_mod;
-}
-
-int game::get_temperature( const tripoint &location )
-{
-    const auto &cached = temperature_cache.find( location );
-    if( cached != temperature_cache.end() ) {
-        return cached->second;
-    }
-
-    int temp_mod = 0; // local modifier
-
-    if( !new_game ) {
-        temp_mod += get_heat_radiation( location, false );
-        temp_mod += get_convection_temperature( location );
-    }
-    //underground temperature = average New England temperature = 43F/6C rounded to int
-    const int temp = ( location.z < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature ) +
-                     ( new_game ? 0 : ( m.get_temperature( location ) + temp_mod ) );
-
-    temperature_cache.emplace( std::make_pair( location, temp ) );
-    return temp;
 }
 
 int game::assign_mission_id()
@@ -2212,6 +2114,56 @@ bool game::handle_mouseview( input_context &ctxt, std::string &action )
 
     // Mouse movement or un-handled key
     return true;
+}
+
+tripoint game::mouse_edge_scrolling( input_context ctxt, const int speed )
+{
+    const int rate = get_option<int>( "EDGE_SCROLL" );
+    tripoint ret = tripoint_zero;
+    if( rate == -1 ) {
+        // Fast return when the option is disabled.
+        return ret;
+    }
+    // Ensure the parameters are used even if the #if below is false
+    ( void ) ctxt;
+    ( void ) speed;
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
+    auto now = std::chrono::steady_clock::now();
+    if( now < last_mouse_edge_scroll + std::chrono::milliseconds( rate ) ) {
+        return ret;
+    } else {
+        last_mouse_edge_scroll = now;
+    }
+    const input_event event = ctxt.get_raw_input();
+    if( event.type == CATA_INPUT_MOUSE ) {
+        const int threshold_x = projected_window_width() / 100;
+        const int threshold_y = projected_window_height() / 100;
+        if( event.mouse_x <= threshold_x ) {
+            ret.x -= speed;
+        } else if( event.mouse_x >= projected_window_width() - threshold_x ) {
+            ret.x += speed;
+        }
+        if( event.mouse_y <= threshold_y ) {
+            ret.y -= speed;
+        } else if( event.mouse_y >= projected_window_height() - threshold_y ) {
+            ret.y += speed;
+        }
+        last_mouse_edge_scroll_vector = ret;
+    } else if( event.type == CATA_INPUT_TIMEOUT ) {
+        return last_mouse_edge_scroll_vector;
+    }
+#endif
+    return ret;
+}
+
+tripoint game::mouse_edge_scrolling_terrain( input_context &ctxt )
+{
+    return mouse_edge_scrolling( ctxt, std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 ) );
+}
+
+tripoint game::mouse_edge_scrolling_overmap( input_context &ctxt )
+{
+    return mouse_edge_scrolling( ctxt, 1 );
 }
 
 #if defined(TILES)
@@ -2612,7 +2564,7 @@ void game::load( const save_t &name )
 
     read_from_file_optional( worldpath + name.base_path() + ".weather", std::bind( &game::load_weather,
                              this, _1 ) );
-    nextweather = calendar::turn;
+    weather.nextweather = calendar::turn;
 
     read_from_file_optional( worldpath + name.base_path() + ".log",
                              std::bind( &player::load_memorial_file, &u, _1 ) );
@@ -3212,7 +3164,7 @@ void game::draw_panels( size_t column, size_t index )
                 auto label = catacurses::newwin( 1, panel.get_name().length(), y, sidebar_right ?
                                                  TERMX - panel.get_width() - panel.get_name().length() - 1 : panel.get_width() + 1 );
                 werase( label );
-                mvwprintz( label, 0, 0, c_light_red, panel.get_name() );
+                mvwprintz( label, 0, 0, c_light_red, _( panel.get_name() ) );
                 wrefresh( label );
                 label = catacurses::newwin( h, 1, y,
                                             sidebar_right ? TERMX - panel.get_width() - 1 : panel.get_width() );
@@ -3621,14 +3573,14 @@ float game::natural_light_level( const int zlev ) const
     float ret = LIGHT_AMBIENT_MINIMAL;
 
     // Sunlight/moonlight related stuff
-    if( !lightning_active ) {
+    if( !weather.lightning_active ) {
         ret = calendar::turn.sunlight();
     } else {
         // Recent lightning strike has lit the area
         ret = DAYLIGHT_LEVEL;
     }
 
-    ret += weather_data( weather ).light_modifier;
+    ret += weather_data( weather.weather ).light_modifier;
 
     // Artifact light level changes here. Even though some of these only have an effect
     // aboveground it is cheaper performance wise to simply iterate through the entire
@@ -4712,6 +4664,20 @@ void game::clear_zombies()
  */
 bool game::spawn_hallucination( const tripoint &p )
 {
+    if( one_in( 100 ) ) {
+        std::shared_ptr<npc> tmp = std::make_shared<npc>();
+        tmp->normalize();
+        tmp->randomize( NC_HALLU );
+        tmp->spawn_at_precise( { get_levx(), get_levy() }, p );
+        if( !critter_at( p, true ) ) {
+            overmap_buffer.insert_npc( tmp );
+            load_npcs();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     monster phantasm( MonsterGenerator::generator().get_valid_hallucination() );
     phantasm.hallucination = true;
     phantasm.spawn( p );
@@ -4809,7 +4775,7 @@ bool game::is_empty( const tripoint &p )
 bool game::is_in_sunlight( const tripoint &p )
 {
     return ( m.is_outside( p ) && light_level( p.z ) >= 40 &&
-             ( weather == WEATHER_CLEAR || weather == WEATHER_SUNNY ) );
+             ( weather.weather == WEATHER_CLEAR || weather.weather == WEATHER_SUNNY ) );
 }
 
 bool game::is_sheltered( const tripoint &p )
@@ -4869,6 +4835,8 @@ bool game::revive_corpse( const tripoint &p, item &it )
 
 void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installer )
 {
+    int assist_bonus = installer.get_effect_int( effect_assisted );
+
     float adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
                            skill_computer,
                            skill_electronics,
@@ -4887,7 +4855,7 @@ void game::save_cyborg( item *cyborg, const tripoint couch_pos, player &installe
         difficulty += dmg_lvl;
     }
 
-    int chance_of_success = bionic_manip_cos( adjusted_skill, true, difficulty );
+    int chance_of_success = bionic_manip_cos( adjusted_skill + assist_bonus, true, difficulty );
     int success = chance_of_success - rng( 1, 100 ) ;
 
     if( !g->u.query_yn(
@@ -5879,7 +5847,8 @@ void game::print_graffiti_info( const tripoint &lp, const catacurses::window &w_
 
     const int max_width = getmaxx( w_look ) - column - 2;
     if( m.has_graffiti_at( lp ) ) {
-        fold_and_print( w_look, ++line, column, max_width, c_light_gray, _( "Graffiti: %s" ),
+        fold_and_print( w_look, ++line, column, max_width, c_light_gray,
+                        m.ter( lp ) == t_grave_new ? _( "Graffiti: %s" ) : _( "Incription: %s" ),
                         m.graffiti_at( lp ) );
     }
 }
@@ -5907,15 +5876,18 @@ static void zones_manager_shortcuts( const catacurses::window &w_info )
     tmpx += shortcut_print( w_info, 1, tmpx, c_white, c_light_green, _( "<A>dd" ) ) + 2;
     tmpx += shortcut_print( w_info, 1, tmpx, c_white, c_light_green, _( "<R>emove" ) ) + 2;
     tmpx += shortcut_print( w_info, 1, tmpx, c_white, c_light_green, _( "<E>nable" ) ) + 2;
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     tmpx += shortcut_print( w_info, 1, tmpx, c_white, c_light_green, _( "<D>isable" ) ) + 2;
 
     tmpx = 1;
     tmpx += shortcut_print( w_info, 2, tmpx, c_white, c_light_green, _( "<+-> Move up/down" ) ) + 2;
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     tmpx += shortcut_print( w_info, 2, tmpx, c_white, c_light_green, _( "<Enter>-Edit" ) ) + 2;
 
     tmpx = 1;
     tmpx += shortcut_print( w_info, 3, tmpx, c_white, c_light_green,
                             _( "<S>how all / hide distant" ) ) + 2;
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     tmpx += shortcut_print( w_info, 3, tmpx, c_white, c_light_green, _( "<M>ap" ) ) + 2;
 
     wrefresh( w_info );
@@ -5980,19 +5952,17 @@ void game::zones_manager()
     int zone_options_height = 7;
 
     const int width = 45;
-    const int offsetX = get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ? TERMX + VIEW_OFFSET_X
-                        -
-                        width : VIEW_OFFSET_X;
-    catacurses::window w_zones = catacurses::newwin( TERMY - 2 - zone_ui_height - VIEW_OFFSET_Y * 2,
-                                 width - 2, VIEW_OFFSET_Y + 1, offsetX + 1 );
-    catacurses::window w_zones_border = catacurses::newwin( TERMY - zone_ui_height - VIEW_OFFSET_Y * 2,
-                                        width,
+    const int offsetX = get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ?
+                        TERMX + VIEW_OFFSET_X - width : VIEW_OFFSET_X;
+    int w_zone_height = TERMY - zone_ui_height - VIEW_OFFSET_Y * 2;
+    catacurses::window w_zones = catacurses::newwin( w_zone_height - 2, width - 2,
+                                 VIEW_OFFSET_Y + 1, offsetX + 1 );
+    catacurses::window w_zones_border = catacurses::newwin( w_zone_height, width,
                                         VIEW_OFFSET_Y, offsetX );
     catacurses::window w_zones_info = catacurses::newwin( zone_ui_height - zone_options_height - 1,
-                                      width - 2,
-                                      TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX + 1 );
+                                      width - 2, w_zone_height + VIEW_OFFSET_Y, offsetX + 1 );
     catacurses::window w_zones_info_border = catacurses::newwin( zone_ui_height, width,
-            TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX );
+            w_zone_height + VIEW_OFFSET_Y, offsetX );
     catacurses::window w_zones_options = catacurses::newwin( zone_options_height - 1, width - 2,
                                          TERMY - zone_options_height - VIEW_OFFSET_Y, offsetX + 1 );
 
@@ -6015,11 +5985,10 @@ void game::zones_manager()
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
     auto &mgr = zone_manager::get_manager();
-    const int max_rows = TERMY - zone_ui_height - 2 - VIEW_OFFSET_Y * 2;
+    const int max_rows = w_zone_height - 2;
     int start_index = 0;
     int active_index = 0;
     bool blink = false;
-    bool redraw_info = true;
     bool stuff_changed = false;
     bool show_all_zones = false;
     int zone_cnt = 0;
@@ -6027,7 +5996,6 @@ void game::zones_manager()
     // get zones on the same z-level, with distance between player and
     // zone center point <= 50 or all zones, if show_all_zones is true
     auto get_zones = [&]() {
-
         std::vector<zone_manager::ref_zone_data> zones;
         if( show_all_zones ) {
             zones = mgr.get_zones();
@@ -6076,25 +6044,29 @@ void game::zones_manager()
 
         tripoint center = u.pos() + u.view_offset;
 
-        const look_around_result first = look_around( w_zones_info, center, center, false, true, false );
+        const look_around_result first = look_around( w_zones_info, center, center, false, true,
+                false );
         if( first.position )
         {
             mvwprintz( w_zones_info, 3, 2, c_white, _( "Select second point." ) );
             wrefresh( w_zones_info );
 
-            const look_around_result second = look_around( w_zones_info, center, *first.position, true, true,
-                    false );
+            const look_around_result second = look_around( w_zones_info, center, *first.position,
+                    true, true, false );
             if( second.position ) {
                 werase( w_zones_info );
                 wrefresh( w_zones_info );
 
-                tripoint first_abs = m.getabs( tripoint( std::min( first.position->x, second.position->x ),
+                tripoint first_abs = m.getabs( tripoint( std::min( first.position->x,
+                                               second.position->x ),
                                                std::min( first.position->y, second.position->y ),
-                                               std::min( first.position->z, second.position->z ) ) );
-                tripoint second_abs = m.getabs( tripoint( std::max( first.position->x, second.position->x ),
+                                               std::min( first.position->z,
+                                                       second.position->z ) ) );
+                tripoint second_abs = m.getabs( tripoint( std::max( first.position->x,
+                                                second.position->x ),
                                                 std::max( first.position->y, second.position->y ),
-                                                std::max( first.position->z, second.position->z ) ) );
-
+                                                std::max( first.position->z,
+                                                        second.position->z ) ) );
                 return std::pair<tripoint, tripoint>( first_abs, second_abs );
             }
         }
@@ -6105,7 +6077,8 @@ void game::zones_manager()
     zones_manager_open = true;
     do {
         if( action == "ADD_ZONE" ) {
-            zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
+            zones_manager_draw_borders( w_zones_border, w_zones_info_border,
+                                        zone_ui_height, width );
 
             do { // not a loop, just for quick bailing out if canceled
                 const auto maybe_id = mgr.query_type();
@@ -6135,7 +6108,8 @@ void game::zones_manager()
                     break;
                 }
 
-                mgr.add( name, id, false, true, position->first, position->second, options );
+                mgr.add( name, id, your_followers, false, true, position->first, position->second,
+                         options );
 
                 zones = get_zones();
                 active_index = zone_cnt - 1;
@@ -6145,9 +6119,9 @@ void game::zones_manager()
 
             draw_ter();
             blink = false;
-            redraw_info = true;
 
-            zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
+            zones_manager_draw_borders( w_zones_border, w_zones_info_border,
+                                        zone_ui_height, width );
             zones_manager_shortcuts( w_zones_info );
 
         } else if( action == "SHOW_ALL_ZONES" ) {
@@ -6155,7 +6129,6 @@ void game::zones_manager()
             zones = get_zones();
             active_index = 0;
             draw_ter();
-            redraw_info = true;
 
         } else if( zone_cnt > 0 ) {
             if( action == "UP" ) {
@@ -6165,7 +6138,6 @@ void game::zones_manager()
                 }
                 draw_ter();
                 blink = false;
-                redraw_info = true;
 
             } else if( action == "DOWN" ) {
                 active_index++;
@@ -6174,7 +6146,6 @@ void game::zones_manager()
                 }
                 draw_ter();
                 blink = false;
-                redraw_info = true;
 
             } else if( action == "REMOVE_ZONE" ) {
                 if( active_index < zone_cnt ) {
@@ -6191,7 +6162,6 @@ void game::zones_manager()
                     draw_panels();
                 }
                 blink = false;
-                redraw_info = true;
                 stuff_changed = true;
 
             } else if( action == "CONFIRM" ) {
@@ -6224,8 +6194,8 @@ void game::zones_manager()
                         break;
                     case 4: {
                         const auto pos = query_position();
-                        if( pos && ( pos->first != zone.get_start_point() || pos->second != zone.get_end_point() ) ) {
-
+                        if( pos && ( pos->first != zone.get_start_point() ||
+                                     pos->second != zone.get_end_point() ) ) {
                             zone.set_position( *pos );
                             stuff_changed = true;
                         }
@@ -6238,9 +6208,9 @@ void game::zones_manager()
                 draw_ter();
 
                 blink = false;
-                redraw_info = true;
 
-                zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
+                zones_manager_draw_borders( w_zones_border, w_zones_info_border,
+                                            zone_ui_height, width );
                 zones_manager_shortcuts( w_zones_info );
 
             } else if( action == "MOVE_ZONE_UP" && zone_cnt > 1 ) {
@@ -6250,7 +6220,6 @@ void game::zones_manager()
                     active_index++;
                 }
                 blink = false;
-                redraw_info = true;
                 stuff_changed = true;
 
             } else if( action == "MOVE_ZONE_DOWN" && zone_cnt > 1 ) {
@@ -6260,7 +6229,6 @@ void game::zones_manager()
                     active_index--;
                 }
                 blink = false;
-                redraw_info = true;
                 stuff_changed = true;
 
             } else if( action == "SHOW_ZONE_ON_MAP" ) {
@@ -6270,23 +6238,20 @@ void game::zones_manager()
 
                 ui::omap::display_zones( player_overmap_position, zone_overmap, active_index );
 
-                zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
+                zones_manager_draw_borders( w_zones_border, w_zones_info_border,
+                                            zone_ui_height, width );
                 zones_manager_shortcuts( w_zones_info );
 
                 draw_ter();
 
-                redraw_info = true;
-
             } else if( action == "ENABLE_ZONE" ) {
                 zones[active_index].get().set_enabled( true );
 
-                redraw_info = true;
                 stuff_changed = true;
 
             } else if( action == "DISABLE_ZONE" ) {
                 zones[active_index].get().set_enabled( false );
 
-                redraw_info = true;
                 stuff_changed = true;
             }
         }
@@ -6296,8 +6261,7 @@ void game::zones_manager()
             wrefresh( w_zones_border );
             mvwprintz( w_zones, 5, 2, c_white, _( "No Zones defined." ) );
 
-        } else if( redraw_info ) {
-            redraw_info = false;
+        } else {
             werase( w_zones );
 
             calcStartPos( start_index, active_index, max_rows, zone_cnt );
@@ -6335,7 +6299,8 @@ void game::zones_manager()
                     //Draw direction + distance
                     mvwprintz( w_zones, iNum - start_index, 32, colorLine, "%*d %s",
                                5, static_cast<int>( trig_dist( player_absolute_pos, center ) ),
-                               direction_name_short( direction_from( player_absolute_pos, center ) ) );
+                               direction_name_short( direction_from( player_absolute_pos,
+                                                     center ) ) );
 
                     //Draw Vehicle Indicator
                     mvwprintz( w_zones, iNum - start_index, 41, colorLine,
@@ -6383,10 +6348,11 @@ void game::zones_manager()
                                           u.pos() + u.view_offset );
                             } else {
                                 if( u.has_effect( effect_boomered ) ) {
-                                    mvwputch( w_terrain, iY - offset_y, iX - offset_x, c_magenta, '#' );
-
+                                    mvwputch( w_terrain, iY - offset_y, iX - offset_x,
+                                              c_magenta, '#' );
                                 } else {
-                                    mvwputch( w_terrain, iY - offset_y, iX - offset_x, c_black, ' ' );
+                                    mvwputch( w_terrain, iY - offset_y, iX - offset_x,
+                                              c_black, ' ' );
                                 }
                             }
                         }
@@ -6404,7 +6370,6 @@ void game::zones_manager()
         wrefresh( w_terrain );
         zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
         zones_manager_shortcuts( w_zones_info );
-        redraw_info = true;
         draw_panels();
         wrefresh( w_zones );
         wrefresh( w_zones_border );
@@ -6477,7 +6442,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     wrefresh( w_terrain );
     draw_panels();
 
-    int soffset = get_option<int>( "MOVE_VIEW_OFFSET" );
+    int soffset = get_option<int>( "FAST_SCROLL_OFFSET" );
     bool fast_scroll = false;
 
     bool bNewWindow = false;
@@ -6537,7 +6502,6 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     const visibility_variables &cache = g->m.get_visibility_variables_cache();
 
     bool blink = true;
-    bool action_unprocessed = false;
     bool redraw = true;
     look_around_result result;
     do {
@@ -6555,13 +6519,15 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
                 wprintz( w_info, c_green, title );
                 wprintz( w_info, c_white, title_suffix );
 
+                std::string fast_scroll_text = string_format( _( "%s - %s" ),
+                                               ctxt.get_desc( "TOGGLE_FAST_SCROLL" ),
+                                               ctxt.get_action_name( "TOGGLE_FAST_SCROLL" ) );
+                center_print( w_info, getmaxy( w_info ) - 1, fast_scroll ? c_light_green : c_green,
+                              fast_scroll_text );
+
                 int first_line = 1;
                 const int last_line = getmaxy( w_info ) - 2;
                 pre_print_all_tile_info( lp, w_info, first_line, last_line, cache );
-                if( fast_scroll ) {
-                    //~ "Fast Scroll" mark below the top right corner of the info window
-                    right_print( w_info, 1, 0, c_light_green, _( "F" ) );
-                }
             }
 
             draw_ter( center, true );
@@ -6603,9 +6569,11 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
         redraw = true;
         //Wait for input
-        if( action_unprocessed ) {
-            // There was an action unprocessed after the mouse event consumption loop, process it now
-            action_unprocessed = false;
+        // only specify a timeout here if "EDGE_SCROLL" is enabled
+        // otherwise use the previously set timeout
+        int scroll_timeout = get_option<int>( "EDGE_SCROLL" );
+        if( scroll_timeout >= 0 ) {
+            action = ctxt.handle_input( scroll_timeout );
         } else {
             action = ctxt.handle_input();
         }
@@ -6653,60 +6621,42 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             center = u.pos();
             lp = u.pos();
             u.view_offset.z = 0;
-        } else if( action == "MOUSE_MOVE" ) {
-            const tripoint old_lp = lp;
-            const tripoint old_center = center;
-            // Maximum mouse events before a forced graphics update
-            int max_consume = 10;
-            do {
+        } else if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
+            // This block is structured this way so that edge scroll can work
+            // whether the mouse is moving at the edge or simply stationary
+            // at the edge. But even if edge scroll isn't in play, there's
+            // other things for us to do here.
+
+            if( action == "TIMEOUT" ) {
+                blink = !blink;
+            }
+            tripoint edge_scroll = mouse_edge_scrolling_terrain( ctxt );
+            if( edge_scroll != tripoint_zero ) {
+                if( action == "MOUSE_MOVE" ) {
+                    edge_scroll *= 2;
+                }
+                center += edge_scroll;
+            } else if( action == "MOUSE_MOVE" ) {
+
+                const tripoint old_lp = lp;
+                const tripoint old_center = center;
+
                 const cata::optional<tripoint> mouse_pos = ctxt.get_coordinates( w_terrain );
                 if( mouse_pos ) {
                     lx = mouse_pos->x;
                     ly = mouse_pos->y;
                 }
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-                // Below we implement mouse panning. In order to make
-                // it less jerky we rate limit it by only allowing a
-                // panning move during the first iteration of this
-                // mouse move event consumption loop.
-                if( max_consume == 10 && get_option<bool>( "EDGE_SCROLL" ) ) {
-                    const input_event event = ctxt.get_raw_input();
-                    const int threshold_x = projected_window_width() / 20;
-                    const int threshold_y = projected_window_height() / 20;
-                    const int panning_speed = std::max( DEFAULT_TILESET_ZOOM / tileset_zoom, 1 );
-                    if( event.mouse_x <= threshold_x ) {
-                        center.x -= panning_speed;
-                    } else if( event.mouse_x >= projected_window_width() - threshold_x ) {
-                        center.x += panning_speed;
+                lx = clamp( lx, 0, MAPSIZE_X );
+                ly = clamp( ly, 0, MAPSIZE_Y );
+                if( select_zone && has_first_point ) { // is blinking
+                    if( blink && lp == old_lp ) { // blink symbols drawn (blink == true) and cursor not changed
+                        redraw = false; // no need to redraw, so don't redraw to save CPU
+                    } else {
+                        blink = true; // Always draw blink symbols when moving cursor
                     }
-                    if( event.mouse_y <= threshold_y ) {
-                        center.y -= panning_speed;
-                    } else if( event.mouse_y >= projected_window_height() - threshold_y ) {
-                        center.y += panning_speed;
-                    }
-                }
-#endif
-                if( --max_consume == 0 ) {
-                    break;
-                }
-                // Consume all consecutive mouse movements. This lowers CPU consumption
-                // by graphics updates when user moves the mouse continuously.
-                action = ctxt.handle_input( 10 );
-            } while( action == "MOUSE_MOVE" );
-            if( action != "MOUSE_MOVE" && action != "TIMEOUT" ) {
-                // The last event is not a mouse event or timeout, it needs to be processed in the next loop.
-                action_unprocessed = true;
-            }
-            lx = clamp( lx, 0, MAPSIZE_X );
-            ly = clamp( ly, 0, MAPSIZE_Y );
-            if( select_zone && has_first_point ) { // is blinking
-                if( blink && lp == old_lp ) { // blink symbols drawn (blink == true) and cursor not changed
+                } else if( lp == old_lp && center == old_center ) { // not blinking and cursor not changed
                     redraw = false; // no need to redraw, so don't redraw to save CPU
-                } else {
-                    blink = true; // Always draw blink symbols when moving cursor
                 }
-            } else if( lp == old_lp && center == old_center ) { // not blinking and cursor not changed
-                redraw = false; // no need to redraw, so don't redraw to save CPU
             }
         } else if( cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             if( fast_scroll ) {
@@ -6721,8 +6671,6 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             if( select_zone && has_first_point ) { // is blinking
                 blink = true; // Always draw blink symbols when moving cursor
             }
-        } else if( action == "TIMEOUT" ) {
-            blink = !blink;
         } else if( action == "throw_blind" ) {
             result.peek_action = PA_BLIND_THROW;
         } else if( action == "zoom_in" ) {
@@ -6917,6 +6865,16 @@ int game::get_user_action_counter() const
     return user_action_counter;
 }
 
+bool game::take_screenshot( const std::string &path ) const
+{
+#if defined(TILES)
+    return save_screenshot( path );
+#else
+    ( void )path; // unused
+    return false;
+#endif
+}
+
 //helper method so we can keep list_items shorter
 void game::reset_item_list_state( const catacurses::window &window, int height, bool bRadiusSort )
 {
@@ -7080,7 +7038,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     int iStartPos = 0;
     tripoint active_pos;
     cata::optional<tripoint> iLastActive;
-    bool reset = true;
     bool refilter = true;
     int page_num = 0;
     int iCatSortNum = 0;
@@ -7112,7 +7069,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
     do {
         if( action == "COMPARE" ) {
             game_menus::inv::compare( u, active_pos );
-            reset = true;
             refresh_all();
         } else if( action == "FILTER" ) {
             draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::FILTER );
@@ -7123,7 +7079,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             .identifier( "item_filter" )
             .max_length( 256 )
             .edit( sFilter );
-            reset = true;
             refilter = true;
             addcategory = !sort_radius;
             uistate.list_item_filter_active = !sFilter.empty();
@@ -7131,7 +7086,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             sFilter.clear();
             filtered_items = ground_items;
             iLastActive.reset();
-            reset = true;
             refilter = true;
             uistate.list_item_filter_active = false;
             addcategory = !sort_radius;
@@ -7146,7 +7100,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                             false, false, true );
             // wait until the user presses a key to wipe the screen
             iLastActive.reset();
-            reset = true;
         } else if( action == "PRIORITY_INCREASE" ) {
             draw_item_filter_rules( w_item_info, 0, iInfoHeight - 1, item_filter_type::HIGH_PRIORITY );
             list_item_upvote = string_input_popup()
@@ -7158,7 +7111,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                .max_length( 256 )
                                .query_string();
             refilter = true;
-            reset = true;
             addcategory = !sort_radius;
             uistate.list_item_priority_active = !list_item_upvote.empty();
         } else if( action == "PRIORITY_DECREASE" ) {
@@ -7172,7 +7124,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                                  .max_length( 256 )
                                  .query_string();
             refilter = true;
-            reset = true;
             addcategory = !sort_radius;
             uistate.list_item_downvote_active = !list_item_downvote.empty();
         } else if( action == "SORT" ) {
@@ -7190,7 +7141,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 
             mSortCategory.clear();
             refilter = true;
-            reset = true;
         } else if( action == "TRAVEL_TO" ) {
             if( !u.sees( u.pos() + active_pos ) ) {
                 add_msg( _( "You can't see that destination." ) );
@@ -7248,11 +7198,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             iItemNum = static_cast<int>( filtered_items.size() ) + iCatSortNum;
         }
 
-        if( reset ) {
-            reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
-            reset = false;
-            iScrollPos = 0;
-        }
+        reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
+        iScrollPos = 0;
 
         if( action == "HELP_KEYBINDINGS" ) {
             game::draw_ter();
@@ -7286,10 +7233,8 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
             page_num = std::max( 0, page_num - 1 );
         } else if( action == "PAGE_UP" ) {
             iScrollPos--;
-            reset = true;
         } else if( action == "PAGE_DOWN" ) {
             iScrollPos++;
-            reset = true;
         } else if( action == "NEXT_TAB" || action == "PREV_TAB" ) {
             u.view_offset = stored_view_offset;
             return game::vmenu_ret::CHANGE_TAB;
@@ -7399,7 +7344,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         const bool bDrawLeft = ground_items.empty() || filtered_items.empty();
 
         draw_custom_border( w_item_info, bDrawLeft, true, false, true, LINE_XOXO, LINE_XOXO, true, true );
-        reset = true;
         wrefresh( w_items );
         wrefresh( w_item_info );
         catacurses::refresh();
@@ -9082,40 +9026,38 @@ bool game::plmove( int dx, int dy, int dz )
                 // breaking up some flat surface, like pavement
                 mining_turns /= 2;
             }
-            if( get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
-                u.weapon.has_flag( "DIG_TOOL" ) ) {
-                if( u.weapon.has_flag( "POWERED" ) ) {
-                    if( u.weapon.ammo_sufficient() ) {
-                        mining_turns *= MINUTES( 30 );
-                        u.weapon.ammo_consume( u.weapon.ammo_required(), u.pos() );
-                        u.assign_activity( activity_id( "ACT_JACKHAMMER" ), mining_turns, -1,
+            if( get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) ) {
+                if( u.weapon.has_flag( "DIG_TOOL" ) ) {
+                    if( u.weapon.has_flag( "POWERED" ) ) {
+                        if( u.weapon.ammo_sufficient() ) {
+                            mining_turns *= MINUTES( 30 );
+                            u.weapon.ammo_consume( u.weapon.ammo_required(), u.pos() );
+                            u.assign_activity( activity_id( "ACT_JACKHAMMER" ), mining_turns, -1,
+                                               u.get_item_position( &u.weapon ) );
+                            u.activity.placement = dest_loc;
+                            add_msg( _( "You start breaking the %1$s with your %2$s." ),
+                                     m.tername( dest_loc ), u.weapon.tname() );
+                            u.defer_move( dest_loc ); // don't move into the tile until done mining
+                            return true;
+                        } else {
+                            add_msg( _( "Your %s doesn't turn on." ), u.weapon.tname() );
+                        }
+                    } else {
+                        mining_turns *= ( ( MAX_STAT + 4 ) - std::min( u.str_cur, MAX_STAT ) ) * MINUTES( 5 );
+                        u.assign_activity( activity_id( "ACT_PICKAXE" ), mining_turns, -1,
                                            u.get_item_position( &u.weapon ) );
                         u.activity.placement = dest_loc;
                         add_msg( _( "You start breaking the %1$s with your %2$s." ),
                                  m.tername( dest_loc ), u.weapon.tname() );
                         u.defer_move( dest_loc ); // don't move into the tile until done mining
                         return true;
-                    } else {
-                        add_msg( _( "Your %s doesn't turn on." ), u.weapon.tname() );
                     }
-                } else {
-                    mining_turns *= ( ( MAX_STAT + 4 ) - std::min( u.str_cur, MAX_STAT ) ) * MINUTES( 5 );
-                    u.assign_activity( activity_id( "ACT_PICKAXE" ), mining_turns, -1,
-                                       u.get_item_position( &u.weapon ) );
-                    u.activity.placement = dest_loc;
-                    add_msg( _( "You start breaking the %1$s with your %2$s." ),
-                             m.tername( dest_loc ), u.weapon.tname() );
+                } else if( u.has_trait( trait_BURROW ) ) {
+                    item burrowing_item( itype_id( "fake_burrowing" ) );
+                    u.invoke_item( &burrowing_item, "BURROW", dest_loc );
                     u.defer_move( dest_loc ); // don't move into the tile until done mining
                     return true;
                 }
-            } else if( u.has_active_mutation( trait_BURROW ) ) {
-                mining_turns *= ( ( MAX_STAT + 3 ) - std::min( u.str_cur, MAX_STAT ) ) * MINUTES( 2 );
-                u.assign_activity( activity_id( "ACT_BURROW" ), mining_turns, -1, 0 );
-                u.activity.placement = dest_loc;
-                add_msg( _( "You start tearing into the %s with your teeth and claws." ),
-                         m.tername( dest_loc ) );
-                u.defer_move( dest_loc ); // don't move into the tile until done mining
-                return true;
             }
         }
     }
@@ -9493,18 +9435,21 @@ bool game::walk_move( const tripoint &dest_loc )
             if( auto displayed_part = vp_there.part_displayed() ) {
                 add_msg( m_warning, _( "Moving onto this %s is slow!" ),
                          displayed_part->part().name() );
+                sfx::do_obstacle( displayed_part->part().info().get_id().str() );
             } else {
                 add_msg( m_warning, _( "Moving onto this %s is slow!" ), m.name( dest_loc ) );
+                sfx::do_obstacle( m.ter( dest_loc ).id().str() );
             }
         } else {
             if( auto displayed_part = vp_here.part_displayed() ) {
                 add_msg( m_warning, _( "Moving off of this %s is slow!" ),
                          displayed_part->part().name() );
+                sfx::do_obstacle( displayed_part->part().info().get_id().str() );
             } else {
                 add_msg( m_warning, _( "Moving off of this %s is slow!" ), m.name( u.pos() ) );
+                sfx::do_obstacle( m.ter( u.pos() ).id().str() );
             }
         }
-        sfx::play_variant_sound( "plmove", "clear_obstacle", sfx::get_heard_volume( u.pos() ) );
     }
 
     if( u.has_trait( trait_id( "LEG_TENT_BRACE" ) ) && ( !u.footwear_factor() ||
@@ -9542,7 +9487,8 @@ bool game::walk_move( const tripoint &dest_loc )
         }
 
         if( one_in( 20 ) && u.has_artifact_with( AEP_MOVEMENT_NOISE ) ) {
-            sounds::sound( u.pos(), 40, sounds::sound_t::movement, _( "a rattling sound." ) );
+            sounds::sound( u.pos(), 40, sounds::sound_t::movement, _( "a rattling sound." ), true,
+                           "misc", "rattling" );
         }
     }
 
@@ -9883,7 +9829,7 @@ void game::place_player_overmap( const tripoint &om_dest )
     m.spawn_monsters( true ); // Static monsters
     update_overmap_seen();
     // update weather now as it could be different on the new location
-    nextweather = calendar::turn;
+    weather.nextweather = calendar::turn;
     place_player( player_pos );
 }
 
@@ -10044,7 +9990,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
         }
     }
     sounds::sound( fdest, furntype.move_str_req * 2, sounds::sound_t::movement,
-                   _( "a scraping noise." ) );
+                   _( "a scraping noise." ), true, "misc", "scraping" );
 
     // Actually move the furniture.
     m.furn_set( fdest, m.furn( fpos ) );
@@ -11157,7 +11103,7 @@ void game::update_stair_monsters()
             add_msg( m_warning, dump.str() );
         } else {
             sounds::sound( dest, 5, sounds::sound_t::movement,
-                           _( "a sound nearby from the stairs!" ) );
+                           _( "a sound nearby from the stairs!" ), true, "misc", "stairs_movement" );
         }
 
         if( critter.staircount > 0 ) {
@@ -12132,7 +12078,11 @@ overmap &game::get_cur_om() const
 std::vector<npc *> game::allies()
 {
     return get_npcs_if( [&]( const npc & guy ) {
-        return guy.is_ally( g->u );
+        if( !guy.is_hallucination() ) {
+            return guy.is_ally( g->u );
+        } else {
+            return false;
+        }
     } );
 }
 

@@ -1,7 +1,7 @@
 #include "explosion.h" // IWYU pragma: associated
 #include "fragment_cloud.h" // IWYU pragma: associated
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <queue>
 #include <random>
@@ -417,7 +417,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                     };
                     std::string impact_count = std::find_if(
                                                    impact_count_descriptions.begin(), impact_count_descriptions.end(),
-                    [total_hits]( std::pair<int, std::string> desc ) {
+                    [total_hits]( const std::pair<int, std::string> &desc ) {
                         return desc.first >= total_hits;
                     } )->second;
                     std::string damage_description = ( damage_taken > 0 ) ?
@@ -469,14 +469,13 @@ void explosion( const tripoint &p, const explosion_data &ex )
 {
     const int noise = ex.power * ( ex.fire ? 2 : 10 );
     if( noise >= 30 ) {
-        sounds::sound( p, noise, sounds::sound_t::combat, _( "a huge explosion!" ) );
-        sfx::play_variant_sound( "explosion", "huge", 100 );
+        sounds::sound( p, noise, sounds::sound_t::combat, _( "a huge explosion!" ), false, "explosion",
+                       "huge" );
     } else if( noise >= 4 ) {
-        sounds::sound( p, noise, sounds::sound_t::combat, _( "an explosion!" ) );
-        sfx::play_variant_sound( "explosion", "default", 100 );
+        sounds::sound( p, noise, sounds::sound_t::combat, _( "an explosion!" ), false, "explosion",
+                       "default" );
     } else if( noise > 0 ) {
-        sounds::sound( p, 3, sounds::sound_t::combat, _( "a loud pop!" ) );
-        sfx::play_variant_sound( "explosion", "small", 100 );
+        sounds::sound( p, 3, sounds::sound_t::combat, _( "a loud pop!" ), false, "explosion", "small" );
     }
 
     if( ex.distance_factor >= 1.0f ) {
@@ -559,7 +558,7 @@ void flashbang( const tripoint &p, bool player_immune )
             }
         }
     }
-    sounds::sound( p, 12, sounds::sound_t::combat, _( "a huge boom!" ) );
+    sounds::sound( p, 12, sounds::sound_t::combat, _( "a huge boom!" ), false, "misc", "flashbang" );
     // TODO: Blind/deafen NPC
 }
 
@@ -568,7 +567,8 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
 {
     draw_explosion( p, radius, c_blue );
 
-    sounds::sound( p, force * force * dam_mult / 2, sounds::sound_t::combat, _( "Crack!" ) );
+    sounds::sound( p, force * force * dam_mult / 2, sounds::sound_t::combat, _( "Crack!" ), false,
+                   "misc", "shockwave" );
 
     for( monster &critter : g->all_monsters() ) {
         if( rl_dist( critter.pos(), p ) <= radius ) {

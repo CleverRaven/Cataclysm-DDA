@@ -1,7 +1,7 @@
 #include "npc.h" // IWYU pragma: associated
 
-#include <limits.h>
-#include <stdlib.h>
+#include <climits>
+#include <cstdlib>
 #include <algorithm>
 #include <memory>
 #include <numeric>
@@ -11,6 +11,7 @@
 #include <cmath>
 
 #include "ammo.h"
+#include "bionics.h"
 #include "cata_algo.h"
 #include "clzones.h"
 #include "debug.h"
@@ -70,6 +71,7 @@ const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_catch_up( "catch_up" );
+const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_infection( "infection" );
@@ -81,6 +83,45 @@ const efftype_id effect_npc_run_away( "npc_run_away" );
 const efftype_id effect_npc_fire_bad( "npc_fire_bad" );
 const efftype_id effect_npc_flee_player( "npc_flee_player" );
 const efftype_id effect_npc_player_looking( "npc_player_still_looking" );
+
+// power source CBMs
+const bionic_id bio_advreactor( "bio_advreactor" );
+const bionic_id bio_batteries( "bio_batteries" );
+const bionic_id bio_ethanol( "bio_ethanol" );
+const bionic_id bio_furnace( "bio_furnace" );
+const bionic_id bio_metabolics( "bio_metabolics" );
+const bionic_id bio_reactor( "bio_reactor" );
+const bionic_id bio_torsionratchet( "bio_torsionratchet" );
+
+// active defense CBMs - activate when in danger
+const bionic_id bio_ads( "bio_ads" );
+const bionic_id bio_faraday( "bio_faraday" );
+const bionic_id bio_heat_absorb( "bio_heat_absorb" );
+const bionic_id bio_heat_sink( "bio_heatsink" );
+const bionic_id bio_ods( "bio_ods" );
+const bionic_id bio_shock( "bio_shock" );
+
+// special health CBMs - activate as needed
+const bionic_id bio_painkiller( "bio_painkiller" );
+const bionic_id bio_nanobots( "bio_nanobots" );
+const bionic_id bio_radscrubber( "bio_radscrubber" );
+const bionic_id bio_soporific( "bio_soporific" );
+
+// health CBMs - always activate
+const bionic_id bio_leukocyte( "bio_leukocyte" );
+const bionic_id bio_plutfilter( "bio_plutfilter" );
+
+// melee CBMs - activate for melee combat
+const bionic_id bio_hydraulics( "bio_hydraulics" );
+
+// weapon CBMs - activate in combat if they're better than what we have
+const bionic_id bio_lightning( "bio_chain_lightning" );
+const bionic_id bio_laser( "bio_laser" );
+const bionic_id bio_blade( "bio_blade" );
+const bionic_id bio_claws( "bio_claws" );
+
+const ammotype reactor_slurry( "reactor_slurry" );
+const ammotype plutonium( "plutonium" );
 
 enum npc_action : int {
     npc_undecided = 0,
@@ -105,6 +146,40 @@ enum npc_action : int {
 
 namespace
 {
+const std::vector<bionic_id> power_cbms = { {
+        bio_advreactor,
+        bio_batteries,
+        bio_ethanol,
+        bio_furnace,
+        bio_metabolics,
+        bio_reactor,
+        bio_torsionratchet
+    }
+};
+const std::vector<bionic_id> defense_cbms = { {
+        bio_ads,
+        bio_faraday,
+        bio_heat_absorb,
+        bio_heat_sink,
+        bio_ods,
+        bio_shock
+    }
+};
+
+const std::vector<bionic_id> health_cbms = { {
+        bio_leukocyte,
+        bio_plutfilter
+    }
+};
+
+// lightning, laser, blade, claws in order of use priority
+const std::vector<bionic_id> weapon_cbms = { {
+        bio_lightning,
+        bio_laser,
+        bio_blade,
+        bio_claws
+    }
+};
 
 const int avoidance_vehicles_radius = 5;
 
@@ -151,11 +226,12 @@ bool clear_shot_reach( const tripoint &from, const tripoint &to )
 
 tripoint npc::good_escape_direction( bool include_pos )
 {
-    if( !is_enemy() && path.empty() ) {
+    if( path.empty() ) {
         zone_type_id retreat_zone = zone_type_id( "NPC_RETREAT" );
         const tripoint &abs_pos = global_square_location();
         const zone_manager &mgr = zone_manager::get_manager();
-        cata::optional<tripoint> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60 );
+        cata::optional<tripoint> retreat_target = mgr.get_nearest( retreat_zone, abs_pos, 60,
+                fac_id );
         if( retreat_target && *retreat_target != abs_pos ) {
             update_path( g->m.getlocal( *retreat_target ) );
             if( !path.empty() ) {
@@ -293,6 +369,10 @@ void npc::assess_danger()
                                             get_most_accurate_sight( weapon ) ) );
 
     const auto ok_by_rules = [max_range, this]( const Creature & c, int dist, int scaled_dist ) {
+        // If we're forbidden to attack, no need to check engagement rules
+        if( rules.has_flag( ally_rule::forbid_engage ) ) {
+            return false;
+        }
         switch( rules.engagement ) {
             case ENGAGE_NONE:
                 return false;
@@ -378,8 +458,8 @@ void npc::assess_danger()
         }
     }
 
-    const auto handle_hostile = [&]( const player & guy, float guy_threat, std::string bogey,
-    std::string warning ) {
+    const auto handle_hostile = [&]( const player & guy, float guy_threat, const std::string & bogey,
+    const std::string & warning ) {
         if( guy_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
             warn_about( "monster", 10_minutes, bogey );
         }
@@ -487,7 +567,7 @@ void npc::regen_ai_cache()
 {
     auto i = std::begin( ai_cache.sound_alerts );
     while( i != std::end( ai_cache.sound_alerts ) ) {
-        if( sees( i->pos ) ) {
+        if( sees( g->m.getlocal( i->abs_pos ) ) ) {
             i = ai_cache.sound_alerts.erase( i );
             if( ai_cache.sound_alerts.size() == 1 ) {
                 path.clear();
@@ -541,6 +621,8 @@ void npc::move()
         set_attitude( NPCATT_NULL );
     }
     regen_ai_cache();
+    adjust_power_cbms();
+
     npc_action action = npc_undecided;
 
     static const std::string no_target_str = "none";
@@ -596,8 +678,9 @@ void npc::move()
     } else if( target != nullptr && ai_cache.danger > 0 ) {
         action = method_of_attack();
     } else if( !ai_cache.sound_alerts.empty() && !is_walking_with() ) {
+        tripoint cur_s_abs_pos = ai_cache.s_abs_pos;
         if( !ai_cache.guard_pos ) {
-            ai_cache.guard_pos = pos();
+            ai_cache.guard_pos = g->m.getabs( pos() );
         }
         if( ai_cache.sound_alerts.size() > 1 ) {
             std::sort( ai_cache.sound_alerts.begin(), ai_cache.sound_alerts.end(),
@@ -606,10 +689,23 @@ void npc::move()
                 ai_cache.sound_alerts.resize( 10 );
             }
         }
-        ai_cache.spos = ai_cache.sound_alerts.front().pos;
-        add_msg( m_debug, "NPC %s: investigating sound at x(%d) y(%d)", name, ai_cache.spos.x,
-                 ai_cache.spos.y );
         action = npc_investigate_sound;
+        if( ai_cache.sound_alerts.front().abs_pos != cur_s_abs_pos ) {
+            ai_cache.stuck = 0;
+            ai_cache.s_abs_pos = ai_cache.sound_alerts.front().abs_pos;
+        } else if( ai_cache.stuck > 10 ) {
+            ai_cache.stuck = 0;
+            if( ai_cache.sound_alerts.size() == 1 ) {
+                ai_cache.sound_alerts.clear();
+                action = npc_return_to_guard_pos;
+            } else {
+                ai_cache.s_abs_pos = ai_cache.sound_alerts.at( 1 ).abs_pos;
+            }
+        }
+        if( action == npc_investigate_sound ) {
+            add_msg( m_debug, "NPC %s: investigating sound at x(%d) y(%d)", name,
+                     ai_cache.s_abs_pos.x, ai_cache.s_abs_pos.y );
+        }
     } else if( ai_cache.sound_alerts.empty() && ai_cache.guard_pos ) {
         tripoint return_guard_pos = *ai_cache.guard_pos;
         add_msg( m_debug, "NPC %s: returning to guard spot at x(%d) y(%d)", name,
@@ -617,6 +713,8 @@ void npc::move()
         action = npc_return_to_guard_pos;
     } else {
         // No present danger
+        deactivate_combat_cbms();
+
         action = address_needs();
         print_action( "address_needs %s", action );
 
@@ -727,14 +825,19 @@ void npc::execute_action( npc_action action )
         break;
 
         case npc_investigate_sound: {
-            update_path( ai_cache.spos );
+            tripoint cur_pos = pos();
+            update_path( g->m.getlocal( ai_cache.s_abs_pos ) );
             move_to_next();
+            if( pos() == cur_pos ) {
+                ai_cache.stuck += 1;
+            }
         }
         break;
 
         case npc_return_to_guard_pos: {
-            update_path( *ai_cache.guard_pos );
-            if( pos() == *ai_cache.guard_pos || path.empty() ) {
+            const tripoint local_guard_pos = g->m.getlocal( *ai_cache.guard_pos );
+            update_path( local_guard_pos );
+            if( pos() == local_guard_pos || path.empty() ) {
                 move_pause();
                 ai_cache.guard_pos = cata::nullopt;
                 path.clear();
@@ -770,6 +873,7 @@ void npc::execute_action( npc_action action )
             if( best_spot == pos() || path.empty() ) {
                 move_pause();
                 if( !has_effect( effect_lying_down ) ) {
+                    activate_bionic_by_id( bio_soporific );
                     add_effect( effect_lying_down, 30_minutes, num_bp, false, 1 );
                     if( g->u.sees( *this ) && !g->u.in_sleep_state() ) {
                         add_msg( _( "%s lies down to sleep." ), name );
@@ -812,6 +916,9 @@ void npc::execute_action( npc_action action )
         case npc_reach_attack:
             if( weapon.reach_range( *this ) >= rl_dist( pos(), tar ) &&
                 clear_shot_reach( pos(), tar ) ) {
+                if( can_use_offensive_cbm() ) {
+                    activate_bionic_by_id( bio_hydraulics );
+                }
                 reach_attack( tar );
                 break;
             }
@@ -822,6 +929,9 @@ void npc::execute_action( npc_action action )
                 move_to_next();
             } else if( path.size() == 1 ) {
                 if( cur != nullptr ) {
+                    if( can_use_offensive_cbm() ) {
+                        activate_bionic_by_id( bio_hydraulics );
+                    }
                     melee_attack( *cur, true );
                 }
             } else {
@@ -840,7 +950,15 @@ void npc::execute_action( npc_action action )
                 break;
             }
             aim();
-            fire_gun( tar, mode.qty, *mode );
+            if( is_hallucination() ) {
+                pretend_fire( this, mode.qty, *mode );
+            } else {
+                fire_gun( tar, mode.qty, *mode );
+                // "discard" the fake bio weapon after shooting it
+                if( cbm_weapon_index >= 0 ) {
+                    discharge_cbm_weapon();
+                }
+            }
             break;
         }
 
@@ -1053,6 +1171,9 @@ npc_action npc::method_of_attack()
     // TODO: Change the in_vehicle check to actual "are we driving" check
     const bool dont_move = in_vehicle || rules.engagement == ENGAGE_NO_MOVE;
 
+    // if there's enough of a threat to be here, power up the combat CBMs
+    activate_combat_cbms();
+
     long ups_charges = charges_of( "UPS" );
 
     // get any suitable modes excluding melee, any forbidden to NPCs and those without ammo
@@ -1131,15 +1252,18 @@ npc_action npc::method_of_attack()
         return npc_melee;
     }
 
-    // TODO: Add a time check now that wielding takes a lot of time
-    if( wield_better_weapon() ) {
-        add_msg( m_debug, "%s is changing weapons", disp_name() );
-        return npc_noop;
-    }
+    // don't mess with CBM weapons
+    if( cbm_weapon_index < 0 ) {
+        // TODO: Add a time check now that wielding takes a lot of time
+        if( wield_better_weapon() ) {
+            add_msg( m_debug, "%s is changing weapons", disp_name() );
+            return npc_noop;
+        }
 
-    if( !weapon.ammo_sufficient() && can_reload_current() ) {
-        add_msg( m_debug, "%s is reloading", disp_name() );
-        return npc_reload;
+        if( !weapon.ammo_sufficient() && can_reload_current() ) {
+            add_msg( m_debug, "%s is reloading", disp_name() );
+            return npc_reload;
+        }
     }
 
     // TODO: Needs a check for transparent but non-passable tiles on the way
@@ -1304,16 +1428,196 @@ const item_location npc::find_usable_ammo( const item &weap ) const
     return const_cast<npc *>( this )->find_usable_ammo( weap );
 }
 
+void npc::adjust_power_cbms()
+{
+    if( !is_player_ally() || wants_to_recharge_cbm() ) {
+        return;
+    }
+    for( const bionic_id &cbm_id : power_cbms ) {
+        deactivate_bionic_by_id( cbm_id );
+    }
+}
+
+void npc::activate_combat_cbms()
+{
+    for( const bionic_id &cbm_id : defense_cbms ) {
+        activate_bionic_by_id( cbm_id );
+    }
+    if( can_use_offensive_cbm() ) {
+        for( const bionic_id &cbm_id : weapon_cbms ) {
+            check_or_use_weapon_cbm( cbm_id );
+        }
+    }
+}
+
+void npc::deactivate_combat_cbms()
+{
+    for( const bionic_id &cbm_id : defense_cbms ) {
+        deactivate_bionic_by_id( cbm_id );
+    }
+    deactivate_bionic_by_id( bio_hydraulics );
+    for( const bionic_id &cbm_id : weapon_cbms ) {
+        deactivate_bionic_by_id( cbm_id );
+    }
+    cbm_weapon_index = -1;
+}
+
+bool npc::activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
+{
+    int index = 0;
+    for( auto &i : *my_bionics ) {
+        if( i.id == cbm_id ) {
+            if( !i.powered ) {
+                return activate_bionic( index, eff_only );
+            } else {
+                return false;
+            }
+        }
+        index += 1;
+    }
+    return false;
+}
+
+bool npc::use_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
+{
+    int index = 0;
+    for( auto &i : *my_bionics ) {
+        if( i.id == cbm_id ) {
+            if( !i.powered ) {
+                return activate_bionic( index, eff_only );
+            } else {
+                return true;
+            }
+        }
+        index += 1;
+    }
+    return false;
+}
+
+bool npc::deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only )
+{
+    int index = 0;
+    for( auto &i : *my_bionics ) {
+        if( i.id == cbm_id ) {
+            if( i.powered ) {
+                return deactivate_bionic( index, eff_only );
+            } else {
+                return false;
+            }
+        }
+        index += 1;
+    }
+    return false;
+}
+
+bool npc::wants_to_recharge_cbm()
+{
+    return power_level < ( max_power_level * static_cast<int>( rules.cbm_recharge ) / 100 );
+}
+
+bool npc::can_use_offensive_cbm() const
+{
+    return power_level > ( max_power_level * static_cast<int>( rules.cbm_reserve ) / 100 );
+}
+
+bool npc::consume_cbm_items( const std::function<bool( const item & )> &filter )
+{
+    invslice slice = inv.slice();
+    int index = -1;
+    for( unsigned int i = 0; i < slice.size(); i++ ) {
+        const item &it = slice[i]->front();
+        const item &real_item = it.is_container() ?  it.contents.front() : it;
+        if( filter( real_item ) ) {
+            index = i;
+            break;
+        }
+    }
+    if( index < 0 ) {
+        return false;
+    }
+    int old_moves = moves;
+    return consume( index ) && old_moves != moves;
+}
+
+bool npc::recharge_cbm()
+{
+    // non-allied NPCs don't consume resources to recharge
+    if( !is_player_ally() ) {
+        charge_power( max_power_level );
+        return true;
+    }
+
+    use_bionic_by_id( bio_torsionratchet );
+    use_bionic_by_id( bio_metabolics );
+
+    if( use_bionic_by_id( bio_furnace ) ) {
+        const std::function<bool( const item & )> furnace_filter = []( const item & it ) {
+            return it.typeId() == itype_id( "withered" ) || it.typeId() == itype_id( "file" ) ||
+                   it.has_flag( "FIREWOOD" );
+        };
+        if( consume_cbm_items( furnace_filter ) ) {
+            return true;
+        } else {
+            complain_about( "need_junk", 3_hours, "<need_junk>", false );
+        }
+    }
+
+    if( use_bionic_by_id( bio_batteries ) ) {
+        const std::function<bool( const item & )> battery_filter = []( const item & it ) {
+            return it.typeId() == itype_id( "battery" );
+        };
+        if( consume_cbm_items( battery_filter ) ) {
+            return true;
+        } else {
+            complain_about( "need_batteries", 3_hours, "<need_batteries>", false );
+        }
+    }
+
+    if( use_bionic_by_id( bio_ethanol ) ) {
+        const std::function<bool( const item & )> ethanol_filter = []( const item & it ) {
+            return it.type->can_use( "WEAK_ALCOHOL" ) || it.type->can_use( "ALCOHOL" ) ||
+                   it.type->can_use( "STRONG_ALOCHOL" );
+        };
+        if( consume_cbm_items( ethanol_filter ) ) {
+            return true;
+        } else {
+            complain_about( "need_booze", 3_hours, "<need_booze>", false );
+        }
+    }
+
+    if( use_bionic_by_id( bio_reactor ) || use_bionic_by_id( bio_advreactor ) ) {
+        const std::function<bool( const item & )> reactor_filter = []( const item & it ) {
+            return it.is_ammo() && ( it.type->ammo->type.count( plutonium ) > 0 ||
+                                     it.type->ammo->type.count( reactor_slurry ) > 0 );
+        };
+        if( consume_cbm_items( reactor_filter ) ) {
+            return true;
+        } else {
+            complain_about( "need_radioactives", 3_hours, "<need_radioactives>", false );
+        }
+    }
+
+    return false;
+}
+
 npc_action npc::address_needs( float danger )
 {
     ai_cache.can_heal = has_healing_options();
 
     if( need_heal( *this ) ) {
-        return npc_heal;
+        if( !use_bionic_by_id( bio_nanobots ) ) {
+            return npc_heal;
+        }
+    } else {
+        deactivate_bionic_by_id( bio_nanobots );
     }
 
-    if( get_perceived_pain() >= 15 && has_painkiller() && !took_painkiller() ) {
-        return npc_use_painkiller;
+    if( get_perceived_pain() >= 15 ) {
+        if( !activate_bionic_by_id( bio_painkiller ) && has_painkiller() && !took_painkiller() ) {
+            return npc_use_painkiller;
+        }
+    } else {
+        deactivate_bionic_by_id( bio_nanobots );
     }
 
     if( is_player_ally() && need_heal( g->u ) ) {
@@ -1351,16 +1655,21 @@ npc_action npc::address_needs( float danger )
         }
     }
 
-    if( danger <= NPC_DANGER_VERY_LOW && find_corpse_to_pulp() ) {
-        if( !do_pulp() ) {
-            move_to_next();
+    if( danger <= NPC_DANGER_VERY_LOW ) {
+        if( wants_to_recharge_cbm() && recharge_cbm() ) {
+            return npc_noop;
         }
 
-        return npc_noop;
-    }
+        if( find_corpse_to_pulp() ) {
+            if( !do_pulp() ) {
+                move_to_next();
+            }
+            return npc_noop;
+        }
 
-    if( danger <= NPC_DANGER_VERY_LOW && adjust_worn() ) {
-        return npc_noop;
+        if( adjust_worn() ) {
+            return npc_noop;
+        }
     }
 
     const auto could_sleep = [&]() {
@@ -1386,6 +1695,12 @@ npc_action npc::address_needs( float danger )
         } else if( g->u.in_sleep_state() ) {
             // TODO: "Guard me while I sleep" command
             return npc_sleep;
+        }
+    }
+    //Does the hallucination needs to disappear ?
+    if( g->u.sees( *this ) && is_hallucination() ) {
+        if( !g->u.has_effect( effect_hallu ) ) {
+            die( nullptr );
         }
     }
 
@@ -1667,8 +1982,9 @@ bool npc::can_open_door( const tripoint &p, const bool inside ) const
 bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
 {
     // Allow moving into any bashable spots, but penalize them during pathing
+    // Doors are not passable for hallucinations
     return( rl_dist( pos(), p ) <= 1 &&
-            ( g->m.passable( p ) || can_open_door( p, !g->m.is_outside( pos() ) ) ||
+            ( g->m.passable( p ) || ( can_open_door( p, !g->m.is_outside( pos() ) ) && !is_hallucination() ) ||
               ( !no_bashing && g->m.bash_rating( smash_ability(), p ) > 0 ) )
           );
 }
@@ -1791,8 +2107,14 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         moves -= run_cost( g->m.combined_movecost( pos(), p ), diag );
         moved = true;
-    } else if( g->m.open_door( p, !g->m.is_outside( pos() ) ) ) {
-        moves -= 100;
+    } else if( g->m.open_door( p, !g->m.is_outside( pos() ), true ) ) {
+        if( !is_hallucination() ) { // hallucinations don't open doors
+            g->m.open_door( p, !g->m.is_outside( pos() ) );
+            moves -= 100;
+        } else { // hallucinations teleport through doors
+            moves -= 100;
+            moved = true;
+        }
     } else if( get_dex() > 1 && g->m.has_flag_ter_or_furn( "CLIMBABLE", p ) ) {
         ///\EFFECT_DEX_NPC increases chance to climb CLIMBABLE furniture or terrain
         int climb = get_dex();
@@ -1840,7 +2162,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         }
 
         // Close doors behind self (if you can)
-        if( rules.has_flag( ally_rule::close_doors ) && is_player_ally() ) {
+        if( ( rules.has_flag( ally_rule::close_doors ) && is_player_ally() ) && !is_hallucination() ) {
             doors::close_door( g->m, *this, old_pos );
         }
 
@@ -1860,8 +2182,8 @@ void npc::move_to_next()
     }
 
     if( path.empty() ) {
-        add_msg( m_debug,
-                 "npc::move_to_next() called with an empty path or path containing only current position" );
+        add_msg( m_debug, "npc::move_to_next() called with an empty path or path "
+                 "containing only current position" );
         move_pause();
         return;
     }
@@ -1970,8 +2292,14 @@ void npc::move_pause()
 
 {
     // make sure we're using the best weapon
-    if( calendar::once_every( 1_hours ) && wield_better_weapon() ) {
-        return;
+    if( calendar::once_every( 1_hours ) ) {
+        deactivate_bionic_by_id( bio_soporific );
+        for( const bionic_id &bio_id : health_cbms ) {
+            activate_bionic_by_id( bio_id );
+        }
+        if( wield_better_weapon() ) {
+            return;
+        }
     }
     // NPCs currently always aim when using a gun, even with no target
     // This simulates them aiming at stuff just at the edge of their range
@@ -2064,9 +2392,29 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
     }
 }
 
+void npc::see_item_say_smth( const itype_id object, const std::string smth )
+{
+    for( const tripoint &p : closest_tripoints_first( 6, pos() ) ) {
+        if( g->m.sees_some_items( p, *this ) && sees( p ) ) {
+            for( const item &it : g->m.i_at( p ) ) {
+                if( one_in( 100 ) && ( it.typeId() == object ) ) {
+                    say( smth );
+                }
+            }
+        }
+    }
+}
+
 void npc::find_item()
 {
+    if( is_hallucination() ) {
+        see_item_say_smth( "thorazine", "<no_to_thorazine>" );
+        see_item_say_smth( "lsd", "<yes_to_lsd>" );
+        return;
+    }
+
     if( is_player_ally() && !rules.has_flag( ally_rule::allow_pick_up ) ) {
+
         // Grabbing stuff not allowed by our "owner"
         return;
     }
@@ -2201,6 +2549,10 @@ void npc::find_item()
 
 void npc::pick_up_item()
 {
+    if( is_hallucination() ) {
+        return;
+    }
+
     if( !rules.has_flag( ally_rule::allow_pick_up ) && is_player_ally() ) {
         add_msg( m_debug, "%s::pick_up_item(); Cancelling on player's request", name );
         fetching_item = false;
@@ -2438,7 +2790,9 @@ void npc::drop_items( int weight, int volume )
         } else if( num_items_dropped == 2 ) {
             item_name << _( " and " ) << dropped.tname();
         }
-        g->m.add_item_or_charges( pos(), dropped );
+        if( !is_hallucination() ) { // hallucinations can't drop real items
+            g->m.add_item_or_charges( pos(), dropped );
+        }
     }
     // Finally, describe the action if u can see it
     if( g->u.sees( *this ) ) {
@@ -2454,7 +2808,8 @@ void npc::drop_items( int weight, int volume )
 
 bool npc::find_corpse_to_pulp()
 {
-    if( is_player_ally() && ( !rules.has_flag( ally_rule::allow_pulp ) || g->u.in_vehicle ) ) {
+    if( ( is_player_ally() && ( !rules.has_flag( ally_rule::allow_pulp ) || g->u.in_vehicle ) ) ||
+        is_hallucination() ) {
         return false;
     }
 
@@ -2668,7 +3023,9 @@ void npc_throw( npc &np, item &it, int index, const tripoint &pos )
         stack_size = it.charges;
         it.charges = 1;
     }
-    np.throw_item( pos, it );
+    if( !np.is_hallucination() ) { // hallucinations only pretend to throw
+        np.throw_item( pos, it );
+    }
     // Throw a single charge of a stacking object.
     if( stack_size == -1 || stack_size == 1 ) {
         np.i_rem( index );
@@ -2679,7 +3036,7 @@ void npc_throw( npc &np, item &it, int index, const tripoint &pos )
 
 bool npc::alt_attack()
 {
-    if( is_player_ally() && !rules.has_flag( ally_rule::use_grenades ) ) {
+    if( ( is_player_ally() && !rules.has_flag( ally_rule::use_grenades ) ) || is_hallucination() ) {
         return false;
     }
 
@@ -2851,9 +3208,12 @@ void npc::heal_player( player &patient )
         debugmsg( "%s tried to heal you but has no healing item", disp_name() );
         return;
     }
-
-    long charges_used = used.type->invoke( *this, used, patient.pos(), "heal" );
-    consume_charges( used, charges_used );
+    if( !is_hallucination() ) {
+        long charges_used = used.type->invoke( *this, used, patient.pos(), "heal" );
+        consume_charges( used, charges_used );
+    } else {
+        pretend_heal( patient, used );
+    }
 
     if( !patient.is_npc() ) {
         // Test if we want to heal the player further
@@ -2864,6 +3224,16 @@ void npc::heal_player( player &patient )
             say( _( "Hold still, I can heal you more." ) );
         }
     }
+}
+
+void npc:: pretend_heal( player &patient, item used )
+{
+    if( g->u.sees( *this ) ) {
+        add_msg( _( "%1$s heals %2$s." ), disp_name(),
+                 patient.disp_name() ); // you can tell that it's not real by looking at your HP though
+    }
+    consume_charges( used, 1 ); // empty hallucination's inventory to avoid spammming
+    moves -= 100; // consumes moves to avoid infinite loop
 }
 
 void npc::heal_self()
@@ -3042,8 +3412,10 @@ void npc::mug_player( player &mark )
 
     const bool u_see = g->u.sees( *this ) || g->u.sees( mark );
     if( mark.cash > 0 ) {
-        cash += mark.cash;
-        mark.cash = 0;
+        if( !is_hallucination() ) { // hallucinations can't take items
+            cash += mark.cash;
+            mark.cash = 0;
+        }
         moves = 0;
         // Describe the action
         if( mark.is_npc() ) {
@@ -3085,8 +3457,11 @@ void npc::mug_player( player &mark )
         moves -= 100;
         return;
     }
-
-    item stolen = mark.i_rem( item_index );
+    item stolen;
+    if( !is_hallucination() ) {
+        stolen = mark.i_rem( item_index );
+        i_add( stolen );
+    }
     if( mark.is_npc() ) {
         if( u_see ) {
             add_msg( _( "%1$s takes %2$s's %3$s." ), name, mark.name, stolen.tname() );
@@ -3094,7 +3469,6 @@ void npc::mug_player( player &mark )
     } else {
         add_msg( m_bad, _( "%1$s takes your %2$s." ), name, stolen.tname() );
     }
-    i_add( stolen );
     moves -= 100;
     if( !mark.is_npc() ) {
         op_of_u.value -= rng( 0, 1 );  // Decrease the value of the player
@@ -3157,14 +3531,14 @@ void npc::reach_omt_destination()
 {
     if( is_travelling() ) {
         talk_function::assign_guard( *this );
-        guard_pos = global_square_location();
+        guard_pos = g->m.getabs( pos() );
         omt_path.clear();
         goal = no_goal_point;
         if( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) {
             if( g->u.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
                 has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
-                add_msg( m_info, _( "From your two-way radio you hear %s reporting in, 'I've arrived, boss!'" ),
-                         disp_name() );
+                add_msg( m_info, _( "From your two-way radio you hear %s reporting in, "
+                                    " 'I've arrived, boss!'" ), disp_name() );
             }
         }
         return;
@@ -3177,7 +3551,7 @@ void npc::reach_omt_destination()
     }
     // If we are guarding, remember our position in case we get forcibly moved
     goal = global_omt_location();
-    if( guard_pos == global_square_location() ) {
+    if( guard_pos == g->m.getabs( pos() ) ) {
         // This is the specific point
         return;
     }
@@ -3186,14 +3560,10 @@ void npc::reach_omt_destination()
         // No point recalculating the path to get home
         move_to_next();
     } else if( guard_pos != no_goal_point ) {
-        const tripoint sm_dir = goal - submap_coords;
-        const tripoint dest( sm_dir.x * SEEX + guard_pos.x - posx(),
-                             sm_dir.y * SEEY + guard_pos.y - posy(),
-                             guard_pos.z );
-        update_path( dest );
+        update_path( g->m.getlocal( guard_pos ) );
         move_to_next();
     } else {
-        guard_pos = global_square_location();
+        guard_pos = g->m.getabs( pos() );
     }
 }
 
@@ -3254,16 +3624,15 @@ void npc::set_omt_destination()
     }
 
     DebugLog( D_INFO, DC_ALL ) << "npc::set_omt_destination - new goal for NPC [" << get_name() <<
-                               "] with ["
-                               << get_need_str_id( needs.front() ) << "] is [" << dest_type <<
-                               "] in ["
-                               << goal.x << "," << goal.y << "," << goal.z << "].";
+                               "] with [" << get_need_str_id( needs.front() ) <<
+                               "] is [" << dest_type <<
+                               "] in [" << goal.x << "," << goal.y << "," << goal.z << "].";
 }
 
 void npc::go_to_omt_destination()
 {
     if( ai_cache.guard_pos ) {
-        if( pos() == *ai_cache.guard_pos ) {
+        if( g->m.getabs( pos() ) == *ai_cache.guard_pos ) {
             path.clear();
             ai_cache.guard_pos = cata::nullopt;
             move_pause();
@@ -3285,7 +3654,8 @@ void npc::go_to_omt_destination()
     add_msg( m_debug, "%s going (%d,%d,%d)->(%d,%d,%d)", name,
              omt_pos.x, omt_pos.y, omt_pos.z, goal.x, goal.y, goal.z );
     if( goal == omt_pos ) {
-        // We're at our desired map square!
+        // We're at our desired map square!  Pause to keep the NPC infinite loop counter happy
+        move_pause();
         reach_omt_destination();
         return;
     }
@@ -3331,7 +3701,7 @@ void npc::go_to_omt_destination()
 void npc::guard_current_pos()
 {
     goal = global_omt_location();
-    guard_pos = global_square_location();
+    guard_pos = g->m.getabs( pos() );
 }
 
 std::string npc_action_name( npc_action action )
@@ -3563,10 +3933,13 @@ bool npc::complain()
 
     // Radiation every 10 minutes
     if( radiation > 90 ) {
+        activate_bionic_by_id( bio_radscrubber );
         std::string speech = _( "I'm suffering from radiation sickness..." );
         if( complain_about( radiation_string, 10_minutes, speech, radiation > 150 ) ) {
             return true;
         }
+    } else if( !radiation ) {
+        deactivate_bionic_by_id( bio_radscrubber );
     }
 
     // Hunger every 3-6 hours

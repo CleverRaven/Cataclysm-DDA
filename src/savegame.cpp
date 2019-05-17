@@ -281,9 +281,9 @@ void game::load_weather( std::istream &fin )
     if( fin.peek() == 'l' ) {
         std::string line;
         getline( fin, line );
-        lightning_active = ( line.compare( "lightning: 1" ) == 0 );
+        weather.lightning_active = ( line.compare( "lightning: 1" ) == 0 );
     } else {
-        lightning_active = false;
+        weather.lightning_active = false;
     }
     if( fin.peek() == 's' ) {
         std::string line;
@@ -297,7 +297,7 @@ void game::load_weather( std::istream &fin )
 void game::save_weather( std::ostream &fout )
 {
     fout << "# version " << savegame_version << std::endl;
-    fout << "lightning: " << ( lightning_active ? "1" : "0" ) << std::endl;
+    fout << "lightning: " << ( weather.lightning_active ? "1" : "0" ) << std::endl;
     fout << "seed: " << seed;
 }
 

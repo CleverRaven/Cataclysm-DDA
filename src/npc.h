@@ -25,11 +25,13 @@
 #include "enums.h"
 #include "inventory.h"
 #include "item_location.h"
+#include "translations.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "material.h"
 #include "type_id.h"
 
+struct bionic_data;
 class JsonObject;
 class JsonIn;
 class JsonOut;
@@ -44,6 +46,10 @@ struct pathfinding_settings;
 enum game_message_type : int;
 class gun_mode;
 
+using bionic_id = string_id<bionic_data>;
+using npc_class_id = string_id<npc_class>;
+using mission_type_id = string_id<mission_type>;
+using mfaction_id = int_id<monfaction>;
 using overmap_location_str_id = string_id<overmap_location>;
 
 void parse_tags( std::string &phrase, const player &u, const player &me,
@@ -182,7 +188,7 @@ struct npc_opinion {
     }
 
     npc_opinion operator+( const npc_opinion &rhs ) {
-        return ( npc_opinion( *this ) += rhs );
+        return npc_opinion( *this ) += rhs;
     }
 
     void serialize( JsonOut &jsout ) const;
@@ -225,6 +231,40 @@ const std::unordered_map<std::string, aim_rule> aim_rule_strs = { {
     }
 };
 
+// How much CBM power should remain before attempting to recharge, values are percents of power
+enum cbm_recharge_rule {
+    CBM_RECHARGE_ALL = 90,
+    CBM_RECHARGE_MOST = 75,
+    CBM_RECHARGE_SOME = 50,
+    CBM_RECHARGE_LITTLE = 25,
+    CBM_RECHARGE_NONE = 10
+};
+const std::unordered_map<std::string, cbm_recharge_rule> cbm_recharge_strs = { {
+        { "CBM_RECHARGE_ALL", CBM_RECHARGE_ALL },
+        { "CBM_RECHARGE_MOST", CBM_RECHARGE_MOST },
+        { "CBM_RECHARGE_SOME", CBM_RECHARGE_SOME },
+        { "CBM_RECHARGE_LITTLE", CBM_RECHARGE_LITTLE },
+        { "CBM_RECHARGE_NONE", CBM_RECHARGE_NONE }
+    }
+};
+
+// How much CBM power to reserve for defense, values are percents of total power
+enum cbm_reserve_rule {
+    CBM_RESERVE_ALL = 100,
+    CBM_RESERVE_MOST = 75,
+    CBM_RESERVE_SOME = 50,
+    CBM_RESERVE_LITTLE = 25,
+    CBM_RESERVE_NONE = 0
+};
+const std::unordered_map<std::string, cbm_reserve_rule> cbm_reserve_strs = { {
+        { "CBM_RESERVE_ALL", CBM_RESERVE_ALL },
+        { "CBM_RESERVE_MOST", CBM_RESERVE_MOST },
+        { "CBM_RESERVE_SOME", CBM_RESERVE_SOME },
+        { "CBM_RESERVE_LITTLE", CBM_RESERVE_LITTLE },
+        { "CBM_RESERVE_NONE", CBM_RESERVE_NONE }
+    }
+};
+
 enum class ally_rule {
     DEFAULT = 0,
     use_guns = 1,
@@ -237,32 +277,133 @@ enum class ally_rule {
     allow_complain = 128,
     allow_pulp = 256,
     close_doors = 512,
-    avoid_combat = 1024,
+    follow_close = 1024,
     avoid_doors = 2048,
     hold_the_line = 4096,
-    ignore_noise = 8192
+    ignore_noise = 8192,
+    forbid_engage = 16384
 };
-const std::unordered_map<std::string, ally_rule> ally_rule_strs = { {
-        { "use_guns", ally_rule::use_guns },
-        { "use_grenades", ally_rule::use_grenades },
-        { "use_silent", ally_rule::use_silent },
-        { "avoid_friendly_fire", ally_rule::avoid_friendly_fire },
-        { "allow_pick_up", ally_rule::allow_pick_up },
-        { "allow_bash", ally_rule::allow_bash },
-        { "allow_sleep", ally_rule::allow_sleep },
-        { "allow_complain", ally_rule::allow_complain },
-        { "allow_pulp", ally_rule::allow_pulp },
-        { "close_doors", ally_rule::close_doors },
-        { "avoid_combat", ally_rule::avoid_combat },
-        { "avoid_doors", ally_rule::avoid_doors },
-        { "hold_the_line", ally_rule::hold_the_line },
-        { "ignore_noise", ally_rule::ignore_noise }
+
+struct ally_rule_data {
+    ally_rule rule;
+    std::string rule_true_text;
+    std::string rule_false_text;
+};
+
+const std::unordered_map<std::string, ally_rule_data> ally_rule_strs = { {
+        {
+            "use_guns", {
+                ally_rule::use_guns,
+                "<ally_rule_use_guns_true_text>",
+                "<ally_rule_use_guns_false_text>"
+            }
+        },
+        {
+            "use_grenades", {
+                ally_rule::use_grenades,
+                "<ally_rule_use_grenades_true_text>",
+                "<ally_rule_use_grenades_false_text>"
+            }
+        },
+        {
+            "use_silent", {
+                ally_rule::use_silent,
+                "<ally_rule_use_silent_true_text>",
+                "<ally_rule_use_silent_false_text>"
+            }
+        },
+        {
+            "avoid_friendly_fire", {
+                ally_rule::avoid_friendly_fire,
+                "<ally_rule_avoid_friendly_fire_true_text>",
+                "<ally_rule_avoid_friendly_fire_false_text>"
+            }
+        },
+        {
+            "allow_pick_up", {
+                ally_rule::allow_pick_up,
+                "<ally_rule_allow_pick_up_true_text>",
+                "<ally_rule_allow_pick_up_false_text>"
+            }
+        },
+        {
+            "allow_bash", {
+                ally_rule::allow_bash,
+                "<ally_rule_allow_bash_true_text>",
+                "<ally_rule_allow_bash_false_text>"
+            }
+        },
+        {
+            "allow_sleep", {
+                ally_rule::allow_sleep,
+                "<ally_rule_allow_sleep_true_text>",
+                "<ally_rule_allow_sleep_false_text>"
+            }
+        },
+        {
+            "allow_complain", {
+                ally_rule::allow_complain,
+                "<ally_rule_allow_complain_true_text>",
+                "<ally_rule_allow_complain_false_text>"
+            }
+        },
+        {
+            "allow_pulp", {
+                ally_rule::allow_pulp,
+                "<ally_rule_allow_pulp_true_text>",
+                "<ally_rule_allow_pulp_false_text>"
+            }
+        },
+        {
+            "close_doors", {
+                ally_rule::close_doors,
+                "<ally_rule_close_doors_true_text>",
+                "<ally_rule_close_doors_false_text>"
+            }
+        },
+        {
+            "follow_close", {
+                ally_rule::follow_close,
+                "<ally_rule_follow_close_true_text>",
+                "<ally_rule_follow_close_false_text>"
+            }
+        },
+        {
+            "avoid_doors", {
+                ally_rule::avoid_doors,
+                "<ally_rule_avoid_doors_true_text>",
+                "<ally_rule_avoid_doors_false_text>"
+            }
+        },
+        {
+            "hold_the_line", {
+                ally_rule::hold_the_line,
+                "<ally_rule_hold_the_line_true_text>",
+                "<ally_rule_hold_the_line_false_text>"
+            }
+        },
+        {
+            "ignore_noise", {
+                ally_rule::ignore_noise,
+                "<ally_rule_ignore_noise_true_text>",
+                "<ally_rule_ignore_noise_false_text>"
+            }
+        },
+        {
+            "forbid_engage", {
+                ally_rule::forbid_engage,
+                "<ally_rule_forbid_engage_true_text>",
+                "<ally_rule_forbid_engage_false_text>"
+            }
+        }
     }
 };
 
 struct npc_follower_rules {
     combat_engagement engagement;
     aim_rule aim = AIM_WHEN_CONVENIENT;
+    cbm_recharge_rule cbm_recharge = CBM_RECHARGE_SOME;
+    cbm_reserve_rule cbm_reserve = CBM_RESERVE_SOME;
     ally_rule flags;
     ally_rule override_enable;
     ally_rule overrides;
@@ -278,6 +419,8 @@ struct npc_follower_rules {
     void set_flag( ally_rule setit );
     void clear_flag( ally_rule clearit );
     void toggle_flag( ally_rule toggle );
+    void set_specific_override_state( ally_rule, bool state );
+    void toggle_specific_override_state( ally_rule rule, bool state );
     bool has_override_enable( ally_rule test ) const;
     void enable_override( ally_rule setit );
     void disable_override( ally_rule setit );
@@ -290,7 +433,7 @@ struct npc_follower_rules {
 };
 
 struct dangerous_sound {
-    tripoint pos;
+    tripoint abs_pos;
     int type;
     int volume;
 };
@@ -321,7 +464,9 @@ struct npc_short_term_cache {
     // map of positions / type / volume of suspicious sounds
     std::vector<dangerous_sound> sound_alerts;
     // current sound position being investigated
-    tripoint spos;
+    tripoint s_abs_pos;
+    // number of times we haven't moved when investigating a sound
+    int stuck = 0;
     // Position to return to guarding
     cata::optional<tripoint> guard_pos;
     double my_weapon_value;
@@ -614,6 +759,7 @@ class npc : public player
         std::string pick_talk_topic( const player &u );
         float character_danger( const Character &u ) const;
         float vehicle_danger( int radius ) const;
+        void pretend_fire( npc *source, int shots, item &gun ); // fake ranged attack for hallucination
         // True if our anger is at least equal to...
         bool turned_hostile() const;
         // ... this value!
@@ -645,6 +791,9 @@ class npc : public player
         // Traveling w/ player (whether as a friend or a slave)
         bool is_following() const;
         bool is_obeying( const player &p ) const;
+
+        bool is_hallucination() const override; // true if the NPC isn't actually real
+
         // Ally of or travelling with p
         bool is_friendly( const player &p ) const;
         // Leading the player
@@ -735,6 +884,34 @@ class npc : public player
         bool is_dead() const;
         // How well we smash terrain (not corpses!)
         int smash_ability() const;
+
+        /*
+         *  CBM management functions
+         */
+        void adjust_power_cbms();
+        void activate_combat_cbms();
+        void deactivate_combat_cbms();
+        // find items that can be used to fuel CBM rechargers
+        // can't use can_feed_*_with because they're private to player and too general
+        bool consume_cbm_items( const std::function<bool( const item & )> &filter );
+        // returns true if fuel resources are consumed
+        bool recharge_cbm();
+        // power is below the requested levels
+        bool wants_to_recharge_cbm();
+        // has power available to use offensive CBMs
+        bool can_use_offensive_cbm() const;
+        // return false if not present or can't be activated; true if present and already active
+        // or if the call activates it
+        bool use_bionic_by_id( const bionic_id &cbm_id, bool eff_only = false );
+        // return false if not present, can't be activated, or is already active; returns true if
+        // present and the call activates it
+        bool activate_bionic_by_id( const bionic_id &cbm_id, bool eff_only = false );
+        bool deactivate_bionic_by_id( const bionic_id &cbm_id, bool eff_only = false );
+        // in bionics.cpp
+        // can't use bionics::activate because it calls plfire directly
+        void discharge_cbm_weapon();
+        // check if an NPC has a bionic weapon and activate it if possible
+        void check_or_use_weapon_cbm( const bionic_id &cbm_id );
 
         // complain about a specific issue if enough time has passed
         // @param issue string identifier of the issue
@@ -841,13 +1018,15 @@ class npc : public player
         std::set<tripoint> get_path_avoid() const override;
 
         // Item discovery and fetching
+
+        // Comment on item seen
+        void see_item_say_smth( const itype_id item, const std::string smth );
         // Look around and pick an item
         void find_item();
         // Move to, or grab, our targeted item
         void pick_up_item();
         // Drop wgt and vol
         void drop_items( int weight, int volume );
-
         /** Picks up items and returns a list of them. */
         std::list<item> pick_up_item_map( const tripoint &where );
         std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
@@ -868,6 +1047,7 @@ class npc : public player
         bool alt_attack();
         void heal_player( player &patient );
         void heal_self();
+        void pretend_heal( player &patient, item used ); // healing action of hallucinations
         void mug_player( player &mark );
         void look_for_player( const player &sought );
         // Do we have an idea of where u are?
@@ -1018,6 +1198,7 @@ class npc : public player
         npc_follower_rules rules;
         bool marked_for_death; // If true, we die as soon as we respawn!
         bool hit_by_player;
+        bool hallucination; // If true, NPC is an hallucination
         std::vector<npc_need> needs;
         // Dummy point that indicates that the goal is invalid.
         static constexpr tripoint no_goal_point = tripoint_min;
@@ -1050,6 +1231,11 @@ class npc : public player
         void load( JsonObject &jsin );
 
     private:
+        // the weapon we're actually holding when using bionic fake guns
+        item real_weapon;
+        // the index of the bionics for the fake gun;
+        int cbm_weapon_index = -1;
+
         void setID( int id );
         bool dead;  // If true, we need to be cleaned up
 

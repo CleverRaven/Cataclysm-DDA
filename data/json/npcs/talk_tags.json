@@ -1,6 +1,54 @@
 [
   {
     "type": "snippet",
+    "category": "<no_to_thorazine>",
+    "text": [
+      "I hate thorazine!",
+      "Arg thorazine, don't touch it!",
+      "Thorazine is bad for you, you know.",
+      "Thorazine is poison.",
+      "You don't need thorazine, it's limiting you.",
+      "Thorazine... That's what 'they' use to keep you tame."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<yes_to_lsd>",
+    "text": [
+      "Pink tablets! I love those!",
+      "Hey there's some pink tablets, take some!",
+      "Look, some LSD, let's play cataclysm: fun times ahead!",
+      "Say yes to LSD, say yes to Fun!",
+      "Perfect, those pink tablets will keep us going, take some!",
+      "You know what would make all this more bearable? Pink Tablets!"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<hallu_dont_trade>",
+    "text": [
+      "No thanks, I'm good.",
+      "I don't want to trade with you.",
+      "I have the best stuff. And I'm keeping it!",
+      "No trading, that's my rule.",
+      "I'm not interested.",
+      "How about no?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<hallu_dont_camp>",
+    "text": [
+      "No thanks, I really don't feel like it.",
+      "Well, I would, but I don't want to right now.",
+      "I have better things to do.",
+      "I'll pass, it's too much work.",
+      "Who put you in charge of what I do?",
+      "Great idea! Call me when you find SOMEONE ELSE to do it."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<name_b>",
     "text": [
       "<swear> <name_b>",
@@ -834,6 +882,46 @@
   },
   {
     "type": "snippet",
+    "category": "<need_batteries>",
+    "text": [
+      "I need some batteries to power my CBMs.",
+      "I can't recharge my CBMs without some batteries.",
+      "Hey, <name_g>, can I get some batteries here?  I need to recharge."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<need_booze>",
+    "text": [
+      "Pass me a beer, I need to power my ethanol burner.",
+      "Ethanol burners!  The power source that's fun to recharge.  Get me a drink, please!",
+      "Waiter!  I need a refill, my ethanol burner is running out of charge!"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<need_junk>",
+    "text": [
+      "I need some junk to power my internal furnace.",
+      "I can't recharge my CBMs without some firewood for my internal furnace.",
+      "Hey, <name_g>, can I get some waste paper or withered plants?  I need to recharge."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<need_radioactives>",
+    "text": [
+      "I can't believe I'm saying this, but I need radioactive plutonium slurry for my internal reactor.",
+      "I can't use my internal reactor to recharge my CBMs without some plutonium slurry.",
+      "Hey, <name_g>, pass me some plutonium slurry if you have any, I need to refuel my internal reactor.",
+      "Beta radiation can be blocked by clothing, but is really dangerous if you ingest it.  So can I have some plutonium slurry to power my reactor and give me cancer?",
+      "I need some radioactive slurry to power my reactor.  Or a less dangerous power source, that would be even better!",
+      "Please, <name_g>, get me some radioactive slurry to fuel my internal reactor.  Or get me another way to recharge my CBMs!",
+      "I can't use my internal reactor to recharge my CBMs without some plutonium slurry.  Which wouldn't be a problem if I had anything else that would recharge my CBMs!"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<BGSS_intro_question>",
     "text": [
       "Tell me about how you survived the cataclysm.",
@@ -946,5 +1034,160 @@
     "type": "snippet",
     "category": "<granny_name_g>",
     "text": [ "child", "my child", "dear", "my dear", "friend", "survivor" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_use_guns_true_text>",
+    "text": "<mypronoun> will use ranged weapons."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_use_guns_false_text>",
+    "text": "<mypronoun> will not use ranged weapons."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_use_grenades_true_text>",
+    "text": "<mypronoun> will use grenades."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_use_grenades_false_text>",
+    "text": "<mypronoun> will not use grenades."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_use_silent_true_text>",
+    "text": "<mypronoun> will only use silenced ranged weapons."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_use_silent_false_text>",
+    "text": "<mypronoun> will use any ranged weapons."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_avoid_friendly_fire_true_text>",
+    "text": "<mypronoun> will avoid shooting if allies are in the line of fire."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_avoid_friendly_fire_false_text>",
+    "text": "<mypronoun> will shoot even if allies are in the line of fire."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_pick_up_true_text>",
+    "text": "* will pick up items."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_pick_up_true_list_text>",
+    "text": "* will only pick up items from the whitelist."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_pick_up_false_text>",
+    "text": "* will not pick up items."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_bash_true_text>",
+    "text": "<mypronoun> will bash down obstacles."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_bash_false_text>",
+    "text": "<mypronoun> will not bash down obstacles."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_sleep_true_text>",
+    "text": "<mypronoun> will sleep when tired."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_sleep_false_text>",
+    "text": "<mypronoun> will stay awake as long as possible."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_complain_true_text>",
+    "text": "<mypronoun> will complain about wounds and needs."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_complain_false_text>",
+    "text": "<mypronoun> will only complain in an emergency."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_pulp_true_text>",
+    "text": "<mypronoun> will smash nearby zombie corpses."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_allow_pulp_false_text>",
+    "text": "<mypronoun> will leave zombie corpses intact."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_close_doors_true_text>",
+    "text": "<mypronoun> will close doors after passing through."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_close_doors_false_text>",
+    "text": "<mypronoun> will not close doors."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_follow_close_true_text>",
+    "text": "<mypronoun> will follow you closely even when threatened."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_follow_close_false_text>",
+    "text": "<mypronoun> will move freely as needed."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_avoid_doors_true_text>",
+    "text": "<mypronoun> will not go places that require opening a door."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_avoid_doors_false_text>",
+    "text": "<mypronoun> will open doors to reach a destination."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_hold_the_line_true_text>",
+    "text": "<mypronoun> will hold the line by not moving into doorways or obstructions adjacent to you."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_hold_the_line_false_text>",
+    "text": "<mypronoun> will move freely to attack enemies."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_ignore_noise_true_text>",
+    "text": "<mypronoun> will not investigate noises."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_ignore_noise_false_text>",
+    "text": "<mypronoun> will investigate noises from unseen places."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_forbid_engage_true_text>",
+    "text": "<mypronoun> will not engage enemies if avoidable."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_forbid_engage_false_text>",
+    "text": "<mypronoun> will follow normal engagement rules."
   }
 ]

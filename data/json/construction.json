@@ -704,8 +704,8 @@
     "//": "Step 1: Build sandbag barricade",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
-    "time": 60,
-    "components": [ [ [ "bag_canvas", 2 ] ], [ [ "material_sand", 20 ] ] ],
+    "time": 16,
+    "components": [ [ [ "sandbag", 16 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_sandbag_half"
@@ -716,11 +716,35 @@
     "//": "Step 2: Finish the sandbag wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
-    "time": 90,
-    "components": [ [ [ "bag_canvas", 4 ] ], [ [ "material_sand", 40 ] ] ],
+    "time": 20,
+    "components": [ [ [ "sandbag", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "f_sandbag_half",
     "post_terrain": "f_sandbag_wall"
+  },
+  {
+    "type": "construction",
+    "description": "Build Earthbag Wall",
+    "//": "Step 1: Build earthbag barricade",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 16,
+    "components": [ [ [ "earthbag", 16 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_earthbag_half"
+  },
+  {
+    "type": "construction",
+    "description": "Build Earthbag Wall",
+    "//": "Step 2: Finish the earthbag wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 20,
+    "components": [ [ [ "earthbag", 20 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_terrain": "f_earthbag_half",
+    "post_terrain": "f_earthbag_wall"
   },
   {
     "type": "construction",
@@ -1221,17 +1245,6 @@
   },
   {
     "type": "construction",
-    "description": "Seal Coffin",
-    "category": "FURN",
-    "required_skills": [ [ "mechanics", 0 ] ],
-    "time": 10,
-    "components": [ [ [ "nail", 6 ] ] ],
-    "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
-    "pre_terrain": "f_coffin_o",
-    "post_terrain": "f_coffin_c"
-  },
-  {
-    "type": "construction",
     "description": "Build Coffin",
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
@@ -1244,6 +1257,30 @@
     ],
     "pre_special": "check_empty",
     "post_terrain": "f_coffin_o"
+  },
+  {
+    "type": "construction",
+    "description": "Seal Coffin",
+    "category": "FURN",
+    "required_skills": [ [ "mechanics", 0 ] ],
+    "time": 10,
+    "components": [ [ [ "nail", 6 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ] ],
+    "pre_terrain": "f_coffin_o",
+    "post_terrain": "f_coffin_c"
+  },
+  {
+    "type": "construction",
+    "description": "Dig Grave and Bury Sealed Coffin",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 60,
+    "qualities": [ [ { "id": "HAMMER", "level": 1 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "rock", 20 ], [ "2x4", 2 ] ] ],
+    "pre_flags": "DIGGABLE",
+    "pre_terrain": "f_coffin_c",
+    "post_terrain": "t_grave_new",
+    "post_special": "done_grave"
   },
   {
     "type": "construction",
@@ -1908,6 +1945,16 @@
     "components": [ [ [ "2x4", 6 ] ], [ [ "log", 1 ] ], [ [ "nail", 12 ] ] ],
     "pre_terrain": "t_water_sh",
     "post_terrain": "t_sh_bridge"
+  },
+  {
+    "type": "construction",
+    "description": "Build Planter",
+    "catergory": "FURN",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": 25,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 36 ] ], [ [ "pebble", 200 ] ], [ [ "material_soil", 75 ] ] ],
+    "post_terrain": "f_planter"
   },
   {
     "type": "construction",

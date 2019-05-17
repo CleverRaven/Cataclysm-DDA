@@ -105,6 +105,7 @@ class iuse
         int e_combatsaw_on( player *, item *, bool, const tripoint & );
         int jackhammer( player *, item *, bool, const tripoint & );
         int pickaxe( player *, item *, bool, const tripoint & );
+        int burrow( player *, item *, bool, const tripoint & );
         int geiger( player *, item *, bool, const tripoint & );
         int teleport( player *, item *, bool, const tripoint & );
         int can_goo( player *, item *, bool, const tripoint & );
@@ -221,7 +222,7 @@ class iuse
         static void play_music( player &p, const tripoint &source, int volume, int max_morale );
 
         // Helper for handling pesky wannabe-artists
-        static int handle_ground_graffiti( player &p, item *it, const std::string &prefix );
+        static int handle_ground_graffiti( player &p, item *it, const std::string &prefix, tripoint pt );
 
 };
 
