@@ -44,6 +44,7 @@ bool trigdist;
 bool use_tiles;
 bool log_from_top;
 int message_ttl;
+int message_cooldown;
 bool fov_3d;
 bool tile_iso;
 
@@ -1422,6 +1423,11 @@ void options_manager::add_options_interface()
          0, 1000, 0
        );
 
+    add( "MESSAGE_COOLDOWN", "interface", translate_marker( "Message cooldown" ),
+         translate_marker( "Number of turns during which similar messages are hidden.  '0' disables this option." ),
+         0, 1000, 0
+       );
+
     add( "NO_UNKNOWN_COMMAND_MSG", "interface",
          translate_marker( "Suppress \"unknown command\" messages" ),
          translate_marker( "If true, pressing a key with no set function will not display a notice in the chat log." ),
@@ -2761,6 +2767,7 @@ bool options_manager::save()
     use_tiles = ::get_option<bool>( "USE_TILES" );
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
+    message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
 
     update_music_volume();
@@ -2790,6 +2797,7 @@ void options_manager::load()
     use_tiles = ::get_option<bool>( "USE_TILES" );
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
+    message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
