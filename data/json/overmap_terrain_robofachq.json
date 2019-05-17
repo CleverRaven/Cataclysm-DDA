@@ -1,8 +1,42 @@
 [
   {
     "type": "overmap_terrain",
+    "id": "robofachq_roof_a0",
+    "name": "open air",
+    "sym": ".",
+    "color": "blue",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "robofachq_roof_a1",
+    "name": "hub 01",
+    "sym": "0",
+    "color": "light_blue",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "robofachq_roof_a2",
+    "name": "hub 01",
+    "sym": "0",
+    "color": "light_blue",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "robofachq_roof_a3",
+    "name": "open air",
+    "sym": ".",
+    "color": "blue",
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "robofachq_surface_parking",
-    "name": "melchior hub parking space",
+    "name": "hub 01 parking space",
     "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
@@ -11,7 +45,7 @@
   {
     "type": "overmap_terrain",
     "id": "robofachq_surface_entrance",
-    "name": "melchior hub",
+    "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
@@ -20,7 +54,7 @@
   {
     "type": "overmap_terrain",
     "id": "robofachq_surface_car_entrance",
-    "name": "melchior hub",
+    "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
@@ -29,7 +63,7 @@
   {
     "type": "overmap_terrain",
     "id": "robofachq_surface_a3",
-    "name": "melchior hub",
+    "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
@@ -38,7 +72,7 @@
   {
     "type": "overmap_terrain",
     "id": "robofachq_surface_b0",
-    "name": "melchior hub",
+    "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
@@ -47,7 +81,7 @@
   {
     "type": "overmap_terrain",
     "id": "robofachq_surface_b1",
-    "name": "melchior hub",
+    "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
@@ -56,7 +90,7 @@
   {
     "type": "overmap_terrain",
     "id": "robofachq_surface_b2",
-    "name": "melchior hub",
+    "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
@@ -65,7 +99,7 @@
   {
     "type": "overmap_terrain",
     "id": "robofachq_surface_b3",
-    "name": "melchior hub",
+    "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
@@ -74,7 +108,7 @@
   {
     "type": "overmap_terrain",
     "id": "robofachq_hab_a0",
-    "name": "melchior hub",
+    "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
@@ -83,7 +117,7 @@
   {
     "type": "overmap_terrain",
     "id": "robofachq_hab_a1",
-    "name": "melchior hub",
+    "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
@@ -92,7 +126,7 @@
   {
     "type": "overmap_terrain",
     "id": "robofachq_hab_a2",
-    "name": "melchior hub",
+    "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
@@ -101,7 +135,7 @@
   {
     "type": "overmap_terrain",
     "id": "robofachq_hab_a3",
-    "name": "melchior hub",
+    "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
@@ -110,7 +144,7 @@
   {
     "type": "overmap_terrain",
     "id": "robofachq_hab_b0",
-    "name": "melchior hub",
+    "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
@@ -119,7 +153,7 @@
   {
     "type": "overmap_terrain",
     "id": "robofachq_hab_b1",
-    "name": "melchior hub",
+    "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
@@ -128,7 +162,7 @@
   {
     "type": "overmap_terrain",
     "id": "robofachq_hab_b2",
-    "name": "melchior hub",
+    "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
     "see_cost": 5,
@@ -137,7 +171,7 @@
   {
     "type": "overmap_terrain",
     "id": "robofachq_hab_b3",
-    "name": "melchior hub",
+    "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
     "see_cost": 5,

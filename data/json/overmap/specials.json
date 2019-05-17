@@ -2036,8 +2036,12 @@
   },
   {
     "type": "overmap_special",
-    "id": "melchior_vault",
+    "id": "hub_01",
     "overmaps": [
+      { "point": [ 0, 0, 1 ], "overmap": "robofachq_roof_a0" },
+      { "point": [ 1, 0, 1 ], "overmap": "robofachq_roof_a1" },
+      { "point": [ 2, 0, 1 ], "overmap": "robofachq_roof_a2" },
+      { "point": [ 3, 0, 1 ], "overmap": "robofachq_roof_a3" },
       { "point": [ 0, 0, 0 ], "overmap": "robofachq_surface_parking" },
       { "point": [ 1, 0, 0 ], "overmap": "robofachq_surface_entrance" },
       { "point": [ 2, 0, 0 ], "overmap": "robofachq_surface_car_entrance" },
