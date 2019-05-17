@@ -13,6 +13,7 @@
 #include "player.h"
 #include "field.h"
 #include "map.h"
+#include "mapdata.h"
 #include "map_helpers.h"
 #include "calendar.h"
 #include "enums.h"
@@ -31,11 +32,20 @@ void full_map_test( const std::vector<std::string> &setup,
     const ter_id t_utility_light( "t_utility_light" );
     const efftype_id effect_narcosis( "narcosis" );
     const ter_id t_flat_roof( "t_flat_roof" );
+    const ter_id t_open_air( "t_open_air" );
 
     g->place_player( tripoint( 60, 60, 0 ) );
     g->u.worn.clear(); // Remove any light-emitting clothing
     g->u.clear_effects();
     clear_map();
+    const int mapsize = g->m.getmapsize() * SEEX;
+    for( int z = 11; z < 21; ++z ) {
+        for( int x = 0; x < mapsize; ++x ) {
+            for( int y = 0; y < mapsize; ++y ) {
+                g->m.set( { x, y, z }, t_open_air, f_null );
+            }
+        }
+    }
     g->reset_light_level();
 
     REQUIRE( !g->u.is_blind() );
