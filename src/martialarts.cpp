@@ -207,6 +207,9 @@ void martialart::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "ondodge_buffs", ondodge_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onblock_buffs", onblock_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "ongethit_buffs", ongethit_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "onmiss_buffs", onmiss_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "oncrit_buffs", oncrit_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "onkill_buffs", onkill_buffs, ma_buff_reader{} );
 
     optional( jo, was_loaded, "techniques", techniques, auto_flags_reader<matec_id> {} );
     optional( jo, was_loaded, "weapons", weapons, auto_flags_reader<itype_id> {} );
@@ -632,6 +635,21 @@ void martialart::apply_ongethit_buffs( player &u ) const
     simultaneous_add( u, ongethit_buffs );
 }
 
+void martialart::apply_onmiss_buffs( player &u ) const
+{
+    simultaneous_add( u, onmiss_buffs );
+}
+
+void martialart::apply_oncrit_buffs( player &u ) const
+{
+    simultaneous_add( u, oncrit_buffs );
+}
+
+void martialart::apply_onkill_buffs( player &u ) const
+{
+    simultaneous_add( u, onkill_buffs );
+}
+
 bool martialart::has_technique( const player &u, const matec_id &tec_id ) const
 {
     for( const auto &elem : techniques ) {
@@ -779,6 +797,18 @@ void player::ma_onblock_effects()
 void player::ma_ongethit_effects()
 {
     style_selected.obj().apply_ongethit_buffs( *this );
+}
+void player::ma_onmiss_effects()
+{
+    style_selected.obj().apply_onmiss_buffs( *this );
+}
+void player::ma_oncrit_effects()
+{
+    style_selected.obj().apply_oncrit_buffs( *this );
+}
+void player::ma_onkill_effects()
+{
+    style_selected.obj().apply_onkill_buffs( *this );
 }
 
 template<typename C, typename F>
@@ -1054,7 +1084,10 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         buff_desc( _( "Passive" ), ma.static_buffs, true );
         buff_desc( _( "Move" ), ma.onmove_buffs );
         buff_desc( _( "Hit" ), ma.onhit_buffs );
+        buff_desc( _( "Miss" ), ma.onmiss_buffs );
         buff_desc( _( "Attack" ), ma.onattack_buffs );
+        buff_desc( _( "Crit" ), ma.oncrit_buffs );
+        buff_desc( _( "Kill" ), ma.onkill_buffs );
         buff_desc( _( "Dodge" ), ma.ondodge_buffs );
         buff_desc( _( "Block" ), ma.onblock_buffs );
         buff_desc( _( "Get hit" ), ma.ongethit_buffs );

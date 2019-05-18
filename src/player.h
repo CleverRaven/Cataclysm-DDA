@@ -509,6 +509,12 @@ class player : public Character
         void ma_onblock_effects();
         /** Fires all get hit-triggered martial arts events */
         void ma_ongethit_effects();
+        /** Fires all miss-triggered martial arts events */
+        void ma_onmiss_effects();
+        /** Fires all crit-triggered martial arts events */
+        void ma_oncrit_effects();
+        /** Fires all kill-triggered martial arts events */
+        void ma_onkill_effects();
 
         /** Returns true if the player has any martial arts buffs attached */
         bool has_mabuff( const mabuff_id &buff_id ) const;
