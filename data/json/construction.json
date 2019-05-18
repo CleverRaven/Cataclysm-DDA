@@ -806,7 +806,7 @@
     "tools": [ [ [ "con_mix", 50 ] ] ],
     "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
     "components": [ [ [ "concrete", 2 ] ], [ [ "water", 2 ] ] ],
-    "pre_terrain": "t_pit",
+    "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_concrete"
   },
   {
