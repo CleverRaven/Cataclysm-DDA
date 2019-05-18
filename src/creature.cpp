@@ -1537,7 +1537,6 @@ const std::string Creature::attitude_raw_string( Attitude att )
             return "hostile";
         case Creature::A_NEUTRAL:
             return "neutral";
-            break;
         case Creature::A_FRIENDLY:
             return "friendly";
             break;
