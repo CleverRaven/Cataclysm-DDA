@@ -1309,7 +1309,7 @@
     "type": "furniture",
     "id": "f_dryer",
     "name": "dryer",
-    "description": "Dry your clothes!  Would be what you'd do if electricity was running.",
+    "description": "'Dry your clothes!' would be what you'd do if electricity was running.",
     "symbol": "{",
     "bgcolor": "white",
     "move_cost_mod": -1,
