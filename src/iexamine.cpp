@@ -4012,7 +4012,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
     switch( amenu.ret ) {
         case INSTALL_CBM: {
-            const item_location bionic = game_menus::inv::install_bionic(p, patient);
+            const item_location bionic = game_menus::inv::install_bionic( p, patient );
 
             if( !bionic ) {
                 return;
