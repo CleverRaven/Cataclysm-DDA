@@ -4268,7 +4268,7 @@
     "type": "furniture",
     "id": "f_piano",
     "name": "piano",
-    "description": "The ol' ebony and ivory.  Really classes up the place.",
+    "description": "The ol' ebony and ivory.  Really classes up the place.  You could take it apart if you wanted... you monster.",
     "symbol": "P",
     "color": "i_black",
     "move_cost_mod": 6,
