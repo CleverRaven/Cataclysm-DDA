@@ -3031,7 +3031,7 @@
     "type": "furniture",
     "id": "f_pinball_machine",
     "name": "pinball machine",
-    "description": "Most underrated game of the 20th century.  Press buttons so the ball doesn't go in the hole.  It doesn't seem to be working without electricity.",
+    "description": "Most underrated game of the 20th century.  Press buttons so the ball doesn't go in the hole.  It doesn't seem to be working without electricity.  Could be disassembled for various electronic parts.",
     "symbol": "7",
     "color": "red",
     "move_cost_mod": -1,
