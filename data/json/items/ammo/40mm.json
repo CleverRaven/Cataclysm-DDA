@@ -106,5 +106,15 @@
     "description": "A 40mm grenade with a teargas load.  It will burst in a cloud of highly incapacitating gas.",
     "drop": "gasbomb_act",
     "extend": { "effects": [ "NO_EMBED" ] }
+  },
+  {
+    "id": "40mm_slug",
+    "copy-from": "40mm_grenade",
+    "type": "AMMO",
+    "name": "40mm slug",
+    "description": "A 40mm shell loaded with a massive bullet. Say goodbye to your shoulder, I guess.",
+	"damage": 130,
+    "recoil": 875,
+    "extend": { "effects": [ "LARGE_BEANBAG" ] }
   }
 ]
