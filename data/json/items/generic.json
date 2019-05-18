@@ -296,7 +296,7 @@
     "weight": 10000,
     "volume": 40,
     "price": 100000,
-    "material": [ "steel" ],
+    "material": [ "steel", "plastic"  ],
     "category": "spare_parts"
   },
   {
@@ -343,7 +343,7 @@
     "weight": 20000,
     "volume": "40000 ml",
     "price": 100000,
-    "material": [ "steel" ],
+    "material": [ "steel", "plastic" ],
     "category": "spare_parts"
   },
   {

@@ -219,7 +219,7 @@
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "ai_module", 1] ],
+      [ [ "ai_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
@@ -565,6 +565,251 @@
       [ [ "omnicamera", 1 ] ],
       [ [ "storage_battery", 1 ] ]
     ]
+  },
+  {
+    "result": "targeting_module",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": 300000,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "processor", 4 ] ], [ [ "power_supply", 1 ] ], [ [ "e_scrap", 6 ] ], [ [ "solder_wire", 1 ] ] ]
+  },
+  {
+    "result": "identification_module",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": 300000,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "processor", 4 ] ], [ [ "power_supply", 1 ] ], [ [ "e_scrap", 6 ] ], [ [ "solder_wire", 1 ] ] ]
+  },
+  {
+    "result": "pathfinding_module",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": 300000,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "processor", 4 ] ], [ [ "power_supply", 1 ] ], [ [ "e_scrap", 6 ] ], [ [ "solder_wire", 1 ] ] ]
+  },
+  {
+    "result": "memory_module",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": 300000,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [ [ [ "processor", 4 ] ], [ [ "RAM", 10 ] ], [ [ "power_supply", 1 ] ], [ [ "e_scrap", 6 ] ], [ [ "solder_wire", 1 ] ] ]
+  },
+  {
+    "result": "sensor_module",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": 300000,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [
+      [ [ "processor", 4 ] ],
+      [ [ "lens", 2 ] ],
+      [ [ "lens_small", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "e_scrap", 6 ] ],
+      [ [ "solder_wire", 1 ] ]
+    ]
+  },
+  {
+    "result": "self_monitoring_module",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": 300000,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [
+      [ [ "processor", 4 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "e_scrap", 6 ] ],
+      [ [ "solder_wire", 1 ] ]
+    ]
+  },
+  {
+    "result": "ai_module",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": 300000,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [
+      [ [ "processor", 10 ] ],
+      [ [ "RAM", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "e_scrap", 6 ] ],
+      [ [ "solder_wire", 1 ] ]
+    ]
+  },
+  {
+    "result": "ai_module_basic",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": 300000,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [
+      [ [ "processor", 5 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "e_scrap", 3 ] ],
+      [ [ "solder_wire", 1 ] ]
+    ]
+  },
+  {
+    "result": "ai_module_advanced",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": 300000,
+    "using": [ [ "soldering_standard", 20 ] ],
+    "components": [
+      [ [ "processor", 15 ] ],
+      [ [ "RAM", 6 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "cable", 4 ] ],
+      [ [ "e_scrap", 6 ] ],
+      [ [ "solder_wire", 1 ] ]
+    ]
+  },
+  {
+    "result": "gun_module",
+    "type": "uncraft",
+    "skill_used": "mechanics",
+    "difficulty": 5,
+    "time": 300000,
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "micro_motor", 6 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "scrap", 6 ] ],
+      [ [ "steel_chunk", 1 ] ]
+    ]
+  },
+  {
+    "result": "spidery_legs_big",
+    "type": "uncraft",
+    "skill_used": "mechanics",
+    "difficulty": 4,
+    "time": 400000,
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "small_motor", 24 ] ],
+      [ [ "power_supply", 8 ] ],
+      [ [ "cable", 16 ] ],
+      [ [ "scrap", 6 ] ],
+      [ [ "steel_chunk", 8 ] ]
+    ]
+  },
+  {
+    "result": "spidery_legs_small",
+    "type": "uncraft",
+    "skill_used": "mechanics",
+    "difficulty": 4,
+    "time": 400000,
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "tiny_motor", 24 ] ], [ [ "power_supply", 8 ] ], [ [ "cable", 16 ] ], [ [ "scrap", 14 ] ] ]
+  },
+  {
+    "result": "reverse_jointed_legs",
+    "type": "uncraft",
+    "skill_used": "mechanics",
+    "difficulty": 4,
+    "time": 400000,
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "small_motor", 6 ] ], [ [ "power_supply", 6 ] ], [ [ "cable", 12 ] ], [ [ "steel_chunk", 6 ] ] ]
+  },
+  {
+    "result": "omni_wheel",
+    "type": "uncraft",
+    "skill_used": "mechanics",
+    "difficulty": 4,
+    "time": 400000,
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "small_motor", 3 ] ],
+      [ [ "power_supply", 3 ] ],
+      [ [ "cable", 6 ] ],
+      [ [ "plastic_chunk", 6 ] ],
+      [ [ "steel_chunk", 2 ] ]
+    ]
+  },
+  {
+    "result": "quad_rotors",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 4,
+    "time": 200000,
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "micro_motor", 4 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 2 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "scrap", 1 ] ]
+    ]
+  },
+  {
+    "result": "android_legs",
+    "type": "uncraft",
+    "skill_used": "mechanics",
+    "difficulty": 5,
+    "time": 400000,
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [
+      [ [ "tiny_motor", 4 ] ],
+      [ [ "micro_motor", 10 ] ],
+      [ [ "power_supply", 6 ] ],
+      [ [ "cable", 12 ] ],
+      [ [ "steel_chunk", 4 ] ],
+      [ [ "plastic_chunk", 4 ] ],
+      [ [ "scrap", 5 ] ]
+    ]
+  },
+  {
+    "result": "android_arms",
+    "type": "uncraft",
+    "skill_used": "mechanics",
+    "difficulty": 5,
+    "time": 400000,
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [
+      [ [ "tiny_motor", 4 ] ],
+      [ [ "micro_motor", 10 ] ],
+      [ [ "power_supply", 6 ] ],
+      [ [ "cable", 12 ] ],
+      [ [ "steel_chunk", 2 ] ],
+      [ [ "plastic_chunk", 2 ] ],
+      [ [ "scrap", 5 ] ]
+    ]
+  },
+  {
+    "result": "tank_tread",
+    "type": "uncraft",
+    "skill_used": "mechanics",
+    "difficulty": 4,
+    "time": 400000,
+    "using": [ [ "soldering_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "motor", 2 ] ], [ [ "power_supply", 6 ] ], [ [ "cable", 4 ] ], [ [ "steel_lump", 6 ] ], [ [ "steel_chunk", 6 ] ] ]
   },
   {
     "result": "cable",
