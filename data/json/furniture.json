@@ -2851,7 +2851,7 @@
     "type": "furniture",
     "id": "f_lilypad",
     "name": "lilypad",
-    "description": "The frogs around here aren't what they used to be.",
+    "description": "These lilypads don't look they'd support the weight of the things you've heard croaking in the swamp.",
     "symbol": "f",
     "color": "green",
     "move_cost_mod": 0,
