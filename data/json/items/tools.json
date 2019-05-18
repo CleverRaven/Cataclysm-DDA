@@ -6896,21 +6896,6 @@
     "flags": [ "WRITE_MESSAGE" ]
   },
   {
-    "id": "stepladder",
-    "type": "TOOL",
-    "name": "stepladder",
-    "description": "This is a wooden stepladder.  Use it to set it down.",
-    "weight": 20000,
-    "volume": 200,
-    "price": 2000,
-    "to_hit": -3,
-    "bashing": 12,
-    "material": "wood",
-    "symbol": "H",
-    "color": "brown",
-    "use_action": "LADDER"
-  },
-  {
     "id": "still",
     "type": "TOOL",
     "name": "still",
