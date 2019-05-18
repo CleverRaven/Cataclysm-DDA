@@ -665,7 +665,7 @@
     "id": "black_box",
     "name": "military black box",
     "item": "black_box",
-    "description": "An armored black box, a device meant to record and preserve data of a military vehicle in the field in case it'd get destroyed.",
+    "description": "An armored black box, a device meant to record and preserve data of a military vehicle in the field in case it gets destroyed.",
     "durability": 400,
     "symbol": ";",
     "color": "light_gray",
