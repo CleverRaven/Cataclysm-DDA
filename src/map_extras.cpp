@@ -749,34 +749,32 @@ void mx_portal( map &m, const tripoint &abs_sub )
 
 void mx_minefield( map &m, const tripoint &abs_sub )
 {
-    int num_mines = rng( 6, 20 );
-    for( int x = 0; x < SEEX * 2; x++ ) {
-        for( int y = 0; y < SEEY * 2; y++ ) {
-            if( one_in( 3 ) ) {
-                m.ter_set( x, y, t_dirt );
-            }
-        }
-    }
+    const int num_mines = rng( 6, 20 );
+
     for( int i = 0; i < num_mines; i++ ) {
         // No mines at the extreme edges: safe to walk on a sign tile
-        int x = rng( 1, SEEX * 2 - 2 ), y = rng( 1, SEEY * 2 - 2 );
-        if( !m.has_flag( "DIGGABLE", x, y ) || one_in( 8 ) ) {
-            m.ter_set( x, y, t_dirtmound );
+        const int x = rng( 1, SEEX * 2 - 2 ), y = rng( 1, SEEY * 2 - 2 );
+        if( m.has_flag( "DIGGABLE", x, y ) ) {
+            mtrap_set( &m, x, y, tr_landmine_buried );
+        } else {
+            mtrap_set( &m, x, y, tr_landmine );
         }
-        mtrap_set( &m, x, y, tr_landmine_buried );
     }
-    int x1 = 0;
-    int y1 = 0;
-    int x2 = ( SEEX * 2 - 1 );
-    int y2 = ( SEEY * 2 - 1 );
-    m.furn_set( x1, y1, furn_str_id( "f_sign" ) );
-    m.set_signage( tripoint( x1,  y1, abs_sub.z ), _( "DANGER! MINEFIELD!" ) );
-    m.furn_set( x1, y2, furn_str_id( "f_sign" ) );
-    m.set_signage( tripoint( x1,  y2, abs_sub.z ), _( "DANGER! MINEFIELD!" ) );
-    m.furn_set( x2, y1, furn_str_id( "f_sign" ) );
-    m.set_signage( tripoint( x2,  y1, abs_sub.z ), _( "DANGER! MINEFIELD!" ) );
-    m.furn_set( x2, y2, furn_str_id( "f_sign" ) );
-    m.set_signage( tripoint( x2,  y2, abs_sub.z ), _( "DANGER! MINEFIELD!" ) );
+
+    const std::string text = _( "DANGER! MINEFIELD!" );
+    const int x = SEEX * 2 - 1;
+    const int y = SEEY * 2 - 1;
+    const int x1 = rng( SEEX / 2, SEEX / 2 + SEEX ), x2 = rng( SEEX / 2, SEEX / 2 + SEEX );
+    const int y1 = rng( SEEY / 2, SEEY / 2 + SEEY ), y2 = rng( SEEY / 2, SEEY / 2 + SEEY );
+
+    m.furn_set( x1, 0, furn_str_id( "f_sign_warning" ) );
+    m.set_signage( tripoint( x1,  0, abs_sub.z ), text );
+    m.furn_set( x2, y, furn_str_id( "f_sign_warning" ) );
+    m.set_signage( tripoint( x2,  y, abs_sub.z ), text );
+    m.furn_set( 0, y1, furn_str_id( "f_sign_warning" ) );
+    m.set_signage( tripoint( 0, y1, abs_sub.z ), text );
+    m.furn_set( x, y2, furn_str_id( "f_sign_warning" ) );
+    m.set_signage( tripoint( x, y2, abs_sub.z ), text );
 }
 
 void mx_crater( map &m, const tripoint &abs_sub )
