@@ -2796,8 +2796,8 @@ bool mattack::nurse_assist( monster *z )
     }
 
     if( found_target ) {
-        if( ( target->is_wearing( "badge_doctor" ) ||
-              z->attitude_to( *target ) == Creature::Attitude::A_FRIENDLY ) && one_in( 100 ) ) {
+        if( target->is_wearing( "badge_doctor" ) ||
+            z->attitude_to( *target ) == Creature::Attitude::A_FRIENDLY ) {
             sounds::sound( z->pos(), 8, sounds::sound_t::speech,
                            string_format(
                                _( "a soft robotic voice say, \"Welcome doctor %s.  I'll be your assistant today.\"" ),
