@@ -2160,13 +2160,23 @@
     "symbol": ",",
     "color": "brown",
     "name": "soft adobe brick",
-    "description": "A compacted mass of soil and natural fibers, still too wet to build with. Load it onto a pallet and leave it to dry.",
+    "name_plural": "soft adobe bricks",
+    "description": "A compacted mass of soil and natural fibers, still too wet to build with.  Load it onto a pallet and leave it to dry.",
     "price": 0,
     "material": "soil",
     "weight": 1750,
     "volume": 3,
     "bashing": 2,
-    "to_hit": -3
+    "to_hit": -3,
+    "use_action": {
+      "target": "adobe_brick",
+      "msg": "You set the heavy, muddy brick out to dry.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 100800,
+      "not_ready_msg": "The brick is still too damp to bear weight.",
+      "//": "Should be about a week. Irl it's ten days, so make big batches."
+    }
   },
   {
     "type": "GENERIC",
@@ -2184,7 +2194,7 @@
     "bashing": 10,
     "to_hit": -2,
     "price": 2000,
-    "qualities": [ [ "HAMMER", 1 ] ]	
+    "qualities": [ [ "HAMMER", 1 ] ]
   },
   {
     "type": "GENERIC",
@@ -2197,7 +2207,7 @@
     "category": "spare_parts",
     "container": "bag_canvas",
     "price": 200,
-    "material": "powder",
+    "material": "soil",
     "weight": 2340,
     "volume": 4,
     "bashing": 4
