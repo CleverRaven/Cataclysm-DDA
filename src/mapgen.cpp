@@ -6937,7 +6937,6 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type, bool forc
 void map::apply_faction_ownership( const int x1, const int y1, const int x2, const int y2,
                                    const faction_id id )
 {
-    std::cout << "map::apply_faction_ownership\n";
     faction *fac = g->faction_manager_ptr->get( id );
     for( const tripoint &p : points_in_rectangle( tripoint( x1, y1, abs_sub.z ), tripoint( x2, y2,
             abs_sub.z ) ) ) {
