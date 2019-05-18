@@ -4425,9 +4425,11 @@
       { "monster": "mon_zombie_technician", "freq": 50, "cost_multiplier": 0, "pack_size": [ 2, 4 ] },
       { "monster": "mon_zombie_labsecurity", "freq": 25, "cost_multiplier": 5, "pack_size": [ 2, 4 ] },
       { "monster": "mon_zombie_electric", "freq": 25, "cost_multiplier": 6, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_fleshy_shambler", "freq": 50, "cost_multiplier": 5, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_flesh_golem", "freq": 25, "cost_multiplier": 6, "pack_size": [ 1, 1 ] },
+      { "monster": "mon_jabberwock", "freq": 10, "cost_multiplier": 12, "pack_size": [ 1, 1 ] },
       { "monster": "mon_zombie_smoker", "freq": 25, "cost_multiplier": 4, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie_tough", "freq": 25, "cost_multiplier": 0 }
-
     ]
   },
   {
