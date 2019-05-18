@@ -280,6 +280,11 @@ std::string fac_combat_ability_text( int val )
     return _( "Worthless" );
 }
 
+void npc_factions::finalize()
+{
+    g->faction_manager_ptr->create_if_needed();
+}
+
 void faction_manager::clear()
 {
     factions.clear();

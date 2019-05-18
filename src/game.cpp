@@ -2528,7 +2528,6 @@ void game::load_master()
     using namespace std::placeholders;
     const auto datafile = get_world_base_save_path() + "/master.gsav";
     read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
-    faction_manager_ptr->create_if_needed();
 }
 
 bool game::load( const std::string &world )

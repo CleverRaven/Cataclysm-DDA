@@ -23,6 +23,11 @@ class faction;
 
 using faction_id = string_id<faction>;
 
+namespace npc_factions
+{
+    void finalize();
+}
+
 class faction_template
 {
     protected:
