@@ -1964,19 +1964,17 @@
     "time": 6,
     "byproducts": [ { "item": "straw_pile" } ],
     "pre_terrain": "t_grass_long",
-    "post_terrain": "t_grass",
-    "tools": [ [ [ "scythe", -1 ], [ "sickle", -1 ] ] ]
+    "post_terrain": "t_grass"
   },
   {
     "type": "construction",
     "description": "Cut Grass",
     "category": "OTHER",
     "required_skills": [ [ "survival", 0 ] ],
-    "time": 6,
+    "time": 10,
     "byproducts": [ { "item": "straw_pile", "count": [ 1, 2 ] } ],
     "pre_terrain": "t_grass_tall",
-    "post_terrain": "t_grass",
-    "tools": [ [ [ "scythe", -1 ], [ "sickle", -1 ] ] ]
+    "post_terrain": "t_grass"
   },
   {
     "type": "construction",
