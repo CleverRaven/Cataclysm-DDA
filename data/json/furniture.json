@@ -2991,7 +2991,7 @@
     "type": "furniture",
     "id": "f_arcade_machine",
     "name": "arcade machine",
-    "description": "Play stupid games, win stupid prizes.  That was the idea, anyway.  Now, without power, it's just sad.",
+    "description": "Play stupid games, win stupid prizes.  That was the idea, anyway.  Now, without power, it's just stupid.  Smarter to disassemble for all kinds of useful electronic parts.",
     "symbol": "6",
     "color": "red",
     "move_cost_mod": -1,
