@@ -2246,7 +2246,6 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
     Creature::Attitude attitude = Creature::A_ANY;
     const monster *m = dynamic_cast<const monster *>( &critter );
     if( m != nullptr ) {
-        const auto ent_name = m->type->id;
         const auto ent_category = C_MONSTER;
         std::string ent_subcategory = empty_string;
         if( !m->type->species.empty() ) {
@@ -2261,6 +2260,7 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
             rot_facing = 0;
         }
         if( rot_facing >= 0 ) {
+            const auto ent_name = m->type->id;
             result = draw_from_id_string( ent_name.str(), ent_category, ent_subcategory, p, subtile, rot_facing,
                                           ll, false, height_3d );
             sees_player = m->sees( g->u );

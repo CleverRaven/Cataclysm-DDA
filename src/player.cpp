@@ -5732,7 +5732,6 @@ void player::suffer()
                                                            _( "Go kill that %1$s!" ),
                                                            _( "Look at that %1$s!" ),
                                                            _( "That %1$s doesn't deserve to live!" ) };
-                        std::string talk_w = random_entry_ref( mon_near );
                         std::vector<std::string> seen_mons;
                         for( auto &n : mons ) {
                             if( sees( *n.lock() ) ) {
@@ -5740,6 +5739,7 @@ void player::suffer()
                             }
                         }
                         if( !seen_mons.empty() ) {
+                            std::string talk_w = random_entry_ref( mon_near );
                             i_talk_w = string_format( talk_w, random_entry_ref( seen_mons ) );
                             does_talk = true;
                         }

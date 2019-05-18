@@ -184,13 +184,13 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
 
 void talk_function::commune_menial( mission_data &mission_key, npc &p )
 {
-    std::string entry = _( "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
-                           "Assigning one of your allies to menial labor is a safe way to teach "
-                           "them basic skills and build reputation with the outpost.  Don't expect "
-                           "much of a reward though." );
     mission_key.add( "Assign Ally to Menial Labor", _( "Assign Ally to Menial Labor" ) );
     std::vector<npc_ptr> npc_list = companion_list( p, "_labor" );
     if( !npc_list.empty() ) {
+        std::string entry = _( "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
+                               "Assigning one of your allies to menial labor is a safe way to teach "
+                               "them basic skills and build reputation with the outpost.  Don't expect "
+                               "much of a reward though." );
         entry = _( "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -

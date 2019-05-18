@@ -1442,7 +1442,6 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         bool has_ammo = curammo && mod->ammo_remaining();
 
-        damage_instance ammo_dam = has_ammo ? curammo->ammo->damage : damage_instance();
         // TODO: This doesn't cover multiple damage types
         int ammo_pierce     = has_ammo ? get_ranged_pierce( *curammo->ammo ) : 0;
         int ammo_dispersion = has_ammo ? curammo->ammo->dispersion : 0;
@@ -1525,6 +1524,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 }
             } else {
                 if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) ) {
+                    damage_instance ammo_dam = has_ammo ? curammo->ammo->damage : damage_instance();
                     info.push_back( iteminfo( "GUN", "ammo_damage", "",
                                               iteminfo::no_newline | iteminfo::no_name |
                                               iteminfo::show_plus,
@@ -7094,7 +7094,6 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         const int rounds_exploded = rng( 1, charges_remaining );
         // Yank the exploding item off the map for the duration of the explosion
         // so it doesn't blow itself up.
-        item temp_item = *this;
         const islot_ammo &ammo_type = *type->ammo;
 
         if( ammo_type.special_cookoff ) {
@@ -7103,6 +7102,7 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         }
         charges_remaining -= rounds_exploded;
         if( charges_remaining > 0 ) {
+            item temp_item = *this;
             temp_item.charges = charges_remaining;
             drops.push_back( temp_item );
         }
@@ -7186,8 +7186,8 @@ std::string item::components_to_string() const
     typedef std::map<std::string, int> t_count_map;
     t_count_map counts;
     for( const auto &elem : components ) {
-        const std::string name = elem.display_name();
         if( !elem.has_flag( "BYPRODUCT" ) ) {
+            const std::string name = elem.display_name();
             counts[name]++;
         }
     }

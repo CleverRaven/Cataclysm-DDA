@@ -610,8 +610,8 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         comp_list npc_list = get_mission_workers( "_faction_camp_crafting_" + base_dir );
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_camp_crafting_" ];
         //This handles all crafting by the base, regardless of level
-        std::map<std::string, std::string> craft_recipes = recipe_deck( base_dir );
         if( npc_list.empty() ) {
+            std::map<std::string, std::string> craft_recipes = recipe_deck( base_dir );
             add_available_recipes( mission_key, base_dir, craft_recipes );
         } else {
             entry = miss_info.action;
@@ -2174,7 +2174,6 @@ bool basecamp::gathering_return( const std::string &task, time_duration min_time
 
 void basecamp::fortifications_return()
 {
-    const std::string msg = _( "returns from constructing fortifications..." );
     npc_ptr comp = companion_choose_return( "_faction_camp_om_fortifications", 3_hours );
     if( comp != nullptr ) {
         std::string build_n = "faction_wall_level_N_0";
@@ -2212,6 +2211,7 @@ void basecamp::fortifications_return()
                 fortifications.push_back( fort_point );
             }
         }
+        const std::string msg = _( "returns from constructing fortifications..." );
         finish_return( *comp, true, msg, "construction", 2 );
     }
 }

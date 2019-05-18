@@ -344,7 +344,6 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     std::string mission_string;
     if( has_companion_mission() ) {
         std::string dest_string;
-        npc_companion_mission c_mission = get_companion_mission();
         cata::optional<tripoint> dest = get_mission_destination();
         if( dest ) {
             basecamp *dest_camp;
@@ -357,6 +356,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
             }
             mission_string = _( "Current Mission : " ) + dest_string;
         } else {
+            npc_companion_mission c_mission = get_companion_mission();
             mission_string = _( "Current Mission : " ) +
                              get_mission_action_string( c_mission.mission_id );
         }

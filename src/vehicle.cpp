@@ -4294,8 +4294,8 @@ void vehicle::slow_leak()
             g->m.add_item_or_charges( dest, leak );
             p.ammo_consume( qty, global_part_pos3( p ) );
         } else if( fuel == fuel_type_plutonium_cell ) {
-            item leak( "plut_slurry_dense", calendar::turn, qty );
             if( p.ammo_remaining() >= PLUTONIUM_CHARGES / 10 ) {
+                item leak( "plut_slurry_dense", calendar::turn, qty );
                 g->m.add_item_or_charges( dest, leak );
                 p.ammo_consume( qty * PLUTONIUM_CHARGES / 10, global_part_pos3( p ) );
             } else {
