@@ -2161,7 +2161,7 @@
     "color": "brown",
     "name": "soft adobe brick",
     "name_plural": "soft adobe bricks",
-    "description": "A compacted mass of soil and natural fibers, still too wet to build with. Load it onto a pallet and leave it to dry.",
+    "description": "A compacted mass of soil and natural fibers, still too wet to build with.  Load it onto a pallet and leave it to dry.",
     "price": 0,
     "material": "soil",
     "weight": 1750,
