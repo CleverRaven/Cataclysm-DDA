@@ -8782,6 +8782,7 @@
     "id": "pallet_full",
     "type": "TOOL",
     "name": "pallet of wet adobe bricks",
+    "name_plural": "pallets of wet adobe bricks"	
     "description": "A pallet full of heavy mud bricks which need to dry slowly to be usable.",
     "weight": 35000,
     "volume": 50,
@@ -8806,6 +8807,7 @@
     "type": "TOOL",
     "category": "tools",
     "name": "pallet of dry adobe bricks",
+    "name_plural": "pallets of dry adobe bricks",
     "description": "A pallet of humble mud bricks that have dried for a week, while you were out risking your life. Disassemble it to retrieve your frame and building supplies.",
     "weight": 30000,
     "volume": 50,
