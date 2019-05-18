@@ -117,9 +117,9 @@ double rng_normal( double lo, double hi )
     return clamp( val, lo, hi );
 }
 
-std::default_random_engine &rng_get_engine()
+cata_default_random_engine &rng_get_engine()
 {
-    static std::default_random_engine eng(
+    static cata_default_random_engine eng(
         std::chrono::high_resolution_clock::now().time_since_epoch().count() );
     return eng;
 }
