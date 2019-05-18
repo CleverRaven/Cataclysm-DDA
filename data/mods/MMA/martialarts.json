@@ -4,6 +4,7 @@
     "id": "style_mma_panzer",
     "name": "Panzer Kunst",
     "description": "A futuristic martial art devised for cyborgs fighting in zero-gravity environments.",
+    "initiate": [ "You adopt a panzer kust stance.", "%s adopts a panzer kust stance." ],
     "arm_block": 99,
     "leg_block": 99,
     "arm_block_with_bio_armor_arms": true,
