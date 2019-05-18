@@ -315,6 +315,12 @@
     "conflicts": [ "RAD_PROOF" ]
   },
   {
+    "id": "REQUIRES_BALANCE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear requires careful balance to use. Being hit while using it will make you <bad>fall down</bad>."
+  },
+  {
     "id": "TWO_WAY_RADIO",
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL_ARMOR", "TOOL" ],

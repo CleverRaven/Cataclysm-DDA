@@ -3437,6 +3437,16 @@ void player::on_hit( Creature *source, body_part bp_hit,
             source->add_effect( effect_blind, 2_turns );
         }
     }
+    if( worn_with_flag( "REQUIRES_BALANCE") && !has_effect( effect_downed ) ) {
+        if ( !is_player() ) {
+            if ( u_see ) {
+                add_msg( _( "%1$s loses balance while being hit!" ), source->disp_name() );
+            }
+        } else {
+            add_msg( m_bad, _( "You lose balance while being hit!" ) );
+        }
+        add_effect( effect_downed, 2_turns );
+    }
 }
 
 int player::get_lift_assist() const
