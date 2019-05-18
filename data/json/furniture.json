@@ -283,7 +283,7 @@
     "type": "furniture",
     "id": "f_bulletin",
     "name": "bulletin board",
-    "description": "A big, cork bulletin board sporting various notices, most of them, depressing.  Pin some notes for other survivors to read.",
+    "description": "A big, cork bulletin board sporting various notices, most of them depressing.  Pin some notes for other survivors to read.",
     "symbol": "6",
     "color": "blue",
     "move_cost_mod": -1,
