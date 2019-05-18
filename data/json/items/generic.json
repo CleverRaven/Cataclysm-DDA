@@ -174,7 +174,7 @@
     "id": "ai_module_basic",
     "name": "basic AI core",
     "description": "A very basic AI core with minimal cognitive abilities.",
-    "weight": 125;
+    "weight": 125,
     "copy-from": "ai_module"
   },
   {
@@ -280,7 +280,7 @@
     "id": "tank_tread",
     "name": "set of small tank tread",
     "name_plural": "sets of small tank tread",
-    "description": "A set of small tank tread, like the one used by the "Beagle" mini-tank.",
+    "description": "A set of small tank tread, like the one used by the \"Beagle\" mini-tank.",
     "weight": 60000,
     "volume": 120,
     "price": 600000,
