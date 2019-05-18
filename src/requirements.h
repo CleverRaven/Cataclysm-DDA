@@ -159,8 +159,8 @@ struct requirement_data {
         friend class vpart_info;
 
         typedef std::vector< std::vector<tool_comp> > alter_tool_comp_vector;
-        typedef std::vector< std::vector<item_comp> > alter_item_comp_vector;
         typedef std::vector< std::vector<quality_requirement> > alter_quali_req_vector;
+        typedef std::vector< std::vector<item_comp> > alter_item_comp_vector;
 
     private:
         alter_tool_comp_vector tools;
@@ -223,6 +223,12 @@ struct requirement_data {
         static void reset();
 
         /**
+         * Returns a list of components/tools/qualities that are required,
+         * nicely formatted for popup window or similar.
+         */
+        std::string list_all() const;
+
+        /**
          * Returns a list of components/tools/qualities that are not available,
          * nicely formatted for popup window or similar.
          */
@@ -262,6 +268,13 @@ struct requirement_data {
          */
         requirement_data disassembly_requirements() const;
 
+        /**
+         * Returns the requirements to continue the an progress craft with this object as its
+         * requirements
+         * TODO: Make this return tool and quality requirments as well
+         */
+        requirement_data continue_requirements( const item &craft ) const;
+
     private:
         requirement_id id_ = requirement_id::NULL_ID();
 
@@ -277,6 +290,9 @@ struct requirement_data {
                                        const std::string &display_name );
         template<typename T>
         static void finalize( std::vector< std::vector<T> > &vec );
+        template<typename T>
+        static std::string print_all_objs( const std::string &header,
+                                           const std::vector< std::vector<T> > &objs );
         template<typename T>
         static std::string print_missing_objs( const std::string &header,
                                                const std::vector< std::vector<T> > &objs );

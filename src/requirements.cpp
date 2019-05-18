@@ -280,6 +280,37 @@ bool requirement_data::any_marked_available( const std::vector<T> &comps )
 }
 
 template<typename T>
+std::string requirement_data::print_all_objs( const std::string &header,
+        const std::vector< std::vector<T> > &objs )
+{
+    std::ostringstream buffer;
+    for( const auto &list : objs ) {
+        if( !buffer.str().empty() ) {
+            buffer << "\n" << _( "and " );
+        }
+        for( auto it = list.begin(); it != list.end(); ++it ) {
+            if( it != list.begin() ) {
+                buffer << _( " or " );
+            }
+            buffer << it->to_string();
+        }
+    }
+    if( buffer.str().empty() ) {
+        return std::string();
+    }
+    return header + "\n" + buffer.str() + "\n";
+}
+
+std::string requirement_data::list_all() const
+{
+    std::ostringstream buffer;
+    buffer << print_all_objs( _( "These tools are required:" ), tools );
+    buffer << print_all_objs( _( "These tools are required:" ), qualities );
+    buffer << print_all_objs( _( "These components are required:" ), components );
+    return buffer.str();
+}
+
+template<typename T>
 std::string requirement_data::print_missing_objs( const std::string &header,
         const std::vector< std::vector<T> > &objs )
 {
@@ -309,7 +340,7 @@ std::string requirement_data::list_missing() const
     std::ostringstream buffer;
     buffer << print_missing_objs( _( "These tools are missing:" ), tools );
     buffer << print_missing_objs( _( "These tools are missing:" ), qualities );
-    buffer << print_missing_objs( _( "Those components are missing:" ), components );
+    buffer << print_missing_objs( _( "These components are missing:" ), components );
     return buffer.str();
 }
 
@@ -919,6 +950,34 @@ requirement_data requirement_data::disassembly_requirements() const
             return !comp.recoverable || item( comp.type ).has_flag( "UNRECOVERABLE" );
         } ), cov.end() );
         return cov.empty();
+    } ), ret.components.end() );
+
+    return ret;
+}
+
+requirement_data requirement_data::continue_requirements( const item &craft ) const
+{
+    // Make a copy
+    requirement_data ret = *this;
+
+    // Tools and qualities are not checked upon resuming yet
+    // TODO: Check tools and qualities
+    ret.tools.clear();
+    ret.qualities.clear();
+
+    const int batch_size = craft.charges;
+    inventory craft_components;
+    craft_components += craft.components;
+
+    // Remove requirements that are fulfilled by current craft components
+    ret.components.erase( std::remove_if( ret.components.begin(), ret.components.end(),
+    [craft_components, batch_size]( std::vector<item_comp> &comps ) {
+        for( item_comp &comp : comps ) {
+            if( comp.has( craft_components, return_true<item>, batch_size ) ) {
+                return true;
+            }
+        }
+        return false;
     } ), ret.components.end() );
 
     return ret;

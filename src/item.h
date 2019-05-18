@@ -1841,9 +1841,45 @@ class item : public visitable<item>
 
         int get_min_str() const;
 
+        const cata::optional<islot_comestible> &get_comestible() const;
+
+        /**
+         * Get the stored recipe for in progress crafts.
+         * Causes a debugmsg if called on a non-craft and returns the null recipe.
+         * @return the recipe in progress
+         */
         const recipe &get_making() const;
 
-        const cata::optional<islot_comestible> &get_comestible() const;
+        /**
+         * Get the failure point stored in this item.
+         * returns INT_MAX if the failure point is unset.
+         * Causes a debugmsg and returns INT_MAX if called on a non-craft.
+         * @return an integer >= 0 representing a percent to 5 decimal places.
+         *         67.32 percent would be represented as 6732000
+         */
+        int get_next_failure_point() const;
+
+        /**
+         * Calculates and sets the next failure point for an in progress craft.
+         * Causes a debugmsg if called on non-craft.
+         * @param crafter the crafting player
+         */
+        void set_next_failure_point( const player &crafter );
+
+        /**
+         * Handle failure during crafting.
+         * Destroy components, lose progress, and set a new failure point.
+         * @param crafter the crafting player.
+         */
+        void handle_craft_failure( player &crafter );
+
+        /**
+         * Returns requirement data representing what is needed to resume work on an in progress craft.
+         * Causes a debugmsg and returns empty requirement data if called on a non-craft
+         * @return what is needed to continue craft, may be empty requirement data
+         */
+        requirement_data get_continue_reqs();
+
 
     private:
         /**
@@ -1910,7 +1946,10 @@ class item : public visitable<item>
         const mtype *corpse = nullptr;
         std::string corpse_name;       // Name of the late lamented
         std::set<matec_id> techniques; // item specific techniques
-        const recipe *making = nullptr; // Only for in-progress crafts
+
+        // Only for in-progress crafts
+        const recipe *making = nullptr;
+        int next_failure_point = -1;
 
     public:
         int charges;

@@ -1466,21 +1466,30 @@ class player : public Character
         void make_all_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
         /** consume components and create an active, in progress craft containing them */
         void start_craft( craft_command &command, const tripoint &loc );
+        /**
+         * Calculate a value representing the success of the player at crafting the given recipe,
+         * taking player skill, recipe difficulty, npc helpers, and player mutations into account.
+         * @param making the recipe for which to calculate
+         * @return a value >= 0.0 with >= 1.0 representing unequivocal success
+         */
+        double crafting_success_roll( const recipe &making ) const;
         void complete_craft( item &craft, const tripoint &loc = tripoint_zero );
         /**
          * Check if the player meets the requirements to continue the in progress craft and if
          * unable to continue print messages explaining the reason.
+         * If the craft is missing components due to messing up, prompt to consume new ones to
+         * allow the craft to be continued.
          * @param craft the currently in progress craft
          * @return if the craft can be continued
          */
-        bool can_continue_craft( const item &craft );
+        bool can_continue_craft( item &craft );
         /** Returns nearby NPCs ready and willing to help with crafting. */
         std::vector<npc *> get_crafting_helpers() const;
         int get_num_crafting_helpers( int max ) const;
         /**
          * Handle skill gain for player and followers during crafting
          * @param craft the currently in progress craft
-         * @param mulitplier what factor to multiply the base skill gain by.  This is used to apply
+         * @param multiplier what factor to multiply the base skill gain by.  This is used to apply
          * multiple steps of incremental skill gain simultaneously if needed.
          */
         void craft_skill_gain( const item &craft, const int &multiplier );

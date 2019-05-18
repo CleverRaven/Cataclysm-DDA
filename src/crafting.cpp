@@ -678,34 +678,6 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
     }
 }
 
-static void return_all_components_for_craft( player &p, std::list<item> &used,
-        const double &relative_rot )
-{
-    for( item &it : used ) {
-        // If the product doesn't rot, don't touch component rot.
-        if( relative_rot != 0.0 ) {
-            it.set_relative_rot( relative_rot );
-        }
-        set_item_inventory( p, it );
-    }
-}
-
-static void return_some_components_for_craft( player &p, std::list<item> &used,
-        const double &relative_rot )
-{
-    for( std::list<item>::iterator it = used.begin(); it != used.end(); ++it ) {
-        // Each component has a 50% chance of being returned
-        // Never return the first component
-        if( it != used.begin() && one_in( 2 ) ) {
-            // If the product doesn't rot, don't touch component rot.
-            if( relative_rot != 0.0 ) {
-                it->set_relative_rot( relative_rot );
-            }
-            set_item_inventory( p, *it );
-        }
-    }
-}
-
 void player::start_craft( craft_command &command, const tripoint &loc )
 {
     if( command.empty() ) {
@@ -714,6 +686,7 @@ void player::start_craft( craft_command &command, const tripoint &loc )
     }
 
     item craft = command.create_in_progress_craft();
+    craft.set_next_failure_point( *this );
 
     // In case we were wearing something just consumed
     if( !craft.components.empty() ) {
@@ -864,17 +837,8 @@ void player::craft_skill_gain( const item &craft, const int &multiplier )
     }
 }
 
-void player::complete_craft( item &craft, const tripoint &loc )
+double player::crafting_success_roll( const recipe &making ) const
 {
-    if( !craft.is_craft() ) {
-        debugmsg( "complete_craft() called on non-craft '%s.'  Aborting.", craft.tname() );
-        return;
-    }
-
-    const recipe &making = craft.get_making(); // Which recipe is it?
-    const int batch_size = craft.charges;
-
-    /* to be modified and moved to ACT_CRAFT */
     int secondary_dice = 0;
     int secondary_difficulty = 0;
     for( const auto &pr : making.required_skills ) {
@@ -890,14 +854,12 @@ void player::complete_craft( item &craft, const tripoint &loc )
         skill_dice = get_skill_level( making.skill_used ) * 4;
     }
 
-    auto helpers = get_crafting_helpers();
-
-    for( const npc *np : helpers ) {
+    for( const npc *np : get_crafting_helpers() ) {
         if( np->get_skill_level( making.skill_used ) >=
             get_skill_level( making.skill_used ) ) {
             // NPC assistance is worth half a skill level
             skill_dice += 2;
-            add_msg( m_info, _( "%s helps with crafting..." ), np->name );
+            add_msg_if_player( m_info, _( "%s helps with crafting..." ), np->name );
             break;
         }
     }
@@ -932,7 +894,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
 
     // Sides on dice is 16 plus your current intelligence
     ///\EFFECT_INT increases crafting success chance
-    int skill_sides = 16 + int_cur;
+    const int skill_sides = 16 + int_cur;
 
     int diff_dice;
     if( secondary_difficulty > 0 ) {
@@ -942,26 +904,112 @@ void player::complete_craft( item &craft, const tripoint &loc )
         diff_dice = making.difficulty * 4;
     }
 
-    int diff_sides = 24; // 16 + 8 (default intelligence)
+    const int diff_sides = 24; // 16 + 8 (default intelligence)
 
-    int skill_roll = dice( skill_dice, skill_sides );
-    int diff_roll  = dice( diff_dice,  diff_sides );
+    const double skill_roll = dice( skill_dice, skill_sides );
+    const double diff_roll = dice( diff_dice, diff_sides );
 
-    std::list<item> &used = craft.components;
-    const double relative_rot = craft.get_relative_rot();
+    return skill_roll / diff_roll;
+}
 
-    // Messed up badly; waste some components.
-    if( making.difficulty != 0 && diff_roll > skill_roll * ( 1 + 0.1 * rng( 1, 5 ) ) ) {
-        add_msg( m_bad, _( "You fail to make the %s, and waste some materials." ), making.result_name() );
-        return_some_components_for_craft( *this, used, relative_rot );
-        return;
-        // Messed up slightly; no components wasted.
-    } else if( diff_roll > skill_roll ) {
-        add_msg( m_neutral, _( "You fail to make the %s, but don't waste any materials." ),
-                 making.result_name() );
-        return_all_components_for_craft( *this, used, relative_rot );
+int item::get_next_failure_point() const
+{
+    if( !is_craft() ) {
+        debugmsg( "get_next_failure_point() called on non-craft '%s.'  Aborting.", tname() );
+        return INT_MAX;
+    }
+    return next_failure_point >= 0 ? next_failure_point : INT_MAX;
+}
+
+void item::set_next_failure_point( const player &crafter )
+{
+    if( !is_craft() ) {
+        debugmsg( "set_next_failure_point() called on non-craft '%s.'  Aborting.", tname() );
         return;
     }
+
+    const int percent_left = 10000000 - item_counter;
+    const int failure_point_delta = crafter.crafting_success_roll( get_making() ) * percent_left;
+
+    next_failure_point = item_counter + failure_point_delta;
+}
+
+static void destroy_random_component( item &craft, const player &crafter )
+{
+    if( craft.components.empty() ) {
+        debugmsg( "destroy_random_component() called on craft with no components! Aborting" );
+        return;
+    }
+
+    item destroyed = random_entry_removed( craft.components );
+
+    crafter.add_msg_player_or_npc(
+        string_format( _( "You mess up and destroy the %s." ), destroyed.tname() ),
+        string_format( _( "<npcname> messes up and destroys the %s" ), destroyed.tname() )
+    );
+}
+
+void item::handle_craft_failure( player &crafter )
+{
+    if( !is_craft() ) {
+        debugmsg( "handle_craft_failure() called on non-craft '%s.'  Aborting.", tname() );
+        return;
+    }
+
+    const double success_roll = crafter.crafting_success_roll( get_making() );
+
+    // Destroy at most 75% of the components, always a chance of losing 1 though
+    const size_t max_destroyed = std::max<size_t>( 1, components.size() * 3 / 4 );
+    for( size_t i = 0; i < max_destroyed; i++ ) {
+        // This shouldn't happen
+        if( components.empty() ) {
+            break;
+        }
+        // If we roll success, skip destroying a component
+        if( x_in_y( success_roll, 1.0 ) ) {
+            continue;
+        }
+        destroy_random_component( *this, crafter );
+    }
+
+    // Minimum 25% progress lost, average 35%.  Falls off exponentially
+    // Loss is scaled by the success roll
+    const double percent_progress_loss = rng_exponential( 0.25, 0.35 ) * ( 1.0 - success_roll );
+    crafter.add_msg_player_or_npc(
+        string_format( _( "You mess up and lose %.0lf%% progress." ), 100 * percent_progress_loss ),
+        string_format( _( "<npcname> messes up and loses %.0lf%% progress." ), 100 * percent_progress_loss )
+    );
+    const int adjusted_progress = item_counter * percent_progress_loss;
+    item_counter = clamp( adjusted_progress, 0, 10000000 );
+
+    set_next_failure_point( crafter );
+
+    // Check if we can consume a new component and continue
+    if( !crafter.can_continue_craft( *this ) ) {
+        crafter.cancel_activity();
+    }
+}
+
+requirement_data item::get_continue_reqs()
+{
+    if( !is_craft() ) {
+        debugmsg( "get_continue_reqs() called on non-craft '%s.'  Aborting.", tname() );
+        return requirement_data();
+    }
+    return making->requirements().continue_requirements( *this );
+}
+
+void player::complete_craft( item &craft, const tripoint &loc )
+{
+    if( !craft.is_craft() ) {
+        debugmsg( "complete_craft() called on non-craft '%s.'  Aborting.", craft.tname() );
+        return;
+    }
+
+    const recipe &making = craft.get_making();
+    const int batch_size = craft.charges;
+    std::list<item> &used = craft.components;
+    const double relative_rot = craft.get_relative_rot();
 
     // Set up the new item, and assign an inventory letter if available
     std::vector<item> newits = making.create_results( batch_size );
@@ -986,7 +1034,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 // but also keeps going up as difficulty goes up.
                 // Worst case is lvl 10, which will typically take
                 // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
-                int difficulty = has_recipe( &making, crafting_inventory(), helpers );
+                int difficulty = has_recipe( &making, crafting_inventory(), get_crafting_helpers() );
                 ///\EFFECT_INT increases chance to learn recipe when crafting from a book
                 if( x_in_y( making.time, ( 1000 * 8 *
                                            ( difficulty * difficulty * difficulty * difficulty ) ) /
@@ -1105,7 +1153,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
     inv.restack( *this );
 }
 
-bool player::can_continue_craft( const item &craft )
+bool player::can_continue_craft( item &craft )
 {
     if( !craft.is_craft() ) {
         debugmsg( "complete_craft() called on non-craft '%s.'  Aborting.", craft.tname() );
@@ -1121,6 +1169,47 @@ bool player::can_continue_craft( const item &craft )
                            rec.result_name() )
         );
         return false;
+    }
+
+    const requirement_data continue_reqs = craft.get_continue_reqs();
+
+    // Avoid building an inventory from the map if we don't have to, as it is expensive
+    if( !continue_reqs.is_empty() ) {
+
+        const std::function<bool( const item & )> filter = rec.get_component_filter();
+        const int batch_size = craft.charges;
+
+        if( !continue_reqs.can_make_with_inventory( crafting_inventory(), filter, batch_size ) ) {
+            std::ostringstream buffer;
+            buffer << _( "You don't have the required components to continue crafting!" ) << "\n";
+            buffer << continue_reqs.list_missing();
+            popup( buffer.str(), PF_NONE );
+            return false;
+        }
+
+        std::ostringstream buffer;
+        buffer << _( "Consume the missing components and continue crafting?" ) << "\n";
+        buffer << continue_reqs.list_all() << "\n";
+        if( !query_yn( buffer.str() ) ) {
+            return false;
+        }
+
+        inventory map_inv;
+        map_inv.form_from_map( pos(), PICKUP_RANGE );
+
+        std::vector<comp_selection<item_comp>> item_selections;
+        for( const auto &it : continue_reqs.get_components() ) {
+            comp_selection<item_comp> is = select_item_component( it, batch_size, map_inv, true, filter );
+            if( is.use_from == cancel ) {
+                cancel_activity();
+                add_msg( _( "You stop crafting." ) );
+                return false;
+            }
+            item_selections.push_back( is );
+        }
+        for( const auto &it : item_selections ) {
+            craft.components.splice( craft.components.end(), consume_items( it, batch_size, filter ) );
+        }
     }
 
     return true;
