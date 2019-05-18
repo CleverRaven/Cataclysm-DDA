@@ -1162,7 +1162,7 @@
       [ [ "hk_mp5", 2 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module" ], 1 ],
+      [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
     ]
@@ -1193,7 +1193,7 @@
       [ [ "laser_cannon", 1 ] ],
       [ [ "medium_storage_battery", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module" ], 1 ],
+      [ [ "identification_module", 1 ] ],
       [ [ "solar_cell", 4 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
@@ -1225,7 +1225,7 @@
       [ [ "m4a1", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module" ], 1 ],
+      [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
     ]
@@ -1256,7 +1256,7 @@
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
-      [ [ "set of android legs", 1 ] ],
+      [ [ "android_legs", 1 ] ],
       [ [ "android_chassis", 1 ] ],
       [ [ "android_arms", 2 ] ],
       [ [ "medium_storage_battery", 1 ] ]
@@ -1264,7 +1264,7 @@
   },
   {
     "type": "recipe",
-    "result": "bot_hazmabot",
+    "result": "bot_hazmatbot",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "mechanics",
@@ -1352,7 +1352,7 @@
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "lens", 1 ] ],
-      [ [ "identification_module" ], 1 ]
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -1444,7 +1444,7 @@
       [ [ "spidery_legs_small", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
-      [ [ "identification_module" ], 1 ],
+      [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "tazer", 2 ] ],
       [ [ "scrap", 4 ] ]
@@ -1476,7 +1476,7 @@
       [ [ "spidery_legs_small", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
-      [ [ "identification_module" ], 1 ],
+      [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 3 ] ],
       [ [ "geiger_off", 1 ] ],
       [ [ "tazer", 2 ] ],
@@ -1621,7 +1621,7 @@
       [ [ "m107a1", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module" ], 1 ],
+      [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "turret_chassis", 1 ] ]
     ]

@@ -1854,7 +1854,7 @@
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "spike", 2 ] ],
-      [ [ "identification_module" ], 1 ]
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -1879,7 +1879,7 @@
       [ [ "scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module" ], 1 ]
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -1904,7 +1904,7 @@
       [ [ "scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module" ], 1 ]
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -1929,7 +1929,7 @@
       [ [ "scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module" ], 1 ]
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -1954,7 +1954,7 @@
       [ [ "scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module" ], 1 ]
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -1979,7 +1979,7 @@
       [ [ "scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module" ], 1 ]
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -2004,7 +2004,7 @@
       [ [ "scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module" ], 1 ]
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {

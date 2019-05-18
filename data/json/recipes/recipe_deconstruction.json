@@ -189,7 +189,7 @@
       [ [ "scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module" ], 1 ]
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -207,7 +207,7 @@
       [ [ "scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module" ], 1 ]
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -248,7 +248,7 @@
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "lens", 1 ] ],
-      [ [ "identification_module" ], 1 ]
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -266,7 +266,7 @@
       [ [ "scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module" ], 1 ]
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -284,7 +284,7 @@
       [ [ "scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module" ], 1 ]
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -302,7 +302,7 @@
       [ [ "scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module" ], 1 ]
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -321,7 +321,7 @@
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "spike", 2 ] ],
-      [ [ "identification_module" ], 1 ]
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -339,7 +339,7 @@
       [ [ "scrap", 1 ] ],
       [ [ "quad_rotors", 1 ] ],
       [ [ "sensor_module", 1 ] ],
-      [ [ "identification_module" ], 1 ]
+      [ [ "identification_module", 1 ] ]
     ]
   },
   {
@@ -398,7 +398,7 @@
       [ [ "spidery_legs_small", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
-      [ [ "identification_module" ], 1 ],
+      [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "tazer", 2 ] ],
       [ [ "scrap", 4 ] ]
@@ -419,7 +419,7 @@
       [ [ "spidery_legs_small", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
-      [ [ "identification_module" ], 1 ],
+      [ [ "identification_module", 1 ] ],
       [ [ "power_supply", 3 ] ],
       [ [ "geiger_off", 1 ] ],
       [ [ "tazer", 2 ] ],
@@ -493,7 +493,7 @@
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
-      [ [ "set of android legs", 1 ] ],
+      [ [ "android_legs", 1 ] ],
       [ [ "android_chassis", 1 ] ],
       [ [ "android_arms", 2 ] ],
       [ [ "medium_storage_battery", 1 ] ]
@@ -514,7 +514,7 @@
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
       [ [ "identification_module", 1 ] ],
-      [ [ "set of android legs", 1 ] ],
+      [ [ "android_legs", 1 ] ],
       [ [ "android_chassis", 1 ] ],
       [ [ "android_arms", 2 ] ],
       [ [ "medium_storage_battery", 1 ] ]
@@ -692,7 +692,7 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "micro_motor", 6 ] ],
+      [ [ "motor_micro", 6 ] ],
       [ [ "power_supply", 2 ] ],
       [ [ "cable", 2 ] ],
       [ [ "scrap", 6 ] ],
@@ -708,7 +708,7 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "small_motor", 24 ] ],
+      [ [ "motor_small", 24 ] ],
       [ [ "power_supply", 8 ] ],
       [ [ "cable", 16 ] ],
       [ [ "scrap", 6 ] ],
@@ -723,7 +723,7 @@
     "time": 400000,
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "tiny_motor", 24 ] ], [ [ "power_supply", 8 ] ], [ [ "cable", 16 ] ], [ [ "scrap", 14 ] ] ]
+    "components": [ [ [ "motor_tiny", 24 ] ], [ [ "power_supply", 8 ] ], [ [ "cable", 16 ] ], [ [ "scrap", 14 ] ] ]
   },
   {
     "result": "reverse_jointed_legs",
@@ -733,7 +733,7 @@
     "time": 400000,
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "small_motor", 6 ] ], [ [ "power_supply", 6 ] ], [ [ "cable", 12 ] ], [ [ "steel_chunk", 6 ] ] ]
+    "components": [ [ [ "motor_small", 6 ] ], [ [ "power_supply", 6 ] ], [ [ "cable", 12 ] ], [ [ "steel_chunk", 6 ] ] ]
   },
   {
     "result": "omni_wheel",
@@ -744,7 +744,7 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "small_motor", 3 ] ],
+      [ [ "motor_small", 3 ] ],
       [ [ "power_supply", 3 ] ],
       [ [ "cable", 6 ] ],
       [ [ "plastic_chunk", 6 ] ],
@@ -760,7 +760,7 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [
-      [ [ "micro_motor", 4 ] ],
+      [ [ "motor_micro", 4 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 2 ] ],
       [ [ "plastic_chunk", 4 ] ],
@@ -776,8 +776,8 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [
-      [ [ "tiny_motor", 4 ] ],
-      [ [ "micro_motor", 10 ] ],
+      [ [ "motor_tiny", 4 ] ],
+      [ [ "motor_micro", 10 ] ],
       [ [ "power_supply", 6 ] ],
       [ [ "cable", 12 ] ],
       [ [ "steel_chunk", 4 ] ],
@@ -794,8 +794,8 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
     "components": [
-      [ [ "tiny_motor", 4 ] ],
-      [ [ "micro_motor", 10 ] ],
+      [ [ "motor_tiny", 4 ] ],
+      [ [ "motor_micro", 10 ] ],
       [ [ "power_supply", 6 ] ],
       [ [ "cable", 12 ] ],
       [ [ "steel_chunk", 2 ] ],
