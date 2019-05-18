@@ -1154,7 +1154,7 @@ void iexamine::gunsafe_ml( player &p, const tripoint &examp )
     ///\EFFECT_DEX speeds up lock picking gun safe
     ///\EFFECT_MECHANICS speeds up lock picking gun safe
     p.moves -= std::max( 0, to_turns<int>( 10_minutes - time_duration::from_minutes( pick_quality ) )
-                            - ( p.dex_cur + p.get_skill_level( skill_mechanics ) ) * 5 );
+                         - ( p.dex_cur + p.get_skill_level( skill_mechanics ) ) * 5 );
 
     ///\EFFECT_DEX increases chance of lock picking gun safe
     ///\EFFECT_MECHANICS increases chance of lock picking gun safe
@@ -3871,7 +3871,7 @@ void iexamine::ledge( player &p, const tripoint &examp )
                 }
             }
 
-            p.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod);
+            p.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod );
             p.setpos( examp );
             if( climb_cost > 0 || rng_float( 0.8, 1.0 ) > fall_mod ) {
                 // One tile of falling less (possibly zero)

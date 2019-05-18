@@ -2870,7 +2870,7 @@ int iuse::clear_rubble( player *p, item *it, bool, const tripoint & )
             break;
         }
         const int helpersize = g->u.get_num_crafting_helpers( 3 );
-        const int moves = to_moves<int>( 30_seconds) * ( 1 - ( helpersize / 10 ) );
+        const int moves = to_moves<int>( 30_seconds ) * ( 1 - ( helpersize / 10 ) );
         player_activity act( activity_id( "ACT_CLEAR_RUBBLE" ), moves / bonus, bonus );
         p->assign_activity( act );
         p->activity.placement = pnt;
@@ -4541,7 +4541,7 @@ static int chop_moves( player *p, item *it )
     // attribute; regular tools - based on STR, powered tools - based on DEX
     const int attr = it->has_flag( "POWERED" ) ? p->dex_cur : p->str_cur;
 
-    int moves = to_turns<int>( time_duration::from_minutes( 60 - attr ) /std::pow( 2, quality - 1 ) );
+    int moves = to_turns<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
     moves = moves * ( 1 - ( helpersize / 10 ) );
     return moves;

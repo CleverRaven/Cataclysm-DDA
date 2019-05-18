@@ -966,7 +966,7 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     /** @EFFECT_DEX speeds up door lock picking */
     /** @EFFECT_MECHANICS speeds up door lock picking */
     p.moves -= std::max( 0, to_turns<int>( 10_minutes - time_duration::from_minutes( pick_quality ) )
-                            - ( p.dex_cur + p.get_skill_level( skill_mechanics ) ) * 5 );
+                         - ( p.dex_cur + p.get_skill_level( skill_mechanics ) ) * 5 );
 
     bool destroy = false;
 
