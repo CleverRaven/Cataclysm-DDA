@@ -2351,6 +2351,7 @@
     "post_terrain": "t_wall_rammed_earth"
   },
   {
+    "type": "construction",
     "description": "Hang Hanging Meathook",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
