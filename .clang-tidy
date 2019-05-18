@@ -1,4 +1,4 @@
-Checks: 'clang-diagnostic-*,-clang-analyzer-security.FloatLoopCounter,-clang-analyzer-core.UndefinedBinaryOperatorResult,-clang-analyzer-core.uninitialized.Assign'
+Checks: 'clang-diagnostic-*,-clang-analyzer-security.FloatLoopCounter,-clang-analyzer-core.UndefinedBinaryOperatorResult'
 WarningsAsErrors: '*'
 HeaderFilterRegex: '.*'
 FormatStyle:     none
