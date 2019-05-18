@@ -1181,6 +1181,8 @@ class item : public visitable<item>
          * Callback when contents of the item are affected in any way other than just processing.
          */
         void on_contents_changed();
+        /**Called when charges are changed in tool or a gun*/
+        void on_charges_changed();
 
         /**
          * Callback immediately **before** an item is damaged
