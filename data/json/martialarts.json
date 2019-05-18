@@ -288,6 +288,7 @@
     "id": "style_pankration",
     "name": "Pankration",
     "description": "An ancient Greek martial art, combining boxing and wrestling techniques to create a brutal sport, though modern revival of the art is less of no-holds-barred in nature.",
+    "initiate": [ "You crouch slightly and prepare to rush forward.", "%s crouches slightly, ready to rush forward." ],
     "arm_block": 2,
     "leg_block": 4,
     "ondodge_buffs": [
