@@ -7019,7 +7019,7 @@
     "type": "terrain",
     "id": "t_missile",
     "name": "missile",
-    "description": "This is a section of an ICBM, an Intercontiental Ballistic Missile.  This isn't the kind that goes to the moon.",
+    "description": "This is a section of an ICBM, an Intercontinental Ballistic Missile.  This isn't the kind that goes to the moon.",
     "symbol": "#",
     "color": "light_blue",
     "move_cost": 0,
