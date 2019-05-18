@@ -1,7 +1,7 @@
 #include "game.h" // IWYU pragma: associated
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 #include <algorithm>
 
 #include "map.h"
@@ -98,7 +98,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         //if vehicle has no wheels str_req make a noise.
         if( str_req <= u.get_str() ) {
             sounds::sound( grabbed_vehicle->global_pos3(), str_req * 2, sounds::sound_t::movement,
-                           _( "a scraping noise." ) );
+                           _( "a scraping noise." ), true, "misc", "scraping" );
         }
     }
 

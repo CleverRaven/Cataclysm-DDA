@@ -32,9 +32,9 @@
 #include "inventory.h"
 #include "item.h"
 #include "optional.h"
-#include "pldata.h"
 #include "ret_val.h"
 #include "string_id.h"
+#include "type_id.h"
 
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>

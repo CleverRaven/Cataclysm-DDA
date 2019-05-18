@@ -389,7 +389,7 @@
       [ "kippah", 1 ],
       [ "robe", 3 ],
       [ "thawb", 1 ],
-      [ "kimono", 1 ],
+      [ "yukata", 1 ],
       [ "eclipse_glasses", 1 ],
       [ "reading_light", 9 ]
     ]
@@ -1139,7 +1139,11 @@
       [ "robe", 10 ],
       [ "eboshi", 1 ],
       [ "kariginu", 1 ],
-      [ "kimono", 5 ],
+      [ "geta", 1 ],
+      [ "kimono", 2 ],
+      [ "yukata", 6 ],
+      [ "haori", 2 ],
+      [ "hakama", 4 ],
       [ "eclipse_glasses", 1 ],
       [ "thermos", 20 ]
     ]
@@ -3044,7 +3048,11 @@
       [ "robe", 5 ],
       [ "eboshi", 1 ],
       [ "kariginu", 1 ],
-      [ "kimono", 3 ]
+      [ "geta", 1 ],
+      [ "kimono", 2 ],
+      [ "yukata", 4 ],
+      [ "haori", 1 ],
+      [ "hakama", 2 ]
     ]
   },
   {
@@ -3309,6 +3317,7 @@
       [ "sweater", 75 ],
       [ "hoodie", 65 ],
       [ "jumpsuit", 20 ],
+      [ "badge_doctor", 10 ],
       [ "hazmat_suit", 5 ],
       [ "cleansuit", 10 ]
     ]
@@ -3438,6 +3447,7 @@
       [ "holybook_scientology", 1 ],
       [ "recipe_medicalmut", 1 ],
       [ "survnote", 1 ],
+      [ "badge_doctor", 1 ],
       [ "tourist_table", 1 ],
       [ "thermos", 10 ]
     ]
@@ -3492,7 +3502,7 @@
   {
     "type": "item_group",
     "id": "ambulance_equipment",
-    "items": [ { "group": "tools_medical", "prob": 100 }, { "group": "drugs_emergency", "prob": 50 } ]
+    "items": [ { "group": "tools_medical", "prob": 100 }, { "group": "drugs_emergency", "prob": 50 }, [ "badge_doctor", 2 ] ]
   },
   {
     "type": "item_group",
@@ -4419,7 +4429,11 @@
       [ "cassock", 1 ],
       [ "eboshi", 1 ],
       [ "kariginu", 2 ],
-      [ "kimono", 3 ],
+      [ "kimono", 2 ],
+      [ "yukata", 4 ],
+      [ "haori", 1 ],
+      [ "hakama", 2 ],
+      [ "geta", 1 ],
       [ "l-stick", 1 ],
       [ "solarpack", 5 ],
       [ "tourist_table", 10 ],
@@ -5285,6 +5299,7 @@
       [ "thermometer", 3 ],
       [ "hygrometer", 3 ],
       [ "barometer", 3 ],
+      [ "badge_doctor", 5 ],
       [ "dnd_handbook", 2 ],
       [ "bodypillow", 1 ]
     ]
@@ -7014,6 +7029,7 @@
       [ "eyedrops", 20 ],
       [ "adderall", 10 ],
       [ "id_science", 2 ],
+      [ "badge_doctor", 2 ],
       [ "double_plutonium_core", 1 ],
       [ "cleansuit", 5 ],
       [ "laptop", 10 ],
@@ -8208,6 +8224,8 @@
       [ "cavalry_sabre", 2 ],
       [ "glaive", 2 ],
       [ "naginata", 2 ],
+      [ "naginata_fake", 2 ],
+      [ "naginata_inferior", 3 ],
       [ "estoc", 2 ],
       [ "estoc_fake", 6 ],
       [ "qiang", 3 ],
@@ -8269,7 +8287,7 @@
       [ "seed_zucchini", 60 ],
       [ "seed_cotton_boll", 10 ],
       [ "seed_tobacco", 10 ],
-      [ "raw_beans", 60 ],
+      [ "seed_beans", 60 ],
       [ "seed_chili_pepper", 60 ],
       [ "seed_tomato", 60 ]
     ]
@@ -8669,6 +8687,7 @@
     "items": [
       [ "rope_30", 10 ],
       [ "hatchet", 50 ],
+      [ "iceaxe", 20 ],
       [ "mess_kit", 100 ],
       [ "teapot", 50 ],
       [ "binoculars", 30 ],

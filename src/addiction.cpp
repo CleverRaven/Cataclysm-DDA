@@ -10,7 +10,6 @@
 #include "rng.h"
 #include "translations.h"
 #include "calendar.h"
-#include "creature.h"
 #include "enums.h"
 
 const efftype_id effect_hallu( "hallu" );
@@ -181,7 +180,7 @@ void addict_effect( player &u, addiction &add )
                     u.add_morale( MORALE_CRAVING_MUTAGEN, -20, -200 );
                 }
                 if( u.focus_pool > 40 && one_in( 800 - 20 * in ) ) {
-                    u.focus_pool -= ( in );
+                    u.focus_pool -= in;
                     u.add_msg_if_player( m_warning,
                                          _( "You daydream what it'd be like if you were *different*.  Different is good." ) );
                 }

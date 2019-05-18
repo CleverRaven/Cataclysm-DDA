@@ -7,9 +7,9 @@
 
 #include "generic_factory.h"
 #include "json.h"
-#include "player.h"
 #include "debug.h"
 #include "string_id.h"
+#include "type_id.h"
 
 // recipe_groups namespace
 
@@ -57,7 +57,7 @@ void recipe_group_data::check() const
     }
 }
 
-std::map<std::string, std::string> recipe_group::get_recipes( std::string id )
+std::map<std::string, std::string> recipe_group::get_recipes( const std::string &id )
 {
     std::map<std::string, std::string> all_rec;
     if( id == "ALL" ) {

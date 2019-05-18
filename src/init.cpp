@@ -1,6 +1,6 @@
 #include "init.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <cassert>
 #include <fstream>
 #include <sstream> // for throwing errors
@@ -14,6 +14,7 @@
 #include "activity_type.h"
 #include "ammo.h"
 #include "anatomy.h"
+#include "behavior.h"
 #include "bionics.h"
 #include "construction.h"
 #include "crafting_gui.h"
@@ -36,6 +37,7 @@
 #include "martialarts.h"
 #include "material.h"
 #include "mission.h"
+#include "magic.h"
 #include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -70,6 +72,7 @@
 #include "worldfactory.h"
 #include "bodypart.h"
 #include "translations.h"
+#include "type_id.h"
 
 #if defined(TILES)
 void load_tileset();
@@ -333,6 +336,7 @@ void DynamicDataLoader::initialize()
     add( "npc_class", &npc_class::load_npc_class );
     add( "talk_topic", &load_talk_topic );
     add( "epilogue", &epilogue::load_epilogue );
+    add( "behavior", &behavior::load_behavior );
 
     add( "MONSTER_FACTION", &monfactions::load_monster_faction );
 
@@ -357,6 +361,7 @@ void DynamicDataLoader::initialize()
     add( "body_part", &body_part_struct::load_bp );
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
+    add( "SPELL", &spell_type::load_spell );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -484,6 +489,7 @@ void DynamicDataLoader::unload_data()
     overmap_specials::reset();
     ammunition_type::reset();
     unload_talk_topics();
+    behavior::reset();
     start_location::reset();
     scenario::reset();
     gates::reset();
@@ -552,6 +558,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Constructions" ), &finalize_constructions },
             { _( "NPC classes" ), &npc_class::finalize_all },
             { _( "Missions" ), &mission_type::finalize },
+            { _( "Behaviors" ), &behavior::finalize },
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
 #if defined(TILES)
@@ -624,6 +631,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Bionics" ), &check_bionics },
             { _( "Gates" ), &gates::check },
             { _( "NPC classes" ), &npc_class::check_consistency },
+            { _( "Behaviors" ), &behavior::check_consistency },
             { _( "Mission types" ), &mission_type::check_consistency },
             {
                 _( "Item actions" ), []()
@@ -634,7 +642,8 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Harvest lists" ), &harvest_list::check_consistency },
             { _( "NPC templates" ), &npc_template::check_consistency },
             { _( "Body parts" ), &body_part_struct::check_consistency },
-            { _( "Anatomies" ), &anatomy::check_consistency }
+            { _( "Anatomies" ), &anatomy::check_consistency },
+            { _( "Spells" ), &spell_type::check_consistency }
         }
     };
 

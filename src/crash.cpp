@@ -2,7 +2,7 @@
 
 #include "crash.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <csignal>
 #include <cstdio>
 #include <exception>

@@ -29,6 +29,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "type_id.h"
 
 // Gates namespace
 

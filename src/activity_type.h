@@ -4,6 +4,7 @@
 
 #include <string>
 
+#include "game_constants.h"
 #include "string_id.h"
 
 class activity_type;
@@ -34,6 +35,7 @@ class activity_type
         based_on_type based_on_ = based_on_type::SPEED;
         bool no_resume_ = false;
         bool refuel_fires = false;
+        float activity_level = NO_EXERCISE;
 
     public:
         const activity_id &id() const {
@@ -60,6 +62,8 @@ class activity_type
         bool will_refuel_fires() const {
             return refuel_fires;
         }
+
+        void update_activity_level( player &p ) const;
 
         void call_do_turn( player_activity *, player * ) const;
         /** Returns whether it had a finish function or not */

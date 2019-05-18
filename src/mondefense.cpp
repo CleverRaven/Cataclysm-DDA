@@ -1,6 +1,6 @@
 #include "mondefense.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <memory>
 #include <set>
@@ -55,7 +55,7 @@ void mdefense::zapback( monster &m, Creature *const source,
     }
 
     if( g->u.sees( source->pos() ) ) {
-        const auto msg_type = ( source == &g->u ) ? m_bad : m_info;
+        const auto msg_type = source == &g->u ? m_bad : m_info;
         add_msg( msg_type, _( "Striking the %1$s shocks %2$s!" ),
                  m.name(), source->disp_name() );
     }

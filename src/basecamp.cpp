@@ -29,8 +29,8 @@
 #include "calendar.h"
 #include "color.h"
 #include "compatibility.h"
-#include "omdata.h"
 #include "string_id.h"
+#include "type_id.h"
 
 static const std::string base_dir = "[B]";
 static const std::string prefix = "faction_base_";
@@ -66,8 +66,8 @@ basecamp::basecamp( const std::string &name_, const tripoint &omt_pos_ ): name( 
 }
 
 basecamp::basecamp( const std::string &name_, const tripoint &bb_pos_,
-                    std::vector<std::string> directions_,
-                    std::map<std::string, expansion_data> expansions_ ):
+                    const std::vector<std::string> &directions_,
+                    const std::map<std::string, expansion_data> &expansions_ ):
     directions( directions_ ), name( name_ ), bb_pos( bb_pos_ ), expansions( expansions_ )
 {
 }

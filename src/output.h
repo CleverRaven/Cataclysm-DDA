@@ -2,8 +2,8 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
-#include <stddef.h>
-#include <stdint.h>
+#include <cstddef>
+#include <cstdint>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -84,7 +84,7 @@ using chtype = int;
 // Supports line drawing
 inline std::string string_from_long( const catacurses::chtype ch )
 {
-    char charcode = ch;
+    catacurses::chtype charcode = ch;
     // LINE_NESW  - X for on, O for off
     switch( ch ) {
         case LINE_XOXO:
@@ -121,10 +121,10 @@ inline std::string string_from_long( const catacurses::chtype ch )
             charcode = LINE_XXXX_C;
             break;
         default:
-            charcode = static_cast<char>( ch );
+            charcode = ch;
             break;
     }
-    char buffer[2] = { charcode, '\0' };
+    char buffer[2] = { static_cast<char>( charcode ), '\0' };
     return buffer;
 }
 
@@ -210,7 +210,7 @@ std::string remove_color_tags( const std::string &text );
  * @return A vector of lines, it may contain empty strings. Each entry is at most `width`
  * console cells width.
  */
-std::vector<std::string> foldstring( std::string str, int width, const char split = ' ' );
+std::vector<std::string> foldstring( const std::string &str, int width, const char split = ' ' );
 
 /**
  * Print text with embedded @ref color_tags, x, y are in curses system.

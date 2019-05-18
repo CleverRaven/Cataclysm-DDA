@@ -2,7 +2,7 @@
 
 #include "cursesdef.h" // IWYU pragma: associated
 
-#include <limits.h>
+#include <climits>
 #include <algorithm>
 #include <cassert>
 #include <cstring>
@@ -827,17 +827,17 @@ void set_displaybuffer_rendertarget()
 // Populate a map with the available video displays and their name
 void find_videodisplays()
 {
-    std::map<int, std::string> displays;
+    std::vector< std::tuple<int, std::string> > displays;
 
     int numdisplays = SDL_GetNumVideoDisplays();
     for( int i = 0 ; i < numdisplays ; i++ ) {
-        displays.insert( { i, SDL_GetDisplayName( i ) } );
+        displays.push_back( std::make_tuple( i, std::string( SDL_GetDisplayName( i ) ) ) );
     }
 
     int current_display = get_option<int>( "DISPLAY" );
     get_options().add( "DISPLAY", "graphics", _( "Display" ),
                        _( "Sets which video display will be used to show the game. Requires restart." ),
-                       displays, current_display, 0, options_manager::COPT_CURSES_HIDE
+                       displays, current_display, 0, options_manager::COPT_CURSES_HIDE, true
                      );
 }
 
@@ -2537,25 +2537,22 @@ void CheckMessages()
                             const optional_vpart_position vp = g->m.veh_at( pos );
                             vehicle *const veh = veh_pointer_or_null( vp );
                             if( veh ) {
-                                int veh_part = vp ? vp->part_index() : -1;
+                                const int veh_part = vp ? vp->part_index() : -1;
                                 if( veh->part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
                                     actions.insert( ACTION_CONTROL_VEHICLE );
                                 }
-                                int openablepart = veh->part_with_feature( veh_part, "OPENABLE", true );
+                                const int openablepart = veh->part_with_feature( veh_part, "OPENABLE", true );
                                 if( openablepart >= 0 && veh->is_open( openablepart ) && ( dx != 0 ||
                                         dy != 0 ) ) { // an open door adjacent to us
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                int curtainpart = veh->part_with_feature( veh_part, "CURTAIN", true );
+                                const int curtainpart = veh->part_with_feature( veh_part, "CURTAIN", true );
                                 if( curtainpart >= 0 && veh->is_open( curtainpart ) && ( dx != 0 || dy != 0 ) ) {
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                if( dx == 0 && dy == 0 ) {
-                                    int cargopart = veh->part_with_feature( veh_part, "CARGO", true );
-                                    bool can_pickup = cargopart >= 0 && ( !veh->get_items( cargopart ).empty() );
-                                    if( can_pickup ) {
-                                        actions.insert( ACTION_PICKUP );
-                                    }
+                                const int cargopart = veh->part_with_feature( veh_part, "CARGO", true );
+                                if( cargopart >= 0 && ( !veh->get_items( cargopart ).empty() ) ) {
+                                    actions.insert( ACTION_PICKUP );
                                 }
                             }
                         }
@@ -3483,10 +3480,14 @@ template<>
 SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int b )
 {
     SDL_Color result;
-    result.b = b;  //Blue
-    result.g = g;  //Green
-    result.r = r;  //Red
-    //result.a=0;//The Alpha, is not used, so just set it to 0
+    //Blue
+    result.b = b;
+    //Green
+    result.g = g;
+    //Red
+    result.r = r;
+    //The Alpha, is not used, so just set it to 0
+    //result.a = 0;
     return result;
 }
 
@@ -3585,6 +3586,9 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         // map font (if any) might differ from standard font
         fw = map_font->fontwidth;
         fh = map_font->fontheight;
+    } else if( overmap_font && capture_win == g->w_overmap ) {
+        fw = overmap_font->fontwidth;
+        fh = overmap_font->fontheight;
     }
 
     // multiplied by the user's specified scaling factor regardless of whether tiles are in use
@@ -3606,6 +3610,13 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         return cata::nullopt;
     }
 
+    int view_offset_x = 0;
+    int view_offset_y = 0;
+    if( capture_win == g->w_terrain ) {
+        view_offset_x = g->ter_view_x;
+        view_offset_y = g->ter_view_y;
+    }
+
     int x, y;
     if( tile_iso && use_tiles ) {
         const int screen_column = round( static_cast<float>( coordinate_x - win_left - ( (
@@ -3614,14 +3625,14 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
                                       ( win_bottom - win_top ) / 2 + win_top ) / ( fw / 4 ) );
         const int selected_x = ( screen_column - screen_row ) / 2;
         const int selected_y = ( screen_row + screen_column ) / 2;
-        x = g->ter_view_x + selected_x;
-        y = g->ter_view_y + selected_y;
+        x = view_offset_x + selected_x;
+        y = view_offset_y + selected_y;
     } else {
         const int selected_column = ( coordinate_x - win_left ) / fw;
         const int selected_row = ( coordinate_y - win_top ) / fh;
 
-        x = g->ter_view_x - ( ( capture_win->width / 2 ) - selected_column );
-        y = g->ter_view_y - ( ( capture_win->height / 2 ) - selected_row );
+        x = view_offset_x + selected_column - capture_win->width / 2;
+        y = view_offset_y + selected_row - capture_win->height / 2;
     }
 
     return tripoint( x, y, g->get_levz() );
@@ -3821,6 +3832,37 @@ void to_overmap_font_dimension( int &w, int &h )
 bool is_draw_tiles_mode()
 {
     return use_tiles;
+}
+
+/** Saves a screenshot of the current viewport, as a PNG file, to the given location.
+* @param file_path: A full path to the file where the screenshot should be saved.
+* @returns `true` if the screenshot generation was successful, `false` otherwise.
+*/
+bool save_screenshot( const std::string &file_path )
+{
+    // Note: the viewport is returned by SDL and we don't have to manage its lifetime.
+    SDL_Rect viewport;
+
+    // Get the viewport size (width and heigth of the screen)
+    SDL_RenderGetViewport( renderer.get(), &viewport );
+
+    // Create SDL_Surface with depth of 32 bits (note: using zeros for the RGB masks sets a default value, based on the depth; Alpha mask will be 0).
+    SDL_Surface_Ptr surface = CreateRGBSurface( 0, viewport.w, viewport.h, 32, 0, 0, 0, 0 );
+
+    // Get data from SDL_Renderer and save them into surface
+    if( printErrorIf( SDL_RenderReadPixels( renderer.get(), nullptr, surface->format->format,
+                                            surface->pixels, surface->pitch ) != 0,
+                      "save_screenshot: cannot read data from SDL_Renderer." ) ) {
+        return false;
+    }
+
+    // Save screenshot as PNG file
+    if( printErrorIf( IMG_SavePNG( surface.get(), file_path.c_str() ) != 0,
+                      std::string( "save_screenshot: cannot save screenshot file: " + file_path ).c_str() ) ) {
+        return false;
+    }
+
+    return true;
 }
 
 #endif // TILES

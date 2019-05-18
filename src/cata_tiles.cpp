@@ -1,8 +1,8 @@
 #if defined(TILES)
 #include "cata_tiles.h"
 
-#include <math.h>
-#include <stdint.h>
+#include <cmath>
+#include <cstdint>
 #include <algorithm>
 #include <array>
 #include <cassert>
@@ -62,6 +62,7 @@
 #include "string_id.h"
 #include "tileray.h"
 #include "translations.h"
+#include "type_id.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -255,7 +256,7 @@ void cata_tiles::reinit()
     RenderClear( renderer );
 }
 
-static void get_tile_information( std::string config_path, std::string &json_path,
+static void get_tile_information( const std::string &config_path, std::string &json_path,
                                   std::string &tileset_path )
 {
     const std::string default_json = FILENAMES["defaulttilejson"];
@@ -379,7 +380,7 @@ static void extend_vector_by( std::vector<T> &vec, const size_t additional_size 
     vec.resize( vec.size() + additional_size );
 }
 
-void tileset_loader::load_tileset( std::string img_path )
+void tileset_loader::load_tileset( const std::string &img_path )
 {
     const SDL_Surface_Ptr tile_atlas = load_image( img_path.c_str() );
     assert( tile_atlas );
@@ -2213,7 +2214,7 @@ bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d
         return false;
     }
 
-    const auto mgr = zone_manager::get_manager();
+    const zone_manager &mgr = zone_manager::get_manager();
     const tripoint &abs = g->m.getabs( p );
     const auto zone = mgr.get_bottom_zone( abs );
 
@@ -2239,6 +2240,10 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
         }
         return false;
     }
+    bool result = false;
+    bool sees_player = false;
+    bool is_player = false;
+    Creature::Attitude attitude = Creature::A_ANY;
     const monster *m = dynamic_cast<const monster *>( &critter );
     if( m != nullptr ) {
         const auto ent_name = m->type->id;
@@ -2249,20 +2254,43 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
         }
         const int subtile = corner;
         // depending on the toggle flip sprite left or right
+        int rot_facing = -1;
         if( m->facing == FD_LEFT ) {
-            return draw_from_id_string( ent_name.str(), ent_category, ent_subcategory, p, subtile,
-                                        4, ll, false, height_3d );
+            rot_facing = 4;
         } else if( m->facing == FD_RIGHT ) {
-            return draw_from_id_string( ent_name.str(), ent_category, ent_subcategory, p, subtile,
-                                        0, ll, false, height_3d );
+            rot_facing = 0;
+        }
+        if( rot_facing >= 0 ) {
+            result = draw_from_id_string( ent_name.str(), ent_category, ent_subcategory, p, subtile, rot_facing,
+                                          ll, false, height_3d );
+            sees_player = m->sees( g->u );
+            attitude = m->attitude_to( g-> u );
         }
     }
     const player *pl = dynamic_cast<const player *>( &critter );
     if( pl != nullptr ) {
         draw_entity_with_overlays( *pl, p, ll, height_3d );
-        return true;
+        result = true;
+        if( pl->is_player() ) {
+            is_player = true;
+        } else {
+            sees_player = pl->sees( g-> u );
+            attitude = pl->attitude_to( g-> u );
+        }
     }
-    return false;
+
+    if( result && !is_player ) {
+        std::ostringstream tmp_id;
+        tmp_id << "overlay_" << Creature::attitude_raw_string( attitude );
+        if( sees_player ) {
+            tmp_id << "_sees_player";
+        }
+        const std::string draw_id = tmp_id.str();
+        if( tileset_ptr->find_tile_type( draw_id ) ) {
+            draw_from_id_string( draw_id, C_NONE, empty_string, p, 0, 0, LL_LIT, false, height_3d );
+        }
+    }
+    return result;
 }
 
 void cata_tiles::draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll,
@@ -2658,7 +2686,7 @@ void cata_tiles::draw_zones_frame()
 {
     for( int iY = zone_start.y; iY <= zone_end.y; ++ iY ) {
         for( int iX = zone_start.x; iX <= zone_end.x; ++iX ) {
-            draw_from_id_string( ITEM_HIGHLIGHT, C_NONE, empty_string,
+            draw_from_id_string( "highlight", C_NONE, empty_string,
             { iX + zone_offset.x, iY + zone_offset.y, g->u.pos().z },
             0, 0, LL_LIT, false );
         }

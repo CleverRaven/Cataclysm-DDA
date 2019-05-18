@@ -1425,10 +1425,16 @@
   },
   {
     "type": "keybinding",
-    "name": "Pick up Item(s)",
+    "name": "Pick up Nearby Item(s)",
     "category": "DEFAULTMODE",
     "id": "pickup",
-    "bindings": [ { "input_method": "keyboard", "key": "," }, { "input_method": "keyboard", "key": "g" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "g" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Pickup Item(s) at Player Feet",
+    "category": "DEFAULTMODE",
+    "id": "pickup_feet"
   },
   {
     "type": "keybinding",
@@ -1548,6 +1554,12 @@
     "category": "DEFAULTMODE",
     "id": "eat",
     "bindings": [ { "input_method": "keyboard", "key": "E" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Consume Item Menu",
+    "category": "DEFAULTMODE",
+    "id": "open_consume"
   },
   {
     "type": "keybinding",
@@ -1803,14 +1815,12 @@
   {
     "type": "keybinding",
     "name": "Zoom In",
-    "category": "DEFAULTMODE",
     "id": "zoom_in",
     "bindings": [ { "input_method": "keyboard", "key": "z" } ]
   },
   {
     "type": "keybinding",
     "name": "Zoom Out",
-    "category": "DEFAULTMODE",
     "id": "zoom_out",
     "bindings": [ { "input_method": "keyboard", "key": "Z" } ]
   },
@@ -2117,20 +2127,6 @@
     "category": "LOOK",
     "name": "List items and monsters",
     "bindings": [ { "input_method": "keyboard", "key": "V" } ]
-  },
-  {
-    "type": "keybinding",
-    "name": "Zoom In",
-    "category": "LOOK",
-    "id": "zoom_in",
-    "bindings": [ { "input_method": "keyboard", "key": "z" } ]
-  },
-  {
-    "type": "keybinding",
-    "name": "Zoom Out",
-    "category": "LOOK",
-    "id": "zoom_out",
-    "bindings": [ { "input_method": "keyboard", "key": "Z" } ]
   },
   {
     "type": "keybinding",

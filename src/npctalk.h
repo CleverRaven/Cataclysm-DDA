@@ -2,15 +2,9 @@
 #ifndef NPCTALK_H
 #define NPCTALK_H
 
-#include "string_id.h"
+#include "type_id.h"
 
-class martialart;
-
-using matype_id = string_id<martialart>;
 class npc;
-class Skill;
-
-using skill_id = string_id<Skill>;
 class time_duration;
 
 namespace talk_function
@@ -25,7 +19,9 @@ void mission_favor( npc & );
 void give_equipment( npc & );
 void give_aid( npc & );
 void give_all_aid( npc & );
-
+void buy_horse( npc & );
+void buy_cow( npc & );
+void buy_chicken( npc & );
 void bionic_install( npc & );
 void bionic_remove( npc & );
 

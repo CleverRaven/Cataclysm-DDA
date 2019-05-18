@@ -5,8 +5,8 @@
 #include "npc_favor.h" // IWYU pragma: associated
 #include "pldata.h" // IWYU pragma: associated
 
-#include <ctype.h>
-#include <stddef.h>
+#include <cctype>
+#include <cstddef>
 #include <algorithm>
 #include <limits>
 #include <numeric>
@@ -37,7 +37,6 @@
 #include "item_factory.h"
 #include "json.h"
 #include "mission.h"
-#include "monfaction.h"
 #include "monster.h"
 #include "morale.h"
 #include "mtype.h"
@@ -78,8 +77,10 @@
 #include "stomach.h"
 #include "tileray.h"
 #include "visitable.h"
+#include "string_id.h"
 
 struct oter_type_t;
+struct mutation_branch;
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -182,7 +183,7 @@ std::vector<item> item::magazine_convert()
         qty += charges - type->gun->clip; // excess ammo from magazine extensions
 
         // limit ammo to base capacity and return any excess as a new item
-        charges = std::min( charges, static_cast<long>( type->gun->clip ) );
+        charges = std::min( charges, type->gun->clip );
         if( qty > 0 ) {
             res.emplace_back( ammo_current() != "null" ? ammo_current() : ammo_type()->default_ammotype(),
                               calendar::turn, qty );
@@ -1049,16 +1050,18 @@ void npc_follower_rules::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "engagement", static_cast<int>( engagement ) );
     json.member( "aim", static_cast<int>( aim ) );
+    json.member( "cbm_reserve", static_cast<int>( cbm_reserve ) );
+    json.member( "cbm_recharge", static_cast<int>( cbm_recharge ) );
 
     // serialize the flags so they can be changed between save games
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "rule_" + rule.first, has_flag( rule.second, false ) );
+        json.member( "rule_" + rule.first, has_flag( rule.second.rule, false ) );
     }
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "override_enable_" + rule.first, has_override_enable( rule.second ) );
+        json.member( "override_enable_" + rule.first, has_override_enable( rule.second.rule ) );
     }
     for( const auto &rule : ally_rule_strs ) {
-        json.member( "override_" + rule.first, has_override( rule.second ) );
+        json.member( "override_" + rule.first, has_override( rule.second.rule ) );
     }
 
     json.member( "pickup_whitelist", *pickup_whitelist );
@@ -1075,6 +1078,12 @@ void npc_follower_rules::deserialize( JsonIn &jsin )
     int tmpaim = 0;
     data.read( "aim", tmpaim );
     aim = static_cast<aim_rule>( tmpaim );
+    int tmpreserve = 50;
+    data.read( "cbm_reserve", tmpreserve );
+    cbm_reserve = static_cast<cbm_reserve_rule>( tmpreserve );
+    int tmprecharge = 50;
+    data.read( "cbm_recharge", tmprecharge );
+    cbm_recharge = static_cast<cbm_recharge_rule>( tmprecharge );
 
     // deserialize the flags so they can be changed between save games
     for( const auto &rule : ally_rule_strs ) {
@@ -1082,27 +1091,48 @@ void npc_follower_rules::deserialize( JsonIn &jsin )
         // legacy to handle rules that were saved before overrides
         data.read( rule.first, tmpflag );
         if( tmpflag ) {
-            set_flag( rule.second );
+            set_flag( rule.second.rule );
         } else {
-            clear_flag( rule.second );
+            clear_flag( rule.second.rule );
         }
         data.read( "rule_" + rule.first, tmpflag );
         if( tmpflag ) {
-            set_flag( rule.second );
+            set_flag( rule.second.rule );
         } else {
-            clear_flag( rule.second );
+            clear_flag( rule.second.rule );
         }
         data.read( "override_enable_" + rule.first, tmpflag );
         if( tmpflag ) {
-            enable_override( rule.second );
+            enable_override( rule.second.rule );
         } else {
-            disable_override( rule.second );
+            disable_override( rule.second.rule );
         }
         data.read( "override_" + rule.first, tmpflag );
         if( tmpflag ) {
-            set_override( rule.second );
+            set_override( rule.second.rule );
         } else {
-            clear_override( rule.second );
+            clear_override( rule.second.rule );
+        }
+
+        // This and the following two entries are for legacy save game handling.
+        // "avoid_combat" was renamed "follow_close" to better reflect behavior.
+        data.read( "rule_avoid_combat", tmpflag );
+        if( tmpflag ) {
+            set_flag( ally_rule::follow_close );
+        } else {
+            clear_flag( ally_rule::follow_close );
+        }
+        data.read( "override_enable_avoid_combat", tmpflag );
+        if( tmpflag ) {
+            enable_override( ally_rule::follow_close );
+        } else {
+            disable_override( ally_rule::follow_close );
+        }
+        data.read( "override_avoid_combat", tmpflag );
+        if( tmpflag ) {
+            set_override( ally_rule::follow_close );
+        } else {
+            clear_override( ally_rule::follow_close );
         }
     }
 
@@ -1276,13 +1306,6 @@ void npc::load( JsonObject &data )
 
     data.read( "personality", personality );
 
-    data.read( "wandf", wander_time );
-    data.read( "wandx", wander_pos.x );
-    data.read( "wandy", wander_pos.y );
-    if( !data.read( "wandz", wander_pos.z ) ) {
-        wander_pos.z = posz();
-    }
-
     if( !data.read( "submap_coords", submap_coords ) ) {
         // Old submap coordinates are for the point (0, 0, 0) on local map
         // New ones are for submap that contains pos
@@ -1425,6 +1448,10 @@ void npc::load( JsonObject &data )
         data.read( "misc_rules", rules );
         data.read( "combat_rules", rules );
     }
+    real_weapon = item( "null", 0 );
+    data.read( "real_weapon", real_weapon );
+    cbm_weapon_index = -1;
+    data.read( "cbm_weapon_index", cbm_weapon_index );
 
     if( !data.read( "last_updated", last_updated ) ) {
         last_updated = calendar::turn;
@@ -1466,10 +1493,6 @@ void npc::store( JsonOut &json ) const
     json.member( "myclass", myclass.str() );
 
     json.member( "personality", personality );
-    json.member( "wandf", wander_time );
-    json.member( "wandx", wander_pos.x );
-    json.member( "wandy", wander_pos.y );
-    json.member( "wandz", wander_pos.z );
 
     json.member( "submap_coords", submap_coords );
 
@@ -1494,6 +1517,11 @@ void npc::store( JsonOut &json ) const
     json.member( "op_of_u", op_of_u );
     json.member( "chatbin", chatbin );
     json.member( "rules", rules );
+
+    if( !real_weapon.is_null() ) {
+        json.member( "real_weapon", real_weapon ); // also saves contents
+    }
+    json.member( "cbm_weapon_index", cbm_weapon_index );
 
     json.member( "comp_mission_id", comp_mission.mission_id );
     json.member( "comp_mission_pt", comp_mission.position );
@@ -1905,8 +1933,8 @@ void item::io( Archive &archive )
     }, io::required_tag() );
 
     // normalize legacy saves to always have charges >= 0
-    archive.io( "charges", charges, 0L );
-    charges = std::max( charges, 0L );
+    archive.io( "charges", charges, 0 );
+    charges = std::max( charges, 0 );
 
     int cur_phase = static_cast<int>( current_phase );
     archive.io( "burnt", burnt, 0 );

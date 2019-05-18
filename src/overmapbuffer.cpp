@@ -1,7 +1,7 @@
 #include "overmapbuffer.h"
 
-#include <limits.h>
-#include <math.h>
+#include <climits>
+#include <cmath>
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>
@@ -35,6 +35,7 @@
 #include "simple_pathfinding.h"
 #include "string_id.h"
 #include "translations.h"
+#include "int_id.h"
 
 overmapbuffer overmap_buffer;
 
@@ -576,7 +577,7 @@ void overmapbuffer::move_vehicle( vehicle *veh, const point &old_msp )
     }
 }
 
-void overmapbuffer::remove_camp( const basecamp camp )
+void overmapbuffer::remove_camp( const basecamp &camp )
 {
     const point omt = point( camp.camp_omt_pos().x, camp.camp_omt_pos().y );
     overmap &om = get_om_global( omt );
@@ -614,7 +615,7 @@ void overmapbuffer::add_vehicle( vehicle *veh )
     veh->om_id = id;
 }
 
-void overmapbuffer::add_camp( basecamp camp )
+void overmapbuffer::add_camp( const basecamp &camp )
 {
     point omt = point( camp.camp_omt_pos().x, camp.camp_omt_pos().y );
     overmap &om = get_om_global( omt.x, omt.y );

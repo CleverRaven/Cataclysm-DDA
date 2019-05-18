@@ -1,7 +1,7 @@
 #include "field.h"
 
-#include <math.h>
-#include <stddef.h>
+#include <cmath>
+#include <cstddef>
 #include <algorithm>
 #include <queue>
 #include <tuple>
@@ -39,7 +39,6 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "bodypart.h"
-#include "character.h"
 #include "creature.h"
 #include "damage.h"
 #include "int_id.h"
@@ -51,6 +50,7 @@
 #include "pldata.h"
 #include "string_id.h"
 #include "units.h"
+#include "type_id.h"
 
 const species_id FUNGUS( "FUNGUS" );
 
@@ -639,8 +639,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
     int percent_spread, const time_duration & outdoor_age_speedup ) {
         const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
         bool sheltered = g->is_sheltered( p );
-        int winddirection = g->winddirection;
-        int windpower = get_local_windpower( g->windspeed, cur_om_ter, p, winddirection, sheltered );
+        int winddirection = g->weather.winddirection;
+        int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
+                                             sheltered );
         // Reset nearby scents to zero
         for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
             g->scent.set( tmp, 0 );
@@ -903,8 +904,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                         break;
                     case fd_plasma:
-                        dirty_transparency_cache = true;
-                        break;
                     case fd_laser:
                         dirty_transparency_cache = true;
                         break;
@@ -914,8 +913,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // Entire objects for ter/frn for flags
                         const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
                         bool sheltered = g->is_sheltered( p );
-                        int winddirection = g->winddirection;
-                        int windpower = get_local_windpower( g->windspeed, cur_om_ter, p, winddirection, sheltered );
+                        int winddirection = g->weather.winddirection;
+                        int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
+                                                             sheltered );
                         const auto &ter = map_tile.get_ter_t();
                         const auto &frn = map_tile.get_furn_t();
 
@@ -1381,10 +1381,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     break;
 
                     case fd_smoke:
-                        dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 10, 0_turns );
-                        break;
-
                     case fd_tear_gas:
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 10, 0_turns );

@@ -12,9 +12,9 @@
 #include "item.h"
 #include "player.h"
 #include "calendar.h"
-#include "itype.h"
 #include "pimpl.h"
 #include "string_id.h"
+#include "type_id.h"
 
 void clear_bionics( player &p )
 {
@@ -64,7 +64,7 @@ void test_consumable_charges( player &p, std::string &itemname, bool when_none, 
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.charges ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_none );
 
-    it.charges = LONG_MAX;
+    it.charges = INT_MAX;
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.charges ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_max );
 }
@@ -111,7 +111,7 @@ TEST_CASE( "bionics", "[bionics] [item]" )
         }
 
         static const std::list<std::string> never = {
-            "battery_atomic", // TOOLMOD, no ammo actually
+            "light_atomic_battery_cell", // TOOLMOD, no ammo actually
             "rm13_armor"      // TOOL_ARMOR
         };
         for( auto it : never ) {

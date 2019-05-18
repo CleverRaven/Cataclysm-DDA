@@ -645,6 +645,7 @@ bool main_menu::new_character_tab()
         vSubItems.push_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
     }
     std::vector<std::vector<std::string>> vNewGameHotkeys;
+    vNewGameHotkeys.reserve( vSubItems.size() );
     for( const std::string &item : vSubItems ) {
         vNewGameHotkeys.push_back( get_hotkeys( item ) );
     }

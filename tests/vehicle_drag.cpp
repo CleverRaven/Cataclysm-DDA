@@ -9,7 +9,6 @@
 #include "map_helpers.h"
 #include "map_iterator.h"
 #include "vehicle.h"
-#include "veh_type.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
 #include "player.h"
@@ -18,8 +17,7 @@
 #include "calendar.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "mapdata.h"
-#include "mtype.h"
+#include "type_id.h"
 
 class monster;
 

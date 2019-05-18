@@ -1,6 +1,6 @@
 #include "melee.h"
 
-#include <limits.h>
+#include <climits>
 #include <algorithm>
 #include <cstdlib>
 #include <sstream>
@@ -49,8 +49,10 @@
 #include "units.h"
 #include "weighted_list.h"
 #include "material.h"
+#include "type_id.h"
 
 static const bionic_id bio_cqb( "bio_cqb" );
+static const bionic_id bio_memory( "bio_memory" );
 
 static const matec_id tec_none( "tec_none" );
 static const matec_id WBLOCK_1( "WBLOCK_1" );
@@ -468,7 +470,7 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
 
             // Make a rather quiet sound, to alert any nearby monsters
             if( !is_quiet() ) { // check martial arts silence
-                sounds::sound( pos(), 8, sounds::sound_t::combat, "whack!" );
+                sounds::sound( pos(), 8, sounds::sound_t::combat, "whack!" ); //sound generated later
             }
             std::string material = "flesh";
             if( t.is_monster() ) {
@@ -1283,7 +1285,9 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
     //player has a very small chance, based on their intelligence, to learn a style whilst using the CQB bionic
     if( has_active_bionic( bio_cqb ) && !has_martialart( style_selected ) ) {
         /** @EFFECT_INT slightly increases chance to learn techniques when using CQB bionic */
-        if( one_in( 1400 - ( get_int() * 50 ) ) ) {
+        // Enhanced Memory Banks bionic doubles chance to learn martial art
+        const int bionic_boost = has_active_bionic( bionic_id( bio_memory ) ) ? 2 : 1;
+        if( one_in( ( 1400 - ( get_int() * 50 ) ) / bionic_boost ) ) {
             ma_styles.push_back( style_selected );
             add_msg_if_player( m_good, _( "You have learned %s from extensive practice with the CQB Bionic." ),
                                _( style_selected.obj().name ) );
@@ -1603,7 +1607,8 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
                                    weap.tname() );
         }
 
-        sounds::sound( pos(), 16, sounds::sound_t::combat, "Crack!" );
+        sounds::sound( pos(), 16, sounds::sound_t::combat, "Crack!", true, "smash_success",
+                       "smash_glass_contents" );
         // Dump its contents on the ground
         for( auto &elem : weap.contents ) {
             g->m.add_item_or_charges( pos(), elem );
@@ -1951,7 +1956,7 @@ int player::attack_speed( const item &weap ) const
     return move_cost;
 }
 
-double player::weapon_value( const item &weap, long ammo ) const
+double player::weapon_value( const item &weap, int ammo ) const
 {
     const double val_gun = gun_value( weap, ammo );
     const double val_melee = melee_value( weap );
@@ -1960,7 +1965,7 @@ double player::weapon_value( const item &weap, long ammo ) const
 
     // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
     const double my_val = more + ( less / 2.0 );
-    add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.tname(), ammo, my_val );
+    add_msg( m_debug, "%s (%ld ammo) sum value: %.1f", weap.type->get_id(), ammo, my_val );
     return my_val;
 }
 
@@ -2008,7 +2013,7 @@ double player::melee_value( const item &weap ) const
         my_value *= 1.0f + 0.5f * ( sqrtf( reach ) - 1.0f );
     }
 
-    add_msg( m_debug, "%s as melee: %.1f", weap.tname(), my_value );
+    add_msg( m_debug, "%s as melee: %.1f", weap.type->get_id(), my_value );
 
     return std::max( 0.0, my_value );
 }
@@ -2022,6 +2027,11 @@ double player::unarmed_value() const
 void player::disarm( npc &target )
 {
     if( !target.is_armed() ) {
+        return;
+    }
+
+    if( target.is_hallucination() ) {
+        target.on_attacked( *this );
         return;
     }
 

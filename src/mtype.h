@@ -11,19 +11,14 @@
 #include "damage.h"
 #include "enum_bitset.h"
 #include "enums.h"
-#include "int_id.h"
 #include "mattack_common.h"
 #include "pathfinding.h"
-#include "string_id.h"
+#include "type_id.h"
 #include "units.h"
 
 class Creature;
 class monster;
-class monfaction;
-class emit;
 template <typename E> struct enum_traits;
-
-using emit_id = string_id<emit>;
 struct dealt_projectile_attack;
 struct species_type;
 
@@ -34,31 +29,11 @@ enum m_size : int;
 using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
 using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_attack const * );
-struct MonsterGroup;
-
-using mongroup_id = string_id<MonsterGroup>;
-struct mtype;
-
-using mtype_id = string_id<mtype>;
-using mfaction_id = int_id<monfaction>;
-using species_id = string_id<species_type>;
 using bodytype_id = std::string;
-class effect_type;
-
-using efftype_id = string_id<effect_type>;
 class JsonArray;
 class JsonObject;
-class material_type;
-
-using material_id = string_id<material_type>;
 
 typedef std::string itype_id;
-
-using emit_id = string_id<emit>;
-
-class harvest_list;
-
-using harvest_id = string_id<harvest_list>;
 
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
@@ -165,6 +140,7 @@ enum m_flag : int {
     MF_GROUP_MORALE,        // Monsters that are more courageous when near friends
     MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
     MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
+    MF_PACIFIST,            // Monsters that will never use melee attack, useful for having them use grab without attacking the player
     MF_PUSH_MON,            // Monsters that can push creatures out of their way
     MF_PUSH_VEH,            // Monsters that can push vehicles out of their way
     MF_NIGHT_INVISIBILITY,  // Monsters that are invisible in poor light conditions
@@ -268,6 +244,8 @@ struct mtype {
         int melee_skill = 0;    /** melee hit skill, 20 is superhuman hitting abilities */
         int melee_dice = 0;     /** number of dice of bonus bashing damage on melee hit */
         int melee_sides = 0;    /** number of sides those dice have */
+
+        int grab_strength = 1;    /**intensity of the effect_grabbed applied*/
 
         int sk_dodge = 0;       /** dodge skill */
 

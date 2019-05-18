@@ -1,8 +1,8 @@
 #include "debug.h"
 
 #include <sys/stat.h>
-#include <ctype.h>
-#include <stdio.h>
+#include <cctype>
+#include <cstdio>
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>
@@ -29,6 +29,8 @@
 #include "color.h"
 #include "optional.h"
 #include "translations.h"
+#include "worldfactory.h"
+#include "mod_manager.h"
 
 #if !defined(_MSC_VER)
 #include <sys/time.h>
@@ -671,6 +673,7 @@ void debug_write_backtrace( std::ostream &out )
         // available in tracePtrs.
 
         auto funcName = funcNames[i];
+        assert( funcName ); // To appease static analysis
         const auto funcNameEnd = funcName + std::strlen( funcName );
         const auto binaryEnd = std::find( funcName, funcNameEnd, '(' );
         if( binaryEnd == funcNameEnd ) {
@@ -775,6 +778,101 @@ std::ostream &DebugLog( DebugLevel lev, DebugClass cl )
         return out;
     }
     return nullStream;
+}
+
+std::string game_info::operating_system()
+{
+#if defined(__ANDROID__)
+    return "Android";
+#elif defined(_WIN32)
+    return "Windows";
+#elif defined(__linux__)
+    return "Linux";
+#elif defined(unix) || defined(__unix__) || defined(__unix) || defined(__APPLE__) && defined(__MACH__) // unix; BSD; MacOs
+#if defined(__APPLE__) && defined(__MACH__)
+    // The following include is **only** needed for the TARGET_xxx defines below and is only included if both of the above defines are true.
+    // The whole function only relying on compiler defines, it is probably more meaningful to include it here and not mingle with the
+    // headers at the top of the .cpp file.
+#include <TargetConditionals.h>
+#if TARGET_IPHONE_SIMULATOR == 1
+    /* iOS in Xcode simulator */
+    return "iOS Simulator";
+#elif TARGET_OS_IPHONE == 1
+    /* iOS on iPhone, iPad, etc. */
+    return "iOS";
+#elif TARGET_OS_MAC == 1
+    /* OSX */
+    return "MacOs";
+#endif // TARGET_IPHONE_SIMULATOR
+#elif defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
+    return "BSD";
+#else
+    return "Unix";
+#endif // __APPLE__
+#else
+    return "Unknown";
+#endif
+}
+
+std::string game_info::bitness()
+{
+    if( sizeof( void * ) == 8 ) {
+        return "64-bit";
+    }
+
+    if( sizeof( void * ) == 4 ) {
+        return "32-bit";
+    }
+
+    return "Unknown";
+}
+
+std::string game_info::game_version()
+{
+    return getVersionString();
+}
+
+std::string game_info::graphics_version()
+{
+#if defined(TILES)
+    return "Tiles";
+#else
+    return "Curses";
+#endif
+}
+
+std::string game_info::mods_loaded()
+{
+    if( world_generator->active_world == nullptr ) {
+        return "No active world";
+    }
+
+    const std::vector<mod_id> &mod_ids = world_generator->active_world->active_mod_order;
+    if( mod_ids.empty() ) {
+        return "No loaded mods";
+    }
+
+    std::vector<std::string> mod_names;
+    mod_names.reserve( mod_ids.size() );
+    std::transform( mod_ids.begin(), mod_ids.end(),
+    std::back_inserter( mod_names ), []( const mod_id mod ) -> std::string {
+        // e.g. "Dark Days Ahead [dda]".
+        return string_format( "%s [%s]", mod->name(), mod->ident.str() );
+    } );
+
+    return join( mod_names, ",\n    " ); // note: 4 spaces for a slight offset.
+}
+
+std::string game_info::game_report()
+{
+    std::stringstream report;
+    report <<
+           "- OS: " << operating_system() << " [" << bitness() << "]\n" <<
+           "- Game Version: " << game_version() << "\n" <<
+           "- Graphics Version: " << graphics_version() << "\n" <<
+           "- Mods loaded: [\n    " << mods_loaded() << "\n]\n";
+
+    return report.str();
 }
 
 // vim:tw=72:sw=4:fdm=marker:fdl=0:

@@ -2,7 +2,7 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <array>
 #include <list>
 #include <string>
@@ -168,7 +168,7 @@ class inventory : public visitable<inventory>
                         const std::function<bool( const item & )> &filter = return_true<item> ) const;
         bool has_components( const itype_id &it, int quantity,
                              const std::function<bool( const item & )> &filter = return_true<item> ) const;
-        bool has_charges( const itype_id &it, long quantity,
+        bool has_charges( const itype_id &it, int quantity,
                           const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
         int leak_level( const std::string &flag ) const; // level of leaked bad stuff from items
@@ -210,7 +210,6 @@ class inventory : public visitable<inventory>
         void set_stack_favorite( const int position, const bool favorite );
 
         invlets_bitset allocated_invlets() const;
-
 
         /**
          * Returns visitable items binned by their itype.

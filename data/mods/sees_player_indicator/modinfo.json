@@ -1,0 +1,11 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "sees_player",
+    "name": "sees player",
+    "authors": [ "esotericist" ],
+    "description": "Displays an attitude-tinted indicator if a creature sees a player, and an attitude-tinted thought bubble otherwise.",
+    "category": "none",
+    "dependencies": [ "dda" ]
+  }
+]

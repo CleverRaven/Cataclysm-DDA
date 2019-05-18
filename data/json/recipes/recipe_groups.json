@@ -123,6 +123,7 @@
       { "id": "scrap_copper_npc", "description": " Craft: Copper, Scrap" },
       { "id": "charcoal_npc", "description": " Craft: Charcoal" },
       { "id": "spike_npc", "description": " Craft: Spike" },
+      { "id": "caltrops_glass_npc", "description": " Craft: Glass Caltrops" },
       { "id": "steel_chunk_npc", "description": " Craft: Steel, Chunk" }
     ]
   },

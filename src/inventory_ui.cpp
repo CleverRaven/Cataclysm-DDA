@@ -473,8 +473,8 @@ void inventory_column::set_width( const size_t new_width )
 void inventory_column::set_height( size_t new_height )
 {
     if( height != new_height ) {
-        if( new_height == 0 ) {
-            debugmsg( "Unable to assign zero height." );
+        if( new_height <= 1 ) {
+            debugmsg( "Unable to assign height <= 1 (was %zd).", new_height );
             return;
         }
         height = new_height;
@@ -524,6 +524,7 @@ void inventory_column::reset_width()
 
 size_t inventory_column::page_of( size_t index ) const
 {
+    assert( entries_per_page ); // To appease static analysis
     return index / entries_per_page;
 }
 
