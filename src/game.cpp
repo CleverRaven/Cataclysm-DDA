@@ -8283,7 +8283,10 @@ void game::butcher()
         // Add corpses, disassembleables, and salvagables to the UI
         add_corpses( kmenu, items, corpses, i );
         add_disassemblables( kmenu, items, disassembly_stacks, i );
-        add_salvagables( kmenu, items, salvage_stacks, i, *salvage_iuse );
+        if( !salvageables.empty() ) {
+            assert( salvage_iuse ); // To appease static analysis
+            add_salvagables( kmenu, items, salvage_stacks, i, *salvage_iuse );
+        }
 
         if( corpses.size() > 1 ) {
             kmenu.addentry( MULTIBUTCHER, true, 'b', _( "Butcher everything" ) );
