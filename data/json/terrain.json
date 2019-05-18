@@ -6322,7 +6322,7 @@
     "color": "cyan",
     "looks_like": "t_ponywall",
     "move_cost": 3,
-    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL" ],
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "MOUNTABLE", "SHORT", "AUTO_WALL_SYMBOL", "MINEABLE" ],
     "connects_to": "RAILING",
     "bash": {
       "str_min": 100,
