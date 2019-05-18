@@ -8072,13 +8072,12 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
     auto is_liquid = []( const item & it ) {
         return it.made_of( LIQUID ) || it.contents_made_of( LIQUID );
     };
-    long available_water = std::max(
-                               crafting_inv.charges_of( "water", std::numeric_limits<long>::max(), is_liquid ),
-                               crafting_inv.charges_of( "clean_water", std::numeric_limits<long>::max(), is_liquid )
-                           );
-    available_water = std::min<long>( available_water, INT_MAX );
-    long available_cleanser = std::max( crafting_inv.charges_of( "soap" ),
-                                        crafting_inv.charges_of( "detergent" ) );
+    int available_water = std::max(
+                              crafting_inv.charges_of( "water", INT_MAX, is_liquid ),
+                              crafting_inv.charges_of( "clean_water", INT_MAX, is_liquid )
+                          );
+    int available_cleanser = std::max( crafting_inv.charges_of( "soap" ),
+                                       crafting_inv.charges_of( "detergent" ) );
 
     const inventory_filter_preset preset( []( const item_location & location ) {
         return location->item_tags.find( "FILTHY" ) != location->item_tags.end();
@@ -8364,7 +8363,7 @@ ret_val<bool> use_function::can_call( const player &p, const item &it, bool t,
     return actor->can_use( p, it, t, pos );
 }
 
-long use_function::call( player &p, item &it, bool active, const tripoint &pos ) const
+int use_function::call( player &p, item &it, bool active, const tripoint &pos ) const
 {
     return actor->use( p, it, active, pos );
 }

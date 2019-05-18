@@ -368,7 +368,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
         // we go through half-filled containers first, then go through empty containers if we need
         std::sort( conts.begin(), conts.end(), item_ptr_compare_by_charges );
 
-        long charges_to_store = prod.charges;
+        int charges_to_store = prod.charges;
         for( const item *cont : conts ) {
             if( charges_to_store <= 0 ) {
                 break;
@@ -1142,7 +1142,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
         int count = ( component.count > 0 ) ? component.count * batch : abs( component.count );
 
         if( item::count_by_charges( type ) && count > 0 ) {
-            long map_charges = map_inv.charges_of( type, std::numeric_limits<long>::max(), filter );
+            int map_charges = map_inv.charges_of( type, INT_MAX, filter );
 
             // If map has infinite charges, just use them
             if( map_charges == item::INFINITE_CHARGES ) {
@@ -1151,7 +1151,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                 return selected;
             }
             if( player_inv ) {
-                long player_charges = charges_of( type, std::numeric_limits<long>::max(), filter );
+                int player_charges = charges_of( type, INT_MAX, filter );
                 bool found = false;
                 if( player_charges >= count ) {
                     player_has.push_back( component );
@@ -1215,8 +1215,8 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                                                 item::nname( map_ha.type ),
                                                 ( map_ha.count * batch ),
                                                 item::count_by_charges( map_ha.type ) ?
-                                                map_inv.charges_of( map_ha.type, std::numeric_limits<int>::max(), filter ) :
-                                                map_inv.amount_of( map_ha.type, false, std::numeric_limits<int>::max(), filter ) );
+                                                map_inv.charges_of( map_ha.type, INT_MAX, filter ) :
+                                                map_inv.amount_of( map_ha.type, false, INT_MAX, filter ) );
             cmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) { // Index map_has.size()-(map_has.size()+player_has.size()-1)
@@ -1224,17 +1224,17 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
                                                 item::nname( player_ha.type ),
                                                 ( player_ha.count * batch ),
                                                 item::count_by_charges( player_ha.type ) ?
-                                                charges_of( player_ha.type, std::numeric_limits<int>::max(), filter ) :
-                                                amount_of( player_ha.type, false, std::numeric_limits<int>::max(), filter ) );
+                                                charges_of( player_ha.type, INT_MAX, filter ) :
+                                                amount_of( player_ha.type, false, INT_MAX, filter ) );
             cmenu.addentry( tmpStr );
         }
         for( auto &component : mixed ) {
             // Index player_has.size()-(map_has.size()+player_has.size()+mixed.size()-1)
-            long available = item::count_by_charges( component.type ) ?
-                             map_inv.charges_of( component.type, std::numeric_limits<int>::max(), filter ) +
-                             charges_of( component.type, std::numeric_limits<int>::max(), filter ) :
-                             map_inv.amount_of( component.type, false, std::numeric_limits<int>::max(), filter ) +
-                             amount_of( component.type, false, std::numeric_limits<int>::max(), filter );
+            int available = item::count_by_charges( component.type ) ?
+                            map_inv.charges_of( component.type, INT_MAX, filter ) +
+                            charges_of( component.type, INT_MAX, filter ) :
+                            map_inv.amount_of( component.type, false, INT_MAX, filter ) +
+                            amount_of( component.type, false, INT_MAX, filter );
             std::string tmpStr = string_format( _( "%s (%d/%d nearby & on person)" ),
                                                 item::nname( component.type ),
                                                 component.count * batch,
@@ -1323,8 +1323,8 @@ std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &
     const tripoint &loc = origin;
     const bool by_charges = item::count_by_charges( selected_comp.type ) && selected_comp.count > 0;
     // Count given to use_amount/use_charges, changed by those functions!
-    long real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch : abs(
-                          selected_comp.count );
+    int real_count = ( selected_comp.count > 0 ) ? selected_comp.count * batch : abs(
+                         selected_comp.count );
     // First try to get everything from the map, than (remaining amount) from player
     if( is.use_from & use_from_map ) {
         if( by_charges ) {
@@ -1386,7 +1386,7 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
     for( auto it = tools.begin(); it != tools.end() && !found_nocharge; ++it ) {
         itype_id type = it->type;
         if( it->count > 0 ) {
-            const long count = item::find_type( type )->charge_factor() * it->count * batch;
+            const int count = item::find_type( type )->charge_factor() * it->count * batch;
             if( player_inv ) {
                 if( has_charges( type, count ) ) {
                     player_has.push_back( *it );
@@ -1486,7 +1486,7 @@ void player::consume_tools( map &m, const comp_selection<tool_comp> &tool, int b
     }
 
     const itype *tmp = item::find_type( tool.comp.type );
-    long quantity = tool.comp.count * batch * tmp->charge_factor();
+    int quantity = tool.comp.count * batch * tmp->charge_factor();
     if( tool.use_from & use_from_player ) {
         use_charges( tool.comp.type, quantity );
     }

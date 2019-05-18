@@ -5945,7 +5945,7 @@ void player::suffer()
                        map_inv.has_charges( "smoxygen_tank", 1 ) ) {
                 add_msg_if_player( m_bad, _( "You have an asthma attack!" ) );
                 // create new variable to resolve a reference issue
-                long amount = 1;
+                int amount = 1;
                 if( !g->m.use_charges( g->u.pos(), 2, "inhaler", amount ).empty() ) {
                     add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
                 } else if( !g->m.use_charges( g->u.pos(), 2, "oxygen_tank", amount ).empty() ||
@@ -5962,7 +5962,7 @@ void player::suffer()
                 }
             }
         } else if( auto_use ) {
-            long charges = 0;
+            int charges = 0;
             if( use_charges_if_avail( "inhaler", 1 ) ) {
                 moves -= 40;
                 charges = charges_of( "inhaler" );
@@ -7164,7 +7164,7 @@ void player::process_active_items()
         return itm.needs_processing() && itm.process( this, pos(), false );
     } );
 
-    long ch_UPS = charges_of( "UPS" );
+    int ch_UPS = charges_of( "UPS" );
     item *cloak = nullptr;
     item *power_armor = nullptr;
     // Manual iteration because we only care about *worn* active items.
@@ -7215,7 +7215,7 @@ void player::process_active_items()
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
     ch_UPS = charges_of( "UPS" ); // might have been changed by cloak
-    long ch_UPS_used = 0;
+    int ch_UPS_used = 0;
     for( size_t i = 0; i < inv.size() && ch_UPS_used < ch_UPS; i++ ) {
         item &it = inv.find_item( i );
         if( !it.has_flag( "USE_UPS" ) ) {
@@ -7249,7 +7249,7 @@ void player::process_active_items()
     }
 }
 
-item player::reduce_charges( int position, long quantity )
+item player::reduce_charges( int position, int quantity )
 {
     item &it = i_at( position );
     if( it.is_null() ) {
@@ -7265,7 +7265,7 @@ item player::reduce_charges( int position, long quantity )
     return tmp;
 }
 
-item player::reduce_charges( item *it, long quantity )
+item player::reduce_charges( item *it, int quantity )
 {
     if( !has_item( *it ) ) {
         debugmsg( "invalid item (name %s) for reduce_charges", it->tname() );
@@ -7333,11 +7333,10 @@ std::vector<item *> player::inv_dump()
     return ret;
 }
 
-std::list<item> player::use_amount( itype_id it, int _quantity,
+std::list<item> player::use_amount( itype_id it, int quantity,
                                     const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
-    long quantity = _quantity; // Don't want to change the function signature right now
     if( weapon.use_amount( it, quantity, ret ) ) {
         remove_weapon();
     }
@@ -7357,7 +7356,7 @@ std::list<item> player::use_amount( itype_id it, int _quantity,
     return ret;
 }
 
-bool player::use_charges_if_avail( const itype_id &it, long quantity )
+bool player::use_charges_if_avail( const itype_id &it, int quantity )
 {
     if( has_charges( it, quantity ) ) {
         use_charges( it, quantity );
@@ -7427,7 +7426,7 @@ void player::use_fire( const int quantity )
     }
 }
 
-std::list<item> player::use_charges( const itype_id &what, long qty,
+std::list<item> player::use_charges( const itype_id &what, int qty,
                                      const std::function<bool( const item & )> &filter )
 {
     std::list<item> res;
@@ -7445,21 +7444,21 @@ std::list<item> player::use_charges( const itype_id &what, long qty,
 
     } else if( what == "UPS" ) {
         if( power_level > 0 && has_active_bionic( bio_ups ) ) {
-            auto bio = std::min( static_cast<long>( power_level ), qty );
+            int bio = std::min( power_level, qty );
             charge_power( -bio );
             qty -= std::min( qty, bio );
         }
 
-        auto adv = charges_of( "adv_UPS_off", static_cast<long>( ceil( qty * 0.6 ) ) );
+        int adv = charges_of( "adv_UPS_off", static_cast<int>( ceil( qty * 0.6 ) ) );
         if( adv > 0 ) {
-            auto found = use_charges( "adv_UPS_off", adv );
+            std::list<item> found = use_charges( "adv_UPS_off", adv );
             res.splice( res.end(), found );
-            qty -= std::min( qty, static_cast<long>( adv / 0.6 ) );
+            qty -= std::min( qty, static_cast<int>( adv / 0.6 ) );
         }
 
-        auto ups = charges_of( "UPS_off", qty );
+        int ups = charges_of( "UPS_off", qty );
         if( ups > 0 ) {
-            auto found = use_charges( "UPS_off", ups );
+            std::list<item> found = use_charges( "UPS_off", ups );
             res.splice( res.end(), found );
             qty -= std::min( qty, ups );
         }
@@ -7528,7 +7527,7 @@ int player::amount_worn( const itype_id &id ) const
     return amount;
 }
 
-bool player::has_charges( const itype_id &it, long quantity,
+bool player::has_charges( const itype_id &it, int quantity,
                           const std::function<bool( const item & )> &filter ) const
 {
     if( it == "fire" || it == "apparatus" ) {
@@ -7590,7 +7589,7 @@ bool player::consume_med( item &target )
         use_charges( tool_type, req_tool->tool->charges_per_use );
     }
 
-    long amount_used = 1;
+    int amount_used = 1;
     if( target.type->has_use() ) {
         amount_used = target.type->invoke( *this, target, pos() );
         if( amount_used <= 0 ) {
@@ -8626,12 +8625,12 @@ int player::item_store_cost( const item &it, const item & /* container */, bool 
     return item_handling_cost( it, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
 }
 
-int player::item_reload_cost( const item &it, const item &ammo, long qty ) const
+int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
 {
     if( ammo.is_ammo() ) {
-        qty = std::max( std::min( ammo.charges, qty ), 1L );
+        qty = std::max( std::min( ammo.charges, qty ), 1 );
     } else if( ammo.is_ammo_container() || ammo.is_container() ) {
-        qty = std::max( std::min( ammo.contents.front().charges, qty ), 1L );
+        qty = std::max( std::min( ammo.contents.front().charges, qty ), 1 );
     } else if( ammo.is_magazine() ) {
         qty = 1;
     } else {
@@ -9039,7 +9038,7 @@ bool player::unload( item &it )
         bool changed = false;
         it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this,
         &changed]( item & e ) {
-            long old_charges = e.charges;
+            int old_charges = e.charges;
             const bool consumed = this->add_or_drop_with_msg( e, true );
             changed = changed || consumed || e.charges != old_charges;
             if( consumed ) {
@@ -9140,7 +9139,7 @@ bool player::unload( item &it )
         } ) );
 
     } else if( target->ammo_remaining() ) {
-        long qty = target->ammo_remaining();
+        int qty = target->ammo_remaining();
 
         if( target->ammo_type() == ammotype( "plutonium" ) ) {
             qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
@@ -9328,7 +9327,7 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
     return true;
 }
 
-bool player::consume_charges( item &used, long qty )
+bool player::consume_charges( item &used, int qty )
 {
     if( qty < 0 ) {
         debugmsg( "Tried to consume negative charges" );
@@ -9488,7 +9487,7 @@ bool player::invoke_item( item *used, const std::string &method, const tripoint 
         return false;
     }
 
-    long charges_used = actually_used->type->invoke( *this, *actually_used, pt, method );
+    int charges_used = actually_used->type->invoke( *this, *actually_used, pt, method );
 
     if( used->is_tool() || used->is_medication() || used->get_contained().is_medication() ) {
         return consume_charges( *actually_used, charges_used );

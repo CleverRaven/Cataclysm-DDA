@@ -189,10 +189,10 @@ struct vehicle_part {
         itype_id ammo_current() const;
 
         /** Maximum amount of fuel, charges or ammunition that can be contained by a part */
-        long ammo_capacity() const;
+        int ammo_capacity() const;
 
         /** Amount of fuel, charges or ammunition currently contained by a part */
-        long ammo_remaining() const;
+        int ammo_remaining() const;
 
         /** Type of fuel used by an engine */
         itype_id fuel_current() const;
@@ -204,7 +204,7 @@ struct vehicle_part {
          * @param qty maximum ammo (capped by part capacity) or negative to fill to capacity
          * @return amount of ammo actually set or negative on failure
          */
-        int ammo_set( const itype_id &ammo, long qty = -1 );
+        int ammo_set( const itype_id &ammo, int qty = -1 );
 
         /** Remove all fuel, charges or ammunition (if any) from this part */
         void ammo_unset();
@@ -215,7 +215,7 @@ struct vehicle_part {
          * @param pos current global location of part from which ammo is being consumed
          * @return amount consumed which will be between 0 and specified qty
          */
-        long ammo_consume( long qty, const tripoint &pos );
+        int ammo_consume( int qty, const tripoint &pos );
 
         /**
          * Consume fuel by energy content.
@@ -240,7 +240,7 @@ struct vehicle_part {
          *  Try adding @param liquid to tank optionally limited by @param qty
          *  @return whether any of the liquid was consumed (which may be less than qty)
          */
-        bool fill_with( item &liquid, long qty = LONG_MAX );
+        bool fill_with( item &liquid, int qty = INT_MAX );
 
         /** Current faults affecting this part (if any) */
         const std::set<fault_id> &faults() const;
@@ -439,10 +439,10 @@ class turret_data
         const item_location base() const;
 
         /** Quantity of ammunition available for use */
-        long ammo_remaining() const;
+        int ammo_remaining() const;
 
         /** Maximum quantity of ammunition turret can itself contain */
-        long ammo_capacity() const;
+        int ammo_capacity() const;
 
         /** Specific ammo data or returns nullptr if no ammo available */
         const itype *ammo_data() const;
@@ -981,7 +981,7 @@ class vehicle
          * Note that empty tanks don't count at all. The value is the amount as it would be
          * reported by @ref fuel_left, it is always greater than 0. The key is the fuel item type.
          */
-        std::map<itype_id, long> fuels_left() const;
+        std::map<itype_id, int> fuels_left() const;
 
         // Checks how much certain fuel left in tanks.
         int fuel_left( const itype_id &ftype, bool recurse = false ) const;
@@ -1265,7 +1265,7 @@ class vehicle
          *
          * @returns The number of charges added.
          */
-        long add_charges( int part, const item &itm );
+        int add_charges( int part, const item &itm );
         /**
          * Position specific item insertion that skips a bunch of safety checks
          * since it should only ever be used by item processing code.

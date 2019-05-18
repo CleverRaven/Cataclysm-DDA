@@ -273,7 +273,7 @@ bool mattack::eat_food( monster *z )
             }
             //Don't eat own eggs
             if( z->type->baby_egg != item.type->get_id() ) {
-                long consumed = 1;
+                int consumed = 1;
                 if( item.count_by_charges() ) {
                     g->m.use_charges( p, 0, item.type->get_id(), consumed );
                 } else {
@@ -4008,13 +4008,13 @@ bool mattack::absorb_meat( monster *z )
                 }
                 if( current_item.count_by_charges() ) {
                     //Choose a random amount of meat charges to absorb
-                    long meat_absorbed = std::min( max_meat_absorbed, rng( 1, total_charges ) );
+                    int meat_absorbed = std::min( max_meat_absorbed, rng( 1, total_charges ) );
                     const int hp_to_heal = meat_absorbed * ml_per_charge * meat_absorption_factor;
                     z->heal( hp_to_heal, true );
                     g->m.use_charges( p, 0, current_item.type->get_id(), meat_absorbed );
                 } else {
                     //Only absorb one meaty item
-                    long meat_absorbed = 1;
+                    int meat_absorbed = 1;
                     const int hp_to_heal = meat_absorbed * ml_per_charge * meat_absorption_factor;
                     z->heal( hp_to_heal, true );
                     g->m.use_amount( p, 0, current_item.type->get_id(), meat_absorbed );
@@ -4692,7 +4692,7 @@ bool mattack::kamikaze( monster *z )
     // Get the bomb type and it's data
     const auto bomb_type = item::find_type( z->ammo.begin()->first );
     const itype *act_bomb_type;
-    long charges;
+    int charges;
     // Hardcoded data for charge variant items
     if( z->ammo.begin()->first == "mininuke" ) {
         act_bomb_type = item::find_type( "mininuke_act" );

@@ -244,7 +244,7 @@ void iexamine::gaspump( player &p, const tripoint &examp )
             if( one_in( 10 + p.get_dex() ) ) {
                 add_msg( m_bad, _( "You accidentally spill the %s." ), item_it->type_name() );
                 static const auto max_spill_volume = units::from_liter( 1 );
-                const long max_spill_charges = std::max( 1l, item_it->charges_per_volume( max_spill_volume ) );
+                const int max_spill_charges = std::max( 1, item_it->charges_per_volume( max_spill_volume ) );
                 ///\EFFECT_DEX decreases amount of gas spilled from a pump
                 const int qty = rng( 1, max_spill_charges * 8.0 / std::max( 1, p.get_dex() ) );
 
@@ -380,14 +380,14 @@ class atm_menu
         }
 
         //! Prompt for an integral value clamped to [0, max].
-        static long prompt_for_amount( const char *const msg, const long max ) {
+        static int prompt_for_amount( const char *const msg, const int max ) {
             const std::string formatted = string_format( msg, max );
-            const long amount = string_input_popup()
-                                .title( formatted )
-                                .width( 20 )
-                                .text( to_string( max ) )
-                                .only_digits( true )
-                                .query_long();
+            const int amount = string_input_popup()
+                               .title( formatted )
+                               .width( 20 )
+                               .text( to_string( max ) )
+                               .only_digits( true )
+                               .query_int();
 
             return ( amount > max ) ? max : ( amount <= 0 ) ? 0 : amount;
         }
@@ -412,7 +412,7 @@ class atm_menu
 
         //!Deposit money from cash card into bank account.
         bool do_deposit_money() {
-            long money = u.charges_of( "cash_card" );
+            int money = u.charges_of( "cash_card" );
 
             if( !money ) {
                 popup( _( "You can only deposit money from charged cash cards!" ) );
@@ -527,7 +527,7 @@ void iexamine::atm( player &p, const tripoint & )
 void iexamine::vending( player &p, const tripoint &examp )
 {
     constexpr int moves_cost = 250;
-    long money = p.charges_of( "cash_card" );
+    int money = p.charges_of( "cash_card" );
     auto vend_items = g->m.i_at( examp );
 
     if( vend_items.empty() ) {
@@ -2308,7 +2308,7 @@ void iexamine::fireplace( player &p, const tripoint &examp )
                                                     it->tname() ) );
                 const ret_val<bool> can_use = actor->can_use( p, *it, false, examp );
                 if( can_use.success() ) {
-                    const long charges = actor->use( p, *it, false, examp );
+                    const int charges = actor->use( p, *it, false, examp );
                     p.use_charges( it->typeId(), charges );
                     return;
                 } else {
@@ -2852,7 +2852,7 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
 {
     bool has_sap = false;
     bool has_container = false;
-    long charges = 0;
+    int charges = 0;
 
     const std::string maple_sap_name = item::nname( "maple_sap" );
 
@@ -3161,7 +3161,7 @@ const itype *furn_t::crafting_ammo_item_type() const
     return nullptr;
 }
 
-static long count_charges_in_list( const itype *type, const map_stack &items )
+static int count_charges_in_list( const itype *type, const map_stack &items )
 {
     for( const auto &candidate : items ) {
         if( candidate.type == type ) {
@@ -3209,16 +3209,16 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
                  f.name() );
         return;
     }
-    const long max_amount = std::min( amount_in_inv, max_reload_amount );
+    const int max_amount = std::min( amount_in_inv, max_reload_amount );
     //~ Loading fuel or other items into a piece of furniture.
     const std::string popupmsg = string_format( _( "Put how many of the %1$s into the %2$s?" ),
                                  ammo->nname( max_amount ), f.name() );
-    long amount = string_input_popup()
-                  .title( popupmsg )
-                  .width( 20 )
-                  .text( to_string( max_amount ) )
-                  .only_digits( true )
-                  .query_long();
+    int amount = string_input_popup()
+                 .title( popupmsg )
+                 .width( 20 )
+                 .text( to_string( max_amount ) )
+                 .only_digits( true )
+                 .query_int();
     if( amount <= 0 || amount > max_amount ) {
         return;
     }
@@ -3348,7 +3348,7 @@ static int getNearPumpCount( const tripoint &p )
     return result;
 }
 
-static cata::optional<tripoint> getNearFilledGasTank( const tripoint &center, long &gas_units )
+static cata::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &gas_units )
 {
     cata::optional<tripoint> tank_loc;
     int distance = INT_MAX;
@@ -3445,10 +3445,10 @@ static std::string getGasDiscountName( int discount )
     }
 }
 
-static long getGasPricePerLiter( int discount )
+static int getGasPricePerLiter( int discount )
 {
     // Those prices are in cents
-    static const long prices[4] = { 1400, 1320, 1200, 1000 };
+    static const int prices[4] = { 1400, 1320, 1200, 1000 };
     if( discount < 0 || discount > 3 ) {
         return prices[0];
     } else {
@@ -3468,7 +3468,7 @@ static cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int numbe
     return cata::nullopt;
 }
 
-static bool toPumpFuel( const tripoint &src, const tripoint &dst, long units )
+static bool toPumpFuel( const tripoint &src, const tripoint &dst, int units )
 {
     auto items = g->m.i_at( src );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
@@ -3497,7 +3497,7 @@ static bool toPumpFuel( const tripoint &src, const tripoint &dst, long units )
     return false;
 }
 
-static long fromPumpFuel( const tripoint &dst, const tripoint &src )
+static int fromPumpFuel( const tripoint &dst, const tripoint &src )
 {
     auto items = g->m.i_at( src );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
@@ -3512,7 +3512,7 @@ static long fromPumpFuel( const tripoint &dst, const tripoint &src )
             g->m.ter_set( dst, backup_tank );
 
             // remove the liquid from the pump
-            long amount = item_it->charges;
+            int amount = item_it->charges;
             items.erase( item_it );
             return amount;
         }
@@ -3554,7 +3554,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         return;
     }
 
-    long tankGasUnits;
+    int tankGasUnits;
     const cata::optional<tripoint> pTank_ = getNearFilledGasTank( examp, tankGasUnits );
     if( !pTank_ ) {
         popup( str_to_illiterate_str( _( "Failure! No gas tank found!" ) ) );
@@ -3575,7 +3575,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     int discount = findBestGasDiscount( p );
     std::string discountName = getGasDiscountName( discount );
 
-    long pricePerUnit = getGasPricePerLiter( discount );
+    int pricePerUnit = getGasPricePerLiter( discount );
 
     bool can_hack = ( !p.has_trait( trait_ILLITERATE ) && ( ( p.has_charges( "electrohack", 25 ) ) ||
                       ( p.has_bionic( bionic_id( "bio_fingerhack" ) ) && p.power_level > 24 ) ) );
@@ -3629,7 +3629,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     if( buy_gas == choice ) {
-        long money = p.charges_of( "cash_card" );
+        int money = p.charges_of( "cash_card" );
 
         if( money < pricePerUnit ) {
             popup( str_to_illiterate_str(
@@ -3637,16 +3637,16 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
             return;
         }
 
-        long maximum_liters = std::min( money / pricePerUnit, tankGasUnits / 1000 );
+        int maximum_liters = std::min( money / pricePerUnit, tankGasUnits / 1000 );
 
         std::string popupmsg = string_format(
                                    _( "How many liters of gasoline to buy? Max: %d L. (0 to cancel) " ), maximum_liters );
-        long liters = string_input_popup()
-                      .title( popupmsg )
-                      .width( 20 )
-                      .text( to_string( maximum_liters ) )
-                      .only_digits( true )
-                      .query_long();
+        int liters = string_input_popup()
+                     .title( popupmsg )
+                     .width( 20 )
+                     .text( to_string( maximum_liters ) )
+                     .only_digits( true )
+                     .query_int();
         if( liters <= 0 ) {
             return;
         }
@@ -3663,7 +3663,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         sounds::sound( p.pos(), 6, sounds::sound_t::activity, _( "Glug Glug Glug" ), true, "tool",
                        "gaspump" );
 
-        long cost = liters * pricePerUnit;
+        int cost = liters * pricePerUnit;
         money -= cost;
         p.use_charges( "cash_card", cost );
 
@@ -3714,7 +3714,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
         // Okay, we have a cash card. Now we need to know what's left in the pump.
         const cata::optional<tripoint> pGasPump = getGasPumpByNumber( examp,
                 uistate.ags_pay_gas_selected_pump );
-        long amount = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : 0l;
+        int amount = pGasPump ? fromPumpFuel( pTank, *pGasPump ) : 0l;
         if( amount >= 0 ) {
             sounds::sound( p.pos(), 6, sounds::sound_t::activity, _( "Glug Glug Glug" ), true, "tool",
                            "gaspump" );
@@ -4482,12 +4482,12 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
     // ... then ask how many to put it
     const std::string popupmsg = string_format( _( "Insert how many %s into the rack?" ),
                                  item::nname( what->typeId(), count ) );
-    long amount = string_input_popup()
-                  .title( popupmsg )
-                  .width( 20 )
-                  .text( to_string( max_count ) )
-                  .only_digits( true )
-                  .query_long();
+    int amount = string_input_popup()
+                 .title( popupmsg )
+                 .width( 20 )
+                 .text( to_string( max_count ) )
+                 .only_digits( true )
+                 .query_int();
 
     if( amount == 0 ) {
         add_msg( m_info, _( "Never mind." ) );
@@ -4589,12 +4589,12 @@ void mill_load_food( player &p, const tripoint &examp, const units::volume &rema
     // ... then ask how many to put it
     const std::string popupmsg = string_format( _( "Insert how many %s into the mill?" ),
                                  item::nname( what->typeId(), count ) );
-    long amount = string_input_popup()
-                  .title( popupmsg )
-                  .width( 20 )
-                  .text( to_string( max_count ) )
-                  .only_digits( true )
-                  .query_long();
+    int amount = string_input_popup()
+                 .title( popupmsg )
+                 .width( 20 )
+                 .text( to_string( max_count ) )
+                 .only_digits( true )
+                 .query_int();
 
     if( amount == 0 ) {
         add_msg( m_info, _( "Never mind." ) );

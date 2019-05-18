@@ -3401,7 +3401,7 @@ std::string camp_car_description( vehicle *car )
                                 static_cast<int>( 100 * pt.health_percent() ) );
         entry += string_format( _( ">Fuel:    %25s\n" ), vp.fuel_type );
     }
-    std::map<itype_id, long> fuels = car->fuels_left();
+    std::map<itype_id, int> fuels = car->fuels_left();
     entry += _( "----  Fuel Storage & Battery   ----\n" );
     for( auto &fuel : fuels ) {
         std::string fuel_entry = string_format( "%d/%d", car->fuel_left( fuel.first ),

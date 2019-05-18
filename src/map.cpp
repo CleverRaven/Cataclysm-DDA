@@ -4064,7 +4064,7 @@ void map::i_clear( const int x, const int y )
 }
 
 void map::spawn_an_item( const int x, const int y, item new_item,
-                         const long charges, const int damlevel )
+                         const int charges, const int damlevel )
 {
     spawn_an_item( tripoint( x, y, abs_sub.z ), new_item, charges, damlevel );
 }
@@ -4075,7 +4075,7 @@ void map::spawn_items( const int x, const int y, const std::vector<item> &new_it
 }
 
 void map::spawn_item( const int x, const int y, const std::string &type_id,
-                      const unsigned quantity, const long charges,
+                      const unsigned quantity, const int charges,
                       const time_point &birthday, const int damlevel )
 {
     spawn_item( tripoint( x, y, abs_sub.z ), type_id,
@@ -4169,7 +4169,7 @@ void map::i_clear( const tripoint &p )
 }
 
 item &map::spawn_an_item( const tripoint &p, item new_item,
-                          const long charges, const int damlevel )
+                          const int charges, const int damlevel )
 {
     if( charges && new_item.charges > 0 ) {
         //let's fail silently if we specify charges for an item that doesn't support it
@@ -4218,7 +4218,7 @@ void map::spawn_natural_artifact( const tripoint &p, artifact_natural_property p
 }
 
 void map::spawn_item( const tripoint &p, const std::string &type_id,
-                      const unsigned quantity, const long charges,
+                      const unsigned quantity, const int charges,
                       const time_point &birthday, const int damlevel )
 {
     if( type_id == "null" ) {
@@ -4769,7 +4769,7 @@ bool map::has_items( const tripoint &p ) const
 }
 
 template <typename Stack>
-std::list<item> use_amount_stack( Stack stack, const itype_id &type, long &quantity,
+std::list<item> use_amount_stack( Stack stack, const itype_id &type, int &quantity,
                                   const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
@@ -4784,7 +4784,7 @@ std::list<item> use_amount_stack( Stack stack, const itype_id &type, long &quant
 }
 
 std::list<item> map::use_amount_square( const tripoint &p, const itype_id &type,
-                                        long &quantity, const std::function<bool( const item & )> &filter )
+                                        int &quantity, const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
     // Handle infinite map sources.
@@ -4806,7 +4806,7 @@ std::list<item> map::use_amount_square( const tripoint &p, const itype_id &type,
 }
 
 std::list<item> map::use_amount( const tripoint &origin, const int range, const itype_id type,
-                                 long &quantity, const std::function<bool( const item & )> &filter )
+                                 int &quantity, const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
     for( int radius = 0; radius <= range && quantity > 0; radius++ ) {
@@ -4821,7 +4821,7 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
 }
 
 template <typename Stack>
-std::list<item> use_charges_from_stack( Stack stack, const itype_id type, long &quantity,
+std::list<item> use_charges_from_stack( Stack stack, const itype_id type, int &quantity,
                                         const tripoint &pos, const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
@@ -4835,7 +4835,7 @@ std::list<item> use_charges_from_stack( Stack stack, const itype_id type, long &
     return ret;
 }
 
-long remove_charges_in_list( const itype *type, map_stack stack, long quantity )
+int remove_charges_in_list( const itype *type, map_stack stack, int quantity )
 {
     auto target = stack.begin();
     for( ; target != stack.end(); ++target ) {
@@ -4849,7 +4849,7 @@ long remove_charges_in_list( const itype *type, map_stack stack, long quantity )
             target->charges -= quantity;
             return quantity;
         } else {
-            const long charges = target->charges;
+            const int charges = target->charges;
             target->charges = 0;
             if( target->destroyed_at_zero_charges() ) {
                 stack.erase( target );
@@ -4860,7 +4860,7 @@ long remove_charges_in_list( const itype *type, map_stack stack, long quantity )
     return 0;
 }
 
-void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantity,
+void use_charges_from_furn( const furn_t &f, const itype_id &type, int &quantity,
                             map *m, const tripoint &p, std::list<item> &ret, const std::function<bool( const item & )> &filter )
 {
     if( m->has_flag( "LIQUIDCONT", p ) ) {
@@ -4916,7 +4916,7 @@ void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantit
 }
 
 std::list<item> map::use_charges( const tripoint &origin, const int range,
-                                  const itype_id type, long &quantity, const std::function<bool( const item & )> &filter )
+                                  const itype_id type, int &quantity, const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
 
@@ -6962,7 +6962,7 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
         }
     }
 
-    long new_charges = roll_remainder( time_producing / turns_to_produce );
+    int new_charges = roll_remainder( time_producing / turns_to_produce );
     // Not enough time to produce 1 charge of sap
     if( new_charges <= 0 ) {
         return;
@@ -6974,9 +6974,9 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
     auto items = i_at( p );
     for( auto &it : items ) {
         if( it.is_bucket() || it.is_watertight_container() ) {
-            const long capacity = it.get_remaining_capacity_for_liquid( sap, true );
+            const int capacity = it.get_remaining_capacity_for_liquid( sap, true );
             if( capacity > 0 ) {
-                new_charges = std::min<long>( new_charges, capacity );
+                new_charges = std::min( new_charges, capacity );
 
                 // The environment might have poisoned the sap with animals passing by, insects, leaves or contaminants in the ground
                 sap.poison = one_in( 10 ) ? 1 : 0;
