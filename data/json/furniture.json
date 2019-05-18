@@ -835,7 +835,7 @@
     "id": "f_exercise",
     "name": "exercise machine",
     "symbol": "T",
-    "description": "Typically used for, well, exercising.  You're getting quite enough of that, running for your life.",
+    "description": "Typically used for, well, exercising.  You're getting quite enough of that; running for your life.",
     "color": "dark_gray",
     "move_cost_mod": 1,
     "coverage": 35,
