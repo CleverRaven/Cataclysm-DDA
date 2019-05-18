@@ -72,7 +72,9 @@ bool mapbuffer::add_submap( int x, int y, int z, submap *sm )
 bool mapbuffer::add_submap( const tripoint &p, std::unique_ptr<submap> &sm )
 {
     const bool result = add_submap( p, sm.get() );
-    sm.release();
+    if( result ) {
+        sm.release();
+    }
     return result;
 }
 
