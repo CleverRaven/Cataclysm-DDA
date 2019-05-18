@@ -7231,7 +7231,7 @@ void item::apply_freezerburn()
     }
 }
 
-void item::process_temperature_rot( float insulation, const tripoint pos,
+void item::process_temperature_rot( float insulation, const tripoint &pos,
                                     player *carrier, const temperature_flag flag )
 {
     const time_point now = calendar::turn;

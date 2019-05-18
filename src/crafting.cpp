@@ -1401,7 +1401,7 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
 
 std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter,
-                                       tripoint origin, int radius )
+                                       const tripoint &origin, int radius )
 {
     std::list<item> ret;
 
@@ -1570,7 +1570,7 @@ void player::consume_tools( const comp_selection<tool_comp> &tool, int batch )
 
 /* we use this if we selected the tool earlier */
 void player::consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
-                            tripoint origin, int radius, basecamp *bcp )
+                            const tripoint &origin, int radius, basecamp *bcp )
 {
     if( has_trait( trait_DEBUG_HS ) ) {
         return;

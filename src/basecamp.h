@@ -153,7 +153,7 @@ class basecamp
             return dumping_spot;
         }
         // dumping spot in absolute co-ords
-        inline void set_dumping_spot( tripoint spot ) {
+        inline void set_dumping_spot( const tripoint &spot ) {
             dumping_spot = spot;
         }
         void place_results( item result, bool by_radio );

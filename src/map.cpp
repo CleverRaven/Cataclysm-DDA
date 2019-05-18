@@ -4805,7 +4805,7 @@ std::list<item> map::use_amount_square( const tripoint &p, const itype_id &type,
     return ret;
 }
 
-std::list<item> map::use_amount( const tripoint &origin, const int range, const itype_id type,
+std::list<item> map::use_amount( const tripoint &origin, const int range, const itype_id &type,
                                  int &quantity, const std::function<bool( const item & )> &filter )
 {
     std::list<item> ret;
@@ -5220,7 +5220,7 @@ const trap &map::tr_at( const tripoint &p ) const
     return current_submap->get_trap( l ).obj();
 }
 
-void map::trap_set( const tripoint &p, const trap_id type )
+void map::trap_set( const tripoint &p, const trap_id &type )
 {
     if( !inbounds( p ) ) {
         return;
@@ -7398,7 +7398,7 @@ void map::clear_traps()
     }
 }
 
-const std::vector<tripoint> &map::trap_locations( const trap_id type ) const
+const std::vector<tripoint> &map::trap_locations( const trap_id &type ) const
 {
     return traplocs[type];
 }

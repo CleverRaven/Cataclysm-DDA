@@ -729,10 +729,10 @@ class game
         // Standard movement; handles attacks, traps, &c. Returns false if auto move
         // should be canceled
         bool plmove( int dx, int dy, int dz = 0 );
-        inline bool plmove( tripoint d ) {
+        inline bool plmove( const tripoint &d ) {
             return plmove( d.x, d.y, d.z );
         }
-        inline bool plmove( point d ) {
+        inline bool plmove( const point &d ) {
             return plmove( d.x, d.y );
         }
         // Handle pushing during move, returns true if it handled the move
