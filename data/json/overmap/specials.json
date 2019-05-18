@@ -2367,5 +2367,19 @@
     "city_sizes": [ 3, 12 ],
     "occurrences": [ 1, 5 ],
     "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "lake_shore_dock_small",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lake_surface", "locations": [ "lake_surface" ] },
+      { "point": [ 1, 0, 0 ], "overmap": "lake_dock_small_north", "locations": [ "lake_surface" ] },
+      { "point": [ 2, 0, 0 ], "overmap": "lake_surface", "locations": [ "lake_surface" ] },
+      { "point": [ 0, 1, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] },
+      { "point": [ 1, 1, 0 ], "overmap": "lake_shore_dock_small_north", "locations": [ "lake_shore" ] },
+      { "point": [ 2, 1, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] }
+    ],
+    "city_sizes": [ 1, 20 ],
+    "occurrences": [ 0, 5 ]
   }
 ]
