@@ -271,8 +271,7 @@ void player_activity::deserialize( JsonIn &jsin )
     int tmppos = 0;
     if( !data.read( "type", tmptype ) ) {
         // Then it's a legacy save.
-        int tmp_type_legacy;
-        data.read( "type", tmp_type_legacy );
+        int tmp_type_legacy = data.get_int( "type" );
         deserialize_legacy_type( tmp_type_legacy, type );
     } else {
         type = activity_id( tmptype );

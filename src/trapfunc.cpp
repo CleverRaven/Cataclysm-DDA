@@ -88,11 +88,11 @@ void trapfunc::bubble( Creature *c, const tripoint &p )
 
 void trapfunc::glass( Creature *c, const tripoint &p )
 {
-    // tiny animals don't trigger glass trap
-    if( ( c != nullptr && c->get_size() == MS_TINY ) || c->is_hallucination() ) {
-        return;
-    }
     if( c != nullptr ) {
+        // tiny animals and hallucinations don't trigger glass trap
+        if( c->get_size() == MS_TINY || c->is_hallucination() ) {
+            return;
+        }
         c->add_msg_player_or_npc( m_warning, _( "You step on some glass!" ),
                                   _( "<npcname> steps on some glass!" ) );
         c->add_memorial_log( pgettext( "memorial_male", "Stepped on glass." ),
@@ -220,11 +220,11 @@ void trapfunc::caltrops( Creature *c, const tripoint & )
 
 void trapfunc::caltrops_glass( Creature *c, const tripoint &p )
 {
-    // tiny animals don't trigger caltrops, they can squeeze between them
-    if( ( c != nullptr && c->get_size() == MS_TINY ) || c->is_hallucination() ) {
-        return;
-    }
     if( c != nullptr ) {
+        // tiny animals don't trigger caltrops, they can squeeze between them
+        if( c->get_size() == MS_TINY || c->is_hallucination() ) {
+            return;
+        }
         c->add_memorial_log( pgettext( "memorial_male", "Stepped on a glass caltrop." ),
                              pgettext( "memorial_female", "Stepped on a glass caltrop." ) );
         c->add_msg_player_or_npc( m_bad, _( "You step on a sharp glass caltrop!" ),
