@@ -8782,7 +8782,7 @@
     "id": "pallet_full",
     "type": "TOOL",
     "name": "pallet of wet adobe bricks",
-    "name_plural": "pallets of wet adobe bricks"	
+    "name_plural": "pallets of wet adobe bricks",
     "description": "A pallet full of heavy mud bricks which need to dry slowly to be usable.",
     "weight": 35000,
     "volume": 50,
