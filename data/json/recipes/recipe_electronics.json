@@ -1151,11 +1151,15 @@
     "using": [ [ "soldering_standard", 14 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "uzi", 1 ], [ "tec9", 1 ], [ "calico", 1 ], [ "hk_mp5", 1 ] ],
-      [ [ "processor", 2 ] ],
-      [ [ "RAM", 2 ] ],
-      [ [ "power_supply", 1 ], [ "plut_cell", 1 ] ],
-      [ [ "scrap", 10 ] ]
+      [ [ "ai_module", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "gun_module", 2 ] ],
+      [ [ "hk_mp5", 2 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module" ], 1 ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
     ]
   },
   {
@@ -1173,14 +1177,16 @@
     "using": [ [ "soldering_standard", 14 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "cerberus_laser", 3 ], [ "laser_rifle", 3 ], [ "v29_cheap", 3 ], [ "v29", 3 ] ],
-      [ [ "processor", 2 ] ],
-      [ [ "RAM", 2 ] ],
-      [ [ "motor", 1 ] ],
+      [ [ "ai_module", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "laser_cannon", 1 ] ],
+      [ [ "medium_storage_battery", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module" ], 1 ],
       [ [ "solar_cell", 4 ] ],
-      [ [ "cable", 10 ] ],
-      [ [ "power_supply", 1 ], [ "plut_cell", 1 ] ],
-      [ [ "scrap", 10 ] ]
+      [ [ "power_supply", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
     ]
   },
   {
@@ -1198,11 +1204,15 @@
     "using": [ [ "soldering_standard", 14 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "m4a1", 1 ], [ "sig552", 1 ], [ "h&k416a5", 1 ], [ "m27iar", 1 ], [ "acr", 1 ], [ "hk_g36", 1 ] ],
-      [ [ "processor", 2 ] ],
-      [ [ "RAM", 2 ] ],
-      [ [ "power_supply", 1 ], [ "plut_cell", 1 ] ],
-      [ [ "scrap", 15 ] ]
+      [ [ "ai_module", 1 ] ],
+      [ [ "RAM", 1 ] ],
+      [ [ "gun_module", 1 ] ],
+      [ [ "m4a1", 1 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "identification_module" ], 1 ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "turret_chassis", 1 ] ]
     ]
   },
   {
