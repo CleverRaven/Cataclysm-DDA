@@ -1653,7 +1653,6 @@ bool handle_resize( int w, int h )
         TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
         SetupRenderTarget();
         game_ui::init_ui();
-        tilecontext->reinit_minimap();
 
         return true;
     }
@@ -3833,20 +3832,6 @@ void to_overmap_font_dimension( int &w, int &h )
 bool is_draw_tiles_mode()
 {
     return use_tiles;
-}
-
-SDL_Color cursesColorToSDL( const nc_color &color )
-{
-    const int pair_id = color.to_color_pair_index();
-    const auto pair = cata_cursesport::colorpairs[pair_id];
-
-    int palette_index = pair.FG != 0 ? pair.FG : pair.BG;
-
-    if( color.is_bold() ) {
-        palette_index += color_loader<SDL_Color>::COLOR_NAMES_COUNT / 2;
-    }
-
-    return windowsPalette[palette_index];
 }
 
 /** Saves a screenshot of the current viewport, as a PNG file, to the given location.

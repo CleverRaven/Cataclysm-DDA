@@ -265,8 +265,8 @@ game::game() :
     uquit( QUIT_NO ),
     new_game( false ),
     displaying_scent( false ),
-    pixel_minimap_option( 0 ),
     safe_mode( SAFE_MODE_ON ),
+    pixel_minimap_option( 0 ),
     u_shared_ptr( &u, null_deleter{} ),
     mostseen( 0 ),
     safe_mode_warning_logged( false ),
@@ -291,7 +291,6 @@ void game::load_static_data()
     // Init mappings for loading the json stuff
     DynamicDataLoader::get_instance();
     fullscreen = false;
-    reinitmap = false;
     was_fullscreen = false;
     show_panel_adm = false;
     panel_manager::get_manager().init();
@@ -3206,17 +3205,6 @@ void game::draw_panels( size_t column, size_t index )
 void game::draw_pixel_minimap( const catacurses::window &w )
 {
     w_pixel_minimap = w;
-    // Make no-op if not TILES build
-#if defined(TILES)
-    // Force a refresh of the pixel minimap.
-    // only do so if it is in use
-    if( pixel_minimap_option && w_pixel_minimap ) {
-        if( reinitmap ) {
-            tilecontext->reinit_minimap();
-            reinitmap = false;
-        }
-    }
-#endif // TILES
 }
 
 void game::draw_critter( const Creature &critter, const tripoint &center )
@@ -10144,6 +10132,13 @@ void game::on_move_effects()
     u.ma_onmove_effects();
 
     sfx::do_ambient();
+}
+
+void game::on_options_changed()
+{
+#if defined(TILES)
+    tilecontext->on_options_changed();
+#endif
 }
 
 void game::plswim( const tripoint &p )
