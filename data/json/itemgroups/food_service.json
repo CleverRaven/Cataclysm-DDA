@@ -1010,6 +1010,19 @@
   },
   {
     "type": "item_group",
+    "id": "raw_meat",
+    "items": [
+      { "item": "meat", "prob": 8, "charges": [ 1, 10 ] },
+      { "item": "lung", "prob": 1, "charges": [ 1, 20 ] },
+      { "item": "kidney", "prob": 1, "charges": [ 1, 20 ] },
+      { "item": "liver", "prob": 1, "charges": [ 1, 10 ] },
+      { "item": "brain", "prob": 1, "charges": [ 1, 10 ] },
+      { "item": "sweetbread", "prob": 2, "charges": [ 1, 10 ] },
+      { "item": "fat", "prob": 2, "charges": [ 5, 30 ] }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "butcher_meat",
     "items": [
       [ "lunchmeat", 15 ],
