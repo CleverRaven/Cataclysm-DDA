@@ -705,7 +705,7 @@
     "use_action": {
       "type": "unfold_vehicle",
       "vehicle_name": "lawnmower",
-      "unfold_msg": "You set up the lawnmower and unfold it's handle.",
+      "unfold_msg": "You set up the lawnmower and unfold its handle.",
       "moves": 500
     }
   },
