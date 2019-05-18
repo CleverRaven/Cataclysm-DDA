@@ -45,13 +45,13 @@ class window;
 struct basecamp_resource {
     itype_id fake_id;
     itype_id ammo_id;
-    long available = 0;
-    long consumed = 0;
+    int available = 0;
+    int consumed = 0;
 };
 
 struct basecamp_fuel {
     itype_id ammo_id;
-    long available = 0;
+    int available = 0;
 };
 
 class basecamp
@@ -123,7 +123,7 @@ class basecamp
         int recipe_batch_max( const recipe &making ) const;
         void form_crafting_inventory( const bool by_radio = false );
         void form_crafting_inventory( map &target_map );
-        std::list<item> use_charges( const itype_id fake_id, long &quantity );
+        std::list<item> use_charges( const itype_id fake_id, int &quantity );
         void consume_components( const recipe &making, int batch_size, bool by_radio = false );
         void consume_components( map &target_map, const recipe &making, int batch_size,
                                  bool by_radio = false );
