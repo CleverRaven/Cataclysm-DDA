@@ -2150,7 +2150,7 @@
     "type": "GENERIC",
     "category": "weapons",
     "name": "pike",
-    "description": "This is a dull, cheaply made replica of a medieval weapon consisting of a wood shaft tipped with an iron spike.",
+    "description": "This is a dull, cheaply made replica of a medieval weapon consisting of a wood shaft tipped with an iron spearhead.",
     "weight": 2000,
     "volume": 14,
     "price": 4000,
