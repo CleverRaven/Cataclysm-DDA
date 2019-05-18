@@ -940,6 +940,7 @@ monster_attitude monster::attitude( const Character *u ) const
         static const trait_id pheromone_mammal( "PHEROMONE_MAMMAL" );
         static const trait_id pheromone_insect( "PHEROMONE_INSECT" );
         static const trait_id mycus_thresh( "THRESH_MYCUS" );
+        static const trait_id mycus_friend( "MYCUS_FRIEND" );
         static const trait_id terrifying( "TERRIFYING" );
         if( faction == faction_bee ) {
             if( u->has_trait( trait_BEE ) ) {
@@ -949,7 +950,8 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
-        if( type->in_species( FUNGUS ) && u->has_trait( mycus_thresh ) ) {
+        if( type->in_species( FUNGUS ) && ( u->has_trait( mycus_thresh ) ||
+                                            u->has_trait( mycus_friend ) ) ) {
             return MATT_FRIEND;
         }
 

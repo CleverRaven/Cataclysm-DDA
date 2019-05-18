@@ -2432,7 +2432,8 @@
     "description": "Ever since you ate that Marloss berry, you can't get its scent out of your nose, and you have a strong desire to try some seeds and...sap?",
     "purifiable": false,
     "valid": false,
-    "category": [ "MARLOSS" ]
+    "category": [ "MARLOSS" ],
+    "flags": [ "mycus" ]
   },
   {
     "type": "mutation",
@@ -2442,7 +2443,8 @@
     "description": "Ever since you ate that Marloss seed, you can't get its taste off of your tongue, and you have a strong desire to try some berries and...sap?",
     "purifiable": false,
     "valid": false,
-    "category": [ "MARLOSS" ]
+    "category": [ "MARLOSS" ],
+    "flags": [ "mycus" ]
   },
   {
     "type": "mutation",
@@ -2452,7 +2454,8 @@
     "description": "Ever since you ate that Marloss jelly, you can't stop thinking of it, and you have a strong desire to eat some seeds and berries.",
     "purifiable": false,
     "valid": false,
-    "category": [ "MARLOSS" ]
+    "category": [ "MARLOSS" ],
+    "flags": [ "mycus" ]
   },
   {
     "type": "mutation",
@@ -5774,7 +5777,8 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "category": [ "MARLOSS" ]
+    "category": [ "MARLOSS" ],
+    "flags": [ "mycus" ]
   },
   {
     "type": "mutation",
@@ -5784,7 +5788,8 @@
     "description": "We are the Mycus.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "flags": [ "mycus" ]
   },
   {
     "type": "mutation",
@@ -6257,6 +6262,15 @@
     "description": "NPC trait that makes monsters see it as a bee.  It is a bug (heh) if you have it.",
     "player_display": false,
     "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "MYCUS_FRIEND",
+    "name": "mycus friend",
+    "points": 0,
+    "valid": false,
+    "description": "NPC trait that makes fungaloid monsters see this NPC as a friend.",
+    "player_display": false
   },
   {
     "type": "mutation",
