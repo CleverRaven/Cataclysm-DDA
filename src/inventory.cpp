@@ -1004,7 +1004,8 @@ std::vector<item *> inventory::active_items()
 
 void inventory::assign_empty_invlet( item &it, const Character &p, const bool force )
 {
-    if( !get_option<bool>( "AUTO_INV_ASSIGN" ) ) {
+    const std::string auto_setting = get_option<std::string>( "AUTO_INV_ASSIGN" );
+    if( auto_setting == "disabled" || ( ( auto_setting == "favorites" ) && !it.is_favorite ) ) {
         return;
     }
 
