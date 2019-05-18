@@ -1284,27 +1284,27 @@ void mapgen_subway( map *m, oter_id terrain_type, mapgendata dat, const time_poi
             break;
         case 3: // tee
             mapf::formatted_set_simple( m, 0, 0,
-                                        "..^/D^^/D^....^D/^^D/^..\n"
-                                        ".^/D^^/D^......^D/^^D/^.\n"
-                                        "^/D^^/D^........^D/^^D/^\n"
-                                        "/D^^/D^..........^D/^^D/\n"
-                                        "DXXDDXXXXXXXXXXXXXXDDXXD\n"
-                                        "^^/D^^^^^^^^^^^^^^^^D/^^\n"
-                                        "^/D^^^^^^^^^^^^^^^^^^D/^\n"
-                                        "/D^^^^^^^^^^^^^^^^^^^^D/\n"
-                                        "DXXXXXXXXXXXXXXXXXXXXXXD\n"
-                                        "........................\n"
-                                        "........................\n"
-                                        "........................\n"
-                                        "........................\n"
-                                        "........................\n"
-                                        "^|^^|^^|^^|^^|^^|^^|^^|^\n"
-                                        "XxXXxXXxXXxXXxXXxXXxXXxX\n"
-                                        "^|^^|^^|^^|^^|^^|^^|^^|^\n"
-                                        "^|^^|^^|^^|^^|^^|^^|^^|^\n"
-                                        "^|^^|^^|^^|^^|^^|^^|^^|^\n"
-                                        "XxXXxXXxXXxXXxXXxXXxXXxX\n"
-                                        "^|^^|^^|^^|^^|^^|^^|^^|^\n"
+                                        "..^/D^^/D^...^/D^^/D^...\n"
+                                        ".^/D^^/D^...^/D^^/D^....\n"
+                                        "^/D^^/D^...^/D^^/D^.....\n"
+                                        "/D^^/D^^^^^/D^^/D^^^^^^^\n"
+                                        "DXXXDXXXXXXDXXXDXXXXXXXX\n"
+                                        "^^/D^^^^^^^^^/D^^^^^^^^^\n"
+                                        "^/D^^^^^^^^^/D^^^^^^^^^^\n"
+                                        "/D^^^^^^^^^/D^^^^^^^^^^^\n"
+                                        "DXXXXXXDXXXDXXXXXXXXXXXX\n"
+                                        "^^^^^/D^^/D^^^^^^^^^^^^^\n"
+                                        "...^/D^^/D^.............\n"
+                                        "..^/D^^/D^..............\n"
+                                        ".^/D^^/D^...............\n"
+                                        "^/D^^/D^................\n"
+                                        "/D^^/D^^^^|^^|^^|^^|^^|^\n"
+                                        "DXXXDXXXXXxXXxXXxXXxXXxX\n"
+                                        "^^/D^^^^^^|^^|^^|^^|^^|^\n"
+                                        "^/D^^^^^^^|^^|^^|^^|^^|^\n"
+                                        "/D^^^^^^^^|^^|^^|^^|^^|^\n"
+                                        "DXXXXXXXXXxXXxXXxXXxXXxX\n"
+                                        "^^^^^^^^^^|^^|^^|^^|^^|^\n"
                                         "........................\n"
                                         "........................\n"
                                         "........................",
@@ -1452,6 +1452,7 @@ void mapgen_subway( map *m, oter_id terrain_type, mapgendata dat, const time_poi
                                                 f_null,
                                                 f_null,
                                                 f_null ) );
+            VehicleSpawn::apply( vspawn_id( "default_subway_deadend" ), *m, "subway" );
             break;
     }
 
