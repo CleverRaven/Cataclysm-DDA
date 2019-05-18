@@ -765,6 +765,57 @@ void iexamine::cardreader( player &p, const tripoint &examp )
     }
 }
 
+void iexamine::cardreader_robofac( player &p, const tripoint &examp )
+{
+    itype_id card_type = "id_science";
+    if( p.has_amount( card_type, 1 ) && query_yn( _( "Swipe your ID card?" ) ) ) {
+        p.mod_moves( -100 );
+        p.use_amount( card_type, 1 );
+        add_msg( m_bad, _( "The card reader short circuits!" ) );
+        g->m.ter_set( examp, t_card_reader_broken );
+        intercom( p, examp );
+
+    } else {
+        switch( hack_attempt( p ) ) {
+            case HACK_FAIL:
+                add_msg( _( "Nothing happens." ) );
+                break;
+            case HACK_NOTHING:
+                add_msg( _( "Nothing happens." ) );
+                break;
+            case HACK_SUCCESS: {
+                add_msg( _( "You activate the panel!" ) );
+                add_msg( m_bad, _( "The card reader short circuits!" ) );
+                g->m.ter_set( examp, t_card_reader_broken );
+                intercom( p, examp );
+            }
+            break;
+            case HACK_UNABLE:
+                add_msg(
+                    m_info,
+                    p.get_skill_level( skill_computer ) > 0 ?
+                    _( "Looks like you need a %s, or a tool to hack it with." ) :
+                    _( "Looks like you need a %s." ),
+                    item::nname( card_type )
+                );
+                break;
+        }
+    }
+}
+
+void iexamine::intercom( player &p, const tripoint &examp )
+{
+    const std::vector<npc *> intercom_npcs = g->get_npcs_if( [examp]( const npc & guy ) {
+        return guy.name == "the intercom" && rl_dist( guy.pos(), examp ) < 10;
+    } );
+    if( intercom_npcs.empty() ) {
+        p.add_msg_if_player( m_info, _( "No one responds." ) );
+    } else {
+        intercom_npcs.front()->talk_to_u( false, false );
+    }
+}
+
+
 /**
  * Prompt removal of rubble. Select best shovel and invoke "CLEAR_RUBBLE" on tile.
  */
@@ -3144,6 +3195,12 @@ void iexamine::water_source( player &p, const tripoint &examp )
     liquid_handler::handle_liquid( water, nullptr, 0, &examp );
 }
 
+void iexamine::clean_water_source( player &, const tripoint &examp )
+{
+    item water = item( "water_clean", 0, item::INFINITE_CHARGES );
+    liquid_handler::handle_liquid( water, nullptr, 0, &examp );
+}
+
 const itype *furn_t::crafting_pseudo_item_type() const
 {
     if( crafting_pseudo_item.empty() ) {
@@ -5185,6 +5242,8 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "elevator", &iexamine::elevator },
             { "controls_gate", &iexamine::controls_gate },
             { "cardreader", &iexamine::cardreader },
+            { "cardreader_robofac", &iexamine::cardreader_robofac },
+            { "intercom", &iexamine::intercom },
             { "rubble", &iexamine::rubble },
             { "chainfence", &iexamine::chainfence },
             { "bars", &iexamine::bars },
@@ -5229,6 +5288,7 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "recycle_compactor", &iexamine::recycle_compactor },
             { "trap", &iexamine::trap },
             { "water_source", &iexamine::water_source },
+            { "clean_water_source", &iexamine::clean_water_source },
             { "reload_furniture", &iexamine::reload_furniture },
             { "curtains", &iexamine::curtains },
             { "sign", &iexamine::sign },
