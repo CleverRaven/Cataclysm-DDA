@@ -2852,7 +2852,11 @@ bool mattack::nurse_operate( monster *z )
             }
         }
     }
-
+    if( found_target && z->attitude_to( g->u ) == Creature::Attitude::A_FRIENDLY ) {
+        if( one_in( 50 ) ) {
+            return false; // 50% chance to not turn hostile again
+        }
+    }
     if( found_target && u_see ) {
         add_msg( m_info, _( "The %1$s scans %2$s and seems to detect something." ), z->name(),
                  target->disp_name() );
@@ -2860,6 +2864,7 @@ bool mattack::nurse_operate( monster *z )
 
     if( found_target ) {
 
+        z->friendly = 0;
         z->anger = 100;
         std::list<tripoint> couch_pos = g->m.find_furnitures_in_radius( z->pos(), 10,
                                         furn_id( "f_autodoc_couch" ) ) ;
