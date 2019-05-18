@@ -1182,7 +1182,7 @@
     "id": "f_locker",
     "name": "locker",
     "symbol": "{",
-    "description": "Used for storing equipment or items.",
+    "description": "Usually used for storing equipment or items.",
     "color": "light_gray",
     "move_cost_mod": -1,
     "coverage": 90,
