@@ -9732,6 +9732,7 @@
       [ "schematics_sciencebot", 10 ],
       [ "schematics_tankbot", 5 ],
       [ "schematics_tripod", 5 ],
+      [ "schematics_molebot", 20 ],
       [ "schematics_dispatch", 25 ],
       [ "schematics_dispatch_military", 20 ],
       [ "schematics_antimateriel", 20 ],

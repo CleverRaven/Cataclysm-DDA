@@ -283,6 +283,14 @@
     "copy-from": "schematics_generic"
   },
   {
+    "id": "schematics_molebot",
+    "type": "BOOK",
+    "name": "miner bot schematics",
+    "name_plural": "miner bot schematics",
+    "description": "Assembly plans, design specs, and technical drawings for the miner bot. Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
+    "copy-from": "schematics_generic"
+  },
+  {
     "id": "schematics_riotbot",
     "type": "BOOK",
     "name": "riot control bot schematics",
