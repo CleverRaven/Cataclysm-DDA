@@ -415,7 +415,7 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
             return;
         } else if( big_corpse && !has_rope && !b_rack_present ) {
             u.add_msg_if_player( m_info,
-                                 _( "For a corpse this big you need a rope and a nearby tree or a butchering rack to perform a full butchery." ) );
+                                 _( "For a corpse this big you need a rope and a nearby tree, a butchering rack, or a hanging meathook to perform a full butchery." ) );
             act.index = -1;
             return;
         }
