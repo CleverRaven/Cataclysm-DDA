@@ -7,7 +7,7 @@
       "type": "dialogue",
       "context": "intercom",
       "value": "yes",
-      "yes": "So do you need something?",
+      "yes": "So, do you need something?",
       "no": {
         "u_has_var": "u_met_robofac_intercom",
         "type": "dialogue",
@@ -106,7 +106,7 @@
   {
     "id": "TALK_ROBOFAC_INTERCOM_PLEAD",
     "type": "talk_topic",
-    "dynamic_line": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1", "yes": "...", "no": "Just leabe." },
+    "dynamic_line": { "u_has_mission": "MISSION_ROBOFAC_INTERCOM_1", "yes": "...", "no": "Just leave." },
     "responses": [
       {
         "text": "Wait!  Maybe I can help you!",
