@@ -7803,7 +7803,7 @@
     "type": "terrain",
     "id": "t_card_reader_broken",
     "name": "broken card reader",
-    "description": "This is a smartcard reader, but it doesn't seem to be functioning.",
+    "description": "This is a smartcard reader, but it doesn't seem to be functioning.  Probably because there's no more blinking red LED.",
     "symbol": "6",
     "color": "light_gray",
     "move_cost": 0,
