@@ -2290,8 +2290,10 @@
     "symbol": "/",
     "color": "light_gray",
     "name": "butterfly swords",
-    "description": "This is a matched pair of traditional Shaolin butterfly swords.  They are about the size of machetes but have hand guards and wider blades.  They require a scabbard to store.",
-    "price": 130000,
+    "name_plural": "butterfly swords",
+    "description": "This is a matched pair of traditional Shaolin butterfly swords.  They are about the size of machetes but have hand guards and wider blades.",
+     "//": "basically 2x the weight, 1.5x the damage, 2.5x the resources of a single machete to cover the fact that it's two weapons, each with a hand guard",    "price": 50000,
+    "price_postapoc": 80000,
     "material": "steel",
     "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
     "techniques": [ "WBLOCK_2" ],
@@ -2318,6 +2320,7 @@
     "bashing": 25,
     "flags": [ "SPEAR", "REACH_ATTACK", "NONCONDUCTIVE" ],
     "price": 4000,
+    "price_postapoc": 8000,
     "qualities": [ [ "HAMMER", 1 ] ]
     }
 ]

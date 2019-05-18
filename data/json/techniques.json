@@ -1092,7 +1092,7 @@
     "unarmed_allowed": true,
     "defensive": true,
     "miss_recovery": true,
-    "messages": [ "You miss but just keep punching at %s", "<npcname> misses but keeps punching at %s" ]
+    "messages": [ "You miss but keep punching at %s", "<npcname> misses but keeps punching at %s" ]
   },
   {
     "type": "technique",
