@@ -2,10 +2,10 @@
   {
     "type": "MOD_INFO",
     "ident": "sees_player_retro",
-    "name": "sees player retro",
+    "name": "sees-player icon, retrodays",
     "authors": [ "esotericist" ],
-    "description": "Displays an indicator as to whether the player is seen. Designed for the retrodays tileset.",
-    "category": "none",
+    "description": "Adds indicator icon if a creature sees the player. Designed for the retrodays tileset.",
+    "category": "graphical",
     "dependencies": [ "dda" ]
   }
 ]
