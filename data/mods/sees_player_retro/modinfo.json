@@ -4,7 +4,7 @@
     "ident": "sees_player_retro",
     "name": "sees player retro",
     "authors": [ "esotericist" ],
-    "description": "displays an indicator as to whether the player is seen. designed for the retrodays tileset",
+    "description": "Displays an indicator as to whether the player is seen. Designed for the retrodays tileset.",
     "category": "none",
     "dependencies": [ "dda" ]
   }
