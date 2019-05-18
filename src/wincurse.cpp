@@ -125,7 +125,7 @@ bool WinCreate()
     }
 
     return true;
-};
+}
 
 // Unregisters, releases the DC if needed, and destroys the window.
 void WinDestroy()
@@ -139,7 +139,7 @@ void WinDestroy()
     if( !( UnregisterClassW( szWindowClass, WindowINST ) ) ) {
         WindowINST = 0;
     }
-};
+}
 
 // Creates a backbuffer to prevent flickering
 void create_backbuffer()
@@ -316,7 +316,7 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
                     break;
                 default:
                     break;
-            };
+            }
             return 0;
 
         case WM_KEYUP:
@@ -375,7 +375,7 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
         case WM_DESTROY:
             // A messy exit, but easy way to escape game loop
             exit( 0 );
-    };
+    }
 
     return DefWindowProcW( hWnd, Msg, wParam, lParam );
 }
@@ -521,7 +521,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                             break;
                         default:
                             break;
-                    };//switch (tmp)
+                    }//switch (tmp)
                 }//(tmp < 0)
             }//for (i=0;i<win->width;i++)
         }
