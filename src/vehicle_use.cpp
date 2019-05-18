@@ -228,6 +228,7 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
     add_toggle( _( "space heater" ), keybind( "TOGGLE_SPACE_HEATER" ), "SPACE_HEATER" );
     add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
     add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
+    add_toggle( _( "lawnmower blade" ), keybind( "TOGGLE LAWNMOWER_BLADE" ), "LAWNMOWER_BLADE" );
     add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
     add_toggle( _( "planter" ), keybind( "TOGGLE_PLANTER" ), "PLANTER" );
     add_toggle( _( "rockwheel" ), keybind( "TOGGLE_PLOW" ), "ROCKWHEEL" );
@@ -1065,6 +1066,26 @@ void vehicle::play_chimes()
     for( const vpart_reference &vp : get_enabled_parts( "CHIMES" ) ) {
         sounds::sound( vp.pos(), 40, sounds::sound_t::music,
                        _( "a simple melody blaring from the loudspeakers." ), false, "vehicle", "chimes" );
+    }
+}
+
+void vehicle::operate_lawnmower_blade()
+{
+    int engine_total = engines.size();
+    int not_on = 0;
+    for( size_t e = 0; e < engines.size(); e++ ) {
+        if( !is_engine_on( e ) ) {
+            not_on += 1;
+        }
+    }
+    if( not_on >= engine_total ) {
+        return;
+    }
+    for( const vpart_reference &vp : get_enabled_parts( "LAWNMOWER_BLADE" ) ) {
+        const tripoint start_cut = vp.pos();
+        if( g->m.has_flag( "MOWABLE", start_cut ) ) {
+            g->m.ter_set( start_cut, t_grass );
+        }
     }
 }
 

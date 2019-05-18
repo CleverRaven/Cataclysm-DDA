@@ -10,6 +10,7 @@
 #include "sounds.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 #include "debug.h"
 #include "rng.h"
 #include "tileray.h"
@@ -76,7 +77,10 @@ bool game::grabbed_veh_move( const tripoint &dp )
                  grabbed_vehicle->name );
         return true; // No shoving around an RV.
     }
-
+    for( const vpart_reference &vp : grabbed_vehicle->get_enabled_parts( "LAWNMOWER_BLADE" ) ) {
+        ( void )vp;
+        str_req += 1;
+    }
     const auto &wheel_indices = grabbed_vehicle->wheelcache;
     if( grabbed_vehicle->valid_wheel_config() ) {
         //determine movecost for terrain touching wheels
@@ -182,7 +186,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
             grabbed_vehicle->handle_trap( wheel_p, p );
         }
     }
-
+    grabbed_vehicle->operate_lawnmower_blade();
     return false;
 
 }

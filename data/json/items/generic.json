@@ -688,12 +688,12 @@
     "volume": 20
   },
   {
-    "type": "GENERIC",
+    "type": "TOOL",
     "id": "lawnmower",
     "symbol": ";",
     "color": "green",
     "name": "lawnmower",
-    "description": "A motorized pushmower that seems to be broken.  You could take it apart if you had a wrench.",
+    "description": "A motorized pushmower, activate to prepare for use.",
     "category": "other",
     "price": 10000,
     "price_postapoc": 500,
@@ -701,7 +701,13 @@
     "weight": 22680,
     "volume": 25,
     "bashing": 6,
-    "to_hit": -4
+    "to_hit": -4,
+    "use_action": {
+      "type": "unfold_vehicle",
+      "vehicle_name": "lawnmower",
+      "unfold_msg": "You set up the lawnmower and unfold it's handle.",
+      "moves": 500
+    }
   },
   {
     "type": "GENERIC",

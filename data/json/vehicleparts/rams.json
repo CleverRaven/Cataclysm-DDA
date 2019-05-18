@@ -130,6 +130,25 @@
     "damage_reduction": { "all": 14 }
   },
   {
+    "id": "lawnmower_blade",
+    "type": "vehicle_part",
+    "name": "lawnmower blade",
+    "item": "blade",
+    "location": "anywhere",
+    "symbol": "*",
+    "broken_symbol": "x",
+    "color": "dark_gray",
+    "broken_color": "dark_gray",
+    "difficulty": 2,
+    "durability": 500,
+    "power": -50,
+    "damage_modifier": 80,
+    "folded_volume": 2,
+    "breaks_into": [ { "item": "scrap", "count": [ 2, 4 ] } ],
+    "description": "A circular blade, powered by the vehicle's engine.  Will cut long grass as it travels over it.",
+    "flags": [ "UNMOUNT_ON_DAMAGE", "FOLDABLE", "LAWNMOWER_BLADE" ]
+  },
+  {
     "id": "tearer",
     "type": "vehicle_part",
     "name": "shredder",

@@ -1407,6 +1407,7 @@ class vehicle
         void operate_reaper();
         void operate_plow();
         void operate_rockwheel();
+        void operate_lawnmower_blade();
         void add_toggle_to_opts( std::vector<uilist_entry> &options,
                                  std::vector<std::function<void()>> &actions, const std::string &name, char key,
                                  const std::string &flag );

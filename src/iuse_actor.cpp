@@ -486,7 +486,6 @@ long unfold_vehicle_iuse::use( player &p, item &it, bool /*t*/, const tripoint &
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
         return 0;
     }
-
     for( const auto &tool : tools_needed ) {
         // Amount == -1 means need one, but don't consume it.
         if( !p.has_amount( tool.first, 1 ) ) {
@@ -501,7 +500,6 @@ long unfold_vehicle_iuse::use( player &p, item &it, bool /*t*/, const tripoint &
         p.add_msg_if_player( m_info, _( "There's no room to unfold the %s." ), it.tname() );
         return 0;
     }
-
     // Mark the vehicle as foldable.
     veh->tags.insert( "convertible" );
     // Store the id of the item the vehicle is made of.

@@ -1286,6 +1286,7 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
                 "FREEZER",
                 "RECHARGE",
                 "PLOW",
+                "LAWNMOWER_BLADE",
                 "REAPER",
                 "PLANTER",
                 "SCOOP",
@@ -4261,6 +4262,9 @@ void vehicle::on_move()
     }
     if( has_part( "PLOW", true ) ) {
         operate_plow();
+    }
+    if( has_part( "LAWNMOWER_BLADE", true ) ) {
+        operate_lawnmower_blade();
     }
     if( has_part( "REAPER", true ) ) {
         operate_reaper();
