@@ -833,7 +833,7 @@ void complete_construction()
 
     const auto award_xp = [&]( player & c ) {
         for( const auto &pr : built.required_skills ) {
-            c.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) * ( 1 + built.time / 30000.0 ) ),
+            c.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) * ( 1 + built.time / 180000.0 ) ),
                         static_cast<int>( pr.second * 1.25 ) );
         }
     };
