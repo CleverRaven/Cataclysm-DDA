@@ -408,7 +408,8 @@
       [ "boots_rubber", 10 ],
       [ "gloves_cut_resistant", 30 ],
       [ "hat_hard", 50 ],
-      [ "cowboy_hat", 10]
+      [ "cowboy_hat", 10],
+      [ "thermos", 5 ]
     ]
   }
 ]
