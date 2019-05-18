@@ -57,7 +57,7 @@
     "id": "mon_mutant_evolved",
     "type": "MONSTER",
     "name": "evolved mutant",
-    "description": "A towering beast that is not human, nor animal anymore.  A malformed, huge creature covered in thick fur and the torn bottom part of a jumpsuit.  The sinister fangs, claws and the look of insanity in his pale yellow eyes are a testament to that he lost all of his humanity.",
+    "description": "A towering beast that is neither human nor animal anymore.  A malformed, huge creature covered in thick fur and the torn bottom part of a jumpsuit.  The sinister fangs, claws and the look of insanity in his pale yellow eyes are a testament to that he lost all of his humanity.",
     "default_faction": "mutants",
     "bodytype": "human",
     "species": [ "MUTANT" ],
