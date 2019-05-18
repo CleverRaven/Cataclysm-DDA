@@ -65,12 +65,11 @@ jobs:
 
     # CMake Clang 6.0 Tiles with CMAKE
     - env: CLANG=clang++-6.0 TILES=1 SOUND=1 CXXFLAGS=-Wno-error=unused-command-line-argument CMAKE=1 RELEASE=1
-      dist: trusty
       compiler: clang
       addons: &clang60
         apt:
           packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
-          sources: [*apt_sources, llvm-toolchain-trusty-6.0]
+          sources: [*apt_sources, llvm-toolchain-xenial-6.0]
 
     # macOS Tiles
     - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1
@@ -111,7 +110,6 @@ jobs:
     - env: COMPILER=g++-7 CXXFLAGS='-Wno-implicit-fallthrough' CODE_COVERAGE=true
       if: type != pull_request
       compiler: gcc
-      dist: trusty
       addons: &gcc7
         apt:
           packages: ["g++-7",   "g++-7-multilib",   "libc6-dbg", "libc6-dbg:i386", "lcov"]
@@ -152,9 +150,11 @@ jobs:
       addons: &clang40
         apt:
           packages: ["clang-4.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
+          # Luckily the Trusty install Just Works on Xenial
           sources: [*apt_sources, llvm-toolchain-trusty-4.0]
 
-    # Clang 5.0
+    # Clang 5.0 (still on Trusty, because I could find no readily available
+    # source on Xenial at time of writing)
     - env: CLANG=clang++-5.0 CXXFLAGS=-Wno-error=unused-command-line-argument
       if: type != pull_request
       dist: trusty
@@ -166,12 +166,11 @@ jobs:
 
     # Clang 6.0
     - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument SANITIZE=address EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag ~starting_items"
-      dist: trusty
       compiler: clang
       addons: &clang60
         apt:
           packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
-          sources: [*apt_sources, llvm-toolchain-trusty-6.0]
+          sources: [*apt_sources, llvm-toolchain-xenial-6.0]
 
 before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi
