@@ -136,7 +136,7 @@ TEST_CASE( "check_npc_behavior_tree", "[behavior]" )
     behavior::character_oracle_t oracle( &test_npc );
     CHECK( npc_needs.tick( &oracle ) == "idle" );
     SECTION( "Freezing" ) {
-        g->temperature = 0;
+        g->weather.temperature = 0;
         test_npc.update_bodytemp();
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         item &sweater = test_npc.i_add( item( itype_id( "sweater" ) ) );
