@@ -1070,5 +1070,51 @@
     "knockback_dist": 1,
     "stun_dur": 2,
     "messages": [ "You brutally skewer %s", "<npcname> brutally skewers %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_chainpunch",
+    "name": "Chain Punch",
+    "min_unarmed": 1,
+    "unarmed_allowed": true,
+    "knockback_dist": 1,
+    "knockback_spread": 1,
+    "knockback_follow": 1,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
+    "messages": [ "You chain punch %s", "<npcname> chain punches %s" ],
+    "description": "50% moves, 66% damage, knockback and follow"
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_feint",
+    "name": "feint at",
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "miss_recovery": true,
+    "messages": [ "You miss but just keep punching at %s", "<npcname> misses but keeps punching at %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_counter",
+    "name": "Receive and Counter",
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "block_counter": true,
+    "dodge_counter": true,
+    "mult_bonuses": [ [ "movecost", 0.0 ] ],
+    "messages": [ "You receive %s's gift of violence, and return it in kind", "<npcname> receives %s's attack, and counters" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_disarm",
+    "name": "disarm",
+    "min_unarmed": 6,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "disarms": true,
+    "messages": [ "You disarm %s", "<npcname> disarms %s" ]
   }
 ]
