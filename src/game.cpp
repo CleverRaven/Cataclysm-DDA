@@ -9019,46 +9019,25 @@ bool game::plmove( int dx, int dy, int dz )
         return true;
     }
 
-    if( !u.has_effect( effect_stunned ) && !u.is_underwater() ) {
-        int mining_turns = 100;
-        if( mostseen == 0 && m.has_flag( "MINEABLE", dest_loc ) && !m.veh_at( dest_loc ) ) {
-            if( m.move_cost( dest_loc ) == 2 ) {
-                // breaking up some flat surface, like pavement
-                mining_turns /= 2;
+    if( m.has_flag( TFLAG_MINEABLE, dest_loc ) && mostseen == 0 &&
+        get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
+        !m.veh_at( dest_loc ) && !u.is_underwater() && !u.has_effect( effect_stunned ) ) {
+        if( u.weapon.has_flag( "DIG_TOOL" ) ) {
+            if( u.weapon.type->can_use( "JACKHAMMER" ) && u.weapon.ammo_sufficient() ) {
+                u.invoke_item( &u.weapon, "JACKHAMMER", dest_loc );
+                u.defer_move( dest_loc ); // don't move into the tile until done mining
+                return true;
+            } else if( u.weapon.type->can_use( "PICKAXE" ) ) {
+                u.invoke_item( &u.weapon, "PICKAXE", dest_loc );
+                u.defer_move( dest_loc ); // don't move into the tile until done mining
+                return true;
             }
-            if( get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) ) {
-                if( u.weapon.has_flag( "DIG_TOOL" ) ) {
-                    if( u.weapon.has_flag( "POWERED" ) ) {
-                        if( u.weapon.ammo_sufficient() ) {
-                            mining_turns *= MINUTES( 30 );
-                            u.weapon.ammo_consume( u.weapon.ammo_required(), u.pos() );
-                            u.assign_activity( activity_id( "ACT_JACKHAMMER" ), mining_turns, -1,
-                                               u.get_item_position( &u.weapon ) );
-                            u.activity.placement = dest_loc;
-                            add_msg( _( "You start breaking the %1$s with your %2$s." ),
-                                     m.tername( dest_loc ), u.weapon.tname() );
-                            u.defer_move( dest_loc ); // don't move into the tile until done mining
-                            return true;
-                        } else {
-                            add_msg( _( "Your %s doesn't turn on." ), u.weapon.tname() );
-                        }
-                    } else {
-                        mining_turns *= ( ( MAX_STAT + 4 ) - std::min( u.str_cur, MAX_STAT ) ) * MINUTES( 5 );
-                        u.assign_activity( activity_id( "ACT_PICKAXE" ), mining_turns, -1,
-                                           u.get_item_position( &u.weapon ) );
-                        u.activity.placement = dest_loc;
-                        add_msg( _( "You start breaking the %1$s with your %2$s." ),
-                                 m.tername( dest_loc ), u.weapon.tname() );
-                        u.defer_move( dest_loc ); // don't move into the tile until done mining
-                        return true;
-                    }
-                } else if( u.has_trait( trait_BURROW ) ) {
-                    item burrowing_item( itype_id( "fake_burrowing" ) );
-                    u.invoke_item( &burrowing_item, "BURROW", dest_loc );
-                    u.defer_move( dest_loc ); // don't move into the tile until done mining
-                    return true;
-                }
-            }
+        }
+        if( u.has_trait( trait_BURROW ) ) {
+            item burrowing_item( itype_id( "fake_burrowing" ) );
+            u.invoke_item( &burrowing_item, "BURROW", dest_loc );
+            u.defer_move( dest_loc ); // don't move into the tile until done mining
+            return true;
         }
     }
 
