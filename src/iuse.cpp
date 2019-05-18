@@ -4541,7 +4541,7 @@ static int chop_moves( player *p, item *it )
     // attribute; regular tools - based on STR, powered tools - based on DEX
     const int attr = it->has_flag( "POWERED" ) ? p->dex_cur : p->str_cur;
 
-    int moves = to_turns<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
+    int moves = to_moves<int>( time_duration::from_minutes( 60 - attr ) / std::pow( 2, quality - 1 ) );
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
     moves = moves * ( 1 - ( helpersize / 10 ) );
     return moves;
