@@ -9,7 +9,7 @@
   {
     "type": "overmap_land_use_code",
     "id": "cropland",
-    "land_use_code": 1,
+    "land_use_code": "1",
     "name": "Cropland",
     "detailed_definition": "Generally tilled land used to grow row crops.  Boundaries follow the shape of the fields and include associated buildings (e.g., barns).  This category also includes turf farms that grow sod.",
     "sym": ".",
