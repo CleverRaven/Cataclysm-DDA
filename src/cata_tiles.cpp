@@ -3095,7 +3095,7 @@ void cata_tiles::draw_zones_frame()
 {
     for( int iY = zone_start.y; iY <= zone_end.y; ++ iY ) {
         for( int iX = zone_start.x; iX <= zone_end.x; ++iX ) {
-            draw_from_id_string( ITEM_HIGHLIGHT, C_NONE, empty_string,
+            draw_from_id_string( "highlight", C_NONE, empty_string,
             { iX + zone_offset.x, iY + zone_offset.y, g->u.pos().z },
             0, 0, LL_LIT, false );
         }
