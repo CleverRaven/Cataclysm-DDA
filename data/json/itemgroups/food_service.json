@@ -1018,7 +1018,8 @@
       { "item": "liver", "prob": 1, "charges": [ 1, 10 ] },
       { "item": "brain", "prob": 1, "charges": [ 1, 10 ] },
       { "item": "sweetbread", "prob": 2, "charges": [ 1, 10 ] },
-      { "item": "fat", "prob": 2, "charges": [ 5, 30 ] }
+      { "item": "fat", "prob": 2, "charges": [ 5, 30 ] },
+      { "item": "stomach_large", "prob": 1, "charges": [1, 10] }
     ]
   },
   {
