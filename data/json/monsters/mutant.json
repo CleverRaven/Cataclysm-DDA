@@ -27,16 +27,16 @@
     "harvest": "mammal_fur",
     "special_attacks": [
       [ "PARROT", 80 ],
-      [ "scratch", 5 ],
       {
         "type": "bite",
         "cooldown": 10,
         "damage_max_instance": [ { "damage_type": "stab", "amount": 12, "armor_multiplier": 0.7 } ]
       }
     ],
-    "path_settings": { "max_dist": 10 },
+    "path_settings": { "max_dist": 50 },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "STALK", "SOUND" ],
-    "fear_triggers": [ "FIRE", "HURT" ],
+    "fear_triggers": [ "HURT" ],
+    "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "death_drops": "mon_mutant_experimental_death_drops",
     "upgrades": { "half_life": 50, "into": "mon_mutant_evolved" },
@@ -57,32 +57,33 @@
     "material": [ "flesh" ],
     "symbol": "M",
     "color": "brown",
-    "aggression": 20,
-    "morale": 100,
+    "aggression": 100,
+    "morale": 60,
     "melee_skill": 7,
     "melee_dice": 4,
     "melee_dice_sides": 8,
     "melee_cut": 10,
-    "dodge": 7,
-    "armor_bash": 6,
-    "armor_cut": 6,
+    "dodge": 5,
+    "armor_bash": 7,
+    "armor_cut": 7,
     "vision_day": 25,
     "vision_night": 15,
     "harvest": "mammal_large_fur",
     "special_attacks": [
       [ "PARROT", 80 ],
-      [ "scratch", 5 ],
       [ "SMASH", 20 ],
-      { "type": "leap", "cooldown": 10, "max_range": 6 },
+      { "type": "leap", "cooldown": 10, "max_range": 5 },
       {
         "type": "bite",
         "cooldown": 10,
-        "damage_max_instance": [ { "damage_type": "stab", "amount": 24, "armor_multiplier": 0.7 } ]
-      }
+        "damage_max_instance": [ { "damage_type": "stab", "amount": 18, "armor_multiplier": 0.7 } ]
+      },
+      { "id": "impale" }
     ],
-    "path_settings": { "max_dist": 10 },
+    "path_settings": { "max_dist": 50 },
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE", "STALK", "SOUND" ],
-    "fear_triggers": [ "FIRE", "HURT" ],
+    "fear_triggers": [ "HURT" ],
+    "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "death_drops": "mon_mutant_evolved_death_drops",
     "flags": [
@@ -97,7 +98,7 @@
       "PATH_AVOID_DANGER_2",
       "PUSH_MON",
       "PUSH_VEH",
-      "REGENERATES_10",
+      "REGENERATES_1",
       "REGEN_MORALE" ]
   }
 ]
