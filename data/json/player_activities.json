@@ -193,6 +193,7 @@
   {
     "id": "ACT_HAND_CRANK",
     "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
     "stop_phrase": "Stop cranking?",
     "rooted": true,
     "based_on": "time"
