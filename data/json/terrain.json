@@ -7485,7 +7485,7 @@
     "type": "terrain",
     "id": "t_cvdbody",
     "name": "CVD machine",
-    "description": "This the bulk of a highly technical-looking apparatus controlled by a nearby console.",
+    "description": "The bulk of a highly technical-looking apparatus controlled by a nearby console.",
     "symbol": "%",
     "color": "dark_gray",
     "move_cost": 0,
