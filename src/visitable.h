@@ -2,19 +2,16 @@
 #ifndef VISITABLE_H
 #define VISITABLE_H
 
+#include <climits>
 #include <functional>
-#include <limits>
 #include <list>
 #include <string>
 #include <vector>
 
 #include "cata_utility.h"
+#include "type_id.h"
 
 class item;
-template<typename T>
-class string_id;
-struct quality;
-using quality_id = string_id<quality>;
 
 enum class VisitResponse {
     ABORT, // Stop processing after this node
@@ -78,8 +75,8 @@ class visitable
          * @param limit stop searching after this many charges have been found
          * @param filter only count charges of items that match the filter
          */
-        long charges_of( const std::string &what, long limit = std::numeric_limits<long>::max(),
-                         const std::function<bool( const item & )> &filter = return_true ) const;
+        int charges_of( const std::string &what, int limit = INT_MAX,
+                        const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
         /**
          * Count items matching id including both this instance and any contained items
@@ -90,12 +87,12 @@ class visitable
          * @note items must be empty to be considered a match
          */
         int amount_of( const std::string &what, bool pseudo = true,
-                       int limit = std::numeric_limits<int>::max(),
-                       const std::function<bool( const item & )> &filter = return_true ) const;
+                       int limit = INT_MAX,
+                       const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
         /** Check instance provides at least qty of an item (@see amount_of) */
         bool has_amount( const std::string &what, int qty, bool pseudo = true,
-                         const std::function<bool( const item & )> &filter = return_true ) const;
+                         const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
         /** Returns all items (including those within a container) matching the filter */
         std::vector<item *> items_with( const std::function<bool( const item & )> &filter );
@@ -109,7 +106,7 @@ class visitable
          * @return any items removed (items counted by charges are not guaranteed to be stacked)
          */
         std::list<item> remove_items_with( const std::function<bool( const item & )> &filter,
-                                           int count = std::numeric_limits<int>::max() );
+                                           int count = INT_MAX );
 
         /** Removes and returns the item which must be contained by this instance */
         item remove_item( item &it );

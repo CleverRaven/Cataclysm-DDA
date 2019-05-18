@@ -30,6 +30,18 @@
   },
   {
     "type": "effect_type",
+    "id": "dragging",
+    "name": [ "Dragging" ],
+    "desc": [ "AI tag for when a monster is dragging you behind it.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "operating",
+    "name": [ "Operating" ],
+    "desc": [ "AI tag for when a monster is operating on you.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "countdown",
     "name": [ "Counting Down" ],
     "desc": [ "AI tag for monster's counting down.  This is a bug if you have it." ]
@@ -63,6 +75,12 @@
     "id": "asked_to_socialize",
     "name": [ "Asked to socialize" ],
     "desc": [ "AI tag: for having recently asked an NPC to socialize.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "asked_to_hint",
+    "name": [ "Asked to hint" ],
+    "desc": [ "AI tag: for having recently asked an NPC to give a hint.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
@@ -125,6 +143,14 @@
     "id": "npc_fire_bad",
     "name": [ "Avoiding a fire!" ],
     "desc": [ "AI tag to enable NPCs to escape uncontrolled fires.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "npc_player_still_looking",
+    "name": [ "Waiting for you to find something" ],
+    "desc": [
+      "AI tag to prevent NPCs from following the player while the player is finding an additonal copy of an item.  This is a bug if you have it."
+    ]
   },
   {
     "type": "effect_type",
@@ -197,6 +223,18 @@
     "apply_message": "You're knocked to the floor!",
     "rating": "bad",
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "assisted",
+    "name": [ "Assisted" ],
+    "desc": [ "You're receiving assistance to practice a surgery." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "got_checked",
+    "name": [ "Got a check-up" ],
+    "desc": [ "Your received a complete check-up and are now aware of the state of your health." ]
   },
   {
     "type": "effect_type",

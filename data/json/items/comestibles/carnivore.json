@@ -482,7 +482,7 @@
     "fun": -50
   },
   {
-    "type": "GENERIC",
+    "type": "COMESTIBLE",
     "id": "bone",
     "category": "spare_parts",
     "name": "bone",
@@ -492,7 +492,8 @@
     "description": "A bone from some creature or other.  Could be used to make some stuff, like needles.",
     "price": 0,
     "material": "bone",
-    "volume": 1
+    "volume": 1,
+    "vitamins": [ [ "calcium", 96 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -753,6 +754,24 @@
     "description": "A carefully folded raw skin harvested from a fur-bearing unnatural creature.  It still has the fur attached and is poisonous.  You can cure it for storage and tanning.",
     "price": 0,
     "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "flesh_golem_heart",
+    "name": "seeping heart",
+    "weight": 2035,
+    "color": "black_red",
+    "symbol": "%",
+    "healthy": -10,
+    "calories": 200,
+    "quench": 10,
+    "description": "A thick mass of flesh superficially resembling a mammalian heart, covered in dimpled grooves and the size of your fist.",
+    "price": 3000,
+    "material": [ "flesh" ],
+    "volume": 2,
+    "fun": -25,
+    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": false }
   },
   {
     "type": "COMESTIBLE",

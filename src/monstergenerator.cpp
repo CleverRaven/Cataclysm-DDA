@@ -2,13 +2,13 @@
 #include "monstergenerator.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <set>
+#include <utility>
 
 #include "catacharset.h"
-#include "color.h"
 #include "creature.h"
 #include "debug.h"
 #include "generic_factory.h"
-#include "harvest.h"
 #include "item.h"
 #include "item_group.h"
 #include "json.h"
@@ -17,18 +17,17 @@
 #include "mondeath.h"
 #include "mondefense.h"
 #include "monfaction.h"
-#include "mongroup.h"
 #include "options.h"
-#include "output.h"
 #include "rng.h"
-#include "translations.h"
-
-extern bool test_mode;
+#include "assign.h"
+#include "bodypart.h"
+#include "damage.h"
+#include "game.h"
+#include "pathfinding.h"
+#include "units.h"
 
 namespace
 {
-
-const mtype_id mon_generator( "mon_generator" );
 
 const std::map<std::string, mon_trigger> trigger_map = {
     { "STALK",              mon_trigger::STALK },
@@ -68,6 +67,7 @@ const std::map<std::string, m_flag> flag_map = {
     { "WEBWALK", MF_WEBWALK },
     { "DIGS", MF_DIGS },
     { "CAN_DIG", MF_CAN_DIG },
+    { "CAN_OPEN_DOORS", MF_CAN_OPEN_DOORS },
     { "FLIES", MF_FLIES },
     { "AQUATIC", MF_AQUATIC },
     { "SWIMS", MF_SWIMS },
@@ -126,6 +126,7 @@ const std::map<std::string, m_flag> flag_map = {
     { "NIGHT_INVISIBILITY", MF_NIGHT_INVISIBILITY },
     { "REVIVES_HEALTHY", MF_REVIVES_HEALTHY },
     { "NO_NECRO", MF_NO_NECRO },
+    { "PACIFIST", MF_PACIFIST },
     { "PUSH_MON", MF_PUSH_MON },
     { "PUSH_VEH", MF_PUSH_VEH },
     { "PATH_AVOID_DANGER_1", MF_AVOID_DANGER_1 },
@@ -140,6 +141,7 @@ const std::map<std::string, m_flag> flag_map = {
     { "NO_BREED", MF_NO_BREED },
     { "PET_WONT_FOLLOW", MF_PET_WONT_FOLLOW },
     { "DRIPS_NAPALM", MF_DRIPS_NAPALM },
+    { "DRIPS_GASOLINE", MF_DRIPS_GASOLINE },
     { "ELECTRIC_FIELD", MF_ELECTRIC_FIELD },
     { "LOUDMOVES", MF_LOUDMOVES }
 };
@@ -427,6 +429,7 @@ void MonsterGenerator::init_death()
     death_map["GAMEOVER"] = &mdeath::gameover;// Game over!  Defense mode
     death_map["PREG_ROACH"] = &mdeath::preg_roach;// Spawn some cockroach nymphs
     death_map["FIREBALL"] = &mdeath::fireball;// Explode in a fireball
+    death_map["CONFLAGRATION"] = &mdeath::conflagration; // Explode in a huge fireball
 
     /* Currently Unimplemented */
     //death_map["SHRIEK"] = &mdeath::shriek;// Screams loudly
@@ -440,6 +443,9 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "EAT_CROP", mattack::eat_crop );
     add_hardcoded_attack( "EAT_FOOD", mattack::eat_food );
     add_hardcoded_attack( "ANTQUEEN", mattack::antqueen );
+    add_hardcoded_attack( "CHECK_UP", mattack::nurse_check_up );
+    add_hardcoded_attack( "ASSIST", mattack::nurse_assist );
+    add_hardcoded_attack( "OPERATE", mattack::nurse_operate );
     add_hardcoded_attack( "SHRIEK", mattack::shriek );
     add_hardcoded_attack( "SHRIEK_ALERT", mattack::shriek_alert );
     add_hardcoded_attack( "SHRIEK_STUN", mattack::shriek_stun );
@@ -499,6 +505,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "IMPALE", mattack::impale );
     add_hardcoded_attack( "BRANDISH", mattack::brandish );
     add_hardcoded_attack( "FLESH_GOLEM", mattack::flesh_golem );
+    add_hardcoded_attack( "ABSORB_MEAT", mattack::absorb_meat );
     add_hardcoded_attack( "LUNGE", mattack::lunge );
     add_hardcoded_attack( "LONGSWIPE", mattack::longswipe );
     add_hardcoded_attack( "PARROT", mattack::parrot );
@@ -620,6 +627,8 @@ void mtype::load( JsonObject &jo, const std::string &src )
     assign( jo, "melee_skill", melee_skill, strict, 0 );
     assign( jo, "melee_dice", melee_dice, strict, 0 );
     assign( jo, "melee_dice_sides", melee_sides, strict, 0 );
+
+    assign( jo, "grab_strength", grab_strength, strict, 0 );
 
     assign( jo, "dodge", sk_dodge, strict, 0 );
     assign( jo, "armor_bash", armor_bash, strict, 0 );
@@ -942,7 +951,7 @@ void mtype::add_special_attack( JsonArray inner, const std::string & )
         }
         if( test_mode ) {
             debugmsg( "%s specifies more than one attack of (sub)type %s, ignoring all but the last",
-                      id.c_str(), name.c_str() );
+                      id.c_str(), name );
         }
     }
     auto new_attack = mtype_special_attack( iter->second );

@@ -11,6 +11,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "options.h"
+#include "string_id.h"
 
 // '!', '-' and '=' are uses as default bindings in the menu
 const invlet_wrapper
@@ -140,13 +141,14 @@ void draw_description( const catacurses::window &win, const bionic &bio )
     int ypos = fold_and_print( win, 0, 0, width, c_white, bio.id->name );
     if( !poweronly_string.empty() ) {
         ypos += fold_and_print( win, ypos, 0, width, c_light_gray,
-                                _( "Power usage: %s" ), poweronly_string.c_str() );
+                                _( "Power usage: %s" ), poweronly_string );
     }
     ypos += 1 + fold_and_print( win, ypos, 0, width, c_light_blue, bio.id->description );
 
     // TODO: Unhide when enforcing limits
     if( get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         const bool each_bp_on_new_line = ypos + static_cast<int>( num_bp ) + 1 < getmaxy( win );
+        // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
         ypos += fold_and_print( win, ypos, 0, width, c_light_gray,
                                 list_occupied_bps( bio.id, _( "This bionic occupies the following body parts:" ),
                                         each_bp_on_new_line ) );
@@ -346,7 +348,8 @@ void player::power_bionics()
     bionic_menu_mode menu_mode = ACTIVATING;
     // offset for display: bionic with index i is drawn at y=list_start_y+i
     // drawing the bionics starts with bionic[scroll_position]
-    const int list_start_y = HEADER_LINE_Y;// - scroll_position;
+    // scroll_position;
+    const int list_start_y = HEADER_LINE_Y;
     int half_list_view_location = LIST_HEIGHT / 2;
     int max_scroll_position = std::max( 0, static_cast<int>( active.size() ) );
 
@@ -403,7 +406,7 @@ void player::power_bionics()
             for( const body_part bp : all_body_parts ) {
                 const int total = get_total_bionics_slots( bp );
                 const std::string s = string_format( "%s: %d/%d",
-                                                     body_part_name_as_heading( bp, 1 ).c_str(),
+                                                     body_part_name_as_heading( bp, 1 ),
                                                      total - get_free_bionics_slots( bp ), total );
                 bps.push_back( s );
                 max_width = std::max( max_width, utf8_width( s ) );
@@ -523,7 +526,7 @@ void player::power_bionics()
             }
             redraw = true;
             const long newch = popup_getkey( _( "%s; enter new letter. Space to clear. Esc to cancel." ),
-                                             tmp->id->name.c_str() );
+                                             tmp->id->name );
             wrefresh( wBio );
             if( newch == ch || newch == KEY_ESCAPE ) {
                 continue;
@@ -534,7 +537,7 @@ void player::power_bionics()
             }
             if( !bionic_chars.valid( newch ) ) {
                 popup( _( "Invalid bionic letter. Only those characters are valid:\n\n%s" ),
-                       bionic_chars.get_allowed_chars().c_str() );
+                       bionic_chars.get_allowed_chars() );
                 continue;
             }
             bionic *otmp = bionic_by_invlet( newch );
@@ -631,8 +634,8 @@ void player::power_bionics()
                     continue;
                 } else {
                     popup( _( "You can not activate %s!\n"
-                              "To read a description of %s, press '!', then '%c'." ), bio_data.name.c_str(),
-                           bio_data.name.c_str(), tmp->invlet );
+                              "To read a description of %s, press '!', then '%c'." ), bio_data.name,
+                           bio_data.name, tmp->invlet );
                     redraw = true;
                 }
             } else if( menu_mode == EXAMINING ) { // Describing bionics, allow user to jump to description key

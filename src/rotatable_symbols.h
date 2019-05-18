@@ -2,6 +2,7 @@
 #ifndef ROTATABLE_SYMBOLS_H
 #define ROTATABLE_SYMBOLS_H
 
+#include <cstdint>
 #include <string>
 
 class JsonObject;

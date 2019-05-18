@@ -1,57 +1,45 @@
 [
-    {
-        "type" : "mapgen",
-        "om_terrain" : ["mil_outpost_ybe_gate"],
-        "comment" : "yard bottom edge gate",
-        "method": "json",
-        "weight": 250,
-        "object": {
-            "fill_ter": "t_pavement",
-            "rows": [
-                ",,Fww,            ,wwF,,",
-                ",,Fww,            ,wwF,,",
-                ",,Fww,Z           ,wwF,,",
-                ",,Fww,5          Z,wwF,,",
-                "ffF==FYPPPPPPPPPPYF==Fff",
-                ",,FwwF8@  8  8 @ 8FwwF,,",
-                ",,FwwF 888    888 FwwF,,",
-                ",,FwwF            FwwF,,",
-                ",,FwwF            FwwF,,",
-                ",,FwwF            FwwF,,",
-                ",,FwwF            FwwF,,",
-                ",,FwwF            FwwF,,",
-                ",,FwwF            FwwF,,",
-                ",,FwwF            FwwF,,",
-                ",,FwwFH          HFwwF,,",
-                ",,FwwF            FwwF,,",
-                ",,FwwF            FwwF,,",
-                ",,FwwF            FwwF,,",
-                ",,FwwF Z          FwwF,,",
-                ",,-++-H          H-++-,,",
-                ",,|D.| Z         %|c.|,,",
-                ",,|Dc0            0c.|,,",
-                "ff-00-H          H-00-ff",
-                ",,,,,              ,,,,,"
-            ],
-            "palettes":[
-               "mil_outpost_bandit"
-            ],
-            "npcs": {
-                "@": { "class": "raider" },
-                "z": { "class": "bandit" },
-                "Z": { "class": "thug" }
-            },
-           "place_traps": [
-                { "x": [ 6, 17 ], "y": [ 9, 18 ], "trap": "tr_caltrops", "chance": 85, "repeat": [ 10, 20 ]  },
-                { "x": [ 6, 17 ], "y": [ 9, 18 ], "trap": "tr_nailboard", "chance": 85, "repeat": [ 10, 20 ]  }
-            ],
-            "mapping": {
-                "H": {
-                    "furniture": "f_brazier",
-                    "item": { "item": "2x4", "count": 5 },
-                    "fields": { "field": "fd_fire" }
-                }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": [ "mil_outpost_ybe_gate" ],
+    "comment": "yard bottom edge gate",
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        ",,Fww,            ,wwF,,",
+        ",,Fww,            ,wwF,,",
+        ",,Fww,Z           ,wwF,,",
+        ",,Fww,5          Z,wwF,,",
+        "ffF==FYPPPPPPPPPPYF==Fff",
+        ",,FwwF8@  8  8 @ 8FwwF,,",
+        ",,FwwF 888    888 FwwF,,",
+        ",,FwwF            FwwF,,",
+        ",,FwwF            FwwF,,",
+        ",,FwwF            FwwF,,",
+        ",,FwwF            FwwF,,",
+        ",,FwwF            FwwF,,",
+        ",,FwwF            FwwF,,",
+        ",,FwwF            FwwF,,",
+        ",,FwwFH          HFwwF,,",
+        ",,FwwF            FwwF,,",
+        ",,FwwF            FwwF,,",
+        ",,FwwF            FwwF,,",
+        ",,FwwF Z          FwwF,,",
+        ",,-++-H          H-++-,,",
+        ",,|D.| Z         %|c.|,,",
+        ",,|Dc0            0c.|,,",
+        "ff-00-H          H-00-ff",
+        ",,,,,              ,,,,,"
+      ],
+      "palettes": [ "mil_outpost_bandit" ],
+      "npcs": { "@": { "class": "raider" }, "z": { "class": "bandit" }, "Z": { "class": "thug" } },
+      "place_traps": [
+        { "x": [ 6, 17 ], "y": [ 9, 18 ], "trap": "tr_caltrops", "chance": 85, "repeat": [ 10, 20 ] },
+        { "x": [ 6, 17 ], "y": [ 9, 18 ], "trap": "tr_nailboard", "chance": 85, "repeat": [ 10, 20 ] }
+      ],
+      "mapping": { "H": { "furniture": "f_brazier", "item": { "item": "2x4", "count": 5 }, "fields": { "field": "fd_fire" } } }
     }
+  }
 ]

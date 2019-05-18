@@ -36,8 +36,8 @@ jobs:
   include:
     # Initial test stage, if this fails everything else is cancelled.
     - stage: test
-      # GCC 5 is the pre-installed compiler on Xenial
-      env: COMPILER=g++ MODS=--mods=RL_Classes
+      # GCC 5.4 is the pre-installed compiler on Xenial
+      env: COMPILER=g++ MODS=--mods=RL_Classes TEST_STAGE=1
 
     # Then build different configurations and targets in parallel.
     - stage: variants
@@ -80,21 +80,22 @@ jobs:
 
     # Finally check the compiler variants
     - stage: compilers
-      env: COMPILER=g++-4.8
-      compiler: gcc
-      addons: &gcc48
-        apt:
-          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386"]
-          sources: *apt_sources
 
-    # GCC 4.9
-    - env: COMPILER=g++-4.9
-      if: type != pull_request
-      compiler: gcc
-      addons: &gcc49
+    # CMake Clang 8.0 Tiles with CMAKE and clang-tidy
+    # (analysis only; no build or tests)
+      env: CLANG=clang++-8 TILES=1 SOUND=1 CXXFLAGS=-Wno-unused-command-line-argument CMAKE=1 CATA_CLANG_TIDY=clang-tidy-8
+      compiler: clang
+      addons: &clang80
         apt:
-          packages: ["g++-4.9", "g++-4.9-multilib", "libc6-dbg", "libc6-dbg:i386"]
-          sources: *apt_sources
+          packages: ["clang-8", "clang-tidy-8", "libc6-dbg", "libc6-dbg:i386", "g++-6", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          sources: [*apt_sources, llvm-toolchain-xenial-8]
+
+    - env: COMPILER=g++
+      compiler: gcc
+      addons: &gcc53
+        apt:
+          packages: ["g++-5=5.3.1-14ubuntu2", "libstdc++-5-dev=5.3.1-14ubuntu2", "gcc-5=5.3.1-14ubuntu2", "gcc-5-base=5.3.1-14ubuntu2", "cpp-5=5.3.1-14ubuntu2", "libgcc-5-dev=5.3.1-14ubuntu2", "libasan2=5.3.1-14ubuntu2", "libmpx0=5.3.1-14ubuntu2"]
+          sources: [*apt_sources]
 
     # GCC 6
     - env: COMPILER=g++-6
@@ -116,7 +117,8 @@ jobs:
           sources: *apt_sources
 
     # GCC 8
-    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough'
+    # Also, adding _GLIBCXX_DEBUG so that one build can test with that
+    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough -D_GLIBCXX_DEBUG'
       compiler: gcc
       addons: &gcc8
         apt:

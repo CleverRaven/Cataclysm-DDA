@@ -1,5 +1,8 @@
 #include "output.h"
 
+#include <cctype>
+#include <errno.h>
+#include <cstdio>
 #include <algorithm>
 #include <cstdarg>
 #include <cstdlib>
@@ -10,6 +13,10 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <array>
+#include <memory>
+#include <type_traits>
+#include <cmath>
 
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -57,7 +64,7 @@ extern bool use_tiles;
 extern bool test_mode;
 
 // utf8 version
-std::vector<std::string> foldstring( std::string str, int width, const char split )
+std::vector<std::string> foldstring( const std::string &str, int width, const char split )
 {
     std::vector<std::string> lines;
     if( width < 1 ) {
@@ -173,7 +180,7 @@ static void update_color_stack( std::stack<nc_color> &color_stack, const std::st
 }
 
 void print_colored_text( const catacurses::window &w, int y, int x, nc_color &color,
-                         nc_color base_color, const std::string &text )
+                         const nc_color &base_color, const std::string &text )
 {
     if( y > -1 && x > -1 ) {
         wmove( w, y, x );
@@ -246,7 +253,7 @@ void trim_and_print( const catacurses::window &w, int begin_y, int begin_x, int 
 }
 
 int print_scrollable( const catacurses::window &w, int begin_line, const std::string &text,
-                      nc_color base_color, const std::string &scroll_msg )
+                      const nc_color &base_color, const std::string &scroll_msg )
 {
     const size_t wwidth = getmaxx( w );
     const auto text_lines = foldstring( text, wwidth );
@@ -274,7 +281,7 @@ int print_scrollable( const catacurses::window &w, int begin_line, const std::st
 
 // returns number of printed lines
 int fold_and_print( const catacurses::window &w, int begin_y, int begin_x, int width,
-                    nc_color base_color, const std::string &text, const char split )
+                    const nc_color &base_color, const std::string &text, const char split )
 {
     nc_color color = base_color;
     std::vector<std::string> textformatted = foldstring( text, width, split );
@@ -285,7 +292,7 @@ int fold_and_print( const catacurses::window &w, int begin_y, int begin_x, int w
 }
 
 int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, int width,
-                         int begin_line, nc_color base_color, const std::string &text )
+                         int begin_line, const nc_color &base_color, const std::string &text )
 {
     const int iWinHeight = getmaxy( w );
     std::stack<nc_color> color_stack;
@@ -322,8 +329,7 @@ int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, 
 }
 
 void multipage( const catacurses::window &w, const std::vector<std::string> &text,
-                const std::string &caption,
-                int begin_y )
+                const std::string &caption, int begin_y )
 {
     int height = getmaxy( w );
     int width = getmaxx( w );
@@ -367,7 +373,7 @@ std::string name_and_value( const std::string &name, const std::string &value, i
     int name_width = utf8_width( name );
     int value_width = utf8_width( value );
     std::stringstream result;
-    result << name.c_str();
+    result << name;
     for( int i = ( name_width + value_width );
          i < std::max( field_width, name_width + value_width ); ++i ) {
         result << " ";
@@ -381,7 +387,7 @@ std::string name_and_value( const std::string &name, int value, int field_width 
     return name_and_value( name, string_format( "%d", value ), field_width );
 }
 
-void center_print( const catacurses::window &w, const int y, const nc_color FG,
+void center_print( const catacurses::window &w, const int y, const nc_color &FG,
                    const std::string &text )
 {
     int window_width = getmaxx( w );
@@ -396,7 +402,7 @@ void center_print( const catacurses::window &w, const int y, const nc_color FG,
 }
 
 int right_print( const catacurses::window &w, const int line, const int right_indent,
-                 const nc_color FG, const std::string &text )
+                 const nc_color &FG, const std::string &text )
 {
     const int available_width = std::max( 1, getmaxx( w ) - right_indent );
     const int x = std::max( 0, available_width - utf8_width( text, true ) );
@@ -756,7 +762,7 @@ void draw_item_filter_rules( const catacurses::window &win, int starty, int heig
     // Clear every row, but the leftmost/rightmost pixels intact.
     const int len = getmaxx( win ) - 2;
     for( int i = 0; i < height; i++ ) {
-        mvwprintz( win, starty + i, 1, c_black, std::string( len, ' ' ).c_str() );
+        mvwprintz( win, starty + i, 1, c_black, std::string( len, ' ' ) );
     }
 
     // Not static so that language changes are correctly handled
@@ -1620,7 +1626,7 @@ std::string shortcut_text( nc_color shortcut_color, const std::string &fmt )
         std::string shortcut = fmt.substr( pos + 1, sep - pos - 1 );
 
         return string_format( "%s<color_%s>%s</color>%s", prestring,
-                              string_from_color( shortcut_color ).c_str(),
+                              string_from_color( shortcut_color ),
                               shortcut, poststring );
     }
 
@@ -1687,7 +1693,7 @@ std::pair<std::string, nc_color> get_light_level( const float light )
     static const int maximum_light_level = static_cast< int >( strings.size() ) - 1;
     const int light_level = clamp( static_cast< int >( ceil( light ) ), 0, maximum_light_level );
     const size_t array_index = static_cast< size_t >( light_level );
-    return pair_t{ _( strings[array_index].first.c_str() ), strings[array_index].second };
+    return pair_t{ _( strings[array_index].first ), strings[array_index].second };
 }
 
 std::string get_labeled_bar( const double val, const int width, const std::string &label, char c )

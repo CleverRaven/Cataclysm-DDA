@@ -1,7 +1,7 @@
 [
   {
     "type": "recipe",
-    "result": "battery",
+    "result": "light_battery_cell",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_COMPONENTS",
     "skill_used": "electronics",
@@ -53,7 +53,7 @@
     "components": [ [ [ "canister_empty", 1 ] ], [ [ "plut_slurry", 10 ], [ "plut_slurry_dense", 5 ] ], [ [ "power_supply", 2 ] ] ]
   },
   {
-    "result": "battery",
+    "result": "light_battery_cell",
     "id_suffix": "afs_plutonium_battery",
     "type": "recipe",
     "category": "CC_ELECTRONIC",
@@ -63,7 +63,6 @@
     "time": 30000,
     "book_learn": [ [ "recipe_lab_cvd", 3 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "charges": 500,
     "components": [
       [ [ "steel_chunk", 1 ], [ "scrap", 1 ] ],
       [ [ "can_drink_unsealed", 1 ], [ "can_food_unsealed", 1 ], [ "canister_empty", 1 ] ],
@@ -190,7 +189,13 @@
     "book_learn": [ [ "mag_electronics", 3 ], [ "manual_electronics", 2 ] ],
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "battery", 25 ] ], [ [ "cable", 5 ] ], [ [ "circuit", 1 ] ], [ [ "scrap", 1 ] ] ]
+    "components": [
+      [ [ "plastic_chunk", 1 ] ],
+      [ [ "light_minus_battery_cell", 1 ] ],
+      [ [ "cable", 5 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "scrap", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -281,14 +286,7 @@
     "book_learn": [ [ "textbook_mechanics", 6 ], [ "textbook_electronics", 8 ], [ "textbook_fabrication", 8 ], [ "welding_book", 5 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "WRENCH", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
     "using": [ [ "welding_standard", 10 ], [ "soldering_standard", 25 ] ],
-    "components": [
-      [ [ "hdframe", 1 ] ],
-      [ [ "soldering_iron", 1 ] ],
-      [ [ "welder", 1 ], [ "welder_crude", 2 ] ],
-      [ [ "forge", 1 ] ],
-      [ [ "kiln", 1 ] ],
-      [ [ "cable", 10 ] ]
-    ]
+    "components": [ [ [ "hdframe", 1 ] ], [ [ "welding_components", 1 ] ], [ [ "forge", 1 ] ], [ [ "kiln", 1 ] ], [ [ "cable", 10 ] ] ]
   },
   {
     "result": "afs_kitchen_rig",
@@ -410,20 +408,16 @@
     "components": [ [ [ "iv_purifier", 3 ] ], [ [ "royal_jelly", 1 ] ], [ [ "slime_scrap", 1 ] ], [ [ "syringe", 1 ] ] ]
   },
   {
-    "result": "afs_bionic_power_mod",
+    "result": "afs_hauling_space",
     "type": "recipe",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
-    "skill_used": "electronics",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
     "difficulty": 5,
-    "time": 20000,
-    "reversible": true,
-    "decomp_learn": 4,
+    "time": 60000,
     "autolearn": true,
-    "book_learn": [ [ "recipe_augs", 4 ], [ "recipe_lab_elec", 4 ], [ "textbook_anarch", 4 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
-    "tools": [ [ [ "afs_solderers_item", -1 ], [ "toolset", -1 ] ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 1 ] ], [ [ "small_storage_battery", 1 ] ], [ [ "plastic_chunk", 2 ] ], [ [ "cable", 8 ] ] ]
+    "using": [ [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "WRENCH", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "hdframe", 3 ] ], [ [ "sheet_metal", 4 ] ] ]
   }
 ]

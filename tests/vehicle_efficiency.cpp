@@ -1,10 +1,20 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <sstream>
+#include <algorithm>
+#include <cmath>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "catch/catch.hpp"
-#include "cata_utility.h"
 #include "game.h"
 #include "itype.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "map_iterator.h"
 #include "player.h"
 #include "test_statistics.h"
@@ -12,6 +22,17 @@
 #include "vehicle.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "item.h"
+#include "line.h"
+#include "mapdata.h"
+#include "units.h"
+#include "type_id.h"
+
+class monster;
 
 typedef statistics<long> efficiency_stat;
 
@@ -21,13 +42,11 @@ void clear_game( const ter_id &terrain )
 {
     // Set to turn 0 to prevent solars from producing power
     calendar::turn = 0;
-    for( monster &critter : g->all_monsters() ) {
-        g->remove_zombie( critter );
-    }
-
-    g->unload_npcs();
+    clear_creatures();
+    clear_npcs();
 
     // Move player somewhere safe
+    CHECK( !g->u.in_vehicle );
     g->u.setpos( tripoint( 0, 0, 0 ) );
     // Blind the player to avoid needless drawing-related overhead
     g->u.add_effect( effect_blind, 1_turns, num_bp, true );
@@ -45,6 +64,7 @@ void clear_game( const ter_id &terrain )
         g->m.destroy_vehicle( veh.v );
     }
 
+    g->m.invalidate_map_cache( 0 );
     g->m.build_map_cache( 0, true );
 }
 
@@ -412,19 +432,19 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "beetle", 767373, 235000, 195500, 70760, 54070 );
     test_vehicle( "car", 1072322, 363000, 245700, 44380, 26120 );
     test_vehicle( "car_sports", 1098408, 208900, 168600, 35020, 20180 );
-    test_vehicle( "electric_car", 970791, 219500, 139600, 19810, 10900 );
+    test_vehicle( "electric_car", 1070791, 212500, 121700, 17430, 9118 );
     test_vehicle( "suv", 1271990, 696200, 405800, 68340, 32700 );
     test_vehicle( "motorcycle", 162785, 64180, 54160, 41250, 34600 );
     test_vehicle( "quad_bike", 264745, 63520, 63520, 31390, 31390 );
     test_vehicle( "scooter", 62287, 140400, 138000, 108800, 107000 );
     test_vehicle( "superbike", 241785, 58540, 40000, 30480, 19890 );
     test_vehicle( "ambulance", 1783889, 331200, 281700, 61580, 46220 );
-    test_vehicle( "fire_engine", 2413241, 1030000, 920400, 249100, 222800 );
+    test_vehicle( "fire_engine", 2563241, 1018000, 863500, 236700, 208700 );
     test_vehicle( "fire_truck", 6259233, 253000, 149700, 19010, 4523 );
     test_vehicle( "truck_swat", 5939334, 409300, 248500, 27990, 7189 );
     test_vehicle( "tractor_plow", 703658, 354200, 354200, 106700, 106700 );
     test_vehicle( "apc", 5753619, 957100, 824200, 123600, 85540 );
     test_vehicle( "humvee", 5475145, 465800, 278700, 24650, 8824 );
-    test_vehicle( "road_roller", 8755702, 310900, 295100, 21910, 6666 );
-    test_vehicle( "golf_cart", 396230, 53980, 107600, 28460, 18040 );
-};
+    test_vehicle( "road_roller", 8779702, 315600, 295100, 21910, 6666 );
+    test_vehicle( "golf_cart", 446230, 52800, 104200, 26830, 13890 );
+}

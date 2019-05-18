@@ -1,24 +1,29 @@
 #include "npctrade.h"
 
+#include <cstdlib>
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <list>
+#include <memory>
 
 #include "cata_utility.h"
-#include "debug.h"
 #include "game.h"
-#include "help.h"
 #include "input.h"
-#include "item_group.h"
-#include "map.h"
 #include "map_selector.h"
 #include "npc.h"
 #include "output.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "vehicle.h"
 #include "vehicle_selector.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "item.h"
+#include "player.h"
+#include "units.h"
+#include "visitable.h"
+#include "type_id.h"
 
 const skill_id skill_barter( "barter" );
 
@@ -54,7 +59,7 @@ std::vector<item_pricing> init_selling( npc &p )
         }
     }
 
-    if( p.is_friend() & !p.weapon.is_null() && !p.weapon.has_flag( "NO_UNWIELD" ) ) {
+    if( p.is_player_ally() & !p.weapon.is_null() && !p.weapon.has_flag( "NO_UNWIELD" ) ) {
         result.emplace_back( p, &p.weapon, p.value( p.weapon ), false );
     }
 
@@ -119,7 +124,7 @@ bool trade( npc &p, int cost, const std::string &deal )
     std::string header_message = _( "\
 TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\n\
 ? to get information on an item." );
-    mvwprintz( w_head, 0, 0, c_white, header_message.c_str(), p.name.c_str() );
+    mvwprintz( w_head, 0, 0, c_white, header_message.c_str(), p.name );
 
     // If entries were to get over a-z and A-Z, we wouldn't have good keys for them
     const size_t entries_per_page = std::min( TERMY - 7, 2 + ( 'z' - 'a' ) + ( 'Z' - 'A' ) );
@@ -166,7 +171,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     }
 
     // Just exchanging items, no barter involved
-    const bool ex = p.is_friend();
+    const bool ex = p.is_player_ally();
 
     // How much cash you get in the deal (negative = losing money)
     long cash = cost + p.op_of_u.owed;
@@ -227,7 +232,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             weight_left = p.weight_capacity() - p.weight_carried_with_tweaks( { temp } );
             mvwprintz( w_head, 3, 2, ( volume_left < 0_ml || weight_left < 0_gram ) ? c_red : c_green,
                        _( "Volume: %s %s, Weight: %.1f %s" ),
-                       format_volume( volume_left ).c_str(), volume_units_abbr(),
+                       format_volume( volume_left ), volume_units_abbr(),
                        convert_weight( weight_left ), weight_units() );
 
             std::string cost_string = ex ? _( "Exchange" ) : ( cash >= 0 ? _( "Profit %s" ) :
@@ -245,7 +250,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             draw_border( w_you, ( !focus_them ? c_yellow : BORDER_COLOR ) );
 
             mvwprintz( w_them, 0, 2, ( cash < 0 || static_cast<int>( p.cash ) >= cash ? c_green : c_red ),
-                       _( "%s: %s" ), p.name.c_str(), format_money( p.cash ) );
+                       _( "%s: %s" ), p.name, format_money( p.cash ) );
             mvwprintz( w_you,  0, 2, ( cash > 0 ||
                                        static_cast<int>( g->u.cash ) >= cash * -1 ? c_green : c_red ),
                        _( "You: %s" ), format_money( g->u.cash ) );
@@ -256,10 +261,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 const auto &offset = they ? them_off : you_off;
                 const auto &person = they ? p : g->u;
                 auto &w_whose = they ? w_them : w_you;
-                int win_h = getmaxy( w_whose );
                 int win_w = getmaxx( w_whose );
                 // Borders
-                win_h -= 2;
                 win_w -= 2;
                 for( size_t i = offset; i < list.size() && i < entries_per_page + offset; i++ ) {
                     const item_pricing &ip = list[i];
@@ -280,9 +283,9 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                         keychar = keychar - 'z' - 1 + 'A';
                     }
                     trim_and_print( w_whose, i - offset + 1, 1, win_w, color, "%c %c %s",
-                                    static_cast<char>( keychar ), ip.selected ? '+' : '-', itname.c_str() );
+                                    static_cast<char>( keychar ), ip.selected ? '+' : '-', itname );
 #if defined(__ANDROID__)
-                    ctxt.register_manual_key( keychar, itname.c_str() );
+                    ctxt.register_manual_key( keychar, itname );
 #endif
 
                     std::string price_str = string_format( "%.2f", ip.price / 100.0 );
@@ -337,7 +340,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                     break;
                 }
 
-                mvwprintz( w_head, 0, 0, c_white, header_message.c_str(), p.name.c_str() );
+                mvwprintz( w_head, 0, 0, c_white, header_message.c_str(), p.name );
                 wrefresh( w_head );
                 help += offset;
                 if( help < target_list.size() ) {
@@ -353,7 +356,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                     ch = ' ';
                 } else if( volume_left < 0_ml || weight_left < 0_gram ) {
                     // Make sure NPC doesn't go over allowed volume
-                    popup( _( "%s can't carry all that." ), p.name.c_str() );
+                    popup( _( "%s can't carry all that." ), p.name );
                     update = true;
                     ch = ' ';
                 }

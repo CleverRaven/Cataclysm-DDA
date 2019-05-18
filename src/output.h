@@ -2,24 +2,33 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
+#include <cstddef>
+#include <cstdint>
 #include <sstream>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <iterator>
+#include <locale>
+#include <utility>
 
 #include "catacharset.h"
 #include "color.h"
+#include "enums.h"
 #include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "units.h"
+#include "debug.h"
 
 struct input_event;
 struct iteminfo;
+
 enum direction : unsigned;
-class input_context;
 namespace catacurses
 {
 class window;
+
 using chtype = int;
 } // namespace catacurses
 
@@ -75,7 +84,7 @@ using chtype = int;
 // Supports line drawing
 inline std::string string_from_long( const catacurses::chtype ch )
 {
-    char charcode = ch;
+    catacurses::chtype charcode = ch;
     // LINE_NESW  - X for on, O for off
     switch( ch ) {
         case LINE_XOXO:
@@ -112,10 +121,10 @@ inline std::string string_from_long( const catacurses::chtype ch )
             charcode = LINE_XXXX_C;
             break;
         default:
-            charcode = static_cast<char>( ch );
+            charcode = ch;
             break;
     }
-    char buffer[2] = { charcode, '\0' };
+    char buffer[2] = { static_cast<char>( charcode ), '\0' };
     return buffer;
 }
 
@@ -137,25 +146,6 @@ extern int FULL_SCREEN_WIDTH; // width of "full screen" popups
 extern int FULL_SCREEN_HEIGHT; // height of "full screen" popups
 extern int OVERMAP_WINDOW_WIDTH; // width of overmap window
 extern int OVERMAP_WINDOW_HEIGHT; // height of overmap window
-
-enum game_message_type : int {
-    m_good,    /* something good happened to the player character, e.g. health boost, increasing in skill */
-    m_bad,      /* something bad happened to the player character, e.g. damage, decreasing in skill */
-    m_mixed,   /* something happened to the player character which is mixed (has good and bad parts),
-                  e.g. gaining a mutation with mixed effect*/
-    m_warning, /* warns the player about a danger. e.g. enemy appeared, an alarm sounds, noise heard. */
-    m_info,    /* informs the player about something, e.g. on examination, seeing an item,
-                  about how to use a certain function, etc. */
-    m_neutral,  /* neutral or indifferent events which aren’t informational or nothing really happened e.g.
-                  a miss, a non-critical failure. May also effect for good or bad effects which are
-                  just very slight to be notable. This is the default message type. */
-
-    m_debug, /* only shown when debug_mode is true */
-    /* custom SCT colors */
-    m_headshot,
-    m_critical,
-    m_grazing
-};
 
 nc_color msgtype_to_color( const game_message_type type, const bool bOldMsg = false );
 
@@ -220,7 +210,7 @@ std::string remove_color_tags( const std::string &text );
  * @return A vector of lines, it may contain empty strings. Each entry is at most `width`
  * console cells width.
  */
-std::vector<std::string> foldstring( std::string str, int width, const char split = ' ' );
+std::vector<std::string> foldstring( const std::string &str, int width, const char split = ' ' );
 
 /**
  * Print text with embedded @ref color_tags, x, y are in curses system.
@@ -237,7 +227,7 @@ std::vector<std::string> foldstring( std::string str, int width, const char spli
  * @param base_color Base color that is used outside of any color tag.
  **/
 void print_colored_text( const catacurses::window &w, int y, int x, nc_color &cur_color,
-                         nc_color base_color, const std::string &text );
+                         const nc_color &base_color, const std::string &text );
 /**
  * Print word wrapped text (with @ref color_tags) into the window.
  *
@@ -251,7 +241,7 @@ void print_colored_text( const catacurses::window &w, int y, int x, nc_color &cu
  * This allows the caller to restrict the begin_line number on future calls / when modified by the user.
  */
 int print_scrollable( const catacurses::window &w, int begin_line, const std::string &text,
-                      nc_color base_color, const std::string &scroll_msg );
+                      const nc_color &base_color, const std::string &scroll_msg );
 /**
  * Fold and print text in the given window. The function handles @ref color_tags and
  * uses them while printing.
@@ -262,22 +252,23 @@ int print_scrollable( const catacurses::window &w, int begin_line, const std::st
  * @param width The width used to fold the text (see @ref foldstring). `width + begin_y` should be
  * less than the window width, otherwise the lines will be wrapped by the curses system, which
  * defeats the purpose of using `foldstring`.
- * @param color The initially used color. This can be overridden using color tags.
+ * @param base_color The initially used color. This can be overridden using color tags.
  * @param mes Actual message to print
  * @param split Character after string is folded
  * @return The number of lines of the formatted text (after folding). This may be larger than
  * the height of the window.
  */
 int fold_and_print( const catacurses::window &w, int begin_y, int begin_x, int width,
-                    nc_color color, const std::string &mes, const char split = ' ' );
+                    const nc_color &base_color, const std::string &mes, const char split = ' ' );
 /**
  * Same as other @ref fold_and_print, but does string formatting via @ref string_format.
  */
 template<typename ...Args>
 inline int fold_and_print( const catacurses::window &w, const int begin_y, const int begin_x,
-                           const int width, const nc_color color, const char *const mes, Args &&... args )
+                           const int width, const nc_color &base_color,
+                           const char *const mes, Args &&... args )
 {
-    return fold_and_print( w, begin_y, begin_x, width, color, string_format( mes,
+    return fold_and_print( w, begin_y, begin_x, width, base_color, string_format( mes,
                            std::forward<Args>( args )... ) );
 }
 /**
@@ -292,24 +283,24 @@ inline int fold_and_print( const catacurses::window &w, const int begin_y, const
  * @param begin_line The index of the first line (of the folded string) that is to be printed.
  * The function basically removes all lines before this one and prints the remaining lines
  * with `fold_and_print`.
- * @param color The initially used color. This can be overridden using color tags.
+ * @param base_color The initially used color. This can be overridden using color tags.
  * @param mes Actual message to print
  * @return Same as `fold_and_print`: the number of lines of the text (after folding). This is
  * always the same value, regardless of `begin_line`, it can be used to determine the maximal
  * value for `begin_line`.
  */
 int fold_and_print_from( const catacurses::window &w, int begin_y, int begin_x, int width,
-                         int begin_line, nc_color color, const std::string &mes );
+                         int begin_line, const nc_color &base_color, const std::string &mes );
 /**
  * Same as other @ref fold_and_print_from, but does formatting via @ref string_format.
  */
 template<typename ...Args>
 inline int fold_and_print_from( const catacurses::window &w, const int begin_y, const int begin_x,
-                                const int width, const int begin_line, const nc_color color, const char *const mes,
-                                Args &&... args )
+                                const int width, const int begin_line, const nc_color &base_color,
+                                const char *const mes, Args &&... args )
 {
-    return fold_and_print_from( w, begin_y, begin_x, width, begin_line, color, string_format( mes,
-                                std::forward<Args>( args )... ) );
+    return fold_and_print_from( w, begin_y, begin_x, width, begin_line, base_color,
+                                string_format( mes, std::forward<Args>( args )... ) );
 }
 /**
  * Prints a single line of text. The text is automatically trimmed to fit into the given
@@ -331,9 +322,9 @@ inline void trim_and_print( const catacurses::window &w, const int begin_y, cons
     return trim_and_print( w, begin_y, begin_x, width, base_color, string_format( mes,
                            std::forward<Args>( args )... ) );
 }
-void center_print( const catacurses::window &w, int y, nc_color FG, const std::string &mes );
+void center_print( const catacurses::window &w, int y, const nc_color &FG, const std::string &mes );
 int right_print( const catacurses::window &w, const int line, const int right_indent,
-                 const nc_color FG, const std::string &mes );
+                 const nc_color &FG, const std::string &mes );
 void display_table( const catacurses::window &w, const std::string &title, int columns,
                     const std::vector<std::string> &data );
 void multipage( const catacurses::window &w, const std::vector<std::string> &text,
@@ -460,7 +451,7 @@ inline void popup( const char *mes, Args &&... args )
 {
     popup( string_format( mes, std::forward<Args>( args )... ), PF_NONE );
 }
-long popup( const std::string &text, PopupFlags flags );
+long popup( const std::string &text, PopupFlags flags = PF_NONE );
 template<typename ...Args>
 inline void full_screen_popup( const char *mes, Args &&... args )
 {

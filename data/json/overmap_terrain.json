@@ -392,6 +392,66 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "campground_roof",
+    "name": "campground roof",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campground_1a_npc",
+    "name": "campground",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campground_1b_npc",
+    "name": "campground",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campground_2a_npc",
+    "name": "campground",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campground_2b_npc",
+    "name": "campground",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campground_roof_npc",
+    "name": "campground roof",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "desolatebarn",
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "desolate barn",
@@ -440,5 +500,172 @@
     "name": "giant sinkhole base",
     "sym": "O",
     "color": "brown"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_public_space",
+    "copy-from": "generic_city_building",
+    "name": "public space",
+    "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_1",
+    "name": "irradiation plant",
+    "sym": "i",
+    "color": "light_green",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_2",
+    "name": "irradiation plant",
+    "sym": "i",
+    "color": "light_green",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_3",
+    "name": "irradiation plant",
+    "sym": "i",
+    "color": "light_green",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_4",
+    "name": "irradiation plant",
+    "sym": "i",
+    "color": "light_green",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_5",
+    "name": "irradiation plant",
+    "sym": "i",
+    "color": "light_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_6",
+    "name": "irradiation plant",
+    "sym": "i",
+    "color": "light_green",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_7",
+    "name": "irradiation plant",
+    "sym": "i",
+    "color": "light_green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_8",
+    "name": "irradiation plant",
+    "sym": "I",
+    "color": "light_green",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_9",
+    "name": "irradiation plant",
+    "sym": "i",
+    "color": "light_green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_1_roof",
+    "name": "irradiation plant",
+    "sym": "i",
+    "color": "light_green",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_2_roof",
+    "name": "irradiation plant",
+    "sym": "i",
+    "color": "light_green",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_3_roof",
+    "name": "irradiation plant",
+    "sym": "i",
+    "color": "light_green",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_4_roof",
+    "name": "irradiation plant",
+    "sym": "i",
+    "color": "light_green",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_5_roof",
+    "name": "irradiation plant",
+    "sym": "i",
+    "color": "light_green",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_6_roof",
+    "name": "irradiation plant",
+    "sym": "i",
+    "color": "light_green",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_7_roof",
+    "name": "irradiation plant",
+    "sym": "i",
+    "color": "light_green",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_8_roof",
+    "name": "irradiation plant",
+    "sym": "I",
+    "color": "light_green",
+    "see_cost": 5,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "irradiator_1_9_roof",
+    "name": "irradiation plant",
+    "sym": "i",
+    "color": "light_green",
+    "see_cost": 5
   }
 ]

@@ -2,13 +2,16 @@
 #ifndef PANELS_H
 #define PANELS_H
 
-#include "json.h"
-
+#include <cstddef>
 #include <functional>
 #include <map>
 #include <string>
+#include <vector>
 
 class player;
+class JsonIn;
+class JsonOut;
+
 namespace catacurses
 {
 class window;
@@ -24,8 +27,8 @@ enum face_type : int {
 class window_panel
 {
     public:
-        window_panel( std::function<void( player &, const catacurses::window & )> draw_func, std::string nm,
-                      int ht, int wd, bool default_toggle );
+        window_panel( std::function<void( player &, const catacurses::window & )> draw_func,
+                      const std::string &nm, int ht, int wd, bool default_toggle );
 
         std::function<void( player &, const catacurses::window & )> draw;
         int get_height() const;
@@ -57,6 +60,8 @@ class panel_manager
 
         std::vector<window_panel> &get_current_layout();
         const std::string get_current_layout_id() const;
+        int get_width_right();
+        int get_width_left();
 
         void draw_adm( const catacurses::window &w, size_t column = 0, size_t index = 1 );
 
@@ -67,7 +72,12 @@ class panel_manager
         bool load();
         void serialize( JsonOut &json );
         void deserialize( JsonIn &jsin );
+        // update the screen offsets so the game knows how to adjust the main window
+        void update_offsets( int x );
 
+        // The amount of screen space from each edge the sidebar takes up
+        int width_right = 0;
+        int width_left = 0;
         std::string current_layout_id;
         std::map<std::string, std::vector<window_panel>> layouts;
 

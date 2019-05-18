@@ -1,14 +1,19 @@
 #include "crafting_gui.h"
 
+#include <cstddef>
 #include <algorithm>
 #include <map>
 #include <string>
 #include <vector>
+#include <iterator>
+#include <list>
+#include <memory>
+#include <set>
+#include <utility>
 
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "crafting.h"
-#include "debug.h"
 #include "game.h"
 #include "input.h"
 #include "itype.h"
@@ -23,6 +28,15 @@
 #include "translations.h"
 #include "ui.h"
 #include "uistate.h"
+#include "calendar.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "item.h"
+#include "recipe.h"
+#include "type_id.h"
+
+class inventory;
+class npc;
 
 enum TAB_MODE {
     NORMAL,
@@ -94,10 +108,10 @@ std::string get_subcat_name( const std::string &cat, const std::string &prefixed
 void translate_all()
 {
     for( const auto &cat : craft_cat_list ) {
-        normalized_names[cat] = _( get_cat_name( cat ).c_str() );
+        normalized_names[cat] = _( get_cat_name( cat ) );
 
         for( const auto &subcat : craft_subcat_list[cat] ) {
-            normalized_names[subcat] =  _( get_subcat_name( cat, subcat ).c_str() ) ;
+            normalized_names[subcat] =  _( get_subcat_name( cat, subcat ) ) ;
         }
     }
 }
@@ -124,12 +138,12 @@ int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpo
         std::string desc;
         if( t->count_by_charges() ) {
             amount *= t->charges_default();
-            desc = string_format( "> %s (%d)", t->nname( 1 ).c_str(), amount );
+            desc = string_format( "> %s (%d)", t->nname( 1 ), amount );
         } else {
             desc = string_format( "> %d %s", amount,
-                                  t->nname( static_cast<unsigned int>( amount ) ).c_str() );
+                                  t->nname( static_cast<unsigned int>( amount ) ) );
         }
-        mvwprintz( w, ypos++, xpos, col, desc.c_str() );
+        mvwprintz( w, ypos++, xpos, col, desc );
     }
 
     return ypos - oldy;
@@ -252,7 +266,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                 current.clear();
                 for( int i = 1; i <= 20; i++ ) {
                     current.push_back( chosen );
-                    available.push_back( chosen->requirements().can_make_with_inventory( crafting_inv, i ) );
+                    available.push_back( chosen->requirements().can_make_with_inventory( crafting_inv,
+                                         chosen->get_component_filter(), i ) );
                 }
             } else {
                 std::vector<const recipe *> picking;
@@ -359,7 +374,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                 // cache recipe availability on first display
                 for( const auto e : current ) {
                     if( !availability_cache.count( e ) ) {
-                        availability_cache.emplace( e, e->requirements().can_make_with_inventory( crafting_inv ) );
+                        availability_cache.emplace( e, e->requirements().can_make_with_inventory( crafting_inv,
+                                                    e->get_component_filter() ) );
                     }
                 }
 
@@ -435,49 +451,49 @@ const recipe *select_crafting_recipe( int &batch_size )
                 for( int i = recmin; i < recmin + dataLines; ++i ) {
                     std::string tmp_name = current[i]->result_name();
                     if( batch ) {
-                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name.c_str() );
+                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
                     }
                     mvwprintz( w_data, i - recmin, 2, c_dark_gray, "" ); // Clear the line
                     if( i == line ) {
                         mvwprintz( w_data, i - recmin, 2, ( available[i] ? h_white : h_dark_gray ),
-                                   utf8_truncate( tmp_name, 28 ).c_str() );
+                                   utf8_truncate( tmp_name, 28 ) );
                     } else {
                         mvwprintz( w_data, i - recmin, 2, ( available[i] ? c_white : c_dark_gray ),
-                                   utf8_truncate( tmp_name, 28 ).c_str() );
+                                   utf8_truncate( tmp_name, 28 ) );
                     }
                 }
             } else if( line >= recmax - dataHalfLines ) {
                 for( int i = recmax - dataLines; i < recmax; ++i ) {
                     std::string tmp_name = current[i]->result_name();
                     if( batch ) {
-                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name.c_str() );
+                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
                     }
                     mvwprintz( w_data, dataLines + i - recmax, 2, c_light_gray, "" ); // Clear the line
                     if( i == line ) {
                         mvwprintz( w_data, dataLines + i - recmax, 2,
                                    ( available[i] ? h_white : h_dark_gray ),
-                                   utf8_truncate( tmp_name, 28 ).c_str() );
+                                   utf8_truncate( tmp_name, 28 ) );
                     } else {
                         mvwprintz( w_data, dataLines + i - recmax, 2,
                                    ( available[i] ? c_white : c_dark_gray ),
-                                   utf8_truncate( tmp_name, 28 ).c_str() );
+                                   utf8_truncate( tmp_name, 28 ) );
                     }
                 }
             } else {
                 for( int i = line - dataHalfLines; i < line - dataHalfLines + dataLines; ++i ) {
                     std::string tmp_name = current[i]->result_name();
                     if( batch ) {
-                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name.c_str() );
+                        tmp_name = string_format( _( "%2dx %s" ), i + 1, tmp_name );
                     }
                     mvwprintz( w_data, dataHalfLines + i - line, 2, c_light_gray, "" ); // Clear the line
                     if( i == line ) {
                         mvwprintz( w_data, dataHalfLines + i - line, 2,
                                    ( available[i] ? h_white : h_dark_gray ),
-                                   utf8_truncate( tmp_name, 28 ).c_str() );
+                                   utf8_truncate( tmp_name, 28 ) );
                     } else {
                         mvwprintz( w_data, dataHalfLines + i - line, 2,
                                    ( available[i] ? c_white : c_dark_gray ),
-                                   utf8_truncate( tmp_name, 28 ).c_str() );
+                                   utf8_truncate( tmp_name, 28 ) );
                     }
                 }
             }
@@ -485,14 +501,14 @@ const recipe *select_crafting_recipe( int &batch_size )
             for( size_t i = 0; i < current.size() && i < static_cast<size_t>( dataHeight ) + 1; ++i ) {
                 std::string tmp_name = current[i]->result_name();
                 if( batch ) {
-                    tmp_name = string_format( _( "%2dx %s" ), static_cast<int>( i ) + 1, tmp_name.c_str() );
+                    tmp_name = string_format( _( "%2dx %s" ), static_cast<int>( i ) + 1, tmp_name );
                 }
                 if( static_cast<int>( i ) == line ) {
                     mvwprintz( w_data, i, 2, ( available[i] ? h_white : h_dark_gray ),
-                               utf8_truncate( tmp_name, 28 ).c_str() );
+                               utf8_truncate( tmp_name, 28 ) );
                 } else {
                     mvwprintz( w_data, i, 2, ( available[i] ? c_white : c_dark_gray ),
-                               utf8_truncate( tmp_name, 28 ).c_str() );
+                               utf8_truncate( tmp_name, 28 ) );
                 }
             }
         }
@@ -517,7 +533,8 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             std::vector<std::string> component_print_buffer;
             auto tools = req.get_folded_tools_list( pane, col, crafting_inv, count );
-            auto comps = req.get_folded_components_list( pane, col, crafting_inv, count, qry_comps );
+            auto comps = req.get_folded_components_list( pane, col, crafting_inv,
+                         current[ line ]->get_component_filter(), count, qry_comps );
             component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
             component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
 
@@ -529,7 +546,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 []( itype_id type_id ) {
                     return colorize( item::find_type( type_id )->nname( 1 ), c_cyan );
                 } );
-                const std::string text = string_format( _( "Written in: %s" ), enumerated_books.c_str() );
+                const std::string text = string_format( _( "Written in: %s" ), enumerated_books );
                 std::vector<std::string> folded_lines = foldstring( text, pane );
                 component_print_buffer.insert(
                     component_print_buffer.end(), folded_lines.begin(), folded_lines.end() );
@@ -670,7 +687,8 @@ const recipe *select_crafting_recipe( int &batch_size )
             scroll_pos++;
         } else if( action == "PREV_TAB" ) {
             tab.prev();
-            subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );//default ALL
+            // Default ALL
+            subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );
             redraw = true;
         } else if( action == "RIGHT" ) {
             std::string start = subtab.cur();
@@ -681,7 +699,8 @@ const recipe *select_crafting_recipe( int &batch_size )
             redraw = true;
         } else if( action == "NEXT_TAB" ) {
             tab.next();
-            subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );//default ALL
+            // Default ALL
+            subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );
             redraw = true;
         } else if( action == "DOWN" ) {
             line++;
@@ -706,7 +725,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
             tmp = current[line]->create_result();
 
-            full_screen_popup( "%s\n%s", tmp.type_name( 1 ).c_str(),  tmp.info( true ).c_str() );
+            full_screen_popup( "%s\n%s", tmp.type_name( 1 ),  tmp.info( true ) );
             redraw = true;
             keepline = true;
         } else if( action == "FILTER" ) {
@@ -878,6 +897,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     if( !related_results.empty() ) {
         rel_menu.addentry( ++np_last, false, -1, _( "RESULTS" ) );
     }
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     np_last = related_menu_fill( rel_menu, related_results, available );
 
     rel_menu.settext( _( "Related recipes:" ) );
@@ -998,8 +1018,10 @@ static void draw_recipe_tabs( const catacurses::window &w, const std::string &ta
 
     switch( mode ) {
         case NORMAL: {
-            int pos_x = 2;//draw the tabs on each other
-            int tab_step = 3;//step between tabs, two for tabs border
+            // Draw the tabs on each other
+            int pos_x = 2;
+            // Step between tabs, two for tabs border
+            int tab_step = 3;
             for( const auto &tt : craft_cat_list ) {
                 draw_tab( w, pos_x, normalized_names[tt], tab == tt );
                 pos_x += utf8_width( normalized_names[tt] ) + tab_step;
@@ -1040,8 +1062,10 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
 
     switch( mode ) {
         case NORMAL: {
-            int pos_x = 2;//draw the tabs on each other
-            int tab_step = 3;//step between tabs, two for tabs border
+            // Draw the tabs on each other
+            int pos_x = 2;
+            // Step between tabs, two for tabs border
+            int tab_step = 3;
             for( const auto &stt : craft_subcat_list[tab] ) {
                 bool empty = available_recipes.empty_category( tab, stt != "CSC_ALL" ? stt : "" );
                 draw_subtab( w, pos_x, normalized_names[stt], subtab == stt, true, empty );

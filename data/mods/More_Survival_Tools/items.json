@@ -1,57 +1,5 @@
 [
   {
-    "id": "hobo_stove",
-    "type": "TOOL",
-    "name": "hobo stove",
-    "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  Useful for cooking, uses simple tinder.",
-    "weight": 1366,
-    "volume": 6,
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 2,
-    "material": "steel",
-    "symbol": ",",
-    "color": "light_gray",
-    "ammo": "tinder",
-    "sub": "hotplate",
-    "max_charges": 50,
-    "charges_per_use": 1,
-    "use_action": [ "HOTPLATE", "HEAT_FOOD" ]
-  },
-  {
-    "id": "hobo_stove_on",
-    "type": "TOOL",
-    "name": "hobo stove (lit)",
-    "name_plural": "hobo stoves (lit)",
-    "//": "Dummied out due to reverting hobo stove behavior, to be consistent with existing items. -Chaosvolt",
-    "description": "This is a small improvised wood stove, made from a metal can or similar container of the right size.  Useful for cooking, uses simple tinder.",
-    "weight": 1366,
-    "volume": 6,
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 2,
-    "material": "steel",
-    "symbol": ",",
-    "color": "light_gray",
-    "ammo": "tinder",
-    "sub": "hotplate",
-    "max_charges": 50,
-    "charges_per_use": 1,
-    "turns_per_charge": 300,
-    "revert_to": "hobo_stove",
-    "qualities": [ [ "COOK", 1 ] ],
-    "use_action": [
-      {
-        "target": "hobo_stove",
-        "msg": "The ember is extinguished.",
-        "active": false,
-        "menu_text": "Extinguish",
-        "type": "transform"
-      }
-    ],
-    "flags": [ "LIGHT_3" ]
-  },
-  {
     "id": "flint_steel",
     "type": "TOOL",
     "name": "flint and steel",
@@ -157,27 +105,6 @@
     "use_action": "MISC_REPAIR"
   },
   {
-    "id": "throwing_stick",
-    "type": "AMMO",
-    "category": "weapons",
-    "name": "throwing stick",
-    "name_plural": "throwing sticks",
-    "description": "A stick carved into a shape suitable for throwing at a target.  Not a boomerang, so don't expect it to return to your hand.",
-    "weight": 574,
-    "volume": 2,
-    "price": 200,
-    "bashing": 14,
-    "material": "wood",
-    "symbol": ";",
-    "color": "brown",
-    "ammo_type": "thrown",
-    "range": 0,
-    "damage": 0,
-    "dispersion": 0,
-    "effects": [ "BEANBAG" ],
-    "flags": [ "NOGIB" ]
-  },
-  {
     "id": "hand_axe",
     "type": "TOOL",
     "name": "hand axe",
@@ -229,10 +156,12 @@
     "stack_size": 4,
     "ammo_type": "javelin",
     "range": 15,
-    "damage": 6,
+    "damage": 11,
     "dispersion": 135,
     "loudness": 0,
-    "effects": [ "RECOVER_10" ]
+    "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 11 } ],
+    "effects": [ "RECOVER_25" ],
+    "flags": [ "FRAGILE_MELEE", "JAVELIN" ]
   },
   {
     "id": "javelin_stone",
@@ -247,10 +176,12 @@
     "stack_size": 4,
     "ammo_type": "javelin",
     "range": 13,
-    "damage": 8,
+    "damage": 13,
     "pierce": 1,
     "relative": { "weight": 100, "cutting": 2 },
-    "proportional": { "price": 0.5, "bashing": 0.8 }
+    "proportional": { "price": 0.5, "bashing": 0.8 },
+    "thrown_damage": [ { "damage_type": "bash", "amount": 4 }, { "damage_type": "stab", "amount": 13 } ],
+    "flags": [ "FRAGILE_MELEE", "JAVELIN" ]
   },
   {
     "id": "javelin_iron",
@@ -263,11 +194,13 @@
     "stack_size": 4,
     "ammo_type": "javelin",
     "range": 10,
-    "damage": 10,
+    "damage": 17,
     "pierce": 3,
     "dispersion": 135,
     "loudness": 0,
-    "effects": [ "RECOVER_15" ]
+    "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 17 } ],
+    "effects": [ "RECOVER_30" ],
+    "flags": [ "FRAGILE_MELEE", "JAVELIN" ]
   },
   {
     "id": "javelin_copper",
@@ -281,10 +214,12 @@
     "count": 1,
     "stack_size": 4,
     "ammo_type": "javelin",
-    "damage": 9,
+    "damage": 14,
     "pierce": 2,
     "relative": { "weight": 30 },
-    "proportional": { "price": 0.5, "cutting": 0.85 }
+    "proportional": { "price": 0.5, "cutting": 0.85 },
+    "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 14 } ],
+    "flags": [ "FRAGILE_MELEE", "JAVELIN" ]
   },
   {
     "id": "spear_stone",
@@ -560,6 +495,8 @@
         "moves": 100,
         "noise": 34,
         "noise_message": "FWEEEET!",
+        "noise_id": "misc",
+        "noise_variant": "whistle",
         "use_message": "You blow the whistle.",
         "no_charges_message": "Seeing this is an error.",
         "//": "Somewhat lower than the proper whistle."

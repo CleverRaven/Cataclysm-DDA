@@ -330,7 +330,7 @@
     "description": "A raw potato, cut into pieces, separating each bud for planting.",
     "weight": 20,
     "stack_size": 10,
-    "seed_data": { "plant_name": "potatoes", "fruit": "potato_raw", "byproducts": [ "withered" ], "grow": "95 days" }
+    "seed_data": { "plant_name": "potatoes", "fruit": "potato", "byproducts": [ "withered" ], "grow": "95 days" }
   },
   {
     "type": "COMESTIBLE",
@@ -661,8 +661,8 @@
   {
     "type": "COMESTIBLE",
     "id": "coffee_pod",
-    "name": "coffee pod",
-    "name_plural": "coffee pods",
+    "name": "Kentucky coffee pod",
+    "name_plural": "Kentucky coffee pods",
     "category": "other",
     "weight": 26,
     "color": "light_green",
@@ -672,13 +672,15 @@
     "quench": -6,
     "healthy": -2,
     "calories": 9,
-    "description": "A hard casing filled with coffee seeds ready for roasting.  The seeds create a dark black, bitter, caffinated liquid not too much unlike coffee.",
+    "description": "Coffee pods taken from a Kentucky coffeetree.  If washed thoroughly and roasted, you could use them to make a dark and bitter brew much like coffee.",
     "price": 100,
     "material": [ "veggy" ],
     "primary_material": "dried_vegetable",
     "volume": 1,
     "charges": 4,
-    "fun": -10
+    "fun": -10,
+    "flags": [ "HIDDEN_POISON" ],
+    "//": "USDA states that the pods of the Kentucky coffeetree contain a toxic alkaloid broken down in the roasting process, so they're poisonous"
   },
   {
     "type": "COMESTIBLE",

@@ -56,5 +56,20 @@
     "material_thickness": 1,
     "environmental_protection": 1,
     "flags": [ "OVERSIZE", "OUTER", "WATERPROOF", "RAINPROOF", "ALLOWS_NATURAL_ATTACKS" ]
+  },
+  {
+    "id": "javelin_bag",
+    "type": "ARMOR",
+    "copy-from": "javelin_bag",
+    "name": "javelin bag",
+    "use_action": {
+      "type": "holster",
+      "holster_prompt": "Stash javelins",
+      "holster_msg": "You stash your %s.",
+      "multi": 10,
+      "max_volume": 2,
+      "draw_cost": 30,
+      "flags": [ "JAVELIN" ]
+    }
   }
 ]

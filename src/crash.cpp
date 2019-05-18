@@ -2,12 +2,16 @@
 
 #include "crash.h"
 
+#include <cstdlib>
 #include <csignal>
 #include <cstdio>
-#include <cstdint>
 #include <exception>
 #include <initializer_list>
 #include <typeinfo>
+#include <iostream>
+#include <map>
+#include <string>
+#include <utility>
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -196,7 +200,8 @@ extern "C" {
         }
         log_crash( "Signal", msg );
         // end of UB
-        _Exit( EXIT_FAILURE );
+        std::signal( SIGABRT, SIG_DFL );
+        abort();
     }
 
 } // extern "C"
@@ -284,7 +289,8 @@ extern "C" {
                 return;
         }
         log_crash( "Signal", msg );
-        _Exit( EXIT_FAILURE );
+        std::signal( SIGABRT, SIG_DFL );
+        abort();
     }
 
 } // extern "C"

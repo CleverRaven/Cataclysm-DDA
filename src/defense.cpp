@@ -1,7 +1,7 @@
 #include "gamemode.h" // IWYU pragma: associated
 
-#include <ostream>
 #include <sstream>
+#include <set>
 
 #include "action.h"
 #include "color.h"
@@ -10,7 +10,6 @@
 #include "game.h"
 #include "input.h"
 #include "item_group.h"
-#include "itype.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
@@ -25,6 +24,13 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "cursesdef.h"
+#include "game_constants.h"
+#include "item.h"
+#include "monster.h"
+#include "pldata.h"
+#include "mapdata.h"
+#include "string_id.h"
 
 #define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters
@@ -81,7 +87,7 @@ defense_game::defense_game()
 bool defense_game::init()
 {
     calendar::turn = HOURS( 12 ); // Start at noon
-    g->temperature = 65;
+    g->weather.temperature = 65;
     if( !g->u.create( PLTYPE_CUSTOM ) ) {
         return false;
     }
@@ -170,7 +176,7 @@ void defense_game::pre_action( action_id &act )
                                      ( g->u.posx() == HALF_MAPSIZE_X &&
                                        g->get_levx() <=  93 ) ) ) ) {
         add_msg( m_info, _( "You cannot leave the %s behind!" ),
-                 defense_location_name( location ).c_str() );
+                 defense_location_name( location ) );
         act = ACTION_NULL;
     }
 }
@@ -571,9 +577,8 @@ void defense_game::setup()
                     }
                     mvwprintz( w, 5, 2, c_black, "\
  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" );
-                    mvwprintz( w, 5, 2, c_yellow, defense_location_name( location ).c_str() );
-                    mvwprintz( w,  5, 28, c_light_gray,
-                               defense_location_description( location ).c_str() );
+                    mvwprintz( w, 5, 2, c_yellow, defense_location_name( location ) );
+                    mvwprintz( w,  5, 28, c_light_gray, defense_location_description( location ) );
                     break;
 
                 case 3: // Difficulty of the first wave
@@ -743,11 +748,11 @@ void defense_game::refresh_setup( const catacurses::window &w, int selection )
     mvwprintz( w,  0, 28, c_light_red, _( "Press direction keys to cycle, ENTER to toggle" ) );
     mvwprintz( w,  1, 28, c_light_red, _( "Press S to start, ! to save as a template" ) );
     mvwprintz( w,  2,  2, c_light_gray, _( "Scenario:" ) );
-    mvwprintz( w,  3,  2, SELCOL( 1 ), defense_style_name( style ).c_str() );
-    mvwprintz( w,  3, 28, c_light_gray, defense_style_description( style ).c_str() );
+    mvwprintz( w,  3,  2, SELCOL( 1 ), defense_style_name( style ) );
+    mvwprintz( w,  3, 28, c_light_gray, defense_style_description( style ) );
     mvwprintz( w,  4,  2, c_light_gray, _( "Location:" ) );
-    mvwprintz( w,  5,  2, SELCOL( 2 ), defense_location_name( location ).c_str() );
-    mvwprintz( w,  5, 28, c_light_gray, defense_location_description( location ).c_str() );
+    mvwprintz( w,  5,  2, SELCOL( 2 ), defense_location_name( location ) );
+    mvwprintz( w,  5, 28, c_light_gray, defense_location_description( location ) );
 
     mvwprintz( w,  7,  2, c_light_gray, _( "Initial Difficulty:" ) );
     mvwprintz( w,  7, NUMALIGN( initial_difficulty ), SELCOL( 3 ), "%d",
@@ -945,9 +950,9 @@ Start by selecting a category using your favorite up/down keys.\n\
 Switch between category selection and item selecting by pressing %s.\n\
 Pick an item with the up/down keys, press left/right to buy 1 less/more.\n\
 Press %s to buy everything in your cart, %s to buy nothing." ),
-                       ctxt.get_desc( "NEXT_TAB" ).c_str(),
-                       ctxt.get_desc( "CONFIRM" ).c_str(),
-                       ctxt.get_desc( "QUIT" ).c_str()
+                       ctxt.get_desc( "NEXT_TAB" ),
+                       ctxt.get_desc( "CONFIRM" ),
+                       ctxt.get_desc( "QUIT" )
                      );
             draw_caravan_categories( w, category_selected, total_price, g->u.cash );
             draw_caravan_items( w, &( items[category_selected] ),
@@ -1287,7 +1292,7 @@ void draw_caravan_categories( const catacurses::window &w, int category_selected
 
     for( int i = 0; i < NUM_CARAVAN_CATEGORIES; i++ ) {
         mvwprintz( w, i + 3, 1, ( i == category_selected ? h_white : c_white ),
-                   caravan_category_name( caravan_category( i ) ).c_str() );
+                   caravan_category_name( caravan_category( i ) ) );
     }
     wrefresh( w );
 }
@@ -1315,7 +1320,7 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
     for( int i = offset; i <= offset + FULL_SCREEN_HEIGHT - 2 &&
          i < static_cast<int>( items->size() ); i++ ) {
         mvwprintz( w, i - offset + 1, 40, ( item_selected == i ? h_white : c_white ),
-                   item::nname( ( *items )[i], ( *counts )[i] ).c_str() );
+                   item::nname( ( *items )[i], ( *counts )[i] ) );
         wprintz( w, c_white, " x %2d", ( *counts )[i] );
         if( ( *counts )[i] > 0 ) {
             unsigned long price = caravan_price( g->u, item( ( *items )[i],
@@ -1365,7 +1370,7 @@ void defense_game::spawn_wave()
                 for( int i = 0; i < num; i++ ) {
                     spawn_wave_monster( type.id );
                 }
-                add_msg( m_info,  special_wave_message( type.nname( 100 ) ).c_str() );
+                add_msg( m_info,  special_wave_message( type.nname( 100 ) ) );
                 add_msg( m_info, "********" );
                 return;
             } else {
@@ -1464,28 +1469,28 @@ std::string defense_game::special_wave_message( std::string name )
 
     switch( rng( 1, 8 ) ) {
         case 1:
-            ret << string_format( _( "Invasion of the %s!" ), name.c_str() );
+            ret << string_format( _( "Invasion of the %s!" ), name );
             break;
         case 2:
-            ret << string_format( _( "Attack of the %s!" ), name.c_str() );
+            ret << string_format( _( "Attack of the %s!" ), name );
             break;
         case 3:
-            ret << string_format( _( "%s Attack!" ), name.c_str() );
+            ret << string_format( _( "%s Attack!" ), name );
             break;
         case 4:
-            ret << string_format( _( "%s from Hell!" ), name.c_str() );
+            ret << string_format( _( "%s from Hell!" ), name );
             break;
         case 5:
-            ret << string_format( _( "Beware! %s!" ), name.c_str() );
+            ret << string_format( _( "Beware! %s!" ), name );
             break;
         case 6:
-            ret << string_format( _( "The Day of the %s!" ), name.c_str() );
+            ret << string_format( _( "The Day of the %s!" ), name );
             break;
         case 7:
-            ret << string_format( _( "Revenge of the %s!" ), name.c_str() );
+            ret << string_format( _( "Revenge of the %s!" ), name );
             break;
         case 8:
-            ret << string_format( _( "Rise of the %s!" ), name.c_str() );
+            ret << string_format( _( "Rise of the %s!" ), name );
             break;
     }
 

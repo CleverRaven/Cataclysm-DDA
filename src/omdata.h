@@ -2,10 +2,15 @@
 #ifndef OMDATA_H
 #define OMDATA_H
 
+#include <climits>
+#include <cstddef>
+#include <cstdint>
 #include <bitset>
 #include <list>
 #include <set>
 #include <vector>
+#include <array>
+#include <string>
 
 #include "catacharset.h"
 #include "color.h"
@@ -14,20 +19,27 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
+#include "optional.h"
 
-struct MonsterGroup;
-using mongroup_id = string_id<MonsterGroup>;
 struct city;
 class overmap_land_use_code;
+struct MonsterGroup;
+
 using overmap_land_use_code_id = string_id<overmap_land_use_code>;
 struct oter_t;
-struct oter_type_t;
 struct overmap_location;
 class JsonObject;
 class overmap_connection;
 class overmap_special_batch;
 class overmap_special;
+
 using overmap_special_id = string_id<overmap_special>;
+
+const overmap_land_use_code_id land_use_code_forest( "forest" );
+const overmap_land_use_code_id land_use_code_wetland( "wetland" );
+const overmap_land_use_code_id land_use_code_wetland_forest( "wetland_forest" );
+const overmap_land_use_code_id land_use_code_wetland_saltwater( "wetland_saltwater" );
 
 /** Direction on the overmap. */
 namespace om_direction
@@ -149,11 +161,10 @@ enum oter_flags {
     has_sidewalk,
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
     subway_connection,
+    lake,
+    lake_shore,
     num_oter_flags
 };
-
-using oter_id = int_id<oter_t>;
-using oter_str_id = string_id<oter_t>;
 
 struct oter_type_t {
     public:
@@ -228,7 +239,7 @@ struct oter_t {
         oter_id get_rotated( om_direction::type dir ) const;
 
         const std::string get_name() const {
-            return _( type->name.c_str() );
+            return _( type->name );
         }
 
         std::string get_symbol( const bool from_land_use_code = false ) const {
@@ -266,6 +277,10 @@ struct oter_t {
             return type->static_spawns;
         }
 
+        const overmap_land_use_code_id get_land_use_code() const {
+            return type->land_use_code;
+        }
+
         bool type_is( const int_id<oter_type_t> &type_id ) const;
         bool type_is( const oter_type_t &type ) const;
 
@@ -287,6 +302,21 @@ struct oter_t {
 
         bool is_river() const {
             return type->has_flag( river_tile );
+        }
+
+        bool is_wooded() const {
+            return type->land_use_code == land_use_code_forest ||
+                   type->land_use_code == land_use_code_wetland ||
+                   type->land_use_code == land_use_code_wetland_forest ||
+                   type->land_use_code == land_use_code_wetland_saltwater;
+        }
+
+        bool is_lake() const {
+            return type->has_flag( lake );
+        }
+
+        bool is_lake_shore() const {
+            return type->has_flag( lake_shore );
         }
 
     private:
@@ -333,6 +363,7 @@ struct overmap_special_terrain {
     tripoint p;
     oter_str_id terrain;
     std::set<std::string> flags;
+    std::set<string_id<overmap_location>> locations;
 
     template<typename JsonStream>
     void deserialize( JsonStream &jsin ) {
@@ -340,7 +371,14 @@ struct overmap_special_terrain {
         om.read( "point", p );
         om.read( "overmap", terrain );
         om.read( "flags", flags );
+        om.read( "locations", locations );
     }
+
+    /**
+     * Returns whether this terrain of the special can be placed on the specified terrain.
+     * It's true if oter meets any of locations.
+     */
+    bool can_be_placed_on( const oter_id &oter ) const;
 };
 
 struct overmap_special_connection {
@@ -367,11 +405,6 @@ class overmap_special
     public:
         /** Returns terrain at the given point. */
         const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
-        /**
-         * Returns whether the special can be placed on the specified terrain.
-         * It's true if oter meets any of locations.
-         */
-        bool can_be_placed_on( const oter_id &oter ) const;
         /** @returns true if this special requires a city */
         bool requires_city() const;
         /** @returns whether the special at specified tripoint can belong to the specified city. */
@@ -387,7 +420,6 @@ class overmap_special
 
         bool rotatable = true;
         overmap_special_spawns spawns;
-        std::set<string_id<overmap_location>> locations;
         std::set<std::string> flags;
 
         // Used by generic_factory

@@ -1,3 +1,8 @@
+#include <list>
+#include <memory>
+#include <string>
+#include <vector>
+
 #include "catch/catch.hpp"
 #include "game.h"
 #include "map.h"
@@ -7,6 +12,11 @@
 #include "requirements.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "calendar.h"
+#include "enums.h"
+#include "inventory.h"
+#include "item.h"
+#include "type_id.h"
 
 static void test_repair( const std::vector<item> &tools, bool expect_craftable )
 {
@@ -44,7 +54,8 @@ static void test_repair( const std::vector<item> &tools, bool expect_craftable )
     // Bust cache on crafting_inventory()
     g->u.mod_moves( 1 );
     inventory crafting_inv = g->u.crafting_inventory();
-    bool can_repair = vp.repair_requirements().can_make_with_inventory( g->u.crafting_inventory() );
+    bool can_repair = vp.repair_requirements().can_make_with_inventory( g->u.crafting_inventory(),
+                      is_crafting_component );
     CHECK( can_repair == expect_craftable );
 }
 

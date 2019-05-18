@@ -1,7 +1,8 @@
 #include <limits>
+#include <string>
+#include <utility>
 
 #include "catch/catch.hpp"
-#include "output.h"
 #include "string_formatter.h"
 
 // Same as @ref string_format, but does not swallow errors and throws them instead.
@@ -133,7 +134,10 @@ TEST_CASE( "string_formatter" )
 
     // sprintf of some systems doesn't support the 'N$' syntax, if it's
     // not supported, the result is either empty, or the input string
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wformat"
     if( cata::string_formatter::raw_string_format( "%2$s||%1$s", "", "" ) == "||" ) {
+#pragma GCC diagnostic pop
         test_new_old_pattern( "%6$-*5$.*4$f%3$s%2$s%1$s", "%6$-*5$.*4$f", "", "", "", 7, 4, 100.44 );
     }
     CHECK_THROWS( test_for_error( "%6$-*5$.*4$f", 1, 2, 3 ) );

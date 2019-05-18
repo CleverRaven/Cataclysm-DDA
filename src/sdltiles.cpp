@@ -2,6 +2,7 @@
 
 #include "cursesdef.h" // IWYU pragma: associated
 
+#include <climits>
 #include <algorithm>
 #include <cassert>
 #include <cstring>
@@ -10,6 +11,13 @@
 #include <memory>
 #include <stdexcept>
 #include <vector>
+#include <array>
+#include <cmath>
+#include <exception>
+#include <iterator>
+#include <map>
+#include <set>
+#include <type_traits>
 
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL_image.h>
@@ -18,7 +26,6 @@
 #endif
 
 #include "cata_tiles.h"
-#include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "color_loader.h"
@@ -29,19 +36,18 @@
 #include "game.h"
 #include "game_ui.h"
 #include "get_version.h"
-#include "init.h"
 #include "input.h"
-#include "loading_ui.h"
 #include "options.h"
 #include "output.h"
-#include "panels.h"
 #include "path_info.h"
 #include "player.h"
-#include "rng.h"
 #include "sdlsound.h"
 #include "sdl_wrappers.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "enums.h"
+#include "json.h"
+#include "optional.h"
 
 #if defined(__linux__)
 #   include <cstdlib> // getenv()/setenv()
@@ -84,6 +90,8 @@ static bool needupdate = false;
 // used to replace SDL_RenderFillRect with a more efficient SDL_RenderCopy
 SDL_Texture_Ptr alt_rect_tex = NULL;
 bool alt_rect_tex_enabled = false;
+
+std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
 
 /**
  * A class that draws a single character on screen.
@@ -176,7 +184,6 @@ static std::unique_ptr<Font> font;
 static std::unique_ptr<Font> map_font;
 static std::unique_ptr<Font> overmap_font;
 
-static std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
 static SDL_Window_Ptr window;
 static SDL_Renderer_Ptr renderer;
 static SDL_PixelFormat_Ptr format;
@@ -820,17 +827,17 @@ void set_displaybuffer_rendertarget()
 // Populate a map with the available video displays and their name
 void find_videodisplays()
 {
-    std::map<int, std::string> displays;
+    std::vector< std::tuple<int, std::string> > displays;
 
     int numdisplays = SDL_GetNumVideoDisplays();
     for( int i = 0 ; i < numdisplays ; i++ ) {
-        displays.insert( { i, SDL_GetDisplayName( i ) } );
+        displays.push_back( std::make_tuple( i, std::string( SDL_GetDisplayName( i ) ) ) );
     }
 
     int current_display = get_option<int>( "DISPLAY" );
     get_options().add( "DISPLAY", "graphics", _( "Display" ),
                        _( "Sets which video display will be used to show the game. Requires restart." ),
-                       displays, current_display, 0, options_manager::COPT_CURSES_HIDE
+                       displays, current_display, 0, options_manager::COPT_CURSES_HIDE, true
                      );
 }
 
@@ -1469,6 +1476,7 @@ long arrow_combo_to_numpad( SDL_Keycode mod, SDL_Keycode key )
     return 0;
 }
 
+#if !defined(__ANDROID__)
 static long arrow_combo_modifier = 0;
 
 static long handle_arrow_combo( SDL_Keycode key )
@@ -1484,7 +1492,7 @@ static void end_arrow_combo()
 {
     arrow_combo_modifier = 0;
 }
-
+#endif
 /**
  * Translate SDL key codes to key identifiers used by ncurses, this
  * allows the input_manager to only consider those.
@@ -1556,6 +1564,10 @@ long sdl_keysym_to_curses( const SDL_Keysym &keysym )
         }
     }
 #endif
+    if( keysym.mod & KMOD_CTRL && keysym.sym >= 'a' && keysym.sym <= 'z' ) {
+        // ASCII ctrl codes, ^A through ^Z.
+        return keysym.sym - 'a' + '\1';
+    }
     switch( keysym.sym ) {
         // This is special: allow entering a Unicode character with ALT+number
         case SDLK_RALT:
@@ -1641,7 +1653,6 @@ bool handle_resize( int w, int h )
         TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
         SetupRenderTarget();
         game_ui::init_ui();
-        tilecontext->reinit_minimap();
 
         return true;
     }
@@ -2490,7 +2501,7 @@ void CheckMessages()
                 if( !g->u.get_hostile_creatures( 60 ).empty() ) {
                     // Only prioritize movement options if we're not driving.
                     if( !g->u.controlling_vehicle ) {
-                        actions.insert( ACTION_TOGGLE_MOVE );
+                        actions.insert( ACTION_CYCLE_MOVE );
                     }
                     // Only prioritize fire weapon options if we're wielding a ranged weapon.
                     if( g->u.weapon.is_gun() || g->u.weapon.has_flag( "REACH_ATTACK" ) ) {
@@ -2499,13 +2510,17 @@ void CheckMessages()
                 }
 
                 // If we're already running, make it simple to toggle running to off.
-                if( g->u.move_mode != "walk" ) {
-                    actions.insert( ACTION_TOGGLE_MOVE );
+                if( g->u.get_movement_mode() == "run" ) {
+                    actions.insert( ACTION_TOGGLE_RUN );
+                }
+                // If we're already crouching, make it simple to toggle crouching to off.
+                if( g->u.get_movement_mode() == "crouch" ) {
+                    actions.insert( ACTION_TOGGLE_CROUCH );
                 }
 
-                // We're not already running or in combat, so remove toggle walk/run
-                if( std::find( actions.begin(), actions.end(), ACTION_TOGGLE_MOVE ) == actions.end() ) {
-                    actions_remove.insert( ACTION_TOGGLE_MOVE );
+                // We're not already running or in combat, so remove cycle walk/run
+                if( std::find( actions.begin(), actions.end(), ACTION_CYCLE_MOVE ) == actions.end() ) {
+                    actions_remove.insert( ACTION_CYCLE_MOVE );
                 }
 
                 // Check if we can perform one of our actions on nearby terrain. If so,
@@ -2522,25 +2537,22 @@ void CheckMessages()
                             const optional_vpart_position vp = g->m.veh_at( pos );
                             vehicle *const veh = veh_pointer_or_null( vp );
                             if( veh ) {
-                                int veh_part = vp ? vp->part_index() : -1;
+                                const int veh_part = vp ? vp->part_index() : -1;
                                 if( veh->part_with_feature( veh_part, "CONTROLS", true ) >= 0 ) {
                                     actions.insert( ACTION_CONTROL_VEHICLE );
                                 }
-                                int openablepart = veh->part_with_feature( veh_part, "OPENABLE", true );
+                                const int openablepart = veh->part_with_feature( veh_part, "OPENABLE", true );
                                 if( openablepart >= 0 && veh->is_open( openablepart ) && ( dx != 0 ||
                                         dy != 0 ) ) { // an open door adjacent to us
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                int curtainpart = veh->part_with_feature( veh_part, "CURTAIN", true );
+                                const int curtainpart = veh->part_with_feature( veh_part, "CURTAIN", true );
                                 if( curtainpart >= 0 && veh->is_open( curtainpart ) && ( dx != 0 || dy != 0 ) ) {
                                     actions.insert( ACTION_CLOSE );
                                 }
-                                if( dx == 0 && dy == 0 ) {
-                                    int cargopart = veh->part_with_feature( veh_part, "CARGO", true );
-                                    bool can_pickup = cargopart >= 0 && ( !veh->get_items( cargopart ).empty() );
-                                    if( can_pickup ) {
-                                        actions.insert( ACTION_PICKUP );
-                                    }
+                                const int cargopart = veh->part_with_feature( veh_part, "CARGO", true );
+                                if( cargopart >= 0 && ( !veh->get_items( cargopart ).empty() ) ) {
+                                    actions.insert( ACTION_PICKUP );
                                 }
                             }
                         }
@@ -2576,6 +2588,11 @@ void CheckMessages()
                                 actions_remove.insert( ACTION_MOVE_DOWN );
                             }
                         }
+
+                        // Check for actions that work on nearby tiles and own tile
+                        if( can_interact_at( ACTION_PICKUP, pos ) ) {
+                            actions.insert( ACTION_PICKUP );
+                        }
                     }
                 }
 
@@ -2594,12 +2611,7 @@ void CheckMessages()
                     actions_remove.insert( ACTION_EXAMINE );
                 }
 
-                // If we're standing on items, allow player to pick them up.
-                if( g->m.has_items( g->u.pos() ) ) {
-                    actions.insert( ACTION_PICKUP );
-                }
-
-                // We're not able to pickup anything, so remove it
+                // We're not able to pickup anything nearby, so remove it
                 if( std::find( actions.begin(), actions.end(), ACTION_PICKUP ) == actions.end() ) {
                     actions_remove.insert( ACTION_PICKUP );
                 }
@@ -3468,10 +3480,14 @@ template<>
 SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int b )
 {
     SDL_Color result;
-    result.b = b;  //Blue
-    result.g = g;  //Green
-    result.r = r;  //Red
-    //result.a=0;//The Alpha, is not used, so just set it to 0
+    //Blue
+    result.b = b;
+    //Green
+    result.g = g;
+    //Red
+    result.r = r;
+    //The Alpha, is not used, so just set it to 0
+    //result.a = 0;
     return result;
 }
 
@@ -3570,7 +3586,14 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         // map font (if any) might differ from standard font
         fw = map_font->fontwidth;
         fh = map_font->fontheight;
+    } else if( overmap_font && capture_win == g->w_overmap ) {
+        fw = overmap_font->fontwidth;
+        fh = overmap_font->fontheight;
     }
+
+    // multiplied by the user's specified scaling factor regardless of whether tiles are in use
+    fw = fw * get_scaling_factor();
+    fh = fh * get_scaling_factor();
 
     // Translate mouse coordinates to map coordinates based on tile size,
     // the window position is *always* in standard font dimensions!
@@ -3587,6 +3610,13 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         return cata::nullopt;
     }
 
+    int view_offset_x = 0;
+    int view_offset_y = 0;
+    if( capture_win == g->w_terrain ) {
+        view_offset_x = g->ter_view_x;
+        view_offset_y = g->ter_view_y;
+    }
+
     int x, y;
     if( tile_iso && use_tiles ) {
         const int screen_column = round( static_cast<float>( coordinate_x - win_left - ( (
@@ -3595,14 +3625,14 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
                                       ( win_bottom - win_top ) / 2 + win_top ) / ( fw / 4 ) );
         const int selected_x = ( screen_column - screen_row ) / 2;
         const int selected_y = ( screen_row + screen_column ) / 2;
-        x = g->ter_view_x + selected_x;
-        y = g->ter_view_y + selected_y;
+        x = view_offset_x + selected_x;
+        y = view_offset_y + selected_y;
     } else {
         const int selected_column = ( coordinate_x - win_left ) / fw;
         const int selected_row = ( coordinate_y - win_top ) / fh;
 
-        x = g->ter_view_x - ( ( capture_win->width / 2 ) - selected_column );
-        y = g->ter_view_y - ( ( capture_win->height / 2 ) - selected_row );
+        x = view_offset_x + selected_column - capture_win->width / 2;
+        y = view_offset_y + selected_row - capture_win->height / 2;
     }
 
     return tripoint( x, y, g->get_levz() );
@@ -3804,18 +3834,35 @@ bool is_draw_tiles_mode()
     return use_tiles;
 }
 
-SDL_Color cursesColorToSDL( const nc_color &color )
+/** Saves a screenshot of the current viewport, as a PNG file, to the given location.
+* @param file_path: A full path to the file where the screenshot should be saved.
+* @returns `true` if the screenshot generation was successful, `false` otherwise.
+*/
+bool save_screenshot( const std::string &file_path )
 {
-    const int pair_id = color.to_color_pair_index();
-    const auto pair = cata_cursesport::colorpairs[pair_id];
+    // Note: the viewport is returned by SDL and we don't have to manage its lifetime.
+    SDL_Rect viewport;
 
-    int palette_index = pair.FG != 0 ? pair.FG : pair.BG;
+    // Get the viewport size (width and heigth of the screen)
+    SDL_RenderGetViewport( renderer.get(), &viewport );
 
-    if( color.is_bold() ) {
-        palette_index += color_loader<SDL_Color>::COLOR_NAMES_COUNT / 2;
+    // Create SDL_Surface with depth of 32 bits (note: using zeros for the RGB masks sets a default value, based on the depth; Alpha mask will be 0).
+    SDL_Surface_Ptr surface = CreateRGBSurface( 0, viewport.w, viewport.h, 32, 0, 0, 0, 0 );
+
+    // Get data from SDL_Renderer and save them into surface
+    if( printErrorIf( SDL_RenderReadPixels( renderer.get(), nullptr, surface->format->format,
+                                            surface->pixels, surface->pitch ) != 0,
+                      "save_screenshot: cannot read data from SDL_Renderer." ) ) {
+        return false;
     }
 
-    return windowsPalette[palette_index];
+    // Save screenshot as PNG file
+    if( printErrorIf( IMG_SavePNG( surface.get(), file_path.c_str() ) != 0,
+                      std::string( "save_screenshot: cannot save screenshot file: " + file_path ).c_str() ) ) {
+        return false;
+    }
+
+    return true;
 }
 
 #endif // TILES

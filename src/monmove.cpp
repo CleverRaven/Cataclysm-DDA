@@ -2,9 +2,13 @@
 
 #include "monster.h" // IWYU pragma: associated
 
+#include <cstdlib>
 #include <cmath>
+#include <algorithm>
+#include <memory>
+#include <ostream>
 
-#include "cursesdef.h"
+#include "bionics.h"
 #include "debug.h"
 #include "field.h"
 #include "game.h"
@@ -16,7 +20,6 @@
 #include "monfaction.h"
 #include "mtype.h"
 #include "npc.h"
-#include "output.h"
 #include "rng.h"
 #include "scent_map.h"
 #include "sounds.h"
@@ -25,15 +28,27 @@
 #include "vpart_position.h"
 #include "tileray.h"
 #include "vehicle.h"
+#include "cata_utility.h"
+#include "game_constants.h"
+#include "mattack_common.h"
+#include "pathfinding.h"
+#include "player.h"
+#include "int_id.h"
+#include "string_id.h"
 
 #define MONSTER_FOLLOW_DIST 8
 
 const species_id FUNGUS( "FUNGUS" );
 
 const efftype_id effect_bouldering( "bouldering" );
+const efftype_id effect_countdown( "countdown" );
 const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
+const efftype_id effect_dragging( "dragging" );
+const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_no_sight( "no_sight" );
+const efftype_id effect_operating( "operating" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
 const efftype_id effect_stunned( "stunned" );
@@ -41,6 +56,7 @@ const efftype_id effect_stunned( "stunned" );
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id BLOB( "BLOB" );
 const species_id ROBOT( "ROBOT" );
+const species_id WORM( "WORM" );
 
 bool monster::wander()
 {
@@ -372,7 +388,51 @@ void monster::plan( const mfactions &factions )
         }
     }
 
-    if( target != nullptr ) {
+    // Operating monster keep you safe while they operate, how nice....
+    if( type->has_special_attack( "OPERATE" ) ) {
+        int prev_friendlyness = friendly;
+        if( has_effect( effect_operating ) ) {
+            friendly = 100;
+            for( auto critter : g->m.get_creatures_in_radius( pos(), 6 ) ) {
+                monster *mon = dynamic_cast<monster *>( critter );
+                if( mon != nullptr && mon->type->in_species( ZOMBIE ) ) {
+                    anger = 100;
+                } else {
+                    anger = 0;
+                }
+            }
+        } else {
+            friendly = prev_friendlyness;
+        }
+    }
+
+    if( has_effect( effect_dragging ) ) {
+
+        if( type->has_special_attack( "OPERATE" ) ) {
+
+            bool found_path_to_couch = false;
+            tripoint tmp( pos().x + 12, pos().y + 12, pos().z );
+            tripoint couch_loc;
+            for( const auto &couch_pos : g->m.find_furnitures_in_radius( pos(), 10,
+                    furn_id( "f_autodoc_couch" ) ) ) {
+                if( g->m.clear_path( pos(), couch_pos, 10, 0, 100 ) ) {
+                    if( rl_dist( pos(), couch_pos ) < rl_dist( pos(), tmp ) ) {
+                        tmp = couch_pos;
+                        found_path_to_couch = true;
+                        couch_loc = couch_pos;
+                    }
+                }
+            }
+
+            if( !found_path_to_couch ) {
+                anger = 0;
+                remove_effect( effect_dragging );
+            } else {
+                set_dest( couch_loc );
+            }
+        }
+
+    } else if( target != nullptr ) {
 
         tripoint dest = target->pos();
         auto att_to_target = attitude_to( *target );
@@ -445,7 +505,7 @@ void monster::move()
         !g->m.has_flag( TFLAG_SEALED, pos() ) && g->m.has_items( pos() ) ) {
         if( g->u.sees( *this ) ) {
             add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
-                     name().c_str() );
+                     name() );
         }
         static const auto volume_per_hp = units::from_milliliter( 250 );
         for( auto &elem : g->m.i_at( pos() ) ) {
@@ -459,7 +519,7 @@ void monster::move()
                             spawn->make_ally( *this );
                             if( g->u.sees( *this ) ) {
                                 add_msg( _( "The %s splits in two!" ),
-                                         name().c_str() );
+                                         name() );
                             }
                         }
                     }
@@ -468,6 +528,8 @@ void monster::move()
         }
         g->m.i_clear( pos() );
     }
+    // record position before moving to put the player there if we're dragging
+    tripoint drag_to = pos();
 
     const bool pacified = has_effect( effect_pacified );
 
@@ -503,6 +565,50 @@ void monster::move()
         }
     }
 
+    // defective nursebot surgery code
+    if( type->has_special_attack( "OPERATE" ) && has_effect( effect_dragging ) &&
+        dragged_foe != nullptr ) {
+
+        if( rl_dist( pos(), goal ) == 1 && g->m.furn( goal ) == furn_id( "f_autodoc_couch" ) &&
+            !has_effect( effect_operating ) ) {
+            if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
+                ( g->critter_at( goal ) == nullptr || g->critter_at( goal ) == dragged_foe ) ) {
+                add_msg( m_bad, _( "The %1$s slowly but firmly puts %2$s down onto the autodoc couch." ), name(),
+                         dragged_foe->disp_name() );
+
+                dragged_foe->setpos( goal );
+
+                add_effect( effect_countdown, 2_turns );// there's still time to get away
+                add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
+            } else if( g->critter_at( goal ) != nullptr && has_effect( effect_dragging ) ) {
+                sounds::sound( pos(), 8, sounds::sound_t::speech,
+                               string_format(
+                                   _( "a soft robotic voice say, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
+                // TODO: Make it able to push NPC/player
+                push_to( goal, 4, 0 );
+            }
+        }
+        if( get_effect_dur( effect_countdown ) == 1_turns && !has_effect( effect_operating ) ) {
+            if( dragged_foe->has_effect( effect_grabbed ) ) {
+
+                bionic_collection collec = *dragged_foe->my_bionics;
+                int index = rng( 0, collec.size() - 1 );
+                bionic target_cbm = collec[index];
+
+                //8 intelligence*4 + 8 first aid*4 + 3 computer *3 + 4 electronic*1 = 77
+                float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
+                                       static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
+
+                g->u.uninstall_bionic( target_cbm, *this, *dragged_foe, adjusted_skill );
+
+                dragged_foe->remove_effect( effect_grabbed );
+                remove_effect( effect_dragging );
+                dragged_foe = nullptr;
+
+            }
+        }
+    }
+
     // The monster can sometimes hang in air due to last fall being blocked
     const bool can_fly = has_flag( MF_FLIES );
     if( !can_fly && g->m.has_flag( TFLAG_NO_FLOOR, pos() ) ) {
@@ -514,7 +620,7 @@ void monster::move()
         if( g->m.has_flag( "LIQUID", pos() ) && can_drown() && one_in( 10 ) ) {
             die( nullptr );
             if( g->u.sees( pos() ) ) {
-                add_msg( _( "The %s drowns!" ), name().c_str() );
+                add_msg( _( "The %s drowns!" ), name() );
             }
             return;
         }
@@ -543,6 +649,12 @@ void monster::move()
         --friendly;
     }
 
+    // don't move if a passenger in a moving vehicle
+    auto vp = g->m.veh_at( pos() );
+    if( friendly && vp && vp->vehicle().is_moving() && vp->vehicle().get_pet( vp->part_index() ) ) {
+        moves = 0;
+        return;
+    }
     // Set attitude to attitude to our current target
     monster_attitude current_attitude = attitude( nullptr );
     if( !wander() ) {
@@ -724,17 +836,28 @@ void monster::move()
             }
         }
     }
+    const bool can_open_doors = has_flag( MF_CAN_OPEN_DOORS );
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
         const bool did_something =
             ( !pacified && attack_at( next_step ) ) ||
+            ( !pacified && can_open_doors && g->m.open_door( next_step, !g->m.is_outside( pos() ) ) ) ||
             ( !pacified && bash_at( next_step ) ) ||
             ( !pacified && push_to( next_step, 0, 0 ) ) ||
             move_to( next_step, false, get_stagger_adjust( pos(), destination, next_step ) );
 
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
+        }
+        if( has_effect( effect_dragging ) && dragged_foe != nullptr ) {
+
+            if( !dragged_foe->has_effect( effect_grabbed ) ) {
+                dragged_foe = nullptr;
+                remove_effect( effect_dragging );
+            } else if( drag_to != pos() && g->critter_at( drag_to ) == nullptr ) {
+                dragged_foe->setpos( drag_to );
+            }
         }
     } else {
         moves -= 100;
@@ -782,13 +905,15 @@ void monster::footsteps( const tripoint &p )
     if( volume == 0 ) {
         return;
     }
-    std::string footstep = "footsteps.";
+    std::string footstep = _( "footsteps." );
     if( type->in_species( BLOB ) ) {
-        footstep = "plop.";
+        footstep = _( "plop." );
     } else if( type->in_species( ZOMBIE ) ) {
-        footstep = "shuffling.";
+        footstep = _( "shuffling." );
     } else if( type->in_species( ROBOT ) ) {
-        footstep = "mechanical whirring.";
+        footstep = _( "mechanical whirring." );
+    } else if( type->in_species( WORM ) ) {
+        footstep = _( "rustle." );
     }
     int dist = rl_dist( p, g->u.pos() );
     sounds::add_footstep( p, volume, dist, this, footstep );
@@ -1024,6 +1149,9 @@ int monster::group_bash_skill( const tripoint &target )
 
 bool monster::attack_at( const tripoint &p )
 {
+    if( has_flag( MF_PACIFIST ) ) {
+        return false;
+    }
     if( p.z != posz() ) {
         return false; // TODO: Remove this
     }
@@ -1062,6 +1190,7 @@ bool monster::attack_at( const tripoint &p )
         // For now we're always attacking NPCs that are getting into our
         // way. This is consistent with how it worked previously, but
         // later on not hitting allied NPCs would be cool.
+        guy->on_attacked( *this ); // allow NPC hallucination to be one shot by monsters
         melee_attack( *guy );
         return true;
     }
@@ -1084,17 +1213,17 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
                 moves -= 100;
                 force = true;
                 if( g->u.sees( *this ) ) {
-                    add_msg( _( "The %1$s flies over the %2$s." ), name().c_str(),
-                             g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ).c_str() :
-                             g->m.tername( p ).c_str() );
+                    add_msg( _( "The %1$s flies over the %2$s." ), name(),
+                             g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ) :
+                             g->m.tername( p ) );
                 }
             } else if( has_flag( MF_CLIMBS ) ) {
                 moves -= 150;
                 force = true;
                 if( g->u.sees( *this ) ) {
-                    add_msg( _( "The %1$s climbs over the %2$s." ), name().c_str(),
-                             g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ).c_str() :
-                             g->m.tername( p ).c_str() );
+                    add_msg( _( "The %1$s climbs over the %2$s." ), name(),
+                             g->m.has_flag_furn( "CLIMBABLE", p ) ? g->m.furnname( p ) :
+                             g->m.tername( p ) );
                 }
             }
         }
@@ -1130,18 +1259,18 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     //Birds and other flying creatures flying over the deep water terrain
     if( was_water && flies && g->u.sees( p ) ) {
         if( one_in( 4 ) ) {
-            add_msg( m_warning, _( "A %1$s flies over the %2$s!" ), name().c_str(),
-                     g->m.tername( pos() ).c_str() );
+            add_msg( m_warning, _( "A %1$s flies over the %2$s!" ), name(),
+                     g->m.tername( pos() ) );
         }
     } else if( was_water && !will_be_water && g->u.sees( p ) ) {
         //Use more dramatic messages for swimming monsters
-        add_msg( m_warning, _( "A %1$s %2$s from the %3$s!" ), name().c_str(),
+        add_msg( m_warning, _( "A %1$s %2$s from the %3$s!" ), name(),
                  has_flag( MF_SWIMS ) || has_flag( MF_AQUATIC ) ? _( "leaps" ) : _( "emerges" ),
-                 g->m.tername( pos() ).c_str() );
+                 g->m.tername( pos() ) );
     } else if( !was_water && will_be_water && g->u.sees( p ) ) {
-        add_msg( m_warning, _( "A %1$s %2$s into the %3$s!" ), name().c_str(),
+        add_msg( m_warning, _( "A %1$s %2$s into the %3$s!" ), name(),
                  has_flag( MF_SWIMS ) || has_flag( MF_AQUATIC ) ? _( "dives" ) : _( "sinks" ),
-                 g->m.tername( p ).c_str() );
+                 g->m.tername( p ) );
     }
 
     setpos( p );
@@ -1226,6 +1355,11 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     if( has_flag( MF_DRIPS_NAPALM ) ) {
         if( one_in( 10 ) ) {
             g->m.add_item_or_charges( pos(), item( "napalm" ) );
+        }
+    }
+    if( has_flag( MF_DRIPS_GASOLINE ) ) {
+        if( one_in( 5 ) ) {
+            g->m.add_item_or_charges( pos(), item( "gasoline" ) );
         }
     }
     return true;
@@ -1359,7 +1493,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     // Only print the message when near player or it can get spammy
     if( rl_dist( g->u.pos(), pos() ) < 4 && g->u.sees( *critter ) ) {
         add_msg( m_warning, _( "The %1$s tramples %2$s" ),
-                 name().c_str(), critter->disp_name().c_str() );
+                 name(), critter->disp_name() );
     }
 
     moves -= movecost_attacker;
@@ -1459,7 +1593,7 @@ void monster::knock_back_from( const tripoint &p )
         z->check_dead_state();
 
         if( u_see ) {
-            add_msg( _( "The %1$s bounces off a %2$s!" ), name().c_str(), z->name().c_str() );
+            add_msg( _( "The %1$s bounces off a %2$s!" ), name(), z->name() );
         }
 
         return;
@@ -1470,7 +1604,7 @@ void monster::knock_back_from( const tripoint &p )
         add_effect( effect_stunned, 1_turns );
         p->deal_damage( this, bp_torso, damage_instance( DT_BASH, type->size ) );
         if( u_see ) {
-            add_msg( _( "The %1$s bounces off %2$s!" ), name().c_str(), p->name.c_str() );
+            add_msg( _( "The %1$s bounces off %2$s!" ), name(), p->name );
         }
 
         p->check_dead_state();
@@ -1482,13 +1616,13 @@ void monster::knock_back_from( const tripoint &p )
         if( g->m.has_flag( "LIQUID", to ) && can_drown() ) {
             die( nullptr );
             if( u_see ) {
-                add_msg( _( "The %s drowns!" ), name().c_str() );
+                add_msg( _( "The %s drowns!" ), name() );
             }
 
         } else if( has_flag( MF_AQUATIC ) ) { // We swim but we're NOT in water
             die( nullptr );
             if( u_see ) {
-                add_msg( _( "The %s flops around and dies!" ), name().c_str() );
+                add_msg( _( "The %s flops around and dies!" ), name() );
             }
         }
     }
@@ -1499,8 +1633,8 @@ void monster::knock_back_from( const tripoint &p )
         apply_damage( nullptr, bp_torso, type->size );
         add_effect( effect_stunned, 2_turns );
         if( u_see ) {
-            add_msg( _( "The %1$s bounces off a %2$s." ), name().c_str(),
-                     g->m.obstacle_name( to ).c_str() );
+            add_msg( _( "The %1$s bounces off a %2$s." ), name(),
+                     g->m.obstacle_name( to ) );
         }
 
     } else { // It's no wall

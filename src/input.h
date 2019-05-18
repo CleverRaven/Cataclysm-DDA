@@ -2,6 +2,7 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+#include <cstddef>
 #include <functional>
 #include <map>
 #include <string>
@@ -13,6 +14,7 @@
 #endif
 
 struct tripoint;
+
 namespace cata
 {
 template<typename T>
@@ -55,7 +57,7 @@ static constexpr int LEGEND_HEIGHT = 11;
 static constexpr int BORDER_SPACE = 2;
 
 bool is_mouse_enabled();
-std::string get_input_string_from_file( std::string fname = "input.txt" );
+std::string get_input_string_from_file( const std::string &fname = "input.txt" );
 
 enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
 
@@ -382,7 +384,7 @@ class input_context
         }
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
-        input_context( std::string category ) : registered_any_input( false ),
+        input_context( const std::string &category ) : registered_any_input( false ),
             category( category ), handling_coordinate_input( false ) {
 #if defined(__ANDROID__)
             input_context_stack.push_back( this );
@@ -637,8 +639,12 @@ class input_context
         /**
          * Keys (and only keys, other input types are not included) that
          * trigger the given action.
+         * @param action_descriptor The action descriptor for which to get the bound keys.
+         * @param restrict_to_printable If `true` the function returns the bound keys only if they are printable. If `false`, all keys (whether they are printable or not) are returned.
+         * @returns All keys bound to the given action descriptor.
          */
-        std::vector<char> keys_bound_to( const std::string &action_id ) const;
+        std::vector<char> keys_bound_to( const std::string &action_descriptor,
+                                         bool restrict_to_printable = true ) const;
 
         /**
         * Get/Set edittext to display IME unspecified string.

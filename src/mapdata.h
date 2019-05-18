@@ -2,35 +2,30 @@
 #ifndef MAPDATA_H
 #define MAPDATA_H
 
+#include <cstddef>
 #include <array>
 #include <bitset>
 #include <set>
 #include <vector>
+#include <string>
 
 #include "color.h"
 #include "int_id.h"
+#include "optional.h"
 #include "string_id.h"
+#include "type_id.h"
 #include "units.h"
 
 class JsonObject;
 struct itype;
-struct trap;
 struct ter_t;
 struct furn_t;
-class harvest_list;
 class player;
 struct tripoint;
+
 using iexamine_function = void ( * )( player &, const tripoint & );
 
-using trap_id = int_id<trap>;
-using trap_str_id = string_id<trap>;
-
-using ter_id = int_id<ter_t>;
-using ter_str_id = string_id<ter_t>;
-using furn_id = int_id<furn_t>;
-using furn_str_id = string_id<furn_t>;
 using itype_id = std::string;
-using harvest_id = string_id<harvest_list>;
 
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
@@ -67,6 +62,15 @@ struct map_deconstruct_info {
     furn_str_id furn_set;    // furniture to set (only used by furniture, not terrain)
     map_deconstruct_info();
     bool load( JsonObject &jsobj, const std::string &member, bool is_furniture );
+};
+struct furn_workbench_info {
+    // Base multiplier applied for crafting here
+    float multiplier;
+    // Mass/volume allowed before a crafting speed penalty is applied
+    units::mass allowed_mass;
+    units::volume allowed_volume;
+    furn_workbench_info();
+    bool load( JsonObject &jsobj, const std::string &member );
 };
 
 /*
@@ -108,6 +112,7 @@ struct map_deconstruct_info {
  * EASY_DECONSTRUCT - Player can deconstruct this without tools
  * HIDE_PLACE - Creature on this tile can't be seen by other creature not standing on adjacent tiles
  * BLOCK_WIND - This tile will partially block wind
+ * FLAT_SURF - Furniture or terrain or vehicle part with flat hard surface (ex. table, but not chair; tree stump, etc.).
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -122,6 +127,7 @@ struct map_deconstruct_info {
  *
  * Furniture only:
  * BLOCKSDOOR - This will boost map terrain's resistance to bashing if str_*_blocked is set (see map_bash_info)
+ * WORKBENCH1/WORKBENCH2/WORKBENCH3 - This is an adequate/good/great workbench for crafting.  Must be paired with a workbench iexamine.
  */
 
 /*
@@ -172,6 +178,8 @@ enum ter_bitflags : int {
     TFLAG_RAMP,
     TFLAG_HIDE_PLACE,
     TFLAG_BLOCK_WIND,
+    TFLAG_FLAT,
+    TFLAG_RAIL,
 
     NUM_TERFLAGS
 };
@@ -220,6 +228,7 @@ struct map_data_common_t {
         std::array<long, SEASONS_PER_YEAR> symbol_;
 
         int movecost;   // The amount of movement points required to pass this terrain by default.
+        int coverage; // The coverage percentage of a furniture piece of terrain. <30 won't cover from sight.
         units::volume max_volume; // Maximal volume of items that can be stored in/on this furniture
 
         std::string description;
@@ -228,6 +237,10 @@ struct map_data_common_t {
         void load_symbol( JsonObject &jo );
 
         std::string looks_like;
+
+        furn_str_id plant_transform; //What the furniture turns into when it grows or you plant seeds in it
+        //What the 'base' furniture of the plant is, before you plant in it, and what it turns into when eaten
+        furn_str_id plant_base;
 
         iexamine_function examine; //What happens when the terrain/furniture is examined
 
@@ -324,6 +337,8 @@ struct furn_t : map_data_common_t {
 
     int move_str_req; //The amount of strength required to move through this furniture easily.
 
+    cata::optional<furn_workbench_info> workbench;
+
     // May return NULL
     const itype *crafting_pseudo_item_type() const;
     // May return NULL
@@ -357,7 +372,7 @@ t_basalt
 extern ter_id t_null,
        t_hole, // Real nothingness; makes you fall a z-level
        // Ground
-       t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit, t_grave,
+       t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit, t_grave, t_grave_new,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
        t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white,
@@ -381,7 +396,7 @@ extern ter_id t_null,
        t_wall_metal,
        t_wall_glass,
        t_wall_glass_alarm,
-       t_reinforced_glass,
+       t_reinforced_glass, t_reinforced_glass_shutter, t_reinforced_glass_shutter_open,
        t_reinforced_door_glass_o,
        t_reinforced_door_glass_c,
        t_bars,
@@ -450,7 +465,7 @@ extern ter_id t_null,
        t_slope_up, t_rope_up,
        t_manhole_cover,
        // Special
-       t_card_science, t_card_military, t_card_reader_broken, t_slot_machine,
+       t_card_science, t_card_military, t_card_industrial, t_card_reader_broken, t_slot_machine,
        t_elevator_control, t_elevator_control_off, t_elevator, t_pedestal_wyrm,
        t_pedestal_temple,
        // Temple tiles
@@ -459,7 +474,7 @@ extern ter_id t_null,
        t_rdoor_c, t_rdoor_b, t_rdoor_o, t_mdoor_frame, t_window_reinforced, t_window_reinforced_noglass,
        t_window_enhanced, t_window_enhanced_noglass, t_open_air, t_plut_generator,
        t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
-       t_linoleum_white, t_linoleum_gray,
+       t_linoleum_white, t_linoleum_gray, t_rad_platform,
        // Railroad and subway
        t_railroad_rubble,
        t_buffer_stop, t_railroad_crossing_signal, t_crossbuck_wood, t_crossbuck_metal,
@@ -504,7 +519,9 @@ extern furn_id f_null,
        f_flower_marloss,
        f_tatami,
        f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
-       f_smoking_rack, f_smoking_rack_active,
+       f_smoking_rack, f_smoking_rack_active, f_metal_smoking_rack, f_metal_smoking_rack_active,
+       f_water_mill, f_water_mill_active,
+       f_wind_mill, f_wind_mill_active,
        f_robotic_arm, f_vending_reinforced,
        f_brazier,
        f_autodoc_couch;

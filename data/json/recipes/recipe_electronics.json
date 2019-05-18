@@ -207,27 +207,6 @@
   },
   {
     "type": "recipe",
-    "result": "lightstrip_dead",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_LIGHTING",
-    "skill_used": "electronics",
-    "difficulty": 1,
-    "time": 10000,
-    "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 1 ] ],
-    "components": [ [ [ "amplifier", 1 ] ], [ [ "cable", 5 ] ], [ [ "e_scrap", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "lightstrip_inactive",
-    "category": "CC_ELECTRONIC",
-    "subcategory": "CSC_ELECTRONIC_LIGHTING",
-    "skill_used": "electronics",
-    "time": 1000,
-    "flags": [ "BLIND_EASY" ],
-    "components": [ [ [ "lightstrip_dead", 1 ] ], [ [ "battery", 15 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "sheet_metal_lit",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_LIGHTING",
@@ -265,7 +244,7 @@
         [ "bottle_plastic", 1 ],
         [ "bottle_plastic_small", 1 ]
       ],
-      [ [ "lightstrip_dead", 1 ], [ "light_bulb", 1 ] ],
+      [ [ "lightstrip_inactive", 1 ], [ "light_bulb", 1 ] ],
       [ [ "cable", 10 ] ]
     ]
   },
@@ -284,7 +263,7 @@
     "components": [
       [ [ "amplifier", 4 ] ],
       [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
-      [ [ "lightstrip_dead", 4 ], [ "light_bulb", 4 ] ],
+      [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ],
       [ [ "cable", 10 ] ]
     ]
   },
@@ -303,7 +282,7 @@
     "components": [
       [ [ "amplifier", 4 ] ],
       [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ],
-      [ [ "lightstrip_dead", 4 ], [ "light_bulb", 4 ] ],
+      [ [ "lightstrip_inactive", 4 ], [ "light_bulb", 4 ] ],
       [ [ "cable", 10 ] ]
     ]
   },
@@ -322,7 +301,7 @@
     "components": [
       [ [ "amplifier", 2 ] ],
       [ [ "plastic_chunk", 2 ], [ "scrap", 3 ] ],
-      [ [ "lightstrip_dead", 2 ], [ "light_bulb", 2 ] ],
+      [ [ "lightstrip_inactive", 2 ], [ "light_bulb", 2 ] ],
       [ [ "cable", 10 ] ]
     ]
   },
@@ -341,7 +320,7 @@
     "components": [
       [ [ "amplifier", 3 ] ],
       [ [ "plastic_chunk", 3 ], [ "scrap", 4 ] ],
-      [ [ "lightstrip_dead", 3 ], [ "light_bulb", 3 ] ],
+      [ [ "lightstrip_inactive", 3 ], [ "light_bulb", 3 ] ],
       [ [ "cable", 12 ] ]
     ]
   },
@@ -767,7 +746,7 @@
     "time": 50000,
     "reversible": true,
     "decomp_learn": 6,
-    "book_learn": [ [ "textbook_mechanics", 8 ], [ "textbook_electronics", 7 ], [ "advanced_electronics", 7 ], [ "textbook_robots", 6 ] ],
+    "book_learn": [ [ "textbook_mechanics", 7 ], [ "textbook_electronics", 6 ], [ "advanced_electronics", 6 ], [ "textbook_robots", 5 ] ],
     "using": [ [ "soldering_standard", 35 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "power_supply", 2 ] ], [ [ "processor", 2 ] ], [ [ "scrap", 5 ] ], [ [ "cable", 8 ] ] ]
@@ -1033,19 +1012,34 @@
   },
   {
     "type": "recipe",
+    "result": "welding_components",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "mechanics",
+    "skills_required": [ "electronics", 4 ],
+    "difficulty": 4,
+    "time": 10000,
+    "reversible": true,
+    "decomp_learn": 4,
+    "book_learn": [ [ "textbook_mechanics", 6 ], [ "textbook_electronics", 8 ], [ "textbook_fabrication", 8 ], [ "welding_book", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "soldering_iron", 1 ] ], [ [ "welder", 1 ], [ "welder_crude", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "weldrig",
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "mechanics",
     "skills_required": [ "electronics", 4 ],
     "difficulty": 4,
-    "time": 60000,
+    "time": 50000,
     "reversible": true,
     "decomp_learn": 4,
     "book_learn": [ [ "textbook_mechanics", 6 ], [ "textbook_electronics", 8 ], [ "textbook_fabrication", 8 ], [ "welding_book", 5 ] ],
     "using": [ [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "frame", 1 ] ], [ [ "soldering_iron", 1 ] ], [ [ "welder", 1 ], [ "welder_crude", 2 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "frame", 1 ] ], [ [ "welding_components", 1 ] ], [ [ "cable", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -1099,15 +1093,34 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "skills_required": [ "fabrication", 1 ],
+    "skills_required": [ "fabrication", 2 ],
     "difficulty": 3,
-    "time": 10000,
-    "reversible": true,
-    "decomp_learn": 3,
+    "time": 40000,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "small_storage_battery", 8 ] ], [ [ "scrap", 4 ] ], [ [ "cable", 5 ] ] ]
+    "components": [ [ [ "small_storage_battery", 14 ] ], [ [ "e_scrap", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "storage_battery",
+    "id_suffix": "from_medium",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_PARTS",
+    "skill_used": "electronics",
+    "skills_required": [ "fabrication", 3 ],
+    "difficulty": 3,
+    "time": 40000,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
+    "using": [ [ "soldering_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "medium_storage_battery", 5 ] ],
+      [ [ "small_storage_battery", 10 ] ],
+      [ [ "e_scrap", 4 ] ],
+      [ [ "scrap", 8 ] ],
+      [ [ "cable", 5 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -1115,15 +1128,13 @@
     "category": "CC_ELECTRONIC",
     "subcategory": "CSC_ELECTRONIC_PARTS",
     "skill_used": "electronics",
-    "skills_required": [ "fabrication", 1 ],
+    "skills_required": [ "fabrication", 3 ],
     "difficulty": 3,
-    "time": 20000,
-    "reversible": true,
-    "decomp_learn": 3,
+    "time": 120000,
     "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 3 ] ],
-    "using": [ [ "soldering_standard", 20 ] ],
+    "using": [ [ "soldering_standard", 80 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "medium_storage_battery", 4 ] ], [ [ "scrap", 8 ] ], [ [ "cable", 10 ] ] ]
+    "components": [ [ [ "small_storage_battery", 80 ] ], [ [ "e_scrap", 16 ] ], [ [ "scrap", 32 ] ], [ [ "cable", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -1288,6 +1299,36 @@
       [ [ "element", 1 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "plut_cell", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "hand_crank_charger",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "electronics", 3 ],
+    "difficulty": 4,
+    "time": 3000,
+    "reversible": true,
+    "decomp_learn": 3,
+    "book_learn": [
+      [ "textbook_robots", 4 ],
+      [ "mag_electronics", 3 ],
+      [ "mag_mechanics", 3 ],
+      [ "textbook_electronics", 3 ],
+      [ "textbook_fabrication", 3 ],
+      [ "manual_fabrication", 4 ]
+    ],
+    "using": [ [ "soldering_standard", 10 ], [ "surface_heat", 10 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 } ],
+    "components": [
+      [ [ "plastic_chunk", 5 ] ],
+      [ [ "superglue", 1 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "e_scrap", 3 ] ],
+      [ [ "scrap", 3 ] ],
+      [ [ "motor_tiny", 1 ] ]
     ]
   },
   {
@@ -1597,7 +1638,13 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "antenna", 1 ] ], [ [ "pilot_light", 1 ] ], [ [ "battery", 10 ] ], [ [ "amplifier", 1 ] ], [ [ "cable", 2 ] ] ]
+    "components": [
+      [ [ "antenna", 1 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "light_minus_battery_cell", 1 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "cable", 2 ] ]
+    ]
   },
   {
     "type": "recipe",

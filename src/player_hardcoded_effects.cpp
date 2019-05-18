@@ -1,7 +1,9 @@
 #include "player.h" // IWYU pragma: associated
 
+#include <cmath>
+#include <cstdlib>
+
 #include "effect.h"
-#include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
 #include "map.h"
@@ -11,9 +13,11 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
-#include "output.h"
 #include "sounds.h"
 #include "weather.h"
+#include "rng.h"
+#include "translations.h"
+#include "units.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -24,6 +28,7 @@
 #endif // TILES
 
 #include <functional>
+#include <algorithm>
 
 const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
@@ -254,7 +259,8 @@ static void eff_fun_hallu( player &u, effect &it )
             int loudness = 20 + u.str_cur - u.int_cur;
             loudness = ( loudness > 5 ? loudness : 5 );
             loudness = ( loudness < 30 ? loudness : 30 );
-            sounds::sound( u.pos(), loudness, sounds::sound_t::speech, npc_text );
+            sounds::sound( u.pos(), loudness, sounds::sound_t::speech, npc_text, false, "speech",
+                           loudness < 15 ? ( u.male ? "NPC_m" : "NPC_f" ) : ( u.male ? "NPC_m_loud" : "NPC_f_loud" ) );
         }
     } else if( dur == peakTime ) {
         // Visuals start
@@ -312,7 +318,7 @@ struct temperature_effect {
             u.mod_per_bonus( -per_pen );
         }
         if( !msg.empty() && !u.has_effect( effect_sleep ) && one_in( msg_chance ) ) {
-            u.add_msg_if_player( m_warning, "%s", _( msg.c_str() ) );
+            u.add_msg_if_player( m_warning, "%s", _( msg ) );
         }
     }
 };
@@ -501,13 +507,11 @@ void player::hardcoded_effects( effect &it )
         if( x_in_y( intense, 100 + 50 * get_int() ) ) {
             if( !is_npc() ) {
                 //~ %s is bodypart in accusative.
-                add_msg( m_warning, _( "You start scratching your %s!" ),
-                         body_part_name_accusative( bp ).c_str() );
+                add_msg( m_warning, _( "You start scratching your %s!" ), body_part_name_accusative( bp ) );
                 g->cancel_activity();
             } else if( g->u.sees( pos() ) ) {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
-                add_msg( _( "%1$s starts scratching their %2$s!" ), name.c_str(),
-                         body_part_name_accusative( bp ).c_str() );
+                add_msg( _( "%1$s starts scratching their %2$s!" ), name, body_part_name_accusative( bp ) );
             }
             moves -= 150;
             apply_damage( nullptr, bp, 1 );
@@ -840,11 +844,13 @@ void player::hardcoded_effects( effect &it )
             hp_cur[hp_torso] = 0;
         }
     } else if( id == effect_grabbed ) {
-        blocks_left -= 1;
+        set_num_blocks_bonus( get_num_blocks_bonus() - 1 );
         int zed_number = 0;
         for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
-            if( g->critter_at<monster>( dest ) ) {
-                zed_number ++;
+            const monster *const mon = g->critter_at<monster>( dest );
+            if( mon && ( mon->has_flag( MF_GRABS ) ||
+                         mon->type->has_special_attack( "GRAB" ) ) ) {
+                zed_number += mon->get_grab_strength();
             }
         }
         if( zed_number > 0 ) {
@@ -898,7 +904,7 @@ void player::hardcoded_effects( effect &it )
             if( x_in_y( recover_factor, 108000 ) ) {
                 //~ %s is bodypart name.
                 add_msg_if_player( m_good, _( "Your %s wound begins to feel better!" ),
-                                   body_part_name( bp ).c_str() );
+                                   body_part_name( bp ) );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
                 recovered = true;
@@ -950,7 +956,7 @@ void player::hardcoded_effects( effect &it )
             if( x_in_y( recover_factor, 864000 ) ) {
                 //~ %s is bodypart name.
                 add_msg_if_player( m_good, _( "Your %s wound begins to feel better!" ),
-                                   body_part_name( bp ).c_str() );
+                                   body_part_name( bp ) );
                 add_effect( effect_recover, 4 * dur );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
@@ -1022,9 +1028,11 @@ void player::hardcoded_effects( effect &it )
         }
 
         // TODO: Move this to update_needs when NPCs can mutate
-        bool compatible_weather_types = g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY
-                                        || g->weather == WEATHER_DRIZZLE || g->weather == WEATHER_RAINY || g->weather == WEATHER_FLURRIES
-                                        || g->weather == WEATHER_CLOUDY || g->weather == WEATHER_SNOW;
+        bool compatible_weather_types = g->weather.weather == WEATHER_CLEAR ||
+                                        g->weather.weather == WEATHER_SUNNY
+                                        || g->weather.weather == WEATHER_DRIZZLE || g->weather.weather == WEATHER_RAINY ||
+                                        g->weather.weather == WEATHER_FLURRIES
+                                        || g->weather.weather == WEATHER_CLOUDY || g->weather.weather == WEATHER_SNOW;
 
         if( calendar::once_every( 10_minutes ) && ( has_trait( trait_id( "CHLOROMORPH" ) ) ||
                 has_trait( trait_id( "M_SKIN3" ) ) || has_trait( trait_id( "WATERSLEEP" ) ) ) &&
@@ -1129,7 +1137,7 @@ void player::hardcoded_effects( effect &it )
                 Creature *hostile_critter = g->is_hostile_very_close();
                 if( hostile_critter != nullptr ) {
                     add_msg_if_player( _( "You see %s approaching!" ),
-                                       hostile_critter->disp_name().c_str() );
+                                       hostile_critter->disp_name() );
                     it.set_duration( 0_turns );
                     woke_up = true;
                 }
@@ -1200,6 +1208,7 @@ void player::hardcoded_effects( effect &it )
             // alarm was set and player hasn't slept through the alarm.
             if( has_effect( effect_alarm_clock ) && !has_effect( effect_slept_through_alarm ) ) {
                 add_msg_if_player( _( "It looks like you woke up just before your alarm." ) );
+                remove_effect( effect_alarm_clock );
             } else if( has_effect( effect_slept_through_alarm ) ) { // slept though the alarm.
                 if( has_bionic( bionic_id( "bio_watch" ) ) ) {
                     add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
@@ -1207,6 +1216,7 @@ void player::hardcoded_effects( effect &it )
                     add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm..." ) );
                 }
                 get_effect( effect_slept_through_alarm ).set_duration( 0_turns );
+                remove_effect( effect_alarm_clock );
             }
         }
     } else if( id == effect_alarm_clock ) {
@@ -1253,7 +1263,18 @@ void player::hardcoded_effects( effect &it )
                     it.mod_duration( 10_minutes );
                 } else if( dur == 2_turns ) {
                     // let the sound code handle the wake-up part
-                    sounds::sound( pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ) );
+                    sounds::sound( pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ), false, "tool",
+                                   "alarm_clock" );
+                }
+            }
+        } else {
+            if( dur == 1_turns ) {
+                if( g->u.has_alarm_clock() ) {
+                    sounds::sound( g->u.pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ), false, "tool",
+                                   "alarm_clock" );
+                    const std::string alarm = _( "Your alarm is going off." );
+                    g->cancel_activity_or_ignore_query( distraction_type::noise, alarm );
+                    add_msg( "Your alarm went off." );
                 }
             }
         }
