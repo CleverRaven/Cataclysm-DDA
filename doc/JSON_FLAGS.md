@@ -881,6 +881,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```POISON``` Poisonous to eat.
 - ```PUSH_MON``` Can push creatures out of its way.
 - ```QUEEN``` When it dies, local populations start to die off too.
+- ```REGENERATES_1``` Monster regenerates slowly over time.
 - ```REGENERATES_10``` Monster regenerates quickly over time.
 - ```REGENERATES_50``` Monster regenerates very quickly over time.
 - ```REGENERATES_IN_DARK``` Monster regenerates very quickly in poorly lit tiles.
