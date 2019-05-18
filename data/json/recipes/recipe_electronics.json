@@ -1149,7 +1149,12 @@
     "decomp_learn": 8,
     "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 9 ] ],
     "using": [ [ "soldering_standard", 14 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 2 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "RAM", 1 ] ],
@@ -1175,7 +1180,12 @@
     "decomp_learn": 9,
     "book_learn": [ [ "recipe_lab_elec", 8 ] ],
     "using": [ [ "soldering_standard", 14 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 2 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "RAM", 1 ] ],
@@ -1202,7 +1212,12 @@
     "decomp_learn": 8,
     "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 9 ] ],
     "using": [ [ "soldering_standard", 14 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 2 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "RAM", 1 ] ],
@@ -1228,7 +1243,12 @@
     "book_learn": [ [ "schematics_nursebot", 7 ] ],
     "time": 150000,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 2 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
     "components": [
       [ [ "ai_module_advanced", 1 ] ],
       [ [ "sensor_module", 1 ] ],
@@ -1254,7 +1274,12 @@
     "difficulty": 6,
     "time": 150000,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 2 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
@@ -1278,7 +1303,12 @@
     "difficulty": 6,
     "time": 150000,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 2 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
@@ -1306,7 +1336,12 @@
     "difficulty": 2,
     "time": 37500,
     "using": [ [ "soldering_standard", 3 ], [ "welding_standard", 3 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 2 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "small_storage_battery", 1 ] ],
@@ -1331,7 +1366,12 @@
     "difficulty": 3,
     "time": 225000,
     "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 6 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 2 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
@@ -1355,7 +1395,12 @@
     "difficulty": 6,
     "time": 150000,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 2 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
@@ -1383,7 +1428,12 @@
     "difficulty": 3,
     "time": 75000,
     "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 2 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "RAM", 1 ] ],
@@ -1411,7 +1461,12 @@
     "difficulty": 5,
     "time": 150000,
     "using": [ [ "soldering_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 2 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
@@ -1441,7 +1496,12 @@
     "difficulty": 9,
     "time": 750000,
     "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 2 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
@@ -1474,7 +1534,12 @@
     "difficulty": 9,
     "time": 375000,
     "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 2 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
@@ -1503,7 +1568,12 @@
     "difficulty": 10,
     "time": 750000,
     "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 2 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
@@ -1536,7 +1606,12 @@
     "difficulty": 3,
     "time": 75000,
     "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 2 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH", "level": 2 },
+      { "id": "WRENCH_FINE", "level": 1 }
+    ],
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "RAM", 1 ] ],
