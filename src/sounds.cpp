@@ -604,7 +604,7 @@ void sfx::do_vehicle_engine_sfx()
         current_gear = 3;
     } else if( current_speed > safe_speed / 4 && current_speed <= safe_speed / 3 ) {
         current_gear = 4;
-    } else if( current_speed > safe_speed / 5 && current_speed <= safe_speed / 4 ) {
+    } else if( current_speed > safe_speed / 3 && current_speed <= safe_speed / 2 ) {
         current_gear = 5;
     } else {
         current_gear = 6;
