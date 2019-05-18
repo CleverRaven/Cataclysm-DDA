@@ -2108,7 +2108,7 @@
     "type": "furniture",
     "id": "f_plant_harvest",
     "name": "harvestable plant",
-    "description": "This plant is ready for harvest.",
+    "description": "This plant is ready for harvest.  Examine it more closely to identify how to harvest the plant appropriately.",
     "symbol": "#",
     "color": "light_green",
     "move_cost_mod": 0,
