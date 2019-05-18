@@ -1272,6 +1272,26 @@
     "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
   },
   {
+    "id": "stepladder",
+    "type": "TOOL_ARMOR",
+    "name": "stepladder",
+    "description": "This is a wooden stepladder.  Use it to set it down.",
+    "weight": 20000,
+    "volume": 200,
+    "price": 2000,
+    "to_hit": -3,
+    "bashing": 12,
+    "material": "wood",
+    "symbol": "H",
+    "color": "brown",
+    "covers": [ "ARM_EITHER", "HAND_EITHER", "TORSO" ],
+    "coverage": 20,
+    "encumbrance": 120,
+    "material_thickness": 1,
+    "use_action": "LADDER",
+    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+  },
+  {
     "type": "ARMOR",
     "id": "survivor_belt",
     "name": "survivor utility belt",
