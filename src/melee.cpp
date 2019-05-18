@@ -1229,10 +1229,8 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
     }
 
     if( technique.knockback_dist > 0 ) {
-        const int kb_offset_x = rng( -technique.knockback_spread,
-                                     technique.knockback_spread );
-        const int kb_offset_y = rng( -technique.knockback_spread,
-                                     technique.knockback_spread );
+        const int kb_offset_x = rng( -technique.knockback_spread, technique.knockback_spread );
+        const int kb_offset_y = rng( -technique.knockback_spread, technique.knockback_spread );
         tripoint kb_point( posx() + kb_offset_x, posy() + kb_offset_y, posz() );
         for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
             t.knock_back_from( kb_point );

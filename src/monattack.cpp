@@ -1383,7 +1383,8 @@ bool mattack::grow_vine( monster *z )
         }
     }
     z->moves -= 100;
-    int xshift = rng( 0, 2 ), yshift = rng( 0, 2 );
+    int xshift = rng( 0, 2 );
+    int yshift = rng( 0, 2 );
     for( int x = 0; x < 3; x++ ) {
         for( int y = 0; y < 3; y++ ) {
             tripoint dest( z->posx() + ( x + xshift ) % 3 - 1,
