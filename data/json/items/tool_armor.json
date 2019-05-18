@@ -1289,7 +1289,7 @@
     "encumbrance": 120,
     "material_thickness": 1,
     "use_action": "LADDER",
-    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
+    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "WATER_FRIENDLY", "BELTED" ]
   },
   {
     "type": "ARMOR",
