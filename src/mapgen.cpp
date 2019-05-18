@@ -2152,7 +2152,13 @@ bool mapgen_function_json::setup_internal( JsonObject &jo )
         rotation = jmapgen_int( jo, "rotation" );
     }
 
-    return fill_ter != t_null;
+    if( jo.has_member( "predecessor_mapgen" ) ) {
+        predecessor_mapgen = oter_str_id( jo.get_string( "predecessor_mapgen" ) ).id();
+    } else {
+        predecessor_mapgen = oter_str_id::NULL_ID();
+    }
+
+    return fill_ter != t_null || predecessor_mapgen != oter_str_id::NULL_ID();
 }
 
 bool mapgen_function_json_nested::setup_internal( JsonObject &jo )
@@ -2277,7 +2283,7 @@ bool mapgen_function_json_base::setup_common( JsonObject jo )
 
     // No fill_ter? No format? GTFO.
     if( ! qualifies ) {
-        jo.throw_error( "  Need either 'fill_terrain' or 'rows' + 'terrain' (RTFM)" );
+        jo.throw_error( "  Need one of 'fill_terrain' or 'predecessor_mapgen' or 'rows' + 'terrain' (RTFM)" );
         // TODO: write TFM.
     }
 
@@ -2555,10 +2561,27 @@ void mapgen_function_json_base::formatted_set_incredibly_simple( map &m, int off
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
 void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const mapgendata &md,
-                                     const time_point &, float d )
+                                     const time_point &turn, float d )
 {
     if( fill_ter != t_null ) {
         m->draw_fill_background( fill_ter );
+    }
+    if( predecessor_mapgen != oter_str_id::NULL_ID() ) {
+        run_mapgen_func( predecessor_mapgen.id().str(), m, predecessor_mapgen, md, turn, d );
+
+        // Now we have to do some rotation shenanigans. We need to ensure that
+        // our predecessor is not rotated out of alignment as part of rotating this location,
+        // and there are actually two sources of rotation--the mapgen can rotate explicitly, and
+        // the entire overmap terrain may be rotatable. To ensure we end up in the right rotation,
+        // we basically have to initially reverse the rotation that we WILL do in the future so that
+        // when we apply that rotation, our predecessor is back in its original state while this
+        // location is rotated as desired.
+
+        m->rotate( ( -rotation.get() + 4 ) % 4 );
+
+        if( terrain_type->is_rotatable() ) {
+            m->rotate( ( -static_cast<int>( terrain_type->get_dir() ) + 4 ) % 4 );
+        }
     }
     if( do_format ) {
         formatted_set_incredibly_simple( *m, 0, 0 );

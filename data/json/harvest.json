@@ -410,7 +410,7 @@
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "veggy_tainted", "type": "flesh", "mass_ratio": 0.25 }
+      { "drop": "veggy", "type": "flesh", "mass_ratio": 0.25 }
     ]
   },
   {

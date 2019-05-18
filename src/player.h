@@ -40,6 +40,7 @@
 #include "item_location.h"
 #include "pldata.h"
 #include "type_id.h"
+#include "magic.h"
 
 class basecamp;
 class effect;
@@ -669,8 +670,8 @@ class player : public Character
         /** Gets melee accuracy component from weapon+skills */
         float get_hit_weapon( const item &weap ) const;
         /** NPC-related item rating functions */
-        double weapon_value( const item &weap, long ammo = 10 ) const; // Evaluates item as a weapon
-        double gun_value( const item &weap, long ammo = 10 ) const; // Evaluates item as a gun
+        double weapon_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a weapon
+        double gun_value( const item &weap, int ammo = 10 ) const; // Evaluates item as a gun
         double melee_value( const item &weap ) const; // As above, but only as melee
         double unarmed_value() const; // Evaluate yourself!
 
@@ -1076,7 +1077,7 @@ class player : public Character
          * @param ammo either ammo or magazine to use when reloading the item
          * @param qty maximum units of ammo to reload. Capped by remaining capacity and ignored if reloading using a magazine.
          */
-        int item_reload_cost( const item &it, const item &ammo, long qty ) const;
+        int item_reload_cost( const item &it, const item &ammo, int qty ) const;
 
         /** Calculate (but do not deduct) the number of moves required to wear an item */
         int item_wear_cost( const item &to_wear ) const;
@@ -1153,7 +1154,7 @@ class player : public Character
          *  @param used item consuming the charges
          *  @param qty number of charges to consume which must be non-zero
          *  @return true if item was destroyed */
-        bool consume_charges( item &used, long qty );
+        bool consume_charges( item &used, int qty );
 
         /** Removes gunmod after first unloading any contained ammo and returns true on success */
         bool gunmod_remove( item &gun, item &mod );
@@ -1275,6 +1276,13 @@ class player : public Character
         int get_wind_resistance( body_part bp ) const;
         /** Returns the effect of pain on stats */
         stat_mod get_pain_penalty() const;
+        float get_bmi() const;
+        // returns the height of the player character in cm
+        int height() const;
+        // returns bodyweight of the player
+        units::mass bodyweight() const;
+        // returns amount of calories burned in a day given various metabolic factors
+        int get_bmr() const;
         int kcal_speed_penalty();
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
@@ -1331,14 +1339,14 @@ class player : public Character
          * @return An item that contains the removed charges, it's effectively a
          * copy of the item with the proper charges.
          */
-        item reduce_charges( int position, long quantity );
+        item reduce_charges( int position, int quantity );
         /**
          * Remove charges from a specific item (given by a pointer to it).
-         * Otherwise identical to @ref reduce_charges(int,long)
+         * Otherwise identical to @ref reduce_charges(int,int)
          * @param it A pointer to the item, it *must* exist.
          * @param quantity How many charges to remove
          */
-        item reduce_charges( item *it, long quantity );
+        item reduce_charges( item *it, int quantity );
         /** Return the item position of the item with given invlet, return INT_MIN if
          * the player does not have such an item with that invlet. Don't use this on npcs.
          * Only use the invlet in the user interface, otherwise always use the item position. */
@@ -1367,13 +1375,13 @@ class player : public Character
         std::list<item> use_amount( itype_id it, int quantity,
                                     const std::function<bool( const item & )> &filter = return_true<item> );
         // Uses up charges
-        bool use_charges_if_avail( const itype_id &it, long quantity );
+        bool use_charges_if_avail( const itype_id &it, int quantity );
 
         // Uses up charges
-        std::list<item> use_charges( const itype_id &what, long qty,
+        std::list<item> use_charges( const itype_id &what, int qty,
                                      const std::function<bool( const item & )> &filter = return_true<item> );
 
-        bool has_charges( const itype_id &it, long quantity,
+        bool has_charges( const itype_id &it, int quantity,
                           const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
         /** Returns the amount of item `type' that is currently worn */
@@ -1522,6 +1530,16 @@ class player : public Character
                               const player_activity &destination_activity = player_activity() );
         void clear_destination();
         bool has_destination() const;
+        // increases the activity level to the next level
+        // does not decrease activity level
+        void increase_activity_level( float new_level );
+        // decreases the activity level to the previous level
+        // does not increase activity level
+        void decrease_activity_level( float new_level );
+        // sets activity level to NO_EXERCISE
+        void reset_activity_level();
+        // outputs player activity level to a printable string
+        std::string activity_level_str() const;
         // true if player has destination activity AND is standing on destination tile
         bool has_destination_activity() const;
         // starts destination activity and cleans up to ensure it is called only once
@@ -1833,7 +1851,13 @@ class player : public Character
 
         std::set<tripoint> camps;
 
+        // magic mod
+        known_magic magic;
+
     protected:
+        // the player's activity level for metabolism calculations
+        float activity_level = NO_EXERCISE;
+
         // The player's position on the local map.
         tripoint position;
 

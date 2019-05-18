@@ -84,7 +84,7 @@ using chtype = int;
 // Supports line drawing
 inline std::string string_from_long( const catacurses::chtype ch )
 {
-    char charcode = ch;
+    catacurses::chtype charcode = ch;
     // LINE_NESW  - X for on, O for off
     switch( ch ) {
         case LINE_XOXO:
@@ -121,10 +121,10 @@ inline std::string string_from_long( const catacurses::chtype ch )
             charcode = LINE_XXXX_C;
             break;
         default:
-            charcode = static_cast<char>( ch );
+            charcode = ch;
             break;
     }
-    char buffer[2] = { charcode, '\0' };
+    char buffer[2] = { static_cast<char>( charcode ), '\0' };
     return buffer;
 }
 

@@ -211,17 +211,17 @@ void Item_modifier::modify( item &new_item ) const
 
     new_item.set_damage( rng( damage.first, damage.second ) );
 
-    long ch = ( charges.first == charges.second ) ? charges.first : rng( charges.first,
-              charges.second );
+    int ch = ( charges.first == charges.second ) ? charges.first : rng( charges.first,
+             charges.second );
 
     if( ch != -1 ) {
         if( new_item.count_by_charges() || new_item.made_of( LIQUID ) ) {
             // food, ammo
             // count_by_charges requires that charges is at least 1. It makes no sense to
             // spawn a "water (0)" item.
-            new_item.charges = std::max( 1l, ch );
+            new_item.charges = std::max( 1, ch );
         } else if( new_item.is_tool() ) {
-            const auto qty = std::min( ch, new_item.ammo_capacity() );
+            const int qty = std::min( ch, new_item.ammo_capacity() );
             new_item.charges = qty;
             if( new_item.ammo_type() && qty > 0 ) {
                 new_item.ammo_set( new_item.ammo_type()->default_ammotype(), qty );
@@ -274,7 +274,7 @@ void Item_modifier::modify( item &new_item ) const
         item cont = container->create_single( new_item.birthday() );
         if( !cont.is_null() ) {
             if( new_item.made_of( LIQUID ) ) {
-                long rc = cont.get_remaining_capacity_for_liquid( new_item );
+                int rc = cont.get_remaining_capacity_for_liquid( new_item );
                 if( rc > 0 && ( new_item.charges > rc || ch == -1 ) ) {
                     // make sure the container is not over-full.
                     // fill up the container (if using default charges)

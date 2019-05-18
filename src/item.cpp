@@ -155,14 +155,14 @@ item &null_item_reference()
     return result;
 }
 
-const long item::INFINITE_CHARGES = std::numeric_limits<long>::max();
+const int item::INFINITE_CHARGES = INT_MAX;
 
 item::item() : bday( calendar::start )
 {
     type = nullitem();
 }
 
-item::item( const itype *type, time_point turn, long qty ) : type( type ), bday( turn )
+item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
 {
     corpse = typeId() == "corpse" ? &mtype_id::NULL_ID().obj() : nullptr;
     item_counter = type->countdown_interval;
@@ -220,7 +220,7 @@ item::item( const itype *type, time_point turn, long qty ) : type( type ), bday(
     }
 }
 
-item::item( const itype_id &id, time_point turn, long qty )
+item::item( const itype_id &id, time_point turn, int qty )
     : item( find_type( id ), turn, qty ) {}
 
 item::item( const itype *type, time_point turn, default_charges_tag )
@@ -248,7 +248,7 @@ static const item *get_most_rotten_component( const item &craft )
     return most_rotten;
 }
 
-item::item( const recipe *rec, long qty, std::list<item> items )
+item::item( const recipe *rec, int qty, std::list<item> items )
     : item( "craft", calendar::turn, qty )
 {
     making = rec;
@@ -338,7 +338,7 @@ item &item::activate()
     return *this;
 }
 
-item &item::ammo_set( const itype_id &ammo, long qty )
+item &item::ammo_set( const itype_id &ammo, int qty )
 {
     if( qty < 0 ) {
         // completely fill an integral or existing magazine
@@ -462,7 +462,7 @@ item &item::set_damage( int qty )
     return *this;
 }
 
-item item::split( long qty )
+item item::split( int qty )
 {
     if( !count_by_charges() || qty <= 0 || qty >= charges ) {
         return item();
@@ -599,7 +599,7 @@ item item::in_container( const itype_id &cont ) const
     }
 }
 
-long item::charges_per_volume( const units::volume &vol ) const
+int item::charges_per_volume( const units::volume &vol ) const
 {
     if( count_by_charges() ) {
         if( type->volume == 0_ml ) {
@@ -4311,7 +4311,7 @@ bool item::count_by_charges() const
     return type->count_by_charges();
 }
 
-long item::count() const
+int item::count() const
 {
     return count_by_charges() ? charges : 1;
 }
@@ -4520,7 +4520,7 @@ bool item::mod_damage( int qty, damage_type dt )
     bool destroy = false;
 
     if( count_by_charges() ) {
-        charges -= std::min( static_cast<long>( type->stack_size * qty / itype::damage_scale ), charges );
+        charges -= std::min( type->stack_size * qty / itype::damage_scale, charges );
         destroy |= charges == 0;
     }
 
@@ -5622,7 +5622,7 @@ int item::gun_range( const player *p ) const
     return std::max( 0, ret );
 }
 
-long item::ammo_remaining() const
+int item::ammo_remaining() const
 {
     const item *mag = magazine_current();
     if( mag ) {
@@ -5632,14 +5632,14 @@ long item::ammo_remaining() const
     if( is_tool() || is_gun() ) {
         // includes auxiliary gunmods
         if( has_flag( "USES_BIONIC_POWER" ) ) {
-            long power = g->u.power_level;
+            int power = g->u.power_level;
             return power;
         }
         return charges;
     }
 
     if( is_magazine() || is_bandolier() ) {
-        long res = 0;
+        int res = 0;
         for( const auto &e : contents ) {
             res += e.charges;
         }
@@ -5649,14 +5649,14 @@ long item::ammo_remaining() const
     return 0;
 }
 
-long item::ammo_capacity() const
+int item::ammo_capacity() const
 {
     return ammo_capacity( false );
 }
 
-long item::ammo_capacity( bool potential_capacity ) const
+int item::ammo_capacity( bool potential_capacity ) const
 {
-    long res = 0;
+    int res = 0;
 
     const item *mag = magazine_current();
     if( mag ) {
@@ -5692,7 +5692,7 @@ long item::ammo_capacity( bool potential_capacity ) const
     return res;
 }
 
-long item::ammo_required() const
+int item::ammo_required() const
 {
     if( is_tool() ) {
         return std::max( type->charges_to_use(), 0 );
@@ -5720,7 +5720,7 @@ bool item::ammo_sufficient( int qty ) const
     return ammo_remaining() >= ammo_required() * qty;
 }
 
-long item::ammo_consume( long qty, const tripoint &pos )
+int item::ammo_consume( int qty, const tripoint &pos )
 {
     if( qty < 0 ) {
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname() );
@@ -6221,7 +6221,7 @@ int item::reload_option::moves() const
     return mv;
 }
 
-void item::reload_option::qty( long val )
+void item::reload_option::qty( int val )
 {
     bool ammo_in_container = ammo->is_ammo_container();
     bool ammo_in_liquid_container = ammo->is_watertight_container();
@@ -6236,9 +6236,9 @@ void item::reload_option::qty( long val )
 
     // Checking ammo capacity implicitly limits guns with removable magazines to capacity 0.
     // This gets rounded up to 1 later.
-    long remaining_capacity = target->is_watertight_container() ?
-                              target->get_remaining_capacity_for_liquid( ammo_obj, true ) :
-                              target->ammo_capacity() - target->ammo_remaining();
+    int remaining_capacity = target->is_watertight_container() ?
+                             target->get_remaining_capacity_for_liquid( ammo_obj, true ) :
+                             target->ammo_capacity() - target->ammo_remaining();
     if( target->has_flag( "RELOAD_ONE" ) && !ammo->has_flag( "SPEEDLOADER" ) ) {
         remaining_capacity = 1;
     }
@@ -6248,13 +6248,13 @@ void item::reload_option::qty( long val )
     }
 
     bool ammo_by_charges = ammo_obj.is_ammo() || ammo_in_liquid_container;
-    long available_ammo = ammo_by_charges ? ammo_obj.charges : ammo_obj.ammo_remaining();
+    int available_ammo = ammo_by_charges ? ammo_obj.charges : ammo_obj.ammo_remaining();
     // constrain by available ammo, target capacity and other external factors (max_qty)
     // @ref max_qty is currently set when reloading ammo belts and limits to available linkages
     qty_ = std::min( { val, available_ammo, remaining_capacity, max_qty } );
 
     // always expect to reload at least one charge
-    qty_ = std::max( qty_, 1L );
+    qty_ = std::max( qty_, 1 );
 
 }
 
@@ -6290,7 +6290,7 @@ void item::casings_handle( const std::function<bool( item & )> &func )
     }
 }
 
-bool item::reload( player &u, item_location loc, long qty )
+bool item::reload( player &u, item_location loc, int qty )
 {
     if( qty <= 0 ) {
         debugmsg( "Tried to reload zero or less charges" );
@@ -6313,9 +6313,9 @@ bool item::reload( player &u, item_location loc, long qty )
     }
 
     // limit quantity of ammo loaded to remaining capacity
-    long limit = is_watertight_container()
-                 ? get_remaining_capacity_for_liquid( *ammo )
-                 : ammo_capacity() - ammo_remaining();
+    int limit = is_watertight_container()
+                ? get_remaining_capacity_for_liquid( *ammo )
+                : ammo_capacity() - ammo_remaining();
 
     if( ammo_type() == ammotype( "plutonium" ) ) {
         limit = limit / PLUTONIUM_CHARGES + ( limit % PLUTONIUM_CHARGES != 0 );
@@ -6598,7 +6598,7 @@ units::volume item::get_total_capacity() const
     return result;
 }
 
-long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket,
+int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket,
         std::string *err ) const
 {
     const auto error = [ &err ]( const std::string & message ) {
@@ -6608,7 +6608,7 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buc
         return 0;
     };
 
-    long remaining_capacity = 0;
+    int remaining_capacity = 0;
 
     // TODO: (sm) is_reloadable_with and this function call each other and can recurse for
     // watertight containers.
@@ -6644,11 +6644,11 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buc
     return remaining_capacity;
 }
 
-long item::get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
+int item::get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
         std::string *err ) const
 {
     const bool allow_bucket = this == &p.weapon || !p.has_item( *this );
-    long res = get_remaining_capacity_for_liquid( liquid, allow_bucket, err );
+    int res = get_remaining_capacity_for_liquid( liquid, allow_bucket, err );
 
     if( res > 0 && !type->rigid && p.inv.has_item( *this ) ) {
         const units::volume volume_to_expand = std::max( p.volume_capacity() - p.volume_carried(),
@@ -6664,11 +6664,11 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, const Characte
     return res;
 }
 
-bool item::use_amount( const itype_id &it, long &quantity, std::list<item> &used,
+bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
                        const std::function<bool( const item & )> &filter )
 {
     // Remember quantity so that we can unseal self
-    long old_quantity = quantity;
+    int old_quantity = quantity;
     // First, check contents
     for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
         if( a->use_amount( it, quantity, used ) ) {
@@ -6854,7 +6854,7 @@ void item::set_item_temperature( float new_temperature )
     reset_temp_check();
 }
 
-void item::fill_with( item &liquid, long amount )
+void item::fill_with( item &liquid, int amount )
 {
     amount = std::min( get_remaining_capacity_for_liquid( liquid, true ),
                        std::min( amount, liquid.charges ) );
@@ -6911,13 +6911,13 @@ void item::set_countdown( int num_turns )
     charges = num_turns;
 }
 
-bool item::use_charges( const itype_id &what, long &qty, std::list<item> &used,
+bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
                         const tripoint &pos, const std::function<bool( const item & )> &filter )
 {
     std::vector<item *> del;
 
     // Remember qty to unseal self
-    long old_qty = qty;
+    int old_qty = qty;
     visit_items( [&what, &qty, &used, &pos, &del, &filter]( item * e ) {
         if( qty == 0 ) {
             // found sufficient charges
@@ -7061,8 +7061,8 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         explosion_handler::explosion( p, type->explosion );
         return true;
     } else if( type->ammo && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
-        long charges_remaining = charges;
-        const long rounds_exploded = rng( 1, charges_remaining );
+        int charges_remaining = charges;
+        const int rounds_exploded = rng( 1, charges_remaining );
         // Yank the exploding item off the map for the duration of the explosion
         // so it doesn't blow itself up.
         item temp_item = *this;
@@ -7900,7 +7900,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 {
     if( type->tool->turns_per_charge > 0 &&
         static_cast<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
-        auto qty = std::max( ammo_required(), 1L );
+        auto qty = std::max( ammo_required(), 1 );
         qty -= ammo_consume( qty, pos );
 
         // for items in player possession if insufficient charges within tool try UPS
@@ -8015,7 +8015,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
     return false;
 }
 
-void item::mod_charges( long mod )
+void item::mod_charges( int mod )
 {
     if( has_infinite_charges() ) {
         return;

@@ -511,7 +511,7 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        long use( player &p, item &it, bool a, const tripoint &pos ) const override {
+        int use( player &p, item &it, bool a, const tripoint &pos ) const override {
             iuse tmp;
             return ( tmp.*cpp_function )( &p, &it, a, pos );
         }
@@ -1486,15 +1486,12 @@ void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &sr
 {
     bool strict = src == "dda";
 
-    // TODO: update tool slot to use signed integers (int) throughout
     assign( jo, "ammo", slot.ammo_id, strict );
-    assign( jo, "max_charges", slot.max_charges, strict, 0L );
-    assign( jo, "initial_charges", slot.def_charges, strict, 0L );
-    assign( jo, "charges_per_use", slot.charges_per_use, strict,
-            static_cast<decltype( slot.charges_per_use )>( 0 ) );
+    assign( jo, "max_charges", slot.max_charges, strict, 0 );
+    assign( jo, "initial_charges", slot.def_charges, strict, 0 );
+    assign( jo, "charges_per_use", slot.charges_per_use, strict, 0 );
     assign( jo, "charge_factor", slot.charge_factor, strict, 1 );
-    assign( jo, "turns_per_charge", slot.turns_per_charge, strict,
-            static_cast<decltype( slot.turns_per_charge )>( 0 ) );
+    assign( jo, "turns_per_charge", slot.turns_per_charge, strict, 0 );
     assign( jo, "revert_to", slot.revert_to, strict );
     assign( jo, "revert_msg", slot.revert_msg, strict );
     assign( jo, "sub", slot.subtype, strict );
@@ -1505,7 +1502,7 @@ void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &sr
             jarr.throw_error( "You can have a fixed initial amount of charges, or randomized. Not both." );
         }
         while( jarr.has_more() ) {
-            slot.rand_charges.push_back( jarr.next_long() );
+            slot.rand_charges.push_back( jarr.next_int() );
         }
         if( slot.rand_charges.size() == 1 ) {
             // see item::item(...) for the use of this array
@@ -2171,7 +2168,7 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
         // check contents of migrated containers do not exceed capacity
         if( obj.is_container() && !obj.contents.empty() ) {
             item &child = obj.contents.back();
-            const long capacity = child.charges_per_volume( obj.get_container_capacity() );
+            const int capacity = child.charges_per_volume( obj.get_container_capacity() );
             child.charges = std::min( child.charges, capacity );
         }
     }

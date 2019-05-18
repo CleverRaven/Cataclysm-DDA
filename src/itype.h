@@ -96,12 +96,13 @@ struct islot_tool {
 
     std::string subtype;
 
-    long max_charges = 0;
-    long def_charges = 0;
-    std::vector<long> rand_charges;
+    int max_charges = 0;
+    int def_charges = 0;
     int charge_factor = 1;
-    unsigned char charges_per_use = 0;
-    unsigned char turns_per_charge = 0;
+    int charges_per_use = 0;
+    int turns_per_charge = 0;
+
+    std::vector<int> rand_charges;
 };
 
 struct islot_comestible {

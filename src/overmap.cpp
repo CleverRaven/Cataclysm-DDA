@@ -12,6 +12,7 @@
 #include <vector>
 #include <exception>
 #include <unordered_set>
+#include <set>
 
 #include "catacharset.h"
 #include "cata_utility.h"
@@ -442,7 +443,10 @@ overmap_special_batch overmap_specials::get_default_batch( const point &origin )
 
     res.reserve( specials.size() );
     for( const overmap_special &elem : specials.get_all() ) {
-        if( elem.locations.empty() || elem.occurrences.empty() ) {
+        if( elem.occurrences.empty() ||
+        std::any_of( elem.terrains.begin(), elem.terrains.end(), []( const overmap_special_terrain & t ) {
+        return t.locations.empty();
+        } ) ) {
             continue;
         }
 
@@ -828,6 +832,14 @@ const std::vector<oter_t> &overmap_terrains::get_all()
     return terrains.get_all();
 }
 
+bool overmap_special_terrain::can_be_placed_on( const oter_id &oter ) const
+{
+    return std::any_of( locations.begin(), locations.end(),
+    [&oter]( const string_id<overmap_location> &loc ) {
+        return loc->test( oter );
+    } );
+}
+
 const overmap_special_terrain &overmap_special::get_terrain_at( const tripoint &p ) const
 {
     const auto iter = std::find_if( terrains.begin(),
@@ -839,14 +851,6 @@ const overmap_special_terrain &overmap_special::get_terrain_at( const tripoint &
         return null_terrain;
     }
     return *iter;
-}
-
-bool overmap_special::can_be_placed_on( const oter_id &oter ) const
-{
-    return std::any_of( locations.begin(), locations.end(),
-    [ &oter ]( const string_id<overmap_location> &loc ) {
-        return loc->test( oter );
-    } );
 }
 
 bool overmap_special::requires_city() const
@@ -873,7 +877,19 @@ void overmap_special::load( JsonObject &jo, const std::string &src )
     const bool is_special = jo.get_string( "type", "" ) == "overmap_special";
 
     mandatory( jo, was_loaded, "overmaps", terrains );
-    mandatory( jo, was_loaded, "locations", locations );
+
+    // If the special has locations, then add those to the locations
+    // of each of the terrains IF the terrain has no locations already.
+    std::set<string_id<overmap_location>> locations;
+    optional( jo, was_loaded, "locations", locations );
+    if( !locations.empty() ) {
+        for( auto &t : terrains ) {
+            if( t.locations.empty() ) {
+                t.locations.insert( locations.begin(), locations.end() );
+            }
+        }
+    }
+
 
     if( is_special ) {
         mandatory( jo, was_loaded, "occurrences", occurrences );
@@ -943,13 +959,6 @@ void overmap_special::check() const
     std::set<int> invalid_terrains;
     std::set<tripoint> points;
 
-    for( const auto &element : locations ) {
-        if( !element.is_valid() ) {
-            debugmsg( "In overmap special \"%s\", location \"%s\" is invalid.",
-                      id.c_str(), element.c_str() );
-        }
-    }
-
     for( const auto &elem : terrains ) {
         const auto &oter = elem.terrain;
 
@@ -968,6 +977,18 @@ void overmap_special::check() const
                       id.c_str(), pos.x, pos.y, pos.z );
         } else {
             points.insert( pos );
+        }
+
+        if( elem.locations.empty() ) {
+            debugmsg( "In overmap special \"%s\", no location is defined for point [%d,%d,%d] or the overall special.",
+                      id.c_str(), pos.x, pos.y, pos.z );
+        }
+
+        for( const auto &l : elem.locations ) {
+            if( !l.is_valid() ) {
+                debugmsg( "In overmap special \"%s\", point [%d,%d,%d], location \"%s\" is invalid.",
+                          id.c_str(), pos.x, pos.y, pos.z, l.c_str() );
+            }
         }
     }
 
@@ -3721,7 +3742,7 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint 
         const oter_id tid = get_ter( rp );
 
         if( rp.z == 0 ) {
-            return special.can_be_placed_on( tid );
+            return elem.can_be_placed_on( tid );
         } else {
             return tid == get_default_terrain( rp.z );
         }
@@ -3751,7 +3772,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
             for( int x = -2; x <= 2; x++ ) {
                 for( int y = -2; y <= 2; y++ ) {
                     auto &cur_ter = ter( location.x + x, location.y + y, location.z );
-                    if( one_in( 1 + abs( x ) + abs( y ) ) && special.can_be_placed_on( cur_ter ) ) {
+                    if( one_in( 1 + abs( x ) + abs( y ) ) && elem.can_be_placed_on( cur_ter ) ) {
                         cur_ter = tid;
                     }
                 }
@@ -4271,11 +4292,11 @@ overmap_special_id overmap_specials::create_building_from( const string_id<oter_
     overmap_special new_special;
 
     new_special.id = overmap_special_id( "FakeSpecial_" + base.str() );
-    new_special.locations.insert( land );
-    new_special.locations.insert( swamp );
 
     overmap_special_terrain ter;
     ter.terrain = base.obj().get_first().id();
+    ter.locations.insert( land );
+    ter.locations.insert( swamp );
     new_special.terrains.push_back( ter );
 
     return specials.insert( new_special ).id;

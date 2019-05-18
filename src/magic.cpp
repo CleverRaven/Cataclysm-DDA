@@ -270,6 +270,34 @@ int spell::energy_cost() const
     return type->base_energy_cost;
 }
 
+bool spell::can_cast( const player &p ) const
+{
+    if( !p.magic.knows_spell( type->id ) ) {
+        // how in the world can this happen?
+        debugmsg( "ERROR: owner of spell does not know spell" );
+        return false;
+    }
+    switch( type->energy_source ) {
+        case mana_energy:
+            return p.magic.available_mana() >= energy_cost();
+        case stamina_energy:
+            return p.stamina >= energy_cost();
+        case hp_energy: {
+            for( int i = 0; i < num_hp_parts; i++ ) {
+                if( energy_cost() < p.hp_cur[i] ) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        case bionic_energy:
+            return p.power_level >= energy_cost();
+        case none_energy:
+        default:
+            return true;
+    }
+}
+
 int spell::get_difficulty() const
 {
     return type->difficulty;
@@ -369,6 +397,28 @@ std::string spell::energy_cost_string( const player &p ) const
     if( energy_source() == stamina_energy ) {
         auto pair = get_hp_bar( energy_cost(), p.get_stamina_max() );
         return colorize( pair.first, pair.second );
+    }
+    debugmsg( _( "ERROR: Spell %s has invalid energy source." ), id().c_str() );
+    return _( "error: energy_type" );
+}
+
+std::string spell::energy_cur_string( const player &p ) const
+{
+    if( energy_source() == none_energy ) {
+        return _( "infinite" );
+    }
+    if( energy_source() == bionic_energy ) {
+        return colorize( to_string( p.power_level ), c_light_blue );
+    }
+    if( energy_source() == mana_energy ) {
+        return colorize( to_string( p.magic.available_mana() ), c_light_blue );
+    }
+    if( energy_source() == stamina_energy ) {
+        auto pair = get_hp_bar( p.stamina, p.get_stamina_max() );
+        return colorize( pair.first, pair.second );
+    }
+    if( energy_source() == hp_energy ) {
+        return "";
     }
     debugmsg( _( "ERROR: Spell %s has invalid energy source." ), id().c_str() );
     return _( "error: energy_type" );
@@ -541,4 +591,215 @@ int spell::heal( const tripoint &target ) const
         return -damage();
     }
     return -1;
+}
+
+// player
+
+known_magic::known_magic()
+{
+    mana_base = 1000;
+    mana = mana_base;
+}
+
+void known_magic::serialize( JsonOut &json ) const
+{
+    json.start_object();
+
+    json.member( "mana", mana );
+
+    json.member( "spellbook" );
+    json.start_array();
+    for( auto pair : spellbook ) {
+        json.start_object();
+        json.member( "id", pair.second.id() );
+        json.member( "xp", pair.second.xp() );
+        json.end_object();
+    }
+    json.end_array();
+
+    json.end_object();
+}
+
+void known_magic::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "mana", mana );
+
+    JsonArray parray = data.get_array( "spellbook" );
+    while( parray.has_more() ) {
+        JsonObject jo = parray.next_object();
+        std::string id;
+        jo.read( "id", id );
+        spell_id sp = spell_id( id );
+        int xp;
+        jo.read( "xp", xp );
+        spellbook.emplace( sp, spell( sp, xp ) );
+    }
+}
+
+bool known_magic::knows_spell( const std::string &sp ) const
+{
+    return knows_spell( spell_id( sp ) );
+}
+
+bool known_magic::knows_spell( spell_id sp ) const
+{
+    return spellbook.count( sp ) == 1;
+}
+
+void known_magic::learn_spell( const std::string &sp, player &p, bool force )
+{
+    learn_spell( spell_id( sp ), p, force );
+}
+
+void known_magic::learn_spell( spell_id sp, player &p, bool force )
+{
+    learn_spell( &sp.obj(), p, force );
+}
+
+void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
+{
+    if( !sp->is_valid() ) {
+        debugmsg( "Tried to learn invalid spell" );
+        return;
+    }
+    spell temp_spell( sp );
+    if( !temp_spell.is_valid() ) {
+        debugmsg( "Tried to learn invalid spell" );
+        return;
+    }
+    if( !force ) {
+        if( can_learn_spell( p, sp->id ) && !p.has_trait( sp->spell_class ) ) {
+            if( query_yn(
+                    _( "Learning this spell will make you a %s and lock you out of other unique spells.\nContinue?" ),
+                    sp->spell_class.obj().name() ) ) {
+                p.set_mutation( sp->spell_class );
+                p.add_msg_if_player( sp->spell_class.obj().desc() );
+            } else {
+                return;
+            }
+        }
+    }
+    if( force || can_learn_spell( p, sp->id ) ) {
+        spellbook.emplace( sp->id, temp_spell );
+        p.add_msg_if_player( m_good, _( "You learned %s!" ), _( sp->name ) );
+    } else {
+        p.add_msg_if_player( m_bad, _( "You can't learn this spell." ) );
+    }
+}
+
+void known_magic::forget_spell( const std::string &sp )
+{
+    forget_spell( spell_id( sp ) );
+}
+
+void known_magic::forget_spell( spell_id sp )
+{
+    if( !knows_spell( sp ) ) {
+        debugmsg( "Can't forget a spell you don't know!" );
+        return;
+    }
+    spellbook.erase( sp );
+}
+
+bool known_magic::can_learn_spell( const player &p, spell_id sp ) const
+{
+    const spell_type sp_t = sp.obj();
+    if( sp_t.spell_class == trait_id( "NONE" ) ) {
+        return true;
+    }
+    return !p.has_opposite_trait( sp_t.spell_class );
+}
+
+spell &known_magic::get_spell( spell_id sp )
+{
+    if( !knows_spell( sp ) ) {
+        debugmsg( "ERROR: Tried to get unknown spell" );
+    }
+    spell &temp_spell = spellbook[ sp ];
+    return temp_spell;
+}
+
+std::vector<spell *> known_magic::get_spells()
+{
+    std::vector<spell *> spells;
+    for( auto &spell_pair : spellbook ) {
+        spells.emplace_back( &spell_pair.second );
+    }
+    return spells;
+}
+
+int known_magic::available_mana() const
+{
+    return mana;
+}
+
+void known_magic::set_mana( int new_mana )
+{
+    mana = new_mana;
+}
+
+void known_magic::mod_mana( const player &p, int add_mana )
+{
+    set_mana( clamp( mana + add_mana, 0, max_mana( p ) ) );
+}
+
+int known_magic::max_mana( const player &p ) const
+{
+    const float int_bonus = ( ( 0.2f + p.get_int() * 0.1f ) - 1.0f ) * mana_base;
+    return mana_base + int_bonus;
+}
+
+void known_magic::update_mana( const player &p, float turns )
+{
+    // mana should replenish in 8 hours.
+    const float full_replenish = to_turns<float>( 8_hours );
+    const float ratio = turns / full_replenish;
+    mod_mana( p, floor( ratio * max_mana( p ) ) );
+}
+
+std::vector<spell_id> known_magic::spells() const
+{
+    std::vector<spell_id> spell_ids;
+    for( auto pair : spellbook ) {
+        spell_ids.emplace_back( pair.first );
+    }
+    return spell_ids;
+}
+
+// does the player have enough energy (of the type of the spell) to cast the spell?
+bool known_magic::has_enough_energy( const player &p, spell &sp ) const
+{
+    int cost = sp.energy_cost();
+    switch( sp.energy_source() ) {
+        case mana_energy:
+            return available_mana() >= cost;
+        case bionic_energy:
+            return p.power_level >= cost;
+        case stamina_energy:
+            return p.stamina >= cost;
+        case hp_energy:
+            for( int i = 0; i < num_hp_parts; i++ ) {
+                if( p.hp_cur[i] > cost ) {
+                    return true;
+                }
+            }
+            return false;
+        case none_energy:
+            return true;
+        default:
+            return false;
+    }
+}
+
+int known_magic::time_to_learn_spell( const player &p, const std::string &str ) const
+{
+    return time_to_learn_spell( p, spell_id( str ) );
+}
+
+int known_magic::time_to_learn_spell( const player &p, spell_id sp ) const
+{
+    const int base_time = 30000;
+    return base_time * ( 1.0 + sp.obj().difficulty / ( 1.0 + ( p.get_int() - 8.0 ) / 8.0 ) +
+                         ( p.get_skill_level( skill_id( "SPELLCRAFT" ) ) / 10.0 ) );
 }
