@@ -3122,7 +3122,7 @@
     "type": "furniture",
     "id": "f_treadmill",
     "name": "treadmill",
-    "description": "Used for training leg muscles.  It'll be extra hard without power.",
+    "description": "Used for training leg muscles.  It'll be extra hard without power.  Could be taken apart for its... parts.",
     "symbol": "L",
     "color": "dark_gray",
     "move_cost_mod": 1,
