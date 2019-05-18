@@ -2775,7 +2775,7 @@ bool mattack::nurse_assist( monster *z )
 
     const bool u_see = g->u.sees( *z );
 
-    if( u_see && one_in( 10 ) ) {
+    if( u_see && one_in( 100 ) ) {
         add_msg( m_info, _( "The %s is scanning its surroundings." ), z->name() );
     }
 
@@ -2796,8 +2796,8 @@ bool mattack::nurse_assist( monster *z )
     }
 
     if( found_target ) {
-        if( target->is_wearing( "badge_doctor" ) ||
-            z->attitude_to( *target ) == Creature::Attitude::A_FRIENDLY ) {
+        if( ( target->is_wearing( "badge_doctor" ) ||
+              z->attitude_to( *target ) == Creature::Attitude::A_FRIENDLY ) && one_in( 100 ) ) {
             sounds::sound( z->pos(), 8, sounds::sound_t::speech,
                            string_format(
                                _( "a soft robotic voice say, \"Welcome doctor %s.  I'll be your assistant today.\"" ),
@@ -2817,19 +2817,19 @@ bool mattack::nurse_operate( monster *z )
     }
     const bool u_see = g->u.sees( *z );
 
-    if( u_see && one_in( 10 ) ) {
+    if( u_see && one_in( 100 ) ) {
         add_msg( m_info, _( "The %s is scanning its surroundings." ), z->name() );
     }
 
 
     if( ( ( g->u.is_wearing( "badge_doctor" ) ||
-            z->attitude_to( g->u ) == Creature::Attitude::A_FRIENDLY ) && u_see ) && one_in( 30 ) ) {
+            z->attitude_to( g->u ) == Creature::Attitude::A_FRIENDLY ) && u_see ) && one_in( 100 ) ) {
 
         add_msg( m_info, _( "The %s doesn't seem to register you as a doctor." ), z->name() );
     }
 
     if( z->ammo[ammo_type] == 0 && u_see ) {
-        if( one_in( 30 ) ) {
+        if( one_in( 100 ) ) {
             add_msg( m_info, _( "The %s looks at its empty anesthesia kit with a dejected look." ), z->name() );
         }
         return false;
