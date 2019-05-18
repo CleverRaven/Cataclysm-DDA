@@ -1993,5 +1993,14 @@
     "difficulty": 1,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "rag", 25 ] ], [ [ "element", 5 ] ], [ [ "cable", 5 ] ] ]
+  },
+  {
+    "result": "pallet_done",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": 1000,
+    "difficulty": 1,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "adobe_brick", 20 ] ], [ [ "frame_wood_light", 1 ] ] ]
   }
 ]

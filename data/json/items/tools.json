@@ -8777,5 +8777,43 @@
       }
     ],
     "flags": [ "LIGHT_3", "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "pallet_full",
+    "type": "TOOL",
+    "name": "pallet of wet adobe bricks",
+    "description": "A pallet full of heavy mud bricks which need to dry slowly to be usable.",
+    "weight": 35000,
+    "volume": 50,
+    "price": 100,
+    "to_hit": -2,
+    "material": [ "soil", "wood" ],
+    "symbol": "#",
+    "color": "brown",
+    "flags": [ "NONCONDUCTIVE" ],
+    "use_action": {
+      "target": "pallet_done",
+      "msg": "You set the pallet of heavy, muddy bricks out to dry.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 100800,
+      "not_ready_msg": "The bricks are still too damp to bear weight.",
+      "//": "Should be about a week. Irl it's ten days, so make big batches."
+    }
+  },
+  {
+    "id": "pallet_done",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "pallet of dry adobe bricks",
+    "description": "A pallet of humble mud bricks that have dried for a week, while you were out risking your life. Disassemble it to retrieve your frame and building supplies.",
+    "weight": 30000,
+    "volume": 50,
+    "price": 40000,
+    "to_hit": -3,
+    "material": [ "stone", "wood" ],
+    "symbol": ";",
+    "color": "brown",
+    "flags": [ "NONCONDUCTIVE" ]
   }
 ]
