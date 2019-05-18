@@ -7082,7 +7082,7 @@
     "type": "terrain",
     "id": "t_radio_controls",
     "name": "radio controls",
-    "description": "This the console controlling a radio transmission tower.  It doesn't seem to be fully operational.",
+    "description": "This console appears to control a nearby radio transmission tower.  It doesn't seem to be fully operational.",
     "symbol": "6",
     "color": "green",
     "move_cost": 0,
