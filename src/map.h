@@ -964,7 +964,8 @@ class map
         std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
                                     int &amount, const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> use_charges( const tripoint &origin, const int range, const itype_id type,
-                                     int &amount, const std::function<bool( const item & )> &filter = return_true<item> );
+                                     int &amount, const std::function<bool( const item & )> &filter = return_true<item>,
+                                     basecamp *bcp = nullptr );
         /*@}*/
         std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
 

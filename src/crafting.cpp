@@ -1399,7 +1399,8 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
 }
 
 std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
-                                       const std::function<bool( const item & )> &filter, tripoint origin, int radius )
+                                       const std::function<bool( const item & )> &filter,
+                                       tripoint origin, int radius )
 {
     std::list<item> ret;
 
@@ -1568,7 +1569,7 @@ void player::consume_tools( const comp_selection<tool_comp> &tool, int batch )
 
 /* we use this if we selected the tool earlier */
 void player::consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
-                            tripoint origin, int radius )
+                            tripoint origin, int radius, basecamp *bcp )
 {
     if( has_trait( trait_DEBUG_HS ) ) {
         return;
@@ -1580,7 +1581,7 @@ void player::consume_tools( map &m, const comp_selection<tool_comp> &tool, int b
         use_charges( tool.comp.type, quantity );
     }
     if( tool.use_from & use_from_map ) {
-        m.use_charges( origin, radius, tool.comp.type, quantity );
+        m.use_charges( origin, radius, tool.comp.type, quantity, return_true<item>, bcp );
     }
 
     // else, use_from_none (or cancel), so we don't use up any tools;

@@ -42,6 +42,7 @@
 #include "type_id.h"
 #include "magic.h"
 
+class basecamp;
 class effect;
 class map;
 class npc;
@@ -1528,7 +1529,8 @@ class player : public Character
                                bool can_cancel = false, bool player_inv = true );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
-                            tripoint origin = tripoint_zero, int radius = PICKUP_RANGE );
+                            tripoint origin = tripoint_zero, int radius = PICKUP_RANGE,
+                            basecamp *bcp = nullptr );
         void consume_tools( const std::vector<tool_comp> &tools, int batch = 1,
                             const std::string &hotkeys = DEFAULT_HOTKEYS );
 

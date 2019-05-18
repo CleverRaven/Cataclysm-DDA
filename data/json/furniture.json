@@ -289,7 +289,7 @@
     "move_cost_mod": -1,
     "coverage": 75,
     "required_str": -1,
-    "flags": [ "FLAMMABLE", "NOITEM", "ORGANIC" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "ORGANIC", "TRANSPARENT" ],
     "examine_action": "bulletin_board",
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 4, 8 ] } ] },
     "bash": {
