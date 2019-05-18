@@ -10,6 +10,7 @@
 #include "catch/catch.hpp"
 #include "line.h" // For rl_dist.
 #include "map.h"
+#include "rng.h"
 #include "shadowcasting.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -106,10 +107,8 @@ void randomly_fill_transparency(
     // Construct a rng that produces integers in a range selected to provide the probability
     // we want, i.e. if we want 1/4 tiles to be set, produce numbers in the range 0-3,
     // with 0 indicating the bit is set.
-    const unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::default_random_engine generator( seed );
     std::uniform_int_distribution<unsigned int> distribution( 0, denominator );
-    auto rng = std::bind( distribution, generator );
+    auto rng = std::bind( distribution, rng_get_engine() );
 
     // Initialize the transparency value of each square to a random value.
     for( auto &inner : transparency_cache ) {
