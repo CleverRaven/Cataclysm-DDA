@@ -2617,9 +2617,8 @@ std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddir
         const tripoint &pos )
 {
     double raddir = ( ( winddirection + 180 ) % 360 ) * ( M_PI / 180 );
-    float fx, fy;
-    fy = -cos( raddir );
-    fx = sin( raddir );
+    float fx = -cos( raddir );
+    float fy = sin( raddir );
     int roundedx;
     int roundedy;
     if( fx > 0.5 ) {

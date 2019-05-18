@@ -4300,8 +4300,7 @@ cata::optional<basecamp *> overmap::find_camp( const int x, const int y )
 {
     for( auto &v : camps ) {
         if( v.camp_omt_pos().x == x && v.camp_omt_pos().y == y ) {
-            cata::optional<basecamp *> p;
-            p = &v;
+            cata::optional<basecamp *> p = &v;
             return p;
         }
     }

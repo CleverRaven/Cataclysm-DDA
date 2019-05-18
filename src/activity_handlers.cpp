@@ -3072,10 +3072,9 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
             g->m.spawn_item( pos, "bone_human", rng( 5, 15 ) );
             g->m.furn_set( pos, f_coffin_c );
         }
-        std::vector<item *> dropped;
+        std::vector<item *> dropped = g->m.place_items( "allclothes", 50, pos, pos, false, calendar::turn );
         g->m.place_items( "grave", 25, pos, pos, false, calendar::turn );
         g->m.place_items( "jewelry_front", 20, pos, pos, false, calendar::turn );
-        dropped = g->m.place_items( "allclothes", 50, pos, pos, false, calendar::turn );
         for( const auto &it : dropped ) {
             if( it->is_armor() ) {
                 it->item_tags.insert( "FILTHY" );
