@@ -1251,6 +1251,7 @@
     ],
     "components": [
       [ [ "ai_module_advanced", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
@@ -1283,6 +1284,7 @@
     "components": [
       [ [ "ai_module", 1 ] ],
       [ [ "sensor_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
       [ [ "memory_module", 1 ] ],
       [ [ "pathfinding_module", 1 ] ],
       [ [ "omni_wheel", 1 ] ],
