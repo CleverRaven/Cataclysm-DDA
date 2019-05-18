@@ -2349,5 +2349,15 @@
     ],
     "pre_terrain": "t_fence_post",
     "post_terrain": "t_wall_rammed_earth"
+  },
+  {
+    "description": "Hang Hanging Meathook",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": 30,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SCREW", "level": 1 } ] ],
+    "components": [ [ [ "grip_hook", 1 ] ], [ [ "chain", 1 ] ] ],
+    "pre_special": "check_support",
+    "post_terrain": "f_hanging_meathook"
   }
 ]
