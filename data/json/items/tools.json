@@ -8813,7 +8813,7 @@
     "volume": 50,
     "price": 40000,
     "to_hit": -3,
-    "material": [ "stone", "wood" ],
+    "material": [ "ceramic", "wood" ],
     "symbol": ";",
     "color": "brown",
     "flags": [ "NONCONDUCTIVE" ]
