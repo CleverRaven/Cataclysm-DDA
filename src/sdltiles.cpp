@@ -3449,7 +3449,7 @@ std::unique_ptr<Font> Font::load_font( const std::string &typeface, int fontsize
         // Seems to be an image file, not a font.
         // Try to load as bitmap font.
         try {
-            return std::unique_ptr<Font>( new BitmapFont( fontwidth, fontheight,
+            return std::unique_ptr<Font>( std::make_unique<BitmapFont>( fontwidth, fontheight,
                                           FILENAMES["fontdir"] + typeface ) );
         } catch( std::exception &err ) {
             dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
@@ -3458,8 +3458,8 @@ std::unique_ptr<Font> Font::load_font( const std::string &typeface, int fontsize
     }
     // Not loaded as bitmap font (or it failed), try to load as truetype
     try {
-        return std::unique_ptr<Font>( new CachedTTFFont( fontwidth, fontheight, typeface, fontsize,
-                                      fontblending ) );
+        return std::unique_ptr<Font>( std::make_unique<CachedTTFFont>( fontwidth, fontheight,
+                                      typeface, fontsize, fontblending ) );
     } catch( std::exception &err ) {
         dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
     }

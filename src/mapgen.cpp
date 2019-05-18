@@ -7051,7 +7051,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
     const int smx = p.x / SEEX;
     const int smy = p.y / SEEY;
     // debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
-    auto veh = std::unique_ptr<vehicle>( new vehicle( type, veh_fuel, veh_status ) );
+    auto veh = std::make_unique<vehicle>( type, veh_fuel, veh_status );
     veh->posx = p.x % SEEX;
     veh->posy = p.y % SEEY;
     veh->smx = smx;
@@ -7140,7 +7140,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
              * vehicles into global coordinates, find the distance between them and
              * p and then install them that way.
              * Create a vehicle with type "null" so it starts out empty. */
-            auto wreckage = std::unique_ptr<vehicle>( new vehicle() );
+            auto wreckage = std::make_unique<vehicle>();
             wreckage->posx = other_veh->posx;
             wreckage->posy = other_veh->posy;
             wreckage->smx = other_veh->smx;

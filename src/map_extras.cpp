@@ -197,7 +197,7 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
     auto crashed_hull = vgroup_id( "crashed_helicopters" )->pick();
 
     // Create the vehicle so we can rotate it and calculate its bounding box, but don't place it on the map.
-    auto veh = std::unique_ptr<vehicle>( new vehicle( crashed_hull, rng( 1, 33 ), 1 ) );
+    auto veh = std::make_unique<vehicle>( crashed_hull, rng( 1, 33 ), 1 );
 
     veh->turn( dir1 );
 
