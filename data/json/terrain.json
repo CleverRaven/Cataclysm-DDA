@@ -7830,7 +7830,7 @@
     "type": "terrain",
     "id": "t_slot_machine",
     "name": "slot machine",
-    "description" : "A machine with a bright screen flashing hypnotic promises of wealth.  If gambling with your life on a daily basis isn't enough for you, you can also gamble with this.",
+    "description": "A machine with a bright screen flashing hypnotic promises of wealth.  If gambling with your life on a daily basis isn't enough for you, you can also gamble with this.",
     "symbol": "6",
     "color": "green",
     "move_cost": 0,
