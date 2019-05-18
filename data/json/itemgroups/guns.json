@@ -208,7 +208,7 @@
       { "item": "scar_l", "prob": 50, "charges-min": 0, "charges-max": 30 },
       { "item": "scar_h", "prob": 50, "charges-min": 0, "charges-max": 20 },
       { "item": "hk417_13", "prob": 50, "charges-min": 0, "charges-max": 20 },
-      { "item": "g28_e3", "prob": 50, "charges-min": 0, "charges-max": 20 }
+      { "item": "m110a1", "prob": 50, "charges-min": 0, "charges-max": 20 }
     ]
   },
   {

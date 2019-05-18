@@ -325,12 +325,12 @@
     "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd" ] ] ]
   },
   {
-    "id": "g28_e3",
+    "id": "m110a1",
     "copy-from": "rifle_semi",
     "type": "GUN",
-    "name": "G28 E3",
-    "description": "A German DMR derived from the HK417.  It is a gas operated, rotating bolt rifle accurate to 1.5 MOA with standard ammunition.",
-    "weight": 4800,
+    "name": "M110A1",
+    "description": "A derivative of H&K's G28 with an aluminium upper reciever to meet US Army weight requirements.  It is a gas operated, rotating bolt rifle accurate to 1.5 MOA with standard ammunition.",
+    "weight": 3800,
     "volume": 8,
     "price": 320000,
     "to_hit": -1,
@@ -342,7 +342,7 @@
     "ranged_damage": -1,
     "dispersion": 120,
     "durability": 8,
-    "built_in_mods": [ "adjustable_stock", "bipod", "rifle_scope" ],
+    "built_in_mods": [ "adjustable_stock", "bipod", "rifle_scope", "suppressor" ],
     "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd" ] ] ]
   },
   {
