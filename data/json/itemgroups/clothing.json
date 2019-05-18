@@ -397,5 +397,18 @@
       { "item": "socks" },
       { "item": "boots" }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "slaughter_clothes",
+    "items": [
+      [ "apron_leather", 30 ],
+      [ "jumpsuit", 30 ],
+      [ "gloves_rubber", 30 ],
+      [ "boots_rubber", 10 ],
+      [ "gloves_cut_resistant", 30 ],
+      [ "hat_hard", 50 ],
+      [ "cowboy_hat", 10]
+    ]
   }
 ]
