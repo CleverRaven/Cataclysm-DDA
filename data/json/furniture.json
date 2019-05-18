@@ -866,7 +866,7 @@
     "type": "furniture",
     "id": "f_ball_mach",
     "name": "ball machine",
-    "description": "Remember when Skee-ball was a thing?  Well, the ball return doesn't seem to work without power and somebody's kicked in the coin slot.",
+    "description": "An unpowered machine that seems like it could've been used to launch various balls for different types of sports.  It's only good for parts now if disassembled.",
     "symbol": "T",
     "color": "dark_gray",
     "move_cost_mod": 1,
