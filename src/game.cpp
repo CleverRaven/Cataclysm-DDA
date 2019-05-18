@@ -809,7 +809,22 @@ bool game::start_game()
 
     // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
     update_map( u );
-
+    // Profession pets
+    if( u.starting_pet ) {
+        std::vector<tripoint> valid;
+        for( const tripoint &jk : g->m.points_in_radius( u.pos(), 1 ) ) {
+            if( is_empty( jk ) ) {
+                valid.push_back( jk );
+            }
+        }
+        if( !valid.empty() ) {
+            monster *mon = summon_mon( *u.starting_pet, random_entry( valid ) );
+            mon->friendly = -1;
+            mon->add_effect( effect_pet, 1_turns, num_bp, true );
+        } else {
+            add_msg( m_debug, "cannot place starting pet, no space!" );
+        }
+    }
     // Assign all of this scenario's missions to the player.
     for( const mission_type_id &m : scen->missions() ) {
         const auto mission = mission::reserve_new( m, -1 );

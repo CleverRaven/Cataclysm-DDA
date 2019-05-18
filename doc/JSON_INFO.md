@@ -444,6 +444,7 @@ Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "a
         { "name": "computer", "level": 2 }
     ]
 }
+
 ```
 
 #### `items`
@@ -496,6 +497,13 @@ Example for mods:
 ```
 
 This mod removes one of the rocks (the other rock is still created), the t-shirt, adds a 2x4 item and gives female characters a t-shirt with the special snippet id.
+
+#### `pet`
+
+(optional, string mtype_id)
+
+A string that is the same as a monster id
+player will start with this as a tamed pet.
 
 #### `flags`
 
@@ -1637,8 +1645,8 @@ Optional message to be printed when a creature using the harvest definition is b
 
 #### `entries`
 
-Array of dictionaries defining possible items produced on butchering and their likelihood of being produced. 
-`drop` value should be the `id` string of the item to be produced. 
+Array of dictionaries defining possible items produced on butchering and their likelihood of being produced.
+`drop` value should be the `id` string of the item to be produced.
 
 `type` value should be a string with the associated body part the item comes from.
     Acceptable values are as follows:
@@ -1650,7 +1658,7 @@ Array of dictionaries defining possible items produced on butchering and their l
     `bionic_group`: an item group that will give an item by dissecting a creature. not restricted to groups containing CBMs.
 
 For every `type` other then `bionic` and `bionic_group` following entries scale the results:
-    `base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number. 
+    `base_num` value should be an array with two elements in which the first defines the minimum number of the corresponding item produced and the second defines the maximum number.
     `scale_num` value should be an array with two elements, increasing the minimum and maximum drop numbers respectively by element value * survival skill.
     `max` upper limit after `bas_num` and `scale_num` are calculated using  
     `mass_ratio` value is a multiplier of how much of the monster's weight comprises the associated item. to conserve mass, keep between 0 and 1 combined with all drops. This overrides `base_num`, `scale_num` and `max`
@@ -1714,7 +1722,7 @@ Strength required to move the furniture around. Negative values indicate an unmo
 
 #### `plant_base``
 
-(Optional) What the plant furniture turns into when it is eaten by something that eats crops - this should be what it is planted in. Requires `PLANT` flag to function. 
+(Optional) What the plant furniture turns into when it is eaten by something that eats crops - this should be what it is planted in. Requires `PLANT` flag to function.
 
 ### Terrain
 

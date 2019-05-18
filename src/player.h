@@ -1639,6 +1639,7 @@ class player : public Character
         bool manual_examine = false;
 
         std::vector <addiction> addictions;
+        cata::optional<mtype_id> starting_pet;
 
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,
                                       const tripoint &loc = tripoint_zero );
