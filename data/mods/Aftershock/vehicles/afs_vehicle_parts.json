@@ -15,6 +15,21 @@
   },
   {
     "type": "vehicle_part",
+    "id": "afs_hauling_space",
+    "copy-from": "cargo_space",
+    "name": "hauling space",
+    "looks_like": "cargo_space",
+    "item": "afs_hauling_space",
+    "location": "center",
+    "durability": 400,
+    "difficulty": 2,
+    "description": "A huge, empty space used in truck trailers to transport vast quantities of stuff.",
+    "size": 6000,
+    "breaks_into": [ { "item": "steel_lump", "count": [ 12, 18 ] }, { "item": "scrap", "count": [ 12, 18 ] } ],
+    "flags": [ "AISLE", "BOARDABLE", "CARGO", "ROOF" ]
+  },
+  {
+    "type": "vehicle_part",
     "id": "afs_crude_plating",
     "name": "crude plating",
     "description": "A piece of sheet metal welded onto a vehicle as armor.  Thin, and not as protective as proper armor, but it'll do if there's nothing else available.",
@@ -81,23 +96,25 @@
     "id": "afs_metal_rig",
     "name": "MetalMaster forge buddy",
     "symbol": "&",
-    "color": "yellow",
+    "color": "red",
     "broken_symbol": "x",
-    "broken_color": "yellow",
+    "broken_color": "red",
     "looks_like": "welding_rig",
     "damage_modifier": 10,
-    "durability": 125,
-    "description": "A welding rig combined with a forge rig mounted in a vehicle.  'e'xamine the forge rig to utilize its welder or soldering iron; you'll still need glare protection.",
+    "durability": 200,
+    "description": "A welding and metalworking station, powered by the vehicle's battery.  'e'xamine the forge rig to utilize its welder or soldering iron; you'll still need glare protection.",
     "size": 200,
     "item": "afs_metal_rig",
     "difficulty": 3,
     "location": "center",
-    "flags": [ "CARGO", "OBSTACLE", "WELDRIG", "FORGE", "COVERED", "TOOL_WRENCH" ],
+    "flags": [ "CARGO", "OBSTACLE", "WELDRIG", "FORGE", "KILN", "COVERED", "TOOL_WRENCH" ],
     "breaks_into": [
       { "item": "steel_lump", "count": [ 3, 6 ] },
       { "item": "steel_chunk", "count": [ 3, 6 ] },
       { "item": "scrap", "count": [ 3, 6 ] },
-      { "item": "welder", "charges": 0, "prob": 50 }
+      { "item": "welder", "charges": 0, "prob": 50 },
+      { "item": "forge", "charges": 0, "prob": 50 },
+      { "item": "kiln", "charges": 0, "prob": 50 }
     ]
   },
   {
@@ -122,8 +139,76 @@
       { "item": "steel_chunk", "count": [ 6, 9 ] },
       { "item": "scrap", "count": [ 6, 9 ] },
       { "item": "pot", "prob": 50 },
+      { "item": "pan", "prob": 50 },
       { "item": "chemistry_set", "charges": 0, "prob": 50 },
       { "item": "hotplate", "charges": 0, "prob": 50 }
+    ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_kitchen_rig",
+    "name": "KitchenMaster cooking buddy",
+    "symbol": "&",
+    "color": "yellow",
+    "broken_symbol": "x",
+    "broken_color": "yellow",
+    "looks_like": "kitchen_unit",
+    "damage_modifier": 10,
+    "durability": 200,
+    "description": "An all-in-one kitchen unit, chemistry lab, and food preparation area.  'e'xamine it to use its hotplate to heat up food or drinks.",
+    "size": 200,
+    "item": "afs_kitchen_rig",
+    "difficulty": 3,
+    "location": "center",
+    "flags": [ "CARGO", "OBSTACLE", "KITCHEN", "CHEMLAB", "CRAFTRIG", "FAUCET", "WATER_PURIFIER", "COVERED", "TOOL_WRENCH" ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 9, 18 ] },
+      { "item": "steel_chunk", "count": [ 9, 18 ] },
+      { "item": "scrap", "count": [ 9, 18 ] },
+      { "item": "pot", "prob": 50 },
+      { "item": "pan", "prob": 50 },
+      { "item": "chemistry_set", "charges": 0, "prob": 50 },
+      { "item": "hotplate", "charges": 0, "prob": 50 },
+      { "item": "water_purifier", "charges": 0, "prob": 50 },
+      { "item": "vac_sealer", "charges": 0, "prob": 50 },
+      { "item": "dehydrator", "charges": 0, "prob": 50 },
+      { "item": "food_processor", "charges": 0, "prob": 50 },
+      { "item": "press", "charges": 0, "prob": 50 }
+    ]
+  },
+  {
+    "type": "vehicle_part",
+    "id": "afs_control_station",
+    "name": "control station",
+    "symbol": "$",
+    "color": "red",
+    "broken_symbol": "$",
+    "broken_color": "gray",
+    "damage_modifier": 10,
+    "durability": 400,
+    "description": "A large and complex dashboard mounted with steering controls and several LCD touch screens for controlling vehicle systems.",
+    "bonus": 10,
+    "item": "afs_control_station",
+    "difficulty": 4,
+    "epower": -125,
+    "flags": [
+      "VISION",
+      "CAMERA",
+      "CONTROLS",
+      "CAMERA_CONTROL",
+      "REMOTE_CONTROLS",
+      "CTRL_ELECTRONIC",
+      "ENABLED_DRAINS_EPOWER",
+      "WATCH",
+      "ALARMCLOCK"
+    ],
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 4 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "scrap", "count": [ 2, 4 ] },
+      { "item": "cable", "charges": [ 5, 20 ] },
+      { "item": "RAM", "charges": [ 1, 4 ] },
+      { "item": "e_scrap", "charges": [ 3, 8 ] }
     ]
   },
   {
@@ -146,6 +231,25 @@
       { "item": "scrap", "count": [ 5, 10 ] },
       { "item": "storage_battery", "count": [ 0, 1 ] }
     ]
+  },
+  {
+    "id": "afs_roof_external_tank",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "roof-mounted external tank (200L)",
+    "item": "55gal_drum",
+    "location": "on_roof",
+    "flags": [ "ON_ROOF" ],
+    "size": 200000
+  },
+  {
+    "id": "afs_mounted_external_tank",
+    "copy-from": "external_tank_small",
+    "type": "vehicle_part",
+    "name": "mounted external tank (200L)",
+    "item": "55gal_drum",
+    "location": "center",
+    "size": 200000
   },
   {
     "abstract": "afs_lightweight_frame",

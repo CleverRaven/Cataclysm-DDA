@@ -3,39 +3,34 @@
 #define MONSTERGENERATOR_H
 
 #include <map>
-#include <set>
 #include <vector>
+#include <string>
 
 #include "enums.h"
 #include "mattack_common.h"
+#include "mtype.h"
 #include "pimpl.h"
 #include "string_id.h"
+#include "enum_bitset.h"
+#include "generic_factory.h"
+#include "type_id.h"
 
 class JsonObject;
 class Creature;
-struct mtype;
-enum m_flag : int;
-enum monster_trigger : int;
-enum m_size : int;
 class monster;
-class Creature;
 struct dealt_projectile_attack;
+
 using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
 using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_attack const * );
-using mtype_id = string_id<mtype>;
-struct species_type;
-using species_id = string_id<species_type>;
-
-class mattack_actor;
-template<typename T>
-class generic_factory;
 
 struct species_type {
     species_id id;
     bool was_loaded = false;
-    std::set<m_flag> flags;
-    std::set<monster_trigger> anger_trig, fear_trig, placate_trig;
+    enum_bitset<m_flag> flags;
+    enum_bitset<mon_trigger> anger;
+    enum_bitset<mon_trigger> fear;
+    enum_bitset<mon_trigger> placate;
 
     species_type(): id( species_id::NULL_ID() ) {
 
@@ -73,8 +68,6 @@ class MonsterGenerator
         friend struct species_type;
         friend class mattack_actor;
 
-    protected:
-        m_flag m_flag_from_string( const std::string &flag ) const;
     private:
         MonsterGenerator();
 
@@ -83,8 +76,6 @@ class MonsterGenerator
         void init_death();
         void init_attack();
         void init_defense();
-        void init_trigger();
-        void init_flags();
 
         void add_hardcoded_attack( const std::string &type, const mon_action_attack f );
         void add_attack( mattack_actor *ptr );
@@ -95,11 +86,8 @@ class MonsterGenerator
 
         // finalization
         void apply_species_attributes( mtype &mon );
-        void set_mtype_flags( mtype &mon );
         void set_species_ids( mtype &mon );
         void finalize_pathfinding_settings( mtype &mon );
-
-        template <typename T> void apply_set_to_set( std::set<T> from, std::set<T> &to );
 
         friend class string_id<mtype>;
         friend class string_id<species_type>;
@@ -112,9 +100,7 @@ class MonsterGenerator
         std::map<std::string, phase_id> phase_map;
         std::map<std::string, mon_action_death> death_map;
         std::map<std::string, mon_action_defend> defense_map;
-        std::map<std::string, monster_trigger> trigger_map;
         std::map<std::string, mtype_special_attack> attack_map;
-        std::map<std::string, m_flag> flag_map;
 };
 
 void load_monster_adjustment( JsonObject &jsobj );

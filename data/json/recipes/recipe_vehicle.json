@@ -108,7 +108,9 @@
     "skill_used": "mechanics",
     "difficulty": 5,
     "time": 180000,
-    "book_learn": [ [ "textbook_mechanics", 5 ] ],
+    "reversible": true,
+    "autolearn": false,
+    "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
     "using": [ [ "welding_standard", 50 ] ],
     "qualities": [
       { "id": "HAMMER", "level": 2 },
@@ -121,7 +123,7 @@
       [ [ "sheet_metal", 10 ] ],
       [ [ "condensor_coil", 1 ] ],
       [ [ "evaporator_coil", 1 ] ],
-      [ [ "thermometer", 1 ] ],
+      [ [ "thermostat", 1 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "refrigerant_tank", 1 ] ],
       [ [ "plastic_chunk", 10 ] ]
@@ -135,7 +137,7 @@
       [ [ "sheet_metal", 10 ] ],
       [ [ "condensor_coil", 1 ] ],
       [ [ "evaporator_coil", 1 ] ],
-      [ [ "thermometer", 1 ] ],
+      [ [ "thermostat", 1 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "refrigerant_tank", 1 ] ],
       [ [ "plastic_chunk", 8 ] ]
@@ -179,5 +181,49 @@
       [ [ "motor_small", 1 ] ]
     ],
     "byproducts": [ [ "scrap", 6 ] ]
+  },
+  {
+    "result": "wheel_caster",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": 90000,
+    "autolearn": true,
+    "using": [ [ "welding_standard", 4 ], [ "steel_tiny", 4 ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 4 ] ] ]
+  },
+  {
+    "result": "mounted_spare_tire",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "difficulty": 1,
+    "time": 3000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "WRENCH", "level": 2 } ],
+    "components": [
+      [ [ "wheel_wide_or", 1 ], [ "wheel_wide", 1 ], [ "wheel", 1 ], [ "wheel_slick", 1 ], [ "wheel_armor", 1 ] ],
+      [ [ "spare_tire_carrier", 1 ] ]
+    ]
+  },
+  {
+    "result": "cargo_aisle",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 1 ],
+    "difficulty": 4,
+    "autolearn": true,
+    "time": 60000,
+    "using": [ [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "sheet_metal", 3 ] ], [ [ "clockworks", 2 ] ] ]
   }
 ]

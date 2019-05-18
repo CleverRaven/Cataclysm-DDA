@@ -158,7 +158,7 @@
       [ "guns_pistol_common", 2 ],
       [ "guns_shotgun_common", 1 ],
       [ "postman_gear", 5 ],
-      [ "plumber_gear", 5 ]
+      [ "hardware_plumbing", 5 ]
     ]
   },
   {
@@ -191,7 +191,7 @@
           }
         ]
       },
-      { "item": "cash_card", "charges-min": 0, "charges-max": 50000 }
+      { "item": "cash_card", "charges-min": 0, "charges-max": 50000, "prob": 10 }
     ]
   },
   {
@@ -364,6 +364,19 @@
   },
   {
     "type": "item_group",
+    "id": "mon_zombie_thorny_death_drops",
+    "subtype": "collection",
+    "entries": [
+      { "item": "rag", "damage": [ 1, 4 ], "count": [ 1, 4 ] },
+      { "group": "pants", "damage": [ 1, 4 ] },
+      { "group": "shoes", "damage": [ 1, 4 ] },
+      { "group": "default_zombie_items" },
+      { "item": "cash_card", "prob": 10, "charges-min": 0, "charges-max": 50000 },
+      { "item": "fighter_sting", "prob": 60 }
+    ]
+  },
+  {
+    "type": "item_group",
     "subtype": "collection",
     "id": "jackson_drops",
     "entries": [
@@ -387,5 +400,16 @@
     "ammo": 50,
     "magazine": 100,
     "entries": [ { "item": "flamethrower", "charges-min": 100, "charges-max": 1500 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_dragon_dummy_drops",
+    "entries": [
+      { "item": "paper", "charges-min": 100, "charges-max": 300 },
+      { "item": "stick", "count": [ 5, 8 ] },
+      { "item": "cable", "charges-min": 20, "charges-max": 50 },
+      { "item": "amplifier", "count": [ 0, 3 ] }
+    ]
   }
 ]

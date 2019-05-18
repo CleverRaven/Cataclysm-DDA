@@ -2,31 +2,33 @@
 #ifndef RNG_H
 #define RNG_H
 
+#include <cstdint>
 #include <array>
 #include <functional>
 #include <random>
+#include <iosfwd>
+#include <iterator>
+#include <type_traits>
 
 #include "optional.h"
 
-// Some of the RNG functions are based on an engine.
+// All PRNG functions use an engine, see the C++11 <random> header
 // By default, that engine is seeded by time on first call to such a function.
 // If this function is called with a non-zero seed then the engine will be
 // seeded (or re-seeded) with the given seed.
-void rng_set_engine_seed( uintmax_t seed );
+void rng_set_engine_seed( unsigned int seed );
 
 std::default_random_engine &rng_get_engine();
+unsigned int rng_bits();
 
-long rng( long val1, long val2 );
+int rng( int val1, int val2 );
 double rng_float( double val1, double val2 );
 bool one_in( int chance );
-bool one_in_improved( double chance );
 bool x_in_y( double x, double y );
 int dice( int number, int sides );
 
 // Returns x + x_in_y( x-int(x), 1 )
 int roll_remainder( double value );
-// Returns x/y + x_in_y( (x/y)-int(x/y), 1 )
-int divide_roll_remainder( double dividend, double divisor );
 
 int djb2_hash( const unsigned char *input );
 
@@ -38,6 +40,15 @@ inline double rng_normal( double hi )
 }
 
 double normal_roll( double mean, double stddev );
+
+double rng_exponential( double min, double mean );
+
+inline double rng_exponential( double mean )
+{
+    return rng_exponential( 0.0, mean );
+}
+
+double exponential_roll( double lambda );
 
 /**
  * Returns a random entry in the container.
@@ -140,13 +151,6 @@ inline V random_entry_removed( C &container )
     container.erase( iter );
     return result;
 }
-
-namespace cata
-{
-template<typename T>
-class optional;
-} // namespace cata
-
 class map;
 struct tripoint;
 class tripoint_range;

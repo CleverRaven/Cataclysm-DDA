@@ -78,7 +78,7 @@
       [ [ "salt", 10 ] ],
       [ [ "sugar", 20 ] ],
       [ [ "chocolate", 3 ] ],
-      [ [ "cooking_oil", 3 ] ],
+      [ [ "cooking_oil", 3 ], [ "cooking_oil2", 3 ] ],
       [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ]

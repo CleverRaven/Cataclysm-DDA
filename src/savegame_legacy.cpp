@@ -1,7 +1,16 @@
+#include <cstddef>
 #include <sstream>
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <array>
+#include <list>
+#include <map>
+#include <memory>
+#include <set>
+#include <system_error>
+#include <type_traits>
+#include <utility>
 
 #include "debug.h"
 // for legacy classdata loaders
@@ -14,6 +23,14 @@
 #include "options.h"
 #include "overmap.h"
 #include "player_activity.h"
+#include "cata_utility.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "inventory.h"
+#include "monster.h"
+#include "regional_settings.h"
+#include "rng.h"
+#include "type_id.h"
 
 namespace std
 {
@@ -540,7 +557,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id( "ACT_GAME" ),
         activity_id( "ACT_WAIT" ),
         activity_id( "ACT_CRAFT" ),
-        activity_id( "ACT_LONGCRAFT" ),
+        activity_id::NULL_ID(), // ACT_LONGCRAFT is deprecated
         activity_id( "ACT_DISASSEMBLE" ),
         activity_id( "ACT_BUTCHER" ),
         activity_id( "ACT_LONGSALVAGE" ),

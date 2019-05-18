@@ -2,17 +2,19 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+#include <cstddef>
 #include <functional>
 #include <map>
 #include <string>
 #include <vector>
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <list>
 #include <algorithm>
 #endif
 
 struct tripoint;
+
 namespace cata
 {
 template<typename T>
@@ -55,7 +57,7 @@ static constexpr int LEGEND_HEIGHT = 11;
 static constexpr int BORDER_SPACE = 2;
 
 bool is_mouse_enabled();
-std::string get_input_string_from_file( std::string fname = "input.txt" );
+std::string get_input_string_from_file( const std::string &fname = "input.txt" );
 
 enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
 
@@ -93,7 +95,7 @@ struct input_event {
     std::string edit;
     bool edit_refresh;
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     // Used exclusively by the quick shortcuts to determine how stale a shortcut is
     int shortcut_last_used_action_counter;
 #endif
@@ -101,7 +103,7 @@ struct input_event {
     input_event() {
         mouse_x = mouse_y = 0;
         type = CATA_INPUT_ERROR;
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;
 #endif
     }
@@ -109,7 +111,7 @@ struct input_event {
         : type( t ) {
         mouse_x = mouse_y = 0;
         sequence.push_back( s );
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;
 #endif
     }
@@ -120,7 +122,7 @@ struct input_event {
         sequence.push_back( input );
     }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     input_event &operator=( const input_event &other ) {
         type = other.type;
         modifiers = other.modifiers;
@@ -368,29 +370,29 @@ extern input_manager inp_mngr;
 class input_context
 {
     public:
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         // Whatever's on top is our current input context.
         static std::list<input_context *> input_context_stack;
 #endif
 
         input_context() : registered_any_input( false ), category( "default" ),
             handling_coordinate_input( false ) {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             input_context_stack.push_back( this );
             allow_text_entry = false;
 #endif
         }
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
-        input_context( std::string category ) : registered_any_input( false ),
+        input_context( const std::string &category ) : registered_any_input( false ),
             category( category ), handling_coordinate_input( false ) {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             input_context_stack.push_back( this );
             allow_text_entry = false;
 #endif
         }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
         virtual ~input_context() {
             input_context_stack.remove( this );
         }
@@ -637,8 +639,12 @@ class input_context
         /**
          * Keys (and only keys, other input types are not included) that
          * trigger the given action.
+         * @param action_descriptor The action descriptor for which to get the bound keys.
+         * @param restrict_to_printable If `true` the function returns the bound keys only if they are printable. If `false`, all keys (whether they are printable or not) are returned.
+         * @returns All keys bound to the given action descriptor.
          */
-        std::vector<char> keys_bound_to( const std::string &action_id ) const;
+        std::vector<char> keys_bound_to( const std::string &action_descriptor,
+                                         bool restrict_to_printable = true ) const;
 
         /**
         * Get/Set edittext to display IME unspecified string.

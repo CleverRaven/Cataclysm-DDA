@@ -1,29 +1,29 @@
 [
   {
-    "type":"monstergroup",
-    "name" : "GROUP_MIL_OUTPOST_ZOM",
-    "default" : "mon_zombie_soldier",
-    "monsters" : [
-      { "monster" : "mon_zombie_soldier", "freq" : 50, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_grenadier", "freq" : 10, "cost_multiplier" : 50 },
-      { "monster" : "mon_zombie_grenadier_elite", "freq" : 5, "cost_multiplier" : 80 },
-      { "monster" : "mon_zombie_smoker", "freq" : 10, "cost_multiplier" : 5 , "pack_size": [ 2, 3 ] },
-      { "monster" : "mon_zombie_gasbag", "freq" : 20, "cost_multiplier": 10 },
-      { "monster" : "mon_zombie_spitter", "freq" : 10, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_acidic", "freq" : 10, "cost_multiplier" : 2 },
-      { "monster" : "mon_zombie", "freq" : 10, "cost_multiplier" : 5, "pack_size": [ 2, 8 ]  },
-      { "monster" : "mon_zombie_bio_op", "freq" : 20, "cost_multiplier" : 5 },
-      { "monster" : "mon_zombie_armored", "freq" : 5, "cost_multiplier" : 5 }
+    "type": "monstergroup",
+    "name": "GROUP_MIL_OUTPOST_ZOM",
+    "default": "mon_zombie_soldier",
+    "monsters": [
+      { "monster": "mon_zombie_soldier", "freq": 50, "cost_multiplier": 5 },
+      { "monster": "mon_dispatch", "freq": 10, "cost_multiplier": 50 },
+      { "monster": "mon_dispatch_military", "freq": 5, "cost_multiplier": 80 },
+      { "monster": "mon_zombie_smoker", "freq": 10, "cost_multiplier": 5, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_zombie_gasbag", "freq": 20, "cost_multiplier": 10 },
+      { "monster": "mon_zombie_spitter", "freq": 10, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_acidic", "freq": 10, "cost_multiplier": 2 },
+      { "monster": "mon_zombie", "freq": 10, "cost_multiplier": 5, "pack_size": [ 2, 8 ] },
+      { "monster": "mon_zombie_bio_op", "freq": 20, "cost_multiplier": 5 },
+      { "monster": "mon_zombie_armored", "freq": 5, "cost_multiplier": 5 }
     ]
   },
   {
-    "type":"monstergroup",
-    "name" : "GROUP_MIL_OUTPOST_BOT",
-    "default" : "mon_skitterbot",
-    "monsters" : [
-      { "monster" : "mon_secubot", "freq" : 15, "cost_multiplier" : 80 , "pack_size": [ 2, 3 ] },
-      { "monster" : "mon_manhack", "freq" : 50, "cost_multiplier" : 1 },
-      { "monster" : "mon_skitterbot", "freq" : 50, "cost_multiplier" : 5 }
+    "type": "monstergroup",
+    "name": "GROUP_MIL_OUTPOST_BOT",
+    "default": "mon_skitterbot",
+    "monsters": [
+      { "monster": "mon_secubot", "freq": 15, "cost_multiplier": 80, "pack_size": [ 2, 3 ] },
+      { "monster": "mon_manhack", "freq": 50, "cost_multiplier": 1 },
+      { "monster": "mon_skitterbot", "freq": 50, "cost_multiplier": 5 }
     ]
   }
 ]

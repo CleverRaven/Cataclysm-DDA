@@ -43,24 +43,6 @@
     "flags": [ "VARSIZE", "OUTER", "STURDY" ]
   },
   {
-    "id": "chainmail_hauberk",
-    "type": "ARMOR",
-    "name": "chainmail hauberk",
-    "description": "A fully customized chainmail outfit, leaving the head uncovered.  The shirt, arms, and leggings have been modified with leather straps to deal with uneven weight distribution and to allow them to be used separately.",
-    "weight": 13977,
-    "volume": 10,
-    "price": 30000,
-    "to_hit": -1,
-    "material": [ "iron", "leather" ],
-    "symbol": "[",
-    "color": "light_red",
-    "covers": [ "TORSO", "ARMS", "LEGS" ],
-    "coverage": 95,
-    "encumbrance": 20,
-    "material_thickness": 4,
-    "flags": [ "VARSIZE", "STURDY" ]
-  },
-  {
     "id": "legguard_bronze",
     "type": "ARMOR",
     "category": "armor",
@@ -80,26 +62,5 @@
     "warmth": 15,
     "material_thickness": 4,
     "flags": [ "BELTED", "STURDY" ]
-  },
-  {
-    "id": "armor_lamellar",
-    "type": "ARMOR",
-    "category": "armor",
-    "name": "lamellar armor",
-    "description": "A suit of armor made of multiple pieces of tough leather, laced together for durable yet flexible protection.",
-    "weight": 2108,
-    "volume": 37,
-    "price": 26000,
-    "to_hit": -5,
-    "bashing": 2,
-    "material": [ "leather", "cotton" ],
-    "symbol": "[",
-    "color": "brown",
-    "covers": [ "TORSO", "LEGS", "ARMS" ],
-    "coverage": 80,
-    "encumbrance": 20,
-    "warmth": 20,
-    "material_thickness": 6,
-    "flags": [ "VARSIZE", "STURDY" ]
   }
 ]

@@ -2,6 +2,9 @@
 
 #include <map>
 #include <string>
+#include <algorithm>
+#include <iterator>
+#include <set>
 
 #include "assign.h"
 #include "damage.h" // damage_type
@@ -10,6 +13,7 @@
 #include "item.h"
 #include "json.h"
 #include "translations.h"
+#include "player.h"
 
 namespace
 {
@@ -66,11 +70,14 @@ void material_type::load( JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "specific_heat_liquid", _specific_heat_liquid );
     optional( jsobj, was_loaded, "specific_heat_solid", _specific_heat_solid );
     optional( jsobj, was_loaded, "latent_heat", _latent_heat );
+    optional( jsobj, was_loaded, "freeze_point", _freeze_point );
 
     assign( jsobj, "salvaged_into", _salvaged_into );
     optional( jsobj, was_loaded, "repaired_with", _repaired_with, "null" );
     optional( jsobj, was_loaded, "edible", _edible, false );
+    optional( jsobj, was_loaded, "rotting", _rotting, false );
     optional( jsobj, was_loaded, "soft", _soft, false );
+    optional( jsobj, was_loaded, "reinforces", _reinforces, false );
 
     auto arr = jsobj.get_array( "vitamins" );
     while( arr.has_more() ) {
@@ -169,7 +176,7 @@ material_id material_type::ident() const
 
 std::string material_type::name() const
 {
-    return _( _name.c_str() );
+    return _( _name );
 }
 
 cata::optional<itype_id> material_type::salvaged_into() const
@@ -194,12 +201,12 @@ int material_type::cut_resist() const
 
 std::string material_type::bash_dmg_verb() const
 {
-    return _( _bash_dmg_verb.c_str() );
+    return _( _bash_dmg_verb );
 }
 
 std::string material_type::cut_dmg_verb() const
 {
-    return _( _cut_dmg_verb.c_str() );
+    return _( _cut_dmg_verb );
 }
 
 std::string material_type::dmg_adj( int damage ) const
@@ -210,7 +217,7 @@ std::string material_type::dmg_adj( int damage ) const
     }
 
     // apply bounds checking
-    return _( _dmg_adj[std::min( static_cast<size_t>( damage ), _dmg_adj.size() ) - 1].c_str() );
+    return _( _dmg_adj[std::min( static_cast<size_t>( damage ), _dmg_adj.size() ) - 1] );
 }
 
 int material_type::acid_resist() const
@@ -248,6 +255,11 @@ float material_type::latent_heat() const
     return _latent_heat;
 }
 
+int material_type::freeze_point() const
+{
+    return _freeze_point;
+}
+
 int material_type::density() const
 {
     return _density;
@@ -258,9 +270,19 @@ bool material_type::edible() const
     return _edible;
 }
 
+bool material_type::rotting() const
+{
+    return _rotting;
+}
+
 bool material_type::soft() const
 {
     return _soft;
+}
+
+bool material_type::reinforces() const
+{
+    return _reinforces;
 }
 
 const mat_burn_data &material_type::burn_data( size_t intensity ) const
@@ -307,9 +329,21 @@ material_list materials::get_compactable()
 {
     material_list all = get_all();
     material_list compactable;
-    std::copy_if( all.begin(), all.end(), std::back_inserter( compactable ), []( material_type mt ) {
+    std::copy_if( all.begin(), all.end(),
+    std::back_inserter( compactable ), []( const material_type & mt ) {
         return !mt.compacts_into().empty();
     } );
     return compactable;
 }
 
+std::set<material_id> materials::get_rotting()
+{
+    material_list all = get_all();
+    std::set<material_id> rotting;
+    for( const material_type &m : all ) {
+        if( m.rotting() ) {
+            rotting.emplace( m.ident() );
+        }
+    }
+    return rotting;
+}

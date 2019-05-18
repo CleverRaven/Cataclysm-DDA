@@ -1,7 +1,6 @@
 #include "gamemode.h"
 
 #include "debug.h"
-#include "output.h"
 #include "translations.h"
 
 std::string special_game_name( special_game_id id )

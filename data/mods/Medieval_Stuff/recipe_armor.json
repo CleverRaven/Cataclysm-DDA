@@ -9,42 +9,7 @@
     "time": 70000,
     "book_learn": [ [ "textbook_armwest", 5 ] ],
     "using": [ [ "forging_standard", 3 ], [ "bronzesmithing_tools", 1 ] ],
-    "components": [
-      [ [ "scrap_bronze", 7 ] ],
-      [ [ "fur", 4 ], [ "leather", 4 ] ]
-    ]
-  },
-  {
-    "result": "chainmail_hauberk",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "tailor",
-    "difficulty": 2,
-    "time": 18000,
-    "reversible": true,
-    "autolearn": true,
-    "components": [
-      [ [ "chainmail_vest", 1 ] ],
-      [ [ "chainmail_arms", 1 ] ],
-      [ [ "chainmail_legs", 1 ] ]
-    ]
-  },
-  {
-    "result": "chainmail_suit",
-    "type": "recipe",
-    "id_suffix": "hauberk",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "tailor",
-    "difficulty": 3,
-    "time": 2000,
-    "reversible": true,
-    "autolearn": true,
-    "components": [
-      [ [ "chainmail_hood", 1 ] ],
-      [ [ "chainmail_hauberk", 1 ] ]
-    ]
+    "components": [ [ [ "scrap_bronze", 7 ] ], [ [ "fur", 4 ], [ "leather", 4 ] ] ]
   },
   {
     "result": "armor_cuirass",
@@ -69,26 +34,6 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_armwest", 4 ], [ "recipe_melee", 4 ] ],
     "using": [ [ "forging_standard", 6 ], [ "bronzesmithing_tools", 1 ] ],
-    "components": [
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ],
-      [ [ "scrap_bronze", 12 ] ]
-    ]
-  },
-  {
-    "result": "armor_lamellar",
-    "type": "recipe",
-    "category": "CC_ARMOR",
-    "subcategory": "CSC_ARMOR_SUIT",
-    "skill_used": "fabrication",
-    "difficulty": 4,
-    "skills_required": [ "tailor", 3 ],
-    "time": 30000,
-    "book_learn": [ [ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], [ "textbook_armschina", 4 ] ],
-    "using": [ [ "sewing_standard", 68 ]],
-    "components": [
-      [ [ "string_36", 4 ], [ "string_6", 16 ] ],
-      [ [ "rag", 4 ] ],
-      [ [ "leather", 42 ], [ "tanned_hide", 7 ], [ "fur", 42 ], [ "tanned_pelt", 7 ] ]
-    ]
+    "components": [ [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ], [ [ "scrap_bronze", 12 ] ] ]
   }
 ]

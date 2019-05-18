@@ -16,12 +16,7 @@
     "contains": 10,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "TORSO" ],
-      "coverage": 10,
-      "encumbrance": 4,
-      "material_thickness": 2
-    },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -135,6 +130,42 @@
     "flags": [ "TRADER_AVOID" ]
   },
   {
+    "id": "bag_zipper",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "zipper bag",
+    "looks_like": "bag_plastic",
+    "description": "An inexpensive flexible rectangular storage bag on its typical small size.  Transparent and made of plastic, it can be sealed and opened by a slider which works in a similar way to a zip fastener.",
+    "weight": 2,
+    "volume": 0,
+    "price": 0,
+    "rigid": false,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "light_gray",
+    "contains": 1,
+    "seals": true,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "id": "bag_body_bag",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "body bag",
+    "looks_like": "bag_canvas",
+    "description": "A large, human size, rectangular bag made of strong plastic, with a zipper in the middle.  Used to hold a dead body.",
+    "weight": 500,
+    "volume": 4,
+    "price": 0,
+    "to_hit": -5,
+    "rigid": false,
+    "material": "plastic",
+    "symbol": ")",
+    "color": "dark_gray",
+    "contains": 100,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "id": "bottle_glass",
     "type": "CONTAINER",
     "category": "other",
@@ -223,41 +254,6 @@
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
-    "id": "bowl_pewter",
-    "type": "CONTAINER",
-    "category": "other",
-    "name": "pewter bowl",
-    "description": "A pewter bowl without a lid.  Can be used as a container or as a tool.  Holds 250 ml of liquid.",
-    "weight": 50,
-    "volume": 1,
-    "price": 400,
-    "to_hit": -1,
-    "material": "steel",
-    "symbol": ")",
-    "color": "light_cyan",
-    "contains": 1,
-    "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
-  },
-  {
-    "id": "bowl_plastic",
-    "type": "CONTAINER",
-    "category": "other",
-    "name": "plastic bowl",
-    "description": "A plastic bowl.  Can be used as a container or as a tool.  Holds 250 ml of liquid.",
-    "weight": 80,
-    "volume": 1,
-    "price": 100,
-    "to_hit": 1,
-    "material": "plastic",
-    "symbol": ")",
-    "color": "light_cyan",
-    "contains": 1,
-    "seals": true,
-    "watertight": true,
-    "qualities": [ [ "CONTAIN", 1 ] ]
-  },
-  {
     "id": "box_cigarette",
     "type": "CONTAINER",
     "category": "other",
@@ -321,12 +317,7 @@
     "contains": 8,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "TORSO" ],
-      "coverage": 15,
-      "storage": 4,
-      "material_thickness": 1
-    },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "storage": 4, "material_thickness": 1 },
     "flags": [ "BELTED" ]
   },
   {
@@ -423,12 +414,7 @@
     "contains": 6,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "LEG_EITHER" ],
-      "coverage": 5,
-      "encumbrance": 2,
-      "material_thickness": 2
-    },
+    "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "encumbrance": 2, "material_thickness": 2 },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -448,40 +434,6 @@
     "seals": true,
     "watertight": true,
     "insulation": 10
-  },
-  {
-    "id": "ceramic_bowl",
-    "type": "CONTAINER",
-    "name": "ceramic bowl",
-    "description": "A shallow dessert bowl, not a lot of use for it really.",
-    "weight": 400,
-    "volume": 1,
-    "price": 1000,
-    "price_postapoc": 0,
-    "bashing": 1,
-    "material": "ceramic",
-    "symbol": ",",
-    "color": "yellow",
-    "contains": 1,
-    "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
-  },
-  {
-    "id": "ceramic_cup",
-    "type": "CONTAINER",
-    "name": "ceramic cup",
-    "description": "A ceramic teacup, pinky out!",
-    "weight": 300,
-    "volume": 1,
-    "price": 1000,
-    "price_postapoc": 0,
-    "bashing": 1,
-    "material": "ceramic",
-    "symbol": ",",
-    "color": "yellow",
-    "contains": 1,
-    "watertight": true,
-    "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "clay_canister",
@@ -586,6 +538,79 @@
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
+    "id": "test_tube",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "test tube",
+    "description": "A 10ml laboratory cylindrical test tube, with a rubber stopper.",
+    "weight": 36,
+    "volume": "10ml",
+    "price": 300,
+    "to_hit": -1,
+    "bashing": 1,
+    "material": "glass",
+    "symbol": ")",
+    "color": "light_cyan",
+    "contains": "10ml",
+    "seals": true,
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "beaker",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "beaker",
+    "description": "A 250ml laboratory beaker. Basically a cup with delusions of grandeur.",
+    "weight": 150,
+    "volume": "250ml",
+    "price": 500,
+    "to_hit": -1,
+    "material": "glass",
+    "symbol": ")",
+    "color": "light_cyan",
+    "contains": "250ml",
+    "seals": false,
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "gradcylinder",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "graduated cylinder",
+    "description": "A tall, narrow glass cylinder with precise markings for measuring fluid quantities. An important science tool, it is also useful for anal retentive chefs.",
+    "weight": 150,
+    "volume": "100ml",
+    "price": 500,
+    "to_hit": -1,
+    "material": "glass",
+    "symbol": "|",
+    "color": "light_cyan",
+    "contains": "100ml",
+    "seals": false,
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+  },
+  {
+    "id": "test_tube_micro",
+    "type": "CONTAINER",
+    "category": "other",
+    "name": "microcentrifuge tube",
+    "description": "These plastic tubes, with little built in snap-caps, are a great way to store a tiny amount of liquid. Great for jello shooters if 1mL is enough for a shot for you. Cool people call these \"eppies\".",
+    "weight": 1,
+    "volume": "1ml",
+    "price": 10,
+    "to_hit": -1,
+    "material": "plastic",
+    "symbol": "v",
+    "color": "light_cyan",
+    "contains": "1ml",
+    "seals": true,
+    "watertight": true,
+    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
+  },
+  {
     "id": "flask_hip",
     "type": "CONTAINER",
     "category": "clothing",
@@ -602,48 +627,9 @@
     "contains": 1,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "LEG_EITHER" ],
-      "coverage": 2,
-      "material_thickness": 1
-    },
+    "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 2, "material_thickness": 1 },
     "qualities": [ [ "BOIL", 1 ] ],
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
-  },
-  {
-    "id": "glass",
-    "type": "CONTAINER",
-    "name": "glass cup",
-    "name_plural": "glasses",
-    "description": "A tall glass, just begging for a frosty one!",
-    "weight": 375,
-    "volume": 2,
-    "price": 400,
-    "price_postapoc": 0,
-    "bashing": 1,
-    "material": "glass",
-    "symbol": ",",
-    "color": "cyan",
-    "contains": 2,
-    "watertight": true,
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
-  },
-  {
-    "id": "glass_bowl",
-    "type": "CONTAINER",
-    "name": "glass bowl",
-    "description": "A glass dessert bowl, not a lot of use for it really.",
-    "weight": 500,
-    "volume": 1,
-    "price": 800,
-    "price_postapoc": 0,
-    "bashing": 1,
-    "material": "glass",
-    "symbol": ",",
-    "color": "cyan",
-    "contains": 1,
-    "watertight": true,
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1 ] ]
   },
   {
     "id": "jar_3l_glass",
@@ -912,11 +898,7 @@
     "contains": 6,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "LEG_EITHER" ],
-      "coverage": 5,
-      "material_thickness": 2
-    },
+    "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "material_thickness": 2 },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -937,11 +919,7 @@
     "contains": 12,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "TORSO" ],
-      "coverage": 10,
-      "material_thickness": 2
-    },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 10, "material_thickness": 2 },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -962,11 +940,7 @@
     "contains": 20,
     "seals": true,
     "watertight": true,
-    "armor_data": {
-      "covers": [ "TORSO" ],
-      "coverage": 15,
-      "material_thickness": 2
-    },
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "material_thickness": 2 },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -1039,22 +1013,22 @@
     "watertight": true
   },
   {
-    "id": "test_tube",
+    "id": "condom",
     "type": "CONTAINER",
     "category": "other",
-    "name": "test tube",
-    "description": "A 10ml laboratory cylindrical test tube, with a rubber stopper.",
-    "weight": 36,
-    "volume": "10ml",
-    "price": 300,
-    "to_hit": -1,
-    "bashing": 1,
-    "material": "glass",
+    "name": "condom",
+    "description": "A gentleman's balloon. A single use life preventer. A thumbless latex mitten. This could be used as a makeshift water container, but otherwise it's anyone's guess what it's for.",
+    "weight": 5,
+    "volume": 0,
+    "price": 0,
+    "to_hit": -5,
+    "rigid": false,
+    "material": "plastic",
     "symbol": ")",
-    "color": "light_cyan",
-    "contains": "10ml",
-    "seals": true,
+    "color": "white",
+    "contains": 15,
     "watertight": true,
-    "qualities": [ [ "BOIL", 1 ], [ "CONTAIN", 1] ]
+    "seals": true,
+    "properties": [ [ "burst_when_filled", "75" ] ]
   }
 ]

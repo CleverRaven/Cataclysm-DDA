@@ -3,8 +3,13 @@
 #include <algorithm>
 #include <iterator>
 #include <sstream>
+#include <list>
+#include <memory>
+#include <set>
+#include <tuple>
+#include <unordered_set>
+#include <utility>
 
-#include "action.h"
 #include "debug.h"
 #include "game.h"
 #include "input.h"
@@ -12,13 +17,19 @@
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
-#include "iuse_actor.h"
 #include "json.h"
 #include "output.h"
 #include "player.h"
 #include "ret_val.h"
 #include "translations.h"
 #include "ui.h"
+#include "calendar.h"
+#include "catacharset.h"
+#include "cursesdef.h"
+#include "iuse.h"
+#include "type_id.h"
+
+struct tripoint;
 
 static item_action nullaction;
 static const std::string errstring( "ERROR" );
@@ -47,7 +58,7 @@ class actmenu_cb : public uilist_callback
             const std::string &action = ctxt.input_to_action( event );
             // Don't write a message if unknown command was sent
             // Only when an inexistent tool was selected
-            auto itemless_action = am.find( action );
+            const auto itemless_action = am.find( action );
             if( itemless_action != am.end() ) {
                 popup( _( "You do not have an item that can perform this action." ) );
                 return true;

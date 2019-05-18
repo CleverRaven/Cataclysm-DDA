@@ -1,19 +1,24 @@
 #include "string_input_popup.h"
 
+#include <cctype>
+
 #include "catacharset.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "input.h"
 #include "output.h"
 #include "ui.h"
 #include "uistate.h"
+#include "translations.h"
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <SDL_keyboard.h>
 
 #include "options.h"
 #endif
 
 #include <cstdlib>
+#include <algorithm>
+#include <vector>
 
 string_input_popup::string_input_popup() = default;
 
@@ -217,7 +222,7 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
     const utf8_wrapper ds( ret.substr_display( shift, scrmax ) );
     int start_x_edit = _startx;
     // Clear the line
-    mvwprintw( w, _starty, _startx, std::string( scrmax, ' ' ).c_str() );
+    mvwprintw( w, _starty, _startx, std::string( scrmax, ' ' ) );
     // Print the whole input string in default color
     mvwprintz( w, _starty, _startx, _string_color, "%s", ds.c_str() );
     size_t sx = ds.display_width();
@@ -231,16 +236,16 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
             a--;
             cursor = ret.substr( a, _position - a + 1 );
         }
-        size_t left_over = ret.substr( 0, a ).display_width() - shift;
+        const size_t left_over = ret.substr( 0, a ).display_width() - shift;
         mvwprintz( w, _starty, _startx + left_over, _cursor_color, "%s", cursor.c_str() );
-        start_x_edit = _startx + left_over;
+        start_x_edit += left_over;
     } else if( _position == _max_length && _max_length > 0 ) {
         mvwprintz( w, _starty, _startx + sx, _cursor_color, " " );
-        start_x_edit = _startx + sx;
+        start_x_edit += sx;
         sx++; // don't override trailing ' '
     } else {
         mvwprintz( w, _starty, _startx + sx, _cursor_color, "_" );
-        start_x_edit = _startx + sx;
+        start_x_edit += sx;
         sx++; // don't override trailing '_'
     }
     if( static_cast<int>( sx ) < scrmax ) {
@@ -257,7 +262,7 @@ void string_input_popup::draw( const utf8_wrapper &ret, const utf8_wrapper &edit
             }
         }
         if( l > 0 ) {
-            mvwprintz( w, _starty, _startx + sx, _underscore_color, std::string( l, '_' ).c_str() );
+            mvwprintz( w, _starty, _startx + sx, _underscore_color, std::string( l, '_' ) );
         }
     }
     if( !edit.empty() ) {
@@ -288,7 +293,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
     if( !ctxt ) {
         create_context();
     }
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     if( !draw_only && loop && get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
         SDL_StartTextInput();
     }
@@ -367,7 +372,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         }
 
         if( ch == KEY_ESCAPE ) {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
                 SDL_StopTextInput();
             }
@@ -434,7 +439,7 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         } else if( ch == KEY_F( 2 ) ) {
             std::string tmp = get_input_string_from_file();
             int tmplen = utf8_width( tmp );
-            if( tmplen > 0 && ( tmplen + utf8_width( ret.c_str() ) <= _max_length || _max_length == 0 ) ) {
+            if( tmplen > 0 && ( tmplen + utf8_width( ret ) <= _max_length || _max_length == 0 ) ) {
                 ret.append( tmp );
             }
         } else if( !ev.text.empty() && _only_digits && !( isdigit( ev.text[0] ) || ev.text[0] == '-' ) ) {
@@ -514,7 +519,7 @@ void string_input_popup::edit( int &value )
 string_input_popup &string_input_popup::text( const std::string &value )
 {
     _text = value;
-    auto u8size = utf8_wrapper( _text ).size();
+    const auto u8size = utf8_wrapper( _text ).size();
     if( _position < 0 || static_cast<size_t>( _position ) > u8size ) {
         _position = u8size;
     }

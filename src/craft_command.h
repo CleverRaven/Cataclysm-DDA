@@ -2,23 +2,16 @@
 #ifndef CRAFT_COMMAND_H
 #define CRAFT_COMMAND_H
 
-#include <list>
 #include <vector>
+#include <string>
 
+#include "enums.h"
 #include "requirements.h"
-#include "string_id.h"
 
 class inventory;
 class item;
 class player;
 class recipe;
-
-struct component;
-struct tool_comp;
-struct item_comp;
-
-struct requirement_data;
-using requirement_id = string_id<requirement_data>;
 
 /**
 *   enum used by comp_selection to indicate where a component should be consumed from.
@@ -54,13 +47,22 @@ class craft_command
     public:
         /** Instantiates an empty craft_command, which can't be executed. */
         craft_command() = default;
-        craft_command( const recipe *to_make, int batch_size, bool is_long, player *crafter ) :
-            rec( to_make ), batch_size( batch_size ), is_long( is_long ), crafter( crafter ) {}
+        craft_command( const recipe *to_make, int batch_size, bool is_long, player *crafter,
+                       const tripoint loc = tripoint_zero ) :
+            rec( to_make ), batch_size( batch_size ), longcraft( is_long ), crafter( crafter ), loc( loc ) {}
 
         /** Selects components to use for the craft, then assigns the crafting activity to 'crafter'. */
-        void execute();
-        /** Consumes the selected components. Must be called after execute(). */
-        std::list<item> consume_components();
+        void execute( const tripoint &new_loc = tripoint_zero );
+
+        /**
+         * Consumes the selected components and returns the resulting in progress craft item.
+         * Must be called after execute().
+         */
+        item create_in_progress_craft();
+
+        bool is_long() const {
+            return longcraft;
+        }
 
         bool has_cached_selections() const {
             return !item_selections.empty() || !tool_selections.empty();
@@ -69,13 +71,21 @@ class craft_command
         bool empty() const {
             return rec == nullptr;
         }
+
     private:
         const recipe *rec = nullptr;
         int batch_size = 0;
-        /** Indicates the activity_type for this crafting job, Either ACT_CRAFT or ACT_LONGCRAFT. */
-        bool is_long = false;
+        /**
+        * Indicates whether the player has initiated a one off craft or wishes to craft as
+        * long as possible.
+        */
+        bool longcraft = false;
         // This is mainly here for maintainability reasons.
         player *crafter;
+
+        // Location of the workbench to place the item on
+        // zero_tripoint indicates crafting without a workbench
+        tripoint loc = tripoint_zero;
 
         std::vector<comp_selection<item_comp>> item_selections;
         std::vector<comp_selection<tool_comp>> tool_selections;

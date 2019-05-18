@@ -1,8 +1,13 @@
 #include "character.h"
 
+#include <climits>
+#include <cstdlib>
 #include <algorithm>
 #include <numeric>
 #include <sstream>
+#include <cmath>
+#include <iterator>
+#include <memory>
 
 #include "activity_handlers.h"
 #include "bionics.h"
@@ -31,6 +36,13 @@
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "catacharset.h"
+#include "game_constants.h"
+#include "item_location.h"
+#include "lightmap.h"
+#include "rng.h"
+#include "stomach.h"
+#include "ui.h"
 
 const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_beartrap( "beartrap" );
@@ -108,12 +120,12 @@ Character::Character() :
     healthy = 0;
     healthy_mod = 0;
     hunger = 0;
-    starvation = 0;
     thirst = 0;
     fatigue = 0;
     sleep_deprivation = 0;
-    stomach_food = 0;
-    stomach_water = 0;
+    // 45 days to starve to death
+    healthy_calories = 55000;
+    stored_calories = healthy_calories;
 
     name.clear();
 
@@ -171,8 +183,6 @@ void Character::mod_stat( const std::string &stat, float modifier )
         mod_healthy( modifier );
     } else if( stat == "hunger" ) {
         mod_hunger( modifier );
-    } else if( stat == "starvation" ) {
-        mod_starvation( modifier );
     } else {
         Creature::mod_stat( stat, modifier );
     }
@@ -440,7 +450,7 @@ bool Character::move_effects( bool attacking )
             const monster *const mon = g->critter_at<monster>( dest );
             if( mon && ( mon->has_flag( MF_GRABS ) ||
                          mon->type->has_special_attack( "GRAB" ) ) ) {
-                zed_number ++;
+                zed_number += mon->get_grab_strength();
             }
         }
         if( zed_number == 0 ) {
@@ -451,7 +461,7 @@ bool Character::move_effects( bool attacking )
 
             /** @EFFECT_STR increases chance to escape grab, if >DEX */
         } else if( rng( 0, std::max( get_dex(), get_str() ) ) <
-                   rng( get_effect_int( effect_grabbed ), 8 ) ) {
+                   rng( get_effect_int( effect_grabbed, bp_torso ), 8 ) ) {
             // Randomly compare higher of dex or str to grab intensity.
             add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
                                    _( "<npcname> tries to break out of the grab, but fails!" ) );
@@ -667,6 +677,15 @@ bool Character::has_active_bionic( const bionic_id &b ) const
     return false;
 }
 
+bool Character::has_any_bionic() const
+{
+    bionic_collection tmp_collec = *my_bionics;
+    if( !tmp_collec.empty() ) {
+        return true;
+    }
+    return false;
+}
+
 std::vector<item_location> Character::nearby( const
         std::function<bool( const item *, const item * )> &func, int radius ) const
 {
@@ -712,7 +731,7 @@ long int Character::i_add_to_container( const item &it, const bool unloading )
         auto &contained_ammo = container.contents.front();
         if( contained_ammo.charges < container.ammo_capacity() ) {
             const long int diff = container.ammo_capacity() - contained_ammo.charges;
-            add_msg( _( "You put the %s in your %s." ), it.tname().c_str(), container.tname().c_str() );
+            add_msg( _( "You put the %s in your %s." ), it.tname(), container.tname() );
             if( diff > charges ) {
                 contained_ammo.charges += charges;
                 return 0L;
@@ -746,9 +765,9 @@ item &Character::i_add( item it, bool should_stack )
 
     // if there's a desired invlet for this item type, try to use it
     bool keep_invlet = false;
-    const std::set<char> cur_inv = allocated_invlets();
+    const invlets_bitset cur_inv = allocated_invlets();
     for( auto iter : inv.assigned_invlet ) {
-        if( iter.second == item_type_id && !cur_inv.count( iter.first ) ) {
+        if( iter.second == item_type_id && !cur_inv[iter.first] ) {
             it.invlet = iter.first;
             keep_invlet = true;
             break;
@@ -838,7 +857,7 @@ item Character::i_rem( const item *it )
         return &i == it;
     }, 1 );
     if( tmp.empty() ) {
-        debugmsg( "did not found item %s to remove it!", it->tname().c_str() );
+        debugmsg( "did not found item %s to remove it!", it->tname() );
         return item();
     }
     return tmp.front();
@@ -869,18 +888,16 @@ bool Character::i_add_or_drop( item &it, int qty )
     return retval;
 }
 
-std::set<char> Character::allocated_invlets() const
+invlets_bitset Character::allocated_invlets() const
 {
-    std::set<char> invlets = inv.allocated_invlets();
+    invlets_bitset invlets = inv.allocated_invlets();
 
-    if( weapon.invlet != 0 ) {
-        invlets.insert( weapon.invlet );
-    }
+    invlets.set( weapon.invlet );
     for( const auto &w : worn ) {
-        if( w.invlet != 0 ) {
-            invlets.insert( w.invlet );
-        }
+        invlets.set( w.invlet );
     }
+
+    invlets[0] = false;
 
     return invlets;
 }
@@ -1012,6 +1029,31 @@ std::vector<item_location> Character::find_ammo( const item &obj, bool empty, in
     return res;
 }
 
+std::vector<item_location> Character::find_reloadables()
+{
+    std::vector<item_location> reloadables;
+
+    visit_items( [this, &reloadables]( item * node ) {
+        if( node->is_holster() ) {
+            return VisitResponse::NEXT;
+        }
+        bool reloadable = false;
+        if( node->is_gun() && !node->magazine_compatible().empty() ) {
+            reloadable = node->magazine_current() == nullptr ||
+                         node->ammo_remaining() < node->ammo_capacity();
+        } else {
+            reloadable = ( node->is_magazine() || node->is_bandolier() ||
+                           ( node->is_gun() && node->magazine_integral() ) ) &&
+                         node->ammo_remaining() < node->ammo_capacity();
+        }
+        if( reloadable ) {
+            reloadables.push_back( item_location( *this, node ) );
+        }
+        return VisitResponse::SKIP;
+    } );
+    return reloadables;
+}
+
 units::mass Character::weight_carried() const
 {
     return weight_carried_with_tweaks( {} );
@@ -1022,22 +1064,48 @@ units::volume Character::volume_carried() const
     return inv.volume();
 }
 
+int Character::best_nearby_lifting_assist() const
+{
+    return best_nearby_lifting_assist( this->pos() );
+}
+
+int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
+{
+    const quality_id LIFT( "LIFT" );
+    return std::max( { this->max_quality( LIFT ),
+                       map_selector( this->pos(), PICKUP_RANGE ).max_quality( LIFT ),
+                       vehicle_selector( world_pos, 4, true, true ).max_quality( LIFT )
+                     } );
+}
+
 units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) const
 {
     const std::map<const item *, int> empty;
-    const auto &without = tweaks.without_items ? tweaks.without_items->get() : empty;
+    const std::map<const item *, int> &without = tweaks.without_items ? tweaks.without_items->get() :
+            empty;
 
     units::mass ret = 0_gram;
-    if( !without.count( &weapon ) ) {
-        ret += weapon.weight();
-    }
     for( auto &i : worn ) {
         if( !without.count( &i ) ) {
             ret += i.weight();
         }
     }
-    const auto &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
+    const inventory &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
     ret += i.weight_without( without );
+
+    if( !without.count( &weapon ) ) {
+
+        const units::mass thisweight = weapon.weight();
+        if( thisweight + ret > weight_capacity() ) {
+            const float liftrequirement = ceil( units::to_gram<float>( thisweight ) / units::to_gram<float>
+                                                ( TOOL_LIFT_FACTOR ) );
+            if( g->new_game || best_nearby_lifting_assist() < liftrequirement ) {
+                ret += thisweight;
+            }
+        } else {
+            ret += thisweight;
+        }
+    }
     return ret;
 }
 
@@ -1137,12 +1205,12 @@ bool Character::can_use( const item &it, const item &context ) const
             //~ %1$s - list of unmet requirements, %2$s - item name.
             add_msg_player_or_npc( m_bad, _( "You need at least %1$s to use this %2$s." ),
                                    _( "<npcname> needs at least %1$s to use this %2$s." ),
-                                   unmet.c_str(), it.tname().c_str() );
+                                   unmet, it.tname() );
         } else {
             //~ %1$s - list of unmet requirements, %2$s - item name, %3$s - indirect item name.
             add_msg_player_or_npc( m_bad, _( "You need at least %1$s to use this %2$s with your %3$s." ),
                                    _( "<npcname> needs at least %1$s to use this %2$s with their %3$s." ),
-                                   unmet.c_str(), it.tname().c_str(), ctx.tname().c_str() );
+                                   unmet, it.tname(), ctx.tname() );
         }
 
         return false;
@@ -1256,7 +1324,7 @@ std::string Character::enumerate_unmet_requirements( const item &it, const item 
 
     const auto check_req = [ &unmet_reqs ]( const std::string & name, int cur, int req ) {
         if( cur < req ) {
-            unmet_reqs.push_back( string_format( "%s %d", name.c_str(), req ) );
+            unmet_reqs.push_back( string_format( "%s %d", name, req ) );
         }
     };
 
@@ -1659,6 +1727,9 @@ void Character::mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) con
     if( has_bionic( bionic_id( "bio_nostril" ) ) ) {
         vals[bp_mouth].encumbrance += 10;
     }
+    if( has_bionic( bionic_id( "bio_shotgun" ) ) ) {
+        vals[bp_arm_l].encumbrance += 5;
+    }
     if( has_bionic( bionic_id( "bio_thumbs" ) ) ) {
         vals[bp_hand_l].encumbrance += 10;
         vals[bp_hand_r].encumbrance += 10;
@@ -1865,6 +1936,42 @@ void Character::mod_healthy_mod( int nhealthy_mod, int cap )
     healthy_mod = std::max( healthy_mod, low_cap );
 }
 
+int Character::get_stored_kcal() const
+{
+    return stored_calories;
+}
+
+void Character::mod_stored_kcal( int nkcal )
+{
+    // this needs to be capped until there are negative effects on being overweight
+    const int capped = std::min( stored_calories + nkcal,
+                                 static_cast<int>( get_healthy_kcal() * 1.1 ) );
+    set_stored_kcal( capped );
+}
+
+void Character::mod_stored_nutr( int nnutr )
+{
+    // nutr is legacy type code, this function simply converts old nutrition to new kcal
+    mod_stored_kcal( -1 * round( nnutr * 2500.0f / ( 12 * 24 ) ) );
+}
+
+void Character::set_stored_kcal( int kcal )
+{
+    if( stored_calories != kcal ) {
+        stored_calories = kcal;
+    }
+}
+
+int Character::get_healthy_kcal() const
+{
+    return healthy_calories;
+}
+
+float Character::get_kcal_percent() const
+{
+    return static_cast<float>( get_stored_kcal() ) / static_cast<float>( get_healthy_kcal() );
+}
+
 int Character::get_hunger() const
 {
     return hunger;
@@ -1884,22 +1991,19 @@ void Character::set_hunger( int nhunger )
     }
 }
 
+// this is a translation from a legacy value
 int Character::get_starvation() const
 {
-    return starvation;
-}
-
-void Character::mod_starvation( int nstarvation )
-{
-    set_starvation( starvation + nstarvation );
-}
-
-void Character::set_starvation( int nstarvation )
-{
-    if( starvation != nstarvation ) {
-        starvation = std::max( 0, nstarvation );
-        on_stat_change( "starvation", starvation );
+    static const std::vector<std::pair<float, float>> starv_thresholds = { {
+            std::make_pair( 0.0f, 6000.0f ),
+            std::make_pair( 0.8f, 300.0f ),
+            std::make_pair( 0.95f, 100.0f )
+        }
+    };
+    if( get_kcal_percent() < 0.95f ) {
+        return round( multi_lerp( starv_thresholds, get_kcal_percent() ) );
     }
+    return 0;
 }
 
 int Character::get_thirst() const
@@ -1909,7 +2013,9 @@ int Character::get_thirst() const
 
 std::pair<std::string, nc_color> Character::get_thirst_description() const
 {
-    int thirst = get_thirst();
+    // some delay from water in stomach is desired, but there needs to be some visceral response
+    int thirst = get_thirst() - ( std::max( units::to_milliliter<int>( g->u.stomach.get_water() ) / 10,
+                                            0 ) );
     std::string hydration_string;
     nc_color hydration_color = c_white;
     if( thirst > 520 ) {
@@ -1999,31 +2105,6 @@ void Character::set_thirst( int nthirst )
         thirst = nthirst;
         on_stat_change( "thirst", thirst );
     }
-}
-
-int Character::get_stomach_food() const
-{
-    return stomach_food;
-}
-void Character::mod_stomach_food( int n_stomach_food )
-{
-    stomach_food = std::max( 0, stomach_food + n_stomach_food );
-}
-void Character::set_stomach_food( int n_stomach_food )
-{
-    stomach_food = std::max( 0, n_stomach_food );
-}
-int Character::get_stomach_water() const
-{
-    return stomach_water;
-}
-void Character::mod_stomach_water( int n_stomach_water )
-{
-    stomach_water = std::max( 0, stomach_water + n_stomach_water );
-}
-void Character::set_stomach_water( int n_stomach_water )
-{
-    stomach_water = std::max( 0, n_stomach_water );
 }
 
 void Character::mod_fatigue( int nfatigue )
@@ -2382,6 +2463,15 @@ std::string Character::get_name() const
     return name;
 }
 
+std::vector<std::string> Character::get_grammatical_genders() const
+{
+    if( male ) {
+        return { "m" };
+    } else {
+        return { "f" };
+    }
+}
+
 nc_color Character::symbol_color() const
 {
     nc_color basic = basic_symbol_color();
@@ -2554,12 +2644,11 @@ bool Character::pour_into( item &container, item &liquid )
     const long amount = container.get_remaining_capacity_for_liquid( liquid, *this, &err );
 
     if( !err.empty() ) {
-        add_msg_if_player( m_bad, err.c_str() );
+        add_msg_if_player( m_bad, err );
         return false;
     }
 
-    add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname().c_str(),
-                       container.tname().c_str() );
+    add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname(), container.tname() );
 
     container.fill_with( liquid, amount );
     inv.unsort();
@@ -2579,9 +2668,9 @@ bool Character::pour_into( vehicle &veh, item &liquid )
 
     auto stack = units::legacy_volume_factor / liquid.type->stack_size;
     auto title = string_format( _( "Select target tank for <color_%s>%.1fL %s</color>" ),
-                                get_all_colors().get_name( liquid.color() ).c_str(),
+                                get_all_colors().get_name( liquid.color() ),
                                 round_up( to_liter( liquid.charges * stack ), 1 ),
-                                liquid.tname().c_str() );
+                                liquid.tname() );
 
     auto &tank = veh_interact::select_part( veh, sel, title );
     if( !tank ) {
@@ -2592,7 +2681,7 @@ bool Character::pour_into( vehicle &veh, item &liquid )
 
     //~ $1 - vehicle name, $2 - part name, $3 - liquid type
     add_msg_if_player( _( "You refill the %1$s's %2$s with %3$s." ),
-                       veh.name.c_str(), tank.name().c_str(), liquid.type_name().c_str() );
+                       veh.name, tank.name(), liquid.type_name() );
 
     if( liquid.charges > 0 ) {
         add_msg_if_player( _( "There's some left over!" ) );
@@ -2757,9 +2846,9 @@ std::string Character::extended_description() const
     std::ostringstream ss;
     if( is_player() ) {
         // <bad>This is me, <player_name>.</bad>
-        ss << string_format( _( "This is you - %s." ), name.c_str() );
+        ss << string_format( _( "This is you - %s." ), name );
     } else {
-        ss << string_format( _( "This is %s." ), name.c_str() );
+        ss << string_format( _( "This is %s." ), name );
     }
 
     ss << std::endl << "--" << std::endl;
@@ -2908,9 +2997,13 @@ float Character::mutation_value( const std::string &val ) const
         return calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier>( cached_mutations );
     } else if( val == "noise_modifier" ) {
         return calc_mutation_value_multiplicative<&mutation_branch::noise_modifier>( cached_mutations );
+    } else if( val == "overmap_sight" ) {
+        return calc_mutation_value_multiplicative<&mutation_branch::overmap_sight>( cached_mutations );
+    } else if( val == "overmap_multiplier" ) {
+        return calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier>( cached_mutations );
     }
 
-    debugmsg( "Invalid mutation value name %s", val.c_str() );
+    debugmsg( "Invalid mutation value name %s", val );
     return 0.0f;
 }
 
@@ -2942,7 +3035,7 @@ float Character::healing_rate( float at_rest_quality ) const
     // Most common case: awake player with no regenerative abilities
     // ~7e-5 is 1 hp per day, anything less than that is totally negligible
     static constexpr float eps = 0.000007f;
-    add_msg( m_debug, "%s healing: %.6f", name.c_str(), final_rate );
+    add_msg( m_debug, "%s healing: %.6f", name, final_rate );
     if( std::abs( final_rate ) < eps ) {
         return 0.0f;
     }

@@ -1,16 +1,17 @@
 #include "creature.h"
 
-#include <algorithm>
+#include <cstdlib>
 #include <cmath>
+#include <algorithm>
 #include <map>
+#include <array>
+#include <memory>
 
-#include "item.h"
 #include "anatomy.h"
 #include "debug.h"
 #include "effect.h"
 #include "field.h"
 #include "game.h"
-#include "itype.h"
 #include "map.h"
 #include "messages.h"
 #include "monster.h"
@@ -22,6 +23,19 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "calendar.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "damage.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "lightmap.h"
+#include "line.h"
+#include "mapdata.h"
+#include "optional.h"
+#include "player.h"
+#include "string_id.h"
 
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_bounced( "bounced" );
@@ -61,12 +75,18 @@ Creature::Creature()
     speed_base = 100;
     underwater = false;
 
-    reset_bonuses();
+    Creature::reset_bonuses();
 
     fake = false;
 }
 
 Creature::~Creature() = default;
+
+std::vector<std::string> Creature::get_grammatical_genders() const
+{
+    // Returning empty list means we use the language-specified default
+    return {};
+}
 
 void Creature::normalize()
 {
@@ -179,11 +199,40 @@ bool Creature::sees( const Creature &critter ) const
                     abs( posz() - critter.posz() ) <= 1 ) ) ) {
         return false;
     }
-
+    if( const player *p = dynamic_cast<const player *>( &critter ) ) {
+        if( p->get_movement_mode() == "crouch" ) {
+            const int coverage = g->m.obstacle_coverage( pos(), critter.pos() );
+            if( coverage < 30 ) {
+                return sees( critter.pos(), critter.is_player() );
+            }
+            float size_modifier = 1.0;
+            switch( p->get_size() ) {
+                case MS_TINY:
+                    size_modifier = 2.0;
+                    break;
+                case MS_SMALL:
+                    size_modifier = 1.4;
+                    break;
+                case MS_MEDIUM:
+                    break;
+                case MS_LARGE:
+                    size_modifier = 0.6;
+                    break;
+                case MS_HUGE:
+                    size_modifier = 0.15;
+                    break;
+            }
+            const int vision_modifier = 30 - 0.5 * coverage * size_modifier;
+            if( vision_modifier > 1 ) {
+                return sees( critter.pos(), critter.is_player(), vision_modifier );
+            }
+            return false;
+        }
+    }
     return sees( critter.pos(), critter.is_player() );
 }
 
-bool Creature::sees( const tripoint &t, bool is_player ) const
+bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
 {
     if( !fov_3d && posz() != t.z ) {
         return false;
@@ -206,6 +255,9 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
         }
         if( has_effect( effect_no_sight ) ) {
             range = 1;
+        }
+        if( range_mod > 0 ) {
+            range = std::min( range, range_mod );
         }
         if( is_player ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.
@@ -406,7 +458,7 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
     int hit_spread = hitroll - dodge_roll() - size_melee_penalty( get_size() );
 
     // If attacker missed call targets on_dodge event
-    if( hit_spread <= 0 && !source->is_hallucination() ) {
+    if( hit_spread <= 0 && source != nullptr && !source->is_hallucination() ) {
         on_dodge( source, source->get_melee() );
     }
 
@@ -416,6 +468,10 @@ int Creature::deal_melee_attack( Creature *source, int hitroll )
 void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_hit,
                                const damage_instance &dam, dealt_damage_instance &dealt_dam )
 {
+    if( source == nullptr || source->is_hallucination() ) {
+        dealt_dam.bp_hit = get_random_body_part();
+        return;
+    }
     damage_instance d = dam; // copy, since we will mutate in block_hit
 
     body_part bp_hit = select_body_part( source, hit_spread );
@@ -440,7 +496,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         } else {
             source->add_msg_player_or_npc( m_good, _( "You force %s to the ground!" ),
                                            _( "<npcname> forces %s to the ground!" ),
-                                           disp_name().c_str() );
+                                           disp_name() );
         }
 
         add_effect( effect_downed, 1_turns );
@@ -495,7 +551,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                 m_warning,
                 _( "You avoid %s projectile!" ),
                 _( "<npcname> avoids %s projectile." ),
-                source->disp_name( true ).c_str() );
+                source->disp_name( true ) );
         } else {
             add_msg_player_or_npc(
                 m_warning,
@@ -560,7 +616,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
 
     if( print_messages && source != nullptr && !message.empty() ) {
-        source->add_msg_if_player( m_good, message.c_str() );
+        source->add_msg_if_player( m_good, message );
     }
 
     attack.missed_by = goodhit;
@@ -649,15 +705,15 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             }
         } else if( dealt_dam.total_damage() == 0 ) {
             //~ 1$ - monster name, 2$ - character's bodypart or monster's skin/armor
-            add_msg( _( "The shot reflects off %1$s %2$s!" ), disp_name( true ).c_str(),
+            add_msg( _( "The shot reflects off %1$s %2$s!" ), disp_name( true ),
                      is_monster() ?
-                     skin_name().c_str() :
-                     body_part_name_accusative( bp_hit ).c_str() );
+                     skin_name() :
+                     body_part_name_accusative( bp_hit ) );
         } else if( is_player() ) {
             //monster hits player ranged
             //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
             add_msg_if_player( m_bad, _( "You were hit in the %1$s for %2$d damage." ),
-                               body_part_name_accusative( bp_hit ).c_str(),
+                               body_part_name_accusative( bp_hit ),
                                dealt_dam.total_damage() );
         } else if( source != nullptr ) {
             if( source->is_player() ) {
@@ -679,11 +735,11 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                 }
 
                 add_msg( m_good, _( "You hit %s for %d damage." ),
-                         disp_name().c_str(), dealt_dam.total_damage() );
+                         disp_name(), dealt_dam.total_damage() );
             } else if( u_see_this ) {
                 //~ 1$ - shooter, 2$ - target
                 add_msg( _( "%1$s shoots %2$s." ),
-                         source->disp_name().c_str(), disp_name().c_str() );
+                         source->disp_name(), disp_name() );
             }
         }
     }
@@ -890,12 +946,10 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
             // Only print the message if we didn't already have it
             if( !type.get_apply_message().empty() ) {
                 add_msg( type.gain_game_message_type(),
-                         _( type.get_apply_message().c_str() ) );
+                         _( type.get_apply_message() ) );
             }
-            add_memorial_log( pgettext( "memorial_male",
-                                        type.get_apply_memorial_log().c_str() ),
-                              pgettext( "memorial_female",
-                                        type.get_apply_memorial_log().c_str() ) );
+            add_memorial_log( pgettext( "memorial_male", type.get_apply_memorial_log().c_str() ),
+                              pgettext( "memorial_female", type.get_apply_memorial_log().c_str() ) );
         }
         on_effect_int_change( eff_id, e.get_intensity(), bp );
         // Perform any effect addition effects.
@@ -943,12 +997,10 @@ bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
         // Print the removal message and add the memorial log if needed
         if( !type.get_remove_message().empty() ) {
             add_msg( type.lose_game_message_type(),
-                     _( type.get_remove_message().c_str() ) );
+                     _( type.get_remove_message() ) );
         }
-        add_memorial_log( pgettext( "memorial_male",
-                                    type.get_remove_memorial_log().c_str() ),
-                          pgettext( "memorial_female",
-                                    type.get_remove_memorial_log().c_str() ) );
+        add_memorial_log( pgettext( "memorial_male", type.get_remove_memorial_log().c_str() ),
+                          pgettext( "memorial_female", type.get_remove_memorial_log().c_str() ) );
     }
 
     // num_bp means remove all of a given effect id
@@ -1475,6 +1527,20 @@ void Creature::check_dead_state()
 {
     if( is_dead_state() ) {
         die( nullptr );
+    }
+}
+
+const std::string Creature::attitude_raw_string( Attitude att )
+{
+    switch( att ) {
+        case Creature::A_HOSTILE:
+            return "hostile";
+        case Creature::A_NEUTRAL:
+            return "neutral";
+        case Creature::A_FRIENDLY:
+            return "friendly";
+        default:
+            return "other";
     }
 }
 

@@ -2,8 +2,10 @@
 #ifndef OVERMAP_H
 #define OVERMAP_H
 
+#include <cstdlib>
 #include <algorithm>
 #include <array>
+#include <climits>
 #include <functional>
 #include <iosfwd>
 #include <map>
@@ -11,26 +13,24 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <iterator>
+#include <utility>
 
 #include "basecamp.h"
 #include "game_constants.h"
-#include "monster.h"
 #include "omdata.h"
 #include "overmap_types.h" // IWYU pragma: keep
 #include "regional_settings.h"
-#include "weighted_list.h"
+#include "enums.h"
+#include "mongroup.h"
+#include "optional.h"
+#include "type_id.h"
 
-class basecamp;
-class input_context;
-class JsonObject;
 class npc;
-class overmapbuffer;
 class overmap_connection;
-namespace catacurses
-{
-class window;
-} // namespace catacurses
-struct mongroup;
+class JsonIn;
+class JsonOut;
+class monster;
 
 namespace pf
 {
@@ -43,7 +43,7 @@ struct city {
     int size;
     std::string name;
     city( const point &P = point_zero, const int S = -1 );
-    city( const int X, const int Y, const int S ) : city( point( X, Y ), S ) {};
+    city( const int X, const int Y, const int S ) : city( point( X, Y ), S ) {}
 
     operator bool() const {
         return size >= 0;
@@ -82,10 +82,10 @@ struct radio_tower {
     radio_type type;
     std::string message;
     int frequency;
-    radio_tower( int X = -1, int Y = -1, int S = -1, std::string M = "",
+    radio_tower( int X = -1, int Y = -1, int S = -1, const std::string &M = "",
                  radio_type T = MESSAGE_BROADCAST ) :
         x( X ), y( Y ), strength( S ), type( T ), message( M ) {
-        frequency = rand();
+        frequency = rng( 0, INT_MAX );
     }
 };
 
@@ -250,10 +250,10 @@ class overmap
         // TODO: make private
         std::vector<radio_tower> radios;
         std::map<int, om_vehicle> vehicles;
-        std::vector<basecamp *> camps;
+        std::vector<basecamp> camps;
         std::vector<city> cities;
         std::vector<city> roads_out;
-        cata::optional<basecamp *> find_camp( const int x, const int y ) const;
+        cata::optional<basecamp *> find_camp( const int x, const int y );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( std::shared_ptr<npc> who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
@@ -332,10 +332,16 @@ class overmap
 
         // Overall terrain
         void place_river( point pa, point pb );
-        void place_forest();
-
+        void place_forests();
+        void place_lakes();
+        void place_rivers( const overmap *north, const overmap *east, const overmap *south,
+                           const overmap *west );
+        void place_swamps();
         void place_forest_trails();
         void place_forest_trailheads();
+
+        void place_roads( const overmap *north, const overmap *east, const overmap *south,
+                          const overmap *west );
 
         // City Building
         overmap_special_id pick_random_building_to_place( int town_dist ) const;
@@ -419,6 +425,7 @@ class overmap
 };
 
 bool is_river( const oter_id &ter );
+bool is_river_or_lake( const oter_id &ter );
 bool is_ot_type( const std::string &otype, const oter_id &oter );
 // Matches any oter_id that contains the substring passed in, useful when oter can be a suffix, not just a prefix.
 bool is_ot_subtype( const char *otype, const oter_id &oter );

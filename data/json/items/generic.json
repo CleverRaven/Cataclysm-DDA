@@ -41,6 +41,21 @@
   },
   {
     "type": "GENERIC",
+    "//": "pseudo item, used as fuel type for engines that are wind-powered",
+    "id": "wind",
+    "symbol": "?",
+    "color": "white",
+    "name": "wind",
+    "name_plural": "none",
+    "description": "seeing this is a bug",
+    "stackable": true,
+    "price": 0,
+    "volume": 0,
+    "flags": [ "PSEUDO", "PERPETUAL" ],
+    "fuel": { "energy": 1 }
+  },
+  {
+    "type": "GENERIC",
     "//": "pseudo item, only used for as a required tool, checked for in player::amount_of",
     "id": "apparatus",
     "symbol": "$",
@@ -455,6 +470,24 @@
   },
   {
     "type": "GENERIC",
+    "id": "blade_scythe",
+    "symbol": "(",
+    "color": "light_gray",
+    "name": "scythe blade",
+    "description": "A large, curved blade.  Could be used to assemble a scythe, or make an improvised polearm.",
+    "category": "spare_parts",
+    "price": 28000,
+    "price_postapoc": 1000,
+    "material": "steel",
+    "weight": 1000,
+    "volume": 6,
+    "bashing": 6,
+    "cutting": 8,
+    "to_hit": -2,
+    "qualities": [ [ "BUTCHER", -38 ] ]
+  },
+  {
+    "type": "GENERIC",
     "id": "circsaw_blade",
     "symbol": "/",
     "color": "light_gray",
@@ -716,6 +749,20 @@
   },
   {
     "type": "GENERIC",
+    "id": "thermostat",
+    "symbol": ",",
+    "color": "light_gray",
+    "name": "bimetal thermostat",
+    "category": "spare_parts",
+    "description": "A simple thermostat controlled by thermal expansion of a bimetal strip.",
+    "price": 1000,
+    "price_postapoc": 100,
+    "material": "iron",
+    "weight": 226,
+    "volume": 1
+  },
+  {
+    "type": "GENERIC",
     "id": "television",
     "symbol": ";",
     "color": "dark_gray",
@@ -849,12 +896,54 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_nursebot",
+    "symbol": ",",
+    "color": "dark_gray",
+    "name": "broken nurse bot",
+    "category": "other",
+    "description": "A broken nurse bot.  Its smooth face staring vacantly into empty space.  Could be gutted for parts.",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 140000,
+    "volume": 250,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_nursebot_defective",
+    "name": "broken nurse bot",
+    "copy-from": "broken_nursebot"
+  },
+  {
+    "type": "GENERIC",
     "id": "broken_riotbot",
     "symbol": ",",
     "color": "green",
     "name": "broken riot control bot",
     "category": "other",
     "description": "A broken riot control bot.  Much less threatening now that it's out of gas.  Could be gutted for parts.",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 140000,
+    "volume": 250,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_robofac_prototype",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken prototype robot",
+    "category": "other",
+    "description": "A broken prototype robot, well more broken than before.  Could be gutted for parts.",
     "price": 30000,
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
@@ -914,6 +1003,40 @@
     "volume": 3500,
     "bashing": 20,
     "cutting": 15,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_dispatch",
+    "symbol": ",",
+    "color": "yellow",
+    "name": "broken riot dispatch",
+    "category": "other",
+    "description": "A broken riot dispatch, with its mesh midsection filled with fried manhacks and its motor limp and still.  Could be gutted for parts.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 100000,
+    "volume": "85000 ml",
+    "bashing": 4,
+    "cutting": 4,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_dispatch_military",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken military dispatch",
+    "category": "other",
+    "description": "A broken military dispatch.  Though the scratched, disarmed manhacks visible in its belly are disarmed, their destructive potential still inspires a spark of fear, even now.  Could be gutted for parts.",
+    "price": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 100000,
+    "volume": "85000 ml",
+    "bashing": 4,
+    "cutting": 4,
     "to_hit": -3,
     "flags": [ "TRADER_AVOID" ]
   },
@@ -1289,26 +1412,6 @@
     "to_hit": 1
   },
   {
-    "type": "PET_ARMOR",
-    "id": "kevlar_harness",
-    "symbol": "[",
-    "color": "blue",
-    "name": "Kevlar dog harness",
-    "name_plural": "Kevlar dog harnesses",
-    "description": "A blue bulletproof harness, designed to be worn by canines in the service of local law enforcement.  You could put this on a friendly dog.",
-    "price": 30000,
-    "price_postapoc": 3000,
-    "material": [ "kevlar" ],
-    "weight": 4290,
-    "volume": 18,
-    "bashing": 5,
-    "to_hit": -1,
-    "flags": [ "IS_PET_ARMOR" ],
-    "max_pet_vol": "35000 ml",
-    "min_pet_vol": "25000 ml",
-    "pet_bodytype": "dog"
-  },
-  {
     "type": "GENERIC",
     "id": "fan",
     "symbol": ",",
@@ -1338,21 +1441,6 @@
   },
   {
     "type": "GENERIC",
-    "id": "ceramic_plate",
-    "symbol": ",",
-    "color": "yellow",
-    "name": "ceramic plate",
-    "description": "A ceramic dinner plate, you could probably play frisbee with it.",
-    "price": 1400,
-    "price_postapoc": 0,
-    "material": "ceramic",
-    "weight": 362,
-    "volume": 1,
-    "bashing": 1,
-    "qualities": [ [ "CONTAIN", 1 ] ]
-  },
-  {
-    "type": "GENERIC",
     "id": "fish_bowl",
     "symbol": "u",
     "color": "light_cyan",
@@ -1364,102 +1452,6 @@
     "weight": 7042,
     "volume": 4,
     "to_hit": -6
-  },
-  {
-    "type": "GENERIC",
-    "id": "glass_plate",
-    "symbol": ",",
-    "color": "cyan",
-    "name": "glass plate",
-    "description": "A glass dinner plate, you could probably play frisbee with it.",
-    "price": 1000,
-    "price_postapoc": 0,
-    "material": "glass",
-    "weight": 452,
-    "volume": 1,
-    "bashing": 1,
-    "qualities": [ [ "CONTAIN", 1 ] ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "tin_plate",
-    "symbol": ",",
-    "color": "light_gray",
-    "name": "tin plate",
-    "description": "A tin dinner plate, you could probably play frisbee with it.",
-    "price": 500,
-    "price_postapoc": 0,
-    "material": "steel",
-    "weight": 525,
-    "volume": 1,
-    "qualities": [ [ "CONTAIN", 1 ] ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "fork",
-    "symbol": ";",
-    "color": "light_gray",
-    "name": "fork",
-    "description": "A fork, if you stab something with it you eat it right away.  Wait...  nevermind.",
-    "price": 100,
-    "price_postapoc": 0,
-    "material": "steel",
-    "weight": 48,
-    "volume": 1,
-    "bashing": 2,
-    "cutting": 1,
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
-    "to_hit": -2
-  },
-  {
-    "type": "GENERIC",
-    "id": "spoon",
-    "symbol": ";",
-    "color": "light_gray",
-    "name": "spoon",
-    "description": "Do not try to bend the spoon.  That is impossible.",
-    "price": 100,
-    "price_postapoc": 0,
-    "material": "steel",
-    "weight": 48,
-    "volume": 1,
-    "bashing": 2,
-    "to_hit": -2,
-    "flags": [ "SHEATH_KNIFE" ]
-  },
-  {
-    "type": "GENERIC",
-    "id": "spork",
-    "symbol": ";",
-    "color": "light_gray",
-    "name": "spork",
-    "description": "Foons are for scrubs, real men use sporks.",
-    "price": 100,
-    "price_postapoc": 0,
-    "material": "steel",
-    "weight": 49,
-    "volume": 1,
-    "bashing": 2,
-    "cutting": 1,
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
-    "to_hit": -2
-  },
-  {
-    "type": "GENERIC",
-    "id": "foon",
-    "symbol": ";",
-    "color": "light_gray",
-    "name": "foon",
-    "description": "Clearly the superior instrument.  Sporks are just imitators.",
-    "price": 100,
-    "price_postapoc": 0,
-    "material": "steel",
-    "weight": 49,
-    "volume": 1,
-    "bashing": 2,
-    "cutting": 1,
-    "flags": [ "STAB", "SHEATH_KNIFE" ],
-    "to_hit": -2
   },
   {
     "type": "GENERIC",
@@ -1695,6 +1687,13 @@
     "weight": 89,
     "volume": 1,
     "cutting": 6,
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_glass",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You carefuly place the shards on the ground, ready to be cracked by something passing by."
+    },
     "flags": [ "HURT_WHEN_WIELDED", "HURT_WHEN_PULLED", "TRADER_AVOID" ],
     "to_hit": -1
   },
@@ -1726,7 +1725,14 @@
     "weight": 24176,
     "volume": 50,
     "bashing": 4,
-    "to_hit": -5
+    "to_hit": -5,
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_glass",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You break the pane and place the shards on the ground, ready to be cracked by something passing by."
+    }
   },
   {
     "type": "GENERIC",
@@ -1824,7 +1830,7 @@
     "color": "light_red",
     "symbol": ",",
     "material": [ "veggy" ],
-    "volume": 1,
+    "volume": 0,
     "price": 200
   },
   {
@@ -2540,7 +2546,17 @@
     "description": "The smoke billowing from this cigar has a sweet, musty odor.",
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID" ]
+    "use_action": [
+      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      {
+        "target": "cigar_butt",
+        "msg": "You extinguish the cigar.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
+    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
     "type": "GENERIC",
@@ -2561,7 +2577,17 @@
     "description": "Smoke swirls from the lit end of this cigarette, filling the air with the thrilling smell of burning chemicals.",
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
-    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID" ]
+    "use_action": [
+      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      {
+        "target": "cig_butt",
+        "msg": "You extinguish the cigarette.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
+    "flags": [ "LITCIG", "TOBACCO", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
     "type": "GENERIC",
@@ -2582,7 +2608,17 @@
     "description": "The smell of skunk permeates the air as a thin trail of smoke floats off of this joint.",
     "category": "drugs",
     "emits": [ "emit_joint_trail" ],
-    "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID" ]
+    "use_action": [
+      { "type": "firestarter", "moves": 200, "moves_slow": 2000 },
+      {
+        "target": "joint_roach",
+        "msg": "You extinguish the joint.",
+        "active": false,
+        "menu_text": "Extinguish",
+        "type": "transform"
+      }
+    ],
+    "flags": [ "LITCIG", "LIGHT_4", "TRADER_AVOID", "FIRESTARTER" ]
   },
   {
     "type": "GENERIC",
@@ -2679,6 +2715,20 @@
     "ammo": "money"
   },
   {
+    "id": "robofac_test_data",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "yellow",
+    "name": "prototype I/O recorder",
+    "description": "This small transparent card was attached to the prototype robot's CPU.  It might contain the data the intercom spoke of.",
+    "category": "other",
+    "price": 500,
+    "material": "plastic",
+    "weight": 6,
+    "volume": 0,
+    "to_hit": -3
+  },
+  {
     "id": "gasdiscount_silver",
     "type": "TOOL",
     "symbol": ",",
@@ -2744,6 +2794,21 @@
     "color": "green",
     "name": "military ID card",
     "description": "This ID card once belonged to a military officer.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
+    "price": 120000,
+    "price_postapoc": 10000,
+    "material": "plastic",
+    "weight": 6,
+    "volume": 0,
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "id_industrial",
+    "looks_like": "id_science",
+    "symbol": ",",
+    "color": "green",
+    "name": "industrial ID card",
+    "description": "This ID card once belonged to a high level technician.  The reverse side describes protocol for using it; this could grant access at one control panel, if you can find one.",
     "price": 120000,
     "price_postapoc": 10000,
     "material": "plastic",
@@ -2930,5 +2995,47 @@
     "weight": 5,
     "volume": 1,
     "bashing": 1
+  },
+  {
+    "type": "GENERIC",
+    "id": "craft",
+    "symbol": "%",
+    "color": "white",
+    "name": "in progress craft",
+    "description": "This is an in progress craft.",
+    "price": 0,
+    "weight": 1,
+    "volume": 1,
+    "max_charges": 20,
+    "use_action": "CRAFT",
+    "flags": [ "NO_SALVAGE", "TRADER_AVOID" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "spare_tire_carrier",
+    "category": "spare_parts",
+    "symbol": "t",
+    "color": "dark_gray",
+    "name": "spare tire carrier",
+    "description": "A bumper mounted rig for attaching and storing a spare tire on the back of a vehicle.  Combine it with a wheel to get a mountable piece.",
+    "price": 3500,
+    "material": "steel",
+    "weight": 5000,
+    "volume": 20,
+    "bashing": 8
+  },
+  {
+    "type": "GENERIC",
+    "id": "welding_components",
+    "category": "spare_parts",
+    "material": "steel",
+    "symbol": ";",
+    "color": "red",
+    "name": "welding component kit",
+    "description": "A set of components useful for constructing a full-featured welding station, complete with soldering capability.",
+    "price": 9000,
+    "weight": 4500,
+    "volume": 12,
+    "bashing": 8
   }
 ]

@@ -3,10 +3,14 @@
 #include <algorithm>
 #include <memory>
 #include <unordered_map>
+#include <numeric>
+#include <istream>
+#include <iterator>
+#include <list>
+#include <utility>
 
 #include "debug.h"
 #include "game.h"
-#include "io.h"
 #include "line.h"
 #include "npc.h"
 #include "npc_class.h"
@@ -16,6 +20,13 @@
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "item_group.h"
+#include "creature.h"
+#include "inventory.h"
+#include "item.h"
+#include "json.h"
+#include "monster.h"
+#include "player.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -66,6 +77,7 @@ mission *mission::find( int id )
 std::vector<mission *> mission::get_all_active()
 {
     std::vector<mission *> ret;
+    ret.reserve( world_missions.size() );
     for( auto &pr : world_missions ) {
         ret.push_back( &pr.second );
     }
@@ -100,6 +112,7 @@ std::vector<mission *> mission::to_ptr_vector( const std::vector<int> &vec )
 std::vector<int> mission::to_uid_vector( const std::vector<mission *> &vec )
 {
     std::vector<int> result;
+    result.reserve( vec.size() );
     for( auto &miss : vec ) {
         result.push_back( miss->uid );
     }
@@ -222,6 +235,7 @@ void mission::step_complete( const int _step )
     step = _step;
     switch( type->goal ) {
         case MGOAL_FIND_ITEM:
+        case MGOAL_FIND_ITEM_GROUP:
         case MGOAL_FIND_MONSTER:
         case MGOAL_ASSASSINATE:
         case MGOAL_KILL_MONSTER:
@@ -249,6 +263,42 @@ void mission::wrap_up()
     u.on_mission_finished( *this );
     std::vector<item_comp> comps;
     switch( type->goal ) {
+        case MGOAL_FIND_ITEM_GROUP: {
+            inventory tmp_inv = u.crafting_inventory();
+            std::vector<item *> items = std::vector<item *>();
+            tmp_inv.dump( items );
+            Group_tag grp_type = type->group_id;
+            itype_id container = type->container_id;
+            bool specific_container_required = container != "null";
+            bool remove_container = type->remove_container;
+            itype_id empty_container = type->empty_container;
+
+            std::map<itype_id, int> matches = std::map<itype_id, int>();
+            get_all_item_group_matches(
+                items, grp_type, matches,
+                container, itype_id( "null" ), specific_container_required );
+
+            std::map<std::string, int>::iterator cnt_it;
+            for( cnt_it = matches.begin(); cnt_it != matches.end(); cnt_it++ ) {
+                comps.push_back( item_comp( cnt_it->first, cnt_it->second ) );
+
+            }
+
+            u.consume_items( comps );
+
+            if( remove_container ) {
+                std::vector<item_comp> container_comp = std::vector<item_comp>();
+                if( empty_container != "null" ) {
+                    container_comp.push_back( item_comp( empty_container, type->item_count ) );
+                    u.consume_items( container_comp );
+                } else {
+                    container_comp.push_back( item_comp( container, type->item_count ) );
+                    u.consume_items( container_comp );
+                }
+            }
+        }
+        break;
+
         case MGOAL_FIND_ITEM:
             comps.push_back( item_comp( type->item_id, item_count ) );
             u.consume_items( comps );
@@ -282,14 +332,39 @@ bool mission::is_complete( const int _npc_id ) const
             return is_ot_type( type->target_id.str(), cur_ter );
         }
 
+        case MGOAL_FIND_ITEM_GROUP: {
+            inventory tmp_inv = u.crafting_inventory();
+            std::vector<item *> items = std::vector<item *>();
+            tmp_inv.dump( items );
+            Group_tag grp_type = type->group_id;
+            itype_id container = type->container_id;
+            bool specific_container_required = container.compare( "null" ) != 0;
+
+            std::map<itype_id, int> matches = std::map<itype_id, int>();
+            get_all_item_group_matches(
+                items, grp_type, matches,
+                container, itype_id( "null" ), specific_container_required );
+
+            int total_match = std::accumulate( matches.begin(), matches.end(), 0,
+            []( const std::size_t previous, const std::pair<const std::string, std::size_t> &p ) {
+                return previous + p.second;
+            } );
+
+            if( total_match >= ( type->item_count ) ) {
+                return true;
+
+            }
+        }
+        return false;
+
         case MGOAL_FIND_ITEM: {
+            if( npc_id != -1 && npc_id != _npc_id ) {
+                return false;
+            }
             inventory tmp_inv = u.crafting_inventory();
             // TODO: check for count_by_charges and use appropriate player::has_* function
             if( !tmp_inv.has_amount( type->item_id, item_count ) ) {
                 return tmp_inv.has_amount( type->item_id, 1 ) && tmp_inv.has_charges( type->item_id, item_count );
-            }
-            if( npc_id != -1 && npc_id != _npc_id ) {
-                return false;
             }
         }
         return true;
@@ -341,6 +416,50 @@ bool mission::is_complete( const int _npc_id ) const
 
         default:
             return false;
+    }
+}
+
+void mission::get_all_item_group_matches( std::vector<item *> &items,
+        Group_tag &grp_type, std::map<itype_id, int> &matches,
+        const itype_id &required_container, const itype_id &actual_container,
+        bool &specific_container_required )
+{
+    for( std::vector<int>::size_type i = 0; i < ( items ).size(); i++ ) {
+        item *itm = items[i];
+
+        bool correct_container = ( required_container == actual_container ) ||
+                                 !specific_container_required;
+
+        bool item_in_group = item_group::group_contains_item( grp_type, itm->typeId() );
+
+        //check whether item itself is target
+        if( item_in_group && correct_container ) {
+            std::map<std::string, int>::iterator it = matches.find( itm->typeId() );
+            if( it != matches.end() ) {
+                it->second = ( it->second ) + 1;
+            } else {
+                matches.insert( std::make_pair( itm->typeId(), 1 ) );
+            }
+        }
+
+        //recursivly check item contents for target
+        if( itm->is_container() && !itm->is_container_empty() ) {
+            std::list<item> content_list = itm->contents;
+
+            std::vector<item *> content = std::vector<item *>();
+
+            //list of item into list item*
+            std::transform(
+                content_list.begin(), content_list.end(),
+                std::back_inserter( content ),
+            []( item & p ) -> item* {
+                return &p;
+            } );
+
+            get_all_item_group_matches(
+                content, grp_type, matches,
+                required_container, ( itm->typeId() ), specific_container_required );
+        }
     }
 }
 
@@ -437,6 +556,11 @@ void mission::set_target( const tripoint &p )
     target = p;
 }
 
+void mission::set_target_npc_id( const int npc_id )
+{
+    target_npc_id = npc_id;
+}
+
 bool mission::is_assigned() const
 {
     return player_id != -1 || legacy_no_player_id;
@@ -462,7 +586,7 @@ std::string mission::name()
     if( type == nullptr ) {
         return "NULL";
     }
-    return _( type->name.c_str() );
+    return _( type->name );
 }
 
 mission_type_id mission::mission_id()
@@ -531,7 +655,7 @@ std::string mission::dialogue_for_topic( const std::string &in_topic ) const
 
     const auto &response = type->dialogue.find( topic );
     if( response != type->dialogue.end() ) {
-        return _( response->second.c_str() );
+        return _( response->second );
     }
 
     return string_format( "Someone forgot to code this message id is %s, topic is %s!",

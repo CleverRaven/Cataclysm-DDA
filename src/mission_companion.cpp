@@ -1,16 +1,18 @@
 #include "mission_companion.h"
 
+#include <cstdlib>
+#include <cmath>
 #include <algorithm>
 #include <cassert>
 #include <vector>
+#include <array>
+#include <list>
+#include <unordered_map>
+#include <utility>
 
-#include "bionics.h"
 #include "calendar.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
-#include "craft_command.h"
-#include "dialogue.h"
-#include "editmap.h"
 #include "faction_camp.h"
 #include "input.h"
 #include "item_group.h"
@@ -23,10 +25,32 @@
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "rng.h"
-#include "string_input_popup.h"
 #include "translations.h"
-#include "vehicle.h"
-#include "vpart_range.h"
+#include "basecamp.h"
+#include "color.h"
+#include "creature.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "faction.h"
+#include "game.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_stack.h"
+#include "map.h"
+#include "monster.h"
+#include "npc.h"
+#include "optional.h"
+#include "output.h"
+#include "pimpl.h"
+#include "player.h"
+#include "pldata.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "ui.h"
+#include "weighted_list.h"
+#include "material.h"
 
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_gun( "gun" );
@@ -352,27 +376,36 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
 
     camp_tab_mode tab_mode = TAB_MAIN;
 
-    size_t part_y = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
-    size_t part_x = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    catacurses::window w_list = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                part_y + TITLE_TAB_HEIGHT, part_x );
-    catacurses::window w_info = catacurses::newwin( FULL_SCREEN_HEIGHT - 3,
-                                FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE,
-                                part_y + TITLE_TAB_HEIGHT + 1,
-                                part_x + MAX_FAC_NAME_SIZE );
-    catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, FULL_SCREEN_WIDTH,
-                                part_y, part_x );
+    size_t part_y = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
+    size_t part_x = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
+    size_t maxy = part_y ? TERMY - 2 * part_y : FULL_SCREEN_HEIGHT;
+    size_t maxx = part_x ? TERMX - 2 * part_x : FULL_SCREEN_WIDTH;
 
-    int maxlength = FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE;
+    catacurses::window w_list = catacurses::newwin( maxy, maxx, part_y + TITLE_TAB_HEIGHT, part_x );
+    catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, maxx, part_y, part_x );
+
     size_t sel = 0;
     int offset = 0;
     bool redraw = true;
+
+    // The following are for managing the right pane scrollbar.
+    size_t info_offset = 0;
+    size_t info_height = maxy - 3;
+    size_t info_width = maxx - 1 - MAX_FAC_NAME_SIZE;
+    size_t end_line = 0;
+    nc_color col = c_white;
+    std::vector<std::string> mission_text;
+
+    catacurses::window w_info = catacurses::newwin( info_height, info_width,
+                                part_y + TITLE_TAB_HEIGHT + 1, part_x + MAX_FAC_NAME_SIZE );
 
     input_context ctxt( "FACTIONS" );
     ctxt.register_action( "UP", _( "Move cursor up" ) );
     ctxt.register_action( "DOWN", _( "Move cursor down" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -380,9 +413,9 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
 
     auto reset_cur_key_list = [&]() {
         cur_key_list = mission_key.entries[0];
-        for( auto k : mission_key.entries[1] ) {
+        for( const auto &k : mission_key.entries[1] ) {
             bool has = false;
-            for( auto keys : cur_key_list ) {
+            for( const auto &keys : cur_key_list ) {
                 if( k.id == keys.id ) {
                     has = true;
                     break;
@@ -408,20 +441,19 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             mvwprintz( w_list, 1, 1, c_white, name_mission_tabs( omt_pos, role_id, title,
                        tab_mode ) );
 
-            calcStartPos( offset, sel, FULL_SCREEN_HEIGHT - 3, cur_key_list.size() );
+            calcStartPos( offset, sel, info_height, cur_key_list.size() );
 
-            for( size_t i = 0; static_cast<int>( i ) < FULL_SCREEN_HEIGHT - 3 &&
-                 ( i + offset ) < cur_key_list.size(); i++ ) {
+            for( size_t i = 0; i < info_height && ( i + offset ) < cur_key_list.size(); i++ ) {
                 size_t  current = i + offset;
                 nc_color col = ( current == sel ? h_white : c_white );
                 //highlight important missions
-                for( auto k : mission_key.entries[0] ) {
+                for( const auto &k : mission_key.entries[0] ) {
                     if( cur_key_list[current].id == k.id ) {
                         col = ( current == sel ? h_white : c_yellow );
                     }
                 }
                 //dull uncraftable items
-                for( auto k : mission_key.entries[10] ) {
+                for( const auto &k : mission_key.entries[10] ) {
                     if( cur_key_list[current].id == k.id ) {
                         col = ( current == sel ? h_white : c_dark_gray );
                     }
@@ -429,10 +461,35 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                 mvwprintz( w_list, i + 2, 1, col, "  %s", cur_key_list[current].name_display );
             }
 
-            draw_scrollbar( w_list, sel, FULL_SCREEN_HEIGHT - 2, cur_key_list.size(), 1 );
+            draw_scrollbar( w_list, sel, info_height + 1, cur_key_list.size(), 1 );
             wrefresh( w_list );
             werase( w_info );
-            fold_and_print( w_info, 0, 0, maxlength, c_white, mission_key.cur_key.text );
+
+            // Fold mission text, store it for scrolling
+            mission_text = foldstring( mission_key.cur_key.text, info_width - 2, ' ' );
+            if( info_offset > mission_text.size() - info_height ) {
+                info_offset = mission_text.size() - info_height;
+            }
+            if( mission_text.size() < info_height ) {
+                info_offset = 0;
+            }
+            scrollbar()
+            .offset_x( info_width - 1 )
+            .offset_y( 0 )
+            .content_size( mission_text.size() )
+            .viewport_pos( info_offset )
+            .viewport_size( info_height )
+            .apply( w_info );
+            if( info_offset < mission_text.size() ) {
+                end_line = std::min( info_height, mission_text.size() - info_offset );
+            }
+
+            // Display the current subset of the mission text.
+            for( size_t start_line = 0; start_line < end_line; start_line++ ) {
+                print_colored_text( w_info, start_line, 0, col, col,
+                                    mission_text[start_line + info_offset] );
+            }
+
             wrefresh( w_info );
 
             if( role_id == "FACTION_CAMP" ) {
@@ -450,6 +507,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             } else {
                 sel++;
             }
+            info_offset = 0;
             redraw = true;
         } else if( action == "UP" ) {
             mvwprintz( w_list, sel + 2, 1, c_white, "-%s", mission_key.cur_key.id );
@@ -458,11 +516,21 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             } else {
                 sel--;
             }
+            info_offset = 0;
+            redraw = true;
+        } else if( action == "PAGE_UP" ) {
+            if( info_offset > 0 ) {
+                info_offset--;
+                redraw = true;
+            }
+        } else if( action == "PAGE_DOWN" ) {
+            info_offset++;
             redraw = true;
         } else if( action == "NEXT_TAB" && role_id == "FACTION_CAMP" ) {
             redraw = true;
             sel = 0;
             offset = 0;
+            info_offset = 0;
 
             do {
                 if( tab_mode == TAB_NW ) {
@@ -477,6 +545,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             redraw = true;
             sel = 0;
             offset = 0;
+            info_offset = 0;
 
             do {
                 if( tab_mode == TAB_MAIN ) {
@@ -507,6 +576,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             g->draw_ter();
             wrefresh( g->w_terrain );
             g->draw_panels();
+            redraw = true;
         }
     }
     g->refresh_all();
@@ -660,7 +730,9 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const std::
     std::vector<npc_ptr> caravan_party;
     std::vector<npc_ptr> bandit_party;
     std::vector<npc_ptr> npc_list = companion_list( p, id );
-    for( int i = 0; i < rng( 1, 3 ); i++ ) {
+    const int rand_caravan_size = rng( 1, 3 );
+    caravan_party.reserve( npc_list.size() + rand_caravan_size );
+    for( int i = 0; i < rand_caravan_size; i++ ) {
         caravan_party.push_back( temp_npc( string_id<npc_template>( "commune_guard" ) ) );
     }
     for( auto &elem : npc_list ) {
@@ -673,7 +745,9 @@ void talk_function::caravan_return( npc &p, const std::string &dest, const std::
     int time = 200 + distance * 100;
     int experience = rng( 10, time / 300 );
 
-    for( int i = 0; i < rng( 1, 3 ); i++ ) {
+    const int rand_bandit_size = rng( 1, 3 );
+    bandit_party.reserve( rand_bandit_size * 2 );
+    for( int i = 0; i < rand_bandit_size * 2; i++ ) {
         bandit_party.push_back( temp_npc( string_id<npc_template>( "bandit" ) ) );
         bandit_party.push_back( temp_npc( string_id<npc_template>( "thug" ) ) );
     }
@@ -854,7 +928,7 @@ void talk_function::field_build_2( npc &p )
 
 void talk_function::field_plant( npc &p, const std::string &place )
 {
-    if( g->get_temperature( g->u.pos() ) < 50 ) {
+    if( g->weather.get_temperature( g->u.pos() ) < 50 ) {
         popup( _( "It is too cold to plant anything now." ) );
         return;
     }
@@ -1022,7 +1096,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
                             plantCount = 1;
                         }
                         number_plants += plantCount;
-                        number_seeds += std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
+                        number_seeds += std::max( 1, rng( plantCount / 4, plantCount / 2 ) );
                     }
                 }
             }
@@ -1780,11 +1854,11 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc_ptr>
     }
 
     std::vector<comp_rank> adjusted;
-    for( auto entry : raw ) {
+    for( const auto &entry : raw ) {
         comp_rank r;
-        r.combat = 100 * entry.combat / max_combat;
-        r.survival = 100 * entry.survival / max_survival;
-        r.industry = 100 * entry.industry / max_industry;
+        r.combat = max_combat ? 100 * entry.combat / max_combat : 0;
+        r.survival = max_survival ? 100 * entry.survival / max_survival : 0;
+        r.industry = max_industry ? 100 * entry.industry / max_industry : 0;
         adjusted.push_back( r );
     }
     return adjusted;
@@ -1793,18 +1867,45 @@ std::vector<comp_rank> talk_function::companion_rank( const std::vector<npc_ptr>
 npc_ptr talk_function::companion_choose( const std::string &skill_tested, int skill_level )
 {
     std::vector<npc_ptr> available;
-    for( npc_ptr &guy : overmap_buffer.get_npcs_near_player( 24 ) ) {
+    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( g->u.global_omt_location().x,
+                                     g->u.global_omt_location().y );
+
+    for( auto &elem : g->get_follower_list() ) {
+        npc_ptr guy = overmap_buffer.find_npc( elem );
+        if( !guy ) {
+            continue;
+        }
         npc_companion_mission c_mission = guy->get_companion_mission();
-        if( g->u.sees( guy->pos() ) ) {
-            if( guy->is_friend() && c_mission.role_id.empty() ) {
+        // get non-assigned visible followers
+        if( g->u.posz() == guy->posz() && !guy->has_companion_mission() &&
+            ( rl_dist( g->u.pos(), guy->pos() ) <= SEEX * 2 ) && g->u.sees( guy->pos() ) ) {
+            available.push_back( guy );
+        } else if( bcp ) {
+            basecamp *player_camp = *bcp;
+            std::vector<npc_ptr> camp_npcs = player_camp->get_npcs_assigned();
+            if( std::any_of( camp_npcs.begin(), camp_npcs.end(),
+            [guy]( npc_ptr i ) {
+            return i == guy;
+        } ) ) {
                 available.push_back( guy );
-            } else if( guy->mission == NPC_MISSION_GUARD_ALLY &&
-                       guy->companion_mission_role_id != "FACTION_CAMP" ) {
-                available.push_back( guy );
+            }
+        } else {
+            const tripoint &guy_omt_pos = guy->global_omt_location();
+            cata::optional<basecamp *> guy_camp = overmap_buffer.find_camp( guy_omt_pos.x,
+                                                  guy_omt_pos.y );
+            if( guy_camp ) {
+                // get NPCs assigned to guard a remote base
+                basecamp *temp_camp = *guy_camp;
+                std::vector<npc_ptr> assigned_npcs = temp_camp->get_npcs_assigned();
+                if( std::any_of( assigned_npcs.begin(), assigned_npcs.end(),
+                [guy]( npc_ptr i ) {
+                return i == guy;
+            } ) ) {
+                    available.push_back( guy );
+                }
             }
         }
     }
-
     if( available.empty() ) {
         popup( _( "You don't have any companions to send out..." ) );
         return nullptr;
@@ -1950,7 +2051,8 @@ std::vector<item *> talk_function::loot_building( const tripoint &site )
                 const map_bash_info &bash = bay.ter( x, y ).obj().bash;
                 bay.ter_set( x, y, bash.ter_set );
                 bay.spawn_items( p, item_group::items_from( bash.drop_group, calendar::turn ) );
-            } else if( bay.has_furn( x, y ) && bay.furn( x, y ).obj().bash.str_max != -1 && one_in( 10 ) ) {
+            } else if( bay.has_furn( x, y ) && bay.furn( x, y ).obj().bash.str_max != -1 &&
+                       one_in( 10 ) ) {
                 const map_bash_info &bash = bay.furn( x, y ).obj().bash;
                 bay.furn_set( x, y, bash.furn_set );
                 bay.delete_signage( p );
