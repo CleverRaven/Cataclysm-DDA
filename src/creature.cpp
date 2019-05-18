@@ -1542,7 +1542,6 @@ const std::string Creature::attitude_raw_string( Attitude att )
             break;
         default:
             return "other";
-            break;
     }
 }
 
