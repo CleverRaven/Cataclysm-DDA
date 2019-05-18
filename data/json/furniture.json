@@ -95,7 +95,7 @@
     "type": "furniture",
     "id": "f_rubble_landfill",
     "name": "pile of trashy rubble",
-    "description": "Trash topped with dirt and grass, it smells gross and but another man's trash...",
+    "description": "Trash topped with dirt and grass, it smells gross, but another man's trash...",
     "symbol": "#",
     "color": "green",
     "move_cost_mod": 8,
