@@ -2193,7 +2193,7 @@
     "color": "brown",
     "name": "adobe mortar",
     "name_plural": "adobe mortar",
-    "description": "A thick, pasty mud, low in sand content to reduce crumbling once dry. Used to glue larger, heavier pieces of mud and clay together.",
+    "description": "A thick, pasty mud, low in sand content to reduce crumbling once dry.  Used to glue larger, heavier pieces of mud and clay together.",
     "category": "spare_parts",
     "container": "bag_canvas",
     "price": 200,
