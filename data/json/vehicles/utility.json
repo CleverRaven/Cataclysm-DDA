@@ -58,7 +58,19 @@
     "name": "Lawnmower",
     "blueprint": [ "o>" ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_handle", "wheel_caster", "controls", "controls_electronic", "engine_1cyl_small", "alternator_motorbike", { "part": "tank_little", "fuel": "gasoline" } ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame_handle",
+          "wheel_caster",
+          "controls",
+          "controls_electronic",
+          "engine_1cyl_small",
+          "alternator_motorbike",
+          { "part": "tank_little", "fuel": "gasoline" }
+        ]
+      },
       { "x": 1, "y": 0, "parts": [ "folding_frame", "wheel_caster", "lawnmower_blade" ] }
     ]
   },
