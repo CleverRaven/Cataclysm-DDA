@@ -800,6 +800,7 @@
     "time": 240000,
     "book_learn": [ [ "recipe_bows", 9 ], [ "welding_book", 8 ], [ "textbook_mechanics", 8 ] ],
     "qualities": [
+      { "id": "ANVIL", "level": 3 },
       { "id": "CUT", "level": 1 },
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER", "level": 3 },
