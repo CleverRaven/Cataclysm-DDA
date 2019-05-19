@@ -1077,6 +1077,7 @@
     "name": "Chain Punch",
     "min_unarmed": 1,
     "unarmed_allowed": true,
+    "strictly_unarmed": true,
     "knockback_dist": 1,
     "knockback_spread": 1,
     "knockback_follow": 1,
@@ -1087,12 +1088,24 @@
   {
     "type": "technique",
     "id": "tec_wingchun_feint",
-    "name": "feint at",
+    "name": "keep punching at",
     "min_unarmed": 2,
     "unarmed_allowed": true,
+    "strictly_unarmed": true,
     "defensive": true,
     "miss_recovery": true,
     "messages": [ "You miss but keep punching at %s", "<npcname> misses but keeps punching at %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_stumble",
+    "name": "stumble",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "crit_tec": true,
+    "down_dur": 1,
+    "messages": [ "You stumble %s with your onslaught", "<npcname> stumbles %s" ]
   },
   {
     "type": "technique",
@@ -1100,8 +1113,6 @@
     "name": "Receive and Counter",
     "min_unarmed": 5,
     "unarmed_allowed": true,
-    "melee_allowed": true,
-    "block_counter": true,
     "dodge_counter": true,
     "mult_bonuses": [ [ "movecost", 0.0 ] ],
     "messages": [ "You receive %s's gift of violence, and return it in kind", "<npcname> receives %s's attack, and counters" ]

@@ -356,7 +356,7 @@ bool ma_requirements::is_valid_player( const player &u ) const
         ( unarmed_allowed && u.unarmed_attack() &&
           ( !strictly_unarmed || !u.is_armed() ) ) ||
         ( is_valid_weapon( u.weapon ) &&
-          ( melee_allowed || u.style_selected.obj().has_weapon( u.weapon.typeId() ) ) );
+          ( melee_allowed && u.style_selected.obj().has_weapon( u.weapon.typeId() ) ) );
     if( !valid_weapon ) {
         return false;
     }
@@ -1109,6 +1109,10 @@ std::string ma_technique::get_description() const
     if( knockback_dist ) {
         dump << string_format( _( "* Will <info>knock back</info> enemies <stat>%d %s</stat>" ),
                                knockback_dist, ngettext( "tile", "tiles", knockback_dist ) ) << std::endl;
+    }
+
+    if( knockback_follow ) {
+        dump <<  _( "* Will <info>follow</info> enemies after knockback." ) << std::endl;
     }
 
     if( down_dur ) {

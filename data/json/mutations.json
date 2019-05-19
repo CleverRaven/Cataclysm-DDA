@@ -622,7 +622,7 @@
     "points": 2,
     "description": "You have studied the arts of the Shaolin monks.  You start with one of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon.",
     "starting_trait": true,
-    "initial_ma_styles": [ "style_tiger", "style_crane", "style_leopard", "style_snake", "style_dragon" ],
+    "initial_ma_styles": [ "style_tiger", "style_crane", "style_leopard", "style_snake", "style_dragon", "style_wingchun" ],
     "valid": false
   },
   {
