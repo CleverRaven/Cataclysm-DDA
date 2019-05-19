@@ -3453,7 +3453,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
 
         if( stability_roll() < dice( rolls, 10 ) ) {
             if( !is_player() ) {
-                if ( u_see ) {
+                if( u_see ) {
                     add_msg( _( "%1$s loses their balance while being hit!" ), name );
                 }
             } else {
