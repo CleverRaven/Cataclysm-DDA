@@ -698,6 +698,11 @@ bool vehicle::fold_up()
 
     add_msg( _( "You painstakingly pack the %s into a portable configuration." ), name );
 
+    if( g->u.get_grab_type() != OBJECT_NONE ) {
+        g->u.grab( OBJECT_NONE );
+        add_msg( _( "You let go of %s as you fold it." ), name );
+    }
+
     std::string itype_id = "folding_bicycle";
     for( const auto &elem : tags ) {
         if( elem.compare( 0, 12, "convertible:" ) == 0 ) {
