@@ -1242,7 +1242,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
     }
 
     if( technique.knockback_dist > 0 ) {
-        const tripoint &prev_pos = t.pos(); // track target startpoint for knockback_follow
+        const tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
         const int kb_offset_x = rng( -technique.knockback_spread, technique.knockback_spread );
         const int kb_offset_y = rng( -technique.knockback_spread, technique.knockback_spread );
         tripoint kb_point( posx() + kb_offset_x, posy() + kb_offset_y, posz() );
