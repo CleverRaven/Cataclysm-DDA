@@ -1073,8 +1073,13 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": 120,
-    "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 2 ] ], [ [ "stick", 4 ], [ "2x4", 8 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [
+      [ [ "log", 2 ] ],
+      [ [ "stick", 4 ], [ "2x4", 8 ] ],
+      [ [ "material_soil", 40 ] ],
+      [ [ "birchbark", 12 ], [ "pine_bough", 12 ] ]
+    ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "t_floor_primitive"
