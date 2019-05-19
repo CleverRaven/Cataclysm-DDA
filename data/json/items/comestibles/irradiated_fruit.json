@@ -34,6 +34,17 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "irradiated_juniper",
+    "copy-from": "juniper",
+    "name": "irradiated juniper",
+    "name_plural": "irradiated juniper berries",
+    "description": "An irradiated juniper berry will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
+    "proportional": { "price": 2 },
+    "spoils_in": "0 hours",
+    "container": "bag_plastic"
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "irradiated_huckleberries",
     "copy-from": "huckleberries",
     "name": "irradiated huckleberry",
