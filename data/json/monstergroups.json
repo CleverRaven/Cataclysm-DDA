@@ -1724,12 +1724,7 @@
         "conditions": [ "SPRING", "SUMMER", "AUTUMN" ]
       },
       { "monster": "mon_nakedmolerat_giant", "freq": 1, "cost_multiplier": 3, "conditions": [ "DUSK", "NIGHT" ] },
-      {
-        "monster": "mon_mutant_experimental",
-        "freq": 3,
-        "cost_multiplier": 0,
-        "conditions": [ "DUSK", "NIGHT" ]
-      }
+      { "monster": "mon_mutant_experimental", "freq": 3, "cost_multiplier": 0, "conditions": [ "DUSK", "NIGHT" ] }
     ]
   },
   {
@@ -4010,12 +4005,7 @@
         "starts": 792,
         "conditions": [ "DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN" ]
       },
-      {
-        "monster": "mon_mutant_experimental",
-        "freq": 3,
-        "cost_multiplier": 0,
-        "conditions": [ "DUSK", "NIGHT" ]
-      }
+      { "monster": "mon_mutant_experimental", "freq": 3, "cost_multiplier": 0, "conditions": [ "DUSK", "NIGHT" ] }
     ]
   },
   {
