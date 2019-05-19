@@ -2170,7 +2170,7 @@
     "to_hit": -3,
     "use_action": {
       "target": "adobe_brick",
-      "msg": "You set the heavy, muddy brick out to dry.",
+      "msg": "You test the brick, and it seems solid enough to use.",
       "moves": 50,
       "type": "delayed_transform",
       "transform_age": 100800,

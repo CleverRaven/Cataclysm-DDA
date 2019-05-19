@@ -10372,5 +10372,47 @@
       "ter_set": "t_fence_post",
       "items": [ { "item": "material_soil", "count": [ 100, 150 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_adobe_brick_wall_halfway",
+    "name": "half-built adobe wall",
+    "description": "Half of an adobe brick wall, looks like it still requires some more resources and effort before being considered a real wall.",
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "t_brick_wall_halfway",
+    "move_cost": 5,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "MINEABLE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 90,
+      "sound": "crash!",
+      "sound_fail": "bash!",
+      "ter_set": "t_null",
+      "items": [ { "item": "material_soil", "count": [ 4, 10 ] }, { "item": "adobe_brick", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_adobe_brick_wall",
+    "name": "adobe wall",
+    "description": "A solid adobe brick wall, sturdy enough to support a roof with enough walls and keep out any unwanted visitors.",
+    "symbol": "LINE_OXOX",
+    "color": "brown",
+    "looks_like": "t_brick_wall",
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 40,
+      "str_max": 120,
+      "sound": "crash!",
+      "sound_fail": "bash!",
+      "ter_set": "t_null",
+      "items": [ { "item": "soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 2, 6 ] } ]
+    }
   }
 ]
+
