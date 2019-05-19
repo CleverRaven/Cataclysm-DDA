@@ -839,6 +839,8 @@ struct itype {
 
         /** Weight of item ( or each stack member ) */
         units::mass weight = 0_gram;
+        /** Weight difference with the part it replaces for mods */
+        units::mass integral_weight = units::from_gram( -1 );
 
         /**
          * Space occupied by items of this type

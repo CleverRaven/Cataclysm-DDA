@@ -431,7 +431,7 @@ class item : public visitable<item>
          */
         bool merge_charges( const item &rhs );
 
-        units::mass weight( bool include_contents = true ) const;
+        units::mass weight( bool include_contents = true, bool integral = false ) const;
 
         /**
          * Total volume of an item accounting for all contained/integrated items
