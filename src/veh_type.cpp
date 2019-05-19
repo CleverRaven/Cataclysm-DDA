@@ -677,7 +677,6 @@ int vpart_info::format_description( std::ostringstream &msg, const std::string &
     msg << _( "<color_white>Description</color>\n" );
     msg << "> " << format_color;
 
-    class::item base( item );
     std::ostringstream long_descrip;
     if( ! description.empty() ) {
         long_descrip << _( description );
@@ -703,6 +702,7 @@ int vpart_info::format_description( std::ostringstream &msg, const std::string &
         long_descrip << "  " << _( nobelt.info() );
     }
     if( has_flag( "TURRET" ) ) {
+        class::item base( item );
         long_descrip << string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
                                        base.gun_range( true ),
                                        base.gun_damage().total_damage() );

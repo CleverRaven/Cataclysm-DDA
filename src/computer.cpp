@@ -427,7 +427,7 @@ void computer::activate_function( computer_action action )
                                     item sewage( "sewage", calendar::turn );
                                     auto candidates = g->m.i_at( x1, y1 );
                                     for( auto &candidate : candidates ) {
-                                        long capa = candidate.get_remaining_capacity_for_liquid( sewage );
+                                        int capa = candidate.get_remaining_capacity_for_liquid( sewage );
                                         if( capa <= 0 ) {
                                             continue;
                                         }

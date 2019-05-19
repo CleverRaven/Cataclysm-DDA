@@ -15,7 +15,7 @@
 ter_furn_id::ter_furn_id() : ter( t_null ), furn( f_null ) { }
 
 //Classic Extras is for when you have special zombies turned off.
-static const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military", "mx_roadblock", "mx_drugdeal", "mx_supplydrop", "mx_minefield", "mx_crater", "mx_collegekids" };
+static const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military", "mx_roadblock", "mx_drugdeal", "mx_supplydrop", "mx_minefield", "mx_crater", "mx_collegekids", "mx_house_wasp", "mx_house_spider" };
 
 template<typename T>
 void read_and_set_or_throw( JsonObject &jo, const std::string &member, T &target, bool required )
@@ -311,6 +311,34 @@ void load_overmap_forest_settings( JsonObject &jo, overmap_forest_settings &over
     }
 }
 
+void load_overmap_lake_settings( JsonObject &jo, overmap_lake_settings &overmap_lake_settings,
+                                 const bool strict, const bool overlay )
+{
+    if( !jo.has_object( "overmap_lake_settings" ) ) {
+        if( strict ) {
+            jo.throw_error( "\"overmap_lake_settings\": { ... } required for default" );
+        }
+    } else {
+        JsonObject overmap_lake_settings_jo = jo.get_object( "overmap_lake_settings" );
+        read_and_set_or_throw<double>( overmap_lake_settings_jo, "noise_threshold_lake",
+                                       overmap_lake_settings.noise_threshold_lake, !overlay );
+        read_and_set_or_throw<int>( overmap_lake_settings_jo, "lake_size_min",
+                                    overmap_lake_settings.lake_size_min, !overlay );
+
+        if( !overmap_lake_settings_jo.has_array( "shore_extendable_overmap_terrain" ) ) {
+            if( !overlay ) {
+                overmap_lake_settings_jo.throw_error( "shore_extendable_overmap_terrain required" );
+            }
+        } else {
+            const std::vector<std::string> from_json =
+                overmap_lake_settings_jo.get_string_array( "shore_extendable_overmap_terrain" );
+            overmap_lake_settings.unfinalized_shore_extendable_overmap_terrain.insert(
+                overmap_lake_settings.unfinalized_shore_extendable_overmap_terrain.end(), from_json.begin(),
+                from_json.end() );
+        }
+    }
+}
+
 void load_region_settings( JsonObject &jo )
 {
     regional_settings new_region;
@@ -490,6 +518,8 @@ void load_region_settings( JsonObject &jo )
 
     load_overmap_forest_settings( jo, new_region.overmap_forest, strict, false );
 
+    load_overmap_lake_settings( jo, new_region.overmap_lake, strict, false );
+
     region_settings_map[new_region.id] = new_region;
 }
 
@@ -654,6 +684,8 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
     load_overmap_feature_flag_settings( jo, region.overmap_feature_flag, false, true );
 
     load_overmap_forest_settings( jo, region.overmap_forest, false, true );
+
+    load_overmap_lake_settings( jo, region.overmap_lake, false, true );
 }
 
 void groundcover_extra::finalize()   // FIXME: return bool for failure
@@ -830,6 +862,19 @@ void forest_trail_settings::finalize()
     }
 }
 
+void overmap_lake_settings::finalize()
+{
+    for( const std::string &oid : unfinalized_shore_extendable_overmap_terrain ) {
+        const oter_str_id ot( oid );
+        if( !ot.is_valid() ) {
+            debugmsg( "Tried to add invalid overmap terrain %s to overmap_lake_settings shore_extendable_overmap_terrain.",
+                      ot.c_str() );
+            continue;
+        }
+        shore_extendable_overmap_terrain.emplace_back( ot.id() );
+    }
+}
+
 void regional_settings::finalize()
 {
     if( default_groundcover_str != nullptr ) {
@@ -842,6 +887,7 @@ void regional_settings::finalize()
         city_spec.finalize();
         forest_composition.finalize();
         forest_trail.finalize();
+        overmap_lake.finalize();
         get_options().add_value( "DEFAULT_REGION", id, no_translation( id ) );
     }
 }

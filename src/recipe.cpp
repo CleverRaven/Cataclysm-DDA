@@ -215,13 +215,21 @@ void recipe::load( JsonObject &jo, const std::string &src )
                 byproducts[ arr.get_string( 0 ) ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
             }
         }
+        assign( jo, "construction_blueprint", blueprint );
+        if( !blueprint.empty() ) {
+            JsonArray bp_provides = jo.get_array( "blueprint_provides" );
+            blueprint_resources.clear();
+            while( bp_provides.has_more() ) {
+                std::string resource = bp_provides.next_string();
+                blueprint_resources.emplace_back( resource );
+            }
+        }
+
     } else if( type == "uncraft" ) {
         reversible = true;
     } else {
         jo.throw_error( "unknown recipe type", "type" );
     }
-
-    assign( jo, "construction_blueprint", blueprint );
 
     // inline requirements are always replaced (cannot be inherited)
     const requirement_id req_id( string_format( "inline_%s_%s", type.c_str(), ident_.c_str() ) );
@@ -467,9 +475,14 @@ bool recipe::is_blueprint() const
     return !blueprint.empty();
 }
 
-std::string recipe::get_blueprint() const
+const std::string &recipe::get_blueprint() const
 {
     return blueprint;
+}
+
+const std::vector<itype_id> &recipe::blueprint_provides() const
+{
+    return blueprint_resources;
 }
 
 bool recipe::hot_result() const

@@ -1083,4 +1083,9 @@ int weather_manager::get_temperature( const tripoint &location )
     return temp;
 }
 
+void weather_manager::clear_temp_cache()
+{
+    temperature_cache.clear();
+}
+
 ///@}

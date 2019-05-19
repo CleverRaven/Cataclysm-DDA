@@ -10959,13 +10959,6 @@
          "multitile" : false
       },
       {
-         "id" : "hk_ucp",
-         "fg" : 1401,
-         "bg" : 193,
-         "rotates" : false,
-         "multitile" : false
-      },
-      {
          "id" : "tokarev",
          "fg" : 1402,
          "bg" : 193,

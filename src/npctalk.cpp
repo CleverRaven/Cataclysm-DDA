@@ -185,7 +185,7 @@ enum npc_chat_menu {
 // given a vector of NPCs, presents a menu to allow a player to pick one.
 // everyone == true adds another entry at the end to allow selecting all listed NPCs
 // this implies a return value of npc_list.size() means "everyone"
-int npc_select_menu( const std::vector<npc *> &npc_list, const std::string prompt,
+int npc_select_menu( const std::vector<npc *> &npc_list, const std::string &prompt,
                      const bool everyone = true )
 {
     if( npc_list.empty() ) {
@@ -209,7 +209,7 @@ int npc_select_menu( const std::vector<npc *> &npc_list, const std::string promp
 
 }
 
-void npc_batch_override_toggle( const std::vector<npc *> npc_list, ally_rule rule, bool state )
+void npc_batch_override_toggle( const std::vector<npc *> &npc_list, ally_rule rule, bool state )
 {
     for( npc *p : npc_list ) {
         p->rules.toggle_specific_override_state( rule, state );
@@ -2223,6 +2223,9 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
             WRAP( assign_guard ),
             WRAP( stop_guard ),
             WRAP( start_camp ),
+            WRAP( buy_cow ),
+            WRAP( buy_chicken ),
+            WRAP( buy_horse ),
             WRAP( recover_camp ),
             WRAP( remove_overseer ),
             WRAP( basecamp_mission ),

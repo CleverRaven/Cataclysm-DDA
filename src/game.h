@@ -179,6 +179,11 @@ class game
          */
         bool load_packs( const std::string &msg, const std::vector<mod_id> &packs, loading_ui &ui );
 
+        /**
+         * @brief Should be invoked whenever options change.
+         */
+        void on_options_changed();
+
     protected:
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
@@ -504,7 +509,7 @@ class game
         void refresh_all();
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
-        void update_map( player &p );
+        point update_map( player &p );
         point update_map( int &x, int &y );
         void update_overmap_seen(); // Update which overmap tiles we can see
 
@@ -724,10 +729,10 @@ class game
         // Standard movement; handles attacks, traps, &c. Returns false if auto move
         // should be canceled
         bool plmove( int dx, int dy, int dz = 0 );
-        inline bool plmove( tripoint d ) {
+        inline bool plmove( const tripoint &d ) {
             return plmove( d.x, d.y, d.z );
         }
-        inline bool plmove( point d ) {
+        inline bool plmove( const point &d ) {
             return plmove( d.x, d.y );
         }
         // Handle pushing during move, returns true if it handled the move
@@ -740,6 +745,7 @@ class game
         bool phasing_move( const tripoint &dest );
         // Regular movement. Returns false if it failed for any reason
         bool walk_move( const tripoint &dest );
+
         void on_move_effects();
 
         void control_vehicle(); // Use vehicle controls  '^'
@@ -770,7 +776,7 @@ class game
         void reload_item(); // Reload an item
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
-        void place_player( const tripoint &dest );
+        point place_player( const tripoint &dest );
         void place_player_overmap( const tripoint &om_dest );
 
         bool unload( item &it ); // Unload a gun/tool  'U'
@@ -958,14 +964,13 @@ class game
 
         bool show_panel_adm;
         bool right_sidebar;
-        bool reinitmap;
         bool fullscreen;
         bool was_fullscreen;
+        bool auto_travel_mode = false;
+        safe_mode_type safe_mode;
 
         //pixel minimap management
         int pixel_minimap_option;
-        bool auto_travel_mode = false;
-        safe_mode_type safe_mode;
         int turnssincelastmon; // needed for auto run mode
 
         weather_manager weather;

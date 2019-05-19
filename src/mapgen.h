@@ -326,6 +326,7 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         ~mapgen_function_json() override = default;
 
         ter_id fill_ter;
+        oter_id predecessor_mapgen;
 
     protected:
         bool setup_internal( JsonObject &jo ) override;

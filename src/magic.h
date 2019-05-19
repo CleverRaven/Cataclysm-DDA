@@ -150,22 +150,16 @@ class spell
     private:
         // basic spell data
         const spell_type *type;
-        // what player is this spell associated with
-        const player *owner;
 
         // once you accumulate enough exp you level the spell
         int experience;
         // returns damage type for the spell
         damage_type dmg_type() const;
-        // gets int from player
-        int modded_int() const;
-        // gets spellcraft level from player
-        int spellcraft_level() const;
 
     public:
         spell() = default;
-        spell( const spell_type *type, player *owner );
-        spell( spell_id sp, player *owner, int xp = 0 );
+        spell( const spell_type *sp, int xp = 0 );
+        spell( spell_id sp, int xp = 0 );
 
         // how much exp you need for the spell to gain a level
         int exp_to_next_level() const;
@@ -176,19 +170,20 @@ class spell
         // gain some exp
         void gain_exp( int nxp );
         // how much xp you get if you successfully cast the spell
-        int casting_exp() const;
+        int casting_exp( const player &p ) const;
         // modifier for gaining exp
-        float exp_modifier() const;
+        float exp_modifier( const player &p ) const;
         // level up!
         void gain_level();
         // is the spell at max level?
         bool is_max_level() const;
+        // what is the max level of the spell
+        int get_max_level() const;
 
         // how much damage does the spell do
         int damage() const;
         dealt_damage_instance get_dealt_damage_instance() const;
         damage_instance get_damage_instance() const;
-        tripoint get_source() const;
         // how big is the spell's radius
         int aoe() const;
         // distance spell can be cast
@@ -200,15 +195,15 @@ class spell
         time_duration duration_turns() const;
         // how often does the spell fail
         // based on difficulty, level of spell, spellcraft skill, intelligence
-        float spell_fail() const;
-        std::string colorized_fail_percent() const;
+        float spell_fail( const player &p ) const;
+        std::string colorized_fail_percent( const player &p ) const;
         // how long does it take to cast the spell
         int casting_time() const;
 
         // can the player cast this spell?
-        bool can_cast() const;
+        bool can_cast( const player &p ) const;
         // can the player learn this spell?
-        bool can_learn() const;
+        bool can_learn( const player &p ) const;
         // is this spell valid
         bool is_valid() const;
 
@@ -225,9 +220,9 @@ class spell
         // energy source as a string (translated)
         std::string energy_string() const;
         // energy cost returned as a string
-        std::string energy_cost_string() const;
+        std::string energy_cost_string( const player &p ) const;
         // current energy the player has available as a string
-        std::string energy_cur_string() const;
+        std::string energy_cur_string( const player &p ) const;
         // energy source enum
         energy_type energy_source() const;
         // the color that's representative of the damage type
@@ -248,8 +243,7 @@ class spell
 class known_magic
 {
     private:
-        player *owner;
-        // list of spells known by player
+        // list of spells known
         std::map<spell_id, spell> spellbook;
         // the base mana a player would start with
         int mana_base;
@@ -257,32 +251,34 @@ class known_magic
         int mana;
     public:
         known_magic();
-        known_magic( player *p );
-        void learn_spell( const std::string &sp, bool force = false );
-        void learn_spell( spell_id sp, bool force = false );
-        void learn_spell( const spell_type *sp, bool force = false );
+
+        void learn_spell( const std::string &sp, player &p, bool force = false );
+        void learn_spell( spell_id sp, player &p, bool force = false );
+        void learn_spell( const spell_type *sp, player &p, bool force = false );
         void forget_spell( const std::string &sp );
         void forget_spell( spell_id sp );
         // time in moves for the player to memorize the spell
-        int time_to_learn_spell( spell_id sp ) const;
-        int time_to_learn_spell( const std::string &str ) const;
-        bool can_learn_spell( spell_id sp ) const;
+        int time_to_learn_spell( const player &p, spell_id sp ) const;
+        int time_to_learn_spell( const player &p, const std::string &str ) const;
+        bool can_learn_spell( const player &p, spell_id sp ) const;
         bool knows_spell( const std::string &sp ) const;
         bool knows_spell( spell_id sp ) const;
         // spells known by player
         std::vector<spell_id> spells() const;
         // gets the spell associated with the spell_id to be edited
         spell &get_spell( spell_id sp );
+        // get all known spells
+        std::vector<spell *> get_spells();
         // how much mana is available to use to cast spells
         int available_mana() const;
         // max mana vailable
-        int max_mana() const;
-        void mod_mana( int add_mana );
+        int max_mana( const player &p ) const;
+        void mod_mana( const player &p, int add_mana );
         void set_mana( int new_mana );
-        void update_mana( float turns );
+        void update_mana( const player &p, float turns );
         // does the player have enough energy to cast this spell?
         // not specific to mana
-        bool has_enough_energy( spell &sp ) const;
+        bool has_enough_energy( const player &p, spell &sp ) const;
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
@@ -293,10 +289,10 @@ namespace spell_effect
 void teleport( int min_distance, int max_distance );
 void pain_split(); // only does g->u
 void shallow_pit( const tripoint &target );
-void target_attack( spell &sp, const tripoint &target );
-void projectile_attack( spell &sp, const tripoint &target );
-void cone_attack( spell &sp, const tripoint &target );
-void line_attack( spell &sp, const tripoint &target );
+void target_attack( spell &sp, const tripoint &source, const tripoint &target );
+void projectile_attack( spell &sp, const tripoint &source, const tripoint &target );
+void cone_attack( spell &sp, const tripoint &source, const tripoint &target );
+void line_attack( spell &sp, const tripoint &source, const tripoint &target );
 void spawn_ethereal_item( spell &sp );
 }
 

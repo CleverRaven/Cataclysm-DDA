@@ -673,6 +673,7 @@ void debug_write_backtrace( std::ostream &out )
         // available in tracePtrs.
 
         auto funcName = funcNames[i];
+        assert( funcName ); // To appease static analysis
         const auto funcNameEnd = funcName + std::strlen( funcName );
         const auto binaryEnd = std::find( funcName, funcNameEnd, '(' );
         if( binaryEnd == funcNameEnd ) {

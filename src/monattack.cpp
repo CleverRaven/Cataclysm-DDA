@@ -250,8 +250,7 @@ bool mattack::eat_crop( monster *z )
 {
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
         if( g->m.has_flag( "PLANT", p ) && one_in( 4 ) ) {
-            g->m.ter_set( p, t_dirt );
-            g->m.furn_set( p, f_null );
+            g->m.furn_set( p, furn_str_id( g->m.furn( p )->plant_base ) );
             g->m.i_clear( p );
             return true;
         }
@@ -274,7 +273,7 @@ bool mattack::eat_food( monster *z )
             }
             //Don't eat own eggs
             if( z->type->baby_egg != item.type->get_id() ) {
-                long consumed = 1;
+                int consumed = 1;
                 if( item.count_by_charges() ) {
                     g->m.use_charges( p, 0, item.type->get_id(), consumed );
                 } else {
@@ -929,6 +928,7 @@ bool mattack::resurrect( monster *z )
     }
 
     std::pair<tripoint, item *> raised = random_entry( corpses );
+    assert( raised.second ); // To appease static analysis
     float corpse_damage = raised.second->damage_level( 4 );
     // Did we successfully raise something?
     if( g->revive_corpse( raised.first, *raised.second ) ) {
@@ -1383,7 +1383,8 @@ bool mattack::grow_vine( monster *z )
         }
     }
     z->moves -= 100;
-    int xshift = rng( 0, 2 ), yshift = rng( 0, 2 );
+    int xshift = rng( 0, 2 );
+    int yshift = rng( 0, 2 );
     for( int x = 0; x < 3; x++ ) {
         for( int y = 0; y < 3; y++ ) {
             tripoint dest( z->posx() + ( x + xshift ) % 3 - 1,
@@ -2776,7 +2777,7 @@ bool mattack::nurse_assist( monster *z )
 
     const bool u_see = g->u.sees( *z );
 
-    if( u_see && one_in( 10 ) ) {
+    if( u_see && one_in( 100 ) ) {
         add_msg( m_info, _( "The %s is scanning its surroundings." ), z->name() );
     }
 
@@ -2818,19 +2819,19 @@ bool mattack::nurse_operate( monster *z )
     }
     const bool u_see = g->u.sees( *z );
 
-    if( u_see && one_in( 10 ) ) {
+    if( u_see && one_in( 100 ) ) {
         add_msg( m_info, _( "The %s is scanning its surroundings." ), z->name() );
     }
 
 
     if( ( ( g->u.is_wearing( "badge_doctor" ) ||
-            z->attitude_to( g->u ) == Creature::Attitude::A_FRIENDLY ) && u_see ) && one_in( 30 ) ) {
+            z->attitude_to( g->u ) == Creature::Attitude::A_FRIENDLY ) && u_see ) && one_in( 100 ) ) {
 
         add_msg( m_info, _( "The %s doesn't seem to register you as a doctor." ), z->name() );
     }
 
     if( z->ammo[ammo_type] == 0 && u_see ) {
-        if( one_in( 30 ) ) {
+        if( one_in( 100 ) ) {
             add_msg( m_info, _( "The %s looks at its empty anesthesia kit with a dejected look." ), z->name() );
         }
         return false;
@@ -2853,7 +2854,11 @@ bool mattack::nurse_operate( monster *z )
             }
         }
     }
-
+    if( found_target && z->attitude_to( g->u ) == Creature::Attitude::A_FRIENDLY ) {
+        if( one_in( 50 ) ) {
+            return false; // 50% chance to not turn hostile again
+        }
+    }
     if( found_target && u_see ) {
         add_msg( m_info, _( "The %1$s scans %2$s and seems to detect something." ), z->name(),
                  target->disp_name() );
@@ -2861,6 +2866,7 @@ bool mattack::nurse_operate( monster *z )
 
     if( found_target ) {
 
+        z->friendly = 0;
         z->anger = 100;
         std::list<tripoint> couch_pos = g->m.find_furnitures_in_radius( z->pos(), 10,
                                         furn_id( "f_autodoc_couch" ) ) ;
@@ -3981,6 +3987,58 @@ bool mattack::flesh_golem( monster *z )
     return true;
 }
 
+bool mattack::absorb_meat( monster *z )
+{
+    //Absorb no more than 1/10th monster's volume, times the volume of a meat chunk
+    const int monster_volume = units::to_liter( z->get_volume() );
+    const float average_meat_chunk_volume = 0.5;
+    //TODO: dynamically get volume of meat
+    const int max_meat_absorbed = monster_volume / 10 * average_meat_chunk_volume;
+    //For every milliliter of meat absorbed, heal this many HP
+    const float meat_absorption_factor = 0.01;
+    //Search surrounding tiles for meat
+    for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
+        auto items = g->m.i_at( p );
+        for( auto &current_item : items ) {
+            const material_id current_item_material = current_item.get_base_material().ident();
+            if( current_item_material == material_id( "flesh" ) ||
+                current_item_material == material_id( "hflesh" ) ) {
+                //We have something meaty! Calculate how much it will heal the monster
+                const int ml_of_meat = units::to_milliliter<int>( current_item.volume() );
+                const int total_charges = current_item.count();
+                const int ml_per_charge = ml_of_meat / total_charges;
+                //We have a max size of meat here to avoid absorbing whole corpses.
+                if( ml_per_charge > max_meat_absorbed * 1000 ) {
+                    add_msg( m_info, _( "The %1$s quivers hungrily in the direction of the %2$s." ), z->name(),
+                             current_item.tname() );
+                    return false;
+                }
+                if( current_item.count_by_charges() ) {
+                    //Choose a random amount of meat charges to absorb
+                    int meat_absorbed = std::min( max_meat_absorbed, rng( 1, total_charges ) );
+                    const int hp_to_heal = meat_absorbed * ml_per_charge * meat_absorption_factor;
+                    z->heal( hp_to_heal, true );
+                    g->m.use_charges( p, 0, current_item.type->get_id(), meat_absorbed );
+                } else {
+                    //Only absorb one meaty item
+                    int meat_absorbed = 1;
+                    const int hp_to_heal = meat_absorbed * ml_per_charge * meat_absorption_factor;
+                    z->heal( hp_to_heal, true );
+                    g->m.use_amount( p, 0, current_item.type->get_id(), meat_absorbed );
+                }
+                if( g->u.sees( *z ) ) {
+                    add_msg( m_warning, _( "The %1$s absorbs the %2$s, growing larger." ), z->name(),
+                             current_item.tname() );
+                    add_msg( m_debug, "The %1$s now has %2$s out of %3$s hp", z->name(), z->get_hp(),
+                             z->get_hp_max() );
+                }
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 bool mattack::lunge( monster *z )
 {
     if( !z->can_act() ) {
@@ -4641,7 +4699,7 @@ bool mattack::kamikaze( monster *z )
     // Get the bomb type and it's data
     const auto bomb_type = item::find_type( z->ammo.begin()->first );
     const itype *act_bomb_type;
-    long charges;
+    int charges;
     // Hardcoded data for charge variant items
     if( z->ammo.begin()->first == "mininuke" ) {
         act_bomb_type = item::find_type( "mininuke_act" );

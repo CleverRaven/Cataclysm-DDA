@@ -124,7 +124,7 @@ Character::Character() :
     fatigue = 0;
     sleep_deprivation = 0;
     // 45 days to starve to death
-    healthy_calories = 77000;
+    healthy_calories = 55000;
     stored_calories = healthy_calories;
 
     name.clear();

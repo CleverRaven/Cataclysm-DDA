@@ -287,8 +287,12 @@ bool player::activate_bionic( int b, bool eff_only )
         }
 
         if( !weapon.is_null() ) {
-            add_msg_if_player( m_warning, _( "You're forced to drop your %s." ), weapon.tname() );
-            g->m.add_item_or_charges( pos(), weapon );
+            const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname() );
+            if( !dispose_item( item_location( *this, &weapon ), query ) ) {
+                charge_power( bionics[bio.id].power_activate );
+                bio.powered = false;
+                return false;
+            }
         }
 
         weapon = item( bionics[bio.id].fake_item );
@@ -1899,6 +1903,15 @@ void player::introduce_into_anesthesia( const time_duration &duration, player &i
                            _( "As your conciousness slips away, you feel regret that you won't be able to enjoy the operation." ) );
     }
 
-    add_effect( effect_narcosis, duration );
-    fall_asleep( duration );
+    if( has_effect( effect_narcosis ) ) {
+        const time_duration remaining_time = get_effect_dur( effect_narcosis );
+        if( remaining_time <= duration ) {
+            const time_duration top_off_time = duration - remaining_time;
+            add_effect( effect_narcosis, top_off_time );
+            fall_asleep( top_off_time );
+        }
+    } else {
+        add_effect( effect_narcosis, duration );
+        fall_asleep( duration );
+    }
 }

@@ -1653,7 +1653,6 @@ bool handle_resize( int w, int h )
         TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
         SetupRenderTarget();
         game_ui::init_ui();
-        tilecontext->reinit_minimap();
 
         return true;
     }
@@ -3450,7 +3449,7 @@ std::unique_ptr<Font> Font::load_font( const std::string &typeface, int fontsize
         // Seems to be an image file, not a font.
         // Try to load as bitmap font.
         try {
-            return std::unique_ptr<Font>( new BitmapFont( fontwidth, fontheight,
+            return std::unique_ptr<Font>( std::make_unique<BitmapFont>( fontwidth, fontheight,
                                           FILENAMES["fontdir"] + typeface ) );
         } catch( std::exception &err ) {
             dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
@@ -3459,8 +3458,8 @@ std::unique_ptr<Font> Font::load_font( const std::string &typeface, int fontsize
     }
     // Not loaded as bitmap font (or it failed), try to load as truetype
     try {
-        return std::unique_ptr<Font>( new CachedTTFFont( fontwidth, fontheight, typeface, fontsize,
-                                      fontblending ) );
+        return std::unique_ptr<Font>( std::make_unique<CachedTTFFont>( fontwidth, fontheight,
+                                      typeface, fontsize, fontblending ) );
     } catch( std::exception &err ) {
         dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
     }
@@ -3833,20 +3832,6 @@ void to_overmap_font_dimension( int &w, int &h )
 bool is_draw_tiles_mode()
 {
     return use_tiles;
-}
-
-SDL_Color cursesColorToSDL( const nc_color &color )
-{
-    const int pair_id = color.to_color_pair_index();
-    const auto pair = cata_cursesport::colorpairs[pair_id];
-
-    int palette_index = pair.FG != 0 ? pair.FG : pair.BG;
-
-    if( color.is_bold() ) {
-        palette_index += color_loader<SDL_Color>::COLOR_NAMES_COUNT / 2;
-    }
-
-    return windowsPalette[palette_index];
 }
 
 /** Saves a screenshot of the current viewport, as a PNG file, to the given location.

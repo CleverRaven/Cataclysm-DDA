@@ -15,6 +15,19 @@
   },
   {
     "type": "recipe",
+    "result": "caltrops_glass",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TRAPS",
+    "skill_used": "fabrication",
+    "skills_required": [ "traps", 1 ],
+    "difficulty": 1,
+    "time": 25000,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "glass_shard", 3 ], [ "glass_sheet", 1 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "concrete",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -4439,5 +4452,27 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "splinter", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "sandbag",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": 2000,
+    "autolearn": true,
+    "qualities": [ { "id": "DIG", "level": 3 } ],
+    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 60 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "earthbag",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": 2000,
+    "autolearn": true,
+    "qualities": [ { "id": "DIG", "level": 3 } ],
+    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_soil", 3 ] ] ]
   }
 ]

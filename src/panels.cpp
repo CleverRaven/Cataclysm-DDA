@@ -11,6 +11,8 @@
 #include <utility>
 
 #include "action.h"
+#include "behavior.h"
+#include "behavior_oracle.h"
 #include "cata_utility.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -1408,12 +1410,11 @@ void draw_health_classic( player &u, const catacurses::window &w )
         nc_color col_vel = strain <= 0 ? c_light_blue :
                            ( strain <= 0.2 ? c_yellow :
                              ( strain <= 0.4 ? c_light_red : c_red ) );
-
-        const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
         if( veh->cruise_on ) {
             int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
             int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );
+            const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
             mvwprintz( w, 5, 21, c_light_gray, type );
             mvwprintz( w, 5, 26, col_vel, "%d", c_speed );
             mvwprintz( w, 5, 26 + offset, c_light_gray, ">" );
@@ -1519,11 +1520,11 @@ void draw_veh_compact( const player &u, const catacurses::window &w )
                            ( strain <= 0.2 ? c_yellow :
                              ( strain <= 0.4 ? c_light_red : c_red ) );
 
-        const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
         if( veh->cruise_on ) {
             int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
             int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );
+            const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
             mvwprintz( w, 0, 12, c_light_gray, "%s :", type );
             mvwprintz( w, 0, 19, c_light_green, "%d", t_speed );
             mvwprintz( w, 0, 20 + offset, c_light_gray, "%s", ">" );
@@ -1551,12 +1552,11 @@ void draw_veh_padding( const player &u, const catacurses::window &w )
         nc_color col_vel = strain <= 0 ? c_light_blue :
                            ( strain <= 0.2 ? c_yellow :
                              ( strain <= 0.4 ? c_light_red : c_red ) );
-
-        const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
         if( veh->cruise_on ) {
             int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
             int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );
+            const std::string type = get_option<std::string>( "USE_METRIC_SPEEDS" );
             mvwprintz( w, 0, 13, c_light_gray, "%s :", type );
             mvwprintz( w, 0, 20, c_light_green, "%d", t_speed );
             mvwprintz( w, 0, 21 + offset, c_light_gray, "%s", ">" );
@@ -1564,6 +1564,17 @@ void draw_veh_padding( const player &u, const catacurses::window &w )
         }
     }
 
+    wrefresh( w );
+}
+
+void draw_ai_goal( const player &u, const catacurses::window &w )
+{
+    werase( w );
+    behavior::tree needs;
+    needs.add( &string_id<behavior::node_t>( "npc_needs" ).obj() );
+    behavior::character_oracle_t player_oracle( &u );
+    std::string current_need = needs.tick( &player_oracle );
+    mvwprintz( w, 0, 1, c_light_gray, _( "Goal: %s" ), current_need );
     wrefresh( w );
 }
 
@@ -1703,7 +1714,7 @@ std::vector<window_panel> initialize_default_classic_panels()
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 44, true ) );
 #endif // TILES
-
+    ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 44, false ) );
     return ret;
 }
 
@@ -1724,6 +1735,7 @@ std::vector<window_panel> initialize_default_compact_panels()
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true ) );
 #endif // TILES
+    ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 32, false ) );
 
     return ret;
 }
@@ -1748,6 +1760,7 @@ std::vector<window_panel> initialize_default_label_panels()
 #if defined(TILES)
     ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true ) );
 #endif // TILES
+    ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 32, false ) );
 
     return ret;
 }
@@ -1818,7 +1831,7 @@ bool panel_manager::save()
     return write_to_file( FILENAMES["panel_options"], [&]( std::ostream & fout ) {
         JsonOut jout( fout, true );
         serialize( jout );
-    }, _( "panel_options" ) );
+    }, _( "panel options" ) );
 }
 
 bool panel_manager::load()
@@ -1998,7 +2011,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                 }
                 werase( w );
                 wrefresh( g->w_terrain );
-                g->reinitmap = true;
                 g->draw_panels( column, index );
                 return;
             }
@@ -2015,7 +2027,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
             to_map_font_dimension( width, h );
             werase( w );
             wrefresh( g->w_terrain );
-            g->reinitmap = true;
             g->draw_panels( column, index );
             // tell the game that the main screen might have a different size now.
             g->init_ui( true );
@@ -2038,7 +2049,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
         if( action == "TOGGLE_PANEL" && column == 0 ) {
             panels[index - 1].toggle = !panels[index - 1].toggle;
             wrefresh( g->w_terrain );
-            g->reinitmap = true;
             g->draw_panels( column, index );
             return;
         } else if( action == "QUIT" ) {
