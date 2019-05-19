@@ -4709,6 +4709,51 @@
   },
   {
     "type": "terrain",
+    "id": "t_tree_juniper",
+    "name": "juniper tree",
+    "description": "One of the species of 'Juniperus' that grows in New England, juniper berries grow over two to three years, first flowering. On the second year producing a green berry, the last, they produce their more famed blue varieties.  If you examined the foliage more closely, you could probably find some viable clusters.  You could also cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "light_green", "blue_green", "light_green", "brown" ],
+    "//": "Can be picked at any point in the third year assuming the berries have turned blue. But it takes a long time to regrow.",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_juniper_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "juniper", "base_num": [ 12, 24 ], "scaled_num": [ 0, 0.5 ] } ] } ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_juniper_harvested",
+    "name": "juniper tree",
+    "description": "One of the species of 'Juniperus' that grows in New England, juniper berries grow over two to three years, first flowering. On the second year producing a green berry, the last, they produce their more famed blue varieties.  Looks like all the ripe bunches of cherries have been picked.  You could also cut it down with the right tools.",
+    "symbol": "7",
+    "color": [ "light_green", "light_green", "light_green", "brown" ],
+    "//": "Will take three years to regrow, in reality.",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "examine_action": "harvested_plant",
+    "transforms_into": "t_tree_juniper",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_tree_peach",
     "name": "peach tree",
     "description": "One of the several species of 'Prunus' trees found in New England, it bears peaches in the summer.  If you examined the branches more closely, you could probably find some mature peaches.  You could also cut it down with the right tools.",
