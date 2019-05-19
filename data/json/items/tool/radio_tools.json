@@ -122,7 +122,7 @@
     "name": "radio (on)",
     "name_plural": "radios (on)",
     "description": "This portable radio is turned on, and continually draining its batteries.  It is playing the broadcast being sent from any nearby radio towers.",
-    "turns_per_charge": 8,
+    "turns_per_charge": 4000,
     "revert_to": "radio",
     "use_action": "RADIO_ON",
     "flags": [ "TRADER_AVOID" ],
