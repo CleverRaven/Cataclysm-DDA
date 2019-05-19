@@ -819,14 +819,18 @@
     "coverage": 45,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF" ],
-    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 16 }, { "item": "nail", "charges": [ 16, 24 ] } ] },
     "max_volume": 4000,
     "bash": {
       "str_min": 12,
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "nail", "charges": [ 2, 6 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [
+        { "item": "2x4", "count": [ 4, 10 ] },
+        { "item": "nail", "charges": [ 10, 16 ] },
+        { "item": "splinter", "count": [ 4, 12 ] }
+      ]
     },
     "examine_action": "workbench",
     "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
@@ -4223,14 +4227,22 @@
     "coverage": 85,
     "required_str": 9,
     "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
-    "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 8, 12 ] } ] },
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 20 }, { "item": "nail", "charges": [ 16, 24 ] }, { "item": "pipe", "count": 2 } ]
+    },
     "max_volume": 2000,
     "bash": {
       "str_min": 12,
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 4, 8 ] }, { "item": "nail", "charges": [ 6, 12 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [
+        { "item": "2x4", "count": [ 8, 12 ] },
+        { "item": "nail", "charges": [ 8, 14 ] },
+        { "item": "splinter", "count": [ 4, 10 ] },
+        { "item": "pipe", "count": [ 0, 1 ] },
+        { "item": "scrap", "count": [ 2, 5 ] }
+      ]
     }
   },
   {
