@@ -1252,7 +1252,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         // This technique makes the player follow into the tile the target was knocked from
         if (technique.knockback_follow > 0 ) {
             // Check if something's still there, so we don't telefrag nobody
-            if ( !critter_at ( &prev_pos) ) {
+            if ( critter_at ( &prev_pos) ) {
                 return;
             };
             game::place_player( &prev_pos )
