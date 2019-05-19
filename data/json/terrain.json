@@ -7416,8 +7416,8 @@
   {
     "type": "terrain",
     "id": "t_sewage_pipe",
-    "name": "sewage pipe",
-    "description": "This fine specimen is a corridor through which travels the excrement of society.",
+    "name": "high gauge pipe",
+    "description": "This is a section of high gauge pipe.",
     "symbol": "1",
     "color": "light_gray",
     "move_cost": 0,
