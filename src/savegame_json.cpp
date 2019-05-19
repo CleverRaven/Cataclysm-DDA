@@ -1138,8 +1138,6 @@ void npc_follower_rules::deserialize( JsonIn &jsin )
     data.read( "pickup_whitelist", *pickup_whitelist );
 }
 
-extern std::string convert_talk_topic( talk_topic_enum );
-
 void npc_chatbin::serialize( JsonOut &json ) const
 {
     json.start_object();
