@@ -560,7 +560,7 @@ void sfx::do_vehicle_engine_sfx()
 
     for( size_t e = 0; e < veh->engines.size(); ++e ) {
         if( veh->is_engine_on( e ) ) {
-            if( sfx::has_variant_sound( "engine_working",
+            if( sfx::has_variant_sound( "engine_working_internal",
                                         veh->part_info( veh->engines[ e ] ).get_id().str() ) ) {
                 id_and_variant = std::make_pair( "engine_working_internal",
                                                  veh->part_info( veh->engines[ e ] ).get_id().str() );
@@ -690,7 +690,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
 
     for( size_t e = 0; e < veh->engines.size(); ++e ) {
         if( veh->is_engine_on( e ) ) {
-            if( sfx::has_variant_sound( "engine_working_exterior",
+            if( sfx::has_variant_sound( "engine_working_external",
                                         veh->part_info( veh->engines[ e ] ).get_id().str() ) ) {
                 id_and_variant = std::make_pair( "engine_working_external",
                                                  veh->part_info( veh->engines[ e ] ).get_id().str() );
