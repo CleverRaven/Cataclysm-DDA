@@ -9524,14 +9524,18 @@ bool game::walk_move( const tripoint &dest_loc )
         u.lifetime_stats.squares_walked++;
     }
 
-    place_player( dest_loc );
+    point submap_shift = place_player( dest_loc );
 
     if( pulling ) {
-        const time_duration fire_age = m.get_field_age( furn_pos, fd_fire );
-        const int fire_str = m.get_field_strength( furn_pos, fd_fire );
-        m.remove_field( furn_pos, fd_fire );
-        m.set_field_strength( furn_dest, fd_fire, fire_str );
-        m.set_field_age( furn_dest, fd_fire, fire_age );
+        const tripoint shifted_furn_pos = tripoint( furn_pos.x - submap_shift.x * SEEX,
+                                          furn_pos.y - submap_shift.y * SEEY, furn_pos.z );
+        const tripoint shifted_furn_dest = tripoint( furn_dest.x - submap_shift.x * SEEX,
+                                           furn_dest.y - submap_shift.y * SEEY, furn_dest.z );
+        const time_duration fire_age = m.get_field_age( shifted_furn_pos, fd_fire );
+        const int fire_str = m.get_field_strength( shifted_furn_pos, fd_fire );
+        m.remove_field( shifted_furn_pos, fd_fire );
+        m.set_field_strength( shifted_furn_dest, fd_fire, fire_str );
+        m.set_field_age( shifted_furn_dest, fd_fire, fire_age );
     }
 
     on_move_effects();
@@ -9539,7 +9543,7 @@ bool game::walk_move( const tripoint &dest_loc )
     return true;
 }
 
-void game::place_player( const tripoint &dest_loc )
+point game::place_player( const tripoint &dest_loc )
 {
     const optional_vpart_position vp1 = m.veh_at( dest_loc );
     if( const cata::optional<std::string> label = vp1.get_label() ) {
@@ -9634,9 +9638,11 @@ void game::place_player( const tripoint &dest_loc )
         u.stop_hauling();
     }
     u.setpos( dest_loc );
-    update_map( u );
+    point submap_shift = update_map( u );
     // Important: don't use dest_loc after this line. `update_map` may have shifted the map
     // and dest_loc was not adjusted and therefore is still in the un-shifted system and probably wrong.
+    // If you must use it you can calculate the position in the new, shifted system with
+    // adjusted_pos = ( old_pos.x - submap_shift.x * SEEX, old_pos.y - submap_shift.y * SEEY, old_pos.z )
 
     //Auto pulp or butcher and Auto foraging
     if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0 ) {
@@ -9814,6 +9820,7 @@ void game::place_player( const tripoint &dest_loc )
         add_msg( _( "There are vehicle controls here." ) );
         add_msg( m_info, _( "%s to drive." ), press_x( ACTION_CONTROL_VEHICLE ) );
     }
+    return submap_shift;
 }
 
 void game::place_player_overmap( const tripoint &om_dest )
@@ -9952,6 +9959,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
                              !m.has_flag( "DESTROY_ITEM", fdest ) &&
                              only_liquid_items;
     const bool src_item_ok = m.furn( fpos ).obj().has_flag( "CONTAINER" ) ||
+                             m.furn( fpos ).obj().has_flag( "FIRE_CONTAINER" ) ||
                              m.furn( fpos ).obj().has_flag( "SEALED" );
 
     const int fire_str = m.get_field_strength( fpos, fd_fire );
@@ -10891,11 +10899,11 @@ void game::vertical_notes( int z_before, int z_after )
     }
 }
 
-void game::update_map( player &p )
+point game::update_map( player &p )
 {
     int x = p.posx();
     int y = p.posy();
-    update_map( x, y );
+    return update_map( x, y );
 }
 
 point game::update_map( int &x, int &y )
