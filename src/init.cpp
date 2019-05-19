@@ -552,6 +552,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             },
             { _( "Monster groups" ), &MonsterGroupManager::FinalizeMonsterGroups },
             { _( "Monster factions" ), &monfactions::finalize },
+            { _( "Factions" ), &npc_factions::finalize },
             { _( "Crafting recipes" ), &recipe_dictionary::finalize },
             { _( "Recipe groups" ), &recipe_group::check },
             { _( "Martial arts" ), &finialize_martial_arts },
