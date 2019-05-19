@@ -321,7 +321,7 @@
     "dispersion": 180,
     "durability": 8,
     "burst": 10,
-    "built_in_mods": [ "adjustable_stock" ],
+    "default_mods": [ "adjustable_stock" ],
     "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd" ] ] ]
   },
   {
@@ -342,7 +342,7 @@
     "ranged_damage": -1,
     "dispersion": 120,
     "durability": 8,
-    "built_in_mods": [ "adjustable_stock", "bipod", "rifle_scope", "suppressor" ],
+    "default_mods": [ "adjustable_stock", "bipod", "rifle_scope", "suppressor" ],
     "magazines": [ [ "308", [ "hk417mag_20rd", "hk417mag_10rd" ] ] ]
   },
   {
