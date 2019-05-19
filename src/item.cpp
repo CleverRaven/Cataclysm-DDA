@@ -3061,7 +3061,7 @@ void item::on_contents_changed()
     if( is_non_resealable_container() ) {
         convert( type->container->unseals_into );
     }
-    if( is_tool() || is_gun() && is_container() ) {
+    if( ( is_tool() || is_gun() ) && is_container() ) {
         if( !is_container_empty() ) {
             for( auto &it : contents ) {
                 if( ammo_type() == ammotype( it.ammo_data()->get_id() ) ) {
