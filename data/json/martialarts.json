@@ -990,7 +990,7 @@
       {
         "id": "wingchun_static",
         "name": "Chi-Sao Sensitivity",
-        "description": "Perception increases dodging ability- +1 dodges per turn",
+        "description": "Perception increases dodging ability, +1 dodges per turn",
         "unarmed_allowed": true,
         "strictly_unarmed": true,
         "flat_bonuses": [ [ "dodge", "per", 0.12 ] ],

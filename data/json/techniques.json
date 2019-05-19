@@ -1094,6 +1094,7 @@
     "strictly_unarmed": true,
     "defensive": true,
     "miss_recovery": true,
+    "//": "Feint player_message not responded in melee.cpp, just says 'you feint'",
     "messages": [ "You miss but keep punching at %s", "<npcname> misses but keeps punching at %s" ]
   },
   {
