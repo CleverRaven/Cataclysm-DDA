@@ -2141,8 +2141,8 @@
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": [ 11, 12 ] },
-        { "item": "nail", "count": [ 30, 36 ] },
-        { "item": "pebble", "count": [ 180, 200 ] },
+        { "item": "nail", "charges": [ 30, 36 ] },
+        { "item": "pebble", "charges": [ 180, 200 ] },
         { "item": "material_soil", "count": [ 70, 75 ] }
       ]
     },
@@ -2153,8 +2153,8 @@
       "sound_fail": "whish.",
       "items": [
         { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "count": [ 15, 30 ] },
-        { "item": "pebble", "count": [ 150, 200 ] },
+        { "item": "nail", "charges": [ 15, 30 ] },
+        { "item": "pebble", "charges": [ 150, 200 ] },
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
@@ -2175,8 +2175,8 @@
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": [ 11, 12 ] },
-        { "item": "nail", "count": [ 30, 36 ] },
-        { "item": "pebble", "count": [ 180, 200 ] },
+        { "item": "nail", "charges": [ 30, 36 ] },
+        { "item": "pebble", "charges": [ 180, 200 ] },
         { "item": "material_soil", "count": [ 70, 75 ] }
       ]
     },
@@ -2187,8 +2187,8 @@
       "sound_fail": "whish.",
       "items": [
         { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "count": [ 15, 30 ] },
-        { "item": "pebble", "count": [ 150, 200 ] },
+        { "item": "nail", "charges": [ 15, 30 ] },
+        { "item": "pebble", "charges": [ 150, 200 ] },
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
@@ -2210,8 +2210,8 @@
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": [ 11, 12 ] },
-        { "item": "nail", "count": [ 30, 36 ] },
-        { "item": "pebble", "count": [ 180, 200 ] },
+        { "item": "nail", "charges": [ 30, 36 ] },
+        { "item": "pebble", "charges": [ 180, 200 ] },
         { "item": "material_soil", "count": [ 70, 75 ] }
       ]
     },
@@ -2222,8 +2222,8 @@
       "sound_fail": "whish.",
       "items": [
         { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "count": [ 15, 30 ] },
-        { "item": "pebble", "count": [ 150, 200 ] },
+        { "item": "nail", "charges": [ 15, 30 ] },
+        { "item": "pebble", "charges": [ 150, 200 ] },
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
@@ -2245,8 +2245,8 @@
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": [ 11, 12 ] },
-        { "item": "nail", "count": [ 30, 36 ] },
-        { "item": "pebble", "count": [ 180, 200 ] },
+        { "item": "nail", "charges": [ 30, 36 ] },
+        { "item": "pebble", "charges": [ 180, 200 ] },
         { "item": "material_soil", "count": [ 70, 75 ] }
       ]
     },
@@ -2257,8 +2257,8 @@
       "sound_fail": "whish.",
       "items": [
         { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "count": [ 15, 30 ] },
-        { "item": "pebble", "count": [ 150, 200 ] },
+        { "item": "nail", "charges": [ 15, 30 ] },
+        { "item": "pebble", "charges": [ 150, 200 ] },
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
@@ -2280,8 +2280,8 @@
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": [ 11, 12 ] },
-        { "item": "nail", "count": [ 30, 36 ] },
-        { "item": "pebble", "count": [ 180, 200 ] },
+        { "item": "nail", "charges": [ 30, 36 ] },
+        { "item": "pebble", "charges": [ 180, 200 ] },
         { "item": "material_soil", "count": [ 70, 75 ] }
       ]
     },
@@ -2292,8 +2292,8 @@
       "sound_fail": "whish.",
       "items": [
         { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "count": [ 15, 30 ] },
-        { "item": "pebble", "count": [ 150, 200 ] },
+        { "item": "nail", "charges": [ 15, 30 ] },
+        { "item": "pebble", "charges": [ 150, 200 ] },
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
@@ -3262,7 +3262,7 @@
     "max_volume": 500,
     "crafting_pseudo_item": "char_kiln",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "deconstruct": { "items": [ { "item": "rock", "count": [ 30, 30 ] } ] },
+    "deconstruct": { "items": [ { "item": "rock", "count": [ 35, 40 ] } ] },
     "bash": {
       "str_min": 25,
       "str_max": 180,
