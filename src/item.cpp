@@ -3077,9 +3077,12 @@ void item::on_contents_changed()
 void item::on_charges_changed()
 {
     if( ( is_tool() || is_gun() ) && is_container() && !is_container_empty() ) {
-        for( auto &it : contents ) {
-            if( ammo_type() == ammotype( it.ammo_data()->get_id() ) ) {
-                it.charges = charges;
+        for( auto it = contents.begin(); it != contents.end(); ++it ) {
+            if( it->is_ammo() && ammo_type() == ammotype( it->ammo_data()->get_id() ) ) {
+                it->charges = charges;
+                if( it->charges == 0 ) {
+                    it = contents.erase( it );
+                }
             }
         }
     } else if( ( is_tool() || is_gun() ) && is_container() && is_container_empty() &&
