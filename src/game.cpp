@@ -9357,6 +9357,9 @@ bool game::walk_move( const tripoint &dest_loc )
     bool pulling = false; // moving -away- from grabbed tile; check for move_cost > 0
     bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
 
+    const tripoint furn_pos = u.pos() + u.grab_point;
+    const tripoint furn_dest = dest_loc + u.grab_point;
+
     bool grabbed = u.get_grab_type() != OBJECT_NONE;
     if( grabbed ) {
         const tripoint dp = dest_loc - u.pos();
@@ -9365,7 +9368,7 @@ bool game::walk_move( const tripoint &dest_loc )
     }
 
     if( grabbed && dest_loc.z != u.posz() ) {
-        add_msg( m_warning, _( "You let go of the grabbed object" ) );
+        add_msg( m_warning, _( "You let go of the grabbed object." ) );
         grabbed = false;
         u.grab( OBJECT_NONE );
     }
@@ -9401,7 +9404,7 @@ bool game::walk_move( const tripoint &dest_loc )
     }
     u.set_underwater( false );
 
-    if( !shifting_furniture && !prompt_dangerous_tile( dest_loc ) ) {
+    if( !shifting_furniture && !pushing && !prompt_dangerous_tile( dest_loc ) ) {
         return true;
     }
 
@@ -9529,13 +9532,26 @@ bool game::walk_move( const tripoint &dest_loc )
         u.lifetime_stats.squares_walked++;
     }
 
-    place_player( dest_loc );
+    point submap_shift = place_player( dest_loc );
+
+    if( pulling ) {
+        const tripoint shifted_furn_pos = tripoint( furn_pos.x - submap_shift.x * SEEX,
+                                          furn_pos.y - submap_shift.y * SEEY, furn_pos.z );
+        const tripoint shifted_furn_dest = tripoint( furn_dest.x - submap_shift.x * SEEX,
+                                           furn_dest.y - submap_shift.y * SEEY, furn_dest.z );
+        const time_duration fire_age = m.get_field_age( shifted_furn_pos, fd_fire );
+        const int fire_str = m.get_field_strength( shifted_furn_pos, fd_fire );
+        m.remove_field( shifted_furn_pos, fd_fire );
+        m.set_field_strength( shifted_furn_dest, fd_fire, fire_str );
+        m.set_field_age( shifted_furn_dest, fd_fire, fire_age );
+    }
+
     on_move_effects();
 
     return true;
 }
 
-void game::place_player( const tripoint &dest_loc )
+point game::place_player( const tripoint &dest_loc )
 {
     const optional_vpart_position vp1 = m.veh_at( dest_loc );
     if( const cata::optional<std::string> label = vp1.get_label() ) {
@@ -9630,9 +9646,11 @@ void game::place_player( const tripoint &dest_loc )
         u.stop_hauling();
     }
     u.setpos( dest_loc );
-    update_map( u );
+    point submap_shift = update_map( u );
     // Important: don't use dest_loc after this line. `update_map` may have shifted the map
     // and dest_loc was not adjusted and therefore is still in the un-shifted system and probably wrong.
+    // If you must use it you can calculate the position in the new, shifted system with
+    // adjusted_pos = ( old_pos.x - submap_shift.x * SEEX, old_pos.y - submap_shift.y * SEEY, old_pos.z )
 
     //Auto pulp or butcher and Auto foraging
     if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0 ) {
@@ -9810,6 +9828,7 @@ void game::place_player( const tripoint &dest_loc )
         add_msg( _( "There are vehicle controls here." ) );
         add_msg( m_info, _( "%s to drive." ), press_x( ACTION_CONTROL_VEHICLE ) );
     }
+    return submap_shift;
 }
 
 void game::place_player_overmap( const tripoint &om_dest )
@@ -9937,6 +9956,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     const furn_t furntype = m.furn( fpos ).obj();
     const int src_items = m.i_at( fpos ).size();
     const int dst_items = m.i_at( fdest ).size();
+
     const bool only_liquid_items = std::all_of( m.i_at( fdest ).begin(), m.i_at( fdest ).end(),
     [&]( item & liquid_item ) {
         return liquid_item.made_of_from_type( LIQUID );
@@ -9947,7 +9967,11 @@ bool game::grabbed_furn_move( const tripoint &dp )
                              !m.has_flag( "DESTROY_ITEM", fdest ) &&
                              only_liquid_items;
     const bool src_item_ok = m.furn( fpos ).obj().has_flag( "CONTAINER" ) ||
+                             m.furn( fpos ).obj().has_flag( "FIRE_CONTAINER" ) ||
                              m.furn( fpos ).obj().has_flag( "SEALED" );
+
+    const int fire_str = m.get_field_strength( fpos, fd_fire );
+    time_duration fire_age = m.get_field_age( fpos, fd_fire );
 
     int str_req = furntype.move_str_req;
     // Factor in weight of items contained in the furniture.
@@ -10006,6 +10030,12 @@ bool game::grabbed_furn_move( const tripoint &dp )
     m.furn_set( fdest, m.furn( fpos ) );
     m.furn_set( fpos, f_null );
 
+    if( fire_str == 1 && !pulling_furniture ) {
+        m.remove_field( fpos, fd_fire );
+        m.set_field_strength( fdest, fd_fire, fire_str );
+        m.set_field_age( fdest, fd_fire, fire_age );
+    }
+
     // Is there is only liquids on the ground, remove them after moving furniture.
     if( dst_items > 0 && only_liquid_items ) {
         m.i_clear( fdest );
@@ -10037,7 +10067,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
         if( abs( d_sum.x ) < 2 && abs( d_sum.y ) < 2 ) {
             u.grab_point = d_sum; // furniture moved relative to us
         } else { // we pushed furniture out of reach
-            add_msg( _( "You let go of the %s" ), furntype.name() );
+            add_msg( _( "You let go of the %s." ), furntype.name() );
             u.grab( OBJECT_NONE );
         }
         return true; // We moved furniture but stayed still.
@@ -10045,7 +10075,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
     if( pushing_furniture && m.impassable( fpos ) ) {
         // Not sure how that chair got into a wall, but don't let player follow.
-        add_msg( _( "You let go of the %1$s as it slides past %2$s" ),
+        add_msg( _( "You let go of the %1$s as it slides past %2$s." ),
                  furntype.name(), m.tername( fdest ) );
         u.grab( OBJECT_NONE );
         return true;
@@ -10886,11 +10916,11 @@ void game::vertical_notes( int z_before, int z_after )
     }
 }
 
-void game::update_map( player &p )
+point game::update_map( player &p )
 {
     int x = p.posx();
     int y = p.posy();
-    update_map( x, y );
+    return update_map( x, y );
 }
 
 point game::update_map( int &x, int &y )

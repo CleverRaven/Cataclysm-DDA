@@ -509,7 +509,7 @@ class game
         void refresh_all();
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
-        void update_map( player &p );
+        point update_map( player &p );
         point update_map( int &x, int &y );
         void update_overmap_seen(); // Update which overmap tiles we can see
 
@@ -776,7 +776,7 @@ class game
         void reload_item(); // Reload an item
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
-        void place_player( const tripoint &dest );
+        point place_player( const tripoint &dest );
         void place_player_overmap( const tripoint &om_dest );
 
         bool unload( item &it ); // Unload a gun/tool  'U'
