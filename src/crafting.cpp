@@ -189,7 +189,7 @@ static float workbench_crafting_speed_multiplier( const item &craft, const tripo
         allowed_volume = f.workbench->allowed_volume;
     } else {
         // Ground
-        const furn_t &f = string_id<furn_t>( "f_fake_bench_ground" ).obj();
+        const furn_t &f = string_id<furn_t>( "f_ground_crafting_spot" ).obj();
         multiplier = f.workbench->multiplier;
         allowed_mass = f.workbench->allowed_mass;
         allowed_volume = f.workbench->allowed_volume;
