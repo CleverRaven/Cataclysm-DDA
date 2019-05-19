@@ -3069,7 +3069,7 @@ void item::on_contents_changed()
                     charges = it.charges;
                 }
             }
-        } else if( ammo_data()->phase == LIQUID ) {
+        } else if( ammo_data() && ammo_data()->phase == LIQUID ) {
             charges = 0;
         }
     }
