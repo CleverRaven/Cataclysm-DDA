@@ -22,6 +22,16 @@
   },
   {
     "type": "construction",
+    "description": "Make crafting spot",
+    "category": "OTHER",
+    "required_skills": [  ],
+    "time": 0,
+    "pre_note": "Mark a spot for crafting.  Crafting tasks next to this tile will automatically use this location instead of attempting to craft in your hands, with the usual crafting speed penalty for working on the ground.  Does not prevent using a proper workbench, if available.  Deconstruct or smash to remove.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_ground_crafting_spot"
+  },
+  {
+    "type": "construction",
     "description": "Spike Pit",
     "category": "DIG",
     "required_skills": [ [ "survival", 1 ] ],
