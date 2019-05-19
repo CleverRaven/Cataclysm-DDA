@@ -548,8 +548,13 @@ void sfx::do_vehicle_engine_sfx()
     } else if( g->u.in_sleep_state() && audio_muted ) {
         return;
     }
-
-    vehicle *veh = &g->m.veh_at( g->u.pos() )->vehicle();
+    optional_vpart_position vpart_opt = g->m.veh_at( g->u.pos() );
+    vehicle *veh;
+    if( vpart_opt.has_value() ) {
+        veh = &vpart_opt->vehicle();
+    } else {
+        return;
+    }
     if( !veh->engine_on ) {
         fade_audio_channel( 23, 100 );
         add_msg( m_debug, "STOP 23" );

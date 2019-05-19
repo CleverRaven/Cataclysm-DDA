@@ -1055,7 +1055,7 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
             const vehicle_part &veh_part = veh->parts[prt];
             tripoint psgp( part_pos.x + dp.x + veh_part.precalc[1].x - veh_part.precalc[0].x,
                            part_pos.y + dp.y + veh_part.precalc[1].y - veh_part.precalc[0].y,
-                           psg->posz() );
+                           psg->posz() + dp.z );
             // someone is in the way so try again
             if( g->critter_at( psgp ) ) {
                 complete = false;
@@ -1063,14 +1063,10 @@ vehicle *map::displace_vehicle( tripoint &p, const tripoint &dp )
             }
             if( psg == &g->u ) {
                 // If passenger is you, we need to update the map
-                psg->setpos( psgp );
                 need_update = true;
                 z_change = dp.z;
-            } else {
-                // Player gets z position changed by g->vertical_move()
-                psgp.z += dp.z;
-                psg->setpos( psgp );
             }
+            psg->setpos( psgp );
             r.moved = true;
         }
     }
