@@ -40,7 +40,7 @@
   },
   {
     "type": "recipe",
-    "result": "gin_mash",
+    "result": "brew_gin",
     "result_mult": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_BREW",
