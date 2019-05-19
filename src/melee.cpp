@@ -1242,6 +1242,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
     }
 
     if( technique.knockback_dist > 0 ) {
+        const tripoint &prev_pos = t.pos(); // track target startpoint for knockback_follow
         const int kb_offset_x = rng( -technique.knockback_spread, technique.knockback_spread );
         const int kb_offset_y = rng( -technique.knockback_spread, technique.knockback_spread );
         tripoint kb_point( posx() + kb_offset_x, posy() + kb_offset_y, posz() );
@@ -1250,7 +1251,11 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         }
         // This technique makes the player follow into the tile the target was knocked from
         if (technique.knockback_follow > 0 ) {
-            game::place_player( kb_point )
+            // Check if something's still there, so we don't telefrag nobody
+            if ( !critter_at ( &prev_pos) ) {
+                return;
+            };
+            game::place_player( &prev_pos )
         };
     }
 
