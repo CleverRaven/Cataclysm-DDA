@@ -38,7 +38,7 @@
     "type": "TOOL",
     "name": "electric lantern (on)",
     "name_plural": "electric lanterns (on)",
-    "turns_per_charge": 42,
+    "turns_per_charge": 200,
     "revert_to": "electric_lantern",
     "use_action": { "menu_text": "Turn off", "type": "transform", "target": "electric_lantern", "msg": "You turn the lamp off." },
     "flags": [ "RADIO_MODABLE", "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
@@ -87,7 +87,7 @@
     "type": "TOOL",
     "name": "flashlight (on)",
     "name_plural": "flashlights (on)",
-    "turns_per_charge": 24,
+    "turns_per_charge": 100,
     "revert_to": "flashlight",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "You turn the flashlight off.", "target": "flashlight" },
     "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID" ]
@@ -172,7 +172,7 @@
     "type": "TOOL",
     "name": "heavy duty flashlight (on)",
     "name_plural": "heavy duty flashlights (on)",
-    "turns_per_charge": 9,
+    "turns_per_charge": 67,
     "revert_to": "heavy_flashlight",
     "use_action": {
       "menu_text": "Turn off",
