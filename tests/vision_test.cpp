@@ -38,14 +38,6 @@ void full_map_test( const std::vector<std::string> &setup,
     g->u.worn.clear(); // Remove any light-emitting clothing
     g->u.clear_effects();
     clear_map();
-    const int mapsize = g->m.getmapsize() * SEEX;
-    for( int z = 11; z < 21; ++z ) {
-        for( int x = 0; x < mapsize; ++x ) {
-            for( int y = 0; y < mapsize; ++y ) {
-                g->m.set( { x, y, z }, t_open_air, f_null );
-            }
-        }
-    }
     g->reset_light_level();
 
     REQUIRE( !g->u.is_blind() );
