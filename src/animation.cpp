@@ -31,8 +31,6 @@
 #include <utility>
 #include <vector>
 
-bool is_valid_in_w_terrain( int x, int y ); // see game.cpp
-
 namespace
 {
 
