@@ -2956,7 +2956,7 @@
     "connects_to": "CHAINFENCE",
     "open": "t_chickenwire_gate_o",
     "deconstruct": {
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "items": [ { "item": "2x4", "count": 5 }, { "item": "wire", "count": 10 }, { "item": "nail", "count": 20 } ]
     },
     "bash": {
@@ -2983,7 +2983,7 @@
     "connects_to": "CHAINFENCE",
     "close": "t_chickenwire_gate_c",
     "deconstruct": {
-      "ter_set": "t_null",
+      "ter_set": "t_dirt",
       "items": [ { "item": "2x4", "count": 5 }, { "item": "wire", "count": 10 }, { "item": "nail", "count": 20 } ]
     },
     "bash": {
@@ -6131,14 +6131,14 @@
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL" ],
     "connects_to": "CHAINFENCE",
     "examine_action": "chainfence",
-    "deconstruct": { "ter_set": "t_null", "items": [ { "item": "wire", "count": 10 }, { "item": "nail", "count": 20 } ] },
+    "deconstruct": { "ter_set": "t_chickenwire_fence_post", "items": [ { "item": "wire", "count": 10 }, { "item": "nail", "count": 20 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 12,
       "sound": "metal rattling!",
       "sound_fail": "whack!",
       "ter_set": "t_fence_post",
-      "items": [ { "item": "wire", "count": [ 8, 15 ] } ]
+      "items": [ { "item": "wire", "count": [ 5, 10 ] } ]
     }
   },
   {
