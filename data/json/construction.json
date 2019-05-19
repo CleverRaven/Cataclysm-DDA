@@ -798,6 +798,19 @@
   },
   {
     "type": "construction",
+    "description": "Build Concrete Floor",
+    "//": "Builds a concrete floor from a pit.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": 60,
+    "tools": [ [ [ "con_mix", 50 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "components": [ [ [ "concrete", 2 ] ], [ [ "water", 2 ] ] ],
+    "pre_terrain": "t_pit_shallow",
+    "post_terrain": "t_concrete"
+  },
+  {
+    "type": "construction",
     "description": "Build Simple Concrete Wall",
     "//": "Step 1: foundation",
     "category": "CONSTRUCT",
