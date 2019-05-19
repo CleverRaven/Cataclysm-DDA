@@ -3068,7 +3068,7 @@ void item::on_contents_changed()
                     ammo_set( it.ammo_data()->get_id(), it.charges );
                 }
             }
-        } else {
+        } else if( ammo_data() && ammo_data()->phase == LIQUID ) {
             ammo_set( ammo_type()->default_ammotype(), 0 );
         }
     }
