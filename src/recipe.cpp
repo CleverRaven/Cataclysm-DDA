@@ -337,7 +337,7 @@ item recipe::create_result() const
     if( contained ) {
         newit = newit.in_container( container );
     }
-
+    newit.on_charges_changed();
     return newit;
 }
 
