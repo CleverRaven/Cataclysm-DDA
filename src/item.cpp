@@ -3062,7 +3062,7 @@ void item::on_contents_changed()
     if( is_non_resealable_container() ) {
         convert( type->container->unseals_into );
     }
-    if( is_tool() || is_gun() ) {
+    if( is_tool() || is_gun() && is_container() ) {
         if( !is_container_empty() ) {
             for( auto &it : contents ) {
                 if( ammo_type() == ammotype( it.typeId() ) ) {
@@ -3077,13 +3077,13 @@ void item::on_contents_changed()
 
 void item::on_charges_changed()
 {
-    if( ( is_tool() || is_gun() ) && !is_container_empty() ) {
+    if( ( is_tool() || is_gun() ) && is_container() && !is_container_empty() ) {
         for( auto &it : contents ) {
             if( ammo_type() == ammotype( it.typeId() ) ) {
                 it.charges = charges;
             }
         }
-    } else if( ( is_tool() || is_gun() ) && is_container_empty() &&
+    } else if( ( is_tool() || is_gun() ) && is_container() && is_container_empty() &&
                charges > 0 ) { // if for some reason the tool/gun has charges but no content
         contents.emplace_back( ammo_type()->default_ammotype(), calendar::turn, charges );
     }
