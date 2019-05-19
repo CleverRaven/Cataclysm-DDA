@@ -1520,7 +1520,7 @@ class player : public Character
                                        const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> consume_items( map &m, const comp_selection<item_comp> &cs, int batch,
                                        const std::function<bool( const item & )> &filter = return_true<item>,
-                                       tripoint origin = tripoint_zero, int radius = PICKUP_RANGE );
+                                       const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
                                        const std::function<bool( const item & )> &filter = return_true<item> );
         comp_selection<tool_comp>
@@ -1529,7 +1529,7 @@ class player : public Character
                                bool can_cancel = false, bool player_inv = true );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );
         void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
-                            tripoint origin = tripoint_zero, int radius = PICKUP_RANGE,
+                            const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
                             basecamp *bcp = nullptr );
         void consume_tools( const std::vector<tool_comp> &tools, int batch = 1,
                             const std::string &hotkeys = DEFAULT_HOTKEYS );

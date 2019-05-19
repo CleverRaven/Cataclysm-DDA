@@ -2220,8 +2220,6 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
 
 int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    std::string prompt = holster_prompt.empty() ? _( "Holster item" ) : _( holster_prompt );
-
     if( &p.weapon == &it ) {
         p.add_msg_if_player( _( "You need to unwield your %s before using it." ), it.tname() );
         return 0;
@@ -2231,6 +2229,7 @@ int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     std::vector<std::string> opts;
 
     if( static_cast<int>( it.contents.size() ) < multi ) {
+        std::string prompt = holster_prompt.empty() ? _( "Holster item" ) : _( holster_prompt );
         opts.push_back( prompt );
         pos = -1;
     }

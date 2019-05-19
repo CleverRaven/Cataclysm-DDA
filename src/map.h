@@ -961,7 +961,7 @@ class map
         /*@{*/
         std::list<item> use_amount_square( const tripoint &p, const itype_id &type,
                                            int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
-        std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
+        std::list<item> use_amount( const tripoint &origin, const int range, const itype_id &type,
                                     int &amount, const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> use_charges( const tripoint &origin, const int range, const itype_id type,
                                      int &amount, const std::function<bool( const item & )> &filter = return_true<item>,
@@ -1016,12 +1016,12 @@ class map
         item *item_from( vehicle *veh, const int cargo_part, const size_t index );
 
         // Traps: 3D
-        void trap_set( const tripoint &p, const trap_id type );
+        void trap_set( const tripoint &p, const trap_id &type );
 
         const trap &tr_at( const tripoint &p ) const;
         void disarm_trap( const tripoint &p );
         void remove_trap( const tripoint &p );
-        const std::vector<tripoint> &trap_locations( const trap_id type ) const;
+        const std::vector<tripoint> &trap_locations( const trap_id &type ) const;
 
         //Spawns byproducts from items destroyed in fire.
         void create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass );

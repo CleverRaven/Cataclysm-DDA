@@ -222,7 +222,8 @@ class iuse
         static void play_music( player &p, const tripoint &source, int volume, int max_morale );
 
         // Helper for handling pesky wannabe-artists
-        static int handle_ground_graffiti( player &p, item *it, const std::string &prefix, tripoint pt );
+        static int handle_ground_graffiti( player &p, item *it, const std::string &prefix,
+                                           const tripoint &pt );
 
 };
 

@@ -5112,7 +5112,8 @@ int iuse::spray_can( player *p, item *it, bool, const tripoint & )
     return handle_ground_graffiti( *p, it, _( "Spray what?" ), p->pos() );
 }
 
-int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix, tripoint pt )
+int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix,
+                                  const tripoint &pt )
 {
     std::string message = string_input_popup()
                           .title( prefix + " " + _( "(To delete, input one '.')" ) )

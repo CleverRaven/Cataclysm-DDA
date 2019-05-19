@@ -5028,7 +5028,8 @@ void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_po
                     break; // Nothing!  Lucky!
 
                 case 1: { // Toxic gas
-                    int cx = rng( 9, 14 ), cy = rng( 9, 14 );
+                    int cx = rng( 9, 14 );
+                    int cy = rng( 9, 14 );
                     ter_set( cx, cy, t_rock );
                     add_field( {cx, cy, abs_sub.z}, fd_gas_vent, 2 );
                 }
@@ -5049,7 +5050,8 @@ void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_po
                 break;
 
                 case 3: { // Wrecked equipment
-                    int x = rng( 9, 14 ), y = rng( 9, 14 );
+                    int x = rng( 9, 14 );
+                    int y = rng( 9, 14 );
                     for( int i = x - 3; i < x + 3; i++ ) {
                         for( int j = y - 3; j < y + 3; j++ ) {
                             if( !one_in( 4 ) ) {
@@ -5312,7 +5314,8 @@ void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_po
             case 2: { // The Thing dog
                 int num_bodies = rng( 4, 8 );
                 for( int i = 0; i < num_bodies; i++ ) {
-                    int x = rng( 4, SEEX * 2 - 5 ), y = rng( 4, SEEX * 2 - 5 );
+                    int x = rng( 4, SEEX * 2 - 5 );
+                    int y = rng( 4, SEEX * 2 - 5 );
                     add_item( x, y, item::make_corpse() );
                     place_items( "mine_equipment", 60, x, y, x, y, false, 0 );
                 }
@@ -7051,7 +7054,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
     const int smx = p.x / SEEX;
     const int smy = p.y / SEEY;
     // debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
-    auto veh = std::unique_ptr<vehicle>( new vehicle( type, veh_fuel, veh_status ) );
+    auto veh = std::make_unique<vehicle>( type, veh_fuel, veh_status );
     veh->posx = p.x % SEEX;
     veh->posy = p.y % SEEY;
     veh->smx = smx;
@@ -7140,7 +7143,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
              * vehicles into global coordinates, find the distance between them and
              * p and then install them that way.
              * Create a vehicle with type "null" so it starts out empty. */
-            auto wreckage = std::unique_ptr<vehicle>( new vehicle() );
+            auto wreckage = std::make_unique<vehicle>();
             wreckage->posx = other_veh->posx;
             wreckage->posy = other_veh->posy;
             wreckage->smx = other_veh->smx;

@@ -2392,7 +2392,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
     }
 }
 
-void npc::see_item_say_smth( const itype_id object, const std::string smth )
+void npc::see_item_say_smth( const itype_id &object, const std::string &smth )
 {
     for( const tripoint &p : closest_tripoints_first( 6, pos() ) ) {
         if( g->m.sees_some_items( p, *this ) && sees( p ) ) {
