@@ -1248,6 +1248,10 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         for( int dist = rng( 1, technique.knockback_dist ); dist > 0; dist-- ) {
             t.knock_back_from( kb_point );
         }
+        // This technique makes the player follow into the tile the target was knocked from
+        if (technique.knockback_follow > 0 ) {
+            game::place_player( kb_point )
+        };
     }
 
     player *p = dynamic_cast<player *>( &t );
