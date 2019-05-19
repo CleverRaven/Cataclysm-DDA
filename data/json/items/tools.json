@@ -8794,7 +8794,7 @@
     "looks_like": "frame_wood_light",
     "flags": [ "NONCONDUCTIVE" ],
     "use_action": {
-      "target": "pallet_done",
+      "target": "adobe_pallet_done",
       "msg": "You test the bricks, and they're solid enough to use.",
       "moves": 50,
       "type": "delayed_transform",
