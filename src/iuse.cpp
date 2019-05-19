@@ -6598,7 +6598,18 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     return it->type->charges_to_use();
 
                 } else if( guy ) {
-                    std::string description_extra;
+                    std::string description_items_nearby;
+                    std::string description_vehicles_nearby;
+                    std::string description_furniture_nearby;
+                    std::string description_part_on_point;
+                    std::string description_furniture_on_point;
+                    std::string description_terrain_on_point;
+                    std::string npc_pose;
+                    if( guy->get_movement_mode() == "crouch" ) {
+                        npc_pose = _( "sitting" );
+                    } else {
+                        npc_pose = _( "staying" );
+                    }
                     const bool selfie = guy == p;
                     if( !selfie && dist < 4 && one_in( dist + 2 ) ) {
                         p->add_msg_if_player( _( "%s looks blinded." ), guy->name );
@@ -6611,22 +6622,77 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                             // look for big items on top of stacks in the background for the selfie description
                             units::volume min_visible_volume = 490_ml;
                             std::vector<item> visible_items_nearby;
-                            for( const tripoint &current : g->m.points_in_radius( p->pos(), 2 ) ) {
-                                if( !g->m.has_items( current ) ) {
-                                    continue;
+                            std::set<std::string> visible_vehicles;
+                            std::vector<std::string> visible_furn_nearby;
+                            auto points_1_radius = g->m.points_in_radius( guy->pos(), 1 );
+                            bool item_found = false;
+                            for( const tripoint &current : g->m.points_in_radius( guy->pos(), 2 ) ) {
+                                auto veh_part_pos = g->m.veh_at( current );
+                                if( veh_part_pos.has_value() ) {
+                                    auto veh = veh_part_pos->vehicle();
+                                    visible_vehicles.insert( veh.name );
                                 }
-                                map_stack items = g->m.i_at( current );
-                                // iterate from topmost item down to ground
-                                for( auto it = items.rbegin(); it != items.rend(); ++it ) {
-                                    if( it->volume() > min_visible_volume ) {
-                                        // add top (or first big enough) item to the list
-                                        visible_items_nearby.push_back( *it );
-                                        break;
+                                item_found = false;
+                                // store furniture in 1 radius, excluding center
+                                if( points_1_radius.is_point_inside( current ) && current != guy->pos() ) {
+                                    furn_id furn = g->m.furn( current );
+                                    if( furn != f_null && furn.is_valid() ) {
+                                        std::string furn_str = "<color_light_brown>" + furn->name() + "</color>";
+                                        if( g->m.has_items( current ) ) {
+                                            map_stack items = g->m.i_at( current );
+                                            furn_str += _( " with " ) + items.front().display_name();
+                                            item_found = true;
+                                        }
+                                        visible_furn_nearby.push_back( furn_str );
+                                    }
+                                }
+                                if( g->m.has_items( current ) && !item_found ) {
+                                    map_stack items = g->m.i_at( current );
+                                    // iterate from topmost item down to ground
+                                    for( auto it = items.rbegin(); it != items.rend(); ++it ) {
+                                        if( it->volume() > min_visible_volume ) {
+                                            // add top (or first big enough) item to the list
+                                            visible_items_nearby.push_back( *it );
+                                            break;
+                                        }
                                     }
                                 }
                             }
                             if( !visible_items_nearby.empty() ) {
-                                description_extra = random_entry( visible_items_nearby ).display_name();
+                                description_items_nearby = enumerate_as_string( visible_items_nearby.begin(),
+                                                           visible_items_nearby.end(),
+                                []( const item & it ) {
+                                    return it.display_name();
+                                } );
+                            }
+                            auto veh_part_pos = g->m.veh_at( guy->pos() );
+                            if( veh_part_pos.has_value() ) {
+                                description_part_on_point = veh_part_pos.part_displayed()->part().name() + string_format(
+                                                                _( " from %1$s" ), "<color_light_blue>" + veh_part_pos->vehicle().name + "</color>" );
+                            } else {
+                                auto ter_p = g->m.ter( guy->pos() );
+                                description_terrain_on_point = "<color_yellow>" + ter_p->name() + "</color>";
+
+                                auto fur_p = g->m.furn( guy->pos() );
+                                if( fur_p != f_null && fur_p.is_valid() ) {
+                                    description_furniture_on_point = "<color_light_brown>" + fur_p->name() + "</color>";
+                                }
+                            }
+                            if( !visible_vehicles.empty() ) {
+                                if( !description_part_on_point.empty() ) { // remove vehicle npc staying on this from visible
+                                    visible_vehicles.erase( veh_part_pos->vehicle().name );
+                                }
+                                description_vehicles_nearby = enumerate_as_string( visible_vehicles.begin(), visible_vehicles.end(),
+                                []( const std::string & it ) {
+                                    return "<color_light_blue>" + it + "</color>";
+                                } );
+                            }
+                            if( !visible_furn_nearby.empty() ) {
+                                description_furniture_nearby = enumerate_as_string( visible_furn_nearby.begin(),
+                                                               visible_furn_nearby.end(),
+                                []( const std::string & it ) {
+                                    return it;
+                                } );
                             }
                         } else if( p->is_blind() ) {
                             p->add_msg_if_player( _( "You took a photo of %s." ), guy->name );
@@ -6656,10 +6722,34 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     //~ 1s - name of the photographed NPC, 2s - timestamp of the photo, for example Year 1, Spring, day 0 08:01:54.
                     npc_photo.description = string_format( _( "This is a photo of %1$s." ),
                                                            "<color_light_blue>" + npc_photo.name + "</color>" );
+                    if( !description_part_on_point.empty() ) {
+                        npc_photo.description.erase( npc_photo.description.end() - 1 );
+                        npc_photo.description += " " + string_format( _( "on %1$s" ), description_part_on_point ) + ".";
+                    } else if( !description_terrain_on_point.empty() ) {
+                        npc_photo.description.erase( npc_photo.description.end() - 1 );
+                        if( !description_furniture_on_point.empty() ) {
+                            npc_photo.description += ", " + npc_pose + " " + string_format( _( "on %1$s" ),
+                                                     description_furniture_on_point ) + " " + string_format( _( "that stands on %1$s" ),
+                                                             description_terrain_on_point );
+                        } else {
+                            npc_photo.description += " " + string_format( _( "on %1$s" ), description_terrain_on_point );
+                        }
+                        npc_photo.description += ".";
+                    }
+                    if( !description_furniture_nearby.empty() ) {
+                        npc_photo.description.erase( npc_photo.description.end() - 1 );
+                        npc_photo.description += " " + string_format( _( "near %1$s" ),
+                                                 description_furniture_nearby ) + ".";
+                    }
+                    if( !description_vehicles_nearby.empty() ) {
+                        npc_photo.description += "\n\n" + string_format( _( "There is %1$s nearby." ),
+                                                 description_vehicles_nearby );
+                    }
+
                     npc_photo.description += "\n\n" + join( guy->short_description_parts(), "\n\n" );
-                    if( !description_extra.empty() ) {
+                    if( !description_items_nearby.empty() ) {
                         npc_photo.description += "\n\n" + string_format( _( "Also in the picture: %1$s." ),
-                                                 description_extra );
+                                                 description_items_nearby );
                     }
                     npc_photo.description += "\n\n" + string_format( _( "The photo was taken on %1$s." ),
                                              "<color_light_blue>" + timestamp + "</color>" );
