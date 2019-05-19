@@ -3064,12 +3064,12 @@ void item::on_contents_changed()
     if( ( is_tool() || is_gun() ) && is_container() ) {
         if( !is_container_empty() ) {
             for( auto &it : contents ) {
-                if( ammo_type() == ammotype( it.ammo_data()->get_id() ) ) {
-                    charges = it.charges;
+                if( it.is_ammo() && ammo_type() == ammotype( it.ammo_data()->get_id() ) ) {
+                    ammo_set( it.ammo_data()->get_id(), it.charges );
                 }
             }
-        } else if( ammo_data()->phase == LIQUID ) {
-            charges = 0;
+        } else {
+            ammo_set( ammo_type()->default_ammotype(), 0 );
         }
     }
 }
