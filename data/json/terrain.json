@@ -4734,7 +4734,7 @@
     "type": "terrain",
     "id": "t_tree_juniper_harvested",
     "name": "juniper tree",
-    "description": "One of the species of 'Juniperus' that grows in New England, juniper berries grow over two to three years, first flowering. On the second year producing a green berry, the last, they produce their more famed blue varieties.  Looks like all the ripe bunches of cherries have been picked.  You could also cut it down with the right tools.",
+    "description": "One of the species of 'Juniperus' that grows in New England, juniper berries grow over two to three years.  In the first year they flower, in the second year they produce a green berry, the last, they produce their more famed blue varieties.  Looks like all the ripe bunches of berries have been picked.  You could also cut it down with the right tools.",
     "symbol": "7",
     "color": [ "light_green", "light_green", "light_green", "brown" ],
     "//": "Will take three years to regrow, in reality.",
