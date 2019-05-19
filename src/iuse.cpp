@@ -6436,12 +6436,12 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
     return 0;
 }
 
-struct npc_photo_def : public JsonDeserializer, public JsonSerializer {
+struct extended_photo_def : public JsonDeserializer, public JsonSerializer {
     int quality;
     std::string name;
     std::string description;
 
-    npc_photo_def() = default;
+    extended_photo_def() = default;
     void deserialize( JsonIn &jsin ) override {
         JsonObject obj = jsin.get_object();
         quality = obj.get_int( "quality" );
@@ -6458,9 +6458,91 @@ struct npc_photo_def : public JsonDeserializer, public JsonSerializer {
     }
 };
 
+void descriptions_for_camera_point( std::string &description_items_nearby,
+                                    std::string &description_vehicles_nearby, std::string &description_furniture_nearby,
+                                    std::string &description_part_on_point, std::string &description_furniture_on_point,
+                                    std::string &description_terrain_on_point, tripoint center_point )
+{
+    // look for big items on top of stacks in the background for the selfie description
+    units::volume min_visible_volume = 490_ml;
+    std::vector<item> visible_items_nearby;
+    std::set<std::string> visible_vehicles;
+    std::vector<std::string> visible_furn_nearby;
+    auto points_1_radius = g->m.points_in_radius( center_point, 1 );
+    bool item_found = false;
+    for( const tripoint &current : g->m.points_in_radius( center_point, 2 ) ) {
+        auto veh_part_pos = g->m.veh_at( current );
+        if( veh_part_pos.has_value() ) {
+            auto veh = veh_part_pos->vehicle();
+            visible_vehicles.insert( veh.name );
+        }
+        item_found = false;
+        // store furniture in 1 radius, excluding center
+        if( points_1_radius.is_point_inside( current ) && current != center_point ) {
+            furn_id furn = g->m.furn( current );
+            if( furn != f_null && furn.is_valid() ) {
+                std::string furn_str = "<color_brown>" + furn->name() + "</color>";
+                if( g->m.has_items( current ) ) {
+                    map_stack items = g->m.i_at( current );
+                    furn_str += _( " with " ) + items.front().display_name();
+                    item_found = true;
+                }
+                visible_furn_nearby.push_back( furn_str );
+            }
+        }
+        if( g->m.has_items( current ) && !item_found ) {
+            map_stack items = g->m.i_at( current );
+            // iterate from topmost item down to ground
+            for( auto it = items.rbegin(); it != items.rend(); ++it ) {
+                if( it->volume() > min_visible_volume ) {
+                    // add top (or first big enough) item to the list
+                    visible_items_nearby.push_back( *it );
+                    break;
+                }
+            }
+        }
+    }
+    if( !visible_items_nearby.empty() ) {
+        description_items_nearby = enumerate_as_string( visible_items_nearby.begin(),
+                                   visible_items_nearby.end(),
+        []( const item & it ) {
+            return it.display_name();
+        } );
+    }
+    auto veh_part_pos = g->m.veh_at( center_point );
+    if( veh_part_pos.has_value() ) {
+        description_part_on_point = veh_part_pos.part_displayed()->part().name() + string_format(
+                                        _( " from %1$s" ), "<color_light_blue>" + veh_part_pos->vehicle().name + "</color>" );
+    } else {
+        auto ter_p = g->m.ter( center_point );
+        description_terrain_on_point = "<color_yellow>" + ter_p->name() + "</color>";
+
+        auto fur_p = g->m.furn( center_point );
+        if( fur_p != f_null && fur_p.is_valid() ) {
+            description_furniture_on_point = "<color_brown>" + fur_p->name() + "</color>";
+        }
+    }
+    if( !visible_vehicles.empty() ) {
+        if( !description_part_on_point.empty() ) { // remove vehicle npc staying on this from visible
+            visible_vehicles.erase( veh_part_pos->vehicle().name );
+        }
+        description_vehicles_nearby = enumerate_as_string( visible_vehicles.begin(), visible_vehicles.end(),
+        []( const std::string & it ) {
+            return "<color_light_blue>" + it + "</color>";
+        } );
+    }
+    if( !visible_furn_nearby.empty() ) {
+        description_furniture_nearby = enumerate_as_string( visible_furn_nearby.begin(),
+                                       visible_furn_nearby.end(),
+        []( const std::string & it ) {
+            return it;
+        } );
+    }
+}
+
 int iuse::camera( player *p, item *it, bool, const tripoint & )
 {
-    enum {c_shot, c_photos, c_upload};
+    enum {c_shot, c_photos, c_monsters, c_upload};
 
     uilist amenu;
 
@@ -6469,6 +6551,9 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
     if( !( it->get_var( "CAMERA_MONSTER_PHOTOS" ).empty() &&
            it->get_var( "CAMERA_NPC_PHOTOS" ).empty() ) ) {
         amenu.addentry( c_photos, true, 'l', _( "List photos" ) );
+        if( !it->get_var( "CAMERA_MONSTER_PHOTOS" ).empty() ) {
+            amenu.addentry( c_monsters, true, 'm', _( "Your collection of monsters" ) );
+        }
         amenu.addentry( c_upload, true, 'u', _( "Upload photos to memory card" ) );
     } else {
         amenu.addentry( c_photos, false, 'l', _( "No photos in memory" ) );
@@ -6505,6 +6590,16 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, _( "Click." ), true, "tool",
                        "camera_shutter" );
 
+        std::string description_items_nearby;
+        std::string description_vehicles_nearby;
+        std::string description_furniture_nearby;
+        std::string description_part_on_point;
+        std::string description_furniture_on_point;
+        std::string description_terrain_on_point;
+        std::string pose;
+        std::string description_main_figure;
+        extended_photo_def photo;
+
         for( auto &i : trajectory ) {
 
             monster *const mon = g->critter_at<monster>( i, true );
@@ -6523,8 +6618,6 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                 if( p->is_blind() ) {
                     photo_quality /= 2;
                 }
-
-                const std::string quality_name = photo_quality_name( photo_quality );
 
                 if( mon ) {
                     monster &z = *mon;
@@ -6555,7 +6648,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                         if( p->is_blind() ) {
                             p->add_msg_if_player( _( "You took a photo of %s." ), z.name() );
                         } else {
-                            p->add_msg_if_player( _( "You took a %1$s photo of %2$s." ), quality_name,
+                            p->add_msg_if_player( _( "You took a %1$s photo of %2$s." ), photo_quality_name( photo_quality ),
                                                   z.name() );
                         }
                     } else {
@@ -6589,182 +6682,105 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
 
                                     p->add_msg_if_player( _( "This photo is better than the previous one." ) );
 
+                                } else {
+                                    p->add_msg_if_player( _( "But the quality of photo is not better than the previous one." ) );
                                 }
                             }
                         }
                     }
                     it->set_var( "CAMERA_MONSTER_PHOTOS", monster_photos );
-
-                    return it->type->charges_to_use();
+                    photo.name = z.name();
+                    description_main_figure = z.type->get_description();
+                    pose = _( "staying" );
 
                 } else if( guy ) {
-                    std::string description_items_nearby;
-                    std::string description_vehicles_nearby;
-                    std::string description_furniture_nearby;
-                    std::string description_part_on_point;
-                    std::string description_furniture_on_point;
-                    std::string description_terrain_on_point;
-                    std::string npc_pose;
                     if( guy->get_movement_mode() == "crouch" ) {
-                        npc_pose = _( "sitting" );
+                        pose = _( "sitting" );
                     } else {
-                        npc_pose = _( "staying" );
+                        pose = _( "staying" );
                     }
                     const bool selfie = guy == p;
+
+                    if( sel_npc != guy ) {
+                        p->add_msg_if_player( m_warning, _( "%s got in the way of your photo." ), guy->name );
+                        photo_quality = 0;
+                    }
+                    if( selfie ) {
+                        p->add_msg_if_player( _( "You took a selfie." ) );
+                    } else if( p->is_blind() ) {
+                        p->add_msg_if_player( _( "You took a photo of %s." ), guy->name );
+                    } else {
+                        //~ 1s - thing being photographed, 2s - photo quality (adjective).
+                        p->add_msg_if_player( _( "You took a photo of %1$s. It is %2$s." ), guy->name,
+                                              photo_quality_name( photo_quality ) );
+                    }
                     if( !selfie && dist < 4 && one_in( dist + 2 ) ) {
                         p->add_msg_if_player( _( "%s looks blinded." ), guy->name );
                         guy->add_effect( effect_blind, rng( 5_turns, 10_turns ) );
                     }
 
-                    if( sel_npc == guy ) {
-                        if( selfie ) {
-                            p->add_msg_if_player( _( "You took a selfie." ) );
-                            // look for big items on top of stacks in the background for the selfie description
-                            units::volume min_visible_volume = 490_ml;
-                            std::vector<item> visible_items_nearby;
-                            std::set<std::string> visible_vehicles;
-                            std::vector<std::string> visible_furn_nearby;
-                            auto points_1_radius = g->m.points_in_radius( guy->pos(), 1 );
-                            bool item_found = false;
-                            for( const tripoint &current : g->m.points_in_radius( guy->pos(), 2 ) ) {
-                                auto veh_part_pos = g->m.veh_at( current );
-                                if( veh_part_pos.has_value() ) {
-                                    auto veh = veh_part_pos->vehicle();
-                                    visible_vehicles.insert( veh.name );
-                                }
-                                item_found = false;
-                                // store furniture in 1 radius, excluding center
-                                if( points_1_radius.is_point_inside( current ) && current != guy->pos() ) {
-                                    furn_id furn = g->m.furn( current );
-                                    if( furn != f_null && furn.is_valid() ) {
-                                        std::string furn_str = "<color_light_brown>" + furn->name() + "</color>";
-                                        if( g->m.has_items( current ) ) {
-                                            map_stack items = g->m.i_at( current );
-                                            furn_str += _( " with " ) + items.front().display_name();
-                                            item_found = true;
-                                        }
-                                        visible_furn_nearby.push_back( furn_str );
-                                    }
-                                }
-                                if( g->m.has_items( current ) && !item_found ) {
-                                    map_stack items = g->m.i_at( current );
-                                    // iterate from topmost item down to ground
-                                    for( auto it = items.rbegin(); it != items.rend(); ++it ) {
-                                        if( it->volume() > min_visible_volume ) {
-                                            // add top (or first big enough) item to the list
-                                            visible_items_nearby.push_back( *it );
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                            if( !visible_items_nearby.empty() ) {
-                                description_items_nearby = enumerate_as_string( visible_items_nearby.begin(),
-                                                           visible_items_nearby.end(),
-                                []( const item & it ) {
-                                    return it.display_name();
-                                } );
-                            }
-                            auto veh_part_pos = g->m.veh_at( guy->pos() );
-                            if( veh_part_pos.has_value() ) {
-                                description_part_on_point = veh_part_pos.part_displayed()->part().name() + string_format(
-                                                                _( " from %1$s" ), "<color_light_blue>" + veh_part_pos->vehicle().name + "</color>" );
-                            } else {
-                                auto ter_p = g->m.ter( guy->pos() );
-                                description_terrain_on_point = "<color_yellow>" + ter_p->name() + "</color>";
+                    photo.name = guy->name;
+                    description_main_figure = join( guy->short_description_parts(), "\n\n" );
+                }
+                descriptions_for_camera_point( description_items_nearby, description_vehicles_nearby,
+                                               description_furniture_nearby, description_part_on_point, description_furniture_on_point,
+                                               description_terrain_on_point, i );
 
-                                auto fur_p = g->m.furn( guy->pos() );
-                                if( fur_p != f_null && fur_p.is_valid() ) {
-                                    description_furniture_on_point = "<color_light_brown>" + fur_p->name() + "</color>";
-                                }
-                            }
-                            if( !visible_vehicles.empty() ) {
-                                if( !description_part_on_point.empty() ) { // remove vehicle npc staying on this from visible
-                                    visible_vehicles.erase( veh_part_pos->vehicle().name );
-                                }
-                                description_vehicles_nearby = enumerate_as_string( visible_vehicles.begin(), visible_vehicles.end(),
-                                []( const std::string & it ) {
-                                    return "<color_light_blue>" + it + "</color>";
-                                } );
-                            }
-                            if( !visible_furn_nearby.empty() ) {
-                                description_furniture_nearby = enumerate_as_string( visible_furn_nearby.begin(),
-                                                               visible_furn_nearby.end(),
-                                []( const std::string & it ) {
-                                    return it;
-                                } );
-                            }
-                        } else if( p->is_blind() ) {
-                            p->add_msg_if_player( _( "You took a photo of %s." ), guy->name );
-                        } else {
-                            //~ 1s - thing being photographed, 2s - photo quality (adjective).
-                            p->add_msg_if_player( _( "You took a photo of %1$s. It is %2$s." ), guy->name,
-                                                  quality_name );
-                        }
+                std::vector<extended_photo_def> extended_photos;
+                //~ 1s - name of the photographed NPC, 2s - timestamp of the photo, for example Year 1, Spring, day 0 08:01:54.
+                std::string timestamp = to_string( time_point( calendar::turn ) );
+
+                try {
+                    std::istringstream extended_photos_data( it->get_var( "CAMERA_EXTENDED_PHOTOS" ) );
+                    JsonIn json( extended_photos_data );
+                    json.read( extended_photos );
+                } catch( const JsonError &e ) {
+                    debugmsg( "Error loading EXTENDED photos: %s", e.c_str() );
+                }
+
+                photo.quality = photo_quality;
+                photo.description = string_format( _( "This is a photo of %1$s." ),
+                                                   "<color_light_blue>" + photo.name + "</color>" );
+                if( !description_part_on_point.empty() ) {
+                    photo.description.erase( photo.description.end() - 1 );
+                    photo.description += " " + string_format( _( "on %1$s" ), description_part_on_point ) + ".";
+                } else if( !description_terrain_on_point.empty() ) {
+                    photo.description.erase( photo.description.end() - 1 );
+                    if( !description_furniture_on_point.empty() ) {
+                        photo.description += ", " + pose + " " + string_format( _( "on %1$s" ),
+                                             description_furniture_on_point ) + " " + string_format( _( "that stands on %1$s" ),
+                                                     description_terrain_on_point );
                     } else {
-                        p->add_msg_if_player( m_warning, _( "%s got in the way of your photo." ), guy->name );
-                        photo_quality = 0;
+                        photo.description += " " + string_format( _( "on %1$s" ), description_terrain_on_point );
                     }
-                    std::vector<npc_photo_def> npc_photos;
+                    photo.description += ".";
+                }
+                if( !description_furniture_nearby.empty() ) {
+                    photo.description.erase( photo.description.end() - 1 );
+                    photo.description += " " + string_format( _( "near %1$s" ),
+                                         description_furniture_nearby ) + ".";
+                }
+                if( !description_vehicles_nearby.empty() ) {
+                    photo.description += "\n\n" + string_format( _( "There is %1$s nearby." ),
+                                         description_vehicles_nearby );
+                }
 
-                    try {
-                        std::istringstream npc_photos_data( it->get_var( "CAMERA_NPC_PHOTOS" ) );
-                        JsonIn json( npc_photos_data );
-                        json.read( npc_photos );
-                    } catch( const JsonError &e ) {
-                        debugmsg( "Error loading NPC photos: %s", e.c_str() );
-                    }
+                photo.description += "\n\n" + description_main_figure;
+                if( !description_items_nearby.empty() ) {
+                    photo.description += "\n\n" + string_format( _( "Also in the picture: %1$s." ),
+                                         description_items_nearby );
+                }
+                photo.description += "\n\n" + string_format( _( "The photo was taken on %1$s." ),
+                                     "<color_light_blue>" + timestamp + "</color>" );
 
-                    npc_photo_def npc_photo;
-                    npc_photo.quality = photo_quality;
-                    npc_photo.name = guy->name;
-                    std::string timestamp = to_string( time_point( calendar::turn ) );
-                    //~ 1s - name of the photographed NPC, 2s - timestamp of the photo, for example Year 1, Spring, day 0 08:01:54.
-                    npc_photo.description = string_format( _( "This is a photo of %1$s." ),
-                                                           "<color_light_blue>" + npc_photo.name + "</color>" );
-                    if( !description_part_on_point.empty() ) {
-                        npc_photo.description.erase( npc_photo.description.end() - 1 );
-                        npc_photo.description += " " + string_format( _( "on %1$s" ), description_part_on_point ) + ".";
-                    } else if( !description_terrain_on_point.empty() ) {
-                        npc_photo.description.erase( npc_photo.description.end() - 1 );
-                        if( !description_furniture_on_point.empty() ) {
-                            npc_photo.description += ", " + npc_pose + " " + string_format( _( "on %1$s" ),
-                                                     description_furniture_on_point ) + " " + string_format( _( "that stands on %1$s" ),
-                                                             description_terrain_on_point );
-                        } else {
-                            npc_photo.description += " " + string_format( _( "on %1$s" ), description_terrain_on_point );
-                        }
-                        npc_photo.description += ".";
-                    }
-                    if( !description_furniture_nearby.empty() ) {
-                        npc_photo.description.erase( npc_photo.description.end() - 1 );
-                        npc_photo.description += " " + string_format( _( "near %1$s" ),
-                                                 description_furniture_nearby ) + ".";
-                    }
-                    if( !description_vehicles_nearby.empty() ) {
-                        npc_photo.description += "\n\n" + string_format( _( "There is %1$s nearby." ),
-                                                 description_vehicles_nearby );
-                    }
-
-                    npc_photo.description += "\n\n" + join( guy->short_description_parts(), "\n\n" );
-                    if( !description_items_nearby.empty() ) {
-                        npc_photo.description += "\n\n" + string_format( _( "Also in the picture: %1$s." ),
-                                                 description_items_nearby );
-                    }
-                    npc_photo.description += "\n\n" + string_format( _( "The photo was taken on %1$s." ),
-                                             "<color_light_blue>" + timestamp + "</color>" );
-
-                    npc_photos.push_back( npc_photo );
-                    try {
-                        std::ostringstream npc_photos_data;
-                        JsonOut json( npc_photos_data );
-                        json.write( npc_photos );
-                        it->set_var( "CAMERA_NPC_PHOTOS", npc_photos_data.str() );
-                    } catch( const JsonError &e ) {
-                        debugmsg( "Error storing NPC photos: %s", e.c_str() );
-                    }
-
-                    return it->type->charges_to_use();
+                extended_photos.push_back( photo );
+                try {
+                    std::ostringstream extended_photos_data;
+                    JsonOut json( extended_photos_data );
+                    json.write( extended_photos );
+                    it->set_var( "CAMERA_EXTENDED_PHOTOS", extended_photos_data.str() );
+                } catch( const JsonError &e ) {
+                    debugmsg( "Error storing EXTENDED photos: %s", e.c_str() );
                 }
 
                 return it->type->charges_to_use();
@@ -6785,6 +6801,67 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         uilist pmenu;
 
         pmenu.text = _( "Critter photos saved on camera:" );
+
+        std::vector<std::string> descriptions;
+        std::vector<extended_photo_def> extended_photos;
+
+        try {
+            std::istringstream extended_photos_data( it->get_var( "CAMERA_EXTENDED_PHOTOS" ) );
+            JsonIn json( extended_photos_data );
+            json.read( extended_photos );
+        } catch( const JsonError &e ) {
+            debugmsg( "Error NPC photos: %s", e.c_str() );
+        }
+        try {
+            std::istringstream npc_photos_data( it->get_var( "CAMERA_NPC_PHOTOS" ) );
+            JsonIn json( npc_photos_data );
+            std::vector<extended_photo_def> npc_photos;
+            json.read( npc_photos );
+            extended_photos.insert( std::begin( extended_photos ), std::begin( npc_photos ),
+                                    std::end( npc_photos ) );
+        } catch( const JsonError &e ) {
+            debugmsg( "Error EXTENDED photos: %s", e.c_str() );
+        }
+
+        int k = 0;
+        for( const auto &extended_photo : extended_photos ) {
+            std::string menu_str;
+            if( extended_photo.name == p->name ) {
+                menu_str = _( "You" );
+            } else {
+                menu_str = extended_photo.name;
+            }
+            descriptions.push_back( extended_photo.description );
+
+            menu_str += " [" + photo_quality_name( extended_photo.quality ) + "]";
+
+            pmenu.addentry( k++, true, -1, menu_str.c_str() );
+        }
+
+        int choice;
+        do {
+            pmenu.query();
+            choice = pmenu.ret;
+
+            if( choice < 0 ) {
+                break;
+            }
+
+            popup( descriptions[choice].c_str() );
+
+        } while( true );
+
+        return it->type->charges_to_use();
+    }
+
+    if( c_monsters == choice ) {
+        if( p->is_blind() ) {
+            p->add_msg_if_player( _( "You can't see the camera screen, you're blind." ) );
+            return 0;
+        }
+        uilist pmenu;
+
+        pmenu.text = _( "Your collection of monsters:" );
 
         std::vector<mtype_id> monster_photos;
         std::vector<std::string> descriptions;
@@ -6811,29 +6888,6 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             const int quality = atoi( chq );
 
             menu_str += " [" + photo_quality_name( quality ) + "]";
-
-            pmenu.addentry( k++, true, -1, menu_str.c_str() );
-        }
-
-        std::vector<npc_photo_def> npc_photos;
-
-        try {
-            std::istringstream npc_photos_data( it->get_var( "CAMERA_NPC_PHOTOS" ) );
-            JsonIn json( npc_photos_data );
-            json.read( npc_photos );
-        } catch( const JsonError &e ) {
-            debugmsg( "Error NPC photos: %s", e.c_str() );
-        }
-        for( const auto &npc_photo : npc_photos ) {
-            std::string menu_str;
-            if( npc_photo.name == p->name ) {
-                menu_str = _( "You" );
-            } else {
-                menu_str = npc_photo.name;
-            }
-            descriptions.push_back( npc_photo.description );
-
-            menu_str += " [" + photo_quality_name( npc_photo.quality ) + "]";
 
             pmenu.addentry( k++, true, -1, menu_str.c_str() );
         }
