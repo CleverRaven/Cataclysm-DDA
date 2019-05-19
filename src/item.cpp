@@ -3064,7 +3064,7 @@ void item::on_contents_changed()
     if( is_tool() || is_gun() && is_container() ) {
         if( !is_container_empty() ) {
             for( auto &it : contents ) {
-                if( ammo_type() == ammotype( it.typeId() ) ) {
+                if( ammo_type() == ammotype( it.ammo_data()->get_id() ) ) {
                     charges = it.charges;
                 }
             }
@@ -3078,7 +3078,7 @@ void item::on_charges_changed()
 {
     if( ( is_tool() || is_gun() ) && is_container() && !is_container_empty() ) {
         for( auto &it : contents ) {
-            if( ammo_type() == ammotype( it.typeId() ) ) {
+            if( ammo_type() == ammotype( it.ammo_data()->get_id() ) ) {
                 it.charges = charges;
             }
         }
