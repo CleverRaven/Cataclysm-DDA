@@ -177,7 +177,7 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
             charges = type->charges_default();
         }
     }
-
+    on_charges_changed();
     if( has_flag( "NANOFAB_TEMPLATE" ) ) {
         itype_id nanofab_recipe = item_group::item_from( "nanofab_recipes" ).typeId();
         set_var( "NANOFAB_ITEM_ID", nanofab_recipe );
@@ -204,7 +204,6 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     } else if( type->tool ) {
         if( ammo_remaining() && ammo_type() ) {
             ammo_set( ammo_type()->default_ammotype(), ammo_remaining() );
-            on_charges_changed();
         }
     }
 
