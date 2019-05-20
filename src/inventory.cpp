@@ -200,7 +200,7 @@ void inventory::unsort()
     binned = false;
 }
 
-bool stack_compare( const std::list<item> &lhs, const std::list<item> &rhs )
+static bool stack_compare( const std::list<item> &lhs, const std::list<item> &rhs )
 {
     return lhs.front() < rhs.front();
 }

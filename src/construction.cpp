@@ -65,7 +65,7 @@ const trap_str_id tr_practice_target( "tr_practice_target" );
 namespace construct
 {
 // Checks for whether terrain mod can proceed
-bool check_nothing( const tripoint & )
+static bool check_nothing( const tripoint & )
 {
     return true;
 }
@@ -77,7 +77,7 @@ bool check_down_OK( const tripoint & ); // tile is empty and you're not on z-10 
 bool check_no_trap( const tripoint & );
 
 // Special actions to be run post-terrain-mod
-void done_nothing( const tripoint & ) {}
+static void done_nothing( const tripoint & ) {}
 void done_trunk_plank( const tripoint & );
 void done_grave( const tripoint & );
 void done_vehicle( const tripoint & );
@@ -115,7 +115,7 @@ void standardize_construction_times( const int time )
     }
 }
 
-std::vector<construction *> constructions_by_desc( const std::string &description )
+static std::vector<construction *> constructions_by_desc( const std::string &description )
 {
     std::vector<construction *> result;
     for( auto &constructions_a : constructions ) {
@@ -126,9 +126,9 @@ std::vector<construction *> constructions_by_desc( const std::string &descriptio
     return result;
 }
 
-void load_available_constructions( std::vector<std::string> &available,
-                                   std::map<std::string, std::vector<std::string>> &cat_available,
-                                   bool hide_unconstructable )
+static void load_available_constructions( std::vector<std::string> &available,
+        std::map<std::string, std::vector<std::string>> &cat_available,
+        bool hide_unconstructable )
 {
     cat_available.clear();
     available.clear();
@@ -149,7 +149,7 @@ void load_available_constructions( std::vector<std::string> &available,
     }
 }
 
-void draw_grid( const catacurses::window &w, const int list_width )
+static void draw_grid( const catacurses::window &w, const int list_width )
 {
     draw_border( w );
     mvwprintz( w, 0, 2, c_light_red, _( " Construction " ) );
@@ -165,7 +165,7 @@ void draw_grid( const catacurses::window &w, const int list_width )
     wrefresh( w );
 }
 
-nc_color construction_color( const std::string &con_name, bool highlight )
+static nc_color construction_color( const std::string &con_name, bool highlight )
 {
     nc_color col = c_dark_gray;
     if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
@@ -713,7 +713,7 @@ bool player_can_build( player &p, const inventory &inv, const std::string &desc 
     return false;
 }
 
-bool character_has_skill_for( const Character &c, const construction &con )
+static bool character_has_skill_for( const Character &c, const construction &con )
 {
     return std::all_of( con.required_skills.begin(), con.required_skills.end(),
     [&]( const std::pair<skill_id, int> &pr ) {
@@ -745,7 +745,7 @@ bool can_construct( const std::string &desc )
     return false;
 }
 
-bool can_construct( const construction &con, const tripoint &p )
+static bool can_construct( const construction &con, const tripoint &p )
 {
     // see if the special pre-function checks out
     bool place_okay = con.pre_special( p );
@@ -996,7 +996,7 @@ void construct::done_grave( const tripoint &p )
     g->m.destroy_furn( p, true );
 }
 
-vpart_id vpart_from_item( const std::string &item_id )
+static vpart_id vpart_from_item( const std::string &item_id )
 {
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
@@ -1086,7 +1086,7 @@ void construct::done_deconstruct( const tripoint &p )
     }
 }
 
-void unroll_digging( const int numer_of_2x4s )
+static void unroll_digging( const int numer_of_2x4s )
 {
     // refund components!
     item rope( "rope_30" );

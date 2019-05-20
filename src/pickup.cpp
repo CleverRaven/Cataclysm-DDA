@@ -130,7 +130,7 @@ enum pickup_answer : int {
     NUM_ANSWERS
 };
 
-pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
+static pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
         const std::string &explain )
 {
     if( offered_swap ) {

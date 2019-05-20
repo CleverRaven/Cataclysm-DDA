@@ -6658,7 +6658,7 @@ bool player::irradiate( float rads, bool bypass )
 }
 
 // At minimum level, return at_min, at maximum at_max
-float addiction_scaling( float at_min, float at_max, float add_lvl )
+static float addiction_scaling( float at_min, float at_max, float add_lvl )
 {
     // Not addicted
     if( add_lvl < MIN_ADDICTION_LEVEL ) {
@@ -10952,7 +10952,7 @@ int player::warmth( body_part bp ) const
     return ret;
 }
 
-int bestwarmth( const std::list< item > &its, const std::string &flag )
+static int bestwarmth( const std::list< item > &its, const std::string &flag )
 {
     int best = 0;
     for( auto &w : its ) {
@@ -11100,7 +11100,7 @@ int player::get_armor_fire( body_part bp ) const
     return get_armor_type( DT_HEAT, bp );
 }
 
-void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
+static void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
 {
     //~ %s is armor name
     who.add_memorial_log( pgettext( "memorial_male", "Worn %s was completely destroyed." ),

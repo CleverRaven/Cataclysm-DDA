@@ -703,7 +703,7 @@ void talk_function::lead_to_safety( npc &p )
     p.set_attitude( NPCATT_LEAD );
 }
 
-bool pay_npc( npc &np, int cost )
+static bool pay_npc( npc &np, int cost )
 {
     if( np.op_of_u.owed >= cost ) {
         np.op_of_u.owed -= cost;

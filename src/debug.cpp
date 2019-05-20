@@ -263,7 +263,7 @@ struct time_info {
 };
 
 #if defined(_MSC_VER)
-time_info get_time() noexcept
+static time_info get_time() noexcept
 {
     SYSTEMTIME time {};
 
@@ -274,7 +274,7 @@ time_info get_time() noexcept
                      };
 }
 #else
-time_info get_time() noexcept
+static time_info get_time() noexcept
 {
     timeval tv;
     gettimeofday( &tv, nullptr );
@@ -419,7 +419,7 @@ void deinitDebug()
 // OStream Operators                                                {{{2
 // ---------------------------------------------------------------------
 
-std::ostream &operator<<( std::ostream &out, DebugLevel lev )
+static std::ostream &operator<<( std::ostream &out, DebugLevel lev )
 {
     if( lev != DL_ALL ) {
         if( lev & D_INFO ) {
@@ -438,7 +438,7 @@ std::ostream &operator<<( std::ostream &out, DebugLevel lev )
     return out;
 }
 
-std::ostream &operator<<( std::ostream &out, DebugClass cl )
+static std::ostream &operator<<( std::ostream &out, DebugClass cl )
 {
     if( cl != DC_ALL ) {
         if( cl & D_MAIN ) {
@@ -466,7 +466,7 @@ std::ostream &operator<<( std::ostream &out, DebugClass cl )
 #if defined(BACKTRACE)
 // Verify that a string is safe for passing as an argument to addr2line.
 // In particular, we want to avoid any characters of significance to the shell.
-bool debug_is_safe_string( const char *start, const char *finish )
+static bool debug_is_safe_string( const char *start, const char *finish )
 {
     static constexpr char safe_chars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                          "abcdefghijklmnopqrstuvwxyz"
@@ -482,7 +482,7 @@ bool debug_is_safe_string( const char *start, const char *finish )
 }
 
 #if !defined(_WIN32)
-std::string debug_resolve_binary( const std::string &binary, std::ostream &out )
+static std::string debug_resolve_binary( const std::string &binary, std::ostream &out )
 {
     if( binary.find( '/' ) != std::string::npos ) {
         // The easy case, where we have a path to the binary
@@ -515,7 +515,7 @@ std::string debug_resolve_binary( const std::string &binary, std::ostream &out )
     return binary;
 }
 
-cata::optional<uintptr_t> debug_compute_load_offset(
+static cata::optional<uintptr_t> debug_compute_load_offset(
     const std::string &binary, const std::string &symbol,
     const std::string &offset_within_symbol_s, void *address, std::ostream &out )
 {

@@ -594,7 +594,8 @@ void mutation_branch::load_trait_group( JsonObject &jsobj )
     load_trait_group( jsobj, group_id, subtype );
 }
 
-Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid, bool is_collection )
+static Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid,
+        bool is_collection )
 {
     // NOTE: If the gid is already in the map, emplace will just return an iterator to it
     auto found = ( is_collection

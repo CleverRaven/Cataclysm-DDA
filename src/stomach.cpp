@@ -25,7 +25,7 @@ stomach_contents::stomach_contents( units::volume max_vol )
     last_ate = calendar::before_time_starts;
 }
 
-std::string ml_to_string( units::volume vol )
+static std::string ml_to_string( units::volume vol )
 {
     return to_string( units::to_milliliter<int>( vol ) ) + "_ml";
 }
@@ -43,7 +43,7 @@ void stomach_contents::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-units::volume string_to_ml( const std::string &str )
+static units::volume string_to_ml( const std::string &str )
 {
     return units::from_milliliter( std::stoi( str.substr( 0, str.size() - 3 ) ) );
 }
