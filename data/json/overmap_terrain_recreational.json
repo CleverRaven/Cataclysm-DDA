@@ -1006,6 +1006,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "cs_private_park_roof",
+    "copy-from": "generic_city_building",
+    "name": "private park roof",
+    "sym": "p",
+    "color": "light_green_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "cs_public_art_piece",
     "copy-from": "generic_city_building",
     "name": "public art piece",
