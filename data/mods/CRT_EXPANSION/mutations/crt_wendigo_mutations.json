@@ -5,7 +5,6 @@
     "name": "Forest Guardian",
     "points": 1,
     "description": "The forests have longed for your help, and this last cry shook the world.",
-    "//": "Parallel reference to Woken Furies quote from the Altered Carbon series and song.",
     "valid": false,
     "purifiable": false,
     "threshold": true
