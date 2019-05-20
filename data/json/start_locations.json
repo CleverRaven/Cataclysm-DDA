@@ -334,12 +334,6 @@
   },
   {
     "type": "start_location",
-    "ident": "apartments_con_tower_114",
-    "name": "Apartment Rooftop",
-    "target": "apartments_con_tower_114"
-  },
-  {
-    "type": "start_location",
     "ident": "apartments_con_tower_104",
     "name": "Apartment Rooftop",
     "target": "apartments_con_tower_104"
