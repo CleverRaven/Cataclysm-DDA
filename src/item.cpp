@@ -1934,13 +1934,15 @@ void item::gunmod_info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                       at->name() ) ) );
         }
     }
-    if( mod.reload_modifier != 0 && parts->test( iteminfo_parts::GUNMOD_RELOAD ) ) {
+    if( mod.reload_modifier != 1 && parts->test( iteminfo_parts::GUNMOD_RELOAD ) ) {
         info.emplace_back( "GUNMOD", _( "Reload modifier: " ), _( "<num>%" ),
-                           iteminfo::lower_is_better, mod.reload_modifier );
+                           iteminfo::no_newline | iteminfo::is_decimal | iteminfo::lower_is_better, 
+                           mod.reload_modifier );
     }
-    if( mod.min_str_required_mod > 0 && parts->test( iteminfo_parts::GUNMOD_STRENGTH ) ) {
-        info.push_back( iteminfo( "GUNMOD", _( "Minimum strength required modifier: " ),
-                                  mod.min_str_required_mod ) );
+    if( mod.min_str_required_mod != 1 && parts->test( iteminfo_parts::GUNMOD_STRENGTH ) ) {
+        info.push_back( iteminfo( "GUNMOD", _( "Minimum strength required modifier: " ), _( "<num>%" ),
+                                    iteminfo::no_newline | iteminfo::is_decimal,
+                                    mod.min_str_required_mod ) );
     }
     if( !mod.add_mod.empty() && parts->test( iteminfo_parts::GUNMOD_ADD_MOD ) ) {
         insert_separation_line( info );
@@ -5636,7 +5638,7 @@ int item::get_reload_time() const
 
     int reload_time = is_gun() ? type->gun->reload_time : type->magazine->reload_time;
     for( const item *mod : gunmods() ) {
-        reload_time = static_cast<int>( reload_time * ( 100 + mod->type->gunmod->reload_modifier ) / 100 );
+        reload_time = static_cast<int>( reload_time * mod->type->gunmod->reload_modifier );
     }
 
     return reload_time;
@@ -9413,7 +9415,7 @@ int item::get_min_str() const
     if( type->gun ) {
         int min_str = type->min_str;
         for( const item *mod : gunmods() ) {
-            min_str += mod->type->gunmod->min_str_required_mod;
+            min_str *= mod->type->gunmod->min_str_required_mod;
         }
         return min_str > 0 ? min_str : 0;
     } else {
