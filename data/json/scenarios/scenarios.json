@@ -479,10 +479,10 @@
     "type": "scenario",
     "ident": "apartmentroofstart",
     "name": "Apartment Rooftop",
-    "description": "Seeking safety and rescue amidst the chaos you rushed to the roof of an apartment building.  The passing helicopters are long gone and the screams echoing in the distance have faded.  However you can hear the sounds of the undead closing in.",
+    "description": "Seeking safety and rescue amidst the chaos you rushed to the rooftop of an apartment building.  The passing helicopters are long gone and the screams echoing in the distance have faded.  However you can hear the sounds of the undead closing in.",
     "flags": [ "CITY_START" ],
     "points": 0,
-    "start_name": "Apartment Roof",
+    "start_name": "Apartment Rooftop",
     "allowed_locs": [ "apartments_con_tower_114", "apartments_con_tower_014", "apartments_con_tower_104", "apartments_con_tower_004" ]
   }
 ]
