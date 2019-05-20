@@ -612,7 +612,7 @@
     "points": 2,
     "description": "You have taken some self-defense classes at a nearby gym.  You start with your choice of Capoeira, Krav Maga, Muay Thai, Ninjutsu, or Zui Quan.",
     "starting_trait": true,
-    "initial_ma_styles": [ "style_krav_maga", "style_muay_thai", "style_ninjutsu", "style_capoeira", "style_zui_quan" ],
+    "initial_ma_styles": [ "style_krav_maga", "style_muay_thai", "style_ninjutsu", "style_capoeira", "style_zui_quan", "style_wingchun" ],
     "valid": false
   },
   {
@@ -622,7 +622,7 @@
     "points": 2,
     "description": "You have studied the arts of the Shaolin monks.  You start with one of the five animal fighting styles: Tiger, Crane, Leopard, Snake, or Dragon.",
     "starting_trait": true,
-    "initial_ma_styles": [ "style_tiger", "style_crane", "style_leopard", "style_snake", "style_dragon", "style_wingchun" ],
+    "initial_ma_styles": [ "style_tiger", "style_crane", "style_leopard", "style_snake", "style_dragon" ],
     "valid": false
   },
   {
