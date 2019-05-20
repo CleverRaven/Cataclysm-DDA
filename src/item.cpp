@@ -3082,7 +3082,11 @@ void item::on_charges_changed()
                 it->charges = charges;
                 if( it->charges == 0 ) {
                     it = contents.erase( it );
+                } else {
+                    ++it;
                 }
+            } else {
+                ++it;
             }
         }
     } else if( ( is_tool() || is_gun() ) && is_container() && is_container_empty() &&
