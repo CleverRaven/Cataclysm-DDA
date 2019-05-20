@@ -2296,7 +2296,7 @@
     "price": 50000,
     "price_postapoc": 80000,
     "material": "steel",
-    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ],
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD", "ALWAYS_TWOHAND" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": 1766,
     "volume": 6,
