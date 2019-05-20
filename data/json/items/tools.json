@@ -6651,7 +6651,6 @@
     "weight": 100,
     "volume": 13,
     "price": 1000,
-    "container_data": { "contains": 12, "watertight": true, "seals": true },
     "to_hit": -1,
     "material": [ "glass" ],
     "symbol": "!",
@@ -6659,7 +6658,7 @@
     "ammo": "anesthetic",
     "initial_charges": 3,
     "max_charges": 3,
-    "qualities": [ [ "ANESTHESIA", 1 ], [ "CONTAIN", 1 ] ]
+    "qualities": [ [ "ANESTHESIA", 1 ] ]
   },
   {
     "id": "shavingkit",
