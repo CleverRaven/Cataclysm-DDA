@@ -1144,7 +1144,7 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "electronics", 5 ], [ "computer", 5 ] ],
     "difficulty": 7,
-    "time": 9000,
+    "time": 30000,
     "reversible": true,
     "decomp_learn": 8,
     "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 9 ] ],
@@ -1175,7 +1175,7 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "electronics", 8 ], [ "computer", 5 ] ],
     "difficulty": 8,
-    "time": 12000,
+    "time": 30000,
     "reversible": true,
     "decomp_learn": 9,
     "book_learn": [ [ "recipe_lab_elec", 8 ] ],
@@ -1207,7 +1207,7 @@
     "skill_used": "mechanics",
     "skills_required": [ [ "electronics", 5 ], [ "computer", 5 ] ],
     "difficulty": 8,
-    "time": 9000,
+    "time": 30000,
     "reversible": true,
     "decomp_learn": 8,
     "book_learn": [ [ "recipe_lab_elec", 7 ], [ "textbook_robots", 9 ] ],
@@ -1241,7 +1241,7 @@
     "reversible": true,
     "decomp_learn": 8,
     "book_learn": [ [ "schematics_nursebot", 7 ] ],
-    "time": 150000,
+    "time": 60000,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
@@ -1273,7 +1273,7 @@
     "decomp_learn": 8,
     "book_learn": [ [ "schematics_hazmatbot", 7 ] ],
     "difficulty": 6,
-    "time": 150000,
+    "time": 50000,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
@@ -1303,7 +1303,7 @@
     "decomp_learn": 8,
     "book_learn": [ [ "schematics_copbot", 7 ] ],
     "difficulty": 6,
-    "time": 150000,
+    "time": 50000,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
@@ -1336,7 +1336,7 @@
     "decomp_learn": 5,
     "book_learn": [ [ "schematics_eyebot", 7 ] ],
     "difficulty": 2,
-    "time": 37500,
+    "time": 30000,
     "using": [ [ "soldering_standard", 3 ], [ "welding_standard", 3 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
@@ -1366,7 +1366,7 @@
     "decomp_learn": 5,
     "book_learn": [ [ "schematics_molebot", 7 ] ],
     "difficulty": 3,
-    "time": 225000,
+    "time": 30000,
     "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 6 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
@@ -1395,7 +1395,7 @@
     "decomp_learn": 8,
     "book_learn": [ [ "schematics_riotbot", 7 ] ],
     "difficulty": 6,
-    "time": 150000,
+    "time": 40000,
     "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
@@ -1428,7 +1428,7 @@
     "decomp_learn": 5,
     "book_learn": [ [ "schematics_skitterbot", 7 ] ],
     "difficulty": 3,
-    "time": 75000,
+    "time": 30000,
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
@@ -1461,7 +1461,7 @@
     "decomp_learn": 8,
     "book_learn": [ [ "schematics_sciencebot", 7 ] ],
     "difficulty": 5,
-    "time": 150000,
+    "time": 60000,
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
@@ -1496,7 +1496,7 @@
     "decomp_learn": 8,
     "book_learn": [ [ "schematics_tankbot", 9 ] ],
     "difficulty": 9,
-    "time": 750000,
+    "time": 75000,
     "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
@@ -1534,7 +1534,7 @@
     "decomp_learn": 8,
     "book_learn": [ [ "schematics_tripod", 9 ] ],
     "difficulty": 9,
-    "time": 375000,
+    "time": 60000,
     "using": [ [ "soldering_standard", 10 ], [ "welding_standard", 10 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
@@ -1568,7 +1568,7 @@
     "decomp_learn": 9,
     "book_learn": [ [ "schematics_chickenbot", 10 ] ],
     "difficulty": 10,
-    "time": 750000,
+    "time": 75000,
     "using": [ [ "soldering_standard", 30 ], [ "welding_standard", 20 ] ],
     "qualities": [
       { "id": "SCREW", "level": 1 },
