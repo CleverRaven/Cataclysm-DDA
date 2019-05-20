@@ -3061,17 +3061,6 @@ void item::on_contents_changed()
     if( is_non_resealable_container() ) {
         convert( type->container->unseals_into );
     }
-    if( is_tool() || is_gun() ) {
-        if( !is_container_empty() ) {
-            for( auto &it : contents ) {
-                if( ammo_type() == ammotype( it.typeId() ) ) {
-                    charges = it.charges;
-                }
-            }
-        } else if( ammo_data() && ammo_data()->phase == LIQUID ) {
-            charges = 0;
-        }
-    }
 }
 
 void item::on_damage( int, damage_type )
