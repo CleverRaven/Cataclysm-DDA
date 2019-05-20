@@ -29,7 +29,7 @@
     "points": 5,
     "visibility": 8,
     "ugliness": 10,
-    "description": "Your torso has grown an extra set of 'arms' that have burst out of your back, they are tipped with massive bone blades at the end, and look like they can do some serious damage; especially with that thick acid that they secrete.",
+    "description": "Your torso has grown an extra set of 'arms' that have burst out of your back, they are tipped with massive bone blades at the end, and look like they can do some serious damage with the thick acid that they secrete.",
     "valid": false,
     "purifiable": false,
     "prereqs": [ "FANGS" ],
