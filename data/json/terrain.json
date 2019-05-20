@@ -10372,5 +10372,4 @@
       "ter_set": "t_fence_post",
       "items": [ { "item": "material_soil", "count": [ 100, 150 ] } ]
     }
-  }
 ]
