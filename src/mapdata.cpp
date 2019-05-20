@@ -1,11 +1,14 @@
 #include "mapdata.h"
 
 #include <unordered_map>
+#include <algorithm>
+#include <iterator>
+#include <map>
+#include <utility>
 
 #include "calendar.h"
 #include "color.h"
 #include "debug.h"
-#include "game_constants.h"
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
@@ -14,6 +17,8 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
+#include "assign.h"
+#include "json.h"
 
 namespace
 {
@@ -160,6 +165,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "BLOCK_WIND",               TFLAG_BLOCK_WIND },     // This tile will partially block the wind.
         { "FLAT",                     TFLAG_FLAT },           // This tile is flat.
         { "RAMP",                     TFLAG_RAMP },           // Can be used to move up a z-level
+        { "RAIL",                     TFLAG_RAIL },           // Rail tile (used heavily)
     }
 };
 
@@ -453,7 +459,7 @@ bool map_data_common_t::connects( int &ret ) const
 ter_id t_null,
        t_hole, // Real nothingness; makes you fall a z-level
        // Ground
-       t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit, t_grave,
+       t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit, t_grave, t_grave_new,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
        t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white,
@@ -578,6 +584,7 @@ void set_ter_ids()
     t_clay = ter_id( "t_clay" );
     t_dirtmound = ter_id( "t_dirtmound" );
     t_grave = ter_id( "t_grave" );
+    t_grave_new = ter_id( "t_grave_new" );
     t_pit_shallow = ter_id( "t_pit_shallow" );
     t_pit = ter_id( "t_pit" );
     t_pit_corpsed = ter_id( "t_pit_corpsed" );
@@ -915,7 +922,9 @@ furn_id f_null,
         f_floor_canvas,
         f_tatami,
         f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
-        f_smoking_rack, f_smoking_rack_active,
+        f_smoking_rack, f_smoking_rack_active, f_metal_smoking_rack, f_metal_smoking_rack_active,
+        f_water_mill, f_water_mill_active,
+        f_wind_mill, f_wind_mill_active,
         f_robotic_arm, f_vending_reinforced,
         f_brazier,
         f_autodoc_couch;
@@ -1020,6 +1029,12 @@ void set_furn_ids()
     f_kiln_metal_full = furn_id( "f_kiln_metal_full" );
     f_smoking_rack = furn_id( "f_smoking_rack" );
     f_smoking_rack_active = furn_id( "f_smoking_rack_active" );
+    f_metal_smoking_rack = furn_id( "f_metal_smoking_rack" );
+    f_metal_smoking_rack_active = furn_id( "f_metal_smoking_rack_active" );
+    f_water_mill = furn_id( "f_water_mill" );
+    f_water_mill_active = furn_id( "f_water_mill_active" );
+    f_wind_mill = furn_id( "f_wind_mill" );
+    f_wind_mill_active = furn_id( "f_wind_mill_active" );
     f_robotic_arm = furn_id( "f_robotic_arm" );
     f_brazier = furn_id( "f_brazier" );
     f_autodoc_couch = furn_id( "f_autodoc_couch" );
@@ -1204,6 +1219,8 @@ void furn_t::load( JsonObject &jo, const std::string &src )
               DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, "" );
     optional( jo, was_loaded, "deployed_item", deployed_item );
+    optional( jo, was_loaded, "plant_transform", plant_transform );
+    optional( jo, was_loaded, "plant_base", plant_base );
 
     load_symbol( jo );
     transparent = false;

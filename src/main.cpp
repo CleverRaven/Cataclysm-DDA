@@ -1,21 +1,27 @@
 /* Entry point and main loop for Cataclysm
  */
 
+#include <clocale>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <iostream>
 #include <locale>
 #include <map>
+#include <array>
+#include <exception>
+#include <functional>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+#include <type_traits>
 #if defined(_WIN32)
 #include "platform_win.h"
 #else
 #include <signal.h>
 #endif
-#include <stdexcept>
-#if defined(LOCALIZE)
-#   include <libintl.h>
-#endif
-
 #include "color.h"
 #include "crash.h"
 #include "cursesdef.h"
@@ -30,6 +36,8 @@
 #include "path_info.h"
 #include "rng.h"
 #include "translations.h"
+#include "input.h"
+#include "type_id.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -93,8 +101,6 @@ int start_logger( const char *app_name )
 #endif //__ANDROID__
 
 void exit_handler( int s );
-
-extern bool test_dirty;
 
 namespace
 {
@@ -606,7 +612,6 @@ int main( int argc, char *argv[] )
         }
     }
 
-    srand( seed );
     rng_set_engine_seed( seed );
 
     g.reset( new game );
@@ -625,7 +630,7 @@ int main( int argc, char *argv[] )
             init_colors();
             loading_ui ui( false );
             const std::vector<mod_id> mods( opts.begin(), opts.end() );
-            exit( g->check_mod_data( mods, ui ) && !test_dirty ? 0 : 1 );
+            exit( g->check_mod_data( mods, ui ) && !debug_has_error_been_observed() ? 0 : 1 );
         }
     } catch( const std::exception &err ) {
         debugmsg( "%s", err.what() );

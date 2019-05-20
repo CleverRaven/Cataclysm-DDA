@@ -1,34 +1,30 @@
 #include "mission.h" // IWYU pragma: associated
 
-#include <cstdio>
 #include <vector>
+#include <memory>
 
 #include "computer.h"
-#include "coordinate_conversions.h"
 #include "debug.h"
-#include "dialogue.h"
-#include "field.h"
 #include "game.h"
-#include "json.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
-// TODO: Remove this include once 2D wrappers are no longer needed
-#include "mapgen_functions.h"
 #include "messages.h"
 #include "name.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "omdata.h"
-#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "trap.h"
-
-class DynamicDataLoader;
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "optional.h"
+#include "player.h"
+#include "rng.h"
 
 const mtype_id mon_charred_nightmare( "mon_charred_nightmare" );
 const mtype_id mon_dog( "mon_dog" );
@@ -48,169 +44,13 @@ const efftype_id effect_infection( "infection" );
  * updating *miss with the target and any other important information.
  */
 
-/**
- * Given a (valid!) city reference, select a random house within the city borders.
- * @return global overmap terrain coordinates of the house.
- */
-static tripoint random_house_in_city( const city_reference &cref )
-{
-    const auto city_center_omt = sm_to_omt_copy( cref.abs_sm_pos );
-    const auto size = cref.city->size;
-    const int z = cref.abs_sm_pos.z;
-    std::vector<tripoint> valid;
-    int startx = city_center_omt.x - size;
-    int endx   = city_center_omt.x + size;
-    int starty = city_center_omt.y - size;
-    int endy   = city_center_omt.y + size;
-    for( int x = startx; x <= endx; x++ ) {
-        for( int y = starty; y <= endy; y++ ) {
-            if( overmap_buffer.check_ot_type( "house", x, y, z ) ) {
-                valid.push_back( tripoint( x, y, z ) );
-            }
-        }
-    }
-    return random_entry( valid, city_center_omt ); // center of the city is a good fallback
-}
-
-static tripoint random_house_in_closest_city()
-{
-    const auto center = g->u.global_sm_location();
-    const auto cref = overmap_buffer.closest_city( center );
-    if( !cref ) {
-        debugmsg( "could not find closest city" );
-        return g->u.global_omt_location();
-    }
-    return random_house_in_city( cref );
-}
-
-static tripoint target_closest_lab_entrance( const tripoint &origin, int reveal_rad, mission *miss )
-{
-    tripoint testpoint = tripoint( origin );
-    // Get the surface locations for labs and for spaces above hidden lab stairs.
-    testpoint.z = 0;
-    tripoint surface = overmap_buffer.find_closest( testpoint, "lab_stairs", 0, false, true );
-
-    testpoint.z = -1;
-    tripoint underground = overmap_buffer.find_closest( testpoint, "hidden_lab_stairs", 0, false,
-                           true );
-    underground.z = 0;
-
-    tripoint closest;
-    if( square_dist( surface.x, surface.y, origin.x, origin.y ) <= square_dist( underground.x,
-            underground.y, origin.x, origin.y ) ) {
-        closest = surface;
-    } else {
-        closest = underground;
-    }
-
-    if( closest != overmap::invalid_tripoint && reveal_rad >= 0 ) {
-        overmap_buffer.reveal( closest, reveal_rad );
-    }
-    miss->set_target( closest );
-    return closest;
-}
-
-static bool reveal_road( const tripoint &source, const tripoint &dest, overmapbuffer &omb )
-{
-    const tripoint source_road = overmap_buffer.find_closest( source, "road", 3, false );
-    const tripoint dest_road = overmap_buffer.find_closest( dest, "road", 3, false );
-    return omb.reveal_route( source_road, dest_road );
-}
-
-struct mission_target_params {
-    std::string overmap_terrain_subtype;
-    mission *mission_pointer;
-
-    cata::optional<tripoint> search_origin;
-    cata::optional<std::string> replaceable_overmap_terrain_subtype;
-    cata::optional<overmap_special_id> overmap_special;
-    cata::optional<int> reveal_radius;
-
-    bool must_see = false;
-    bool random = false;
-    bool create_if_necessary = true;
-    int search_range = OMAPX;
-};
-
-static cata::optional<tripoint> assign_mission_target( const mission_target_params &params )
-{
-    // If a search origin is provided, then use that. Otherwise, use the player's current
-    // location.
-    const tripoint origin_pos = params.search_origin ? *params.search_origin :
-                                g->u.global_omt_location();
-
-    tripoint target_pos = overmap::invalid_tripoint;
-
-    // Either find a random or closest match, based on the criteria.
-    if( params.random ) {
-        target_pos = overmap_buffer.find_random( origin_pos, params.overmap_terrain_subtype,
-                     params.search_range, params.must_see, false, true, params.overmap_special );
-    } else {
-        target_pos = overmap_buffer.find_closest( origin_pos, params.overmap_terrain_subtype,
-                     params.search_range, params.must_see, false, true, params.overmap_special );
-    }
-
-    // If we didn't find a match, and we're allowed to create new terrain, and the player didn't
-    // have to see the location beforehand, then we can attempt to create the new terrain.
-    if( target_pos == overmap::invalid_tripoint && params.create_if_necessary && !params.must_see ) {
-        // If this terrain is part of an overmap special...
-        if( params.overmap_special ) {
-            // ...then attempt to place the whole special.
-            const bool placed = overmap_buffer.place_special( *params.overmap_special, origin_pos,
-                                params.search_range );
-            // If we succeeded in placing the special, then try and find the particular location
-            // we're interested in.
-            if( placed ) {
-                target_pos = overmap_buffer.find_closest( origin_pos, params.overmap_terrain_subtype,
-                             params.search_range, false, false, true, params.overmap_special );
-            }
-        } else if( params.replaceable_overmap_terrain_subtype ) {
-            // This terrain wasn't part of an overmap special, but we do have a replacement
-            // terrain specified. Find a random location of that replacement type.
-            target_pos = overmap_buffer.find_random( origin_pos,
-                         *params.replaceable_overmap_terrain_subtype,
-                         params.search_range, false, false, true );
-
-            // We didn't find it, so allow this search to create new overmaps and try again.
-            if( target_pos == overmap::invalid_tripoint ) {
-                target_pos = overmap_buffer.find_random( origin_pos,
-                             *params.replaceable_overmap_terrain_subtype,
-                             params.search_range, false, false, false );
-            }
-
-            // We found a match, so set this position (which was our replacement terrain)
-            // to our desired mission terrain.
-            if( target_pos != overmap::invalid_tripoint ) {
-                overmap_buffer.ter( target_pos ) = oter_id( params.overmap_terrain_subtype );
-            }
-        }
-    }
-
-    // If we got here and this is still invalid, it means that we couldn't find it and (if
-    // allowed by the parameters) we couldn't create it either.
-    if( target_pos == overmap::invalid_tripoint ) {
-        debugmsg( "Unable to find and assign mission target %s.", params.overmap_terrain_subtype );
-        return cata::nullopt;
-    }
-
-    // If we specified a reveal radius, then go ahead and reveal around our found position.
-    if( params.reveal_radius ) {
-        overmap_buffer.reveal( target_pos, *params.reveal_radius );
-    }
-
-    // Set the mission target to our found position.
-    params.mission_pointer->set_target( target_pos );
-
-    return target_pos;
-}
-
 void mission_start::standard( mission * )
 {
 }
 
 void mission_start::place_dog( mission *miss )
 {
-    const tripoint house = random_house_in_closest_city();
+    const tripoint house = mission_util::random_house_in_closest_city();
     npc *dev = g->find_npc( miss->npc_id );
     if( dev == nullptr ) {
         debugmsg( "Couldn't find NPC! %d", miss->npc_id );
@@ -230,7 +70,7 @@ void mission_start::place_dog( mission *miss )
 
 void mission_start::place_zombie_mom( mission *miss )
 {
-    const tripoint house = random_house_in_closest_city();
+    const tripoint house = mission_util::random_house_in_closest_city();
 
     miss->target = house;
     overmap_buffer.reveal( house, 6 );
@@ -249,8 +89,9 @@ void mission_start::kill_horde_master( mission *miss )
         debugmsg( "could not find mission NPC %d", miss->npc_id );
         return;
     }
-    p->set_attitude( NPCATT_FOLLOW );//npc joins you
-    //pick one of the below locations for the horde to haunt
+    // Npc joins you
+    p->set_attitude( NPCATT_FOLLOW );
+    // Pick one of the below locations for the horde to haunt
     const auto center = p->global_omt_location();
     tripoint site = overmap_buffer.find_closest( center, "office_tower_1", 0, false );
     if( site == overmap::invalid_tripoint ) {
@@ -352,7 +193,7 @@ void mission_start::place_npc_software( mission *miss )
 
     tripoint place;
     if( type == "house" ) {
-        place = random_house_in_closest_city();
+        place = mission_util::random_house_in_closest_city();
     } else {
         place = overmap_buffer.find_closest( dev->global_omt_location(), type, 0, false );
     }
@@ -378,7 +219,7 @@ void mission_start::place_npc_software( mission *miss )
 
 void mission_start::place_priest_diary( mission *miss )
 {
-    const tripoint place = random_house_in_closest_city();
+    const tripoint place = mission_util::random_house_in_closest_city();
     miss->target = place;
     overmap_buffer.reveal( place, 2 );
     tinymap compmap;
@@ -406,7 +247,8 @@ void mission_start::place_deposit_box( mission *miss )
         debugmsg( "could not find mission NPC %d", miss->npc_id );
         return;
     }
-    p->set_attitude( NPCATT_FOLLOW );//npc joins you
+    // Npc joins you
+    p->set_attitude( NPCATT_FOLLOW );
     tripoint site = overmap_buffer.find_closest( p->global_omt_location(), "bank", 0, false );
     if( site == overmap::invalid_tripoint ) {
         site = overmap_buffer.find_closest( p->global_omt_location(), "office_tower_1", 0, false );
@@ -738,79 +580,24 @@ void mission_start::place_book( mission * )
 {
 }
 
-const tripoint reveal_destination( const std::string &type )
-{
-    const tripoint your_pos = g->u.global_omt_location();
-    const tripoint center_pos = overmap_buffer.find_random( your_pos, type, rng( 40, 80 ), false );
-
-    if( center_pos != overmap::invalid_tripoint ) {
-        overmap_buffer.reveal( center_pos, 2 );
-        return center_pos;
-    }
-
-    return overmap::invalid_tripoint;
-}
-
-void reveal_route( mission *miss, const tripoint &destination )
-{
-    const npc *p = g->find_npc( miss->get_npc_id() );
-    if( p == nullptr ) {
-        debugmsg( "couldn't find an NPC!" );
-        return;
-    }
-
-    const tripoint source = g->u.global_omt_location();
-
-    const tripoint source_road = overmap_buffer.find_closest( source, "road", 3, false );
-    const tripoint dest_road = overmap_buffer.find_closest( destination, "road", 3, false );
-
-    if( overmap_buffer.reveal_route( source_road, dest_road ) ) {
-        add_msg( _( "%s also marks the road that leads to it..." ), p->name );
-    }
-}
-
-void reveal_target( mission *miss, const std::string &omter_id )
-{
-    const npc *p = g->find_npc( miss->get_npc_id() );
-    if( p == nullptr ) {
-        debugmsg( "couldn't find an NPC!" );
-        return;
-    }
-
-    const tripoint destination = reveal_destination( omter_id );
-    if( destination != overmap::invalid_tripoint ) {
-        const oter_id oter = overmap_buffer.ter( destination );
-        add_msg( _( "%s has marked the only %s known to them on your map." ), p->name, oter->get_name() );
-        miss->set_target( destination );
-        if( one_in( 3 ) ) {
-            reveal_route( miss, destination );
-        }
-    }
-}
-
-void reveal_any_target( mission *miss, const std::vector<std::string> &omter_ids )
-{
-    reveal_target( miss, random_entry( omter_ids ) );
-}
-
 void mission_start::reveal_refugee_center( mission *miss )
 {
     mission_target_params t;
-    t.search_origin = g->u.global_omt_location();
     t.overmap_terrain_subtype = "evac_center_18";
     t.overmap_special = overmap_special_id( "evac_center" );
     t.mission_pointer = miss;
-    t.search_range = OMAPX * 5;
+    t.search_range = 0;
     t.reveal_radius = 3;
 
-    const cata::optional<tripoint> target_pos = assign_mission_target( t );
+    const cata::optional<tripoint> target_pos = mission_util::assign_mission_target( t );
 
     if( !target_pos ) {
         add_msg( _( "You don't know where the address could be..." ) );
         return;
     }
 
-    const tripoint source_road = overmap_buffer.find_closest( *t.search_origin, "road", 3, false );
+    const tripoint source_road = overmap_buffer.find_closest( g->u.global_omt_location(), "road",
+                                 3, false );
     const tripoint dest_road = overmap_buffer.find_closest( *target_pos, "road", 3, false );
 
     if( overmap_buffer.reveal_route( source_road, dest_road, 1, true ) ) {
@@ -855,8 +642,8 @@ void mission_start::create_lab_console( mission *miss )
     create_lab_consoles( miss, place, "lab", 2, "Workstation", "Download Memory Contents" );
 
     // Target the lab entrance.
-    const tripoint target = target_closest_lab_entrance( place, 2, miss );
-    reveal_road( g->u.global_omt_location(), target, overmap_buffer );
+    const tripoint target = mission_util::target_closest_lab_entrance( place, 2, miss );
+    mission_util::reveal_road( g->u.global_omt_location(), target, overmap_buffer );
 }
 
 void mission_start::create_hidden_lab_console( mission *miss )
@@ -871,8 +658,8 @@ void mission_start::create_hidden_lab_console( mission *miss )
     create_lab_consoles( miss, place, "lab", 3, "Workstation", "Download Encryption Routines" );
 
     // Target the lab entrance.
-    const tripoint target = target_closest_lab_entrance( place, 2, miss );
-    reveal_road( g->u.global_omt_location(), target, overmap_buffer );
+    const tripoint target = mission_util::target_closest_lab_entrance( place, 2, miss );
+    mission_util::reveal_road( g->u.global_omt_location(), target, overmap_buffer );
 }
 
 void mission_start::create_ice_lab_console( mission *miss )
@@ -885,8 +672,8 @@ void mission_start::create_ice_lab_console( mission *miss )
     create_lab_consoles( miss, place, "ice_lab", 3, "Durable Storage Archive", "Download Archives" );
 
     // Target the lab entrance.
-    const tripoint target = target_closest_lab_entrance( place, 2, miss );
-    reveal_road( g->u.global_omt_location(), target, overmap_buffer );
+    const tripoint target = mission_util::target_closest_lab_entrance( place, 2, miss );
+    mission_util::reveal_road( g->u.global_omt_location(), target, overmap_buffer );
 }
 
 void mission_start::reveal_lab_train_depot( mission *miss )
@@ -920,159 +707,6 @@ void mission_start::reveal_lab_train_depot( mission *miss )
     compmap.save();
 
     // Target the lab entrance.
-    const tripoint target = target_closest_lab_entrance( place, 2, miss );
-    reveal_road( g->u.global_omt_location(), target, overmap_buffer );
-}
-
-void mission_util::set_reveal( const std::string &terrain,
-                               std::vector<std::function<void( mission *miss )>> &funcs )
-{
-    const auto mission_func = [ terrain ]( mission * miss ) {
-        reveal_target( miss, terrain );
-    };
-    funcs.emplace_back( mission_func );
-}
-
-void mission_util::set_reveal_any( JsonArray &ja,
-                                   std::vector<std::function<void( mission *miss )>> &funcs )
-{
-    std::vector<std::string> terrains;
-    while( ja.has_more() ) {
-        std::string terrain = ja.next_string();
-        terrains.push_back( terrain );
-    }
-    const auto mission_func = [ terrains ]( mission * miss ) {
-        reveal_any_target( miss, terrains );
-    };
-    funcs.emplace_back( mission_func );
-}
-
-void mission_util::set_assign_om_target( JsonObject &jo,
-        std::vector<std::function<void( mission *miss )>> &funcs )
-{
-    if( !jo.has_string( "om_terrain" ) ) {
-        jo.throw_error( "'om_terrain' is required for assign_mission_target" );
-    }
-    mission_target_params p;
-    p.overmap_terrain_subtype = jo.get_string( "om_terrain" );
-    if( jo.has_string( "om_terrain_replace" ) ) {
-        p.replaceable_overmap_terrain_subtype = jo.get_string( "om_terrain_replace" );
-    }
-    if( jo.has_string( "om_special" ) ) {
-        p.overmap_special = overmap_special_id( jo.get_string( "om_special" ) );
-    }
-    if( jo.has_int( "reveal_radius" ) ) {
-        p.reveal_radius = std::max( 1, jo.get_int( "reveal_radius" ) );
-    }
-    if( jo.has_bool( "must_see" ) ) {
-        p.must_see = jo.get_bool( "must_see" );
-    }
-    if( jo.has_bool( "random" ) ) {
-        p.random = jo.get_bool( "random" );
-    }
-    if( jo.has_int( "search_range" ) ) {
-        p.search_range = std::max( 1, jo.get_int( "search_range" ) );
-    }
-    cata::optional<int> z;
-    if( jo.has_int( "z" ) ) {
-        z = jo.get_int( "z" );
-    }
-    const auto mission_func = [p, z]( mission * miss ) {
-        mission_target_params mtp = p;
-        mtp.mission_pointer = miss;
-        if( z ) {
-            const tripoint loc = g->u.global_omt_location();
-            mtp.search_origin = tripoint( loc.x, loc.y, *z );
-        }
-        assign_mission_target( mtp );
-    };
-    funcs.emplace_back( mission_func );
-}
-
-bool mission_util::set_update_mapgen( JsonObject &jo,
-                                      std::vector<std::function<void( mission *miss )>> &funcs )
-{
-    bool defer = false;
-    mapgen_update_func update_map = add_mapgen_update_func( jo, defer );
-    if( defer ) {
-        return false;
-    }
-
-    if( jo.has_string( "om_special" ) && jo.has_string( "om_terrain" ) ) {
-        const std::string om_terrain = jo.get_string( "om_terrain" );
-        const auto mission_func = [update_map, om_terrain]( mission * miss ) {
-            tripoint update_pos3 = mission_util::reveal_om_ter( om_terrain, 1, false );
-            update_map( update_pos3, miss );
-        };
-        funcs.emplace_back( mission_func );
-    } else {
-        const auto mission_func = [update_map]( mission * miss ) {
-            tripoint update_pos3 = miss->get_target();
-            update_map( update_pos3, miss );
-        };
-        funcs.emplace_back( mission_func );
-    }
-    return true;
-}
-
-bool mission_util::load_funcs( JsonObject jo,
-                               std::vector<std::function<void( mission *miss )>> &funcs )
-{
-    if( jo.has_string( "reveal_om_ter" ) ) {
-        const std::string target_terrain = jo.get_string( "reveal_om_ter" );
-        set_reveal( target_terrain, funcs );
-    } else if( jo.has_array( "reveal_om_ter" ) ) {
-        JsonArray target_terrain = jo.get_array( "reveal_om_ter" );
-        set_reveal_any( target_terrain, funcs );
-    } else if( jo.has_object( "assign_mission_target" ) ) {
-        JsonObject mission_target = jo.get_object( "assign_mission_target" );
-        set_assign_om_target( mission_target, funcs );
-    }
-
-    if( jo.has_object( "update_mapgen" ) ) {
-        JsonObject update_mapgen = jo.get_object( "update_mapgen" );
-        if( !set_update_mapgen( update_mapgen, funcs ) ) {
-            return false;
-        }
-    } else if( jo.has_array( "update_mapgen" ) ) {
-        JsonArray mapgen_array = jo.get_array( "update_mapgen" );
-        while( mapgen_array.has_more() ) {
-            JsonObject update_mapgen = mapgen_array.next_object();
-            if( !set_update_mapgen( update_mapgen, funcs ) ) {
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
-
-bool mission_type::parse_funcs( JsonObject &jo, std::function<void( mission * )> &phase_func )
-{
-    std::vector<std::function<void( mission *miss )>> funcs;
-    if( !mission_util::load_funcs( jo, funcs ) ) {
-        return false;
-    }
-
-    /* this is a kind of gross hijack of the dialogue responses effect system, but I don't want to
-     * write that code in two places so here it goes.
-     */
-    talk_effect_t talk_effects;
-    talk_effects.load_effect( jo );
-    phase_func = [ funcs, talk_effects ]( mission * miss ) {
-        ::dialogue d;
-        d.beta = g->find_npc( miss->get_npc_id() );
-        if( d.beta == nullptr ) {
-            standard_npc default_npc( "Default" );
-            d.beta = &default_npc;
-        }
-        d.alpha = &g->u;
-        for( const talk_effect_fun_t &effect : talk_effects.effects ) {
-            effect( d );
-        }
-        for( auto &mission_function : funcs ) {
-            mission_function( miss );
-        }
-    };
-    return true;
+    const tripoint target = mission_util::target_closest_lab_entrance( place, 2, miss );
+    mission_util::reveal_road( g->u.global_omt_location(), target, overmap_buffer );
 }

@@ -4,6 +4,7 @@
     "id": "style_none",
     "name": "No style",
     "description": "Not a martial art, this is just plain old punching and kicking.",
+    "initiate": [ "You decide to not use any martial arts.", "%s enters a generic combat stance." ],
     "arm_block": 1,
     "leg_block": 99
   },
@@ -12,6 +13,7 @@
     "id": "style_kicks",
     "name": "Force unarmed",
     "description": "Not a martial art, setting this style will prevent weapon attacks and force punches (with free hand) or kicks.",
+    "initiate": [ "You force yourself to fight unarmed.", "%s decides to fight unarmed." ],
     "arm_block": 1,
     "leg_block": 99,
     "force_unarmed": true
@@ -21,6 +23,7 @@
     "id": "style_brawling",
     "name": "Brawling",
     "description": "You're used to hand-to-creature fighting.  Not stylish or sporting, but it gets the job done.",
+    "initiate": [ "You grit your teeth and prepare for a good fight.", "%s gets ready to brawl." ],
     "arm_block": -1,
     "leg_block": 7,
     "techniques": [ "tec_brawl_feint", "tec_brawl_power", "tec_brawl_trip", "tec_brawl_counter" ]
@@ -30,6 +33,7 @@
     "id": "style_karate",
     "name": "Karate",
     "description": "Karate is a popular martial art, originating from Japan.  It focuses on rapid, precise attacks, blocks, and fluid movement.  A successful hit allows you an extra dodge and two extra blocks on the following round.",
+    "initiate": [ "You adopt a classic karate stance.", "%s adopts a classic karate stance." ],
     "arm_block": 2,
     "leg_block": 99,
     "onhit_buffs": [
@@ -51,6 +55,7 @@
     "id": "style_aikido",
     "name": "Aikido",
     "description": "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker.  It uses defensive throws and disarms.  Damage done while using this technique is halved, but pain inflicted is doubled.",
+    "initiate": [ "You enter the hamni stance.", "%s changes into a combat posture." ],
     "arm_block": 99,
     "leg_block": 99,
     "static_buffs": [
@@ -71,6 +76,7 @@
     "id": "style_boxing",
     "name": "Boxing",
     "description": "Sport of the true gentleman, modern boxing has evolved from the prizefights of the Victorian era.",
+    "initiate": [ "You lower your chin and raise your fists to eye level.", "%s prepares to fight with raised fists." ],
     "arm_block": 2,
     "leg_block": 99,
     "static_buffs": [
@@ -115,6 +121,7 @@
     "id": "style_judo",
     "name": "Judo",
     "description": "Judo is a martial art that focuses on grabs and throws, both defensive and offensive.  It also focuses on recovering from throws; while using judo, you will not lose any turns to being thrown or knocked down.",
+    "initiate": [ "You prepare yourself for a grapple.", "%s prepares for a grapple." ],
     "arm_block": 99,
     "leg_block": 99,
     "static_buffs": [
@@ -135,6 +142,7 @@
     "id": "style_tai_chi",
     "name": "Tai Chi",
     "description": "Though Tai Chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
+    "initiate": [ "You settle into a gentle stance and prepare to defend yourself.", "%s settles into a gentle stance." ],
     "arm_block": 1,
     "leg_block": 99,
     "static_buffs": [
@@ -156,6 +164,7 @@
     "id": "style_capoeira",
     "name": "Capoeira",
     "description": "A dance-like style with its roots in Brazilian slavery, Capoeira is focused on fluid movement and sweeping kicks.  Moving a tile will boost attack and damage and attacking boosts dodge.  These bonuses stack up to three times each.",
+    "initiate": [ "You begin performing the ginga.", "%s begins to rhymically rock back and forth." ],
     "arm_block": 99,
     "leg_block": 99,
     "onhit_buffs": [
@@ -190,6 +199,7 @@
     "id": "style_krav_maga",
     "name": "Krav Maga",
     "description": "Originating in Israel, Krav Maga is based on taking down an enemy quickly and effectively.  It focuses on applicable attacks rather than showy or complex moves.  Popular among police and armed forces everywhere.",
+    "initiate": [ "You prepare for simultaneous attack and defense.", "%s prepares for simultaneous attack and defense." ],
     "arm_block": 2,
     "leg_block": 4,
     "static_buffs": [
@@ -225,6 +235,7 @@
     "id": "style_muay_thai",
     "name": "Muay Thai",
     "description": "Also referred to as the \"Art of 8 Limbs,\" Muay Thai is a popular fighting technique from Thailand that uses powerful strikes.  Your strikes are more powerful with high strength and weaker with low strength, and can momentarily disorient enemies.  As this style focuses on using legs and elbow strikes rather than punches, it does not benefit from using any weapons.",
+    "initiate": [ "You ready yourself to trade blows with your enemies.", "%s prepares to trade blows." ],
     "arm_block": 3,
     "leg_block": 4,
     "force_unarmed": true,
@@ -244,6 +255,7 @@
     "id": "style_ninjutsu",
     "name": "Ninjutsu",
     "description": "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan.  It focuses on rapid, precise, silent strikes.  Ninjutsu is almost entirely silent.  It also provides small combat bonuses every time you move.",
+    "initiate": [ "You perform a kuji-in mantra with your hands. Rin, Kai, Jin!", "%s performs a series of ninja hand signs." ],
     "arm_block": 3,
     "leg_block": 99,
     "static_buffs": [
@@ -273,9 +285,52 @@
   },
   {
     "type": "martial_art",
+    "id": "style_pankration",
+    "name": "Pankration",
+    "description": "An ancient Greek martial art, combining boxing and wrestling techniques to create a brutal sport, though modern revival of the art is less of no-holds-barred in nature.",
+    "initiate": [ "You crouch slightly and prepare to rush forward.", "%s crouches slightly, ready to rush forward." ],
+    "arm_block": 2,
+    "leg_block": 4,
+    "ondodge_buffs": [
+      {
+        "id": "pankration_counter",
+        "name": "Counter Chance",
+        "description": "The enemy has presented an opening in their defense.",
+        "min_unarmed": 4,
+        "unarmed_allowed": true,
+        "max_stacks": 1,
+        "buff_duration": 2,
+        "mult_bonuses": [ [ "damage", "bash", 1.1 ] ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "pankration_grappling",
+        "name": "Grappling",
+        "description": "I have you now!",
+        "unarmed_allowed": true,
+        "min_unarmed": 5,
+        "req_buffs": [ "pankration_counter" ],
+        "buff_duration": 2,
+        "max_stacks": 1,
+        "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+      }
+    ],
+    "techniques": [
+      "tec_pankration_kick",
+      "tec_pankration_break",
+      "tec_pankration_counter",
+      "tec_pankration_disarm",
+      "tec_pankration_throw",
+      "tec_pankration_chokehold"
+    ]
+  },
+  {
+    "type": "martial_art",
     "id": "style_taekwondo",
     "name": "Taekwondo",
     "description": "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks and so it does not benefit from wielded weapons.  It also includes strength training; your blocks absorb extra damage the stronger you are.",
+    "initiate": [ "You adopt a narrow fighting stance.", "You adopts a narrow fighting stance." ],
     "arm_block": 2,
     "leg_block": 3,
     "force_unarmed": true,
@@ -295,6 +350,7 @@
     "id": "style_biojutsu",
     "name": "Bionic Combatives",
     "description": "A modern combat style for the post-modern human.  Bionic Combatives combines integrated weaponry, armor and augments into an consolidated fighting discipline.",
+    "initiate": [ "BEGINING BIONIC COMBATIVES PROGRAM. INITIATING COMBAT PROTOCOLS.", "%s starts moving with swift robotic percision." ],
     "arm_block": 99,
     "leg_block": 99,
     "arm_block_with_bio_armor_arms": true,
@@ -325,6 +381,7 @@
     "id": "style_zui_quan",
     "name": "Zui Quan",
     "description": "AKA \"drunken boxing,\" Zui Quan imitates the movement of a drunk to confuse the enemy, giving you a passive dodge bonus based on your intelligence.  The turn after you attack, you may dodge any number of attacks with no penalty, and successfully dodging an attack gives you bonus damage and to-hit based on your intelligence.",
+    "initiate": [ "You begin to sway to and fro with a confident swagger.", "%s stumbles as if pretending to be drunk." ],
     "arm_block": 99,
     "leg_block": 99,
     "static_buffs": [
@@ -363,6 +420,7 @@
     "id": "style_silat",
     "name": "Silat",
     "description": "Pentjak Silat, of Indonesian origin, is a fighting style that covers the use of short blades and bludgeons.  Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.",
+    "initiate": [ "You give a salute of respect as you prepare to combat.", "%s gives a combat salute." ],
     "arm_block": 99,
     "leg_block": 99,
     "static_buffs": [
@@ -406,11 +464,14 @@
       "knife_hunting",
       "knife_trench",
       "kris",
+      "kris_fake",
       "machete",
       "makeshift_halberd",
       "makeshift_knife",
       "makeshift_machete",
       "naginata",
+      "naginata_inferior",
+      "naginata_fake",
       "pipe",
       "pointy_stick",
       "pool_cue",
@@ -419,6 +480,8 @@
       "q_staff",
       "rebar",
       "scimitar",
+      "scimitar_inferior",
+      "scimitar_fake",
       "scythe",
       "scythe_war",
       "shock_staff",
@@ -452,6 +515,7 @@
     "id": "style_fencing",
     "name": "Fencing",
     "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples.  Skilled fencers can take advantage of advances and retreats to deliver accurate strikes.",
+    "initiate": [ "You move into the en-garde stance.", "%s moves into a fencing stance." ],
     "arm_block": 99,
     "leg_block": 99,
     "onmove_buffs": [
@@ -468,10 +532,14 @@
     "techniques": [ "tec_feint", "tec_fencing_lunge", "tec_fencing_stop_thrust", "tec_fencing_thrust" ],
     "weapons": [
       "broadsword",
+      "broadsword_inferior",
+      "broadsword_fake",
       "broadfire_off",
       "broadfire_on",
       "rapier",
+      "rapier_fake",
       "cavalry_sabre",
+      "cavalry_sabre_fake",
       "fencing_foil",
       "fencing_sabre",
       "fencing_epee",
@@ -485,6 +553,7 @@
     "id": "style_niten",
     "name": "Niten Ichi-Ryu",
     "description": "Niten Ichi-Ryu is an ancient school of combat, transmitting a style of classical Japanese swordsmanship conceived by the warrior Miyamoto Musashi.",
+    "initiate": [ "You clear your mind as you prepare yourself for combat.", "%s relaxes and prepares for combat." ],
     "arm_block": 99,
     "leg_block": 99,
     "static_buffs": [
@@ -533,13 +602,29 @@
       }
     ],
     "techniques": [ "niten_water_cut", "niten_red_leaf", "niten_stone_cut", "niten_timing_attack", "niten_feint" ],
-    "weapons": [ "katana", "firekatana_off", "firekatana_on", "bokken", "wakizashi", "nodachi" ]
+    "weapons": [
+      "katana",
+      "katana_inferior",
+      "katana_fake",
+      "firekatana_off",
+      "firekatana_on",
+      "bokken",
+      "bokken_inferior",
+      "bokken_fake",
+      "wakizashi",
+      "wakizashi_inferior",
+      "wakizashi_fake",
+      "nodachi",
+      "nodachi_inferior",
+      "nodachi_fake"
+    ]
   },
   {
     "type": "martial_art",
     "id": "style_eskrima",
     "name": "Eskrima",
     "description": "Eskrima, also known as Kali, is a Filipino martial art.  It emphasizes rapid strikes with knife and baton weapons, along with a variety of improvised substitutes.",
+    "initiate": [ "You enter an open guard stance and prepare to strike.", "%s enters an open stance." ],
     "arm_block": 99,
     "leg_block": 99,
     "static_buffs": [
@@ -611,6 +696,8 @@
       "stick",
       "switchblade",
       "tanto",
+      "tanto_inferior",
+      "tanto_fake",
       "tonfa",
       "tonfa_wood",
       "umbrella",
@@ -628,6 +715,7 @@
     "id": "style_crane",
     "name": "Crane Kung Fu",
     "description": "One of the five Shaolin animal styles.  The Crane uses intricate hand techniques and jumping dodges.  Dexterity determines the majority of your damage, rather than Strength; you also receive a dodge bonus the turn after moving a tile.",
+    "initiate": [ "You raise your leg slightly and balance like a crane.", "%s assumes a crane-like stance." ],
     "arm_block": 3,
     "leg_block": 99,
     "static_buffs": [
@@ -657,6 +745,7 @@
     "id": "style_dragon",
     "name": "Dragon Kung Fu",
     "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Intelligence improves your accuracy and damage dealt, as does moving.",
+    "initiate": [ "You relax and patiently await conflict like the great dragon.", "%s assumes a dragon-like stance." ],
     "arm_block": 2,
     "leg_block": 99,
     "static_buffs": [
@@ -686,6 +775,7 @@
     "id": "style_leopard",
     "name": "Leopard Kung Fu",
     "description": "One of the five Shaolin animal styles.  The Leopard focuses on rapid, strategically planned strikes.  Perception and Intelligence both boost dodging, and moving boosts your accuracy.",
+    "initiate": [ "You prepare to pounce like a lepoard.", "%s assumes a leopard-like stance." ],
     "arm_block": 99,
     "leg_block": 99,
     "static_buffs": [
@@ -715,6 +805,7 @@
     "id": "style_tiger",
     "name": "Tiger Kung Fu",
     "description": "One of the five Shaolin animal styles.  The Tiger focuses on relentless attacks above all else.  Your Strength determines your accuracy, and your attacks do increasing damage as you continue attacking.",
+    "initiate": [ "You clench your hands into ferocious, tiger-like claws.", "%s assumes a tiger-like stance." ],
     "arm_block": 99,
     "leg_block": 99,
     "static_buffs": [
@@ -745,6 +836,7 @@
     "id": "style_snake",
     "name": "Snake Kung Fu",
     "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Your Perception improves your damage.",
+    "initiate": [ "You adopt a fluid stance, ready to strike like a snake.", "%s assumes a snake-like stance." ],
     "arm_block": 99,
     "leg_block": 99,
     "static_buffs": [
@@ -763,6 +855,7 @@
     "id": "style_debug",
     "name": "Debug Mastery",
     "description": "A secret martial art used only by developers and cheaters.",
+    "initiate": [ "You get ready pwn some zeds!", "%s prepares to cheat at martial arts!" ],
     "arm_block": 99,
     "leg_block": 99,
     "static_buffs": [
@@ -787,6 +880,7 @@
     "id": "style_sojutsu",
     "name": "Sōjutsu",
     "description": "Sōjutsu, \"The Way of the Spear\", is the Japanese martial art of fighting with a spear.  Sōjutsu focuses on keeping opponents at a distance in order to maintain advantage in combat.",
+    "initiate": [ "You prepare to defend against all that approach you.", "%s assumes a wide, defensive stance." ],
     "arm_block": 99,
     "leg_block": 99,
     "static_buffs": [
@@ -817,6 +911,8 @@
       "halberd",
       "halberd_fake",
       "naginata",
+      "naginata_inferior",
+      "naginata_fake",
       "makeshift_halberd",
       "pike",
       "pike_inferior",

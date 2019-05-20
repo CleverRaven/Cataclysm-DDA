@@ -1,7 +1,16 @@
 #include "iuse_actor.h"
 
+#include <cctype>
+#include <cstddef>
 #include <algorithm>
 #include <sstream>
+#include <array>
+#include <cmath>
+#include <functional>
+#include <iterator>
+#include <list>
+#include <memory>
+#include <type_traits>
 
 #include "action.h"
 #include "activity_handlers.h"
@@ -17,10 +26,10 @@
 #include "vpart_position.h"
 #include "effect.h"
 #include "event.h"
+#include "explosion.h"
 #include "field.h"
 #include "game.h"
 #include "game_inventory.h"
-#include "generic_factory.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
@@ -51,6 +60,18 @@
 #include "vehicle.h"
 #include "vitamin.h"
 #include "weather.h"
+#include "creature.h"
+#include "enums.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item_location.h"
+#include "json.h"
+#include "line.h"
+#include "player_activity.h"
+#include "recipe.h"
+#include "rng.h"
+
+class npc;
 
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_survival( "survival" );
@@ -113,7 +134,7 @@ void iuse_transform::load( JsonObject &obj )
     if( obj.has_array( "rand_target_charges" ) ) {
         JsonArray jarr = obj.get_array( "rand_target_charges" );
         while( jarr.has_more() ) {
-            random_ammo_qty.push_back( jarr.next_long() );
+            random_ammo_qty.push_back( jarr.next_int() );
         }
         if( random_ammo_qty.size() < 2 ) {
             obj.throw_error( "You must specify two or more values to choose between", "rand_target_charges" );
@@ -135,12 +156,12 @@ void iuse_transform::load( JsonObject &obj )
     }
 
     obj.read( "need_fire", need_fire );
-    need_fire = std::max( need_fire, 0L );
+    need_fire = std::max( need_fire, 0 );
     need_charges_msg = obj.has_string( "need_charges_msg" ) ? _
                        ( obj.get_string( "need_charges_msg" ) ) : _( "The %s is empty!" );
 
     obj.read( "need_charges", need_charges );
-    need_charges = std::max( need_charges, 0L );
+    need_charges = std::max( need_charges, 0 );
     need_fire_msg = obj.has_string( "need_fire_msg" ) ? _( obj.get_string( "need_fire_msg" ) ) :
                     _( "You need a source of fire!" );
 
@@ -152,7 +173,7 @@ void iuse_transform::load( JsonObject &obj )
     }
 }
 
-long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) const
+int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) const
 {
     if( t ) {
         return 0; // invoked from active item processing, do nothing.
@@ -190,9 +211,9 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
     item *obj;
     if( container.empty() ) {
         obj = &it.convert( target );
-        if( ammo_qty >= 0 || random_ammo_qty.size() > 0 ) {
-            long qty;
-            if( random_ammo_qty.size() > 0 ) {
+        if( ammo_qty >= 0 || !random_ammo_qty.empty() ) {
+            int qty;
+            if( !random_ammo_qty.empty() ) {
                 const auto index = rng( 1, random_ammo_qty.size() - 1 );
                 qty = rng( random_ammo_qty[index - 1], random_ammo_qty[index] );
             } else {
@@ -208,7 +229,7 @@ long iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) con
         }
     } else {
         it.convert( container );
-        obj = &it.emplace_back( target, calendar::turn, std::max( ammo_qty, 1l ) );
+        obj = &it.emplace_back( target, calendar::turn, std::max( ammo_qty, 1 ) );
     }
     if( p.is_worn( *obj ) ) {
         p.reset_encumbrance();
@@ -274,7 +295,7 @@ void iuse_transform::finalize( const itype_id & )
 
 void iuse_transform::info( const item &it, std::vector<iteminfo> &dump ) const
 {
-    const item dummy( target, calendar::turn, std::max( ammo_qty, 1l ) );
+    const item dummy( target, calendar::turn, std::max( ammo_qty, 1 ) );
     dump.emplace_back( "TOOL", string_format( _( "<bold>Turns into</bold>: %s" ),
                        dummy.tname() ) );
     if( countdown > 0 ) {
@@ -299,7 +320,7 @@ void countdown_actor::load( JsonObject &obj )
     obj.read( "message", message );
 }
 
-long countdown_actor::use( player &p, item &it, bool t, const tripoint &pos ) const
+int countdown_actor::use( player &p, item &it, bool t, const tripoint &pos ) const
 {
     if( t ) {
         return 0;
@@ -380,12 +401,12 @@ void explosion_iuse::load( JsonObject &obj )
     obj.read( "no_deactivate_msg", no_deactivate_msg );
 }
 
-long explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
+int explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
 {
     if( t ) {
         if( sound_volume >= 0 ) {
             sounds::sound( pos, sound_volume, sounds::sound_t::alarm,
-                           sound_msg.empty() ? _( "Tick." ) : _( sound_msg ) );
+                           sound_msg.empty() ? _( "Tick." ) : _( sound_msg ), true, "misc", "bomb_ticking" );
         }
         return 0;
     }
@@ -402,14 +423,14 @@ long explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) con
     }
 
     if( explosion.power >= 0.0f ) {
-        g->explosion( pos, explosion );
+        explosion_handler::explosion( pos, explosion );
     }
 
     if( draw_explosion_radius >= 0 ) {
-        g->draw_explosion( pos, draw_explosion_radius, draw_explosion_color );
+        explosion_handler::draw_explosion( pos, draw_explosion_radius, draw_explosion_color );
     }
     if( do_flashbang ) {
-        g->flashbang( pos, flashbang_player_immune );
+        explosion_handler::flashbang( pos, flashbang_player_immune );
     }
     if( fields_radius >= 0 && fields_type != fd_null ) {
         std::vector<tripoint> gas_sources = points_for_gas_cloud( pos, fields_radius );
@@ -420,12 +441,12 @@ long explosion_iuse::use( player &p, item &it, bool t, const tripoint &pos ) con
     }
     if( scrambler_blast_radius >= 0 ) {
         for( const tripoint &dest : g->m.points_in_radius( pos, scrambler_blast_radius ) ) {
-            g->scrambler_blast( dest );
+            explosion_handler::scrambler_blast( dest );
         }
     }
     if( emp_blast_radius >= 0 ) {
         for( const tripoint &dest : g->m.points_in_radius( pos, emp_blast_radius ) ) {
-            g->emp_blast( dest );
+            explosion_handler::emp_blast( dest );
         }
     }
     return 1;
@@ -459,7 +480,7 @@ void unfold_vehicle_iuse::load( JsonObject &obj )
     obj.read( "tools_needed", tools_needed );
 }
 
-long unfold_vehicle_iuse::use( player &p, item &it, bool /*t*/, const tripoint &/*pos*/ ) const
+int unfold_vehicle_iuse::use( player &p, item &it, bool /*t*/, const tripoint &/*pos*/ ) const
 {
     if( p.is_underwater() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
@@ -594,7 +615,7 @@ void consume_drug_iuse::info( const item &, std::vector<iteminfo> &dump ) const
     }
 }
 
-long consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
+int consume_drug_iuse::use( player &p, item &it, bool, const tripoint & ) const
 {
     auto need_these = tools_needed;
     if( need_these.count( "syringe" ) && p.has_bionic( bio_syringe ) ) {
@@ -687,7 +708,7 @@ int delayed_transform_iuse::time_to_do( const item &it ) const
     return transform_age - to_turns<int>( it.age() );
 }
 
-long delayed_transform_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
+int delayed_transform_iuse::use( player &p, item &it, bool t, const tripoint &pos ) const
 {
     if( time_to_do( it ) > 0 ) {
         p.add_msg_if_player( m_info, _( not_ready_msg ) );
@@ -713,7 +734,7 @@ void place_monster_iuse::load( JsonObject &obj )
     skill2 = skill_id( obj.get_string( "skill2", skill2.str() ) );
 }
 
-long place_monster_iuse::use( player &p, item &it, bool, const tripoint &/*pos*/ ) const
+int place_monster_iuse::use( player &p, item &it, bool, const tripoint &/*pos*/ ) const
 {
     monster newmon( mtypeid );
     tripoint target;
@@ -819,7 +840,7 @@ bool has_powersource( const item &i, const player &p )
     return p.has_charges( "UPS", 1 );
 }
 
-long ups_based_armor_actor::use( player &p, item &it, bool t, const tripoint & ) const
+int ups_based_armor_actor::use( player &p, item &it, bool t, const tripoint & ) const
 {
     if( t ) {
         // Normal, continuous usage, do nothing. The item is *not* charge-based.
@@ -866,7 +887,7 @@ void pick_lock_actor::load( JsonObject &obj )
     pick_quality = obj.get_int( "pick_quality" );
 }
 
-long pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
+int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     if( p.is_npc() ) {
         return 0;
@@ -946,7 +967,8 @@ long pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it." ) );
     }
     if( type == t_door_locked_alarm && ( door_roll + dice( 1, 30 ) ) > pick_roll ) {
-        sounds::sound( p.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ) );
+        sounds::sound( p.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
+                       "alarm" );
         if( !g->events.queued( EVENT_WANTED ) ) {
             g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, p.global_sm_location() );
         }
@@ -968,7 +990,7 @@ void deploy_furn_actor::load( JsonObject &obj )
     furn_type = furn_str_id( obj.get_string( "furn_type" ) );
 }
 
-long deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) const
+int deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) const
 {
     tripoint pnt = pos;
     if( pos == p.pos() ) {
@@ -1034,7 +1056,7 @@ void reveal_map_actor::reveal_targets( const tripoint &center, const std::string
     }
 }
 
-long reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
+int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     if( it.already_used_by_player( p ) ) {
         p.add_msg_if_player( _( "There isn't anything new on the %s." ), it.tname() );
@@ -1151,7 +1173,7 @@ float firestarter_actor::light_mod( const tripoint &pos ) const
     }
 
     const float light_level = g->natural_light_level( pos.z );
-    if( ( g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY ) &&
+    if( ( g->weather.weather == WEATHER_CLEAR || g->weather.weather == WEATHER_SUNNY ) &&
         light_level >= 60.0f && !g->m.has_flag( TFLAG_INDOORS, pos ) ) {
         return std::pow( light_level / 80.0f, 8 );
     }
@@ -1172,7 +1194,7 @@ int firestarter_actor::moves_cost_by_fuel( const tripoint &pos ) const
     return moves_cost_slow;
 }
 
-long firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) const
+int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) const
 {
     if( t ) {
         return 0;
@@ -1229,7 +1251,7 @@ iuse_actor *salvage_actor::clone() const
     return new salvage_actor( *this );
 }
 
-long salvage_actor::use( player &p, item &it, bool t, const tripoint & ) const
+int salvage_actor::use( player &p, item &it, bool t, const tripoint & ) const
 {
     if( t ) {
         return 0;
@@ -1520,7 +1542,7 @@ bool inscribe_actor::item_inscription( item &cut ) const
     return true;
 }
 
-long inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
+int inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
 {
     if( t ) {
         return 0;
@@ -1545,7 +1567,7 @@ long inscribe_actor::use( player &p, item &it, bool t, const tripoint & ) const
     }
 
     if( choice == 0 ) {
-        return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), _( verb ) ) );
+        return iuse::handle_ground_graffiti( p, &it, string_format( _( "%s what?" ), _( verb ) ), p.pos() );
     }
 
     int pos = g->inv_for_all( _( "Inscribe which item?" ) );
@@ -1607,7 +1629,7 @@ bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
     return false;
 }
 
-long cauterize_actor::use( player &p, item &it, bool t, const tripoint & ) const
+int cauterize_actor::use( player &p, item &it, bool t, const tripoint & ) const
 {
     if( t ) {
         return 0;
@@ -1682,7 +1704,7 @@ iuse_actor *enzlave_actor::clone() const
     return new enzlave_actor( *this );
 }
 
-long enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
+int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
 {
     if( t ) {
         return 0;
@@ -1832,7 +1854,7 @@ iuse_actor *fireweapon_off_actor::clone() const
     return new fireweapon_off_actor( *this );
 }
 
-long fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint & ) const
+int fireweapon_off_actor::use( player &p, item &it, bool t, const tripoint & ) const
 {
     if( t ) {
         return 0;
@@ -1893,7 +1915,7 @@ iuse_actor *fireweapon_on_actor::clone() const
     return new fireweapon_on_actor( *this );
 }
 
-long fireweapon_on_actor::use( player &p, item &it, bool t, const tripoint & ) const
+int fireweapon_on_actor::use( player &p, item &it, bool t, const tripoint & ) const
 {
     bool extinguish = true;
     if( it.charges == 0 ) {
@@ -1927,6 +1949,8 @@ void manualnoise_actor::load( JsonObject &obj )
     no_charges_message  = obj.get_string( "no_charges_message" );
     use_message         = obj.get_string( "use_message" );
     noise_message       = obj.get_string( "noise_message", "hsss" );
+    noise_id            = obj.get_string( "noise_id", "misc" );
+    noise_variant       = obj.get_string( "noise_variant", "default" );
     noise               = obj.get_int( "noise", 0 );
     moves               = obj.get_int( "moves", 0 );
 }
@@ -1936,7 +1960,7 @@ iuse_actor *manualnoise_actor::clone() const
     return new manualnoise_actor( *this );
 }
 
-long manualnoise_actor::use( player &p, item &it, bool t, const tripoint & ) const
+int manualnoise_actor::use( player &p, item &it, bool t, const tripoint & ) const
 {
     if( t ) {
         return 0;
@@ -1949,7 +1973,7 @@ long manualnoise_actor::use( player &p, item &it, bool t, const tripoint & ) con
         p.moves -= moves;
         if( noise > 0 ) {
             sounds::sound( p.pos(), noise, sounds::sound_t::activity,
-                           noise_message.empty() ? _( "Hsss" ) : _( noise_message ) );
+                           noise_message.empty() ? _( "Hsss" ) : _( noise_message ), true, noise_id, noise_variant );
         }
         p.add_msg_if_player( _( use_message ) );
     }
@@ -1984,7 +2008,7 @@ void musical_instrument_actor::load( JsonObject &obj )
     npc_descriptions = obj.get_string_array( "npc_descriptions" );
 }
 
-long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint & ) const
+int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint & ) const
 {
     if( p.is_underwater() ) {
         p.add_msg_player_or_npc( m_bad,
@@ -2069,7 +2093,13 @@ long musical_instrument_actor::use( player &p, item &it, bool t, const tripoint 
         }
     }
 
-    sounds::ambient_sound( p.pos(), volume, sounds::sound_t::music, desc );
+    if( morale_effect >= 0 ) {
+        sounds::sound( p.pos(), volume, sounds::sound_t::music, desc, true, "musical_instrument",
+                       it.typeId() );
+    } else {
+        sounds::sound( p.pos(), volume, sounds::sound_t::music, desc, true, "musical_instrument_bad",
+                       it.typeId() );
+    }
 
     if( !p.has_effect( effect_music ) && p.can_hear( p.pos(), volume ) ) {
         // Sound code doesn't describe noises at the player position
@@ -2188,10 +2218,8 @@ bool holster_actor::store( player &p, item &holster, item &obj ) const
     return true;
 }
 
-long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
+int holster_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
-    std::string prompt = holster_prompt.empty() ? _( "Holster item" ) : _( holster_prompt );
-
     if( &p.weapon == &it ) {
         p.add_msg_if_player( _( "You need to unwield your %s before using it." ), it.tname() );
         return 0;
@@ -2201,6 +2229,7 @@ long holster_actor::use( player &p, item &it, bool, const tripoint & ) const
     std::vector<std::string> opts;
 
     if( static_cast<int>( it.contents.size() ) < multi ) {
+        std::string prompt = holster_prompt.empty() ? _( "Holster item" ) : _( holster_prompt );
         opts.push_back( prompt );
         pos = -1;
     }
@@ -2383,7 +2412,7 @@ bool bandolier_actor::reload( player &p, item &obj ) const
     return true;
 }
 
-long bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
+int bandolier_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     if( &p.weapon == &it ) {
         p.add_msg_if_player( _( "You need to unwield your %s before using it." ),
@@ -2456,7 +2485,7 @@ void ammobelt_actor::info( const item &, std::vector<iteminfo> &dump ) const
     dump.emplace_back( "AMMO", string_format( _( "Can be used to assemble: %s" ), name ) );
 }
 
-long ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
+int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
 {
     item mag( belt );
     mag.ammo_unset();
@@ -2533,7 +2562,7 @@ static item_location get_item_location( player &p, item &it, const tripoint &pos
     return item_location( pos, &it );
 }
 
-long repair_item_actor::use( player &p, item &it, bool, const tripoint &position ) const
+int repair_item_actor::use( player &p, item &it, bool, const tripoint &position ) const
 {
     if( !can_use_tool( p, it, true ) ) {
         return 0;
@@ -2587,7 +2616,7 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     // TODO: should 250_ml be part of the cost_scaling?
     const int items_needed = std::max<int>( 1, just_check ?
                                             ceil( fix.volume() / 250_ml * cost_scaling ) :
-                                            divide_roll_remainder( fix.volume() / 250_ml * cost_scaling, 1.0f ) );
+                                            roll_remainder( fix.volume() / 250_ml * cost_scaling ) );
 
     std::function<bool( const item & )> filter;
     if( fix.is_filthy() ) {
@@ -2708,12 +2737,15 @@ bool repair_item_actor::can_repair_target( player &pl, const item &fix,
         return false;
     }
 
-    if( fix.has_flag( "VARSIZE" ) && !fix.has_flag( "FIT" ) ) {
+    const bool can_be_refitted = fix.has_flag( "VARSIZE" );
+    if( can_be_refitted && !fix.has_flag( "FIT" ) ) {
         return true;
     }
 
+    const bool resizing_matters = fix.get_encumber( pl ) != 0;
     const bool small = pl.has_trait( trait_SMALL2 ) || pl.has_trait( trait_SMALL_OK );
-    if( ( small && !fix.has_flag( "UNDERSIZE" ) ) || ( !small && fix.has_flag( "UNDERSIZE" ) ) ) {
+    const bool can_resize = small != fix.has_flag( "UNDERSIZE" );
+    if( can_be_refitted && resizing_matters && can_resize ) {
         return true;
     }
 
@@ -2790,17 +2822,31 @@ std::pair<float, float> repair_item_actor::repair_chance(
 repair_item_actor::repair_type repair_item_actor::default_action( const item &fix,
         int current_skill_level ) const
 {
-    const bool smol = g->u.has_trait( trait_id( "SMALL2" ) ) ||
-                      g->u.has_trait( trait_id( "SMALL_OK" ) );
     if( fix.damage() > 0 ) {
         return RT_REPAIR;
     }
 
-    if( fix.has_flag( "VARSIZE" ) &&
-        ( ( ( !fix.has_flag( "FIT" ) ) ) ||
-          ( smol && !fix.has_flag( "UNDERSIZE" ) )  ||
-          ( !smol && fix.has_flag( "UNDERSIZE" ) ) ) ) {
+    const bool can_be_refitted = fix.has_flag( "VARSIZE" );
+    const bool doesnt_fit = !fix.has_flag( "FIT" );
+    if( doesnt_fit && can_be_refitted ) {
         return RT_REFIT;
+    }
+
+    const bool smol = g->u.has_trait( trait_id( "SMALL2" ) ) ||
+                      g->u.has_trait( trait_id( "SMALL_OK" ) );
+
+    const bool is_undersized = fix.has_flag( "UNDERSIZE" );
+    const bool is_oversized = fix.has_flag( "OVERSIZE" );
+    const bool resizing_matters = fix.get_encumber( g->u ) != 0;
+
+    const bool too_big_while_smol = smol && !is_undersized && !is_oversized;
+    if( too_big_while_smol && can_be_refitted && resizing_matters ) {
+        return RT_DOWNSIZING;
+    }
+
+    const bool too_small_while_big = !smol && is_undersized && !is_oversized;
+    if( too_small_while_big && can_be_refitted && resizing_matters ) {
+        return RT_UPSIZING;
     }
 
     if( fix.damage() > fix.min_damage() ) {
@@ -2816,8 +2862,12 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
 
 bool damage_item( player &pl, item_location &fix )
 {
-    pl.add_msg_if_player( m_bad, _( "You damage your %s!" ), fix->tname() );
-    if( fix->inc_damage() ) {
+    const std::string startdurability = fix->durability_indicator( true );
+    const auto destroyed = fix->inc_damage();
+    const std::string resultdurability = fix->durability_indicator( true );
+    pl.add_msg_if_player( m_bad, _( "You damage your %s! ( %s-> %s)" ), fix->tname( 1, false ),
+                          startdurability, resultdurability );
+    if( destroyed ) {
         pl.add_msg_if_player( m_bad, _( "You destroy it!" ) );
         if( fix.where() == item_location::type::character ) {
             pl.i_rem_keep_contents( pl.get_item_position( fix.get_item() ) );
@@ -2882,13 +2932,18 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
     if( action == RT_REPAIR ) {
         if( roll == SUCCESS ) {
-            if( fix->damage() > itype::damage_scale ) {
-                pl.add_msg_if_player( m_good, _( "You repair your %s!" ), fix->tname() );
-            } else {
-                pl.add_msg_if_player( m_good, _( "You repair your %s completely!" ), fix->tname() );
-            }
+            const std::string startdurability = fix->durability_indicator( true );
+            const auto damage = fix->damage();
             handle_components( pl, *fix, false, false );
-            fix->set_damage( std::max( fix->damage() - itype::damage_scale, 0 ) );
+            fix->set_damage( std::max( damage - itype::damage_scale, 0 ) );
+            const std::string resultdurability = fix->durability_indicator( true );
+            if( damage > itype::damage_scale ) {
+                pl.add_msg_if_player( m_good, _( "You repair your %s! ( %s-> %s)" ), fix->tname( 1, false ),
+                                      startdurability, resultdurability );
+            } else {
+                pl.add_msg_if_player( m_good, _( "You repair your %s completely! ( %s-> %s)" ), fix->tname( 1,
+                                      false ), startdurability, resultdurability );
+            }
             return AS_SUCCESS;
         }
 
@@ -2897,26 +2952,39 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
 
     if( action == RT_REFIT ) {
         if( roll == SUCCESS ) {
-            const bool smol = g->u.has_trait( trait_id( "SMALL2" ) ) ||
-                              g->u.has_trait( trait_id( "SMALL_OK" ) );
             if( !fix->has_flag( "FIT" ) ) {
                 pl.add_msg_if_player( m_good, _( "You take your %s in, improving the fit." ),
                                       fix->tname() );
                 fix->item_tags.insert( "FIT" );
             }
-            if( smol && !fix->has_flag( "UNDERSIZE" ) ) {
-                pl.add_msg_if_player( m_good, _( "You resize the %s to accommodate your tiny build." ),
-                                      fix->tname() );
-                fix->item_tags.insert( "UNDERSIZE" );
-            } else if( !smol && fix->has_flag( "UNDERSIZE" ) ) {
-                pl.add_msg_if_player( m_good, _( "You adjust the %s back to its normal size." ),
-                                      fix->tname() );
-                fix->item_tags.erase( "UNDERSIZE" );
-            }
             handle_components( pl, *fix, false, false );
             return AS_SUCCESS;
         }
 
+        return AS_RETRY;
+    }
+
+    if( action == RT_DOWNSIZING ) {
+        //We dont need to check for smallness or undersize because DOWNSIZING already guarantees that
+        if( roll == SUCCESS ) {
+            pl.add_msg_if_player( m_good, _( "You resize the %s to accommodate your tiny build." ),
+                                  fix->tname().c_str() );
+            fix->item_tags.insert( "UNDERSIZE" );
+            handle_components( pl, *fix, false, false );
+            return AS_SUCCESS;
+        }
+        return AS_RETRY;
+    }
+
+    if( action == RT_UPSIZING ) {
+        //We dont need to check for smallness or undersize because UPSIZING already guarantees that
+        if( roll == SUCCESS ) {
+            pl.add_msg_if_player( m_good, _( "You adjust the %s back to its normal size." ),
+                                  fix->tname().c_str() );
+            fix->item_tags.erase( "UNDERSIZE" );
+            handle_components( pl, *fix, false, false );
+            return AS_SUCCESS;
+        }
         return AS_RETRY;
     }
 
@@ -2947,6 +3015,8 @@ const std::string &repair_item_actor::action_description( repair_item_actor::rep
             _( "Nothing" ),
             _( "Repairing" ),
             _( "Refitting" ),
+            _( "Downsizing" ),
+            _( "Upsizing" ),
             _( "Reinforcing" ),
             _( "Practicing" )
         }
@@ -3025,7 +3095,7 @@ player &get_patient( player &healer, const tripoint &pos )
     return *person;
 }
 
-long heal_actor::use( player &p, item &it, bool, const tripoint &pos ) const
+int heal_actor::use( player &p, item &it, bool, const tripoint &pos ) const
 {
     if( p.is_underwater() ) {
         p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
@@ -3113,7 +3183,7 @@ int heal_actor::get_disinfected_level( const player &healer ) const
     return disinfectant_power;
 }
 
-long heal_actor::finish_using( player &healer, player &patient, item &it, hp_part healed ) const
+int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part healed ) const
 {
     float practice_amount = limb_power * 3.0f;
     const int dam = get_heal_value( healer, healed );
@@ -3492,7 +3562,7 @@ void place_and_add_as_known( player &p, const tripoint &pos, const trap_str_id &
     }
 }
 
-long place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
+int place_trap_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     const bool is_3x3_trap = !outer_layer_trap.is_null();
     const bool could_bury = !bury_question.empty();
@@ -3551,7 +3621,7 @@ void emit_actor::load( JsonObject &obj )
     assign( obj, "scale_qty", scale_qty );
 }
 
-long emit_actor::use( player &, item &it, bool, const tripoint &pos ) const
+int emit_actor::use( player &, item &it, bool, const tripoint &pos ) const
 {
     const float scaling = scale_qty ? it.charges : 1;
     for( const auto &e : emits ) {
@@ -3589,7 +3659,7 @@ void saw_barrel_actor::load( JsonObject &jo )
     assign( jo, "cost", cost );
 }
 
-long saw_barrel_actor::use( player &p, item &it, bool t, const tripoint & ) const
+int saw_barrel_actor::use( player &p, item &it, bool t, const tripoint & ) const
 {
     if( t ) {
         return 0;
@@ -3641,7 +3711,7 @@ iuse_actor *saw_barrel_actor::clone() const
     return new saw_barrel_actor( *this );
 }
 
-long install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) const
+int install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     return p.install_bionics( *it.type, p, false ) ? it.type->charges_to_use() : 0;
 }
@@ -3688,7 +3758,7 @@ void install_bionic_actor::finalize( const itype_id &my_item_type )
     }
 }
 
-long detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) const
+int detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     auto mods = it.gunmods();
 
@@ -3706,7 +3776,6 @@ long detach_gunmods_actor::use( player &p, item &it, bool, const tripoint & ) co
 
     if( prompt.ret >= 0 ) {
         item *gm = mods[ prompt.ret ];
-        const auto mod_name = gm->tname();
         p.gunmod_remove( it, *gm );
     } else {
         p.add_msg_if_player( _( "Never mind." ) );
@@ -3763,7 +3832,7 @@ void mutagen_actor::load( JsonObject &obj )
     is_strong = obj.get_bool( "is_strong", false );
 }
 
-long mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
+int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     mutagen_attempt checks = mutagen_common_checks( p, it, false,
                              pgettext( "memorial_male", "Consumed mutagen." ),
@@ -3819,7 +3888,7 @@ void mutagen_iv_actor::load( JsonObject &obj )
     mutation_category = obj.get_string( "mutation_category", "ANY" );
 }
 
-long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
+int mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     mutagen_attempt checks = mutagen_common_checks( p, it, false,
                              pgettext( "memorial_male", "Injected mutagen." ),
@@ -3846,7 +3915,7 @@ long mutagen_iv_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.mod_pain( m_category.iv_pain );
         /** @EFFECT_STR increases volume of painful shouting when using IV mutagen */
         sounds::sound( p.pos(), m_category.iv_noise + p.str_cur, sounds::sound_t::alert,
-                       m_category.iv_sound_message() );
+                       m_category.iv_sound_message(), true, m_category.iv_sound_id(), m_category.iv_sound_variant() );
     }
 
     int mut_count = m_category.iv_min_mutations;
@@ -3901,7 +3970,7 @@ void deploy_tent_actor::load( JsonObject &obj )
     assign( obj, "broken_type", broken_type );
 }
 
-long deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
+int deploy_tent_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     int diam = 2 * radius + 1;
 

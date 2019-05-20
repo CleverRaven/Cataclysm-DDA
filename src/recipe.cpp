@@ -6,16 +6,21 @@
 
 #include "calendar.h"
 #include "game_constants.h"
-#include "generic_factory.h"
 #include "item.h"
 #include "itype.h"
 #include "output.h"
 #include "skill.h"
 #include "uistate.h"
 #include "string_formatter.h"
-
-struct oter_t;
-using oter_str_id = string_id<oter_t>;
+#include "assign.h"
+#include "cata_utility.h"
+#include "character.h"
+#include "json.h"
+#include "optional.h"
+#include "player.h"
+#include "translations.h"
+#include "type_id.h"
+#include "string_id.h"
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -210,13 +215,21 @@ void recipe::load( JsonObject &jo, const std::string &src )
                 byproducts[ arr.get_string( 0 ) ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
             }
         }
+        assign( jo, "construction_blueprint", blueprint );
+        if( !blueprint.empty() ) {
+            JsonArray bp_provides = jo.get_array( "blueprint_provides" );
+            blueprint_resources.clear();
+            while( bp_provides.has_more() ) {
+                std::string resource = bp_provides.next_string();
+                blueprint_resources.emplace_back( resource );
+            }
+        }
+
     } else if( type == "uncraft" ) {
         reversible = true;
     } else {
         jo.throw_error( "unknown recipe type", "type" );
     }
-
-    assign( jo, "construction_blueprint", blueprint );
 
     // inline requirements are always replaced (cannot be inherited)
     const requirement_id req_id( string_format( "inline_%s_%s", type.c_str(), ident_.c_str() ) );
@@ -422,8 +435,7 @@ const std::function<bool( const item & )> recipe::get_component_filter() const
     const item result = create_result();
 
     // Disallow crafting of non-perishables with rotten components
-    // Make an exception for seeds
-    // TODO: move seed extraction recipes to uncraft
+    // Make an exception for items with the ALLOW_ROTTEN flag such as seeds
     std::function<bool( const item & )> rotten_filter = return_true<item>;
     if( result.is_food() && !result.goes_bad() && !has_flag( "ALLOW_ROTTEN" ) ) {
         rotten_filter = []( const item & component ) {
@@ -441,9 +453,20 @@ const std::function<bool( const item & )> recipe::get_component_filter() const
         };
     }
 
-    return [ rotten_filter, frozen_filter ]( const item & component ) {
-        return is_crafting_component( component ) && rotten_filter( component ) &&
-               frozen_filter( component );
+    // Disallow usage of non-full magazines as components
+    // This is primarily used to require a fully charged battery, but works for any magazine.
+    std::function<bool( const item & )> magazine_filter = return_true<item>;
+    if( has_flag( "FULL_MAGAZINE" ) ) {
+        magazine_filter = []( const item & component ) {
+            return !component.is_magazine() || ( component.ammo_remaining() >= component.ammo_capacity() );
+        };
+    }
+
+    return [ rotten_filter, frozen_filter, magazine_filter ]( const item & component ) {
+        return is_crafting_component( component ) &&
+               rotten_filter( component ) &&
+               frozen_filter( component ) &&
+               magazine_filter( component );
     };
 }
 
@@ -452,9 +475,14 @@ bool recipe::is_blueprint() const
     return !blueprint.empty();
 }
 
-std::string recipe::get_blueprint() const
+const std::string &recipe::get_blueprint() const
 {
     return blueprint;
+}
+
+const std::vector<itype_id> &recipe::blueprint_provides() const
+{
+    return blueprint_resources;
 }
 
 bool recipe::hot_result() const

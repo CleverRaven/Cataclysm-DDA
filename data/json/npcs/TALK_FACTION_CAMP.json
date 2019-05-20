@@ -8,21 +8,23 @@
       { "text": "Tell me how faction camps have changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       {
         "text": "I want you to build a camp here.",
+        "topic": "TALK_HALLU_CAMP",
+        "condition": { "npc_has_trait": "HALLUCINATION" },
+        "switch": true
+      },
+      {
+        "text": "I want you to build a camp here.",
         "topic": "TALK_DONE",
         "effect": "start_camp",
-        "condition": { "u_at_om_location": "field" }
+        "condition": { "u_at_om_location": "field" },
+        "switch": true,
+        "default": true
       },
       {
         "text": "Show me what needs to be done at the camp.",
         "topic": "TALK_DONE",
         "effect": "basecamp_mission",
         "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
-      },
-      {
-        "text": "I want you to take over the camp here.",
-        "topic": "TALK_DONE",
-        "effect": "recover_camp",
-        "condition": { "and": [ { "u_at_om_location": "FACTION_CAMP_ANY" }, { "not": { "npc_role_nearby": "FACTION_CAMP" } } ] }
       },
       { "text": "Nothing.  Let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Never mind, let's talk about other things you can do", "topic": "TALK_ALLY_TUTORIAL" },
@@ -127,5 +129,11 @@
       },
       { "text": "See you around.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "TALK_HALLU_CAMP",
+    "type": "talk_topic",
+    "dynamic_line": "<hallu_dont_camp>",
+    "responses": [ { "text": "Fair enough.", "topic": "TALK_NONE" } ]
   }
 ]

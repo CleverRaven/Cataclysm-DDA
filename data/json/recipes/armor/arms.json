@@ -188,11 +188,6 @@
     "time": 30000,
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 3 ] ],
-    "components": [
-      [ [ "link_sheet", 3 ] ],
-      [ [ "chain_link", 75 ] ],
-      [ [ "wire", 1 ] ],
-      [ [ "fur", 6 ], [ "tanned_pelt", 1 ], [ "leather", 6 ], [ "tanned_hide", 1 ] ]
-    ]
+    "components": [ [ [ "link_sheet", 3 ] ], [ [ "chain_link", 75 ] ], [ [ "wire", 1 ] ], [ [ "rag", 6 ] ] ]
   }
 ]

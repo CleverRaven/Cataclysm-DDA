@@ -1,9 +1,14 @@
 #include "item_factory.h"
 
+#include <cstdlib>
 #include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <sstream>
+#include <array>
+#include <iterator>
+#include <stdexcept>
+#include <type_traits>
 
 #include "addiction.h"
 #include "ammo.h"
@@ -12,7 +17,6 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "enums.h"
-#include "field.h"
 #include "init.h"
 #include "item.h"
 #include "item_category.h"
@@ -21,7 +25,6 @@
 #include "json.h"
 #include "material.h"
 #include "options.h"
-#include "overmap.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "string_formatter.h"
@@ -30,6 +33,18 @@
 #include "ui.h"
 #include "veh_type.h"
 #include "vitamin.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "color.h"
+#include "damage.h"
+#include "explosion.h"
+#include "game_constants.h"
+#include "optional.h"
+#include "recipe.h"
+#include "string_id.h"
+#include "units.h"
+
+class player;
 
 typedef std::set<std::string> t_string_set;
 static t_string_set item_blacklist;
@@ -496,7 +511,7 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        long use( player &p, item &it, bool a, const tripoint &pos ) const override {
+        int use( player &p, item &it, bool a, const tripoint &pos ) const override {
             iuse tmp;
             return ( tmp.*cpp_function )( &p, &it, a, pos );
         }
@@ -594,6 +609,7 @@ void Item_factory::init()
     add_iuse( "CHAINSAW_ON", &iuse::chainsaw_on );
     add_iuse( "CHEW", &iuse::chew );
     add_iuse( "BIRDFOOD", &iuse::feedbird );
+    add_iuse( "BURROW", &iuse::burrow );
     add_iuse( "CHOP_TREE", &iuse::chop_tree );
     add_iuse( "CHOP_LOGS", &iuse::chop_logs );
     add_iuse( "CIRCSAW_ON", &iuse::circsaw_on );
@@ -734,6 +750,7 @@ void Item_factory::init()
     add_iuse( "VACCINE", &iuse::vaccine );
     add_iuse( "BLOOD_DRAW", &iuse::blood_draw );
     add_iuse( "VIBE", &iuse::vibe );
+    add_iuse( "HAND_CRANK", &iuse::hand_crank );
     add_iuse( "VORTEX", &iuse::vortex );
     add_iuse( "WASHCLOTHES", &iuse::washclothes );
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
@@ -1290,6 +1307,7 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string &sr
     assign( jo, "loudness", slot.loudness, strict, 0 );
     assign( jo, "effects", slot.ammo_effects, strict );
     assign( jo, "prop_damage", slot.prop_damage, strict );
+    assign( jo, "show_stats", slot.force_stat_display, strict );
 }
 
 void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
@@ -1468,14 +1486,12 @@ void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &sr
 {
     bool strict = src == "dda";
 
-    // TODO: update tool slot to use signed integers (int) throughout
     assign( jo, "ammo", slot.ammo_id, strict );
-    assign( jo, "max_charges", slot.max_charges, strict, 0L );
-    assign( jo, "initial_charges", slot.def_charges, strict, 0L );
-    assign( jo, "charges_per_use", slot.charges_per_use, strict,
-            static_cast<decltype( slot.charges_per_use )>( 0 ) );
-    assign( jo, "turns_per_charge", slot.turns_per_charge, strict,
-            static_cast<decltype( slot.turns_per_charge )>( 0 ) );
+    assign( jo, "max_charges", slot.max_charges, strict, 0 );
+    assign( jo, "initial_charges", slot.def_charges, strict, 0 );
+    assign( jo, "charges_per_use", slot.charges_per_use, strict, 0 );
+    assign( jo, "charge_factor", slot.charge_factor, strict, 1 );
+    assign( jo, "turns_per_charge", slot.turns_per_charge, strict, 0 );
     assign( jo, "revert_to", slot.revert_to, strict );
     assign( jo, "revert_msg", slot.revert_msg, strict );
     assign( jo, "sub", slot.subtype, strict );
@@ -1486,7 +1502,7 @@ void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &sr
             jarr.throw_error( "You can have a fixed initial amount of charges, or randomized. Not both." );
         }
         while( jarr.has_more() ) {
-            slot.rand_charges.push_back( jarr.next_long() );
+            slot.rand_charges.push_back( jarr.next_int() );
         }
         if( slot.rand_charges.size() == 1 ) {
             // see item::item(...) for the use of this array
@@ -2152,7 +2168,7 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
         // check contents of migrated containers do not exceed capacity
         if( obj.is_container() && !obj.contents.empty() ) {
             item &child = obj.contents.back();
-            const long capacity = child.charges_per_volume( obj.get_container_capacity() );
+            const int capacity = child.charges_per_volume( obj.get_container_capacity() );
             child.charges = std::min( child.charges, capacity );
         }
     }
@@ -2423,7 +2439,6 @@ void Item_factory::load_item_group( JsonObject &jsobj, const Group_tag &group_id
                                     const std::string &subtype )
 {
     std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
-    Item_group *ig = dynamic_cast<Item_group *>( isd.get() );
 
     Item_group::Type type = Item_group::G_COLLECTION;
     if( subtype == "old" || subtype == "distribution" ) {
@@ -2431,8 +2446,8 @@ void Item_factory::load_item_group( JsonObject &jsobj, const Group_tag &group_id
     } else if( subtype != "collection" ) {
         jsobj.throw_error( "unknown item group type", "subtype" );
     }
-    ig = make_group_or_throw( group_id, isd, type, jsobj.get_int( "ammo", 0 ),
-                              jsobj.get_int( "magazine", 0 ) );
+    Item_group *ig = make_group_or_throw( group_id, isd, type, jsobj.get_int( "ammo", 0 ),
+                                          jsobj.get_int( "magazine", 0 ) );
 
     if( subtype == "old" ) {
         JsonArray items = jsobj.get_array( "items" );

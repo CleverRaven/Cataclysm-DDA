@@ -133,6 +133,33 @@
   },
   {
     "type": "npc_class",
+    "id": "NC_MARLOSS_VOICE",
+    "name": "Marloss Voice",
+    "job_description": "I spread the Hymns so that peace and unity return to our world.",
+    "traits": [
+      { "group": "BG_survival_story_RURAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      [ "MARLOSS", 100 ],
+      [ "MARLOSS_BLUE", 40 ],
+      [ "MYCUS_FRIEND", 100 ],
+      [ "FLIMSY2", 100 ]
+    ],
+    "worn_override": "NC_VOICE_worn",
+    "carry_override": "NC_VOICE_carry",
+    "weapon_override": "NC_VOICE_weapon",
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 1, 3 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
     "id": "NC_SCIENTIST",
     "name": "Scientist",
     "job_description": "I'm looking for clues concerning these monsters' origins...",
@@ -326,6 +353,17 @@
   },
   {
     "type": "npc_class",
+    "id": "NC_HALLU",
+    "name": "Real Person",
+    "job_description": "I'm just wandering, like a totally real and normal NP... Person!",
+    "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "group": "NPC_starting_traits" }, [ "HALLUCINATION", 100 ] ],
+    "common": false,
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
     "id": "NC_SURVIVOR_CHEF",
     "name": "Chef",
     "job_description": "I'm a chef.",
@@ -350,8 +388,9 @@
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
     ],
+    "common": false,
     "worn_override": "NC_CYBORG_worn",
-    "carry_override": "EMPTY_GROUP",
+    "carry_override": "NC_CYBORG_carried",
     "weapon_override": "EMPTY_GROUP",
     "bionics": [
       { "id": "bio_ankles", "chance": 100 },

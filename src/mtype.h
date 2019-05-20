@@ -2,28 +2,26 @@
 #ifndef MTYPE_H
 #define MTYPE_H
 
-#include <bitset>
 #include <map>
 #include <set>
 #include <vector>
+#include <string>
 
 #include "color.h"
 #include "damage.h"
 #include "enum_bitset.h"
 #include "enums.h"
-#include "int_id.h"
 #include "mattack_common.h"
 #include "pathfinding.h"
-#include "string_id.h"
+#include "type_id.h"
 #include "units.h"
 
 class Creature;
 class monster;
-class monfaction;
-class emit;
-using emit_id = string_id<emit>;
+template <typename E> struct enum_traits;
 struct dealt_projectile_attack;
 struct species_type;
+
 enum field_id : int;
 enum body_part : int;
 enum m_size : int;
@@ -31,28 +29,11 @@ enum m_size : int;
 using mon_action_death  = void ( * )( monster & );
 using mon_action_attack = bool ( * )( monster * );
 using mon_action_defend = void ( * )( monster &, Creature *, dealt_projectile_attack const * );
-struct MonsterGroup;
-using mongroup_id = string_id<MonsterGroup>;
-struct mtype;
-using mtype_id = string_id<mtype>;
-using mfaction_id = int_id<monfaction>;
-using species_id = string_id<species_type>;
 using bodytype_id = std::string;
-class effect_type;
-using efftype_id = string_id<effect_type>;
 class JsonArray;
-class JsonIn;
 class JsonObject;
-class material_type;
-using material_id = string_id<material_type>;
 
 typedef std::string itype_id;
-
-class emit;
-using emit_id = string_id<emit>;
-
-class harvest_list;
-using harvest_id = string_id<harvest_list>;
 
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
@@ -159,6 +140,7 @@ enum m_flag : int {
     MF_GROUP_MORALE,        // Monsters that are more courageous when near friends
     MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
     MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
+    MF_PACIFIST,            // Monsters that will never use melee attack, useful for having them use grab without attacking the player
     MF_PUSH_MON,            // Monsters that can push creatures out of their way
     MF_PUSH_VEH,            // Monsters that can push vehicles out of their way
     MF_NIGHT_INVISIBILITY,  // Monsters that are invisible in poor light conditions
@@ -227,26 +209,28 @@ struct mtype {
 
     public:
         mtype_id id;
-        // TODO: maybe make this private as well? It must be set to `true` only once,
-        // and must never be set back to `false`.
-        bool was_loaded = false;
-        std::set<species_id> species;
-        std::set<std::string> categories;
-        mfaction_id default_faction;
-        bodytype_id bodytype;
-        /** UTF-8 encoded symbol, should be exactly one cell wide. */
-        std::string sym;
-        nc_color color = c_white;
-        /** hint for tilesets that don't have a tile for this monster */
-        std::string looks_like;
-        m_size size;
-        units::volume volume;
-        units::mass weight;
-        std::vector<material_id> mat;
-        phase_id phase;
+
+        std::map<std::string, int> starting_ammo; // Amount of ammo the monster spawns with.
+        // Name of item group that is used to create item dropped upon death, or empty.
+        std::string death_drops;
 
         /** Stores effect data for effects placed on attack */
         std::vector<mon_effect_data> atk_effs;
+
+        std::set<species_id> species;
+        std::set<std::string> categories;
+        std::vector<material_id> mat;
+        /** UTF-8 encoded symbol, should be exactly one cell wide. */
+        std::string sym;
+        /** hint for tilesets that don't have a tile for this monster */
+        std::string looks_like;
+        mfaction_id default_faction;
+        bodytype_id bodytype;
+        nc_color color = c_white;
+        m_size size;
+        units::volume volume;
+        units::mass weight;
+        phase_id phase;
 
         int difficulty = 0;     /** many uses; 30 min + (diff-3)*30 min = earliest appearance */
         // difficulty from special attacks instead of from melee attacks, defenses, HP, etc.
@@ -260,6 +244,8 @@ struct mtype {
         int melee_skill = 0;    /** melee hit skill, 20 is superhuman hitting abilities */
         int melee_dice = 0;     /** number of dice of bonus bashing damage on melee hit */
         int melee_sides = 0;    /** number of sides those dice have */
+
+        int grab_strength = 1;    /**intensity of the effect_grabbed applied*/
 
         int sk_dodge = 0;       /** dodge skill */
 
@@ -275,17 +261,13 @@ struct mtype {
         int vision_night = 1;   /** vision range in total darkness */
 
         damage_instance melee_damage; // Basic melee attack damage
-
-        std::map<std::string, int> starting_ammo; // Amount of ammo the monster spawns with.
-        // Name of item group that is used to create item dropped upon death, or empty.
-        std::string death_drops;
         harvest_id harvest;
         float luminance;           // 0 is default, >0 gives luminance to lightmap
+
+        unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
         // special attack frequencies and function pointers
         std::map<std::string, mtype_special_attack> special_attacks;
         std::vector<std::string> special_attacks_names; // names of attacks, in json load order
-
-        unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
 
         std::vector<mon_action_death>  dies;       // What happens when this monster dies
 
@@ -294,7 +276,6 @@ struct mtype {
         mon_action_defend sp_defense;
 
         // Monster upgrade variables
-        bool upgrades;
         int half_life;
         int age_grow;
         mtype_id upgrade_into;
@@ -302,7 +283,6 @@ struct mtype {
         mtype_id burn_into;
 
         // Monster reproduction variables
-        bool reproduces;
         int baby_timer;
         int baby_count;
         mtype_id baby_monster;
@@ -310,12 +290,20 @@ struct mtype {
         std::vector<std::string> baby_flags;
 
         // Monster biosignature variables
-        bool biosignatures;
         int biosig_timer;
         itype_id biosig_item;
 
         // Monster's ability to destroy terrain and vehicles
         int bash_skill;
+
+        // All the bools together for space efficiency
+
+        // TODO: maybe make this private as well? It must be set to `true` only once,
+        // and must never be set back to `false`.
+        bool was_loaded = false;
+        bool upgrades;
+        bool reproduces;
+        bool biosignatures;
 
         mtype();
         /**

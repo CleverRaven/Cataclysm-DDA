@@ -2,7 +2,9 @@
 
 #include <algorithm>
 #include <cassert>
-#include <map>
+#include <list>
+#include <set>
+#include <type_traits>
 
 #include "ammo.h"
 #include "debug.h"
@@ -11,6 +13,11 @@
 #include "itype.h"
 #include "json.h"
 #include "rng.h"
+#include "calendar.h"
+#include "compatibility.h"
+#include "enums.h"
+#include "string_id.h"
+#include "type_id.h"
 
 static const std::string null_item_id( "null" );
 
@@ -156,6 +163,25 @@ bool Single_item_creator::has_item( const Item_tag &itemid ) const
     return type == S_ITEM && itemid == id;
 }
 
+std::set<const itype *> Single_item_creator::every_item() const
+{
+    switch( type ) {
+        case S_ITEM:
+            return { item::find_type( id ) };
+        case S_ITEM_GROUP: {
+            Item_spawn_data *isd = item_controller->get_group( id );
+            if( isd != nullptr ) {
+                return isd->every_item();
+            }
+            return {};
+        }
+        case S_NONE:
+            return {};
+    }
+    assert( !"Unexpected type" );
+    return {};
+}
+
 void Single_item_creator::inherit_ammo_mag_chances( const int ammo, const int mag )
 {
     if( ammo != 0 || mag != 0 ) {
@@ -185,17 +211,17 @@ void Item_modifier::modify( item &new_item ) const
 
     new_item.set_damage( rng( damage.first, damage.second ) );
 
-    long ch = ( charges.first == charges.second ) ? charges.first : rng( charges.first,
-              charges.second );
+    int ch = ( charges.first == charges.second ) ? charges.first : rng( charges.first,
+             charges.second );
 
     if( ch != -1 ) {
         if( new_item.count_by_charges() || new_item.made_of( LIQUID ) ) {
             // food, ammo
             // count_by_charges requires that charges is at least 1. It makes no sense to
             // spawn a "water (0)" item.
-            new_item.charges = std::max( 1l, ch );
+            new_item.charges = std::max( 1, ch );
         } else if( new_item.is_tool() ) {
-            const auto qty = std::min( ch, new_item.ammo_capacity() );
+            const int qty = std::min( ch, new_item.ammo_capacity() );
             new_item.charges = qty;
             if( new_item.ammo_type() && qty > 0 ) {
                 new_item.ammo_set( new_item.ammo_type()->default_ammotype(), qty );
@@ -248,7 +274,7 @@ void Item_modifier::modify( item &new_item ) const
         item cont = container->create_single( new_item.birthday() );
         if( !cont.is_null() ) {
             if( new_item.made_of( LIQUID ) ) {
-                long rc = cont.get_remaining_capacity_for_liquid( new_item );
+                int rc = cont.get_remaining_capacity_for_liquid( new_item );
                 if( rc > 0 && ( new_item.charges > rc || ch == -1 ) ) {
                     // make sure the container is not over-full.
                     // fill up the container (if using default charges)
@@ -433,6 +459,16 @@ bool Item_group::has_item( const Item_tag &itemid ) const
     return false;
 }
 
+std::set<const itype *> Item_group::every_item() const
+{
+    std::set<const itype *> result;
+    for( const auto &spawn_data : items ) {
+        std::set<const itype *> these_items = spawn_data->every_item();
+        result.insert( these_items.begin(), these_items.end() );
+    }
+    return result;
+}
+
 item_group::ItemList item_group::items_from( const Group_tag &group_id, const time_point &birthday )
 {
     const auto group = item_controller->get_group( group_id );
@@ -473,6 +509,15 @@ bool item_group::group_contains_item( const Group_tag &group_id, const itype_id 
         return false;
     }
     return group->has_item( type_id );
+}
+
+std::set<const itype *> item_group::every_possible_item_from( const Group_tag &group_id )
+{
+    Item_spawn_data *group = item_controller->get_group( group_id );
+    if( group == nullptr ) {
+        return {};
+    }
+    return group->every_item();
 }
 
 void item_group::load_item_group( JsonObject &jsobj, const Group_tag &group_id,

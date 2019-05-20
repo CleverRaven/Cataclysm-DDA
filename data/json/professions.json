@@ -207,7 +207,7 @@
     "description": "You knew the end was coming.  You augmented yourself with some basic bionics and got additional survival training.  Now the end has come, and it is time to see if your efforts have paid off.",
     "points": 6,
     "CBMs": [
-      "bio_furnace",
+      "bio_metabolics",
       "bio_power_storage_mkII",
       "bio_tools",
       "bio_flashlight",
@@ -436,6 +436,8 @@
     "skills": [ { "level": 3, "name": "mechanics" } ],
     "items": {
       "both": {
+        "ammo": 100,
+        "magazine": 100,
         "items": [
           "slingpack",
           "tank_top",
@@ -448,9 +450,10 @@
           "screwdriver",
           "cell_phone",
           "wristwatch",
-          "mag_cars"
+          "mag_cars",
+          "welder"
         ],
-        "entries": [ { "item": "welder", "charges": 500 }, { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] } ]
+        "entries": [ { "item": "goggles_welding", "custom-flags": [ "no_auto_equip" ] } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
@@ -883,6 +886,38 @@
   },
   {
     "type": "profession",
+    "ident": "k9_cop",
+    "name": "K9 Officer",
+    "description": "You spent your career busting drug smugglers with your faithful canine companion.  Now the world has ended and none of that matters anymore.  But at least you have a loyal friend.",
+    "points": 4,
+    "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "pistol" }, { "level": 2, "name": "survival" } ],
+    "traits": [ "PROF_POLICE" ],
+    "pet": "mon_dog_gshepherd",
+    "items": {
+      "both": {
+        "items": [
+          "pants_army",
+          "socks",
+          "badge_deputy",
+          "sheriffshirt",
+          "boots",
+          "dog_whistle",
+          "two_way_radio",
+          "cell_phone",
+          "wristwatch"
+        ],
+        "entries": [
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
+          { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
     "ident": "cop",
     "name": "Police Officer",
     "description": "Just a small-town deputy when you got the call, you were still ready to come to the rescue.  Except that soon it was you who needed rescuing - you were lucky to escape with your life.  Who's going to respect your authority when the government this badge represents might not even exist anymore?",
@@ -1298,7 +1333,20 @@
     "points": 1,
     "skills": [ { "level": 3, "name": "electronics" } ],
     "items": {
-      "both": [ "jumpsuit", "socks", "boots", "tool_belt", "flashlight", "cell_phone", "wristwatch" ],
+      "both": {
+        "ammo": 100,
+        "magazine": 100,
+        "items": [
+          "jumpsuit",
+          "socks",
+          "boots",
+          "tool_belt",
+          "flashlight",
+          "cell_phone",
+          "wristwatch",
+          { "item": "light_battery_cell", "charges": 100 }
+        ]
+      },
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -1457,7 +1505,7 @@
   {
     "type": "profession",
     "ident": "broken_cyborg",
-    "name": "Broken Cyborg",
+    "name": "Prototype Cyborg",
     "description": "You were normal once.  Before the tests, before the procedures, before they stripped away every outward sign of your humanity.  You're more machine than man now, but that might prove an advantage against the horrors that await.",
     "points": -2,
     "CBMs": [
@@ -1740,6 +1788,7 @@
     "items": {
       "both": {
         "ammo": 100,
+        "magazine": 100,
         "items": [
           "winter_pants_army",
           "army_top",
@@ -2170,7 +2219,7 @@
       "bio_sleepy",
       "bio_trip",
       "bio_spasm",
-      "bio_furnace",
+      "bio_metabolics",
       "bio_power_storage_mkII",
       "bio_painkiller",
       "bio_climate"
@@ -2603,7 +2652,10 @@
     "points": 3,
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "firstaid" } ],
     "items": {
-      "both": [ "shorts", "tshirt", "socks", "lowtops", "gobag", "cell_phone", "wristwatch" ],
+      "both": {
+        "items": [ "shorts", "tshirt", "socks", "lowtops", "cell_phone", "wristwatch" ],
+        "entries": [ { "item": "gobag", "custom-flags": [ "FIT" ] } ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
@@ -2887,7 +2939,7 @@
         "jacket_light",
         "baton",
         "tazer",
-        "battery",
+        "medium_battery_cell",
         "pockknife",
         "wristwatch",
         "cell_phone"
@@ -2992,6 +3044,7 @@
         "breeches",
         "waistcoat",
         "peacoat",
+        "leather_belt",
         "knit_scarf",
         "tricorne",
         "shoulder_strap",
@@ -3364,7 +3417,11 @@
           "wristwatch",
           "matches"
         ],
-        "entries": [ { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] } ]
+        "entries": [
+          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "item": "light_battery_cell", "charges": 100 },
+          { "item": "light_battery_cell", "charges": 100 }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "boy_shorts", "sports_bra" ]
@@ -3561,10 +3618,25 @@
         "1st_aid",
         "smart_phone",
         "wristwatch",
-        "battery"
+        "medium_battery_cell"
       ],
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "urban_samurai",
+    "name": "Urban Samurai",
+    "description": "You were always an inexplicable sight in town, always with the funny hair, always wearing what appeared to be some kind of Japanese bathrobe. Some claimed you were a visiting Shinto god. Little of this concerns you, but last week the grocery service stopped coming and now the TV no longer turns on. This displeases you.",
+    "points": 2,
+    "skills": { "level": 2, "name": "melee" },
+    "items": {
+      "both": {
+        "items": [ "haori", "kimono", "hakama", "loincloth", "tabi_dress", "geta" ],
+        "entries": [ { "item": "bokken_inferior", "container-item": "scabbard" } ]
+      },
+      "female": [ "chestwrap" ]
     }
   }
 ]

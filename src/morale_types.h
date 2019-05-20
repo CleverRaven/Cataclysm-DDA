@@ -2,12 +2,12 @@
 #ifndef MORALE_TYPES_H
 #define MORALE_TYPES_H
 
+#include <string>
+
 #include "string_id.h"
+#include "type_id.h"
 
 class JsonObject;
-
-class morale_type_data;
-using morale_type = string_id<morale_type_data>;
 
 struct itype;
 
@@ -111,6 +111,9 @@ extern const morale_type MORALE_PERM_FILTHY;
 extern const morale_type MORALE_PERM_DEBUG;
 extern const morale_type MORALE_BUTCHER;
 extern const morale_type MORALE_GRAVEDIGGER;
+extern const morale_type MORALE_FUNERAL;
 extern const morale_type MORALE_TREE_COMMUNION;
+extern const morale_type MORALE_ACCOMPLISHMENT;
+extern const morale_type MORALE_FAILURE;
 
 #endif

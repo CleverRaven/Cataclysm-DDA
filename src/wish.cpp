@@ -1,5 +1,13 @@
 #include "debug_menu.h" // IWYU pragma: associated
 
+#include <cstddef>
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
+
 #include "debug.h"
 #include "game.h"
 #include "input.h"
@@ -17,12 +25,22 @@
 #include "translations.h"
 #include "ui.h"
 #include "uistate.h"
+#include "calendar.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "item.h"
+#include "itype.h"
+#include "optional.h"
+#include "type_id.h"
 
 class wish_mutate_callback: public uilist_callback
 {
     public:
-        int lastlen = 0;       // last menu entry
-        std::string msg;       // feedback message
+        // Last menu entry
+        int lastlen = 0;
+        // Feedback message
+        std::string msg;
         bool started = false;
         std::vector<trait_id> vTraits;
         std::map<trait_id, bool> pTraits;
@@ -202,7 +220,7 @@ void debug_menu::wishmutate( player *p )
     }
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
-    // disabled due to foldstring crash // ( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
+    // Disabled due to foldstring crash // ( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
     wmenu.pad_right = ( wmenu.w_width - 40 );
     wmenu.selected = uistate.wishmutate_selected;
     wish_mutate_callback cb;
@@ -216,7 +234,7 @@ void debug_menu::wishmutate( player *p )
             const auto &mdata = mstr.obj();
             const bool threshold = mdata.threshold;
             const bool profession = mdata.profession;
-            //Manual override for the threshold-gaining
+            // Manual override for the threshold-gaining
             if( threshold || profession ) {
                 if( p->has_trait( mstr ) ) {
                     do {
@@ -293,12 +311,16 @@ class wish_monster_callback: public uilist_callback
         }
 
         bool key( const input_context &, const input_event &event, int entnum, uilist *menu ) override {
-            ( void )entnum; // unused
-            ( void )menu; // unused
+            // Unused
+            ( void )entnum;
+            // Unused
+            ( void )menu;
             if( event.get_first_input() == 'f' ) {
                 friendly = !friendly;
-                lastent = -2; // force tmp monster regen
-                return true;  // tell menu we handled keypress
+                // Force tmp monster regen
+                lastent = -2;
+                // Tell menu we handled keypress
+                return true;
             } else if( event.get_first_input() == 'i' ) {
                 group++;
                 return true;
@@ -342,7 +364,8 @@ class wish_monster_callback: public uilist_callback
         }
 
         void refresh( uilist *menu ) override {
-            ( void )menu; // unused
+            // Unused
+            ( void )menu;
             wrefresh( w_info );
         }
 
@@ -359,7 +382,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
     uilist wmenu;
     wmenu.w_x = 0;
     wmenu.w_width = TERMX;
-    // disabled due to foldstring crash //( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
+    // Disabled due to foldstring crash //( TERMX - getmaxx(w_terrain) - 30 > 24 ? getmaxx(w_terrain) : TERMX );
     wmenu.pad_right = ( wmenu.w_width - 30 );
     wmenu.selected = uistate.wishmonster_selected;
     wish_monster_callback cb( mtypes );

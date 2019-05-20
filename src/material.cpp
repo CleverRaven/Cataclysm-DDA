@@ -2,6 +2,9 @@
 
 #include <map>
 #include <string>
+#include <algorithm>
+#include <iterator>
+#include <set>
 
 #include "assign.h"
 #include "damage.h" // damage_type
@@ -10,6 +13,7 @@
 #include "item.h"
 #include "json.h"
 #include "translations.h"
+#include "player.h"
 
 namespace
 {
@@ -71,6 +75,7 @@ void material_type::load( JsonObject &jsobj, const std::string & )
     assign( jsobj, "salvaged_into", _salvaged_into );
     optional( jsobj, was_loaded, "repaired_with", _repaired_with, "null" );
     optional( jsobj, was_loaded, "edible", _edible, false );
+    optional( jsobj, was_loaded, "rotting", _rotting, false );
     optional( jsobj, was_loaded, "soft", _soft, false );
     optional( jsobj, was_loaded, "reinforces", _reinforces, false );
 
@@ -265,6 +270,11 @@ bool material_type::edible() const
     return _edible;
 }
 
+bool material_type::rotting() const
+{
+    return _rotting;
+}
+
 bool material_type::soft() const
 {
     return _soft;
@@ -319,9 +329,21 @@ material_list materials::get_compactable()
 {
     material_list all = get_all();
     material_list compactable;
-    std::copy_if( all.begin(), all.end(), std::back_inserter( compactable ), []( material_type mt ) {
+    std::copy_if( all.begin(), all.end(),
+    std::back_inserter( compactable ), []( const material_type & mt ) {
         return !mt.compacts_into().empty();
     } );
     return compactable;
 }
 
+std::set<material_id> materials::get_rotting()
+{
+    material_list all = get_all();
+    std::set<material_id> rotting;
+    for( const material_type &m : all ) {
+        if( m.rotting() ) {
+            rotting.emplace( m.ident() );
+        }
+    }
+    return rotting;
+}

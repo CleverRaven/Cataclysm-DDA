@@ -1,18 +1,28 @@
 #include "overmap_ui.h"
 
+#include <cstddef>
+#include <algorithm>
+#include <array>
+#include <chrono>
+#include <list>
+#include <map>
+#include <memory>
+#include <string>
+#include <tuple>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
 #include "basecamp.h"
 #include "cata_utility.h"
 #include "clzones.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
-#include "faction_camp.h"
 #include "game.h"
 #include "input.h"
 #include "line.h"
 #include "map_iterator.h"
-#include "map.h"
 #include "mapbuffer.h"
-#include "messages.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "options.h"
@@ -26,6 +36,20 @@
 #include "uistate.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "calendar.h"
+#include "catacharset.h"
+#include "color.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "omdata.h"
+#include "optional.h"
+#include "overmap_types.h"
+#include "regional_settings.h"
+#include "rng.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "translations.h"
+#include "type_id.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -159,7 +183,7 @@ void update_note_preview( const std::string &note,
     mvwputch( *w_preview_map, npm_height / 2 + npm_offset_y, npm_width / 2 + npm_offset_x,
               note_color, symbol );
     wrefresh( *w_preview_map );
-};
+}
 
 weather_type get_weather_at_point( const tripoint &pos )
 {
@@ -253,7 +277,7 @@ void draw_camp_labels( const catacurses::window &w, const tripoint &center )
     const point screen_center_pos( win_x_max / 2, win_y_max / 2 );
 
     for( const auto &element : overmap_buffer.get_camps_near( omt_to_sm_copy( center ), sm_radius ) ) {
-        const point camp_pos( sm_to_omt_copy( element.abs_sm_pos.x, element.abs_sm_pos.y ) );
+        const point camp_pos( element.camp->camp_omt_pos().x, element.camp->camp_omt_pos().y );
         const point screen_pos( camp_pos - point( center.x, center.y ) + screen_center_pos );
         const int text_width = utf8_width( element.camp->name, true );
         const int text_x_min = screen_pos.x - text_width / 2;
@@ -939,6 +963,8 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     ictxt.register_action( "LEVEL_UP" );
     ictxt.register_action( "LEVEL_DOWN" );
     ictxt.register_action( "HELP_KEYBINDINGS" );
+    ictxt.register_action( "MOUSE_MOVE" );
+    ictxt.register_action( "SELECT" );
 
     // Actions whose keys we want to display.
     ictxt.register_action( "CENTER" );
@@ -963,17 +989,44 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     std::string action;
     bool show_explored = true;
     bool fast_scroll = false; /* fast scroll state should reset every time overmap UI is opened */
-    int fast_scroll_offset = get_option<int>( "MOVE_VIEW_OFFSET" );
-
+    int fast_scroll_offset = get_option<int>( "FAST_SCROLL_OFFSET" );
+    cata::optional<tripoint> mouse_pos;
+    bool redraw = true;
+    auto last_blink = std::chrono::steady_clock::now();
     do {
-        draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored,
-              fast_scroll, &ictxt, data );
+        if( redraw ) {
+            draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays,
+                  show_explored, fast_scroll, &ictxt, data );
+        }
+        redraw = true;
+#if (defined TILES || defined _WIN32 || defined WINDOWS )
+        int scroll_timeout = get_option<int>( "EDGE_SCROLL" );
+        // If EDGE_SCROLL is disabled, it will have a value of -1.
+        // blinking won't work if handle_input() is passed a negative integer.
+        if( scroll_timeout < 0 ) {
+            scroll_timeout = BLINK_SPEED;
+        }
+        action = ictxt.handle_input( scroll_timeout );
+#else
         action = ictxt.handle_input( BLINK_SPEED );
-
+#endif
         if( const cata::optional<tripoint> vec = ictxt.get_direction( action ) ) {
             int scroll_d = fast_scroll ? fast_scroll_offset : 1;
             curs.x += vec->x * scroll_d;
             curs.y += vec->y * scroll_d;
+        } else if( action == "MOUSE_MOVE" || action == "TIMEOUT" ) {
+            tripoint edge_scroll = g->mouse_edge_scrolling_terrain( ictxt );
+            if( edge_scroll == tripoint_zero ) {
+                redraw = false;
+            } else {
+                if( action == "MOUSE_MOVE" ) {
+                    edge_scroll *= 2;
+                }
+                curs += edge_scroll;
+            }
+        } else if( action == "SELECT" && ( mouse_pos = ictxt.get_coordinates( g->w_overmap ) ) ) {
+            curs.x += mouse_pos->x;
+            curs.y += mouse_pos->y;
         } else if( action == "CENTER" ) {
             curs = orig;
         } else if( action == "LEVEL_DOWN" && curs.z > -OVERMAP_DEPTH ) {
@@ -1000,7 +1053,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             std::string title = _( "Note:" );
 
             const std::string old_note = overmap_buffer.note( curs );
-            std::string new_note = old_note, tmp_note;
+            std::string new_note = old_note;
             const auto map_around = get_overmap_neighbors( curs );
 
             const int max_note_length = 45;
@@ -1174,7 +1227,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                            direction_name_short( direction_from( orig, tripoint( locations[i], orig.z ) ) )
                          );
 
-                mvwprintz( w_search, 6, 1, c_white, _( "'<' '>' Cycle targets." ) );
+                mvwprintz( w_search, 6, 1, c_white, _( "'<-' '->' Cycle targets." ) );
                 mvwprintz( w_search, 10, 1, c_white, _( "Enter/Spacebar to select." ) );
                 mvwprintz( w_search, 11, 1, c_white, _( "q or ESC to return." ) );
                 draw_border( w_search );
@@ -1308,14 +1361,15 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                 uistate.place_special = nullptr;
                 action.clear();
             }
-        } else if( action == "TIMEOUT" ) {
+        }
+
+        auto now = std::chrono::steady_clock::now();
+        if( now > last_blink + std::chrono::milliseconds( BLINK_SPEED ) ) {
             if( uistate.overmap_blinking ) {
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
+                redraw = true;
             }
-        } else if( action == "ANY_INPUT" ) {
-            if( uistate.overmap_blinking ) {
-                uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
-            }
+            last_blink = now;
         }
     } while( action != "QUIT" && action != "CONFIRM" );
     werase( g->w_overmap );

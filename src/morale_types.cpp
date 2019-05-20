@@ -1,9 +1,14 @@
 #include "morale_types.h"
 
+#include <cstddef>
+#include <set>
+#include <vector>
+
 #include "generic_factory.h"
 #include "itype.h"
 #include "json.h"
 #include "string_formatter.h"
+#include "debug.h"
 
 const morale_type &morale_type_data::convert_legacy( int lmt )
 {
@@ -89,7 +94,11 @@ const morale_type &morale_type_data::convert_legacy( int lmt )
             morale_type( "morale_perm_filthy" ),
 
             morale_type( "morale_butcher" ),
-            morale_type( "moreale_gravedigger" ),
+            morale_type( "morale_gravedigger" ),
+            morale_type( "morale_funeral" ),
+
+            morale_type( "morale_accomplishment" ),
+            morale_type( "morale_failure" ),
 
             morale_type( "morale_null" )
         }
@@ -175,7 +184,10 @@ const morale_type MORALE_PERM_FILTHY( "morale_perm_filthy" );
 const morale_type MORALE_PERM_DEBUG( "morale_perm_debug" );
 const morale_type MORALE_BUTCHER( "morale_butcher" );
 const morale_type MORALE_GRAVEDIGGER( "morale_gravedigger" );
+const morale_type MORALE_FUNERAL( "morale_funeral" );
 const morale_type MORALE_TREE_COMMUNION( "morale_tree_communion" );
+const morale_type MORALE_ACCOMPLISHMENT( "morale_accomplishment" );
+const morale_type MORALE_FAILURE( "morale_failure" );
 
 namespace
 {

@@ -95,6 +95,19 @@
   },
   {
     "type": "recipe",
+    "result": "throwing_stick",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "survival",
+    "skills_required": [ "fabrication", 1 ],
+    "difficulty": 1,
+    "time": 1000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "cudgel",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_BASHING",
@@ -787,6 +800,7 @@
     "time": 240000,
     "book_learn": [ [ "recipe_bows", 9 ], [ "welding_book", 8 ], [ "textbook_mechanics", 8 ] ],
     "qualities": [
+      { "id": "ANVIL", "level": 3 },
       { "id": "CUT", "level": 1 },
       { "id": "SCREW", "level": 1 },
       { "id": "HAMMER", "level": 3 },
@@ -1146,7 +1160,7 @@
       { "id": "SCREW", "level": 1 },
       { "id": "WRENCH", "level": 1 }
     ],
-    "components": [ [ [ "elec_chainsaw_off", 1 ] ], [ [ "battery_compartment", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
+    "components": [ [ [ "elec_chainsaw_off", 1 ] ], [ [ "steel_chunk", 3 ], [ "scrap", 9 ] ] ]
   },
   {
     "type": "recipe",
@@ -1391,33 +1405,6 @@
   },
   {
     "type": "recipe",
-    "result": "laser_sight",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "electronics",
-    "difficulty": 4,
-    "time": 15000,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "textbook_electronics", 2 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [
-      [ [ "amplifier", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "lens", 1 ], [ "lens_small", 1 ] ],
-      [ [ "lens", 1 ], [ "lens_small", 1 ] ],
-      [ [ "battery", 100 ], [ "plut_cell", 1 ] ],
-      [
-        [ "scrap", 1 ],
-        [ "can_drink_unsealed", 1 ],
-        [ "can_food_unsealed", 1 ],
-        [ "canister_empty", 1 ],
-        [ "plastic_chunk", 1 ]
-      ],
-      [ [ "cable", 5 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
     "result": "muzzle_brake",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_MODS",
@@ -1479,33 +1466,6 @@
       ]
     ],
     "components": [ [ [ "scrap", 6 ], [ "pipe", 1 ], [ "steel_chunk", 3 ] ], [ [ "plastic_chunk", 3 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "rail_laser_sight",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_MODS",
-    "skill_used": "electronics",
-    "difficulty": 4,
-    "time": 15000,
-    "book_learn": [ [ "manual_electronics", 2 ], [ "textbook_electronics", 2 ] ],
-    "using": [ [ "soldering_standard", 10 ] ],
-    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
-    "components": [
-      [ [ "amplifier", 1 ] ],
-      [ [ "power_supply", 1 ] ],
-      [ [ "lens", 1 ], [ "lens_small", 1 ] ],
-      [ [ "lens", 1 ], [ "lens_small", 1 ] ],
-      [ [ "battery", 100 ], [ "plut_cell", 1 ] ],
-      [
-        [ "scrap", 1 ],
-        [ "can_drink_unsealed", 1 ],
-        [ "can_food_unsealed", 1 ],
-        [ "canister_empty", 1 ],
-        [ "plastic_chunk", 1 ]
-      ],
-      [ [ "cable", 5 ] ]
-    ]
   },
   {
     "type": "recipe",
@@ -2879,7 +2839,7 @@
     "book_learn": [ [ "textbook_weapeast", 6 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 100 ], [ "oxy_torch", 20 ] ] ],
-    "components": [ [ [ "katana", 1 ] ], [ [ "stick_long", 1 ] ] ]
+    "components": [ [ [ "katana", 1 ], [ "wakizashi", 1 ] ], [ [ "stick_long", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2942,7 +2902,7 @@
     "book_learn": [ [ "manual_launcher", 7 ] ],
     "using": [ [ "welding_standard", 3 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "pilot_light", 2 ] ], [ [ "battery", 200 ] ], [ [ "processor", 2 ] ] ]
+    "components": [ [ [ "sheet_metal", 2 ] ], [ [ "pilot_light", 2 ] ], [ [ "light_battery_cell", 2 ] ], [ [ "processor", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -3011,27 +2971,6 @@
       [ [ "m2browning", 1 ] ],
       [ [ "2x4", 1 ] ],
       [ [ "pipe", 1 ] ],
-      [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
-    ]
-  },
-  {
-    "type": "recipe",
-    "result": "chemical_thrower",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ "launcher", 2 ],
-    "difficulty": 6,
-    "time": 30000,
-    "reversible": true,
-    "autolearn": true,
-    "using": [ [ "welding_standard", 40 ] ],
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "HAMMER", "level": 2 } ],
-    "components": [
-      [ [ "pilot_light", 1 ] ],
-      [ [ "metal_tank_little", 1 ] ],
-      [ [ "pipe", 2 ] ],
-      [ [ "hose", 2 ] ],
       [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
     ]
   }

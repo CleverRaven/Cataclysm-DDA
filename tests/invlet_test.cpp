@@ -1,4 +1,11 @@
 #include <sstream>
+#include <list>
+#include <map>
+#include <memory>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include "catch/catch.hpp"
 #include "game.h"
@@ -6,6 +13,12 @@
 #include "options.h"
 #include "player.h"
 #include "map_helpers.h"
+#include "enums.h"
+#include "inventory.h"
+#include "item.h"
+#include "item_stack.h"
+#include "player_activity.h"
+#include "type_id.h"
 
 const trait_id trait_debug_storage( "DEBUG_STORAGE" );
 

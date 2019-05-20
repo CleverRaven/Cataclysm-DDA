@@ -344,7 +344,7 @@
     "durability": 400,
     "description": "An aisle.  A hatch lets you access a cargo space beneath it.",
     "size": 350,
-    "item": "sheet_metal",
+    "item": "cargo_aisle",
     "difficulty": 1,
     "location": "center",
     "flags": [ "AISLE", "BOARDABLE", "CARGO", "LOCKABLE_CARGO", "COVERED" ],
@@ -665,7 +665,7 @@
     "id": "black_box",
     "name": "military black box",
     "item": "black_box",
-    "description": "An armored black box, a device meant to record and preserve data of a military vehicle in the field in case it'd get destroyed.",
+    "description": "An armored black box, a device meant to record and preserve data of a military vehicle in the field in case it gets destroyed.",
     "durability": 400,
     "symbol": ";",
     "color": "light_gray",
@@ -965,7 +965,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 60,
     "durability": 145,
-    "size": 15,
+    "size": 80,
     "item": "v_table",
     "difficulty": 1,
     "location": "center",
@@ -975,7 +975,7 @@
       { "item": "splinter", "count": [ 4, 6 ] },
       { "item": "nail", "charges": [ 4, 7 ] }
     ],
-    "workbench": { "multiplier": 1.0, "mass": 80000, "volume": "80L" }
+    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20L" }
   },
   {
     "type": "vehicle_part",
@@ -987,7 +987,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 60,
     "durability": 145,
-    "size": 15,
+    "size": 80,
     "item": "w_table",
     "difficulty": 1,
     "location": "center",
@@ -997,7 +997,7 @@
       { "item": "splinter", "count": [ 4, 6 ] },
       { "item": "nail", "charges": [ 4, 7 ] }
     ],
-    "workbench": { "multiplier": 1.0, "mass": 80000, "volume": "80L" }
+    "workbench": { "multiplier": 1.1, "mass": 150000, "volume": "20L" }
   },
   {
     "type": "vehicle_part",
@@ -1010,7 +1010,7 @@
     "looks_like": "veh_table_wood",
     "damage_modifier": 60,
     "durability": 300,
-    "size": 20,
+    "size": 120,
     "item": "workbench",
     "difficulty": 1,
     "location": "center",
@@ -1022,7 +1022,7 @@
       { "item": "steel_chunk", "count": [ 4, 8 ] },
       { "item": "scrap", "count": [ 12, 24 ] }
     ],
-    "workbench": { "multiplier": 1.2, "mass": 1500000, "volume": "150L" }
+    "workbench": { "multiplier": 1.2, "mass": 300000, "volume": "30L" }
   },
   {
     "type": "vehicle_part",
@@ -1974,14 +1974,14 @@
   {
     "type": "vehicle_part",
     "id": "recharge_station",
-    "name": "UPS-compatible recharging station",
+    "name": "recharging station",
     "symbol": "o",
     "color": "light_green",
     "broken_symbol": "#",
     "broken_color": "blue",
     "damage_modifier": 10,
     "durability": 20,
-    "description": "A recharger for UPS devices.  When turned on, it charges any UPS devices in the cargo space.",
+    "description": "A device for recharging batteries.  When turned on, it charges any rechargeable batteries (battery cells, lead-acid batteries, etc) placed directly in the attached storage space.",
     "epower": -25,
     "bonus": 600,
     "item": "recharge_station",
@@ -2292,7 +2292,7 @@
     "broken_color": "red",
     "damage_modifier": 10,
     "durability": 200,
-    "description": "A sophisticated set of electronic controls that allow you to control the vehicle from a vehicle remote while you are not in it.  You can 'e'xamine the tile or attempt to pick-up items (default ',') to access the controls, or use the vehicle control key (default '^').",
+    "description": "A sophisticated set of electronic controls that allow you to control the vehicle from a vehicle remote while you are not in it.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^').",
     "item": "drive_by_wire_controls",
     "difficulty": 3,
     "flags": [ "CONTROLS", "REMOTE_CONTROLS" ],
@@ -2308,7 +2308,7 @@
     "broken_color": "blue",
     "damage_modifier": 20,
     "durability": 200,
-    "description": "An LCD display attached to one or more cameras.  When turned on, it lets you see from the cameras, but drains power from the vehicle's batteries.  You can 'e'xamine the tile or attempt to pick-up items (default ',') to access the controls, or use the vehicle control key (default '^').",
+    "description": "An LCD display attached to one or more cameras.  When turned on, it lets you see from the cameras, but drains power from the vehicle's batteries.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^').",
     "folded_volume": 10,
     "item": "camera_control",
     "epower": -100,
@@ -2463,7 +2463,7 @@
     "broken_color": "dark_gray",
     "durability": 100,
     "description": "A scoop.  Use the vehicle controls to turn it on or off.  When turned on, it will scoop up any loose items that it travels over, putting them into the vehicle's storage.",
-    "epower": -5,
+    "epower": -10,
     "size": 400,
     "damage_modifier": 10,
     "item": "v_scoop_item",

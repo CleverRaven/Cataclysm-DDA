@@ -14,6 +14,7 @@ template<typename T>
 class optional;
 } // namespace cata
 struct tripoint;
+struct point;
 
 /**
  * Enumerates all discrete actions that can be performed by player
@@ -56,8 +57,16 @@ enum action_id : int {
     ACTION_MOVE_DOWN,
     /** Ascend a staircase */
     ACTION_MOVE_UP,
-    /** Toggle run/walk/crouch mode */
-    ACTION_TOGGLE_MOVE,
+    /** Cycle run/walk/crouch mode */
+    ACTION_CYCLE_MOVE,
+    /** Reset movement mode to walk  */
+    ACTION_RESET_MOVE,
+    /** Toggle run on/off */
+    ACTION_TOGGLE_RUN,
+    /** Toggle crouch on/off */
+    ACTION_TOGGLE_CROUCH,
+    /** Open movement mode menu */
+    ACTION_OPEN_MOVEMENT,
     /**@}*/
 
     // Viewport movement actions and related
@@ -94,8 +103,10 @@ enum action_id : int {
     ACTION_SMASH,
     /** Examine or pick up items from adjacent square */
     ACTION_EXAMINE,
-    /** Pick up items from current square */
+    /** Pick up items from current/adjacent squares */
     ACTION_PICKUP,
+    /** Pick up items from current square. Auto pickup if only one item */
+    ACTION_PICKUP_FEET,
     /** Grab or let go of an object */
     ACTION_GRAB,
     /** Haul pile of items, or let go of them */
@@ -134,8 +145,10 @@ enum action_id : int {
     ACTION_WEAR,
     /** Open the take-off clothing selection menu */
     ACTION_TAKE_OFF,
-    /** Open the consume item menu */
+    /** Open the default consume item menu */
     ACTION_EAT,
+    /** Open the custom consume item menu */
+    ACTION_OPEN_CONSUME,
     /** Open the read menu */
     ACTION_READ,
     /** Open the wield menu */
@@ -190,6 +203,8 @@ enum action_id : int {
     ACTION_SLEEP,
     /** Open vehicle control menu */
     ACTION_CONTROL_VEHICLE,
+    /** Turn auto travel mode on/off */
+    ACTION_TOGGLE_AUTO_TRAVEL_MODE,
     /** Turn safemode on/off, while leaving autosafemode intact */
     ACTION_TOGGLE_SAFEMODE,
     /** Turn automatic triggering of safemode on/off */
@@ -319,9 +334,19 @@ void load_keyboard_settings( std::map<char, action_id> &keymap,
  * given action then the returned vector is simply left empty.
  *
  * @param act Action ID to lookup in keymap
+ * @param restrict_to_printable If `true` the function returns the bound keys only if they are printable. If `false`, all keys (whether they are printable or not) are returned.
  * @returns all keys (as characters) currently bound to a give action ID
  */
-std::vector<char> keys_bound_to( action_id act );
+std::vector<char> keys_bound_to( action_id act, bool restrict_to_printable = true );
+
+/**
+ * Get the key for an action, used in the action menu to give each action the hotkey it is bound to.
+ * @param action Action ID to lookup in keymap.
+ * @param restrict_to_printable If `true` the function returns the bound key only if it is printable. If `false`, any key (whether they it is printable or not) is returned.
+ * @returns the key code for the hotkey or -1 if no key is associated with the given action.
+ * @note We ignore bindings to '?' because that will already do something else in this menu (open the menu keybindings).
+ */
+long hotkey_for_action( action_id action, bool restrict_to_printable = true );
 
 /**
  * Lookup an action ID by its unique string identifier
@@ -482,7 +507,7 @@ std::string press_x( action_id act, const std::string &key_bound_pre,
 // ('Z'ing|zing) (X( or Y)))
 std::string press_x( action_id act, const std::string &act_desc );
 
-// Helper function to convert co-ordinate delta to a movement direction
+// Helper function to convert coordinate delta to a movement direction
 /**
  * Translate coordinate delta into movement direction
  *
@@ -504,6 +529,9 @@ std::string press_x( action_id act, const std::string &act_desc );
  * @returns ID of corresponding move action (usually... see note above)
  */
 action_id get_movement_direction_from_delta( const int dx, const int dy, const int dz = 0 );
+
+// Helper function to convert movement direction to coordinate delta point
+point get_delta_from_movement_direction( action_id act );
 
 /**
  * Show the action menu

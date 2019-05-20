@@ -1,0 +1,22 @@
+[
+  {
+    "type": "mod_tileset",
+    "compatibility": [ "MSX++DEAD_PEOPLE", "UNDEAD_PEOPLE" ],
+    "tiles-new": [
+      {
+        "file": "sees_player.png",
+        "sprite_offset_y": -16,
+        "tiles": [
+          { "id": "overlay_hostile_sees_player", "fg": 0 },
+          { "id": "overlay_friendly_sees_player", "fg": 1 },
+          { "id": "overlay_neutral_sees_player", "fg": 2 },
+          { "id": "overlay_other_sees_player", "fg": 3 },
+          { "id": "overlay_hostile", "fg": 4 },
+          { "id": "overlay_friendly", "fg": 5 },
+          { "id": "overlay_neutral", "fg": 6 },
+          { "id": "overlay_other", "fg": 7 }
+        ]
+      }
+    ]
+  }
+]

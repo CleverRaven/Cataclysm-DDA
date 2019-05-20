@@ -133,6 +133,7 @@
     "dispersion": 180,
     "loudness": 0,
     "count": 10,
+    "show_stats": true,
     "effects": [ "RECOVER_8" ]
   },
   {
@@ -152,6 +153,7 @@
     "dispersion": 100,
     "loudness": 0,
     "count": 10,
+    "show_stats": true,
     "effects": [ "RECOVER_20" ]
   },
   {

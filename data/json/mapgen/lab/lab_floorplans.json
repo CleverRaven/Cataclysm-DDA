@@ -542,7 +542,7 @@
         "7": "t_console",
         "r": "t_floor_blue"
       },
-      "place_loot": [ { "item": "anesthesia", "x": 15, "y": 11 } ],
+      "place_loot": [ { "item": "anesthetic_kit", "x": 15, "y": 11 } ],
       "mapping": {
         "r": {
           "items": [
@@ -570,7 +570,8 @@
         { "monster": [ "mon_broken_cyborg", "mon_zombie_electric" ], "x": [ 14, 16 ], "y": [ 1, 4 ], "chance": 90 },
         { "monster": [ "mon_broken_cyborg", "mon_prototype_cyborg" ], "x": [ 14, 16 ], "y": [ 6, 9 ], "chance": 90 },
         { "monster": [ "mon_broken_cyborg", "mon_prototype_cyborg" ], "x": [ 21, 22 ], "y": [ 1, 4 ], "chance": 90 },
-        { "monster": [ "mon_broken_cyborg", "mon_prototype_cyborg" ], "x": [ 21, 22 ], "y": [ 6, 9 ], "chance": 90 }
+        { "monster": [ "mon_broken_cyborg", "mon_prototype_cyborg" ], "x": [ 21, 22 ], "y": [ 6, 9 ], "chance": 90 },
+        { "monster": [ "mon_nursebot", "mon_nursebot_defective" ], "x": [ 11, 13 ], "y": [ 13, 14 ], "chance": 50 }
       ]
     }
   },

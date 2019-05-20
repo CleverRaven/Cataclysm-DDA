@@ -4,14 +4,22 @@
 
 #include <map>
 #include <vector>
+#include <string>
 
-#include "map.h"
-#include "omdata.h"
 #include "optional.h"
-#include "trap.h"
-#include "ui.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "type_id.h"
 
 struct real_coords;
+class Creature;
+class field;
+class uilist;
+class vehicle;
+class map;
+class tinymap;
+
 enum field_id : int;
 
 enum shapetype {
@@ -19,6 +27,7 @@ enum shapetype {
 };
 
 class editmap;
+
 struct editmap_hilight {
     std::vector<bool> blink_interval;
     int cur_blink;

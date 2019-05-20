@@ -30,7 +30,8 @@
       [ "elec_jackhammer", 40 ],
       [ "metal_smoother", 90 ],
       [ "jackhammer", 40 ],
-      [ "toolbox", 25 ]
+      [ "toolbox", 25 ],
+      [ "recharge_station", 10 ]
     ]
   },
   {
@@ -52,7 +53,9 @@
       [ "funnel", 50 ],
       [ "crowbar", 10 ],
       [ "thermometer", 5 ],
-      [ "multitool", 10 ]
+      [ "multitool", 10 ],
+      [ "recharge_station", 10 ],
+      [ "hand_crank_charger", 25 ]
     ]
   },
   {
@@ -132,7 +135,9 @@
       { "group": "tools_common", "prob": 100 },
       [ "soldering_iron", 100 ],
       [ "magnifying_glass", 100 ],
-      [ "voltmeter", 100 ]
+      [ "voltmeter", 100 ],
+      [ "recharge_station", 10 ],
+      [ "hand_crank_charger", 40 ]
     ]
   },
   {
@@ -248,7 +253,8 @@
       [ "ref_lighter", 20 ],
       [ "signal_flare", 20 ],
       [ "sm_extinguisher", 20 ],
-      [ "whistle", 20 ]
+      [ "whistle", 20 ],
+      [ "hand_crank_charger", 15 ]
     ]
   },
   {
@@ -319,7 +325,7 @@
       [ "syringe", 4 ],
       [ "xacto", 4 ],
       [ "cotton_ball", 4 ],
-      [ "battery", 50 ]
+      { "group": "ammo_any_batteries_full", "prob": 50 }
     ]
   },
   {
@@ -347,6 +353,19 @@
       [ "jackhammer", 50 ],
       [ "elec_jackhammer", 50 ],
       [ "circsaw_off", 10 ]
+    ]
+  },
+  {
+    "id": "tools_tree_cutting",
+    "type": "item_group",
+    "//": "Axes and saws.",
+    "items": [
+      [ "ax", 100 ],
+      [ "chainsaw_off", 80 ],
+      [ "saw", 100 ],
+      [ "circsaw_off", 50 ],
+      [ "circsaw_blade", 10 ],
+      [ "elec_chainsaw_off", 35 ]
     ]
   }
 ]

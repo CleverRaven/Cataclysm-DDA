@@ -2,12 +2,12 @@
 #ifndef JSON_H
 #define JSON_H
 
+#include <cstddef>
 #include <type_traits>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <bitset>
-#include <utility>
 #include <array>
 #include <map>
 #include <set>
@@ -27,8 +27,6 @@
  * Further documentation can be found below.
  */
 
-class JsonIn;
-class JsonOut;
 class JsonObject;
 class JsonArray;
 class JsonSerializer;
@@ -177,6 +175,8 @@ class JsonIn
 
     public:
         JsonIn( std::istream &s ) : stream( &s ) {}
+        JsonIn( const JsonIn & ) = delete;
+        JsonIn &operator=( const JsonIn & ) = delete;
 
         bool get_ate_separator() {
             return ate_separator;
@@ -240,10 +240,10 @@ class JsonIn
         bool test_number();
         bool test_int() {
             return test_number();
-        };
+        }
         bool test_float() {
             return test_number();
-        };
+        }
         bool test_string();
         bool test_bitset();
         bool test_array();
@@ -404,7 +404,7 @@ class JsonIn
 
         // error messages
         std::string line_number( int offset_modifier = 0 ); // for occasional use only
-        void error( std::string message, int offset = 0 ); // ditto
+        [[noreturn]] void error( const std::string &message, int offset = 0 ); // ditto
         void rewind( int max_lines = -1, int max_chars = -1 );
         std::string substr( size_t pos, size_t len = std::string::npos );
 };
@@ -449,6 +449,8 @@ class JsonOut
 
     public:
         JsonOut( std::ostream &stream, bool pretty_print = false, int depth = 0 );
+        JsonOut( const JsonOut & ) = delete;
+        JsonOut &operator=( const JsonOut & ) = delete;
 
         // punctuation
         void write_indent();
@@ -672,8 +674,8 @@ class JsonObject
         bool has_member( const std::string &name ); // true iff named member exists
         std::set<std::string> get_member_names();
         std::string str(); // copy object json as string
-        void throw_error( std::string err );
-        void throw_error( std::string err, const std::string &name );
+        [[noreturn]] void throw_error( std::string err );
+        [[noreturn]] void throw_error( std::string err, const std::string &name );
         // seek to a value and return a pointer to the JsonIn (member must exist)
         JsonIn *get_raw( const std::string &name );
 
@@ -725,10 +727,10 @@ class JsonObject
         bool has_number( const std::string &name );
         bool has_int( const std::string &name ) {
             return has_number( name );
-        };
+        }
         bool has_float( const std::string &name ) {
             return has_number( name );
-        };
+        }
         bool has_string( const std::string &name );
         bool has_array( const std::string &name );
         bool has_object( const std::string &name );
@@ -833,7 +835,7 @@ class JsonArray
     public:
         JsonArray( JsonIn &jsin );
         JsonArray( const JsonArray &jsarr );
-        JsonArray() : start( 0 ), index( 0 ), end( 0 ), jsin( NULL ) {};
+        JsonArray() : start( 0 ), index( 0 ), end( 0 ), jsin( NULL ) {}
         ~JsonArray() {
             finish();
         }
@@ -877,10 +879,10 @@ class JsonArray
         bool test_number();
         bool test_int() {
             return test_number();
-        };
+        }
         bool test_float() {
             return test_number();
-        };
+        }
         bool test_string();
         bool test_bitset();
         bool test_array();
@@ -892,10 +894,10 @@ class JsonArray
         bool has_number( int index );
         bool has_int( int index ) {
             return has_number( index );
-        };
+        }
         bool has_float( int index ) {
             return has_number( index );
-        };
+        }
         bool has_string( int index );
         bool has_array( int index );
         bool has_object( int index );

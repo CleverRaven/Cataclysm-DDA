@@ -1,16 +1,23 @@
 #include "player.h" // IWYU pragma: associated
 
+#include <cstdlib>
+#include <algorithm>
+#include <sstream>
+#include <vector>
+#include <iterator>
+#include <tuple>
+
 #include "addiction.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "crafting.h"
-#include "debug.h"
 #include "game.h"
 #include "input.h"
 #include "json.h"
 #include "mapsharing.h"
 #include "martialarts.h"
+#include "mtype.h"
+#include "monster.h"
 #include "mutation.h"
 #include "name.h"
 #include "options.h"
@@ -27,15 +34,8 @@
 #include "translations.h"
 #include "ui.h"
 #include "worldfactory.h"
-
-#if !defined(_MSC_VER)
-#   include <unistd.h>
-#endif
-
-#include <algorithm>
-#include <cassert>
-#include <sstream>
-#include <vector>
+#include "recipe.h"
+#include "string_id.h"
 
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_STAT_ACT        c_white   // Selected stat
@@ -564,7 +564,10 @@ bool player::create( character_type type, const std::string &tempname )
             learn_recipe( &r );
         }
     }
-
+    if( prof->pet() ) {
+        cata::optional<mtype_id> mtypemon = prof->pet();
+        starting_pet = *mtypemon;
+    }
     std::list<item> prof_items = prof->items( male, get_mutations() );
 
     for( item &it : prof_items ) {
@@ -1440,7 +1443,6 @@ tab_direction set_profession( const catacurses::window &w, player &u, points_lef
         }
 
         std::ostringstream buffer;
-
         // Profession addictions
         const auto prof_addictions = sorted_profs[cur_id]->addictions();
         if( !prof_addictions.empty() ) {
@@ -1510,7 +1512,14 @@ tab_direction set_profession( const catacurses::window &w, player &u, points_lef
                 }
             }
         }
-
+        // Profession pet
+        cata::optional<mtype_id> montype;
+        if( sorted_profs[cur_id]->pet() ) {
+            const auto prof_pet = *sorted_profs[cur_id]->pet();
+            monster mon( prof_pet );
+            buffer << "<color_light_blue>" << _( "Pet:" ) << "</color>\n";
+            buffer << mon.get_name() << "\n";
+        }
         werase( w_items );
         const auto scroll_msg = string_format(
                                     _( "Press <color_light_green>%1$s</color> or <color_light_green>%2$s</color> to scroll." ),

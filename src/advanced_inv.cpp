@@ -14,7 +14,6 @@
 #include "messages.h"
 #include "options.h"
 #include "output.h"
-#include "pickup.h"
 #include "player.h"
 #include "player_activity.h"
 #include "string_formatter.h"
@@ -26,6 +25,16 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
+#include "calendar.h"
+#include "color.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "inventory.h"
+#include "item.h"
+#include "optional.h"
+#include "ret_val.h"
+#include "string_id.h"
+#include "type_id.h"
 
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
@@ -36,9 +45,13 @@
 #include <cstring>
 #include <map>
 #include <set>
-#include <sstream>
 #include <string>
 #include <vector>
+#include <initializer_list>
+#include <iterator>
+#include <memory>
+#include <unordered_map>
+#include <utility>
 
 enum aim_exit {
     exit_none = 0,
@@ -602,7 +615,8 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
         const char *bracket = ( squares[i].can_store_in_vehicle() ) ? "<>" : "[]";
         bool in_vehicle = ( pane.in_vehicle() && squares[i].id == area && sel == area && area != AIM_ALL );
         bool all_brackets = ( area == AIM_ALL && ( i >= AIM_SOUTHWEST && i <= AIM_NORTHEAST ) );
-        nc_color bcolor = c_red, kcolor = c_red;
+        nc_color bcolor = c_red;
+        nc_color kcolor = c_red;
         if( squares[i].canputitems( pane.get_cur_item_ptr() ) ) {
             bcolor = ( in_vehicle ) ? c_light_blue :
                      ( area == i || all_brackets ) ? c_light_gray : c_dark_gray;

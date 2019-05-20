@@ -53,7 +53,7 @@
     "type": "item_group",
     "items": [
       [ "cable", 95 ],
-      [ "battery", 85 ],
+      { "group": "ammo_pocket_batteries_full", "prob": 85 },
       [ "scrap", 70 ],
       [ "e_scrap", 95 ],
       [ "antenna", 50 ],

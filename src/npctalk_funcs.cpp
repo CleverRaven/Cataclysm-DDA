@@ -1,30 +1,49 @@
 #include "npctalk.h" // IWYU pragma: associated
 
+#include <cstddef>
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <memory>
+#include <set>
 
 #include "basecamp.h"
 #include "bionics.h"
 #include "debug.h"
 #include "game.h"
-#include "itype.h"
 #include "line.h"
 #include "map.h"
+#include "map_iterator.h"
+#include "map_selector.h"
 #include "messages.h"
 #include "mission.h"
 #include "morale_types.h"
+#include "mtype.h"
 #include "npc.h"
 #include "npctrade.h"
 #include "output.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "requirements.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
-#include "units.h"
+#include "auto_pickup.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "enums.h"
+#include "faction.h"
+#include "game_constants.h"
+#include "item.h"
+#include "item_location.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "string_id.h"
+
+struct itype;
 
 #define dbg(x) DebugLog((DebugLevel)(x), D_NPC) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -40,6 +59,13 @@ const efftype_id effect_currently_busy( "currently_busy" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_pet( "pet" );
+
+const mtype_id mon_horse( "mon_horse" );
+const mtype_id mon_cow( "mon_cow" );
+const mtype_id mon_chicken( "mon_chicken" );
+
+void spawn_animal( npc &p, const mtype_id &mon );
 
 void talk_function::nothing( npc & )
 {
@@ -127,6 +153,37 @@ void talk_function::mission_reward( npc &p )
     trade( p, 0, _( "Reward" ) );
 }
 
+void talk_function::buy_chicken( npc &p )
+{
+    spawn_animal( p, mon_chicken );
+}
+void talk_function::buy_horse( npc &p )
+{
+    spawn_animal( p, mon_horse );
+}
+
+void talk_function::buy_cow( npc &p )
+{
+    spawn_animal( p, mon_cow );
+}
+
+void spawn_animal( npc &p, const mtype_id &mon )
+{
+    std::vector<tripoint> valid;
+    for( const tripoint &candidate : g->m.points_in_radius( p.pos(), 1 ) ) {
+        if( g->is_empty( candidate ) ) {
+            valid.push_back( candidate );
+        }
+    }
+    if( !valid.empty() ) {
+        monster *mon_ptr = g->summon_mon( mon, random_entry( valid ) );
+        mon_ptr->friendly = -1;
+        mon_ptr->add_effect( effect_pet, 1_turns, num_bp, true );
+    } else {
+        add_msg( m_debug, "No space to spawn purchased pet" );
+    }
+}
+
 void talk_function::start_trade( npc &p )
 {
     trade( p, 0, _( "Trade" ) );
@@ -178,30 +235,9 @@ void talk_function::goto_location( npc &p )
     return;
 }
 
-std::string bulk_trade_inquire( const npc &, const itype_id &it )
-{
-    int you_have = g->u.charges_of( it );
-    item tmp( it );
-    int item_cost = tmp.price( true );
-    tmp.charges = you_have;
-    int total_cost = tmp.price( true );
-    return string_format( _( "I'm willing to pay %s per batch for a total of %s" ),
-                          format_money( item_cost ), format_money( total_cost ) );
-}
-
-void bulk_trade_accept( npc &, const itype_id &it )
-{
-    int you_have = g->u.charges_of( it );
-    item tmp( it );
-    tmp.charges = you_have;
-    int total = tmp.price( true );
-    g->u.use_charges( it, you_have );
-    g->u.cash += total;
-}
-
 void talk_function::assign_guard( npc &p )
 {
-    if( !p.is_following() ) {
+    if( !p.is_player_ally() ) {
         p.mission = NPC_MISSION_GUARD;
         p.set_omt_destination();
         return;
@@ -444,7 +480,7 @@ void talk_function::give_all_aid( npc &p )
     p.add_effect( effect_currently_busy, 30_minutes );
     give_aid( p );
     for( npc &guy : g->all_npcs() ) {
-        if( rl_dist( guy.pos(), g->u.pos() ) < PICKUP_RANGE && guy.is_friend() ) {
+        if( guy.is_walking_with() && rl_dist( guy.pos(), g->u.pos() ) < PICKUP_RANGE ) {
             for( int i = 0; i < num_hp_parts; i++ ) {
                 const body_part bp_healed = player::hp_to_bp( hp_part( i ) );
                 guy.heal( hp_part( i ), 5 * rng( 2, 5 ) );
@@ -553,6 +589,11 @@ void talk_function::follow( npc &p )
     p.cash = 0;
 }
 
+void talk_function::follow_only( npc &p )
+{
+    p.set_attitude( NPCATT_FOLLOW );
+}
+
 void talk_function::deny_follow( npc &p )
 {
     p.add_effect( effect_asked_to_follow, 6_hours );
@@ -604,6 +645,13 @@ void talk_function::leave( npc &p )
 {
     add_msg( _( "%s leaves." ), p.name );
     g->remove_npc_follower( p.getID() );
+    p.clear_fac();
+    p.set_attitude( NPCATT_NULL );
+}
+
+void talk_function::stop_following( npc &p )
+{
+    add_msg( _( "%s leaves." ), p.name );
     p.set_attitude( NPCATT_NULL );
 }
 
@@ -628,6 +676,9 @@ void talk_function::player_leaving( npc &p )
 
 void talk_function::drop_weapon( npc &p )
 {
+    if( p.is_hallucination() ) {
+        return;
+    }
     g->m.add_item_or_charges( p.pos(), p.remove_weapon() );
 }
 
@@ -704,7 +755,7 @@ npc *pick_follower()
     std::vector<tripoint> locations;
 
     for( npc &guy : g->all_npcs() ) {
-        if( guy.is_following() && g->u.sees( guy ) ) {
+        if( guy.is_player_ally() && g->u.sees( guy ) ) {
             followers.push_back( &guy );
             locations.push_back( guy.pos() );
         }

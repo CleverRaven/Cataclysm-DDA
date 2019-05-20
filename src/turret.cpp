@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <numeric>
+#include <memory>
 
 #include "game.h"
 #include "gun_mode.h"
@@ -9,7 +10,6 @@
 #include "itype.h"
 #include "messages.h"
 #include "npc.h"
-#include "output.h"
 #include "player.h"
 #include "projectile.h"
 #include "ranged.h"
@@ -18,6 +18,9 @@
 #include "ui.h"
 #include "veh_type.h"
 #include "vehicle_selector.h"
+#include "creature.h"
+#include "debug.h"
+#include "optional.h"
 
 static const itype_id fuel_type_battery( "battery" );
 const efftype_id effect_on_roof( "on_roof" );
@@ -84,7 +87,7 @@ const item_location turret_data::base() const
     return item_location( vehicle_cursor( *veh, veh->index_of_part( part ) ), &part->base );
 }
 
-long turret_data::ammo_remaining() const
+int turret_data::ammo_remaining() const
 {
     if( !veh || !part ) {
         return 0;
@@ -95,7 +98,7 @@ long turret_data::ammo_remaining() const
     return part->base.ammo_remaining();
 }
 
-long turret_data::ammo_capacity() const
+int turret_data::ammo_capacity() const
 {
     if( !veh || !part || part->info().has_flag( "USE_TANKS" ) ) {
         return 0;
@@ -246,8 +249,8 @@ void turret_data::prepare_fire( player &p )
     // set fuel tank fluid as ammo, if appropriate
     if( part->info().has_flag( "USE_TANKS" ) ) {
         auto mode = base()->gun_current_mode();
-        long qty  = mode->ammo_required();
-        long fuel_left = veh->fuel_left( ammo_current() );
+        int qty  = mode->ammo_required();
+        int fuel_left = veh->fuel_left( ammo_current() );
         mode->ammo_set( ammo_current(), std::min( qty * mode.qty, fuel_left ) );
     }
 }
@@ -350,7 +353,7 @@ void vehicle::turrets_set_mode()
 
         for( auto &p : turrets ) {
             menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]",
-                           p->name(), p->base.gun_current_mode().name() );
+                           p->name(), p->base.gun_current_mode().tname() );
         }
 
         menu.query();

@@ -1,0 +1,50 @@
+[
+  {
+    "type": "palette",
+    "id": "bandit_camp",
+    "furniture": {
+      "@": "f_bed",
+      "K": "f_wood_keg",
+      "L": "f_locker",
+      "S": "f_sink",
+      "T": "f_toilet",
+      "W": "f_large_canvas_wall",
+      "b": "f_bench",
+      "c": "f_counter",
+      "d": "f_dresser",
+      "h": "f_chair",
+      "n": "f_table",
+      "o": "f_bookcase",
+      "r": "f_rack",
+      "w": "f_large_groundsheet",
+      "z": "f_crate_c"
+    },
+    "terrain": {
+      "#": "t_wall_log",
+      "%": "t_shrub",
+      "+": "t_door_c",
+      ",": "t_grass",
+      ".": "t_rock_floor",
+      "/": "t_dirt",
+      "@": "t_rock_floor",
+      "K": "t_rock_floor",
+      "L": "t_rock_floor",
+      "P": "t_palisade",
+      "S": "t_rock_floor",
+      "T": "t_rock_floor",
+      "W": "t_dirt",
+      "Z": "t_rock_floor",
+      "b": "t_rock_floor",
+      "c": "t_rock_floor",
+      "d": "t_rock_floor",
+      "h": "t_rock_floor",
+      "n": "t_rock_floor",
+      "o": "t_rock_floor",
+      "p": "t_palisade_gate",
+      "r": "t_rock_floor",
+      "w": "t_dirt",
+      "x": "t_palisade_pulley",
+      "z": "t_dirt"
+    }
+  }
+]

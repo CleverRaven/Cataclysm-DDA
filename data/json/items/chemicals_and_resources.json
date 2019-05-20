@@ -1,20 +1,20 @@
 [
   {
-    "id": "anesthesia",
+    "id": "anesthetic",
     "type": "AMMO",
-    "name": "anesthetic kit",
+    "name": "anesthetic",
     "category": "chems",
-    "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
+    "description": "A variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.  You can reload an anesthesia kit with it.",
     "weight": 100,
-    "volume": 1,
+    "volume": 12,
     "price": 50000,
-    "ammo_type": "components",
+    "ammo_type": "anesthetic",
     "count": 3,
-    "material": "plastic",
+    "phase": "liquid",
+    "container": "jar_3l_glass",
     "symbol": "!",
     "color": "cyan",
-    "looks_like": "1st_aid",
-    "flags": [ "ANESTHESIA" ]
+    "looks_like": "ether"
   },
   {
     "type": "AMMO",
@@ -114,7 +114,7 @@
     "description": "A handful of New England sand.  If you had a stoked furnace, you could turn it into glass.  Otherwise, it's only good for making cement.",
     "material": "powder",
     "volume": 1,
-    "weight": 10,
+    "weight": 8,
     "bashing": 1,
     "ammo_type": "components",
     "count": 50
@@ -420,7 +420,7 @@
     "weight": 8.4,
     "bashing": 1,
     "ammo_type": "components",
-    "container": "bag_plastic",
+    "container": "bottle_plastic_small",
     "count": 100
   },
   {
@@ -777,7 +777,8 @@
     "price_postapoc": 2000,
     "volume": 1,
     "charges": 15,
-    "stack_size": 100
+    "stack_size": 100,
+    "flags": [ "NO_INGEST" ]
   },
   {
     "type": "GENERIC",
@@ -1185,5 +1186,35 @@
     "ammo_type": "components",
     "stack_size": 200,
     "looks_like": "bb"
+  },
+  {
+    "id": "sandbag",
+    "type": "GENERIC",
+    "category": "other",
+    "name": "sandbag",
+    "description": "This is a canvas sack filled with sand. It can be used to construct simple barricades.",
+    "weight": 24415,
+    "volume": "16L",
+    "price": 0,
+    "material": [ "cotton", "powder" ],
+    "symbol": ")",
+    "color": "brown",
+    "ammo_type": "components",
+    "looks_like": "bag_canvas"
+  },
+  {
+    "id": "earthbag",
+    "type": "GENERIC",
+    "category": "other",
+    "name": "earthbag",
+    "description": "This is a canvas sack filled with soil. It can be used to construct simple barricades.",
+    "weight": 19500,
+    "volume": "16L",
+    "price": 0,
+    "material": [ "cotton", "powder" ],
+    "symbol": ")",
+    "color": "brown",
+    "ammo_type": "components",
+    "looks_like": "bag_canvas"
   }
 ]

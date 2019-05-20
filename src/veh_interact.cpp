@@ -1,15 +1,19 @@
 #include "veh_interact.h"
 
+#include <cstdlib>
 #include <algorithm>
-#include <cassert>
 #include <cmath>
 #include <functional>
 #include <iterator>
 #include <list>
 #include <numeric>
 #include <string>
+#include <array>
+#include <memory>
+#include <set>
+#include <type_traits>
+#include <utility>
 
-#include "action.h"
 #include "activity_handlers.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -17,6 +21,7 @@
 #include "debug.h"
 #include "fault.h"
 #include "game.h"
+#include "handle_liquid.h"
 #include "itype.h"
 #include "map.h"
 #include "map_selector.h"
@@ -37,6 +42,16 @@
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "vpart_reference.h"
+#include "calendar.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "optional.h"
+#include "requirements.h"
+#include "tileray.h"
+#include "units.h"
+#include "material.h"
+#include "item.h"
+#include "string_id.h"
 
 static inline const std::string status_color( bool status )
 {
@@ -1030,7 +1045,7 @@ bool veh_interact::do_repair( std::string &msg )
 
         werase( w_parts );
         veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart,
-                              need_repair[pos] );
+                              need_repair[pos], true );
         wrefresh( w_parts );
 
         const std::string action = main_context.handle_input();
@@ -1046,7 +1061,7 @@ bool veh_interact::do_repair( std::string &msg )
 
         } else if( action == "QUIT" ) {
             werase( w_parts );
-            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1 );
+            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1, true );
             wrefresh( w_parts );
             werase( w_msg );
             wrefresh( w_msg );
@@ -1273,9 +1288,20 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
                     }
                     const itype *pt_ammo_cur = item::find_type( pt.ammo_current() );
                     auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
-                    right_print( w, y, 1, pt_ammo_cur->color,
-                                 string_format( "%s %s %5.1fL", specials, pt_ammo_cur->nname( 1 ),
+                    int offset = 1;
+                    std::string fmtstring = "%s %s  %5.1fL";
+                    if( pt.damage_percent() >= 0.5 ) {
+                        fmtstring = "%s %s " + leak_marker + "%5.1fL" + leak_marker;
+                        offset = 0;
+                    }
+                    right_print( w, y, offset, pt_ammo_cur->color,
+                                 string_format( fmtstring, specials, pt_ammo_cur->nname( 1 ),
                                                 round_up( to_liter( pt.ammo_remaining() * stack ), 1 ) ) );
+                } else {
+                    if( pt.damage_percent() >= 0.5 ) {
+                        std::string outputstr = leak_marker + "      " + leak_marker;
+                        right_print( w, y, 0, c_light_gray, outputstr );
+                    }
                 }
             };
             opts.emplace_back( "TANK", &pt, action && enable &&
@@ -1283,8 +1309,14 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
         } else if( pt.is_fuel_store() && !( pt.is_battery() || pt.is_reactor() ) && !pt.is_broken() ) {
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 if( pt.ammo_current() != "null" ) {
-                    right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                                 string_format( "%s  %6i", item::nname( pt.ammo_current() ),
+                    int offset = 1;
+                    std::string fmtstring = "%s  %6i";
+                    if( pt.damage_percent() >= 0.5 ) {
+                        fmtstring = "%s  " + leak_marker + "%6i" + leak_marker;
+                        offset = 0;
+                    }
+                    right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
+                                 string_format( fmtstring, item::nname( pt.ammo_current() ),
                                                 pt.ammo_remaining() ) );
                 }
             };
@@ -1298,8 +1330,14 @@ bool veh_interact::overview( std::function<bool( const vehicle_part &pt )> enabl
             // always display total battery capacity and percentage charge
             auto details = []( const vehicle_part & pt, const catacurses::window & w, int y ) {
                 int pct = ( static_cast<double>( pt.ammo_remaining() ) / pt.ammo_capacity() ) * 100;
-                right_print( w, y, 1, item::find_type( pt.ammo_current() )->color,
-                             string_format( "%i    %3i%%", pt.ammo_capacity(), pct ) );
+                int offset = 1;
+                std::string fmtstring = "%i    %3i%%";
+                if( pt.damage_percent() >= 0.5 ) {
+                    fmtstring = "%i   " + leak_marker + "%3i%%" + leak_marker;
+                    offset = 0;
+                }
+                right_print( w, y, offset, item::find_type( pt.ammo_current() )->color,
+                             string_format( fmtstring, pt.ammo_capacity(), pct ) );
             };
             opts.emplace_back( "BATTERY", &pt, action && enable &&
                                enable( pt ) ? next_hotkey( hotkey ) : '\0', details );
@@ -1597,7 +1635,7 @@ bool veh_interact::do_remove( std::string &msg )
     while( true ) {
         //redraw list of parts
         werase( w_parts );
-        veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, pos );
+        veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, pos, true );
         wrefresh( w_parts );
         int part = parts_here[ pos ];
 
@@ -1619,7 +1657,7 @@ bool veh_interact::do_remove( std::string &msg )
             break;
         } else if( action == "QUIT" ) {
             werase( w_parts );
-            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1 );
+            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1, true );
             wrefresh( w_parts );
             werase( w_msg );
             wrefresh( w_msg );
@@ -1662,7 +1700,7 @@ bool veh_interact::do_siphon( std::string &msg )
         const int idx = veh->find_part( base );
         item liquid( base.contents.back() );
         const int liq_charges = liquid.charges;
-        if( g->handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
+        if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( idx, liq_charges - liquid.charges );
         }
         return true;
@@ -1896,7 +1934,7 @@ void veh_interact::move_cursor( int dx, int dy, int dstart_at )
               special_symbol( sym ) );
     wrefresh( w_disp );
     werase( w_parts );
-    veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1 );
+    veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1, true );
     wrefresh( w_parts );
 
     werase( w_msg );
@@ -2207,9 +2245,7 @@ void veh_interact::display_stats() const
     const auto print_part = [&]( const std::string & str, int slot, vehicle_part * pt ) {
         mvwprintz( w_stats, y[slot], x[slot], c_light_gray, str );
         int iw = utf8_width( str ) + 1;
-        return fold_and_print( w_stats, y[slot], x[slot] + iw, w[slot],
-                               pt->is_broken() ? c_dark_gray : pt->base.damage_color(),
-                               pt->name() );
+        return fold_and_print( w_stats, y[slot], x[slot] + iw, w[slot], c_light_gray, pt->name() );
     };
 
     vehicle_part *mostDamagedPart = get_most_damaged_part();
@@ -2560,7 +2596,7 @@ void veh_interact::count_durability()
         return lhs + rhs.base.max_damage();
     } );
 
-    int pct = 100 * qty / total;
+    int pct = total ? 100 * qty / total : 0;
 
     if( pct < 5 ) {
         total_durability_text = _( "like new" );
@@ -2644,7 +2680,7 @@ item consume_vpart_item( const vpart_id &vpid )
     if( candidates[selection] ) {
         item_used = g->u.use_amount( itid, 1 );
     } else {
-        long quantity = 1;
+        int quantity = 1;
         item_used = g->m.use_amount( g->u.pos(), PICKUP_RANGE, itid, quantity );
     }
     remove_ammo( item_used, g->u );
@@ -2677,7 +2713,7 @@ void act_vehicle_siphon( vehicle *veh )
         const int idx = veh->find_part( base );
         item liquid( base.contents.back() );
         const int liq_charges = liquid.charges;
-        if( g->handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
+        if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( idx, liq_charges - liquid.charges );
             veh->invalidate_mass();
         }

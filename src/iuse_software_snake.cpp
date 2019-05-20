@@ -1,8 +1,11 @@
 #include "iuse_software_snake.h"
 
+#include <cstddef>
 #include <map>
 #include <string>
 #include <vector>
+#include <memory>
+#include <utility>
 
 #include "catacharset.h"  // utf8_width()
 #include "cursesdef.h"
@@ -11,6 +14,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "color.h"
 
 snake_game::snake_game() = default;
 

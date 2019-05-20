@@ -1,23 +1,38 @@
 #include "inventory.h"
 
+#include <climits>
+#include <cmath>
+#include <cstdint>
+#include <cstdlib>
 #include <algorithm>
+#include <iterator>
+#include <memory>
+#include <set>
 
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"
-#include "itype.h"
-#include "iuse_actor.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h" //for rust message
 #include "npc.h"
 #include "options.h"
-#include "output.h"
 #include "translations.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
+#include "calendar.h"
+#include "character.h"
+#include "damage.h"
+#include "enums.h"
+#include "optional.h"
+#include "player.h"
+#include "rng.h"
+#include "material.h"
+#include "type_id.h"
+
+struct itype;
 
 const invlet_wrapper
 inv_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()+.:;=@[\\]^_{|}" );
@@ -354,7 +369,7 @@ void inventory::restack( player &p )
 #endif
 }
 
-static long count_charges_in_list( const itype *type, const map_stack &items )
+static int count_charges_in_list( const itype *type, const map_stack &items )
 {
     for( const auto &candidate : items ) {
         if( candidate.type == type ) {
@@ -700,10 +715,9 @@ int inventory::position_by_type( const itype_id &type ) const
     return INT_MIN;
 }
 
-std::list<item> inventory::use_amount( itype_id it, int _quantity,
+std::list<item> inventory::use_amount( itype_id it, int quantity,
                                        const std::function<bool( const item & )> &filter )
 {
-    long quantity = _quantity; // Don't want to change the function signature right now
     items.sort( stack_compare );
     std::list<item> ret;
     for( invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; /* noop */ ) {
@@ -738,10 +752,10 @@ bool inventory::has_components( const itype_id &it, int quantity,
     return has_amount( it, quantity, false, filter );
 }
 
-bool inventory::has_charges( const itype_id &it, long quantity,
+bool inventory::has_charges( const itype_id &it, int quantity,
                              const std::function<bool( const item & )> &filter ) const
 {
-    return ( charges_of( it, std::numeric_limits<long>::max(), filter ) >= quantity );
+    return ( charges_of( it, INT_MAX, filter ) >= quantity );
 }
 
 int inventory::leak_level( const std::string &flag ) const
@@ -908,7 +922,7 @@ void for_each_item_in_both(
             continue;
         }
 
-        long num_to_count = other_it->second;
+        int num_to_count = other_it->second;
         if( representative.count_by_charges() ) {
             item copy = representative;
             copy.charges = std::min( copy.charges, num_to_count );

@@ -6,9 +6,7 @@
 #include "item.h"
 #include "item_category.h"
 #include "item_search.h"
-#include "itype.h"
 #include "map.h"
-#include "map_selector.h"
 #include "options.h"
 #include "output.h"
 #include "player.h"
@@ -19,6 +17,14 @@
 #include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
+#include "character.h"
+#include "debug.h"
+#include "enums.h"
+#include "inventory.h"
+#include "line.h"
+#include "optional.h"
+#include "string_id.h"
+#include "visitable.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -33,6 +39,8 @@
 #include <sstream>
 #include <algorithm>
 #include <cassert>
+#include <iterator>
+#include <type_traits>
 
 /** The maximum distance from the screen edge, to snap a window to it */
 static const size_t max_win_snap_distance = 4;
@@ -196,7 +204,7 @@ bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
     // Place items with an assigned inventory letter first, since the player cared enough to assign them
     const bool left_fav  = g->u.inv.assigned_invlet.count( lhs.location->invlet );
     const bool right_fav = g->u.inv.assigned_invlet.count( rhs.location->invlet );
-    if( ( left_fav && right_fav ) || ( !left_fav && !right_fav ) ) {
+    if( left_fav == right_fav ) {
         return lhs.cached_name.compare( rhs.cached_name ) < 0; // Simple alphabetic order
     } else if( left_fav ) {
         return true;
@@ -465,8 +473,8 @@ void inventory_column::set_width( const size_t new_width )
 void inventory_column::set_height( size_t new_height )
 {
     if( height != new_height ) {
-        if( new_height == 0 ) {
-            debugmsg( "Unable to assign zero height." );
+        if( new_height <= 1 ) {
+            debugmsg( "Unable to assign height <= 1 (was %zd).", new_height );
             return;
         }
         height = new_height;
@@ -516,6 +524,7 @@ void inventory_column::reset_width()
 
 size_t inventory_column::page_of( size_t index ) const
 {
+    assert( entries_per_page ); // To appease static analysis
     return index / entries_per_page;
 }
 
@@ -1117,7 +1126,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
     vehicle *const veh = &vp->vehicle();
     const int part = vp->part_index();
     const auto items = veh->get_items( part );
-    const std::string name = to_upper_case( veh->parts[part].name() );
+    const std::string name = to_upper_case( remove_color_tags( veh->parts[part].name() ) );
     const item_category vehicle_cat( name, no_translation( name ), 200 );
 
     const auto check_components = this->preset.get_checking_components();

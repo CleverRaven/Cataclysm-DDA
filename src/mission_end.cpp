@@ -1,14 +1,15 @@
 #include "mission.h" // IWYU pragma: associated
 
+#include <memory>
+
 #include "debug.h"
 #include "game.h"
 #include "messages.h"
 #include "npc.h"
-#include "output.h"
 #include "rng.h"
 #include "translations.h"
-#include "map.h"
-#include "overmapbuffer.h"
+#include "item.h"
+#include "player.h"
 
 void mission_end::deposit_box( mission *miss )
 {
@@ -17,7 +18,8 @@ void mission_end::deposit_box( mission *miss )
         debugmsg( "could not find mission NPC %d", miss->get_npc_id() );
         return;
     }
-    p->set_attitude( NPCATT_NULL );//npc leaves your party
+    // Npc leaves your party
+    p->set_attitude( NPCATT_NULL );
     std::string itemName = "deagle_44";
     if( one_in( 4 ) ) {
         itemName = "katana";

@@ -3,6 +3,7 @@
 #define FACTION_H
 
 #include <vector>
+#include <string>
 
 #include "color.h"
 #include "string_id.h"
@@ -15,14 +16,17 @@ std::string fac_respect_text( int val );
 std::string fac_wealth_text( int val, int size );
 std::string fac_combat_ability_text( int val );
 
-class player;
 class JsonObject;
 class JsonIn;
 class JsonOut;
-struct tripoint;
-
 class faction;
+
 using faction_id = string_id<faction>;
+
+namespace npc_factions
+{
+void finalize();
+}
 
 class faction_template
 {

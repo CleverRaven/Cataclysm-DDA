@@ -32,9 +32,13 @@ class int_id;
  * \endcode
  * The types mtype_id and itype_id declared here are separate, the compiler will not
  * allow assignment / comparison of mtype_id and itype_id.
- * Note that for this to work, the template parameter type does note even need to be
- * known when the string_id is used. In fact, it does not even need to be defined at all,
- * a declaration is just enough.
+ * Note that a forward declaration is sufficient for the template parameter type.
+ *
+ * If an id is used locally in just one header & source file, then feel free to
+ * define it in those files.  If it is used more widely (like mtype_id), then
+ * please define it in type_id.h, a central light-weight header that defines all ids
+ * people might want to use.  This prevents duplicate definitions in many
+ * files.
  */
 template<typename T>
 class string_id

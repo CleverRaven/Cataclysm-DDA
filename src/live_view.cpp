@@ -1,5 +1,9 @@
 #include "live_view.h"
 
+#include <algorithm> // min & max
+#include <string>
+#include <memory>
+
 #include "catacharset.h" // center_text_pos
 #include "color.h"
 #include "cursesport.h"
@@ -8,9 +12,7 @@
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <algorithm> // min & max
-#include <string>
+#include "cursesdef.h"
 
 namespace
 {

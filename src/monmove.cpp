@@ -2,9 +2,13 @@
 
 #include "monster.h" // IWYU pragma: associated
 
+#include <cstdlib>
 #include <cmath>
+#include <algorithm>
+#include <memory>
+#include <ostream>
 
-#include "cursesdef.h"
+#include "bionics.h"
 #include "debug.h"
 #include "field.h"
 #include "game.h"
@@ -16,7 +20,6 @@
 #include "monfaction.h"
 #include "mtype.h"
 #include "npc.h"
-#include "output.h"
 #include "rng.h"
 #include "scent_map.h"
 #include "sounds.h"
@@ -25,15 +28,27 @@
 #include "vpart_position.h"
 #include "tileray.h"
 #include "vehicle.h"
+#include "cata_utility.h"
+#include "game_constants.h"
+#include "mattack_common.h"
+#include "pathfinding.h"
+#include "player.h"
+#include "int_id.h"
+#include "string_id.h"
 
 #define MONSTER_FOLLOW_DIST 8
 
 const species_id FUNGUS( "FUNGUS" );
 
 const efftype_id effect_bouldering( "bouldering" );
+const efftype_id effect_countdown( "countdown" );
 const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
+const efftype_id effect_dragging( "dragging" );
+const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_no_sight( "no_sight" );
+const efftype_id effect_operating( "operating" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_pushed( "pushed" );
 const efftype_id effect_stunned( "stunned" );
@@ -373,7 +388,51 @@ void monster::plan( const mfactions &factions )
         }
     }
 
-    if( target != nullptr ) {
+    // Operating monster keep you safe while they operate, how nice....
+    if( type->has_special_attack( "OPERATE" ) ) {
+        int prev_friendlyness = friendly;
+        if( has_effect( effect_operating ) ) {
+            friendly = 100;
+            for( auto critter : g->m.get_creatures_in_radius( pos(), 6 ) ) {
+                monster *mon = dynamic_cast<monster *>( critter );
+                if( mon != nullptr && mon->type->in_species( ZOMBIE ) ) {
+                    anger = 100;
+                } else {
+                    anger = 0;
+                }
+            }
+        } else {
+            friendly = prev_friendlyness;
+        }
+    }
+
+    if( has_effect( effect_dragging ) ) {
+
+        if( type->has_special_attack( "OPERATE" ) ) {
+
+            bool found_path_to_couch = false;
+            tripoint tmp( pos().x + 12, pos().y + 12, pos().z );
+            tripoint couch_loc;
+            for( const auto &couch_pos : g->m.find_furnitures_in_radius( pos(), 10,
+                    furn_id( "f_autodoc_couch" ) ) ) {
+                if( g->m.clear_path( pos(), couch_pos, 10, 0, 100 ) ) {
+                    if( rl_dist( pos(), couch_pos ) < rl_dist( pos(), tmp ) ) {
+                        tmp = couch_pos;
+                        found_path_to_couch = true;
+                        couch_loc = couch_pos;
+                    }
+                }
+            }
+
+            if( !found_path_to_couch ) {
+                anger = 0;
+                remove_effect( effect_dragging );
+            } else {
+                set_dest( couch_loc );
+            }
+        }
+
+    } else if( target != nullptr ) {
 
         tripoint dest = target->pos();
         auto att_to_target = attitude_to( *target );
@@ -469,6 +528,8 @@ void monster::move()
         }
         g->m.i_clear( pos() );
     }
+    // record position before moving to put the player there if we're dragging
+    tripoint drag_to = pos();
 
     const bool pacified = has_effect( effect_pacified );
 
@@ -501,6 +562,50 @@ void monster::move()
                 continue;
             }
             reset_special( special_name );
+        }
+    }
+
+    // defective nursebot surgery code
+    if( type->has_special_attack( "OPERATE" ) && has_effect( effect_dragging ) &&
+        dragged_foe != nullptr ) {
+
+        if( rl_dist( pos(), goal ) == 1 && g->m.furn( goal ) == furn_id( "f_autodoc_couch" ) &&
+            !has_effect( effect_operating ) ) {
+            if( dragged_foe->has_effect( effect_grabbed ) && !has_effect( effect_countdown ) &&
+                ( g->critter_at( goal ) == nullptr || g->critter_at( goal ) == dragged_foe ) ) {
+                add_msg( m_bad, _( "The %1$s slowly but firmly puts %2$s down onto the autodoc couch." ), name(),
+                         dragged_foe->disp_name() );
+
+                dragged_foe->setpos( goal );
+
+                add_effect( effect_countdown, 2_turns );// there's still time to get away
+                add_msg( m_bad, _( "The %s produces a syringe full of some translucent liquid." ), name() );
+            } else if( g->critter_at( goal ) != nullptr && has_effect( effect_dragging ) ) {
+                sounds::sound( pos(), 8, sounds::sound_t::speech,
+                               string_format(
+                                   _( "a soft robotic voice say, \"Please step away from the autodoc, this patient needs immediate care.\"" ) ) );
+                // TODO: Make it able to push NPC/player
+                push_to( goal, 4, 0 );
+            }
+        }
+        if( get_effect_dur( effect_countdown ) == 1_turns && !has_effect( effect_operating ) ) {
+            if( dragged_foe->has_effect( effect_grabbed ) ) {
+
+                bionic_collection collec = *dragged_foe->my_bionics;
+                int index = rng( 0, collec.size() - 1 );
+                bionic target_cbm = collec[index];
+
+                //8 intelligence*4 + 8 first aid*4 + 3 computer *3 + 4 electronic*1 = 77
+                float adjusted_skill = static_cast<float>( 77 ) - std::min( static_cast<float>( 40 ),
+                                       static_cast<float>( 77 ) - static_cast<float>( 77 ) / static_cast<float>( 10.0 ) );
+
+                g->u.uninstall_bionic( target_cbm, *this, *dragged_foe, adjusted_skill );
+
+                dragged_foe->remove_effect( effect_grabbed );
+                remove_effect( effect_dragging );
+                dragged_foe = nullptr;
+
+            }
         }
     }
 
@@ -544,6 +649,12 @@ void monster::move()
         --friendly;
     }
 
+    // don't move if a passenger in a moving vehicle
+    auto vp = g->m.veh_at( pos() );
+    if( friendly && vp && vp->vehicle().is_moving() && vp->vehicle().get_pet( vp->part_index() ) ) {
+        moves = 0;
+        return;
+    }
     // Set attitude to attitude to our current target
     monster_attitude current_attitude = attitude( nullptr );
     if( !wander() ) {
@@ -738,6 +849,15 @@ void monster::move()
 
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
+        }
+        if( has_effect( effect_dragging ) && dragged_foe != nullptr ) {
+
+            if( !dragged_foe->has_effect( effect_grabbed ) ) {
+                dragged_foe = nullptr;
+                remove_effect( effect_dragging );
+            } else if( drag_to != pos() && g->critter_at( drag_to ) == nullptr ) {
+                dragged_foe->setpos( drag_to );
+            }
         }
     } else {
         moves -= 100;
@@ -1029,6 +1149,9 @@ int monster::group_bash_skill( const tripoint &target )
 
 bool monster::attack_at( const tripoint &p )
 {
+    if( has_flag( MF_PACIFIST ) ) {
+        return false;
+    }
     if( p.z != posz() ) {
         return false; // TODO: Remove this
     }
@@ -1067,6 +1190,7 @@ bool monster::attack_at( const tripoint &p )
         // For now we're always attacking NPCs that are getting into our
         // way. This is consistent with how it worked previously, but
         // later on not hitting allied NPCs would be cool.
+        guy->on_attacked( *this ); // allow NPC hallucination to be one shot by monsters
         melee_attack( *guy );
         return true;
     }

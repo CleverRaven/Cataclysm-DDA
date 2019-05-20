@@ -15,6 +15,19 @@
   },
   {
     "type": "recipe",
+    "result": "caltrops_glass",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TRAPS",
+    "skill_used": "fabrication",
+    "skills_required": [ "traps", 1 ],
+    "difficulty": 1,
+    "time": 25000,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "glass_shard", 3 ], [ "glass_sheet", 1 ] ], [ [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "concrete",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
@@ -60,6 +73,60 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 12 ] ],
     "components": [ [ [ "rag", 4 ] ], [ [ "cotton_ball", 8 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "wind_mill",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 4 ],
+    "difficulty": 4,
+    "time": 500000,
+    "reversible": true,
+    "decomp_learn": 2,
+    "autolearn": true,
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [
+      [ [ "2x4", 25 ], [ "frame_wood", 4 ] ],
+      [ [ "sheet_metal_small", 3 ] ],
+      [ [ "nail", 100 ] ],
+      [ [ "pipe", 4 ] ],
+      [ [ "funnel", 1 ], [ "metal_funnel", 1 ], [ "makeshift_funnel", 1 ] ],
+      [ [ "wire", 6 ], [ "rope_6", 6 ], [ "rope_makeshift_6", 6 ] ],
+      [ [ "chain", 1 ], [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ], [ "grapnel", 1 ] ],
+      [ [ "rebar", 2 ], [ "steel_chunk", 4 ] ],
+      [ [ "rock", 40 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "water_mill",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 4 ],
+    "difficulty": 4,
+    "time": 550000,
+    "reversible": true,
+    "decomp_learn": 3,
+    "autolearn": true,
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 2 },
+      { "id": "SAW_W", "level": 2 }
+    ],
+    "components": [
+      [ [ "2x4", 30 ], [ "frame_wood", 5 ] ],
+      [ [ "sheet_metal_small", 6 ] ],
+      [ [ "nail", 100 ] ],
+      [ [ "pipe", 8 ] ],
+      [ [ "wheel_wood_b", 2 ] ],
+      [ [ "funnel", 1 ], [ "metal_funnel", 1 ], [ "makeshift_funnel", 1 ] ],
+      [ [ "wire", 6 ], [ "rope_6", 6 ], [ "rope_makeshift_6", 6 ] ],
+      [ [ "chain", 1 ], [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ], [ "grapnel", 1 ] ],
+      [ [ "rebar", 2 ], [ "steel_chunk", 4 ] ],
+      [ [ "rock", 40 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -263,6 +330,19 @@
       [ [ "lighter", 1 ] ],
       [ [ "plastic_chunk", 3 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "anesthetic_kit",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MEDICAL",
+    "skill_used": "firstaid",
+    "difficulty": 3,
+    "time": 2500,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "hose", 1 ] ], [ [ "rag", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -3404,6 +3484,7 @@
     "difficulty": 5,
     "time": 50000,
     "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
     "result_mult": 15,
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
@@ -4221,7 +4302,7 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 4,
-    "time": 8000,
+    "time": 30000,
     "autolearn": true,
     "book_learn": [ [ "textbook_fabrication", 2 ], [ "textbook_mechanics", 3 ] ],
     "qualities": [
@@ -4238,6 +4319,31 @@
       [ [ "wire", 6 ], [ "rope_6", 6 ], [ "rope_makeshift_6", 6 ] ],
       [ [ "chain", 1 ], [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ], [ "grapnel", 1 ] ],
       [ [ "spike", 2 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "metal_smoking_rack",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": 30000,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_fabrication", 2 ], [ "textbook_mechanics", 3 ] ],
+    "qualities": [
+      { "id": "ANVIL", "level": 1 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "DRILL", "level": 1 },
+      { "id": "SCREW", "level": 1 }
+    ],
+    "components": [
+      [ [ "scrap", 6 ] ],
+      [ [ "pipe", 15 ], [ "cu_pipe", 15 ], [ "frame", 2 ] ],
+      [ [ "nail", 12 ] ],
+      [ [ "wire", 6 ], [ "rope_6", 6 ], [ "rope_makeshift_6", 6 ] ],
+      [ [ "spike", 4 ] ]
     ]
   },
   {
@@ -4346,5 +4452,27 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "splinter", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "sandbag",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": 2000,
+    "autolearn": true,
+    "qualities": [ { "id": "DIG", "level": 3 } ],
+    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_sand", 60 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "earthbag",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": 2000,
+    "autolearn": true,
+    "qualities": [ { "id": "DIG", "level": 3 } ],
+    "components": [ [ [ "bag_canvas", 1 ] ], [ [ "material_soil", 3 ] ] ]
   }
 ]

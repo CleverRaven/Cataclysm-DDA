@@ -1,20 +1,25 @@
 #include "mondefense.h"
 
+#include <cstddef>
 #include <algorithm>
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
 
 #include "ballistics.h"
 #include "bodypart.h"
 #include "creature.h"
 #include "damage.h"
-#include "dispersion.h"
 #include "game.h"
 #include "messages.h"
 #include "monster.h"
-#include "output.h"
 #include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "translations.h"
+#include "enums.h"
+#include "item.h"
 
 std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
 
@@ -50,7 +55,7 @@ void mdefense::zapback( monster &m, Creature *const source,
     }
 
     if( g->u.sees( source->pos() ) ) {
-        const auto msg_type = ( source == &g->u ) ? m_bad : m_info;
+        const auto msg_type = source == &g->u ? m_bad : m_info;
         add_msg( msg_type, _( "Striking the %1$s shocks %2$s!" ),
                  m.name(), source->disp_name() );
     }

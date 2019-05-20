@@ -1,0 +1,58 @@
+[
+  {
+    "type": "martial_art",
+    "id": "style_mma_panzer",
+    "name": "Panzer Kunst",
+    "description": "A futuristic martial art devised for cyborgs fighting in zero-gravity environments.",
+    "initiate": [ "You adopt a panzer kust stance.", "%s adopts a panzer kust stance." ],
+    "arm_block": 99,
+    "leg_block": 99,
+    "arm_block_with_bio_armor_arms": true,
+    "leg_block_with_bio_armor_legs": true,
+    "static_buffs": [
+      {
+        "id": "mma_panzer_static",
+        "name": "Schatten Folgen",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "min_melee": 1,
+        "description": "+1 dodge",
+        "bonus_dodges": 1
+      }
+    ],
+    "onmove_buffs": [
+      {
+        "id": "mma_panzer_move",
+        "name": "Einsatzrhythmen",
+        "unarmed_allowed": true,
+        "melee_allowed": true,
+        "min_melee": 3,
+        "description": "Perception increases dodging ability, +1 block",
+        "bonus_blocks": 1,
+        "flat_bonuses": [ [ "dodge", "per", 0.12 ] ],
+        "buff_duration": 2,
+        "max_stacks": 1
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "mma_panzer_combo",
+        "name": "Verschlag",
+        "description": "You have imparted a powerful shockwave to your enemy",
+        "unarmed_allowed": true,
+        "min_unarmed": 6,
+        "buff_duration": 2,
+        "max_stacks": 1
+      }
+    ],
+    "techniques": [
+      "mma_tec_panzer_counter_dodge",
+      "mma_tec_panzer_blade",
+      "mma_tec_panzer_appunch",
+      "mma_tec_panzer_rapid",
+      "mma_tec_panzer_stun",
+      "mma_tec_panzer_spin"
+    ],
+    "weapons": [ "bio_claws_weapon", "bio_blade_weapon" ]
+  }
+]

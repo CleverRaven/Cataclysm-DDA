@@ -1,13 +1,17 @@
 #include "monster.h"
 
+#include <cmath>
 #include <algorithm>
-#include <cstdlib>
 #include <sstream>
+#include <memory>
+#include <tuple>
+#include <unordered_map>
 
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
+#include "explosion.h"
 #include "field.h"
 #include "game.h"
 #include "item.h"
@@ -35,6 +39,16 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
+#include "character.h"
+#include "compatibility.h"
+#include "game_constants.h"
+#include "mattack_common.h"
+#include "pimpl.h"
+#include "player.h"
+#include "int_id.h"
+#include "string_id.h"
+
+struct pathfinding_settings;
 
 // Limit the number of iterations for next upgrade_time calculations.
 // This also sets the percentage of monsters that will never upgrade.
@@ -906,6 +920,9 @@ monster_attitude monster::attitude( const Character *u ) const
         if( np != nullptr && np->get_attitude() != NPCATT_KILL && !type->in_species( ZOMBIE ) ) {
             return MATT_FRIEND;
         }
+        if( np != nullptr && np->is_hallucination() ) {
+            return MATT_IGNORE;
+        }
     }
     if( effect_cache[FLEEING] ) {
         return MATT_FLEE;
@@ -923,6 +940,7 @@ monster_attitude monster::attitude( const Character *u ) const
         static const trait_id pheromone_mammal( "PHEROMONE_MAMMAL" );
         static const trait_id pheromone_insect( "PHEROMONE_INSECT" );
         static const trait_id mycus_thresh( "THRESH_MYCUS" );
+        static const trait_id mycus_friend( "MYCUS_FRIEND" );
         static const trait_id terrifying( "TERRIFYING" );
         if( faction == faction_bee ) {
             if( u->has_trait( trait_BEE ) ) {
@@ -932,7 +950,8 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
-        if( type->in_species( FUNGUS ) && u->has_trait( mycus_thresh ) ) {
+        if( type->in_species( FUNGUS ) && ( u->has_trait( mycus_thresh ) ||
+                                            u->has_trait( mycus_friend ) ) ) {
             return MATT_FRIEND;
         }
 
@@ -1698,6 +1717,11 @@ float monster::dodge_roll()
     return get_dodge() * 5;
 }
 
+int monster::get_grab_strength() const
+{
+    return type->grab_strength;
+}
+
 float monster::fall_damage_mod() const
 {
     if( has_flag( MF_FLIES ) ) {
@@ -1838,7 +1862,7 @@ void monster::process_turn()
     if( has_flag( MF_ELECTRIC_FIELD ) ) {
         if( has_effect( effect_emp ) ) {
             if( calendar::once_every( 10_turns ) ) {
-                sounds::sound( pos(), 5, sounds::sound_t::combat, _( "hummmmm." ) );
+                sounds::sound( pos(), 5, sounds::sound_t::combat, _( "hummmmm." ), false, "humming", "electric" );
             }
         } else {
             for( const tripoint &zap : g->m.points_in_radius( pos(), 1 ) ) {
@@ -1847,17 +1871,17 @@ void monster::process_turn()
                 for( const auto &item : items ) {
                     if( item.made_of( LIQUID ) && item.flammable() ) { // start a fire!
                         g->m.add_field( zap, fd_fire, 2, 1_minutes );
-                        sounds::sound( pos(), 30, sounds::sound_t::combat,  _( "fwoosh!" ) );
+                        sounds::sound( pos(), 30, sounds::sound_t::combat,  _( "fwoosh!" ), false, "fire", "ignition" );
                         break;
                     }
                 }
                 if( zap != pos() ) {
-                    g->emp_blast( zap ); // Fries electronics due to the intensity of the field
+                    explosion_handler::emp_blast( zap ); // Fries electronics due to the intensity of the field
                 }
                 const auto t = g->m.ter( zap );
                 if( t == ter_str_id( "t_gas_pump" ) || t == ter_str_id( "t_gas_pump_a" ) ) {
                     if( one_in( 4 ) ) {
-                        g->explosion( pos(), 40, 0.8, true );
+                        explosion_handler::explosion( pos(), 40, 0.8, true );
                         if( player_sees ) {
                             add_msg( m_warning, _( "The %s explodes in a fiery inferno!" ), g->m.tername( zap ) );
                         }
@@ -1870,10 +1894,13 @@ void monster::process_turn()
                     }
                 }
             }
-            if( g->lightning_active && !has_effect( effect_supercharged ) && g->m.is_outside( pos() ) ) {
-                g->lightning_active = false; // only one supercharge per strike
-                sounds::sound( pos(), 300, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ) );
-                sounds::sound( pos(), 20, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ) );
+            if( g->weather.lightning_active && !has_effect( effect_supercharged ) &&
+                g->m.is_outside( pos() ) ) {
+                g->weather.lightning_active = false; // only one supercharge per strike
+                sounds::sound( pos(), 300, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ), false, "environment",
+                               "thunder_near" );
+                sounds::sound( pos(), 20, sounds::sound_t::combat, _( "vrrrRRRUUMMMMMMMM!" ), false, "explosion",
+                               "default" );
                 if( g->u.sees( pos() ) ) {
                     add_msg( m_bad, _( "Lightning strikes the %s!" ), name() );
                     add_msg( m_bad, _( "Your vision goes white!" ) );
@@ -1881,7 +1908,8 @@ void monster::process_turn()
                 }
                 add_effect( effect_supercharged, 12_hours );
             } else if( has_effect( effect_supercharged ) && calendar::once_every( 5_turns ) ) {
-                sounds::sound( pos(), 20, sounds::sound_t::combat, _( "VMMMMMMMMM!" ) );
+                sounds::sound( pos(), 20, sounds::sound_t::combat, _( "VMMMMMMMMM!" ), false, "humming",
+                               "electric" );
             }
         }
     }
@@ -1923,8 +1951,8 @@ void monster::die( Creature *nkiller )
                                   name() );
         }
         if( ch->is_player() && ch->has_trait( trait_KILLER ) ) {
-            std::string snip = SNIPPET.random_from_category( "killer_on_kill" );
             if( one_in( 4 ) ) {
+                std::string snip = SNIPPET.random_from_category( "killer_on_kill" );
                 ch->add_msg_if_player( m_good, _( snip ) );
             }
             ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );
@@ -2536,7 +2564,7 @@ void monster::on_load()
         regen = 0.25f / HOURS( 1 );
     }
 
-    const int heal_amount = divide_roll_remainder( regen * to_turns<int>( dt ), 1.0 );
+    const int heal_amount = roll_remainder( regen * to_turns<int>( dt ) );
     const int healed = heal( heal_amount );
     int healed_speed = 0;
     if( healed < heal_amount && get_speed_base() < type->speed ) {

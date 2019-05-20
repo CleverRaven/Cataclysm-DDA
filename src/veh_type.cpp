@@ -1,9 +1,12 @@
 #include "veh_type.h"
 
+#include <cassert>
+#include <cstddef>
 #include <numeric>
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
+#include <algorithm>
 
 #include "ammo.h"
 #include "character.h"
@@ -11,7 +14,6 @@
 #include "debug.h"
 #include "flag.h"
 #include "game.h"
-#include "generic_factory.h"
 #include "init.h"
 #include "item_group.h"
 #include "itype.h"
@@ -22,6 +24,14 @@
 #include "translations.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
+#include "assign.h"
+#include "cata_utility.h"
+#include "game_constants.h"
+#include "item.h"
+#include "player.h"
+#include "mapdata.h"
+
+class npc;
 
 const skill_id skill_mechanics( "mechanics" );
 
@@ -87,26 +97,31 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "WASHING_MACHINE", VPFLAG_WASHING_MACHINE },
     { "FLUIDTANK", VPFLAG_FLUIDTANK },
     { "REACTOR", VPFLAG_REACTOR },
+    { "RAIL", VPFLAG_RAIL },
 };
 
-static const std::vector<std::pair<std::string, int>> standard_terrain_mod = {{
-        { "FLAT", 4 }, { "ROAD", 2 }
+static const std::vector<std::pair<std::string, veh_ter_mod>> standard_terrain_mod = {{
+        { "FLAT", { 0, 4 } }, { "ROAD", { 0, 2 } }
     }
 };
-static const std::vector<std::pair<std::string, int>> rigid_terrain_mod = {{
-        { "FLAT", 6 }, { "ROAD", 3 }
+static const std::vector<std::pair<std::string, veh_ter_mod>> rigid_terrain_mod = {{
+        { "FLAT", { 0, 6 } }, { "ROAD", { 0, 3 } }
     }
 };
-static const std::vector<std::pair<std::string, int>> racing_terrain_mod = {{
-        { "FLAT", 5 }, { "ROAD", 2 }
+static const std::vector<std::pair<std::string, veh_ter_mod>> racing_terrain_mod = {{
+        { "FLAT", { 0, 5 } }, { "ROAD", { 0, 2 } }
     }
 };
-static const std::vector<std::pair<std::string, int>> off_road_terrain_mod = {{
-        { "FLAT", 3 }, { "ROAD", 1 }
+static const std::vector<std::pair<std::string, veh_ter_mod>> off_road_terrain_mod = {{
+        { "FLAT", { 0, 3 } }, { "ROAD", { 0, 1 } }
     }
 };
-static const std::vector<std::pair<std::string, int>> treads_terrain_mod = {{
-        { "FLAT", 3 }
+static const std::vector<std::pair<std::string, veh_ter_mod>> treads_terrain_mod = {{
+        { "FLAT", { 0, 3 } }
+    }
+};
+static const std::vector<std::pair<std::string, veh_ter_mod>> rail_terrain_mod = {{
+        { "RAIL", { 2, 8 } }
     }
 };
 
@@ -180,7 +195,7 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
 void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo,
                               const itype_id &fuel_type )
 {
-    vpslot_engine e_info;
+    vpslot_engine e_info{};
     if( eptr ) {
         e_info = *eptr;
     }
@@ -212,14 +227,16 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &j
 
 void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo )
 {
-    vpslot_wheel wh_info;
+    vpslot_wheel wh_info{};
     if( whptr ) {
         wh_info = *whptr;
     }
     assign( jo, "rolling_resistance", wh_info.rolling_resistance );
     assign( jo, "contact_area", wh_info.contact_area );
-    wh_info.terrain_mod = standard_terrain_mod;
-    wh_info.or_rating = 0.5f;
+    if( !jo.has_member( "copy-from" ) ) { // if flag presented, it is already set
+        wh_info.terrain_mod = standard_terrain_mod;
+        wh_info.or_rating = 0.5f;
+    }
     if( jo.has_string( "wheel_type" ) ) {
         const std::string wheel_type = jo.get_string( "wheel_type" );
         if( wheel_type == "rigid" ) {
@@ -234,6 +251,9 @@ void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo
         } else if( wheel_type == "treads" ) {
             wh_info.terrain_mod = treads_terrain_mod;
             wh_info.or_rating = 0.9;
+        } else if( wheel_type == "rail" ) {
+            wh_info.terrain_mod = rail_terrain_mod;
+            wh_info.or_rating = 0.05;
         }
     }
 
@@ -243,7 +263,7 @@ void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo
 
 void vpart_info::load_workbench( cata::optional<vpslot_workbench> &wbptr, JsonObject &jo )
 {
-    vpslot_workbench wb_info;
+    vpslot_workbench wb_info{};
     if( wbptr ) {
         wb_info = *wbptr;
     }
@@ -657,7 +677,6 @@ int vpart_info::format_description( std::ostringstream &msg, const std::string &
     msg << _( "<color_white>Description</color>\n" );
     msg << "> " << format_color;
 
-    class::item base( item );
     std::ostringstream long_descrip;
     if( ! description.empty() ) {
         long_descrip << _( description );
@@ -683,6 +702,7 @@ int vpart_info::format_description( std::ostringstream &msg, const std::string &
         long_descrip << "  " << _( nobelt.info() );
     }
     if( has_flag( "TURRET" ) ) {
+        class::item base( item );
         long_descrip << string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
                                        base.gun_range( true ),
                                        base.gun_damage().total_damage() );
@@ -837,9 +857,9 @@ int vpart_info::wheel_area() const
     return has_flag( VPFLAG_WHEEL ) ? wheel_info->contact_area : 0;
 }
 
-std::vector<std::pair<std::string, int>> vpart_info::wheel_terrain_mod() const
+std::vector<std::pair<std::string, veh_ter_mod>> vpart_info::wheel_terrain_mod() const
 {
-    const std::vector<std::pair<std::string, int>> null_map;
+    const std::vector<std::pair<std::string, veh_ter_mod>> null_map;
     return has_flag( VPFLAG_WHEEL ) ? wheel_info->terrain_mod : null_map;
 }
 
@@ -911,7 +931,7 @@ void vehicle_prototype::load( JsonObject &jo )
         vproto.parts.push_back( pt );
     };
 
-    const auto add_part_string = [&]( std::string part, point pos ) {
+    const auto add_part_string = [&]( const std::string & part, point pos ) {
         part_def pt;
         pt.pos = pos;
         pt.part = vpart_id( part );
@@ -1081,6 +1101,7 @@ void vehicle_prototype::finalize()
 std::vector<vproto_id> vehicle_prototype::get_all()
 {
     std::vector<vproto_id> result;
+    result.reserve( vtypes.size() );
     for( auto &vp : vtypes ) {
         result.push_back( vp.first );
     }

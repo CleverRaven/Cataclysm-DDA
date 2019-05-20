@@ -7,30 +7,31 @@
 #include <set>
 #include <unordered_map>
 #include <vector>
+#include <string>
+#include <utility>
 
 #include "bodypart.h"
 #include "pimpl.h"
 #include "string_formatter.h"
-#include "string_id.h"
+#include "type_id.h"
 #include "units.h"
 
 enum game_message_type : int;
 class nc_color;
 class effect;
 class effects_map;
+
 namespace catacurses
 {
 class window;
 } // namespace catacurses
 class field;
 class field_entry;
-class game;
 class JsonObject;
 class JsonOut;
 struct tripoint;
-struct point;
 class time_duration;
-class material_type;
+
 enum damage_type : int;
 enum field_id : int;
 enum m_flag : int;
@@ -40,15 +41,7 @@ struct damage_unit;
 struct dealt_damage_instance;
 struct dealt_projectile_attack;
 struct pathfinding_settings;
-struct projectile;
 struct trap;
-class effect_type;
-using efftype_id = string_id<effect_type>;
-using material_id = string_id<material_type>;
-struct mutation_branch;
-using trait_id = string_id<mutation_branch>;
-class ma_technique;
-using matec_id = string_id<ma_technique>;
 
 enum m_size : int {
     MS_TINY = 0,    // Squirrel
@@ -75,6 +68,8 @@ class Creature
         virtual std::string get_name() const = 0;
         virtual std::string disp_name( bool possessive = false ) const = 0; // displayname for Creature
         virtual std::string skin_name() const = 0; // name of outer layer, e.g. "armor plates"
+
+        virtual std::vector<std::string> get_grammatical_genders() const;
 
         virtual bool is_player() const {
             return false;
@@ -125,6 +120,11 @@ class Creature
             A_FRIENDLY,
             A_ANY
         };
+
+        /**
+         * Simplified attitude string for unlocalized needs.
+         */
+        static const std::string attitude_raw_string( Attitude att );
 
         /**
          * Creature Attitude as String and color

@@ -1,15 +1,13 @@
 #include "faction.h"
 
-#include <algorithm>
-#include <cmath>
 #include <cstdlib>
 #include <map>
-#include <sstream>
 #include <string>
+#include <memory>
+#include <set>
+#include <utility>
 
 #include "basecamp.h"
-#include "catacharset.h"
-#include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "enums.h"
@@ -19,20 +17,17 @@
 #include "input.h"
 #include "json.h"
 #include "line.h"
-#include "map.h"
-#include "messages.h"
-#include "mission.h"
 #include "npc.h"
-#include "npctalk.h"
-#include "omdata.h"
 #include "output.h"
-#include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
-#include "rng.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "item.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "type_id.h"
 
 static std::map<faction_id, faction_template> _all_faction_templates;
 
@@ -285,6 +280,11 @@ std::string fac_combat_ability_text( int val )
     return _( "Worthless" );
 }
 
+void npc_factions::finalize()
+{
+    g->faction_manager_ptr->create_if_needed();
+}
+
 void faction_manager::clear()
 {
     factions.clear();
@@ -349,7 +349,6 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     std::string mission_string;
     if( has_companion_mission() ) {
         std::string dest_string;
-        npc_companion_mission c_mission = get_companion_mission();
         cata::optional<tripoint> dest = get_mission_destination();
         if( dest ) {
             basecamp *dest_camp;
@@ -362,6 +361,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
             }
             mission_string = _( "Current Mission : " ) + dest_string;
         } else {
+            npc_companion_mission c_mission = get_companion_mission();
             mission_string = _( "Current Mission : " ) +
                              get_mission_action_string( c_mission.mission_id );
         }
@@ -458,6 +458,8 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         current_status += _( "Following" );
     } else if( is_leader() ) {
         current_status += _( "Leading" );
+    } else if( is_patrolling() ) {
+        current_status += _( "Patrolling" );
     } else if( is_guarding() ) {
         current_status += _( "Guarding" );
     }
@@ -613,6 +615,7 @@ void new_faction_manager::display() const
                                         camps[i]->camp_name() );
                     }
                     if( selection < camps.size() ) {
+                        assert( camp ); // To appease static analysis
                         camp->faction_display( w_missions, 31 );
                     } else {
                         mvwprintz( w_missions, 4, 31, c_light_red, no_camp );
@@ -632,6 +635,7 @@ void new_faction_manager::display() const
                                         followers[i]->disp_name() );
                     }
                     if( selection < followers.size() ) {
+                        assert( guy ); // To appease static analysis
                         int retval = guy->faction_display( w_missions, 31 );
                         if( retval == 2 ) {
                             radio_interactable = true;

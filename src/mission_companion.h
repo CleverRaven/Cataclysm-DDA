@@ -6,24 +6,17 @@
 #include <string>
 #include <vector>
 
-#include "game.h"
-#include "map.h"
-#include "npc.h"
-#include "output.h"
+#include "calendar.h"
+#include "type_id.h"
 
-class martialart;
-class JsonObject;
-class mission;
-class time_point;
-class time_duration;
 class npc;
 class item;
 struct tripoint;
 struct comp_rank;
-class player;
 class npc_template;
 template<typename T>
 class string_id;
+class monster;
 
 using npc_ptr = std::shared_ptr<npc>;
 using comp_list = std::vector<npc_ptr>;

@@ -2,6 +2,7 @@
 #ifndef CATACHARSET_H
 #define CATACHARSET_H
 
+#include <cstddef>
 #include <cstdint>
 #include <string>
 
@@ -38,10 +39,10 @@ int center_text_pos( const char *text, int start_pos, int end_pos );
 int center_text_pos( const std::string &text, int start_pos, int end_pos );
 int center_text_pos( const utf8_wrapper &text, int start_pos, int end_pos );
 std::string utf32_to_utf8( uint32_t ch );
-std::string utf8_truncate( std::string s, size_t length );
+std::string utf8_truncate( const std::string &s, size_t length );
 
-std::string base64_encode( std::string str );
-std::string base64_decode( std::string str );
+std::string base64_encode( const std::string &str );
+std::string base64_decode( const std::string &str );
 
 std::wstring utf8_to_wstr( const std::string &str );
 std::string wstr_to_utf8( const std::wstring &wstr );

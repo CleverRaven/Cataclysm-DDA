@@ -1,6 +1,8 @@
 #include "string_formatter.h"
 
+#include <cassert>
 #include <stdexcept>
+#include <exception>
 
 char cata::string_formatter::consume_next_input()
 {

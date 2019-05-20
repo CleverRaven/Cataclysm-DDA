@@ -1,8 +1,13 @@
 #include "character.h"
 
+#include <climits>
+#include <cstdlib>
 #include <algorithm>
 #include <numeric>
 #include <sstream>
+#include <cmath>
+#include <iterator>
+#include <memory>
 
 #include "activity_handlers.h"
 #include "bionics.h"
@@ -31,6 +36,13 @@
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "catacharset.h"
+#include "game_constants.h"
+#include "item_location.h"
+#include "lightmap.h"
+#include "rng.h"
+#include "stomach.h"
+#include "ui.h"
 
 const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_beartrap( "beartrap" );
@@ -112,7 +124,7 @@ Character::Character() :
     fatigue = 0;
     sleep_deprivation = 0;
     // 45 days to starve to death
-    healthy_calories = 77000;
+    healthy_calories = 55000;
     stored_calories = healthy_calories;
 
     name.clear();
@@ -438,7 +450,7 @@ bool Character::move_effects( bool attacking )
             const monster *const mon = g->critter_at<monster>( dest );
             if( mon && ( mon->has_flag( MF_GRABS ) ||
                          mon->type->has_special_attack( "GRAB" ) ) ) {
-                zed_number ++;
+                zed_number += mon->get_grab_strength();
             }
         }
         if( zed_number == 0 ) {
@@ -449,7 +461,7 @@ bool Character::move_effects( bool attacking )
 
             /** @EFFECT_STR increases chance to escape grab, if >DEX */
         } else if( rng( 0, std::max( get_dex(), get_str() ) ) <
-                   rng( get_effect_int( effect_grabbed ), 8 ) ) {
+                   rng( get_effect_int( effect_grabbed, bp_torso ), 8 ) ) {
             // Randomly compare higher of dex or str to grab intensity.
             add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
                                    _( "<npcname> tries to break out of the grab, but fails!" ) );
@@ -661,6 +673,15 @@ bool Character::has_active_bionic( const bionic_id &b ) const
         if( i.id == b ) {
             return ( i.powered );
         }
+    }
+    return false;
+}
+
+bool Character::has_any_bionic() const
+{
+    bionic_collection tmp_collec = *my_bionics;
+    if( !tmp_collec.empty() ) {
+        return true;
     }
     return false;
 }
@@ -1060,25 +1081,31 @@ int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
 units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) const
 {
     const std::map<const item *, int> empty;
-    const auto &without = tweaks.without_items ? tweaks.without_items->get() : empty;
+    const std::map<const item *, int> &without = tweaks.without_items ? tweaks.without_items->get() :
+            empty;
 
     units::mass ret = 0_gram;
-    if( !without.count( &weapon ) ) {
-
-        const auto thisweight = weapon.weight();
-        const auto liftrequirement = ceil( units::to_gram<float>( thisweight ) / units::to_gram<float>
-                                           ( TOOL_LIFT_FACTOR ) );
-        if( g->new_game || best_nearby_lifting_assist() < liftrequirement ) {
-            ret += thisweight;
-        }
-    }
     for( auto &i : worn ) {
         if( !without.count( &i ) ) {
             ret += i.weight();
         }
     }
-    const auto &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
+    const inventory &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
     ret += i.weight_without( without );
+
+    if( !without.count( &weapon ) ) {
+
+        const units::mass thisweight = weapon.weight();
+        if( thisweight + ret > weight_capacity() ) {
+            const float liftrequirement = ceil( units::to_gram<float>( thisweight ) / units::to_gram<float>
+                                                ( TOOL_LIFT_FACTOR ) );
+            if( g->new_game || best_nearby_lifting_assist() < liftrequirement ) {
+                ret += thisweight;
+            }
+        } else {
+            ret += thisweight;
+        }
+    }
     return ret;
 }
 
@@ -1987,8 +2014,8 @@ int Character::get_thirst() const
 std::pair<std::string, nc_color> Character::get_thirst_description() const
 {
     // some delay from water in stomach is desired, but there needs to be some visceral response
-    int thirst = get_thirst() - ( std::max( units::to_milliliter<int>( g->u.stomach.get_water() ) / 5 -
-                                            100, 0 ) );
+    int thirst = get_thirst() - ( std::max( units::to_milliliter<int>( g->u.stomach.get_water() ) / 10,
+                                            0 ) );
     std::string hydration_string;
     nc_color hydration_color = c_white;
     if( thirst > 520 ) {
@@ -2434,6 +2461,15 @@ nc_color Character::limb_color( body_part bp, bool bleed, bool bite, bool infect
 std::string Character::get_name() const
 {
     return name;
+}
+
+std::vector<std::string> Character::get_grammatical_genders() const
+{
+    if( male ) {
+        return { "m" };
+    } else {
+        return { "f" };
+    }
 }
 
 nc_color Character::symbol_color() const

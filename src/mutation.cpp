@@ -1,6 +1,9 @@
 #include "mutation.h"
 
+#include <cstddef>
 #include <algorithm>
+#include <list>
+#include <unordered_set>
 
 #include "action.h"
 #include "field.h"
@@ -12,11 +15,17 @@
 #include "mapdata.h"
 #include "monster.h"
 #include "morale_types.h"
-#include "output.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "translations.h"
 #include "ui.h"
+#include "int_id.h"
+#include "messages.h"
+#include "omdata.h"
+#include "optional.h"
+#include "player_activity.h"
+#include "rng.h"
+#include "string_id.h"
 
 const efftype_id effect_stunned( "stunned" );
 
@@ -117,7 +126,7 @@ void Character::unset_mutation( const trait_id &flag )
     reset_encumbrance();
 }
 
-int Character::get_mod( const trait_id &mut, std::string arg ) const
+int Character::get_mod( const trait_id &mut, const std::string &arg ) const
 {
     auto &mod_data = mut->mods;
     int ret = 0;
@@ -334,121 +343,9 @@ void player::activate_mutation( const trait_id &mut )
         g->m.add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == "BURROW" ) {
-        int choice = uilist( _( "Perform which function:" ), {
-            _( "Turn on digging mode" ),
-            _( "Dig pit" ),
-            _( "Fill pit/tamp ground" ),
-            _( "Clear rubble" ),
-            _( "Churn up ground" )
-        } );
-        if( choice == UILIST_CANCEL ) {
-            tdata.powered = false;
-        } else if( choice != 0 ) {
-            tdata.powered = false;
-            if( is_underwater() ) {
-                add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-                return;
-            } else {
-                if( choice == 1 ) {
-                    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Dig pit where?" ) );
-                    if( !pnt_ ) {
-                        return;
-                    }
-                    const tripoint pnt = *pnt_;
-
-                    if( pnt == pos() ) {
-                        add_msg_if_player( m_info, _( "You delve into yourself." ) );
-                        return;
-                    }
-                    int moves;
-                    if( g->m.ter( pnt ) == t_pit_shallow ) {
-                        moves = MINUTES( 30 ) * 100;
-                    } else if( g->m.has_flag( "DIGGABLE", pnt ) ) {
-                        moves = MINUTES( 10 ) * 100;
-                        if( g->m.ter( pnt ) == t_grave ) {
-                            moves *= 2; // 6 feet under
-                            if( g->u.has_trait_flag( "SPIRITUAL" ) && !g->u.has_trait_flag( "PSYCHOPATH" ) &&
-                                g->u.query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
-                                add_msg( m_info, _( "You are really going against your beliefs here." ) );
-                                g->u.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
-                                if( one_in( 3 ) ) {
-                                    g->u.vomit();
-                                }
-                            } else if( g->u.has_trait_flag( "PSYCHOPATH" ) ) {
-                                g->u.add_msg_if_player( m_good, _( "This is fun!" ) );
-                                g->u.add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
-                            } else if( !g->u.has_trait_flag( "EATDEAD" ) && !g->u.has_trait_flag( "SAPROVORE" ) ) {
-                                g->u.add_msg_if_player( m_bad, _( "This is utterly disgusting!" ) );
-                                g->u.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
-                                if( one_in( 5 ) ) {
-                                    g->u.vomit();
-                                }
-                            }
-                        }
-                    } else {
-                        add_msg_if_player( _( "You can't dig a pit on this ground." ) );
-                        return;
-                    }
-                    assign_activity( activity_id( "ACT_DIG" ), moves, -1, 0 );
-                    activity.placement = pnt;
-                } else if( choice == 2 ) {
-                    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Fill pit where?" ) );
-                    if( !pnt_ ) {
-                        return;
-                    }
-                    const tripoint pnt = *pnt_;
-
-                    if( pnt == pos() ) {
-                        add_msg_if_player( m_info, _( "You decide not to bury yourself that early." ) );
-                        return;
-                    }
-                    int moves;
-                    if( g->m.ter( pnt ) == t_pit || g->m.ter( pnt ) == t_pit_spiked ||
-                        g->m.ter( pnt ) == t_pit_glass || g->m.ter( pnt ) == t_pit_corpsed ) {
-                        moves = MINUTES( 15 ) * 100;
-                    } else if( g->m.ter( pnt ) == t_pit_shallow ) {
-                        moves = MINUTES( 10 ) * 100;
-                    } else if( g->m.ter( pnt ) == t_dirtmound ) {
-                        moves = MINUTES( 5 ) * 100;
-                    } else {
-                        add_msg_if_player( _( "There is no pit to fill." ) );
-                        return;
-                    }
-                    assign_activity( activity_id( "ACT_FILL_PIT" ), moves, -1, 0 );
-                    activity.placement = pnt;
-                } else if( choice == 3 ) {
-                    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Clear rubble where?" ) );
-                    if( !pnt_ ) {
-                        return;
-                    }
-                    const tripoint pnt = *pnt_;
-
-                    if( g->m.has_flag( "RUBBLE", pnt ) ) {
-                        // 75 seconds
-                        assign_activity( activity_id( "ACT_CLEAR_RUBBLE" ), 1250, -1, 0 );
-                        activity.placement = pnt;
-                    } else {
-                        add_msg_if_player( m_bad, _( "There is no rubble to clear." ) );
-                        return;
-                    }
-                } else if( choice == 4 ) {
-                    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Churn up ground where?" ) );
-                    if( !pnt_ ) {
-                        return;
-                    }
-                    const tripoint pnt = *pnt_;
-
-                    if( g->m.has_flag( "PLOWABLE", pnt ) && !g->m.has_flag( "PLANT", pnt ) &&
-                        g->m.ter( pnt ) != t_dirtmound ) {
-                        add_msg_if_player( _( "You churn up the earth here." ) );
-                        moves = -300;
-                        g->m.ter_set( pnt, t_dirtmound );
-                    } else {
-                        add_msg_if_player( _( "You can't churn up this ground." ) );
-                    }
-                }
-            }
-        }
+        tdata.powered = false;
+        item burrowing_item( itype_id( "fake_burrowing" ) );
+        invoke_item( &burrowing_item );
         return;  // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
         std::vector<tripoint> valid;
@@ -527,12 +424,25 @@ void player::activate_mutation( const trait_id &mut )
             return;
         }
 
-        add_msg_if_player( _( "You reach out to the trees with your roots." ) );
+        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
+            add_msg_if_player( _( "You reach out to the trees with your roots." ) );
+        } else {
+            add_msg_if_player(
+                _( "You lay next to the trees letting your hair roots tangle with the trees." ) );
+        }
+
         assign_activity( activity_id( "ACT_TREE_COMMUNION" ) );
-        const time_duration startup_time = has_trait( trait_ROOTS3 ) ? rng( 15_minutes,
-                                           30_minutes ) : rng( 60_minutes, 90_minutes );
-        activity.values.push_back( to_turns<int>( startup_time ) );
-        return;
+
+        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
+            const time_duration startup_time = has_trait( trait_ROOTS3 ) ? rng( 15_minutes,
+                                               30_minutes ) : rng( 60_minutes, 90_minutes );
+            activity.values.push_back( to_turns<int>( startup_time ) );
+            return;
+        } else {
+            const time_duration startup_time = rng( 120_minutes, 180_minutes );
+            activity.values.push_back( to_turns<int>( startup_time ) );
+            return;
+        }
     } else if( mut == trait_DEBUG_BIONIC_POWER ) {
         max_power_level += 100;
         add_msg_if_player( m_good, _( "Bionic power storage increased by 100." ) );

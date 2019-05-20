@@ -68,7 +68,7 @@
   {
     "id": "music_shop",
     "type": "item_group",
-    "items": [ [ "battery", 30 ], [ "radio", 30 ], [ "mp3", 30 ] ]
+    "items": [ { "group": "ammo_any_batteries_full", "prob": 50 }, [ "radio", 30 ], [ "mp3", 30 ] ]
   },
   {
     "id": "vitamin_shop",
@@ -203,7 +203,7 @@
     "items": [
       [ "portable_game", 20 ],
       [ "antenna", 25 ],
-      [ "battery", 70 ],
+      { "group": "ammo_any_batteries_full", "prob": 50 },
       [ "mp3", 40 ],
       [ "usb_drive", 10 ],
       [ "manual_electronics", 20 ],

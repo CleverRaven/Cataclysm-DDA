@@ -2,6 +2,7 @@
 #ifndef MESSAGES_H
 #define MESSAGES_H
 
+#include <cstddef>
 #include <string>
 #include <utility>
 #include <vector>

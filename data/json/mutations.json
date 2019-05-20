@@ -24,6 +24,19 @@
   },
   {
     "type": "mutation",
+    "id": "FEYHEARING",
+    "name": "Fey Hearing",
+    "points": 2,
+    "description": "Your not sure the shape of your ears are helping, but regardless you have become very sensitive to sounds.",
+    "prereqs": [ "GOODHEARING" ],
+    "prereqs2": [ "ELFA_EARS" ],
+    "threshreq": [ "THRESH_ELFA" ],
+    "category": [ "ELFA" ],
+    "cancels": [ "BADHEARING" ],
+    "hearing_modifier": 1.75
+  },
+  {
+    "type": "mutation",
     "id": "OUTDOORSMAN",
     "name": "Outdoorsman",
     "points": 1,
@@ -587,9 +600,9 @@
     "id": "MARTIAL_ARTS",
     "name": "Martial Arts Training",
     "points": 2,
-    "description": "You have received some martial arts training at a local dojo.  You start with your choice of Karate, Judo, Aikido, Tai Chi, or Taekwondo.",
+    "description": "You have received some martial arts training at a local dojo.  You start with your choice of Karate, Judo, Aikido, Tai Chi, Taekwondo, or Pankration.",
     "starting_trait": true,
-    "initial_ma_styles": [ "style_karate", "style_judo", "style_aikido", "style_tai_chi", "style_taekwondo" ],
+    "initial_ma_styles": [ "style_karate", "style_judo", "style_aikido", "style_tai_chi", "style_taekwondo", "style_pankration" ],
     "valid": false
   },
   {
@@ -2192,11 +2205,26 @@
     "ugliness": -4,
     "description": "You've started blooming where your scalp used to be.  Your blossoms have a pleasant aroma, are visually striking, and are quite sensitive.",
     "prereqs": [ "PLANTSKIN", "BARK" ],
-    "prereqs2": [ "LEAVES" ],
+    "prereqs2": [ "HAIRROOTS" ],
     "cancels": [ "SMELLY", "SMELLY2" ],
     "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
     "category": [ "PLANT", "ELFA" ],
+    "changes_to": [ "ROSEBUDS" ],
     "social_modifiers": { "lie": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "ROSEBUDS",
+    "name": "Rosebuds",
+    "points": 3,
+    "visibility": 10,
+    "ugliness": -6,
+    "description": "The top of your head is blooming with rosebuds.  They're eye catching, and have a strong fragrance that makes you pleasant to be around.",
+    "prereqs": [ "FLOWERS" ],
+    "cancels": [ "SMELLY", "SMELLY2" ],
+    "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
+    "category": [ "PLANT", "ELFA" ],
+    "social_modifiers": { "lie": 15, "persuade": 10 }
   },
   {
     "type": "mutation",
@@ -2404,7 +2432,8 @@
     "description": "Ever since you ate that Marloss berry, you can't get its scent out of your nose, and you have a strong desire to try some seeds and...sap?",
     "purifiable": false,
     "valid": false,
-    "category": [ "MARLOSS" ]
+    "category": [ "MARLOSS" ],
+    "flags": [ "mycus" ]
   },
   {
     "type": "mutation",
@@ -2414,7 +2443,8 @@
     "description": "Ever since you ate that Marloss seed, you can't get its taste off of your tongue, and you have a strong desire to try some berries and...sap?",
     "purifiable": false,
     "valid": false,
-    "category": [ "MARLOSS" ]
+    "category": [ "MARLOSS" ],
+    "flags": [ "mycus" ]
   },
   {
     "type": "mutation",
@@ -2424,7 +2454,8 @@
     "description": "Ever since you ate that Marloss jelly, you can't stop thinking of it, and you have a strong desire to eat some seeds and berries.",
     "purifiable": false,
     "valid": false,
-    "category": [ "MARLOSS" ]
+    "category": [ "MARLOSS" ],
+    "flags": [ "mycus" ]
   },
   {
     "type": "mutation",
@@ -2936,6 +2967,8 @@
     "types": [ "HORNS" ],
     "prereqs": [ "HEADBUMPS" ],
     "category": [ "INSECT" ],
+    "active": true,
+    "starts_active": true,
     "restricts_gear": [ "HEAD" ],
     "allow_soft_gear": true
   },
@@ -5050,6 +5083,17 @@
   },
   {
     "type": "mutation",
+    "id": "HAIRROOTS",
+    "name": "Hair Roots",
+    "points": 0,
+    "visibility": 4,
+    "ugliness": 2,
+    "description": "Roots have started growing from your leaf like hair, they don't seem to do much.",
+    "prereqs": [ "LEAVES" ],
+    "category": [ "PLANT", "ELFA" ]
+  },
+  {
+    "type": "mutation",
     "id": "ROOTS1",
     "name": "Toe Roots",
     "points": -2,
@@ -5116,11 +5160,11 @@
     "type": "mutation",
     "id": "TREE_COMMUNION",
     "name": "Mycorrhizal Communion",
-    "points": 1,
+    "points": 2,
     "description": "You have gained the ability to commune with trees and comprehend their ancient wisdom. Activate next to a tree to gradually gain overmap vision through connected forests.",
-    "prereqs": [ "ROOTS2", "ROOTS3" ],
-    "threshreq": [ "THRESH_PLANT" ],
-    "category": [ "PLANT" ],
+    "prereqs": [ "HAIRROOTS", "ROOTS2", "ROOTS3" ],
+    "threshreq": [ "THRESH_PLANT", "THRESH_ELFA" ],
+    "category": [ "PLANT", "ELFA" ],
     "active": true,
     "cost": 0
   },
@@ -5733,7 +5777,8 @@
     "valid": false,
     "purifiable": false,
     "threshold": true,
-    "category": [ "MARLOSS" ]
+    "category": [ "MARLOSS" ],
+    "flags": [ "mycus" ]
   },
   {
     "type": "mutation",
@@ -5743,7 +5788,8 @@
     "description": "We are the Mycus.",
     "valid": false,
     "purifiable": false,
-    "threshold": true
+    "threshold": true,
+    "flags": [ "mycus" ]
   },
   {
     "type": "mutation",
@@ -6082,6 +6128,16 @@
   },
   {
     "type": "mutation",
+    "id": "HALLUCINATION",
+    "name": "Hallucination",
+    "points": 0,
+    "valid": false,
+    "description": "NPC trait that makes them be hallucination.  It is a bug if you have it.",
+    "player_display": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_NIGHTVISION",
     "name": "Debug Vision",
     "points": 99,
@@ -6206,6 +6262,15 @@
     "description": "NPC trait that makes monsters see it as a bee.  It is a bug (heh) if you have it.",
     "player_display": false,
     "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "MYCUS_FRIEND",
+    "name": "mycus friend",
+    "points": 0,
+    "valid": false,
+    "description": "NPC trait that makes fungaloid monsters see this NPC as a friend.",
+    "player_display": false
   },
   {
     "type": "mutation",

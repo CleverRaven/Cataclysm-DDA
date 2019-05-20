@@ -3,6 +3,9 @@
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <list>
+#include <memory>
+#include <set>
 
 #include "game.h" // TODO: This is a circular dependency
 #include "generic_factory.h"
@@ -11,10 +14,22 @@
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
-#include "output.h"
 #include "player.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "character.h"
+#include "creature.h"
+#include "debug.h"
+#include "enums.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_stack.h"
+#include "optional.h"
+#include "player_activity.h"
+#include "string_id.h"
+#include "translations.h"
+#include "units.h"
+#include "type_id.h"
 
 // Gates namespace
 
@@ -22,6 +37,7 @@ namespace
 {
 
 struct gate_data;
+
 using gate_id = string_id<gate_data>;
 
 struct gate_data {

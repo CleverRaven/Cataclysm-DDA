@@ -1,7 +1,12 @@
 #include "auto_pickup.h"
 
+#include <cstddef>
 #include <algorithm>
 #include <sstream>
+#include <functional>
+#include <map>
+#include <memory>
+#include <utility>
 
 #include "cata_utility.h"
 #include "debug.h"
@@ -17,9 +22,11 @@
 #include "path_info.h"
 #include "player.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "item.h"
 
 auto_pickup &get_auto_pickup()
 {

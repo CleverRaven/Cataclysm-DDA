@@ -27,6 +27,22 @@
     ]
   },
   {
+    "id": "boxing_books",
+    "type": "item_group",
+    "items": [
+      [ "mag_unarmed", 40 ],
+      [ "manual_boxing", 50 ],
+      [ "mag_melee", 25 ],
+      [ "mag_bashing", 10 ],
+      [ "manual_melee", 15 ],
+      [ "recipe_melee", 10 ],
+      [ "manual_taekwondo", 10 ],
+      [ "manual_karate", 10 ],
+      [ "manual_muay_thai", 2 ],
+      [ "manual_krav_maga", 10 ]
+    ]
+  },
+  {
     "type": "item_group",
     "id": "book_martial",
     "//": "Books about martial arts",
@@ -34,6 +50,7 @@
       [ "manual_eskrima", 100 ],
       [ "manual_krav_maga", 100 ],
       [ "manual_ninjutsu", 100 ],
+      [ "manual_pankration", 5 ],
       [ "manual_silat", 100 ],
       [ "manual_taekwondo", 100 ]
     ]
@@ -49,6 +66,7 @@
       [ "manual_knives", 40 ],
       [ "manual_launcher", 20 ],
       [ "manual_melee", 70 ],
+      [ "manual_pankration", 1 ],
       [ "manual_pistol", 30 ],
       [ "manual_rifle", 50 ],
       [ "manual_shotgun", 10 ],
@@ -488,6 +506,7 @@
       [ "manual_aikido", 12 ],
       [ "manual_taekwondo", 12 ],
       [ "manual_tai_chi", 12 ],
+      [ "manual_pankration", 5 ],
       [ "manual_fencing", 4 ],
       [ "manual_eskrima", 3 ],
       [ "manual_krav_maga", 3 ],
@@ -521,5 +540,29 @@
       [ "manual_tiger", 1 ],
       [ "manual_zui_quan", 1 ]
     ]
+  },
+  {
+    "id": "doctors_books",
+    "type": "item_group",
+    "items": [
+      [ "mag_firstaid", 50 ],
+      [ "textbook_firstaid", 200 ],
+      [ "manual_swimming", 50 ],
+      [ "manual_first_aid", 200 ],
+      [ "pocket_firstaid", 100 ],
+      [ "textbook_chemistry", 200 ],
+      [ "adv_chemistry", 200 ],
+      [ "emergency_book", 200 ],
+      [ "record_patient", 100 ],
+      [ "recipe_medicalmut", 50 ],
+      [ "recipe_serum", 10 ],
+      [ "recipe_labchem", 100 ],
+      [ "recipe_augs", 100 ]
+    ]
+  },
+  {
+    "id": "record_patient",
+    "type": "item_group",
+    "items": [ [ "record_patient", 100 ] ]
   }
 ]

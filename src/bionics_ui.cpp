@@ -11,6 +11,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "options.h"
+#include "string_id.h"
 
 // '!', '-' and '=' are uses as default bindings in the menu
 const invlet_wrapper
@@ -144,6 +145,7 @@ void draw_description( const catacurses::window &win, const bionic &bio )
     // TODO: Unhide when enforcing limits
     if( get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         const bool each_bp_on_new_line = ypos + static_cast<int>( num_bp ) + 1 < getmaxy( win );
+        // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
         ypos += fold_and_print( win, ypos, 0, width, c_light_gray,
                                 list_occupied_bps( bio.id, _( "This bionic occupies the following body parts:" ),
                                         each_bp_on_new_line ) );
@@ -343,7 +345,8 @@ void player::power_bionics()
     bionic_menu_mode menu_mode = ACTIVATING;
     // offset for display: bionic with index i is drawn at y=list_start_y+i
     // drawing the bionics starts with bionic[scroll_position]
-    const int list_start_y = HEADER_LINE_Y;// - scroll_position;
+    // scroll_position;
+    const int list_start_y = HEADER_LINE_Y;
     int half_list_view_location = LIST_HEIGHT / 2;
     int max_scroll_position = std::max( 0, static_cast<int>( active.size() ) );
 
