@@ -1321,8 +1321,11 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     parts[part_index].open = opening;
     insides_dirty = true;
     g->m.set_transparency_cache_dirty( smz );
-    sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
-                             parts[ part_index ].info().get_id().str(), 100 );
+    const int dist = rl_dist( g->u.pos(), mount_to_tripoint( parts[part_index].mount ) );
+    if( dist < 20 ) {
+        sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
+                                parts[ part_index ].info().get_id().str(), 100 - dist * 3 );
+    }
     for( auto const &vec : find_lines_of_parts( part_index, "OPENABLE" ) ) {
         for( auto const &partID : vec ) {
             parts[partID].open = opening;
