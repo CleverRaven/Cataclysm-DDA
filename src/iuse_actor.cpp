@@ -372,8 +372,30 @@ iuse_actor *explosion_iuse::clone() const
     return new explosion_iuse( *this );
 }
 
-// defined in iuse.cpp
-extern std::vector<tripoint> points_for_gas_cloud( const tripoint &center, int radius );
+// For an explosion (which releases some kind of gas), this function
+// calculates the points around that explosion where to create those
+// gas fields.
+// Those points must have a clear line of sight and a clear path to
+// the center of the explosion.
+// They must also be passable.
+static std::vector<tripoint> points_for_gas_cloud( const tripoint &center, int radius )
+{
+    const std::vector<tripoint> gas_sources = closest_tripoints_first( radius, center );
+    std::vector<tripoint> result;
+    for( const auto &p : gas_sources ) {
+        if( g->m.impassable( p ) ) {
+            continue;
+        }
+        if( p != center ) {
+            if( !g->m.clear_path( center, p, radius, 1, 100 ) ) {
+                // Can not splatter gas from center to that point, something is in the way
+                continue;
+            }
+        }
+        result.push_back( p );
+    }
+    return result;
+}
 
 void explosion_iuse::load( JsonObject &obj )
 {

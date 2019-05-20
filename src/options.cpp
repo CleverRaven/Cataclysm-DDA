@@ -16,6 +16,7 @@
 #include "output.h"
 #include "path_info.h"
 #include "sdlsound.h"
+#include "sdltiles.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -47,10 +48,6 @@ int message_ttl;
 int message_cooldown;
 bool fov_3d;
 bool tile_iso;
-
-#if defined(TILES)
-extern std::unique_ptr<cata_tiles> tilecontext;
-#endif // TILES
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>

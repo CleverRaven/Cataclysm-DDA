@@ -248,31 +248,6 @@ bool check_litcig( player &u )
     return false;
 }
 
-// For an explosion (which releases some kind of gas), this function
-// calculates the points around that explosion where to create those
-// gas fields.
-// Those points must have a clear line of sight and a clear path to
-// the center of the explosion.
-// They must also be passable.
-std::vector<tripoint> points_for_gas_cloud( const tripoint &center, int radius )
-{
-    const std::vector<tripoint> gas_sources = closest_tripoints_first( radius, center );
-    std::vector<tripoint> result;
-    for( const auto &p : gas_sources ) {
-        if( g->m.impassable( p ) ) {
-            continue;
-        }
-        if( p != center ) {
-            if( !g->m.clear_path( center, p, radius, 1, 100 ) ) {
-                // Can not splatter gas from center to that point, something is in the way
-                continue;
-            }
-        }
-        result.push_back( p );
-    }
-    return result;
-}
-
 /* iuse methods return the number of charges expended, which is usually it->charges_to_use().
  * Some items that don't normally use charges return 1 to indicate they're used up.
  * Regardless, returning 0 indicates the item has not been used up,

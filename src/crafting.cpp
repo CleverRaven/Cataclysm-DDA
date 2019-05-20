@@ -1835,9 +1835,6 @@ void player::complete_disassemble()
     activity.moves_left = next_recipe.time;
 }
 
-// TODO: Make them accessible in a less ugly way
-void remove_radio_mod( item &, player & );
-
 void player::complete_disassemble( int item_pos, const tripoint &loc,
                                    bool from_ground, const recipe &dis )
 {

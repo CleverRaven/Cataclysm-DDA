@@ -57,6 +57,7 @@
 #include "requirements.h"
 #include "rotatable_symbols.h"
 #include "scenario.h"
+#include "sdltiles.h"
 #include "skill.h"
 #include "skill_boost.h"
 #include "sounds.h"
@@ -73,10 +74,6 @@
 #include "bodypart.h"
 #include "translations.h"
 #include "type_id.h"
-
-#if defined(TILES)
-void load_tileset();
-#endif
 
 DynamicDataLoader::DynamicDataLoader()
 {

@@ -101,6 +101,7 @@
 #include "safemode_ui.h"
 #include "scenario.h"
 #include "scent_map.h"
+#include "sdltiles.h"
 #include "sounds.h"
 #include "start_location.h"
 #include "string_formatter.h"
@@ -241,11 +242,6 @@ extern bool add_key_to_quick_shortcuts( long key, const std::string &category, b
 
 //The one and only game instance
 std::unique_ptr<game> g;
-#if defined(TILES)
-extern std::unique_ptr<cata_tiles> tilecontext;
-extern void toggle_fullscreen_window();
-extern bool save_screenshot( const std::string &file_path );
-#endif // TILES
 
 uistatedata uistate;
 
@@ -2179,10 +2175,6 @@ tripoint game::mouse_edge_scrolling_overmap( input_context &ctxt )
 {
     return mouse_edge_scrolling( ctxt, 1 );
 }
-
-#if defined(TILES)
-void rescale_tileset( int size );
-#endif
 
 input_context get_default_mode_input_context()
 {

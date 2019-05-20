@@ -1670,6 +1670,10 @@ class map
         bool need_draw_lower_floor( const tripoint &p );
 };
 
+void shift_map_memory_seen_cache(
+    std::bitset<MAPSIZE_X *MAPSIZE_Y> &map_memory_seen_cache,
+    const int sx, const int sy );
+
 std::vector<point> closest_points_first( int radius, point p );
 std::vector<point> closest_points_first( int radius, int x, int y );
 // Does not build "piles" - does the same as above functions, except in tripoints

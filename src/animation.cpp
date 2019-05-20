@@ -21,8 +21,7 @@
 #include <memory>
 
 #include "cata_tiles.h" // all animation functions will be pushed out to a cata_tiles function in some manner
-
-extern std::unique_ptr<cata_tiles> tilecontext; // obtained from sdltiles.cpp
+#include "sdltiles.h"
 #endif
 
 #include <algorithm>
@@ -31,8 +30,6 @@ extern std::unique_ptr<cata_tiles> tilecontext; // obtained from sdltiles.cpp
 #include <string>
 #include <utility>
 #include <vector>
-
-bool is_valid_in_w_terrain( int x, int y ); // see game.cpp
 
 namespace
 {

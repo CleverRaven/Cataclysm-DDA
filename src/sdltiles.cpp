@@ -1,5 +1,6 @@
 #if defined(TILES)
 
+#include "sdltiles.h" // IWYU pragma: associated
 #include "cursesdef.h" // IWYU pragma: associated
 
 #include <climits>

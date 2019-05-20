@@ -715,6 +715,14 @@ bool JsonArray::has_object( int i )
     return jsin->test_object();
 }
 
+void add_array_to_set( std::set<std::string> &s, JsonObject &json, const std::string &name )
+{
+    JsonArray jarr = json.get_array( name );
+    while( jarr.has_more() ) {
+        s.insert( jarr.next_string() );
+    }
+}
+
 int JsonIn::tell()
 {
     return stream->tellg();

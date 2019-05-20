@@ -93,8 +93,6 @@ const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_crushed( "crushed" );
 const efftype_id effect_stunned( "stunned" );
 
-extern bool is_valid_in_w_terrain( int, int );
-
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 static std::list<item>  nulitems;          // Returned when &i_at() is asked for an OOB value
