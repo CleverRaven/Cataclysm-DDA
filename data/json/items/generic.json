@@ -2729,6 +2729,19 @@
     "to_hit": -3
   },
   {
+    "type": "GENERIC",
+    "id": "robofac_mission_2_corpse",
+    "symbol": "%",
+    "color": "white",
+    "name": "dissecated corpse",
+    "description": "A badly mangled and desiccated partial corpse. It seems whatever thing killed him did so with a single swipe of a gigantic claw.",
+    "category": "other",
+    "material": "hflesh",
+    "price": 0,
+    "volume": 30,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "id": "gasdiscount_silver",
     "type": "TOOL",
     "symbol": ",",
