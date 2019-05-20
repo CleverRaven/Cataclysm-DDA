@@ -1,8 +1,8 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "crt_expansion",
-    "name": "C.R.I.T Expansion Mod",
+    "ident": "crt_expansion_git",
+    "name": "C.R.I.T Expansion Mod GIT EDITION",
     "authors": [ "Soupster89" ],
     "maintainers": [ "Soupster89" ],
     "description": "Adds new professions, guns, gunmods, enemies, materials, martial arts, melees/tools and weapon techniques.",
