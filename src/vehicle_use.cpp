@@ -1324,7 +1324,7 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     const int dist = rl_dist( g->u.pos(), mount_to_tripoint( parts[part_index].mount ) );
     if( dist < 20 ) {
         sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
-                                parts[ part_index ].info().get_id().str(), 100 - dist * 3 );
+                                 parts[ part_index ].info().get_id().str(), 100 - dist * 3 );
     }
     for( auto const &vec : find_lines_of_parts( part_index, "OPENABLE" ) ) {
         for( auto const &partID : vec ) {
