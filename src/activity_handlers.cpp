@@ -408,34 +408,36 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
                               u.has_amount( "vine_30", 1 ) || u.has_amount( "grapnel", 1 );
         const bool big_corpse = corpse.size >= MS_MEDIUM;
 
-        if( big_corpse && has_rope && !has_tree_nearby && !b_rack_present ) {
-            u.add_msg_if_player( m_info,
-                                 _( "You need to suspend this corpse to butcher it, you have a rope to lift the corpse but there is no tree nearby." ) );
-            act.index = -1;
-            return;
-        } else if( big_corpse && !has_rope && !b_rack_present ) {
-            u.add_msg_if_player( m_info,
-                                 _( "For a corpse this big you need a rope and a nearby tree or a butchering rack to perform a full butchery." ) );
-            act.index = -1;
-            return;
-        }
-        if( big_corpse && !has_table_nearby ) {
-            u.add_msg_if_player( m_info,
-                                 _( "For a corpse this big you need a table nearby or something else with a flat surface to perform a full butchery." ) );
-            act.index = -1;
-            return;
-        }
         if( !u.has_quality( quality_id( "CUT" ) ) ) {
             u.add_msg_if_player( m_info, _( "You need a cutting tool to perform a full butchery." ) );
             act.index = -1;
             return;
         }
-        if( big_corpse && !( u.has_quality( quality_id( "SAW_W" ) ) ||
-                             u.has_quality( quality_id( "SAW_M" ) ) ) ) {
-            u.add_msg_if_player( m_info,
-                                 _( "For a corpse this big you need a saw to perform a full butchery." ) );
-            act.index = -1;
-            return;
+        if( big_corpse ) {
+            if( has_rope && !has_tree_nearby && !b_rack_present ) {
+                u.add_msg_if_player( m_info,
+                                     _( "You need to suspend this corpse to butcher it. While you have a rope to lift the corpse, there is no tree nearby to hang it from." ) );
+                act.index = -1;
+                return;
+            }
+            if( !has_rope && !b_rack_present ) {
+                u.add_msg_if_player( m_info,
+                                     _( "To perform a full butchery on a corpse this big, you need either a butchering rack or both a long rope in your inventory and a nearby tree to hang the corpse from." ) );
+                act.index = -1;
+                return;
+            }
+            if( !has_table_nearby ) {
+                u.add_msg_if_player( m_info,
+                                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface. A leather tarp spread out on the ground could suffice." ) );
+                act.index = -1;
+                return;
+            }
+            if( !( u.has_quality( quality_id( "SAW_W" ) ) || u.has_quality( quality_id( "SAW_M" ) ) ) ) {
+                u.add_msg_if_player( m_info,
+                                     _( "For a corpse this big you need a saw to perform a full butchery." ) );
+                act.index = -1;
+                return;
+            }
         }
     }
 
