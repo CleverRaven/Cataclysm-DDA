@@ -41,7 +41,8 @@
       "attack_text_npc": "%1$s tears into %2$s with their blades",
       "body_part": "TORSO",
       "chance": 33,
-      "base_damage": { "damage_type": "cut", "amount": 10 }
+      "base_damage": { "damage_type": "cut", "amount": 10 },
+      "strength_damage": { "damage_type": "biological", "amount": 0.25 }
     }
   }
 ]
