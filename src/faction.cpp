@@ -307,6 +307,14 @@ faction *faction_manager::get( const faction_id &id )
             return &elem;
         }
     }
+    for( const auto &iter : _all_faction_templates ) {
+        const faction_template &elem = iter.second;
+        if( elem.id == id ) {
+            factions.emplace_back( elem );
+            return &factions.back();
+        }
+    }
+
     debugmsg( "Requested non-existing faction '%s'", id.str() );
     return nullptr;
 }
