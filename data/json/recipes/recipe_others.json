@@ -1751,7 +1751,7 @@
     "time": 2000,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "tools": [ [ [ "spike", -1], [ "sharp_rock", -1], [ "rebar", -1], [ "spear_rebar", -1] ] ],
+    "tools": [ [ [ "spike", -1 ], [ "sharp_rock", -1 ], [ "rebar", -1 ], [ "spear_rebar", -1 ] ] ],
     "components": [ [ [ "30gal_drum", 1 ] ] ]
   },
   {
