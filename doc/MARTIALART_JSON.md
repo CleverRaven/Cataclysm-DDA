@@ -110,6 +110,6 @@ Examples:
 
 ### Place relevant items in the world and chargen
 
-Starting trait selection of your martial art go in mutations.json. Place your art in the right category (self-defense, Shaolin animal form, melee style, etc)
+Starting trait selection of your martial art goes in mutations.json. Place your art in the right category (self-defense, Shaolin animal form, melee style, etc)
 
 Use json/itemgroups/ to place your martial art book and any martial weapons you've made for the art into spawns in various locations in the world. If you don't place your weapons in there, only recipes to craft them will be an option.
