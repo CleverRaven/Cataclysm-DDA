@@ -47,7 +47,7 @@
   {
     "type": "COMESTIBLE",
     "id": "brew_gin",
-    "name": "gin mash",
+    "name": "fermenting gin mash",
     "description": "Undistilled gin mash. Distilling it will produce gin.",
     "weight": 33,
     "color": "brown",
