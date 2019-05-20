@@ -28,6 +28,7 @@
     "type": "mutation",
     "id": "VAMPEYES",
     "name": "Red Iris",
+    "mixed_effect": true,
     "points": 4,
     "visibility": -1,
     "ugliness": -1,
