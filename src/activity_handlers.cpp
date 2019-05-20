@@ -1316,7 +1316,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         item liquid;
         const auto source_type = static_cast<liquid_source_type>( act_ref.values.at( 0 ) );
         int part_num = -1;
-        long veh_charges = 0;
+        int veh_charges = 0;
         switch( source_type ) {
             case LST_VEHICLE:
                 source_veh = veh_pointer_or_null( g->m.veh_at( source_pos ) );
@@ -1352,9 +1352,9 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         }
 
         static const auto volume_per_turn = units::from_liter( 4 );
-        const long charges_per_turn = std::max( 1l, liquid.charges_per_volume( volume_per_turn ) );
+        const int charges_per_turn = std::max( 1, liquid.charges_per_volume( volume_per_turn ) );
         liquid.charges = std::min( charges_per_turn, liquid.charges );
-        const long original_charges = liquid.charges;
+        const int original_charges = liquid.charges;
         if( liquid.has_temperature() && liquid.specific_energy < 0 ) {
             liquid.set_item_temperature( std::max( temp_to_kelvin( g->weather.get_temperature( p->pos() ) ),
                                                    277.15 ) );
@@ -1386,7 +1386,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
                 break;
         }
 
-        const long removed_charges = original_charges - liquid.charges;
+        const int removed_charges = original_charges - liquid.charges;
         if( removed_charges == 0 ) {
             // Nothing has been transferred, target must be full.
             act_ref.set_to_null();
@@ -1476,7 +1476,7 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
     // TODO: Store the patient somehow, retrieve here
     player &patient = *p;
     const hp_part healed = static_cast<hp_part>( act->values[0] );
-    const long charges_consumed = actor->finish_using( *p, patient, *used_tool, healed );
+    const int charges_consumed = actor->finish_using( *p, patient, *used_tool, healed );
     p->consume_charges( it, charges_consumed );
 
     // Erase activity and values.
@@ -1790,7 +1790,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
     }
     p->add_msg_if_player( m_good, _( "You finish digging." ) );
     g->m.destroy( pos, true );
-    it.charges = std::max( static_cast<long>( 0 ), it.charges - it.type->charges_to_use() );
+    it.charges = std::max( 0, it.charges - it.type->charges_to_use() );
     if( it.charges == 0 && it.destroyed_at_zero_charges() ) {
         p->i_rem( &it );
     }
@@ -2165,7 +2165,7 @@ void activity_handlers::oxytorch_do_turn( player_activity *act, player *p )
 
     item &it = p->i_at( act->position );
     // act->values[0] is the number of charges yet to be consumed
-    const long charges_used = std::min( static_cast<long>( act->values[0] ), it.ammo_required() );
+    const int charges_used = std::min( act->values[0], it.ammo_required() );
 
     it.ammo_consume( charges_used, p->pos() );
     act->values[0] -= static_cast<int>( charges_used );
@@ -2830,6 +2830,8 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
                 p->last_craft->execute( loc );
             }
         }
+    } else if( craft->item_counter >= craft->get_next_failure_point() ) {
+        craft->handle_craft_failure( *p );
     }
 }
 
@@ -3070,10 +3072,9 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
             g->m.spawn_item( pos, "bone_human", rng( 5, 15 ) );
             g->m.furn_set( pos, f_coffin_c );
         }
-        std::vector<item *> dropped;
+        std::vector<item *> dropped = g->m.place_items( "allclothes", 50, pos, pos, false, calendar::turn );
         g->m.place_items( "grave", 25, pos, pos, false, calendar::turn );
         g->m.place_items( "jewelry_front", 20, pos, pos, false, calendar::turn );
-        dropped = g->m.place_items( "allclothes", 50, pos, pos, false, calendar::turn );
         for( const auto &it : dropped ) {
             if( it->is_armor() ) {
                 it->item_tags.insert( "FILTHY" );
@@ -3181,7 +3182,7 @@ void activity_handlers::haircut_finish( player_activity *act, player *p )
 
 void activity_handlers::unload_mag_finish( player_activity *act, player *p )
 {
-    long qty = 0;
+    int qty = 0;
     item &it = *act->targets[ 0 ];
 
     // remove the ammo leads in the belt

@@ -1174,7 +1174,7 @@ npc_action npc::method_of_attack()
     // if there's enough of a threat to be here, power up the combat CBMs
     activate_combat_cbms();
 
-    long ups_charges = charges_of( "UPS" );
+    int ups_charges = charges_of( "UPS" );
 
     // get any suitable modes excluding melee, any forbidden to NPCs and those without ammo
     // if we require a silent weapon inappropriate modes are also removed
@@ -1351,13 +1351,13 @@ bool wants_to_reload( const npc &who, const item &it )
         return false;
     }
 
-    const long required = it.ammo_required();
+    const int required = it.ammo_required();
     // TODO: Add bandolier check here, once they can be reloaded
     if( required < 1 && !it.is_magazine() ) {
         return false;
     }
 
-    const long remaining = it.ammo_remaining();
+    const int remaining = it.ammo_remaining();
     return remaining < required || remaining < it.ammo_capacity();
 }
 
@@ -2392,7 +2392,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
     }
 }
 
-void npc::see_item_say_smth( const itype_id object, const std::string smth )
+void npc::see_item_say_smth( const itype_id &object, const std::string &smth )
 {
     for( const tripoint &p : closest_tripoints_first( 6, pos() ) ) {
         if( g->m.sees_some_items( p, *this ) && sees( p ) ) {
@@ -2938,7 +2938,7 @@ bool npc::wield_better_weapon()
     item *best = &weapon;
     double best_value = -100.0;
 
-    const long ups_charges = charges_of( "UPS" );
+    const int ups_charges = charges_of( "UPS" );
 
     const auto compare_weapon =
     [this, &best, &best_value, ups_charges, can_use_gun, use_silent]( const item & it ) {
@@ -2947,8 +2947,8 @@ bool npc::wield_better_weapon()
         if( !allowed ) {
             val = weapon_value( it, 0 );
         } else {
-            long ammo_count = it.ammo_remaining();
-            long ups_drain = it.get_gun_ups_drain();
+            int ammo_count = it.ammo_remaining();
+            int ups_drain = it.get_gun_ups_drain();
             if( ups_drain > 0 ) {
                 ammo_count = std::min( ammo_count, ups_charges / ups_drain );
             }
@@ -3018,7 +3018,7 @@ void npc_throw( npc &np, item &it, int index, const tripoint &pos )
         add_msg( _( "%1$s throws a %2$s." ), np.name, it.tname() );
     }
 
-    long stack_size = -1;
+    int stack_size = -1;
     if( it.count_by_charges() ) {
         stack_size = it.charges;
         it.charges = 1;
@@ -3209,7 +3209,7 @@ void npc::heal_player( player &patient )
         return;
     }
     if( !is_hallucination() ) {
-        long charges_used = used.type->invoke( *this, used, patient.pos(), "heal" );
+        int charges_used = used.type->invoke( *this, used, patient.pos(), "heal" );
         consume_charges( used, charges_used );
     } else {
         pretend_heal( patient, used );
@@ -3249,7 +3249,7 @@ void npc::heal_self()
     }
     warn_about( "heal_self", 1_turns );
 
-    long charges_used = used.type->invoke( *this, used, pos(), "heal" );
+    int charges_used = used.type->invoke( *this, used, pos(), "heal" );
     if( used.is_medication() ) {
         consume_charges( used, charges_used );
     }
@@ -3982,8 +3982,8 @@ void npc::do_reload( const item &it )
     item &target = const_cast<item &>( *reload_opt.target );
     item_location &usable_ammo = reload_opt.ammo;
 
-    long qty = std::max( 1l, std::min( usable_ammo->charges,
-                                       it.ammo_capacity() - it.ammo_remaining() ) );
+    int qty = std::max( 1, std::min( usable_ammo->charges,
+                                     it.ammo_capacity() - it.ammo_remaining() ) );
     int reload_time = item_reload_cost( it, *usable_ammo, qty );
     // TODO: Consider printing this info to player too
     const std::string ammo_name = usable_ammo->tname();

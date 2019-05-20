@@ -1337,7 +1337,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                                               _( "Ammo: <color_%s>%s</color> (%d/%d)" ) :
                                               _( "Ammo: <color_%s>%s</color>" ),
                                               get_all_colors().get_name( cur->color ),
-                                              cur->nname( std::max( m->ammo_remaining(), 1L ) ),
+                                              cur->nname( std::max( m->ammo_remaining(), 1 ) ),
                                               m->ammo_remaining(), m->ammo_capacity() );
 
                     print_colored_text( w_target, line_number++, 1, col, col, str );
@@ -1931,7 +1931,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     return dispersion;
 }
 
-double player::gun_value( const item &weap, long ammo ) const
+double player::gun_value( const item &weap, int ammo ) const
 {
     // TODO: Mods
     // TODO: Allow using a specified type of ammo rather than default

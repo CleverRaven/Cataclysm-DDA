@@ -1020,7 +1020,7 @@ class npc : public player
         // Item discovery and fetching
 
         // Comment on item seen
-        void see_item_say_smth( const itype_id item, const std::string smth );
+        void see_item_say_smth( const itype_id &item, const std::string &smth );
         // Look around and pick an item
         void find_item();
         // Move to, or grab, our targeted item

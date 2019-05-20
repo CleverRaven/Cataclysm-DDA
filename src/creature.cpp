@@ -469,6 +469,7 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
                                const damage_instance &dam, dealt_damage_instance &dealt_dam )
 {
     if( source == nullptr || source->is_hallucination() ) {
+        dealt_dam.bp_hit = get_random_body_part();
         return;
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
@@ -1526,6 +1527,20 @@ void Creature::check_dead_state()
 {
     if( is_dead_state() ) {
         die( nullptr );
+    }
+}
+
+const std::string Creature::attitude_raw_string( Attitude att )
+{
+    switch( att ) {
+        case Creature::A_HOSTILE:
+            return "hostile";
+        case Creature::A_NEUTRAL:
+            return "neutral";
+        case Creature::A_FRIENDLY:
+            return "friendly";
+        default:
+            return "other";
     }
 }
 

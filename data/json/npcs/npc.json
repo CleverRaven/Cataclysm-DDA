@@ -389,6 +389,17 @@
   },
   {
     "type": "npc",
+    "id": "marloss_voice",
+    "//": "Generic Marloss Priest who leads pilgrim bands.",
+    "name_suffix": "Marloss Voice",
+    "class": "NC_MARLOSS_VOICE",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_MARLOSS_VOICE",
+    "faction": "marloss"
+  },
+  {
+    "type": "npc",
     "id": "apis",
     "//": "Bee mutant or mutant bee (supposed to be ambiguous). Should be 'it', but we'll go with 'she' because it's a bee.",
     "name_unique": "Apis",

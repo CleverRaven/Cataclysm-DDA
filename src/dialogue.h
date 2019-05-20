@@ -535,7 +535,6 @@ class json_talk_topic
          * responses will be added (behind those added here).
          */
         bool gen_responses( dialogue &d ) const;
-        bool gen_repeat_response( dialogue &d, const std::string &item_id );
 };
 
 void unload_talk_topics();

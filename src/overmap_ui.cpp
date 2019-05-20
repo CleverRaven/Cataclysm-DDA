@@ -999,8 +999,14 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
                   show_explored, fast_scroll, &ictxt, data );
         }
         redraw = true;
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-        action = ictxt.handle_input( get_option<int>( "EDGE_SCROLL" ) );
+#if (defined TILES || defined _WIN32 || defined WINDOWS )
+        int scroll_timeout = get_option<int>( "EDGE_SCROLL" );
+        // If EDGE_SCROLL is disabled, it will have a value of -1.
+        // blinking won't work if handle_input() is passed a negative integer.
+        if( scroll_timeout < 0 ) {
+            scroll_timeout = BLINK_SPEED;
+        }
+        action = ictxt.handle_input( scroll_timeout );
 #else
         action = ictxt.handle_input( BLINK_SPEED );
 #endif

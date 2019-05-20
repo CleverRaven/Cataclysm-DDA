@@ -287,8 +287,12 @@ bool player::activate_bionic( int b, bool eff_only )
         }
 
         if( !weapon.is_null() ) {
-            add_msg_if_player( m_warning, _( "You're forced to drop your %s." ), weapon.tname() );
-            g->m.add_item_or_charges( pos(), weapon );
+            const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname() );
+            if( !dispose_item( item_location( *this, &weapon ), query ) ) {
+                charge_power( bionics[bio.id].power_activate );
+                bio.powered = false;
+                return false;
+            }
         }
 
         weapon = item( bionics[bio.id].fake_item );

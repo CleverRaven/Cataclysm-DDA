@@ -447,4 +447,4 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "humvee", 5475145, 465800, 278700, 24650, 8824 );
     test_vehicle( "road_roller", 8779702, 315600, 295100, 21910, 6666 );
     test_vehicle( "golf_cart", 446230, 52800, 104200, 26830, 13890 );
-};
+}

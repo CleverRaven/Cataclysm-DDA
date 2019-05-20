@@ -508,6 +508,8 @@
       "build": {
         "chance": 90,
         "extras": {
+          "mx_house_spider": 40,
+          "mx_house_wasp": 60,
           "mx_military": 5,
           "mx_science": 12,
           "mx_collegekids": 15,
@@ -518,6 +520,7 @@
           "mx_anomaly": 3
         }
       },
+      "marloss": { "chance": 20, "extras": { "mx_marloss_pilgrimage": 100 } },
       "subway": {
         "chance": 75,
         "extras": {
@@ -721,7 +724,8 @@
         "cs_market_small": 100,
         "cs_sex_shop": 100,
         "cs_tire_shop": 100,
-        "homeless_shelter": 100
+        "homeless_shelter": 100,
+        "parking_garage": 200
       }
     },
     "weather": {

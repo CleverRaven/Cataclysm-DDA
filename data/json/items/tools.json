@@ -90,7 +90,10 @@
     "color": "light_gray",
     "ammo": "battery",
     "flags": [ "RECHARGE" ],
-    "magazines": [ [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    ],
+    "magazine_well": 4
   },
   {
     "id": "acidbomb",
@@ -151,10 +154,13 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
+          "light_disposable_cell",
+          "light_minus_disposable_cell",
           "light_minus_atomic_battery_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "airhorn",
@@ -1360,7 +1366,10 @@
     "color": "dark_gray",
     "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    ],
+    "magazine_well": 4
   },
   {
     "id": "broadfire_off",
@@ -1394,25 +1403,13 @@
   },
   {
     "id": "broadfire_on",
+    "copy-from": "broadfire_off",
     "type": "TOOL",
-    "category": "weapons",
     "name": "firebrand (on)",
     "name_plural": "firebrands (on)",
     "description": "This is a combination of two Dark Age conflict-resolution classics, the broadsword and the torch.  The blade is glowing with heat.  Excalibur can eat its heart out.  Use to shut it off.",
-    "weight": 1474,
-    "volume": 9,
-    "price": 120000,
-    "to_hit": 1,
-    "bashing": 8,
-    "cutting": 35,
-    "material": "steel",
-    "symbol": "/",
-    "color": "red",
-    "ammo": "gasoline",
-    "max_charges": 50,
     "turns_per_charge": 30,
     "revert_to": "broadfire_off",
-    "techniques": [ "WBLOCK_2" ],
     "use_action": [
       {
         "type": "fireweapon_on",
@@ -1530,6 +1527,28 @@
     }
   },
   {
+    "id": "caltrops_glass",
+    "type": "TOOL",
+    "name": "loose glass caltrops",
+    "name_plural": "loose glass caltrops",
+    "description": "These are glass shards glued together to expose their sharp edges.  If an unsuspecting victim steps on one, they'll get cut.",
+    "weight": 264,
+    "volume": 2,
+    "price": 100,
+    "to_hit": -4,
+    "cutting": 6,
+    "material": "glass",
+    "symbol": ";",
+    "color": "dark_gray",
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_caltrops_glass",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You scatter the glass caltrops on the %s."
+    }
+  },
+  {
     "id": "camera",
     "type": "TOOL",
     "name": "camera",
@@ -1545,7 +1564,21 @@
     "charges_per_use": 5,
     "revert_to": "camera",
     "use_action": "CAMERA",
-    "magazines": [ [ "battery", [ "light_plus_battery_cell", "light_minus_battery_cell", "light_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "camera_pro",
@@ -1572,10 +1605,13 @@
           "light_minus_battery_cell",
           "light_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "can_sealer",
@@ -1691,37 +1727,40 @@
     "magazines": [
       [
         "battery",
-        [
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
-    ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "carver_on",
+    "copy-from": "carver_off",
     "type": "TOOL",
     "name": "electric carver (on)",
     "name_plural": "electric carvers (on)",
     "description": "This carver is on and the blades are buzzing.  Use it to turn it off.",
-    "weight": 1106,
-    "volume": 6,
-    "price": 2000,
-    "bashing": 2,
     "cutting": 30,
-    "material": [ "steel", "plastic" ],
-    "symbol": "/",
-    "color": "yellow",
-    "ammo": "battery",
     "turns_per_charge": 1,
     "revert_to": "carver_off",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
     "use_action": "CARVER_ON",
     "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazine_well": 2
+  },
+  {
+    "id": "catfood",
+    "type": "TOOL",
+    "name": "cat food",
+    "name_plural": "cat food",
+    "description": "This is food for cats.  It smells strange, but cats seem to love it.",
+    "weight": 223,
+    "volume": 1,
+    "price": 300,
+    "to_hit": -5,
+    "material": "flesh",
+    "symbol": ";",
+    "color": "brown",
+    "use_action": "CATFOOD"
   },
   {
     "id": "cavalry_sabre",
@@ -1756,6 +1795,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
+    "//": "CAUTION: This is a special case where I put initial charges in and have magazines.  Don't do this.",
     "initial_charges": 150,
     "charges_per_use": 1,
     "use_action": {
@@ -1775,10 +1815,13 @@
           "light_minus_battery_cell",
           "light_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "cell_phone_flashlight",
@@ -1860,21 +1903,14 @@
   },
   {
     "id": "chainsaw_on",
+    "copy-from": "chainsaw_off",
     "type": "TOOL",
     "name": "chainsaw (on)",
     "name_plural": "chainsaws (on)",
     "description": "This chainsaw is on and making a lot of noise.  Use it to turn it off.",
-    "weight": 6577,
-    "volume": 10,
-    "price": 8000,
     "to_hit": -5,
     "bashing": 4,
     "cutting": 70,
-    "material": [ "steel", "plastic" ],
-    "symbol": "/",
-    "color": "red",
-    "ammo": "gasoline",
-    "max_charges": 400,
     "turns_per_charge": 1,
     "revert_to": "chainsaw_off",
     "techniques": "SWEEP",
@@ -2023,30 +2059,29 @@
     "charges_per_use": 5,
     "use_action": { "target": "circsaw_on", "msg": "You turn on the circular saw.", "active": true, "type": "transform" },
     "flags": [ "NONCONDUCTIVE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "circsaw_on",
+    "copy-from": "circsaw_off",
     "type": "TOOL",
     "name": "circular saw (on)",
     "name_plural": "circular saws (on)",
     "//": "Circular saw would be very fast but imprecise butchering tool - alas the qualities are not separate and so speed is sacrificed.",
     "description": "A lightweight handheld cordless circular saw.  It is currently on and the blade is spinning; use this item to turn it off.",
-    "weight": 2940,
-    "volume": 3,
-    "price": 5000,
-    "to_hit": -3,
-    "bashing": 2,
     "cutting": 50,
-    "material": [ "steel", "plastic" ],
-    "symbol": "/",
-    "color": "yellow",
-    "ammo": "battery",
     "turns_per_charge": 1,
     "revert_to": "circsaw_off",
     "qualities": [ [ "CUT", 1 ], [ "SAW_W", 2 ], [ "BUTCHER", -40 ] ],
     "use_action": "CIRCSAW_ON",
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
+    "magazine_well": 2
   },
   {
     "id": "clarinet",
@@ -2144,7 +2179,13 @@
     "charges_per_use": 10,
     "qualities": [ [ "BOIL", 1 ] ],
     "use_action": "HOTPLATE",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "combatsaw_off",
@@ -2168,25 +2209,15 @@
   },
   {
     "id": "combatsaw_on",
+    "copy-from": "combatsaw_off",
     "type": "TOOL",
-    "category": "weapons",
     "name": "combat chainsaw (on)",
     "name_plural": "combat chainsaws (on)",
     "description": "This combat chainsaw is on, and is continuously draining gasoline.  Use it to turn it off.",
-    "weight": 5122,
-    "volume": 9,
-    "price": 25000,
     "to_hit": -4,
-    "bashing": 8,
     "cutting": 82,
-    "material": [ "steel", "aluminum" ],
-    "symbol": "/",
-    "color": "light_gray",
-    "ammo": "gasoline",
-    "max_charges": 1000,
     "turns_per_charge": 1,
     "revert_to": "combatsaw_off",
-    "techniques": [ "WBLOCK_1", "SWEEP" ],
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -120 ] ],
     "use_action": "COMBATSAW_ON",
     "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED" ]
@@ -2209,31 +2240,29 @@
     "ammo": "battery",
     "use_action": "E_COMBATSAW_OFF",
     "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "e_combatsaw_on",
+    "copy-from": "e_combatsaw_off",
     "type": "TOOL",
-    "category": "weapons",
     "name": "electric combat chainsaw (on)",
     "name_plural": "electric combat chainsaws (on)",
     "description": "This electric combat chainsaw is on, and is continuously draining power.  Use it to turn it off.",
-    "weight": 5122,
-    "volume": 9,
-    "price": 25000,
     "to_hit": -4,
-    "bashing": 8,
     "cutting": 82,
-    "material": [ "steel", "aluminum" ],
-    "symbol": "/",
-    "color": "light_gray",
-    "ammo": "battery",
     "turns_per_charge": 1,
     "revert_to": "e_combatsaw_off",
-    "techniques": [ "WBLOCK_1", "SWEEP" ],
     "qualities": [ [ "AXE", 3 ] ],
     "use_action": "E_COMBATSAW_ON",
-    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED" ]
+    "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED" ],
+    "magazine_well": 2
   },
   {
     "id": "con_mix",
@@ -2252,7 +2281,13 @@
     "charges_per_use": 20,
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "HOTPLATE",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "control_laptop",
@@ -2269,7 +2304,13 @@
     "charges_per_use": 2,
     "use_action": "ROBOTCONTROL",
     "flags": [ "RECHARGE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "copper_ax",
@@ -2321,7 +2362,13 @@
     "color": "yellow",
     "ammo": "battery",
     "qualities": [ [ "DRILL", 3 ], [ "SCREW", 1 ] ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "cot",
@@ -2399,10 +2446,13 @@
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "crossbow_trap",
@@ -2486,10 +2536,24 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": "battery",
-    "max_charges": 100,
     "charges_per_use": 5,
     "use_action": { "type": "firestarter" },
-    "flags": [ "FIRESTARTER" ]
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_plus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "flags": [ "FIRESTARTER" ],
+    "magazine_well": 1
   },
   {
     "id": "crude_picklock",
@@ -2529,25 +2593,14 @@
   },
   {
     "id": "cs_lajatang_on",
+    "copy-from": "cs_lajatang_off",
     "type": "TOOL",
-    "category": "weapons",
     "name": "chainsaw lajatang (on)",
     "name_plural": "chainsaw lajatangs (on)",
     "description": "A long wooden pole with chainsaws impractically attached to both ends.  They are currently on and draining gasoline; use this item to turn them off.",
-    "weight": 14254,
-    "volume": 30,
-    "price": 40000,
-    "to_hit": -5,
     "bashing": 4,
     "cutting": 140,
-    "material": [ "plastic", "steel" ],
-    "symbol": "/",
-    "color": "red",
-    "ammo": "gasoline",
-    "max_charges": 800,
-    "turns_per_charge": 1,
     "revert_to": "cs_lajatang_off",
-    "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": "CS_LAJATANG_ON",
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -250 ] ],
     "flags": [ "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE" ]
@@ -2572,29 +2625,24 @@
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": "ECS_LAJATANG_OFF",
     "flags": [ "NONCONDUCTIVE" ],
-    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    ],
+    "magazine_well": 4
   },
   {
     "id": "ecs_lajatang_on",
+    "copy-from": "ecs_lajatang_off",
     "type": "TOOL",
     "name": "electric chainsaw lajatang (on)",
     "name_plural": "electric chainsaw lajatangs (on)",
     "description": "A long wooden pole with electric chainsaws impractically attached to both ends.  They are currently on and draining power; use this item to turn them off.",
-    "weight": 14254,
-    "volume": 30,
-    "price": 40000,
-    "to_hit": -5,
     "bashing": 4,
     "cutting": 140,
-    "material": [ "plastic", "steel" ],
-    "symbol": "/",
-    "color": "red",
-    "ammo": "battery",
-    "turns_per_charge": 1,
     "revert_to": "ecs_lajatang_off",
-    "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
     "use_action": "ECS_LAJATANG_ON",
-    "flags": [ "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE" ]
+    "flags": [ "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE" ],
+    "magazine_well": 4
   },
   {
     "id": "cutlass",
@@ -2645,7 +2693,13 @@
     "color": "blue",
     "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "digging_stick",
@@ -2864,10 +2918,13 @@
           "light_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "elec_chainsaw_off",
@@ -2887,30 +2944,30 @@
     "techniques": "SWEEP",
     "use_action": "ELEC_CHAINSAW_OFF",
     "flags": [ "NONCONDUCTIVE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "elec_chainsaw_on",
+    "copy-from": "elec_chainsaw_off",
     "type": "TOOL",
     "name": "electric chainsaw (on)",
     "name_plural": "electric chainsaws (on)",
     "description": "This electric chainsaw is on and making a lot of noise.  Use it to turn it off.",
-    "weight": 6577,
-    "volume": 10,
-    "price": 8000,
     "to_hit": -5,
     "bashing": 4,
     "cutting": 70,
-    "material": [ "steel", "plastic" ],
-    "symbol": "/",
-    "color": "red",
-    "ammo": "battery",
     "turns_per_charge": 1,
     "revert_to": "elec_chainsaw_off",
-    "techniques": "SWEEP",
     "qualities": [ [ "AXE", 4 ], [ "BUTCHER", -100 ] ],
     "use_action": "ELEC_CHAINSAW_ON",
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED" ]
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE", "POWERED" ],
+    "magazine_well": 2
   },
   {
     "id": "elec_hairtrimmer",
@@ -2928,7 +2985,8 @@
     "ammo": "battery",
     "charges_per_use": 10,
     "use_action": "HAIRKIT",
-    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ],
+    "magazine_well": 1
   },
   {
     "id": "elec_jackhammer",
@@ -2948,7 +3006,10 @@
     "charges_per_use": 25,
     "use_action": "JACKHAMMER",
     "flags": [ "STAB", "DIG_TOOL", "POWERED" ],
-    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    ],
+    "magazine_well": 4
   },
   {
     "id": "electrohack",
@@ -2973,10 +3034,13 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "etched_skull",
@@ -3593,7 +3657,10 @@
     "color": "light_gray",
     "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    ],
+    "magazine_well": 4
   },
   {
     "id": "funnel",
@@ -3759,21 +3826,11 @@
   },
   {
     "id": "gasoline_lantern_on",
+    "copy-from": "gasoline_lantern",
     "type": "TOOL",
     "name": "gasoline lantern (on)",
     "name_plural": "gasoline lanterns (on)",
     "description": "This is a small gasoline powered lantern.  It does not provide much light, but it lasts a long time.  It is turned on.  Use it to turn it off.",
-    "weight": 1400,
-    "volume": 3,
-    "price": 3000,
-    "to_hit": 2,
-    "bashing": 1,
-    "material": [ "glass", "iron" ],
-    "symbol": ";",
-    "color": "yellow",
-    "ammo": "gasoline",
-    "initial_charges": 500,
-    "max_charges": 500,
     "turns_per_charge": 20,
     "revert_to": "gasoline_lantern",
     "use_action": { "target": "gasoline_lantern", "msg": "The lantern is extinguished.", "menu_text": "Turn off", "type": "transform" },
@@ -3803,29 +3860,26 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "geiger_on",
+    "copy-from": "geiger_off",
     "type": "TOOL",
     "name": "geiger counter (on)",
     "name_plural": "geiger counters (on)",
     "description": "This is a tool for measuring radiation.  It is in continuous scan mode, and will produce quiet clicking sounds in the presence of ambient radiation.  Using it allows you to turn it off, or scan yourself or the ground.  It is currently on.",
-    "weight": 225,
-    "volume": 2,
-    "price": 15000,
-    "bashing": 2,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ";",
-    "color": "green",
-    "ammo": "battery",
     "turns_per_charge": 10,
     "revert_to": "geiger_off",
     "use_action": "GEIGER",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "magazine_well": 1
   },
   {
     "id": "generic_folded_vehicle",
@@ -4135,7 +4189,13 @@
     "ammo": "battery",
     "charges_per_use": 5,
     "use_action": "HOTPLATE",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "hygrometer",
@@ -4568,29 +4628,26 @@
       "type": "transform"
     },
     "flags": [ "DURABLE_MELEE", "SHEATH_SPEAR" ],
-    "magazines": [ [ "battery", [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "l-stick_on",
+    "copy-from": "l-stick",
     "type": "TOOL",
-    "category": "weapons",
     "name": "L-stick (on)",
     "name_plural": "L-sticks (on)",
     "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the L-stick or light stick as it is commonly called, batteries last longer than other light sources.  The staff is glowing brightly, which is slowly draining the batteries.",
-    "weight": 1000,
-    "volume": 12,
-    "price": 8000,
-    "to_hit": 3,
-    "bashing": 18,
     "material": [ "superalloy", "steel" ],
-    "symbol": ";",
-    "color": "blue",
-    "ammo": "battery",
-    "turns_per_charge": 40,
     "revert_to": "l-stick",
-    "techniques": [ "WBLOCK_1", "RAPID" ],
     "use_action": { "target": "l-stick", "msg": "The l-stick(tm)'s light fades away.", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID", "SHEATH_SPEAR" ]
+    "flags": [ "LIGHT_300", "DURABLE_MELEE", "TRADER_AVOID", "SHEATH_SPEAR" ],
+    "magazine_well": 2
   },
   {
     "id": "landmine",
@@ -4643,7 +4700,13 @@
       [ "CHISEL", 3 ]
     ],
     "use_action": "GUN_REPAIR",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ],
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -4747,7 +4810,9 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
     ],
@@ -4933,7 +4998,12 @@
     "color": "white",
     "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ]
   },
   {
     "id": "matchbomb",
@@ -5025,7 +5095,13 @@
     "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "metal_funnel",
@@ -5081,7 +5157,13 @@
     "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
-    "magazines": [ [ "battery", [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "mininuke",
@@ -5283,28 +5365,26 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "mp3_on",
+    "copy-from": "mp3",
     "type": "TOOL",
     "name": "mp3 player (on)",
     "name_plural": "mp3 players (on)",
     "description": "This mp3 player is turned on and playing some great tunes, raising your morale steadily while on your person.  It runs through batteries quickly; you can turn it off by using it.  It also obscures your hearing.",
-    "weight": 140,
-    "volume": "50 ml",
-    "price": 3000,
-    "material": [ "aluminum", "plastic" ],
-    "symbol": ";",
-    "color": "dark_gray",
-    "ammo": "battery",
     "turns_per_charge": 150,
     "revert_to": "mp3",
     "use_action": "MP3_ON",
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID" ],
+    "magazine_well": 1
   },
   {
     "id": "multi_cooker",
@@ -5323,7 +5403,13 @@
     "revert_to": "multi_cooker",
     "qualities": [ [ "CONTAIN", 1 ] ],
     "use_action": "MULTICOOKER",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "multitool",
@@ -5469,26 +5555,20 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
     ]
   },
   {
     "id": "noise_emitter_on",
+    "copy-from": "noise_emitter",
     "type": "TOOL",
     "name": "noise emitter (on)",
     "name_plural": "noise emitters (on)",
     "description": "This device has been turned on and is emitting horrible crackles, pops and other static sounds.  Quick, get away from it before it draws zombies to you!",
-    "weight": 340,
-    "volume": 4,
-    "price": 0,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": ";",
-    "color": "yellow",
-    "ammo": "battery",
     "turns_per_charge": 1,
     "revert_to": "noise_emitter",
     "use_action": "NOISE_EMITTER_ON",
@@ -5545,21 +5625,11 @@
   },
   {
     "id": "oil_lamp_on",
+    "copy-from": "oil_lamp",
     "type": "TOOL",
     "name": "oil lamp",
     "name_plural": "oil lamps",
     "description": "This is an oil fueled lamp.  It does not provide much light, but it lasts a long time.  It is turned on.  Use it to turn it off.",
-    "weight": 1720,
-    "volume": 4,
-    "price": 1000,
-    "to_hit": 2,
-    "bashing": 1,
-    "material": [ "glass", "iron" ],
-    "symbol": ";",
-    "color": "yellow",
-    "ammo": "lamp_oil",
-    "initial_charges": 800,
-    "max_charges": 800,
     "turns_per_charge": 20,
     "revert_to": "oil_lamp",
     "use_action": { "target": "oil_lamp", "msg": "The lantern is extinguished.", "menu_text": "Turn off", "type": "transform" },
@@ -5775,8 +5845,8 @@
     "id": "pike",
     "type": "GENERIC",
     "category": "weapons",
-    "name": "awl pike",
-    "description": "This is a medieval weapon consisting of a wood shaft tipped with an iron spike.",
+    "name": "pike",
+    "description": "This is a medieval weapon consisting of a wood shaft tipped with an iron spearhead.",
     "weight": 2500,
     "volume": 14,
     "price": 40000,
@@ -5958,10 +6028,13 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "popcan_stove",
@@ -6004,10 +6077,13 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "portal",
@@ -6214,10 +6290,13 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "reading_light_on",
@@ -6570,7 +6649,7 @@
     "name": "anesthesia kit",
     "description": "A kit for inducing anesthesia for surgery, containing specialized canisters with a variety of powerful hypnotic, analgetic, and stimulative drugs.  It's intended for use in specialized medical equipment, and can't be administered manually.",
     "weight": 100,
-    "volume": 1,
+    "volume": 13,
     "price": 1000,
     "container_data": { "contains": 12, "watertight": true, "seals": true },
     "to_hit": -1,
@@ -6656,21 +6735,11 @@
   },
   {
     "id": "shishkebab_on",
+    "copy-from": "shishkebab_off",
     "type": "TOOL",
-    "category": "weapons",
     "name": "shishkebab (on)",
     "name_plural": "shishkebabs (on)",
     "description": "This is a large blade with a fuel pipe on the side, and a small tank and igniter built into the insulated hilt.  The blade is glowing brightly.  Use to shut off the gas.",
-    "weight": 1701,
-    "volume": 10,
-    "price": 10000,
-    "bashing": 4,
-    "cutting": 14,
-    "material": [ "steel", "plastic" ],
-    "symbol": "/",
-    "color": "red",
-    "ammo": "gasoline",
-    "max_charges": 50,
     "turns_per_charge": 20,
     "revert_to": "shishkebab_off",
     "use_action": [
@@ -6687,7 +6756,6 @@
       },
       { "type": "firestarter", "moves": 30 }
     ],
-    "techniques": [ "WBLOCK_1" ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
   },
   {
@@ -6711,7 +6779,13 @@
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
     "use_action": "TAZER",
     "flags": [ "DURABLE_MELEE", "RECHARGE", "NONCONDUCTIVE", "SHEATH_SPEAR" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "shocktonfa_off",
@@ -6733,30 +6807,26 @@
     "techniques": [ "WBLOCK_2", "RAPID" ],
     "use_action": "SHOCKTONFA_OFF",
     "flags": [ "DURABLE_MELEE", "RECHARGE", "NONCONDUCTIVE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "shocktonfa_on",
+    "copy-from": "shocktonfa_off",
     "type": "TOOL",
-    "category": "weapons",
     "name": "tactical tonfa (on)",
     "name_plural": "tactical tonfas (on)",
     "description": "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the weapon, and by extension to anyone unfortunate enough to be in contact with them.  The integral flashlight is turned on, continually draining power and lighting the surrounding area.",
-    "weight": 726,
-    "volume": 9,
-    "price": 17000,
-    "to_hit": 2,
-    "bashing": 14,
-    "material": [ "plastic", "steel" ],
-    "symbol": "/",
-    "color": "dark_gray",
-    "ammo": "battery",
-    "charges_per_use": 1,
     "turns_per_charge": 15,
     "revert_to": "shocktonfa_off",
-    "techniques": [ "WBLOCK_2", "RAPID" ],
     "use_action": "SHOCKTONFA_ON",
-    "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ]
+    "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ],
+    "magazine_well": 2
   },
   {
     "id": "shotgun_trap",
@@ -6862,7 +6932,13 @@
       [ "CHISEL", 3 ]
     ],
     "use_action": "GUN_REPAIR",
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ],
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -6898,30 +6974,26 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "smart_lamp_on",
+    "copy-from": "smart_lamp",
     "type": "TOOL",
     "name": "smart lamp (on)",
     "name_plural": "smart lamps (on)",
     "description": "This is a smart lamp, this smart lamp is turned on.  It can be deactivated remotely.",
-    "weight": 400,
-    "volume": 2,
-    "price": 500,
-    "to_hit": 2,
-    "bashing": 1,
-    "material": [ "plastic", "aluminum" ],
-    "symbol": "&",
-    "color": "green",
-    "ammo": "battery",
     "turns_per_charge": 25,
     "revert_to": "smart_lamp",
     "use_action": { "target": "smart_lamp", "msg": "Your smart lamp turned off", "menu_text": "Turn off", "type": "transform" },
-    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ]
+    "flags": [ "RADIO_ACTIVATION", "RADIOSIGNAL_2", "LIGHT_240", "CHARGEDIM", "TRADER_AVOID" ],
+    "magazine_well": 1
   },
   {
     "id": "smoxygen_tank",
@@ -6976,10 +7048,13 @@
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "spear_knife",
@@ -7298,10 +7373,13 @@
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "tanning_hide",
@@ -7381,6 +7459,7 @@
     "price": 14000,
     "to_hit": -1,
     "bashing": 6,
+    "//": "Yes, this is smaller than it's magazine well. Go with it.",
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "dark_gray",
@@ -7388,7 +7467,13 @@
     "charges_per_use": 100,
     "use_action": "TAZER",
     "flags": [ "RECHARGE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "teapot",
@@ -7575,28 +7660,27 @@
       "menu_text": "Turn on",
       "type": "transform"
     },
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "small_space_heater_on",
+    "copy-from": "small_space_heater",
     "type": "TOOL",
     "name": "small space heater (on)",
     "name_plural": "small space heaters (on)",
     "description": "A portable electric heater that steadily emits warm air.  Raises temperature about 10 degrees C.",
-    "weight": 6000,
-    "volume": 15,
-    "price": 5000,
-    "to_hit": -3,
-    "bashing": 8,
-    "material": "steel",
-    "symbol": ";",
-    "color": "magenta",
-    "ammo": "battery",
     "turns_per_charge": 30,
     "emits": [ "emit_hot_air2_stream" ],
     "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2", "RECHARGE" ],
     "revert_to": "small_space_heater",
-    "use_action": { "target": "small_space_heater", "msg": "You turn off the heater.", "menu_text": "Turn off", "type": "transform" }
+    "use_action": { "target": "small_space_heater", "msg": "You turn off the heater.", "menu_text": "Turn off", "type": "transform" },
+    "magazine_well": 2
   },
   {
     "id": "large_space_heater",
@@ -7622,28 +7706,24 @@
       "menu_text": "Turn on",
       "type": "transform"
     },
-    "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
+    ],
+    "magazine_well": 4
   },
   {
     "id": "large_space_heater_on",
+    "copy-from": "large_space_heater",
     "type": "TOOL",
     "name": "large space heater (on)",
     "name_plural": "large space heaters (on)",
     "description": "A portable electric heater that steadily emits warm air.  Raises temperature about 10 degrees C and fills a larger volume of air than the smaller version.",
-    "weight": 12000,
-    "volume": 30,
-    "price": 50000,
-    "to_hit": -3,
-    "bashing": 12,
-    "material": "steel",
-    "symbol": ";",
-    "color": "magenta",
-    "ammo": "battery",
     "turns_per_charge": 20,
     "emits": [ "emit_hot_air2_blast" ],
     "flags": [ "ALLOWS_REMOTE_USE", "LIGHT_2", "RECHARGE" ],
     "revert_to": "large_space_heater",
-    "use_action": { "target": "large_space_heater", "msg": "You turn off the heater.", "menu_text": "Turn off", "type": "transform" }
+    "use_action": { "target": "large_space_heater", "msg": "You turn off the heater.", "menu_text": "Turn off", "type": "transform" },
+    "magazine_well": 4
   },
   {
     "id": "tool_anfo_charge",
@@ -8146,21 +8226,12 @@
   },
   {
     "id": "trimmer_on",
+    "copy-from": "trimmer_off",
     "type": "TOOL",
     "name": "hedge trimmer (on)",
     "name_plural": "hedge trimmers (on)",
     "description": "A cordless, double-sided, gasoline-powered hedge trimmer.  It is currently on, ready to do some zombie topiary; use this item to turn it off.",
-    "weight": 4500,
-    "volume": 8,
-    "price": 4000,
-    "to_hit": -1,
-    "bashing": 4,
     "cutting": 40,
-    "material": [ "steel", "plastic" ],
-    "symbol": "/",
-    "color": "green",
-    "ammo": "gasoline",
-    "max_charges": 600,
     "turns_per_charge": 1,
     "revert_to": "trimmer_off",
     "use_action": "TRIMMER_ON",
@@ -8283,7 +8354,13 @@
     "color": "white",
     "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "vacutainer",
@@ -8356,10 +8433,13 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "violin",
@@ -8516,10 +8596,13 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "weather_reader",
@@ -8547,10 +8630,13 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "welder",
@@ -8581,7 +8667,13 @@
       { "flame": false, "type": "cauterize" }
     ],
     "flags": [ "FIRESTARTER", "ALLOWS_REMOTE_USE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "welder_crude",
@@ -8612,7 +8704,12 @@
       { "flame": false, "type": "cauterize" }
     ],
     "flags": [ "FIRESTARTER", "ALLOWS_REMOTE_USE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ]
   },
   {
     "id": "wood_smoother",
@@ -8796,7 +8893,13 @@
     "color": "white",
     "ammo": "battery",
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "link_sheet",

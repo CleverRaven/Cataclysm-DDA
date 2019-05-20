@@ -605,7 +605,9 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             if( fabs( vel2_a ) > fabs( vel2 ) ) {
                 vel2 = vel2_a;
             }
-
+            if( mass2 == 0 ) { // this causes infinite loop
+                mass2 = 1;
+            }
             continue;
         }
 
@@ -795,6 +797,9 @@ void vehicle::handle_trap( const tripoint &p, int part )
     if( t == tr_bubblewrap ) {
         noise = 18;
         snd = _( "Pop!" );
+    } else if( t == tr_glass ) {
+        noise = 10;
+        snd = _( "Crunch!" );
     } else if( t == tr_beartrap || t == tr_beartrap_buried ) {
         noise = 8;
         snd = _( "SNAP!" );
@@ -803,7 +808,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
         part_damage = 300;
         g->m.remove_trap( p );
         g->m.spawn_item( p, "beartrap" );
-    } else if( t == tr_nailboard || t == tr_caltrops ) {
+    } else if( t == tr_nailboard || t == tr_caltrops || t == tr_caltrops_glass ) {
         part_damage = 300;
     } else if( t == tr_blade ) {
         noise = 1;
@@ -1383,6 +1388,7 @@ bool vehicle::act_on_map()
 
     if( dp.z != 0 ) {
         g->m.move_vehicle( *this, tripoint( 0, 0, dp.z ), mdir );
+        is_falling = false;
     }
 
     return true;
@@ -1406,7 +1412,7 @@ void vehicle::check_falling_or_floating()
     for( const tripoint &p : pts ) {
         if( is_falling ) {
             tripoint below( p.x, p.y, p.z - 1 );
-            is_falling &= !g->m.has_floor( p ) && ( p.z > -OVERMAP_DEPTH ) &&
+            is_falling &= g->m.has_flag_ter_or_furn( TFLAG_NO_FLOOR, p ) && ( p.z > -OVERMAP_DEPTH ) &&
                           !g->m.supports_above( below );
         }
         water_tiles += g->m.has_flag( TFLAG_DEEP_WATER, p ) ? 1 : 0;

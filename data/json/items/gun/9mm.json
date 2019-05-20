@@ -555,6 +555,16 @@
     ]
   },
   {
+    "id": "glock_18c",
+    "copy-from": "glock_17",
+    "type": "GUN",
+    "name": "Glock 18C",
+    "description": "A selective fire variation on the Glock 17, originally designed for Austria's EKO Cobra unit.  It has compensator cuts along its barrel to make recoil more manageable.",
+    "price": 100000,
+    "burst": 20,
+    "built_in_mods": [ "barrel_ported" ]
+  },
+  {
     "id": "kpf9",
     "copy-from": "kp32",
     "type": "GUN",

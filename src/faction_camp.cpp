@@ -572,6 +572,19 @@ void talk_function::basecamp_mission( npc &p )
     }
 }
 
+void basecamp::add_available_recipes( mission_data &mission_key, const std::string &dir,
+                                      const std::map<std::string, std::string> &craft_recipes )
+{
+    for( const auto &recipe_data : craft_recipes ) {
+        const std::string &title_e = dir + recipe_data.first;
+        const std::string &entry = craft_description( recipe_data.second );
+        const recipe &recp = recipe_id( recipe_data.second ).obj();
+        bool craftable = recp.requirements().can_make_with_inventory( _inv,
+                         recp.get_component_filter() );
+        mission_key.add_start( title_e, "", dir, entry, craftable );
+    }
+}
+
 void basecamp::get_available_missions( mission_data &mission_key, bool by_radio )
 {
     std::string entry;
@@ -579,12 +592,12 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
     const std::string camp_ctr = "camp";
     const std::string base_dir = "[B]";
     std::string bldg = next_upgrade( base_dir, 1 );
-    reset_camp_workers();
+    reset_camp_resources( by_radio );
 
     if( bldg != "null" ) {
         comp_list npc_list = get_mission_workers( "_faction_upgrade_camp" );
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_upgrade_camp" ];
-        entry = upgrade_description( bldg, by_radio );
+        entry = upgrade_description( bldg );
         mission_key.add_start( miss_info.miss_id, miss_info.desc, "", entry, npc_list.empty() );
         if( !npc_list.empty() ) {
             entry = miss_info.action;
@@ -597,18 +610,9 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         comp_list npc_list = get_mission_workers( "_faction_camp_crafting_" + base_dir );
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_camp_crafting_" ];
         //This handles all crafting by the base, regardless of level
-        std::map<std::string, std::string> craft_r = recipe_deck( base_dir );
-        inventory found_inv = crafting_inventory( by_radio );
         if( npc_list.empty() ) {
-            for( std::map<std::string, std::string>::const_iterator it = craft_r.begin();
-                 it != craft_r.end(); ++it ) {
-                std::string title_e = base_dir + it->first;
-                entry = craft_description( it->second, by_radio );
-                const recipe &recp = recipe_id( it->second ).obj();
-                bool craftable = recp.requirements().can_make_with_inventory( found_inv,
-                                 recp.get_component_filter() );
-                mission_key.add_start( title_e, "", base_dir, entry, craftable );
-            }
+            std::map<std::string, std::string> craft_recipes = recipe_deck( base_dir );
+            add_available_recipes( mission_key, base_dir, craft_recipes );
         } else {
             entry = miss_info.action;
             bool avail = update_time_left( entry, npc_list );
@@ -908,10 +912,10 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
     if( has_level( camp_ctr, 9, base_dir ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_om_fortifications" );
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_camp_om_fortifications" ];
-        entry = upgrade_description( "faction_wall_level_N_0", by_radio );
+        entry = upgrade_description( "faction_wall_level_N_0" );
         mission_key.add_start( "Construct Map Fort", _( "Construct Map Fortifications" ), "",
                                entry, npc_list.empty() );
-        entry = upgrade_description( "faction_wall_level_N_1", by_radio );
+        entry = upgrade_description( "faction_wall_level_N_1" );
         mission_key.add_start( "Construct Trench", _( "Construct Spiked Trench" ), "", entry,
                                npc_list.empty() );
         if( !npc_list.empty() ) {
@@ -990,7 +994,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         if( bldg_exp != "null" ) {
             comp_list npc_list = get_mission_workers( "_faction_upgrade_exp_" + dir );
             const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_upgrade_exp_" ];
-            entry = upgrade_description( bldg_exp, by_radio );
+            entry = upgrade_description( bldg_exp );
             mission_key.add_start( dir + miss_info.miss_id, dir + miss_info.desc, dir, entry,
                                    npc_list.empty() );
             if( !npc_list.empty() ) {
@@ -1025,21 +1029,12 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             }
         }
 
-        std::map<std::string, std::string> cooking_recipes = recipe_deck( dir );
+        std::map<std::string, std::string> craft_recipes = recipe_deck( dir );
         if( has_level( "kitchen", 1, dir ) ) {
-            inventory found_inv = crafting_inventory( by_radio );
             comp_list npc_list = get_mission_workers( "_faction_exp_kitchen_cooking_" + dir );
             const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_exp_kitchen_cooking_" ];
             if( npc_list.empty() ) {
-                for( std::map<std::string, std::string>::const_iterator it = cooking_recipes.begin();
-                     it != cooking_recipes.end(); ++it ) {
-                    std::string title_e = dir + it->first;
-                    entry = craft_description( it->second, by_radio );
-                    const recipe &recp = recipe_id( it->second ).obj();
-                    bool craftable = recp.requirements().can_make_with_inventory( found_inv,
-                                     recp.get_component_filter() );
-                    mission_key.add_start( title_e, "", dir, entry, craftable );
-                }
+                add_available_recipes( mission_key, dir, craft_recipes );
             } else {
                 entry = miss_info.action;
                 bool avail = update_time_left( entry, npc_list );
@@ -1049,19 +1044,10 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         }
 
         if( has_level( "blacksmith", 1, dir ) ) {
-            inventory found_inv = crafting_inventory( by_radio );
             comp_list npc_list = get_mission_workers( "_faction_exp_blacksmith_crafting_" + dir );
             const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_exp_blacksmith_crafting_" ];
             if( npc_list.empty() ) {
-                for( std::map<std::string, std::string>::const_iterator it = cooking_recipes.begin();
-                     it != cooking_recipes.end(); ++it ) {
-                    std::string title_e = dir + it->first;
-                    entry = craft_description( it->second, by_radio );
-                    const recipe &recp = recipe_id( it->second ).obj();
-                    bool craftable = recp.requirements().can_make_with_inventory( found_inv,
-                                     recp.get_component_filter() );
-                    mission_key.add_start( title_e, "", dir, entry, craftable );
-                }
+                add_available_recipes( mission_key, dir, craft_recipes );
             } else {
                 entry = miss_info.action;
                 bool avail = update_time_left( entry, npc_list );
@@ -1151,19 +1137,10 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         }
 
         if( has_level( "farm", 4, dir ) ) {
-            inventory found_inv = crafting_inventory( by_radio );
             comp_list npc_list = get_mission_workers( "_faction_exp_farm_crafting_" + dir );
             const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_exp_farm_crafting_" ];
             if( npc_list.empty() ) {
-                for( std::map<std::string, std::string>::const_iterator it = cooking_recipes.begin();
-                     it != cooking_recipes.end(); ++it ) {
-                    std::string title_e = dir + it->first;
-                    entry = craft_description( it->second, by_radio );
-                    const recipe &recp = recipe_id( it->second ).obj();
-                    bool craftable = recp.requirements().can_make_with_inventory( found_inv,
-                                     recp.get_component_filter() );
-                    mission_key.add_start( title_e, "", dir, entry, craftable );
-                }
+                add_available_recipes( mission_key, dir, craft_recipes );
             } else {
                 entry = miss_info.action;
                 bool avail = update_time_left( entry, npc_list );
@@ -1337,19 +1314,19 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
                                 true, msg, "fabrication", 2 );
             }
             if( miss_id == miss_dir + " Plow Fields" ) {
-                start_farm_op( miss_dir, omt_trg, farm_ops::plow, by_radio );
+                start_farm_op( miss_dir, omt_trg, farm_ops::plow );
             } else if( miss_id == miss_dir + " (Finish) Plow Fields" ) {
                 farm_return( "_faction_exp_plow_" + miss_dir, omt_trg, farm_ops::plow );
             }
 
             if( miss_id == miss_dir + " Plant Fields" ) {
-                start_farm_op( miss_dir, omt_trg, farm_ops::plant, by_radio );
+                start_farm_op( miss_dir, omt_trg, farm_ops::plant );
             } else if( miss_id == miss_dir + " (Finish) Plant Fields" ) {
                 farm_return( "_faction_exp_plant_" + miss_dir, omt_trg, farm_ops::plant );
             }
 
             if( miss_id == miss_dir + " Harvest Fields" ) {
-                start_farm_op( miss_dir, omt_trg, farm_ops::harvest, by_radio );
+                start_farm_op( miss_dir, omt_trg, farm_ops::harvest );
             }  else if( miss_id == miss_dir + " (Finish) Harvest Fields" ) {
                 farm_return( "_faction_exp_harvest_" + miss_dir, omt_trg,
                              farm_ops::harvest );
@@ -1399,8 +1376,7 @@ void basecamp::start_upgrade( const std::string &bldg, const std::string &key,
 {
     const recipe &making = recipe_id( bldg ).obj();
     //Stop upgrade if you don't have materials
-    inventory total_inv = crafting_inventory( by_radio );
-    if( making.requirements().can_make_with_inventory( total_inv, making.get_component_filter(), 1 ) ) {
+    if( making.requirements().can_make_with_inventory( _inv, making.get_component_filter(), 1 ) ) {
         time_duration making_time = time_duration::from_turns( making.time / 100 );
         bool must_feed = bldg != "faction_base_camp_1";
 
@@ -1408,7 +1384,7 @@ void basecamp::start_upgrade( const std::string &bldg, const std::string &key,
                                       _( "begins to upgrade the camp..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
-            consume_components( total_inv, making, 1, by_radio );
+            consume_components( making, 1, by_radio );
         }
     } else {
         popup( _( "You don't have the materials for the upgrade." ) );
@@ -1693,12 +1669,11 @@ void basecamp::start_fortifications( std::string &bldg_exp, bool by_radio )
             travel_time += companion_travel_time_calc( fort_om, omt_pos, 0_minutes, 2 );
         }
         time_duration total_time = travel_time + build_time;
-        inventory total_inv = crafting_inventory( by_radio );
         int need_food = time_to_food( total_time );
         if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( total_time, build_time,
                        travel_time, dist, trips, need_food ) ) ) {
             return;
-        } else if( !making.requirements().can_make_with_inventory( total_inv,
+        } else if( !making.requirements().can_make_with_inventory( _inv,
                    making.get_component_filter(), ( fortify_om.size() * 2 ) - 2 ) ) {
             popup( _( "You don't have the material to build the fortification." ) );
             return;
@@ -1708,7 +1683,7 @@ void basecamp::start_fortifications( std::string &bldg_exp, bool by_radio )
                                       _( "begins constructing fortifications..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
-            consume_components( total_inv, making, fortify_om.size() * 2 - 2, by_radio );
+            consume_components( making, fortify_om.size() * 2 - 2, by_radio );
             comp->companion_mission_role_id = bldg_exp;
             for( auto pt : fortify_om ) {
                 comp->companion_mission_points.push_back( pt );
@@ -1745,14 +1720,13 @@ void basecamp::start_crafting( const std::string &cur_id, const std::string &cur
                                const std::string &type, const std::string &miss_id, bool by_radio )
 {
     std::map<std::string, std::string> recipes = recipe_deck( type );
-    inventory total_inv = crafting_inventory( by_radio );
     for( auto &r : recipes ) {
         if( cur_id != cur_dir + r.first ) {
             continue;
         }
         const recipe &making = recipe_id( r.second ).obj();
 
-        if( !making.requirements().can_make_with_inventory( total_inv,
+        if( !making.requirements().can_make_with_inventory( _inv,
                 making.get_component_filter(), 1 ) ) {
             popup( _( "You don't have the materials to craft that" ) );
             continue;
@@ -1760,7 +1734,7 @@ void basecamp::start_crafting( const std::string &cur_id, const std::string &cur
 
         int batch_size = 1;
         string_input_popup popup_input;
-        int batch_max = recipe_batch_max( making, total_inv );
+        int batch_max = recipe_batch_max( making );
         const std::string title = string_format( _( "Batch crafting %s [MAX: %d]: " ),
                                   making.result_name(), batch_max );
         popup_input.title( title ).edit( batch_size );
@@ -1768,7 +1742,7 @@ void basecamp::start_crafting( const std::string &cur_id, const std::string &cur
         if( popup_input.canceled() || batch_size <= 0 ) {
             continue;
         }
-        if( batch_size > recipe_batch_max( making, total_inv ) ) {
+        if( batch_size > recipe_batch_max( making ) ) {
             popup( _( "Your batch is too large!" ) );
             continue;
         }
@@ -1778,7 +1752,7 @@ void basecamp::start_crafting( const std::string &cur_id, const std::string &cur
                                       _( "begins to work..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
-            consume_components( total_inv, making, batch_size, by_radio );
+            consume_components( making, batch_size, by_radio );
             for( const item &results : making.create_results( batch_size ) ) {
                 comp->companion_mission_inv.add_item( results );
             }
@@ -1905,8 +1879,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
     return std::make_pair( plots_cnt, crops );
 }
 
-void basecamp::start_farm_op( const std::string &dir, const tripoint &omt_tgt, farm_ops op,
-                              bool by_radio )
+void basecamp::start_farm_op( const std::string &dir, const tripoint &omt_tgt, farm_ops op )
 {
     std::pair<size_t, std::string> farm_data = farm_action( omt_tgt, op );
     size_t plots_cnt = farm_data.first;
@@ -1922,8 +1895,7 @@ void basecamp::start_farm_op( const std::string &dir, const tripoint &omt_tgt, f
                            _( "begins to harvest the field..." ), false, {}, "survival", 0 );
             break;
         case farm_ops::plant: {
-            inventory total_inv = crafting_inventory( by_radio );
-            std::vector<item *> seed_inv = total_inv.items_with( farm_valid_seed );
+            std::vector<item *> seed_inv = _inv.items_with( farm_valid_seed );
             if( seed_inv.empty() ) {
                 popup( _( "You have no additional seeds to give your companions..." ) );
                 return;
@@ -2112,6 +2084,7 @@ bool basecamp::upgrade_return( const std::string &dir, const std::string &miss )
     if( !run_mapgen_update_func( making.get_blueprint(), upos ) ) {
         return false;
     }
+    resources_updated = false;
     e->second.cur_level += 1;
     return true;
 }
@@ -2201,7 +2174,6 @@ bool basecamp::gathering_return( const std::string &task, time_duration min_time
 
 void basecamp::fortifications_return()
 {
-    const std::string msg = _( "returns from constructing fortifications..." );
     npc_ptr comp = companion_choose_return( "_faction_camp_om_fortifications", 3_hours );
     if( comp != nullptr ) {
         std::string build_n = "faction_wall_level_N_0";
@@ -2239,6 +2211,7 @@ void basecamp::fortifications_return()
                 fortifications.push_back( fort_point );
             }
         }
+        const std::string msg = _( "returns from constructing fortifications..." );
         finish_return( *comp, true, msg, "construction", 2 );
     }
 }
@@ -2545,7 +2518,7 @@ std::string talk_function::name_mission_tabs( const tripoint &omt_pos, const std
 }
 
 // recipes and craft support functions
-int basecamp::recipe_batch_max( const recipe &making, const inventory &total_inv ) const
+int basecamp::recipe_batch_max( const recipe &making ) const
 {
     int max_batch = 0;
     const int max_checks = 9;
@@ -2553,7 +2526,7 @@ int basecamp::recipe_batch_max( const recipe &making, const inventory &total_inv
         for( int iter = 0; iter < max_checks; iter++ ) {
             int batch_turns = making.batch_time( max_batch + batch_size, 1.0, 0 ) / 100;
             int food_req = time_to_food( time_duration::from_turns( batch_turns ) );
-            bool can_make = making.requirements().can_make_with_inventory( total_inv,
+            bool can_make = making.requirements().can_make_with_inventory( _inv,
                             making.get_component_filter(), max_batch + batch_size );
             if( can_make && camp_food_supply() > food_req ) {
                 max_batch += batch_size;
@@ -3202,15 +3175,14 @@ std::string camp_trip_description( time_duration total_time, time_duration worki
     return entry;
 }
 
-std::string basecamp::upgrade_description( const std::string &bldg, bool by_radio )
+std::string basecamp::upgrade_description( const std::string &bldg )
 {
     const recipe &making = recipe_id( bldg ).obj();
-    const inventory &total_inv = crafting_inventory( by_radio );
 
     std::vector<std::string> component_print_buffer;
     int pane = FULL_SCREEN_WIDTH;
-    auto tools = making.requirements().get_folded_tools_list( pane, c_white, total_inv, 1 );
-    auto comps = making.requirements().get_folded_components_list( pane, c_white, total_inv,
+    auto tools = making.requirements().get_folded_tools_list( pane, c_white, _inv, 1 );
+    auto comps = making.requirements().get_folded_components_list( pane, c_white, _inv,
                  making.get_component_filter(), 1 );
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
     component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
@@ -3227,15 +3199,14 @@ std::string basecamp::upgrade_description( const std::string &bldg, bool by_radi
     return comp;
 }
 
-std::string basecamp::craft_description( const std::string &itm, bool by_radio )
+std::string basecamp::craft_description( const std::string &itm )
 {
     const recipe &making = recipe_id( itm ).obj();
-    const inventory &total_inv = crafting_inventory( by_radio );
 
     std::vector<std::string> component_print_buffer;
     int pane = FULL_SCREEN_WIDTH;
-    auto tools = making.requirements().get_folded_tools_list( pane, c_white, total_inv, 1 );
-    auto comps = making.requirements().get_folded_components_list( pane, c_white, total_inv,
+    auto tools = making.requirements().get_folded_tools_list( pane, c_white, _inv, 1 );
+    auto comps = making.requirements().get_folded_components_list( pane, c_white, _inv,
                  making.get_component_filter(), 1 );
 
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
@@ -3401,7 +3372,7 @@ std::string camp_car_description( vehicle *car )
                                 static_cast<int>( 100 * pt.health_percent() ) );
         entry += string_format( _( ">Fuel:    %25s\n" ), vp.fuel_type );
     }
-    std::map<itype_id, long> fuels = car->fuels_left();
+    std::map<itype_id, int> fuels = car->fuels_left();
     entry += _( "----  Fuel Storage & Battery   ----\n" );
     for( auto &fuel : fuels ) {
         std::string fuel_entry = string_format( "%d/%d", car->fuel_left( fuel.first ),

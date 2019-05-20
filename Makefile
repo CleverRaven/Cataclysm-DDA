@@ -78,20 +78,13 @@
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
-# PROFILE is for use with gprof or a similar program -- don't bother generally
-# RELEASE is flags for release builds, this disables some debugging flags and
-# enforces build failure when warnings are encountered.
-# We want to error on everything to make sure we don't check in code with new warnings.
-RELEASE_FLAGS = -Werror
-WARNINGS = -Wall -Wextra
+# PROFILE is for use with gprof or a similar program -- don't bother generally.
+# RELEASE_FLAGS is flags for release builds.
+RELEASE_FLAGS =
+WARNINGS = -Werror -Wall -Wextra -Woverloaded-virtual -Wpedantic
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
-ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-  DEBUG =
-else
-  DEBUG = -D_GLIBCXX_DEBUG
-endif
 #PROFILE = -pg
 #OTHERS = -O3
 #DEFINES = -DNDEBUG
