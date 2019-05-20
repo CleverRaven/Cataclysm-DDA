@@ -3077,7 +3077,7 @@ void item::on_contents_changed()
 void item::on_charges_changed()
 {
     if( ( is_tool() || is_gun() ) && is_container() && !is_container_empty() ) {
-        for( auto it = contents.begin(); it != contents.end() ) {
+        for( auto it = contents.begin(); it != contents.end(); ) {
             if( it->is_ammo() && ammo_type() == ammotype( it->ammo_data()->get_id() ) ) {
                 it->charges = charges;
                 if( it->charges == 0 ) {
