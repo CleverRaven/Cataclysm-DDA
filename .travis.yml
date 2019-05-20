@@ -179,6 +179,9 @@ before_script:
 script:
   - build-scripts/build.sh
 
+before_cache:
+  - if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then ccache -C; fi
+
 after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi
   - if [ -n "${CODE_COVERAGE}" ]; then bash <(curl -s https://codecov.io/bash); fi
