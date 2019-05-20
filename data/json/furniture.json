@@ -3819,10 +3819,7 @@
       "str_max": 30,
       "sound": "metal screeching!",
       "sound_fail": "clang!",
-      "items": [
-        { "item": "scrap", "count": [ 5, 15 ] },
-        { "item": "sheet_metal_small", "count": [ 1, 9 ] }
-      ]
+      "items": [ { "item": "scrap", "count": [ 5, 15 ] }, { "item": "sheet_metal_small", "count": [ 1, 9 ] } ]
     }
   },
   {
