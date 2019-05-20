@@ -164,6 +164,16 @@
         },
         {
           "and": [
+            { "npc_override": "follow_distance_close", "yes": "  OVERRIDE: ", "no": "  " },
+            {
+              "npc_rule": "follow_distance_close",
+              "yes": "<ally_rule_follow_distance_close_true_text>",
+              "no": "<ally_rule_follow_distance_close_false_text>"
+            }
+          ]
+        },
+        {
+          "and": [
             { "npc_override": "use_guns", "yes": "  OVERRIDE: ", "no": "  " },
             {
               "npc_rule": "use_guns",
@@ -235,6 +245,15 @@
         },
         "topic": "TALK_COMBAT_COMMANDS",
         "effect": { "toggle_npc_rule": "follow_close" }
+      },
+      {
+        "truefalsetext": {
+          "condition": { "npc_rule": "follow_distance_close" },
+          "true": "Follow very closely at about two paces.",
+          "false": "Follow at about four paces."
+        },
+        "topic": "TALK_COMBAT_COMMANDS",
+        "effect": { "toggle_npc_rule": "follow_distance_close" }
       },
       {
         "truefalsetext": {

@@ -1711,7 +1711,14 @@ int npc::follow_distance() const
           g->m.has_flag( TFLAG_GOES_UP, g->u.pos() ) ) ) {
         return 1;
     }
-    // TODO: Allow player to set that
+    // If NPC doesn't see player, change follow distance to 2
+    if( !sees( u ) {
+        return 2;
+    }
+    // Uses tag follow_distance_close to determine if 2 or 4 tiles to follow by
+    if( follow_distance_close == true ) {
+        return 2;
+    }
     return 4;
 }
 
