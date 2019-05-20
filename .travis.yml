@@ -87,7 +87,7 @@ jobs:
       compiler: clang
       addons: &clang8
         apt:
-          packages: ["clang-8", "clang-tidy-8", "libc6-dbg", "libc6-dbg:i386", "g++-6", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          packages: ["clang-8", "clang-tidy-8", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
           sources: [*apt_sources, llvm-toolchain-xenial-8]
 
     # Finally check the compiler variants
