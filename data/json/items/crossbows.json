@@ -254,7 +254,7 @@
     "flags": "PRIMITIVE_RANGED_WEAPON",
     "skill": "pistol",
     "ammo": "bolt",
-    "weight": 9000,
+    "weight": 900,
     "volume": 2,
     "bashing": 4,
     "ranged_damage": 17,
