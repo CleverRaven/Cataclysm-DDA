@@ -308,24 +308,23 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "%#++#%",
-        "%p__p%",
-        "#p__p#",
-        "#p__p#",
-        "%p__p%",
+        "%1__1%",
+        "#1__1#",
+        "#1__1#",
+        "%1__1%",
         "%#++#%"
       ],
       "terrain": {
         "_": "t_null",
-        "p": "t_grass_long",
         "#": "t_reinforced_glass_shutter_open",
         "+": "t_reinforced_door_glass_c",
         "%": "t_reinforced_glass_shutter",
         "$": "t_wall_glass"
       },
       "furniture": {
-        "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
         "S": "f_statue"
-      }
+      },
+      "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_mature" } }
     }
   },
   {
@@ -337,10 +336,10 @@
       "rotation": [ 0, 3 ],
       "rows": [
         "%#++#%",
-        "%p__p%",
+        "%1__1%",
         "#S__b#",
         "#S__b#",
-        "%p__p%",
+        "%1__1%",
         "%#++#%"
       ],
       "terrain": {
@@ -351,7 +350,8 @@
         "%": "t_reinforced_glass_shutter",
         "$": "t_wall_glass"
       },
-      "furniture": { "p": [ "f_indoor_plant_y", "f_indoor_plant" ], "S": "f_statue", "b": "f_bench" }
+      "sealed_item": { "1": { "item": { "item": "seed_sugar_beet" }, "furniture": "f_planter_mature" } },
+      "furniture": { "S": "f_statue", "b": "f_bench" }
     }
   },
   {
@@ -364,17 +364,17 @@
       "rows": [
         "______",
         "______",
-        "bpppb_",
-        "bpBpb_",
-        "bpppb_",
+        "b111b_",
+        "b1B1b_",
+        "b111b_",
         "______"
       ],
-      "terrain": { "_": "t_null", "p": "t_grass_long", "B": "t_grass_long" },
+      "terrain": { "_": "t_null", "B": "t_grass_long" },
       "furniture": {
-        "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
         "b": "f_bench",
         "B": [ "f_birdbath", "f_statue" ]
-      }
+      },
+      "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_seedling" } }
     }
   },
   {
@@ -385,19 +385,19 @@
       "mapgensize": [ 6, 6 ],
       "rotation": [ 0, 3 ],
       "rows": [
-        "p____p",
-        "p_bb_p",
-        "pp__Bp",
-        "pB__pp",
-        "p_bb_p",
-        "p____p"
+        "1____1",
+        "1_bb_1",
+        "11__B1",
+        "1B__11",
+        "1_bb_1",
+        "1____1"
       ],
-      "terrain": { "_": "t_railroad_rubble", "b": "t_railroad_rubble", "p": "t_grass_long", "B": "t_grass_long" },
+      "terrain": { "_": "t_railroad_rubble", "b": "t_railroad_rubble", "B": "t_grass_long" },
       "furniture": {
-        "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
         "B": [ "f_birdbath", "f_statue" ],
         "b": "f_bench"
-      }
+      },
+      "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_seedling" } }
     }
   }
 ]
