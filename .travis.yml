@@ -32,6 +32,10 @@ branches:
   - master
   - development
 
+# To see what toolchains are available, consult the following:
+# https://github.com/travis-ci/apt-source-safelist/blob/master/ubuntu.json
+# https://launchpad.net/%7Eubuntu-toolchain-r/+archive/ubuntu/test/+index
+
 jobs:
   include:
     # Initial test stage, if this fails everything else is cancelled.
@@ -81,15 +85,15 @@ jobs:
     # (analysis only; no build or tests)
     - env: CLANG=clang++-8 TILES=1 SOUND=1 CXXFLAGS=-Wno-unused-command-line-argument CMAKE=1 CATA_CLANG_TIDY=clang-tidy-8
       compiler: clang
-      addons: &clang80
+      addons: &clang8
         apt:
           packages: ["clang-8", "clang-tidy-8", "libc6-dbg", "libc6-dbg:i386", "g++-6", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
           sources: [*apt_sources, llvm-toolchain-xenial-8]
 
-
     # Finally check the compiler variants
     - stage: compilers
-      env: COMPILER=g++ 5.3
+    # GCC 5.3
+      env: COMPILER=g++
       if: type != pull_request
       compiler: gcc
       addons: &gcc53
