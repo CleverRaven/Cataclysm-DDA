@@ -3439,7 +3439,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
             source->add_effect( effect_blind, 2_turns );
         }
     }
-    if( worn_with_flag( "REQUIRES_BALANCE") && !has_effect( effect_downed ) ) {
+    if( worn_with_flag( "REQUIRES_BALANCE" ) && !has_effect( effect_downed ) ) {
         int rolls = 4;
         if( has_trait( trait_PROF_SKATER ) ) {
             rolls--;
