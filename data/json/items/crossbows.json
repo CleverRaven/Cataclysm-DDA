@@ -401,7 +401,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 200,
-    "valid_mod_locations": [ [ "dampening", 1 ], [ "reloading mechanism", 1 ] ]
+    "valid_mod_locations": [ [ "dampening", 1 ], [ "heavy reloading mechanism", 1 ] ]
   },
   {
     "id": "rep_crossbow",
