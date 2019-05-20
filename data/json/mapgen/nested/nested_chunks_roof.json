@@ -369,7 +369,7 @@
         "b111b_",
         "______"
       ],
-      "terrain": { "_": "t_null", "B": "t_grass_long" },
+      "terrain": { "_": "t_null", "B": "t_railroad_rubble" },
       "furniture": {
         "b": "f_bench",
         "B": [ "f_birdbath", "f_statue" ]
@@ -392,7 +392,7 @@
         "1_bb_1",
         "1____1"
       ],
-      "terrain": { "_": "t_railroad_rubble", "b": "t_railroad_rubble", "B": "t_grass_long" },
+      "terrain": { "_": "t_railroad_rubble", "b": "t_railroad_rubble", "B": "t_railroad_rubble" },
       "furniture": {
         "B": [ "f_birdbath", "f_statue" ],
         "b": "f_bench"
