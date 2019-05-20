@@ -854,7 +854,7 @@ requirement_data requirement_data::disassembly_requirements() const
             //This ensures that you don't need a hand press to break down reloaded ammo.
             if( quality.type == quality_id( "BULLET_FORMING" ) ) {
                 replaced = true;
-                new_qualities.emplace_back(quality_id("BULLET_PULLING"), 1, quality.level);
+                new_qualities.emplace_back( quality_id( "BULLET_PULLING" ), 1, quality.level );
                 break;
             }
         }
