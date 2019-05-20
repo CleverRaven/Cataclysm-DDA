@@ -2347,7 +2347,6 @@
       [ [ "water", 100 ], [ "water_clean", 100 ] ],
       [ [ "material_sand", 20 ], [ "material_quicklime", 20 ], [ "concrete", 1 ] ]
     ],
-    "components": [ [ [ "material_soil", 240 ] ], [ [ "water", 100 ], [ "water_clean", 100 ] ] ],
     "pre_terrain": "t_fence_post",
     "post_terrain": "t_wall_rammed_earth"
   },
