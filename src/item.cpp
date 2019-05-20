@@ -204,7 +204,6 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     } else if( type->tool ) {
         if( ammo_remaining() && ammo_type() ) {
             ammo_set( ammo_type()->default_ammotype(), ammo_remaining() );
-            on_charges_changed();
         }
     }
 
@@ -3075,20 +3074,6 @@ void item::on_contents_changed()
     }
 }
 
-void item::on_charges_changed()
-{
-    if( ( is_tool() || is_gun() ) && !is_container_empty() ) {
-        for( auto &it : contents ) {
-            if( ammo_type() == ammotype( it.typeId() ) ) {
-                it.charges = charges;
-            }
-        }
-    } else if( ( is_tool() || is_gun() ) && is_container_empty() &&
-               charges > 0 ) { // if for some reason the tool/gun has charges but no content
-        contents.emplace_back( ammo_type()->default_ammotype(), calendar::turn, charges );
-    }
-}
-
 void item::on_damage( int, damage_type )
 {
 
@@ -5794,7 +5779,6 @@ int item::ammo_consume( int qty, const tripoint &pos )
             g->u.charge_power( -qty );
         }
         charges -= qty;
-        on_charges_changed();
         if( charges == 0 ) {
             curammo = nullptr;
         }
@@ -6419,7 +6403,6 @@ bool item::reload( player &u, item_location loc, int qty )
             qty = std::min( qty, ammo->charges );
             ammo->charges -= qty;
             charges += qty;
-            on_charges_changed();
         }
     }
 
