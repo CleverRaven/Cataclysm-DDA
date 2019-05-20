@@ -169,12 +169,25 @@ jobs:
           sources: [*apt_sources, llvm-toolchain-trusty-5.0]
 
     # Clang 6.0
-    - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument SANITIZE=address EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag ~starting_items"
+    - env: CLANG=clang++-6.0
       compiler: clang
       addons: &clang60
         apt:
           packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
           sources: [*apt_sources, llvm-toolchain-xenial-6.0]
+
+    # Clang 7
+    - env: CLANG=clang++-7
+      compiler: clang
+      addons: &clang7
+        apt:
+          packages: ["clang-7", "libc6-dbg", "libc6-dbg:i386"]
+          sources: [*apt_sources, llvm-toolchain-xenial-7]
+
+    # Clang 8
+    - env: CLANG=clang++-8 SANITIZE=address EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag ~starting_items"
+      compiler: clang
+      addons: *clang8
 
 before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi
