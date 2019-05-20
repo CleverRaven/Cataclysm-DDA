@@ -919,7 +919,7 @@
     "copy-from": "generic_city_building",
     "name": "music venue",
     "sym": "M",
-    "color": "white"
+    "color": "i_light_blue"
   },
   {
     "type": "overmap_terrain",
