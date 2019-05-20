@@ -314,7 +314,7 @@
     "weight": 10000,
     "volume": 40,
     "price": 100000,
-    "material": [ "steel", "plastic"  ],
+    "material": [ "steel", "plastic" ],
     "category": "spare_parts"
   },
   {
