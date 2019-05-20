@@ -282,6 +282,7 @@ enum class ally_rule {
     hold_the_line = 4096,
     ignore_noise = 8192,
     forbid_engage = 16384
+    follow_distance_close = 32768
 };
 
 struct ally_rule_data {
