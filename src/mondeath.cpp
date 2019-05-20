@@ -651,7 +651,11 @@ void mdeath::broken( monster &z )
     broken_mon.set_damage( static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
 
     g->m.add_item_or_charges( z.pos(), broken_mon );
-    if( g->u.sees( z.pos() ) ) {
+
+    //TODO: make mdeath::splatter work for robots
+    if( ( broken_mon.damage() >= broken_mon.max_damage() ) && g->u.sees( z.pos() ) ) {
+        add_msg( m_good, _( "The %s is destroyed!" ), z.name() );
+    } else if( g->u.sees( z.pos() ) ) {
         add_msg( m_good, _( "The %s collapses!" ), z.name() );
     }
 }
