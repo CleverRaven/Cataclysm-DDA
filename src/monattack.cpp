@@ -2855,7 +2855,7 @@ bool mattack::nurse_operate( monster *z )
         }
     }
     if( found_target && z->attitude_to( g->u ) == Creature::Attitude::A_FRIENDLY ) {
-        if( one_in( 50 ) ) {
+        if( one_in( 2 ) ) {
             return false; // 50% chance to not turn hostile again
         }
     }
