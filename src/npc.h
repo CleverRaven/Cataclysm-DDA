@@ -281,7 +281,7 @@ enum class ally_rule {
     avoid_doors = 2048,
     hold_the_line = 4096,
     ignore_noise = 8192,
-    forbid_engage = 16384
+    forbid_engage = 16384,
     follow_distance_close = 32768
 };
 
