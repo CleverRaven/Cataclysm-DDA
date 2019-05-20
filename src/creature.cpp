@@ -276,7 +276,8 @@ bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
 
 // Helper function to check if potential area of effect of a weapon overlaps vehicle
 // Maybe TODO: If this is too slow, precalculate a bounding box and clip the tested area to it
-bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint &pos, const int area )
+static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint &pos,
+                              const int area )
 {
     tripoint tmp = pos;
     int &x = tmp.x;
@@ -435,7 +436,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
  * Damage-related functions
  */
 
-int size_melee_penalty( m_size target_size )
+static int size_melee_penalty( m_size target_size )
 {
     switch( target_size ) {
         case MS_TINY:

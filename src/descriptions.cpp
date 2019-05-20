@@ -27,7 +27,7 @@ enum class description_target : int {
     terrain
 };
 
-const Creature *seen_critter( const game &g, const tripoint &p )
+static const Creature *seen_critter( const game &g, const tripoint &p )
 {
     const Creature *critter = g.critter_at( p, true );
     if( critter != nullptr && g.u.sees( *critter ) ) {

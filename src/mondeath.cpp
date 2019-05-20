@@ -116,8 +116,8 @@ void mdeath::normal( monster &z )
     }
 }
 
-void scatter_chunks( const std::string &chunk_name, int chunk_amt, monster &z, int distance,
-                     int pile_size = 1 )
+static void scatter_chunks( const std::string &chunk_name, int chunk_amt, monster &z, int distance,
+                            int pile_size = 1 )
 {
     // can't have less than one item in a pile or it would cause an infinite loop
     pile_size = std::max( pile_size, 1 );
@@ -644,8 +644,19 @@ void mdeath::broken( monster &z )
     }
     // make "broken_manhack", or "broken_eyebot", ...
     item_id.insert( 0, "broken_" );
-    g->m.spawn_item( z.pos(), item_id, 1, 0, calendar::turn );
-    if( g->u.sees( z.pos() ) ) {
+
+    item broken_mon( item_id, calendar::turn );
+    const int max_hp = std::max( z.get_hp_max(), 1 );
+    const float overflow_damage = std::max( -z.get_hp(), 0 );
+    const float corpse_damage = 2.5 * overflow_damage / max_hp;
+    broken_mon.set_damage( static_cast<int>( std::floor( corpse_damage * itype::damage_scale ) ) );
+
+    g->m.add_item_or_charges( z.pos(), broken_mon );
+
+    //TODO: make mdeath::splatter work for robots
+    if( ( broken_mon.damage() >= broken_mon.max_damage() ) && g->u.sees( z.pos() ) ) {
+        add_msg( m_good, _( "The %s is destroyed!" ), z.name() );
+    } else if( g->u.sees( z.pos() ) ) {
         add_msg( m_good, _( "The %s collapses!" ), z.name() );
     }
 }

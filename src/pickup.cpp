@@ -130,7 +130,7 @@ enum pickup_answer : int {
     NUM_ANSWERS
 };
 
-pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
+static pickup_answer handle_problematic_pickup( const item &it, bool &offered_swap,
         const std::string &explain )
 {
     if( offered_swap ) {
@@ -639,7 +639,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     filter_changed = true;
                 } else {
                     wrefresh( g->w_terrain );
-                    g->draw_panels();
+                    g->draw_panels( true );
                 }
             } else if( action == "ANY_INPUT" && raw_input_char == '`' ) {
                 std::string ext = string_input_popup()
@@ -697,7 +697,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     if( matches.empty() ) {
                         popup( _( "Your filter returned no results" ) );
                         wrefresh( g->w_terrain );
-                        g->draw_panels();
+                        g->draw_panels( true );
                         // The filter must have results, or simply be emptied or canceled,
                         // as this screen can't be reached without there being
                         // items available
@@ -720,7 +720,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     iScrollPos = 0;
                 }
                 wrefresh( g->w_terrain );
-                g->draw_panels();
+                g->draw_panels( true );
             }
             item &selected_item = stacked_here[matches[selected]].begin()->_item;
 

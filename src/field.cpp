@@ -566,7 +566,7 @@ bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, const ter_bitflags
     return ter.has_flag( flag ) || furn.has_flag( flag );
 }
 
-int ter_furn_movecost( const ter_t &ter, const furn_t &furn )
+static int ter_furn_movecost( const ter_t &ter, const furn_t &furn )
 {
     if( ter.movecost == 0 ) {
         return 0;
@@ -590,11 +590,6 @@ static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
         { +1, +1, 0 },
     }
 };
-
-bool at_edge( const size_t x, const size_t y )
-{
-    return x == 0 || x == SEEX || y == 0 || y == SEEY;
-}
 
 /*
 Function: process_fields_in_submap

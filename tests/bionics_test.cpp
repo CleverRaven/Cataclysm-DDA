@@ -17,14 +17,14 @@
 #include "string_id.h"
 #include "type_id.h"
 
-void clear_bionics( player &p )
+static void clear_bionics( player &p )
 {
     p.my_bionics->clear();
     p.power_level = 0;
     p.max_power_level = 0;
 }
 
-void give_and_activate( player &p, bionic_id const &bioid )
+static void give_and_activate( player &p, bionic_id const &bioid )
 {
     INFO( "bionic " + bioid.str() + " is valid" );
     REQUIRE( bioid.is_valid() );
@@ -54,7 +54,8 @@ void give_and_activate( player &p, bionic_id const &bioid )
     }
 }
 
-void test_consumable_charges( player &p, std::string &itemname, bool when_none, bool when_max )
+static void test_consumable_charges( player &p, std::string &itemname, bool when_none,
+                                     bool when_max )
 {
     item it = item( itemname, 0, 0 ) ;
 
@@ -70,7 +71,8 @@ void test_consumable_charges( player &p, std::string &itemname, bool when_none, 
     REQUIRE( p.can_consume( it ) == when_max );
 }
 
-void test_consumable_ammo( player &p, std::string &itemname, bool when_empty, bool when_full )
+static void test_consumable_ammo( player &p, std::string &itemname, bool when_empty,
+                                  bool when_full )
 {
     item it = item( itemname, 0, 0 ) ;
 

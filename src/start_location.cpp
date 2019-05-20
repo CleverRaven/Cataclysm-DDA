@@ -97,7 +97,7 @@ void start_location::reset()
 }
 
 // check if tile at p should be boarded with some kind of furniture.
-void add_boardable( const map &m, const tripoint &p, std::vector<tripoint> &vec )
+static void add_boardable( const map &m, const tripoint &p, std::vector<tripoint> &vec )
 {
     if( m.has_furn( p ) ) {
         // Don't need to board this up, is already occupied
@@ -118,7 +118,7 @@ void add_boardable( const map &m, const tripoint &p, std::vector<tripoint> &vec 
     vec.push_back( p );
 }
 
-void board_up( map &m, const tripoint &start, const tripoint &end )
+static void board_up( map &m, const tripoint &start, const tripoint &end )
 {
     std::vector<tripoint> furnitures1;
     std::vector<tripoint> furnitures2;
@@ -244,9 +244,9 @@ void start_location::prepare_map( const tripoint &omtstart ) const
  * Maybe TODO: Allow "picking up" items or parts of bashable furniture
  *             and using them to help with bash attempts.
  */
-int rate_location( map &m, const tripoint &p, const bool must_be_inside,
-                   const int bash_str, const int attempt,
-                   int ( &checked )[MAPSIZE_X][MAPSIZE_Y] )
+static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
+                          const int bash_str, const int attempt,
+                          int ( &checked )[MAPSIZE_X][MAPSIZE_Y] )
 {
     if( ( must_be_inside && m.is_outside( p ) ) ||
         m.impassable( p ) ||

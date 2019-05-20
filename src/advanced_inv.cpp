@@ -776,11 +776,6 @@ void advanced_inv_area::init()
     }
 }
 
-std::string center_text( const char *str, int width )
-{
-    return std::string( ( ( width - strlen( str ) ) / 2 ), ' ' ) + str;
-}
-
 void advanced_inventory::init()
 {
     for( auto &square : squares ) {

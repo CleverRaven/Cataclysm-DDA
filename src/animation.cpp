@@ -44,6 +44,7 @@ class basic_animation
 
         void draw() const {
             wrefresh( g->w_terrain );
+            g->draw_panels();
 
             query_popup()
             .wait_message( "%s", _( "Hang on a bit..." ) )

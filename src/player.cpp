@@ -560,7 +560,6 @@ player::player() : Character()
             style_none, style_kicks
         }
     };
-    initialize_stomach_contents();
 }
 
 player::~player() = default;
@@ -577,27 +576,6 @@ void player::normalize()
 
     temp_conv.fill( BODYTEMP_NORM );
     stamina = get_stamina_max();
-}
-
-std::string player::disp_name( bool possessive ) const
-{
-    if( !possessive ) {
-        if( is_player() ) {
-            return pgettext( "not possessive", "you" );
-        }
-        return name;
-    } else {
-        if( is_player() ) {
-            return _( "your" );
-        }
-        return string_format( _( "%s's" ), name );
-    }
-}
-
-std::string player::skin_name() const
-{
-    // TODO: Return actual deflecting layer name
-    return _( "armor" );
 }
 
 void player::reset_stats()
@@ -840,12 +818,13 @@ void player::process_turn()
     // auto-learning. This is here because skill-increases happens all over the place:
     // SkillLevel::readBook (has no connection to the skill or the player),
     // player::read, player::practice, ...
-    /** @EFFECT_UNARMED >1 allows spontaneous discovery of brawling martial art style */
-    if( get_skill_level( skill_unarmed ) >= 2 ) {
-        const matype_id brawling( "style_brawling" );
-        if( !has_martialart( brawling ) ) {
-            add_martialart( brawling );
-            add_msg_if_player( m_info, _( "You learned a new style." ) );
+    // Check for spontaneous discovery of martial art styles
+    for( auto &style : all_martialart_types() ) {
+        const matype_id ma( style );
+
+        if( can_autolearn( ma ) && !has_martialart( ma ) ) {
+            add_martialart( ma );
+            add_msg_if_player( m_info, _( "You have learned a new style: %s!" ), ma.obj().name );
         }
     }
 
@@ -2181,228 +2160,6 @@ void player::load_info( std::string data )
 std::string player::save_info() const
 {
     return ::serialize( *this ) + "\n" + dump_memorial();
-}
-
-void player::memorial( std::ostream &memorial_file, const std::string &epitaph )
-{
-    static const char *eol = cata_files::eol();
-
-    //Size of indents in the memorial file
-    const std::string indent = "  ";
-
-    const std::string pronoun = male ? _( "He" ) : _( "She" );
-
-    //Avoid saying "a male unemployed" or similar
-    std::string profession_name;
-    if( prof == prof->generic() ) {
-        if( male ) {
-            profession_name = _( "an unemployed male" );
-        } else {
-            profession_name = _( "an unemployed female" );
-        }
-    } else {
-        profession_name = string_format( _( "a %s" ), prof->gender_appropriate_name( male ) );
-    }
-
-    const std::string locdesc = overmap_buffer.get_description_at( global_sm_location() );
-    //~ First parameter is a pronoun ("He"/"She"), second parameter is a description
-    // that designates the location relative to its surroundings.
-    const std::string kill_place = string_format( _( "%1$s was killed in a %2$s." ),
-                                   pronoun, locdesc );
-
-    //Header
-    memorial_file << string_format( _( "Cataclysm - Dark Days Ahead version %s memorial file" ),
-                                    getVersionString() ) << eol;
-    memorial_file << eol;
-    memorial_file << string_format( _( "In memory of: %s" ), name ) << eol;
-    if( epitaph.length() > 0 ) { //Don't record empty epitaphs
-        //~ The "%s" will be replaced by an epitaph as displayed in the memorial files. Replace the quotation marks as appropriate for your language.
-        memorial_file << string_format( pgettext( "epitaph", "\"%s\"" ), epitaph ) << eol << eol;
-    }
-    //~ First parameter: Pronoun, second parameter: a profession name (with article)
-    memorial_file << string_format( _( "%1$s was %2$s when the apocalypse began." ),
-                                    pronoun, profession_name ) << eol;
-    memorial_file << string_format( _( "%1$s died on %2$s." ), pronoun,
-                                    to_string( time_point( calendar::turn ) ) ) << eol;
-    memorial_file << kill_place << eol;
-    memorial_file << eol;
-
-    //Misc
-    memorial_file << string_format( _( "Cash on hand: %s" ), format_money( cash ) ) << eol;
-    memorial_file << eol;
-
-    //HP
-
-    const auto limb_hp =
-    [this, &memorial_file, &indent]( const std::string & desc, const hp_part bp ) {
-        memorial_file << indent << string_format( desc, get_hp( bp ), get_hp_max( bp ) ) << eol;
-    };
-
-    memorial_file << _( "Final HP:" ) << eol;
-    limb_hp( _( " Head: %d/%d" ), hp_head );
-    limb_hp( _( "Torso: %d/%d" ), hp_torso );
-    limb_hp( _( "L Arm: %d/%d" ), hp_arm_l );
-    limb_hp( _( "R Arm: %d/%d" ), hp_arm_r );
-    limb_hp( _( "L Leg: %d/%d" ), hp_leg_l );
-    limb_hp( _( "R Leg: %d/%d" ), hp_leg_r );
-    memorial_file << eol;
-
-    //Stats
-    memorial_file << _( "Final Stats:" ) << eol;
-    memorial_file << indent << string_format( _( "Str %d" ), str_cur )
-                  << indent << string_format( _( "Dex %d" ), dex_cur )
-                  << indent << string_format( _( "Int %d" ), int_cur )
-                  << indent << string_format( _( "Per %d" ), per_cur ) << eol;
-    memorial_file << _( "Base Stats:" ) << eol;
-    memorial_file << indent << string_format( _( "Str %d" ), str_max )
-                  << indent << string_format( _( "Dex %d" ), dex_max )
-                  << indent << string_format( _( "Int %d" ), int_max )
-                  << indent << string_format( _( "Per %d" ), per_max ) << eol;
-    memorial_file << eol;
-
-    //Last 20 messages
-    memorial_file << _( "Final Messages:" ) << eol;
-    std::vector<std::pair<std::string, std::string> > recent_messages = Messages::recent_messages( 20 );
-    for( auto &recent_message : recent_messages ) {
-        memorial_file << indent << recent_message.first << " " << recent_message.second;
-        memorial_file << eol;
-    }
-    memorial_file << eol;
-
-    //Kill list
-    memorial_file << _( "Kills:" ) << eol;
-
-    int total_kills = 0;
-
-    std::map<std::tuple<std::string, std::string>, int> kill_counts;
-
-    // map <name, sym> to kill count
-    for( const auto &type : MonsterGenerator::generator().get_all_mtypes() ) {
-        if( g->kill_count( type.id ) > 0 ) {
-            kill_counts[std::tuple<std::string, std::string>(
-                                                    type.nname(),
-                                                    type.sym
-                                                )] += g->kill_count( type.id );
-            total_kills += g->kill_count( type.id );
-        }
-    }
-
-    for( const auto &entry : kill_counts ) {
-        memorial_file << "  " << std::get<1>( entry.first ) << " - "
-                      << string_format( "%4d", entry.second ) << " "
-                      << std::get<0>( entry.first ) << eol;
-    }
-
-    if( total_kills == 0 ) {
-        memorial_file << indent << _( "No monsters were killed." ) << eol;
-    } else {
-        memorial_file << string_format( _( "Total kills: %d" ), total_kills ) << eol;
-    }
-    memorial_file << eol;
-
-    //Skills
-    memorial_file << _( "Skills:" ) << eol;
-    for( auto &pair : *_skills ) {
-        const SkillLevel &lobj = pair.second;
-        //~ 1. skill name, 2. skill level, 3. exercise percentage to next level
-        memorial_file << indent << string_format( _( "%s: %d (%d %%)" ), pair.first->name(), lobj.level(),
-                      lobj.exercise() ) << eol;
-    }
-    memorial_file << eol;
-
-    //Traits
-    memorial_file << _( "Traits:" ) << eol;
-    for( auto &iter : my_mutations ) {
-        memorial_file << indent << mutation_branch::get_name( iter.first ) << eol;
-    }
-    if( !my_mutations.empty() ) {
-        memorial_file << indent << _( "(None)" ) << eol;
-    }
-    memorial_file << eol;
-
-    //Effects (illnesses)
-    memorial_file << _( "Ongoing Effects:" ) << eol;
-    bool had_effect = false;
-    if( get_perceived_pain() > 0 ) {
-        had_effect = true;
-        memorial_file << indent << _( "Pain" ) << " (" << get_perceived_pain() << ")";
-    }
-    if( !had_effect ) {
-        memorial_file << indent << _( "(None)" ) << eol;
-    }
-    memorial_file << eol;
-
-    //Bionics
-    memorial_file << _( "Bionics:" ) << eol;
-    int total_bionics = 0;
-    for( size_t i = 0; i < my_bionics->size(); ++i ) {
-        memorial_file << indent << ( i + 1 ) << ": " << ( *my_bionics )[i].id->name << eol;
-        total_bionics++;
-    }
-    if( total_bionics == 0 ) {
-        memorial_file << indent << _( "No bionics were installed." ) << eol;
-    } else {
-        memorial_file << string_format( _( "Total bionics: %d" ), total_bionics ) << eol;
-    }
-    memorial_file << string_format(
-                      _( "Bionic Power: <color_light_blue>%d</color>/<color_light_blue>%d</color>" ), power_level,
-                      max_power_level ) << eol;
-    memorial_file << eol;
-
-    //Equipment
-    memorial_file << _( "Weapon:" ) << eol;
-    memorial_file << indent << weapon.invlet << " - " << weapon.tname( 1, false ) << eol;
-    memorial_file << eol;
-
-    memorial_file << _( "Equipment:" ) << eol;
-    for( auto &elem : worn ) {
-        item next_item = elem;
-        memorial_file << indent << next_item.invlet << " - " << next_item.tname( 1, false );
-        if( next_item.charges > 0 ) {
-            memorial_file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.size() == 1 && next_item.contents.front().charges > 0 ) {
-            memorial_file << " (" << next_item.contents.front().charges << ")";
-        }
-        memorial_file << eol;
-    }
-    memorial_file << eol;
-
-    //Inventory
-    memorial_file << _( "Inventory:" ) << eol;
-    inv.restack( *this );
-    invslice slice = inv.slice();
-    for( auto &elem : slice ) {
-        item &next_item = elem->front();
-        memorial_file << indent << next_item.invlet << " - " <<
-                      next_item.tname( static_cast<unsigned>( elem->size() ), false );
-        if( elem->size() > 1 ) {
-            memorial_file << " [" << elem->size() << "]";
-        }
-        if( next_item.charges > 0 ) {
-            memorial_file << " (" << next_item.charges << ")";
-        } else if( next_item.contents.size() == 1 && next_item.contents.front().charges > 0 ) {
-            memorial_file << " (" << next_item.contents.front().charges << ")";
-        }
-        memorial_file << eol;
-    }
-    memorial_file << eol;
-
-    //Lifetime stats
-    memorial_file << _( "Lifetime Stats" ) << eol;
-    memorial_file << indent << string_format( _( "Distance walked: %d squares" ),
-                  lifetime_stats.squares_walked ) << eol;
-    memorial_file << indent << string_format( _( "Damage taken: %d damage" ),
-                  lifetime_stats.damage_taken ) << eol;
-    memorial_file << indent << string_format( _( "Damage healed: %d damage" ),
-                  lifetime_stats.damage_healed ) << eol;
-    memorial_file << indent << string_format( _( "Headshots: %d" ),
-                  lifetime_stats.headshots ) << eol;
-    memorial_file << eol;
-
-    //History
-    memorial_file << _( "Game History" ) << eol;
-    memorial_file << dump_memorial();
-
 }
 
 /**
@@ -6658,7 +6415,7 @@ bool player::irradiate( float rads, bool bypass )
 }
 
 // At minimum level, return at_min, at maximum at_max
-float addiction_scaling( float at_min, float at_max, float add_lvl )
+static float addiction_scaling( float at_min, float at_max, float add_lvl )
 {
     // Not addicted
     if( add_lvl < MIN_ADDICTION_LEVEL ) {
@@ -6778,16 +6535,6 @@ void player::mend( int rate_multiplier )
                                body_part_name( part ) );
         }
     }
-}
-
-// sets default stomach contents when starting the game
-void player::initialize_stomach_contents()
-{
-    stomach = stomach_contents( 2500_ml );
-    guts = stomach_contents( 24000_ml );
-    guts.set_calories( 300 );
-    stomach.set_calories( 800 );
-    stomach.mod_contents( 475_ml );
 }
 
 void player::vomit()
@@ -10952,7 +10699,7 @@ int player::warmth( body_part bp ) const
     return ret;
 }
 
-int bestwarmth( const std::list< item > &its, const std::string &flag )
+static int bestwarmth( const std::list< item > &its, const std::string &flag )
 {
     int best = 0;
     for( auto &w : its ) {
@@ -11100,7 +10847,7 @@ int player::get_armor_fire( body_part bp ) const
     return get_armor_type( DT_HEAT, bp );
 }
 
-void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
+static void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
 {
     //~ %s is armor name
     who.add_memorial_log( pgettext( "memorial_male", "Worn %s was completely destroyed." ),
