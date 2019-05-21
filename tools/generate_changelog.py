@@ -14,6 +14,7 @@ import os
 import sys
 import argparse
 import pathlib
+import contextlib
 import xml.etree.ElementTree
 from datetime import date, datetime, timedelta
 
@@ -815,25 +816,41 @@ def read_personal_token(filename):
     return None
 
 
+@contextlib.contextmanager
+def smart_open(filename=None, *args, **kwargs):
+    if filename and (filename == '-' or filename == sys.stdout):
+        fh = sys.stdout
+    else:
+        fh = open(filename, *args, **kwargs)
+
+    try:
+        yield fh
+    finally:
+        if fh is not sys.stdout:
+            fh.close()
+
+
 def main_entry(argv):
     parser = argparse.ArgumentParser(description='Generates Changelog from now until the specified date')
-
-    output_style_group = parser.add_mutually_exclusive_group(required=True)
-    output_style_group.add_argument(
-        '-D', '--group-by-date',
-        action='store_true',
-        help='Indicates changes should be grouped by Date.'
-    )
-    output_style_group.add_argument(
-        '-B', '--group-by-build',
-        action='store_true',
-        help='Indicates changes should be grouped by Build.'
-    )
 
     parser.add_argument(
         'target_date',
         help='Specify when should stop generating. Accepts "YYYY-MM-DD" ISO 8601 Date format.',
         type=lambda d: datetime.combine(date.fromisoformat(d), datetime.min.time())
+    )
+
+    parser.add_argument(
+        '-D', '--by-date',
+        help='Indicates changes should be presented grouped by Date. Requires a filename parameter, "-" for STDOUT',
+        type=lambda x: sys.stdout if x == '-' else pathlib.Path(x).expanduser().resolve(),
+        default=None
+    )
+
+    parser.add_argument(
+        '-B', '--by-build',
+        help='Indicates changes should be presented grouped by Build. Requires a filename parameter, "-" for STDOUT',
+        type=lambda x: sys.stdout if x == '-' else pathlib.Path(x).expanduser().resolve(),
+        default=None
     )
 
     parser.add_argument(
@@ -848,13 +865,6 @@ def main_entry(argv):
         help='Specify where to read the Personal Token. Default "~/.generate_changelog.token".',
         type=lambda x: pathlib.Path(x).expanduser().resolve(),
         default='~/.generate_changelog.token'
-    )
-
-    parser.add_argument(
-        '-o', '--output-file',
-        help='Specify where to write extracted information. Default to standard output.',
-        type=lambda x: pathlib.Path(x).expanduser().resolve(),
-        default=None
     )
 
     parser.add_argument(
@@ -888,21 +898,24 @@ def main_entry(argv):
 
     log.debug(f'Commandline Arguments (+defaults): {arguments}')
 
-    if (arguments.output_file is not None and
-            (not arguments.output_file.parent.exists()
-             or not arguments.output_file.parent.is_dir())):
-        raise ValueError(f"Specified directory for Output File doesn't exist: {arguments.output_file.parent}")
+    if (arguments.by_date is not None and
+        arguments.by_date != sys.stdout and
+            (not arguments.by_date.parent.exists()
+             or not arguments.by_date.parent.is_dir())):
+        raise ValueError(f"Specified directory in --by-date doesn't exist: {arguments.by_date.parent}")
+
+    if (arguments.by_build is not None and
+        arguments.by_build != sys.stdout and
+            (not arguments.by_build.parent.exists()
+             or not arguments.by_build.parent.is_dir())):
+        raise ValueError(f"Specified directory in --by-build doesn't exist: {arguments.by_build.parent}")
 
     personal_token = read_personal_token(arguments.token_file)
     if personal_token is None:
         log.warning("GitHub Token was not provided, API calls will have severely limited rates.")
 
-    if arguments.group_by_date:
-        main_by_date(arguments.target_date, arguments.end_date, personal_token,
-                     arguments.output_file, arguments.include_summary_none, arguments.flatten_output)
-    elif arguments.group_by_build:
-        main_by_build(arguments.target_date, arguments.end_date, personal_token,
-                      arguments.output_file, arguments.include_summary_none)
+    main_output(arguments.by_date, arguments.by_build, arguments.target_date, arguments.end_date,
+                personal_token, arguments.include_summary_none, arguments.flatten_output)
 
 
 def get_github_api_data(pr_repo, commit_repo, target_dttm, end_dttm, personal_token):
@@ -971,6 +984,30 @@ def main_by_build(target_dttm, end_dttm, personal_token, output_file, include_su
     else:
         with open(output_file, 'w', encoding='utf8') as opened_output_file:
             build_output_by_build(build_repo, pr_repo, commit_repo, opened_output_file, include_summary_none)
+
+
+def main_output(by_date, by_build, target_dttm, end_dttm, personal_token, include_summary_none, flatten):
+    threads = []
+
+    if by_build is not None:
+        build_repo = JenkinsBuildRepository()
+        threads.append(get_jenkins_api_data(build_repo))
+
+    if by_date is not None:
+        pr_repo = CDDAPullRequestRepository()
+        commit_repo = CommitRepository()
+        threads.append(get_github_api_data(pr_repo, commit_repo, target_dttm, end_dttm, personal_token))
+
+    for thread in threads:
+        thread.join()
+
+    if by_date is not None:
+        with smart_open(by_date, 'w', encoding='utf8') as output_file:
+            build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, output_file, include_summary_none, flatten)
+
+    if by_build is not None:
+        with smart_open(by_build, 'w', encoding='utf8') as output_file:
+            build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include_summary_none)
 
 
 def build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, output_file,
