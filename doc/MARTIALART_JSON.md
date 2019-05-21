@@ -45,11 +45,11 @@
 "down_dur": 2,              // Duration that target is downed for
 "disarms": true,            // This technique can disarm the opponent
 "grab_break": true,         // This technique may break a grab against the user
-"aoe": "spin",              // This technique has an area-of-effect
+"aoe": "spin",              // This technique has an area-of-effect; doesn't work against solo targets
 "block_counter": true,      // This technique may automatically counterattack on a successful block
 "dodge_counter": true,      // This technique may automatically counterattack on a successful dodge
-"weighting": 2,             // ???
-"defensive": true,          // ???
+"weighting": 2,             // Affects likelihood this technique will be seleted when many are available
+"defensive": true,          // Game won't try to select this technique when attacking
 "miss_recovery": true,      // Misses while attacking will use fewer moves
 "messages" : [              // What is printed when this technique is used by the player and by an npc
     "You phase-strike %s",
