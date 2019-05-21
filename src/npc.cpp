@@ -1716,7 +1716,7 @@ int npc::follow_distance() const
         return 2;
     }
     // Uses ally_rule follow_distance_close to determine if should follow by 2 or 4 tiles
-    if( has_flag( follow_distance_close ) ) {
+    if( has_flag( ally_rule::follow_distance_close ) ) {
         return 2;
     }
     return 4;
