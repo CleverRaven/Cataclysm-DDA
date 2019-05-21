@@ -893,19 +893,19 @@ def main_entry(argv):
              or not arguments.output_file.parent.is_dir())):
         raise ValueError(f"Specified directory for Output File doesn't exist: {arguments.output_file.parent}")
 
-    if arguments.group_by_date:
-        main_by_date(arguments.target_date, arguments.end_date, arguments.token_file,
-                     arguments.output_file,arguments.include_summary_none, arguments.flatten_output)
-    elif arguments.group_by_build:
-        main_by_build(arguments.target_date, arguments.end_date, arguments.token_file,
-                      arguments.output_file,arguments.include_summary_none)
-
-
-def main_by_date(target_dttm, end_dttm, token_file, output_file, include_summary_none, flatten):
-    personal_token = read_personal_token(token_file)
+    personal_token = read_personal_token(arguments.token_file)
     if personal_token is None:
         log.warning("GitHub Token was not provided, API calls will have severely limited rates.")
 
+    if arguments.group_by_date:
+        main_by_date(arguments.target_date, arguments.end_date, personal_token,
+                     arguments.output_file,arguments.include_summary_none, arguments.flatten_output)
+    elif arguments.group_by_build:
+        main_by_build(arguments.target_date, arguments.end_date, personal_token,
+                      arguments.output_file,arguments.include_summary_none)
+
+
+def main_by_date(target_dttm, end_dttm, personal_token, output_file, include_summary_none, flatten):
     ### get data from GitHub API
     commit_api = CommitApi(CommitFactory(), personal_token)
     commit_repo = CommitRepository()
@@ -985,11 +985,7 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, output_fil
         print(file=output_file)
 
 
-def main_by_build(target_dttm, end_dttm, token_file, output_file, include_summary_none):
-    personal_token = read_personal_token(token_file)
-    if personal_token is None:
-        log.warning("GitHub Token was not provided, API calls will have severely limited rates.")
-
+def main_by_build(target_dttm, end_dttm, personal_token, output_file, include_summary_none):
     ### get data from GitHub API
     commit_api = CommitApi(CommitFactory(), personal_token)
     commit_repo = CommitRepository()
