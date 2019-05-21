@@ -1742,6 +1742,10 @@ int get_convection_temperature( const tripoint &location )
     temp_mod += tile_strength_mod( location, fd_hot_air2,  6,  16,  20 );
     temp_mod += tile_strength_mod( location, fd_hot_air3, 16,  40,  70 );
     temp_mod += tile_strength_mod( location, fd_hot_air4, 70, 100, 160 );
+    temp_mod -= tile_strength_mod( location, fd_cold_air1,  2,   6,  10 );
+    temp_mod -= tile_strength_mod( location, fd_cold_air2,  6,  16,  20 );
+    temp_mod -= tile_strength_mod( location, fd_cold_air3, 16,  40,  70 );
+    temp_mod -= tile_strength_mod( location, fd_cold_air4, 70, 100, 160 );
 
     return temp_mod;
 }

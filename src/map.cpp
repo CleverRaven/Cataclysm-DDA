@@ -2737,6 +2737,10 @@ void map::decay_fields_and_scent( const time_duration &amount )
                             case fd_methsmoke:
                             case fd_relax_gas:
                             case fd_fungal_haze:
+                            case fd_cold_air1:
+                            case fd_cold_air2:
+                            case fd_cold_air3:
+                            case fd_cold_air4:
                             case fd_hot_air1:
                             case fd_hot_air2:
                             case fd_hot_air3:

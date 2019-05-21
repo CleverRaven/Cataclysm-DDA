@@ -158,6 +158,31 @@
     "components": [ [ [ "large_space_heater", 1 ] ], [ [ "wire", 2 ] ] ]
   },
   {
+    "result": "mountable_cooler",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "mechanics",
+    "difficulty": 5,
+    "time": 180000,
+    "reversible": true,
+    "autolearn": false,
+    "book_learn": [ [ "textbook_mechanics", 5 ], [ "manual_mechanics", 5 ], [ "textbook_fabrication", 5 ] ],
+    "using": [ [ "welding_standard", 20 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [
+      [ [ "sheet_metal", 2 ] ],
+      [ [ "condensor_coil", 2 ] ],
+      [ [ "evaporator_coil", 2 ] ],
+      [ [ "thermostat", 1 ] ],
+      [ [ "motor_tiny", 1 ] ],
+      [ [ "refrigerant_tank", 1 ] ],
+      [ [ "plastic_chunk", 8 ] ],
+      [ [ "wire", 2 ] ],
+      [ [ "fan", 1 ] ]
+    ]
+  },
+  {
     "result": "washing_machine",
     "type": "recipe",
     "category": "CC_OTHER",
