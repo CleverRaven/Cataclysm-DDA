@@ -959,10 +959,9 @@ def main_output(by_date, by_build, target_dttm, end_dttm, personal_token, includ
         build_repo = JenkinsBuildRepository()
         threads.append(get_jenkins_api_data(build_repo))
 
-    if by_date is not None:
-        pr_repo = CDDAPullRequestRepository()
-        commit_repo = CommitRepository()
-        threads.append(get_github_api_data(pr_repo, commit_repo, target_dttm, end_dttm, personal_token))
+    pr_repo = CDDAPullRequestRepository()
+    commit_repo = CommitRepository()
+    threads.append(get_github_api_data(pr_repo, commit_repo, target_dttm, end_dttm, personal_token))
 
     for thread in threads:
         thread.join()
