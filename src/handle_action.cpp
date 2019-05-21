@@ -95,7 +95,7 @@ class user_turn
         }
 
         bool has_timeout_elapsed() {
-            return moves_elapsed > 100;
+            return moves_elapsed() > 100;
         }
 
         int moves_elapsed() {
