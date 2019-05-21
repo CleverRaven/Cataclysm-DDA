@@ -4579,6 +4579,7 @@ std::shared_ptr<T> game::shared_from( const T &critter )
 template std::shared_ptr<Creature> game::shared_from<Creature>( const Creature & );
 template std::shared_ptr<Character> game::shared_from<Character>( const Character & );
 template std::shared_ptr<player> game::shared_from<player>( const player & );
+template std::shared_ptr<avatar> game::shared_from<avatar>( const avatar & );
 template std::shared_ptr<monster> game::shared_from<monster>( const monster & );
 template std::shared_ptr<npc> game::shared_from<npc>( const npc & );
 
