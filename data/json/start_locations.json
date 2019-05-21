@@ -331,5 +331,29 @@
     "ident": "golfcourse_31",
     "name": "Golf course clubhouse",
     "target": "golfcourse_31"
+  },
+  {
+    "type": "start_location",
+    "ident": "apartments_con_tower_114",
+    "name": "Apartment Rooftop",
+    "target": "apartments_con_tower_114"
+  },
+  {
+    "type": "start_location",
+    "ident": "apartments_con_tower_014",
+    "name": "Apartment Rooftop",
+    "target": "apartments_con_tower_014"
+  },
+  {
+    "type": "start_location",
+    "ident": "apartments_con_tower_104",
+    "name": "Apartment Rooftop",
+    "target": "apartments_con_tower_104"
+  },
+  {
+    "type": "start_location",
+    "ident": "apartments_con_tower_004",
+    "name": "Apartment Rooftop",
+    "target": "apartments_con_tower_004"
   }
 ]
