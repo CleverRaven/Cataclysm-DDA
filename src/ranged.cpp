@@ -1401,7 +1401,6 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             }
 
             wrefresh( g->w_terrain );
-            g->draw_panels();
             draw_targeting_window( w_target, relevant->tname(),
                                    mode, ctxt, aim_types, tiny );
             wrefresh( w_target );

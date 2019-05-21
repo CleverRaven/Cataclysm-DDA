@@ -291,7 +291,6 @@ input_context game::get_player_input( std::string &action )
                 werase( w_terrain );
 
                 draw_ter();
-                g->draw_panels();
                 initial_draw = false;
             }
             draw_weather( wPrint );
@@ -1090,7 +1089,6 @@ static void reach_attack( int range, player &u )
     }
     g->draw_ter();
     wrefresh( g->w_terrain );
-    g->draw_panels();
     g->reenter_fullscreen();
 }
 
