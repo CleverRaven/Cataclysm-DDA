@@ -127,6 +127,9 @@ constexpr size_t set_segment( size_t line, om_direction::type dir )
 
 constexpr bool has_segment( size_t line, om_direction::type dir )
 {
+    if( dir == om_direction::type::invalid ) {
+        return false;
+    }
     return static_cast<bool>( line & 1 << static_cast<int>( dir ) );
 }
 
