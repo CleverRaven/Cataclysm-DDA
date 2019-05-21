@@ -920,6 +920,9 @@ def main_entry(argv):
     if personal_token is None:
         log.warning("GitHub Token was not provided, API calls will have severely limited rates.")
 
+    if arguments.by_date is None and arguments.by_build is None:
+        raise ValueError("Script should be called with either --by-date or --by-build arguments or both.")
+
     main_output(arguments.by_date, arguments.by_build, arguments.target_date, arguments.end_date,
                 personal_token, arguments.include_summary_none, arguments.flatten_output)
 
