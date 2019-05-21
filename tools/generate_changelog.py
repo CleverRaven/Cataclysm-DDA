@@ -905,15 +905,42 @@ def main_entry(argv):
                       arguments.output_file,arguments.include_summary_none)
 
 
-def main_by_date(target_dttm, end_dttm, personal_token, output_file, include_summary_none, flatten):
-    ### get data from GitHub API
-    commit_api = CommitApi(CommitFactory(), personal_token)
-    commit_repo = CommitRepository()
-    commit_repo.add_multiple(commit_api.get_commit_list(target_dttm, end_dttm))
+def get_github_api_data(pr_repo, commit_repo, target_dttm, end_dttm, personal_token):
 
-    pr_api = PullRequestApi(CDDAPullRequestFactory(), personal_token)
+    def load_github_repos():
+        commit_api = CommitApi(CommitFactory(), personal_token)
+        commit_repo.add_multiple(commit_api.get_commit_list(target_dttm, end_dttm))
+
+        pr_api = PullRequestApi(CDDAPullRequestFactory(), personal_token)
+        pr_repo.add_multiple(pr_api.get_pr_list(target_dttm, end_dttm, merged_only=True))
+
+    github_thread = threading.Thread(target=load_github_repos)
+    github_thread.name = 'WORKER_GIT'
+    github_thread.daemon = True
+    github_thread.start()
+
+    return github_thread
+
+
+def get_jenkins_api_data(build_repo):
+
+    def load_jenkins_repo():
+        jenkins_api = JenkinsApi(JenkinsBuildFactory())
+        build_repo.add_multiple((build for build in jenkins_api.get_build_list() if build.was_successful()))
+
+    jenkins_thread = threading.Thread(target=load_jenkins_repo)
+    jenkins_thread.name = 'WORKER_JEN'
+    jenkins_thread.daemon = True
+    jenkins_thread.start()
+
+    return jenkins_thread
+
+
+def main_by_date(target_dttm, end_dttm, personal_token, output_file, include_summary_none, flatten):
     pr_repo = CDDAPullRequestRepository()
-    pr_repo.add_multiple(pr_api.get_pr_list(target_dttm, end_dttm, merged_only=True))
+    commit_repo = CommitRepository()
+    t = get_github_api_data(pr_repo, commit_repo, target_dttm, end_dttm, personal_token)
+    t.join()
 
     ### build script output
     if output_file is None:
@@ -926,18 +953,17 @@ def main_by_date(target_dttm, end_dttm, personal_token, output_file, include_sum
 
 
 def main_by_build(target_dttm, end_dttm, personal_token, output_file, include_summary_none):
-    ### get data from GitHub API
-    commit_api = CommitApi(CommitFactory(), personal_token)
-    commit_repo = CommitRepository()
-    commit_repo.add_multiple(commit_api.get_commit_list(target_dttm, end_dttm))
+    threads = []
 
-    pr_api = PullRequestApi(CDDAPullRequestFactory(), personal_token)
-    pr_repo = CDDAPullRequestRepository()
-    pr_repo.add_multiple(pr_api.get_pr_list(target_dttm, end_dttm, merged_only=True))
-
-    jenkins_api = JenkinsApi(JenkinsBuildFactory())
     build_repo = JenkinsBuildRepository()
-    build_repo.add_multiple((build for build in jenkins_api.get_build_list() if build.was_successful()))
+    threads.append(get_jenkins_api_data(build_repo))
+
+    pr_repo = CDDAPullRequestRepository()
+    commit_repo = CommitRepository()
+    threads.append(get_github_api_data(pr_repo, commit_repo, target_dttm, end_dttm, personal_token))
+
+    for thread in threads:
+        thread.join()
 
     ### build script output
     if output_file is None:
