@@ -11,6 +11,14 @@
     "id": "army_mags_mp5",
     "entries": [ { "item": "mp5mag", "ammo-item": "9mm", "charges": 30 }, { "item": "mp5mag", "ammo-item": "9mm", "charges": 30 } ]
   },
+    {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "charged_cell_phone",
+    "ammo": 100,
+    "magazine": 100,
+    "entries": [ { "item": "cell_phone" } ]
+  },
   {
     "type": "item_group",
     "subtype": "collection",
