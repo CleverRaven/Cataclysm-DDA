@@ -1,5 +1,6 @@
 #if defined(TILES)
 
+#include "sdltiles.h" // IWYU pragma: associated
 #include "cursesdef.h" // IWYU pragma: associated
 
 #include <climits>
@@ -25,6 +26,7 @@
 #   include <SDL_image.h>
 #endif
 
+#include "avatar.h"
 #include "cata_tiles.h"
 #include "catacharset.h"
 #include "color.h"

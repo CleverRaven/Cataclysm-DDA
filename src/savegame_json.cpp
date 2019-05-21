@@ -25,6 +25,7 @@
 
 #include "ammo.h"
 #include "auto_pickup.h"
+#include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "calendar.h"
@@ -526,6 +527,11 @@ void Character::store( JsonOut &json ) const
     json.end_object();
 }
 
+void avatar::load( JsonObject &data )
+{
+    player::load( data );
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// player.h, player (+ npc for now, should eventually only be the player)
 /*
@@ -662,6 +668,11 @@ void player::load( JsonObject &data )
     }
 }
 
+void avatar::store( JsonOut &json ) const
+{
+    player::store( json );
+}
+
 /*
  * Variables common to player (and npc's, should eventually just be players)
  */
@@ -774,6 +785,15 @@ void player::store( JsonOut &json ) const
     }
 }
 
+void avatar::serialize( JsonOut &json ) const
+{
+    json.start_object();
+
+    store( json );
+
+    json.end_object();
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// player.h, player
 /*
@@ -867,6 +887,12 @@ void player::serialize( JsonOut &json ) const
     */
 
     json.end_object();
+}
+
+void avatar::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    load( data );
 }
 
 /*
@@ -1137,8 +1163,6 @@ void npc_follower_rules::deserialize( JsonIn &jsin )
 
     data.read( "pickup_whitelist", *pickup_whitelist );
 }
-
-extern std::string convert_talk_topic( talk_topic_enum );
 
 void npc_chatbin::serialize( JsonOut &json ) const
 {

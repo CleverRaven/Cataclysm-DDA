@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "anatomy.h"
+#include "avatar.h"
 #include "debug.h"
 #include "effect.h"
 #include "field.h"

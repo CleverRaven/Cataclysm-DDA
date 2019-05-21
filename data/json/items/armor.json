@@ -2539,6 +2539,7 @@
     "color": "dark_gray",
     "covers": [ "TORSO" ],
     "coverage": 10,
+    "encumbrance": 3,
     "storage": 8,
     "material_thickness": 1,
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
@@ -2859,6 +2860,7 @@
     "symbol": "[",
     "color": "yellow",
     "covers": [ "TORSO" ],
+    "encumbrance": 4,
     "storage": 4,
     "use_action": {
       "type": "holster",
@@ -7263,7 +7265,7 @@
     "symbol": "[",
     "color": "brown",
     "covers": [ "TORSO" ],
-    "encumbrance": 4,
+    "encumbrance": 6,
     "storage": 8,
     "use_action": {
       "type": "holster",
@@ -8821,7 +8823,7 @@
     "color": "brown",
     "covers": [ "TORSO" ],
     "coverage": 15,
-    "encumbrance": 3,
+    "encumbrance": 4,
     "storage": 12,
     "material_thickness": 2,
     "use_action": {

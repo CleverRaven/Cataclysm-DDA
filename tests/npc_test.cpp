@@ -5,6 +5,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "common_types.h"
 #include "faction.h"

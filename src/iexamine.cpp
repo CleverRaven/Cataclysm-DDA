@@ -15,6 +15,7 @@
 
 #include "activity_handlers.h"
 #include "ammo.h"
+#include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "calendar.h"

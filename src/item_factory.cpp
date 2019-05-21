@@ -185,6 +185,10 @@ void Item_factory::finalize_pre( itype &obj )
     if( obj.integral_volume < 0_ml ) {
         obj.integral_volume = obj.volume;
     }
+    // use base weight if integral weight unspecified
+    if( obj.integral_weight < 0_gram ) {
+        obj.integral_weight = obj.weight;
+    }
     // for ammo and comestibles stack size defaults to count of initial charges
     // Set max stack size to 200 to prevent integer overflow
     if( obj.stackable ) {
@@ -482,17 +486,9 @@ void Item_factory::finalize_item_blacklist()
     }
 }
 
-void add_to_set( t_string_set &s, JsonObject &json, const std::string &name )
-{
-    JsonArray jarr = json.get_array( name );
-    while( jarr.has_more() ) {
-        s.insert( jarr.next_string() );
-    }
-}
-
 void Item_factory::load_item_blacklist( JsonObject &json )
 {
-    add_to_set( item_blacklist, json, "items" );
+    add_array_to_set( item_blacklist, json, "items" );
 }
 
 Item_factory::~Item_factory() = default;
@@ -1938,6 +1934,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
 
     assign( jo, "category", def.category_force, strict );
     assign( jo, "weight", def.weight, strict, 0_gram );
+    assign( jo, "integral_weight", def.integral_weight, strict, 0_gram );
     assign( jo, "volume", def.volume );
     assign( jo, "price", def.price );
     assign( jo, "price_postapoc", def.price_post );

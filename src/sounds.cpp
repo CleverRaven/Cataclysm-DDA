@@ -10,6 +10,7 @@
 #include <type_traits>
 #include <unordered_map>
 
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h"
@@ -548,8 +549,13 @@ void sfx::do_vehicle_engine_sfx()
     } else if( g->u.in_sleep_state() && audio_muted ) {
         return;
     }
-
-    vehicle *veh = &g->m.veh_at( g->u.pos() )->vehicle();
+    optional_vpart_position vpart_opt = g->m.veh_at( g->u.pos() );
+    vehicle *veh;
+    if( vpart_opt.has_value() ) {
+        veh = &vpart_opt->vehicle();
+    } else {
+        return;
+    }
     if( !veh->engine_on ) {
         fade_audio_channel( 23, 100 );
         add_msg( m_debug, "STOP 23" );
@@ -560,7 +566,7 @@ void sfx::do_vehicle_engine_sfx()
 
     for( size_t e = 0; e < veh->engines.size(); ++e ) {
         if( veh->is_engine_on( e ) ) {
-            if( sfx::has_variant_sound( "engine_working",
+            if( sfx::has_variant_sound( "engine_working_internal",
                                         veh->part_info( veh->engines[ e ] ).get_id().str() ) ) {
                 id_and_variant = std::make_pair( "engine_working_internal",
                                                  veh->part_info( veh->engines[ e ] ).get_id().str() );
@@ -690,7 +696,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
 
     for( size_t e = 0; e < veh->engines.size(); ++e ) {
         if( veh->is_engine_on( e ) ) {
-            if( sfx::has_variant_sound( "engine_working_exterior",
+            if( sfx::has_variant_sound( "engine_working_external",
                                         veh->part_info( veh->engines[ e ] ).get_id().str() ) ) {
                 id_and_variant = std::make_pair( "engine_working_external",
                                                  veh->part_info( veh->engines[ e ] ).get_id().str() );

@@ -1,5 +1,6 @@
 #include "magic.h"
 
+#include "avatar.h"
 #include "calendar.h"
 #include "color.h"
 #include "damage.h"
@@ -628,11 +629,9 @@ void known_magic::deserialize( JsonIn &jsin )
     JsonArray parray = data.get_array( "spellbook" );
     while( parray.has_more() ) {
         JsonObject jo = parray.next_object();
-        std::string id;
-        jo.read( "id", id );
+        std::string id = jo.get_string( "id" );
         spell_id sp = spell_id( id );
-        int xp;
-        jo.read( "xp", xp );
+        int xp = jo.get_int( "xp" );
         spellbook.emplace( sp, spell( sp, xp ) );
     }
 }

@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "action.h"
+#include "avatar.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -807,7 +808,6 @@ void place_construction( const std::string &desc )
                      g->u.pos() + g->u.view_offset );
     }
     wrefresh( g->w_terrain );
-    g->draw_panels();
 
     const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
     if( !pnt_ ) {

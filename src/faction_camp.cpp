@@ -11,6 +11,7 @@
 #include <unordered_set>
 
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "catacharset.h"
 #include "clzones.h"

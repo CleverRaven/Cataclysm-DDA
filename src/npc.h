@@ -642,6 +642,9 @@ enum talk_topic_enum {
     NUM_TALK_TOPICS
 };
 
+// Function for conversion of legacy topics, defined in savegame_legacy.cpp
+std::string convert_talk_topic( talk_topic_enum const old_value );
+
 struct npc_chatbin {
     /**
      * Add a new mission to the available missions (@ref missions). For compatibility it silently

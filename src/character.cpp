@@ -10,6 +10,7 @@
 #include <memory>
 
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "debug.h"

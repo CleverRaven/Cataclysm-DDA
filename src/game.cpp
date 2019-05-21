@@ -28,6 +28,7 @@
 #include "activity_handlers.h"
 #include "artifact.h"
 #include "auto_pickup.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
@@ -101,6 +102,7 @@
 #include "safemode_ui.h"
 #include "scenario.h"
 #include "scent_map.h"
+#include "sdltiles.h"
 #include "sounds.h"
 #include "start_location.h"
 #include "string_formatter.h"
@@ -241,11 +243,6 @@ extern bool add_key_to_quick_shortcuts( long key, const std::string &category, b
 
 //The one and only game instance
 std::unique_ptr<game> g;
-#if defined(TILES)
-extern std::unique_ptr<cata_tiles> tilecontext;
-extern void toggle_fullscreen_window();
-extern bool save_screenshot( const std::string &file_path );
-#endif // TILES
 
 uistatedata uistate;
 
@@ -2180,10 +2177,6 @@ tripoint game::mouse_edge_scrolling_overmap( input_context &ctxt )
     return mouse_edge_scrolling( ctxt, 1 );
 }
 
-#if defined(TILES)
-void rescale_tileset( int size );
-#endif
-
 input_context get_default_mode_input_context()
 {
     input_context ctxt( "DEFAULTMODE" );
@@ -2563,7 +2556,7 @@ void game::load( const save_t &name )
 
     // Now load up the master game data; factions (and more?)
     load_master();
-    u = player();
+    u = avatar();
     u.name = name.player_name();
     // This should be initialized more globally (in player/Character constructor)
     u.weapon = item( "null", 0 );
@@ -3758,6 +3751,7 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
     tripoint view = u.pos() + u.view_offset;
     new_seen_mon.clear();
 
+    static int previous_turn = 0;
     const int current_turn = calendar::turn;
     const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
 
@@ -3907,10 +3901,12 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
         if( safe_mode == SAFE_MODE_ON ) {
             set_safe_mode( SAFE_MODE_STOP );
         }
-    } else if( get_option<bool>( "AUTOSAFEMODE" ) && newseen == 0 ) { // Auto-safe mode
-        turnssincelastmon++;
+    } else if( current_turn > previous_turn && get_option<bool>( "AUTOSAFEMODE" ) &&
+               newseen == 0 ) { // Auto-safe mode, but only if it's a new turn
+        turnssincelastmon += current_turn - previous_turn;
         if( turnssincelastmon >= get_option<int>( "AUTOSAFEMODETURNS" ) && safe_mode == SAFE_MODE_OFF ) {
             set_safe_mode( SAFE_MODE_ON );
+            add_msg( m_info, _( "Safe mode ON!" ) );
         }
     }
 
@@ -3918,6 +3914,7 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
         set_safe_mode( SAFE_MODE_ON );
     }
 
+    previous_turn = current_turn;
     mostseen = newseen;
 
     // Print the direction headings
@@ -4586,6 +4583,7 @@ std::shared_ptr<T> game::shared_from( const T &critter )
 template std::shared_ptr<Creature> game::shared_from<Creature>( const Creature & );
 template std::shared_ptr<Character> game::shared_from<Character>( const Character & );
 template std::shared_ptr<player> game::shared_from<player>( const player & );
+template std::shared_ptr<avatar> game::shared_from<avatar>( const avatar & );
 template std::shared_ptr<monster> game::shared_from<monster>( const monster & );
 template std::shared_ptr<npc> game::shared_from<npc>( const npc & );
 
@@ -5539,7 +5537,6 @@ void game::peek()
             draw_ter();
         }
         wrefresh( w_terrain );
-        draw_panels();
         return;
     }
 
@@ -6374,7 +6371,6 @@ void game::zones_manager()
         wrefresh( w_terrain );
         zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
         zones_manager_shortcuts( w_zones_info );
-        draw_panels();
         wrefresh( w_zones );
         wrefresh( w_zones_border );
 
@@ -6560,9 +6556,8 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             //Draw select cursor
             g->draw_cursor( lp );
 
-            // redraw order: terrain, panels, look_around panel
+            // redraw order: terrain, look_around panel
             wrefresh( w_terrain );
-            draw_panels();
             wrefresh( w_info );
 
         }
@@ -7206,7 +7201,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         iScrollPos = 0;
 
         if( action == "HELP_KEYBINDINGS" ) {
-            game::draw_ter();
+            draw_ter();
             wrefresh( w_terrain );
             draw_panels();
         } else if( action == "UP" ) {
@@ -7439,7 +7434,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
     do {
         if( action == "HELP_KEYBINDINGS" ) {
-            game::draw_ter();
+            draw_ter();
             wrefresh( w_terrain );
             draw_panels();
         } else if( action == "UP" ) {
@@ -7947,7 +7942,6 @@ bool game::plfire()
     }
     draw_ter(); // Recenter our view
     wrefresh( w_terrain );
-    draw_panels();
 
     int shots = 0;
 
@@ -11448,7 +11442,6 @@ void game::display_scent()
         draw_ter();
         scent.draw( w_terrain, div * 2, u.pos() + u.view_offset );
         wrefresh( w_terrain );
-        draw_panels();
         inp_mngr.wait_for_any_key();
     }
 }

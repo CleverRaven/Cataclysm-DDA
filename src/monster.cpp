@@ -7,6 +7,7 @@
 #include <tuple>
 #include <unordered_map>
 
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"

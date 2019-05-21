@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <memory>
 
+#include "avatar.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "gun_mode.h"

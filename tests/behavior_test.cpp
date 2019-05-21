@@ -14,14 +14,14 @@ extern fallback_t default_fallback;
 extern sequential_until_done_t default_until_done;
 }
 
-behavior::node_t make_test_node( std::string goal, behavior::status_t &status )
+behavior::node_t make_test_node( std::string goal, behavior::status_t *status )
 {
     behavior::node_t node;
     if( !goal.empty() ) {
         node.set_goal( goal );
     }
-    node.set_predicate( [&]( const behavior::oracle_t * ) {
-        return status;
+    node.set_predicate( [status]( const behavior::oracle_t * ) {
+        return *status;
     } );
     return node;
 }
@@ -36,19 +36,19 @@ TEST_CASE( "behavior_tree", "[behavior]" )
     behavior::status_t water_state = behavior::running;
     behavior::status_t clean_water_state = behavior::running;
 
-    behavior::node_t clothes = make_test_node( "wear", clothes_state );
-    behavior::node_t fire = make_test_node( "fire", fire_state );
-    behavior::node_t cold = make_test_node( "", cold_state );
+    behavior::node_t clothes = make_test_node( "wear", &clothes_state );
+    behavior::node_t fire = make_test_node( "fire", &fire_state );
+    behavior::node_t cold = make_test_node( "", &cold_state );
     cold.add_child( &clothes );
     cold.add_child( &fire );
     cold.set_strategy( &behavior::default_fallback );
-    behavior::node_t water = make_test_node( "get_water", water_state );
-    behavior::node_t clean_water = make_test_node( "clean_water", clean_water_state );
-    behavior::node_t thirst = make_test_node( "", thirsty_state );
+    behavior::node_t water = make_test_node( "get_water", &water_state );
+    behavior::node_t clean_water = make_test_node( "clean_water", &clean_water_state );
+    behavior::node_t thirst = make_test_node( "", &thirsty_state );
     thirst.add_child( &water );
     thirst.add_child( &clean_water );
     thirst.set_strategy( &behavior::default_sequential );
-    behavior::node_t hunger = make_test_node( "get_food", hungry_state );
+    behavior::node_t hunger = make_test_node( "get_food", &hungry_state );
 
     behavior::node_t basic_needs;
     basic_needs.set_strategy( &behavior::default_until_done );

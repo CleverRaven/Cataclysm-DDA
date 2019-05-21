@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <memory>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "calendar.h"
 #include "game.h"

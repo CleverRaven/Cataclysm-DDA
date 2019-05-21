@@ -5,6 +5,7 @@
 #include <vector>
 #include <iterator>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h" // used for utf8_width()
 #include "game.h"

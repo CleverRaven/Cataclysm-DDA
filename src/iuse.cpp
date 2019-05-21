@@ -18,6 +18,7 @@
 
 #include "action.h"
 #include "artifact.h"
+#include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -246,31 +247,6 @@ bool check_litcig( player &u )
     }
     u.add_msg_if_player( m_info, _( "You're already smoking a %s!" ), cigs[0]->tname() );
     return false;
-}
-
-// For an explosion (which releases some kind of gas), this function
-// calculates the points around that explosion where to create those
-// gas fields.
-// Those points must have a clear line of sight and a clear path to
-// the center of the explosion.
-// They must also be passable.
-std::vector<tripoint> points_for_gas_cloud( const tripoint &center, int radius )
-{
-    const std::vector<tripoint> gas_sources = closest_tripoints_first( radius, center );
-    std::vector<tripoint> result;
-    for( const auto &p : gas_sources ) {
-        if( g->m.impassable( p ) ) {
-            continue;
-        }
-        if( p != center ) {
-            if( !g->m.clear_path( center, p, radius, 1, 100 ) ) {
-                // Can not splatter gas from center to that point, something is in the way
-                continue;
-            }
-        }
-        result.push_back( p );
-    }
-    return result;
 }
 
 /* iuse methods return the number of charges expended, which is usually it->charges_to_use().
@@ -1404,12 +1380,13 @@ enum Petfood {
     BIRDFOOD
 };
 
-int feedpet( player &p, monster &mon, m_flag food_flag, const char *message )
+int feedpet( player &p, monster &mon, item &it, m_flag food_flag, const char *message )
 {
     if( mon.has_flag( food_flag ) ) {
         p.add_msg_if_player( m_good, message, mon.get_name() );
         mon.friendly = -1;
         mon.add_effect( effect_pet, 1_turns, num_bp, true );
+        p.consume_charges( it, 1 );
         return 1;
     } else {
         p.add_msg_if_player( _( "The %s doesn't want that kind of food." ), mon.get_name() );
@@ -1417,7 +1394,7 @@ int feedpet( player &p, monster &mon, m_flag food_flag, const char *message )
     }
 }
 
-int petfood( player &p, const item &it, Petfood animal_food_type )
+int petfood( player &p, item &it, Petfood animal_food_type )
 {
     const cata::optional<tripoint> pnt_ = choose_adjacent( string_format( _( "Put the %s where?" ),
                                           it.tname() ) );
@@ -1437,10 +1414,12 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
                 if( person.is_ally( p ) || x_in_y( 9, 10 ) ) {
                     person.say(
                         _( "Okay, but please, don't give me this again.  I don't want to eat dog food in the cataclysm all day." ) );
+                    p.consume_charges( it, 1 );
                     return 1;
                 } else {
                     p.add_msg_if_player( _( "%s knocks it out from your hand!" ), person.name );
                     person.make_angry();
+                    p.consume_charges( it, 1 );
                     return 1;
                 }
             } else {
@@ -1468,21 +1447,22 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
                     if( one_in( 5 ) ) {
                         p.add_msg_if_player(
                             _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
+                        p.consume_charges( it, 1 );
                         return 1;
                     }
                 } else {
-                    return feedpet( p, mon, MF_DOGFOOD,
+                    return feedpet( p, mon, it, MF_DOGFOOD,
                                     _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
                 }
                 break;
             case CATFOOD:
-                return feedpet( p, mon, MF_CATFOOD,
+                return feedpet( p, mon, it, MF_CATFOOD,
                                 _( "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines." ) );
             case CATTLEFODDER:
-                return feedpet( p, mon, MF_CATTLEFODDER,
+                return feedpet( p, mon, it, MF_CATTLEFODDER,
                                 _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
             case BIRDFOOD:
-                return feedpet( p, mon, MF_BIRDFOOD,
+                return feedpet( p, mon, it, MF_BIRDFOOD,
                                 _( "The %s seems to like you!  It runs around your legs and seems friendly." ) );
         }
 

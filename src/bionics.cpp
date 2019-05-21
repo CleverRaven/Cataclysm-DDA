@@ -11,6 +11,7 @@
 #include <memory>
 
 #include "action.h"
+#include "avatar.h"
 #include "ballistics.h"
 #include "cata_utility.h"
 #include "debug.h"

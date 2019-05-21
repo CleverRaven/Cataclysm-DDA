@@ -513,6 +513,8 @@ std::string trim_punctuation_marks( const std::string &s );
 // Converts the string to upper case.
 std::string to_upper_case( const std::string &s );
 
+std::string rewrite_vsnprintf( const char *msg );
+
 // TODO: move these elsewhere
 // string manipulations.
 void replace_name_tags( std::string &input );
