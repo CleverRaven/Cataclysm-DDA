@@ -20,11 +20,7 @@
     "burst": 11,
     "barrel_length": 1,
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "ar15",
@@ -44,11 +40,7 @@
     "ammo": "223",
     "dispersion": 150,
     "durability": 7,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "h&k416a5",
@@ -70,11 +62,7 @@
     "dispersion": 180,
     "durability": 8,
     "burst": 14,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "hk_g36",
@@ -94,11 +82,7 @@
     "dispersion": 150,
     "durability": 8,
     "burst": 13,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "l_bak_223",
@@ -260,7 +244,7 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "magazines": [ [ "223", [ "belt223", "stanag30", "stanag50", "survivor223mag" ] ], [ "308", [ "belt308" ] ] ]
+    "magazines": [ [ "223", [ "belt223", "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "m27iar",
@@ -270,11 +254,7 @@
     "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
     "weight": 3495,
     "burst": 13,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ],
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ],
     "relative": { "ranged_damage": 1, "durability": 1 }
   },
   {
@@ -296,11 +276,7 @@
     "dispersion": 180,
     "durability": 6,
     "burst": 14,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "rifle_223",
@@ -379,11 +355,7 @@
     "dispersion": 150,
     "durability": 8,
     "burst": 10,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "scarhmag", "scarhbigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "sig552",
@@ -402,11 +374,7 @@
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 12 ] ],
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "steyr_aug",
@@ -441,11 +409,7 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "surv_carbine_223",

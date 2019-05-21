@@ -20,7 +20,7 @@
     "durability": 8,
     "burst": 12,
     "barrel_length": 2,
-    "magazines": [ [ "308", [ "falmag", "falbigmag" ] ], [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "308", [ "falmag", "falbigmag" ] ] ]
   },
   {
     "id": "hk_g3",
@@ -42,7 +42,7 @@
     "dispersion": 150,
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 10 ] ],
-    "magazines": [ [ "308", [ "g3mag", "g3bigmag" ] ], [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "308", [ "g3mag", "g3bigmag" ] ] ]
   },
   {
     "id": "m134",
@@ -126,7 +126,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ]
     ],
-    "magazines": [ [ "308", [ "m14mag", "m14smallmag" ] ], [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "308", [ "m14mag", "m14smallmag" ] ] ]
   },
   {
     "id": "m240",
@@ -161,7 +161,7 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "magazines": [ [ "308", [ "belt308" ] ], [ "223", [ "belt223" ] ] ]
+    "magazines": [ [ "308", [ "belt308" ] ] ]
   },
   {
     "id": "m60",
@@ -197,7 +197,7 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "magazines": [ [ "308", [ "belt308" ] ], [ "223", [ "belt223" ] ] ]
+    "magazines": [ [ "308", [ "belt308" ] ] ]
   },
   {
     "id": "rifle_308",
@@ -266,7 +266,8 @@
     "description": "A highly accurate and modular battle rifle specially designed for the United States Special Operations Command.  The 'H' in its name stands for heavy, as it uses the powerful .308 round.",
     "ammo": "308",
     "ranged_damage": -3,
-    "magazine_well": 1
+    "magazine_well": 1,
+    "magazines": [ [ "308", [ "scarhmag", "scarhbigmag" ] ] ]
   },
   {
     "id": "M24",
