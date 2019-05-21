@@ -355,12 +355,15 @@ class JenkinsBuildRepository:
     def get_build_by_number(self, build_number):
         return self.ref_by_build_number[build_number] if build_number in self.ref_by_build_number else None
 
-    def get_previous_successful_build(self, build_number):
+    def get_previous_build(self, build_number, condition=lambda x: True):
         for x in range(build_number - 1, 0, -1):
             prev_build = self.get_build_by_number(x)
-            if prev_build is not None and prev_build.was_successful():
+            if prev_build is not None and condition(prev_build):
                 return prev_build
         return None
+
+    def get_previous_successful_build(self, build_number):
+        return self.get_previous_build(build_number, lambda x: x.was_successful())
 
     def get_all_builds(self, filter_by=None, sort_by=None):
         """Return all Builds in Repository. No order is guaranteed."""
@@ -429,7 +432,7 @@ class JenkinsApi:
 
         jb_last_hash = None
         jb_branch = None
-        if jb_build_result == 'SUCCESS':
+        if build_data.find(r'.//action/lastBuiltRevision/branch/SHA1') is not None:
             jb_last_hash = build_data.find(r'.//action/lastBuiltRevision/branch/SHA1').text
             jb_branch = build_data.find(r'.//action/lastBuiltRevision/branch/name').text
 
@@ -939,7 +942,7 @@ def get_jenkins_api_data(build_repo):
 
     def load_jenkins_repo():
         jenkins_api = JenkinsApi(JenkinsBuildFactory())
-        build_repo.add_multiple((build for build in jenkins_api.get_build_list() if build.was_successful()))
+        build_repo.add_multiple(jenkins_api.get_build_list())
 
     jenkins_thread = threading.Thread(target=load_jenkins_repo)
     jenkins_thread.name = 'WORKER_JEN'
@@ -1034,10 +1037,13 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, output_fil
 
 
 def build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include_summary_none):
-    for build in build_repo.get_all_builds(sort_by=lambda x: -x.build_dttm.timestamp()):
+    ### "ABORTED" builds have no "hash" and fucks up the logic here... but just to be sure, ignore builds without hash
+    ### and changes will be atributed to next build availiable that does have a hash
+    for build in build_repo.get_all_builds(filter_by=lambda x: x.last_hash is not None,
+                                           sort_by=lambda x: -x.build_dttm.timestamp()):
         ### we need the previous build a hash/date hash
         ### to find commits / pull requests that got into the build
-        prev_build = build_repo.get_previous_successful_build(build.number)
+        prev_build = build_repo.get_previous_build(build.number, lambda x: x.last_hash is not None)
         if prev_build is None:
             break
 
