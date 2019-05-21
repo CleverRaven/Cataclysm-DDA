@@ -2025,7 +2025,7 @@ void remove_ammo( std::list<item> &dis_items, player &p )
 
 void drop_or_handle( const item &newit, player &p )
 {
-    if( newit.made_of( LIQUID ) && &p == &g->u ) { // TODO: what about NPCs?
+    if( newit.made_of( LIQUID ) && p.is_player() ) { // TODO: what about NPCs?
         liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
     } else {
         item tmp( newit );
