@@ -1042,8 +1042,6 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
     }
     if( highlighted ) {
         wrefresh( g->w_terrain );
-        // prevent hiding panels when examining an object
-        g->draw_panels();
     }
 
     return choose_adjacent( message, allow_vertical );

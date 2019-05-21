@@ -5531,7 +5531,6 @@ void game::peek()
             draw_ter();
         }
         wrefresh( w_terrain );
-        draw_panels();
         return;
     }
 
@@ -6366,7 +6365,6 @@ void game::zones_manager()
         wrefresh( w_terrain );
         zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
         zones_manager_shortcuts( w_zones_info );
-        draw_panels();
         wrefresh( w_zones );
         wrefresh( w_zones_border );
 
@@ -6552,9 +6550,8 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             //Draw select cursor
             g->draw_cursor( lp );
 
-            // redraw order: terrain, panels, look_around panel
+            // redraw order: terrain, look_around panel
             wrefresh( w_terrain );
-            draw_panels();
             wrefresh( w_info );
 
         }
@@ -7198,7 +7195,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         iScrollPos = 0;
 
         if( action == "HELP_KEYBINDINGS" ) {
-            game::draw_ter();
+            draw_ter();
             wrefresh( w_terrain );
             draw_panels();
         } else if( action == "UP" ) {
@@ -7431,7 +7428,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
     do {
         if( action == "HELP_KEYBINDINGS" ) {
-            game::draw_ter();
+            draw_ter();
             wrefresh( w_terrain );
             draw_panels();
         } else if( action == "UP" ) {
@@ -7939,7 +7936,6 @@ bool game::plfire()
     }
     draw_ter(); // Recenter our view
     wrefresh( w_terrain );
-    draw_panels();
 
     int shots = 0;
 
@@ -11440,7 +11436,6 @@ void game::display_scent()
         draw_ter();
         scent.draw( w_terrain, div * 2, u.pos() + u.view_offset );
         wrefresh( w_terrain );
-        draw_panels();
         inp_mngr.wait_for_any_key();
     }
 }
