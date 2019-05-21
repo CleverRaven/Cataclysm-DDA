@@ -233,35 +233,36 @@ static void messages_in_process( const player_activity &act, const player &p )
 
 void activity_handlers::burrow_do_turn( player_activity *act, player *p )
 {
-    sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( act->placement ) );
+    const tripoint &pos = act->placement;
+    sfx::play_activity_sound( "activity", "burrow", sfx::get_heard_volume( pos ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a Rat mutant burrowing!
-        sounds::sound( act->placement, 10, sounds::sound_t::movement,
+        sounds::sound( pos, 10, sounds::sound_t::movement,
                        _( "ScratchCrunchScrabbleScurry." ) );
         messages_in_process( *act, *p );
+    }
+
+    // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
+    const time_duration thirst_frequency = 4_minutes;
+    const time_duration fatigue_frequency = ( p->has_trait( trait_id( "STOCKY_TROGLO" ) ) ? 6_minutes :
+                                            3_minutes );
+    const time_duration pain_frequency = ( p->has_trait( trait_id( "PAINRESIST_TROGLO" ) ) ?
+                                           12_minutes : 6_minutes );
+    if( calendar::once_every( thirst_frequency ) ) {
+        p->mod_thirst( 1 );
+    }
+    if( calendar::once_every( fatigue_frequency ) ) {
+        p->mod_fatigue( 1 );
+    }
+    if( calendar::once_every( pain_frequency ) ) {
+        p->mod_pain( std::max( 0, static_cast<int>( rng( 0, 1 ) ) ) );
     }
 }
 
 void activity_handlers::burrow_finish( player_activity *act, player *p )
 {
-    const tripoint &pos = act->placement;
-    if( g->m.is_bashable( pos ) && g->m.has_flag( "SUPPORTS_ROOF", pos ) &&
-        g->m.ter( pos ) != t_tree ) {
-        // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
-        // Not quite as bad as the pickaxe, though
-        p->mod_stored_nutr( 10 );
-        p->mod_thirst( 10 );
-        p->mod_fatigue( 15 );
-        p->mod_pain( 3 * rng( 1, 3 ) );
-    } else if( g->m.move_cost( pos ) == 2 && g->get_levz() == 0 &&
-               g->m.ter( pos ) != t_dirt && g->m.ter( pos ) != t_grass ) {
-        //Breaking up concrete on the surface? not nearly as bad
-        p->mod_stored_nutr( 5 );
-        p->mod_thirst( 5 );
-        p->mod_fatigue( 10 );
-    }
     p->add_msg_if_player( m_good, _( "You finish burrowing." ) );
-    g->m.destroy( pos, true );
+    g->m.destroy( act->placement, true );
 
     act->set_to_null();
 }
@@ -1694,35 +1695,33 @@ void activity_handlers::pickaxe_do_turn( player_activity *act, player *p )
         sounds::sound( pos, 30, sounds::sound_t::destructive_activity, _( "CHNK! CHNK! CHNK!" ) );
         messages_in_process( *act, *p );
     }
+
+    // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
+    // Betcha wish you'd opted for the J-Hammer ;P
+    const time_duration thirst_frequency = 4_minutes;
+    const time_duration fatigue_frequency = ( p->has_trait( trait_id( "STOCKY_TROGLO" ) ) ? 6_minutes :
+                                            3_minutes );
+    const time_duration pain_frequency = ( p->has_trait( trait_id( "PAINRESIST_TROGLO" ) ) ?
+                                           12_minutes : 6_minutes );
+    if( calendar::once_every( thirst_frequency ) ) {
+        p->mod_thirst( 1 );
+    }
+    if( calendar::once_every( fatigue_frequency ) ) {
+        p->mod_fatigue( 1 );
+    }
+    if( calendar::once_every( pain_frequency ) ) {
+        p->mod_pain( std::max( 0, static_cast<int>( rng( 0, 1 ) ) ) );
+    }
 }
 
 void activity_handlers::pickaxe_finish( player_activity *act, player *p )
 {
-    const tripoint pos( act->placement );
-    item &it = p->i_at( act->position );
-    act->set_to_null(); // Invalidate the activity early to prevent a query from mod_pain()
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    if( g->m.is_bashable( pos ) && g->m.has_flag( "SUPPORTS_ROOF", pos ) &&
-        g->m.ter( pos ) != t_tree ) {
-        // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
-        // Betcha wish you'd opted for the J-Hammer ;P
-        p->mod_stored_nutr( 15 - ( helpersize * 3 ) );
-        p->mod_thirst( 15 - ( helpersize * 3 ) );
-        if( p->has_trait( trait_id( "STOCKY_TROGLO" ) ) ) {
-            p->mod_fatigue( 20 - ( helpersize  * 3 ) ); // Yep, dwarves can dig longer before tiring
-        } else {
-            p->mod_fatigue( 30 - ( helpersize  * 3 ) );
-        }
-        p->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
-    } else if( g->m.move_cost( pos ) == 2 && g->get_levz() == 0 &&
-               g->m.ter( pos ) != t_dirt && g->m.ter( pos ) != t_grass ) {
-        //Breaking up concrete on the surface? not nearly as bad
-        p->mod_stored_nutr( 5 - ( helpersize ) );
-        p->mod_thirst( 5 - ( helpersize ) );
-        p->mod_fatigue( 10 - ( helpersize  * 2 ) );
-    }
     p->add_msg_if_player( m_good, _( "You finish digging." ) );
-    g->m.destroy( pos, true );
+    g->m.destroy( act->placement, true );
+
+    act->set_to_null();
+
+    item &it = p->i_at( act->position );
     it.charges = std::max( 0, it.charges - it.type->charges_to_use() );
     if( it.charges == 0 && it.destroyed_at_zero_charges() ) {
         p->i_rem( &it );
@@ -2943,19 +2942,22 @@ void activity_handlers::jackhammer_do_turn( player_activity *act, player *p )
         sounds::sound( act->placement, 15, sounds::sound_t::destructive_activity, _( "TATATATATATATAT!" ) );
         messages_in_process( *act, *p );
     }
+
+    const time_duration thirst_frequency = 8_minutes;
+    const time_duration fatigue_frequency = ( p->has_trait( trait_id( "STOCKY_TROGLO" ) ) ? 12_minutes :
+                                            6_minutes );
+    if( calendar::once_every( thirst_frequency ) ) {
+        p->mod_thirst( 1 );
+    }
+    if( calendar::once_every( fatigue_frequency ) ) {
+        p->mod_fatigue( 1 );
+    }
 }
 
 void activity_handlers::jackhammer_finish( player_activity *act, player *p )
 {
-    const tripoint &pos = act->placement;
-
-    g->m.destroy( pos, true );
-
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    p->mod_stored_nutr( 5 - helpersize );
-    p->mod_thirst( 5 - helpersize );
-    p->mod_fatigue( 10 - ( helpersize * 2 ) );
     p->add_msg_if_player( m_good, _( "You finish drilling." ) );
+    g->m.destroy( act->placement, true );
 
     act->set_to_null();
 }
