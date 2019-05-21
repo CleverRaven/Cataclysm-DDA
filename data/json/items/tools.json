@@ -1758,7 +1758,6 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "initial_charges": 150,
     "charges_per_use": 1,
     "use_action": {
       "target": "cell_phone_flashlight",
