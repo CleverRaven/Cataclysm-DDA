@@ -3805,7 +3805,7 @@
     "type": "furniture",
     "id": "f_30gal_firebarrel",
     "name": "fire barrel (100L)",
-    "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in it's walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
+    "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in its walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
     "symbol": "#",
     "color": "red",
     "looks_like": "30gal_drum",
