@@ -833,6 +833,14 @@ def smart_open(filename=None, *args, **kwargs):
             fh.close()
 
 
+def validate_file_for_writing(filepath):
+    if (filepath is not None and
+        filepath != sys.stdout and
+            (not filepath.parent.exists()
+             or not filepath.parent.is_dir())):
+        return False
+
+
 def main_entry(argv):
     parser = argparse.ArgumentParser(description='Generates Changelog from now until the specified date')
 
@@ -901,16 +909,10 @@ def main_entry(argv):
 
     log.debug(f'Commandline Arguments (+defaults): {arguments}')
 
-    if (arguments.by_date is not None and
-        arguments.by_date != sys.stdout and
-            (not arguments.by_date.parent.exists()
-             or not arguments.by_date.parent.is_dir())):
+    if validate_file_for_writing(arguments.by_date):
         raise ValueError(f"Specified directory in --by-date doesn't exist: {arguments.by_date.parent}")
 
-    if (arguments.by_build is not None and
-        arguments.by_build != sys.stdout and
-            (not arguments.by_build.parent.exists()
-             or not arguments.by_build.parent.is_dir())):
+    if validate_file_for_writing(arguments.by_build):
         raise ValueError(f"Specified directory in --by-build doesn't exist: {arguments.by_build.parent}")
 
     personal_token = read_personal_token(arguments.token_file)
