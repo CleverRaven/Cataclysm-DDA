@@ -3461,7 +3461,6 @@ void player::on_hit( Creature *source, body_part bp_hit,
             }
             add_effect( effect_downed, 2_turns );
         }
-        
     }
 }
 
