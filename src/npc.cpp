@@ -1712,11 +1712,11 @@ int npc::follow_distance() const
         return 1;
     }
     // If NPC doesn't see player, change follow distance to 2
-    if( !sees( u ) {
+    if( !sees( g->u ) ) {
         return 2;
     }
-    // Uses tag follow_distance_close to determine if 2 or 4 tiles to follow by
-    if( follow_distance_close == true ) {
+    // Uses ally_rule follow_distance_close to determine if should follow by 2 or 4 tiles
+    if( has_flag( follow_distance_close ) ) {
         return 2;
     }
     return 4;
