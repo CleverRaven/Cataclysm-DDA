@@ -9,6 +9,7 @@
 #include <algorithm>
 
 #include "ammo.h"
+#include "avatar.h"
 #include "character.h"
 #include "color.h"
 #include "debug.h"

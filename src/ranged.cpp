@@ -15,6 +15,7 @@
 #include <tuple>
 #include <utility>
 
+#include "avatar.h"
 #include "ballistics.h"
 #include "cata_utility.h"
 #include "debug.h"

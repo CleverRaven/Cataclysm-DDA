@@ -9,6 +9,7 @@
 #include <memory>
 #include <set>
 
+#include "avatar.h"
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"

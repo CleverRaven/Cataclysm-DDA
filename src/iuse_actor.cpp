@@ -14,6 +14,7 @@
 
 #include "action.h"
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "ammo.h"
 #include "assign.h"
 #include "bionics.h"

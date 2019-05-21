@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 
+#include "avatar.h"
 #include "game.h"
 #include "bionics.h"
 #include "inventory_ui.h"

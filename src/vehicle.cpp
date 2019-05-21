@@ -17,6 +17,7 @@
 #include <memory>
 
 #include "ammo.h"
+#include "avatar.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "creature.h"

@@ -7,6 +7,7 @@
 #include <memory>
 #include <set>
 
+#include "avatar.h"
 #include "game.h" // TODO: This is a circular dependency
 #include "generic_factory.h"
 #include "iexamine.h"

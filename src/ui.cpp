@@ -7,6 +7,7 @@
 #include <iterator>
 #include <memory>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "debug.h"

@@ -17,6 +17,7 @@
 #include "activity_handlers.h"
 #include "addiction.h"
 #include "ammo.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"

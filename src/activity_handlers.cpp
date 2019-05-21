@@ -16,6 +16,7 @@
 
 #include "action.h"
 #include "advanced_inv.h"
+#include "avatar.h"
 #include "clzones.h"
 #include "construction.h"
 #include "craft_command.h"

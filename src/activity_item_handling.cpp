@@ -12,6 +12,7 @@
 #include <string>
 #include <utility>
 
+#include "avatar.h"
 #include "clzones.h"
 #include "debug.h"
 #include "enums.h"

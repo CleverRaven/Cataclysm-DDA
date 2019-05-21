@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <utility>
 
+#include "avatar.h"
 #include "debug.h"
 #include "explosion.h"
 #include "event.h"

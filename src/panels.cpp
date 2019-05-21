@@ -11,6 +11,7 @@
 #include <utility>
 
 #include "action.h"
+#include "avatar.h"
 #include "behavior.h"
 #include "behavior_oracle.h"
 #include "cata_utility.h"

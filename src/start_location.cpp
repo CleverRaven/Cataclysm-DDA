@@ -5,6 +5,7 @@
 #include <random>
 #include <memory>
 
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "enums.h"

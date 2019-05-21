@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "action.h"
+#include "avatar.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "debug.h"

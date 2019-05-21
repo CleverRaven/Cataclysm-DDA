@@ -1,6 +1,7 @@
 #include "advanced_inv.h"
 
 #include "auto_pickup.h"
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "debug.h"

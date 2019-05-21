@@ -7,6 +7,7 @@
 #include <set>
 #include <utility>
 
+#include "avatar.h"
 #include "basecamp.h"
 #include "cursesdef.h"
 #include "debug.h"

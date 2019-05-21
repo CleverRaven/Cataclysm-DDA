@@ -10,6 +10,7 @@
 
 #include "ammo.h"
 #include "auto_pickup.h"
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "effect.h"
 #include "game.h"

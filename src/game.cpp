@@ -28,6 +28,7 @@
 #include "activity_handlers.h"
 #include "artifact.h"
 #include "auto_pickup.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
@@ -2555,7 +2556,7 @@ void game::load( const save_t &name )
 
     // Now load up the master game data; factions (and more?)
     load_master();
-    u = player();
+    u = avatar();
     u.name = name.player_name();
     // This should be initialized more globally (in player/Character constructor)
     u.weapon = item( "null", 0 );

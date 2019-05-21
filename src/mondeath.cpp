@@ -11,6 +11,7 @@
 #include <type_traits>
 #include <utility>
 
+#include "avatar.h"
 #include "explosion.h"
 #include "event.h"
 #include "field.h"
