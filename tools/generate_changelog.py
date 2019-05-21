@@ -674,7 +674,8 @@ class CommitApiGenerator(GitHubApiRequestBuilder):
 
     GITHUB_API_LIST_COMMITS = r'https://api.github.com/repos/CleverRaven/Cataclysm-DDA/commits'
 
-    def __init__(self, api_token, since_dttm=None, until_dttm=None, sha='master', initial_page=1, step=1, timezone='Etc/UTC'):
+    def __init__(self, api_token, since_dttm=None, until_dttm=None, sha='master',
+                 initial_page=1, step=1, timezone='Etc/UTC'):
         super().__init__(api_token, timezone)
         self.sha = sha
         self.since_dttm = since_dttm
@@ -970,7 +971,8 @@ def main_output(by_date, by_build, target_dttm, end_dttm, personal_token, includ
 
     if by_date is not None:
         with smart_open(by_date, 'w', encoding='utf8') as output_file:
-            build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, output_file, include_summary_none, flatten)
+            build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm,
+                                 output_file, include_summary_none, flatten)
 
     if by_build is not None:
         with smart_open(by_build, 'w', encoding='utf8') as output_file:
