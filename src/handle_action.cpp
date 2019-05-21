@@ -292,7 +292,6 @@ input_context game::get_player_input( std::string &action )
                 werase( w_terrain );
 
                 draw_ter();
-                g->draw_panels();
                 initial_draw = false;
             }
             draw_weather( wPrint );
@@ -302,6 +301,7 @@ input_context game::get_player_input( std::string &action )
             }
 
             wrefresh( w_terrain );
+            g->draw_panels();
 
             if( uquit == QUIT_WATCH ) {
 
