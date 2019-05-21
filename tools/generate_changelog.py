@@ -609,7 +609,7 @@ class MultiThreadedGitHubApi:
         ### start threads
         threads = []
         for x in range(1, max_threads + 1):
-            t = threading.Thread(target=self._exit_on_exception(self._process_api_requests_on_threads),
+            t = threading.Thread(target=exit_on_exception(self._process_api_requests_on_threads),
                                  args=(request_generator, callback))
             t.name = f'WORKER_{x:03}'
             threads.append(t)
@@ -631,17 +631,6 @@ class MultiThreadedGitHubApi:
             callback(do_github_request(api_request), request_generator)
             api_request = request_generator.generate()
         log.debug(f'No more requests left, killing Thread.')
-
-    @staticmethod
-    def _exit_on_exception(func):
-        """Decorator to terminate the main script and all threads if a thread generates an Exception"""
-        def _exit_on_exception_closure(*args, **kwargs):
-            try:
-                func(*args, **kwargs)
-            except Exception as err:
-                log.exception(f'Unhandled Exception: {err}')
-                os._exit(-5)
-        return _exit_on_exception_closure
 
 
 class GitHubApiRequestBuilder:
@@ -773,6 +762,17 @@ class PullRequestApiGenerator(GitHubApiRequestBuilder):
             'page': page,
         }
         return super().create_request(self.GITHUB_API_LIST_PR, params)
+
+
+def exit_on_exception(func):
+    """Decorator to terminate the main script and all threads if a thread generates an Exception"""
+    def exit_on_exception_closure(*args, **kwargs):
+        try:
+            func(*args, **kwargs)
+        except Exception as err:
+            log.exception(f'Unhandled Exception: {err}')
+            os._exit(-10)
+    return exit_on_exception_closure
 
 
 def do_github_request(api_request, retry_on_limit=3):
@@ -933,7 +933,7 @@ def get_github_api_data(pr_repo, commit_repo, target_dttm, end_dttm, personal_to
         pr_api = PullRequestApi(CDDAPullRequestFactory(), personal_token)
         pr_repo.add_multiple(pr_api.get_pr_list(target_dttm, end_dttm, merged_only=True))
 
-    github_thread = threading.Thread(target=load_github_repos)
+    github_thread = threading.Thread(target=exit_on_exception(load_github_repos))
     github_thread.name = 'WORKER_GIT'
     github_thread.daemon = True
     github_thread.start()
@@ -947,7 +947,7 @@ def get_jenkins_api_data(build_repo):
         jenkins_api = JenkinsApi(JenkinsBuildFactory())
         build_repo.add_multiple(jenkins_api.get_build_list())
 
-    jenkins_thread = threading.Thread(target=load_jenkins_repo)
+    jenkins_thread = threading.Thread(target=exit_on_exception(load_jenkins_repo))
     jenkins_thread.name = 'WORKER_JEN'
     jenkins_thread.daemon = True
     jenkins_thread.start()
