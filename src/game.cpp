@@ -3750,6 +3750,7 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
     tripoint view = u.pos() + u.view_offset;
     new_seen_mon.clear();
 
+    static int previous_turn = 0;
     const int current_turn = calendar::turn;
     const int sm_ignored_turns = get_option<int>( "SAFEMODEIGNORETURNS" );
 
@@ -3899,10 +3900,12 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
         if( safe_mode == SAFE_MODE_ON ) {
             set_safe_mode( SAFE_MODE_STOP );
         }
-    } else if( get_option<bool>( "AUTOSAFEMODE" ) && newseen == 0 ) { // Auto-safe mode
-        turnssincelastmon++;
+    } else if( current_turn > previous_turn && get_option<bool>( "AUTOSAFEMODE" ) &&
+               newseen == 0 ) { // Auto-safe mode, but only if it's a new turn
+        turnssincelastmon += current_turn - previous_turn;
         if( turnssincelastmon >= get_option<int>( "AUTOSAFEMODETURNS" ) && safe_mode == SAFE_MODE_OFF ) {
             set_safe_mode( SAFE_MODE_ON );
+            add_msg( m_info, _( "Safe mode ON!" ) );
         }
     }
 
@@ -3910,6 +3913,7 @@ void game::mon_info( const catacurses::window &w, int hor_padding )
         set_safe_mode( SAFE_MODE_ON );
     }
 
+    previous_turn = current_turn;
     mostseen = newseen;
 
     // Print the direction headings
