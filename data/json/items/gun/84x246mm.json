@@ -32,12 +32,10 @@
 	"flags": [ "NO_UNLOAD", "BACKBLAST", "NEVER_JAMS", "TRADER_AVOID", "FIRE_TWOHAND", "NO_REPAIR" ],
     "ammo": "84x246mm",
     "weight": 6803,
-    "volume": 3.5,
+    "volume": 14,
     "bashing": 4,
-    "to_hit": -3,
 	"dispersion": 200,
     "durability": 7,
-    "clip_size": 1,
     "loudness": 200
   }
 ]
