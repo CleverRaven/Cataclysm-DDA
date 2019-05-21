@@ -72,7 +72,7 @@ jobs:
       compiler: clang
       addons: &clang60
         apt:
-          packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "g++-6", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
           sources: [*apt_sources, llvm-toolchain-xenial-6.0]
 
     # macOS Tiles
@@ -126,7 +126,7 @@ jobs:
       if: type != pull_request
       addons: &gcc8
         apt:
-          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386"]
+          packages: ["g++-8", "g++-8-multilib",  "libc6-dbg"]
           sources: *apt_sources
 
     # Clang 3.8
