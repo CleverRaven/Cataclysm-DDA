@@ -410,6 +410,7 @@ class JenkinsApi:
         log.debug(f'Processing Request {api_request.full_url}')
         with urllib.request.urlopen(api_request) as api_response:
             api_data = xml.etree.ElementTree.fromstring(api_response.read())
+        log.debug('Jenkins Request DONE!')
 
         for build_data in api_data:
             yield self._create_build_from_api_data(build_data)
