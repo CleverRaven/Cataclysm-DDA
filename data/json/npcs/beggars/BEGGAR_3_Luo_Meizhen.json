@@ -16,7 +16,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_REFUGEE_BEGGAR_3",
-    "faction": "wasteland_scavengers"
+    "faction": "lobby_beggars"
   },
   {
     "type": "npc_class",
