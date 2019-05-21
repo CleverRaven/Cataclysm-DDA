@@ -6277,6 +6277,7 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
     auto gen_neighbors = []( const pq_item & elem, int grid_dim, pq_item * neighbors ) {
         // Up to 8 neighbors
         int new_cost = elem.dist + 1;
+        // *INDENT-OFF*
         int ox[8] = {
             -1, 0, 1,
             -1,    1,
@@ -6287,6 +6288,7 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
             0,      0,
             1,  1,  1
         };
+        // *INDENT-OFF*
 
         int ex = elem.ndx % grid_dim;
         int ey = elem.ndx / grid_dim;
