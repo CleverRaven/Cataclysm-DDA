@@ -95,21 +95,25 @@ class user_turn
         }
 
         bool has_timeout_elapsed() {
-            float turn_duration = get_option<float>( "TURN_DURATION" );
+            return moves_elapsed > 100;
+        }
+
+        int moves_elapsed() {
+            const float turn_duration = get_option<float>( "TURN_DURATION" );
             // Magic number 0.005 chosen due to option menu's 2 digit precision and
             // the option menu UI rounding <= 0.005 down to "0.00" in the display.
             // This conditional will catch values (e.g. 0.003) that the options menu
             // would round down to "0.00" in the options menu display. This prevents
             // the user from being surprised by floating point rounding near zero.
             if( turn_duration <= 0.005 ) {
-                return false;
+                return 0;
             }
-
             auto now = std::chrono::steady_clock::now();
             std::chrono::milliseconds elapsed_ms =
                 std::chrono::duration_cast<std::chrono::milliseconds>( now - user_turn_start );
-            return elapsed_ms.count() >= 1000.0 * turn_duration;
+            return elapsed_ms.count() / ( 10.0 * turn_duration );
         }
+
 };
 
 input_context game::get_player_input( std::string &action )
@@ -1283,6 +1287,7 @@ bool game::handle_action()
     std::string action;
     input_context ctxt;
     action_id act = ACTION_NULL;
+    user_turn current_turn;
     // Check if we have an auto-move destination
     if( u.has_destination() ) {
         act = u.get_next_auto_move_direction();
@@ -2134,7 +2139,9 @@ bool game::handle_action()
     if( !continue_auto_move ) {
         u.clear_destination();
     }
-
+    if( act != ACTION_TIMEOUT ) {
+        u.mod_moves( -current_turn.moves_elapsed() );
+    }
     gamemode->post_action( act );
 
     u.movecounter = ( !u.is_dead_state() ? ( before_action_moves - u.moves ) : 0 );
