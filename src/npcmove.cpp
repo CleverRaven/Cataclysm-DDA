@@ -11,6 +11,7 @@
 #include <cmath>
 
 #include "ammo.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "cata_algo.h"
 #include "clzones.h"

@@ -8,6 +8,7 @@
 #include <memory>
 #include <ostream>
 
+#include "avatar.h"
 #include "debug.h"
 #include "explosion.h"
 #include "game.h"

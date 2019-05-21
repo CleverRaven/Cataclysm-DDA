@@ -7,6 +7,7 @@
 #include <memory>
 #include <set>
 
+#include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "debug.h"

@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 
+#include "avatar.h"
 #include "basecamp.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"

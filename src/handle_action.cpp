@@ -11,6 +11,7 @@
 #include "action.h"
 #include "advanced_inv.h"
 #include "auto_pickup.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "clzones.h"

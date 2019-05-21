@@ -26,6 +26,7 @@
 #   include <SDL_image.h>
 #endif
 
+#include "avatar.h"
 #include "cata_tiles.h"
 #include "catacharset.h"
 #include "color.h"

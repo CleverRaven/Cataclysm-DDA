@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <functional>
 
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "dialogue.h"
 #include "json.h"

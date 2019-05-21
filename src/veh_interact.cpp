@@ -15,6 +15,7 @@
 #include <utility>
 
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "crafting.h"

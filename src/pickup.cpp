@@ -11,6 +11,7 @@
 #include <utility>
 
 #include "auto_pickup.h"
+#include "avatar.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "game.h"

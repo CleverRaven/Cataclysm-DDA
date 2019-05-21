@@ -1,5 +1,6 @@
 #include "animation.h"
 
+#include "avatar.h"
 #include "game.h"
 #include "map.h"
 #include "monster.h"

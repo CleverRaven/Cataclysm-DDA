@@ -3,6 +3,7 @@
 #include <string>
 #include <cmath>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "json.h"

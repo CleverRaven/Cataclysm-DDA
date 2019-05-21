@@ -84,6 +84,7 @@ struct targeting_data;
 struct special_game;
 
 using itype_id = std::string;
+class avatar;
 class map;
 class faction_manager;
 class new_faction_manager;
@@ -915,7 +916,7 @@ class game
     protected:
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr;
-        pimpl<player> u_ptr;
+        pimpl<avatar> u_ptr;
         pimpl<live_view> liveview_ptr;
         live_view &liveview;
         pimpl<scent_map> scent_ptr;
@@ -924,7 +925,7 @@ class game
     public:
         /** Make map a reference here, to avoid map.h in game.h */
         map &m;
-        player &u;
+        avatar &u;
         scent_map &scent;
         event_manager &events;
 

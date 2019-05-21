@@ -12,6 +12,7 @@
 #include <memory>
 #include <utility>
 
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h"

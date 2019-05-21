@@ -15,6 +15,7 @@
 
 #include "ammo.h"
 #include "artifact.h"
+#include "avatar.h"
 #include "calendar.h"
 #include "coordinate_conversions.h"
 #include "clzones.h"

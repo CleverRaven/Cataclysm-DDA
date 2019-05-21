@@ -15,6 +15,7 @@
 #include <unordered_map>
 
 #include "ammo.h"
+#include "avatar.h"
 #include "cata_utility.h"
 // needed for the workaround for the std::to_string bug in some compilers
 #include "clzones.h"
