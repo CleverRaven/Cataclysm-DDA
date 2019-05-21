@@ -321,9 +321,7 @@
         "%": "t_reinforced_glass_shutter",
         "$": "t_wall_glass"
       },
-      "furniture": {
-        "S": "f_statue"
-      },
+      "furniture": { "S": "f_statue" },
       "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_mature" } }
     }
   },
@@ -370,10 +368,7 @@
         "______"
       ],
       "terrain": { "_": "t_null", "B": "t_railroad_rubble" },
-      "furniture": {
-        "b": "f_bench",
-        "B": [ "f_birdbath", "f_statue" ]
-      },
+      "furniture": { "b": "f_bench", "B": [ "f_birdbath", "f_statue" ] },
       "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_seedling" } }
     }
   },
@@ -393,10 +388,7 @@
         "1____1"
       ],
       "terrain": { "_": "t_railroad_rubble", "b": "t_railroad_rubble", "B": "t_railroad_rubble" },
-      "furniture": {
-        "B": [ "f_birdbath", "f_statue" ],
-        "b": "f_bench"
-      },
+      "furniture": { "B": [ "f_birdbath", "f_statue" ], "b": "f_bench" },
       "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_seedling" } }
     }
   }
