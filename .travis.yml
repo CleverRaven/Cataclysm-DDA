@@ -170,6 +170,7 @@ jobs:
 
     # Clang 6.0
     - env: CLANG=clang++-6.0
+      if: type != pull_request
       compiler: clang
       addons: &clang60
         apt:
@@ -178,6 +179,7 @@ jobs:
 
     # Clang 7
     - env: CLANG=clang++-7
+      if: type != pull_request
       compiler: clang
       addons: &clang7
         apt:
