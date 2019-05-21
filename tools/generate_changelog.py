@@ -832,13 +832,13 @@ def main_entry(argv):
 
     parser.add_argument(
         'target_date',
-        help='Specify when should stop generating . Accepts "YYYY-MM-DD" ISO 8601 Date format.',
+        help='Specify when should stop generating. Accepts "YYYY-MM-DD" ISO 8601 Date format.',
         type=lambda d: datetime.combine(date.fromisoformat(d), datetime.min.time())
     )
 
     parser.add_argument(
         '-e', '--end-date',
-        help='Specify when should start generating . Accepts "YYYY-MM-DD" ISO 8601 Date format.',
+        help='Specify when should start generating. Accepts "YYYY-MM-DD" ISO 8601 Date format.',
         type=lambda d: datetime.combine(date.fromisoformat(d), datetime.min.time()),
         default=None
     )
@@ -899,10 +899,10 @@ def main_entry(argv):
 
     if arguments.group_by_date:
         main_by_date(arguments.target_date, arguments.end_date, personal_token,
-                     arguments.output_file,arguments.include_summary_none, arguments.flatten_output)
+                     arguments.output_file, arguments.include_summary_none, arguments.flatten_output)
     elif arguments.group_by_build:
         main_by_build(arguments.target_date, arguments.end_date, personal_token,
-                      arguments.output_file,arguments.include_summary_none)
+                      arguments.output_file, arguments.include_summary_none)
 
 
 def get_github_api_data(pr_repo, commit_repo, target_dttm, end_dttm, personal_token):
