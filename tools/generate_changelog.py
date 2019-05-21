@@ -949,43 +949,6 @@ def get_jenkins_api_data(build_repo):
     return jenkins_thread
 
 
-def main_by_date(target_dttm, end_dttm, personal_token, output_file, include_summary_none, flatten):
-    pr_repo = CDDAPullRequestRepository()
-    commit_repo = CommitRepository()
-    t = get_github_api_data(pr_repo, commit_repo, target_dttm, end_dttm, personal_token)
-    t.join()
-
-    ### build script output
-    if output_file is None:
-        build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, sys.stdout,
-                             include_summary_none, flatten)
-    else:
-        with open(output_file, 'w', encoding='utf8') as opened_output_file:
-            build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, opened_output_file,
-                                 include_summary_none, flatten)
-
-
-def main_by_build(target_dttm, end_dttm, personal_token, output_file, include_summary_none):
-    threads = []
-
-    build_repo = JenkinsBuildRepository()
-    threads.append(get_jenkins_api_data(build_repo))
-
-    pr_repo = CDDAPullRequestRepository()
-    commit_repo = CommitRepository()
-    threads.append(get_github_api_data(pr_repo, commit_repo, target_dttm, end_dttm, personal_token))
-
-    for thread in threads:
-        thread.join()
-
-    ### build script output
-    if output_file is None:
-        build_output_by_build(build_repo, pr_repo, commit_repo, sys.stdout, include_summary_none)
-    else:
-        with open(output_file, 'w', encoding='utf8') as opened_output_file:
-            build_output_by_build(build_repo, pr_repo, commit_repo, opened_output_file, include_summary_none)
-
-
 def main_output(by_date, by_build, target_dttm, end_dttm, personal_token, include_summary_none, flatten):
     threads = []
 
