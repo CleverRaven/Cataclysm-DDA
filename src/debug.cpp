@@ -814,6 +814,89 @@ std::string game_info::operating_system()
 #endif
 }
 
+/** Get a precise version number for Windows systems.
+ * @note Since Windows 10 all version-related APIs lie about the underlying system if the application is not Manifested (see VerifyVersionInfoA
+ *     or GetVersionEx documentation for further explanation). In this function we use the registry or the native RtlGetVersion which both
+ *     report correct versions and are compatible down to XP.
+ * @returns If successful, a string containing the Windows system version number, otherwise an empty string.
+ */
+std::string windows_version()
+{
+    std::string output;
+
+    HKEY handle_key;
+    bool success = RegOpenKeyExA( HKEY_LOCAL_MACHINE, R"(SOFTWARE\Microsoft\Windows NT\CurrentVersion)",
+                                  0,
+                                  KEY_QUERY_VALUE, &handle_key ) == ERROR_SUCCESS;
+    if( success ) {
+        DWORD value_type;
+        constexpr DWORD c_buffer_size = 512;
+        std::vector<BYTE> byte_buffer( c_buffer_size );
+        DWORD buffer_size = c_buffer_size;
+        DWORD major_version = 0;
+        success = RegQueryValueExA( handle_key, "CurrentMajorVersionNumber", nullptr, &value_type,
+                                    &byte_buffer[0], &buffer_size ) == ERROR_SUCCESS && value_type == REG_DWORD;
+        if( success ) {
+            major_version = *reinterpret_cast<const DWORD *>( &byte_buffer[0] );
+            output.append( std::to_string( major_version ) );
+        }
+        if( success ) {
+            buffer_size = c_buffer_size;
+            success = RegQueryValueExA( handle_key, "CurrentMinorVersionNumber", nullptr, &value_type,
+                                        &byte_buffer[0], &buffer_size ) == ERROR_SUCCESS && value_type == REG_DWORD;
+            if( success ) {
+                const DWORD minor_version = *reinterpret_cast<const DWORD *>( &byte_buffer[0] );
+                output.append( "." );
+                output.append( std::to_string( minor_version ) );
+            }
+        }
+        if( success && major_version == 10 ) {
+            buffer_size = c_buffer_size;
+            success = RegQueryValueExA( handle_key, "ReleaseId", nullptr, &value_type, &byte_buffer[0],
+                                        &buffer_size ) == ERROR_SUCCESS && value_type == REG_SZ;
+            if( success ) {
+                output.append( " " );
+                output.append( std::string( byte_buffer.begin(), byte_buffer.end() ) );
+            }
+        }
+
+        RegCloseKey( handle_key );
+    }
+
+    if( !success ) {
+        output = "";
+        typedef LONG( WINAPI * RtlGetVersion )( PRTL_OSVERSIONINFOW );
+        const HMODULE handle_ntdll = GetModuleHandleA( "ntdll" );
+        if( handle_ntdll != nullptr ) {
+            const auto rtl_get_version_func = reinterpret_cast<RtlGetVersion>( GetProcAddress( handle_ntdll,
+                                              "RtlGetVersion" ) );
+            if( rtl_get_version_func != nullptr ) {
+                RTL_OSVERSIONINFOW os_version_info = { 0 };
+                os_version_info.dwOSVersionInfoSize = sizeof RTL_OSVERSIONINFOW;
+                if( rtl_get_version_func( &os_version_info ) == 0 ) { // NT_STATUS_SUCCESS = 0
+                    output.append( std::to_string( os_version_info.dwMajorVersion ) );
+                    output.append( "." );
+                    output.append( std::to_string( os_version_info.dwMinorVersion ) );
+                    output.append( " " );
+                    output.append( std::to_string( os_version_info.dwBuildNumber ) );
+                }
+            }
+        }
+    }
+
+    return output;
+}
+
+
+std::string game_info::operating_system_version()
+{
+#if defined(_WIN32)
+    return windows_version();
+#else
+    return "";
+#endif
+}
+
 std::string game_info::bitness()
 {
     if( sizeof( void * ) == 8 ) {
@@ -867,7 +950,7 @@ std::string game_info::game_report()
 {
     std::stringstream report;
     report <<
-           "- OS: " << operating_system() << " [" << bitness() << "]\n" <<
+           "- OS: " << operating_system() << " " << operating_system_version() << " [" << bitness() << "]\n" <<
            "- Game Version: " << game_version() << "\n" <<
            "- Graphics Version: " << graphics_version() << "\n" <<
            "- Mods loaded: [\n    " << mods_loaded() << "\n]\n";
