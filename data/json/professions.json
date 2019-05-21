@@ -312,17 +312,12 @@
     ],
     "items": {
       "both": {
-        "items": [
+        "items": [ "pants", "tshirt", "socks", "sweater", "sneakers", "multitool", "water_clean", "matches", "wristwatch"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "pants", "tshirt", "socks", "sweater", "sneakers", "multitool", "water_clean", "matches", "cell_phone", "wristwatch" ],
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     },
@@ -373,18 +368,7 @@
     "skills": [ { "level": 4, "name": "tailor" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "polo_shirt",
+        "items": [ "polo_shirt",
         "blazer",
         "pants",
         "socks",
@@ -393,9 +377,12 @@
         "tailors_kit",
         "thread",
         "scissors",
-        "wristwatch",
-        "cell_phone"
-      ],
+        "wristwatch"
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -409,19 +396,12 @@
     "skills": [ { "name": "cooking", "level": 4 } ],
     "items": {
       "both": {
-        "items": [
+        "items": [ "hat_chef", "jacket_chef", "pants_checkered", "socks", "dress_shoes"
         ],
         "entries": [
-          { "group": "charged_cell_phone" }
+          { "group": "charged_cell_phone" },
+          { "item": "knife_butcher", "container-item": "sheath" }
         ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
-        "items": [ "hat_chef", "jacket_chef", "pants_checkered", "socks", "dress_shoes", "cell_phone" ],
-        "entries": [ { "item": "knife_butcher", "container-item": "sheath" } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -486,17 +466,6 @@
     "skills": [ { "level": 3, "name": "mechanics" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
         "ammo": 100,
         "magazine": 100,
         "items": [
@@ -535,19 +504,7 @@
     ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
-        "items": [
-          "tank_top",
+        "items": [ "tank_top",
           "hoodie",
           "pants_cargo",
           "socks",
@@ -556,11 +513,13 @@
           "tobacco",
           "rolling_paper",
           "switchblade",
-          "cell_phone",
           "wristwatch",
           "picklocks"
         ],
-        "entries": [ { "item": "lighter", "charges": 100 } ]
+        "entries": [
+          { "group": "charged_cell_phone" },
+          { "item": "lighter", "charges": 100 }
+        ]
       },
       "male": [ "boxer_briefs" ],
       "female": [ "boxer_shorts" ]
@@ -575,29 +534,21 @@
     "skills": [ { "name": "survival", "level": 2 }, { "name": "fabrication", "level": 1 } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "honey_scraper",
+        "items": [ "honey_scraper",
         "beekeeping_hood",
         "beekeeping_suit",
         "beekeeping_gloves",
         "socks",
         "boots",
         "tank_top",
-        "cell_phone",
         "honeycomb",
         "honey_bottled",
         "honey_bottled"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -611,17 +562,12 @@
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 3, "name": "throw" } ],
     "items": {
       "both": {
-        "items": [
+        "items": [ "tank_top", "jersey", "b_shorts", "socks", "sneakers", "basketball", "sports_drink"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "tank_top", "jersey", "b_shorts", "socks", "sneakers", "basketball", "cell_phone", "sports_drink" ],
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "panties" ]
     }
@@ -635,29 +581,21 @@
     "skills": [ { "level": 3, "name": "driving" }, { "level": 2, "name": "dodge" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "helmet_bike",
+        "items": [ "helmet_bike",
         "folding_bicycle",
         "under_armor_shorts",
         "under_armor",
         "socks",
         "sneakers",
         "sports_drink",
-        "cell_phone",
         "wristwatch",
         "fanny",
         "fancy_sunglasses"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "panties", "sports_bra" ]
     }
@@ -759,17 +697,12 @@
     "skills": [ { "level": 2, "name": "cooking" }, { "level": 1, "name": "driving" }, { "level": 2, "name": "tailor" } ],
     "items": {
       "both": {
-        "items": [
+        "items": [ "pocketwatch", "knife_steak"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "pocketwatch", "knife_steak", "cell_phone" ],
       "male": [ "briefs", "socks", "dress_shoes", "tux" ],
       "female": [ "panties", "bra", "stockings", "dress_shoes", "maid_dress", "maid_hat" ]
     }
@@ -784,31 +717,23 @@
     "traits": [ "PROF_MED" ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "pants",
+        "items": [ "pants",
         "dress_shirt",
         "gloves_medical",
         "socks",
         "dress_shoes",
         "coat_lab",
         "wristwatch",
-        "cell_phone",
         "water_clean",
         "bandages",
         "aspirin",
         "1st_aid",
         "stethoscope"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
@@ -829,19 +754,7 @@
     ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
-        "items": [
-          "suit",
+        "items": [ "suit",
           "bowhat",
           "socks",
           "dress_shoes",
@@ -850,10 +763,10 @@
           "switchblade",
           "mag_porn",
           "sunglasses",
-          "cell_phone",
           "wristwatch"
         ],
         "entries": [
+          { "group": "charged_cell_phone" },
           { "item": "glock_19", "ammo-item": "9mm", "container-item": "sholster", "charges": 15 },
           { "item": "9mm", "charges": 35 },
           { "item": "lighter", "charges": 100 }
@@ -871,19 +784,7 @@
     "points": 1,
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
-        "items": [
-          "pants",
+        "items": [ "pants",
           "socks",
           "boots_combat",
           "flashlight",
@@ -892,10 +793,11 @@
           "baton",
           "knife_folding",
           "hat_ball",
-          "cell_phone",
           "wristwatch"
         ],
-        "entries": [ { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" }, { "item": "9mm", "charges": 35 } ]
+        "entries": [
+          { "group": "charged_cell_phone" }, { "item": "m9", "ammo-item": "9mm", "charges": 15, "container-item": "holster" }, { "item": "9mm", "charges": 35 }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
@@ -961,19 +863,7 @@
     ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
-        "items": [
-          "flashlight",
+        "items": [ "flashlight",
           "pants_cargo",
           "boots",
           "hat_boonie",
@@ -983,11 +873,12 @@
           "backpack",
           "rope_30",
           "whistle",
-          "cell_phone",
           "wristwatch",
           "canteen"
         ],
-        "entries": [ { "item": "lighter", "charges": 100 }, { "item": "knife_rambo", "container-item": "scabbard" } ]
+        "entries": [
+          { "group": "charged_cell_phone" }, { "item": "lighter", "charges": 100 }, { "item": "knife_rambo", "container-item": "scabbard" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boxer_shorts" ]
@@ -1001,19 +892,12 @@
     "points": -1,
     "items": {
       "both": {
-        "items": [
+        "items": [ "pants", "dress_shirt", "socks", "dress_shoes", "knit_scarf", "cig", "wristwatch"
         ],
         "entries": [
-          { "group": "charged_cell_phone" }
+          { "group": "charged_cell_phone" },
+          { "item": "lighter", "charges": 100 }
         ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
-        "items": [ "pants", "dress_shirt", "socks", "dress_shoes", "knit_scarf", "cig", "cell_phone", "wristwatch" ],
-        "entries": [ { "item": "lighter", "charges": 100 } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
@@ -1066,29 +950,17 @@
     "pet": "mon_dog_gshepherd",
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
-        "items": [
-          "pants_army",
+        "items": [ "pants_army",
           "socks",
           "badge_deputy",
           "sheriffshirt",
           "boots",
           "dog_whistle",
           "two_way_radio",
-          "cell_phone",
           "wristwatch"
         ],
         "entries": [
+          { "group": "charged_cell_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
@@ -1108,29 +980,17 @@
     "traits": [ "PROF_POLICE" ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
-        "items": [
-          "pants_army",
+        "items": [ "pants_army",
           "socks",
           "badge_deputy",
           "sheriffshirt",
           "boots",
           "whistle",
           "two_way_radio",
-          "cell_phone",
           "wristwatch"
         ],
         "entries": [
+          { "group": "charged_cell_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
@@ -1149,19 +1009,7 @@
     "traits": [ "PROF_PD_DET" ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
-        "items": [
-          "pants",
+        "items": [ "pants",
           "dress_shirt",
           "skinny_tie",
           "waistcoat",
@@ -1174,11 +1022,11 @@
           "socks",
           "dress_shoes",
           "two_way_radio",
-          "cell_phone",
           "cig",
           "ref_lighter"
         ],
         "entries": [
+          { "group": "charged_cell_phone" },
           { "item": "l_enforcer_45", "ammo-item": "45_acp", "charges": 6, "container-item": "sholster" },
           { "item": "45_acp", "charges": 24 }
         ]
@@ -1345,17 +1193,12 @@
     "skills": [ { "level": 4, "name": "barter" } ],
     "items": {
       "both": {
-        "items": [
+        "items": [ "suit", "knit_scarf", "socks", "dress_shoes", "wristwatch"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "suit", "knit_scarf", "socks", "dress_shoes", "cell_phone", "wristwatch" ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -1369,19 +1212,7 @@
     "skills": [ { "level": 2, "name": "archery" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
-        "items": [
-          "army_top",
+        "items": [ "army_top",
           "knit_scarf",
           "socks",
           "boots_steel",
@@ -1390,9 +1221,9 @@
           "recurbow",
           "hat_hunting",
           "wristwatch",
-          "cell_phone"
         ],
         "entries": [
+          { "group": "charged_cell_phone" },
           { "item": "quiver", "charges": 8, "contents-item": "arrow_cf" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
@@ -1410,29 +1241,17 @@
     "skills": [ { "level": 2, "name": "rifle" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
-        "items": [
-          "army_top",
+        "items": [ "army_top",
           "knit_scarf",
           "socks",
           "boots_steel",
           "pants_cargo",
           "jacket_flannel",
           "hat_hunting",
-          "wristwatch",
-          "cell_phone"
+          "wristwatch"
         ],
         "entries": [
+          { "group": "charged_cell_phone" },
           { "item": "crossbow", "ammo-item": "bolt_metal", "charges": 1, "contents-item": "shoulder_strap" },
           { "item": "bolt_metal", "charges": 9, "container-item": "quiver" },
           { "item": "sheath", "contents-item": "knife_hunting" }
@@ -1451,30 +1270,17 @@
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "shotgun" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
-        "items": [
-          "army_top",
+        "items": [ "army_top",
           "knit_scarf",
           "socks",
           "boots_steel",
           "pants_cargo",
           "jacket_flannel",
           "hat_hunting",
-          "wristwatch",
-          "cell_phone"
+          "wristwatch"
         ],
         "entries": [
-          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "group": "charged_cell_phone" }, { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "shotgun_d", "ammo-item": "shot_00", "charges": 2, "contents-item": "shoulder_strap" },
           { "item": "shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
           { "item": "shot_00", "charges": 6 },
@@ -1495,29 +1301,17 @@
     "items": {
       "both": {
         "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
-        "items": [
-          "army_top",
+        "army_top",
           "knit_scarf",
           "socks",
           "boots_steel",
           "pants_cargo",
           "jacket_flannel",
           "hat_hunting",
-          "wristwatch",
-          "cell_phone"
+          "wristwatch"
         ],
         "entries": [
-          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
+          { "group": "charged_cell_phone" }, { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "remington_700", "ammo-item": "270", "charges": 4, "contents-item": "shoulder_strap" },
           { "item": "270", "charges": 16, "container-item": "bandolier_rifle" },
           { "item": "sheath", "contents-item": "knife_hunting" }
@@ -1536,20 +1330,10 @@
     "skills": [ { "level": 2, "name": "fabrication" } ],
     "items": {
       "both": {
-        "items": [
+        "items": [ "tank_top", "socks", "boots_steel", "jeans", "multitool", "wristwatch"
         ],
         "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
-        "items": [ "tank_top", "socks", "boots_steel", "jeans", "multitool", "cell_phone", "wristwatch" ],
-        "entries": [
-          { "item": "nailgun", "ammo-item": "nail", "charges": 20 },
+          { "group": "charged_cell_phone" }, { "item": "nailgun", "ammo-item": "nail", "charges": 20 },
           { "item": "nail", "charges": 180 },
           { "item": "tool_belt", "contents-item": "hammer" }
         ]
@@ -1566,17 +1350,12 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [
+        "items": [ "jeans", "socks", "boots", "hat_hunting", "jacket_flannel", "knit_scarf", "vest", "ax", "wristwatch"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "jeans", "socks", "boots", "hat_hunting", "jacket_flannel", "knit_scarf", "vest", "ax", "cell_phone", "wristwatch" ],
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boxer_shorts" ]
     }
@@ -1589,17 +1368,12 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [
+        "items": [ "backpack_leather", "jeans", "sneakers", "tshirt", "knit_scarf", "socks", "wristwatch", "fun_survival"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "backpack_leather", "jeans", "sneakers", "tshirt", "knit_scarf", "socks", "cell_phone", "wristwatch", "fun_survival" ],
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
     }
@@ -1613,17 +1387,12 @@
     "skills": [ { "level": 1, "name": "cooking" } ],
     "items": {
       "both": {
-        "items": [
+        "items": [ "pants", "sneakers", "tshirt", "socks", "knife_steak"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "pants", "sneakers", "tshirt", "socks", "cell_phone", "knife_steak" ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -1637,17 +1406,6 @@
     "skills": [ { "level": 3, "name": "electronics" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
         "ammo": 100,
         "magazine": 100,
         "items": [
@@ -1659,6 +1417,9 @@
           "cell_phone",
           "wristwatch",
           { "item": "light_battery_cell", "charges": 100 }
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
         ]
       },
       "male": [ "boxer_briefs" ],
@@ -1696,30 +1457,22 @@
     "points": 1,
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "pants",
+        "items": [ "pants",
         "tshirt",
         "socks",
         "sneakers",
         "ZSG",
         "backpack",
-        "cell_phone",
         "wristwatch",
         "textbook_speech",
         "story_book",
         "howto_computer",
         "novel_coa"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
     }
@@ -1741,19 +1494,11 @@
     "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "mechanics" } ],
     "items": {
       "both": {
-        "items": [
+        "items": [  "jeans", "tank_top", "chaps_leather", "socks", "boots", "bandana", "jacket_leather", "wristwatch"
         ],
         "entries": [
-          { "group": "charged_cell_phone" }
+          { "group": "charged_cell_phone" }, { "item": "sheath", "contents-item": "knife_trench" }
         ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
-        "items": [ "jeans", "tank_top", "chaps_leather", "socks", "boots", "bandana", "jacket_leather", "cell_phone", "wristwatch" ],
-        "entries": [ { "item": "sheath", "contents-item": "knife_trench" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
@@ -1768,17 +1513,12 @@
     "skills": [ { "level": 2, "name": "dodge" } ],
     "items": {
       "both": {
-        "items": [
+        "items": [ "socks", "knit_scarf", "dance_shoes"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "socks", "knit_scarf", "dance_shoes", "cell_phone" ],
       "male": [ "briefs", "tux" ],
       "female": [ "bra", "panties", "dress" ]
     }
@@ -1809,17 +1549,12 @@
     "CBMs": [ "bio_leukocyte", "bio_blood_anal", "bio_blood_filter", "bio_nanobots", "bio_metabolics", "bio_power_storage_mkII" ],
     "items": {
       "both": {
-        "items": [
+        "items": [ "jeans", "tshirt", "socks", "sneakers", "wristwatch"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "jeans", "tshirt", "socks", "sneakers", "cell_phone", "wristwatch" ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -1832,17 +1567,12 @@
     "points": -2,
     "items": {
       "both": {
-        "items": [
+        "items": [ "jeans", "tshirt", "socks", "sneakers", "wristwatch"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "jeans", "tshirt", "socks", "sneakers", "cell_phone", "wristwatch" ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     },
@@ -2299,18 +2029,7 @@
     "items": {
       "both": {
         "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
-        "items": [
-          "jeans",
+        "jeans",
           "socks",
           "boots",
           "hat_hunting",
@@ -2318,12 +2037,13 @@
           "knit_scarf",
           "beartrap",
           "wristwatch",
-          "cell_phone",
           "tobacco",
           "rolling_paper",
           "matches"
         ],
-        "entries": [ { "item": "knife_hunting", "container-item": "sheath" } ]
+        "entries": [
+          { "group": "charged_cell_phone" }, { "item": "knife_hunting", "container-item": "sheath" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boxer_shorts" ]
@@ -2338,17 +2058,12 @@
     "skills": [ { "level": 4, "name": "fabrication" } ],
     "items": {
       "both": {
-        "items": [
+        "items": [  "jeans", "socks", "boots", "tank_top", "apron_leather", "fire_gauntlets", "wristwatch", "hammer"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "jeans", "socks", "boots", "tank_top", "apron_leather", "fire_gauntlets", "wristwatch", "cell_phone", "hammer" ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -2361,17 +2076,12 @@
     "points": -1,
     "items": {
       "both": {
-        "items": [
+        "items": ["clown_suit", "socks", "clownshoes", "airhorn"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "clown_suit", "socks", "clownshoes", "cell_phone", "airhorn" ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -2405,18 +2115,7 @@
     "skills": [ { "level": 1, "name": "tailor" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "shorts",
+        "items": [        "shorts",
         "socks",
         "sneakers",
         "tank_top",
@@ -2426,12 +2125,21 @@
         "fur_cat_tail",
         "fur_collar",
         "wristwatch",
-        "cell_phone",
         "mag_animecon",
         "cheeseburger"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
+    }
+    "items": {
+      "both": [
+
+      ],
+      
     }
   },
   {
@@ -2448,11 +2156,6 @@
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "cell_phone" ],
       "male": [ "tux", "socks", "dress_shoes", "briefs" ],
       "female": [ "veil_wedding", "dress_wedding", "stockings", "dress_shoes", "bra", "panties" ]
     }
@@ -2465,18 +2168,7 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "trenchcoat",
+        "items": ["trenchcoat",
         "gloves_fingerless",
         "socks",
         "boots_combat",
@@ -2485,9 +2177,12 @@
         "rolling_paper",
         "mp3",
         "ref_lighter",
-        "cell_phone",
         "wristwatch"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "pants_cargo", "tank_top", "boxer_shorts" ],
       "female": [ "skirt", "corset", "boxer_shorts" ]
     }
@@ -2528,18 +2223,7 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "dress_shirt",
+        "items": ["dress_shirt",
         "skinny_tie",
         "sunglasses",
         "pants",
@@ -2547,11 +2231,14 @@
         "dress_shoes",
         "rolling_paper",
         "tobacco",
-        "cell_phone",
         "wristwatch",
         "mp3",
         "ref_lighter"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -2565,29 +2252,21 @@
     "skills": [ { "level": 1, "name": "driving" }, { "level": 1, "name": "dodge" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "postman_hat",
+        "items": ["postman_hat",
         "postman_shirt",
         "mbag",
         "dog_whistle",
         "wristwatch",
-        "cell_phone",
         "leather_belt",
         "postman_shorts",
         "knit_scarf",
         "socks",
         "sneakers"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -2684,18 +2363,7 @@
     "skills": [ { "level": 1, "name": "electronics" }, { "level": 1, "name": "firstaid" }, { "level": 1, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "tank_top",
+        "items": ["tank_top",
         "shorts",
         "socks",
         "lowtops",
@@ -2704,8 +2372,11 @@
         "pockknife",
         "backpack",
         "wristwatch",
-        "cell_phone"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "camisole", "panties" ]
     }
@@ -2790,17 +2461,12 @@
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [
+        "items": ["pants", "longshirt", "socks", "cassock", "dress_shoes", "holy_symbol", "holybook_bible1"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "pants", "longshirt", "socks", "cassock", "dress_shoes", "holy_symbol", "holybook_bible1", "cell_phone" ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -2814,17 +2480,12 @@
     "skills": [ { "level": 1, "name": "fabrication" }, { "level": 1, "name": "tailor" } ],
     "items": {
       "both": {
-        "items": [
+        "items": ["kariginu", "eboshi", "pants", "tabi_dress", "geta", "holy_symbol", "holybook_kojiki"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "kariginu", "eboshi", "pants", "tabi_dress", "geta", "holy_symbol", "holybook_kojiki", "cell_phone" ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -2839,17 +2500,12 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "barter" } ],
     "items": {
       "both": {
-        "items": [
+        "items": ["pants", "tshirt", "socks", "kufi", "thawb", "lowtops", "holybook_quran"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "pants", "tshirt", "socks", "kufi", "thawb", "lowtops", "holybook_quran", "cell_phone" ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -2863,29 +2519,21 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "firstaid" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "pants",
+        "items": ["pants",
         "leather_belt",
         "dress_shirt",
         "socks",
         "kittel",
         "kippah",
         "dress_shoes",
-        "cell_phone",
         "holy_symbol",
         "holybook_talmud",
         "holybook_tanakh"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -2900,18 +2548,7 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "jeans",
+        "items": [ "jeans",
         "tshirt",
         "socks",
         "robe",
@@ -2921,9 +2558,12 @@
         "mbag",
         "leathersandals",
         "holy_symbol",
-        "cell_phone",
         "wristwatch"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "panties" ]
     }
@@ -2938,30 +2578,22 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "driving" }, { "level": 1, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "dress_shirt",
+        "items": ["dress_shirt",
         "pants",
         "socks",
         "dress_shoes",
         "wristwatch",
-        "cell_phone",
         "backpack",
         "laptop",
         "flyer",
         "flyer",
         "flyer",
         "holy_symbol"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -3039,18 +2671,7 @@
     "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "barter" }, { "level": 1, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "hat_ball",
+        "items": ["hat_ball",
         "tshirt",
         "jeans",
         "jacket_light",
@@ -3059,10 +2680,13 @@
         "pizza_veggy",
         "pizza_meat",
         "money_bundle",
-        "cell_phone",
         "wristwatch",
         "mbag"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "boy_shorts" ]
     }
@@ -3076,20 +2700,7 @@
     "skills": [ { "level": 2, "name": "melee" }, { "level": 2, "name": "gun" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
-        "ammo": 100,
-        "items": [
-          "undershirt",
+        "items": [ "undershirt",
           "leather_belt",
           "socks",
           "boots",
@@ -3099,12 +2710,11 @@
           "bullwhip",
           "mbag",
           "fedora",
-          "cell_phone",
           "wristwatch",
           "spiral_stone"
         ],
         "entries": [
-          { "item": "sw_619", "ammo-item": "38_special", "container-item": "holster" },
+          { "group": "charged_cell_phone" }, { "item": "sw_619", "ammo-item": "38_special", "container-item": "holster" },
           { "item": "38_special", "charges": 33 }
         ]
       },
@@ -3121,18 +2731,7 @@
     "skills": [ { "level": 3, "name": "driving" }, { "level": 3, "name": "throw" }, { "level": 1, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "hat_newsboy",
+        "items": [        "hat_newsboy",
         "sweatshirt",
         "pants",
         "peacoat",
@@ -3142,7 +2741,6 @@
         "knit_scarf",
         "mbag",
         "dog_whistle",
-        "cell_phone",
         "wristwatch",
         "newest_newspaper",
         "newest_newspaper",
@@ -3150,7 +2748,11 @@
         "newest_newspaper",
         "newest_newspaper",
         "folding_bicycle"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "boy_shorts" ]
     }
@@ -3165,18 +2767,7 @@
     "traits": [ "PROF_SKATER" ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "under_armor_shorts",
+        "items": ["under_armor_shorts",
         "under_armor",
         "socks",
         "elbow_pads",
@@ -3184,10 +2775,13 @@
         "mouthpiece",
         "gloves_fingerless",
         "helmet_skid",
-        "cell_phone",
         "wristwatch",
         "rollerskates"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "panties" ]
     }
@@ -3200,18 +2794,7 @@
     "points": 1,
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "jeans",
+        "items": ["jeans",
         "tshirt",
         "backpack",
         "knit_scarf",
@@ -3219,7 +2802,6 @@
         "hoe",
         "socks",
         "boots",
-        "cell_phone",
         "wristwatch",
         "seed_blueberries",
         "seed_strawberries",
@@ -3228,7 +2810,11 @@
         "seed_barley",
         "seed_sugar_beet",
         "seed_tomato"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
@@ -3242,19 +2828,11 @@
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "firstaid" } ],
     "items": {
       "both": {
-        "items": [
+        "items": ["shorts", "tshirt", "socks", "lowtops", "wristwatch"
         ],
         "entries": [
-          { "group": "charged_cell_phone" }
+          { "group": "charged_cell_phone" }, { "item": "gobag", "custom-flags": [ "FIT" ] }
         ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
-        "items": [ "shorts", "tshirt", "socks", "lowtops", "cell_phone", "wristwatch" ],
-        "entries": [ { "item": "gobag", "custom-flags": [ "FIT" ] } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -3531,18 +3109,7 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "pants",
+        "items": ["pants",
         "socks",
         "boots",
         "flashlight",
@@ -3552,9 +3119,12 @@
         "tazer",
         "medium_battery_cell",
         "pockknife",
-        "wristwatch",
-        "cell_phone"
-      ],
+        "wristwatch"
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
     }
@@ -3615,19 +3185,7 @@
     "skills": [ { "level": 2, "name": "swimming" }, { "level": 2, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": {
-        "items": [
-          "jeans",
+        "items": ["jeans",
           "tank_top",
           "socks",
           "fishing_waders",
@@ -3637,11 +3195,12 @@
           "fish_trap",
           "vest",
           "hat_boonie",
-          "cell_phone",
           "wristwatch",
           "jacket_flannel"
         ],
-        "entries": [ { "item": "lighter", "charges": 100 }, { "item": "knife_hunting", "container-item": "sheath" } ]
+        "entries": [
+          { "group": "charged_cell_phone" }, { "item": "lighter", "charges": 100 }, { "item": "knife_hunting", "container-item": "sheath" }
+        ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
@@ -3661,17 +3220,12 @@
     ],
     "items": {
       "both": {
-        "items": [
+        "items": [ "stockings", "pockknife", "matches", "pipe_tobacco", "tobacco"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "stockings", "pockknife", "matches", "pipe_tobacco", "tobacco", "cell_phone" ],
       "male": [
         "knee_high_boots",
         "breeches",
@@ -3717,17 +3271,12 @@
     ],
     "items": {
       "both": {
-        "items": [
+        "items": [ "stockings", "pockknife", "matches", "pipe_tobacco", "tobacco"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "stockings", "pockknife", "matches", "pipe_tobacco", "tobacco", "cell_phone" ],
       "male": [
         "dress",
         "apron_leather",
@@ -3769,17 +3318,12 @@
     "skills": [ { "level": 2, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [
+        "items": ["jumpsuit", "socks", "boots", "wristwatch"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "jumpsuit", "socks", "boots", "cell_phone", "wristwatch" ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -3794,18 +3338,7 @@
     "traits": [ "PROF_SKATER" ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "tshirt",
+        "items": [        "tshirt",
         "hoodie",
         "jeans",
         "socks",
@@ -3814,12 +3347,21 @@
         "gloves_fingerless",
         "helmet_skid",
         "roller_blades",
-        "cell_phone",
         "wristwatch",
         "sports_drink"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
+    }
+    "items": {
+      "both": [
+
+      ],
+      
     }
   },
   {
@@ -3831,18 +3373,7 @@
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "dodge" }, { "level": 1, "name": "melee" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "tshirt",
+        "items": [        "tshirt",
         "hoodie",
         "jeans",
         "socks",
@@ -3853,14 +3384,23 @@
         "hairpin",
         "hairpin",
         "mag_comic",
-        "cell_phone",
         "wristwatch",
         "marble",
         "marble",
         "slingshot"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
+    }
+    "items": {
+      "both": [
+
+      ],
+
     }
   },
   {
@@ -3872,18 +3412,7 @@
     "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "fabrication" }, { "level": 1, "name": "firstaid" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "tshirt",
+        "items": ["tshirt",
         "jacket_light",
         "pants_cargo",
         "socks",
@@ -3896,10 +3425,13 @@
         "magnifying_glass",
         "flashlight",
         "1st_aid",
-        "cell_phone",
         "wristwatch",
         "whistle"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
     }
@@ -3911,17 +3443,6 @@
     "description": "Your parents were so obsessed with making sure you aced every test that they had you outfitted with bionics to make you smarter and never forget anything.  And now, you are facing the most dire test yet, and once again you had better succeed, or else.",
     "points": 3,
     "CBMs": [ "bio_batteries", "bio_power_storage", "bio_int_enhancer", "bio_memory" ],
-    "items": {
-      "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
     "items": {
       "both": [
         "dress_shirt",
@@ -3952,17 +3473,12 @@
     "skills": [ { "level": 1, "name": "dodge" }, { "level": 1, "name": "throw" } ],
     "items": {
       "both": {
-        "items": [
+        "items": ["tshirt", "jacket_light", "jeans", "socks", "lowtops", "slingpack", "juice"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "tshirt", "jacket_light", "jeans", "socks", "lowtops", "slingpack", "juice", "cell_phone" ],
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]
     }
@@ -3976,18 +3492,7 @@
     "skills": [ { "level": 1, "name": "cooking" }, { "level": 1, "name": "mechanics" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "tshirt",
+        "items": ["tshirt",
         "jacket_light",
         "jeans",
         "socks",
@@ -3995,9 +3500,12 @@
         "knit_scarf",
         "backpack",
         "textbook_chemistry",
-        "cell_phone",
         "wristwatch"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "panties" ]
     }
@@ -4011,18 +3519,7 @@
     "skills": [ { "level": 1, "name": "electronics" }, { "level": 1, "name": "computer" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "linuxtshirt",
+        "items": ["linuxtshirt",
         "jacket_light",
         "jeans",
         "socks",
@@ -4030,9 +3527,12 @@
         "knit_scarf",
         "backpack",
         "mag_electronics",
-        "cell_phone",
         "wristwatch"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "panties" ]
     }
@@ -4046,18 +3546,7 @@
     "skills": [ { "level": 3, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "dress_shirt",
+        "items": ["dress_shirt",
         "blazer",
         "pants",
         "socks",
@@ -4066,11 +3555,20 @@
         "tieclip",
         "poetry_book",
         "permanent_marker",
-        "cell_phone",
         "wristwatch"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
+    }
+    "items": {
+      "both": [
+        
+      ],
+      
     }
   },
   {
@@ -4081,17 +3579,12 @@
     "points": 0,
     "items": {
       "both": {
-        "items": [
+        "items": ["pants", "dress_shirt", "blazer", "socks", "dress_shoes", "camera_pro", "wristwatch"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "pants", "dress_shirt", "blazer", "socks", "dress_shoes", "camera_pro", "cell_phone", "wristwatch" ],
       "male": [ "boxer_shorts" ],
       "female": [ "boy_shorts", "bra" ]
     }
@@ -4105,17 +3598,12 @@
     "skills": [ { "level": 2, "name": "dodge" }, { "level": 2, "name": "speech" } ],
     "items": {
       "both": {
-        "items": [
+        "items": ["baseball", "bat", "whistle", "tank_top", "shorts", "socks", "sneakers", "runner_bag", "wristwatch"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "baseball", "bat", "whistle", "tank_top", "shorts", "socks", "sneakers", "runner_bag", "cell_phone", "wristwatch" ],
       "male": [ "briefs" ],
       "female": [ "sports_bra", "boy_shorts" ]
     }
@@ -4129,18 +3617,7 @@
     "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "swimming" }, { "level": 1, "name": "firstaid" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "tshirt",
+        "items": ["tshirt",
         "socks",
         "jeans",
         "jacket_windbreaker",
@@ -4161,10 +3638,13 @@
         "canteen",
         "granola",
         "pur_tablets",
-        "cell_phone",
         "wristwatch",
         "1st_aid"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "boy_shorts" ]
     }
@@ -4214,17 +3694,12 @@
     "skills": [ { "level": 4, "name": "dodge" } ],
     "items": {
       "both": {
-        "items": [
+        "items": [ "tshirt", "hoodie", "pants_cargo", "socks", "sneakers", "runner_bag", "wristwatch"
         ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "tshirt", "hoodie", "pants_cargo", "socks", "sneakers", "runner_bag", "cell_phone", "wristwatch" ],
       "male": [ "briefs" ],
       "female": [ "sports_bra", "boy_shorts" ]
     }
@@ -4237,18 +3712,7 @@
     "points": 1,
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "hat_ball",
+        "items": ["hat_ball",
         "knit_scarf",
         "tshirt",
         "jacket_light",
@@ -4259,10 +3723,13 @@
         "sneakers",
         "roadmap",
         "touristmap",
-        "cell_phone",
         "wristwatch",
         "camera"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
@@ -4285,18 +3752,7 @@
     "traits": [ "PROF_AUTODOC" ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "pants",
+        "items": [ "pants",
         "dress_shirt",
         "gloves_medical",
         "socks",
@@ -4305,10 +3761,13 @@
         "bandages",
         "anesthesia",
         "1st_aid",
-        "cell_phone",
         "wristwatch",
         "stethoscope"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
@@ -4323,17 +3782,11 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [
-        ],
+        "items": [ "jeans", "tshirt", "socks", "sneakers", "mbag", "pizza_cheese", "cola", "dnd_handbook", "wristwatch" ],
         "entries": [
           { "group": "charged_cell_phone" }
         ]
       },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [ "jeans", "tshirt", "socks", "sneakers", "mbag", "pizza_cheese", "cola", "dnd_handbook", "cell_phone", "wristwatch" ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -4372,18 +3825,7 @@
     "skills": [ { "level": 1, "name": "firstaid" }, { "level": 1, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [
-        ],
-        "entries": [
-          { "group": "charged_cell_phone" }
-        ]
-      },
-      "male": [  ],
-      "female": [  ]
-    }
-    "items": {
-      "both": [
-        "shorts_cargo",
+        "items": ["shorts_cargo",
         "technician_shirt_gray",
         "socks",
         "boots",
@@ -4391,9 +3833,12 @@
         "slingpack",
         "bucket",
         "shovel",
-        "cell_phone",
         "wristwatch"
-      ],
+        ],
+        "entries": [
+          { "group": "charged_cell_phone" }
+        ]
+      },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
