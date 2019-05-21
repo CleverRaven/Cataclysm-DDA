@@ -9,6 +9,7 @@
 #include <memory>
 #include <utility>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"

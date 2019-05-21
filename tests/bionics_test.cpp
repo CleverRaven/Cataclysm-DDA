@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "ammo.h"
 #include "bionics.h"
