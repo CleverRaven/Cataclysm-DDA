@@ -6329,8 +6329,7 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
             }
         }
     }
-    // Remove origin from output set
-    o_grid[ range + range * grid_dim ] = 0;
+
     // Now go over again to pull out all of the reachable points
     for( int y = 0, ndx = 0; y < grid_dim; ++y ) {
         for( int x = 0; x < grid_dim; ++x, ++ndx ) {
