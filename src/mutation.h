@@ -2,6 +2,14 @@
 #ifndef MUTATION_H
 #define MUTATION_H
 
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+#include <memory>
+#include <string>
+
 #include "bodypart.h"
 #include "calendar.h"
 #include "character.h"
@@ -9,35 +17,17 @@
 #include "enums.h" // tripoint
 #include "string_id.h"
 #include "tuple_hash.h"
-
-#include <map>
-#include <set>
-#include <unordered_map>
-#include <utility>
-#include <vector>
+#include "type_id.h"
 
 class nc_color;
 class JsonObject;
-class vitamin;
-using vitamin_id = string_id<vitamin>;
-class martialart;
-using matype_id = string_id<martialart>;
+class player;
 struct dream;
-struct mutation_branch;
-class item;
-using trait_id = string_id<mutation_branch>;
-using itype_id = std::string;
-struct mutation_category_trait;
-
 class Trait_group;
-class Trait_creation_data;
-class JsonObject;
-class JsonArray;
+class item;
 
-namespace trait_group
-{
-using Trait_group_tag = string_id<Trait_group>;
-}
+using itype_id = std::string;
+class JsonArray;
 
 extern std::vector<dream> dreams;
 extern std::map<std::string, std::vector<trait_id> > mutations_category;
@@ -84,7 +74,8 @@ struct mut_attack {
 };
 
 struct mutation_branch {
-        using MutationMap = std::unordered_map<trait_id, mutation_branch>;
+        trait_id id;
+        bool was_loaded = false;
         // True if this is a valid mutation (False for "unavailable from generic mutagen").
         bool valid = false;
         // True if Purifier can remove it (False for *Special* mutations).
@@ -95,6 +86,8 @@ struct mutation_branch {
         bool profession;
         //True if the mutation is obtained through the debug menu
         bool debug;
+        // True if the mutation should be displayed in the `@` menu
+        bool player_display = true;
         // Whether it has positive as well as negative effects.
         bool mixed_effect  = false;
         bool startingtrait = false;
@@ -129,6 +122,19 @@ struct mutation_branch {
         float hp_modifier_secondary = 0.0f;
         // Flat bonus/penalty to hp.
         float hp_adjustment = 0.0f;
+        // Modify strength stat without changing HP
+        float str_modifier = 0.0f;
+        // Additional bonuses
+        float dodge_modifier = 0.0f;
+        float speed_modifier = 1.0f;
+        float movecost_modifier = 1.0f;
+        float movecost_flatground_modifier = 1.0f;
+        float movecost_obstacle_modifier = 1.0f;
+        float attackcost_modifier = 1.0f;
+        float max_stamina_modifier = 1.0f;
+        float weight_capacity_modifier = 1.0f;
+        float hearing_modifier = 1.0f;
+        float noise_modifier = 1.0f;
 
         // Subtracted from the range at which monsters see player, corresponding to percentage of change. Clamped to +/- 60 for effectiveness
         float stealth_modifier = 0.0f;
@@ -144,6 +150,12 @@ struct mutation_branch {
         // Modifier for the rate at which stamina regenerates.
         float stamina_regen_modifier = 0.0f;
 
+        // Adjusts sight range on the overmap. Positives make it farther, negatives make it closer.
+        float overmap_sight = 0.0f;
+
+        // Multiplier for sight range, defaulting to 1.
+        float overmap_multiplier = 1.0f;
+
         // Bonus or penalty to social checks (additive).  50 adds 50% to success, -25 subtracts 25%
         social_modifiers social_mods;
 
@@ -154,11 +166,21 @@ struct mutation_branch {
     public:
         std::string spawn_item_message() const;
 
+        /** The fake gun, if any, spawned and fired by the ranged mutation */
+        itype_id ranged_mutation;
+    private:
+        std::string raw_ranged_mutation_message;
+    public:
+        std::string ranged_mutation_message() const;
+
         /** Attacks granted by this mutation */
         std::vector<mut_attack> attacks_granted;
 
         /** Mutations may adjust one or more of the default vitamin usage rates */
         std::map<vitamin_id, time_duration> vitamin_rates;
+
+        // Mutations may affect absorption rates of vitamins based on material (or "all")
+        std::map<material_id, std::map<vitamin_id, double>> vitamin_absorb_multi;
 
         std::vector<trait_id> prereqs; // Prerequisites; Only one is required
         std::vector<trait_id> prereqs2; // Prerequisites; need one from here too
@@ -208,11 +230,12 @@ struct mutation_branch {
          * All known mutations. Key is the mutation id, value is the mutation_branch that you would
          * also get by calling @ref get.
          */
-        static const MutationMap &get_all();
+        static const std::vector<mutation_branch> &get_all();
         // For init.cpp: reset (clear) the mutation data
         static void reset_all();
         // For init.cpp: load mutation data from json
-        static void load( JsonObject &jsobj );
+        void load( JsonObject &jo, const std::string &src );
+        static void load_trait( JsonObject &jo, const std::string &src );
         // For init.cpp: check internal consistency (valid ids etc.) of all mutations
         static void check_consistency();
 
@@ -298,7 +321,6 @@ struct mutation_branch {
 
         /**
          * Return the idents of all trait groups that are known.
-         * This is meant to be accessed at startup by lua to do mod-related modifications of groups.
          */
         static std::vector<trait_group::Trait_group_tag> get_all_group_names();
 };
@@ -306,18 +328,25 @@ struct mutation_branch {
 struct mutation_category_trait {
     private:
         std::string raw_name;
-        std::string raw_mutagen_message; // message when you consume mutagen
-        std::string raw_iv_message; //message when you inject an iv;
+        // Message when you consume mutagen
+        std::string raw_mutagen_message;
+        // Message when you inject an iv
+        std::string raw_iv_message;
         std::string raw_iv_sound_message = "NULL";
+        std::string raw_iv_sound_id = "shout";
+        std::string raw_iv_sound_variant = "default";
         std::string raw_iv_sleep_message = "NULL";
         std::string raw_junkie_message;
-        std::string raw_memorial_message; //memorial message when you cross a threshold
+        // Memorial message when you cross a threshold
+        std::string raw_memorial_message;
 
     public:
         std::string name() const;
         std::string mutagen_message() const;
         std::string iv_message() const;
         std::string iv_sound_message() const;
+        std::string iv_sound_id() const;
+        std::string iv_sound_variant() const;
         std::string iv_sleep_message() const;
         std::string junkie_message() const;
         std::string memorial_message_male() const;
@@ -328,23 +357,29 @@ struct mutation_category_trait {
         // The trait that you gain when you break the threshold for this category
         trait_id threshold_mut;
 
-        int mutagen_hunger  = 10;//these are defaults
+        // These are defaults
+        int mutagen_hunger  = 10;
         int mutagen_thirst  = 10;
         int mutagen_pain    = 2;
         int mutagen_fatigue = 5;
         int mutagen_morale  = 0;
-        int iv_min_mutations    = 1; //the minimum mutations an injection provides
+        // The minimum mutations an injection provides
+        int iv_min_mutations    = 1;
         int iv_additional_mutations = 2;
-        int iv_additional_mutations_chance = 3; //chance of additional mutations
+        // Chance of additional mutations
+        int iv_additional_mutations_chance = 3;
         int iv_hunger   = 10;
         int iv_thirst   = 10;
         int iv_pain     = 2;
         int iv_fatigue  = 5;
         int iv_morale   = 0;
         int iv_morale_max = 0;
-        bool iv_sound = false;  //determines if you make a sound when you inject mutagen
-        int iv_noise = 0;    //the amount of noise produced by the sound
-        bool iv_sleep = false;  //whether the iv has a chance of knocking you out.
+        // Determines if you make a sound when you inject mutagen
+        bool iv_sound = false;
+        // The amount of noise produced by the sound
+        int iv_noise = 0;
+        // Whether the iv has a chance of knocking you out.
+        bool iv_sleep = false;
         int iv_sleep_dur = 0;
 
         static const std::map<std::string, mutation_category_trait> &get_all();

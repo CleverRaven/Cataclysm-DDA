@@ -1,22 +1,5 @@
 [
   {
-    "id": "lw12mag",
-    "type": "MAGAZINE",
-    "name": "LW-12 magazine",
-    "description": "A 12-round polymer magazine for use with the Leadworks LLC L39-45 and L39B-45 pistols.",
-    "weight": 60,
-    "volume": 1,
-    "price": 5800,
-    "material": "plastic",
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": "45",
-    "capacity": 12,
-    "reliability": 10,
-    "reload_time": 140,
-    "flags": [ "MAG_COMPACT" ]
-  },
-  {
     "id": "m1911bigmag",
     "type": "MAGAZINE",
     "name": "M1911 extended magazine",
@@ -62,6 +45,23 @@
     "ammo_type": "45",
     "capacity": 30,
     "reliability": 7,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "smg_45_mag",
+    "type": "MAGAZINE",
+    "name": "makeshift .45 20-round magazine",
+    "description": "A makeshift 20-round single-column steel magazine which fits MAC-10, but may fit some makeshift magazine-fed firearms as well.  Don't expect much reliability.",
+    "weight": 300,
+    "volume": 3,
+    "price": 4000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "45",
+    "capacity": 20,
+    "reliability": 1,
+    "reload_time": 160,
     "flags": [ "MAG_COMPACT" ]
   },
   {
@@ -134,7 +134,7 @@
     "id": "ump45mag",
     "type": "MAGAZINE",
     "name": "UMP45 magazine",
-    "description": "A standard 30-round box magazine for use with the H&K UMP45 SMG.",
+    "description": "A standard 25-round box magazine for use with the H&K UMP45 SMG.",
     "weight": 200,
     "volume": 2,
     "price": 4950,

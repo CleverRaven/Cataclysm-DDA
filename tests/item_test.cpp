@@ -1,10 +1,15 @@
-#include "catch/catch.hpp"
+#include <initializer_list>
+#include <limits>
+#include <list>
 
+#include "catch/catch.hpp"
 #include "calendar.h"
 #include "itype.h"
+#include "ret_val.h"
 #include "units.h"
-
 #include "item.h"
+#include "enums.h"
+#include "optional.h"
 
 TEST_CASE( "item_volume", "[item]" )
 {
@@ -13,17 +18,35 @@ TEST_CASE( "item_volume", "[item]" )
     item i( "battery", 0, item::default_charges_tag() );
     REQUIRE( i.count_by_charges() );
     // Would be better with Catch2 generators
-    units::volume big_volume = units::from_milliliter( std::numeric_limits<int>::max() / 2 );
+    const units::volume big_volume = units::from_milliliter( std::numeric_limits<int>::max() / 2 );
     for( units::volume v : {
              0_ml, 1_ml, i.volume(), big_volume
          } ) {
         INFO( "checking batteries that fit in " << v );
-        auto charges_that_should_fit = i.charges_per_volume( v );
+        const long charges_that_should_fit = i.charges_per_volume( v );
         i.charges = charges_that_should_fit;
         CHECK( i.volume() <= v ); // this many charges should fit
         i.charges++;
         CHECK( i.volume() > v ); // one more charge should not fit
     }
+}
+
+TEST_CASE( "simple_item_layers", "[item]" )
+{
+    CHECK( item( "arm_warmers" ).get_layer() == UNDERWEAR );
+    CHECK( item( "10gal_hat" ).get_layer() == REGULAR_LAYER );
+    CHECK( item( "baldric" ).get_layer() == WAIST_LAYER );
+    CHECK( item( "aep_suit" ).get_layer() == OUTER_LAYER );
+    CHECK( item( "2byarm_guard" ).get_layer() == BELTED_LAYER );
+}
+
+TEST_CASE( "gun_layer", "[item]" )
+{
+    item gun( "win70" );
+    item mod( "shoulder_strap" );
+    CHECK( gun.is_gunmod_compatible( mod ).success() );
+    gun.contents.push_back( mod );
+    CHECK( gun.get_layer() == BELTED_LAYER );
 }
 
 // second minute hour day week season year

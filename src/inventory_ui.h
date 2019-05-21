@@ -2,25 +2,30 @@
 #ifndef INVENTORY_UI_H
 #define INVENTORY_UI_H
 
+#include <climits>
+#include <cstddef>
+#include <functional>
+#include <limits>
+#include <memory>
+#include <array>
+#include <list>
+#include <map>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "color.h"
 #include "cursesdef.h"
-#include "enums.h"
 #include "input.h"
 #include "item_location.h"
 #include "pimpl.h"
 #include "units.h"
-
-#include <functional>
-#include <limits>
-#include <memory>
+#include "item_category.h"
 
 class Character;
-
 class item;
-class item_category;
-class item_location;
-
 class player;
+struct tripoint;
 
 enum class navigation_mode : int {
     ITEM = 0,
@@ -159,6 +164,10 @@ class inventory_selector_preset
         size_t get_cells_count() const {
             return cells.size();
         }
+        /** Whether items should make new stacks if components differ */
+        bool get_checking_components() const {
+            return check_components;
+        }
 
         virtual std::function<bool( const inventory_entry & )> get_filter( const std::string &filter )
         const;
@@ -178,6 +187,7 @@ class inventory_selector_preset
         void append_cell( const std::function<std::string( const inventory_entry & )> &func,
                           const std::string &title = std::string(),
                           const std::string &stub = std::string() );
+        bool check_components = false;
 
     private:
         class cell_t
@@ -251,6 +261,8 @@ class inventory_column
 
         const inventory_entry &get_selected() const;
         std::vector<inventory_entry *> get_all_selected() const;
+        std::vector<inventory_entry *> get_entries(
+            const std::function<bool( const inventory_entry &entry )> &filter_func ) const;
 
         inventory_entry *find_by_invlet( long invlet ) const;
 
@@ -259,9 +271,21 @@ class inventory_column
         void add_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
         void clear();
+        void set_stack_favorite( const item_location &location, bool favorite );
 
         /** Selects the specified location. */
         bool select( const item_location &loc );
+
+        /**
+         * Change the selection.
+         * @param new_index Index of the entry to select.
+         * @param dir If the entry is not selectable, move in the specified direction
+         */
+        void select( size_t new_index, scroll_direction dir );
+
+        size_t get_selected_index() {
+            return selected_index;
+        }
 
         void set_multiselect( bool multiselect ) {
             this->multiselect = multiselect;
@@ -312,12 +336,6 @@ class inventory_column
             std::vector<std::string> text;
         };
 
-        /**
-         * Change the selection.
-         * @param new_index Index of the entry to select.
-         * @param dir If the entry is not selectable, move in the specified direction
-         */
-        void select( size_t new_index, scroll_direction dir );
         /**
          * Move the selection.
          */
@@ -390,18 +408,18 @@ class selection_column : public inventory_column
         selection_column( const std::string &id, const std::string &name );
         ~selection_column() override;
 
-        virtual bool activatable() const override {
+        bool activatable() const override {
             return inventory_column::activatable() && pages_count() > 1;
         }
 
-        virtual bool allows_selecting() const override {
+        bool allows_selecting() const override {
             return false;
         }
 
-        virtual void prepare_paging( const std::string &filter = "" ) override;
+        void prepare_paging( const std::string &filter = "" ) override;
 
-        virtual void on_change( const inventory_entry &entry ) override;
-        virtual void on_mode_change( navigation_mode ) override {
+        void on_change( const inventory_entry &entry ) override;
+        void on_mode_change( navigation_mode ) override {
             // Intentionally ignore mode change.
         }
 
@@ -420,6 +438,8 @@ class inventory_selector
         void add_map_items( const tripoint &target );
         void add_vehicle_items( const tripoint &target );
         void add_nearby_items( int radius = 1 );
+        /** Remove all items */
+        void clear_items();
         /** Assigns a title that will be shown on top of the menu. */
         void set_title( const std::string &title ) {
             this->title = title;
@@ -440,6 +460,8 @@ class inventory_selector
         // An array of cells for the stat lines. Example: ["Weight (kg)", "10", "/", "20"].
         using stat = std::array<std::string, 4>;
         using stats = std::array<stat, 2>;
+
+        bool keep_open = false;
 
     protected:
         const player &u;
@@ -462,12 +484,6 @@ class inventory_selector
                         const std::function<item_location( item * )> &locator,
                         const std::vector<std::list<item *>> &stacks,
                         const item_category *custom_category = nullptr );
-        /**
-         * Select a location
-         * @param loc Location to select
-         * @return true on success.
-         */
-        bool select( const item_location &loc );
 
         inventory_input get_input();
 
@@ -485,7 +501,6 @@ class inventory_selector
         void resize_window( int width, int height );
         void refresh_window() const;
         void set_filter();
-        void update();
 
         /** Tackles screen overflow */
         virtual void rearrange_columns( size_t client_width );
@@ -519,12 +534,41 @@ class inventory_selector
         }
         std::vector<inventory_column *> get_visible_columns() const;
 
+    public:
+
+        void update();
+
+        /**
+         * Select a location
+         * @param loc Location to select
+         * @return true on success.
+         */
+        bool select( const item_location &loc );
+
+        inventory_entry get_selected() {
+            return get_active_column().get_selected();
+        }
+
+        void select_position( std::pair<size_t, size_t> position ) {
+            set_active_column( position.first );
+            get_active_column().select( position.second, scroll_direction::BACKWARD );
+        }
+
+        std::pair<size_t, size_t> get_selection_position() {
+            std::pair<size_t, size_t> position;
+            position.first = active_column_index;
+            position.second = get_active_column().get_selected_index();
+            return position;
+        }
+
         inventory_column &get_column( size_t index ) const;
         inventory_column &get_active_column() const {
             return get_column( active_column_index );
         }
 
         void set_active_column( size_t index );
+
+    protected:
         size_t get_columns_width( const std::vector<inventory_column *> &columns ) const;
         /** @return Percentage of the window occupied by columns */
         double get_columns_occupancy_ratio( size_t client_width ) const;
@@ -580,6 +624,9 @@ class inventory_selector
         bool layout_is_valid = false;
 };
 
+inventory_selector::stat display_stat( const std::string &caption, int cur_value, int max_value,
+                                       const std::function<std::string( int )> &disp_func );
+
 class inventory_pick_selector : public inventory_selector
 {
     public:
@@ -596,8 +643,8 @@ class inventory_multiselector : public inventory_selector
         inventory_multiselector( const player &p, const inventory_selector_preset &preset = default_preset,
                                  const std::string &selection_column_title = "" );
     protected:
-        virtual void rearrange_columns( size_t client_width ) override;
-        virtual void on_entry_add( const inventory_entry &entry ) override;
+        void rearrange_columns( size_t client_width ) override;
+        void on_entry_add( const inventory_entry &entry ) override;
 
     private:
         std::unique_ptr<inventory_column> selection_col;
@@ -620,9 +667,11 @@ class inventory_compare_selector : public inventory_multiselector
 class inventory_iuse_selector : public inventory_multiselector
 {
     public:
+        using GetStats = std::function<stats( const std::map<const item *, int> & )>;
         inventory_iuse_selector( const player &p,
                                  const std::string &selector_title,
-                                 const inventory_selector_preset &preset = default_preset );
+                                 const inventory_selector_preset &preset = default_preset,
+                                 const GetStats & = {} );
         std::list<std::pair<int, int>> execute();
 
     protected:
@@ -630,6 +679,7 @@ class inventory_iuse_selector : public inventory_multiselector
         void set_chosen_count( inventory_entry &entry, size_t count );
 
     private:
+        GetStats get_stats;
         std::map<const item *, int> to_use;
         size_t max_chosen_count;
 };
@@ -645,6 +695,7 @@ class inventory_drop_selector : public inventory_multiselector
         stats get_raw_stats() const override;
         /** Toggle item dropping */
         void set_chosen_count( inventory_entry &entry, size_t count );
+        void process_selected( int &count, const std::vector<inventory_entry *> &selected );
 
     private:
         std::map<const item *, int> dropping;

@@ -10,6 +10,7 @@
       [ "fish_smoked", 5 ],
       [ "meat_smoked", 60 ],
       [ "sausage", 35 ],
+      [ "bratwurst_sausage", 30 ],
       [ "hotdogs_frozen", 65 ],
       [ "hotdogs_cooked", 65 ],
       [ "chilidogs", 30 ],

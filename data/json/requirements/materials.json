@@ -9,7 +9,7 @@
     "id": "ammo_bullet",
     "type": "requirement",
     "//": "Materials used when forming bullets",
-    "components": [ [ [ "lead", 1 ], [ "bismuth", 1 ], [ "silver_small", 1 ], [ "gold_small", 1 ] ] ]
+    "components": [ [ [ "lead", 1 ], [ "bismuth", 1 ], [ "silver_small", 1 ], [ "gold_small", 1 ], [ "platinum_small", 1 ] ] ]
   },
   {
     "id": "cordage",
@@ -30,6 +30,12 @@
     "components": [ [ [ "plasma", 5 ] ], [ [ "charcoal", 25 ], [ "coal_lump", 25 ] ] ]
   },
   {
+    "id": "nanofabricator",
+    "type": "requirement",
+    "//": "Materials required by the nanofabricator to create an item (per 250ml volume)",
+    "components": [ [ [ "nanomaterial", 5 ] ] ]
+  },
+  {
     "id": "fabric_standard",
     "type": "requirement",
     "//": "Materials used for crafting or repairing clothing or sheeting",
@@ -48,7 +54,8 @@
     "components": [
       [
         [ "tallow", 1 ],
-        [ "cooking_oil", 1 ],
+        [ "cooking_oil", 8 ],
+        [ "cooking_oil2", 8 ],
         [ "wax", 1 ],
         [ "lamp_oil", 200 ],
         [ "salt_water", 5 ],
@@ -61,7 +68,16 @@
     "id": "rope_natural",
     "type": "requirement",
     "//": "Materials used for lashing, when choice of makeshift rope or vine is sensible",
-    "components": [ [ [ "rope_6", 5 ], [ "rope_30", 1 ], [ "rope_makeshift_6", 5 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ] ] ]
+    "components": [
+      [
+        [ "rope_6", 5 ],
+        [ "rope_30", 1 ],
+        [ "rope_makeshift_6", 5 ],
+        [ "rope_makeshift_30", 1 ],
+        [ "vine_30", 1 ],
+        [ "grapnel", 1 ]
+      ]
+    ]
   },
   {
     "id": "rope_natural_short",

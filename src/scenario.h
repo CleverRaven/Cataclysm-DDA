@@ -2,24 +2,19 @@
 #ifndef SCENARIO_H
 #define SCENARIO_H
 
-#include "string_id.h"
-
 #include <set>
 #include <vector>
+#include <string>
 
-class scenario;
+#include "string_id.h"
+#include "type_id.h"
+
 class profession;
-class player;
-class JsonArray;
 class JsonObject;
-class addiction;
+
 enum add_type : int;
-class start_location;
-using start_location_id = string_id<start_location>;
 template<typename T>
 class generic_factory;
-struct mutation_branch;
-using trait_id = string_id<mutation_branch>;
 
 class scenario
 {
@@ -51,6 +46,7 @@ class scenario
         int _point_cost;
         std::set<std::string> flags; // flags for some special properties of the scenario
         std::string _map_special;
+        std::vector<mission_type_id> _missions;
 
         void load( JsonObject &jo, const std::string &src );
 
@@ -105,6 +101,8 @@ class scenario
          *
          */
         bool can_pick( const scenario &current_scenario, int points ) const;
+
+        const std::vector<mission_type_id> &missions() const;
 
 };
 

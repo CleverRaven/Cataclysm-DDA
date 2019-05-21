@@ -2,16 +2,6 @@
 #ifndef MAPSHARING_H
 #define MAPSHARING_H
 
-#ifdef __linux__
-#include <sys/file.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <cstdio>
-#include <fcntl.h>
-#include <unistd.h>
-#endif // __linux__
-
-#include <cstdlib>
 #include <fstream>
 #include <map>
 #include <set>
@@ -51,8 +41,8 @@ void addDebugger( const std::string &name );
 void setDefaults();
 }
 
-int getLock( char const *lockName );
-void releaseLock( int fd, char const *lockName );
+int getLock( const char *lockName );
+void releaseLock( int fd, const char *lockName );
 extern std::map<std::string, int> lockFiles;
 void fopen_exclusive( std::ofstream &fout, const char *filename,
                       std::ios_base::openmode mode = std::ios_base::out );

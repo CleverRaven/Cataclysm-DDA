@@ -2,11 +2,14 @@
 #ifndef BODYPART_H
 #define BODYPART_H
 
-#include "int_id.h"
-#include "string_id.h"
-
+#include <cstddef>
 #include <array>
 #include <bitset>
+#include <initializer_list>
+#include <string>
+
+#include "int_id.h"
+#include "string_id.h"
 
 class JsonObject;
 
@@ -37,7 +40,7 @@ enum class side : int {
  * Contains all valid @ref body_part values in the order they are
  * defined in. Use this to iterate over them.
  */
-const constexpr std::array<body_part, 12> all_body_parts = {{
+constexpr std::array<body_part, 12> all_body_parts = {{
         bp_torso, bp_head, bp_eyes, bp_mouth,
         bp_arm_l, bp_arm_r, bp_hand_l, bp_hand_r,
         bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r
@@ -45,6 +48,7 @@ const constexpr std::array<body_part, 12> all_body_parts = {{
 };
 
 struct body_part_struct;
+
 using bodypart_ids = string_id<body_part_struct>;
 using bodypart_id = int_id<body_part_struct>;
 
@@ -76,7 +80,7 @@ struct body_part_struct {
          */
         float hit_difficulty = 0.0f;
         // "Parent" of this part - main parts are their own "parents"
-        // @todo: Connect head and limbs to torso
+        // TODO: Connect head and limbs to torso
         bodypart_ids main_part;
         // A part that has no opposite is its own opposite (that's pretty Zen)
         bodypart_ids opposite_part;

@@ -4,20 +4,15 @@
 
 #include <fstream>
 #include <functional>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
+#include <algorithm>
+#include <type_traits>
 
-class item;
-class Creature;
-struct tripoint;
-namespace units
-{
-template<typename V, typename U>
-class quantity;
-class mass_in_gram_tag;
-using mass = quantity<int, mass_in_gram_tag>;
-}
+#include "units.h"
+
 class JsonIn;
 class JsonOut;
 
@@ -31,6 +26,29 @@ struct pair_greater_cmp_first {
     }
 
 };
+
+/**
+ * For use with smart pointers when you don't actually want the deleter to do
+ * anything.
+ */
+struct null_deleter {
+    template<typename T>
+    void operator()( T * ) const {}
+};
+
+namespace cata
+{
+
+/**
+ * Until we can use std::make_unique, have our own
+ */
+template<typename T, typename... Args>
+std::unique_ptr<T> make_unique( Args &&... args )
+{
+    return std::unique_ptr<T>( new T( std::forward<Args>( args )... ) );
+}
+
+}
 
 /**
  * Type of object that a measurement is taken on.  Used, for example, to display wind speed in m/s
@@ -59,6 +77,26 @@ inline int fast_floor( double v )
  * @return Rounded value.
  */
 double round_up( double val, unsigned int dp );
+
+/** Divide @p num by @p den, rounding up
+*
+* @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.
+*/
+template<typename T, typename std::enable_if<std::is_integral<T>::value, int>::type = 0>
+T divide_round_up( T num, T den )
+{
+    return ( num + den - 1 ) / den;
+}
+
+/** Divide @p num by @p den, rounding up
+ *
+ * @p num must be non-negative, @p den must be positive, and @c num+den must not overflow.
+ */
+template<typename T, typename U>
+T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
+{
+    return divide_round_up( num.value(), den.value() );
+}
 
 /**
  * Determine whether a value is between two given boundaries.
@@ -226,11 +264,18 @@ double convert_volume( int volume, int *out_scale );
 double temp_to_celsius( double fahrenheit );
 
 /**
- * Convert a temperature from degrees Fahrenheit to degrees Kelvin.
+ * Convert a temperature from degrees Fahrenheit to Kelvin.
  *
  * @return Temperature in degrees K.
  */
 double temp_to_kelvin( double fahrenheit );
+
+/**
+ * Convert a temperature from Kelvin to degrees Fahrenheit.
+ *
+ * @return Temperature in degrees C.
+ */
+double kelvin_to_fahrenheit( double kelvin );
 
 /**
  * Clamp (number and space wise) value to with,
@@ -356,6 +401,7 @@ class ofstream_wrapper
 bool write_to_file( const std::string &path, const std::function<void( std::ostream & )> &writer,
                     const char *fail_message );
 class JsonDeserializer;
+
 /**
  * Try to open and read from given file using the given callback.
  *
@@ -479,4 +525,15 @@ bool string_starts_with( const std::string &s1, const std::string &s2 );
  */
 bool string_ends_with( const std::string &s1, const std::string &s2 );
 
+/** Used as a default filter in various functions */
+template<typename T>
+bool return_true( const T & )
+{
+    return true;
+}
+
+/**
+ * Joins a vector of `std::string`s into a single string with a delimiter/joiner
+ */
+std::string join( const std::vector<std::string> &strings, const std::string &joiner );
 #endif // CAT_UTILITY_H

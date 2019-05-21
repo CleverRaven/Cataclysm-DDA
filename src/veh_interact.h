@@ -2,20 +2,24 @@
 #ifndef VEH_INTERACT_H
 #define VEH_INTERACT_H
 
+#include <cstddef>
+#include <map>
+#include <sstream>
+#include <vector>
+#include <functional>
+#include <string>
+
 #include "color.h"
 #include "cursesdef.h"
 #include "input.h"
 #include "inventory.h"
 #include "player_activity.h"
-#include "requirements.h"
-#include "string_id.h"
+#include "item_location.h"
+#include "type_id.h"
 
-#include <map>
-#include <sstream>
-#include <vector>
-
+struct requirement_data;
+struct tripoint;
 class vpart_info;
-using vpart_id = string_id<vpart_info>;
 
 /** Represents possible return values from the cant_do function. */
 enum task_reason {
@@ -31,6 +35,9 @@ enum task_reason {
 
 class vehicle;
 struct vehicle_part;
+
+// For marking 'leaking' tanks/reactors/batteries
+const std::string leak_marker = "<color_red>*</color>";
 
 class veh_interact
 {
@@ -68,6 +75,8 @@ class veh_interact
         int cpart = -1;
         int page_size;
         int fuel_index = 0; /** Starting index of where to start printing fuels from */
+        // height of the stats window
+        const int stats_h = 8;
         catacurses::window w_grid;
         catacurses::window w_mode;
         catacurses::window w_msg;
@@ -136,12 +145,12 @@ class veh_interact
 
         void display_grid();
         void display_veh();
-        void display_stats();
+        void display_stats() const;
         void display_name();
         void display_mode();
         void display_list( size_t pos, const std::vector<const vpart_info *> &list, const int header = 0 );
         void display_details( const vpart_info *part );
-        size_t display_esc( const catacurses::window &w );
+        size_t display_esc( const catacurses::window &win );
 
         /**
          * Display overview of parts, optionally with interactive selection of one part
@@ -156,10 +165,10 @@ class veh_interact
                        std::function<bool( vehicle_part &pt )> action = {} );
         void move_overview_line( int );
 
-        void countDurability();
+        void count_durability();
 
-        std::string totalDurabilityText;
-        nc_color totalDurabilityColor;
+        std::string total_durability_text;
+        nc_color total_durability_color;
 
         /** Returns the most damaged part's index, or -1 if they're all healthy. */
         vehicle_part *get_most_damaged_part() const;

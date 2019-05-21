@@ -16,5 +16,11 @@
   {
     "type": "MONSTER_BLACKLIST",
     "monsters": [ "mon_triffid", "mon_triffid_young", "mon_fungal_fighter", "mon_vinebeast", "mon_triffid_queen", "mon_triffid_heart" ]
+  },
+  {
+    "type": "region_overlay",
+    "id": "No_Triffids_region_overlay",
+    "regions": [ "all" ],
+    "overmap_feature_flag_settings": { "blacklist": [ "TRIFFID" ] }
   }
 ]

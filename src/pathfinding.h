@@ -4,8 +4,6 @@
 
 #include "game_constants.h"
 
-class JsonObject;
-
 enum pf_special : char {
     PF_NORMAL = 0x00,    // Plain boring tile (grass, dirt, floor etc.)
     PF_SLOW = 0x01,      // Tile with move cost >2
@@ -45,7 +43,7 @@ struct pathfinding_cache {
 
     bool dirty;
 
-    pf_special special[MAPSIZE * SEEX][MAPSIZE * SEEY];
+    pf_special special[MAPSIZE_X][MAPSIZE_Y];
 };
 
 struct pathfinding_settings {

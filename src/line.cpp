@@ -1,11 +1,16 @@
 #include "line.h"
+
+#include <cstdlib>
+#include <cassert>
+#include <algorithm>
+#include <array>
+#include <memory>
+#include <tuple>
+#include <utility>
+
 #include "translations.h"
 #include "string_formatter.h"
-#include <cstdlib>
-
 #include "output.h"
-
-#include <cassert>
 
 extern bool trigdist;
 
@@ -237,7 +242,7 @@ float trig_dist( const int x1, const int y1, const int x2, const int y2 )
 
 float trig_dist( const tripoint &loc1, const tripoint &loc2 )
 {
-    return sqrt( double( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +
+    return sqrt( static_cast<double>( ( loc1.x - loc2.x ) * ( loc1.x - loc2.x ) ) +
                  ( ( loc1.y - loc2.y ) * ( loc1.y - loc2.y ) ) +
                  ( ( loc1.z - loc2.z ) * ( loc1.z - loc2.z ) ) );
 }
@@ -275,7 +280,7 @@ int rl_dist( const tripoint &loc1, const tripoint &loc2 )
 }
 
 // This more general version of this function gives correct values for larger values.
-unsigned make_xyz( int const x, int const y, int const z )
+unsigned make_xyz( const int x, const int y, const int z )
 {
     static const double sixteenth_arc = 0.392699082;
     int vertical_position = ( ( z > 0 ) ? 2u : ( z < 0 ) ? 1u : 0u ) * 9u;
@@ -359,23 +364,23 @@ std::vector<tripoint> continue_line( const std::vector<tripoint> &line, const in
     return line_to( line.back(), move_along_line( line.back(), line, distance ) );
 }
 
-direction direction_from( int const x, int const y, int const z ) noexcept
+direction direction_from( const int x, const int y, const int z ) noexcept
 {
     return static_cast<direction>( make_xyz( x, y, z ) );
 }
 
-direction direction_from( int const x1, int const y1, int const x2, int const y2 ) noexcept
+direction direction_from( const int x1, const int y1, const int x2, const int y2 ) noexcept
 {
     return direction_from( x2 - x1, y2 - y1 );
 }
 
-direction direction_from( tripoint const &p, tripoint const &q )
+direction direction_from( const tripoint &p, const tripoint &q )
 {
     // Note: Z-coordinate has to be inverted either here or in direction definitions
     return direction_from( q.x - p.x, q.y - p.y, -( q.z - p.z ) );
 }
 
-point direction_XY( direction const dir )
+point direction_XY( const direction dir )
 {
     switch( dir % 9 ) {
         case NORTHWEST:
@@ -398,15 +403,15 @@ point direction_XY( direction const dir )
             return point( 1,  1 );
     }
 
-    return point( 0, 0 );
+    return point_zero;
 }
 
 namespace
 {
-std::string const direction_name_impl( direction const dir, bool const short_name )
+const std::string direction_name_impl( const direction dir, const bool short_name )
 {
     enum : int { size = 3 * 3 * 3 };
-    static auto const names = [] {
+    static const auto names = [] {
         using pair_t = std::pair<std::string, std::string>;
         std::array < pair_t, size + 1 > result;
 
@@ -448,16 +453,16 @@ std::string const direction_name_impl( direction const dir, bool const short_nam
         i = size;
     }
 
-    return short_name ? _( names[i].first.c_str() ) : _( names[i].second.c_str() );
+    return short_name ? _( names[i].first ) : _( names[i].second );
 }
 } //namespace
 
-std::string const direction_name( direction const dir )
+const std::string direction_name( const direction dir )
 {
     return direction_name_impl( dir, false );
 }
 
-std::string const direction_name_short( direction const dir )
+const std::string direction_name_short( const direction dir )
 {
     return direction_name_impl( dir, true );
 }
@@ -468,8 +473,7 @@ std::string direction_suffix( const tripoint &p, const tripoint &q )
     if( dist <= 0 ) {
         return std::string();
     }
-    return string_format( "%d%s", dist, trim( direction_name_short( direction_from( p,
-                          q ) ) ).c_str() );
+    return string_format( "%d%s", dist, trim( direction_name_short( direction_from( p, q ) ) ) );
 }
 
 // Cardinals are cardinals. Result is cardinal and adjacent sub-cardinals.

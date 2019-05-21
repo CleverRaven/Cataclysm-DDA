@@ -109,7 +109,7 @@
     "durability": 300,
     "description": "A large metal disc, powered by the vehicle's engines.  Use the vehicle controls to turn it on or off.  When turned on, it will stop the vehicle unless it has a strong engine.  When turned on, it will dig a shallow pit in dirt.  Mount it on the edge of your vehicle.",
     "folded_volume": 12,
-    "power": -200,
+    "power": -70000,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },

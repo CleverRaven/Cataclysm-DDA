@@ -1,12 +1,13 @@
+#pragma once
 #ifndef JSON_H
 #define JSON_H
 
+#include <cstddef>
 #include <type_traits>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <bitset>
-#include <utility>
 #include <array>
 #include <map>
 #include <set>
@@ -25,8 +26,7 @@
  *
  * Further documentation can be found below.
  */
-class JsonIn;
-class JsonOut;
+
 class JsonObject;
 class JsonArray;
 class JsonSerializer;
@@ -132,9 +132,9 @@ inline E string_to_enum_look_up( const C &container, const std::string &data )
  *             if (name == "id") {
  *                 myobject.id = jsin.get_string();
  *             } else if (name == "name") {
- *                 myobject.name = _(jsin.get_string().c_str());
+ *                 myobject.name = _(jsin.get_string());
  *             } else if (name == "description") {
- *                 myobject.description = _(jsin.get_string().c_str());
+ *                 myobject.description = _(jsin.get_string());
  *             } else if (name == "points") {
  *                 myobject.points = jsin.get_int();
  *             } else if (name == "flags") {
@@ -175,6 +175,8 @@ class JsonIn
 
     public:
         JsonIn( std::istream &s ) : stream( &s ) {}
+        JsonIn( const JsonIn & ) = delete;
+        JsonIn &operator=( const JsonIn & ) = delete;
 
         bool get_ate_separator() {
             return ate_separator;
@@ -238,10 +240,10 @@ class JsonIn
         bool test_number();
         bool test_int() {
             return test_number();
-        };
+        }
         bool test_float() {
             return test_number();
-        };
+        }
         bool test_string();
         bool test_bitset();
         bool test_array();
@@ -402,7 +404,7 @@ class JsonIn
 
         // error messages
         std::string line_number( int offset_modifier = 0 ); // for occasional use only
-        void error( std::string message, int offset = 0 ); // ditto
+        [[noreturn]] void error( const std::string &message, int offset = 0 ); // ditto
         void rewind( int max_lines = -1, int max_chars = -1 );
         std::string substr( size_t pos, size_t len = std::string::npos );
 };
@@ -447,6 +449,8 @@ class JsonOut
 
     public:
         JsonOut( std::ostream &stream, bool pretty_print = false, int depth = 0 );
+        JsonOut( const JsonOut & ) = delete;
+        JsonOut &operator=( const JsonOut & ) = delete;
 
         // punctuation
         void write_indent();
@@ -534,9 +538,9 @@ class JsonOut
         }
 
         template <typename T>
-        void write_as_array( T const &container ) {
+        void write_as_array( const T &container ) {
             start_array();
-            for( auto const &e : container ) {
+            for( const auto &e : container ) {
                 write( e );
             }
             end_array();
@@ -547,7 +551,7 @@ class JsonOut
         template < typename T, typename std::enable_if <
                        !std::is_same<void, typename T::value_type>::value >::type * = nullptr
                    >
-        auto write( T const &container ) -> decltype( container.front(), ( void )0 ) {
+        auto write( const T &container ) -> decltype( container.front(), ( void )0 ) {
             write_as_array( container );
         }
 
@@ -556,7 +560,7 @@ class JsonOut
         template <typename T, typename std::enable_if<
                       std::is_same<typename T::key_type, typename T::value_type>::value>::type * = nullptr
                   >
-        void write( T const &container ) {
+        void write( const T &container ) {
             write_as_array( container );
         }
 
@@ -565,9 +569,9 @@ class JsonOut
         template < typename T, typename std::enable_if <
                        !std::is_same<typename T::key_type, typename T::value_type>::value >::type * = nullptr
                    >
-        void write( T const &map ) {
+        void write( const T &map ) {
             start_object();
-            for( auto const &it : map ) {
+            for( const auto &it : map ) {
                 write( it.first );
                 write_member_separator();
                 write( it.second );
@@ -601,8 +605,8 @@ class JsonOut
  *
  *     JsonObject jo(jsin);
  *     std::string id = jo.get_string("id");
- *     std::string name = _(jo.get_string("name").c_str());
- *     std::string description = _(jo.get_string("description").c_str());
+ *     std::string name = _(jo.get_string("name"));
+ *     std::string description = _(jo.get_string("description"));
  *     int points = jo.get_int("points", 0);
  *     std::set<std::string> tags = jo.get_tags("flags");
  *     my_object_type myobject(id, name, description, points, tags);
@@ -657,10 +661,11 @@ class JsonObject
     public:
         JsonObject( JsonIn &jsin );
         JsonObject( const JsonObject &jsobj );
-        JsonObject() : positions(), start( 0 ), end( 0 ), jsin( NULL ) {}
+        JsonObject() : start( 0 ), end( 0 ), jsin( NULL ) {}
         ~JsonObject() {
             finish();
         }
+        JsonObject &operator=( const JsonObject & );
 
         void finish(); // moves the stream to the end of the object
         size_t size();
@@ -669,8 +674,8 @@ class JsonObject
         bool has_member( const std::string &name ); // true iff named member exists
         std::set<std::string> get_member_names();
         std::string str(); // copy object json as string
-        void throw_error( std::string err );
-        void throw_error( std::string err, const std::string &name );
+        [[noreturn]] void throw_error( std::string err );
+        [[noreturn]] void throw_error( std::string err, const std::string &name );
         // seek to a value and return a pointer to the JsonIn (member must exist)
         JsonIn *get_raw( const std::string &name );
 
@@ -722,10 +727,10 @@ class JsonObject
         bool has_number( const std::string &name );
         bool has_int( const std::string &name ) {
             return has_number( name );
-        };
+        }
         bool has_float( const std::string &name ) {
             return has_number( name );
-        };
+        }
         bool has_string( const std::string &name );
         bool has_array( const std::string &name );
         bool has_object( const std::string &name );
@@ -830,10 +835,11 @@ class JsonArray
     public:
         JsonArray( JsonIn &jsin );
         JsonArray( const JsonArray &jsarr );
-        JsonArray() : positions(), start( 0 ), index( 0 ), end( 0 ), jsin( NULL ) {};
+        JsonArray() : start( 0 ), index( 0 ), end( 0 ), jsin( NULL ) {}
         ~JsonArray() {
             finish();
         }
+        JsonArray &operator=( const JsonArray & );
 
         void finish(); // move the stream position to the end of the array
 
@@ -873,10 +879,10 @@ class JsonArray
         bool test_number();
         bool test_int() {
             return test_number();
-        };
+        }
         bool test_float() {
             return test_number();
-        };
+        }
         bool test_string();
         bool test_bitset();
         bool test_array();
@@ -888,10 +894,10 @@ class JsonArray
         bool has_number( int index );
         bool has_int( int index ) {
             return has_number( index );
-        };
+        }
         bool has_float( int index ) {
             return has_number( index );
-        };
+        }
         bool has_string( int index );
         bool has_array( int index );
         bool has_object( int index );
@@ -957,6 +963,12 @@ std::set<T> JsonObject::get_tags( const std::string &name )
     return res;
 }
 
+/**
+ * Get an array member from json with name name.  For each element of that
+ * array (which should be a string) add it to the given set.
+ */
+void add_array_to_set( std::set<std::string> &, JsonObject &json, const std::string &name );
+
 /* JsonSerializer
  * ==============
  *
@@ -981,9 +993,9 @@ std::set<T> JsonObject::get_tags( const std::string &name )
 class JsonSerializer
 {
     public:
-        virtual ~JsonSerializer() {}
+        virtual ~JsonSerializer() = default;
         virtual void serialize( JsonOut &jsout ) const = 0;
-        JsonSerializer() { }
+        JsonSerializer() = default;
         JsonSerializer( JsonSerializer && ) = default;
         JsonSerializer( const JsonSerializer & ) = default;
         JsonSerializer &operator=( JsonSerializer && ) = default;

@@ -3,10 +3,10 @@
 #define MATTACK_COMMON_H
 
 #include <memory>
+#include <string>
 
 class JsonObject;
 class monster;
-class mattack_actor;
 
 using mattack_id = std::string;
 using mon_action_attack = bool ( * )( monster * );
@@ -33,7 +33,7 @@ class mattack_actor
 
 struct mtype_special_attack {
     protected:
-        // @todo: Remove friend
+        // TODO: Remove friend
         friend struct mtype;
         std::unique_ptr<mattack_actor> actor;
 

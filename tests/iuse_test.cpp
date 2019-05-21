@@ -1,10 +1,20 @@
-#include "catch/catch.hpp"
+#include <limits.h>
+#include <list>
+#include <memory>
 
+#include "avatar.h"
+#include "catch/catch.hpp"
 #include "game.h"
-#include "iuse.h"
 #include "monster.h"
 #include "mtype.h"
 #include "player.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "enums.h"
+#include "inventory.h"
+#include "item.h"
+#include "string_id.h"
+#include "type_id.h"
 
 player &get_sanitized_player( )
 {

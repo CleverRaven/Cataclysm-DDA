@@ -1,0 +1,49 @@
+[
+  {
+    "type": "item_group",
+    "id": "oa_pap_chess_pieces",
+    "items": [ [ "rock", 60 ] ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "cs_public_art_piece" ],
+    "weight": 1000,
+    "object": {
+      "rows": [
+        "........,.....,...,.....",
+        "....,...,.,.....,...,...",
+        "....,........,..........",
+        "........,.......,...,...",
+        "...,,........,.....,,...",
+        ".........cbbbbc.........",
+        "....,..........,,......,",
+        ".......++++++++++...,...",
+        ".,.....+OXOXOXOX+.,.....",
+        ".....c.+XOXOXOXO+.c.....",
+        "...,.b.+OXOXOXOX+.b..,..",
+        ".....b,+XOXOXOXO+.b,....",
+        "..,..b.+OXOXOXOX+.b.....",
+        ".....b,+XOXOXOXO+.b...,.",
+        "...,.c.+OXOXOXOX+.c.....",
+        ".......+XOXOXOXO+...,,..",
+        "....,..++++++++++.......",
+        ".,.....,...,.,......,...",
+        "...,,..,.cbbbbc..,......",
+        "...........,.......,....",
+        ".......,...,....,.......",
+        "...,................,...",
+        "......,,.....,..,.......",
+        "....,,....,..........,.."
+      ],
+      "terrain": { ".": "t_grass", ",": "t_dirt", "+": "t_floor", "X": "t_pavement", "O": "t_sidewalk", "b": "t_dirt", "c": "t_dirt" },
+      "furniture": { "b": "f_bench", "c": "f_trashcan" },
+      "items": {
+        "c": { "item": "oa_custom_trash", "chance": 30 },
+        "b": { "item": "oa_discarded_news", "chance": 5 },
+        "X": { "item": "oa_pap_chess_pieces", "chance": 20 },
+        "O": { "item": "oa_pap_chess_pieces", "chance": 20 }
+      }
+    }
+  }
+]

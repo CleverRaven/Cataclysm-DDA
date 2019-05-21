@@ -21,7 +21,6 @@
     "description": "Devoid entirely of flesh and organs, this walking skeleton rattles you to the bone. In its bony hand, it holds a pristine trumpet, unmarred by the end of the world.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 16,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 50,
@@ -43,7 +42,8 @@
     "vision_night": 3,
     "death_drops": "skeltal_drops",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "BONES", "FILTHY" ],
+    "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "FILTHY" ],
+    "harvest": "mr_bones",
     "special_attacks": [ [ "DOOT", 50 ] ]
   },
   {
@@ -53,7 +53,6 @@
     "description": "A lesser skeleton, raised by the forlorn dooting of a trumpet.",
     "default_faction": "zombie",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 8,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 10,
@@ -71,6 +70,7 @@
     "vision_day": 30,
     "vision_night": 3,
     "death_function": [ "MELT" ],
+    "harvest": "mr_bones",
     "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "BONES", "FILTHY" ]
   },
   {
@@ -80,7 +80,6 @@
     "description": "A smoking husk is all that remains of this once proud bear.  Its black eyes gaze at you with malice... and hunger.",
     "default_faction": "bear",
     "species": [ "ZOMBIE" ],
-    "diff": 10,
     "size": "LARGE",
     "hp": 100,
     "speed": 90,
@@ -103,6 +102,7 @@
     "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "SMOKEBURST" ],
+    "harvest": "zombie_fur",
     "flags": [
       "SEES",
       "HEARS",
@@ -110,15 +110,11 @@
       "ANIMAL",
       "PATH_AVOID_DANGER_1",
       "WARM",
-      "FUR",
       "BLEED",
       "BASHES",
       "ATTACKMON",
-      "BONES",
-      "FAT",
       "FIREPROOF",
       "NO_BREATHE",
-      "POISON",
       "FILTHY"
     ]
   }

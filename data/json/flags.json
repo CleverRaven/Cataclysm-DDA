@@ -241,6 +241,12 @@
     "inherit": false
   },
   {
+    "id": "NUTRIENT_OVERRIDE",
+    "type": "json_flag",
+    "context": [ "COMESTIBLE" ],
+    "description": "forces calories and vitamins to be the ones defined in the json, instead of inheriting from ingredients"
+  },
+  {
     "id": "MELTS",
     "type": "json_flag",
     "context": [ "COMESTIBLE" ],
@@ -307,6 +313,18 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This clothing <good>partially protects</good> you from <info>radiation</info>.",
     "conflicts": [ "RAD_PROOF" ]
+  },
+  {
+    "id": "REQUIRES_BALANCE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear requires careful balance to use. Being hit while wearing it could make you <bad>fall down</bad>."
+  },
+  {
+    "id": "TWO_WAY_RADIO",
+    "type": "json_flag",
+    "context": [ "GENERIC", "TOOL_ARMOR", "TOOL" ],
+    "info": "This item can be used to communicate with radio waves."
   },
   {
     "id": "RAINPROOF",
@@ -470,6 +488,12 @@
     "context": [ "GENERIC", "TOOL" ],
     "description": "Allows wielding with unarmed fighting styles and trains unarmed when used.",
     "info": "This weapon <good>can be used with</good> <info>unarmed fighting styles</info>."
+  },
+  {
+    "id": "NANOFAB_TEMPLATE",
+    "type": "json_flag",
+    "context": [ "generic", "TOOL" ],
+    "info": "This item contains a nanofabricator recipe."
   },
   {
     "id": "BIONIC_FAULTY",

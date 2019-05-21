@@ -2,11 +2,12 @@
 #ifndef CREATURE_TRACKER_H
 #define CREATURE_TRACKER_H
 
-#include "enums.h"
-
+#include <cstddef>
 #include <memory>
 #include <unordered_map>
 #include <vector>
+
+#include "enums.h"
 
 class monster;
 class JsonIn;

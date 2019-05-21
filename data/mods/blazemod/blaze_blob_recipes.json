@@ -203,6 +203,18 @@
     ]
   },
   {
+    "result": "frostie_wheel",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "cooking",
+    "difficulty": 8,
+    "time": 15000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "frostie", 1 ] ], [ [ "water", 200 ] ] ]
+  },
+  {
     "result": "fuzzlegrow",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -213,7 +225,7 @@
     "time": 30000,
     "autolearn": true,
     "qualities": [ { "id": "CHEM", "level": 2 } ],
-    "components": [ [ [ "biter", 1 ] ], [ [ "bfeed", 250 ] ], [ [ "raw_fur", 3 ], [ "fur", 24 ] ], [ [ "mutagen", 1 ] ] ]
+    "components": [ [ [ "biter", 1 ] ], [ [ "bfeed", 250 ] ], [ [ "raw_fur", 150 ], [ "fur", 24 ] ], [ [ "mutagen", 1 ] ] ]
   },
   {
     "result": "gloople",

@@ -2,14 +2,13 @@
 #ifndef MAIN_MENU_H
 #define MAIN_MENU_H
 
-class player;
+#include <cstddef>
+#include <string>
+#include <vector>
 
 #include "cursesdef.h"
 #include "input.h"
 #include "worldfactory.h"
-
-#include <string>
-#include <vector>
 
 class main_menu
 {

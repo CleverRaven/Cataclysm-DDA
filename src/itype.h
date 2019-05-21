@@ -2,6 +2,12 @@
 #ifndef ITYPE_H
 #define ITYPE_H
 
+#include <map>
+#include <set>
+#include <string>
+#include <vector>
+#include <array>
+
 #include "bodypart.h" // body_part::num_bp
 #include "calendar.h"
 #include "color.h" // nc_color
@@ -12,50 +18,21 @@
 #include "iuse.h" // use_function
 #include "optional.h"
 #include "pldata.h" // add_type
-#include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
-
-#include <map>
-#include <set>
-#include <string>
-#include <vector>
 
 // see item.h
 class item_category;
-class gun_mode;
-using gun_mode_id = string_id<gun_mode>;
 class Item_factory;
-class recipe;
-class emit;
-using emit_id = string_id<emit>;
-struct itype;
-class Skill;
-using skill_id = string_id<Skill>;
-struct bionic_data;
-using bionic_id = string_id<bionic_data>;
 class player;
 class item;
-class vitamin;
-using vitamin_id = string_id<vitamin>;
-class ma_technique;
-using matec_id = string_id<ma_technique>;
+
 enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_passive : int;
-struct artifact_dream_datum;
-class material_type;
-using material_id = string_id<material_type>;
 typedef std::string itype_id;
-class ammunition_type;
-using ammotype = string_id<ammunition_type>;
-class fault;
-using fault_id = string_id<fault>;
-struct quality;
-using quality_id = string_id<quality>;
-struct MonsterGroup;
-using mongroup_id = string_id<MonsterGroup>;
 
 enum field_id : int;
 
@@ -72,9 +49,12 @@ class gun_modifier_data
          */
         gun_modifier_data( const std::string &n, const int q, const std::set<std::string> &f ) : name_( n ),
             qty_( q ), flags_( f ) { }
-        /// @returns The translated name of the gun mode.
         std::string name() const {
-            return _( name_.c_str() );
+            return name_;
+        }
+        /// @returns The translated name of the gun mode.
+        std::string tname() const {
+            return _( name_ );
         }
         int qty() const {
             return qty_;
@@ -116,11 +96,13 @@ struct islot_tool {
 
     std::string subtype;
 
-    long max_charges = 0;
-    long def_charges = 0;
-    std::vector<long> rand_charges;
-    unsigned char charges_per_use = 0;
-    unsigned char turns_per_charge = 0;
+    int max_charges = 0;
+    int def_charges = 0;
+    int charge_factor = 1;
+    int charges_per_use = 0;
+    int turns_per_charge = 0;
+
+    std::vector<int> rand_charges;
 };
 
 struct islot_comestible {
@@ -136,11 +118,11 @@ struct islot_comestible {
     /** effect on character thirst (may be negative) */
     int quench = 0;
 
-    /** effect on character nutrition (may be negative) */
-    int nutr = 0;
+    /** amount of kcal this food has */
+    unsigned int kcal = 0;
 
     /** Time until becomes rotten at standard temperature, or zero if never spoils */
-    time_duration spoils = 0;
+    time_duration spoils = 0_turns;
 
     /** addiction potential */
     int addict = 0;
@@ -154,7 +136,13 @@ struct islot_comestible {
     /** stimulant effect */
     int stim = 0;
 
-    /** @todo: add documentation */
+    /** Reference to other item that replaces this one as a component in recipe results */
+    itype_id cooks_like;
+
+    /** Reference to item that will be received after smoking current item */
+    itype_id smoking_result;
+
+    /** TODO: add documentation */
     int healthy = 0;
 
     /** chance (odds) of becoming parasitised when eating (zero if never occurs) */
@@ -163,6 +151,11 @@ struct islot_comestible {
     /** freezing point in degrees Fahrenheit, below this temperature item can freeze */
     int freeze_point = temperatures::freezing;
 
+    //** specific heats in J/(g K) and latent heat in J/g */
+    float specific_heat_liquid = 4.186;
+    float specific_heat_solid = 2.108;
+    float latent_heat = 333;
+
     /** vitamins potentially provided by this comestible (if any) */
     std::map<vitamin_id, int> vitamins;
 
@@ -170,7 +163,11 @@ struct islot_comestible {
     static constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
 
     int get_calories() const {
-        return nutr * kcal_per_nutr;
+        return kcal;
+    }
+
+    int get_nutr() const {
+        return kcal / kcal_per_nutr;
     }
     /** The monster group that is drawn from when the item rots away */
     mongroup_id rot_spawn = mongroup_id::NULL_ID();
@@ -184,14 +181,14 @@ struct islot_brewable {
     std::vector<std::string> results;
 
     /** How long for this brew to ferment. */
-    time_duration time = 0;
+    time_duration time = 0_turns;
 };
 
 struct islot_container {
     /**
      * Inner volume of the container.
      */
-    units::volume contains = 0;
+    units::volume contains = 0_ml;
     /**
      * Can be resealed.
      */
@@ -249,7 +246,42 @@ struct islot_armor {
     /**
      * How much storage this items provides when worn.
      */
-    units::volume storage = 0;
+    units::volume storage = 0_ml;
+    /**
+     * Whether this is a power armor item.
+     */
+    bool power_armor = false;
+};
+
+struct islot_pet_armor {
+    /**
+     * TODO: document me.
+     */
+    int thickness = 0;
+    /**
+     * Resistance to environmental effects.
+     */
+    int env_resist = 0;
+    /**
+     * Environmental protection of a gas mask with installed filter.
+     */
+    int env_resist_w_filter = 0;
+    /**
+     * How much storage this items provides when worn.
+     */
+    units::volume storage = 0_ml;
+    /**
+     * The maximum volume a pet can be and wear this armor
+     */
+    units::volume max_vol = 0_ml;
+    /**
+     * The minimum volume a pet can be and wear this armor
+     */
+    units::volume min_vol = 0_ml;
+    /**
+     * What animal bodytype can wear this armor
+     */
+    std::string bodytype = "none";
     /**
      * Whether this is a power armor item.
      */
@@ -442,7 +474,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Length of gun barrel, if positive allows sawing down of the barrel
      */
-    units::volume barrel_length = 0;
+    units::volume barrel_length = 0_ml;
     /**
      * Effects that are applied to the ammo when fired.
      */
@@ -533,8 +565,20 @@ struct islot_gunmod : common_ranged_data {
     /** Percentage value change to the gun's loading time. Higher is slower */
     int reload_modifier = 0;
 
+    /** Percentage value change to the gun's loading time. Higher is less likely */
+    int consume_chance = 10000;
+
+    /** Divsor to scale back gunmod consumption damage. lower is more damaging. Affected by ammo loudness and recoil, see ranged.cpp for how much. */
+    int consume_divisor = 1;
+
     /** Modifies base strength required */
     int min_str_required_mod = 0;
+
+    /** Additional gunmod slots to add to the gun */
+    std::map<gunmod_location, int> add_mod;
+
+    /** Not compatable on weapons that have this mod slot */
+    std::set<gunmod_location> blacklist_mod;
 };
 
 struct islot_magazine {
@@ -575,9 +619,6 @@ struct islot_ammo : common_ranged_data {
      * Type id of casings, if any.
      */
     cata::optional<itype_id> casing;
-    /**
-     * Default charges.
-     */
 
     /**
      * Control chance for and state of any items dropped at ranged target
@@ -589,7 +630,11 @@ struct islot_ammo : common_ranged_data {
     bool drop_active = true;
     /*@}*/
 
+    /**
+     * Default charges.
+     */
     long def_charges = 1;
+
     /**
      * TODO: document me.
      */
@@ -622,6 +667,12 @@ struct islot_ammo : common_ranged_data {
      * damage of the gun by this value.
      */
     cata::optional<float> prop_damage;
+
+    /**
+     * Some combat ammo might not have a damage or prop_damage value
+     * Set this to make it show as combat ammo anyway
+     */
+    cata::optional<bool> force_stat_display;
 };
 
 struct islot_bionic {
@@ -643,7 +694,7 @@ struct islot_seed {
     /**
      * Time it takes for a seed to grow (based of off a season length of 91 days).
      */
-    time_duration grow = 0;
+    time_duration grow = 0_turns;
     /**
      * Amount of harvested charges of fruits is divided by this number.
      */
@@ -665,7 +716,7 @@ struct islot_seed {
      */
     std::vector<std::string> byproducts;
 
-    islot_seed() { }
+    islot_seed() = default;
 };
 
 struct islot_artifact {
@@ -680,7 +731,6 @@ struct islot_artifact {
     int dream_freq_unmet;
     int dream_freq_met;
 };
-bool check_art_charge_req( item &it );
 
 struct itype {
         friend class Item_factory;
@@ -695,6 +745,7 @@ struct itype {
         cata::optional<islot_comestible> comestible;
         cata::optional<islot_brewable> brewable;
         cata::optional<islot_armor> armor;
+        cata::optional<islot_pet_armor> pet_armor;
         cata::optional<islot_book> book;
         cata::optional<islot_mod> mod;
         cata::optional<islot_engine> engine;
@@ -745,15 +796,6 @@ struct itype {
         /** Actions an instance can perform (if any) indexed by action type */
         std::map<std::string, use_function> use_methods;
 
-        /** Default countdown interval (if any) for item */
-        int countdown_interval = 0;
-
-        /** Action to take when countdown expires */
-        use_function countdown_action;
-
-        /** Is item destroyed after the countdown action is run? */
-        bool countdown_destroy = false;
-
         /** Action to take BEFORE the item is placed on map. If it returns non-zero, item won't be placed. */
         use_function drop_action;
 
@@ -764,21 +806,30 @@ struct itype {
         std::set<matec_id> techniques;
 
         // Minimum stat(s) or skill(s) to use the item
+        std::map<skill_id, int> min_skills;
         int min_str = 0;
         int min_dex = 0;
         int min_int = 0;
         int min_per = 0;
-        std::map<skill_id, int> min_skills;
-
-        // Should the item explode when lit on fire
-        bool explode_in_fire = false;
-        // How should the item explode
-        explosion_data explosion;
 
         phase_id phase      = SOLID; // e.g. solid, liquid, gas
 
+        // How should the item explode
+        explosion_data explosion;
+        // Should the item explode when lit on fire
+        bool explode_in_fire = false;
+
         /** Can item be combined with other identical items? */
         bool stackable = false;
+
+        /** Is item destroyed after the countdown action is run? */
+        bool countdown_destroy = false;
+
+        /** Default countdown interval (if any) for item */
+        int countdown_interval = 0;
+
+        /** Action to take when countdown expires */
+        use_function countdown_action;
 
         /**
          * @name Non-negative properties
@@ -787,14 +838,16 @@ struct itype {
         /**@{*/
 
         /** Weight of item ( or each stack member ) */
-        units::mass weight = 0;
+        units::mass weight = 0_gram;
+        /** Weight difference with the part it replaces for mods */
+        units::mass integral_weight = units::from_gram( -1 );
 
         /**
          * Space occupied by items of this type
          * CAUTION: value given is for a default-sized stack. Avoid using where @ref stackable items may be encountered; see @ref item::volume instead.
          * To determine how many of an item can fit in a given space, use @ref charges_per_volume.
          */
-        units::volume volume = 0;
+        units::volume volume = 0_ml;
         /**
          * Space consumed when integrated as part of another item (defaults to volume)
          * CAUTION: value given is for a default-sized stack. Avoid using this. In general, see @ref item::volume instead.
@@ -825,8 +878,8 @@ struct itype {
 
         const item_category *category = nullptr; // category pointer or NULL for automatic selection
 
-        nc_color color = c_white; // Color on the map (color.h)
         std::string sym;
+        nc_color color = c_white; // Color on the map (color.h)
 
         int damage_min = -1000; /** Minimum amount of damage to an item (state of maximum repair) */
         int damage_max =  4000; /** Maximum amount of damage to an item (state before destroyed) */
@@ -842,7 +895,9 @@ struct itype {
         std::map< ammotype, itype_id > magazine_default;
 
         /** Volume above which the magazine starts to protrude from the item and add extra volume */
-        units::volume magazine_well = 0;
+        units::volume magazine_well = 0_ml;
+
+        layer_level layer;
 
         /**
          * How much insulation this item provides, either as a container, or as
@@ -898,9 +953,14 @@ struct itype {
 
         int charges_to_use() const {
             if( tool ) {
-                return tool->charges_per_use;
+                return static_cast<int>( tool->charges_per_use );
             }
             return 1;
+        }
+
+        // for tools that sub another tool, but use a different ratio of charges
+        int charge_factor() const {
+            return tool ? tool->charge_factor : 1;
         }
 
         int maximum_charges() const {

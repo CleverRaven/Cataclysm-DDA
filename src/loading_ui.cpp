@@ -3,8 +3,10 @@
 #include "color.h"
 #include "output.h"
 #include "ui.h"
+#include "cursesdef.h"
+#include "translations.h"
 
-#ifdef TILES
+#if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #       include <SDL2/SDL.h>
 #   else
@@ -43,7 +45,7 @@ void loading_ui::proceed()
 {
     if( menu != nullptr && !menu->entries.empty() ) {
         if( menu->selected >= 0 && menu->selected < static_cast<int>( menu->entries.size() ) ) {
-            // @todo: Color it red if it errored hard, yellow on warnings
+            // TODO: Color it red if it errored hard, yellow on warnings
             menu->entries[menu->selected].text_color = c_green;
         }
 
@@ -59,7 +61,7 @@ void loading_ui::show()
         menu->show();
         catacurses::refresh();
         refresh_display();
-#ifdef TILES
+#if defined(TILES)
         SDL_PumpEvents();
 #endif // TILES
     }

@@ -2,14 +2,14 @@
 #ifndef AUTO_PICKUP_H
 #define AUTO_PICKUP_H
 
-#include "enums.h"
-#include "material.h"
-
 #include <array>
 #include <iosfwd>
 #include <string>
 #include <unordered_map>
 #include <vector>
+
+#include "enums.h"
+#include "type_id.h"
 
 class JsonOut;
 class JsonIn;
@@ -18,7 +18,7 @@ class item;
 class auto_pickup
 {
     private:
-        void test_pattern( const int iCurrentPage, const int iCurrentLine );
+        void test_pattern( const int iTab, const int iRow );
         void load( const bool bCharacter );
         bool save( const bool bCharacter );
         bool load_legacy( const bool bCharacter );
@@ -43,7 +43,7 @@ class auto_pickup
                     this->bExclude = false;
                 }
 
-                cRules( std::string sRuleIn, bool bActiveIn, bool bExcludeIn ) {
+                cRules( const std::string &sRuleIn, bool bActiveIn, bool bExcludeIn ) {
                     this->sRule = sRuleIn;
                     this->bActive = bActiveIn;
                     this->bExclude = bExcludeIn;

@@ -31,6 +31,22 @@
     "delete": { "flags": [ "DISABLE_SIGHTS" ] }
   },
   {
+    "id": "offset_sight_rail",
+    "type": "GUNMOD",
+    "name": "offset sight rail",
+    "description": "An additional rail set at 45° for attaching a secondary optic.",
+    "weight": 40,
+    "volume": "125ml",
+    "price": 6000,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_gray",
+    "location": "rail",
+    "mod_targets": [ "shotgun", "smg", "rifle" ],
+    "min_skills": [ [ "gun", 1 ] ],
+    "add_mod": [ [ "sights", 1 ] ]
+  },
+  {
     "id": "rail_laser_sight",
     "type": "GUNMOD",
     "name": "rail laser sight",

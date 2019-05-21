@@ -5,7 +5,7 @@
     "name": "Evacuee",
     "points": 0,
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.",
-    "allowed_locs": [ "shelter" ],
+    "allowed_locs": [ "shelter", "shelter_1", "shelter_2" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ]
   },
@@ -28,6 +28,7 @@
     "allowed_locs": [
       "house",
       "s_grocery",
+      "s_grocery_1",
       "s_gun",
       "s_garage",
       "pawn",
@@ -49,9 +50,22 @@
     "ident": "infected",
     "points": -4,
     "start_name": "Anywhere",
-    "allowed_locs": [ "house", "s_grocery", "s_gun", "s_garage", "pawn", "bank", "mil_surplus", "furniture", "s_library", "s_bookstore" ],
+    "allowed_locs": [
+      "house",
+      "s_grocery",
+      "s_grocery_1",
+      "s_gun",
+      "s_garage",
+      "pawn",
+      "bank",
+      "mil_surplus",
+      "furniture",
+      "s_library",
+      "s_bookstore"
+    ],
     "blacklist_professions": true,
-    "professions": [ "medic", "jr_survivalist", "camper", "cyberjunkie" ]
+    "professions": [ "medic", "jr_survivalist", "camper", "cyberjunkie" ],
+    "missions": [ "MISSION_INFECTED_START_FIND_ANTIBIOTICS" ]
   },
   {
     "type": "scenario",
@@ -61,7 +75,19 @@
     "ident": "fire",
     "points": -2,
     "start_name": "Anywhere",
-    "allowed_locs": [ "house", "s_grocery", "s_gun", "s_garage", "pawn", "bank", "mil_surplus", "furniture", "s_library", "s_bookstore" ]
+    "allowed_locs": [
+      "house",
+      "s_grocery",
+      "s_grocery_1",
+      "s_gun",
+      "s_garage",
+      "pawn",
+      "bank",
+      "mil_surplus",
+      "furniture",
+      "s_library",
+      "s_bookstore"
+    ]
   },
   {
     "type": "scenario",
@@ -70,7 +96,19 @@
     "points": -8,
     "description": "You start drunk to the point of incapacitation, depressed, infected, surrounded by fire, naked, and sick with the flu.  This day went downhill really fast.",
     "start_name": "Anywhere",
-    "allowed_locs": [ "house", "s_grocery", "s_gun", "s_garage", "pawn", "bank", "mil_surplus", "furniture", "s_library", "s_bookstore" ],
+    "allowed_locs": [
+      "house",
+      "s_grocery",
+      "s_grocery_1",
+      "s_gun",
+      "s_garage",
+      "pawn",
+      "bank",
+      "mil_surplus",
+      "furniture",
+      "s_library",
+      "s_bookstore"
+    ],
     "professions": [ "svictim", "tweaker" ],
     "flags": [ "FIRE_START", "INFECTED", "BAD_DAY", "CHALLENGE", "CITY_START" ]
   },
@@ -201,9 +239,9 @@
     "description": "You were a convicted felon planning your escape before the event.  Now the prisoners have turned into mindless horrors and the security bots are shooting on sight... you might need to expedite your escape plans.",
     "allowed_locs": [ "prison" ],
     "start_name": "Prison",
-    "professions": [ "convict" ],
+    "professions": [ "convict", "death_row_convict" ],
     "forced_traits": [ "PSYCHOPATH" ],
-    "flags": [ "CITY_START" ]
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -251,7 +289,8 @@
       "CHAOTIC",
       "ALCMET",
       "LIGHT_BONES",
-      "CHITIN"
+      "CHITIN",
+      "ELECTRORECEPTORS"
     ],
     "flags": [ "LONE_START" ]
   },
@@ -372,6 +411,7 @@
     "allowed_locs": [
       "s_bookstore",
       "s_grocery",
+      "s_grocery_1",
       "police",
       "s_garage",
       "s_library",
@@ -396,7 +436,7 @@
     "type": "scenario",
     "ident": "cyberpunk",
     "name": "High Tech, Low Life",
-    "description": "Before the world ended, bionics were reserved for the rich and the famous.  You might not have been either, but you wanted in.  Hidden offices sequestered away in basements, anesthesic smuggled out of hospitals, and desperate people with little to lose got you what you wanted.  If you went too deep, however, your augmentation may have come at a price...",
+    "description": "Before the world ended, bionics were reserved for the rich and the famous.  You might not have been either, but you wanted in.  Hidden offices sequestered away in basements, anesthetic smuggled out of hospitals, and desperate people with little to lose got you what you wanted.  If you went too deep, however, your augmentation may have come at a price...",
     "flags": [ "CITY_START", "LONE_START" ],
     "points": 2,
     "start_name": "Shady Basement",
@@ -434,5 +474,15 @@
     "start_name": "Camping",
     "allowed_locs": [ "campsite_a", "campsite", "campground_1a", "campground_2b" ],
     "professions": [ "camper" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "apartmentroofstart",
+    "name": "Apartment Rooftop",
+    "description": "Seeking safety and rescue amidst the chaos you rushed to the rooftop of an apartment building.  The passing helicopters are long gone and the screams echoing in the distance have faded.  Now you’re left alone with the undead closing in.",
+    "flags": [ "SUR_START", "CITY_START", "LONE_START" ],
+    "points": 0,
+    "start_name": "Apartment Rooftop",
+    "allowed_locs": [ "apartments_con_tower_114", "apartments_con_tower_014", "apartments_con_tower_104", "apartments_con_tower_004" ]
   }
 ]

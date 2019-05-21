@@ -1,13 +1,16 @@
 #include "bodypart.h"
 
+#include <map>
+#include <unordered_map>
+#include <set>
+#include <utility>
+#include <vector>
+
 #include "anatomy.h"
 #include "debug.h"
 #include "generic_factory.h"
-#include "rng.h"
 #include "translations.h"
-
-#include <map>
-#include <unordered_map>
+#include "json.h"
 
 side opposite_side( side s )
 {
@@ -115,7 +118,7 @@ body_part get_body_part_token( const std::string &id )
     return legacy_id_to_enum( id );
 }
 
-const bodypart_ids &convert_bp( body_part token )
+const bodypart_ids &convert_bp( body_part bp )
 {
     static const std::vector<bodypart_ids> body_parts = {
         bodypart_ids( "torso" ),
@@ -132,12 +135,12 @@ const bodypart_ids &convert_bp( body_part token )
         bodypart_ids( "foot_r" ),
         bodypart_ids( "num_bp" ),
     };
-    if( token > num_bp || token < bp_torso ) {
-        debugmsg( "Invalid body part token %d", token );
+    if( bp > num_bp || bp < bp_torso ) {
+        debugmsg( "Invalid body part token %d", bp );
         return body_parts[ num_bp ];
     }
 
-    return body_parts[static_cast<size_t>( token )];
+    return body_parts[static_cast<size_t>( bp )];
 }
 
 const body_part_struct &get_bp( body_part bp )
@@ -248,13 +251,13 @@ std::string body_part_name_as_heading( body_part bp, int number )
 
 std::string body_part_hp_bar_ui_text( body_part bp )
 {
-    return _( get_bp( bp ).hp_bar_ui_text.c_str() );
+    return _( get_bp( bp ).hp_bar_ui_text );
 }
 
 std::string encumb_text( body_part bp )
 {
     const std::string &txt = get_bp( bp ).encumb_text;
-    return !txt.empty() ? _( txt.c_str() ) : txt;
+    return !txt.empty() ? _( txt ) : txt;
 }
 
 body_part random_body_part( bool main_parts_only )

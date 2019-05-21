@@ -1,18 +1,24 @@
-#include "catch/catch.hpp"
+#include <fstream>
+#include <memory>
+#include <algorithm>
+#include <string>
+#include <utility>
+#include <vector>
 
+#include "catch/catch.hpp"
 #include "filesystem.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "overmap.h"
-
-#include <fstream>
-#include <memory>
-#include <ostream>
+#include "enums.h"
+#include "monster.h"
+#include "string_id.h"
+#include "type_id.h"
 
 // Intentionally ignoring the name member.
 bool operator==( const city &a, const city &b )
 {
-    return a.x == b.x && a.y == b.y && a.s == b.s;
+    return a.pos == b.pos && a.size == b.size;
 }
 bool operator==( const radio_tower &a, const radio_tower &b )
 {
@@ -118,7 +124,7 @@ void check_test_overmap_data( const overmap &test_map )
         {"GROUP_SWAMP", {7, 14, -2}, 1, 14, {37, 85, 0}, 60, true, true, true}
     };
 
-    for( auto group : expected_groups ) {
+    for( const mongroup &group : expected_groups ) {
         REQUIRE( test_map.mongroup_check( group ) );
     }
 
@@ -170,7 +176,7 @@ void check_test_overmap_data( const overmap &test_map )
         {{196, 66, -1}, { mtype_id( "mon_turret" ), {17, 65, -1}}},
         {{196, 63, -1}, { mtype_id( "mon_broken_cyborg" ), {19, 26, -1}}}
     };
-    for( auto candidate_monster : expected_monsters ) {
+    for( const auto &candidate_monster : expected_monsters ) {
         REQUIRE( test_map.monster_check( candidate_monster ) );
     }
     // Check NPCs.  They're complicated enough that I'm just going to spot-check some stats.

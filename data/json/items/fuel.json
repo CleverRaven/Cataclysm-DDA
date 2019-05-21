@@ -33,6 +33,15 @@
     "price_postapoc": 300
   },
   {
+    "id": "chem_methanol",
+    "name": "methanol",
+    "copy-from": "chem_ethanol",
+    "type": "AMMO",
+    "description": "High purity methanol suitable for use in chemical reactions.  Could be used in alcohol-burning stoves.  Very toxic.",
+    "price": 5,
+    "price_postapoc": 100
+  },
+  {
     "id": "diesel",
     "type": "AMMO",
     "name": "diesel",
@@ -58,6 +67,20 @@
     "fuel": {
       "energy": 35.8,
       "pump_terrain": "t_diesel_pump",
+      "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
+    }
+  },
+  {
+    "id": "biodiesel",
+    "name": "biodiesel",
+    "name_plural": "biodiesel",
+    "copy-from": "diesel",
+    "type": "AMMO",
+    "description": "Vegetable oil- or animal fat-based diesel fuel consisting of long-chain alkyl (methyl, ethyl, or propyl) esters.",
+    "price": 30,
+    "price_postapoc": 300,
+    "fuel": {
+      "energy": 29.6,
       "explosion_data": { "chance_hot": 20, "chance_cold": 1000, "factor": 0.2, "fiery": false, "size_factor": 0.1 }
     }
   },

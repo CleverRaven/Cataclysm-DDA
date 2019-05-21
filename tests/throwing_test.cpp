@@ -1,9 +1,14 @@
-#include "catch/catch.hpp"
+#include <ostream>
+#include <vector>
+#include <algorithm>
+#include <list>
+#include <memory>
+#include <string>
 
-#include "dispersion.h"
+#include "avatar.h"
+#include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
-#include "itype.h"
 #include "line.h"
 #include "map_helpers.h"
 #include "monster.h"
@@ -11,13 +16,16 @@
 #include "player.h"
 #include "projectile.h"
 #include "test_statistics.h"
-
-#include <ostream>
-#include <vector>
+#include "damage.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "inventory.h"
+#include "material.h"
+#include "type_id.h"
 
 TEST_CASE( "throwing distance test", "[throwing], [balance]" )
 {
-    standard_npc thrower( "Thrower", {}, 4, 10, 10, 10, 10 );
+    const standard_npc thrower( "Thrower", {}, 4, 10, 10, 10, 10 );
     item grenade( "grenade" );
     CHECK( thrower.throw_range( grenade ) >= 30 );
     CHECK( thrower.throw_range( grenade ) <= 35 );
@@ -49,6 +57,7 @@ static void reset_player( player &p, const throw_test_pstats &pstats, const trip
 {
     p.reset();
     p.stamina = p.get_stamina_max();
+    CHECK( !p.in_vehicle );
     p.setpos( pos );
     p.str_max = pstats.str;
     p.dex_max = pstats.dex;

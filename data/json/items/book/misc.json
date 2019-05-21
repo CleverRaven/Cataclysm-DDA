@@ -129,6 +129,22 @@
     "time": 1
   },
   {
+    "id": "mycenacean_hymns",
+    "type": "BOOK",
+    "name": "Mycenacean Hymns",
+    "description": "A vellum book containing the hymns central to Marloss faith.  As the verses lead to each other, the text sings of unity and promised paradise.",
+    "weight": 368,
+    "volume": 4,
+    "price": 550,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "cyan",
+    "intelligence": 8,
+    "time": 10,
+    "fun": 1,
+    "flags": [ "INSPIRATIONAL" ]
+  },
+  {
     "id": "holybook_bible1",
     "type": "BOOK",
     "name": "King James Bible",
@@ -1130,5 +1146,192 @@
     "time": 10,
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
+  },
+  {
+    "type": "BOOK",
+    "id": "classic_literature",
+    "name": "book of classic literature",
+    "name_plural": "books of classic literature",
+    "description": "A book of classic literature, timeless and enjoyable but a bit dense to read.",
+    "snippet_category": [
+      { "id": "classic1", "text": "This is a copy of Dickens' \"Bleak House\"." },
+      { "id": "classic2", "text": "This is a copy of \"Great Expectations\" by Charles Dickens." },
+      { "id": "classic3", "text": "This is a copy of William Shinderling's \"Under the Beech Trees\"." },
+      {
+        "id": "classic4",
+        "text": "This is a collection of three Jane Austen novels: \"Pride and Prejudice\", \"Sense and Sensibility\", and \"Emma\"."
+      },
+      { "id": "classic5", "text": "This is a well-worn paperback copy of \"Lord of the Flies\"." },
+      { "id": "classic6", "text": "This is a copy of \"To Kill a Mockingbird\" by Harper Lee." },
+      { "id": "classic7", "text": "This is a copy of F. Scott Fitzgerald's \"The Great Gatsby.\"" },
+      { "id": "classic8", "text": "This is copy of Michael Abanaderly's lesser-known work, \"He Walks\"." },
+      { "id": "classic9", "text": "This is a collection of several vintage science fiction stories by Ray Bradbury." },
+      { "id": "classic10", "text": "This is a copy of \"The Adventures of Tom Sawyer\" by Mark Twain." },
+      { "id": "classic11", "text": "This is an illustrated copy of \"Innocents Abroad\" by Mark Twain." },
+      {
+        "id": "classic12",
+        "text": "This is a copy of Bram Stoker's \"Dracula\", with scholarly commentary in the margins."
+      },
+      {
+        "id": "classic13",
+        "text": "This is a large print copy of Tolstoy's \"War and Peace\".  It might make a decent improvised weapon."
+      },
+      {
+        "id": "classic14",
+        "text": "This is a paperback copy of the well-known classic \"Dark Days Ahead\", by K. G. Ranade.  There are scrawled margin notes all over it, apparently the workings of a confused and feverish mind."
+      },
+      {
+        "id": "classic15",
+        "text": "This is a copy of \"Jane Eyre\".  The cover art is quite out of place, making it look more like a dime-store romance novel."
+      },
+      {
+        "id": "classic16",
+        "text": "This is a perfectly preserved hardcover copy of \"The Gunslinger\" by Stephen King, autographed by the author.  It contains a certificate of authenticity pronouncing it to be a first edition."
+      },
+      {
+        "id": "classic17",
+        "text": "This paperback copy of \"Wuthering Heights\" has a large coffee stain on the first page."
+      },
+      {
+        "id": "classic18",
+        "text": "This is a hardbound copy of \"Lady Chatterly's Lover\", by D. H. Lawrence.  It has some very explicit illustrations."
+      },
+      {
+        "id": "classic19",
+        "text": "This is a hardbound copy of \"The Catcher in the Rye.\".  It has some very nicely done illustrations."
+      },
+      {
+        "id": "classic20",
+        "text": "This is a collection of classic renaissance era stories, headlined by \"Don Quixote\"."
+      },
+      { "id": "classic21", "text": "This is a paperback copy of \"The Fellowship of the Ring\" by Tolkien." },
+      { "id": "classic22", "text": "This is a paperback copy of \"The Two Towers\" by Tolkien." },
+      { "id": "classic23", "text": "This is a paperback copy of \"The Return of the King\" by Tolkien." },
+      {
+        "id": "classic24",
+        "text": "This is a hardbound collection of George Orwell's works, including \"1984\" and \"Animal Farm\" as well as many of his less infamous titles."
+      },
+      {
+        "id": "classic25",
+        "text": "This is a paperback copy of \"Little Women\" by Louisa May Alcott.  It appears to have been read a great many times."
+      },
+      { "id": "classic26", "text": "This is a paperback copy of \"Of Mice and Men\" by Steinbeck." },
+      {
+        "id": "classic27",
+        "text": "This is a hefty hardcover copy of \"Run and Run Again\" by Finn Calpay.  There is a lengthy forward about the controversy around the book's release."
+      },
+      {
+        "id": "classic28",
+        "text": "This is a hardcover copy of \"The Gates Have Opened\" by Arianna Methusalah.  You feel like you've read this before, but can't remember where.  Something about the book fills you with unease."
+      },
+      { "id": "classic29", "text": "This is a copy of \"The Count of Monte Cristo\" by Dumas." },
+      { "id": "classic30", "text": "This is a copy of \"The Secret Garden\" by Frances Burnett." }
+    ],
+    "weight": 350,
+    "volume": 3,
+    "price": 2000,
+    "material": [ "paper" ],
+    "looks_like": "tall_tales",
+    "color": "light_blue",
+    "symbol": "?",
+    "intelligence": 7,
+    "time": 28,
+    "chapters": 40,
+    "fun": 3
+  },
+  {
+    "type": "BOOK",
+    "id": "collector_book",
+    "name": "collector's edition book",
+    "name_plural": "collector's edition book",
+    "description": "A unique, valuable book that has been kept as a collector's item.",
+    "snippet_category": [
+      { "id": "fancy1", "text": "This is a high-quality leather bound copy of Charles Dickens' \"A Tale of Two Cities\"." },
+      { "id": "fancy2", "text": "This is a very old but well-preserved copy of Charles Dickens' \"Oliver Twist\"." },
+      {
+        "id": "fancy3",
+        "text": "This high-quality copy of Jane Austen's \"Pride and Prejudice\" is dog-eared and looks to have been read many times."
+      },
+      {
+        "id": "fancy4",
+        "text": "This is a hefty, hardcover print of William Shinderling's \"Vanity before Justice\" with beautiful illustrations."
+      },
+      {
+        "id": "fancy5",
+        "text": "This copy of Jane Austen's \"Sense and Sensibility\" has a certificate of authenticity declaring it to be an early edition.  It would have been worth an enormous amount of money, not long ago."
+      },
+      { "id": "fancy6", "text": "This is an excellent quality copy of \"To Kill a Mockingbird\" by Harper Lee." },
+      {
+        "id": "fancy7",
+        "text": "This is a high-quality leather bound copy of F. Scott Fitzgerald's \"The Great Gatsby.\""
+      },
+      {
+        "id": "fancy8",
+        "text": "This is a hefty, hardcover print of Michael Abanaderly's opus, \"Lady Wanderlust\".  It is over a hundred years old, but doesn't look it."
+      },
+      {
+        "id": "fancy9",
+        "text": "This copy of Ray Bradbury's \"Farenheit 451\" has a certificate of authenticity declaring it to be an early edition.  It would have been worth an enormous amount of money, not long ago."
+      },
+      {
+        "id": "fancy10",
+        "text": "This high-quality copy of \"Pride and Prejudice and Zombies\" has been autographed by the author."
+      },
+      {
+        "id": "fancy11",
+        "text": "This is a high-quality leather bound copy of \"The Adventures of Huckleberry Finn\" by Mark Twain.  It contains some margin notes which themselves are quite old, and look to have been done by a scholar of some sort."
+      },
+      {
+        "id": "fancy12",
+        "text": "This is a very nice print of Bram Stoker's \"Dracula\".  It has a certificate of authenticity with it that declares it a genuine early edition."
+      },
+      {
+        "id": "fancy13",
+        "text": "This copy of Douglas Adams\" \"The Hitchhiker's Guide to the Galaxy\" has a certificate of authenticity declaring it to be a first edition, and is autographed by the author himself."
+      },
+      {
+        "id": "fancy14",
+        "text": "This is a high-quality leather bound copy of the well-known classic \"Dark Days Ahead\", by K. G. Ranade."
+      },
+      {
+        "id": "fancy15",
+        "text": "This is a well-kept leather bound copy of \"Oryx and Crake\" by Margaret Atwood.  Inscribed in the inner cover is a faded note wishing the owner a happy birthday."
+      },
+      {
+        "id": "fancy16",
+        "text": "This is a perfectly preserved hardcover copy of \"The Gunslinger\" by Stephen King, autographed by the author.  It contains a certificate of authenticity pronouncing it to be a first edition."
+      },
+      {
+        "id": "fancy17",
+        "text": "This bright orange hardcover copy of \"1984\" by George Orwell has been carefully preserved, and appears to be a first or second edition judging from the publisher's information."
+      },
+      {
+        "id": "fancy18",
+        "text": "This is a very nice copy of \"Lady Chatterly's Lover\", probably quite expensive in the days before the apocalypse."
+      },
+      {
+        "id": "fancy19",
+        "text": "This is a high quality early edition hardcover copy of \"The Handmaid's Tale\" by Margaret Atwood, signed by the author."
+      },
+      {
+        "id": "fancy20",
+        "text": "This ancient and worn book looks to be an 18th or early 19th century handwritten copy of \"Don Quixote\".  In the days of book traders it would have been worth an absolute fortune.  Now it's either a priceless piece of history, some light reading before bed, or excellent kindling."
+      },
+      {
+        "id": "fancy21",
+        "text": "This is a first edition copy of Terry Pratchett's \"The Colour of Magic\".  In the inner cover is a handwritten note that reads \"To Chris, thanks for believing I could do it.  Best regards, Terry.\""
+      }
+    ],
+    "weight": 400,
+    "volume": 3,
+    "price": 4550,
+    "material": [ "paper" ],
+    "looks_like": "tall_tales",
+    "color": "light_blue",
+    "symbol": "?",
+    "intelligence": 7,
+    "time": 28,
+    "chapters": 40,
+    "fun": 4
   }
 ]

@@ -1,5 +1,8 @@
 #include "trap.h"
 
+#include <vector>
+#include <set>
+
 #include "debug.h"
 #include "generic_factory.h"
 #include "int_id.h"
@@ -10,8 +13,11 @@
 #include "player.h"
 #include "string_id.h"
 #include "translations.h"
-
-#include <vector>
+#include "assign.h"
+#include "bodypart.h"
+#include "enums.h"
+#include "item.h"
+#include "rng.h"
 
 namespace
 {
@@ -100,7 +106,7 @@ void trap::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "visibility", visibility );
     mandatory( jo, was_loaded, "avoidance", avoidance );
     mandatory( jo, was_loaded, "difficulty", difficulty );
-    // @todo: Is there a generic_factory version of this?
+    // TODO: Is there a generic_factory version of this?
     act = trap_function_from_string( jo.get_string( "action" ) );
 
     optional( jo, was_loaded, "benign", benign, false );
@@ -112,7 +118,7 @@ void trap::load( JsonObject &jo, const std::string & )
 std::string trap::name() const
 {
     // trap names can be empty, those are special always invisible traps. See player::search_surroundings
-    return name_.empty() ? name_ : _( name_.c_str() );
+    return name_.empty() ? name_ : _( name_ );
 }
 
 void trap::reset()
@@ -182,7 +188,7 @@ bool trap::is_funnel() const
 
 bool trap::is_3x3_trap() const
 {
-    // TODO make this a json flag, implement more 3x3 traps.
+    // TODO: make this a json flag, implement more 3x3 traps.
     return id == trap_str_id( "tr_engine" );
 }
 
@@ -209,6 +215,7 @@ void trap::on_disarmed( map &m, const tripoint &p ) const
 trap_id
 tr_null,
 tr_bubblewrap,
+tr_glass,
 tr_cot,
 tr_funnel,
 tr_metal_funnel,
@@ -220,6 +227,7 @@ tr_beartrap,
 tr_beartrap_buried,
 tr_nailboard,
 tr_caltrops,
+tr_caltrops_glass,
 tr_tripwire,
 tr_crossbow,
 tr_shotgun_2,
@@ -273,6 +281,7 @@ void trap::finalize()
     };
     tr_null = trap_str_id::NULL_ID().id();
     tr_bubblewrap = trapfind( "tr_bubblewrap" );
+    tr_glass = trapfind( "tr_glass" );
     tr_cot = trapfind( "tr_cot" );
     tr_funnel = trapfind( "tr_funnel" );
     tr_metal_funnel = trapfind( "tr_metal_funnel" );
@@ -284,6 +293,7 @@ void trap::finalize()
     tr_beartrap_buried = trapfind( "tr_beartrap_buried" );
     tr_nailboard = trapfind( "tr_nailboard" );
     tr_caltrops = trapfind( "tr_caltrops" );
+    tr_caltrops_glass = trapfind( "tr_caltrops_glass" );
     tr_tripwire = trapfind( "tr_tripwire" );
     tr_crossbow = trapfind( "tr_crossbow" );
     tr_shotgun_2 = trapfind( "tr_shotgun_2" );

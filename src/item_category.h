@@ -2,9 +2,9 @@
 #ifndef ITEM_CATEGORY_H
 #define ITEM_CATEGORY_H
 
-#include "translations.h"
-
 #include <string>
+
+#include "translations.h"
 
 /**
  * Contains metadata for one category of items

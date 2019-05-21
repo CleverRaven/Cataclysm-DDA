@@ -1,0 +1,273 @@
+[
+  {
+    "id": "BGSS_PRISONER_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I was in jail for <the_cataclysm>, but I escaped.  Hell of a story.",
+    "responses": [
+      { "text": "So tell me this 'hell of a story'", "topic": "BGSS_PRISONER_1_STORY2" },
+      {
+        "text": "What were you in for?",
+        "condition": {
+          "and": [
+            { "or": [ { "npc_has_trait": "Exp_Agriculture1" }, { "npc_has_trait": "Exp_Agriculture2" } ] },
+            { "not": { "npc_has_trait": "Exp_Biochemistry1" } },
+            { "not": { "npc_has_trait": "Exp_Biochemistry2" } },
+            { "not": { "npc_has_trait": "Exp_Bookkeeping1" } },
+            { "not": { "npc_has_trait": "Exp_Bookkeeping2" } },
+            { "not": { "npc_has_trait": "Exp_Medicine1" } },
+            { "not": { "npc_has_trait": "Exp_Medicine2" } },
+            { "not": { "npc_has_trait": "Exp_Physics1" } },
+            { "not": { "npc_has_trait": "Exp_Physics2" } },
+            { "not": { "npc_has_trait": "ADDICTIVE" } },
+            { "not": { "npc_has_trait": "PSYCHOTIC" } }
+          ]
+        },
+        "//": "This is a stand-in for 'npc_has_trait_flag': 'EXP_Agriculture' when that becomes available",
+        "topic": "BGSS_PRISONER_1_IN_FOR_GROWOP"
+      },
+      {
+        "text": "What were you in for?",
+        "condition": {
+          "and": [
+            { "or": [ { "npc_has_trait": "Exp_Biochemistry1" }, { "npc_has_trait": "Exp_Biochemistry2" } ] },
+            { "not": { "npc_has_trait": "Exp_Agriculture1" } },
+            { "not": { "npc_has_trait": "Exp_Agriculture2" } },
+            { "not": { "npc_has_trait": "Exp_Biochemistry1" } },
+            { "not": { "npc_has_trait": "Exp_Biochemistry2" } },
+            { "not": { "npc_has_trait": "Exp_Bookkeeping1" } },
+            { "not": { "npc_has_trait": "Exp_Bookkeeping2" } },
+            { "not": { "npc_has_trait": "Exp_Medicine1" } },
+            { "not": { "npc_has_trait": "Exp_Medicine2" } },
+            { "not": { "npc_has_trait": "Exp_Physics1" } },
+            { "not": { "npc_has_trait": "Exp_Physics2" } },
+            { "not": { "npc_has_trait": "ADDICTIVE" } },
+            { "not": { "npc_has_trait": "PSYCHOTIC" } }
+          ]
+        },
+        "//": "This is a stand-in for 'npc_has_trait_flag': 'EXP_Biochemistry' when that becomes available",
+        "topic": "BGSS_PRISONER_1_IN_FOR_BIOWEAPON"
+      },
+      {
+        "text": "What were you in for?",
+        "condition": {
+          "and": [
+            { "or": [ { "npc_has_trait": "Exp_Bookkeeping1" }, { "npc_has_trait": "Exp_Bookkeeping2" } ] },
+            { "not": { "npc_has_trait": "Exp_Agriculture1" } },
+            { "not": { "npc_has_trait": "Exp_Agriculture2" } },
+            { "not": { "npc_has_trait": "Exp_Biochemistry1" } },
+            { "not": { "npc_has_trait": "Exp_Biochemistry2" } },
+            { "not": { "npc_has_trait": "Exp_Medicine1" } },
+            { "not": { "npc_has_trait": "Exp_Medicine2" } },
+            { "not": { "npc_has_trait": "Exp_Physics1" } },
+            { "not": { "npc_has_trait": "Exp_Physics2" } },
+            { "not": { "npc_has_trait": "ADDICTIVE" } },
+            { "not": { "npc_has_trait": "PSYCHOTIC" } }
+          ]
+        },
+        "//": "This is a stand-in for 'npc_has_trait_flag': 'EXP_Bookkeeping' when that becomes available",
+        "topic": "BGSS_PRISONER_1_IN_FOR_TAXEVASION"
+      },
+      {
+        "text": "What were you in for?",
+        "condition": {
+          "and": [
+            { "or": [ { "npc_has_trait": "Exp_Medicine1" }, { "npc_has_trait": "Exp_Medicine2" } ] },
+            { "not": { "npc_has_trait": "Exp_Agriculture1" } },
+            { "not": { "npc_has_trait": "Exp_Agriculture2" } },
+            { "not": { "npc_has_trait": "Exp_Biochemistry1" } },
+            { "not": { "npc_has_trait": "Exp_Biochemistry2" } },
+            { "not": { "npc_has_trait": "Exp_Bookkeeping1" } },
+            { "not": { "npc_has_trait": "Exp_Bookkeeping2" } },
+            { "not": { "npc_has_trait": "Exp_Medicine1" } },
+            { "not": { "npc_has_trait": "Exp_Medicine2" } },
+            { "not": { "npc_has_trait": "Exp_Physics1" } },
+            { "not": { "npc_has_trait": "Exp_Physics2" } },
+            { "not": { "npc_has_trait": "ADDICTIVE" } },
+            { "not": { "npc_has_trait": "PSYCHOTIC" } }
+          ]
+        },
+        "//": "This is a stand-in for 'npc_has_trait_flag': 'EXP_Medicine' when that becomes available",
+        "topic": "BGSS_PRISONER_1_IN_FOR_ORGANS"
+      },
+      {
+        "text": "What were you in for?",
+        "condition": {
+          "and": [
+            { "or": [ { "npc_has_trait": "Exp_Physics1" }, { "npc_has_trait": "Exp_Physics2" } ] },
+            { "not": { "npc_has_trait": "Exp_Agriculture1" } },
+            { "not": { "npc_has_trait": "Exp_Agriculture2" } },
+            { "not": { "npc_has_trait": "Exp_Biochemistry1" } },
+            { "not": { "npc_has_trait": "Exp_Biochemistry2" } },
+            { "not": { "npc_has_trait": "Exp_Bookkeeping1" } },
+            { "not": { "npc_has_trait": "Exp_Bookkeeping2" } },
+            { "not": { "npc_has_trait": "Exp_Medicine1" } },
+            { "not": { "npc_has_trait": "Exp_Medicine2" } },
+            { "not": { "npc_has_trait": "Exp_Physics1" } },
+            { "not": { "npc_has_trait": "Exp_Physics2" } },
+            { "not": { "npc_has_trait": "ADDICTIVE" } },
+            { "not": { "npc_has_trait": "PSYCHOTIC" } }
+          ]
+        },
+        "//": "This is a stand-in for 'npc_has_trait_flag': 'EXP_Physics' when that becomes available",
+        "topic": "BGSS_PRISONER_1_IN_FOR_NUCLEAR"
+      },
+      {
+        "text": "What were you in for?",
+        "condition": {
+          "and": [
+            { "npc_has_trait": "ADDICTIVE" },
+            { "not": { "npc_has_trait": "Exp_Agriculture1" } },
+            { "not": { "npc_has_trait": "Exp_Agriculture2" } },
+            { "not": { "npc_has_trait": "Exp_Biochemistry1" } },
+            { "not": { "npc_has_trait": "Exp_Biochemistry2" } },
+            { "not": { "npc_has_trait": "Exp_Bookkeeping1" } },
+            { "not": { "npc_has_trait": "Exp_Bookkeeping2" } },
+            { "not": { "npc_has_trait": "Exp_Medicine1" } },
+            { "not": { "npc_has_trait": "Exp_Medicine2" } },
+            { "not": { "npc_has_trait": "Exp_Physics1" } },
+            { "not": { "npc_has_trait": "Exp_Physics2" } },
+            { "not": { "npc_has_trait": "PSYCHOTIC" } }
+          ]
+        },
+        "topic": "BGSS_PRISONER_1_IN_FOR_METH"
+      },
+      {
+        "text": "What were you in for?",
+        "condition": {
+          "and": [
+            { "npc_has_trait": "PSYCHOTIC" },
+            { "not": { "npc_has_trait": "Exp_Agriculture1" } },
+            { "not": { "npc_has_trait": "Exp_Agriculture2" } },
+            { "not": { "npc_has_trait": "Exp_Biochemistry1" } },
+            { "not": { "npc_has_trait": "Exp_Biochemistry2" } },
+            { "not": { "npc_has_trait": "Exp_Bookkeeping1" } },
+            { "not": { "npc_has_trait": "Exp_Bookkeeping2" } },
+            { "not": { "npc_has_trait": "Exp_Medicine1" } },
+            { "not": { "npc_has_trait": "Exp_Medicine2" } },
+            { "not": { "npc_has_trait": "Exp_Physics1" } },
+            { "not": { "npc_has_trait": "Exp_Physics2" } },
+            { "not": { "npc_has_trait": "ADDICTIVE" } }
+          ]
+        },
+        "topic": "BGSS_PRISONER_1_IN_FOR_ASSAULT"
+      },
+      {
+        "text": "What were you in for?",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_trait": "Exp_Agriculture1" } },
+            { "not": { "npc_has_trait": "Exp_Agriculture2" } },
+            { "not": { "npc_has_trait": "Exp_Biochemistry1" } },
+            { "not": { "npc_has_trait": "Exp_Biochemistry2" } },
+            { "not": { "npc_has_trait": "Exp_Bookkeeping1" } },
+            { "not": { "npc_has_trait": "Exp_Bookkeeping2" } },
+            { "not": { "npc_has_trait": "Exp_Medicine1" } },
+            { "not": { "npc_has_trait": "Exp_Medicine2" } },
+            { "not": { "npc_has_trait": "Exp_Physics1" } },
+            { "not": { "npc_has_trait": "Exp_Physics2" } },
+            { "not": { "npc_has_trait": "ADDICTIVE" } },
+            { "not": { "npc_has_trait": "PSYCHOTIC" } }
+          ]
+        },
+        "topic": "BGSS_PRISONER_1_IN_FOR_OTHER"
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_PRISONER_1_IN_FOR_GROWOP",
+    "type": "talk_topic",
+    "dynamic_line": "That's a story in itself, my friend.  I had one of the largest grow-ops on the Eastern seaboard.  Hah, the stories I could tell you... but I won't.  That's all way behind me.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_PRISONER_1_IN_FOR_BIOWEAPON",
+    "type": "talk_topic",
+    "dynamic_line": "It's a bit of a ... it's a thing.  It started out as a dare.  I wound up making a bioweapon.  It didn't get used or anything, but, well, it got out of hand.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_PRISONER_1_IN_FOR_TAXEVASION",
+    "type": "talk_topic",
+    "dynamic_line": "Tax evasion.  I was an accountant, and I helped my boss move a hell of a lot of money in some very clever ways.  Not clever enough, it turns out...",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_PRISONER_1_IN_FOR_NUCLEAR",
+    "type": "talk_topic",
+    "dynamic_line": "This sounds a lot cooler than it is: possession of an unlicensed nuclear accelerator.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_PRISONER_1_IN_FOR_ORGANS",
+    "type": "talk_topic",
+    "dynamic_line": "I got a little bit into black market organ trading.  It sounds worse than it was... but it was pretty bad.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_PRISONER_1_IN_FOR_METH",
+    "type": "talk_topic",
+    "dynamic_line": "Multiple counts of possession.  I used to be really hung up on meth.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_PRISONER_1_IN_FOR_ASSAULT",
+    "type": "talk_topic",
+    "dynamic_line": "Assault charges.  I really don't want to get into it, let's just say that you don't want to talk during a movie around me okay?",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_PRISONER_1_IN_FOR_OTHER",
+    "type": "talk_topic",
+    "dynamic_line": "You know, I don't really want to say anymore.  It's all behind me, and I'd like to keep it that way.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "BGSS_PRISONER_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Okay, well, I was in the wrong place at the wrong time.  There was a big fight, I didn't stay clear of it, and me and a bunch of others got tossed in solitary while a few more landed in the infirmary.  Some looked pretty bad, now I kinda wonder if any of them were our first <zombies>.",
+    "responses": [
+      { "text": "How did you get out of lockup?", "topic": "BGSS_PRISONER_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_PRISONER_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "I heard gunshots, even from down in lockup.  Didn't hear much screaming or anything.  That was my first clue something was up.  Food stopped showing up, next.  Then, the lights went out.  I was down there for maybe hours, maybe days, when finally a flashlight in the bars blinded me.  It was a guard.  He let me out, filled me in on what was going on.  I wanted to think he was crazy, but something in his eyes... I believed him.",
+    "responses": [
+      { "text": "What did you do from there?", "topic": "BGSS_PRISONER_1_STORY4" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_PRISONER_1_STORY4",
+    "type": "talk_topic",
+    "dynamic_line": "We let out the others in solitary.  We were stuck in, the guard bots had gone haywire and wouldn't let anyone out, and the rest of the people except this one guard had turned.  We spent a few days pulping <zombies> and trying to figure a safe way past the bots.  Food was running short.  Finally we picked the worst, only plan we could think of: we dragged some storage lockers to the entry hall, used them as shields, and pushed them until we were close enough to take out the bots' sensors with our weapons.",
+    "responses": [
+      { "text": "Did that actually work?", "topic": "BGSS_PRISONER_1_STORY5" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_PRISONER_1_STORY5",
+    "type": "talk_topic",
+    "dynamic_line": "It worked better than I'd imagined, honestly.  We thought the bots would shoot the lockers but I guess they mistook us for family.  There were six of us and four of them, and four of us made it out.",
+    "responses": [
+      { "text": "What happened to the others that made it?", "topic": "BGSS_PRISONER_1_STORY6" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_PRISONER_1_STORY6",
+    "type": "talk_topic",
+    "dynamic_line": "The guard took off on his own.  Didn't trust us, and I don't blame him.  The other two wanted to set up a bandit gig.  Didn't sit right with me, so I split on pretty good terms.  I ran into the guard a couple more times.  Thought of seeing if he'd travel with me, but I dunno.  I don't think he'd take the offer, I'll always be a con to him.  If you want to try, I can tell you where I saw him last.  Wasn't long before I met you, and he had a good thing going, might still be there.",
+    "//": "TK: Add two mission options, to go find the guard survivor and the bandits",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

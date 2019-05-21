@@ -1,15 +1,19 @@
 #include "iuse_software_lightson.h"
 
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <sstream>
+
 #include "cursesdef.h"
 #include "input.h"
 #include "output.h"
 #include "rng.h"
 #include "translations.h"
-#include "ui.h"
-
-#include <algorithm>
-#include <string>
-#include <vector>
+#include "catacharset.h"
+#include "color.h"
+#include "enums.h"
+#include "optional.h"
 
 void lightson_game::new_level()
 {
@@ -163,7 +167,7 @@ int lightson_game::start_game()
         std::string action = ctxt.handle_input();
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
             position.first = std::min( std::max( position.first + vec->y, 0 ), level_size.first - 1 );
-            position.second = std::min( std::max( position.second + vec->y, 0 ), level_size.second - 1 );
+            position.second = std::min( std::max( position.second + vec->x, 0 ), level_size.second - 1 );
         } else if( action == "TOGGLE_SPACE" || action == "TOGGLE_5" ) {
             toggle_lights();
             win = check_win();

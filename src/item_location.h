@@ -4,11 +4,13 @@
 
 #include <list>
 #include <memory>
+#include <string>
+
+#include "map_selector.h"
 
 struct tripoint;
 class item;
 class Character;
-class map_cursor;
 class vehicle_cursor;
 class JsonIn;
 class JsonOut;
@@ -98,8 +100,11 @@ class item_location
          */
         item_location clone() const;
 
+        void set_should_stack( bool should_stack ) const;
+
     private:
         class impl;
+
         std::shared_ptr<impl> ptr;
 
         /* Not implemented on purpose. This triggers a compiler / linker

@@ -5,7 +5,14 @@
     "responses": [
       { "text": "Another survivor!  We should travel together.", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "What are you doing?", "topic": "TALK_DESCRIBE_MISSION" },
-      { "text": "Care to trade?", "topic": "TALK_DONE", "effect": "start_trade" }
+      {
+        "text": "Care to trade?",
+        "topic": "TRADE_HALLU",
+        "condition": { "npc_has_trait": "HALLUCINATION" },
+        "switch": true,
+        "default": false
+      },
+      { "text": "Care to trade?", "topic": "TALK_DONE", "effect": "start_trade", "switch": true, "default": false }
     ]
   },
   {
@@ -35,7 +42,13 @@
     ]
   },
   {
-    "id": [ "TALK_STRANGER_NEUTRAL", "TALK_STRANGER_FRIENDLY", "TALK_STRANGER_SCARED", "TALK_STRANGER_WARY" ],
+    "id": [
+      "TALK_STRANGER_NEUTRAL",
+      "TALK_STRANGER_FRIENDLY",
+      "TALK_STRANGER_SCARED",
+      "TALK_STRANGER_WARY",
+      "TALK_MISSION_DESCRIBE_URGENT"
+    ],
     "type": "talk_topic",
     "responses": [
       {
@@ -80,7 +93,7 @@
   {
     "id": "TALK_STRANGER_AGGRESSIVE",
     "type": "talk_topic",
-    "dynamic_line": { "u_has_weapon": "<drop_it>", "u_unarmed": "This is my territory, <name_b>." },
+    "dynamic_line": { "u_has_weapon": "<drop_it>", "no": "This is my territory, <name_b>." },
     "responses": [
       { "text": "&Drop weapon.", "topic": "TALK_DEMAND_LEAVE", "condition": "u_has_weapon", "effect": "player_weapon_drop" },
       {
@@ -108,7 +121,7 @@
   {
     "id": "TALK_MUG",
     "type": "talk_topic",
-    "dynamic_line": { "u_has_weapon": "<drop_it>", "u_unarmed": "<hands_up>" },
+    "dynamic_line": { "u_has_weapon": "<drop_it>", "no": "<hands_up>" },
     "responses": [
       {
         "text": "Calm down.  I'm not going to hurt you.",
@@ -142,7 +155,7 @@
   {
     "id": "TALK_WEAPON_DROPPED",
     "type": "talk_topic",
-    "dynamic_line": { "npc_male": "*drops his weapon.", "npc_female": "*drops_her_weapon." },
+    "dynamic_line": { "npc_male": "*drops his weapon.", "no": "*drops_her_weapon." },
     "responses": [
       {
         "text": "Now get out of here",

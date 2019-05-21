@@ -1,0 +1,60 @@
+[
+  {
+    "id": "BGSS_RELIGIOUS_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "My story.  Huh.  It's nothing special.  I had people, but they've risen to be with the Lord.  I don't understand why He didn't take me too, but I suppose it'll all be clear in time.",
+    "responses": [
+      { "text": "Do you mean in a religious sense, or...?", "topic": "BGSS_RELIGIOUS_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_RELIGIOUS_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Of course.  It's clear enough, isn't it?  That...  that end, was the Rapture.  I'm still here, and I still don't understand why, but I will keep Jesus in my heart through the Tribulations to come.  When they're past, I'm sure He will welcome me into the Kingdom of Heaven.  Or...  or something along those lines.  It's not going exactly like I thought it would, but that's prophecy for you.",
+    "responses": [
+      {
+        "text": "What if you're wrong?",
+        "topic": "BGSS_RELIGIOUS_1_FAITH1",
+        "condition": { "not": { "npc_has_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1" } },
+        "effect": { "npc_add_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1", "duration": "PERMANENT", "opinion": { "value": -1 } }
+      },
+      { "text": "What will you do then?", "topic": "BGSS_RELIGIOUS_1_FAITH2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "player_rude_BGSS_RELIGIOUS_1_FAITH1",
+    "//": "Defined here in the conversation section because this should be the only time this very specific effect is referenced.",
+    "name": [ "Religious Offense" ],
+    "desc": [ "AI tag used when you offended an NPC with a specific conversation option.  This is a bug if you have it." ]
+  },
+  {
+    "id": "BGSS_RELIGIOUS_1_FAITH1",
+    "type": "talk_topic",
+    "dynamic_line": "What?  How could you say something like that?  I can't believe you'd look at all this and think it could be anything but the end-times.  The dead are walking, the gates of Hell itself have opened, the Beasts of the Devil walk the Earth, and the Righteous have all be drawn up into the Lord's Kingdom.  What more proof could you possibly ask for?",
+    "responses": [
+      { "text": "What will you do, then?", "topic": "BGSS_RELIGIOUS_1_FAITH2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_RELIGIOUS_1_FAITH2",
+    "type": "talk_topic",
+    "dynamic_line": "I will keep the faith, and keep praying, and strike down the agents of Hell where I see them.  That's all we few can do, isn't it?  I suppose perhaps we're the meek that shall inherit the Earth.  Although I don't love our odds.",
+    "responses": [
+      {
+        "text": "What if you're wrong?",
+        "topic": "BGSS_RELIGIOUS_1_FAITH1",
+        "condition": { "not": { "npc_has_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1" } },
+        "effect": { "npc_add_effect": "player_rude_BGSS_RELIGIOUS_1_FAITH1", "duration": "PERMANENT", "opinion": { "value": -1 } }
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

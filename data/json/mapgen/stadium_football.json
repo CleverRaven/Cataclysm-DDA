@@ -39,7 +39,6 @@
     "method": "json",
     "object": {
       "furniture": {
-        " ": "f_null",
         "#": "f_bench",
         "&": "f_sink",
         "+": "f_null",
@@ -106,7 +105,6 @@
         "-.....|...|#c#c#crcgg___"
       ],
       "terrain": {
-        " ": "t_null",
         "#": "t_concrete",
         "&": "t_thconc_floor",
         "+": "t_door_metal_c",

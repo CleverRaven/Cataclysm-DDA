@@ -1,9 +1,14 @@
 #include "mapdata.h"
 
+#include <unordered_map>
+#include <algorithm>
+#include <iterator>
+#include <map>
+#include <utility>
+
 #include "calendar.h"
 #include "color.h"
 #include "debug.h"
-#include "game_constants.h"
 #include "generic_factory.h"
 #include "harvest.h"
 #include "iexamine.h"
@@ -12,8 +17,8 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "trap.h"
-
-#include <unordered_map>
+#include "assign.h"
+#include "json.h"
 
 namespace
 {
@@ -75,7 +80,7 @@ bool string_id<ter_t>::is_valid() const
 
 /** @relates int_id */
 template<>
-inline bool int_id<furn_t>::is_valid() const
+bool int_id<furn_t>::is_valid() const
 {
     return furniture_data.is_valid( *this );
 }
@@ -142,9 +147,11 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "SWIMMABLE",                TFLAG_SWIMMABLE },      // monmove, many fields
         { "TRANSPARENT",              TFLAG_TRANSPARENT },    // map::trans / lightmap
         { "NOITEM",                   TFLAG_NOITEM },         // add/spawn_item*()
+        { "NO_SIGHT",                 TFLAG_NO_SIGHT },       // Sight reduced to 1 on this tile
         { "FLAMMABLE_ASH",            TFLAG_FLAMMABLE_ASH },  // oh hey fire. again.
         { "WALL",                     TFLAG_WALL },           // smells
         { "DEEP_WATER",               TFLAG_DEEP_WATER },     // Deep enough to submerge things
+        { "CURRENT",                  TFLAG_CURRENT },        // Water is flowing.
         { "HARVESTED",                TFLAG_HARVESTED },      // harvested.  will not bear fruit.
         { "PERMEABLE",                TFLAG_PERMEABLE },      // gases can flow through.
         { "AUTO_WALL_SYMBOL",         TFLAG_AUTO_WALL_SYMBOL }, // automatically create the appropriate wall
@@ -154,7 +161,11 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "GOES_UP",                  TFLAG_GOES_UP },        // Allows non-flying creatures to move upwards
         { "NO_FLOOR",                 TFLAG_NO_FLOOR },       // Things should fall when placed on this tile
         { "SEEN_FROM_ABOVE",          TFLAG_SEEN_FROM_ABOVE },// This should be visible if the tile above has no floor
+        { "HIDE_PLACE",               TFLAG_HIDE_PLACE },     // Creature on this tile can't be seen by other creature not standing on adjacent tiles
+        { "BLOCK_WIND",               TFLAG_BLOCK_WIND },     // This tile will partially block the wind.
+        { "FLAT",                     TFLAG_FLAT },           // This tile is flat.
         { "RAMP",                     TFLAG_RAMP },           // Can be used to move up a z-level
+        { "RAIL",                     TFLAG_RAIL },           // Rail tile (used heavily)
     }
 };
 
@@ -217,7 +228,10 @@ bool map_bash_info::load( JsonObject &jsobj, const std::string &member, bool is_
     if( is_furniture ) {
         furn_set = furn_str_id( j.get_string( "furn_set", "f_null" ) );
     } else {
-        ter_set = ter_str_id( j.get_string( "ter_set" ) );
+        const std::string ter_set_string = j.get_string( "ter_set" );
+        ter_set = ter_str_id( ter_set_string );
+        ter_set_bashed_from_above = ter_str_id( j.get_string( "ter_set_bashed_from_above",
+                                                ter_set_string ) );
     }
 
     if( j.has_member( "items" ) ) {
@@ -252,6 +266,20 @@ bool map_deconstruct_info::load( JsonObject &jsobj, const std::string &member, b
 
     JsonIn &stream = *j.get_raw( "items" );
     drop_group = item_group::load_item_group( stream, "collection" );
+    return true;
+}
+
+furn_workbench_info::furn_workbench_info() : multiplier( 1.0f ), allowed_mass( units::mass_max ),
+    allowed_volume( units::volume_max ) {}
+
+bool furn_workbench_info::load( JsonObject &jsobj, const std::string &member )
+{
+    JsonObject j = jsobj.get_object( member );
+
+    assign( j, "multiplier", multiplier );
+    assign( j, "mass", allowed_mass );
+    assign( j, "volume", allowed_volume );
+
     return true;
 }
 
@@ -319,7 +347,7 @@ void load_season_array( JsonObject &jo, const std::string &key, C &container, F 
 
 std::string map_data_common_t::name() const
 {
-    return _( name_.c_str() );
+    return _( name_ );
 }
 
 void map_data_common_t::load_symbol( JsonObject &jo )
@@ -387,7 +415,7 @@ void load_furniture( JsonObject &jo, const std::string &src )
 
 void load_terrain( JsonObject &jo, const std::string &src )
 {
-    if( terrain_data.empty() ) { // @todo: This shouldn't live here
+    if( terrain_data.empty() ) { // TODO: This shouldn't live here
         terrain_data.insert( null_terrain_t() );
     }
     terrain_data.load( jo, src );
@@ -396,7 +424,7 @@ void load_terrain( JsonObject &jo, const std::string &src )
 void map_data_common_t::set_flag( const std::string &flag )
 {
     flags.insert( flag );
-    auto const it = ter_bitflags_map.find( flag );
+    const auto it = ter_bitflags_map.find( flag );
     if( it != ter_bitflags_map.end() ) {
         bitflags.set( it->second );
         if( !transparent && it->second == TFLAG_TRANSPARENT ) {
@@ -411,7 +439,7 @@ void map_data_common_t::set_flag( const std::string &flag )
 
 void map_data_common_t::set_connects( const std::string &connect_group_string )
 {
-    auto const it = ter_connects_map.find( connect_group_string );
+    const auto it = ter_connects_map.find( connect_group_string );
     if( it != ter_connects_map.end() ) {
         connect_group = it->second;
     } else { // arbitrary connect groups are a bad idea for optimization reasons
@@ -431,10 +459,10 @@ bool map_data_common_t::connects( int &ret ) const
 ter_id t_null,
        t_hole, // Real nothingness; makes you fall a z-level
        // Ground
-       t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit,
+       t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit, t_grave, t_grave_new,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
-       t_grass,
+       t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white,
        t_metal_floor,
        t_pavement, t_pavement_y, t_sidewalk, t_concrete,
        t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,
@@ -456,7 +484,7 @@ ter_id t_null,
        t_wall_metal,
        t_wall_glass,
        t_wall_glass_alarm,
-       t_reinforced_glass,
+       t_reinforced_glass, t_reinforced_glass_shutter, t_reinforced_glass_shutter_open,
        t_reinforced_door_glass_o,
        t_reinforced_door_glass_c,
        t_bars,
@@ -499,7 +527,8 @@ ter_id t_null,
        t_marloss, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_fungus_wall,
        t_fungus_mound, t_fungus, t_shrub_fungal, t_tree_fungal, t_tree_fungal_young, t_marloss_tree,
        // Water, lava, etc.
-       t_water_sh, t_water_dp, t_swater_sh, t_swater_dp, t_water_pool, t_sewage,
+       t_water_moving_dp, t_water_moving_sh, t_water_sh, t_water_dp, t_swater_sh, t_swater_dp,
+       t_water_pool, t_sewage,
        t_lava,
        // More embellishments than you can shake a stick at.
        t_sandbox, t_slide, t_monkey_bars, t_backboard,
@@ -518,6 +547,7 @@ ter_id t_null,
        t_vat,
        t_rootcellar,
        t_cvdbody, t_cvdmachine,
+       t_nanofab, t_nanofab_body,
        t_water_pump,
        t_conveyor, t_machinery_light, t_machinery_heavy, t_machinery_old, t_machinery_electronic,
        t_improvised_shelter,
@@ -526,13 +556,14 @@ ter_id t_null,
        t_slope_up, t_rope_up,
        t_manhole_cover,
        // Special
-       t_card_science, t_card_military, t_card_reader_broken, t_slot_machine,
+       t_card_science, t_card_military, t_card_industrial, t_card_reader_broken, t_slot_machine,
        t_elevator_control, t_elevator_control_off, t_elevator, t_pedestal_wyrm,
        t_pedestal_temple,
        // Temple tiles
        t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue,
        t_switch_rg, t_switch_gb, t_switch_rb, t_switch_even, t_open_air, t_plut_generator,
        t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp, t_guardrail_bg_dp,
+       t_rad_platform,
        // Railroad and subway
        t_railroad_rubble,
        t_buffer_stop, t_railroad_crossing_signal, t_crossbuck_wood, t_crossbuck_metal,
@@ -542,7 +573,7 @@ ter_id t_null,
        t_railroad_track_on_tie, t_railroad_track_h_on_tie, t_railroad_track_v_on_tie,
        t_railroad_track_d_on_tie;
 
-// @todo: Put this crap into an inclusion, which should be generated automatically using JSON data
+// TODO: Put this crap into an inclusion, which should be generated automatically using JSON data
 
 void set_ter_ids()
 {
@@ -552,6 +583,8 @@ void set_ter_ids()
     t_sand = ter_id( "t_sand" );
     t_clay = ter_id( "t_clay" );
     t_dirtmound = ter_id( "t_dirtmound" );
+    t_grave = ter_id( "t_grave" );
+    t_grave_new = ter_id( "t_grave_new" );
     t_pit_shallow = ter_id( "t_pit_shallow" );
     t_pit = ter_id( "t_pit" );
     t_pit_corpsed = ter_id( "t_pit_corpsed" );
@@ -562,6 +595,8 @@ void set_ter_ids()
     t_pit_glass_covered = ter_id( "t_pit_glass_covered" );
     t_rock_floor = ter_id( "t_rock_floor" );
     t_grass = ter_id( "t_grass" );
+    t_grass_long = ter_id( "t_grass_long" );
+    t_grass_tall = ter_id( "t_grass_tall" );
     t_metal_floor = ter_id( "t_metal_floor" );
     t_pavement = ter_id( "t_pavement" );
     t_pavement_y = ter_id( "t_pavement_y" );
@@ -601,6 +636,8 @@ void set_ter_ids()
     t_wall_glass = ter_id( "t_wall_glass" );
     t_wall_glass_alarm = ter_id( "t_wall_glass_alarm" );
     t_reinforced_glass = ter_id( "t_reinforced_glass" );
+    t_reinforced_glass_shutter = ter_id( "t_reinforced_glass_shutter" );
+    t_reinforced_glass_shutter_open = ter_id( "t_reinforced_glass_shutter_open" );
     t_reinforced_door_glass_c = ter_id( "t_reinforced_door_glass_c" );
     t_reinforced_door_glass_o = ter_id( "t_reinforced_door_glass_o" );
     t_bars = ter_id( "t_bars" );
@@ -732,6 +769,8 @@ void set_ter_ids()
     t_tree_fungal = ter_id( "t_tree_fungal" );
     t_tree_fungal_young = ter_id( "t_tree_fungal_young" );
     t_marloss_tree = ter_id( "t_marloss_tree" );
+    t_water_moving_dp = ter_id( "t_water_moving_dp" );
+    t_water_moving_sh = ter_id( "t_water_moving_sh" );
     t_water_sh = ter_id( "t_water_sh" );
     t_water_dp = ter_id( "t_water_dp" );
     t_swater_sh = ter_id( "t_swater_sh" );
@@ -769,6 +808,8 @@ void set_ter_ids()
     t_rootcellar = ter_id( "t_rootcellar" );
     t_cvdbody = ter_id( "t_cvdbody" );
     t_cvdmachine = ter_id( "t_cvdmachine" );
+    t_nanofab = ter_id( "t_nanofab" );
+    t_nanofab_body = ter_id( "t_nanofab_body" );
     t_stairs_down = ter_id( "t_stairs_down" );
     t_stairs_up = ter_id( "t_stairs_up" );
     t_manhole = ter_id( "t_manhole" );
@@ -780,6 +821,7 @@ void set_ter_ids()
     t_manhole_cover = ter_id( "t_manhole_cover" );
     t_card_science = ter_id( "t_card_science" );
     t_card_military = ter_id( "t_card_military" );
+    t_card_industrial = ter_id( "t_card_industrial" );
     t_card_reader_broken = ter_id( "t_card_reader_broken" );
     t_slot_machine = ter_id( "t_slot_machine" );
     t_elevator_control = ter_id( "t_elevator_control" );
@@ -810,6 +852,7 @@ void set_ter_ids()
     t_pavement_y_bg_dp = ter_id( "t_pavement_y_bg_dp" );
     t_sidewalk_bg_dp = ter_id( "t_sidewalk_bg_dp" );
     t_guardrail_bg_dp = ter_id( "t_guardrail_bg_dp" );
+    t_rad_platform = ter_id( "t_rad_platform" );
     t_improvised_shelter = ter_id( "t_improvised_shelter" );
     t_railroad_rubble = ter_id( "t_railroad_rubble" );
     t_buffer_stop = ter_id( "t_buffer_stop" );
@@ -879,7 +922,9 @@ furn_id f_null,
         f_floor_canvas,
         f_tatami,
         f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
-        f_smoking_rack, f_smoking_rack_active,
+        f_smoking_rack, f_smoking_rack_active, f_metal_smoking_rack, f_metal_smoking_rack_active,
+        f_water_mill, f_water_mill_active,
+        f_wind_mill, f_wind_mill_active,
         f_robotic_arm, f_vending_reinforced,
         f_brazier,
         f_autodoc_couch;
@@ -984,6 +1029,12 @@ void set_furn_ids()
     f_kiln_metal_full = furn_id( "f_kiln_metal_full" );
     f_smoking_rack = furn_id( "f_smoking_rack" );
     f_smoking_rack_active = furn_id( "f_smoking_rack_active" );
+    f_metal_smoking_rack = furn_id( "f_metal_smoking_rack" );
+    f_metal_smoking_rack_active = furn_id( "f_metal_smoking_rack_active" );
+    f_water_mill = furn_id( "f_water_mill" );
+    f_water_mill_active = furn_id( "f_water_mill_active" );
+    f_wind_mill = furn_id( "f_wind_mill" );
+    f_wind_mill_active = furn_id( "f_wind_mill_active" );
     f_robotic_arm = furn_id( "f_robotic_arm" );
     f_brazier = furn_id( "f_brazier" );
     f_autodoc_couch = furn_id( "f_autodoc_couch" );
@@ -1032,8 +1083,8 @@ void map_data_common_t::load( JsonObject &jo, const std::string &src )
 
             harvest_id hl;
             if( harvest_jo.has_array( "entries" ) ) {
-                // @todo: A better inline name - can't use id or name here because it's not set yet
-                size_t num = harvest_list::all().size() + 1;
+                // TODO: A better inline name - can't use id or name here because it's not set yet
+                const size_t num = harvest_list::all().size() + 1;
                 hl = harvest_list::load( harvest_jo, src,
                                          string_format( "harvest_inline_%d", static_cast<int>( num ) ) );
             } else if( harvest_jo.has_string( "id" ) ) {
@@ -1057,6 +1108,7 @@ void ter_t::load( JsonObject &jo, const std::string &src )
     map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost", movecost );
+    optional( jo, was_loaded, "coverage", coverage );
     optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader,
               DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "trap", trap_id_str );
@@ -1157,11 +1209,18 @@ void furn_t::load( JsonObject &jo, const std::string &src )
     map_data_common_t::load( jo, src );
     mandatory( jo, was_loaded, "name", name_ );
     mandatory( jo, was_loaded, "move_cost_mod", movecost );
+    optional( jo, was_loaded, "coverage", coverage );
+    optional( jo, was_loaded, "comfort", comfort, 0 );
+    optional( jo, was_loaded, "floor_bedding_warmth", floor_bedding_warmth, 0 );
+    optional( jo, was_loaded, "bonus_fire_warmth_feet", bonus_fire_warmth_feet, 300 );
+    optional( jo, was_loaded, "keg_capacity", keg_capacity, legacy_volume_reader, 0_ml );
     mandatory( jo, was_loaded, "required_str", move_str_req );
     optional( jo, was_loaded, "max_volume", max_volume, legacy_volume_reader,
               DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, "" );
     optional( jo, was_loaded, "deployed_item", deployed_item );
+    optional( jo, was_loaded, "plant_transform", plant_transform );
+    optional( jo, was_loaded, "plant_base", plant_base );
 
     load_symbol( jo );
     transparent = false;
@@ -1175,6 +1234,11 @@ void furn_t::load( JsonObject &jo, const std::string &src )
 
     bash.load( jo, "bash", true );
     deconstruct.load( jo, "deconstruct", true );
+
+    if( jo.has_object( "workbench" ) ) {
+        workbench = furn_workbench_info();
+        workbench->load( jo, "workbench" );
+    }
 }
 
 void map_data_common_t::check() const

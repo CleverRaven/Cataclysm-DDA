@@ -43,9 +43,7 @@
         "%%%iiiii1iiiiiiiz  1   y",
         "%%%%i              1   y"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
       "items": {
         " ": { "item": "trash_cart", "chance": 2 },
         "L": { "item": "cleaning", "chance": 60 },
@@ -53,9 +51,7 @@
         "c": { "item": "hardware_plumbing", "chance": 30 },
         "r": { "item": "hardware_plumbing", "chance": 60 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -91,16 +87,9 @@
         "i%%%%%%%%%%%%%%%%%%%%%%%",
         "i%%%%%%%%%%%%%%%%%%%%%%%"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "items": {
-        " ": { "item": "trash_cart", "chance": 2 },
-        "X": { "item": "self_storage", "chance": 90 }
-      },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "items": { " ": { "item": "trash_cart", "chance": 2 }, "X": { "item": "self_storage", "chance": 90 } },
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -136,9 +125,7 @@
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
       "items": {
         " ": { "item": "trash_cart", "chance": 2 },
         "C": { "item": "cleaning", "chance": 30 },
@@ -147,9 +134,7 @@
         "W": { "item": "allclothes", "chance": 70 },
         "X": { "item": "self_storage", "chance": 90 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -185,16 +170,9 @@
         "%%%%%%%%%%%%%%%%%%%%%%%%",
         "%%%%%%%%%%%%%%%%%%%%%%%%"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "items": {
-        " ": { "item": "trash_cart", "chance": 2 },
-        "X": { "item": "self_storage", "chance": 90 }
-      },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "items": { " ": { "item": "trash_cart", "chance": 2 }, "X": { "item": "self_storage", "chance": 90 } },
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -230,12 +208,8 @@
         ";;;ibbe| foCi  iCof |   ",
         ";;;iiiiiiiiii  iiiiiiiii"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 7 },
@@ -256,9 +230,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -294,16 +266,9 @@
         "i(;;__._.._._._._.._.__N",
         "i3;;7_._.._._._._.._._7N"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "terrain": {
-        ".": "t_pavement_y",
-        "7": "t_backboard"
-      },
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "terrain": { ".": "t_pavement_y", "7": "t_backboard" },
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 7 },
@@ -326,9 +291,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -364,12 +327,8 @@
         ";;;;;;;;;;;;;;;;;;;;;;;;",
         ";;;;;;;;;;;;;;;;;;;;;;;;"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 7 },
@@ -391,9 +350,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -429,16 +386,9 @@
         ";;;;;;;;;;;;;;;;;;;;;;;;",
         ";;;;;;;;;;;;;;;;;;;;;;;;"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "terrain": {
-        ".": "t_pavement_y",
-        "7": "t_backboard"
-      },
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "terrain": { ".": "t_pavement_y", "7": "t_backboard" },
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 7 },
@@ -461,9 +411,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -499,12 +447,8 @@
         "...i   | foCi  iCof |  r",
         "...iiiiiiiiii  iiiiiiiii"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 7 },
@@ -527,9 +471,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -565,12 +507,8 @@
         "i.......................",
         "i......................."
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 7 },
@@ -593,9 +531,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -631,12 +567,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 7 },
@@ -659,9 +591,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -697,12 +627,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 7 },
@@ -725,9 +651,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -763,12 +687,8 @@
         "...i   | foCi  iCof |   ",
         "...iiiiiiiiii  iiiiiiiii"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 7 },
@@ -791,9 +711,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -829,12 +747,8 @@
         "i.......................",
         "i......................."
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 7 },
@@ -857,9 +771,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -895,12 +807,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 7 },
@@ -923,9 +831,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -961,12 +867,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 7 },
@@ -989,9 +891,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -1027,12 +927,8 @@
         "...ibbe| foCi  iCof3|3  ",
         "...iiiiiiiiii  iiii333ii"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 7 },
@@ -1055,9 +951,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -1093,12 +987,8 @@
         "i.......................",
         "i......................."
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 7 },
@@ -1121,9 +1011,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -1159,12 +1047,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 7 },
@@ -1187,9 +1071,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -1225,12 +1107,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 7 },
@@ -1253,9 +1131,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -1291,12 +1167,8 @@
         "...i   | foCi333....... ",
         "...iiiiiiiii333........3"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 7 },
@@ -1319,9 +1191,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -1357,12 +1227,8 @@
         "3.......................",
         "i......................."
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 7 },
@@ -1385,9 +1251,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -1423,12 +1287,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 7 },
@@ -1451,9 +1311,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -1489,12 +1347,8 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "2": { "item": "softdrugs", "chance": 7 },
@@ -1517,9 +1371,7 @@
         "t": { "item": "coffee_table", "chance": 25 },
         "u": { "item": "cannedfood", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -1555,17 +1407,13 @@
         "...8RRRRR3333...........",
         "...8RRRRRRR333.........."
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "3": { "item": "building_rubble", "chance": 60 },
         "R": { "item": "trash_cart", "chance": 2 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -1601,17 +1449,13 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "3": { "item": "building_rubble", "chance": 60 },
         "R": { "item": "trash_cart", "chance": 2 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -1647,17 +1491,13 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "3": { "item": "building_rubble", "chance": 60 },
         "R": { "item": "trash_cart", "chance": 2 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -1693,17 +1533,13 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ],
+      "palettes": [ "acidia_commercial_destroyed_palette" ],
       "items": {
         " ": { "item": "trash", "chance": 2 },
         "3": { "item": "building_rubble", "chance": 60 },
         "R": { "item": "trash_cart", "chance": 2 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.06 } ]
     }
   },
   {
@@ -1739,9 +1575,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ]
+      "palettes": [ "acidia_commercial_destroyed_palette" ]
     }
   },
   {
@@ -1777,9 +1611,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ]
+      "palettes": [ "acidia_commercial_destroyed_palette" ]
     }
   },
   {
@@ -1815,9 +1647,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ]
+      "palettes": [ "acidia_commercial_destroyed_palette" ]
     }
   },
   {
@@ -1853,10 +1683,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_commercial_destroyed_palette"
-      ]
+      "palettes": [ "acidia_commercial_destroyed_palette" ]
     }
   }
 ]
-

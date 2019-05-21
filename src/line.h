@@ -2,13 +2,13 @@
 #ifndef LINE_H
 #define LINE_H
 
-#include "enums.h"
-#include "game_constants.h"
-
 #include <cmath>
 #include <functional>
 #include <string>
 #include <vector>
+
+#include "enums.h"
+#include "math_defines.h"
 
 /** Converts degrees to radians */
 constexpr double DEGREES( double v )
@@ -39,7 +39,7 @@ inline double iso_tangent( double distance, double vertex )
 //! Specifically, (0, -, +) => (0, 1, 2); a base-3 number.
 //! This only works correctly for inputs between -1,-1,-1 and 1,1,1.
 //! For numbers outside that range, use make_xyz().
-inline constexpr unsigned make_xyz_unit( int const x, int const y, int const z ) noexcept
+inline constexpr unsigned make_xyz_unit( const int x, const int y, const int z ) noexcept
 {
     return ( ( x > 0 ) ? 2u : ( x < 0 ) ? 1u : 0u ) * 1u +
            ( ( y > 0 ) ? 2u : ( y < 0 ) ? 1u : 0u ) * 3u +
@@ -47,7 +47,7 @@ inline constexpr unsigned make_xyz_unit( int const x, int const y, int const z )
 }
 
 // This more general version of this function gives correct values for larger inputs.
-unsigned make_xyz( int const x, int const y, int const z );
+unsigned make_xyz( const int x, const int y, const int z );
 
 enum direction : unsigned {
     ABOVENORTHWEST = make_xyz_unit( -1, -1, -1 ),
@@ -83,11 +83,11 @@ enum direction : unsigned {
 
 direction direction_from( int x, int y, int z = 0 ) noexcept;
 direction direction_from( int x1, int y1, int x2, int y2 ) noexcept;
-direction direction_from( tripoint const &p, tripoint const &q );
+direction direction_from( const tripoint &p, const tripoint &q );
 
 point direction_XY( direction dir );
-std::string const direction_name( direction dir );
-std::string const direction_name_short( direction dir );
+const std::string direction_name( direction dir );
+const std::string direction_name_short( direction dir );
 
 /* Get suffix describing vector from p to q (e.g. 1NW, 2SE) or empty string if p == q */
 std::string direction_suffix( const tripoint &p, const tripoint &q );

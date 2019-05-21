@@ -2,21 +2,21 @@
 #ifndef SKILL_H
 #define SKILL_H
 
-#include "calendar.h"
-#include "string_id.h"
-
 #include <functional>
 #include <map>
 #include <set>
 #include <vector>
+#include <string>
+
+#include "calendar.h"
+#include "string_id.h"
+#include "type_id.h"
 
 class JsonObject;
 class JsonIn;
 class JsonOut;
-class Skill;
 class recipe;
 class item;
-using skill_id = string_id<Skill>;
 
 class Skill
 {
@@ -38,20 +38,20 @@ class Skill
         // clear skill vector, every skill pointer becomes invalid!
         static void reset();
 
-        static std::vector<Skill const *> get_skills_sorted_by(
-            std::function<bool ( Skill const &, Skill const & )> pred );
+        static std::vector<const Skill *> get_skills_sorted_by(
+            std::function<bool ( const Skill &, const Skill & )> pred );
 
         Skill();
         Skill( skill_id ident, std::string name, std::string description,
                std::set<std::string> tags );
 
-        skill_id const &ident() const {
+        const skill_id &ident() const {
             return _ident;
         }
-        std::string const &name() const {
+        const std::string &name() const {
             return _name;
         }
-        std::string const &description() const {
+        const std::string &description() const {
             return _description;
         }
 

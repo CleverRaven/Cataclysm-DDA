@@ -2,15 +2,16 @@
 #ifndef UI_H
 #define UI_H
 
-#include "color.h"
-#include "cursesdef.h"
-#include "enums.h"
-#include "string_formatter.h"
-
 #include <map>
 #include <string>
 #include <utility>
 #include <vector>
+#include <initializer_list>
+
+#include "color.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "string_formatter.h"
 
 ////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -114,7 +115,7 @@ class ui_container
  *     }
  *   }
  *   void select(int num, uilist * menu) {
- *       mvwprintz(menu->window, 0, 0, c_red, "( %s )",game_z[num]->name().c_str() );
+ *       mvwprintz(menu->window, 0, 0, c_red, "( %s )",game_z[num]->name() );
  *   }
  * }
  * uilist monmenu;
@@ -128,6 +129,7 @@ class ui_container
  *
  */
 class uilist;
+
 /**
 * uilist::query() handles most input events first,
 * and then passes the event to the callback if it can't handle it.
@@ -152,8 +154,6 @@ class uilist_callback
 /**
  * uilist: scrolling vertical list menu
  */
-class ui_element;
-class ui_element_input;
 
 class uilist: public ui_container
 {
@@ -174,6 +174,7 @@ class uilist: public ui_container
         std::map<int, int> keymap;
         bool desc_enabled;
         int desc_lines;
+        std::string footer_text; // basically the same as desc, except it doesn't change based on selection
         bool border;
         bool filtering;
         bool filtering_nocase;
@@ -209,13 +210,13 @@ class uilist: public ui_container
         // query() will be called at the end of these convenience constructors
         uilist( const std::string &msg, const std::vector<uilist_entry> &opts );
         uilist( const std::string &msg, const std::vector<std::string> &opts );
-        uilist( const std::string &msg, std::initializer_list<char const *const> opts );
+        uilist( const std::string &msg, std::initializer_list<const char *const> opts );
         uilist( int startx, int width, int starty, const std::string &msg,
                 const std::vector<uilist_entry> &opts );
         uilist( int startx, int width, int starty, const std::string &msg,
                 const std::vector<std::string> &opts );
         uilist( int startx, int width, int starty, const std::string &msg,
-                std::initializer_list<char const *const> opts );
+                std::initializer_list<const char *const> opts );
 
         void init();
         void setup();

@@ -2,15 +2,17 @@
 #ifndef CATACURSE_H
 #define CATACURSE_H
 
+#include <utility>
+#if defined(TILES) || defined(_WIN32)
+
 #include <array>
 #include <string>
 #include <vector>
 
-class nc_color;
-
 namespace catacurses
 {
 class window;
+
 enum base_color : short;
 } // namespace catacurses
 
@@ -48,16 +50,22 @@ struct curseline {
     std::vector<cursecell> chars;
 };
 
-//The curses window struct
+// The curses window struct
 struct WINDOW {
-    int x;//left side of window
-    int y;//top side of window
+    // Left side of window
+    int x;
+    // Top side of window
+    int y;
     int width;
     int height;
-    base_color FG;//current foreground color from attron
-    base_color BG;//current background color from attron
-    bool inuse;// Does this window actually exist?
-    bool draw;//Tracks if the window text has been changed
+    // Current foreground color from attron
+    base_color FG;
+    // Current background color from attron
+    base_color BG;
+    // Does this window actually exist?
+    bool inuse;
+    // Tracks if the window text has been changed
+    bool draw;
     int cursorx;
     int cursory;
     std::vector<curseline> line;
@@ -66,16 +74,19 @@ struct WINDOW {
 extern std::array<pairs, 100> colorpairs;
 void curses_drawwindow( const catacurses::window &win );
 
-// allow extra logic for framebuffer clears
+// Allow extra logic for framebuffer clears
 extern void handle_additional_window_clear( WINDOW *win );
 
 } // namespace cata_cursesport
 
-//@todo: move into cata_cursesport
-//used only in SDL mode for clearing windows using rendering
+// TODO: move into cata_cursesport
+// Used only in SDL mode for clearing windows using rendering
 void clear_window_area( const catacurses::window &win );
 int projected_window_width();
 int projected_window_height();
 bool handle_resize( int w, int h );
+int get_scaling_factor();
 
 #endif
+#endif
+

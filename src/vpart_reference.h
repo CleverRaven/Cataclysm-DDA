@@ -2,13 +2,15 @@
 #ifndef VPART_REFERENCE_H
 #define VPART_REFERENCE_H
 
-#include "vpart_position.h"
-
+#include <cstddef>
 #include <string>
+
+#include "vpart_position.h"
 
 class vehicle;
 struct vehicle_part;
 class vpart_info;
+
 enum vpart_bitflags : int;
 
 /**
@@ -41,6 +43,9 @@ class vpart_reference : public vpart_position
         bool has_feature( const std::string &f ) const;
         bool has_feature( vpart_bitflags f ) const;
         /**@}*/
+
+        /// Returns the passenger in this part, or nullptr if no passenger.
+        player *get_passenger() const;
 };
 
 #endif

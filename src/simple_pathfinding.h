@@ -2,11 +2,11 @@
 #ifndef SIMPLE_PATHFINDINDING_H
 #define SIMPLE_PATHFINDINDING_H
 
-#include "enums.h"
-
 #include <limits>
 #include <queue>
 #include <vector>
+
+#include "enums.h"
 
 namespace pf
 {

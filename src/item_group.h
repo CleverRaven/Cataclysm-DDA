@@ -2,15 +2,16 @@
 #ifndef ITEM_GROUP_H
 #define ITEM_GROUP_H
 
-#include "optional.h"
-
 #include <memory>
 #include <string>
 #include <vector>
+#include <utility>
+
+#include "optional.h"
+#include "item.h"
 
 typedef std::string Item_tag;
 typedef std::string Group_tag;
-class item;
 class JsonObject;
 class JsonIn;
 class time_point;
@@ -53,6 +54,10 @@ ItemList items_from( const Group_tag &group_id );
  * Check whether a specific item group contains a specific item type.
  */
 bool group_contains_item( const Group_tag &group_id, const Item_tag &type_id );
+/**
+ * Return every item type that can possibly be spawned by the item group
+ */
+std::set<const itype *> every_possible_item_from( const Group_tag &group_id );
 /**
  * Check whether an item group of the given id exists. You may use this to either choose an
  * alternative group or check the json definitions for consistency (spawn data in json that
@@ -126,6 +131,8 @@ class Item_spawn_data
          */
         virtual bool remove_item( const Item_tag &itemid ) = 0;
         virtual bool has_item( const Item_tag &itemid ) const = 0;
+
+        virtual std::set<const itype *> every_item() const = 0;
 
         /** probability, used by the parent object. */
         int probability;
@@ -220,11 +227,12 @@ class Single_item_creator : public Item_spawn_data
 
         void inherit_ammo_mag_chances( const int ammo, const int mag );
 
-        virtual ItemList create( const time_point &birthday, RecursionList &rec ) const override;
+        ItemList create( const time_point &birthday, RecursionList &rec ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency() const override;
         bool remove_item( const Item_tag &itemid ) override;
         bool has_item( const Item_tag &itemid ) const override;
+        std::set<const itype *> every_item() const override;
 };
 
 /**
@@ -263,11 +271,12 @@ class Item_group : public Item_spawn_data
          */
         void add_entry( std::unique_ptr<Item_spawn_data> ptr );
 
-        virtual ItemList create( const time_point &birthday, RecursionList &rec ) const override;
+        ItemList create( const time_point &birthday, RecursionList &rec ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency() const override;
         bool remove_item( const Item_tag &itemid ) override;
         bool has_item( const Item_tag &itemid ) const override;
+        std::set<const itype *> every_item() const override;
 
         /**
          * These aren't directly used. Instead, the values (both with a default value of 0) "trickle down"

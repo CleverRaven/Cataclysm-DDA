@@ -98,19 +98,19 @@
 #if !defined(_68K_) && !defined(_MPPC_) && !defined(_X86_) && !defined(_IA64_) && !defined(_AMD64_) && defined(_M_IX86)
 #   define _X86_
 #endif
-#include <cstdio>
-#include <cstdarg>
 #include <windef.h>
 #include <WinBase.h>
-#include <cwchar>
-#include <cstring>
-#include <cstdlib>
 #include <malloc.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <cstdio>
+#include <cstdarg>
+#include <cwchar>
+#include <cstring>
+#include <cstdlib>
 #include <cerrno>
 
-#if defined(_WIN32) || defined(WINDOWS)
+#if defined(_WIN32)
 // needed by MultiByteToWideChar
 #include <Windows.h>
 #endif
@@ -220,7 +220,7 @@
 /* Return number of bytes needed to store d_namlen */
 #define _D_ALLOC_NAMLEN(p) (PATH_MAX + 1)
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 extern "C" {
 #endif
 
@@ -316,7 +316,7 @@ _wopendir(
     }
 
     /* Allocate new _WDIR structure */
-    dirp = ( _WDIR * ) malloc( sizeof( struct _WDIR ) );
+    dirp = static_cast<_WDIR *>( malloc( sizeof( struct _WDIR ) ) );
     if( dirp != NULL ) {
         DWORD n;
 
@@ -329,7 +329,7 @@ _wopendir(
         n = GetFullPathNameW( dirname, 0, NULL, NULL );
 
         /* Allocate room for absolute directory name and search pattern */
-        dirp->patt = ( wchar_t * ) malloc( sizeof( wchar_t ) * n + 16 );
+        dirp->patt = static_cast<wchar_t *>( malloc( sizeof( wchar_t ) * n + 16 ) );
         if( dirp->patt ) {
 
             /*
@@ -591,7 +591,7 @@ opendir(
     }
 
     /* Allocate memory for DIR structure */
-    dirp = ( DIR * ) malloc( sizeof( struct DIR ) );
+    dirp = static_cast<DIR *>( malloc( sizeof( struct DIR ) ) );
     if( dirp ) {
         wchar_t wname[PATH_MAX + 1];
         size_t n;
@@ -828,12 +828,12 @@ dirent_mbstowcs_s(
     if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
         return dirent_mbstowcs_s_old( pReturnValue, wcstr, sizeInWords, mbstr, count );
     }
-#if defined(_WIN32) || defined(WINDOWS)
-    int required_size = MultiByteToWideChar( CP_ACP, 0, mbstr, -1, NULL, NULL ) + 1;
+#if defined(_WIN32)
+    const int required_size = MultiByteToWideChar( CP_ACP, 0, mbstr, -1, NULL, NULL ) + 1;
     if( required_size > sizeInWords ) {
         return 1;
     }
-    int n = MultiByteToWideChar( CP_ACP, 0, mbstr, -1, wcstr, required_size );
+    const int n = MultiByteToWideChar( CP_ACP, 0, mbstr, -1, wcstr, required_size );
     if( n == 0 ) {
         debugmsg( "MultiByteToWideChar failed!" );
         return 1;
@@ -934,12 +934,12 @@ dirent_wcstombs_s(
     if( get_options().has_option( "ENCODING_CONV" ) && !get_option<bool>( "ENCODING_CONV" ) ) {
         return dirent_wcstombs_s_old( pReturnValue, mbstr, sizeInBytes, wcstr, count );
     }
-#if defined(_WIN32) || defined(WINDOWS)
-    int required_size = WideCharToMultiByte( CP_ACP, 0, wcstr, -1, NULL, 0, NULL, NULL ) + 1;
+#if defined(_WIN32)
+    const int required_size = WideCharToMultiByte( CP_ACP, 0, wcstr, -1, NULL, 0, NULL, NULL ) + 1;
     if( required_size > sizeInBytes ) {
         return 1;
     }
-    int n = WideCharToMultiByte( CP_ACP, 0, wcstr, -1, mbstr, required_size, NULL, NULL );
+    const int n = WideCharToMultiByte( CP_ACP, 0, wcstr, -1, mbstr, required_size, NULL, NULL );
     if( n == 0 ) {
         debugmsg( "WideCharToMultiByte failed!" );
         return 1;
@@ -998,7 +998,7 @@ dirent_set_errno(
 #endif
 }
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 }
 #endif
 #endif /*DIRENT_H*/

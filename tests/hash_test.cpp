@@ -1,13 +1,16 @@
-#include "catch/catch.hpp"
-
-#include <chrono>
 #include <functional>
 #include <unordered_set>
 #include <vector>
+#include <algorithm>
+#include <cstddef>
+#include <iterator>
 
-#include "map.h"
-
+#include "catch/catch.hpp"
 #include "enums.h"
+
+#ifdef RELEASE
+#include <chrono>
+#endif
 
 // A larger number for this would be GREAT, but the test isn't efficient enough to make it larger.
 // Previously tried inserting into an unordered_set,
@@ -25,7 +28,7 @@ constexpr int NUM_ENTRIES_3D = NUM_ENTRIES_2D * ( 21 );
 size_t count_unique_elements( std::vector<size_t> &found_elements )
 {
     std::sort( found_elements.begin(), found_elements.end() );
-    auto range_end = std::unique( found_elements.begin(), found_elements.end() );
+    const auto range_end = std::unique( found_elements.begin(), found_elements.end() );
     return std::distance( found_elements.begin(), range_end );
 }
 

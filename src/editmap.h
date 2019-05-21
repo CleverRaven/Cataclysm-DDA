@@ -2,16 +2,24 @@
 #ifndef EDITMAP_H
 #define EDITMAP_H
 
-#include "map.h"
-#include "omdata.h"
-#include "optional.h"
-#include "trap.h"
-#include "ui.h"
-
 #include <map>
 #include <vector>
+#include <string>
+
+#include "optional.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "type_id.h"
 
 struct real_coords;
+class Creature;
+class field;
+class uilist;
+class vehicle;
+class map;
+class tinymap;
+
 enum field_id : int;
 
 enum shapetype {
@@ -19,12 +27,13 @@ enum shapetype {
 };
 
 class editmap;
+
 struct editmap_hilight {
     std::vector<bool> blink_interval;
     int cur_blink;
     nc_color color;
     std::map<tripoint, char> points;
-    nc_color( *getbg )( nc_color );
+    nc_color( *getbg )( const nc_color & );
     void setup() {
         getbg = ( color == c_red ? &red_background :
                   ( color == c_magenta ? &magenta_background :
@@ -57,11 +66,8 @@ class editmap
         int edit_veh();
         int edit_mapgen();
         void cleartmpmap( tinymap &tmpmap );
-        int mapgen_preview( real_coords &tc, uilist &gmenu );
-        bool mapgen_set( std::string om_name, tripoint &omt_tgt, int r = 0,
-                         bool change_sensitive = true );
+        int mapgen_preview( const real_coords &tc, uilist &gmenu );
         vehicle *mapgen_veh_query( const tripoint &omt_tgt );
-        bool mapgen_veh_has( const tripoint &omt_tgt );
         bool mapgen_veh_destroy( const tripoint &omt_tgt, vehicle *car_target );
         int mapgen_retarget();
         int select_shape( shapetype shape, int mode = -1 );

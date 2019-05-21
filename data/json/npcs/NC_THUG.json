@@ -1,77 +1,16 @@
 [
   {
-    "type" : "item_group",
-    "id" : "NC_THUG_pants_male",
-    "items":[
-      ["jeans", 40],
-      ["pants", 10],
-      ["pants_leather", 60],
-      ["pants_cargo", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_THUG_pants_female",
-    "items":[
-      ["jeans", 40],
-      ["pants", 10],
-      ["pants_leather", 60],
-      ["pants_cargo", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_THUG_shirt_male",
-    "items":[
-      ["tshirt", 50],
-      ["tank_top", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_THUG_shirt_female",
-    "items":[
-      ["tshirt", 40],
-      ["tank_top", 60]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_THUG_gloves",
-    "items":[
-      ["null", 20],
-      ["gloves_leather", 60],
-      ["gloves_work", 10],
-      ["gloves_fingerless", 10],
-      ["gloves_fingerless_mod", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_THUG_coat",
-    "items":[
-      ["null", 20],
-      ["jacket_leather", 30],
-      ["jacket_leather_mod", 30],
-      ["jacket_jean", 30],
-      ["football_armor", 40],
-      ["kevlar", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_THUG_shoes",
-    "items":[
-      ["boots", 70],
-      ["boots_steel", 50],
-      ["boots_hiking", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_THUG_bashing",
-    "items":[
-      ["hammer_sledge", 20],
-      ["spear_rebar",20],
-      ["bat", 20],
-      ["crowbar", 20],
-      ["q_staff",20],
-      ["bwirebat",20],
-      ["bat_metal",20],
-      ["homewrecker",5]
+    "type": "item_group",
+    "id": "NC_THUG_bashing",
+    "items": [
+      [ "hammer_sledge", 20 ],
+      [ "spear_rebar", 20 ],
+      [ "bat", 20 ],
+      [ "crowbar", 20 ],
+      [ "q_staff", 20 ],
+      [ "bwirebat", 20 ],
+      [ "bat_metal", 20 ],
+      [ "homewrecker", 5 ]
     ]
   }
 ]

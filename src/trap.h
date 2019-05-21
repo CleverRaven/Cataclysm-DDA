@@ -2,23 +2,23 @@
 #ifndef TRAP_H
 #define TRAP_H
 
+#include <cstddef>
+#include <functional>
+#include <vector>
+#include <string>
+
 #include "color.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "type_id.h"
 #include "units.h"
-
-#include <functional>
-#include <vector>
 
 class Creature;
 class item;
 class player;
 class map;
-struct trap;
 struct tripoint;
 class JsonObject;
-using trap_id = int_id<trap>;
-using trap_str_id = string_id<trap>;
 
 namespace trapfunc
 {
@@ -27,12 +27,14 @@ namespace trapfunc
 // creature can be NULL.
 void none( Creature *, const tripoint & );
 void bubble( Creature *creature, const tripoint &p );
+void glass( Creature *creature, const tripoint &p );
 void cot( Creature *creature, const tripoint &p );
 void beartrap( Creature *creature, const tripoint &p );
 void snare_light( Creature *creature, const tripoint &p );
 void snare_heavy( Creature *creature, const tripoint &p );
 void board( Creature *creature, const tripoint &p );
 void caltrops( Creature *creature, const tripoint &p );
+void caltrops_glass( Creature *creature, const tripoint &p );
 void tripwire( Creature *creature, const tripoint &p );
 void crossbow( Creature *creature, const tripoint &p );
 void shotgun( Creature *creature, const tripoint &p );
@@ -139,7 +141,7 @@ struct trap {
          * It should spawn trap items (if any) and remove the trap from the map via
          * @ref map::remove_trap.
          */
-        void on_disarmed( map &m, const tripoint &pos ) const;
+        void on_disarmed( map &m, const tripoint &p ) const;
         /**
          * Whether this kind of trap actually occupies a 3x3 area. Currently only blade traps
          * do so.
@@ -207,6 +209,7 @@ const trap_function &trap_function_from_string( const std::string &function_name
 extern trap_id
 tr_null,
 tr_bubblewrap,
+tr_glass,
 tr_cot,
 tr_funnel,
 tr_metal_funnel,
@@ -218,6 +221,7 @@ tr_beartrap,
 tr_beartrap_buried,
 tr_nailboard,
 tr_caltrops,
+tr_caltrops_glass,
 tr_tripwire,
 tr_crossbow,
 tr_shotgun_2,

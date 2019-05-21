@@ -2,16 +2,12 @@
 #ifndef MONFACTION_H
 #define MONFACTION_H
 
-#include "int_id.h"
-#include "string_id.h"
-
 #include <unordered_map>
 
-class monfaction;
-class JsonObject;
+#include "int_id.h"
+#include "type_id.h"
 
-using mfaction_id = int_id<monfaction>;
-using mfaction_str_id = string_id<monfaction>;
+class JsonObject;
 
 enum mf_attitude {
     MFA_BY_MOOD = 0,    // Hostile if angry

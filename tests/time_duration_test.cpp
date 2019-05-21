@@ -1,9 +1,9 @@
-#include "catch/catch.hpp"
+#include <sstream>
+#include <string>
 
+#include "catch/catch.hpp"
 #include "calendar.h"
 #include "json.h"
-
-#include <sstream>
 
 time_duration parse_time_duration( const std::string &json )
 {

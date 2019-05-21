@@ -2,13 +2,18 @@
 #ifndef MORALE_H
 #define MORALE_H
 
-#include "bodypart.h"
-#include "calendar.h"
-#include "morale_types.h"
-
 #include <functional>
 #include <map>
 #include <vector>
+#include <algorithm>
+#include <array>
+#include <string>
+
+#include "bodypart.h"
+#include "calendar.h"
+#include "morale_types.h"
+#include "string_id.h"
+#include "type_id.h"
 
 class item;
 class JsonIn;
@@ -16,10 +21,6 @@ class JsonOut;
 class JsonObject;
 struct itype;
 struct morale_mult;
-class effect_type;
-using efftype_id = string_id<effect_type>;
-struct mutation_branch;
-using trait_id = string_id<mutation_branch>;
 
 class player_morale
 {
@@ -57,6 +58,7 @@ class player_morale
         void on_stat_change( const std::string &stat, int value );
         void on_item_wear( const item &it );
         void on_item_takeoff( const item &it );
+        void on_worn_item_transform( const item &it );
         void on_worn_item_washed( const item &it );
         void on_effect_int_change( const efftype_id &eid, int intensity, body_part bp = num_bp );
 
@@ -111,7 +113,7 @@ class player_morale
                  * Returns either new_time or remaining time (which one is greater).
                  * Only returns new time if same_sign is true
                  */
-                time_duration pick_time( time_duration cur_time, time_duration new_time, bool same_sign ) const;
+                time_duration pick_time( time_duration current_time, time_duration new_time, bool same_sign ) const;
                 /**
                  * Returns normalized bonus if either max_bonus != 0 or capped == true
                  */
@@ -134,7 +136,7 @@ class player_morale
         void update_stylish_bonus();
         void update_squeamish_penalty();
         void update_masochist_bonus();
-        void update_bodytemp_penalty( time_duration ticks );
+        void update_bodytemp_penalty( const time_duration &ticks );
         void update_constrained_penalty();
 
     private:

@@ -1,14 +1,16 @@
 #include "bonuses.h"
 
-#include "character.h"
-#include "damage.h"
-#include "json.h"
-#include "output.h"
-#include "translations.h"
-
 #include <sstream>
 #include <string>
 #include <utility>
+#include <algorithm>
+#include <type_traits>
+
+#include "character.h"
+#include "damage.h"
+#include "json.h"
+#include "translations.h"
+#include "string_formatter.h"
 
 bool needs_damage_type( affected_stat as )
 {
@@ -73,7 +75,7 @@ static const std::map<affected_stat, std::string> affected_stat_map_translation 
 std::string string_from_affected_stat( const affected_stat &s )
 {
     const auto &iter = affected_stat_map_translation.find( s );
-    return iter != affected_stat_map_translation.end() ? _( iter->second.c_str() ) : "";
+    return iter != affected_stat_map_translation.end() ? _( iter->second ) : "";
 }
 
 static const std::map<scaling_stat, std::string> scaling_stat_map_translation = {{
@@ -87,12 +89,10 @@ static const std::map<scaling_stat, std::string> scaling_stat_map_translation = 
 std::string string_from_scaling_stat( const scaling_stat &s )
 {
     const auto &iter = scaling_stat_map_translation.find( s );
-    return iter != scaling_stat_map_translation.end() ? _( iter->second.c_str() ) : "";
+    return iter != scaling_stat_map_translation.end() ? _( iter->second ) : "";
 }
 
-bonus_container::bonus_container()
-{
-}
+bonus_container::bonus_container() = default;
 
 void effect_scaling::load( JsonArray &jarr )
 {
@@ -126,7 +126,7 @@ void bonus_container::load( JsonArray &jarr, bool mult )
         damage_type dt = DT_NULL;
 
         const std::string affected_stat_string = qualifiers.next_string();
-        affected_stat as = affected_stat_from_string( affected_stat_string );
+        const affected_stat as = affected_stat_from_string( affected_stat_string );
         if( as == AFFECTED_NULL ) {
             jarr.throw_error( "Invalid affected stat" );
         }
@@ -175,7 +175,7 @@ bool affected_type::operator==( const affected_type &other ) const
 
 float bonus_container::get_flat( const Character &u, affected_stat stat, damage_type dt ) const
 {
-    affected_type type( stat, dt );
+    const affected_type type( stat, dt );
     const auto &iter = bonuses_flat.find( type );
     if( iter == bonuses_flat.end() ) {
         return 0.0f;
@@ -195,7 +195,7 @@ float bonus_container::get_flat( const Character &u, affected_stat stat ) const
 
 float bonus_container::get_mult( const Character &u, affected_stat stat, damage_type dt ) const
 {
-    affected_type type( stat, dt );
+    const affected_type type( stat, dt );
     const auto &iter = bonuses_mult.find( type );
     if( iter == bonuses_mult.end() ) {
         return 1.0f;
@@ -245,12 +245,12 @@ std::string bonus_container::get_description() const
 
         for( const auto &sf : boni.second ) {
             if( sf.stat ) {
-                dump << string_format( "%s: <stat>%s%d%%</stat>", type, ( sf.scale < 0 ) ? "" : "+",
+                dump << string_format( "%s: <stat>%s%d%%</stat>", type, sf.scale < 0 ? "" : "+",
                                        static_cast<int>( sf.scale * 100 ) );
                 //~ bash damage +80% of strength
                 dump << _( " of " ) << string_from_scaling_stat( sf.stat );
             } else {
-                dump << string_format( "%s: <stat>%s%d</stat>", type, ( sf.scale < 0 ) ? "" : "+",
+                dump << string_format( "%s: <stat>%s%d</stat>", type, sf.scale < 0 ? "" : "+",
                                        static_cast<int>( sf.scale ) );
             }
 

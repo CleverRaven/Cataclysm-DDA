@@ -2,16 +2,15 @@
 #ifndef MAPBUFFER_H
 #define MAPBUFFER_H
 
-#include "enums.h"
-
 #include <list>
 #include <map>
 #include <memory>
 #include <string>
 
-struct point;
-struct tripoint;
-struct submap;
+#include "enums.h"
+
+class submap;
+class JsonIn;
 
 /**
  * Store, buffer, save and load the entire world map.

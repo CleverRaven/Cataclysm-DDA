@@ -25,13 +25,12 @@ You'll need to have these libraries and their development headers installed in
 order to build CataclysmDDA:
 
  * General
-   * `cmake`                     >= 2.6.11
+   * `cmake`                     >= 3.0.0
    * `gcc-libs`
    * `glibc`
    * `zlib`
    * `bzip2`
  * Optional
-   * `lua51`
    * `gettext`
  * Curses
    * `ncurses`
@@ -56,9 +55,7 @@ You can obtain the source code tarball for the latest version from [git](https:/
 
 ## UNIX Environment
 
-The following build systems are fully supported for compiling CataclysmDDA on Linux, BSD, and other Unix-like platforms:
-
- * `CMake` >= 2.6.11
+Obtain packages specified above with your system package manager.
 
 
 ## Windows Environment (MSYS2)
@@ -70,7 +67,6 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 	pacman -S mingw-w64-i686-toolchain msys/git \
 		  mingw-w64-i686-cmake \
 		  mingw-w64-i686-SDL2_{image,mixer,ttf} \
-		  mingw-w64-i686-lua51 \
 		  ncurses-devel \
 		  gettext-devel
  ```
@@ -84,7 +80,6 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 	pacman -S mingw-w64-x86_64-toolchain msys/git \
 		  mingw-w64-x86_64-cmake \
 		  mingw-w64-x86_64-SDL2_{image,mixer,ttf} \
-		  mingw-w64-x86_64-lua51 \
 		  ncurses-devel \
 		  gettext-devel
  ```
@@ -97,7 +92,8 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 # CMake Build
 
  CMake has separate configuration and build steps. Configuration
- is done using CMake itself, and the actual build is done using `make`.
+ is done using CMake itself, and the actual build is done using either `make`
+ (for Makefiles generator) or build-system agnostic `cmake --build . ` .
 
  There are two ways to build CataclysmDDA with CMake: inside the source tree or
  outside of it. Out-of-source builds have the advantage that you can have
@@ -112,6 +108,8 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
 	$ cmake .. -DCMAKE_BUILD_TYPE=Release
 	$ make
  ```
+
+The above example creates a build directory inside the source directory, but that's not required - you can just as easily create it in a completely different location.
 
  To install CataclysmDDA after building (as root using su or sudo if necessary):
 
@@ -134,48 +132,24 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
  ```
 
 
-## CMake Build Mingw,MSYS,MSYS2
+## CMake Build for MSYS2 (MinGW)
 
  **NOTE**: For development purposes it is preferred to use `MinGW Win64 Shell` or `MinGW Win32 Shell` instead of `MSYS2 Shell`. In other case, you will need to set `PATH` variable manually.
 
- For Mingw,MSYS,MSYS2 you should set [Makefiles generator](http://www.cmake.org/cmake/help/cmake-2.6.html#section_Generators)
+ For Mingw,MSYS,MSYS2 you should set [Makefiles generator](https://cmake.org/cmake/help/v3.0/manual/cmake-generators.7.html) to "MSYS Makefiles".
+ Setting it to "MinGW Makefiles" might work as well, but might also require additional hackery.
 
- Valid choices for MINGW/MSYS are:
-
- * MSYS Makefiles
- * MinGW Makefiles
-
- Example:
+  Example:
 
  ```
-	# cd <Path-to-CataclysmDDA-Sources>
-	# mkdir build
-	# cd build
+	$ cd <Path-to-CataclysmDDA-Sources>
+	$ mkdir build
+	$ cd build
+	$ cmake .. -G "MSYS Makefiles"
+	$ make  # or $ cmake --build .
  ```
 
- For MinGW32:
-
- ```
-	$ cmake -G "MSYS Makefiles" \
-		-DCMAKE_MAKE_PROGRAM=mingw32-make\
-		-DCMAKE_C_COMPILER=i686-w64-mingw32-gcc\
-		-DCMAKE_CXX_COMPILER=i686-w64-mingw32-g++\
-		-DCMAKE_SYSTEM_PREFIX_PATH=/c/msys32/mingw32\
-		..
-	$ mingw32-make
- ```
-
- For MinGW64:
-
- ```
-        $ cmake -G "MSYS Makefiles" \
-		-DCMAKE_MAKE_PROGRAM=mingw32-make\
-		-DCMAKE_C_COMPILER=x86_64-w64-mingw32-gcc\
-		-DCMAKE_CXX_COMPILER=x86_64-w64-mingw32-g++\
-		-DCMAKE_SYSTEM_PREFIX_PATH=/c/msys64/mingw64\
-		..
-	$ mingw32-make
- ```
+ The resulting binary will be placed inside the source code directory.
 
  Shared libraries:
 
@@ -185,7 +159,7 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
  **NOTE**: For `-DRELEASE=OFF` development builds, You can automate copy process with:
 
  ```
-	$ mingw32-make install
+	$ make install
  ```
 
  However, it likely will fail b/c you have different build environment setup :)
@@ -200,9 +174,6 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
  * LOCALIZE deps:
    * `libintl-8.dll`
    * `libiconv-2.dll`
-
- * LUA deps:
-   * `lua51.dll`
 
  * TILES deps:
    * `SDL2.dll`
@@ -232,6 +203,63 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
    * `libmodplug-1.dll`
    * `smpeg2.dll`
    * `libvorbisfile-3.dll`
+
+
+## CMake Build for Visual Studio / MSBuild
+
+CMake can generate  `.sln` and `.vcxproj` files used either by Visual Studio itself or by MSBuild command line compiler (if you don't want
+a full fledged IDE) and have more "native" binaries than what MSYS/Cygwin can provide.
+
+At the moment only a limited combination of options is supported (tiles only, no localizations, no backtrace).
+
+Get the tools:
+  * CMake from the official site - https://cmake.org/download/.
+  * Microsoft compiler - https://visualstudio.microsoft.com/downloads/?q=build+tools , choose "Build Tools for Visual Studio 2017". When installing chose "Visual C++ Build Tools" options.
+    * alternatively, you can get download and install the complete Visual Studio, but that's not required.
+
+Get the required libraries:
+  * `SDL2` - https://www.libsdl.org/download-2.0.php (you need the "(Visual C++ 32/64-bit)" version. Same below)
+  * `SDL2_ttf` - https://www.libsdl.org/projects/SDL_ttf/
+  * `SDL2_image` - https://www.libsdl.org/projects/SDL_image/
+  * `SDL2_mixer` (optional, for sound support) - https://www.libsdl.org/projects/SDL_mixer/
+  * Unsupported (and unused in the following instructions) optional libs:
+    *  `gettext`/`libintl` - http://gnuwin32.sourceforge.net/packages/gettext.htm
+    * `ncurses` - ???
+
+Unpack the archives with the libraries.
+
+Open windows command line (or powershell), set the environment variables to point to the libs above as follows (adjusting the paths as appropriate):
+```
+  > set SDL2DIR=C:\path\to\SDL2-devel-2.0.9-VC
+  > set SDL2TTFDIR=C:\path\to\SDL2_ttf-devel-2.0.15-VC
+  > set SDL2IMAGEDIR=C:\path\to\SDL2_image-devel-2.0.4-VC
+  > set SDL2MIXERDIR=C:\path\to\SDL2_mixer-devel-2.0.4-VC
+```
+(for powershell the syntax is `$env:SDL2DIR="C:\path\to\SDL2-devel-2.0.9-VC"`).
+
+Make a build directory and run cmake configuration step
+```
+  > cd <path to cdda sources>
+  > mkdir build
+  > cd build
+  > cmake .. -DTILES=ON -DLOCALIZE=OFF -DBACKTRACE=OFF -DSOUND=ON
+```
+
+
+Build!
+```
+  > cmake --build . -j 2 -- /p:Configuration=Release
+```
+  The `-j 2` flag controls build parallelism - you can omit it if you wish. The `/p:Configuration=Release` flag is passed directly to MSBuild and
+  controls optimizations. If you omit it, the `Debug` configuration would be built instead.  For powershell you'll need to have an extra ` -- ` after the first one.
+
+The resulting files will be put into a `Release` directory inside your source Cataclysm-DDA folder. To make them run you'd need to first move them to the
+source Cataclysm-DDA directory itself (so that the binary has access to the game data), and second put the required `.dll`s into the same folder -
+you can find those inside the directories for dev libraries under `lib/x86/` or `lib/x64/` (you likely need the `x86` ones even if you're on 64-bit machine).
+
+The copying of dlls is a one-time task, but you'd need to move the binary out of `Release/` each time it's built. To automate it a bit, you can configure cmake and set the desired binaries destination directory with `-DCMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE=`  option (and similar for `CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG`).
+
+Run the game. Should work.
 
 
 # Build Options
@@ -280,11 +308,6 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
  Support for in-game sounds & music.
 
 
- * LUA=`<boolean>`
-
- This enables Lua support. Needed only for full-fledged mods.
-
-
  * USE_HOME_DIR=`<boolean>`
 
  Use user's home directory for save files.
@@ -307,16 +330,11 @@ The following build systems are fully supported for compiling CataclysmDDA on Li
  -DLANGUAGES="cs;de;el;es_AR;es_ES"
  ```
 
- * LUA_BINARY=`<str>`
-
- Override default Lua binary name or path. You can try to use `luajit` for extra speed.
-
-
  * GIT_BINARY=`<str>`
 
  Override default Git binary name or path.
 
- So a CMake command for building Cataclysm-DDA in release mode with tiles, sound and lua support will look as follows, provided it is run in build directory located in the project.
+ So a CMake command for building Cataclysm-DDA in release mode with tiles and sound support will look as follows, provided it is run in build directory located in the project.
 ```
-cmake ../ -DCMAKE_BUILD_TYPE=Release -DTILES=ON -DSOUND=ON -DLUA=ON
+cmake ../ -DCMAKE_BUILD_TYPE=Release -DTILES=ON -DSOUND=ON
 ```

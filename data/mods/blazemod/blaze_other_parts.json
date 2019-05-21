@@ -8,6 +8,7 @@
     "durability": 200,
     "epower": 0,
     "power": 242450,
+    "energy_consumption": 485000,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -24,6 +25,7 @@
     "durability": 200,
     "epower": 0,
     "power": 447600,
+    "energy_consumption": 895250,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -39,6 +41,7 @@
     "cold_affects_start": true,
     "looks_like": "diesel_engine_v12",
     "m2c": 75,
+    "//": "45% energy efficiency",
     "description": "A closed cycle, external combustion steam turbine.  Burns coal from a bunker in the vehicle to produce steam."
   },
   {
@@ -50,6 +53,7 @@
     "durability": 200,
     "epower": 0,
     "power": 93250,
+    "energy_consumption": 207250,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -66,6 +70,7 @@
     "durability": 200,
     "epower": 0,
     "power": 149200,
+    "energy_consumption": 331750,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -82,6 +87,7 @@
     "durability": 200,
     "epower": 0,
     "power": 242450,
+    "energy_consumption": 539000,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -98,6 +104,7 @@
     "durability": 200,
     "epower": 0,
     "power": 447600,
+    "energy_consumption": 994750,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 30, 60 ] },
       { "item": "steel_chunk", "count": [ 30, 60 ] },
@@ -187,7 +194,7 @@
       { "item": "solar_cell", "count": [ 20, 60 ] }
     ],
     "flags": [ "SOLAR_PANEL", "OBSTACLE" ]
-  },  
+  },
   {
     "id": "tread1",
     "type": "vehicle_part",
@@ -209,6 +216,9 @@
       { "item": "plastic_chunk", "count": [ 50, 120 ] },
       { "item": "chain", "count": [ 1, 3 ] }
     ],
+    "rolling_resistance": 6,
+    "wheel_type": "treads",
+    "contact_area": 900,
     "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED", "NO_JACK" ]
   },
   {
@@ -231,6 +241,9 @@
       { "item": "scrap", "count": [ 50, 75 ] },
       { "item": "chain", "count": [ 3, 6 ] }
     ],
+    "rolling_resistance": 5,
+    "wheel_type": "treads",
+    "contact_area": 2500,
     "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED", "NO_JACK" ]
   },
   {
@@ -253,6 +266,9 @@
       { "item": "scrap", "count": [ 60, 120 ] },
       { "item": "chain", "count": [ 3, 4 ] }
     ],
+    "rolling_resistance": 5,
+    "wheel_type": "treads",
+    "contact_area": 3600,
     "flags": [ "WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED", "NO_JACK" ]
   },
   {

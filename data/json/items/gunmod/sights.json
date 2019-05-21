@@ -3,7 +3,7 @@
     "id": "bow_sight",
     "type": "GUNMOD",
     "name": "five pin bow sight",
-    "description": "A set of adjustable optic fibre aiming pins with a bracket to mount on modern bows.  Improves accuracy substantially, but takes a bit longer to line up.",
+    "description": "A set of adjustable optic fiber aiming pins with a bracket to mount on modern bows.  Improves accuracy substantially, but takes a bit longer to line up.",
     "weight": 120,
     "volume": 1,
     "integral_volume": 0,
@@ -79,6 +79,7 @@
     "weight": 60,
     "volume": 1,
     "integral_volume": 0,
+    "integral_weight": 0,
     "price": 72000,
     "material": [ "steel" ],
     "symbol": ":",
@@ -192,10 +193,12 @@
     "location": "sights",
     "mod_targets": [ "smg", "rifle", "shotgun", "crossbow", "pistol", "launcher" ],
     "install_time": 30000,
+    "consume_chance": 1000,
+    "consume_divisor": 505,
     "sight_dispersion": 15,
     "aim_speed": 1,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
-    "flags": [ "DISABLE_SIGHTS" ]
+    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ]
   },
   {
     "id": "tele_sight_pistol",
@@ -212,8 +215,10 @@
     "mod_targets": [ "pistol", "crossbow" ],
     "sight_dispersion": 20,
     "aim_speed": 1,
+    "consume_chance": 1000,
+    "consume_divisor": 85,
     "min_skills": [ [ "weapon", 2 ], [ "gun", 3 ] ],
-    "flags": [ "DISABLE_SIGHTS" ]
+    "flags": [ "DISABLE_SIGHTS", "CONSUMABLE" ]
   },
   {
     "id": "lead_red_dot_sight",

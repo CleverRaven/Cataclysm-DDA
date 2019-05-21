@@ -45,13 +45,13 @@
     "id": "CTRL_ELECTRONIC",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "You can 'e'xamine the tile or attempt to pick-up items (default ',') to access the controls, or use the vehicle control key (default '^')."
+    "info": "You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^')."
   },
   {
     "id": "CONTROLS",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "With a seat or saddle, you drive from here.  You can 'e'xamine the tile or attempt to pick-up items (default ',') to access the controls, or use the vehicle control key (default '^')."
+    "info": "With a seat or saddle, you drive from here.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^')."
   },
   {
     "id": "COVERED",
@@ -99,7 +99,7 @@
     "id": "FLOATS",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "If the center of balance of your vehicle is between all the boat boards and you have no wheels, the vehicle will be able to float and move over water, provided it has an active engine or motor with enough power to move the vehicle."
+    "info": "Each boat hull will reduce the draft of your vehicle and increase the height sealed against water.  If the draft is less than the sealed height, your vehicle will float if placed in water."
   },
   {
     "id": "NONBELTABLE",
@@ -148,5 +148,17 @@
     "type": "json_flag",
     "context": [ "vehicle_part" ],
     "info": "If the center of balance of your vehicle is between all the wheels, the vehicle will be able to move, provided it has an active engine or motor with enough power to move the vehicle."
+  },
+  {
+    "id": "FLAT_SURF",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "This has a flat surface.  It would be a nice place to eat."
+  },
+  {
+    "id": "WORKBENCH",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "info": "You can craft here."
   }
 ]

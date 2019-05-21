@@ -1,9 +1,18 @@
-#include "catch/catch.hpp"
+#include <stddef.h>
+#include <string>
+#include <memory>
+#include <set>
+#include <utility>
+#include <vector>
 
+#include "avatar.h"
+#include "catch/catch.hpp"
 #include "common_types.h"
+#include "faction.h"
 #include "field.h"
 #include "game.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "overmapbuffer.h"
@@ -12,9 +21,16 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
-#include "vpart_reference.h"
-
-#include <string>
+#include "vpart_reference.h" // IWYU pragma: keep
+#include "calendar.h"
+#include "creature.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "line.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "string_id.h"
+#include "type_id.h"
 
 void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
@@ -41,7 +57,7 @@ npc create_model()
     npc model_npc;
     model_npc.normalize();
     model_npc.randomize( NC_NONE );
-    for( trait_id tr : model_npc.get_mutations() ) {
+    for( const trait_id &tr : model_npc.get_mutations() ) {
         model_npc.unset_mutation( tr );
     }
     model_npc.set_hunger( 0 );
@@ -52,6 +68,17 @@ npc create_model()
     model_npc.set_mutation( trait_id( "WEB_WEAVER" ) );
 
     return model_npc;
+}
+
+std::string get_list_of_npcs( const std::string &title )
+{
+
+    std::ostringstream npc_list;
+    npc_list << title << ":\n";
+    for( const npc &n : g->all_npcs() ) {
+        npc_list << "  " << &n << ": " << n.name << '\n';
+    }
+    return npc_list.str();
 }
 
 TEST_CASE( "on_load-sane-values", "[.]" )
@@ -164,7 +191,7 @@ TEST_CASE( "snippet-tag-test" )
         const auto ids = SNIPPET.all_ids_from_category( tag );
         std::set<std::string> valid_snippets;
         for( int id : ids ) {
-            const auto snip = SNIPPET.get( id );
+            const auto &snip = SNIPPET.get( id );
             valid_snippets.insert( snip );
         }
 
@@ -254,6 +281,7 @@ static void check_npc_movement( const tripoint &origin )
             switch( setup[y][x] ) {
                 case 'W':
                 case 'M':
+                    CAPTURE( setup[y][x] );
                     tripoint p = origin + point( x, y );
                     npc *guy = g->critter_at<npc>( p );
                     CHECK( guy != nullptr );
@@ -288,26 +316,8 @@ TEST_CASE( "npc-movement" )
 
     g->place_player( tripoint( 60, 60, 0 ) );
 
-    // kill npcs before removing vehicles so they are correctly unboarded
-    for( int y = 0; y < height; ++y ) {
-        for( int x = 0; x < width; ++x ) {
-            const tripoint p = g->u.pos() + point( x, y );
-            Creature *cre = g->critter_at( p );
-            if( cre != nullptr && cre != &g->u ) {
-                npc *guy = dynamic_cast<npc *>( cre );
-                cre->die( nullptr );
-                if( guy ) {
-                    overmap_buffer.remove_npc( guy->getID() );
-                }
-            }
-        }
-    }
-    g->unload_npcs();
-    // remove existing vehicles
-    VehicleList vehs = g->m.get_vehicles( g->u.pos(), g->u.pos() + point( width - 1, height - 1 ) );
-    for( auto &veh : vehs ) {
-        g->m.detach_vehicle( veh.v );
-    }
+    clear_map();
+
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const char type = setup[y][x];
@@ -351,6 +361,10 @@ TEST_CASE( "npc-movement" )
                 guy->normalize();
                 guy->randomize();
                 guy->spawn_at_precise( {g->get_levx(), g->get_levy()}, p );
+                // Set the shopkeep mission; this means that
+                // the NPC deems themselves to be guarding and stops them
+                // wandering off in search of distant ammo caches, etc.
+                guy->mission = NPC_MISSION_SHOPKEEP;
                 overmap_buffer.insert_npc( guy );
                 g->load_npcs();
                 guy->set_attitude( ( type == 'M' || type == 'C' ) ? NPCATT_NULL : NPCATT_FOLLOW );
@@ -395,7 +409,7 @@ TEST_CASE( "npc-movement" )
     }
 
     SECTION( "Player in vehicle & NPCs escaping dangerous terrain" ) {
-        tripoint origin = g->u.pos();
+        const tripoint origin = g->u.pos();
 
         for( int y = 0; y < height; ++y ) {
             for( int x = 0; x < width; ++x ) {
@@ -408,4 +422,40 @@ TEST_CASE( "npc-movement" )
 
         check_npc_movement( origin );
     }
+}
+
+TEST_CASE( "npc_can_target_player" )
+{
+    // Set to daytime for visibiliity
+    calendar::turn = HOURS( 12 );
+
+    g->faction_manager_ptr->create_if_needed();
+
+    g->place_player( tripoint( 10, 10, 0 ) );
+
+    clear_npcs();
+    clear_creatures();
+
+    const auto spawn_npc = []( const int x, const int y, const std::string & npc_class ) {
+        const string_id<npc_template> test_guy( npc_class );
+        const int model_id = g->m.place_npc( 10, 10, test_guy, true );
+        g->load_npcs();
+
+        npc *guy = g->find_npc( model_id );
+        REQUIRE( guy != nullptr );
+        CHECK( !guy->in_vehicle );
+        guy->setpos( g->u.pos() + point( x, y ) );
+        return guy;
+    };
+
+    npc *hostile = spawn_npc( 0, 1, "thug" );
+    REQUIRE( rl_dist( g->u.pos(), hostile->pos() ) <= 1 );
+    hostile->set_attitude( NPCATT_KILL );
+    hostile->name = "Enemy NPC";
+
+    INFO( get_list_of_npcs( "NPCs after spawning one" ) );
+
+    hostile->regen_ai_cache();
+    REQUIRE( hostile->current_target() != nullptr );
+    CHECK( hostile->current_target() == static_cast<Creature *>( &g->u ) );
 }

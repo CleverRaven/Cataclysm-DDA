@@ -1,5 +1,8 @@
 #include "mongroup.h"
 
+#include <algorithm>
+#include <utility>
+
 #include "assign.h"
 #include "calendar.h"
 #include "debug.h"
@@ -83,7 +86,7 @@ const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup
         const time_duration replace_time = groupptr->monster_group_time *
                                            get_option<float>( "MONSTER_UPGRADE_FACTOR" );
         while( groupptr->replace_monster_group &&
-               calendar::turn - calendar::time_of_cataclysm > replace_time ) {
+               calendar::turn - time_point( calendar::start ) > replace_time ) {
             groupptr = &groupptr->new_monster_group.obj();
         }
     }
@@ -258,13 +261,10 @@ const MonsterGroup &MonsterGroupManager::GetMonsterGroup( const mongroup_id &gro
     }
 }
 
-// see item_factory.cpp
-extern void add_to_set( std::set<std::string> &s, JsonObject &json, const std::string &name );
-
 void MonsterGroupManager::LoadMonsterBlacklist( JsonObject &jo )
 {
-    add_to_set( monster_blacklist, jo, "monsters" );
-    add_to_set( monster_categories_blacklist, jo, "categories" );
+    add_array_to_set( monster_blacklist, jo, "monsters" );
+    add_array_to_set( monster_categories_blacklist, jo, "categories" );
 }
 
 void MonsterGroupManager::LoadMonsterWhitelist( JsonObject &jo )
@@ -272,8 +272,8 @@ void MonsterGroupManager::LoadMonsterWhitelist( JsonObject &jo )
     if( jo.has_string( "mode" ) && jo.get_string( "mode" ) == "EXCLUSIVE" ) {
         monster_whitelist_is_exclusive = true;
     }
-    add_to_set( monster_whitelist, jo, "monsters" );
-    add_to_set( monster_categories_whitelist, jo, "categories" );
+    add_array_to_set( monster_whitelist, jo, "monsters" );
+    add_array_to_set( monster_categories_whitelist, jo, "categories" );
 }
 
 bool MonsterGroupManager::monster_is_blacklisted( const mtype_id &m )
@@ -364,6 +364,7 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
         || jo.has_string( "default" ) ) { //Not mandatory to specify default if extending existing group
         g.defaultMonster = mtype_id( jo.get_string( "default" ) );
     }
+    g.is_animal = jo.get_bool( "is_animal", false );
     if( jo.has_array( "monsters" ) ) {
         JsonArray monarr = jo.get_array( "monsters" );
 
@@ -381,8 +382,8 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
                 pack_max = packarr.next_int();
             }
             static const time_duration tdfactor = 1_hours;
-            time_duration starts = 0;
-            time_duration ends = 0;
+            time_duration starts = 0_turns;
+            time_duration ends = 0_turns;
             if( mon.has_member( "starts" ) ) {
                 starts = tdfactor * mon.get_int( "starts" ) * ( mon_upgrade_factor > 0 ? mon_upgrade_factor : 1 );
             }
@@ -419,6 +420,12 @@ void MonsterGroupManager::LoadMonsterGroup( JsonObject &jo )
     monsterGroupMap[g.name] = g;
 }
 
+bool MonsterGroupManager::is_animal( const mongroup_id &group_name )
+{
+    const MonsterGroup *groupptr = &group_name.obj();
+    return groupptr->is_animal;
+}
+
 void MonsterGroupManager::ClearMonsterGroups()
 {
     monsterGroupMap.clear();
@@ -450,11 +457,11 @@ const mtype_id &MonsterGroupManager::GetRandomMonsterFromGroup( const mongroup_i
 {
     const auto &group = group_name.obj();
     int spawn_chance = rng( 1, group.freq_total ); //Default 1000 unless specified
-    for( auto it = group.monsters.begin(); it != group.monsters.end(); ++it ) {
-        if( it->frequency >= spawn_chance ) {
-            return it->name;
+    for( const auto &monster_type : group.monsters ) {
+        if( monster_type.frequency >= spawn_chance ) {
+            return monster_type.name;
         } else {
-            spawn_chance -= it->frequency;
+            spawn_chance -= monster_type.frequency;
         }
     }
 

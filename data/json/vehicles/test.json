@@ -3,7 +3,11 @@
     "id": "engine_test",
     "type": "vehicle",
     "name": "Engine Test",
-    "blueprint": [ [ "O---O" ], [ "8|=x|" ], [ "O-+-O" ] ],
+    "blueprint": [
+      [ "O---O" ],
+      [ "8|=x|" ],
+      [ "O-+-O" ]
+    ],
     "parts": [
       { "x": 0, "y": 1, "part": "frame_vertical" },
       { "x": 0, "y": 0, "part": "frame_vertical_2" },
@@ -33,7 +37,11 @@
     "id": "hispeed_split_test",
     "type": "vehicle",
     "name": "Rapid Destruction",
-    "blueprint": [ [ "O---O" ], [ "8|=x|" ], [ "O-+-O" ] ],
+    "blueprint": [
+      [ "O---O" ],
+      [ "8|=x|" ],
+      [ "O-+-O" ]
+    ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "roof" ] },
       { "x": 0, "y": 0, "parts": [ "reclining_seat", "seatbelt" ] },
@@ -95,17 +103,17 @@
     "name": "Cross Split",
     "parts": [
       { "x": 0, "y": 0, "part": "frame_vertical" },
-      { "x": 0, "y": 0, "part": "seat" },
+      { "x": 0, "y": 0, "parts": [ "seat", "foot_pedals" ] },
       { "x": 0, "y": 1, "parts": [ "frame_vertical", "bed" ] },
       { "x": 0, "y": 2, "parts": [ "frame_vertical", "bed" ] },
-      { "x": 1, "y": 2, "parts": [ "frame_vertical", "bed" ] },
-      { "x": -1, "y": 2, "parts": [ "frame_vertical", "bed" ] },
+      { "x": 1, "y": 2, "parts": [ "frame_vertical", "bed", "wheel_steerable" ] },
+      { "x": -1, "y": 2, "parts": [ "frame_vertical", "bed", "wheel_steerable" ] },
       { "x": 0, "y": -1, "parts": [ "frame_vertical", "seat" ] },
       { "x": 0, "y": -2, "parts": [ "frame_vertical", "seat" ] },
-      { "x": 1, "y": -2, "parts": [ "frame_vertical", "seat" ] },
-      { "x": -1, "y": -2, "parts": [ "frame_vertical", "seat" ] },
+      { "x": 1, "y": -2, "parts": [ "frame_vertical", "seat", "wheel_steerable" ] },
+      { "x": -1, "y": -2, "parts": [ "frame_vertical", "seat", "wheel_steerable" ] },
       { "x": 1, "y": 0, "parts": [ "frame_vertical", "door" ] },
-      { "x": -1, "y": 0, "parts": [ "frame_vertical", "engine_v6" ] }
+      { "x": -1, "y": 0, "parts": [ "frame_vertical", "engine_electric", "storage_battery" ] }
     ]
   },
   {

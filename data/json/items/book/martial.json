@@ -128,6 +128,14 @@
     "description": "A primer on Miyamoto Musashi's style of combat and philosophy, Niten Ichi-Ryu."
   },
   {
+    "id": "manual_pankration",
+    "copy-from": "book_martial",
+    "type": "GENERIC",
+    "name": "The Modern Pankratiast",
+    "name_plural": "The Modern Pankratiast",
+    "description": "A complete guide to Pankration."
+  },
+  {
     "id": "manual_scorpion",
     "copy-from": "book_martial",
     "type": "GENERIC",
@@ -198,5 +206,13 @@
     "name": "Zui Quan and You",
     "name_plural": "Zui Quan and You",
     "description": "A complete guide to Zui Quan."
+  },
+  {
+    "id": "manual_sojutsu",
+    "copy-from": "book_martial",
+    "type": "GENERIC",
+    "name": "The Way of the Spear",
+    "name_plural": "The Way of the Spear",
+    "description": "A complete guide to Sōjutsu."
   }
 ]

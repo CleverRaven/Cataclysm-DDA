@@ -2,6 +2,9 @@
 #ifndef WEIGHTED_LIST_H
 #define WEIGHTED_LIST_H
 
+#include "rng.h"
+
+#include <climits>
 #include <cstdlib>
 #include <functional>
 #include <vector>
@@ -93,7 +96,7 @@ template <typename W, typename T> struct weighted_list {
             }
         }
         const T *pick() const {
-            return pick( rand() );
+            return pick( rng_bits() );
         }
 
         /**
@@ -110,7 +113,7 @@ template <typename W, typename T> struct weighted_list {
             }
         }
         T *pick() {
-            return pick( rand() );
+            return pick( rng_bits() );
         }
 
         /**
@@ -196,7 +199,7 @@ template <typename T> struct weighted_int_list : public weighted_list<int, T> {
                 return 0;
             }
             size_t i;
-            int picked = ( randi % ( this->total_weight ) ) + 1;
+            const int picked = ( randi % ( this->total_weight ) ) + 1;
             if( !precalc_array.empty() ) {
                 // if the precalc_array is populated, use it for O(1) lookup
                 i = precalc_array[picked - 1];
@@ -222,13 +225,12 @@ template <typename T> struct weighted_int_list : public weighted_list<int, T> {
 
 template <typename T> struct weighted_float_list : public weighted_list<double, T> {
 
-        //TODO precalc using alias method
+        // TODO: precalc using alias method
 
     protected:
 
         size_t pick_ent( unsigned int randi ) const override {
-            double picked = static_cast<double>( randi % RAND_MAX ) / static_cast<double>( RAND_MAX ) *
-                            ( this->total_weight );
+            const double picked = static_cast<double>( randi ) / UINT_MAX * this->total_weight;
             double accumulated_weight = 0;
             size_t i;
             for( i = 0; i < this->objects.size(); i++ ) {

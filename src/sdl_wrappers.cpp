@@ -1,12 +1,15 @@
-#ifdef TILES
+#if defined(TILES)
 
 #include "sdl_wrappers.h"
 
+#include <cassert>
+#include <ostream>
+#include <stdexcept>
+#include <string>
+
 #include "debug.h"
 
-#include <cassert>
-
-#ifdef TILES
+#if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #       include <SDL2/SDL_image.h>
 #   else
@@ -75,6 +78,11 @@ void SetRenderDrawColor( const SDL_Renderer_Ptr &renderer, const Uint8 r, const 
                   "SDL_SetRenderDrawColor failed" );
 }
 
+void RenderDrawPoint( const SDL_Renderer_Ptr &renderer, int x, int y )
+{
+    printErrorIf( SDL_RenderDrawPoint( renderer.get(), x, y ) != 0, "SDL_RenderDrawPoint failed" );
+}
+
 void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const rect )
 {
     if( !renderer ) {
@@ -82,6 +90,25 @@ void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const rec
         return;
     }
     printErrorIf( SDL_RenderFillRect( renderer.get(), rect ) != 0, "SDL_RenderFillRect failed" );
+}
+
+void FillRect( const SDL_Surface_Ptr &surface, const SDL_Rect *const rect, Uint32 color )
+{
+    if( !surface ) {
+        dbg( D_ERROR ) << "Tried to use a null surface";
+        return;
+    }
+    printErrorIf( SDL_FillRect( surface.get(), rect, color ) != 0, "SDL_FillRect failed" );
+}
+
+bool SetTextureColorMod( const SDL_Texture_Ptr &texture, Uint32 r, Uint32 g, Uint32 b )
+{
+    if( !texture ) {
+        dbg( D_ERROR ) << "Tried to use a null texture";
+        return true;
+    }
+    return printErrorIf( SDL_SetTextureColorMod( texture.get(), r, g, b ) != 0,
+                         "SDL_SetTextureColorMod failed" );
 }
 
 void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, const SDL_BlendMode blendMode )
@@ -133,4 +160,5 @@ SDL_Surface_Ptr CreateRGBSurface( const Uint32 flags, const int width, const int
     throwErrorIf( !surface, "Failed to create surface" );
     return surface;
 }
+
 #endif

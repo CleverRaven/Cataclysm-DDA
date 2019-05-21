@@ -1,6 +1,11 @@
-#include "vehicle.h"
+#include "vehicle.h" // IWYU pragma: associated
 
-#include "coordinate_conversions.h"
+#include <algorithm>
+#include <cassert>
+#include <cmath>
+#include <set>
+#include <memory>
+
 #include "debug.h"
 #include "game.h"
 #include "item.h"
@@ -8,17 +13,14 @@
 #include "map.h"
 #include "messages.h"
 #include "npc.h"
-#include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "veh_type.h"
 #include "vpart_position.h"
 #include "weather.h"
-
-#include <algorithm>
-#include <cassert>
-#include <cmath>
-#include <set>
+#include "optional.h"
+#include "color.h"
+#include "string_id.h"
 
 static const itype_id fuel_type_none( "null" );
 static const itype_id fuel_type_battery( "battery" );
@@ -28,7 +30,7 @@ static const itype_id fuel_type_battery( "battery" );
 vehicle_part::vehicle_part()
     : mount( 0, 0 ), id( vpart_id::NULL_ID() ) {}
 
-vehicle_part::vehicle_part( const vpart_id &vp, const point dp, item &&obj )
+vehicle_part::vehicle_part( const vpart_id &vp, const point &dp, item &&obj )
     : mount( dp ), id( vp ), base( std::move( obj ) )
 {
     // Mark base item as being installed as a vehicle part
@@ -63,7 +65,7 @@ item vehicle_part::properties_to_item() const
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
     if( tmp.has_flag( "CABLE_SPOOL" ) ) {
-        tripoint local_pos = g->m.getlocal( target.first );
+        const tripoint local_pos = g->m.getlocal( target.first );
         if( !g->m.veh_at( local_pos ) ) {
             tmp.item_tags.insert( "NO_DROP" ); // That vehicle ain't there no more.
         }
@@ -78,7 +80,7 @@ item vehicle_part::properties_to_item() const
     return tmp;
 }
 
-std::string vehicle_part::name() const
+std::string vehicle_part::name( bool with_prefix ) const
 {
     auto res = info().name();
 
@@ -96,12 +98,17 @@ std::string vehicle_part::name() const
     if( base.has_var( "contained_name" ) ) {
         res += string_format( _( " holding %s" ), base.get_var( "contained_name" ) );
     }
+
+    if( with_prefix ) {
+        res.insert( 0, "<color_" + string_from_color( this->base.damage_color() ) + ">" +
+                    this->base.damage_symbol() + "</color> " );
+    }
     return res;
 }
 
 int vehicle_part::hp() const
 {
-    int dur = info().durability;
+    const int dur = info().durability;
     if( base.max_damage() > 0 ) {
         return dur - ( dur * base.damage() / base.max_damage() );
     } else {
@@ -188,7 +195,7 @@ itype_id vehicle_part::ammo_current() const
     return "null";
 }
 
-long vehicle_part::ammo_capacity() const
+int vehicle_part::ammo_capacity() const
 {
     if( is_tank() ) {
         return item::find_type( ammo_current() )->charges_per_volume( base.get_container_capacity() );
@@ -201,7 +208,7 @@ long vehicle_part::ammo_capacity() const
     return 0;
 }
 
-long vehicle_part::ammo_remaining() const
+int vehicle_part::ammo_remaining() const
 {
     if( is_tank() ) {
         return base.contents.empty() ? 0 : base.contents.back().charges;
@@ -214,14 +221,16 @@ long vehicle_part::ammo_remaining() const
     return 0;
 }
 
-int vehicle_part::ammo_set( const itype_id &ammo, long qty )
+int vehicle_part::ammo_set( const itype_id &ammo, int qty )
 {
     const itype *liquid = item::find_type( ammo );
-    if( is_tank() && liquid->phase >= LIQUID ) {
+
+    // We often check if ammo is set to see if tank is empty, if qty == 0 don't set ammo
+    if( is_tank() && liquid->phase >= LIQUID && qty != 0 ) {
         base.contents.clear();
-        auto stack = units::legacy_volume_factor / std::max( liquid->stack_size, 1 );
-        long limit = units::from_milliliter( ammo_capacity() ) / stack;
-        base.emplace_back( ammo, calendar::turn, qty >= 0 ? std::min( qty, limit ) : limit );
+        const auto stack = units::legacy_volume_factor / std::max( liquid->stack_size, 1 );
+        const int limit = units::from_milliliter( ammo_capacity() ) / stack;
+        base.emplace_back( ammo, calendar::turn, qty > 0 ? std::min( qty, limit ) : limit );
         return qty;
     }
 
@@ -246,10 +255,10 @@ void vehicle_part::ammo_unset()
     }
 }
 
-long vehicle_part::ammo_consume( long qty, const tripoint &pos )
+int vehicle_part::ammo_consume( int qty, const tripoint &pos )
 {
     if( is_tank() && !base.contents.empty() ) {
-        int res = std::min( ammo_remaining(), qty );
+        const int res = std::min( ammo_remaining(), qty );
         item &liquid = base.contents.back();
         liquid.charges -= res;
         if( liquid.charges == 0 ) {
@@ -260,7 +269,7 @@ long vehicle_part::ammo_consume( long qty, const tripoint &pos )
     return base.ammo_consume( qty, pos );
 }
 
-float vehicle_part::consume_energy( const itype_id &ftype, float energy )
+double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
 {
     if( base.contents.empty() || !is_fuel_store() ) {
         return 0.0f;
@@ -269,18 +278,24 @@ float vehicle_part::consume_energy( const itype_id &ftype, float energy )
     item &fuel = base.contents.back();
     if( fuel.typeId() == ftype ) {
         assert( fuel.is_fuel() );
-        float energy_per_unit = fuel.fuel_energy();
-        long charges_to_use = static_cast<int>( std::ceil( energy / energy_per_unit ) );
-        if( charges_to_use > fuel.charges ) {
-            long had_charges = fuel.charges;
-            base.contents.clear();
-            return had_charges * energy_per_unit;
-        }
+        // convert energy density in MJ/L to J/ml
+        const double energy_p_mL = fuel.fuel_energy() * 1000;
+        const int ml_to_use = static_cast<int>( std::floor( energy_j / energy_p_mL ) );
+        int charges_to_use = fuel.charges_per_volume( ml_to_use * 1_ml );
 
-        fuel.charges -= charges_to_use;
-        return charges_to_use * energy_per_unit;
+        if( !charges_to_use ) {
+            return 0.0;
+        }
+        if( charges_to_use > fuel.charges ) {
+            charges_to_use = fuel.charges;
+            base.contents.clear();
+        } else {
+            fuel.charges -= charges_to_use;
+        }
+        item fuel_consumed( ftype, calendar::turn, charges_to_use );
+        return energy_p_mL * units::to_milliliter<int>( fuel_consumed.volume( true ) );
     }
-    return 0.0f;
+    return 0.0;
 }
 
 bool vehicle_part::can_reload( const item &obj ) const
@@ -326,15 +341,15 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
     // for now we only care about processing food containers since things like
     // fuel don't care about temperature yet
     if( base.is_food_container() ) {
-        int temp = g->get_temperature( pos );
+        temperature_flag flag = temperature_flag::TEMP_NORMAL;
         if( e_heater ) {
-            temp = std::max( temp, temperatures::cold + 1 );
+            flag = temperature_flag::TEMP_HEATER;
         }
-        base.process( nullptr, pos, false, temp, 1 );
+        base.process( nullptr, pos, false, 1, flag );
     }
 }
 
-bool vehicle_part::fill_with( item &liquid, long qty )
+bool vehicle_part::fill_with( item &liquid, int qty )
 {
     if( !is_tank() || !can_reload( liquid ) ) {
         return false;
@@ -365,7 +380,7 @@ bool vehicle_part::fault_set( const fault_id &f )
 
 int vehicle_part::wheel_area() const
 {
-    return base.is_wheel() ? base.type->wheel->diameter * base.type->wheel->width : 0;
+    return info().wheel_area();
 }
 
 /** Get wheel diameter (inches) or return 0 if part is not wheel */
@@ -390,12 +405,12 @@ npc *vehicle_part::crew() const
     if( !res ) {
         return nullptr;
     }
-    return res->is_friend() ? res : nullptr;
+    return res->is_player_ally() ? res : nullptr;
 }
 
 bool vehicle_part::set_crew( const npc &who )
 {
-    if( who.is_dead_state() || !who.is_friend() ) {
+    if( who.is_dead_state() || !( who.is_walking_with() || who.is_player_ally() ) ) {
         return false;
     }
     if( is_broken() || ( !is_seat() && !is_turret() ) ) {
@@ -425,6 +440,8 @@ bool vehicle_part::is_light() const
 {
     const auto &vp = info();
     return vp.has_flag( VPFLAG_CONE_LIGHT ) ||
+           vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||
+           vp.has_flag( VPFLAG_HALF_CIRCLE_LIGHT ) ||
            vp.has_flag( VPFLAG_CIRCLE_LIGHT ) ||
            vp.has_flag( VPFLAG_AISLE_LIGHT ) ||
            vp.has_flag( VPFLAG_DOME_LIGHT ) ||
@@ -451,7 +468,7 @@ bool vehicle_part::is_battery() const
 
 bool vehicle_part::is_reactor() const
 {
-    return info().has_flag( "REACTOR" );
+    return info().has_flag( VPFLAG_REACTOR );
 }
 
 bool vehicle_part::is_turret() const
@@ -513,7 +530,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
         return false;
     }
 
-    // @todo: check fuel for combustion engines
+    // TODO: check fuel for combustion engines
 
     if( pt.info().epower < 0 && fuel_left( fuel_type_battery, true ) <= 0 ) {
         if( alert ) {

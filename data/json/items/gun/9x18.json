@@ -20,6 +20,7 @@
       [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
@@ -29,7 +30,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [ [ "9x18", [ "makarovmag" ] ], [ "9mm", [ "m9mag" ] ] ]
+    "magazines": [ [ "9x18", [ "makarovmag" ] ] ]
   },
   {
     "id": "skorpion_82",
@@ -41,6 +42,6 @@
     "weight": 1251,
     "ammo": "9x18",
     "burst": 15,
-    "magazines": [ [ "9x18", [ "skorpion82mag" ] ], [ "9mm", [ "m9bigmag" ] ] ]
+    "magazines": [ [ "9x18", [ "skorpion82mag" ] ] ]
   }
 ]

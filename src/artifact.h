@@ -2,13 +2,14 @@
 #ifndef ARTIFACT_H
 #define ARTIFACT_H
 
+#include <string>
+
 #include "enums.h"
 #include "itype.h"
 
-#include <string>
-
 class JsonObject;
 class JsonOut;
+class item;
 
 enum art_effect_active : int {
     AEA_NULL = 0,
@@ -109,7 +110,7 @@ std::string new_natural_artifact( artifact_natural_property prop );
 std::string architects_cube();
 
 // note: needs to be called by main() before MAPBUFFER.load
-void load_artifacts( const std::string &filename );
+void load_artifacts( const std::string &path );
 // save artifact definitions to json, path must be the same as for loading.
 bool save_artifacts( const std::string &path );
 

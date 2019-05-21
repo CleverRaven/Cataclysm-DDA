@@ -4,9 +4,9 @@
     "id": "trailhead",
     "terrain": {
       " ": "t_dirt",
-      ",": [ "t_grass", "t_grass", "t_dirt" ],
+      ",": [ [ "t_grass", 2 ], "t_dirt" ],
       ";": [ "t_grass", "t_dirt" ],
-      ".": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
+      ".": [ [ "t_dirt", 5 ], "t_grass" ],
       "b": "t_dirt",
       "t": "t_trunk",
       "s": "t_dirt",
@@ -69,7 +69,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "trailhead" ],
-    "weight": 1,
+    "weight": 5,
     "object": {
       "rows": [
         ",,,,,,,;;......,,,,,,;,,",
@@ -150,7 +150,7 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "trailhead" ],
-    "weight": 1,
+    "weight": 5,
     "object": {
       "rows": [
         ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -183,9 +183,16 @@
       "place_signs": [
         { "snippet": "trailhead", "x": 10, "y": 18 },
         { "signage": "<family_name> Trail", "x": 10, "y": 20 },
-        { "signage": "PLEASE  No fish cleaning or dishwashing.", "x": 19, "y": 15 }
-      ]
+        { "signage": "PLEASE  No fish cleaning or dish washing.", "x": 19, "y": 15 }
+      ],
+      "place_nested": [ { "chunks": [ [ "null", 2 ], [ "trailhead_sub_graffiti_snippet", 1 ] ], "x": 5, "y": [ 18, 20 ] } ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "trailhead_sub_graffiti_snippet",
+    "object": { "mapgensize": [ 1, 1 ], "place_graffiti": [ { "snippet": "trailhead_graffiti", "x": 0, "y": 0 } ] }
   },
   {
     "type": "snippet",
@@ -205,6 +212,16 @@
       "No motorized vehicles.",
       "DANGER.  HIGH FIRE HAZARD AREA.  NO OPEN FIRE.  NO SMOKING.",
       "No Overnight Camping."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "trailhead_graffiti",
+    "text": [
+      "I left my wallet in <city>",
+      "<given_name> + <given_name> forever",
+      "N = R * fp * ne * fl * fi * fc * L  drake was right",
+      "kilroy was here"
     ]
   }
 ]

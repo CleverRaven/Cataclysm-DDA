@@ -2,18 +2,17 @@
 #ifndef COMPUTER_H
 #define COMPUTER_H
 
-#include "calendar.h"
-#include "cursesdef.h"
-
 #include <string>
 #include <vector>
 
-class game;
+#include "calendar.h"
+#include "cursesdef.h"
+
 class player;
 class JsonObject;
 
 // Don't change those! They must stay in this specific order!
-// @todo: Remove this enum
+// TODO: Remove this enum
 enum computer_action {
     COMPACT_NULL = 0,
     COMPACT_OPEN,
@@ -42,7 +41,7 @@ enum computer_action {
     COMPACT_BLOOD_ANAL,
     COMPACT_DATA_ANAL,
     COMPACT_DISCONNECT,
-    COMPACT_STEMCELL_TREATMENT,
+    COMPACT_BONESETTING,
     COMPACT_EMERG_MESS,
     COMPACT_EMERG_REF_CENTER,   //Points to the refugee center
     COMPACT_TOWER_UNRESPONSIVE,
@@ -59,11 +58,17 @@ enum computer_action {
     COMPACT_OPEN_DISARM,
     COMPACT_UNLOCK_DISARM,
     COMPACT_RELEASE_DISARM,
+    COMPACT_IRRADIATOR,
+    COMPACT_GEIGER,
+    COMPACT_CONVEYOR,
+    COMPACT_SHUTTERS,
+    COMPACT_EXTRACT_RAD_SOURCE,
+    COMPACT_DEACTIVATE_SHOCK_VENT,
     NUM_COMPUTER_ACTIONS
 };
 
 // Don't change those! They must stay in this specific order!
-// @todo: Remove this enum
+// TODO: Remove this enum
 enum computer_failure_type {
     COMPFAIL_NULL = 0,
     COMPFAIL_SHUTDOWN,
@@ -79,7 +84,7 @@ enum computer_failure_type {
     NUM_COMPUTER_FAILURES
 };
 
-// @todo: Turn the enum into id, get rid of this
+// TODO: Turn the enum into id, get rid of this
 computer_action computer_action_from_string( const std::string &str );
 computer_failure_type computer_failure_type_from_string( const std::string &str );
 
@@ -89,7 +94,7 @@ struct computer_option {
     int security;
 
     computer_option();
-    computer_option( std::string N, computer_action A, int S );
+    computer_option( const std::string &N, computer_action A, int S );
 
     static computer_option from_json( JsonObject &jo );
 };
@@ -106,7 +111,7 @@ struct computer_failure {
 class computer
 {
     public:
-        computer( const std::string &name, int Security );
+        computer( const std::string &new_name, int new_security );
         computer( const computer &rhs );
         ~computer();
 
@@ -166,7 +171,7 @@ class computer
         // Prints a line to the terminal (with printf flags)
         template<typename ...Args>
         void print_line( const char *text, Args &&... args );
-        // For now, the same as print_line but in red (TODO: change this?)
+        // For now, the same as print_line but in red ( TODO: change this?)
         template<typename ...Args>
         void print_error( const char *text, Args &&... args );
         // Wraps and prints a block of text with a 1-space indent

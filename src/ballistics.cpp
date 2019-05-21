@@ -1,5 +1,14 @@
 #include "ballistics.h"
 
+#include <cmath>
+#include <cstddef>
+#include <algorithm>
+#include <list>
+#include <memory>
+#include <set>
+#include <vector>
+
+#include "avatar.h"
 #include "creature.h"
 #include "dispersion.h"
 #include "explosion.h"
@@ -9,16 +18,21 @@
 #include "messages.h"
 #include "monster.h"
 #include "options.h"
-#include "output.h"
 #include "player.h"
 #include "projectile.h"
 #include "rng.h"
 #include "sounds.h"
 #include "trap.h"
-#include "vehicle.h"
 #include "vpart_position.h"
-
-#include <algorithm>
+#include "calendar.h"
+#include "damage.h"
+#include "debug.h"
+#include "enums.h"
+#include "item.h"
+#include "optional.h"
+#include "translations.h"
+#include "units.h"
+#include "type_id.h"
 
 const efftype_id effect_bounced( "bounced" );
 
@@ -36,7 +50,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     if( effects.count( "SHATTER_SELF" ) ) {
         // Drop the contents, not the thrown item
         if( g->u.sees( pt ) ) {
-            add_msg( _( "The %s shatters!" ), drop_item.tname().c_str() );
+            add_msg( _( "The %s shatters!" ), drop_item.tname() );
         }
 
         for( const item &i : drop_item.contents ) {
@@ -44,7 +58,22 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
         // TODO: Non-glass breaking
         // TODO: Wine glass breaking vs. entire sheet of glass breaking
-        sounds::sound( pt, 16, _( "glass breaking!" ) );
+        sounds::sound( pt, 16, sounds::sound_t::combat, _( "glass breaking!" ), false, "bullet_hit",
+                       "hit_glass" );
+        return;
+    }
+
+    if( effects.count( "BURST" ) ) {
+        // Drop the contents, not the thrown item
+        if( g->u.sees( pt ) ) {
+            add_msg( _( "The %s bursts!" ), drop_item.tname() );
+        }
+
+        for( const item &i : drop_item.contents ) {
+            g->m.add_item_or_charges( pt, i );
+        }
+
+        //TODO: Sound
         return;
     }
 
@@ -75,9 +104,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     if( embed ) {
         mon->add_item( dropped_item );
         if( g->u.sees( *mon ) ) {
-            add_msg( _( "The %1$s embeds in %2$s!" ),
-                     dropped_item.tname().c_str(),
-                     mon->disp_name().c_str() );
+            add_msg( _( "The %1$s embeds in %2$s!" ), dropped_item.tname(), mon->disp_name() );
         }
     } else {
         bool do_drop = true;
@@ -92,9 +119,9 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 
         if( effects.count( "HEAVY_HIT" ) ) {
             if( g->m.has_flag( "LIQUID", pt ) ) {
-                sounds::sound( pt, 10, _( "splash!" ) );
+                sounds::sound( pt, 10, sounds::sound_t::combat, _( "splash!" ), false, "bullet_hit", "hit_water" );
             } else {
-                sounds::sound( pt, 8, _( "thud." ) );
+                sounds::sound( pt, 8, sounds::sound_t::combat, _( "thud." ), false, "bullet_hit", "hit_wall" );
             }
             const trap &tr = g->m.tr_at( pt );
             if( tr.triggered_by_item( dropped_item ) ) {
@@ -147,7 +174,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         const tripoint &target_arg, const dispersion_sources &dispersion,
         Creature *origin, const vehicle *in_veh )
 {
-    const bool do_animation = get_option<bool>( "ANIMATIONS" );
+    const bool do_animation = get_option<bool>( "ANIMATION_PROJECTILES" );
 
     double range = rl_dist( source, target_arg );
 
@@ -203,7 +230,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         // cap wild misses at +/- 30 degrees
         rad += ( one_in( 2 ) ? 1 : -1 ) * std::min( ARCMIN( aim.dispersion ), DEGREES( 30 ) );
 
-        // @todo: This should also represent the miss on z axis
+        // TODO: This should also represent the miss on z axis
         const int offset = std::min<int>( range, sqrtf( aim.missed_by_tiles ) );
         int new_range = no_overshoot ?
                         range + rng( -offset, offset ) :
@@ -250,7 +277,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     if( !no_overshoot && range < extend_to_range ) {
         // Continue line is very "stiff" when the original range is short
-        // @todo: Make it use a more distant point for more realistic extended lines
+        // TODO: Make it use a more distant point for more realistic extended lines
         std::vector<tripoint> trajectory_extension = continue_line( trajectory,
                 extend_to_range - range );
         trajectory.reserve( trajectory.size() + trajectory_extension.size() );
@@ -375,7 +402,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         trajectory.erase( trajectory.begin() );
         trajectory.resize( traj_len-- );
         g->draw_line( tp, trajectory );
-        g->draw_bullet( tp, int( traj_len-- ), trajectory, bullet );
+        g->draw_bullet( tp, static_cast<int>( traj_len-- ), trajectory, bullet );
     }
 
     if( g->m.impassable( tp ) ) {
@@ -387,7 +414,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     apply_ammo_effects( tp, proj.proj_effects );
     const auto &expl = proj.get_custom_explosion();
     if( expl.power > 0.0f ) {
-        g->explosion( tp, proj.get_custom_explosion() );
+        explosion_handler::explosion( tp, proj.get_custom_explosion() );
     }
 
     // TODO: Move this outside now that we have hit point in return values?
@@ -409,7 +436,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         } );
         if( mon_ptr ) {
             Creature &z = *mon_ptr;
-            add_msg( _( "The attack bounced to %s!" ), z.get_name().c_str() );
+            add_msg( _( "The attack bounced to %s!" ), z.get_name() );
             z.add_effect( effect_bounced, 1_turns );
             projectile_attack( proj, tp, z.pos(), dispersion, origin, in_veh );
             sfx::play_variant_sound( "fire_gun", "bio_lightning_tail",

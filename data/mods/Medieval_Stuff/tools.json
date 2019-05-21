@@ -77,7 +77,7 @@
     "color": "yellow",
     "techniques": [ "WBLOCK_2" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ],
-    "flags": [ "DURABLE_MELEE" ]
+    "flags": [ "DURABLE_MELEE", "SHEATH_SWORD" ]
   },
   {
     "id": "anvil_bronze",

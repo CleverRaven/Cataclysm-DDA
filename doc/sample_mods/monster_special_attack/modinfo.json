@@ -1,9 +1,0 @@
-[
-  {
-    "type": "MOD_INFO",
-    "ident": "MonsterSpecialAttackTest",
-    "name": "Lua Test: Monster Special Attack",
-    "description": "This adds Lua-coded special attack. Zombies say hello.",
-    "path": ""
-  }
-]

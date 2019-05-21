@@ -1,12 +1,13 @@
 [
   {
-    "id" : "hflesh_drink",
+    "id": "hflesh_drink",
     "copy-from": "protein_drink",
-    "type" : "COMESTIBLE",
-    "name" : "soylent green drink",
-    "name_plural" : "soylent green drinks",
+    "type": "COMESTIBLE",
+    "name": "soylent green drink",
+    "name_plural": "soylent green drinks",
     "description": "A thin slurry of refined human protein mixed with water.  While quite nutritious, it is not particularly tasty.",
-    "material" : "hflesh"
+    "primary_material": "water",
+    "material": "hflesh"
   },
   {
     "id": "hflesh_powder",
@@ -46,11 +47,12 @@
     "color": "light_gray",
     "phase": "liquid",
     "container": "bottle_plastic",
+    "material": "water",
     "calories": 100,
     "quench": 40,
     "healthy": 2,
     "fun": -1,
-    "vitamins": [],
+    "vitamins": [ [ "calcium", 7 ] ],
     "flags": [ "EATEN_COLD" ]
   },
   {
@@ -70,7 +72,7 @@
     "color": "white",
     "container": "bottle_plastic_small",
     "calories": 100,
-    "vitamins": []
+    "vitamins": [  ]
   },
   {
     "id": "protein_shake",
@@ -79,14 +81,13 @@
     "name": "protein shake",
     "description": "A thick and tasty beverage made from pure refined protein and nutritious fruit.",
     "material": "fruit",
-    "proportional": {
-        "weight": 1.2,
-        "price": 2.0
-    },
-    "relative": { "calories": 50 },
+    "calories": 150,
     "healthy": 4,
     "fun": 4,
-    "vitamins": [ [ "vitC", 20 ] ]
+    "volume": 2,
+    "charges": 2,
+    "quench": 20,
+    "relative": { "vitamins": [ [ "vitC", 20 ] ] }
   },
   {
     "id": "protein_shake_fortified",

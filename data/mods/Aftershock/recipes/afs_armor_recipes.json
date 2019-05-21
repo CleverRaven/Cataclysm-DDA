@@ -1,0 +1,158 @@
+[
+  {
+    "result": "armguard_bone",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_ARMS",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": 30000,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 11 ] ],
+    "components": [
+      [ [ "bone", 10 ], [ "bone_human", 10 ], [ "bone_tainted", 20 ] ],
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ]
+    ]
+  },
+  {
+    "result": "boots_bone",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 40000,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 18 ] ],
+    "components": [ [ [ "bone", 18 ], [ "bone_human", 18 ], [ "bone_tainted", 36 ] ], [ [ "leather", 6 ], [ "fur", 6 ] ] ]
+  },
+  {
+    "result": "gauntlets_bone",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 30000,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 12 ], [ "cordage", 1 ] ],
+    "components": [ [ [ "bone", 12 ], [ "bone_human", 12 ], [ "bone_tainted", 24 ] ], [ [ "leather", 2 ] ] ]
+  },
+  {
+    "result": "helmet_bone",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "time": 60000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "bone", 24 ], [ "bone_human", 24 ], [ "bone_tainted", 48 ] ] ]
+  },
+  {
+    "result": "armor_bone",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 6,
+    "time": 30000,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 43 ] ],
+    "components": [
+      [ [ "bone", 40 ], [ "bone_human", 40 ], [ "bone_tainted", 80 ] ],
+      [ [ "leather", 12 ], [ "tanned_hide", 2 ], [ "fur", 12 ], [ "tanned_pelt", 2 ] ]
+    ]
+  },
+  {
+    "result": "afs_quilt_patchwork",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_SUIT",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": 120000,
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "sewing_standard", 80 ] ],
+    "components": [ [ [ "felt_patch", 30 ] ] ]
+  },
+  {
+    "result": "afs_boot_quiver",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "fabrication",
+    "time": 10000,
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 25 ] ],
+    "byproducts": [ [ "leather", 8 ] ],
+    "components": [ [ [ "thigh_high_boots", 1 ] ], [ [ "string_6", 3 ], [ "rope_6", 1 ] ] ]
+  },
+  {
+    "result": "afs_brigandine_crafted",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": 25000,
+    "autolearn": true,
+    "book_learn": [ [ "textbook_armwest", 1 ] ],
+    "using": [ [ "sewing_standard", 30 ] ],
+    "components": [ [ [ "rag", 15 ] ], [ [ "sheet_metal_small", 6 ] ], [ [ "adhesive", 1, "LIST" ] ] ]
+  },
+  {
+    "result": "afs_brigandine",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 4,
+    "time": 60000,
+    "book_learn": [ [ "textbook_armwest", 3 ] ],
+    "tools": [ [ [ "cordless_drill", 20 ] ] ],
+    "using": [ [ "sewing_standard", 40 ] ],
+    "components": [ [ [ "leather", 14 ] ], [ [ "sheet_metal_small", 8 ] ] ]
+  },
+  {
+    "result": "afs_titanium_vest",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": 10000,
+    "autolearn": true,
+    "reversible": true,
+    "using": [ [ "sewing_standard", 14 ] ],
+    "components": [ [ [ "afs_scrap_titanium", 8 ] ], [ [ "rag", 6 ] ] ]
+  },
+  {
+    "result": "afs_mbr_titanium",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_TORSO",
+    "skill_used": "tailor",
+    "time": 5000,
+    "reversible": true,
+    "decomp_learn": 0,
+    "autolearn": true,
+    "components": [ [ [ "modularvest", 1 ] ], [ [ "afs_scrap_titanium", 6 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "ear_plugs",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HEAD",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": 10000,
+    "autolearn": true,
+    "using": [ [ "surface_heat", 5, "LIST" ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ] ],
+    "components": [ [ [ "plastic_chunk", 1 ] ] ]
+  }
+]

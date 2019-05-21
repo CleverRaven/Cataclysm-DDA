@@ -2,12 +2,10 @@
 #ifndef MAP_SELECTOR_H
 #define MAP_SELECTOR_H
 
-#include "enums.h"
-#include "visitable.h"
-
 #include <vector>
 
-class map;
+#include "enums.h"
+#include "visitable.h"
 
 class map_cursor : public tripoint, public visitable<map_cursor>
 {

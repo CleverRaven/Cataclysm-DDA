@@ -7,6 +7,18 @@
   },
   {
     "type": "start_location",
+    "ident": "shelter_1",
+    "name": "Shelter",
+    "target": "shelter_1"
+  },
+  {
+    "type": "start_location",
+    "ident": "shelter_2",
+    "name": "Shelter",
+    "target": "shelter_2"
+  },
+  {
+    "type": "start_location",
     "ident": "refugee",
     "name": "Refuge Center",
     "target": "evac_center_7"
@@ -36,6 +48,12 @@
     "ident": "s_grocery",
     "name": "Grocery Store",
     "target": "s_grocery"
+  },
+  {
+    "type": "start_location",
+    "ident": "s_grocery_1",
+    "name": "Grocery Store",
+    "target": "s_grocery_1"
   },
   {
     "type": "start_location",
@@ -313,5 +331,29 @@
     "ident": "golfcourse_31",
     "name": "Golf course clubhouse",
     "target": "golfcourse_31"
+  },
+  {
+    "type": "start_location",
+    "ident": "apartments_con_tower_114",
+    "name": "Apartment Rooftop",
+    "target": "apartments_con_tower_114"
+  },
+  {
+    "type": "start_location",
+    "ident": "apartments_con_tower_014",
+    "name": "Apartment Rooftop",
+    "target": "apartments_con_tower_014"
+  },
+  {
+    "type": "start_location",
+    "ident": "apartments_con_tower_104",
+    "name": "Apartment Rooftop",
+    "target": "apartments_con_tower_104"
+  },
+  {
+    "type": "start_location",
+    "ident": "apartments_con_tower_004",
+    "name": "Apartment Rooftop",
+    "target": "apartments_con_tower_004"
   }
 ]

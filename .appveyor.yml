@@ -7,7 +7,7 @@ pull_requests:
 environment:
     matrix:
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-          PROJECT: /msvc-full-features/Cataclysm-vcpkg.sln
+          PROJECT: /msvc-full-features/Cataclysm-vcpkg-static.sln
           COMPILER: msvc2017
           TOOLCHAIN: msvc15
           PLATFORM: x64
@@ -19,12 +19,8 @@ cache:
   - 'c:\tools\vcpkg\installed'
 install:
     # Install dependency packages
-    - cmd: vcpkg --triplet %PLATFORM%-windows install sdl2 sdl2-image sdl2-mixer sdl2-ttf gettext lua
-    # Add LUA binary folder to PATH
-    - cmd: set PATH=c:\tools\vcpkg\installed\%PLATFORM%-windows\tools\lua;%PATH%
-    # Report LUA binary version
-    - cmd: lua.exe -v
+    - cmd: vcpkg --triplet %PLATFORM%-windows-static install sdl2 sdl2-image sdl2-mixer sdl2-ttf gettext
 build:
   parallel: true
-  project: /msvc-full-features/Cataclysm-vcpkg.sln
+  project: /msvc-full-features/Cataclysm-vcpkg-static.sln
   verbosity: minimal

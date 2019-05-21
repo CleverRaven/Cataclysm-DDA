@@ -1,5 +1,14 @@
 #include "auto_pickup.h"
 
+#include <cstddef>
+#include <algorithm>
+#include <sstream>
+#include <functional>
+#include <map>
+#include <memory>
+#include <utility>
+
+#include "avatar.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -14,12 +23,11 @@
 #include "path_info.h"
 #include "player.h"
 #include "string_formatter.h"
-#include "string_id.h"
 #include "string_input_popup.h"
 #include "translations.h"
-
-#include <algorithm>
-#include <sstream>
+#include "color.h"
+#include "cursesdef.h"
+#include "item.h"
 
 auto_pickup &get_auto_pickup()
 {
@@ -197,7 +205,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
                 wprintz( w, ( iLine == i &&
                               iColumn == 1 ) ? hilite( cLineColor ) : cLineColor, "%s",
                          ( ( vRules[iTab][i].sRule.empty() ) ? _( "<empty rule>" ) :
-                           vRules[iTab][i].sRule ).c_str() );
+                           vRules[iTab][i].sRule ) );
 
                 mvwprintz( w, i - iStartPos, 52, ( iLine == i &&
                                                    iColumn == 2 ) ? hilite( cLineColor ) : cLineColor, "%s",
@@ -347,7 +355,7 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
         } else if( action == "TEST_RULE" && currentPageNonEmpty && !g->u.name.empty() ) {
             test_pattern( iTab, iLine );
         } else if( action == "SWITCH_AUTO_PICKUP_OPTION" ) {
-            // @todo: Now that NPCs use this function, it could be used for them too
+            // TODO: Now that NPCs use this function, it could be used for them too
             get_options().get_option( "AUTO_PICKUP" ).setNext();
             get_options().save();
         } else if( action == "HELP_KEYBINDINGS" ) {
@@ -377,7 +385,6 @@ void auto_pickup::show( const std::string &custom_name, bool is_autopickup )
 void auto_pickup::test_pattern( const int iTab, const int iRow )
 {
     std::vector<std::string> vMatchingItems;
-    std::string sItemName;
 
     if( vRules[iTab][iRow].sRule.empty() ) {
         return;
@@ -386,7 +393,7 @@ void auto_pickup::test_pattern( const int iTab, const int iRow )
     //Loop through all itemfactory items
     //APU now ignores prefixes, bottled items and suffix combinations still not generated
     for( const itype *e : item_controller->all() ) {
-        sItemName = e->nname( 1 );
+        const std::string sItemName = e->nname( 1 );
         if( !check_special_rule( e->materials, vRules[iTab][iRow].sRule ) &&
             !wildcard_match( sItemName, vRules[iTab][iRow].sRule ) ) {
             continue;
@@ -404,14 +411,16 @@ void auto_pickup::test_pattern( const int iTab, const int iRow )
     const int iContentWidth = FULL_SCREEN_WIDTH - 30;
     std::ostringstream sTemp;
 
-    catacurses::window w_test_rule_border = catacurses::newwin( iContentHeight + 2, iContentWidth,
-                                            iOffsetY, iOffsetX );
-    catacurses::window w_test_rule_content = catacurses::newwin( iContentHeight, iContentWidth - 2,
+    const catacurses::window w_test_rule_border = catacurses::newwin( iContentHeight + 2, iContentWidth,
+            iOffsetY, iOffsetX );
+    const catacurses::window w_test_rule_content = catacurses::newwin( iContentHeight,
+            iContentWidth - 2,
             1 + iOffsetY, 1 + iOffsetX );
 
     int nmatch = vMatchingItems.size();
-    std::string buf = string_format( ngettext( "%1$d item matches: %2$s", "%1$d items match: %2$s",
-                                     nmatch ), nmatch, vRules[iTab][iRow].sRule.c_str() );
+    const std::string buf = string_format( ngettext( "%1$d item matches: %2$s",
+                                           "%1$d items match: %2$s",
+                                           nmatch ), nmatch, vRules[iTab][iRow].sRule );
     draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
     center_print( w_test_rule_border, iContentHeight + 1, red_background( c_white ),
                   _( "Won't display content or suffix matches" ) );
@@ -453,7 +462,7 @@ void auto_pickup::test_pattern( const int iTab, const int iRow )
                 }
 
                 wprintz( w_test_rule_content, ( iLine == i ) ? hilite( cLineColor ) : cLineColor,
-                         vMatchingItems[i].c_str() );
+                         vMatchingItems[i] );
             }
         }
 
@@ -617,13 +626,13 @@ void auto_pickup::refresh_map_items() const
             } else {
                 //only re-exclude items from the existing mapping for now
                 //new exclusions will process during pickup attempts
-                for( auto iter = map_items.begin(); iter != map_items.end(); ++iter ) {
-                    if( !check_special_rule( temp_items[ iter->first ]->materials, elem.sRule ) &&
-                        !wildcard_match( iter->first, elem.sRule ) ) {
+                for( auto &map_item : map_items ) {
+                    if( !check_special_rule( temp_items[ map_item.first ]->materials, elem.sRule ) &&
+                        !wildcard_match( map_item.first, elem.sRule ) ) {
                         continue;
                     }
 
-                    map_items[ iter->first ] = RULE_BLACKLISTED;
+                    map_items[ map_item.first ] = RULE_BLACKLISTED;
                 }
             }
         }
@@ -781,7 +790,7 @@ void auto_pickup::load_legacy_rules( std::vector<cRules> &rules, std::istream &f
         getline( fin, sLine );
 
         if( !sLine.empty() && sLine[0] != '#' ) {
-            int iNum = std::count( sLine.begin(), sLine.end(), ';' );
+            const int iNum = std::count( sLine.begin(), sLine.end(), ';' );
 
             if( iNum != 2 ) {
                 DebugLog( D_ERROR, DC_ALL ) << "Bad Rule: " << sLine;

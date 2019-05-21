@@ -1,5 +1,10 @@
 #include "mutation.h"
 
+#include <cstddef>
+#include <algorithm>
+#include <list>
+#include <unordered_set>
+
 #include "action.h"
 #include "field.h"
 #include "game.h"
@@ -9,16 +14,23 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "monster.h"
-#include "output.h"
+#include "morale_types.h"
+#include "overmapbuffer.h"
 #include "player.h"
 #include "translations.h"
 #include "ui.h"
-
-#include <algorithm>
+#include "int_id.h"
+#include "messages.h"
+#include "omdata.h"
+#include "optional.h"
+#include "player_activity.h"
+#include "rng.h"
+#include "string_id.h"
 
 const efftype_id effect_stunned( "stunned" );
 
 static const trait_id trait_ROBUST( "ROBUST" );
+static const trait_id trait_CHAOTIC_BAD( "CHAOTIC_BAD" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
 static const trait_id trait_NAUSEA( "NAUSEA" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
@@ -39,6 +51,9 @@ static const trait_id trait_M_BLOSSOMS( "M_BLOSSOMS" );
 static const trait_id trait_M_SPORES( "M_SPORES" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
+static const trait_id trait_TREE_COMMUNION( "TREE_COMMUNION" );
+static const trait_id trait_ROOTS2( "ROOTS2" );
+static const trait_id trait_ROOTS3( "ROOTS3" );
 static const trait_id trait_DEBUG_BIONIC_POWER( "DEBUG_BIONIC_POWER" );
 
 bool Character::has_trait( const trait_id &b ) const
@@ -111,7 +126,7 @@ void Character::unset_mutation( const trait_id &flag )
     reset_encumbrance();
 }
 
-int Character::get_mod( const trait_id &mut, std::string arg ) const
+int Character::get_mod( const trait_id &mut, const std::string &arg ) const
 {
     auto &mod_data = mut->mods;
     int ret = 0;
@@ -213,7 +228,7 @@ void Character::mutation_effect( const trait_id &mut )
             add_msg_player_or_npc( m_bad,
                                    _( "Your %s is destroyed!" ),
                                    _( "<npcname>'s %s is destroyed!" ),
-                                   armor.tname().c_str() );
+                                   armor.tname() );
             for( item &remain : armor.contents ) {
                 g->m.add_item_or_charges( pos(), remain );
             }
@@ -221,7 +236,7 @@ void Character::mutation_effect( const trait_id &mut )
             add_msg_player_or_npc( m_bad,
                                    _( "Your %s is pushed off!" ),
                                    _( "<npcname>'s %s is pushed off!" ),
-                                   armor.tname().c_str() );
+                                   armor.tname() );
             g->m.add_item_or_charges( pos(), armor );
         }
         return true;
@@ -287,9 +302,11 @@ void player::activate_mutation( const trait_id &mut )
     const mutation_branch &mdata = mut.obj();
     auto &tdata = my_mutations[mut];
     int cost = mdata.cost;
+    // Preserve the fake weapon used to initiate ranged mutation firing
+    static item mut_ranged( weapon );
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
-    if( ( mdata.hunger && get_hunger() + get_starvation() >= 700 ) || ( mdata.thirst &&
+    if( ( mdata.hunger && get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
             get_thirst() >= 260 ) ||
         ( mdata.fatigue && get_fatigue() >= EXHAUSTED ) ) {
         // Insufficient Foo to *maintain* operation is handled in player::suffer
@@ -306,7 +323,8 @@ void player::activate_mutation( const trait_id &mut )
             tdata.charge = mdata.cooldown - 1;
         }
         if( mdata.hunger ) {
-            mod_hunger( cost );
+            // burn some energy
+            mod_stored_nutr( cost );
         }
         if( mdata.thirst ) {
             mod_thirst( cost );
@@ -325,101 +343,9 @@ void player::activate_mutation( const trait_id &mut )
         g->m.add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == "BURROW" ) {
-        int choice = uilist( _( "Perform which function:" ), {
-            _( "Turn on digging mode" ),
-            _( "Dig pit" ),
-            _( "Fill pit/tamp ground" ),
-            _( "Clear rubble" ),
-            _( "Churn up ground" )
-        } );
-        if( choice == UILIST_CANCEL ) {
-            tdata.powered = false;
-        } else if( choice != 0 ) {
-            tdata.powered = false;
-            if( is_underwater() ) {
-                add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-                return;
-            } else {
-                if( choice == 1 ) {
-                    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Dig pit where?" ) );
-                    if( !pnt_ ) {
-                        return;
-                    }
-                    const tripoint pnt = *pnt_;
-
-                    if( pnt == pos() ) {
-                        add_msg_if_player( m_info, _( "You delve into yourself." ) );
-                        return;
-                    }
-                    int moves;
-                    if( g->m.ter( pnt ) == t_pit_shallow ) {
-                        moves = MINUTES( 30 ) * 100;
-                    } else if( g->m.has_flag( "DIGGABLE", pnt ) ) {
-                        moves = MINUTES( 10 ) * 100;
-                    } else {
-                        add_msg_if_player( _( "You can't dig a pit on this ground." ) );
-                        return;
-                    }
-                    assign_activity( activity_id( "ACT_DIG" ), moves, -1, 0 );
-                    activity.placement = pnt;
-                } else if( choice == 2 ) {
-                    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Fill pit where?" ) );
-                    if( !pnt_ ) {
-                        return;
-                    }
-                    const tripoint pnt = *pnt_;
-
-                    if( pnt == pos() ) {
-                        add_msg_if_player( m_info, _( "You decide not to bury yourself that early." ) );
-                        return;
-                    }
-                    int moves;
-                    if( g->m.ter( pnt ) == t_pit || g->m.ter( pnt ) == t_pit_spiked ||
-                        g->m.ter( pnt ) == t_pit_glass || g->m.ter( pnt ) == t_pit_corpsed ) {
-                        moves = MINUTES( 15 ) * 100;
-                    } else if( g->m.ter( pnt ) == t_pit_shallow ) {
-                        moves = MINUTES( 10 ) * 100;
-                    } else if( g->m.ter( pnt ) == t_dirtmound ) {
-                        moves = MINUTES( 5 ) * 100;
-                    } else {
-                        add_msg_if_player( _( "There is no pit to fill." ) );
-                        return;
-                    }
-                    assign_activity( activity_id( "ACT_FILL_PIT" ), moves, -1, 0 );
-                    activity.placement = pnt;
-                } else if( choice == 3 ) {
-                    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Clear rubble where?" ) );
-                    if( !pnt_ ) {
-                        return;
-                    }
-                    const tripoint pnt = *pnt_;
-
-                    if( g->m.has_flag( "RUBBLE", pnt ) ) {
-                        // 75 seconds
-                        assign_activity( activity_id( "ACT_CLEAR_RUBBLE" ), 1250, -1, 0 );
-                        activity.placement = pnt;
-                    } else {
-                        add_msg_if_player( m_bad, _( "There is no rubble to clear." ) );
-                        return;
-                    }
-                } else if( choice == 4 ) {
-                    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Churn up ground where?" ) );
-                    if( !pnt_ ) {
-                        return;
-                    }
-                    const tripoint pnt = *pnt_;
-
-                    if( g->m.has_flag( "DIGGABLE", pnt ) && !g->m.has_flag( "PLANT", pnt ) &&
-                        g->m.ter( pnt ) != t_dirtmound ) {
-                        add_msg_if_player( _( "You churn up the earth here." ) );
-                        moves = -300;
-                        g->m.ter_set( pnt, t_dirtmound );
-                    } else {
-                        add_msg_if_player( _( "You can't churn up this ground." ) );
-                    }
-                }
-            }
-        }
+        tdata.powered = false;
+        item burrowing_item( itype_id( "fake_burrowing" ) );
+        invoke_item( &burrowing_item );
         return;  // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
         std::vector<tripoint> valid;
@@ -476,6 +402,47 @@ void player::activate_mutation( const trait_id &mut )
         print_health();
         tdata.powered = false;
         return;
+    } else if( mut == trait_TREE_COMMUNION ) {
+        tdata.powered = false;
+        if( !overmap_buffer.ter( global_omt_location() ).obj().is_wooded() ) {
+            add_msg_if_player( m_info, _( "You can only do that in a wooded area." ) );
+            return;
+        }
+        // Check for adjacent trees.
+        const tripoint p = pos();
+        bool adjacent_tree = false;
+        for( int dx = -1; dx <= 1; dx++ ) {
+            for( int dy = -1; dy <= 1; dy++ ) {
+                const tripoint p2 = tripoint( p.x + dx, p.y + dy, p.z );
+                if( g->m.has_flag( "TREE", p2 ) ) {
+                    adjacent_tree = true;
+                }
+            }
+        }
+        if( !adjacent_tree ) {
+            add_msg_if_player( m_info, _( "You can only do that next to a tree." ) );
+            return;
+        }
+
+        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
+            add_msg_if_player( _( "You reach out to the trees with your roots." ) );
+        } else {
+            add_msg_if_player(
+                _( "You lay next to the trees letting your hair roots tangle with the trees." ) );
+        }
+
+        assign_activity( activity_id( "ACT_TREE_COMMUNION" ) );
+
+        if( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) {
+            const time_duration startup_time = has_trait( trait_ROOTS3 ) ? rng( 15_minutes,
+                                               30_minutes ) : rng( 60_minutes, 90_minutes );
+            activity.values.push_back( to_turns<int>( startup_time ) );
+            return;
+        } else {
+            const time_duration startup_time = rng( 120_minutes, 180_minutes );
+            activity.values.push_back( to_turns<int>( startup_time ) );
+            return;
+        }
     } else if( mut == trait_DEBUG_BIONIC_POWER ) {
         max_power_level += 100;
         add_msg_if_player( m_good, _( "Bionic power storage increased by 100." ) );
@@ -485,6 +452,13 @@ void player::activate_mutation( const trait_id &mut )
         item tmpitem( mdata.spawn_item );
         i_add_or_drop( tmpitem );
         add_msg_if_player( mdata.spawn_item_message() );
+        tdata.powered = false;
+        return;
+    } else if( !mdata.ranged_mutation.empty() ) {
+        mut_ranged = item( mdata.ranged_mutation );
+        add_msg_if_player( mdata.ranged_mutation_message() );
+        g->refresh_all();
+        g->plfire( mut_ranged );
         tdata.powered = false;
         return;
     }
@@ -542,6 +516,10 @@ void player::mutate()
         force_bad = false;
         force_good = true;
     }
+    if( has_trait( trait_CHAOTIC_BAD ) ) {
+        force_bad = true;
+        force_good = false;
+    }
 
     // Determine the highest mutation category
     std::string cat = get_highest_category();
@@ -554,8 +532,8 @@ void player::mutate()
 
     // For each mutation...
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        const auto &base_mutation = traits_iter.first;
-        const auto &base_mdata = traits_iter.second;
+        const auto &base_mutation = traits_iter.id;
+        const auto &base_mdata = traits_iter;
         bool thresh_save = base_mdata.threshold;
         bool prof_save = base_mdata.profession;
         bool purify_save = base_mdata.purifiable;
@@ -636,15 +614,16 @@ void player::mutate()
     do {
         // If we tried once with a non-NULL category, and couldn't find anything valid
         // there, try again with empty category
-        if( !first_pass ) {
+        // CHAOTIC_BAD lets the game pull from any category by default
+        if( !first_pass || has_trait( trait_CHAOTIC_BAD ) ) {
             cat.clear();
         }
 
         if( cat.empty() ) {
             // Pull the full list
             for( auto &traits_iter : mutation_branch::get_all() ) {
-                if( traits_iter.second.valid ) {
-                    valid.push_back( traits_iter.first );
+                if( traits_iter.valid ) {
+                    valid.push_back( traits_iter.id );
                 }
             }
         } else {
@@ -684,7 +663,7 @@ void player::mutate()
 void player::mutate_category( const std::string &cat )
 {
     // Hacky ID comparison is better than separate hardcoded branch used before
-    // @todo: Turn it into the null id
+    // TODO: Turn it into the null id
     if( cat == "ANY" ) {
         mutate();
         return;
@@ -759,8 +738,7 @@ bool player::mutate_towards( const trait_id &mut )
     std::vector<trait_id> all_prereqs = get_all_mutation_prereqs( mut );
 
     // Check mutations of the same type - except for the ones we might need for pre-reqs
-    for( size_t i = 0; i < same_type.size(); ++i ) {
-        trait_id consider = same_type[i];
+    for( const auto &consider : same_type ) {
         if( std::find( all_prereqs.begin(), all_prereqs.end(), consider ) == all_prereqs.end() ) {
             cancel.push_back( consider );
         }
@@ -848,7 +826,7 @@ bool player::mutate_towards( const trait_id &mut )
     prereq = mdata.prereqs; // Reset it
     for( auto &elem : prereq ) {
         if( has_trait( elem ) ) {
-            trait_id pre = elem;
+            const trait_id &pre = elem;
             const auto &p = pre.obj();
             for( size_t j = 0; !replacing && j < p.replacements.size(); j++ ) {
                 if( p.replacements[j] == mut ) {
@@ -863,7 +841,7 @@ bool player::mutate_towards( const trait_id &mut )
     prereq = mdata.prereqs2; // Reset it
     for( auto &elem : prereq ) {
         if( has_trait( elem ) ) {
-            trait_id pre2 = elem;
+            const trait_id &pre2 = elem;
             const auto &p = pre2.obj();
             for( size_t j = 0; !replacing2 && j < p.replacements.size(); j++ ) {
                 if( p.replacements[j] == mut ) {
@@ -890,7 +868,7 @@ bool player::mutate_towards( const trait_id &mut )
         } else {
             rating = m_neutral;
         }
-        // TODO: Limit this to visible mutations
+        //  TODO: Limit this to visible mutations
         // TODO: In case invisible mutation turns into visible or vice versa
         //  print only the visible mutation appearing/disappearing
         add_msg_player_or_npc( rating,
@@ -928,8 +906,8 @@ bool player::mutate_towards( const trait_id &mut )
         mutation_effect( mut );
         mutation_replaced = true;
     }
-    for( size_t i = 0; i < canceltrait.size(); i++ ) {
-        const auto &cancel_mdata = canceltrait[i].obj();
+    for( const auto &i : canceltrait ) {
+        const auto &cancel_mdata = i.obj();
         if( mdata.mixed_effect || cancel_mdata.mixed_effect ) {
             rating = m_mixed;
         } else if( mdata.points < cancel_mdata.points ) {
@@ -949,8 +927,8 @@ bool player::mutate_towards( const trait_id &mut )
         add_memorial_log( pgettext( "memorial_male", "'%s' mutation turned into '%s'" ),
                           pgettext( "memorial_female", "'%s' mutation turned into '%s'" ),
                           cancel_mdata.name(), mdata.name() );
-        unset_mutation( canceltrait[i] );
-        mutation_loss_effect( canceltrait[i] );
+        unset_mutation( i );
+        mutation_loss_effect( i );
         mutation_effect( mut );
         mutation_replaced = true;
     }
@@ -1014,13 +992,13 @@ void player::remove_mutation( const trait_id &mut )
         //Check each mutation until we reach the end or find a trait to revert to
         for( auto &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
-            if( has_base_trait( iter.first ) && !has_trait( iter.first ) ) {
+            if( has_base_trait( iter.id ) && !has_trait( iter.id ) ) {
                 //See if that base trait cancels the mutation we are using
-                std::vector<trait_id> traitcheck = iter.second.cancels;
+                std::vector<trait_id> traitcheck = iter.cancels;
                 if( !traitcheck.empty() ) {
                     for( size_t j = 0; !replacing && j < traitcheck.size(); j++ ) {
                         if( traitcheck[j] == mut ) {
-                            replacing = ( iter.first );
+                            replacing = ( iter.id );
                         }
                     }
                 }
@@ -1036,13 +1014,13 @@ void player::remove_mutation( const trait_id &mut )
         //Check each mutation until we reach the end or find a trait to revert to
         for( auto &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
-            if( has_base_trait( iter.first ) && !has_trait( iter.first ) ) {
+            if( has_base_trait( iter.id ) && !has_trait( iter.id ) ) {
                 //See if that base trait cancels the mutation we are using
-                std::vector<trait_id> traitcheck = iter.second.cancels;
+                std::vector<trait_id> traitcheck = iter.cancels;
                 if( !traitcheck.empty() ) {
                     for( size_t j = 0; !replacing2 && j < traitcheck.size(); j++ ) {
-                        if( traitcheck[j] == mut && ( iter.first ) != replacing ) {
-                            replacing2 = ( iter.first );
+                        if( traitcheck[j] == mut && ( iter.id ) != replacing ) {
+                            replacing2 = ( iter.id );
                         }
                     }
                 }
@@ -1129,7 +1107,7 @@ void player::remove_mutation( const trait_id &mut )
 bool player::has_child_flag( const trait_id &flag ) const
 {
     for( auto &elem : flag->replacements ) {
-        trait_id tmp = elem;
+        const trait_id &tmp = elem;
         if( has_trait( tmp ) || has_child_flag( tmp ) ) {
             return true;
         }
@@ -1140,7 +1118,7 @@ bool player::has_child_flag( const trait_id &flag ) const
 void player::remove_child_flag( const trait_id &flag )
 {
     for( auto &elem : flag->replacements ) {
-        trait_id tmp = elem;
+        const trait_id &tmp = elem;
         if( has_trait( tmp ) ) {
             remove_mutation( tmp );
             return;
@@ -1190,7 +1168,7 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
         p.add_msg_player_or_npc( m_warning,
                                  _( "The %s sears your insides white-hot, and you collapse to the ground!" ),
                                  _( "<npcname> writhes in agony and collapses to the ground!" ),
-                                 it.tname().c_str() );
+                                 it.tname() );
         p.vomit();
         p.mod_pain( 35 + ( strong ? 20 : 0 ) );
         // Lose a significant amount of HP, probably about 25-33%
@@ -1210,7 +1188,7 @@ static mutagen_rejection try_reject_mutagen( player &p, const item &it, bool str
         } else {
             p.add_msg_if_player( m_warning,
                                  _( "That was some toxic %s!  Let's stick with Marloss next time, that's safe." ),
-                                 it.tname().c_str() );
+                                 it.tname() );
             p.add_memorial_log( pgettext( "memorial_male", "Suffered a toxic marloss/mutagen reaction." ),
                                 pgettext( "memorial_female", "Suffered a toxic marloss/mutagen reaction." ) );
         }

@@ -1,5 +1,11 @@
 #include "iuse_software_minesweeper.h"
 
+#include <sstream>
+#include <string>
+#include <vector>
+#include <array>
+#include <functional>
+
 #include "catacharset.h"
 #include "input.h"
 #include "output.h"
@@ -7,10 +13,11 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui.h"
-
-#include <sstream>
-#include <string>
-#include <vector>
+#include "color.h"
+#include "compatibility.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "optional.h"
 
 std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &p );
 
@@ -128,7 +135,7 @@ void minesweeper_game::new_level( const catacurses::window &w_minesweeper )
 
     mvwputch( w_minesweeper, iOffsetY, iOffsetX, hilite( c_white ), "#" );
 
-    draw_custom_border( w_minesweeper, true, true, true, true, true, true, true, true,
+    draw_custom_border( w_minesweeper, 1, 1, 1, 1, 1, 1, 1, 1,
                         BORDER_COLOR, iOffsetY - 1, iLevelY + 2, iOffsetX - 1, iLevelX + 2 );
 }
 

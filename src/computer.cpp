@@ -1,11 +1,27 @@
 #include "computer.h"
 
+#include <climits>
+#include <cstdlib>
+#include <cmath>
+#include <algorithm>
+#include <sstream>
+#include <string>
+#include <list>
+#include <locale>
+#include <map>
+#include <memory>
+#include <utility>
+
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
+#include "effect.h"
+#include "explosion.h"
 #include "event.h"
 #include "field.h"
 #include "game.h"
 #include "input.h"
+#include "item_factory.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
@@ -26,10 +42,19 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
-
-#include <algorithm>
-#include <sstream>
-#include <string>
+#include "bodypart.h"
+#include "color.h"
+#include "creature.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "item_stack.h"
+#include "omdata.h"
+#include "optional.h"
+#include "pldata.h"
+#include "string_id.h"
+#include "type_id.h"
 
 const mtype_id mon_manhack( "mon_manhack" );
 const mtype_id mon_secubot( "mon_secubot" );
@@ -42,7 +67,7 @@ const species_id ZOMBIE( "ZOMBIE" );
 const species_id HUMAN( "HUMAN" );
 
 const efftype_id effect_amigara( "amigara" );
-const efftype_id effect_stemcell_treatment( "stemcell_treatment" );
+const efftype_id effect_mending( "mending" );
 
 int alerts = 0;
 
@@ -51,7 +76,7 @@ computer_option::computer_option()
 {
 }
 
-computer_option::computer_option( std::string N, computer_action A, int S )
+computer_option::computer_option( const std::string &N, computer_action A, int S )
     : name( N ), action( A ), security( S )
 {
 }
@@ -92,9 +117,9 @@ void computer::add_option( const computer_option &opt )
 }
 
 void computer::add_option( const std::string &opt_name, computer_action action,
-                           int Security )
+                           int security )
 {
-    add_option( computer_option( opt_name, action, Security ) );
+    add_option( computer_option( opt_name, action, security ) );
 }
 
 void computer::add_failure( const computer_failure &failure )
@@ -134,7 +159,7 @@ void computer::use()
     wrefresh( w_border );
 
     // Login
-    print_line( _( "Logging into %s..." ), _( name.c_str() ) );
+    print_line( _( "Logging into %s..." ), _( name ) );
     if( security > 0 ) {
         if( calendar::turn < next_attempt ) {
             print_error( _( "Access is temporary blocked for security purposes." ) );
@@ -182,20 +207,20 @@ void computer::use()
         //reset_terminal();
         size_t options_size = options.size();
         print_newline();
-        print_line( "%s - %s", _( name.c_str() ), _( "Root Menu" ) );
-#ifdef __ANDROID__
+        print_line( "%s - %s", _( name ), _( "Root Menu" ) );
+#if defined(__ANDROID__)
         input_context ctxt( "COMPUTER_MAINLOOP" );
 #endif
         for( size_t i = 0; i < options_size; i++ ) {
-            print_line( "%d - %s", i + 1, _( options[i].name.c_str() ) );
-#ifdef __ANDROID__
-            ctxt.register_manual_key( '1' + i, options[i].name.c_str() );
+            print_line( "%d - %s", i + 1, _( options[i].name ) );
+#if defined(__ANDROID__)
+            ctxt.register_manual_key( '1' + i, options[i].name );
 #endif
         }
-        print_line( "Q - %s", _( "Quit and shut down" ) );
+        print_line( "Q - %s", _( "Quit and Shut Down" ) );
         print_newline();
-#ifdef __ANDROID__
-        ctxt.register_manual_key( 'Q', _( "Quit and shut down" ) );
+#if defined(__ANDROID__)
+        ctxt.register_manual_key( 'Q', _( "Quit and Shut Down" ) );
 #endif
         char ch;
         do {
@@ -387,13 +412,14 @@ void computer::activate_function( computer_action action )
         //Toll is required for the church computer/mechanism to function
         case COMPACT_TOLL:
             //~ the sound of a church bell ringing
-            sounds::sound( g->u.pos(), 120, _( "Bohm... Bohm... Bohm..." ) );
+            sounds::sound( g->u.pos(), 120, sounds::sound_t::music,
+                           _( "Bohm... Bohm... Bohm..." ), true, "environment", "church_bells" );
             break;
 
         case COMPACT_SAMPLE:
             g->u.moves -= 30;
-            for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-                for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+            for( int x = 0; x < MAPSIZE_X; x++ ) {
+                for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     if( g->m.ter( x, y ) == t_sewage_pump ) {
                         for( int x1 = x - 1; x1 <= x + 1; x1++ ) {
                             for( int y1 = y - 1; y1 <= y + 1; y1++ ) {
@@ -401,13 +427,12 @@ void computer::activate_function( computer_action action )
                                     bool found_item = false;
                                     item sewage( "sewage", calendar::turn );
                                     auto candidates = g->m.i_at( x1, y1 );
-                                    for( auto candidate = candidates.begin();
-                                         candidate != candidates.end(); ++candidate ) {
-                                        long capa = candidate->get_remaining_capacity_for_liquid( sewage );
+                                    for( auto &candidate : candidates ) {
+                                        int capa = candidate.get_remaining_capacity_for_liquid( sewage );
                                         if( capa <= 0 ) {
                                             continue;
                                         }
-                                        item &elem = *candidate;
+                                        item &elem = candidate;
                                         capa = std::min( sewage.charges, capa );
                                         if( elem.contents.empty() ) {
                                             elem.put_in( sewage );
@@ -432,7 +457,8 @@ void computer::activate_function( computer_action action )
         case COMPACT_RELEASE:
             g->u.add_memorial_log( pgettext( "memorial_male", "Released subspace specimens." ),
                                    pgettext( "memorial_female", "Released subspace specimens." ) );
-            sounds::sound( g->u.pos(), 40, _( "an alarm sound!" ) );
+            sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+                           "alarm" );
             g->m.translate_radius( t_reinforced_glass, t_thconc_floor, 25.0, g->u.pos(), true );
             query_any( _( "Containment shields opened.  Press any key..." ) );
             break;
@@ -442,7 +468,8 @@ void computer::activate_function( computer_action action )
             remove_submap_turrets();
         /* fallthrough */
         case COMPACT_RELEASE_BIONICS:
-            sounds::sound( g->u.pos(), 40, _( "an alarm sound!" ) );
+            sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+                           "alarm" );
             g->m.translate_radius( t_reinforced_glass, t_thconc_floor, 3.0, g->u.pos(), true );
             query_any( _( "Containment shields opened.  Press any key..." ) );
             break;
@@ -450,8 +477,8 @@ void computer::activate_function( computer_action action )
         case COMPACT_TERMINATE:
             g->u.add_memorial_log( pgettext( "memorial_male", "Terminated subspace specimens." ),
                                    pgettext( "memorial_female", "Terminated subspace specimens." ) );
-            for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-                for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+            for( int x = 0; x < MAPSIZE_X; x++ ) {
+                for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     tripoint p( x, y, g->u.posz() );
                     monster *const mon = g->critter_at<monster>( p );
                     if( mon &&
@@ -472,8 +499,8 @@ void computer::activate_function( computer_action action )
             tripoint tmp = g->u.pos();
             int &i = tmp.x;
             int &j = tmp.y;
-            for( i = 0; i < SEEX * MAPSIZE; i++ ) {
-                for( j = 0; j < SEEY * MAPSIZE; j++ ) {
+            for( i = 0; i < MAPSIZE_X; i++ ) {
+                for( j = 0; j < MAPSIZE_Y; j++ ) {
                     int numtowers = 0;
                     tripoint tmp2 = tmp;
                     int &xt = tmp2.x;
@@ -509,7 +536,7 @@ void computer::activate_function( computer_action action )
                     cascade_points.push_back( dest );
                 }
             }
-            g->resonance_cascade( random_entry( cascade_points, g->u.pos() ) );
+            explosion_handler::resonance_cascade( random_entry( cascade_points, g->u.pos() ) );
         }
         break;
 
@@ -524,7 +551,7 @@ void computer::activate_function( computer_action action )
                 g->u.moves -= 70;
             }
 
-            print_text( "%s", log.c_str() );
+            print_text( "%s", log );
             // One's an anomaly
             if( alerts == 0 ) {
                 query_any( _( "Local data-access error logged, alerting helpdesk. Press any key..." ) );
@@ -590,7 +617,8 @@ void computer::activate_function( computer_action action )
             }
             if( query_yn( _( "Confirm nuclear missile launch." ) ) ) {
                 add_msg( m_info, _( "Nuclear missile launched!" ) );
-                options.clear();//Remove the option to fire another missile.
+                //Remove the option to fire another missile.
+                options.clear();
             } else {
                 add_msg( m_info, _( "Nuclear missile launch aborted." ) );
                 return;
@@ -599,15 +627,17 @@ void computer::activate_function( computer_action action )
 
             //Put some smoke gas and explosions at the nuke location.
             for( int i = g->u.posx() + 8; i < g->u.posx() + 15; i++ ) {
-                for( int j = g->u.posy() + 3; j < g->u.posy() + 12; j++ )
+                for( int j = g->u.posy() + 3; j < g->u.posy() + 12; j++ ) {
                     if( !one_in( 4 ) ) {
                         tripoint dest( i + rng( -2, 2 ), j + rng( -2, 2 ), g->u.posz() );
                         g->m.add_field( dest, fd_smoke, rng( 1, 9 ) );
                     }
+                }
             }
 
-            g->explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200, 0.7,
-                          true ); //Only explode once. But make it large.
+            explosion_handler::explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200,
+                                          0.7,
+                                          true ); //Only explode once. But make it large.
 
             //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
             // For each level between here and the surface, remove the missile
@@ -627,7 +657,7 @@ void computer::activate_function( computer_action action )
             //~ %s is terrain name
             g->u.add_memorial_log( pgettext( "memorial_male", "Launched a nuke at a %s." ),
                                    pgettext( "memorial_female", "Launched a nuke at a %s." ),
-                                   oter->get_name().c_str() );
+                                   oter->get_name() );
             for( int x = target.x - 2; x <= target.x + 2; x++ ) {
                 for( int y = target.y - 2; y <= target.y + 2; y++ ) {
                     // give it a nice rounded shape
@@ -636,7 +666,7 @@ void computer::activate_function( computer_action action )
                         !( x == ( target.x + 2 ) && ( y == ( target.y - 2 ) ) ) &&
                         !( x == ( target.x + 2 ) && ( y == ( target.y + 2 ) ) ) ) {
                         // TODO: Z
-                        g->nuke( tripoint( x, y, 0 ) );
+                        explosion_handler::nuke( tripoint( x, y, 0 ) );
                     }
 
                 }
@@ -651,7 +681,8 @@ void computer::activate_function( computer_action action )
                 g->u.add_memorial_log( pgettext( "memorial_male", "Disarmed a nuclear missile." ),
                                        pgettext( "memorial_female", "Disarmed a nuclear missile." ) );
                 add_msg( m_info, _( "Nuclear missile disarmed!" ) );
-                options.clear();//disable missile.
+                //disable missile.
+                options.clear();
                 activate_failure( COMPFAIL_SHUTDOWN );
             } else {
                 add_msg( m_neutral, _( "Nuclear missile remains active." ) );
@@ -663,8 +694,8 @@ void computer::activate_function( computer_action action )
             g->u.moves -= 30;
             std::vector<std::string> names;
             int more = 0;
-            for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-                for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+            for( int x = 0; x < MAPSIZE_X; x++ ) {
+                for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     for( auto &elem : g->m.i_at( x, y ) ) {
                         if( elem.is_bionic() ) {
                             if( static_cast<int>( names.size() ) < TERMY - 8 ) {
@@ -684,7 +715,7 @@ void computer::activate_function( computer_action action )
             print_newline();
 
             for( auto &name : names ) {
-                print_line( "%s", name.c_str() );
+                print_line( "%s", name );
             }
             if( more > 0 ) {
                 print_line( ngettext( "%d OTHER FOUND...", "%d OTHERS FOUND...", more ), more );
@@ -696,8 +727,8 @@ void computer::activate_function( computer_action action )
         break;
 
         case COMPACT_ELEVATOR_ON:
-            for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-                for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+            for( int x = 0; x < MAPSIZE_X; x++ ) {
+                for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     if( g->m.ter( x, y ) == t_elevator_control_off ) {
                         g->m.ter_set( x, y, t_elevator_control );
                     }
@@ -782,7 +813,7 @@ know that's sort of a big deal, but come on, these guys can't handle it?\n" ) );
             reset_terminal();
             print_line( _( "\
 SITE %d%d%d\n\
-PERTINANT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
+PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
                         g->get_levx(), g->get_levy(), abs( g->get_levz() ) );
             print_line( _( "\n\
 MINE OPERATIONS SUSPENDED; CONTROL TRANSFERRED TO AMIGARA PROJECT UNDER\n\
@@ -791,7 +822,7 @@ FAULTLINE SOUNDING HAS PLACED DEPTH AT 30.09 KM\n\
 DAMAGE TO FAULTLINE DISCOVERED; NEPOWER MINE CREW PLACED UNDER ARREST FOR\n\
    VIOLATION OF REGULATION 87.08 AND TRANSFERRED TO LAB 89-C FOR USE AS\n\
    SUBJECTS\n\
-QUALITIY OF FAULTLINE NOT COMPROMISED\n\
+QUALITY OF FAULTLINE NOT COMPROMISED\n\
 INITIATING STANDARD TREMOR TEST..." ) );
             print_gibberish_line();
             print_gibberish_line();
@@ -811,13 +842,40 @@ INITIATING STANDARD TREMOR TEST..." ) );
             remove_option( COMPACT_AMIGARA_START );
             break;
 
-        case COMPACT_STEMCELL_TREATMENT:
-            g->u.moves -= 70;
-            g->u.add_effect( effect_stemcell_treatment, 12_minutes );
-            print_line( _( "The machine injects your eyeball with the solution \n\
-of pureed bone & LSD." ) );
+        case COMPACT_BONESETTING:
+            for( int i = 0; i < num_hp_parts; i++ ) {
+                const bool broken = g->u.get_hp( static_cast<hp_part>( i ) ) <= 0;
+                body_part part = g->u.hp_to_bp( static_cast<hp_part>( i ) );
+                effect &existing_effect = g->u.get_effect( effect_mending, part );
+                // Skip part if not broken or already healed 50%
+                if( !broken || ( !existing_effect.is_null() &&
+                                 existing_effect.get_duration() >
+                                 existing_effect.get_max_duration() - 5_days - 1_turns ) ) {
+                    continue;
+                }
+                g->u.moves -= 500;
+                print_line( _( "The machine rapidly sets and splints your broken %s." ),
+                            body_part_name( part ) );
+                // TODO: fail here if unable to perform the action, i.e. can't wear more, trait mismatch.
+                if( !g->u.worn_with_flag( "SPLINT", part ) ) {
+                    item splint;
+                    if( i == hp_arm_l || i == hp_arm_r ) {
+                        splint = item( "arm_splint", 0 );
+                    } else if( i == hp_leg_l || i == hp_leg_r ) {
+                        splint = item( "leg_splint", 0 );
+                    }
+                    item &equipped_splint = g->u.i_add( splint );
+                    cata::optional<std::list<item>::iterator> worn_item =
+                        g->u.wear( equipped_splint, false );
+                    if( worn_item && !g->u.worn_with_flag( "SPLINT", part ) ) {
+                        g->u.change_side( **worn_item, false );
+                    }
+                }
+                g->u.add_effect( effect_mending, 0_turns, part, true );
+                effect &mending_effect = g->u.get_effect( effect_mending, part );
+                mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
+            }
             query_any( _( "Press any key..." ) );
-            g->u.mod_pain( rng( 40, 90 ) );
             break;
 
         case COMPACT_COMPLETE_DISABLE_EXTERNAL_POWER:
@@ -963,13 +1021,13 @@ SYSTEM ADMINISTRATOR TO RESOLVE THIS ISSUE.\n\
             print_line( _( "\
 GREETINGS CITIZEN. A BIOLOGICAL ATTACK HAS TAKEN PLACE AND A STATE OF \n\
 EMERGENCY HAS BEEN DECLARED. EMERGENCY PERSONNEL WILL BE AIDING YOU \n\
-SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
+SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
 \n\
 1. DO NOT PANIC. \n\
 2. REMAIN INSIDE THE BUILDING. \n\
 3. SEEK SHELTER IN THE BASEMENT. \n\
 4. USE PROVIDED GAS MASKS. \n\
-5. AWAIT FURTHER INSTRUCTIONS \n\
+5. AWAIT FURTHER INSTRUCTIONS. \n\
 \n\
   \n" ) );
             query_any( _( "Press any key to continue..." ) );
@@ -1189,12 +1247,12 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
             print_line( _( "Backup Generator Power Failing" ) );
             print_line( _( "Evacuate Immediately" ) );
             add_msg( m_warning, _( "Evacuate Immediately!" ) );
-            for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-                for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+            for( int x = 0; x < MAPSIZE_X; x++ ) {
+                for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     tripoint p( x, y, g->get_levz() );
                     if( g->m.ter( x, y ) == t_elevator || g->m.ter( x, y ) == t_vat ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
-                        g->explosion( p, 40, 0.7, true );
+                        explosion_handler::explosion( p, 40, 0.7, true );
                     }
                     if( g->m.ter( x, y ) == t_wall_glass ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
@@ -1205,7 +1263,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                     }
                     if( g->m.ter( x, y ) == t_sewage_pump ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
-                        g->explosion( p, 50, 0.7, true );
+                        explosion_handler::explosion( p, 50, 0.7, true );
                     }
                 }
             }
@@ -1221,14 +1279,243 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE BELOW STEPS. \n\
                 reset_terminal();
                 print_line(
                     _( "\nPower:         Backup Only\nRadiation Level:  Very Dangerous\nOperational:   Overridden\n\n" ) );
-                for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-                    for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+                for( int x = 0; x < MAPSIZE_X; x++ ) {
+                    for( int y = 0; y < MAPSIZE_Y; y++ ) {
                         if( g->m.ter( x, y ) == t_elevator_control_off ) {
                             g->m.ter_set( x, y, t_elevator_control );
 
                         }
                     }
                 }
+            }
+            query_any( _( "Press any key..." ) );
+            break;
+
+        //irradiates food at t_rad_platform, adds radiation
+        case COMPACT_IRRADIATOR: {
+            g->u.moves -= 30;
+            bool error = false;
+            bool platform_exists = false;
+            for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 10 ) ) {
+                if( g->m.ter( dest ) == t_rad_platform ) {
+                    platform_exists = true;
+                    if( g->m.i_at( dest ).empty() ) {
+                        print_error( _( "ERROR: Processing platform empty." ) );
+                    } else {
+                        g->u.moves -= 300;
+                        for( auto it = g->m.i_at( dest ).begin(); it != g->m.i_at( dest ).end(); ++it ) {
+                            // actual food processing
+                            if( !it->rotten() && item_controller->has_template( "irradiated_" + it->typeId() ) ) {
+                                it->convert( "irradiated_" + it->typeId() );
+                            }
+                            // critical failure - radiation spike sets off electronic detonators
+                            if( it->typeId() == "mininuke" || it->typeId() == "mininuke_act" || it->typeId() == "c4" ) {
+                                explosion_handler::explosion( dest, 40 );
+                                reset_terminal();
+                                print_error( _( "WARNING [409]: Primary sensors offline!" ) );
+                                print_error( _( "  >> Initialize secondary sensors:  Geiger profiling..." ) );
+                                print_error( _( "  >> Radiation spike detected!\n" ) );
+                                print_error( _( "WARNING [912]: Catastrophic malfunction!  Contamination detected! " ) );
+                                print_error( _( "EMERGENCY PROCEDURE [1]:  Evacuate.  Evacuate.  Evacuate.\n" ) );
+                                sounds::sound( g->u.pos(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+                                               "alarm" );
+                                g->m.i_rem( dest, it );
+                                g->m.make_rubble( dest );
+                                g->m.propagate_field( dest, fd_nuke_gas, 100, 3 );
+                                g->m.translate_radius( t_water_pool, t_sewage, 8.0, dest, true );
+                                g->m.adjust_radiation( dest, rng( 50, 500 ) );
+                                for( const tripoint &radorigin : g->m.points_in_radius( dest, 5 ) ) {
+                                    g->m.adjust_radiation( radorigin, rng( 50, 500 ) / ( rl_dist( radorigin,
+                                                           dest ) > 0 ? rl_dist( radorigin, dest ) : 1 ) );
+                                }
+                                if( g->m.pl_sees( dest, 10 ) ) {
+                                    g->u.irradiate( rng( 50, 250 ) / rl_dist( g->u.pos(), dest ) );
+                                } else {
+                                    g->u.irradiate( rng( 20, 100 ) / rl_dist( g->u.pos(), dest ) );
+                                }
+                                query_any( _( "EMERGENCY SHUTDOWN!  Press any key..." ) );
+                                error = true;
+                                options.clear(); // Disable the terminal.
+                                activate_failure( COMPFAIL_SHUTDOWN );
+                                break;
+                            }
+                            g->m.adjust_radiation( dest, rng( 20, 50 ) );
+                            for( const tripoint &radorigin : g->m.points_in_radius( dest, 5 ) ) {
+                                g->m.adjust_radiation( radorigin, rng( 20, 50 ) / ( rl_dist( radorigin,
+                                                       dest ) > 0 ? rl_dist( radorigin, dest ) : 1 ) );
+                            }
+                            // if unshielded, rad source irradiates player directly, reduced by distance to source
+                            if( g->m.pl_sees( dest, 10 ) ) {
+                                g->u.irradiate( rng( 5, 25 ) / rl_dist( g->u.pos(), dest ) );
+                            }
+                        }
+                        if( !error && platform_exists ) {
+                            print_error( _( "PROCESSING...  CYCLE COMPLETE." ) );
+                            print_error( _( "GEIGER COUNTER @ PLATFORM: %s mSv/h." ), g->m.get_radiation( dest ) );
+                        }
+                    }
+                }
+            }
+            if( !platform_exists ) {
+                print_error(
+                    _( "CRITICAL ERROR... RADIATION PLATFORM UNRESPONSIVE.  COMPLY TO PROCEDURE RP_M_01_rev.03." ) );
+            }
+            if( !error ) {
+                query_any( _( "Press any key..." ) );
+            }
+            break;
+        }
+
+        // geiger counter for irradiator, primary measurement at t_rad_platform, secondary at player loacation
+        case COMPACT_GEIGER: {
+            g->u.moves -= 30;
+            tripoint platform;
+            bool source_exists = false;
+            int sum_rads = 0;
+            int peak_rad = 0;
+            int tiles_counted = 0;
+            print_error( _( "RADIATION MEASUREMENTS:" ) );
+            for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 10 ) ) {
+                if( g->m.ter( dest ) == t_rad_platform ) {
+                    source_exists = true;
+                    platform = dest;
+                }
+            }
+            if( source_exists ) {
+                for( const tripoint &dest : g->m.points_in_radius( platform, 3 ) ) {
+                    sum_rads += g->m.get_radiation( dest );
+                    tiles_counted ++;
+                    if( g->m.get_radiation( dest ) > peak_rad ) {
+                        peak_rad = g->m.get_radiation( dest );
+                    }
+                    sum_rads += g->m.get_radiation( platform );
+                    tiles_counted ++;
+                    if( g->m.get_radiation( platform ) > peak_rad ) {
+                        peak_rad = g->m.get_radiation( platform );
+                    }
+                }
+                print_error( _( "GEIGER COUNTER @ ZONE:... AVG %s mSv/h." ), sum_rads / tiles_counted );
+                print_error( _( "GEIGER COUNTER @ ZONE:... MAX %s mSv/h." ), peak_rad );
+                print_newline();
+            }
+            print_error( _( "GEIGER COUNTER @ CONSOLE: .... %s mSv/h." ), g->m.get_radiation( g->u.pos() ) );
+            print_error( _( "PERSONAL DOSIMETRY: .... %s mSv." ), g->u.radiation );
+            print_newline();
+            query_any( _( "Press any key..." ) );
+            break;
+        }
+
+        // imitates item movement through conveyor belt through 3 different loading/unloading bays
+        // ensure only bay of each type in range
+        case COMPACT_CONVEYOR: {
+            g->u.moves -= 300;
+            tripoint loading; // red tile = loading bay
+            tripoint unloading; // green tile = unloading bay
+            tripoint platform; // radiation platform = middle point
+            bool l_exists = false;
+            bool u_exists = false;
+            bool p_exists = false;
+            for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 10 ) ) {
+                if( g->m.ter( dest ) == t_rad_platform ) {
+                    platform = dest;
+                    p_exists = true;
+                } else if( g->m.ter( dest ) == t_floor_red ) {
+                    loading = dest;
+                    l_exists = true;
+                } else if( g->m.ter( dest ) == t_floor_green ) {
+                    unloading = dest;
+                    u_exists = true;
+                }
+            }
+            if( !l_exists || !p_exists || !u_exists ) {
+                print_error( _( "Conveyor belt malfunction.  Consult maintenance team." ) );
+                query_any( _( "Press any key..." ) );
+                break;
+            }
+            auto items = g->m.i_at( platform );
+            if( !items.empty() ) {
+                print_line( _( "Moving items: PLATFORM --> UNLOADING BAY." ) );
+            } else {
+                print_line( _( "No items detected at: PLATFORM." ) );
+            }
+            for( const auto &it : items ) {
+                g->m.add_item_or_charges( unloading, it );
+            }
+            g->m.i_clear( platform );
+            items = g->m.i_at( loading );
+            if( !items.empty() ) {
+                print_line( _( "Moving items: LOADING BAY --> PLATFORM." ) );
+            } else {
+                print_line( _( "No items detected at: LOADING BAY." ) );
+            }
+            for( const auto &it : items ) {
+                if( !it.made_of_from_type( LIQUID ) ) {
+                    g->m.add_item_or_charges( platform, it );
+                }
+            }
+            g->m.i_clear( loading );
+            query_any( _( "Conveyor belt cycle complete.  Press any key..." ) );
+            break;
+        }
+        // toggles reinforced glass shutters open->closed and closed->open depending on their current state
+        case COMPACT_SHUTTERS:
+            g->u.moves -= 300;
+            g->m.translate_radius( t_reinforced_glass_shutter_open, t_reinforced_glass_shutter, 8.0, g->u.pos(),
+                                   true, true );
+            query_any( _( "Toggling shutters.  Press any key..." ) );
+            break;
+        // extract radiation source material from irradiator
+        case COMPACT_EXTRACT_RAD_SOURCE:
+            if( query_yn( _( "Operation irreversible.  Extract radioactive material?" ) ) ) {
+                g->u.moves -= 300;
+                tripoint platform;
+                bool p_exists = false;
+                for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 10 ) ) {
+                    if( g->m.ter( dest ) == t_rad_platform ) {
+                        platform = dest;
+                        p_exists = true;
+                    }
+                }
+                if( p_exists ) {
+                    g->m.spawn_item( platform, "cobalt_60", rng( 8, 15 ) );
+                    g->m.translate_radius( t_rad_platform, t_concrete, 8.0, g->u.pos(), true );
+                    remove_option( COMPACT_IRRADIATOR );
+                    remove_option( COMPACT_EXTRACT_RAD_SOURCE );
+                    query_any( _( "Extraction sequence complete... Press any key." ) );
+                } else {
+                    query_any( _( "ERROR!  Radiation platform unresponsive... Press any key." ) );
+                }
+            }
+            break;
+        // remove shock vent fields; check for existing plutonium generators in radius
+        case COMPACT_DEACTIVATE_SHOCK_VENT:
+            g->u.moves -= 30;
+            bool has_vent = false;
+            bool has_generator = false;
+            for( const tripoint &dest : g->m.points_in_radius( g->u.pos(), 10 ) ) {
+                if( g->m.get_field( dest, fd_shock_vent ) != nullptr ) {
+                    has_vent = true;
+                }
+                if( g->m.ter( dest ) == t_plut_generator ) {
+                    has_generator = true;
+                }
+                g->m.remove_field( dest, fd_shock_vent );
+            }
+            print_line( _( "Initiating POWER-DIAG ver.2.34 ..." ) );
+            if( has_vent ) {
+                print_error( _( "Short circuit detected!" ) );
+                print_error( _( "Short circuit rerouted." ) );
+                print_error( _( "Fuse reseted." ) );
+                print_error( _( "Ground re-enabled." ) );
+            } else {
+                print_line( _( "Internal power lines status: 85%% OFFLINE. Reason: DAMAGED." ) );
+            }
+            print_line(
+                _( "External power lines status: 100%% OFFLINE. Reason: NO EXTERNAL POWER DETECTED." ) );
+            if( has_generator ) {
+                print_line( _( "Backup power status: STANDBY MODE." ) );
+            } else {
+                print_error( _( "Backup power status: OFFLINE. Reason: UNKNOWN" ) );
             }
             query_any( _( "Press any key..." ) );
             break;
@@ -1264,8 +1551,8 @@ void computer::activate_failure( computer_failure_type fail )
             if( found_tile ) {
                 break;
             }
-            for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-                for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+            for( int x = 0; x < MAPSIZE_X; x++ ) {
+                for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     if( g->m.has_flag( "CONSOLE", x, y ) ) {
                         g->m.ter_set( x, y, t_console_broken );
                         add_msg( m_bad, _( "The console shuts down." ) );
@@ -1277,7 +1564,8 @@ void computer::activate_failure( computer_failure_type fail )
         case COMPFAIL_ALARM:
             g->u.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
                                    pgettext( "memorial_female", "Set off an alarm." ) );
-            sounds::sound( g->u.pos(), 60, _( "an alarm sound!" ) );
+            sounds::sound( g->u.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+                           "alarm" );
             if( g->get_levz() > 0 && !g->events.queued( EVENT_WANTED ) ) {
                 g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, g->u.global_sm_location() );
             }
@@ -1331,12 +1619,12 @@ void computer::activate_failure( computer_failure_type fail )
 
         case COMPFAIL_PUMP_EXPLODE:
             add_msg( m_warning, _( "The pump explodes!" ) );
-            for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-                for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+            for( int x = 0; x < MAPSIZE_X; x++ ) {
+                for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     if( g->m.ter( x, y ) == t_sewage_pump ) {
                         tripoint p( x, y, g->get_levz() );
                         g->m.make_rubble( p );
-                        g->explosion( p, 10 );
+                        explosion_handler::explosion( p, 10 );
                     }
                 }
             }
@@ -1344,8 +1632,8 @@ void computer::activate_failure( computer_failure_type fail )
 
         case COMPFAIL_PUMP_LEAK:
             add_msg( m_warning, _( "Sewage leaks!" ) );
-            for( int x = 0; x < SEEX * MAPSIZE; x++ ) {
-                for( int y = 0; y < SEEY * MAPSIZE; y++ ) {
+            for( int x = 0; x < MAPSIZE_X; x++ ) {
+                for( int y = 0; y < MAPSIZE_Y; y++ ) {
                     if( g->m.ter( x, y ) == t_sewage_pump ) {
                         point p( x, y );
                         int leak_size = rng( 4, 10 );
@@ -1379,10 +1667,12 @@ void computer::activate_failure( computer_failure_type fail )
         case COMPFAIL_AMIGARA:
             g->events.add( EVENT_AMIGARA, calendar::turn + 5_turns );
             g->u.add_effect( effect_amigara, 2_minutes );
-            g->explosion( tripoint( rng( 0, SEEX * MAPSIZE ), rng( 0, SEEY * MAPSIZE ), g->get_levz() ), 10,
-                          0.7, false, 10 );
-            g->explosion( tripoint( rng( 0, SEEX * MAPSIZE ), rng( 0, SEEY * MAPSIZE ), g->get_levz() ), 10,
-                          0.7, false, 10 );
+            explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
+                                          10,
+                                          0.7, false, 10 );
+            explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
+                                          10,
+                                          0.7, false, 10 );
             remove_option( COMPACT_AMIGARA_START );
             break;
 
@@ -1411,8 +1701,8 @@ void computer::activate_failure( computer_failure_type fail )
 
         case COMPFAIL_DESTROY_DATA:
             print_error( _( "ERROR: ACCESSING DATA MALFUNCTION" ) );
-            for( int x = 0; x <= 23; x++ ) {
-                for( int y = 0; y <= 23; y++ ) {
+            for( int x = 0; x < SEEX * 2; x++ ) {
+                for( int y = 0; y < SEEY * 2; y++ ) {
                     if( g->m.ter( x, y ) == t_floor_blue ) {
                         if( g->m.i_at( x, y ).empty() ) {
                             print_error( _( "ERROR: Please place memory bank in scan area." ) );
@@ -1486,12 +1776,12 @@ TO WRITE US A LETTER PLEASE SEND IT TO...\n" ), rl_dist( g->u.pos(), mission_tar
 }
 
 template<typename ...Args>
-bool computer::query_bool( const char *const mes, Args &&... args )
+bool computer::query_bool( const char *const text, Args &&... args )
 {
-    const std::string text = string_format( mes, std::forward<Args>( args )... );
-    print_line( "%s (Y/N/Q)", text.c_str() );
+    const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
+    print_line( "%s (Y/N/Q)", formatted_text );
     char ret;
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     input_context ctxt( "COMPUTER_YESNO" );
     ctxt.register_manual_key( 'Y' );
     ctxt.register_manual_key( 'N' );
@@ -1506,21 +1796,21 @@ bool computer::query_bool( const char *const mes, Args &&... args )
 }
 
 template<typename ...Args>
-bool computer::query_any( const char *const mes, Args &&... args )
+bool computer::query_any( const char *const text, Args &&... args )
 {
-    const std::string text = string_format( mes, std::forward<Args>( args )... );
-    print_line( "%s", text.c_str() );
+    const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
+    print_line( "%s", formatted_text );
     inp_mngr.wait_for_any_key();
     return true;
 }
 
 template<typename ...Args>
-char computer::query_ynq( const char *const mes, Args &&... args )
+char computer::query_ynq( const char *const text, Args &&... args )
 {
-    const std::string text = string_format( mes, std::forward<Args>( args )... );
-    print_line( "%s (Y/N/Q)", text.c_str() );
+    const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
+    print_line( "%s (Y/N/Q)", formatted_text );
     char ret;
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     input_context ctxt( "COMPUTER_YESNO" );
     ctxt.register_manual_key( 'Y' );
     ctxt.register_manual_key( 'N' );
@@ -1535,30 +1825,30 @@ char computer::query_ynq( const char *const mes, Args &&... args )
 }
 
 template<typename ...Args>
-void computer::print_line( const char *const mes, Args &&... args )
+void computer::print_line( const char *const text, Args &&... args )
 {
-    const std::string text = string_format( mes, std::forward<Args>( args )... );
-    wprintz( w_terminal, c_green, text );
+    const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
+    wprintz( w_terminal, c_green, formatted_text );
     print_newline();
     wrefresh( w_terminal );
 }
 
 template<typename ...Args>
-void computer::print_error( const char *const mes, Args &&... args )
+void computer::print_error( const char *const text, Args &&... args )
 {
-    const std::string text = string_format( mes, std::forward<Args>( args )... );
-    wprintz( w_terminal, c_red, text );
+    const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
+    wprintz( w_terminal, c_red, formatted_text );
     print_newline();
     wrefresh( w_terminal );
 }
 
 template<typename ...Args>
-void computer::print_text( const char *const mes, Args &&... args )
+void computer::print_text( const char *const text, Args &&... args )
 {
-    const std::string text = string_format( mes, std::forward<Args>( args )... );
+    const std::string formated_text = string_format( text, std::forward<Args>( args )... );
     int y = getcury( w_terminal );
     int w = getmaxx( w_terminal ) - 2;
-    fold_and_print( w_terminal, y, 1, w, c_green, text );
+    fold_and_print( w_terminal, y, 1, w, c_green, formated_text );
     print_newline();
     print_newline();
     wrefresh( w_terminal );
@@ -1647,7 +1937,7 @@ computer_action computer_action_from_string( const std::string &str )
             { "blood_anal", COMPACT_BLOOD_ANAL },
             { "data_anal", COMPACT_DATA_ANAL },
             { "disconnect", COMPACT_DISCONNECT },
-            { "stemcell_treatment", COMPACT_STEMCELL_TREATMENT },
+            { "bonesetting", COMPACT_BONESETTING },
             { "emerg_mess", COMPACT_EMERG_MESS },
             { "emerg_ref_center", COMPACT_EMERG_REF_CENTER },
             { "tower_unresponsive", COMPACT_TOWER_UNRESPONSIVE },
@@ -1660,7 +1950,13 @@ computer_action computer_action_from_string( const std::string &str )
             { "srcf_3_mess", COMPACT_SRCF_3_MESS },
             { "srcf_seal_order", COMPACT_SRCF_SEAL_ORDER },
             { "srcf_seal", COMPACT_SRCF_SEAL },
-            { "srcf_elevator", COMPACT_SRCF_ELEVATOR }
+            { "srcf_elevator", COMPACT_SRCF_ELEVATOR },
+            { "irradiator", COMPACT_IRRADIATOR },
+            { "geiger", COMPACT_GEIGER },
+            { "conveyor", COMPACT_CONVEYOR },
+            { "shutters", COMPACT_SHUTTERS },
+            { "extract_rad_source", COMPACT_EXTRACT_RAD_SOURCE },
+            { "deactivate_shock_vent", COMPACT_DEACTIVATE_SHOCK_VENT },
         }
     };
 
@@ -1669,7 +1965,7 @@ computer_action computer_action_from_string( const std::string &str )
         return iter->second;
     }
 
-    debugmsg( "Invalid computer action %s", str.c_str() );
+    debugmsg( "Invalid computer action %s", str );
     return COMPACT_NULL;
 }
 
@@ -1695,6 +1991,6 @@ computer_failure_type computer_failure_type_from_string( const std::string &str 
         return iter->second;
     }
 
-    debugmsg( "Invalid computer failure %s", str.c_str() );
+    debugmsg( "Invalid computer failure %s", str );
     return COMPFAIL_NULL;
 }

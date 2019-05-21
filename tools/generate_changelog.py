@@ -442,14 +442,16 @@ class CommitApi:
         self.commit_factory = commit_factory
         self.api_token = api_token
 
-    def get_commit_list(self, min_commit_dttm, branch='master', max_threads=15):
+    def get_commit_list(self, min_commit_dttm, max_commit_dttm, branch='master', max_threads=15):
         """Return a list of Commits from specified commit date up to now. Order is not guaranteed by threads.
 
             params:
                 min_commit_dttm = None or minimum commit date to be part of the result set (UTC+0 timezone)
+            params:
+                max_commit_dttm = None or maximum commit date to be part of the result set
         """
         results_queue = collections.deque()
-        request_generator = CommitApiGenerator(self.api_token, min_commit_dttm, branch)
+        request_generator = CommitApiGenerator(self.api_token, min_commit_dttm, max_commit_dttm, branch)
         threaded = MultiThreadedGitHubApi()
         threaded.process_api_requests(request_generator,
                                       self._process_commit_data_callback(results_queue),
@@ -530,11 +532,12 @@ class PullRequestApi:
         else:
             return api_data['items'][0]['number']
 
-    def get_pr_list(self, min_dttm, state='all', merged_only=False, max_threads=15):
+    def get_pr_list(self, min_dttm, max_dttm, state='all', merged_only=False, max_threads=15):
         """Return a list of PullRequests from specified commit date up to now. Order is not guaranteed by threads.
 
             params:
                 min_dttm = None or minimum update date on the PR to be part of the result set (UTC+0 timezone)
+                min_dttm = None or maximum update date on the PR to be part of the result set (UTC+0 timezone)
                 state = 'open' | 'closed' | 'all'
                 merged_only = search only 'closed' state PRs, and filter PRs by merge date instead of update date
         """
@@ -542,7 +545,7 @@ class PullRequestApi:
         request_generator = PullRequestApiGenerator(self.api_token, state if not merged_only else 'closed')
         threaded = MultiThreadedGitHubApi()
         threaded.process_api_requests(request_generator,
-                                      self._process_pr_data_callback(results_queue, min_dttm, merged_only),
+                                      self._process_pr_data_callback(results_queue, min_dttm, max_dttm, merged_only),
                                       max_threads=max_threads)
 
         if merged_only:
@@ -550,7 +553,7 @@ class PullRequestApi:
         else:
             return (pr for pr in results_queue if pr.updated_after(min_dttm))
 
-    def _process_pr_data_callback(self, results_queue, min_dttm, merged_only):
+    def _process_pr_data_callback(self, results_queue, min_dttm, max_dttm, merged_only):
         """Returns a callback that will process data into Pull Requests objects and stop threads when needed."""
         def _process_pr_data_callback_closure(json_data, request_generator):
             nonlocal results_queue, min_dttm, merged_only
@@ -667,10 +670,11 @@ class CommitApiGenerator(GitHubApiRequestBuilder):
 
     GITHUB_API_LIST_COMMITS = r'https://api.github.com/repos/CleverRaven/Cataclysm-DDA/commits'
 
-    def __init__(self, api_token, since_dttm=None, sha='master', initial_page=1, step=1, timezone='Etc/UTC'):
+    def __init__(self, api_token, since_dttm=None, until_dttm=None, sha='master', initial_page=1, step=1, timezone='Etc/UTC'):
         super().__init__(api_token, timezone)
         self.sha = sha
         self.since_dttm = since_dttm
+        self.until_dttm = until_dttm
         self.page = initial_page
         self.step = step
         self.lock = threading.RLock()
@@ -694,13 +698,13 @@ class CommitApiGenerator(GitHubApiRequestBuilder):
         """Returns an HTTP request to get Commits for a different API result page each call until deactivate()."""
         with self.lock:
             if self.is_active:
-                req = self.create_request(self.since_dttm, self.sha, self.page)
+                req = self.create_request(self.since_dttm, self.until_dttm, self.sha, self.page)
                 self.page += self.step
                 return req
             else:
                 return None
 
-    def create_request(self, since_dttm=None, sha='master', page=1):
+    def create_request(self, since_dttm=None, until_dttm=None, sha='master', page=1):
         """Creates an HTTP Request to GitHub API to get Commits from CDDA repository."""
         params = {
             'sha': sha,
@@ -708,6 +712,8 @@ class CommitApiGenerator(GitHubApiRequestBuilder):
         }
         if since_dttm is not None:
             params['since'] = since_dttm.isoformat()
+        if until_dttm is not None:
+            params['until'] = until_dttm.isoformat()
 
         return super().create_request(self.GITHUB_API_LIST_COMMITS, params)
 
@@ -831,6 +837,13 @@ def main_entry(argv):
     )
 
     parser.add_argument(
+        '-e', '--end-date',
+        help='Specify when should start generating . Accepts "YYYY-MM-DD" ISO 8601 Date format.',
+        type=lambda d: datetime.combine(date.fromisoformat(d), datetime.min.time()),
+        default=None
+    )
+
+    parser.add_argument(
         '-t', '--token-file',
         help='Specify where to read the Personal Token. Default "~/.generate_changelog.token".',
         type=lambda x: pathlib.Path(x).expanduser().resolve(),
@@ -847,7 +860,14 @@ def main_entry(argv):
     parser.add_argument(
         '-N', '--include-summary-none',
         action='store_true',
-        help='Indicates if Pull Requests with Summary "None" should be included in the output."',
+        help='Indicates if Pull Requests with Summary "None" should be included in the output.',
+        default=None
+    )
+
+    parser.add_argument(
+        '-f', '--flatten-output',
+        action='store_true',
+        help='Output a flattened format with no headings.',
         default=None
     )
 
@@ -860,6 +880,9 @@ def main_entry(argv):
 
     arguments = parser.parse_args(argv[1:])
 
+    if (arguments.end_date is None):
+        arguments.end_date=datetime.now()
+
     logging.basicConfig(level=logging.DEBUG if arguments.verbose else logging.INFO,
                         format='   LOG | %(threadName)s | %(levelname)s | %(message)s')
 
@@ -871,12 +894,14 @@ def main_entry(argv):
         raise ValueError(f"Specified directory for Output File doesn't exist: {arguments.output_file.parent}")
 
     if arguments.group_by_date:
-        main_by_date(arguments.target_date, arguments.token_file, arguments.output_file,arguments.include_summary_none)
+        main_by_date(arguments.target_date, arguments.end_date, arguments.token_file,
+                     arguments.output_file,arguments.include_summary_none, arguments.flatten_output)
     elif arguments.group_by_build:
-        main_by_build(arguments.target_date, arguments.token_file, arguments.output_file,arguments.include_summary_none)
+        main_by_build(arguments.target_date, arguments.end_date, arguments.token_file,
+                      arguments.output_file,arguments.include_summary_none)
 
 
-def main_by_date(target_dttm, token_file, output_file, include_summary_none):
+def main_by_date(target_dttm, end_dttm, token_file, output_file, include_summary_none, flatten):
     personal_token = read_personal_token(token_file)
     if personal_token is None:
         log.warning("GitHub Token was not provided, API calls will have severely limited rates.")
@@ -884,21 +909,24 @@ def main_by_date(target_dttm, token_file, output_file, include_summary_none):
     ### get data from GitHub API
     commit_api = CommitApi(CommitFactory(), personal_token)
     commit_repo = CommitRepository()
-    commit_repo.add_multiple(commit_api.get_commit_list(target_dttm))
+    commit_repo.add_multiple(commit_api.get_commit_list(target_dttm, end_dttm))
 
     pr_api = PullRequestApi(CDDAPullRequestFactory(), personal_token)
     pr_repo = CDDAPullRequestRepository()
-    pr_repo.add_multiple(pr_api.get_pr_list(target_dttm, merged_only=True))
+    pr_repo.add_multiple(pr_api.get_pr_list(target_dttm, end_dttm, merged_only=True))
 
     ### build script output
     if output_file is None:
-        build_output_by_date(pr_repo, commit_repo, target_dttm, sys.stdout, include_summary_none)
+        build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, sys.stdout,
+                             include_summary_none, flatten)
     else:
         with open(output_file, 'w', encoding='utf8') as opened_output_file:
-            build_output_by_date(pr_repo, commit_repo, target_dttm, opened_output_file, include_summary_none)
+            build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, opened_output_file,
+                                 include_summary_none, flatten)
 
 
-def build_output_by_date(pr_repo, commit_repo, target_dttm, output_file, include_summary_none):
+def build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, output_file,
+                         include_summary_none, flatten):
     ### group commits with no PR by date
     commits_with_no_pr = collections.defaultdict(list)
     for commit in commit_repo.traverse_commits_by_first_parent():
@@ -909,7 +937,7 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, output_file, include
     pr_with_summary = collections.defaultdict(list)
     pr_with_invalid_summary = collections.defaultdict(list)
     pr_with_summary_none = collections.defaultdict(list)
-    for pr in pr_repo.get_merged_pr_list_by_date(datetime.utcnow(), target_dttm):
+    for pr in pr_repo.get_merged_pr_list_by_date(end_dttm, target_dttm):
         if pr.has_valid_summary and pr.summ_type == SummaryType.NONE:
             pr_with_summary_none[pr.merge_date].append(pr)
         elif pr.has_valid_summary:
@@ -918,7 +946,7 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, output_file, include
             pr_with_invalid_summary[pr.merge_date].append(pr)
 
     ### build main changelog output
-    for curr_date in (datetime.now().date() - timedelta(days=x) for x in itertools.count()):
+    for curr_date in (end_dttm.date() - timedelta(days=x) for x in itertools.count()):
         if curr_date < target_dttm.date():
             break
         if curr_date not in pr_with_summary and curr_date not in commits_with_no_pr:
@@ -928,19 +956,25 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, output_file, include
         sort_by_type = lambda pr: pr.summ_type
         sorted_pr_list_by_category = sorted(pr_with_summary[curr_date], key=sort_by_type)
         for pr_type, pr_list_by_category in itertools.groupby(sorted_pr_list_by_category, key=sort_by_type):
-            print(f"    {pr_type}", file=output_file)
+            if not flatten:
+                print(f"    {pr_type}", file=output_file)
             for pr in pr_list_by_category:
-                print(f"        * {pr.summ_desc} (by {pr.author} in PR {pr.id})", file=output_file)
+                if flatten:
+                    print(f"{pr_type} {pr.summ_desc}", file=output_file)
+                else:
+                    print(f"        * {pr.summ_desc} (by {pr.author} in PR {pr.id})", file=output_file)
             print(file=output_file)
 
         if curr_date in commits_with_no_pr:
-            print(f"    MISC. COMMITS", file=output_file)
+            if not flatten:
+                print(f"    MISC. COMMITS", file=output_file)
             for commit in commits_with_no_pr[curr_date]:
                 print(f"        * {commit.message} (by {commit.author} in Commit {commit.hash[:7]})", file=output_file)
             print(file=output_file)
 
         if curr_date in pr_with_invalid_summary or (include_summary_none and curr_date in pr_with_summary_none):
-            print(f"    MISC. PULL REQUESTS", file=output_file)
+            if not flatten:
+                print(f"    MISC. PULL REQUESTS", file=output_file)
             for pr in pr_with_invalid_summary[curr_date]:
                 print(f"        * {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
             if include_summary_none:
@@ -951,7 +985,7 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, output_file, include
         print(file=output_file)
 
 
-def main_by_build(target_dttm, token_file, output_file, include_summary_none):
+def main_by_build(target_dttm, end_dttm, token_file, output_file, include_summary_none):
     personal_token = read_personal_token(token_file)
     if personal_token is None:
         log.warning("GitHub Token was not provided, API calls will have severely limited rates.")
@@ -959,11 +993,11 @@ def main_by_build(target_dttm, token_file, output_file, include_summary_none):
     ### get data from GitHub API
     commit_api = CommitApi(CommitFactory(), personal_token)
     commit_repo = CommitRepository()
-    commit_repo.add_multiple(commit_api.get_commit_list(target_dttm))
+    commit_repo.add_multiple(commit_api.get_commit_list(target_dttm, end_dttm))
 
     pr_api = PullRequestApi(CDDAPullRequestFactory(), personal_token)
     pr_repo = CDDAPullRequestRepository()
-    pr_repo.add_multiple(pr_api.get_pr_list(target_dttm, merged_only=True))
+    pr_repo.add_multiple(pr_api.get_pr_list(target_dttm, end_dttm, merged_only=True))
 
     jenkins_api = JenkinsApi(JenkinsBuildFactory())
     build_repo = JenkinsBuildRepository()

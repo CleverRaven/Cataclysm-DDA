@@ -2,13 +2,17 @@
 #ifndef FIELD_H
 #define FIELD_H
 
+#include <array>
+#include <map>
+#include <string>
+#include <tuple>
+
 #include "calendar.h"
 #include "color.h"
 #include "game_constants.h"
 
-#include <array>
-#include <map>
-#include <string>
+struct maptile;
+struct tripoint;
 
 enum phase_id : int;
 
@@ -125,6 +129,15 @@ extern field_id field_from_ident( const std::string &field_ident );
 bool field_type_dangerous( field_id id );
 
 /**
+ * converts wind direction to list of co-ords to block neighbours to spread to.
+ */
+std::tuple<maptile, maptile, maptile> get_wind_blockers( const int &winddirection,
+        const tripoint &pos );
+/**
+ * converts xy of disallowed wind directions to map tiles.
+ */
+
+/**
  * An active or passive effect existing on a tile.
  * Each effect can vary in intensity (density) and age (usually used as a time to live).
  */
@@ -132,7 +145,7 @@ class field_entry
 {
     public:
         field_entry() : type( fd_null ), density( 1 ), age( 0_turns ), is_alive( false ) { }
-        field_entry( const field_id t, const int d, const time_duration a ) : type( t ), density( d ),
+        field_entry( const field_id t, const int d, const time_duration &a ) : type( t ), density( d ),
             age( a ), is_alive( true ) { }
 
         nc_color color() const;
@@ -160,10 +173,10 @@ class field_entry
         time_duration getFieldAge() const;
         /// Sets @ref age to the given value.
         /// @returns New value of @ref age.
-        time_duration setFieldAge( time_duration new_age );
+        time_duration setFieldAge( const time_duration &new_age );
         /// Adds given value to @ref age.
         /// @returns New value of @ref age.
-        time_duration mod_age( const time_duration mod ) {
+        time_duration mod_age( const time_duration &mod ) {
             return setFieldAge( getFieldAge() + mod );
         }
 
@@ -230,7 +243,7 @@ class field
          * The density is added to an existing field entry, but the age is only used for newly added entries.
          * @return false if the field_id already exists, true otherwise.
          */
-        bool addField( field_id field_to_add, int new_density = 1, time_duration new_age = 0_turns );
+        bool addField( field_id field_to_add, int new_density = 1, const time_duration &new_age = 0_turns );
 
         /**
          * Removes the field entry with a type equal to the field_id parameter.

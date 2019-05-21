@@ -1,0 +1,139 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "cs_car_dealership" ],
+    "method": "json",
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ",--==================--.",
+        ",|''''''''''''''''''''|,",
+        ".|yy''yy'yy''yy'yy''yy|.",
+        ",|y''''y'y''''y'y''''y|,",
+        ".|y''''y'y''''y'y''''y|.",
+        ".|''''''''''''''''''''|,",
+        ",|''''''''''''''''''''|.",
+        ".|''''''''''''''''''''|.",
+        ".|y''''y'y''''y'y''''y|,",
+        ".|y''''y'y''''y'y''''y|.",
+        ",|yy''yy'yy''yy'yy''yy|.",
+        ".|''''''''''''''''''''|,",
+        ".|'wOOOwwDw'''''yy''yy|.",
+        ".|'wsssVv wOOOw'y''''y|.",
+        ",|'w      w   w'y''''y|,",
+        ".|'w      w d w'''''''|.",
+        ".|'wFttc  D dhw'''''''|,",
+        ",|'wwwww  w d w'''''''|,",
+        ".|'wL  l  wwwww'y''''y|.",
+        ".|'wL Sw  D  Tw'y''''y|,",
+        ".|'wwwwwOOwwwww'yy''yy|.",
+        ".|'''''''''''4''''''''|,",
+        ".|##|-~----------------.",
+        ".----.....,.,...,...,..,"
+      ],
+      "terrain": {
+        ".": "t_grass",
+        ",": "t_dirt",
+        "'": "t_pavement",
+        "y": "t_pavement_y",
+        " ": "t_floor",
+        "w": "t_wall_wood",
+        "l": "t_door_locked_interior",
+        "D": "t_door_c",
+        "|": "t_chainfence_v",
+        "-": "t_chainfence_h",
+        "O": "t_window_alarm",
+        "=": "t_chaingate_l",
+        "~": "t_chaingate_c",
+        "#": "t_pavement",
+        "4": "t_gutter_downspout"
+      },
+      "furniture": {
+        "#": "f_dumpster",
+        "S": "f_sink",
+        "L": "f_locker",
+        "F": "f_fridge",
+        "t": "f_table",
+        "c": "f_trashcan",
+        "d": "f_desk",
+        "h": "f_chair",
+        "T": "f_toilet",
+        "s": "f_sofa",
+        "V": "f_vending_c",
+        "v": "f_vending_c"
+      },
+      "place_vehicles": [
+        { "vehicle": "oa_vg_cd_vehicles", "x": 4, "y": 5, "rotation": 270, "chance": 70, "fuel": 0 },
+        { "vehicle": "oa_vg_cd_vehicles", "x": 11, "y": 5, "rotation": 270, "chance": 70, "fuel": 0 },
+        { "vehicle": "oa_vg_cd_vehicles", "x": 18, "y": 5, "rotation": 270, "chance": 70, "fuel": 0 },
+        { "vehicle": "oa_vg_cd_vehicles", "x": 18, "y": 15, "rotation": 270, "chance": 70, "fuel": 0 }
+      ],
+      "items": {
+        "s": { "item": "oa_discarded_news", "chance": 20 },
+        "c": { "item": "oa_custom_trash", "chance": 70 },
+        "#": { "item": "oa_custom_trash", "chance": 60 },
+        "d": { "item": "oa_ig_cd_desks", "chance": 70 },
+        "L": { "item": "oa_ig_cd_lockers", "chance": 70 },
+        "F": { "item": "fridgesnacks", "chance": 60 },
+        "V": { "item": "vending_food_items", "chance": 80 },
+        "v": { "item": "vending_drink_items", "chance": 80 }
+      },
+      "place_items": [
+        { "item": "oa_custom_trash", "chance": 60, "repeat": [ 0, 4 ], "x": 2, "y": 22 },
+        { "item": "oa_custom_trash", "chance": 60, "repeat": [ 0, 4 ], "x": 3, "y": 22 },
+        { "item": "oa_ig_cd_fuel", "chance": 30, "x": 6, "y": 19 },
+        { "item": "fridgesnacks", "chance": 60, "repeat": [ 0, 6 ], "x": 4, "y": 16 },
+        { "item": "vending_food_items", "chance": 60, "repeat": [ 3, 6 ], "x": 7, "y": 13 },
+        { "item": "vending_drink_items", "chance": 60, "repeat": [ 3, 6 ], "x": 8, "y": 13 }
+      ],
+      "add": [ { "item": "microwave", "x": 5, "y": 16, "chance": 2 }, { "item": "coffeemaker", "x": 6, "y": 16, "chance": 2 } ],
+      "toilets": { "T": {  } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "cs_car_dealership_roof",
+    "object": {
+      "fill_ter": "t_tar_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "   |2222222             ",
+        "   |......22223         ",
+        "   |..........3         ",
+        "   |....A.....3         ",
+        "   |..........3         ",
+        "   |..........3         ",
+        "   |...&......3         ",
+        "   |........=.3         ",
+        "   |---------53         ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        ".": "t_tar_flat_roof",
+        " ": "t_open_air",
+        "2": "t_gutter_north",
+        "-": "t_gutter_south",
+        "3": "t_gutter_east",
+        "|": "t_gutter_west",
+        "5": "t_gutter_drop"
+      },
+      "furniture": { "&": "f_roof_turbine_vent", "=": "f_vent_pipe", "A": "f_air_conditioner" },
+      "place_items": [ { "item": "roof_trash", "x": [ 4, 12 ], "y": [ 14, 19 ], "chance": 50, "repeat": [ 1, 3 ] } ]
+    }
+  }
+]

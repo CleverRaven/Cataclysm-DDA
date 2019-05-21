@@ -14,7 +14,7 @@
     "ammo_type": "40mm",
     "casing": "40mm_casing",
     "range": 40,
-    "damage": 5,
+    "damage": 80,
     "dispersion": 30,
     "recoil": 225,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
@@ -24,7 +24,8 @@
     "copy-from": "40mm_grenade",
     "type": "AMMO",
     "name": "40mm beanbag",
-    "description": "A 40mm beanbag that deals massive, but less-lethal, force.",
+    "description": "A 40mm less-lethal beanbag that delivers strong impact on target, causing major pain and disorientation.  May still injure or kill.",
+    "damage": 20,
     "extend": { "effects": [ "LARGE_BEANBAG" ] }
   },
   {
@@ -57,7 +58,7 @@
     "copy-from": "40mm_shot",
     "type": "AMMO",
     "name": "40mm flechette",
-    "description": "A 40mm grenade with an armor-piercing flechette load.",
+    "description": "A 40mm shell loaded with a large number of armor-piercing flechettes.",
     "relative": { "damage": -10, "pierce": 30 }
   },
   {
@@ -82,9 +83,9 @@
     "copy-from": "40mm_grenade",
     "type": "AMMO",
     "name": "40mm buckshot",
-    "description": "A 40mm grenade with a buckshot load.",
+    "description": "A 40mm shell with a powerful buckshot load, designed to be used as alternative to shotguns or when breaching barricades and other obstacles.",
     "range": 12,
-    "damage": 70,
+    "damage": 85,
     "recoil": 525,
     "extend": { "effects": [ "SHOT" ] }
   },

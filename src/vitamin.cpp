@@ -1,12 +1,13 @@
 #include "vitamin.h"
 
+#include <map>
+#include <memory>
+
 #include "assign.h"
 #include "calendar.h"
 #include "debug.h"
 #include "json.h"
 #include "translations.h"
-
-#include <map>
 
 static std::map<vitamin_id, vitamin> vitamins_all;
 
@@ -32,13 +33,13 @@ const vitamin &string_id<vitamin>::obj() const
 
 int vitamin::severity( int qty ) const
 {
-    for( int i = 0; i != int( disease_.size() ); ++i ) {
+    for( int i = 0; i != static_cast<int>( disease_.size() ); ++i ) {
         if( ( qty >= disease_[ i ].first && qty <= disease_[ i ].second ) ||
             ( qty <= disease_[ i ].first && qty >= disease_[ i ].second ) ) {
             return i + 1;
         }
     }
-    // @todo: implement distinct severity levels for vitamin excesses
+    // TODO: implement distinct severity levels for vitamin excesses
     if( qty > 96 ) {
         return -1;
     }
@@ -50,7 +51,7 @@ void vitamin::load_vitamin( JsonObject &jo )
     vitamin vit;
 
     vit.id_ = vitamin_id( jo.get_string( "id" ) );
-    vit.name_ = _( jo.get_string( "name" ).c_str() );
+    vit.name_ = _( jo.get_string( "name" ) );
     vit.deficiency_ = efftype_id( jo.get_string( "deficiency" ) );
     vit.excess_ = efftype_id( jo.get_string( "excess", "null" ) );
     vit.min_ = jo.get_int( "min" );

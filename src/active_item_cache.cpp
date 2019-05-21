@@ -1,9 +1,10 @@
 #include "active_item_cache.h"
 
+#include <algorithm>
+#include <utility>
+
 #include "debug.h"
 #include "item.h"
-
-#include <algorithm>
 
 void active_item_cache::remove( std::list<item>::iterator it, point location )
 {
@@ -42,7 +43,7 @@ bool active_item_cache::has( std::list<item>::iterator it, point ) const
     return active_item_set.find( &*it ) != active_item_set.end();
 }
 
-bool active_item_cache::has( item_reference const &itm ) const
+bool active_item_cache::has( const item_reference &itm ) const
 {
     const auto found = active_item_set.find( itm.item_id );
     return found != active_item_set.end() && found->second;
@@ -83,3 +84,11 @@ void active_item_cache::subtract_locations( const point &delta )
     }
 }
 
+void active_item_cache::rotate_locations( int turns, const point &dim )
+{
+    for( auto &pair : active_items ) {
+        for( item_reference &ir : pair.second ) {
+            ir.location = ir.location.rotate( turns, dim );
+        }
+    }
+}

@@ -2,19 +2,33 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-#include "calendar.h"
-#include "cata_utility.h"
-#include "debug.h"
-#include "item_location.h"
-#include "string_id.h"
-#include "visitable.h"
-
 #include <climits>
 #include <list>
 #include <map>
 #include <set>
 #include <string>
 #include <vector>
+#include <functional>
+#include <memory>
+#include <type_traits>
+#include <utility>
+
+#include "calendar.h"
+#include "cata_utility.h"
+#include "debug.h"
+#include "enums.h"
+#include "flat_set.h"
+#include "io_tags.h"
+#include "item_location.h"
+#include "string_id.h"
+#include "type_id.h"
+#include "units.h"
+#include "visitable.h"
+#include "gun_mode.h"
+
+class item;
+class material_type;
+struct mtype;
 
 namespace cata
 {
@@ -22,64 +36,41 @@ template<typename T>
 class optional;
 } // namespace cata
 class nc_color;
-class JsonObject;
 class JsonIn;
 class JsonOut;
 class iteminfo_query;
 template<typename T>
 class ret_val;
-namespace units
-{
-template<typename V, typename U>
-class quantity;
-class mass_in_gram_tag;
-using mass = quantity<int, mass_in_gram_tag>;
-class volume_in_milliliter_tag;
-using volume = quantity<int, volume_in_milliliter_tag>;
-} // namespace units
 class gun_type_type;
 class gunmod_location;
-class game;
-class gun_mode;
-using gun_mode_id = string_id<gun_mode>;
 class Character;
 class player;
-class npc;
+class recipe;
 struct itype;
-struct mtype;
-using mtype_id = string_id<mtype>;
+struct islot_comestible;
+
+using bodytype_id = std::string;
 struct islot_armor;
 struct use_function;
-class material_type;
-using material_id = string_id<material_type>;
 class item_category;
+
 enum art_effect_passive : int;
 enum phase_id : int;
 enum body_part : int;
 enum m_size : int;
 enum class side : int;
 class body_part_set;
-class ammunition_type;
-using ammotype = string_id<ammunition_type>;
+
 using itype_id = std::string;
-class ma_technique;
-using matec_id = string_id<ma_technique>;
-struct point;
-struct tripoint;
-class Skill;
-using skill_id = string_id<Skill>;
-class fault;
-using fault_id = string_id<fault>;
-struct quality;
-using quality_id = string_id<quality>;
 struct fire_data;
 struct damage_instance;
 struct damage_unit;
 class map;
+struct item_comp;
 
 enum damage_type : int;
 
-std::string const &rad_badge_color( int rad );
+const std::string &rad_badge_color( int rad );
 
 struct light_emission {
     unsigned short luminance;
@@ -87,11 +78,6 @@ struct light_emission {
     short direction;
 };
 extern light_emission nolight;
-
-namespace io
-{
-struct object_archive_tag;
-}
 
 /**
  *  Value and metadata for one property of an item
@@ -150,11 +136,11 @@ struct iteminfo {
          *  @param Type The item type of the item this iteminfo belongs to.
          *  @param Name The name of the property this iteminfo describes.
          *  @param Fmt Formatting text desired between item name and value
-         *  @param flags Additional flags to customize this entry
+         *  @param Flags Additional flags to customize this entry
          *  @param Value Numerical value of this property, -999 for none.
          */
         iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt = "",
-                  flags = no_flags, double Value = -999 );
+                  flags Flags = no_flags, double Value = -999 );
         iteminfo( const std::string &Type, const std::string &Name, double Value );
 };
 
@@ -169,35 +155,7 @@ inline iteminfo::flags &operator|=( iteminfo::flags &l, iteminfo::flags r )
     return l = l | r;
 }
 
-/**
- *  Possible layers that a piece of clothing/armor can occupy
- *
- *  Every piece of clothing occupies one distinct layer on the body-part that
- *  it covers.  This is used for example by @ref Character to calculate
- *  encumbrance values, @ref player to calculate time to wear/remove the item,
- *  and by @ref profession to place the characters' clothing in a sane order
- *  when starting the game.
- */
-enum layer_level {
-    /* "Close to skin" layer, corresponds to SKINTIGHT flag. */
-    UNDERWEAR = 0,
-    /* "Normal" layer, default if no flags set */
-    REGULAR_LAYER,
-    /* "Waist" layer, corresponds to WAIST flag. */
-    WAIST_LAYER,
-    /* "Outer" layer, corresponds to OUTER flag. */
-    OUTER_LAYER,
-    /* "Strapped" layer, corresponds to BELTED flag */
-    BELTED_LAYER,
-    /* Not a valid layer; used for C-style iteration through this enum */
-    MAX_CLOTHING_LAYER
-};
-
-inline layer_level &operator++( layer_level &l )
-{
-    l = static_cast<layer_level>( l + 1 );
-    return l;
-}
+inline bool is_crafting_component( const item &component );
 
 class item : public visitable<item>
 {
@@ -209,8 +167,8 @@ class item : public visitable<item>
         item &operator=( item && ) = default;
         item &operator=( const item & ) = default;
 
-        explicit item( const itype_id &id, time_point turn = calendar::turn, long qty = -1 );
-        explicit item( const itype *type, time_point turn = calendar::turn, long qty = -1 );
+        explicit item( const itype_id &id, time_point turn = calendar::turn, int qty = -1 );
+        explicit item( const itype *type, time_point turn = calendar::turn, int qty = -1 );
 
         /** Suppress randomization and always start with default quantity of charges */
         struct default_charges_tag {};
@@ -221,6 +179,9 @@ class item : public visitable<item>
         struct solitary_tag {};
         item( const itype_id &id, time_point turn, solitary_tag );
         item( const itype *type, time_point turn, solitary_tag );
+
+        /** For constructing in-progress crafts */
+        item( const recipe *rec, int qty, std::list<item> items );
 
         /**
          * Filter converting this instance to another type preserving all other aspects
@@ -248,7 +209,7 @@ class item : public visitable<item>
          * @param qty maximum ammo (capped by item capacity) or negative to fill to capacity
          * @return same instance to allow method chaining
          */
-        item &ammo_set( const itype_id &ammo, long qty = -1 );
+        item &ammo_set( const itype_id &ammo, int qty = -1 );
 
         /**
          * Filter removing all ammo from this instance
@@ -269,7 +230,7 @@ class item : public visitable<item>
          * @param qty number of required charges to split from source
          * @return new instance containing exactly qty charges or null item if splitting failed
          */
-        item split( long qty );
+        item split( int qty );
 
         /**
          * Make a corpse of the given monster type.
@@ -336,7 +297,8 @@ class item : public visitable<item>
          * the extent of damage and burning (was created to sort by name without prefix
          * in additional inventory)
          */
-        std::string tname( unsigned int quantity = 1, bool with_prefix = true ) const;
+        std::string tname( unsigned int quantity = 1, bool with_prefix = true,
+                           unsigned int truncate = 0 ) const;
         std::string display_money( unsigned int quantity, unsigned long charge ) const;
         /**
          * Returns the item name and the charges or contained charges (if the item can have
@@ -418,10 +380,10 @@ class item : public visitable<item>
                 const item *target = nullptr;
                 item_location ammo;
 
-                long qty() const {
+                int qty() const {
                     return qty_;
                 }
-                void qty( long val );
+                void qty( int val );
 
                 int moves() const;
 
@@ -430,8 +392,8 @@ class item : public visitable<item>
                 }
 
             private:
-                long qty_ = 0;
-                long max_qty = LONG_MAX;
+                int qty_ = 0;
+                int max_qty = INT_MAX;
                 const item *parent = nullptr;
         };
 
@@ -441,7 +403,7 @@ class item : public visitable<item>
          * @param loc Location of ammo to be reloaded
          * @param qty caps reloading to this (or fewer) units
          */
-        bool reload( player &u, item_location loc, long qty );
+        bool reload( player &u, item_location loc, int qty );
 
         template<typename Archive>
         void io( Archive & );
@@ -460,7 +422,7 @@ class item : public visitable<item>
          */
         int price( bool practical ) const;
 
-        bool stacks_with( const item &rhs ) const;
+        bool stacks_with( const item &rhs, bool check_components = false ) const;
         /**
          * Merge charges of the other item into this item.
          * @return true if the items have been merged, otherwise false.
@@ -469,7 +431,7 @@ class item : public visitable<item>
          */
         bool merge_charges( const item &rhs );
 
-        units::mass weight( bool include_contents = true ) const;
+        units::mass weight( bool include_contents = true, bool integral = false ) const;
 
         /**
          * Total volume of an item accounting for all contained/integrated items
@@ -487,7 +449,7 @@ class item : public visitable<item>
         units::volume base_volume() const;
 
         /** Volume check for corpses, helper for base_volume(). */
-        units::volume corpse_volume( m_size corpse_size ) const;
+        units::volume corpse_volume( const mtype *corpse ) const;
 
         /** Required strength to be able to successfully lift the item unaided by equipment */
         int lift_strength() const;
@@ -550,9 +512,11 @@ class item : public visitable<item>
          * @param qty maximum charges to consume. On return set to number of charges not found (or zero)
          * @param used filled with duplicates of each item that provided consumed charges
          * @param pos position at which the charges are being consumed
+         * @param filter Must return true for use to occur.
          * @return true if this item should be deleted (count-by-charges items with no remaining charges)
          */
-        bool use_charges( const itype_id &what, long &qty, std::list<item> &used, const tripoint &pos );
+        bool use_charges( const itype_id &what, int &qty, std::list<item> &used, const tripoint &pos,
+                          const std::function<bool( const item & )> &filter = return_true<item> );
 
         /**
          * Invokes item type's @ref itype::drop_action.
@@ -578,10 +542,12 @@ class item : public visitable<item>
          * @param it Type of consumable item.
          * @param quantity How much to consumed.
          * @param used On success all consumed items will be stored here.
+         * @param filter Must return true for use to occur.
          */
-        bool use_amount( const itype_id &it, long &quantity, std::list<item> &used );
+        bool use_amount( const itype_id &it, int &quantity, std::list<item> &used,
+                         const std::function<bool( const item & )> &filter = return_true<item> );
 
-        /** Can item can be used as crafting component in current state? */
+        /** Permits filthy components, should only be used as a helper in creating filters */
         bool allow_crafting_component() const;
 
         /**
@@ -612,7 +578,7 @@ class item : public visitable<item>
          * @param liquid Liquid to fill the container with.
          * @param amount Amount to fill item with, capped by remaining capacity
          */
-        void fill_with( item &liquid, long amount = INFINITE_CHARGES );
+        void fill_with( item &liquid, int amount = INFINITE_CHARGES );
         /**
          * How much more of this liquid (in charges) can be put in this container.
          * If this is not a container (or not suitable for the liquid), it returns 0.
@@ -622,10 +588,10 @@ class item : public visitable<item>
          * @param allow_bucket Allow filling non-sealable containers
          * @param err Message to print if no more material will fit
          */
-        long get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket = false,
-                                                std::string *err = nullptr ) const;
-        long get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
-                                                std::string *err = nullptr ) const;
+        int get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket = false,
+                                               std::string *err = nullptr ) const;
+        int get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
+                                               std::string *err = nullptr ) const;
         /**
          * It returns the total capacity (volume) of the container for liquids.
          */
@@ -672,7 +638,7 @@ class item : public visitable<item>
         /**
          * If count_by_charges(), returns charges, otherwise 1
          */
-        long count() const;
+        int count() const;
         bool craft_has_charges();
 
         /**
@@ -681,26 +647,48 @@ class item : public visitable<item>
          * by charges.
          * @param mod How many charges should be removed.
          */
-        void mod_charges( long mod );
+        void mod_charges( int mod );
 
         /**
          * Accumulate rot of the item since last rot calculation.
-         * This function works for non-rotting stuff, too - it increases the value
-         * of rot.
-         * @param p The absolute, global location (in map square coordinates) of the item to
-         * check for temperature.
+         * This function should not be called directly. since it does not have all the needed checks or temperature calculations.
+         * If you need to calc rot of item call process_temperature_rot instead.
+         * @param time Time point to which rot is calculated
+         * @param temp Temperature at which the rot is calculated
          */
-        void calc_rot( const tripoint &p );
+        void calc_rot( time_point time, int temp );
 
         /**
-         * Update temperature item_counters for things like food
+         * This is part of a workaround so that items don't rot away to nothing if the smoking rack
+         * is outside the reality bubble.
+         * @param smoking_duration
+         */
+        void calc_rot_while_processing( time_duration smoking_duration );
+
+        /**
+         * Update temperature for things like food
+         * Update rot for things that perish
+         * All items that rot also have temperature
          * @param temp Temperature at which item is current exposed
          * @param insulation Amount of insulation item has from surroundings
+         * @param pos The current position
+         * @param carrier The current carrier
+         * @param flag to specify special temperature situations
          */
-        void update_temp( const int temp, const float insulation );
+        void process_temperature_rot( float insulation, const tripoint &pos, player *carrier,
+                                      const temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
-        /** Apply heat to this item, amount of heat will be based on item weight  */
+        /** Set the item to HOT */
         void heat_up();
+
+        /** Set the item to COLD */
+        void cold_up();
+
+        /** Sets the item temperature and item energy from new temperature (K)*/
+        void set_item_temperature( float new_temperature );
+
+        /** Sets the item to new temperature and energy based new specific energy (J/g)*/
+        void set_item_specific_energy( const float specific_energy );
 
         /** reset the last_temp_check used when crafting new items and the like */
         void reset_temp_check();
@@ -708,11 +696,16 @@ class item : public visitable<item>
         /** whether an item is perishable (can rot) */
         bool goes_bad() const;
 
+        /** Get the shelf life of the item*/
+        time_duration get_shelf_life() const;
+
         /** Get @ref rot value relative to shelf life (or 0 if item does not spoil) */
         double get_relative_rot() const;
 
         /** Set current item @ref rot relative to shelf life (no-op if item does not spoil) */
         void set_relative_rot( double val );
+
+        void set_rot( time_duration val );
 
         /**
          * Get time left to rot, ignoring fridge.
@@ -740,49 +733,14 @@ class item : public visitable<item>
             return get_relative_rot() > 1.0;
         }
 
-        /** at twice regular shelf life perishable items rot away completely */
+        /** at twice regular shelf life perishable foods rot away completely. Corpses last longer */
         bool has_rotten_away() const {
-            return get_relative_rot() > 2.0;
+            return is_food() && get_relative_rot() > 2.0;
         }
 
         /** remove frozen tag and if it takes freezerburn, applies mushy/rotten */
         void apply_freezerburn();
 
-    private:
-        /**
-         * Accumulated rot, expressed as time the item has been in standard temperature.
-         * It is compared to shelf life (@ref islot_comestible::spoils) to decide if
-         * the item is rotten.
-         */
-        time_duration rot = 0;
-        /** Time when the rot calculation was last performed. */
-        time_point last_rot_check = calendar::time_of_cataclysm;
-
-        /**
-         * Calculate temperature differential and handle FROZEN/COLD/HOT states
-         * @param temp Temperature of surroundings
-         * @param insulation Amount of insulation item has
-         * @param time Duration of time at which to process at temperature
-         */
-        void calc_temp( const int temp, const float insulation, const time_duration &time );
-
-        /** Using item_tags and counters, calculate a static counter representation of the item's temperature */
-        int get_static_temp_counter() const;
-
-        /** Set temperature tags and counter according to a static counter */
-        void set_temp_from_static( const int counter );
-
-        /** the last time the temperature was updated for this item */
-        time_point last_temp_check = calendar::time_of_cataclysm;
-
-        /**
-         * Current phase state, inherits a default at room temperature from
-         * itype and can be changed through item processing.  This is a static
-         * cast to avoid importing the entire enums.h header here, zero is
-         * PNULL.
-         */
-        phase_id current_phase = static_cast<phase_id>( 0 );
-    public:
         time_duration get_rot() const {
             return rot;
         }
@@ -871,6 +829,11 @@ class item : public visitable<item>
         bool made_of( phase_id phase ) const;
         bool made_of_from_type( phase_id phase ) const;
         /**
+         * Returns a list of components used to craft this item or the default
+         * components if it wasn't player-crafted.
+         */
+        std::vector<item_comp> get_uncraft_components() const;
+        /**
          * Whether the items is conductive.
          */
         bool conductive() const;
@@ -880,6 +843,10 @@ class item : public visitable<item>
          * @param threshold Item is flammable if it provides more fuel than threshold.
          */
         bool flammable( int threshold = 0 ) const;
+        /**
+        * Whether the item can be repaired beyond normal health.
+        */
+        bool reinforceable() const;
         /*@}*/
 
         /**
@@ -951,7 +918,7 @@ class item : public visitable<item>
         float get_relative_health() const;
 
         /**
-         * Apply damage to item constrained by @ref min_damage and @ref max_damage
+         * Apply damage to const itemrained by @ref min_damage and @ref max_damage
          * @param qty maximum amount by which to adjust damage (negative permissible)
          * @param dt type of damage which may be passed to @ref on_damage callback
          * @return whether item should be destroyed
@@ -974,6 +941,14 @@ class item : public visitable<item>
 
         /** Provide prefix symbol for UI display dependent upon current item damage level */
         std::string damage_symbol() const;
+
+        /**
+         * Provides a prefix for the durability state of the item. with ITEM_HEALTH_BAR enabled,
+         * returns a symbol with color tag already applied. Otherwise, returns an adjective.
+         * if include_intact is true, this provides a string for the corner case of a player
+         * with ITEM_HEALTH_BAR disabled, but we need still a string for some reason.
+         */
+        std::string durability_indicator( bool include_intact = false ) const;
 
         /** If possible to repair this item what tools could potentially be used for this purpose? */
         const std::set<itype_id> &repaired_with() const;
@@ -1006,22 +981,9 @@ class item : public visitable<item>
          * should than delete the item wherever it was stored.
          * Returns false if the item is not destroyed.
          */
-        bool process( player *carrier, const tripoint &pos, bool activate );
-        bool process( player *carrier, const tripoint &pos, bool activate, int temp, float insulation );
-    protected:
-        // Sub-functions of @ref process, they handle the processing for different
-        // processing types, just to make the process function cleaner.
-        // The interface is the same as for @ref process.
-        bool process_food( const player *carrier, const tripoint &p, int temp, float insulation );
-        bool process_corpse( player *carrier, const tripoint &pos );
-        bool process_wet( player *carrier, const tripoint &pos );
-        bool process_litcig( player *carrier, const tripoint &pos );
-        bool process_extinguish( player *carrier, const tripoint &pos );
-        // Place conditions that should remove fake smoke item in this sub-function
-        bool process_fake_smoke( player *carrier, const tripoint &pos );
-        bool process_cable( player *carrier, const tripoint &pos );
-        bool process_tool( player *carrier, const tripoint &pos );
-    public:
+        bool process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
+                      const temperature_flag flag = temperature_flag::TEMP_NORMAL );
+
         /**
          * Gets the point (vehicle tile) the cable is connected to.
          * Returns nothing if not connected to anything.
@@ -1063,9 +1025,14 @@ class item : public visitable<item>
         bool is_bandolier() const;
         bool is_holster() const;
         bool is_ammo() const;
+        // is this armor for a pet creature?  if on_pet is true, returns false if a pet isn't
+        // wearing it
+        bool is_pet_armor( bool on_pet = false ) const;
         bool is_armor() const;
         bool is_book() const;
+        bool is_map() const;
         bool is_salvageable() const;
+        bool is_craft() const;
 
         bool is_tool() const;
         bool is_tool_reversible() const;
@@ -1083,6 +1050,12 @@ class item : public visitable<item>
         bool is_irremovable() const;
 
         bool is_unarmed_weapon() const; //Returns true if the item should be considered unarmed
+
+        bool has_temperature() const;
+        float get_specific_heat_liquid() const;
+        float get_specific_heat_solid() const;
+        float get_latent_heat() const;
+        float get_freeze_point() const; // Farenheit
 
         /** What faults can potentially occur with this item? */
         std::set<fault_id> faults_potential() const;
@@ -1119,10 +1092,6 @@ class item : public visitable<item>
         bool is_reloadable_with( const itype_id &ammo ) const;
         /** Returns true if not empty if it's liquid, it's not currently frozen in resealable container */
         bool can_unload_liquid() const;
-    private:
-        /** Helper for checking reloadability. **/
-        bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
-    public:
 
         bool is_dangerous() const; // Is it an active grenade or something similar that will hurt us?
 
@@ -1160,9 +1129,6 @@ class item : public visitable<item>
 
         /** return the unique identifier of the items underlying type */
         itype_id typeId() const;
-
-        const itype *type;
-        std::list<item> contents;
 
         /**
          * Return a contained item (if any and only one).
@@ -1241,7 +1207,7 @@ class item : public visitable<item>
          *
          * For items not counted by charges, this returns vol / this->volume().
          */
-        long charges_per_volume( const units::volume &vol ) const;
+        int charges_per_volume( const units::volume &vol ) const;
 
         /**
          * @name Item variables
@@ -1270,6 +1236,8 @@ class item : public visitable<item>
         void set_var( const std::string &name, long value );
         void set_var( const std::string &name, double value );
         double get_var( const std::string &name, double default_value ) const;
+        void set_var( const std::string &name, const tripoint &value );
+        tripoint get_var( const std::string &name, const tripoint &default_value ) const;
         void set_var( const std::string &name, const std::string &value );
         std::string get_var( const std::string &name, const std::string &default_value ) const;
         /** Get the variable, if it does not exists, returns an empty string. */
@@ -1443,16 +1411,18 @@ class item : public visitable<item>
          */
         int get_coverage() const;
         /**
-         * Returns the encumbrance value that this item has when worn, when
-         * containing a particular volume of contents.
-         * Returns 0 if this is can not be worn at all.
+         * Returns the encumbrance value that this item has when worn by given
+         * player, when containing a particular volume of contents.
+         * Returns 0 if this can not be worn at all.
          */
-        int get_encumber_when_containing( const units::volume &contents_volume ) const;
+        int get_encumber_when_containing(
+            const Character &, const units::volume &contents_volume ) const;
         /**
-         * Returns the encumbrance value that this item has when worn.
+         * Returns the encumbrance value that this item has when worn by given
+         * player.
          * Returns 0 if this is can not be worn at all.
          */
-        int get_encumber() const;
+        int get_encumber( const Character & ) const;
         /**
          * Returns the storage amount (@ref islot_armor::storage) that this item provides when worn.
          * For non-armor it returns 0. The storage amount increases the volume capacity of the
@@ -1492,6 +1462,16 @@ class item : public visitable<item>
          */
         bool is_worn_only_with( const item &it ) const;
 
+        /**
+         * @name Pet armor related functions.
+         *
+         * The functions here refer to values from @ref islot_pet_armor. They only apply to pet
+         * armor items, those items can be worn by pets. The functions are safe to call for any
+         * item, for non-pet armor they return a default value.
+         */
+        units::volume get_pet_armor_max_vol() const;
+        units::volume get_pet_armor_min_vol() const;
+        bodytype_id get_pet_armor_bodytype() const;
         /*@}*/
 
         /**
@@ -1517,6 +1497,10 @@ class item : public visitable<item>
          * no unread chapters. This is a per-character setting, see @ref get_remaining_chapters.
          */
         void mark_chapter_as_read( const player &u );
+        /**
+         * Enumerates recipes available from this book and the skill level required to use them.
+         */
+        std::vector<std::pair<const recipe *, int>> get_available_recipes( const player &u ) const;
         /*@}*/
 
         /**
@@ -1563,11 +1547,13 @@ class item : public visitable<item>
         bool is_gun() const;
 
         /** Quantity of ammunition currently loaded in tool, gun or auxiliary gunmod */
-        long ammo_remaining() const;
+        int ammo_remaining() const;
         /** Maximum quantity of ammunition loadable for tool, gun or auxiliary gunmod */
-        long ammo_capacity() const;
+        int ammo_capacity() const;
+        /** @param potential_capacity whether to try a default magazine if necessary */
+        int ammo_capacity( bool potential_capacity ) const;
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
-        long ammo_required() const;
+        int ammo_required() const;
 
         /**
          * Check if sufficient ammo is loaded for given number of uses.
@@ -1589,7 +1575,7 @@ class item : public visitable<item>
          * @param pos current location of item, used for ejecting magazines and similar effects
          * @return amount of ammo consumed which will be between 0 and qty
          */
-        long ammo_consume( long qty, const tripoint &pos );
+        int ammo_consume( int qty, const tripoint &pos );
 
         /** Specific ammo data, returns nullptr if item is neither ammo nor loaded with any */
         const itype *ammo_data() const;
@@ -1607,6 +1593,9 @@ class item : public visitable<item>
 
         /** Get ammo effects for item optionally inclusive of any resulting from the loaded ammo */
         std::set<std::string> ammo_effects( bool with_ammo = true ) const;
+
+        /* Get the name to be used when sorting this item by ammo type */
+        std::string ammo_sort_name() const;
 
         /** How many spent casings are contained within this item? */
         int casings_count() const;
@@ -1728,6 +1717,8 @@ class item : public visitable<item>
         /** Get the type of a ranged weapon (e.g. "rifle", "crossbow"), or empty string if non-gun */
         gun_type_type gun_type() const;
 
+        /** Get mod locations, including those added by other mods */
+        std::map<gunmod_location, int> get_mod_locations() const;
         /**
          * Number of mods that can still be installed into the given mod location,
          * for non-guns it always returns 0.
@@ -1790,7 +1781,10 @@ class item : public visitable<item>
          * @param qty units required, if unspecified use item default
          */
         bool units_sufficient( const Character &ch, int qty = -1 ) const;
-
+        /**
+         * Returns name of deceased being if it had any or empty string if not
+         **/
+        std::string get_corpse_name();
         /**
          * Returns the translated item name for the item with given id.
          * The name is in the proper plural form as specified by the
@@ -1838,50 +1832,171 @@ class item : public visitable<item>
         /* add the monster at target to this item, despawning it */
         int contain_monster( const tripoint &target );
 
+        time_duration age() const;
+        void set_age( const time_duration &age );
+        time_point birthday() const;
+        void set_birthday( const time_point &bday );
+
+        int get_gun_ups_drain() const;
+
+        int get_min_str() const;
+
+        const cata::optional<islot_comestible> &get_comestible() const;
+
+        /**
+         * Get the stored recipe for in progress crafts.
+         * Causes a debugmsg if called on a non-craft and returns the null recipe.
+         * @return the recipe in progress
+         */
+        const recipe &get_making() const;
+
+        /**
+         * Get the failure point stored in this item.
+         * returns INT_MAX if the failure point is unset.
+         * Causes a debugmsg and returns INT_MAX if called on a non-craft.
+         * @return an integer >= 0 representing a percent to 5 decimal places.
+         *         67.32 percent would be represented as 6732000
+         */
+        int get_next_failure_point() const;
+
+        /**
+         * Calculates and sets the next failure point for an in progress craft.
+         * Causes a debugmsg if called on non-craft.
+         * @param crafter the crafting player
+         */
+        void set_next_failure_point( const player &crafter );
+
+        /**
+         * Handle failure during crafting.
+         * Destroy components, lose progress, and set a new failure point.
+         * @param crafter the crafting player.
+         */
+        void handle_craft_failure( player &crafter );
+
+        /**
+         * Returns requirement data representing what is needed to resume work on an in progress craft.
+         * Causes a debugmsg and returns empty requirement data if called on a non-craft
+         * @return what is needed to continue craft, may be empty requirement data
+         */
+        requirement_data get_continue_reqs();
+
+
     private:
-        int damage_ = 0;
+        /**
+         * Calculate the thermal energy and temperature change of the item
+         * @param temp Temperature of surroundings
+         * @param insulation Amount of insulation item has
+         * @param time time point which the item is processed to
+         */
+        void calc_temp( const int temp, const float insulation, const time_point &time );
+
+        /**
+         * Get the thermal energy of the item in Joules.
+         */
+        float get_item_thermal_energy();
+
+        /** Calculates item specific energy (J/g) from temperature (K)*/
+        float get_specific_energy_from_temperature( const float new_temperature );
+
+        /** Helper for checking reloadability. **/
+        bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
+
+        enum class sizing {
+            human_sized_human_char = 0,
+            big_sized_human_char,
+            small_sized_human_char,
+            big_sized_big_char,
+            human_sized_big_char,
+            small_sized_big_char,
+            small_sized_small_char,
+            human_sized_small_char,
+            big_sized_small_char,
+            not_wearable
+        };
+
+        sizing get_sizing( const Character &, bool ) const;
+
+    protected:
+        // Sub-functions of @ref process, they handle the processing for different
+        // processing types, just to make the process function cleaner.
+        // The interface is the same as for @ref process.
+        bool process_corpse( player *carrier, const tripoint &pos );
+        bool process_wet( player *carrier, const tripoint &pos );
+        bool process_litcig( player *carrier, const tripoint &pos );
+        bool process_extinguish( player *carrier, const tripoint &pos );
+        // Place conditions that should remove fake smoke item in this sub-function
+        bool process_fake_smoke( player *carrier, const tripoint &pos );
+        bool process_fake_mill( player *carrier, const tripoint &pos );
+        bool process_cable( player *carrier, const tripoint &pos );
+        bool process_tool( player *carrier, const tripoint &pos );
+
+    public:
+        static const int INFINITE_CHARGES;
+
+        const itype *type;
+        std::list<item> contents;
+        std::list<item> components;
+        /** What faults (if any) currently apply to this item */
+        std::set<fault_id> faults;
+        cata::flat_set<std::string> item_tags; // generic item specific flags
+
+    private:
         const itype *curammo = nullptr;
         std::map<std::string, std::string> item_vars;
         const mtype *corpse = nullptr;
         std::string corpse_name;       // Name of the late lamented
         std::set<matec_id> techniques; // item specific techniques
-        light_emission light = nolight;
+
+        // Only for in-progress crafts
+        const recipe *making = nullptr;
+        int next_failure_point = -1;
 
     public:
-        static const long INFINITE_CHARGES;
+        int charges;
 
-        char invlet = 0;      // Inventory letter
-        long charges;
-        bool active = false; // If true, it has active effects to be processed
-
+        // The number of charges a recipe creates.  Used for comestible consumption.
+        int recipe_charges = 1;
         int burnt = 0;           // How badly we're burnt
-    private:
-        /// The time the item was created.
-        time_point bday;
-    public:
-        time_duration age() const;
-        void set_age( time_duration age );
-        time_point birthday() const;
-        void set_birthday( time_point bday );
-
         int poison = 0;          // How badly poisoned is it?
         int frequency = 0;       // Radio frequency
         int note = 0;            // Associated dynamic text snippet.
         int irridation = 0;      // Tracks radiation dosage.
-
-        /** What faults (if any) currently apply to this item */
-        std::set<fault_id> faults;
-
-        std::set<std::string> item_tags; // generic item specific flags
         int item_counter = 0; // generic counter to be used with item flags
+        int specific_energy = -10; // Specific energy (0.00001 J/g). Negative value for unprocessed.
+        int temperature = 0; // Temperature of the item (in 0.00001 K).
         int mission_id = -1; // Refers to a mission in game's master list
         int player_id = -1; // Only give a mission to the right player!
-        typedef std::vector<item> t_item_vector;
-        t_item_vector components;
 
-        int get_gun_ups_drain() const;
+    private:
+        /**
+         * Accumulated rot, expressed as time the item has been in standard temperature.
+         * It is compared to shelf life (@ref islot_comestible::spoils) to decide if
+         * the item is rotten.
+         */
+        time_duration rot = 0_turns;
+        /** Time when the rot calculation was last performed. */
+        time_point last_rot_check = calendar::time_of_cataclysm;
+        /** the last time the temperature was updated for this item */
+        time_point last_temp_check = calendar::time_of_cataclysm;
+        /// The time the item was created.
+        time_point bday;
+        /**
+         * Current phase state, inherits a default at room temperature from
+         * itype and can be changed through item processing.  This is a static
+         * cast to avoid importing the entire enums.h header here, zero is
+         * PNULL.
+         */
+        phase_id current_phase = static_cast<phase_id>( 0 );
 
-        int get_min_str() const;
+        int damage_ = 0;
+        light_emission light = nolight;
+
+    public:
+        char invlet = 0;      // Inventory letter
+        bool active = false; // If true, it has active effects to be processed
+        bool is_favorite = false;
+
+        void set_favorite( const bool favorite );
 };
 
 bool item_compare_by_charges( const item &left, const item &right );
@@ -1907,5 +2022,14 @@ enum hint_rating {
  * and stays valid until the program ends.
  */
 item &null_item_reference();
+
+/**
+ * Default filter for crafting component searches
+ */
+inline bool is_crafting_component( const item &component )
+{
+    return ( component.allow_crafting_component() || component.count_by_charges() ) &&
+           !component.is_filthy();
+}
 
 #endif

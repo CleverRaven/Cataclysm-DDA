@@ -1,84 +1,98 @@
-cataclysm
-cataclysm-tiles
-cataclysm-vcpkg
-cata_test
-cata_test-tiles
-chkjson*
 !src/chkjson
-data/*.template
-templates/
-save/
-mods/
-graveyard/
-memorial/
-obj/
-debug.log
-logg.txt
-bindist/
-cataclysmdda-*
-objwin/
-src/version.h
-src/lua/catabindings.cpp
-tools/format/json_formatter.cgi
+*.7z
+*.a
+*.d
+*.dll
+*.exe
+*.o
+*.tmp
+*.zip
+/WinDepend/
+/bindist/
+/build/
+/build-start-time
+/cmake-build-debug/
+/config/
+/data/*.template
+/data/font/
+/data/mods/user-default-mods.json
+/dep/
+/doxygen_doc/html/*
+/doxygen_doc/latex/*
+/graveyard/
+/memorial/
+/mods/
+/obj/
+/objwin/
+/save/
+/src/version.h
+/sound/
+/templates/
+/tools/format/json_formatter.cgi
 CataclysmWin.cscope_file_list
 CataclysmWin.depend
 CataclysmWin.layout
-*.exe
-*.dll
-WinDepend/
-*.7z
-*.zip
-build/
-dep/
-*.o
-*.d
-*.a
-cmake-build-debug/
-*.tmp
-
-data/font/
-config/
-
-doxygen_doc/html/*
-doxygen_doc/latex/*
-
-data/mods/user-default-mods.json
+cata_test
+cata_test-tiles
+cataclysm
+cataclysm-tiles
+cataclysm-vcpkg
+cataclysmdda-*
+chkjson*
+debug.log
+logg.txt
 
 # Visual Studio files
-*.suo
-*.sdf
-*.pdb
+*.code-workspace
 *.ilk
-Release*/
-Debug*/
 *.opensdf
+*.pdb
+*.lib
+*.sdf
+*.suo
 *.user
 *.vcxproj.filters
-.vscode/
 .vs/
-*.code-workspace
+.vscode/
+Debug*/
+Release*/
+
+# Distribution script results
+/msvc-full-features/distribution
+
+# Visual Studio 2015
+/msvc-full-features/*db
+/msvc-full-features/ipch
+lnk*.tmp
+Cataclysm.exe.lastcodeanalysissucceeded
+
+#Visual Studio 2017
+/msvc-full-features/PredictedInputCache_Debug_x64.dat
+
+# PVS Studio
+/msvc-full-features/*PVS-Studio*
 
 # Temporary and backup files
-*~
-\#*
 *.bak
 *.cbTemp
 *.sw?
+*~
+\#*
 gmon.out
 
 # System Files
-Thumbs.db
 .DS_Store
 ._.DS_Store
-tags
+Thumbs.db
 cscope.*
+tags
 
 # Compiled binary translations
-lang/mo/
+/lang/mo/
 
 # Directory for translatable strings
-lang/json/*
-!lang/json/README
+/lang/json/*
+!/lang/json/README
 
 # Netbeans IDE folders
 nbproject/
@@ -89,6 +103,7 @@ nbproject/
 # vim files
 *.vim
 *.session
+.ycm_extra_conf.py
 
 # taskwarrior files
 *.task*
@@ -108,11 +123,11 @@ Cataclysm.dmg
 .idea/
 
 # test executables and generated data
-tests/cata_test
-tests/line_test
-tests/map_iterator_test
-tests/shadowcasting_test
-tests/data/jsionized_overmap.sav
+/tests/cata_test
+/tests/line_test
+/tests/map_iterator_test
+/tests/shadowcasting_test
+/tests/data/jsionized_overmap.sav
 
 # static library used to link the test executable
 cataclysm.a
@@ -123,27 +138,18 @@ cataclysm.a
 # sublime-text workspace
 *.sublime-workspace
 
-# Visual Studio 2015
-msvc-full-features/*db
-msvc-full-features/ipch
-lnk*.tmp
-Cataclysm.exe.lastcodeanalysissucceeded
-
-#Visual Studio 2017
-msvc-full-features/PredictedInputCache_Debug_x64.dat
-
 # cppcheck
 *cppcheck.xml
 *.cppcheck
+
+# clang tooling
+compile_commands.json
 
 # IDA database
 Cataclysm.i64
 Cataclysm.id*
 Cataclysm.til
 Cataclysm.nam
-
-# Distribution script results
-msvc-full-features/distribution
 
 # Transifex Client
 .tx/
@@ -165,3 +171,8 @@ Xcode/
 
 # gdb
 .gdb_history
+
+# Flatpak build artifacts
+/.flatpak-builder/
+/repo/
+/build-dir/

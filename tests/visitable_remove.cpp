@@ -1,5 +1,11 @@
-#include "catch/catch.hpp"
+#include <algorithm>
+#include <list>
+#include <memory>
+#include <string>
+#include <vector>
 
+#include "avatar.h"
+#include "catch/catch.hpp"
 #include "game.h"
 #include "itype.h"
 #include "map.h"
@@ -11,6 +17,12 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
+#include "calendar.h"
+#include "enums.h"
+#include "inventory.h"
+#include "item.h"
+#include "optional.h"
+#include "type_id.h"
 
 template <typename T>
 static int count_items( const T &src, const itype_id &id )
@@ -40,7 +52,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     p.wear_item( item( "backpack" ) ); // so we don't drop anything
 
     // check if all tiles within radius are loaded within current submap and passable
-    auto suitable = []( const tripoint & pos, int radius ) {
+    const auto suitable = []( const tripoint & pos, const int radius ) {
         auto tiles = closest_tripoints_first( radius, pos );
         return std::all_of( tiles.begin(), tiles.end(), []( const tripoint & e ) {
             if( !g->m.inbounds( e ) ) {
@@ -58,6 +70,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     p.setz( 0 );
     // move player randomly until we find a suitable position
     while( !suitable( p.pos(), 1 ) ) {
+        CHECK( !p.in_vehicle );
         p.setpos( random_entry( closest_tripoints_first( 1, p.pos() ) ) );
     }
 

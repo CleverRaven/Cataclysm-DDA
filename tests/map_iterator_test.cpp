@@ -1,9 +1,9 @@
-#include "catch/catch.hpp"
-
-#include "map_iterator.h"
-
 #include <algorithm>
 #include <array>
+
+#include "catch/catch.hpp"
+#include "map_iterator.h"
+#include "enums.h"
 
 std::array<tripoint, 9> range_1_2d_centered = {
     {   {-1, -1, 0}, { 0, -1, 0}, { 1, -1, 0},

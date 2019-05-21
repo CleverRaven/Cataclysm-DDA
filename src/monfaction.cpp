@@ -1,10 +1,16 @@
 #include "monfaction.h"
 
-#include "debug.h"
-#include "json.h"
-
+#include <cstddef>
 #include <queue>
 #include <vector>
+#include <map>
+#include <set>
+#include <string>
+#include <utility>
+
+#include "debug.h"
+#include "json.h"
+#include "string_id.h"
 
 std::unordered_map< mfaction_str_id, mfaction_id > faction_map;
 std::vector< monfaction > faction_list;
@@ -66,12 +72,12 @@ int_id<monfaction>::int_id( const string_id<monfaction> &id )
 {
 }
 
-mfaction_id monfactions::get_or_add_faction( const mfaction_str_id &name )
+mfaction_id monfactions::get_or_add_faction( const mfaction_str_id &id )
 {
-    auto found = faction_map.find( name );
+    auto found = faction_map.find( id );
     if( found == faction_map.end() ) {
         monfaction mfact;
-        mfact.id = name;
+        mfact.id = id;
         mfact.loadid = mfaction_id( faction_map.size() );
         // -1 base faction marks this faction as not initialized.
         // If it is not changed before validation, it will become a child of

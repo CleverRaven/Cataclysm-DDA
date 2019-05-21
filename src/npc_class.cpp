@@ -1,5 +1,13 @@
 #include "npc_class.h"
 
+#include <cstddef>
+#include <list>
+#include <algorithm>
+#include <array>
+#include <iterator>
+#include <set>
+#include <utility>
+
 #include "debug.h"
 #include "generic_factory.h"
 #include "item_group.h"
@@ -7,14 +15,14 @@
 #include "rng.h"
 #include "skill.h"
 #include "trait_group.h"
+#include "json.h"
 
-#include <list>
-
-static const std::array<npc_class_id, 17> legacy_ids = {{
+static const std::array<npc_class_id, 19> legacy_ids = {{
         npc_class_id( "NC_NONE" ),
         npc_class_id( "NC_EVAC_SHOPKEEP" ),  // Found in the Evacuation Center, unique, has more goods than he should be able to carry
         npc_class_id( "NC_SHOPKEEP" ),       // Found in towns.  Stays in his shop mostly.
         npc_class_id( "NC_HACKER" ),         // Weak in combat but has hacking skills and equipment
+        npc_class_id( "NC_CYBORG" ),         // Broken Cyborg rescued from a lab
         npc_class_id( "NC_DOCTOR" ),         // Found in towns, or roaming.  Stays in the clinic.
         npc_class_id( "NC_TRADER" ),         // Roaming trader, journeying between towns.
         npc_class_id( "NC_NINJA" ),          // Specializes in unarmed combat, carries few items
@@ -27,7 +35,8 @@ static const std::array<npc_class_id, 17> legacy_ids = {{
         npc_class_id( "NC_HUNTER" ),         // Survivor type good with bow or rifle
         npc_class_id( "NC_SOLDIER" ),        // Well equipped and trained combatant, good with rifles and melee
         npc_class_id( "NC_BARTENDER" ),      // Stocks alcohol
-        npc_class_id( "NC_JUNK_SHOPKEEP" )   // Stocks wide range of items...
+        npc_class_id( "NC_JUNK_SHOPKEEP" ),   // Stocks wide range of items...
+        npc_class_id( "NC_HALLU" )           // Hallucinatory NPCs
     }
 };
 
@@ -35,6 +44,7 @@ npc_class_id NC_NONE( "NC_NONE" );
 npc_class_id NC_EVAC_SHOPKEEP( "NC_EVAC_SHOPKEEP" );
 npc_class_id NC_SHOPKEEP( "NC_SHOPKEEP" );
 npc_class_id NC_HACKER( "NC_HACKER" );
+npc_class_id NC_CYBORG( "NC_CYBORG" );
 npc_class_id NC_DOCTOR( "NC_DOCTOR" );
 npc_class_id NC_TRADER( "NC_TRADER" );
 npc_class_id NC_NINJA( "NC_NINJA" );
@@ -48,6 +58,7 @@ npc_class_id NC_HUNTER( "NC_HUNTER" );
 npc_class_id NC_SOLDIER( "NC_SOLDIER" );
 npc_class_id NC_BARTENDER( "NC_BARTENDER" );
 npc_class_id NC_JUNK_SHOPKEEP( "NC_JUNK_SHOPKEEP" );
+npc_class_id NC_HALLU( "NC_HALLU" );
 
 generic_factory<npc_class> npc_class_factory( "npc_class" );
 
@@ -251,7 +262,8 @@ void npc_class::load( JsonObject &jo, const std::string & )
             mutation_category_trait::get_all();
         auto jo2 = jo.get_object( "mutation_rounds" );
         for( auto &mutation : jo2.get_member_names() ) {
-            auto category_match = [&mutation]( std::pair<const std::string, mutation_category_trait> p ) {
+            const auto category_match = [&mutation]( const std::pair<const std::string, mutation_category_trait>
+            &p ) {
                 return p.second.id == mutation;
             };
             if( std::find_if( mutation_categories.begin(), mutation_categories.end(),
@@ -270,15 +282,27 @@ void npc_class::load( JsonObject &jo, const std::string & )
             JsonObject skill_obj = jarr.next_object();
             auto skill_ids = skill_obj.get_tags( "skill" );
             if( skill_obj.has_object( "level" ) ) {
-                distribution dis = load_distribution( skill_obj, "level" );
+                const distribution dis = load_distribution( skill_obj, "level" );
                 for( const auto &sid : skill_ids ) {
                     skills[ skill_id( sid ) ] = dis;
                 }
             } else {
-                distribution dis = load_distribution( skill_obj, "bonus" );
+                const distribution dis = load_distribution( skill_obj, "bonus" );
                 for( const auto &sid : skill_ids ) {
                     bonus_skills[ skill_id( sid ) ] = dis;
                 }
+            }
+        }
+    }
+
+    if( jo.has_array( "bionics" ) ) {
+        JsonArray jarr = jo.get_array( "bionics" );
+        while( jarr.has_more() ) {
+            JsonObject bionic_obj = jarr.next_object();
+            auto bionic_ids = bionic_obj.get_tags( "id" );
+            int chance = bionic_obj.get_int( "chance" );
+            for( const auto &bid : bionic_ids ) {
+                bionic_list[ bionic_id( bid )] = chance;
             }
         }
     }
@@ -308,7 +332,7 @@ const npc_class_id &npc_class::random_common()
         }
     }
 
-    if( common_classes.empty() ) {
+    if( common_classes.empty() || one_in( common_classes.size() ) ) {
         return NC_NONE;
     }
 
@@ -367,6 +391,11 @@ distribution::distribution()
     };
 }
 
+distribution::distribution( const distribution &d )
+{
+    generator_function = d.generator_function;
+}
+
 distribution::distribution( std::function<float()> gen )
 {
     generator_function = gen;
@@ -392,7 +421,7 @@ distribution distribution::one_in( float in )
     }
 
     return distribution( [in]() {
-        return one_in_improved( in );
+        return x_in_y( 1, in );
     } );
 }
 

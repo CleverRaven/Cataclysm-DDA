@@ -20,7 +20,7 @@
     "dispersion": 180,
     "durability": 5,
     "ups_charges": 5,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
     "magazines": [ [ "nail", [ "nailmag" ] ] ]
   },
   {
@@ -56,7 +56,7 @@
     "skill": "rifle",
     "burst": 10,
     "clip_size": 0,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
     "magazines": [ [ "nail", [ "nailmag" ] ] ],
     "relative": { "weight": 1000, "volume": 6, "range": 3, "ranged_damage": 4 },
     "proportional": { "price": 3, "dispersion": 0.5 }

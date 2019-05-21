@@ -2,11 +2,11 @@
 #ifndef ITEM_ACTION_H
 #define ITEM_ACTION_H
 
-#include "translations.h"
-
 #include <map>
 #include <string>
 #include <vector>
+
+#include "translations.h"
 
 class item_action;
 class player;

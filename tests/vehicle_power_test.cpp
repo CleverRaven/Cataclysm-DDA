@@ -1,14 +1,19 @@
-#include "catch/catch.hpp"
+#include <memory>
+#include <vector>
 
+#include "avatar.h"
+#include "catch/catch.hpp"
 #include "game.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "vehicle.h"
-#include "veh_type.h"
 #include "player.h"
-#include "itype.h"
 #include "calendar.h"
 #include "weather.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "mapdata.h"
+#include "type_id.h"
 
 static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_plut_cell( "plut_cell" );
@@ -24,13 +29,14 @@ TEST_CASE( "vehicle_power" )
             g->m.i_clear( p );
         }
 
+        g->m.invalidate_map_cache( 0 );
         g->m.build_map_cache( 0, true );
 
-        tripoint test_origin( 15, 15, 0 );
+        CHECK( !g->u.in_vehicle );
+        const tripoint test_origin( 15, 15, 0 );
         g->u.setpos( test_origin );
-        tripoint vehicle_origin = tripoint( 10, 10, 0 );
-        VehicleList vehs;
-        vehs = g->m.get_vehicles();
+        const tripoint vehicle_origin = tripoint( 10, 10, 0 );
+        VehicleList vehs = g->m.get_vehicles();
         vehicle *veh_ptr;
         for( auto &vehs_v : vehs ) {
             veh_ptr = vehs_v.v;
@@ -54,16 +60,16 @@ TEST_CASE( "vehicle_power" )
         g->m.destroy_vehicle( veh_ptr );
         g->refresh_all();
         REQUIRE( g->m.get_vehicles().empty() );
-        tripoint solar_origin = tripoint( 5, 5, 0 );
+        const tripoint solar_origin = tripoint( 5, 5, 0 );
         veh_ptr = g->m.add_vehicle( vproto_id( "solar_panel_test" ), solar_origin, 0, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
         g->refresh_all();
         calendar::turn = to_turns<int>( calendar::turn.season_length() ) + DAYS( 1 );
-        time_point start_time = calendar::turn.sunrise() + 3_hours;
+        const time_point start_time = calendar::turn.sunrise() + 3_hours;
         veh_ptr->update_time( start_time );
         veh_ptr->discharge_battery( veh_ptr->fuel_left( fuel_type_battery ) );
         REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 0 );
-        g->weather_override = WEATHER_SUNNY;
+        g->weather.weather_override = WEATHER_SUNNY;
         veh_ptr->update_time( start_time + 30_minutes );
         int approx_battery1 = veh_ptr->fuel_left( fuel_type_battery ) / 100;
         const int exp_min = 12;

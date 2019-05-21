@@ -13,20 +13,20 @@
         "     EEEEEE    EEEEEE   ",
         "    eEEEEEE   eEEEEEE   ",
         " ----======----======-- ",
-        " |c.eM#MM#M...eM#MM#M.| ",
-        " |c..M#MM#M....M#MM#M.| ",
+        " |S.eM#MM#M...eM#MM#M.| ",
+        " |S..M#MM#M....M#MM#M.| ",
         " |c..M#MM#M....M#MM#M.| ",
         " |c..M#MM#M....M#MM#M.| ",
         " |c..M#MM#M....M#MM#M.| ",
         " |c..M#MM#M....M#MM#M.| ",
         " |c..MMMMMMMMMMMMMMMM.| ",
-        " |....................| ",
-        " |---............HHHHH| ",
-        " |ts|............HLLLL| ",
-        " |-+|............Hbbbb| ",
+        " A....................| ",
+        " |---l...........HHHHH| ",
+        " |ts|c...........HLLLL| ",
+        " |-+|p...........Hbbbb| ",
         " |...............$....+ ",
         " |^W|............Hhbbb| ",
-        " |xx|ccccccccccccH6LLL| ",
+        " |xx|cccccSScccccH6LLL| ",
         " |----::::--::::------| ",
         "                        ",
         "                        ",
@@ -42,6 +42,7 @@
         "6": "t_console_broken",
         ":": "t_window",
         "=": "t_door_metal_locked",
+        "A": "t_m_frame",
         "H": "t_wall_glass",
         "e": "t_gates_mech_control",
         "|": "t_wall",
@@ -51,21 +52,26 @@
         "#": "t_grate"
       },
       "furniture": {
+        "A": "f_air_conditioner",
         "L": "f_locker",
         "b": "f_bench",
         "c": "f_counter",
         "s": "f_sink",
+        "S": "f_utility_shelf",
+        "p": "f_hydraulic_press",
+        "l": "f_heavy_lathe",
         "t": "f_toilet",
         "x": "f_crate_c",
         "h": "f_chair"
       },
       "items": {
         "L": { "item": "clothing_work_set", "chance": 25 },
-        "c": { "item": "mechanics", "chance": 20 },
-        "x": { "item": "mechanics", "chance": 10 }
+        "c": { "item": "mechanics", "chance": 30 },
+        "S": { "item": "mechanics", "chance": 40, "repeat": 4 },
+        "x": { "item": "mechanics", "chance": 50, "repeat": 2 }
       },
       "place_vehicles": [
-        { "vehicle": "garage", "x": [  8,  8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
+        { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
         { "vehicle": "garage", "x": [ 18, 18 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 }
       ]
     }
@@ -93,11 +99,11 @@
         " W J  ~~~~~~  ~~~~~~ *W ",
         " ^______~~~~~~~~~~~ zzW ",
         " wwwwww_~~~~~~~~~w6dwww ",
-        " wx.xxw_~~~~~~~~~wdhLLw ",
-        " wcxx.w_~~~~~~~~_wd..Lw ",
-        " wc..xD_~~~~~~~~_+....+ ",
-        " wc.x.w_~~~~~~~~_ww+www ",
-        " wxxx.w__________ws..tw ",
+        " wxxxPw_~~~~~~~~~wdhLLw ",
+        " wSx..w_~~~~~~~~_wd..Lw ",
+        " wS..xD_~~~~~~~~_+....+ ",
+        " wS.x.w_~~~~~~~~_ww+www ",
+        " wccccw__________ws..tw ",
         " wwwwwwUUUUUUUUUUwwwwww ",
         "                        ",
         "                        ",
@@ -105,9 +111,9 @@
       ],
       "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "~": ["t_dirt", "t_pavement", "t_pavement", "t_pavement", "t_pavement", "t_pavement", "t_pavement" ],
-        "_": ["t_dirt", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk" ],
-        "*": ["t_tree_pine", "t_tree", "t_shrub", "t_tree_young" ],
+        "~": [ "t_dirt", "t_pavement", "t_pavement", "t_pavement", "t_pavement", "t_pavement", "t_pavement" ],
+        "_": [ "t_dirt", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk" ],
+        "*": [ "t_tree_pine", "t_tree", "t_shrub", "t_tree_young" ],
         "J": "t_water_pump",
         "D": "t_door_locked",
         "+": "t_door_c",
@@ -124,19 +130,22 @@
         "L": "f_locker",
         "c": "f_counter",
         "s": "f_sink",
+        "S": "f_utility_shelf",
         "t": "f_toilet",
         "x": "f_crate_c",
         "h": "f_chair",
+        "P": "f_hydraulic_press",
         "d": "f_desk",
-        "z": ["f_wreckage", "f_toilet", "f_dumpster", "f_sink" ]
+        "z": [ "f_wreckage", "f_toilet", "f_dumpster", "f_sink" ]
       },
       "items": {
         "L": { "item": "clothing_work_set", "chance": 25 },
-        "c": { "item": "mechanics", "chance": 10 },
-        "x": { "item": "mechanics", "chance": 20 }
+        "c": { "item": "mechanics", "chance": 45 },
+        "S": { "item": "mechanics", "chance": 25, "repeat": 4 },
+        "x": { "item": "mechanics", "chance": 50, "repeat": 2 }
       },
       "place_vehicles": [
-        { "vehicle": "garage", "x": [  8,  8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
+        { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 },
         { "vehicle": "garage", "x": [ 18, 18 ], "y": [ 9, 10 ], "chance": 25, "rotation": 90 }
       ]
     }
@@ -159,22 +168,22 @@
         " |..M#MM#M..|b........|X",
         " :..M#MM#M..:b..|-ddd-|X",
         " :..M#MM#M..:b..|..h..|X",
-        " :..M#MM#M..:b..|--.--|X",
+        " A..M#MM#M..:b..|--.--|X",
         " |..M#MM#M..|b..|...hd|X",
-        " |..MMMMMM..|...+.6ddd|X",
+        " |..MMMMMM..|...+f6ddd|X",
         " |..........|...|-----|X",
         " |---....---|-+-|LLLLL|X",
         " |..............|bbbbb|X",
         " |WWWW..WWWW|...+.....|X",
         " |c........c|------+--|X",
-        " |c.xx..xx.c|xx.+T|...OX",
-        " |c.xx..xx.c|x..-|----|X",
-        " |c.........O..xx|XXXXXX",
-        " |cccccccccc|----|XXXXXX",
+        " |c.xx..xx.p|xx.+T|...OX",
+        " |l.xx..xx.c|x..-|----|X",
+        " |S.........O..xx|XXXXXX",
+        " |ScccccccSS|----|XXXXXX",
         " |----------|WWWWWWWWWWW",
         "                        "
       ],
-       "terrain": {
+      "terrain": {
         " ": [ "t_grass", "t_grass", "t_grass", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "E": "t_pavement",
         "X": "t_sidewalk",
@@ -186,6 +195,7 @@
         "6": "t_console_broken",
         ":": "t_window",
         "=": "t_door_metal_locked",
+        "A": "t_m_frame",
         "H": "t_wall_glass",
         "e": "t_gates_mech_control",
         "|": "t_wall",
@@ -195,26 +205,31 @@
         "#": "t_grate"
       },
       "furniture": {
+        "A": "f_air_conditioner",
         "L": "f_locker",
         "T": "f_rack",
         "b": "f_bench",
         "d": "f_desk",
         "c": "f_counter",
+        "p": "f_hydraulic_press",
+        "l": "f_heavy_lathe",
+        "S": "f_utility_shelf",
         "s": "f_sink",
         "t": "f_toilet",
         "x": "f_crate_c",
+        "f": "f_filing_cabinet",
         "h": "f_chair"
       },
       "items": {
         "L": { "item": "clothing_work_set", "chance": 25 },
-        "c": { "item": "mechanics", "chance": 10 },
-        "x": { "item": "mechanics", "chance": 20 },
-        "d": { "item": "office", "chance": 70 },
-        "T": { "item": "cleaning", "chance": 70 }
+        "c": { "item": "mechanics", "chance": 30 },
+        "S": { "item": "mechanics", "chance": 40, "repeat": 4 },
+        "x": { "item": "mechanics", "chance": 50, "repeat": 4 },
+        "f": { "item": "office", "chance": 50, "repeat": 2 },
+        "d": { "item": "office", "chance": 70, "repeat": 2 },
+        "T": { "item": "cleaning", "chance": 70, "repeat": 4 }
       },
-      "place_vehicles": [
-        { "vehicle": "garage", "x": [  8,  8 ], "y": [ 9, 10 ], "chance": 95, "rotation": 90 }
-      ]
+      "place_vehicles": [ { "vehicle": "garage", "x": [ 8, 8 ], "y": [ 9, 10 ], "chance": 95, "rotation": 90 } ]
     }
   }
 ]

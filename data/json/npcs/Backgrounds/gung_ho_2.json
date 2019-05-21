@@ -1,0 +1,11 @@
+[
+  {
+    "id": "BGSS_GUNG_HO_2_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "Oh, you know.  Blah blah blah, had a job and a life, everyone died.  Boo hoo.  I gotta be straight with you though: I honestly think I like this better.  Fighting for survival every day?  I've never felt so alive.  I've killed hundreds of those bastards.  Sooner or later one of them will take me out, but I'll go down knowing I did something actually important.",
+    "responses": [
+      { "text": "It's good you found your calling.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "It's good you found your calling.  <end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

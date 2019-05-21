@@ -1,4 +1,4 @@
-#if !(defined TILES || defined _WIN32 || defined WINDOWS)
+#if !(defined(TILES) || defined(_WIN32))
 
 // input.h must be include *before* the ncurses header. The later has some macro
 // defines that clash with the constants defined in input.h (e.g. KEY_UP).
@@ -7,19 +7,18 @@
 // ncurses can define some functions as macros, but we need those identifiers
 // to be unchanged by the preprocessor, as we use them as function names.
 #define NCURSES_NOMACROS
-#if (defined __CYGWIN__)
+#if defined(__CYGWIN__)
 #include <ncurses/curses.h>
 #else
 #include <curses.h>
 #endif
 
-#include "cursesdef.h"
+#include <stdexcept>
 
+#include "cursesdef.h"
 #include "catacharset.h"
 #include "color.h"
 #include "game_ui.h"
-
-#include <stdexcept>
 
 extern int VIEW_OFFSET_X; // X position of terrain window
 extern int VIEW_OFFSET_Y; // Y position of terrain window
@@ -27,14 +26,14 @@ extern int VIEW_OFFSET_Y; // Y position of terrain window
 static void curses_check_result( const int result, const int expected, const char *const /*name*/ )
 {
     if( result != expected ) {
-        //@todo: debug message
+        // TODO: debug message
     }
 }
 
 catacurses::window catacurses::newwin( const int nlines, const int ncols, const int begin_y,
                                        const int begin_x )
 {
-    const auto w = ::newwin( nlines, ncols, begin_y, begin_x ); // @todo: check for errors
+    const auto w = ::newwin( nlines, ncols, begin_y, begin_x ); // TODO: check for errors
     return std::shared_ptr<void>( w, []( void *const w ) {
         ::curses_check_result( ::delwin( static_cast<::WINDOW *>( w ) ), OK, "delwin" );
     } );
@@ -97,13 +96,14 @@ void catacurses::wmove( const window &win, const int y, const int x )
 
 void catacurses::mvwprintw( const window &win, const int y, const int x, const std::string &text )
 {
-    return curses_check_result( ::mvwprintw( win.get<::WINDOW>(), y, x, "%s", text.c_str() ), OK,
-                                "mvwprintw" );
+    return curses_check_result( ::mvwprintw( win.get<::WINDOW>(), y, x, "%s", text.c_str() ),
+                                OK, "mvwprintw" );
 }
 
 void catacurses::wprintw( const window &win, const std::string &text )
 {
-    return curses_check_result( ::wprintw( win.get<::WINDOW>(), "%s", text.c_str() ), OK, "wprintw" );
+    return curses_check_result( ::wprintw( win.get<::WINDOW>(), "%s", text.c_str() ),
+                                OK, "wprintw" );
 }
 
 void catacurses::refresh()
@@ -216,7 +216,7 @@ void catacurses::init_interface()
     if( !stdscr ) {
         throw std::runtime_error( "initscr failed" );
     }
-#if !(defined __CYGWIN__)
+#if !defined(__CYGWIN__)
     // ncurses mouse registration
     mousemask( BUTTON1_CLICKED | BUTTON3_CLICKED | REPORT_MOUSE_POSITION, NULL );
 #endif
@@ -226,7 +226,7 @@ void catacurses::init_interface()
     cbreak();  // C-style breaks (e.g. ^C to SIGINT)
     keypad( stdscr.get<::WINDOW>(), true ); // Numpad is numbers
     set_escdelay( 10 ); // Make Escape actually responsive
-    start_color(); //@todo: error checking
+    start_color(); // TODO: error checking
     init_colors();
 }
 
@@ -306,9 +306,7 @@ input_event input_manager::get_input_event()
         }
         // Now we have loaded an UTF-8 sequence (possibly several bytes)
         // but we should only return *one* key, so return the code point of it.
-        const char *utf8str = rval.text.c_str();
-        int len = rval.text.length();
-        const uint32_t cp = UTF8_getch( &utf8str, &len );
+        const uint32_t cp = UTF8_getch( rval.text );
         if( cp == UNKNOWN_UNICODE ) {
             // Invalid UTF-8 sequence, this should never happen, what now?
             // Maybe return any error instead?

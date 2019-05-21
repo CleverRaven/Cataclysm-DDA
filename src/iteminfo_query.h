@@ -2,6 +2,7 @@
 #ifndef ITEMINFO_QUERY_H
 #define ITEMINFO_QUERY_H
 
+#include <cstddef>
 #include <bitset>
 #include <string>
 #include <vector>
@@ -102,8 +103,11 @@ enum class iteminfo_parts : size_t {
     GUNMOD_RELOAD,
     GUNMOD_STRENGTH,
 
+    GUNMOD_ADD_MOD,
+
     GUNMOD_USEDON,
     GUNMOD_LOCATION,
+    GUNMOD_BLACKLIST_MOD,
 
     ARMOR_BODYPARTS,
     ARMOR_LAYER,
@@ -175,6 +179,7 @@ enum class iteminfo_parts : size_t {
 
     DESCRIPTION_TWOHANDED,
     DESCRIPTION_GUNMOD_DISABLESSIGHTS,
+    DESCRIPTION_GUNMOD_CONSUMABLE,
     DESCRIPTION_RADIOACTIVITY_DAMAGED,
     DESCRIPTION_RADIOACTIVITY_ALWAYS,
 

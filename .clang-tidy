@@ -1,0 +1,6 @@
+Checks: 'clang-diagnostic-*,-clang-analyzer-security.FloatLoopCounter,-clang-analyzer-core.UndefinedBinaryOperatorResult'
+WarningsAsErrors: '*'
+HeaderFilterRegex: '.*'
+FormatStyle:     none
+
+# vim:tw=0

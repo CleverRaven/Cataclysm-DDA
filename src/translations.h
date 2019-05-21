@@ -2,11 +2,13 @@
 #ifndef TRANSLATIONS_H
 #define TRANSLATIONS_H
 
+#include <map>
+#include <string>
+#include <vector>
+
 #include "optional.h"
 
-#include <string>
-
-#ifndef translate_marker
+#if !defined(translate_marker)
 /**
  * Marks a string literal to be extracted for translation. This is only for running `xgettext` via
  * "lang/update_pot.sh". Use `_` to extract *and* translate at run time. The macro itself does not
@@ -14,7 +16,7 @@
  */
 #define translate_marker(x) x
 #endif
-#ifndef translate_marker_context
+#if !defined(translate_marker_context)
 /**
  * Same as @ref translate_marker, but also provides a context (string literal). This is similar
  * to @ref pgettext, but it does not translate at run time. Like @ref translate_marker it just
@@ -23,17 +25,19 @@
 #define translate_marker_context(c, x) x
 #endif
 
-#ifdef LOCALIZE
+#if defined(LOCALIZE)
 
 // MingW flips out if you don't define this before you try to statically link libintl.
 // This should prevent 'undefined reference to `_imp__libintl_gettext`' errors.
-#if (defined _WIN32 || defined __CYGWIN__) && !defined _MSC_VER
-#ifndef LIBINTL_STATIC
-#define LIBINTL_STATIC
-#endif
+#if (defined(_WIN32) || defined(__CYGWIN__)) && !defined(_MSC_VER)
+#   if !defined(LIBINTL_STATIC)
+#       define LIBINTL_STATIC
+#   endif
 #endif
 
+// IWYU pragma: begin_exports
 #include <libintl.h>
+// IWYU pragma: end_exports
 
 #if defined(__GNUC__)
 #  define ATTRIBUTE_FORMAT_ARG(a) __attribute__((format_arg(a)))
@@ -44,7 +48,11 @@
 const char *_( const char *msg ) ATTRIBUTE_FORMAT_ARG( 1 );
 inline const char *_( const char *msg )
 {
-    return ( msg[0] == '\0' ) ? msg : gettext( msg );
+    return msg[0] == '\0' ? msg : gettext( msg );
+}
+inline std::string _( const std::string &msg )
+{
+    return _( msg.c_str() );
 }
 
 const char *pgettext( const char *context, const char *msgid ) ATTRIBUTE_FORMAT_ARG( 2 );
@@ -66,6 +74,21 @@ const char *npgettext( const char *context, const char *msgid, const char *msgid
 #define npgettext(STRING0, STRING1, STRING2, COUNT) ngettext(STRING1, STRING2, COUNT)
 
 #endif // LOCALIZE
+
+using GenderMap = std::map<std::string, std::vector<std::string>>;
+/**
+ * Translation with a gendered context
+ *
+ * Similar to pgettext, but the context is a collection of genders.
+ * @param genders A map where each key is a subject name (a string which should
+ * make sense to the translator in the context of the line to be translated)
+ * and the corresponding value is a list of potential genders for that subject.
+ * The first gender from the list of genders for the current language will be
+ * chosen for each subject (or the language default if there are no genders in
+ * common).
+ */
+std::string gettext_gendered( const GenderMap &genders, const std::string &msg );
+
 bool isValidLanguage( const std::string &lang );
 std::string getLangFromLCID( const int &lcid );
 void select_language();

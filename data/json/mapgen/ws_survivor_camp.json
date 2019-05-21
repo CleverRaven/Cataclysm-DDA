@@ -1,0 +1,124 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_SURVIVOR_CAMP",
+    "default": "mon_zombie_survivor",
+    "monsters": [
+      { "monster": "mon_zombie_survivor", "freq": 250, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_soldier", "freq": 100, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_dog", "freq": 100, "cost_multiplier": 0 },
+      { "monster": "mon_dog_zombie_rot", "freq": 150, "cost_multiplier": 0 },
+      { "monster": "mon_dog_zombie_cop", "freq": 100, "cost_multiplier": 0 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sc_loot_general",
+    "items": [
+      [ "rock", 20 ],
+      [ "sharp_rock", 20 ],
+      [ "dry_meat", 20 ],
+      [ "dry_veggy", 20 ],
+      [ "stick", 20 ],
+      [ "pointy_stick", 20 ],
+      [ "bottle_plastic", 20 ],
+      [ "carrot", 20 ],
+      [ "hotdogs_campfire", 20 ],
+      [ "birchbark", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sc_loot_equipment",
+    "items": [
+      [ "flask_hip", 20 ],
+      [ "shortbow", 20 ],
+      [ "arrow_wood_heavy", 20 ],
+      [ "arrow_fire_hardened_fletched", 20 ],
+      [ "quiver_birchbark", 30 ],
+      [ "fire_drill", 30 ],
+      [ "lighter", 30 ],
+      [ "matches", 30 ],
+      [ "sunglasses", 30 ],
+      [ "fitover_sunglasses", 20 ],
+      [ "ax", 10 ],
+      [ "saw", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "sc_loot_rare",
+    "items": [
+      [ "compositebow", 20 ],
+      [ "quiver", 20 ],
+      [ "book_archery", 20 ],
+      [ "canteen", 20 ],
+      [ "knife_hunting", 30 ],
+      [ "binoculars", 20 ],
+      [ "ref_lighter", 30 ],
+      [ "backpack", 30 ],
+      [ "backpack_leather", 30 ],
+      [ "e_tool", 30 ]
+    ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "ws_survivor_camp" ],
+    "weight": 1000,
+    "object": {
+      "rows": [
+        ",,..,...................",
+        "...,,,.....p......,.....",
+        ".....p..p......p....p.,.",
+        "..,p.,.p..,..p...p......",
+        "..,p...........,...,.p..",
+        "......p....p......p...,.",
+        ",...p..p..,..,..p,...p..",
+        "...p......,,,..,........",
+        "....,.p.,,,,,,,,p..,....",
+        "..,p...,,www,,,,,...p...",
+        "..,,.,,,,,,,,,,w,..,,p..",
+        ".p..p..,,,,O,,,,,p,..,..",
+        "....p.,,.ss,srr..,..p...",
+        "..p.....,sCdCr.,...,..,.",
+        "...,..,p,rCcC,.,p...p...",
+        "..,p....,.CCC,........,.",
+        "......p..,.,.,....p.....",
+        ".,...p,......p.....,.p..",
+        "...p...p.......,.p......",
+        ".,.,....,.p..p....p..p,.",
+        "....p,..p.p.,..p........",
+        ".p..,........p....p...,.",
+        ".,.p...p.......p..,..p..",
+        "..,....,....,..........,"
+      ],
+      "terrain": {
+        ".": "t_grass",
+        ",": "t_dirt",
+        "O": "t_pit_shallow",
+        "p": "t_grass",
+        "c": "t_dirt",
+        "C": "t_dirt",
+        "d": "t_dirt",
+        "r": "t_dirt",
+        "s": "t_dirt",
+        "w": "t_dirt"
+      },
+      "furniture": { "c": "f_groundsheet", "C": "f_canvas_wall", "d": "f_canvas_door" },
+      "items": {
+        "c": { "item": "sc_loot_rare", "chance": 30 },
+        "r": { "item": "sc_loot_general", "chance": 30 },
+        "s": { "item": "sc_loot_equipment", "chance": 30 },
+        "w": { "item": "stash_wood", "chance": 30 }
+      },
+      "add": [ { "item": "ash", "chance": 2, "x": 11, "y": 11, "repeat": 2 }, { "item": "charcoal", "chance": 3, "x": 11, "y": 11 } ],
+      "traps": { "p": { "trap": "tr_spike_pit", "chance": 70 } },
+      "place_monsters": [
+        { "monster": "GROUP_ZOMBIE_SURVIVOR_CAMP", "x": 11, "y": 10 },
+        { "monster": "GROUP_ZOMBIE_SURVIVOR_CAMP", "x": 10, "y": 9 },
+        { "monster": "GROUP_ZOMBIE_SURVIVOR_CAMP", "x": 12, "y": 8 }
+      ]
+    }
+  }
+]

@@ -2,20 +2,23 @@
 #ifndef PLAYER_ACTIVITY_H
 #define PLAYER_ACTIVITY_H
 
-#include "enums.h"
-#include "item_location.h"
-#include "string_id.h"
-
+#include <cstddef>
 #include <climits>
 #include <set>
 #include <vector>
+#include <memory>
+#include <string>
+
+#include "enums.h"
+#include "item_location.h"
+#include "string_id.h"
 
 class player;
 class Character;
 class JsonIn;
 class JsonOut;
-class player_activity;
 class activity_type;
+class monster;
 
 using activity_id = string_id<activity_type>;
 
@@ -39,6 +42,7 @@ class player_activity
         std::vector<int> values;
         std::vector<std::string> str_values;
         std::vector<tripoint> coords;
+        std::vector<std::weak_ptr<monster>> monsters;
         tripoint placement;
         /** If true, the activity will be auto-resumed next time the player attempts
          *  an identical activity. This value is set dynamically.
@@ -102,6 +106,7 @@ class player_activity
         bool is_distraction_ignored( distraction_type type ) const;
         void ignore_distraction( distraction_type type );
         void allow_distractions();
+        void inherit_distractions( const player_activity & );
 };
 
 #endif

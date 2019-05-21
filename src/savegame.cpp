@@ -1,16 +1,22 @@
-#include "game.h"
+#include "game.h" // IWYU pragma: associated
 
-#include "artifact.h"
-#include "auto_pickup.h"
-#include "computer.h"
+#include <algorithm>
+#include <map>
+#include <set>
+#include <sstream>
+#include <string>
+#include <vector>
+#include <type_traits>
+#include <unordered_set>
+#include <utility>
+
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "debug.h"
 #include "faction.h"
 #include "io.h"
-#include "line.h"
 #include "map.h"
-#include "mapdata.h"
 #include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
@@ -19,21 +25,21 @@
 #include "options.h"
 #include "output.h"
 #include "overmap.h"
-#include "overmapbuffer.h"
 #include "scent_map.h"
 #include "translations.h"
 #include "tuple_hash.h"
+#include "basecamp.h"
+#include "json.h"
+#include "omdata.h"
+#include "overmap_types.h"
+#include "player.h"
+#include "regional_settings.h"
+#include "int_id.h"
+#include "string_id.h"
 
-#include <algorithm>
-#include <cmath>
-#include <map>
-#include <set>
-#include <sstream>
-#include <string>
-#include <vector>
-
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include "input.h"
+
 extern std::map<std::string, std::list<input_event>> quick_shortcuts_map;
 #endif
 
@@ -69,6 +75,7 @@ void game::serialize( std::ostream &fout )
     json.member( "turn", static_cast<int>( calendar::turn ) );
     json.member( "calendar_start", static_cast<int>( calendar::start ) );
     json.member( "initial_season", static_cast<int>( calendar::initial_season ) );
+    json.member( "auto_travel_mode", auto_travel_mode );
     json.member( "run_mode", static_cast<int>( safe_mode ) );
     json.member( "mostseen", mostseen );
     // current map coordinates
@@ -181,6 +188,7 @@ void game::unserialize( std::istream &fin )
         data.read( "calendar_start", tmpcalstart );
         calendar::initial_season = static_cast<season_type>( data.get_int( "initial_season",
                                    static_cast<int>( SPRING ) ) );
+        data.read( "auto_travel_mode", auto_travel_mode );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );
         data.read( "levx", levx );
@@ -274,9 +282,9 @@ void game::load_weather( std::istream &fin )
     if( fin.peek() == 'l' ) {
         std::string line;
         getline( fin, line );
-        lightning_active = ( line.compare( "lightning: 1" ) == 0 );
+        weather.lightning_active = ( line.compare( "lightning: 1" ) == 0 );
     } else {
-        lightning_active = false;
+        weather.lightning_active = false;
     }
     if( fin.peek() == 's' ) {
         std::string line;
@@ -290,11 +298,11 @@ void game::load_weather( std::istream &fin )
 void game::save_weather( std::ostream &fout )
 {
     fout << "# version " << savegame_version << std::endl;
-    fout << "lightning: " << ( lightning_active ? "1" : "0" ) << std::endl;
+    fout << "lightning: " << ( weather.lightning_active ? "1" : "0" ) << std::endl;
     fout << "seed: " << seed;
 }
 
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 ///// quick shortcuts
 void game::load_shortcuts( std::istream &fin )
 {
@@ -355,6 +363,14 @@ bool overmap::obsolete_terrain( const std::string &ter )
         "apartments_mod_tower_1", "apartments_mod_tower_1_entrance",
         "bridge_ew", "bridge_ns",
         "public_works", "public_works_entrance",
+        "hdwr_large_entrance", "hdwr_large_SW", "hdwr_large_NW",
+        "hdwr_large_NE", "hdwr_large_backroom", "hdwr_large_loadingbay",
+        "cemetery_4square_00", "cemetery_4square_10",
+        "cemetery_4square_01", "cemetery_4square_11",
+        "loffice_tower_1", "loffice_tower_2", "loffice_tower_3", "loffice_tower_4",
+        "loffice_tower_5", "loffice_tower_6", "loffice_tower_7", "loffice_tower_8",
+        "loffice_tower_9", "loffice_tower_10", "loffice_tower_11", "loffice_tower_12",
+        "loffice_tower_13", "loffice_tower_14", "loffice_tower_15", "loffice_tower_16",
         "school_1", "school_2", "school_3",
         "school_4", "school_5", "school_6",
         "school_7", "school_8", "school_9",
@@ -369,7 +385,8 @@ bool overmap::obsolete_terrain( const std::string &ter )
         "hotel_tower_1_5", "hotel_tower_1_6", "hotel_tower_1_7", "hotel_tower_1_8",
         "hotel_tower_1_9", "hotel_tower_b_1", "hotel_tower_b_2", "hotel_tower_b_3",
         "bunker", "farm", "farm_field", "subway_station",
-        "mansion", "mansion_entrance"
+        "mansion", "mansion_entrance",
+        "pool"
     };
 
     return obsolete.find( ter ) != obsolete.end();
@@ -450,6 +467,18 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             nearby.push_back( { 1, entr, 1, old, base + "SE_south" } );
             nearby.push_back( { 1, old, -1, entr, base + "SE_east" } );
             nearby.push_back( { -1, old, 1, entr, base + "SE_west" } );
+
+        } else if( old.compare( 0, 11, "hdwr_large_" ) == 0 ) {
+            //Migrate terrains with NO_ROTATE flag to rotatable
+            new_id = oter_id( old + "_north" );
+
+        } else if( old.compare( 0, 17, "cemetery_4square_" ) == 0 ) {
+            //Migrate terrains with NO_ROTATE flag to rotatable
+            new_id = oter_id( old + "_north" );
+
+        } else if( old.compare( 0, 14, "loffice_tower_" ) == 0 ) {
+            //Migrate terrains with NO_ROTATE flag to rotatable
+            new_id = oter_id( old + "_north" );
 
         } else if( old.compare( 0, 7, "school_" ) == 0 ) {
             const std::string school = "school_";
@@ -731,6 +760,8 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
                 nearby.push_back( {  0, "mansion",          -2, "mansion_entrance", "mansion_t2_north" } );
                 nearby.push_back( {  2, "mansion",          -2, "mansion",          "mansion_c2_west" } );
             }
+        } else if( old == "pool" ) {
+            new_id = oter_id( "pool_1_north" );
         }
 
         for( const auto &conv : nearby ) {
@@ -842,7 +873,7 @@ void overmap::unserialize( std::istream &fin )
             if( settings.id != new_region_id ) {
                 t_regional_settings_map_citr rit = region_settings_map.find( new_region_id );
                 if( rit != region_settings_map.end() ) {
-                    settings = rit->second; // @todo: optimize
+                    settings = rit->second; // TODO: optimize
                 }
             }
         } else if( name == "mongroups" ) {
@@ -859,11 +890,11 @@ void overmap::unserialize( std::istream &fin )
                     if( city_member_name == "name" ) {
                         jsin.read( new_city.name );
                     } else if( city_member_name == "x" ) {
-                        jsin.read( new_city.x );
+                        jsin.read( new_city.pos.x );
                     } else if( city_member_name == "y" ) {
-                        jsin.read( new_city.y );
+                        jsin.read( new_city.pos.y );
                     } else if( city_member_name == "size" ) {
-                        jsin.read( new_city.s );
+                        jsin.read( new_city.size );
                     }
                 }
                 cities.push_back( new_city );
@@ -876,9 +907,9 @@ void overmap::unserialize( std::istream &fin )
                 while( !jsin.end_object() ) {
                     std::string road_member_name = jsin.get_member_name();
                     if( road_member_name == "x" ) {
-                        jsin.read( new_road.x );
+                        jsin.read( new_road.pos.x );
                     } else if( road_member_name == "y" ) {
-                        jsin.read( new_road.y );
+                        jsin.read( new_road.pos.y );
                     }
                 }
                 roads_out.push_back( new_road );
@@ -971,6 +1002,47 @@ void overmap::unserialize( std::istream &fin )
                 }
                 npcs.push_back( new_npc );
             }
+        } else if( name == "camps" ) {
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                basecamp new_camp;
+                new_camp.deserialize( jsin );
+                camps.push_back( new_camp );
+            }
+        } else if( name == "overmap_special_placements" ) {
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                jsin.start_object();
+                overmap_special_id s;
+                while( !jsin.end_object() ) {
+                    std::string name = jsin.get_member_name();
+                    if( name == "special" ) {
+                        jsin.read( s );
+                    } else if( name == "placements" ) {
+                        jsin.start_array();
+                        while( !jsin.end_array() ) {
+                            jsin.start_object();
+                            while( !jsin.end_object() ) {
+                                std::string name = jsin.get_member_name();
+                                if( name == "points" ) {
+                                    jsin.start_array();
+                                    while( !jsin.end_array() ) {
+                                        jsin.start_object();
+                                        tripoint p;
+                                        while( !jsin.end_object() ) {
+                                            std::string name = jsin.get_member_name();
+                                            if( name == "p" ) {
+                                                jsin.read( p );
+                                                overmap_special_placements[p] = s;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -1060,7 +1132,7 @@ static void serialize_array_to_compacted_sequence( JsonOut &json,
     int lastval = -1;
     for( int j = 0; j < OMAPY; j++ ) {
         for( int i = 0; i < OMAPX; i++ ) {
-            int value = array[i][j];
+            const int value = array[i][j];
             if( value != lastval ) {
                 if( count ) {
                     json.write( count );
@@ -1178,7 +1250,7 @@ void overmap::save_monster_groups( JsonOut &jout ) const
         jout.start_array();
         // Zero the bin position so that it isn't serialized
         // The position is stored separately, in the list
-        // @todo: Do it without the copy
+        // TODO: Do it without the copy
         mongroup saved_group = group_bin.first;
         saved_group.pos = tripoint_zero;
         jout.write( saved_group );
@@ -1241,9 +1313,9 @@ void overmap::serialize( std::ostream &fout ) const
     for( auto &i : cities ) {
         json.start_object();
         json.member( "name", i.name );
-        json.member( "x", i.x );
-        json.member( "y", i.y );
-        json.member( "size", i.s );
+        json.member( "x", i.pos.x );
+        json.member( "y", i.pos.y );
+        json.member( "size", i.size );
         json.end_object();
     }
     json.end_array();
@@ -1253,8 +1325,8 @@ void overmap::serialize( std::ostream &fout ) const
     json.start_array();
     for( auto &i : roads_out ) {
         json.start_object();
-        json.member( "x", i.x );
-        json.member( "y", i.y );
+        json.member( "x", i.pos.x );
+        json.member( "y", i.pos.y );
         json.end_object();
     }
     json.end_array();
@@ -1312,6 +1384,47 @@ void overmap::serialize( std::ostream &fout ) const
     json.start_array();
     for( auto &i : npcs ) {
         json.write( *i );
+    }
+    json.end_array();
+    fout << std::endl;
+
+    json.member( "camps" );
+    json.start_array();
+    for( auto &i : camps ) {
+        json.write( i );
+    }
+    json.end_array();
+    fout << std::endl;
+
+    // Condense the overmap special placements so that all placements of a given special
+    // are grouped under a single key for that special.
+    std::map<overmap_special_id, std::vector<tripoint>> condensed_overmap_special_placements;
+    for( const auto &placement : overmap_special_placements ) {
+        condensed_overmap_special_placements[placement.second].emplace_back( placement.first );
+    }
+
+    json.member( "overmap_special_placements" );
+    json.start_array();
+    for( const auto &placement : condensed_overmap_special_placements ) {
+        json.start_object();
+        json.member( "special", placement.first );
+        json.member( "placements" );
+        json.start_array();
+        // When we have a discriminator for different instances of a given special,
+        // we'd use that that group them, but since that doesn't exist yet we'll
+        // dump all the points of a given special into a single entry.
+        json.start_object();
+        json.member( "points" );
+        json.start_array();
+        for( const tripoint &pos : placement.second ) {
+            json.start_object();
+            json.member( "p", pos );
+            json.end_object();
+        }
+        json.end_array();
+        json.end_object();
+        json.end_array();
+        json.end_object();
     }
     json.end_array();
     fout << std::endl;

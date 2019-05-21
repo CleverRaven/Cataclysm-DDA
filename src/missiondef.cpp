@@ -1,12 +1,16 @@
-#include "mission.h"
+#include "mission.h" // IWYU pragma: associated
+
+#include <algorithm>
+#include <set>
 
 #include "assign.h"
 #include "calendar.h"
 #include "generic_factory.h"
+#include "init.h"
 #include "item.h"
 #include "rng.h"
-
-#include <algorithm>
+#include "debug.h"
+#include "json.h"
 
 enum legacy_mission_type_id {
     MISSION_NULL,
@@ -93,49 +97,13 @@ enum legacy_mission_type_id {
 static const std::map<std::string, std::function<void( mission * )>> mission_function_map = {{
         // Starts
         { "standard", { } },
-        { "join", mission_start::join },
-        { "infect_npc", mission_start::infect_npc },
-        { "need_drugs_npc", mission_start::need_drugs_npc },
         { "place_dog", mission_start::place_dog },
         { "place_zombie_mom", mission_start::place_zombie_mom },
-        { "place_zombie_bay", mission_start::place_zombie_bay },
-        { "place_caravan_ambush", mission_start::place_caravan_ambush },
-        { "place_bandit_cabin", mission_start::place_bandit_cabin },
-        { "place_informant", mission_start::place_informant },
-        { "place_grabber", mission_start::place_grabber },
-        { "place_bandit_camp", mission_start::place_bandit_camp },
-        { "place_jabberwock", mission_start::place_jabberwock },
-        { "kill_100_z", mission_start::kill_100_z },
-        { "kill_20_nightmares", mission_start::kill_20_nightmares },
         { "kill_horde_master", mission_start::kill_horde_master },
         { "place_npc_software", mission_start::place_npc_software },
         { "place_priest_diary", mission_start::place_priest_diary },
         { "place_deposit_box", mission_start::place_deposit_box },
-        { "reveal_lab_black_box", mission_start::reveal_lab_black_box },
-        { "open_sarcophagus", mission_start::open_sarcophagus },
-        { "reveal_hospital", mission_start::reveal_hospital },
         { "find_safety", mission_start::find_safety },
-        { "point_prison", mission_start::point_prison },
-        { "point_cabin_strange", mission_start::point_cabin_strange },
-        { "recruit_tracker", mission_start::recruit_tracker },
-        { "radio_repeater", mission_start::radio_repeater },
-        { "start_commune", mission_start::start_commune },
-        { "ranch_construct_1", mission_start::ranch_construct_1 },
-        { "ranch_construct_2", mission_start::ranch_construct_2 },
-        { "ranch_construct_3", mission_start::ranch_construct_3 },
-        { "ranch_construct_4", mission_start::ranch_construct_4 },
-        { "ranch_construct_5", mission_start::ranch_construct_5 },
-        { "ranch_construct_6", mission_start::ranch_construct_6 },
-        { "ranch_construct_7", mission_start::ranch_construct_7 },
-        { "ranch_construct_8", mission_start::ranch_construct_8 },
-        { "ranch_construct_9", mission_start::ranch_construct_9 },
-        { "ranch_construct_10", mission_start::ranch_construct_10 },
-        { "ranch_construct_11", mission_start::ranch_construct_11 },
-        { "ranch_construct_12", mission_start::ranch_construct_12 },
-        { "ranch_construct_13", mission_start::ranch_construct_13 },
-        { "ranch_construct_14", mission_start::ranch_construct_14 },
-        { "ranch_construct_15", mission_start::ranch_construct_15 },
-        { "ranch_construct_16", mission_start::ranch_construct_16 },
         { "ranch_nurse_1", mission_start::ranch_nurse_1 },
         { "ranch_nurse_2", mission_start::ranch_nurse_2 },
         { "ranch_nurse_3", mission_start::ranch_nurse_3 },
@@ -148,27 +116,15 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
         { "ranch_scavenger_1", mission_start::ranch_scavenger_1 },
         { "ranch_scavenger_2", mission_start::ranch_scavenger_2 },
         { "ranch_scavenger_3", mission_start::ranch_scavenger_3 },
-        { "ranch_bartender_1", mission_start::ranch_bartender_1 },
-        { "ranch_bartender_2", mission_start::ranch_bartender_2 },
-        { "ranch_bartender_3", mission_start::ranch_bartender_3 },
-        { "ranch_bartender_4", mission_start::ranch_bartender_4 },
         { "place_book", mission_start::place_book },
-        { "reveal_weather_station", mission_start::reveal_weather_station },
-        { "reveal_office_tower", mission_start::reveal_office_tower },
-        { "reveal_doctors_office", mission_start::reveal_doctors_office },
-        { "reveal_cathedral", mission_start::reveal_cathedral },
         { "reveal_refugee_center", mission_start::reveal_refugee_center },
         { "create_lab_console", mission_start::create_lab_console },
         { "create_hidden_lab_console", mission_start::create_hidden_lab_console },
         { "create_ice_lab_console", mission_start::create_ice_lab_console },
         { "reveal_lab_train_depot", mission_start::reveal_lab_train_depot },
         // Endings
-        { "leave", mission_end::leave },
-        { "thankful", mission_end::thankful },
-        { "deposit_box", mission_end::deposit_box },
-        { "heal_infection", mission_end::heal_infection },
+        { "deposit_box", mission_end::deposit_box }
         // Failures
-        { "kill_npc", mission_fail::kill_npc },
     }
 };
 
@@ -203,6 +159,7 @@ static const std::map<std::string, mission_goal> goal_map = {{
         { "MGOAL_GO_TO_TYPE", MGOAL_GO_TO_TYPE },
         { "MGOAL_FIND_ITEM", MGOAL_FIND_ITEM },
         { "MGOAL_FIND_ANY_ITEM", MGOAL_FIND_ANY_ITEM },
+        { "MGOAL_FIND_ITEM_GROUP", MGOAL_FIND_ITEM_GROUP },
         { "MGOAL_FIND_MONSTER", MGOAL_FIND_MONSTER },
         { "MGOAL_FIND_NPC", MGOAL_FIND_NPC },
         { "MGOAL_ASSASSINATE", MGOAL_ASSASSINATE },
@@ -261,6 +218,8 @@ void assign_function( JsonObject &jo, const std::string &id, Fun &target,
     }
 }
 
+static DynamicDataLoader::deferred_json deferred;
+
 void mission_type::load( JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
@@ -281,7 +240,7 @@ void mission_type::load( JsonObject &jo, const std::string &src )
     return origin == ORIGIN_ANY_NPC || origin == ORIGIN_OPENER_NPC || origin == ORIGIN_SECONDARY;
 } ) ) {
         auto djo = jo.get_object( "dialogue" );
-        // @todo: There should be a cleaner way to do it
+        // TODO: There should be a cleaner way to do it
         mandatory( djo, was_loaded, "describe", dialogue[ "describe" ] );
         mandatory( djo, was_loaded, "offer", dialogue[ "offer" ] );
         mandatory( djo, was_loaded, "accepted", dialogue[ "accepted" ] );
@@ -295,14 +254,38 @@ void mission_type::load( JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "urgent", urgent );
     optional( jo, was_loaded, "item", item_id );
+    optional( jo, was_loaded, "item_group", group_id );
     optional( jo, was_loaded, "count", item_count, 1 );
+    optional( jo, was_loaded, "required_container", container_id );
+    optional( jo, was_loaded, "remove_container", remove_container );
+    //intended for situations where closed and open container are different
+    optional( jo, was_loaded, "empty_container", empty_container );
 
     goal = jo.get_enum_value<decltype( goal )>( "goal" );
 
     assign_function( jo, "place", place, tripoint_function_map );
-    assign_function( jo, "start", start, mission_function_map );
-    assign_function( jo, "end", end, mission_function_map );
-    assign_function( jo, "fail", fail, mission_function_map );
+    const auto parse_phase = [&]( const std::string & phase,
+    std::function<void( mission * )> &phase_func ) {
+        if( jo.has_string( phase ) ) {
+            assign_function( jo, phase, phase_func, mission_function_map );
+        } else if( jo.has_member( phase ) ) {
+            JsonObject j_start = jo.get_object( phase );
+            if( !parse_funcs( j_start, phase_func ) ) {
+                deferred.emplace_back( jo.str(), src );
+                return false;
+            }
+        }
+        return true;
+    };
+    if( !parse_phase( "start", start ) ) {
+        return;
+    }
+    if( !parse_phase( "end", end ) ) {
+        return;
+    }
+    if( !parse_phase( "fail", fail ) ) {
+        return;
+    }
 
     assign( jo, "deadline_low", deadline_low, false, 1_days );
     assign( jo, "deadline_high", deadline_high, false, 1_days );
@@ -314,12 +297,20 @@ void mission_type::load( JsonObject &jo, const std::string &src )
     if( jo.has_member( "monster_species" ) ) {
         monster_species = species_id( jo.get_string( "monster_species" ) );
     }
+    if( jo.has_member( "monster_type" ) ) {
+        monster_type = mtype_id( jo.get_string( "monster_type" ) );
+    }
 
     if( jo.has_member( "monster_kill_goal" ) ) {
         monster_kill_goal = jo.get_int( "monster_kill_goal" );
     }
 
     assign( jo, "destination", target_id, strict );
+}
+
+void mission_type::finalize()
+{
+    DynamicDataLoader::get_instance().load_deferred( deferred );
 }
 
 void mission_type::check_consistency()
@@ -425,7 +416,7 @@ mission_type_id mission_type::from_legacy( int old_id )
     return mission_type_id( "MISSION_NULL" );
 }
 
-const mission_type *mission_type::get( const mission_type_id id )
+const mission_type *mission_type::get( const mission_type_id &id )
 {
     if( id.is_null() ) {
         return nullptr;

@@ -1,10 +1,12 @@
 [
   {
+    "//": "Heads up: these zombies are pending removal sometime before 0.E.",
     "id": "mon_zombie_grenadier",
     "type": "MONSTER",
     "name": "zombie grenadier",
     "description": "Once a soldier, it is dressed head to toe in combat gear.  Its hands constantly fumble at its many pouches.",
     "default_faction": "zombie",
+    "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
     "diff": 20,
     "volume": "62500 ml",
@@ -24,18 +26,26 @@
     "armor_cut": 6,
     "vision_day": 35,
     "vision_night": 3,
+    "harvest": "exempt",
     "starting_ammo": { "bot_c4_hack": 2, "bot_flashbang_hack": 3, "bot_gasbomb_hack": 3, "bot_grenade_hack": 10 },
     "special_attacks": [ [ "GRENADIER", 6 ] ],
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [
-        [ "mon_zombie_soldier_death_drops", 100 ],
-        [ "mon_zombie_grenadier", 100 ]
-      ]
-    },
+    "death_drops": { "subtype": "collection", "groups": [ [ "mon_zombie_soldier_death_drops", 100 ], [ "mon_zombie_grenadier", 100 ] ] },
     "death_function": [ "DETONATE" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "FILTHY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "FILTHY"
+    ]
   },
   {
     "id": "mon_zombie_grenadier_elite",
@@ -43,8 +53,9 @@
     "name": "zombie elite grenadier",
     "description": "Once a soldier, it is dressed head to toe in combat gear and wearing a MOLLE pack.  Its hands quickly open and close its many pouches.",
     "default_faction": "zombie",
+    "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
-    "diff": 40,
+    "diff": 30,
     "volume": "62500 ml",
     "weight": 81500,
     "hp": 100,
@@ -63,17 +74,28 @@
     "armor_cut": 12,
     "vision_day": 35,
     "vision_night": 3,
+    "harvest": "exempt",
     "starting_ammo": { "bot_c4_hack": 10, "bot_flashbang_hack": 10, "bot_gasbomb_hack": 10, "bot_grenade_hack": 20, "bot_mininuke_hack": 1 },
     "special_attacks": [ [ "GRENADIER_ELITE", 3 ] ],
     "death_drops": {
       "subtype": "collection",
-      "groups": [
-        [ "mon_zombie_soldier_death_drops", 100 ],
-        [ "mon_zombie_grenadier_elite", 100 ]
-      ]
+      "groups": [ [ "mon_zombie_soldier_death_drops", 100 ], [ "mon_zombie_grenadier_elite", 100 ] ]
     },
     "death_function": [ "DETONATE" ],
     "burn_into": "mon_zombie_scorched",
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "FILTHY" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "WARM",
+      "BASHES",
+      "GROUP_BASH",
+      "POISON",
+      "BLEED",
+      "NO_BREATHE",
+      "REVIVES",
+      "PUSH_MON",
+      "FILTHY"
+    ]
   }
 ]

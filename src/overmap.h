@@ -2,15 +2,10 @@
 #ifndef OVERMAP_H
 #define OVERMAP_H
 
-#include "game_constants.h"
-#include "monster.h"
-#include "omdata.h"
-#include "overmap_types.h"
-#include "regional_settings.h"
-#include "weighted_list.h"
-
+#include <cstdlib>
 #include <algorithm>
 #include <array>
+#include <climits>
 #include <functional>
 #include <iosfwd>
 #include <map>
@@ -18,17 +13,24 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <iterator>
+#include <utility>
 
-class input_context;
-class JsonObject;
+#include "basecamp.h"
+#include "game_constants.h"
+#include "omdata.h"
+#include "overmap_types.h" // IWYU pragma: keep
+#include "regional_settings.h"
+#include "enums.h"
+#include "mongroup.h"
+#include "optional.h"
+#include "type_id.h"
+
 class npc;
-class overmapbuffer;
 class overmap_connection;
-namespace catacurses
-{
-class window;
-} // namespace catacurses
-struct mongroup;
+class JsonIn;
+class JsonOut;
+class monster;
 
 namespace pf
 {
@@ -36,15 +38,15 @@ struct path;
 }
 
 struct city {
-    // in overmap terrain coordinates
-    int x;
-    int y;
-    int s;
+    // location of the city (in overmap terrain coordinates)
+    point pos;
+    int size;
     std::string name;
-    city( int X = -1, int Y = -1, int S = -1 );
+    city( const point &P = point_zero, const int S = -1 );
+    city( const int X, const int Y, const int S ) : city( point( X, Y ), S ) {}
 
     operator bool() const {
-        return s >= 0;
+        return size >= 0;
     }
 
     int get_distance_from( const tripoint &p ) const;
@@ -80,10 +82,10 @@ struct radio_tower {
     radio_type type;
     std::string message;
     int frequency;
-    radio_tower( int X = -1, int Y = -1, int S = -1, std::string M = "",
+    radio_tower( int X = -1, int Y = -1, int S = -1, const std::string &M = "",
                  radio_type T = MESSAGE_BROADCAST ) :
         x( X ), y( Y ), strength( S ), type( T ), message( M ) {
-        frequency = rand();
+        frequency = rng( 0, INT_MAX );
     }
 };
 
@@ -92,6 +94,11 @@ struct map_layer {
     bool visible[OMAPX][OMAPY];
     bool explored[OMAPX][OMAPY];
     std::vector<om_note> notes;
+};
+
+struct om_special_sectors {
+    std::vector<point> sectors;
+    int sector_width;
 };
 
 // Wrapper around an overmap special to track progress of placing specials.
@@ -146,7 +153,7 @@ class overmap
         overmap( int x, int y );
         ~overmap();
 
-        overmap &operator=( overmap const & ) = default;
+        overmap &operator=( const overmap & ) = default;
 
         /**
          * Create content in the overmap.
@@ -154,7 +161,7 @@ class overmap
         void populate( overmap_special_batch &enabled_specials );
         void populate();
 
-        point const &pos() const {
+        const point &pos() const {
             return loc;
         }
 
@@ -180,10 +187,10 @@ class overmap
         const oter_id get_ter( const tripoint &p ) const;
         bool   &seen( int x, int y, int z );
         bool   &explored( int x, int y, int z );
-        bool is_explored( int const x, int const y, int const z ) const;
+        bool is_explored( const int x, const int y, const int z ) const;
 
         bool has_note( int x, int y, int z ) const;
-        std::string const &note( int x, int y, int z ) const;
+        const std::string &note( int x, int y, int z ) const;
         void add_note( int x, int y, int z, std::string message );
         void delete_note( int x, int y, int z );
 
@@ -195,15 +202,16 @@ class overmap
         /**
          * Setter for overmap scents, stores the provided scent at the provided location.
          */
-        void set_scent( const tripoint &loc, scent_trace &new_scent );
+        void set_scent( const tripoint &loc, const scent_trace &new_scent );
 
         /**
-         * @returns Whether @param loc is within desired bounds of the overmap
+         * @returns Whether @param p is within desired bounds of the overmap
          * @param clearance Minimal distance from the edges of the overmap
          */
-        static bool inbounds( const tripoint &loc, int clearance = 0 );
-        static bool inbounds( int x, int y, int z,
-                              int clearance = 0 ); /// @todo: This one should be obsoleted
+        static bool inbounds( const tripoint &p, int clearance = 0 );
+        static bool inbounds( const point &p, int clearance = 0 ) {
+            return inbounds( tripoint( p, 0 ), clearance );
+        }
         /**
          * Dummy value, used to indicate that a point returned by a function is invalid.
          */
@@ -214,12 +222,19 @@ class overmap
          * @returns A vector of note coordinates (absolute overmap terrain
          * coordinates), or empty vector if no matching notes are found.
          */
-        std::vector<point> find_notes( int const z, std::string const &text );
+        std::vector<point> find_notes( const int z, const std::string &text );
+
+        /**
+         * Returns whether or not the location has been generated (e.g. mapgen has run).
+         * @param loc Location to check.
+         * @returns True if param @loc has been generated.
+         */
+        bool is_omt_generated( const tripoint &loc ) const;
 
         /** Returns the (0, 0) corner of the overmap in the global coordinates. */
         point global_base_point() const;
 
-        // @todo: Should depend on coordinates
+        // TODO: Should depend on coordinates
         const regional_settings &get_settings() const {
             return settings;
         }
@@ -235,16 +250,17 @@ class overmap
         // TODO: make private
         std::vector<radio_tower> radios;
         std::map<int, om_vehicle> vehicles;
+        std::vector<basecamp> camps;
         std::vector<city> cities;
         std::vector<city> roads_out;
-
+        cata::optional<basecamp *> find_camp( const int x, const int y );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
         void insert_npc( std::shared_ptr<npc> who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
         std::shared_ptr<npc> erase_npc( const int id );
 
-        void for_each_npc( std::function<void( npc & )> callback );
-        void for_each_npc( std::function<void( const npc & )> callback ) const;
+        void for_each_npc( const std::function<void( npc & )> &callback );
+        void for_each_npc( const std::function<void( const npc & )> &callback ) const;
 
         std::shared_ptr<npc> find_npc( int id ) const;
 
@@ -260,10 +276,15 @@ class overmap
         std::vector<std::shared_ptr<npc>> npcs;
 
         bool nullbool = false;
-        point loc{ 0, 0 };
+        point loc = point_zero;
 
         std::array<map_layer, OVERMAP_LAYERS> layer;
         std::unordered_map<tripoint, scent_trace> scents;
+
+        // Records the locations where a given overmap special was placed, which
+        // can be used after placement to lookup whether a given location was created
+        // as part of a special.
+        std::unordered_map<tripoint, overmap_special_id> overmap_special_placements;
 
         regional_settings settings;
 
@@ -298,7 +319,7 @@ class overmap
         void generate( const overmap *north, const overmap *east,
                        const overmap *south, const overmap *west,
                        overmap_special_batch &enabled_specials );
-        bool generate_sub( int const z );
+        bool generate_sub( const int z );
 
         const city &get_nearest_city( const tripoint &p ) const;
 
@@ -311,10 +332,16 @@ class overmap
 
         // Overall terrain
         void place_river( point pa, point pb );
-        void place_forest();
-
+        void place_forests();
+        void place_lakes();
+        void place_rivers( const overmap *north, const overmap *east, const overmap *south,
+                           const overmap *west );
+        void place_swamps();
         void place_forest_trails();
         void place_forest_trailheads();
+
+        void place_roads( const overmap *north, const overmap *east, const overmap *south,
+                          const overmap *west );
 
         // City Building
         overmap_special_id pick_random_building_to_place( int town_dist ) const;
@@ -323,47 +350,45 @@ class overmap
         void place_building( const tripoint &p, om_direction::type dir, const city &town );
 
         void build_city_street( const overmap_connection &connection, const point &p, int cs,
-                                om_direction::type dir, const city &town );
+                                om_direction::type dir, const city &town, int block_width = 2 );
         bool build_lab( int x, int y, int z, int s, std::vector<point> *lab_train_points,
                         const std::string &prefix, int train_odds );
         void build_anthill( int x, int y, int z, int s );
         void build_tunnel( int x, int y, int z, int s, om_direction::type dir );
         bool build_slimepit( int x, int y, int z, int s );
         void build_mine( int x, int y, int z, int s );
-        void place_rifts( int const z );
+        void place_rifts( const int z );
 
         // Connection laying
         pf::path lay_out_connection( const overmap_connection &connection, const point &source,
-                                     const point &dest, int z ) const;
+                                     const point &dest, int z, const bool must_be_unexplored ) const;
         pf::path lay_out_street( const overmap_connection &connection, const point &source,
                                  om_direction::type dir, size_t len ) const;
 
-        void build_connection( const overmap_connection &connection, const pf::path &path, int z );
+        void build_connection( const overmap_connection &connection, const pf::path &path, int z,
+                               const om_direction::type &initial_dir = om_direction::type::invalid );
         void build_connection( const point &source, const point &dest, int z,
-                               const overmap_connection &connection );
+                               const overmap_connection &connection, const bool must_be_unexplored,
+                               const om_direction::type &initial_dir = om_direction::type::invalid );
         void connect_closest_points( const std::vector<point> &points, int z,
                                      const overmap_connection &connection );
         // Polishing
         bool check_ot_type( const std::string &otype, int x, int y, int z ) const;
         bool check_ot_subtype( const std::string &otype, int x, int y, int z ) const;
+        bool check_overmap_special_type( const overmap_special_id &id, const tripoint &location ) const;
         void chip_rock( int x, int y, int z );
 
         void polish_river();
         void good_river( int x, int y, int z );
 
-        // Returns a vector of permuted coordinates of overmap sectors.
-        // Each sector consists of 12x12 small maps. Coordinates of the sectors are in range [0, 15], [0, 15].
-        // Check OMAPX, OMAPY, and OMSPEC_FREQ to learn actual values.
-        std::vector<point> get_sectors() const;
-
         om_direction::type random_special_rotation( const overmap_special &special,
-                const tripoint &p ) const;
+                const tripoint &p, bool must_be_unexplored ) const;
 
         bool can_place_special( const overmap_special &special, const tripoint &p,
-                                om_direction::type dir ) const;
+                                om_direction::type dir, const bool must_be_unexplored ) const;
 
         void place_special( const overmap_special &special, const tripoint &p, om_direction::type dir,
-                            const city &cit );
+                            const city &cit, const bool must_be_unexplored, const bool force );
         /**
          * Iterate over the overmap and place the quota of specials.
          * If the stated minimums are not reached, it will spawn a new nearby overmap
@@ -378,7 +403,7 @@ class overmap
          * @param place_optional restricts attempting to place specials that have met their minimum count in the first pass.
          */
         void place_specials_pass( overmap_special_batch &enabled_specials,
-                                  std::vector<point> &sectors, bool place_optional );
+                                  om_special_sectors &sectors, bool place_optional, const bool must_be_unexplored );
 
         /**
          * Attempts to place specials within a sector.
@@ -387,7 +412,7 @@ class overmap
          * @param place_optional restricts attempting to place specials that have met their minimum count in the first pass.
          */
         bool place_special_attempt( overmap_special_batch &enabled_specials,
-                                    const point &sector, bool place_optional );
+                                    const point &sector, const int sector_width, bool place_optional, const bool must_be_unexplored );
 
         void place_mongroups();
         void place_radios();
@@ -400,8 +425,15 @@ class overmap
 };
 
 bool is_river( const oter_id &ter );
+bool is_river_or_lake( const oter_id &ter );
 bool is_ot_type( const std::string &otype, const oter_id &oter );
 // Matches any oter_id that contains the substring passed in, useful when oter can be a suffix, not just a prefix.
 bool is_ot_subtype( const char *otype, const oter_id &oter );
+
+/**
+* Gets a collection of sectors and their width for usage in placing overmap specials.
+* @param sector_width used to divide the OMAPX by OMAPY map into sectors.
+*/
+om_special_sectors get_sectors( const int sector_width );
 
 #endif

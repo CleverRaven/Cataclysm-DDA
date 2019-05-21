@@ -1,7 +1,8 @@
-#include "catch/catch.hpp"
-
-#include "catacharset.h"
 #include <clocale>
+#include <string>
+
+#include "catch/catch.hpp"
+#include "catacharset.h"
 
 TEST_CASE( "utf8_width" )
 {

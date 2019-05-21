@@ -1,16 +1,22 @@
-#include "catch/catch.hpp"
+#include <string>
+#include <array>
+#include <list>
+#include <memory>
 
+#include "avatar.h"
+#include "catch/catch.hpp"
 #include "game.h"
 #include "player.h"
 #include "weather.h"
-
-#include <string>
+#include "bodypart.h"
+#include "calendar.h"
+#include "item.h"
 
 // Set the stage for a particular ambient and target temperature and run update_bodytemp() until
 // core body temperature settles.
-void temperature_check( player *p, int ambient_temp, int target_temp )
+void temperature_check( player *p, const int ambient_temp, const int target_temp )
 {
-    g->temperature = ambient_temp;
+    g->weather.temperature = ambient_temp;
     for( int i = 0 ; i < num_bp; i++ ) {
         p->temp_cur[i] = BODYTEMP_NORM;
     }
@@ -37,7 +43,7 @@ void temperature_check( player *p, int ambient_temp, int target_temp )
 
 void equip_clothing( player *p, const std::string &clothing )
 {
-    item article( clothing, 0 );
+    const item article( clothing, 0 );
     p->wear_item( article );
 }
 

@@ -1,7 +1,8 @@
 #include "messages.h"
 
 #include "calendar.h"
-#include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
+// needed for the workaround for the std::to_string bug in some compilers
+#include "compatibility.h" // IWYU pragma: keep
 #include "debug.h"
 #include "game.h"
 #include "input.h"
@@ -10,19 +11,28 @@
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "catacharset.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "enums.h"
 
-#ifdef __ANDROID__
-#include "options.h"
+#if defined(__ANDROID__)
 #include <SDL_keyboard.h>
+
+#include "options.h"
 #endif
 
 #include <deque>
 #include <iterator>
 #include <algorithm>
+#include <memory>
+#include <sstream>
+#include <type_traits>
 
 // sidebar messages flow direction
 extern bool log_from_top;
 extern int message_ttl;
+extern int message_cooldown;
 
 namespace
 {
@@ -32,6 +42,10 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
     time_point timestamp_in_turns  = 0;
     int               timestamp_in_user_actions = 0;
     int               count = 1;
+    // number of times this message has been seen while it was in cooldown.
+    unsigned cooldown_seen = 1;
+    // hide the message, because at some point it was in cooldown period.
+    bool cooldown_hidden = false;
     game_message_type type  = m_neutral;
 
     game_message() = default;
@@ -51,7 +65,14 @@ struct game_message : public JsonDeserializer, public JsonSerializer {
             return message;
         }
         //~ Message %s on the message log was repeated %d times, e.g. "You hear a whack! x 12"
-        return string_format( _( "%s x %d" ), message.c_str(), count );
+        return string_format( _( "%s x %d" ), message, count );
+    }
+
+    /** Get whether or not a message should not be displayed (hidden) in the side bar because it's in a cooldown period.
+     * @returns `true` if the message should **not** be displayed, `false` otherwise.
+     */
+    bool is_in_cooldown() const {
+        return cooldown_hidden;
     }
 
     bool is_new( const time_point &current ) const {
@@ -98,6 +119,7 @@ class messages_impl
 {
     public:
         std::deque<game_message> messages;   // Messages to be printed
+        std::vector<game_message> cooldown_templates; // Message cooldown
         time_point curmes = 0; // The last-seen message.
         bool active = true;
 
@@ -105,12 +127,12 @@ class messages_impl
             return !messages.empty() && messages.back().turn() > curmes;
         }
 
-        game_message const &history( int const i ) const {
+        const game_message &history( const int i ) const {
             return messages[messages.size() - i - 1];
         }
 
         // coalesce recent like messages
-        bool coalesce_messages( std::string const &msg, game_message_type const type ) {
+        bool coalesce_messages( const game_message &m ) {
             if( messages.empty() ) {
                 return false;
             }
@@ -120,14 +142,24 @@ class messages_impl
                 return false;
             }
 
-            if( type != last_msg.type || msg != last_msg.message ) {
+            if( m.type != last_msg.type || m.message != last_msg.message ) {
                 return false;
             }
 
+            // update the cooldown message timer due to coalescing
+            const auto cooldown_it = std::find_if( cooldown_templates.begin(), cooldown_templates.end(),
+            [&m]( game_message & am ) -> bool {
+                return m.message == am.message;
+            } );
+            if( cooldown_it != cooldown_templates.end() ) {
+                cooldown_it->timestamp_in_turns = calendar::turn;
+            }
+
+            // coalesce messages
             last_msg.count++;
             last_msg.timestamp_in_turns = calendar::turn;
             last_msg.timestamp_in_user_actions = g->get_user_action_counter();
-            last_msg.type = type;
+            last_msg.type = m.type;
 
             return true;
         }
@@ -145,7 +177,12 @@ class messages_impl
                 return;
             }
 
-            if( coalesce_messages( msg, type ) ) {
+            game_message m = game_message( std::move( msg ), type );
+
+            refresh_cooldown( m );
+            hide_message_in_cooldown( m );
+
+            if( coalesce_messages( m ) ) {
                 return;
             }
 
@@ -153,7 +190,51 @@ class messages_impl
                 messages.pop_front();
             }
 
-            messages.emplace_back( std::move( msg ), type );
+            messages.emplace_back( m );
+        }
+
+        /** Check if the current message needs to be prevented (hidden) or not from being displayed in the side bar.
+         * @param message The message to be checked.
+         */
+        void hide_message_in_cooldown( game_message &message ) {
+            message.cooldown_hidden = false;
+
+            if( message_cooldown <= 0 || message.turn() <= 0 ) {
+                return;
+            }
+
+            // We look for **exactly the same** message string in the cooldown templates
+            // If there is one, this means the same message was already displayed.
+            const auto cooldown_it = std::find_if( cooldown_templates.begin(), cooldown_templates.end(),
+            [&message]( game_message & m_cooldown ) -> bool {
+                return m_cooldown.message == message.message;
+            } );
+            if( cooldown_it == cooldown_templates.end() ) {
+                // nothing found, not in cooldown.
+                return;
+            }
+
+            // note: from this point the current message (`message`) has the same string than one of the active cooldown template messages (`cooldown_it`).
+
+            // check how much times this message has been seen during its cooldown.
+            // If it's only one time, then no need to hide it.
+            if( cooldown_it->cooldown_seen == 1 ) {
+                return;
+            }
+
+            // check if it's the message that started the cooldown timer.
+            if( message.turn() == cooldown_it->turn() ) {
+                return;
+            }
+
+            // current message turn.
+            const auto cm_turn = to_turn<int>( message.turn() );
+            // maximum range of the cooldown timer.
+            const auto max_cooldown_range = to_turn<int>( cooldown_it->turn() ) + message_cooldown;
+            // If the current message is in the cooldown range then hide it.
+            if( cm_turn <= max_cooldown_range ) {
+                message.cooldown_hidden = true;
+            }
         }
 
         std::vector<std::pair<std::string, std::string>> recent_messages( size_t count ) const {
@@ -165,12 +246,49 @@ class messages_impl
             const int offset = static_cast<std::ptrdiff_t>( messages.size() - count );
 
             std::transform( begin( messages ) + offset, end( messages ), back_inserter( result ),
-            []( game_message const & msg ) {
+            []( const game_message & msg ) {
                 return std::make_pair( to_string_time_of_day( msg.timestamp_in_turns ),
                                        msg.get_with_count() );
             } );
 
             return result;
+        }
+
+        /** Refresh the cooldown timers, removing elapsed ones and making new ones if needed.
+         * @param message The current message that needs to be checked.
+         */
+        void refresh_cooldown( const game_message &message ) {
+            // is cooldown used? (also checks for messages arriving here at game initialization: we don't care about them).
+            if( message_cooldown <= 0 || message.turn() <= 0 ) {
+                return;
+            }
+
+            // housekeeping: remove any cooldown message with an expired cooldown time from the cooldown queue.
+            const auto now = calendar::turn;
+            for( auto it = cooldown_templates.begin(); it != cooldown_templates.end(); ) {
+                // number of turns elapsed since the cooldown started.
+                const auto turns = to_turns<int>( now - it->turn() );
+                if( turns >= message_cooldown ) {
+                    // time elapsed! remove it.
+                    it = cooldown_templates.erase( it );
+                } else {
+                    ++it;
+                }
+            }
+
+            // Is the message string already in the cooldown queue?
+            // If it's not we must put it in the cooldown queue now, otherwise just increment the number of times we have seen it.
+            const auto cooldown_message_it = std::find_if( cooldown_templates.begin(),
+            cooldown_templates.end(), [&message]( game_message & cooldown_message ) -> bool {
+                return cooldown_message.message == message.message;
+            } );
+            if( cooldown_message_it == cooldown_templates.end() ) {
+                // push current message to cooldown message templates.
+                cooldown_templates.emplace_back( message );
+            } else {
+                // increment the number of time we have seen this message.
+                cooldown_message_it->cooldown_seen++;
+            }
         }
 };
 
@@ -388,9 +506,9 @@ void Messages::dialog::init()
         const size_t msg_ind = log_from_top ? ind : msg_count - 1 - ind;
         const game_message &msg = player_messages.history( msg_ind );
         const auto &folded = foldstring( msg.get_with_count(), msg_width );
-        for( auto it = folded.begin(); it != folded.end(); ++it ) {
+        for( const auto &it : folded ) {
             folded_filtered.emplace_back( folded_all.size() );
-            folded_all.emplace_back( msg_ind, *it );
+            folded_all.emplace_back( msg_ind, it );
         }
     }
 
@@ -585,7 +703,7 @@ void Messages::dialog::input()
             }
         } else if( action == "FILTER" ) {
             filtering = true;
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
             if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
                 SDL_StartTextInput();
             }
@@ -649,14 +767,14 @@ void Messages::display_messages()
     player_messages.curmes = calendar::turn;
 }
 
-void Messages::display_messages( const catacurses::window &ipk_target, int const left,
-                                 int const top, int const right, int const bottom )
+void Messages::display_messages( const catacurses::window &ipk_target, const int left,
+                                 const int top, const int right, const int bottom )
 {
     if( !size() ) {
         return;
     }
 
-    int const maxlength = right - left;
+    const int maxlength = right - left;
     int line = log_from_top ? top : bottom;
 
     if( log_from_top ) {
@@ -696,6 +814,11 @@ void Messages::display_messages( const catacurses::window &ipk_target, int const
             const game_message &m = player_messages.messages[i];
             if( message_exceeds_ttl( m ) ) {
                 break;
+            }
+
+            if( m.is_in_cooldown() ) {
+                // message is still (or was at some point) into a cooldown period.
+                continue;
             }
 
             const nc_color col = m.get_color( player_messages.curmes );

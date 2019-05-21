@@ -2,189 +2,202 @@
 #ifndef SUBMAP_H
 #define SUBMAP_H
 
+#include <cstddef>
+#include <cstdint>
+#include <list>
+#include <memory>
+#include <vector>
+#include <string>
+
 #include "active_item_cache.h"
 #include "basecamp.h"
 #include "calendar.h"
 #include "computer.h"
 #include "field.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "item.h"
-#include "string_id.h"
+#include "enums.h"
+#include "type_id.h"
+#include "vehicle.h"
 
-#include <list>
-#include <memory>
-#include <vector>
-
+class JsonIn;
+class JsonOut;
 class map;
-class vehicle;
-class computer;
+
+struct mtype;
 struct trap;
 struct ter_t;
 struct furn_t;
 
-using trap_id = int_id<trap>;
-using ter_id = int_id<ter_t>;
-using furn_id = int_id<furn_t>;
-using furn_str_id = string_id<furn_t>;
-struct mtype;
-using mtype_id = string_id<mtype>;
-
 struct spawn_point {
-    int posx;
-    int posy;
+    point pos;
     int count;
     mtype_id type;
     int faction_id;
     int mission_id;
     bool friendly;
     std::string name;
-    spawn_point( const mtype_id &T = mtype_id::NULL_ID(), int C = 0, int X = -1, int Y = -1,
+    spawn_point( const mtype_id &T = mtype_id::NULL_ID(), int C = 0, point P = point_zero,
                  int FAC = -1, int MIS = -1, bool F = false,
-                 std::string N = "NONE" ) :
-        posx( X ), posy( Y ), count( C ), type( T ), faction_id( FAC ),
+                 const std::string &N = "NONE" ) :
+        pos( P ), count( C ), type( T ), faction_id( FAC ),
         mission_id( MIS ), friendly( F ), name( N ) {}
 };
 
-struct submap {
-    trap_id get_trap( const int x, const int y ) const {
-        return trp[x][y];
-    }
+template<int sx, int sy>
+struct maptile_soa {
+    ter_id          ter[sx][sy];  // Terrain on each square
+    furn_id         frn[sx][sy];  // Furniture on each square
+    std::uint8_t    lum[sx][sy];  // Number of items emitting light on each square
+    std::list<item> itm[sx][sy];  // Items on each square
+    field           fld[sx][sy];  // Field on each square
+    trap_id         trp[sx][sy];  // Trap on each square
+    int             rad[sx][sy];  // Irradiation of each square
 
-    void set_trap( const int x, const int y, trap_id trap ) {
-        is_uniform = false;
-        trp[x][y] = trap;
-    }
+    void swap_soa_tile( const point &p1, const point &p2 );
+    void swap_soa_tile( const point &p, maptile_soa<1, 1> &other );
+};
 
-    furn_id get_furn( const int x, const int y ) const {
-        return frn[x][y];
-    }
+class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritance.
+{
+    public:
+        submap();
 
-    void set_furn( const int x, const int y, furn_id furn ) {
-        is_uniform = false;
-        frn[x][y] = furn;
-    }
-
-    ter_id get_ter( const int x, const int y ) const {
-        return ter[x][y];
-    }
-
-    void set_ter( const int x, const int y, ter_id terr ) {
-        is_uniform = false;
-        ter[x][y] = terr;
-    }
-
-    int get_radiation( const int x, const int y ) const {
-        return rad[x][y];
-    }
-
-    void set_radiation( const int x, const int y, const int radiation ) {
-        is_uniform = false;
-        rad[x][y] = radiation;
-    }
-
-    void update_lum_add( item const &i, int const x, int const y ) {
-        is_uniform = false;
-        if( i.is_emissive() && lum[x][y] < 255 ) {
-            lum[x][y]++;
-        }
-    }
-
-    void update_lum_rem( item const &i, int const x, int const y ) {
-        is_uniform = false;
-        if( !i.is_emissive() ) {
-            return;
-        } else if( lum[x][y] && lum[x][y] < 255 ) {
-            lum[x][y]--;
-            return;
+        trap_id get_trap( const point &p ) const {
+            return trp[p.x][p.y];
         }
 
-        // Have to scan through all items to be sure removing i will actually lower
-        // the count below 255.
-        int count = 0;
-        for( auto const &it : itm[x][y] ) {
-            if( it.is_emissive() ) {
-                count++;
+        void set_trap( const point &p, trap_id trap ) {
+            is_uniform = false;
+            trp[p.x][p.y] = trap;
+        }
+
+        furn_id get_furn( const point &p ) const {
+            return frn[p.x][p.y];
+        }
+
+        void set_furn( const point &p, furn_id furn ) {
+            is_uniform = false;
+            frn[p.x][p.y] = furn;
+        }
+
+        ter_id get_ter( const point &p ) const {
+            return ter[p.x][p.y];
+        }
+
+        void set_ter( const point &p, ter_id terr ) {
+            is_uniform = false;
+            ter[p.x][p.y] = terr;
+        }
+
+        int get_radiation( const point &p ) const {
+            return rad[p.x][p.y];
+        }
+
+        void set_radiation( const point &p, const int radiation ) {
+            is_uniform = false;
+            rad[p.x][p.y] = radiation;
+        }
+
+        void update_lum_add( const point &p, const item &i ) {
+            is_uniform = false;
+            if( i.is_emissive() && lum[p.x][p.y] < 255 ) {
+                lum[p.x][p.y]++;
             }
         }
 
-        if( count <= 256 ) {
-            lum[x][y] = static_cast<uint8_t>( count - 1 );
+        void update_lum_rem( const point &p, const item &i ) {
+            is_uniform = false;
+            if( !i.is_emissive() ) {
+                return;
+            } else if( lum[p.x][p.y] && lum[p.x][p.y] < 255 ) {
+                lum[p.x][p.y]--;
+                return;
+            }
+
+            // Have to scan through all items to be sure removing i will actually lower
+            // the count below 255.
+            int count = 0;
+            for( const auto &it : itm[p.x][p.y] ) {
+                if( it.is_emissive() ) {
+                    count++;
+                }
+            }
+
+            if( count <= 256 ) {
+                lum[p.x][p.y] = static_cast<uint8_t>( count - 1 );
+            }
         }
-    }
 
-    struct cosmetic_t {
-        point p;
-        std::string type;
-        std::string str;
-    };
+        struct cosmetic_t {
+            point pos;
+            std::string type;
+            std::string str;
+        };
 
-    void insert_cosmetic( const point p, const std::string &type, const std::string &str ) {
-        cosmetic_t ins;
+        void insert_cosmetic( const point &p, const std::string &type, const std::string &str ) {
+            cosmetic_t ins;
 
-        ins.p = p;
-        ins.type = type;
-        ins.str = str;
+            ins.pos = p;
+            ins.type = type;
+            ins.str = str;
 
-        cosmetics.push_back( ins );
-    }
+            cosmetics.push_back( ins );
+        }
 
-    void insert_cosmetic( const int x, const int y, const std::string &type, const std::string &str ) {
-        point p( x, y );
-        insert_cosmetic( p, type, str );
-    }
+        int get_temperature() const {
+            return temperature;
+        }
 
-    bool has_graffiti( int x, int y ) const;
-    const std::string &get_graffiti( int x, int y ) const;
-    void set_graffiti( int x, int y, const std::string &new_graffiti );
-    void delete_graffiti( int x, int y );
+        void set_temperature( int new_temperature ) {
+            temperature = new_temperature;
+        }
 
-    // Signage is a pretend union between furniture on a square and stored
-    // writing on the square. When both are present, we have signage.
-    // Its effect is meant to be cosmetic and atmospheric only.
-    bool has_signage( const int x, const int y ) const;
-    // Dependent on furniture + cosmetics.
-    const std::string get_signage( const int x, const int y ) const;
-    // Can be used anytime (prevents code from needing to place sign first.)
-    void set_signage( const int x, const int y, const std::string &s );
-    // Can be used anytime (prevents code from needing to place sign first.)
-    void delete_signage( const int x, const int y );
+        bool has_graffiti( const point &p ) const;
+        const std::string &get_graffiti( const point &p ) const;
+        void set_graffiti( const point &p, const std::string &new_graffiti );
+        void delete_graffiti( const point &p );
 
-    // TODO: make trp private once the horrible hack known as editmap is resolved
-    ter_id          ter[SEEX][SEEY];  // Terrain on each square
-    furn_id         frn[SEEX][SEEY];  // Furniture on each square
-    std::uint8_t    lum[SEEX][SEEY];  // Number of items emitting light on each square
-    std::list<item> itm[SEEX][SEEY];  // Items on each square
-    field           fld[SEEX][SEEY];  // Field on each square
-    trap_id         trp[SEEX][SEEY];  // Trap on each square
-    int             rad[SEEX][SEEY];  // Irradiation of each square
+        // Signage is a pretend union between furniture on a square and stored
+        // writing on the square. When both are present, we have signage.
+        // Its effect is meant to be cosmetic and atmospheric only.
+        bool has_signage( const point &p ) const;
+        // Dependent on furniture + cosmetics.
+        const std::string get_signage( const point &p ) const;
+        // Can be used anytime (prevents code from needing to place sign first.)
+        void set_signage( const point &p, const std::string &s );
+        // Can be used anytime (prevents code from needing to place sign first.)
+        void delete_signage( const point &p );
 
-    // If is_uniform is true, this submap is a solid block of terrain
-    // Uniform submaps aren't saved/loaded, because regenerating them is faster
-    bool is_uniform;
+        bool contains_vehicle( vehicle * );
 
-    std::vector<cosmetic_t> cosmetics; // Textual "visuals" for squares
+        void rotate( int turns );
 
-    active_item_cache active_items;
+        void store( JsonOut &jsout ) const;
+        void load( JsonIn &jsin, const std::string &member_name, bool rubpow_update );
 
-    int field_count = 0;
-    time_point last_touched = calendar::time_of_cataclysm;
-    int temperature = 0;
-    std::vector<spawn_point> spawns;
-    /**
-     * Vehicles on this submap (their (0,0) point is on this submap).
-     * This vehicle objects are deleted by this submap when it gets
-     * deleted.
-     * TODO: submap owns these pointers, they ought to be unique_ptrs.
-     */
-    std::vector<vehicle *> vehicles;
-    std::unique_ptr<computer> comp;
-    basecamp camp;  // only allowing one basecamp per submap
+        // If is_uniform is true, this submap is a solid block of terrain
+        // Uniform submaps aren't saved/loaded, because regenerating them is faster
+        bool is_uniform;
 
-    submap();
-    ~submap();
-    // delete vehicles and clear the vehicles vector
-    void delete_vehicles();
+        std::vector<cosmetic_t> cosmetics; // Textual "visuals" for squares
+
+        active_item_cache active_items;
+
+        int field_count = 0;
+        time_point last_touched = calendar::time_of_cataclysm;
+        std::vector<spawn_point> spawns;
+        /**
+         * Vehicles on this submap (their (0,0) point is on this submap).
+         * This vehicle objects are deleted by this submap when it gets
+         * deleted.
+         */
+        std::vector<std::unique_ptr<vehicle>> vehicles;
+        std::unique_ptr<computer> comp;
+        basecamp camp;  // only allowing one basecamp per submap
+
+    private:
+        int temperature = 0;
 };
 
 /**
@@ -199,31 +212,36 @@ struct maptile {
         submap *const sm;
         size_t x;
         size_t y;
+        point pos() const {
+            return point( x, y );
+        }
 
         maptile( submap *sub, const size_t nx, const size_t ny ) :
             sm( sub ), x( nx ), y( ny ) { }
+        maptile( submap *sub, const point &p ) :
+            sm( sub ), x( p.x ), y( p.y ) { }
     public:
         trap_id get_trap() const {
-            return sm->get_trap( x, y );
+            return sm->get_trap( pos() );
         }
 
         furn_id get_furn() const {
-            return sm->get_furn( x, y );
+            return sm->get_furn( pos() );
         }
 
         ter_id get_ter() const {
-            return sm->get_ter( x, y );
+            return sm->get_ter( pos() );
         }
 
         const trap &get_trap_t() const {
-            return sm->get_trap( x, y ).obj();
+            return sm->get_trap( pos() ).obj();
         }
 
         const furn_t &get_furn_t() const {
-            return sm->get_furn( x, y ).obj();
+            return sm->get_furn( pos() ).obj();
         }
         const ter_t &get_ter_t() const {
-            return sm->get_ter( x, y ).obj();
+            return sm->get_ter( pos() ).obj();
         }
 
         const field &get_field() const {
@@ -234,7 +252,7 @@ struct maptile {
             return sm->fld[x][y].findField( field_to_find );
         }
 
-        bool add_field( const field_id field_to_add, const int new_density, const time_duration new_age ) {
+        bool add_field( const field_id field_to_add, const int new_density, const time_duration &new_age ) {
             const bool ret = sm->fld[x][y].addField( field_to_add, new_density, new_age );
             if( ret ) {
                 sm->field_count++;
@@ -244,23 +262,23 @@ struct maptile {
         }
 
         int get_radiation() const {
-            return sm->get_radiation( x, y );
+            return sm->get_radiation( pos() );
         }
 
         bool has_graffiti() const {
-            return sm->has_graffiti( x, y );
+            return sm->has_graffiti( pos() );
         }
 
         const std::string &get_graffiti() const {
-            return sm->get_graffiti( x, y );
+            return sm->get_graffiti( pos() );
         }
 
         bool has_signage() const {
-            return sm->has_signage( x, y );
+            return sm->has_signage( pos() );
         }
 
         const std::string get_signage() const {
-            return sm->get_signage( x, y );
+            return sm->get_signage( pos() );
         }
 
         // For map::draw_maptile

@@ -271,7 +271,14 @@
     "id": "mansion_bookcase",
     "type": "item_group",
     "subtype": "collection",
-    "groups": [ [ "novels", 50 ], [ "manuals", 30 ], [ "textbooks", 15 ], [ "mansion_books", 15 ] ]
+    "groups": [
+      [ "novels", 40 ],
+      [ "mansion_books", 50 ],
+      [ "homebooks", 30 ],
+      [ "manuals", 10 ],
+      [ "textbooks", 5 ],
+      [ "exotic_books", 5 ]
+    ]
   },
   {
     "id": "suit_of_armor",
@@ -473,19 +480,29 @@
     "id": "soa_fake_weapon_samurai",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "samurai_sword_set_fake", "prob": 7 }, [ "bokken_fake", 6 ], [ "nodachi_fake", 5 ] ]
+    "items": [
+      { "group": "samurai_sword_set_fake", "prob": 7 },
+      [ "bokken_fake", 6 ],
+      [ "nodachi_fake", 5 ],
+      [ "naginata_fake", 5 ]
+    ]
   },
   {
     "id": "soa_poor_weapon_samurai",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "samurai_sword_set_inferior", "prob": 7 }, [ "bokken_inferior", 6 ], [ "nodachi_inferior", 5 ] ]
+    "items": [
+      { "group": "samurai_sword_set_inferior", "prob": 7 },
+      [ "bokken_inferior", 6 ],
+      [ "nodachi_inferior", 5 ],
+      [ "naginata_inferior", 5 ]
+    ]
   },
   {
     "id": "soa_real_weapon_samurai",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ { "group": "samurai_sword_set", "prob": 7 }, [ "bokken", 6 ], [ "nodachi", 5 ] ]
+    "items": [ { "group": "samurai_sword_set", "prob": 7 }, [ "bokken", 6 ], [ "nodachi", 5 ], [ "naginata", 5 ] ]
   },
   {
     "id": "toy_box",
@@ -740,7 +757,7 @@
     "items": [
       [ "socks", 90 ],
       [ "sneakers", 50 ],
-      [ "battery", 50 ],
+      { "group": "ammo_pocket_batteries", "prob": 50 },
       [ "sunglasses", 40 ],
       [ "socks_wool", 40 ],
       [ "towel", 40 ],
@@ -1322,6 +1339,7 @@
       [ "eboshi", 1 ],
       [ "kariginu", 1 ],
       [ "kimono", 3 ],
+      [ "haori", 2 ],
       [ "hat_fur", 2 ],
       [ "coat_fur_sf", 2 ],
       [ "coat_faux_fur", 4 ],

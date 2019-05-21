@@ -16,7 +16,7 @@
         ",,,,,|'''''''''''+ |-+-|",
         ",,,,,w'''''''''''|     |",
         ",,,,,|'''''''''''|--|- |",
-        ",,,,,|'''''''''''|22+   ",
+        ",,,,,|'''''''''/'|22+   ",
         ",,,,,|-========--|WD|   ",
         ",,,,#,,________qq|--|   ",
         ",,,###,________,,|CCf   ",
@@ -32,9 +32,7 @@
         ",,,,,,,________,,,,,,,,,",
         ",,,,,,,________,,,,,,,,,"
       ],
-      "palettes": [
-        "acidia_residential_commercial_palette"
-      ],
+      "palettes": [ "acidia_residential_commercial_palette" ],
       "items": {
         " ": { "item": "livingroom", "chance": 2 },
         "'": { "item": "mechanics", "chance": 1 },
@@ -48,12 +46,8 @@
         "t": { "item": "dining", "chance": 25 },
         "u": { "item": "cleaning", "chance": 50 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.09 }
-      ],
-      "place_vehicles": [
-        { "vehicle": "suburban_home", "x": 10, "y": 5, "chance": 100, "rotation": 270 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.09 } ],
+      "place_vehicles": [ { "vehicle": "suburban_home", "x": 10, "y": 5, "chance": 100, "rotation": 270 } ]
     }
   },
   {
@@ -89,12 +83,8 @@
         "''',,,,,,,,,,,,,,,,,,,,,",
         ";;;,,,,,,,,,,,,,,,,,,,,,"
       ],
-      "palettes": [
-        "acidia_residential_commercial_palette"
-      ],
-      "toilets": {
-        "T": {}
-      },
+      "palettes": [ "acidia_residential_commercial_palette" ],
+      "toilets": { "T": {  } },
       "items": {
         " ": { "item": "livingroom", "chance": 2 },
         "'": { "item": "mechanics", "chance": 2 },
@@ -106,9 +96,7 @@
         "e": { "item": "dresser", "chance": 60 },
         "r": { "item": "bedroom", "chance": 60 }
       },
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.09 }
-      ]
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.09 } ]
     }
   },
   {
@@ -144,9 +132,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_residential_commercial_palette"
-      ]
+      "palettes": [ "acidia_residential_commercial_palette" ]
     }
   },
   {
@@ -182,10 +168,7 @@
         "........................",
         "........................"
       ],
-      "palettes": [
-        "acidia_residential_commercial_palette"
-      ]
+      "palettes": [ "acidia_residential_commercial_palette" ]
     }
   }
 ]
-

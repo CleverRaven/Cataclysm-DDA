@@ -2,9 +2,7 @@
 #ifndef RECIPE_DICTIONARY_H
 #define RECIPE_DICTIONARY_H
 
-#include "recipe.h"
-#include "string_id.h"
-
+#include <cstddef>
 #include <algorithm>
 #include <functional>
 #include <map>
@@ -12,12 +10,14 @@
 #include <string>
 #include <vector>
 
+#include "recipe.h"
+#include "type_id.h"
+
 class JsonIn;
 class JsonOut;
 class JsonObject;
+
 typedef std::string itype_id;
-class recipe;
-using recipe_id = string_id<recipe>;
 
 class recipe_dictionary
 {
@@ -66,6 +66,8 @@ extern recipe_dictionary recipe_dict;
 class recipe_subset
 {
     public:
+        recipe_subset() = default;
+        recipe_subset( const recipe_subset &src, const std::vector<const recipe *> &recipes );
         /**
          * Include a recipe to the subset.
          * @param r recipe to include
@@ -133,6 +135,12 @@ class recipe_subset
         /** Find recipes matching query (left anchored partial matches are supported) */
         std::vector<const recipe *> search( const std::string &txt,
                                             const search_type key = search_type::name ) const;
+        /** Find recipes matching query and return a new recipe_subset */
+        recipe_subset reduce( const std::string &txt, const search_type key = search_type::name ) const;
+        /** Set intersection between recipe_subsets */
+        recipe_subset intersection( const recipe_subset &subset ) const;
+        /** Set difference between recipe_subsets */
+        recipe_subset difference( const recipe_subset &subset ) const;
         /** Find recipes producing the item */
         std::vector<const recipe *> search_result( const itype_id &item ) const;
 

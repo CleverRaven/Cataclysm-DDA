@@ -10,22 +10,27 @@
     "price": 1000,
     "bashing": 1,
     "to_hit": 2,
-    "material": ["plastic"],
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "green",
-    "max_charges": 576,
-    "initial_charges": 576,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
-        "type": "transform",
-        "target": "electric_lantern_on",
-        "active": true,
-        "msg": "You turn the lamp on.",
-        "need_charges": 1,
-        "need_charges_msg": "The lantern has no batteries."
+      "type": "transform",
+      "target": "electric_lantern_on",
+      "active": true,
+      "msg": "You turn the lamp on.",
+      "need_charges": 1,
+      "need_charges_msg": "The lantern has no batteries."
     },
-    "flags": [ "RADIO_MODABLE", "ALLOWS_REMOTE_USE" ]
+    "flags": [ "RADIO_MODABLE", "ALLOWS_REMOTE_USE" ],
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "electric_lantern_on",
@@ -35,12 +40,7 @@
     "name_plural": "electric lanterns (on)",
     "turns_per_charge": 42,
     "revert_to": "electric_lantern",
-    "use_action": {
-        "menu_text": "Turn off",
-        "type": "transform",
-        "target": "electric_lantern",
-        "msg": "You turn the lamp off."
-    },
+    "use_action": { "menu_text": "Turn off", "type": "transform", "target": "electric_lantern", "msg": "You turn the lamp off." },
     "flags": [ "RADIO_MODABLE", "LIGHT_15", "TRADER_AVOID", "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -55,18 +55,31 @@
     "weight": 400,
     "volume": 2,
     "price": 500,
-    "max_charges": 100,
-    "initial_charges": 100,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
-        "type": "transform",
-        "msg": "You turn the flashlight on.",
-        "target": "flashlight_on",
-        "active": true,
-        "need_charges": 1,
-        "need_charges_msg": "The flashlight's batteries are dead."
-    }
+      "type": "transform",
+      "msg": "You turn the flashlight on.",
+      "target": "flashlight_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The flashlight's batteries are dead."
+    },
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "flashlight_on",
@@ -76,12 +89,7 @@
     "name_plural": "flashlights (on)",
     "turns_per_charge": 24,
     "revert_to": "flashlight",
-    "use_action": {
-        "menu_text": "Turn off",
-        "type": "transform",
-        "msg": "You turn the flashlight off.",
-        "target": "flashlight"
-    },
+    "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "You turn the flashlight off.", "target": "flashlight" },
     "flags": [ "LIGHT_300", "CHARGEDIM", "TRADER_AVOID" ]
   },
   {
@@ -98,11 +106,11 @@
     "max_charges": 300,
     "initial_charges": 300,
     "use_action": {
-        "menu_text": "Strike the striker",
-        "type": "transform",
-        "target": "handflare_lit",
-        "active": true,
-        "msg": "You strike your flare and light it."
+      "menu_text": "Strike the striker",
+      "type": "transform",
+      "target": "handflare_lit",
+      "active": true,
+      "msg": "You strike your flare and light it."
     }
   },
   {
@@ -115,7 +123,7 @@
     "turns_per_charge": 1,
     "revert_to": "handflare_dead",
     "revert_msg": "The flare sputters out",
-    "use_action": [],
+    "use_action": [  ],
     "flags": [ "FIRE", "LIGHT_240", "CHARGEDIM", "FLAMING", "TRADER_AVOID" ]
   },
   {
@@ -132,18 +140,31 @@
     "material": [ "aluminum" ],
     "symbol": ";",
     "color": "blue",
-    "max_charges": 205,
-    "initial_charges": 205,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
-        "type": "transform",
-        "msg": "You turn the heavy duty flashlight on.",
-        "target": "heavy_flashlight_on",
-        "active": true,
-        "need_charges": 1,
-        "need_charges_msg": "The heavy duty flashlight's batteries are dead."
-    }
+      "type": "transform",
+      "msg": "You turn the heavy duty flashlight on.",
+      "target": "heavy_flashlight_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The heavy duty flashlight's batteries are dead."
+    },
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_plus_battery_cell",
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "heavy_flashlight_on",
@@ -154,10 +175,10 @@
     "turns_per_charge": 9,
     "revert_to": "heavy_flashlight",
     "use_action": {
-        "menu_text": "Turn off",
-        "type": "transform",
-        "msg": "You turn the heavy duty flashlight off.",
-        "target": "heavy_flashlight"
+      "menu_text": "Turn off",
+      "type": "transform",
+      "msg": "You turn the heavy duty flashlight off.",
+      "target": "heavy_flashlight"
     },
     "flags": [ "LIGHT_500", "CHARGEDIM" ]
   },
@@ -176,16 +197,14 @@
     "charges_per_use": 1,
     "ammo": "weldgas",
     "use_action": {
-        "type": "transform",
-        "msg": "You light the %s.",
-        "target": "oxylamp_on",
-        "active": true,
-        "need_charges": 1,
-        "need_charges_msg": "The %s must be attached to a gas cylinder to light."
+      "type": "transform",
+      "msg": "You light the %s.",
+      "target": "oxylamp_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The %s must be attached to a gas cylinder to light."
     },
-    "magazines": [
-        [ "weldgas", [ "weldtank", "tinyweldtank" ] ]
-    ]
+    "magazines": [ [ "weldgas", [ "weldtank", "tinyweldtank" ] ] ]
   },
   {
     "id": "oxylamp_on",
@@ -195,12 +214,7 @@
     "name_plural": "acetylene lamps (on)",
     "turns_per_charge": 240,
     "revert_to": "oxylamp",
-    "use_action": {
-        "menu_text": "Turn off",
-        "type": "transform",
-        "msg": "The %s is extinguished",
-        "target": "oxylamp"
-    },
+    "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "The %s is extinguished", "target": "oxylamp" },
     "flags": "LIGHT_30"
   }
 ]
