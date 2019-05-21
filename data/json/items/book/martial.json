@@ -215,7 +215,7 @@
     "name_plural": "The Way of the Spear",
     "description": "A complete guide to Sōjutsu."
   },
-    {
+  {
     "id": "manual_wingchun",
     "copy-from": "book_martial",
     "type": "GENERIC",
