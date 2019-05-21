@@ -925,6 +925,28 @@ def main_by_date(target_dttm, end_dttm, personal_token, output_file, include_sum
                                  include_summary_none, flatten)
 
 
+def main_by_build(target_dttm, end_dttm, personal_token, output_file, include_summary_none):
+    ### get data from GitHub API
+    commit_api = CommitApi(CommitFactory(), personal_token)
+    commit_repo = CommitRepository()
+    commit_repo.add_multiple(commit_api.get_commit_list(target_dttm, end_dttm))
+
+    pr_api = PullRequestApi(CDDAPullRequestFactory(), personal_token)
+    pr_repo = CDDAPullRequestRepository()
+    pr_repo.add_multiple(pr_api.get_pr_list(target_dttm, end_dttm, merged_only=True))
+
+    jenkins_api = JenkinsApi(JenkinsBuildFactory())
+    build_repo = JenkinsBuildRepository()
+    build_repo.add_multiple((build for build in jenkins_api.get_build_list() if build.was_successful()))
+
+    ### build script output
+    if output_file is None:
+        build_output_by_build(build_repo, pr_repo, commit_repo, sys.stdout, include_summary_none)
+    else:
+        with open(output_file, 'w', encoding='utf8') as opened_output_file:
+            build_output_by_build(build_repo, pr_repo, commit_repo, opened_output_file, include_summary_none)
+
+
 def build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, output_file,
                          include_summary_none, flatten):
     ### group commits with no PR by date
@@ -983,28 +1005,6 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, output_fil
             print(file=output_file)
 
         print(file=output_file)
-
-
-def main_by_build(target_dttm, end_dttm, personal_token, output_file, include_summary_none):
-    ### get data from GitHub API
-    commit_api = CommitApi(CommitFactory(), personal_token)
-    commit_repo = CommitRepository()
-    commit_repo.add_multiple(commit_api.get_commit_list(target_dttm, end_dttm))
-
-    pr_api = PullRequestApi(CDDAPullRequestFactory(), personal_token)
-    pr_repo = CDDAPullRequestRepository()
-    pr_repo.add_multiple(pr_api.get_pr_list(target_dttm, end_dttm, merged_only=True))
-
-    jenkins_api = JenkinsApi(JenkinsBuildFactory())
-    build_repo = JenkinsBuildRepository()
-    build_repo.add_multiple((build for build in jenkins_api.get_build_list() if build.was_successful()))
-
-    ### build script output
-    if output_file is None:
-        build_output_by_build(build_repo, pr_repo, commit_repo, sys.stdout, include_summary_none)
-    else:
-        with open(output_file, 'w', encoding='utf8') as opened_output_file:
-            build_output_by_build(build_repo, pr_repo, commit_repo, opened_output_file, include_summary_none)
 
 
 def build_output_by_build(build_repo, pr_repo, commit_repo, output_file, include_summary_none):
