@@ -25,6 +25,7 @@
   },
   {
     "id": "AT4",
+    "type": "GUN",
 	"copy-from": "LAW",
     "name": "AT4",
     "description": "An 84-mm unguided, portable, single-shot recoilless smoothbore weapon used primarily by the US Military.",
