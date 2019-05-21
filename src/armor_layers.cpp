@@ -5,6 +5,7 @@
 #include <vector>
 #include <iterator>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h" // used for utf8_width()
 #include "game.h"
@@ -231,6 +232,7 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
                           bad_item_name, body_parts
                       );
         }
+        // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
         i += fold_and_print( w_sort_middle, i, 0, win_width, c_light_gray, message );
     }
 }

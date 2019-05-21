@@ -3,6 +3,7 @@
 #include <list>
 #include <memory>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "player.h"
@@ -15,7 +16,7 @@
 // core body temperature settles.
 void temperature_check( player *p, const int ambient_temp, const int target_temp )
 {
-    g->temperature = ambient_temp;
+    g->weather.temperature = ambient_temp;
     for( int i = 0 ; i < num_bp; i++ ) {
         p->temp_cur[i] = BODYTEMP_NORM;
     }

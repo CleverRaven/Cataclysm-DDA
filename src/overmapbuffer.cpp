@@ -1,7 +1,7 @@
 #include "overmapbuffer.h"
 
-#include <limits.h>
-#include <math.h>
+#include <climits>
+#include <cmath>
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>
@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 
+#include "avatar.h"
 #include "basecamp.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
@@ -577,7 +578,7 @@ void overmapbuffer::move_vehicle( vehicle *veh, const point &old_msp )
     }
 }
 
-void overmapbuffer::remove_camp( const basecamp camp )
+void overmapbuffer::remove_camp( const basecamp &camp )
 {
     const point omt = point( camp.camp_omt_pos().x, camp.camp_omt_pos().y );
     overmap &om = get_om_global( omt );
@@ -615,7 +616,7 @@ void overmapbuffer::add_vehicle( vehicle *veh )
     veh->om_id = id;
 }
 
-void overmapbuffer::add_camp( basecamp camp )
+void overmapbuffer::add_camp( const basecamp &camp )
 {
     point omt = point( camp.camp_omt_pos().x, camp.camp_omt_pos().y );
     overmap &om = get_om_global( omt.x, omt.y );
@@ -1432,17 +1433,16 @@ bool overmapbuffer::place_special( const overmap_special &special, const tripoin
     overmap &om = get_om_global( x, y );
     const tripoint om_loc( x, y, p.z );
 
-    // Get the closest city that is within the overmap because
-    // all of the overmap generation functions only function within
-    // the single overmap. If future generation is hoisted up to the
-    // buffer to spawn overmaps, then this can also be changed accordingly.
-    const city c = om.get_nearest_city( om_loc );
-
     bool placed = false;
     // Only place this special if we can actually place it per its criteria, or we're forcing
     // the placement, which is mostly a debug behavior, since a forced placement may not function
     // correctly (e.g. won't check correct underlying terrain).
     if( om.can_place_special( special, om_loc, dir, must_be_unexplored ) || force ) {
+        // Get the closest city that is within the overmap because
+        // all of the overmap generation functions only function within
+        // the single overmap. If future generation is hoisted up to the
+        // buffer to spawn overmaps, then this can also be changed accordingly.
+        const city c = om.get_nearest_city( om_loc );
         om.place_special( special, om_loc, dir, c, must_be_unexplored, force );
         placed = true;
     }

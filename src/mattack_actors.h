@@ -2,7 +2,7 @@
 #ifndef MATTACK_ACTORS_H
 #define MATTACK_ACTORS_H
 
-#include <limits.h>
+#include <climits>
 #include <map>
 #include <vector>
 #include <string>

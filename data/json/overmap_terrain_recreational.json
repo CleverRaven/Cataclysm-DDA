@@ -919,7 +919,7 @@
     "copy-from": "generic_city_building",
     "name": "music venue",
     "sym": "M",
-    "color": "white"
+    "color": "i_light_blue"
   },
   {
     "type": "overmap_terrain",
@@ -1006,6 +1006,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "cs_private_park_roof",
+    "copy-from": "generic_city_building",
+    "name": "private park roof",
+    "sym": "p",
+    "color": "light_green_red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "cs_public_art_piece",
     "copy-from": "generic_city_building",
     "name": "public art piece",
@@ -1018,5 +1026,25 @@
     "copy-from": "generic_city_building",
     "name": "public space",
     "color": "i_white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_dock_small",
+    "copy-from": "generic_recreation_water",
+    "name": "dock",
+    "sym": "d",
+    "color": "white",
+    "see_cost": 1,
+    "flags": [ "LAKE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "lake_shore_dock_small",
+    "copy-from": "generic_recreation_water",
+    "name": "dock",
+    "sym": "d",
+    "color": "white",
+    "see_cost": 1,
+    "flags": [ "LAKE_SHORE" ]
   }
 ]

@@ -1,6 +1,6 @@
 #include "scenario.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 
 #include "debug.h"

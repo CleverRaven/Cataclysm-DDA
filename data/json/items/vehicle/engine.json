@@ -257,5 +257,38 @@
     "weight": 8000,
     "volume": 2,
     "price": 3500
+  },
+  {
+    "id": "small_turbine_engine",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": "1350 hp gas turbine engine",
+    "description": "A gas turbine engine, usually used for military vehicles.  Known for its high rate of fuel consumption.",
+    "weight": 1130000,
+    "volume": 180,
+    "price": 96000,
+    "displacement": 2700
+  },
+  {
+    "id": "medium_turbine_engine",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": "1900 hp gas turbine engine",
+    "description": "A large gas turbine engine, usually used for military helicopters.  Known for its high rate of fuel consumption.",
+    "weight": 1582000,
+    "volume": 252,
+    "price": 192000,
+    "displacement": 3800
+  },
+  {
+    "id": "large_turbine_engine",
+    "copy-from": "engine_gasoline",
+    "type": "ENGINE",
+    "name": "6000 hp gas turbine engine",
+    "description": "A massive gas turbine engine, used to power the V-22 Osprey.  Known for its high rate of fuel consumption.",
+    "weight": 3164000,
+    "volume": 380,
+    "price": 960000,
+    "displacement": 11995
   }
 ]

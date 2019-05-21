@@ -47,6 +47,8 @@ then
         ..
     if [ -n "$CATA_CLANG_TIDY" ]
     then
+        "$CATA_CLANG_TIDY" --version
+
         # Run clang-tidy analysis instead of regular build & test
         # We could use CMake to create compile_commands.json, but that's super
         # slow, so use compiledb <https://github.com/nickdiego/compiledb>
@@ -96,10 +98,19 @@ then
     fi
 else
     make -j "$num_jobs" RELEASE=1 CCACHE=1 BACKTRACE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0
+
     run_tests ./tests/cata_test
-    if [ -n "$MODS" ]
+    if [ "$TRAVIS_OS_NAME" == "osx" ]
     then
-        run_tests ./tests/cata_test $MODS
+        run_tests ./tests/cata_test
+    else
+        run_tests ./tests/cata_test &
+        if [ -n "$MODS" ]
+        then
+            run_tests ./tests/cata_test $MODS &
+            wait -n
+        fi
+        wait -n
     fi
 fi
 ccache --show-stats

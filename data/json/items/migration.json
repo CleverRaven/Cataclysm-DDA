@@ -537,6 +537,11 @@
     "replace": "lightstrip_inactive"
   },
   {
+    "id": "smg_9mm_mag",
+    "type": "MIGRATION",
+    "replace": "survivor9mm_mag"
+  },
+  {
     "id": "battery_atomic",
     "type": "MIGRATION",
     "replace": "light_atomic_battery_cell"
@@ -545,5 +550,16 @@
     "id": "battery_compartment",
     "type": "MIGRATION",
     "replace": "magazine_battery_heavy_mod"
+  },
+  {
+    "id": "dry_mushroom_magic",
+    "type": "MIGRATION",
+    "replace": "dry_mushroom",
+    "flags": [ "HIDDEN_HALLU" ]
+  },
+  {
+    "id": "hk_ucp",
+    "type": "MIGRATION",
+    "replace": "hk_mp7"
   }
 ]

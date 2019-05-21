@@ -2,7 +2,7 @@
 #ifndef BIONICS_H
 #define BIONICS_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <set>
 #include <vector>
@@ -108,7 +108,6 @@ struct bionic {
     itype_id    ammo_loaded = "null";
     /* Ammount of ammo actually held inside by this bionic gun in deactivated state */
     unsigned int         ammo_count = 0;
-
 
     bionic()
         : id( "bio_batteries" ) { }

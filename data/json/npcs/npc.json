@@ -389,6 +389,17 @@
   },
   {
     "type": "npc",
+    "id": "marloss_voice",
+    "//": "Generic Marloss Priest who leads pilgrim bands.",
+    "name_suffix": "Marloss Voice",
+    "class": "NC_MARLOSS_VOICE",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_MARLOSS_VOICE",
+    "faction": "marloss"
+  },
+  {
+    "type": "npc",
     "id": "apis",
     "//": "Bee mutant or mutant bee (supposed to be ambiguous). Should be 'it', but we'll go with 'she' because it's a bee.",
     "name_unique": "Apis",
@@ -421,7 +432,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_REFUGEE_BEGGAR_1",
-    "faction": "wasteland_scavengers"
+    "faction": "lobby_beggars"
   },
   {
     "type": "npc",
@@ -434,7 +445,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_REFUGEE_BEGGAR_2",
-    "faction": "wasteland_scavengers"
+    "faction": "lobby_beggars"
   },
   {
     "type": "npc",
@@ -447,7 +458,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_REFUGEE_BEGGAR_3",
-    "faction": "wasteland_scavengers"
+    "faction": "lobby_beggars"
   },
   {
     "type": "npc",
@@ -460,7 +471,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_REFUGEE_BEGGAR_4",
-    "faction": "wasteland_scavengers"
+    "faction": "lobby_beggars"
   },
   {
     "type": "npc",
@@ -473,7 +484,7 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_REFUGEE_BEGGAR_5",
-    "faction": "wasteland_scavengers"
+    "faction": "lobby_beggars"
   },
   {
     "type": "npc",

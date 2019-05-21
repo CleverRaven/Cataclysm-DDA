@@ -1,8 +1,8 @@
 #include "computer.h"
 
-#include <limits.h>
-#include <stdlib.h>
-#include <math.h>
+#include <climits>
+#include <cstdlib>
+#include <cmath>
 #include <algorithm>
 #include <sstream>
 #include <string>
@@ -12,9 +12,11 @@
 #include <memory>
 #include <utility>
 
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h"
+#include "explosion.h"
 #include "event.h"
 #include "field.h"
 #include "game.h"
@@ -74,7 +76,7 @@ computer_option::computer_option()
 {
 }
 
-computer_option::computer_option( std::string N, computer_action A, int S )
+computer_option::computer_option( const std::string &N, computer_action A, int S )
     : name( N ), action( A ), security( S )
 {
 }
@@ -411,7 +413,7 @@ void computer::activate_function( computer_action action )
         case COMPACT_TOLL:
             //~ the sound of a church bell ringing
             sounds::sound( g->u.pos(), 120, sounds::sound_t::music,
-                           _( "Bohm... Bohm... Bohm..." ) );
+                           _( "Bohm... Bohm... Bohm..." ), true, "environment", "church_bells" );
             break;
 
         case COMPACT_SAMPLE:
@@ -426,7 +428,7 @@ void computer::activate_function( computer_action action )
                                     item sewage( "sewage", calendar::turn );
                                     auto candidates = g->m.i_at( x1, y1 );
                                     for( auto &candidate : candidates ) {
-                                        long capa = candidate.get_remaining_capacity_for_liquid( sewage );
+                                        int capa = candidate.get_remaining_capacity_for_liquid( sewage );
                                         if( capa <= 0 ) {
                                             continue;
                                         }
@@ -455,7 +457,8 @@ void computer::activate_function( computer_action action )
         case COMPACT_RELEASE:
             g->u.add_memorial_log( pgettext( "memorial_male", "Released subspace specimens." ),
                                    pgettext( "memorial_female", "Released subspace specimens." ) );
-            sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ) );
+            sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+                           "alarm" );
             g->m.translate_radius( t_reinforced_glass, t_thconc_floor, 25.0, g->u.pos(), true );
             query_any( _( "Containment shields opened.  Press any key..." ) );
             break;
@@ -465,7 +468,8 @@ void computer::activate_function( computer_action action )
             remove_submap_turrets();
         /* fallthrough */
         case COMPACT_RELEASE_BIONICS:
-            sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ) );
+            sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+                           "alarm" );
             g->m.translate_radius( t_reinforced_glass, t_thconc_floor, 3.0, g->u.pos(), true );
             query_any( _( "Containment shields opened.  Press any key..." ) );
             break;
@@ -532,7 +536,7 @@ void computer::activate_function( computer_action action )
                     cascade_points.push_back( dest );
                 }
             }
-            g->resonance_cascade( random_entry( cascade_points, g->u.pos() ) );
+            explosion_handler::resonance_cascade( random_entry( cascade_points, g->u.pos() ) );
         }
         break;
 
@@ -613,7 +617,8 @@ void computer::activate_function( computer_action action )
             }
             if( query_yn( _( "Confirm nuclear missile launch." ) ) ) {
                 add_msg( m_info, _( "Nuclear missile launched!" ) );
-                options.clear();//Remove the option to fire another missile.
+                //Remove the option to fire another missile.
+                options.clear();
             } else {
                 add_msg( m_info, _( "Nuclear missile launch aborted." ) );
                 return;
@@ -630,8 +635,9 @@ void computer::activate_function( computer_action action )
                 }
             }
 
-            g->explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200, 0.7,
-                          true ); //Only explode once. But make it large.
+            explosion_handler::explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200,
+                                          0.7,
+                                          true ); //Only explode once. But make it large.
 
             //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
             // For each level between here and the surface, remove the missile
@@ -660,7 +666,7 @@ void computer::activate_function( computer_action action )
                         !( x == ( target.x + 2 ) && ( y == ( target.y - 2 ) ) ) &&
                         !( x == ( target.x + 2 ) && ( y == ( target.y + 2 ) ) ) ) {
                         // TODO: Z
-                        g->nuke( tripoint( x, y, 0 ) );
+                        explosion_handler::nuke( tripoint( x, y, 0 ) );
                     }
 
                 }
@@ -675,7 +681,8 @@ void computer::activate_function( computer_action action )
                 g->u.add_memorial_log( pgettext( "memorial_male", "Disarmed a nuclear missile." ),
                                        pgettext( "memorial_female", "Disarmed a nuclear missile." ) );
                 add_msg( m_info, _( "Nuclear missile disarmed!" ) );
-                options.clear();//disable missile.
+                //disable missile.
+                options.clear();
                 activate_failure( COMPFAIL_SHUTDOWN );
             } else {
                 add_msg( m_neutral, _( "Nuclear missile remains active." ) );
@@ -1245,7 +1252,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                     tripoint p( x, y, g->get_levz() );
                     if( g->m.ter( x, y ) == t_elevator || g->m.ter( x, y ) == t_vat ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
-                        g->explosion( p, 40, 0.7, true );
+                        explosion_handler::explosion( p, 40, 0.7, true );
                     }
                     if( g->m.ter( x, y ) == t_wall_glass ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
@@ -1256,7 +1263,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                     }
                     if( g->m.ter( x, y ) == t_sewage_pump ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
-                        g->explosion( p, 50, 0.7, true );
+                        explosion_handler::explosion( p, 50, 0.7, true );
                     }
                 }
             }
@@ -1303,14 +1310,15 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                             }
                             // critical failure - radiation spike sets off electronic detonators
                             if( it->typeId() == "mininuke" || it->typeId() == "mininuke_act" || it->typeId() == "c4" ) {
-                                g->explosion( dest, 40 );
+                                explosion_handler::explosion( dest, 40 );
                                 reset_terminal();
                                 print_error( _( "WARNING [409]: Primary sensors offline!" ) );
                                 print_error( _( "  >> Initialize secondary sensors:  Geiger profiling..." ) );
                                 print_error( _( "  >> Radiation spike detected!\n" ) );
                                 print_error( _( "WARNING [912]: Catastrophic malfunction!  Contamination detected! " ) );
                                 print_error( _( "EMERGENCY PROCEDURE [1]:  Evacuate.  Evacuate.  Evacuate.\n" ) );
-                                sounds::sound( g->u.pos(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ) );
+                                sounds::sound( g->u.pos(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+                                               "alarm" );
                                 g->m.i_rem( dest, it );
                                 g->m.make_rubble( dest );
                                 g->m.propagate_field( dest, fd_nuke_gas, 100, 3 );
@@ -1425,7 +1433,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                 break;
             }
             auto items = g->m.i_at( platform );
-            if( items.size() != 0 ) {
+            if( !items.empty() ) {
                 print_line( _( "Moving items: PLATFORM --> UNLOADING BAY." ) );
             } else {
                 print_line( _( "No items detected at: PLATFORM." ) );
@@ -1435,7 +1443,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
             }
             g->m.i_clear( platform );
             items = g->m.i_at( loading );
-            if( items.size() != 0 ) {
+            if( !items.empty() ) {
                 print_line( _( "Moving items: LOADING BAY --> PLATFORM." ) );
             } else {
                 print_line( _( "No items detected at: LOADING BAY." ) );
@@ -1556,7 +1564,8 @@ void computer::activate_failure( computer_failure_type fail )
         case COMPFAIL_ALARM:
             g->u.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
                                    pgettext( "memorial_female", "Set off an alarm." ) );
-            sounds::sound( g->u.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ) );
+            sounds::sound( g->u.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+                           "alarm" );
             if( g->get_levz() > 0 && !g->events.queued( EVENT_WANTED ) ) {
                 g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, g->u.global_sm_location() );
             }
@@ -1615,7 +1624,7 @@ void computer::activate_failure( computer_failure_type fail )
                     if( g->m.ter( x, y ) == t_sewage_pump ) {
                         tripoint p( x, y, g->get_levz() );
                         g->m.make_rubble( p );
-                        g->explosion( p, 10 );
+                        explosion_handler::explosion( p, 10 );
                     }
                 }
             }
@@ -1658,10 +1667,12 @@ void computer::activate_failure( computer_failure_type fail )
         case COMPFAIL_AMIGARA:
             g->events.add( EVENT_AMIGARA, calendar::turn + 5_turns );
             g->u.add_effect( effect_amigara, 2_minutes );
-            g->explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ), 10,
-                          0.7, false, 10 );
-            g->explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ), 10,
-                          0.7, false, 10 );
+            explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
+                                          10,
+                                          0.7, false, 10 );
+            explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
+                                          10,
+                                          0.7, false, 10 );
             remove_option( COMPACT_AMIGARA_START );
             break;
 

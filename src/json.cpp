@@ -1,7 +1,7 @@
 #include "json.h"
 
-#include <stdint.h>
-#include <stdio.h>
+#include <cstdint>
+#include <cstdio>
 #include <cmath> // pow
 #include <cstdlib> // strtoul
 #include <cstring> // strcmp
@@ -713,6 +713,14 @@ bool JsonArray::has_object( int i )
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->test_object();
+}
+
+void add_array_to_set( std::set<std::string> &s, JsonObject &json, const std::string &name )
+{
+    JsonArray jarr = json.get_array( name );
+    while( jarr.has_more() ) {
+        s.insert( jarr.next_string() );
+    }
 }
 
 int JsonIn::tell()

@@ -1,6 +1,6 @@
 #include "crafting_gui.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <map>
 #include <string>
@@ -11,6 +11,7 @@
 #include <set>
 #include <utility>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "crafting.h"
@@ -687,7 +688,8 @@ const recipe *select_crafting_recipe( int &batch_size )
             scroll_pos++;
         } else if( action == "PREV_TAB" ) {
             tab.prev();
-            subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );//default ALL
+            // Default ALL
+            subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );
             redraw = true;
         } else if( action == "RIGHT" ) {
             std::string start = subtab.cur();
@@ -698,7 +700,8 @@ const recipe *select_crafting_recipe( int &batch_size )
             redraw = true;
         } else if( action == "NEXT_TAB" ) {
             tab.next();
-            subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );//default ALL
+            // Default ALL
+            subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );
             redraw = true;
         } else if( action == "DOWN" ) {
             line++;
@@ -895,6 +898,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     if( !related_results.empty() ) {
         rel_menu.addentry( ++np_last, false, -1, _( "RESULTS" ) );
     }
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     np_last = related_menu_fill( rel_menu, related_results, available );
 
     rel_menu.settext( _( "Related recipes:" ) );
@@ -1015,8 +1019,10 @@ static void draw_recipe_tabs( const catacurses::window &w, const std::string &ta
 
     switch( mode ) {
         case NORMAL: {
-            int pos_x = 2;//draw the tabs on each other
-            int tab_step = 3;//step between tabs, two for tabs border
+            // Draw the tabs on each other
+            int pos_x = 2;
+            // Step between tabs, two for tabs border
+            int tab_step = 3;
             for( const auto &tt : craft_cat_list ) {
                 draw_tab( w, pos_x, normalized_names[tt], tab == tt );
                 pos_x += utf8_width( normalized_names[tt] ) + tab_step;
@@ -1057,8 +1063,10 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
 
     switch( mode ) {
         case NORMAL: {
-            int pos_x = 2;//draw the tabs on each other
-            int tab_step = 3;//step between tabs, two for tabs border
+            // Draw the tabs on each other
+            int pos_x = 2;
+            // Step between tabs, two for tabs border
+            int tab_step = 3;
             for( const auto &stt : craft_subcat_list[tab] ) {
                 bool empty = available_recipes.empty_category( tab, stt != "CSC_ALL" ? stt : "" );
                 draw_subtab( w, pos_x, normalized_names[stt], subtab == stt, true, empty );

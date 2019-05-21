@@ -5,6 +5,7 @@
 #include <type_traits>
 
 #include "catch/catch.hpp"
+#include "map.h"
 #include "map_memory.h"
 #include "json.h"
 #include "game_constants.h"
@@ -117,10 +118,6 @@ TEST_CASE( "lru_cache_perf", "[.]" )
      * rerun                     completed 1000000 insertions in 31337290 microseconds.
      */
 }
-
-void shift_map_memory_seen_cache(
-    std::bitset<MAPSIZE *SEEX *MAPSIZE *SEEY> &map_memory_seen_cache,
-    const int sx, const int sy );
 
 // There are 4 quadrants we want to check,
 // 1 | 2

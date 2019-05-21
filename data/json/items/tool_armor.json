@@ -37,36 +37,28 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "miner_hat_on",
+    "copy-from": "miner_hat",
     "type": "TOOL_ARMOR",
-    "category": "armor",
-    "symbol": "[",
-    "color": "blue",
     "name": "mining helmet (on)",
     "name_plural": "mining helmets (on)",
     "description": "This is a mining helmet with a heavy duty LED flashlight.  The flashlight is turned on, and continually draining its batteries.  Use it to turn it off.",
     "flags": [ "LIGHT_450", "CHARGEDIM", "WATERPROOF", "TRADER_AVOID" ],
-    "price": 12500,
-    "material": [ "plastic" ],
-    "weight": 1196,
-    "volume": 12,
-    "bashing": 6,
     "turns_per_charge": 15,
-    "ammo": "battery",
     "revert_to": "miner_hat",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "The %s flicks off.", "target": "miner_hat" },
     "covers": [ "HEAD" ],
     "techniques": [ "WBLOCK_1" ],
-    "warmth": 5,
-    "encumbrance": 15,
-    "coverage": 80,
-    "material_thickness": 4
+    "magazine_well": 1
   },
   {
     "type": "TOOL_ARMOR",
@@ -87,7 +79,7 @@
     "symbol": "[",
     "ammo": "battery",
     "use_action": "PORTABLE_GAME",
-    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ]
   },
   {
     "id": "holo_cloak",
@@ -171,33 +163,27 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "thermal_socks_on",
+    "copy-from": "thermal_socks",
     "type": "TOOL_ARMOR",
-    "category": "clothing",
-    "symbol": "[",
-    "color": "light_gray",
     "name": "pair of thermal electric socks (on)",
     "name_plural": "pairs of thermal electric socks (on)",
     "description": "This is a pair of socks with internal battery-powered heating elements.  They are currently on, and continually draining batteries.  Use it to turn them off.",
     "flags": [ "VARSIZE", "SKINTIGHT", "TRADER_AVOID" ],
-    "price": 5000,
-    "material": [ "cotton" ],
-    "weight": 182,
-    "volume": 3,
     "turns_per_charge": 50,
-    "ammo": "battery",
     "revert_to": "thermal_socks",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_socks" },
-    "covers": [ "FEET" ],
     "warmth": 60,
-    "coverage": 100,
-    "material_thickness": 1
+    "magazine_well": 1
   },
   {
     "id": "thermal_suit",
@@ -234,33 +220,27 @@
           "light_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "thermal_suit_on",
+    "copy-from": "thermal_suit",
     "type": "TOOL_ARMOR",
-    "category": "clothing",
-    "symbol": "[",
-    "color": "light_gray",
     "name": "thermal electric suit (on)",
     "name_plural": "thermal electric suits (on)",
     "description": "This is a full-body suit of thin thermal underwear equipped with internal battery-powered heating elements.  It is currently on, and continually draining batteries.  Use it to turn it off.",
     "flags": [ "VARSIZE", "SKINTIGHT", "TRADER_AVOID" ],
-    "price": 15000,
-    "material": [ "cotton" ],
-    "weight": 864,
-    "volume": 8,
     "turns_per_charge": 25,
-    "ammo": "battery",
     "revert_to": "thermal_suit",
-    "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_suit" },
-    "covers": [ "TORSO", "ARMS", "LEGS" ],
     "warmth": 60,
-    "coverage": 100,
-    "material_thickness": 1
+    "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_suit" },
+    "magazine_well": 1
   },
   {
     "id": "thermal_gloves",
@@ -298,33 +278,27 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "thermal_gloves_on",
+    "copy-from": "thermal_gloves",
     "type": "TOOL_ARMOR",
-    "category": "clothing",
-    "symbol": "[",
-    "color": "light_gray",
     "name": "pair of thermal electric gloves (on)",
     "name_plural": "pairs of thermal electric gloves (on)",
     "description": "This is a pair of gloves with internal battery-powered heating elements.  They are currently on, and continually draining batteries.  Use it to turn them off.",
     "flags": [ "VARSIZE", "SKINTIGHT", "TRADER_AVOID" ],
-    "price": 5000,
-    "material": [ "cotton" ],
-    "weight": 210,
-    "volume": 3,
     "turns_per_charge": 50,
-    "ammo": "battery",
     "revert_to": "thermal_gloves",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_gloves" },
-    "covers": [ "HANDS" ],
     "warmth": 60,
-    "coverage": 100,
-    "material_thickness": 1
+    "magazine_well": 1
   },
   {
     "id": "thermal_mask",
@@ -361,33 +335,27 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "thermal_mask_on",
+    "copy-from": "thermal_mask",
     "type": "TOOL_ARMOR",
-    "category": "clothing",
-    "symbol": "[",
-    "color": "light_gray",
     "name": "thermal electric balaclava (on)",
     "name_plural": "thermal electric balaclavas (on)",
     "description": "This is a snug cloth mask with internal battery-powered heating elements.  It is are currently on, and continually draining batteries.  Use it to turn it off.",
     "flags": [ "VARSIZE", "SKINTIGHT", "TRADER_AVOID" ],
-    "price": 5000,
-    "material": [ "cotton" ],
-    "weight": 196,
-    "volume": 4,
     "turns_per_charge": 50,
-    "ammo": "battery",
     "revert_to": "thermal_mask",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "thermal_mask" },
-    "covers": [ "HEAD", "MOUTH" ],
     "warmth": 60,
-    "coverage": 100,
-    "material_thickness": 1
+    "magazine_well": 1
   },
   {
     "id": "binoculars",
@@ -446,45 +414,27 @@
           "light_plus_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "wearable_light_on",
+    "copy-from": "wearable_light",
     "type": "TOOL_ARMOR",
-    "category": "clothing",
-    "symbol": "[",
-    "color": "blue",
     "name": "headlamp (on)",
     "name_plural": "headlamps (on)",
     "description": "This is an LED headlamp with an adjustable strap so as to be comfortably worn on your head or attached to your helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",
     "flags": [ "LIGHT_300", "CHARGEDIM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TRADER_AVOID" ],
-    "price": 4000,
-    "material": [ "plastic", "aluminum" ],
-    "weight": 520,
-    "volume": 2,
-    "bashing": 1,
     "turns_per_charge": 20,
-    "ammo": "battery",
     "revert_to": "wearable_light",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "wearable_light" },
     "covers": [ "HEAD" ],
-    "coverage": 15,
-    "material_thickness": 1,
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
-    ]
+    "magazine_well": 1
   },
   {
     "id": "survivor_light",
@@ -521,33 +471,27 @@
           "light_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "survivor_light_on",
+    "copy-from": "survivor_light",
     "type": "TOOL_ARMOR",
-    "category": "clothing",
-    "symbol": "[",
-    "color": "blue",
     "name": "survivor headlamp (on)",
     "name_plural": "survivor headlamps (on)",
     "description": "This is a custom made LED headlamp reinforced to be more durable, brighter, and with a larger and more efficient battery pack.  The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",
     "flags": [ "LIGHT_350", "CHARGEDIM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS" ],
-    "price": 4000,
-    "material": [ "plastic", "aluminum" ],
-    "weight": 620,
-    "volume": 2,
-    "bashing": 1,
     "turns_per_charge": 18,
-    "ammo": "battery",
     "revert_to": "survivor_light",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "survivor_light" },
     "covers": [ "HEAD" ],
-    "coverage": 20,
-    "material_thickness": 1
+    "magazine_well": 1
   },
   {
     "id": "rm13_armor",
@@ -576,10 +520,8 @@
   },
   {
     "id": "rm13_armor_on",
+    "copy-from": "rm13_armor",
     "type": "TOOL_ARMOR",
-    "category": "armor",
-    "symbol": "[",
-    "color": "dark_gray",
     "name": "RM13 combat armor (on)",
     "name_plural": "RM13 combat armors (on)",
     "description": "Internally powered by a maximum of ten plutonium fuel cells, this full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology.  It is turned on, and continually draining power.  Use it to turn it off.",
@@ -598,22 +540,11 @@
       "TRADER_AVOID",
       "CLIMATE_CONTROL"
     ],
-    "price": 50000000,
-    "material": [ "ceramic", "kevlar" ],
-    "weight": 6820,
-    "volume": 36,
-    "to_hit": -3,
-    "max_charges": 5000,
     "turns_per_charge": 3,
-    "ammo": "plutonium",
     "revert_to": "rm13_armor",
     "use_action": "RM13ARMOR_ON",
-    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
-    "storage": 32,
-    "warmth": 30,
     "environmental_protection": 40,
     "encumbrance": 10,
-    "coverage": 100,
     "qualities": [ [ "GLARE", 2 ] ],
     "material_thickness": 5
   },
@@ -652,30 +583,17 @@
   },
   {
     "id": "rebreather_on",
+    "copy-from": "rebreather",
     "type": "TOOL_ARMOR",
-    "category": "clothing",
-    "symbol": "[",
-    "color": "dark_gray",
     "name": "rebreather mask (on)",
     "name_plural": "rebreather masks (on)",
     "description": "A mask worn over your mouth which, when loaded with the proper filters, recycles your exhaled breath for rebreathing while underwater.  It is turned on, and continually consuming its filter.  Use it to turn it off.",
     "flags": [ "WATER_FRIENDLY", "REBREATHER", "TRADER_AVOID" ],
-    "price": 25000,
-    "material": [ "plastic", "aluminum" ],
-    "weight": 720,
-    "volume": 2,
-    "to_hit": -3,
-    "max_charges": 60,
     "turns_per_charge": 10,
-    "ammo": "rebreather_filter",
     "revert_to": "rebreather",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "rebreather" },
-    "covers": [ "MOUTH" ],
-    "warmth": 10,
     "environmental_protection": 15,
-    "encumbrance": 20,
-    "coverage": 75,
-    "material_thickness": 1
+    "encumbrance": 20
   },
   {
     "id": "rebreather_xl",
@@ -712,30 +630,18 @@
   },
   {
     "id": "rebreather_xl_on",
+    "copy-from": "rebreather_xl",
     "type": "TOOL_ARMOR",
-    "category": "clothing",
-    "symbol": "[",
-    "color": "dark_gray",
     "name": "XL rebreather mask (on)",
     "name_plural": "XL rebreather masks (on)",
     "description": "A mask worn over your mouth which, when loaded with the proper filters, recycles your exhaled breath for rebreathing while underwater.  This model has been expanded substantially and can accommodate exotic anatomy.  It is turned on, and continually consuming its filter.  Use it to turn it off.",
     "flags": [ "WATER_FRIENDLY", "REBREATHER", "OVERSIZE", "TRADER_AVOID" ],
-    "price": 25000,
-    "material": [ "plastic", "aluminum" ],
-    "weight": 960,
-    "volume": 5,
-    "to_hit": -3,
-    "max_charges": 60,
     "turns_per_charge": 10,
-    "ammo": "rebreather_filter",
     "revert_to": "rebreather_xl",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "rebreather_xl" },
     "covers": [ "MOUTH" ],
-    "warmth": 10,
     "environmental_protection": 15,
-    "encumbrance": 20,
-    "coverage": 75,
-    "material_thickness": 1
+    "encumbrance": 20
   },
   {
     "id": "mask_filter",
@@ -1095,36 +1001,28 @@
           "light_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "goggles_nv_on",
+    "copy-from": "goggles_nv",
     "type": "TOOL_ARMOR",
-    "category": "clothing",
-    "symbol": "[",
-    "color": "dark_gray",
     "name": "pair of light amp goggles (on)",
     "name_plural": "pairs of light amp goggles (on)",
     "description": "A pair of battery-powered goggles that amplify ambient light, allowing you to see in the dark.  It is turned on, and continually draining batteries.  Use it to turn them off.",
     "flags": [ "GNV_EFFECT", "FRAGILE", "TRADER_AVOID" ],
-    "price": 92000,
-    "material": [ "plastic", "steel" ],
-    "weight": 1020,
-    "volume": 4,
-    "to_hit": -3,
     "turns_per_charge": 9,
-    "ammo": "battery",
     "revert_to": "goggles_nv",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_nv" },
-    "covers": [ "EYES" ],
     "warmth": 25,
-    "environmental_protection": 6,
     "encumbrance": 20,
-    "coverage": 100,
-    "material_thickness": 2
+    "magazine_well": 1
   },
   {
     "id": "goggles_ir",
@@ -1165,48 +1063,29 @@
           "light_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "goggles_ir_on",
+    "copy-from": "goggles_ir",
     "type": "TOOL_ARMOR",
-    "category": "clothing",
-    "symbol": "[",
-    "color": "dark_gray",
     "name": "pair of infrared goggles (on)",
     "name_plural": "pairs of infrared goggles (on)",
     "description": "A pair of battery-powered goggles that grant infrared vision, allowing you to see warm-blooded creatures in the dark.  Use it to turn them off.",
     "flags": [ "IR_EFFECT", "FRAGILE", "TRADER_AVOID" ],
-    "price": 92000,
-    "material": [ "plastic", "steel" ],
-    "weight": 1240,
-    "volume": 4,
-    "to_hit": -3,
     "turns_per_charge": 14,
-    "ammo": "battery",
     "revert_to": "goggles_ir",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_ir" },
     "covers": [ "EYES" ],
     "warmth": 25,
-    "environmental_protection": 6,
     "encumbrance": 20,
-    "coverage": 100,
-    "material_thickness": 2,
-    "magazines": [
-      [
-        "battery",
-        [
-          "light_plus_battery_cell",
-          "light_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
-        ]
-      ]
-    ]
+    "magazine_well": 1
   },
   {
     "id": "wearable_rx12",
@@ -1282,30 +1161,17 @@
   },
   {
     "id": "mask_h20survivor_on",
+    "copy-from": "mask_h20survivor",
     "type": "TOOL_ARMOR",
-    "category": "armor",
-    "symbol": "[",
-    "color": "dark_gray",
     "name": "survivor divemask (on)",
     "name_plural": "survivor divemasks (on)",
     "description": "A custom-built, armored rebreather mask that covers the face and eyes.  It provides excellent protection from harm as well providing breathing gas while underwater.  It is turned on, and continually consuming its filter.  Use it to turn it off.",
     "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "REBREATHER", "SWIM_GOGGLES" ],
-    "price": 40000,
-    "material": [ "kevlar", "plastic" ],
-    "weight": 982,
-    "volume": 6,
-    "to_hit": -3,
-    "max_charges": 120,
     "turns_per_charge": 10,
-    "ammo": "rebreather_filter",
     "revert_to": "mask_h20survivor",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "mask_h20survivor" },
     "covers": [ "MOUTH", "EYES" ],
-    "warmth": 15,
-    "environmental_protection": 10,
-    "encumbrance": 20,
-    "coverage": 75,
-    "material_thickness": 2
+    "encumbrance": 20
   },
   {
     "id": "mask_h20survivorxl",
@@ -1341,30 +1207,17 @@
   },
   {
     "id": "mask_h20survivorxl_on",
+    "copy-from": "mask_h20survivorxl",
     "type": "TOOL_ARMOR",
-    "category": "armor",
-    "symbol": "[",
-    "color": "dark_gray",
     "name": "XL survivor divemask (on)",
     "name_plural": "XL survivor divemasks (on)",
     "description": "A custom-built, armored rebreather mask that covers the face and eyes regardless of your state of mutation.  It provides excellent protection from harm as well providing breathing gas while underwater.  It is turned on, and continually consuming its filter.  Use it to turn it off.",
     "flags": [ "VARSIZE", "STURDY", "WATER_FRIENDLY", "REBREATHER", "SWIM_GOGGLES", "OVERSIZE", "TRADER_AVOID" ],
-    "price": 40000,
-    "material": [ "kevlar", "plastic" ],
-    "weight": 1302,
-    "volume": 8,
-    "to_hit": -3,
-    "max_charges": 120,
     "turns_per_charge": 10,
-    "ammo": "rebreather_filter",
     "revert_to": "mask_h20survivorxl",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "mask_h20survivorxl" },
     "covers": [ "MOUTH", "EYES" ],
-    "warmth": 15,
-    "environmental_protection": 10,
-    "encumbrance": 20,
-    "coverage": 75,
-    "material_thickness": 2
+    "encumbrance": 20
   },
   {
     "type": "TOOL",
@@ -1456,7 +1309,7 @@
     "coverage": 5,
     "material_thickness": 1,
     "flags": [ "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ],
-    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell" ] ] ]
+    "magazines": [ [ "battery", [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ] ] ]
   },
   {
     "type": "ARMOR",
@@ -1473,6 +1326,7 @@
     "volume": 16,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE" ],
     "coverage": 15,
+    "encumbrance": 4,
     "material_thickness": 2,
     "use_action": [
       {
@@ -2011,30 +1865,28 @@
     "warmth": 10,
     "coverage": 100,
     "material_thickness": 1,
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "thermal_outfit_on",
+    "copy-from": "thermal_outfit",
     "type": "TOOL_ARMOR",
-    "category": "clothing",
-    "symbol": "[",
-    "color": "light_gray",
     "name": "thermal electric outfit (on)",
     "name_plural": "thermal electric outfits (on)",
     "description": "This suit of thin thermal underwear covers you from head to toe and is equipped with internal battery-powered heating elements.  It is currently on, and continually draining batteries.  Use it to turn it off.",
     "flags": [ "VARSIZE", "SKINTIGHT", "TRADER_AVOID" ],
-    "price": 30000,
-    "material": [ "cotton" ],
-    "weight": 1452,
-    "volume": 18,
     "turns_per_charge": 10,
-    "ammo": "battery",
     "revert_to": "thermal_outfit",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "thermal_outfit" },
     "covers": [ "HEAD", "MOUTH", "TORSO", "ARMS", "LEGS", "HANDS", "FEET" ],
     "warmth": 60,
-    "coverage": 100,
-    "material_thickness": 1
+    "magazine_well": 2
   },
   {
     "type": "TOOL_ARMOR",
@@ -2108,6 +1960,8 @@
       "use_message": "You blow the whistle.",
       "//": "Use of %s not currently supported.",
       "noise_message": "FWEEEET!",
+      "noise_id": "misc",
+      "noise_variant": "whistle",
       "noise": 38,
       "moves": 100
     }
@@ -2229,6 +2083,7 @@
     "weight": 10000,
     "color": "yellow",
     "covers": [ "TORSO" ],
+    "flags": [ "BELTED" ],
     "to_hit": -1,
     "max_charges": 1,
     "initial_charges": 1,
@@ -2262,6 +2117,7 @@
     "weight": 2000,
     "color": "yellow",
     "covers": [ "TORSO" ],
+    "flags": [ "BELTED" ],
     "to_hit": 1,
     "max_charges": 1,
     "initial_charges": 1,
@@ -2330,10 +2186,13 @@
           "light_battery_cell",
           "light_minus_battery_cell",
           "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell"
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
         ]
       ]
-    ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "powered_earmuffs_on",
@@ -2357,7 +2216,8 @@
     "warmth": 5,
     "encumbrance": 5,
     "coverage": 10,
-    "material_thickness": 2
+    "material_thickness": 2,
+    "magazine_well": 1
   },
   {
     "id": "stethoscope",
@@ -2647,7 +2507,13 @@
       "need_charges_msg": "The blanket's batteries are dead."
     },
     "flags": [ "OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS", "RECHARGE" ],
-    "magazines": [ [ "battery", [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell" ] ] ]
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "id": "electric_blanket_on",
@@ -2658,6 +2524,7 @@
     "copy-from": "electric_blanket",
     "warmth": 90,
     "turns_per_charge": 3,
-    "use_action": { "type": "transform", "msg": "You turn the blanket's heating elements off.", "target": "electric_blanket" }
+    "use_action": { "type": "transform", "msg": "You turn the blanket's heating elements off.", "target": "electric_blanket" },
+    "magazine_well": 2
   }
 ]

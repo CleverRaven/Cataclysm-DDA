@@ -1,9 +1,10 @@
 #include "mattack_actors.h"
 
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 #include <memory>
 
+#include "avatar.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "gun_mode.h"

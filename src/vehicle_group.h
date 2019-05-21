@@ -38,7 +38,7 @@ class VehicleGroup
         }
 
         const vproto_id &pick() const {
-            return *( vehicles.pick() );
+            return *vehicles.pick();
         }
 
         static void load( JsonObject &jo );

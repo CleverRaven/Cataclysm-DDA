@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "ammo.h"
 #include "bionics.h"
@@ -64,7 +65,7 @@ void test_consumable_charges( player &p, std::string &itemname, bool when_none, 
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.charges ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_none );
 
-    it.charges = LONG_MAX;
+    it.charges = INT_MAX;
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.charges ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_max );
 }
