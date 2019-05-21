@@ -3032,7 +3032,8 @@ void conditional_t::set_is_driving( bool is_npc )
 
 void conditional_t::set_has_stolen_item( bool is_npc )
 {
-    condition = [is_npc]( const dialogue & d ) {
+    (void)is_npc;
+    condition = []( const dialogue & d ) {
         player *actor = d.alpha;
         npc &p = *d.beta;
         bool found_in_inv = false;
