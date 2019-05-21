@@ -4,7 +4,7 @@
     "abstract": "robot_module_abstract",
     "name": "module template",
     "description": "This is a template for robot module.  If found in a game it is a bug.",
-    "symbol": "ยง",
+    "symbol": "%",
     "color": "cyan",
     "material": [ "plastic", "steel" ],
     "weight": 250,
