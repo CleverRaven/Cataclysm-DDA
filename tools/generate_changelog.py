@@ -1023,17 +1023,27 @@ def build_output_by_date(pr_repo, commit_repo, target_dttm, end_dttm, output_fil
             if not flatten:
                 print(f"    MISC. COMMITS", file=output_file)
             for commit in commits_with_no_pr[curr_date]:
-                print(f"        * {commit.message} (by {commit.author} in Commit {commit.hash[:7]})", file=output_file)
+                if not flatten:
+                    print(f"        * {commit.message} (by {commit.author} in Commit {commit.hash[:7]})",
+                          file=output_file)
+                else:
+                    print(f"COMMIT {commit.message})", file=output_file)
             print(file=output_file)
 
         if curr_date in pr_with_invalid_summary or (include_summary_none and curr_date in pr_with_summary_none):
             if not flatten:
                 print(f"    MISC. PULL REQUESTS", file=output_file)
             for pr in pr_with_invalid_summary[curr_date]:
-                print(f"        * {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
+                if not flatten:
+                    print(f"        * {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
+                else:
+                    print(f"INVALID_SUMMARY {pr.title})", file=output_file)
             if include_summary_none:
                 for pr in pr_with_summary_none[curr_date]:
-                    print(f"        * [MINOR] {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
+                    if not flatten:
+                        print(f"        * [MINOR] {pr.title} (by {pr.author} in PR {pr.id})", file=output_file)
+                    else:
+                        print(f"MINOR {pr.title})", file=output_file)
             print(file=output_file)
 
         print(file=output_file)
