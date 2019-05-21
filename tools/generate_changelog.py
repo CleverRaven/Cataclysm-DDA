@@ -407,8 +407,8 @@ class JenkinsApi:
         """Return the builds from Jenkins. API limits the result to last 999 builds."""
         request_url = self.JENKINS_BUILD_LIST_API + '?' + urllib.parse.urlencode(self.JENKINS_BUILD_LONG_LIST_PARAMS)
         api_request = urllib.request.Request(request_url)
+        log.debug(f'Processing Request {api_request.full_url}')
         with urllib.request.urlopen(api_request) as api_response:
-            log.debug(f'Request DONE {api_request.full_url}')
             api_data = xml.etree.ElementTree.fromstring(api_response.read())
 
         for build_data in api_data:
@@ -779,8 +779,8 @@ def do_github_request(api_request, retry_on_limit=3):
     """Do an HTTP request to GitHub and retries in case of hitting API limits"""
     for retry in range(1, retry_on_limit + 2):
         try:
+            log.debug(f'Processing Request {api_request.full_url}')
             with urllib.request.urlopen(api_request) as api_response:
-                log.debug(f'Request DONE {api_request.full_url}')
                 return json.load(api_response)
         except urllib.error.HTTPError as err:
             ### hit rate limit, wait and retry
