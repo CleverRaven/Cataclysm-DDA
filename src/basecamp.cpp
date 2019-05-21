@@ -7,6 +7,7 @@
 #include <vector>
 #include <utility>
 
+#include "avatar.h"
 #include "craft_command.h"
 #include "output.h"
 #include "string_formatter.h"
@@ -17,12 +18,14 @@
 #include "item.h"
 #include "item_group.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "npc.h"
 #include "recipe.h"
 #include "recipe_groups.h"
 #include "requirements.h"
+#include "rng.h"
 #include "skill.h"
 #include "string_input_popup.h"
 #include "faction_camp.h"
@@ -66,8 +69,8 @@ basecamp::basecamp( const std::string &name_, const tripoint &omt_pos_ ): name( 
 }
 
 basecamp::basecamp( const std::string &name_, const tripoint &bb_pos_,
-                    std::vector<std::string> directions_,
-                    std::map<std::string, expansion_data> expansions_ ):
+                    const std::vector<std::string> &directions_,
+                    const std::map<std::string, expansion_data> &expansions_ ):
     directions( directions_ ), name( name_ ), bb_pos( bb_pos_ ), expansions( expansions_ )
 {
 }
@@ -140,12 +143,11 @@ bool basecamp::reset_camp()
 std::string basecamp::om_upgrade_description( const std::string &bldg, bool trunc ) const
 {
     const recipe &making = recipe_id( bldg ).obj();
-    const inventory &total_inv = g->u.crafting_inventory();
 
     std::vector<std::string> component_print_buffer;
     const int pane = FULL_SCREEN_WIDTH;
-    const auto tools = making.requirements().get_folded_tools_list( pane, c_white, total_inv, 1 );
-    const auto comps = making.requirements().get_folded_components_list( pane, c_white, total_inv,
+    const auto tools = making.requirements().get_folded_tools_list( pane, c_white, _inv, 1 );
+    const auto comps = making.requirements().get_folded_components_list( pane, c_white, _inv,
                        making.get_component_filter(), 1 );
     component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
     component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
@@ -154,11 +156,11 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
     for( auto &elem : component_print_buffer ) {
         comp = comp + elem + "\n";
     }
-    time_duration duration = time_duration::from_turns( making.time / 100 );
     if( trunc ) {
         comp = string_format( _( "Notes:\n%s\n\nSkill used: %s\n%s\n" ),
                               making.description, making.skill_used.obj().name(), comp );
     } else {
+        time_duration duration = time_duration::from_turns( making.time / 100 );
         comp = string_format( _( "Notes:\n%s\n\nSkill used: %s\n"
                                  "Difficulty: %d\n%s \nRisk: None\nTime: %s\n" ),
                               making.description, making.skill_used.obj().name(),
@@ -249,6 +251,37 @@ const std::string basecamp::get_gatherlist() const
 
 }
 
+void basecamp::add_resource( const itype_id &camp_resource )
+{
+    basecamp_resource bcp_r;
+    bcp_r.fake_id = camp_resource;
+    item camp_item( bcp_r.fake_id, 0 );
+    bcp_r.ammo_id = camp_item.ammo_default();
+    resources.emplace_back( bcp_r );
+    fuel_types.insert( bcp_r.ammo_id );
+}
+
+void basecamp::reset_camp_resources( bool by_radio )
+{
+    reset_camp_workers();
+    if( !resources_updated ) {
+        resources_updated = true;
+        for( auto &e : expansions ) {
+            for( int level = 0; level < e.second.cur_level; level++ ) {
+                const std::string &bldg = faction_encode_full( e.second, -level );
+                if( bldg == "null" ) {
+                    break;
+                }
+                const recipe &making = recipe_id( bldg ).obj();
+                for( const itype_id &bp_resource : making.blueprint_provides() ) {
+                    add_resource( bp_resource );
+                }
+            }
+        }
+    }
+    form_crafting_inventory( by_radio );
+}
+
 // available companion list manipulation
 // get all the companions currently performing missions at this camp
 void basecamp::reset_camp_workers()
@@ -328,51 +361,129 @@ void basecamp::set_name( const std::string &new_name )
     name = new_name;
 }
 
-void basecamp::consume_components( inventory &camp_inv, const recipe &making, int batch_size,
+/*
+ * we could put this logic in map::use_charges() the way the vehicle code does, but I think
+ * that's sloppy
+ */
+std::list<item> basecamp::use_charges( const itype_id fake_id, int &quantity )
+{
+    std::list<item> ret;
+    if( quantity <= 0 ) {
+        return ret;
+    }
+    for( basecamp_resource &bcp_r : resources ) {
+        if( bcp_r.fake_id == fake_id ) {
+            item camp_item( bcp_r.fake_id, 0 );
+            camp_item.charges = std::min( bcp_r.available, quantity );
+            quantity -= camp_item.charges;
+            bcp_r.available -= camp_item.charges;
+            bcp_r.consumed += camp_item.charges;
+            ret.push_back( camp_item );
+            if( quantity <= 0 ) {
+                break;
+            }
+        }
+    }
+    return ret;
+}
+
+void basecamp::consume_components( map &target_map, const recipe &making, int batch_size,
                                    bool by_radio )
 {
+    const tripoint &origin = target_map.getlocal( get_dumping_spot() );
     const auto &req = making.requirements();
-    if( !by_radio ) {
-        for( const auto &it : req.get_components() ) {
-            g->u.consume_items( g->m, g->u.select_item_component( it, batch_size, camp_inv, true,
-                                is_crafting_component, true ), batch_size, is_crafting_component,
-                                g->m.getlocal( get_dumping_spot() ), 20 );
+    for( const auto &it : req.get_components() ) {
+        g->u.consume_items( target_map, g->u.select_item_component( it, batch_size, _inv,
+                            true, is_crafting_component, !by_radio ), batch_size,
+                            is_crafting_component, origin, range );
+    }
+    // this may consume pseudo-resources from fake items
+    for( const auto &it : req.get_tools() ) {
+        g->u.consume_tools( target_map, g->u.select_tool_component( it, batch_size, _inv,
+                            DEFAULT_HOTKEYS, true, !by_radio ), batch_size, origin, range, this );
+    }
+    // go back and consume the actual resources
+    for( basecamp_resource &bcp_r : resources ) {
+        if( bcp_r.consumed > 0 ) {
+            target_map.use_charges( origin, range, bcp_r.ammo_id, bcp_r.consumed );
+            bcp_r.consumed = 0;
         }
-        for( const auto &it : req.get_tools() ) {
-            g->u.consume_tools( g->m, g->u.select_tool_component( it, batch_size, camp_inv,
-                                DEFAULT_HOTKEYS, true, true ), batch_size,
-                                g->m.getlocal( get_dumping_spot() ), 20 );
-        }
-    } else {
-        tinymap target_map;
-        target_map.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
-        for( const auto &it : req.get_components() ) {
-            g->u.consume_items( target_map, g->u.select_item_component( it, batch_size, camp_inv,
-                                true, is_crafting_component, false ), batch_size,
-                                is_crafting_component, target_map.getlocal( get_dumping_spot() ),
-                                20 );
-        }
-        for( const auto &it : req.get_tools() ) {
-            g->u.consume_tools( target_map, g->u.select_tool_component( it, batch_size, camp_inv,
-                                DEFAULT_HOTKEYS, true, false ), batch_size,
-                                target_map.getlocal( get_dumping_spot() ), 20 );
-        }
-        target_map.save();
     }
 }
 
-inventory basecamp::crafting_inventory( const bool by_radio )
+void basecamp::consume_components( const recipe &making, int batch_size, bool by_radio )
 {
-    inventory new_inv;
-    if( !by_radio ) {
-        new_inv.form_from_map( g->m.getlocal( get_dumping_spot() ), 20, false, false );
-    } else {
+    if( by_radio ) {
         tinymap target_map;
         target_map.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
-        new_inv.form_from_map( target_map, target_map.getlocal( get_dumping_spot() ), 20, false,
-                               false );
+        consume_components( target_map, making, batch_size, by_radio );
+        target_map.save();
+    } else {
+        consume_components( g->m, making, batch_size, by_radio );
     }
-    return new_inv;
+}
+
+void basecamp::form_crafting_inventory( map &target_map )
+{
+    _inv.clear();
+    const tripoint &origin = target_map.getlocal( get_dumping_spot() );
+    _inv.form_from_map( target_map, origin, range, false, false );
+    /*
+     * something of a hack: add the resources we know the camp has
+     * the hacky part is that we're adding resources based on the camp's flags, which were
+     * generated based on upgrade missions, instead of having resources added when the
+     * map changes
+     */
+    // make sure the array is empty
+    fuels.clear();
+    for( const itype_id &fuel_id : fuel_types ) {
+        basecamp_fuel bcp_f;
+        bcp_f.available = 0;
+        bcp_f.ammo_id = fuel_id;
+        fuels.emplace_back( bcp_f );
+    }
+
+    // find available fuel
+    for( const tripoint &pt : target_map.points_in_radius( origin, range ) ) {
+        if( target_map.accessible_items( pt ) ) {
+            for( const item &i : target_map.i_at( pt ) ) {
+                for( basecamp_fuel &bcp_f : fuels ) {
+                    if( bcp_f.ammo_id == i.typeId() ) {
+                        bcp_f.available += i.charges;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    for( basecamp_resource &bcp_r : resources ) {
+        bcp_r.consumed = 0;
+        item camp_item( bcp_r.fake_id, 0 );
+        camp_item.item_tags.insert( "PSEUDO" );
+        if( bcp_r.ammo_id != "NULL" ) {
+            for( basecamp_fuel &bcp_f : fuels ) {
+                if( bcp_f.ammo_id == bcp_r.ammo_id ) {
+                    if( bcp_f.available > 0 ) {
+                        bcp_r.available = bcp_f.available;
+                        camp_item = camp_item.ammo_set( bcp_f.ammo_id, bcp_f.available );
+                    }
+                    break;
+                }
+            }
+        }
+        _inv.add_item( camp_item );
+    }
+}
+
+void basecamp::form_crafting_inventory( const bool by_radio )
+{
+    if( by_radio ) {
+        tinymap target_map;
+        target_map.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
+        form_crafting_inventory( target_map );
+    } else {
+        form_crafting_inventory( g->m );
+    }
 }
 
 // display names

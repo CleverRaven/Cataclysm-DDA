@@ -1,6 +1,6 @@
 #include "auto_pickup.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <sstream>
 #include <functional>
@@ -8,6 +8,7 @@
 #include <memory>
 #include <utility>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "filesystem.h"

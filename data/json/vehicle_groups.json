@@ -39,7 +39,8 @@
       [ "cube_van_cheap", 400 ],
       [ "cube_van", 300 ],
       [ "security_van", 500 ],
-      [ "schoolbus", 600 ],
+      [ "schoolbus", 100 ],
+      [ "bus", 500 ],
       [ "rv", 500 ],
       [ "lux_rv", 100 ],
       [ "meth_lab", 200 ],
@@ -108,7 +109,8 @@
       [ "apc-gl", 100 ],
       [ "aapc-mg", 100 ],
       [ "aapc-gl", 50 ],
-      [ "schoolbus", 400 ],
+      [ "schoolbus", 50 ],
+      [ "bus", 350 ],
       [ "rv", 800 ],
       [ "lux_rv", 100 ],
       [ "meth_lab", 300 ],
@@ -265,7 +267,7 @@
     "id": "school_vehicles",
     "type": "vehicle_group",
     "//": "School bus or fire truck found near school locations",
-    "vehicles": [ [ "schoolbus", 50 ], [ "fire_truck", 70 ] ]
+    "vehicles": [ [ "schoolbus", 50 ], [ "fire_truck", 70 ], [ "bus", 30 ] ]
   },
   {
     "id": "bandit_vehicles",
@@ -463,5 +465,39 @@
       [ "pickup", 800 ],
       [ "hippie_van", 1000 ]
     ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "buses",
+    "vehicles": [ [ "bus", 1000 ], [ "schoolbus", 100 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "parking_garage",
+    "vehicles": [
+      [ "bubble_car", 200 ],
+      [ "4x4_car", 200 ],
+      [ "car_sports_electric", 100 ],
+      [ "car_mini", 750 ],
+      [ "beetle", 750 ],
+      [ "car", 1500 ],
+      [ "suv", 800 ],
+      [ "suv_electric", 100 ],
+      [ "suv_electric_rack", 100 ],
+      [ "pickup", 50 ],
+      [ "car_anmlcmpt", 150 ],
+      [ "electric_car", 750 ],
+      [ "hippie_van", 750 ],
+      [ "motorcycle", 500 ],
+      [ "superbike", 50 ],
+      [ "motorcycle_sidecart", 50 ],
+      [ "car_sports", 30 ],
+      [ "car_sports_atomic", 5 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "trains_draisine",
+    "vehicles": [ [ "motorized_draisine_6seats", 500 ], [ "motorized_draisine_2seats", 2000 ] ]
   }
 ]

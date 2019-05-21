@@ -28,6 +28,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "debug.h"
 #include "filesystem.h"
@@ -138,7 +139,7 @@ void init_global_game_state( const std::vector<mod_id> &mods,
     g->load_core_data( ui );
     g->load_world_modfiles( ui );
 
-    g->u = player();
+    g->u = avatar();
     g->u.create( PLTYPE_NOW );
 
     g->m = map( get_option<bool>( "ZLEVELS" ) );

@@ -1,12 +1,13 @@
 #include "ui.h"
 
-#include <ctype.h>
-#include <limits.h>
-#include <stdlib.h>
+#include <cctype>
+#include <climits>
+#include <cstdlib>
 #include <algorithm>
 #include <iterator>
 #include <memory>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "debug.h"
@@ -143,7 +144,8 @@ void uilist::init()
     pad_right = 0;         // or right
     desc_enabled = false;  // don't show option description by default
     desc_lines = 6;        // default number of lines for description
-    border = true;         // TODO: always true
+    footer_text.clear();   // takes precedence over per-entry descriptions.
+    border = true;         // TODO: always true.
     border_color = c_magenta; // border color
     text_color = c_light_gray;  // text color
     title_color = c_green;  // title color
@@ -391,8 +393,8 @@ void uilist::setup()
         if( desc_enabled ) {
             const int min_width = std::min( TERMX, std::max( w_width, descwidth_final ) ) - 4;
             const int max_width = TERMX - 4;
-            int descwidth = find_minimum_fold_width( entries[i].desc, desc_lines,
-                            min_width, max_width );
+            int descwidth = find_minimum_fold_width( footer_text.empty() ? entries[i].desc : footer_text,
+                            desc_lines, min_width, max_width );
             descwidth += 4; // 2x border + 2x ' ' pad
             if( descwidth_final < descwidth ) {
                 descwidth_final = descwidth;
@@ -470,7 +472,8 @@ void uilist::setup()
         desc_lines = 0;
         for( const uilist_entry &ent : entries ) {
             // -2 for borders, -2 for padding
-            desc_lines = std::max<int>( desc_lines, foldstring( ent.desc, w_width - 4 ).size() );
+            desc_lines = std::max<int>( desc_lines, foldstring( footer_text.empty() ? ent.desc : footer_text,
+                                        w_width - 4 ).size() );
         }
         if( desc_lines <= 0 ) {
             desc_enabled = false;
@@ -679,7 +682,7 @@ void uilist::show()
 
         if( static_cast<size_t>( selected ) < entries.size() ) {
             fold_and_print( window, w_height - desc_lines - 1, 2, w_width - 4, text_color,
-                            entries[selected].desc );
+                            footer_text.empty() ? entries[selected].desc : footer_text );
         }
     }
 
@@ -958,7 +961,6 @@ void pointmenu_cb::refresh( uilist *menu )
         g->u.view_offset = tripoint_zero;
         g->draw_ter();
         wrefresh( g->w_terrain );
-        g->draw_panels();
         menu->redraw( false ); // show() won't redraw borders
         menu->show();
         return;

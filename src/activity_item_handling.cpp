@@ -1,7 +1,7 @@
 #include "activity_handlers.h" // IWYU pragma: associated
 
-#include <limits.h>
-#include <stddef.h>
+#include <climits>
+#include <cstddef>
 #include <algorithm>
 #include <cassert>
 #include <list>
@@ -12,6 +12,7 @@
 #include <string>
 #include <utility>
 
+#include "avatar.h"
 #include "clzones.h"
 #include "debug.h"
 #include "enums.h"
@@ -371,7 +372,7 @@ std::list<act_item> convert_to_items( const player &p, const drop_indexes &drop,
                 res.emplace_back( &it, qty, 100 ); // TODO: Use a calculated cost
             }
         } else {
-            res.emplace_back( &p.i_at( pos ), count, ( pos == -1 ) ? 0 : 100 ); // TODO: Use a calculated cost
+            res.emplace_back( &p.i_at( pos ), count, pos == -1 ? 0 : 100 ); // TODO: Use a calculated cost
         }
     }
 
@@ -407,7 +408,7 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
     // Sort worn items by storage in descending order, but dependent items always go first.
     worn.sort( []( const act_item & first, const act_item & second ) {
         return first.it->is_worn_only_with( *second.it )
-               || ( ( first.it->get_storage() > second.it->get_storage() )
+               || ( first.it->get_storage() > second.it->get_storage()
                     && !second.it->is_worn_only_with( *first.it ) );
     } );
 

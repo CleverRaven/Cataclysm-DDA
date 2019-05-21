@@ -1,0 +1,95 @@
+[
+  {
+    "type": "effect_type",
+    "id": "u_offered_marloss_meal",
+    "//": "This flag limits feast offers."
+  },
+  {
+    "type": "effect_type",
+    "id": "u_given_berry",
+    "//": "This flag limits given berries to one per 12h."
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_VOICE",
+    "dynamic_line": [
+      "Yes, friend?",
+      "Your travels be fruitful, friend.",
+      "May you find your peace, traveler.",
+      "We might have lost everything, but hope remains.",
+      "May the earth flourish beneath our paths.",
+      "Unity of spirit, of mind, and body...",
+      "Look for the bonds which define you, and act in accord."
+    ],
+    "responses": [
+      {
+        "text": "I don't know what kind of heresy you are spreading, but I'm putting an end to it!",
+        "topic": "TALK_DONE",
+        "condition": { "and": [ { "u_has_trait": "SPIRITUAL" }, { "not": { "u_has_trait_flag": "mycus" } } ] },
+        "effect": "hostile"
+      },
+      {
+        "text": "This place is dangerous, what are you doing here?",
+        "topic": "TALK_MARLOSS_VOICE_BANKET",
+        "condition": { "not": { "u_has_effect": "u_offered_marloss_meal" } },
+        "effect": { "u_add_effect": "u_offered_marloss_meal", "duration": "25920" }
+      },
+      { "text": "Who are you?", "topic": "TALK_MARLOSS_VOICE_A_PRIEST" },
+      { "text": "I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_VOICE_BANKET",
+    "dynamic_line": "Dangerous?  It may look different, but this land cares and provides for us.  We are celebrating with a feast, in fact.  Do you care to join us?",
+    "responses": [
+      { "text": "Well, sure.", "topic": "TALK_MARLOSS_VOICE_OFFER_BERRY" },
+      { "text": "I'd... rather not.", "topic": "TALK_MARLOSS_VOICE" },
+      { "text": "I'm sorry... I have places to be.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_VOICE_A_PRIEST",
+    "dynamic_line": "I'm a priest or guide of a sort.  I sing the hymns along my companions so that we may learn to live in unity, both with each other and with our ailing world.",
+    "responses": [
+      { "text": "Alright.", "topic": "TALK_MARLOSS_VOICE" },
+      {
+        "text": "Can I join you?",
+        "topic": "TALK_MARLOSS_VOICE_WITH_US",
+        "condition": { "u_has_trait_flag": "mycus" }
+      },
+      {
+        "text": "Understood.  Can I join you?",
+        "topic": "TALK_MARLOSS_VOICE_OFFER_BERRY",
+        "condition": { "and": [ { "not": { "u_has_trait_flag": "mycus" } }, { "not": { "u_has_effect": "u_given_berry" } } ] }
+      },
+      { "text": "Well, I gotta go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_VOICE_WITH_US",
+    "dynamic_line": "Oh, but you already have.",
+    "responses": [ { "text": "Yes... yes I have.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_MARLOSS_VOICE_OFFER_BERRY",
+    "dynamic_line": "Join us then, eat from this meal with us.",
+    "responses": [
+      {
+        "text": "[Take marloss berry] Thank you.",
+        "topic": "TALK_DONE",
+        "effect": [ { "u_buy_item": "marloss_berry" }, { "u_add_effect": "u_given_berry", "duration": "43200" } ]
+      },
+      { "text": "I have changed my mind, thank you.", "topic": "TALK_DONE" },
+      {
+        "text": "I'm joining no stinking cult!  Take your berry and shove it!",
+        "topic": "TALK_DONE",
+        "condition": { "not": { "u_has_trait_flag": "mycus" } },
+        "effect": "hostile"
+      }
+    ]
+  }
+]

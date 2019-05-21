@@ -1,6 +1,6 @@
 #include "vehicle_group.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <functional>
 #include <utility>
 
@@ -278,7 +278,7 @@ void builtin_parkinglot( map &m, const std::string & )
 
         if( !m.veh_at( pos_p ) ) {
             m.add_vehicle( vgroup_id( "parkinglot" ), pos_p,
-                           ( one_in( 2 ) ? 0 : 180 ) + ( one_in( 10 ) * rng( 0, 179 ) ), -1, -1 );
+                           ( one_in( 2 ) ? 0 : 180 ) + one_in( 10 ) * rng( 0, 179 ), -1, -1 );
         }
     }
 }

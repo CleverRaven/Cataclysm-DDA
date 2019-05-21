@@ -16,6 +16,8 @@ constexpr double Z95 = 1.96;
 constexpr double Z99 = 2.576;
 constexpr double Z99_9 = 3.291;
 constexpr double Z99_99 = 3.891;
+constexpr double Z99_999 = 4.5;
+constexpr double Z99_999_9 = 5.0;
 
 // Useful to specify a range using midpoint +/- ε which is easier to parse how
 // wide a range actually is vs just upper and lower

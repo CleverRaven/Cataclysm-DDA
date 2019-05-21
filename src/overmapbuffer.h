@@ -203,7 +203,7 @@ class overmapbuffer
         /**
          * Remove basecamp
          */
-        void remove_camp( const basecamp camp );
+        void remove_camp( const basecamp &camp );
         /**
          * Remove the vehicle from being tracked in the overmap.
          */
@@ -211,7 +211,7 @@ class overmapbuffer
         /**
          * Add Basecamp to overmapbuffer
          */
-        void add_camp( basecamp camp );
+        void add_camp( const basecamp &camp );
 
         cata::optional<basecamp *> find_camp( const int x, const int y );
         /**

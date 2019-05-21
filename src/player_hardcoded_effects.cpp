@@ -1,8 +1,9 @@
 #include "player.h" // IWYU pragma: associated
 
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 
+#include "avatar.h"
 #include "effect.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -259,7 +260,8 @@ static void eff_fun_hallu( player &u, effect &it )
             int loudness = 20 + u.str_cur - u.int_cur;
             loudness = ( loudness > 5 ? loudness : 5 );
             loudness = ( loudness < 30 ? loudness : 30 );
-            sounds::sound( u.pos(), loudness, sounds::sound_t::speech, npc_text );
+            sounds::sound( u.pos(), loudness, sounds::sound_t::speech, npc_text, false, "speech",
+                           loudness < 15 ? ( u.male ? "NPC_m" : "NPC_f" ) : ( u.male ? "NPC_m_loud" : "NPC_f_loud" ) );
         }
     } else if( dur == peakTime ) {
         // Visuals start
@@ -846,8 +848,10 @@ void player::hardcoded_effects( effect &it )
         set_num_blocks_bonus( get_num_blocks_bonus() - 1 );
         int zed_number = 0;
         for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
-            if( g->critter_at<monster>( dest ) ) {
-                zed_number ++;
+            const monster *const mon = g->critter_at<monster>( dest );
+            if( mon && ( mon->has_flag( MF_GRABS ) ||
+                         mon->type->has_special_attack( "GRAB" ) ) ) {
+                zed_number += mon->get_grab_strength();
             }
         }
         if( zed_number > 0 ) {
@@ -1025,9 +1029,11 @@ void player::hardcoded_effects( effect &it )
         }
 
         // TODO: Move this to update_needs when NPCs can mutate
-        bool compatible_weather_types = g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY
-                                        || g->weather == WEATHER_DRIZZLE || g->weather == WEATHER_RAINY || g->weather == WEATHER_FLURRIES
-                                        || g->weather == WEATHER_CLOUDY || g->weather == WEATHER_SNOW;
+        bool compatible_weather_types = g->weather.weather == WEATHER_CLEAR ||
+                                        g->weather.weather == WEATHER_SUNNY
+                                        || g->weather.weather == WEATHER_DRIZZLE || g->weather.weather == WEATHER_RAINY ||
+                                        g->weather.weather == WEATHER_FLURRIES
+                                        || g->weather.weather == WEATHER_CLOUDY || g->weather.weather == WEATHER_SNOW;
 
         if( calendar::once_every( 10_minutes ) && ( has_trait( trait_id( "CHLOROMORPH" ) ) ||
                 has_trait( trait_id( "M_SKIN3" ) ) || has_trait( trait_id( "WATERSLEEP" ) ) ) &&
@@ -1258,13 +1264,15 @@ void player::hardcoded_effects( effect &it )
                     it.mod_duration( 10_minutes );
                 } else if( dur == 2_turns ) {
                     // let the sound code handle the wake-up part
-                    sounds::sound( pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ) );
+                    sounds::sound( pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ), false, "tool",
+                                   "alarm_clock" );
                 }
             }
         } else {
             if( dur == 1_turns ) {
                 if( g->u.has_alarm_clock() ) {
-                    sounds::sound( g->u.pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ) );
+                    sounds::sound( g->u.pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ), false, "tool",
+                                   "alarm_clock" );
                     const std::string alarm = _( "Your alarm is going off." );
                     g->cancel_activity_or_ignore_query( distraction_type::noise, alarm );
                     add_msg( "Your alarm went off." );

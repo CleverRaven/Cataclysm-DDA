@@ -7,7 +7,6 @@
 #include "mapdata.h"
 #include "trap.h"
 
-
 template<int sx, int sy>
 void maptile_soa<sx, sy>::swap_soa_tile( const point &p1, const point &p2 )
 {
@@ -31,7 +30,6 @@ void maptile_soa<sx, sy>::swap_soa_tile( const point &p, maptile_soa<1, 1> &othe
     std::swap( trp[p.x][p.y], **other.trp );
     std::swap( rad[p.x][p.y], **other.rad );
 }
-
 
 submap::submap()
 {
@@ -110,7 +108,7 @@ void submap::delete_graffiti( const point &p )
 }
 bool submap::has_signage( const point &p ) const
 {
-    if( frn[p.x][p.y] == furn_id( "f_sign" ) ) {
+    if( frn[p.x][p.y].obj().has_flag( "SIGN" ) ) {
         return find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE ).result;
     }
 
@@ -118,7 +116,7 @@ bool submap::has_signage( const point &p ) const
 }
 const std::string submap::get_signage( const point &p ) const
 {
-    if( frn[p.x][p.y] == furn_id( "f_sign" ) ) {
+    if( frn[p.x][p.y].obj().has_flag( "SIGN" ) ) {
         const auto fresult = find_cosmetic( cosmetics, p, COSMETICS_SIGNAGE );
         if( fresult.result ) {
             return cosmetics[ fresult.ndx ].str;

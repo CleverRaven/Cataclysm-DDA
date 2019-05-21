@@ -2,7 +2,7 @@
 #ifndef STRING_INPUT_POPUP_H
 #define STRING_INPUT_POPUP_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <functional>
 #include <map>
 #include <memory>

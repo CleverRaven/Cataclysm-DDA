@@ -63,6 +63,12 @@ std::list<std::pair<int, int>> multidrop( player &p );
 
 /** Consuming an item. */
 item_location consume( player &p );
+/** Consuming a food item via a custom menu. */
+item_location consume_food( player &p );
+/** Consuming a drink item via a custom menu. */
+item_location consume_drink( player &p );
+/** Consuming a medication item via a custom menu. */
+item_location consume_meds( player &p );
 /** Choosing a container for liquid. */
 item_location container_for( player &p, const item &liquid, int radius = 0 );
 /** Item disassembling menu. */
@@ -89,6 +95,8 @@ item_location take_off( player &p );
 item_location salvage( player &p, const salvage_actor *actor );
 /** Repair menu. */
 item_location repair( player &p, const repair_item_actor *actor, const item *main_tool );
+/** Bionic install menu. */
+item_location install_bionic( player &p, player &patient );
 /*@}*/
 
 }

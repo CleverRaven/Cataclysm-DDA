@@ -156,10 +156,12 @@
     "stack_size": 4,
     "ammo_type": "javelin",
     "range": 15,
-    "damage": 6,
+    "damage": 11,
     "dispersion": 135,
     "loudness": 0,
-    "effects": [ "RECOVER_10" ]
+    "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 11 } ],
+    "effects": [ "RECOVER_25" ],
+    "flags": [ "FRAGILE_MELEE", "JAVELIN" ]
   },
   {
     "id": "javelin_stone",
@@ -174,10 +176,12 @@
     "stack_size": 4,
     "ammo_type": "javelin",
     "range": 13,
-    "damage": 8,
+    "damage": 13,
     "pierce": 1,
     "relative": { "weight": 100, "cutting": 2 },
-    "proportional": { "price": 0.5, "bashing": 0.8 }
+    "proportional": { "price": 0.5, "bashing": 0.8 },
+    "thrown_damage": [ { "damage_type": "bash", "amount": 4 }, { "damage_type": "stab", "amount": 13 } ],
+    "flags": [ "FRAGILE_MELEE", "JAVELIN" ]
   },
   {
     "id": "javelin_iron",
@@ -190,11 +194,13 @@
     "stack_size": 4,
     "ammo_type": "javelin",
     "range": 10,
-    "damage": 10,
+    "damage": 17,
     "pierce": 3,
     "dispersion": 135,
     "loudness": 0,
-    "effects": [ "RECOVER_15" ]
+    "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 17 } ],
+    "effects": [ "RECOVER_30" ],
+    "flags": [ "FRAGILE_MELEE", "JAVELIN" ]
   },
   {
     "id": "javelin_copper",
@@ -208,10 +214,12 @@
     "count": 1,
     "stack_size": 4,
     "ammo_type": "javelin",
-    "damage": 9,
+    "damage": 14,
     "pierce": 2,
     "relative": { "weight": 30 },
-    "proportional": { "price": 0.5, "cutting": 0.85 }
+    "proportional": { "price": 0.5, "cutting": 0.85 },
+    "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 14 } ],
+    "flags": [ "FRAGILE_MELEE", "JAVELIN" ]
   },
   {
     "id": "spear_stone",
@@ -487,6 +495,8 @@
         "moves": 100,
         "noise": 34,
         "noise_message": "FWEEEET!",
+        "noise_id": "misc",
+        "noise_variant": "whistle",
         "use_message": "You blow the whistle.",
         "no_charges_message": "Seeing this is an error.",
         "//": "Somewhat lower than the proper whistle."

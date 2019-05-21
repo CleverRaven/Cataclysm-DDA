@@ -1,6 +1,6 @@
 #include "string_formatter.h"
 
-#include <assert.h>
+#include <cassert>
 #include <stdexcept>
 #include <exception>
 
