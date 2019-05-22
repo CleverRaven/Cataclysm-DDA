@@ -127,7 +127,7 @@
       {
         "condition": {
           "and": [
-            { "npc_add_var": "luo_mycus_mission", "type": "general", "context": "mission", "value": "yes" },
+            { "npc_has_var": "luo_mycus_mission", "type": "general", "context": "mission", "value": "yes" },
             { "u_has_item": "veggy_tainted" },
             { "not": { "npc_has_effect": "insulted_luo" } }
           ]
@@ -221,7 +221,7 @@
       {
         "condition": {
           "and": [
-            { "npc_add_var": "luo_mycus_mission", "type": "general", "context": "mission", "value": "yes" },
+            { "npc_has_var": "luo_mycus_mission", "type": "general", "context": "mission", "value": "yes" },
             { "u_has_item": "veggy_tainted" },
             { "not": { "npc_has_effect": "insulted_luo" } }
           ]
