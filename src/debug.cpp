@@ -1105,7 +1105,7 @@ std::string game_info::game_report()
     std::stringstream report;
     report <<
            "- OS: " << operating_system() << " [" << bitness() << "]\n" <<
-           "    - OS Version: " << os_version << "\"n" <<
+           "    - OS Version: " << os_version << "\n" <<
            "- Game Version: " << game_version() << "\n" <<
            "- Graphics Version: " << graphics_version() << "\n" <<
            "- Mods loaded: [\n    " << mods_loaded() << "\n]\n";
