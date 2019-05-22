@@ -153,6 +153,16 @@ bool gsi::update_ui_advinv_pane(int selected, int pane, bool active)
     return false;
 }
 
+bool gsi::update_choose_adjacent(std::vector<bool> points)
+{
+#ifdef GSI
+    adjacents = points;
+    gsi_socket::get().sockout();
+    return true;
+#endif
+    return false;
+}
+
 void gsi::update_needs()
 {
     hunger_level = g->u.get_hunger_description().first;

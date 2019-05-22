@@ -1028,12 +1028,14 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
 {
     // Highlight nearby terrain according to the highlight function
     bool highlighted = false;
+    std::vector<bool> points;
     for( const tripoint &pos : g->m.points_in_radius( g->u.pos(), 1 ) ) {
         if( should_highlight( pos ) ) {
             highlighted = true;
             g->m.drawsq( g->w_terrain, g->u, pos,
                          true, true, g->u.pos() + g->u.view_offset );
         }
+        points.push_back(should_highlight(pos));
     }
     if( highlighted ) {
         wrefresh( g->w_terrain );
