@@ -7210,7 +7210,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         iScrollPos = 0;
 
         if( action == "HELP_KEYBINDINGS" ) {
-            game::draw_ter();
+            draw_ter();
             wrefresh( w_terrain );
         } else if( action == "UP" ) {
             do {
@@ -7442,7 +7442,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
     do {
         if( action == "HELP_KEYBINDINGS" ) {
-            game::draw_ter();
+            draw_ter();
             wrefresh( w_terrain );
         } else if( action == "UP" ) {
             iActive--;
