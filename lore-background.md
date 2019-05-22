@@ -14,9 +14,10 @@ Note: Canon date of game start is  April 30th, in "YEAR", which equals the IRL y
 - **March**: An interdimensional traveler from an alternate earth crash lands a portal traveling vessel in the American Midwest. The traveler dies, the vessel is appropriated by the US government and starts a chain of research.  The technology is very similar to Earth tech of the 1990s, but the actual dimensional travelling technology is as-yet undeveloped, and there are examples of equivalent but divergent robotics technologies: there is a simple but functional robotic exoskeleton on board, damaged in the crash.
 
 #### YEAR -15
-- Research into pilotable robot exoskeletons results in the first large production robotic suit for cargo handling.  It remains prohibitively expensive for most applications.
+- Research into pilotable robot exoskeletons results in the first large production robotic suit for cargo handling.  It remains prohibitively expensive for most applications.  These suits use a simplified fuel cell design from the dimensional craft, but not all the raw materials needed have yet been synthesized, so the efficiency is much lower.
 
 #### YEAR -12
+- **April**: Advances in reverse engineering and some early tests of portal tech lead to improved synthesis of fuel cells from the dimensional craft.  These cells are still bulky but enable a lot of new technologies to be imagined.
 - **September**: A stable portal is opened, and a creature from the netherum breaks through, destroying a large portion of a DARPA lab. The facility auto-destruct is engaged and the event disguised as a mine collapse. The government puts a hard limit on acceptable portal research, particularly the creation of stable portals.
 
 #### YEAR -10
@@ -57,7 +58,7 @@ Second phase CBM development commences.
 - **December 18**: Sample XE-037 is brought back to Earth from the netherum. It is about thirty grams of blob matter. Standard decontamination protocols are observed. However, standard protocols do not take into account the possibility of malicious, intelligent molecular-scale contaminants. Microscopic particles of XE-037 migrate from the contamination filters onto the skin of scientists and escape containment. Soon after, the Blob enters the groundwater and begins to spread at extremely low concentrations.
 
 #### Year -1
-- **February**: Energy-dense samples from the netherum are repurposed into high-density energy cells.  The actual origin of the raw materials is kept silent.  These energy cells are rapidly repurposed to power energy weapons and tools that would otherwise be theoretical.
+- **February**: Energy-dense samples from the netherum are repurposed into high-density energy cells.  The actual origin of the raw materials is kept silent.  These energy cells are rapidly repurposed to power energy weapons and tools that would otherwise be theoretical, and to improve on the energy cell design of power armors.
 - **July**: Several smaller powered exoskeletons, including both the private defence contractor Rivtech's version and a US government one, are released for field use.
 - **November**: Laser weapons powered by new energy technology are made widely available to military procurement, albeit still in small numbers.
 
