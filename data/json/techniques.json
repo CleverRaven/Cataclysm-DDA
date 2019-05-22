@@ -1114,6 +1114,7 @@
     "name": "Receive and Counter",
     "min_unarmed": 5,
     "unarmed_allowed": true,
+    "melee_allowed": true,
     "dodge_counter": true,
     "mult_bonuses": [ [ "movecost", 0.0 ] ],
     "messages": [ "You receive %s's gift of violence, and return it in kind", "<npcname> receives %s's attack, and counters" ]
