@@ -10,8 +10,11 @@ Things are a bit more stable now, but nobody is left alive to appreciate that.
 
 Note: Canon date of game start is  April 30th, in "YEAR", which equals the IRL year the game world was created +1.
 
+#### YEAR -25
+- **March**: An interdimensional traveler from an alternate earth crash lands a portal traveling vessel in the American Midwest. The traveler dies, the vessel is appropriated by the US government and starts a chain of research.  The technology is very similar to Earth tech of the 1990s, but the actual dimensional travelling technology is as-yet undeveloped, and there are examples of equivalent but divergent robotics technologies: there is a simple but functional robotic exoskeleton on board, damaged in the crash.
+
 #### YEAR -15
-- **March**: An interdimensional traveler from an alternate earth crash lands a portal traveling vessel in the American Midwest. The traveler dies, the vessel is appropriated by the US government and starts a chain of research into dimensional travel.
+- Research into pilotable robot exoskeletons results in the first large production robotic suit for cargo handling.  It remains prohibitively expensive for most applications.
 
 #### YEAR -12
 - **September**: A stable portal is opened, and a creature from the netherum breaks through, destroying a large portion of a DARPA lab. The facility auto-destruct is engaged and the event disguised as a mine collapse. The government puts a hard limit on acceptable portal research, particularly the creation of stable portals.
@@ -23,7 +26,8 @@ Note: Canon date of game start is  April 30th, in "YEAR", which equals the IRL y
 - **January**: Artificial intelligence using dimensional probability heuristics is developed. This is an AI that can simulate deductive reasoning by scanning several adjacent realities to create a realistic estimation of the outcome of an action, quite analogous to human deductive reasoning. In a small scale this is surprisingly efficient.
 
 #### YEAR -8
-*Big Picture*: Melchior is developed. It is a useful research assistant using dimensional heuristics but nowhere near as intelligent as hoped, due to the prohibitive power requirements of anticipating more than a few minutes ahead in time. Its inability to plan in the long term is seen as a crippling defect, but it remains an overall success.
+- *Big Picture*: Melchior is developed. It is a useful research assistant using dimensional heuristics but nowhere near as intelligent as hoped, due to the prohibitive power requirements of anticipating more than a few minutes ahead in time. Its inability to plan in the long term is seen as a crippling defect, but it remains an overall success.
+- *June*: The first powered exoskeletons are OK'd for military use, in limited test deployments.  Although incredibly powerful against small arms fire, these "tank suits" are too large, expensive, and heavy to gain any advantages from their humanoid shape.  They do not see full scale production.
 
 #### YEAR -7
 *Big Picture*: First phase development of CBMs, using bioplastic technology derived from research conducted on mi-go. Aided by Melchior, research is extremely promising.
@@ -36,6 +40,7 @@ Second phase CBM development commences.
 #### YEAR -4
 - **February**: The first CBMs are released for the public and military.
 - **April**: China announces its own competing CBM system (XFS) and showcases the first wave of "steel soldiers", using XFS gear.
+- **July**: The first military grade heavy power armors are released for field testing.  Unlike the tank suits, these are light and small enough to allow close quarters maneuvering in urban environments, and remain almost impervious to all but the heaviest of conventional weaponry.  Development on smaller, less expensive suits becomes a priority.
 
 #### YEAR -3
 *Big Picture*: The new cold war begins as the US and China enter a race to develop the ultimate transhuman soldier, as well as functional AI.
@@ -52,6 +57,9 @@ Second phase CBM development commences.
 - **December 18**: Sample XE-037 is brought back to Earth from the netherum. It is about thirty grams of blob matter. Standard decontamination protocols are observed. However, standard protocols do not take into account the possibility of malicious, intelligent molecular-scale contaminants. Microscopic particles of XE-037 migrate from the contamination filters onto the skin of scientists and escape containment. Soon after, the Blob enters the groundwater and begins to spread at extremely low concentrations.
 
 #### Year -1
+- **February**: Energy-dense samples from the netherum are repurposed into high-density energy cells.  The actual origin of the raw materials is kept silent.  These energy cells are rapidly repurposed to power energy weapons and tools that would otherwise be theoretical.
+- **July**: Several smaller powered exoskeletons, including both the private defence contractor Rivtech's version and a US government one, are released for field use.
+- **November**: Laser weapons powered by new energy technology are made widely available to military procurement, albeit still in small numbers.
 
 #### Year 0 (the current IRL year +1)
 - **January**: The blob reaches satisfactory global-level groundwater saturation and makes the decision to commence the concentration and replication phase.
