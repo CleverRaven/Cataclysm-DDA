@@ -24,6 +24,7 @@
     "name": "Brawling",
     "description": "You're used to hand-to-creature fighting.  Not stylish or sporting, but it gets the job done.",
     "initiate": [ "You grit your teeth and prepare for a good fight.", "%s gets ready to brawl." ],
+    "autolearn": [ [ "unarmed", "2" ] ],	
     "arm_block": -1,
     "leg_block": 7,
     "techniques": [ "tec_brawl_feint", "tec_brawl_power", "tec_brawl_trip", "tec_brawl_counter" ]

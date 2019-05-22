@@ -840,12 +840,13 @@ void player::process_turn()
     // auto-learning. This is here because skill-increases happens all over the place:
     // SkillLevel::readBook (has no connection to the skill or the player),
     // player::read, player::practice, ...
-    /** @EFFECT_UNARMED >1 allows spontaneous discovery of brawling martial art style */
-    if( get_skill_level( skill_unarmed ) >= 2 ) {
-        const matype_id brawling( "style_brawling" );
-        if( !has_martialart( brawling ) ) {
-            add_martialart( brawling );
-            add_msg_if_player( m_info, _( "You learned a new style." ) );
+    // Check for spontaneous discovery of martial art styles
+    for( auto &style : all_martialart_types() ) {
+        const matype_id ma( style );
+
+        if( can_autolearn( ma ) && !has_martialart( ma ) ) {
+            add_martialart( ma );
+            add_msg_if_player( m_info, _( "You have learned a new style: %s!" ), ma.obj().name );
         }
     }
 
