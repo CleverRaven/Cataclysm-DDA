@@ -76,6 +76,19 @@
   },
   {
     "type": "recipe",
+    "result": "wood_panel",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": false,
+    "autolearn": true,
+    "charges": 2,
+    "qualities": [ { "id": "SAW_W", "level": 2 } ],
+    "components": [ [ [ "wood_sheet", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "wind_mill",
     "category": "CC_OTHER",
     "skill_used": "fabrication",
