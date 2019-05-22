@@ -7435,8 +7435,8 @@
   {
     "type": "terrain",
     "id": "t_sewage_pump",
-    "name": "sewage pump",
-    "description": "This unpowered pump previously would have moved shit around.",
+    "name": "high gauge pump",
+    "description": "This unpowered pump previously would have moved fluids around in a hurry.",
     "symbol": "&",
     "color": "light_gray",
     "move_cost": 0,
