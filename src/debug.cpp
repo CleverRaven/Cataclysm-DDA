@@ -934,6 +934,30 @@ std::string android_version()
     return output;
 }
 
+#if defined (__linux__) || defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) || defined(BSD) // linux; unix; MacOs; BSD
+/** Execute a command with the shell by using `popen()`.
+ * @param command The full command to execute.
+ * @note The output buffer is limited to 512 characters.
+ * @returns The result of the command (only stdout) or an empty string if there was a problem.
+ */
+std::string shell_exec( const std::string &command )
+{
+    std::vector<char> buffer( 512 );
+    std::string output;
+    try {
+        std::unique_ptr<FILE, decltype( &pclose )> pipe( popen( command.c_str(), "r" ), pclose );
+        if( pipe ) {
+            while( fgets( buffer.data(), buffer.size(), pipe.get() ) != nullptr ) {
+                output += buffer.data();
+            }
+        }
+    } catch( ... ) {
+        output = "";
+    }
+    return output;
+}
+#endif
+
 /** Get a precise version number for Linux systems.
  * @note The code shells-out to call `lsb_release -a`.
  * @returns If successful, a string containing the Linux system version, otherwise an empty string.
@@ -942,13 +966,7 @@ std::string linux_version()
 {
     std::string output;
 #if defined(__linux__)
-    std::vector<char>buffer( 512 );
-    std::unique_ptr<FILE, decltype( &pclose )> pipe( popen( "lsb_release -a", "r" ), pclose );
-    if( pipe ) {
-        while( fgets( buffer.data(), buffer.size(), pipe.get() ) != nullptr ) {
-            output += buffer.data();
-        }
-    }
+    output = shell_exec( "lsb_release -a" );
     if( !output.empty() ) {
         // replace '\n' and '\t' in output.
         std::vector<std::pair<std::string, std::string>> to_replace = {
