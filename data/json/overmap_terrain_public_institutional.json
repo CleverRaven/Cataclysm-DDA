@@ -504,6 +504,78 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "prison_alcatraz_1",
+    "name": "prison",
+    "sym": "p",
+    "color": "i_light_blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "prison_alcatraz_2",
+    "name": "prison",
+    "sym": "p",
+    "color": "i_light_blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "prison_alcatraz_3",
+    "name": "prison",
+    "sym": "p",
+    "color": "i_light_blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "prison_alcatraz_4",
+    "name": "prison",
+    "sym": "p",
+    "color": "i_light_blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "prison_alcatraz_5",
+    "name": "prison",
+    "sym": "p",
+    "color": "i_light_blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "prison_alcatraz_6",
+    "name": "prison",
+    "sym": "p",
+    "color": "i_light_blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "prison_alcatraz_7",
+    "name": "prison",
+    "sym": "p",
+    "color": "i_light_blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "prison_alcatraz_8",
+    "name": "prison",
+    "sym": "p",
+    "color": "i_light_blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "prison_alcatraz_9",
+    "name": "prison",
+    "sym": "p",
+    "color": "i_light_blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
     "id": "post_office",
     "name": "post office",
     "copy-from": "generic_city_building",
