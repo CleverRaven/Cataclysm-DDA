@@ -110,7 +110,7 @@ bool mtype::has_placate_trigger( mon_trigger trigger ) const
 
 bool mtype::in_category( const std::string &category ) const
 {
-    return categories.find( category ) != categories.end();
+    return ( categories.find( category ) != categories.end() );
 }
 
 bool mtype::in_species( const species_id &spec ) const

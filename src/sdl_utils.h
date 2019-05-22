@@ -2,7 +2,6 @@
 #ifndef SDL_UTILS_H
 #define SDL_UTILS_H
 
-#include "color.h"
 #include "sdl_wrappers.h"
 
 inline SDL_Color adjust_color_brightness( const SDL_Color &color, int percent )
@@ -50,72 +49,5 @@ inline bool is_black( const SDL_Color &color )
         color.g == 0x00 &&
         color.b == 0x00;
 }
-
-inline Uint8 average_pixel_color( const SDL_Color &color )
-{
-    return 85 * ( color.r + color.g + color.b ) >> 8; // 85/256 ~ 1/3
-}
-
-inline SDL_Color color_pixel_grayscale( const SDL_Color &color )
-{
-    if( is_black( color ) ) {
-        return color;
-    }
-
-    const Uint8 av = average_pixel_color( color );
-    const Uint8 result = std::max( av * 5 >> 3, 0x01 );
-
-    return { result, result, result, color.a };
-}
-
-inline SDL_Color color_pixel_nightvision( const SDL_Color &color )
-{
-    const Uint8 av = average_pixel_color( color );
-    const Uint8 result = std::min( ( av * ( ( av * 3 >> 2 ) + 64 ) >> 8 ) + 16, 0xFF );
-
-    return {
-        static_cast<Uint8>( result >> 2 ),
-        static_cast<Uint8>( result ),
-        static_cast<Uint8>( result >> 3 ),
-        color.a
-    };
-}
-
-inline SDL_Color color_pixel_overexposed( const SDL_Color &color )
-{
-    const Uint8 av = average_pixel_color( color );
-    const Uint8 result = std::min( 64 + ( av * ( ( av >> 2 ) + 0xC0 ) >> 8 ), 0xFF );
-
-    return {
-        static_cast<Uint8>( result >> 2 ),
-        static_cast<Uint8>( result ),
-        static_cast<Uint8>( result >> 3 ),
-        color.a
-    };
-}
-
-inline SDL_Color color_pixel_memorized( const SDL_Color &color )
-{
-    if( is_black( color ) ) {
-        return color;
-    }
-    // 85/256 ~ 1/3
-    return {
-        std::max<Uint8>( 85 * color.r >> 8, 0x01 ),
-        std::max<Uint8>( 85 * color.g >> 8, 0x01 ),
-        std::max<Uint8>( 85 * color.b >> 8, 0x01 ),
-        color.a
-    };
-}
-
-SDL_Color curses_color_to_SDL( const nc_color &color );
-
-///@throws std::exception upon errors.
-///@returns Always a valid pointer.
-SDL_Surface_Ptr create_surface_32( int w, int h );
-
-// SDL_RenderFillRect replacement handler
-void render_fill_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect, Uint32 r, Uint32 g,
-                       Uint32 b );
 
 #endif // SDL_UTILS_H

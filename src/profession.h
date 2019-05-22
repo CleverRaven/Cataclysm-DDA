@@ -9,7 +9,6 @@
 #include <utility>
 
 #include "string_id.h"
-#include "optional.h"
 #include "pldata.h"
 #include "type_id.h"
 
@@ -65,7 +64,6 @@ class profession
         std::vector<addiction> _starting_addictions;
         std::vector<bionic_id> _starting_CBMs;
         std::vector<trait_id> _starting_traits;
-        cata::optional<mtype_id> _starting_pet;
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
 
@@ -98,7 +96,6 @@ class profession
         signed int point_cost() const;
         std::list<item> items( bool male, const std::vector<trait_id> &traits ) const;
         std::vector<addiction> addictions() const;
-        cata::optional<mtype_id> pet() const;
         std::vector<bionic_id> CBMs() const;
         const StartingSkillList skills() const;
 

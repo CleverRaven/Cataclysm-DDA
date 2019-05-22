@@ -41,8 +41,7 @@
       "x": "t_railroad_track_on_tie",
       "h": "t_railroad_track_h_on_tie",
       "v": "t_railroad_track_v_on_tie",
-      "d": "t_railroad_track_d_on_tie",
-      "S": "t_buffer_stop"
+      "d": "t_railroad_track_d_on_tie"
     },
     "furniture": { "&": "f_trashcan", "b": "f_bench" }
   }

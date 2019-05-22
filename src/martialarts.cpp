@@ -247,7 +247,7 @@ std::vector<matype_id> all_martialart_types()
     return result;
 }
 
-static void check( const ma_requirements &req, const std::string &display_text )
+void check( const ma_requirements &req, const std::string &display_text )
 {
     for( auto &r : req.req_buffs ) {
         if( !r.is_valid() ) {
@@ -583,7 +583,7 @@ martialart::martialart()
 
 // simultaneously check and add all buffs. this is so that buffs that have
 // buff dependencies added by the same event trigger correctly
-static void simultaneous_add( player &u, const std::vector<mabuff_id> &buffs )
+void simultaneous_add( player &u, const std::vector<mabuff_id> &buffs )
 {
     std::vector<const ma_buff *> buffer; // hey get it because it's for buffs????
     for( auto &buffid : buffs ) {

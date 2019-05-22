@@ -214,7 +214,7 @@ struct maptile {
         size_t y;
         point pos() const {
             return point( x, y );
-        }
+        };
 
         maptile( submap *sub, const size_t nx, const size_t ny ) :
             sm( sub ), x( nx ), y( ny ) { }

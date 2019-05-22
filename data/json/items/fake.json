@@ -8,15 +8,6 @@
     "color": "red"
   },
   {
-    "id": "fake_burrowing",
-    "copy-from": "fake_item",
-    "type": "TOOL",
-    "name": "teeth and claws",
-    "flags": "TRADER_AVOID",
-    "use_action": [ "BURROW" ],
-    "qualities": [ [ "DIG", 3 ] ]
-  },
-  {
     "id": "toolset",
     "copy-from": "fake_item",
     "type": "TOOL",

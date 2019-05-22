@@ -1,0 +1,54 @@
+[
+  {
+    "id": "smg_22_mag",
+    "type": "MAGAZINE",
+    "name": "pipe SMG: .22 magazine",
+    "description": "An improvised magazine made for the pipe SMG: .22, holds 30 rounds.",
+    "weight": 300,
+    "volume": 3,
+    "price": 4000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "22",
+    "capacity": 30,
+    "reliability": 5,
+    "reload_time": 500
+  },
+  {
+    "id": "smg_38_mag",
+    "copy-from": "smg_22_mag",
+    "type": "MAGAZINE",
+    "name": "pipe SMG: .38 magazine",
+    "description": "An improvised magazine made for the pipe SMG: .38, holds 25 rounds.",
+    "ammo_type": "38",
+    "capacity": 25
+  },
+  {
+    "id": "smg_9mm_mag",
+    "copy-from": "smg_22_mag",
+    "type": "MAGAZINE",
+    "name": "pipe SMG: 9x19mm magazine",
+    "description": "An improvised magazine made for the pipe SMG: 9x19mm, holds 25 rounds.",
+    "ammo_type": "9mm",
+    "capacity": 25
+  },
+  {
+    "id": "smg_40_mag",
+    "copy-from": "smg_22_mag",
+    "type": "MAGAZINE",
+    "name": "pipe SMG: .40 magazine",
+    "description": "An improvised magazine made for the pipe SMG: .40, holds 20 rounds.",
+    "ammo_type": "40",
+    "capacity": 20
+  },
+  {
+    "id": "smg_45_mag",
+    "copy-from": "smg_22_mag",
+    "type": "MAGAZINE",
+    "name": "pipe SMG: .45 magazine",
+    "description": "An improvised magazine made for the pipe SMG: .45, holds 20 rounds.",
+    "ammo_type": "45",
+    "capacity": 20
+  }
+]

@@ -122,6 +122,6 @@
     "ammo": "32",
     "dispersion": 480,
     "durability": 8,
-    "magazines": [ [ "32", [ "kp32mag" ] ] ]
+    "magazines": [ [ "380", [ "kp3atmag" ] ], [ "32", [ "kp32mag" ] ], [ "9mm", [ "kpf9mag" ] ] ]
   }
 ]

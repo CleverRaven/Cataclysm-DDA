@@ -57,6 +57,11 @@
     "items": [ [ "manual_swordsmanship", 3 ] ]
   },
   {
+    "id": "book_military",
+    "type": "item_group",
+    "items": [ [ "manual_pankration", 1 ] ]
+  },
+  {
     "id": "museum_armor",
     "type": "item_group",
     "items": [
@@ -72,6 +77,11 @@
       [ "shield_heater", 20 ],
       [ "shield_buckler", 25 ]
     ]
+  },
+  {
+    "id": "dojo_manuals",
+    "type": "item_group",
+    "items": [ [ "manual_pankration", 5 ] ]
   },
   {
     "id": "survivorzed_extra",

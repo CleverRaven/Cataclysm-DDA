@@ -882,46 +882,6 @@
   },
   {
     "type": "snippet",
-    "category": "<need_batteries>",
-    "text": [
-      "I need some batteries to power my CBMs.",
-      "I can't recharge my CBMs without some batteries.",
-      "Hey, <name_g>, can I get some batteries here?  I need to recharge."
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "<need_booze>",
-    "text": [
-      "Pass me a beer, I need to power my ethanol burner.",
-      "Ethanol burners!  The power source that's fun to recharge.  Get me a drink, please!",
-      "Waiter!  I need a refill, my ethanol burner is running out of charge!"
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "<need_junk>",
-    "text": [
-      "I need some junk to power my internal furnace.",
-      "I can't recharge my CBMs without some firewood for my internal furnace.",
-      "Hey, <name_g>, can I get some waste paper or withered plants?  I need to recharge."
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "<need_radioactives>",
-    "text": [
-      "I can't believe I'm saying this, but I need radioactive plutonium slurry for my internal reactor.",
-      "I can't use my internal reactor to recharge my CBMs without some plutonium slurry.",
-      "Hey, <name_g>, pass me some plutonium slurry if you have any, I need to refuel my internal reactor.",
-      "Beta radiation can be blocked by clothing, but is really dangerous if you ingest it.  So can I have some plutonium slurry to power my reactor and give me cancer?",
-      "I need some radioactive slurry to power my reactor.  Or a less dangerous power source, that would be even better!",
-      "Please, <name_g>, get me some radioactive slurry to fuel my internal reactor.  Or get me another way to recharge my CBMs!",
-      "I can't use my internal reactor to recharge my CBMs without some plutonium slurry.  Which wouldn't be a problem if I had anything else that would recharge my CBMs!"
-    ]
-  },
-  {
-    "type": "snippet",
     "category": "<BGSS_intro_question>",
     "text": [
       "Tell me about how you survived the cataclysm.",

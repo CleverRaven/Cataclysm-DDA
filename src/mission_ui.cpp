@@ -5,7 +5,6 @@
 #include <vector>
 #include <algorithm>
 
-#include "avatar.h"
 #include "mission.h"
 #include "calendar.h"
 // needed for the workaround for the std::to_string bug in some compilers

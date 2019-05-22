@@ -63,7 +63,6 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories
         {"magical", translate_marker( "MAGICAL MODS" )},
         {"item_exclude", translate_marker( "ITEM EXCLUSION MODS" )},
         {"monster_exclude", translate_marker( "MONSTER EXCLUSION MODS" )},
-        {"graphical", translate_marker( "GRAPHICAL MODS" )},
         {"", translate_marker( "NO CATEGORY" )}
     };
 

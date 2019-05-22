@@ -156,12 +156,10 @@
     "stack_size": 4,
     "ammo_type": "javelin",
     "range": 15,
-    "damage": 11,
+    "damage": 6,
     "dispersion": 135,
     "loudness": 0,
-    "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 11 } ],
-    "effects": [ "RECOVER_25" ],
-    "flags": [ "FRAGILE_MELEE", "JAVELIN" ]
+    "effects": [ "RECOVER_10" ]
   },
   {
     "id": "javelin_stone",
@@ -176,12 +174,10 @@
     "stack_size": 4,
     "ammo_type": "javelin",
     "range": 13,
-    "damage": 13,
+    "damage": 8,
     "pierce": 1,
     "relative": { "weight": 100, "cutting": 2 },
-    "proportional": { "price": 0.5, "bashing": 0.8 },
-    "thrown_damage": [ { "damage_type": "bash", "amount": 4 }, { "damage_type": "stab", "amount": 13 } ],
-    "flags": [ "FRAGILE_MELEE", "JAVELIN" ]
+    "proportional": { "price": 0.5, "bashing": 0.8 }
   },
   {
     "id": "javelin_iron",
@@ -194,13 +190,11 @@
     "stack_size": 4,
     "ammo_type": "javelin",
     "range": 10,
-    "damage": 17,
+    "damage": 10,
     "pierce": 3,
     "dispersion": 135,
     "loudness": 0,
-    "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 17 } ],
-    "effects": [ "RECOVER_30" ],
-    "flags": [ "FRAGILE_MELEE", "JAVELIN" ]
+    "effects": [ "RECOVER_15" ]
   },
   {
     "id": "javelin_copper",
@@ -214,12 +208,10 @@
     "count": 1,
     "stack_size": 4,
     "ammo_type": "javelin",
-    "damage": 14,
+    "damage": 9,
     "pierce": 2,
     "relative": { "weight": 30 },
-    "proportional": { "price": 0.5, "cutting": 0.85 },
-    "thrown_damage": [ { "damage_type": "bash", "amount": 5 }, { "damage_type": "stab", "amount": 14 } ],
-    "flags": [ "FRAGILE_MELEE", "JAVELIN" ]
+    "proportional": { "price": 0.5, "cutting": 0.85 }
   },
   {
     "id": "spear_stone",

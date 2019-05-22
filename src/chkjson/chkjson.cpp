@@ -77,8 +77,8 @@ std::vector<std::string> get_files_from_path(std::string extension, std::string 
                     files.push_back(fullpath);
                 }
             }
-            closedir(root);
         }
+        closedir(root);
         // Directories are added to tempstack in A->Z order, which makes them pop from Z->A. This Makes sure that directories are
         // searched in the proper order and that the final output is in the proper order.
         while (!tempstack.empty()){

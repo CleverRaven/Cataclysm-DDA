@@ -4,7 +4,6 @@
 #include <numeric>
 #include <memory>
 
-#include "avatar.h"
 #include "game.h"
 #include "gun_mode.h"
 #include "item.h"
@@ -88,7 +87,7 @@ const item_location turret_data::base() const
     return item_location( vehicle_cursor( *veh, veh->index_of_part( part ) ), &part->base );
 }
 
-int turret_data::ammo_remaining() const
+long turret_data::ammo_remaining() const
 {
     if( !veh || !part ) {
         return 0;
@@ -99,7 +98,7 @@ int turret_data::ammo_remaining() const
     return part->base.ammo_remaining();
 }
 
-int turret_data::ammo_capacity() const
+long turret_data::ammo_capacity() const
 {
     if( !veh || !part || part->info().has_flag( "USE_TANKS" ) ) {
         return 0;
@@ -250,8 +249,8 @@ void turret_data::prepare_fire( player &p )
     // set fuel tank fluid as ammo, if appropriate
     if( part->info().has_flag( "USE_TANKS" ) ) {
         auto mode = base()->gun_current_mode();
-        int qty  = mode->ammo_required();
-        int fuel_left = veh->fuel_left( ammo_current() );
+        long qty  = mode->ammo_required();
+        long fuel_left = veh->fuel_left( ammo_current() );
         mode->ammo_set( ammo_current(), std::min( qty * mode.qty, fuel_left ) );
     }
 }

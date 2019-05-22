@@ -93,9 +93,6 @@ class options_manager
                 int getItemPos( const std::string &sSearch ) const;
                 std::vector<id_and_option> getItems() const;
 
-                int getIntPos( const int iSearch ) const;
-                cata::optional< std::tuple<int, std::string> > findInt( const int iSearch ) const;
-
                 int getMaxLength() const;
 
                 //set to next item
@@ -117,7 +114,7 @@ class options_manager
 
                 static std::vector<std::string> getPrerequisiteSupportedTypes() {
                     return { "bool", "string", "string_select", "string_input" };
-                }
+                };
 
                 void setPrerequisites( const std::string &sOption, const std::vector<std::string> &sAllowedValues );
                 void setPrerequisite( const std::string &sOption, const std::string &sAllowedValue = "true" ) {
@@ -144,7 +141,6 @@ class options_manager
                 // The *untranslated* displayed option tool tip ( longer string ).
                 std::string sTooltip;
                 std::string sType;
-                bool verbose;
 
                 std::string format;
 
@@ -173,7 +169,7 @@ class options_manager
                 int iMin;
                 int iMax;
                 int iDefault;
-                std::vector< std::tuple<int, std::string> > mIntValues;
+                std::map<int, std::string> mIntValues;
 
                 //sType == "float"
                 float fSet;
@@ -251,9 +247,8 @@ class options_manager
         //add int map option
         void add( const std::string &sNameIn, const std::string &sPageIn,
                   const std::string &sMenuTextIn, const std::string &sTooltipIn,
-                  const std::vector< std::tuple<int, std::string> > &mIntValuesIn,
-                  int iInitialIn, int iDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE,
-                  const bool verbose = false );
+                  const std::map<int, std::string> &mIntValuesIn, int iInitialIn,
+                  int iDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE );
 
         //add float option
         void add( const std::string &sNameIn, const std::string &sPageIn,

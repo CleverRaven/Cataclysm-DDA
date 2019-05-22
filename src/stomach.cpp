@@ -3,7 +3,6 @@
 #include <string>
 #include <cmath>
 
-#include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "json.h"
@@ -25,7 +24,7 @@ stomach_contents::stomach_contents( units::volume max_vol )
     last_ate = calendar::before_time_starts;
 }
 
-static std::string ml_to_string( units::volume vol )
+std::string ml_to_string( units::volume vol )
 {
     return to_string( units::to_milliliter<int>( vol ) ) + "_ml";
 }
@@ -43,7 +42,7 @@ void stomach_contents::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-static units::volume string_to_ml( const std::string &str )
+units::volume string_to_ml( const std::string &str )
 {
     return units::from_milliliter( std::stoi( str.substr( 0, str.size() - 3 ) ) );
 }
@@ -224,7 +223,7 @@ void stomach_contents::ingest( player &p, item &food, int charges = 1 )
         mod_quench( comest_t->quench );
     }
     // @TODO: Move quench values to mL and remove the magic number here
-    mod_contents( comest.base_volume() * charges - add_water );
+    mod_contents( ( comest.base_volume() * charges ) - add_water );
 
     last_ate = calendar::turn;
 

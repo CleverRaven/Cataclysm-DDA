@@ -4,7 +4,6 @@
 #include <memory>
 #include <vector>
 
-#include "avatar.h"
 #include "enums.h"
 #include "game.h"
 #include "item.h"

@@ -10,6 +10,17 @@
   },
   {
     "type": "overmap_special",
+    "id": "Lake",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "river_center" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 1, -1 ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 0, 10 ],
+    "rotate": false,
+    "flags": [ "BLOB", "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "motel-twd",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "motel_twd_1_north" },
@@ -2025,39 +2036,6 @@
   },
   {
     "type": "overmap_special",
-    "id": "hub_01",
-    "overmaps": [
-      { "point": [ 0, 0, 1 ], "overmap": "robofachq_roof_a0" },
-      { "point": [ 1, 0, 1 ], "overmap": "robofachq_roof_a1" },
-      { "point": [ 2, 0, 1 ], "overmap": "robofachq_roof_a2" },
-      { "point": [ 3, 0, 1 ], "overmap": "robofachq_roof_a3" },
-      { "point": [ 0, 0, 0 ], "overmap": "robofachq_surface_parking" },
-      { "point": [ 1, 0, 0 ], "overmap": "robofachq_surface_entrance" },
-      { "point": [ 2, 0, 0 ], "overmap": "robofachq_surface_car_entrance" },
-      { "point": [ 3, 0, 0 ], "overmap": "robofachq_surface_a3" },
-      { "point": [ 0, 1, 0 ], "overmap": "robofachq_surface_b0" },
-      { "point": [ 1, 1, 0 ], "overmap": "robofachq_surface_b1" },
-      { "point": [ 2, 1, 0 ], "overmap": "robofachq_surface_b2" },
-      { "point": [ 3, 1, 0 ], "overmap": "robofachq_surface_b3" },
-      { "point": [ 0, 0, -2 ], "overmap": "robofachq_hab_a0" },
-      { "point": [ 1, 0, -2 ], "overmap": "robofachq_hab_a1" },
-      { "point": [ 2, 0, -2 ], "overmap": "robofachq_hab_a2" },
-      { "point": [ 3, 0, -2 ], "overmap": "robofachq_hab_a3" },
-      { "point": [ 0, 1, -2 ], "overmap": "robofachq_hab_b0" },
-      { "point": [ 1, 1, -2 ], "overmap": "robofachq_hab_b1" },
-      { "point": [ 2, 1, -2 ], "overmap": "robofachq_hab_b2" },
-      { "point": [ 3, 1, -2 ], "overmap": "robofachq_hab_b3" }
-    ],
-    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
-    "locations": [ "wilderness" ],
-    "city_distance": [ 3, -1 ],
-    "city_sizes": [ 1, 16 ],
-    "occurrences": [ 1, 1 ],
-    "rotate": false,
-    "flags": [ "UNIQUE" ]
-  },
-  {
-    "type": "overmap_special",
     "id": "ws_survivor_bunker_place",
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "ws_survivor_bunker_f0_north" },
@@ -2400,19 +2378,5 @@
     "city_sizes": [ 3, 12 ],
     "occurrences": [ 1, 5 ],
     "flags": [ "CLASSIC" ]
-  },
-  {
-    "type": "overmap_special",
-    "id": "lake_shore_dock_small",
-    "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "lake_surface", "locations": [ "lake_surface" ] },
-      { "point": [ 1, 0, 0 ], "overmap": "lake_dock_small_north", "locations": [ "lake_surface" ] },
-      { "point": [ 2, 0, 0 ], "overmap": "lake_surface", "locations": [ "lake_surface" ] },
-      { "point": [ 0, 1, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] },
-      { "point": [ 1, 1, 0 ], "overmap": "lake_shore_dock_small_north", "locations": [ "lake_shore" ] },
-      { "point": [ 2, 1, 0 ], "overmap": "lake_shore", "locations": [ "lake_shore" ] }
-    ],
-    "city_sizes": [ 1, 20 ],
-    "occurrences": [ 0, 5 ]
   }
 ]

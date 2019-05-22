@@ -129,22 +129,6 @@
     "time": 1
   },
   {
-    "id": "mycenacean_hymns",
-    "type": "BOOK",
-    "name": "Mycenacean Hymns",
-    "description": "A vellum book containing the hymns central to Marloss faith.  As the verses lead to each other, the text sings of unity and promised paradise.",
-    "weight": 368,
-    "volume": 4,
-    "price": 550,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "cyan",
-    "intelligence": 8,
-    "time": 10,
-    "fun": 1,
-    "flags": [ "INSPIRATIONAL" ]
-  },
-  {
     "id": "holybook_bible1",
     "type": "BOOK",
     "name": "King James Bible",

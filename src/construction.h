@@ -45,8 +45,6 @@ struct construction {
 
         // Index in construction vector
         size_t id;
-
-        // Time in moves
         int time;
 
         // If true, the requirements are generated during finalization

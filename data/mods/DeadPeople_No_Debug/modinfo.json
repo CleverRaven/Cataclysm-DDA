@@ -5,7 +5,7 @@
     "name": "[DP_MOD] Hide DEBUG",
     "authors": [ "SomeDeadGuy" ],
     "description": "Hides DEBUG graphic above character head when he has debug mutations.",
-    "category": "graphical",
+    "category": "none",
     "dependencies": [ "dda" ]
   }
 ]

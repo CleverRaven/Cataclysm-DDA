@@ -3,11 +3,7 @@
 #define WEATHER_H
 
 #include "color.h"
-#include "enums.h"
-#include "optional.h"
-#include "pimpl.h"
 #include "type_id.h"
-#include "weather_gen.h"
 
 /**
  * @name BODYTEMP
@@ -29,7 +25,6 @@
 
 #include <string>
 #include <vector>
-#include <unordered_map>
 #include <utility>
 
 class time_duration;
@@ -187,35 +182,5 @@ int get_hourly_rotpoints_at_temp( const int temp );
 bool warm_enough_to_plant();
 
 bool is_wind_blocker( const tripoint &location );
-
-class weather_manager
-{
-    public:
-        weather_manager();
-        const weather_generator &get_cur_weather_gen() const;
-        // Updates the temperature and weather patten
-        void update_weather();
-        // The air temperature
-        int temperature;
-        bool lightning_active;
-        // Weather pattern
-        weather_type weather;
-        int winddirection;
-        int windspeed;
-        // Cached weather data
-        pimpl<w_point> weather_precise;
-        cata::optional<int> wind_direction_override;
-        cata::optional<int> windspeed_override;
-        weather_type weather_override;
-        // not only sets nextweather, but updates weather as well
-        void set_nextweather( time_point t );
-        // The time at which weather will shift next.
-        time_point nextweather;
-        /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures */
-        std::unordered_map< tripoint, int > temperature_cache;
-        // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
-        int get_temperature( const tripoint &location );
-        void clear_temp_cache();
-};
 
 #endif

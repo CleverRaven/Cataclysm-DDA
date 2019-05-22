@@ -8,7 +8,6 @@
 #include <memory>
 
 #include "anatomy.h"
-#include "avatar.h"
 #include "debug.h"
 #include "effect.h"
 #include "field.h"
@@ -82,12 +81,6 @@ Creature::Creature()
 }
 
 Creature::~Creature() = default;
-
-std::vector<std::string> Creature::get_grammatical_genders() const
-{
-    // Returning empty list means we use the language-specified default
-    return {};
-}
 
 void Creature::normalize()
 {
@@ -276,8 +269,7 @@ bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
 
 // Helper function to check if potential area of effect of a weapon overlaps vehicle
 // Maybe TODO: If this is too slow, precalculate a bounding box and clip the tested area to it
-static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint &pos,
-                              const int area )
+bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint &pos, const int area )
 {
     tripoint tmp = pos;
     int &x = tmp.x;
@@ -436,7 +428,7 @@ Creature *Creature::auto_find_hostile_target( int range, int &boo_hoo, int area 
  * Damage-related functions
  */
 
-static int size_melee_penalty( m_size target_size )
+int size_melee_penalty( m_size target_size )
 {
     switch( target_size ) {
         case MS_TINY:
@@ -471,7 +463,6 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
                                const damage_instance &dam, dealt_damage_instance &dealt_dam )
 {
     if( source == nullptr || source->is_hallucination() ) {
-        dealt_dam.bp_hit = get_random_body_part();
         return;
     }
     damage_instance d = dam; // copy, since we will mutate in block_hit
@@ -1529,20 +1520,6 @@ void Creature::check_dead_state()
 {
     if( is_dead_state() ) {
         die( nullptr );
-    }
-}
-
-const std::string Creature::attitude_raw_string( Attitude att )
-{
-    switch( att ) {
-        case Creature::A_HOSTILE:
-            return "hostile";
-        case Creature::A_NEUTRAL:
-            return "neutral";
-        case Creature::A_FRIENDLY:
-            return "friendly";
-        default:
-            return "other";
     }
 }
 

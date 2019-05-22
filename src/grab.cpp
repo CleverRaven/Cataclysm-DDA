@@ -4,7 +4,6 @@
 #include <cmath>
 #include <algorithm>
 
-#include "avatar.h"
 #include "map.h"
 #include "messages.h"
 #include "player.h"

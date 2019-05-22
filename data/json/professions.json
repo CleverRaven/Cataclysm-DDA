@@ -886,38 +886,6 @@
   },
   {
     "type": "profession",
-    "ident": "k9_cop",
-    "name": "K9 Officer",
-    "description": "You spent your career busting drug smugglers with your faithful canine companion.  Now the world has ended and none of that matters anymore.  But at least you have a loyal friend.",
-    "points": 4,
-    "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "pistol" }, { "level": 2, "name": "survival" } ],
-    "traits": [ "PROF_POLICE" ],
-    "pet": "mon_dog_gshepherd",
-    "items": {
-      "both": {
-        "items": [
-          "pants_army",
-          "socks",
-          "badge_deputy",
-          "sheriffshirt",
-          "boots",
-          "dog_whistle",
-          "two_way_radio",
-          "cell_phone",
-          "wristwatch"
-        ],
-        "entries": [
-          { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
-          { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
-          { "item": "legpouch_large", "contents-group": "army_mags_usp45" }
-        ]
-      },
-      "male": [ "boxer_shorts" ],
-      "female": [ "bra", "boy_shorts" ]
-    }
-  },
-  {
-    "type": "profession",
     "ident": "cop",
     "name": "Police Officer",
     "description": "Just a small-town deputy when you got the call, you were still ready to come to the rescue.  Except that soon it was you who needed rescuing - you were lucky to escape with your life.  Who's going to respect your authority when the government this badge represents might not even exist anymore?",
@@ -3044,7 +3012,6 @@
         "breeches",
         "waistcoat",
         "peacoat",
-        "leather_belt",
         "knit_scarf",
         "tricorne",
         "shoulder_strap",

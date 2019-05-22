@@ -2,7 +2,6 @@
   {
     "id": "ACT_RELOAD",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop reloading?",
     "suspendable": false,
     "based_on": "speed"
@@ -10,7 +9,6 @@
   {
     "id": "ACT_READ",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop reading?",
     "rooted": true,
     "based_on": "speed",
@@ -19,7 +17,6 @@
   {
     "id": "ACT_GAME",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop playing?",
     "rooted": true,
     "based_on": "time"
@@ -27,7 +24,6 @@
   {
     "id": "ACT_WAIT",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop waiting?",
     "rooted": true,
     "based_on": "time",
@@ -36,7 +32,6 @@
   {
     "id": "ACT_CRAFT",
     "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
     "stop_phrase": "Stop crafting?",
     "based_on": "neither",
     "refuel_fires": true
@@ -44,7 +39,6 @@
   {
     "id": "ACT_DISASSEMBLE",
     "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
     "stop_phrase": "Stop disassembly?",
     "suspendable": false,
     "based_on": "speed",
@@ -53,56 +47,48 @@
   {
     "id": "ACT_BUTCHER",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
     "stop_phrase": "Stop butchering?",
     "based_on": "speed"
   },
   {
     "id": "ACT_BUTCHER_FULL",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
     "stop_phrase": "Stop butchering?",
     "based_on": "speed"
   },
   {
     "id": "ACT_FIELD_DRESS",
     "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
     "stop_phrase": "Stop field dressing?",
     "based_on": "speed"
   },
   {
     "id": "ACT_SKIN",
     "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
     "stop_phrase": "Stop skinning?",
     "based_on": "speed"
   },
   {
     "id": "ACT_QUARTER",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
     "stop_phrase": "Stop quartering?",
     "based_on": "speed"
   },
   {
     "id": "ACT_DISMEMBER",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
     "stop_phrase": "Stop dismembering?",
     "based_on": "speed"
   },
   {
     "id": "ACT_DISSECT",
     "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
     "stop_phrase": "Stop dissecting?",
     "based_on": "speed"
   },
   {
     "id": "ACT_LONGSALVAGE",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
     "stop_phrase": "Stop salvaging?",
     "based_on": "speed",
     "no_resume": true,
@@ -111,35 +97,30 @@
   {
     "id": "ACT_FORAGE",
     "type": "activity_type",
-    "activity_level": "LIGHT_EXERCISE",
     "stop_phrase": "Stop foraging?",
     "based_on": "speed"
   },
   {
     "id": "ACT_BUILD",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
     "stop_phrase": "Stop construction?",
     "based_on": "speed"
   },
   {
     "id": "ACT_VEHICLE",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
     "stop_phrase": "Stop interacting with the vehicle?",
     "based_on": "speed"
   },
   {
     "id": "ACT_TRAIN",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
     "stop_phrase": "Stop training?",
     "based_on": "speed"
   },
   {
     "id": "ACT_SOCIALIZE",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop socializing?",
     "based_on": "time",
     "rooted": true
@@ -147,7 +128,6 @@
   {
     "id": "ACT_WAIT_WEATHER",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop waiting?",
     "rooted": true,
     "based_on": "time",
@@ -156,14 +136,12 @@
   {
     "id": "ACT_FIRSTAID",
     "type": "activity_type",
-    "activity_level": "LIGHT_EXERCISE",
     "stop_phrase": "Stop using first aid?",
     "based_on": "speed"
   },
   {
     "id": "ACT_FISH",
     "type": "activity_type",
-    "activity_level": "LIGHT_EXERCISE",
     "stop_phrase": "Stop fishing?",
     "rooted": true,
     "based_on": "time"
@@ -171,21 +149,18 @@
   {
     "id": "ACT_PICKAXE",
     "type": "activity_type",
-    "activity_level": "EXTRA_EXERCISE",
     "stop_phrase": "Stop mining?",
     "based_on": "speed"
   },
   {
     "id": "ACT_BURROW",
     "type": "activity_type",
-    "activity_level": "EXTRA_EXERCISE",
     "stop_phrase": "Stop burrowing?",
     "based_on": "speed"
   },
   {
     "id": "ACT_PULP",
     "type": "activity_type",
-    "activity_level": "EXTRA_EXERCISE",
     "stop_phrase": "Stop smashing?",
     "based_on": "neither",
     "no_resume": true
@@ -193,7 +168,6 @@
   {
     "id": "ACT_HAND_CRANK",
     "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
     "stop_phrase": "Stop cranking?",
     "rooted": true,
     "based_on": "time"
@@ -201,14 +175,12 @@
   {
     "id": "ACT_VIBE",
     "type": "activity_type",
-    "activity_level": "LIGHT_EXERCISE",
     "stop_phrase": "Stop de-stressing?",
     "based_on": "time"
   },
   {
     "id": "ACT_MAKE_ZLAVE",
     "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
     "stop_phrase": "Stop cutting tissues?",
     "suspendable": false,
     "based_on": "speed"
@@ -216,7 +188,6 @@
   {
     "id": "ACT_DROP",
     "type": "activity_type",
-    "activity_level": "LIGHT_EXERCISE",
     "stop_phrase": "Stop dropping?",
     "suspendable": false,
     "based_on": "neither",
@@ -225,7 +196,6 @@
   {
     "id": "ACT_STASH",
     "type": "activity_type",
-    "activity_level": "LIGHT_EXERCISE",
     "stop_phrase": "Stop stashing?",
     "suspendable": false,
     "based_on": "neither",
@@ -234,7 +204,6 @@
   {
     "id": "ACT_PICKUP",
     "type": "activity_type",
-    "activity_level": "LIGHT_EXERCISE",
     "stop_phrase": "Stop picking up?",
     "suspendable": false,
     "based_on": "neither",
@@ -243,7 +212,6 @@
   {
     "id": "ACT_MOVE_ITEMS",
     "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
     "stop_phrase": "Stop moving items?",
     "suspendable": false,
     "based_on": "neither",
@@ -252,7 +220,6 @@
   {
     "id": "ACT_MOVE_LOOT",
     "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
     "stop_phrase": "Stop sorting out the loot?",
     "suspendable": false,
     "based_on": "neither",
@@ -261,7 +228,6 @@
   {
     "id": "ACT_TILL_PLOT",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
     "stop_phrase": "Stop tilling the farm plot?",
     "suspendable": false,
     "based_on": "neither",
@@ -270,7 +236,6 @@
   {
     "id": "ACT_PLANT_PLOT",
     "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
     "stop_phrase": "Stop planting seeds?",
     "suspendable": false,
     "based_on": "neither",
@@ -279,7 +244,6 @@
   {
     "id": "ACT_HARVEST_PLOT",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
     "stop_phrase": "Stop harvesting plots?",
     "suspendable": false,
     "based_on": "neither",
@@ -288,7 +252,6 @@
   {
     "id": "ACT_FERTILIZE_PLOT",
     "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
     "stop_phrase": "Stop fertilizing plots?",
     "suspendable": false,
     "based_on": "neither",
@@ -297,7 +260,6 @@
   {
     "id": "ACT_ADV_INVENTORY",
     "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
     "stop_phrase": "Stop interacting with inventory?",
     "suspendable": false,
     "based_on": "neither",
@@ -306,7 +268,6 @@
   {
     "id": "ACT_ARMOR_LAYERS",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop fiddling with your clothes?",
     "suspendable": false,
     "based_on": "neither",
@@ -315,7 +276,6 @@
   {
     "id": "ACT_START_FIRE",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop lighting the fire?",
     "rooted": true,
     "based_on": "neither",
@@ -324,14 +284,12 @@
   {
     "id": "ACT_OPEN_GATE",
     "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
     "stop_phrase": "Stop working the winch?",
     "based_on": "speed"
   },
   {
     "id": "ACT_FILL_LIQUID",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop filling the container?",
     "suspendable": false,
     "rooted": true,
@@ -341,14 +299,12 @@
   {
     "id": "ACT_HOTWIRE_CAR",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop hotwiring the vehicle?",
     "based_on": "speed"
   },
   {
     "id": "ACT_AIM",
     "type": "activity_type",
-    "activity_level": "LIGHT_EXERCISE",
     "stop_phrase": "Stop aiming?",
     "suspendable": false,
     "based_on": "neither",
@@ -357,7 +313,6 @@
   {
     "id": "ACT_ATM",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop using the ATM?",
     "suspendable": false,
     "based_on": "neither",
@@ -366,7 +321,6 @@
   {
     "id": "ACT_START_ENGINES",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop trying to start the vehicle?",
     "suspendable": false,
     "rooted": true,
@@ -375,21 +329,18 @@
   {
     "id": "ACT_OXYTORCH",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop welding?",
     "based_on": "speed"
   },
   {
     "id": "ACT_CRACKING",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop cracking?",
     "based_on": "speed"
   },
   {
     "id": "ACT_REPAIR_ITEM",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop repairing?",
     "based_on": "neither",
     "refuel_fires": true
@@ -397,7 +348,6 @@
   {
     "id": "ACT_MEND_ITEM",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop mending?",
     "based_on": "speed",
     "refuel_fires": true
@@ -405,7 +355,6 @@
   {
     "id": "ACT_GUNMOD_ADD",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop modifying gun?",
     "suspendable": false,
     "based_on": "speed"
@@ -413,7 +362,6 @@
   {
     "id": "ACT_TOOLMOD_ADD",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop modifying tool?",
     "suspendable": false,
     "based_on": "speed"
@@ -421,7 +369,6 @@
   {
     "id": "ACT_WAIT_NPC",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop interacting with the NPC?",
     "rooted": true,
     "based_on": "time",
@@ -430,14 +377,12 @@
   {
     "id": "ACT_CLEAR_RUBBLE",
     "type": "activity_type",
-    "activity_level": "EXTRA_EXERCISE",
     "stop_phrase": "Stop clearing that rubble?",
     "based_on": "speed"
   },
   {
     "id": "ACT_MEDITATE",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop meditating?",
     "rooted": true,
     "based_on": "speed"
@@ -445,84 +390,72 @@
   {
     "id": "ACT_WASH",
     "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
     "stop_phrase": "Stop washing?",
     "based_on": "speed"
   },
   {
     "id": "ACT_HACKSAW",
     "type": "activity_type",
-    "activity_level": "MODERATE_EXERCISE",
     "stop_phrase": "Stop cutting the metal?",
     "based_on": "speed"
   },
   {
     "id": "ACT_CHOP_TREE",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
     "stop_phrase": "Stop chopping down?",
     "based_on": "speed"
   },
   {
     "id": "ACT_CHOP_LOGS",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
     "stop_phrase": "Stop chopping down?",
     "based_on": "speed"
   },
   {
     "id": "ACT_JACKHAMMER",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
     "stop_phrase": "Stop drilling?",
     "based_on": "speed"
   },
   {
     "id": "ACT_DIG",
     "type": "activity_type",
-    "activity_level": "EXTRA_EXERCISE",
     "stop_phrase": "Stop digging?",
     "based_on": "speed"
   },
   {
     "id": "ACT_DIG_CHANNEL",
     "type": "activity_type",
-    "activity_level": "EXTRA_EXERCISE",
     "stop_phrase": "Stop digging?",
     "based_on": "speed"
   },
   {
     "id": "ACT_FILL_PIT",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
     "stop_phrase": "Stop filling?",
     "based_on": "speed"
   },
   {
     "id": "ACT_SHAVE",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop shaving?",
     "based_on": "speed"
   },
   {
     "id": "ACT_HAIRCUT",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop cutting your hair?",
     "based_on": "speed"
   },
   {
     "id": "ACT_PLAY_WITH_PET",
     "type": "activity_type",
-    "activity_level": "LIGHT_EXERCISE",
     "stop_phrase": "Stop playing with your pet?",
     "based_on": "speed"
   },
   {
     "id": "ACT_TRY_SLEEP",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop trying to fall asleep?",
     "rooted": true,
     "based_on": "speed",
@@ -531,7 +464,6 @@
   {
     "id": "ACT_UNLOAD_MAG",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop unloading?",
     "suspendable": false,
     "based_on": "speed"
@@ -539,7 +471,6 @@
   {
     "id": "ACT_ROBOT_CONTROL",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop programming override?",
     "suspendable": false,
     "based_on": "time",
@@ -548,7 +479,6 @@
   {
     "id": "ACT_WEAR",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop putting on items?",
     "suspendable": false,
     "based_on": "neither",
@@ -557,7 +487,6 @@
   {
     "id": "ACT_TREE_COMMUNION",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop communing with the trees?",
     "rooted": true,
     "suspendable": false,
@@ -567,8 +496,7 @@
   {
     "id": "ACT_EAT_MENU",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "stop_phrase": "Stop eating?",
+    "stop_phrase": "Stop consuming?",
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
@@ -576,8 +504,7 @@
   {
     "id": "ACT_CONSUME_FOOD_MENU",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "stop_phrase": "Stop consuming?",
+    "stop_phrase": "Stop eating?",
     "suspendable": false,
     "based_on": "neither",
     "no_resume": true
@@ -585,7 +512,6 @@
   {
     "id": "ACT_CONSUME_DRINK_MENU",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop drinking?",
     "suspendable": false,
     "based_on": "neither",
@@ -594,28 +520,9 @@
   {
     "id": "ACT_CONSUME_MEDS_MENU",
     "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop using drugs?",
     "suspendable": false,
     "based_on": "neither",
-    "no_resume": true
-  },
-  {
-    "id": "ACT_HACK_DOOR",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "stop_phrase": "Stop hacking console?",
-    "suspendable": false,
-    "based_on": "time",
-    "no_resume": true
-  },
-  {
-    "id": "ACT_HACK_SAFE",
-    "type": "activity_type",
-    "activity_level": "NO_EXERCISE",
-    "stop_phrase": "Stop hacking console?",
-    "suspendable": false,
-    "based_on": "time",
     "no_resume": true
   }
 ]

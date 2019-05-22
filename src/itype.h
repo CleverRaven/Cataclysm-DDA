@@ -96,13 +96,11 @@ struct islot_tool {
 
     std::string subtype;
 
-    int max_charges = 0;
-    int def_charges = 0;
-    int charge_factor = 1;
-    int charges_per_use = 0;
-    int turns_per_charge = 0;
-
-    std::vector<int> rand_charges;
+    long max_charges = 0;
+    long def_charges = 0;
+    std::vector<long> rand_charges;
+    unsigned char charges_per_use = 0;
+    unsigned char turns_per_charge = 0;
 };
 
 struct islot_comestible {
@@ -839,8 +837,6 @@ struct itype {
 
         /** Weight of item ( or each stack member ) */
         units::mass weight = 0_gram;
-        /** Weight difference with the part it replaces for mods */
-        units::mass integral_weight = units::from_gram( -1 );
 
         /**
          * Space occupied by items of this type
@@ -953,14 +949,9 @@ struct itype {
 
         int charges_to_use() const {
             if( tool ) {
-                return static_cast<int>( tool->charges_per_use );
+                return tool->charges_per_use;
             }
             return 1;
-        }
-
-        // for tools that sub another tool, but use a different ratio of charges
-        int charge_factor() const {
-            return tool ? tool->charge_factor : 1;
         }
 
         int maximum_charges() const {

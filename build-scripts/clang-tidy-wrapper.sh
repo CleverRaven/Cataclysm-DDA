@@ -16,4 +16,4 @@ then
 fi
 
 set -x
-"$CATA_CLANG_TIDY" "$@"
+clang-tidy "$@"

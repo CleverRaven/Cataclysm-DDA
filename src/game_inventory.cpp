@@ -10,9 +10,7 @@
 #include <string>
 #include <vector>
 
-#include "avatar.h"
 #include "game.h"
-#include "bionics.h"
 #include "inventory_ui.h"
 #include "item.h"
 #include "itype.h"
@@ -43,12 +41,6 @@
 #include "translations.h"
 #include "units.h"
 #include "type_id.h"
-
-const skill_id skill_computer( "computer" );
-const skill_id skill_electronics( "electronics" );
-const skill_id skill_firstaid( "firstaid" );
-
-static const trait_id trait_NOPAIN( "NOPAIN" );
 
 class Character;
 
@@ -89,7 +81,7 @@ bool inventory_filter_preset::is_shown( const item_location &location ) const
     return filter( location );
 }
 
-static item_location_filter convert_filter( const item_filter &filter )
+item_location_filter convert_filter( const item_filter &filter )
 {
     return [ &filter ]( const item_location & loc ) {
         return filter( *loc );
@@ -1331,18 +1323,12 @@ void game_menus::inv::reassign_letter( player &p, item &it )
 {
     while( true ) {
         const long invlet = popup_getkey(
-                                _( "Enter new letter. Press SPACE to clear a manually assigned letter, ESCAPE to cancel." ) );
+                                _( "Enter new letter (press SPACE for none, ESCAPE to cancel)." ) );
 
         if( invlet == KEY_ESCAPE ) {
             break;
         } else if( invlet == ' ' ) {
             p.reassign_item( it, 0 );
-            const std::string auto_setting = get_option<std::string>( "AUTO_INV_ASSIGN" );
-            if( auto_setting == "enabled" || ( auto_setting == "favorites" && it.is_favorite ) ) {
-                popup_getkey(
-                    _( "Note: The Auto Inventory Letters setting might still reassign a letter to this item.\n"
-                       "If this is undesired, you may wish to change the setting in Options." ) );
-            }
             break;
         } else if( inv_chars.valid( invlet ) ) {
             p.reassign_item( it, invlet );
@@ -1389,176 +1375,4 @@ void game_menus::inv::swap_letters( player &p )
         reassign_letter( p, *loc );
         g->refresh_all();
     }
-}
-
-static item_location autodoc_internal( player &u, player &patient,
-                                       const inventory_selector_preset &preset,
-                                       int radius )
-{
-    inventory_pick_selector inv_s( u, preset );
-    std::string hint;
-    int drug_count = 0;
-
-    if( patient.has_trait( trait_NOPAIN ) ) {
-        hint = _( "<color_yellow>Patient has Deadened nerves.  Anesthesia unneeded.</color>" );
-    } else if( patient.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
-        hint = _( "<color_yellow>Patient has Sensory Dulling CBM installed.  Anesthesia unneeded.</color>" );
-    } else {
-        std::vector<const item *> a_filter = u.crafting_inventory().items_with( []( const item & it ) {
-            return it.has_quality( quality_id( "ANESTHESIA" ) );
-        } );
-        std::vector<const item *> b_filter = u.crafting_inventory().items_with( []( const item & it ) {
-            return it.has_flag( "ANESTHESIA" ); // legacy
-        } );
-        for( const item *anesthesia_item : a_filter ) {
-            if( anesthesia_item->ammo_remaining() >= 1 ) {
-                drug_count += anesthesia_item->ammo_remaining();
-            }
-        }
-        drug_count += b_filter.size(); // legacy
-        hint = string_format( _( "<color_yellow>Available anesthesia: %i</color>" ), drug_count );
-    }
-
-    inv_s.set_title( string_format( _( "Bionic installation patient: %s" ), patient.get_name() ) );
-    inv_s.set_hint( hint );
-    inv_s.set_display_stats( false );
-
-    std::pair<size_t, size_t> init_pair;
-    bool init_selection = false;
-
-    do {
-        u.inv.restack( u );
-
-        inv_s.clear_items();
-        inv_s.add_character_items( u );
-        inv_s.add_nearby_items( radius );
-
-        if( init_selection ) {
-            inv_s.update();
-            inv_s.select_position( init_pair );
-            init_selection = false;
-        }
-
-        if( inv_s.empty() ) {
-            popup( _( "You don't have any bionics to install." ), PF_GET_KEY );
-            return item_location();
-        }
-
-        item_location location = inv_s.execute();
-
-        if( inv_s.keep_open ) {
-            inv_s.keep_open = false;
-            continue;
-        }
-
-        return location;
-
-    } while( true );
-}
-
-// Menu used by autodoc when installing a bionic
-class bionic_install_preset: public inventory_selector_preset
-{
-    public:
-        bionic_install_preset( player &pl, player &patient ) :
-            p( pl ), pa( patient ) {
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_failure_chance( loc ) ;
-            }, _( "FAILURE CHANCE" ) );
-
-            append_cell( [ this ]( const item_location & loc ) {
-                return get_operation_duration( loc ) ;
-            }, _( "OPERATION DURATION" ) );
-        }
-
-        bool is_shown( const item_location &loc ) const override {
-            return loc->is_bionic();
-        }
-
-        std::string get_denial( const item_location &loc ) const override {
-            const item *it = loc.get_item();
-            const itype *itemtype = it->type;
-            const bionic_id &bid = itemtype->bionic->id;
-
-            if( pa.has_bionic( bid ) ) {
-                return _( "CBM already installed" );
-            } else if( bid->upgraded_bionic &&
-                       !pa.has_bionic( bid->upgraded_bionic ) &&
-                       it->is_upgrade() ) {
-                return _( "No base version installed" );
-            } else if( std::any_of( bid->available_upgrades.begin(),
-                                    bid->available_upgrades.end(),
-                                    std::bind( &player::has_bionic, &pa,
-                                               std::placeholders::_1 ) ) ) {
-                return _( "Superior version installed" );
-            } else if( pa.is_npc() && !bid->npc_usable ) {
-                return _( "CBM not compatible with patient" );
-            }
-
-            return std::string();
-        }
-
-    protected:
-        player &p;
-        player &pa;
-
-    private:
-        // Returns a formatted string of how long the operation will take.
-        std::string get_operation_duration( const item_location &loc ) {
-            const item *it = loc.get_item();
-            const itype *itemtype = it->type;
-            const int difficulty = itemtype->bionic->difficulty;
-
-            // 20 minutes per bionic difficulty.
-            int hours = difficulty / 3;
-            int minutes = ( difficulty % 3 ) * 20;
-            std::string minutes_string = minutes > 0
-                                         ? string_format( _( "%i minutes" ), minutes )
-                                         : std::string();
-
-            if( hours > 0 ) {
-                std::string hours_string = hours >= 2
-                                           ? string_format( _( "%i hours" ), hours )
-                                           : string_format( _( "%i hour" ), hours );
-
-                if( minutes > 0 ) {
-                    return string_format( _( "%s, %s" ), hours_string, minutes_string );
-                } else {
-                    return hours_string;
-                }
-            } else {
-                return minutes_string;
-            }
-        }
-
-        // Failure chance for bionic install. Combines multiple other functions together.
-        std::string get_failure_chance( const item_location &loc ) {
-            const item *it = loc.get_item();
-            const itype *itemtype = it->type;
-            const int difficulty = itemtype->bionic->difficulty;
-            int chance_of_failure = 100;
-            player &installer = p;
-
-            const int adjusted_skill = installer.bionics_adjusted_skill( skill_firstaid,
-                                       skill_computer,
-                                       skill_electronics,
-                                       -1 );
-
-            if( ( get_option < bool > ( "SAFE_AUTODOC" ) ) ||
-                g->u.has_trait( trait_id( "DEBUG_BIONICS" ) ) ) {
-                chance_of_failure = 0;
-            } else {
-                float skill_difficulty_parameter = static_cast<float>( adjusted_skill /
-                                                   ( 4.0 * difficulty ) );
-                chance_of_failure = 100 - static_cast<int>( ( 100 * skill_difficulty_parameter ) /
-                                    ( skill_difficulty_parameter + sqrt( 1 / skill_difficulty_parameter ) ) );
-            }
-
-            return string_format( _( "%i%%" ), chance_of_failure );
-        }
-};
-
-item_location game_menus::inv::install_bionic( player &p, player &patient )
-{
-    return autodoc_internal( p, patient, bionic_install_preset( p, patient ), 5 );
 }

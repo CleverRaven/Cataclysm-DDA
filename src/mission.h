@@ -182,7 +182,7 @@ void set_assign_om_target( JsonObject &jo,
                            std::vector<std::function<void( mission *miss )>> &funcs );
 bool set_update_mapgen( JsonObject &jo, std::vector<std::function<void( mission *miss )>> &funcs );
 bool load_funcs( JsonObject jo, std::vector<std::function<void( mission *miss )>> &funcs );
-}
+};
 
 struct mission_type {
     // Matches it to a mission_type_id above

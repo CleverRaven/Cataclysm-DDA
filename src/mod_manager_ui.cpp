@@ -104,8 +104,9 @@ void mod_ui::try_add( const mod_id &mod_to_add,
 
     // check to see if mod is a core, and if so check to see if there is already a core in the mod list
     if( mod.core ) {
-        //  (more than 0 active elements) && (active[0] is a CORE) && active[0] is not the add candidate
-        if( !active_list.empty() && active_list[0]->core && active_list[0] != mod_to_add ) {
+        //  (more than 0 active elements) && (active[0] is a CORE)                            &&    active[0] is not the add candidate
+        if( !active_list.empty() && active_list[0]->core &&
+            ( active_list[0] != mod_to_add ) ) {
             // remove existing core
             try_rem( 0, active_list );
         }

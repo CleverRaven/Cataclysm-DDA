@@ -6,7 +6,6 @@
 #include <iosfwd>
 #include <vector>
 
-#include "avatar.h"
 #include "character.h"
 #include "debug.h"
 #include "enums.h"

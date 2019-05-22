@@ -12,7 +12,6 @@
 #include <memory>
 #include <utility>
 
-#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h"
@@ -428,7 +427,7 @@ void computer::activate_function( computer_action action )
                                     item sewage( "sewage", calendar::turn );
                                     auto candidates = g->m.i_at( x1, y1 );
                                     for( auto &candidate : candidates ) {
-                                        int capa = candidate.get_remaining_capacity_for_liquid( sewage );
+                                        long capa = candidate.get_remaining_capacity_for_liquid( sewage );
                                         if( capa <= 0 ) {
                                             continue;
                                         }

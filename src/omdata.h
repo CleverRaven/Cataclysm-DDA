@@ -161,8 +161,6 @@ enum oter_flags {
     has_sidewalk,
     line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
     subway_connection,
-    lake,
-    lake_shore,
     num_oter_flags
 };
 
@@ -311,14 +309,6 @@ struct oter_t {
                    type->land_use_code == land_use_code_wetland_saltwater;
         }
 
-        bool is_lake() const {
-            return type->has_flag( lake );
-        }
-
-        bool is_lake_shore() const {
-            return type->has_flag( lake_shore );
-        }
-
     private:
         om_direction::type dir = om_direction::type::none;
         uint32_t symbol;
@@ -363,7 +353,6 @@ struct overmap_special_terrain {
     tripoint p;
     oter_str_id terrain;
     std::set<std::string> flags;
-    std::set<string_id<overmap_location>> locations;
 
     template<typename JsonStream>
     void deserialize( JsonStream &jsin ) {
@@ -371,14 +360,7 @@ struct overmap_special_terrain {
         om.read( "point", p );
         om.read( "overmap", terrain );
         om.read( "flags", flags );
-        om.read( "locations", locations );
     }
-
-    /**
-     * Returns whether this terrain of the special can be placed on the specified terrain.
-     * It's true if oter meets any of locations.
-     */
-    bool can_be_placed_on( const oter_id &oter ) const;
 };
 
 struct overmap_special_connection {
@@ -405,6 +387,11 @@ class overmap_special
     public:
         /** Returns terrain at the given point. */
         const overmap_special_terrain &get_terrain_at( const tripoint &p ) const;
+        /**
+         * Returns whether the special can be placed on the specified terrain.
+         * It's true if oter meets any of locations.
+         */
+        bool can_be_placed_on( const oter_id &oter ) const;
         /** @returns true if this special requires a city */
         bool requires_city() const;
         /** @returns whether the special at specified tripoint can belong to the specified city. */
@@ -420,6 +407,7 @@ class overmap_special
 
         bool rotatable = true;
         overmap_special_spawns spawns;
+        std::set<string_id<overmap_location>> locations;
         std::set<std::string> flags;
 
         // Used by generic_factory

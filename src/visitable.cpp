@@ -753,10 +753,10 @@ std::list<item> visitable<vehicle_selector>::remove_items_with( const
 }
 
 template <typename T>
-static int charges_of_internal( const T &self, const itype_id &id, int limit,
-                                const std::function<bool( const item & )> &filter )
+static long charges_of_internal( const T &self, const itype_id &id, long limit,
+                                 const std::function<bool( const item & )> &filter )
 {
-    int qty = 0;
+    long qty = 0;
 
     bool found_tool_with_UPS = false;
     self.visit_items( [&]( const item * e ) {
@@ -792,21 +792,21 @@ static int charges_of_internal( const T &self, const itype_id &id, int limit,
 
 /** @relates visitable */
 template <typename T>
-int visitable<T>::charges_of( const std::string &what, int limit,
-                              const std::function<bool( const item & )> &filter ) const
+long visitable<T>::charges_of( const std::string &what, long limit,
+                               const std::function<bool( const item & )> &filter ) const
 {
     return charges_of_internal( *this, what, limit, filter );
 }
 
 /** @relates visitable */
 template <>
-int visitable<inventory>::charges_of( const std::string &what, int limit,
-                                      const std::function<bool( const item & )> &filter ) const
+long visitable<inventory>::charges_of( const std::string &what, long limit,
+                                       const std::function<bool( const item & )> &filter ) const
 {
     if( what == "UPS" ) {
-        int qty = 0;
+        long qty = 0;
         qty = sum_no_wrap( qty, charges_of( "UPS_off" ) );
-        qty = sum_no_wrap( qty, static_cast<int>( charges_of( "adv_UPS_off" ) / 0.6 ) );
+        qty = sum_no_wrap( qty, static_cast<long>( charges_of( "adv_UPS_off" ) / 0.6 ) );
         return std::min( qty, limit );
     }
     const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
@@ -815,7 +815,7 @@ int visitable<inventory>::charges_of( const std::string &what, int limit,
         return 0;
     }
 
-    int res = 0;
+    long res = 0;
     for( const item *it : iter->second ) {
         res = sum_no_wrap( res, charges_of_internal( *it, what, limit, filter ) );
         if( res >= limit ) {
@@ -823,31 +823,31 @@ int visitable<inventory>::charges_of( const std::string &what, int limit,
         }
     }
 
-    return std::min( limit, res );
+    return std::min<long>( limit, res );
 }
 
 /** @relates visitable */
 template <>
-int visitable<Character>::charges_of( const std::string &what, int limit,
-                                      const std::function<bool( const item & )> &filter ) const
+long visitable<Character>::charges_of( const std::string &what, long limit,
+                                       const std::function<bool( const item & )> &filter ) const
 {
     auto self = static_cast<const Character *>( this );
     auto p = dynamic_cast<const player *>( self );
 
     if( what == "toolset" ) {
         if( p && p->has_active_bionic( bionic_id( "bio_tools" ) ) ) {
-            return std::min( p->power_level, limit );
+            return std::min( static_cast<long>( p->power_level ), limit );
         } else {
             return 0;
         }
     }
 
     if( what == "UPS" ) {
-        int qty = 0;
+        long qty = 0;
         qty = sum_no_wrap( qty, charges_of( "UPS_off" ) );
-        qty = sum_no_wrap( qty, static_cast<int>( charges_of( "adv_UPS_off" ) / 0.6 ) );
+        qty = sum_no_wrap( qty, static_cast<long>( charges_of( "adv_UPS_off" ) / 0.6 ) );
         if( p && p->has_active_bionic( bionic_id( "bio_ups" ) ) ) {
-            qty = sum_no_wrap( qty, p->power_level );
+            qty = sum_no_wrap( qty, static_cast<long>( p->power_level ) );
         }
         return std::min( qty, limit );
     }
@@ -902,7 +902,7 @@ int visitable<inventory>::amount_of( const std::string &what, bool pseudo, int l
         }
     }
 
-    return std::min( limit, res );
+    return std::min<long>( limit, res );
 }
 
 /** @relates visitable */

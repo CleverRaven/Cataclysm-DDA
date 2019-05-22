@@ -1815,12 +1815,14 @@
   {
     "type": "keybinding",
     "name": "Zoom In",
+    "category": "DEFAULTMODE",
     "id": "zoom_in",
     "bindings": [ { "input_method": "keyboard", "key": "z" } ]
   },
   {
     "type": "keybinding",
     "name": "Zoom Out",
+    "category": "DEFAULTMODE",
     "id": "zoom_out",
     "bindings": [ { "input_method": "keyboard", "key": "Z" } ]
   },
@@ -2127,6 +2129,20 @@
     "category": "LOOK",
     "name": "List items and monsters",
     "bindings": [ { "input_method": "keyboard", "key": "V" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Zoom In",
+    "category": "LOOK",
+    "id": "zoom_in",
+    "bindings": [ { "input_method": "keyboard", "key": "z" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Zoom Out",
+    "category": "LOOK",
+    "id": "zoom_out",
+    "bindings": [ { "input_method": "keyboard", "key": "Z" } ]
   },
   {
     "type": "keybinding",

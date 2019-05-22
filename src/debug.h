@@ -102,7 +102,7 @@ std::string mods_loaded();
 /** Generate a game report, including the information returned by all of the other functions.
  */
 std::string game_report();
-}
+};
 
 // Enumerations                                                     {{{1
 // ---------------------------------------------------------------------

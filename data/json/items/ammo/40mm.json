@@ -25,7 +25,6 @@
     "type": "AMMO",
     "name": "40mm beanbag",
     "description": "A 40mm less-lethal beanbag that delivers strong impact on target, causing major pain and disorientation.  May still injure or kill.",
-    "damage": 20,
     "extend": { "effects": [ "LARGE_BEANBAG" ] }
   },
   {

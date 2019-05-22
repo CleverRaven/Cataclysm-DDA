@@ -15,7 +15,6 @@
 #include <unordered_map>
 
 #include "ammo.h"
-#include "avatar.h"
 #include "cata_utility.h"
 // needed for the workaround for the std::to_string bug in some compilers
 #include "clzones.h"
@@ -186,8 +185,8 @@ enum npc_chat_menu {
 // given a vector of NPCs, presents a menu to allow a player to pick one.
 // everyone == true adds another entry at the end to allow selecting all listed NPCs
 // this implies a return value of npc_list.size() means "everyone"
-static int npc_select_menu( const std::vector<npc *> &npc_list, const std::string &prompt,
-                            const bool everyone = true )
+int npc_select_menu( const std::vector<npc *> &npc_list, const std::string prompt,
+                     const bool everyone = true )
 {
     if( npc_list.empty() ) {
         return -1;
@@ -210,15 +209,14 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
 
 }
 
-static void npc_batch_override_toggle(
-    const std::vector<npc *> &npc_list, ally_rule rule, bool state )
+void npc_batch_override_toggle( const std::vector<npc *> npc_list, ally_rule rule, bool state )
 {
     for( npc *p : npc_list ) {
         p->rules.toggle_specific_override_state( rule, state );
     }
 }
 
-static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
+void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 {
     if( npc_list.empty() ) {
         return;
@@ -306,6 +304,7 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
     }
 
 }
+
 
 void game::chat()
 {
@@ -1107,7 +1106,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     }
 }
 
-static int parse_mod( const dialogue &d, const std::string &attribute, const int factor )
+int parse_mod( const dialogue &d, const std::string &attribute, const int factor )
 {
     player &u = *d.alpha;
     npc &p = *d.beta;
@@ -1603,7 +1602,7 @@ talk_trial::talk_trial( JsonObject jo )
     }
 }
 
-static talk_topic load_inline_topic( JsonObject jo )
+talk_topic load_inline_topic( JsonObject jo )
 {
     const std::string id = jo.get_string( "id" );
     json_talk_topics[id].load( jo );
@@ -1634,8 +1633,7 @@ talk_effect_fun_t::talk_effect_fun_t( std::function<void( const dialogue &d )> f
 }
 
 // throws an error on failure, so no need to return
-static std::string get_talk_varname( JsonObject jo, const std::string &member,
-                                     bool check_value = true )
+std::string get_talk_varname( JsonObject jo, const std::string &member, bool check_value = true )
 {
     if( !jo.has_string( "type" ) || !jo.has_string( "context" ) ||
         ( check_value && !jo.has_string( "value" ) ) ) {
@@ -1941,26 +1939,6 @@ void talk_effect_fun_t::set_npc_aim_rule( const std::string &setting )
     };
 }
 
-void talk_effect_fun_t::set_npc_cbm_reserve_rule( const std::string &setting )
-{
-    function = [setting]( const dialogue & d ) {
-        auto rule = cbm_reserve_strs.find( setting );
-        if( rule != cbm_reserve_strs.end() ) {
-            d.beta->rules.cbm_reserve = rule->second;
-        }
-    };
-}
-
-void talk_effect_fun_t::set_npc_cbm_recharge_rule( const std::string &setting )
-{
-    function = [setting]( const dialogue & d ) {
-        auto rule = cbm_recharge_strs.find( setting );
-        if( rule != cbm_recharge_strs.end() ) {
-            d.beta->rules.cbm_recharge = rule->second;
-        }
-    };
-}
-
 void talk_effect_fun_t::set_mapgen_update( JsonObject jo, const std::string &member )
 {
     mission_target_params target_params = mission_util::parse_mission_om_target( jo );
@@ -2198,12 +2176,6 @@ void talk_effect_t::parse_sub_effect( JsonObject jo )
     } else if( jo.has_string( "set_npc_aim_rule" ) ) {
         const std::string setting = jo.get_string( "set_npc_aim_rule" );
         subeffect_fun.set_npc_aim_rule( setting );
-    } else if( jo.has_string( "set_npc_cbm_reserve_rule" ) ) {
-        const std::string setting = jo.get_string( "set_npc_cbm_reserve_rule" );
-        subeffect_fun.set_npc_cbm_reserve_rule( setting );
-    } else if( jo.has_string( "set_npc_cbm_recharge_rule" ) ) {
-        const std::string setting = jo.get_string( "set_npc_cbm_recharge_rule" );
-        subeffect_fun.set_npc_cbm_recharge_rule( setting );
     } else if( jo.has_member( "mapgen_update" ) ) {
         subeffect_fun.set_mapgen_update( jo, "mapgen_update" );
     } else {
@@ -2226,9 +2198,6 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
             WRAP( assign_guard ),
             WRAP( stop_guard ),
             WRAP( start_camp ),
-            WRAP( buy_cow ),
-            WRAP( buy_chicken ),
-            WRAP( buy_horse ),
             WRAP( recover_camp ),
             WRAP( remove_overseer ),
             WRAP( basecamp_mission ),
@@ -2788,30 +2757,6 @@ void conditional_t::set_npc_engagement_rule( JsonObject &jo )
     };
 }
 
-void conditional_t::set_npc_cbm_reserve_rule( JsonObject &jo )
-{
-    const std::string &setting = jo.get_string( "npc_cbm_reserve_rule" );
-    condition = [setting]( const dialogue & d ) {
-        auto rule = cbm_reserve_strs.find( setting );
-        if( rule != cbm_reserve_strs.end() ) {
-            return d.beta->rules.cbm_reserve == rule->second;
-        }
-        return false;
-    };
-}
-
-void conditional_t::set_npc_cbm_recharge_rule( JsonObject &jo )
-{
-    const std::string &setting = jo.get_string( "npc_cbm_recharge_rule" );
-    condition = [setting]( const dialogue & d ) {
-        auto rule = cbm_recharge_strs.find( setting );
-        if( rule != cbm_recharge_strs.end() ) {
-            return d.beta->rules.cbm_recharge == rule->second;
-        }
-        return false;
-    };
-}
-
 void conditional_t::set_npc_rule( JsonObject &jo )
 {
     std::string rule = jo.get_string( "npc_rule" );
@@ -3216,10 +3161,6 @@ conditional_t::conditional_t( JsonObject jo )
         set_npc_aim_rule( jo );
     } else if( jo.has_string( "npc_engagement_rule" ) ) {
         set_npc_engagement_rule( jo );
-    } else if( jo.has_string( "npc_cbm_reserve_rule" ) ) {
-        set_npc_cbm_reserve_rule( jo );
-    } else if( jo.has_string( "npc_cbm_recharge_rule" ) ) {
-        set_npc_cbm_recharge_rule( jo );
     } else if( jo.has_string( "npc_rule" ) ) {
         set_npc_rule( jo );
     } else if( jo.has_string( "npc_override" ) ) {
@@ -3361,25 +3302,6 @@ bool json_talk_response::gen_repeat_response( dialogue &d, const itype_id &item_
     return false;
 }
 
-static std::string translate_gendered_line(
-    const std::string &line,
-    const std::vector<std::string> &relevant_genders,
-    const dialogue &d
-)
-{
-    GenderMap gender_map;
-    for( const std::string &subject : relevant_genders ) {
-        if( subject == "npc" ) {
-            gender_map[subject] = d.beta->get_grammatical_genders();
-        } else if( subject == "u" ) {
-            gender_map[subject] = d.alpha->get_grammatical_genders();
-        } else {
-            debugmsg( "Unsupported subject '%s' for grammatical gender in dialogue", subject );
-        }
-    }
-    return gettext_gendered( gender_map, line );
-}
-
 dynamic_line_t dynamic_line_t::from_member( JsonObject &jo, const std::string &member_name )
 {
     if( jo.has_array( member_name ) ) {
@@ -3432,25 +3354,6 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
             std::string tmp = d.reason;
             d.reason.clear();
             return tmp;
-        };
-    } else if( jo.has_string( "gendered_line" ) ) {
-        const std::string line = jo.get_string( "gendered_line" );
-        if( !jo.has_array( "relevant_genders" ) ) {
-            jo.throw_error(
-                "dynamic line with \"gendered_line\" must also have \"relevant_genders\"" );
-        }
-        JsonArray ja = jo.get_array( "relevant_genders" );
-        std::vector<std::string> relevant_genders;
-        while( ja.has_more() ) {
-            relevant_genders.push_back( ja.next_string() );
-        }
-        for( const std::string &gender : relevant_genders ) {
-            if( gender != "npc" && gender != "u" ) {
-                jo.throw_error( "Unexpected subject in relevant_genders; expected 'npc' or 'u'" );
-            }
-        }
-        function = [line, relevant_genders]( const dialogue & d ) {
-            return translate_gendered_line( line, relevant_genders, d );
         };
     } else {
         conditional_t dcondition;
@@ -3688,7 +3591,7 @@ enum consumption_result {
 };
 
 // Returns true if we destroyed the item through consumption
-static consumption_result try_consume( npc &p, item &it, std::string &reason )
+consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
     // TODO: Unify this with 'player::consume_item()'
     bool consuming_contents = it.is_container() && !it.contents.empty();

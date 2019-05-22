@@ -19,9 +19,7 @@ void mission_favor( npc & );
 void give_equipment( npc & );
 void give_aid( npc & );
 void give_all_aid( npc & );
-void buy_horse( npc & );
-void buy_cow( npc & );
-void buy_chicken( npc & );
+
 void bionic_install( npc & );
 void bionic_remove( npc & );
 

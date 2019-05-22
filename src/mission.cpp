@@ -9,7 +9,6 @@
 #include <list>
 #include <utility>
 
-#include "avatar.h"
 #include "debug.h"
 #include "game.h"
 #include "line.h"

@@ -9,7 +9,6 @@
 #include <memory>
 #include <utility>
 
-#include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
@@ -23,7 +22,7 @@
 #include "ret_val.h"
 #include "type_id.h"
 
-static std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
+std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
 {
     for( const auto &e : v ) {
         s << e.c_str() << " ";
@@ -62,10 +61,10 @@ static bool try_set_traits( const std::vector<trait_id> &traits )
     return true;
 }
 
-static avatar get_sanitized_player()
+static player get_sanitized_player()
 {
     // You'd think that this hp stuff would be in the c'tor...
-    avatar ret = avatar();
+    player ret = player();
     ret.recalc_hp();
     for( int i = 0; i < num_hp_parts; i++ ) {
         ret.hp_cur[i] = ret.hp_max[i];

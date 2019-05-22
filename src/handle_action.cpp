@@ -11,7 +11,6 @@
 #include "action.h"
 #include "advanced_inv.h"
 #include "auto_pickup.h"
-#include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "clzones.h"
@@ -96,25 +95,21 @@ class user_turn
         }
 
         bool has_timeout_elapsed() {
-            return moves_elapsed() > 100;
-        }
-
-        int moves_elapsed() {
-            const float turn_duration = get_option<float>( "TURN_DURATION" );
+            float turn_duration = get_option<float>( "TURN_DURATION" );
             // Magic number 0.005 chosen due to option menu's 2 digit precision and
             // the option menu UI rounding <= 0.005 down to "0.00" in the display.
             // This conditional will catch values (e.g. 0.003) that the options menu
             // would round down to "0.00" in the options menu display. This prevents
             // the user from being surprised by floating point rounding near zero.
             if( turn_duration <= 0.005 ) {
-                return 0;
+                return false;
             }
+
             auto now = std::chrono::steady_clock::now();
             std::chrono::milliseconds elapsed_ms =
                 std::chrono::duration_cast<std::chrono::milliseconds>( now - user_turn_start );
-            return elapsed_ms.count() / ( 10.0 * turn_duration );
+            return elapsed_ms.count() >= 1000.0 * turn_duration;
         }
-
 };
 
 input_context game::get_player_input( std::string &action )
@@ -153,7 +148,7 @@ input_context game::get_player_input( std::string &action )
         }
 
         //x% of the Viewport, only shown on visible areas
-        const auto weather_info = get_weather_animation( weather.weather );
+        const auto weather_info = get_weather_animation( weather );
         int offset_x = u.posx() + u.view_offset.x - getmaxx( w_terrain ) / 2;
         int offset_y = u.posy() + u.view_offset.y - getmaxy( w_terrain ) / 2;
 
@@ -175,7 +170,7 @@ input_context game::get_player_input( std::string &action )
         weather_printable wPrint;
         wPrint.colGlyph = weather_info.color;
         wPrint.cGlyph = weather_info.glyph;
-        wPrint.wtype = weather.weather;
+        wPrint.wtype = weather;
         wPrint.vdrops.clear();
         wPrint.startx = iStartX;
         wPrint.starty = iStartY;
@@ -301,6 +296,7 @@ input_context game::get_player_input( std::string &action )
             }
 
             wrefresh( w_terrain );
+            g->draw_panels();
 
             if( uquit == QUIT_WATCH ) {
 
@@ -647,7 +643,6 @@ static void smash()
 
     didit = m.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
-        u.increase_activity_level( MODERATE_EXERCISE );
         u.handle_melee_wear( u.weapon );
         u.moves -= move_cost;
         const int mod_sta = ( ( u.weapon.weight() / 100_gram ) + 20 ) * -1;
@@ -687,7 +682,7 @@ static void smash()
     }
 }
 
-static bool try_set_alarm()
+bool try_set_alarm()
 {
     uilist as_m;
     const bool already_set = g->u.has_effect( effect_alarm_clock );
@@ -1090,6 +1085,7 @@ static void reach_attack( int range, player &u )
     }
     g->draw_ter();
     wrefresh( g->w_terrain );
+    g->draw_panels();
     g->reenter_fullscreen();
 }
 
@@ -1286,7 +1282,6 @@ bool game::handle_action()
     std::string action;
     input_context ctxt;
     action_id act = ACTION_NULL;
-    user_turn current_turn;
     // Check if we have an auto-move destination
     if( u.has_destination() ) {
         act = u.get_next_auto_move_direction();
@@ -2138,9 +2133,7 @@ bool game::handle_action()
     if( !continue_auto_move ) {
         u.clear_destination();
     }
-    if( act != ACTION_TIMEOUT ) {
-        u.mod_moves( -current_turn.moves_elapsed() );
-    }
+
     gamemode->post_action( act );
 
     u.movecounter = ( !u.is_dead_state() ? ( before_action_moves - u.moves ) : 0 );

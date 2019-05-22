@@ -84,7 +84,7 @@ using chtype = int;
 // Supports line drawing
 inline std::string string_from_long( const catacurses::chtype ch )
 {
-    catacurses::chtype charcode = ch;
+    char charcode = ch;
     // LINE_NESW  - X for on, O for off
     switch( ch ) {
         case LINE_XOXO:
@@ -121,10 +121,10 @@ inline std::string string_from_long( const catacurses::chtype ch )
             charcode = LINE_XXXX_C;
             break;
         default:
-            charcode = ch;
+            charcode = static_cast<char>( ch );
             break;
     }
-    char buffer[2] = { static_cast<char>( charcode ), '\0' };
+    char buffer[2] = { charcode, '\0' };
     return buffer;
 }
 
@@ -512,8 +512,6 @@ std::string trim( const std::string &s );
 std::string trim_punctuation_marks( const std::string &s );
 // Converts the string to upper case.
 std::string to_upper_case( const std::string &s );
-
-std::string rewrite_vsnprintf( const char *msg );
 
 // TODO: move these elsewhere
 // string manipulations.

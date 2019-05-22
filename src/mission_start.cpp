@@ -3,7 +3,6 @@
 #include <vector>
 #include <memory>
 
-#include "avatar.h"
 #include "computer.h"
 #include "debug.h"
 #include "game.h"

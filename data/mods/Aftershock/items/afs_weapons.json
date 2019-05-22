@@ -31,13 +31,10 @@
           "light_minus_battery_cell",
           "light_plus_battery_cell",
           "light_minus_atomic_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "light_atomic_battery_cell"
         ]
       ]
-    ],
-    "magazine_well": 1
+    ]
   },
   {
     "id": "afs_energy_saber_on",
@@ -64,7 +61,18 @@
       "target": "afs_energy_saber_off",
       "msg": "The blade dissipates into particles."
     },
-    "magazine_well": 1
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_atomic_battery_cell"
+        ]
+      ]
+    ]
   },
   {
     "id": "afs_hardlight_longbow",

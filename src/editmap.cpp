@@ -14,7 +14,6 @@
 #include <set>
 #include <utility>
 
-#include "avatar.h"
 #include "calendar.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "computer.h"
@@ -68,7 +67,7 @@ static const ter_id undefined_ter_id( -1 );
 static const furn_id undefined_furn_id( -1 );
 static const trap_id undefined_trap_id( -1 );
 
-static std::vector<std::string> fld_string( const std::string &str, int width )
+std::vector<std::string> fld_string( const std::string &str, int width )
 {
     std::vector<std::string> lines;
     if( width < 1 ) {
@@ -697,7 +696,7 @@ void editmap::update_view( bool update_info )
 
 }
 
-static ter_id get_alt_ter( bool isvert, ter_id sel_ter )
+ter_id get_alt_ter( bool isvert, ter_id sel_ter )
 {
     std::map<std::string, std::string> alts;
     alts["_v"] = "_h";
@@ -1483,7 +1482,7 @@ tripoint editmap::recalc_target( shapetype shape )
  * If the result is not >= min and < 'max', constrain the result and adjust 'shift',
  * so it can adjust subsequent points of a set consistently.
  */
-static int limited_shift( int var, int &shift, int min, int max )
+int limited_shift( int var, int &shift, int min, int max )
 {
     if( var + shift < min ) {
         shift = min - var;

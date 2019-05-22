@@ -12,7 +12,6 @@
 #include "item_group.h"
 #include "itype.h"
 #include "json.h"
-#include "mtype.h"
 #include "player.h"
 #include "pldata.h"
 #include "text_snippets.h"
@@ -163,9 +162,7 @@ void profession::load( JsonObject &jo, const std::string & )
     }
 
     mandatory( jo, was_loaded, "points", _point_cost );
-    if( jo.has_string( "pet" ) ) {
-        _starting_pet = mtype_id( jo.get_string( "pet" ) );
-    }
+
     if( !was_loaded || jo.has_member( "items" ) ) {
         JsonObject items_obj = jo.get_object( "items" );
 
@@ -275,12 +272,7 @@ void profession::check_definition() const
             debugmsg( "trait %s for profession %s does not exist", t.c_str(), id.c_str() );
         }
     }
-    if( _starting_pet ) {
-        mtype_id mtypemon = *_starting_pet;
-        if( !mtypemon.is_valid() ) {
-            debugmsg( "startng pet %s for profession %s does not exist", mtypemon.c_str(), id.c_str() );
-        }
-    }
+
     for( const auto &elem : _starting_skills ) {
         if( !elem.first.is_valid() ) {
             debugmsg( "skill %s for profession %s does not exist", elem.first.c_str(), id.c_str() );
@@ -389,15 +381,6 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         return first.get_layer() < second.get_layer();
     } );
     return result;
-}
-
-cata::optional<mtype_id> profession::pet() const
-{
-    if( _starting_pet ) {
-        return _starting_pet;
-    } else {
-        return cata::nullopt;
-    }
 }
 
 std::vector<addiction> profession::addictions() const
@@ -629,3 +612,4 @@ std::vector<itype_id> json_item_substitution::get_bonus_items( const std::vector
     }
     return ret;
 }
+

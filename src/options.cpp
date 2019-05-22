@@ -16,7 +16,6 @@
 #include "output.h"
 #include "path_info.h"
 #include "sdlsound.h"
-#include "sdltiles.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -45,9 +44,12 @@ bool trigdist;
 bool use_tiles;
 bool log_from_top;
 int message_ttl;
-int message_cooldown;
 bool fov_3d;
 bool tile_iso;
+
+#if defined(TILES)
+extern std::unique_ptr<cata_tiles> tilecontext;
+#endif // TILES
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
@@ -281,8 +283,8 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
 //add int map option
 void options_manager::add( const std::string &sNameIn, const std::string &sPageIn,
                            const std::string &sMenuTextIn, const std::string &sTooltipIn,
-                           const std::vector< std::tuple<int, std::string> > &mIntValuesIn,
-                           int iInitialIn, int iDefaultIn, copt_hide_t opt_hide, const bool verbose )
+                           const std::map<int, std::string> &mIntValuesIn, int iInitialIn,
+                           int iDefaultIn, copt_hide_t opt_hide )
 {
     cOpt thisOpt;
 
@@ -292,7 +294,6 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
     thisOpt.sTooltip = sTooltipIn;
     thisOpt.sType = "int_map";
     thisOpt.eType = get_value_type( thisOpt.sType );
-    thisOpt.verbose = verbose;
 
     thisOpt.format = "%i";
 
@@ -300,14 +301,14 @@ void options_manager::add( const std::string &sNameIn, const std::string &sPageI
 
     thisOpt.mIntValues = mIntValuesIn;
 
-    auto item = thisOpt.findInt( iInitialIn );
-    if( !item ) {
-        iInitialIn = std::get<0>( mIntValuesIn[0] );
+    auto item = mIntValuesIn.find( iInitialIn );
+    if( item == mIntValuesIn.cend() ) {
+        iInitialIn = mIntValuesIn.cbegin()->first;
     }
 
-    item = thisOpt.findInt( iDefaultIn );
-    if( !item ) {
-        iDefaultIn = std::get<0>( mIntValuesIn[0] );
+    item = mIntValuesIn.find( iDefaultIn );
+    if( item == mIntValuesIn.cend() ) {
+        iDefaultIn = mIntValuesIn.cbegin()->first;
     }
 
     thisOpt.iDefault = iDefaultIn;
@@ -589,12 +590,7 @@ std::string options_manager::cOpt::getValueName() const
         return ( bSet ) ? _( "True" ) : _( "False" );
 
     } else if( sType == "int_map" ) {
-        const auto name = std::get<1>( *findInt( iSet ) ).c_str();
-        if( verbose ) {
-            return string_format( _( "%d: %s" ), iSet, name );
-        } else {
-            return string_format( _( "%s" ), name );
-        }
+        return string_format( _( "%d: %s" ), iSet, mIntValues.find( iSet )->second );
     }
 
     return getValue();
@@ -625,12 +621,7 @@ std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) cons
         return string_format( _( "Default: %d - Min: %d, Max: %d" ), iDefault, iMin, iMax );
 
     } else if( sType == "int_map" ) {
-        const auto name = std::get<1>( *findInt( iDefault ) ).c_str();
-        if( verbose ) {
-            return string_format( _( "Default: %d: %s" ), iDefault, name );
-        } else {
-            return string_format( _( "Default: %s" ), name );
-        }
+        return string_format( _( "Default: %d: %s" ), iDefault, mIntValues.find( iDefault )->second );
 
     } else if( sType == "float" ) {
         return string_format( _( "Default: %.2f - Min: %.2f, Max: %.2f" ), fDefault, fMin, fMax );
@@ -655,29 +646,6 @@ int options_manager::cOpt::getItemPos( const std::string &sSearch ) const
 std::vector<options_manager::id_and_option> options_manager::cOpt::getItems() const
 {
     return vItems;
-}
-
-int options_manager::cOpt::getIntPos( const int iSearch ) const
-{
-    if( sType == "int_map" ) {
-        for( size_t i = 0; i < mIntValues.size(); i++ ) {
-            if( std::get<0>( mIntValues[i] ) == iSearch ) {
-                return i;
-            }
-        }
-    }
-
-    return -1;
-}
-
-cata::optional< std::tuple<int, std::string> > options_manager::cOpt::findInt(
-    const int iSearch ) const
-{
-    int i = static_cast<int>( getIntPos( iSearch ) );
-    if( i == -1 ) {
-        return cata::nullopt;
-    }
-    return mIntValues[i];
 }
 
 int options_manager::cOpt::getMaxLength() const
@@ -719,11 +687,12 @@ void options_manager::cOpt::setNext()
         }
 
     } else if( sType == "int_map" ) {
-        long unsigned int iNext = getIntPos( iSet ) + 1;
-        if( iNext >= mIntValues.size() ) {
-            iNext = 0;
+        auto next = std::next( mIntValues.find( iSet ) );
+        if( next == mIntValues.cend() ) {
+            iSet = mIntValues.cbegin()->first;
+        } else {
+            iSet = next->first;
         }
-        iSet = std::get<0>( mIntValues[iNext] );
 
     } else if( sType == "float" ) {
         fSet += fStep;
@@ -737,7 +706,7 @@ void options_manager::cOpt::setNext()
 void options_manager::cOpt::setPrev()
 {
     if( sType == "string_select" ) {
-        int iPrev = static_cast<int>( getItemPos( sSet ) ) - 1;
+        int iPrev = getItemPos( sSet ) - 1;
         if( iPrev < 0 ) {
             iPrev = vItems.size() - 1;
         }
@@ -757,11 +726,14 @@ void options_manager::cOpt::setPrev()
         }
 
     } else if( sType == "int_map" ) {
-        int iPrev = static_cast<int>( getIntPos( iSet ) ) - 1;
-        if( iPrev < 0 ) {
-            iPrev = mIntValues.size() - 1;
+        auto item = mIntValues.find( iSet );
+        if( item == mIntValues.cbegin() ) {
+            auto prev = std::prev( mIntValues.cend() );
+            iSet = prev->first;
+        } else {
+            auto prev = std::prev( item );
+            iSet = prev->first;
         }
-        iSet = std::get<0>( mIntValues[iPrev] );
 
     } else if( sType == "float" ) {
         fSet -= fStep;
@@ -821,8 +793,8 @@ void options_manager::cOpt::setValue( std::string sSetIn )
     } else if( sType == "int_map" ) {
         iSet = atoi( sSetIn.c_str() );
 
-        auto item = findInt( iSet );
-        if( !item ) {
+        auto item = mIntValues.find( iSet );
+        if( item == mIntValues.cend() ) {
             iSet = iDefault;
         }
 
@@ -1420,11 +1392,6 @@ void options_manager::add_options_interface()
          0, 1000, 0
        );
 
-    add( "MESSAGE_COOLDOWN", "interface", translate_marker( "Message cooldown" ),
-         translate_marker( "Number of turns during which similar messages are hidden.  '0' disables this option." ),
-         0, 1000, 0
-       );
-
     add( "NO_UNKNOWN_COMMAND_MSG", "interface",
          translate_marker( "Suppress \"unknown command\" messages" ),
          translate_marker( "If true, pressing a key with no set function will not display a notice in the chat log." ),
@@ -1451,11 +1418,6 @@ void options_manager::add_options_interface()
          1, 50, 1
        );
 
-    add( "FAST_SCROLL_OFFSET", "interface", translate_marker( "Overmap fast scroll offset" ),
-         translate_marker( "With Fast Scroll option enabled, shift view on the overmap and while looking around by this many squares per keypress." ),
-         1, 50, 5
-       );
-
     add( "MENU_SCROLL", "interface", translate_marker( "Centered menu scrolling" ),
          translate_marker( "If true, menus will start scrolling in the center of the list, and keep the list centered." ),
          true
@@ -1468,13 +1430,9 @@ void options_manager::add_options_interface()
        );
 
     add( "AUTO_INV_ASSIGN", "interface", translate_marker( "Auto inventory letters" ),
-         translate_marker( "Enabled: automatically assign letters to any carried items that lack them. Disabled: do not auto-assign letters."
-    " Favorites: only auto-assign letters to favorited items." ), {
-        { "disabled", translate_marker( "Disabled" ) },
-        { "enabled", translate_marker( "Enabled" ) },
-        { "favorites", translate_marker( "Favorites" ) }
-    },
-    "favorites" );
+         translate_marker( "If false, new inventory items will only get letters assigned if they had one before." ),
+         true
+       );
 
     add( "ITEM_HEALTH_BAR", "interface", translate_marker( "Show item health bars" ),
          translate_marker( "If true, show item health bars instead of reinforced, scratched etc. text." ),
@@ -1505,14 +1463,9 @@ void options_manager::add_options_interface()
     "show", COPT_CURSES_HIDE );
 
     add( "EDGE_SCROLL", "interface", translate_marker( "Edge scrolling" ),
-    translate_marker( "Edge scrolling with the mouse." ), {
-        std::make_tuple( -1, translate_marker( "Disabled" ) ),
-        std::make_tuple( 100, translate_marker( "Slow" ) ),
-        std::make_tuple( 30, translate_marker( "Normal" ) ),
-        std::make_tuple( 10, translate_marker( "Fast" ) )
-    },
-    30, 30, COPT_CURSES_HIDE );
-
+         translate_marker( "If true, enables edge scrolling/panning with mouse when looking or peeking." ),
+         true, COPT_CURSES_HIDE
+       );
 }
 
 void options_manager::add_options_graphics()
@@ -2273,6 +2226,7 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             use_tiles = false;
         }
     } else if( ingame && g->pixel_minimap_option && pixel_minimap_height_changed ) {
+        tilecontext->reinit_minimap();
         g->init_ui();
         g->refresh_all();
     }
@@ -2283,9 +2237,8 @@ static void refresh_tiles( bool, bool, bool )
 }
 #endif // TILES
 
-static void draw_borders_external(
-    const catacurses::window &w, int horizontal_level, const std::map<int, bool> &mapLines,
-    const bool world_options_only )
+void draw_borders_external( const catacurses::window &w, int horizontal_level,
+                            const std::map<int, bool> &mapLines, const bool world_options_only )
 {
     if( !world_options_only ) {
         draw_border( w, BORDER_COLOR, _( " OPTIONS " ) );
@@ -2299,7 +2252,7 @@ static void draw_borders_external(
     wrefresh( w );
 }
 
-static void draw_borders_internal( const catacurses::window &w, std::map<int, bool> &mapLines )
+void draw_borders_internal( const catacurses::window &w, std::map<int, bool> &mapLines )
 {
     for( int i = 0; i < getmaxx( w ); ++i ) {
         if( mapLines[i] ) {
@@ -2571,7 +2524,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             sfx::play_variant_sound( "menu_move", "default", 100 );
         } else if( !mPageItems[iCurrentPage].empty() && action == "CONFIRM" ) {
             if( current_opt.getType() == "bool" || current_opt.getType() == "string_select" ||
-                current_opt.getType() == "string_input" || current_opt.getType() == "int_map" ) {
+                current_opt.getType() == "string_input" ) {
                 current_opt.setNext();
             } else {
                 const bool is_int = current_opt.getType() == "int";
@@ -2608,6 +2561,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             // keybinding screen erased the internal borders of main menu, restore it:
             draw_borders_internal( w_options_header, mapLines );
         } else if( action == "QUIT" ) {
+            g->reinitmap = true;
             break;
         }
     }
@@ -2658,7 +2612,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                 world_generator->active_world->WORLD_OPTIONS = ACTIVE_WORLD_OPTIONS;
                 world_generator->active_world->save();
             }
-            g->on_options_changed();
         } else {
             used_tiles_changed = false;
             OPTIONS = OPTIONS_OLD;
@@ -2768,7 +2721,6 @@ bool options_manager::save()
     use_tiles = ::get_option<bool>( "USE_TILES" );
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
-    message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
 
     update_music_volume();
@@ -2798,7 +2750,6 @@ void options_manager::load()
     use_tiles = ::get_option<bool>( "USE_TILES" );
     log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
     message_ttl = ::get_option<int>( "MESSAGE_TTL" );
-    message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );

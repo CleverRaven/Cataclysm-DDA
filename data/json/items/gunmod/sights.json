@@ -79,7 +79,6 @@
     "weight": 60,
     "volume": 1,
     "integral_volume": 0,
-    "integral_weight": 0,
     "price": 72000,
     "material": [ "steel" ],
     "symbol": ":",

@@ -126,7 +126,6 @@ const std::map<std::string, m_flag> flag_map = {
     { "NIGHT_INVISIBILITY", MF_NIGHT_INVISIBILITY },
     { "REVIVES_HEALTHY", MF_REVIVES_HEALTHY },
     { "NO_NECRO", MF_NO_NECRO },
-    { "PACIFIST", MF_PACIFIST },
     { "PUSH_MON", MF_PUSH_MON },
     { "PUSH_VEH", MF_PUSH_VEH },
     { "PATH_AVOID_DANGER_1", MF_AVOID_DANGER_1 },
@@ -237,7 +236,7 @@ static int calc_bash_skill( const mtype &t )
     return ret;
 }
 
-static m_size volume_to_size( const units::volume vol )
+m_size volume_to_size( const units::volume vol )
 {
     if( vol <= 7500_ml ) {
         return MS_TINY;
@@ -443,9 +442,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "EAT_CROP", mattack::eat_crop );
     add_hardcoded_attack( "EAT_FOOD", mattack::eat_food );
     add_hardcoded_attack( "ANTQUEEN", mattack::antqueen );
-    add_hardcoded_attack( "CHECK_UP", mattack::nurse_check_up );
-    add_hardcoded_attack( "ASSIST", mattack::nurse_assist );
-    add_hardcoded_attack( "OPERATE", mattack::nurse_operate );
     add_hardcoded_attack( "SHRIEK", mattack::shriek );
     add_hardcoded_attack( "SHRIEK_ALERT", mattack::shriek_alert );
     add_hardcoded_attack( "SHRIEK_STUN", mattack::shriek_stun );
@@ -505,7 +501,6 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "IMPALE", mattack::impale );
     add_hardcoded_attack( "BRANDISH", mattack::brandish );
     add_hardcoded_attack( "FLESH_GOLEM", mattack::flesh_golem );
-    add_hardcoded_attack( "ABSORB_MEAT", mattack::absorb_meat );
     add_hardcoded_attack( "LUNGE", mattack::lunge );
     add_hardcoded_attack( "LONGSWIPE", mattack::longswipe );
     add_hardcoded_attack( "PARROT", mattack::parrot );
@@ -627,8 +622,6 @@ void mtype::load( JsonObject &jo, const std::string &src )
     assign( jo, "melee_skill", melee_skill, strict, 0 );
     assign( jo, "melee_dice", melee_dice, strict, 0 );
     assign( jo, "melee_dice_sides", melee_sides, strict, 0 );
-
-    assign( jo, "grab_strength", grab_strength, strict, 0 );
 
     assign( jo, "dodge", sk_dodge, strict, 0 );
     assign( jo, "armor_bash", armor_bash, strict, 0 );

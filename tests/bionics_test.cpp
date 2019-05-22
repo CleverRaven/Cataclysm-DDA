@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 
-#include "avatar.h"
 #include "catch/catch.hpp"
 #include "ammo.h"
 #include "bionics.h"
@@ -17,14 +16,14 @@
 #include "string_id.h"
 #include "type_id.h"
 
-static void clear_bionics( player &p )
+void clear_bionics( player &p )
 {
     p.my_bionics->clear();
     p.power_level = 0;
     p.max_power_level = 0;
 }
 
-static void give_and_activate( player &p, bionic_id const &bioid )
+void give_and_activate( player &p, bionic_id const &bioid )
 {
     INFO( "bionic " + bioid.str() + " is valid" );
     REQUIRE( bioid.is_valid() );
@@ -54,8 +53,7 @@ static void give_and_activate( player &p, bionic_id const &bioid )
     }
 }
 
-static void test_consumable_charges( player &p, std::string &itemname, bool when_none,
-                                     bool when_max )
+void test_consumable_charges( player &p, std::string &itemname, bool when_none, bool when_max )
 {
     item it = item( itemname, 0, 0 ) ;
 
@@ -66,13 +64,12 @@ static void test_consumable_charges( player &p, std::string &itemname, bool when
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.charges ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_none );
 
-    it.charges = INT_MAX;
+    it.charges = LONG_MAX;
     INFO( "consume \'" + it.tname() + "\' with " + std::to_string( it.charges ) + " charges" );
     REQUIRE( p.can_consume( it ) == when_max );
 }
 
-static void test_consumable_ammo( player &p, std::string &itemname, bool when_empty,
-                                  bool when_full )
+void test_consumable_ammo( player &p, std::string &itemname, bool when_empty, bool when_full )
 {
     item it = item( itemname, 0, 0 ) ;
 

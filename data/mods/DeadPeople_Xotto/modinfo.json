@@ -5,7 +5,7 @@
     "name": "[DP_MOD] Indicators: Xotto",
     "authors": [ "SomeDeadGuy" ],
     "description": "Changes interface indicators to Xotto version.",
-    "category": "graphical",
+    "category": "none",
     "dependencies": [ "dda" ]
   }
 ]

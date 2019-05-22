@@ -277,16 +277,6 @@
     ]
   },
   {
-    "id": "flesh_golem",
-    "type": "harvest",
-    "message": "You messily hack apart the hulking mass of fused, rancid flesh, taking note of anything that stands out.",
-    "entries": [
-      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.33 },
-      { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.1 },
-      { "drop": "flesh_golem_heart", "base_num": [ 0, 1 ], "scale_num": [ 0.6, 0.9 ], "max": 3, "type": "offal" }
-    ]
-  },
-  {
     "id": "jabberwock",
     "type": "harvest",
     "message": "You messily hack apart the colossal mass of fused, rancid flesh, taking note of anything that stands out.",
@@ -410,7 +400,7 @@
       { "drop": "fat_tainted", "type": "flesh", "mass_ratio": 0.05 },
       { "drop": "bone_tainted", "type": "bone", "mass_ratio": 0.1 },
       { "drop": "stick_fiber", "type": "bone", "mass_ratio": 0.1 },
-      { "drop": "veggy", "type": "flesh", "mass_ratio": 0.25 }
+      { "drop": "veggy_tainted", "type": "flesh", "mass_ratio": 0.25 }
     ]
   },
   {

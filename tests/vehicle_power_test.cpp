@@ -1,7 +1,6 @@
 #include <memory>
 #include <vector>
 
-#include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "map.h"
@@ -69,7 +68,7 @@ TEST_CASE( "vehicle_power" )
         veh_ptr->update_time( start_time );
         veh_ptr->discharge_battery( veh_ptr->fuel_left( fuel_type_battery ) );
         REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) == 0 );
-        g->weather.weather_override = WEATHER_SUNNY;
+        g->weather_override = WEATHER_SUNNY;
         veh_ptr->update_time( start_time + 30_minutes );
         int approx_battery1 = veh_ptr->fuel_left( fuel_type_battery ) / 100;
         const int exp_min = 12;

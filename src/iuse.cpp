@@ -19,7 +19,6 @@
 
 #include "action.h"
 #include "artifact.h"
-#include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -238,7 +237,7 @@ void remove_radio_mod( item &it, player &p )
 }
 
 // Checks that the player does not have an active item with LITCIG flag.
-static bool check_litcig( player &u )
+bool check_litcig( player &u )
 {
     auto cigs = u.items_with( []( const item & it ) {
         return it.active && it.has_flag( "LITCIG" );
@@ -248,6 +247,31 @@ static bool check_litcig( player &u )
     }
     u.add_msg_if_player( m_info, _( "You're already smoking a %s!" ), cigs[0]->tname() );
     return false;
+}
+
+// For an explosion (which releases some kind of gas), this function
+// calculates the points around that explosion where to create those
+// gas fields.
+// Those points must have a clear line of sight and a clear path to
+// the center of the explosion.
+// They must also be passable.
+std::vector<tripoint> points_for_gas_cloud( const tripoint &center, int radius )
+{
+    const std::vector<tripoint> gas_sources = closest_tripoints_first( radius, center );
+    std::vector<tripoint> result;
+    for( const auto &p : gas_sources ) {
+        if( g->m.impassable( p ) ) {
+            continue;
+        }
+        if( p != center ) {
+            if( !g->m.clear_path( center, p, radius, 1, 100 ) ) {
+                // Can not splatter gas from center to that point, something is in the way
+                continue;
+            }
+        }
+        result.push_back( p );
+    }
+    return result;
 }
 
 /* iuse methods return the number of charges expended, which is usually it->charges_to_use().
@@ -310,7 +334,7 @@ static constexpr time_duration alc_strength( const int strength, const time_dura
     return strength == 0 ? weak : strength == 1 ? medium : strong;
 }
 
-static int alcohol( player &p, const item &it, const int strength )
+int alcohol( player &p, const item &it, const int strength )
 {
     // Weaker characters are cheap drunks
     /** @EFFECT_STR_MAX reduces drunkenness duration */
@@ -1069,7 +1093,7 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-static void spawn_spores( const player &p )
+void spawn_spores( const player &p )
 {
     int spores_spawned = 0;
     fungal_effects fe( *g, g->m );
@@ -1381,13 +1405,12 @@ enum Petfood {
     BIRDFOOD
 };
 
-static int feedpet( player &p, monster &mon, item &it, m_flag food_flag, const char *message )
+int feedpet( player &p, monster &mon, m_flag food_flag, const char *message )
 {
     if( mon.has_flag( food_flag ) ) {
         p.add_msg_if_player( m_good, message, mon.get_name() );
         mon.friendly = -1;
         mon.add_effect( effect_pet, 1_turns, num_bp, true );
-        p.consume_charges( it, 1 );
         return 1;
     } else {
         p.add_msg_if_player( _( "The %s doesn't want that kind of food." ), mon.get_name() );
@@ -1395,7 +1418,7 @@ static int feedpet( player &p, monster &mon, item &it, m_flag food_flag, const c
     }
 }
 
-static int petfood( player &p, item &it, Petfood animal_food_type )
+int petfood( player &p, const item &it, Petfood animal_food_type )
 {
     const cata::optional<tripoint> pnt_ = choose_adjacent( string_format( _( "Put the %s where?" ),
                                           it.tname() ) );
@@ -1415,12 +1438,10 @@ static int petfood( player &p, item &it, Petfood animal_food_type )
                 if( person.is_ally( p ) || x_in_y( 9, 10 ) ) {
                     person.say(
                         _( "Okay, but please, don't give me this again.  I don't want to eat dog food in the cataclysm all day." ) );
-                    p.consume_charges( it, 1 );
                     return 1;
                 } else {
                     p.add_msg_if_player( _( "%s knocks it out from your hand!" ), person.name );
                     person.make_angry();
-                    p.consume_charges( it, 1 );
                     return 1;
                 }
             } else {
@@ -1448,22 +1469,21 @@ static int petfood( player &p, item &it, Petfood animal_food_type )
                     if( one_in( 5 ) ) {
                         p.add_msg_if_player(
                             _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
-                        p.consume_charges( it, 1 );
                         return 1;
                     }
                 } else {
-                    return feedpet( p, mon, it, MF_DOGFOOD,
+                    return feedpet( p, mon, MF_DOGFOOD,
                                     _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
                 }
                 break;
             case CATFOOD:
-                return feedpet( p, mon, it, MF_CATFOOD,
+                return feedpet( p, mon, MF_CATFOOD,
                                 _( "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines." ) );
             case CATTLEFODDER:
-                return feedpet( p, mon, it, MF_CATTLEFODDER,
+                return feedpet( p, mon, MF_CATTLEFODDER,
                                 _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
             case BIRDFOOD:
-                return feedpet( p, mon, it, MF_BIRDFOOD,
+                return feedpet( p, mon, MF_BIRDFOOD,
                                 _( "The %s seems to like you!  It runs around your legs and seems friendly." ) );
         }
 
@@ -2900,9 +2920,9 @@ int iuse::siphon( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-static int toolweapon_off( player &p, item &it, const bool fast_startup,
-                           const bool condition, const int volume,
-                           const std::string &msg_success, const std::string &msg_failure )
+int toolweapon_off( player &p, item &it, const bool fast_startup,
+                    const bool condition, const int volume,
+                    const std::string &msg_success, const std::string &msg_failure )
 {
     p.moves -= fast_startup ? 60 : 80;
     if( condition && it.ammo_remaining() > 0 ) {
@@ -2998,10 +3018,10 @@ int iuse::trimmer_off( player *p, item *it, bool, const tripoint & )
                            _( "You yank the cord, but nothing happens." ) );
 }
 
-static int toolweapon_on( player &p, item &it, const bool t,
-                          const std::string &tname, const bool works_underwater,
-                          const int sound_chance, const int volume,
-                          const std::string &sound, const bool double_charge_cost = false )
+int toolweapon_on( player &p, item &it, const bool t,
+                   const std::string &tname, const bool works_underwater,
+                   const int sound_chance, const int volume,
+                   const std::string &sound, const bool double_charge_cost = false )
 {
     std::string off_type =
         it.typeId().substr( 0, it.typeId().size() - 3 ) +
@@ -3098,7 +3118,7 @@ int iuse::circsaw_on( player *p, item *it, bool t, const tripoint & )
                           15, 7, _( "Your circular saw buzzes." ) );
 }
 
-int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
+int iuse::jackhammer( player *p, item *it, bool, const tripoint & )
 {
     // use has_enough_charges to check for UPS availability
     // p is assumed to exist for iuse cases
@@ -3111,15 +3131,17 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    tripoint pnt = pos;
-    if( pos == p->pos() ) {
-        const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Drill where?" ) );
-        if( !pnt_ ) {
-            return 0;
-        }
-        pnt = *pnt_;
+    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Drill where?" ) );
+    if( !pnt_ ) {
+        return 0;
     }
+    const tripoint pnt = *pnt_;
 
+    if( pnt == p->pos() ) {
+        p->add_msg_if_player( _( "My god! Let's talk it over OK?" ) );
+        p->add_msg_if_player( _( "Don't do anything rash." ) );
+        return 0;
+    }
     if( !g->m.has_flag( "MINEABLE", pnt ) ) {
         p->add_msg_if_player( m_info, _( "You can't drill there." ) );
         return 0;
@@ -3129,31 +3151,21 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-
-    int turns = 100;
-    if( g->m.move_cost( pnt ) == 2 ) {
-        // We're breaking up some flat surface like pavement, which is much easier
-        turns /= 2;
-    }
-    turns *= MINUTES( 30 );
-
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    turns *= ( 1 - ( helpersize / 10 ) );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task..." ), np->name );
         break;
     }
-
-    p->assign_activity( activity_id( "ACT_JACKHAMMER" ), turns, -1, p->get_item_position( it ) );
+    p->assign_activity( activity_id( "ACT_JACKHAMMER" ),
+                        ( to_turns<int>( 30_minutes ) * 100 ) * ( 1 - ( helpersize / 10 ) ), -1,
+                        p->get_item_position( it ) );
     p->activity.placement = pnt;
-    p->add_msg_if_player( _( "You start drilling into the %1$s with your %2$s." ),
-                          g->m.tername( pnt ), it->tname() );
 
     return it->type->charges_to_use();
 }
 
-int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
+int iuse::pickaxe( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ) {
         // Long action
@@ -3165,15 +3177,17 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    tripoint pnt = pos;
-    if( pos == p->pos() ) {
-        const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Mine where?" ) );
-        if( !pnt_ ) {
-            return 0;
-        }
-        pnt = *pnt_;
+    const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Mine where?" ) );
+    if( !pnt_ ) {
+        return 0;
     }
+    const tripoint pnt = *pnt_;
 
+    if( pnt == p->pos() ) {
+        p->add_msg_if_player( _( "Mining the depths of your experience, you realize that it's "
+                                 "best not to dig yourself into a hole.  You stop digging." ) );
+        return 0;
+    }
     if( !g->m.has_flag( "MINEABLE", pnt ) ) {
         p->add_msg_if_player( m_info, _( "You can't mine there." ) );
         return 0;
@@ -3183,67 +3197,23 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    int turns = 100;
+    int turns;
     if( g->m.move_cost( pnt ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier
-        turns /= 2;
+        turns = MINUTES( 20 );
+    } else {
+        turns = ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * MINUTES( 5 );
     }
-    turns *= ( ( MAX_STAT + 4 ) - std::min( p->str_cur, MAX_STAT ) ) * MINUTES( 5 );
-
     const std::vector<npc *> helpers = g->u.get_crafting_helpers();
     const int helpersize = g->u.get_num_crafting_helpers( 3 );
-    turns *= ( 1 - ( helpersize / 10 ) );
+    turns = turns * ( 1 - ( helpersize / 10 ) );
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task..." ), np->name );
         break;
     }
-
-    p->assign_activity( activity_id( "ACT_PICKAXE" ), turns, -1, p->get_item_position( it ) );
+    p->assign_activity( activity_id( "ACT_PICKAXE" ), turns * 100, -1, p->get_item_position( it ) );
     p->activity.placement = pnt;
-    p->add_msg_if_player( _( "You strike the %1$s with your %2$s." ),
-                          g->m.tername( pnt ), it->tname() );
-    return 0; // handled when the activity finishes
-}
-
-int iuse::burrow( player *p, item *it, bool, const tripoint &pos )
-{
-    if( p->is_npc() ) {
-        // Long action
-        return 0;
-    }
-
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return 0;
-    }
-
-    tripoint pnt = pos;
-    if( pos == p->pos() ) {
-        const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Burrow where?" ) );
-        if( !pnt_ ) {
-            return 0;
-        }
-        pnt = *pnt_;
-    }
-
-    if( !g->m.has_flag( "MINEABLE", pnt ) ) {
-        p->add_msg_if_player( m_info, _( "You can't burrow there." ) );
-        return 0;
-    }
-    if( g->m.veh_at( pnt ) ) {
-        p->add_msg_if_player( _( "There's a vehicle in the way!" ) );
-        return 0;
-    }
-
-    int turns = 100;
-    if( g->m.move_cost( pnt ) == 2 ) {
-        // We're breaking up some flat surface like pavement, which is much easier
-        turns /= 2;
-    }
-    turns *= ( ( MAX_STAT + 3 ) - std::min( p->str_cur, MAX_STAT ) ) * MINUTES( 2 );
-    p->assign_activity( activity_id( "ACT_BURROW" ), turns, -1, 0 );
-    p->activity.placement = pnt;
-    p->add_msg_if_player( _( "You start tearing into the %1$s with your %2$s." ),
+    p->add_msg_if_player( _( "You attack the %1$s with your %2$s." ),
                           g->m.tername( pnt ), it->tname() );
     return 0; // handled when the activity finishes
 }
@@ -3945,7 +3915,7 @@ int iuse::mp3( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-static std::string get_music_description()
+std::string get_music_description()
 {
     static const std::string no_description = _( "a sweet guitar solo!" );
     static const std::string rare = _( "some bass-heavy post-glam speed polka." );
@@ -5093,8 +5063,7 @@ int iuse::spray_can( player *p, item *it, bool, const tripoint & )
     return handle_ground_graffiti( *p, it, _( "Spray what?" ), p->pos() );
 }
 
-int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix,
-                                  const tripoint &pt )
+int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix, tripoint pt )
 {
     std::string message = string_input_popup()
                           .title( prefix + " " + _( "(To delete, input one '.')" ) )
@@ -5837,7 +5806,7 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
-static void init_memory_card_with_random_stuff( item &it )
+void init_memory_card_with_random_stuff( item &it )
 {
     if( it.has_flag( "MC_MOBILE" ) && ( it.has_flag( "MC_RANDOM_STUFF" ) ||
                                         it.has_flag( "MC_SCIENCE_STUFF" ) ) && !( it.has_flag( "MC_USED" ) ||
@@ -5912,7 +5881,7 @@ static void init_memory_card_with_random_stuff( item &it )
     }
 }
 
-static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
+bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 {
     bool something_downloaded = false;
     if( mc.get_var( "MC_PHOTOS", 0 ) > 0 ) {
@@ -6947,7 +6916,7 @@ int iuse::radiocaron( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-static void sendRadioSignal( player &p, const std::string &signal )
+void sendRadioSignal( player &p, const std::string &signal )
 {
     for( size_t i = 0; i < p.inv.size(); i++ ) {
         item &it = p.inv.find_item( i );
@@ -7105,7 +7074,7 @@ static bool hackveh( player &p, item &it, vehicle &veh )
     return success;
 }
 
-static vehicle *pickveh( const tripoint &center, bool advanced )
+vehicle *pickveh( const tripoint &center, bool advanced )
 {
     static const std::string ctrl = "CTRL_ELECTRONIC";
     static const std::string advctrl = "REMOTE_CONTROLS";
@@ -7220,7 +7189,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-static bool multicooker_hallu( player &p )
+bool multicooker_hallu( player &p )
 {
     p.moves -= 200;
     const int random_hallu = rng( 1, 7 );
@@ -7761,10 +7730,10 @@ int iuse::hairkit( player *p, item *it, bool, const tripoint & )
 
 int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
 {
-    const w_point weatherPoint = *g->weather.weather_precise;
+    const w_point weatherPoint = *g->weather_precise;
 
     /* Possibly used twice. Worth spending the time to precalculate. */
-    const auto player_local_temp = g->weather.get_temperature( g->u.pos() );
+    const auto player_local_temp = g->get_temperature( g->u.pos() );
 
     if( it->typeId() == "weather_reader" ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data..." ),
@@ -7783,12 +7752,12 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         if( it->typeId() == "hygrometer" ) {
             p->add_msg_if_player(
                 m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
-                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather.weather,
+                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather,
                                                     g->is_sheltered( g->u.pos() ) ) ) );
         } else {
             p->add_msg_if_player(
                 m_neutral, _( "Relative Humidity: %s." ),
-                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather.weather,
+                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather,
                                                     g->is_sheltered( g->u.pos() ) ) ) );
         }
     }
@@ -7810,9 +7779,8 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         /* windpower defined in internal velocity units (=.01 mph) */
-        double windpower = static_cast<int>( 100.0f * get_local_windpower( g->weather.windspeed +
-                                             vehwindspeed,
-                                             cur_om_ter, p->pos(), g->weather.winddirection, g->is_sheltered( p->pos() ) ) );
+        double windpower = static_cast<int>( 100.0f * get_local_windpower( g->windspeed + vehwindspeed,
+                                             cur_om_ter, p->pos(), g->winddirection, g->is_sheltered( p->pos() ) ) );
 
         p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
                               convert_velocity( windpower, VU_WIND ),
@@ -7822,7 +7790,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
             print_temperature(
                 get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower / 100 ) +
                 player_local_temp ) );
-        std::string dirstring = get_dirstring( g->weather.winddirection );
+        std::string dirstring = get_dirstring( g->winddirection );
         p->add_msg_if_player( m_neutral, _( "Wind Direction: From the %s." ), dirstring );
     }
 
@@ -8066,12 +8034,13 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
     auto is_liquid = []( const item & it ) {
         return it.made_of( LIQUID ) || it.contents_made_of( LIQUID );
     };
-    int available_water = std::max(
-                              crafting_inv.charges_of( "water", INT_MAX, is_liquid ),
-                              crafting_inv.charges_of( "clean_water", INT_MAX, is_liquid )
-                          );
-    int available_cleanser = std::max( crafting_inv.charges_of( "soap" ),
-                                       crafting_inv.charges_of( "detergent" ) );
+    long available_water = std::max(
+                               crafting_inv.charges_of( "water", std::numeric_limits<long>::max(), is_liquid ),
+                               crafting_inv.charges_of( "clean_water", std::numeric_limits<long>::max(), is_liquid )
+                           );
+    available_water = std::min<long>( available_water, INT_MAX );
+    long available_cleanser = std::max( crafting_inv.charges_of( "soap" ),
+                                        crafting_inv.charges_of( "detergent" ) );
 
     const inventory_filter_preset preset( []( const item_location & location ) {
         return location->item_tags.find( "FILTHY" ) != location->item_tags.end();
@@ -8357,7 +8326,7 @@ ret_val<bool> use_function::can_call( const player &p, const item &it, bool t,
     return actor->can_use( p, it, t, pos );
 }
 
-int use_function::call( player &p, item &it, bool active, const tripoint &pos ) const
+long use_function::call( player &p, item &it, bool active, const tripoint &pos ) const
 {
     return actor->use( p, it, active, pos );
 }

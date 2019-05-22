@@ -28,9 +28,7 @@
       [ "scarhmag", 50 ],
       [ "scarhbigmag", 20 ],
       [ "stanag30", 20 ],
-      [ "stanag50", 5 ],
-      [ "hk417mag_20rd", 30 ],
-      [ "hk417mag_10rd", 20 ]
+      [ "stanag50", 5 ]
     ]
   },
   {
@@ -86,8 +84,7 @@
       [ "stanag30", 20 ],
       [ "ump45mag", 20 ],
       [ "usp45mag", 10 ],
-      [ "usp9mag", 10 ],
-      [ "hk417mag_20rd", 20 ]
+      [ "usp9mag", 10 ]
     ]
   },
   {
@@ -110,12 +107,6 @@
       [ "sw22mag", 10 ],
       [ "p226mag_15rd_357sig", 25 ]
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "mags_pistol_makeshift",
-    "//": "Makeshift or otherwise poor quality pistol magazines.",
-    "items": [  ]
   },
   {
     "type": "item_group",
@@ -167,12 +158,6 @@
   },
   {
     "type": "item_group",
-    "id": "mags_smg_makeshift",
-    "//": "Makeshift or otherwise poor quality SMG magazines.",
-    "items": [ [ "survivor9mm_mag", 50 ], [ "smg_22_mag", 20 ], [ "smg_38_mag", 15 ], [ "smg_40_mag", 15 ], [ "smg_45_mag", 20 ] ]
-  },
-  {
-    "type": "item_group",
     "id": "mags_smg_rare",
     "//": "Aftermarket or otherwise uncomon SMG magazines excluding milspec.",
     "items": [
@@ -197,15 +182,8 @@
       [ "ruger5", 50 ],
       [ "stanag10", 30 ],
       [ "ruger30", 20 ],
-      [ "stanag30", 10 ],
-      [ "ar10mag_20rd", 30 ]
+      [ "stanag30", 10 ]
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "mags_rifle_makeshift",
-    "//": "Makeshift or otherwise poor quality rifle magazines.",
-    "items": [ [ "survivor223mag", 50 ] ]
   },
   {
     "type": "item_group",
@@ -230,12 +208,6 @@
   },
   {
     "type": "item_group",
-    "id": "mags_shotgun_makeshift",
-    "//": "Makeshift or otherwise poor quality shotgun magazines.",
-    "items": [ [ "shotbelt_20", 1 ] ]
-  },
-  {
-    "type": "item_group",
     "id": "mags_shotgun_rare",
     "//": "Aftermarket or otherwise uncommon pistol magazines excluding milspec.",
     "items": [ [ "saiga10mag", 50 ], [ "saiga30mag", 10 ] ]
@@ -245,12 +217,6 @@
     "id": "mags_other_common",
     "//": "Factory specification magazines commonly owned by citizens that have no better category.",
     "items": [  ]
-  },
-  {
-    "type": "item_group",
-    "id": "mags_other_makeshift",
-    "//": "Makeshift or otherwise poor quality magazines that have no better category.",
-    "items": [ [ "nailmag", 20 ], [ "pressurized_tank_chem", 5 ], [ "aux_pressurized_tank", 10 ] ]
   },
   {
     "type": "item_group",
@@ -268,18 +234,6 @@
       { "group": "mags_smg_common", "prob": 10 },
       { "group": "mags_shotgun_common", "prob": 5 },
       { "group": "mags_other_common", "prob": 5 }
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "mags_makeshift",
-    "//": "Makeshift or otherwise poor quality magazines.",
-    "items": [
-      { "group": "mags_pistol_makeshift", "prob": 30 },
-      { "group": "mags_rifle_makeshift", "prob": 20 },
-      { "group": "mags_smg_makeshift", "prob": 10 },
-      { "group": "mags_shotgun_makeshift", "prob": 5 },
-      { "group": "mags_other_makeshift", "prob": 5 }
     ]
   },
   {
@@ -317,7 +271,6 @@
     "//": "Magazines for guns typically used by criminals.",
     "items": [
       { "group": "mags_common", "prob": 10 },
-      { "group": "mags_makeshift", "prob": 5 },
       { "group": "mags_rare", "prob": 20 },
       { "group": "mags_obscure", "prob": 20 },
       { "group": "mags_smg_common", "prob": 10 },

@@ -27,12 +27,12 @@ const skill_id skill_swimming( "swimming" );
 static const std::string header_spaces( 26, ' ' );
 
 // Rescale temperature value to one that the player sees
-static int temperature_print_rescaling( int temp )
+int temperature_print_rescaling( int temp )
 {
     return ( temp / 100.0 ) * 2 - 100;
 }
 
-static bool should_combine_bps( const player &p, size_t l, size_t r )
+bool should_combine_bps( const player &p, size_t l, size_t r )
 {
     const auto enc_data = p.get_encumbrance();
     return enc_data[l] == enc_data[r] &&
@@ -121,7 +121,7 @@ void player::print_encumbrance( const catacurses::window &win, int line,
 
 }
 
-static std::string swim_cost_text( int moves )
+std::string swim_cost_text( int moves )
 {
     return string_format( ngettext( "Swimming costs %+d movement point. ",
                                     "Swimming costs %+d movement points. ",
@@ -129,7 +129,7 @@ static std::string swim_cost_text( int moves )
                           moves );
 }
 
-static std::string run_cost_text( int moves )
+std::string run_cost_text( int moves )
 {
     return string_format( ngettext( "Running costs %+d movement point. ",
                                     "Running costs %+d movement points. ",
@@ -137,7 +137,7 @@ static std::string run_cost_text( int moves )
                           moves );
 }
 
-static std::string reload_cost_text( int moves )
+std::string reload_cost_text( int moves )
 {
     return string_format( ngettext( "Reloading costs %+d movement point. ",
                                     "Reloading costs %+d movement points. ",
@@ -145,7 +145,7 @@ static std::string reload_cost_text( int moves )
                           moves );
 }
 
-static std::string melee_cost_text( int moves )
+std::string melee_cost_text( int moves )
 {
     return string_format( ngettext( "Melee and thrown attacks cost %+d movement point. ",
                                     "Melee and thrown attacks cost %+d movement points. ",
@@ -153,12 +153,12 @@ static std::string melee_cost_text( int moves )
                           moves );
 }
 
-static std::string dodge_skill_text( double mod )
+std::string dodge_skill_text( double mod )
 {
     return string_format( _( "Dodge skill %+.1f. " ), mod );
 }
 
-static int get_encumbrance( const player &p, body_part bp, bool combine )
+int get_encumbrance( const player &p, body_part bp, bool combine )
 {
     // Body parts that can't combine with anything shouldn't print double values on combine
     // This shouldn't happen, but handle this, just in case
@@ -166,7 +166,7 @@ static int get_encumbrance( const player &p, body_part bp, bool combine )
     return p.encumb( bp ) * ( ( combine && combines_with_other ) ? 2 : 1 );
 }
 
-static std::string get_encumbrance_description( const player &p, body_part bp, bool combine )
+std::string get_encumbrance_description( const player &p, body_part bp, bool combine )
 {
     std::string s;
 
@@ -290,9 +290,9 @@ void player::disp_info()
     }
 
     if( ( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
-          g->weather.weather == WEATHER_SUNNY ) ||
+          g->weather == WEATHER_SUNNY ) ||
         ( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) &&
-          g->weather.weather != WEATHER_SUNNY ) ) {
+          g->weather != WEATHER_SUNNY ) ) {
         effect_name.push_back( _( "In Sunlight" ) );
         effect_text.push_back( _( "The sunlight irritates you.\n\
 Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" ) );
@@ -580,8 +580,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     const std::string title_BIONICS = _( "BIONICS" );
     center_print( w_bionics, 0, c_light_gray, title_BIONICS );
     trim_and_print( w_bionics, 1, 1, getmaxx( w_bionics ) - 1, c_white,
-                    string_format( _( "Bionic Power: <color_light_blue>%1$d / %2$d</color>" ),
-                                   power_level,  max_power_level ) );
+                    string_format( _( "Bionic Power: <color_light_blue>%1$d</color>" ), max_power_level ) );
     for( size_t i = 0; i < bionicslist.size() && i < bionics_win_size_y; i++ ) {
         trim_and_print( w_bionics, static_cast<int>( i ) + 2, 1, getmaxx( w_bionics ) - 1, c_white,
                         bionicslist[i].info().name );
@@ -695,7 +694,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         line++;
     }
     /* Cache result of calculation, possibly used multiple times later. */
-    const auto player_local_temp = g->weather.get_temperature( pos() );
+    const auto player_local_temp = g->get_temperature( pos() );
     if( has_trait( trait_id( "COLDBLOOD4" ) ) && player_local_temp > 65 ) {
         pen = ( player_local_temp - 65 ) / 2;
         mvwprintz( w_speed, line, 1, c_green, _( "Cold-Blooded        +%s%d%%" ),

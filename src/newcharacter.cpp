@@ -8,7 +8,6 @@
 #include <tuple>
 
 #include "addiction.h"
-#include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -17,8 +16,6 @@
 #include "json.h"
 #include "mapsharing.h"
 #include "martialarts.h"
-#include "mtype.h"
-#include "monster.h"
 #include "mutation.h"
 #include "name.h"
 #include "options.h"
@@ -195,7 +192,7 @@ void Character::pick_name( bool bUseDefault )
     }
 }
 
-static matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles )
+matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles )
 {
     if( type == PLTYPE_NOW || type == PLTYPE_FULL_RANDOM ) {
         return random_entry( styles );
@@ -565,10 +562,7 @@ bool player::create( character_type type, const std::string &tempname )
             learn_recipe( &r );
         }
     }
-    if( prof->pet() ) {
-        cata::optional<mtype_id> mtypemon = prof->pet();
-        starting_pet = *mtypemon;
-    }
+
     std::list<item> prof_items = prof->items( male, get_mutations() );
 
     for( item &it : prof_items ) {
@@ -1444,6 +1438,7 @@ tab_direction set_profession( const catacurses::window &w, player &u, points_lef
         }
 
         std::ostringstream buffer;
+
         // Profession addictions
         const auto prof_addictions = sorted_profs[cur_id]->addictions();
         if( !prof_addictions.empty() ) {
@@ -1513,14 +1508,7 @@ tab_direction set_profession( const catacurses::window &w, player &u, points_lef
                 }
             }
         }
-        // Profession pet
-        cata::optional<mtype_id> montype;
-        if( sorted_profs[cur_id]->pet() ) {
-            const auto prof_pet = *sorted_profs[cur_id]->pet();
-            monster mon( prof_pet );
-            buffer << "<color_light_blue>" << _( "Pet:" ) << "</color>\n";
-            buffer << mon.get_name() << "\n";
-        }
+
         werase( w_items );
         const auto scroll_msg = string_format(
                                     _( "Press <color_light_green>%1$s</color> or <color_light_green>%2$s</color> to scroll." ),

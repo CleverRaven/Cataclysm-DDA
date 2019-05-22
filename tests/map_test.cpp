@@ -1,6 +1,5 @@
 #include <memory>
 
-#include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "map.h"

@@ -5,7 +5,6 @@
 #include <type_traits>
 
 #include "catch/catch.hpp"
-#include "map.h"
 #include "map_memory.h"
 #include "json.h"
 #include "game_constants.h"
@@ -119,15 +118,19 @@ TEST_CASE( "lru_cache_perf", "[.]" )
      */
 }
 
+void shift_map_memory_seen_cache(
+    std::bitset<MAPSIZE *SEEX *MAPSIZE *SEEY> &map_memory_seen_cache,
+    const int sx, const int sy );
+
 // There are 4 quadrants we want to check,
 // 1 | 2
 // -----
 // 3 | 4
 // The partitions are defined by x_partition and y_partition
 // Each partition has an expected value, and should be homogenous.
-static void check_quadrants( std::bitset<MAPSIZE *SEEX *MAPSIZE *SEEY> &test_cache,
-                             size_t x_partition, size_t y_partition,
-                             bool first_val, bool second_val, bool third_val, bool fourth_val )
+void check_quadrants( std::bitset<MAPSIZE *SEEX *MAPSIZE *SEEY> &test_cache,
+                      size_t x_partition, size_t y_partition,
+                      bool first_val, bool second_val, bool third_val, bool fourth_val )
 {
     size_t y = 0;
     for( ; y < y_partition; ++y ) {

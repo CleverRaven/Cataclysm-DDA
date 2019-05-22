@@ -136,7 +136,6 @@
     "comment": "2hrs*4wall + .5 hr*2tables + .5hr*4benches+ 1hrs pits = 12 hrs (12hrs on/off) 1 days total",
     "time": 1440000,
     "construction_blueprint": "faction_base_field_camp_8",
-    "blueprint_provides": [ "fake_stove" ],
     "qualities": [ [ { "id": "DIG", "level": 1 } ], [ { "id": "SAW_M", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "2x4", 28 ] ],
@@ -478,7 +477,6 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "faction_base_field_camp_garage_1",
-    "blueprint_provides": [ "wrench", "hacksaw" ],
     "time": 5040000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ] ],
     "components": [
@@ -605,7 +603,6 @@
     "autolearn": false,
     "never_learn": true,
     "construction_blueprint": "faction_base_field_camp_kitchen_1",
-    "blueprint_provides": [ "fake_fireplace" ],
     "time": 7200000,
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
@@ -651,7 +648,6 @@
     "never_learn": true,
     "time": 3600000,
     "construction_blueprint": "faction_base_field_camp_kitchen_3",
-    "blueprint_provides": [ "fake_char_smoker" ],
     "qualities": [
       [ { "id": "DIG", "level": 2 } ],
       [ { "id": "HAMMER", "level": 2 } ],
@@ -701,7 +697,6 @@
     "never_learn": true,
     "time": 360000,
     "construction_blueprint": "faction_base_field_camp_kitchen_5",
-    "blueprint_provides": [ "fake_fireplace", "fake_char_smoker", "fake_char_smoker" ],
     "qualities": [
       [ { "id": "DIG", "level": 2 } ],
       [ { "id": "HAMMER", "level": 2 } ],
@@ -746,7 +741,6 @@
     "never_learn": true,
     "time": 180000,
     "construction_blueprint": "faction_base_field_camp_kitchen_7",
-    "blueprint_provides": [ "fake_stove", "fake_stove" ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "WRENCH", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "2x4", 20 ] ], [ [ "metal_tank", 2 ] ], [ [ "nail", 18 ] ] ]
   },
@@ -817,7 +811,6 @@
     "never_learn": true,
     "time": 180000,
     "construction_blueprint": "faction_base_field_camp_blacksmith_1",
-    "blueprint_provides": [ "fake_rforge", "fake_char_kiln", "makeshift_hammer" ],
     "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ],
@@ -852,7 +845,6 @@
     "never_learn": true,
     "time": 180000,
     "construction_blueprint": "faction_base_field_camp_blacksmith_3",
-    "blueprint_provides": [ "anvil", "crucible" ],
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "crucible", 1 ], [ "crucible_clay", 1 ] ],
@@ -889,7 +881,6 @@
     "never_learn": true,
     "time": 180000,
     "construction_blueprint": "faction_base_field_camp_blacksmith_5",
-    "blueprint_provides": [ "tongs", "chisel", "hammer", "swage" ],
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "tongs", 2 ] ],
@@ -976,7 +967,6 @@
     "never_learn": true,
     "time": 360000,
     "construction_blueprint": "faction_base_field_camp_blacksmith_9",
-    "blueprint_provides": [ "wrench", "pliers" ],
     "qualities": [ [ { "id": "WRENCH", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "wrench", 2 ] ],
@@ -1031,7 +1021,6 @@
     "never_learn": true,
     "time": 4320000,
     "construction_blueprint": "faction_base_field_camp_blacksmith_12",
-    "blueprint_provides": [ "fake_drop_hammer" ],
     "qualities": [ [ { "id": "WRENCH", "level": 1 } ], [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [
       [ [ "log", 2 ] ],

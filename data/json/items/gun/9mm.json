@@ -18,7 +18,13 @@
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 5 ] ],
     "armor_data": { "covers": [ "ARM_EITHER", "HAND_EITHER" ], "coverage": 10, "encumbrance": 30, "material_thickness": 1 },
-    "magazines": [ [ "9mm", [ "stenmag", "survivor9mm_mag" ] ] ],
+    "magazines": [
+      [ "9mm", [ "stenmag", "survivor9mm_mag" ] ],
+      [ "22", [ "a180mag" ] ],
+      [ "45", [ "thompson_mag", "thompson_bigmag", "thompson_drum" ] ],
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "57", [ "fnp90mag" ] ]
+    ],
     "flags": [ "OVERSIZE", "BELTED", "FANCY", "RESTRICT_HANDS" ]
   },
   {
@@ -58,7 +64,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "calicomag" ] ] ]
+    "magazines": [ [ "9mm", [ "calicomag" ] ], [ "22", [ "a180mag" ] ], [ "45", [ "thompson_drum" ] ], [ "57", [ "fnp90mag" ] ] ]
   },
   {
     "id": "cx4",
@@ -96,7 +102,13 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "m9bigmag", "m9mag" ] ] ]
+    "magazines": [
+      [ "9mm", [ "m9bigmag", "m9mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "45", [ "m1911mag", "m1911bigmag" ] ],
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "57", [ "fn57mag" ] ]
+    ]
   },
   {
     "id": "glock_19",
@@ -117,7 +129,13 @@
     "dispersion": 480,
     "durability": 6,
     "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
+    "magazines": [
+      [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "45", [ "m1911mag", "m1911bigmag" ] ],
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "57", [ "fn57mag" ] ]
+    ]
   },
   {
     "id": "hk_mp5",
@@ -153,7 +171,13 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "9mm", [ "mp5mag", "mp5bigmag" ] ] ]
+    "magazines": [
+      [ "9mm", [ "mp5mag", "mp5bigmag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "45", [ "ump45mag" ] ],
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "57", [ "fn57mag" ] ]
+    ]
   },
   {
     "id": "hk_mp5sd",
@@ -214,7 +238,13 @@
       [ "sling", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
+    "magazines": [
+      [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "45", [ "m1911mag", "m1911bigmag" ] ],
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "57", [ "fn57mag" ] ]
+    ]
   },
   {
     "id": "l_lookout_9mm",
@@ -282,7 +312,13 @@
     "dispersion": 480,
     "durability": 6,
     "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "m9mag", "m9bigmag" ] ] ]
+    "magazines": [
+      [ "9mm", [ "m9mag", "m9bigmag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "45", [ "m1911mag", "m1911bigmag" ] ],
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "57", [ "fn57mag" ] ]
+    ]
   },
   {
     "id": "rifle_9mm",
@@ -313,43 +349,6 @@
     "flags": [ "RELOAD_EJECT" ]
   },
   {
-    "id": "smg_9mm",
-    "copy-from": "smg_base",
-    "type": "GUN",
-    "name": "Luty SMG: 9x19mm",
-    "name_plural": "Luty SMGs: 9x19mm",
-    "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using some of the more advanced powered hand tools; likely one of the most complex guns that are feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for 9x19mm cartridges and accepts STEN magazines, or alternatively custom-made makeshift ones.",
-    "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game.",
-    "weight": 3274,
-    "volume": 7,
-    "price": 20000,
-    "to_hit": -1,
-    "bashing": 10,
-    "material": "steel",
-    "color": "dark_gray",
-    "ammo": "9mm",
-    "ranged_damage": -3,
-    "dispersion": 590,
-    "durability": 4,
-    "modes": [ [ "DEFAULT", "auto", 10 ] ],
-    "loudness": 25,
-    "barrel_length": 1,
-    "valid_mod_locations": [
-      [ "accessories", 3 ],
-      [ "barrel", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "magazine", 1 ],
-      [ "muzzle", 1 ],
-      [ "rail", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "underbarrel", 1 ]
-    ],
-    "magazines": [ [ "9mm", [ "stenmag", "survivor9mm_mag" ] ] ]
-  },
-  {
     "id": "sten",
     "type": "GUN",
     "reload_noise_volume": 10,
@@ -369,7 +368,13 @@
     "durability": 5,
     "modes": [ [ "DEFAULT", "auto", 10 ] ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
-    "magazines": [ [ "9mm", [ "stenmag", "survivor9mm_mag" ] ] ]
+    "magazines": [
+      [ "9mm", [ "stenmag", "survivor9mm_mag" ] ],
+      [ "22", [ "a180mag" ] ],
+      [ "45", [ "mac10mag" ] ],
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "57", [ "fnp90mag" ] ]
+    ]
   },
   {
     "id": "tec9",
@@ -406,7 +411,13 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "tec9mag" ] ] ]
+    "magazines": [
+      [ "9mm", [ "tec9mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "45", [ "mac10mag" ] ],
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "57", [ "fn57mag" ] ]
+    ]
   },
   {
     "id": "usp_9mm",
@@ -428,7 +439,13 @@
     "dispersion": 400,
     "durability": 9,
     "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "usp9mag" ] ] ]
+    "magazines": [
+      [ "9mm", [ "usp9mag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "45", [ "usp45mag" ] ],
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "57", [ "fn57mag" ] ]
+    ]
   },
   {
     "id": "uzi",
@@ -466,7 +483,13 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "uzimag" ] ] ]
+    "magazines": [
+      [ "9mm", [ "uzimag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "45", [ "tdi_mag" ] ],
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "57", [ "fn57mag" ] ]
+    ]
   },
   {
     "id": "glock_17",
@@ -486,17 +509,13 @@
     "dispersion": 480,
     "durability": 6,
     "magazine_well": 1,
-    "magazines": [ [ "9mm", [ "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ] ] ]
-  },
-  {
-    "id": "glock_18c",
-    "copy-from": "glock_17",
-    "type": "GUN",
-    "name": "Glock 18C",
-    "description": "A selective fire variation on the Glock 17, originally designed for Austria's EKO Cobra unit.  It has compensator cuts along its barrel to make recoil more manageable.",
-    "price": 100000,
-    "burst": 20,
-    "built_in_mods": [ "barrel_ported" ]
+    "magazines": [
+      [ "9mm", [ "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ] ],
+      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
+      [ "45", [ "m1911mag", "m1911bigmag" ] ],
+      [ "46", [ "hk46mag", "hk46bigmag" ] ],
+      [ "57", [ "fn57mag" ] ]
+    ]
   },
   {
     "id": "kpf9",
@@ -509,7 +528,6 @@
     "ranged_damage": -1,
     "price": 18000,
     "bashing": 2,
-    "ammo": "9mm",
-    "magazines": [ [ "9mm", [ "kpf9mag" ] ] ]
+    "ammo": "9mm"
   }
 ]

@@ -308,7 +308,7 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "trailer park",
     "sym": "#",
-    "color": "i_white"
+    "color": "white"
   },
   {
     "type": "overmap_terrain",
@@ -324,7 +324,7 @@
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "trailer park",
     "sym": "#",
-    "color": "i_white"
+    "color": "white"
   },
   {
     "type": "overmap_terrain",

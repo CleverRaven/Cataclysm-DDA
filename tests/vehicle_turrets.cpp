@@ -5,7 +5,6 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "catch/catch.hpp"
 #include "ammo.h"
 #include "game.h"
@@ -35,7 +34,7 @@ static std::vector<const vpart_info *> turret_types()
     return res;
 }
 
-static const vpart_info *biggest_tank( const ammotype &ammo )
+const vpart_info *biggest_tank( const ammotype &ammo )
 {
     std::vector<const vpart_info *> res;
 

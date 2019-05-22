@@ -63,7 +63,7 @@ save_t save_t::from_base_path( const std::string &base_path )
     return save_t( base64_decode( base_path ) );
 }
 
-static std::string get_next_valid_worldname()
+std::string get_next_valid_worldname()
 {
     std::string worldname = Name::get( nameIsWorldName );
 

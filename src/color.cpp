@@ -675,7 +675,7 @@ void color_manager::clear()
     }
 }
 
-static void draw_header( const catacurses::window &w )
+void draw_header( const catacurses::window &w )
 {
     int tmpx = 0;
     tmpx += shortcut_print( w, 0, tmpx, c_white, c_light_green,

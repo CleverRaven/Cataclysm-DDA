@@ -16,17 +16,17 @@
 #include "type_id.h"
 
 // Intentionally ignoring the name member.
-static bool operator==( const city &a, const city &b )
+bool operator==( const city &a, const city &b )
 {
     return a.pos == b.pos && a.size == b.size;
 }
-static bool operator==( const radio_tower &a, const radio_tower &b )
+bool operator==( const radio_tower &a, const radio_tower &b )
 {
     return a.x == b.x && a.y == b.y && a.strength == b.strength &&
            a.type == b.type && a.message == b.message;
 }
 
-static void check_test_overmap_data( const overmap &test_map )
+void check_test_overmap_data( const overmap &test_map )
 {
     // Spot-check a bunch of terrain values.
     // Bottom level, "L 0" in the save

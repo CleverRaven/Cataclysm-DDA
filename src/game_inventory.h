@@ -95,8 +95,6 @@ item_location take_off( player &p );
 item_location salvage( player &p, const salvage_actor *actor );
 /** Repair menu. */
 item_location repair( player &p, const repair_item_actor *actor, const item *main_tool );
-/** Bionic install menu. */
-item_location install_bionic( player &p, player &patient );
 /*@}*/
 
 }

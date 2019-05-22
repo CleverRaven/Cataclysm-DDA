@@ -58,5 +58,47 @@
       "halberd",
       "sword_forged"
     ]
+  },
+  {
+    "type": "martial_art",
+    "id": "style_pankration",
+    "name": "Pankration",
+    "description": "An ancient Greek martial art, combining boxing and wrestling techniques to create a brutal sport, though modern revival of the art is less of no-holds-barred in nature.",
+    "initiate": [ "You crouch slightly and prepare to rush forward.", "%s crouches slightly, ready to rush forward." ],
+    "arm_block": 2,
+    "leg_block": 4,
+    "ondodge_buffs": [
+      {
+        "id": "pankration_counter",
+        "name": "Counter Chance",
+        "description": "The enemy has presented an opening in their defense.",
+        "min_unarmed": 4,
+        "unarmed_allowed": true,
+        "max_stacks": 1,
+        "buff_duration": 2,
+        "mult_bonuses": [ [ "damage", "bash", 1.1 ] ]
+      }
+    ],
+    "onhit_buffs": [
+      {
+        "id": "pankration_grappling",
+        "name": "Grappling",
+        "description": "I have you now!",
+        "unarmed_allowed": true,
+        "min_unarmed": 5,
+        "req_buffs": [ "pankration_counter" ],
+        "buff_duration": 2,
+        "max_stacks": 1,
+        "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+      }
+    ],
+    "techniques": [
+      "tec_pankration_kick",
+      "tec_pankration_break",
+      "tec_pankration_counter",
+      "tec_pankration_disarm",
+      "tec_pankration_throw",
+      "tec_pankration_chokehold"
+    ]
   }
 ]

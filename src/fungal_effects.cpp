@@ -2,7 +2,6 @@
 
 #include <memory>
 
-#include "avatar.h"
 #include "creature.h"
 #include "field.h"
 #include "game.h"

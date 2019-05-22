@@ -10,7 +10,6 @@
 #include <unordered_set>
 #include <utility>
 
-#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -137,7 +136,7 @@ std::string scent_map::serialize() const
     return rle_out.str();
 }
 
-static void chkversion( std::istream &fin )
+void chkversion( std::istream &fin )
 {
     if( fin.peek() == '#' ) {
         std::string vline;
@@ -282,9 +281,9 @@ void game::load_weather( std::istream &fin )
     if( fin.peek() == 'l' ) {
         std::string line;
         getline( fin, line );
-        weather.lightning_active = ( line.compare( "lightning: 1" ) == 0 );
+        lightning_active = ( line.compare( "lightning: 1" ) == 0 );
     } else {
-        weather.lightning_active = false;
+        lightning_active = false;
     }
     if( fin.peek() == 's' ) {
         std::string line;
@@ -298,7 +297,7 @@ void game::load_weather( std::istream &fin )
 void game::save_weather( std::ostream &fout )
 {
     fout << "# version " << savegame_version << std::endl;
-    fout << "lightning: " << ( weather.lightning_active ? "1" : "0" ) << std::endl;
+    fout << "lightning: " << ( lightning_active ? "1" : "0" ) << std::endl;
     fout << "seed: " << seed;
 }
 

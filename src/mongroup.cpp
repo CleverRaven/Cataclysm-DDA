@@ -261,10 +261,13 @@ const MonsterGroup &MonsterGroupManager::GetMonsterGroup( const mongroup_id &gro
     }
 }
 
+// see item_factory.cpp
+extern void add_to_set( std::set<std::string> &s, JsonObject &json, const std::string &name );
+
 void MonsterGroupManager::LoadMonsterBlacklist( JsonObject &jo )
 {
-    add_array_to_set( monster_blacklist, jo, "monsters" );
-    add_array_to_set( monster_categories_blacklist, jo, "categories" );
+    add_to_set( monster_blacklist, jo, "monsters" );
+    add_to_set( monster_categories_blacklist, jo, "categories" );
 }
 
 void MonsterGroupManager::LoadMonsterWhitelist( JsonObject &jo )
@@ -272,8 +275,8 @@ void MonsterGroupManager::LoadMonsterWhitelist( JsonObject &jo )
     if( jo.has_string( "mode" ) && jo.get_string( "mode" ) == "EXCLUSIVE" ) {
         monster_whitelist_is_exclusive = true;
     }
-    add_array_to_set( monster_whitelist, jo, "monsters" );
-    add_array_to_set( monster_categories_whitelist, jo, "categories" );
+    add_to_set( monster_whitelist, jo, "monsters" );
+    add_to_set( monster_categories_whitelist, jo, "categories" );
 }
 
 bool MonsterGroupManager::monster_is_blacklisted( const mtype_id &m )

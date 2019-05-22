@@ -65,10 +65,9 @@
     * 2.5.16 "loot"
     * 2.5.17 "sealed_item"
     * 2.5.18 "graffiti"
-    * 2.5.19 "translate_ter"
-    * 2.5.20 "zones"
+    * 2.6.19 "translate_ter"
+    * 2.6.20 "zones"
   * 2.6 "rotation"
-  * 2.7 "predecessor_mapgen"
 * 3 update_mapgen
   * 3.1 overmap tile specification
     * 3.1.0 "assign_mission_target"
@@ -706,25 +705,12 @@ Places a zone for an NPC faction.  NPCs in the faction will use the zone to infl
 - "faction": (required, string) the faction id of the NPC faction that will use the zone.
 - "name": (optional, string) the name of the zone.
 
-# 2.6 "rotation"
+# 2.7 "rotation"
 Rotates the generated map after all the other mapgen stuff has been done. The value can be a single integer or a range (out of which a value will be randomly chosen). Example:
 ```JSON
 "rotation": [ 0, 3 ],
 ```
 Values are 90° steps.
-
-# 2.7 "predecessor_mapgen"
-Specifying an overmap terrain id here will run the entire mapgen for that overmap terrain type
-first, before applying the rest of the mapgen defined here. The primary use case for this is when
-our mapgen for a location takes place in a natural feature like a forest, swamp, or lake shore.
-Many existing JSON mapgen attempt to emulate the mapgen of the type they're being placed on (e.g. a
-cabin in the forest has placed the trees, grass and clutter of a forest to try to make the cabin
-fit in) which leads to them being out of sync when the generation of that type changes. By
-specifying the `predecessor_mapgen`, you can instead focus on the things that are added to the
-existing location type. Example:
-```json
-"predecessor_mapgen": "forest"
-```
 
 # 3 update_mapgen
 update_mapgen is a variant of normal JSON mapgen.  Instead of creating a new overmap tile, it

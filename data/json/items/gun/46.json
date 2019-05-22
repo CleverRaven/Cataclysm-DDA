@@ -33,6 +33,6 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [ [ "46", [ "hk46mag", "hk46bigmag" ] ] ]
+    "magazines": [ [ "46", [ "hk46mag", "hk46bigmag" ] ], [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ] ]
   }
 ]

@@ -8,7 +8,6 @@
 #include <memory>
 #include <utility>
 
-#include "avatar.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "filesystem.h"

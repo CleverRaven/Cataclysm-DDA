@@ -7,7 +7,6 @@
 #include <set>
 #include <utility>
 
-#include "avatar.h"
 #include "basecamp.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -281,11 +280,6 @@ std::string fac_combat_ability_text( int val )
     return _( "Worthless" );
 }
 
-void npc_factions::finalize()
-{
-    g->faction_manager_ptr->create_if_needed();
-}
-
 void faction_manager::clear()
 {
     factions.clear();
@@ -308,14 +302,6 @@ faction *faction_manager::get( const faction_id &id )
             return &elem;
         }
     }
-    for( const auto &iter : _all_faction_templates ) {
-        const faction_template &elem = iter.second;
-        if( elem.id == id ) {
-            factions.emplace_back( elem );
-            return &factions.back();
-        }
-    }
-
     debugmsg( "Requested non-existing faction '%s'", id.str() );
     return nullptr;
 }
@@ -358,6 +344,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     std::string mission_string;
     if( has_companion_mission() ) {
         std::string dest_string;
+        npc_companion_mission c_mission = get_companion_mission();
         cata::optional<tripoint> dest = get_mission_destination();
         if( dest ) {
             basecamp *dest_camp;
@@ -370,7 +357,6 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
             }
             mission_string = _( "Current Mission : " ) + dest_string;
         } else {
-            npc_companion_mission c_mission = get_companion_mission();
             mission_string = _( "Current Mission : " ) +
                              get_mission_action_string( c_mission.mission_id );
         }
@@ -624,7 +610,6 @@ void new_faction_manager::display() const
                                         camps[i]->camp_name() );
                     }
                     if( selection < camps.size() ) {
-                        assert( camp ); // To appease static analysis
                         camp->faction_display( w_missions, 31 );
                     } else {
                         mvwprintz( w_missions, 4, 31, c_light_red, no_camp );
@@ -644,7 +629,6 @@ void new_faction_manager::display() const
                                         followers[i]->disp_name() );
                     }
                     if( selection < followers.size() ) {
-                        assert( guy ); // To appease static analysis
                         int retval = guy->faction_display( w_missions, 31 );
                         if( retval == 2 ) {
                             radio_interactable = true;

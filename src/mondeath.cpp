@@ -11,7 +11,6 @@
 #include <type_traits>
 #include <utility>
 
-#include "avatar.h"
 #include "explosion.h"
 #include "event.h"
 #include "field.h"
@@ -116,8 +115,8 @@ void mdeath::normal( monster &z )
     }
 }
 
-static void scatter_chunks( const std::string &chunk_name, int chunk_amt, monster &z, int distance,
-                            int pile_size = 1 )
+void scatter_chunks( const std::string &chunk_name, int chunk_amt, monster &z, int distance,
+                     int pile_size = 1 )
 {
     // can't have less than one item in a pile or it would cause an infinite loop
     pile_size = std::max( pile_size, 1 );
@@ -210,9 +209,9 @@ void mdeath::splatter( monster &z )
             }
         }
         if( gibbed_weight > 0 ) {
-            const int chunk_amount = gibbed_weight / to_gram( ( item::find_type( "ruined_chunks" ) )->weight );
-            scatter_chunks( "ruined_chunks", chunk_amount, z, gib_distance,
-                            chunk_amount / ( gib_distance + 1 ) );
+            scatter_chunks( "ruined_chunks",
+                            gibbed_weight / to_gram( ( item::find_type( "ruined_chunks" ) ) ->weight ), z, gib_distance,
+                            gibbed_weight / to_gram( ( item::find_type( "ruined_chunks" ) )->weight ) / ( gib_distance + 1 ) );
         }
         // add corpse with gib flag
         item corpse = item::make_corpse( z.type->id, calendar::turn, z.unique_name );

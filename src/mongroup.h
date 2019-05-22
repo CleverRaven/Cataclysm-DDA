@@ -35,7 +35,7 @@ struct MonsterGroupEntry {
     time_duration starts;
     time_duration ends;
     bool lasts_forever() const {
-        return ends <= 0_turns;
+        return ( ends <= 0_turns );
     }
 
     MonsterGroupEntry( const mtype_id &id, int new_freq, int new_cost,

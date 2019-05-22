@@ -412,7 +412,7 @@ class JsonObjectOutputArchive
                  const std::function<std::string( const T & )> &save, bool required = false ) {
             if( pointer == nullptr ) {
                 if( required ) {
-                    throw JsonError( "a required member is null: " + name );
+                    throw JsonError( ( "a required member is null: " ) + name );
                 }
                 return false;
             }

@@ -10,7 +10,6 @@
 #include <list>
 #include <map>
 
-#include "avatar.h"
 #include "basecamp.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
@@ -852,9 +851,9 @@ bool overmapbuffer::check_overmap_special_type( const overmap_special_id &id, co
     return om.overmap_pointer->check_overmap_special_type( id, om.coordinates );
 }
 
-static omt_find_params assign_params( const std::string &type, int const radius, bool must_be_seen,
-                                      bool allow_subtype_matches, bool existing_overmaps_only,
-                                      const cata::optional<overmap_special_id> &om_special )
+omt_find_params assign_params( const std::string &type, int const radius, bool must_be_seen,
+                               bool allow_subtype_matches, bool existing_overmaps_only,
+                               const cata::optional<overmap_special_id> &om_special )
 {
     omt_find_params params;
     params.type = type;
@@ -1157,7 +1156,7 @@ std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near_omt( int x, int y
     return result;
 }
 
-static radio_tower_reference create_radio_tower_reference( const overmap &om, radio_tower &t,
+radio_tower_reference create_radio_tower_reference( const overmap &om, radio_tower &t,
         const tripoint &center )
 {
     // global submap coordinates, same as center is
@@ -1433,16 +1432,17 @@ bool overmapbuffer::place_special( const overmap_special &special, const tripoin
     overmap &om = get_om_global( x, y );
     const tripoint om_loc( x, y, p.z );
 
+    // Get the closest city that is within the overmap because
+    // all of the overmap generation functions only function within
+    // the single overmap. If future generation is hoisted up to the
+    // buffer to spawn overmaps, then this can also be changed accordingly.
+    const city c = om.get_nearest_city( om_loc );
+
     bool placed = false;
     // Only place this special if we can actually place it per its criteria, or we're forcing
     // the placement, which is mostly a debug behavior, since a forced placement may not function
     // correctly (e.g. won't check correct underlying terrain).
     if( om.can_place_special( special, om_loc, dir, must_be_unexplored ) || force ) {
-        // Get the closest city that is within the overmap because
-        // all of the overmap generation functions only function within
-        // the single overmap. If future generation is hoisted up to the
-        // buffer to spawn overmaps, then this can also be changed accordingly.
-        const city c = om.get_nearest_city( om_loc );
         om.place_special( special, om_loc, dir, c, must_be_unexplored, force );
         placed = true;
     }

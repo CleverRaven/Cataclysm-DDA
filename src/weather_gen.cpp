@@ -88,7 +88,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     // Wind power
     W = std::max( 0, static_cast<int>( base_wind  / pow( P / 1014.78, rng( 9,
                                        base_wind_distrib_peaks ) ) +
-                                       seasonal_variation / base_wind_season_variation * rng( 1, 2 ) * W ) );
+                                       ( seasonal_variation / base_wind_season_variation ) * rng( 1, 2 ) * W ) );
     // Wind direction
     // Initial static variable
     if( current_winddir == 1000 ) {
@@ -166,7 +166,7 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
 int weather_generator::get_wind_direction( const season_type season, unsigned seed ) const
 {
     unsigned dirseed = seed;
-    cata_default_random_engine wind_dir_gen( dirseed );
+    std::default_random_engine wind_dir_gen( dirseed );
     // Assign chance to angle direction
     if( season == SPRING ) {
         std::discrete_distribution<int> distribution {3, 3, 5, 8, 11, 10, 5, 2, 5, 6, 6, 5, 8, 10, 8, 6};

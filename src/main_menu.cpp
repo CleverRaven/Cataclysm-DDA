@@ -10,7 +10,6 @@
 #include <sstream>
 
 #include "auto_pickup.h"
-#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "debug.h"
@@ -407,7 +406,7 @@ bool main_menu::opening_screen()
     ctxt.register_action( "ANY_INPUT" );
     bool start = false;
 
-    g->u = avatar();
+    g->u = player();
 
     int sel_line = 0;
 
@@ -551,12 +550,12 @@ bool main_menu::opening_screen()
                         } catch( const std::exception &err ) {
                             debugmsg( "Error: %s", err.what() );
                             g->gamemode.reset();
-                            g->u = avatar();
+                            g->u = player();
                             continue;
                         }
                         if( !g->gamemode->init() ) {
                             g->gamemode.reset();
-                            g->u = avatar();
+                            g->u = player();
                             continue;
                         }
                         start = true;
@@ -707,7 +706,7 @@ bool main_menu::new_character_tab()
                         g->setup();
                     } catch( const std::exception &err ) {
                         debugmsg( "Error: %s", err.what() );
-                        g->u = avatar();
+                        g->u = player();
                         continue;
                     }
                     character_type play_type = PLTYPE_CUSTOM;
@@ -726,7 +725,7 @@ bool main_menu::new_character_tab()
                             break;
                     }
                     if( !g->u.create( play_type ) ) {
-                        g->u = avatar();
+                        g->u = player();
                         load_char_templates();
                         werase( w_background );
                         wrefresh( w_background );
@@ -737,7 +736,7 @@ bool main_menu::new_character_tab()
                     wrefresh( w_background );
 
                     if( !g->start_game() ) {
-                        g->u = avatar();
+                        g->u = player();
                         continue;
                     }
                     start = true;
@@ -801,7 +800,7 @@ bool main_menu::new_character_tab()
             } else if( action == "RIGHT" || action == "CONFIRM" ) {
                 WORLDPTR world = world_generator->pick_world();
                 if( world == nullptr ) {
-                    g->u = avatar();
+                    g->u = player();
                     continue;
                 }
                 world_generator->set_active_world( world );
@@ -809,11 +808,11 @@ bool main_menu::new_character_tab()
                     g->setup();
                 } catch( const std::exception &err ) {
                     debugmsg( "Error: %s", err.what() );
-                    g->u = avatar();
+                    g->u = player();
                     continue;
                 }
                 if( !g->u.create( PLTYPE_TEMPLATE, templates[sel3] ) ) {
-                    g->u = avatar();
+                    g->u = player();
                     load_char_templates();
                     werase( w_background );
                     wrefresh( w_background );
@@ -822,7 +821,7 @@ bool main_menu::new_character_tab()
                 werase( w_background );
                 wrefresh( w_background );
                 if( !g->start_game() ) {
-                    g->u = avatar();
+                    g->u = player();
                     continue;
                 }
                 start = true;
@@ -975,7 +974,7 @@ bool main_menu::load_character_tab()
                         g->setup();
                     } catch( const std::exception &err ) {
                         debugmsg( "Error: %s", err.what() );
-                        g->u = avatar();
+                        g->u = player();
                         continue;
                     }
 

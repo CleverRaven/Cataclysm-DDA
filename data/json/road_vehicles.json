@@ -120,11 +120,6 @@
     "locations": [ { "x": [ 10, 12 ], "y": [ 10, 12 ], "facing": [ 90, 270 ] } ]
   },
   {
-    "type": "vehicle_placement",
-    "id": "subway_deadend",
-    "locations": [ { "x": 16, "y": [ 3, 13 ], "facing": 270 }, { "x": 7, "y": [ 7, 17 ], "facing": 90 } ]
-  },
-  {
     "type": "vehicle_spawn",
     "id": "default_city",
     "spawn_types": [
@@ -189,17 +184,5 @@
     "type": "vehicle_spawn",
     "id": "default_parkinglot",
     "spawn_types": [ { "description": "Parking lot with vehicles", "weight": 100, "vehicle_function": "parkinglot" } ]
-  },
-  {
-    "type": "vehicle_spawn",
-    "id": "default_subway_deadend",
-    "spawn_types": [
-      { "description": "Clear section of subway", "weight": 100, "vehicle_function": "no_vehicles" },
-      {
-        "description": "Vehicle on the subway",
-        "weight": 100,
-        "vehicle_json": { "vehicle": "trains_draisine", "placement": "subway_deadend", "number": [ 1, 2 ], "fuel": -1, "status": -1 }
-      }
-    ]
   }
 ]

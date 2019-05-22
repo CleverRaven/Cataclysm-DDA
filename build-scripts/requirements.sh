@@ -22,9 +22,9 @@ if just_json; then
 fi
 
 if [ -n "${CODE_COVERAGE}" ]; then
-  travis_retry pip install --user pyyaml cpp-coveralls
-  export CXXFLAGS="$CXXFLAGS --coverage"
-  export LDFLAGS="$LDFLAGS --coverage"
+  travis_retry pip install --user pyyaml cpp-coveralls;
+  export CXXFLAGS=--coverage;
+  export LDFLAGS=--coverage;
 fi
 
 if [ -n "$CATA_CLANG_TIDY" ]; then

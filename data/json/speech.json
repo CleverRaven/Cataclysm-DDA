@@ -1412,13 +1412,13 @@
   {
     "type": "speech",
     "speaker": "mon_mi_go",
-    "sound": "\"That creepy abandoned post-apocalyptic lab complex looks safe...\"",
+    "sound": "That creepy abandoned post-apocalyptic lab complex looks safe...",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": "mon_mi_go",
-    "sound": "\"Don't worry, it isn't like anything could teleport out of the containment cells.\"",
+    "sound": "Don't worry, it isn't like anything could teleport out of the containment cells.",
     "volume": 20
   },
   {
@@ -1538,7 +1538,7 @@
   {
     "type": "speech",
     "speaker": "mon_prototype_cyborg",
-    "sound": "screams of pain.",
+    "sound": "Screems of pain.",
     "volume": 20
   },
   {
@@ -1546,24 +1546,6 @@
     "speaker": "mon_prototype_cyborg",
     "sound": "\"You lied to me!  Look at what you've done!\", followed by an electronic voice saying \"YOU'LL PAY FOR THIS!\"",
     "volume": 20
-  },
-  {
-    "type": "speech",
-    "speaker": "mon_nursebot_defective",
-    "sound": "a soft robotic voice say, \"Come here.  I'll give you a check-up.\"",
-    "volume": 8
-  },
-  {
-    "type": "speech",
-    "speaker": "mon_nursebot_defective",
-    "sound": "a soft robotic voice say, \"Come on.  I don't bite, I promise it won't hurt one bit.\"",
-    "volume": 8
-  },
-  {
-    "type": "speech",
-    "speaker": "mon_nursebot_defective",
-    "sound": "a soft robotic voice say, \"Here we go.  Just hold still.\"",
-    "volume": 8
   },
   {
     "type": "speech",

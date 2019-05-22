@@ -4,7 +4,6 @@
 
 #include <string>
 
-#include "game_constants.h"
 #include "string_id.h"
 
 class activity_type;
@@ -35,7 +34,6 @@ class activity_type
         based_on_type based_on_ = based_on_type::SPEED;
         bool no_resume_ = false;
         bool refuel_fires = false;
-        float activity_level = NO_EXERCISE;
 
     public:
         const activity_id &id() const {

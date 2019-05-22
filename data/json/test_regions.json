@@ -13,11 +13,6 @@
       "boosted_other": { "t_shrub_blueberry": 0.0001, "t_shrub": 4.9, "f_mutcactus_test": 50.0 },
       "boosted_other_percent": 20.0
     },
-    "overmap_lake_settings": {
-      "noise_threshold_lake": 0.25,
-      "lake_size_min": 20,
-      "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ]
-    },
     "overmap_forest_settings": {
       "noise_threshold_forest": 0.6,
       "noise_threshold_forest_thick": 0.7,

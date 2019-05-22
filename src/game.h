@@ -14,7 +14,6 @@
 #include <functional>
 #include <iosfwd>
 #include <string>
-#include <chrono>
 
 #include "calendar.h"
 #include "cursesdef.h"
@@ -30,9 +29,6 @@
 #include "type_id.h"
 #include "monster.h"
 #include "game_inventory.h"
-#include "weather.h"
-
-#define DEFAULT_TILESET_ZOOM 16
 
 extern bool test_mode;
 
@@ -84,7 +80,6 @@ struct targeting_data;
 struct special_game;
 
 using itype_id = std::string;
-class avatar;
 class map;
 class faction_manager;
 class new_faction_manager;
@@ -130,11 +125,6 @@ struct w_map {
     catacurses::window win;
 };
 
-bool is_valid_in_w_terrain( int x, int y );
-
-// There is only one game instance, so losing a few bytes of memory
-// due to padding is not much of a concern.
-// NOLINTNEXTLINE(clang-analyzer-optin.performance.Padding)
 class game
 {
         friend class editmap;
@@ -181,11 +171,6 @@ class game
          *  @return true if all packs were found, false if any were missing
          */
         bool load_packs( const std::string &msg, const std::vector<mod_id> &packs, loading_ui &ui );
-
-        /**
-         * @brief Should be invoked whenever options change.
-         */
-        void on_options_changed();
 
     protected:
         /** Loads dynamic data from the given directory. May throw. */
@@ -512,7 +497,7 @@ class game
         void refresh_all();
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
-        point update_map( player &p );
+        void update_map( player &p );
         point update_map( int &x, int &y );
         void update_overmap_seen(); // Update which overmap tiles we can see
 
@@ -591,6 +576,9 @@ class game
         */
         bool take_screenshot( const std::string &file_path ) const;
 
+        // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
+        int get_temperature( const tripoint &location );
+
         /**
          * The top left corner of the reality bubble (in submaps coordinates). This is the same
          * as @ref map::abs_sub of the @ref m map.
@@ -607,6 +595,7 @@ class game
          * The overmap which contains the center submap of the reality bubble.
          */
         overmap &get_cur_om() const;
+        const weather_generator &get_cur_weather_gen() const;
 
         /** Get all living player allies */
         std::vector<npc *> allies();
@@ -732,10 +721,10 @@ class game
         // Standard movement; handles attacks, traps, &c. Returns false if auto move
         // should be canceled
         bool plmove( int dx, int dy, int dz = 0 );
-        inline bool plmove( const tripoint &d ) {
+        inline bool plmove( tripoint d ) {
             return plmove( d.x, d.y, d.z );
         }
-        inline bool plmove( const point &d ) {
+        inline bool plmove( point d ) {
             return plmove( d.x, d.y );
         }
         // Handle pushing during move, returns true if it handled the move
@@ -748,7 +737,6 @@ class game
         bool phasing_move( const tripoint &dest );
         // Regular movement. Returns false if it failed for any reason
         bool walk_move( const tripoint &dest );
-
         void on_move_effects();
 
         void control_vehicle(); // Use vehicle controls  '^'
@@ -779,7 +767,7 @@ class game
         void reload_item(); // Reload an item
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
-        point place_player( const tripoint &dest );
+        void place_player( const tripoint &dest );
         void place_player_overmap( const tripoint &om_dest );
 
         bool unload( item &it ); // Unload a gun/tool  'U'
@@ -850,6 +838,7 @@ class game
         void monmove();          // Monster movement
         void overmap_npc_move(); // NPC overmap movement
         void process_activity(); // Processes and enacts the player's activity
+        void update_weather();   // Updates the temperature and weather patten
         void handle_key_blocking_activity(); // Abort reading etc.
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
         bool handle_action();
@@ -880,18 +869,6 @@ class game
     public:
         void quicksave();        // Saves the game without quitting
         void disp_NPCs();        // Currently for debug use.  Lists global NPCs.
-
-        /** Used to implement mouse "edge scrolling". Returns a
-         *  tripoint which is a vector of the resulting "move", i.e.
-         *  (0, 0, 0) if the mouse is not at the edge of the screen,
-         *  otherwise some (x, y, 0) depending on which edges are
-         *  hit.
-         *  This variant adjust scrolling speed according to zoom
-         *  level, making it suitable when viewing the "terrain".
-         */
-        tripoint mouse_edge_scrolling_terrain( input_context &ctxt );
-        /** This variant is suitable for the overmap. */
-        tripoint mouse_edge_scrolling_overmap( input_context &ctxt );
     private:
         void quickload();        // Loads the previously saved game if it exists
 
@@ -916,7 +893,7 @@ class game
     protected:
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr;
-        pimpl<avatar> u_ptr;
+        pimpl<player> u_ptr;
         pimpl<live_view> liveview_ptr;
         live_view &liveview;
         pimpl<scent_map> scent_ptr;
@@ -925,7 +902,7 @@ class game
     public:
         /** Make map a reference here, to avoid map.h in game.h */
         map &m;
-        avatar &u;
+        player &u;
         scent_map &scent;
         event_manager &events;
 
@@ -938,6 +915,12 @@ class game
         /** True if the game has just started or loaded, else false. */
         bool new_game;
 
+        signed char temperature;              // The air temperature
+        bool lightning_active;
+        weather_type weather;   // Weather pattern--SEE weather.h
+        int winddirection;
+        int windspeed;
+        pimpl<w_point> weather_precise; // Cached weather data
         const scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairz;
@@ -967,16 +950,20 @@ class game
 
         bool show_panel_adm;
         bool right_sidebar;
+        bool reinitmap;
         bool fullscreen;
         bool was_fullscreen;
-        bool auto_travel_mode = false;
-        safe_mode_type safe_mode;
 
         //pixel minimap management
         int pixel_minimap_option;
+        bool auto_travel_mode = false;
+        safe_mode_type safe_mode;
         int turnssincelastmon; // needed for auto run mode
-
-        weather_manager weather;
+        cata::optional<int> wind_direction_override;
+        cata::optional<int> windspeed_override;
+        weather_type weather_override;
+        // not only sets nextweather, but updates weather as well
+        void set_nextweather( time_point t );
     private:
         std::shared_ptr<player> u_shared_ptr;
         std::vector<std::shared_ptr<npc>> active_npc;
@@ -992,6 +979,7 @@ class game
         int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
         bool safe_mode_warning_logged;
         bool bVMonsterLookFire;
+        time_point nextweather; // The time on which weather will shift next.
         int next_npc_id, next_mission_id; // Keep track of UIDs
         std::set<int> follower_ids; // Keep track of follower NPC IDs
         std::map<mtype_id, int> kills;         // Player's kill count
@@ -1002,6 +990,8 @@ class game
         // remoteveh() cache
         time_point remoteveh_cache_time;
         vehicle *remoteveh_cache;
+        /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures */
+        std::unordered_map< tripoint, int > temperature_cache;
         /** Has a NPC been spawned since last load? */
         bool npcs_dirty;
         /** Has anything died in this turn and needs to be cleaned up? */
@@ -1023,10 +1013,6 @@ class game
 
         // Preview for auto move route
         std::vector<tripoint> destination_preview;
-
-        std::chrono::time_point<std::chrono::steady_clock> last_mouse_edge_scroll;
-        tripoint last_mouse_edge_scroll_vector;
-        tripoint mouse_edge_scrolling( input_context ctxt, const int speed );
 
 };
 

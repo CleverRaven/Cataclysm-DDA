@@ -10,7 +10,6 @@
 #include "catch/catch.hpp"
 #include "line.h" // For rl_dist.
 #include "map.h"
-#include "rng.h"
 #include "shadowcasting.h"
 #include "enums.h"
 #include "game_constants.h"
@@ -20,11 +19,11 @@
 constexpr unsigned int NUMERATOR = 1;
 constexpr unsigned int DENOMINATOR = 10;
 
-static void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
-                          const float ( &input_array )[MAPSIZE * SEEX][MAPSIZE * SEEY],
-                          const int xx, const int xy, const int yx, const int yy,
-                          const int offsetX, const int offsetY, const int offsetDistance,
-                          const int row = 1, float start = 1.0f, const float end = 0.0f )
+void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
+                   const float ( &input_array )[MAPSIZE * SEEX][MAPSIZE * SEEY],
+                   const int xx, const int xy, const int yx, const int yy,
+                   const int offsetX, const int offsetY, const int offsetDistance,
+                   const int row = 1, float start = 1.0f, const float end = 0.0f )
 {
 
     float newStart = 0.0f;
@@ -80,9 +79,8 @@ static void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY
 /*
  * This is checking whether bresenham visibility checks match shadowcasting (they don't).
  */
-static bool bresenham_visibility_check(
-    const int offsetX, const int offsetY, const int x, const int y,
-    const float ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY] )
+bool bresenham_visibility_check( const int offsetX, const int offsetY, const int x, const int y,
+                                 const float ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY] )
 {
     if( offsetX == x && offsetY == y ) {
         return true;
@@ -101,15 +99,17 @@ static bool bresenham_visibility_check(
     return visible;
 }
 
-static void randomly_fill_transparency(
+void randomly_fill_transparency(
     float ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
     const unsigned int numerator = NUMERATOR, const unsigned int denominator = DENOMINATOR )
 {
     // Construct a rng that produces integers in a range selected to provide the probability
     // we want, i.e. if we want 1/4 tiles to be set, produce numbers in the range 0-3,
     // with 0 indicating the bit is set.
+    const unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine generator( seed );
     std::uniform_int_distribution<unsigned int> distribution( 0, denominator );
-    auto rng = std::bind( distribution, rng_get_engine() );
+    auto rng = std::bind( distribution, generator );
 
     // Initialize the transparency value of each square to a random value.
     for( auto &inner : transparency_cache ) {
@@ -123,12 +123,12 @@ static void randomly_fill_transparency(
     }
 }
 
-static bool is_nonzero( const float x )
+bool is_nonzero( const float x )
 {
     return x != 0;
 }
 
-static bool is_nonzero( four_quadrants x )
+bool is_nonzero( four_quadrants x )
 {
     return is_nonzero( x.max() );
 }
@@ -217,7 +217,7 @@ void print_grid_comparison( const int offsetX, const int offsetY,
     }
 }
 
-static void shadowcasting_runoff( const int iterations, const bool test_bresenham = false )
+void shadowcasting_runoff( const int iterations, const bool test_bresenham = false )
 {
     float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
     float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
@@ -284,8 +284,7 @@ static void shadowcasting_runoff( const int iterations, const bool test_bresenha
     REQUIRE( passed );
 }
 
-static void shadowcasting_float_quad(
-    const int iterations, const unsigned int denominator = DENOMINATOR )
+void shadowcasting_float_quad( const int iterations, const unsigned int denominator = DENOMINATOR )
 {
     float lit_squares_float[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
     four_quadrants lit_squares_quad[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{}};
@@ -336,7 +335,7 @@ static void shadowcasting_float_quad(
     REQUIRE( passed );
 }
 
-static void shadowcasting_3d_2d( const int iterations )
+void shadowcasting_3d_2d( const int iterations )
 {
     float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
     float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};

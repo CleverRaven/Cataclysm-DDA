@@ -179,7 +179,6 @@ enum ter_bitflags : int {
     TFLAG_HIDE_PLACE,
     TFLAG_BLOCK_WIND,
     TFLAG_FLAT,
-    TFLAG_RAIL,
 
     NUM_TERFLAGS
 };
@@ -237,10 +236,6 @@ struct map_data_common_t {
         void load_symbol( JsonObject &jo );
 
         std::string looks_like;
-
-        furn_str_id plant_transform; //What the furniture turns into when it grows or you plant seeds in it
-        //What the 'base' furniture of the plant is, before you plant in it, and what it turns into when eaten
-        furn_str_id plant_base;
 
         iexamine_function examine; //What happens when the terrain/furniture is examined
 

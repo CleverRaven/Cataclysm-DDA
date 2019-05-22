@@ -1440,7 +1440,7 @@
     "book_learn": [ [ "recipe_labchem", 7 ], [ "textbook_chemistry", 7 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "chem_hydrogen_peroxide", 50 ] ] ]
+    "components": [ [ [ "chem_hydrogen_peroxide", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -1456,7 +1456,7 @@
     "book_learn": [ [ "recipe_labchem", 3 ], [ "textbook_chemistry", 3 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
-    "components": [ [ [ "chem_hydrogen_peroxide_conc", 1 ] ], [ [ "water", 4 ], [ "water_clean", 4 ] ] ]
+    "components": [ [ [ "chem_hydrogen_peroxide_conc", 1 ] ], [ [ "water", 5 ], [ "water_clean", 5 ] ] ]
   },
   {
     "type": "recipe",
@@ -1510,7 +1510,7 @@
     "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "chem_sulphuric_acid", 1 ] ], [ [ "chem_hydrogen_peroxide", 10 ] ], [ [ "chem_aluminium_powder", 25 ] ] ]
+    "components": [ [ [ "chem_sulphuric_acid", 1 ] ], [ [ "chem_hydrogen_peroxide", 1 ] ], [ [ "chem_aluminium_powder", 25 ] ] ]
   },
   {
     "type": "recipe",

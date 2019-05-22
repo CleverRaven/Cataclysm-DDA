@@ -127,7 +127,7 @@ struct advanced_inv_area {
         if( id > AIM_DRAGGED || id < AIM_SOUTHWEST ) {
             return false;
         }
-        return veh != nullptr && vstor >= 0;
+        return ( veh != nullptr && vstor >= 0 );
     }
 };
 

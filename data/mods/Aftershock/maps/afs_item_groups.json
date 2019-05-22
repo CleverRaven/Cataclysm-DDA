@@ -26,7 +26,6 @@
     "id": "bionics",
     "type": "item_group",
     "items": [
-      [ "bio_furnace", 10 ],
       [ "bn_bio_solar", 10 ],
       [ "afs_bio_precision_solderers", 10 ],
       [ "afs_bio_missiles", 10 ],
@@ -37,32 +36,17 @@
   {
     "id": "bionics_common",
     "type": "item_group",
-    "items": [
-      [ "bio_furnace", 10 ],
-      [ "bn_bio_solar", 10 ],
-      [ "afs_bio_precision_solderers", 5 ],
-      [ "afs_bio_linguistic_coprocessor", 8 ]
-    ]
-  },
-  {
-    "id": "bionics_mil",
-    "type": "item_group",
-    "items": [ [ "bio_furnace", 10 ] ]
+    "items": [ [ "bn_bio_solar", 10 ], [ "afs_bio_precision_solderers", 5 ], [ "afs_bio_linguistic_coprocessor", 8 ] ]
   },
   {
     "id": "bionics_sci",
     "type": "item_group",
-    "items": [
-      [ "bio_furnace", 5 ],
-      [ "bn_bio_solar", 5 ],
-      [ "afs_bio_precision_solderers", 7 ],
-      [ "afs_bio_linguistic_coprocessor", 5 ]
-    ]
+    "items": [ [ "bn_bio_solar", 5 ], [ "afs_bio_precision_solderers", 7 ], [ "afs_bio_linguistic_coprocessor", 5 ] ]
   },
   {
     "id": "bionics_op",
     "type": "item_group",
-    "items": [ [ "bio_furnace", 15 ], [ "bn_bio_solar", 15 ], [ "afs_bio_missiles", 10 ], [ "afs_bio_dopamine_stimulators", 10 ] ]
+    "items": [ [ "bn_bio_solar", 15 ], [ "afs_bio_missiles", 10 ], [ "afs_bio_dopamine_stimulators", 10 ] ]
   },
   {
     "id": "bionics_subs",
