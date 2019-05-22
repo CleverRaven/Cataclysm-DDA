@@ -94,7 +94,6 @@ jobs:
     - stage: compilers
     # GCC 5.3
       env: COMPILER=g++
-      if: type != pull_request
       compiler: gcc
       addons: &gcc53
         apt:
@@ -123,7 +122,6 @@ jobs:
     # Also, adding _GLIBCXX_DEBUG so that one build can test with that
     - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough -D_GLIBCXX_DEBUG'
       compiler: gcc
-      if: type != pull_request
       addons: &gcc8
         apt:
           packages: ["g++-8", "g++-8-multilib",  "libc6-dbg"]
@@ -132,7 +130,6 @@ jobs:
     # Clang 3.8
     - env: CLANG=clang++-3.8 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
       compiler: clang
-      if: type != pull_request
       addons: &clang38
         apt:
           packages: ["clang-3.8", "g++-multilib", "libc6-dbg", "libc6-dbg:i386", "g++-6"]
