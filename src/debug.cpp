@@ -951,8 +951,8 @@ std::string mac_os_version()
             command_result = "<unknown>";
         } else {
             // remove trailing '\n', if any.
-            str.erase( std::remove( command_result.begin(), command_result.end(), '\n' ),
-                       command_result.end() );
+            command_result.erase( std::remove( command_result.begin(), command_result.end(), '\n' ),
+                                  command_result.end() );
         }
         output.append( string_format( "%s: %s; ", entry.second, command_result ) );
     }
@@ -1017,8 +1017,8 @@ std::string windows_version()
             const auto rtl_get_version_func = reinterpret_cast<RtlGetVersion>( GetProcAddress( handle_ntdll,
                                               "RtlGetVersion" ) );
             if( rtl_get_version_func != nullptr ) {
-                RTL_OSVERSIONINFOW os_version_info = { 0 };
-                os_version_info.dwOSVersionInfoSize = sizeof RTL_OSVERSIONINFOW;
+                RTL_OSVERSIONINFOW os_version_info = RTL_OSVERSIONINFOW();
+                os_version_info.dwOSVersionInfoSize = sizeof( RTL_OSVERSIONINFOW );
                 if( rtl_get_version_func( &os_version_info ) == 0 ) { // NT_STATUS_SUCCESS = 0
                     output.append( string_format( "%i.%i %i", os_version_info.dwMajorVersion,
                                                   os_version_info.dwMinorVersion, os_version_info.dwBuildNumber ) );
