@@ -470,5 +470,34 @@
     "type": "vehicle_group",
     "id": "buses",
     "vehicles": [ [ "bus", 1000 ], [ "schoolbus", 100 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "parking_garage",
+    "vehicles": [
+      [ "bubble_car", 200 ],
+      [ "4x4_car", 200 ],
+      [ "car_sports_electric", 100 ],
+      [ "car_mini", 750 ],
+      [ "beetle", 750 ],
+      [ "car", 1500 ],
+      [ "suv", 800 ],
+      [ "suv_electric", 100 ],
+      [ "suv_electric_rack", 100 ],
+      [ "pickup", 50 ],
+      [ "car_anmlcmpt", 150 ],
+      [ "electric_car", 750 ],
+      [ "hippie_van", 750 ],
+      [ "motorcycle", 500 ],
+      [ "superbike", 50 ],
+      [ "motorcycle_sidecart", 50 ],
+      [ "car_sports", 30 ],
+      [ "car_sports_atomic", 5 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "trains_draisine",
+    "vehicles": [ [ "motorized_draisine_6seats", 500 ], [ "motorized_draisine_2seats", 2000 ] ]
   }
 ]

@@ -22,6 +22,16 @@
   },
   {
     "type": "construction",
+    "description": "Make crafting spot",
+    "category": "OTHER",
+    "required_skills": [  ],
+    "time": 0,
+    "pre_note": "Mark a spot for crafting.  Crafting tasks next to this tile will automatically use this location instead of attempting to craft in your hands, with the usual crafting speed penalty for working on the ground.  Does not prevent using a proper workbench, if available.  Deconstruct or smash to remove.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_ground_crafting_spot"
+  },
+  {
+    "type": "construction",
     "description": "Spike Pit",
     "category": "DIG",
     "required_skills": [ [ "survival", 1 ] ],
@@ -704,8 +714,8 @@
     "//": "Step 1: Build sandbag barricade",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
-    "time": 60,
-    "components": [ [ [ "bag_canvas", 2 ] ], [ [ "material_sand", 20 ] ] ],
+    "time": 16,
+    "components": [ [ [ "sandbag", 16 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
     "post_terrain": "f_sandbag_half"
@@ -716,11 +726,35 @@
     "//": "Step 2: Finish the sandbag wall",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
-    "time": 90,
-    "components": [ [ [ "bag_canvas", 4 ] ], [ [ "material_sand", 40 ] ] ],
+    "time": 20,
+    "components": [ [ [ "sandbag", 20 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "f_sandbag_half",
     "post_terrain": "f_sandbag_wall"
+  },
+  {
+    "type": "construction",
+    "description": "Build Earthbag Wall",
+    "//": "Step 1: Build earthbag barricade",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 16,
+    "components": [ [ [ "earthbag", 16 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_earthbag_half"
+  },
+  {
+    "type": "construction",
+    "description": "Build Earthbag Wall",
+    "//": "Step 2: Finish the earthbag wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 20,
+    "components": [ [ [ "earthbag", 20 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_terrain": "f_earthbag_half",
+    "post_terrain": "f_earthbag_wall"
   },
   {
     "type": "construction",
@@ -771,6 +805,19 @@
     "components": [ [ [ "brick", 15 ] ], [ [ "mortar_build", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ],
     "pre_terrain": "t_brick_wall_halfway",
     "post_terrain": "t_brick_wall"
+  },
+  {
+    "type": "construction",
+    "description": "Build Concrete Floor",
+    "//": "Builds a concrete floor from a pit.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": 60,
+    "tools": [ [ [ "con_mix", 50 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "components": [ [ [ "concrete", 2 ] ], [ [ "water", 2 ] ] ],
+    "pre_terrain": "t_pit_shallow",
+    "post_terrain": "t_concrete"
   },
   {
     "type": "construction",
@@ -1036,8 +1083,13 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": 120,
-    "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "log", 2 ] ], [ [ "stick", 4 ], [ "2x4", 8 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [
+      [ [ "log", 2 ] ],
+      [ [ "stick", 4 ], [ "2x4", 8 ] ],
+      [ [ "material_soil", 40 ] ],
+      [ [ "birchbark", 12 ], [ "pine_bough", 12 ] ]
+    ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "t_floor_primitive"
@@ -1602,6 +1654,144 @@
   },
   {
     "type": "construction",
+    "description": "Place Hay Bale",
+    "category": "FURN",
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": 10,
+    "components": [ [ [ "straw_pile", 40 ], [ "withered", 40 ] ], [ [ "rope_30", 1 ], [ "rope_makeshift_30", 1 ], [ "vine_30", 1 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_hay"
+  },
+  {
+    "type": "construction",
+    "description": "Build Desk",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": 90,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "CUT", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 16 ] ], [ [ "nail", 24 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_desk"
+  },
+  {
+    "type": "construction",
+    "description": "Build Wardrobe",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": 60,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "SAW_M", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 20 ] ], [ [ "nail", 24 ] ], [ [ "pipe", 2 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_wardrobe"
+  },
+  {
+    "type": "construction",
+    "description": "Paint Grass White",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 40,
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "w_paint", 25 ] ] ],
+    "pre_terrain": "t_grass",
+    "post_terrain": "t_grass_white"
+  },
+  {
+    "type": "construction",
+    "description": "Paint Grass White",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 40,
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "w_paint", 25 ] ] ],
+    "pre_terrain": "t_grass_dead",
+    "post_terrain": "t_grass_white"
+  },
+  {
+    "type": "construction",
+    "description": "Paint Grass White",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 40,
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "w_paint", 25 ] ] ],
+    "pre_terrain": "t_grass_golf",
+    "post_terrain": "t_grass_white"
+  },
+  {
+    "type": "construction",
+    "description": "Paint Pavement Yellow",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 40,
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "y_paint", 25 ] ] ],
+    "pre_terrain": "t_pavement",
+    "post_terrain": "t_pavement_y"
+  },
+  {
+    "type": "construction",
+    "description": "Paint Pavement Yellow",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 40,
+    "tools": [ [ "paint_brush" ] ],
+    "components": [ [ [ "y_paint", 25 ] ] ],
+    "pre_terrain": "t_pavement_bg_dp",
+    "post_terrain": "t_pavement_y_bg_dp"
+  },
+  {
+    "type": "construction",
+    "description": "Take Paint Off Pavement",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 80,
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_pavement_y",
+    "post_terrain": "t_pavement"
+  },
+  {
+    "type": "construction",
+    "description": "Take Paint Off Pavement",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 80,
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_pavement_y_bg_dp",
+    "post_terrain": "t_pavement_bg_dp"
+  },
+  {
+    "type": "construction",
+    "description": "Build Wooden Railing",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": 30,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 2 ] ], [ [ "nail", 6 ] ], [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ],
+    "pre_terrain": "t_floor",
+    "post_terrain": "t_railing"
+  },
+  {
+    "type": "construction",
+    "description": "Cover Manhole",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "mechanics", 0 ] ],
+    "time": 1,
+    "components": [ [ [ "manhole_cover", 1 ] ] ],
+    "pre_terrain": "t_manhole",
+    "post_terrain": "t_manhole_cover"
+  },
+  {
+    "type": "construction",
+    "description": "Remove Wax From Floor",
+    "category": "DECORATE",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 80,
+    "tools": [ [ "chipper" ] ],
+    "pre_terrain": "t_floor_waxed_y",
+    "post_terrain": "t_floor"
+  },
+  {
+    "type": "construction",
     "description": "Paint Wall Red",
     "category": "DECORATE",
     "required_skills": [ [ "fabrication", 0 ] ],
@@ -1921,6 +2111,16 @@
     "components": [ [ [ "2x4", 6 ] ], [ [ "log", 1 ] ], [ [ "nail", 12 ] ] ],
     "pre_terrain": "t_water_sh",
     "post_terrain": "t_sh_bridge"
+  },
+  {
+    "type": "construction",
+    "description": "Build Planter",
+    "catergory": "FURN",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": 25,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 36 ] ], [ [ "pebble", 200 ] ], [ [ "material_soil", 75 ] ] ],
+    "post_terrain": "f_planter"
   },
   {
     "type": "construction",
@@ -2299,5 +2499,21 @@
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "f_firering"
+  },
+  {
+    "type": "construction",
+    "description": "Build Rammed Earth Wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ], [ "survival", 2 ] ],
+    "time": 360,
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ "frame_wood_light" ], [ "log" ] ],
+    "components": [
+      [ [ "material_soil", 240 ] ],
+      [ [ "water", 100 ], [ "water_clean", 100 ] ],
+      [ [ "material_sand", 20 ], [ "material_quicklime", 20 ], [ "concrete", 1 ] ]
+    ],
+    "pre_terrain": "t_fence_post",
+    "post_terrain": "t_wall_rammed_earth"
   }
 ]

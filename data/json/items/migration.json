@@ -537,6 +537,11 @@
     "replace": "lightstrip_inactive"
   },
   {
+    "id": "smg_9mm_mag",
+    "type": "MIGRATION",
+    "replace": "survivor9mm_mag"
+  },
+  {
     "id": "battery_atomic",
     "type": "MIGRATION",
     "replace": "light_atomic_battery_cell"

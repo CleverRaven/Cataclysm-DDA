@@ -10,6 +10,7 @@
 #include <memory>
 
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -124,7 +125,7 @@ Character::Character() :
     fatigue = 0;
     sleep_deprivation = 0;
     // 45 days to starve to death
-    healthy_calories = 77000;
+    healthy_calories = 55000;
     stored_calories = healthy_calories;
 
     name.clear();
@@ -450,7 +451,7 @@ bool Character::move_effects( bool attacking )
             const monster *const mon = g->critter_at<monster>( dest );
             if( mon && ( mon->has_flag( MF_GRABS ) ||
                          mon->type->has_special_attack( "GRAB" ) ) ) {
-                zed_number ++;
+                zed_number += mon->get_grab_strength();
             }
         }
         if( zed_number == 0 ) {
@@ -461,7 +462,7 @@ bool Character::move_effects( bool attacking )
 
             /** @EFFECT_STR increases chance to escape grab, if >DEX */
         } else if( rng( 0, std::max( get_dex(), get_str() ) ) <
-                   rng( get_effect_int( effect_grabbed ), 8 ) ) {
+                   rng( get_effect_int( effect_grabbed, bp_torso ), 8 ) ) {
             // Randomly compare higher of dex or str to grab intensity.
             add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
                                    _( "<npcname> tries to break out of the grab, but fails!" ) );
@@ -673,6 +674,15 @@ bool Character::has_active_bionic( const bionic_id &b ) const
         if( i.id == b ) {
             return ( i.powered );
         }
+    }
+    return false;
+}
+
+bool Character::has_any_bionic() const
+{
+    bionic_collection tmp_collec = *my_bionics;
+    if( !tmp_collec.empty() ) {
+        return true;
     }
     return false;
 }
@@ -1544,10 +1554,10 @@ int Character::extraEncumbrance( const layer_level level, const int bp ) const
     return encumbrance_cache[bp].layer_penalty_details[static_cast<int>( level )].total;
 }
 
-void layer_item( std::array<encumbrance_data, num_bp> &vals,
-                 const item &it,
-                 std::array<layer_level, num_bp> &highest_layer_so_far,
-                 bool power_armor, const Character &c )
+static void layer_item( std::array<encumbrance_data, num_bp> &vals,
+                        const item &it,
+                        std::array<layer_level, num_bp> &highest_layer_so_far,
+                        bool power_armor, const Character &c )
 {
     const auto item_layer = it.get_layer();
     int encumber_val = it.get_encumber( c );
@@ -1687,9 +1697,9 @@ int Character::encumb( body_part bp ) const
     return encumbrance_cache[bp].encumbrance;
 }
 
-void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
-                            const mutation_branch &mut,
-                            const body_part_set &oversize )
+static void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
+                                   const mutation_branch &mut,
+                                   const body_part_set &oversize )
 {
     for( const auto &enc : mut.encumbrance_always ) {
         vals[enc.first].encumbrance += enc.second;

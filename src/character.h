@@ -445,6 +445,8 @@ class Character : public Creature, public visitable<Character>
         bool has_bionic( const bionic_id &b ) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
         bool has_active_bionic( const bionic_id &b ) const;
+        /**Returns true if the player has any bionic*/
+        bool has_any_bionic() const;
 
         // --------------- Generic Item Stuff ---------------
 

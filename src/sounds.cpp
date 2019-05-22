@@ -10,6 +10,7 @@
 #include <type_traits>
 #include <unordered_map>
 
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h"
@@ -206,11 +207,11 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
     return sound_clusters;
 }
 
-int get_signal_for_hordes( const centroid &centr )
+static int get_signal_for_hordes( const centroid &centr )
 {
     //Volume in  tiles. Signal for hordes in submaps
     //modify vol using weather vol.Weather can reduce monster hearing
-    const int vol = centr.volume - weather_data( g->weather ).sound_attn;
+    const int vol = centr.volume - weather_data( g->weather.weather ).sound_attn;
     const int min_vol_cap = 60; //Hordes can't hear volume lower than this
     const int underground_div = 2; //Coefficient for volume reduction underground
     const int hordes_sig_div = SEEX; //Divider coefficient for hordes
@@ -234,7 +235,7 @@ int get_signal_for_hordes( const centroid &centr )
 void sounds::process_sounds()
 {
     std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
-    const int weather_vol = weather_data( g->weather ).sound_attn;
+    const int weather_vol = weather_data( g->weather.weather ).sound_attn;
     for( const auto &this_centroid : sound_clusters ) {
         // Since monsters don't go deaf ATM we can just use the weather modified volume
         // If they later get physical effects from loud noises we'll have to change this
@@ -265,7 +266,7 @@ void sounds::process_sounds()
 }
 
 // skip most movement sounds
-bool describe_sound( sounds::sound_t category )
+static bool describe_sound( sounds::sound_t category )
 {
     if( category == sounds::sound_t::combat || category == sounds::sound_t::speech ||
         category == sounds::sound_t::alert ) {
@@ -278,7 +279,7 @@ void sounds::process_sound_markers( player *p )
 {
     bool is_deaf = p->is_deaf();
     const float volume_multiplier = p->hearing_ability();
-    const int weather_vol = weather_data( g->weather ).sound_attn;
+    const int weather_vol = weather_data( g->weather.weather ).sound_attn;
     for( const auto &sound_event_pair : sounds_since_last_turn ) {
         const tripoint &pos = sound_event_pair.first;
         const sound_event &sound = sound_event_pair.second;
@@ -498,8 +499,6 @@ std::string sounds::sound_at( const tripoint &location )
 }
 
 #if defined(SDL_SOUND)
-
-
 void sfx::fade_audio_group( int tag, int duration )
 {
     Mix_FadeOutGroup( tag, duration );
@@ -550,8 +549,13 @@ void sfx::do_vehicle_engine_sfx()
     } else if( g->u.in_sleep_state() && audio_muted ) {
         return;
     }
-
-    vehicle *veh = &g->m.veh_at( g->u.pos() )->vehicle();
+    optional_vpart_position vpart_opt = g->m.veh_at( g->u.pos() );
+    vehicle *veh;
+    if( vpart_opt.has_value() ) {
+        veh = &vpart_opt->vehicle();
+    } else {
+        return;
+    }
     if( !veh->engine_on ) {
         fade_audio_channel( 23, 100 );
         add_msg( m_debug, "STOP 23" );
@@ -562,7 +566,7 @@ void sfx::do_vehicle_engine_sfx()
 
     for( size_t e = 0; e < veh->engines.size(); ++e ) {
         if( veh->is_engine_on( e ) ) {
-            if( sfx::has_variant_sound( "engine_working",
+            if( sfx::has_variant_sound( "engine_working_internal",
                                         veh->part_info( veh->engines[ e ] ).get_id().str() ) ) {
                 id_and_variant = std::make_pair( "engine_working_internal",
                                                  veh->part_info( veh->engines[ e ] ).get_id().str() );
@@ -606,7 +610,7 @@ void sfx::do_vehicle_engine_sfx()
         current_gear = 3;
     } else if( current_speed > safe_speed / 4 && current_speed <= safe_speed / 3 ) {
         current_gear = 4;
-    } else if( current_speed > safe_speed / 5 && current_speed <= safe_speed / 4 ) {
+    } else if( current_speed > safe_speed / 3 && current_speed <= safe_speed / 2 ) {
         current_gear = 5;
     } else {
         current_gear = 6;
@@ -629,7 +633,7 @@ void sfx::do_vehicle_engine_sfx()
         } else if( current_gear == -1 ) {
             pitch = 1.2f;
         } else {
-            pitch = 1.0f - ( float )current_speed / ( float )safe_speed * 1.0f;
+            pitch = 1.0f - static_cast<float>( current_speed ) / static_cast<float>( safe_speed );
         }
     }
     if( pitch <= 0.5f ) {
@@ -692,7 +696,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
 
     for( size_t e = 0; e < veh->engines.size(); ++e ) {
         if( veh->is_engine_on( e ) ) {
-            if( sfx::has_variant_sound( "engine_working_exterior",
+            if( sfx::has_variant_sound( "engine_working_external",
                                         veh->part_info( veh->engines[ e ] ).get_id().str() ) ) {
                 id_and_variant = std::make_pair( "engine_working_external",
                                                  veh->part_info( veh->engines[ e ] ).get_id().str() );
@@ -779,7 +783,7 @@ void sfx::do_ambient()
     const int heard_volume = get_heard_volume( g->u.pos() );
     const bool is_underground = g->u.pos().z < 0;
     const bool is_sheltered = g->is_sheltered( g->u.pos() );
-    const bool weather_changed = g->weather != previous_weather;
+    const bool weather_changed = g->weather.weather != previous_weather;
     // Step in at night time / we are not indoors
     if( calendar::turn.is_night() && !is_sheltered &&
         !is_channel_playing( 1 ) && !is_deaf ) {
@@ -809,12 +813,13 @@ void sfx::do_ambient()
         play_ambient_variant_sound( "environment", "indoors", heard_volume, 3, 1000 );
     }
     // We are indoors and it is also raining
-    if( g->weather >= WEATHER_DRIZZLE && g->weather <= WEATHER_ACID_RAIN && !is_underground
+    if( g->weather.weather >= WEATHER_DRIZZLE && g->weather.weather <= WEATHER_ACID_RAIN &&
+        !is_underground
         && is_sheltered && !is_channel_playing( 4 ) ) {
         play_ambient_variant_sound( "environment", "indoors_rain", heard_volume, 4,
                                     1000 );
     }
-    if( ( !is_sheltered && g->weather != WEATHER_CLEAR
+    if( ( !is_sheltered && g->weather.weather != WEATHER_CLEAR
           && !is_channel_playing( 5 ) &&
           !is_channel_playing( 6 ) && !is_channel_playing( 7 ) && !is_channel_playing( 8 )
           &&
@@ -823,7 +828,7 @@ void sfx::do_ambient()
              weather_changed  && !is_deaf ) ) {
         fade_audio_group( 1, 1000 );
         // We are outside and there is precipitation
-        switch( g->weather ) {
+        switch( g->weather.weather ) {
             case WEATHER_ACID_DRIZZLE:
             case WEATHER_DRIZZLE:
                 play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", heard_volume, 9,
@@ -861,7 +866,7 @@ void sfx::do_ambient()
         }
     }
     // Keep track of weather to compare for next iteration
-    previous_weather = g->weather;
+    previous_weather = g->weather.weather;
 }
 
 // firing is the item that is fired. It may be the wielded gun, but it can also be an attached

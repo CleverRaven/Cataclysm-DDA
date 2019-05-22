@@ -8,6 +8,7 @@
 #include <memory>
 #include <ostream>
 
+#include "avatar.h"
 #include "debug.h"
 #include "explosion.h"
 #include "game.h"
@@ -391,8 +392,8 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
 }
 
 // A helper to make sure mass and density is always calculated the same way
-void terrain_collision_data( const tripoint &p, bool bash_floor,
-                             float &mass, float &density, float &elastic )
+static void terrain_collision_data( const tripoint &p, bool bash_floor,
+                                    float &mass, float &density, float &elastic )
 {
     elastic = 0.30;
     // Just a rough rescale for now to obtain approximately equal numbers
@@ -447,9 +448,27 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         return ret;
     }
 
-    // critters on a BOARDABLE part in this vehicle aren't colliding
-    if( is_body_collision && ovp && ( &ovp->vehicle() == this ) && get_pet( ovp->part_index() ) ) {
-        return ret;
+    if( is_body_collision ) {
+        // critters on a BOARDABLE part in this vehicle aren't colliding
+        if( ovp && ( &ovp->vehicle() == this ) && get_pet( ovp->part_index() ) ) {
+            return ret;
+        }
+        // we just ran into a fish, so move it out of the way
+        if( g->m.has_flag( "SWIMMABLE", critter->pos() ) ) {
+            tripoint end_pos = critter->pos();
+            tripoint start_pos;
+            const int angle = move.dir() + 45 * ( parts[part].mount.x > pivot_point().x ? -1 : 1 );
+            std::set<tripoint> &cur_points = get_points( true );
+            // push the animal out of way until it's no longer in our vehicle and not in
+            // anyone else's position
+            while( g->critter_at( end_pos, true ) ||
+                   cur_points.find( end_pos ) != cur_points.end() ) {
+                start_pos = end_pos;
+                calc_ray_end( angle, 2, start_pos, end_pos );
+            }
+            critter->setpos( end_pos );
+            return ret;
+        }
     }
 
     // Damage armor before damaging any other parts
@@ -587,7 +606,9 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             if( fabs( vel2_a ) > fabs( vel2 ) ) {
                 vel2 = vel2_a;
             }
-
+            if( mass2 == 0 ) { // this causes infinite loop
+                mass2 = 1;
+            }
             continue;
         }
 
@@ -777,6 +798,9 @@ void vehicle::handle_trap( const tripoint &p, int part )
     if( t == tr_bubblewrap ) {
         noise = 18;
         snd = _( "Pop!" );
+    } else if( t == tr_glass ) {
+        noise = 10;
+        snd = _( "Crunch!" );
     } else if( t == tr_beartrap || t == tr_beartrap_buried ) {
         noise = 8;
         snd = _( "SNAP!" );
@@ -785,7 +809,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
         part_damage = 300;
         g->m.remove_trap( p );
         g->m.spawn_item( p, "beartrap" );
-    } else if( t == tr_nailboard || t == tr_caltrops ) {
+    } else if( t == tr_nailboard || t == tr_caltrops || t == tr_caltrops_glass ) {
         part_damage = 300;
     } else if( t == tr_blade ) {
         noise = 1;
@@ -1118,7 +1142,7 @@ void vehicle::precalculate_vehicle_turning( int new_turn_dir, bool check_rail_di
 }
 
 // rounds turn_dir to 45*X degree, respecting face_dir
-int get_corrected_turn_dir( int turn_dir, int face_dir )
+static int get_corrected_turn_dir( int turn_dir, int face_dir )
 {
     int corrected_turn_dir = 0;
 
@@ -1365,6 +1389,7 @@ bool vehicle::act_on_map()
 
     if( dp.z != 0 ) {
         g->m.move_vehicle( *this, tripoint( 0, 0, dp.z ), mdir );
+        is_falling = false;
     }
 
     return true;
@@ -1388,7 +1413,7 @@ void vehicle::check_falling_or_floating()
     for( const tripoint &p : pts ) {
         if( is_falling ) {
             tripoint below( p.x, p.y, p.z - 1 );
-            is_falling &= !g->m.has_floor( p ) && ( p.z > -OVERMAP_DEPTH ) &&
+            is_falling &= g->m.has_flag_ter_or_furn( TFLAG_NO_FLOOR, p ) && ( p.z > -OVERMAP_DEPTH ) &&
                           !g->m.supports_above( below );
         }
         water_tiles += g->m.has_flag( TFLAG_DEEP_WATER, p ) ? 1 : 0;

@@ -189,10 +189,10 @@ struct vehicle_part {
         itype_id ammo_current() const;
 
         /** Maximum amount of fuel, charges or ammunition that can be contained by a part */
-        long ammo_capacity() const;
+        int ammo_capacity() const;
 
         /** Amount of fuel, charges or ammunition currently contained by a part */
-        long ammo_remaining() const;
+        int ammo_remaining() const;
 
         /** Type of fuel used by an engine */
         itype_id fuel_current() const;
@@ -204,7 +204,7 @@ struct vehicle_part {
          * @param qty maximum ammo (capped by part capacity) or negative to fill to capacity
          * @return amount of ammo actually set or negative on failure
          */
-        int ammo_set( const itype_id &ammo, long qty = -1 );
+        int ammo_set( const itype_id &ammo, int qty = -1 );
 
         /** Remove all fuel, charges or ammunition (if any) from this part */
         void ammo_unset();
@@ -215,7 +215,7 @@ struct vehicle_part {
          * @param pos current global location of part from which ammo is being consumed
          * @return amount consumed which will be between 0 and specified qty
          */
-        long ammo_consume( long qty, const tripoint &pos );
+        int ammo_consume( int qty, const tripoint &pos );
 
         /**
          * Consume fuel by energy content.
@@ -240,7 +240,7 @@ struct vehicle_part {
          *  Try adding @param liquid to tank optionally limited by @param qty
          *  @return whether any of the liquid was consumed (which may be less than qty)
          */
-        bool fill_with( item &liquid, long qty = LONG_MAX );
+        bool fill_with( item &liquid, int qty = INT_MAX );
 
         /** Current faults affecting this part (if any) */
         const std::set<fault_id> &faults() const;
@@ -439,10 +439,10 @@ class turret_data
         const item_location base() const;
 
         /** Quantity of ammunition available for use */
-        long ammo_remaining() const;
+        int ammo_remaining() const;
 
         /** Maximum quantity of ammunition turret can itself contain */
-        long ammo_capacity() const;
+        int ammo_capacity() const;
 
         /** Specific ammo data or returns nullptr if no ammo available */
         const itype *ammo_data() const;
@@ -904,7 +904,7 @@ class vehicle
         // returns indices of all parts in the given location slot
         std::vector<int> all_parts_at_location( const std::string &location ) const;
 
-        // Given a part and a flag, returns the indices of all continiguously adjacent parts
+        // Given a part and a flag, returns the indices of all contiguously adjacent parts
         // with the same flag on the X and Y Axis
         std::vector<std::vector<int>> find_lines_of_parts( int part, const std::string &flag );
 
@@ -981,7 +981,7 @@ class vehicle
          * Note that empty tanks don't count at all. The value is the amount as it would be
          * reported by @ref fuel_left, it is always greater than 0. The key is the fuel item type.
          */
-        std::map<itype_id, long> fuels_left() const;
+        std::map<itype_id, int> fuels_left() const;
 
         // Checks how much certain fuel left in tanks.
         int fuel_left( const itype_id &ftype, bool recurse = false ) const;
@@ -1265,7 +1265,7 @@ class vehicle
          *
          * @returns The number of charges added.
          */
-        long add_charges( int part, const item &itm );
+        int add_charges( int part, const item &itm );
         /**
          * Position specific item insertion that skips a bunch of safety checks
          * since it should only ever be used by item processing code.
@@ -1532,7 +1532,6 @@ class vehicle
         // After fuel consumption, this tracks the remainder of fuel < 1, and applies it the next time.
         std::map<itype_id, float> fuel_remainder;
         active_item_cache active_items;
-        bool all_wheels_on_one_axis;
 
         bounding_box rail_wheel_bounding_box;
         bounding_box get_bounding_box();
@@ -1603,6 +1602,7 @@ class vehicle
         float of_turn_carry;
 
         int extra_drag          = 0;
+        bool all_wheels_on_one_axis;
         // TODO: change these to a bitset + enum?
         // cruise control on/off
         bool cruise_on                  = true;
@@ -1623,12 +1623,12 @@ class vehicle
         bool insides_dirty              = true;
         // Is the vehicle hanging in the air and expected to fall down in the next turn?
         bool is_falling                 = false;
-        // last time point the fluid was inside tanks was checked for processing
-        time_point last_fluid_check = calendar::time_of_cataclysm;
         // zone_data positions are outdated and need refreshing
         bool zones_dirty = true;
         // current noise of vehicle (engine working, etc.)
         unsigned char vehicle_noise = 0;
+        // last time point the fluid was inside tanks was checked for processing
+        time_point last_fluid_check = calendar::time_of_cataclysm;
 
     private:
         // refresh pivot_cache, clear pivot_dirty
@@ -1659,13 +1659,13 @@ class vehicle
          */
         int automatic_fire_turret( vehicle_part &pt );
 
+        mutable point mass_center_precalc;
+        mutable point mass_center_no_precalc;
+        mutable units::mass mass_cache;
+
         mutable bool mass_dirty                     = true;
         mutable bool mass_center_precalc_dirty      = true;
         mutable bool mass_center_no_precalc_dirty   = true;
-
-        mutable units::mass mass_cache;
-        mutable point mass_center_precalc;
-        mutable point mass_center_no_precalc;
 
         // cached values for air, water, and  rolling resistance;
         mutable bool coeff_rolling_dirty = true;
@@ -1677,13 +1677,14 @@ class vehicle
         // the coeffs once per turn, even if multiple parts are destroyed in a collision
         mutable bool coeff_air_changed = true;
 
+        // is the vehicle currently mostly in water
+        mutable bool is_floating = false;
+
         mutable double coefficient_air_resistance = 1;
         mutable double coefficient_rolling_resistance = 1;
         mutable double coefficient_water_resistance = 1;
         mutable double draft_m = 1;
         mutable double hull_height = 0.3;
-        // is the vehicle currently mostly in water
-        mutable bool is_floating = false;
 };
 
 #endif

@@ -16,6 +16,7 @@
 #include <utility>
 
 #include "action.h"
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "filesystem.h"
 #include "game.h"
@@ -344,7 +345,7 @@ void character_edit_menu()
     const size_t index = charmenu.ret;
     // The NPC is also required for "Add mission", so has to be in this scope
     npc *np = g->critter_at<npc>( locations[index] );
-    player &p = np ? *np : g->u;
+    player &p = np ? static_cast<player &>( *np ) : static_cast<player &>( g->u );
     uilist nmenu;
 
     if( np != nullptr ) {
@@ -715,7 +716,7 @@ void character_edit_menu()
     }
 }
 
-const std::string &mission_status_string( mission::mission_status status )
+static const std::string &mission_status_string( mission::mission_status status )
 {
     static const std::map<mission::mission_status, std::string> desc{ {
             { mission::mission_status::yet_to_start, _( "Yet to start" ) },
@@ -747,7 +748,7 @@ std::string mission_debug::describe( const mission &m )
     return data.str();
 }
 
-void add_header( uilist &mmenu, const std::string &str )
+static void add_header( uilist &mmenu, const std::string &str )
 {
     if( !mmenu.entries.empty() ) {
         mmenu.addentry( -1, false, -1, "" );
@@ -827,7 +828,7 @@ void mission_debug::edit_player()
     edit_mission( *all_missions[mmenu.ret] );
 }
 
-bool remove_from_vec( std::vector<mission *> &vec, mission *m )
+static bool remove_from_vec( std::vector<mission *> &vec, mission *m )
 {
     auto iter = std::remove( vec.begin(), vec.end(), m );
     bool ret = iter != vec.end();
@@ -984,8 +985,8 @@ void debug()
                 u.posx(), g->u.posy(), g->get_levx(), g->get_levy(),
                 overmap_buffer.ter( g->u.global_omt_location() )->get_name(),
                 static_cast<int>( calendar::turn ),
-                ( get_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
-                  _( "NPCs are NOT going to spawn." ) ),
+                get_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
+                _( "NPCs are NOT going to spawn." ),
                 g->num_creatures() );
             for( const npc &guy : g->all_npcs() ) {
                 tripoint t = guy.global_sm_location();
@@ -1004,6 +1005,8 @@ void debug()
                      units::to_milliliter( u.guts.capacity() ), u.guts.get_calories(),
                      units::to_milliliter( u.guts.get_water() ), u.get_hunger(), u.get_thirst(), u.get_stored_kcal(),
                      u.get_healthy_kcal() );
+            add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), u.get_bmi(), u.get_bmr() );
+            add_msg( m_info, _( "Player activity level: %s" ), u.activity_level_str() );
             g->disp_NPCs();
             break;
         }
@@ -1100,7 +1103,7 @@ void debug()
         case DEBUG_CHANGE_WEATHER: {
             uilist weather_menu;
             weather_menu.text = _( "Select new weather pattern:" );
-            weather_menu.addentry( 0, true, MENU_AUTOASSIGN, g->weather_override == WEATHER_NULL ?
+            weather_menu.addentry( 0, true, MENU_AUTOASSIGN, g->weather.weather_override == WEATHER_NULL ?
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
             for( int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++ ) {
                 weather_menu.addentry( weather_id, true, MENU_AUTOASSIGN,
@@ -1111,8 +1114,8 @@ void debug()
 
             if( weather_menu.ret >= 0 && weather_menu.ret < NUM_WEATHER_TYPES ) {
                 weather_type selected_weather = static_cast<weather_type>( weather_menu.ret );
-                g->weather_override = selected_weather;
-                g->set_nextweather( calendar::turn );
+                g->weather.weather_override = selected_weather;
+                g->weather.set_nextweather( calendar::turn );
             }
         }
         break;
@@ -1120,7 +1123,7 @@ void debug()
         case DEBUG_WIND_DIRECTION: {
             uilist wind_direction_menu;
             wind_direction_menu.text = _( "Select new wind direction:" );
-            wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, g->wind_direction_override ?
+            wind_direction_menu.addentry( 0, true, MENU_AUTOASSIGN, g->weather.wind_direction_override ?
                                           _( "Disable direction forcing" ) : _( "Keep normal wind direction" ) );
             int count = 1;
             for( int angle = 0; angle <= 315; angle += 45 ) {
@@ -1129,10 +1132,10 @@ void debug()
             }
             wind_direction_menu.query();
             if( wind_direction_menu.ret == 0 ) {
-                g->wind_direction_override = cata::nullopt;
+                g->weather.wind_direction_override = cata::nullopt;
             } else if( wind_direction_menu.ret >= 0 && wind_direction_menu.ret < 9 ) {
-                g->wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
-                g->set_nextweather( calendar::turn );
+                g->weather.wind_direction_override = ( wind_direction_menu.ret - 1 ) * 45;
+                g->weather.set_nextweather( calendar::turn );
             }
         }
         break;
@@ -1140,7 +1143,7 @@ void debug()
         case DEBUG_WIND_SPEED: {
             uilist wind_speed_menu;
             wind_speed_menu.text = _( "Select new wind speed:" );
-            wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, g->wind_direction_override ?
+            wind_speed_menu.addentry( 0, true, MENU_AUTOASSIGN, g->weather.wind_direction_override ?
                                       _( "Disable speed forcing" ) : _( "Keep normal wind speed" ) );
             int count = 1;
             for( int speed = 0; speed <= 100; speed += 10 ) {
@@ -1150,11 +1153,11 @@ void debug()
             }
             wind_speed_menu.query();
             if( wind_speed_menu.ret == 0 ) {
-                g->windspeed_override = cata::nullopt;
+                g->weather.windspeed_override = cata::nullopt;
             } else if( wind_speed_menu.ret >= 0 && wind_speed_menu.ret < 12 ) {
                 int selected_wind_speed = ( wind_speed_menu.ret - 1 ) * 10;
-                g->windspeed_override = selected_wind_speed;
-                g->set_nextweather( calendar::turn );
+                g->weather.windspeed_override = selected_wind_speed;
+                g->weather.set_nextweather( calendar::turn );
             }
         }
         break;
@@ -1358,7 +1361,6 @@ void debug()
                 weathergen.test_weather();
             }
                 break;
-
 
             case DEBUG_SAVE_SCREENSHOT: {
 #if defined(TILES)

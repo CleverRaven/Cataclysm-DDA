@@ -117,7 +117,7 @@ class options_manager
 
                 static std::vector<std::string> getPrerequisiteSupportedTypes() {
                     return { "bool", "string", "string_select", "string_input" };
-                };
+                }
 
                 void setPrerequisites( const std::string &sOption, const std::vector<std::string> &sAllowedValues );
                 void setPrerequisite( const std::string &sOption, const std::string &sAllowedValue = "true" ) {
