@@ -59,7 +59,7 @@ const efftype_id effect_got_checked( "got_checked" );
 
 // constructor
 window_panel::window_panel( std::function<void( player &, const catacurses::window & )>
-                            draw_func, const std::string &nm, int ht, int wd, bool def_toggle )
+                            draw_func, const std::string &nm, int ht, int wd, bool def_toggle, bool force_draw )
 {
     draw = draw_func;
     name = nm;
@@ -67,6 +67,7 @@ window_panel::window_panel( std::function<void( player &, const catacurses::wind
     width = wd;
     toggle = def_toggle;
     default_toggle = def_toggle;
+    always_draw = force_draw;
 }
 
 // ====================================
@@ -1713,7 +1714,7 @@ std::vector<window_panel> initialize_default_classic_panels()
                                     true ) );
     ret.emplace_back( window_panel( draw_messages_classic, translate_marker( "Log" ), -2, 44, true ) );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 44, true ) );
+    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 44, true, true ) );
 #endif // TILES
     ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 44, false ) );
     return ret;
@@ -1734,7 +1735,7 @@ std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( window_panel( draw_messages_classic, translate_marker( "Log" ), -2, 32, true ) );
     ret.emplace_back( window_panel( draw_compass, translate_marker( "Compass" ), 8, 32, true ) );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true ) );
+    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true, true ) );
 #endif // TILES
     ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 32, false ) );
 
@@ -1759,7 +1760,7 @@ std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_compass_padding, translate_marker( "Compass" ), 8, 32,
                                     true ) );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true ) );
+    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true, true ) );
 #endif // TILES
     ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 32, false ) );
 

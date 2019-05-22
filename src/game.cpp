@@ -3138,13 +3138,16 @@ void game::draw()
     draw_panels();
 }
 
-void game::draw_panels()
+void game::draw_panels( bool force_draw )
 {
-    draw_panels( 0, 1 );
+    draw_panels( 0, 1, force_draw );
 }
 
-void game::draw_panels( size_t column, size_t index )
+void game::draw_panels( size_t column, size_t index, bool force_draw )
 {
+    static int previous_turn = -1;
+    const int current_turn = calendar::turn;
+    const bool draw_this_turn = current_turn > previous_turn || force_draw;
     auto &mgr = panel_manager::get_manager();
     int y = 0;
     const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
@@ -3163,7 +3166,7 @@ void game::draw_panels( size_t column, size_t index )
             h = log_height;
         }
         h += spacer;
-        if( panel.toggle && h > 0 ) {
+        if( panel.toggle && h > 0 && ( panel.always_draw || draw_this_turn ) ) {
             panel.draw( u, catacurses::newwin( h, panel.get_width(), y,
                                                sidebar_right ? TERMX - panel.get_width() : 0 ) );
             if( show_panel_adm ) {
@@ -3192,6 +3195,7 @@ void game::draw_panels( size_t column, size_t index )
     if( show_panel_adm ) {
         mgr.draw_adm( w_panel_adm, column, index );
     }
+    previous_turn = current_turn;
 }
 
 void game::draw_pixel_minimap( const catacurses::window &w )
