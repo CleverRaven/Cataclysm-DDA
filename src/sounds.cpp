@@ -379,7 +379,12 @@ void sounds::process_sound_markers( player *p )
                 add_msg( severity, _( "You hear %1$s" ), description );
             } else {
                 std::string direction = direction_name( direction_from( p->pos(), pos ) );
-                add_msg( severity, _( "From the %1$s you hear %2$s" ), direction, description );
+                if ( direction.compare( "above" ) == 0 || direction.compare( "below" ) == 0 ) {
+                    add_msg( severity, _( "From %1$s you hear %2$s" ), direction, description );
+                }
+                else {
+                    add_msg( severity, _( "From the %1$s you hear %2$s" ), direction, description );
+                }
             }
         }
 
