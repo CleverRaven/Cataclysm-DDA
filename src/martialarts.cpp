@@ -936,9 +936,9 @@ bool player::can_autolearn( const matype_id &ma_id ) const
     const std::vector<std::vector<std::string>> skills = ma_id.obj().autolearn_skills;
     for( auto &elem : skills ) {
         const skill_id skill_req( elem[0] );
-        const int level = std::stoi( elem[1] );
+        const int required_level = std::stoi( elem[1] );
 
-        if( level > get_skill_level( skill_req ) ) {
+        if( required_level > get_skill_level( skill_req ) ) {
             return false;
         }
     }
