@@ -5508,7 +5508,7 @@ void vehicle::update_time( const time_point &update_to )
     }
     // coolers emitting cold air
     for( int idx : coolers ) {
-        const auto &pt = parts[idx];
+        const vehicle_part &pt = parts[idx];
         if( pt.is_unavailable() || ( !pt.enabled ) ) {
             continue;
         }
