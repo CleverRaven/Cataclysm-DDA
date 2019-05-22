@@ -215,8 +215,8 @@ class game
         void draw();
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
-        void draw_panels();
-        void draw_panels( size_t column, size_t index );
+        void draw_panels( bool force_draw = false );
+        void draw_panels( size_t column, size_t index, bool force_draw = false );
         /**
          * Returns the location where the indicator should go relative to the reality bubble,
          * or nothing to indicate no indicator should be drawn.
