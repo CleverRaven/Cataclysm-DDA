@@ -41,7 +41,7 @@
     "type": "AMMO",
     "name": "blackpowder birdshot",
     "proportional": { "price": 0.6, "damage": 0.8, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED" ], [ "BLACKPOWDER" ] },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
@@ -49,7 +49,7 @@
     "copy-from": "shot_00",
     "type": "AMMO",
     "name": "blackpowder 00 shot",
-    "extend": { "effects": [ "RECYCLED" ], [ "BLACKPOWDER" ] },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
@@ -58,7 +58,7 @@
     "type": "AMMO",
     "name": "blackpowder flechette shell",
     "proportional": { "price": 0.6, "damage": 0.8, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED" ], [ "BLACKPOWDER" ] },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
@@ -67,7 +67,7 @@
     "type": "AMMO",
     "name": "blackpowder shotgun slug",
     "proportional": { "price": 0.6, "damage": 0.8, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED" ], [ "BLACKPOWDER" ] },
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {

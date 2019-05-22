@@ -52,9 +52,10 @@
     "copy-from": "44magnum",
     "type": "AMMO",
     "name": "blackpowder .44 Magnum",
-	"description": "This .44 Magnum cartridge is loaded with 39gr of blackpowder and a 200gr cast lead semi-wadcutter."
-    "proportional": { "price": 0.6, "damage": 1, "pierce": -4, "dispersion": 1.2 },
-    "extend": { "effects": [ "RECYCLED" ], [ "BLACKPOWDER" ] },
+	"description": "This .44 Magnum cartridge is loaded with 39gr of blackpowder and a 200gr cast lead semi-wadcutter.",
+    "proportional": { "price": 0.6, "dispersion": 1.2 },
+	"pierce": 0,
+    "extend": { "effects": [ "RECYCLED", "BLACKPOWDER" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   }
 ]
