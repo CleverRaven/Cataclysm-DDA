@@ -1088,6 +1088,29 @@
   },
   {
     "type": "furniture",
+    "id": "f_counter_gate_c",
+    "name": "closed counter gate",
+    "description": "A commercial quality swining door made of wood that allows passage behind counters.",
+    "symbol": "+",
+    "color": "blue",
+    "move_cost": 3,
+    "move_cost_mod": 2,
+    "required_str": 4,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DOOR", "ORGANIC" ],
+    "connects_to": "COUNTER",
+    "open": "f_counter_gate_o",
+    "deconstruct": { "ter_set": "t_floor", "items": [ { "item": "2x4", "count": 6 }, { "item": "nail", "charges": 10 } ] },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_counter_gate_o",
     "name": "open counter gate",
     "description": "A commercial quality swinging door made of wood that allows passage behind counters.",
