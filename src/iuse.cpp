@@ -15,6 +15,7 @@
 #include <list>
 #include <map>
 #include <utility>
+#include <regex>
 
 #include "action.h"
 #include "artifact.h"
@@ -6458,7 +6459,7 @@ struct extended_photo_def : public JsonDeserializer, public JsonSerializer {
     }
 };
 
-std::string descriptions_for_camera_point( const tripoint aim_point, const tripoint camera_pos )
+extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const tripoint camera_pos )
 {
     // look for big items on top of stacks in the background for the selfie description
     units::volume min_visible_volume = 490_ml;
@@ -6476,32 +6477,56 @@ std::string descriptions_for_camera_point( const tripoint aim_point, const tripo
     std::string description_furniture_nearby;
 
     std::unordered_map<std::string, std::string> description_figures_appearance;
-    std::unordered_map<std::string, std::string> description_figures_status;
+    std::vector<std::pair<std::string, std::string>> description_figures_status;
     std::string timestamp = to_string( time_point( calendar::turn ) );
     int dist = rl_dist( camera_pos, aim_point );
     auto bounds = g->m.points_in_radius( aim_point, 2 );
+    extended_photo_def photo;
 
-    const auto feature_description_at_point = []( const tripoint center_point,
-    bool & item_found ) -> std::string {
+    const auto get_top_item_at_point = []( const tripoint & point,
+    const units::volume & min_visible_volume, std::string & description ) {
+        map_stack items = g->m.i_at( point );
+        // iterate from topmost item down to ground
+        for( auto it = items.rbegin(); it != items.rend(); ++it ) {
+            if( it->volume() > min_visible_volume ) {
+                // add top (or first big enough) item to the list
+                description = it->info();
+                return it->display_name();
+            }
+        }
+        return std::string();
+    };
+
+    const auto feature_description_at_point = [&min_visible_volume,
+    &get_top_item_at_point]( const tripoint center_point, bool & item_found ) {
         item_found = false;
         furn_id furn = g->m.furn( center_point );
-        if( furn != f_null && furn.is_valid() )
-        {
+        if( furn != f_null && furn.is_valid() ) {
             std::string furn_str = "<color_yellow>" + furn->name() + "</color>";
             if( g->m.has_items( center_point ) ) {
-                map_stack items = g->m.i_at( center_point );
-                furn_str += _( " with " ) + items.front().display_name();
+                std::string item_info, item_name = get_top_item_at_point( center_point, min_visible_volume,
+                                                   item_info );
+                furn_str += _( " with " ) + item_name;
                 item_found = true;
             }
             return furn_str;
         }
-        return "";
+        return std::string();
     };
 
-    const auto get_vehicle_hash = []( const vehicle & veh ) -> std::string {
+    const auto get_vehicle_hash = []( const vehicle & veh ) {
         auto veh_name = veh.disp_name();
         auto veh_coord = veh.global_pos3();
         return veh_name + string_format( " %i %i %i", veh_coord.x, veh_coord.y, veh_coord.z );
+    };
+
+    const auto format_object_pair = []( const std::pair<std::string, int> &pair ) {
+        if( pair.second == 1 ) {
+            return string_format( "%s", pair.first );
+        } else if( pair.second > 1 ) {
+            return string_format( "%i %s", pair.second, pair.first );
+        }
+        return std::string();
     };
 
     // firstly scan for critters and mark nearby furniture, vehicles and items
@@ -6568,7 +6593,7 @@ std::string descriptions_for_camera_point( const tripoint aim_point, const tripo
                 auto veh_part_pos = g->m.veh_at( point_around_figure );
                 if( veh_part_pos.has_value() ) {
                     auto veh = veh_part_pos->vehicle();
-                    auto veh_name = veh.disp_name();
+                    auto veh_name = "<color_light_blue>" + veh.disp_name() + "</color>";
                     auto veh_hash = get_vehicle_hash( veh );
 
                     if( local_vehicles_recorded.find( veh_hash ) == local_vehicles_recorded.end() &&
@@ -6577,8 +6602,7 @@ std::string descriptions_for_camera_point( const tripoint aim_point, const tripo
                         vehicles_recorded.insert( veh_hash );
                     } else if( current == point_around_figure ) {
                         description_part_on_figure = veh_part_pos.part_displayed()->part().name() +
-                                                     string_format( _( " from %1$s" ),
-                                                             "<color_light_blue>" + veh_name + "</color>" );
+                                                     string_format( _( " from %1$s" ), veh_name );
                         if( vehicles_near_critter.find( veh_name ) != vehicles_near_critter.end() ) {
                             vehicles_near_critter.erase( veh_name );
                         }
@@ -6586,54 +6610,28 @@ std::string descriptions_for_camera_point( const tripoint aim_point, const tripo
                     local_vehicles_recorded.insert( veh_hash );
                 }
                 // scan for items nearby
-                if( g->m.has_items( point_around_figure ) &&
+                std::string item_desc, item_name = get_top_item_at_point( point_around_figure, min_visible_volume,
+                                                   item_desc );
+                if( !item_name.empty() &&
                     item_points_recorded.find( point_around_figure ) == item_points_recorded.end() ) {
-                    map_stack items = g->m.i_at( point_around_figure );
-                    // iterate from topmost item down to ground
-                    for( auto it = items.rbegin(); it != items.rend(); ++it ) {
-                        if( it->volume() > min_visible_volume ) {
-                            // add top (or first big enough) item to the list
-                            items_near_critter[ it->display_name() ] ++;
-                            item_points_recorded.insert( point_around_figure );
-                            break;
-                        }
-                    }
+
+                    items_near_critter[ item_name ] ++;
+                    item_points_recorded.insert( point_around_figure );
                 }
             }
             // store nearby objects to one vector
             std::vector<std::string> objects_nearby_desc;
 
             for( const auto &p : items_near_critter ) {
-                if( p.second < 1 ) {
-                    continue;
-                }
-                if( p.second == 1 ) {
-                    objects_nearby_desc.push_back( string_format( "%s", p.first ) );
-                } else {
-                    objects_nearby_desc.push_back( string_format( "%i %s", p.second, p.first ) );
-                }
+                objects_nearby_desc.push_back( format_object_pair( p ) );
             }
             for( const auto &p : furn_near_critter ) {
-                if( p.second < 1 ) {
-                    continue;
-                }
-                if( p.second == 1 ) {
-                    objects_nearby_desc.push_back( string_format( "%s", p.first ) );
-                } else {
-                    objects_nearby_desc.push_back( string_format( "%i %s", p.second, p.first ) );
-                }
+                objects_nearby_desc.push_back( format_object_pair( p ) );
             }
             for( const auto &p : vehicles_near_critter ) {
-                if( p.second < 1 ) {
-                    continue;
-                }
-                if( p.second == 1 ) {
-                    objects_nearby_desc.push_back( string_format( "<color_light_blue>%s</color>", p.first ) );
-                } else {
-                    objects_nearby_desc.push_back( string_format( "%i <color_light_blue>%s</color>", p.second,
-                                                   p.first ) );
-                }
+                objects_nearby_desc.push_back( format_object_pair( p ) );
             }
+
             std::string figure_text = "";
 
             if( !description_part_on_figure.empty() ) {
@@ -6645,7 +6643,7 @@ std::string descriptions_for_camera_point( const tripoint aim_point, const tripo
                                                          description_furniture_on_figure,
                                                          description_terrain_on_figure );
                 } else {
-                    figure_text += pose + string_format( pgettext( "someone stands/sits *on* something", "on %1$s" ),
+                    figure_text += pose + string_format( pgettext( "someone stands/sits *on* something", " on %1$s" ),
                                                          description_terrain_on_figure );
                 }
                 figure_text += ".";
@@ -6660,7 +6658,12 @@ std::string descriptions_for_camera_point( const tripoint aim_point, const tripo
                 figure_text += string_format( _( " Nearby is %1$s." ), objects_text );
             }
 
-            description_figures_status[ figure_name ] = figure_text;
+            auto name_text_pair = std::pair<std::string, std::string>( figure_name, figure_text );
+            if( current == aim_point ) {
+                description_figures_status.insert( description_figures_status.begin(), name_text_pair );
+            } else {
+                description_figures_status.push_back( name_text_pair );
+            }
         }
     }
 
@@ -6673,10 +6676,11 @@ std::string descriptions_for_camera_point( const tripoint aim_point, const tripo
         auto veh_part_pos = g->m.veh_at( current );
         if( veh_part_pos.has_value() ) {
             auto veh = veh_part_pos->vehicle();
+            auto veh_name = "<color_light_blue>" + veh.disp_name() + "</color>";
             auto veh_hash = get_vehicle_hash( veh );
             if( vehicles_recorded.find( veh_hash ) == vehicles_recorded.end() ) {
                 vehicles_recorded.insert( veh_hash );
-                visible_vehicles[ veh.disp_name() ] ++;
+                visible_vehicles[ veh_name ] ++;
             }
         }
 
@@ -6692,65 +6696,78 @@ std::string descriptions_for_camera_point( const tripoint aim_point, const tripo
             }
         }
 
-        if( g->m.has_items( current ) &&
+        std::string item_desc, item_name = get_top_item_at_point( current, min_visible_volume, item_desc );
+        if( !item_name.empty() &&
             item_points_recorded.find( current ) == item_points_recorded.end() ) {
-            map_stack items = g->m.i_at( current );
-            // iterate from topmost item down to ground
-            for( auto it = items.rbegin(); it != items.rend(); ++it ) {
-                if( it->volume() > min_visible_volume ) {
-                    // add top (or first big enough) item to the list
-                    visible_items_nearby[ it->display_name() ] ++;
-                    break;
-                }
-            }
+            visible_items_nearby[ item_name ] ++;
         }
     }
+
+    photo_text = _( "This is a photo of " );
+
+    bool found_item_aim_point;
+    std::string furn_desc = feature_description_at_point( aim_point, found_item_aim_point ) ;
+    bool  found_vehicle_aim_point = g->m.veh_at( aim_point ).has_value(),
+          found_furniture_aim_point = !furn_desc.empty();
+    std::string item_desc, item_name;
+    item_name = get_top_item_at_point( aim_point, 0_ml,
+                                       item_desc );
+    found_item_aim_point = !item_name.empty();
+
     if( !description_figures_status.empty() ) {
+        std::string names = enumerate_as_string( description_figures_status.begin(),
+                            description_figures_status.end(),
+        []( const std::pair<std::string, std::string> &it ) {
+            return "<color_light_blue>" + it.first + "</color>";
+        } );
+
+        photo.name = names;
+        photo_text += names + ".\n";
+
         for( const auto &figure_status : description_figures_status ) {
-            photo_text += "\n\n<color_light_blue>" + figure_status.first + "</color> " + figure_status.second;
+            photo_text += "\n<color_light_blue>" + figure_status.first + "</color> " + figure_status.second;
         }
+    } else if( found_vehicle_aim_point ) {
+        auto veh_part_pos = g->m.veh_at( aim_point );
+        auto veh_name = "<color_light_blue>" + veh_part_pos->vehicle().disp_name() + "</color>";
+        photo.name = veh_name;
+        photo_text += veh_name + ".";
+        visible_vehicles.erase( veh_name );
+    } else if( found_furniture_aim_point || found_item_aim_point )  {
+        if( found_furniture_aim_point ) {
+            photo.name = furn_desc;
+            photo_text += photo.name + ".";
+            visible_furn_nearby.erase( furn_desc );
+        } else if( found_item_aim_point ) {
+            photo.name = item_name;
+            photo_text += item_name + ". " + string_format( _( "It lies on the %1$s." ),
+                          "<color_brown>" + g->m.ter( aim_point )->name() + "</color>" );
+
+            visible_items_nearby.erase( item_name );
+        }
+        if( found_item_aim_point ) {
+            photo_text += "\n\n" + item_name + ":\n" + item_desc;
+        }
+    } else {
+        photo.name = "<color_brown>" + g->m.ter( aim_point )->name() + "</color>";
+        photo_text += photo.name + ".";
     }
+
     if( !visible_items_nearby.empty() ) {
         description_items_nearby = enumerate_as_string( visible_items_nearby.begin(),
-                                   visible_items_nearby.end(),
-        []( const std::pair<std::string, int> &it ) {
-            if( it.second == 1 ) {
-                return string_format( "%s", it.first );
-            } else if( it.second > 1 ) {
-                return string_format( "%i %s", it.second, it.first );
-            } else {
-                return std::string();
-            }
-        } );
+                                   visible_items_nearby.end(), format_object_pair );
         photo_text += "\n\n" + string_format( _( "There is something lying: %1$s." ),
                                               description_items_nearby );
     }
     if( !visible_furn_nearby.empty() ) {
         description_furniture_nearby = enumerate_as_string( visible_furn_nearby.begin(),
-                                       visible_furn_nearby.end(),
-        []( const std::pair<std::string, int> &it ) {
-            if( it.second == 1 ) {
-                return string_format( "%s", it.first );
-            } else if( it.second > 1 ) {
-                return string_format( "%i %s", it.second, it.first );
-            } else {
-                return std::string();
-            }
-        } );
+                                       visible_furn_nearby.end(), format_object_pair );
         photo_text += "\n\n" + string_format( _( "Some objects are visible in the background: %1$s." ),
                                               description_furniture_nearby );
     }
     if( !visible_vehicles.empty() ) {
         description_vehicles_nearby = enumerate_as_string( visible_vehicles.begin(), visible_vehicles.end(),
-        []( const std::pair<std::string, int> &it ) {
-            if( it.second == 1 ) {
-                return string_format( "<color_light_blue>%s</color>", it.first );
-            } else if( it.second > 1 ) {
-                return string_format( "%i <color_light_blue>%s</color>", it.second, it.first );
-            } else {
-                return std::string();
-            }
-        } );
+                                      format_object_pair );
         photo_text += "\n\n" + string_format( _( "There is %1$s parked in the background." ),
                                               description_vehicles_nearby );
     }
@@ -6762,7 +6779,9 @@ std::string descriptions_for_camera_point( const tripoint aim_point, const tripo
 
     photo_text += "\n\n" + string_format( _( "The photo was taken on %1$s." ),
                                           "<color_light_blue>" + timestamp + "</color>" );
-    return photo_text;
+    photo.description = photo_text;
+
+    return photo;
 }
 
 int iuse::camera( player *p, item *it, bool, const tripoint & )
@@ -6792,21 +6811,15 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
     }
 
     if( c_shot == choice ) {
-
         const cata::optional<tripoint> aim_point_ = g->look_around();
 
         if( !aim_point_ ) {
             p->add_msg_if_player( _( "Never mind." ) );
             return 0;
         }
-        const tripoint aim_point = *aim_point_;
-        const monster *const sel_mon = g->critter_at<monster>( aim_point, true );
-        const player *const sel_npc = g->critter_at<player>( aim_point );
-
-        if( !g->critter_at( aim_point ) ) {
-            p->add_msg_if_player( _( "There's nothing particularly interesting there." ) );
-            return 0;
-        }
+        tripoint aim_point = *aim_point_;
+        bool incorrect_focus = false;
+        auto aim_bounds = g->m.points_in_radius( aim_point, 2 );
 
         std::vector<tripoint> trajectory = line_to( p->pos(), aim_point, 0, 0 );
         trajectory.push_back( aim_point );
@@ -6815,14 +6828,25 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         sounds::sound( p->pos(), 8, sounds::sound_t::activity, _( "Click." ), true, "tool",
                        "camera_shutter" );
 
-        extended_photo_def photo;
+        for( std::vector<tripoint>::iterator point_it = trajectory.begin();
+             point_it != trajectory.end();
+             ++point_it ) {
+            auto trajectory_point = *point_it;
+            if( point_it != trajectory.end() ) {
+                auto next_point = *( point_it + 1 ); // Trajectory ends on last visible tile
+                if( !g->m.sees( p->pos(), next_point, rl_dist( p->pos(), next_point ) + 3 ) ) {
+                    p->add_msg_if_player( _( "You have the wrong camera focus." ) );
+                    incorrect_focus = true;
+                    // recalculate target point
+                    aim_point = trajectory_point;
+                    aim_bounds = g->m.points_in_radius( trajectory_point, 2 );
+                }
+            }
 
-        for( auto &i : trajectory ) {
-
-            monster *const mon = g->critter_at<monster>( i, true );
-            player *const guy = g->critter_at<player>( i );
-            if( mon || guy ) {
-                int dist = rl_dist( p->pos(), i );
+            monster *const mon = g->critter_at<monster>( trajectory_point, true );
+            player *const guy = g->critter_at<player>( trajectory_point );
+            if( mon || guy || trajectory_point == aim_point ) {
+                int dist = rl_dist( p->pos(), trajectory_point );
 
                 int camera_bonus = it->has_flag( "CAMERA_PRO" ) ? 10 : 0;
                 int photo_quality = 20 - rng( dist, dist * 2 ) * 2 + rng( camera_bonus / 2, camera_bonus );
@@ -6845,13 +6869,20 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     }
 
                     // shoot past small monsters and hallucinations
-                    if( mon != sel_mon && ( z.type->size <= MS_SMALL || z.is_hallucination() ||
-                                            z.type->in_species( HALLUCINATION ) ) ) {
+                    if( trajectory_point != aim_point && ( z.type->size <= MS_SMALL || z.is_hallucination() ||
+                                                           z.type->in_species( HALLUCINATION ) ) ) {
                         continue;
                     }
-
+                    if( !aim_bounds.is_point_inside( trajectory_point ) ) {
+                        // take a photo of the monster that's in the way
+                        p->add_msg_if_player( m_warning, _( "A %s got in the way of your photo." ), z.name() );
+                        incorrect_focus = true;
+                    } else if( trajectory_point != aim_point ) { // shoot past mon that will be in photo anyway
+                        continue;
+                    }
                     // get an empty photo if the target is a hallucination
-                    if( mon == sel_mon && ( z.is_hallucination() || z.type->in_species( HALLUCINATION ) ) ) {
+                    if( trajectory_point == aim_point && ( z.is_hallucination() ||
+                                                           z.type->in_species( HALLUCINATION ) ) ) {
                         p->add_msg_if_player( _( "Strange... there's nothing in the picture?" ) );
                         return it->type->charges_to_use();
                     }
@@ -6860,7 +6891,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                         //quest processing...
                     }
 
-                    if( mon == sel_mon ) {
+                    if( trajectory_point == aim_point ) {
                         // if the loop makes it to the target, take its photo
                         if( p->is_blind() ) {
                             p->add_msg_if_player( _( "You took a photo of %s." ), z.name() );
@@ -6868,10 +6899,6 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                             p->add_msg_if_player( _( "You took a %1$s photo of %2$s." ), photo_quality_name( photo_quality ),
                                                   z.name() );
                         }
-                    } else {
-                        // or take a photo of the monster that's in the way
-                        p->add_msg_if_player( m_warning, _( "A %s got in the way of your photo." ), z.name() );
-                        photo_quality = 0;
                     }
 
                     const std::string mtype = z.type->id.str();
@@ -6905,16 +6932,17 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                         }
                     }
                     it->set_var( "CAMERA_MONSTER_PHOTOS", monster_photos );
-                    photo.name = z.name();
-                    photo.description = string_format( _( "This is a photo of %1$s." ),
-                                                       "<color_light_blue>" + photo.name + "</color>" );
                 } else if( guy ) {
                     const bool selfie = guy == p;
 
-                    if( sel_npc != guy ) {
+                    if( !aim_bounds.is_point_inside( trajectory_point ) ) {
+                        // take a photo of the monster that's in the way
                         p->add_msg_if_player( m_warning, _( "%s got in the way of your photo." ), guy->name );
-                        photo_quality = 0;
+                        incorrect_focus = true;
+                    } else if( trajectory_point != aim_point ) {  // shoot past guy that will be in photo anyway
+                        continue;
                     }
+
                     if( selfie ) {
                         p->add_msg_if_player( _( "You took a selfie." ) );
                     } else if( p->is_blind() ) {
@@ -6928,12 +6956,10 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                         p->add_msg_if_player( _( "%s looks blinded." ), guy->name );
                         guy->add_effect( effect_blind, rng( 5_turns, 10_turns ) );
                     }
-
-                    photo.name = guy->name;
-                    photo.description = string_format( _( "This is a photo of %1$s." ),
-                                                       "<color_light_blue>" + photo.name + "</color>" );
                 }
-
+                if( incorrect_focus ) {
+                    photo_quality = 0;
+                }
                 std::vector<extended_photo_def> extended_photos;
 
                 try {
@@ -6944,10 +6970,15 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                     debugmsg( "Error loading EXTENDED photos: %s", e.c_str() );
                 }
 
+                extended_photo_def photo = photo_def_for_camera_point( trajectory_point, p->pos() );
                 photo.quality = photo_quality;
-                photo.description += descriptions_for_camera_point( i, p->pos() );
 
                 extended_photos.push_back( photo );
+
+                if( !mon && !guy ) {
+                    p->add_msg_if_player( _( "You took a photo of %1$s. It is %2$s." ), photo.name,
+                                          photo_quality_name( photo_quality ) );
+                }
                 try {
                     std::ostringstream extended_photos_data;
                     JsonOut json( extended_photos_data );
@@ -6974,7 +7005,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
 
         uilist pmenu;
 
-        pmenu.text = _( "Critter photos saved on camera:" );
+        pmenu.text = _( "Photos saved on camera:" );
 
         std::vector<std::string> descriptions;
         std::vector<extended_photo_def> extended_photos;
@@ -6999,14 +7030,8 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
 
         int k = 0;
         for( const auto &extended_photo : extended_photos ) {
-            std::string menu_str;
-            if( extended_photo.name == p->name ) {
-                menu_str = _( "You" );
-            } else {
-                menu_str = extended_photo.name;
-            }
+            std::string menu_str = std::regex_replace( extended_photo.name, std::regex( p->name ), _( "You" ) );
             descriptions.push_back( extended_photo.description );
-
             menu_str += " [" + photo_quality_name( extended_photo.quality ) + "]";
 
             pmenu.addentry( k++, true, -1, menu_str.c_str() );
@@ -7021,7 +7046,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                 break;
             }
 
-            popup( descriptions[choice].c_str() );
+            popup( "%s", descriptions[choice].c_str() );
 
         } while( true );
 
@@ -7075,7 +7100,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
                 break;
             }
 
-            popup( descriptions[choice].c_str() );
+            popup( "%s", descriptions[choice].c_str() );
 
         } while( true );
 
