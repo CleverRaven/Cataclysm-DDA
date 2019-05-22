@@ -11,13 +11,16 @@ Things are a bit more stable now, but nobody is left alive to appreciate that.
 Note: Canon date of game start is  April 30th, in "YEAR", which equals the IRL year the game world was created +1.
 
 #### YEAR -25
-- **March**: An interdimensional traveler from an alternate earth crash lands a portal traveling vessel in the American Midwest. The traveler dies, the vessel is appropriated by the US government and starts a chain of research.  The technology is very similar to Earth tech of the 1990s, but the actual dimensional travelling technology is as-yet undeveloped, and there are examples of equivalent but divergent robotics technologies: there is a simple but functional robotic exoskeleton on board, damaged in the crash.
+- **March**: An interdimensional traveler from an alternate earth crash lands a portal traveling vessel in the American Midwest. The traveler dies, the vessel is appropriated by the US government and starts a chain of research.  The technology is very similar to Earth tech of the 1990s, but the actual dimensional travelling technology is as-yet undeveloped, and there are examples of equivalent but divergent energy technologies: there is a simple but functional high-capacity fuel cell on board, using mostly Earth accessible designs but with a few exotic components that will take time to reverse engineer.
 
 #### YEAR -15
 - Research into pilotable robot exoskeletons results in the first large production robotic suit for cargo handling.  It remains prohibitively expensive for most applications.  These suits use a simplified fuel cell design from the dimensional craft, but not all the raw materials needed have yet been synthesized, so the efficiency is much lower.
 
+#### YEAR -13
+- Improved fuel cell designs make solar-electric cars a viable alternative to gasoline.  The first privately made electric cars are announced.
+
 #### YEAR -12
-- **April**: Advances in reverse engineering and some early tests of portal tech lead to improved synthesis of fuel cells from the dimensional craft.  These cells are still bulky but enable a lot of new technologies to be imagined.
+- **April**: Advances in reverse engineering and some early tests of portal tech lead to improved synthesis of fuel cells from the dimensional craft.  These cells are still bulky but enable a lot of new technologies to be imagined.  They use radioactive plutonium as a catalyst in the fuel reaction, earning the nickname "plutonium fuel cells".  Due to the risk of radioactivity, they are not widely adopted by civilians.
 - **September**: A stable portal is opened, and a creature from the netherum breaks through, destroying a large portion of a DARPA lab. The facility auto-destruct is engaged and the event disguised as a mine collapse. The government puts a hard limit on acceptable portal research, particularly the creation of stable portals.
 
 #### YEAR -10
