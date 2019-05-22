@@ -7,15 +7,19 @@
 #include <memory>
 #include <set>
 
+#include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "debug.h"
 #include "game.h"
 #include "line.h"
 #include "map.h"
+#include "map_iterator.h"
+#include "map_selector.h"
 #include "messages.h"
 #include "mission.h"
 #include "morale_types.h"
+#include "mtype.h"
 #include "npc.h"
 #include "npctrade.h"
 #include "output.h"
@@ -56,6 +60,13 @@ const efftype_id effect_currently_busy( "currently_busy" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_pet( "pet" );
+
+const mtype_id mon_horse( "mon_horse" );
+const mtype_id mon_cow( "mon_cow" );
+const mtype_id mon_chicken( "mon_chicken" );
+
+void spawn_animal( npc &p, const mtype_id &mon );
 
 void talk_function::nothing( npc & )
 {
@@ -141,6 +152,37 @@ void talk_function::mission_reward( npc &p )
     int mission_value = miss->get_value();
     p.op_of_u.owed += mission_value;
     trade( p, 0, _( "Reward" ) );
+}
+
+void talk_function::buy_chicken( npc &p )
+{
+    spawn_animal( p, mon_chicken );
+}
+void talk_function::buy_horse( npc &p )
+{
+    spawn_animal( p, mon_horse );
+}
+
+void talk_function::buy_cow( npc &p )
+{
+    spawn_animal( p, mon_cow );
+}
+
+void spawn_animal( npc &p, const mtype_id &mon )
+{
+    std::vector<tripoint> valid;
+    for( const tripoint &candidate : g->m.points_in_radius( p.pos(), 1 ) ) {
+        if( g->is_empty( candidate ) ) {
+            valid.push_back( candidate );
+        }
+    }
+    if( !valid.empty() ) {
+        monster *mon_ptr = g->summon_mon( mon, random_entry( valid ) );
+        mon_ptr->friendly = -1;
+        mon_ptr->add_effect( effect_pet, 1_turns, num_bp, true );
+    } else {
+        add_msg( m_debug, "No space to spawn purchased pet" );
+    }
 }
 
 void talk_function::start_trade( npc &p )
@@ -661,7 +703,7 @@ void talk_function::lead_to_safety( npc &p )
     p.set_attitude( NPCATT_LEAD );
 }
 
-bool pay_npc( npc &np, int cost )
+static bool pay_npc( npc &np, int cost )
 {
     if( np.op_of_u.owed >= cost ) {
         np.op_of_u.owed -= cost;

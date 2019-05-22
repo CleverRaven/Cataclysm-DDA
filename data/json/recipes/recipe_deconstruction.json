@@ -212,6 +212,23 @@
     ]
   },
   {
+    "result": "broken_robofac_prototype",
+    "type": "uncraft",
+    "skill_used": "electronics",
+    "difficulty": 6,
+    "time": 120000,
+    "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "power_supply", 4 ] ],
+      [ [ "plut_cell", 1 ] ],
+      [ [ "motor", 2 ] ],
+      [ [ "tazer", 1 ] ],
+      [ [ "e_scrap", 3 ] ],
+      [ [ "steel_chunk", 12 ] ]
+    ]
+  },
+  {
     "result": "broken_eyebot",
     "type": "uncraft",
     "skill_used": "electronics",

@@ -126,7 +126,7 @@ void scenario::check_definitions()
     }
 }
 
-void check_traits( const std::set<trait_id> &traits, const string_id<scenario> &ident )
+static void check_traits( const std::set<trait_id> &traits, const string_id<scenario> &ident )
 {
     for( auto &t : traits ) {
         if( !t.is_valid() ) {

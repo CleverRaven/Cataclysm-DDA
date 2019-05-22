@@ -47,6 +47,8 @@ then
         ..
     if [ -n "$CATA_CLANG_TIDY" ]
     then
+        "$CATA_CLANG_TIDY" --version
+
         # Run clang-tidy analysis instead of regular build & test
         # We could use CMake to create compile_commands.json, but that's super
         # slow, so use compiledb <https://github.com/nickdiego/compiledb>

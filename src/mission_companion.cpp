@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include <utility>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
@@ -184,13 +185,13 @@ void talk_function::scavenger_raid( mission_data &mission_key, npc &p )
 
 void talk_function::commune_menial( mission_data &mission_key, npc &p )
 {
-    std::string entry = _( "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
-                           "Assigning one of your allies to menial labor is a safe way to teach "
-                           "them basic skills and build reputation with the outpost.  Don't expect "
-                           "much of a reward though." );
     mission_key.add( "Assign Ally to Menial Labor", _( "Assign Ally to Menial Labor" ) );
     std::vector<npc_ptr> npc_list = companion_list( p, "_labor" );
     if( !npc_list.empty() ) {
+        std::string entry = _( "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
+                               "Assigning one of your allies to menial labor is a safe way to teach "
+                               "them basic skills and build reputation with the outpost.  Don't expect "
+                               "much of a reward though." );
         entry = _( "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n" );
         for( auto &elem : npc_list ) {
             entry = entry + "  " + elem->name + " [" + to_string( to_hours<int>( calendar::turn -
@@ -376,12 +377,13 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
 
     camp_tab_mode tab_mode = TAB_MAIN;
 
-    size_t part_y = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
-    size_t part_x = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-    catacurses::window w_list = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                part_y + TITLE_TAB_HEIGHT, part_x );
-    catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, FULL_SCREEN_WIDTH,
-                                part_y, part_x );
+    size_t part_y = ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 4 : 0;
+    size_t part_x = ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 4 : 0;
+    size_t maxy = part_y ? TERMY - 2 * part_y : FULL_SCREEN_HEIGHT;
+    size_t maxx = part_x ? TERMX - 2 * part_x : FULL_SCREEN_WIDTH;
+
+    catacurses::window w_list = catacurses::newwin( maxy, maxx, part_y + TITLE_TAB_HEIGHT, part_x );
+    catacurses::window w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, maxx, part_y, part_x );
 
     size_t sel = 0;
     int offset = 0;
@@ -389,8 +391,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
 
     // The following are for managing the right pane scrollbar.
     size_t info_offset = 0;
-    size_t info_height = FULL_SCREEN_HEIGHT - 3;
-    size_t info_width = FULL_SCREEN_WIDTH - 1 - MAX_FAC_NAME_SIZE;
+    size_t info_height = maxy - 3;
+    size_t info_width = maxx - 1 - MAX_FAC_NAME_SIZE;
     size_t end_line = 0;
     nc_color col = c_white;
     std::vector<std::string> mission_text;
@@ -440,10 +442,9 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             mvwprintz( w_list, 1, 1, c_white, name_mission_tabs( omt_pos, role_id, title,
                        tab_mode ) );
 
-            calcStartPos( offset, sel, FULL_SCREEN_HEIGHT - 3, cur_key_list.size() );
+            calcStartPos( offset, sel, info_height, cur_key_list.size() );
 
-            for( size_t i = 0; static_cast<int>( i ) < FULL_SCREEN_HEIGHT - 3 &&
-                 ( i + offset ) < cur_key_list.size(); i++ ) {
+            for( size_t i = 0; i < info_height && ( i + offset ) < cur_key_list.size(); i++ ) {
                 size_t  current = i + offset;
                 nc_color col = ( current == sel ? h_white : c_white );
                 //highlight important missions
@@ -461,7 +462,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                 mvwprintz( w_list, i + 2, 1, col, "  %s", cur_key_list[current].name_display );
             }
 
-            draw_scrollbar( w_list, sel, FULL_SCREEN_HEIGHT - 2, cur_key_list.size(), 1 );
+            draw_scrollbar( w_list, sel, info_height + 1, cur_key_list.size(), 1 );
             wrefresh( w_list );
             werase( w_info );
 
@@ -480,13 +481,12 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             .viewport_pos( info_offset )
             .viewport_size( info_height )
             .apply( w_info );
-            if( info_offset < mission_text.size() ) {
-                end_line = std::min( info_height, mission_text.size() - info_offset );
-            }
+            end_line = std::min( info_height, mission_text.size() - info_offset );
 
             // Display the current subset of the mission text.
             for( size_t start_line = 0; start_line < end_line; start_line++ ) {
-                print_colored_text( w_info, start_line, 0, col, col, mission_text[start_line + info_offset] );
+                print_colored_text( w_info, start_line, 0, col, col,
+                                    mission_text[start_line + info_offset] );
             }
 
             wrefresh( w_info );
@@ -927,7 +927,7 @@ void talk_function::field_build_2( npc &p )
 
 void talk_function::field_plant( npc &p, const std::string &place )
 {
-    if( g->get_temperature( g->u.pos() ) < 50 ) {
+    if( g->weather.get_temperature( g->u.pos() ) < 50 ) {
         popup( _( "It is too cold to plant anything now." ) );
         return;
     }
@@ -1144,7 +1144,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
 
 }
 
-int scavenging_combat_skill( npc &p, int bonus, bool guns )
+static int scavenging_combat_skill( npc &p, int bonus, bool guns )
 {
     // the following doxygen aliases do not yet exist. this is marked for future reference
     ///\EFFECT_MELEE_NPC affects scavenging_patrol results
@@ -1768,7 +1768,7 @@ std::vector<npc_ptr> talk_function::companion_list( const npc &p, const std::str
     return available;
 }
 
-int companion_combat_rank( const npc &p )
+static int companion_combat_rank( const npc &p )
 {
     int combat = 2 * p.get_dex() + 3 * p.get_str() + 2 * p.get_per() + p.get_int();
     combat += p.get_skill_level( skill_archery ) + p.get_skill_level( skill_bashing ) +
@@ -1777,7 +1777,7 @@ int companion_combat_rank( const npc &p )
     return combat * std::min( p.get_dex(), 32 ) * std::min( p.get_str(), 32 ) / 64;
 }
 
-int companion_survival_rank( const npc &p )
+static int companion_survival_rank( const npc &p )
 {
     int survival = 2 * p.get_dex() + p.get_str() + 2 * p.get_per() + 1.5 * p.get_int();
     survival += p.get_skill_level( skill_archery ) + p.get_skill_level( skill_firstaid ) +
@@ -1786,7 +1786,7 @@ int companion_survival_rank( const npc &p )
     return survival * std::min( p.get_dex(), 32 ) * std::min( p.get_per(), 32 ) / 64;
 }
 
-int companion_industry_rank( const npc &p )
+static int companion_industry_rank( const npc &p )
 {
     int industry = p.get_dex() + p.get_str() + p.get_per() + 3 * p.get_int();
     industry += p.get_skill_level( skill_cooking ) + p.get_skill_level( skill_electronics ) +
@@ -1795,7 +1795,7 @@ int companion_industry_rank( const npc &p )
     return industry * std::min( p.get_int(), 32 ) / 8 ;
 }
 
-bool companion_sort_compare( const npc_ptr &first, const npc_ptr &second )
+static bool companion_sort_compare( const npc_ptr &first, const npc_ptr &second )
 {
     return companion_combat_rank( *first ) > companion_combat_rank( *second );
 }

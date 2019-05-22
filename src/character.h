@@ -445,6 +445,8 @@ class Character : public Creature, public visitable<Character>
         bool has_bionic( const bionic_id &b ) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
         bool has_active_bionic( const bionic_id &b ) const;
+        /**Returns true if the player has any bionic*/
+        bool has_any_bionic() const;
 
         // --------------- Generic Item Stuff ---------------
 
@@ -687,6 +689,8 @@ class Character : public Creature, public visitable<Character>
         void die( Creature *nkiller ) override;
 
         std::string get_name() const override;
+
+        std::vector<std::string> get_grammatical_genders() const override;
 
         /**
          * It is supposed to hide the query_yn to simplify player vs. npc code.

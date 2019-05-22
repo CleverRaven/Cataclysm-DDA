@@ -54,7 +54,8 @@ char get_free_invlet( player &p )
     return ' ';
 }
 
-void draw_bionics_titlebar( const catacurses::window &window, player *p, bionic_menu_mode mode )
+static void draw_bionics_titlebar( const catacurses::window &window, player *p,
+                                   bionic_menu_mode mode )
 {
     werase( window );
 
@@ -75,7 +76,7 @@ void draw_bionics_titlebar( const catacurses::window &window, player *p, bionic_
 }
 
 //builds the power usage string of a given bionic
-std::string build_bionic_poweronly_string( const bionic &bio )
+static std::string build_bionic_poweronly_string( const bionic &bio )
 {
     const bionic_data &bio_data = bio.id.obj();
     std::vector<std::string> properties;
@@ -100,7 +101,7 @@ std::string build_bionic_poweronly_string( const bionic &bio )
 }
 
 //generates the string that show how much power a bionic uses
-std::string build_bionic_powerdesc_string( const bionic &bio )
+static std::string build_bionic_powerdesc_string( const bionic &bio )
 {
     std::ostringstream power_desc;
     const std::string power_string = build_bionic_poweronly_string( bio );
@@ -111,8 +112,8 @@ std::string build_bionic_powerdesc_string( const bionic &bio )
     return power_desc.str();
 }
 
-void draw_bionics_tabs( const catacurses::window &win, const size_t active_num,
-                        const size_t passive_num, const bionic_tab_mode current_mode )
+static void draw_bionics_tabs( const catacurses::window &win, const size_t active_num,
+                               const size_t passive_num, const bionic_tab_mode current_mode )
 {
     werase( win );
 
@@ -130,7 +131,7 @@ void draw_bionics_tabs( const catacurses::window &win, const size_t active_num,
     wrefresh( win );
 }
 
-void draw_description( const catacurses::window &win, const bionic &bio )
+static void draw_description( const catacurses::window &win, const bionic &bio )
 {
     werase( win );
     const int width = getmaxx( win );
@@ -153,8 +154,8 @@ void draw_description( const catacurses::window &win, const bionic &bio )
     wrefresh( win );
 }
 
-void draw_connectors( const catacurses::window &win, const int start_y, const int start_x,
-                      const int last_x, const bionic_id &bio_id )
+static void draw_connectors( const catacurses::window &win, const int start_y, const int start_x,
+                             const int last_x, const bionic_id &bio_id )
 {
     const int LIST_START_Y = 6;
     // first: pos_y, second: occupied slots
@@ -234,7 +235,7 @@ void draw_connectors( const catacurses::window &win, const int start_y, const in
 }
 
 //get a text color depending on the power/powering state of the bionic
-nc_color get_bionic_text_color( const bionic &bio, const bool isHighlightedBionic )
+static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlightedBionic )
 {
     nc_color type = c_white;
     if( bio.id->activated ) {
@@ -277,7 +278,8 @@ nc_color get_bionic_text_color( const bionic &bio, const bool isHighlightedBioni
     return type;
 }
 
-std::vector< bionic *>filtered_bionics( bionic_collection &all_bionics, bionic_tab_mode mode )
+static std::vector<bionic *> filtered_bionics( bionic_collection &all_bionics,
+        bionic_tab_mode mode )
 {
     std::vector< bionic *>filtered_entries;
     for( auto &elem : all_bionics ) {

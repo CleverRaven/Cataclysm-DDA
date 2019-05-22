@@ -1,6 +1,7 @@
 #include "advanced_inv.h"
 
 #include "auto_pickup.h"
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "debug.h"
@@ -615,7 +616,8 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
         const char *bracket = ( squares[i].can_store_in_vehicle() ) ? "<>" : "[]";
         bool in_vehicle = ( pane.in_vehicle() && squares[i].id == area && sel == area && area != AIM_ALL );
         bool all_brackets = ( area == AIM_ALL && ( i >= AIM_SOUTHWEST && i <= AIM_NORTHEAST ) );
-        nc_color bcolor = c_red, kcolor = c_red;
+        nc_color bcolor = c_red;
+        nc_color kcolor = c_red;
         if( squares[i].canputitems( pane.get_cur_item_ptr() ) ) {
             bcolor = ( in_vehicle ) ? c_light_blue :
                      ( area == i || all_brackets ) ? c_light_gray : c_dark_gray;
@@ -772,11 +774,6 @@ void advanced_inv_area::init()
     if( flags.length() && flags[0] == ' ' ) {
         flags.erase( 0, 1 );
     }
-}
-
-std::string center_text( const char *str, int width )
-{
-    return std::string( ( ( width - strlen( str ) ) / 2 ), ' ' ) + str;
 }
 
 void advanced_inventory::init()
