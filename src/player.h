@@ -30,7 +30,6 @@
 #include "player_activity.h"
 #include "ret_val.h"
 #include "weighted_list.h"
-#include "stomach.h"
 #include "bodypart.h"
 #include "color.h"
 #include "creature.h"
@@ -896,11 +895,7 @@ class player : public Character
          */
         item &get_consumable_from( item &it ) const;
 
-        stomach_contents stomach;
-        stomach_contents guts;
-
         std::pair<std::string, nc_color> get_hunger_description() const override;
-        void initialize_stomach_contents();
 
         /** Get vitamin contents for a comestible */
         std::map<vitamin_id, int> vitamins_from( const item &it ) const;

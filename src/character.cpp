@@ -127,6 +127,7 @@ Character::Character() :
     // 45 days to starve to death
     healthy_calories = 55000;
     stored_calories = healthy_calories;
+    initialize_stomach_contents();
 
     name.clear();
 

@@ -28,6 +28,7 @@
 #include "enums.h"
 #include "item.h"
 #include "optional.h"
+#include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "type_id.h"
@@ -770,6 +771,11 @@ class Character : public Creature, public visitable<Character>
         item weapon;
 
         pimpl<bionic_collection> my_bionics;
+
+        stomach_contents stomach;
+        stomach_contents guts;
+
+        void initialize_stomach_contents();
 
     protected:
         void on_stat_change( const std::string &, int ) override {}

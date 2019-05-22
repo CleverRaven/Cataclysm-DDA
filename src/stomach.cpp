@@ -427,3 +427,13 @@ time_duration stomach_contents::time_since_ate() const
 {
     return calendar::turn - last_ate;
 }
+
+// sets default stomach contents when starting the game
+void Character::initialize_stomach_contents()
+{
+    stomach = stomach_contents( 2500_ml );
+    guts = stomach_contents( 24000_ml );
+    guts.set_calories( 300 );
+    stomach.set_calories( 800 );
+    stomach.mod_contents( 475_ml );
+}

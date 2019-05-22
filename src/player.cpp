@@ -560,7 +560,6 @@ player::player() : Character()
             style_none, style_kicks
         }
     };
-    initialize_stomach_contents();
 }
 
 player::~player() = default;
@@ -6535,16 +6534,6 @@ void player::mend( int rate_multiplier )
                                body_part_name( part ) );
         }
     }
-}
-
-// sets default stomach contents when starting the game
-void player::initialize_stomach_contents()
-{
-    stomach = stomach_contents( 2500_ml );
-    guts = stomach_contents( 24000_ml );
-    guts.set_calories( 300 );
-    stomach.set_calories( 800 );
-    stomach.mod_contents( 475_ml );
 }
 
 void player::vomit()
