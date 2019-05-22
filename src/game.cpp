@@ -3166,9 +3166,11 @@ void game::draw_panels( size_t column, size_t index, bool force_draw )
             h = log_height;
         }
         h += spacer;
-        if( panel.toggle && h > 0 && ( panel.always_draw || draw_this_turn ) ) {
-            panel.draw( u, catacurses::newwin( h, panel.get_width(), y,
-                                               sidebar_right ? TERMX - panel.get_width() : 0 ) );
+        if( panel.toggle && h > 0 ) {
+            if( panel.always_draw || draw_this_turn ) {
+                panel.draw( u, catacurses::newwin( h, panel.get_width(), y,
+                                                   sidebar_right ? TERMX - panel.get_width() : 0 ) );
+            }
             if( show_panel_adm ) {
                 auto label = catacurses::newwin( 1, panel.get_name().length(), y, sidebar_right ?
                                                  TERMX - panel.get_width() - panel.get_name().length() - 1 : panel.get_width() + 1 );
