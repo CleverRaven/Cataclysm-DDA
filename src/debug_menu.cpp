@@ -16,6 +16,7 @@
 #include <utility>
 
 #include "action.h"
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "filesystem.h"
 #include "game.h"
@@ -344,7 +345,7 @@ void character_edit_menu()
     const size_t index = charmenu.ret;
     // The NPC is also required for "Add mission", so has to be in this scope
     npc *np = g->critter_at<npc>( locations[index] );
-    player &p = np ? *np : g->u;
+    player &p = np ? static_cast<player &>( *np ) : static_cast<player &>( g->u );
     uilist nmenu;
 
     if( np != nullptr ) {
@@ -715,7 +716,7 @@ void character_edit_menu()
     }
 }
 
-const std::string &mission_status_string( mission::mission_status status )
+static const std::string &mission_status_string( mission::mission_status status )
 {
     static const std::map<mission::mission_status, std::string> desc{ {
             { mission::mission_status::yet_to_start, _( "Yet to start" ) },
@@ -747,7 +748,7 @@ std::string mission_debug::describe( const mission &m )
     return data.str();
 }
 
-void add_header( uilist &mmenu, const std::string &str )
+static void add_header( uilist &mmenu, const std::string &str )
 {
     if( !mmenu.entries.empty() ) {
         mmenu.addentry( -1, false, -1, "" );
@@ -827,7 +828,7 @@ void mission_debug::edit_player()
     edit_mission( *all_missions[mmenu.ret] );
 }
 
-bool remove_from_vec( std::vector<mission *> &vec, mission *m )
+static bool remove_from_vec( std::vector<mission *> &vec, mission *m )
 {
     auto iter = std::remove( vec.begin(), vec.end(), m );
     bool ret = iter != vec.end();

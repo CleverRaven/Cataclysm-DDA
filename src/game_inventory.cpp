@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 
+#include "avatar.h"
 #include "game.h"
 #include "bionics.h"
 #include "inventory_ui.h"
@@ -88,7 +89,7 @@ bool inventory_filter_preset::is_shown( const item_location &location ) const
     return filter( location );
 }
 
-item_location_filter convert_filter( const item_filter &filter )
+static item_location_filter convert_filter( const item_filter &filter )
 {
     return [ &filter ]( const item_location & loc ) {
         return filter( *loc );
@@ -1330,12 +1331,18 @@ void game_menus::inv::reassign_letter( player &p, item &it )
 {
     while( true ) {
         const long invlet = popup_getkey(
-                                _( "Enter new letter (press SPACE for none, ESCAPE to cancel)." ) );
+                                _( "Enter new letter. Press SPACE to clear a manually assigned letter, ESCAPE to cancel." ) );
 
         if( invlet == KEY_ESCAPE ) {
             break;
         } else if( invlet == ' ' ) {
             p.reassign_item( it, 0 );
+            const std::string auto_setting = get_option<std::string>( "AUTO_INV_ASSIGN" );
+            if( auto_setting == "enabled" || ( auto_setting == "favorites" && it.is_favorite ) ) {
+                popup_getkey(
+                    _( "Note: The Auto Inventory Letters setting might still reassign a letter to this item.\n"
+                       "If this is undesired, you may wish to change the setting in Options." ) );
+            }
             break;
         } else if( inv_chars.valid( invlet ) ) {
             p.reassign_item( it, invlet );

@@ -3,6 +3,7 @@
 #include <cmath>
 #include <cstdlib>
 
+#include "avatar.h"
 #include "effect.h"
 #include "fungal_effects.h"
 #include "game.h"

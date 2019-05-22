@@ -16,6 +16,7 @@
 
 #include "action.h"
 #include "advanced_inv.h"
+#include "avatar.h"
 #include "clzones.h"
 #include "construction.h"
 #include "craft_command.h"
@@ -210,7 +211,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_HACK_SAFE" ), hack_safe_finish }
 };
 
-void messages_in_process( const player_activity &act, const player &p )
+static void messages_in_process( const player_activity &act, const player &p )
 {
     if( act.moves_left <= 91000 && act.moves_left > 89000 ) {
         p.add_msg_if_player( m_info, _( "You figure it'll take about an hour and a half at this rate." ) );
@@ -265,7 +266,7 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-bool check_butcher_cbm( const int roll )
+static bool check_butcher_cbm( const int roll )
 {
     // Failure rates for dissection rolls
     // 90% at roll 0, 72% at roll 1, 60% at roll 2, 51% @ 3, 45% @ 4, 40% @ 5, ... , 25% @ 10
@@ -277,8 +278,8 @@ bool check_butcher_cbm( const int roll )
     return !failed;
 }
 
-void butcher_cbm_item( const std::string &what, const tripoint &pos,
-                       const time_point &age, const int roll )
+static void butcher_cbm_item( const std::string &what, const tripoint &pos,
+                              const time_point &age, const int roll )
 {
     if( roll < 0 ) {
         return;
@@ -296,8 +297,8 @@ void butcher_cbm_item( const std::string &what, const tripoint &pos,
     }
 }
 
-void butcher_cbm_group( const std::string &group, const tripoint &pos,
-                        const time_point &age, const int roll )
+static void butcher_cbm_group( const std::string &group, const tripoint &pos,
+                               const time_point &age, const int roll )
 {
     if( roll < 0 ) {
         return;
@@ -318,7 +319,7 @@ void butcher_cbm_group( const std::string &group, const tripoint &pos,
     }
 }
 
-void set_up_butchery( player_activity &act, player &u, butcher_type action )
+static void set_up_butchery( player_activity &act, player &u, butcher_type action )
 {
     if( !act.values.empty() ) {
         act.index = act.values.back();
@@ -408,34 +409,36 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
                               u.has_amount( "vine_30", 1 ) || u.has_amount( "grapnel", 1 );
         const bool big_corpse = corpse.size >= MS_MEDIUM;
 
-        if( big_corpse && has_rope && !has_tree_nearby && !b_rack_present ) {
-            u.add_msg_if_player( m_info,
-                                 _( "You need to suspend this corpse to butcher it, you have a rope to lift the corpse but there is no tree nearby." ) );
-            act.index = -1;
-            return;
-        } else if( big_corpse && !has_rope && !b_rack_present ) {
-            u.add_msg_if_player( m_info,
-                                 _( "For a corpse this big you need a rope and a nearby tree or a butchering rack to perform a full butchery." ) );
-            act.index = -1;
-            return;
-        }
-        if( big_corpse && !has_table_nearby ) {
-            u.add_msg_if_player( m_info,
-                                 _( "For a corpse this big you need a table nearby or something else with a flat surface to perform a full butchery." ) );
-            act.index = -1;
-            return;
-        }
         if( !u.has_quality( quality_id( "CUT" ) ) ) {
             u.add_msg_if_player( m_info, _( "You need a cutting tool to perform a full butchery." ) );
             act.index = -1;
             return;
         }
-        if( big_corpse && !( u.has_quality( quality_id( "SAW_W" ) ) ||
-                             u.has_quality( quality_id( "SAW_M" ) ) ) ) {
-            u.add_msg_if_player( m_info,
-                                 _( "For a corpse this big you need a saw to perform a full butchery." ) );
-            act.index = -1;
-            return;
+        if( big_corpse ) {
+            if( has_rope && !has_tree_nearby && !b_rack_present ) {
+                u.add_msg_if_player( m_info,
+                                     _( "You need to suspend this corpse to butcher it. While you have a rope to lift the corpse, there is no tree nearby to hang it from." ) );
+                act.index = -1;
+                return;
+            }
+            if( !has_rope && !b_rack_present ) {
+                u.add_msg_if_player( m_info,
+                                     _( "To perform a full butchery on a corpse this big, you need either a butchering rack or both a long rope in your inventory and a nearby tree to hang the corpse from." ) );
+                act.index = -1;
+                return;
+            }
+            if( !has_table_nearby ) {
+                u.add_msg_if_player( m_info,
+                                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface. A leather tarp spread out on the ground could suffice." ) );
+                act.index = -1;
+                return;
+            }
+            if( !( u.has_quality( quality_id( "SAW_W" ) ) || u.has_quality( quality_id( "SAW_M" ) ) ) ) {
+                u.add_msg_if_player( m_info,
+                                     _( "For a corpse this big you need a saw to perform a full butchery." ) );
+                act.index = -1;
+                return;
+            }
         }
     }
 
@@ -580,7 +583,7 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     return time_to_cut;
 }
 // The below function exists to allow mods to migrate their content fully to the new harvest system. This function should be removed eventually.
-harvest_id butchery_flags_deprecate( const mtype &mt )
+static harvest_id butchery_flags_deprecate( const mtype &mt )
 {
     std::string harvest_id_name = "null";
     if( mt.has_flag( MF_CBM_CIV ) ) {
@@ -668,7 +671,7 @@ harvest_id butchery_flags_deprecate( const mtype &mt )
 }
 
 // this function modifies the input weight by its damage level, depending on the bodypart
-int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
+static int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
 {
     const float slight_damage = 0.9;
     const float damage = 0.75;
@@ -721,9 +724,9 @@ int corpse_damage_effect( int weight, const std::string &entry_type, int damage_
     return weight;
 }
 
-void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
-                             const std::function<int()> &roll_butchery, butcher_type action,
-                             const std::function<double()> &roll_drops )
+static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
+                                    const std::function<int()> &roll_butchery, butcher_type action,
+                                    const std::function<double()> &roll_drops )
 {
     p.add_msg_if_player( m_neutral, _( mt.harvest->message() ) );
     int monster_weight = to_gram( mt.weight );
@@ -980,7 +983,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
     }
 }
 
-void butchery_quarter( item *corpse_item, player &p )
+static void butchery_quarter( item *corpse_item, player &p )
 {
     corpse_item->set_flag( "QUARTERED" );
     p.add_msg_if_player( m_good,
@@ -1231,76 +1234,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
     // multibutchering
     act->index = -1;
-}
-
-enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, LST_MONSTER = 4};
-
-// All serialize_liquid_source functions should add the same number of elements to the vectors of
-// the activity. This makes it easier to distinguish the values of the source and the values of the target.
-void serialize_liquid_source( player_activity &act, const vehicle &veh, const int part_num,
-                              const item &liquid )
-{
-    act.values.push_back( LST_VEHICLE );
-    act.values.push_back( part_num );
-    act.coords.push_back( veh.global_pos3() );
-    act.str_values.push_back( serialize( liquid ) );
-}
-
-void serialize_liquid_source( player_activity &act, const monster &mon, const item &liquid )
-{
-    act.values.push_back( LST_MONSTER );
-    act.values.push_back( 0 ); // dummy
-    act.coords.push_back( mon.pos() );
-    act.str_values.push_back( serialize( liquid ) );
-}
-
-void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid )
-{
-    const auto stack = g->m.i_at( pos );
-    // Need to store the *index* of the item on the ground, but it may be a virtual item from
-    // an infinite liquid source.
-    const auto iter = std::find_if( stack.begin(), stack.end(), [&]( const item & i ) {
-        return &i == &liquid;
-    } );
-    if( iter == stack.end() ) {
-        act.values.push_back( LST_INFINITE_MAP );
-        act.values.push_back( 0 ); // dummy
-    } else {
-        act.values.push_back( LST_MAP_ITEM );
-        act.values.push_back( std::distance( stack.begin(), iter ) );
-    }
-    act.coords.push_back( pos );
-    act.str_values.push_back( serialize( liquid ) );
-}
-
-enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, LTT_MONSTER = 4 };
-
-void serialize_liquid_target( player_activity &act, const vehicle &veh )
-{
-    act.values.push_back( LTT_VEHICLE );
-    act.values.push_back( 0 ); // dummy
-    act.coords.push_back( veh.global_pos3() );
-}
-
-void serialize_liquid_target( player_activity &act, int container_item_pos )
-{
-    act.values.push_back( LTT_CONTAINER );
-    act.values.push_back( container_item_pos );
-    act.coords.push_back( tripoint() ); // dummy
-}
-
-void serialize_liquid_target( player_activity &act, const tripoint &pos )
-{
-    act.values.push_back( LTT_MAP );
-    act.values.push_back( 0 ); // dummy
-    act.coords.push_back( pos );
-}
-
-void serialize_liquid_target( player_activity &act, const monster &mon )
-{
-    act.values.push_back( LTT_MAP );
-    act.values.push_back( 0 ); // dummy
-    act.coords.push_back( mon.pos() );
 }
 
 void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
@@ -2252,7 +2185,7 @@ enum repeat_type : int {
     REPEAT_CANCEL,      // Stop repeating
 };
 
-repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
+static repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
 {
     uilist rmenu;
     rmenu.text = title;
@@ -3555,7 +3488,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
     act->set_to_null();
 }
 
-hack_result try_hack( player &p )
+static hack_result try_hack( player &p )
 {
     if( p.has_trait( trait_id( "ILLITERATE" ) ) ) {
         add_msg( _( "You can't read anything on the screen." ) );

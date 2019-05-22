@@ -30,8 +30,8 @@ void read_and_set_or_throw( JsonObject &jo, const std::string &member, T &target
     }
 }
 
-void load_forest_biome_component( JsonObject &jo, forest_biome_component &forest_biome_component,
-                                  const bool overlay )
+static void load_forest_biome_component(
+    JsonObject &jo, forest_biome_component &forest_biome_component, const bool overlay )
 {
     read_and_set_or_throw<int>( jo, "chance", forest_biome_component.chance, !overlay );
     read_and_set_or_throw<int>( jo, "sequence", forest_biome_component.sequence, !overlay );
@@ -59,7 +59,7 @@ void load_forest_biome_component( JsonObject &jo, forest_biome_component &forest
     }
 }
 
-void load_forest_biome_terrain_dependent_furniture( JsonObject &jo,
+static void load_forest_biome_terrain_dependent_furniture( JsonObject &jo,
         forest_biome_terrain_dependent_furniture &forest_biome_terrain_dependent_furniture,
         const bool overlay )
 {
@@ -90,7 +90,7 @@ void load_forest_biome_terrain_dependent_furniture( JsonObject &jo,
     }
 }
 
-void load_forest_biome( JsonObject &jo, forest_biome &forest_biome, const bool overlay )
+static void load_forest_biome( JsonObject &jo, forest_biome &forest_biome, const bool overlay )
 {
     read_and_set_or_throw<int>( jo, "sparseness_adjacency_factor",
                                 forest_biome.sparseness_adjacency_factor, !overlay );
@@ -162,9 +162,10 @@ void load_forest_biome( JsonObject &jo, forest_biome &forest_biome, const bool o
     }
 }
 
-void load_forest_mapgen_settings( JsonObject &jo, forest_mapgen_settings &forest_mapgen_settings,
-                                  const bool strict,
-                                  const bool overlay )
+static void load_forest_mapgen_settings( JsonObject &jo,
+        forest_mapgen_settings &forest_mapgen_settings,
+        const bool strict,
+        const bool overlay )
 {
     if( !jo.has_object( "forest_mapgen_settings" ) ) {
         if( strict ) {
@@ -183,8 +184,9 @@ void load_forest_mapgen_settings( JsonObject &jo, forest_mapgen_settings &forest
     }
 }
 
-void load_forest_trail_settings( JsonObject &jo, forest_trail_settings &forest_trail_settings,
-                                 const bool strict, const bool overlay )
+static void load_forest_trail_settings( JsonObject &jo,
+                                        forest_trail_settings &forest_trail_settings,
+                                        const bool strict, const bool overlay )
 {
     if( !jo.has_object( "forest_trail_settings" ) ) {
         if( strict ) {
@@ -240,7 +242,7 @@ void load_forest_trail_settings( JsonObject &jo, forest_trail_settings &forest_t
     }
 }
 
-void load_overmap_feature_flag_settings( JsonObject &jo,
+static void load_overmap_feature_flag_settings( JsonObject &jo,
         overmap_feature_flag_settings &overmap_feature_flag_settings,
         const bool strict, const bool overlay )
 {
@@ -287,8 +289,9 @@ void load_overmap_feature_flag_settings( JsonObject &jo,
     }
 }
 
-void load_overmap_forest_settings( JsonObject &jo, overmap_forest_settings &overmap_forest_settings,
-                                   const bool strict, const bool overlay )
+static void load_overmap_forest_settings(
+    JsonObject &jo, overmap_forest_settings &overmap_forest_settings, const bool strict,
+    const bool overlay )
 {
     if( !jo.has_object( "overmap_forest_settings" ) ) {
         if( strict ) {
@@ -311,8 +314,9 @@ void load_overmap_forest_settings( JsonObject &jo, overmap_forest_settings &over
     }
 }
 
-void load_overmap_lake_settings( JsonObject &jo, overmap_lake_settings &overmap_lake_settings,
-                                 const bool strict, const bool overlay )
+static void load_overmap_lake_settings( JsonObject &jo,
+                                        overmap_lake_settings &overmap_lake_settings,
+                                        const bool strict, const bool overlay )
 {
     if( !jo.has_object( "overmap_lake_settings" ) ) {
         if( strict ) {

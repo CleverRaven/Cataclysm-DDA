@@ -13,6 +13,7 @@
 #include <stdexcept>
 #include <tuple>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "clzones.h"

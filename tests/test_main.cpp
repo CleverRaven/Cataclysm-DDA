@@ -28,6 +28,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "debug.h"
 #include "filesystem.h"
@@ -51,7 +52,7 @@ typedef std::vector<name_value_pair_t> option_overrides_t;
 // If tag is found as a prefix of any argument in arg_vec, the argument is
 // removed from arg_vec and the argument suffix after tag is returned.
 // Otherwise, an empty string is returned and arg_vec is unchanged.
-std::string extract_argument( std::vector<const char *> &arg_vec, const std::string &tag )
+static std::string extract_argument( std::vector<const char *> &arg_vec, const std::string &tag )
 {
     std::string arg_rest;
     for( auto iter = arg_vec.begin(); iter != arg_vec.end(); iter++ ) {
@@ -64,7 +65,7 @@ std::string extract_argument( std::vector<const char *> &arg_vec, const std::str
     return arg_rest;
 }
 
-std::vector<mod_id> extract_mod_selection( std::vector<const char *> &arg_vec )
+static std::vector<mod_id> extract_mod_selection( std::vector<const char *> &arg_vec )
 {
     std::vector<mod_id> ret;
     std::string mod_string = extract_argument( arg_vec, "--mods=" );
@@ -89,8 +90,8 @@ std::vector<mod_id> extract_mod_selection( std::vector<const char *> &arg_vec )
     return ret;
 }
 
-void init_global_game_state( const std::vector<mod_id> &mods,
-                             option_overrides_t &option_overrides )
+static void init_global_game_state( const std::vector<mod_id> &mods,
+                                    option_overrides_t &option_overrides )
 {
     PATH_INFO::init_base_path( "" );
     PATH_INFO::init_user_dir( "./" );
@@ -138,7 +139,7 @@ void init_global_game_state( const std::vector<mod_id> &mods,
     g->load_core_data( ui );
     g->load_world_modfiles( ui );
 
-    g->u = player();
+    g->u = avatar();
     g->u.create( PLTYPE_NOW );
 
     g->m = map( get_option<bool>( "ZLEVELS" ) );
@@ -150,7 +151,8 @@ void init_global_game_state( const std::vector<mod_id> &mods,
 }
 
 // Checks if any of the flags are in container, removes them all
-bool check_remove_flags( std::vector<const char *> &cont, const std::vector<const char *> &flags )
+static bool check_remove_flags( std::vector<const char *> &cont,
+                                const std::vector<const char *> &flags )
 {
     bool has_any = false;
     auto iter = flags.begin();
@@ -172,7 +174,7 @@ bool check_remove_flags( std::vector<const char *> &cont, const std::vector<cons
 
 // Split s on separator sep, returning parts as a pair. Returns empty string as
 // second value if no separator found.
-name_value_pair_t split_pair( const std::string &s, const char sep )
+static name_value_pair_t split_pair( const std::string &s, const char sep )
 {
     const size_t pos = s.find( sep );
     if( pos != std::string::npos ) {
@@ -182,7 +184,7 @@ name_value_pair_t split_pair( const std::string &s, const char sep )
     }
 }
 
-option_overrides_t extract_option_overrides( std::vector<const char *> &arg_vec )
+static option_overrides_t extract_option_overrides( std::vector<const char *> &arg_vec )
 {
     option_overrides_t ret;
     std::string option_overrides_string = extract_argument( arg_vec, "--option_overrides=" );

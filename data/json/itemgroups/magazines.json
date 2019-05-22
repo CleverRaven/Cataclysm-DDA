@@ -28,7 +28,9 @@
       [ "scarhmag", 50 ],
       [ "scarhbigmag", 20 ],
       [ "stanag30", 20 ],
-      [ "stanag50", 5 ]
+      [ "stanag50", 5 ],
+      [ "hk417mag_20rd", 30 ],
+      [ "hk417mag_10rd", 20 ]
     ]
   },
   {
@@ -84,7 +86,8 @@
       [ "stanag30", 20 ],
       [ "ump45mag", 20 ],
       [ "usp45mag", 10 ],
-      [ "usp9mag", 10 ]
+      [ "usp9mag", 10 ],
+      [ "hk417mag_20rd", 20 ]
     ]
   },
   {
@@ -194,7 +197,8 @@
       [ "ruger5", 50 ],
       [ "stanag10", 30 ],
       [ "ruger30", 20 ],
-      [ "stanag30", 10 ]
+      [ "stanag30", 10 ],
+      [ "ar10mag_20rd", 30 ]
     ]
   },
   {

@@ -11,6 +11,7 @@
 #include <memory>
 
 #include "action.h"
+#include "avatar.h"
 #include "ballistics.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -144,7 +145,7 @@ bionic_data::bionic_data()
     description = "This bionic was not set up correctly, this is a bug";
 }
 
-void force_comedown( effect &eff )
+static void force_comedown( effect &eff )
 {
     if( eff.is_null() || eff.get_effect_type() == nullptr || eff.get_duration() <= 1_turns ) {
         return;
@@ -776,7 +777,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
  * @param rate divides the number of turns we may charge (rate of 2 discharges in half the time).
  * @return indicates whether we successfully charged the bionic.
  */
-bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 1, int rate = 1 )
+static bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 1, int rate = 1 )
 {
     const bionic_data &info = bio.info();
     const int armor_power_cost = 1;

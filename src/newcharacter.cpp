@@ -8,6 +8,7 @@
 #include <tuple>
 
 #include "addiction.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -194,7 +195,7 @@ void Character::pick_name( bool bUseDefault )
     }
 }
 
-matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles )
+static matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles )
 {
     if( type == PLTYPE_NOW || type == PLTYPE_FULL_RANDOM ) {
         return random_entry( styles );

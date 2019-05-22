@@ -406,7 +406,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
     return true;
 }
 
-bool is_container_eligible_for_crafting( const item &cont, bool allow_bucket )
+static bool is_container_eligible_for_crafting( const item &cont, bool allow_bucket )
 {
     if( cont.is_watertight_container() || ( allow_bucket && cont.is_bucket() ) ) {
         return !cont.is_container_full( allow_bucket );
@@ -534,8 +534,8 @@ void player::make_craft_with_command( const recipe_id &id_to_make, int batch_siz
 
 // @param offset is the index of the created item in the range [0, batch_size-1],
 // it makes sure that the used items are distributed equally among the new items.
-void set_components( std::list<item> &components, const std::list<item> &used,
-                     const int batch_size, const size_t offset )
+static void set_components( std::list<item> &components, const std::list<item> &used,
+                            const int batch_size, const size_t offset )
 {
     if( batch_size <= 1 ) {
         components.insert( components.begin(), used.begin(), used.end() );
@@ -1377,7 +1377,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
 
 // Prompts player to empty all newly-unsealed containers in inventory
 // Called after something that might have opened containers (making them buckets) but not emptied them
-void empty_buckets( player &p )
+static void empty_buckets( player &p )
 {
     // First grab (remove) all items that are non-empty buckets and not wielded
     auto buckets = p.remove_items_with( [&p]( const item & it ) {
@@ -1757,8 +1757,8 @@ void player::disassemble_all( bool one_pass )
     }
 }
 
-item &get_item_for_uncraft( player &p, int item_pos,
-                            const tripoint &loc, bool from_ground )
+static item &get_item_for_uncraft( player &p, int item_pos,
+                                   const tripoint &loc, bool from_ground )
 {
     item *org_item;
     if( from_ground ) {
@@ -1834,9 +1834,6 @@ void player::complete_disassemble()
 
     activity.moves_left = next_recipe.time;
 }
-
-// TODO: Make them accessible in a less ugly way
-void remove_radio_mod( item &, player & );
 
 void player::complete_disassemble( int item_pos, const tripoint &loc,
                                    bool from_ground, const recipe &dis )
@@ -2028,7 +2025,7 @@ void remove_ammo( std::list<item> &dis_items, player &p )
 
 void drop_or_handle( const item &newit, player &p )
 {
-    if( newit.made_of( LIQUID ) && &p == &g->u ) { // TODO: what about NPCs?
+    if( newit.made_of( LIQUID ) && p.is_player() ) { // TODO: what about NPCs?
         liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
     } else {
         item tmp( newit );

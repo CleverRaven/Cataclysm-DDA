@@ -9,6 +9,7 @@
 #include <algorithm>
 
 #include "ammo.h"
+#include "avatar.h"
 #include "character.h"
 #include "color.h"
 #include "debug.h"
@@ -195,7 +196,7 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
 void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo,
                               const itype_id &fuel_type )
 {
-    vpslot_engine e_info;
+    vpslot_engine e_info{};
     if( eptr ) {
         e_info = *eptr;
     }
@@ -227,7 +228,7 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &j
 
 void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo )
 {
-    vpslot_wheel wh_info;
+    vpslot_wheel wh_info{};
     if( whptr ) {
         wh_info = *whptr;
     }
@@ -263,7 +264,7 @@ void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo
 
 void vpart_info::load_workbench( cata::optional<vpslot_workbench> &wbptr, JsonObject &jo )
 {
-    vpslot_workbench wb_info;
+    vpslot_workbench wb_info{};
     if( wbptr ) {
         wb_info = *wbptr;
     }

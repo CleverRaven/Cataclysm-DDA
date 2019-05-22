@@ -587,6 +587,17 @@ Mods can modify this via `add:traits` and `remove:traits`.
 ]
 ```
 
+### Constructions
+```C++
+"description": "Spike Pit",                                         // Description string displayed in the construction menu
+"category": "DIG",                                                  // Construction category
+"required_skills": [ [ "survival", 1 ] ],                           // Skill levels required to undertake construction
+"time": 30,                                                         // Time in minutes required to complete construction
+"components": [ [ [ "spear_wood", 4 ], [ "pointy_stick", 4 ] ] ],   // Items used in construction
+"pre_terrain": "t_pit",                                             // Required terrain to build on
+"post_terrain": "t_pit_spiked"                                      // Terrain type after construction is complete
+```
+
 ## Skills
 
 ```C++
@@ -803,6 +814,7 @@ See also VEHICLE_JSON.md
 "weight" : 350,                   // Weight of the item in grams. For stackable items (ammo, comestibles) this is the weight per charge.
 "volume" : 1,                     // Volume, measured in 1/4 liters. For stackable items (ammo, comestibles) this is the volume of stack_size charges. Volume in ml and L can be used - "50ml" or "2L"
 "integral_volume" : 0,            // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
+"integral_weight" : 0,            // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
 "rigid": false,                   // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "insulation": 1,                  // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
 "price" : 100,                    // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges.

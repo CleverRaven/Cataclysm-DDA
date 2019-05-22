@@ -10,6 +10,7 @@
 #include <memory>
 
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -1553,10 +1554,10 @@ int Character::extraEncumbrance( const layer_level level, const int bp ) const
     return encumbrance_cache[bp].layer_penalty_details[static_cast<int>( level )].total;
 }
 
-void layer_item( std::array<encumbrance_data, num_bp> &vals,
-                 const item &it,
-                 std::array<layer_level, num_bp> &highest_layer_so_far,
-                 bool power_armor, const Character &c )
+static void layer_item( std::array<encumbrance_data, num_bp> &vals,
+                        const item &it,
+                        std::array<layer_level, num_bp> &highest_layer_so_far,
+                        bool power_armor, const Character &c )
 {
     const auto item_layer = it.get_layer();
     int encumber_val = it.get_encumber( c );
@@ -1696,9 +1697,9 @@ int Character::encumb( body_part bp ) const
     return encumbrance_cache[bp].encumbrance;
 }
 
-void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
-                            const mutation_branch &mut,
-                            const body_part_set &oversize )
+static void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
+                                   const mutation_branch &mut,
+                                   const body_part_set &oversize )
 {
     for( const auto &enc : mut.encumbrance_always ) {
         vals[enc.first].encumbrance += enc.second;

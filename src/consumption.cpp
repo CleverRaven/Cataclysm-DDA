@@ -9,6 +9,7 @@
 #include <cmath>
 
 #include "addiction.h"
+#include "avatar.h"
 #include "calendar.h" // ticks_between
 #include "cata_utility.h"
 #include "debug.h"
@@ -251,7 +252,7 @@ std::map<vitamin_id, int> player::vitamins_from( const itype_id &id ) const
 }
 
 // list of traits the player has that modifies vitamin absorption
-std::list<trait_id> mut_vitamin_absorb_modify( const player &p )
+static std::list<trait_id> mut_vitamin_absorb_modify( const player &p )
 {
     std::list<trait_id> traits;
     for( auto &m : p.get_mutations() ) {
@@ -264,7 +265,7 @@ std::list<trait_id> mut_vitamin_absorb_modify( const player &p )
 }
 
 // is the material associated with this item?
-bool material_exists( const material_id &material, const item &item )
+static bool material_exists( const material_id &material, const item &item )
 {
     for( const material_id &mat : item.type->materials ) {
         if( mat == material ) {

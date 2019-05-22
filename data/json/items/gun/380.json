@@ -10,7 +10,8 @@
     "price": 160000,
     "bashing": 5,
     "ammo": "380",
-    "burst": 23
+    "burst": 23,
+    "magazines": [ [ "380", [ "mac11mag" ] ] ]
   },
   {
     "id": "kp3at",
@@ -21,7 +22,8 @@
     "weight": 240,
     "volume": "231ml",
     "price": 25000,
-    "ammo": "380"
+    "ammo": "380",
+    "magazines": [ [ "380", [ "kp3atmag" ] ] ]
   },
   {
     "id": "fn1910",

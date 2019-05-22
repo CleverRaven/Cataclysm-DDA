@@ -33,7 +33,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [ [ "44", [ "deaglemag" ] ], [ "45", [ "m1911mag", "m1911bigmag" ] ], [ "9mm", [ "glockmag", "glockbigmag" ] ] ]
+    "magazines": [ [ "44", [ "deaglemag" ] ] ]
   },
   {
     "id": "henry_big_boy",
