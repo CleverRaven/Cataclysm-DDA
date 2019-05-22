@@ -27,7 +27,6 @@
     "type": "AMMO",
     "name": "steel rail",
     "description": "A short piece of steel which has been forged true and sharpened on one end.  Could be used as a projectile by a sufficiently powerful electromagnetic weapon.",
-    "weight": 160,
 	"volume": "20ml",
     "price": 1500,
     "bashing": 4,
