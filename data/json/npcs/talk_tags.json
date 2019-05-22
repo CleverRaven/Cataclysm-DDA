@@ -1152,6 +1152,16 @@
   },
   {
     "type": "snippet",
+    "category": "<ally_rule_follow_distance_close_true_text>",
+    "text": "<mypronoun> will follow you closely even when threatened."
+  },
+  {
+    "type": "snippet",
+    "category": "<ally_rule_follow_distance_close_false_text>",
+    "text": "<mypronoun> will move freely as needed."
+  },
+  {
+    "type": "snippet",
     "category": "<ally_rule_avoid_doors_true_text>",
     "text": "<mypronoun> will not go places that require opening a door."
   },
