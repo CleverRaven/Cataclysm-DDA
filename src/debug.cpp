@@ -464,6 +464,7 @@ static std::ostream &operator<<( std::ostream &out, DebugClass cl )
 }
 
 #if defined(BACKTRACE)
+#if !defined(_WIN32)
 // Verify that a string is safe for passing as an argument to addr2line.
 // In particular, we want to avoid any characters of significance to the shell.
 static bool debug_is_safe_string( const char *start, const char *finish )
@@ -481,7 +482,6 @@ static bool debug_is_safe_string( const char *start, const char *finish )
     return std::all_of( start, finish, is_safe_char );
 }
 
-#if !defined(_WIN32)
 static std::string debug_resolve_binary( const std::string &binary, std::ostream &out )
 {
     if( binary.find( '/' ) != std::string::npos ) {
