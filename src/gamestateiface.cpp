@@ -421,22 +421,40 @@ void gsi::serialize(JsonOut &jsout) const
     jsout.end_object();
 }
 
+int sock_close(int sock)
+{
+#ifdef _WIN32   // Codepath for Winsock
+    return closesocket(sock);
+#else           // Codepath for POSIX sockets
+    return close(sock);
+#endif
+    return -1;
+}
+
+int sock_setnonblock(int sock)
+{
+#ifdef _WIN32
+    u_long mode = 1;
+    return ioctlsocket(sock, FIONBIO, &mode);
+#else
+    return fcntl(sock, F_SETFL, O_NONBLOCK);
+#endif
+}
+
 void gsi_socket::sockListen()
 {
-    sockInit();
-    
-
+#ifdef _WIN32
+    WSADATA wsa_data;
+    WSAStartup(MAKEWORD(1, 1), &wsa_data);
+#endif
+ 
     ListenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
     bool option = true;
     setsockopt(ListenSocket, SOL_SOCKET, SO_REUSEADDR, (char *) &option, 1);
 
-#ifdef _WIN32
-    u_long mode = 1;
-    ioctlsocket(ListenSocket, FIONBIO, &mode);
-#else
-    fcntl(ListenSocket, F_SETFL, O_NONBLOCK);
-#endif
+    sock_setnonblock(ListenSocket);
+
     listenaddress.sin_family = AF_INET;
     inet_pton(AF_INET, "127.0.0.1", &(listenaddress.sin_addr));
     listenaddress.sin_port = htons(LISTEN_PORT);
@@ -476,8 +494,7 @@ void gsi_socket::tryReceive()
             // process new connection attempt
             if (FD_ISSET(ListenSocket, &fdset))
             {
-                SOCKET new_client;
-                new_client = accept(ListenSocket, NULL, NULL);
+                SOCKET new_client = accept(ListenSocket, NULL, NULL);
                 sockets.push_back(new_client);
             }
 
@@ -527,30 +544,13 @@ void gsi_socket::processCommands()
 
             if (command[0] == "gsi")
                 if(std::stoi(command[1]) >= 1024 && std::stoi(command[1]) <= 49151 )
-                ports.insert(std::stoi(command[1]));
+                output_ports.insert(std::stoi(command[1]));
         }
         catch (int e)
         {
 
         }
     }
-}
-
-void gsi_socket::sockInit()
-{
-#ifdef _WIN32
-    WSADATA wsa_data;
-    WSAStartup(MAKEWORD(1, 1), &wsa_data);
-#endif
-    return;
-}
-
-void gsi_socket::sockQuit()
-{
-#ifdef _WIN32
-    WSACleanup();
-#endif
-    return;
 }
 
 void gsi_socket::sockout()
@@ -560,66 +560,113 @@ void gsi_socket::sockout()
         if(!initialized)
             sockListen();
 
-        ports.insert(9088);
-
+        output_ports.insert(9088);
         processCommands();
-        if (ports.size() != 0)
+
+        // Check on pending connects
+
+        for (auto i = output_sockets_pending.begin(); i != output_sockets_pending.end(); ) 
         {
-            std::vector<int> v;
-            std::copy(ports.begin(), ports.end(), std::back_inserter(v));
-            for (int i = 0; i < v.size(); i++)
-            {
-                int sock;
-                sockInit();
-                sock = socket(AF_INET, SOCK_STREAM, 0);
-                int error = WSAGetLastError();
-                struct sockaddr_in address;
-                address.sin_family = AF_INET;
-                inet_pton(AF_INET, "127.0.0.1", &(address.sin_addr));
-                address.sin_port = htons(v[i]);
+            int sock = i->socket;
+            struct sockaddr_in address;
+            address.sin_family = AF_INET;
+            inet_pton(AF_INET, "127.0.0.1", &(address.sin_addr));
+            address.sin_port = htons(i->port);
 
-                if (sock == INVALID_SOCKET)
-                {
-                    sockQuit();
-                    return;
-                }
+            int status = connect(sock, (struct sockaddr*) & address, sizeof(address));
+            int error = WSAGetLastError();
 
-                if (connect(sock, (struct sockaddr *)&address, sizeof(address)) < 0) {
-                    closesocket(sock);
-                    sockQuit();
-                    return;
-                }
-                std::ostringstream ostream(std::ostringstream::ate);
-                JsonOut jout(ostream, true);
-                gsi::get().serialize(jout);
+            if (error == WSAEWOULDBLOCK || error == WSAEINVAL || error == WSAEALREADY) {
+                ++i;
+                continue;
+            } 
+            else if (status < 0 && error != WSAEISCONN) {
+                sock_close(sock);
+                ++i;
+                continue;
+            }
 
-                std::stringstream ss;
-                ss.imbue(std::locale::classic()); // this prevents STL from formatting numbers
-                ss << "POST http://localhost HTTP/1.1\r\n"
-                    << "Host: http://localhost\r\n"
-                    << "Content-Type: application/json\r\n"
-                    << "Content-Length: " << ostream.str().length() << "\r\n\r\n"
-                    << ostream.str();
+            output_ports_connected.insert(i->port);
+            struct outsocket outport = *i;
+            output_sockets.push_back(outport);
+            output_ports_pending.erase(output_ports_pending.find(i->port));
+            i = output_sockets_pending.erase(i);
+        }
 
-                std::string request = ss.str();
-                if (send(sock, request.c_str(), request.length(), 0) != (int)request.length())
-                {
-                    sockQuit();
-                    return;
-                }
+        // Attempt to connect to all output ports that aren't already connected.
+        std::vector<int> v;
+        std::vector<int> s;
+        std::set_difference(output_ports.begin(), output_ports.end(), output_ports_connected.begin(), output_ports_connected.end(), std::back_inserter(s));
+        std::set_difference(s.begin(), s.end(), output_ports_pending.begin(), output_ports_pending.end(), std::back_inserter(v));
+        
+        for (int i = 0; i < v.size(); i++)
+        {
+            int sock = socket(AF_INET, SOCK_STREAM, 0);
+            sock_setnonblock(sock);
+            struct sockaddr_in address;
+            address.sin_family = AF_INET;
+            inet_pton(AF_INET, "127.0.0.1", &(address.sin_addr));
+            address.sin_port = htons(v[i]);
 
+            if (sock == INVALID_SOCKET)
+                continue;
+
+            int status = connect(sock, (struct sockaddr*) & address, sizeof(address));
+            int error = WSAGetLastError();
+
+            if (error == WSAEWOULDBLOCK || error == WSAEINVAL || error == WSAEALREADY) {
+                struct outsocket outpend;
+                outpend.port = v[i];
+                outpend.socket = sock;
+                output_sockets_pending.push_back(outpend);
+                output_ports_pending.insert(v[i]);
+                continue;
+            }
+            else if (status < 0) {
+                sock_close(sock);
+                continue;
+            }
+
+            output_ports_connected.insert(v[i]);
+            struct outsocket outport;
+            outport.port = v[i];
+            outport.socket = sock;
+            output_sockets.push_back(outport);
+        }
+
+        // Try to send to all connected output ports.  If it fails consider it disconnected and remove it from the list.
+
+        for (auto i = output_sockets.begin(); i != output_sockets.end(); ) 
+        {
+            std::ostringstream ostream(std::ostringstream::ate);
+            JsonOut jout(ostream, true);
+            gsi::get().serialize(jout);
+
+            std::stringstream ss;
+            ss.imbue(std::locale::classic()); // this prevents STL from formatting numbers
+            ss << "POST http://localhost HTTP/1.1\r\n"
+                << "Host: http://localhost\r\n"
+                << "Content-Type: application/json\r\n"
+                << "Content-Length: " << ostream.str().length() << "\r\n\r\n"
+                << ostream.str();
+
+            std::string request = ss.str();
+            if (send(i->socket, request.c_str(), request.length(), 0) != (int)request.length()) {
+                output_ports_connected.erase(output_ports_connected.find(i->port));
+                i = output_sockets.erase(i);
+            }
+            else {
                 char buf[1024];
-                std::cout << recv(sock, buf, 1024, 0) << std::endl;
+                std::cout << recv(i->socket, buf, 1024, 0) << std::endl;
                 std::cout << buf << std::endl;
-
-                sockQuit();
+                ++i;
             }
         }
+        
     }
-    catch(...)
-    {
+    catch (...) { }
 
-    }
+
     
     return;
 }

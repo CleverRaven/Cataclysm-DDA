@@ -104,9 +104,13 @@ public:
     std::vector<bool> advinv_isvehicle;
 
     bool update_ui_advinv_pane(int selected, int pane, bool active);
+    
     int advinv_selected_left;
     int advinv_selected_right;
     int advinv_selected_pane;
+
+    bool update_choose_adjacent(std::vector<bool> points);
+    std::vector<bool> adjacents;
 
   /**
    * Output the current game state information in JSON format.
@@ -250,12 +254,22 @@ private:
 
     SOCKET ListenSocket;
     struct sockaddr_in listenaddress;
-    std::set<int> ports;
+
     std::vector<SOCKET> sockets;
+
+    struct outsocket 
+    {
+        int port;
+        int socket;
+    };
+    std::vector<outsocket> output_sockets;
+    std::set<int> output_ports;
+    std::set<int> output_ports_connected;
+    std::set<int> output_ports_pending;
+    std::vector<outsocket> output_sockets_pending;
+
     int nfds;
     void tryReceive();
-    void sockInit();
-    void sockQuit();
 };
 
 #endif
