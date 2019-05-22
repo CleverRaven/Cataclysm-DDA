@@ -67,14 +67,6 @@ jobs:
         apt:
           packages: ["wine"]
 
-    # CMake Clang 6.0 Tiles with CMAKE
-    - env: CLANG=clang++-6.0 TILES=1 SOUND=1 CXXFLAGS=-Wno-error=unused-command-line-argument CMAKE=1 RELEASE=1
-      compiler: clang
-      addons: &clang60
-        apt:
-          packages: ["clang-6.0", "g++-multilib", "libc6-dbg", "g++-6", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
-          sources: [*apt_sources, llvm-toolchain-xenial-6.0]
-
     # macOS Tiles
     - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1
       os: osx
@@ -118,9 +110,9 @@ jobs:
           packages: ["g++-7",   "g++-7-multilib",   "libc6-dbg", "libc6-dbg:i386", "lcov"]
           sources: *apt_sources
 
-    # GCC 8
+    # GCC 8 CMake
     # Also, adding _GLIBCXX_DEBUG so that one build can test with that
-    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough -D_GLIBCXX_DEBUG'
+    - env: COMPILER=g++-8 CXXFLAGS='-Wno-implicit-fallthrough -D_GLIBCXX_DEBUG' CMAKE=1 RELEASE=1
       compiler: gcc
       addons: &gcc8
         apt:
