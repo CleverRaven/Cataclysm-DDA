@@ -1717,7 +1717,8 @@ int npc::follow_distance() const
         return 2;
     }
     // Uses ally_rule follow_distance_close to determine if should follow by 2 or 4 tiles
-    if( rules.has_flag( ally_rule::follow_distance_close ) ) {
+    if( !rules.has_flag(
+            ally_rule::follow_distance_close ) ) { // ! makes it work instead of text being backwards or having to call it follow_distance_far; be aware that default follow is now 2 tiles
         return 2;
     }
     return 4;
