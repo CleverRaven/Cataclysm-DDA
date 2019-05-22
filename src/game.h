@@ -215,7 +215,12 @@ class game
         void draw();
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
+
+        // when force_redraw is true, redraw all panel instead of just animated panels
+        // mostly used after UI updates
         void draw_panels( bool force_draw = false );
+        // when force_redraw is true, redraw all panel instead of just animated panels
+        // mostly used after UI updates
         void draw_panels( size_t column, size_t index, bool force_draw = false );
         /**
          * Returns the location where the indicator should go relative to the reality bubble,
