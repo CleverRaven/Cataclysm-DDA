@@ -984,12 +984,43 @@ std::string linux_version()
     return output;
 }
 
+/** Get a precise version number for MacOs systems.
+ * @note The code shells-out to call `sw_vers` with various options.
+ * @returns If successful, a string containing the Linux system version, otherwise an empty string.
+ */
+std::string mac_os_version()
+{
+    std::string output;
+#if defined(__APPLE__) && defined(__MACH__)
+    std::vector<std::pair<std::string,  std::string>> commands = {
+        { "sw_vers -productName", "Name" },
+        { "sw_vers -productVersion", "Version" },
+        { "sw_vers -buildVersion", "Build" },
+    };
+
+    for( const auto &entry : commands ) {
+        std::string command_result = shell_exec( entry.first );
+        if( command_result.empty() ) {
+            command_result = "<unknown>";
+        } else {
+            // remove trailing '\n'
+            str.erase( std::remove( command_result.begin(), command_result.end(), '\n' ),
+                       command_result.end() );
+        }
+        output.append( string_format( "%s: %s; ", entry.second, command_result ) );
+    }
+#endif
+    return output;
+}
+
 std::string game_info::operating_system_version()
 {
 #if defined(__ANDROID__)
     return android_version();
 #elif defined(__linux__)
     return linux_version();
+#elif defined(__APPLE__) && defined(__MACH__)
+    return mac_os_version();
 #elif defined(_WIN32)
     return windows_version();
 #else
