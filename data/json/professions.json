@@ -202,7 +202,6 @@
           "jug_plastic",
           "can_beans",
           "pockknife",
-          "cell_phone",
           "matches"
         ],
         "entries": [ { "group": "charged_cell_phone" } ]
