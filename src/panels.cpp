@@ -2013,7 +2013,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                 }
                 werase( w );
                 wrefresh( g->w_terrain );
-                g->draw_panels( column, index );
+                g->draw_panels( column, index, true );
                 return;
             }
             redraw = true;
@@ -2029,7 +2029,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
             to_map_font_dimension( width, h );
             werase( w );
             wrefresh( g->w_terrain );
-            g->draw_panels( column, index );
+            g->draw_panels( column, index, true );
             // tell the game that the main screen might have a different size now.
             g->init_ui( true );
             return;
@@ -2051,7 +2051,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
         if( action == "TOGGLE_PANEL" && column == 0 ) {
             panels[index - 1].toggle = !panels[index - 1].toggle;
             wrefresh( g->w_terrain );
-            g->draw_panels( column, index );
+            g->draw_panels( column, index, true );
             return;
         } else if( action == "QUIT" ) {
             exit = true;

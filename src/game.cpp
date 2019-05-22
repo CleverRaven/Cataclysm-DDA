@@ -3135,7 +3135,7 @@ void game::draw()
     draw_ter();
     wrefresh( w_terrain );
 
-    draw_panels();
+    draw_panels( true );
 }
 
 void game::draw_panels( bool force_draw )
@@ -5321,7 +5321,7 @@ void game::examine()
     // redraw terrain to erase 'examine' window
     draw_ter();
     wrefresh( w_terrain );
-    draw_panels();
+    draw_panels( true );
     examine( *examp_ );
     u.manual_examine = false;
 }
@@ -5435,7 +5435,7 @@ void game::examine( const tripoint &examp )
         iexamine::trap( u, examp );
         draw_ter();
         wrefresh( w_terrain );
-        draw_panels();
+        draw_panels( true );
     }
 
     // In case of teleport trap or somesuch
@@ -6167,7 +6167,7 @@ void game::zones_manager()
 
                     draw_ter();
                     wrefresh( w_terrain );
-                    draw_panels();
+                    draw_panels( true );
                 }
                 blink = false;
                 stuff_changed = true;
@@ -7212,7 +7212,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         if( action == "HELP_KEYBINDINGS" ) {
             game::draw_ter();
             wrefresh( w_terrain );
-            draw_panels();
         } else if( action == "UP" ) {
             do {
                 iActive--;
@@ -7445,7 +7444,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         if( action == "HELP_KEYBINDINGS" ) {
             game::draw_ter();
             wrefresh( w_terrain );
-            draw_panels();
         } else if( action == "UP" ) {
             iActive--;
             if( iActive < 0 ) {
@@ -8400,7 +8398,7 @@ void game::butcher()
             butcher_submenu( items, corpses, indexer_index );
             draw_ter();
             wrefresh( w_terrain );
-            draw_panels();
+            draw_panels( true );
             u.activity.values.push_back( corpses[indexer_index] );
         }
         break;
