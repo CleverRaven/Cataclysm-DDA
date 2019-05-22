@@ -490,6 +490,26 @@
   },
   {
     "type": "overmap_special",
+    "id": "Alcatraz Prison",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "lake_shore_dock_small_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "prison_alcatraz_1_north" },
+      { "point": [ -1, 0, 0 ], "overmap": "prison_alcatraz_3_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "prison_alcatraz_4_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "prison_alcatraz_5_north" },
+      { "point": [ -1, 1, 0 ], "overmap": "prison_alcatraz_6_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "prison_alcatraz_7_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "prison_alcatraz_8_north" },
+      { "point": [ -1, 2, 0 ], "overmap": "prison_alcatraz_9_north" }
+    ],
+    "locations": [ "lake_surface" ],
+    "city_distance": [ 3, -1 ],
+    "city_sizes": [ 4, 12 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "LAKE" ]
+  },
+  {
+    "type": "overmap_special",
     "id": "Prison Hidden Lab",
     "overmaps": [
       { "point": [ 0, -1, 0 ], "overmap": "road_end_north" },
