@@ -341,42 +341,7 @@
         "````````````````````````````````````````````````````````````````````````"
       ],
       "palettes": [ "prison_palette" ],
-      "terrain": {
-      "~": [ "t_water_sh" ],
-      "`": [ "t_water_dp" ]
-    },
-      "place_items": [
-        { "item": "prison_weapons", "x": [ 11, 12 ], "y": [ 1, 1 ], "chance": 30 },
-        { "item": "prison_armor", "x": [ 11, 12 ], "y": [ 1, 1 ], "chance": 50 },
-        { "item": "prison_weapons", "x": [ 11, 12 ], "y": [ 1, 1 ], "chance": 30 },
-        { "item": "prison_armor", "x": [ 11, 12 ], "y": [ 1, 1 ], "chance": 40 }
-      ],
-      "items": {
-        "l": [
-          { "item": "prison_weapons", "chance": 30 },
-          { "item": "prison_armor", "chance": 30 },
-          { "item": "cop_torso", "chance": 20 },
-          { "item": "cop_pants", "chance": 20 },
-          { "item": "cop_shoes", "chance": 20 }
-        ]
-      },
-      "place_item": [ { "item": "visions_solitude", "x": 16, "y": 108, "amount": 1 } ],
-      "place_monsters": [
-        { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 15, 20 ], "y": [ 34, 37 ], "repeat": [ 1, 2 ], "density": 0.2 },
-        { "monster": "GROUP_ROBOT_SECUBOT", "x": [ 15, 20 ], "y": [ 39, 42 ], "density": 0.1 },
-        { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 15, 20 ], "y": [ 44, 37 ], "repeat": [ 1, 2 ], "density": 0.2 },
-        { "monster": "GROUP_ROBOT_SECUBOT", "x": [ 32, 39 ], "y": [ 39, 42 ], "density": 0.1 },
-        { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 51, 56 ], "y": [ 34, 37 ], "repeat": [ 1, 2 ], "density": 0.2 },
-        { "monster": "GROUP_ROBOT_SECUBOT", "x": [ 51, 56 ], "y": [ 39, 42 ], "density": 0.1 },
-        { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 51, 56 ], "y": [ 44, 37 ], "repeat": [ 1, 2 ], "density": 0.2 },
-        { "monster": "GROUP_ROBOT_EYEBOT", "x": [ 24, 47 ], "y": [ 0, 13 ], "density": 0.1 },
-        { "monster": "GROUP_ROBOT_EYEBOT", "x": [ 27, 44 ], "y": [ 52, 60 ], "density": 0.1 },
-        { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 27, 44 ], "y": [ 96, 113 ], "repeat": [ 1, 2 ], "density": 0.5 },
-        { "monster": "GROUP_ZOMBIE_PRISON", "x": [ 51, 56 ], "y": [ 87, 95 ], "repeat": [ 1, 2 ], "density": 0.2 },
-        { "monster": "GROUP_ZOMBIE_COP", "x": [ 27, 44 ], "y": [ 24, 47 ], "density": 0.2 },
-        { "monster": "GROUP_ZOMBIE_COP", "x": [ 35, 38 ], "y": [ 122, 127 ], "density": 0.2 }
-      ],
-      "place_vehicles": [  ]
+      "terrain": { "~": [ "t_water_sh" ], "`": [ "t_water_dp" ] }
     }
   }
 ]
