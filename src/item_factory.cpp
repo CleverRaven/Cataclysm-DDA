@@ -2233,7 +2233,7 @@ void Item_factory::clear()
     frozen = false;
 }
 
-std::string to_string( Item_group::Type t )
+static std::string to_string( Item_group::Type t )
 {
     switch( t ) {
         case Item_group::Type::G_COLLECTION:
@@ -2245,8 +2245,9 @@ std::string to_string( Item_group::Type t )
     return "BUGGED";
 }
 
-Item_group *make_group_or_throw( const Group_tag &group_id, std::unique_ptr<Item_spawn_data> &isd,
-                                 Item_group::Type t, int ammo_chance, int magazine_chance )
+static Item_group *make_group_or_throw( const Group_tag &group_id,
+                                        std::unique_ptr<Item_spawn_data> &isd,
+                                        Item_group::Type t, int ammo_chance, int magazine_chance )
 {
     Item_group *ig = dynamic_cast<Item_group *>( isd.get() );
     if( ig == nullptr ) {

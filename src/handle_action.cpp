@@ -687,7 +687,7 @@ static void smash()
     }
 }
 
-bool try_set_alarm()
+static bool try_set_alarm()
 {
     uilist as_m;
     const bool already_set = g->u.has_effect( effect_alarm_clock );

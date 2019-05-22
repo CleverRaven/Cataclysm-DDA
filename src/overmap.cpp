@@ -140,7 +140,7 @@ constexpr bool is_straight( size_t line )
            || line == 10;
 }
 
-size_t from_dir( om_direction::type dir )
+static size_t from_dir( om_direction::type dir )
 {
     switch( dir ) {
         case om_direction::type::north:
@@ -316,7 +316,7 @@ bool operator!=( const int_id<oter_t> &lhs, const char *rhs )
     return !( lhs == rhs );
 }
 
-void set_oter_ids()   // FIXME: constify
+static void set_oter_ids()   // FIXME: constify
 {
     ot_null         = oter_str_id::NULL_ID();
     // NOT required.
@@ -506,8 +506,8 @@ bool is_ot_subtype( const char *otype, const oter_id &oter )
  * load mapgen functions from an overmap_terrain json entry
  * suffix is for roads/subways/etc which have "_straight", "_curved", "_tee", "_four_way" function mappings
  */
-void load_overmap_terrain_mapgens( JsonObject &jo, const std::string &id_base,
-                                   const std::string &suffix = "" )
+static void load_overmap_terrain_mapgens( JsonObject &jo, const std::string &id_base,
+        const std::string &suffix = "" )
 {
     const std::string fmapkey( id_base + suffix );
     const std::string jsonkey( "mapgen" + suffix );

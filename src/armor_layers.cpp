@@ -365,7 +365,7 @@ static std::vector<layering_item_info> items_cover_bp( const Character &c, int b
     return s;
 }
 
-void draw_grid( const catacurses::window &w, int left_pane_w, int mid_pane_w )
+static void draw_grid( const catacurses::window &w, int left_pane_w, int mid_pane_w )
 {
     const int win_w = getmaxx( w );
     const int win_h = getmaxy( w );
