@@ -9,6 +9,7 @@
 #include <memory>
 #include <set>
 
+#include "avatar.h"
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"
@@ -388,14 +389,21 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
 void inventory::form_from_map( map &m, const tripoint &origin, int range, bool assign_invlet,
                                bool clear_path )
 {
-    items.clear();
-    for( const tripoint &p : m.points_in_radius( origin, range ) ) {
-        // can not reach this -> can not access its contents
-        if( clear_path ) {
-            if( origin != p && !m.clear_path( origin, p, range, 1, 100 ) ) {
-                continue;
-            }
+    // populate a grid of spots that can be reached
+    std::vector<tripoint> reachable_pts = {};
+    // If we need a clear path we care about the reachability of points
+    if( clear_path ) {
+        m.reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+    } else {
+        // Fill reachable points with points_in_radius
+        tripoint_range in_radius = m.points_in_radius( origin, range );
+        for( const tripoint &p : in_radius ) {
+            reachable_pts.emplace_back( p );
         }
+    }
+
+    items.clear();
+    for( const tripoint &p : reachable_pts ) {
         if( m.has_furn( p ) ) {
             const furn_t &f = m.furn( p ).obj();
             const itype *type = f.crafting_pseudo_item_type();
@@ -557,6 +565,7 @@ void inventory::form_from_map( map &m, const tripoint &origin, int range, bool a
             add_item( chemistry_set );
         }
     }
+    reachable_pts.clear();
 }
 
 std::list<item> inventory::reduce_stack( const int position, const int quantity )
@@ -1003,7 +1012,8 @@ std::vector<item *> inventory::active_items()
 
 void inventory::assign_empty_invlet( item &it, const Character &p, const bool force )
 {
-    if( !get_option<bool>( "AUTO_INV_ASSIGN" ) ) {
+    const std::string auto_setting = get_option<std::string>( "AUTO_INV_ASSIGN" );
+    if( auto_setting == "disabled" || ( ( auto_setting == "favorites" ) && !it.is_favorite ) ) {
         return;
     }
 

@@ -16,6 +16,7 @@
 #include <utility>
 
 #include "action.h"
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "filesystem.h"
 #include "game.h"
@@ -344,7 +345,7 @@ void character_edit_menu()
     const size_t index = charmenu.ret;
     // The NPC is also required for "Add mission", so has to be in this scope
     npc *np = g->critter_at<npc>( locations[index] );
-    player &p = np ? *np : g->u;
+    player &p = np ? static_cast<player &>( *np ) : static_cast<player &>( g->u );
     uilist nmenu;
 
     if( np != nullptr ) {

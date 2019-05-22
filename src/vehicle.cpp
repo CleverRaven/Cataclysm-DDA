@@ -17,6 +17,7 @@
 #include <memory>
 
 #include "ammo.h"
+#include "avatar.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "creature.h"
@@ -1512,6 +1513,16 @@ bool vehicle::remove_part( int p )
 
     const tripoint part_loc = global_part_pos3( p );
 
+    // Unboard any entities standing on removed boardable parts
+    if( part_flag( p, "BOARDABLE" ) ) {
+        std::vector<int> bp = boarded_parts();
+        for( auto &elem : bp ) {
+            if( elem == p ) {
+                g->m.unboard_vehicle( part_loc );
+            }
+        }
+    }
+
     // If `p` has flag `parent_flag`, remove child with flag `child_flag`
     // Returns true if removal occurs
     const auto remove_dependent_part = [&]( const std::string & parent_flag,
@@ -1536,16 +1547,6 @@ bool vehicle::remove_part( int p )
 
     remove_dependent_part( "SEAT", "SEATBELT" );
     remove_dependent_part( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT" );
-
-    // Unboard any entities standing on removed boardable parts
-    if( part_flag( p, "BOARDABLE" ) ) {
-        std::vector<int> bp = boarded_parts();
-        for( auto &elem : bp ) {
-            if( elem == p ) {
-                g->m.unboard_vehicle( part_loc );
-            }
-        }
-    }
 
     // Release any animal held by the part
     if( parts[p].has_flag( vehicle_part::animal_flag ) ) {

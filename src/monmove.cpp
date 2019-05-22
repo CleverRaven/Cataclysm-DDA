@@ -8,6 +8,7 @@
 #include <memory>
 #include <ostream>
 
+#include "avatar.h"
 #include "bionics.h"
 #include "debug.h"
 #include "field.h"

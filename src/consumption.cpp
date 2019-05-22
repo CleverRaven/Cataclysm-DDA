@@ -9,6 +9,7 @@
 #include <cmath>
 
 #include "addiction.h"
+#include "avatar.h"
 #include "calendar.h" // ticks_between
 #include "cata_utility.h"
 #include "debug.h"

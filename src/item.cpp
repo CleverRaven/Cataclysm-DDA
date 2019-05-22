@@ -17,6 +17,7 @@
 
 #include "advanced_inv.h"
 #include "ammo.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
@@ -204,7 +205,6 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     } else if( type->tool ) {
         if( ammo_remaining() && ammo_type() ) {
             ammo_set( ammo_type()->default_ammotype(), ammo_remaining() );
-            on_charges_changed();
         }
     }
 
@@ -805,48 +805,6 @@ void item::erase_var( const std::string &name )
 void item::clear_vars()
 {
     item_vars.clear();
-}
-
-const char ivaresc = 001;
-
-bool itag2ivar( const std::string &item_tag, std::map<std::string, std::string> &item_vars )
-{
-    size_t pos = item_tag.find( '=' );
-    if( item_tag.at( 0 ) == ivaresc && pos != std::string::npos && pos >= 2 ) {
-        std::string val_decoded;
-        int svarlen = 0;
-        int svarsep = 0;
-        svarsep = item_tag.find( '=' );
-        svarlen = item_tag.size();
-        val_decoded.clear();
-        std::string var_name = item_tag.substr( 1, svarsep - 1 ); // will assume sanity here for now
-        for( int s = svarsep + 1; s < svarlen;
-             s++ ) { // cheap and temporary, AFAIK stringstream IFS = [\r\n\t ];
-            if( item_tag[s] == ivaresc && s < svarlen - 2 ) {
-                if( item_tag[s + 1] == '0' && item_tag[s + 2] == 'A' ) {
-                    s += 2;
-                    val_decoded.append( 1, '\n' );
-                } else if( item_tag[s + 1] == '0' && item_tag[s + 2] == 'D' ) {
-                    s += 2;
-                    val_decoded.append( 1, '\r' );
-                } else if( item_tag[s + 1] == '0' && item_tag[s + 2] == '6' ) {
-                    s += 2;
-                    val_decoded.append( 1, '\t' );
-                } else if( item_tag[s + 1] == '2' && item_tag[s + 2] == '0' ) {
-                    s += 2;
-                    val_decoded.append( 1, ' ' );
-                } else {
-                    val_decoded.append( 1, item_tag[s] ); // hhrrrmmmmm should be passing \a?
-                }
-            } else {
-                val_decoded.append( 1, item_tag[s] );
-            }
-        }
-        item_vars[var_name] = val_decoded;
-        return true;
-    } else {
-        return false;
-    }
 }
 
 // TODO: Get rid of, handle multiple types gracefully
@@ -3062,31 +3020,6 @@ void item::on_contents_changed()
     if( is_non_resealable_container() ) {
         convert( type->container->unseals_into );
     }
-    if( is_tool() || is_gun() ) {
-        if( !is_container_empty() ) {
-            for( auto &it : contents ) {
-                if( ammo_type() == ammotype( it.typeId() ) ) {
-                    charges = it.charges;
-                }
-            }
-        } else if( ammo_data() && ammo_data()->phase == LIQUID ) {
-            charges = 0;
-        }
-    }
-}
-
-void item::on_charges_changed()
-{
-    if( ( is_tool() || is_gun() ) && !is_container_empty() ) {
-        for( auto &it : contents ) {
-            if( ammo_type() == ammotype( it.typeId() ) ) {
-                it.charges = charges;
-            }
-        }
-    } else if( ( is_tool() || is_gun() ) && is_container_empty() &&
-               charges > 0 ) { // if for some reason the tool/gun has charges but no content
-        contents.emplace_back( ammo_type()->default_ammotype(), calendar::turn, charges );
-    }
 }
 
 void item::on_damage( int, damage_type )
@@ -3427,7 +3360,7 @@ int item::price( bool practical ) const
 }
 
 // TODO: MATERIALS add a density field to materials.json
-units::mass item::weight( bool include_contents ) const
+units::mass item::weight( bool include_contents, bool integral ) const
 {
     if( is_null() ) {
         return 0_gram;
@@ -3446,7 +3379,12 @@ units::mass item::weight( bool include_contents ) const
         return ret;
     }
 
-    units::mass ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
+    units::mass ret;
+    if( integral ) {
+        ret = units::from_gram( get_var( "integral_weight", to_gram( type->integral_weight ) ) );
+    } else {
+        ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
+    }
 
     if( has_flag( "REDUCED_WEIGHT" ) ) {
         ret *= 0.75;
@@ -3495,7 +3433,11 @@ units::mass item::weight( bool include_contents ) const
         ret -= std::min( max_barrel_weight, barrel_weight );
     }
 
-    if( include_contents ) {
+    if( is_gun() ) {
+        for( const auto elem : gunmods() ) {
+            ret += elem->weight( true, true );
+        }
+    } else if( include_contents ) {
         for( auto &elem : contents ) {
             ret += elem.weight();
         }
@@ -5794,7 +5736,6 @@ int item::ammo_consume( int qty, const tripoint &pos )
             g->u.charge_power( -qty );
         }
         charges -= qty;
-        on_charges_changed();
         if( charges == 0 ) {
             curammo = nullptr;
         }
@@ -6419,7 +6360,6 @@ bool item::reload( player &u, item_location loc, int qty )
             qty = std::min( qty, ammo->charges );
             ammo->charges -= qty;
             charges += qty;
-            on_charges_changed();
         }
     }
 

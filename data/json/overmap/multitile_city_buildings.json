@@ -27,6 +27,15 @@
   },
   {
     "type": "city_building",
+    "id": "cs_private_park",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cs_private_park_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cs_private_park_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "church",
     "locations": [ "land" ],
     "overmaps": [

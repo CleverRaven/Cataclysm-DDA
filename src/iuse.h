@@ -227,6 +227,8 @@ class iuse
 
 };
 
+void remove_radio_mod( item &it, player &p );
+
 // Helper for clothes washing
 struct washing_requirements {
     int water;

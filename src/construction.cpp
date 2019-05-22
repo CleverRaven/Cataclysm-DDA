@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "action.h"
+#include "avatar.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -807,7 +808,6 @@ void place_construction( const std::string &desc )
                      g->u.pos() + g->u.view_offset );
     }
     wrefresh( g->w_terrain );
-    g->draw_panels();
 
     const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Construct where?" ) );
     if( !pnt_ ) {
@@ -1276,7 +1276,7 @@ void load_construction( JsonObject &jo )
     con.category = jo.get_string( "category", "OTHER" );
     // constructions use different time units in json, this makes it compatible
     // with recipes/requirements, TODO: should be changed in json
-    con.time = jo.get_int( "time" ) * 1000;
+    con.time = to_moves<int>( time_duration::from_minutes( jo.get_int( "time" ) ) );
 
     if( jo.has_string( "using" ) ) {
         con.requirements = requirement_id( jo.get_string( "using" ) );

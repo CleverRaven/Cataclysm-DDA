@@ -10,6 +10,7 @@
 #include <unordered_set>
 #include <utility>
 
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "debug.h"

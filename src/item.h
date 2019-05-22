@@ -431,7 +431,7 @@ class item : public visitable<item>
          */
         bool merge_charges( const item &rhs );
 
-        units::mass weight( bool include_contents = true ) const;
+        units::mass weight( bool include_contents = true, bool integral = false ) const;
 
         /**
          * Total volume of an item accounting for all contained/integrated items
@@ -1181,8 +1181,6 @@ class item : public visitable<item>
          * Callback when contents of the item are affected in any way other than just processing.
          */
         void on_contents_changed();
-        /**Called when charges are changed in tool or a gun*/
-        void on_charges_changed();
 
         /**
          * Callback immediately **before** an item is damaged

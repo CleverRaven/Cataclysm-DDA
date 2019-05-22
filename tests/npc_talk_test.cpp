@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "calendar.h"
 #include "coordinate_conversions.h"

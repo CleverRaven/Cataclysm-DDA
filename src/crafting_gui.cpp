@@ -11,6 +11,7 @@
 #include <set>
 #include <utility>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "crafting.h"

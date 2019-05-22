@@ -7,6 +7,7 @@
 #include <iterator>
 #include <memory>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "debug.h"
@@ -960,7 +961,6 @@ void pointmenu_cb::refresh( uilist *menu )
         g->u.view_offset = tripoint_zero;
         g->draw_ter();
         wrefresh( g->w_terrain );
-        g->draw_panels();
         menu->redraw( false ); // show() won't redraw borders
         menu->show();
         return;

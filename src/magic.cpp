@@ -1,5 +1,6 @@
 #include "magic.h"
 
+#include "avatar.h"
 #include "calendar.h"
 #include "color.h"
 #include "damage.h"

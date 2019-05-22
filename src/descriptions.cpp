@@ -4,6 +4,7 @@
 #include <sstream>
 #include <utility>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "harvest.h"
 #include "input.h"

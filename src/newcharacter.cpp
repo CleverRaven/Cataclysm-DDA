@@ -8,6 +8,7 @@
 #include <tuple>
 
 #include "addiction.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"

@@ -5,14 +5,7 @@
 #include "color.h"
 #include "color_loader.h"
 #include "cursesport.h"
-
-extern SDL_Texture_Ptr alt_rect_tex;
-extern bool alt_rect_tex_enabled;
-extern void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
-                           Uint32 r, Uint32 g, Uint32 b );
-
-extern std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
-
+#include "sdltiles.h"
 
 SDL_Color curses_color_to_SDL( const nc_color &color )
 {

@@ -1,5 +1,6 @@
 #include "inventory_ui.h"
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "game.h"
