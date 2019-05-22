@@ -552,6 +552,8 @@ jmapgen_int::jmapgen_int( JsonObject &jo, const std::string &tag )
         val = sparray.get_int( 0 );
         if( sparray.size() == 2 ) {
             valmax = sparray.get_int( 1 );
+        } else {
+            valmax = val;
         }
     } else {
         val = valmax = jo.get_int( tag );
