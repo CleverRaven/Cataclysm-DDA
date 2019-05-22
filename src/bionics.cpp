@@ -1023,7 +1023,7 @@ void player::bionics_uninstall_failure( monster &installer, player &patient, int
                 add_msg( m_mixed, _( "The %s messes up the operation." ), installer.name() );
                 break;
             case 3:
-                add_msg( m_mixed, _( "The The operation fails." ) );
+                add_msg( m_mixed, _( "The operation fails." ) );
                 break;
             case 4:
                 add_msg( m_mixed, _( "The operation is a failure." ) );
@@ -1265,7 +1265,9 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
     patient.add_effect( effect_narcosis, duration );
     patient.add_effect( effect_sleep, duration );
 
-    if( g->u.sees( patient ) ) {
+    if( patient.is_player() ) {
+        add_msg( "%You fall asleep and %2$s starts operating.", installer.disp_name() );
+    } else if( g->u.sees( patient ) ) {
         add_msg( "%1$s falls asleep and %2$s starts operating.", patient.disp_name(),
                  installer.disp_name() );
     }
