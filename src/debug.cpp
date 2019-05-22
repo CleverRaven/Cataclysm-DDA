@@ -959,7 +959,7 @@ std::string android_version()
 
 /** Get a precise version number for Linux systems.
  * @note The code shells-out to call `lsb_release -a`.
- * @returns If successful, a string containing the Linux system version ('<unknown>' if the system is a Linux system but doesn't follow LSB), otherwise an empty string.
+ * @returns If successful, a string containing the Linux system version, otherwise an empty string.
  */
 std::string linux_version()
 {
@@ -972,9 +972,7 @@ std::string linux_version()
             output += buffer.data();
         }
     }
-    if( output.empty() ) {
-        output = "<unknown>";
-    } else {
+    if( !output.empty() ) {
         // replace '\n' and '\t' in output.
         std::vector<std::pair<std::string, std::string>> to_replace = {
             {"\n", "; "},
@@ -1000,7 +998,7 @@ std::string game_info::operating_system_version()
 #elif defined(_WIN32)
     return windows_version();
 #else
-    return "";
+    return "<unknown>";
 #endif
 }
 
