@@ -107,7 +107,7 @@ else
         run_tests ./tests/cata_test &
         if [ -n "$MODS" ]
         then
-            run_tests ./tests/cata_test $MODS &
+            run_tests ./tests/cata_test --user-dir=modded $MODS &
             wait -n
         fi
         wait -n
