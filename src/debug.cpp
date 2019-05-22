@@ -796,7 +796,7 @@ std::string game_info::operating_system()
     return "Windows";
 #elif defined(__linux__)
     return "Linux";
-#elif defined(unix) || defined(__unix__) || defined(__unix) || defined(__APPLE__) && defined(__MACH__) // unix; BSD; MacOs
+#elif defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) // unix; BSD; MacOs
 #if defined(__APPLE__) && defined(__MACH__)
     // The following include is **only** needed for the TARGET_xxx defines below and is only included if both of the above defines are true.
     // The whole function only relying on compiler defines, it is probably more meaningful to include it here and not mingle with the
@@ -812,7 +812,7 @@ std::string game_info::operating_system()
     /* OSX */
     return "MacOs";
 #endif // TARGET_IPHONE_SIMULATOR
-#elif defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
+#elif defined(BSD) // defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
     return "BSD";
 #else
     return "Unix";
@@ -887,6 +887,24 @@ std::string shell_exec( const std::string &command )
 }
 #endif
 
+/** Get a precise version number for BSD systems.
+ * @note The code shells-out to call `uname -a`.
+ * @returns If successful, a string containing the Linux system version, otherwise an empty string.
+ */
+std::string bsd_version()
+{
+    std::string output;
+#if defined(BSD)
+    output = shell_exec( "uname -a" );
+    if( !output.empty() ) {
+        // remove trailing '\n', if any.
+        output.erase( std::remove( output.begin(), output.end(), '\n' ),
+                      output.end() );
+    }
+#endif
+    return output;
+}
+
 /** Get a precise version number for Linux systems.
  * @note The code shells-out to call `lsb_release -a`.
  * @returns If successful, a string containing the Linux system version, otherwise an empty string.
@@ -915,12 +933,12 @@ std::string linux_version()
 
 /** Get a precise version number for MacOs systems.
  * @note The code shells-out to call `sw_vers` with various options.
- * @returns If successful, a string containing the Linux system version, otherwise an empty string.
+ * @returns If successful, a string containing the MacOS system version, otherwise an empty string.
  */
 std::string mac_os_version()
 {
     std::string output;
-#if defined(__APPLE__) && defined(__MACH__)
+#if defined(__APPLE__) && defined(__MACH__) && !defined(BSD)
     std::vector<std::pair<std::string,  std::string>> commands = {
         { "sw_vers -productName", "Name" },
         { "sw_vers -productVersion", "Version" },
@@ -932,7 +950,7 @@ std::string mac_os_version()
         if( command_result.empty() ) {
             command_result = "<unknown>";
         } else {
-            // remove trailing '\n'
+            // remove trailing '\n', if any.
             str.erase( std::remove( command_result.begin(), command_result.end(), '\n' ),
                        command_result.end() );
         }
@@ -1016,9 +1034,11 @@ std::string game_info::operating_system_version()
 {
 #if defined(__ANDROID__)
     return android_version();
+#elif defined(BSD)
+    return bsd_version();
 #elif defined(__linux__)
     return linux_version();
-#elif defined(__APPLE__) && defined(__MACH__)
+#elif defined(__APPLE__) && defined(__MACH__) && !defined(BSD)
     return mac_os_version();
 #elif defined(_WIN32)
     return windows_version();
@@ -1078,10 +1098,14 @@ std::string game_info::mods_loaded()
 
 std::string game_info::game_report()
 {
+    std::string os_version = operating_system_version();
+    if( os_version.empty() ) {
+        os_version = "<unknown>";
+    }
     std::stringstream report;
     report <<
            "- OS: " << operating_system() << " [" << bitness() << "]\n" <<
-           "    - OS Version: " << operating_system_version() << "\"n" <<
+           "    - OS Version: " << os_version << "\"n" <<
            "- Game Version: " << game_version() << "\n" <<
            "- Graphics Version: " << graphics_version() << "\n" <<
            "- Mods loaded: [\n    " << mods_loaded() << "\n]\n";
