@@ -880,11 +880,8 @@ std::string windows_version()
                 RTL_OSVERSIONINFOW os_version_info = { 0 };
                 os_version_info.dwOSVersionInfoSize = sizeof RTL_OSVERSIONINFOW;
                 if( rtl_get_version_func( &os_version_info ) == 0 ) { // NT_STATUS_SUCCESS = 0
-                    output.append( std::to_string( os_version_info.dwMajorVersion ) );
-                    output.append( "." );
-                    output.append( std::to_string( os_version_info.dwMinorVersion ) );
-                    output.append( " " );
-                    output.append( std::to_string( os_version_info.dwBuildNumber ) );
+                    output.append( string_format( "%i.%i %i", os_version_info.dwMajorVersion,
+                                                  os_version_info.dwMinorVersion, os_version_info.dwBuildNumber ) );
                 }
             }
         }
