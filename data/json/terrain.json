@@ -10372,5 +10372,160 @@
       "ter_set": "t_fence_post",
       "items": [ { "item": "material_soil", "count": [ 100, 150 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_splitrail_fence",
+    "aliases": [ "t_splitrail_fence_h", "t_splitrail_fence_v" ],
+    "name": "split rail fence",
+    "description": "A rather stout fence made of 2x4s and fence posts, suitable for containing livestock like horses, cows and pigs.",
+    "symbol": "LINE_OXOX",
+    "color": "brown",
+    "looks_like": "t_fence",
+    "move_cost": 0,
+    "examine_action": "chainfence",
+    "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "FLAMMABLE_ASH", "CLIMBABLE", "AUTO_WALL_SYMBOL" ],
+    "connects_to": "WOODFENCE",
+    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "count": 20 } ] },
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "sound": "whump!",
+      "sound_fail": "whack!",
+      "ter_set": "t_fence_post",
+      "items": [ { "item": "2x4", "count": [ 1, 2 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_splitrail_fencegate_c",
+    "name": "closed wooden split rail gate",
+    "description": "A commercial quality gate made of wood with a latch system.",
+    "symbol": "+",
+    "color": "brown",
+    "looks_like": "t_fencegate_c",
+    "move_cost": 0,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "DOOR" ],
+    "connects_to": "WOODFENCE",
+    "open": "t_splitrail_fencegate_o",
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [ { "item": "2x4", "count": 5 }, { "item": "pointy_stick", "count": 2 }, { "item": "nail", "charges": 12 } ]
+    },
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "str_min_blocked": 6,
+      "str_max_blocked": 30,
+      "sound": "crack.",
+      "sound_fail": "wham.",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "nail", "charges": [ 2, 8 ] },
+        { "item": "splinter", "count": [ 1, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_splitrail_fencegate_o",
+    "name": "open wooden split rail gate",
+    "description": "A commercial quality gate made of wood with a latch system.  The gate is wide open, allowing anything to travel through.",
+    "symbol": ".",
+    "color": "brown",
+    "looks_like": "t_fencegate_o",
+    "move_cost": 1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "FLAT", "ROAD" ],
+    "connects_to": "WOODFENCE",
+    "close": "t_splitrail_fencegate_c",
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [ { "item": "2x4", "count": 5 }, { "item": "pointy_stick", "count": 2 }, { "item": "nail", "charges": 12 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_privacy_fence",
+    "aliases": [ "t_privacy_fence_h", "t_privacy_fence_v" ],
+    "name": "wooden privacy fence",
+    "description": "A rather stout fence made of 2x4s and fence posts, it is tall and prevents people from seeing into your yard.",
+    "symbol": "LINE_OXOX",
+    "color": "brown",
+    "looks_like": "t_fence",
+    "move_cost": 0,
+    "examine_action": "chainfence",
+    "flags": [ "NOITEM", "CLIMBABLE", "PERMEABLE", "AUTO_WALL_SYMBOL", "FLAMMABLE_ASH", "THIN_OBSTACLE" ],
+    "connects_to": "WOODFENCE",
+    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "count": 20 } ] },
+    "bash": {
+      "str_min": 5,
+      "str_max": 12,
+      "sound": "whump!",
+      "sound_fail": "whack!",
+      "ter_set": "t_fence_post",
+      "items": [ { "item": "2x4", "count": [ 4, 10 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_privacy_fencegate_c",
+    "name": "closed wooden split rail gate",
+    "description": "A commercial quality gate made of wood with a latch system.",
+    "symbol": "+",
+    "color": "brown",
+    "looks_like": "t_fencegate_c",
+    "move_cost": 0,
+    "coverage": 60,
+    "flags": [ "FLAMMABLE_ASH", "DOOR" ],
+    "connects_to": "WOODFENCE",
+    "open": "t_privacy_fencegate_o",
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [ { "item": "2x4", "count": 8 }, { "item": "pointy_stick", "count": 2 }, { "item": "nail", "charges": 20 } ]
+    },
+    "bash": {
+      "str_min": 4,
+      "str_max": 20,
+      "str_min_blocked": 6,
+      "str_max_blocked": 30,
+      "sound": "crack.",
+      "sound_fail": "wham.",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "2x4", "count": [ 4, 8 ] },
+        { "item": "nail", "charges": [ 10, 20 ] },
+        { "item": "splinter", "count": [ 4, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_privacy_fencegate_o",
+    "name": "open wooden split rail gate",
+    "description": "A commercial quality gate made of wood with a latch system.  The gate is wide open, allowing anything to travel through.",
+    "symbol": ".",
+    "color": "brown",
+    "looks_like": "t_fencegate_o",
+    "move_cost": 1,
+    "flags": [ "FLAMMABLE_ASH", "FLAT", "ROAD" ],
+    "connects_to": "WOODFENCE",
+    "close": "t_privacy_fencegate_c",
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [ { "item": "2x4", "count": 8 }, { "item": "pointy_stick", "count": 2 }, { "item": "nail", "charges": 20 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_water_pool_shallow",
+    "name": "shallow pool water",
+    "description": "A shallow pool of water for fountains.",
+    "symbol": "~",
+    "color": "light_blue",
+    "move_cost": 5,
+    "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "INDOORS" ],
+    "examine_action": "water_source"
   }
 ]
