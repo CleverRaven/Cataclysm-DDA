@@ -255,6 +255,11 @@ class Character : public Creature, public visitable<Character>
 
         void mod_stat( const std::string &stat, float modifier ) override;
 
+        /** Returns either "you" or the player's name */
+        std::string disp_name( bool possessive = false ) const override;
+        /** Returns the name of the player's outer layer, e.g. "armor plates" */
+        std::string skin_name() const override;
+
         /* Adjusts provided sight dispersion to account for player stats */
         int effective_dispersion( int dispersion ) const;
 

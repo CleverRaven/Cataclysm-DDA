@@ -189,6 +189,27 @@ void Character::mod_stat( const std::string &stat, float modifier )
     }
 }
 
+std::string Character::disp_name( bool possessive ) const
+{
+    if( !possessive ) {
+        if( is_player() ) {
+            return pgettext( "not possessive", "you" );
+        }
+        return name;
+    } else {
+        if( is_player() ) {
+            return _( "your" );
+        }
+        return string_format( _( "%s's" ), name );
+    }
+}
+
+std::string Character::skin_name() const
+{
+    // TODO: Return actual deflecting layer name
+    return _( "armor" );
+}
+
 int Character::effective_dispersion( int dispersion ) const
 {
     /** @EFFECT_PER penalizes sight dispersion when low. */

@@ -579,27 +579,6 @@ void player::normalize()
     stamina = get_stamina_max();
 }
 
-std::string player::disp_name( bool possessive ) const
-{
-    if( !possessive ) {
-        if( is_player() ) {
-            return pgettext( "not possessive", "you" );
-        }
-        return name;
-    } else {
-        if( is_player() ) {
-            return _( "your" );
-        }
-        return string_format( _( "%s's" ), name );
-    }
-}
-
-std::string player::skin_name() const
-{
-    // TODO: Return actual deflecting layer name
-    return _( "armor" );
-}
-
 void player::reset_stats()
 {
     // Trait / mutation buffs

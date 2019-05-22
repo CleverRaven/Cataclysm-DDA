@@ -197,10 +197,6 @@ class player : public Character
 
         void normalize() override;
 
-        /** Returns either "you" or the player's name */
-        std::string disp_name( bool possessive = false ) const override;
-        /** Returns the name of the player's outer layer, e.g. "armor plates" */
-        std::string skin_name() const override;
 
         bool is_player() const override {
             return true;
