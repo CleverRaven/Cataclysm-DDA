@@ -1328,7 +1328,6 @@
           "boots",
           "tool_belt",
           "flashlight",
-          "cell_phone",
           "wristwatch",
           { "item": "light_battery_cell", "charges": 100 }
         ],
