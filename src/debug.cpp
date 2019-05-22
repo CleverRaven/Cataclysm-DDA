@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <algorithm>
 #include <cassert>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
@@ -18,6 +19,8 @@
 #include <set>
 #include <sstream>
 #include <type_traits>
+#include <utility>
+#include <vector>
 
 #include "cursesdef.h"
 #include "filesystem.h"
@@ -954,11 +957,46 @@ std::string android_version()
     return output;
 }
 
+/** Get a precise version number for Linux systems.
+ * @note The code shells-out to call `lsb_release -a`.
+ * @returns If successful, a string containing the Linux system version ('<unknown>' if the system is a Linux system but doesn't follow LSB), otherwise an empty string.
+ */
+std::string linux_version()
+{
+    std::string output;
+#if defined(__linux__)
+    std::vector<char>buffer( 512 );
+    std::unique_ptr<FILE, decltype( &pclose )> pipe( popen( "lsb_release -a", "r" ), pclose );
+    if( pipe ) {
+        while( fgets( buffer.data(), buffer.size(), pipe.get() ) != nullptr ) {
+            output += buffer.data();
+        }
+    }
+    if( output.empty() ) {
+        output = "<unknown>";
+    } else {
+        // replace '\n' and '\t' in output.
+        std::vector<std::pair<std::string, std::string>> to_replace = {
+            {"\n", "; "},
+            {"\t", " "},
+        };
+        for( const auto &e : to_replace ) {
+            std::string::size_type pos;
+            while( ( pos = output.find( e.first ) ) != std::string::npos ) {
+                output.replace( pos, e.first.length(), e.second );
+            }
+        }
+    }
+#endif
+    return output;
+}
 
 std::string game_info::operating_system_version()
 {
 #if defined(__ANDROID__)
     return android_version();
+#elif defined(__linux__)
+    return linux_version();
 #elif defined(_WIN32)
     return windows_version();
 #else
