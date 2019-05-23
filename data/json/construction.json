@@ -134,7 +134,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": 30,
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "2x4", 2 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 12 ] ] ],
     "pre_terrain": "t_door_frame",
     "post_terrain": "t_door_c"
@@ -265,7 +265,7 @@
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": 90,
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "2x4", 6 ], [ "wood_panel", 1 ] ], [ [ "2x4", 6 ] ], [ [ "nail", 48 ] ] ],
     "pre_flags": "BARRICADABLE_DOOR",
     "post_terrain": "t_rdoor_c"
@@ -618,7 +618,7 @@
     "//": "Step 1: frame wall in an empty space",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
-    "time": 50,
+    "time": 60,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 10 ] ], [ [ "nail", 20 ] ] ],
     "pre_special": "check_empty",
@@ -631,7 +631,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": 30,
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 20 ] ] ],
     "pre_terrain": "t_wall_half",
     "post_terrain": "t_wall_wood"
@@ -1049,7 +1049,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": 50,
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [ [ [ "2x4", 10 ], [ "wood_panel", 1 ] ], [ [ "nail", 20 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_ponywall"
@@ -1060,8 +1060,8 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": 120,
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 8 ], [ "wood_panel", 1 ] ], [ [ "nail", 40 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 6 ] [ [ "nail", 40 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "t_floor"
@@ -1266,8 +1266,8 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": 45,
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 8 ], [ "wood_panel", 3 ] ], [ [ "nail", 24 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "wood_sheet", 2 ], [ "wood_panel", 4 ] ], [ [ "2x4", 4 ] ],  [ [ "nail", 24 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_crate_o"
   },
@@ -1277,10 +1277,10 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": 60,
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [
       [ [ "2x4", 6 ] ],
-      [ [ "wood_panel", 2 ] ],
+      [ [ "wood_panel", 4 ], [ "wood_sheet", 2 ] ],
       [ [ "sheet", 2 ], [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ],
       [ [ "nail", 24 ] ]
     ],
@@ -1329,7 +1329,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": 30,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_dresser"
   },
@@ -1340,7 +1340,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": 60,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 6 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 16 ] ] ],
+    "components": [ [ [ "2x4", 6 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 16 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_bookcase"
   },
@@ -1383,8 +1383,8 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": 20,
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 3 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 3 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_cupboard"
   },
@@ -1394,8 +1394,8 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": 30,
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 2 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 2 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_counter"
   },
@@ -1405,8 +1405,8 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": 30,
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_table"
   },
@@ -1670,7 +1670,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": 90,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "CUT", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 8 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 24 ] ] ],
+    "components": [ [ [ "2x4", 8 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 24 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_desk"
   },
@@ -1681,7 +1681,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": 60,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 10 ] ], [ [ "wood_panel", 2 ] ], [ [ "nail", 24 ] ], [ [ "pipe", 2 ] ] ],
+    "components": [ [ [ "2x4", 10 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 24 ] ], [ [ "pipe", 2 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_wardrobe"
   },
@@ -2059,7 +2059,7 @@
     "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
     "components": [
       [ [ "2x4", 4 ] ],
-      [ [ "2x4", 4 ], [ "wood_panel", 1 ] ],
+      [ [ "2x4", 4 ], [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ],
       [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ],
       [ [ "55gal_drum", 2 ], [ "30gal_drum", 2 ], [ "wooden_barrel", 2 ] ]
     ],
