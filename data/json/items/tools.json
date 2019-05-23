@@ -1237,7 +1237,7 @@
     "id": "bot_tripod",
     "looks_like": "broken_tripod",
     "type": "TOOL",
-    "name": "inactive tribot",
+    "name": "inactive tripod",
     "description": "This is an inactive Honda Regnal. Using this item involves placing it on the ground, wondering how it fuels its flamethrower and turning it on.  If reprogrammed and rewired successfully the tribot will then identify you as an ally, roam around or follow you, and impale hostiles with its spiked cable weapons.",
     "weight": 120000,
     "volume": 370,
