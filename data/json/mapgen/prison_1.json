@@ -353,58 +353,9 @@
         "1": [ "t_window_bars_alarm" ],
         "q": [ "t_floor" ],
         "A": [ "t_floor" ],
-        "`": [
-          "t_water_dp",
-          "t_water_dp",
-          "t_water_dp",
-          "t_water_dp",
-          "t_water_dp",
-          "t_water_dp",
-          "t_water_dp",
-          "t_water_dp",
-          "t_water_dp",
-          "t_water_dp",
-          "t_water_dp",
-          "t_water_dp",
-          "t_water_dp",
-          "t_water_dp",
-          "t_water_dp",
-          "t_water_dp",
-          "t_water_dp",
-          "t_water_dp",
-          "t_water_dp",
-          "t_water_dp",
-          "t_water_sh"
-        ]
+        "`": [ [ "t_water_dp", 20 ], "t_water_sh" ]
       },
-      "furniture": {
-        "q": [ "f_trashcan" ],
-        "A": [ "f_sofa" ],
-        "*": [
-          "f_boulder_large",
-          "f_boulder_large",
-          "f_boulder_large",
-          "f_boulder_large",
-          "f_boulder_large",
-          "f_boulder_large",
-          "f_boulder_large",
-          "f_boulder_large",
-          "f_boulder_large",
-          "f_boulder_large",
-          "f_boulder_large",
-          "f_boulder_large",
-          "f_boulder_large",
-          "f_boulder_large",
-          "f_boulder_large",
-          "f_boulder_large",
-          "f_boulder_large",
-          "f_boulder_large",
-          "f_boulder_large",
-          "f_boulder_large",
-          "f_boulder_large",
-          "f_boulder_medium"
-        ]
-      }
+      "furniture": { "q": [ "f_trashcan" ], "A": [ "f_sofa" ], "*": [ [ "f_boulder_large", 20 ], "f_boulder_medium" ] }
     }
   }
 ]
