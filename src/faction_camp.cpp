@@ -11,6 +11,7 @@
 #include <unordered_set>
 
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "catacharset.h"
 #include "clzones.h"
@@ -1346,7 +1347,7 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
 
     g->draw_ter();
     wrefresh( g->w_terrain );
-    g->draw_panels();
+    g->draw_panels( true );
 
     return true;
 }

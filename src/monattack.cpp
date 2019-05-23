@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "ballistics.h"
 #include "bodypart.h"
 #include "debug.h"
@@ -146,12 +147,12 @@ static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 // shared utility functions
-bool within_visual_range( monster *z, int max_range )
+static bool within_visual_range( monster *z, int max_range )
 {
     return !( rl_dist( z->pos(), g->u.pos() ) > max_range || !z->sees( g->u ) );
 }
 
-bool within_target_range( const monster *const z, const Creature *const target, int range )
+static bool within_target_range( const monster *const z, const Creature *const target, int range )
 {
     if( target == nullptr ||
         rl_dist( z->pos(), target->pos() ) > range ||
@@ -161,7 +162,7 @@ bool within_target_range( const monster *const z, const Creature *const target, 
     return true;
 }
 
-Creature *sting_get_target( monster *z, float range = 5.0f )
+static Creature *sting_get_target( monster *z, float range = 5.0f )
 {
     Creature *target = z->attack_target();
 
@@ -172,7 +173,7 @@ Creature *sting_get_target( monster *z, float range = 5.0f )
     return rl_dist( z->pos(), target->pos() ) <= range ? target : nullptr;
 }
 
-bool sting_shoot( monster *z, Creature *target, damage_instance &dam )
+static bool sting_shoot( monster *z, Creature *target, damage_instance &dam )
 {
     if( target->uncanny_dodge() ) {
         target->add_msg_if_player( m_bad, _( "The %s shoots a dart but you dodge it." ),
@@ -196,7 +197,7 @@ bool sting_shoot( monster *z, Creature *target, damage_instance &dam )
 // If allow_zlev is false, don't allow attacking up/down at all.
 // If allow_zlev is true, also allow distance == 1 and on different z-level
 // as long as floor/ceiling doesn't exist.
-bool is_adjacent( const monster *z, const Creature *target, const bool allow_zlev )
+static bool is_adjacent( const monster *z, const Creature *target, const bool allow_zlev )
 {
     if( target == nullptr ) {
         return false;
@@ -222,7 +223,7 @@ bool is_adjacent( const monster *z, const Creature *target, const bool allow_zle
     return g->m.ter( up ) == t_open_air && g->m.is_outside( down );
 }
 
-npc make_fake_npc( monster *z, int str, int dex, int inte, int per )
+static npc make_fake_npc( monster *z, int str, int dex, int inte, int per )
 {
     npc tmp;
     tmp.name = _( "The " ) + z->name();
@@ -1050,7 +1051,7 @@ find_empty_neighbors( const Creature &c )
 /**
  * Get a size_t value in the closed interval [0, size]; a convenience to avoid messy casting.
   */
-size_t get_random_index( const size_t size )
+static size_t get_random_index( const size_t size )
 {
     return static_cast<size_t>( rng( 0, static_cast<long>( size - 1 ) ) );
 }
@@ -1266,7 +1267,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
     return true;
 }
 
-body_part body_part_hit_by_plant()
+static body_part body_part_hit_by_plant()
 {
     body_part hit = num_bp;
     if( one_in( 2 ) ) {
@@ -4831,8 +4832,8 @@ struct grenade_helper_struct {
 };
 
 // Returns 0 if this should be retired, 1 if it was successful, and -1 if something went horribly wrong
-int grenade_helper( monster *const z, Creature *const target, const int dist,
-                    const int moves, std::map<std::string, grenade_helper_struct> data )
+static int grenade_helper( monster *const z, Creature *const target, const int dist,
+                           const int moves, std::map<std::string, grenade_helper_struct> data )
 {
     // Can't do anything if we can't act
     if( !z->can_act() ) {

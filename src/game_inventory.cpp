@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 
+#include "avatar.h"
 #include "game.h"
 #include "bionics.h"
 #include "inventory_ui.h"
@@ -88,7 +89,7 @@ bool inventory_filter_preset::is_shown( const item_location &location ) const
     return filter( location );
 }
 
-item_location_filter convert_filter( const item_filter &filter )
+static item_location_filter convert_filter( const item_filter &filter )
 {
     return [ &filter ]( const item_location & loc ) {
         return filter( *loc );

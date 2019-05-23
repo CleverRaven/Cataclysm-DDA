@@ -15,6 +15,7 @@
 #include <tuple>
 #include <utility>
 
+#include "avatar.h"
 #include "ballistics.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -403,7 +404,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
 }
 
 // TODO: Method
-int throw_cost( const player &c, const item &to_throw )
+static int throw_cost( const player &c, const item &to_throw )
 {
     // Very similar to player::attack_speed
     // TODO: Extract into a function?
@@ -810,8 +811,8 @@ static std::vector<aim_type> get_default_aim_type()
 }
 
 typedef std::vector<std::tuple<double, char, std::string>> RatingVector;
-std::string get_colored_bar( const double val, const int width, const std::string &label,
-                             RatingVector::iterator begin, RatingVector::iterator end )
+static std::string get_colored_bar( const double val, const int width, const std::string &label,
+                                    RatingVector::iterator begin, RatingVector::iterator end )
 {
     std::string result;
 

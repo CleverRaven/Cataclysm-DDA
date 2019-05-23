@@ -18,6 +18,7 @@
 
 #include "action.h"
 #include "artifact.h"
+#include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -236,7 +237,7 @@ void remove_radio_mod( item &it, player &p )
 }
 
 // Checks that the player does not have an active item with LITCIG flag.
-bool check_litcig( player &u )
+static bool check_litcig( player &u )
 {
     auto cigs = u.items_with( []( const item & it ) {
         return it.active && it.has_flag( "LITCIG" );
@@ -308,7 +309,7 @@ static constexpr time_duration alc_strength( const int strength, const time_dura
     return strength == 0 ? weak : strength == 1 ? medium : strong;
 }
 
-int alcohol( player &p, const item &it, const int strength )
+static int alcohol( player &p, const item &it, const int strength )
 {
     // Weaker characters are cheap drunks
     /** @EFFECT_STR_MAX reduces drunkenness duration */
@@ -1067,7 +1068,7 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-void spawn_spores( const player &p )
+static void spawn_spores( const player &p )
 {
     int spores_spawned = 0;
     fungal_effects fe( *g, g->m );
@@ -1379,7 +1380,7 @@ enum Petfood {
     BIRDFOOD
 };
 
-int feedpet( player &p, monster &mon, item &it, m_flag food_flag, const char *message )
+static int feedpet( player &p, monster &mon, item &it, m_flag food_flag, const char *message )
 {
     if( mon.has_flag( food_flag ) ) {
         p.add_msg_if_player( m_good, message, mon.get_name() );
@@ -1393,7 +1394,7 @@ int feedpet( player &p, monster &mon, item &it, m_flag food_flag, const char *me
     }
 }
 
-int petfood( player &p, item &it, Petfood animal_food_type )
+static int petfood( player &p, item &it, Petfood animal_food_type )
 {
     const cata::optional<tripoint> pnt_ = choose_adjacent( string_format( _( "Put the %s where?" ),
                                           it.tname() ) );
@@ -2898,9 +2899,9 @@ int iuse::siphon( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-int toolweapon_off( player &p, item &it, const bool fast_startup,
-                    const bool condition, const int volume,
-                    const std::string &msg_success, const std::string &msg_failure )
+static int toolweapon_off( player &p, item &it, const bool fast_startup,
+                           const bool condition, const int volume,
+                           const std::string &msg_success, const std::string &msg_failure )
 {
     p.moves -= fast_startup ? 60 : 80;
     if( condition && it.ammo_remaining() > 0 ) {
@@ -2996,10 +2997,10 @@ int iuse::trimmer_off( player *p, item *it, bool, const tripoint & )
                            _( "You yank the cord, but nothing happens." ) );
 }
 
-int toolweapon_on( player &p, item &it, const bool t,
-                   const std::string &tname, const bool works_underwater,
-                   const int sound_chance, const int volume,
-                   const std::string &sound, const bool double_charge_cost = false )
+static int toolweapon_on( player &p, item &it, const bool t,
+                          const std::string &tname, const bool works_underwater,
+                          const int sound_chance, const int volume,
+                          const std::string &sound, const bool double_charge_cost = false )
 {
     std::string off_type =
         it.typeId().substr( 0, it.typeId().size() - 3 ) +
@@ -3943,7 +3944,7 @@ int iuse::mp3( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-std::string get_music_description()
+static std::string get_music_description()
 {
     static const std::string no_description = _( "a sweet guitar solo!" );
     static const std::string rare = _( "some bass-heavy post-glam speed polka." );
@@ -5835,7 +5836,7 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
-void init_memory_card_with_random_stuff( item &it )
+static void init_memory_card_with_random_stuff( item &it )
 {
     if( it.has_flag( "MC_MOBILE" ) && ( it.has_flag( "MC_RANDOM_STUFF" ) ||
                                         it.has_flag( "MC_SCIENCE_STUFF" ) ) && !( it.has_flag( "MC_USED" ) ||
@@ -5910,7 +5911,7 @@ void init_memory_card_with_random_stuff( item &it )
     }
 }
 
-bool einkpc_download_memory_card( player &p, item &eink, item &mc )
+static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 {
     bool something_downloaded = false;
     if( mc.get_var( "MC_PHOTOS", 0 ) > 0 ) {
@@ -6940,7 +6941,7 @@ int iuse::radiocaron( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-void sendRadioSignal( player &p, const std::string &signal )
+static void sendRadioSignal( player &p, const std::string &signal )
 {
     for( size_t i = 0; i < p.inv.size(); i++ ) {
         item &it = p.inv.find_item( i );
@@ -7098,7 +7099,7 @@ static bool hackveh( player &p, item &it, vehicle &veh )
     return success;
 }
 
-vehicle *pickveh( const tripoint &center, bool advanced )
+static vehicle *pickveh( const tripoint &center, bool advanced )
 {
     static const std::string ctrl = "CTRL_ELECTRONIC";
     static const std::string advctrl = "REMOTE_CONTROLS";
@@ -7213,7 +7214,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-bool multicooker_hallu( player &p )
+static bool multicooker_hallu( player &p )
 {
     p.moves -= 200;
     const int random_hallu = rng( 1, 7 );

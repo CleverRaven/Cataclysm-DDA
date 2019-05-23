@@ -199,6 +199,7 @@ void martialart::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
     mandatory( jo, was_loaded, "initiate", initiate );
+    optional( jo, was_loaded, "autolearn", autolearn_skills );
 
     optional( jo, was_loaded, "static_buffs", static_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onmove_buffs", onmove_buffs, ma_buff_reader{} );
@@ -247,7 +248,7 @@ std::vector<matype_id> all_martialart_types()
     return result;
 }
 
-void check( const ma_requirements &req, const std::string &display_text )
+static void check( const ma_requirements &req, const std::string &display_text )
 {
     for( auto &r : req.req_buffs ) {
         if( !r.is_valid() ) {
@@ -583,7 +584,7 @@ martialart::martialart()
 
 // simultaneously check and add all buffs. this is so that buffs that have
 // buff dependencies added by the same event trigger correctly
-void simultaneous_add( player &u, const std::vector<mabuff_id> &buffs )
+static void simultaneous_add( player &u, const std::vector<mabuff_id> &buffs )
 {
     std::vector<const ma_buff *> buffer; // hey get it because it's for buffs????
     for( auto &buffid : buffs ) {
@@ -924,6 +925,25 @@ void player::add_martialart( const matype_id &ma_id )
         return;
     }
     ma_styles.push_back( ma_id );
+}
+
+bool player::can_autolearn( const matype_id &ma_id ) const
+{
+    if( ma_id.obj().autolearn_skills.empty() ) {
+        return false;
+    }
+
+    const std::vector<std::vector<std::string>> skills = ma_id.obj().autolearn_skills;
+    for( auto &elem : skills ) {
+        const skill_id skill_req( elem[0] );
+        const int required_level = std::stoi( elem[1] );
+
+        if( required_level > get_skill_level( skill_req ) ) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 float ma_technique::damage_bonus( const player &u, damage_type type ) const

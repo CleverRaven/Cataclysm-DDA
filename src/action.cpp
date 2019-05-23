@@ -7,6 +7,7 @@
 #include <memory>
 #include <utility>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
@@ -599,7 +600,7 @@ bool can_examine_at( const tripoint &p )
     return tr.can_see( p, g->u );
 }
 
-bool can_pickup_at( const tripoint &p )
+static bool can_pickup_at( const tripoint &p )
 {
     bool veh_has_items = false;
     const optional_vpart_position vp = g->m.veh_at( p );
@@ -1042,8 +1043,6 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
     }
     if( highlighted ) {
         wrefresh( g->w_terrain );
-        // prevent hiding panels when examining an object
-        g->draw_panels();
     }
 
     return choose_adjacent( message, allow_vertical );

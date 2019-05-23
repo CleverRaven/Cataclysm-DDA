@@ -25,6 +25,7 @@
 
 #include "ammo.h"
 #include "auto_pickup.h"
+#include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "calendar.h"
@@ -96,7 +97,7 @@ static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NO
 };
 
 // TODO: investigate serializing other members of the Creature class hierarchy
-void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
+static void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
 {
     if( const auto monster_ptr = obj.lock() ) {
         jsout.start_object();
@@ -112,7 +113,7 @@ void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
     }
 }
 
-void deserialize( std::weak_ptr<monster> &obj, JsonIn &jsin )
+static void deserialize( std::weak_ptr<monster> &obj, JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     tripoint temp_pos;
@@ -526,6 +527,11 @@ void Character::store( JsonOut &json ) const
     json.end_object();
 }
 
+void avatar::load( JsonObject &data )
+{
+    player::load( data );
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// player.h, player (+ npc for now, should eventually only be the player)
 /*
@@ -662,6 +668,11 @@ void player::load( JsonObject &data )
     }
 }
 
+void avatar::store( JsonOut &json ) const
+{
+    player::store( json );
+}
+
 /*
  * Variables common to player (and npc's, should eventually just be players)
  */
@@ -774,6 +785,15 @@ void player::store( JsonOut &json ) const
     }
 }
 
+void avatar::serialize( JsonOut &json ) const
+{
+    json.start_object();
+
+    store( json );
+
+    json.end_object();
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// player.h, player
 /*
@@ -867,6 +887,12 @@ void player::serialize( JsonOut &json ) const
     */
 
     json.end_object();
+}
+
+void avatar::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    load( data );
 }
 
 /*
@@ -2325,7 +2351,7 @@ void vehicle_part::serialize( JsonOut &json ) const
 /*
  * label
  */
-void deserialize( label &val, JsonIn &jsin )
+static void deserialize( label &val, JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     data.read( "x", val.x );
@@ -2333,7 +2359,7 @@ void deserialize( label &val, JsonIn &jsin )
     data.read( "text", val.text );
 }
 
-void serialize( const label &val, JsonOut &json )
+static void serialize( const label &val, JsonOut &json )
 {
     json.start_object();
     json.member( "x", val.x );

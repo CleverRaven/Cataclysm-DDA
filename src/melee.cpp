@@ -15,6 +15,7 @@
 #include <vector>
 #include <cmath>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
@@ -1162,7 +1163,7 @@ bool player::has_technique( const matec_id &id, const item &weap ) const
            style_selected.obj().has_technique( *this, id );
 }
 
-damage_unit &get_damage_unit( std::vector<damage_unit> &di, const damage_type dt )
+static damage_unit &get_damage_unit( std::vector<damage_unit> &di, const damage_type dt )
 {
     static damage_unit nullunit( DT_NULL, 0, 0, 0, 0 );
     for( auto &du : di ) {
@@ -1174,7 +1175,7 @@ damage_unit &get_damage_unit( std::vector<damage_unit> &di, const damage_type dt
     return nullunit;
 }
 
-void print_damage_info( const damage_instance &di )
+static void print_damage_info( const damage_instance &di )
 {
     if( !debug_mode ) {
         return;
@@ -1293,7 +1294,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
     }
 }
 
-int blocking_ability( const item &shield )
+static int blocking_ability( const item &shield )
 {
     int block_bonus = 0;
     if( shield.has_technique( WBLOCK_3 ) ) {
@@ -1629,7 +1630,7 @@ std::string player::melee_special_effects( Creature &t, damage_instance &d, item
     return dump.str();
 }
 
-damage_instance hardcoded_mutation_attack( const player &u, const trait_id &id )
+static damage_instance hardcoded_mutation_attack( const player &u, const trait_id &id )
 {
     if( id == "BEAK_PECK" ) {
         // method open to improvement, please feel free to suggest

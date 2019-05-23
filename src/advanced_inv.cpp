@@ -1,6 +1,7 @@
 #include "advanced_inv.h"
 
 #include "auto_pickup.h"
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "debug.h"
@@ -791,11 +792,6 @@ void advanced_inv_area::init()
     if( flags.length() && flags[0] == ' ' ) {
         flags.erase( 0, 1 );
     }
-}
-
-std::string center_text( const char *str, int width )
-{
-    return std::string( ( ( width - strlen( str ) ) / 2 ), ' ' ) + str;
 }
 
 void advanced_inventory::init()

@@ -10,6 +10,7 @@
 
 #include "ammo.h"
 #include "auto_pickup.h"
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "effect.h"
 #include "game.h"
@@ -473,8 +474,8 @@ void npc::clear_fac()
 }
 // item id from group "<class-name>_<what>" or from fallback group
 // may still be a null item!
-item random_item_from( const npc_class_id &type, const std::string &what,
-                       const std::string &fallback )
+static item random_item_from( const npc_class_id &type, const std::string &what,
+                              const std::string &fallback )
 {
     auto result = item_group::item_from( type.str() + "_" + what );
     if( result.is_null() ) {
@@ -484,13 +485,13 @@ item random_item_from( const npc_class_id &type, const std::string &what,
 }
 
 // item id from "<class-name>_<what>" or from "npc_<what>"
-item random_item_from( const npc_class_id &type, const std::string &what )
+static item random_item_from( const npc_class_id &type, const std::string &what )
 {
     return random_item_from( type, what, "npc_" + what );
 }
 
 // item id from "<class-name>_<what>_<gender>" or from "npc_<what>_<gender>"
-item get_clothing_item( const npc_class_id &type, const std::string &what, bool male )
+static item get_clothing_item( const npc_class_id &type, const std::string &what, bool male )
 {
     item result;
     //Check if class has gendered clothing
@@ -1877,7 +1878,7 @@ std::string npc::opinion_text() const
     return ret.str();
 }
 
-void maybe_shift( cata::optional<tripoint> &pos, int dx, int dy )
+static void maybe_shift( cata::optional<tripoint> &pos, int dx, int dy )
 {
     if( pos ) {
         pos->x += dx;
@@ -1885,7 +1886,7 @@ void maybe_shift( cata::optional<tripoint> &pos, int dx, int dy )
     }
 }
 
-void maybe_shift( tripoint &pos, int dx, int dy )
+static void maybe_shift( tripoint &pos, int dx, int dy )
 {
     if( pos != tripoint_min ) {
         pos.x += dx;

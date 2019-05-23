@@ -310,8 +310,8 @@ bool defer;
 JsonObject jsi;
 }
 
-void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
-                       const std::string &message )
+static void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
+                              const std::string &message )
 {
     mapgen_defer::defer = true;
     mapgen_defer::jsi = jsi;
@@ -373,7 +373,7 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
     return ret;
 }
 
-void load_nested_mapgen( JsonObject &jio, const std::string &id_base )
+static void load_nested_mapgen( JsonObject &jio, const std::string &id_base )
 {
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "json" ) {
@@ -391,7 +391,7 @@ void load_nested_mapgen( JsonObject &jio, const std::string &id_base )
     }
 }
 
-void load_update_mapgen( JsonObject &jio, const std::string &id_base )
+static void load_update_mapgen( JsonObject &jio, const std::string &id_base )
 {
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "json" ) {
@@ -482,8 +482,9 @@ size_t mapgen_function_json_base::calc_index( const size_t x, const size_t y ) c
     return y * mapgensize_y + x;
 }
 
-bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y, const int mapgensize_x,
-                          const int mapgensize_y, JsonObject &jso )
+static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
+                                 const int mapgensize_x, const int mapgensize_y,
+                                 JsonObject &jso )
 {
     if( x.val < 0 || x.val > mapgensize_x - 1 || y.val < 0 || y.val > mapgensize_y - 1 ) {
         return false;
@@ -552,6 +553,8 @@ jmapgen_int::jmapgen_int( JsonObject &jo, const std::string &tag )
         val = sparray.get_int( 0 );
         if( sparray.size() == 2 ) {
             valmax = sparray.get_int( 1 );
+        } else {
+            valmax = val;
         }
     } else {
         val = valmax = jo.get_int( tag );
@@ -8279,10 +8282,6 @@ void fill_background( map *m, ter_id( *f )() )
 {
     m->draw_fill_background( f );
 }
-void fill_background( map *m, const weighted_int_list<ter_id> &f )
-{
-    m->draw_fill_background( f );
-}
 void square( map *m, ter_id type, int x1, int y1, int x2, int y2 )
 {
     m->draw_square_ter( type, x1, y1, x2, y2 );
@@ -8292,10 +8291,6 @@ void square_furn( map *m, furn_id type, int x1, int y1, int x2, int y2 )
     m->draw_square_furn( type, x1, y1, x2, y2 );
 }
 void square( map *m, ter_id( *f )(), int x1, int y1, int x2, int y2 )
-{
-    m->draw_square_ter( f, x1, y1, x2, y2 );
-}
-void square( map *m, const weighted_int_list<ter_id> &f, int x1, int y1, int x2, int y2 )
 {
     m->draw_square_ter( f, x1, y1, x2, y2 );
 }

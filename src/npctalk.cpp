@@ -15,6 +15,7 @@
 #include <unordered_map>
 
 #include "ammo.h"
+#include "avatar.h"
 #include "cata_utility.h"
 // needed for the workaround for the std::to_string bug in some compilers
 #include "clzones.h"
@@ -186,8 +187,8 @@ enum npc_chat_menu {
 // given a vector of NPCs, presents a menu to allow a player to pick one.
 // everyone == true adds another entry at the end to allow selecting all listed NPCs
 // this implies a return value of npc_list.size() means "everyone"
-int npc_select_menu( const std::vector<npc *> &npc_list, const std::string &prompt,
-                     const bool everyone = true )
+static int npc_select_menu( const std::vector<npc *> &npc_list, const std::string &prompt,
+                            const bool everyone = true )
 {
     if( npc_list.empty() ) {
         return -1;
@@ -210,14 +211,15 @@ int npc_select_menu( const std::vector<npc *> &npc_list, const std::string &prom
 
 }
 
-void npc_batch_override_toggle( const std::vector<npc *> &npc_list, ally_rule rule, bool state )
+static void npc_batch_override_toggle(
+    const std::vector<npc *> &npc_list, ally_rule rule, bool state )
 {
     for( npc *p : npc_list ) {
         p->rules.toggle_specific_override_state( rule, state );
     }
 }
 
-void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
+static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 {
     if( npc_list.empty() ) {
         return;
@@ -1107,7 +1109,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
     }
 }
 
-int parse_mod( const dialogue &d, const std::string &attribute, const int factor )
+static int parse_mod( const dialogue &d, const std::string &attribute, const int factor )
 {
     player &u = *d.alpha;
     npc &p = *d.beta;
@@ -1603,7 +1605,7 @@ talk_trial::talk_trial( JsonObject jo )
     }
 }
 
-talk_topic load_inline_topic( JsonObject jo )
+static talk_topic load_inline_topic( JsonObject jo )
 {
     const std::string id = jo.get_string( "id" );
     json_talk_topics[id].load( jo );
@@ -1634,7 +1636,8 @@ talk_effect_fun_t::talk_effect_fun_t( std::function<void( const dialogue &d )> f
 }
 
 // throws an error on failure, so no need to return
-std::string get_talk_varname( JsonObject jo, const std::string &member, bool check_value = true )
+static std::string get_talk_varname( JsonObject jo, const std::string &member,
+                                     bool check_value = true )
 {
     if( !jo.has_string( "type" ) || !jo.has_string( "context" ) ||
         ( check_value && !jo.has_string( "value" ) ) ) {
@@ -3709,7 +3712,7 @@ enum consumption_result {
 };
 
 // Returns true if we destroyed the item through consumption
-consumption_result try_consume( npc &p, item &it, std::string &reason )
+static consumption_result try_consume( npc &p, item &it, std::string &reason )
 {
     // TODO: Unify this with 'player::consume_item()'
     bool consuming_contents = it.is_container() && !it.contents.empty();

@@ -20,11 +20,11 @@
 constexpr unsigned int NUMERATOR = 1;
 constexpr unsigned int DENOMINATOR = 10;
 
-void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
-                   const float ( &input_array )[MAPSIZE * SEEX][MAPSIZE * SEEY],
-                   const int xx, const int xy, const int yx, const int yy,
-                   const int offsetX, const int offsetY, const int offsetDistance,
-                   const int row = 1, float start = 1.0f, const float end = 0.0f )
+static void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
+                          const float ( &input_array )[MAPSIZE * SEEX][MAPSIZE * SEEY],
+                          const int xx, const int xy, const int yx, const int yy,
+                          const int offsetX, const int offsetY, const int offsetDistance,
+                          const int row = 1, float start = 1.0f, const float end = 0.0f )
 {
 
     float newStart = 0.0f;
@@ -80,8 +80,9 @@ void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
 /*
  * This is checking whether bresenham visibility checks match shadowcasting (they don't).
  */
-bool bresenham_visibility_check( const int offsetX, const int offsetY, const int x, const int y,
-                                 const float ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY] )
+static bool bresenham_visibility_check(
+    const int offsetX, const int offsetY, const int x, const int y,
+    const float ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY] )
 {
     if( offsetX == x && offsetY == y ) {
         return true;
@@ -100,7 +101,7 @@ bool bresenham_visibility_check( const int offsetX, const int offsetY, const int
     return visible;
 }
 
-void randomly_fill_transparency(
+static void randomly_fill_transparency(
     float ( &transparency_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY],
     const unsigned int numerator = NUMERATOR, const unsigned int denominator = DENOMINATOR )
 {
@@ -122,12 +123,12 @@ void randomly_fill_transparency(
     }
 }
 
-bool is_nonzero( const float x )
+static bool is_nonzero( const float x )
 {
     return x != 0;
 }
 
-bool is_nonzero( four_quadrants x )
+static bool is_nonzero( four_quadrants x )
 {
     return is_nonzero( x.max() );
 }
@@ -216,7 +217,7 @@ void print_grid_comparison( const int offsetX, const int offsetY,
     }
 }
 
-void shadowcasting_runoff( const int iterations, const bool test_bresenham = false )
+static void shadowcasting_runoff( const int iterations, const bool test_bresenham = false )
 {
     float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
     float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
@@ -283,7 +284,8 @@ void shadowcasting_runoff( const int iterations, const bool test_bresenham = fal
     REQUIRE( passed );
 }
 
-void shadowcasting_float_quad( const int iterations, const unsigned int denominator = DENOMINATOR )
+static void shadowcasting_float_quad(
+    const int iterations, const unsigned int denominator = DENOMINATOR )
 {
     float lit_squares_float[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
     four_quadrants lit_squares_quad[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{}};
@@ -334,7 +336,7 @@ void shadowcasting_float_quad( const int iterations, const unsigned int denomina
     REQUIRE( passed );
 }
 
-void shadowcasting_3d_2d( const int iterations )
+static void shadowcasting_3d_2d( const int iterations )
 {
     float seen_squares_control[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};
     float seen_squares_experiment[MAPSIZE * SEEX][MAPSIZE * SEEY] = {{0}};

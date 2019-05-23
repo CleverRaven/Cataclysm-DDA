@@ -11,6 +11,7 @@
 #include "action.h"
 #include "advanced_inv.h"
 #include "auto_pickup.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "clzones.h"
@@ -291,7 +292,6 @@ input_context game::get_player_input( std::string &action )
                 werase( w_terrain );
 
                 draw_ter();
-                g->draw_panels();
                 initial_draw = false;
             }
             draw_weather( wPrint );
@@ -301,6 +301,7 @@ input_context game::get_player_input( std::string &action )
             }
 
             wrefresh( w_terrain );
+            g->draw_panels();
 
             if( uquit == QUIT_WATCH ) {
 
@@ -687,7 +688,7 @@ static void smash()
     }
 }
 
-bool try_set_alarm()
+static bool try_set_alarm()
 {
     uilist as_m;
     const bool already_set = g->u.has_effect( effect_alarm_clock );

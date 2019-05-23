@@ -84,6 +84,7 @@ struct targeting_data;
 struct special_game;
 
 using itype_id = std::string;
+class avatar;
 class map;
 class faction_manager;
 class new_faction_manager;
@@ -214,8 +215,13 @@ class game
         void draw();
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
-        void draw_panels();
-        void draw_panels( size_t column, size_t index );
+
+        // when force_redraw is true, redraw all panel instead of just animated panels
+        // mostly used after UI updates
+        void draw_panels( bool force_draw = false );
+        // when force_redraw is true, redraw all panel instead of just animated panels
+        // mostly used after UI updates
+        void draw_panels( size_t column, size_t index, bool force_draw = false );
         /**
          * Returns the location where the indicator should go relative to the reality bubble,
          * or nothing to indicate no indicator should be drawn.
@@ -915,7 +921,7 @@ class game
     protected:
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr;
-        pimpl<player> u_ptr;
+        pimpl<avatar> u_ptr;
         pimpl<live_view> liveview_ptr;
         live_view &liveview;
         pimpl<scent_map> scent_ptr;
@@ -924,7 +930,7 @@ class game
     public:
         /** Make map a reference here, to avoid map.h in game.h */
         map &m;
-        player &u;
+        avatar &u;
         scent_map &scent;
         event_manager &events;
 

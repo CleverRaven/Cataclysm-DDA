@@ -2,6 +2,7 @@
 
 #include "action.h"
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "iexamine.h"

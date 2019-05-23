@@ -10,6 +10,7 @@
 #include <type_traits>
 
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"

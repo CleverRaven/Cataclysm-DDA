@@ -10,6 +10,7 @@
 #include <memory>
 
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -126,6 +127,7 @@ Character::Character() :
     // 45 days to starve to death
     healthy_calories = 55000;
     stored_calories = healthy_calories;
+    initialize_stomach_contents();
 
     name.clear();
 
@@ -186,6 +188,27 @@ void Character::mod_stat( const std::string &stat, float modifier )
     } else {
         Creature::mod_stat( stat, modifier );
     }
+}
+
+std::string Character::disp_name( bool possessive ) const
+{
+    if( !possessive ) {
+        if( is_player() ) {
+            return pgettext( "not possessive", "you" );
+        }
+        return name;
+    } else {
+        if( is_player() ) {
+            return _( "your" );
+        }
+        return string_format( _( "%s's" ), name );
+    }
+}
+
+std::string Character::skin_name() const
+{
+    // TODO: Return actual deflecting layer name
+    return _( "armor" );
 }
 
 int Character::effective_dispersion( int dispersion ) const
@@ -1553,10 +1576,10 @@ int Character::extraEncumbrance( const layer_level level, const int bp ) const
     return encumbrance_cache[bp].layer_penalty_details[static_cast<int>( level )].total;
 }
 
-void layer_item( std::array<encumbrance_data, num_bp> &vals,
-                 const item &it,
-                 std::array<layer_level, num_bp> &highest_layer_so_far,
-                 bool power_armor, const Character &c )
+static void layer_item( std::array<encumbrance_data, num_bp> &vals,
+                        const item &it,
+                        std::array<layer_level, num_bp> &highest_layer_so_far,
+                        bool power_armor, const Character &c )
 {
     const auto item_layer = it.get_layer();
     int encumber_val = it.get_encumber( c );
@@ -1696,9 +1719,9 @@ int Character::encumb( body_part bp ) const
     return encumbrance_cache[bp].encumbrance;
 }
 
-void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
-                            const mutation_branch &mut,
-                            const body_part_set &oversize )
+static void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
+                                   const mutation_branch &mut,
+                                   const body_part_set &oversize )
 {
     for( const auto &enc : mut.encumbrance_always ) {
         vals[enc.first].encumbrance += enc.second;
