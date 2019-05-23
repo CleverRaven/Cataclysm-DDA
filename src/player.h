@@ -514,6 +514,8 @@ class player : public Character
         bool has_martialart( const matype_id &ma_id ) const;
         /** Adds the entered martial art to the player's list */
         void add_martialart( const matype_id &ma_id );
+        /** Returns true if the player can learn the entered martial art */
+        bool can_autolearn( const matype_id &ma_id ) const;
 
         /** Returns the to hit bonus from martial arts buffs */
         float mabuff_tohit_bonus() const;
