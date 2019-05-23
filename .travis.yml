@@ -32,6 +32,21 @@ branches:
   - master
   - development
 
+# Overall strategy for what sorts of builds to include:
+# We want a build for each compiler and each platform.
+# For PRs, we lessen the "each compiler" requirement to just covering the newest
+# and oldest relevant version of each compiler.
+# We also want to ensure that each of the following tweaks are covered in at
+# least one PR build:
+# - TILES=1
+# - SOUND=1
+# - RELEASE=1
+# - CMAKE=1
+# - SANITIZE=address
+# - LOCALIZE=0
+# - A clang-tidy run
+# We try to minimize the number of builds subject to those constraints.
+
 # To see what toolchains are available, consult the following:
 # https://github.com/travis-ci/apt-source-safelist/blob/master/ubuntu.json
 # https://launchpad.net/%7Eubuntu-toolchain-r/+archive/ubuntu/test/+index
