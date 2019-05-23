@@ -615,7 +615,6 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop using the mind splicer?",
-    "suspendable": false,
     "based_on": "speed",
     "no_resume": true
   },

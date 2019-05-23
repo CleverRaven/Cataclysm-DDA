@@ -356,7 +356,7 @@
     "price": 12500,
     "use_action": "MIND_SPLICER",
     "volume": 4,
-    "weight": 6,
+    "weight": 600,
     "flags": [ "TRADER_AVOID" ]
   },
   {

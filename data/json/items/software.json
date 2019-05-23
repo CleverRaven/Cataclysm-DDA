@@ -75,9 +75,10 @@
     "id": "mind_scan_robofac",
     "type": "GENERIC",
     "name": "neural data",
+    "name_plural": "neural data",
     "symbol": "#",
     "container": "data_card",
-    "description": "Data stolen from a dead scientist memory banks.  Is the owner of these thoughts still hidden here, amidst the unreadable data; or are these just a collection of the precious moments of someone's life?\n\nWhatever the case, the idea of perpetually keeping a part of you within a metallic pill makes you uncomfortable.",
-    "flags": [ "IRREMOVABLE", "NO_DROP" ]
+    "description": "Data stolen from a dead scientist memory banks.  Is the owner of these thoughts still hidden here, amidst the unreadable data; or are these just a collection of the precious moments of someone's life?\n\nWhatever the case, the idea of perpetually keeping a part of you within a metallic pill makes you feel uncomfortable.",
+    "flags": [ "NO_DROP" ]
   }
 ]

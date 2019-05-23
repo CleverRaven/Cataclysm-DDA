@@ -119,7 +119,7 @@
       "rejected": "Yes, we recognize that our request is exceptional.  Return if you change your mind.",
       "advice": " You do know what a memory unit looks like, right?  Matte gray, pill-sized, right in front of the corpus callosum.  We suggest a forceps through the eye socket, shaking slightly, then slowly and carefully...",
       "inquire": "Do you have the scan?",
-      "success": "Uhhh... Well I guess this is acceptable. You have our thanks and payment.",
+      "success": "You have our thanks and payment.",
       "success_lie": "What good does this do us?",
       "failure": "Simply useless..."
     }
