@@ -70,7 +70,10 @@ jobs:
     # Clang 8, latest supported Clang, build with Makefile and address sanitization, but disable some very long-running tests
     - env: CLANG=clang++-8 SANITIZE=address EXTRA_TEST_OPTS="~[.] ~vehicle_efficiency ~vehicle_drag ~starting_items"
       compiler: clang
-      addons: *clang8
+      addons: &clang8
+        apt:
+          packages: ["clang-8", "libc6-dbg", "libc6-dbg:i386"]
+          sources: [*apt_sources, llvm-toolchain-xenial-8]
 
     # MXE variant using alternate repository http://mirror.mxe.cc/repos/apt
     # Mingw-w64 building with Tiles and Sound
