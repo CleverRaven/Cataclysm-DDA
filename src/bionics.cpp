@@ -145,7 +145,7 @@ bionic_data::bionic_data()
     description = "This bionic was not set up correctly, this is a bug";
 }
 
-static void force_comedown( effect &eff )
+void force_comedown( effect &eff )
 {
     if( eff.is_null() || eff.get_effect_type() == nullptr || eff.get_duration() <= 1_turns ) {
         return;
@@ -777,7 +777,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
  * @param rate divides the number of turns we may charge (rate of 2 discharges in half the time).
  * @return indicates whether we successfully charged the bionic.
  */
-static bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 1, int rate = 1 )
+bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 1, int rate = 1 )
 {
     const bionic_data &info = bio.info();
     const int armor_power_cost = 1;
@@ -1023,7 +1023,7 @@ void player::bionics_uninstall_failure( monster &installer, player &patient, int
                 add_msg( m_mixed, _( "The %s messes up the operation." ), installer.name() );
                 break;
             case 3:
-                add_msg( m_mixed, _( "The operation fails." ) );
+                add_msg( m_mixed, _( "The The operation fails." ) );
                 break;
             case 4:
                 add_msg( m_mixed, _( "The operation is a failure." ) );
@@ -1265,9 +1265,7 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
     patient.add_effect( effect_narcosis, duration );
     patient.add_effect( effect_sleep, duration );
 
-    if( patient.is_player() ) {
-        add_msg( "You fall asleep and %1$s starts operating.", installer.disp_name() );
-    } else if( g->u.sees( patient ) ) {
+    if( g->u.sees( patient ) ) {
         add_msg( "%1$s falls asleep and %2$s starts operating.", patient.disp_name(),
                  installer.disp_name() );
     }

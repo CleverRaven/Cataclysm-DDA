@@ -87,9 +87,6 @@ namespace game_info
 /** Return the name of the current operating system.
  */
 std::string operating_system();
-/** Return a detailed version of the operating system; e.g. "Ubuntu 18.04" or "(Windows) 10 1809".
- */
-std::string operating_system_version();
 /** Return the "bitness" of the game (not necessarily of the operating system); either: 64-bit, 32-bit or Unknown.
  */
 std::string bitness();

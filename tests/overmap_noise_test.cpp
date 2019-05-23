@@ -5,8 +5,8 @@
 #include "game_constants.h"
 #include "overmap_noise.h"
 
-static void export_raw_noise( const std::string &filename, const om_noise::om_noise_layer &noise,
-                              int width, int height )
+void export_raw_noise( const std::string &filename, const om_noise::om_noise_layer &noise,
+                       int width, int height )
 {
     std::ofstream testfile;
     testfile.open( filename, std::ofstream::trunc );
@@ -24,9 +24,8 @@ static void export_raw_noise( const std::string &filename, const om_noise::om_no
     testfile.close();
 }
 
-static void export_interpreted_noise(
-    const std::string &filename, const om_noise::om_noise_layer &noise, int width, int height,
-    float threshold )
+void export_interpreted_noise( const std::string &filename, const om_noise::om_noise_layer &noise,
+                               int width, int height, float threshold )
 {
     std::ofstream testfile;
     testfile.open( filename, std::ofstream::trunc );

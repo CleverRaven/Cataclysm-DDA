@@ -15,7 +15,7 @@
 const invlet_wrapper
 mutation_chars( "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}" );
 
-static void draw_exam_window( const catacurses::window &win, const int border_y )
+void draw_exam_window( const catacurses::window &win, const int border_y )
 {
     const int width = getmaxx( win );
     mvwputch( win, border_y, 0, BORDER_COLOR, LINE_XXXO );
@@ -28,8 +28,8 @@ const auto shortcut_desc = []( const std::string &comment, const std::string &ke
     return string_format( comment, string_format( "<color_yellow>%s</color>", keys ) );
 };
 
-static void show_mutations_titlebar( const catacurses::window &window,
-                                     const std::string &menu_mode, const input_context &ctxt )
+void show_mutations_titlebar( const catacurses::window &window, const std::string &menu_mode,
+                              const input_context &ctxt )
 {
     werase( window );
     std::ostringstream desc;

@@ -70,15 +70,15 @@ struct act_item {
 // TODO: Deliberately unified with multidrop. Unify further.
 typedef std::list<std::pair<int, int>> drop_indexes;
 
-static bool same_type( const std::list<item> &items )
+bool same_type( const std::list<item> &items )
 {
     return std::all_of( items.begin(), items.end(), [ &items ]( const item & it ) {
         return it.type == items.begin()->type;
     } );
 }
 
-static void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<item> &items,
-                              vehicle &veh, int part )
+void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<item> &items,
+                       vehicle &veh, int part )
 {
     if( items.empty() ) {
         return;
@@ -188,7 +188,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     }
 }
 
-static void stash_on_pet( const std::list<item> &items, monster &pet )
+void stash_on_pet( const std::list<item> &items, monster &pet )
 {
     units::volume remaining_volume = pet.inv.empty() ? 0_ml : pet.inv.front().get_storage();
     units::mass remaining_weight = pet.weight_capacity();
@@ -216,8 +216,8 @@ static void stash_on_pet( const std::list<item> &items, monster &pet )
     }
 }
 
-static void drop_on_map( const Character &c, item_drop_reason reason, const std::list<item> &items,
-                         const tripoint &where )
+void drop_on_map( const Character &c, item_drop_reason reason, const std::list<item> &items,
+                  const tripoint &where )
 {
     if( items.empty() ) {
         return;
@@ -318,7 +318,7 @@ void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std:
     drop_on_map( c, reason, items, where );
 }
 
-static drop_indexes convert_to_indexes( const player_activity &act )
+drop_indexes convert_to_indexes( const player_activity &act )
 {
     drop_indexes res;
 
@@ -332,7 +332,7 @@ static drop_indexes convert_to_indexes( const player_activity &act )
     return res;
 }
 
-static drop_indexes convert_to_indexes( const player &p, const std::list<act_item> &items )
+drop_indexes convert_to_indexes( const player &p, const std::list<act_item> &items )
 {
     drop_indexes res;
 
@@ -350,8 +350,8 @@ static drop_indexes convert_to_indexes( const player &p, const std::list<act_ite
     return res;
 }
 
-static std::list<act_item> convert_to_items( const player &p, const drop_indexes &drop,
-        int min_pos, int max_pos )
+std::list<act_item> convert_to_items( const player &p, const drop_indexes &drop,
+                                      int min_pos, int max_pos )
 {
     std::list<act_item> res;
 
@@ -382,7 +382,7 @@ static std::list<act_item> convert_to_items( const player &p, const drop_indexes
 // Prepares items for dropping by reordering them so that the drop
 // cost is minimal and "dependent" items get taken off first.
 // Implements the "backpack" logic.
-static std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &drop )
+std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &drop )
 {
     auto res  = convert_to_items( p, drop, -1, -1 );
     auto inv  = convert_to_items( p, drop, 0, INT_MAX );
@@ -443,7 +443,7 @@ static std::list<act_item> reorder_for_dropping( const player &p, const drop_ind
 }
 
 // TODO: Display costs in the multidrop menu
-static void debug_drop_list( const std::list<act_item> &list )
+void debug_drop_list( const std::list<act_item> &list )
 {
     if( !debug_mode ) {
         return;
@@ -457,7 +457,7 @@ static void debug_drop_list( const std::list<act_item> &list )
     popup( res, PF_GET_KEY );
 }
 
-static std::list<item> obtain_activity_items( player_activity &act, player &p )
+std::list<item> obtain_activity_items( player_activity &act, player &p )
 {
     std::list<item> res;
 
@@ -1191,8 +1191,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
     mgr.end_sort();
 }
 
-static cata::optional<tripoint> find_best_fire(
-    const std::vector<tripoint> &from, const tripoint &center )
+cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &from, const tripoint &center )
 {
     cata::optional<tripoint> best_fire;
     time_duration best_fire_age = 1_days;

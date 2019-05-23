@@ -616,7 +616,7 @@ void debug_menu::wishskill( player *p )
             sksetmenu.query();
             g->draw_ter();
             wrefresh( g->w_terrain );
-            g->draw_panels( true );
+            g->draw_panels();
             skset = sksetmenu.ret;
         }
 

@@ -104,6 +104,34 @@ void weather_effect::glare( bool snowglare )
 
 ////// food vs weather
 
+time_duration get_rot_since( const time_point &start, const time_point &end,
+                             const tripoint &pos )
+{
+    time_duration ret = 0_turns;
+    const auto &wgen = g->weather.get_cur_weather_gen();
+    /* Hoisting loop invariants */
+    const auto location_temp = g->weather.get_temperature( pos );
+    const auto local = g->m.getlocal( pos );
+    const auto local_mod = g->new_game ? 0 : g->m.get_temperature( local );
+    const auto seed = g->get_seed();
+
+    const auto temp_modify = ( !g->new_game ) && ( g->m.ter( local ) == t_rootcellar );
+
+    for( time_point i = start; i < end; i += 1_hours ) {
+        w_point w = wgen.get_weather( pos, i, seed );
+
+        // Use weather if above ground, use map temp if below
+        double temperature = ( pos.z >= 0 ? w.temperature : location_temp ) + local_mod;
+        // If in a root celler: use AVERAGE_ANNUAL_TEMPERATURE
+        // If not: use calculated temperature
+        temperature = ( temp_modify * AVERAGE_ANNUAL_TEMPERATURE ) + ( !temp_modify * temperature );
+
+        ret += std::min( 1_hours, end - i ) / 1_hours * get_hourly_rotpoints_at_temp(
+                   temperature ) * 1_turns;
+    }
+    return ret;
+}
+
 inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
                               const time_point &t, const time_duration &tick_size )
 {
@@ -302,7 +330,7 @@ double trap::funnel_turns_per_charge( double rain_depth_mm_per_hour ) const
 /**
  * Main routine for filling funnels from weather effects.
  */
-static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr )
+void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr )
 {
     const double turns_per_charge = tr.funnel_turns_per_charge( rain_depth_mm_per_hour );
     // Give each funnel on the map a chance to collect the rain.
@@ -335,7 +363,7 @@ static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr 
  * Fill funnels and makeshift funnels from weather effects.
  * @see fill_funnels
  */
-static void fill_water_collectors( int mmPerHour, bool acid )
+void fill_water_collectors( int mmPerHour, bool acid )
 {
     for( auto &e : trap::get_funnels() ) {
         fill_funnels( mmPerHour, acid, *e );
@@ -354,7 +382,7 @@ static void fill_water_collectors( int mmPerHour, bool acid )
  * @see map::decay_fields_and_scent
  * @see player::drench
  */
-static void wet_player( int amount )
+void wet_player( int amount )
 {
     if( !is_player_outside() ||
         g->u.has_trait( trait_FEATHERS ) ||
@@ -382,7 +410,7 @@ static void wet_player( int amount )
 /**
  * Main routine for wet effects caused by weather.
  */
-static void generic_wet( bool acid )
+void generic_wet( bool acid )
 {
     fill_water_collectors( 4, acid );
     g->m.decay_fields_and_scent( 15_turns );
@@ -393,7 +421,7 @@ static void generic_wet( bool acid )
  * Main routine for very wet effects caused by weather.
  * Similar to generic_wet() but with more aggressive numbers.
  */
-static void generic_very_wet( bool acid )
+void generic_very_wet( bool acid )
 {
     fill_water_collectors( 8, acid );
     g->m.decay_fields_and_scent( 45_turns );
@@ -730,6 +758,25 @@ int get_local_windchill( double temperature, double humidity, double windpower )
     }
 
     return windchill;
+}
+
+std::string get_wind_strength_bars( double windpower )
+{
+    std::string wind_bars;
+    if( windpower < 3 ) {
+        wind_bars.clear();
+    } else if( windpower < 12 ) {
+        wind_bars = "+";
+    } else if( windpower < 24 ) {
+        wind_bars = "++";
+    } else if( windpower < 38 ) {
+        wind_bars = "+++";
+    } else if( windpower < 54 ) {
+        wind_bars = "++++";
+    } else if( windpower >= 54 ) {
+        wind_bars = "+++++";
+    }
+    return wind_bars;
 }
 
 nc_color get_wind_color( double windpower )

@@ -27,12 +27,12 @@ const skill_id skill_swimming( "swimming" );
 static const std::string header_spaces( 26, ' ' );
 
 // Rescale temperature value to one that the player sees
-static int temperature_print_rescaling( int temp )
+int temperature_print_rescaling( int temp )
 {
     return ( temp / 100.0 ) * 2 - 100;
 }
 
-static bool should_combine_bps( const player &p, size_t l, size_t r )
+bool should_combine_bps( const player &p, size_t l, size_t r )
 {
     const auto enc_data = p.get_encumbrance();
     return enc_data[l] == enc_data[r] &&
@@ -121,7 +121,7 @@ void player::print_encumbrance( const catacurses::window &win, int line,
 
 }
 
-static std::string swim_cost_text( int moves )
+std::string swim_cost_text( int moves )
 {
     return string_format( ngettext( "Swimming costs %+d movement point. ",
                                     "Swimming costs %+d movement points. ",
@@ -129,7 +129,7 @@ static std::string swim_cost_text( int moves )
                           moves );
 }
 
-static std::string run_cost_text( int moves )
+std::string run_cost_text( int moves )
 {
     return string_format( ngettext( "Running costs %+d movement point. ",
                                     "Running costs %+d movement points. ",
@@ -137,7 +137,7 @@ static std::string run_cost_text( int moves )
                           moves );
 }
 
-static std::string reload_cost_text( int moves )
+std::string reload_cost_text( int moves )
 {
     return string_format( ngettext( "Reloading costs %+d movement point. ",
                                     "Reloading costs %+d movement points. ",
@@ -145,7 +145,7 @@ static std::string reload_cost_text( int moves )
                           moves );
 }
 
-static std::string melee_cost_text( int moves )
+std::string melee_cost_text( int moves )
 {
     return string_format( ngettext( "Melee and thrown attacks cost %+d movement point. ",
                                     "Melee and thrown attacks cost %+d movement points. ",
@@ -153,12 +153,12 @@ static std::string melee_cost_text( int moves )
                           moves );
 }
 
-static std::string dodge_skill_text( double mod )
+std::string dodge_skill_text( double mod )
 {
     return string_format( _( "Dodge skill %+.1f. " ), mod );
 }
 
-static int get_encumbrance( const player &p, body_part bp, bool combine )
+int get_encumbrance( const player &p, body_part bp, bool combine )
 {
     // Body parts that can't combine with anything shouldn't print double values on combine
     // This shouldn't happen, but handle this, just in case
@@ -166,7 +166,7 @@ static int get_encumbrance( const player &p, body_part bp, bool combine )
     return p.encumb( bp ) * ( ( combine && combines_with_other ) ? 2 : 1 );
 }
 
-static std::string get_encumbrance_description( const player &p, body_part bp, bool combine )
+std::string get_encumbrance_description( const player &p, body_part bp, bool combine )
 {
     std::string s;
 

@@ -133,29 +133,27 @@
       { "level": 1, "name": "firstaid" }
     ],
     "items": {
-      "both": {
-        "items": [
-          "knit_scarf",
-          "undershirt",
-          "dress_shirt",
-          "jacket_light",
-          "gloves_light",
-          "pants",
-          "fanny",
-          "socks",
-          "sneakers",
-          "roadmap",
-          "restaurantmap",
-          "shavingkit",
-          "mess_kit",
-          "aluminum_foil",
-          "can_chowder",
-          "apple_cider",
-          "fruit_leather",
-          "suitcase_m"
-        ],
-        "entries": [ { "group": "charged_cell_phone" } ]
-      },
+      "both": [
+        "knit_scarf",
+        "undershirt",
+        "dress_shirt",
+        "jacket_light",
+        "gloves_light",
+        "pants",
+        "fanny",
+        "socks",
+        "sneakers",
+        "roadmap",
+        "restaurantmap",
+        "shavingkit",
+        "mess_kit",
+        "aluminum_foil",
+        "cell_phone",
+        "can_chowder",
+        "apple_cider",
+        "fruit_leather",
+        "suitcase_m"
+      ],
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
@@ -293,26 +291,24 @@
     "points": 1,
     "skills": [ { "level": 1, "name": "speech" } ],
     "items": {
-      "both": {
-        "items": [
-          "dress_shirt",
-          "jacket_light",
-          "pants",
-          "socks",
-          "dress_shoes",
-          "skinny_tie",
-          "tieclip",
-          "fancy_sunglasses",
-          "knit_scarf",
-          "wristwatch",
-          "mbag",
-          "water_mineral",
-          "money_bundle",
-          "adderall",
-          "manual_business"
-        ],
-        "entries": [ { "group": "charged_cell_phone" } ]
-      },
+      "both": [
+        "dress_shirt",
+        "jacket_light",
+        "pants",
+        "socks",
+        "dress_shoes",
+        "skinny_tie",
+        "tieclip",
+        "fancy_sunglasses",
+        "knit_scarf",
+        "wristwatch",
+        "mbag",
+        "water_mineral",
+        "cell_phone",
+        "money_bundle",
+        "adderall",
+        "manual_business"
+      ],
       "male": [ "briefs" ],
       "female": [ "panties" ]
     }

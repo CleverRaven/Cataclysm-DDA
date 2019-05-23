@@ -35,13 +35,21 @@ const efftype_id effect_poison( "poison" );
 const efftype_id effect_badpoison( "badpoison" );
 
 // Simplified version of the function in monattack.cpp
-static bool is_adjacent( const monster &z, const Creature &target )
+bool is_adjacent( const monster &z, const Creature &target )
 {
     if( rl_dist( z.pos(), target.pos() ) != 1 ) {
         return false;
     }
 
     return z.posz() == target.posz();
+}
+
+// Modified version of the function on monattack.cpp
+bool dodge_check( float max_accuracy, Creature &target )
+{
+    ///\EFFECT_DODGE increases chance of dodging special attacks of monsters
+    float dodge = std::max( target.get_dodge() - rng( 0, max_accuracy ), 0.0f );
+    return rng( 0, 10000 ) < 10000 / ( 1 + 99 * exp( -0.6f * dodge ) );
 }
 
 void leap_actor::load_internal( JsonObject &obj, const std::string & )

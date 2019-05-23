@@ -855,7 +855,7 @@ void ups_based_armor_actor::load( JsonObject &obj )
     obj.read( "out_of_power_msg", out_of_power_msg );
 }
 
-static bool has_powersource( const item &i, const player &p )
+bool has_powersource( const item &i, const player &p )
 {
     if( i.is_power_armor() && p.can_interface_armor() && p.power_level > 0 ) {
         return true;
@@ -2883,7 +2883,7 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
     return RT_NOTHING;
 }
 
-static bool damage_item( player &pl, item_location &fix )
+bool damage_item( player &pl, item_location &fix )
 {
     const std::string startdurability = fix->durability_indicator( true );
     const auto destroyed = fix->inc_damage();
@@ -3102,7 +3102,7 @@ void heal_actor::load( JsonObject &obj )
     }
 }
 
-static player &get_patient( player &healer, const tripoint &pos )
+player &get_patient( player &healer, const tripoint &pos )
 {
     if( healer.pos() == pos ) {
         return healer;
@@ -3320,7 +3320,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     return it.type->charges_to_use();
 }
 
-static hp_part pick_part_to_heal(
+hp_part pick_part_to_heal(
     const player &healer, const player &patient,
     const std::string &menu_header,
     int limb_power, int head_bonus, int torso_bonus,
@@ -3522,14 +3522,14 @@ iuse_actor *place_trap_actor::clone() const
     return new place_trap_actor( *this );
 }
 
-static bool is_solid_neighbor( const tripoint &pos, const int offset_x, const int offset_y )
+bool is_solid_neighbor( const tripoint &pos, const int offset_x, const int offset_y )
 {
     const tripoint a = pos + tripoint( offset_x, offset_y, 0 );
     const tripoint b = pos - tripoint( offset_x, offset_y, 0 );
     return g->m.move_cost( a ) != 2 && g->m.move_cost( b ) != 2;
 }
 
-static bool has_neighbor( const tripoint &pos, const ter_id &terrain_id )
+bool has_neighbor( const tripoint &pos, const ter_id &terrain_id )
 {
     for( const tripoint &t : g->m.points_in_radius( pos, 1, 0 ) ) {
         if( g->m.ter( t ) == terrain_id ) {
@@ -3576,7 +3576,7 @@ bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::st
     return true;
 }
 
-static void place_and_add_as_known( player &p, const tripoint &pos, const trap_str_id &id )
+void place_and_add_as_known( player &p, const tripoint &pos, const trap_str_id &id )
 {
     g->m.trap_set( pos, id );
     const trap &tr = g->m.tr_at( pos );

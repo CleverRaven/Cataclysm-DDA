@@ -471,8 +471,8 @@ void npc::clear_fac()
 }
 // item id from group "<class-name>_<what>" or from fallback group
 // may still be a null item!
-static item random_item_from( const npc_class_id &type, const std::string &what,
-                              const std::string &fallback )
+item random_item_from( const npc_class_id &type, const std::string &what,
+                       const std::string &fallback )
 {
     auto result = item_group::item_from( type.str() + "_" + what );
     if( result.is_null() ) {
@@ -482,13 +482,13 @@ static item random_item_from( const npc_class_id &type, const std::string &what,
 }
 
 // item id from "<class-name>_<what>" or from "npc_<what>"
-static item random_item_from( const npc_class_id &type, const std::string &what )
+item random_item_from( const npc_class_id &type, const std::string &what )
 {
     return random_item_from( type, what, "npc_" + what );
 }
 
 // item id from "<class-name>_<what>_<gender>" or from "npc_<what>_<gender>"
-static item get_clothing_item( const npc_class_id &type, const std::string &what, bool male )
+item get_clothing_item( const npc_class_id &type, const std::string &what, bool male )
 {
     item result;
     //Check if class has gendered clothing
@@ -1712,15 +1712,7 @@ int npc::follow_distance() const
           g->m.has_flag( TFLAG_GOES_UP, g->u.pos() ) ) ) {
         return 1;
     }
-    // Uses ally_rule follow_distance_4 to determine if should follow by 2 or 4 tiles
-    if( rules.has_flag(
-            ally_rule::follow_distance_4 ) ) {
-        return 2;
-    }
-    // If NPC doesn't see player, change follow distance to 2
-    if( !sees( g->u ) ) {
-        return 2;
-    }
+    // TODO: Allow player to set that
     return 4;
 }
 
@@ -1880,7 +1872,7 @@ std::string npc::opinion_text() const
     return ret.str();
 }
 
-static void maybe_shift( cata::optional<tripoint> &pos, int dx, int dy )
+void maybe_shift( cata::optional<tripoint> &pos, int dx, int dy )
 {
     if( pos ) {
         pos->x += dx;
@@ -1888,7 +1880,7 @@ static void maybe_shift( cata::optional<tripoint> &pos, int dx, int dy )
     }
 }
 
-static void maybe_shift( tripoint &pos, int dx, int dy )
+void maybe_shift( tripoint &pos, int dx, int dy )
 {
     if( pos != tripoint_min ) {
         pos.x += dx;

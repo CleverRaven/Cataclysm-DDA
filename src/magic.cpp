@@ -64,7 +64,7 @@ void spell_type::load_spell( JsonObject &jo, const std::string &src )
     spell_factory.load( jo, src );
 }
 
-static energy_type energy_source_from_string( const std::string &str )
+energy_type energy_source_from_string( const std::string &str )
 {
     if( str == "MANA" ) {
         return mana_energy;
@@ -82,7 +82,7 @@ static energy_type energy_source_from_string( const std::string &str )
     }
 }
 
-static damage_type damage_type_from_string( const std::string &str )
+damage_type damage_type_from_string( const std::string &str )
 {
     if( str == "fire" ) {
         return DT_HEAT;
@@ -513,7 +513,7 @@ int spell::get_max_level() const
 // helper function to calculate xp needed to be at a certain level
 // pulled out as a helper function to make it easier to either be used in the future
 // or easier to tweak the formula
-static int exp_for_level( int level )
+int exp_for_level( int level )
 {
     // level 0 never needs xp
     if( level == 0 ) {

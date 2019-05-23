@@ -12,7 +12,7 @@
 #include "translations.h"
 #include "string_formatter.h"
 
-static bool needs_damage_type( affected_stat as )
+bool needs_damage_type( affected_stat as )
 {
     return as == AFFECTED_DAMAGE || as == AFFECTED_ARMOR ||
            as == AFFECTED_ARMOR_PENETRATION;
@@ -39,7 +39,7 @@ static const std::map<std::string, scaling_stat> scaling_stat_map = {{
     }
 };
 
-static scaling_stat scaling_stat_from_string( const std::string &s )
+scaling_stat scaling_stat_from_string( const std::string &s )
 {
     const auto &iter = scaling_stat_map.find( s );
     if( iter == scaling_stat_map.end() ) {
@@ -49,7 +49,7 @@ static scaling_stat scaling_stat_from_string( const std::string &s )
     return iter->second;
 }
 
-static affected_stat affected_stat_from_string( const std::string &s )
+affected_stat affected_stat_from_string( const std::string &s )
 {
     const auto &iter = affected_stat_map.find( s );
     if( iter != affected_stat_map.end() ) {
@@ -72,7 +72,7 @@ static const std::map<affected_stat, std::string> affected_stat_map_translation 
     }
 };
 
-static std::string string_from_affected_stat( const affected_stat &s )
+std::string string_from_affected_stat( const affected_stat &s )
 {
     const auto &iter = affected_stat_map_translation.find( s );
     return iter != affected_stat_map_translation.end() ? _( iter->second ) : "";
@@ -86,7 +86,7 @@ static const std::map<scaling_stat, std::string> scaling_stat_map_translation = 
     }
 };
 
-static std::string string_from_scaling_stat( const scaling_stat &s )
+std::string string_from_scaling_stat( const scaling_stat &s )
 {
     const auto &iter = scaling_stat_map_translation.find( s );
     return iter != scaling_stat_map_translation.end() ? _( iter->second ) : "";

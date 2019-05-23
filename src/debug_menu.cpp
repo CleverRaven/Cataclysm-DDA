@@ -716,7 +716,7 @@ void character_edit_menu()
     }
 }
 
-static const std::string &mission_status_string( mission::mission_status status )
+const std::string &mission_status_string( mission::mission_status status )
 {
     static const std::map<mission::mission_status, std::string> desc{ {
             { mission::mission_status::yet_to_start, _( "Yet to start" ) },
@@ -748,7 +748,7 @@ std::string mission_debug::describe( const mission &m )
     return data.str();
 }
 
-static void add_header( uilist &mmenu, const std::string &str )
+void add_header( uilist &mmenu, const std::string &str )
 {
     if( !mmenu.entries.empty() ) {
         mmenu.addentry( -1, false, -1, "" );
@@ -828,7 +828,7 @@ void mission_debug::edit_player()
     edit_mission( *all_missions[mmenu.ret] );
 }
 
-static bool remove_from_vec( std::vector<mission *> &vec, mission *m )
+bool remove_from_vec( std::vector<mission *> &vec, mission *m )
 {
     auto iter = std::remove( vec.begin(), vec.end(), m );
     bool ret = iter != vec.end();

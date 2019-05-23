@@ -526,7 +526,7 @@ void item_group::load_item_group( JsonObject &jsobj, const Group_tag &group_id,
     item_controller->load_item_group( jsobj, group_id, subtype );
 }
 
-static Group_tag get_unique_group_id()
+Group_tag get_unique_group_id()
 {
     // This is just a hint what id to use next. Overflow of it is defined and if the group
     // name is already used, we simply go the next id.

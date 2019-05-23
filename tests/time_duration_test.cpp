@@ -5,7 +5,7 @@
 #include "calendar.h"
 #include "json.h"
 
-static time_duration parse_time_duration( const std::string &json )
+time_duration parse_time_duration( const std::string &json )
 {
     std::istringstream buffer( json );
     JsonIn jsin( buffer );

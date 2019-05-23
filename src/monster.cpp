@@ -537,7 +537,7 @@ std::pair<std::string, nc_color> monster::get_attitude() const
     };
 }
 
-static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
+std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
 {
     std::string damage_info;
     nc_color col;

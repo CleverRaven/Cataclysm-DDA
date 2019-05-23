@@ -229,7 +229,7 @@ extern catacurses::window w_hit_animation; //this window overlays w_terrain whic
 //***********************************
 //Non-curses, Window functions      *
 //***********************************
-static void generate_alt_rect_texture()
+void generate_alt_rect_texture()
 {
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     static const Uint32 rmask = 0xff000000;
@@ -262,6 +262,13 @@ static void generate_alt_rect_texture()
     }
 }
 
+void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect, unsigned char color )
+{
+    SetTextureColorMod( alt_rect_tex, windowsPalette[color].r, windowsPalette[color].g,
+                        windowsPalette[color].b );
+    RenderCopy( renderer, alt_rect_tex, NULL, &rect );
+}
+
 void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
                     Uint32 r, Uint32 g, Uint32 b )
 {
@@ -274,13 +281,13 @@ static bool operator==( const cata_cursesport::WINDOW *const lhs, const catacurs
     return lhs == rhs.get();
 }
 
-static void ClearScreen()
+void ClearScreen()
 {
     SetRenderDrawColor( renderer, 0, 0, 0, 255 );
     RenderClear( renderer );
 }
 
-static void InitSDL()
+void InitSDL()
 {
     int init_flags = SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER;
     int ret;
@@ -320,7 +327,7 @@ static void InitSDL()
     atexit( SDL_Quit );
 }
 
-static bool SetupRenderTarget()
+bool SetupRenderTarget()
 {
     SetRenderDrawBlendMode( renderer, SDL_BLENDMODE_NONE );
     display_buffer.reset( SDL_CreateTexture( renderer.get(), SDL_PIXELFORMAT_ARGB8888,
@@ -338,7 +345,7 @@ static bool SetupRenderTarget()
 }
 
 //Registers, creates, and shows the Window!!
-static void WinCreate()
+void WinCreate()
 {
     std::string version = string_format( "Cataclysm: Dark Days Ahead - %s", getVersionString() );
 
@@ -519,7 +526,7 @@ static void WinCreate()
 
 }
 
-static void WinDestroy()
+void WinDestroy()
 {
 #if defined(__ANDROID__)
     touch_joystick.reset();
@@ -820,7 +827,7 @@ void set_displaybuffer_rendertarget()
 }
 
 // Populate a map with the available video displays and their name
-static void find_videodisplays()
+void find_videodisplays()
 {
     std::vector< std::tuple<int, std::string> > displays;
 
@@ -899,19 +906,25 @@ void Font::draw_ascii_lines( unsigned char line_id, int drawx, int drawy, int FG
     }
 }
 
-static void invalidate_framebuffer( std::vector<curseline> &framebuffer, int x, int y, int width,
-                                    int height )
+void invalidate_framebuffer( std::vector<curseline> &framebuffer, int x, int y, int width,
+                             int height )
 {
     for( int j = 0, fby = y; j < height; j++, fby++ ) {
         std::fill_n( framebuffer[fby].chars.begin() + x, width, cursecell( "" ) );
     }
 }
 
-static void invalidate_framebuffer( std::vector<curseline> &framebuffer )
+void invalidate_framebuffer( std::vector<curseline> &framebuffer )
 {
     for( auto &i : framebuffer ) {
         std::fill_n( i.chars.begin(), i.chars.size(), cursecell( "" ) );
     }
+}
+
+void invalidate_all_framebuffers()
+{
+    invalidate_framebuffer( terminal_framebuffer );
+    invalidate_framebuffer( oversized_framebuffer );
 }
 
 void reinitialize_framebuffer()
@@ -929,7 +942,7 @@ void reinitialize_framebuffer()
     }
 }
 
-static void invalidate_framebuffer_proportion( cata_cursesport::WINDOW *win )
+void invalidate_framebuffer_proportion( cata_cursesport::WINDOW *win )
 {
     const int oversized_width = std::max( TERMX, std::max( OVERMAP_WINDOW_WIDTH,
                                           TERRAIN_WINDOW_WIDTH ) );
@@ -1337,7 +1350,7 @@ static long end_alt_code()
     return alt_buffer;
 }
 
-static int HandleDPad()
+int HandleDPad()
 {
     // Check if we have a gamepad d-pad event.
     if( SDL_JoystickGetHat( joystick, 0 ) != SDL_HAT_CENTERED ) {
@@ -1409,7 +1422,7 @@ static int HandleDPad()
     return 0;
 }
 
-static SDL_Keycode sdl_keycode_opposite_arrow( SDL_Keycode key )
+SDL_Keycode sdl_keycode_opposite_arrow( SDL_Keycode key )
 {
     switch( key ) {
         case SDLK_UP:
@@ -1424,12 +1437,12 @@ static SDL_Keycode sdl_keycode_opposite_arrow( SDL_Keycode key )
     return 0;
 }
 
-static bool sdl_keycode_is_arrow( SDL_Keycode key )
+bool sdl_keycode_is_arrow( SDL_Keycode key )
 {
     return static_cast<bool>( sdl_keycode_opposite_arrow( key ) );
 }
 
-static long arrow_combo_to_numpad( SDL_Keycode mod, SDL_Keycode key )
+long arrow_combo_to_numpad( SDL_Keycode mod, SDL_Keycode key )
 {
     if( ( mod == SDLK_UP    && key == SDLK_RIGHT ) ||
         ( mod == SDLK_RIGHT && key == SDLK_UP ) ) {
@@ -1489,7 +1502,7 @@ static void end_arrow_combo()
  * -1 when a ALT+number sequence has been started,
  * or something that a call to ncurses getch would return.
  */
-static long sdl_keysym_to_curses( const SDL_Keysym &keysym )
+long sdl_keysym_to_curses( const SDL_Keysym &keysym )
 {
 
 #if !defined(__ANDROID__)
@@ -2410,7 +2423,7 @@ void android_vibrate()
 #endif
 
 //Check for any window messages (keypress, paint, mousemove, etc)
-static void CheckMessages()
+void CheckMessages()
 {
     SDL_Event ev;
     bool quit = false;
@@ -3257,7 +3270,7 @@ int projected_window_height()
     return get_option<int>( "TERMINAL_Y" ) * fontheight;
 }
 
-static void init_term_size_and_scaling_factor()
+void init_term_size_and_scaling_factor()
 {
     scaling_factor = 1;
     int terminal_x = get_option<int>( "TERMINAL_X" );
@@ -3774,7 +3787,7 @@ CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, in
     TTF_SetFontStyle( font.get(), TTF_STYLE_NORMAL );
 }
 
-static int map_font_width()
+int map_font_width()
 {
     if( use_tiles && tilecontext ) {
         return tilecontext->get_tile_width();
@@ -3782,7 +3795,7 @@ static int map_font_width()
     return ( map_font ? map_font : font )->fontwidth;
 }
 
-static int map_font_height()
+int map_font_height()
 {
     if( use_tiles && tilecontext ) {
         return tilecontext->get_tile_height();
@@ -3790,12 +3803,12 @@ static int map_font_height()
     return ( map_font ? map_font : font )->fontheight;
 }
 
-static int overmap_font_width()
+int overmap_font_width()
 {
     return ( overmap_font ? overmap_font : font )->fontwidth;
 }
 
-static int overmap_font_height()
+int overmap_font_height()
 {
     return ( overmap_font ? overmap_font : font )->fontheight;
 }

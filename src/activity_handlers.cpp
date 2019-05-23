@@ -211,7 +211,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_HACK_SAFE" ), hack_safe_finish }
 };
 
-static void messages_in_process( const player_activity &act, const player &p )
+void messages_in_process( const player_activity &act, const player &p )
 {
     if( act.moves_left <= 91000 && act.moves_left > 89000 ) {
         p.add_msg_if_player( m_info, _( "You figure it'll take about an hour and a half at this rate." ) );
@@ -266,7 +266,7 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-static bool check_butcher_cbm( const int roll )
+bool check_butcher_cbm( const int roll )
 {
     // Failure rates for dissection rolls
     // 90% at roll 0, 72% at roll 1, 60% at roll 2, 51% @ 3, 45% @ 4, 40% @ 5, ... , 25% @ 10
@@ -278,8 +278,8 @@ static bool check_butcher_cbm( const int roll )
     return !failed;
 }
 
-static void butcher_cbm_item( const std::string &what, const tripoint &pos,
-                              const time_point &age, const int roll )
+void butcher_cbm_item( const std::string &what, const tripoint &pos,
+                       const time_point &age, const int roll )
 {
     if( roll < 0 ) {
         return;
@@ -297,8 +297,8 @@ static void butcher_cbm_item( const std::string &what, const tripoint &pos,
     }
 }
 
-static void butcher_cbm_group( const std::string &group, const tripoint &pos,
-                               const time_point &age, const int roll )
+void butcher_cbm_group( const std::string &group, const tripoint &pos,
+                        const time_point &age, const int roll )
 {
     if( roll < 0 ) {
         return;
@@ -319,7 +319,7 @@ static void butcher_cbm_group( const std::string &group, const tripoint &pos,
     }
 }
 
-static void set_up_butchery( player_activity &act, player &u, butcher_type action )
+void set_up_butchery( player_activity &act, player &u, butcher_type action )
 {
     if( !act.values.empty() ) {
         act.index = act.values.back();
@@ -583,7 +583,7 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     return time_to_cut;
 }
 // The below function exists to allow mods to migrate their content fully to the new harvest system. This function should be removed eventually.
-static harvest_id butchery_flags_deprecate( const mtype &mt )
+harvest_id butchery_flags_deprecate( const mtype &mt )
 {
     std::string harvest_id_name = "null";
     if( mt.has_flag( MF_CBM_CIV ) ) {
@@ -671,7 +671,7 @@ static harvest_id butchery_flags_deprecate( const mtype &mt )
 }
 
 // this function modifies the input weight by its damage level, depending on the bodypart
-static int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
+int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
 {
     const float slight_damage = 0.9;
     const float damage = 0.75;
@@ -724,9 +724,9 @@ static int corpse_damage_effect( int weight, const std::string &entry_type, int 
     return weight;
 }
 
-static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
-                                    const std::function<int()> &roll_butchery, butcher_type action,
-                                    const std::function<double()> &roll_drops )
+void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
+                             const std::function<int()> &roll_butchery, butcher_type action,
+                             const std::function<double()> &roll_drops )
 {
     p.add_msg_if_player( m_neutral, _( mt.harvest->message() ) );
     int monster_weight = to_gram( mt.weight );
@@ -983,7 +983,7 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
     }
 }
 
-static void butchery_quarter( item *corpse_item, player &p )
+void butchery_quarter( item *corpse_item, player &p )
 {
     corpse_item->set_flag( "QUARTERED" );
     p.add_msg_if_player( m_good,
@@ -2185,7 +2185,7 @@ enum repeat_type : int {
     REPEAT_CANCEL,      // Stop repeating
 };
 
-static repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
+repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
 {
     uilist rmenu;
     rmenu.text = title;
@@ -3488,7 +3488,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
     act->set_to_null();
 }
 
-static hack_result try_hack( player &p )
+hack_result try_hack( player &p )
 {
     if( p.has_trait( trait_id( "ILLITERATE" ) ) ) {
         add_msg( _( "You can't read anything on the screen." ) );

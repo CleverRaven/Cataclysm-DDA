@@ -397,27 +397,5 @@
       { "item": "socks" },
       { "item": "boots" }
     ]
-  },
-  {
-    "id": "underwear",
-    "type": "item_group",
-    "items": [
-      [ "bra", 70 ],
-      [ "sports_bra", 50 ],
-      [ "bikini_top", 10 ],
-      [ "panties", 70 ],
-      [ "bikini_bottom", 10 ],
-      [ "panties", 70 ],
-      [ "boy_shorts", 50 ],
-      [ "boxer_shorts", 70 ],
-      [ "briefs", 50 ],
-      [ "undershirt", 50 ],
-      [ "long_undertop", 20 ],
-      [ "under_armor", 20 ],
-      [ "tank_top", 50 ],
-      [ "boxer_shorts", 70 ],
-      [ "long_underpants", 20 ],
-      [ "under_armor_shorts", 20 ]
-    ]
   }
 ]

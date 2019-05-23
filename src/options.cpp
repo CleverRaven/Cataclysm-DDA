@@ -2283,9 +2283,8 @@ static void refresh_tiles( bool, bool, bool )
 }
 #endif // TILES
 
-static void draw_borders_external(
-    const catacurses::window &w, int horizontal_level, const std::map<int, bool> &mapLines,
-    const bool world_options_only )
+void draw_borders_external( const catacurses::window &w, int horizontal_level,
+                            const std::map<int, bool> &mapLines, const bool world_options_only )
 {
     if( !world_options_only ) {
         draw_border( w, BORDER_COLOR, _( " OPTIONS " ) );
@@ -2299,7 +2298,7 @@ static void draw_borders_external(
     wrefresh( w );
 }
 
-static void draw_borders_internal( const catacurses::window &w, std::map<int, bool> &mapLines )
+void draw_borders_internal( const catacurses::window &w, std::map<int, bool> &mapLines )
 {
     for( int i = 0; i < getmaxx( w ); ++i ) {
         if( mapLines[i] ) {

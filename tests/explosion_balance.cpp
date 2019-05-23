@@ -21,8 +21,8 @@
 #include "string_id.h"
 #include "type_id.h"
 
-static void check_lethality( const std::string &explosive_id, const int range, float lethality,
-                             float margin )
+void check_lethality( const std::string &explosive_id, const int range, float lethality,
+                      float margin )
 {
     const epsilon_threshold target_lethality{ lethality, margin };
     int num_survivors = 0;
@@ -78,7 +78,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
     CHECK( deaths.avg() == Approx( lethality ).margin( margin ) );
 }
 
-static std::vector<int> get_part_hp( vehicle *veh )
+std::vector<int> get_part_hp( vehicle *veh )
 {
     std::vector<int> part_hp;
     part_hp.reserve( veh->parts.size() );
@@ -88,8 +88,8 @@ static std::vector<int> get_part_hp( vehicle *veh )
     return part_hp;
 }
 
-static void check_vehicle_damage( const std::string &explosive_id, const std::string &vehicle_id,
-                                  const int range )
+void check_vehicle_damage( const std::string &explosive_id, const std::string &vehicle_id,
+                           const int range )
 {
     // Clear map
     clear_map_and_put_player_underground();

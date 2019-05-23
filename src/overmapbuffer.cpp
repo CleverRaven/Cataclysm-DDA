@@ -852,9 +852,9 @@ bool overmapbuffer::check_overmap_special_type( const overmap_special_id &id, co
     return om.overmap_pointer->check_overmap_special_type( id, om.coordinates );
 }
 
-static omt_find_params assign_params( const std::string &type, int const radius, bool must_be_seen,
-                                      bool allow_subtype_matches, bool existing_overmaps_only,
-                                      const cata::optional<overmap_special_id> &om_special )
+omt_find_params assign_params( const std::string &type, int const radius, bool must_be_seen,
+                               bool allow_subtype_matches, bool existing_overmaps_only,
+                               const cata::optional<overmap_special_id> &om_special )
 {
     omt_find_params params;
     params.type = type;
@@ -1157,7 +1157,7 @@ std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near_omt( int x, int y
     return result;
 }
 
-static radio_tower_reference create_radio_tower_reference( const overmap &om, radio_tower &t,
+radio_tower_reference create_radio_tower_reference( const overmap &om, radio_tower &t,
         const tripoint &center )
 {
     // global submap coordinates, same as center is

@@ -9,7 +9,6 @@
 "name" : "Debug Mastery",   // In-game name displayed
 "description": "A secret martial art used only by developers and cheaters.",    // In-game description
 "initiate": [ "You stand ready.", "%s stands ready." ],     // Message shown when player or NPC chooses this art
-"autolearn": [ [ "unarmed", "2" ] ],     // A list of skill requirements that if met, automatically teach the player the martial art
 "arm_block" : 99,           // Unarmed skill level at which arm blocking is unlocked
 "leg_block" : 99,           // Unarmed skill level at which arm blocking is unlocked
 "static_buffs" : [          // List of buffs that are automatically applied every turn

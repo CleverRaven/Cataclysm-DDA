@@ -97,7 +97,7 @@ static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NO
 };
 
 // TODO: investigate serializing other members of the Creature class hierarchy
-static void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
+void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
 {
     if( const auto monster_ptr = obj.lock() ) {
         jsout.start_object();
@@ -113,7 +113,7 @@ static void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
     }
 }
 
-static void deserialize( std::weak_ptr<monster> &obj, JsonIn &jsin )
+void deserialize( std::weak_ptr<monster> &obj, JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     tripoint temp_pos;
@@ -2344,7 +2344,7 @@ void vehicle_part::serialize( JsonOut &json ) const
 /*
  * label
  */
-static void deserialize( label &val, JsonIn &jsin )
+void deserialize( label &val, JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     data.read( "x", val.x );
@@ -2352,7 +2352,7 @@ static void deserialize( label &val, JsonIn &jsin )
     data.read( "text", val.text );
 }
 
-static void serialize( const label &val, JsonOut &json )
+void serialize( const label &val, JsonOut &json )
 {
     json.start_object();
     json.member( "x", val.x );

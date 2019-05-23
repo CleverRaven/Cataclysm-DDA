@@ -202,10 +202,10 @@ void VehicleSpawn::apply( const vspawn_id &id, map &m, const std::string &terrai
 namespace VehicleSpawnFunction
 {
 
-static void builtin_no_vehicles( map &, const std::string & )
+void builtin_no_vehicles( map &, const std::string & )
 {}
 
-static void builtin_jackknifed_semi( map &m, const std::string &terrainid )
+void builtin_jackknifed_semi( map &m, const std::string &terrainid )
 {
     const VehicleLocation *loc = vplacement_id( terrainid + "_semi" ).obj().pick();
     if( ! loc ) {
@@ -236,7 +236,7 @@ static void builtin_jackknifed_semi( map &m, const std::string &terrainid )
     m.add_vehicle( vgroup_id( "truck_trailer" ), trailer_p, ( facing + 90 ) % 360, -1, 1 );
 }
 
-static void builtin_pileup( map &m, const std::string &, const std::string &vg )
+void builtin_pileup( map &m, const std::string &, const std::string &vg )
 {
     vehicle *last_added_car = nullptr;
     const int num_cars = rng( 5, 12 );
@@ -258,17 +258,17 @@ static void builtin_pileup( map &m, const std::string &, const std::string &vg )
     }
 }
 
-static void builtin_citypileup( map &m, const std::string &t )
+void builtin_citypileup( map &m, const std::string &t )
 {
     builtin_pileup( m, t, "city_pileup" );
 }
 
-static void builtin_policepileup( map &m, const std::string &t )
+void builtin_policepileup( map &m, const std::string &t )
 {
     builtin_pileup( m, t, "police_pileup" );
 }
 
-static void builtin_parkinglot( map &m, const std::string & )
+void builtin_parkinglot( map &m, const std::string & )
 {
     for( int v = 0; v < rng( 1, 4 ); v++ ) {
         tripoint pos_p;

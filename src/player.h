@@ -30,6 +30,7 @@
 #include "player_activity.h"
 #include "ret_val.h"
 #include "weighted_list.h"
+#include "stomach.h"
 #include "bodypart.h"
 #include "color.h"
 #include "creature.h"
@@ -196,6 +197,10 @@ class player : public Character
 
         void normalize() override;
 
+        /** Returns either "you" or the player's name */
+        std::string disp_name( bool possessive = false ) const override;
+        /** Returns the name of the player's outer layer, e.g. "armor plates" */
+        std::string skin_name() const override;
 
         bool is_player() const override {
             return true;
@@ -238,6 +243,8 @@ class player : public Character
         void serialize_map_memory( JsonOut &jsout ) const;
         void deserialize_map_memory( JsonIn &jsin );
 
+        /** Prints out the player's memorial file */
+        void memorial( std::ostream &memorial_file, const std::string &epitaph );
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info();
         /** Provides the window and detailed morale data */
@@ -509,8 +516,6 @@ class player : public Character
         bool has_martialart( const matype_id &ma_id ) const;
         /** Adds the entered martial art to the player's list */
         void add_martialart( const matype_id &ma_id );
-        /** Returns true if the player can learn the entered martial art */
-        bool can_autolearn( const matype_id &ma_id ) const;
 
         /** Returns the to hit bonus from martial arts buffs */
         float mabuff_tohit_bonus() const;
@@ -897,7 +902,11 @@ class player : public Character
          */
         item &get_consumable_from( item &it ) const;
 
+        stomach_contents stomach;
+        stomach_contents guts;
+
         std::pair<std::string, nc_color> get_hunger_description() const override;
+        void initialize_stomach_contents();
 
         /** Get vitamin contents for a comestible */
         std::map<vitamin_id, int> vitamins_from( const item &it ) const;

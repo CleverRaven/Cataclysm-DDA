@@ -392,8 +392,8 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
 }
 
 // A helper to make sure mass and density is always calculated the same way
-static void terrain_collision_data( const tripoint &p, bool bash_floor,
-                                    float &mass, float &density, float &elastic )
+void terrain_collision_data( const tripoint &p, bool bash_floor,
+                             float &mass, float &density, float &elastic )
 {
     elastic = 0.30;
     // Just a rough rescale for now to obtain approximately equal numbers
@@ -1142,7 +1142,7 @@ void vehicle::precalculate_vehicle_turning( int new_turn_dir, bool check_rail_di
 }
 
 // rounds turn_dir to 45*X degree, respecting face_dir
-static int get_corrected_turn_dir( int turn_dir, int face_dir )
+int get_corrected_turn_dir( int turn_dir, int face_dir )
 {
     int corrected_turn_dir = 0;
 

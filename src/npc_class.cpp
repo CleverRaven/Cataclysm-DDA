@@ -164,7 +164,7 @@ void npc_class::check_consistency()
     }
 }
 
-static distribution load_distribution( JsonObject &jo )
+distribution load_distribution( JsonObject &jo )
 {
     if( jo.has_float( "constant" ) ) {
         return distribution::constant( jo.get_float( "constant" ) );
@@ -212,7 +212,7 @@ static distribution load_distribution( JsonObject &jo )
     return distribution();
 }
 
-static distribution load_distribution( JsonObject &jo, const std::string &name )
+distribution load_distribution( JsonObject &jo, const std::string &name )
 {
     if( !jo.has_member( name ) ) {
         return distribution();

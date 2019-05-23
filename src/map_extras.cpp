@@ -72,12 +72,12 @@ static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_wasp( "mon_wasp" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
 
-static void mx_null( map &, const tripoint & )
+void mx_null( map &, const tripoint & )
 {
     debugmsg( "Tried to generate null map extra." );
 }
 
-static void mx_house_wasp( map &m, const tripoint & )
+void mx_house_wasp( map &m, const tripoint & )
 {
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
@@ -114,7 +114,7 @@ static void mx_house_wasp( map &m, const tripoint & )
     m.place_items( "rare", 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, 0 );
 }
 
-static void mx_house_spider( map &m, const tripoint & )
+void mx_house_spider( map &m, const tripoint & )
 {
     auto spider_type = mon_spider_widow_giant;
     auto egg_type = f_egg_sackbw;
@@ -148,7 +148,7 @@ static void mx_house_spider( map &m, const tripoint & )
 
 }
 
-static void mx_helicopter( map &m, const tripoint &abs_sub )
+void mx_helicopter( map &m, const tripoint &abs_sub )
 {
     int cx = rng( 6, SEEX * 2 - 7 );
     int cy = rng( 6, SEEY * 2 - 7 );
@@ -312,7 +312,7 @@ static void mx_helicopter( map &m, const tripoint &abs_sub )
     }
 }
 
-static void mx_military( map &m, const tripoint & )
+void mx_military( map &m, const tripoint & )
 {
     int num_bodies = dice( 2, 6 );
     for( int i = 0; i < num_bodies; i++ ) {
@@ -343,7 +343,7 @@ static void mx_military( map &m, const tripoint & )
     m.place_items( "rare", 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0 );
 }
 
-static void mx_science( map &m, const tripoint & )
+void mx_science( map &m, const tripoint & )
 {
     int num_bodies = dice( 2, 5 );
     for( int i = 0; i < num_bodies; i++ ) {
@@ -365,7 +365,7 @@ static void mx_science( map &m, const tripoint & )
     m.place_items( "rare", 45, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0 );
 }
 
-static void mx_collegekids( map &m, const tripoint & )
+void mx_collegekids( map &m, const tripoint & )
 {
     //college kids that got into trouble
     int num_bodies = dice( 2, 6 );
@@ -395,7 +395,7 @@ static void mx_collegekids( map &m, const tripoint & )
     }
 }
 
-static void mx_roadblock( map &m, const tripoint &abs_sub )
+void mx_roadblock( map &m, const tripoint &abs_sub )
 {
     std::string north = overmap_buffer.ter( abs_sub.x / 2, abs_sub.y / 2 - 1, abs_sub.z ).id().c_str();
     std::string south = overmap_buffer.ter( abs_sub.x / 2, abs_sub.y / 2 + 1, abs_sub.z ).id().c_str();
@@ -528,7 +528,7 @@ static void mx_roadblock( map &m, const tripoint &abs_sub )
     }
 }
 
-static void mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
+void mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
 {
     const tripoint leader_pos( rng( 4, 19 ), rng( 4, 19 ), abs_sub.z );
     const int max_followers = rng( 3, 12 );
@@ -546,7 +546,7 @@ static void mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
 
 }
 
-static void mx_bandits_block( map &m, const tripoint &abs_sub )
+void mx_bandits_block( map &m, const tripoint &abs_sub )
 {
     const oter_id &north = overmap_buffer.ter( abs_sub.x, abs_sub.y - 1, abs_sub.z );
     const oter_id &south = overmap_buffer.ter( abs_sub.x, abs_sub.y + 1, abs_sub.z );
@@ -584,7 +584,7 @@ static void mx_bandits_block( map &m, const tripoint &abs_sub )
     }
 }
 
-static void mx_drugdeal( map &m, const tripoint &abs_sub )
+void mx_drugdeal( map &m, const tripoint &abs_sub )
 {
     // Decide on a drug type
     int num_drugs = 0;
@@ -709,7 +709,7 @@ static void mx_drugdeal( map &m, const tripoint &abs_sub )
     }
 }
 
-static void mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
+void mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
 {
     int num_crates = rng( 1, 5 );
     for( int i = 0; i < num_crates; i++ ) {
@@ -751,7 +751,7 @@ static void mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
     }
 }
 
-static void mx_portal( map &m, const tripoint &abs_sub )
+void mx_portal( map &m, const tripoint &abs_sub )
 {
     int x = rng( 1, SEEX * 2 - 2 ), y = rng( 1, SEEY * 2 - 2 );
     for( int i = x - 1; i <= x + 1; i++ ) {
@@ -768,7 +768,7 @@ static void mx_portal( map &m, const tripoint &abs_sub )
     }
 }
 
-static void mx_minefield( map &m, const tripoint &abs_sub )
+void mx_minefield( map &m, const tripoint &abs_sub )
 {
     const int num_mines = rng( 6, 20 );
 
@@ -798,7 +798,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
     m.set_signage( tripoint( x, y2, abs_sub.z ), text );
 }
 
-static void mx_crater( map &m, const tripoint &abs_sub )
+void mx_crater( map &m, const tripoint &abs_sub )
 {
     int size = rng( 2, 6 );
     int size_squared = size * size;
@@ -815,7 +815,7 @@ static void mx_crater( map &m, const tripoint &abs_sub )
     }
 }
 
-static void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<point> &ignited )
+void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<point> &ignited )
 {
     // Tracks points nearby for ignition after the lava is placed
     //std::set<point> ignited;
@@ -842,7 +842,7 @@ static void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<poi
 
 }
 
-static void mx_fumarole( map &m, const tripoint &abs_sub )
+void mx_fumarole( map &m, const tripoint &abs_sub )
 {
     if( abs_sub.z <= 0 ) {
         int x1 = rng( 0,    SEEX     - 1 ), y1 = rng( 0,    SEEY     - 1 ),
@@ -891,7 +891,7 @@ static void mx_fumarole( map &m, const tripoint &abs_sub )
     }
 }
 
-static void mx_portal_in( map &m, const tripoint &abs_sub )
+void mx_portal_in( map &m, const tripoint &abs_sub )
 {
     int x = rng( 5, SEEX * 2 - 6 ), y = rng( 5, SEEY * 2 - 6 );
     m.add_field( {x, y, abs_sub.z}, fd_fatigue, 3, 0_turns );
@@ -908,7 +908,7 @@ static void mx_portal_in( map &m, const tripoint &abs_sub )
     }
 }
 
-static void mx_anomaly( map &m, const tripoint &abs_sub )
+void mx_anomaly( map &m, const tripoint &abs_sub )
 {
     tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
     artifact_natural_property prop =
@@ -917,7 +917,7 @@ static void mx_anomaly( map &m, const tripoint &abs_sub )
     m.spawn_natural_artifact( center, prop );
 }
 
-static void mx_shia( map &m, const tripoint & )
+void mx_shia( map &m, const tripoint & )
 {
     // A rare chance to spawn Shia. This was extracted from the hardcoded forest mapgen
     // and moved into a map extra, but it still has a one_in chance of spawning because
@@ -928,7 +928,7 @@ static void mx_shia( map &m, const tripoint & )
     }
 }
 
-static void mx_spider( map &m, const tripoint &abs_sub )
+void mx_spider( map &m, const tripoint &abs_sub )
 {
     // This was extracted from the hardcoded forest mapgen and slightly altered so
     // that it used flags rather than specific terrain types in determining where to
@@ -953,7 +953,7 @@ static void mx_spider( map &m, const tripoint &abs_sub )
     m.add_spawn( mon_spider_web, rng( 1, 2 ), SEEX, SEEY );
 }
 
-static void mx_jabberwock( map &m, const tripoint & )
+void mx_jabberwock( map &m, const tripoint & )
 {
     // A rare chance to spawn a jabberwock. This was extracted from the harcoded forest mapgen
     // and moved into a map extra. It still has a one_in chance of spawning because otherwise
@@ -965,7 +965,7 @@ static void mx_jabberwock( map &m, const tripoint & )
     }
 }
 
-static void mx_grove( map &m, const tripoint &abs_sub )
+void mx_grove( map &m, const tripoint &abs_sub )
 {
     // From wikipedia - The main meaning of "grove" is a group of trees that grow close together,
     // generally without many bushes or other plants underneath.
@@ -1000,7 +1000,7 @@ static void mx_grove( map &m, const tripoint &abs_sub )
     }
 }
 
-static void mx_shrubbery( map &m, const tripoint &abs_sub )
+void mx_shrubbery( map &m, const tripoint &abs_sub )
 {
     // This map extra finds the first shrub in the area, and then converts all trees, young trees,
     // and shrubs in the area into that type of shrub.
@@ -1032,7 +1032,7 @@ static void mx_shrubbery( map &m, const tripoint &abs_sub )
     }
 }
 
-static void mx_clearcut( map &m, const tripoint &abs_sub )
+void mx_clearcut( map &m, const tripoint &abs_sub )
 {
     // From wikipedia - Clearcutting, clearfelling or clearcut logging is a forestry/logging
     // practice in which most or all trees in an area are uniformly cut down.
@@ -1051,7 +1051,7 @@ static void mx_clearcut( map &m, const tripoint &abs_sub )
     }
 }
 
-static void mx_pond( map &m, const tripoint &abs_sub )
+void mx_pond( map &m, const tripoint &abs_sub )
 {
     // This map extra creates small ponds using a simple cellular automaton.
 
@@ -1097,7 +1097,7 @@ static void mx_pond( map &m, const tripoint &abs_sub )
     m.place_spawns( GROUP_FISH, 1, 0, 0, width, height, 0.15f );
 }
 
-static void mx_clay_deposit( map &m, const tripoint &abs_sub )
+void mx_clay_deposit( map &m, const tripoint &abs_sub )
 {
     // This map extra creates small clay deposits using a simple cellular automaton.
 

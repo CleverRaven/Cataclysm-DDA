@@ -46,7 +46,7 @@ enum test_action {
     TEST_ACTION_NUM,
 };
 
-static std::string location_desc( const inventory_location loc )
+std::string location_desc( const inventory_location loc )
 {
     switch( loc ) {
         case GROUND:
@@ -63,8 +63,8 @@ static std::string location_desc( const inventory_location loc )
     return "unknown location";
 }
 
-static std::string move_action_desc( const int pos, const inventory_location from,
-                                     const inventory_location to )
+std::string move_action_desc( const int pos, const inventory_location from,
+                              const inventory_location to )
 {
     std::stringstream ss;
     ss << "move ";
@@ -115,7 +115,7 @@ static std::string move_action_desc( const int pos, const inventory_location fro
     return ss.str();
 }
 
-static std::string invlet_state_desc( const invlet_state invstate )
+std::string invlet_state_desc( const invlet_state invstate )
 {
     switch( invstate ) {
         case NONE:
@@ -130,12 +130,11 @@ static std::string invlet_state_desc( const invlet_state invstate )
     return "unexpected";
 }
 
-static std::string test_action_desc(
-    const test_action action, const inventory_location from, const inventory_location to,
-    const invlet_state first_invlet_state, const invlet_state second_invlet_state,
-    const invlet_state expected_first_invlet_state,
-    const invlet_state expected_second_invlet_state,
-    const invlet_state final_first_invlet_state, const invlet_state final_second_invlet_state )
+std::string test_action_desc( const test_action action, const inventory_location from,
+                              const inventory_location to,
+                              const invlet_state first_invlet_state, const invlet_state second_invlet_state,
+                              const invlet_state expected_first_invlet_state, const invlet_state expected_second_invlet_state,
+                              const invlet_state final_first_invlet_state, const invlet_state final_second_invlet_state )
 {
     std::stringstream ss;
     ss << "1. add 1st item to " << location_desc( to ) << std::endl;
@@ -172,7 +171,7 @@ static std::string test_action_desc(
     return ss.str();
 }
 
-static void assign_invlet( player &p, item &it, const char invlet, const invlet_state invstate )
+void assign_invlet( player &p, item &it, const char invlet, const invlet_state invstate )
 {
     p.reassign_item( it, '\0' );
     switch( invstate ) {
@@ -191,7 +190,7 @@ static void assign_invlet( player &p, item &it, const char invlet, const invlet_
     }
 }
 
-static invlet_state check_invlet( player &p, item &it, const char invlet )
+invlet_state check_invlet( player &p, item &it, const char invlet )
 {
     if( it.invlet == '\0' ) {
         return NONE;
@@ -206,7 +205,7 @@ static invlet_state check_invlet( player &p, item &it, const char invlet )
     return UNEXPECTED;
 }
 
-static void drop_at_feet( player &p, const int pos )
+void drop_at_feet( player &p, const int pos )
 {
     auto size_before = g->m.i_at( p.pos() ).size();
     p.moves = 100;
@@ -215,7 +214,7 @@ static void drop_at_feet( player &p, const int pos )
     REQUIRE( g->m.i_at( p.pos() ).size() == size_before + 1 );
 }
 
-static void pick_up_from_feet( player &p, int pos )
+void pick_up_from_feet( player &p, int pos )
 {
     auto size_before = g->m.i_at( p.pos() ).size();
     REQUIRE( size_before > pos );
@@ -229,7 +228,7 @@ static void pick_up_from_feet( player &p, int pos )
     REQUIRE( g->m.i_at( p.pos() ).size() == size_before - 1 );
 }
 
-static void wear_from_feet( player &p, int pos )
+void wear_from_feet( player &p, int pos )
 {
     auto size_before = g->m.i_at( p.pos() ).size();
     REQUIRE( size_before > pos );
@@ -237,7 +236,7 @@ static void wear_from_feet( player &p, int pos )
     g->m.i_rem( p.pos(), pos );
 }
 
-static void wield_from_feet( player &p, int pos )
+void wield_from_feet( player &p, int pos )
 {
     auto size_before = g->m.i_at( p.pos() ).size();
     REQUIRE( size_before > pos );
@@ -245,7 +244,7 @@ static void wield_from_feet( player &p, int pos )
     g->m.i_rem( p.pos(), pos );
 }
 
-static void add_item( player &p, item &it, const inventory_location loc )
+void add_item( player &p, item &it, const inventory_location loc )
 {
     switch( loc ) {
         case GROUND:
@@ -271,7 +270,7 @@ static void add_item( player &p, item &it, const inventory_location loc )
     }
 }
 
-static item &item_at( player &p, const int pos, const inventory_location loc )
+item &item_at( player &p, const int pos, const inventory_location loc )
 {
     switch( loc ) {
         case GROUND:
@@ -289,8 +288,8 @@ static item &item_at( player &p, const int pos, const inventory_location loc )
     return null_item_reference();
 }
 
-static void move_item( player &p, const int pos, const inventory_location from,
-                       const inventory_location to )
+void move_item( player &p, const int pos, const inventory_location from,
+                const inventory_location to )
 {
     switch( from ) {
         case GROUND:
@@ -385,7 +384,7 @@ static void move_item( player &p, const int pos, const inventory_location from,
     }
 }
 
-static void invlet_test( player &dummy, const inventory_location from, const inventory_location to )
+void invlet_test( player &dummy, const inventory_location from, const inventory_location to )
 {
     // invlet to assign
     constexpr char invlet = '|';
@@ -470,7 +469,7 @@ static void invlet_test( player &dummy, const inventory_location from, const inv
     }
 }
 
-static void stack_invlet_test( player &dummy, inventory_location from, inventory_location to )
+void stack_invlet_test( player &dummy, inventory_location from, inventory_location to )
 {
     // invlet to assign
     constexpr char invlet = '|';
@@ -519,7 +518,7 @@ static void stack_invlet_test( player &dummy, inventory_location from, inventory
     assign_invlet( dummy, item_at( dummy, 0, to ), invlet, NONE );
 }
 
-static void swap_invlet_test( player &dummy, inventory_location loc )
+void swap_invlet_test( player &dummy, inventory_location loc )
 {
     // invlet to assign
     constexpr char invlet_1 = '{';
@@ -587,7 +586,7 @@ static void swap_invlet_test( player &dummy, inventory_location loc )
     assign_invlet( dummy, item_at( dummy, 1, loc ), invlet_1, NONE );
 }
 
-static void merge_invlet_test( player &dummy, inventory_location from )
+void merge_invlet_test( player &dummy, inventory_location from )
 {
     // invlet to assign
     constexpr char invlet_1 = '{';
@@ -706,7 +705,7 @@ TEST_CASE( "Inventory letter test", "[invlet]" )
     merge_invlet_test_autoletter_off( "Merging worn item into an inventory stack", dummy, WORN );
 }
 
-static void verify_invlet_consistency( const invlet_favorites &fav )
+void verify_invlet_consistency( const invlet_favorites &fav )
 {
     for( const auto &p : fav.get_invlets_by_id() ) {
         for( const char invlet : p.second ) {

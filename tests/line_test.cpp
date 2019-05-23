@@ -14,8 +14,8 @@
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 // Compare all future line_to implementations to the canonical one.
-static std::vector <point> canonical_line_to(
-    const int x1, const int y1, const int x2, const int y2, int t )
+std::vector <point> canonical_line_to( const int x1, const int y1, const int x2, const int y2,
+                                       int t )
 {
     std::vector<point> ret;
     const int dx = x2 - x1;
@@ -291,7 +291,7 @@ TEST_CASE( "squares_closer_to_test" )
 #define RANDOM_TEST_NUM 1000
 #define COORDINATE_RANGE 99
 
-static void line_to_comparison( const int iterations )
+void line_to_comparison( const int iterations )
 {
     REQUIRE( trig_dist( 0, 0, 0, 0 ) == 0 );
     REQUIRE( trig_dist( 0, 0, 1, 0 ) == 1 );

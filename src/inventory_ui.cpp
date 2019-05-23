@@ -982,8 +982,8 @@ void selection_column::on_change( const inventory_entry &entry )
 }
 
 // TODO: Move it into some 'item_stack' class.
-static std::vector<std::list<item *>> restack_items( const std::list<item>::const_iterator &from,
-                                   const std::list<item>::const_iterator &to, bool check_components = false )
+std::vector<std::list<item *>> restack_items( const std::list<item>::const_iterator &from,
+                            const std::list<item>::const_iterator &to, bool check_components = false )
 {
     std::vector<std::list<item *>> res;
 
@@ -1778,7 +1778,7 @@ item_location inventory_pick_selector::execute()
         if( input.action == "HELP_KEYBINDINGS" || input.action == "INVENTORY_FILTER" ) {
             g->draw_ter();
             wrefresh( g->w_terrain );
-            g->draw_panels( true );
+            g->draw_panels();
         }
     }
 }

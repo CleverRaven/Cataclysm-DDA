@@ -23,9 +23,9 @@
 #include "shadowcasting.h"
 #include "type_id.h"
 
-static void full_map_test( const std::vector<std::string> &setup,
-                           const std::vector<std::string> &expected_results,
-                           const calendar time )
+void full_map_test( const std::vector<std::string> &setup,
+                    const std::vector<std::string> &expected_results,
+                    const calendar time )
 {
     const ter_id t_brick_wall( "t_brick_wall" );
     const ter_id t_window_frame( "t_window_frame" );

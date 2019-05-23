@@ -180,7 +180,7 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
     }
 };
 
-static void load_map_bash_tent_centers( JsonArray ja, std::vector<furn_str_id> &centers )
+void load_map_bash_tent_centers( JsonArray ja, std::vector<furn_str_id> &centers )
 {
     while( ja.has_more() ) {
         centers.emplace_back( ja.next_string() );
@@ -1138,7 +1138,7 @@ void ter_t::load( JsonObject &jo, const std::string &src )
     deconstruct.load( jo, "deconstruct", false );
 }
 
-static void check_bash_items( const map_bash_info &mbi, const std::string &id, bool is_terrain )
+void check_bash_items( const map_bash_info &mbi, const std::string &id, bool is_terrain )
 {
     if( !item_group::group_is_defined( mbi.drop_group ) ) {
         debugmsg( "%s: bash result item group %s does not exist", id.c_str(), mbi.drop_group.c_str() );
@@ -1156,8 +1156,7 @@ static void check_bash_items( const map_bash_info &mbi, const std::string &id, b
     }
 }
 
-static void check_decon_items( const map_deconstruct_info &mbi, const std::string &id,
-                               bool is_terrain )
+void check_decon_items( const map_deconstruct_info &mbi, const std::string &id, bool is_terrain )
 {
     if( !mbi.can_do ) {
         return;

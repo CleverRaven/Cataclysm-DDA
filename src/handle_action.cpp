@@ -301,7 +301,6 @@ input_context game::get_player_input( std::string &action )
             }
 
             wrefresh( w_terrain );
-            g->draw_panels();
 
             if( uquit == QUIT_WATCH ) {
 
@@ -688,7 +687,7 @@ static void smash()
     }
 }
 
-static bool try_set_alarm()
+bool try_set_alarm()
 {
     uilist as_m;
     const bool already_set = g->u.has_effect( effect_alarm_clock );
@@ -1091,7 +1090,6 @@ static void reach_attack( int range, player &u )
     }
     g->draw_ter();
     wrefresh( g->w_terrain );
-    g->draw_panels();
     g->reenter_fullscreen();
 }
 

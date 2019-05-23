@@ -23,7 +23,7 @@
       [ [ "cable", 40 ] ],
       [ [ "frame", 1 ] ],
       [ [ "steel_plate", 8 ] ],
-      [ [ "water", 150 ], [ "water_clean", 150 ] ]
+      [ [ "water", 150 ] ]
     ]
   },
   {

@@ -3901,7 +3901,6 @@
     "type": "item_group",
     "id": "vault",
     "items": [
-      { "group": "schematics", "prob": 5 },
       [ "purifier", 12 ],
       [ "plut_cell", 10 ],
       [ "standard_template_construct", 5 ],
@@ -8914,7 +8913,6 @@
     "id": "recycle_paper",
     "type": "item_group",
     "items": [
-      { "group": "schematics", "prob": 2 },
       [ "mag_dude", 25 ],
       [ "mag_beauty", 25 ],
       [ "mag_glam", 25 ],
@@ -9716,27 +9714,5 @@
     "type": "item_group",
     "id": "meth_ingredients",
     "items": [ [ "dayquil", 2 ], [ "aspirin", 40 ], [ "adderall", 5 ], [ "energy_drink", 2 ], [ "caffeine", 20 ] ]
-  },
-  {
-    "id": "schematics",
-    "type": "item_group",
-    "items": [
-      [ "schematics_nursebot", 10 ],
-      [ "schematics_copbot", 50 ],
-      [ "schematics_eyebot", 50 ],
-      [ "schematics_secubot", 50 ],
-      [ "schematics_skitterbot", 50 ],
-      [ "schematics_chickenbot", 5 ],
-      [ "schematics_hazmatbot", 50 ],
-      [ "schematics_riotbot", 50 ],
-      [ "schematics_sciencebot", 10 ],
-      [ "schematics_tankbot", 5 ],
-      [ "schematics_tripod", 5 ],
-      [ "schematics_molebot", 20 ],
-      [ "schematics_dispatch", 25 ],
-      [ "schematics_dispatch_military", 20 ],
-      [ "schematics_antimateriel", 20 ],
-      [ "schematics_searchlight", 50 ]
-    ]
   }
 ]

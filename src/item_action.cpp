@@ -35,7 +35,12 @@ struct tripoint;
 static item_action nullaction;
 static const std::string errstring( "ERROR" );
 
-static char key_bound_to( const input_context &ctxt, const item_action_id &act )
+int clamp( int value, int low, int high )
+{
+    return ( value < low ) ? low : ( ( value > high ) ? high : value );
+}
+
+char key_bound_to( const input_context &ctxt, const item_action_id &act )
 {
     auto keys = ctxt.keys_bound_to( act );
     return keys.empty() ? '\0' : keys[0];
@@ -68,7 +73,7 @@ item_action_generator::item_action_generator() = default;
 item_action_generator::~item_action_generator() = default;
 
 // Get use methods of this item and its contents
-static bool item_has_uses_recursive( const item &it )
+bool item_has_uses_recursive( const item &it )
 {
     if( !it.type->use_methods.empty() ) {
         return true;
@@ -307,7 +312,7 @@ void game::item_action_menu()
 
     draw_ter();
     wrefresh( w_terrain );
-    draw_panels( true );
+    draw_panels();
 
     const item_action_id action = std::get<0>( menu_items[kmenu.ret] );
     item *it = iactions[action];
