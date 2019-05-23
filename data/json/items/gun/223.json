@@ -441,6 +441,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "223", [ "survivor223mag", "stanag30", "stanag50" ] ] ]
   }
 ]
