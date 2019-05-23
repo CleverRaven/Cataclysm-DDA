@@ -861,7 +861,7 @@ static std::string android_version()
     // note: according to android sources, it can't be greater than 92 chars (see 'PROP_VALUE_MAX' define in system_properties.h)
     std::vector<char> buffer( 255 );
 
-    std::vector<std::pair<std::string, std::string>> system_properties = {
+    static const std::vector<std::pair<std::string, std::string>> system_properties = {
         // The manufacturer of the product/hardware; e.g. "Samsung", this is different than the carrier.
         { "ro.product.manufacturer", "Manufacturer" },
         // The end-user-visible name for the end product; .e.g. "SAMSUNG-SM-G930A" for a Samsung S7.
@@ -916,7 +916,7 @@ static std::string linux_version()
     output = shell_exec( "lsb_release -a" );
     if( !output.empty() ) {
         // replace '\n' and '\t' in output.
-        std::vector<std::pair<std::string, std::string>> to_replace = {
+        static const std::vector<std::pair<std::string, std::string>> to_replace = {
             {"\n", "; "},
             {"\t", " "},
         };
@@ -939,7 +939,7 @@ static std::string linux_version()
 static std::string mac_os_version()
 {
     std::string output;
-    std::vector<std::pair<std::string,  std::string>> commands = {
+    static const std::vector<std::pair<std::string,  std::string>> commands = {
         { "sw_vers -productName", "Name" },
         { "sw_vers -productVersion", "Version" },
         { "sw_vers -buildVersion", "Build" },
