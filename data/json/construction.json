@@ -1061,7 +1061,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": 120,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 6 ] [ [ "nail", 40 ] ] ],
+    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 6 ] ], [ [ "nail", 40 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "t_floor"
@@ -1267,7 +1267,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": 45,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
-    "components": [ [ [ "wood_sheet", 2 ], [ "wood_panel", 4 ] ], [ [ "2x4", 4 ] ],  [ [ "nail", 24 ] ] ],
+    "components": [ [ [ "wood_sheet", 2 ], [ "wood_panel", 4 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 24 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_crate_o"
   },
@@ -2017,7 +2017,7 @@
     "category": "OTHER",
     "required_skills": [ [ "mechanics", 0 ] ],
     "time": 10,
-    "//": "no components required, they are filled in at runtime based on the vehicle parts that can be used to start a vehicle",
+    "//2": "no components required, they are filled in at runtime based on the vehicle parts that can be used to start a vehicle",
     "pre_special": "check_empty",
     "post_special": "done_vehicle",
     "vehicle_start": true
