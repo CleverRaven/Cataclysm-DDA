@@ -98,14 +98,14 @@
   {
     "id": "tank_barrel",
     "type": "vehicle_part",
-    "name": "barrel (100L)",
+    "name": "wooden barrel (100L)",
     "item": "wooden_barrel",
-    "location": "fuel_source",
+    "location": "center",
     "symbol": "O",
     "color": "brown",
     "broken_color": "brown",
     "durability": 120,
-    "description": "A storage space for holding liquids.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
+    "description": "A storage space for holding liquids, mounted inside the cargo or passenger space.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
     "size": 400,
     "damage_modifier": 80,
     "breaks_into": [
@@ -114,6 +114,40 @@
       { "item": "scrap", "count": [ 1, 3 ] }
     ],
     "flags": [ "NAILABLE", "FLUIDTANK" ]
+  },
+  {
+    "id": "tank_30gal_drum",
+    "type": "vehicle_part",
+    "name": "steel drum (100L)",
+    "item": "30gal_drum",
+    "location": "center",
+    "symbol": "0",
+    "color": "dark_grey",
+    "broken_color": "red",
+    "durability": 160,
+    "difficulty": 1,
+    "description": "A storage space for holding liquids, mounted inside the cargo or passenger space.  If filled with the appropriate fuel for the vehicle's engine, the engine will automatically draw fuel from the tank when the engine is on.  If filled with water, you can access the water from a water faucet, if one is installed in the vehicle.  You can also use a rubber hose to siphon liquids out of a tank.",
+    "size": 100000,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 2, 2 ] },
+      { "item": "steel_chunk", "count": [ 1, 2 ] },
+      { "item": "scrap", "count": [ 1, 5 ] }
+    ],
+    "flags": [ "FLUIDTANK" ]
+  },
+  {
+    "id": "tank_55gal_drum",
+    "copy-from": "tank_30gal_drum",
+    "type": "vehicle_part",
+    "name": "steel drum (200L)",
+    "item": "55gal_drum",
+    "size": 200000,
+    "breaks_into": [
+      { "item": "steel_lump", "count": [ 4, 4 ] },
+      { "item": "steel_chunk", "count": [ 2, 4 ] },
+      { "item": "scrap", "count": [ 2, 10 ] }
+    ],
+    "flags": [ "FLUIDTANK", "OPAQUE", "OBSTACLE" ]
   },
   {
     "id": "fuel_bunker",
