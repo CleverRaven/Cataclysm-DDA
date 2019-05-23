@@ -12,6 +12,7 @@
 #include "advanced_inv.h"
 #include "auto_pickup.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "clzones.h"
@@ -2099,7 +2100,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_AUTOATTACK:
-                autoattack();
+                avatar_action::autoattack( u, m );
                 break;
 
             default:
@@ -2133,7 +2134,7 @@ bool game::handle_action()
                     }
                     dest_delta = dest_next;
                 }
-                continue_auto_move = plmove( dest_delta );
+                continue_auto_move = avatar_action::plmove( u, m, dest_delta );
             }
         }
     }
