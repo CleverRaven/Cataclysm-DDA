@@ -2218,6 +2218,10 @@ void player::load_memorial_file( std::istream &fin )
     memorial_log.clear();
     while( fin.peek() == '|' ) {
         getline( fin, entry );
+        // strip all \r from end of string
+        while( *entry.rbegin() == '\r' ) {
+        	entry.pop_back();
+        }
         memorial_log.push_back( entry );
     }
 }
