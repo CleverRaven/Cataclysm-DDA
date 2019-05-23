@@ -54,7 +54,7 @@ branches:
 jobs:
   include:
     # Initial test stage, if this fails everything else is cancelled.
-    - stage: test
+    - stage: Test
       # Clang is consistently the fastest to build, so use it for the initial test.
       # Clang 3.8, oldest supported Clang, build with Makefile with extra tests and json style check.
       env: CLANG=clang++-3.8 MODS=--mods=RL_Classes TEST_STAGE=1 CXXFLAGS='-Wno-error=unused-command-line-argument -D__extern_always_inline="extern __always_inline"'
@@ -65,7 +65,7 @@ jobs:
           sources: *apt_sources
 
     # Then build different configurations and targets in parallel.
-    - stage: variants
+    - stage: "Main Compilers"
       # GCC 5.3, oldest supported GCC, build with Makefile configured for Curses, disable LOCALIZE
       env: COMPILER=g++ LOCALIZE=0
       compiler: gcc
@@ -90,9 +90,10 @@ jobs:
           packages: ["clang-8", "libc6-dbg", "libc6-dbg:i386"]
           sources: [*apt_sources, llvm-toolchain-xenial-8]
 
+    - stage: "Platforms and Tidy"
     # MXE variant using alternate repository http://mirror.mxe.cc/repos/apt
     # Mingw-w64 building with Tiles and Sound
-    - env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' TILES=1 SOUND=1
+      env: COMPILER='g++' LDFLAGS='-static-libgcc -static-libstdc++' MXE_TARGET='i686-w64-mingw32.static' WINE='wine' TILES=1 SOUND=1
       compiler: gcc
       addons: &gcc
         apt:
