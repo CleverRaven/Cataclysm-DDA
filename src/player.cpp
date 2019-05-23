@@ -2199,7 +2199,7 @@ void player::load_memorial_file( std::istream &fin )
         getline( fin, entry );
         // strip all \r from end of string
         while( *entry.rbegin() == '\r' ) {
-        	entry.pop_back();
+            entry.pop_back();
         }
         memorial_log.push_back( entry );
     }
