@@ -199,7 +199,7 @@ void pass_to_ownership_handling( item obj, player *p )
     obj.handle_pickup_ownership( *p );
 }
 
-static void stash_on_pet( const std::list<item> &items, monster &pet )
+static void stash_on_pet( const std::list<item> &items, monster &pet, player *p )
 {
     units::volume remaining_volume = pet.inv.empty() ? 0_ml : pet.inv.front().get_storage();
     units::mass remaining_weight = pet.weight_capacity();
@@ -229,7 +229,7 @@ static void stash_on_pet( const std::list<item> &items, monster &pet )
     }
 }
 
-static void drop_on_map( const Character &c, item_drop_reason reason, const std::list<item> &items,
+static void drop_on_map( Character &c, item_drop_reason reason, const std::list<item> &items,
                          const tripoint &where )
 {
     if( items.empty() ) {
