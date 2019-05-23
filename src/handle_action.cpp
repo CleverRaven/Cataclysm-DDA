@@ -2134,7 +2134,7 @@ bool game::handle_action()
                     }
                     dest_delta = dest_next;
                 }
-                continue_auto_move = avatar_action::plmove( u, m, dest_delta );
+                continue_auto_move = avatar_action::move( u, m, dest_delta );
             }
         }
     }

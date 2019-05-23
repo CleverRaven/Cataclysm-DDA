@@ -37,7 +37,7 @@ static const efftype_id effect_stunned( "stunned" );
 namespace avatar_action
 {
 
-bool plmove( avatar &you, map &m, int dx, int dy, int dz )
+bool move( avatar &you, map &m, int dx, int dy, int dz )
 {
     if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
         if( you.has_active_mutation( trait_SHELL2 ) ) {
@@ -338,7 +338,7 @@ bool ramp_move( avatar &you, map &m, const tripoint &dest_loc )
         if( m.has_flag( TFLAG_RAMP, below ) ) {
             // But we're moving onto one from above
             const tripoint dp = dest_loc - you.pos();
-            plmove( you, m, dp.x, dp.y, -1 );
+            move( you, m, dp.x, dp.y, -1 );
             // No penalty for misaligned stairs here
             // Also cheaper than climbing up
             return true;
@@ -370,7 +370,7 @@ bool ramp_move( avatar &you, map &m, const tripoint &dest_loc )
 
     const tripoint dp = dest_loc - you.pos();
     const tripoint old_pos = you.pos();
-    plmove( you, m, dp.x, dp.y, 1 );
+    move( you, m, dp.x, dp.y, 1 );
     // We can't just take the result of the above function here
     if( you.pos() != old_pos ) {
         you.moves -= 50 + ( aligned_ramps ? 0 : 50 );
@@ -409,7 +409,7 @@ void autoattack( avatar &you, map &m )
 
     const tripoint diff = best.pos() - you.pos();
     if( abs( diff.x ) <= 1 && abs( diff.y ) <= 1 && diff.z == 0 ) {
-        plmove( you, m, diff.x, diff.y );
+        move( you, m, diff.x, diff.y );
         return;
     }
 

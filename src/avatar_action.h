@@ -12,14 +12,14 @@ namespace avatar_action
 {
 // Standard movement; handles attacks, traps, &c. Returns false if auto move
 // should be canceled
-bool plmove( avatar &you, map &m, int dx, int dy, int dz = 0 );
-inline bool plmove( avatar &you, map &m, const tripoint &d )
+bool move( avatar &you, map &m, int dx, int dy, int dz = 0 );
+inline bool move( avatar &you, map &m, const tripoint &d )
 {
-    return plmove( you, m, d.x, d.y, d.z );
+    return move( you, m, d.x, d.y, d.z );
 }
-inline bool plmove( avatar &you, map &m, const point &d )
+inline bool move( avatar &you, map &m, const point &d )
 {
-    return plmove( you, m, d.x, d.y );
+    return move( you, m, d.x, d.y );
 }
 
 // Handle moving from a ramp
