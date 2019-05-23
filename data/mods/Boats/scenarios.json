@@ -1,0 +1,13 @@
+[
+  {
+    "type": "scenario",
+    "ident": "alcatraz",
+    "name": "Challenge-Island Prison Break",
+    "points": -6,
+    "description": "You were delivered to some high-security prison right before the Cataclysm.  You almost managed to escape the walls of a prison...  Too bad it's located on a remote island, and now you need to find out how to escape it too.",
+    "allowed_locs": [ "alcatraz" ],
+    "start_name": "Island prison",
+    "professions": [ "convict", "death_row_convict" ],
+    "flags": [ "LONE_START", "CHALLENGE", "OUTDOOR" ]
+  }
+]

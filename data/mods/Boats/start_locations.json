@@ -1,0 +1,8 @@
+[
+  {
+    "type": "start_location",
+    "ident": "alcatraz",
+    "name": "Island prison",
+    "target": "prison_alcatraz_3"
+  }
+]
