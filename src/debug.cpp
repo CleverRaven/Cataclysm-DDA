@@ -822,17 +822,41 @@ std::string game_info::operating_system()
 #endif
 }
 
+#if defined (__linux__) || defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) || defined(BSD) // linux; unix; MacOs; BSD
+/** Execute a command with the shell by using `popen()`.
+ * @param command The full command to execute.
+ * @note The output buffer is limited to 512 characters.
+ * @returns The result of the command (only stdout) or an empty string if there was a problem.
+ */
+static std::string shell_exec( const std::string &command )
+{
+    std::vector<char> buffer( 512 );
+    std::string output;
+    try {
+        std::unique_ptr<FILE, decltype( &pclose )> pipe( popen( command.c_str(), "r" ), pclose );
+        if( pipe ) {
+            while( fgets( buffer.data(), buffer.size(), pipe.get() ) != nullptr ) {
+                output += buffer.data();
+            }
+        }
+    } catch( ... ) {
+        output = "";
+    }
+    return output;
+}
+#endif
+
+#if defined (__ANDROID__)
 /** Get a precise version number for Android systems.
  * @note see:
  *    - https://stackoverflow.com/a/19777977/507028
  *    - https://github.com/pytorch/cpuinfo/blob/master/test/build.prop/galaxy-s7-us.log
  * @returns If successful, a string containing the Android system version, otherwise an empty string.
  */
-std::string android_version()
+static std::string android_version()
 {
     std::string output;
 
-#if defined (__ANDROID__)
     // buffer used for the __system_property_get() function.
     // note: according to android sources, it can't be greater than 92 chars (see 'PROP_VALUE_MAX' define in system_properties.h)
     std::vector<char> buffer( 255 );
@@ -859,60 +883,36 @@ std::string android_version()
         }
         output.append( string_format( "%s: %s; ", entry.second, value ) );
     }
-#endif
     return output;
 }
 
-#if defined (__linux__) || defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) || defined(BSD) // linux; unix; MacOs; BSD
-/** Execute a command with the shell by using `popen()`.
- * @param command The full command to execute.
- * @note The output buffer is limited to 512 characters.
- * @returns The result of the command (only stdout) or an empty string if there was a problem.
- */
-std::string shell_exec( const std::string &command )
-{
-    std::vector<char> buffer( 512 );
-    std::string output;
-    try {
-        std::unique_ptr<FILE, decltype( &pclose )> pipe( popen( command.c_str(), "r" ), pclose );
-        if( pipe ) {
-            while( fgets( buffer.data(), buffer.size(), pipe.get() ) != nullptr ) {
-                output += buffer.data();
-            }
-        }
-    } catch( ... ) {
-        output = "";
-    }
-    return output;
-}
-#endif
+#elif defined(BSD)
 
 /** Get a precise version number for BSD systems.
  * @note The code shells-out to call `uname -a`.
  * @returns If successful, a string containing the Linux system version, otherwise an empty string.
  */
-std::string bsd_version()
+static std::string bsd_version()
 {
     std::string output;
-#if defined(BSD)
     output = shell_exec( "uname -a" );
     if( !output.empty() ) {
         // remove trailing '\n', if any.
         output.erase( std::remove( output.begin(), output.end(), '\n' ),
                       output.end() );
     }
-#endif
     return output;
 }
+
+#elif defined(__linux__)
 
 /** Get a precise version number for Linux systems.
  * @note The code shells-out to call `lsb_release -a`.
  * @returns If successful, a string containing the Linux system version, otherwise an empty string.
  */
-std::string linux_version()
+static std::string linux_version()
 {
     std::string output;
-#if defined(__linux__)
     output = shell_exec( "lsb_release -a" );
     if( !output.empty() ) {
         // replace '\n' and '\t' in output.
@@ -927,18 +927,18 @@ std::string linux_version()
             }
         }
     }
-#endif
     return output;
 }
+
+#elif defined(__APPLE__) && defined(__MACH__) && !defined(BSD)
 
 /** Get a precise version number for MacOs systems.
  * @note The code shells-out to call `sw_vers` with various options.
  * @returns If successful, a string containing the MacOS system version, otherwise an empty string.
  */
-std::string mac_os_version()
+static std::string mac_os_version()
 {
     std::string output;
-#if defined(__APPLE__) && defined(__MACH__) && !defined(BSD)
     std::vector<std::pair<std::string,  std::string>> commands = {
         { "sw_vers -productName", "Name" },
         { "sw_vers -productVersion", "Version" },
@@ -956,9 +956,10 @@ std::string mac_os_version()
         }
         output.append( string_format( "%s: %s; ", entry.second, command_result ) );
     }
-#endif
     return output;
 }
+
+#elif defined (_WIN32)
 
 /** Get a precise version number for Windows systems.
  * @note Since Windows 10 all version-related APIs lie about the underlying system if the application is not Manifested (see VerifyVersionInfoA
@@ -966,10 +967,9 @@ std::string mac_os_version()
  *     report correct versions and are compatible down to XP.
  * @returns If successful, a string containing the Windows system version number, otherwise an empty string.
  */
-std::string windows_version()
+static std::string windows_version()
 {
     std::string output;
-#if defined (_WIN32)
     HKEY handle_key;
     bool success = RegOpenKeyExA( HKEY_LOCAL_MACHINE, R"(SOFTWARE\Microsoft\Windows NT\CurrentVersion)",
                                   0,
@@ -1026,9 +1026,9 @@ std::string windows_version()
             }
         }
     }
-#endif
     return output;
 }
+#endif // Various OS define tests
 
 std::string game_info::operating_system_version()
 {
