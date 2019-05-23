@@ -59,7 +59,7 @@ const efftype_id effect_got_checked( "got_checked" );
 
 // constructor
 window_panel::window_panel( std::function<void( player &, const catacurses::window & )>
-                            draw_func, const std::string &nm, int ht, int wd, bool def_toggle )
+                            draw_func, const std::string &nm, int ht, int wd, bool def_toggle, bool force_draw )
 {
     draw = draw_func;
     name = nm;
@@ -67,6 +67,7 @@ window_panel::window_panel( std::function<void( player &, const catacurses::wind
     width = wd;
     toggle = def_toggle;
     default_toggle = def_toggle;
+    always_draw = force_draw;
 }
 
 // ====================================
@@ -1698,7 +1699,7 @@ static std::vector<window_panel> initialize_default_classic_panels()
                                     true ) );
     ret.emplace_back( window_panel( draw_messages_classic, translate_marker( "Log" ), -2, 44, true ) );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 44, true ) );
+    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 44, true, true ) );
 #endif // TILES
     ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 44, false ) );
     return ret;
@@ -1719,7 +1720,7 @@ static std::vector<window_panel> initialize_default_compact_panels()
     ret.emplace_back( window_panel( draw_messages_classic, translate_marker( "Log" ), -2, 32, true ) );
     ret.emplace_back( window_panel( draw_compass, translate_marker( "Compass" ), 8, 32, true ) );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true ) );
+    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true, true ) );
 #endif // TILES
     ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 32, false ) );
 
@@ -1744,7 +1745,7 @@ static std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_compass_padding, translate_marker( "Compass" ), 8, 32,
                                     true ) );
 #if defined(TILES)
-    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true ) );
+    ret.emplace_back( window_panel( draw_mminimap, translate_marker( "Map" ), -1, 32, true, true ) );
 #endif // TILES
     ret.emplace_back( window_panel( draw_ai_goal, "AI Needs", 1, 32, false ) );
 
@@ -1997,7 +1998,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                 }
                 werase( w );
                 wrefresh( g->w_terrain );
-                g->draw_panels( column, index );
+                g->draw_panels( column, index, true );
                 return;
             }
             redraw = true;
@@ -2013,7 +2014,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
             to_map_font_dimension( width, h );
             werase( w );
             wrefresh( g->w_terrain );
-            g->draw_panels( column, index );
+            g->draw_panels( column, index, true );
             // tell the game that the main screen might have a different size now.
             g->init_ui( true );
             return;
@@ -2035,7 +2036,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
         if( action == "TOGGLE_PANEL" && column == 0 ) {
             panels[index - 1].toggle = !panels[index - 1].toggle;
             wrefresh( g->w_terrain );
-            g->draw_panels( column, index );
+            g->draw_panels( column, index, true );
             return;
         } else if( action == "QUIT" ) {
             exit = true;

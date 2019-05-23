@@ -3135,16 +3135,19 @@ void game::draw()
     draw_ter();
     wrefresh( w_terrain );
 
-    draw_panels();
+    draw_panels( true );
 }
 
-void game::draw_panels()
+void game::draw_panels( bool force_draw )
 {
-    draw_panels( 0, 1 );
+    draw_panels( 0, 1, force_draw );
 }
 
-void game::draw_panels( size_t column, size_t index )
+void game::draw_panels( size_t column, size_t index, bool force_draw )
 {
+    static int previous_turn = -1;
+    const int current_turn = calendar::turn;
+    const bool draw_this_turn = current_turn > previous_turn || force_draw;
     auto &mgr = panel_manager::get_manager();
     int y = 0;
     const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
@@ -3164,8 +3167,10 @@ void game::draw_panels( size_t column, size_t index )
         }
         h += spacer;
         if( panel.toggle && h > 0 ) {
-            panel.draw( u, catacurses::newwin( h, panel.get_width(), y,
-                                               sidebar_right ? TERMX - panel.get_width() : 0 ) );
+            if( panel.always_draw || draw_this_turn ) {
+                panel.draw( u, catacurses::newwin( h, panel.get_width(), y,
+                                                   sidebar_right ? TERMX - panel.get_width() : 0 ) );
+            }
             if( show_panel_adm ) {
                 auto label = catacurses::newwin( 1, panel.get_name().length(), y, sidebar_right ?
                                                  TERMX - panel.get_width() - panel.get_name().length() - 1 : panel.get_width() + 1 );
@@ -3192,6 +3197,7 @@ void game::draw_panels( size_t column, size_t index )
     if( show_panel_adm ) {
         mgr.draw_adm( w_panel_adm, column, index );
     }
+    previous_turn = current_turn;
 }
 
 void game::draw_pixel_minimap( const catacurses::window &w )
@@ -5315,7 +5321,7 @@ void game::examine()
     // redraw terrain to erase 'examine' window
     draw_ter();
     wrefresh( w_terrain );
-    draw_panels();
+    draw_panels( true );
     examine( *examp_ );
     u.manual_examine = false;
 }
@@ -5429,7 +5435,7 @@ void game::examine( const tripoint &examp )
         iexamine::trap( u, examp );
         draw_ter();
         wrefresh( w_terrain );
-        draw_panels();
+        draw_panels( true );
     }
 
     // In case of teleport trap or somesuch
@@ -5537,6 +5543,7 @@ void game::peek()
             draw_ter();
         }
         wrefresh( w_terrain );
+        draw_panels();
         return;
     }
 
@@ -6160,7 +6167,7 @@ void game::zones_manager()
 
                     draw_ter();
                     wrefresh( w_terrain );
-                    draw_panels();
+                    draw_panels( true );
                 }
                 blink = false;
                 stuff_changed = true;
@@ -6371,6 +6378,7 @@ void game::zones_manager()
         wrefresh( w_terrain );
         zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
         zones_manager_shortcuts( w_zones_info );
+        draw_panels();
         wrefresh( w_zones );
         wrefresh( w_zones_border );
 
@@ -6556,8 +6564,9 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             //Draw select cursor
             g->draw_cursor( lp );
 
-            // redraw order: terrain, look_around panel
+            // redraw order: terrain, panels, look_around panel
             wrefresh( w_terrain );
+            draw_panels();
             wrefresh( w_info );
 
         }
@@ -7203,7 +7212,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         if( action == "HELP_KEYBINDINGS" ) {
             draw_ter();
             wrefresh( w_terrain );
-            draw_panels();
         } else if( action == "UP" ) {
             do {
                 iActive--;
@@ -7436,7 +7444,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         if( action == "HELP_KEYBINDINGS" ) {
             draw_ter();
             wrefresh( w_terrain );
-            draw_panels();
         } else if( action == "UP" ) {
             iActive--;
             if( iActive < 0 ) {
@@ -7925,6 +7932,7 @@ bool game::plfire()
     }
     draw_ter(); // Recenter our view
     wrefresh( w_terrain );
+    draw_panels();
 
     int shots = 0;
 
@@ -8373,7 +8381,7 @@ void game::butcher()
             butcher_submenu( items, corpses, indexer_index );
             draw_ter();
             wrefresh( w_terrain );
-            draw_panels();
+            draw_panels( true );
             u.activity.values.push_back( corpses[indexer_index] );
         }
         break;
@@ -11425,6 +11433,7 @@ void game::display_scent()
         draw_ter();
         scent.draw( w_terrain, div * 2, u.pos() + u.view_offset );
         wrefresh( w_terrain );
+        draw_panels();
         inp_mngr.wait_for_any_key();
     }
 }

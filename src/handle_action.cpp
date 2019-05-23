@@ -301,6 +301,7 @@ input_context game::get_player_input( std::string &action )
             }
 
             wrefresh( w_terrain );
+            g->draw_panels();
 
             if( uquit == QUIT_WATCH ) {
 
@@ -1090,6 +1091,7 @@ static void reach_attack( int range, player &u )
     }
     g->draw_ter();
     wrefresh( g->w_terrain );
+    g->draw_panels();
     g->reenter_fullscreen();
 }
 

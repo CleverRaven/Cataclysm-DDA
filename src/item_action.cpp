@@ -307,7 +307,7 @@ void game::item_action_menu()
 
     draw_ter();
     wrefresh( w_terrain );
-    draw_panels();
+    draw_panels( true );
 
     const item_action_id action = std::get<0>( menu_items[kmenu.ret] );
     item *it = iactions[action];
