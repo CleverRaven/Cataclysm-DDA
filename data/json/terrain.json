@@ -10521,7 +10521,7 @@
     "type": "terrain",
     "id": "t_water_pool_shallow",
     "name": "shallow pool water",
-    "description": "A shallow pool of water for fountains.",
+    "description": "A shallow pool of water.",
     "symbol": "~",
     "color": "light_blue",
     "move_cost": 5,
