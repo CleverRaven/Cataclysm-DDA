@@ -3122,3 +3122,63 @@ float Character::healing_rate_medicine( float at_rest_quality, const body_part b
     }
     return rate_medicine;
 }
+
+float Character::get_bmi() const
+{
+    return 12 * get_kcal_percent() + 13;
+}
+
+units::mass Character::bodyweight() const
+{
+    return units::from_gram( round( get_bmi() * pow( height() / 100, 2 ) ) );
+}
+
+int Character::height() const
+{
+    // TODO: Make this a player creation option
+    return 175;
+}
+
+int Character::get_bmr() const
+{
+    /**
+    Values are for males, and average!
+    */
+    const int age = 25;
+    const int equation_constant = 5;
+    return ceil( metabolic_rate_base() * activity_level * ( units::to_gram<int>( 10 * bodyweight() ) +
+                 ( 6.25 * height() ) - ( 5 * age ) + equation_constant ) );
+}
+
+void Character::increase_activity_level( float new_level )
+{
+    if( activity_level < new_level ) {
+        activity_level = new_level;
+    }
+}
+
+void Character::decrease_activity_level( float new_level )
+{
+    if( activity_level > new_level ) {
+        activity_level = new_level;
+    }
+}
+void Character::reset_activity_level()
+{
+    activity_level = NO_EXERCISE;
+}
+
+std::string Character::activity_level_str() const
+{
+    if( activity_level <= NO_EXERCISE ) {
+        return _( "NO_EXERCISE" );
+    } else if( activity_level <= LIGHT_EXERCISE ) {
+        return _( "LIGHT_EXERCISE" );
+    } else if( activity_level <= MODERATE_EXERCISE ) {
+        return _( "MODERATE_EXERCISE" );
+    } else if( activity_level <= ACTIVE_EXERCISE ) {
+        return _( "ACTIVE_EXERCISE" );
+    } else {
+        return _( "EXTRA_EXERCISE" );
+    }
+}

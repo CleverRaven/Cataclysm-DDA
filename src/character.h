@@ -19,6 +19,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "creature.h"
+#include "game_constants.h"
 #include "inventory.h"
 #include "pimpl.h"
 #include "pldata.h"
@@ -777,6 +778,27 @@ class Character : public Creature, public visitable<Character>
 
         void initialize_stomach_contents();
 
+        /** Stable base metabolic rate due to traits */
+        float metabolic_rate_base() const;
+        // calculates the BMI
+        float get_bmi() const;
+        // returns amount of calories burned in a day given various metabolic factors
+        int get_bmr() const;
+        // returns the height of the player character in cm
+        int height() const;
+        // returns bodyweight of the Character
+        units::mass bodyweight() const;
+        // increases the activity level to the next level
+        // does not decrease activity level
+        void increase_activity_level( float new_level );
+        // decreases the activity level to the previous level
+        // does not increase activity level
+        void decrease_activity_level( float new_level );
+        // sets activity level to NO_EXERCISE
+        void reset_activity_level();
+        // outputs player activity level to a printable string
+        std::string activity_level_str() const;
+
     protected:
         void on_stat_change( const std::string &, int ) override {}
         virtual void on_mutation_gain( const trait_id & ) {}
@@ -816,6 +838,8 @@ class Character : public Creature, public visitable<Character>
         /** How healthy the character is. */
         int healthy;
         int healthy_mod;
+        // the player's activity level for metabolism calculations
+        float activity_level = NO_EXERCISE;
 
         std::array<encumbrance_data, num_bp> encumbrance_cache;
 
