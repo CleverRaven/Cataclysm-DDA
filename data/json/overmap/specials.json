@@ -507,7 +507,6 @@
       { "point": [ 2, 2, 0 ], "overmap": "prison_alcatraz_13_north" },
       { "point": [ 1, 2, 0 ], "overmap": "prison_alcatraz_14_north" },
       { "point": [ 0, 2, 0 ], "overmap": "prison_alcatraz_15_north" }
-
     ],
     "locations": [ "lake_surface" ],
     "city_distance": [ 3, -1 ],
