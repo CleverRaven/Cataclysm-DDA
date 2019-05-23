@@ -4469,7 +4469,7 @@ int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
             return 0;
         }
     }
-    add_msg( m_info, _( "Theres nothing to use the %s on here." ), it->tname() );
+    add_msg( m_info, _( "There's nothing to use the %s on here." ), it->tname() );
     return 0;
 }
 
