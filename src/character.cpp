@@ -127,6 +127,7 @@ Character::Character() :
     // 45 days to starve to death
     healthy_calories = 55000;
     stored_calories = healthy_calories;
+    initialize_stomach_contents();
 
     name.clear();
 
@@ -187,6 +188,27 @@ void Character::mod_stat( const std::string &stat, float modifier )
     } else {
         Creature::mod_stat( stat, modifier );
     }
+}
+
+std::string Character::disp_name( bool possessive ) const
+{
+    if( !possessive ) {
+        if( is_player() ) {
+            return pgettext( "not possessive", "you" );
+        }
+        return name;
+    } else {
+        if( is_player() ) {
+            return _( "your" );
+        }
+        return string_format( _( "%s's" ), name );
+    }
+}
+
+std::string Character::skin_name() const
+{
+    // TODO: Return actual deflecting layer name
+    return _( "armor" );
 }
 
 int Character::effective_dispersion( int dispersion ) const

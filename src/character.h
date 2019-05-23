@@ -28,6 +28,7 @@
 #include "enums.h"
 #include "item.h"
 #include "optional.h"
+#include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "type_id.h"
@@ -254,6 +255,11 @@ class Character : public Creature, public visitable<Character>
         virtual void set_sleep_deprivation( int nsleep_deprivation );
 
         void mod_stat( const std::string &stat, float modifier ) override;
+
+        /** Returns either "you" or the player's name */
+        std::string disp_name( bool possessive = false ) const override;
+        /** Returns the name of the player's outer layer, e.g. "armor plates" */
+        std::string skin_name() const override;
 
         /* Adjusts provided sight dispersion to account for player stats */
         int effective_dispersion( int dispersion ) const;
@@ -765,6 +771,11 @@ class Character : public Creature, public visitable<Character>
         item weapon;
 
         pimpl<bionic_collection> my_bionics;
+
+        stomach_contents stomach;
+        stomach_contents guts;
+
+        void initialize_stomach_contents();
 
     protected:
         void on_stat_change( const std::string &, int ) override {}

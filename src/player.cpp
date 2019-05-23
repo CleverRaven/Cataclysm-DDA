@@ -560,7 +560,6 @@ player::player() : Character()
             style_none, style_kicks
         }
     };
-    initialize_stomach_contents();
 }
 
 player::~player() = default;
@@ -577,27 +576,6 @@ void player::normalize()
 
     temp_conv.fill( BODYTEMP_NORM );
     stamina = get_stamina_max();
-}
-
-std::string player::disp_name( bool possessive ) const
-{
-    if( !possessive ) {
-        if( is_player() ) {
-            return pgettext( "not possessive", "you" );
-        }
-        return name;
-    } else {
-        if( is_player() ) {
-            return _( "your" );
-        }
-        return string_format( _( "%s's" ), name );
-    }
-}
-
-std::string player::skin_name() const
-{
-    // TODO: Return actual deflecting layer name
-    return _( "armor" );
 }
 
 void player::reset_stats()
@@ -6557,16 +6535,6 @@ void player::mend( int rate_multiplier )
                                body_part_name( part ) );
         }
     }
-}
-
-// sets default stomach contents when starting the game
-void player::initialize_stomach_contents()
-{
-    stomach = stomach_contents( 2500_ml );
-    guts = stomach_contents( 24000_ml );
-    guts.set_calories( 300 );
-    stomach.set_calories( 800 );
-    stomach.mod_contents( 475_ml );
 }
 
 void player::vomit()

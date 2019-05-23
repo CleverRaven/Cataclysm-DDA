@@ -30,7 +30,6 @@
 #include "player_activity.h"
 #include "ret_val.h"
 #include "weighted_list.h"
-#include "stomach.h"
 #include "bodypart.h"
 #include "color.h"
 #include "creature.h"
@@ -197,10 +196,6 @@ class player : public Character
 
         void normalize() override;
 
-        /** Returns either "you" or the player's name */
-        std::string disp_name( bool possessive = false ) const override;
-        /** Returns the name of the player's outer layer, e.g. "armor plates" */
-        std::string skin_name() const override;
 
         bool is_player() const override {
             return true;
@@ -902,11 +897,7 @@ class player : public Character
          */
         item &get_consumable_from( item &it ) const;
 
-        stomach_contents stomach;
-        stomach_contents guts;
-
         std::pair<std::string, nc_color> get_hunger_description() const override;
-        void initialize_stomach_contents();
 
         /** Get vitamin contents for a comestible */
         std::map<vitamin_id, int> vitamins_from( const item &it ) const;
