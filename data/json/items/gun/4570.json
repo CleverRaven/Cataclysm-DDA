@@ -30,7 +30,6 @@
   },
   {
     "id": "bfr",
-    "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": "Magnum Research BFR",
     "name_plural": "Magnum Research BFR",
