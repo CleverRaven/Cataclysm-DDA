@@ -377,6 +377,20 @@
     "to_hit": -3
   },
   {
+    "type": "GENERIC",
+    "id": "data_card",
+    "symbol": ",",
+    "color": "white",
+    "name": "data card",
+    "description": "Some type of advanced data storage device. Useful for storing very large amounts of information.",
+    "price": 10000,
+    "price_postapoc": 100,
+    "material": "plastic",
+    "weight": 18,
+    "volume": 0,
+    "to_hit": -3
+  },
+  {
     "id": "golf_tee",
     "type": "GENERIC",
     "category": "other",
@@ -2730,10 +2744,10 @@
   },
   {
     "type": "GENERIC",
-    "id": "robofac_mission_2_corpse",
+    "id": "robofac_intercom_2_corpse",
     "symbol": "%",
     "color": "white",
-    "name": "dissecated corpse",
+    "name": "desiccated corpse",
     "description": "A badly mangled and desiccated partial corpse. It seems whatever thing killed him did so with a single swipe of a gigantic claw.",
     "category": "other",
     "material": "hflesh",

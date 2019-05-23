@@ -354,6 +354,7 @@
     "description": "Surgical forceps, cables and a modified smartphone inside a small plastic pouch.  Assembled to steal the mind of some poor man, these are tools of the creepy high-tech sandman.",
     "material": "plastic",
     "price": 12500,
+    "use_action": "MIND_SPLICER",
     "volume": 4,
     "weight": 6,
     "flags": [ "TRADER_AVOID" ]

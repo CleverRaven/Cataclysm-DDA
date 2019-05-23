@@ -38,7 +38,7 @@
         ],
         "terrain": { "@": "t_grass", "b": "t_dirt", "M": "t_dirt" },
         "fields": { "b": { "field": "fd_blood", "density": 1 } },
-        "items": { "@": {"item": "NC_ROBOFAC_FIELD_RESEARCHER_worn", "chance": 100  } },
+        "items": { "@": { "item": "NC_ROBOFAC_FIELD_RESEARCHER_worn", "chance": 100 } },
         "item": { "@": [ { "item": "EMPbomb", "amount": 2 }, { "item": "corpse" } ] },
         "monster": { "M": { "monster": "mon_robofac_prototype" } }
       }
@@ -63,7 +63,7 @@
       "failure": "Simply useless..."
     }
   },
-    {
+  {
     "id": "MISSION_ROBOFAC_INTERCOM_2",
     "type": "mission_definition",
     "name": "Steal a dead man's mind",
@@ -102,13 +102,13 @@
         ],
         "terrain": { "@": "t_pavement", "T": "t_pavement", "M": "t_pavement" },
         "place_vehicles": [
-          { "vehicle": "humvee", "x": 18, "y": 15,  "fuel": -1, "status": -1, "chance": 100 },
-          { "vehicle": "aapc-mg", "x": 10, "y": 10,  "fuel": -1, "status": -1, "chance": 100 },
+          { "vehicle": "humvee", "x": 18, "y": 15, "fuel": -1, "status": -1, "chance": 100 },
+          { "vehicle": "aapc-mg", "x": 10, "y": 10, "fuel": -1, "status": -1, "chance": 100 },
           { "vehicle": "humvee", "x": 3, "y": 4, "fuel": -1, "status": 1, "chance": 100 }
         ],
-        "items": { "@": {"item": "lab_torso"} },
-        "item":  { "@": {"item": "robofac_mission_2_corpse"} },
-        "place_monsters": [ { "monster": "GROUP_MIL_STRONG", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 2 } ]
+        "items": { "@": { "item": "lab_torso", "chance": 100 } },
+        "item": { "@": [ { "item": "robofac_intercom_2_corpse" } ] },
+        "place_monsters": [ { "monster": "GROUP_MIL_STRONG", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 2 } ]
       }
     },
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -122,7 +122,6 @@
       "success": "Uhhh... Well I guess this is acceptable. You have our thanks and payment.",
       "success_lie": "What good does this do us?",
       "failure": "Simply useless..."
-
     }
   }
 ]
