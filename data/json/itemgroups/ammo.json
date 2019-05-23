@@ -147,7 +147,7 @@
     "type": "item_group",
     "id": "ammo_rifle_rare",
     "//": "Less common rifle ammo including that only used by police/paramilitary forces.",
-    "items": [ [ "300_winmag", 40 ], [ "3006fmj", 50 ], [ "556", 100 ], [ "762_51", 50 ], [ "762_m87", 25 ], [ "8mm_civilian", 15 ] ]
+    "items": [ [ "300_winmag", 40 ], [ "3006fmj", 50 ], [ "556", 100 ], [ "762_51", 50 ], [ "4570_sp", 20 ], [ "4570_pen", 20 ], [ "762_m87", 25 ], [ "8mm_civilian", 15 ] ]
   },
   {
     "type": "item_group",
@@ -193,6 +193,8 @@
       [ "reloaded_308", 40 ],
       [ "reloaded_556", 10 ],
       [ "reloaded_556_incendiary", 5 ],
+      [ "reloaded_4570_sp", 10 ],
+      [ "reloaded_4570_pen", 5 ],
       [ "reloaded_762_51", 10 ],
       [ "reloaded_762_51_incendiary", 5 ],
       [ "reloaded_762_54R", 40 ],
@@ -370,6 +372,7 @@
       { "item": "44_casing", "prob": 80, "count": 20 },
       { "item": "45_casing", "prob": 80, "count": 20 },
       { "item": "454_casing", "prob": 60, "count": 5 },
+      { "item": "4570_casing", "prob": 60, "count": 10 },
       { "item": "46mm_casing", "prob": 60, "count": 20 },
       { "item": "50_casing", "prob": 60, "count": 5 },
       { "item": "500_casing", "prob": 60, "count": 5 },
