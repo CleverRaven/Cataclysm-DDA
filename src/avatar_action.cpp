@@ -382,7 +382,7 @@ bool ramp_move( avatar &you, map &m, const tripoint &dest_loc )
 static float rate_critter( const Creature &c )
 {
     const npc *np = dynamic_cast<const npc *>( &c );
-    if ( np != nullptr ) {
+    if( np != nullptr ) {
         return np->weapon_value( np->weapon );
     }
 
