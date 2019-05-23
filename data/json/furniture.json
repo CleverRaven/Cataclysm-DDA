@@ -10,13 +10,14 @@
     "comfort": 2,
     "floor_bedding_warmth": 100,
     "required_str": 6,
-    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT" ],
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "straw_pile", "count": 40 }, { "item": "rope_makeshift_30", "count": 1 } ] },
     "bash": {
       "str_min": 1,
       "str_max": 12,
       "sound": "whish!",
       "sound_fail": "whish.",
-      "items": [ { "item": "straw_pile", "count": [ 6, 10 ] }, { "item": "rope_6", "count": [ 1, 3 ] } ]
+      "items": [ { "item": "straw_pile", "count": [ 6, 10 ] }, { "item": "rope_makeshift_6", "count": [ 1, 3 ] } ]
     }
   },
   {
@@ -289,7 +290,7 @@
     "move_cost_mod": -1,
     "coverage": 75,
     "required_str": -1,
-    "flags": [ "FLAMMABLE", "NOITEM", "ORGANIC" ],
+    "flags": [ "FLAMMABLE", "NOITEM", "ORGANIC", "TRANSPARENT" ],
     "examine_action": "bulletin_board",
     "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 4, 8 ] } ] },
     "bash": {
@@ -818,14 +819,18 @@
     "coverage": 45,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF" ],
-    "deconstruct": { "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 10 ] } ] },
+    "deconstruct": { "items": [ { "item": "2x4", "count": 16 }, { "item": "nail", "charges": [ 16, 24 ] } ] },
     "max_volume": 4000,
     "bash": {
       "str_min": 12,
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "nail", "charges": [ 2, 6 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [
+        { "item": "2x4", "count": [ 4, 10 ] },
+        { "item": "nail", "charges": [ 10, 16 ] },
+        { "item": "splinter", "count": [ 4, 12 ] }
+      ]
     },
     "examine_action": "workbench",
     "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
@@ -977,7 +982,29 @@
     "move_cost_mod": 1,
     "coverage": 35,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SIGN" ],
+    "deconstruct": { "items": [ { "item": "2x4", "count": 3 }, { "item": "nail", "charges": [ 2, 5 ] } ] },
+    "bash": {
+      "str_min": 6,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "2x4", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 2, 4 ] }, { "item": "splinter", "count": 2 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_sign_warning",
+    "name": "warning sign",
+    "symbol": "P",
+    "description": "A triangle-shaped sign on a post meant to indicate something important or hazard.",
+    "color": "red",
+    "examine_action": "sign",
+    "looks_like": "f_sign",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SIGN" ],
     "deconstruct": { "items": [ { "item": "2x4", "count": 3 }, { "item": "nail", "charges": [ 2, 5 ] } ] },
     "bash": {
       "str_min": 6,
@@ -2134,8 +2161,8 @@
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": [ 11, 12 ] },
-        { "item": "nail", "count": [ 30, 36 ] },
-        { "item": "pebble", "count": [ 180, 200 ] },
+        { "item": "nail", "charges": [ 30, 36 ] },
+        { "item": "pebble", "charges": [ 180, 200 ] },
         { "item": "material_soil", "count": [ 70, 75 ] }
       ]
     },
@@ -2146,8 +2173,8 @@
       "sound_fail": "whish.",
       "items": [
         { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "count": [ 15, 30 ] },
-        { "item": "pebble", "count": [ 150, 200 ] },
+        { "item": "nail", "charges": [ 15, 30 ] },
+        { "item": "pebble", "charges": [ 150, 200 ] },
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
@@ -2168,8 +2195,8 @@
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": [ 11, 12 ] },
-        { "item": "nail", "count": [ 30, 36 ] },
-        { "item": "pebble", "count": [ 180, 200 ] },
+        { "item": "nail", "charges": [ 30, 36 ] },
+        { "item": "pebble", "charges": [ 180, 200 ] },
         { "item": "material_soil", "count": [ 70, 75 ] }
       ]
     },
@@ -2180,8 +2207,8 @@
       "sound_fail": "whish.",
       "items": [
         { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "count": [ 15, 30 ] },
-        { "item": "pebble", "count": [ 150, 200 ] },
+        { "item": "nail", "charges": [ 15, 30 ] },
+        { "item": "pebble", "charges": [ 150, 200 ] },
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
@@ -2203,8 +2230,8 @@
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": [ 11, 12 ] },
-        { "item": "nail", "count": [ 30, 36 ] },
-        { "item": "pebble", "count": [ 180, 200 ] },
+        { "item": "nail", "charges": [ 30, 36 ] },
+        { "item": "pebble", "charges": [ 180, 200 ] },
         { "item": "material_soil", "count": [ 70, 75 ] }
       ]
     },
@@ -2215,8 +2242,8 @@
       "sound_fail": "whish.",
       "items": [
         { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "count": [ 15, 30 ] },
-        { "item": "pebble", "count": [ 150, 200 ] },
+        { "item": "nail", "charges": [ 15, 30 ] },
+        { "item": "pebble", "charges": [ 150, 200 ] },
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
@@ -2238,8 +2265,8 @@
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": [ 11, 12 ] },
-        { "item": "nail", "count": [ 30, 36 ] },
-        { "item": "pebble", "count": [ 180, 200 ] },
+        { "item": "nail", "charges": [ 30, 36 ] },
+        { "item": "pebble", "charges": [ 180, 200 ] },
         { "item": "material_soil", "count": [ 70, 75 ] }
       ]
     },
@@ -2250,8 +2277,8 @@
       "sound_fail": "whish.",
       "items": [
         { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "count": [ 15, 30 ] },
-        { "item": "pebble", "count": [ 150, 200 ] },
+        { "item": "nail", "charges": [ 15, 30 ] },
+        { "item": "pebble", "charges": [ 150, 200 ] },
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
@@ -2273,8 +2300,8 @@
     "deconstruct": {
       "items": [
         { "item": "2x4", "count": [ 11, 12 ] },
-        { "item": "nail", "count": [ 30, 36 ] },
-        { "item": "pebble", "count": [ 180, 200 ] },
+        { "item": "nail", "charges": [ 30, 36 ] },
+        { "item": "pebble", "charges": [ 180, 200 ] },
         { "item": "material_soil", "count": [ 70, 75 ] }
       ]
     },
@@ -2285,8 +2312,8 @@
       "sound_fail": "whish.",
       "items": [
         { "item": "2x4", "count": [ 4, 10 ] },
-        { "item": "nail", "count": [ 15, 30 ] },
-        { "item": "pebble", "count": [ 150, 200 ] },
+        { "item": "nail", "charges": [ 15, 30 ] },
+        { "item": "pebble", "charges": [ 150, 200 ] },
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
@@ -3263,7 +3290,7 @@
     "max_volume": 500,
     "crafting_pseudo_item": "char_kiln",
     "flags": [ "CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
-    "deconstruct": { "items": [ { "item": "rock", "count": [ 30, 30 ] } ] },
+    "deconstruct": { "items": [ { "item": "rock", "count": [ 35, 40 ] } ] },
     "bash": {
       "str_min": 25,
       "str_max": 180,
@@ -3782,6 +3809,56 @@
     }
   },
   {
+    "type": "furniture",
+    "id": "f_55gal_firebarrel",
+    "name": "fire barrel (200L)",
+    "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in its walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
+    "symbol": "#",
+    "color": "red",
+    "looks_like": "55gal_drum",
+    "move_cost_mod": 2,
+    "coverage": 35,
+    "required_str": 8,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
+    "deployed_item": "55gal_firebarrel",
+    "examine_action": "fireplace",
+    "max_volume": 4000,
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 8, 20 ] },
+        { "item": "sheet_metal_small", "count": [ 3, 10 ] },
+        { "item": "sheet_metal", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_30gal_firebarrel",
+    "name": "fire barrel (100L)",
+    "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in its walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
+    "symbol": "#",
+    "color": "red",
+    "looks_like": "30gal_drum",
+    "move_cost_mod": 2,
+    "coverage": 35,
+    "required_str": 8,
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "FIRE_CONTAINER", "EASY_DECONSTRUCT" ],
+    "deployed_item": "30gal_firebarrel",
+    "examine_action": "fireplace",
+    "max_volume": 4000,
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 5, 15 ] }, { "item": "sheet_metal_small", "count": [ 1, 9 ] } ]
+    }
+  },
+  {
     "id": "f_firering",
     "type": "furniture",
     "name": "fire ring",
@@ -4254,14 +4331,22 @@
     "coverage": 85,
     "required_str": 9,
     "flags": [ "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "BLOCKSDOOR", "MOUNTABLE" ],
-    "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 8, 12 ] } ] },
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 20 }, { "item": "nail", "charges": [ 16, 24 ] }, { "item": "pipe", "count": 2 } ]
+    },
     "max_volume": 2000,
     "bash": {
       "str_min": 12,
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 4, 8 ] }, { "item": "nail", "charges": [ 6, 12 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [
+        { "item": "2x4", "count": [ 8, 12 ] },
+        { "item": "nail", "charges": [ 8, 14 ] },
+        { "item": "splinter", "count": [ 4, 10 ] },
+        { "item": "pipe", "count": [ 0, 1 ] },
+        { "item": "scrap", "count": [ 2, 5 ] }
+      ]
     }
   },
   {
@@ -6118,13 +6203,19 @@
   },
   {
     "type": "furniture",
-    "id": "f_fake_bench_ground",
-    "name": "fake workbench ground",
-    "description": "This fake workbench holds the stats for working on a item on the ground.",
-    "symbol": "#",
-    "color": "red",
+    "//": "This furniture object also gets used as a fake workbench whenever a player crafts on the ground anywhere else.",
+    "id": "f_ground_crafting_spot",
+    "name": "ground crafting spot",
+    "looks_like": "tr_firewood_source",
+    "description": "A cleared spot on the ground for crafting.  Slower than using a workbench or holding a project in your hands, but readily available.",
+    "symbol": "x",
+    "color": "white",
     "move_cost_mod": 2,
-    "required_str": -1,
+    "required_str": 0,
+    "deconstruct": { "items": [  ] },
+    "bash": { "str_min": 0, "str_max": 0, "items": [  ] },
+    "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT" ],
+    "examine_action": "workbench",
     "workbench": { "multiplier": 0.7, "mass": 1000000, "volume": "1000L" }
   }
 ]
