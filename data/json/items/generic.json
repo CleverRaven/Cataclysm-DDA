@@ -382,7 +382,7 @@
     "symbol": ",",
     "color": "white",
     "name": "data card",
-    "description": "Some type of advanced data storage device. Useful for storing very large amounts of information.",
+    "description": "Some type of advanced data storage device.  Useful for storing very large amounts of information.",
     "price": 10000,
     "price_postapoc": 100,
     "material": "plastic",
