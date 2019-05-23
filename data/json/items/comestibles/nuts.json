@@ -38,7 +38,7 @@
     "price": 400,
     "material": "fruit",
     "volume": 1,
-    "fun": 1,
+    "fun": -2,
     "vitamins": [ [ "vitA", 12 ], [ "vitC", 12 ], [ "calcium", 1 ], [ "iron", 1 ] ]
   },
   {
