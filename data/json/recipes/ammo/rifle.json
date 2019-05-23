@@ -214,7 +214,7 @@
     "components": [
       [ [ "4570_casing", 1 ] ],
       [ [ "lgrifle_primer", 1 ] ],
-      [ [ "gunpowder", 15 ] ],
+      [ [ "gunpowder", 17 ] ],
       [ [ "brass", 7 ] ],
     ]
   },
