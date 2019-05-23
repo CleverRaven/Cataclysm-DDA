@@ -40,7 +40,7 @@
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ],
   },
-  { "id": "4570_pen",
+  { "id": "reloaded_4570_pen",
     "copy-from": "4570_pen",
     "type": "AMMO",
     "name": "Reloaded .45-70 +P Penetrator",
