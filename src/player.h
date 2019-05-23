@@ -1873,8 +1873,12 @@ class player : public Character
     private:
         friend class debug_menu::mission_debug;
 
+    protected:
+        // TODO: move this to avatar
         // Items the player has identified.
         std::unordered_set<std::string> items_identified;
+    private:
+
         /** Check if an area-of-effect technique has valid targets */
         bool valid_aoe_technique( Creature &t, const ma_technique &technique );
         bool valid_aoe_technique( Creature &t, const ma_technique &technique,
@@ -1940,7 +1944,10 @@ class player : public Character
 
         int pkill;
 
+    protected:
+        // TODO: move this to avatar
         std::string move_mode;
+    private:
 
         std::vector<tripoint> auto_move_route;
         player_activity destination_activity;
@@ -1953,14 +1960,23 @@ class player : public Character
         time_point cached_time;
         tripoint cached_position;
 
+    protected:
+        // TODO: move this to avatar
         object_type grab_type;
+    private:
 
         struct weighted_int_list<std::string> melee_miss_reasons;
 
+    protected:
+        // TODO: move this to avatar
         pimpl<player_morale> morale;
+    private:
 
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
         //NPCs also use this ID value. Values should never be reused.
+
+    protected:
+        // TODO: move these to avatar
         /**
          * Missions that the player has accepted and that are not finished (one
          * way or the other).
@@ -1978,10 +1994,13 @@ class player : public Character
          * The currently active mission, or null if no mission is currently in progress.
          */
         mission *active_mission;
+    private:
 
         /** smart pointer to targeting data stored for aiming the player's weapon across turns. */
         std::shared_ptr<targeting_data> tdata;
 
+    protected:
+        // TODO: move these to avatar
         /** Current deficiency/excess quantity for each vitamin */
         std::map<vitamin_id, int> vitamin_levels;
 
@@ -1990,10 +2009,13 @@ class player : public Character
 
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;
+    private:
 
         /** Amount of time the player has spent in each overmap tile. */
         std::unordered_map<point, time_duration> overmap_time;
 
+    protected:
+        // TODO: move these to avatar
         map_memory player_map_memory;
         bool show_map_memory;
 };
