@@ -880,19 +880,7 @@ void overmap_special::load( JsonObject &jo, const std::string &src )
     const bool is_special = jo.get_string( "type", "" ) == "overmap_special";
 
     mandatory( jo, was_loaded, "overmaps", terrains );
-
-    // If the special has locations, then add those to the locations
-    // of each of the terrains IF the terrain has no locations already.
-    std::set<string_id<overmap_location>> locations;
-    optional( jo, was_loaded, "locations", locations );
-    if( !locations.empty() ) {
-        for( auto &t : terrains ) {
-            if( t.locations.empty() ) {
-                t.locations.insert( locations.begin(), locations.end() );
-            }
-        }
-    }
-
+    optional( jo, was_loaded, "locations", default_locations );
 
     if( is_special ) {
         mandatory( jo, was_loaded, "occurrences", occurrences );
@@ -911,6 +899,16 @@ void overmap_special::load( JsonObject &jo, const std::string &src )
 
 void overmap_special::finalize()
 {
+    // If the special has default locations, then add those to the locations
+    // of each of the terrains IF the terrain has no locations already.
+    if( !default_locations.empty() ) {
+        for( auto &t : terrains ) {
+            if( t.locations.empty() ) {
+                t.locations.insert( default_locations.begin(), default_locations.end() );
+            }
+        }
+    }
+
     for( auto &elem : connections ) {
         const auto &oter = get_terrain_at( elem.p );
         if( !elem.terrain && oter.terrain ) {
