@@ -1,4 +1,4 @@
-Checks: 'clang-diagnostic-*,-clang-analyzer-security.FloatLoopCounter'
+Checks: 'clang-diagnostic-*'
 WarningsAsErrors: '*'
 HeaderFilterRegex: '.*'
 FormatStyle:     none
