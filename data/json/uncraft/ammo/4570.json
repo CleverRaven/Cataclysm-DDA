@@ -1,0 +1,18 @@
+[
+  {
+    "result": "4570_SP",
+    "type": "uncraft",
+    "time": 500,
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "copper", 2 ] ], [ [ "lead", 5 ] ], [ [ "4570_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 15 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "result": "45_jhp",
+    "type": "uncraft",
+    "time": 500,
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "brass", 7 ] ], [ [ "4570_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 17 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  }
+]
