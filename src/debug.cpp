@@ -861,7 +861,7 @@ static std::string android_version()
     // note: according to android sources, it can't be greater than 92 chars (see 'PROP_VALUE_MAX' define in system_properties.h)
     std::vector<char> buffer( 255 );
 
-    system_properties = {
+    std::vector<std::pair<std::string, std::string>> system_properties = {
         // The manufacturer of the product/hardware; e.g. "Samsung", this is different than the carrier.
         { "ro.product.manufacturer", "Manufacturer" },
         // The end-user-visible name for the end product; .e.g. "SAMSUNG-SM-G930A" for a Samsung S7.
