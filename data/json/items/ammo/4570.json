@@ -27,7 +27,7 @@
     "description": ".45-70 Government +P ammunition loaded with a 305 grain solid brass penetrator projectile.  Designed for maximum penetration through thick hide and bone while maintaining ideal wounding characteristics.",
     "price": 5000,
     "count": 10,
-    "relative": { "range": 2, "damage": 2, "pierce": 8 },
+    "relative": { "range": 2, "damage": 2, "pierce": 8 }
   },
   { "id": "reloaded_4570_sp",
     "copy-from": "4570_sp",
