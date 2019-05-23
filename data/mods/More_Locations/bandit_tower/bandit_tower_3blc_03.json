@@ -46,7 +46,7 @@
           { "item": "broken_riotbot", "chance": 4 },
           { "item": "broken_skitterbot", "chance": 3 }
         ],
-        "l": { "item": "battery", "amount": [ 0, 2 ] }
+        "l": { "group": "ammo_pocket_batteries_full", "amount": [ 0, 2 ] }
       },
       "items": {
         "$": { "item": "bots", "chance": 80 },
