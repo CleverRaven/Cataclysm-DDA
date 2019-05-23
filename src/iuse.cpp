@@ -132,6 +132,7 @@ const efftype_id effect_antibiotic( "antibiotic" );
 const efftype_id effect_antibiotic_visible( "antibiotic_visible" );
 const efftype_id effect_asthma( "asthma" );
 const efftype_id effect_attention( "attention" );
+const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );
 const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_blind( "blind" );
@@ -140,8 +141,11 @@ const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_brainworms( "brainworms" );
 const efftype_id effect_cig( "cig" );
 const efftype_id effect_contacts( "contacts" );
+const efftype_id effect_corroding( "corroding" );
+const efftype_id effect_crushed( "crushed" );
 const efftype_id effect_cureall( "cureall" );
 const efftype_id effect_datura( "datura" );
+const efftype_id effect_dazed( "dazed" );
 const efftype_id effect_dermatik( "dermatik" );
 const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
@@ -152,19 +156,30 @@ const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_formication( "formication" );
 const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_glowing( "glowing" );
+const efftype_id effect_glowing_led( "glowy_led" );
 const efftype_id effect_hallu( "hallu" );
+const efftype_id effect_happy( "happy" );
+const efftype_id effect_haslight( "haslight" );
 const efftype_id effect_high( "high" );
+const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_jetinjector( "jetinjector" );
+const efftype_id effect_lack_sleep( "lack_sleep" );
+const efftype_id effect_laserlocked( "laserlocked" );
+const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_meth( "meth" );
 const efftype_id effect_music( "music" );
+const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_panacea( "panacea" );
 const efftype_id effect_pet( "pet" );
 const efftype_id effect_poison( "poison" );
 const efftype_id effect_recover( "recover" );
 const efftype_id effect_run( "run" );
+const efftype_id effect_sad( "sad" );
+const efftype_id effect_sap( "sap" );
 const efftype_id effect_shakes( "shakes" );
+const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_slimed( "slimed" );
 const efftype_id effect_smoke( "smoke" );
 const efftype_id effect_spores( "spores" );
@@ -187,6 +202,7 @@ const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible" );
+const efftype_id effect_webbed( "webbed" );
 const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_magnesium_supplements( "magnesium" );
@@ -6506,8 +6522,10 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
             if( g->m.has_items( center_point ) ) {
                 std::string item_info, item_name = get_top_item_at_point( center_point, min_visible_volume,
                                                    item_info );
-                furn_str += _( " with " ) + item_name;
-                item_found = true;
+                if( !item_name.empty() ) {
+                    furn_str += _( " with " ) + item_name;
+                    item_found = true;
+                }
             }
             return furn_str;
         }
@@ -6517,7 +6535,7 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
     const auto get_vehicle_hash = []( const vehicle & veh ) {
         auto veh_name = veh.disp_name();
         auto veh_coord = veh.global_pos3();
-        return veh_name + string_format( " %i %i %i", veh_coord.x, veh_coord.y, veh_coord.z );
+        return string_format( "%s %i %i %i", veh_name, veh_coord.x, veh_coord.y, veh_coord.z );
     };
 
     const auto format_object_pair = []( const std::pair<std::string, int> &pair ) {
@@ -6529,6 +6547,97 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
         return std::string();
     };
 
+    const auto effects_description_for_creature = []( Creature * const creature, std::string & pose,
+    const std::string & pronoun_sex ) {
+        std::string figure_effects;
+        if( creature ) {
+            if( creature->has_effect( effect_onfire ) ) {
+                figure_effects += pronoun_sex + pgettext( "Someone", " is on <color_red>fire</color>. " );
+            }
+            if( creature->get_effect_int( effect_bleed ) > 1 ) {
+                figure_effects += pgettext( "Someone", "%s is <color_red>bleeding</color>. " );
+            }
+            if( creature->get_effect_int( effect_happy ) > 13 ) {
+                figure_effects += pgettext( "Someone", " looks <color_green>happy</color>. " );
+            }
+            if( creature->has_effect( effect_sad ) ) {
+                int intensity = creature->get_effect_int( effect_sad );
+                if( intensity > 500 && intensity <= 950 ) {
+                    figure_effects += pgettext( "Someone", " looks <color_blue>sad</color>. " );
+                } else if( intensity > 950 ) {
+                    figure_effects += pgettext( "Someone", " looks <color_blue>depressed</color>. " );
+                }
+            }
+            float pain = creature->get_pain() / 10.f;
+            if( pain > 3 ) {
+                figure_effects += pronoun_sex + pgettext( "Someone", " is writhing in <color_red>pain</color>. " );
+            }
+            if( creature->has_effect( effect_downed ) ) {
+                pose = _( "downed" );
+            }
+            if( creature->has_effect( effect_in_pit ) ) {
+                pose = _( "stuck" );
+            }
+            if( creature->has_effect( effect_stunned ) ) {
+                figure_effects += pronoun_sex + pgettext( "Someone", " is <color_blue>stunned</color>. " );
+            }
+            if( creature->has_effect( effect_dazed ) ) {
+                figure_effects += pronoun_sex + pgettext( "Someone", " is <color_blue>dazed</color>. " );
+            }
+            if( creature->has_effect( effect_glowing_led ) ) {
+                figure_effects += _( "A bionic LED is <color_yellow>glowing</color> softly. " );
+            }
+            if( creature->has_effect( effect_beartrap ) ) {
+                figure_effects += pronoun_sex + pgettext( "Someone", " is stuck in beartrap. " );
+            }
+            if( creature->has_effect( effect_laserlocked ) ) {
+                figure_effects += pronoun_sex + pgettext( "Someone",
+                                  " have tiny <color_red>red dot</color> on body. " );
+            }
+            if( creature->has_effect( effect_boomered ) ) {
+                figure_effects += pronoun_sex + pgettext( "Someone",
+                                  " is covered in <color_magenta>bile</color>. " );
+            }
+            if( creature->has_effect( effect_glowing ) ) {
+                figure_effects += pronoun_sex + pgettext( "Someone",
+                                  " is covered in <color_yellow>glowing goo</color>. " );
+            }
+            if( creature->has_effect( effect_slimed ) ) {
+                figure_effects += pronoun_sex + pgettext( "Someone",
+                                  " is covered in <color_green>thick goo</color>. " );
+            }
+            if( creature->has_effect( effect_corroding ) ) {
+                figure_effects += pronoun_sex + pgettext( "Someone",
+                                  " is covered in <color_light_green>acid</color>. " );
+            }
+            if( creature->has_effect( effect_sap ) ) {
+                figure_effects += pronoun_sex + pgettext( "Someone",
+                                  " is coated in <color_brown>sap</color>. " );
+            }
+            if( creature->has_effect( effect_webbed ) ) {
+                figure_effects += pgettext( "Someone", " is covered in <color_gray>webs</color>. " );
+            }
+            if( creature->get_effect_int( effect_spores ) > 1 ) {
+                figure_effects += pgettext( "Someone", " is covered in <color_dark_green>spores</color>. " );
+            }
+            if( creature->has_effect( effect_crushed ) ) {
+                figure_effects += pgettext( "Someone", " lies under <color_gray>collapsed debris</color>. " );
+                pose = _( "lies" );
+            }
+            if( creature->has_effect( effect_lack_sleep ) ) {
+                figure_effects += pgettext( "Someone", " looks <color_gray>very tired</color>. " );
+            }
+            if( creature->has_effect( effect_lying_down ) || creature->has_effect( effect_sleep ) ) {
+                figure_effects += pgettext( "Someone", " is <color_dark_blue>sleeping</color>. " );
+                pose = _( "lies" );
+            }
+            if( creature->has_effect( effect_haslight ) ) {
+                figure_effects += pgettext( "Someone", " is <color_yellow>lit</color>. " );
+            }
+        }
+        return figure_effects;
+    };
+
     // firstly scan for critters and mark nearby furniture, vehicles and items
     for( const tripoint &current : bounds ) {
         if( !g->m.sees( camera_pos, current, dist + 3 ) ) {
@@ -6536,9 +6645,9 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
         }
         monster *const mon = g->critter_at<monster>( current, false );
         player *const guy = g->critter_at<player>( current );
-
         if( guy || mon ) {
-            std::string figure_appearance, figure_name, pose, pronoun_sex;
+            std::string figure_appearance, figure_name, pose, pronoun_sex, figure_effects;
+            Creature *creature;
             if( guy ) {
                 if( guy->get_movement_mode() == "crouch" ) {
                     pose = _( "sits" );
@@ -6546,22 +6655,27 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
                     pose = _( "stands" );
                 }
                 auto vec = guy->short_description_parts();
-                if( guy->is_armed() ) { // remove wielding part
-                    vec.erase( vec.begin() );
-                }
                 figure_appearance = join( vec, "\n\n" );
                 figure_name = guy->name;
-                pronoun_sex = guy->male ? _( "he" ) : _( "she" );
-            } else if( mon ) {
+                pronoun_sex = guy->male ? _( "He" ) : _( "She" );
+                creature = guy;
+            } else {
                 pose = _( "stands" );
                 figure_appearance = mon->type->get_description();
                 figure_name = mon->name();
-                pronoun_sex = pgettext( "Pronoun", "it" );
+                pronoun_sex = pgettext( "Pronoun", "It" );
+                creature = mon;
             }
-            description_figures_appearance[ figure_name ] = figure_appearance;
+
+            figure_effects = effects_description_for_creature( creature, pose, pronoun_sex );
+            if( !figure_effects.empty() ) {
+                description_figures_appearance[ figure_name ] = figure_effects + "\n\n" + figure_appearance;
+            } else {
+                description_figures_appearance[ figure_name ] = figure_appearance;
+            }
 
             auto points_1_radius = g->m.points_in_radius( current, 1 );
-            bool item_found;
+            bool item_found = false;
             std::unordered_map<std::string, int> furn_near_critter;
             std::unordered_map<std::string, int> vehicles_near_critter;
             std::unordered_map<std::string, int> items_near_critter;
@@ -6635,8 +6749,8 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
             std::string figure_text = "";
 
             if( !description_part_on_figure.empty() ) {
-                figure_text += string_format( pgettext( "someone stands/sits *on* something", "on %1$s" ),
-                                              description_part_on_figure ) + ".";
+                figure_text += pose + string_format( pgettext( "someone stands/sits *on* something", "on %1$s" ),
+                                                     description_part_on_figure ) + ".";
             } else {
                 if( !description_furniture_on_figure.empty() ) {
                     figure_text += pose + string_format( _( " on %1$s that stands on %2$s" ),
