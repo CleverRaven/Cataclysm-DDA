@@ -390,7 +390,7 @@ bool player::vitamin_set( const vitamin_id &vit, int qty )
     return true;
 }
 
-float player::metabolic_rate_base() const
+float Character::metabolic_rate_base() const
 {
     float hunger_rate = get_option< float >( "PLAYER_HUNGER_RATE" );
     return hunger_rate * ( 1.0f + mutation_value( "metabolism_modifier" ) );
