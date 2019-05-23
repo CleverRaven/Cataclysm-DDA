@@ -43,7 +43,7 @@
     "material": [ "steel", "wood" ],
     "color": "dark_gray",
     "ammo": "4570",
-    "skill": "pistol"
+    "skill": "pistol",
     "ranged_damage": -10,
     "dispersion": 180,
     "durability": 8,
@@ -54,7 +54,7 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "sights", 1 ],
-    ]
+    ],
     "flags": [ "RELOAD_ONE" ]
   },
   {
@@ -71,7 +71,7 @@
     "material": [ "steel", "wood" ],
     "color": "dark_blue",
     "ammo": "4570",
-    "skill": "rifle"
+    "skill": "rifle",
     "ranged_damage": 4,
     "dispersion": 100,
     "durability": 8,
@@ -83,7 +83,7 @@
       [ "mechanism", 4 ],
       [ "sights", 1 ]
       [ "sling", 1 ],
-    ]
+    ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
 ]
