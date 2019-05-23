@@ -26,7 +26,7 @@ typedef statistics<long> efficiency_stat;
 
 const efftype_id effect_blind( "blind" );
 
-void clear_game_drag( const ter_id &terrain )
+static void clear_game_drag( const ter_id &terrain )
 {
     // Set to turn 0 to prevent solars from producing power
     calendar::turn = 0;
@@ -62,7 +62,7 @@ void clear_game_drag( const ter_id &terrain )
 }
 
 
-vehicle *setup_drag_test( const vproto_id &veh_id )
+static vehicle *setup_drag_test( const vproto_id &veh_id )
 {
     clear_game_drag( ter_id( "t_pavement" ) );
 
@@ -96,11 +96,12 @@ vehicle *setup_drag_test( const vproto_id &veh_id )
 // Spawn a vehicle
 // calculate c_air_drag and c_rolling_resistance
 // return whether they're within 5% of expected values
-bool test_drag( const vproto_id &veh_id,
-                const double expected_c_air = 0, const double expected_c_rr = 0,
-                const double expected_c_water = 0,
-                const int expected_safe = 0, const int expected_max = 0,
-                const bool test_results = false )
+static bool test_drag(
+    const vproto_id &veh_id,
+    const double expected_c_air = 0, const double expected_c_rr = 0,
+    const double expected_c_water = 0,
+    const int expected_safe = 0, const int expected_max = 0,
+    const bool test_results = false )
 {
     vehicle *veh_ptr = setup_drag_test( veh_id );
     if( veh_ptr == nullptr ) {
@@ -143,16 +144,15 @@ bool test_drag( const vproto_id &veh_id,
     return valid;
 }
 
-void print_drag_test_strings( const std::string &type )
+static void print_drag_test_strings( const std::string &type )
 {
     test_drag( vproto_id( type ) );
     fflush( stdout );
 }
 
-void test_vehicle_drag( std::string type,
-                        const double expected_c_air, const double expected_c_rr,
-                        const double expected_c_water,
-                        const int expected_safe, const int expected_max )
+static void test_vehicle_drag(
+    std::string type, const double expected_c_air, const double expected_c_rr,
+    const double expected_c_water, const int expected_safe, const int expected_max )
 {
     SECTION( type ) {
         test_drag( vproto_id( type ), expected_c_air, expected_c_rr, expected_c_water,

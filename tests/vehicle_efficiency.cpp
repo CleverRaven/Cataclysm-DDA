@@ -39,7 +39,7 @@ typedef statistics<long> efficiency_stat;
 
 const efftype_id effect_blind( "blind" );
 
-void clear_game( const ter_id &terrain )
+static void clear_game( const ter_id &terrain )
 {
     // Set to turn 0 to prevent solars from producing power
     calendar::turn = 0;
@@ -71,7 +71,7 @@ void clear_game( const ter_id &terrain )
 
 // Returns how much fuel did it provide
 // But contains only fuels actually used by engines
-std::map<itype_id, long> set_vehicle_fuel( vehicle &v, const float veh_fuel_mult )
+static std::map<itype_id, long> set_vehicle_fuel( vehicle &v, const float veh_fuel_mult )
 {
     // First we need to find the fuels to set
     // That is, fuels actually used by some engine
@@ -134,7 +134,7 @@ std::map<itype_id, long> set_vehicle_fuel( vehicle &v, const float veh_fuel_mult
 
 // Returns the lowest percentage of fuel left
 // ie. 1 means no fuel was used, 0 means at least one dry tank
-float fuel_percentage_left( vehicle &v, const std::map<itype_id, long> &started_with )
+static float fuel_percentage_left( vehicle &v, const std::map<itype_id, long> &started_with )
 {
     std::map<itype_id, long> fuel_amount;
     std::set<itype_id> consumed_fuels;
@@ -177,10 +177,10 @@ const int cycle_limit = 100;
 // Rescale the recorded number of tiles based on fuel percentage left
 // (ie. 0% fuel left means no scaling, 50% fuel left means double the effective distance)
 // Return the rescaled number
-long test_efficiency( const vproto_id &veh_id, int &expected_mass,
-                      const ter_id &terrain,
-                      const int reset_velocity_turn, const long target_distance,
-                      const bool smooth_stops = false, const bool test_mass = true )
+static long test_efficiency( const vproto_id &veh_id, int &expected_mass,
+                             const ter_id &terrain,
+                             const int reset_velocity_turn, const long target_distance,
+                             const bool smooth_stops = false, const bool test_mass = true )
 {
     long min_dist = target_distance * 0.99;
     long max_dist = target_distance * 1.01;
@@ -280,9 +280,9 @@ long test_efficiency( const vproto_id &veh_id, int &expected_mass,
     return adjusted_tiles_travelled;
 }
 
-efficiency_stat find_inner( const std::string &type, int &expected_mass, const std::string &terrain,
-                            const int delay,
-                            const bool smooth, const bool test_mass = false )
+static efficiency_stat find_inner(
+    const std::string &type, int &expected_mass, const std::string &terrain, const int delay,
+    const bool smooth, const bool test_mass = false )
 {
     efficiency_stat efficiency;
     for( int i = 0; i < 10; i++ ) {
@@ -292,7 +292,7 @@ efficiency_stat find_inner( const std::string &type, int &expected_mass, const s
     return efficiency;
 }
 
-void print_stats( const efficiency_stat &st )
+static void print_stats( const efficiency_stat &st )
 {
     if( st.min() == st.max() ) {
         printf( "All results %ld.\n", st.min() );
@@ -302,15 +302,16 @@ void print_stats( const efficiency_stat &st )
     }
 }
 
-void print_efficiency( const std::string &type, int expected_mass, const std::string &terrain,
-                       const int delay, const bool smooth )
+static void print_efficiency(
+    const std::string &type, int expected_mass, const std::string &terrain, const int delay,
+    const bool smooth )
 {
     printf( "Testing %s on %s with %s: ",
             type.c_str(), terrain.c_str(), ( delay < 0 ) ? "no resets" : "resets every 5 turns" );
     print_stats( find_inner( type, expected_mass, terrain, delay, smooth ) );
 }
 
-void find_efficiency( const std::string &type )
+static void find_efficiency( const std::string &type )
 {
     SECTION( "finding efficiency of " + type ) {
         print_efficiency( type, 0,  "t_pavement", -1, false );
@@ -320,7 +321,7 @@ void find_efficiency( const std::string &type )
     }
 }
 
-int average_from_stat( const efficiency_stat &st )
+static int average_from_stat( const efficiency_stat &st )
 {
     const int ugly_integer = ( st.min() + st.max() ) / 2.0;
     // Round to 4 most significant places
@@ -330,7 +331,7 @@ int average_from_stat( const efficiency_stat &st )
 }
 
 // Behold: power of laziness
-void print_test_strings( const std::string &type )
+static void print_test_strings( const std::string &type )
 {
     std::ostringstream ss;
     int expected_mass = 0;
@@ -350,10 +351,11 @@ void print_test_strings( const std::string &type )
     fflush( stdout );
 }
 
-void test_vehicle( std::string type, int expected_mass,
-                   const long pavement_target, const long dirt_target,
-                   const long pavement_target_w_stops, const long dirt_target_w_stops,
-                   const long pavement_target_smooth_stops = 0, const long dirt_target_smooth_stops = 0 )
+static void test_vehicle(
+    std::string type, int expected_mass,
+    const long pavement_target, const long dirt_target,
+    const long pavement_target_w_stops, const long dirt_target_w_stops,
+    const long pavement_target_smooth_stops = 0, const long dirt_target_smooth_stops = 0 )
 {
     SECTION( type + " on pavement" ) {
         test_efficiency( vproto_id( type ), expected_mass, ter_id( "t_pavement" ), -1,

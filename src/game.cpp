@@ -1599,7 +1599,7 @@ void game::cancel_activity()
     u.cancel_activity();
 }
 
-bool cancel_auto_move( player &p, const std::string &text )
+static bool cancel_auto_move( player &p, const std::string &text )
 {
     if( p.has_destination() ) {
         add_msg( m_warning, _( "%s. Auto-move canceled" ), text );
@@ -1800,7 +1800,7 @@ void game::remove_npc_follower( const int &id )
     u.follower_ids.erase( id );
 }
 
-void update_faction_api( npc *guy )
+static void update_faction_api( npc *guy )
 {
     if( guy->get_faction_ver() < 2 ) {
         guy->set_fac( your_followers );
@@ -5320,7 +5320,7 @@ void game::examine()
     u.manual_examine = false;
 }
 
-const std::string get_fire_fuel_string( const tripoint &examp )
+static const std::string get_fire_fuel_string( const tripoint &examp )
 {
     if( g->m.has_flag( TFLAG_FIRE_CONTAINER, examp ) ) {
         field_entry *fire = g->m.get_field( examp, fd_fire );
@@ -6778,7 +6778,7 @@ void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
     wrefresh( w_terrain );
 }
 
-void centerlistview( const tripoint &active_item_position )
+static void centerlistview( const tripoint &active_item_position )
 {
     player &u = g->u;
     if( get_option<std::string>( "SHIFT_LIST_ITEM_VIEW" ) != "false" ) {
@@ -7650,23 +7650,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     return game::vmenu_ret::QUIT;
 }
 
-std::vector<vehicle *> nearby_vehicles_for( const itype_id &ft )
-{
-    std::vector<vehicle *> result;
-    for( auto &&p : g->m.points_in_radius( g->u.pos(), 1 ) ) { // *NOPAD*
-        vehicle *const veh = veh_pointer_or_null( g->m.veh_at( p ) );
-        // TODO: constify fuel_left and fuel_capacity
-        // TODO: add a fuel_capacity_left function
-        if( std::find( result.begin(), result.end(), veh ) != result.end() ) {
-            continue;
-        }
-        if( veh != nullptr && veh->fuel_left( ft ) < veh->fuel_capacity( ft ) ) {
-            result.push_back( veh );
-        }
-    }
-    return result;
-}
-
 void game::drop()
 {
     u.drop( game_menus::inv::multidrop( u ), u.pos() );
@@ -7983,7 +7966,7 @@ bool game::plfire( item &weapon, int bp_cost )
 }
 
 // Used to set up the first Hotkey in the display set
-int get_initial_hotkey( const size_t menu_index )
+static int get_initial_hotkey( const size_t menu_index )
 {
     int hotkey = -1;
     if( menu_index == 0 ) {
@@ -8000,8 +7983,8 @@ int get_initial_hotkey( const size_t menu_index )
 //    Pair.second is the number of equivalent items per unique tname
 // There are options for optimization here, but the function is hit infrequently
 // enough that optimizing now is not a useful time expenditure.
-const std::vector<std::pair<int, int>> generate_butcher_stack_display(
-                                        map_stack &items, const std::vector<int> &indices )
+static const std::vector<std::pair<int, int>> generate_butcher_stack_display(
+            map_stack &items, const std::vector<int> &indices )
 {
     std::vector<std::pair<int, int>> result;
     std::vector<std::string> result_strings;
@@ -8037,8 +8020,8 @@ const std::vector<std::pair<int, int>> generate_butcher_stack_display(
 
 // Corpses are always individual items
 // Just add them individually to the menu
-void add_corpses( uilist &menu, map_stack &items,
-                  const std::vector<int> &indices, size_t &menu_index )
+static void add_corpses( uilist &menu, map_stack &items,
+                         const std::vector<int> &indices, size_t &menu_index )
 {
     int hotkey = get_initial_hotkey( menu_index );
 
@@ -8050,9 +8033,9 @@ void add_corpses( uilist &menu, map_stack &items,
 }
 
 // Salvagables stack so we need to pass in a stack vector rather than an item index vector
-void add_salvagables( uilist &menu, map_stack &items,
-                      const std::vector<std::pair<int, int>> &stacks, size_t &menu_index,
-                      const salvage_actor &salvage_iuse )
+static void add_salvagables( uilist &menu, map_stack &items,
+                             const std::vector<std::pair<int, int>> &stacks, size_t &menu_index,
+                             const salvage_actor &salvage_iuse )
 {
     if( !stacks.empty() ) {
         int hotkey = get_initial_hotkey( menu_index );
@@ -8071,8 +8054,8 @@ void add_salvagables( uilist &menu, map_stack &items,
 }
 
 // Disassemblables stack so we need to pass in a stack vector rather than an item index vector
-void add_disassemblables( uilist &menu, map_stack &items,
-                          const std::vector<std::pair<int, int>> &stacks, size_t &menu_index )
+static void add_disassemblables( uilist &menu, map_stack &items,
+                                 const std::vector<std::pair<int, int>> &stacks, size_t &menu_index )
 {
     if( !stacks.empty() ) {
         int hotkey = get_initial_hotkey( menu_index );
@@ -8092,7 +8075,7 @@ void add_disassemblables( uilist &menu, map_stack &items,
 }
 
 // Butchery sub-menu and time calculation
-void butcher_submenu( map_stack &items, const std::vector<int> &corpses, int corpse = -1 )
+static void butcher_submenu( map_stack &items, const std::vector<int> &corpses, int corpse = -1 )
 {
     auto cut_time = [&]( enum butcher_type bt ) {
         int time_to_cut = 0;
@@ -10207,7 +10190,7 @@ void game::plswim( const tripoint &p )
     u.drench( 100, drenchFlags, true );
 }
 
-float rate_critter( const Creature &c )
+static float rate_critter( const Creature &c )
 {
     const npc *np = dynamic_cast<const npc *>( &c );
     if( np != nullptr ) {
@@ -10383,7 +10366,7 @@ void game::fling_creature( Creature *c, const int &dir, float flvel, bool contro
     }
 }
 
-cata::optional<tripoint> point_selection_menu( const std::vector<tripoint> &pts )
+static cata::optional<tripoint> point_selection_menu( const std::vector<tripoint> &pts )
 {
     if( pts.empty() ) {
         debugmsg( "point_selection_menu called with empty point set" );
