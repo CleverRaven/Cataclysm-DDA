@@ -417,7 +417,7 @@
     "type": "GUN",
     "name": "handmade carbine",
     "//": "It's smaller than an M4A1, plus it's a homemade firearm.",
-    "description": "A well-designed improvised carbine with a shortened barrel.  Accepting crude detachable magazines, this is one of the better homemade weapons.",
+    "description": "A well-designed improvised carbine with a shortened barrel.  Accepting crude detachable magazines or STANAG magazines, this is one of the better homemade weapons.",
     "weight": 1950,
     "volume": 6,
     "price": 10000,
@@ -441,6 +441,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "223", [ "survivor223mag" ] ] ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   }
 ]
