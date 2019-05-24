@@ -257,7 +257,7 @@
     "type": "GENERIC",
     "category": "tools",
     "name": "atomic coffee maker",
-    "description": "This is a CuppaTech Lambda-3 coffeemaker.  It famously uses a radioactive generator to heat water for coffee. Normally the water is heated using energy stored in a capacitor, and makes ordinary coffee.  However, as a special feature, water from the RTG containment area can be used, giving the coffee a very special kick.  The Lambda-3 is illegal in most countries.",
+    "description": "This is a Curie-G coffeemaker, by CuppaTech.  It famously uses a radioactive generator to heat water for coffee. Normally the water is heated using energy stored in a capacitor, and makes ordinary coffee.  However, as a special feature, water from the RTG containment area can be used, giving the coffee a very special kick.  The Curie-G is illegal in most countries.",
     "weight": 4102,
     "volume": "1000 mL",
     "price": 100000,
