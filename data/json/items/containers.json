@@ -313,7 +313,8 @@
     "material": "paper",
     "symbol": ")",
     "color": "brown",
-    "contains": 20
+    "contains": 20,
+    "use_action": { "type": "deploy_furn", "furn_type": "f_cardboard_box" }
   },
   {
     "id": "bucket",
