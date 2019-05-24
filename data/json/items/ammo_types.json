@@ -21,7 +21,7 @@
     "type": "ammunition_type",
     "id": "4570",
     "name": ".45-70",
-    "default": "4570"
+    "default": "4570_sp"
   },
   {
     "type": "ammunition_type",
