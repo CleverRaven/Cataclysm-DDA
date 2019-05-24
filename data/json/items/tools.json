@@ -85,8 +85,8 @@
     "price": 400,
     "material": [ "aluminum", "plastic" ],
     "weight": 113,
-    "volume": 1,
-    "cutting": 6,
+    "volume": 2,
+    "bashing": 4,
     "to_hit": -1
   },
   {

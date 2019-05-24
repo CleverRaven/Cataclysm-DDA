@@ -48,7 +48,6 @@
     "color": "white"
   },
   {
-    "//": "Add the following to overmap_terrain.json in /data/json/",
     "type": "overmap_terrain",
     "id": "boat_rental",
     "name": "boat rental",
