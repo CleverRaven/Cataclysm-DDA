@@ -20,7 +20,7 @@
 #include "json.h"
 
 // copypasta: file_finder.cpp
-std::vector<std::string> get_files_from_path(std::string extension, std::string root_path, bool recursive_search, bool match_extension)
+static std::vector<std::string> get_files_from_path(std::string extension, std::string root_path, bool recursive_search, bool match_extension)
 {
     std::vector<std::string> files;
     const size_t extsz = extension.size();
@@ -90,7 +90,7 @@ std::vector<std::string> get_files_from_path(std::string extension, std::string 
 }
 
 // copypasta: init.cpp
-void load_object(JsonObject &jo)
+static void load_object(JsonObject &jo)
 {
     std::string type = jo.get_string("type");
     if ( ! jo.has_string("type") )
@@ -98,7 +98,7 @@ void load_object(JsonObject &jo)
         jo.throw_error( "JSON object has no type" );
     }
 }
-void load_all_from_json(JsonIn &jsin)
+static void load_all_from_json(JsonIn &jsin)
 {
     char ch;
     jsin.eat_whitespace();
@@ -141,7 +141,7 @@ void load_all_from_json(JsonIn &jsin)
     }
 }
 
-void load_json_dir(const std::string &dirname)
+static void load_json_dir(const std::string &dirname)
 {
     // get a list of all files in the directory
     std::vector<std::string> dir =
