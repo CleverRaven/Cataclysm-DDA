@@ -393,7 +393,7 @@
       "items": [ { "item": "2x4", "count": 12 }, { "item": "blanket", "count": 2 }, { "item": "nail", "charges": [ 8, 10 ] } ]
     },
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE" ],
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -405,29 +405,6 @@
         { "item": "splinter", "count": [ 3, 6 ] },
         { "item": "rag", "count": [ 40, 55 ] }
       ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_mattress",
-    "name": "mattress",
-    "description": "A comfortable mattress has been tossed on the floor for sleeping here.  It's not quite as comfy as a real bed, but it's pretty close.",
-    "symbol": "0",
-    "color": "magenta",
-    "move_cost_mod": 3,
-    "coverage": 40,
-    "comfort": 4,
-    "floor_bedding_warmth": 700,
-    "required_str": 7,
-    "examine_action": "deployed_furniture",
-    "flags": [ "TRANSPARENT", "SHORT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE" ],
-    "deconstruct": { "items": [ { "item": "mattress", "count": 1 } ] },
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "rrrrip!",
-      "sound_fail": "whump.",
-      "items": [ { "item": "rag", "count": [ 40, 55 ] } ]
     }
   },
   {
@@ -4245,6 +4222,27 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [ { "item": "leather_tarp", "count": [ 1, 1 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_plastic_groundsheet",
+    "name": "plastic groundsheet",
+    "description": "A large sheet of thick plastic has been tossed on the ground here.  It would be a useful place to do some butchery, perhaps.",
+    "symbol": "D",
+    "bgcolor": "light_blue",
+    "move_cost_mod": 0,
+    "required_str": 3,
+    "deployed_item": "plastic_sheet",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF", "CAN_SIT" ],
+    "deconstruct": { "items": [ { "item": "plastic_sheet", "count": 1 } ] },
+    "bash": {
+      "str_min": 5,
+      "str_max": 10,
+      "sound": "whuff!",
+      "sound_fail": "crinkle.",
+      "items": [ { "item": "plastic_sheet", "count": 1 } ]
     }
   },
   {
