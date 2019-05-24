@@ -17,6 +17,8 @@ option(USE_HOME_DIR "Use user's home directory for save files."					"ON" )
 option(LOCALIZE     "Support for language localizations. Also enable UTF support."		"ON" )
 option(LANGUAGES    "Compile localization files for specified languages."			""   )
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."	"ON")
+option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
+set(LLVM_INCLUDE_DIRS "" CACHE STRING "Paths to llvm and clang headers used for clang-tidy plugin")
 set(GIT_BINARY       "" CACHE STRING "Git binary name or path.")
 set(PREFIX           "" CACHE STRING "Location of Data & GFX directories")
 
@@ -341,6 +343,9 @@ if (NOT MSVC)
 	add_subdirectory(src/chkjson)
 endif()
 add_subdirectory(tests)
+if (CATA_CLANG_TIDY_PLUGIN)
+	add_subdirectory(tools/clang-tidy-plugin)
+endif()
 
 CONFIGURE_FILE(
 	"${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
