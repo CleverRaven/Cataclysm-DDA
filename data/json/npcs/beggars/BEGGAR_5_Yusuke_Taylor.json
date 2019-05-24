@@ -55,6 +55,7 @@
     "responses": [
       { "text": "What are you doing out here?", "topic": "TALK_REFUGEE_BEGGAR_5_TALK1" },
       { "text": "I couldn't help but notice, you're covered in fur.", "topic": "TALK_REFUGEE_BEGGAR_5_FUR" },
+      { "text": "Would you like something to eat?", "topic": "TALK_REFUGEE_BEGGAR_5_FOOD" },
       { "text": "Sorry, not interested.", "topic": "TALK_DONE" }
     ]
   },
@@ -69,6 +70,7 @@
         "text": "You seem like you can hold your own.  Why not travel with me?",
         "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL1"
       },
+      { "text": "Would you like something to eat?", "topic": "TALK_REFUGEE_BEGGAR_5_FOOD" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -82,6 +84,7 @@
         "text": "You seem like you can hold your own.  Why not travel with me?",
         "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL1"
       },
+      { "text": "Would you like something to eat?", "topic": "TALK_REFUGEE_BEGGAR_5_FOOD" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -95,6 +98,22 @@
         "text": "You seem like you can hold your own.  Why not travel with me?",
         "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL1"
       },
+      { "text": "Would you like something to eat?", "topic": "TALK_REFUGEE_BEGGAR_5_FOOD" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5_FOOD",
+    "dynamic_line": "I do okay for myself actually.  I eat a lot of things close to spoilage while I'm foraging.  If you've got food to spare, please give it to my friends.",
+    "responses": [
+      { "text": "Why live out here?", "topic": "TALK_REFUGEE_BEGGAR_5_TALK2" },
+      { "text": "I couldn't help but notice, you're covered in fur.", "topic": "TALK_REFUGEE_BEGGAR_5_FUR" },
+      {
+        "text": "You seem like you can hold your own.  Why not travel with me?",
+        "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL1"
+      },
+      { "text": "Would you like something to eat?", "topic": "TALK_REFUGEE_BEGGAR_5_FOOD" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -103,8 +122,18 @@
     "id": "TALK_REFUGEE_BEGGAR_5_TRAVEL1",
     "dynamic_line": "Well now, that's quite a kind offer, and I appreciate you looking past my full-body pubic hair.  Sorry though.  I've come to feel sort of responsible for this little gaggle of squatters.  As long as I'm the only one providing for them, I don't think I can leave.",
     "responses": [
-      { "text": "Why live out here?", "topic": "TALK_REFUGEE_BEGGAR_5_TALK2" },
-      { "text": "I couldn't help but notice, you're covered in fur.", "topic": "TALK_REFUGEE_BEGGAR_5_FUR" },
+      {
+        "condition": {
+          "and": [
+            { "u_has_var": "reena_recruited", "type": "general", "context": "recruit", "value": "yes" },
+            { "u_has_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" },
+            { "u_has_var": "brendan_recruited", "type": "general", "context": "recruit", "value": "yes" }
+          ]
+        },
+        "text": "I've spoken to all your friends, and except for Dave, they're good to go.  Dave wants to stay here.  How about you?",
+        "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL2"
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   }
