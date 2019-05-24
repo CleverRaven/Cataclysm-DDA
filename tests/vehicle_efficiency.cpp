@@ -35,7 +35,7 @@
 
 class monster;
 
-typedef statistics<long> efficiency_stat;
+using efficiency_stat = statistics<long>;
 
 const efftype_id effect_blind( "blind" );
 

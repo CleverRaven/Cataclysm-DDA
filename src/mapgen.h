@@ -21,7 +21,7 @@ class mission;
 struct tripoint;
 class map;
 
-typedef void ( *building_gen_pointer )( map *, oter_id, mapgendata, const time_point &, float );
+using building_gen_pointer = void ( * )( map *, oter_id, mapgendata, const time_point &, float );
 
 //////////////////////////////////////////////////////////////////////////
 ///// function pointer class; provides abstract referencing of
@@ -440,6 +440,6 @@ void circle( map *m, ter_id type, int x, int y, int rad );
 void circle_furn( map *m, furn_id type, int x, int y, int rad );
 void add_corpse( map *m, int x, int y );
 
-typedef void ( *map_special_pointer )( map &m, const tripoint &abs_sub );
+using map_special_pointer = void ( * )( map &, const tripoint & );
 
 #endif

@@ -44,8 +44,8 @@
 #include "units.h"
 #include "type_id.h"
 
-typedef std::pair<item, int> ItemCount;
-typedef std::map<std::string, ItemCount> PickupMap;
+using ItemCount = std::pair<item, int>;
+using PickupMap = std::map<std::string, ItemCount>;
 
 // Pickup helper functions
 static bool pick_one_up( const tripoint &pickup_target, item &newit,

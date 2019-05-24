@@ -1140,7 +1140,7 @@ static void mx_clay_deposit( map &m, const tripoint &abs_sub )
     }
 }
 
-typedef std::unordered_map<std::string, map_special_pointer> FunctionMap;
+using FunctionMap = std::unordered_map<std::string, map_special_pointer>;
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
     { "mx_house_wasp", mx_house_wasp },

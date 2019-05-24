@@ -689,7 +689,7 @@ struct npc_chatbin {
 class npc_template;
 struct epilogue;
 
-typedef std::map<std::string, epilogue> epilogue_map;
+using epilogue_map = std::map<std::string, epilogue>;
 
 class npc : public player
 {

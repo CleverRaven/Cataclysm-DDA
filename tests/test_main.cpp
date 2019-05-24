@@ -46,8 +46,8 @@
 #include "rng.h"
 #include "type_id.h"
 
-typedef std::pair<std::string, std::string> name_value_pair_t;
-typedef std::vector<name_value_pair_t> option_overrides_t;
+using name_value_pair_t = std::pair<std::string, std::string>;
+using option_overrides_t = std::vector<name_value_pair_t>;
 
 // If tag is found as a prefix of any argument in arg_vec, the argument is
 // removed from arg_vec and the argument suffix after tag is returned.

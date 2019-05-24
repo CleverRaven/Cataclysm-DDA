@@ -46,7 +46,7 @@
 
 class player;
 
-typedef std::set<std::string> t_string_set;
+using t_string_set = std::set<std::string>;
 static t_string_set item_blacklist;
 
 static std::set<std::string> repair_actions;

@@ -32,7 +32,7 @@ enum art_effect_active : int;
 enum art_charge : int;
 enum art_charge_req : int;
 enum art_effect_passive : int;
-typedef std::string itype_id;
+using itype_id = std::string;
 
 enum field_id : int;
 
@@ -345,7 +345,7 @@ struct islot_book {
             return hidden;
         }
     };
-    typedef std::set<recipe_with_description_t> recipe_list_t;
+    using recipe_list_t = std::set<recipe_with_description_t>;
     recipe_list_t recipes;
 };
 

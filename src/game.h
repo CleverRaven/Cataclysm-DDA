@@ -97,7 +97,7 @@ class map_item_stack;
 struct WORLD;
 class save_t;
 
-typedef WORLD *WORLDPTR;
+using WORLDPTR = WORLD *;
 class overmap;
 class event_manager;
 
@@ -111,7 +111,7 @@ struct visibility_variables;
 class scent_map;
 class loading_ui;
 
-typedef std::function<bool( const item & )> item_filter;
+using item_filter = std::function<bool ( const item & )>;
 
 enum peek_act : int {
     PA_BLIND_THROW

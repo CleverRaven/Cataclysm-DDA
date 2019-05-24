@@ -1711,7 +1711,7 @@ class player : public Character
         void add_msg_player_or_say( game_message_type type, const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
 
-        typedef std::map<tripoint, std::string> trap_map;
+        using trap_map = std::map<tripoint, std::string>;
         bool knows_trap( const tripoint &pos ) const;
         void add_known_trap( const tripoint &pos, const trap &t );
         /** Search surrounding squares for traps (and maybe other things in the future). */

@@ -1011,7 +1011,7 @@ static std::string windows_version()
 
     if( !success ) {
         output = "";
-        typedef LONG( WINAPI * RtlGetVersion )( PRTL_OSVERSIONINFOW );
+        using RtlGetVersion = LONG( WINAPI * )( PRTL_OSVERSIONINFOW );
         const HMODULE handle_ntdll = GetModuleHandleA( "ntdll" );
         if( handle_ntdll != nullptr ) {
             // Use union-based type-punning to convert function pointer
