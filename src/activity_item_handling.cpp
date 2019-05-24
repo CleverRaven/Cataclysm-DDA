@@ -189,7 +189,7 @@ static void put_into_vehicle( Character &c, item_drop_reason reason, const std::
     }
 }
 
-void pass_to_ownership_handling( item obj, Character &c )
+static void pass_to_ownership_handling( item obj, Character &c )
 {
     obj.handle_pickup_ownership( c );
 }
