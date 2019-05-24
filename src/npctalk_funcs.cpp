@@ -450,7 +450,7 @@ void talk_function::give_equipment( npc &p )
     item it = *giving[chosen].loc.get_item();
     giving[chosen].loc.remove_item();
     popup( _( "%1$s gives you a %2$s" ), p.name, it.tname() );
-
+    it.set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
     g->u.i_add( it );
     p.op_of_u.owed -= giving[chosen].price;
     p.add_effect( effect_asked_for_item, 3_hours );
