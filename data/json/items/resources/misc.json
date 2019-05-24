@@ -29,6 +29,7 @@
     "price": 1000,
     "material": "cotton",
     "symbol": "0",
-    "color": "white"
+    "color": "white",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_floor_mattress" }
   }
 ]
