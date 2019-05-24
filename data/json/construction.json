@@ -2517,5 +2517,60 @@
     ],
     "pre_terrain": "t_fence_post",
     "post_terrain": "t_wall_rammed_earth"
+  },
+  {
+    "type": "construction",
+    "description": "Build Counter Gate",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": 30,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 6 ] ], [ [ "nail", 10 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_counter_gate_c"
+  },
+  {
+    "type": "construction",
+    "description": "Build Split Rail Fence Gate",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+    "time": 30,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 5 ] ], [ [ "nail", 12 ] ] ],
+    "pre_flags": "DIGGABLE",
+    "post_terrain": "t_splitrail_fencegate_c"
+  },
+  {
+    "type": "construction",
+    "description": "Build Privacy Fence Gate",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+    "time": 30,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ] ],
+    "pre_flags": "DIGGABLE",
+    "post_terrain": "t_privacy_fencegate_c"
+  },
+  {
+    "type": "construction",
+    "description": "Build Split Rail Fence",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+    "time": 30,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 20 ] ] ],
+    "pre_flags": "DIGGABLE",
+    "post_terrain": "t_splitrail_fence"
+  },
+  {
+    "type": "construction",
+    "description": "Build Privacy Fence",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+    "time": 30,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "DIG", "level": 2 } ] ],
+    "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ] ],
+    "pre_flags": "DIGGABLE",
+    "post_terrain": "t_privacy_fence"
   }
 ]

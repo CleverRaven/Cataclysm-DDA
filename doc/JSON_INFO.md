@@ -587,6 +587,17 @@ Mods can modify this via `add:traits` and `remove:traits`.
 ]
 ```
 
+### Constructions
+```C++
+"description": "Spike Pit",                                         // Description string displayed in the construction menu
+"category": "DIG",                                                  // Construction category
+"required_skills": [ [ "survival", 1 ] ],                           // Skill levels required to undertake construction
+"time": 30,                                                         // Time in minutes required to complete construction
+"components": [ [ [ "spear_wood", 4 ], [ "pointy_stick", 4 ] ] ],   // Items used in construction
+"pre_terrain": "t_pit",                                             // Required terrain to build on
+"post_terrain": "t_pit_spiked"                                      // Terrain type after construction is complete
+```
+
 ## Skills
 
 ```C++

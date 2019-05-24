@@ -263,18 +263,6 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "acorn_roasted",
-    "name": "handful of roasted acorns",
-    "name_plural": "handfuls of roasted acorns",
-    "copy-from": "acorns",
-    "healthy": 1,
-    "description": "A handful of roasted nuts from a oak tree.",
-    "price": 90,
-    "flags": [ "EATEN_HOT", "EDIBLE_FROZEN" ],
-    "fun": 1
-  },
-  {
-    "type": "COMESTIBLE",
     "id": "hazelnut_unshelled",
     "name": "handful of hazelnuts",
     "name_plural": "handfuls of shelled hazelnuts",

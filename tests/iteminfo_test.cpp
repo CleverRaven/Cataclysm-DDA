@@ -9,7 +9,7 @@
 #include "iteminfo_query.h"
 #include "player.h"
 
-void iteminfo_test( const item &i, const iteminfo_query &q, const std::string &reference )
+static void iteminfo_test( const item &i, const iteminfo_query &q, const std::string &reference )
 {
     g->u.empty_traits();
     std::vector<iteminfo> info_v;

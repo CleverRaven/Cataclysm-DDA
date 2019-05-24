@@ -130,7 +130,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
     }
 }
 
-void load_ignored_type( JsonObject &jo )
+static void load_ignored_type( JsonObject &jo )
 {
     // This does nothing!
     // This function is used for types that are to be ignored

@@ -31,6 +31,7 @@
 #include "iexamine.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -145,7 +146,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_FERTILIZE_PLOT" ), fertilize_plot_do_turn },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn },
     { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn },
-    { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_do_turn }
+    { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_do_turn },
+    { activity_id( "ACT_STUDY_SPELL" ), study_spell_do_turn}
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -208,10 +210,11 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish },
     { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish },
     { activity_id( "ACT_HACK_DOOR" ), hack_door_finish },
-    { activity_id( "ACT_HACK_SAFE" ), hack_safe_finish }
+    { activity_id( "ACT_HACK_SAFE" ), hack_safe_finish },
+    { activity_id( "ACT_STUDY_SPELL" ), study_spell_finish }
 };
 
-void messages_in_process( const player_activity &act, const player &p )
+static void messages_in_process( const player_activity &act, const player &p )
 {
     if( act.moves_left <= 91000 && act.moves_left > 89000 ) {
         p.add_msg_if_player( m_info, _( "You figure it'll take about an hour and a half at this rate." ) );
@@ -266,7 +269,7 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-bool check_butcher_cbm( const int roll )
+static bool check_butcher_cbm( const int roll )
 {
     // Failure rates for dissection rolls
     // 90% at roll 0, 72% at roll 1, 60% at roll 2, 51% @ 3, 45% @ 4, 40% @ 5, ... , 25% @ 10
@@ -278,8 +281,8 @@ bool check_butcher_cbm( const int roll )
     return !failed;
 }
 
-void butcher_cbm_item( const std::string &what, const tripoint &pos,
-                       const time_point &age, const int roll )
+static void butcher_cbm_item( const std::string &what, const tripoint &pos,
+                              const time_point &age, const int roll )
 {
     if( roll < 0 ) {
         return;
@@ -297,8 +300,8 @@ void butcher_cbm_item( const std::string &what, const tripoint &pos,
     }
 }
 
-void butcher_cbm_group( const std::string &group, const tripoint &pos,
-                        const time_point &age, const int roll )
+static void butcher_cbm_group( const std::string &group, const tripoint &pos,
+                               const time_point &age, const int roll )
 {
     if( roll < 0 ) {
         return;
@@ -319,7 +322,7 @@ void butcher_cbm_group( const std::string &group, const tripoint &pos,
     }
 }
 
-void set_up_butchery( player_activity &act, player &u, butcher_type action )
+static void set_up_butchery( player_activity &act, player &u, butcher_type action )
 {
     if( !act.values.empty() ) {
         act.index = act.values.back();
@@ -583,7 +586,7 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     return time_to_cut;
 }
 // The below function exists to allow mods to migrate their content fully to the new harvest system. This function should be removed eventually.
-harvest_id butchery_flags_deprecate( const mtype &mt )
+static harvest_id butchery_flags_deprecate( const mtype &mt )
 {
     std::string harvest_id_name = "null";
     if( mt.has_flag( MF_CBM_CIV ) ) {
@@ -671,7 +674,7 @@ harvest_id butchery_flags_deprecate( const mtype &mt )
 }
 
 // this function modifies the input weight by its damage level, depending on the bodypart
-int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
+static int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
 {
     const float slight_damage = 0.9;
     const float damage = 0.75;
@@ -724,9 +727,9 @@ int corpse_damage_effect( int weight, const std::string &entry_type, int damage_
     return weight;
 }
 
-void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
-                             const std::function<int()> &roll_butchery, butcher_type action,
-                             const std::function<double()> &roll_drops )
+static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
+                                    const std::function<int()> &roll_butchery, butcher_type action,
+                                    const std::function<double()> &roll_drops )
 {
     p.add_msg_if_player( m_neutral, _( mt.harvest->message() ) );
     int monster_weight = to_gram( mt.weight );
@@ -983,7 +986,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
     }
 }
 
-void butchery_quarter( item *corpse_item, player &p )
+static void butchery_quarter( item *corpse_item, player &p )
 {
     corpse_item->set_flag( "QUARTERED" );
     p.add_msg_if_player( m_good,
@@ -2185,7 +2188,7 @@ enum repeat_type : int {
     REPEAT_CANCEL,      // Stop repeating
 };
 
-repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
+static repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
 {
     uilist rmenu;
     rmenu.text = title;
@@ -3488,7 +3491,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
     act->set_to_null();
 }
 
-hack_result try_hack( player &p )
+static hack_result try_hack( player &p )
 {
     if( p.has_trait( trait_id( "ILLITERATE" ) ) ) {
         add_msg( _( "You can't read anything on the screen." ) );
@@ -3586,4 +3589,44 @@ void activity_handlers::hack_safe_finish( player_activity *act, player *p )
 
     p->practice( skill_id( "computer" ), 20 );
     act->set_to_null();
+}
+
+void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
+{
+    if( p->fine_detail_vision_mod() > 4 ) {
+        act->values[2] = -1;
+        act->moves_left = 0;
+        return;
+    }
+    if( act->get_str_value( 1 ) == "study" ) {
+        spell &studying = p->magic.get_spell( spell_id( act->name ) );
+        if( act->get_str_value( 0 ) == "gain_level" ) {
+            if( studying.get_level() < act->get_value( 1 ) ) {
+                act->moves_left = 1000000;
+            } else {
+                act->moves_left = 0;
+            }
+        }
+        const int xp = roll_remainder( studying.exp_modifier( *p ) );
+        act->values[0] += xp;
+        studying.gain_exp( xp );
+    }
+    act->moves_left -= 100;
+}
+
+void activity_handlers::study_spell_finish( player_activity *act, player *p )
+{
+    act->set_to_null();
+
+    if( act->get_str_value( 1 ) == "study" ) {
+        p->add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
+                              act->get_value( 0 ) );
+        p->practice( skill_id( "spellcraft" ), act->get_value( 0 ) / 5,
+                     p->magic.get_spell( spell_id( act->name ) ).get_difficulty() );
+    } else if( act->get_str_value( 1 ) == "learn" && act->values[2] == 0 ) {
+        p->magic.learn_spell( act->name, *p );
+    }
+    if( act->values[2] == -1 ) {
+        p->add_msg_if_player( m_bad, _( "It's too dark to read." ) );
+    }
 }

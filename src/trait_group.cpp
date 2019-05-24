@@ -35,7 +35,7 @@ void trait_group::load_trait_group( JsonObject &jsobj, const Trait_group_tag &gi
 }
 
 // NOTE: This function is largely based on item_group::get_unique_group_id()
-Trait_group_tag get_unique_trait_group_id()
+static Trait_group_tag get_unique_trait_group_id()
 {
     // This is just a hint what id to use next. Overflow of it is defined and if the group
     // name is already used, we simply go the next id.
