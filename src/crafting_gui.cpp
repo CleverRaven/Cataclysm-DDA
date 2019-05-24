@@ -64,7 +64,7 @@ int related_menu_fill( uilist &rmenu,
                        const std::vector<std::pair<itype_id, std::string>> &related_recipes,
                        const recipe_subset &available );
 
-std::string get_cat_name( const std::string &prefixed_name )
+static std::string get_cat_name( const std::string &prefixed_name )
 {
     return prefixed_name.substr( 3, prefixed_name.size() - 3 );
 }
@@ -95,7 +95,7 @@ void load_recipe_category( JsonObject &jsobj )
     }
 }
 
-std::string get_subcat_name( const std::string &cat, const std::string &prefixed_name )
+static std::string get_subcat_name( const std::string &cat, const std::string &prefixed_name )
 {
     std::string prefix = "CSC_" + get_cat_name( cat ) + "_";
 
@@ -106,7 +106,7 @@ std::string get_subcat_name( const std::string &cat, const std::string &prefixed
     return ( prefixed_name == "CSC_ALL" ? _( "ALL" ) : _( "NONCRAFT" ) );
 }
 
-void translate_all()
+static void translate_all()
 {
     for( const auto &cat : craft_cat_list ) {
         normalized_names[cat] = _( get_cat_name( cat ) );
@@ -123,8 +123,8 @@ void reset_recipe_categories()
     craft_subcat_list.clear();
 }
 
-int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpos, nc_color col,
-                 int batch )
+static int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpos,
+                        nc_color col, int batch )
 {
     if( !r.has_byproducts() ) {
         return 0;

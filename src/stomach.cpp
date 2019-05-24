@@ -25,7 +25,7 @@ stomach_contents::stomach_contents( units::volume max_vol )
     last_ate = calendar::before_time_starts;
 }
 
-std::string ml_to_string( units::volume vol )
+static std::string ml_to_string( units::volume vol )
 {
     return to_string( units::to_milliliter<int>( vol ) ) + "_ml";
 }
@@ -43,7 +43,7 @@ void stomach_contents::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-units::volume string_to_ml( const std::string &str )
+static units::volume string_to_ml( const std::string &str )
 {
     return units::from_milliliter( std::stoi( str.substr( 0, str.size() - 3 ) ) );
 }
@@ -426,4 +426,14 @@ units::volume stomach_contents::get_water() const
 time_duration stomach_contents::time_since_ate() const
 {
     return calendar::turn - last_ate;
+}
+
+// sets default stomach contents when starting the game
+void Character::initialize_stomach_contents()
+{
+    stomach = stomach_contents( 2500_ml );
+    guts = stomach_contents( 24000_ml );
+    guts.set_calories( 300 );
+    stomach.set_calories( 800 );
+    stomach.mod_contents( 475_ml );
 }

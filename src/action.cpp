@@ -600,7 +600,7 @@ bool can_examine_at( const tripoint &p )
     return tr.can_see( p, g->u );
 }
 
-bool can_pickup_at( const tripoint &p )
+static bool can_pickup_at( const tripoint &p )
 {
     bool veh_has_items = false;
     const optional_vpart_position vp = g->m.veh_at( p );

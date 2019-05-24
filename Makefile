@@ -83,7 +83,7 @@
 # PROFILE is for use with gprof or a similar program -- don't bother generally.
 # RELEASE_FLAGS is flags for release builds.
 RELEASE_FLAGS =
-WARNINGS = -Werror -Wall -Wextra -Woverloaded-virtual -Wpedantic
+WARNINGS = -Werror -Wall -Wextra -Woverloaded-virtual -Wpedantic -Wmissing-declarations
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g

@@ -28,19 +28,6 @@
 * @{
 */
 
-////////////////////////////////////
-int getfoldedwidth( const std::vector<std::string> &foldedstring )
-{
-    int ret = 0;
-    for( auto &i : foldedstring ) {
-        int width = utf8_width( i );
-        if( width > ret ) {
-            ret = width;
-        }
-    }
-    return ret;
-}
-
 uilist::uilist()
 {
     init();
@@ -961,6 +948,7 @@ void pointmenu_cb::refresh( uilist *menu )
         g->u.view_offset = tripoint_zero;
         g->draw_ter();
         wrefresh( g->w_terrain );
+        g->draw_panels();
         menu->redraw( false ); // show() won't redraw borders
         menu->show();
         return;

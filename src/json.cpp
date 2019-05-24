@@ -19,14 +19,14 @@
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.
 
-bool is_whitespace( char ch )
+static bool is_whitespace( char ch )
 {
     // These are all the valid whitespace characters allowed by RFC 4627.
     return ( ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r' );
 }
 
 // for parsing \uxxxx escapes
-std::string utf16_to_utf8( uint32_t ch )
+static std::string utf16_to_utf8( uint32_t ch )
 {
     char out[5];
     char *buf = out;

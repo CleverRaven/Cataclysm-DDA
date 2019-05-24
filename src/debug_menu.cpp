@@ -716,7 +716,7 @@ void character_edit_menu()
     }
 }
 
-const std::string &mission_status_string( mission::mission_status status )
+static const std::string &mission_status_string( mission::mission_status status )
 {
     static const std::map<mission::mission_status, std::string> desc{ {
             { mission::mission_status::yet_to_start, _( "Yet to start" ) },
@@ -748,7 +748,7 @@ std::string mission_debug::describe( const mission &m )
     return data.str();
 }
 
-void add_header( uilist &mmenu, const std::string &str )
+static void add_header( uilist &mmenu, const std::string &str )
 {
     if( !mmenu.entries.empty() ) {
         mmenu.addentry( -1, false, -1, "" );
@@ -828,7 +828,7 @@ void mission_debug::edit_player()
     edit_mission( *all_missions[mmenu.ret] );
 }
 
-bool remove_from_vec( std::vector<mission *> &vec, mission *m )
+static bool remove_from_vec( std::vector<mission *> &vec, mission *m )
 {
     auto iter = std::remove( vec.begin(), vec.end(), m );
     bool ret = iter != vec.end();
@@ -968,6 +968,7 @@ void debug()
             temp->mission = NPC_MISSION_NULL;
             temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->global_omt_location(),
                                    temp->getID() ) );
+            temp->set_fac( faction_id( "wasteland_scavengers" ) );
             g->load_npcs();
         }
         break;

@@ -1,5 +1,53 @@
 [
   {
+    "type": "npc",
+    "id": "refugee_beggar5",
+    "//": "Mutant beggar in the refugee center.",
+    "name_unique": "Yusuke Taylor",
+    "gender": "male",
+    "name_suffix": "beggar",
+    "class": "NC_BEGGAR_5",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_BEGGAR_5",
+    "faction": "lobby_beggars"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_BEGGAR_5",
+    "name": "Beggar",
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "This is the only beggar with some skills, sort of the leader.",
+    "bonus_str": { "rng": [ -2, 4 ] },
+    "bonus_dex": { "rng": [ 0, 2 ] },
+    "bonus_int": { "rng": [ -2, 2 ] },
+    "bonus_per": { "rng": [ 0, 4 ] },
+    "worn_override": "NC_BEGGAR_5_worn",
+    "carry_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
+    "traits": [ { "trait": "FUR" }, { "trait": "OPTIMISTIC" }, { "trait": "LIGHTSTEP" }, { "trait": "CLAWS_RETRACT" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "melee", "bonus": { "rng": [ 0, 5 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 0, 5 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BEGGAR_5_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "jacket_jean" },
+      { "item": "boxer_briefs" },
+      { "item": "hoodie" },
+      { "item": "pants_cargo" },
+      { "item": "boots" },
+      { "item": "socks" },
+      { "item": "backpack" }
+    ]
+  },
+  {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_5",
     "dynamic_line": "Hey there, friend.",

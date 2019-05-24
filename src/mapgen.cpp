@@ -33,6 +33,7 @@
 #include "mapdata.h"
 #include "mapgen_functions.h"
 #include "mapgenformat.h"
+#include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "mtype.h"
@@ -309,8 +310,8 @@ bool defer;
 JsonObject jsi;
 }
 
-void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
-                       const std::string &message )
+static void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
+                              const std::string &message )
 {
     mapgen_defer::defer = true;
     mapgen_defer::jsi = jsi;
@@ -372,7 +373,7 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
     return ret;
 }
 
-void load_nested_mapgen( JsonObject &jio, const std::string &id_base )
+static void load_nested_mapgen( JsonObject &jio, const std::string &id_base )
 {
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "json" ) {
@@ -390,7 +391,7 @@ void load_nested_mapgen( JsonObject &jio, const std::string &id_base )
     }
 }
 
-void load_update_mapgen( JsonObject &jio, const std::string &id_base )
+static void load_update_mapgen( JsonObject &jio, const std::string &id_base )
 {
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "json" ) {
@@ -481,8 +482,9 @@ size_t mapgen_function_json_base::calc_index( const size_t x, const size_t y ) c
     return y * mapgensize_y + x;
 }
 
-bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y, const int mapgensize_x,
-                          const int mapgensize_y, JsonObject &jso )
+static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
+                                 const int mapgensize_x, const int mapgensize_y,
+                                 JsonObject &jso )
 {
     if( x.val < 0 || x.val > mapgensize_x - 1 || y.val < 0 || y.val > mapgensize_y - 1 ) {
         return false;
@@ -551,6 +553,8 @@ jmapgen_int::jmapgen_int( JsonObject &jo, const std::string &tag )
         val = sparray.get_int( 0 );
         if( sparray.size() == 2 ) {
             valmax = sparray.get_int( 1 );
+        } else {
+            valmax = val;
         }
     } else {
         val = valmax = jo.get_int( tag );
@@ -799,6 +803,24 @@ class jmapgen_npc : public jmapgen_piece
                     p->set_mutation( trait_id( new_trait ) );
                 }
             }
+        }
+};
+/**
+* Place ownership area
+*/
+class jmapgen_faction : public jmapgen_piece
+{
+    public:
+        faction_id id;
+        jmapgen_faction( JsonObject &jsi ) : jmapgen_piece() {
+            if( jsi.has_string( "id" ) ) {
+                id = faction_id( jsi.get_string( "id" ) );
+                std::string facid = jsi.get_string( "id" );
+            }
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const float /*mdensity*/, mission * ) const override {
+            dat.m.apply_faction_ownership( x.val, y.val, x.valmax, y.valmax, id );
         }
 };
 /**
@@ -2132,7 +2154,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_graffiti>( jo, "graffiti", format_placings );
     new_pal.load_place_mapings<jmapgen_translate>( jo, "translate", format_placings );
     new_pal.load_place_mapings<jmapgen_zone>( jo, "zones", format_placings );
-
+    new_pal.load_place_mapings<jmapgen_faction>( jo, "faction_owner_character", format_placings );
     return new_pal;
 }
 
@@ -2317,7 +2339,8 @@ bool mapgen_function_json_base::setup_common( JsonObject jo )
     objects.load_objects<jmapgen_graffiti>( jo, "place_graffiti" );
     objects.load_objects<jmapgen_translate>( jo, "translate_ter" );
     objects.load_objects<jmapgen_zone>( jo, "place_zones" );
-
+    // Needs to be last as it affects other placed items
+    objects.load_objects<jmapgen_faction>( jo, "faction_owner" );
     if( !mapgen_defer::defer ) {
         is_ready = true; // skip setup attempts from any additional pointers
     }
@@ -6914,6 +6937,19 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type, bool forc
     return temp->getID();
 }
 
+void map::apply_faction_ownership( const int x1, const int y1, const int x2, const int y2,
+                                   const faction_id id )
+{
+    faction *fac = g->faction_manager_ptr->get( id );
+    for( const tripoint &p : points_in_rectangle( tripoint( x1, y1, abs_sub.z ), tripoint( x2, y2,
+            abs_sub.z ) ) ) {
+        auto items = i_at( p.x, p.y );
+        for( item &elem : items ) {
+            elem.set_owner( fac );
+        }
+    }
+}
+
 std::vector<item *> map::place_items( const items_location &loc, const int chance,
                                       const tripoint &f,
                                       const tripoint &t, const bool ongrass, const time_point &turn,
@@ -8246,10 +8282,6 @@ void fill_background( map *m, ter_id( *f )() )
 {
     m->draw_fill_background( f );
 }
-void fill_background( map *m, const weighted_int_list<ter_id> &f )
-{
-    m->draw_fill_background( f );
-}
 void square( map *m, ter_id type, int x1, int y1, int x2, int y2 )
 {
     m->draw_square_ter( type, x1, y1, x2, y2 );
@@ -8259,10 +8291,6 @@ void square_furn( map *m, furn_id type, int x1, int y1, int x2, int y2 )
     m->draw_square_furn( type, x1, y1, x2, y2 );
 }
 void square( map *m, ter_id( *f )(), int x1, int y1, int x2, int y2 )
-{
-    m->draw_square_ter( f, x1, y1, x2, y2 );
-}
-void square( map *m, const weighted_int_list<ter_id> &f, int x1, int y1, int x2, int y2 )
 {
     m->draw_square_ter( f, x1, y1, x2, y2 );
 }

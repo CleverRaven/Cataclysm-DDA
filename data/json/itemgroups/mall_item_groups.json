@@ -156,6 +156,56 @@
     ]
   },
   {
+    "id": "leather_shop",
+    "type": "item_group",
+    "items": [
+      [ "hot_pants_leather", 20 ],
+      [ "cloak_leather", 20 ],
+      [ "duster_leather", 20 ],
+      [ "jacket_leather_red", 20 ],
+      [ "skirt_leather", 20 ],
+      [ "touring_suit", 20 ],
+      [ "chestwrap_leather", 20 ],
+      [ "chaps_leather", 35 ],
+      [ "trenchcoat_leather", 10 ],
+      [ "vest_leather", 50 ],
+      [ "apron_leather", 10 ],
+      [ "backpack_leather", 7 ],
+      [ "pants_leather", 20 ],
+      [ "bikini_top_leather", 20 ],
+      [ "jacket_leather", 5 ]
+    ]
+  },
+  {
+    "id": "leather_shop_accessories",
+    "type": "item_group",
+    "items": [
+      [ "leather_belt", 20 ],
+      [ "gloves_leather", 35 ],
+      [ "leather_harness_dog", 10 ],
+      [ "pockknife", 50 ],
+      [ "leather_tarp", 10 ],
+      [ "leather_cat_tail", 7 ],
+      [ "leather_cat_ears", 20 ],
+      [ "leather_collar", 20 ],
+      [ "bondage_mask", 5 ]
+    ]
+  },
+  {
+    "id": "leather_shop_repair",
+    "type": "item_group",
+    "items": [
+      [ "sewing_kit", 20 ],
+      [ "tailors_kit", 35 ],
+      [ "thread", 10 ],
+      [ "string_6", 50 ],
+      [ "leather", 10 ],
+      [ "fur", 7 ],
+      [ "tanned_hide", 20 ],
+      [ "tanned_pelt", 20 ]
+    ]
+  },
+  {
     "id": "key_shop",
     "type": "item_group",
     "items": [
@@ -230,7 +280,97 @@
       [ "candle", 50 ],
       [ "scissors", 30 ],
       [ "soap", 45 ],
-      [ "tailors_kit", 25 ]
+      [ "tailors_kit", 25 ],
+      [ "shavingkit", 20 ],
+      [ "elec_hairtrimmer", 20 ]
+    ]
+  },
+  {
+    "id": "costume_clothes",
+    "type": "item_group",
+    "items": [
+      [ "cloak", 40 ],
+      [ "cloak_leather", 30 ],
+      [ "cloak_wool", 40 ],
+      [ "jedi_cloak", 10 ],
+      [ "corset", 5 ],
+      [ "tux", 10 ],
+      [ "gown", 5 ],
+      [ "dress_wedding", 5 ],
+      [ "maid_dress", 35 ],
+      [ "postman_shirt", 50 ],
+      [ "postman_shorts", 30 ],
+      [ "robe", 45 ],
+      [ "kimono", 25 ],
+      [ "yukata", 20 ],
+      [ "coat_lab", 20 ],
+      [ "clown_suit", 20 ]
+    ]
+  },
+  {
+    "id": "costume_accessories",
+    "type": "item_group",
+    "items": [
+      [ "clownshoes", 20 ],
+      [ "bondage_mask", 30 ],
+      [ "long_glove_white", 20 ],
+      [ "porkpie", 10 ],
+      [ "postman_hat", 5 ],
+      [ "maid_hat", 10 ],
+      [ "fedora", 5 ],
+      [ "scarf_long", 5 ],
+      [ "mask_guy_fawkes", 35 ],
+      [ "mask_hockey", 20 ],
+      [ "cowboy_hat", 20 ],
+      [ "tophat", 25 ],
+      [ "hat_sombrero", 25 ],
+      [ "apron_leather", 20 ]
+    ]
+  },
+  {
+    "id": "costume_weapons",
+    "type": "item_group",
+    "items": [
+      [ "cutlass", 1 ],
+      [ "broadsword", 1 ],
+      [ "nodachi", 1 ],
+      [ "zweihander", 1 ],
+      [ "longsword", 1 ],
+      [ "katana", 1 ],
+      [ "kris", 1 ],
+      [ "rapier", 1 ],
+      [ "cavalry_sabre", 1 ],
+      [ "glaive", 1 ],
+      [ "naginata", 1 ],
+      [ "naginata_fake", 5 ],
+      [ "naginata_inferior", 3 ],
+      [ "estoc", 2 ],
+      [ "estoc_fake", 6 ],
+      [ "qiang", 3 ],
+      [ "halberd", 2 ],
+      [ "halberd_fake", 7 ],
+      [ "katana_fake", 4 ],
+      [ "katana_inferior", 8 ],
+      [ "zweihander_fake", 4 ],
+      [ "zweihander_inferior", 8 ],
+      [ "cutlass_fake", 4 ],
+      [ "cutlass_inferior", 8 ],
+      [ "jian", 2 ],
+      [ "jian_fake", 4 ],
+      [ "jian_inferior", 8 ],
+      [ "scimitar", 4 ],
+      [ "scimitar_fake", 8 ],
+      [ "arming_sword", 4 ],
+      [ "arming_sword_fake", 8 ],
+      [ "broadsword_fake", 4 ],
+      [ "broadsword_inferior", 8 ],
+      [ "longsword_fake", 4 ],
+      [ "longsword_inferior", 8 ],
+      [ "rapier_fake", 4 ],
+      [ "cavalry_sabre_fake", 4 ],
+      [ "wakizashi_fake", 4 ],
+      [ "wakizashi_inferior", 8 ],
+      [ "kris_fake", 8 ]
     ]
   }
 ]

@@ -55,9 +55,12 @@ void stranger_neutral( npc & );      // p is now neutral towards you
 void start_mugging( npc & );
 void player_leaving( npc & );
 
+void remove_stolen_status( npc & );
+
 void drop_weapon( npc & );
 void player_weapon_away( npc & );
 void player_weapon_drop( npc & );
+void drop_stolen_item( npc & );
 
 void lead_to_safety( npc & );
 void start_training( npc & );

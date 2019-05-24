@@ -48,7 +48,7 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
         // recipe benefits from batching, so batching scale factor needs to be calculated
         // At batch_rsize, incremental time increase is 99.5% of batch_rscale
         const double scale = batch_rsize / 6.0;
-        for( double x = 0; x < batch; x++ ) {
+        for( int x = 0; x < batch; x++ ) {
             // scaled logistic function output
             const double logf = ( 2.0 / ( 1.0 + exp( -( x / scale ) ) ) ) - 1.0;
             total_time += local_time * ( 1.0 - ( batch_rscale * logf ) );
