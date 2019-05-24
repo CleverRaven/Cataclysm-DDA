@@ -194,7 +194,7 @@ static void pass_to_ownership_handling( item obj, Character &c )
     obj.handle_pickup_ownership( c );
 }
 
-void pass_to_ownership_handling( item obj, player *p )
+static void pass_to_ownership_handling( item obj, player *p )
 {
     obj.handle_pickup_ownership( *p );
 }
