@@ -29,7 +29,7 @@
   {
     "result": "mattress",
     "type": "uncraft",
-    "skill_used": "tailoring",
+    "skill_used": "tailor",
     "difficulty": 1,
     "time": 2200,
     "qualities": [ { "id": "CUT", "level": 1 } ],
