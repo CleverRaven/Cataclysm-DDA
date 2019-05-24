@@ -93,8 +93,7 @@ void recipe::load( JsonObject &jo, const std::string &src )
     if( jo.has_int( "time" ) ) {
         time = jo.get_int( "time" );
     } else if( jo.has_string( "time" ) ) {
-        time_duration crafting_time = time_duration::read_from_json_string( *jo.get_raw( "time" ) );
-        time = to_moves<int>( crafting_time );
+        time = to_moves<int>( time_duration::read_from_json_string( *jo.get_raw( "time" ) ) );
     }
     assign( jo, "difficulty", difficulty, strict, 0, MAX_SKILL );
     assign( jo, "flags", flags );
