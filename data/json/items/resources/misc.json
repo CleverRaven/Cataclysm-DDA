@@ -16,5 +16,19 @@
     "count": 100,
     "ammo_type": "components",
     "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "mattress",
+    "type": "GENERIC",
+    "category": "spare_parts",
+    "name": "mattress",
+    "name_plural": "mattresses",
+    "description": "This is a single, or twin, sized mattress.",
+    "weight": 20000,
+    "volume": "300 l",
+    "price": 1000,
+    "material": "cotton",
+    "symbol": "0",
+    "color": "white"
   }
 ]
