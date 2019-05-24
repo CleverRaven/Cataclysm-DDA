@@ -1443,7 +1443,24 @@
     "price_postapoc": 100,
     "material": "steel",
     "weight": 10,
-    "cutting": 1
+    "cutting": 1,
+    "qualities": [ [ "BUTCHER", 9 ], [ "CUT_FINE", 1 ], [ "CUT", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "razor_whip",
+    "symbol": "S",
+    "color": "light_gray",
+    "name": "razor whip",
+    "description": "A long, savage whip made from leather and... Wait, are those razor blades?",
+    "price": 4000,
+    "price_postapoc": 200,
+    "material": [ "leather", "steel" ],
+    "weight": 2650,
+    "volume": 7,
+    "cutting": 22,
+    "techniques": [ "WRAP", "SWEEP", "WIDE" ],
+    "flags": [ "REACH_ATTACK", "REACH3", "WHIP" ]
   },
   {
     "id": "ugl_buttstock",

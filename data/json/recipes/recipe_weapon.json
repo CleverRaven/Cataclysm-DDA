@@ -179,6 +179,20 @@
   },
   {
     "type": "recipe",
+    "result": "razor_whip",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "time": 220000,
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "using": [ [ "adhesive", 3 ] ],
+    "components": [ [ [ "leather", 15 ] ], [ [ "razor_blade", 5 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "spear_wood",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_PIERCING",
