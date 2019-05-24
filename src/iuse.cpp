@@ -31,7 +31,9 @@
 #include "fungal_effects.h"
 #include "game.h"
 #include "game_inventory.h"
+#include "iexamine.h"
 #include "inventory.h"
+#include "iteminfo_query.h"
 #include "iuse_actor.h" // For firestarter
 #include "json.h"
 #include "line.h"
@@ -6478,14 +6480,16 @@ struct extended_photo_def : public JsonDeserializer, public JsonSerializer {
 extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const tripoint camera_pos )
 {
     // look for big items on top of stacks in the background for the selfie description
-    units::volume min_visible_volume = 490_ml;
+    const units::volume min_visible_volume = 490_ml;
     std::unordered_map<std::string, int> visible_items_nearby;
     std::unordered_map<std::string, int> visible_vehicles;
     std::unordered_map<std::string, int> visible_furn_nearby;
+    std::unordered_map<tripoint, std::string> effects_map;
 
     std::string photo_text;
     std::unordered_set<tripoint> furn_points_recorded;
     std::unordered_set<tripoint> item_points_recorded;
+    std::unordered_set<tripoint> terr_points_recorded;
     std::unordered_set<std::string> vehicles_recorded;
 
     std::string description_items_nearby;
@@ -6499,33 +6503,78 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
     auto bounds = g->m.points_in_radius( aim_point, 2 );
     extended_photo_def photo;
 
+    const auto colorized_item_name = []( const item & item ) {
+        auto color = item.color_in_inventory();
+        std::string damtext = item.damage() != 0 ? item.durability_indicator() : "";
+        return damtext + colorize( item.tname( 1, false ), color );
+    };
+    const auto colorized_item_description = []( const item & item ) {
+        std::vector<iteminfo> dummy;
+        auto query = iteminfo_query(
+        std::vector<iteminfo_parts> {
+            iteminfo_parts::DESCRIPTION,
+            iteminfo_parts::DESCRIPTION_NOTES,
+            iteminfo_parts::DESCRIPTION_CONTENTS
+        } ) ;
+        return item.info( dummy, &query, 1 );
+    };
     const auto get_top_item_at_point = []( const tripoint & point,
-    const units::volume & min_visible_volume, std::string & description ) {
+    const units::volume & min_visible_volume ) {
         map_stack items = g->m.i_at( point );
         // iterate from topmost item down to ground
         for( auto it = items.rbegin(); it != items.rend(); ++it ) {
             if( it->volume() > min_visible_volume ) {
-                // add top (or first big enough) item to the list
-                description = it->info();
-                return it->display_name();
+                // return top (or first big enough) item to the list
+                return *it;
+            }
+        }
+        return item();
+    };
+
+    const std::vector<std::string> ter_whitelist_flags = {
+        "HIDE_PLACE", "FUNGUS", "TREE", "PERMEABLE", "SHRUB",
+        "PLACE_ITEM", "GROWTH_HARVEST", "GROWTH_MATURE", "GOES_UP",
+        "GOES_DOWN", "RAMP", "SHARP", "SIGN", "CLIMBABLE"
+    };
+    const std::vector<std::string> ter_whitelist = {
+        "t_pit_covered", "t_grave_new", "t_grave", "t_pit", "t_pit_shallow",
+        "t_pit_corpsed", "t_pit_spiked", "t_pit_spiked_covered", "t_pit_glass",
+        "t_pit_glass", "t_utility_light",
+    };
+    const auto colorized_ter_name_flags = []( const tripoint & point,
+    const std::vector<std::string>  &flags, const std::vector<std::string>  &ter_whitelist ) {
+        ter_id ter = g->m.ter( point );
+        std::string name = colorize( ter->name(), ter->color() );
+        if( !ter->open.is_null() || ( ter->examine != iexamine::none &&
+                                      ter->examine != iexamine::fungus &&
+                                      ter->examine != iexamine::water_source &&
+                                      ter->examine != iexamine::dirtmound ) ) {
+            return name;
+        }
+        for( auto &ter_good : ter_whitelist ) {
+            if( ter->id.c_str() == ter_good ) {
+                return name;
+            }
+        }
+        for( auto &flag : flags ) {
+            if( ter->has_flag( flag ) ) {
+                return name;
             }
         }
         return std::string();
     };
 
-    const auto feature_description_at_point = [&min_visible_volume,
-    &get_top_item_at_point]( const tripoint center_point, bool & item_found ) {
+    const auto feature_description_at_point = [&get_top_item_at_point,
+               &colorized_item_name]( const tripoint center_point, bool & item_found,
+    const units::volume & min_visible_volume ) {
         item_found = false;
         furn_id furn = g->m.furn( center_point );
         if( furn != f_null && furn.is_valid() ) {
             std::string furn_str = "<color_yellow>" + furn->name() + "</color>";
-            if( g->m.has_items( center_point ) ) {
-                std::string item_info, item_name = get_top_item_at_point( center_point, min_visible_volume,
-                                                   item_info );
-                if( !item_name.empty() ) {
-                    furn_str += _( " with " ) + item_name;
-                    item_found = true;
-                }
+            item item = get_top_item_at_point( center_point, min_visible_volume );
+            if( !item.is_null() ) {
+                furn_str += _( " with " ) + colorized_item_name( item );
+                item_found = true;
             }
             return furn_str;
         }
@@ -6533,9 +6582,8 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
     };
 
     const auto get_vehicle_hash = []( const vehicle & veh ) {
-        auto veh_name = veh.disp_name();
         auto veh_coord = veh.global_pos3();
-        return string_format( "%s %i %i %i", veh_name, veh_coord.x, veh_coord.y, veh_coord.z );
+        return string_format( "%s %i %i %i", veh.disp_name(), veh_coord.x, veh_coord.y, veh_coord.z );
     };
 
     const auto format_object_pair = []( const std::pair<std::string, int> &pair ) {
@@ -6555,17 +6603,17 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
                 figure_effects += pronoun_sex + pgettext( "Someone", " is on <color_red>fire</color>. " );
             }
             if( creature->get_effect_int( effect_bleed ) > 1 ) {
-                figure_effects += pgettext( "Someone", "%s is <color_red>bleeding</color>. " );
+                figure_effects += pronoun_sex + pgettext( "Someone", "%s is <color_red>bleeding</color>. " );
             }
             if( creature->get_effect_int( effect_happy ) > 13 ) {
-                figure_effects += pgettext( "Someone", " looks <color_green>happy</color>. " );
+                figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_green>happy</color>. " );
             }
             if( creature->has_effect( effect_sad ) ) {
                 int intensity = creature->get_effect_int( effect_sad );
                 if( intensity > 500 && intensity <= 950 ) {
-                    figure_effects += pgettext( "Someone", " looks <color_blue>sad</color>. " );
+                    figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_blue>sad</color>. " );
                 } else if( intensity > 950 ) {
-                    figure_effects += pgettext( "Someone", " looks <color_blue>depressed</color>. " );
+                    figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_blue>depressed</color>. " );
                 }
             }
             float pain = creature->get_pain() / 10.f;
@@ -6615,24 +6663,26 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
                                   " is coated in <color_brown>sap</color>. " );
             }
             if( creature->has_effect( effect_webbed ) ) {
-                figure_effects += pgettext( "Someone", " is covered in <color_gray>webs</color>. " );
+                figure_effects += pronoun_sex + pgettext( "Someone", " is covered in <color_gray>webs</color>. " );
             }
             if( creature->get_effect_int( effect_spores ) > 1 ) {
-                figure_effects += pgettext( "Someone", " is covered in <color_dark_green>spores</color>. " );
+                figure_effects += pronoun_sex + pgettext( "Someone",
+                                  " is covered in <color_dark_green>spores</color>. " );
             }
             if( creature->has_effect( effect_crushed ) ) {
-                figure_effects += pgettext( "Someone", " lies under <color_gray>collapsed debris</color>. " );
+                figure_effects += pronoun_sex + pgettext( "Someone",
+                                  " lies under <color_gray>collapsed debris</color>. " );
                 pose = _( "lies" );
             }
             if( creature->has_effect( effect_lack_sleep ) ) {
-                figure_effects += pgettext( "Someone", " looks <color_gray>very tired</color>. " );
+                figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_gray>very tired</color>. " );
             }
             if( creature->has_effect( effect_lying_down ) || creature->has_effect( effect_sleep ) ) {
-                figure_effects += pgettext( "Someone", " is <color_dark_blue>sleeping</color>. " );
+                figure_effects += pronoun_sex + pgettext( "Someone", " is <color_dark_blue>sleeping</color>. " );
                 pose = _( "lies" );
             }
             if( creature->has_effect( effect_haslight ) ) {
-                figure_effects += pgettext( "Someone", " is <color_yellow>lit</color>. " );
+                figure_effects += pronoun_sex + pgettext( "Someone", " is <color_yellow>lit</color>. " );
             }
         }
         return figure_effects;
@@ -6645,6 +6695,9 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
         }
         monster *const mon = g->critter_at<monster>( current, false );
         player *const guy = g->critter_at<player>( current );
+
+        // store effect
+
         if( guy || mon ) {
             std::string figure_appearance, figure_name, pose, pronoun_sex, figure_effects;
             Creature *creature;
@@ -6661,24 +6714,21 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
                 creature = guy;
             } else {
                 pose = _( "stands" );
-                figure_appearance = mon->type->get_description();
+                figure_appearance = "\"" + mon->type->get_description() + "\"";
                 figure_name = mon->name();
                 pronoun_sex = pgettext( "Pronoun", "It" );
                 creature = mon;
             }
 
             figure_effects = effects_description_for_creature( creature, pose, pronoun_sex );
-            if( !figure_effects.empty() ) {
-                description_figures_appearance[ figure_name ] = figure_effects + "\n\n" + figure_appearance;
-            } else {
-                description_figures_appearance[ figure_name ] = figure_appearance;
-            }
+            description_figures_appearance[ figure_name ] = figure_appearance;
 
             auto points_1_radius = g->m.points_in_radius( current, 1 );
             bool item_found = false;
             std::unordered_map<std::string, int> furn_near_critter;
             std::unordered_map<std::string, int> vehicles_near_critter;
             std::unordered_map<std::string, int> items_near_critter;
+            std::unordered_map<std::string, int> terrain_unusual_near_critter;
             std::unordered_set<std::string> local_vehicles_recorded;
 
             std::string description_part_on_figure;
@@ -6688,21 +6738,25 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
 
             for( const tripoint &point_around_figure : points_1_radius ) {
                 // store furniture in 1 radius
-                if( bounds.is_point_inside( point_around_figure ) ) {
-                    std::string furn_desc = feature_description_at_point( point_around_figure, item_found );
-                    if( !furn_desc.empty() ) {
-                        furn_points_recorded.insert( point_around_figure );
-                        if( current != point_around_figure ) {
-                            furn_near_critter[ furn_desc ] ++;
-                        } else {
-                            description_furniture_on_figure = furn_desc;
-                        }
+                if( !bounds.is_point_inside( point_around_figure ) ) {
+                    continue;
+                }
+                units::volume volume_to_search = point_around_figure == aim_point ? 0_ml : min_visible_volume;
+                std::string furn_desc = feature_description_at_point( point_around_figure, item_found,
+                                        volume_to_search );
+                if( !furn_desc.empty() ) {
+                    furn_points_recorded.insert( point_around_figure );
+                    if( current != point_around_figure ) {
+                        furn_near_critter[ furn_desc ] ++;
+                    } else {
+                        description_furniture_on_figure = furn_desc;
+                    }
 
-                        if( item_found ) {
-                            item_points_recorded.insert( point_around_figure );
-                        }
+                    if( item_found ) {
+                        item_points_recorded.insert( point_around_figure );
                     }
                 }
+
                 // collect visible vehicles
                 auto veh_part_pos = g->m.veh_at( point_around_figure );
                 if( veh_part_pos.has_value() ) {
@@ -6724,13 +6778,21 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
                     local_vehicles_recorded.insert( veh_hash );
                 }
                 // scan for items nearby
-                std::string item_desc, item_name = get_top_item_at_point( point_around_figure, min_visible_volume,
-                                                   item_desc );
-                if( !item_name.empty() &&
+                item item = get_top_item_at_point( point_around_figure, volume_to_search );
+                if( !item.is_null() &&
                     item_points_recorded.find( point_around_figure ) == item_points_recorded.end() ) {
 
-                    items_near_critter[ item_name ] ++;
+                    items_near_critter[ colorized_item_name( item ) ] ++;
                     item_points_recorded.insert( point_around_figure );
+                }
+                // scan for unusual terrain nearby
+                std::string unusual_ter_desc = colorized_ter_name_flags( point_around_figure, ter_whitelist_flags,
+                                               ter_whitelist );
+                if( !unusual_ter_desc.empty() &&
+                    terr_points_recorded.find( point_around_figure ) == terr_points_recorded.end() ) {
+
+                    terrain_unusual_near_critter[ unusual_ter_desc ] ++;
+                    terr_points_recorded.insert( point_around_figure );
                 }
             }
             // store nearby objects to one vector
@@ -6745,11 +6807,14 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
             for( const auto &p : vehicles_near_critter ) {
                 objects_nearby_desc.push_back( format_object_pair( p ) );
             }
+            for( const auto &p : terrain_unusual_near_critter ) {
+                objects_nearby_desc.push_back( format_object_pair( p ) );
+            }
 
             std::string figure_text = "";
 
             if( !description_part_on_figure.empty() ) {
-                figure_text += pose + string_format( pgettext( "someone stands/sits *on* something", "on %1$s" ),
+                figure_text += pose + string_format( pgettext( "someone stands/sits *on* something", " on %1$s" ),
                                                      description_part_on_figure ) + ".";
             } else {
                 if( !description_furniture_on_figure.empty() ) {
@@ -6772,6 +6837,10 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
                 figure_text += string_format( _( " Nearby is %1$s." ), objects_text );
             }
 
+            if( !figure_effects.empty() ) {
+                figure_text += " " + figure_effects;
+            }
+
             auto name_text_pair = std::pair<std::string, std::string>( figure_name, figure_text );
             if( current == aim_point ) {
                 description_figures_status.insert( description_figures_status.begin(), name_text_pair );
@@ -6786,6 +6855,8 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
         if( !g->m.sees( camera_pos, current, dist + 3 ) ) {
             continue; // disallow photos with not visible objects
         }
+        units::volume volume_to_search = current == aim_point ? 0_ml : min_visible_volume;
+
         // collect visible vehicles
         auto veh_part_pos = g->m.veh_at( current );
         if( veh_part_pos.has_value() ) {
@@ -6800,7 +6871,7 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
 
         if( furn_points_recorded.find( current ) == furn_points_recorded.end() ) {
             bool item_found;
-            std::string furn_desc = feature_description_at_point( current, item_found ) ;
+            std::string furn_desc = feature_description_at_point( current, item_found, volume_to_search ) ;
             if( !furn_desc.empty() ) {
                 visible_furn_nearby[ furn_desc ]++;
 
@@ -6809,24 +6880,36 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
                 }
             }
         }
-
-        std::string item_desc, item_name = get_top_item_at_point( current, min_visible_volume, item_desc );
-        if( !item_name.empty() &&
+        item item = get_top_item_at_point( current, volume_to_search );
+        if( !item.is_null() &&
             item_points_recorded.find( current ) == item_points_recorded.end() ) {
-            visible_items_nearby[ item_name ] ++;
+
+            visible_items_nearby[ colorized_item_name( item ) ] ++;
+        }
+        // scan for unusual terrain nearby
+        std::string unusual_ter_desc = colorized_ter_name_flags( current, ter_whitelist_flags,
+                                       ter_whitelist );
+        if( !unusual_ter_desc.empty() &&
+            terr_points_recorded.find( current ) == terr_points_recorded.end() ) {
+
+            visible_furn_nearby[ unusual_ter_desc ] ++;
+            terr_points_recorded.insert( current );
         }
     }
 
     photo_text = _( "This is a photo of " );
 
     bool found_item_aim_point;
-    std::string furn_desc = feature_description_at_point( aim_point, found_item_aim_point ) ;
+    std::string furn_desc = feature_description_at_point( aim_point, found_item_aim_point,
+                            min_visible_volume ) ;
+    item item = get_top_item_at_point( aim_point, 0_ml );
+
     bool  found_vehicle_aim_point = g->m.veh_at( aim_point ).has_value(),
           found_furniture_aim_point = !furn_desc.empty();
-    std::string item_desc, item_name;
-    item_name = get_top_item_at_point( aim_point, 0_ml,
-                                       item_desc );
-    found_item_aim_point = !item_name.empty();
+    found_item_aim_point = !item.is_null();
+
+    auto ter_aim = g->m.ter( aim_point );
+    auto furn_aim = g->m.furn( aim_point );
 
     if( !description_figures_status.empty() ) {
         std::string names = enumerate_as_string( description_figures_status.begin(),
@@ -6836,10 +6919,10 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
         } );
 
         photo.name = names;
-        photo_text += names + ".\n";
+        photo_text += names + ".";
 
         for( const auto &figure_status : description_figures_status ) {
-            photo_text += "\n<color_light_blue>" + figure_status.first + "</color> " + figure_status.second;
+            photo_text += "\n\n<color_light_blue>" + figure_status.first + "</color> " + figure_status.second;
         }
     } else if( found_vehicle_aim_point ) {
         auto veh_part_pos = g->m.veh_at( aim_point );
@@ -6848,6 +6931,8 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
         photo_text += veh_name + ".";
         visible_vehicles.erase( veh_name );
     } else if( found_furniture_aim_point || found_item_aim_point )  {
+        std::string item_desc = colorized_item_description( item ),
+                    item_name = colorized_item_name( item );
         if( found_furniture_aim_point ) {
             photo.name = furn_desc;
             photo_text += photo.name + ".";
@@ -6855,16 +6940,22 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
         } else if( found_item_aim_point ) {
             photo.name = item_name;
             photo_text += item_name + ". " + string_format( _( "It lies on the %1$s." ),
-                          "<color_brown>" + g->m.ter( aim_point )->name() + "</color>" );
+                          "<color_brown>" + ter_aim->name() + "</color>" );
 
             visible_items_nearby.erase( item_name );
+        }
+        if( found_furniture_aim_point && !furn_aim->description.empty() ) {
+            photo_text += "\n\n" + furn_aim->name() + ":\n" + furn_aim->description;
         }
         if( found_item_aim_point ) {
             photo_text += "\n\n" + item_name + ":\n" + item_desc;
         }
     } else {
-        photo.name = "<color_brown>" + g->m.ter( aim_point )->name() + "</color>";
+        photo.name = "<color_brown>" + ter_aim->name() + "</color>";
         photo_text += photo.name + ".";
+        if( !ter_aim->description.empty() ) {
+            photo_text += "\n\n" + photo.name + ":\n" + ter_aim->description;
+        }
     }
 
     if( !visible_items_nearby.empty() ) {
