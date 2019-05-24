@@ -524,7 +524,6 @@ player::player() : Character()
     lastconsumed = itype_id( "null" );
     next_expected_position = cata::nullopt;
     death_drops = true;
-    show_map_memory = true;
 
     empty_traits();
 
@@ -12010,70 +12009,6 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     }
 
     return A_NEUTRAL;
-}
-
-void player::toggle_map_memory()
-{
-    show_map_memory = !show_map_memory;
-}
-
-bool player::should_show_map_memory()
-{
-    return show_map_memory;
-}
-
-void player::serialize_map_memory( JsonOut &jsout ) const
-{
-    player_map_memory.store( jsout );
-}
-
-void player::deserialize_map_memory( JsonIn &jsin )
-{
-    player_map_memory.load( jsin );
-}
-
-memorized_terrain_tile player::get_memorized_tile( const tripoint &pos ) const
-{
-    return player_map_memory.get_tile( pos );
-}
-
-void player::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
-                            const int rotation )
-{
-    player_map_memory.memorize_tile( max_memorized_tiles(), pos, ter, subtile, rotation );
-}
-
-void player::memorize_symbol( const tripoint &pos, const long symbol )
-{
-    player_map_memory.memorize_symbol( max_memorized_tiles(), pos, symbol );
-}
-
-long player::get_memorized_symbol( const tripoint &p ) const
-{
-    return player_map_memory.get_symbol( p );
-}
-
-size_t player::max_memorized_tiles() const
-{
-    // Only check traits once a turn since this is called a huge number of times.
-    if( current_map_memory_turn != calendar::turn ) {
-        current_map_memory_turn = calendar::turn;
-        if( has_active_bionic( bio_memory ) ) {
-            current_map_memory_capacity = SEEX * SEEY * 20000; // 5000 overmap tiles
-        } else if( has_trait( trait_FORGETFUL ) ) {
-            current_map_memory_capacity = SEEX * SEEY * 200; // 50 overmap tiles
-        } else if( has_trait( trait_GOODMEMORY ) ) {
-            current_map_memory_capacity = SEEX * SEEY * 800; // 200 overmap tiles
-        } else {
-            current_map_memory_capacity = SEEX * SEEY * 400; // 100 overmap tiles
-        }
-    }
-    return current_map_memory_capacity;
-}
-
-void player::clear_memorized_tile( const tripoint &pos )
-{
-    player_map_memory.clear_memorized_tile( pos );
 }
 
 bool player::sees( const tripoint &t, bool, int ) const

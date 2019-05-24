@@ -230,9 +230,6 @@ class player : public Character
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const;
 
-        void serialize_map_memory( JsonOut &jsout ) const;
-        void deserialize_map_memory( JsonIn &jsin );
-
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info();
         /** Provides the window and detailed morale data */
@@ -422,21 +419,6 @@ class player : public Character
         bool has_alarm_clock() const;
         /** Returns true if the player or their vehicle has a watch */
         bool has_watch() const;
-
-        void toggle_map_memory();
-        bool should_show_map_memory();
-        /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
-        void memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
-                            const int rotation );
-        /** Returns last stored map tile in given location in tiles mode */
-        memorized_terrain_tile get_memorized_tile( const tripoint &p ) const;
-        /** Memorizes a given tile in curses mode; finalize_terrain_memory_curses needs to be called after it */
-        void memorize_symbol( const tripoint &pos, const long symbol );
-        /** Returns last stored map tile in given location in curses mode */
-        long get_memorized_symbol( const tripoint &p ) const;
-        /** Returns the amount of tiles survivor can remember. */
-        size_t max_memorized_tiles() const;
-        void clear_memorized_tile( const tripoint &pos );
 
         // see Creature::sees
         bool sees( const tripoint &c, bool is_player = false, int range_mod = 0 ) const override;
@@ -1203,9 +1185,6 @@ class player : public Character
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::time_of_cataclysm;
         bool bio_soporific_powered_at_last_sleep_check;
-        /** Used in max_memorized_tiles to cache memory capacity. **/
-        mutable time_point current_map_memory_turn = calendar::before_time_starts;
-        mutable size_t current_map_memory_capacity = 0;
 
     public:
         /** Returns a value from 1.0 to 5.0 that acts as a multiplier
@@ -1991,11 +1970,6 @@ class player : public Character
 
         /** Amount of time the player has spent in each overmap tile. */
         std::unordered_map<point, time_duration> overmap_time;
-
-    protected:
-        // TODO: move these to avatar
-        map_memory player_map_memory;
-        bool show_map_memory;
 
         // magic mod
 
