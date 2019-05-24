@@ -853,6 +853,9 @@ class npc : public player
         bool took_painkiller() const;
         void use_painkiller();
         void activate_item( int position );
+        bool has_identified( const std::string & ) const override {
+            return true;
+        }
         /** Is the item safe or does the NPC trust you enough? */
         bool will_accept_from_player( const item &it ) const;
 
