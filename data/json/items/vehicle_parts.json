@@ -1199,6 +1199,22 @@
   },
   {
     "type": "GENERIC",
+    "id": "mountable_cooler",
+    "name": "vehicle cooler",
+    "name_plural": "vehicle coolers",
+    "description": "A vehicle-mounted area cooler.",
+    "weight": 12500,
+    "to_hit": -4,
+    "color": "light_cyan",
+    "symbol": "C",
+    "material": [ "steel" ],
+    "volume": 30,
+    "bashing": 12,
+    "category": "veh_parts",
+    "price": 20000
+  },
+  {
+    "type": "GENERIC",
     "id": "camera_control",
     "name": "camera display",
     "description": "A set of small monitors.  Required to view cameras' output.",
