@@ -137,7 +137,7 @@ std::string scent_map::serialize() const
     return rle_out.str();
 }
 
-void chkversion( std::istream &fin )
+static void chkversion( std::istream &fin )
 {
     if( fin.peek() == '#' ) {
         std::string vline;

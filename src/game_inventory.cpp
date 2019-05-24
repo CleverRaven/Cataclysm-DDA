@@ -52,8 +52,8 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 
 class Character;
 
-typedef std::function<bool( const item & )> item_filter;
-typedef std::function<bool( const item_location & )> item_location_filter;
+using item_filter = std::function<bool ( const item & )>;
+using item_location_filter = std::function<bool ( const item_location & )>;
 
 namespace
 {
@@ -89,7 +89,7 @@ bool inventory_filter_preset::is_shown( const item_location &location ) const
     return filter( location );
 }
 
-item_location_filter convert_filter( const item_filter &filter )
+static item_location_filter convert_filter( const item_filter &filter )
 {
     return [ &filter ]( const item_location & loc ) {
         return filter( *loc );

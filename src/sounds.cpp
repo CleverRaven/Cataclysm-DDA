@@ -207,7 +207,7 @@ static std::vector<centroid> cluster_sounds( std::vector<std::pair<tripoint, int
     return sound_clusters;
 }
 
-int get_signal_for_hordes( const centroid &centr )
+static int get_signal_for_hordes( const centroid &centr )
 {
     //Volume in  tiles. Signal for hordes in submaps
     //modify vol using weather vol.Weather can reduce monster hearing
@@ -266,7 +266,7 @@ void sounds::process_sounds()
 }
 
 // skip most movement sounds
-bool describe_sound( sounds::sound_t category )
+static bool describe_sound( sounds::sound_t category )
 {
     if( category == sounds::sound_t::combat || category == sounds::sound_t::speech ||
         category == sounds::sound_t::alert ) {

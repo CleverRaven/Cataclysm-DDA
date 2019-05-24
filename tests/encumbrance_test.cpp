@@ -16,7 +16,7 @@
 #include "material.h"
 #include "type_id.h"
 
-void test_encumbrance_on(
+static void test_encumbrance_on(
     player &p,
     const std::vector<item> &clothing,
     const std::string &body_part,
@@ -38,7 +38,7 @@ void test_encumbrance_on(
     CHECK( enc.encumbrance == expected_encumbrance );
 }
 
-void test_encumbrance_items(
+static void test_encumbrance_items(
     const std::vector<item> &clothing,
     const std::string &body_part,
     const int expected_encumbrance,
@@ -56,7 +56,7 @@ void test_encumbrance_items(
     }
 }
 
-void test_encumbrance(
+static void test_encumbrance(
     const std::vector<itype_id> &clothing_types,
     const std::string &body_part,
     const int expected_encumbrance

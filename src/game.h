@@ -97,7 +97,7 @@ class map_item_stack;
 struct WORLD;
 class save_t;
 
-typedef WORLD *WORLDPTR;
+using WORLDPTR = WORLD *;
 class overmap;
 class event_manager;
 
@@ -111,7 +111,7 @@ struct visibility_variables;
 class scent_map;
 class loading_ui;
 
-typedef std::function<bool( const item & )> item_filter;
+using item_filter = std::function<bool ( const item & )>;
 
 enum peek_act : int {
     PA_BLIND_THROW
@@ -215,8 +215,13 @@ class game
         void draw();
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
-        void draw_panels();
-        void draw_panels( size_t column, size_t index );
+
+        // when force_redraw is true, redraw all panel instead of just animated panels
+        // mostly used after UI updates
+        void draw_panels( bool force_draw = false );
+        // when force_redraw is true, redraw all panel instead of just animated panels
+        // mostly used after UI updates
+        void draw_panels( size_t column, size_t index, bool force_draw = false );
         /**
          * Returns the location where the indicator should go relative to the reality bubble,
          * or nothing to indicate no indicator should be drawn.

@@ -23,7 +23,7 @@
 #include "ret_val.h"
 #include "type_id.h"
 
-std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
+static std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
 {
     for( const auto &e : v ) {
         s << e.c_str() << " ";

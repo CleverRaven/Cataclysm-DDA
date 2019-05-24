@@ -802,7 +802,9 @@ bool game::start_game()
             }
         }
     }
-
+    for( auto &e : u.inv_dump() ) {
+        e->set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
+    }
     // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
     update_map( u );
     // Profession pets
@@ -1599,7 +1601,7 @@ void game::cancel_activity()
     u.cancel_activity();
 }
 
-bool cancel_auto_move( player &p, const std::string &text )
+static bool cancel_auto_move( player &p, const std::string &text )
 {
     if( p.has_destination() ) {
         add_msg( m_warning, _( "%s. Auto-move canceled" ), text );
@@ -1800,7 +1802,7 @@ void game::remove_npc_follower( const int &id )
     u.follower_ids.erase( id );
 }
 
-void update_faction_api( npc *guy )
+static void update_faction_api( npc *guy )
 {
     if( guy->get_faction_ver() < 2 ) {
         guy->set_fac( your_followers );
@@ -2604,7 +2606,9 @@ void game::load( const save_t &name )
     validate_npc_followers();
     validate_camps();
     update_map( u );
-
+    for( auto &e : u.inv_dump() ) {
+        e->set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
+    }
     // legacy, needs to be here as we access the map.
     if( u.getID() == 0 || u.getID() == -1 ) {
         // player does not have a real id, so assign a new one,
@@ -3135,16 +3139,19 @@ void game::draw()
     draw_ter();
     wrefresh( w_terrain );
 
-    draw_panels();
+    draw_panels( true );
 }
 
-void game::draw_panels()
+void game::draw_panels( bool force_draw )
 {
-    draw_panels( 0, 1 );
+    draw_panels( 0, 1, force_draw );
 }
 
-void game::draw_panels( size_t column, size_t index )
+void game::draw_panels( size_t column, size_t index, bool force_draw )
 {
+    static int previous_turn = -1;
+    const int current_turn = calendar::turn;
+    const bool draw_this_turn = current_turn > previous_turn || force_draw;
     auto &mgr = panel_manager::get_manager();
     int y = 0;
     const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
@@ -3164,8 +3171,10 @@ void game::draw_panels( size_t column, size_t index )
         }
         h += spacer;
         if( panel.toggle && h > 0 ) {
-            panel.draw( u, catacurses::newwin( h, panel.get_width(), y,
-                                               sidebar_right ? TERMX - panel.get_width() : 0 ) );
+            if( panel.always_draw || draw_this_turn ) {
+                panel.draw( u, catacurses::newwin( h, panel.get_width(), y,
+                                                   sidebar_right ? TERMX - panel.get_width() : 0 ) );
+            }
             if( show_panel_adm ) {
                 auto label = catacurses::newwin( 1, panel.get_name().length(), y, sidebar_right ?
                                                  TERMX - panel.get_width() - panel.get_name().length() - 1 : panel.get_width() + 1 );
@@ -3192,6 +3201,7 @@ void game::draw_panels( size_t column, size_t index )
     if( show_panel_adm ) {
         mgr.draw_adm( w_panel_adm, column, index );
     }
+    previous_turn = current_turn;
 }
 
 void game::draw_pixel_minimap( const catacurses::window &w )
@@ -5315,12 +5325,12 @@ void game::examine()
     // redraw terrain to erase 'examine' window
     draw_ter();
     wrefresh( w_terrain );
-    draw_panels();
+    draw_panels( true );
     examine( *examp_ );
     u.manual_examine = false;
 }
 
-const std::string get_fire_fuel_string( const tripoint &examp )
+static const std::string get_fire_fuel_string( const tripoint &examp )
 {
     if( g->m.has_flag( TFLAG_FIRE_CONTAINER, examp ) ) {
         field_entry *fire = g->m.get_field( examp, fd_fire );
@@ -5429,7 +5439,7 @@ void game::examine( const tripoint &examp )
         iexamine::trap( u, examp );
         draw_ter();
         wrefresh( w_terrain );
-        draw_panels();
+        draw_panels( true );
     }
 
     // In case of teleport trap or somesuch
@@ -5537,6 +5547,7 @@ void game::peek()
             draw_ter();
         }
         wrefresh( w_terrain );
+        draw_panels();
         return;
     }
 
@@ -6160,7 +6171,7 @@ void game::zones_manager()
 
                     draw_ter();
                     wrefresh( w_terrain );
-                    draw_panels();
+                    draw_panels( true );
                 }
                 blink = false;
                 stuff_changed = true;
@@ -6371,6 +6382,7 @@ void game::zones_manager()
         wrefresh( w_terrain );
         zones_manager_draw_borders( w_zones_border, w_zones_info_border, zone_ui_height, width );
         zones_manager_shortcuts( w_zones_info );
+        draw_panels();
         wrefresh( w_zones );
         wrefresh( w_zones_border );
 
@@ -6556,8 +6568,9 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
             //Draw select cursor
             g->draw_cursor( lp );
 
-            // redraw order: terrain, look_around panel
+            // redraw order: terrain, panels, look_around panel
             wrefresh( w_terrain );
+            draw_panels();
             wrefresh( w_info );
 
         }
@@ -6778,7 +6791,7 @@ void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
     wrefresh( w_terrain );
 }
 
-void centerlistview( const tripoint &active_item_position )
+static void centerlistview( const tripoint &active_item_position )
 {
     player &u = g->u;
     if( get_option<std::string>( "SHIFT_LIST_ITEM_VIEW" ) != "false" ) {
@@ -7203,7 +7216,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         if( action == "HELP_KEYBINDINGS" ) {
             draw_ter();
             wrefresh( w_terrain );
-            draw_panels();
         } else if( action == "UP" ) {
             do {
                 iActive--;
@@ -7436,7 +7448,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
         if( action == "HELP_KEYBINDINGS" ) {
             draw_ter();
             wrefresh( w_terrain );
-            draw_panels();
         } else if( action == "UP" ) {
             iActive--;
             if( iActive < 0 ) {
@@ -7648,23 +7659,6 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
     u.view_offset = stored_view_offset;
 
     return game::vmenu_ret::QUIT;
-}
-
-std::vector<vehicle *> nearby_vehicles_for( const itype_id &ft )
-{
-    std::vector<vehicle *> result;
-    for( auto &&p : g->m.points_in_radius( g->u.pos(), 1 ) ) { // *NOPAD*
-        vehicle *const veh = veh_pointer_or_null( g->m.veh_at( p ) );
-        // TODO: constify fuel_left and fuel_capacity
-        // TODO: add a fuel_capacity_left function
-        if( std::find( result.begin(), result.end(), veh ) != result.end() ) {
-            continue;
-        }
-        if( veh != nullptr && veh->fuel_left( ft ) < veh->fuel_capacity( ft ) ) {
-            result.push_back( veh );
-        }
-    }
-    return result;
 }
 
 void game::drop()
@@ -7942,6 +7936,7 @@ bool game::plfire()
     }
     draw_ter(); // Recenter our view
     wrefresh( w_terrain );
+    draw_panels();
 
     int shots = 0;
 
@@ -7983,7 +7978,7 @@ bool game::plfire( item &weapon, int bp_cost )
 }
 
 // Used to set up the first Hotkey in the display set
-int get_initial_hotkey( const size_t menu_index )
+static int get_initial_hotkey( const size_t menu_index )
 {
     int hotkey = -1;
     if( menu_index == 0 ) {
@@ -8000,8 +7995,8 @@ int get_initial_hotkey( const size_t menu_index )
 //    Pair.second is the number of equivalent items per unique tname
 // There are options for optimization here, but the function is hit infrequently
 // enough that optimizing now is not a useful time expenditure.
-const std::vector<std::pair<int, int>> generate_butcher_stack_display(
-                                        map_stack &items, const std::vector<int> &indices )
+static const std::vector<std::pair<int, int>> generate_butcher_stack_display(
+            map_stack &items, const std::vector<int> &indices )
 {
     std::vector<std::pair<int, int>> result;
     std::vector<std::string> result_strings;
@@ -8037,8 +8032,8 @@ const std::vector<std::pair<int, int>> generate_butcher_stack_display(
 
 // Corpses are always individual items
 // Just add them individually to the menu
-void add_corpses( uilist &menu, map_stack &items,
-                  const std::vector<int> &indices, size_t &menu_index )
+static void add_corpses( uilist &menu, map_stack &items,
+                         const std::vector<int> &indices, size_t &menu_index )
 {
     int hotkey = get_initial_hotkey( menu_index );
 
@@ -8050,9 +8045,9 @@ void add_corpses( uilist &menu, map_stack &items,
 }
 
 // Salvagables stack so we need to pass in a stack vector rather than an item index vector
-void add_salvagables( uilist &menu, map_stack &items,
-                      const std::vector<std::pair<int, int>> &stacks, size_t &menu_index,
-                      const salvage_actor &salvage_iuse )
+static void add_salvagables( uilist &menu, map_stack &items,
+                             const std::vector<std::pair<int, int>> &stacks, size_t &menu_index,
+                             const salvage_actor &salvage_iuse )
 {
     if( !stacks.empty() ) {
         int hotkey = get_initial_hotkey( menu_index );
@@ -8071,8 +8066,8 @@ void add_salvagables( uilist &menu, map_stack &items,
 }
 
 // Disassemblables stack so we need to pass in a stack vector rather than an item index vector
-void add_disassemblables( uilist &menu, map_stack &items,
-                          const std::vector<std::pair<int, int>> &stacks, size_t &menu_index )
+static void add_disassemblables( uilist &menu, map_stack &items,
+                                 const std::vector<std::pair<int, int>> &stacks, size_t &menu_index )
 {
     if( !stacks.empty() ) {
         int hotkey = get_initial_hotkey( menu_index );
@@ -8092,7 +8087,7 @@ void add_disassemblables( uilist &menu, map_stack &items,
 }
 
 // Butchery sub-menu and time calculation
-void butcher_submenu( map_stack &items, const std::vector<int> &corpses, int corpse = -1 )
+static void butcher_submenu( map_stack &items, const std::vector<int> &corpses, int corpse = -1 )
 {
     auto cut_time = [&]( enum butcher_type bt ) {
         int time_to_cut = 0;
@@ -8390,7 +8385,7 @@ void game::butcher()
             butcher_submenu( items, corpses, indexer_index );
             draw_ter();
             wrefresh( w_terrain );
-            draw_panels();
+            draw_panels( true );
             u.activity.values.push_back( corpses[indexer_index] );
         }
         break;
@@ -10207,7 +10202,7 @@ void game::plswim( const tripoint &p )
     u.drench( 100, drenchFlags, true );
 }
 
-float rate_critter( const Creature &c )
+static float rate_critter( const Creature &c )
 {
     const npc *np = dynamic_cast<const npc *>( &c );
     if( np != nullptr ) {
@@ -10383,7 +10378,7 @@ void game::fling_creature( Creature *c, const int &dir, float flvel, bool contro
     }
 }
 
-cata::optional<tripoint> point_selection_menu( const std::vector<tripoint> &pts )
+static cata::optional<tripoint> point_selection_menu( const std::vector<tripoint> &pts )
 {
     if( pts.empty() ) {
         debugmsg( "point_selection_menu called with empty point set" );
@@ -11442,6 +11437,7 @@ void game::display_scent()
         draw_ter();
         scent.draw( w_terrain, div * 2, u.pos() + u.view_offset );
         wrefresh( w_terrain );
+        draw_panels();
         inp_mngr.wait_for_any_key();
     }
 }
