@@ -80,7 +80,6 @@
     "symbol": "/",
     "color": "blue",
     "name": "hand pump",
-    "name_plural": "hand pumps",
     "description": "This pump is suitable for pumping air into inflatable objects.",
     "price": 400,
     "material": [ "aluminum", "plastic" ],
