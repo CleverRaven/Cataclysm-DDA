@@ -18,7 +18,7 @@
     "dispersion": 200,
     "durability": 8,
     "clip_size": 7,
-    "reload": 600,
+    "reload": 175,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
