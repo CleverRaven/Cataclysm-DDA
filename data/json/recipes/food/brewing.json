@@ -53,7 +53,7 @@
     "tools": [ [ [ "surface_heat", 6, "LIST" ] ] ],
     "components": [
       [ [ "water", 2 ], [ "water_clean", 2 ] ],
-      [ [ "vodka", 4 ], [ "whiskey", 4 ], [ "hb_beer" , 4 ] ],
+      [ [ "vodka", 4 ], [ "whiskey", 4 ], [ "hb_beer", 4 ] ],
       [ [ "juniper", 10 ] ]
     ]
   },
