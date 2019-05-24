@@ -11452,8 +11452,8 @@ void game::display_temperature()
 {
     if( use_tiles ) {
         if( displaying_scent ) {
-           displaying_scent = false;
-        } 
+            displaying_scent = false;
+        }
         displaying_temperature = !displaying_temperature;
     }
 }

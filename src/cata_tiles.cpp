@@ -1103,8 +1103,8 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
                 }
                 overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
-                                            formatted_text( std::to_string( temp_value ), col,
-                                                    NORTH ) );
+                                         formatted_text( std::to_string( temp_value ), col,
+                                                 NORTH ) );
             }
 
             if( apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
