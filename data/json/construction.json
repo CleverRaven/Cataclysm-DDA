@@ -2499,7 +2499,7 @@
     "components": [
       [ [ "pillow", 4 ], [ "down_pillow", 4 ] ],
       [ [ "down_blanket", 2 ], [ "blanket", 2 ], [ "fur_blanket", 2 ] ],
-      [ [ "large_cardboard_box", 1 ] ],
+      [ [ "box_large", 1 ] ],
       [ [ "plastic_sheet", 1 ] ],
       [ [ "duct_tape", 4 ] ]
     ],

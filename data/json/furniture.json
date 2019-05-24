@@ -4314,7 +4314,7 @@
     "required_str": 3,
     "deconstruct": {
       "items": [
-        { "item": "large_cardboard_box", "count": 1 },
+        { "item": "box_large", "count": 1 },
         { "item": "plastic_sheet", "count": 1 },
         { "item": "blanket", "count": 2 },
         { "item": "pillow", "count": 4 }
@@ -4354,9 +4354,9 @@
     "flags": [ "NOITEM", "BLOCKSDOOR", "FLAMMABLE_ASH", "ORGANIC", "EASY_DECONSTRUCT", "BLOCK_WIND" ],
     "deconstruct": {
       "items": [
-        { "item": "large_cardboard_box", "count": 1 },
-        { "item": "cardboard_box", "count": 2 },
-        { "item": "small_cardboard_box", "count": 4 },
+        { "item": "box_large", "count": 1 },
+        { "item": "box_medium", "count": 2 },
+        { "item": "box_small", "count": 4 },
         { "item": "rag", "count": 50 },
         { "item": "paper", "count": 50 },
         { "item": "plastic_chunk", "count": 20 },
@@ -4369,9 +4369,9 @@
       "sound": "crash!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "large_cardboard_box", "count": [ 0, 1 ] },
-        { "item": "cardboard_box", "count": [ 0, 2 ] },
-        { "item": "small_cardboard_box", "count": [ 0, 4 ] },
+        { "item": "box_large", "count": [ 0, 1 ] },
+        { "item": "box_medium", "count": [ 0, 2 ] },
+        { "item": "box_small", "count": [ 0, 4 ] },
         { "item": "rag", "count": [ 20, 50 ] },
         { "item": "paper", "count": [ 50, 150 ] },
         { "item": "plastic_chunk", "count": [ 5, 20 ] },
@@ -4393,7 +4393,7 @@
     "required_str": 3,
     "deconstruct": { "items": [ { "item": "large_cardboard_box", "count": 1 } ] },
     "max_volume": 6000,
-    "deployed_item": "large_cardboard_box",
+    "deployed_item": "box_large",
     "examine_action": "deployed_furniture",
     "flags": [
       "TRANSPARENT",
