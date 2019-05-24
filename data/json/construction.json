@@ -2491,6 +2491,22 @@
   },
   {
     "type": "construction",
+    "description": "Build Cardboard Fort",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 15,
+    "pre_special": "check_empty",
+    "components": [
+      [ [ "pillow", 4 ], [ "down_pillow", 4 ] ],
+      [ [ "down_blanket", 2 ], [ "blanket", 2 ], [ "fur_blanket", 2 ] ],
+      [ [ "large_cardboard_box", 1 ] ],
+      [ [ "plastic_sheet", 1 ] ],
+      [ [ "duct_tape", 4 ] ]
+    ],
+    "post_terrain": "f_cardboard_fort"
+  },
+  {
+    "type": "construction",
     "description": "Build Fire Ring",
     "category": "FURN",
     "required_skills": [ [ "survival", 0 ] ],
