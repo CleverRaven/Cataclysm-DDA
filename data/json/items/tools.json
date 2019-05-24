@@ -264,9 +264,10 @@
     "to_hit": -2,
     "bashing": 5,
     "material": [ "plastic", "aluminum" ],
+    "qualities": [ [ "BOIL", 1 ] ],
     "symbol": ",",
     "color": "light_green",
-    "//": "It would be nice if this could have a use action to thaw frozen water.  It's not hot enough to work as a hotplate.",
+    "//": "It would be nice if this could have a use action to thaw frozen stuff.  It's not hot enough to work as a hotplate.",
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
   },
   {
