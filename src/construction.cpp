@@ -1278,8 +1278,7 @@ void load_construction( JsonObject &jo )
     if( jo.has_int( "time" ) ) {
         con.time = to_moves<int>( time_duration::from_minutes( jo.get_int( "time" ) ) );
     } else if( jo.has_string( "time" ) ) {
-        time_duration crafting_time = time_duration::read_from_json_string( *jo.get_raw( "time" ) );
-        con.time = to_moves<int>( crafting_time );
+        con.time = to_moves<int>( time_duration::read_from_json_string( *jo.get_raw( "time" ) ) );
     }
 
     if( jo.has_string( "using" ) ) {
