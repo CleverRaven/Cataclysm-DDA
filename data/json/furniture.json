@@ -390,7 +390,7 @@
     "floor_bedding_warmth": 1000,
     "required_str": -1,
     "deconstruct": {
-      "items": [ { "item": "2x4", "count": 12 }, { "item": "blanket", "count": 2 }, { "item": "nail", "charges": [ 8, 10 ] } ]
+      "items": [ { "item": "2x4", "count": 12 }, { "item": "mattress", "count": 1 }, { "item": "nail", "charges": [ 8, 10 ] } ]
     },
     "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE" ],
