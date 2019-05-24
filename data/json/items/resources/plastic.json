@@ -25,6 +25,6 @@
     "material": "plastic",
     "symbol": ")",
     "color": "light_blue",
-    "flags": [ "NO_SALVAGE" ]
+    "use_action": { "type": "deploy_furn", "furn_type": "f_plastic_groundsheet" }
   }
 ]
