@@ -29,6 +29,8 @@
     "traits": [ { "trait": "FUR" }, { "trait": "OPTIMISTIC" }, { "trait": "LIGHTSTEP" }, { "trait": "CLAWS_RETRACT" } ],
     "skills": [
       { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "computers", "bonus": { "rng": [ 3, 6 ] } },
       { "skill": "melee", "bonus": { "rng": [ 0, 5 ] } },
       { "skill": "unarmed", "bonus": { "rng": [ 0, 5 ] } }
     ]
@@ -85,6 +87,7 @@
         "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL1"
       },
       { "text": "Would you like something to eat?", "topic": "TALK_REFUGEE_BEGGAR_5_FOOD" },
+      { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST1" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -99,6 +102,7 @@
         "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL1"
       },
       { "text": "Would you like something to eat?", "topic": "TALK_REFUGEE_BEGGAR_5_FOOD" },
+      { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST1" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -113,7 +117,54 @@
         "text": "You seem like you can hold your own.  Why not travel with me?",
         "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL1"
       },
+      { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST1" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5_PAST1",
+    "dynamic_line": "Nothing too exciting.  I was in trade college, learning to be a computer technician.  Those skills aren't too helpful, but when I was a kid I was an Eagle scout.  I learned all kinds of useful stuff about plants and foraging, and that's come in pretty handy.",
+    "responses": [
+      { "text": "What about your family, stuff like that?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST2" },
+      { "text": "Why live out here?", "topic": "TALK_REFUGEE_BEGGAR_5_TALK2" },
+      { "text": "I couldn't help but notice, you're covered in fur.", "topic": "TALK_REFUGEE_BEGGAR_5_FUR" },
+      {
+        "text": "You seem like you can hold your own.  Why not travel with me?",
+        "topic": "TALK_REFUGEE_BEGGAR_5_TRAVEL1"
+      },
       { "text": "Would you like something to eat?", "topic": "TALK_REFUGEE_BEGGAR_5_FOOD" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5_PAST2",
+    "dynamic_line": "I don't want to think about it.  I grew up in Rhode Island, they're still there.  I haven't heard from them since the insanity with the Governor and that secession stuff.  All communication lines got closed off.  I haven't met anyone who knows what happened to the people there but I don't have much hope.",
+    "responses": [
+      { "text": "Why don't you go back there?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST_RETURN" },
+      { "text": "Could you tell me more about what happened with Rhode Island?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST_RHODE" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5_PAST_RETURN",
+    "dynamic_line": "Same reason as I'm stuck here... it's way too dangerous, for one thing.  Almost a hundred miles, through zombie infested territory, on foot, to get to the shoreline?  No <swear> thank you.  And then, how would I get from the shore to Block Island?  My family moved out there when Dad retired, and I get the impression the ferry probably isn't running anymore.  Even if I got there, I don't know what I'd find, and I think maybe that scares me the most.",
+    "responses": [
+      { "text": "Could you tell me more about what happened with Rhode Island?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST_RHODE" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5_PAST_RHODE",
+    "dynamic_line": "You don't know?  The governor went nuts, like a lot of people did leading up to the end, only he had a lot more power to work with.  One day he just showed up to work with a militia of rowdies and loyalists and staged a coup, taking over the government completely, killing those that opposed him, and moving as many people as he could get behidn him onto the islands.  The rumours I've heard is that most of them survived the cataclysm and are still running the show there, but that seems kind of impossible to me.",
+    "responses": [
+      { "text": "Do you think you'd go back and look for your family?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST_RETURN" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
   },
@@ -135,6 +186,15 @@
       },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_5_TRAVEL2",
+    "dynamic_line": "Huh.  Getting those three to sign on to a suicide mission is quite the feat... sounds like you're pretty dedicated to this.  OK, I'm with you.  Let's round up the others and hit the road.",
+    "speaker_effect": [ { "effect": { "u_add_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" } } ],
+    "responses": [
+      { "text": "Right.  Let's go.", "topic": "TALK_DONE", "effect": "follow" }
     ]
   }
 ]
