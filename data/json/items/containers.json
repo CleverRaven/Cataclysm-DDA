@@ -307,7 +307,7 @@
     "name_plural": "large cardboard boxes",
     "description": "A very large cardboard box, the sort children would have loved to hide in, when there were still children.",
     "weight": 1250,
-    "volume": 20,
+    "volume": 12,
     "//": "Volume is much lower than the actual volume of a box this size because presumably if it's in your pack, it isn't empty and full of air; and if it's in your hands, it's irrelevant what the volume is.",
     "price": 0,
     "material": "paper",
