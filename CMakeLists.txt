@@ -17,8 +17,8 @@ option(USE_HOME_DIR "Use user's home directory for save files."					"ON" )
 option(LOCALIZE     "Support for language localizations. Also enable UTF support."		"ON" )
 option(LANGUAGES    "Compile localization files for specified languages."			""   )
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."	"ON")
-option(GIT_BINARY   "Git binary name or path."							"")
-OPTION(PREFIX       "Location of Data & GFX directories"                                   "")
+set(GIT_BINARY       "" CACHE STRING "Git binary name or path.")
+set(PREFIX           "" CACHE STRING "Location of Data & GFX directories")
 
 include(CTest)
 
