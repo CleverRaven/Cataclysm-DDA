@@ -4,7 +4,7 @@
 
 set -ex
 
-num_jobs=3
+num_jobs=4
 
 function run_tests
 {
