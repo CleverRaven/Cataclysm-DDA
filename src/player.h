@@ -225,10 +225,10 @@ class player : public Character
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
         // populate variables, inventory items, and misc from json object
-        virtual void deserialize( JsonIn &jsin );
+        virtual void deserialize( JsonIn &jsin ) = 0;
 
         // by default save all contained info
-        virtual void serialize( JsonOut &jsout ) const;
+        virtual void serialize( JsonOut &jsout ) const = 0;
 
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info();
@@ -1140,31 +1140,10 @@ class player : public Character
         /** Starts activity to install toolmod */
         void toolmod_add( item_location tool, item_location mod );
 
-        /**
-         * Helper function for player::read.
-         *
-         * @param book Book to read
-         * @param reasons Starting with g->u, for each player/NPC who cannot read, a message will be pushed back here.
-         * @returns nullptr, if neither the player nor his followers can read to the player, otherwise the player/NPC
-         * who can read and can read the fastest
-         */
-        const player *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
-        /**
-         * Helper function for get_book_reader
-         * @warning This function assumes that the everyone is able to read
-         *
-         * @param book The book being read
-         * @param reader the player/NPC who's reading to the caller
-         * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
-         */
-        int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
         bool fun_to_read( const item &book ) const;
-        /** Handles reading effects and returns true if activity started */
-        bool read( int inventory_position, const bool continuous = false );
-        /** Completes book reading action. **/
-        void do_read( item &book );
         /** Note that we've read a book at least once. **/
-        bool has_identified( const std::string &item_id ) const;
+        virtual bool has_identified( const std::string &item_id ) const = 0;
+
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur = 30_minutes );
         /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
@@ -1198,7 +1177,6 @@ class player : public Character
         hint_rating rate_action_wear( const item &it ) const;
         hint_rating rate_action_change_side( const item &it ) const;
         hint_rating rate_action_eat( const item &it ) const;
-        hint_rating rate_action_read( const item &it ) const;
         hint_rating rate_action_takeoff( const item &it ) const;
         hint_rating rate_action_reload( const item &it ) const;
         hint_rating rate_action_unload( const item &it ) const;
@@ -1802,9 +1780,6 @@ class player : public Character
         /** Processes human-specific effects of an effect. */
         void process_one_effect( effect &e, bool is_new ) override;
 
-        // TODO: move this to avatar
-        // Items the player has identified.
-        std::unordered_set<std::string> items_identified;
     private:
 
         /** Check if an area-of-effect technique has valid targets */

@@ -1068,7 +1068,7 @@ static void takeoff()
 
 static void read()
 {
-    player &u = g->u;
+    avatar &u = g->u;
     // Can read items from inventory or within one tile (including in vehicles)
     auto loc = game_menus::inv::read( u );
 
