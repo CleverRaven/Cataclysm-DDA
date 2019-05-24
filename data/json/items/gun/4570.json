@@ -55,7 +55,7 @@
       [ "mechanism", 4 ],
       [ "sights", 1 ]
     ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
     "id": "sharps",
