@@ -390,10 +390,11 @@
     "floor_bedding_warmth": 1000,
     "required_str": -1,
     "deconstruct": {
-      "items": [ { "item": "2x4", "count": 12 }, { "item": "mattress", "count": 1 }, { "item": "nail", "charges": [ 8, 10 ] } ]
+      "items": [ { "item": "mattress", "count": 1 } ],
+      "furn_set": "f_bed_frame",
     },
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -404,6 +405,31 @@
         { "item": "nail", "charges": [ 6, 8 ] },
         { "item": "splinter", "count": [ 3, 6 ] },
         { "item": "rag", "count": [ 40, 55 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bed_frame",
+    "name": "bed frame",
+    "symbol": "#",
+    "description": "This is an empty bed frame.  With a mattress on it, it would be a nice place to sleep.  Sleeping on it right now wouldn't be great.",
+    "color": "brown",
+    "move_cost_mod": 4,
+    "coverage": 40,
+    "required_str": 5,
+    "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 8, 10 ] } ] },
+    "max_volume": 4000,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whack.",
+      "items": [
+        { "item": "2x4", "count": [ 5, 8 ] },
+        { "item": "nail", "charges": [ 6, 8 ] },
+        { "item": "splinter", "count": [ 3, 6 ] }
       ]
     }
   },
