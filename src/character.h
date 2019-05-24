@@ -779,6 +779,7 @@ class Character : public Creature, public visitable<Character>
 
     protected:
         void on_stat_change( const std::string &, int ) override {}
+        void on_damage_of_type( int adjusted_damage, damage_type type, body_part bp ) override;
         virtual void on_mutation_gain( const trait_id & ) {}
         virtual void on_mutation_loss( const trait_id & ) {}
     public:
