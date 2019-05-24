@@ -1014,19 +1014,17 @@ static std::string windows_version()
         typedef LONG( WINAPI * RtlGetVersion )( PRTL_OSVERSIONINFOW );
         const HMODULE handle_ntdll = GetModuleHandleA( "ntdll" );
         if( handle_ntdll != nullptr ) {
-#if defined(__GNUC__) // prevent a cast warning with GCC-based compilers. The function cast below is perfectly legitimate on Windows.
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wcast-function-type"
-#endif
-            const auto rtl_get_version_func = reinterpret_cast<RtlGetVersion>( GetProcAddress( handle_ntdll,
-                                              "RtlGetVersion" ) );
-#if defined(__GNUC__)
-#pragma GCC diagnostic pop
-#endif
-            if( rtl_get_version_func != nullptr ) {
+            // Use union-based type-punning to convert function pointer
+            // type without gcc warnings.
+            union {
+                RtlGetVersion p;
+                FARPROC q;
+            } rtl_get_version_func;
+            rtl_get_version_func.q = GetProcAddress( handle_ntdll, "RtlGetVersion" );
+            if( rtl_get_version_func.p != nullptr ) {
                 RTL_OSVERSIONINFOW os_version_info = RTL_OSVERSIONINFOW();
                 os_version_info.dwOSVersionInfoSize = sizeof( RTL_OSVERSIONINFOW );
-                if( rtl_get_version_func( &os_version_info ) == 0 ) { // NT_STATUS_SUCCESS = 0
+                if( rtl_get_version_func.p( &os_version_info ) == 0 ) { // NT_STATUS_SUCCESS = 0
                     output.append( string_format( "%i.%i %i", os_version_info.dwMajorVersion,
                                                   os_version_info.dwMinorVersion, os_version_info.dwBuildNumber ) );
                 }
