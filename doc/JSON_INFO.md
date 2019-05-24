@@ -543,7 +543,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
     [ "textbook_gaswarfare", 8, "" ] // If the name is empty, the recipe is hidden, it will not be shown in the description of the book.
 ],
 "difficulty": 3,             // Difficulty of success check
-"time": 5000,                // Time to perform recipe (where 1000 ~= 10 turns ~= 1 minute game time)
+"time": 5000,                // Time to perform recipe. An integer value will be interpreted as moves or a time string can be used.
 "reversible": false,         // Can be disassembled.
 "autolearn": true,           // Automatically learned upon gaining required skills
 "autolearn" : [              // Automatically learned upon gaining listed skills
