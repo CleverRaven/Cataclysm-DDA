@@ -2062,6 +2062,12 @@
   },
   {
     "type": "keybinding",
+    "id": "cast_spell",
+    "name": "Spellcasting",
+    "category": "DEFAULTMODE"
+  },
+  {
+    "type": "keybinding",
     "id": "COMPARE",
     "category": "LIST_ITEMS",
     "name": "Compare",
