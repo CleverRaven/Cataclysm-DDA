@@ -179,7 +179,7 @@ tab_direction set_scenario( const catacurses::window &w, player &u, points_left 
 tab_direction set_profession( const catacurses::window &w, player &u, points_left &points,
                               const tab_direction direction );
 tab_direction set_skills( const catacurses::window &w, player &u, points_left &points );
-tab_direction set_description( const catacurses::window &w, player &u, bool allow_reroll,
+tab_direction set_description( const catacurses::window &w, avatar &you, bool allow_reroll,
                                points_left &points );
 
 static cata::optional<std::string> query_for_template_name();
@@ -230,12 +230,12 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
     }
 }
 
-void player::randomize( const bool random_scenario, points_left &points, bool play_now )
+void avatar::randomize( const bool random_scenario, points_left &points, bool play_now )
 {
 
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
     // Reset everything to the defaults to have a clean state.
-    *this = player();
+    *this = avatar();
 
     male = ( rng( 1, 100 ) > 50 );
     if( !MAP_SHARING::isSharing() ) {
@@ -424,7 +424,7 @@ void player::randomize( const bool random_scenario, points_left &points, bool pl
     }
 }
 
-bool player::create( character_type type, const std::string &tempname )
+bool avatar::create( character_type type, const std::string &tempname )
 {
     weapon = item( "null", 0 );
 
@@ -2135,7 +2135,7 @@ tab_direction set_scenario( const catacurses::window &w, player &u, points_left 
     return retval;
 }
 
-tab_direction set_description( const catacurses::window &w, player &u, const bool allow_reroll,
+tab_direction set_description( const catacurses::window &w, avatar &u, const bool allow_reroll,
                                points_left &points )
 {
     draw_tabs( w, _( "DESCRIPTION" ) );
@@ -2578,7 +2578,7 @@ void save_template( const player &u, const std::string &name, const points_left 
     }, _( "player template" ) );
 }
 
-bool player::load_template( const std::string &template_name, points_left &points )
+bool avatar::load_template( const std::string &template_name, points_left &points )
 {
     return read_from_file_json( FILENAMES["templatedir"] + utf8_to_native( template_name ) +
     ".template", [&]( JsonIn & jsin ) {

@@ -185,11 +185,6 @@ class player : public Character
         player &operator=( const player & ) = delete;
         player &operator=( player && );
 
-        // newcharacter.cpp
-        bool create( character_type type, const std::string &tempname = "" );
-        void randomize( bool random_scenario, points_left &points, bool play_now = false );
-        bool load_template( const std::string &template_name, points_left &points );
-
         /** Calls Character::normalize()
          *  normalizes HP and body temperature
          */
