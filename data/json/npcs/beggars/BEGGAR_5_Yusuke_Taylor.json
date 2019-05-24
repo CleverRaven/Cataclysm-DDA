@@ -143,7 +143,10 @@
     "dynamic_line": "I don't want to think about it.  I grew up in Rhode Island, they're still there.  I haven't heard from them since the insanity with the Governor and that secession stuff.  All communication lines got closed off.  I haven't met anyone who knows what happened to the people there but I don't have much hope.",
     "responses": [
       { "text": "Why don't you go back there?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST_RETURN" },
-      { "text": "Could you tell me more about what happened with Rhode Island?", "topic": "TALK_REFUGEE_BEGGAR_5_PAST_RHODE" },
+      {
+        "text": "Could you tell me more about what happened with Rhode Island?",
+        "topic": "TALK_REFUGEE_BEGGAR_5_PAST_RHODE"
+      },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -193,8 +196,6 @@
     "id": "TALK_REFUGEE_BEGGAR_5_TRAVEL2",
     "dynamic_line": "Huh.  Getting those three to sign on to a suicide mission is quite the feat... sounds like you're pretty dedicated to this.  OK, I'm with you.  Let's round up the others and hit the road.",
     "speaker_effect": [ { "effect": { "u_add_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" } } ],
-    "responses": [
-      { "text": "Right.  Let's go.", "topic": "TALK_DONE", "effect": "follow" }
-    ]
+    "responses": [ { "text": "Right.  Let's go.", "topic": "TALK_DONE", "effect": "follow" } ]
   }
 ]
