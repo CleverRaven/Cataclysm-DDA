@@ -221,7 +221,7 @@
       {
         "condition": "u_has_camp",
         "text": "I have a camp. It's a damn sight better than those place, and there are regular meals. Someone with your trades experience would be welcome, even if you can't do the big jobs anymore.",
-        "topic": "TALK_REFUGEE_BEGGAR_4_RECRUIT"
+        "topic": "TALK_REFUGEE_BEGGAR_4_RECRUIT1"
       },
       { "text": "You seem awfully happy considering the situation.", "topic": "TALK_REFUGEE_BEGGAR_4_HAPPY" },
       { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
@@ -245,7 +245,7 @@
       {
         "condition": "u_has_camp",
         "text": "I have a camp. It's a damn sight better than those place, and there are regular meals. Someone with your trades experience would be welcome, even if you can't do the big jobs anymore.",
-        "topic": "TALK_REFUGEE_BEGGAR_4_RECRUIT"
+        "topic": "TALK_REFUGEE_BEGGAR_4_RECRUIT1"
       },
       { "text": "You seem awfully happy considering the situation.", "topic": "TALK_REFUGEE_BEGGAR_4_HAPPY" },
       { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
@@ -270,12 +270,25 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_BEGGAR_4_RECRUIT",
+    "id": "TALK_REFUGEE_BEGGAR_4_RECRUIT1",
     "dynamic_line": "That's awful nice of you.  Tell you what: if you can help Dave get himself sorted out, so I don't feel like I've gotta stay here keeping an eye on the poor fella, then I'll come along.",
     "responses": [
-      { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
-      { "text": "How did you even get here if you're so sick?", "topic": "TALK_REFUGEE_BEGGAR_4_ARRIVAL" },
-      { "text": "Why are you camped out here if they won't let you in?", "topic": "TALK_REFUGEE_BEGGAR_4_CAMPOUT" },
+      {
+        "condition": { "u_has_var": "dave_happy", "type": "general", "context": "recruit", "value": "yes" },
+        "text": "I think I've sorted Dave out pretty well, don't you?  Would you consider coming with me now?",
+        "topic": "TALK_REFUGEE_BEGGAR_4_RECRUIT2"
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_4_RECRUIT2",
+    "//": "Until I code Dino Dave, no way to get to this.",
+    "dynamic_line": "Well... I'll be honest, I didn't even think Dave could be sorted out, and you've gone and called my bluff!  It's a darn fine thing you've done for that poor soul.  Listen, I wasn't... entirely serious about wanting to come with you, but if you can convince the others to go, then I guess I'll come along.",
+    "speaker_effect": [ { "effect": { "u_add_var": "brendan_recruited", "type": "general", "context": "recruit", "value": "yes" } } ],
+    "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
