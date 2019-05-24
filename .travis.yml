@@ -204,7 +204,7 @@ script:
   - build-scripts/build.sh
 
 before_cache:
-  - if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then rm -rf .ccache; fi
+  - if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then rm -rf /home/travis/.ccache; fi
 
 after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi
