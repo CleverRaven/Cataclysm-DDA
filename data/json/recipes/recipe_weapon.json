@@ -189,7 +189,7 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "using": [ [ "adhesive", 3 ] ],
-    "components": [ [ [ "leather", 15 ] ], [ [ "razor_blade", 5 ] ] ]
+    "components": [ [ [ "leather", 15 ] ], [ [ "razor_blade", 15 ] ] ]
   },
   {
     "type": "recipe",
