@@ -508,7 +508,6 @@ player::player() : Character()
     movecounter = 0;
     oxygen = 0;
     last_climate_control_ret = false;
-    active_mission = nullptr;
     in_vehicle = false;
     controlling_vehicle = false;
     grab_point = tripoint_zero;
@@ -12517,37 +12516,6 @@ void player::on_effect_int_change( const efftype_id &eid, int intensity, body_pa
     morale->on_effect_int_change( eid, intensity, bp );
 }
 
-void player::on_mission_assignment( mission &new_mission )
-{
-    active_missions.push_back( &new_mission );
-    set_active_mission( new_mission );
-}
-
-void player::on_mission_finished( mission &cur_mission )
-{
-    if( cur_mission.has_failed() ) {
-        failed_missions.push_back( &cur_mission );
-        add_msg_if_player( m_bad, _( "Mission \"%s\" is failed." ), cur_mission.name() );
-    } else {
-        completed_missions.push_back( &cur_mission );
-        add_msg_if_player( m_good, _( "Mission \"%s\" is successfully completed." ),
-                           cur_mission.name() );
-    }
-    const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
-    if( iter == active_missions.end() ) {
-        debugmsg( "completed mission %d was not in the active_missions list", cur_mission.get_id() );
-    } else {
-        active_missions.erase( iter );
-    }
-    if( &cur_mission == active_mission ) {
-        if( active_missions.empty() ) {
-            active_mission = nullptr;
-        } else {
-            active_mission = active_missions.front();
-        }
-    }
-}
-
 const targeting_data &player::get_targeting_data()
 {
     if( tdata == nullptr ) {
@@ -12563,44 +12531,6 @@ const targeting_data &player::get_targeting_data()
 void player::set_targeting_data( const targeting_data &td )
 {
     tdata.reset( new targeting_data( td ) );
-}
-
-void player::set_active_mission( mission &cur_mission )
-{
-    const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
-    if( iter == active_missions.end() ) {
-        debugmsg( "new active mission %d is not in the active_missions list", cur_mission.get_id() );
-    } else {
-        active_mission = &cur_mission;
-    }
-}
-
-mission *player::get_active_mission() const
-{
-    return active_mission;
-}
-
-tripoint player::get_active_mission_target() const
-{
-    if( active_mission == nullptr ) {
-        return overmap::invalid_tripoint;
-    }
-    return active_mission->get_target();
-}
-
-std::vector<mission *> player::get_active_missions() const
-{
-    return active_missions;
-}
-
-std::vector<mission *> player::get_completed_missions() const
-{
-    return completed_missions;
-}
-
-std::vector<mission *> player::get_failed_missions() const
-{
-    return failed_missions;
 }
 
 bool player::query_yn( const std::string &mes ) const

@@ -58,7 +58,7 @@ static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 const efftype_id effect_got_checked( "got_checked" );
 
 // constructor
-window_panel::window_panel( std::function<void( player &, const catacurses::window & )>
+window_panel::window_panel( std::function<void( avatar &, const catacurses::window & )>
                             draw_func, const std::string &nm, int ht, int wd, bool def_toggle,
                             std::function<bool( void )> render_func,  bool force_draw )
 {
@@ -104,7 +104,7 @@ static void draw_rectangle( const catacurses::window &w, nc_color, point top_lef
     }
 }
 
-static std::pair<nc_color, std::string> str_string( const player &p )
+static std::pair<nc_color, std::string> str_string( const avatar &p )
 {
     nc_color clr;
 
@@ -118,7 +118,7 @@ static std::pair<nc_color, std::string> str_string( const player &p )
     return std::make_pair( clr, _( "Str " ) + ( p.get_str() < 100 ? to_string( p.get_str() ) : "++" ) );
 }
 
-static std::pair<nc_color, std::string> dex_string( const player &p )
+static std::pair<nc_color, std::string> dex_string( const avatar &p )
 {
     nc_color clr;
 
@@ -132,7 +132,7 @@ static std::pair<nc_color, std::string> dex_string( const player &p )
     return std::make_pair( clr, _( "Dex " ) + ( p.get_dex() < 100 ? to_string( p.get_dex() ) : "++" ) );
 }
 
-static std::pair<nc_color, std::string> int_string( const player &p )
+static std::pair<nc_color, std::string> int_string( const avatar &p )
 {
     nc_color clr;
 
@@ -146,7 +146,7 @@ static std::pair<nc_color, std::string> int_string( const player &p )
     return std::make_pair( clr, _( "Int " ) + ( p.get_int() < 100 ? to_string( p.get_int() ) : "++" ) );
 }
 
-static std::pair<nc_color, std::string> per_string( const player &p )
+static std::pair<nc_color, std::string> per_string( const avatar &p )
 {
     nc_color clr;
 
@@ -201,7 +201,7 @@ std::string window_panel::get_name() const
     return name;
 }
 
-static void draw_minimap( const player &u, const catacurses::window &w_minimap )
+static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
 {
     const tripoint curs = u.global_omt_location();
     const int cursx = curs.x;
@@ -419,7 +419,7 @@ static void decorate_panel( const std::string &name, const catacurses::window &w
     wprintz( w, c_white, title_suffix );
 }
 
-static std::string get_temp( const player &u )
+static std::string get_temp( const avatar &u )
 {
     std::string temp;
     if( u.has_item_with_flag( "THERMOMETER" ) ||
@@ -516,7 +516,7 @@ static nc_color value_color( int stat )
     return valuecolor;
 }
 
-static std::pair<nc_color, int> morale_stat( const player &u )
+static std::pair<nc_color, int> morale_stat( const avatar &u )
 {
     const int morale_int = u.get_morale_level();
     nc_color morale_color = c_white;
@@ -528,7 +528,7 @@ static std::pair<nc_color, int> morale_stat( const player &u )
     return std::make_pair( morale_color, morale_int );
 }
 
-static std::pair<int, int> temp_delta( const player &u )
+static std::pair<int, int> temp_delta( const avatar &u )
 {
     int current_bp_extreme = 0;
     int conv_bp_extreme = 0;
@@ -561,7 +561,7 @@ static int define_temp_level( const int lvl )
     return 1;
 }
 
-static std::string temp_delta_string( const player &u )
+static std::string temp_delta_string( const avatar &u )
 {
     std::string temp_message;
     std::pair<int, int> temp_pair = temp_delta( u );
@@ -590,7 +590,7 @@ static std::string temp_delta_string( const player &u )
     return temp_message;
 }
 
-static std::pair<nc_color, std::string> temp_delta_arrows( const player &u )
+static std::pair<nc_color, std::string> temp_delta_arrows( const avatar &u )
 {
     std::string temp_message;
     nc_color temp_color = c_white;
@@ -627,7 +627,7 @@ static std::pair<nc_color, std::string> temp_delta_arrows( const player &u )
     return std::make_pair( temp_color, temp_message );
 }
 
-static std::pair<nc_color, std::string> temp_stat( const player &u )
+static std::pair<nc_color, std::string> temp_stat( const avatar &u )
 {
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
@@ -661,7 +661,7 @@ static std::pair<nc_color, std::string> temp_stat( const player &u )
     return std::make_pair( temp_color, temp_string );
 }
 
-static std::pair<nc_color, std::string> pain_stat( const player &u )
+static std::pair<nc_color, std::string> pain_stat( const avatar &u )
 {
     nc_color pain_color = c_yellow;
     std::string pain_string;
@@ -681,7 +681,7 @@ static std::pair<nc_color, std::string> pain_stat( const player &u )
     return std::make_pair( pain_color, pain_string );
 }
 
-static std::string get_armor( const player &u, body_part bp, unsigned int truncate = 0 )
+static std::string get_armor( const avatar &u, body_part bp, unsigned int truncate = 0 )
 {
     for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
         --it;
@@ -692,7 +692,7 @@ static std::string get_armor( const player &u, body_part bp, unsigned int trunca
     return "-";
 }
 
-static face_type get_face_type( const player &u )
+static face_type get_face_type( const avatar &u )
 {
     face_type fc = face_human;
     if( u.has_trait( trait_THRESH_FELINE ) ) {
@@ -787,7 +787,7 @@ static std::string morale_emotion( const int morale_cur, const face_type face,
     }
 }
 
-static std::pair<nc_color, std::string> power_stat( const player &u )
+static std::pair<nc_color, std::string> power_stat( const avatar &u )
 {
     nc_color c_pwr = c_red;
     std::string s_pwr;
@@ -859,7 +859,7 @@ static int get_int_digits( const int &digits )
 // panels code
 // ===============================
 
-static void draw_limb_health( player &u, const catacurses::window &w, int limb_index )
+static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_index )
 {
     const bool is_self_aware = u.has_trait( trait_SELFAWARE );
     static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
@@ -906,7 +906,7 @@ static void draw_limb_health( player &u, const catacurses::window &w, int limb_i
     }
 }
 
-static void draw_limb2( player &u, const catacurses::window &w )
+static void draw_limb2( avatar &u, const catacurses::window &w )
 {
     static std::array<body_part, 6> part = { {
             bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
@@ -956,7 +956,7 @@ static void draw_limb2( player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_stats( player &u, const catacurses::window &w )
+static void draw_stats( avatar &u, const catacurses::window &w )
 {
     werase( w );
     nc_color stat_clr = str_string( u ).first;
@@ -978,7 +978,7 @@ static void draw_stats( player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_stealth( player &u, const catacurses::window &w )
+static void draw_stealth( avatar &u, const catacurses::window &w )
 {
     werase( w );
     mvwprintz( w, 0, 0, c_light_gray, _( "Speed" ) );
@@ -1043,7 +1043,7 @@ static void draw_time_graphic( const catacurses::window &w )
     wprintz( w, c_white, "]" );
 }
 
-static void draw_time( const player &u, const catacurses::window &w )
+static void draw_time( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     // display date
@@ -1067,7 +1067,7 @@ static void draw_time( const player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_needs( const player &u, const catacurses::window &w )
+static void draw_needs( const avatar &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1091,7 +1091,7 @@ static void draw_needs( const player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_limb( player &u, const catacurses::window &w )
+static void draw_limb( avatar &u, const catacurses::window &w )
 {
     werase( w );
     int ny2 = 0;
@@ -1137,7 +1137,7 @@ static void draw_limb( player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_char( player &u, const catacurses::window &w )
+static void draw_char( avatar &u, const catacurses::window &w )
 {
     werase( w );
     std::pair<nc_color, int> morale_pair = morale_stat( u );
@@ -1174,7 +1174,7 @@ static void draw_char( player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_stat( player &u, const catacurses::window &w )
+static void draw_stat( avatar &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1200,7 +1200,7 @@ static void draw_stat( player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_env1( const player &u, const catacurses::window &w )
+static void draw_env1( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     // display location
@@ -1237,7 +1237,7 @@ static void draw_env1( const player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_env2( const player &u, const catacurses::window &w )
+static void draw_env2( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     mvwprintz( w, 0, 1, c_light_gray, _( "Moon : %s" ), get_moon() );
@@ -1245,7 +1245,7 @@ static void draw_env2( const player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_weapon_labels( const player &u, const catacurses::window &w )
+static void draw_weapon_labels( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     nc_color color = c_light_gray;
@@ -1256,7 +1256,7 @@ static void draw_weapon_labels( const player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_mod1( const player &u, const catacurses::window &w )
+static void draw_mod1( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     std::pair<std::string, nc_color> hunger_pair = u.get_hunger_description();
@@ -1277,7 +1277,7 @@ static void draw_mod1( const player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_env_compact( player &u, const catacurses::window &w )
+static void draw_env_compact( avatar &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1315,7 +1315,7 @@ static void draw_env_compact( player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_health_classic( player &u, const catacurses::window &w )
+static void draw_health_classic( avatar &u, const catacurses::window &w )
 {
     static std::array<body_part, 6> part = { {
             bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
@@ -1430,7 +1430,7 @@ static void draw_health_classic( player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_mod2( const player &u, const catacurses::window &w )
+static void draw_mod2( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     nc_color color = c_light_gray;
@@ -1449,7 +1449,7 @@ static void draw_mod2( const player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_armor( const player &u, const catacurses::window &w )
+static void draw_armor( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     nc_color color = c_light_gray;
@@ -1468,7 +1468,7 @@ static void draw_armor( const player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_messages( player &, const catacurses::window &w )
+static void draw_messages( avatar &, const catacurses::window &w )
 {
     werase( w );
     int line = getmaxy( w ) - 2;
@@ -1477,7 +1477,7 @@ static void draw_messages( player &, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_messages_classic( player &, const catacurses::window &w )
+static void draw_messages_classic( avatar &, const catacurses::window &w )
 {
     werase( w );
     int line = getmaxy( w ) - 2;
@@ -1487,7 +1487,7 @@ static void draw_messages_classic( player &, const catacurses::window &w )
 }
 
 #if defined(TILES)
-static void draw_mminimap( player &, const catacurses::window &w )
+static void draw_mminimap( avatar &, const catacurses::window &w )
 {
     werase( w );
     g->draw_pixel_minimap( w );
@@ -1495,21 +1495,21 @@ static void draw_mminimap( player &, const catacurses::window &w )
 }
 #endif
 
-static void draw_compass( player &, const catacurses::window &w )
+static void draw_compass( avatar &, const catacurses::window &w )
 {
     werase( w );
     g->mon_info( w );
     wrefresh( w );
 }
 
-static void draw_compass_padding( player &, const catacurses::window &w )
+static void draw_compass_padding( avatar &, const catacurses::window &w )
 {
     werase( w );
     g->mon_info( w, 1 );
     wrefresh( w );
 }
 
-static void draw_veh_compact( const player &u, const catacurses::window &w )
+static void draw_veh_compact( const avatar &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1542,7 +1542,7 @@ static void draw_veh_compact( const player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_veh_padding( const player &u, const catacurses::window &w )
+static void draw_veh_padding( const avatar &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1574,7 +1574,7 @@ static void draw_veh_padding( const player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_ai_goal( const player &u, const catacurses::window &w )
+static void draw_ai_goal( const avatar &u, const catacurses::window &w )
 {
     werase( w );
     behavior::tree needs;
@@ -1585,7 +1585,7 @@ static void draw_ai_goal( const player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_location_classic( const player &u, const catacurses::window &w )
+static void draw_location_classic( const avatar &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1596,7 +1596,7 @@ static void draw_location_classic( const player &u, const catacurses::window &w 
     wrefresh( w );
 }
 
-static void draw_weather_classic( player &, const catacurses::window &w )
+static void draw_weather_classic( avatar &, const catacurses::window &w )
 {
     werase( w );
 
@@ -1614,7 +1614,7 @@ static void draw_weather_classic( player &, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_lighting_classic( const player &u, const catacurses::window &w )
+static void draw_lighting_classic( const avatar &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1632,7 +1632,7 @@ static void draw_lighting_classic( const player &u, const catacurses::window &w 
     wrefresh( w );
 }
 
-static void draw_weapon_classic( const player &u, const catacurses::window &w )
+static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1661,7 +1661,7 @@ static void draw_weapon_classic( const player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_time_classic( const player &u, const catacurses::window &w )
+static void draw_time_classic( const avatar &u, const catacurses::window &w )
 {
     werase( w );
 
@@ -1687,7 +1687,7 @@ static void draw_time_classic( const player &u, const catacurses::window &w )
     wrefresh( w );
 }
 
-static void draw_hint( const player &, const catacurses::window &w )
+static void draw_hint( const avatar &, const catacurses::window &w )
 {
     werase( w );
     std::string press = press_x( ACTION_TOGGLE_PANEL_ADM );
