@@ -262,6 +262,7 @@ game::game() :
     uquit( QUIT_NO ),
     new_game( false ),
     displaying_scent( false ),
+    displaying_temperature( false ),
     safe_mode( SAFE_MODE_ON ),
     pixel_minimap_option( 0 ),
     u_shared_ptr( &u, null_deleter{} ),
@@ -2287,6 +2288,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "open_world_mods" );
     ctxt.register_action( "debug" );
     ctxt.register_action( "debug_scent" );
+    ctxt.register_action( "debug_temp" );
     ctxt.register_action( "debug_mode" );
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
@@ -6502,6 +6504,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
     ctxt.register_action( "CENTER" );
 
     ctxt.register_action( "debug_scent" );
+    ctxt.register_action( "debug_temp" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -6626,6 +6629,10 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
         } else if( action == "debug_scent" ) {
             if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
                 display_scent();
+            }
+        } else if( action == "debug_temp" ) {
+            if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isDebugger() ) {
+                display_temperature();
             }
         } else if( action == "EXTENDED_DESCRIPTION" ) {
             extended_description( lp );
@@ -11426,6 +11433,9 @@ void game::teleport( player *p, bool add_teleglow )
 void game::display_scent()
 {
     if( use_tiles ) {
+        if( displaying_temperature ) {
+            displaying_temperature = false;
+        }
         displaying_scent = !displaying_scent;
     } else {
         int div;
@@ -11439,6 +11449,16 @@ void game::display_scent()
         wrefresh( w_terrain );
         draw_panels();
         inp_mngr.wait_for_any_key();
+    }
+}
+
+void game::display_temperature()
+{
+    if( use_tiles ) {
+        if( displaying_scent ) {
+            displaying_scent = false;
+        }
+        displaying_temperature = !displaying_temperature;
     }
 }
 
