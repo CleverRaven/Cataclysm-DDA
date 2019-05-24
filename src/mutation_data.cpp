@@ -4,13 +4,14 @@
 #include <set>
 #include <sstream>
 #include <vector>
+#include <array>
+#include <stdexcept>
 
 #include "bodypart.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h" // tripoint
 #include "json.h"
-#include "pldata.h" // traits
 #include "trait_group.h"
 #include "translations.h"
 #include "generic_factory.h"
@@ -49,7 +50,7 @@ bool string_id<Trait_group>::is_valid() const
 }
 
 static void extract_mod( JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int> &data,
-                         const std::string &mod_type, bool active, std::string type_key )
+                         const std::string &mod_type, bool active, const std::string &type_key )
 {
     int val = j.get_int( mod_type, 0 );
     if( val != 0 ) {
@@ -100,6 +101,8 @@ void mutation_category_trait::load( JsonObject &jsobj )
     new_category.iv_sound = jsobj.get_bool( "iv_sound", false );
     new_category.raw_iv_sound_message = jsobj.get_string( "iv_sound_message",
                                         translate_marker( "You inject yoursel-arRGH!" ) );
+    new_category.raw_iv_sound_id = jsobj.get_string( "iv_sound_id", "shout" );
+    new_category.raw_iv_sound_variant = jsobj.get_string( "iv_sound_variant", "default" );
     new_category.iv_noise = jsobj.get_int( "iv_noise", 0 );
     new_category.iv_sleep = jsobj.get_bool( "iv_sleep", false );
     new_category.raw_iv_sleep_message = jsobj.get_string( "iv_sleep_message",
@@ -117,32 +120,42 @@ void mutation_category_trait::load( JsonObject &jsobj )
 
 std::string mutation_category_trait::name() const
 {
-    return _( raw_name.c_str() );
+    return _( raw_name );
 }
 
 std::string mutation_category_trait::mutagen_message() const
 {
-    return _( raw_mutagen_message.c_str() );
+    return _( raw_mutagen_message );
 }
 
 std::string mutation_category_trait::iv_message() const
 {
-    return _( raw_iv_message.c_str() );
+    return _( raw_iv_message );
 }
 
 std::string mutation_category_trait::iv_sound_message() const
 {
-    return _( raw_iv_sound_message.c_str() );
+    return _( raw_iv_sound_message );
+}
+
+std::string mutation_category_trait::iv_sound_id() const
+{
+    return _( raw_iv_sound_id );
+}
+
+std::string mutation_category_trait::iv_sound_variant() const
+{
+    return _( raw_iv_sound_variant );
 }
 
 std::string mutation_category_trait::iv_sleep_message() const
 {
-    return _( raw_iv_sleep_message.c_str() );
+    return _( raw_iv_sleep_message );
 }
 
 std::string mutation_category_trait::junkie_message() const
 {
-    return _( raw_junkie_message.c_str() );
+    return _( raw_junkie_message );
 }
 
 std::string mutation_category_trait::memorial_message_male() const
@@ -335,6 +348,8 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "fatigue_modifier", fatigue_modifier, 0.0f );
     optional( jo, was_loaded, "fatigue_regen_modifier", fatigue_regen_modifier, 0.0f );
     optional( jo, was_loaded, "stamina_regen_modifier", stamina_regen_modifier, 0.0f );
+    optional( jo, was_loaded, "overmap_sight", overmap_sight, 0.0f );
+    optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, 1.0f );
 
     if( jo.has_object( "social_modifiers" ) ) {
         JsonObject sm = jo.get_object( "social_modifiers" );
@@ -428,22 +443,22 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
 
 std::string mutation_branch::spawn_item_message() const
 {
-    return _( raw_spawn_item_message.c_str() );
+    return _( raw_spawn_item_message );
 }
 
 std::string mutation_branch::ranged_mutation_message() const
 {
-    return _( raw_ranged_mutation_message.c_str() );
+    return _( raw_ranged_mutation_message );
 }
 
 std::string mutation_branch::name() const
 {
-    return _( raw_name.c_str() );
+    return _( raw_name );
 }
 
 std::string mutation_branch::desc() const
 {
-    return _( raw_desc.c_str() );
+    return _( raw_desc );
 }
 
 static void check_consistency( const std::vector<trait_id> &mvec, const trait_id &mid,
@@ -520,7 +535,7 @@ std::vector<std::string> dream::messages() const
 {
     std::vector<std::string> ret;
     for( const auto &msg : raw_messages ) {
-        ret.push_back( _( msg.c_str() ) );
+        ret.push_back( _( msg ) );
     }
     return ret;
 }
@@ -579,7 +594,8 @@ void mutation_branch::load_trait_group( JsonObject &jsobj )
     load_trait_group( jsobj, group_id, subtype );
 }
 
-Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid, bool is_collection )
+static Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid,
+        bool is_collection )
 {
     // NOTE: If the gid is already in the map, emplace will just return an iterator to it
     auto found = ( is_collection

@@ -4,9 +4,11 @@
 #include "monster.h"
 #include "npc.h"
 #include "projectile.h"
+#include "creature.h"
+#include "type_id.h"
 
-void test_zapback( Creature &attacker, const bool expect_damage,
-                   const dealt_projectile_attack *proj = nullptr )
+static void test_zapback( Creature &attacker, const bool expect_damage,
+                          const dealt_projectile_attack *proj = nullptr )
 {
     monster defender( mtype_id( "mon_zombie_electric" ) );
     int prev_hp = attacker.get_hp();

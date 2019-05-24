@@ -2,9 +2,12 @@
 #ifndef PLAYER_ACTIVITY_H
 #define PLAYER_ACTIVITY_H
 
+#include <cstddef>
 #include <climits>
 #include <set>
 #include <vector>
+#include <memory>
+#include <string>
 
 #include "enums.h"
 #include "item_location.h"
@@ -14,7 +17,6 @@ class player;
 class Character;
 class JsonIn;
 class JsonOut;
-class player_activity;
 class activity_type;
 class monster;
 
@@ -100,13 +102,6 @@ class player_activity
          * can be resumed instead of starting the other activity.
          */
         bool can_resume_with( const player_activity &other, const Character &who ) const;
-        /**
-         * When an old activity A is resumed by a new activity B, normally B is
-         * discarded and the saved A is simply used in its place.  However,
-         * this will be called on A, passing B as an argument, in case A needs
-         * to grab any values from B.
-         */
-        void resume_with( const player_activity &other );
 
         bool is_distraction_ignored( distraction_type type ) const;
         void ignore_distraction( distraction_type type );

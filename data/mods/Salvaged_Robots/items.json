@@ -148,8 +148,6 @@
     "bashing": 8,
     "to_hit": -3,
     "ammo": "battery",
-    "initial_charges": 0,
-    "max_charges": 500,
     "qualities": [
       [ "CONTAIN", 1 ],
       [ "BUTCHER", 10 ],
@@ -193,7 +191,14 @@
         "move_cost": 1000
       },
       { "type": "place_monster", "monster_id": "mon_craftbuddy", "moves": 100 }
-    ]
+    ],
+    "magazines": [
+      [
+        "battery",
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      ]
+    ],
+    "magazine_well": 2
   },
   {
     "type": "TOOL",

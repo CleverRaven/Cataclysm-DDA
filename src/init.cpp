@@ -1,16 +1,21 @@
 #include "init.h"
 
+#include <cstddef>
 #include <cassert>
 #include <fstream>
 #include <sstream> // for throwing errors
 #include <string>
 #include <vector>
+#include <exception>
+#include <iterator>
+#include <memory>
+#include <stdexcept>
 
 #include "activity_type.h"
 #include "ammo.h"
 #include "anatomy.h"
+#include "behavior.h"
 #include "bionics.h"
-#include "clzones.h"
 #include "construction.h"
 #include "crafting_gui.h"
 #include "debug.h"
@@ -32,6 +37,7 @@
 #include "martialarts.h"
 #include "material.h"
 #include "mission.h"
+#include "magic.h"
 #include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -51,6 +57,7 @@
 #include "requirements.h"
 #include "rotatable_symbols.h"
 #include "scenario.h"
+#include "sdltiles.h"
 #include "skill.h"
 #include "skill_boost.h"
 #include "sounds.h"
@@ -64,10 +71,9 @@
 #include "vehicle_group.h"
 #include "vitamin.h"
 #include "worldfactory.h"
-
-#if defined(TILES)
-void load_tileset();
-#endif
+#include "bodypart.h"
+#include "translations.h"
+#include "type_id.h"
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -117,14 +123,14 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                 discarded << elem.first;
             }
             debugmsg( "JSON contains circular dependency. Discarded %i objects:\n%s",
-                      data.size(), discarded.str().c_str() );
+                      data.size(), discarded.str() );
             data.clear();
             return; // made no progress on this cycle so abort
         }
     }
 }
 
-void load_ignored_type( JsonObject &jo )
+static void load_ignored_type( JsonObject &jo )
 {
     // This does nothing!
     // This function is used for types that are to be ignored
@@ -327,6 +333,7 @@ void DynamicDataLoader::initialize()
     add( "npc_class", &npc_class::load_npc_class );
     add( "talk_topic", &load_talk_topic );
     add( "epilogue", &epilogue::load_epilogue );
+    add( "behavior", &behavior::load_behavior );
 
     add( "MONSTER_FACTION", &monfactions::load_monster_faction );
 
@@ -351,6 +358,7 @@ void DynamicDataLoader::initialize()
     add( "body_part", &body_part_struct::load_bp );
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
+    add( "SPELL", &spell_type::load_spell );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -478,6 +486,7 @@ void DynamicDataLoader::unload_data()
     overmap_specials::reset();
     ammunition_type::reset();
     unload_talk_topics();
+    behavior::reset();
     start_location::reset();
     scenario::reset();
     gates::reset();
@@ -540,11 +549,14 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             },
             { _( "Monster groups" ), &MonsterGroupManager::FinalizeMonsterGroups },
             { _( "Monster factions" ), &monfactions::finalize },
+            { _( "Factions" ), &npc_factions::finalize },
             { _( "Crafting recipes" ), &recipe_dictionary::finalize },
             { _( "Recipe groups" ), &recipe_group::check },
             { _( "Martial arts" ), &finialize_martial_arts },
             { _( "Constructions" ), &finalize_constructions },
             { _( "NPC classes" ), &npc_class::finalize_all },
+            { _( "Missions" ), &mission_type::finalize },
+            { _( "Behaviors" ), &behavior::finalize },
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
 #if defined(TILES)
@@ -617,6 +629,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Bionics" ), &check_bionics },
             { _( "Gates" ), &gates::check },
             { _( "NPC classes" ), &npc_class::check_consistency },
+            { _( "Behaviors" ), &behavior::check_consistency },
             { _( "Mission types" ), &mission_type::check_consistency },
             {
                 _( "Item actions" ), []()
@@ -627,7 +640,8 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Harvest lists" ), &harvest_list::check_consistency },
             { _( "NPC templates" ), &npc_template::check_consistency },
             { _( "Body parts" ), &body_part_struct::check_consistency },
-            { _( "Anatomies" ), &anatomy::check_consistency }
+            { _( "Anatomies" ), &anatomy::check_consistency },
+            { _( "Spells" ), &spell_type::check_consistency }
         }
     };
 

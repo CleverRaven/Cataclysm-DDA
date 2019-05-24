@@ -3,18 +3,27 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <array>
+#include <functional>
+#include <list>
+#include <memory>
+#include <utility>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
-#include "mutation.h"
 #include "player.h"
 #include "profession.h"
 #include "scenario.h"
 #include "string_id.h"
+#include "optional.h"
+#include "pldata.h"
+#include "ret_val.h"
+#include "type_id.h"
 
-std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
+static std::ostream &operator<<( std::ostream &s, const std::vector<trait_id> &v )
 {
     for( const auto &e : v ) {
         s << e.c_str() << " ";
@@ -53,10 +62,10 @@ static bool try_set_traits( const std::vector<trait_id> &traits )
     return true;
 }
 
-static player get_sanitized_player()
+static avatar get_sanitized_player()
 {
     // You'd think that this hp stuff would be in the c'tor...
-    player ret = player();
+    avatar ret = avatar();
     ret.recalc_hp();
     for( int i = 0; i < num_hp_parts; i++ ) {
         ret.hp_cur[i] = ret.hp_max[i];

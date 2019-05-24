@@ -8,7 +8,6 @@
 #include "calendar.h"
 #include "cursesdef.h"
 
-class game;
 class player;
 class JsonObject;
 
@@ -59,6 +58,12 @@ enum computer_action {
     COMPACT_OPEN_DISARM,
     COMPACT_UNLOCK_DISARM,
     COMPACT_RELEASE_DISARM,
+    COMPACT_IRRADIATOR,
+    COMPACT_GEIGER,
+    COMPACT_CONVEYOR,
+    COMPACT_SHUTTERS,
+    COMPACT_EXTRACT_RAD_SOURCE,
+    COMPACT_DEACTIVATE_SHOCK_VENT,
     NUM_COMPUTER_ACTIONS
 };
 
@@ -89,7 +94,7 @@ struct computer_option {
     int security;
 
     computer_option();
-    computer_option( std::string N, computer_action A, int S );
+    computer_option( const std::string &N, computer_action A, int S );
 
     static computer_option from_json( JsonObject &jo );
 };

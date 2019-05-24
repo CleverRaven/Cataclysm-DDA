@@ -2,14 +2,15 @@
 
 #include <algorithm>
 #include <numeric>
+#include <memory>
 
+#include "avatar.h"
 #include "game.h"
 #include "gun_mode.h"
 #include "item.h"
 #include "itype.h"
 #include "messages.h"
 #include "npc.h"
-#include "output.h"
 #include "player.h"
 #include "projectile.h"
 #include "ranged.h"
@@ -18,6 +19,9 @@
 #include "ui.h"
 #include "veh_type.h"
 #include "vehicle_selector.h"
+#include "creature.h"
+#include "debug.h"
+#include "optional.h"
 
 static const itype_id fuel_type_battery( "battery" );
 const efftype_id effect_on_roof( "on_roof" );
@@ -84,7 +88,7 @@ const item_location turret_data::base() const
     return item_location( vehicle_cursor( *veh, veh->index_of_part( part ) ), &part->base );
 }
 
-long turret_data::ammo_remaining() const
+int turret_data::ammo_remaining() const
 {
     if( !veh || !part ) {
         return 0;
@@ -95,7 +99,7 @@ long turret_data::ammo_remaining() const
     return part->base.ammo_remaining();
 }
 
-long turret_data::ammo_capacity() const
+int turret_data::ammo_capacity() const
 {
     if( !veh || !part || part->info().has_flag( "USE_TANKS" ) ) {
         return 0;
@@ -246,8 +250,8 @@ void turret_data::prepare_fire( player &p )
     // set fuel tank fluid as ammo, if appropriate
     if( part->info().has_flag( "USE_TANKS" ) ) {
         auto mode = base()->gun_current_mode();
-        long qty  = mode->ammo_required();
-        long fuel_left = veh->fuel_left( ammo_current() );
+        int qty  = mode->ammo_required();
+        int fuel_left = veh->fuel_left( ammo_current() );
         mode->ammo_set( ammo_current(), std::min( qty * mode.qty, fuel_left ) );
     }
 }
@@ -307,7 +311,7 @@ void vehicle::turrets_set_targeting()
         menu.w_y = 2;
 
         for( auto &p : turrets ) {
-            menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]", p->name().c_str(),
+            menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]", p->name(),
                            p->enabled ? _( "auto" ) : _( "manual" ) );
         }
 
@@ -350,7 +354,7 @@ void vehicle::turrets_set_mode()
 
         for( auto &p : turrets ) {
             menu.addentry( -1, true, MENU_AUTOASSIGN, "%s [%s]",
-                           p->name().c_str(), p->base.gun_current_mode().name() );
+                           p->name(), p->base.gun_current_mode().tname() );
         }
 
         menu.query();
@@ -492,7 +496,7 @@ npc vehicle::get_targeting_npc( const vehicle_part &pt )
     // Make a fake NPC to represent the targeting system
     npc cpu;
     cpu.set_fake( true );
-    cpu.name = string_format( pgettext( "vehicle turret", "The %s" ), pt.name().c_str() );
+    cpu.name = string_format( pgettext( "vehicle turret", "The %s" ), pt.name() );
     // turrets are subject only to recoil_vehicle()
     cpu.recoil = 0;
 
@@ -551,12 +555,12 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
                     add_msg( m_warning, ngettext( "%s points in your direction and emits an IFF warning beep.",
                                                   "%s points in your direction and emits %d annoyed sounding beeps.",
                                                   boo_hoo ),
-                             cpu.name.c_str(), boo_hoo );
+                             cpu.name, boo_hoo );
                 } else {
                     add_msg( m_warning, ngettext( "%s emits an IFF warning beep.",
                                                   "%s emits %d annoyed sounding beeps.",
                                                   boo_hoo ),
-                             cpu.name.c_str(), boo_hoo );
+                             cpu.name, boo_hoo );
                 }
             }
             return shots;
@@ -568,7 +572,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         // Target is already set, make sure we didn't move after aiming (it's a bug if we did).
         if( pos != target.first ) {
             target.second = target.first;
-            debugmsg( "%s moved after aiming but before it could fire.", cpu.name.c_str() );
+            debugmsg( "%s moved after aiming but before it could fire.", cpu.name );
             return shots;
         }
     }
@@ -580,7 +584,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
     shots = gun.fire( cpu, targ );
 
     if( shots && u_see && !g->u.sees( targ ) ) {
-        add_msg( _( "The %1$s fires its %2$s!" ), name.c_str(), pt.name().c_str() );
+        add_msg( _( "The %1$s fires its %2$s!" ), name, pt.name() );
     }
 
     return shots;

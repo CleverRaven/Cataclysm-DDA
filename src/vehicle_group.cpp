@@ -1,5 +1,9 @@
 #include "vehicle_group.h"
 
+#include <cstddef>
+#include <functional>
+#include <utility>
+
 #include "debug.h"
 #include "enums.h"
 #include "json.h"
@@ -198,15 +202,15 @@ void VehicleSpawn::apply( const vspawn_id &id, map &m, const std::string &terrai
 namespace VehicleSpawnFunction
 {
 
-void builtin_no_vehicles( map &, const std::string & )
+static void builtin_no_vehicles( map &, const std::string & )
 {}
 
-void builtin_jackknifed_semi( map &m, const std::string &terrainid )
+static void builtin_jackknifed_semi( map &m, const std::string &terrainid )
 {
     const VehicleLocation *loc = vplacement_id( terrainid + "_semi" ).obj().pick();
     if( ! loc ) {
-        debugmsg( "builtin_jackknifed_semi unable to get location to place vehicle. placement %s",
-                  ( terrainid + "_semi" ).c_str() );
+        debugmsg( "builtin_jackknifed_semi unable to get location to place vehicle. placement %s_semi",
+                  terrainid );
         return;
     }
 
@@ -232,7 +236,7 @@ void builtin_jackknifed_semi( map &m, const std::string &terrainid )
     m.add_vehicle( vgroup_id( "truck_trailer" ), trailer_p, ( facing + 90 ) % 360, -1, 1 );
 }
 
-void builtin_pileup( map &m, const std::string &, const std::string &vg )
+static void builtin_pileup( map &m, const std::string &, const std::string &vg )
 {
     vehicle *last_added_car = nullptr;
     const int num_cars = rng( 5, 12 );
@@ -254,17 +258,17 @@ void builtin_pileup( map &m, const std::string &, const std::string &vg )
     }
 }
 
-void builtin_citypileup( map &m, const std::string &t )
+static void builtin_citypileup( map &m, const std::string &t )
 {
     builtin_pileup( m, t, "city_pileup" );
 }
 
-void builtin_policepileup( map &m, const std::string &t )
+static void builtin_policepileup( map &m, const std::string &t )
 {
     builtin_pileup( m, t, "police_pileup" );
 }
 
-void builtin_parkinglot( map &m, const std::string & )
+static void builtin_parkinglot( map &m, const std::string & )
 {
     for( int v = 0; v < rng( 1, 4 ); v++ ) {
         tripoint pos_p;
@@ -274,7 +278,7 @@ void builtin_parkinglot( map &m, const std::string & )
 
         if( !m.veh_at( pos_p ) ) {
             m.add_vehicle( vgroup_id( "parkinglot" ), pos_p,
-                           ( one_in( 2 ) ? 0 : 180 ) + ( one_in( 10 ) * rng( 0, 179 ) ), -1, -1 );
+                           ( one_in( 2 ) ? 0 : 180 ) + one_in( 10 ) * rng( 0, 179 ), -1, -1 );
         }
     }
 }

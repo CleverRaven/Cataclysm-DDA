@@ -3,16 +3,21 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <algorithm>
 
+#include "avatar.h"
 #include "mission.h"
 #include "calendar.h"
 // needed for the workaround for the std::to_string bug in some compilers
 #include "compatibility.h" // IWYU pragma: keep
-#include "game.h"
 #include "input.h"
 #include "output.h"
 #include "player.h"
 #include "npc.h"
+#include "color.h"
+#include "debug.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 void game::list_missions()
 {
@@ -139,7 +144,7 @@ void game::list_missions()
                         remaining_time = to_string_approx( remaining );
                     }
 
-                    mvwprintz( w_missions, ++y, 31, c_white, _( "Time remaining: %s" ), remaining_time.c_str() );
+                    mvwprintz( w_missions, ++y, 31, c_white, _( "Time remaining: %s" ), remaining_time );
                 }
             }
             if( miss->has_target() ) {

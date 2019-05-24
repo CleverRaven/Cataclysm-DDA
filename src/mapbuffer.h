@@ -9,9 +9,8 @@
 
 #include "enums.h"
 
-struct point;
-struct tripoint;
-struct submap;
+class submap;
+class JsonIn;
 
 /**
  * Store, buffer, save and load the entire world map.

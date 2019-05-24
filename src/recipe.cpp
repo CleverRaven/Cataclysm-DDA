@@ -6,16 +6,21 @@
 
 #include "calendar.h"
 #include "game_constants.h"
-#include "generic_factory.h"
 #include "item.h"
 #include "itype.h"
 #include "output.h"
 #include "skill.h"
 #include "uistate.h"
 #include "string_formatter.h"
-
-struct oter_t;
-using oter_str_id = string_id<oter_t>;
+#include "assign.h"
+#include "cata_utility.h"
+#include "character.h"
+#include "json.h"
+#include "optional.h"
+#include "player.h"
+#include "translations.h"
+#include "type_id.h"
+#include "string_id.h"
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
@@ -43,7 +48,7 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
         // recipe benefits from batching, so batching scale factor needs to be calculated
         // At batch_rsize, incremental time increase is 99.5% of batch_rscale
         const double scale = batch_rsize / 6.0;
-        for( double x = 0; x < batch; x++ ) {
+        for( int x = 0; x < batch; x++ ) {
             // scaled logistic function output
             const double logf = ( 2.0 / ( 1.0 + exp( -( x / scale ) ) ) ) - 1.0;
             total_time += local_time * ( 1.0 - ( batch_rscale * logf ) );
@@ -210,6 +215,16 @@ void recipe::load( JsonObject &jo, const std::string &src )
                 byproducts[ arr.get_string( 0 ) ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
             }
         }
+        assign( jo, "construction_blueprint", blueprint );
+        if( !blueprint.empty() ) {
+            JsonArray bp_provides = jo.get_array( "blueprint_provides" );
+            blueprint_resources.clear();
+            while( bp_provides.has_more() ) {
+                std::string resource = bp_provides.next_string();
+                blueprint_resources.emplace_back( resource );
+            }
+        }
+
     } else if( type == "uncraft" ) {
         reversible = true;
     } else {
@@ -413,4 +428,86 @@ std::string recipe::result_name() const
     }
 
     return name;
+}
+
+const std::function<bool( const item & )> recipe::get_component_filter() const
+{
+    const item result = create_result();
+
+    // Disallow crafting of non-perishables with rotten components
+    // Make an exception for items with the ALLOW_ROTTEN flag such as seeds
+    std::function<bool( const item & )> rotten_filter = return_true<item>;
+    if( result.is_food() && !result.goes_bad() && !has_flag( "ALLOW_ROTTEN" ) ) {
+        rotten_filter = []( const item & component ) {
+            return !component.rotten();
+        };
+    }
+
+    // If the result is made hot, we can allow frozen components.
+    // EDIBLE_FROZEN components ( e.g. flour, chocolate ) are allowed as well
+    // Otherwise forbid them
+    std::function<bool( const item & )> frozen_filter = return_true<item>;
+    if( result.is_food() && !hot_result() ) {
+        frozen_filter = []( const item & component ) {
+            return !component.has_flag( "FROZEN" ) || component.has_flag( "EDIBLE_FROZEN" );
+        };
+    }
+
+    // Disallow usage of non-full magazines as components
+    // This is primarily used to require a fully charged battery, but works for any magazine.
+    std::function<bool( const item & )> magazine_filter = return_true<item>;
+    if( has_flag( "FULL_MAGAZINE" ) ) {
+        magazine_filter = []( const item & component ) {
+            return !component.is_magazine() || ( component.ammo_remaining() >= component.ammo_capacity() );
+        };
+    }
+
+    return [ rotten_filter, frozen_filter, magazine_filter ]( const item & component ) {
+        return is_crafting_component( component ) &&
+               rotten_filter( component ) &&
+               frozen_filter( component ) &&
+               magazine_filter( component );
+    };
+}
+
+bool recipe::is_blueprint() const
+{
+    return !blueprint.empty();
+}
+
+const std::string &recipe::get_blueprint() const
+{
+    return blueprint;
+}
+
+const std::vector<itype_id> &recipe::blueprint_provides() const
+{
+    return blueprint_resources;
+}
+
+bool recipe::hot_result() const
+{
+    // Check if the recipe tools make this food item hot upon making it.
+    // We don't actually know which specific tool the player used/will use here, but
+    // we're checking for a class of tools; because of the way requirements
+    // processing works, the "surface_heat" id gets nuked into an actual
+    // list of tools, see data/json/recipes/cooking_tools.json.
+    //
+    // Currently it's only checking for a hotplate because that's a
+    // suitable item in both the "surface_heat" and "water_boiling_heat"
+    // tools, and it's usually the first item in a list of tools so if this
+    // does get heated we'll find it right away.
+    //
+    // TODO: Make this less of a hack
+    if( create_result().is_food() ) {
+        const requirement_data::alter_tool_comp_vector &tool_lists = requirements().get_tools();
+        for( const std::vector<tool_comp> &tools : tool_lists ) {
+            for( const tool_comp &t : tools ) {
+                if( t.type == "hotplate" ) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }

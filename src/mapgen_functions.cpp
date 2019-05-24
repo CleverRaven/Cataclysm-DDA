@@ -1,12 +1,19 @@
 #include "mapgen_functions.h"
 
+#include <cstdlib>
+#include <cmath>
 #include <algorithm>
 #include <array>
-#include <chrono>
 #include <iterator>
 #include <random>
+#include <initializer_list>
+#include <map>
+#include <ostream>
+#include <queue>
+#include <unordered_set>
+#include <utility>
+#include <vector>
 
-#include "computer.h"
 #include "debug.h"
 #include "field.h"
 #include "item.h"
@@ -19,10 +26,17 @@
 #include "omdata.h"
 #include "options.h"
 #include "overmap.h"
-#include "translations.h"
 #include "trap.h"
 #include "vehicle_group.h"
 #include "vpart_position.h"
+#include "calendar.h"
+#include "game_constants.h"
+#include "regional_settings.h"
+#include "rng.h"
+#include "string_id.h"
+#include "int_id.h"
+
+class npc_template;
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -34,16 +48,11 @@ const mtype_id mon_beekeeper( "mon_beekeeper" );
 const mtype_id mon_fungaloid_queen( "mon_fungaloid_queen" );
 const mtype_id mon_fungaloid_seeder( "mon_fungaloid_seeder" );
 const mtype_id mon_fungaloid_tower( "mon_fungaloid_tower" );
-const mtype_id mon_jabberwock( "mon_jabberwock" );
 const mtype_id mon_rat_king( "mon_rat_king" );
 const mtype_id mon_sewer_rat( "mon_sewer_rat" );
-const mtype_id mon_shia( "mon_shia" );
-const mtype_id mon_spider_web( "mon_spider_web" );
 const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
-const mtype_id mon_wasp( "mon_wasp" );
 const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
-const mtype_id mon_zombie( "mon_zombie" );
 
 mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west,
                         oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
@@ -170,6 +179,7 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "ants_larvae", &mapgen_ants_larvae },
             { "ants_queen", &mapgen_ants_queen },
             { "tutorial", &mapgen_tutorial },
+            { "lake_shore", &mapgen_lake_shore },
         }
     };
     const auto iter = pointers.find( ident );
@@ -365,7 +375,7 @@ void mapgen_crater( map *m, oter_id, mapgendata dat, const time_point &turn, flo
 }
 
 // TODO: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);
-void ter_or_furn_set( map *m, const int x, const int y, const ter_furn_id &tfid )
+static void ter_or_furn_set( map *m, const int x, const int y, const ter_furn_id &tfid )
 {
     if( tfid.ter != t_null ) {
         m->ter_set( x, y, tfid.ter );
@@ -776,7 +786,7 @@ void nesw_array_rotate( T *array, size_t len, size_t dist )
 }
 
 // take x/y coordinates in a map and rotate them counterclockwise around the center
-void coord_rotate_cw( int &x, int &y, int rot )
+static void coord_rotate_cw( int &x, int &y, int rot )
 {
     for( ; rot--; ) {
         int temp = y;
@@ -785,7 +795,7 @@ void coord_rotate_cw( int &x, int &y, int rot )
     }
 }
 
-bool compare_neswx( bool *a1, std::initializer_list<int> a2 )
+static bool compare_neswx( bool *a1, std::initializer_list<int> a2 )
 {
     return std::equal( std::begin( a2 ), std::end( a2 ), a1,
     []( int a, bool b ) {
@@ -1232,68 +1242,72 @@ void mapgen_subway( map *m, oter_id terrain_type, mapgendata dat, const time_poi
 
     switch( num_dirs ) {
         case 4: // 4-way intersection
-            mapf::formatted_set_simple( m, 0, 0, "\
-.DD^^DD^.######.^DD^^DD.\n\
-DD^^DD^..######..^DD^^DD\n\
-D^^DD^....####....^DD^^D\n\
-^^DD^..............^DD^^\n\
-^DD^................^DD^\n\
-DD^..................^DD\n\
-D^....................^D\n\
-........................\n\
-........................\n\
-##........####........##\n\
-###......######......###\n\
-###......######......###\n\
-###......######......###\n\
-###......######......###\n\
-##........####........##\n\
-........................\n\
-........................\n\
-D^....................^D\n\
-DD^..................^DD\n\
-^DD^................^DD^\n\
-^^DD^..............^DD^^\n\
-D^^DD^....####....^DD^^D\n\
-DD^^DD^..######..^DD^^DD\n\
-.DD^^DD^.######.^DD^^DD.",
-                                        mapf::ter_bind( ". # ^ D",
+            mapf::formatted_set_simple( m, 0, 0,
+                                        "..^/D^^/D^....^D/^^D/^..\n"
+                                        ".^/DX^/DX......XD/^XD/^.\n"
+                                        "^/D^X/D^X......X^D/X^D/^\n"
+                                        "/D^^XD^.X......X.^DX^^D/\n"
+                                        "DXXDDXXXXXXXXXXXXXXDDXXD\n"
+                                        "^^/DX^^^X^^^^^^X^^^XD/^^\n"
+                                        "^/D^X^^^X^^^^^^X^^^X^D/^\n"
+                                        "/D^^X^^^X^^^^^^X^^^X^^D/\n"
+                                        "DXXXXXXXXXXXXXXXXXXXXXXD\n"
+                                        "^^^^X^^^X^^^^^^X^^^X^^^^\n"
+                                        "...^X^^^X^....^X^^^X^...\n"
+                                        "...^X^^^X^....^X^^^X^...\n"
+                                        "...^X^^^X^....^X^^^X^...\n"
+                                        "...^X^^^X^....^X^^^X^...\n"
+                                        "^^^^X^^^X^^^^^^X^^^X^^^^\n"
+                                        "DXXXXXXXXXXXXXXXXXXXXXXD\n"
+                                        "/D^^X^^^X^^^^^^X^^^X^^D/\n"
+                                        "^/D^X^^^X^^^^^^X^^^X^D/^\n"
+                                        "^^/DX^^^X^^^^^^X^^^XD/^^\n"
+                                        "DXXDDXXXXXXXXXXXXXXDDDDD\n"
+                                        "/D^^XD^.X......X.^DX^^D/\n"
+                                        "^/D^X/D^X......X^D/X^D/^\n"
+                                        ".^/DX^/DX......XD/^XD/^.\n"
+                                        "..^/D^^/D^....^D/^^D/^..",
+                                        mapf::ter_bind( ". # ^ / D X",
                                                 t_rock_floor,
                                                 t_rock,
                                                 t_railroad_rubble,
-                                                t_railroad_track_d ),
-                                        mapf::furn_bind( ". # ^ D",
+                                                t_railroad_tie_d,
+                                                t_railroad_track_d,
+                                                t_railroad_track ),
+                                        mapf::furn_bind( ". # ^ / D X",
+                                                f_null,
+                                                f_null,
                                                 f_null,
                                                 f_null,
                                                 f_null,
                                                 f_null ) );
             break;
         case 3: // tee
-            mapf::formatted_set_simple( m, 0, 0, "\
-.DD^^DD^.######.^DD^^DD.\n\
-DD^^DD^..######..^DD^^DD\n\
-D^^DD^....####....^DD^^D\n\
-^^DD^..............^DD^^\n\
-^DD^................^DD^\n\
-DD^..................^DD\n\
-D^....................^D\n\
-........................\n\
-........................\n\
-##........####........##\n\
-###......######......###\n\
-###......######......###\n\
-###......######......###\n\
-###......######......###\n\
-##........####........##\n\
-........................\n\
-^|^^|^^|^^|^^|^^|^^|^^|^\n\
-XxXXxXXxXXxXXxXXxXXxXXxX\n\
-^|^^|^^|^^|^^|^^|^^|^^|^\n\
-^|^^|^^|^^|^^|^^|^^|^^|^\n\
-^|^^|^^|^^|^^|^^|^^|^^|^\n\
-XxXXxXXxXXxXXxXXxXXxXXxX\n\
-^|^^|^^|^^|^^|^^|^^|^^|^\n\
-........................",
+            mapf::formatted_set_simple( m, 0, 0,
+                                        "..^/D^^/D^...^/D^^/D^...\n"
+                                        ".^/D^^/D^...^/D^^/D^....\n"
+                                        "^/D^^/D^...^/D^^/D^.....\n"
+                                        "/D^^/D^^^^^/D^^/D^^^^^^^\n"
+                                        "DXXXDXXXXXXDXXXDXXXXXXXX\n"
+                                        "^^/D^^^^^^^^^/D^^^^^^^^^\n"
+                                        "^/D^^^^^^^^^/D^^^^^^^^^^\n"
+                                        "/D^^^^^^^^^/D^^^^^^^^^^^\n"
+                                        "DXXXXXXDXXXDXXXXXXXXXXXX\n"
+                                        "^^^^^/D^^/D^^^^^^^^^^^^^\n"
+                                        "...^/D^^/D^.............\n"
+                                        "..^/D^^/D^..............\n"
+                                        ".^/D^^/D^...............\n"
+                                        "^/D^^/D^................\n"
+                                        "/D^^/D^^^^|^^|^^|^^|^^|^\n"
+                                        "DXXXDXXXXXxXXxXXxXXxXXxX\n"
+                                        "^^/D^^^^^^|^^|^^|^^|^^|^\n"
+                                        "^/D^^^^^^^|^^|^^|^^|^^|^\n"
+                                        "/D^^^^^^^^|^^|^^|^^|^^|^\n"
+                                        "DXXXXXXXXXxXXxXXxXXxXXxX\n"
+                                        "^^^^^^^^^^|^^|^^|^^|^^|^\n"
+                                        "........................\n"
+                                        "........................\n"
+                                        "........................",
                                         mapf::ter_bind( ". # ^ | X x / D",
                                                 t_rock_floor,
                                                 t_rock,
@@ -1315,31 +1329,31 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
             break;
         case 2: // straight or diagonal
             if( diag ) { // diagonal subway get drawn differently from all other types
-                mapf::formatted_set_simple( m, 0, 0, "\
-.^DD^^DD^.####..^DD^^DD^\n\
-#.^DD^^DD^.......^DD^^DD\n\
-##.^DD^^DD^.......^DD^^D\n\
-###.^DD^^DD^.......^DD^^\n\
-####.^DD^^DD^.......^DD^\n\
-#####.^DD^^DD^.......^DD\n\
-######.^DD^^DD^.......^D\n\
-#######.^DD^^DD^.......^\n\
-########.^DD^^DD^.......\n\
-#########.^DD^^DD^......\n\
-##########.^DD^^DD^....#\n\
-###########.^DD^^DD^...#\n\
-############.^DD^^DD^..#\n\
-#############.^DD^^DD^.#\n\
-##############.^DD^^DD^.\n\
-###############.^DD^^DD^\n\
-################.^DD^^DD\n\
-#################.^DD^^D\n\
-##################.^DD^^\n\
-###################.^DD^\n\
-####################.^DD\n\
-#####################.^D\n\
-######################.^\n\
-#######################.",
+                mapf::formatted_set_simple( m, 0, 0,
+                                            "...^DD^^DD^...^DD^^DD^..\n"
+                                            "....^DD^^DD^...^DD^^DD^.\n"
+                                            ".....^DD^^DD^...^DD^^DD^\n"
+                                            "......^DD^^DD^...^DD^^DD\n"
+                                            ".......^DD^^DD^...^DD^^D\n"
+                                            "#.......^DD^^DD^...^DD^^\n"
+                                            "##.......^DD^^DD^...^DD^\n"
+                                            "###.......^DD^^DD^...^DD\n"
+                                            "####.......^DD^^DD^...^D\n"
+                                            "#####.......^DD^^DD^...^\n"
+                                            "######.......^DD^^DD^...\n"
+                                            "#######.......^DD^^DD^..\n"
+                                            "########.......^DD^^DD^.\n"
+                                            "#########.......^DD^^DD^\n"
+                                            "##########.......^DD^^DD\n"
+                                            "###########.......^DD^^D\n"
+                                            "############.......^DD^^\n"
+                                            "#############.......^DD^\n"
+                                            "##############.......^DD\n"
+                                            "###############.......^D\n"
+                                            "################.......^\n"
+                                            "#################.......\n"
+                                            "##################......\n"
+                                            "###################.....",
                                             mapf::ter_bind( ". # ^ D",
                                                     t_rock_floor,
                                                     t_rock,
@@ -1351,31 +1365,31 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
                                                     f_null,
                                                     f_null ) );
             } else { // normal subway drawing
-                mapf::formatted_set_simple( m, 0, 0, "\
-.^X^^^X^.######.^X^^^X^.\n\
-.-x---x-.######.-x---x-.\n\
-.^X^^^X^..####..^X^^^X^.\n\
-.^X^^^X^........^X^^^X^.\n\
-.-x---x-........-x---x-.\n\
-.^X^^^X^........^X^^^X^.\n\
-.^X^^^X^........^X^^^X^.\n\
-.-x---x-........-x---x-.\n\
-.^X^^^X^........^X^^^X^.\n\
-.^X^^^X^..####..^X^^^X^.\n\
-.-x---x-.######.-x---x-.\n\
-.^X^^^X^.######.^X^^^X^.\n\
-.^X^^^X^.######.^X^^^X^.\n\
-.-x---x-.######.-x---x-.\n\
-.^X^^^X^..####..^X^^^X^.\n\
-.^X^^^X^........^X^^^X^.\n\
-.-x---x-........-x---x-.\n\
-.^X^^^X^........^X^^^X^.\n\
-.^X^^^X^........^X^^^X^.\n\
-.-x---x-........-x---x-.\n\
-.^X^^^X^........^X^^^X^.\n\
-.^X^^^X^..####..^X^^^X^.\n\
-.-x---x-.######.-x---x-.\n\
-.^X^^^X^.######.^X^^^X^.",
+                mapf::formatted_set_simple( m, 0, 0,
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...-x---x-....-x---x-...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...-x---x-....-x---x-...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...-x---x-....-x---x-...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...-x---x-....-x---x-...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...-x---x-....-x---x-...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...-x---x-....-x---x-...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...-x---x-....-x---x-...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...^X^^^X^....^X^^^X^...\n"
+                                            "...-x---x-....-x---x-...\n"
+                                            "...^X^^^X^....^X^^^X^...",
                                             mapf::ter_bind( ". # ^ - X x",
                                                     t_rock_floor,
                                                     t_rock,
@@ -1393,45 +1407,52 @@ XxXXxXXxXXxXXxXXxXXxXXxX\n\
             }
             break;
         case 1:  // dead end
-            mapf::formatted_set_simple( m, 0, 0, "\
-.^X^^^X^.######.^X^^^X^.\n\
-.-x---x-.######.-x---x-.\n\
-.^X^^^X^..####..^X^^^X^.\n\
-.^X^^^X^........^X^^^X^.\n\
-.-x---x-........-x---x-.\n\
-.^X^^^X^........^X^^^X^.\n\
-.^X^^^X^........^X^^^X^.\n\
-.-x---x-........-x---x-.\n\
-.^X^^^X^........^X^^^X^.\n\
-.^X^^^X^..####..^X^^^X^.\n\
-.-x---x-.######.-x---x-.\n\
-.^X^^^X^.######.^X^^^X^.\n\
-.........######.........\n\
-.........######.........\n\
-.........######.........\n\
-#.......########.......#\n\
-########################\n\
-########################\n\
-########################\n\
-########################\n\
-########################\n\
-########################\n\
-########################\n\
-########################",
-                                        mapf::ter_bind( ". # ^ - X x",
+            mapf::formatted_set_simple( m, 0, 0,
+                                        "...^X^^^X^..../D^^/D^...\n"
+                                        "...-x---x-.../DX^/DX^...\n"
+                                        "...^X^^^X^../D^X/D^X^...\n"
+                                        "...^X^^^X^./D.^XD^^X^...\n"
+                                        "...^X^^^X^/D../D^^^X^...\n"
+                                        "...^X^^^X/D../DX^^^X^...\n"
+                                        "...^X^^^XD../D^X^^^X^...\n"
+                                        "...^X^^/D^./D.-x---x-...\n"
+                                        "...^X^/DX^/D..^X^^^X^...\n"
+                                        "...^X/D^X/D...^X^^^X^...\n"
+                                        "...^XD^^XD....-x---x-...\n"
+                                        "...^D^^^D^....^X^^^X^...\n"
+                                        "...^X^^^X^....^X^^^X^...\n"
+                                        "...-x---x-....-x---x-...\n"
+                                        "...^X^^^X^....^X^^^X^...\n"
+                                        "...^X^^^X^....^X^^^X^...\n"
+                                        "...-x---x-....-x---x-...\n"
+                                        "...^X^^^X^....^X^^^X^...\n"
+                                        "...^X^^^X^....^X^^^X^...\n"
+                                        "...^S^^^S^....^S^^^S^...\n"
+                                        "...^^^^^^^....^^^^^^^...\n"
+                                        "#......................#\n"
+                                        "##....................##\n"
+                                        "########################",
+                                        mapf::ter_bind( ". # S ^ - / D X x",
                                                 t_rock_floor,
                                                 t_rock,
+                                                t_buffer_stop,
                                                 t_railroad_rubble,
                                                 t_railroad_tie,
+                                                t_railroad_tie_d,
+                                                t_railroad_track_d,
                                                 t_railroad_track,
                                                 t_railroad_track_on_tie ),
-                                        mapf::furn_bind( ". # ^ - X x",
+                                        mapf::furn_bind( ". # S ^ - / D X x",
+                                                f_null,
+                                                f_null,
+                                                f_null,
                                                 f_null,
                                                 f_null,
                                                 f_null,
                                                 f_null,
                                                 f_null,
                                                 f_null ) );
+            VehicleSpawn::apply( vspawn_id( "default_subway_deadend" ), *m, "subway" );
             break;
     }
 
@@ -2425,13 +2446,13 @@ void mapgen_generic_house( map *m, oter_id terrain_type, mapgendata dat, const t
     int actual_house_height = 0;
     int bw_old = 0;
 
-    int x = 0;
-    int y = 0;
     lw = rng( 0, 4 ); // West external wall
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     mw = lw + rng( 7, 10 ); // Middle wall between bedroom & kitchen/bath
     rw = SEEX * 2 - rng( 1, 5 ); // East external wall
     tw = rng( 1, 6 ); // North external wall
     bw = SEEX * 2 - rng( 2, 5 ); // South external wall
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     cw = tw + rng( 4, 7 ); // Middle wall between living room & kitchen/bed
     actual_house_height = bw - rng( 4,
                                     6 ); //reserving some space for backyard. Actual south external wall.
@@ -2788,75 +2809,8 @@ void mapgen_generic_house( map *m, oter_id terrain_type, mapgendata dat, const t
 
     place_stairs( m, terrain_type, dat );
 
-    if( one_in( 100 ) ) { // TODO: region data // Houses have a 1 in 100 chance of wasps!
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
-                if( m->ter( i, j ) == t_door_c || m->ter( i, j ) == t_door_locked ) {
-                    m->ter_set( i, j, t_door_frame );
-                }
-                if( m->ter( i, j ) == t_window_domestic && !one_in( 3 ) ) {
-                    m->ter_set( i, j, t_window_frame );
-                }
-                if( m->ter( i, j ) == t_wall && one_in( 8 ) ) {
-                    m->ter_set( i, j, t_paper );
-                }
-            }
-        }
-        int num_pods = rng( 8, 12 );
-        for( int i = 0; i < num_pods; i++ ) {
-            int podx = rng( 1, SEEX * 2 - 2 );
-            int pody = rng( 1, SEEY * 2 - 2 );
-            int nonx = 0;
-            int nony = 0;
-            while( nonx == 0 && nony == 0 ) {
-                nonx = rng( -1, 1 );
-                nony = rng( -1, 1 );
-            }
-            for( int x = -1; x <= 1; x++ ) {
-                for( int y = -1; y <= 1; y++ ) {
-                    if( ( x != nonx || y != nony ) && ( x != 0 || y != 0 ) ) {
-                        m->ter_set( podx + x, pody + y, t_paper );
-                    }
-                }
-            }
-            m->add_spawn( mon_wasp, 1, podx, pody );
-        }
-        m->place_items( "rare", 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn );
-
-    } else if( one_in( 150 ) ) { // TODO: region_data // No wasps; black widows?
-        auto spider_type = mon_spider_widow_giant;
-        auto egg_type = f_egg_sackbw;
-        if( one_in( 2 ) ) {
-            spider_type = mon_spider_cellar_giant;
-            egg_type = f_egg_sackcs;
-        }
-        for( int i = 0; i < SEEX * 2; i++ ) {
-            for( int j = 0; j < SEEY * 2; j++ ) {
-                if( m->ter( i, j ) == t_floor ) {
-                    if( one_in( 15 ) ) {
-                        m->add_spawn( spider_type, rng( 1, 2 ), i, j );
-                        for( int x = i - 1; x <= i + 1; x++ ) {
-                            for( int y = j - 1; y <= j + 1; y++ ) {
-                                if( m->ter( x, y ) == t_floor ) {
-                                    madd_field( m, x, y, fd_web, rng( 2, 3 ) );
-                                    if( one_in( 4 ) ) {
-                                        m->furn_set( i, j, egg_type );
-                                        m->remove_field( {i, j, m->get_abs_sub().z}, fd_web );
-                                    }
-                                }
-                            }
-                        }
-                    } else if( m->passable( i, j ) && one_in( 5 ) ) {
-                        madd_field( m, x, y, fd_web, 1 );
-                    }
-                }
-            }
-        }
-        m->place_items( "rare", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, turn );
-
-    } else { // Just boring old zombies
-        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density );
-    }
+    // Just boring old zombies
+    m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density );
 
     m->rotate( static_cast<int>( terrain_type->get_dir() ) );
 }
@@ -2887,7 +2841,7 @@ void mapgen_basement_generic_layout( map *m, oter_id, mapgendata, const time_poi
 
 namespace furn_space
 {
-bool clear( const map &m, const tripoint &from, const tripoint &to )
+static bool clear( const map &m, const tripoint &from, const tripoint &to )
 {
     for( const auto &p : m.points_in_rectangle( from, to ) ) {
         if( m.ter( p ).obj().movecost == 0 ) {
@@ -2898,7 +2852,7 @@ bool clear( const map &m, const tripoint &from, const tripoint &to )
     return true;
 }
 
-point best_expand( const map &m, const tripoint &from, int maxx, int maxy )
+static point best_expand( const map &m, const tripoint &from, int maxx, int maxy )
 {
     if( clear( m, from, from + point( maxx, maxy ) ) ) {
         // Common case
@@ -3642,8 +3596,8 @@ void mapgen_ants_tee( map *m, oter_id terrain_type, mapgendata dat, const time_p
 
 }
 
-void mapgen_ants_generic( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
-                          float )
+static void mapgen_ants_generic( map *m, oter_id terrain_type, mapgendata dat,
+                                 const time_point &turn, float )
 {
 
     for( int i = 0; i < SEEX * 2; i++ ) {
@@ -4197,6 +4151,419 @@ void mapgen_forest_trail_four_way( map *m, oter_id, mapgendata dat, const time_p
                     turn );
 }
 
+void mapgen_lake_shore( map *m, oter_id, mapgendata dat, const time_point &turn, float density )
+{
+    // Our lake shores may "extend" adjacent terrain, if the adjacent types are defined as being
+    // extendable in our regional settings. What this effectively means is that if the lake shore is
+    // adjacent to one of these, e.g. a forest, then rather than the lake shore simply having the
+    // region's default groundcover for the land parts of the terrain, instead we run the mapgen
+    // for this location as if it were the adjacent terrain, and then carve our water out of it as
+    // per usual. I think it looks a lot nicer, e.g. in the case of a forest, to have the trees and
+    // ground clutter of the forest abutting the water rather than simply some empty ground.
+
+    // To accomplish this extension, we simply count up the adjacent terrains that are in the
+    // defined extendable terrain setting, choose the most common one, and then run its mapgen.
+    bool did_extend_adjacent_terrain = false;
+    if( !dat.region.overmap_lake.shore_extendable_overmap_terrain.empty() ) {
+        std::map<oter_id, int> adjacent_type_count;
+        for( auto &adjacent : dat.t_nesw ) {
+            if( std::find( dat.region.overmap_lake.shore_extendable_overmap_terrain.begin(),
+                           dat.region.overmap_lake.shore_extendable_overmap_terrain.end(),
+                           adjacent ) != dat.region.overmap_lake.shore_extendable_overmap_terrain.end() ) {
+                adjacent_type_count[adjacent] += 1;
+            }
+        }
+
+        if( !adjacent_type_count.empty() ) {
+            const auto most_common_adjacent = std::max_element( std::begin( adjacent_type_count ),
+                                              std::end( adjacent_type_count ), []( const std::pair<oter_id, int> &p1,
+            const std::pair<oter_id, int> &p2 ) {
+                return p1.second < p2.second;
+            } );
+
+            did_extend_adjacent_terrain = run_mapgen_func( most_common_adjacent->first.id().str(), m,
+                                          most_common_adjacent->first, dat, turn, density );
+
+            // One fun side effect of running another mapgen here is that it may have placed items in locations
+            // that we're later going to turn into water. Let's just remove all items.
+            if( did_extend_adjacent_terrain ) {
+                for( int x = 0; x < SEEX * 2; x++ ) {
+                    for( int y = 0; y < SEEY * 2; y++ ) {
+                        m->i_clear( x, y );
+                    }
+                }
+            }
+        }
+    }
+
+    // If we didn't extend an adjacent terrain, then just fill this entire location with the default
+    // groundcover for the region.
+    if( !did_extend_adjacent_terrain ) {
+        dat.fill_groundcover();
+    }
+
+    const oter_id river_center( "river_center" );
+
+    auto is_lake = [&]( const oter_id & id ) {
+        // We want to consider river_center as a lake as well, so that the confluence of a
+        // river and a lake is a continuous water body.
+        return id.obj().is_lake() || id == river_center;
+    };
+
+    const auto is_shore = [&]( const oter_id & id ) {
+        return id.obj().is_lake_shore();
+    };
+
+    const auto is_river_bank = [&]( const oter_id & id ) {
+        return id != river_center && id.obj().is_river();
+    };
+
+    const bool n_lake =  is_lake( dat.north() );
+    const bool e_lake =  is_lake( dat.east() );
+    const bool s_lake =  is_lake( dat.south() );
+    const bool w_lake =  is_lake( dat.west() );
+    const bool nw_lake = is_lake( dat.nwest() );
+    const bool ne_lake = is_lake( dat.neast() );
+    const bool se_lake = is_lake( dat.seast() );
+    const bool sw_lake = is_lake( dat.swest() );
+
+    // If we don't have any adjacent lakes, then we don't need to worry about a shoreline,
+    // and are done at this point.
+    const bool no_adjacent_water = !n_lake && !e_lake && !s_lake && !w_lake && !nw_lake && !ne_lake &&
+                                   !se_lake && !sw_lake;
+    if( no_adjacent_water ) {
+        return;
+    }
+
+    // I'm pretty unhappy with this block of if statements that follows, but got frustrated/sidetracked
+    // in finding a more elegant solution. This is functional, but improvements that maintain the result
+    // are welcome. The basic jist is as follows:
+    //
+    // Given our current location and the 8 adjacent locations, we classify them all as lake, lake shore,
+    // river bank, or something else that we don't care about. We then create a polygon with four points,
+    // one in each corner of our location. Then, based on the permutations of possible adjacent location
+    // types, we manipulate the four points of our polygon to generate the rough outline of our shore. The
+    // area inside the polygon will retain our ground we generated, while the area outside will get turned
+    // into the shoreline with shallow and deep water.
+    //
+    // For example, if we have forests to the west, the lake to the east, and more shore north and south of
+    // us, like this...
+    //
+    //     | --- | --- | --- |
+    //     | F   | S   | L   |
+    //     | --- | --- | --- |
+    //     | F   | S   | L   |
+    //     | --- | --- | --- |
+    //     | F   | S   | L   |
+    //     | --- | --- | --- |
+    //
+    // ...then what we want to do with our polygon is push our eastern points to the west. If the north location
+    // were instead a continuation of the lake, with a commensurate shoreline like this...
+    //
+    //     | --- | --- | --- |
+    //     | S   | L   | L   |
+    //     | --- | --- | --- |
+    //     | S   | S   | L   |
+    //     | --- | --- | --- |
+    //     | F   | S   | L   |
+    //     | --- | --- | --- |
+    //
+    // ...then we still need to push our eastern points to the west, but we also need to push our northern
+    // points south, and since we don't want such a blocky shoreline at our corners, we also want to
+    // push the north-eastern point even further south-west.
+    //
+    // Things get even more complicated when we transition into a river bank--they have their own style of
+    // mapgen, and while things don't have to be seamless, I did want the lake shores to fairly smoothly
+    // transition into them, so if we have a river bank adjacent like this...
+    //
+    //     | --- | --- | --- |
+    //     | F   | R   | L   |
+    //     | --- | --- | --- |
+    //     | F   | S   | L   |
+    //     | --- | --- | --- |
+    //     | F   | S   | L   |
+    //     | --- | --- | --- |
+    //
+    // ...then we need to push our adjacent corners in even more for a good transition.
+    //
+    // At the end of all this, we'll have our basic four point polygon that we'll then inspect and use
+    // to create the line-segments that will form our shoreline, but more on in a bit.
+
+    const bool n_shore = is_shore( dat.north() );
+    const bool e_shore = is_shore( dat.east() );
+    const bool s_shore = is_shore( dat.south() );
+    const bool w_shore = is_shore( dat.west() );
+
+    const bool n_river_bank = is_river_bank( dat.north() );
+    const bool e_river_bank = is_river_bank( dat.east() );
+    const bool s_river_bank = is_river_bank( dat.south() );
+    const bool w_river_bank = is_river_bank( dat.west() );
+
+    // This is length we end up pushing things about by as a baseline.
+    const int sector_length = SEEX * 2 / 3;
+
+    // Define the corners of the map. These won't change.
+    const point nw_corner( 0, 0 );
+    const point ne_corner( SEEX * 2 - 1, 0 );
+    const point se_corner( SEEX * 2 - 1, SEEY * 2 - 1 );
+    const point sw_corner( 0, SEEY * 2 - 1 );
+
+    // Define the four points that make up our polygon that we'll later pull line segments from for
+    // the actual shoreline.
+    point nw = nw_corner;
+    point ne = ne_corner;
+    point se = se_corner;
+    point sw = sw_corner;
+
+    std::vector<std::vector<point>> line_segments;
+
+    // This section is about pushing the straight N, S, E, or W borders inward when adjacent to an actual lake.
+    if( n_lake ) {
+        nw.y += sector_length;
+        ne.y += sector_length;
+    }
+
+    if( s_lake ) {
+        sw.y -= sector_length;
+        se.y -= sector_length;
+    }
+
+    if( w_lake ) {
+        nw.x += sector_length;
+        sw.x += sector_length;
+    }
+
+    if( e_lake ) {
+        ne.x -= sector_length;
+        se.x -= sector_length;
+    }
+
+    // This section is about pushing the corners inward when adjacent to a lake that curves into a river bank.
+    if( n_river_bank ) {
+        if( w_lake && nw_lake ) {
+            nw.x += sector_length;
+        }
+
+        if( e_lake && ne_lake ) {
+            ne.x -= sector_length;
+        }
+    }
+
+    if( e_river_bank ) {
+        if( s_lake && se_lake ) {
+            se.y -= sector_length;
+        }
+
+        if( n_lake && ne_lake ) {
+            ne.y += sector_length;
+        }
+    }
+
+    if( s_river_bank ) {
+        if( w_lake && sw_lake ) {
+            sw.x += sector_length;
+        }
+
+        if( e_lake && se_lake ) {
+            se.x -= sector_length;
+        }
+    }
+
+    if( w_river_bank ) {
+        if( s_lake && sw_lake ) {
+            sw.y -= sector_length;
+        }
+
+        if( n_lake && nw_lake ) {
+            nw.y += sector_length;
+        }
+    }
+
+    // This section is about pushing the corners inward when we've got a lake in the corner that
+    // either has lake adjacent to it and us, or more shore adjacent to it and us. Note that in the
+    // case of having two shores adjacent, we end up adding a new line segment that isn't part of
+    // our original set--we end up cutting the corner off our polygonal box.
+    if( nw_lake ) {
+        if( n_lake && w_lake ) {
+            nw.x += sector_length / 2;
+            nw.y += sector_length / 2;
+        } else if( n_shore && w_shore ) {
+            point n = nw_corner;
+            point w = nw_corner;
+
+            n.x += sector_length;
+            w.y += sector_length;
+
+            line_segments.push_back( { n, w } );
+        }
+    }
+
+    if( ne_lake ) {
+        if( n_lake && e_lake ) {
+            ne.x -= sector_length / 2;
+            ne.y += sector_length / 2;
+        } else if( n_shore && e_shore ) {
+            point n = ne_corner;
+            point e = ne_corner;
+
+            n.x -= sector_length;
+            e.y += sector_length;
+
+            line_segments.push_back( { n, e } );
+        }
+    }
+
+    if( sw_lake ) {
+        if( s_lake && w_lake ) {
+            sw.x += sector_length / 2;
+            sw.y -= sector_length / 2;
+        } else if( s_shore && w_shore ) {
+            point s = sw_corner;
+            point w = sw_corner;
+
+            s.x += sector_length;
+            w.y -= sector_length;
+
+            line_segments.push_back( { s, w } );
+        }
+    }
+
+    if( se_lake ) {
+        if( s_lake && e_lake ) {
+            se.x -= sector_length / 2;
+            se.y -= sector_length / 2;
+        } else if( s_shore && e_shore ) {
+            point s = se_corner;
+            point e = se_corner;
+
+            s.x -= sector_length;
+            e.y -= sector_length;
+
+            line_segments.push_back( { s, e } );
+        }
+    }
+
+
+    // Ok, all of the fiddling with the polygon corners is done.
+    // At this point we've got four points that make up four line segments that started out
+    // at the map boundaries, but have subsequently been perturbed by the adjacent terrains.
+    // Let's look at them and see which ones differ from their original state and should
+    // form our shoreline.
+    if( nw.y != nw_corner.y || ne.y != ne_corner.y ) {
+        line_segments.push_back( { nw, ne } );
+    }
+
+    if( ne.x != ne_corner.x || se.x != se_corner.x ) {
+        line_segments.push_back( { ne, se } );
+    }
+
+    if( se.y != se_corner.y || sw.y != sw_corner.y ) {
+        line_segments.push_back( { se, sw } );
+    }
+
+    if( sw.x != sw_corner.x || nw.x != nw_corner.x ) {
+        line_segments.push_back( { sw, nw } );
+    }
+
+    const rectangle map_boundaries( nw_corner, se_corner );
+
+    // This will draw our shallow water coastline from the "from" point to the "to" point.
+    // It buffers the points a bit for a thicker line. It also clears any furniture that might
+    // be in the location as a result of our extending adjacent mapgen.
+    const auto draw_shallow_water = [&]( const point & from, const point & to ) {
+        std::vector<point> points = line_to( from, to );
+        for( auto &p : points ) {
+            std::vector<point> buffered_points = closest_points_first( 1, p.x, p.y );
+            for( const point &bp : buffered_points ) {
+                if( !generic_inbounds( bp, map_boundaries ) ) {
+                    continue;
+                }
+                // Use t_null for now instead of t_water_sh, because sometimes our extended terrain
+                // has put down a t_water_sh, and we need to be able to flood-fill over that.
+                m->ter_set( bp.x, bp.y, t_null );
+                m->furn_set( bp.x, bp.y, f_null );
+            }
+        }
+    };
+
+    // Given two points, return a point that is midway between the two points and then
+    // jittered by a random amount in proportion to the length of the line segment.
+    const auto jittered_midpoint = [&]( const point & from, const point & to ) {
+        const int jitter = rl_dist( from, to ) / 4;
+        const point midpoint( ( from.x + to.x ) / 2 + rng( -jitter, jitter ),
+                              ( from.y + to.y ) / 2 + rng( -jitter, jitter ) );
+        return midpoint;
+    };
+
+    // For each of our valid shoreline line segments, generate a slightly more interesting
+    // set of line segments by splitting the line into four segments with jittered
+    // midpoints, and then draw shallow water for four each of those.
+    for( auto &ls : line_segments ) {
+        const point mp1 = jittered_midpoint( ls[0], ls[1] );
+        const point mp2 = jittered_midpoint( ls[0], mp1 );
+        const point mp3 = jittered_midpoint( mp1, ls[1] );
+
+        draw_shallow_water( ls[0], mp2 );
+        draw_shallow_water( mp2, mp1 );
+        draw_shallow_water( mp1, mp3 );
+        draw_shallow_water( mp3, ls[1] );
+    }
+
+    // Now that we've done our ground mapgen and laid down a contiguous shoreline of shallow water,
+    // we'll floodfill the sections adjacent to the lake with deep water. As before, we also clear
+    // out any furniture that we placed by the extended mapgen.
+    std::unordered_set<point> visited;
+    const auto fill_deep_water = [&]( const point & starting_point ) {
+        std::queue<point> to_check;
+        to_check.push( starting_point );
+        while( !to_check.empty() ) {
+            const point current_point = to_check.front();
+            to_check.pop();
+
+            if( visited.find( current_point ) != visited.end() ) {
+                continue;
+            }
+
+            visited.emplace( current_point );
+
+            if( !generic_inbounds( current_point, map_boundaries ) ) {
+                continue;
+            }
+
+            if( m->ter( current_point.x, current_point.y ) != t_null ) {
+                m->ter_set( current_point.x, current_point.y, t_water_dp );
+                m->furn_set( current_point.x, current_point.y, f_null );
+                to_check.push( point( current_point.x, current_point.y + 1 ) );
+                to_check.push( point( current_point.x, current_point.y - 1 ) );
+                to_check.push( point( current_point.x + 1, current_point.y ) );
+                to_check.push( point( current_point.x - 1, current_point.y ) );
+            }
+        }
+    };
+
+    // We'll flood fill from the four corners, using the corner if any of the locations
+    // adjacent to it were a lake.
+    if( n_lake || nw_lake || w_lake ) {
+        fill_deep_water( nw_corner );
+    }
+
+    if( s_lake || sw_lake || w_lake ) {
+        fill_deep_water( sw_corner );
+    }
+
+    if( n_lake || ne_lake || e_lake ) {
+        fill_deep_water( ne_corner );
+    }
+
+    if( s_lake || se_lake || e_lake ) {
+        fill_deep_water( se_corner );
+    }
+
+    // We previously placed our shallow water but actually did a t_null instead to make sure that we didn't
+    // pick up shallow water from our extended terrain. Now turn those nulls into t_water_sh.
+    m->translate( t_null, t_water_sh );
+}
+
 void mremove_trap( map *m, int x, int y )
 {
     tripoint actual_location( x, y, m->get_abs_sub().z );
@@ -4215,7 +4582,7 @@ void madd_field( map *m, int x, int y, field_id type, int density )
     m->add_field( actual_location, type, density, 0_turns );
 }
 
-bool is_suitable_for_stairs( const map *const m, const tripoint &p )
+static bool is_suitable_for_stairs( const map *const m, const tripoint &p )
 {
     const ter_t &p_ter = m->ter( p ).obj();
 
@@ -4225,8 +4592,8 @@ bool is_suitable_for_stairs( const map *const m, const tripoint &p )
         m->furn( p ) == f_null;
 }
 
-void stairs_debug_log( const map *const m, const std::string &msg, const tripoint &p,
-                       DebugLevel level = D_INFO )
+static void stairs_debug_log( const map *const m, const std::string &msg, const tripoint &p,
+                              DebugLevel level = D_INFO )
 {
     const ter_t &p_ter = m->ter( p ).obj();
 

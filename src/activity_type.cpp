@@ -2,17 +2,17 @@
 
 #include <map>
 #include <unordered_map>
+#include <functional>
+#include <utility>
 
 #include "activity_handlers.h"
 #include "assign.h"
-#include "calendar.h"
 #include "debug.h"
-#include "game.h"
-#include "item_group.h"
 #include "json.h"
-#include "map.h"
-#include "player.h"
+#include "sounds.h"
 #include "translations.h"
+#include "player.h"
+#include "player_activity.h"
 
 // activity_type functions
 static std::map< activity_id, activity_type > activity_type_all;
@@ -36,32 +36,32 @@ static const std::unordered_map< std::string, based_on_type > based_on_type_valu
     { "neither", based_on_type::NEITHER }
 };
 
+static const std::map<std::string, float> activity_levels = {
+    { "NO_EXERCISE", NO_EXERCISE },
+    { "LIGHT_EXERCISE", LIGHT_EXERCISE },
+    { "MODERATE_EXERCISE", MODERATE_EXERCISE },
+    { "ACTIVE_EXERCISE", ACTIVE_EXERCISE },
+    { "EXTRA_EXERCISE", EXTRA_EXERCISE }
+};
+
 void activity_type::load( JsonObject &jo )
 {
     activity_type result;
 
     result.id_ = activity_id( jo.get_string( "id" ) );
     assign( jo, "rooted", result.rooted_, true );
-    result.stop_phrase_ = _( jo.get_string( "stop_phrase" ).c_str() );
+    result.stop_phrase_ = _( jo.get_string( "stop_phrase" ) );
     assign( jo, "suspendable", result.suspendable_, true );
     assign( jo, "no_resume", result.no_resume_, true );
     assign( jo, "refuel_fires", result.refuel_fires, false );
 
-    if( jo.has_member( "byproducts" ) ) {
-        JsonObject byproducts_jo = jo.get_object( "byproducts" );
-
-        assign( byproducts_jo, "do_turn_interval", result.do_turn_byproducts_interval, false, 1_minutes );
-
-        if( byproducts_jo.has_member( "do_turn" ) ) {
-            JsonIn &stream = *byproducts_jo.get_raw( "do_turn" );
-            result.do_turn_byproducts_item_group = item_group::load_item_group( stream, "collection" );
-        }
-
-        if( byproducts_jo.has_member( "finish" ) ) {
-            JsonIn &stream = *byproducts_jo.get_raw( "finish" );
-            result.finish_byproducts_item_group = item_group::load_item_group( stream, "collection" );
-        }
+    std::string activity_level = jo.get_string( "activity_level", "" );
+    if( activity_level.empty() ) {
+        debugmsg( "Warning. %s has undefined activity level. defaulting to LIGHT_EXERCISE",
+                  result.id().c_str() );
+        activity_level = "LIGHT_EXERCISE";
     }
+    result.activity_level = activity_levels.find( activity_level )->second;
 
     result.based_on_ = io::string_to_enum_look_up( based_on_type_values, jo.get_string( "based_on" ) );
 
@@ -84,10 +84,6 @@ void activity_type::check_consistency()
             debugmsg( "%s needs a do_turn function if it's not based on time or speed.",
                       pair.second.id_.c_str() );
         }
-        if( pair.second.based_on_ == based_on_type::SPEED && pair.second.do_turn_byproducts_item_group ) {
-            debugmsg( "%s is based on speed but defines byproducts for do_turn. Slower/worse progress will result in more byproducts.",
-                      pair.second.id_.c_str() );
-        }
     }
 
     for( const auto &pair : activity_handlers::do_turn_functions ) {
@@ -107,8 +103,7 @@ void activity_type::check_consistency()
 
 void activity_type::call_do_turn( player_activity *act, player *p ) const
 {
-    spawn_do_turn_byproducts( p );
-
+    p->increase_activity_level( activity_level );
     const auto &pair = activity_handlers::do_turn_functions.find( id_ );
     if( pair != activity_handlers::do_turn_functions.end() ) {
         pair->second( act, p );
@@ -117,11 +112,10 @@ void activity_type::call_do_turn( player_activity *act, player *p ) const
 
 bool activity_type::call_finish( player_activity *act, player *p ) const
 {
-    spawn_finish_byproducts( p );
-
     const auto &pair = activity_handlers::finish_functions.find( id_ );
     if( pair != activity_handlers::finish_functions.end() ) {
         pair->second( act, p );
+        sfx::end_activity_sounds(); // kill activity sounds at finish
         return true;
     }
     return false;
@@ -131,20 +125,3 @@ void activity_type::reset()
 {
     activity_type_all.clear();
 }
-
-void activity_type::spawn_do_turn_byproducts( player *p ) const
-{
-    if( do_turn_byproducts_item_group && calendar::once_every( do_turn_byproducts_interval ) ) {
-        g->m.spawn_items( p->pos(), item_group::items_from( *do_turn_byproducts_item_group,
-                          calendar::turn ) );
-    }
-}
-
-void activity_type::spawn_finish_byproducts( player *p ) const
-{
-    if( finish_byproducts_item_group ) {
-        g->m.spawn_items( p->pos(), item_group::items_from( *finish_byproducts_item_group,
-                          calendar::turn ) );
-    }
-}
-

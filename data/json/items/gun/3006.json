@@ -35,7 +35,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [ [ "3006", [ "blrmag" ] ], [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "3006", [ "blrmag" ] ] ]
   },
   {
     "id": "garand",
@@ -70,7 +70,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [ [ "3006", [ "garandclip" ] ], [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "3006", [ "garandclip" ] ] ]
   },
   {
     "id": "m1903",
@@ -137,7 +137,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "3006", [ "m1918mag", "m1918bigmag" ] ], [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "3006", [ "m1918mag", "m1918bigmag" ] ] ]
   },
   {
     "id": "remington_700",
@@ -179,7 +179,7 @@
     "ammo": "3006",
     "skill": "rifle",
     "ranged_damage": -2,
-    "dispersion": 180,
+    "dispersion": 550,
     "durability": 6,
     "loudness": 25,
     "clip_size": 1,

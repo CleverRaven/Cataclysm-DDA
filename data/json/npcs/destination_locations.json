@@ -2,31 +2,84 @@
   {
     "type": "overmap_location",
     "id": "source_of_anything",
-    "terrains": [ "house", "s_gas", "s_pharm", "s_hardware", "s_sports", "s_liquor", "s_gun", "s_library" ]
+    "terrains": [
+      "house",
+      "s_gas",
+      "s_pharm",
+      "s_hardware",
+      "s_sports",
+      "s_liquor",
+      "s_gun",
+      "s_library",
+      "megastore_entrance",
+      "fire_station",
+      "mil_surplus",
+      "mansion_entry"
+    ]
   },
   {
     "type": "overmap_location",
     "id": "source_of_ammo",
-    "terrains": [ "house", "s_gun" ]
+    "terrains": [ "house", "s_gun", "mil_surplus", "mansion_entry" ]
   },
   {
     "type": "overmap_location",
     "id": "source_of_gun",
-    "terrains": [ "s_gun" ]
+    "terrains": [ "s_gun", "pawn", "hdwr_large_entrance", "mansion_entry" ]
   },
   {
     "type": "overmap_location",
     "id": "source_of_weapon",
-    "terrains": [ "s_gun", "s_sports", "s_hardware" ]
+    "terrains": [ "s_gun", "s_sports", "s_hardware", "megastore_entrance", "hdwr_large_entrance", "fire_station", "mansion_entry" ]
   },
   {
     "type": "overmap_location",
     "id": "source_of_drink",
-    "terrains": [ "s_gas", "s_pharm", "s_liquor", "s_grocery" ]
+    "terrains": [
+      "s_gas",
+      "s_pharm",
+      "s_pharm_1",
+      "s_restaurant",
+      "s_restaurant_1",
+      "s_restaurant_2",
+      "s_restaurant_3",
+      "s_restaurant_coffee",
+      "s_restaurant_coffee_1",
+      "s_restaurant_coffee_2",
+      "s_teashop",
+      "s_teashop_1",
+      "bar",
+      "bar_1",
+      "s_liquor",
+      "s_grocery",
+      "megastore_entrance",
+      "mansion_entry"
+    ]
   },
   {
     "type": "overmap_location",
     "id": "source_of_food",
-    "terrains": [ "s_grocery" ]
+    "terrains": [
+      "s_grocery",
+      "farm_1",
+      "2farm_1",
+      "dairy_farm_NW",
+      "sugar_house",
+      "orchard_stall",
+      "s_restaurant",
+      "s_restaurant_1",
+      "s_restaurant_2",
+      "s_restaurant_3",
+      "s_restaurant_fast",
+      "s_restaurant_fast_1",
+      "s_butcher",
+      "s_butcher_1",
+      "s_butcher_2",
+      "s_pizza_parlor",
+      "s_pizza_parlor_1",
+      "megastore_entrance",
+      "bakery",
+      "mansion_entry"
+    ]
   }
 ]

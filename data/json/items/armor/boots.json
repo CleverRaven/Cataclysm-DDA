@@ -692,6 +692,28 @@
     "flags": [ "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
   },
   {
+    "id": "geta",
+    "type": "ARMOR",
+    "name": "pair of geta",
+    "name_plural": "pairs of geta",
+    "description": "Simple wooden geta.",
+    "weight": 460,
+    "volume": 4,
+    "price": 6500,
+    "to_hit": -2,
+    "bashing": 5,
+    "material": [ "wood", "cotton" ],
+    "symbol": "[",
+    "color": "yellow",
+    "covers": [ "FEET" ],
+    "coverage": 50,
+    "encumbrance": 10,
+    "warmth": 5,
+    "material_thickness": 2,
+    "environmental_protection": 1,
+    "flags": [ "VARSIZE", "WATERPROOF" ]
+  },
+  {
     "id": "heels",
     "type": "ARMOR",
     "name": "pair of heels",
@@ -816,7 +838,7 @@
     "type": "ARMOR",
     "name": "pair of rollerblades",
     "name_plural": "pairs of rollerblades",
-    "description": "A pair of inline skates.  Very fast on flat floors, but they make it hard to move on rough terrain, or to dodge effectively.",
+    "description": "A pair of inline skates.  Very fast on flat floors, but they make it hard to move on rough terrain, take hits, or to dodge effectively.",
     "weight": 1640,
     "volume": 15,
     "price": 8500,
@@ -830,14 +852,14 @@
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "ROLLER_INLINE" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "ROLLER_INLINE", "REQUIRES_BALANCE" ]
   },
   {
     "id": "rollerskates",
     "type": "ARMOR",
     "name": "pair of rollerskates",
     "name_plural": "pairs of rollerskates",
-    "description": "An old-fashioned pair of leather rollerskates with steel frames.  While quite fast on flat floors, they make it difficult to move on rough terrain.",
+    "description": "An old-fashioned pair of leather rollerskates with steel frames.  While quite fast on flat floors, they make it difficult to take hits or to move on rough terrain.",
     "weight": 2720,
     "volume": 12,
     "price": 8500,
@@ -852,7 +874,7 @@
     "warmth": 30,
     "material_thickness": 3,
     "environmental_protection": 2,
-    "flags": [ "VARSIZE", "WATERPROOF", "ROLLER_QUAD" ]
+    "flags": [ "VARSIZE", "WATERPROOF", "ROLLER_QUAD", "REQUIRES_BALANCE" ]
   },
   {
     "id": "shoes_birchbark",

@@ -1,10 +1,10 @@
 #include "json.h"
 
+#include <cstdint>
+#include <cstdio>
 #include <cmath> // pow
 #include <cstdlib> // strtoul
 #include <cstring> // strcmp
-#include <fstream>
-#include <istream>
 #include <locale> // ensure user's locale doesn't interfere with output
 #include <set>
 #include <sstream>
@@ -12,18 +12,21 @@
 #include <vector>
 #include <bitset>
 #include <iterator>
+#include <algorithm>
+#include <exception>
+#include <utility>
 
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.
 
-bool is_whitespace( char ch )
+static bool is_whitespace( char ch )
 {
     // These are all the valid whitespace characters allowed by RFC 4627.
     return ( ch == ' ' || ch == '\n' || ch == '\t' || ch == '\r' );
 }
 
 // for parsing \uxxxx escapes
-std::string utf16_to_utf8( uint32_t ch )
+static std::string utf16_to_utf8( uint32_t ch )
 {
     char out[5];
     char *buf = out;
@@ -96,6 +99,17 @@ JsonObject::JsonObject( const JsonObject &jo )
     positions = jo.positions;
     end = jo.end;
     final_separator = jo.final_separator;
+}
+
+JsonObject &JsonObject::operator=( const JsonObject &jo )
+{
+    jsin = jo.jsin;
+    start = jo.start;
+    positions = jo.positions;
+    end = jo.end;
+    final_separator = jo.final_separator;
+
+    return *this;
 }
 
 void JsonObject::finish()
@@ -430,6 +444,18 @@ JsonArray::JsonArray( const JsonArray &ja )
     final_separator = ja.final_separator;
 }
 
+JsonArray &JsonArray::operator=( const JsonArray &ja )
+{
+    jsin = ja.jsin;
+    start = ja.start;
+    index = 0;
+    positions = ja.positions;
+    end = ja.end;
+    final_separator = ja.final_separator;
+
+    return *this;
+}
+
 void JsonArray::finish()
 {
     if( jsin && jsin->good() ) {
@@ -687,6 +713,14 @@ bool JsonArray::has_object( int i )
     verify_index( i );
     jsin->seek( positions[i] );
     return jsin->test_object();
+}
+
+void add_array_to_set( std::set<std::string> &s, JsonObject &json, const std::string &name )
+{
+    JsonArray jarr = json.get_array( name );
+    while( jarr.has_more() ) {
+        s.insert( jarr.next_string() );
+    }
 }
 
 int JsonIn::tell()
@@ -1447,7 +1481,7 @@ std::string JsonIn::line_number( int offset_modifier )
     return ret.str();
 }
 
-void JsonIn::error( std::string message, int offset )
+void JsonIn::error( const std::string &message, int offset )
 {
     std::ostringstream err;
     err << line_number( offset ) << ": " << message;

@@ -305,6 +305,50 @@
     ]
   },
   {
+    "id": "hardware_clothing",
+    "type": "item_group",
+    "//": "wearable utility or protective gear you can buy in a common hardware store or find on a jobsite",
+    "//2": "Not intended to be a set of clothing for NPCs or monsters",
+    "items": [
+      [ "boots_steel", 40 ],
+      [ "hat_hard", 40 ],
+      [ "mask_dust", 30 ],
+      [ "mask_filter", 30 ],
+      [ "glasses_safety", 30 ],
+      [ "ear_plugs", 35 ],
+      [ "apron_leather", 10 ],
+      [ "tool_belt", 30 ],
+      [ "knee_pads", 20 ],
+      [ "sheath", 10 ],
+      [ "bootsheath", 3 ],
+      [ "gloves_leather", 40 ],
+      [ "gloves_work", 45 ],
+      [ "wearable_light", 10 ],
+      [ "miner_hat", 1 ]
+    ]
+  },
+  {
+    "id": "plumbing_clothing",
+    "type": "item_group",
+    "//": "wearable utility or protective gear you can buy in a common hardware store or find on a jobsite",
+    "//2": "Not intended to be a set of clothing for NPCs or monsters",
+    "items": [
+      [ "tool_belt", 200 ],
+      [ "knee_pads", 70 ],
+      [ "gloves_leather", 70 ],
+      [ "gloves_rubber", 50 ],
+      [ "boots_rubber", 20 ],
+      [ "boots", 70 ],
+      [ "boots_steel", 50 ],
+      [ "fishing_waders", 20 ],
+      [ "jumpsuit", 20 ],
+      [ "apron_leather", 20 ],
+      [ "mask_filter", 20 ],
+      [ "hat_hard", 50 ],
+      [ "wearable_light", 100 ]
+    ]
+  },
+  {
     "id": "hazmat_suits",
     "type": "item_group",
     "//": "Various types of hazmat suits, without masks",
@@ -319,5 +363,61 @@
     "type": "item_group",
     "//": "Full face protection worn with hazmat suits",
     "items": [ { "collection": [ { "item": "glasses_safety" }, { "item": "mask_filter" } ], "prob": 40 }, [ "mask_gas", 60 ] ]
+  },
+  {
+    "id": "boxing_clothes",
+    "type": "item_group",
+    "items": [
+      [ "tank_top", 40 ],
+      [ "shorts", 40 ],
+      [ "boxing_gloves", 50 ],
+      [ "headgear", 50 ],
+      [ "mouthpiece", 50 ],
+      [ "jersey", 40 ],
+      [ "coat_rain", 15 ],
+      [ "hood_rain", 15 ],
+      [ "gloves_wraps", 45 ],
+      [ "jeans", 30 ],
+      [ "sports_bra", 25 ],
+      [ "jacket_leather", 20 ],
+      [ "aspirin", 30 ],
+      [ "water_clean", 30 ],
+      [ "sports_drink", 30 ],
+      [ "1st_aid", 20 ]
+    ]
+  },
+  {
+    "id": "donated_clothes",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      { "group": "underwear" },
+      { "group": "clothing_outdoor_torso" },
+      { "group": "clothing_outdoor_pants" },
+      { "item": "socks" },
+      { "item": "boots" }
+    ]
+  },
+  {
+    "id": "underwear",
+    "type": "item_group",
+    "items": [
+      [ "bra", 70 ],
+      [ "sports_bra", 50 ],
+      [ "bikini_top", 10 ],
+      [ "panties", 70 ],
+      [ "bikini_bottom", 10 ],
+      [ "panties", 70 ],
+      [ "boy_shorts", 50 ],
+      [ "boxer_shorts", 70 ],
+      [ "briefs", 50 ],
+      [ "undershirt", 50 ],
+      [ "long_undertop", 20 ],
+      [ "under_armor", 20 ],
+      [ "tank_top", 50 ],
+      [ "boxer_shorts", 70 ],
+      [ "long_underpants", 20 ],
+      [ "under_armor_shorts", 20 ]
+    ]
   }
 ]

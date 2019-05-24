@@ -1,5 +1,8 @@
 #include "overlay_ordering.h"
 
+#include <set>
+#include <utility>
+
 #include "json.h"
 
 std::map<std::string, int> base_mutation_overlay_ordering;

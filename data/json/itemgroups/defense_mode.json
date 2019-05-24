@@ -84,7 +84,7 @@
       { "item": "hose" },
       { "item": "pot" },
       { "item": "2x4" },
-      { "item": "battery" },
+      { "group": "ammo_any_batteries_full" },
       { "item": "nail" },
       { "item": "gasoline" }
     ]

@@ -20,11 +20,7 @@
     "burst": 11,
     "barrel_length": 1,
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "ar15",
@@ -44,17 +40,13 @@
     "ammo": "223",
     "dispersion": 150,
     "durability": 7,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "h&k416a5",
     "copy-from": "rifle_auto",
     "type": "GUN",
-    "name": "H&K 416A5",
+    "name": "HK416 A5",
     "//": "*Current* milspec gear is now ridiculously overpriced, as seen with the M2010 IRL.",
     "description": "Designed to replace the M4A1, the Heckler and Koch 416A5 features most of the former's strengths, while being considerably more durable.",
     "weight": 1920,
@@ -70,11 +62,7 @@
     "dispersion": 180,
     "durability": 8,
     "burst": 14,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "hk_g36",
@@ -94,11 +82,7 @@
     "dispersion": 150,
     "durability": 8,
     "burst": 13,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "l_bak_223",
@@ -123,6 +107,7 @@
     "durability": 8,
     "loudness": 30,
     "clip_size": 5,
+    "magazines": [ [ "223", [ "223_speedloader5" ] ] ],
     "built_in_mods": [ "lead_holo_sight", "lead_laser_sight" ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "sights", 1 ], [ "underbarrel", 1 ] ]
   },
@@ -259,7 +244,7 @@
       [ "sling", 1 ],
       [ "stock", 1 ]
     ],
-    "magazines": [ [ "223", [ "belt223", "stanag30", "stanag50", "survivor223mag" ] ], [ "308", [ "belt308" ] ] ]
+    "magazines": [ [ "223", [ "belt223", "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "m27iar",
@@ -269,11 +254,7 @@
     "description": "A H&K416 carbine outfitted with a heavier barrel to enable higher amounts of suppressive fire while retaining a good degree of mobility.",
     "weight": 3495,
     "burst": 13,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ],
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ],
     "relative": { "ranged_damage": 1, "durability": 1 }
   },
   {
@@ -295,11 +276,34 @@
     "dispersion": 180,
     "durability": 6,
     "burst": 14,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+  },
+  {
+    "id": "rifle_223",
+    "copy-from": "gun_base",
+    "type": "GUN",
+    "name": "pipe rifle: .223",
+    "name_plural": "pipe rifles: .223",
+    "description": "A homemade rifle.  It is simply a pipe attached to a stock, with a hammer to strike the single round it holds.",
+    "weight": 4080,
+    "volume": 12,
+    "price": 110000,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "wood" ],
+    "symbol": "(",
+    "color": "brown",
+    "ammo": "223",
+    "skill": "rifle",
+    "ranged_damage": -2,
+    "dispersion": 550,
+    "durability": 6,
+    "loudness": 25,
+    "clip_size": 1,
+    "reload": 200,
+    "barrel_length": 4,
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
+    "flags": [ "RELOAD_EJECT" ]
   },
   {
     "id": "ruger_mini",
@@ -351,11 +355,7 @@
     "dispersion": 150,
     "durability": 8,
     "burst": 10,
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "scarhmag", "scarhbigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "sig552",
@@ -374,11 +374,7 @@
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 12 ] ],
     "built_in_mods": [ "folding_stock" ],
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "steyr_aug",
@@ -413,11 +409,7 @@
       [ "sling", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
   },
   {
     "id": "surv_carbine_223",
@@ -436,7 +428,7 @@
     "color": "brown",
     "ammo": "223",
     "ranged_damage": -4,
-    "dispersion": 180,
+    "dispersion": 550,
     "durability": 6,
     "loudness": 25,
     "reload": 200,

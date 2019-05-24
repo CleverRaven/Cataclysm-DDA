@@ -2,38 +2,22 @@
   {
     "id": "city_vehicles",
     "type": "vehicle_group",
-    "vehicles": [
-      [ "car_atomic", 1000 ],
-      [ "suv_atomic", 1000 ],
-      [ "compact_atomic", 500 ]
-    ]
+    "vehicles": [ [ "car_atomic", 1000 ], [ "suv_atomic", 1000 ], [ "compact_atomic", 500 ], [ "car_atomic_flame", 100 ] ]
   },
   {
     "id": "city_pileup",
     "type": "vehicle_group",
-    "vehicles": [
-      [ "car_atomic", 1000 ],
-      [ "suv_atomic", 1000 ],
-      [ "compact_atomic", 300 ]
-    ]
+    "vehicles": [ [ "car_atomic", 1000 ], [ "suv_atomic", 1000 ], [ "compact_atomic", 300 ], [ "car_atomic_flame", 100 ] ]
   },
   {
     "id": "highway",
     "type": "vehicle_group",
-    "vehicles": [
-      [ "car_atomic", 1500 ],
-      [ "suv_atomic", 1500 ],
-      [ "compact_atomic", 300 ]
-    ]
+    "vehicles": [ [ "car_atomic", 1500 ], [ "suv_atomic", 1500 ], [ "compact_atomic", 300 ], [ "car_atomic_flame", 100 ] ]
   },
   {
     "id": "suburban_home",
     "type": "vehicle_group",
-    "vehicles": [
-      [ "car_atomic", 1000 ],
-      [ "suv_atomic", 1000 ],
-      [ "compact_atomic", 300 ]
-    ]
+    "vehicles": [ [ "car_atomic", 1000 ], [ "suv_atomic", 1000 ], [ "compact_atomic", 300 ], [ "car_atomic_flame", 100 ] ]
   },
   {
     "id": "parkinglot",
@@ -42,7 +26,8 @@
       [ "car_atomic", 1000 ],
       [ "car_sports_atomic", 100 ],
       [ "suv_atomic", 1000 ],
-      [ "beetle_atomic", 300 ]
+      [ "compact_atomic", 300 ],
+      [ "car_atomic_flame", 100 ]
     ]
   }
 ]

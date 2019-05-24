@@ -1,0 +1,6 @@
+Checks: 'clang-diagnostic-*'
+WarningsAsErrors: '*'
+HeaderFilterRegex: '.*'
+FormatStyle:     none
+
+# vim:tw=0

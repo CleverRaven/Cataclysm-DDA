@@ -9,6 +9,7 @@
 
 class JsonObject;
 class JsonOut;
+class item;
 
 enum art_effect_active : int {
     AEA_NULL = 0,

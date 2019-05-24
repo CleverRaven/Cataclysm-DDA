@@ -50,7 +50,7 @@
     "type": "npc_class",
     "id": "NC_SHOPKEEP",
     "name": "Shopkeep",
-    "job_description" : "I'm a local shopkeeper.",
+    "job_description": "I'm a local shopkeeper.",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
     "//": "This is a unique NPC who doesn't get randomly selected background traits",
     "common": false
@@ -60,7 +60,11 @@
     "id": "NC_HACKER",
     "name": "Hacker",
     "job_description": "I'm looking for some choice systems to hack.",
-    "traits": [ { "group": "BG_survival_story_TEENAGER" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "BG_survival_story_TEENAGER" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
     "bonus_str": { "rng": [ -4, 0 ] },
     "bonus_dex": { "rng": [ -2, 0 ] },
     "bonus_int": { "rng": [ 1, 5 ] },
@@ -129,6 +133,33 @@
   },
   {
     "type": "npc_class",
+    "id": "NC_MARLOSS_VOICE",
+    "name": "Marloss Voice",
+    "job_description": "I spread the Hymns so that peace and unity return to our world.",
+    "traits": [
+      { "group": "BG_survival_story_RURAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      [ "MARLOSS", 100 ],
+      [ "MARLOSS_BLUE", 40 ],
+      [ "MYCUS_FRIEND", 100 ],
+      [ "FLIMSY2", 100 ]
+    ],
+    "worn_override": "NC_VOICE_worn",
+    "carry_override": "NC_VOICE_carry",
+    "weapon_override": "NC_VOICE_weapon",
+    "bonus_str": { "rng": [ 0, 1 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
+      { "skill": "dodge", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "unarmed", "bonus": { "rng": [ 1, 3 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
     "id": "NC_SCIENTIST",
     "name": "Scientist",
     "job_description": "I'm looking for clues concerning these monsters' origins...",
@@ -161,7 +192,11 @@
     "id": "NC_THUG",
     "name": "Thug",
     "job_description": "I'm just here for the paycheck.",
-    "traits": [ { "group": "BG_survival_story_CRIMINAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "BG_survival_story_CRIMINAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
     "bonus_str": { "rng": [ 2, 4 ] },
     "bonus_dex": { "rng": [ 0, 2 ] },
     "skills": [
@@ -193,7 +228,11 @@
     "id": "NC_ARSONIST",
     "name": "Arsonist",
     "job_description": "I'm just watching the world burn.",
-    "traits": [ { "group": "BG_survival_story_CRIMINAL" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "traits": [
+      { "group": "BG_survival_story_CRIMINAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" }
+    ],
     "bonus_dex": { "rng": [ -2, 0 ] },
     "bonus_int": { "rng": [ -2, 0 ] },
     "bonus_per": { "rng": [ 0, 2 ] },
@@ -310,6 +349,98 @@
       [ "ADRENALINE", 100 ],
       [ "FLEET2", 100 ],
       [ "ANTENNAE", 100 ]
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_HALLU",
+    "name": "Real Person",
+    "job_description": "I'm just wandering, like a totally real and normal NP... Person!",
+    "traits": [ { "group": "BG_survival_story_UNIVERSAL" }, { "group": "NPC_starting_traits" }, [ "HALLUCINATION", 100 ] ],
+    "common": false,
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_SURVIVOR_CHEF",
+    "name": "Chef",
+    "job_description": "I'm a chef.",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
+    "bonus_per": { "one_in": 4 },
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "throw", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "cooking", "bonus": { "rng": [ 3, 6 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_CYBORG",
+    "name": "Cyborg",
+    "job_description": "Zzzzzt... I...I'm a Cy...BEEEEEP...borg.",
+    "traits": [ { "group": "BG_survival_story_CYBORG" }, { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 4, 2 ] }, { "rng": [ -4, -1 ] } ] } ] } }
+    ],
+    "common": false,
+    "worn_override": "NC_CYBORG_worn",
+    "carry_override": "NC_CYBORG_carried",
+    "weapon_override": "EMPTY_GROUP",
+    "bionics": [
+      { "id": "bio_ankles", "chance": 100 },
+      { "id": "bio_dis_shock", "chance": 100 },
+      { "id": "bio_dis_acid", "chance": 100 },
+      { "id": "bio_drain", "chance": 100 },
+      { "id": "bio_noise", "chance": 100 },
+      { "id": "bio_power_weakness", "chance": 100 },
+      { "id": "bio_itchy", "chance": 100 },
+      { "id": "bio_nostril", "chance": 100 },
+      { "id": "bio_thumbs", "chance": 100 },
+      { "id": "bio_spasm", "chance": 100 },
+      { "id": "bio_shakes", "chance": 100 },
+      { "id": "bio_leaky", "chance": 100 },
+      { "id": "bio_sleepy", "chance": 100 },
+      { "id": "bio_deformity", "chance": 100 },
+      { "id": "bio_voice", "chance": 100 },
+      { "id": "bio_pokedeye", "chance": 100 },
+      { "id": "bio_ankles", "chance": 100 },
+      { "id": "bio_trip", "chance": 100 },
+      { "id": "bio_stiff", "chance": 100 },
+      { "id": "bio_armor_head", "chance": 100 },
+      { "id": "bio_armor_torso", "chance": 100 },
+      { "id": "bio_armor_arms", "chance": 100 },
+      { "id": "bio_armor_legs", "chance": 100 },
+      { "id": "bio_armor_eyes", "chance": 100 },
+      { "id": "bio_razors", "chance": 100 },
+      { "id": "bio_power_storage", "chance": 100 },
+      { "id": "bio_torsionratchet", "chance": 100 }
+    ]
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_CITY_COP",
+    "name": "former cop",
+    "job_description": "I used to be a police officer, but I'm just a survivor now.",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "common": false,
+    "bonus_per": { "one_in": 4 },
+    "shopkeeper_item_group": "NC_CITY_COP_misc",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } },
+      { "skill": "gun", "bonus": { "rng": [ 4, 8 ] } },
+      { "skill": "melee", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 3, 6 ] } },
+      { "skill": "rifle", "bonus": { "rng": [ 3, 6 ] } }
     ]
   }
 ]

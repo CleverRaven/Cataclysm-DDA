@@ -9,8 +9,21 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <iosfwd>
+#include <set>
+#include <utility>
 
 #include "itype.h"
+#include "item.h"
+#include "item_category.h"
+#include "item_group.h"
+#include "iuse.h"
+#include "type_id.h"
+
+namespace cata
+{
+template <typename T> class optional;
+}  // namespace cata
 
 bool item_is_blacklisted( const std::string &id );
 
@@ -18,10 +31,6 @@ typedef std::string Item_tag;
 typedef std::string Group_tag;
 typedef std::vector<item> Item_list;
 
-class Item_spawn_data;
-class Item_group;
-class item;
-class item_category;
 class Item_factory;
 class JsonObject;
 class JsonArray;

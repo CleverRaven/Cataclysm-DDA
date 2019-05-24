@@ -1,19 +1,18 @@
 #include "live_view.h"
 
+#include <algorithm> // min & max
+#include <string>
+#include <memory>
+
 #include "catacharset.h" // center_text_pos
 #include "color.h"
+#include "cursesport.h"
 #include "game.h"
 #include "map.h"
 #include "output.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
-#include "cursesport.h"
-#endif
-
-#include <algorithm> // min & max
-#include <string>
+#include "cursesdef.h"
 
 namespace
 {
@@ -42,7 +41,7 @@ int live_view::draw( const catacurses::window &win, const int max_height )
 
     const int live_view_box_height = std::min( max_height, std::max( line_out + 1, MIN_BOX_HEIGHT ) );
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if defined(TILES) || defined(_WIN32)
     // Because of the way the status UI is done, the live view window must
     // be tall enough to clear the entire height of the viewport below the
     // status bar. This hack allows the border around the live view box to
@@ -59,12 +58,12 @@ int live_view::draw( const catacurses::window &win, const int max_height )
     static const char *title = _( "Mouse View" );
     static const char *title_suffix = " >";
     static const std::string full_title = string_format( "%s%s%s", title_prefix, title, title_suffix );
-    const int start_pos = center_text_pos( full_title.c_str(), 0, getmaxx( win ) - 1 );
+    const int start_pos = center_text_pos( full_title, 0, getmaxx( win ) - 1 );
     mvwprintz( win, 0, start_pos, c_white, title_prefix );
     wprintz( win, c_green, title );
     wprintz( win, c_white, title_suffix );
 
-#if (defined TILES || defined _WIN32 || defined WINDOWS)
+#if defined(TILES) || defined(_WIN32)
     win.get<cata_cursesport::WINDOW>()->height = original_height;
 #endif
 

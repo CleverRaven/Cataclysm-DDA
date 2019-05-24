@@ -21,7 +21,9 @@
 # Win32 (non-Cygwin)
 #   Run: make NATIVE=win32
 # OS X
-#   Run: make NATIVE=osx
+#   Run: make NATIVE=osx OSX_MIN=10.12
+#     It is highly recommended to supply OSX_MIN > 10.11
+#     otherwise optimizations are automatically disabled with -O0
 
 # Build types:
 # Debug (no optimizations)
@@ -78,20 +80,13 @@
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
-# PROFILE is for use with gprof or a similar program -- don't bother generally
-# RELEASE is flags for release builds, this disables some debugging flags and
-# enforces build failure when warnings are encountered.
-# We want to error on everything to make sure we don't check in code with new warnings.
-RELEASE_FLAGS = -Werror
-WARNINGS = -Wall -Wextra
+# PROFILE is for use with gprof or a similar program -- don't bother generally.
+# RELEASE_FLAGS is flags for release builds.
+RELEASE_FLAGS =
+WARNINGS = -Werror -Wall -Wextra -Woverloaded-virtual -Wpedantic -Wmissing-declarations
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
-ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-  DEBUG =
-else
-  DEBUG = -D_GLIBCXX_DEBUG
-endif
 #PROFILE = -pg
 #OTHERS = -O3
 #DEFINES = -DNDEBUG
@@ -148,6 +143,11 @@ endif
 # Enable running tests by default
 ifndef RUNTESTS
   RUNTESTS = 1
+endif
+
+# Auto-detect MSYS2
+ifdef MSYSTEM
+  MSYS2 = 1
 endif
 
 # Enable backtrace by default
@@ -307,9 +307,9 @@ ifndef RELEASE
 endif
 
 ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-  OTHERS += -std=gnu++11
+  OTHERS += -std=gnu++14
 else
-  OTHERS += -std=c++11
+  OTHERS += -std=c++14
 endif
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
@@ -997,23 +997,28 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-JSON_FILES = $(shell find data -name *.json | sed "s|^\./||")
+JSON_FILES = $(shell find data -name "*.json" | sed "s|^\./||")
 JSON_WHITELIST = $(filter-out $(shell cat json_blacklist), $(JSON_FILES))
+ifeq ($(MSYS2), 1)
+  JSON_FORMATTER_BIN=tools/format/json_formatter.exe
+else
+  JSON_FORMATTER_BIN=tools/format/json_formatter.cgi
+endif
 
 style-json: $(JSON_WHITELIST)
 
 $(JSON_WHITELIST): json_blacklist json_formatter
 ifndef CROSS
-	@tools/format/json_formatter.cgi $@
+	@$(JSON_FORMATTER_BIN) $@
 else
 	@echo Cannot run json formatter in cross compiles.
 endif
 
 style-all-json: json_formatter
-	find data -name "*.json" -print0 | xargs -0 -L 1 tools/format/json_formatter.cgi
+	find data -name "*.json" -print0 | xargs -0 -L 1 $(JSON_FORMATTER_BIN)
 
 json_formatter: tools/format/format.cpp src/json.cpp
-	$(CXX) $(CXXFLAGS) -Itools/format -Isrc tools/format/format.cpp src/json.cpp -o tools/format/json_formatter.cgi
+	$(CXX) $(CXXFLAGS) -Itools/format -Isrc tools/format/format.cpp src/json.cpp -o $(JSON_FORMATTER_BIN)
 
 tests: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C tests

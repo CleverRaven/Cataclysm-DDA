@@ -11,7 +11,8 @@
     "material": "plastic",
     "symbol": "!",
     "color": "red",
-    "use_action": "DISASSEMBLE"
+    "use_action": "DISASSEMBLE",
+    "flags": [ "NO_REPAIR" ]
   },
   {
     "id": "adderall",
@@ -46,7 +47,8 @@
     "material": "plastic",
     "symbol": "!",
     "color": "pink",
-    "use_action": "ADRENALINE_INJECTOR"
+    "use_action": "ADRENALINE_INJECTOR",
+    "flags": [ "NO_INGEST" ]
   },
   {
     "id": "antibiotics",
@@ -134,6 +136,7 @@
     "color": "white",
     "charges": 3,
     "stack_size": 9,
+    "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "bandages_power": 4, "bleed": 0.9, "move_cost": 300 }
   },
   {
@@ -142,6 +145,7 @@
     "name": "makeshift bandage",
     "copy-from": "bandages",
     "description": "Simple cloth bandages.  Better than nothing.",
+    "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "bandages_power": 2, "bleed": 0.9, "move_cost": 300 }
   },
   {
@@ -150,6 +154,7 @@
     "name": "bleached makeshift bandage",
     "copy-from": "bandages",
     "description": "Simple cloth bandages.  It is white, as real bandages should be.",
+    "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "bandages_power": 3, "bleed": 0.9, "move_cost": 300 }
   },
   {
@@ -158,6 +163,7 @@
     "name": "boiled makeshift bandage",
     "copy-from": "bandages",
     "description": "Simple cloth bandages.  It was boiled to make it more sterile.",
+    "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "bandages_power": 3, "bleed": 0.9, "move_cost": 300 }
   },
   {
@@ -176,6 +182,7 @@
     "symbol": "!",
     "color": "white",
     "container": "bottle_plastic_small",
+    "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 100 }
   },
   {
@@ -195,6 +202,7 @@
     "color": "white",
     "stim": 10,
     "fun": 1,
+    "flags": [ "NO_INGEST" ],
     "use_action": "CHEW"
   },
   {
@@ -236,6 +244,7 @@
     "fun": 4,
     "addiction_potential": 40,
     "addiction_type": "nicotine",
+    "flags": [ "NO_INGEST" ],
     "use_action": "CHEW"
   },
   {
@@ -245,13 +254,15 @@
     "name": "hydrogen peroxide",
     "name_plural": "hydrogen peroxide",
     "description": "Dilute hydrogen peroxide, for use as a disinfectant and for bleaching hair or textiles.  Foams a little when in contact with organic matter, but otherwise harmless.",
-    "weight": 275,
+    "weight": 28,
     "volume": 1,
     "price": 100,
+    "charges": 10,
     "symbol": "~",
     "color": "white",
     "phase": "liquid",
     "container": "bottle_plastic_small",
+    "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 100 }
   },
   {
@@ -273,6 +284,7 @@
     "fun": 5,
     "addiction_potential": 50,
     "addiction_type": "nicotine",
+    "flags": [ "NO_INGEST" ],
     "use_action": "SMOKING"
   },
   {
@@ -292,6 +304,7 @@
     "fun": 15,
     "addiction_potential": 50,
     "addiction_type": "nicotine",
+    "flags": [ "NO_INGEST" ],
     "use_action": "SMOKING"
   },
   {
@@ -306,6 +319,7 @@
     "material": "cotton",
     "symbol": "!",
     "color": "red",
+    "flags": [ "NO_INGEST" ],
     "use_action": { "type": "consume_drug", "move_cost": 100, "effects": [ { "id": "sleep", "duration": 1000 } ], "used_up_item": "rag" }
   },
   {
@@ -347,12 +361,13 @@
     "material": "powder",
     "symbol": "!",
     "color": "white",
-    "container": "bag_plastic",
+    "container": "bag_zipper",
     "stim": 20,
     "healthy": -2,
     "fun": 25,
     "addiction_potential": 50,
     "addiction_type": "cocaine",
+    "flags": [ "NO_INGEST" ],
     "use_action": "COKE"
   },
   {
@@ -397,7 +412,7 @@
     "symbol": "[",
     "color": "cyan",
     "use_action": "CONTACTS",
-    "flags": "NPC_SAFE"
+    "flags": [ "NO_INGEST", "NPC_SAFE" ]
   },
   {
     "id": "cotton_ball",
@@ -415,6 +430,7 @@
     "symbol": "*",
     "color": "white",
     "container": "bag_plastic",
+    "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "bandages_power": 2, "bleed": 0.9, "move_cost": 300 }
   },
   {
@@ -432,12 +448,13 @@
     "material": "powder",
     "symbol": "!",
     "color": "white",
-    "container": "bag_plastic",
+    "container": "bag_zipper",
     "stim": 40,
     "healthy": -2,
     "fun": 50,
     "addiction_potential": 80,
     "addiction_type": "crack",
+    "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You smoke your crack rocks.  Mother would be proud.",
@@ -480,6 +497,7 @@
     "color": "light_cyan",
     "phase": "liquid",
     "container": "bottle_plastic_small",
+    "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "disinfectant_power": 4, "bite": 0.95, "move_cost": 100 }
   },
   {
@@ -488,6 +506,7 @@
     "name": "makeshift disinfectant",
     "copy-from": "disinfectant",
     "description": "Makeshift disinfectant made from ethanol.  Can be used to disinfect a wound.",
+    "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.95, "move_cost": 100 }
   },
   {
@@ -528,6 +547,7 @@
     "fun": 8,
     "addiction_potential": 50,
     "addiction_type": "nicotine",
+    "flags": [ "NO_INGEST" ],
     "use_action": "ECIG"
   },
   {
@@ -544,7 +564,7 @@
     "symbol": "!",
     "color": "light_blue",
     "use_action": "EYEDROPS",
-    "flags": "NPC_SAFE"
+    "flags": [ "NO_INGEST", "NPC_SAFE" ]
   },
   {
     "id": "flu_shot",
@@ -559,7 +579,7 @@
     "symbol": "!",
     "color": "magenta",
     "use_action": "FLU_VACCINE",
-    "flags": "NPC_SAFE"
+    "flags": [ "NO_INGEST", "NPC_SAFE" ]
   },
   {
     "id": "gum",
@@ -579,6 +599,7 @@
     "color": "pink",
     "stim": 1,
     "fun": 2,
+    "flags": [ "NO_INGEST" ],
     "use_action": "CHEW"
   },
   {
@@ -599,6 +620,7 @@
     "fun": 5,
     "addiction_potential": 50,
     "addiction_type": "nicotine",
+    "flags": [ "NO_INGEST" ],
     "use_action": "SMOKING"
   },
   {
@@ -616,12 +638,13 @@
     "material": "powder",
     "symbol": "!",
     "color": "light_gray",
-    "container": "bag_plastic",
+    "container": "bag_zipper",
     "stim": -10,
     "healthy": -5,
     "fun": 50,
     "addiction_potential": 75,
     "addiction_type": "opiate",
+    "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You shoot up.",
@@ -669,14 +692,15 @@
     "healthy": -1,
     "fun": 15,
     "addiction_potential": 5,
+    "flags": [ "NO_INGEST" ],
     "use_action": "SMOKING"
   },
   {
     "id": "lsd",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": "pink tablet",
-    "description": "Tiny pink candies shaped like hearts, already dosed with some sort of drug.  Really only useful for entertainment.  Will cause hallucinations.",
+    "name": "pink tab",
+    "description": "Tiny pink tabs resembling postage stamps, already dosed with some sort of drug.  Really only useful for entertainment.  Will cause hallucinations.",
     "weight": 1,
     "volume": 1,
     "price": 10000,
@@ -686,6 +710,7 @@
     "color": "pink",
     "stim": 20,
     "fun": 25,
+    "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You eat the pink tablet.",
@@ -703,6 +728,7 @@
     "material": "cotton",
     "symbol": ",",
     "color": "white",
+    "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "bandages_power": 4, "bleed": 0.5, "move_cost": 200 }
   },
   {
@@ -720,13 +746,14 @@
     "material": "powder",
     "symbol": "!",
     "color": "light_cyan",
-    "container": "bag_plastic",
+    "container": "bag_zipper",
     "quench": -2,
     "stim": 20,
     "healthy": -7,
     "fun": 30,
     "addiction_potential": 50,
     "addiction_type": "amphetamine",
+    "flags": [ "NO_INGEST" ],
     "use_action": "METH"
   },
   {
@@ -748,6 +775,7 @@
     "fun": 25,
     "addiction_potential": 25,
     "addiction_type": "opiate",
+    "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You shoot up.",
@@ -790,6 +818,7 @@
     "stim": 2,
     "fun": 1,
     "addiction_type": "nicotine",
+    "flags": [ "NO_INGEST" ],
     "use_action": "CHEW"
   },
   {
@@ -975,6 +1004,7 @@
     "symbol": "!",
     "color": "light_gray",
     "container": "bag_plastic",
+    "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "bleed": 0.9, "move_cost": 100 }
   },
   {
@@ -992,7 +1022,7 @@
     "phase": "liquid",
     "container": "bottle_plastic_small",
     "use_action": "EYEDROPS",
-    "flags": "NPC_SAFE"
+    "flags": [ "NO_INGEST", "NPC_SAFE" ]
   },
   {
     "id": "thorazine",
@@ -1024,6 +1054,7 @@
     "color": "yellow",
     "phase": "liquid",
     "spoils_in": "28 days",
+    "flags": [ "NO_INGEST" ],
     "use_action": { "type": "heal", "disinfectant_power": 3, "bite": 0.95, "move_cost": 100 }
   },
   {
@@ -1045,6 +1076,7 @@
     "fun": 5,
     "addiction_potential": 50,
     "addiction_type": "nicotine",
+    "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You smoke some tobacco.",
@@ -1091,7 +1123,7 @@
     "symbol": "!",
     "color": "magenta",
     "use_action": "VACCINE",
-    "flags": [ "NPC_SAFE", "TRADER_AVOID" ]
+    "flags": [ "NO_INGEST", "NPC_SAFE", "TRADER_AVOID" ]
   },
   {
     "id": "vitamins",
@@ -1191,6 +1223,7 @@
     "stack_size": 10,
     "symbol": "!",
     "color": "magenta",
+    "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You inject some vitamin B.",
@@ -1212,6 +1245,7 @@
     "stack_size": 10,
     "symbol": "!",
     "color": "magenta",
+    "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You inject some iron.",
@@ -1238,6 +1272,7 @@
     "healthy": -1,
     "fun": 15,
     "addiction_potential": 5,
+    "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You smoke some weed.  Good stuff, man!",
@@ -1285,6 +1320,7 @@
     "material": "cotton",
     "symbol": ",",
     "color": "white",
+    "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "heal",
       "disinfectant_power": 4,
@@ -1303,6 +1339,7 @@
     "category": "drugs",
     "price": 1000,
     "charges": 1,
+    "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "heal",
       "disinfectant_power": 4,
@@ -1386,6 +1423,7 @@
     "phase": "liquid",
     "symbol": "~",
     "color": "light_blue",
+    "flags": [ "NO_INGEST" ],
     "use_action": {
       "type": "heal",
       "disinfectant_power": 3,

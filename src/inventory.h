@@ -2,28 +2,37 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
+#include <cstddef>
 #include <array>
 #include <list>
 #include <string>
 #include <unordered_map>
+#include <bitset>
 #include <utility>
 #include <vector>
+#include <limits>
+#include <functional>
+#include <map>
 
 #include "cata_utility.h"
-#include "enums.h"
 #include "item.h"
 #include "visitable.h"
+#include "units.h"
 
 class map;
 class npc;
+class Character;
+class JsonIn;
+class JsonOut;
+class player;
+struct tripoint;
 
 typedef std::list< std::list<item> > invstack;
 typedef std::vector< std::list<item>* > invslice;
 typedef std::vector< const std::list<item>* > const_invslice;
 typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
 typedef std::unordered_map< itype_id, std::list<const item *> > itype_bin;
-
-class salvage_actor;
+typedef std::bitset<std::numeric_limits<char>::max()> invlets_bitset;
 
 /**
  * Wrapper to handled a set of valid "inventory" letters. "inventory" can be any set of
@@ -113,8 +122,10 @@ class inventory : public visitable<inventory>
          * the player's worn items / weapon
          */
         void restack( player &p );
-
-        void form_from_map( const tripoint &origin, int distance, bool assign_invlet = true );
+        void form_from_map( const tripoint &origin, int distance, bool assign_invlet = true,
+                            bool clear_path = true );
+        void form_from_map( map &m, const tripoint &origin, int distance, bool assign_invlet = true,
+                            bool clear_path = true );
 
         /**
          * Remove a specific item from the inventory. The item is compared
@@ -151,14 +162,14 @@ class inventory : public visitable<inventory>
         // Below, "amount" refers to quantity
         //        "charges" refers to charges
         std::list<item> use_amount( itype_id it, int quantity,
-                                    const std::function<bool( const item & )> &filter = is_crafting_component );
+                                    const std::function<bool( const item & )> &filter = return_true<item> );
 
         bool has_tools( const itype_id &it, int quantity,
-                        const std::function<bool( const item & )> &filter = return_true ) const;
+                        const std::function<bool( const item & )> &filter = return_true<item> ) const;
         bool has_components( const itype_id &it, int quantity,
-                             const std::function<bool( const item & )> &filter = is_crafting_component ) const;
-        bool has_charges( const itype_id &it, long quantity,
-                          const std::function<bool( const item & )> &filter = return_true ) const;
+                             const std::function<bool( const item & )> &filter = return_true<item> ) const;
+        bool has_charges( const itype_id &it, int quantity,
+                          const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
         int leak_level( const std::string &flag ) const; // level of leaked bad stuff from items
 
@@ -196,7 +207,9 @@ class inventory : public visitable<inventory>
         // Removes invalid invlets, and assigns new ones if assign_invlet is true. Does not update the invlet cache.
         void update_invlet( item &it, bool assign_invlet = true );
 
-        std::set<char> allocated_invlets() const;
+        void set_stack_favorite( const int position, const bool favorite );
+
+        invlets_bitset allocated_invlets() const;
 
         /**
          * Returns visitable items binned by their itype.

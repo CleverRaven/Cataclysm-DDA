@@ -14,7 +14,8 @@
       "TALK_OLD_GUARD_REP",
       "TALK_EVAC_GUARD2",
       "TALK_RANCH_FOREMAN",
-      "TALK_RANCH_CROP_OVERSEER"
+      "TALK_RANCH_CROP_OVERSEER",
+      "TALK_CITY_COP"
     ],
     "responses": [
       { "text": "About that job...", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
@@ -154,7 +155,16 @@
         "text": "Yup! Here it is!",
         "topic": "TALK_MISSION_SUCCESS",
         "condition": {
-          "and": [ { "or": [ { "mission_goal": "MGOAL_FIND_ITEM" }, { "mission_goal": "MGOAL_FIND_ANY_ITEM" } ] }, "mission_complete" ]
+          "and": [
+            "mission_complete",
+            {
+              "or": [
+                { "mission_goal": "MGOAL_FIND_ITEM" },
+                { "mission_goal": "MGOAL_FIND_ANY_ITEM" },
+                { "mission_goal": "MGOAL_FIND_ITEM_GROUP" }
+              ]
+            }
+          ]
         },
         "switch": true,
         "effect": "mission_success"
@@ -221,6 +231,22 @@
         "condition": { "and": [ "mission_complete", { "mission_goal": "MGOAL_COMPUTER_TOGGLE" } ] },
         "switch": true,
         "effect": "mission_success"
+      },
+      {
+        "text": "I found it, but I'm keeping it, and I'll find you another one.  Let's talk about something else.",
+        "topic": "TALK_NONE",
+        "condition": {
+          "and": [ { "or": [ { "mission_goal": "MGOAL_FIND_ITEM" }, { "mission_goal": "MGOAL_FIND_ANY_ITEM" } ] }, "mission_complete" ]
+        },
+        "effect": { "npc_add_effect": "npc_player_still_looking", "duration": 43200 }
+      },
+      {
+        "text": "I found it, but I'm keeping it, and I'll find you another one.  Bye!",
+        "topic": "TALK_DONE",
+        "condition": {
+          "and": [ { "or": [ { "mission_goal": "MGOAL_FIND_ITEM" }, { "mission_goal": "MGOAL_FIND_ANY_ITEM" } ] }, "mission_complete" ]
+        },
+        "effect": { "npc_add_effect": "npc_player_still_looking", "duration": 43200 }
       },
       {
         "text": "Mission success!  I don't know what else to say.",

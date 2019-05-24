@@ -5,6 +5,8 @@
     "//": "Pistol ammo commonly owned by citizens and found in many locations.",
     "items": [
       [ "32_acp", 20 ],
+      [ "380_FMJ", 25 ],
+      [ "380_JHP", 20 ],
       [ "38_fmj", 25 ],
       [ "38_special", 25 ],
       [ "357sig_jhp", 25 ],
@@ -30,6 +32,7 @@
       [ "460_rowland", 15 ],
       [ "460_fmj", 10 ],
       [ "57mm", 50 ],
+      [ "380_p", 10 ],
       [ "9mmP", 30 ],
       [ "9mmP2", 20 ]
     ]
@@ -65,6 +68,9 @@
       [ "reloaded_38_fmj", 30 ],
       [ "reloaded_38_special", 80 ],
       [ "reloaded_38_super", 40 ],
+      [ "reloaded_380_JHP", 10 ],
+      [ "reloaded_380_FMJ", 15 ],
+      [ "reloaded_380_p", 5 ],
       [ "reloaded_357sig_fmj", 70 ],
       [ "reloaded_357sig_jhp", 70 ],
       [ "reloaded_40fmj", 20 ],
@@ -377,5 +383,89 @@
       { "item": "9x18mm_casing", "prob": 80, "count": 20 },
       { "item": "shot_hull", "prob": 100, "count": 20 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_light_batteries",
+    "items": [
+      { "item": "light_battery_cell", "prob": 50, "charges-min": 0, "charges-max": 100 },
+      { "item": "light_minus_battery_cell", "prob": 30, "charges-min": 0, "charges-max": 50 },
+      { "item": "light_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 150 },
+      { "item": "light_disposable_cell", "prob": 25, "charges-min": 0, "charges-max": 300 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_light_batteries_full",
+    "items": [
+      { "item": "light_battery_cell", "prob": 50, "charges-min": 100, "charges-max": 100 },
+      { "item": "light_minus_battery_cell", "prob": 30, "charges-min": 50, "charges-max": 50 },
+      { "item": "light_plus_battery_cell", "prob": 20, "charges-min": 150, "charges-max": 150 },
+      { "item": "light_disposable_cell", "prob": 25, "charges-min": 300, "charges-max": 300 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_medium_batteries",
+    "items": [
+      { "item": "medium_battery_cell", "prob": 80, "charges-min": 0, "charges-max": 500 },
+      { "item": "medium_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 600 },
+      { "item": "medium_disposable_cell", "prob": 40, "charges-min": 0, "charges-max": 1200 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_medium_batteries_full",
+    "items": [
+      { "item": "medium_battery_cell", "prob": 80, "charges-min": 500, "charges-max": 500 },
+      { "item": "medium_plus_battery_cell", "prob": 20, "charges-min": 600, "charges-max": 600 },
+      { "item": "medium_disposable_cell", "prob": 40, "charges-min": 1200, "charges-max": 1200 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_heavy_batteries",
+    "items": [
+      { "item": "heavy_battery_cell", "prob": 80, "charges-min": 0, "charges-max": 1000 },
+      { "item": "heavy_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 1250 },
+      { "item": "heavy_disposable_cell", "prob": 40, "charges-min": 0, "charges-max": 2500 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_heavy_batteries_full",
+    "items": [
+      { "item": "heavy_battery_cell", "prob": 80, "charges-min": 1000, "charges-max": 1000 },
+      { "item": "heavy_plus_battery_cell", "prob": 20, "charges-min": 1250, "charges-max": 1250 },
+      { "item": "heavy_disposable_cell", "prob": 40, "charges-min": 2500, "charges-max": 2500 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_any_batteries_full",
+    "items": [
+      { "group": "ammo_light_batteries_full", "prob": 5 },
+      { "group": "ammo_medium_batteries_full", "prob": 5 },
+      { "group": "ammo_heavy_batteries_full", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_any_batteries",
+    "items": [
+      { "group": "ammo_light_batteries", "prob": 5 },
+      { "group": "ammo_medium_batteries", "prob": 5 },
+      { "group": "ammo_heavy_batteries", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pocket_batteries",
+    "items": [ { "group": "ammo_light_batteries", "prob": 10 }, { "group": "ammo_medium_batteries", "prob": 1 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_pocket_batteries_full",
+    "items": [ { "group": "ammo_light_batteries_full", "prob": 5 }, { "group": "ammo_medium_batteries_full", "prob": 5 } ]
   }
 ]

@@ -1,13 +1,19 @@
 #include "activity_handlers.h" // IWYU pragma: associated
 
+#include <climits>
+#include <cstddef>
 #include <algorithm>
 #include <cassert>
 #include <list>
 #include <vector>
+#include <iterator>
+#include <memory>
+#include <set>
+#include <string>
+#include <utility>
 
-#include "action.h"
+#include "avatar.h"
 #include "clzones.h"
-#include "creature.h"
 #include "debug.h"
 #include "enums.h"
 #include "field.h"
@@ -33,6 +39,14 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
+#include "calendar.h"
+#include "character.h"
+#include "game_constants.h"
+#include "inventory.h"
+#include "item_stack.h"
+#include "line.h"
+#include "units.h"
+#include "type_id.h"
 
 void cancel_aim_processing();
 
@@ -56,15 +70,15 @@ struct act_item {
 // TODO: Deliberately unified with multidrop. Unify further.
 typedef std::list<std::pair<int, int>> drop_indexes;
 
-bool same_type( const std::list<item> &items )
+static bool same_type( const std::list<item> &items )
 {
     return std::all_of( items.begin(), items.end(), [ &items ]( const item & it ) {
         return it.type == items.begin()->type;
     } );
 }
 
-void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<item> &items,
-                       vehicle &veh, int part )
+static void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<item> &items,
+                              vehicle &veh, int part )
 {
     if( items.empty() ) {
         return;
@@ -174,7 +188,7 @@ void put_into_vehicle( Character &c, item_drop_reason reason, const std::list<it
     }
 }
 
-void stash_on_pet( const std::list<item> &items, monster &pet )
+static void stash_on_pet( const std::list<item> &items, monster &pet )
 {
     units::volume remaining_volume = pet.inv.empty() ? 0_ml : pet.inv.front().get_storage();
     units::mass remaining_weight = pet.weight_capacity();
@@ -202,8 +216,8 @@ void stash_on_pet( const std::list<item> &items, monster &pet )
     }
 }
 
-void drop_on_map( const Character &c, item_drop_reason reason, const std::list<item> &items,
-                  const tripoint &where )
+static void drop_on_map( const Character &c, item_drop_reason reason, const std::list<item> &items,
+                         const tripoint &where )
 {
     if( items.empty() ) {
         return;
@@ -304,7 +318,7 @@ void put_into_vehicle_or_drop( Character &c, item_drop_reason reason, const std:
     drop_on_map( c, reason, items, where );
 }
 
-drop_indexes convert_to_indexes( const player_activity &act )
+static drop_indexes convert_to_indexes( const player_activity &act )
 {
     drop_indexes res;
 
@@ -318,7 +332,7 @@ drop_indexes convert_to_indexes( const player_activity &act )
     return res;
 }
 
-drop_indexes convert_to_indexes( const player &p, const std::list<act_item> &items )
+static drop_indexes convert_to_indexes( const player &p, const std::list<act_item> &items )
 {
     drop_indexes res;
 
@@ -336,8 +350,8 @@ drop_indexes convert_to_indexes( const player &p, const std::list<act_item> &ite
     return res;
 }
 
-std::list<act_item> convert_to_items( const player &p, const drop_indexes &drop,
-                                      int min_pos, int max_pos )
+static std::list<act_item> convert_to_items( const player &p, const drop_indexes &drop,
+        int min_pos, int max_pos )
 {
     std::list<act_item> res;
 
@@ -358,7 +372,7 @@ std::list<act_item> convert_to_items( const player &p, const drop_indexes &drop,
                 res.emplace_back( &it, qty, 100 ); // TODO: Use a calculated cost
             }
         } else {
-            res.emplace_back( &p.i_at( pos ), count, ( pos == -1 ) ? 0 : 100 ); // TODO: Use a calculated cost
+            res.emplace_back( &p.i_at( pos ), count, pos == -1 ? 0 : 100 ); // TODO: Use a calculated cost
         }
     }
 
@@ -368,7 +382,7 @@ std::list<act_item> convert_to_items( const player &p, const drop_indexes &drop,
 // Prepares items for dropping by reordering them so that the drop
 // cost is minimal and "dependent" items get taken off first.
 // Implements the "backpack" logic.
-std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &drop )
+static std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &drop )
 {
     auto res  = convert_to_items( p, drop, -1, -1 );
     auto inv  = convert_to_items( p, drop, 0, INT_MAX );
@@ -394,7 +408,7 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
     // Sort worn items by storage in descending order, but dependent items always go first.
     worn.sort( []( const act_item & first, const act_item & second ) {
         return first.it->is_worn_only_with( *second.it )
-               || ( ( first.it->get_storage() > second.it->get_storage() )
+               || ( first.it->get_storage() > second.it->get_storage()
                     && !second.it->is_worn_only_with( *first.it ) );
     } );
 
@@ -429,7 +443,7 @@ std::list<act_item> reorder_for_dropping( const player &p, const drop_indexes &d
 }
 
 // TODO: Display costs in the multidrop menu
-void debug_drop_list( const std::list<act_item> &list )
+static void debug_drop_list( const std::list<act_item> &list )
 {
     if( !debug_mode ) {
         return;
@@ -438,12 +452,12 @@ void debug_drop_list( const std::list<act_item> &list )
     std::string res( "Items ordered to drop:\n" );
     for( const auto &ait : list ) {
         res += string_format( "Drop %d %s for %d moves\n",
-                              ait.count, ait.it->display_name( ait.count ).c_str(), ait.consumed_moves );
+                              ait.count, ait.it->display_name( ait.count ), ait.consumed_moves );
     }
     popup( res, PF_GET_KEY );
 }
 
-std::list<item> obtain_activity_items( player_activity &act, player &p )
+static std::list<item> obtain_activity_items( player_activity &act, player &p )
 {
     std::list<item> res;
 
@@ -600,12 +614,13 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     }
     washing_requirements required = washing_requirements_for_volume( total_volume );
 
-    auto is_liquid = []( const item & it ) {
-        return it.made_of( LIQUID ) || it.contents_made_of( LIQUID );
+    const auto is_liquid_crafting_component = []( const item & it ) {
+        return is_crafting_component( it ) && ( !it.count_by_charges() || it.made_of( LIQUID ) ||
+                                                it.contents_made_of( LIQUID ) );
     };
     const inventory &crafting_inv = p->crafting_inventory();
-    if( !crafting_inv.has_charges( "water", required.water, is_liquid ) &&
-        !crafting_inv.has_charges( "water_clean", required.water, is_liquid ) ) {
+    if( !crafting_inv.has_charges( "water", required.water, is_liquid_crafting_component ) &&
+        !crafting_inv.has_charges( "water_clean", required.water, is_liquid_crafting_component ) ) {
         p->add_msg_if_player( _( "You need %1$i charges of water or clean water to wash these items." ),
                               required.water );
         act->set_to_null();
@@ -627,7 +642,7 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
     std::vector<item_comp> comps;
     comps.push_back( item_comp( "water", required.water ) );
     comps.push_back( item_comp( "water_clean", required.water ) );
-    p->consume_items( comps, 1, is_crafting_component, is_liquid );
+    p->consume_items( comps, 1, is_liquid_crafting_component );
 
     std::vector<item_comp> comps1;
     comps1.push_back( item_comp( "soap", required.cleanser ) );
@@ -1044,7 +1059,8 @@ void activity_on_turn_move_loot( player_activity &, player &p )
             continue;
         }
 
-        auto items = std::vector<item *>();
+        // the boolean in this pair being true indicates the item is from a vehicle storage space
+        auto items = std::vector<std::pair<item *, bool>>();
 
         //Check source for cargo part
         //map_stack and vehicle_stack are different types but inherit from item_stack
@@ -1054,25 +1070,31 @@ void activity_on_turn_move_loot( player_activity &, player &p )
             src_veh = &vp->vehicle();
             src_part = vp->part_index();
             for( auto &it : src_veh->get_items( src_part ) ) {
-                if( !it.made_of_from_type( LIQUID ) ) { // skip unpickable liquid
-                    items.push_back( &it );
-                }
+                items.push_back( std::make_pair( &it, true ) );
             }
         } else {
             src_veh = nullptr;
             src_part = -1;
-            for( auto &it : g->m.i_at( src_loc ) ) {
-                if( !it.made_of_from_type( LIQUID ) ) { // skip unpickable liquid
-                    items.push_back( &it );
-                }
-            }
+        }
+        for( auto &it : g->m.i_at( src_loc ) ) {
+            items.push_back( std::make_pair( &it, false ) );
         }
         //Skip items that have already been processed
         for( auto it = items.begin() + mgr.get_num_processed( src ); it < items.end(); it++ ) {
 
             mgr.increment_num_processed( src );
 
-            const auto id = mgr.get_near_zone_type_for_item( **it, abspos );
+            const auto thisitem = it->first;
+
+            if( thisitem->made_of_from_type( LIQUID ) ) { // skip unpickable liquid
+                continue;
+            }
+
+            // Only if it's from a vehicle do we use the vehicle source location information.
+            vehicle *this_veh = it->second ? src_veh : nullptr;
+            const int this_part = it->second ? src_part : -1;
+
+            const auto id = mgr.get_near_zone_type_for_item( *thisitem, abspos );
 
             // checks whether the item is already on correct loot zone or not
             // if it is, we can skip such item, if not we move the item to correct pile
@@ -1106,7 +1128,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                         free_space = g->m.free_volume( dest_loc );
                     }
                     // check free space at destination
-                    if( free_space >= ( *it )->volume() ) {
+                    if( free_space >= thisitem->volume() ) {
                         // before we move any item, check if player is at or
                         // adjacent to the loot source tile
                         if( !is_adjacent_or_closer ) {
@@ -1146,8 +1168,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
                             mgr.end_sort();
                             return;
                         }
-                        move_item( p, **it, ( *it )->count(), src_loc, dest_loc, src_veh,
-                                   src_part );
+                        move_item( p, *thisitem, thisitem->count(), src_loc, dest_loc, this_veh, this_part );
 
                         // moved item away from source so decrement
                         mgr.decrement_num_processed( src );
@@ -1170,7 +1191,8 @@ void activity_on_turn_move_loot( player_activity &, player &p )
     mgr.end_sort();
 }
 
-cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &from, const tripoint &center )
+static cata::optional<tripoint> find_best_fire(
+    const std::vector<tripoint> &from, const tripoint &center )
 {
     cata::optional<tripoint> best_fire;
     time_duration best_fire_age = 1_days;
@@ -1195,12 +1217,14 @@ cata::optional<tripoint> find_best_fire( const std::vector<tripoint> &from, cons
     return best_fire;
 }
 
-void try_refuel_fire( player &p )
+void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 {
     const tripoint pos = p.pos();
     auto adjacent = closest_tripoints_first( PICKUP_RANGE, pos );
     adjacent.erase( adjacent.begin() );
-    cata::optional<tripoint> best_fire = find_best_fire( adjacent, pos );
+
+    cata::optional<tripoint> best_fire = starting_fire ? act.placement : find_best_fire( adjacent,
+                                         pos );
 
     if( !best_fire || !g->m.accessible_items( *best_fire ) ) {
         return;
@@ -1242,7 +1266,7 @@ void try_refuel_fire( player &p )
 
     // Enough to sustain the fire
     // TODO: It's not enough in the rain
-    if( fd.fuel_produced >= 1.0f || fire_age < 10_minutes ) {
+    if( !starting_fire && ( fd.fuel_produced >= 1.0f || fire_age < 10_minutes ) ) {
         return;
     }
 

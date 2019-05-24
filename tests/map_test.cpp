@@ -1,8 +1,14 @@
+#include <memory>
+
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "type_id.h"
 
 TEST_CASE( "destroy_grabbed_furniture" )
 {
@@ -25,6 +31,11 @@ TEST_CASE( "destroy_grabbed_furniture" )
 
 TEST_CASE( "map_bounds_checking" )
 {
+    // FIXME: There are issues with vehicle caching between maps, because
+    // vehicles are stored in the global MAPBUFFER which all maps refer to.  To
+    // work around the problem we clear the map of vehicles, but this is an
+    // inelegant solution.
+    clear_map();
     map m;
     m.load( 0, 0, 0, false );
     for( int x = -1; x <= MAPSIZE_X; ++x ) {
@@ -45,6 +56,11 @@ TEST_CASE( "map_bounds_checking" )
 
 TEST_CASE( "tinymap_bounds_checking" )
 {
+    // FIXME: There are issues with vehicle caching between maps, because
+    // vehicles are stored in the global MAPBUFFER which all maps refer to.  To
+    // work around the problem we clear the map of vehicles, but this is an
+    // inelegant solution.
+    clear_map();
     tinymap m;
     m.load( 0, 0, 0, false );
     for( int x = -1; x <= SEEX * 2; ++x ) {

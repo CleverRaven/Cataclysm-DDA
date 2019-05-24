@@ -2,9 +2,11 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
+#include <cassert>
 #include <climits>
 #include <ostream>
-#include <utility>
+#include <cstdint>
+#include <system_error>
 
 class JsonOut;
 class JsonIn;
@@ -14,6 +16,14 @@ constexpr inline int sgn( const T x )
 {
     return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
 }
+
+enum temperature_flag : int {
+    TEMP_NORMAL = 0,
+    TEMP_HEATER,
+    TEMP_FRIDGE,
+    TEMP_FREEZER,
+    TEMP_ROOT_CELLAR
+};
 
 //Used for autopickup and safemode rules
 enum rule_state : int {
@@ -130,6 +140,10 @@ enum object_type {
     NUM_OBJECTS,
 };
 
+enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, LST_MONSTER = 4};
+
+enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, LTT_MONSTER = 4 };
+
 /**
  *  Possible layers that a piece of clothing/armor can occupy
  *
@@ -180,6 +194,27 @@ struct point {
     point &operator-=( const point &rhs ) {
         x -= rhs.x;
         y -= rhs.y;
+        return *this;
+    }
+
+    /**
+     * Rotate point clockwise @param turns times, 90 degrees per turn,
+     * around the center of a rectangle with the dimensions specified
+     * by @param dim. By default rotates around the origin (0, 0).
+     */
+    point rotate( int turns, const point &dim = { 1, 1 } ) const {
+        assert( turns >= 0 );
+        assert( turns <= 4 );
+
+        switch( turns ) {
+            case 1:
+                return { dim.y - y - 1, x };
+            case 2:
+                return { dim.x - x - 1, dim.y - y - 1 };
+            case 3:
+                return { y, dim.x - x - 1 };
+        }
+
         return *this;
     }
 };
@@ -238,6 +273,15 @@ struct tripoint {
     }
     constexpr tripoint operator-() const {
         return tripoint( -x, -y, -z );
+    }
+    constexpr tripoint operator*( const int rhs ) const {
+        return tripoint( x * rhs, y * rhs, z * rhs );
+    }
+    tripoint &operator*=( const int rhs ) {
+        x *= rhs;
+        y *= rhs;
+        z *= rhs;
+        return *this;
     }
     /*** some point operators and functions ***/
     constexpr tripoint operator+( const point &rhs ) const {
@@ -336,6 +380,15 @@ static constexpr point point_min{ tripoint_min.x, tripoint_min.y };
 static constexpr point point_zero{ tripoint_zero.x, tripoint_zero.y };
 static constexpr point point_max{ tripoint_max.x, tripoint_max.y };
 
+static constexpr point point_north{ 0, -1 };
+static constexpr point point_north_east{ 1, -1 };
+static constexpr point point_east{ 1, 0 };
+static constexpr point point_south_east{ 1, 1 };
+static constexpr point point_south{ 0, 1 };
+static constexpr point point_south_west{ -1, 1 };
+static constexpr point point_west{ -1, 0 };
+static constexpr point point_north_west{ -1, -1 };
+
 static constexpr box box_zero( tripoint_zero, tripoint_zero );
 static constexpr rectangle rectangle_zero( point_zero, point_zero );
 
@@ -381,6 +434,25 @@ enum class distraction_type {
     asthma,
     motion_alarm,
     weather_change,
+};
+
+enum game_message_type : int {
+    m_good,    /* something good happened to the player character, e.g. health boost, increasing in skill */
+    m_bad,      /* something bad happened to the player character, e.g. damage, decreasing in skill */
+    m_mixed,   /* something happened to the player character which is mixed (has good and bad parts),
+                  e.g. gaining a mutation with mixed effect*/
+    m_warning, /* warns the player about a danger. e.g. enemy appeared, an alarm sounds, noise heard. */
+    m_info,    /* informs the player about something, e.g. on examination, seeing an item,
+                  about how to use a certain function, etc. */
+    m_neutral,  /* neutral or indifferent events which aren’t informational or nothing really happened e.g.
+                  a miss, a non-critical failure. May also effect for good or bad effects which are
+                  just very slight to be notable. This is the default message type. */
+
+    m_debug, /* only shown when debug_mode is true */
+    /* custom SCT colors */
+    m_headshot,
+    m_critical,
+    m_grazing
 };
 
 #endif

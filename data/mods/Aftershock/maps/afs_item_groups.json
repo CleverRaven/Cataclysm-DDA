@@ -25,22 +25,49 @@
   {
     "id": "bionics",
     "type": "item_group",
-    "items": [ [ "bn_bio_solar", 10 ], [ "afs_bio_precision_solderers", 10 ], [ "afs_bio_missiles", 10 ] ]
+    "items": [
+      [ "bio_furnace", 10 ],
+      [ "bn_bio_solar", 10 ],
+      [ "afs_bio_precision_solderers", 10 ],
+      [ "afs_bio_missiles", 10 ],
+      [ "afs_bio_linguistic_coprocessor", 10 ],
+      [ "afs_bio_dopamine_stimulators", 10 ]
+    ]
   },
   {
     "id": "bionics_common",
     "type": "item_group",
-    "items": [ [ "bn_bio_solar", 10 ], [ "afs_bio_precision_solderers", 5 ] ]
+    "items": [
+      [ "bio_furnace", 10 ],
+      [ "bn_bio_solar", 10 ],
+      [ "afs_bio_precision_solderers", 5 ],
+      [ "afs_bio_linguistic_coprocessor", 8 ]
+    ]
+  },
+  {
+    "id": "bionics_mil",
+    "type": "item_group",
+    "items": [ [ "bio_furnace", 10 ] ]
   },
   {
     "id": "bionics_sci",
     "type": "item_group",
-    "items": [ [ "bn_bio_solar", 5 ], [ "afs_bio_precision_solderers", 7 ] ]
+    "items": [
+      [ "bio_furnace", 5 ],
+      [ "bn_bio_solar", 5 ],
+      [ "afs_bio_precision_solderers", 7 ],
+      [ "afs_bio_linguistic_coprocessor", 5 ]
+    ]
   },
   {
     "id": "bionics_op",
     "type": "item_group",
-    "items": [ [ "bn_bio_solar", 15 ], [ "afs_bio_missiles", 8 ] ]
+    "items": [ [ "bio_furnace", 15 ], [ "bn_bio_solar", 15 ], [ "afs_bio_missiles", 10 ], [ "afs_bio_dopamine_stimulators", 10 ] ]
+  },
+  {
+    "id": "bionics_subs",
+    "type": "item_group",
+    "items": [ [ "afs_bio_missiles", 10 ], [ "afs_bio_dopamine_stimulators", 15 ] ]
   },
   {
     "id": "chem_lab",
@@ -50,22 +77,27 @@
   {
     "id": "rare",
     "type": "item_group",
-    "items": [ [ "afs_calorie_pill", 10 ], [ "afs_sundew", 10 ], [ "afs_bag_of_holding", 1 ], [ "afs_bio_precision_solderers", 5 ] ]
+    "items": [ [ "afs_calorie_pill", 10 ], [ "afs_sundew", 10 ], [ "afs_bag_of_holding", 1 ], [ "afs_atomic_smartphone", 5 ] ]
   },
   {
     "id": "spider",
     "type": "item_group",
-    "items": [ [ "afs_energy_saber_off", 1 ], [ "afs_bag_of_holding", 2 ], [ "afs_hydraulic_gauntlet", 1 ] ]
+    "items": [
+      [ "afs_energy_saber_off", 1 ],
+      [ "afs_bag_of_holding", 2 ],
+      [ "afs_hydraulic_gauntlet", 1 ],
+      [ "afs_atomic_reading_light", 5 ]
+    ]
   },
   {
     "id": "survivorzed_extra",
     "type": "item_group",
-    "items": [ [ "afs_daypack", 4 ], [ "afs_rolling_pin_barbed_wire", 5 ] ]
+    "items": [ [ "afs_daypack", 4 ], [ "afs_rolling_pin_barbed_wire", 5 ], [ "afs_chain_wrench", 8 ] ]
   },
   {
     "id": "camping",
     "type": "item_group",
-    "items": [ [ "afs_daypack", 20 ], [ "afs_rope_lighter", 10 ] ]
+    "items": [ [ "afs_daypack", 20 ], [ "afs_rope_lighter", 10 ], [ "afs_atomic_reading_light", 1 ] ]
   },
   {
     "id": "allsporting",
@@ -95,7 +127,7 @@
   {
     "id": "kitchen",
     "type": "item_group",
-    "items": [ [ "afs_rolling_pin", 25 ] ]
+    "items": [ [ "afs_rolling_pin", 25 ], [ "afs_atompot", 1 ] ]
   },
   {
     "id": "dollar_kitchen",
@@ -105,7 +137,7 @@
   {
     "id": "oven",
     "type": "item_group",
-    "items": [ [ "afs_rolling_pin", 25 ] ]
+    "items": [ [ "afs_rolling_pin", 25 ], [ "afs_atompot", 3 ] ]
   },
   {
     "id": "bed",
@@ -120,27 +152,27 @@
   {
     "id": "livingroom",
     "type": "item_group",
-    "items": [ [ "afs_atomic_smartphone", 1 ] ]
+    "items": [ [ "afs_atomic_smartphone", 1 ], [ "afs_atomic_reading_light", 2 ] ]
   },
   {
     "id": "bedroom",
     "type": "item_group",
-    "items": [ [ "afs_atomic_smartphone", 1 ] ]
+    "items": [ [ "afs_atomic_smartphone", 1 ], [ "afs_atomic_reading_light", 2 ] ]
   },
   {
     "id": "consumer_electronics",
     "type": "item_group",
-    "items": [ [ "afs_atomic_smartphone", 2 ], [ "afs_bio_precision_solderers", 1 ] ]
+    "items": [ [ "afs_atomic_smartphone", 2 ], [ "afs_bio_precision_solderers", 1 ], [ "afs_atomic_reading_light", 4 ] ]
   },
   {
     "id": "electronics",
     "type": "item_group",
-    "items": [ [ "afs_atomic_smartphone", 1 ], [ "afs_bio_precision_solderers", 2 ] ]
+    "items": [ [ "afs_atomic_smartphone", 1 ], [ "afs_bio_precision_solderers", 2 ], [ "afs_atomic_reading_light", 2 ] ]
   },
   {
     "id": "lab_dorm",
     "type": "item_group",
-    "items": [ [ "afs_atomic_smartphone", 5 ] ]
+    "items": [ [ "afs_atomic_smartphone", 5 ], [ "afs_atomic_reading_light", 3 ] ]
   },
   {
     "id": "subway",
@@ -176,7 +208,7 @@
   {
     "id": "shelter",
     "type": "item_group",
-    "items": [ [ "afs_ski_jacket", 40 ] ]
+    "items": [ [ "afs_ski_jacket", 40 ], [ "afs_atomic_reading_light", 2 ] ]
   },
   {
     "id": "book_gunref",

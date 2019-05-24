@@ -36,7 +36,6 @@
       [ "bio_power_storage", 30 ],
       [ "bio_metabolics", 5 ],
       [ "bio_ethanol", 5 ],
-      [ "bio_furnace", 5 ],
       [ "bio_ups", 10 ],
       [ "bio_torsionratchet", 30 ],
       [ "bio_tools", 10 ],
@@ -68,7 +67,8 @@
       [ "bio_watch", 40 ],
       [ "bio_leukocyte", 15 ],
       [ "bio_syringe", 2 ],
-      [ "bio_jointservo", 10 ]
+      [ "bio_jointservo", 10 ],
+      [ "bio_soporific", 2 ]
     ]
   },
   {

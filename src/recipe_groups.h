@@ -3,8 +3,7 @@
 #define RECIPE_GROUPS_H
 
 #include <string>
-
-#include "map.h"
+#include <map>
 
 class JsonObject;
 
@@ -15,7 +14,7 @@ void load( JsonObject &jo, const std::string &src );
 void check();
 void reset();
 
-std::map<std::string, std::string> get_recipes( std::string id );
+std::map<std::string, std::string> get_recipes( const std::string &id );
 
 }
 

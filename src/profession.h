@@ -5,27 +5,24 @@
 #include <list>
 #include <set>
 #include <vector>
+#include <string>
+#include <utility>
 
 #include "string_id.h"
+#include "optional.h"
+#include "pldata.h"
+#include "type_id.h"
 
 template<typename T>
 class generic_factory;
-class profession;
+
 using Group_tag = std::string;
 class item;
+
 using itype_id = std::string;
 class player;
-class JsonArray;
 class JsonObject;
-class addiction;
-struct mutation_branch;
-using trait_id = string_id<mutation_branch>;
-struct bionic_data;
-using bionic_id = string_id<bionic_data>;
 enum add_type : int;
-
-class Skill;
-using skill_id = string_id<Skill>;
 
 class profession
 {
@@ -68,6 +65,7 @@ class profession
         std::vector<addiction> _starting_addictions;
         std::vector<bionic_id> _starting_CBMs;
         std::vector<trait_id> _starting_traits;
+        cata::optional<mtype_id> _starting_pet;
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
 
@@ -100,6 +98,7 @@ class profession
         signed int point_cost() const;
         std::list<item> items( bool male, const std::vector<trait_id> &traits ) const;
         std::vector<addiction> addictions() const;
+        cata::optional<mtype_id> pet() const;
         std::vector<bionic_id> CBMs() const;
         const StartingSkillList skills() const;
 

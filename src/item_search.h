@@ -2,9 +2,11 @@
 #ifndef ITEM_SEARCH_H
 #define ITEM_SEARCH_H
 
+#include <cstddef>
 #include <algorithm>
 #include <functional>
 #include <string>
+#include <vector>
 
 #include "output.h"
 

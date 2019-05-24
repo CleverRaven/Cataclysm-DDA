@@ -212,8 +212,10 @@ IF(MSVC)
 		add_definitions(-D_X86_)
 	endif()
 ELSE()
-	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wextra -Wall -std=c++11")
-	SET(CMAKE_CXX_FLAGS_DEBUG "-Og -g -D_GLIBCXX_DEBUG")
+	SET(CATA_WARNINGS
+		"-Werror -Wall -Wextra -Woverloaded-virtual -Wpedantic -Wmissing-declarations")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS} -std=c++14")
+	SET(CMAKE_CXX_FLAGS_DEBUG "-Og -g")
 ENDIF()
 
 # Force out-of-source build

@@ -4,21 +4,24 @@
 
 #include <memory>
 #include <unordered_map>
+#include <string>
+#include <vector>
 
 #include "mapgen.h"
 #include "optional.h"
 #include "rng.h"
 #include "string_id.h"
+#include "type_id.h"
 #include "weighted_list.h"
 
 class JsonObject;
-class VehicleGroup;
-using vgroup_id = string_id<VehicleGroup>;
+class map;
 class VehicleSpawn;
+class VehicleGroup;
+
 using vspawn_id = string_id<VehicleSpawn>;
-struct vehicle_prototype;
-using vproto_id = string_id<vehicle_prototype>;
 struct point;
+
 extern std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 
 /**
@@ -35,7 +38,7 @@ class VehicleGroup
         }
 
         const vproto_id &pick() const {
-            return *( vehicles.pick() );
+            return *vehicles.pick();
         }
 
         static void load( JsonObject &jo );
