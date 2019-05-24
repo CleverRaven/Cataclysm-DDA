@@ -83,7 +83,7 @@
     "time": 1000,
     "reversible": false,
     "autolearn": true,
-    "charges": 2,
+    "byproducts": [ [ "wood_panel", 1 ] ],
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "components": [ [ [ "wood_sheet", 1 ] ] ]
   },
@@ -129,7 +129,8 @@
       { "id": "SAW_W", "level": 2 }
     ],
     "components": [
-      [ [ "2x4", 30 ], [ "frame_wood", 5 ] ],
+      [ [ "2x4", 15 ], [ "frame_wood", 3 ] ],
+      [ [ "wood_panel" 6 ], [ "wood_sheet", 3 ] ],
       [ [ "sheet_metal_small", 6 ] ],
       [ [ "nail", 100 ] ],
       [ [ "pipe", 8 ] ],
@@ -927,8 +928,8 @@
     "reversible": true,
     "decomp_learn": 1,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 6 ] ], [ [ "nail", 8 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 } ], [ { "id": "SAW_W", "level": 2 } ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ]
   },
   {
     "type": "recipe",
