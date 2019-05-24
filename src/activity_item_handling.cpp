@@ -68,7 +68,7 @@ struct act_item {
 };
 
 // TODO: Deliberately unified with multidrop. Unify further.
-typedef std::list<std::pair<int, int>> drop_indexes;
+using drop_indexes = std::list<std::pair<int, int>>;
 
 static bool same_type( const std::list<item> &items )
 {

@@ -79,8 +79,8 @@ struct wrapped_vehicle {
     vehicle *v;
 };
 
-typedef std::vector<wrapped_vehicle> VehicleList;
-typedef std::string items_location;
+using VehicleList = std::vector<wrapped_vehicle>;
+using items_location = std::string;
 class map;
 
 enum ter_bitflags : int;
@@ -1588,8 +1588,8 @@ class map
          * It's a really heinous function pointer so a typedef is the best
          * solution in this instance.
          */
-        typedef bool ( *map_process_func )( item_stack &, std::list<item>::iterator &, const tripoint &,
-                                            const std::string &, float, temperature_flag );
+        using map_process_func = bool ( * )( item_stack &, std::list<item>::iterator &, const tripoint &,
+                                             const std::string &, float, temperature_flag );
     private:
 
         // Iterates over every item on the map, passing each item to the provided function.

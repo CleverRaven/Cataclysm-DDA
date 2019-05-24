@@ -7123,7 +7123,7 @@ bool item::can_holster( const item &obj, bool ignore ) const
 
 std::string item::components_to_string() const
 {
-    typedef std::map<std::string, int> t_count_map;
+    using t_count_map = std::map<std::string, int>;
     t_count_map counts;
     for( const auto &elem : components ) {
         if( !elem.has_flag( "BYPRODUCT" ) ) {

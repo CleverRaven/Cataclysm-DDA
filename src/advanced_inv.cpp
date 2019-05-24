@@ -899,7 +899,7 @@ bool advanced_inventory_pane::is_filtered( const item &it ) const
 }
 
 // roll our own, to handle moving stacks better
-typedef std::vector<std::list<item *>> itemstack;
+using itemstack = std::vector<std::list<item *> >;
 
 template <typename T>
 static itemstack i_stacked( T items )

@@ -52,8 +52,8 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 
 class Character;
 
-typedef std::function<bool( const item & )> item_filter;
-typedef std::function<bool( const item_location & )> item_location_filter;
+using item_filter = std::function<bool ( const item & )>;
+using item_location_filter = std::function<bool ( const item_location & )>;
 
 namespace
 {
