@@ -1506,7 +1506,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": 60,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ], [ [ "mattress" ] ] ],
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ], [ [ "mattress", 1 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_bed"
   },
@@ -1527,7 +1527,7 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": 5,
-    "components": [ [ "mattress: ] ],
+    "components": [ [ "mattress", 1 ] ],
     "pre_special": "f_bed_frame",
     "post_terrain": "f_bed"
   },
