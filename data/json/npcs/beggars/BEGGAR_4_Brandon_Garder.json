@@ -44,7 +44,8 @@
       { "trait": "BADKNEES" },
       { "trait": "BADCARDIO" },
       { "group": "Appearance_demographics" }
-    ]
+    ],
+    "skills": [ { "skill": "fabrication", "bonus": { "rng": [ 2, 6 ] } } ]
   },
   {
     "type": "item_group",
