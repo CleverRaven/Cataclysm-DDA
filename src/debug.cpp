@@ -873,7 +873,7 @@ static std::string android_version()
     };
 
     for( const auto &entry : system_properties ) {
-        int len = __system_property_get( entry.first, &buffer[0] );
+        int len = __system_property_get( entry.first.c_str(), &buffer[0] );
         std::string value;
         if( len <= 0 ) {
             // failed to get the property
