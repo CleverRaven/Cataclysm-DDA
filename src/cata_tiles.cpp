@@ -1072,9 +1072,39 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                 const int scent_value = g->scent.get( {x, y, center.z} );
                 if( scent_value > 0 ) {
                     overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
-                                             formatted_text( std::to_string( scent_value ), 11,
+                                             formatted_text( std::to_string( scent_value ), 8 + catacurses::yellow,
                                                      NORTH ) );
                 }
+            }
+
+            // Add temperature value to the overlay_strings list for every visible tile when displaying temperature
+            if( g->displaying_temperature ) {
+                int temp_value = g->weather.get_temperature( {x, y, center.z} );
+                int ctemp = temp_to_celsius( temp_value );
+                short col;
+                const short bold = 8;
+                if( ctemp > 40 ) {
+                    col = catacurses::red;
+                } else if( ctemp > 25 ) {
+                    col = catacurses::yellow + bold;
+                } else if( ctemp > 10 ) {
+                    col = catacurses::green + bold;
+                } else if( ctemp > 0 ) {
+                    col = catacurses::white + bold;
+                } else if( ctemp > -10 ) {
+                    col = catacurses::cyan + bold;
+                } else {
+                    col = catacurses::blue + bold;
+                }
+                if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
+                    temp_value = temp_to_celsius( temp_value );
+                } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
+                    temp_value = temp_to_kelvin( temp_value );
+
+                }
+                overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
+                                            formatted_text( std::to_string( temp_value ), col,
+                                                    NORTH ) );
             }
 
             if( apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {

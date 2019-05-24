@@ -116,6 +116,8 @@ enum debug_menu_index {
     DEBUG_TEST_WEATHER,
     DEBUG_SAVE_SCREENSHOT,
     DEBUG_GAME_REPORT,
+    DEBUG_DISPLAY_SCENTS_LOCAL,
+    DEBUG_DISPLAY_TEMP,
 };
 
 class mission_debug
@@ -159,9 +161,11 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_GAME_STATE, true, 'g', _( "Check game state" ) ) },
             { uilist_entry( DEBUG_DISPLAY_HORDES, true, 'h', _( "Display hordes" ) ) },
             { uilist_entry( DEBUG_TEST_IT_GROUP, true, 'i', _( "Test item group" ) ) },
-            { uilist_entry( DEBUG_SHOW_SOUND, true, 's', _( "Show sound clustering" ) ) },
+            { uilist_entry( DEBUG_SHOW_SOUND, true, 'c', _( "Show sound clustering" ) ) },
             { uilist_entry( DEBUG_DISPLAY_WEATHER, true, 'w', _( "Display weather" ) ) },
             { uilist_entry( DEBUG_DISPLAY_SCENTS, true, 'S', _( "Display overmap scents" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_SCENTS_LOCAL, true, 's', _( "Toggle display local scents" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_TEMP, true, 'T', _( "Toggle display temperature" ) ) },
             { uilist_entry( DEBUG_SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( DEBUG_BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
             { uilist_entry( DEBUG_TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
@@ -1218,6 +1222,14 @@ void debug()
                 break;
             case DEBUG_DISPLAY_SCENTS:
                 ui::omap::display_scents();
+                break;
+            case DEBUG_DISPLAY_SCENTS_LOCAL:
+                g->displaying_temperature = false;
+                g->displaying_scent = !g->displaying_scent;
+                break;
+            case DEBUG_DISPLAY_TEMP:
+                g->displaying_scent = false;
+                g->displaying_temperature = !g->displaying_temperature;
                 break;
             case DEBUG_CHANGE_TIME: {
                 auto set_turn = [&]( const int initial, const int factor, const char *const msg ) {
