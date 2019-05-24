@@ -34,10 +34,7 @@ static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_stunned( "stunned" );
 
-namespace avatar_action
-{
-
-bool move( avatar &you, map &m, int dx, int dy, int dz )
+bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
 {
     if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
         if( you.has_active_mutation( trait_SHELL2 ) ) {
@@ -325,7 +322,7 @@ bool move( avatar &you, map &m, int dx, int dy, int dz )
     return false;
 }
 
-bool ramp_move( avatar &you, map &m, const tripoint &dest_loc )
+bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
 {
     if( dest_loc.z != you.posz() ) {
         // No recursive ramp_moves
@@ -390,7 +387,7 @@ static float rate_critter( const Creature &c )
     return m->type->difficulty;
 }
 
-void autoattack( avatar &you, map &m )
+void avatar_action::autoattack( avatar &you, map &m )
 {
     int reach = you.weapon.reach_range( you );
     auto critters = you.get_hostile_creatures( reach );
@@ -414,5 +411,4 @@ void autoattack( avatar &you, map &m )
     }
 
     you.reach_attack( best.pos() );
-}
 }
