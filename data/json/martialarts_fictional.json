@@ -229,5 +229,4 @@
     "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
     "messages": [ "You swiftly hit %s", "<npcname> swiftly hits %s" ]
   }
-  }
 ]
