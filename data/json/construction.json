@@ -1503,7 +1503,7 @@
     "type": "construction",
     "description": "Build Bed",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 4 ], [ "tailor", 4 ] ],
+    "required_skills": [ [ "fabrication", 4 ] ],
     "time": 60,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
     "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ], [ [ "mattress" ] ] ],
