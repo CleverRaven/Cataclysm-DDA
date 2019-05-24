@@ -21,12 +21,19 @@
     "durability": 3,
     "clip_size": 2,
     "reload": 200,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "sights", 1 ],
+      [ "underbarrel", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ]
+    ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
   },
   {
     "id": "cop_38",
-    "copy-from": "pistol_backup",
+    "copy-from": "pistol_base",
     "type": "GUN",
     "name": "COP .38",
     "name_plural": "COP .38",
@@ -42,6 +49,17 @@
     "dispersion": 520,
     "durability": 6,
     "clip_size": 4,
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -67,7 +85,16 @@
     "clip_size": 1,
     "reload": 200,
     "barrel_length": 3,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {

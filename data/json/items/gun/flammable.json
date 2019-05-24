@@ -15,7 +15,15 @@
     "dispersion": 300,
     "durability": 8,
     "burst": 4,
-    "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "sling", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 1 ],
+      [ "grip", 1 ],
+      [ "sling", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "magazines": [ [ "flammable", [ "pressurized_tank" ] ] ]
   },
   {
@@ -32,7 +40,7 @@
     "dispersion": 300,
     "durability": 8,
     "clip_size": 100,
-    "valid_mod_locations": [ [ "grip", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [ [ "sling", 1 ], [ "stock", 1 ], [ "rail mount", 1 ] ],
     "relative": { "reload": 4 }
   },
   {

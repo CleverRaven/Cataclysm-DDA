@@ -23,7 +23,15 @@
     "durability": 7,
     "clip_size": 150,
     "reload": 50,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "sling",
@@ -263,7 +271,15 @@
     "loudness": 25,
     "barrel_length": 2,
     "built_in_mods": [ "combination_gun_shotgun_pipe" ],
-    "valid_mod_locations": [ [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [
+      [ "muzzle", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "tihar",
@@ -290,7 +306,16 @@
     "clip_size": 15,
     "reload": 1000,
     "loudness": 18,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "helsing",
@@ -316,7 +341,16 @@
     "clip_size": 8,
     "reload": 1000,
     "loudness": 22,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "mininuke_launcher",
@@ -340,7 +374,7 @@
     "durability": 7,
     "clip_size": 1,
     "reload": 800,
-    "valid_mod_locations": [ [ "sling", 1 ] ]
+    "valid_mod_locations": [ [ "sling", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ]
   },
   {
     "id": "m202_flash",
@@ -366,7 +400,15 @@
     "clip_size": 4,
     "reload": 600,
     "loudness": 200,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "sling", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "RPG",
@@ -391,7 +433,15 @@
     "durability": 10,
     "clip_size": 1,
     "reload": 150,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ], [ "sling", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "speargun",
@@ -416,7 +466,15 @@
     "durability": 8,
     "clip_size": 1,
     "reload": 700,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "minispeargun",
@@ -439,7 +497,14 @@
     "durability": 8,
     "clip_size": 1,
     "reload": 600,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "grip", 1 ], [ "sights", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "grip", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "doublespeargun",
@@ -464,7 +529,15 @@
     "durability": 7,
     "clip_size": 2,
     "reload": 700,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "airspeargun",
@@ -490,7 +563,15 @@
     "clip_size": 4,
     "reload": 1000,
     "loudness": 11,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "id": "combination_gun",
@@ -524,7 +605,8 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      [ "underbarrel", 1 ],
+      [ "rail mount", 1 ]
     ]
   },
   {
@@ -550,7 +632,7 @@
     "clip_size": 1,
     "reload": 800,
     "loudness": 200,
-    "valid_mod_locations": [ [ "sling", 1 ] ]
+    "valid_mod_locations": [ [ "sling", 1 ], [ "grip mount", 1 ], [ "rail mount", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ]
   },
   {
     "id": "watercannon",

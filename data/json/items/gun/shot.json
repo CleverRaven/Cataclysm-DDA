@@ -42,7 +42,15 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 80,
-    "valid_mod_locations": [ [ "accessories", 1 ], [ "grip", 1 ], [ "stock", 1 ], [ "mechanism", 4 ], [ "sights", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 1 ],
+      [ "grip", 1 ],
+      [ "stock", 1 ],
+      [ "mechanism", 4 ],
+      [ "sights", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -63,7 +71,15 @@
     "burst": 6,
     "clip_size": 6,
     "reload": 110,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "grip", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT" ]
   },
   {
@@ -164,6 +180,16 @@
     "clip_size": 2,
     "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
     "relative": { "weight": 500, "volume": 1, "price": 5000 },
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "barrel", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "extend": { "flags": [ "RELOAD_ONE" ] }
   },
   {
@@ -184,7 +210,17 @@
     "clip_size": 1,
     "reload": 200,
     "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "sling", 1 ], [ "stock", 1 ], [ "barrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "barrel", 1 ],
+      [ "muzzle", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -222,7 +258,16 @@
     "clip_size": 6,
     "reload": 200,
     "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "sling", 1 ], [ "stock", 1 ], [ "barrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "barrel", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -253,6 +298,17 @@
     "clip_size": 2,
     "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
     "relative": { "weight": 500, "volume": 1, "price": 5000 },
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "extend": { "flags": [ "RELOAD_ONE" ] }
   },
   {
@@ -278,7 +334,10 @@
       [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
-      [ "stock", 1 ]
+      [ "stock", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   },
@@ -300,7 +359,18 @@
     "clip_size": 8,
     "reload": 200,
     "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "barrel", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "brass catcher", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "barrel", 1 ],
+      [ "muzzle", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
     "flags": [ "RELOAD_ONE" ]
   }
 ]

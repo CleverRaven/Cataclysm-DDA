@@ -124,7 +124,11 @@
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "sights", 1 ],
-      [ "sling", 1 ]
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "magazines": [ [ "308", [ "m14mag", "m14smallmag" ] ] ]
   },
@@ -231,7 +235,10 @@
       [ "stock", 1 ],
       [ "mechanism", 4 ],
       [ "sights", 1 ],
-      [ "sling", 1 ]
+      [ "sling", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "flags": [ "RELOAD_ONE" ]
   },
@@ -299,7 +306,10 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "mechanism", 4 ],
-      [ "sights", 1 ]
+      [ "sights", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ],
     "flags": [ "NEVER_JAMS" ]
   },

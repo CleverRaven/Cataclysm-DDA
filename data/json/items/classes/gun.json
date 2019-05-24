@@ -26,7 +26,7 @@
     "name": "base launcher",
     "skill": "launcher",
     "modes": [ [ "DEFAULT", "single", 1, "NPC_AVOID" ] ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "sights", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "sights", 1 ], [ "sling", 1 ] ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEVER_JAMS" ]
   },
   {
@@ -56,7 +56,19 @@
     "type": "GUN",
     "name": "backup pistol",
     "//": "diminuitive backup pistols that lack underbarrel rails, sight dovetails and decent places to affix stocks.",
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 2 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 2 ],
+      [ "muzzle", 1 ],
+      [ "rail mount", 1 ],
+      [ "sights mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ]
   },
   {
     "abstract": "pistol_revolver",
@@ -73,7 +85,9 @@
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "sights", 1 ],
-      [ "stock", 1 ]
+      [ "stock", 1 ],
+      [ "rail mount", 1 ],
+      [ "underbarrel mount", 1 ]
     ]
   },
   {

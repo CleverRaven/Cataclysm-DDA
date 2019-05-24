@@ -31,7 +31,8 @@
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "stock", 1 ],
-      [ "underbarrel", 1 ]
+      [ "underbarrel", 1 ],
+      [ "rail mount", 1 ]
     ],
     "magazines": [ [ "762x25", [ "ppshmag", "ppshdrum" ] ] ]
   },
