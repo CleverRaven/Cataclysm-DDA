@@ -1551,27 +1551,6 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
     // TODO: Base on dispersion
     int safe_angle = 30;
 
-    /*const std::shared_ptr<Creature> ally_p = ai_cache.ally.lock();
-    if (!ally_p) {
-        return true;
-    }
-    const Creature& ally = *ally_p;
-    // TODO: Extract common functions with turret target selection
-    int safe_angle_ally = safe_angle;
-    int ally_dist = rl_dist(pos(), ally.pos());
-    if (ally_dist < 3) {
-        safe_angle_ally += (3 - ally_dist) * 30;
-    }
-
-    int ally_angle = coord_to_angle(pos(), ally.pos());
-    int angle_diff = abs(ally_angle - target_angle);
-    angle_diff = std::min(360 - angle_diff, angle_diff);
-    if (angle_diff < safe_angle_ally) {
-        // TODO: Disable NPC whining is it's other NPC who prevents aiming
-        return false;
-    }*/
-
-
     for( const auto &fr : ai_cache.friends ) {
         const std::shared_ptr<Creature> ally_p = fr.lock();
         if( !ally_p ) {
