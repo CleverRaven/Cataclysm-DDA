@@ -283,7 +283,7 @@ enum class ally_rule {
     hold_the_line = 4096,
     ignore_noise = 8192,
     forbid_engage = 16384,
-    follow_distance_4 = 32768
+    follow_distance_2 = 32768
 };
 
 struct ally_rule_data {
@@ -399,10 +399,10 @@ const std::unordered_map<std::string, ally_rule_data> ally_rule_strs = { {
             }
         },
         {
-            "follow_distance_4", {
-                ally_rule::follow_distance_4,
-                "<ally_rule_follow_distance_4_true_text>",
-                "<ally_rule_follow_distance_4_false_text>"
+            "follow_distance_2", {
+                ally_rule::follow_distance_2,
+                "<ally_rule_follow_distance_2_true_text>",
+                "<ally_rule_follow_distance_2_false_text>"
             }
         }
     }

@@ -164,11 +164,11 @@
         },
         {
           "and": [
-            { "npc_override": "follow_distance_4", "yes": "  OVERRIDE: ", "no": "  " },
+            { "npc_override": "follow_distance_2", "yes": "  OVERRIDE: ", "no": "  " },
             {
-              "npc_rule": "follow_distance_4",
-              "yes": "<ally_rule_follow_distance_4_true_text>",
-              "no": "<ally_rule_follow_distance_4_false_text>"
+              "npc_rule": "follow_distance_2",
+              "yes": "<ally_rule_follow_distance_2_true_text>",
+              "no": "<ally_rule_follow_distance_2_false_text>"
             }
           ]
         },
@@ -248,12 +248,12 @@
       },
       {
         "truefalsetext": {
-          "condition": { "npc_rule": "follow_distance_4" },
-          "true": "<ally_rule_follow_distance_4_true_text>",
-          "false": "<ally_rule_follow_distance_4_false_text>"
+          "condition": { "npc_rule": "follow_distance_2" },
+          "true": "<ally_rule_follow_distance_2_true_text>",
+          "false": "<ally_rule_follow_distance_2_false_text>"
         },
         "topic": "TALK_COMBAT_COMMANDS",
-        "effect": { "toggle_npc_rule": "follow_distance_4" }
+        "effect": { "toggle_npc_rule": "follow_distance_2" }
       },
       {
         "truefalsetext": {
