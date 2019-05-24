@@ -815,6 +815,7 @@ See also VEHICLE_JSON.md
 "weight" : 350,                   // Weight of the item in grams. For stackable items (ammo, comestibles) this is the weight per charge.
 "volume" : 1,                     // Volume, measured in 1/4 liters. For stackable items (ammo, comestibles) this is the volume of stack_size charges. Volume in ml and L can be used - "50ml" or "2L"
 "integral_volume" : 0,            // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
+"integral_weight" : 0,            // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
 "rigid": false,                   // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "insulation": 1,                  // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
 "price" : 100,                    // Used when bartering with NPCs. For stackable items (ammo, comestibles) this is the price for stack_size charges.
@@ -1728,13 +1729,9 @@ Strength required to move the furniture around. Negative values indicate an unmo
 
 (Optional) Can craft here.  Must specify a speed multiplier, allowed mass, and allowed volume.  Mass/volume over these limits incur a speed penalty.  Must be paired with a `"workbench"` `examine_action` to function.
 
-#### `plant_transform`
+#### `plant_data`
 
-(Optional) What the furniture turns into when it is planted on or grows.
-
-#### `plant_base``
-
-(Optional) What the plant furniture turns into when it is eaten by something that eats crops - this should be what it is planted in. Requires `PLANT` flag to function.
+(Optional) This is a plant. Must specify a plant transform, and a base depending on context. You can also add a harvest or growth multiplier if it has the `GROWTH_HARVEST` flag. 
 
 ### Terrain
 
