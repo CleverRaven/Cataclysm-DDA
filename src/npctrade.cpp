@@ -458,6 +458,12 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             g->u.practice( skill_barter, practice / 2 );
         }
     }
+    for( auto &elem : g->u.inv_dump() ) {
+        elem->set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
+    }
+    for( auto &elem : p.inv_dump() ) {
+        elem->set_owner( p.my_fac );
+    }
     g->refresh_all();
     return traded;
 }

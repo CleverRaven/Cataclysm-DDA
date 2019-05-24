@@ -33,6 +33,7 @@
 #include "mapdata.h"
 #include "mapgen_functions.h"
 #include "mapgenformat.h"
+#include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "mtype.h"
@@ -802,6 +803,24 @@ class jmapgen_npc : public jmapgen_piece
                     p->set_mutation( trait_id( new_trait ) );
                 }
             }
+        }
+};
+/**
+* Place ownership area
+*/
+class jmapgen_faction : public jmapgen_piece
+{
+    public:
+        faction_id id;
+        jmapgen_faction( JsonObject &jsi ) : jmapgen_piece() {
+            if( jsi.has_string( "id" ) ) {
+                id = faction_id( jsi.get_string( "id" ) );
+                std::string facid = jsi.get_string( "id" );
+            }
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const float /*mdensity*/, mission * ) const override {
+            dat.m.apply_faction_ownership( x.val, y.val, x.valmax, y.valmax, id );
         }
 };
 /**
@@ -2135,7 +2154,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_graffiti>( jo, "graffiti", format_placings );
     new_pal.load_place_mapings<jmapgen_translate>( jo, "translate", format_placings );
     new_pal.load_place_mapings<jmapgen_zone>( jo, "zones", format_placings );
-
+    new_pal.load_place_mapings<jmapgen_faction>( jo, "faction_owner_character", format_placings );
     return new_pal;
 }
 
@@ -2320,7 +2339,8 @@ bool mapgen_function_json_base::setup_common( JsonObject jo )
     objects.load_objects<jmapgen_graffiti>( jo, "place_graffiti" );
     objects.load_objects<jmapgen_translate>( jo, "translate_ter" );
     objects.load_objects<jmapgen_zone>( jo, "place_zones" );
-
+    // Needs to be last as it affects other placed items
+    objects.load_objects<jmapgen_faction>( jo, "faction_owner" );
     if( !mapgen_defer::defer ) {
         is_ready = true; // skip setup attempts from any additional pointers
     }
@@ -6915,6 +6935,19 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type, bool forc
     temp->toggle_trait( trait_id( "NPC_STATIC_NPC" ) );
     overmap_buffer.insert_npc( temp );
     return temp->getID();
+}
+
+void map::apply_faction_ownership( const int x1, const int y1, const int x2, const int y2,
+                                   const faction_id id )
+{
+    faction *fac = g->faction_manager_ptr->get( id );
+    for( const tripoint &p : points_in_rectangle( tripoint( x1, y1, abs_sub.z ), tripoint( x2, y2,
+            abs_sub.z ) ) ) {
+        auto items = i_at( p.x, p.y );
+        for( item &elem : items ) {
+            elem.set_owner( fac );
+        }
+    }
 }
 
 std::vector<item *> map::place_items( const items_location &loc, const int chance,

@@ -802,7 +802,9 @@ bool game::start_game()
             }
         }
     }
-
+    for( auto &e : u.inv_dump() ) {
+        e->set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
+    }
     // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
     update_map( u );
     // Profession pets
@@ -2604,7 +2606,9 @@ void game::load( const save_t &name )
     validate_npc_followers();
     validate_camps();
     update_map( u );
-
+    for( auto &e : u.inv_dump() ) {
+        e->set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
+    }
     // legacy, needs to be here as we access the map.
     if( u.getID() == 0 || u.getID() == -1 ) {
         // player does not have a real id, so assign a new one,
