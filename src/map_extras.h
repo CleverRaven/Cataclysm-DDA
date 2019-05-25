@@ -8,7 +8,7 @@
 
 namespace MapExtras
 {
-typedef std::unordered_map<std::string, map_special_pointer> FunctionMap;
+using FunctionMap = std::unordered_map<std::string, map_special_pointer>;
 
 map_special_pointer get_function( const std::string &name );
 FunctionMap all_functions();
