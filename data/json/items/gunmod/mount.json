@@ -84,7 +84,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ":",
     "color": "light_gray",
-    "location": "rail mount",
+    "location": "underbarrel mount",
     "mod_targets": [ "smg", "rifle", "pistol", "shotgun", "crossbow", "launcher" ],
     "install_time": 15000,
     "min_skills": [ [ "gun", 3 ] ],
@@ -92,4 +92,3 @@
     "flags": [ "INSTALL_DIFFICULT", "IRREMOVABLE" ]
   }
 ]
-
