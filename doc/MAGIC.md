@@ -57,22 +57,22 @@ However, experience gain is a little more complicated to calculate.  The formula
 
 #### Currently Implemented Effects and special rules
 
-*"pain_split" - makes all of your limbs' damage even out.
+* "pain_split" - makes all of your limbs' damage even out.
 
-*"move_earth" - "digs" at the target location. some terrain is not diggable this way.
+* "move_earth" - "digs" at the target location. some terrain is not diggable this way.
 
-*"target_attack" - deals damage to a target (ignores walls).  If "effect_str" is included, it will add that effect (defined elsewhere in json) to the targets if able, to the body parts defined in effected_body_parts.
+* "target_attack" - deals damage to a target (ignores walls).  If "effect_str" is included, it will add that effect (defined elsewhere in json) to the targets if able, to the body parts defined in effected_body_parts.
 Any aoe will manifest as a circular area centered on the target, and will only deal damage to valid_targets. (aoe does not ignore walls)
 
-*"projectile_attack" - similar to target_attack, except the projectile you shoot will stop short at impassable terrain.  If "effect_str" is included, it will add that effect (defined elsewhere in json) to the targets if able, to the body parts defined in effected_body_parts.
+* "projectile_attack" - similar to target_attack, except the projectile you shoot will stop short at impassable terrain.  If "effect_str" is included, it will add that effect (defined elsewhere in json) to the targets if able, to the body parts defined in effected_body_parts.
 
-*"cone_attack" - fires a cone toward the target up to your range.  The arc of the cone in degrees is aoe.  Stops at walls.  If "effect_str" is included, it will add that effect (defined elsewhere in json) to the targets if able, to the body parts defined in effected_body_parts.
+* "cone_attack" - fires a cone toward the target up to your range.  The arc of the cone in degrees is aoe.  Stops at walls.  If "effect_str" is included, it will add that effect (defined elsewhere in json) to the targets if able, to the body parts defined in effected_body_parts.
 
-*"line_attack" - fires a line with width aoe toward the target, being blocked by walls on the way.  If "effect_str" is included, it will add that effect (defined elsewhere in json) to the targets if able, to the body parts defined in effected_body_parts.
+* "line_attack" - fires a line with width aoe toward the target, being blocked by walls on the way.  If "effect_str" is included, it will add that effect (defined elsewhere in json) to the targets if able, to the body parts defined in effected_body_parts.
 
-*"spawn_item" - spawns an item that will disappear at the end of its duration.  Default duration is 0.
+* "spawn_item" - spawns an item that will disappear at the end of its duration.  Default duration is 0.
 
-*"teleport_random" - teleports the player randomly range spaces with aoe variation
+* "teleport_random" - teleports the player randomly range spaces with aoe variation
 
 ##### For Spells that have an attack type, these are the available damage types:
 "fire"
