@@ -4096,7 +4096,10 @@
       [ "kris", 5 ],
       [ "cheese_hard", 1 ],
       [ "apron_leather", 1 ],
-      [ "pot_copper", 3 ]
+      [ "pot_copper", 3 ],
+      [ "shield_kite", 5 ],
+      [ "shield_heater", 10 ],
+      [ "shield_buckler", 1 ]
     ]
   },
   {
@@ -4490,7 +4493,13 @@
       [ "tourist_table", 10 ],
       [ "thermos", 25 ],
       [ "magic_8_ball", 2 ],
-      [ "coin_quarter", 2 ]
+      [ "coin_quarter", 2 ],
+      [ "shield_hoplon", 1 ],
+      [ "shield_scutum", 1 ],
+      [ "shield_round", 3 ],
+      [ "shield_kite", 3 ],
+      [ "shield_heater", 5 ],
+      [ "shield_buckler", 5 ]
     ]
   },
   {
@@ -8028,7 +8037,9 @@
       [ "survivor_shavingkit", 3 ],
       [ "survivor_hairtrimmer", 1 ],
       [ "survivor_scope", 1 ],
-      [ "survnote", 30 ]
+      [ "survnote", 30 ],
+      [ "shield_wooden", 10 ],
+      [ "shield_wooden_large", 5 ]
     ]
   },
   {
@@ -8355,7 +8366,21 @@
       [ "pistol_flintlock", 4 ],
       [ "carbine_flintlock", 4 ],
       [ "rifle_flintlock", 4 ],
-      [ "petrified_eye", 2 ]
+      [ "petrified_eye", 2 ],
+      [ "ji", 1 ],
+      [ "dao", 3 ],
+      [ "sword_xiphos", 4 ],
+      [ "khopesh", 4 ],
+      [ "spear_dory", 3 ],
+      [ "fire_lance", 2 ],
+      [ "lance_charge", 1 ],
+      [ "lance_charge_shot", 1 ],
+      [ "shield_hoplon", 1 ],
+      [ "shield_scutum", 1 ],
+      [ "shield_round", 3 ],
+      [ "shield_kite", 3 ],
+      [ "shield_heater", 5 ],
+      [ "shield_buckler", 5 ]
     ]
   },
   {
@@ -8426,7 +8451,6 @@
     ]
   },
   {
-    "id": "museum_primitive",
     "type": "item_group",
     "items": [
       [ "primitive_knife", 50 ],

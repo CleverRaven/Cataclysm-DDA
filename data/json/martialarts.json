@@ -980,6 +980,7 @@
   },
   {
     "type": "martial_art",
+<<<<<<< master
     "id": "style_wingchun",
     "name": "Wing Chun",
     "description": "Wing Chun is a Chinese martial art that began by selecting the easiest-to-learn effective techniques from the various Shaolin animal forms.  It has a high stance, with weight entirely on the rear leg.  Wing Chun focuses on sensitivity to the opponent's direction of force, and flowing around it to get back to hitting.",
@@ -1009,5 +1010,64 @@
       "tec_wingchun_disarm"
     ],
     "weapons": [ "butterfly_swords", "long_pole" ]
+},
+{
+    "id": "style_swordsmanship",
+    "name": "Medieval Swordsmanship",
+    "description": "The art of the longsword and other weapons, preceding the later development of fencing.  Designed for combat both unarmored and in armor, it includes grappling as well as defensive and offensive sword techniques, plus familiarity with other weapons like polearms.",
+    "initiate": [ "You stand tall and become vigilant against attacks.", "%s stands tall and becomes vigilant." ],
+    "arm_block": 99,
+    "leg_block": 99,
+    "onattack_buffs": [
+      {
+        "id": "swordsmanship_attack_buff",
+        "name": "Perfect Defense",
+        "description": "Bonus dodges after an attack.",
+        "buff_duration": 3,
+        "melee_allowed": true,
+        "bonus_dodges": 2
+      }
+    ],
+    "ondodge_buffs": [
+      {
+        "id": "swordsmanship_counter",
+        "name": "Displacement",
+        "description": "The enemy has presented an opening in their defense.",
+        "min_melee": 2,
+        "melee_allowed": true,
+        "max_stacks": 1,
+        "buff_duration": 2
+      }
+    ],
+    "techniques": [
+      "tec_swordsmanship_counter",
+      "tec_swordsmanship_grab",
+      "tec_swordsmanship_break",
+      "tec_swordsmanship_zornhau",
+      "tec_swordsmanship_unterhau",
+      "tec_swordsmanship_mordhau"
+    ],
+    "weapons": [
+      "sword_wood",
+      "sword_nail",
+      "sword_crude",
+      "zweihander",
+      "zweihander_inferior",
+      "zweifire_off",
+      "zweifire_on",
+      "arming_sword",
+      "arming_sword_inferior",
+      "longsword",
+      "longsword_inferior",
+      "estoc",
+      "estoc_inferior",
+      "q_staff",
+      "i_staff",
+      "makeshift_halberd",
+      "glaive",
+      "pike",
+      "spear_steel",
+      "halberd",
+    ]
   }
 ]
