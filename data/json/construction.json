@@ -837,7 +837,6 @@
     "category": "CONSTRUCT",
     "time": 40,
     "components": [ [ "splintered_wood", 50 ] ],
-    "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_woodchips"
   },
   {
