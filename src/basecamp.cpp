@@ -160,11 +160,10 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
         comp = string_format( _( "Notes:\n%s\n\nSkill used: %s\n%s\n" ),
                               making.description, making.skill_used.obj().name(), comp );
     } else {
-        time_duration duration = time_duration::from_turns( making.time / 100 );
         comp = string_format( _( "Notes:\n%s\n\nSkill used: %s\n"
                                  "Difficulty: %d\n%s \nRisk: None\nTime: %s\n" ),
                               making.description, making.skill_used.obj().name(),
-                              making.difficulty, comp, to_string( duration ) );
+                              making.difficulty, comp, to_string( making.batch_duration() ) );
     }
     return comp;
 }

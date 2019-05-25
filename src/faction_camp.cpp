@@ -1373,16 +1373,14 @@ npc_ptr basecamp::start_mission( const std::string &miss_id, time_duration durat
     return comp;
 }
 
-void basecamp::start_upgrade( const std::string &bldg, const std::string &key,
-                              bool by_radio )
+void basecamp::start_upgrade( const std::string &bldg, const std::string &key, bool by_radio )
 {
     const recipe &making = recipe_id( bldg ).obj();
     //Stop upgrade if you don't have materials
     if( making.requirements().can_make_with_inventory( _inv, making.get_component_filter(), 1 ) ) {
-        time_duration making_time = time_duration::from_turns( making.time / 100 );
         bool must_feed = bldg != "faction_base_camp_1";
 
-        npc_ptr comp = start_mission( key, making_time, must_feed,
+        npc_ptr comp = start_mission( key, making.batch_duration(), must_feed,
                                       _( "begins to upgrade the camp..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
@@ -1666,7 +1664,7 @@ void basecamp::start_fortifications( std::string &bldg_exp, bool by_radio )
                 return;
             }
             trips += 2;
-            build_time += time_duration::from_turns( making.time / 100 );
+            build_time += making.batch_duration();
             dist += rl_dist( fort_om.x, fort_om.y, omt_pos.x, omt_pos.y );
             travel_time += companion_travel_time_calc( fort_om, omt_pos, 0_minutes, 2 );
         }
@@ -1748,9 +1746,7 @@ void basecamp::start_crafting( const std::string &cur_id, const std::string &cur
             popup( _( "Your batch is too large!" ) );
             continue;
         }
-        int batch_turns = making.batch_time( batch_size, 1.0, 0 ) / 100;
-        time_duration making_time = time_duration::from_turns( batch_turns );
-        npc_ptr comp = start_mission( miss_id + cur_dir, making_time, true,
+        npc_ptr comp = start_mission( miss_id + cur_dir, making.batch_duration(), true,
                                       _( "begins to work..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
@@ -2074,11 +2070,8 @@ bool basecamp::upgrade_return( const std::string &dir, const std::string &miss )
     }
     const recipe &making = recipe_id( bldg ).obj();
 
-    time_duration making_time = time_duration::from_turns( making.time / 100 );
-    const std::string msg = _( "returns from upgrading the camp having earned a bit of "
-                               "experience..." );
-    npc_ptr comp = mission_return( miss, making_time, true, msg, "construction",
-                                   making.difficulty );
+    npc_ptr comp = companion_choose_return( miss, making.batch_duration() );
+
     if( comp == nullptr ) {
         return false;
     }
@@ -2088,6 +2081,10 @@ bool basecamp::upgrade_return( const std::string &dir, const std::string &miss )
     }
     resources_updated = false;
     e->second.cur_level += 1;
+    const std::string msg = _( "returns from upgrading the camp having earned a bit of "
+                               "experience..." );
+    finish_return( *comp, false, msg, "construction", making.difficulty );
+
     return true;
 }
 
@@ -2526,8 +2523,7 @@ int basecamp::recipe_batch_max( const recipe &making ) const
     const int max_checks = 9;
     for( size_t batch_size = 1000; batch_size > 0; batch_size /= 10 ) {
         for( int iter = 0; iter < max_checks; iter++ ) {
-            int batch_turns = making.batch_time( max_batch + batch_size, 1.0, 0 ) / 100;
-            int food_req = time_to_food( time_duration::from_turns( batch_turns ) );
+            int food_req = time_to_food( making.batch_duration( max_batch + batch_size, 1.0, 0 ) );
             bool can_make = making.requirements().can_make_with_inventory( _inv,
                             making.get_component_filter(), max_batch + batch_size );
             if( can_make && camp_food_supply() > food_req ) {
@@ -3193,11 +3189,10 @@ std::string basecamp::upgrade_description( const std::string &bldg )
     for( auto &elem : component_print_buffer ) {
         comp = comp + elem + "\n";
     }
-    time_duration duration = time_duration::from_turns( making.time / 100 );
     comp = string_format( _( "Notes:\n%s\n \nSkill used: %s\n"
                              "Difficulty: %d\n%s \nRisk: None\nTime: %s\n" ),
                           making.description, making.skill_used.obj().name(),
-                          making.difficulty, comp, to_string( duration ) );
+                          making.difficulty, comp, to_string( making.batch_duration() ) );
     return comp;
 }
 
@@ -3218,10 +3213,9 @@ std::string basecamp::craft_description( const std::string &itm )
     for( auto &elem : component_print_buffer ) {
         comp = comp + elem + "\n";
     }
-    time_duration duration = time_duration::from_turns( making.time / 100 );
     comp = string_format( _( "Skill used: %s\nDifficulty: %d\n%s\nTime: %s\n" ),
                           making.skill_used.obj().name(), making.difficulty, comp,
-                          to_string( duration ) );
+                          to_string( making.batch_duration() ) );
     return comp;
 }
 
