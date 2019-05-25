@@ -195,7 +195,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_4_HAPPY",
-    "dynamic_line": "What's the alternative?  You take the hand you're dealt.  I've given eulogies for two of the people I love most on this earth, and the third wrote me off.  I've already been through the end of the world.  Came out the other side with my bits intact. And you know, I've been pretty lonely since my wife passed. Here I've got friends. We might be hungry but we're close.  Reena's been teaching me math and science, Luo is one of the smartest folks I've ever met - she's got a doctorate you know - and Yusuke is the only one here that can beat me at poker.  And Dave, well, he's Dave. There's more goin' on under the surface there, mark my words. We may be unfit, but we aren't worthless.",
+    "dynamic_line": "What's the alternative?  You take the hand you're dealt.  I've given eulogies for two of the people I love most on this earth, and the third wrote me off.  I've already been through the end of the world.  Came out the other side with my bits intact.  And you know, I've been pretty lonely since my wife passed.  Here I've got friends.  We might be hungry but we're close.  Reena's been teaching me math and science, Luo is one of the smartest folks I've ever met - she's got a doctorate you know - and Yusuke is the only one here that can beat me at poker.  And Dave, well, he's Dave. There's more goin' on under the surface there, mark my words. We may be unfit, but we aren't worthless.",
     "speaker_effect": [ { "effect": [ { "u_add_var": "luo_doctorate", "type": "general", "context": "conversation", "value": "yes" } ] } ],
     "responses": [
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_4_LIFEBEFORE1" },
@@ -220,7 +220,7 @@
       },
       {
         "condition": "u_has_camp",
-        "text": "I have a camp. It's a damn sight better than those place, and there are regular meals. Someone with your trades experience would be welcome, even if you can't do the big jobs anymore.",
+        "text": "I have a camp.  It's a damn sight better than those place, and there are regular meals.  Someone with your trades experience would be welcome, even if you can't do the big jobs anymore.",
         "topic": "TALK_REFUGEE_BEGGAR_4_RECRUIT1"
       },
       { "text": "You seem awfully happy considering the situation.", "topic": "TALK_REFUGEE_BEGGAR_4_HAPPY" },
@@ -234,7 +234,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_4_LIFEBEFORE2",
-    "dynamic_line": "Yeah, we had two. My daughter died of an OD right at the start of that fentanyl stuff. It did a real number on my son - they were twins you see - and he cut ties to me and my wife. Wasn't even there for her funeral. I can't blame him, it messed us all up pretty fierce. As far as I'm concerned he's still out there with my grandkids, hiding away somewhere safe. These days, no news is good news.",
+    "dynamic_line": "Yeah, we had two.  My daughter died of an OD right at the start of that fentanyl stuff.  It did a real number on my son - they were twins you see - and he cut ties to me and my wife.  Wasn't even there for her funeral.  I can't blame him, it messed us all up pretty fierce.  As far as I'm concerned he's still out there with my grandkids, hiding away somewhere safe.  These days, no news is good news.",
     "responses": [
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_4_LIFEBEFORE1" },
       {
@@ -244,7 +244,7 @@
       },
       {
         "condition": "u_has_camp",
-        "text": "I have a camp. It's a damn sight better than those place, and there are regular meals. Someone with your trades experience would be welcome, even if you can't do the big jobs anymore.",
+        "text": "I have a camp.  It's a damn sight better than those place, and there are regular meals.  Someone with your trades experience would be welcome, even if you can't do the big jobs anymore.",
         "topic": "TALK_REFUGEE_BEGGAR_4_RECRUIT1"
       },
       { "text": "You seem awfully happy considering the situation.", "topic": "TALK_REFUGEE_BEGGAR_4_HAPPY" },
