@@ -205,13 +205,6 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [
-      [ "38", [ "taurus38mag", "smg_38_mag" ] ],
-      [ "22", [ "ruger1022bigmag", "ruger1022mag" ] ],
-      [ "45", [ "m1911mag", "m1911bigmag" ] ],
-      [ "46", [ "hk46mag", "hk46bigmag" ] ],
-      [ "57", [ "fn57mag" ] ],
-      [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22" ] ]
-    ]
+    "magazines": [ [ "38", [ "taurus38mag" ] ] ]
   }
 ]

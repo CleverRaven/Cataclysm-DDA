@@ -8,6 +8,7 @@
 #include <memory>
 #include <ostream>
 
+#include "avatar.h"
 #include "debug.h"
 #include "explosion.h"
 #include "game.h"
@@ -391,8 +392,8 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
 }
 
 // A helper to make sure mass and density is always calculated the same way
-void terrain_collision_data( const tripoint &p, bool bash_floor,
-                             float &mass, float &density, float &elastic )
+static void terrain_collision_data( const tripoint &p, bool bash_floor,
+                                    float &mass, float &density, float &elastic )
 {
     elastic = 0.30;
     // Just a rough rescale for now to obtain approximately equal numbers
@@ -605,7 +606,9 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             if( fabs( vel2_a ) > fabs( vel2 ) ) {
                 vel2 = vel2_a;
             }
-
+            if( mass2 == 0 ) { // this causes infinite loop
+                mass2 = 1;
+            }
             continue;
         }
 
@@ -1139,7 +1142,7 @@ void vehicle::precalculate_vehicle_turning( int new_turn_dir, bool check_rail_di
 }
 
 // rounds turn_dir to 45*X degree, respecting face_dir
-int get_corrected_turn_dir( int turn_dir, int face_dir )
+static int get_corrected_turn_dir( int turn_dir, int face_dir )
 {
     int corrected_turn_dir = 0;
 
@@ -1386,6 +1389,7 @@ bool vehicle::act_on_map()
 
     if( dp.z != 0 ) {
         g->m.move_vehicle( *this, tripoint( 0, 0, dp.z ), mdir );
+        is_falling = false;
     }
 
     return true;
@@ -1409,7 +1413,7 @@ void vehicle::check_falling_or_floating()
     for( const tripoint &p : pts ) {
         if( is_falling ) {
             tripoint below( p.x, p.y, p.z - 1 );
-            is_falling &= !g->m.has_floor( p ) && ( p.z > -OVERMAP_DEPTH ) &&
+            is_falling &= g->m.has_flag_ter_or_furn( TFLAG_NO_FLOOR, p ) && ( p.z > -OVERMAP_DEPTH ) &&
                           !g->m.supports_above( below );
         }
         water_tiles += g->m.has_flag( TFLAG_DEEP_WATER, p ) ? 1 : 0;

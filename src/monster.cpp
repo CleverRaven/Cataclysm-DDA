@@ -7,6 +7,7 @@
 #include <tuple>
 #include <unordered_map>
 
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -536,7 +537,7 @@ std::pair<std::string, nc_color> monster::get_attitude() const
     };
 }
 
-std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
+static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
 {
     std::string damage_info;
     nc_color col;
@@ -940,6 +941,7 @@ monster_attitude monster::attitude( const Character *u ) const
         static const trait_id pheromone_mammal( "PHEROMONE_MAMMAL" );
         static const trait_id pheromone_insect( "PHEROMONE_INSECT" );
         static const trait_id mycus_thresh( "THRESH_MYCUS" );
+        static const trait_id mycus_friend( "MYCUS_FRIEND" );
         static const trait_id terrifying( "TERRIFYING" );
         if( faction == faction_bee ) {
             if( u->has_trait( trait_BEE ) ) {
@@ -949,7 +951,8 @@ monster_attitude monster::attitude( const Character *u ) const
             }
         }
 
-        if( type->in_species( FUNGUS ) && u->has_trait( mycus_thresh ) ) {
+        if( type->in_species( FUNGUS ) && ( u->has_trait( mycus_thresh ) ||
+                                            u->has_trait( mycus_friend ) ) ) {
             return MATT_FRIEND;
         }
 
@@ -1949,8 +1952,8 @@ void monster::die( Creature *nkiller )
                                   name() );
         }
         if( ch->is_player() && ch->has_trait( trait_KILLER ) ) {
-            std::string snip = SNIPPET.random_from_category( "killer_on_kill" );
             if( one_in( 4 ) ) {
+                std::string snip = SNIPPET.random_from_category( "killer_on_kill" );
                 ch->add_msg_if_player( m_good, _( snip ) );
             }
             ch->add_morale( MORALE_KILLER_HAS_KILLED, 5, 10, 6_hours, 4_hours );

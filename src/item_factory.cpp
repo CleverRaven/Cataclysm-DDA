@@ -46,7 +46,7 @@
 
 class player;
 
-typedef std::set<std::string> t_string_set;
+using t_string_set = std::set<std::string>;
 static t_string_set item_blacklist;
 
 static std::set<std::string> repair_actions;
@@ -184,6 +184,10 @@ void Item_factory::finalize_pre( itype &obj )
     // use base volume if integral volume unspecified
     if( obj.integral_volume < 0_ml ) {
         obj.integral_volume = obj.volume;
+    }
+    // use base weight if integral weight unspecified
+    if( obj.integral_weight < 0_gram ) {
+        obj.integral_weight = obj.weight;
     }
     // for ammo and comestibles stack size defaults to count of initial charges
     // Set max stack size to 200 to prevent integer overflow
@@ -482,17 +486,9 @@ void Item_factory::finalize_item_blacklist()
     }
 }
 
-void add_to_set( t_string_set &s, JsonObject &json, const std::string &name )
-{
-    JsonArray jarr = json.get_array( name );
-    while( jarr.has_more() ) {
-        s.insert( jarr.next_string() );
-    }
-}
-
 void Item_factory::load_item_blacklist( JsonObject &json )
 {
-    add_to_set( item_blacklist, json, "items" );
+    add_array_to_set( item_blacklist, json, "items" );
 }
 
 Item_factory::~Item_factory() = default;
@@ -793,6 +789,7 @@ void Item_factory::init()
     add_actor( new mutagen_actor() );
     add_actor( new mutagen_iv_actor() );
     add_actor( new deploy_tent_actor() );
+    add_actor( new learn_spell_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"].reset( new Item_group( Item_group::G_COLLECTION, 100, 0, 0 ) );
@@ -1938,6 +1935,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
 
     assign( jo, "category", def.category_force, strict );
     assign( jo, "weight", def.weight, strict, 0_gram );
+    assign( jo, "integral_weight", def.integral_weight, strict, 0_gram );
     assign( jo, "volume", def.volume );
     assign( jo, "price", def.price );
     assign( jo, "price_postapoc", def.price_post );
@@ -2236,7 +2234,7 @@ void Item_factory::clear()
     frozen = false;
 }
 
-std::string to_string( Item_group::Type t )
+static std::string to_string( Item_group::Type t )
 {
     switch( t ) {
         case Item_group::Type::G_COLLECTION:
@@ -2248,8 +2246,9 @@ std::string to_string( Item_group::Type t )
     return "BUGGED";
 }
 
-Item_group *make_group_or_throw( const Group_tag &group_id, std::unique_ptr<Item_spawn_data> &isd,
-                                 Item_group::Type t, int ammo_chance, int magazine_chance )
+static Item_group *make_group_or_throw( const Group_tag &group_id,
+                                        std::unique_ptr<Item_spawn_data> &isd,
+                                        Item_group::Type t, int ammo_chance, int magazine_chance )
 {
     Item_group *ig = dynamic_cast<Item_group *>( isd.get() );
     if( ig == nullptr ) {

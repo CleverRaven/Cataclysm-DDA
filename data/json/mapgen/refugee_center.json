@@ -5,6 +5,13 @@
     "om_terrain": [ [ "evac_center_1", "evac_center_2", "evac_center_3", "evac_center_4", "evac_center_5" ] ],
     "weight": 100,
     "object": {
+      "faction_owner": [
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 96, 119 ], "y": [ 0, 23 ] }
+      ],
       "fill_ter": "t_floor",
       "rows": [
         "........................................................................................................................",
@@ -51,6 +58,13 @@
     "om_terrain": [ [ "evac_center_6", "evac_center_7", "evac_center_8", "evac_center_9", "evac_center_10" ] ],
     "weight": 100,
     "object": {
+      "faction_owner": [
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 96, 119 ], "y": [ 0, 23 ] }
+      ],
       "fill_ter": "t_floor",
       "rows": [
         "......_______,,_______ssss.......................sss________________sss.......................ssss_______,,_______......",
@@ -143,6 +157,13 @@
     "om_terrain": [ [ "evac_center_11", "evac_center_12", "evac_center_13", "evac_center_14", "evac_center_15" ] ],
     "weight": 100,
     "object": {
+      "faction_owner": [
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 96, 119 ], "y": [ 0, 23 ] }
+      ],
       "fill_ter": "t_floor",
       "rows": [
         "......_______,,________sss.........#####   c#  ###########+#+###########LL#c   #####..........sss________,,_______......",
@@ -215,6 +236,13 @@
     "om_terrain": [ [ "evac_center_16", "evac_center_17", "evac_center_18", "evac_center_19", "evac_center_20" ] ],
     "weight": 100,
     "object": {
+      "faction_owner": [
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 96, 119 ], "y": [ 0, 23 ] }
+      ],
       "fill_ter": "t_floor",
       "rows": [
         "......_______,,_______sss....#########t+  c#  #2hcV  bbbb      bbbb  Vch2#  #c +t#########....sss________,,_______......",
@@ -303,6 +331,13 @@
     "om_terrain": [ [ "evac_center_21", "evac_center_22", "evac_center_23", "evac_center_24", "evac_center_25" ] ],
     "weight": 100,
     "object": {
+      "faction_owner": [
+        { "id": "free_merchants", "x": [ 0, 23 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 72, 95 ], "y": [ 0, 23 ] },
+        { "id": "free_merchants", "x": [ 96, 119 ], "y": [ 0, 23 ] }
+      ],
       "fill_ter": "t_floor",
       "rows": [
         "......_______,,_______ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss_______,,_______......",

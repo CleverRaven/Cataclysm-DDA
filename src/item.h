@@ -17,6 +17,7 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "enums.h"
+#include "faction.h"
 #include "flat_set.h"
 #include "io_tags.h"
 #include "item_location.h"
@@ -431,7 +432,7 @@ class item : public visitable<item>
          */
         bool merge_charges( const item &rhs );
 
-        units::mass weight( bool include_contents = true ) const;
+        units::mass weight( bool include_contents = true, bool integral = false ) const;
 
         /**
          * Total volume of an item accounting for all contained/integrated items
@@ -675,7 +676,7 @@ class item : public visitable<item>
          * @param carrier The current carrier
          * @param flag to specify special temperature situations
          */
-        void process_temperature_rot( float insulation, const tripoint pos, player *carrier,
+        void process_temperature_rot( float insulation, const tripoint &pos, player *carrier,
                                       const temperature_flag flag = temperature_flag::TEMP_NORMAL );
 
         /** Set the item to HOT */
@@ -1836,9 +1837,35 @@ class item : public visitable<item>
         void set_age( const time_duration &age );
         time_point birthday() const;
         void set_birthday( const time_point &bday );
-
+        void handle_pickup_ownership( Character &p );
         int get_gun_ups_drain() const;
-
+        inline void set_old_owner( const faction *temp_owner ) {
+            old_owner = temp_owner;
+        }
+        inline void remove_old_owner() {
+            old_owner = nullptr;
+        }
+        inline void set_owner( faction *new_owner ) {
+            owner = new_owner;
+        }
+        inline void remove_owner() {
+            owner = nullptr;
+        }
+        inline const faction *get_owner() const {
+            if( owner ) {
+                return owner;
+            }
+            return nullptr;
+        }
+        inline const faction *get_old_owner() const {
+            if( old_owner ) {
+                return old_owner;
+            }
+            return nullptr;
+        }
+        inline bool has_owner() const {
+            return owner;
+        }
         int get_min_str() const;
 
         const cata::optional<islot_comestible> &get_comestible() const;
@@ -1987,7 +2014,10 @@ class item : public visitable<item>
          * PNULL.
          */
         phase_id current_phase = static_cast<phase_id>( 0 );
-
+        // The faction that owns this item.
+        const faction *owner = nullptr;
+        // The faction that previously owned this item
+        const faction *old_owner = nullptr;
         int damage_ = 0;
         light_emission light = nolight;
 

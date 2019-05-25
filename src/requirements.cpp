@@ -10,6 +10,7 @@
 #include <set>
 #include <unordered_map>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "game.h"

@@ -18,7 +18,8 @@
 // seeded (or re-seeded) with the given seed.
 void rng_set_engine_seed( unsigned int seed );
 
-std::default_random_engine &rng_get_engine();
+using cata_default_random_engine = std::minstd_rand0;
+cata_default_random_engine &rng_get_engine();
 unsigned int rng_bits();
 
 int rng( int val1, int val2 );

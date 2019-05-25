@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "avatar.h"
 #include "ballistics.h"
 #include "bodypart.h"
 #include "creature.h"

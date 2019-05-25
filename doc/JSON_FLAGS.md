@@ -247,6 +247,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```RAD_PROOF``` This piece of clothing completely protects you from radiation.
 - ```RAD_RESIST``` This piece of clothing partially protects you from radiation.
 - ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.
+- ```REQUIRES_BALANCE``` Gear that requires a certain balance to be steady with. If the player is hit while wearing, they have a chance to be downed.
 - ```RESTRICT_HANDS``` Prevents the player from wielding a weapon two-handed, forcing one-handed use if the weapon permits it.
 - ```SKINTIGHT``` Undergarment layer.
 - ```SLOWS_MOVEMENT``` This piece of clothing multiplies move cost by 1.1.
@@ -273,6 +274,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BIONIC_SLEEP_FRIENDLY``` This bionic won't prompt the user to turn it off if they try to sleep while it's active.
 - ```BIONIC_TOGGLED``` This bionic only has a function when activated, else it causes it's effect every turn.
 - ```BIONIC_WEAPON``` This bionic is a weapon bionic and activating it will create (or destroy) bionic's fake_item in user's hands.  Prevents all other activation effects.
+- ```BIONIC_SHOCKPROOF``` This bionic can't be incapacitated by electrical attacks.
 
 
 ## Books
@@ -547,6 +549,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```SEEN_FROM_ABOVE``` Visible from a higher level (provided the tile above has no floor)
 - ```SHARP``` May do minor damage to players/monsters passing through it.
 - ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades).
+- ```SIGN``` Show written message on examine.
 - ```SUPPORTS_ROOF``` Used as a boundary for roof construction.
 - ```SUPPRESS_SMOKE``` Prevents smoke from fires; used by ventilated wood stoves, etc.
 - ```SWIMMABLE``` Player and monsters can swim through it.
@@ -1036,8 +1039,6 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 ## Overmap
 
 ### Overmap connections
-
-#### Flags
 
 - ```ORTHOGONAL``` The connection generally prefers straight lines, avoids turning wherever possible.
 

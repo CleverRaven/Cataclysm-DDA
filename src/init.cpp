@@ -57,6 +57,7 @@
 #include "requirements.h"
 #include "rotatable_symbols.h"
 #include "scenario.h"
+#include "sdltiles.h"
 #include "skill.h"
 #include "skill_boost.h"
 #include "sounds.h"
@@ -73,10 +74,6 @@
 #include "bodypart.h"
 #include "translations.h"
 #include "type_id.h"
-
-#if defined(TILES)
-void load_tileset();
-#endif
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -133,7 +130,7 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
     }
 }
 
-void load_ignored_type( JsonObject &jo )
+static void load_ignored_type( JsonObject &jo )
 {
     // This does nothing!
     // This function is used for types that are to be ignored
@@ -463,6 +460,7 @@ void DynamicDataLoader::unload_data()
     mutations_category.clear();
     mutation_category_trait::reset();
     mutation_branch::reset_all();
+    spell_type::reset_all();
     reset_bionics();
     clear_tutorial_messages();
     reset_furn_ter();
@@ -552,6 +550,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             },
             { _( "Monster groups" ), &MonsterGroupManager::FinalizeMonsterGroups },
             { _( "Monster factions" ), &monfactions::finalize },
+            { _( "Factions" ), &npc_factions::finalize },
             { _( "Crafting recipes" ), &recipe_dictionary::finalize },
             { _( "Recipe groups" ), &recipe_group::check },
             { _( "Martial arts" ), &finialize_martial_arts },

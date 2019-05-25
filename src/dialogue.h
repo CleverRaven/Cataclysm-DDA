@@ -434,6 +434,7 @@ struct conditional_t {
         void set_has_weapon( bool is_npc = false );
         void set_is_driving( bool is_npc = false );
         void set_is_day();
+        void set_has_stolen_item( bool is_npc = false );
         void set_is_outside();
         void set_is_by_radio();
         void set_u_has_camp();
@@ -535,7 +536,6 @@ class json_talk_topic
          * responses will be added (behind those added here).
          */
         bool gen_responses( dialogue &d ) const;
-        bool gen_repeat_response( dialogue &d, const std::string &item_id );
 };
 
 void unload_talk_topics();

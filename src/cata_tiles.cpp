@@ -13,6 +13,7 @@
 #include <stdexcept>
 #include <tuple>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "clzones.h"
@@ -1071,9 +1072,39 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                 const int scent_value = g->scent.get( {x, y, center.z} );
                 if( scent_value > 0 ) {
                     overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
-                                             formatted_text( std::to_string( scent_value ), 11,
+                                             formatted_text( std::to_string( scent_value ), 8 + catacurses::yellow,
                                                      NORTH ) );
                 }
+            }
+
+            // Add temperature value to the overlay_strings list for every visible tile when displaying temperature
+            if( g->displaying_temperature ) {
+                int temp_value = g->weather.get_temperature( {x, y, center.z} );
+                int ctemp = temp_to_celsius( temp_value );
+                short col;
+                const short bold = 8;
+                if( ctemp > 40 ) {
+                    col = catacurses::red;
+                } else if( ctemp > 25 ) {
+                    col = catacurses::yellow + bold;
+                } else if( ctemp > 10 ) {
+                    col = catacurses::green + bold;
+                } else if( ctemp > 0 ) {
+                    col = catacurses::white + bold;
+                } else if( ctemp > -10 ) {
+                    col = catacurses::cyan + bold;
+                } else {
+                    col = catacurses::blue + bold;
+                }
+                if( get_option<std::string>( "USE_CELSIUS" ) == "celsius" ) {
+                    temp_value = temp_to_celsius( temp_value );
+                } else if( get_option<std::string>( "USE_CELSIUS" ) == "kelvin" ) {
+                    temp_value = temp_to_kelvin( temp_value );
+
+                }
+                overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
+                                         formatted_text( std::to_string( temp_value ), col,
+                                                 NORTH ) );
             }
 
             if( apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
@@ -2246,7 +2277,6 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
     Creature::Attitude attitude = Creature::A_ANY;
     const monster *m = dynamic_cast<const monster *>( &critter );
     if( m != nullptr ) {
-        const auto ent_name = m->type->id;
         const auto ent_category = C_MONSTER;
         std::string ent_subcategory = empty_string;
         if( !m->type->species.empty() ) {
@@ -2261,6 +2291,7 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
             rot_facing = 0;
         }
         if( rot_facing >= 0 ) {
+            const auto ent_name = m->type->id;
             result = draw_from_id_string( ent_name.str(), ent_category, ent_subcategory, p, subtile, rot_facing,
                                           ll, false, height_3d );
             sees_player = m->sees( g->u );

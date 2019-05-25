@@ -127,6 +127,9 @@ constexpr size_t set_segment( size_t line, om_direction::type dir )
 
 constexpr bool has_segment( size_t line, om_direction::type dir )
 {
+    if( dir == om_direction::type::invalid ) {
+        return false;
+    }
     return static_cast<bool>( line & 1 << static_cast<int>( dir ) );
 }
 
@@ -140,7 +143,7 @@ constexpr bool is_straight( size_t line )
            || line == 10;
 }
 
-size_t from_dir( om_direction::type dir )
+static size_t from_dir( om_direction::type dir )
 {
     switch( dir ) {
         case om_direction::type::north:
@@ -316,7 +319,7 @@ bool operator!=( const int_id<oter_t> &lhs, const char *rhs )
     return !( lhs == rhs );
 }
 
-void set_oter_ids()   // FIXME: constify
+static void set_oter_ids()   // FIXME: constify
 {
     ot_null         = oter_str_id::NULL_ID();
     // NOT required.
@@ -506,8 +509,8 @@ bool is_ot_subtype( const char *otype, const oter_id &oter )
  * load mapgen functions from an overmap_terrain json entry
  * suffix is for roads/subways/etc which have "_straight", "_curved", "_tee", "_four_way" function mappings
  */
-void load_overmap_terrain_mapgens( JsonObject &jo, const std::string &id_base,
-                                   const std::string &suffix = "" )
+static void load_overmap_terrain_mapgens( JsonObject &jo, const std::string &id_base,
+        const std::string &suffix = "" )
 {
     const std::string fmapkey( id_base + suffix );
     const std::string jsonkey( "mapgen" + suffix );
@@ -877,19 +880,7 @@ void overmap_special::load( JsonObject &jo, const std::string &src )
     const bool is_special = jo.get_string( "type", "" ) == "overmap_special";
 
     mandatory( jo, was_loaded, "overmaps", terrains );
-
-    // If the special has locations, then add those to the locations
-    // of each of the terrains IF the terrain has no locations already.
-    std::set<string_id<overmap_location>> locations;
-    optional( jo, was_loaded, "locations", locations );
-    if( !locations.empty() ) {
-        for( auto &t : terrains ) {
-            if( t.locations.empty() ) {
-                t.locations.insert( locations.begin(), locations.end() );
-            }
-        }
-    }
-
+    optional( jo, was_loaded, "locations", default_locations );
 
     if( is_special ) {
         mandatory( jo, was_loaded, "occurrences", occurrences );
@@ -908,6 +899,16 @@ void overmap_special::load( JsonObject &jo, const std::string &src )
 
 void overmap_special::finalize()
 {
+    // If the special has default locations, then add those to the locations
+    // of each of the terrains IF the terrain has no locations already.
+    if( !default_locations.empty() ) {
+        for( auto &t : terrains ) {
+            if( t.locations.empty() ) {
+                t.locations.insert( default_locations.begin(), default_locations.end() );
+            }
+        }
+    }
+
     for( auto &elem : connections ) {
         const auto &oter = get_terrain_at( elem.p );
         if( !elem.terrain && oter.terrain ) {
@@ -1530,17 +1531,47 @@ bool overmap::generate_sub( const int z )
         }
     }
 
+    const auto create_real_train_lab_points = [this, z]( const std::vector<point> &train_points,
+    std::vector<point> &real_train_points ) {
+        bool is_first_in_pair = true;
+        for( auto &i : train_points ) {
+            const std::vector<point> nearby_locations {
+                point( i.x, i.y - 1 ),
+                point( i.x, i.y + 1 ),
+                point( i.x + 1, i.y ),
+                point( i.x - 1, i.y ) };
+            if( is_first_in_pair ) {
+                ter( i.x, i.y, z ) = oter_id( "open_air" ); // mark tile to prevent subway gen
+
+                for( auto &nearby_loc : nearby_locations ) {
+                    if( is_ot_subtype( "empty_rock", ter( nearby_loc.x, nearby_loc.y, z ) ) ) {
+                        // mark tile to prevent subway gen
+                        ter( nearby_loc.x, nearby_loc.y, z ) = oter_id( "open_air" );
+                    }
+                }
+            } else {
+                // change train connection point back to rock to allow gen
+                if( is_ot_subtype( "open_air", ter( i.x, i.y, z ) ) ) {
+                    ter( i.x, i.y, z ) = oter_id( "empty_rock" );
+                }
+                real_train_points.push_back( i );
+            }
+            is_first_in_pair = !is_first_in_pair;
+        }
+    };
+    std::vector<point> subway_lab_train_points; // real points for subway, excluding train depot points
+    create_real_train_lab_points( lab_train_points, subway_lab_train_points );
+    create_real_train_lab_points( central_lab_train_points, subway_lab_train_points );
+
     const string_id<overmap_connection> subway_tunnel( "subway_tunnel" );
 
-    subway_points.insert( subway_points.end(), lab_train_points.begin(), lab_train_points.end() );
-    subway_points.insert( subway_points.end(), central_lab_train_points.begin(),
-                          central_lab_train_points.end() );
+    subway_points.insert( subway_points.end(), subway_lab_train_points.begin(),
+                          subway_lab_train_points.end() );
     connect_closest_points( subway_points, z, *subway_tunnel );
     // If on z = 4 and central lab is present, be sure to connect normal labs and central labs (just in case).
-    if( z == -4 && !central_lab_points.empty() && !lab_train_points.empty() ) {
+    if( z == -4 && !central_lab_points.empty() ) {
         std::vector<point> extra_route;
-        extra_route.push_back( central_lab_train_points.back() );
-        extra_route.push_back( lab_train_points.back() );
+        extra_route.push_back( subway_lab_train_points.back() );
         connect_closest_points( extra_route, z, *subway_tunnel );
     }
 
@@ -1551,18 +1582,28 @@ bool overmap::generate_sub( const int z )
     }
 
     // The first lab point is adjacent to a lab, set it a depot (as long as track was actually laid).
-    const auto create_train_depots = [this, z]( const oter_id & train_type,
+    const auto create_train_depots = [this, z, &subway_tunnel]( const oter_id & train_type,
     const std::vector<point> &train_points ) {
         bool is_first_in_pair = true;
+        std::vector<point> extra_route;
         for( auto &i : train_points ) {
             if( is_first_in_pair ) {
-                if( is_ot_subtype( "subway", ter( i.x + 1, i.y, z ) ) ||
-                    is_ot_subtype( "subway", ter( i.x - 1, i.y, z ) ) ||
-                    is_ot_subtype( "subway", ter( i.x, i.y + 1, z ) ) ||
-                    is_ot_subtype( "subway", ter( i.x, i.y - 1, z ) ) ) {
-                    ter( i.x, i.y, z ) = train_type;
-                } else {
-                    ter( i.x, i.y, z ) = oter_id( "empty_rock" );
+                const std::vector<point> subway_possible_loc { point( i.x, i.y - 1 ), point( i.x, i.y + 1 ), point( i.x + 1, i.y ), point( i.x - 1, i.y ) };
+                extra_route.clear();
+                ter( i.x, i.y, z ) = oter_id( "empty_rock" ); // this clears marked tiles
+                bool is_depot_generated = false;
+                for( auto &subway_loc : subway_possible_loc ) {
+                    if( !is_depot_generated && is_ot_subtype( "subway", ter( subway_loc.x, subway_loc.y, z ) ) ) {
+                        extra_route.push_back( i );
+                        extra_route.push_back( subway_loc );
+                        connect_closest_points( extra_route, z, *subway_tunnel );
+
+                        ter( i.x, i.y, z ) = train_type;
+                        is_depot_generated = true; // only one connection to depot
+                    } else if( is_ot_subtype( "open_air", ter( subway_loc.x, subway_loc.y, z ) ) ) {
+                        // clear marked
+                        ter( subway_loc.x, subway_loc.y, z ) = oter_id( "empty_rock" );
+                    }
                 }
             }
             is_first_in_pair = !is_first_in_pair;
@@ -2962,7 +3003,8 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
                      ter( trainx, trainy, z ) == labt_finale ||
                      adjacent_labs != 1 ) );
         if( tries < 50 ) {
-            lab_train_points->push_back( point( trainx, trainy ) );
+            lab_train_points->push_back( point( trainx, trainy ) ); // possible train depot
+            // next is rail connection
             if( is_ot_subtype( "lab", ter( trainx, trainy - 1, z ) ) ) {
                 lab_train_points->push_back( point( trainx, trainy + 1 ) );
             } else if( is_ot_subtype( "lab", ter( trainx, trainy + 1, z ) ) ) {
@@ -4259,8 +4301,7 @@ cata::optional<basecamp *> overmap::find_camp( const int x, const int y )
 {
     for( auto &v : camps ) {
         if( v.camp_omt_pos().x == x && v.camp_omt_pos().y == y ) {
-            cata::optional<basecamp *> p;
-            p = &v;
+            cata::optional<basecamp *> p = &v;
             return p;
         }
     }

@@ -237,7 +237,7 @@ static int calc_bash_skill( const mtype &t )
     return ret;
 }
 
-m_size volume_to_size( const units::volume vol )
+static m_size volume_to_size( const units::volume vol )
 {
     if( vol <= 7500_ml ) {
         return MS_TINY;

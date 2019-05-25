@@ -1,6 +1,6 @@
-Checks: 'clang-diagnostic-*,-clang-analyzer-security.FloatLoopCounter,-clang-analyzer-core.UndefinedBinaryOperatorResult,-clang-analyzer-core.uninitialized.Assign,-clang-analyzer-cplusplus.NewDeleteLeaks,-clang-analyzer-core.CallAndMessage'
+Checks: 'clang-diagnostic-*,modernize-use-using'
 WarningsAsErrors: '*'
-HeaderFilterRegex: '.*'
+HeaderFilterRegex: '(src|test).*'
 FormatStyle:     none
 
 # vim:tw=0

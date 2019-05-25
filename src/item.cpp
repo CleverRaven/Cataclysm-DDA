@@ -17,6 +17,7 @@
 
 #include "advanced_inv.h"
 #include "ammo.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
@@ -110,9 +111,9 @@ const material_id mat_kevlar( "kevlar" );
 
 const trait_id trait_small2( "SMALL2" );
 const trait_id trait_small_ok( "SMALL_OK" );
-
 const trait_id trait_huge( "HUGE" );
 const trait_id trait_huge_ok( "HUGE_OK" );
+using npc_class_id = string_id<npc_class>;
 
 const std::string &rad_badge_color( const int rad )
 {
@@ -806,48 +807,6 @@ void item::clear_vars()
     item_vars.clear();
 }
 
-const char ivaresc = 001;
-
-bool itag2ivar( const std::string &item_tag, std::map<std::string, std::string> &item_vars )
-{
-    size_t pos = item_tag.find( '=' );
-    if( item_tag.at( 0 ) == ivaresc && pos != std::string::npos && pos >= 2 ) {
-        std::string val_decoded;
-        int svarlen = 0;
-        int svarsep = 0;
-        svarsep = item_tag.find( '=' );
-        svarlen = item_tag.size();
-        val_decoded.clear();
-        std::string var_name = item_tag.substr( 1, svarsep - 1 ); // will assume sanity here for now
-        for( int s = svarsep + 1; s < svarlen;
-             s++ ) { // cheap and temporary, AFAIK stringstream IFS = [\r\n\t ];
-            if( item_tag[s] == ivaresc && s < svarlen - 2 ) {
-                if( item_tag[s + 1] == '0' && item_tag[s + 2] == 'A' ) {
-                    s += 2;
-                    val_decoded.append( 1, '\n' );
-                } else if( item_tag[s + 1] == '0' && item_tag[s + 2] == 'D' ) {
-                    s += 2;
-                    val_decoded.append( 1, '\r' );
-                } else if( item_tag[s + 1] == '0' && item_tag[s + 2] == '6' ) {
-                    s += 2;
-                    val_decoded.append( 1, '\t' );
-                } else if( item_tag[s + 1] == '2' && item_tag[s + 2] == '0' ) {
-                    s += 2;
-                    val_decoded.append( 1, ' ' );
-                } else {
-                    val_decoded.append( 1, item_tag[s] ); // hhrrrmmmmm should be passing \a?
-                }
-            } else {
-                val_decoded.append( 1, item_tag[s] );
-            }
-        }
-        item_vars[var_name] = val_decoded;
-        return true;
-    } else {
-        return false;
-    }
-}
-
 // TODO: Get rid of, handle multiple types gracefully
 static int get_ranged_pierce( const common_ranged_data &ranged )
 {
@@ -879,7 +838,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo, int batc
 
 // Generates a long-form description of the freshness of the given rottable food item.
 // NB: Doesn't check for non-rottable!
-std::string get_freshness_description( const item &food_item )
+static std::string get_freshness_description( const item &food_item )
 {
     // So, skilled characters looking at food that is neither super-fresh nor about to rot
     // can guess its age as one of {quite fresh,midlife,past midlife,old soon}, and also
@@ -991,7 +950,7 @@ item::sizing item::get_sizing( const Character &p, bool wearable ) const
 
 }
 
-int get_base_env_resist( const item &it )
+static int get_base_env_resist( const item &it )
 {
     const auto t = it.find_armor_data();
     if( t == nullptr ) {
@@ -1133,6 +1092,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 return string_format( "<stat>%s</stat>", _( material->name() ) );
             }, enumeration_conjunction::none );
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list ) ) );
+        }
+        if( has_owner() ) {
+            info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ), get_owner()->name ) ) );
         }
         if( has_var( "contained_name" ) && parts->test( iteminfo_parts::BASE_CONTENTS ) ) {
             info.push_back( iteminfo( "BASE", string_format( _( "Contains: %s" ),
@@ -1441,7 +1403,6 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         bool has_ammo = curammo && mod->ammo_remaining();
 
-        damage_instance ammo_dam = has_ammo ? curammo->ammo->damage : damage_instance();
         // TODO: This doesn't cover multiple damage types
         int ammo_pierce     = has_ammo ? get_ranged_pierce( *curammo->ammo ) : 0;
         int ammo_dispersion = has_ammo ? curammo->ammo->dispersion : 0;
@@ -1524,6 +1485,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 }
             } else {
                 if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) ) {
+                    damage_instance ammo_dam = has_ammo ? curammo->ammo->damage : damage_instance();
                     info.push_back( iteminfo( "GUN", "ammo_damage", "",
                                               iteminfo::no_newline | iteminfo::no_name |
                                               iteminfo::show_plus,
@@ -2971,7 +2933,10 @@ void item::on_wear( Character &p )
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_worn );
     }
-
+    // if game is loaded - dont want ownership assigned during char creation
+    if( g->u.getID() != -1 ) {
+        handle_pickup_ownership( p );
+    }
     p.on_item_wear( *this );
 }
 
@@ -3031,8 +2996,54 @@ void item::on_wield( player &p, int mv )
     } else {
         msg = _( "You wield your %s." );
     }
-
+    // if game is loaded - dont want ownership assigned during char creation
+    if( g->u.getID() != -1 ) {
+        handle_pickup_ownership( p );
+    }
     p.add_msg_if_player( m_neutral, msg, tname() );
+}
+
+void item::handle_pickup_ownership( Character &c )
+{
+    faction *yours;
+    if( &c == &g->u ) {
+        yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+    } else {
+        npc *guy = dynamic_cast<npc *>( &c );
+        yours = guy->my_fac;
+    }
+    // Add ownership to item if unowned
+    if( !has_owner() ) {
+        set_owner( yours );
+    } else {
+        if( get_owner() != yours && &c == &g->u ) {
+            std::vector<npc *> witnesses;
+            for( npc &elem : g->all_npcs() ) {
+                if( rl_dist( elem.pos(), g->u.pos() ) < MAX_VIEW_DISTANCE && elem.my_fac == get_owner() &&
+                    elem.sees( g->u.pos() ) ) {
+                    elem.say( "<witnessed_thievery>", 7 );
+                    npc *npc_to_add = &elem;
+                    witnesses.push_back( npc_to_add );
+                }
+            }
+            if( !witnesses.empty() ) {
+                set_old_owner( get_owner() );
+                bool guard_chosen = false;
+                for( auto &elem : witnesses ) {
+                    if( elem->myclass == npc_class_id( "NC_BOUNTY_HUNTER" ) ) {
+                        guard_chosen = true;
+                        elem->witness_thievery( &*this );
+                        break;
+                    }
+                }
+                if( !guard_chosen ) {
+                    int random_index = rand() % witnesses.size();
+                    witnesses[random_index]->witness_thievery( &*this );
+                }
+            }
+            set_owner( yours );
+        }
+    }
 }
 
 void item::on_pickup( Character &p )
@@ -3041,12 +3052,14 @@ void item::on_pickup( Character &p )
     if( p.is_fake() ) {
         return;
     }
-
     // TODO: artifacts currently only work with the player character
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_carried );
     }
-
+    // if game is loaded - dont want ownership assigned during char creation
+    if( g->u.getID() != -1 ) {
+        handle_pickup_ownership( p );
+    }
     if( is_bucket_nonempty() ) {
         for( const auto &it : contents ) {
             g->m.add_item_or_charges( p.pos(), it );
@@ -3401,7 +3414,7 @@ int item::price( bool practical ) const
 }
 
 // TODO: MATERIALS add a density field to materials.json
-units::mass item::weight( bool include_contents ) const
+units::mass item::weight( bool include_contents, bool integral ) const
 {
     if( is_null() ) {
         return 0_gram;
@@ -3420,7 +3433,12 @@ units::mass item::weight( bool include_contents ) const
         return ret;
     }
 
-    units::mass ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
+    units::mass ret;
+    if( integral ) {
+        ret = units::from_gram( get_var( "integral_weight", to_gram( type->integral_weight ) ) );
+    } else {
+        ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
+    }
 
     if( has_flag( "REDUCED_WEIGHT" ) ) {
         ret *= 0.75;
@@ -3430,6 +3448,7 @@ units::mass item::weight( bool include_contents ) const
         ret *= charges;
 
     } else if( is_corpse() ) {
+        assert( corpse ); // To appease static analysis
         ret = corpse->weight;
         if( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) ) {
             ret *= 0.75;
@@ -3468,7 +3487,11 @@ units::mass item::weight( bool include_contents ) const
         ret -= std::min( max_barrel_weight, barrel_weight );
     }
 
-    if( include_contents ) {
+    if( is_gun() ) {
+        for( const auto elem : gunmods() ) {
+            ret += elem->weight( true, true );
+        }
+    } else if( include_contents ) {
         for( auto &elem : contents ) {
             ret += elem.weight();
         }
@@ -3958,7 +3981,7 @@ int item::spoilage_sort_order()
  * @see calc_rot_array
  * @see rot_chart
  */
-int calc_hourly_rotpoints_at_temp( const int temp )
+static int calc_hourly_rotpoints_at_temp( const int temp )
 {
     // default temp = 65, so generic->rotten() assumes 600 decay points per hour
     const int dropoff = 38;     // ditch our fancy equation and do a linear approach to 0 rot at 31f
@@ -3983,7 +4006,7 @@ int calc_hourly_rotpoints_at_temp( const int temp )
  * Initialize the rot table.
  * @see rot_chart
  */
-std::vector<int> calc_rot_array( const size_t cap )
+static std::vector<int> calc_rot_array( const size_t cap )
 {
     std::vector<int> ret;
     ret.reserve( cap );
@@ -7065,7 +7088,6 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         const int rounds_exploded = rng( 1, charges_remaining );
         // Yank the exploding item off the map for the duration of the explosion
         // so it doesn't blow itself up.
-        item temp_item = *this;
         const islot_ammo &ammo_type = *type->ammo;
 
         if( ammo_type.special_cookoff ) {
@@ -7074,6 +7096,7 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         }
         charges_remaining -= rounds_exploded;
         if( charges_remaining > 0 ) {
+            item temp_item = *this;
             temp_item.charges = charges_remaining;
             drops.push_back( temp_item );
         }
@@ -7154,11 +7177,11 @@ bool item::can_holster( const item &obj, bool ignore ) const
 
 std::string item::components_to_string() const
 {
-    typedef std::map<std::string, int> t_count_map;
+    using t_count_map = std::map<std::string, int>;
     t_count_map counts;
     for( const auto &elem : components ) {
-        const std::string name = elem.display_name();
         if( !elem.has_flag( "BYPRODUCT" ) ) {
+            const std::string name = elem.display_name();
             counts[name]++;
         }
     }
@@ -7202,7 +7225,7 @@ void item::apply_freezerburn()
     }
 }
 
-void item::process_temperature_rot( float insulation, const tripoint pos,
+void item::process_temperature_rot( float insulation, const tripoint &pos,
                                     player *carrier, const temperature_flag flag )
 {
     const time_point now = calendar::turn;

@@ -189,7 +189,7 @@ static float workbench_crafting_speed_multiplier( const item &craft, const tripo
         allowed_volume = f.workbench->allowed_volume;
     } else {
         // Ground
-        const furn_t &f = string_id<furn_t>( "f_fake_bench_ground" ).obj();
+        const furn_t &f = string_id<furn_t>( "f_ground_crafting_spot" ).obj();
         multiplier = f.workbench->multiplier;
         allowed_mass = f.workbench->allowed_mass;
         allowed_volume = f.workbench->allowed_volume;
@@ -406,7 +406,7 @@ bool player::check_eligible_containers_for_crafting( const recipe &rec, int batc
     return true;
 }
 
-bool is_container_eligible_for_crafting( const item &cont, bool allow_bucket )
+static bool is_container_eligible_for_crafting( const item &cont, bool allow_bucket )
 {
     if( cont.is_watertight_container() || ( allow_bucket && cont.is_bucket() ) ) {
         return !cont.is_container_full( allow_bucket );
@@ -534,8 +534,8 @@ void player::make_craft_with_command( const recipe_id &id_to_make, int batch_siz
 
 // @param offset is the index of the created item in the range [0, batch_size-1],
 // it makes sure that the used items are distributed equally among the new items.
-void set_components( std::list<item> &components, const std::list<item> &used,
-                     const int batch_size, const size_t offset )
+static void set_components( std::list<item> &components, const std::list<item> &used,
+                            const int batch_size, const size_t offset )
 {
     if( batch_size <= 1 ) {
         components.insert( components.begin(), used.begin(), used.end() );
@@ -570,6 +570,9 @@ static void finalize_crafted_item( item &newit )
     if( newit.is_food() ) {
         set_item_food( newit );
     }
+    // TODO for now this assumes player is doing the crafting
+    // this will need to be updated when NPCs do crafting
+    newit.set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
 }
 
 static cata::optional<item_location> wield_craft( player &p, item &craft )
@@ -974,13 +977,14 @@ void item::handle_craft_failure( player &crafter )
 
     // Minimum 25% progress lost, average 35%.  Falls off exponentially
     // Loss is scaled by the success roll
-    const double percent_progress_loss = rng_exponential( 0.25, 0.35 ) * ( 1.0 - success_roll );
+    const double percent_progress_loss = rng_exponential( 0.25, 0.35 ) *
+                                         ( 1.0 - std::min( success_roll, 1.0 ) );
+    const int progess_loss = item_counter * percent_progress_loss;
     crafter.add_msg_player_or_npc(
-        string_format( _( "You mess up and lose %.0lf%% progress." ), 100 * percent_progress_loss ),
-        string_format( _( "<npcname> messes up and loses %.0lf%% progress." ), 100 * percent_progress_loss )
+        string_format( _( "You mess up and lose %d%% progress." ), progess_loss / 100000 ),
+        string_format( _( "<npcname> messes up and loses %d%% progress." ), progess_loss / 100000 )
     );
-    const int adjusted_progress = item_counter * percent_progress_loss;
-    item_counter = clamp( adjusted_progress, 0, 10000000 );
+    item_counter = clamp( item_counter - progess_loss, 0, 10000000 );
 
     set_next_failure_point( crafter );
 
@@ -1376,7 +1380,7 @@ comp_selection<item_comp> player::select_item_component( const std::vector<item_
 
 // Prompts player to empty all newly-unsealed containers in inventory
 // Called after something that might have opened containers (making them buckets) but not emptied them
-void empty_buckets( player &p )
+static void empty_buckets( player &p )
 {
     // First grab (remove) all items that are non-empty buckets and not wielded
     auto buckets = p.remove_items_with( [&p]( const item & it ) {
@@ -1400,7 +1404,7 @@ std::list<item> player::consume_items( const comp_selection<item_comp> &is, int 
 
 std::list<item> player::consume_items( map &m, const comp_selection<item_comp> &is, int batch,
                                        const std::function<bool( const item & )> &filter,
-                                       tripoint origin, int radius )
+                                       const tripoint &origin, int radius )
 {
     std::list<item> ret;
 
@@ -1569,7 +1573,7 @@ void player::consume_tools( const comp_selection<tool_comp> &tool, int batch )
 
 /* we use this if we selected the tool earlier */
 void player::consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
-                            tripoint origin, int radius, basecamp *bcp )
+                            const tripoint &origin, int radius, basecamp *bcp )
 {
     if( has_trait( trait_DEBUG_HS ) ) {
         return;
@@ -1756,8 +1760,8 @@ void player::disassemble_all( bool one_pass )
     }
 }
 
-item &get_item_for_uncraft( player &p, int item_pos,
-                            const tripoint &loc, bool from_ground )
+static item &get_item_for_uncraft( player &p, int item_pos,
+                                   const tripoint &loc, bool from_ground )
 {
     item *org_item;
     if( from_ground ) {
@@ -1833,9 +1837,6 @@ void player::complete_disassemble()
 
     activity.moves_left = next_recipe.time;
 }
-
-// TODO: Make them accessible in a less ugly way
-void remove_radio_mod( item &, player & );
 
 void player::complete_disassemble( int item_pos, const tripoint &loc,
                                    bool from_ground, const recipe &dis )
@@ -2027,7 +2028,7 @@ void remove_ammo( std::list<item> &dis_items, player &p )
 
 void drop_or_handle( const item &newit, player &p )
 {
-    if( newit.made_of( LIQUID ) && &p == &g->u ) { // TODO: what about NPCs?
+    if( newit.made_of( LIQUID ) && p.is_player() ) { // TODO: what about NPCs?
         liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
     } else {
         item tmp( newit );

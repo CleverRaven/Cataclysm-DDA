@@ -11,6 +11,7 @@
 #include <unordered_set>
 
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "catacharset.h"
 #include "clzones.h"
@@ -299,6 +300,7 @@ int om_harvest_ter_break( npc &comp, const tripoint &omt_tgt, const ter_id &t, i
 /// @ref take, whether you take the item or count it
 mass_volume om_harvest_itm( npc_ptr comp, const tripoint &omt_tgt, int chance = 100,
                             bool take = true );
+void apply_camp_ownership( const tripoint camp_pos, int radius );
 /*
  * Counts or cuts trees into trunks and trunks into logs
  * @param omt_tgt the targeted OM tile
@@ -610,8 +612,8 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         comp_list npc_list = get_mission_workers( "_faction_camp_crafting_" + base_dir );
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_camp_crafting_" ];
         //This handles all crafting by the base, regardless of level
-        std::map<std::string, std::string> craft_recipes = recipe_deck( base_dir );
         if( npc_list.empty() ) {
+            std::map<std::string, std::string> craft_recipes = recipe_deck( base_dir );
             add_available_recipes( mission_key, base_dir, craft_recipes );
         } else {
             entry = miss_info.action;
@@ -1345,7 +1347,7 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
 
     g->draw_ter();
     wrefresh( g->w_terrain );
-    g->draw_panels();
+    g->draw_panels( true );
 
     return true;
 }
@@ -2174,7 +2176,6 @@ bool basecamp::gathering_return( const std::string &task, time_duration min_time
 
 void basecamp::fortifications_return()
 {
-    const std::string msg = _( "returns from constructing fortifications..." );
     npc_ptr comp = companion_choose_return( "_faction_camp_om_fortifications", 3_hours );
     if( comp != nullptr ) {
         std::string build_n = "faction_wall_level_N_0";
@@ -2212,6 +2213,7 @@ void basecamp::fortifications_return()
                 fortifications.push_back( fort_point );
             }
         }
+        const std::string msg = _( "returns from constructing fortifications..." );
         finish_return( *comp, true, msg, "construction", 2 );
     }
 }
@@ -3519,6 +3521,7 @@ void basecamp::place_results( item result, bool by_radio )
         target_bay.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
         const tripoint &new_spot = target_bay.getlocal( get_dumping_spot() );
         target_bay.add_item_or_charges( new_spot, result, true );
+        apply_camp_ownership( new_spot, 10 );
         target_bay.save();
     } else {
         auto &mgr = zone_manager::get_manager();
@@ -3533,11 +3536,25 @@ void basecamp::place_results( item result, bool by_radio )
             for( auto &src : src_sorted ) {
                 const auto &src_loc = g->m.getlocal( src );
                 g->m.add_item_or_charges( src_loc, result, true );
+                apply_camp_ownership( src_loc, 10 );
                 break;
             }
             //or dump them at players feet
         } else {
             g->m.add_item_or_charges( g->u.pos(), result, true );
+            apply_camp_ownership( g->u.pos(), 0 );
+        }
+    }
+}
+
+void apply_camp_ownership( const tripoint camp_pos, int radius )
+{
+    for( const tripoint &p : g->m.points_in_rectangle( tripoint( camp_pos.x - radius,
+            camp_pos.y - radius, camp_pos.z ), tripoint( camp_pos.x + radius, camp_pos.y + radius,
+                    camp_pos.z ) ) ) {
+        auto items = g->m.i_at( p.x, p.y );
+        for( item &elem : items ) {
+            elem.set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
         }
     }
 }

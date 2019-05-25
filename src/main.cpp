@@ -110,7 +110,7 @@ struct arg_handler {
     //! called with the number of parameters after the flag was encountered, along with the array
     //! of following parameters. It must return an integer indicating how many parameters were
     //! consumed by the call or -1 to indicate that a required argument was missing.
-    typedef std::function<int( int, const char ** )> handler_method;
+    using handler_method = std::function<int ( int, const char ** )>;
 
     const char *flag;  //!< The commandline parameter to handle (e.g., "--seed").
     const char *param_documentation;  //!< Human readable description of this arguments parameter.

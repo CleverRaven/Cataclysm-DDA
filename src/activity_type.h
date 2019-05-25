@@ -63,8 +63,6 @@ class activity_type
             return refuel_fires;
         }
 
-        void update_activity_level( player &p ) const;
-
         void call_do_turn( player_activity *, player * ) const;
         /** Returns whether it had a finish function or not */
         bool call_finish( player_activity *, player * ) const;

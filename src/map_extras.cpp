@@ -16,6 +16,7 @@
 #include "fungal_effects.h"
 #include "game.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "mapdata.h"
 #include "mapgen_functions.h"
 #include "overmapbuffer.h"
@@ -50,6 +51,8 @@ static const mongroup_id GROUP_MAYBE_MIL( "GROUP_MAYBE_MIL" );
 static const mongroup_id GROUP_FISH( "GROUP_FISH" );
 
 static const mtype_id mon_zombie_tough( "mon_zombie_tough" );
+static const mtype_id mon_marloss_zealot_f( "mon_marloss_zealot_f" );
+static const mtype_id mon_marloss_zealot_m( "mon_marloss_zealot_m" );
 static const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
 static const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
 static const mtype_id mon_chickenbot( "mon_chickenbot" );
@@ -69,12 +72,12 @@ static const mtype_id mon_spider_cellar_giant( "mon_spider_cellar_giant" );
 static const mtype_id mon_wasp( "mon_wasp" );
 static const mtype_id mon_jabberwock( "mon_jabberwock" );
 
-void mx_null( map &, const tripoint & )
+static void mx_null( map &, const tripoint & )
 {
     debugmsg( "Tried to generate null map extra." );
 }
 
-void mx_house_wasp( map &m, const tripoint & )
+static void mx_house_wasp( map &m, const tripoint & )
 {
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
@@ -111,7 +114,7 @@ void mx_house_wasp( map &m, const tripoint & )
     m.place_items( "rare", 70, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, false, 0 );
 }
 
-void mx_house_spider( map &m, const tripoint & )
+static void mx_house_spider( map &m, const tripoint & )
 {
     auto spider_type = mon_spider_widow_giant;
     auto egg_type = f_egg_sackbw;
@@ -145,7 +148,7 @@ void mx_house_spider( map &m, const tripoint & )
 
 }
 
-void mx_helicopter( map &m, const tripoint &abs_sub )
+static void mx_helicopter( map &m, const tripoint &abs_sub )
 {
     int cx = rng( 6, SEEX * 2 - 7 );
     int cy = rng( 6, SEEY * 2 - 7 );
@@ -194,7 +197,7 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
     auto crashed_hull = vgroup_id( "crashed_helicopters" )->pick();
 
     // Create the vehicle so we can rotate it and calculate its bounding box, but don't place it on the map.
-    auto veh = std::unique_ptr<vehicle>( new vehicle( crashed_hull, rng( 1, 33 ), 1 ) );
+    auto veh = std::make_unique<vehicle>( crashed_hull, rng( 1, 33 ), 1 );
 
     veh->turn( dir1 );
 
@@ -309,7 +312,7 @@ void mx_helicopter( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_military( map &m, const tripoint & )
+static void mx_military( map &m, const tripoint & )
 {
     int num_bodies = dice( 2, 6 );
     for( int i = 0; i < num_bodies; i++ ) {
@@ -340,7 +343,7 @@ void mx_military( map &m, const tripoint & )
     m.place_items( "rare", 25, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0 );
 }
 
-void mx_science( map &m, const tripoint & )
+static void mx_science( map &m, const tripoint & )
 {
     int num_bodies = dice( 2, 5 );
     for( int i = 0; i < num_bodies; i++ ) {
@@ -362,7 +365,7 @@ void mx_science( map &m, const tripoint & )
     m.place_items( "rare", 45, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0 );
 }
 
-void mx_collegekids( map &m, const tripoint & )
+static void mx_collegekids( map &m, const tripoint & )
 {
     //college kids that got into trouble
     int num_bodies = dice( 2, 6 );
@@ -392,7 +395,7 @@ void mx_collegekids( map &m, const tripoint & )
     }
 }
 
-void mx_roadblock( map &m, const tripoint &abs_sub )
+static void mx_roadblock( map &m, const tripoint &abs_sub )
 {
     std::string north = overmap_buffer.ter( abs_sub.x / 2, abs_sub.y / 2 - 1, abs_sub.z ).id().c_str();
     std::string south = overmap_buffer.ter( abs_sub.x / 2, abs_sub.y / 2 + 1, abs_sub.z ).id().c_str();
@@ -525,7 +528,25 @@ void mx_roadblock( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_bandits_block( map &m, const tripoint &abs_sub )
+static void mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
+{
+    const tripoint leader_pos( rng( 4, 19 ), rng( 4, 19 ), abs_sub.z );
+    const int max_followers = rng( 3, 12 );
+    const int rad = 3;
+    tripoint_range spawnzone = m.points_in_radius( leader_pos, rad );
+
+    m.place_npc( leader_pos.x, leader_pos.y, string_id<npc_template>( "marloss_voice" ) );
+    for( int spawned = 0 ; spawned <= max_followers ; spawned++ ) {
+        tripoint where = random_entry( spawnzone );
+        if( g->is_empty( where ) ) {
+            one_in( 2 ) ? m.add_spawn( mon_marloss_zealot_f, 1, where.x,
+                                       where.y ) : m.add_spawn( mon_marloss_zealot_m, 1, where.x, where.y );
+        }
+    }
+
+}
+
+static void mx_bandits_block( map &m, const tripoint &abs_sub )
 {
     const oter_id &north = overmap_buffer.ter( abs_sub.x, abs_sub.y - 1, abs_sub.z );
     const oter_id &south = overmap_buffer.ter( abs_sub.x, abs_sub.y + 1, abs_sub.z );
@@ -563,7 +584,7 @@ void mx_bandits_block( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_drugdeal( map &m, const tripoint &abs_sub )
+static void mx_drugdeal( map &m, const tripoint &abs_sub )
 {
     // Decide on a drug type
     int num_drugs = 0;
@@ -688,7 +709,7 @@ void mx_drugdeal( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
+static void mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
 {
     int num_crates = rng( 1, 5 );
     for( int i = 0; i < num_crates; i++ ) {
@@ -730,7 +751,7 @@ void mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
     }
 }
 
-void mx_portal( map &m, const tripoint &abs_sub )
+static void mx_portal( map &m, const tripoint &abs_sub )
 {
     int x = rng( 1, SEEX * 2 - 2 ), y = rng( 1, SEEY * 2 - 2 );
     for( int i = x - 1; i <= x + 1; i++ ) {
@@ -747,39 +768,37 @@ void mx_portal( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_minefield( map &m, const tripoint &abs_sub )
+static void mx_minefield( map &m, const tripoint &abs_sub )
 {
-    int num_mines = rng( 6, 20 );
-    for( int x = 0; x < SEEX * 2; x++ ) {
-        for( int y = 0; y < SEEY * 2; y++ ) {
-            if( one_in( 3 ) ) {
-                m.ter_set( x, y, t_dirt );
-            }
-        }
-    }
+    const int num_mines = rng( 6, 20 );
+
     for( int i = 0; i < num_mines; i++ ) {
         // No mines at the extreme edges: safe to walk on a sign tile
-        int x = rng( 1, SEEX * 2 - 2 ), y = rng( 1, SEEY * 2 - 2 );
-        if( !m.has_flag( "DIGGABLE", x, y ) || one_in( 8 ) ) {
-            m.ter_set( x, y, t_dirtmound );
+        const int x = rng( 1, SEEX * 2 - 2 ), y = rng( 1, SEEY * 2 - 2 );
+        if( m.has_flag( "DIGGABLE", x, y ) ) {
+            mtrap_set( &m, x, y, tr_landmine_buried );
+        } else {
+            mtrap_set( &m, x, y, tr_landmine );
         }
-        mtrap_set( &m, x, y, tr_landmine_buried );
     }
-    int x1 = 0;
-    int y1 = 0;
-    int x2 = ( SEEX * 2 - 1 );
-    int y2 = ( SEEY * 2 - 1 );
-    m.furn_set( x1, y1, furn_str_id( "f_sign" ) );
-    m.set_signage( tripoint( x1,  y1, abs_sub.z ), _( "DANGER! MINEFIELD!" ) );
-    m.furn_set( x1, y2, furn_str_id( "f_sign" ) );
-    m.set_signage( tripoint( x1,  y2, abs_sub.z ), _( "DANGER! MINEFIELD!" ) );
-    m.furn_set( x2, y1, furn_str_id( "f_sign" ) );
-    m.set_signage( tripoint( x2,  y1, abs_sub.z ), _( "DANGER! MINEFIELD!" ) );
-    m.furn_set( x2, y2, furn_str_id( "f_sign" ) );
-    m.set_signage( tripoint( x2,  y2, abs_sub.z ), _( "DANGER! MINEFIELD!" ) );
+
+    const std::string text = _( "DANGER! MINEFIELD!" );
+    const int x = SEEX * 2 - 1;
+    const int y = SEEY * 2 - 1;
+    const int x1 = rng( SEEX / 2, SEEX / 2 + SEEX ), x2 = rng( SEEX / 2, SEEX / 2 + SEEX );
+    const int y1 = rng( SEEY / 2, SEEY / 2 + SEEY ), y2 = rng( SEEY / 2, SEEY / 2 + SEEY );
+
+    m.furn_set( x1, 0, furn_str_id( "f_sign_warning" ) );
+    m.set_signage( tripoint( x1,  0, abs_sub.z ), text );
+    m.furn_set( x2, y, furn_str_id( "f_sign_warning" ) );
+    m.set_signage( tripoint( x2,  y, abs_sub.z ), text );
+    m.furn_set( 0, y1, furn_str_id( "f_sign_warning" ) );
+    m.set_signage( tripoint( 0, y1, abs_sub.z ), text );
+    m.furn_set( x, y2, furn_str_id( "f_sign_warning" ) );
+    m.set_signage( tripoint( x, y2, abs_sub.z ), text );
 }
 
-void mx_crater( map &m, const tripoint &abs_sub )
+static void mx_crater( map &m, const tripoint &abs_sub )
 {
     int size = rng( 2, 6 );
     int size_squared = size * size;
@@ -796,7 +815,7 @@ void mx_crater( map &m, const tripoint &abs_sub )
     }
 }
 
-void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<point> &ignited )
+static void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<point> &ignited )
 {
     // Tracks points nearby for ignition after the lava is placed
     //std::set<point> ignited;
@@ -823,7 +842,7 @@ void place_fumarole( map &m, int x1, int y1, int x2, int y2, std::set<point> &ig
 
 }
 
-void mx_fumarole( map &m, const tripoint &abs_sub )
+static void mx_fumarole( map &m, const tripoint &abs_sub )
 {
     if( abs_sub.z <= 0 ) {
         int x1 = rng( 0,    SEEX     - 1 ), y1 = rng( 0,    SEEY     - 1 ),
@@ -872,7 +891,7 @@ void mx_fumarole( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_portal_in( map &m, const tripoint &abs_sub )
+static void mx_portal_in( map &m, const tripoint &abs_sub )
 {
     int x = rng( 5, SEEX * 2 - 6 ), y = rng( 5, SEEY * 2 - 6 );
     m.add_field( {x, y, abs_sub.z}, fd_fatigue, 3, 0_turns );
@@ -889,7 +908,7 @@ void mx_portal_in( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_anomaly( map &m, const tripoint &abs_sub )
+static void mx_anomaly( map &m, const tripoint &abs_sub )
 {
     tripoint center( rng( 6, SEEX * 2 - 7 ), rng( 6, SEEY * 2 - 7 ), abs_sub.z );
     artifact_natural_property prop =
@@ -898,7 +917,7 @@ void mx_anomaly( map &m, const tripoint &abs_sub )
     m.spawn_natural_artifact( center, prop );
 }
 
-void mx_shia( map &m, const tripoint & )
+static void mx_shia( map &m, const tripoint & )
 {
     // A rare chance to spawn Shia. This was extracted from the hardcoded forest mapgen
     // and moved into a map extra, but it still has a one_in chance of spawning because
@@ -909,7 +928,7 @@ void mx_shia( map &m, const tripoint & )
     }
 }
 
-void mx_spider( map &m, const tripoint &abs_sub )
+static void mx_spider( map &m, const tripoint &abs_sub )
 {
     // This was extracted from the hardcoded forest mapgen and slightly altered so
     // that it used flags rather than specific terrain types in determining where to
@@ -934,7 +953,7 @@ void mx_spider( map &m, const tripoint &abs_sub )
     m.add_spawn( mon_spider_web, rng( 1, 2 ), SEEX, SEEY );
 }
 
-void mx_jabberwock( map &m, const tripoint & )
+static void mx_jabberwock( map &m, const tripoint & )
 {
     // A rare chance to spawn a jabberwock. This was extracted from the harcoded forest mapgen
     // and moved into a map extra. It still has a one_in chance of spawning because otherwise
@@ -946,7 +965,7 @@ void mx_jabberwock( map &m, const tripoint & )
     }
 }
 
-void mx_grove( map &m, const tripoint &abs_sub )
+static void mx_grove( map &m, const tripoint &abs_sub )
 {
     // From wikipedia - The main meaning of "grove" is a group of trees that grow close together,
     // generally without many bushes or other plants underneath.
@@ -981,7 +1000,7 @@ void mx_grove( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_shrubbery( map &m, const tripoint &abs_sub )
+static void mx_shrubbery( map &m, const tripoint &abs_sub )
 {
     // This map extra finds the first shrub in the area, and then converts all trees, young trees,
     // and shrubs in the area into that type of shrub.
@@ -1013,7 +1032,7 @@ void mx_shrubbery( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_clearcut( map &m, const tripoint &abs_sub )
+static void mx_clearcut( map &m, const tripoint &abs_sub )
 {
     // From wikipedia - Clearcutting, clearfelling or clearcut logging is a forestry/logging
     // practice in which most or all trees in an area are uniformly cut down.
@@ -1032,7 +1051,7 @@ void mx_clearcut( map &m, const tripoint &abs_sub )
     }
 }
 
-void mx_pond( map &m, const tripoint &abs_sub )
+static void mx_pond( map &m, const tripoint &abs_sub )
 {
     // This map extra creates small ponds using a simple cellular automaton.
 
@@ -1078,7 +1097,7 @@ void mx_pond( map &m, const tripoint &abs_sub )
     m.place_spawns( GROUP_FISH, 1, 0, 0, width, height, 0.15f );
 }
 
-void mx_clay_deposit( map &m, const tripoint &abs_sub )
+static void mx_clay_deposit( map &m, const tripoint &abs_sub )
 {
     // This map extra creates small clay deposits using a simple cellular automaton.
 
@@ -1121,7 +1140,7 @@ void mx_clay_deposit( map &m, const tripoint &abs_sub )
     }
 }
 
-typedef std::unordered_map<std::string, map_special_pointer> FunctionMap;
+using FunctionMap = std::unordered_map<std::string, map_special_pointer>;
 FunctionMap builtin_functions = {
     { "mx_null", mx_null },
     { "mx_house_wasp", mx_house_wasp },
@@ -1148,6 +1167,7 @@ FunctionMap builtin_functions = {
     { "mx_pond", mx_pond },
     { "mx_clay_deposit", mx_clay_deposit },
     { "mx_bandits_block", mx_bandits_block },
+    { "mx_marloss_pilgrimage", mx_marloss_pilgrimage },
 };
 
 map_special_pointer get_function( const std::string &name )
