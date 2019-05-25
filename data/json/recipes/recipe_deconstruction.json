@@ -1216,7 +1216,8 @@
       [ [ "light_battery_cell", 3 ] ],
       [ [ "manual_gun", 1 ] ],
       [ [ "holster", 1 ] ]
-    ]
+    ],
+    "flags": [ "BLIND_EASY", "FULL_MAGAZINE" ]
   },
   {
     "result": "laptop",
