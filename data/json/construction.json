@@ -2494,7 +2494,7 @@
     "description": "Build Cardboard Fort",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
-    "time": 15,
+    "time": "15 m",
     "pre_special": "check_empty",
     "components": [
       [ [ "pillow", 4 ], [ "down_pillow", 4 ] ],
