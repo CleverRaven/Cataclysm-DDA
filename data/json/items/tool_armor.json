@@ -2526,5 +2526,59 @@
     "turns_per_charge": 3,
     "use_action": { "type": "transform", "msg": "You turn the blanket's heating elements off.", "target": "electric_blanket" },
     "magazine_well": 2
+  },
+  {
+    "id": "foodperson_mask",
+    "type": "TOOL_ARMOR",
+    "name": "Foodperson mask",
+    "description": "Foodperson, the mascot your stomach deserves!",
+    "weight": 5000,
+    "volume": "15L",
+    "price": 1500,
+    "to_hit": -3,
+    "material": [ "cotton", "plastic" ],
+    "symbol": "Q",
+    "color": "pink",
+    "covers": [ "HEAD", "MOUTH", "EYES" ],
+    "coverage": 100,
+    "encumbrance": 30,
+    "warmth": 50,
+    "material_thickness": 5,
+    "environmental_protection": 2,
+    "charges_per_use": 1,
+    "ammo": "battery",
+    "use_action": {
+      "type": "transform",
+      "msg": "You turn the mask on.",
+      "target": "foodperson_mask_on",
+      "active": true,
+      "need_charges": 1,
+      "need_charges_msg": "The mask's batteries are dead."
+    },
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1,
+    "flags": [ "OUTER", "SUN_GLASSES" ]
+  },
+  {
+    "id": "foodperson_mask_on",
+    "type": "TOOL_ARMOR",
+    "name": "Foodperson mask (on)",
+    "copy-from": "foodperson_mask",
+    "turns_per_charge": 15,
+    "revert_to": "foodperson_mask",
+    "flags": [ "OUTER", "SUN_GLASSES", "NO_TAKEOFF", "LIGHT_10", "WATCH" ]
   }
 ]
