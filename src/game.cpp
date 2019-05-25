@@ -6812,28 +6812,30 @@ static void centerlistview( const tripoint &active_item_position )
     player &u = g->u;
     if( get_option<std::string>( "SHIFT_LIST_ITEM_VIEW" ) != "false" ) {
         u.view_offset.z = active_item_position.z;
-        int xpos = POSX + active_item_position.x;
-        int ypos = POSY + active_item_position.y;
         if( get_option<std::string>( "SHIFT_LIST_ITEM_VIEW" ) == "centered" ) {
-            int xOffset = TERRAIN_WINDOW_WIDTH / 2;
-            int yOffset = TERRAIN_WINDOW_HEIGHT / 2;
-            if( xpos < 0 ) {
-                u.view_offset.x = xpos - xOffset;
-            } else {
-                u.view_offset.x = xpos - ( TERRAIN_WINDOW_WIDTH ) + xOffset;
-            }
-
-            if( ypos < 0 ) {
-                u.view_offset.y = ypos - yOffset;
-            } else {
-                u.view_offset.y = ypos - ( TERRAIN_WINDOW_HEIGHT ) + yOffset;
-            }
+            u.view_offset.x = active_item_position.x;
+            u.view_offset.y = active_item_position.y;
         } else {
+            int xpos = POSX + active_item_position.x;
+            int ypos = POSY + active_item_position.y;
+
+            // The inescapable magic number.
+            // 44 is the UI width of the list-all-item/monster UI
+            // we only need the right offset since that's where the UI is displayed
+            int sidebar_right = panel_manager::get_manager().get_width_right();
+            // and we only need it if it's larger than the current sidebar width
+            int sidebar_right_offset = sidebar_right > 0 ? 44 - sidebar_right : 0;
+
+            // Convert offset to tile counts, calculate adjusted terrain window width
+            // This lets us account for possible differences in terrain width between
+            // the normal sidebar and the list-all-whatever display.
+            to_map_font_dim_width( sidebar_right_offset );
+            int terrain_width = TERRAIN_WINDOW_WIDTH - sidebar_right_offset;
+
             if( xpos < 0 ) {
                 u.view_offset.x = xpos;
-                // magic number is because terrain window is drawn underneath the sidebar
-            } else if( xpos >= TERRAIN_WINDOW_WIDTH - 11 ) {
-                u.view_offset.x = xpos - 48;
+            } else if( xpos >= terrain_width ) {
+                u.view_offset.x = xpos - ( terrain_width - 1 );
             } else {
                 u.view_offset.x = 0;
             }
