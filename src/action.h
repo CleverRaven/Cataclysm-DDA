@@ -171,6 +171,8 @@ enum action_id : int {
     ACTION_FIRE_BURST,
     /** Change fire mode of the current weapon */
     ACTION_SELECT_FIRE_MODE,
+    /** Cast a spell (only if any spells are known) */
+    ACTION_CAST_SPELL,
     /** Open the drop-item menu */
     ACTION_DROP,
     /** Drop items in a given direction */
@@ -293,6 +295,8 @@ enum action_id : int {
     ACTION_TOGGLE_AUTO_MINING,
     /** Turn auto foraging on/off */
     ACTION_TOGGLE_AUTO_FORAGING,
+    /** Toggle temperature map */
+    ACTION_DISPLAY_TEMPERATURE,
     /** Not an action, serves as count of enumerated actions */
     NUM_ACTIONS
     /**@}*/

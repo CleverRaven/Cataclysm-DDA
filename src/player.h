@@ -1996,6 +1996,15 @@ class player : public Character
         // TODO: move these to avatar
         map_memory player_map_memory;
         bool show_map_memory;
+
+        // magic mod
+
+        // list of spells known by player
+        std::map<spell_id, spell> spellbook;
+        // the base mana a player would start with
+        int mana_base;
+        // current mana
+        int mana;
 };
 
 #endif

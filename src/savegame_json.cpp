@@ -37,6 +37,7 @@
 #include "item.h"
 #include "item_factory.h"
 #include "json.h"
+#include "magic.h"
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
@@ -838,6 +839,7 @@ void avatar::store( JsonOut &json ) const
 
     json.member( "stamina", stamina );
     json.member( "move_mode", move_mode );
+    json.member( "magic", magic );
 
     // crafting etc
     json.member( "activity", activity );
@@ -932,6 +934,7 @@ void avatar::load( JsonObject &data )
     data.read( "keep_hands_free", keep_hands_free );
 
     data.read( "stamina", stamina );
+    data.read( "magic", magic );
     data.read( "move_mode", move_mode );
 
     set_highest_cat_level();

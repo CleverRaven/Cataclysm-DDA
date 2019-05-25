@@ -91,6 +91,20 @@
     "qty": 40
   },
   {
+    "id": "emit_cold_air2_stream",
+    "type": "emit",
+    "//": "Medium cold air emitter",
+    "field": "fd_cold_air2",
+    "qty": 50
+  },
+  {
+    "id": "emit_cold_air2_blast",
+    "type": "emit",
+    "//": "Large cold air emitter",
+    "field": "fd_cold_air2",
+    "qty": 100
+  },
+  {
     "id": "emit_hot_air2_stream",
     "type": "emit",
     "//": "Medium hot air emitter",

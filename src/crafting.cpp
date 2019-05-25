@@ -570,6 +570,9 @@ static void finalize_crafted_item( item &newit )
     if( newit.is_food() ) {
         set_item_food( newit );
     }
+    // TODO for now this assumes player is doing the crafting
+    // this will need to be updated when NPCs do crafting
+    newit.set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
 }
 
 static cata::optional<item_location> wield_craft( player &p, item &craft )
