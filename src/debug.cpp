@@ -879,7 +879,7 @@ static std::string android_version()
             // failed to get the property
             value = "<unknown>";
         } else {
-            value = std::string( buffer.begin(), buffer.end() );
+            value = std::string( buffer.data() );
         }
         output.append( string_format( "%s: %s; ", entry.second, value ) );
     }
