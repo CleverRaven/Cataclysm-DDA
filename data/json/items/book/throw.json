@@ -14,7 +14,7 @@
     "skill": "throw",
     "max_level": 1,
     "intelligence": 1,
-    "time": 8,
+    "time": "8 m",
     "fun": 1
   },
   {
@@ -32,6 +32,6 @@
     "skill": "throw",
     "max_level": 3,
     "intelligence": 3,
-    "time": 15
+    "time": "15 m"
   }
 ]
