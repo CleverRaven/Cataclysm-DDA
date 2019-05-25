@@ -10,7 +10,8 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_REFUGEE_BEGGAR_2",
-    "faction": "lobby_beggars"
+    "faction": "lobby_beggars",
+    "mission_offered": "MISSION_BEGGAR_2_BOX_SMALL"
   },
   {
     "type": "npc_class",
@@ -59,8 +60,17 @@
     "dynamic_line": "Have I told you about cardboard, friend?  Do you have any?",
     "//": "STUB FILE: not all text implemented yet. TK: topics WEARING, CARDBOARD3, GIVECARDBOARD, and SANDMAN",
     "responses": [
+      {
+        "condition": "has_assigned_mission",
+        "text": "About that shopping list of yours...",
+        "topic": "TALK_MISSION_INQUIRE"
+      },
+      {
+        "condition": "has_assigned_mission",
+        "text": "Is there anything else I can do for you?",
+        "topic": "TALK_MISSION_LIST"
+      },
       { "text": "Cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
-      { "condition": {"npc_has_var": "cardboard_donor", "type": "mission", "context": "dinodave", "value": "yes" }, "text": "About that shopping list of yours...", "topic": "TALK_MISSION_INQUIRE" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
       { "text": "Are you seriously wearing a dinosaur costume?", "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR" },
       { "text": "Do you need something to eat?", "topic": "TALK_REFUGEE_BEGGAR_2_GIVE_FOOD" },
@@ -83,10 +93,7 @@
     "repeat_responses": [
       {
         "for_category": [ "food" ],
-        "response": {
-          "text": "Here, you can have this <topic_item>.",
-          "topic": "TALK_REFUGEE_BEGGAR_2_GAVE_FOOD"
-        }
+        "response": { "text": "Here, you can have this <topic_item>.", "topic": "TALK_REFUGEE_BEGGAR_2_GAVE_FOOD" }
       }
     ]
   },
@@ -106,7 +113,10 @@
     "dynamic_line": "I'm building a house out of cardboard.  The sandman doesn't want me to, but I told him to go fuck himself.",
     "responses": [
       { "text": "Why cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD2" },
-      { "text": "Would you like me to give you some cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD", "effect": {"npc_add_var": "cardboard_donor", "type": "mission", "context": "dinodave", "value": "yes" } },
+      {
+        "text": "Would you like me to give you some cardboard?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD"
+      },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
       { "text": "Are you seriously wearing a dinosaur costume?", "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR" },
       { "text": "I think I have to get going...", "topic": "TALK_DONE" }
@@ -117,7 +127,10 @@
     "id": "TALK_REFUGEE_BEGGAR_2_CARDBOARD2",
     "dynamic_line": "There's so much of it now, and the zombies are afraid of it.  It's kept me safe so far.  The beta rays come from the center point of the zombie, so it hits the cardboard and can't penetrate.  The reflection can stop any further damage.",
     "responses": [
-      { "text": "Would you like me to give you some cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD", "effect": {"npc_add_var": "cardboard_donor", "type": "mission", "context": "dinodave", "value": "yes" } },
+      {
+        "text": "Would you like me to give you some cardboard?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD"
+      },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
       { "text": "Are you seriously wearing a dinosaur costume?", "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR" },
       { "text": "I think I have to get going...", "topic": "TALK_DONE" }
@@ -128,7 +141,7 @@
     "id": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD",
     "dynamic_line": "Kind of a question's that?  Yeah man, you got cardboard, I got a whole... a whole shopping list.  Got it here.",
     "responses": [
-      { "text": "Let's see that list.",  "topic": "TALK_MISSION_LIST" },
+      { "text": "Let's see that list.", "topic": "TALK_MISSION_LIST" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I think I have to get going...", "topic": "TALK_DONE" }
     ]
@@ -166,6 +179,27 @@
   {
     "id": "MISSION_BEGGAR_2_BOX_SMALL",
     "type": "mission_definition",
+    "name": "Bring Dino Dave a roll of duct tape.",
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "duct_tape",
+    "followup": "MISSION_BEGGAR_2_DUCT_TAPE",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "These ones are good, good ones.  They need something to, you know, bind them together.  Surround them, light side, dark side.",
+      "offer": "Bring me the Force!",
+      "accepted": "Oh man, thanks so much my friend.  You won't regret it.",
+      "rejected": "I didn't think so.",
+      "advice": "Watch out, he's looking for it too.",
+      "inquire": "... eh?",
+      "success": "Oh this is so great, so great!",
+      "failure": "Oh, that's too bad.  Guess they're eating it all."
+    }
+  },
+  {
+    "id": "MISSION_BEGGAR_2_BOX_SMALL",
+    "type": "mission_definition",
     "name": "Bring Dino Dave small cardboard boxes.",
     "difficulty": 1,
     "value": 0,
@@ -179,9 +213,94 @@
       "offer": "I need a bunch of 'em.  Little ones, you know?  Can you bring me like... like... forty?",
       "accepted": "Oh man, thanks so much my friend.  You won't regret it.",
       "rejected": "I didn't think so.",
-      "inquire": "Hi there.",
+      "inquire": "... Huh?",
       "success": "Oh this is so great, so great!",
       "failure": "Oh, that's too bad.  Guess they're eating it all."
+    },
+  {
+    "id": "MISSION_BEGGAR_2_DUCT_TAPE",
+    "type": "mission_definition",
+    "name": "Bring Dino Dave a roll of duct tape.",
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "duct_tape",
+    "followup": "MISSION_BEGGAR_2_BOX_MEDIUM",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "These ones are good, good ones.  They need something to, you know, bind them together.  Surround them, light side, dark side.",
+      "offer": "Bring me the Force!",
+      "accepted": "Oh man, thanks so much my friend.  You won't regret it.",
+      "rejected": "I didn't think so.",
+      "advice": "Watch out, he's looking for it too.",
+      "inquire": "... eh?",
+      "success": "Oh this is so great, so great!",
+      "failure": "Oh, that's too bad.  Guess they're eating it all."
+    }
+  },
+  {
+    "id": "MISSION_BEGGAR_2_BOX_MEDIUM",
+    "type": "mission_definition",
+    "name": "Bring Dino Dave medium-sized cardboard boxes",
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "box_medium",
+    "count": 10,
+    "followup": "MISSION_BEGGAR_2_PLASTIC_SHEET",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Ten bigger ones now please.  The list doesn't lie.  You've done so well.",
+      "offer": "I got a little more on the list, but we're more than half there.",
+      "accepted": "Oh man, thanks so much my friend.  You won't regret it.",
+      "rejected": "I didn't think so.",
+      "advice": "Watch out, he's looking for it too.",
+      "inquire": "... What?",
+      "success": "I'm so happy now!",
+      "failure": "Oh, that's too bad.  Guess they're eating it all."
+    }
+  },
+  {
+    "id": "MISSION_BEGGAR_2_PLASTIC_SHEET",
+    "type": "mission_definition",
+    "name": "Bring Dino Dave medium-sized cardboard boxes",
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "plastic_sheet",
+    "count": 10,
+    "followup": "MISSION_BEGGAR_2_BOX_LARGE",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "If I can set it up in here I won't need it, but they might drive me out, so I guess I need some plastic just in case.  I don't like it, the sandman can smell through plastic, but I think the cardboard is stronger.",
+      "offer": "Please bring me some plastic sheets.",
+      "accepted": "We're almost there, now.",
+      "rejected": "I didn't think so.",
+      "advice": "They keep a lot of this stuff in hardware stores and lumber yards.",
+      "inquire": "I really feel bad sending you on this one, it's dangerous.",
+      "success": "Nice, this will do perfectly!",
+      "failure": "Oh, that's too bad."
+    }
+  },
+  {
+    "id": "MISSION_BEGGAR_2_BOX_LARGE",
+    "type": "mission_definition",
+    "name": "Bring Dino Dave medium-sized cardboard boxes",
+    "difficulty": 1,
+    "value": 0,
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "box_large",
+    "count": 5,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "This is the last thing I need from you.  I've been collecting the other parts myself, it's been easier with more cardboard around.  Can you bring me five more really big cardboard boxes?",
+      "offer": "Five more cardboard boxes, as big as it gets.  I have a few already stored up, that should be all I need.",
+      "accepted": "Yes! The home stretch!",
+      "rejected": "Oh man, but we're so close!",
+      "advice": "Try looking in cargo storage areas.",
+      "inquire": "Did you bring me those last few boxes?",
+      "success": "Brilliant!  You're a true hero.  I'll see if I can find a place to set these up now.",
+      "failure": "No!  Oh god, no, this can't be happening..."
     }
   }
 ]
