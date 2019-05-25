@@ -8696,8 +8696,8 @@ ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res ) 
     }
     if( it.has_flag( "NO_TAKEOFF" ) ) {
         return ret_val<bool>::make_failure( !is_npc() ?
-                                            _( "You can't take it off." ) :
-                                            _( "<npcname> can't it take off." ) );
+                                            _( "You can't take that item off." ) :
+                                            _( "<npcname> can't take that item off." ) );
     }
     return ret_val<bool>::make_success();
 }
