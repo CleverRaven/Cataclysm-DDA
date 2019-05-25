@@ -40,6 +40,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -4003,6 +4004,9 @@ void player::update_body( const time_point &from, const time_point &to )
 {
     update_stamina( to_turns<int>( to - from ) );
     update_stomach( from, to );
+    if( ticks_between( from, to, 10_turns ) > 0 ) {
+        magic.update_mana( *this, to_turns<float>( 10_turns ) );
+    }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
         check_needs_extremes();
@@ -10570,7 +10574,9 @@ void player::wake_up()
     remove_effect( effect_sleep );
     remove_effect( effect_slept_through_alarm );
     remove_effect( effect_lying_down );
-    remove_effect( effect_alarm_clock );
+    // Do not remove effect_alarm_clock now otherwise it invalidates an effect iterator in player::process_effects().
+    // We just set it for later removal (also happening in player::process_effects(), so no side effects) with a duration of 0 turns.
+    get_effect( effect_alarm_clock ).set_duration( 0_turns );
     recalc_sight_limits();
 }
 
