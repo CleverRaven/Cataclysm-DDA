@@ -7733,6 +7733,16 @@ void game::plthrow( int pos, const cata::optional<tripoint> &blind_throw_from_po
         }
     }
 
+    // if you're wearing the item
+    if( pos < -1 ) {
+        auto ret = u.can_takeoff( u.i_at( pos ) );
+        if( !ret.success() ) {
+            add_msg( m_info, "%s", ret.c_str() );
+            return;
+        }
+    }
+
+
     // you must wield the item to throw it
     if( pos != -1 ) {
         u.i_rem( pos );
@@ -8791,6 +8801,11 @@ void game::wield( item_location &loc )
     tripoint pos = loc.position();
     int worn_index = INT_MIN;
     if( u.is_worn( *loc.get_item() ) ) {
+        auto ret = u.can_takeoff( to_wield );
+        if( !ret.success() ) {
+            add_msg( m_info, "%s", ret.c_str() );
+            return;
+        }
         int item_pos = u.get_item_position( loc.get_item() );
         if( item_pos != INT_MIN ) {
             worn_index = Character::worn_position_to_index( item_pos );
