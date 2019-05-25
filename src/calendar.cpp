@@ -354,9 +354,7 @@ std::pair<int, clipped_unit> clipped_time( const time_duration &d )
     }
 
     if( d < 1_minutes ) {
-        // TODO: add to_seconds,from_seconds, operator ""_seconds, but currently
-        // this could be misleading as we only store turns, which are 1 second
-        const int sec = to_turns<int>( d );
+        const int sec = to_seconds<int>( d );
         return { sec, clipped_unit::second };
     } else if( d < 1_hours ) {
         const int min = to_minutes<int>( d );
@@ -462,8 +460,7 @@ std::string to_string_time_of_day( const time_point &p )
 {
     const int hour = hour_of_day<int>( p );
     const int minute = minute_of_hour<int>( p );
-    // TODO: add a to_seconds function?
-    const int second = ( to_turns<int>( time_past_midnight( p ) ) ) % 60;
+    const int second = ( to_seconds<int>( time_past_midnight( p ) ) ) % 60;
     const std::string format_type = get_option<std::string>( "24_HOUR" );
 
     if( format_type == "military" ) {
