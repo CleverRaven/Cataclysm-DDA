@@ -1528,7 +1528,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": 5,
     "components": [ [ [ "mattress", 1 ] ] ],
-    "pre_special": "f_bed_frame",
+    "pre_terrain": "f_bed_frame",
     "post_terrain": "f_bed"
   },
   {
