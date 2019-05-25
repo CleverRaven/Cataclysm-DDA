@@ -3,6 +3,7 @@
 #define MAGIC_H
 
 #include <map>
+#include <set>
 
 #include "damage.h"
 #include "enum_bitset.h"
