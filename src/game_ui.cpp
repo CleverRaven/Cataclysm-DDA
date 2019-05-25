@@ -15,6 +15,17 @@ void reinitialize_framebuffer()
 {
     return;
 }
+
+void to_map_font_dim_width( int & )
+{
+    return;
+}
+
+void to_map_font_dim_height( int & )
+{
+    return;
+}
+
 void to_map_font_dimension( int &, int & )
 {
     return;
