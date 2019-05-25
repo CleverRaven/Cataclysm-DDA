@@ -75,15 +75,15 @@ Any aoe will manifest as a circular area centered on the target, and will only d
 * "teleport_random" - teleports the player randomly range spaces with aoe variation
 
 ##### For Spells that have an attack type, these are the available damage types:
-"fire"
-"acid"
-"bash"
-"bio" - internal damage such as poison
-"cold"
-"cut"
-"electric"
-"stab"
-"none" - this damage type goes through armor altogether. it is the default.
+* "fire"
+* "acid"
+* "bash"
+* "bio" - internal damage such as poison
+* "cold"
+* "cut"
+* "electric"
+* "stab"
+* "none" - this damage type goes through armor altogether. it is the default.
 
 #### Learning Spells
 
