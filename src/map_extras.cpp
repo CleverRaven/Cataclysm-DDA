@@ -1200,7 +1200,7 @@ static void dead_vegetation_parser( map &m, const tripoint loc )
     } else if( tr.has_flag( "TREE" ) ) {
         if( one_in( 4 ) ) {
             m.ter_set( loc, ter_str_id( "t_trunk" ) );
-        } else if ( one_in( 4 ) ) {
+        } else if( one_in( 4 ) ) {
             m.ter_set( loc, ter_str_id( "t_stump" ) );
         } else {
             m.ter_set( loc, ter_str_id( "t_tree_dead" ) );
@@ -1258,7 +1258,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
 
     VehicleList vehs = m.get_vehicles();
     std::set<tripoint> occupied;
-    std::vector<vehicle*> vehicles;
+    std::vector<vehicle *> vehicles;
     std::vector<tripoint> points;
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
@@ -1293,7 +1293,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
         if( one_in( 6 ) ) {
             m.ter_set( loc, t_dirt );
             m.spawn_item( loc, "ash", 1, rng( 1, 5 ) );
-        } else if ( one_in( 10 ) ) {
+        } else if( one_in( 10 ) ) {
             // do nothing, save some spots from fire
         } else {
             m.ter_set( loc, iter->second );
@@ -1306,7 +1306,7 @@ static void burned_ground_parser( map &m, const tripoint &loc )
             m.furn_set( loc, f_ash );
         }
     }
-    if( tr.has_flag( "FUNGUS") ) {
+    if( tr.has_flag( "FUNGUS" ) ) {
         m.ter_set( loc, t_dirt );
         if( one_in( 5 ) ) {
             m.spawn_item( loc, "ash", 1, rng( 1, 5 ) );
@@ -1316,22 +1316,22 @@ static void burned_ground_parser( map &m, const tripoint &loc )
     if( tr.has_flag( "TREE" ) ) {
         if( one_in( 4 ) ) {
             m.ter_set( loc, ter_str_id( "t_trunk" ) );
-        } else if ( one_in( 4 ) ) {
+        } else if( one_in( 4 ) ) {
             m.ter_set( loc, ter_str_id( "t_stump" ) );
-        } else if ( one_in( 4 ) ) {
+        } else if( one_in( 4 ) ) {
             m.ter_set( loc, ter_str_id( "t_tree_dead" ) );
         } else {
             m.ter_set( loc, ter_str_id( "t_dirt" ) );
             m.furn_set( loc, f_ash );
             m.spawn_item( loc, "ash", 1, rng( 1, 100 ) );
         }
-    // everything else is destroyed, ash is added
+        // everything else is destroyed, ash is added
     } else if( ter_furn_has_flag( tr, fid, TFLAG_FLAMMABLE ) ||
-                ter_furn_has_flag( tr, fid, TFLAG_FLAMMABLE_HARD ) ) {
+               ter_furn_has_flag( tr, fid, TFLAG_FLAMMABLE_HARD ) ) {
         while( m.is_bashable( loc ) ) { // one is not enough
             m.destroy( loc, true );
         }
-        if ( one_in( 5 ) && !tr.has_flag( "LIQUID" ) ) {
+        if( one_in( 5 ) && !tr.has_flag( "LIQUID" ) ) {
             m.spawn_item( loc, "ash", 1, rng( 1, 10 ) );
         }
     } else if( ter_furn_has_flag( tr, fid, TFLAG_FLAMMABLE_ASH ) ) {
@@ -1339,16 +1339,16 @@ static void burned_ground_parser( map &m, const tripoint &loc )
             m.destroy( loc, true );
         }
         m.furn_set( loc, f_ash );
-        if ( !tr.has_flag( "LIQUID" ) ) {
+        if( !tr.has_flag( "LIQUID" ) ) {
             m.spawn_item( loc, "ash", 1, rng( 1, 100 ) );
         }
     }
 
     // burn-away flammable items
-    while ( m.flammable_items_at( loc ) ) {
+    while( m.flammable_items_at( loc ) ) {
         for( auto it = m.i_at( loc ).begin(); it != m.i_at( loc ).end(); ++it ) {
             if( it->flammable() ) {
-                m.i_rem( loc, it);
+                m.i_rem( loc, it );
                 m.create_burnproducts( loc, *it, it->weight() );
             }
         }
@@ -1390,7 +1390,7 @@ static void mx_burned_ground( map &m, const tripoint &abs_sub )
     }
     VehicleList vehs = m.get_vehicles();
     std::set<tripoint> occupied;
-    std::vector<vehicle*> vehicles;
+    std::vector<vehicle *> vehicles;
     std::vector<tripoint> points;
     for( wrapped_vehicle vehicle : vehs ) {
         vehicles.push_back( vehicle.v );
@@ -1409,7 +1409,7 @@ static void mx_burned_ground( map &m, const tripoint &abs_sub )
 
 static void mx_roadworks( map &m, const tripoint &abs_sub )
 {
-    // This map extra creates road works on NS & EW roads, including barricades (as barrier poles), 
+    // This map extra creates road works on NS & EW roads, including barricades (as barrier poles),
     // holes in the road, scattered soil, chance for heavy utility vehicles and some working
     // equipment in a box
     // (curved roads & intersections excluded, perhaps TODO)
@@ -1436,13 +1436,13 @@ static void mx_roadworks( map &m, const tripoint &abs_sub )
     point defects_from; // road defects square start
     point defects_to; // road defects square end
     point defects_centered; //  road defects centered
-    point veh; // vehicle 
+    point veh; // vehicle
     point equipment; // equipment
 
     // determine placement of effects
     if( road_at_north && road_at_south && !road_at_east && !road_at_west ) {
         if( one_in( 2 ) ) { // west side of the NS road
-            // road barricade 
+            // road barricade
             line_furn( &m, f_barricade_road, 4, 0, 11, 7 );
             line_furn( &m, f_barricade_road, 11, 8, 11, 15 );
             line_furn( &m, f_barricade_road, 11, 16, 4, 23 );
@@ -1462,7 +1462,7 @@ static void mx_roadworks( map &m, const tripoint &abs_sub )
                 equipment.y = rng( 21, 22 );
             }
         } else { // east side of the NS road
-            // road barricade 
+            // road barricade
             line_furn( &m, f_barricade_road, 19, 0, 12, 7 );
             line_furn( &m, f_barricade_road, 12, 8, 12, 15 );
             line_furn( &m, f_barricade_road, 12, 16, 19, 23 );
@@ -1482,9 +1482,9 @@ static void mx_roadworks( map &m, const tripoint &abs_sub )
                 equipment.y = rng( 21, 22 );
             }
         }
-    } else if( road_at_west && road_at_east && !road_at_north &&!road_at_south ) {
+    } else if( road_at_west && road_at_east && !road_at_north && !road_at_south ) {
         if( one_in( 2 ) ) { // north side of the EW road
-            // road barricade 
+            // road barricade
             line_furn( &m, f_barricade_road, 0, 4, 7, 11 );
             line_furn( &m, f_barricade_road, 8, 11, 15, 11 );
             line_furn( &m, f_barricade_road, 16, 11, 23, 4 );
@@ -1504,7 +1504,7 @@ static void mx_roadworks( map &m, const tripoint &abs_sub )
                 equipment.y = rng( 0, 4 );
             }
         } else { // south side of the EW road
-            // road barricade 
+            // road barricade
             line_furn( &m, f_barricade_road, 0, 19, 7, 12 );
             line_furn( &m, f_barricade_road, 8, 12, 15, 12 );
             line_furn( &m, f_barricade_road, 16, 12, 23, 19 );
@@ -1526,25 +1526,24 @@ static void mx_roadworks( map &m, const tripoint &abs_sub )
         }
     } else if( ( road_at_north && road_at_east && !road_at_west && !road_at_south ) ) {
         // SW side of the N-E road curve
-        // road barricade 
+        // road barricade
         line_furn( &m, f_barricade_road, 1, 0, 11, 0 );
         line_furn( &m, f_barricade_road, 12, 0, 23, 10 );
         line_furn( &m, f_barricade_road, 23, 22, 23, 11 );
         // road defects
-        switch ( rng( 1, 3 ) )
-        {
-        case 1:
-            defects_from = { 9, 8 };
-            defects_to = { 14, 3 };
-            break;
-        case 2:
-            defects_from = { 12, 11 };
-            defects_to = { 17, 6 };
-            break;
-        case 3:
-            defects_from = { 16, 15 };
-            defects_to = { 21, 10 };
-            break;
+        switch( rng( 1, 3 ) ) {
+            case 1:
+                defects_from = { 9, 8 };
+                defects_to = { 14, 3 };
+                break;
+            case 2:
+                defects_from = { 12, 11 };
+                defects_to = { 17, 6 };
+                break;
+            case 3:
+                defects_from = { 16, 15 };
+                defects_to = { 21, 10 };
+                break;
         }
         defects_centered = { rng( 8, 14 ), rng( 8, 14 ) };
         // vehicle
@@ -1560,25 +1559,24 @@ static void mx_roadworks( map &m, const tripoint &abs_sub )
         }
     } else if( ( road_at_south && road_at_west && !road_at_east && !road_at_north ) ) {
         // NE side of the S-W road curve
-        // road barricade 
+        // road barricade
         line_furn( &m, f_barricade_road, 0, 4, 0, 12 );
         line_furn( &m, f_barricade_road, 1, 13, 11, 23 );
         line_furn( &m, f_barricade_road, 12, 23, 19, 23 );
         // road defects
-        switch ( rng( 1, 3 ) )
-        {
-        case 1:
-            defects_from = { 2, 7 };
-            defects_to = { 7, 12 };
-            break;
-        case 2:
-            defects_from = { 11, 22 };
-            defects_to = { 17, 6 };
-            break;
-        case 3:
-            defects_from = { 6, 17 };
-            defects_to = { 11, 13 };
-            break;
+        switch( rng( 1, 3 ) ) {
+            case 1:
+                defects_from = { 2, 7 };
+                defects_to = { 7, 12 };
+                break;
+            case 2:
+                defects_from = { 11, 22 };
+                defects_to = { 17, 6 };
+                break;
+            case 3:
+                defects_from = { 6, 17 };
+                defects_to = { 11, 13 };
+                break;
         }
         defects_centered = { rng( 8, 14 ), rng( 8, 14 ) };
         // vehicle
@@ -1594,25 +1592,24 @@ static void mx_roadworks( map &m, const tripoint &abs_sub )
         }
     } else if( ( road_at_north && road_at_west && !road_at_east && !road_at_south ) ) {
         // SE side of the W-N road curve
-        // road barricade 
+        // road barricade
         line_furn( &m, f_barricade_road, 0, 12, 0, 19 );
         line_furn( &m, f_barricade_road, 1, 11, 12, 0 );
         line_furn( &m, f_barricade_road, 13, 0, 19, 0 );
         // road defects
-        switch ( rng( 1, 3 ) )
-        {
-        case 1:
-            defects_from = { 11, 2 };
-            defects_to = { 16, 7 };
-            break;
-        case 2:
-            defects_from = { 5, 7 };
-            defects_to = { 11, 11 };
-            break;
-        case 3:
-            defects_from = { 1, 12 };
-            defects_to = { 6, 17 };
-            break;
+        switch( rng( 1, 3 ) ) {
+            case 1:
+                defects_from = { 11, 2 };
+                defects_to = { 16, 7 };
+                break;
+            case 2:
+                defects_from = { 5, 7 };
+                defects_to = { 11, 11 };
+                break;
+            case 3:
+                defects_from = { 1, 12 };
+                defects_to = { 6, 17 };
+                break;
         }
 
         defects_centered = { rng( 8, 14 ), rng( 8, 14 ) };
@@ -1629,25 +1626,24 @@ static void mx_roadworks( map &m, const tripoint &abs_sub )
         }
     } else if( ( road_at_south && road_at_east && !road_at_west && !road_at_north ) ) {
         // NW side of the S-E road curve
-        // road barricade 
+        // road barricade
         line_furn( &m, f_barricade_road, 4, 23, 12, 23 );
         line_furn( &m, f_barricade_road, 13, 22, 22, 13 );
         line_furn( &m, f_barricade_road, 23, 4, 23, 12 );
         // road defects
-        switch ( rng( 1, 3 ) )
-        {
-        case 1:
-            defects_from = { 17, 7 };
-            defects_to = { 22, 12 };
-            break;
-        case 2:
-            defects_from = { 12, 12 };
-            defects_to = { 17, 17 };
-            break;
-        case 3:
-            defects_from = { 7, 17 };
-            defects_to = { 12, 22 };
-            break;
+        switch( rng( 1, 3 ) ) {
+            case 1:
+                defects_from = { 17, 7 };
+                defects_to = { 22, 12 };
+                break;
+            case 2:
+                defects_from = { 12, 12 };
+                defects_to = { 17, 17 };
+                break;
+            case 3:
+                defects_from = { 7, 17 };
+                defects_to = { 12, 22 };
+                break;
         }
 
         defects_centered = { rng( 10, 16 ), rng( 10, 16 ) };
@@ -1666,51 +1662,49 @@ static void mx_roadworks( map &m, const tripoint &abs_sub )
         return; // cossroads and strange roads - no generation, bail out
     }
     // road defects generator
-    switch ( rng( 1, 5 ) )
-    {
-    case 1:
-        square( &m, defects, defects_from.x, defects_from.y,
-            defects_to.x, defects_to.y );
-        break;
-    case 2:
-        rough_circle( &m, t_pit_shallow, defects_centered.x, defects_centered.y, rng( 2, 4 ) );
-        break;
-    case 3:
-        circle( &m, t_pit_shallow, defects_centered.x, defects_centered.y, rng( 2, 4 ) );
-        break;
-    case 4:
-        rough_circle( &m, t_dirtmound, defects_centered.x, defects_centered.y, rng( 2, 4 ) );
-        break;
-    case 5:
-        circle( &m, t_dirtmound, defects_centered.x, defects_centered.y, rng( 2, 4 ) );
-        break;
+    switch( rng( 1, 5 ) ) {
+        case 1:
+            square( &m, defects, defects_from.x, defects_from.y,
+                    defects_to.x, defects_to.y );
+            break;
+        case 2:
+            rough_circle( &m, t_pit_shallow, defects_centered.x, defects_centered.y, rng( 2, 4 ) );
+            break;
+        case 3:
+            circle( &m, t_pit_shallow, defects_centered.x, defects_centered.y, rng( 2, 4 ) );
+            break;
+        case 4:
+            rough_circle( &m, t_dirtmound, defects_centered.x, defects_centered.y, rng( 2, 4 ) );
+            break;
+        case 5:
+            circle( &m, t_dirtmound, defects_centered.x, defects_centered.y, rng( 2, 4 ) );
+            break;
     }
     // soil generator
     for( int i = 1; i <= 10; i++ ) {
         m.spawn_item( rng( defects_from.x, defects_to.y ),
-            rng( defects_from.x, defects_to.y ), "material_soil" );
+                      rng( defects_from.x, defects_to.y ), "material_soil" );
     }
     // vehicle placer
-    switch ( rng( 1, 6 ) )
-    {
-    case 1:
-        m.add_vehicle( vproto_id( "road_roller" ), veh.x, veh.y, rng( 0, 360 ) );
-        break;
-    case 2:
-        m.add_vehicle( vproto_id( "excavator" ), veh.x, veh.y, rng( 0, 360 ) );
-        break;
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-        break;
-    // 3-6 empty to reduce chance of vehicles on site
+    switch( rng( 1, 6 ) ) {
+        case 1:
+            m.add_vehicle( vproto_id( "road_roller" ), veh.x, veh.y, rng( 0, 360 ) );
+            break;
+        case 2:
+            m.add_vehicle( vproto_id( "excavator" ), veh.x, veh.y, rng( 0, 360 ) );
+            break;
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+            break;
+            // 3-6 empty to reduce chance of vehicles on site
     }
     // equipment placer
     if( one_in( 3 ) ) {
         m.furn_set( equipment.x, equipment.y, f_crate_c );
-        m.place_items( "mine_equipment", 100, tripoint( equipment.x, equipment.y, 0),
-            tripoint( equipment.x, equipment.y, 0) , true, 0, 100 );
+        m.place_items( "mine_equipment", 100, tripoint( equipment.x, equipment.y, 0 ),
+                       tripoint( equipment.x, equipment.y, 0 ), true, 0, 100 );
     }
 }
 
