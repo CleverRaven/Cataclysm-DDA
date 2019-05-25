@@ -6840,6 +6840,20 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
+int iuse::foodperson( player *p, item *it, bool t, const tripoint &pos )
+{
+    if( t ) {
+        if( calendar::once_every( 1_minutes ) ) {
+            const SpeechBubble &speech = get_speech( "foodperson_mask" );
+            sounds::sound( pos, speech.volume, sounds::sound_t::speech, speech.text, true, "speech",
+                           "foodperson_mask" );
+
+        }
+    }
+
+    return it->type->charges_to_use();
+}
+
 int iuse::radiocar( player *p, item *it, bool, const tripoint & )
 {
     int choice = -1;
