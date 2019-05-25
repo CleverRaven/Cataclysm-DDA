@@ -5,7 +5,7 @@
     "name": "Aftershock",
     "authors": [ "Esther" ],
     "maintainers": [ "Esther" ],
-    "description": "Drifts the game away from realism and more towards sci-fi.  NOTE: Incompatible with Bright Nights.",
+    "description": "Drifts the game away from realism and more towards sci-fi.",
     "category": "content",
     "dependencies": [ "dda" ]
   },
