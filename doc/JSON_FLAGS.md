@@ -687,6 +687,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 ## MAP SPECIALS
 
 - ```mx_anomaly``` ...  Natural anomaly (crater + artifact).
+- ```mx_bandits_block``` ...  Road block made by bandits from tree logs.
 - ```mx_burned_ground``` ... Fire has ravaged this place.
 - ```mx_point_burned_ground``` ... Fire has ravaged this place. (partial application)
 - ```mx_clay_deposit``` ... A small surface clay deposit.
