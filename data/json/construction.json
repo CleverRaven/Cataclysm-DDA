@@ -825,7 +825,7 @@
     "//": "Fills a deep pit with dirt.",
     "category": "CONSTRUCT",
     "time": 40,
-    "qualities": [ [ { "id": "SHOVEL", "level": 1 } ],
+    "qualities": [ [ { "id": "SHOVEL", "level": 1 } ] ],
     "components": [ [ "soil", 200 ] ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_dirt"
