@@ -1987,7 +1987,11 @@ bool game::handle_action()
                     }
                     set_safe_mode( SAFE_MODE_ON );
                 } else if( u.has_effect( effect_laserlocked ) ) {
-                    add_msg( m_info, _( "Ignoring laser targeting!" ) );
+                    if( u.has_trait( trait_id( "PROF_CHURL" ) ) ) {
+                        add_msg( m_warning, _( "You make the sign of the cross." ) );
+                    } else {
+                        add_msg( m_info, _( "Ignoring laser targeting!" ) );
+                    }
                     u.remove_effect( effect_laserlocked );
                     safe_mode_warning_logged = false;
                 }
