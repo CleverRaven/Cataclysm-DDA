@@ -6484,7 +6484,7 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
     std::unordered_map<std::string, int> visible_items_nearby;
     std::unordered_map<std::string, int> visible_vehicles;
     std::unordered_map<std::string, int> visible_furn_nearby;
-    std::unordered_map<tripoint, std::string> effects_map;
+    std::unordered_map<tripoint, std::string> ter_effects_map;
 
     std::string photo_text;
     std::unordered_set<tripoint> furn_points_recorded;
@@ -6503,6 +6503,23 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
     auto bounds = g->m.points_in_radius( aim_point, 2 );
     extended_photo_def photo;
 
+    const auto trap_name_at = []( const tripoint & point ) {
+        auto trap = g->m.tr_at( point );
+        std::string name;
+        if( !trap.is_null() && trap.get_visibility() <= 1 ) {
+            name = colorize( trap.name(), trap.color ) + " on ";
+        };
+        return name;
+    };
+    const auto get_field_description_at = []( const tripoint & point ) {
+        std::string field_text;
+        field field = g->m.field_at( point );
+        field_entry *entry = field.findField( field.fieldSymbol() );
+        if( entry != nullptr ) {
+            field_text = _( " in " ) + colorize( entry->name(), entry->color() );
+        }
+        return field_text;
+    };
     const auto colorized_item_name = []( const item & item ) {
         auto color = item.color_in_inventory();
         std::string damtext = item.damage() != 0 ? item.durability_indicator() : "";
@@ -6539,12 +6556,22 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
     const std::vector<std::string> ter_whitelist = {
         "t_pit_covered", "t_grave_new", "t_grave", "t_pit", "t_pit_shallow",
         "t_pit_corpsed", "t_pit_spiked", "t_pit_spiked_covered", "t_pit_glass",
-        "t_pit_glass", "t_utility_light",
+        "t_pit_glass", "t_utility_light"
     };
-    const auto colorized_ter_name_flags = []( const tripoint & point,
+    const auto colorized_ter_name_flags_at = [&trap_name_at]( const tripoint & point,
     const std::vector<std::string>  &flags, const std::vector<std::string>  &ter_whitelist ) {
         ter_id ter = g->m.ter( point );
         std::string name = colorize( ter->name(), ter->color() );
+        std::string graffiti_message = g->m.graffiti_at( point );
+        std::string trap_name = trap_name_at( point );
+
+        if( !graffiti_message.empty() ) {
+            name += _( " with graffiti \"" ) + graffiti_message + "\"";
+            return name;
+        }
+        if( ter_whitelist.empty() && flags.empty() ) {
+            return name;
+        }
         if( !ter->open.is_null() || ( ter->examine != iexamine::none &&
                                       ter->examine != iexamine::fungus &&
                                       ter->examine != iexamine::water_source &&
@@ -6561,21 +6588,37 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
                 return name;
             }
         }
+
         return std::string();
     };
 
     const auto feature_description_at_point = [&get_top_item_at_point,
-               &colorized_item_name]( const tripoint center_point, bool & item_found,
+               &colorized_item_name, &get_field_description_at, &trap_name_at]( const tripoint center_point,
+                       bool & item_found,
     const units::volume & min_visible_volume ) {
         item_found = false;
         furn_id furn = g->m.furn( center_point );
         if( furn != f_null && furn.is_valid() ) {
             std::string furn_str = "<color_yellow>" + furn->name() + "</color>";
+            std::string sign_message = g->m.get_signage( center_point );
+            std::string trap_name = trap_name_at( center_point );
+            if( !trap_name.empty() ) {
+                furn_str = trap_name + furn_str;
+            }
+            if( !sign_message.empty() ) {
+                furn_str += _( " with message \"" ) + sign_message + "\"";
+            }
+
             item item = get_top_item_at_point( center_point, min_visible_volume );
+            std::string field_desc = get_field_description_at( center_point );
             if( !item.is_null() ) {
                 furn_str += _( " with " ) + colorized_item_name( item );
                 item_found = true;
             }
+            if( !field_desc.empty() ) {
+                furn_str += field_desc;
+            }
+
             return furn_str;
         }
         return std::string();
@@ -6742,8 +6785,18 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
                     continue;
                 }
                 units::volume volume_to_search = point_around_figure == aim_point ? 0_ml : min_visible_volume;
+
                 std::string furn_desc = feature_description_at_point( point_around_figure, item_found,
                                         volume_to_search );
+                std::string trap_name = trap_name_at( point_around_figure );
+                std::string field_desc = get_field_description_at( point_around_figure );
+                item item = get_top_item_at_point( point_around_figure, volume_to_search );
+                auto veh_part_pos = g->m.veh_at( point_around_figure );
+                std::string unusual_ter_desc = colorized_ter_name_flags_at( point_around_figure,
+                                               ter_whitelist_flags,
+                                               ter_whitelist );
+                std::string ter_desc = colorized_ter_name_flags_at( point_around_figure, {}, {} );
+
                 if( !furn_desc.empty() ) {
                     furn_points_recorded.insert( point_around_figure );
                     if( current != point_around_figure ) {
@@ -6755,11 +6808,7 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
                     if( item_found ) {
                         item_points_recorded.insert( point_around_figure );
                     }
-                }
-
-                // collect visible vehicles
-                auto veh_part_pos = g->m.veh_at( point_around_figure );
-                if( veh_part_pos.has_value() ) {
+                } else if( veh_part_pos.has_value() ) {
                     auto veh = veh_part_pos->vehicle();
                     auto veh_name = "<color_light_blue>" + veh.disp_name() + "</color>";
                     auto veh_hash = get_vehicle_hash( veh );
@@ -6776,22 +6825,32 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
                         }
                     }
                     local_vehicles_recorded.insert( veh_hash );
-                }
-                // scan for items nearby
-                item item = get_top_item_at_point( point_around_figure, volume_to_search );
-                if( !item.is_null() &&
-                    item_points_recorded.find( point_around_figure ) == item_points_recorded.end() ) {
+                } else if( !item.is_null() &&
+                           item_points_recorded.find( point_around_figure ) == item_points_recorded.end() ) {
+                    std::string item_name = colorized_item_name( item );
 
-                    items_near_critter[ colorized_item_name( item ) ] ++;
+                    if( !field_desc.empty() ) {
+                        item_name += field_desc;
+                    }
+                    if( !trap_name.empty() ) {
+                        item_name = trap_name + item_name;
+                    }
+                    items_near_critter[ item_name ] ++;
                     item_points_recorded.insert( point_around_figure );
-                }
-                // scan for unusual terrain nearby
-                std::string unusual_ter_desc = colorized_ter_name_flags( point_around_figure, ter_whitelist_flags,
-                                               ter_whitelist );
-                if( !unusual_ter_desc.empty() &&
-                    terr_points_recorded.find( point_around_figure ) == terr_points_recorded.end() ) {
-
+                } else if( !unusual_ter_desc.empty() &&
+                           terr_points_recorded.find( point_around_figure ) == terr_points_recorded.end() ) {
+                    if( !field_desc.empty() ) {
+                        unusual_ter_desc += field_desc;
+                    }
+                    if( !trap_name.empty() ) {
+                        unusual_ter_desc = trap_name + unusual_ter_desc;
+                    }
                     terrain_unusual_near_critter[ unusual_ter_desc ] ++;
+                    terr_points_recorded.insert( point_around_figure );
+                } else if( !ter_desc.empty() && ( !field_desc.empty() || !trap_name.empty() ) &&
+                           terr_points_recorded.find( point_around_figure ) == terr_points_recorded.end() ) {
+                    ter_desc = field_desc + ter_desc + trap_name;
+                    terrain_unusual_near_critter[ ter_desc ] ++;
                     terr_points_recorded.insert( point_around_figure );
                 }
             }
@@ -6856,6 +6915,14 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
             continue; // disallow photos with not visible objects
         }
         units::volume volume_to_search = current == aim_point ? 0_ml : min_visible_volume;
+        std::string trap_name = trap_name_at( current );
+        std::string field_desc = get_field_description_at( current );
+        item item = get_top_item_at_point( current, volume_to_search );
+        std::string unusual_ter_desc = colorized_ter_name_flags_at( current, ter_whitelist_flags,
+                                       ter_whitelist );
+        std::string ter_desc = colorized_ter_name_flags_at( current, {}, {} );
+        bool item_found;
+        std::string furn_desc = feature_description_at_point( current, item_found, volume_to_search ) ;
 
         // collect visible vehicles
         auto veh_part_pos = g->m.veh_at( current );
@@ -6867,42 +6934,49 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
                 vehicles_recorded.insert( veh_hash );
                 visible_vehicles[ veh_name ] ++;
             }
-        }
+        } else if( furn_points_recorded.find( current ) == furn_points_recorded.end() &&
+                   !furn_desc.empty() ) {
+            visible_furn_nearby[ furn_desc ]++;
+        } else if( !item.is_null() &&
+                   item_points_recorded.find( current ) == item_points_recorded.end() ) {
+            std::string item_name = colorized_item_name( item );
 
-        if( furn_points_recorded.find( current ) == furn_points_recorded.end() ) {
-            bool item_found;
-            std::string furn_desc = feature_description_at_point( current, item_found, volume_to_search ) ;
-            if( !furn_desc.empty() ) {
-                visible_furn_nearby[ furn_desc ]++;
-
-                if( item_found ) {
-                    item_points_recorded.insert( current );
-                }
+            if( !field_desc.empty() ) {
+                item_name += field_desc;
             }
-        }
-        item item = get_top_item_at_point( current, volume_to_search );
-        if( !item.is_null() &&
-            item_points_recorded.find( current ) == item_points_recorded.end() ) {
-
-            visible_items_nearby[ colorized_item_name( item ) ] ++;
-        }
-        // scan for unusual terrain nearby
-        std::string unusual_ter_desc = colorized_ter_name_flags( current, ter_whitelist_flags,
-                                       ter_whitelist );
-        if( !unusual_ter_desc.empty() &&
-            terr_points_recorded.find( current ) == terr_points_recorded.end() ) {
-
+            if( !trap_name.empty() ) {
+                item_name = trap_name + item_name;
+            }
+            visible_items_nearby[ item_name ] ++;
+        } else if( !unusual_ter_desc.empty() &&
+                   terr_points_recorded.find( current ) == terr_points_recorded.end() ) {
+            if( !field_desc.empty() ) {
+                unusual_ter_desc += field_desc;
+            }
+            if( !trap_name.empty() ) {
+                unusual_ter_desc = trap_name + unusual_ter_desc;
+            }
             visible_furn_nearby[ unusual_ter_desc ] ++;
-            terr_points_recorded.insert( current );
+        } else if( !ter_desc.empty() && ( !field_desc.empty() || !trap_name.empty() ) &&
+                   terr_points_recorded.find( current ) == terr_points_recorded.end() ) {
+            if( !field_desc.empty() ) {
+                ter_desc += field_desc;
+            }
+            if( !trap_name.empty() ) {
+                ter_desc = trap_name + ter_desc;
+            }
+            visible_furn_nearby[ ter_desc ] ++;
         }
     }
 
     photo_text = _( "This is a photo of " );
 
     bool found_item_aim_point;
-    std::string furn_desc = feature_description_at_point( aim_point, found_item_aim_point,
-                            min_visible_volume ) ;
+    std::string furn_desc = feature_description_at_point( aim_point, found_item_aim_point, 0_ml ) ;
     item item = get_top_item_at_point( aim_point, 0_ml );
+    std::string trap_name = trap_name_at( aim_point );
+    std::string ter_name = colorized_ter_name_flags_at( aim_point, {}, {} );
+    std::string field_desc = get_field_description_at( aim_point );
 
     bool  found_vehicle_aim_point = g->m.veh_at( aim_point ).has_value(),
           found_furniture_aim_point = !furn_desc.empty();
@@ -6932,15 +7006,22 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
         visible_vehicles.erase( veh_name );
     } else if( found_furniture_aim_point || found_item_aim_point )  {
         std::string item_desc = colorized_item_description( item ),
-                    item_name = colorized_item_name( item );
+                    item_name = colorized_item_name( item ),
+                    field_desc = get_field_description_at( aim_point );
         if( found_furniture_aim_point ) {
             photo.name = furn_desc;
             photo_text += photo.name + ".";
             visible_furn_nearby.erase( furn_desc );
         } else if( found_item_aim_point ) {
+            if( !field_desc.empty() ) {
+                item_name += field_desc;
+            }
+            if( !trap_name.empty() ) {
+                item_name = trap_name + item_name;
+            }
             photo.name = item_name;
             photo_text += item_name + ". " + string_format( _( "It lies on the %1$s." ),
-                          "<color_brown>" + ter_aim->name() + "</color>" );
+                          ter_name );
 
             visible_items_nearby.erase( item_name );
         }
@@ -6951,7 +7032,13 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
             photo_text += "\n\n" + item_name + ":\n" + item_desc;
         }
     } else {
-        photo.name = "<color_brown>" + ter_aim->name() + "</color>";
+        if( !field_desc.empty() ) {
+            ter_name += field_desc;
+        }
+        if( !trap_name.empty() ) {
+            ter_name = trap_name + ter_name;
+        }
+        photo.name = ter_name;
         photo_text += photo.name + ".";
         if( !ter_aim->description.empty() ) {
             photo_text += "\n\n" + photo.name + ":\n" + ter_aim->description;
