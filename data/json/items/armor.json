@@ -10500,7 +10500,7 @@
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "OVERSIZE" ]
   },
-    {
+  {
     "id": "helmet_corinthian",
     "type": "ARMOR",
     "category": "armor",
