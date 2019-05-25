@@ -2579,6 +2579,7 @@
     "copy-from": "foodperson_mask",
     "turns_per_charge": 15,
     "revert_to": "foodperson_mask",
+    "use_action": "FOODPERSON",
     "flags": [ "OUTER", "SUN_GLASSES", "NO_TAKEOFF", "LIGHT_10", "WATCH" ]
   }
 ]
