@@ -4,7 +4,7 @@
     "id": "MAGUS",
     "name": "Magus",
     "points": 0,
-    "description": "Oh! I've heard this joke.",
+    "description": "A tradition as old as magic, the magus focuses on binding and shaping the energy of the universe to their will.",
     "starting_trait": false,
     "purifiable": false,
     "cancels": [ "ANIMIST" ]
