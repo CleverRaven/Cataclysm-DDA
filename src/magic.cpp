@@ -139,7 +139,7 @@ void spell_type::load( JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
 
     const auto bp_reader = enum_flags_reader<body_part> { "effected_bps" };
-    optional( jo, was_loaded, "effected_body_parts", effected_bps, trigger_reader );
+    optional( jo, was_loaded, "effected_body_parts", effected_bps, bp_reader );
 
     optional( jo, was_loaded, "effect_str", effect_str, "" );
 
