@@ -1726,5 +1726,11 @@
     "speaker": "mon_eyebot",
     "sound": "\"Police inbound.  Stay where you are!\"",
     "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"I AM FOODPERSON. AND I BRING SUSTENANCE!\"",
+    "volume": 15
   }
 ]
