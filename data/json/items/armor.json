@@ -2369,6 +2369,26 @@
     "flags": [ "OUTER" ]
   },
   {
+    "id": "foodperson_mask",
+    "type": "ARMOR",
+    "name": "Foodperson mask",
+    "description": "Foodperson, the mascot your stomach deserves!",
+    "weight": 5000,
+    "volume": "15L",
+    "price": 1500,
+    "to_hit": -3,
+    "material": [ "cotton", "plastic" ],
+    "symbol": "Q",
+    "color": "pink",
+    "covers": [ "HEAD", "MOUTH", "EYES" ],
+    "coverage": 100,
+    "encumbrance": 30,
+    "warmth": 50,
+    "material_thickness": 5,
+    "environmental_protection": 2,
+    "flags": [ "OUTER", "SUN_GLASSES", "NO_TAKEOFF" ]
+  },
+  {
     "id": "dive_bag",
     "type": "ARMOR",
     "name": "dive bag",
