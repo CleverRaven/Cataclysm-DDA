@@ -101,6 +101,7 @@ struct islot_tool {
     int charge_factor = 1;
     int charges_per_use = 0;
     int turns_per_charge = 0;
+    int power_draw = 0;
 
     std::vector<int> rand_charges;
 };

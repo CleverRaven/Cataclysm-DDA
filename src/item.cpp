@@ -7921,33 +7921,43 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 
 bool item::process_tool( player *carrier, const tripoint &pos )
 {
+    int energy = 0;
     if( type->tool->turns_per_charge > 0 &&
         static_cast<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
-        auto qty = std::max( ammo_required(), 1 );
-        qty -= ammo_consume( qty, pos );
+        energy = std::max( ammo_required(), 1 );
 
-        // for items in player possession if insufficient charges within tool try UPS
+    } else if( type->tool->power_draw > 0 ) {
+        // power_draw in mW / 1000 to give J per second
+        int energy_j = type->tool->power_draw / 1000;
+        // J / 1000 for kJ battery units
+        int energy_bat = energy_j / 1000;
+        // energy_bat remainder results in chance at additional charge/discharge
+        energy_bat += x_in_y( energy_j % 1000, 1000 ) ? 1 : 0;
+        energy = energy_bat;
+    }
+    energy -= ammo_consume( energy, pos );
+
+    // for items in player possession if insufficient charges within tool try UPS
+    if( carrier && has_flag( "USE_UPS" ) ) {
+        if( carrier->use_charges_if_avail( "UPS", energy ) ) {
+            energy = 0;
+        }
+    }
+
+    // if insufficient available charges shutdown the tool
+    if( energy > 0 ) {
         if( carrier && has_flag( "USE_UPS" ) ) {
-            if( carrier->use_charges_if_avail( "UPS", qty ) ) {
-                qty = 0;
-            }
+            carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
         }
 
-        // if insufficient available charges shutdown the tool
-        if( qty > 0 ) {
-            if( carrier && has_flag( "USE_UPS" ) ) {
-                carrier->add_msg_if_player( m_info, _( "You need an UPS to run the %s!" ), tname() );
-            }
-
-            // invoking the object can convert the item to another type
-            const bool had_revert_to = type->tool->revert_to.has_value();
-            type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
-            if( had_revert_to ) {
-                deactivate( carrier );
-                return false;
-            } else {
-                return true;
-            }
+        // invoking the object can convert the item to another type
+        const bool had_revert_to = type->tool->revert_to.has_value();
+        type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
+        if( had_revert_to ) {
+            deactivate( carrier );
+            return false;
+        } else {
+            return true;
         }
     }
 
