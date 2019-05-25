@@ -18,7 +18,7 @@ class inventory;
 class item;
 
 // Denotes the id of an item type
-typedef std::string itype_id;
+using itype_id = std::string;
 
 enum available_status {
     a_true = +1, // yes, it's available
@@ -158,9 +158,9 @@ struct requirement_data {
         // TODO: remove once all parts specify installation requirements directly
         friend class vpart_info;
 
-        typedef std::vector< std::vector<tool_comp> > alter_tool_comp_vector;
-        typedef std::vector< std::vector<quality_requirement> > alter_quali_req_vector;
-        typedef std::vector< std::vector<item_comp> > alter_item_comp_vector;
+        using alter_tool_comp_vector = std::vector<std::vector<tool_comp> >;
+        using alter_quali_req_vector = std::vector<std::vector<quality_requirement> >;
+        using alter_item_comp_vector = std::vector<std::vector<item_comp> >;
 
     private:
         alter_tool_comp_vector tools;

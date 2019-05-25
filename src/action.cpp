@@ -239,6 +239,8 @@ std::string action_ident( action_id act )
             return "fire";
         case ACTION_FIRE_BURST:
             return "fire_burst";
+        case ACTION_CAST_SPELL:
+            return "cast_spell";
         case ACTION_SELECT_FIRE_MODE:
             return "select_fire_mode";
         case ACTION_DROP:
@@ -307,6 +309,8 @@ std::string action_ident( action_id act )
             return "debug";
         case ACTION_DISPLAY_SCENT:
             return "debug_scent";
+        case ACTION_DISPLAY_TEMPERATURE:
+            return "debug_temp";
         case ACTION_TOGGLE_DEBUG_MODE:
             return "debug_mode";
         case ACTION_ZOOM_OUT:
@@ -406,6 +410,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_TOGGLE_FULLSCREEN:
         case ACTION_DEBUG:
         case ACTION_DISPLAY_SCENT:
+        case ACTION_DISPLAY_TEMPERATURE:
         case ACTION_ZOOM_OUT:
         case ACTION_ZOOM_IN:
         case ACTION_TOGGLE_PIXEL_MINIMAP:
@@ -802,6 +807,7 @@ action_id handle_action_menu()
 #endif // TILES
             REGISTER_ACTION( ACTION_TOGGLE_PANEL_ADM );
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
+            REGISTER_ACTION( ACTION_DISPLAY_TEMPERATURE );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
         } else if( category == _( "Interact" ) ) {
             REGISTER_ACTION( ACTION_EXAMINE );
@@ -826,6 +832,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_FIRE );
             REGISTER_ACTION( ACTION_RELOAD_ITEM );
             REGISTER_ACTION( ACTION_RELOAD_WEAPON );
+            REGISTER_ACTION( ACTION_CAST_SPELL );
             REGISTER_ACTION( ACTION_SELECT_FIRE_MODE );
             REGISTER_ACTION( ACTION_THROW );
             REGISTER_ACTION( ACTION_FIRE_BURST );

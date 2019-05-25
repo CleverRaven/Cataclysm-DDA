@@ -365,8 +365,8 @@ class overmapbuffer
          */
         bool is_omt_generated( const tripoint &loc );
 
-        typedef std::pair<point, std::string> t_point_with_note;
-        typedef std::vector<t_point_with_note> t_notes_vector;
+        using t_point_with_note = std::pair<point, std::string>;
+        using t_notes_vector = std::vector<t_point_with_note>;
         t_notes_vector get_all_notes( int z ) {
             return get_notes( z, nullptr ); // NULL => don't filter notes
         }

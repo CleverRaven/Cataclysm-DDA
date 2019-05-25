@@ -24,6 +24,7 @@
     "name": "Brawling",
     "description": "You're used to hand-to-creature fighting.  Not stylish or sporting, but it gets the job done.",
     "initiate": [ "You grit your teeth and prepare for a good fight.", "%s gets ready to brawl." ],
+    "autolearn": [ [ "unarmed", "2" ] ],
     "arm_block": -1,
     "leg_block": 7,
     "techniques": [ "tec_brawl_feint", "tec_brawl_power", "tec_brawl_trip", "tec_brawl_counter" ]
@@ -871,6 +872,41 @@
           [ "armor", "electric", "int", 1.0 ],
           [ "armor", "heat", "per", 1.0 ]
         ]
+      }
+    ],
+    "oncrit_buffs": [
+      {
+        "id": "debug_crit_buff",
+        "name": "Lightning Strike",
+        "description": "Lightning strikes twice.  +Perception electric damage for 3 turns.  Stacks 2 times.",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "buff_duration": 3,
+        "max_stacks": 2,
+        "flat_bonuses": [ [ "damage", "electric", "per", 1.0 ] ]
+      }
+    ],
+    "onmiss_buffs": [
+      {
+        "id": "debug_miss_buff",
+        "name": "Getting Angry",
+        "description": "When I get my hands on you...  +2 bash damage for 2 turns.  Stacks 5 times.",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "buff_duration": 2,
+        "max_stacks": 5,
+        "flat_bonuses": [ [ "damage", "bash", 2.0 ] ]
+      }
+    ],
+    "onkill_buffs": [
+      {
+        "id": "debug_kill_buff",
+        "name": "On Fire",
+        "description": "YOU ARE ON FIRE!  +5 fire damage for 5 turns.",
+        "unarmed_allowed": true,
+        "min_unarmed": 0,
+        "buff_duration": 5,
+        "flat_bonuses": [ [ "damage", "heat", 5.0 ] ]
       }
     ],
     "techniques": [ "tec_debug_slow", "tec_debug_arpen" ]

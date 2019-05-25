@@ -462,6 +462,9 @@ void npc::set_fac( const string_id<faction> &id )
 {
     my_fac = g->faction_manager_ptr->get( id );
     fac_id = my_fac->id;
+    for( auto &e : inv_dump() ) {
+        e->set_owner( my_fac );
+    }
 }
 
 void npc::clear_fac()
@@ -543,9 +546,9 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
         }
-
         if( who.can_wear( it ).success() ) {
             who.worn.push_back( it );
+            it.set_owner( who.my_fac );
         }
     }
 }
@@ -605,7 +608,9 @@ void starting_inv( npc &who, const npc_class_id &type )
     res.erase( std::remove_if( res.begin(), res.end(), [&]( const item & e ) {
         return e.has_flag( "TRADER_AVOID" );
     } ), res.end() );
-
+    for( auto &it : res ) {
+        it.set_owner( who.my_fac );
+    }
     who.inv += res;
 }
 
@@ -765,6 +770,7 @@ void npc::starting_weapon( const npc_class_id &type )
     if( weapon.is_gun() ) {
         weapon.ammo_set( weapon.type->gun->ammo->default_ammotype() );
     }
+    weapon.set_owner( my_fac );
 }
 
 bool npc::wear_if_wanted( const item &it )
@@ -2005,6 +2011,8 @@ std::string npc_attitude_name( npc_attitude att )
             return _( "Healing you" );
         case NPCATT_ACTIVITY:
             return _( "Performing a task" );
+        case NPCATT_RECOVER_GOODS:
+            return _( "Trying to recover stolen goods" );
         case NPCATT_LEGACY_1:
         case NPCATT_LEGACY_2:
         case NPCATT_LEGACY_3:

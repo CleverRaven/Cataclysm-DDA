@@ -7,14 +7,27 @@
 #include "inventory.h"
 #include "item.h"
 #include "messages.h"
+#include "mission.h"
 #include "monstergenerator.h"
 #include "mutation.h"
+#include "overmap.h"
 #include "overmapbuffer.h"
 #include "player.h"
 #include "profession.h"
 #include "skill.h"
 #include "type_id.h"
 #include "get_version.h"
+
+static const bionic_id bio_memory( "bio_memory" );
+
+static const trait_id trait_FORGETFUL( "FORGETFUL" );
+static const trait_id trait_GOODMEMORY( "GOODMEMORY" );
+
+avatar::avatar() : player()
+{
+    show_map_memory = true;
+    active_mission = nullptr;
+}
 
 void avatar::memorial( std::ostream &memorial_file, const std::string &epitaph )
 {
@@ -235,4 +248,137 @@ void avatar::memorial( std::ostream &memorial_file, const std::string &epitaph )
     //History
     memorial_file << _( "Game History" ) << eol;
     memorial_file << dump_memorial();
+}
+
+void avatar::toggle_map_memory()
+{
+    show_map_memory = !show_map_memory;
+}
+
+bool avatar::should_show_map_memory()
+{
+    return show_map_memory;
+}
+
+void avatar::serialize_map_memory( JsonOut &jsout ) const
+{
+    player_map_memory.store( jsout );
+}
+
+void avatar::deserialize_map_memory( JsonIn &jsin )
+{
+    player_map_memory.load( jsin );
+}
+
+memorized_terrain_tile avatar::get_memorized_tile( const tripoint &pos ) const
+{
+    return player_map_memory.get_tile( pos );
+}
+
+void avatar::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
+                            const int rotation )
+{
+    player_map_memory.memorize_tile( max_memorized_tiles(), pos, ter, subtile, rotation );
+}
+
+void avatar::memorize_symbol( const tripoint &pos, const long symbol )
+{
+    player_map_memory.memorize_symbol( max_memorized_tiles(), pos, symbol );
+}
+
+long avatar::get_memorized_symbol( const tripoint &p ) const
+{
+    return player_map_memory.get_symbol( p );
+}
+
+size_t avatar::max_memorized_tiles() const
+{
+    // Only check traits once a turn since this is called a huge number of times.
+    if( current_map_memory_turn != calendar::turn ) {
+        current_map_memory_turn = calendar::turn;
+        if( has_active_bionic( bio_memory ) ) {
+            current_map_memory_capacity = SEEX * SEEY * 20000; // 5000 overmap tiles
+        } else if( has_trait( trait_FORGETFUL ) ) {
+            current_map_memory_capacity = SEEX * SEEY * 200; // 50 overmap tiles
+        } else if( has_trait( trait_GOODMEMORY ) ) {
+            current_map_memory_capacity = SEEX * SEEY * 800; // 200 overmap tiles
+        } else {
+            current_map_memory_capacity = SEEX * SEEY * 400; // 100 overmap tiles
+        }
+    }
+    return current_map_memory_capacity;
+}
+
+void avatar::clear_memorized_tile( const tripoint &pos )
+{
+    player_map_memory.clear_memorized_tile( pos );
+}
+
+std::vector<mission *> avatar::get_active_missions() const
+{
+    return active_missions;
+}
+
+std::vector<mission *> avatar::get_completed_missions() const
+{
+    return completed_missions;
+}
+
+std::vector<mission *> avatar::get_failed_missions() const
+{
+    return failed_missions;
+}
+
+mission *avatar::get_active_mission() const
+{
+    return active_mission;
+}
+
+tripoint avatar::get_active_mission_target() const
+{
+    if( active_mission == nullptr ) {
+        return overmap::invalid_tripoint;
+    }
+    return active_mission->get_target();
+}
+
+void avatar::set_active_mission( mission &cur_mission )
+{
+    const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
+    if( iter == active_missions.end() ) {
+        debugmsg( "new active mission %d is not in the active_missions list", cur_mission.get_id() );
+    } else {
+        active_mission = &cur_mission;
+    }
+}
+
+void avatar::on_mission_assignment( mission &new_mission )
+{
+    active_missions.push_back( &new_mission );
+    set_active_mission( new_mission );
+}
+
+void avatar::on_mission_finished( mission &cur_mission )
+{
+    if( cur_mission.has_failed() ) {
+        failed_missions.push_back( &cur_mission );
+        add_msg_if_player( m_bad, _( "Mission \"%s\" is failed." ), cur_mission.name() );
+    } else {
+        completed_missions.push_back( &cur_mission );
+        add_msg_if_player( m_good, _( "Mission \"%s\" is successfully completed." ),
+                           cur_mission.name() );
+    }
+    const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
+    if( iter == active_missions.end() ) {
+        debugmsg( "completed mission %d was not in the active_missions list", cur_mission.get_id() );
+    } else {
+        active_missions.erase( iter );
+    }
+    if( &cur_mission == active_mission ) {
+        if( active_missions.empty() ) {
+            active_mission = nullptr;
+        } else {
+            active_mission = active_missions.front();
+        }
+    }
 }

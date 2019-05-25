@@ -46,7 +46,7 @@
 
 class player;
 
-typedef std::set<std::string> t_string_set;
+using t_string_set = std::set<std::string>;
 static t_string_set item_blacklist;
 
 static std::set<std::string> repair_actions;
@@ -789,6 +789,7 @@ void Item_factory::init()
     add_actor( new mutagen_actor() );
     add_actor( new mutagen_iv_actor() );
     add_actor( new deploy_tent_actor() );
+    add_actor( new learn_spell_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"].reset( new Item_group( Item_group::G_COLLECTION, 100, 0, 0 ) );
@@ -1573,7 +1574,11 @@ void Item_factory::load( islot_book &slot, JsonObject &jo, const std::string &sr
     assign( jo, "required_level", slot.req, strict, 0, MAX_SKILL );
     assign( jo, "fun", slot.fun, strict );
     assign( jo, "intelligence", slot.intel, strict, 0 );
-    assign( jo, "time", slot.time, strict, 0 );
+    if( jo.has_int( "time" ) ) {
+        slot.time = jo.get_int( "time" );
+    } else if( jo.has_string( "time" ) ) {
+        slot.time = to_minutes<int>( time_duration::read_from_json_string( *jo.get_raw( "time" ) ) );
+    }
     assign( jo, "skill", slot.skill, strict );
     assign( jo, "chapters", slot.chapters, strict, 0 );
 }
@@ -1755,7 +1760,11 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "consume_divisor", slot.consume_divisor );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ups_charges", slot.ups_charges );
-    assign( jo, "install_time", slot.install_time );
+    if( jo.has_int( "time" ) ) {
+        slot.install_time = jo.get_int( "time" );
+    } else if( jo.has_string( "time" ) ) {
+        slot.install_time = to_moves<int>( time_duration::read_from_json_string( *jo.get_raw( "time" ) ) );
+    }
 
     if( jo.has_member( "mod_targets" ) ) {
         slot.usable.clear();

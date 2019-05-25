@@ -9,6 +9,8 @@
 #include <vector>
 #include <utility>
 
+#include "faction.h"
+#include "int_id.h"
 #include "mapgen_functions.h"
 #include "regional_settings.h"
 #include "type_id.h"
@@ -21,7 +23,7 @@ class mission;
 struct tripoint;
 class map;
 
-typedef void ( *building_gen_pointer )( map *, oter_id, mapgendata, const time_point &, float );
+using building_gen_pointer = void ( * )( map *, oter_id, mapgendata, const time_point &, float );
 
 //////////////////////////////////////////////////////////////////////////
 ///// function pointer class; provides abstract referencing of
@@ -294,6 +296,7 @@ class mapgen_function_json_base
         void setup_common();
         bool setup_common( JsonObject jo );
         void setup_setmap( JsonArray &parray );
+        void set_faction_owner( JsonObject jo );
         // Returns true if the mapgen qualifies at this point already
         virtual bool setup_internal( JsonObject &jo ) = 0;
         virtual void setup_setmap_internal() { }
@@ -441,6 +444,6 @@ void circle( map *m, ter_id type, int x, int y, int rad );
 void circle_furn( map *m, furn_id type, int x, int y, int rad );
 void add_corpse( map *m, int x, int y );
 
-typedef void ( *map_special_pointer )( map &m, const tripoint &abs_sub );
+using map_special_pointer = void ( * )( map &, const tripoint & );
 
 #endif

@@ -40,6 +40,7 @@
 #include "item_location.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -507,7 +508,6 @@ player::player() : Character()
     movecounter = 0;
     oxygen = 0;
     last_climate_control_ret = false;
-    active_mission = nullptr;
     in_vehicle = false;
     controlling_vehicle = false;
     grab_point = tripoint_zero;
@@ -523,7 +523,6 @@ player::player() : Character()
     lastconsumed = itype_id( "null" );
     next_expected_position = cata::nullopt;
     death_drops = true;
-    show_map_memory = true;
 
     empty_traits();
 
@@ -560,7 +559,6 @@ player::player() : Character()
             style_none, style_kicks
         }
     };
-    initialize_stomach_contents();
 }
 
 player::~player() = default;
@@ -577,27 +575,6 @@ void player::normalize()
 
     temp_conv.fill( BODYTEMP_NORM );
     stamina = get_stamina_max();
-}
-
-std::string player::disp_name( bool possessive ) const
-{
-    if( !possessive ) {
-        if( is_player() ) {
-            return pgettext( "not possessive", "you" );
-        }
-        return name;
-    } else {
-        if( is_player() ) {
-            return _( "your" );
-        }
-        return string_format( _( "%s's" ), name );
-    }
-}
-
-std::string player::skin_name() const
-{
-    // TODO: Return actual deflecting layer name
-    return _( "armor" );
 }
 
 void player::reset_stats()
@@ -840,12 +817,13 @@ void player::process_turn()
     // auto-learning. This is here because skill-increases happens all over the place:
     // SkillLevel::readBook (has no connection to the skill or the player),
     // player::read, player::practice, ...
-    /** @EFFECT_UNARMED >1 allows spontaneous discovery of brawling martial art style */
-    if( get_skill_level( skill_unarmed ) >= 2 ) {
-        const matype_id brawling( "style_brawling" );
-        if( !has_martialart( brawling ) ) {
-            add_martialart( brawling );
-            add_msg_if_player( m_info, _( "You learned a new style." ) );
+    // Check for spontaneous discovery of martial art styles
+    for( auto &style : all_martialart_types() ) {
+        const matype_id ma( style );
+
+        if( can_autolearn( ma ) && !has_martialart( ma ) ) {
+            add_martialart( ma );
+            add_msg_if_player( m_info, _( "You have learned a new style: %s!" ), ma.obj().name );
         }
     }
 
@@ -2218,6 +2196,10 @@ void player::load_memorial_file( std::istream &fin )
     memorial_log.clear();
     while( fin.peek() == '|' ) {
         getline( fin, entry );
+        // strip all \r from end of string
+        while( *entry.rbegin() == '\r' ) {
+            entry.pop_back();
+        }
         memorial_log.push_back( entry );
     }
 }
@@ -4020,6 +4002,9 @@ void player::update_body( const time_point &from, const time_point &to )
 {
     update_stamina( to_turns<int>( to - from ) );
     update_stomach( from, to );
+    if( ticks_between( from, to, 10_turns ) > 0 ) {
+        magic.update_mana( *this, to_turns<float>( 10_turns ) );
+    }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
         check_needs_extremes();
@@ -6556,16 +6541,6 @@ void player::mend( int rate_multiplier )
                                body_part_name( part ) );
         }
     }
-}
-
-// sets default stomach contents when starting the game
-void player::initialize_stomach_contents()
-{
-    stomach = stomach_contents( 2500_ml );
-    guts = stomach_contents( 24000_ml );
-    guts.set_calories( 300 );
-    stomach.set_calories( 800 );
-    stomach.mod_contents( 475_ml );
 }
 
 void player::vomit()
@@ -10597,7 +10572,9 @@ void player::wake_up()
     remove_effect( effect_sleep );
     remove_effect( effect_slept_through_alarm );
     remove_effect( effect_lying_down );
-    remove_effect( effect_alarm_clock );
+    // Do not remove effect_alarm_clock now otherwise it invalidates an effect iterator in player::process_effects().
+    // We just set it for later removal (also happening in player::process_effects(), so no side effects) with a duration of 0 turns.
+    get_effect( effect_alarm_clock ).set_duration( 0_turns );
     recalc_sight_limits();
 }
 
@@ -12033,70 +12010,6 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
     return A_NEUTRAL;
 }
 
-void player::toggle_map_memory()
-{
-    show_map_memory = !show_map_memory;
-}
-
-bool player::should_show_map_memory()
-{
-    return show_map_memory;
-}
-
-void player::serialize_map_memory( JsonOut &jsout ) const
-{
-    player_map_memory.store( jsout );
-}
-
-void player::deserialize_map_memory( JsonIn &jsin )
-{
-    player_map_memory.load( jsin );
-}
-
-memorized_terrain_tile player::get_memorized_tile( const tripoint &pos ) const
-{
-    return player_map_memory.get_tile( pos );
-}
-
-void player::memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
-                            const int rotation )
-{
-    player_map_memory.memorize_tile( max_memorized_tiles(), pos, ter, subtile, rotation );
-}
-
-void player::memorize_symbol( const tripoint &pos, const long symbol )
-{
-    player_map_memory.memorize_symbol( max_memorized_tiles(), pos, symbol );
-}
-
-long player::get_memorized_symbol( const tripoint &p ) const
-{
-    return player_map_memory.get_symbol( p );
-}
-
-size_t player::max_memorized_tiles() const
-{
-    // Only check traits once a turn since this is called a huge number of times.
-    if( current_map_memory_turn != calendar::turn ) {
-        current_map_memory_turn = calendar::turn;
-        if( has_active_bionic( bio_memory ) ) {
-            current_map_memory_capacity = SEEX * SEEY * 20000; // 5000 overmap tiles
-        } else if( has_trait( trait_FORGETFUL ) ) {
-            current_map_memory_capacity = SEEX * SEEY * 200; // 50 overmap tiles
-        } else if( has_trait( trait_GOODMEMORY ) ) {
-            current_map_memory_capacity = SEEX * SEEY * 800; // 200 overmap tiles
-        } else {
-            current_map_memory_capacity = SEEX * SEEY * 400; // 100 overmap tiles
-        }
-    }
-    return current_map_memory_capacity;
-}
-
-void player::clear_memorized_tile( const tripoint &pos )
-{
-    player_map_memory.clear_memorized_tile( pos );
-}
-
 bool player::sees( const tripoint &t, bool, int ) const
 {
     static const bionic_id str_bio_night( "bio_night" );
@@ -12605,37 +12518,6 @@ void player::on_effect_int_change( const efftype_id &eid, int intensity, body_pa
     morale->on_effect_int_change( eid, intensity, bp );
 }
 
-void player::on_mission_assignment( mission &new_mission )
-{
-    active_missions.push_back( &new_mission );
-    set_active_mission( new_mission );
-}
-
-void player::on_mission_finished( mission &cur_mission )
-{
-    if( cur_mission.has_failed() ) {
-        failed_missions.push_back( &cur_mission );
-        add_msg_if_player( m_bad, _( "Mission \"%s\" is failed." ), cur_mission.name() );
-    } else {
-        completed_missions.push_back( &cur_mission );
-        add_msg_if_player( m_good, _( "Mission \"%s\" is successfully completed." ),
-                           cur_mission.name() );
-    }
-    const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
-    if( iter == active_missions.end() ) {
-        debugmsg( "completed mission %d was not in the active_missions list", cur_mission.get_id() );
-    } else {
-        active_missions.erase( iter );
-    }
-    if( &cur_mission == active_mission ) {
-        if( active_missions.empty() ) {
-            active_mission = nullptr;
-        } else {
-            active_mission = active_missions.front();
-        }
-    }
-}
-
 const targeting_data &player::get_targeting_data()
 {
     if( tdata == nullptr ) {
@@ -12651,44 +12533,6 @@ const targeting_data &player::get_targeting_data()
 void player::set_targeting_data( const targeting_data &td )
 {
     tdata.reset( new targeting_data( td ) );
-}
-
-void player::set_active_mission( mission &cur_mission )
-{
-    const auto iter = std::find( active_missions.begin(), active_missions.end(), &cur_mission );
-    if( iter == active_missions.end() ) {
-        debugmsg( "new active mission %d is not in the active_missions list", cur_mission.get_id() );
-    } else {
-        active_mission = &cur_mission;
-    }
-}
-
-mission *player::get_active_mission() const
-{
-    return active_mission;
-}
-
-tripoint player::get_active_mission_target() const
-{
-    if( active_mission == nullptr ) {
-        return overmap::invalid_tripoint;
-    }
-    return active_mission->get_target();
-}
-
-std::vector<mission *> player::get_active_missions() const
-{
-    return active_missions;
-}
-
-std::vector<mission *> player::get_completed_missions() const
-{
-    return completed_missions;
-}
-
-std::vector<mission *> player::get_failed_missions() const
-{
-    return failed_missions;
 }
 
 bool player::query_yn( const std::string &mes ) const
@@ -12831,63 +12675,4 @@ std::pair<std::string, nc_color> player::get_hunger_description() const
     }
 
     return std::make_pair( hunger_string, hunger_color );
-}
-
-float player::get_bmi() const
-{
-    return 12 * get_kcal_percent() + 13;
-}
-
-units::mass player::bodyweight() const
-{
-    return units::from_gram( round( get_bmi() * pow( height() / 100, 2 ) ) );
-}
-
-int player::height() const
-{
-    return 175;
-}
-
-int player::get_bmr() const
-{
-    /**
-        Values are for males, and average!
-     */
-    const int age = 25;
-    const int equation_constant = 5;
-    return ceil( metabolic_rate_base() * activity_level * ( units::to_gram<int>( 10 * bodyweight() ) +
-                 ( 6.25 * height() ) - ( 5 * age ) + equation_constant ) );
-}
-
-void player::increase_activity_level( float new_level )
-{
-    if( activity_level < new_level ) {
-        activity_level = new_level;
-    }
-}
-
-void player::decrease_activity_level( float new_level )
-{
-    if( activity_level > new_level ) {
-        activity_level = new_level;
-    }
-}
-void player::reset_activity_level()
-{
-    activity_level = NO_EXERCISE;
-}
-
-std::string player::activity_level_str() const
-{
-    if( activity_level <= NO_EXERCISE ) {
-        return _( "NO_EXERCISE" );
-    } else if( activity_level <= LIGHT_EXERCISE ) {
-        return _( "LIGHT_EXERCISE" );
-    } else if( activity_level <= MODERATE_EXERCISE ) {
-        return _( "MODERATE_EXERCISE" );
-    } else if( activity_level <= ACTIVE_EXERCISE ) {
-        return _( "ACTIVE_EXERCISE" );
-    } else {
-        return _( "EXTRA_EXERCISE" );
-    }
 }

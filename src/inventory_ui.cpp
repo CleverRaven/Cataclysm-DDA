@@ -1778,7 +1778,7 @@ item_location inventory_pick_selector::execute()
         if( input.action == "HELP_KEYBINDINGS" || input.action == "INVENTORY_FILTER" ) {
             g->draw_ter();
             wrefresh( g->w_terrain );
-            g->draw_panels();
+            g->draw_panels( true );
         }
     }
 }

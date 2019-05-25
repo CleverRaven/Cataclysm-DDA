@@ -522,8 +522,9 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
 void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
                                        bool print_messages )
 {
+    const bool magic = attack.proj.proj_effects.count( "magic" ) > 0;
     const double missed_by = attack.missed_by;
-    if( missed_by >= 1.0 ) {
+    if( missed_by >= 1.0 && !magic ) {
         // Total miss
         return;
     }
@@ -541,7 +542,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     const double dodge_rescaled = avoid_roll / static_cast<double>( diff_roll );
     const double goodhit = missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) ) ;
 
-    if( goodhit >= 1.0 ) {
+    if( goodhit >= 1.0 && !magic ) {
         attack.missed_by = 1.0; // Arbitrary value
         if( !print_messages ) {
             return;
@@ -571,7 +572,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     body_part bp_hit;
     double hit_value = missed_by + rng_float( -0.5, 0.5 );
     // Headshots considered elsewhere
-    if( hit_value <= 0.4 ) {
+    if( hit_value <= 0.4 || magic ) {
         bp_hit = bp_torso;
     } else if( one_in( 4 ) ) {
         if( one_in( 2 ) ) {
@@ -591,8 +592,9 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     std::string message;
     game_message_type gmtSCTcolor = m_neutral;
-
-    if( goodhit < accuracy_headshot ) {
+    if( magic ) {
+        damage_mult *= rng_float( 0.9, 1.1 );
+    } else if( goodhit < accuracy_headshot ) {
         message = _( "Headshot!" );
         gmtSCTcolor = m_headshot;
         damage_mult *= rng_float( 1.95, 2.05 );
@@ -822,6 +824,8 @@ void Creature::deal_damage_handle_type( const damage_unit &du, body_part bp, int
         default:
             break;
     }
+
+    on_damage_of_type( adjusted_damage, du.type, bp );
 
     damage += adjusted_damage;
     pain += roll_remainder( adjusted_damage / div );

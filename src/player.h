@@ -30,7 +30,6 @@
 #include "player_activity.h"
 #include "ret_val.h"
 #include "weighted_list.h"
-#include "stomach.h"
 #include "bodypart.h"
 #include "color.h"
 #include "creature.h"
@@ -186,21 +185,12 @@ class player : public Character
         player &operator=( const player & ) = delete;
         player &operator=( player && );
 
-        // newcharacter.cpp
-        bool create( character_type type, const std::string &tempname = "" );
-        void randomize( bool random_scenario, points_left &points, bool play_now = false );
-        bool load_template( const std::string &template_name, points_left &points );
-
         /** Calls Character::normalize()
          *  normalizes HP and body temperature
          */
 
         void normalize() override;
 
-        /** Returns either "you" or the player's name */
-        std::string disp_name( bool possessive = false ) const override;
-        /** Returns the name of the player's outer layer, e.g. "armor plates" */
-        std::string skin_name() const override;
 
         bool is_player() const override {
             return true;
@@ -239,9 +229,6 @@ class player : public Character
 
         // by default save all contained info
         virtual void serialize( JsonOut &jsout ) const;
-
-        void serialize_map_memory( JsonOut &jsout ) const;
-        void deserialize_map_memory( JsonIn &jsin );
 
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info();
@@ -433,21 +420,6 @@ class player : public Character
         /** Returns true if the player or their vehicle has a watch */
         bool has_watch() const;
 
-        void toggle_map_memory();
-        bool should_show_map_memory();
-        /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
-        void memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
-                            const int rotation );
-        /** Returns last stored map tile in given location in tiles mode */
-        memorized_terrain_tile get_memorized_tile( const tripoint &p ) const;
-        /** Memorizes a given tile in curses mode; finalize_terrain_memory_curses needs to be called after it */
-        void memorize_symbol( const tripoint &pos, const long symbol );
-        /** Returns last stored map tile in given location in curses mode */
-        long get_memorized_symbol( const tripoint &p ) const;
-        /** Returns the amount of tiles survivor can remember. */
-        size_t max_memorized_tiles() const;
-        void clear_memorized_tile( const tripoint &pos );
-
         // see Creature::sees
         bool sees( const tripoint &c, bool is_player = false, int range_mod = 0 ) const override;
         // see Creature::sees
@@ -507,6 +479,12 @@ class player : public Character
         void ma_onblock_effects();
         /** Fires all get hit-triggered martial arts events */
         void ma_ongethit_effects();
+        /** Fires all miss-triggered martial arts events */
+        void ma_onmiss_effects();
+        /** Fires all crit-triggered martial arts events */
+        void ma_oncrit_effects();
+        /** Fires all kill-triggered martial arts events */
+        void ma_onkill_effects();
 
         /** Returns true if the player has any martial arts buffs attached */
         bool has_mabuff( const mabuff_id &buff_id ) const;
@@ -514,6 +492,8 @@ class player : public Character
         bool has_martialart( const matype_id &ma_id ) const;
         /** Adds the entered martial art to the player's list */
         void add_martialart( const matype_id &ma_id );
+        /** Returns true if the player can learn the entered martial art */
+        bool can_autolearn( const matype_id &ma_id ) const;
 
         /** Returns the to hit bonus from martial arts buffs */
         float mabuff_tohit_bonus() const;
@@ -900,11 +880,7 @@ class player : public Character
          */
         item &get_consumable_from( item &it ) const;
 
-        stomach_contents stomach;
-        stomach_contents guts;
-
         std::pair<std::string, nc_color> get_hunger_description() const override;
-        void initialize_stomach_contents();
 
         /** Get vitamin contents for a comestible */
         std::map<vitamin_id, int> vitamins_from( const item &it ) const;
@@ -946,8 +922,6 @@ class player : public Character
          */
         bool vitamin_set( const vitamin_id &vit, int qty );
 
-        /** Stable base metabolic rate due to traits */
-        float metabolic_rate_base() const;
         /** Current metabolic rate due to traits, hunger, speed, etc. */
         float metabolic_rate() const;
         /** Handles the effects of consuming an item */
@@ -1211,9 +1185,6 @@ class player : public Character
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::time_of_cataclysm;
         bool bio_soporific_powered_at_last_sleep_check;
-        /** Used in max_memorized_tiles to cache memory capacity. **/
-        mutable time_point current_map_memory_turn = calendar::before_time_starts;
-        mutable size_t current_map_memory_capacity = 0;
 
     public:
         /** Returns a value from 1.0 to 5.0 that acts as a multiplier
@@ -1274,13 +1245,6 @@ class player : public Character
         int get_wind_resistance( body_part bp ) const;
         /** Returns the effect of pain on stats */
         stat_mod get_pain_penalty() const;
-        float get_bmi() const;
-        // returns the height of the player character in cm
-        int height() const;
-        // returns bodyweight of the player
-        units::mass bodyweight() const;
-        // returns amount of calories burned in a day given various metabolic factors
-        int get_bmr() const;
         int kcal_speed_penalty();
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
@@ -1326,7 +1290,6 @@ class player : public Character
          * All items that have the given flag (@ref item::has_flag).
          */
         std::vector<const item *> all_items_with_flag( const std::string &flag ) const;
-
         void process_active_items();
         /**
          * Remove charges from a specific item (given by its item position).
@@ -1537,16 +1500,6 @@ class player : public Character
                               const player_activity &destination_activity = player_activity() );
         void clear_destination();
         bool has_destination() const;
-        // increases the activity level to the next level
-        // does not decrease activity level
-        void increase_activity_level( float new_level );
-        // decreases the activity level to the previous level
-        // does not increase activity level
-        void decrease_activity_level( float new_level );
-        // sets activity level to NO_EXERCISE
-        void reset_activity_level();
-        // outputs player activity level to a printable string
-        std::string activity_level_str() const;
         // true if player has destination activity AND is standing on destination tile
         bool has_destination_activity() const;
         // starts destination activity and cleans up to ensure it is called only once
@@ -1737,7 +1690,7 @@ class player : public Character
         void add_msg_player_or_say( game_message_type type, const std::string &player_msg,
                                     const std::string &npc_speech ) const override;
 
-        typedef std::map<tripoint, std::string> trap_map;
+        using trap_map = std::map<tripoint, std::string>;
         bool knows_trap( const tripoint &pos ) const;
         void add_known_trap( const tripoint &pos, const trap &t );
         /** Search surrounding squares for traps (and maybe other things in the future). */
@@ -1758,31 +1711,6 @@ class player : public Character
         void spores();
         void blossoms();
 
-        std::vector<mission *> get_active_missions() const;
-        std::vector<mission *> get_completed_missions() const;
-        std::vector<mission *> get_failed_missions() const;
-        /**
-         * Returns the mission that is currently active. Returns null if mission is active.
-         */
-        mission *get_active_mission() const;
-        /**
-         * Returns the target of the active mission or @ref overmap::invalid_tripoint if there is
-         * no active mission.
-         */
-        tripoint get_active_mission_target() const;
-        /**
-         * Set which mission is active. The mission must be listed in @ref active_missions.
-         */
-        void set_active_mission( mission &cur_mission );
-        /**
-         * Called when a mission has been assigned to the player.
-         */
-        void on_mission_assignment( mission &new_mission );
-        /**
-         * Called when a mission has been completed or failed. Either way it's finished.
-         * Check @ref mission::has_failed to see which case it is.
-         */
-        void on_mission_finished( mission &cur_mission );
         /**
          * Called when a mutation is gained
          */
@@ -1863,9 +1791,6 @@ class player : public Character
         known_magic magic;
 
     protected:
-        // the player's activity level for metabolism calculations
-        float activity_level = NO_EXERCISE;
-
         // The player's position on the local map.
         tripoint position;
 
@@ -1877,11 +1802,11 @@ class player : public Character
         /** Processes human-specific effects of an effect. */
         void process_one_effect( effect &e, bool is_new ) override;
 
-    private:
-        friend class debug_menu::mission_debug;
-
+        // TODO: move this to avatar
         // Items the player has identified.
         std::unordered_set<std::string> items_identified;
+    private:
+
         /** Check if an area-of-effect technique has valid targets */
         bool valid_aoe_technique( Creature &t, const ma_technique &technique );
         bool valid_aoe_technique( Creature &t, const ma_technique &technique,
@@ -1947,7 +1872,10 @@ class player : public Character
 
         int pkill;
 
+    protected:
+        // TODO: move this to avatar
         std::string move_mode;
+    private:
 
         std::vector<tripoint> auto_move_route;
         player_activity destination_activity;
@@ -1960,35 +1888,26 @@ class player : public Character
         time_point cached_time;
         tripoint cached_position;
 
+    protected:
+        // TODO: move this to avatar
         object_type grab_type;
+    private:
 
         struct weighted_int_list<std::string> melee_miss_reasons;
 
+    protected:
+        // TODO: move this to avatar
         pimpl<player_morale> morale;
+    private:
 
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
         //NPCs also use this ID value. Values should never be reused.
-        /**
-         * Missions that the player has accepted and that are not finished (one
-         * way or the other).
-         */
-        std::vector<mission *> active_missions;
-        /**
-         * Missions that the player has successfully completed.
-         */
-        std::vector<mission *> completed_missions;
-        /**
-         * Missions that have failed while being assigned to the player.
-         */
-        std::vector<mission *> failed_missions;
-        /**
-         * The currently active mission, or null if no mission is currently in progress.
-         */
-        mission *active_mission;
 
         /** smart pointer to targeting data stored for aiming the player's weapon across turns. */
         std::shared_ptr<targeting_data> tdata;
 
+    protected:
+        // TODO: move these to avatar
         /** Current deficiency/excess quantity for each vitamin */
         std::map<vitamin_id, int> vitamin_levels;
 
@@ -1997,12 +1916,19 @@ class player : public Character
 
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;
+    private:
 
         /** Amount of time the player has spent in each overmap tile. */
         std::unordered_map<point, time_duration> overmap_time;
 
-        map_memory player_map_memory;
-        bool show_map_memory;
+        // magic mod
+
+        // list of spells known by player
+        std::map<spell_id, spell> spellbook;
+        // the base mana a player would start with
+        int mana_base;
+        // current mana
+        int mana;
 };
 
 #endif
