@@ -4395,16 +4395,7 @@
     "max_volume": 6000,
     "deployed_item": "box_large",
     "examine_action": "deployed_furniture",
-    "flags": [
-      "TRANSPARENT",
-      "FLAMMABLE_ASH",
-      "PLACE_ITEM",
-      "ORGANIC",
-      "EASY_DECONSTRUCT",
-      "BASHABLE",
-      "HIDE_PLACE",
-      "NO_SIGHT"
-    ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "BASHABLE", "HIDE_PLACE", "NO_SIGHT" ],
     "bash": {
       "str_min": 2,
       "str_max": 15,
