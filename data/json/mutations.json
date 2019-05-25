@@ -632,7 +632,7 @@
     "points": 3,
     "description": "You have practiced fighting with weapons.  You start with your choice of Eskrima, Fencing, Pentjak Silat, Niten Ichi-Ryu, or Sōjutsu.",
     "starting_trait": true,
-    "initial_ma_styles": [ "style_eskrima", "style_fencing", "style_silat", "style_niten", "style_sojutsu" ],
+    "initial_ma_styles": [ "style_eskrima", "style_fencing", "style_silat", "style_niten", "style_sojutsu", "style_swordsmanship" ],
     "valid": false
   },
   {

@@ -214,5 +214,13 @@
     "name": "The Way of the Spear",
     "name_plural": "The Way of the Spear",
     "description": "A complete guide to Sōjutsu."
+  },
+  {
+    "id": "manual_swordsmanship",
+    "copy-from": "book_martial",
+    "type": "GENERIC",
+    "name": "Historic European Martial Arts",
+    "name_plural": "Historic European Martial Arts",
+    "description": "A complete guide to Medieval Swordsmanship.  Compares the German and Italian traditions and delves into polearms, daggers, sword and buckler, and more."
   }
 ]
