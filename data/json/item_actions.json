@@ -617,12 +617,12 @@
   {
     "type": "item_action",
     "id": "MP3",
-    "name": "Turn on"
+    "name": "Play music"
   },
   {
     "type": "item_action",
     "id": "MP3_ON",
-    "name": "Turn off"
+    "name": "Turn off music"
   },
   {
     "type": "item_action",
