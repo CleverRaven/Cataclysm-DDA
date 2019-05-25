@@ -969,7 +969,7 @@
     "type": "martial_art",
     "id": "style_swordsmanship",
     "name": "Medieval Swordsmanship",
-    "description": "The art of the longsword and other weapons, preceding the later development of fencing.  Designed for combat both unarmored and in armor, it includes grappling as well as defensive and offensive sword techniques, plus familiarity with other weapons like polearms.",
+    "description": "The art of the longsword and sword & shield, preceding the later development of fencing.  Designed for combat both unarmored and in armor, it includes grappling as well as defensive and offensive sword techniques.  This treatise compares the Italian and German traditions of medieval combat with detailed step-by-step pictures.",
     "initiate": [ "You stand tall and become vigilant against attacks.", "%s stands tall and becomes vigilant." ],
     "arm_block": 99,
     "leg_block": 99,
@@ -1008,21 +1008,21 @@
       "sword_crude",
       "zweihander",
       "zweihander_inferior",
+      "zweihander_fake",
       "zweifire_off",
       "zweifire_on",
       "arming_sword",
       "arming_sword_inferior",
+      "arming_sword_fake",
       "longsword",
       "longsword_inferior",
+      "longsword_fake",
       "estoc",
-      "q_staff",
-      "i_staff",
-      "makeshift_halberd",
-      "glaive",
-      "pike",
-      "spear_steel",
-      "halberd",
-      "sword_forged"
+      "estoc_fake",
+      "sword_forged",
+      "jian",
+      "jian_inferior",
+      "jian_fake"
     ]
   }
 ]
