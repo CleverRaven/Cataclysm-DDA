@@ -58,15 +58,15 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2",
     "dynamic_line": "Have I told you about cardboard, friend?  Do you have any?",
-    "//": "STUB FILE: not all text implemented yet. TK: topics WEARING, CARDBOARD3, GIVECARDBOARD, and SANDMAN",
     "responses": [
+      { "condition": "has_assigned_mission", "text": "About that shopping list of yours...", "topic": "TALK_MISSION_INQUIRE" },
       {
-        "condition": "has_assigned_mission",
-        "text": "About that shopping list of yours...",
-        "topic": "TALK_MISSION_INQUIRE"
-      },
-      {
-        "condition": "has_assigned_mission",
+        "condition": {
+          "and": [
+            { "npc_has_var": "cardboard_donor", "type": "mission", "context": "dinodave", "value": "yes" },
+            { "not": "has_no_available_mission" }
+          ]
+        },
         "text": "Is there anything else I can do for you?",
         "topic": "TALK_MISSION_LIST"
       },
@@ -113,10 +113,8 @@
     "dynamic_line": "I'm building a house out of cardboard.  The sandman doesn't want me to, but I told him to go fuck himself.",
     "responses": [
       { "text": "Why cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD2" },
-      {
-        "text": "Would you like me to give you some cardboard?",
-        "topic": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD"
-      },
+      { "text": "The sandman?", "topic": "TALK_REFUGEE_BEGGAR_2_SANDMAN" },
+      { "text": "Would you like me to give you some cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
       { "text": "Are you seriously wearing a dinosaur costume?", "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR" },
       { "text": "I think I have to get going...", "topic": "TALK_DONE" }
@@ -127,10 +125,7 @@
     "id": "TALK_REFUGEE_BEGGAR_2_CARDBOARD2",
     "dynamic_line": "There's so much of it now, and the zombies are afraid of it.  It's kept me safe so far.  The beta rays come from the center point of the zombie, so it hits the cardboard and can't penetrate.  The reflection can stop any further damage.",
     "responses": [
-      {
-        "text": "Would you like me to give you some cardboard?",
-        "topic": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD"
-      },
+      { "text": "Would you like me to give you some cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
       { "text": "Are you seriously wearing a dinosaur costume?", "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR" },
       { "text": "I think I have to get going...", "topic": "TALK_DONE" }
@@ -140,9 +135,19 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_GIVECARDBOARD",
     "dynamic_line": "Kind of a question's that?  Yeah man, you got cardboard, I got a whole... a whole shopping list.  Got it here.",
+    "speaker_effect": { "effect": { "npc_add_var": "cardboard_donor", "type": "mission", "context": "dinodave", "value": "yes" } },
     "responses": [
       { "text": "Let's see that list.", "topic": "TALK_MISSION_LIST" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I think I have to get going...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_2_SANDMAN",
+    "dynamic_line": "If you don't know who he is, I definitely can't tell you.  He talks to everyone, if you didn't hear him that means you can't be trusted, except to help me out.",
+    "responses": [
+      { "text": "... What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I think I have to get going...", "topic": "TALK_DONE" }
     ]
   },
@@ -216,7 +221,8 @@
       "inquire": "... Huh?",
       "success": "Oh this is so great, so great!",
       "failure": "Oh, that's too bad.  Guess they're eating it all."
-    },
+    }
+  },
   {
     "id": "MISSION_BEGGAR_2_DUCT_TAPE",
     "type": "mission_definition",
@@ -263,7 +269,7 @@
   {
     "id": "MISSION_BEGGAR_2_PLASTIC_SHEET",
     "type": "mission_definition",
-    "name": "Bring Dino Dave medium-sized cardboard boxes",
+    "name": "Bring Dino Dave some large plastic sheets",
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
@@ -285,7 +291,7 @@
   {
     "id": "MISSION_BEGGAR_2_BOX_LARGE",
     "type": "mission_definition",
-    "name": "Bring Dino Dave medium-sized cardboard boxes",
+    "name": "Bring Dino Dave large cardboard boxes",
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
