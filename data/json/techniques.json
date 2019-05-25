@@ -1103,7 +1103,6 @@
     "name": "stumble",
     "min_unarmed": 4,
     "unarmed_allowed": true,
-    "melee_allowed": true,
     "crit_tec": true,
     "down_dur": 1,
     "messages": [ "You stumble %s with your onslaught", "<npcname> stumbles %s" ]
@@ -1114,7 +1113,6 @@
     "name": "Receive and Counter",
     "min_unarmed": 5,
     "unarmed_allowed": true,
-    "melee_allowed": true,
     "dodge_counter": true,
     "mult_bonuses": [ [ "movecost", 0.0 ] ],
     "messages": [ "You receive %s's gift of violence, and return it in kind", "<npcname> receives %s's attack, and counters" ]
@@ -1125,7 +1123,6 @@
     "name": "disarm",
     "min_unarmed": 6,
     "unarmed_allowed": true,
-    "melee_allowed": true,
     "crit_tec": true,
     "disarms": true,
     "messages": [ "You disarm %s", "<npcname> disarms %s" ]

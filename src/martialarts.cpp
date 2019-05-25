@@ -356,8 +356,7 @@ bool ma_requirements::is_valid_player( const player &u ) const
         ( unarmed_allowed && u.unarmed_attack() &&
           ( !strictly_unarmed || !u.is_armed() ) ) ||
         ( is_valid_weapon( u.weapon ) &&
-          // Below && used to be || - this change apparently makes techniques respect melee_allowed
-          ( melee_allowed && u.style_selected.obj().has_weapon( u.weapon.typeId() ) ) );
+          ( melee_allowed || u.style_selected.obj().has_weapon( u.weapon.typeId() ) ) );
     if( !valid_weapon ) {
         return false;
     }
