@@ -7733,7 +7733,7 @@ void game::plthrow( int pos, const cata::optional<tripoint> &blind_throw_from_po
         }
     }
 
-    // if you're wearing the item
+    // if you're wearing the item you need to be able to take it off
     if( pos < -1 ) {
         auto ret = u.can_takeoff( u.i_at( pos ) );
         if( !ret.success() ) {
@@ -8801,7 +8801,7 @@ void game::wield( item_location &loc )
     tripoint pos = loc.position();
     int worn_index = INT_MIN;
     if( u.is_worn( *loc.get_item() ) ) {
-        auto ret = u.can_takeoff( to_wield );
+        auto ret = u.can_takeoff( *loc.get_item() );
         if( !ret.success() ) {
             add_msg( m_info, "%s", ret.c_str() );
             return;
