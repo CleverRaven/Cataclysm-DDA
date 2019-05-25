@@ -20,6 +20,8 @@
 #include "rng.h"
 #include "translations.h"
 
+#include <set>
+
 namespace
 {
 const std::map<std::string, valid_target> target_map = {
