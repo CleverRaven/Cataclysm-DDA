@@ -1069,6 +1069,7 @@
     "id": "tec_swordsmanship_grab",
     "name": "grab and pommel strike",
     "min_melee": 3,
+    "crit_tec": true,
     "unarmed_allowed": true,
     "melee_allowed": true,
     "down_dur": 1,
@@ -1100,7 +1101,6 @@
     "name": "sweeping strike",
     "min_melee": 5,
     "crit_tec": true,
-    "weighting": 2,
     "down_dur": 2,
     "messages": [ "You trip %s with a sweeping strike", "<npcname> trips %s with a sweeping strike" ]
   },
@@ -1108,9 +1108,8 @@
     "type": "technique",
     "id": "tec_swordsmanship_zornhau",
     "name": "vicious strike",
-    "min_melee": 6,
+    "min_melee": 5,
     "crit_tec": true,
-    "weighting": 2,
     "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ],
     "stun_dur": 1,
     "messages": [ "You hack at %s with a vicious strike", "<npcname> hack at %s with a vicious strike" ]
@@ -1121,7 +1120,7 @@
     "name": "death blow",
     "min_melee": 6,
     "crit_tec": true,
-    "mult_bonuses": [ [ "damage", "bash", 2.5 ], [ "damage", "cut", 2.5 ], [ "damage", "stab", 2.5 ], [ "movecost", 2.0 ] ], 
+    "mult_bonuses": [ [ "damage", "bash", 2.5 ], [ "damage", "cut", 2.5 ], [ "damage", "stab", 2.5 ], [ "movecost", 2.5 ] ], 
     "stun_dur": 2,
     "messages": [ "You flip your weapon around and deliver a mordhau to %s", "<npcname> holds his weapon funny and slams it down on %s" ]
   }

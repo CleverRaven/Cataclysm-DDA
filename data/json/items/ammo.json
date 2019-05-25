@@ -1342,11 +1342,6 @@
     "material": "bronze",
     "symbol": ",",
     "color": "yellow",
-    "count": 1,
-    "ammo_type": "components",
-    "range": 0,
-    "damage": 0,
-    "pierce": 0,
-    "dispersion": 0
+    "ammo_type": "components"
   }
 ]
