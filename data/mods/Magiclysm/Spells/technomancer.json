@@ -7,6 +7,7 @@
     "valid_targets": [ "self", "ally" ],
     "effect": "target_attack",
     "effect_str": "bless",
+    "effected_body_parts": [ "TORSO" ],
     "base_casting_time": 100,
     "base_energy_cost": 100,
     "energy_source": "MANA",
