@@ -25,7 +25,7 @@
     "name_plural": "mattresses",
     "description": "This is a single, or twin, sized mattress.",
     "weight": 20000,
-    "volume": "300 l",
+    "volume": "300000 ml",
     "price": 1000,
     "material": "cotton",
     "symbol": "0",
