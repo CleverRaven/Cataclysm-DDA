@@ -2,7 +2,7 @@
 
 ### Spells
 
-In \data\mods\Magiclysm there is a template spell, copied here for your perusal:
+In `data/mods/Magiclysm` there is a template spell, copied here for your perusal:
 
 ```C++
 {
