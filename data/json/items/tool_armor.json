@@ -2552,6 +2552,7 @@
       "msg": "You turn the mask on.",
       "target": "foodperson_mask_on",
       "active": true,
+      "need_worn": true,
       "need_charges": 1,
       "need_charges_msg": "The mask's batteries are dead."
     },
