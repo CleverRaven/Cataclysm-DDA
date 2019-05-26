@@ -41,6 +41,17 @@ then
         build_type=Debug
     fi
 
+    cmake_extra_opts=
+
+    if [ "$CATA_CLANG_TIDY" = "plugin" ]
+    then
+        cmake_extra_opts="$cmake_extra_opts -DCATA_CLANG_TIDY_PLUGIN=ON"
+        # Need to specify the particular LLVM / Clang versions to use, lest it
+        # use the llvm-7 that comes by default on the Travis Xenial image.
+        cmake_extra_opts="$cmake_extra_opts -DLLVM_DIR=/usr/lib/llvm-8/lib/cmake/llvm"
+        cmake_extra_opts="$cmake_extra_opts -DClang_DIR=/usr/lib/llvm-8/lib/cmake/clang"
+    fi
+
     mkdir build
     cd build
     cmake \
@@ -49,9 +60,16 @@ then
         -DCMAKE_BUILD_TYPE="$build_type" \
         -DTILES=${TILES:-0} \
         -DSOUND=${SOUND:-0} \
+        $cmake_extra_opts \
         ..
     if [ -n "$CATA_CLANG_TIDY" ]
     then
+        if [ "$CATA_CLANG_TIDY" = "plugin" ]
+        then
+            make -j$num_jobs CataAnalyzerPlugin
+            CATA_CLANG_TIDY=$PWD/tools/clang-tidy-plugin/clang-tidy-plugin-support/bin/clang-tidy
+        fi
+
         "$CATA_CLANG_TIDY" --version
 
         # Run clang-tidy analysis instead of regular build & test
