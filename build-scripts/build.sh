@@ -95,7 +95,7 @@ then
         analyze_files_in_random_order "$remaining_cpp_files"
     else
         # Regular build
-        make -j3
+        make -j$num_jobs
         cd ..
         # Run regular tests
         [ -f "${bin_path}cata_test" ] && run_tests "${bin_path}cata_test"
