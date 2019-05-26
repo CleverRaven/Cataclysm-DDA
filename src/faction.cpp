@@ -32,15 +32,7 @@
 
 static std::map<faction_id, faction_template> _all_faction_templates;
 
-std::string invent_name();
-std::string invent_adj();
-
 const faction_id your_faction = faction_id( "your_followers" );
-
-constexpr inline unsigned long mfb( const int v )
-{
-    return 1ul << v;
-}
 
 faction_template::faction_template()
 {
