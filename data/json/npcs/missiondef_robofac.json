@@ -69,51 +69,12 @@
     "name": "Steal a dead man's mind",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
-    "item": "robofac_test_data",
+    "item": "mind_scan_robofac",
     "value": 1000,
     "start": {
       "assign_mission_target": { "om_terrain": "road_ew", "reveal_radius": 2, "random": true, "search_range": 80 },
-      "update_mapgen": {
-         "om_terrain": ["road_ew", "road_ew"],
-        "rows": [
-          "                                                ",
-          "                                                ",
-          "                         ##              #      ",
-          "                         ##             ####    ",
-          "                         ####       #######     ",
-          "                           ###############      ",
-          "                       ######  #######          ",
-          "                                                ",
-          "                                                ",
-          "                                    ######      ",
-          "                         ####           ##      ",
-          "                         ########       ##      ",
-          "                     ########           #       ",
-          "                                                ",
-          "                                                ",
-          "                                ##              ",
-          "                                   #            ",
-          "              @                       ###       ",
-          "                             ###########  ####  ",
-          "                                #####   #####   ",
-          "                                #######  #      ",
-          "                                   ####         ",
-          "                                                ",
-          "                                                "
-        ],
-        "terrain": { "@": "t_pavement", "#": "t_pavement", "M": "t_pavement" },
-        "furniture": { "#": "f_wreckage" },
-        "place_vehicles": [
-          { "vehicle": "humvee", "x": 18, "y": 15, "fuel": -1, "status": -1, "chance": 100 },
-          { "vehicle": "aapc-mg", "x": 10, "y": 10, "fuel": -1, "status": -1, "chance": 100 },
-          { "vehicle": "aapc-mg", "x": 22, "y": 10, "fuel": -1, "status": -1, "chance": 100 },
-          { "vehicle": "humvee", "x": 40, "y": 4, "fuel": 0, "status": 0, "chance": 100 },
-          { "vehicle": "humvee", "x": 33, "y": 18, "fuel": 0, "status": 0, "chance": 100 }
-        ],
-        "items": { "@": { "item": "lab_torso", "chance": 100 } },
-        "item": { "@": [ { "item": "robofac_intercom_2_corpse" } ] },
-        "place_monsters": [ { "monster": "GROUP_MIL_STRONG", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 2 } ]
-      }
+      "update_mapgen": { "place_nested": [ { "chunks": [ "robofac_mi2_convoy_ambush_chunk" ], "x": 0, "y": 0 } ] },
+      "effect": [ { "u_buy_item": "mind_splicer" }, { "u_buy_item": "data_card" } ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {

@@ -4446,7 +4446,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
 int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
 {
     for( auto &map_it : g->m.i_at( p->posx(), p->posy() ) ) {
-        if( map_it.typeId() == "robofac_intercom_2_corpse" &&
+        if( map_it.typeId() == "rmi2_corpse" &&
             query_yn( _( "Use the mind splicer kit on the %s?" ), colorize( map_it.tname(),
                       map_it.color_in_inventory() ) ) ) {
             int pos = g->inv_for_id( itype_id( "data_card" ), _( "Select storage media" ) );
@@ -4464,9 +4464,6 @@ int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
             act.targets.push_back( item_location( *p, &data_card ) );
             p->assign_activity( act );
             return it->type->charges_to_use();
-        } else {
-            add_msg( m_info, _( "Nevermind." ) );
-            return 0;
         }
     }
     add_msg( m_info, _( "There's nothing to use the %s on here." ), it->tname() );

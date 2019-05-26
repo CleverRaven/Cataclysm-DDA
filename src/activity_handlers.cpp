@@ -3630,6 +3630,7 @@ void activity_handlers::study_spell_finish( player_activity *act, player *p )
     if( act->values[2] == -1 ) {
         p->add_msg_if_player( m_bad, _( "It's too dark to read." ) );
     }
+}
 
 //This is just used for robofac_intercom_mission_2
 void activity_handlers::mind_splicer_finish( player_activity *act, player *p )

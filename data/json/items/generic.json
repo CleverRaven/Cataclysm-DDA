@@ -2744,7 +2744,7 @@
   },
   {
     "type": "GENERIC",
-    "id": "robofac_intercom_2_corpse",
+    "id": "rmi2_corpse",
     "symbol": "%",
     "color": "white",
     "name": "desiccated corpse",
