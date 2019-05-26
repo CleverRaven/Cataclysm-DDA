@@ -879,7 +879,7 @@ static std::string android_version()
             // failed to get the property
             value = "<unknown>";
         } else {
-            value = std::string( buffer.begin(), buffer.end() );
+            value = std::string( buffer.data() );
         }
         output.append( string_format( "%s: %s; ", entry.second, value ) );
     }
@@ -1002,7 +1002,7 @@ static std::string windows_version()
                                         &buffer_size ) == ERROR_SUCCESS && value_type == REG_SZ;
             if( success ) {
                 output.append( " " );
-                output.append( std::string( byte_buffer.begin(), byte_buffer.end() ) );
+                output.append( std::string( reinterpret_cast<char *>( byte_buffer.data() ) ) );
             }
         }
 
@@ -1109,9 +1109,9 @@ std::string game_info::game_report()
     }
     std::stringstream report;
     report <<
-           "- OS: " << operating_system() << " [" << bitness() << "]\n" <<
+           "- OS: " << operating_system() << "\n" <<
            "    - OS Version: " << os_version << "\n" <<
-           "- Game Version: " << game_version() << "\n" <<
+           "- Game Version: " << game_version() << " [" << bitness() << "]\n" <<
            "- Graphics Version: " << graphics_version() << "\n" <<
            "- Mods loaded: [\n    " << mods_loaded() << "\n]\n";
 
