@@ -2776,7 +2776,7 @@ const std::string &item::symbol() const
 
 nc_color item::color_in_inventory() const
 {
-    player &u = g->u; // TODO: make a const reference
+    avatar &u = g->u; // TODO: make a const reference
 
     // Only item not otherwise colored gets colored as favorite
     nc_color ret = is_favorite ? c_white : c_light_gray;
@@ -5375,8 +5375,11 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const p
     std::vector<std::pair<const recipe *, int>> recipe_entries;
     if( is_book() ) {
         // NPCs don't need to identify books
-        if( u.is_player() && !u.has_identified( typeId() ) ) {
-            return recipe_entries;
+        // TODO: remove this cast
+        if( const avatar *a = dynamic_cast<const avatar *>( &u ) ) {
+            if( !a->has_identified( typeId() ) ) {
+                return recipe_entries;
+            }
         }
 
         for( const auto &elem : type->book->recipes ) {

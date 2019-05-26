@@ -11,8 +11,8 @@ class avatar : public player
 
         void store( JsonOut &json ) const;
         void load( JsonObject &data );
-        void serialize( JsonOut &josn ) const;
-        void deserialize( JsonIn &json );
+        void serialize( JsonOut &josn ) const override;
+        void deserialize( JsonIn &json ) override;
         void serialize_map_memory( JsonOut &jsout ) const;
         void deserialize_map_memory( JsonIn &jsin );
 
@@ -65,6 +65,33 @@ class avatar : public player
          */
         void on_mission_finished( mission &cur_mission );
 
+        /**
+         * Helper function for player::read.
+         *
+         * @param book Book to read
+         * @param reasons Starting with g->u, for each player/NPC who cannot read, a message will be pushed back here.
+         * @returns nullptr, if neither the player nor his followers can read to the player, otherwise the player/NPC
+         * who can read and can read the fastest
+         */
+        const player *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
+        /**
+         * Helper function for get_book_reader
+         * @warning This function assumes that the everyone is able to read
+         *
+         * @param book The book being read
+         * @param reader the player/NPC who's reading to the caller
+         * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
+         */
+        int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
+        /** Handles reading effects and returns true if activity started */
+        bool read( int inventory_position, const bool continuous = false );
+        /** Completes book reading action. **/
+        void do_read( item &book );
+        /** Note that we've read a book at least once. **/
+        bool has_identified( const std::string &item_id ) const override;
+
+        hint_rating rate_action_read( const item &it ) const;
+
     private:
         map_memory player_map_memory;
         bool show_map_memory;
@@ -90,6 +117,9 @@ class avatar : public player
          * The currently active mission, or null if no mission is currently in progress.
          */
         mission *active_mission;
+
+        // Items the player has identified.
+        std::unordered_set<std::string> items_identified;
 };
 
 #endif
