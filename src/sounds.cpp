@@ -370,8 +370,8 @@ void sounds::process_sound_markers( player *p )
 
         // skip most movement sounds and our own sounds
         // unless our own sound is an alarm
-        if( ( pos != p->pos() && describe_sound( sound.category ) ) || ( pos == p->pos() &&
-                describe_sound( sound.category ) && sound.category == sound_t::alarm ) ) {
+        if( ( pos != p->pos() || ( pos == p->pos() && sound.category == sound_t::alarm ) ) &&
+            describe_sound( sound.category ) ) {
             game_message_type severity = m_info;
             if( sound.category == sound_t::combat || sound.category == sound_t::alarm ) {
                 severity = m_warning;
