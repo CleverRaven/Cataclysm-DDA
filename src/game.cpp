@@ -1628,7 +1628,7 @@ static bool cancel_auto_move( player &p, const std::string &text )
 
 bool game::cancel_activity_or_ignore_query( const distraction_type type, const std::string &text )
 {
-    if( cancel_auto_move( u, text ) || !u.activity || u.activity.is_distraction_ignored( type ) ) {
+    if( cancel_auto_move( u, text ) || !u.activity || u.activity.is_distraction_ignored( type ) u.is_distraction_ignored( type ) {
         return false;
     }
 
@@ -1651,6 +1651,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
                          .option( "YES", allow_key )
                          .option( "NO", allow_key )
                          .option( "IGNORE", allow_key )
+                         .option( "IGNORE_THIS_SESSION", allow_key )
                          .query()
                          .action;
 
@@ -1662,6 +1663,12 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
         u.activity.ignore_distraction( type );
         for( auto &activity : u.backlog ) {
             activity.ignore_distraction( type );
+        }
+    }
+    if( action == "IGNORE_THIS_SESSION" ) {
+        u.ignore_distraction_this_session( type );
+        for( auto &activity : u.backlog ) {
+            u.ignore_distraction_this_session( type );
         }
     }
     return false;

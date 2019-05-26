@@ -136,6 +136,7 @@ class avatar : public player
         std::unordered_set<std::string> items_identified;
 
         object_type grab_type;
+        std::set<distraction_type> ignored_distractions_this_session;
 };
 
 #endif

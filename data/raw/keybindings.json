@@ -2707,8 +2707,15 @@
     "type": "keybinding",
     "id": "IGNORE",
     "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
-    "name": "Ignore further distractions and finish",
+    "name": "Ignore for now",
     "bindings": [ { "input_method": "keyboard", "key": "I" }, { "input_method": "keyboard", "key": "i" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "IGNORE_THIS_SESSION",
+    "category": "CANCEL_ACTIVITY_OR_IGNORE_QUERY",
+    "name": "Stop showing me this",
+    "bindings": [ { "input_method": "keyboard", "key": "S" }, { "input_method": "keyboard", "key": "S" } ]
   },
   {
     "type": "keybinding",

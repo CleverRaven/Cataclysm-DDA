@@ -107,6 +107,7 @@ class player_activity
 
         bool is_distraction_ignored( distraction_type type ) const;
         void ignore_distraction( distraction_type type );
+        void ignore_distraction_this_session( distraction_type type );
         void allow_distractions();
         void inherit_distractions( const player_activity & );
 };

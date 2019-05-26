@@ -254,7 +254,7 @@ void avatar::memorial( std::ostream &memorial_file, const std::string &epitaph )
         memorial_file << eol;
     }
     memorial_file << eol;
-
+    
     //Lifetime stats
     memorial_file << _( "Lifetime Stats" ) << eol;
     memorial_file << indent << string_format( _( "Distance walked: %d squares" ),
@@ -1028,4 +1028,10 @@ void avatar::vomit()
         add_msg( m_warning, _( "You retched, but your stomach is empty." ) );
     }
     Character::vomit();
+}
+
+    // Ignore list that lasts for the session (rather than the single activity)
+    void player_activity::ignore_distraction_this_session( distraction_type type )
+{
+        ignored_distractions_this_session.emplace( type );
 }
