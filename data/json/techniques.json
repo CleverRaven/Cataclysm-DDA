@@ -707,7 +707,7 @@
     "name": "puño strike",
     "min_melee": 3,
     "min_bashing_damage": 2,
-    "mult_bonuses": [ [ "damage", "bash", 4.0 ], [ "damage", "cut", 0.0 ], [ "damage", "stab", 0.0 ] ],
+    "mult_bonuses": [ [ "movecost", 0.6 ], [ "damage", "bash", 0.7 ], [ "damage", "cut", 0.0 ], [ "damage", "stab", 0.0 ] ],
     "crit_tec": true,
     "stun_dur": 1,
     "messages": [ "You deliver a puño to %s", "<npcname> haftstrikes %s" ]
