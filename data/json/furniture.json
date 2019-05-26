@@ -432,7 +432,7 @@
   },
   {
     "type": "furniture",
-    "id": "f_mattress",
+    "id": "f_floor_mattress",
     "name": "mattress",
     "description": "A comfortable mattress has been tossed on the floor for sleeping here.  It's not quite as comfy as a real bed, but it's pretty close.",
     "symbol": "0",
