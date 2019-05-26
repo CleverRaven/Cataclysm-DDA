@@ -6489,23 +6489,23 @@ const auto trap_name_at = []( const tripoint &point )
 
 std::string get_field_description_at( const tripoint &point )
 {
-    static std::unordered_set<field_id> covered_in_affix_ids = {
+    static const std::unordered_set<field_id> covered_in_affix_ids = {
         fd_blood, fd_bile, fd_gibs_flesh, fd_gibs_veggy, fd_web,
         fd_slime, fd_acid, fd_sap, fd_sludge, fd_blood_veggy,
         fd_blood_insect, fd_blood_invertebrate,  fd_gibs_insect,
         fd_gibs_invertebrate, fd_rubble
     };
-    static std::unordered_set<field_id> on_affix_ids = {
+    static const std::unordered_set<field_id> on_affix_ids = {
         fd_fire, fd_flame_burst
     };
-    static std::unordered_set<field_id> under_affix_ids = {
+    static const std::unordered_set<field_id> under_affix_ids = {
         fd_gas_vent, fd_fire_vent, fd_fatigue
     };
-    static std::unordered_set<field_id> illuminated_by_affix_ids = {
+    static const std::unordered_set<field_id> illuminated_by_affix_ids = {
         fd_spotlight, fd_laser, fd_dazzling, fd_spotlight, fd_electricity
     };
     typedef std::pair<std::unordered_set<field_id>, std::string> affix_pair;
-    static std::vector<affix_pair> affixes_vec = {
+    static const std::vector<affix_pair> affixes_vec = {
         { covered_in_affix_ids, _( " covered in " ) },
         { on_affix_ids, _( " on " ) },
         { under_affix_ids, _( " under " ) },
@@ -6649,16 +6649,54 @@ const auto format_object_pair = []( const std::pair<std::string, int> &pair )
 const auto effects_description_for_creature = []( Creature *const creature, std::string &pose,
         const std::string &pronoun_sex )
 {
+    static struct ef_con { // effect constraint
+        std::string status;
+        std::string pose;
+        int intensity_lower_limit;
+        ef_con( std::string status, std::string pose, int intensity_lower_limit ) :
+            status( status ), pose( pose ), intensity_lower_limit( intensity_lower_limit ) {};
+        ef_con( std::string status, std::string pose ) :
+            status( status ), pose( pose ), intensity_lower_limit( 0 ) {};
+        ef_con( std::string status, int intensity_lower_limit ) :
+            status( status ), pose( "" ), intensity_lower_limit( intensity_lower_limit ) {};
+        ef_con( std::string status ) :
+            status( status ), pose( "" ), intensity_lower_limit( 0 ) {};
+    };
+    static const std::unordered_map<efftype_id, ef_con> vec_effect_status = {
+        { effect_onfire, ef_con( " is on <color_red>fire</color>. " ) },
+        { effect_bleed, ef_con( " is <color_red>bleeding</color>. ", 1 ) },
+        { effect_happy, ef_con( " looks <color_green>happy</color>. ", 13 ) },
+        { effect_downed, ef_con( "", "downed" ) },
+        { effect_in_pit, ef_con( "", "stuck" ) },
+        { effect_stunned, ef_con( " is <color_blue>stunned</color>. " ) },
+        { effect_dazed, ef_con( " is <color_blue>dazed</color>. " ) },
+        { effect_beartrap, ef_con( " is stuck in beartrap. " ) },
+        { effect_laserlocked, ef_con( " have tiny <color_red>red dot</color> on body. " ) },
+        { effect_boomered, ef_con( " is covered in <color_magenta>bile</color>. " ) },
+        { effect_glowing, ef_con( " is covered in <color_yellow>glowing goo</color>. " ) },
+        { effect_slimed, ef_con( " is covered in <color_green>thick goo</color>. " ) },
+        { effect_corroding, ef_con( " is covered in <color_light_green>acid</color>. " ) },
+        { effect_sap, ef_con( " is coated in <color_brown>sap</color>. " ) },
+        { effect_webbed, ef_con( " is covered in <color_gray>webs</color>. " ) },
+        { effect_spores, ef_con( " is covered in <color_green>spores</color>. ", 1 ) },
+        { effect_crushed, ef_con( " lies under <color_gray>collapsed debris</color>. ", "lies" ) },
+        { effect_lack_sleep, ef_con( " looks <color_gray>very tired</color>. " ) },
+        { effect_lying_down, ef_con( " is <color_dark_blue>sleeping</color>. ", "lies" ) },
+        { effect_sleep, ef_con( " is <color_dark_blue>sleeping</color>. ", "lies" ) },
+        { effect_haslight, ef_con( " is <color_yellow>lit</color>. " ) }
+    };
+
     std::string figure_effects;
     if( creature ) {
-        if( creature->has_effect( effect_onfire ) ) {
-            figure_effects += pronoun_sex + pgettext( "Someone", " is on <color_red>fire</color>. " );
-        }
-        if( creature->get_effect_int( effect_bleed ) > 1 ) {
-            figure_effects += pronoun_sex + pgettext( "Someone", " is <color_red>bleeding</color>. " );
-        }
-        if( creature->get_effect_int( effect_happy ) > 13 ) {
-            figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_green>happy</color>. " );
+        for( auto const &pair : vec_effect_status ) {
+            if( creature->get_effect_int( pair.first ) > pair.second.intensity_lower_limit ) {
+                if( !pair.second.status.empty() ) {
+                    figure_effects += pronoun_sex + _( pair.second.status );
+                }
+                if( !pair.second.pose.empty() ) {
+                    pose = _( pair.second.pose );
+                }
+            }
         }
         if( creature->has_effect( effect_sad ) ) {
             int intensity = creature->get_effect_int( effect_sad );
@@ -6672,69 +6710,8 @@ const auto effects_description_for_creature = []( Creature *const creature, std:
         if( pain > 3 ) {
             figure_effects += pronoun_sex + pgettext( "Someone", " is writhing in <color_red>pain</color>. " );
         }
-        if( creature->has_effect( effect_downed ) ) {
-            pose = _( "downed" );
-        }
-        if( creature->has_effect( effect_in_pit ) ) {
-            pose = _( "stuck" );
-        }
-        if( creature->has_effect( effect_stunned ) ) {
-            figure_effects += pronoun_sex + pgettext( "Someone", " is <color_blue>stunned</color>. " );
-        }
-        if( creature->has_effect( effect_dazed ) ) {
-            figure_effects += pronoun_sex + pgettext( "Someone", " is <color_blue>dazed</color>. " );
-        }
         if( creature->has_effect( effect_glowing_led ) ) {
             figure_effects += _( "A bionic LED is <color_yellow>glowing</color> softly. " );
-        }
-        if( creature->has_effect( effect_beartrap ) ) {
-            figure_effects += pronoun_sex + pgettext( "Someone", " is stuck in beartrap. " );
-        }
-        if( creature->has_effect( effect_laserlocked ) ) {
-            figure_effects += pronoun_sex + pgettext( "Someone",
-                              " have tiny <color_red>red dot</color> on body. " );
-        }
-        if( creature->has_effect( effect_boomered ) ) {
-            figure_effects += pronoun_sex + pgettext( "Someone",
-                              " is covered in <color_magenta>bile</color>. " );
-        }
-        if( creature->has_effect( effect_glowing ) ) {
-            figure_effects += pronoun_sex + pgettext( "Someone",
-                              " is covered in <color_yellow>glowing goo</color>. " );
-        }
-        if( creature->has_effect( effect_slimed ) ) {
-            figure_effects += pronoun_sex + pgettext( "Someone",
-                              " is covered in <color_green>thick goo</color>. " );
-        }
-        if( creature->has_effect( effect_corroding ) ) {
-            figure_effects += pronoun_sex + pgettext( "Someone",
-                              " is covered in <color_light_green>acid</color>. " );
-        }
-        if( creature->has_effect( effect_sap ) ) {
-            figure_effects += pronoun_sex + pgettext( "Someone",
-                              " is coated in <color_brown>sap</color>. " );
-        }
-        if( creature->has_effect( effect_webbed ) ) {
-            figure_effects += pronoun_sex + pgettext( "Someone", " is covered in <color_gray>webs</color>. " );
-        }
-        if( creature->get_effect_int( effect_spores ) > 1 ) {
-            figure_effects += pronoun_sex + pgettext( "Someone",
-                              " is covered in <color_dark_green>spores</color>. " );
-        }
-        if( creature->has_effect( effect_crushed ) ) {
-            figure_effects += pronoun_sex + pgettext( "Someone",
-                              " lies under <color_gray>collapsed debris</color>. " );
-            pose = _( "lies" );
-        }
-        if( creature->has_effect( effect_lack_sleep ) ) {
-            figure_effects += pronoun_sex + pgettext( "Someone", " looks <color_gray>very tired</color>. " );
-        }
-        if( creature->has_effect( effect_lying_down ) || creature->has_effect( effect_sleep ) ) {
-            figure_effects += pronoun_sex + pgettext( "Someone", " is <color_dark_blue>sleeping</color>. " );
-            pose = _( "lies" );
-        }
-        if( creature->has_effect( effect_haslight ) ) {
-            figure_effects += pronoun_sex + pgettext( "Someone", " is <color_yellow>lit</color>. " );
         }
     }
     if( !figure_effects.empty() ) { // remove last space
@@ -6901,6 +6878,9 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
     int dist = rl_dist( camera_pos, aim_point );
     auto bounds = g->m.points_in_radius( aim_point, 2 );
     extended_photo_def photo;
+    bool need_store_weather = false;
+    int outside_tiles_num = 0;
+    int total_tiles_num = 0;
 
     // firstly scan for critters and mark nearby furniture, vehicles and items
     for( const tripoint &current : bounds ) {
@@ -6910,7 +6890,11 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
         monster *const mon = g->critter_at<monster>( current, false );
         player *const guy = g->critter_at<player>( current );
 
-        // store effect
+        total_tiles_num++;
+        if( g->m.is_outside( current ) ) {
+            need_store_weather = true;
+            outside_tiles_num++;
+        }
 
         if( guy || mon ) {
             std::string figure_appearance, figure_name, pose, pronoun_sex, figure_effects;
@@ -7054,6 +7038,40 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
                                               obj_list );
     }
 
+    const oter_id &cur_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( aim_point ) ) );
+    std::string overmap_desc = string_format( _( "In the background you can see %1$s" ),
+                               colorize( cur_ter->get_name(), cur_ter->get_color() ) );
+    if( outside_tiles_num == total_tiles_num ) {
+        photo_text += _( "\n\nThis photo is taken <color_gray>outside</color>." );
+    } else if( outside_tiles_num == 0 ) {
+        photo_text += _( "\n\nThis photo is taken <color_gray>inside</color>." );
+        overmap_desc += _( " interior" );
+    } else if( outside_tiles_num < total_tiles_num / 2.0 ) {
+        photo_text += _( "\n\nThis photo is taken mostly <color_gray>inside</color>,"
+                         " but <color_gray>outside</color> can be seen." );
+        overmap_desc += _( " interior" );
+    } else if( outside_tiles_num >= total_tiles_num / 2.0 ) {
+        photo_text += _( "\n\nThis photo is taken mostly <color_gray>outside</color>,"
+                         " but <color_gray>inside</color> can be seen." );
+    }
+    photo_text += "\n" + overmap_desc + ".";
+
+    if( g->get_levz() >= 0 && need_store_weather ) {
+        photo_text += "\n\n";
+        if( calendar::turn.is_sunrise_now() ) {
+            photo_text += _( "It is a <color_yellow>sunrise</color>. " );
+        } else if( calendar::turn.is_sunset_now() ) {
+            photo_text += _( "It is a <color_light_red>sunset</color>. " );
+        } else if( calendar::turn.is_night() ) {
+            photo_text += _( "It is a <color_dark_gray>night</color>. " );
+        } else {
+            photo_text += _( "It is a day. " );
+        }
+
+        auto w_data = weather_data( g->weather.weather );
+        photo_text += string_format( _( "%1$s sky is visible." ), colorize( w_data.name, w_data.color ) );
+    }
+
     for( const auto &figure : description_figures_appearance ) {
         photo_text += "\n\n<color_light_blue>" + figure.first + "</color>" + _( " appearance:" ) + "\n" +
                       figure.second;
@@ -7061,6 +7079,7 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
 
     photo_text += "\n\n" + string_format( _( "The photo was taken on %1$s." ),
                                           "<color_light_blue>" + timestamp + "</color>" );
+
     photo.description = photo_text;
 
     return photo;
