@@ -1346,16 +1346,14 @@ void debug()
                 raise( SIGSEGV );
                 break;
             case DEBUG_MAP_EXTRA: {
-                oter_id terrain_type = overmap_buffer.ter( g->u.global_omt_location() );
-
-                map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
+                std::unordered_map<std::string, map_special_pointer> FM = MapExtras::all_functions();
                 uilist mx_menu;
                 std::vector<std::string> mx_str;
-                for( auto &extra : ex.values ) {
-                    mx_menu.addentry( -1, true, -1, extra.obj );
-                    mx_str.push_back( extra.obj );
+                for( auto &extra : FM ) {
+                    mx_menu.addentry( -1, true, -1, extra.first );
+                    mx_str.push_back( extra.first );
                 }
-                mx_menu.query( false );
+                mx_menu.query();
                 int mx_choice = mx_menu.ret;
                 if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
                     auto func = MapExtras::get_function( mx_str[mx_choice] );
