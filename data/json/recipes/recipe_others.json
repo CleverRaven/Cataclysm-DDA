@@ -3809,6 +3809,51 @@
   },
   {
     "type": "recipe",
+    "result": "soft_adobe_brick",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": 10000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "frame_wood", -1 ], [ "frame_wood_light", -1 ] ] ],
+    "batch_time_factors": [ 75, 4 ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "material_soil", 2 ] ],
+      [ [ "withered", 2 ], [ "straw_pile", 2 ], [ "feces_cow", 1 ], [ "feces_roach", 1 ], [ "feces_manure", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "adobe_pallet_full",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": 30000,
+    "autolearn": true,
+    "components": [ [ [ "soft_adobe_brick", 20 ] ], [ [ "frame_wood_light", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mortar_adobe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": 5000,
+    "autolearn": true,
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "batch_time_factors": [ 50, 5 ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "material_soil", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "mortar_build",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_OTHER",
