@@ -188,6 +188,19 @@
     ]
   },
   {
+    "id": "clothing_prisoner_shoes",
+    "type": "item_group",
+    "//": "All the footwear that prisoners might wear.",
+    "items": [
+      [ "sneakers", 80 ],
+      [ "boots", 70 ],
+      [ "lowtops", 45 ],
+      [ "golf_shoes", 20 ],
+      [ "boots_combat", 10 ],
+      [ "boots_hiking", 20 ]
+    ]
+  },
+  {
     "id": "clothing_tactical_leg",
     "type": "item_group",
     "//": "Tactical gear that can be strapped to the legs",
