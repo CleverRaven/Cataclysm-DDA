@@ -57,7 +57,11 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2",
-    "dynamic_line": "Have I told you about cardboard, friend?  Do you have any?",
+    "dynamic_line": {
+      "and": [ "has_no_available_mission", "has_no_assigned_mission" ],
+      "yes": "We've done it!  We've solved the list!",
+      "no": "Have I told you about cardboard, friend?  Do you have any?"
+    },
     "responses": [
       { "condition": "has_assigned_mission", "text": "About that shopping list of yours...", "topic": "TALK_MISSION_INQUIRE" },
       {
@@ -70,11 +74,37 @@
         "text": "Is there anything else I can do for you?",
         "topic": "TALK_MISSION_OFFER"
       },
-      { "text": "Cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
-      { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
-      { "text": "Are you seriously wearing a dinosaur costume?", "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR" },
-      { "text": "Do you need something to eat?", "topic": "TALK_REFUGEE_BEGGAR_2_GIVE_FOOD" },
-      { "text": "Get away from me.", "topic": "TALK_DONE" },
+      {
+        "condition": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] },
+        "text": "What are you going to do with all that cardboard now?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_JOBSDONE",
+        "effect": { "u_add_var": "dave_happy", "type": "general", "context": "recruit", "value": "yes" }
+      },
+      {
+        "condition": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] },
+        "text": "Cardboard?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD"
+      },
+      {
+        "condition": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] },
+        "text": "Why are you sitting out here?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE"
+      },
+      {
+        "condition": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] },
+        "text": "Are you seriously wearing a dinosaur costume?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_DINOSAUR"
+      },
+      {
+        "condition": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] },
+        "text": "Do you need something to eat?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_GIVE_FOOD"
+      },
+      {
+        "condition": { "and": [ "has_no_available_mission", "has_no_assigned_mission" ] },
+        "text": "Get away from me.",
+        "topic": "TALK_DONE"
+      },
       { "text": "...", "topic": "TALK_DONE" }
     ]
   },
@@ -180,6 +210,12 @@
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
       { "text": "I think I have to get going...", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_2_JOBSDONE",
+    "dynamic_line": "That's it!  I'm just gonna need a little time to get it all set up.  Thanks.  You've helped me a lot.  I'm feeling much more myself with all this to keep me going.",
+    "responses": [ { "text": "Well.  No problem, glad to be of service.  Talk to you later.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_BEGGAR_2_BOX_SMALL",

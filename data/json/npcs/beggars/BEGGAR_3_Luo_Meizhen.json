@@ -509,19 +509,34 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_MYCUS3",
     "dynamic_line": {
-      { "npc_has_var": "luo_attempt_recruit", "type": "general", "context": "recruit", "value": "yes" },
+      "npc_has_var": "luo_attempt_recruit",
+      "type": "general",
+      "context": "recruit",
+      "value": "yes",
       "yes": "If you get me a sample, I'll join your crazy camp expedition.  Hell, if you bring me a sample maybe I'll help you set up a lab to study this stuff.  Almost anything could work, but if this stuff is as dangerous as you make it sound, maybe make sure it's not a sporulating body.",
       "no": "I dunno, scientific interest?  If you don't bring me anything, no worries.  I'm positively swimming in entertainment here, as you can see."
     },
     "speaker_effect": [ { "effect": { "npc_add_var": "luo_mycus_mission", "type": "general", "context": "mission", "value": "yes" } } ],
     "responses": [
       {
-        "condition": { "and": [ { "u_has_item": "veggy_tainted" }, { "npc_has_var": "luo_attempt_recruit", "type": "general", "context": "recruit", "value": "yes" } ] },
+        "condition": {
+          "and": [
+            { "u_has_item": "veggy_tainted" },
+            { "npc_has_var": "luo_attempt_recruit", "type": "general", "context": "recruit", "value": "yes" }
+          ]
+        },
         "text": "It just so happens I have a chunk of fungal matter on me right now.",
         "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS4_RECRUIT"
       },
       {
-        "condition": { "and": [ { "u_has_item": "veggy_tainted" }, { "not": { "npc_has_var": "luo_attempt_recruit", "type": "general", "context": "recruit", "value": "yes" } } ] },
+        "condition": {
+          "and": [
+            { "u_has_item": "veggy_tainted" },
+            {
+              "not": { "npc_has_var": "luo_attempt_recruit", "type": "general", "context": "recruit", "value": "yes" }
+            }
+          ]
+        },
         "text": "It just so happens I have a chunk of fungal matter on me right now.",
         "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS4_NOTREADY",
         "effect": { "npc_add_var": "luo_owed", "type": "general", "context": "recruit", "value": "yes" }
@@ -541,6 +556,8 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_MYCUS4_NOTREADY",
     "dynamic_line": "Well.  Well, well, well.  This is really interesting.  Look, you can see reticulations here, it looks sort of like an enlarged piece of a stipe from a basidiocarp... but look at this, these fibres are clearly unlike anything I've seen before.  I wonder if they're motile?/n/nSorry.  I could stare at this all day.  I owe you one, a big one.  Thanks for this.  Let me know if you ever need a favour from a chubby beggar woman.",
-    "responses": [ { "text": "Glad you like it.  If I think of something you can do in return, I'll let you know.", "topic": "TALK_DONE" } ]
+    "responses": [
+      { "text": "Glad you like it.  If I think of something you can do in return, I'll let you know.", "topic": "TALK_DONE" }
+    ]
   }
 ]
