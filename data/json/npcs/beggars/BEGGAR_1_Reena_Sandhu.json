@@ -45,7 +45,7 @@
       { "trait": "MYOPIC" },
       { "trait": "PACIFIST" },
       { "trait": "Exp_Teaching2" },
-      { "group": "Appearance_demographics" }
+      { "group": "Appearance_Mixed" }
     ],
     "skills": [ { "skill": "speech", "bonus": { "rng": [ 0, 3 ] } }, { "skill": "cooking", "bonus": { "rng": [ 0, 3 ] } } ]
   },

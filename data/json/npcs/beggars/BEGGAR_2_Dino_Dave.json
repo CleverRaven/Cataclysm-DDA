@@ -68,7 +68,7 @@
           ]
         },
         "text": "Is there anything else I can do for you?",
-        "topic": "TALK_MISSION_LIST"
+        "topic": "TALK_MISSION_OFFER"
       },
       { "text": "Cardboard?", "topic": "TALK_REFUGEE_BEGGAR_2_CARDBOARD" },
       { "text": "Why are you sitting out here?", "topic": "TALK_REFUGEE_BEGGAR_2_REFUGEE" },
@@ -137,7 +137,7 @@
     "dynamic_line": "Kind of a question's that?  Yeah man, you got cardboard, I got a whole... a whole shopping list.  Got it here.",
     "speaker_effect": { "effect": { "npc_add_var": "cardboard_donor", "type": "mission", "context": "dinodave", "value": "yes" } },
     "responses": [
-      { "text": "Let's see that list.", "topic": "TALK_MISSION_LIST" },
+      { "text": "What's next on the list?", "topic": "TALK_MISSION_LIST" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I think I have to get going...", "topic": "TALK_DONE" }
     ]
