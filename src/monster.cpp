@@ -2130,6 +2130,10 @@ void monster::process_effects()
         add_msg( m_warning, _( "The %s seems a little healthier." ), name() );
     }
 
+    if( has_flag( MF_REGENERATES_1 ) && heal( 1 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
+        add_msg( m_warning, _( "The %s is healing slowly." ), name() );
+    }
+
     if( has_flag( MF_REGENERATES_IN_DARK ) ) {
         const float light = g->m.ambient_light_at( pos() );
         // Magic number 10000 was chosen so that a floodlight prevents regeneration in a range of 20 tiles
