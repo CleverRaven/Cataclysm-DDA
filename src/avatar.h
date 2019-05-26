@@ -136,7 +136,11 @@ class avatar : public player
         std::unordered_set<std::string> items_identified;
 
         object_type grab_type;
+
+        // Ignore list that lasts for the session (rather than the single activity)
         std::set<distraction_type> ignored_distractions_this_session;
+        bool is_distraction_ignored_this_session( distraction_type type ) const;
+        void ignore_distraction_this_session( distraction_type type );
 };
 
 #endif
