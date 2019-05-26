@@ -170,5 +170,23 @@
     "bashing": 10,
     "electric": 15,
     "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE", "LIGHT_5" ]
+  },
+  {
+    "id": "tentacle_whip",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "brown",
+    "name": "vicious tentacle whip",
+    "description": "A long writhing tentacle covered in sharp bonelike blades and spike protrusions and dripping acid from its pores. Created with a spell. It has a great reach.",
+    "weight": 1460,
+    "volume": 4,
+    "price": 35000,
+    "material": [ "iron", "leather" ],
+    "techniques": [ "PRECISE", "RAPID", "WBLOCK_2" ],
+    "flags": [ "REACH_ATTACK", "REACH3", "WHIP", "DURABLE_MELEE" ],
+    "to_hit": 2,
+    "cutting": 30,
+    "pierce": 6,
+    "category": "weapons"
   }
 ]

@@ -129,5 +129,27 @@
     "symbol": "?",
     "color": "magenta",
     "use_action": { "type": "learn_spell", "spells": [ "seismic_stomp" ] }
+  },
+  {
+    "id": "biomancer_spellbook",
+    "type": "GENERIC",
+    "name": "The Tome of Flesh",
+    "description": "A small tome, seemingly covered in tanned human skin.",
+    "weight": 355,
+    "volume": 2,
+    "symbol": "?",
+    "color": "red",
+    "use_action": { "type": "learn_spell", "spells": [ "vicious_tentacle", "bio_grotesque", "bio_acidicspray" ] }
+  },
+  {
+    "id": "druid_spellbook",
+    "type": "GENERIC",
+    "name": "The Book of Trees",
+    "description": "A bark covered book.",
+    "weight": 322,
+    "volume": 2,
+    "symbol": "?",
+    "color": "green",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_woodshaft", "druid_veggrasp", "druid_rootstrike" ] }
   }
 ]
