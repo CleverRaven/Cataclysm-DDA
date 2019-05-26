@@ -412,8 +412,10 @@ static const tripoint ORIGIN( 65, 65, 11 );
 
 struct grid_overlay {
     std::vector<std::vector<std::vector<float>>> data;
+    std::vector<std::vector<std::vector<bool>>> floor;
     tripoint offset;
     float default_value;
+    bool default_floor = true;
 
     // origin_offset is specified as the coordinates of the "camera" within the overlay.
     grid_overlay( const point &origin_offset, const float default_value ) {
@@ -452,6 +454,15 @@ struct grid_overlay {
         }
         return default_value;
     }
+    bool get_floor( const tripoint &p ) const {
+        if( !floor.empty() &&
+            p.y >= offset.y && p.y < offset.y + height() &&
+            p.x >= offset.x && p.x < offset.x + width() &&
+            p.z >= offset.z && p.z < offset.z + depth() ) {
+            return data[ p.z - offset.z ][ p.y - offset.y ][ p.x - offset.x ];
+        }
+        return default_floor;
+    }
 };
 
 static void run_spot_check( const grid_overlay &test_case, const grid_overlay &expected,
@@ -476,6 +487,7 @@ static void run_spot_check( const grid_overlay &test_case, const grid_overlay &e
         for( int y = 0; y < MAPSIZE * SEEY; ++y ) {
             for( int x = 0; x < MAPSIZE * SEEX; ++x ) {
                 caches[z]->transparency_cache[x][y] = test_case.get_global( { x, y, z } );
+                caches[z]->floor_cache[x][y] = test_case.get_floor( { x, y, z } );
             }
         }
     }
@@ -660,6 +672,144 @@ TEST_CASE( "shadowcasting_vision_along_a_wall", "[shadowcasting]" )
 
     run_spot_check( test_case, expected_results, true );
     run_spot_check( test_case, expected_results, false );
+}
+
+TEST_CASE( "shadowcasting_edgewise_wall_view", "[shadowcasting]" )
+{
+    grid_overlay test_case( { 1, 2 }, LIGHT_TRANSPARENCY_CLEAR );
+    test_case.data = { {
+            {T, T, O, T, T, T, T},
+            {T, T, O, T, T, T, T},
+            {T, T, O, O, O, T, T},
+            {T, T, T, T, T, T, T},
+            {T, T, T, T, T, T, T}
+        }
+    };
+
+    grid_overlay expected_results( { 1, 2 }, LIGHT_TRANSPARENCY_CLEAR );
+    expected_results.data = { {
+            {V, V, V, O, O, O, O},
+            {V, V, V, O, O, O, O},
+            {V, X, V, O, O, O, O},
+            {V, V, V, V, O, O, O},
+            {V, V, V, V, V, O, O},
+            {V, V, V, V, V, V, O}
+        }
+    };
+
+    run_spot_check( test_case, expected_results, true );
+    run_spot_check( test_case, expected_results, false );
+}
+
+TEST_CASE( "shadowcasting_opaque_floors", "[shadowcasting]" )
+{
+    grid_overlay test_case( { 2, 2, 1 }, LIGHT_TRANSPARENCY_CLEAR );
+    test_case.data = {
+        {
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T}
+        },
+        {
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T}
+        },
+        {
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T}
+        }
+    };
+
+    grid_overlay expected_results( { 2, 2, 1 }, LIGHT_TRANSPARENCY_CLEAR );
+    expected_results.data = {
+        {
+            {O, O, O, O, O},
+            {O, O, O, O, O},
+            {O, O, O, O, O},
+            {O, O, O, O, O},
+            {O, O, O, O, O}
+        },
+        {
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, X, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V}
+        },
+        {
+            {O, O, O, O, O},
+            {O, O, O, O, O},
+            {O, O, O, O, O},
+            {O, O, O, O, O},
+            {O, O, O, O, O}
+        }
+    };
+
+    run_spot_check( test_case, expected_results, true );
+}
+
+TEST_CASE( "shadowcasting_transparent_floors", "[shadowcasting]" )
+{
+    grid_overlay test_case( { 2, 2, 1 }, LIGHT_TRANSPARENCY_CLEAR );
+    test_case.data = {
+        {
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T}
+        },
+        {
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T}
+        },
+        {
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T},
+            {T, T, T, T, T}
+        }
+    };
+    test_case.default_floor = false;
+
+    grid_overlay expected_results( { 2, 2, 1 }, LIGHT_TRANSPARENCY_CLEAR );
+    expected_results.data = {
+        {
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V}
+        },
+        {
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, X, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V}
+        },
+        {
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V},
+            {V, V, V, V, V}
+        }
+    };
+
+    run_spot_check( test_case, expected_results, true );
 }
 
 // Some random edge cases aren't matching.
