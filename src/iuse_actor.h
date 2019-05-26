@@ -678,6 +678,28 @@ class learn_spell_actor : public iuse_actor
 };
 
 /**
+ * Cast a spell. The item's spell level is fixed, and the casting action uses up a charge from the item.
+ */
+class cast_spell_actor : public iuse_actor
+{
+    public:
+        // this item's spell fail % is 0
+        bool no_fail;
+        // the spell this item casts when used.
+        spell_id item_spell;
+        int spell_level;
+
+
+        cast_spell_actor( const std::string &type = "cast_spell" ) : iuse_actor( type ) {}
+
+        ~cast_spell_actor() override = default;
+        void load( JsonObject &jo ) override;
+        int use( player &p, item &itm, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
+};
+
+/**
  * Holster a weapon
  */
 class holster_actor : public iuse_actor

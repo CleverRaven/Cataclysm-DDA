@@ -3622,10 +3622,27 @@ static void blood_magic( player *p, int cost )
     p->mod_pain( std::max( ( int )1, cost / 3 ) );
 }
 
+static spell casting;
+
+static spell &player_or_item_spell( player *p, const spell_id &sp, int level )
+{
+    if( level == -1 ) {
+        return p->magic.get_spell( sp );
+    }
+    casting = spell( sp );
+    while( casting.get_level() < level && !casting.is_max_level() ) {
+        casting.gain_level();
+    }
+    return casting;
+}
+
 void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 {
     act->set_to_null();
-    spell &casting = p->magic.get_spell( spell_id( act->name ) );
+    const int level_override = act->get_value( 0 );
+    spell &casting = player_or_item_spell( p, spell_id( act->name ), level_override );
+    const bool no_fail = act->get_value( 1 ) == 1;
+    const bool no_mana = act->get_value( 2 ) == 0;
 
     // choose target for spell (if the spell has a range > 0)
 
@@ -3635,7 +3652,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     bool target_is_valid = false;
     if( casting.range() > 0 && !casting.is_valid_target( target_none ) ) {
         do {
-            trajectory = th.target_ui( casting );
+            trajectory = th.target_ui( casting, no_fail, no_mana );
             if( !trajectory.empty() ) {
                 target = trajectory.back();
                 target_is_valid = casting.is_valid_target( target );
@@ -3651,11 +3668,11 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     }
 
     // no turning back now. it's all said and done.
-    bool success = rng_float( 0.0f, 1.0f ) >= casting.spell_fail( *p );
+    bool success = no_fail || rng_float( 0.0f, 1.0f ) >= casting.spell_fail( *p );
     int exp_gained = casting.casting_exp( *p );
     if( !success ) {
         p->add_msg_if_player( m_bad, "You lose your concentration!" );
-        if( !casting.is_max_level() ) {
+        if( !casting.is_max_level() && level_override == -1 ) {
             // still get some experience for trying
             casting.gain_exp( exp_gained / 5 );
             p->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
@@ -3686,35 +3703,38 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     } else {
         debugmsg( "ERROR: Spell effect not defined properly." );
     }
-
-    // pay the cost
-    int cost = casting.energy_cost();
-    switch( casting.energy_source() ) {
-        case mana_energy:
-            p->magic.mod_mana( *p, -cost );
-            break;
-        case stamina_energy:
-            p->stamina -= cost;
-            break;
-        case bionic_energy:
-            p->power_level -= cost;
-            break;
-        case hp_energy:
-            blood_magic( p, cost );
-        case none_energy:
-        default:
-            break;
+    if( !no_mana ) {
+        // pay the cost
+        int cost = casting.energy_cost();
+        switch( casting.energy_source() ) {
+            case mana_energy:
+                p->magic.mod_mana( *p, -cost );
+                break;
+            case stamina_energy:
+                p->stamina -= cost;
+                break;
+            case bionic_energy:
+                p->power_level -= cost;
+                break;
+            case hp_energy:
+                blood_magic( p, cost );
+            case none_energy:
+            default:
+                break;
+        }
     }
-    if( !casting.is_max_level() ) {
-        // reap the reward
-        if( casting.get_level() == 0 ) {
-            casting.gain_level();
-            p->add_msg_if_player( m_good,
-                                  _( "Something about how this spell works just clicked!  You gained a level!" ) );
-        } else {
-            casting.gain_exp( exp_gained );
-            p->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
-                                  casting.xp() );
+    if( level_override == -1 ) {
+        if( !casting.is_max_level() ) {
+            // reap the reward
+            if( casting.get_level() == 0 ) {
+                casting.gain_level();
+                p->add_msg_if_player( m_good,
+                                      _( "Something about how this spell works just clicked!  You gained a level!" ) );
+            } else {
+                casting.gain_exp( exp_gained );
+                p->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
+                                      casting.xp() );
+            }
         }
     }
 }

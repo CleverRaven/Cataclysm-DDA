@@ -1657,12 +1657,14 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 }
 
 // magic mod
-std::vector<tripoint> target_handler::target_ui( spell_id sp )
+std::vector<tripoint> target_handler::target_ui( spell_id sp, const bool no_fail,
+        const bool no_mana )
 {
-    return target_ui( g->u.magic.get_spell( sp ) );
+    return target_ui( g->u.magic.get_spell( sp ), no_fail, no_mana );
 }
 // does not have a targeting mode because we know this is the spellcasting version of this function
-std::vector<tripoint> target_handler::target_ui( spell &casting )
+std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_fail,
+        const bool no_mana )
 {
     player &pc = g->u;
     if( !casting.can_cast( pc ) ) {
@@ -1776,17 +1778,24 @@ std::vector<tripoint> target_handler::target_ui( spell &casting )
         const int relative_elevation = dst.z - pc.pos().z;
         mvwprintz( w_target, line_number++, 1, c_light_green, _( "Casting: %s (Level %u)" ), casting.name(),
                    casting.get_level() );
-        if( casting.energy_source() == hp_energy ) {
-            line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, c_light_gray,
-                                           _( "Cost: %s %s" ), casting.energy_cost_string( pc ), casting.energy_string() );
-        } else {
-            line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, c_light_gray,
-                                           _( "Cost: %s %s (Current: %s)" ), casting.energy_cost_string( pc ), casting.energy_string(),
-                                           casting.energy_cur_string( pc ) );
+        if( !no_mana || casting.energy_source() == none_energy ) {
+            if( casting.energy_source() == hp_energy ) {
+                line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, c_light_gray,
+                                               _( "Cost: %s %s" ), casting.energy_cost_string( pc ), casting.energy_string() );
+            } else {
+                line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, c_light_gray,
+                                               _( "Cost: %s %s (Current: %s)" ), casting.energy_cost_string( pc ), casting.energy_string(),
+                                               casting.energy_cur_string( pc ) );
+            }
         }
         nc_color clr = c_light_gray;
-        print_colored_text( w_target, line_number++, 1, clr, clr,
-                            casting.colorized_fail_percent( pc ) );
+        if( !no_fail ) {
+            print_colored_text( w_target, line_number++, 1, clr, clr,
+                                casting.colorized_fail_percent( pc ) );
+        } else {
+            print_colored_text( w_target, line_number++, 1, clr, clr, colorize( _( "0.0 % Failure Chance" ),
+                                c_light_green ) );
+        }
         if( dst != src ) {
             // Only draw those tiles which are on current z-level
             auto ret_this_zlevel = ret;

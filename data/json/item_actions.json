@@ -206,6 +206,11 @@
   },
   {
     "type": "item_action",
+    "id": "cast_spell",
+    "name": "Cast spell"
+  },
+  {
+    "type": "item_action",
     "id": "holster",
     "name": "Use holster"
   },

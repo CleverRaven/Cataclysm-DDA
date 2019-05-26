@@ -2251,6 +2251,57 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     return 0;
 }
 
+iuse_actor *cast_spell_actor::clone() const
+{
+    return new cast_spell_actor( *this );
+}
+
+void cast_spell_actor::load( JsonObject &obj )
+{
+    no_fail = obj.get_bool( "no_fail" );
+    item_spell = spell_id( obj.get_string( "spell_id" ) );
+    spell_level = obj.get_int( "level" );
+}
+
+void cast_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    const std::string message = string_format( _( "This item casts %s at level %i." ),
+                                item_spell.c_str(),
+                                spell_level );
+    dump.emplace_back( "DESCRIPTION", message );
+    if( no_fail ) {
+        dump.emplace_back( "DESCRIPTION", _( "This item never fails." ) );
+    }
+}
+
+int cast_spell_actor::use( player &p, item &itm, bool, const tripoint & ) const
+{
+    spell casting = spell( spell_id( item_spell ) );
+    int charges = itm.type->charges_to_use();
+
+    player_activity cast_spell( activity_id( "ACT_SPELLCASTING" ), casting.casting_time() );
+    // [0] this is used as a spell level override for items casting spells
+    cast_spell.values.emplace_back( spell_level );
+    if( no_fail ) {
+        // [1] if this value is 1, the spell never fails
+        cast_spell.values.emplace_back( 1 );
+    } else {
+        // [1]
+        cast_spell.values.emplace_back( 0 );
+    }
+    cast_spell.name = casting.id().c_str();
+    if( itm.has_flag( "USE_PLAYER_ENERGY" ) ) {
+        // [2] this value overrides the mana cost if set to 0
+        cast_spell.values.emplace_back( 1 );
+        charges = 0;
+    } else {
+        // [2]
+        cast_spell.values.emplace_back( 0 );
+    }
+    p.assign_activity( cast_spell, false );
+    return charges;
+}
+
 iuse_actor *holster_actor::clone() const
 {
     return new holster_actor( *this );

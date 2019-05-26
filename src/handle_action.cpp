@@ -1349,6 +1349,12 @@ static void cast_spell()
     }
 
     player_activity cast_spell( activity_id( "ACT_SPELLCASTING" ), sp.casting_time() );
+    // [0] this is used as a spell level override for items casting spells
+    cast_spell.values.emplace_back( -1 );
+    // [1] if this value is 1, the spell never fails
+    cast_spell.values.emplace_back( 0 );
+    // [2] this value overrides the mana cost if set to 0
+    cast_spell.values.emplace_back( 1 );
     cast_spell.name = sp.id().c_str();
     u.assign_activity( cast_spell, false );
 }
