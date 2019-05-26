@@ -441,8 +441,7 @@
       "monster": {
         ",": [
           { "monster": "mon_zombie_cop", "chance": 1 },
-          { "monster": "mon_zombie", "chance": 1 },
-          { "monster": "mon_zombie_fat", "chance": 1 }
+          { "monster": "mon_zombie_prisoner", "chance": 2 }
         ],
         "^": { "monster": "mon_zombie_brute", "chance": 1 },
         " ": { "monster": "mon_dog_zombie_cop", "chance": 1 },
