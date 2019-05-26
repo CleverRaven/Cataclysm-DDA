@@ -203,6 +203,12 @@ class martialart
 
         void apply_ongethit_buffs( player &u ) const;
 
+        void apply_onmiss_buffs( player &u ) const;
+
+        void apply_oncrit_buffs( player &u ) const;
+
+        void apply_onkill_buffs( player &u ) const;
+
         // determines if a technique is valid or not for this style
         bool has_technique( const player &u, const matec_id &tech ) const;
         // determines if a weapon is valid for this style
@@ -219,6 +225,7 @@ class martialart
         std::string name;
         std::string description;
         std::vector<std::string> initiate;
+        std::vector<std::vector<std::string>> autolearn_skills;
         int arm_block;
         int leg_block;
         bool arm_block_with_bio_armor_arms;
@@ -234,6 +241,9 @@ class martialart
         std::vector<mabuff_id> ondodge_buffs;
         std::vector<mabuff_id> onblock_buffs;
         std::vector<mabuff_id> ongethit_buffs;
+        std::vector<mabuff_id> onmiss_buffs;
+        std::vector<mabuff_id> oncrit_buffs;
+        std::vector<mabuff_id> onkill_buffs;
 };
 
 class ma_style_callback : public uilist_callback

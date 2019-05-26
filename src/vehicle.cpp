@@ -17,6 +17,7 @@
 #include <memory>
 
 #include "ammo.h"
+#include "avatar.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "creature.h"
@@ -1290,6 +1291,7 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
                 "PLANTER",
                 "SCOOP",
                 "SPACE_HEATER",
+                "COOLER",
                 "WATER_PURIFIER",
                 "ROCKWHEEL"
             }
@@ -3085,7 +3087,7 @@ int vehicle::water_acceleration( const bool fueled, int at_vel_in_vmi ) const
 // cubic equation solution
 // don't use complex numbers unless necessary and it's usually not
 // see https://math.vanderbilt.edu/schectex/courses/cubic/ for the gory details
-double simple_cubic_solution( double a, double b, double c, double d )
+static double simple_cubic_solution( double a, double b, double c, double d )
 {
     double p = -b / ( 3 * a );
     double q = p * p * p + ( b * c - 3 * a * d ) / ( 6 * a * a );
@@ -4636,6 +4638,7 @@ void vehicle::refresh()
     water_wheels.clear();
     funnels.clear();
     heaters.clear();
+    coolers.clear();
     relative_parts.clear();
     loose_parts.clear();
     wheelcache.clear();
@@ -4723,6 +4726,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( "SPACE_HEATER" ) ) {
             heaters.push_back( p );
+        }
+        if( vpi.has_flag( "COOLER" ) ) {
+            coolers.push_back( p );
         }
         if( vpi.has_flag( VPFLAG_WHEEL ) ) {
             wheelcache.push_back( p );
@@ -5423,7 +5429,7 @@ inline int modulo( int v, int m )
     return r >= 0 ? r : r + m;
 }
 
-bool is_sm_tile_over_water( const tripoint &real_global_pos )
+static bool is_sm_tile_over_water( const tripoint &real_global_pos )
 {
 
     const tripoint smp = ms_to_sm_copy( real_global_pos );
@@ -5444,7 +5450,7 @@ bool is_sm_tile_over_water( const tripoint &real_global_pos )
              sm->get_furn( { px, py } ).obj().has_flag( TFLAG_CURRENT ) );
 }
 
-bool is_sm_tile_outside( const tripoint &real_global_pos )
+static bool is_sm_tile_outside( const tripoint &real_global_pos )
 {
 
     const tripoint smp = ms_to_sm_copy( real_global_pos );
@@ -5488,7 +5494,7 @@ void vehicle::update_time( const time_point &update_to )
     // Weather stuff, only for z-levels >= 0
     // TODO: Have it wash cars from blood?
     if( funnels.empty() && solar_panels.empty() && wind_turbines.empty() && water_wheels.empty() &&
-        heaters.empty() ) {
+        heaters.empty() && coolers.empty() ) {
         return;
     }
     // heaters emitting hot air
@@ -5499,6 +5505,16 @@ void vehicle::update_time( const time_point &update_to )
         }
         int density = abs( pt.info().epower ) * 2;
         g->m.adjust_field_strength( global_part_pos3( pt ), fd_hot_air3, density );
+        discharge_battery( pt.info().epower );
+    }
+    // coolers emitting cold air
+    for( int idx : coolers ) {
+        const vehicle_part &pt = parts[idx];
+        if( pt.is_unavailable() || ( !pt.enabled ) ) {
+            continue;
+        }
+        int density = abs( pt.info().epower ) * 5;
+        g->m.adjust_field_strength( global_part_pos3( pt ), fd_cold_air3, density );
         discharge_battery( pt.info().epower );
     }
     // Get one weather data set per vehicle, they don't differ much across vehicle area

@@ -15,6 +15,7 @@
 
 #include "activity_handlers.h"
 #include "ammo.h"
+#include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "calendar.h"
@@ -1405,7 +1406,7 @@ void iexamine::fswitch( player &p, const tripoint &examp )
 /**
  * If it's winter: show msg and return true. Otherwise return false
  */
-bool dead_plant( bool flower, player &p, const tripoint &examp )
+static bool dead_plant( bool flower, player &p, const tripoint &examp )
 {
     if( season_of_year( calendar::turn ) == WINTER ) {
         if( flower ) {
@@ -1424,7 +1425,7 @@ bool dead_plant( bool flower, player &p, const tripoint &examp )
 /**
  * Helper method to see if player has traits, hunger and mouthwear for drinking nectar.
  */
-bool can_drink_nectar( const player &p )
+static bool can_drink_nectar( const player &p )
 {
     return ( p.has_active_mutation( trait_id( "PROBOSCIS" ) )  ||
              p.has_active_mutation( trait_id( "BEAK_HUM" ) ) ) &&
@@ -1434,7 +1435,7 @@ bool can_drink_nectar( const player &p )
 /**
  * Consume Nectar. -15 hunger.
  */
-bool drink_nectar( player &p )
+static bool drink_nectar( player &p )
 {
     if( can_drink_nectar( p ) ) {
         p.moves -= 50; // Takes 30 seconds
@@ -2852,7 +2853,7 @@ void iexamine::tree_hickory( player &p, const tripoint &examp )
     p.moves -= 2000 / ( p.get_skill_level( skill_survival ) + 1 ) + 100;
 }
 
-item_location maple_tree_sap_container()
+static item_location maple_tree_sap_container()
 {
     const item maple_sap = item( "maple_sap", 0 );
     return g->inv_map_splice( [&]( const item & it ) {
@@ -3883,8 +3884,8 @@ void iexamine::ledge( player &p, const tripoint &examp )
     }
 }
 
-player &player_on_couch( player &p, const tripoint &autodoc_loc, player &null_patient,
-                         bool &adjacent_couch, tripoint &couch_pos )
+static player &player_on_couch( player &p, const tripoint &autodoc_loc, player &null_patient,
+                                bool &adjacent_couch, tripoint &couch_pos )
 {
     for( const auto &couch_loc : g->m.points_in_radius( autodoc_loc, 1, 0 ) ) {
         const furn_str_id couch( "f_autodoc_couch" );
@@ -3904,7 +3905,7 @@ player &player_on_couch( player &p, const tripoint &autodoc_loc, player &null_pa
     return null_patient;
 }
 
-item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
+static item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
 {
     for( item &it : g->m.i_at( couch_pos ) ) {
         if( it.typeId() == "bot_broken_cyborg" || it.typeId() == "bot_prototype_cyborg" ) {
@@ -3919,7 +3920,7 @@ item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
     return null_cyborg;
 }
 
-player &best_installer( player &p, player &null_player, int difficulty )
+static player &best_installer( player &p, player &null_player, int difficulty )
 {
     float player_skill = p.bionics_adjusted_skill( skill_firstaid,
                          skill_computer,
@@ -3978,7 +3979,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     };
 
     bool adjacent_couch = false;
-    static player null_player;
+    static avatar null_player;
     tripoint couch_pos;
     player &patient = player_on_couch( p, examp, null_player, adjacent_couch, couch_pos );
 
@@ -4218,7 +4219,7 @@ static bool is_non_rotten_crafting_component( const item &it )
     return is_crafting_component( it ) && !it.rotten();
 }
 
-void mill_activate( player &p, const tripoint &examp )
+static void mill_activate( player &p, const tripoint &examp )
 {
     const furn_id cur_mill_type = g->m.furn( examp );
     furn_id next_mill_type = f_null;
@@ -4284,7 +4285,7 @@ void mill_activate( player &p, const tripoint &examp )
     add_msg( _( "You remove the brake on the millstone and it slowly starts to turn." ) );
 }
 
-void smoker_activate( player &p, const tripoint &examp )
+static void smoker_activate( player &p, const tripoint &examp )
 {
     furn_id cur_smoker_type = g->m.furn( examp );
     furn_id next_smoker_type = f_null;
@@ -4429,7 +4430,7 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
     g->m.furn_set( examp, next_mill_type );
 }
 
-void smoker_finalize( player &, const tripoint &examp, const time_point &start_time )
+static void smoker_finalize( player &, const tripoint &examp, const time_point &start_time )
 {
     furn_id cur_smoker_type = g->m.furn( examp );
     furn_id next_smoker_type = f_null;
@@ -4474,7 +4475,8 @@ void smoker_finalize( player &, const tripoint &examp, const time_point &start_t
     g->m.furn_set( examp, next_smoker_type );
 }
 
-void smoker_load_food( player &p, const tripoint &examp, const units::volume &remaining_capacity )
+static void smoker_load_food( player &p, const tripoint &examp,
+                              const units::volume &remaining_capacity )
 {
     std::vector<item_comp> comps;
 
@@ -4581,7 +4583,8 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
     p.invalidate_crafting_inventory();
 }
 
-void mill_load_food( player &p, const tripoint &examp, const units::volume &remaining_capacity )
+static void mill_load_food( player &p, const tripoint &examp,
+                            const units::volume &remaining_capacity )
 {
     std::vector<item_comp> comps;
 

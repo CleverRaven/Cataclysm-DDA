@@ -14,6 +14,7 @@
 
 #include "action.h"
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "ammo.h"
 #include "assign.h"
 #include "bionics.h"
@@ -22,6 +23,7 @@
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "crafting.h"
+#include "creature.h"
 #include "debug.h"
 #include "vpart_position.h"
 #include "effect.h"
@@ -33,6 +35,7 @@
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "map_selector.h"
@@ -372,8 +375,30 @@ iuse_actor *explosion_iuse::clone() const
     return new explosion_iuse( *this );
 }
 
-// defined in iuse.cpp
-extern std::vector<tripoint> points_for_gas_cloud( const tripoint &center, int radius );
+// For an explosion (which releases some kind of gas), this function
+// calculates the points around that explosion where to create those
+// gas fields.
+// Those points must have a clear line of sight and a clear path to
+// the center of the explosion.
+// They must also be passable.
+static std::vector<tripoint> points_for_gas_cloud( const tripoint &center, int radius )
+{
+    const std::vector<tripoint> gas_sources = closest_tripoints_first( radius, center );
+    std::vector<tripoint> result;
+    for( const auto &p : gas_sources ) {
+        if( g->m.impassable( p ) ) {
+            continue;
+        }
+        if( p != center ) {
+            if( !g->m.clear_path( center, p, radius, 1, 100 ) ) {
+                // Can not splatter gas from center to that point, something is in the way
+                continue;
+            }
+        }
+        result.push_back( p );
+    }
+    return result;
+}
 
 void explosion_iuse::load( JsonObject &obj )
 {
@@ -832,7 +857,7 @@ void ups_based_armor_actor::load( JsonObject &obj )
     obj.read( "out_of_power_msg", out_of_power_msg );
 }
 
-bool has_powersource( const item &i, const player &p )
+static bool has_powersource( const item &i, const player &p )
 {
     if( i.is_power_armor() && p.can_interface_armor() && p.power_level > 0 ) {
         return true;
@@ -2125,6 +2150,107 @@ ret_val<bool> musical_instrument_actor::can_use( const player &p, const item &, 
     return ret_val<bool>::make_success();
 }
 
+iuse_actor *learn_spell_actor::clone() const
+{
+    return new learn_spell_actor( *this );
+}
+
+void learn_spell_actor::load( JsonObject &obj )
+{
+    spells = obj.get_string_array( "spells" );
+}
+
+void learn_spell_actor::info( const item &, std::vector<iteminfo> &dump ) const
+{
+    std::string message;
+    if( spells.size() == 1 ) {
+        message = _( "This can teach you a spell." );
+    } else {
+        message = _( "This can teach you a number of spells." );
+    }
+    dump.emplace_back( "DESCRIPTION", message );
+    dump.emplace_back( "DESCRIPTION", _( "Spells Contained:" ) );
+    for( const std::string sp : spells ) {
+        dump.emplace_back( "SPELL", spell_id( sp ).obj().name );
+    }
+}
+
+int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
+{
+    if( p.fine_detail_vision_mod() > 4 ) {
+        p.add_msg_if_player( _( "It's too dark to read." ) );
+        return 0;
+    }
+    std::vector<uilist_entry> uilist_initializer;
+    bool know_it_all = true;
+    for( const std::string sp_id_str : spells ) {
+        const spell_id sp_id( sp_id_str );
+        const std::string sp_nm = sp_id.obj().name;
+        uilist_entry entry( sp_nm );
+        if( p.magic.knows_spell( sp_id ) ) {
+            const spell sp = p.magic.get_spell( sp_id );
+            entry.ctxt = string_format( _( "Level %u" ), sp.get_level() );
+            if( sp.is_max_level() ) {
+                entry.ctxt += _( " (Max)" );
+                entry.enabled = false;
+            } else {
+                know_it_all = false;
+            }
+        } else {
+            if( p.magic.can_learn_spell( p, sp_id ) ) {
+                entry.ctxt = _( "Study to Learn" );
+                know_it_all = false;
+            } else {
+                entry.ctxt = _( "Can't learn!" );
+                entry.enabled = false;
+            }
+        }
+        uilist_initializer.emplace_back( entry );
+    }
+
+    if( know_it_all ) {
+        add_msg( m_info, _( "You already know everything this could teach you." ) );
+        return 0;
+    }
+
+    const int action = uilist( _( "Study a spell:" ), uilist_initializer );
+    if( action < 0 ) {
+        return 0;
+    }
+    const bool knows_spell = p.magic.knows_spell( spells[action] );
+    player_activity study_spell( activity_id( "ACT_STUDY_SPELL" ),
+                                 p.magic.time_to_learn_spell( p, spells[action] ) );
+    study_spell.str_values = {
+        "", // reserved for "until you gain a spell level" option [0]
+        "learn"
+    }; // [1]
+    study_spell.values = { 0, 0, 0 };
+    if( knows_spell ) {
+        study_spell.str_values[1] = "study";
+        const int study_time = uilist( _( "Spend how long studying?" ), {
+            { 30000, true, -1, _( "30 minutes" ) },
+            { 60000, true, -1, _( "1 hour" ) },
+            { 120000, true, -1, _( "2 hours" ) },
+            { 240000, true, -1, _( "4 hours" ) },
+            { 480000, true, -1, _( "8 hours" ) },
+            { 10100, true, -1, _( "Until you gain a spell level" ) }
+        } );
+        if( study_time <= 0 ) {
+            return 0;
+        }
+        study_spell.moves_total = study_time;
+    }
+    study_spell.moves_left = study_spell.moves_total;
+    if( study_spell.moves_total == 10100 ) {
+        study_spell.str_values[0] = "gain_level";
+        study_spell.values[0]; // reserved for xp
+        study_spell.values[1] = p.magic.get_spell( spell_id( spells[action] ) ).get_level() + 1;
+    }
+    study_spell.name = spells[action];
+    p.assign_activity( study_spell, false );
+    return 0;
+}
+
 iuse_actor *holster_actor::clone() const
 {
     return new holster_actor( *this );
@@ -2860,7 +2986,7 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
     return RT_NOTHING;
 }
 
-bool damage_item( player &pl, item_location &fix )
+static bool damage_item( player &pl, item_location &fix )
 {
     const std::string startdurability = fix->durability_indicator( true );
     const auto destroyed = fix->inc_damage();
@@ -3079,7 +3205,7 @@ void heal_actor::load( JsonObject &obj )
     }
 }
 
-player &get_patient( player &healer, const tripoint &pos )
+static player &get_patient( player &healer, const tripoint &pos )
 {
     if( healer.pos() == pos ) {
         return healer;
@@ -3297,7 +3423,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     return it.type->charges_to_use();
 }
 
-hp_part pick_part_to_heal(
+static hp_part pick_part_to_heal(
     const player &healer, const player &patient,
     const std::string &menu_header,
     int limb_power, int head_bonus, int torso_bonus,
@@ -3499,14 +3625,14 @@ iuse_actor *place_trap_actor::clone() const
     return new place_trap_actor( *this );
 }
 
-bool is_solid_neighbor( const tripoint &pos, const int offset_x, const int offset_y )
+static bool is_solid_neighbor( const tripoint &pos, const int offset_x, const int offset_y )
 {
     const tripoint a = pos + tripoint( offset_x, offset_y, 0 );
     const tripoint b = pos - tripoint( offset_x, offset_y, 0 );
     return g->m.move_cost( a ) != 2 && g->m.move_cost( b ) != 2;
 }
 
-bool has_neighbor( const tripoint &pos, const ter_id &terrain_id )
+static bool has_neighbor( const tripoint &pos, const ter_id &terrain_id )
 {
     for( const tripoint &t : g->m.points_in_radius( pos, 1, 0 ) ) {
         if( g->m.ter( t ) == terrain_id ) {
@@ -3553,7 +3679,7 @@ bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::st
     return true;
 }
 
-void place_and_add_as_known( player &p, const tripoint &pos, const trap_str_id &id )
+static void place_and_add_as_known( player &p, const tripoint &pos, const trap_str_id &id )
 {
     g->m.trap_set( pos, id );
     const trap &tr = g->m.tr_at( pos );

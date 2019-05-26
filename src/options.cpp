@@ -16,6 +16,7 @@
 #include "output.h"
 #include "path_info.h"
 #include "sdlsound.h"
+#include "sdltiles.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -47,10 +48,6 @@ int message_ttl;
 int message_cooldown;
 bool fov_3d;
 bool tile_iso;
-
-#if defined(TILES)
-extern std::unique_ptr<cata_tiles> tilecontext;
-#endif // TILES
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
@@ -1183,7 +1180,7 @@ void options_manager::add_options_general()
 
     add( "CIRCLEDIST", "general", translate_marker( "Circular distances" ),
          translate_marker( "If true, the game will calculate range in a realistic way: light sources will be circles, diagonal movement will cover more ground and take longer.  If disabled, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall." ),
-         false
+         true
        );
 
     add( "DROP_EMPTY", "general", translate_marker( "Drop empty containers" ),
@@ -1471,9 +1468,13 @@ void options_manager::add_options_interface()
        );
 
     add( "AUTO_INV_ASSIGN", "interface", translate_marker( "Auto inventory letters" ),
-         translate_marker( "If false, new inventory items will only get letters assigned if they had one before." ),
-         true
-       );
+         translate_marker( "Enabled: automatically assign letters to any carried items that lack them. Disabled: do not auto-assign letters."
+    " Favorites: only auto-assign letters to favorited items." ), {
+        { "disabled", translate_marker( "Disabled" ) },
+        { "enabled", translate_marker( "Enabled" ) },
+        { "favorites", translate_marker( "Favorites" ) }
+    },
+    "favorites" );
 
     add( "ITEM_HEALTH_BAR", "interface", translate_marker( "Show item health bars" ),
          translate_marker( "If true, show item health bars instead of reinforced, scratched etc. text." ),
@@ -2282,8 +2283,9 @@ static void refresh_tiles( bool, bool, bool )
 }
 #endif // TILES
 
-void draw_borders_external( const catacurses::window &w, int horizontal_level,
-                            const std::map<int, bool> &mapLines, const bool world_options_only )
+static void draw_borders_external(
+    const catacurses::window &w, int horizontal_level, const std::map<int, bool> &mapLines,
+    const bool world_options_only )
 {
     if( !world_options_only ) {
         draw_border( w, BORDER_COLOR, _( " OPTIONS " ) );
@@ -2297,7 +2299,7 @@ void draw_borders_external( const catacurses::window &w, int horizontal_level,
     wrefresh( w );
 }
 
-void draw_borders_internal( const catacurses::window &w, std::map<int, bool> &mapLines )
+static void draw_borders_internal( const catacurses::window &w, std::map<int, bool> &mapLines )
 {
     for( int i = 0; i < getmaxx( w ); ++i ) {
         if( mapLines[i] ) {

@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <utility>
 
+#include "avatar.h"
 #include "debug.h"
 #include "explosion.h"
 #include "event.h"
@@ -51,7 +52,7 @@ static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 
 // A pit becomes less effective as it fills with corpses.
-float pit_effectiveness( const tripoint &p )
+static float pit_effectiveness( const tripoint &p )
 {
     units::volume corpse_volume = 0_ml;
     for( auto &pit_content : g->m.i_at( p ) ) {
@@ -970,7 +971,7 @@ void trapfunc::portal( Creature *c, const tripoint &p )
 }
 
 // Don't ask NPCs - they always want to do the first thing that comes to their minds
-bool query_for_item( const player *pl, const std::string &itemname, const char *que )
+static bool query_for_item( const player *pl, const std::string &itemname, const char *que )
 {
     return pl->has_amount( itemname, 1 ) && ( !pl->is_player() || query_yn( que ) );
 }

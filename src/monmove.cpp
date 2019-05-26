@@ -8,6 +8,7 @@
 #include <memory>
 #include <ostream>
 
+#include "avatar.h"
 #include "bionics.h"
 #include "debug.h"
 #include "field.h"
@@ -1041,8 +1042,8 @@ int monster::calc_climb_cost( const tripoint &f, const tripoint &t ) const
  * Return points of an area extending 1 tile to either side and
  * (maxdepth) tiles behind basher.
  */
-std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tripoint &basher,
-                                        int maxdepth )
+static std::vector<tripoint> get_bashing_zone( const tripoint &bashee, const tripoint &basher,
+        int maxdepth )
 {
     std::vector<tripoint> direction;
     direction.push_back( bashee );

@@ -41,7 +41,7 @@ enum field_id : int;
 
 class monster;
 
-typedef std::map< mfaction_id, std::set< monster * > > mfactions;
+using mfactions = std::map< mfaction_id, std::set< monster * > >;
 
 class mon_special_attack
 {

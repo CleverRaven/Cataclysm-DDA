@@ -8,12 +8,14 @@
 #include <cstring>
 #include <iterator>
 #include <limits>
+#include <queue>
 #include <sstream>
 #include <type_traits>
 #include <unordered_map>
 
 #include "ammo.h"
 #include "artifact.h"
+#include "avatar.h"
 #include "calendar.h"
 #include "coordinate_conversions.h"
 #include "clzones.h"
@@ -92,8 +94,6 @@ const species_id ZOMBIE( "ZOMBIE" );
 const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_crushed( "crushed" );
 const efftype_id effect_stunned( "stunned" );
-
-extern bool is_valid_in_w_terrain( int, int );
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -805,7 +805,7 @@ void map::register_vehicle_zone( vehicle *veh, const int zlev )
 
 bool map::deregister_vehicle_zone( zone_data &zone )
 {
-    if( const cata::optional<vpart_reference> vp = g->m.veh_at( g->m.getlocal(
+    if( const cata::optional<vpart_reference> vp = veh_at( getlocal(
                 zone.get_start_point() ) ).part_with_feature( "CARGO", false ) ) {
         auto bounds = vp->vehicle().loot_zones.equal_range( vp->mount() );
         for( auto it = bounds.first; it != bounds.second; it++ ) {
@@ -2738,6 +2738,10 @@ void map::decay_fields_and_scent( const time_duration &amount )
                             case fd_methsmoke:
                             case fd_relax_gas:
                             case fd_fungal_haze:
+                            case fd_cold_air1:
+                            case fd_cold_air2:
+                            case fd_cold_air3:
+                            case fd_cold_air4:
                             case fd_hot_air1:
                             case fd_hot_air2:
                             case fd_hot_air3:
@@ -2909,7 +2913,7 @@ void map::smash_items( const tripoint &p, const int power )
     }
 
     std::vector<item> contents;
-    auto items = g->m.i_at( p );
+    auto items = i_at( p );
     for( auto i = items.begin(); i != items.end(); ) {
         if( i->active ) {
             // Get the explosion item actor
@@ -4377,7 +4381,7 @@ item &map::add_item_at( const tripoint &p,
     current_submap->is_uniform = false;
 
     if( new_item.is_map() && !new_item.has_var( "reveal_map_center_omt" ) ) {
-        new_item.set_var( "reveal_map_center_omt", ms_to_omt_copy( g->m.getabs( p ) ) );
+        new_item.set_var( "reveal_map_center_omt", ms_to_omt_copy( getabs( p ) ) );
     }
 
     current_submap->update_lum_add( l, new_item );
@@ -4395,7 +4399,7 @@ item map::water_from( const tripoint &p )
         return item( "salt_water", 0, item::INFINITE_CHARGES );
     }
 
-    const ter_id terrain_id = g->m.ter( p );
+    const ter_id terrain_id = ter( p );
     if( terrain_id == t_sewage ) {
         item ret( "water_sewage", 0, item::INFINITE_CHARGES );
         ret.poison = rng( 1, 7 );
@@ -4620,7 +4624,7 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
         const tripoint map_location = tripoint( grid_offset + active_item.location, gridp.z );
         // root cellars are special
         temperature_flag flag = temperature_flag::TEMP_NORMAL;
-        if( g->m.ter( map_location ) == t_rootcellar ) {
+        if( ter( map_location ) == t_rootcellar ) {
             flag = temperature_flag::TEMP_ROOT_CELLAR;
         }
         auto items = i_at( map_location );
@@ -4831,33 +4835,8 @@ std::list<item> use_charges_from_stack( Stack stack, const itype_id type, int &q
     return ret;
 }
 
-int remove_charges_in_list( const itype *type, map_stack stack, int quantity )
-{
-    auto target = stack.begin();
-    for( ; target != stack.end(); ++target ) {
-        if( target->type == type ) {
-            break;
-        }
-    }
-
-    if( target != stack.end() ) {
-        if( target->charges > quantity ) {
-            target->charges -= quantity;
-            return quantity;
-        } else {
-            const int charges = target->charges;
-            target->charges = 0;
-            if( target->destroyed_at_zero_charges() ) {
-                stack.erase( target );
-            }
-            return charges;
-        }
-    }
-    return 0;
-}
-
-void use_charges_from_furn( const furn_t &f, const itype_id &type, int &quantity,
-                            map *m, const tripoint &p, std::list<item> &ret, const std::function<bool( const item & )> &filter )
+static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &quantity,
+                                   map *m, const tripoint &p, std::list<item> &ret, const std::function<bool( const item & )> &filter )
 {
     if( m->has_flag( "LIQUIDCONT", p ) ) {
         auto item_list = m->i_at( p );
@@ -5568,7 +5547,7 @@ basecamp map::hoist_submap_camp( const tripoint &p )
 
 void map::add_camp( const tripoint &p, const std::string &name )
 {
-    tripoint omt_pos = ms_to_omt_copy( g->m.getabs( p ) );
+    tripoint omt_pos = ms_to_omt_copy( getabs( p ) );
     basecamp temp_camp = basecamp( name, omt_pos );
     overmap_buffer.add_camp( temp_camp );
     g->u.camps.insert( omt_pos );
@@ -5705,7 +5684,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
     g->reset_light_level();
 
     update_visibility_cache( center.z );
-    const visibility_variables &cache = g->m.get_visibility_variables_cache();
+    const visibility_variables &cache = get_visibility_variables_cache();
 
     const auto &visibility_cache = get_cache_ref( center.z ).visibility_cache;
 
@@ -6230,6 +6209,118 @@ std::vector<tripoint> map::find_clear_path( const tripoint &source,
     // If we couldn't find a clear LoS, just return the ideal one.
     return line_to( source, destination, ideal_start_offset, 0 );
 }
+
+void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tripoint &f,
+                                 int range, const int cost_min, const int cost_max ) const
+{
+    struct pq_item {
+        int dist;
+        int ndx;
+    };
+    struct pq_item_comp {
+        bool operator()( const pq_item &left, const pq_item &right ) {
+            return left.dist > right.dist;
+        }
+    };
+    using PQ_type = std::priority_queue< pq_item, std::vector<pq_item>, pq_item_comp>;
+
+    // temp buffer for grid
+    const int grid_dim = range * 2 + 1;
+    std::vector< int > t_grid( grid_dim * grid_dim, -1 ); // init to -1 as "not visited yet"
+    const tripoint origin_offset = {range, range, 0};
+    const int initial_visit_distance = range * range; // Large unreachable value
+
+    // Fill positions that are visitable with initial_visit_distance
+    for( const tripoint &p : points_in_radius( f, range ) ) {
+        const tripoint tp = { p.x, p.y, f.z };
+        const int tp_cost = move_cost( tp );
+        // rejection conditions
+        if( tp_cost < cost_min || tp_cost > cost_max || !has_floor_or_support( tp ) ) {
+            continue;
+        }
+        // set initial cost for grid point
+        tripoint origin_relative = tp - f;
+        origin_relative += origin_offset;
+        int ndx = origin_relative.x + origin_relative.y * grid_dim;
+        t_grid[ ndx ] = initial_visit_distance;
+    }
+
+    auto gen_neighbors = []( const pq_item & elem, int grid_dim, pq_item * neighbors ) {
+        // Up to 8 neighbors
+        int new_cost = elem.dist + 1;
+        // *INDENT-OFF*
+        int ox[8] = {
+            -1, 0, 1,
+            -1,    1,
+            -1, 0, 1
+        };
+        int oy[8] = {
+            -1, -1, -1,
+            0,      0,
+            1,  1,  1
+        };
+        // *INDENT-OFF*
+
+        int ex = elem.ndx % grid_dim;
+        int ey = elem.ndx / grid_dim;
+        for( int i = 0; i < 8; ++i ) {
+            int nx = ex + ox[i];
+            int ny = ey + oy[i];
+
+            int ndx = nx + ny * grid_dim;
+            neighbors[i] = { new_cost, ndx };
+        }
+    };
+
+    PQ_type pq( pq_item_comp{} );
+    pq_item first_item{ 0, range + range * grid_dim };
+    pq.push( first_item );
+    pq_item neighbor_elems[8];
+
+    while( !pq.empty() ) {
+        const pq_item item = pq.top();
+        pq.pop();
+
+        if( t_grid[ item.ndx ] == initial_visit_distance ) {
+            t_grid[ item.ndx ] = item.dist;
+            if( item.dist + 1 < range ) {
+                gen_neighbors( item, grid_dim, neighbor_elems );
+                for( int i = 0; i < 8; ++i ) {
+                    pq.push( neighbor_elems[i] );
+                }
+            }
+        }
+    }
+    std::vector<char> o_grid( grid_dim * grid_dim, 0 );
+    for( int y = 0, ndx = 0; y < grid_dim; ++y ) {
+        for( int x = 0; x < grid_dim; ++x, ++ndx ) {
+            if( t_grid[ ndx ] != -1 && t_grid[ ndx ] < initial_visit_distance ) {
+                // set self and neighbors to 1
+                for( int dy = -1; dy <= 1; ++dy ) {
+                    for( int dx = -1; dx <= 1; ++dx ) {
+                        int tx = dx + x;
+                        int ty = dy + y;
+
+                        if( tx >= 0 && tx < grid_dim && ty >= 0 && ty < grid_dim ) {
+                            o_grid[ tx + ty * grid_dim ] = 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Now go over again to pull out all of the reachable points
+    for( int y = 0, ndx = 0; y < grid_dim; ++y ) {
+        for( int x = 0; x < grid_dim; ++x, ++ndx ) {
+            if( o_grid[ ndx ] ) {
+                tripoint t = f - origin_offset + tripoint{ x, y, 0 };
+                reachable_pts.push_back( t );
+            }
+        }
+    }
+}
+
 
 bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
                       const int cost_min, const int cost_max ) const
@@ -8261,8 +8352,8 @@ std::list<tripoint> map::find_furnitures_in_radius( const tripoint &center, size
         size_t radiusz )
 {
     std::list<tripoint> furn_locs;
-    for( const auto &furn_loc : g->m.points_in_radius( center, radius, radiusz ) ) {
-        if( g->m.furn( furn_loc ) == target ) {
+    for( const auto &furn_loc : points_in_radius( center, radius, radiusz ) ) {
+        if( furn( furn_loc ) == target ) {
             furn_locs.push_back( furn_loc );
         }
     }

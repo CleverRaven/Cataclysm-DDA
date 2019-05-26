@@ -33,11 +33,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [
-      [ "762", [ "akmmag", "akmbigmag" ] ],
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ],
+    "magazines": [ [ "762", [ "akmmag", "akmbigmag" ] ] ],
     "flags": [ "NEVER_JAMS" ]
   },
   {
@@ -77,11 +73,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [
-      [ "762", [ "akmmag", "akmbigmag" ] ],
-      [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ],
-      [ "308", [ "g3mag", "g3bigmag" ] ]
-    ]
+    "magazines": [ [ "762", [ "akmmag", "akmbigmag" ] ] ]
   },
   {
     "id": "sks",

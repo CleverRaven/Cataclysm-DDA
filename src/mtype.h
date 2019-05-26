@@ -33,7 +33,7 @@ using bodytype_id = std::string;
 class JsonArray;
 class JsonObject;
 
-typedef std::string itype_id;
+using itype_id = std::string;
 
 // These are triggers which may affect the monster's anger or morale.
 // They are handled in monster::check_triggers(), in monster.cpp
@@ -114,6 +114,7 @@ enum m_flag : int {
     MF_NO_BREATHE,          // Creature can't drown and is unharmed by gas, smoke, or poison
     MF_REGENERATES_50,      // Monster regenerates very quickly over time
     MF_REGENERATES_10,      // Monster regenerates quickly over time
+    MF_REGENERATES_1,       // Monster regenerates slowly over time
     MF_REGENERATES_IN_DARK, // Monster regenerates very quickly in poorly lit tiles
     MF_FLAMMABLE,           // Monster catches fire, burns, and spreads fire to nearby objects
     MF_REVIVES,             // Monster corpse will revive after a short period of time

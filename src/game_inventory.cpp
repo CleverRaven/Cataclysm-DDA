@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 
+#include "avatar.h"
 #include "game.h"
 #include "bionics.h"
 #include "inventory_ui.h"
@@ -51,8 +52,8 @@ static const trait_id trait_NOPAIN( "NOPAIN" );
 
 class Character;
 
-typedef std::function<bool( const item & )> item_filter;
-typedef std::function<bool( const item_location & )> item_location_filter;
+using item_filter = std::function<bool ( const item & )>;
+using item_location_filter = std::function<bool ( const item_location & )>;
 
 namespace
 {
@@ -88,7 +89,7 @@ bool inventory_filter_preset::is_shown( const item_location &location ) const
     return filter( location );
 }
 
-item_location_filter convert_filter( const item_filter &filter )
+static item_location_filter convert_filter( const item_filter &filter )
 {
     return [ &filter ]( const item_location & loc ) {
         return filter( *loc );
@@ -894,12 +895,19 @@ class read_inventory_preset: public pickup_inventory_preset
                     return unknown;
                 }
                 std::vector<std::string> dummy;
-                const player *reader = p.get_book_reader( *loc, dummy );
+
+                // This is terrible and needs to be removed asap when this entire file is refactored
+                // to use the new avatar class
+                const avatar *u = dynamic_cast<const avatar *>( &p );
+                if( !u ) {
+                    return std::string();
+                }
+                const player *reader = u->get_book_reader( *loc, dummy );
                 if( reader == nullptr ) {
                     return std::string();  // Just to make sure
                 }
                 // Actual reading time (in turns). Can be penalized.
-                const int actual_turns = p.time_to_read( *loc, *reader ) / to_moves<int>( 1_turns );
+                const int actual_turns = u->time_to_read( *loc, *reader ) / to_moves<int>( 1_turns );
                 // Theoretical reading time (in turns) based on the reader speed. Free of penalties.
                 const int normal_turns = get_book( loc ).time * reader->read_speed() / to_moves<int>( 1_turns );
                 const std::string duration = to_string_approx( time_duration::from_turns( actual_turns ), false );
@@ -917,8 +925,15 @@ class read_inventory_preset: public pickup_inventory_preset
         }
 
         std::string get_denial( const item_location &loc ) const override {
+            // This is terrible and needs to be removed asap when this entire file is refactored
+            // to use the new avatar class
+            const avatar *u = dynamic_cast<const avatar *>( &p );
+            if( !u ) {
+                return std::string();
+            }
+
             std::vector<std::string> denials;
-            if( p.get_book_reader( *loc, denials ) == nullptr && !denials.empty() ) {
+            if( u->get_book_reader( *loc, denials ) == nullptr && !denials.empty() ) {
                 return denials.front();
             }
             return pickup_inventory_preset::get_denial( loc );
@@ -952,7 +967,12 @@ class read_inventory_preset: public pickup_inventory_preset
         }
 
         bool is_known( const item_location &loc ) const {
-            return p.has_identified( loc->typeId() );
+            // This is terrible and needs to be removed asap when this entire file is refactored
+            // to use the new avatar class
+            if( const avatar *u = dynamic_cast<const avatar *>( &p ) ) {
+                return u->has_identified( loc->typeId() );
+            }
+            return false;
         }
 
         int get_known_recipes( const islot_book &book ) const {
@@ -1330,12 +1350,18 @@ void game_menus::inv::reassign_letter( player &p, item &it )
 {
     while( true ) {
         const long invlet = popup_getkey(
-                                _( "Enter new letter (press SPACE for none, ESCAPE to cancel)." ) );
+                                _( "Enter new letter. Press SPACE to clear a manually assigned letter, ESCAPE to cancel." ) );
 
         if( invlet == KEY_ESCAPE ) {
             break;
         } else if( invlet == ' ' ) {
             p.reassign_item( it, 0 );
+            const std::string auto_setting = get_option<std::string>( "AUTO_INV_ASSIGN" );
+            if( auto_setting == "enabled" || ( auto_setting == "favorites" && it.is_favorite ) ) {
+                popup_getkey(
+                    _( "Note: The Auto Inventory Letters setting might still reassign a letter to this item.\n"
+                       "If this is undesired, you may wish to change the setting in Options." ) );
+            }
             break;
         } else if( inv_chars.valid( invlet ) ) {
             p.reassign_item( it, invlet );

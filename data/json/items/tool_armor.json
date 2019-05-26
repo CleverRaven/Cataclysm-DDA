@@ -58,10 +58,6 @@
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "The %s flicks off.", "target": "miner_hat" },
     "covers": [ "HEAD" ],
     "techniques": [ "WBLOCK_1" ],
-    "warmth": 5,
-    "encumbrance": 15,
-    "coverage": 80,
-    "material_thickness": 4,
     "magazine_well": 1
   },
   {
@@ -187,8 +183,6 @@
     "revert_to": "thermal_socks",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_socks" },
     "warmth": 60,
-    "coverage": 100,
-    "material_thickness": 1,
     "magazine_well": 1
   },
   {
@@ -246,8 +240,6 @@
     "revert_to": "thermal_suit",
     "warmth": 60,
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_suit" },
-    "coverage": 100,
-    "material_thickness": 1,
     "magazine_well": 1
   },
   {
@@ -306,8 +298,6 @@
     "revert_to": "thermal_gloves",
     "use_action": { "menu_text": "Turn off", "type": "transform", "msg": "Your %s deactivates.", "target": "thermal_gloves" },
     "warmth": 60,
-    "coverage": 100,
-    "material_thickness": 1,
     "magazine_well": 1
   },
   {
@@ -365,8 +355,6 @@
     "revert_to": "thermal_mask",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "thermal_mask" },
     "warmth": 60,
-    "coverage": 100,
-    "material_thickness": 1,
     "magazine_well": 1
   },
   {
@@ -446,8 +434,6 @@
     "revert_to": "wearable_light",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "wearable_light" },
     "covers": [ "HEAD" ],
-    "coverage": 15,
-    "material_thickness": 1,
     "magazine_well": 1
   },
   {
@@ -505,8 +491,6 @@
     "revert_to": "survivor_light",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "The %s flicks off.", "target": "survivor_light" },
     "covers": [ "HEAD" ],
-    "coverage": 20,
-    "material_thickness": 1,
     "magazine_well": 1
   },
   {
@@ -1037,10 +1021,7 @@
     "revert_to": "goggles_nv",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_nv" },
     "warmth": 25,
-    "environmental_protection": 6,
     "encumbrance": 20,
-    "coverage": 100,
-    "material_thickness": 2,
     "magazine_well": 1
   },
   {
@@ -1103,10 +1084,7 @@
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "goggles_ir" },
     "covers": [ "EYES" ],
     "warmth": 25,
-    "environmental_protection": 6,
     "encumbrance": 20,
-    "coverage": 100,
-    "material_thickness": 2,
     "magazine_well": 1
   },
   {
@@ -1908,8 +1886,6 @@
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "thermal_outfit" },
     "covers": [ "HEAD", "MOUTH", "TORSO", "ARMS", "LEGS", "HANDS", "FEET" ],
     "warmth": 60,
-    "coverage": 100,
-    "material_thickness": 1,
     "magazine_well": 2
   },
   {

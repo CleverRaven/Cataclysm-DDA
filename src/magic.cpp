@@ -1,5 +1,6 @@
 #include "magic.h"
 
+#include "avatar.h"
 #include "calendar.h"
 #include "color.h"
 #include "damage.h"
@@ -63,7 +64,7 @@ void spell_type::load_spell( JsonObject &jo, const std::string &src )
     spell_factory.load( jo, src );
 }
 
-energy_type energy_source_from_string( const std::string &str )
+static energy_type energy_source_from_string( const std::string &str )
 {
     if( str == "MANA" ) {
         return mana_energy;
@@ -81,7 +82,7 @@ energy_type energy_source_from_string( const std::string &str )
     }
 }
 
-damage_type damage_type_from_string( const std::string &str )
+static damage_type damage_type_from_string( const std::string &str )
 {
     if( str == "fire" ) {
         return DT_HEAT;
@@ -337,8 +338,8 @@ std::string spell::colorized_fail_percent( const player &p ) const
 {
     const float fail_fl = spell_fail( p ) * 100.0f;
     std::string fail_str;
-    fail_fl == 100.0f ? fail_str = _( "Difficult!" ) : fail_str = _( string_format( "%.1f %% %s",
-                                   fail_fl, "Failure Chance" ) );
+    fail_fl == 100.0f ? fail_str = _( "Difficult!" ) : fail_str =  string_format( "%.1f %% %s",
+                                   fail_fl, _( "Failure Chance" ) );
     nc_color color;
     if( fail_fl > 90.0f ) {
         color = c_magenta;
@@ -398,7 +399,7 @@ std::string spell::energy_cost_string( const player &p ) const
         auto pair = get_hp_bar( energy_cost(), p.get_stamina_max() );
         return colorize( pair.first, pair.second );
     }
-    debugmsg( _( "ERROR: Spell %s has invalid energy source." ), id().c_str() );
+    debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
 }
 
@@ -420,7 +421,7 @@ std::string spell::energy_cur_string( const player &p ) const
     if( energy_source() == hp_energy ) {
         return "";
     }
-    debugmsg( _( "ERROR: Spell %s has invalid energy source." ), id().c_str() );
+    debugmsg( "ERROR: Spell %s has invalid energy source.", id().c_str() );
     return _( "error: energy_type" );
 }
 
@@ -512,7 +513,7 @@ int spell::get_max_level() const
 // helper function to calculate xp needed to be at a certain level
 // pulled out as a helper function to make it easier to either be used in the future
 // or easier to tweak the formula
-int exp_for_level( int level )
+static int exp_for_level( int level )
 {
     // level 0 never needs xp
     if( level == 0 ) {
@@ -570,7 +571,6 @@ dealt_damage_instance spell::get_dealt_damage_instance() const
 {
     dealt_damage_instance dmg;
     dmg.set_damage( dmg_type(), damage() );
-    add_msg( "%i", damage() );
     return dmg;
 }
 
@@ -666,7 +666,7 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
         debugmsg( "Tried to learn invalid spell" );
         return;
     }
-    if( !force ) {
+    if( !force && sp->spell_class != trait_id( "NONE" ) ) {
         if( can_learn_spell( p, sp->id ) && !p.has_trait( sp->spell_class ) ) {
             if( query_yn(
                     _( "Learning this spell will make you a %s and lock you out of other unique spells.\nContinue?" ),
@@ -800,4 +800,331 @@ int known_magic::time_to_learn_spell( const player &p, spell_id sp ) const
     const int base_time = 30000;
     return base_time * ( 1.0 + sp.obj().difficulty / ( 1.0 + ( p.get_int() - 8.0 ) / 8.0 ) +
                          ( p.get_skill_level( skill_id( "SPELLCRAFT" ) ) / 10.0 ) );
+}
+
+// spell_effect
+
+namespace spell_effect
+{
+
+static tripoint random_point( int min_distance, int max_distance, const tripoint &player_pos )
+{
+    const int angle = rng( 0, 360 );
+    const int dist = rng( min_distance, max_distance );
+    const int x = round( dist * cos( angle ) );
+    const int y = round( dist * sin( angle ) );
+    return tripoint( x + player_pos.x, y + player_pos.y, player_pos.z );
+}
+
+void teleport( int min_distance, int max_distance )
+{
+    if( min_distance > max_distance || min_distance < 0 || max_distance < 0 ) {
+        debugmsg( "ERROR: Teleport argument(s) invalid" );
+        return;
+    }
+    const tripoint player_pos = g->u.pos();
+    tripoint target;
+    // limit the loop just in case it's impossble to find a valid point in the range
+    int tries = 0;
+    do {
+        target = random_point( min_distance, max_distance, player_pos );
+        tries++;
+    } while( g->m.impassable( target ) && tries < 20 );
+    if( tries == 20 ) {
+        add_msg( m_bad, _( "Unable to find a valid target for teleport." ) );
+        return;
+    }
+    g->place_player( target );
+}
+
+void pain_split()
+{
+    player &p = g->u;
+    add_msg( m_info, _( "Your injuries even out." ) );
+    int num_limbs = 0; // number of limbs effected (broken don't count)
+    int total_hp = 0; // total hp among limbs
+
+    for( const int &part : p.hp_cur ) {
+        if( part != 0 ) {
+            num_limbs++;
+            total_hp += part;
+        }
+    }
+    for( int &part : p.hp_cur ) {
+        const int hp_each = total_hp / num_limbs;
+        if( part != 0 ) {
+            part = hp_each;
+        }
+    }
+}
+
+void move_earth( const tripoint &target )
+{
+    ter_id ter_here = g->m.ter( target );
+
+    std::set<ter_id> empty_air = { t_hole };
+    std::set<ter_id> deep_pit = { t_pit, t_slope_down };
+    std::set<ter_id> shallow_pit = { t_pit_corpsed, t_pit_covered, t_pit_glass, t_pit_glass_covered, t_pit_shallow, t_pit_spiked, t_pit_spiked, t_pit_spiked_covered, t_rootcellar };
+    std::set<ter_id> soft_dirt = { t_grave, t_dirt, t_sand, t_clay, t_dirtmound, t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_dirtfloor, t_fungus_floor_in, t_fungus_floor_sup, t_fungus_floor_out, t_sandbox };
+    // rock: can still be dug through with patience, converts to sand upon completion
+    std::set<ter_id> hard_dirt = { t_pavement, t_pavement_y, t_sidewalk, t_concrete, t_thconc_floor, t_thconc_floor_olight, t_strconc_floor, t_floor, t_floor_waxed, t_carpet_red, t_carpet_yellow, t_carpet_purple, t_carpet_green, t_linoleum_white, t_linoleum_gray, t_slope_up, t_rock_red, t_rock_green, t_rock_blue, t_floor_red, t_floor_green, t_floor_blue, t_pavement_bg_dp, t_pavement_y_bg_dp, t_sidewalk_bg_dp };
+
+    if( empty_air.count( ter_here ) == 1 ) {
+        add_msg( m_bad, _( "All the dust in the air here falls to the ground." ) );
+    } else if( deep_pit.count( ter_here ) == 1 ) {
+        g->m.ter_set( target, t_hole );
+        add_msg( _( "The pit has deepened further." ) );
+    } else if( shallow_pit.count( ter_here ) == 1 ) {
+        g->m.ter_set( target, t_pit );
+        add_msg( _( "More debris shifts out of the pit." ) );
+    } else if( soft_dirt.count( ter_here ) == 1 ) {
+        g->m.ter_set( target, t_pit_shallow );
+        add_msg( _( "The earth moves out of the way for you." ) );
+    } else if( hard_dirt.count( ter_here ) == 1 ) {
+        g->m.ter_set( target, t_sand );
+        add_msg( _( "The rocks here are ground into sand." ) );
+    } else {
+        add_msg( m_bad, _( "The earth here does not listen to your command to move." ) );
+    }
+}
+
+static bool in_spell_aoe( const tripoint &target, const tripoint &epicenter, const int &radius,
+                          const bool ignore_walls )
+{
+    if( ignore_walls ) {
+        return rl_dist( epicenter, target ) <= radius;
+    }
+    std::vector<tripoint> trajectory = line_to( epicenter, target );
+    for( const tripoint &pt : trajectory ) {
+        if( g->m.impassable( pt ) ) {
+            return false;
+        }
+    }
+    return rl_dist( epicenter, target ) <= radius;
+}
+
+static std::set<tripoint> spell_effect_blast( spell &, const tripoint &, const tripoint &target,
+        const int aoe_radius, const bool ignore_walls )
+{
+    std::set<tripoint> targets;
+    // TODO: Make this breadth-first
+    for( int x = target.x - aoe_radius; x < target.x + aoe_radius; x++ ) {
+        for( int y = target.y - aoe_radius; y < target.y + aoe_radius; y++ ) {
+            for( int z = target.z - aoe_radius; z < target.z + aoe_radius; z++ ) {
+                const tripoint potential_target( x, y, z );
+                if( in_spell_aoe( potential_target, target, aoe_radius, ignore_walls ) ) {
+                    targets.emplace( potential_target );
+                }
+            }
+        }
+    }
+    return targets;
+}
+
+static std::set<tripoint> spell_effect_cone( spell &sp, const tripoint &source,
+        const tripoint &target,
+        const int aoe_radius, const bool ignore_walls )
+{
+    std::set<tripoint> targets;
+    // cones go all the way to end (if they don't hit an obstacle)
+    const int range = sp.range();
+    const int initial_angle = coord_to_angle( source, target );
+    std::set<tripoint> end_points;
+    for( int angle = initial_angle - floor( aoe_radius / 2.0 );
+         angle <= initial_angle + ceil( aoe_radius / 2.0 ); angle++ ) {
+        tripoint potential;
+        calc_ray_end( angle, range, source, potential );
+        end_points.emplace( potential );
+    }
+    for( const tripoint &ep : end_points ) {
+        std::vector<tripoint> trajectory = line_to( ep, source );
+        for( const tripoint &tp : trajectory ) {
+            if( ignore_walls || g->m.passable( tp ) ) {
+                targets.emplace( tp );
+            } else {
+                break;
+            }
+        }
+    }
+    // we don't want to hit ourselves in the blast!
+    targets.erase( source );
+    return targets;
+}
+
+static std::set<tripoint> spell_effect_line( spell &, const tripoint &source,
+        const tripoint &target,
+        const int aoe_radius, const bool ignore_walls )
+{
+    std::set<tripoint> targets;
+    const int initial_angle = coord_to_angle( source, target );
+    tripoint clockwise_starting_point;
+    calc_ray_end( initial_angle - 90, floor( aoe_radius / 2.0 ), source, clockwise_starting_point );
+    tripoint cclockwise_starting_point;
+    calc_ray_end( initial_angle + 90, ceil( aoe_radius / 2.0 ), source, cclockwise_starting_point );
+    tripoint clockwise_end_point;
+    calc_ray_end( initial_angle - 90, floor( aoe_radius / 2.0 ), target, clockwise_end_point );
+    tripoint cclockwise_end_point;
+    calc_ray_end( initial_angle + 90, ceil( aoe_radius / 2.0 ), target, cclockwise_end_point );
+
+    std::vector<tripoint> start_width_lh = line_to( source, cclockwise_starting_point );
+    std::vector<tripoint> start_width_rh = line_to( source, clockwise_starting_point );
+
+    int start_width_lh_blocked = start_width_lh.size();
+    int start_width_rh_blocked = start_width_rh.size() + 1;
+    for( const tripoint &p : start_width_lh ) {
+        if( ignore_walls || g->m.passable( p ) ) {
+            start_width_lh_blocked--;
+        } else {
+            break;
+        }
+    }
+    for( const tripoint &p : start_width_rh ) {
+        if( ignore_walls || g->m.passable( p ) ) {
+            start_width_rh_blocked--;
+        } else {
+            break;
+        }
+    }
+
+    std::reverse( start_width_rh.begin(), start_width_rh.end() );
+    std::vector<tripoint> start_width;
+    start_width.reserve( start_width_lh.size() + start_width_rh.size() + 2 );
+    start_width.insert( start_width.end(), start_width_rh.begin(), start_width_rh.end() );
+    start_width.emplace_back( source );
+    start_width.insert( start_width.end(), start_width_lh.begin(), start_width_lh.end() );
+    std::vector<tripoint> end_width = line_to( cclockwise_end_point, clockwise_end_point );
+    // line_to omits the starting point. we want it back.
+    end_width.insert( end_width.begin(), cclockwise_end_point );
+
+    // we're going from right to left (clockwise to counterclockwise)
+    for( int i = start_width_rh_blocked;
+         i <= static_cast<int>( start_width.size() ) - start_width_lh_blocked; i++ ) {
+        for( tripoint &ep : end_width ) {
+            for( tripoint &p : line_to( start_width[i], ep ) ) {
+                if( ignore_walls || g->m.passable( p ) ) {
+                    targets.emplace( p );
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
+    targets.erase( source );
+
+    return targets;
+}
+
+// spells do not reduce in damage the further away from the epicenter the targets are
+// rather they do their full damage in the entire area of effect
+static std::set<tripoint> spell_effect_area( spell &sp, const tripoint &source,
+        const tripoint &target,
+        std::function<std::set<tripoint>( spell &, const tripoint &, const tripoint &, const int, const bool )>
+        aoe_func, bool ignore_walls = false )
+{
+    std::set<tripoint> targets = { target }; // initialize with epicenter
+    if( sp.aoe() <= 1 ) {
+        return targets;
+    }
+
+    const int aoe_radius = sp.aoe();
+    targets = aoe_func( sp, source,  target, aoe_radius, ignore_walls );
+
+    for( const tripoint &p : targets ) {
+        if( !sp.is_valid_target( p ) ) {
+            targets.erase( p );
+        }
+    }
+
+    // Draw the explosion
+    std::map<tripoint, nc_color> explosion_colors;
+    for( auto &pt : targets ) {
+        explosion_colors[pt] = sp.damage_type_color();
+    }
+
+    explosion_handler::draw_custom_explosion( g->u.pos(), explosion_colors );
+    return targets;
+}
+
+static void damage_targets( spell &sp, std::set<tripoint> targets )
+{
+    for( const tripoint target : targets ) {
+        Creature *const cr = g->critter_at<Creature>( target );
+        if( !cr ) {
+            continue;
+        }
+
+        projectile bolt;
+        bolt.impact = sp.get_damage_instance();
+        bolt.proj_effects.emplace( "magic" );
+
+        dealt_projectile_attack atk;
+        atk.end_point = target;
+        atk.hit_critter = cr;
+        atk.proj = bolt;
+        if( sp.damage() > 0 ) {
+            cr->deal_projectile_attack( &g->u, atk, true );
+        } else {
+            sp.heal( target );
+            add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
+        }
+        if( !sp.effect_data().empty() ) {
+            const int dur_moves = sp.duration();
+            const time_duration dur_td = 1_turns * dur_moves / 100;
+            const std::vector<body_part> all_bp = { bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r, };
+            for( const body_part bp : all_bp ) {
+                cr->add_effect( efftype_id( sp.effect_data() ), dur_td, bp );
+            }
+        }
+    }
+}
+
+void projectile_attack( spell &sp, const tripoint &source, const tripoint &target )
+{
+    std::vector<tripoint> trajectory = line_to( source, target );
+    for( const tripoint &pt : trajectory ) {
+        if( g->m.impassable( pt ) || pt == trajectory.back() ) {
+            target_attack( sp, source, target );
+        }
+    }
+}
+
+void target_attack( spell &sp, const tripoint &source, const tripoint &epicenter )
+{
+    damage_targets( sp, spell_effect_area( sp, source, epicenter, spell_effect_blast ) );
+}
+
+void cone_attack( spell &sp, const tripoint &source, const tripoint &target )
+{
+    damage_targets( sp, spell_effect_area( sp, source, target, spell_effect_cone ) );
+}
+
+void line_attack( spell &sp, const tripoint &source, const tripoint &target )
+{
+    damage_targets( sp, spell_effect_area( sp, source, target, spell_effect_line ) );
+}
+
+void spawn_ethereal_item( spell &sp )
+{
+    item granted( sp.effect_data(), calendar::turn );
+    if( !granted.is_comestible() ) {
+        granted.set_rot( -sp.duration_turns() );
+        granted.set_flag( "ETHEREAL_ITEM" );
+    }
+    if( granted.count_by_charges() && sp.damage() > 0 ) {
+        granted.charges = sp.damage();
+    }
+    if( g->u.can_wear( granted ).success() ) {
+        granted.set_flag( "FIT" );
+        g->u.wear_item( granted, false );
+    } else {
+        g->u.weapon = granted;
+    }
+    if( !granted.count_by_charges() ) {
+        for( int i = 1; i < sp.damage(); i++ ) {
+            g->u.i_add( granted );
+        }
+    }
+}
+
 }

@@ -4,8 +4,7 @@
 #include <string>
 
 #include "catch/catch.hpp"
-
-std::string rewrite_vsnprintf( const char *msg );
+#include "output.h"
 
 TEST_CASE( "Test vsnprintf_rewrite" )
 {

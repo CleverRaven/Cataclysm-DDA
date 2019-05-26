@@ -7,6 +7,7 @@
 #include <tuple>
 #include <unordered_map>
 
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -536,7 +537,7 @@ std::pair<std::string, nc_color> monster::get_attitude() const
     };
 }
 
-std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
+static std::pair<std::string, nc_color> hp_description( int cur_hp, int max_hp )
 {
     std::string damage_info;
     nc_color col;
@@ -2127,6 +2128,10 @@ void monster::process_effects()
 
     if( has_flag( MF_REGENERATES_10 ) && heal( 10 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
         add_msg( m_warning, _( "The %s seems a little healthier." ), name() );
+    }
+
+    if( has_flag( MF_REGENERATES_1 ) && heal( 1 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
+        add_msg( m_warning, _( "The %s is healing slowly." ), name() );
     }
 
     if( has_flag( MF_REGENERATES_IN_DARK ) ) {

@@ -7,6 +7,7 @@
 #include <iterator>
 #include <memory>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "debug.h"
@@ -26,19 +27,6 @@
 * \defgroup UI "The UI Menu."
 * @{
 */
-
-////////////////////////////////////
-int getfoldedwidth( const std::vector<std::string> &foldedstring )
-{
-    int ret = 0;
-    for( auto &i : foldedstring ) {
-        int width = utf8_width( i );
-        if( width > ret ) {
-            ret = width;
-        }
-    }
-    return ret;
-}
 
 uilist::uilist()
 {

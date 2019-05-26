@@ -10,6 +10,7 @@
 #include <type_traits>
 
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"
@@ -226,6 +227,7 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
     add_toggle( _( "fridge" ), keybind( "TOGGLE_FRIDGE" ), "FRIDGE" );
     add_toggle( _( "freezer" ), keybind( "TOGGLE_FREEZER" ), "FREEZER" );
     add_toggle( _( "space heater" ), keybind( "TOGGLE_SPACE_HEATER" ), "SPACE_HEATER" );
+    add_toggle( _( "cooler" ), keybind( "TOGGLE_COOLER" ), "COOLER" );
     add_toggle( _( "recharger" ), keybind( "TOGGLE_RECHARGER" ), "RECHARGE" );
     add_toggle( _( "plow" ), keybind( "TOGGLE_PLOW" ), "PLOW" );
     add_toggle( _( "reaper" ), keybind( "TOGGLE_REAPER" ), "REAPER" );
@@ -1321,8 +1323,11 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     parts[part_index].open = opening;
     insides_dirty = true;
     g->m.set_transparency_cache_dirty( smz );
-    sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
-                             parts[ part_index ].info().get_id().str(), 100 );
+    const int dist = rl_dist( g->u.pos(), mount_to_tripoint( parts[part_index].mount ) );
+    if( dist < 20 ) {
+        sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
+                                 parts[ part_index ].info().get_id().str(), 100 - dist * 3 );
+    }
     for( auto const &vec : find_lines_of_parts( part_index, "OPENABLE" ) ) {
         for( auto const &partID : vec ) {
             parts[partID].open = opening;

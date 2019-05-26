@@ -1,5 +1,65 @@
 [
   {
+    "type": "npc",
+    "id": "refugee_beggar4",
+    "//": "Sickly beggar in the refugee center.",
+    "name_unique": "Brandon Garder",
+    "gender": "male",
+    "name_suffix": "beggar",
+    "class": "NC_BEGGAR_4",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_BEGGAR_4",
+    "faction": "lobby_beggars"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_BEGGAR_4",
+    "name": "Beggar",
+    "job_description": "I'm just trying to survive.",
+    "common": false,
+    "//": "All the beggars have been camping inside the evac shelter because they're too weak and unskilled to make it on their own.",
+    "bonus_str": { "rng": [ -4, -1 ] },
+    "bonus_dex": { "rng": [ -4, -1 ] },
+    "bonus_int": { "rng": [ -6, -2 ] },
+    "bonus_per": { "rng": [ -3, -1 ] },
+    "worn_override": "NC_BEGGAR_4_worn",
+    "carry_override": "EMPTY_GROUP",
+    "weapon_override": "EMPTY_GROUP",
+    "traits": [
+      { "trait": "GLASSJAW" },
+      { "trait": "ASTHMA" },
+      { "trait": "SLOWHEALER3" },
+      { "trait": "SLOWRUNNER" },
+      { "trait": "HEAVYSLEEPER" },
+      { "trait": "FLIMSY3" },
+      { "trait": "WEAKSTOMACH" },
+      { "trait": "MYOPIC" },
+      { "trait": "HYPEROPIC" },
+      { "trait": "JITTERY" },
+      { "trait": "TRIGGERHAPPY" },
+      { "trait": "SMELLY" },
+      { "trait": "PROJUNK" },
+      { "trait": "BADBACK" },
+      { "trait": "BADKNEES" },
+      { "trait": "BADCARDIO" },
+      { "group": "Appearance_demographics" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BEGGAR_4_worn",
+    "subtype": "collection",
+    "items": [
+      { "item": "house_coat" },
+      { "item": "briefs" },
+      { "item": "tank_top" },
+      { "item": "long_underpants" },
+      { "item": "slippers" },
+      { "item": "socks" }
+    ]
+  },
+  {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_4",
     "dynamic_line": "Hey, are you a big fan of survival of the fittest?",
