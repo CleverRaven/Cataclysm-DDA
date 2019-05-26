@@ -5866,12 +5866,12 @@ itype_id item::ammo_current() const
     return ammo ? ammo->get_id() : "null";
 }
 
-ammotype item::ammo_type( bool conversion ) const
+std::set<ammotype> item::ammo_type( bool conversion ) const
 {
     if( conversion ) {
         auto mods = is_gun() ? gunmods() : toolmods();
         for( const auto e : mods ) {
-            if( e->type->mod->ammo_modifier ) {
+            if( !e->type->mod->ammo_modifier.empty() ) {
                 return e->type->mod->ammo_modifier;
             }
         }
@@ -5884,7 +5884,7 @@ ammotype item::ammo_type( bool conversion ) const
     } else if( is_magazine() ) {
         return type->magazine->type;
     }
-    return ammotype::NULL_ID();
+    return {};
 }
 
 itype_id item::ammo_default( bool conversion ) const
