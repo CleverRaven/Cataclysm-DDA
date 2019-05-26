@@ -3208,8 +3208,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 
     const sizing sizing_level = get_sizing( g->u, get_encumber( g->u ) != 0 );
 
-    if( sizing_level == sizing::big_sized_human_char ||
-        sizing_level == sizing::human_sized_small_char ) {
+
+    if( sizing_level == sizing::human_sized_small_char ) {
         ret << _( " (too big)" );
     } else if( sizing_level == sizing::big_sized_small_char ) {
         ret << _( " (huge!)" );
