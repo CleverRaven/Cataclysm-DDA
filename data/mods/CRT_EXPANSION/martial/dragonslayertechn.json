@@ -5,12 +5,7 @@
     "name": "BERSERK",
     "min_melee": 1,
     "mult_bonuses": [ [ "movecost", 0.3 ], [ "damage", "bash", 0.77 ], [ "damage", "cut", 0.77 ], [ "damage", "stab", 0.77 ] ],
-    "flat_bonuses": [
-      [ "movecost", "str", -10 ],
-      [ "damage", "bash", "str", 0.8 ],
-      [ "damage", "stab", "str", 1.5 ],
-      [ "damage", "cut", "str", 0.8 ]
-    ],
+    "flat_bonuses": [ [ "movecost", "str", -10 ], [ "damage", "bash", "str", 0.8 ], [ "damage", "stab", "str", 1.5 ], [ "damage", "cut", "str", 0.8 ] ],
     "down_dur": 2,
     "messages": [ "Your swing makes %s stagger and fall", "<npcname> hooks %s" ],
     "description": "50% moves, 77% Bash, 77% Cut, 77% Stab, Down two turns, STR (SS+) greatly reduces action cost and adds overall damage (S)"
