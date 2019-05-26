@@ -5953,20 +5953,6 @@
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
   {
-    "id": "plastic_chunk",
-    "type": "TOOL",
-    "category": "spare_parts",
-    "name": "plastic chunk",
-    "description": "This is a piece of plastic.  It could be used to fabricate, repair, or reinforce plastic items.",
-    "weight": 70,
-    "volume": 1,
-    "price": 0,
-    "material": "plastic",
-    "symbol": ",",
-    "color": "light_blue",
-    "flags": [ "NO_SALVAGE" ]
-  },
-  {
     "id": "pliers",
     "type": "TOOL",
     "name": "pliers",

@@ -4243,6 +4243,27 @@
   },
   {
     "type": "furniture",
+    "id": "f_plastic_groundsheet",
+    "name": "plastic groundsheet",
+    "description": "A large sheet of thick plastic has been tossed on the ground here.  It would be a useful place to do some butchery, perhaps.",
+    "symbol": "D",
+    "bgcolor": "light_blue",
+    "move_cost_mod": 0,
+    "required_str": 3,
+    "deployed_item": "plastic_sheet",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF", "CAN_SIT" ],
+    "deconstruct": { "items": [ { "item": "plastic_sheet", "count": 1 } ] },
+    "bash": {
+      "str_min": 5,
+      "str_max": 10,
+      "sound": "whuff!",
+      "sound_fail": "crinkle.",
+      "items": [ { "item": "plastic_sheet", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_fiber_mat",
     "name": "fiber mat",
     "description": "A large mat woven from fibrous material that can be used instead of a picnic blanket, but it's more valuable as a butchery appliance.  Too thin to be a comfortable sleeping place.",
@@ -4294,6 +4315,110 @@
       "sound_fail": "poof.",
       "ter_set": "t_floor",
       "items": [ { "item": "pillow", "count": 19 }, { "item": "blanket", "count": 3 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cardboard_fort",
+    "name": "cardboard fort",
+    "symbol": "^",
+    "description": "A fort built by tipping a cardboard box on its side, lining it with blankets, and partly weather sealing it with a plastic sheet.",
+    "color": "brown",
+    "move_cost_mod": 3,
+    "coverage": 95,
+    "comfort": 4,
+    "floor_bedding_warmth": 700,
+    "required_str": 3,
+    "deconstruct": {
+      "items": [
+        { "item": "box_large", "count": 1 },
+        { "item": "plastic_sheet", "count": 1 },
+        { "item": "blanket", "count": 2 },
+        { "item": "pillow", "count": 4 }
+      ]
+    },
+    "max_volume": 4000,
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE_ASH",
+      "PLACE_ITEM",
+      "ORGANIC",
+      "REDUCE_SCENT",
+      "EASY_DECONSTRUCT",
+      "BASHABLE",
+      "HIDE_PLACE",
+      "NO_SIGHT",
+      "BLOCK_WIND"
+    ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 15,
+      "sound": "crumple!",
+      "sound_fail": "thud.",
+      "items": [ { "item": "paper", "count": [ 50, 100 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cardboard_wall",
+    "name": "cardboard wall",
+    "symbol": "#",
+    "bgcolor": "brown",
+    "move_cost_mod": -1,
+    "coverage": 100,
+    "description": "This is a pile of cardboard boxes that have been filled with rags and junk and stacked together like bricks to form a wall.",
+    "required_str": -1,
+    "flags": [ "NOITEM", "BLOCKSDOOR", "FLAMMABLE_ASH", "ORGANIC", "EASY_DECONSTRUCT", "BLOCK_WIND" ],
+    "deconstruct": {
+      "items": [
+        { "item": "box_large", "count": 1 },
+        { "item": "box_medium", "count": 2 },
+        { "item": "box_small", "count": 4 },
+        { "item": "rag", "count": 50 },
+        { "item": "paper", "count": 50 },
+        { "item": "plastic_chunk", "count": 20 },
+        { "item": "plastic_sheet", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "crash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "box_large", "count": [ 0, 1 ] },
+        { "item": "box_medium", "count": [ 0, 2 ] },
+        { "item": "box_small", "count": [ 0, 4 ] },
+        { "item": "rag", "count": [ 20, 50 ] },
+        { "item": "paper", "count": [ 50, 150 ] },
+        { "item": "plastic_chunk", "count": [ 5, 20 ] },
+        { "item": "plastic_sheet", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cardboard_box",
+    "name": "large cardboard box",
+    "symbol": "X",
+    "description": "A large cardboard box: this could be used to store things, or as a hiding place.",
+    "color": "brown",
+    "move_cost_mod": 7,
+    "coverage": 90,
+    "comfort": 1,
+    "floor_bedding_warmth": 200,
+    "required_str": 3,
+    "deconstruct": { "items": [ { "item": "box_large", "count": 1 } ] },
+    "max_volume": 6000,
+    "deployed_item": "box_large",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "BASHABLE", "HIDE_PLACE", "NO_SIGHT" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 15,
+      "sound": "crumple!",
+      "sound_fail": "thud.",
+      "items": [ { "item": "paper", "count": [ 50, 100 ] } ]
     }
   },
   {

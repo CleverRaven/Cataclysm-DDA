@@ -2584,6 +2584,8 @@
       [ "razor_blade", 10 ],
       [ "survnote", 5 ],
       [ "eclipse_glasses", 1 ],
+      [ "plastic_sheet", 5 ],
+      [ "box_medium", 5 ],
       [ "thermos", 30 ]
     ]
   },
@@ -2600,7 +2602,8 @@
       [ "wrapper", 30 ],
       [ "flyer", 15 ],
       [ "scorecard", 10 ],
-      [ "eclipse_glasses", 1 ]
+      [ "eclipse_glasses", 1 ],
+      [ "plastic_sheet", 5 ]
     ]
   },
   {
@@ -8003,6 +8006,9 @@
       [ "can_drink_unsealed", 2 ],
       [ "can_food_unsealed", 1 ],
       [ "box_small", 2 ],
+      [ "box_medium", 1 ],
+      [ "box_large", 1 ],
+      [ "plastic_sheet", 1 ],
       [ "jug_plastic", 1 ],
       [ "jar_glass", 2 ],
       [ "jar_3l_glass", 1 ],
@@ -8971,6 +8977,9 @@
       { "item": "paper", "prob": 50, "charges-min": 1, "charges-max": 15 },
       [ "wrapper", 35 ],
       [ "phonebook", 55 ],
+      [ "box_small", 55 ],
+      [ "box_medium", 35 ],
+      [ "box_large", 15 ],
       [ "one_year_old_newspaper", 45 ],
       [ "months_old_newspaper", 50 ],
       [ "weeks_old_newspaper", 50 ],
