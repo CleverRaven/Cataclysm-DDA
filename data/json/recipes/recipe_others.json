@@ -76,6 +76,17 @@
   },
   {
     "type": "recipe",
+    "result": "wood_panel",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "time": 1000,
+    "autolearn": true,
+    "byproducts": [ [ "wood_panel", 1 ] ],
+    "qualities": [ { "id": "SAW_W", "level": 2 } ],
+    "components": [ [ [ "wood_sheet", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "wind_mill",
     "category": "CC_OTHER",
     "skill_used": "fabrication",
@@ -116,7 +127,8 @@
       { "id": "SAW_W", "level": 2 }
     ],
     "components": [
-      [ [ "2x4", 30 ], [ "frame_wood", 5 ] ],
+      [ [ "2x4", 15 ], [ "frame_wood", 3 ] ],
+      [ [ "wood_panel", 6 ], [ "wood_sheet", 3 ] ],
       [ [ "sheet_metal_small", 6 ] ],
       [ [ "nail", 100 ] ],
       [ [ "pipe", 8 ] ],
@@ -914,8 +926,8 @@
     "reversible": true,
     "decomp_learn": 1,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 6 ] ], [ [ "nail", 8 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 2 } ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ]
   },
   {
     "type": "recipe",
