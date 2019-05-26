@@ -8,6 +8,8 @@ SET(CMAKE_MODULE_PATH
     ${CMAKE_SOURCE_DIR}/CMakeModules
 )
 
+SET(CMAKE_TLS_VERIFY ON)
+
 # Build options
 option(TILES        "Build graphical tileset version."						"OFF")
 option(CURSES       "Build curses version."							"ON" )
