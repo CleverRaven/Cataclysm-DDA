@@ -369,13 +369,17 @@ void sounds::process_sound_markers( player *p )
         }
 
         // skip most movement sounds and our own sounds
-        if( pos != p->pos() && describe_sound( sound.category ) ) {
+        // unless our own sound is an alarm
+        if( ( pos != p->pos() && describe_sound( sound.category ) ) || ( pos == p->pos() &&
+                describe_sound( sound.category ) && sound.category == sound_t::alarm ) ) {
             game_message_type severity = m_info;
             if( sound.category == sound_t::combat || sound.category == sound_t::alarm ) {
                 severity = m_warning;
             }
             // if we can see it, don't print a direction
-            if( p->sees( pos ) ) {
+            if( pos == p->pos() ) {
+                add_msg( severity, _( "From yourself you hear %1$s" ), description );
+            } else if( p->sees( pos ) ) {
                 add_msg( severity, _( "You hear %1$s" ), description );
             } else {
                 std::string direction = direction_name( direction_from( p->pos(), pos ) );
