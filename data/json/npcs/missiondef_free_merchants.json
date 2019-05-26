@@ -152,7 +152,7 @@
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_4",
     "type": "mission_definition",
-    "name": "Find 25 Plutonium Cells",
+    "name": "Find 25 Plutonium Fuel Cells",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 400000,
@@ -161,10 +161,10 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "We need help...",
-      "offer": "We are starting to build new infrastructure here and would like to get a few new electrical systems online... unfortunately our existing system relies on an array of something called RTGs.  From what I understand they work like giant batteries of sorts.  We can expand our power system but to do so we would need enough plutonium.  With 25 plutonium cells we would be able to get an electrical expansion working for a year or two.  I know they are rare but running generators isn't a viable option in the basement.",
+      "offer": "We are starting to build new infrastructure here and would like to get a few new electrical systems online... unfortunately our existing system relies on an array of something called RTGs.  Running generators isn't a viable option underground, of course.  The military was using some kind of high density energy batteries for experimental weaponry before the cataclysm, and I'm told that we can use those for a temporary solution, and when we burn through the high density part our eggheads say they might be able to reuse the plutonium core to build more RTGs.  It's a big job.",
       "accepted": "If you can do this for us our survival options would vastly increase.",
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
-      "advice": "Can't help you much, I've never even seen a plutonium battery.",
+      "advice": "Can't help you much, I've never even seen one of these plutonium batteries... or whatever they are, I keep getting a lecture whenever I call them that.",
       "inquire": "How is the search going?",
       "success": "Great, I know it isn't much but we hope to continue to expand thanks to your help.",
       "success_lie": "What good does this do us?",
