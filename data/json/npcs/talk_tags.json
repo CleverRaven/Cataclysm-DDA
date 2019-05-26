@@ -1168,12 +1168,12 @@
   {
     "type": "snippet",
     "category": "<ally_rule_follow_distance_2_true_text>",
-    "text": "<mypronoun> will stick by your side."
+    "text": "Follow me at about four paces."
   },
   {
     "type": "snippet",
     "category": "<ally_rule_follow_distance_2_false_text>",
-    "text": "<mypronoun> will hang back a bit."
+    "text": "Follow me at about two paces."
   },
   {
     "type": "snippet",
