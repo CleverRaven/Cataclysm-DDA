@@ -387,7 +387,7 @@ class player : public Character
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
         bool mutate_towards( const trait_id &mut );
         /** Removes a mutation, downgrading to the previous level if possible */
-        void remove_mutation( const trait_id &mut );
+        void remove_mutation( const trait_id &mut, bool silent = false );
         /** Returns true if the player has the entered mutation child flag */
         bool has_child_flag( const trait_id &mut ) const;
         /** Removes the mutation's child flag from the player's list */

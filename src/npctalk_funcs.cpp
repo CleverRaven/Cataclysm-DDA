@@ -20,6 +20,7 @@
 #include "mission.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "npc.h"
 #include "npctrade.h"
 #include "output.h"
@@ -499,13 +500,48 @@ void talk_function::give_all_aid( npc &p )
     }
 }
 
-void talk_function::barber( npc &p )
+static void generic_barber( std::string mut_type )
 {
+    uilist hair_menu;
+    std::string menu_text = "";
+    if( mut_type == "hair_style" ) {
+        menu_text = _( "Choose a new hairstyle" );
+    } else if( mut_type == "facial_hair" ) {
+        menu_text = _( "Choose a new facial hair style" );
+    }
+    hair_menu.text = menu_text;
+    int index = 0;
+    hair_menu.addentry( index, true, 'q', _( "Actually... I've changed my mind." ) );
+    std::vector<trait_id> hair_muts = get_mutations_in_type( mut_type );
+    trait_id cur_hair;
+    for( auto elem : hair_muts ) {
+        if( g->u.has_trait( elem ) ) {
+            cur_hair = elem;
+        }
+        index += 1;
+        hair_menu.addentry( index, true, MENU_AUTOASSIGN, elem.obj().name() );
+    }
+    hair_menu.query();
+    int choice = hair_menu.ret;
+    if( choice != 0 ) {
+        if( g->u.has_trait( cur_hair ) ) {
+            g->u.remove_mutation( cur_hair, true );
+            g->u.set_mutation( hair_muts[ choice - 1 ] );
+            add_msg( m_info, _( "You get a trendy new cut!" ) );
+        }
+    }
+}
 
-    g->u.add_morale( MORALE_HAIRCUT, 5, 5, 720_minutes, 3_minutes );
-    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 300 );
-    g->u.activity.str_values.push_back( p.name );
-    add_msg( m_good, _( "%s gives you a decent haircut..." ), p.name );
+void talk_function::barber_beard( npc &p )
+{
+    ( void )p;
+    generic_barber( "facial_hair" );
+}
+
+void talk_function::barber_hair( npc &p )
+{
+    ( void )p;
+    generic_barber( "hair_style" );
 }
 
 void talk_function::buy_haircut( npc &p )
