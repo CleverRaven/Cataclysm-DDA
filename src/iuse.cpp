@@ -21,6 +21,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
 #include "explosion.h"
@@ -1768,6 +1769,20 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
     return 0;
 }
 
+static bool good_fishing_spot( tripoint pos )
+{
+    std::vector<monster *> fishables = g->get_fishable( 60, pos );
+    // isolated little body of water with no definite fish population
+    oter_id &cur_omt = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( pos ) ) );
+    std::string om_id = cur_omt.id().c_str();
+    if( fishables.empty() && !g->m.has_flag( "CURRENT", pos ) &&
+        om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_lake_shore() ) {
+        g->u.add_msg_if_player( m_info, _( "You doubt you will have much luck catching fish here" ) );
+        return false;
+    }
+    return true;
+}
+
 int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ) {
@@ -1780,12 +1795,13 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     const tripoint pnt = *pnt_;
-
     if( !g->m.has_flag( "FISHABLE", pnt ) ) {
         p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
         return 0;
     }
-
+    if( !good_fishing_spot( pnt ) ) {
+        return 0;
+    }
     p->add_msg_if_player( _( "You cast your line and wait to hook something..." ) );
     p->assign_activity( activity_id( "ACT_FISH" ), to_moves<int>( 5_hours ), 0,
                         p->get_item_position( it ), it->tname() );
@@ -1828,7 +1844,9 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
             return 0;
         }
-
+        if( !good_fishing_spot( pnt ) ) {
+            return 0;
+        }
         it->active = true;
         it->set_age( 0_turns );
         g->m.add_item_or_charges( pnt, *it );

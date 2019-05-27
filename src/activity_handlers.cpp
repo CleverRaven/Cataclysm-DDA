@@ -2591,37 +2591,42 @@ static void rod_fish( player *p, const tripoint &fish_point )
 void activity_handlers::fish_do_turn( player_activity *act, player *p )
 {
     item &it = p->i_at( act->position );
-    int fish_chance;
+    int fish_chance = 1;
     int survival_skill = p->get_skill_level( skill_survival );
     if( it.has_flag( "FISH_POOR" ) ) {
         survival_skill += dice( 1, 6 );
     } else if( it.has_flag( "FISH_GOOD" ) ) {
         // Much better chances with a good fishing implement.
-        survival_skill *= 1.5;
-        survival_skill += dice( 1, 6 ) + 3;
+        survival_skill += dice( 4, 9 );
+        survival_skill *= 2;
     }
     const tripoint fish_pos = act->placement;
     std::vector<monster *> fishables = g->get_fishable( 60, fish_pos );
     // Fish are always there, even if it dosnt seem like they are visible!
     if( fishables.empty() ) {
-        fish_chance = 1;
         fish_chance += survival_skill / 2;
     } else {
         // if they are visible however, it implies a larger population
-        fish_chance = static_cast<int>( fishables.size() );
+        for( auto elem : fishables ) {
+            fish_chance += elem->fish_population;
+        }
         fish_chance += survival_skill;
     }
+    // no matter the population of fish, your skill and tool limits the ease of catching.
+    fish_chance = std::min( survival_skill * 10, fish_chance );
     if( x_in_y( fish_chance, 100000 ) ) {
         add_msg( m_good, _( "You feel a tug on your line!" ) );
         rod_fish( p, fish_pos );
+    }
+    if( calendar::once_every( 60_minutes ) ) {
+        p->practice( skill_survival, rng( 1, 3 ) );
     }
 
 }
 
 void activity_handlers::fish_finish( player_activity *act, player *p )
 {
-
-    p->practice( skill_survival, rng( 5, 15 ) );
+    ( void )p;
     act->set_to_null();
     add_msg( m_info, _( "You finish fishing" ) );
 }
