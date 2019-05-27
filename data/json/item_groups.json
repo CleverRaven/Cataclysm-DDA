@@ -2538,6 +2538,7 @@
       [ "seed_wheat", 5 ],
       [ "seed_tomato", 5 ],
       [ "seed_weed", 5 ],
+      [ "seed_withered", 5 ],
       [ "seed_tobacco", 1 ],
       [ "joint_roach", 5 ],
       [ "pipe", 20 ],
@@ -5056,6 +5057,7 @@
       [ "seed_carrot", 1 ],
       [ "seed_pumpkin", 1 ],
       [ "seed_sunflower", 1 ],
+      [ "seed_withered", 1 ],
       [ "seed_corn", 1 ],
       [ "soybean_seed", 1 ],
       [ "raw_edamame", 1 ],
@@ -8288,6 +8290,7 @@
       [ "seed_zucchini", 60 ],
       [ "seed_cotton_boll", 10 ],
       [ "seed_tobacco", 10 ],
+      [ "seed_withered", 60 ],
       [ "seed_beans", 60 ],
       [ "seed_chili_pepper", 60 ],
       [ "seed_tomato", 60 ]

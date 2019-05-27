@@ -259,6 +259,39 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "seed_cattail",
+    "copy-from": "seed",
+    "name": "cattail seeds",
+    "name_plural": "cattail seeds",
+    "color": "green",
+    "description": "Some cattail seeds.  You could probably plant these.",
+    "charges": 2,
+    "seed_data": { "plant_name": "cattail", "fruit": "cattail_stalk", "byproducts": [ "cattail_rhizome" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_dahlia",
+    "copy-from": "seed",
+    "name": "dahlia seeds",
+    "name_plural": "dahlia seeds",
+    "color": "green",
+    "description": "Some dahlia seeds.  You could probably plant these.",
+    "charges": 2,
+    "seed_data": { "plant_name": "dahlia", "fruit": "dahlia_root", "byproducts": [ "withered" ], "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_withered",
+    "copy-from": "seed",
+    "name": "decorative plant seeds",
+    "name_plural": "decorative plant seeds",
+    "color": "green",
+    "description": "Some small decorative plant seeds, likely grass or flower.  You could probably plant these, but don't expect them to be useful for anything other than dry plant material.",
+    "charges": 2,
+    "seed_data": { "plant_name": "decorative plant", "fruit": "withered", "grow": "91 days" }
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "garlic_clove",
     "name": "garlic clove",
     "name_plural": "garlic cloves",
