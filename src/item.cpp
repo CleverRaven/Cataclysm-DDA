@@ -5486,7 +5486,7 @@ bool item::operator<( const item &other ) const
                           !other.contents.empty() ? &other.contents.front() : &other;
 
         if( me->typeId() == rhs->typeId() ) {
-            if( me->ammo_type() == ammotype( "money" ) ) {
+            if( me->ammo_current() == "money" ) {
                 return me->charges > rhs->charges;
             }
             return me->charges < rhs->charges;
