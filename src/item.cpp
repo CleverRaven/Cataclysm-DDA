@@ -3378,7 +3378,7 @@ std::string item::display_name( unsigned int quantity ) const
     }
 
     if( amount || show_amt ) {
-        if( ammo_type().str() == "money" ) {
+        if( ammo_current() == "money" ) {
             amt = string_format( " $%.2f", amount / 100.0 );
         } else {
             if( max_amount != 0 ) {
