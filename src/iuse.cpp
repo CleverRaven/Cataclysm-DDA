@@ -1904,7 +1904,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
                                                pos ); //get the fishables around the trap's spot
             for( int i = 0; i < fishes; i++ ) {
                 p->practice( skill_survival, rng( 3, 10 ) );
-                if( fishables.size() > 1 ) {
+                if( fishables.size() >= 1 ) {
                     monster *chosen_fish = random_entry( fishables );
                     // reduce the abstract fish_population marker of that fish
                     chosen_fish->fish_population -= 1;
