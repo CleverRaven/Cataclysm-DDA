@@ -181,7 +181,7 @@ See doc/MAPGEN.md for more details on JSON mapgen and `update_mapgen`.
 An NPC, monster, or computer placed using `update_mapgen` will be the target of a mission if it has the `target` boolean set to `true` in its `place` object in `update_mapgen`.
 
 ## Adding new missions to NPC dialogue
-In order to assign missions to NPCs, the first step is to find that NPC's definition.  For unique NPCs this is usually at the top of the npc's JSON file and looks something like this:
+In order to assign missions to NPCs, the first step is to find that NPC's definition.  For unique NPCs this is usually at the top of the npc's JSON file and looks something like this:\n
 `{
   "type": "npc",
   "id": "refugee_beggar2",
@@ -194,16 +194,18 @@ In order to assign missions to NPCs, the first step is to find that NPC's defini
   "mission": 7,
   "chat": "TALK_REFUGEE_BEGGAR_2",
   "faction": "lobby_beggars"
-},`
-Add a new line that defines the NPC's starting mission:
+},`\n
+Add a new line that defines the NPC's starting mission:\n
 `  "mission_offered": "MISSION_BEGGAR_2_BOX_SMALL"`
 
 Any NPC that has missions needs to have a dialogue option that leads to TALK_MISSION_LIST, to get the player 
 started on their first mission for the NPC, and either:
+
 * Add one of their talk_topic IDs to the list of generic mission reponse IDs in the first
 talk_topic of data/json/npcs/TALK_COMMON_MISSION.json, or
 * Have a similar talk_topic with responses that lead to TALK_MISSION_INQUIRE and
 TALK_MISSION_LIST_ASSIGNED.
+
 Either of these options will allow the player to do normal mission management dialogue with the NPC.
 
 This is an example of how a custom mission inquiry might appear.  This will only appear in the NPC's dialogue 
