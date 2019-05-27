@@ -1786,16 +1786,9 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    std::vector<monster *> fishables = g->get_fishable( 60, pnt );
-    if( fishables.empty() ) {
-        p->add_msg_if_player( m_info,
-                              _( "There are no fish around.  Try another spot." ) ); // maybe let the player find that out by himself?
-        return 0;
-    }
-
     p->add_msg_if_player( _( "You cast your line and wait to hook something..." ) );
-
-    p->assign_activity( activity_id( "ACT_FISH" ), 30000, 0, p->get_item_position( it ), it->tname() );
+    p->assign_activity( activity_id( "ACT_FISH" ), to_moves<int>( 5_hours ), 0,
+                        p->get_item_position( it ), it->tname() );
     p->activity.placement = pnt;
 
     return 0;
@@ -1836,12 +1829,6 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             return 0;
         }
 
-        std::vector<monster *> fishables = g->get_fishable( 60, pnt );
-        if( fishables.empty() ) {
-            p->add_msg_if_player( m_info,
-                                  _( "There is no fish around.  Try another spot." ) ); // maybe let the player find that out by himself?
-            return 0;
-        }
         it->active = true;
         it->set_age( 0_turns );
         g->m.add_item_or_charges( pnt, *it );
@@ -1900,7 +1887,16 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             for( int i = 0; i < fishes; i++ ) {
                 p->practice( skill_survival, rng( 3, 10 ) );
                 if( fishables.size() > 1 ) {
-                    g->catch_a_monster( fishables, pos, p, 300_hours ); //catch the fish!
+                    monster *chosen_fish = random_entry( fishables );
+                    chosen_fish->fish_population -= 1;
+                    if( chosen_fish->fish_population <= 0 ) {
+                        g->catch_a_monster( chosen_fish, pos, p, 300_hours ); //catch the fish!
+                    } else {
+                        // reduce the abstract fish_population marker of that fish
+                        g->m.add_item_or_charges( p->pos(), item::make_corpse( chosen_fish->type->id,
+                                                  calendar::turn + rng( 0_turns,
+                                                          3_hours ) ) );
+                    }
                 } else {
                     //there will always be a chance that the player will get lucky and catch a fish
                     //not existing in the fishables vector. (maybe it was in range, but wandered off)

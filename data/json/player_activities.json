@@ -166,7 +166,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "stop_phrase": "Stop fishing?",
     "rooted": true,
-    "based_on": "time"
+    "based_on": "speed",
+    "suspendable": false
   },
   {
     "id": "ACT_PICKAXE",
