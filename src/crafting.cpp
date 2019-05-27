@@ -2057,10 +2057,10 @@ void remove_ammo( item &dis_item, player &p )
         drop_or_handle( ammodrop, p );
         dis_item.charges = 0;
     }
-    if( dis_item.is_tool() && dis_item.charges > 0 && dis_item.ammo_type() ) {
-        item ammodrop( dis_item.ammo_type()->default_ammotype(), calendar::turn );
+    if( dis_item.is_tool() && dis_item.charges > 0 && dis_item.ammo_current() != "null" ) {
+        item ammodrop( dis_item.ammo_current(), calendar::turn );
         ammodrop.charges = dis_item.charges;
-        if( dis_item.ammo_type() == ammotype( "plutonium" ) ) {
+        if( dis_item.ammo_current() == "plutonium" ) {
             ammodrop.charges /= PLUTONIUM_CHARGES;
         }
         drop_or_handle( ammodrop, p );
