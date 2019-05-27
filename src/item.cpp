@@ -6787,7 +6787,7 @@ bool item::allow_crafting_component() const
     }
 
     // vehicle batteries are implemented as magazines of charge
-    if( is_magazine() && ammo_type() == ammotype( "battery" ) ) {
+    if( is_magazine() && ammo_types().count( ammotype( "battery" ) ) ) {
         return true;
     }
 
