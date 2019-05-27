@@ -2147,21 +2147,21 @@ item::sound_data item::gun_noise( const bool burst ) const
 
     noise = std::max( noise, 0 );
 
-    if( ammo_type() == ammotype( "40mm" ) ) {
+    if( ammo_current() == "40mm" ) {
         // Grenade launchers
         return { 8, _( "Thunk!" ) };
 
-    } else if( ammo_type() == ammotype( "12mm" ) || ammo_type() == ammotype( "metal_rail" ) ) {
+    } else if( ammo_current() == "12mm" || ammo_current() == "metal_rail" ) {
         // Railguns
         return { 24, _( "tz-CRACKck!" ) };
 
-    } else if( ammo_type() == ammotype( "flammable" ) || ammo_type() == ammotype( "66mm" ) ||
-               ammo_type() == ammotype( "84x246mm" ) || ammo_type() == ammotype( "m235" ) ) {
+    } else if( ammo_current() == "flammable" || ammo_current() == "66mm" ||
+               ammo_current() == "84x246mm" || ammo_current() == "m235" ) {
         // Rocket launchers and flamethrowers
         return { 4, _( "Fwoosh!" ) };
-    } else if( ammo_type() == ammotype( "arrow" ) ) {
+    } else if( ammo_current() == "arrow" ) {
         return { noise, _( "whizz!" ) };
-    } else if( ammo_type() == ammotype( "bolt" ) ) {
+    } else if( ammo_current() == "bolt" ) {
         return { noise, _( "thonk!" ) };
     }
 
