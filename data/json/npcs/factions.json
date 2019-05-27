@@ -10,6 +10,17 @@
     "power": 100,
     "food_supply": 0,
     "wealth": 0,
+    "relations": {
+      "your_followers": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      }
+    },
     "description": "The survivors who have entrusted you with their well-being.  If morale drops, poor performance and mutiny may become issues."
   },
   {
@@ -24,6 +35,18 @@
     "food_supply": 115200,
     "wealth": 100000000,
     "currency": "RobofacCoin",
+    "relations": {
+      "robofac": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "marloss": { "kill on sight": true }
+    },
     "description": "The surviving staff of Hub 01, a pre-cataclysm research lab.  They rarely leave their lab, if at all, and rely on their robots and advanced technology to survive."
   },
   {
@@ -37,6 +60,27 @@
     "power": 100,
     "food_supply": 201600,
     "wealth": 100000000,
+    "relations": {
+      "old_guard": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": false,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "hells_raiders": { "kill on sight": true }
+    },
     "description": "The remains of the federal government.  The extent of their strength is unknown but squads of patrolling soldiers have been seen under their banner."
   },
   {
@@ -51,6 +95,54 @@
     "food_supply": 115200,
     "wealth": 75000000,
     "currency": "FMCNote",
+    "relations": {
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "old_guard": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "tacoma_commune": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "lobby_beggars": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "wasteland_scavengers": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": false,
+        "guard your stuff": true,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "hells_raiders": { "kill on sight": true }
+    },
     "description": "A conglomeration of entrepreneurs and businessmen that stand together to hammer-out an existence through trade and industry."
   },
   {
@@ -64,6 +156,44 @@
     "power": 0,
     "food_supply": 1152,
     "wealth": 100,
+    "relations": {
+      "lobby_beggars": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "old_guard": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "wasteland_scavengers": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      }
+    },
     "description": "A collection of mentally and physically disadvantaged survivors who beg for food in the Evac Center lobby."
   },
   {
@@ -77,6 +207,17 @@
     "power": 100,
     "food_supply": 115200,
     "wealth": 10000000,
+    "relations": {
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      }
+    },
     "description": "An outpost started by the Free Merchants to provide a source of food and raw materials."
   },
   {
@@ -90,6 +231,17 @@
     "power": 100,
     "food_supply": 172800,
     "wealth": 250000,
+    "relations": {
+      "marloss": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      }
+    },
     "description": "Diverse bands, congregations and organizations with the common goal of preaching human survival through symbiosis with fungaloids."
   },
   {
@@ -103,6 +255,12 @@
     "power": 100,
     "food_supply": 172800,
     "wealth": 25000000,
+    "relations": {
+      "lobby_beggars": { "knows your voice": true },
+      "free_merchants": { "knows your voice": true },
+      "old_guard": { "knows your voice": true },
+      "wasteland_scavengers": { "share my stuff": true, "guard your stuff": true, "knows your voice": true }
+    },
     "description": "Autonomous bands or individuals who make their living raiding the ruins of the old-world for gear and provisions."
   },
   {
@@ -116,6 +274,20 @@
     "power": 100,
     "food_supply": 230400,
     "wealth": 45000000,
+    "relations": {
+      "hells_raiders": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "free_merchants": { "kill_on_sight": true },
+      "old_guard": { "kill_on_sight": true },
+      "your_followers": { "kill_on_sight": true }
+    },
     "description": "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat."
   },
   {
