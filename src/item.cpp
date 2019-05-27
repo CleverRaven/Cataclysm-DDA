@@ -5959,7 +5959,7 @@ bool item::magazine_integral() const
 
 itype_id item::magazine_default( bool conversion ) const
 {
-    auto mag = type->magazine_default.find( ammo_type( conversion ) );
+    auto mag = type->magazine_default.find( ammotype( *ammo_types( conversion ).begin() ) );
     return mag != type->magazine_default.end() ? mag->second : "null";
 }
 
