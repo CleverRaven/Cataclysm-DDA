@@ -1583,9 +1583,9 @@ class item : public visitable<item>
         const itype *ammo_data() const;
         /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */
         itype_id ammo_current() const;
-        /** Ammo type (@ref ammunition_type) used by item
+        /** Set of ammo types (@ref ammunition_type) used by item
          *  @param conversion whether to include the effect of any flags or mods which convert the type
-         *  @return NULL if item does not use a specific ammo type (and is consequently not reloadable) */
+         *  @return empty set if item does not use a specific ammo type (and is consequently not reloadable) */
         std::set<ammotype> ammo_types( bool conversion = true ) const;
 
         /** Get default ammo used by item or "NULL" if item does not have a default ammo type
