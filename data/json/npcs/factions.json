@@ -23,6 +23,7 @@
     "power": 100,
     "food_supply": 115200,
     "wealth": 100000000,
+    "currency": "RobofacCoin",
     "description": "The surviving staff of Hub 01, a pre-cataclysm research lab.  They rarely leave their lab, if at all, and rely on their robots and advanced technology to survive."
   },
   {
@@ -49,6 +50,7 @@
     "power": 100,
     "food_supply": 115200,
     "wealth": 75000000,
+    "currency": "FMCNote",
     "description": "A conglomeration of entrepreneurs and businessmen that stand together to hammer-out an existence through trade and industry."
   },
   {

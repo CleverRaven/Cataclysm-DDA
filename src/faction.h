@@ -51,6 +51,7 @@ class faction_template
         int power; // General measure of our power
         int food_supply;  //Total nutritional value held
         int wealth;  //Total trade currency
+        std::string currency; // itype_id of the faction currency
 };
 
 class faction : public faction_template
@@ -68,6 +69,7 @@ class faction : public faction_template
         nc_color food_supply_color();
 
         std::vector<int> opinion_of;
+        bool validated = false;
 };
 
 class faction_manager

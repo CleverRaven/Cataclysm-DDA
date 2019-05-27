@@ -46,6 +46,7 @@ faction_template::faction_template()
     wealth = 0;
     size = 0;
     power = 0;
+    currency = "null";
 }
 
 faction::faction( const faction_template &templ )
@@ -78,6 +79,11 @@ faction_template::faction_template( JsonObject &jsobj )
     , food_supply( jsobj.get_int( "food_supply" ) )
     , wealth( jsobj.get_int( "wealth" ) )
 {
+    if( jsobj.has_string( "currency" ) ) {
+        currency = jsobj.get_string( "currency" );
+    } else {
+        currency = "null";
+    }
 }
 
 std::string faction::describe() const
@@ -300,12 +306,22 @@ faction *faction_manager::get( const faction_id &id )
 {
     for( faction &elem : factions ) {
         if( elem.id == id ) {
+            if( !elem.validated ) {
+                for( const faction_template &fac_temp : npc_factions::all_templates ) {
+                    if( fac_temp.id == id ) {
+                        elem.currency = fac_temp.currency;
+                        break;
+                    }
+                }
+                elem.validated = true;
+            }
             return &elem;
         }
     }
     for( const faction_template &elem : npc_factions::all_templates ) {
         if( elem.id == id ) {
             factions.emplace_back( elem );
+            factions.back().validated = true;
             return &factions.back();
         }
     }
