@@ -67,7 +67,16 @@ then
         if [ "$CATA_CLANG_TIDY" = "plugin" ]
         then
             make -j$num_jobs CataAnalyzerPlugin
-            CATA_CLANG_TIDY=$PWD/tools/clang-tidy-plugin/clang-tidy-plugin-support/bin/clang-tidy
+            export PATH=$PWD/tools/clang-tidy-plugin/clang-tidy-plugin-support/bin:$PATH
+            if ! which FileCheck
+            then
+                ls -l tools/clang-tidy-plugin/clang-tidy-plugin-support/bin
+                ls -l /usr/bin
+                echo "Missing FileCheck"
+                exit 1
+            fi
+            CATA_CLANG_TIDY=clang-tidy
+            lit -v tools/clang-tidy-plugin/test
         fi
 
         "$CATA_CLANG_TIDY" --version
