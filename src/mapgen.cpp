@@ -7010,7 +7010,7 @@ std::vector<item *> map::place_items( const items_location &loc, int chance, int
                 e->contents.emplace_back( e->magazine_default(), e->birthday() );
             }
             if( rng( 0, 99 ) < ammo && e->ammo_remaining() == 0 ) {
-                e->ammo_set( e->ammo_type()->default_ammotype(), e->ammo_capacity() );
+                e->ammo_set( e->ammo_default(), e->ammo_capacity() );
             }
         }
     }
