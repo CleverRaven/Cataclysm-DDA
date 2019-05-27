@@ -5823,17 +5823,6 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
 
             return it->type->charges_to_use();
         }
-        case 3: { // program a new payload that will not be known to robots
-            //p->moves -= new_protocol_move_cost;
-            //it->set_var("iif_payload", it->get_var("iif_payload", 0) + 1);
-            //p->add_msg_if_player( _( "You finish preparing a new payload for hacking."));
-            return it->type->charges_to_use();
-            // need an action here
-            // decrease payload sending time to just booting up a laptop
-            // active hacking action will constantly roll for robots to detect hacking
-            // robots in range have a change to detect
-            // adaptive programming for robots will make it progressively harder rolls
-        }
         case 1: { //make all friendly robots stop their purposeless extermination of (un)life.
             p->moves -= 100;
             int f = 0; //flag to check if you have robotic allies

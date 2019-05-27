@@ -3459,7 +3459,7 @@ void activity_handlers::robot_control_do_turn( player_activity *act, player *p )
         act->position+=success; // cumulative successes
         return; // good so far, continue hacking
     } else { // critical failure! we were detected
-        sounds::sound( z->pos(), 20, sounds::sound_t::speech, _( "a loud robot voice say, \"Remote intrusion detected! Notifying network. Shutting down transmitter.\"" ));
+        sounds::sound( z->pos(), 20, sounds::sound_t::speech, _( "a loud robotic voice say, \"Remote intrusion detected! Notifying network. Shutting down transmitter.\"" ));
         for( monster &candidate : g->all_monsters() ) {
             if( !candidate.is_dead() && candidate.type->in_species( ROBOT ) && candidate.friendly == 0 && rl_dist( z->pos(), candidate.pos() ) <= 10 ) {
                 candidate.add_effect( effect_not_receiving, 1_turns, num_bp, true );
