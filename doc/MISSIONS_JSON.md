@@ -197,7 +197,10 @@ In order to assign missions to NPCs, the first step is to find that NPC's defini
   "faction": "lobby_beggars"
 },
 ```
-Add a new line that defines the NPC's starting mission, eg: `"mission_offered": "MISSION_BEGGAR_2_BOX_SMALL"`
+Add a new line that defines the NPC's starting mission, eg: 
+```
+"mission_offered": "MISSION_BEGGAR_2_BOX_SMALL"
+```
 
 Any NPC that has missions needs to have a dialogue option that leads to TALK_MISSION_LIST, to get the player 
 started on their first mission for the NPC, and either:
