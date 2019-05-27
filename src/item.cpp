@@ -3499,8 +3499,9 @@ units::mass item::weight( bool include_contents, bool integral ) const
         }
 
     } else if( magazine_integral() && !is_magazine() ) {
-        if( ammo_type() == ammotype( "plutonium" ) ) {
-            ret += ammo_remaining() * find_type( ammo_type()->default_ammotype() )->weight / PLUTONIUM_CHARGES;
+        if( ammo_current() == "plutonium" ) {
+            ret += ammo_remaining() * find_type( ammotype(
+                    *ammo_types().begin() )->default_ammotype() )->weight / PLUTONIUM_CHARGES;
         } else if( ammo_data() ) {
             ret += ammo_remaining() * ammo_data()->weight;
         }
