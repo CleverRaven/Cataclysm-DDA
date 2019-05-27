@@ -71,8 +71,9 @@ the player's current kill count that must be killed to complete the mission.
 ### dialogue
 This is a dictionary of strings.  The NPC says these exact strings in response to the player
 inquiring about the mission or reporting its completion.  All these strings are required, even if they may not be used in the mission.
+
      string ID       |                                  Usage
--------------------- | --------------------------------------------------------------------------
+---                  | ---
 `describe`           | The NPC's overall description of the mission.
 `offer`              | The specifics of the mission given when the player selects that mission for consideration.
 `accepted`           | The NPC's response if the player accepts the mission
@@ -111,8 +112,8 @@ necessary) a particular overmap terrain and designating it as the mission target
 allow control over how it is picked and how some effects (such as revealing the surrounding area)
 are applied afterwards. The `om_terrain` is the only required field.
 
-     Identifier      |                                  Description
--------------------- | --------------------------------------------------------------------------
+ Identifier          | Description
+---                  | ---
 `om_terrain`         | ID of overmap terrain which will be selected as the target. Mandatory.
 `om_special`         | ID of overmap special containing the overmap terrain.
 `om_terrain_replace` | ID of overmap terrain to be found and replaced if `om_terrain` cannot be found.
