@@ -5866,7 +5866,7 @@ itype_id item::ammo_current() const
     return ammo ? ammo->get_id() : "null";
 }
 
-std::set<ammotype> item::ammo_type( bool conversion ) const
+std::set<ammotype> item::ammo_types( bool conversion ) const
 {
     if( conversion ) {
         auto mods = is_gun() ? gunmods() : toolmods();
