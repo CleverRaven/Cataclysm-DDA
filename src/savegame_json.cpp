@@ -37,6 +37,7 @@
 #include "item.h"
 #include "item_factory.h"
 #include "json.h"
+#include "magic.h"
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
@@ -534,21 +535,6 @@ void Character::store( JsonOut &json ) const
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// player.h, avatar + npc
 
-/*
- * Prepare a json object for player, including player specific data, and data common to
- * players and npcs.
- * TODO: Make player abstract and delete this
- */
-void player::serialize( JsonOut &json ) const
-{
-    json.start_object();
-    // This must be after the json object has been started, so any super class
-    // puts their data into the same json object.
-    store( json );
-
-    json.end_object();
-}
-
 /**
  * Gather variables for saving. These variables are common to both the avatar and npcs.
  */
@@ -655,17 +641,6 @@ void player::store( JsonOut &json ) const
         }
         json.end_array();
     }
-}
-
-/*
- * Load player (soon to be renamed to survivor) from ginormous json blob.
- * Used for avatars and npcs.
- * TODO: Make player abstract and delete this
- */
-void player::deserialize( JsonIn &jsin )
-{
-    JsonObject data = jsin.get_object();
-    load( data );
 }
 
 /**
@@ -838,6 +813,7 @@ void avatar::store( JsonOut &json ) const
 
     json.member( "stamina", stamina );
     json.member( "move_mode", move_mode );
+    json.member( "magic", magic );
 
     // crafting etc
     json.member( "activity", activity );
@@ -932,6 +908,7 @@ void avatar::load( JsonObject &data )
     data.read( "keep_hands_free", keep_hands_free );
 
     data.read( "stamina", stamina );
+    data.read( "magic", magic );
     data.read( "move_mode", move_mode );
 
     set_highest_cat_level();

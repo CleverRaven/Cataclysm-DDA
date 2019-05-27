@@ -8294,6 +8294,10 @@ void square( map *m, ter_id( *f )(), int x1, int y1, int x2, int y2 )
 {
     m->draw_square_ter( f, x1, y1, x2, y2 );
 }
+void square( map *m, const weighted_int_list<ter_id> &f, int x1, int y1, int x2, int y2 )
+{
+    m->draw_square_ter( f, x1, y1, x2, y2 );
+}
 void rough_circle( map *m, ter_id type, int x, int y, int rad )
 {
     m->draw_rough_circle_ter( type, x, y, rad );

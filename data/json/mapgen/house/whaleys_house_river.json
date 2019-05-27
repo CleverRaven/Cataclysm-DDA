@@ -1,6 +1,5 @@
 [
   {
-    "//": "Place this file in /data/json/mapgen/house/",
     "method": "json",
     "object": {
       "place_item": [
