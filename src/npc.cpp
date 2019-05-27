@@ -565,7 +565,7 @@ void starting_inv( npc &who, const npc_class_id &type )
     res.emplace_back( "lighter" );
     // If wielding a gun, get some additional ammo for it
     if( who.weapon.is_gun() ) {
-        item ammo( who.weapon.ammo_type()->default_ammotype() );
+        item ammo( who.weapon.ammo_default() );
         ammo = ammo.in_its_container();
         if( ammo.made_of( LIQUID ) ) {
             item container( "bottle_plastic" );
