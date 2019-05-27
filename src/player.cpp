@@ -10848,6 +10848,14 @@ void player::cancel_activity()
     }
     sfx::end_activity_sounds(); // kill activity sounds when canceled
     activity = player_activity();
+    
+    // TODO: gate with some logic
+    auto ebooks = items_with( []( const item &it ) {
+        return it.has_flag( "EBOOK" );
+    } );
+    for( auto &e : ebooks ) {
+        remove_item(*e);
+    }
 }
 
 void player::resume_backlog_activity()

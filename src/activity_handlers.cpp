@@ -2643,7 +2643,13 @@ void activity_handlers::read_finish( player_activity *act, player *p )
     } else {
         act->set_to_null();
     }
-    if( !act ) {
+    if( act->is_null() ) {
+        auto ebooks = p->items_with( []( const item &it ) {
+            return it.has_flag( "EBOOK" );
+        } );
+        for( auto &e : ebooks ) {
+            p->remove_item(*e);
+        }
         p->add_msg_if_player( m_info, _( "You finish reading." ) );
     }
 }

@@ -995,6 +995,22 @@ item_location game_menus::inv::read( player &p )
                          _( "You have nothing to read." ) );
 }
 
+class eread_inventory_preset: public read_inventory_preset
+{
+    public:
+        eread_inventory_preset( const player &p ) : read_inventory_preset( p ) {}
+        bool is_shown( const item_location &loc ) const override {
+            return loc->is_book() && loc->has_flag( "NO_DROP" );
+        }
+};
+
+item_location game_menus::inv::eread( player &p )
+{
+    return inv_internal( p, eread_inventory_preset( p ),
+                         _( "Read E-Book" ), 1,
+                         _( "Your tablet has nothing to read." ) );
+}
+
 class steal_inventory_preset : public pickup_inventory_preset
 {
     public:

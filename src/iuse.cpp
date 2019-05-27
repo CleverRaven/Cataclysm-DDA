@@ -6001,6 +6001,42 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
         }
     }
 
+    const auto scanned_book = mc.get_var( "MC_BOOK" );
+    if( !scanned_book.empty() ) {
+        mc.erase_var( "MC_BOOK" );
+        
+        item book( scanned_book, calendar::turn );
+
+        const auto old_books = eink.get_var( "EIPC_BOOKS" );
+        if( old_books.find( scanned_book ) == std::string::npos ) {
+            something_downloaded = true;
+            eink.set_var( "EIPC_BOOKS", old_books + scanned_book + "," );
+
+            p.add_msg_if_player( m_good, _( "You download %s into the tablet's memory." ),
+                                 book.tname() );
+
+            // recipe searches for ',recipeident,' - for some, probably superfluous, reason
+            if( !eink.has_var( "EIPC_RECIPES" ) ) {
+                eink.set_var( "EIPC_RECIPES", "," );
+            }
+
+            int rcount = 0;
+            for( const auto &r : book.type->book->recipes ) {
+                auto old_recipes = eink.get_var( "EIPC_RECIPES" );
+                if( old_recipes.find( r.recipe->ident().str() + "," ) == std::string::npos ) {
+                    eink.set_var( "EIPC_RECIPES", old_recipes + r.recipe->ident().str() + "," );
+                    rcount++;
+                }
+            }
+            if( rcount > 0 ) {
+                p.add_msg_if_player( m_good, _( "You also bookmark %d new recipes in tablet's library." ), rcount );
+            }
+        } else {
+            p.add_msg_if_player( m_good, _( "Your tablet already has %s." ),
+                                 book.tname() );
+        }
+    }
+
     const auto monster_photos = mc.get_var( "MC_MONSTER_PHOTOS" );
     if( !monster_photos.empty() ) {
         something_downloaded = true;
@@ -6092,7 +6128,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
     } else if( !p->is_npc() ) {
 
         enum {
-            ei_invalid, ei_photo, ei_music, ei_recipe, ei_monsters, ei_download, ei_decrypt
+            ei_invalid, ei_photo, ei_music, ei_recipe, ei_read, ei_monsters, ei_download, ei_decrypt
         };
 
         if( p->is_underwater() ) {
@@ -6133,6 +6169,12 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
         if( !it->get_var( "EIPC_RECIPES" ).empty() ) {
             amenu.addentry( ei_recipe, true, 'r', _( "View recipes on E-ink screen" ) );
+        }
+
+        if( !it->get_var( "EIPC_BOOKS" ).empty() ) {
+            amenu.addentry( ei_read, true, 'R', _( "Read e-books on E-ink screen" ) );
+        } else {
+            amenu.addentry( ei_read, false, 'R', _( "No e-books stored on device" ) );
         }
 
         if( !it->get_var( "EINK_MONSTER_PHOTOS" ).empty() ) {
@@ -6254,6 +6296,46 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             return it->type->charges_to_use();
         }
 
+        if( ei_read == choice ) {
+            p->moves -= 50;
+
+            std::istringstream f( it->get_var( "EIPC_BOOKS" ) );
+            std::string s;
+            while( getline( f, s, ',' ) ) {
+
+                if( s.empty() ) {
+                    continue;
+                }
+
+                item book( item( s, calendar::turn ) );
+                book.set_var( "weight", 0 );
+                book.set_var( "volume", 0 );
+                book.item_tags.insert( "NO_DROP" );
+                book.item_tags.insert( "IRREMOVABLE" );
+                book.item_tags.insert( "EBOOK" );
+                p->inv.add_item( book );
+            }
+            
+            avatar &u = g->u;
+            auto loc = game_menus::inv::eread( u );
+            
+            if( loc ) {
+                int pos = loc.obtain( u );
+                u.read( pos );
+            } else {
+                // cleanup ebooks
+                auto ebooks = p->items_with( []( const item &it ) {
+                    return it.has_flag( "EBOOK" );
+                } );
+                for( auto &e : ebooks ) {
+                    p->remove_item(*e);
+                }
+                add_msg( _( "Never mind." ) );
+            }
+
+            return it->type->charges_to_use();
+        }
+        
         if( ei_monsters == choice ) {
 
             uilist pmenu;
@@ -6402,7 +6484,7 @@ struct npc_photo_def : public JsonDeserializer, public JsonSerializer {
 
 int iuse::camera( player *p, item *it, bool, const tripoint & )
 {
-    enum {c_shot, c_photos, c_upload};
+    enum {c_shot, c_photos, c_upload, c_scan};
 
     uilist amenu;
 
@@ -6415,6 +6497,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
     } else {
         amenu.addentry( c_photos, false, 'l', _( "No photos in memory" ) );
     }
+    amenu.addentry( c_scan, true, 's', _( "Photoscan a book" ) );
 
     amenu.query();
     const int choice = amenu.ret;
@@ -6747,6 +6830,68 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
 
         mc.set_var( "MC_MONSTER_PHOTOS", it->get_var( "CAMERA_MONSTER_PHOTOS" ) );
         p->add_msg_if_player( m_info, _( "You upload monster photos to memory card." ) );
+
+        return it->type->charges_to_use();
+    }
+
+    if( c_scan == choice ) {
+        if( p->is_blind() ) {
+            p->add_msg_if_player( m_bad, _( "You can't see." ) );
+            return 0;
+        }
+        
+        // quick, eh? should be made an activity
+        p->moves -= 200;
+        
+        int index = g->inv_for_filter( _( "Scan which book?" ), []( const item & itm ) {
+            return itm.is_book();
+        } );
+        item &book = p->i_at( index );
+        
+        if( book.is_null() ) {
+            p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
+    return it->type->charges_to_use();
+}
+
+        index = g->inv_for_flag( "MC_MOBILE", _( "Insert memory card" ) );
+        item &mc = p->i_at( index );
+
+        if( mc.is_null() ) {
+            p->add_msg_if_player( m_info, _( "You need a memory card to store scanned book." ) );
+            return it->type->charges_to_use();
+        }
+        if( !mc.has_flag( "MC_MOBILE" ) ) {
+            p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
+            return it->type->charges_to_use();
+        }
+
+        init_memory_card_with_random_stuff( mc );
+
+        if( mc.has_flag( "MC_ENCRYPTED" ) ) {
+            if( !query_yn( _( "This memory card is encrypted.  Format and clear data?" ) ) ) {
+                return it->type->charges_to_use();
+            }
+        }
+        if( mc.has_flag( "MC_HAS_DATA" ) ) {
+            if( !query_yn( _( "Are you sure you want to clear the old data on the card?" ) ) ) {
+                return it->type->charges_to_use();
+            }
+        }
+
+        mc.convert( "mobile_memory_card" );
+        mc.clear_vars();
+        mc.unset_flags();
+        mc.item_tags.insert( "MC_HAS_DATA" );
+        mc.set_var( "MC_BOOK", book.typeId() );
+        
+        // item copy( item( book.type, calendar::turn ) );
+        // copy.set_var( "weight", 0 );
+        // copy.item_tags.insert( "NO_DROP" );
+        // copy.item_tags.insert( "IRREMOVABLE" );
+        // mc.contents.erase();
+        // mc.put_in( copy );
+
+        p->add_msg_if_player( m_info, _( "You scan %s and store it on memory card" ), book.tname() );
 
         return it->type->charges_to_use();
     }
