@@ -94,7 +94,7 @@ class selection_column_preset: public inventory_selector_preset
             } else if( available_count != 1 ) {
                 res << available_count << ' ';
             }
-            if( entry.location->ammo_type() == "money" ) {
+            if( entry.location->ammo_types().count( ammotype( "money" ) ) ) {
                 if( entry.chosen_count > 0 && entry.chosen_count < available_count ) {
                     //~ In the following string, the %s is the amount of money on the selected cards as passed by the display money function, out of the total amount of money on the cards, which is specified by the format_money function")
                     res << string_format( _( "%s of %s" ), entry.location->display_money( entry.chosen_count,
@@ -232,7 +232,7 @@ std::string inventory_selector_preset::get_caption( const inventory_entry &entry
 {
     const size_t count = entry.get_stack_size();
     const std::string disp_name =
-        ( entry.location->ammo_type() == "money" ) ?
+        ( entry.location->ammo_types().count( ammotype( "money" ) ) ) ?
         entry.location->display_money( count,
                                        entry.location.charges_in_stack( count ) ) : entry.location->display_name( count );
 
@@ -1095,7 +1095,7 @@ void inventory_selector::add_character_items( Character &character )
     } );
     // Visitable interface does not support stacks so it has to be here
     for( const auto &elem : character.inv.slice() ) {
-        if( ( &elem->front() )->ammo_type() == "money" ) {
+        if( ( &elem->front() )->ammo_types().count( ammotype( "money" ) ) ) {
             add_item( own_inv_column, item_location( character, elem ), elem->size() );
         } else {
             add_items( own_inv_column, [&character]( item * it ) {
