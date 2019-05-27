@@ -720,7 +720,7 @@ void emp_blast( const tripoint &p )
     }
     // Drain any items of their battery charge
     for( auto &it : g->m.i_at( x, y ) ) {
-        if( it.is_tool() && it.ammo_type() == ammotype( "battery" ) ) {
+        if( it.is_tool() && it.ammo_current() == "battery" ) {
             it.charges = 0;
         }
     }
