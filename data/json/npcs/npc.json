@@ -71,74 +71,6 @@
   },
   {
     "type": "npc",
-    "id": "evac_merchant",
-    "//": "Appears in the refugee center as shopkeeper with missions.  Faction critical.",
-    "name_suffix": "Merchant",
-    "class": "NC_EVAC_SHOPKEEP",
-    "attitude": 0,
-    "mission": 3,
-    "chat": "TALK_EVAC_MERCHANT",
-    "mission_offered": "MISSION_FREE_MERCHANTS_EVAC_1",
-    "faction": "free_merchants"
-  },
-  {
-    "type": "npc",
-    "id": "evac_broker",
-    "//": "Appears in the refugee center as a bulk trader.  Promotes production of nonperishable food.",
-    "name_suffix": "Broker",
-    "class": "NC_BOUNTY_HUNTER",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_FREE_MERCHANT_STOCKS",
-    "faction": "free_merchants"
-  },
-  {
-    "type": "npc",
-    "id": "evac_guard1",
-    "//": "Appears in the refugee center as a guard with custom dialogue.",
-    "name_suffix": "Guard",
-    "class": "NC_BOUNTY_HUNTER",
-    "attitude": 0,
-    "mission": 8,
-    "chat": "TALK_EVAC_GUARD1",
-    "mission_offered": "MISSION_EVAC_SMOKER_GET_CIGARETTES",
-    "faction": "free_merchants"
-  },
-  {
-    "type": "npc",
-    "id": "evac_guard2",
-    "//": "Appears in the refugee center as a guard with custom dialogue.",
-    "name_suffix": "Guard",
-    "class": "NC_BOUNTY_HUNTER",
-    "attitude": 0,
-    "mission": 8,
-    "chat": "TALK_EVAC_GUARD2",
-    "faction": "free_merchants"
-  },
-  {
-    "type": "npc",
-    "id": "evac_guard3",
-    "//": "Appears in the refugee center as a guard with custom dialogue.",
-    "name_suffix": "Guard",
-    "class": "NC_BOUNTY_HUNTER",
-    "attitude": 0,
-    "mission": 8,
-    "chat": "TALK_EVAC_GUARD3",
-    "faction": "free_merchants"
-  },
-  {
-    "type": "npc",
-    "id": "guard",
-    "//": "A generic guard for the Free Merchants faction.",
-    "name_suffix": "Guard",
-    "class": "NC_BOUNTY_HUNTER",
-    "attitude": 0,
-    "mission": 8,
-    "chat": "TALK_GUARD",
-    "faction": "free_merchants"
-  },
-  {
-    "type": "npc",
     "id": "hostile_guard",
     "//": "A generic hostile guard for the Free Merchants faction.  For where the player shouldn't venture.'",
     "name_suffix": "Guard",
@@ -328,17 +260,6 @@
     "mission": 8,
     "chat": "TALK_GUARD",
     "faction": "tacoma_commune"
-  },
-  {
-    "type": "npc",
-    "id": "scavenger_hunter",
-    "//": "Appears in the refugee center as a trader.",
-    "name_suffix": "Hunter",
-    "class": "NC_HUNTER",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_EVAC_HUNTER",
-    "faction": "wasteland_scavengers"
   },
   {
     "type": "npc",

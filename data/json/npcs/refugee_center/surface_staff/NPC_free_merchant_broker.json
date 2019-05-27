@@ -1,5 +1,37 @@
 [
   {
+    "type": "npc",
+    "id": "evac_broker",
+    "//": "Appears in the refugee center as a bulk trader.  Promotes production of nonperishable food.",
+    "name_suffix": "Broker",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_FREE_MERCHANT_STOCKS",
+    "faction": "free_merchants"
+  },
+  {
+    "id": "TALK_FREE_MERCHANT_STOCKS",
+    "type": "talk_topic",
+    "dynamic_line": "Hope you're here to trade.",
+    "repeat_responses": {
+      "for_item": [
+        "jerky",
+        "meat_smoked",
+        "fish_smoked",
+        "cooking_oil",
+        "cooking_oil2",
+        "cornmeal",
+        "flour",
+        "fruit_wine",
+        "beer",
+        "sugar"
+      ],
+      "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
+    },
+    "responses": [ { "text": "Who are you?", "topic": "TALK_FREE_MERCHANT_STOCKS_NEW" }, { "text": "Well, bye.", "topic": "TALK_DONE" } ]
+  },
+  {
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_STOCKS_NEW",
     "dynamic_line": {
@@ -22,26 +54,5 @@
     "id": "TALK_FREE_MERCHANT_STOCKS_ALL",
     "dynamic_line": "I'm actually accepting a number of different foodstuffs: beer, sugar, flour, smoked meat, smoked fish, cooking oil; and as mentioned before, jerky, cornmeal, and fruit wine.",
     "responses": [ { "text": "Interesting...", "topic": "TALK_FREE_MERCHANT_STOCKS" } ]
-  },
-  {
-    "id": "TALK_FREE_MERCHANT_STOCKS",
-    "type": "talk_topic",
-    "dynamic_line": "Hope you're here to trade.",
-    "repeat_responses": {
-      "for_item": [
-        "jerky",
-        "meat_smoked",
-        "fish_smoked",
-        "cooking_oil",
-        "cooking_oil2",
-        "cornmeal",
-        "flour",
-        "fruit_wine",
-        "beer",
-        "sugar"
-      ],
-      "response": { "text": "Delivering <topic_item>.", "topic": "TALK_DELIVER_ASK" }
-    },
-    "responses": [ { "text": "Who are you?", "topic": "TALK_FREE_MERCHANT_STOCKS_NEW" }, { "text": "Well, bye.", "topic": "TALK_DONE" } ]
   }
 ]

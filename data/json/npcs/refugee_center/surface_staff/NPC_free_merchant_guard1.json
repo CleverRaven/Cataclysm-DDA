@@ -1,5 +1,17 @@
 [
   {
+    "type": "npc",
+    "id": "evac_guard1",
+    "//": "Appears in the refugee center as a guard with custom dialogue.",
+    "name_suffix": "Guard",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_EVAC_GUARD1",
+    "mission_offered": "MISSION_EVAC_SMOKER_GET_CIGARETTES",
+    "faction": "free_merchants"
+  },
+  {
     "type": "talk_topic",
     "id": "TALK_EVAC_GUARD1",
     "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "Hello marshal.", "no": "Hello there." },

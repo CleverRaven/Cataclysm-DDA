@@ -1,5 +1,16 @@
 [
   {
+    "type": "npc",
+    "id": "evac_guard3",
+    "//": "Appears in the refugee center as a guard with custom dialogue.",
+    "name_suffix": "Guard",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_EVAC_GUARD3",
+    "faction": "free_merchants"
+  },
+  {
     "id": "TALK_EVAC_GUARD3",
     "type": "talk_topic",
     "dynamic_line": "Keep to yourself and you won't find any problems.",
