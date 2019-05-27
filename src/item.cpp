@@ -5248,7 +5248,7 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
                 }
             } else {
                 auto at = find_type( ammo );
-                if( ( !at->ammo || !at->ammo->type.count( ammo_type() ) ) &&
+                if( ( !at->ammo || !ammo_types().count( at->ammo->type ) ) &&
                     !magazine_compatible().count( ammo ) ) {
                     return false;
                 }
