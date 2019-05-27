@@ -7839,6 +7839,27 @@
   },
   {
     "type": "terrain",
+    "id": "t_card_fp",
+    "looks_like": "t_card_science",
+    "name": "card reader",
+    "description": "This looks like a smartcard reader.  You can see \"Fp\" soberly printed on the reader.  The reading surface is pretty big, you have no idea what could open it.",
+    "//": "FoodPace",
+    "symbol": "q",
+    "color": "pink",
+    "move_cost": 0,
+    "flags": [ "NOITEM", "CONNECT_TO_WALL" ],
+    "examine_action": "cardreader_fp",
+    "bash": {
+      "str_min": 18,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_card_reader_broken",
+      "items": [ { "item": "plastic_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "prob": 50 } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_card_reader_broken",
     "name": "broken card reader",
     "description": "This is a smartcard reader, but it doesn't seem to be functioning.  Probably because there's no more blinking red LED.",
