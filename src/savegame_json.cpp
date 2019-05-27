@@ -2624,10 +2624,6 @@ void faction::deserialize( JsonIn &jsin )
     JsonObject jo = jsin.get_object();
 
     jo.read( "id", id );
-    jo.read( "name", name );
-    if( !jo.read( "desc", desc ) ) {
-        desc.clear();
-    }
     jo.read( "likes_u", likes_u );
     jo.read( "respects_u", respects_u );
     jo.read( "known_by_u", known_by_u );
@@ -2649,8 +2645,6 @@ void faction::serialize( JsonOut &json ) const
     json.start_object();
 
     json.member( "id", id );
-    json.member( "name", name );
-    json.member( "desc", desc );
     json.member( "likes_u", likes_u );
     json.member( "respects_u", respects_u );
     json.member( "known_by_u", known_by_u );

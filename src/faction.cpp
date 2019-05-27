@@ -310,6 +310,8 @@ faction *faction_manager::get( const faction_id &id )
                 for( const faction_template &fac_temp : npc_factions::all_templates ) {
                     if( fac_temp.id == id ) {
                         elem.currency = fac_temp.currency;
+                        elem.name = fac_temp.name;
+                        elem.desc = fac_temp.desc;
                         break;
                     }
                 }
