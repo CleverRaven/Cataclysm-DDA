@@ -3858,10 +3858,20 @@ int item::get_quality( const quality_id &id ) const
                                          ( is_tool() && std::all_of( contents.begin(), contents.end(),
     [this]( const item & itm ) {
     if( itm.is_ammo() ) {
-            auto &ammo_types = itm.type->ammo->type;
-            return ammo_types.find( ammo_type() ) != ammo_types.end();
+            if( ammo_types().count( itm.type->ammo->type ) ) {
+                return true;
+            } else {
+                return false;
+            }
         } else if( itm.is_magazine() ) {
-            return itm.ammo_type() == ammo_type();
+            for( const ammotype &at : ammo_types() ) {
+                for( const ammotype &mag_at : itm.ammo_types() ) {
+                    if( at == mag_at ) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         } else if( itm.is_toolmod() ) {
             return true;
         }
