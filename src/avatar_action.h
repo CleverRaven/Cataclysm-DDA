@@ -43,7 +43,7 @@ bool fire_check( avatar &you, const map &m, const targeting_data &args );
  * Handles interactive parts of gun firing (target selection, etc.).
  * @return Whether an attack was actually performed.
  */
-bool fire( avatar &you, const map &m );
+bool fire( avatar &you, map &m );
 /**
  * Handles interactive parts of gun firing (target selection, etc.).
  * This version stores targeting parameters for weapon, used for calls to the nullary form.
@@ -51,7 +51,7 @@ bool fire( avatar &you, const map &m );
  * @param bp_cost The amount by which the player's power reserve is decreased after firing.
  * @return Whether an attack was actually performed.
  */
-bool fire( item &weapon, int bp_cost = 0 );
+bool fire( avatar &you, map &m, item &weapon, int bp_cost = 0 );
 }
 
 
