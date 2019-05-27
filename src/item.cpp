@@ -5969,13 +5969,21 @@ std::set<itype_id> item::magazine_compatible( bool conversion ) const
     auto mods = is_gun() ? gunmods() : toolmods();
     for( const auto m : mods ) {
         if( !m->type->mod->magazine_adaptor.empty() ) {
-            auto mags = m->type->mod->magazine_adaptor.find( ammo_type( conversion ) );
-            return mags != m->type->mod->magazine_adaptor.end() ? mags->second : std::set<itype_id>();
+            for( const ammotype &at : ammo_types( conversion ) ) {
+                if( m->type->mod->magazine_adaptor.count( at ) ) {
+                    return m->type->mod->magazine_adaptor.find( at )->second;
+                }
+            }
+            return std::set<itype_id>();
         }
     }
 
-    auto mags = type->magazines.find( ammo_type( conversion ) );
-    return mags != type->magazines.end() ? mags->second : std::set<itype_id>();
+    for( const ammotype &at : ammo_types( conversion ) ) {
+        if( type->magazines.count( at ) ) {
+            return type->magazines.find( at )->second;
+        }
+    }
+    return std::set<itype_id>();
 }
 
 item *item::magazine_current()
