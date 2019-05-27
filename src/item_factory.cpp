@@ -933,12 +933,10 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->ammo ) {
-            if( type->ammo->type.empty() ) {
+            if( type->ammo->type ) {
                 msg << "must define at least one ammo type" << "\n";
             }
-            for( const auto &e : type->ammo->type ) {
-                check_ammo_type( msg, e );
-            }
+            check_ammo_type( msg, type->ammo->type );
             if( type->ammo->casing && ( !has_template( *type->ammo->casing ) ||
                                         *type->ammo->casing == "null" ) ) {
                 msg << string_format( "invalid casing property %s", type->ammo->casing->c_str() ) << "\n";
@@ -948,9 +946,10 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->gun ) {
-            check_ammo_type( msg, type->gun->ammo );
-
-            if( !type->gun->ammo ) {
+            for( const ammotype &at : type->gun->ammo ) {
+                check_ammo_type( msg, at );
+            }
+            if( type->gun->ammo.empty() ) {
                 // if gun doesn't use ammo forbid both integral or detachable magazines
                 if( static_cast<bool>( type->gun->clip ) || !type->magazines.empty() ) {
                     msg << "cannot specify clip_size or magazine without ammo type" << "\n";
@@ -964,9 +963,10 @@ void Item_factory::check_definitions() const
                 if( type->item_tags.count( "RELOAD_AND_SHOOT" ) && !type->magazines.empty() ) {
                     msg << "RELOAD_AND_SHOOT cannot be used with magazines" << "\n";
                 }
-
-                if( !type->magazines.empty() && !type->magazine_default.count( type->gun->ammo ) ) {
-                    msg << "specified magazine but none provided for default ammo type" << "\n";
+                for( const ammotype &at : type->gun->ammo ) {
+                    if( !type->magazines.empty() && !type->magazine_default.count( at ) ) {
+                        msg << "specified magazine but none provided for ammo type" << at.str() << "\n";
+                    }
                 }
             }
             if( type->gun->barrel_length < 0_ml ) {
@@ -998,7 +998,9 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->mod ) {
-            check_ammo_type( msg, type->mod->ammo_modifier );
+            for( const ammotype &at : type->mod->ammo_modifier ) {
+                check_ammo_type( msg, at );
+            }
 
             for( const auto &e : type->mod->acceptable_ammo ) {
                 check_ammo_type( msg, e );
@@ -1011,15 +1013,17 @@ void Item_factory::check_definitions() const
                 }
                 for( const itype_id &opt : e.second ) {
                     const itype *mag = find_template( opt );
-                    if( !mag->magazine || mag->magazine->type != e.first ) {
+                    if( !mag->magazine || !mag->magazine->type.count( e.first ) ) {
                         msg << "invalid magazine " << opt << " in magazine adapter\n";
                     }
                 }
             }
         }
         if( type->magazine ) {
-            check_ammo_type( msg, type->magazine->type );
-            if( !type->magazine->type ) {
+            for( const ammotype &at : type->magazine->type ) {
+                check_ammo_type( msg, at );
+            }
+            if( type->magazine->type.empty() ) {
                 msg << "magazine did not specify ammo type" << "\n";
             }
             if( type->magazine->capacity < 0 ) {
@@ -1029,7 +1033,7 @@ void Item_factory::check_definitions() const
                 msg << string_format( "invalid count %i", type->magazine->count ) << "\n";
             }
             const itype *da = find_template( type->magazine->default_ammo );
-            if( !( da->ammo && da->ammo->type.count( type->magazine->type ) ) ) {
+            if( !( da->ammo && type->magazine->type.count( da->ammo->type ) ) ) {
                 msg << string_format( "invalid default_ammo %s", type->magazine->default_ammo.c_str() ) << "\n";
             }
             if( type->magazine->reliability < 0 || type->magazine->reliability > 100 ) {
@@ -1057,10 +1061,8 @@ void Item_factory::check_definitions() const
                 } else if( !mag_ptr->magazine ) {
                     msg << "Magazine \"" << magazine << "\" specified for \""
                         << ammo_variety.first.str() << "\" is not a magazine\n";
-                } else if( mag_ptr->magazine->type != ammo_variety.first ) {
-                    msg << "magazine \"" << magazine << "\" holds incompatible ammo (\""
-                        << mag_ptr->magazine->type.str() << "\" instead of \""
-                        << ammo_variety.first.str() << "\")\n";
+                } else if( !mag_ptr->magazine->type.count( ammo_variety.first ) ) {
+                    msg << "magazine \"" << magazine << "\" does not take compatible ammo \n";
                 } else if( mag_ptr->item_tags.count( "SPEEDLOADER" ) &&
                            mag_ptr->magazine->capacity != type->gun->clip ) {
                     msg << "Speedloader " << magazine << " capacity ("
@@ -1071,7 +1073,9 @@ void Item_factory::check_definitions() const
         }
 
         if( type->tool ) {
-            check_ammo_type( msg, type->tool->ammo_id );
+            for( const ammotype &at : type->tool->ammo_id ) {
+                check_ammo_type( msg, at );
+            }
             if( type->tool->revert_to && ( !has_template( *type->tool->revert_to ) ||
                                            *type->tool->revert_to == "null" ) ) {
                 msg << string_format( "invalid revert_to property %s", type->tool->revert_to->c_str() ) << "\n";
