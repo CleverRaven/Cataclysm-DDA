@@ -2785,11 +2785,13 @@ nc_color item::color_in_inventory() const
         ret = c_cyan;
     } else if( has_flag( "LITCIG" ) ) {
         ret = c_red;
+    } else if( is_armor() && u.has_trait( trait_id( "WOOLALLERGY" ) ) &&
+               ( made_of( material_id( "wool" ) ) || item_tags.count( "wooled" ) ) ) {
+        ret = c_red;
     } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
         ret = c_brown;
     } else if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0 ) {
         ret = c_light_green;
-
     } else if( active && !is_food() && !is_food_container() && !is_corpse() ) {
         // Active items show up as yellow
         ret = c_yellow;
@@ -2799,6 +2801,13 @@ nc_color item::color_in_inventory() const
     } else if( is_food() || is_food_container() ) {
         const bool preserves = type->container && type->container->preserves;
         const item &to_color = is_food() ? *this : contents.front();
+
+        // Give color priority to allergy (allergy > inedible by freeze or other conditions)
+        // TODO: refactor u.will_eat to let this section handle coloring priority without duplicating code.
+        if( u.allergy_type( to_color ) != morale_type( "morale_null" ) ) {
+            return c_red;
+        }
+
         // Default: permafood, drugs
         // Brown: rotten (for non-saprophages) or non-rotten (for saprophages)
         // Dark gray: inedible
