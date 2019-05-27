@@ -2522,10 +2522,7 @@ bool bandolier_actor::is_valid_ammo_type( const itype &t ) const
     if( !t.ammo ) {
         return false;
     }
-    return std::any_of( t.ammo->type.begin(), t.ammo->type.end(),
-    [&]( const ammotype & e ) {
-        return ammo.count( e );
-    } );
+    return ammo.count( t.ammo->type );
 }
 
 bool bandolier_actor::can_store( const item &bandolier, const item &obj ) const
