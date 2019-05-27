@@ -2670,8 +2670,7 @@ int ammobelt_actor::use( player &p, item &, bool, const tripoint & ) const
     mag.ammo_unset();
 
     if( p.rate_action_reload( mag ) != HINT_GOOD ) {
-        p.add_msg_if_player( _( "Insufficient %s to assemble %s" ),
-                             mag.ammo_type()->name(), mag.tname() );
+        p.add_msg_if_player( _( "Insufficient ammunition to assemble %s" ), mag.tname() );
         return 0;
     }
 
