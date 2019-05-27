@@ -967,6 +967,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     std::stringstream temp2;
     std::string space = "  ";
     const bool debug = g != nullptr && debug_mode;
+    avatar &u = g->u; // TODO: make a const reference
 
     if( parts == nullptr ) {
         parts = &iteminfo_query::all;
@@ -1227,6 +1228,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         } );
         if( !required_vits.empty() && parts->test( iteminfo_parts::FOOD_VITAMINS ) ) {
             info.emplace_back( "FOOD", _( "Vitamins (RDA): " ), required_vits );
+        }
+
+        if( u.allergy_type( *food_item ) != morale_type( "morale_null" ) ) {
+            info.emplace_back( "DESCRIPTION",
+                               _( "* This food will cause you an <bad>allergic reaction</bad>." ) );
         }
 
         if( food_item->has_flag( "CANNIBALISM" ) && parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
@@ -2332,6 +2338,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         bool anyFlags = ( *parts & iteminfo_query::anyflags ).any();
         if( anyFlags ) {
             insert_separation_line();
+        }
+
+        if( is_armor() && u.has_trait( trait_id( "WOOLALLERGY" ) ) && ( made_of( material_id( "wool" ) ) ||
+                item_tags.count( "wooled" ) ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* This clothing gives you an <bad>allergic reaction</bad>." ) ) );
         }
 
         if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS ) ) {
