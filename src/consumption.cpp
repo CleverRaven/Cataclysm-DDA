@@ -49,6 +49,7 @@ const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_common_cold( "common_cold" );
 const efftype_id effect_flu( "flu" );
+const efftype_id effect_fungus( "fungus" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -846,6 +847,10 @@ bool player::eat( item &food, bool force )
             add_msg_if_player( m_bad, _( "You feel horrible for eating a person." ) );
             add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
         }
+    }
+
+    if( food.has_flag( "FUNGAL_VECTOR" ) && !has_trait( trait_id( "M_IMMUNE" ) ) ) {
+        add_effect( effect_fungus, 1_turns, num_bp, true );
     }
 
     // The fun changes for these effects are applied in fun_for().
