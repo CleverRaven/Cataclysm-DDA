@@ -6405,7 +6405,7 @@ bool item::reload( player &u, item_location loc, int qty )
                 ? get_remaining_capacity_for_liquid( *ammo )
                 : ammo_capacity() - ammo_remaining();
 
-    if( ammo_type() == ammotype( "plutonium" ) ) {
+    if( ammo->type->ammo->type == "plutonium" ) {
         limit = limit / PLUTONIUM_CHARGES + ( limit % PLUTONIUM_CHARGES != 0 );
     }
 
@@ -6467,7 +6467,7 @@ bool item::reload( player &u, item_location loc, int qty )
             qty = std::min( qty, ammo->ammo_remaining() );
             ammo->ammo_consume( qty, tripoint_zero );
             charges += qty;
-        } else if( ammo_type() == ammotype( "plutonium" ) ) {
+        } else if( ammo->type->ammo->type == "plutonium" ) {
             curammo = find_type( ammo->typeId() );
             ammo->charges -= qty;
 
