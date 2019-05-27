@@ -499,6 +499,15 @@ void talk_function::give_all_aid( npc &p )
     }
 }
 
+void talk_function::barber( npc &p )
+{
+
+    g->u.add_morale( MORALE_HAIRCUT, 5, 5, 720_minutes, 3_minutes );
+    g->u.assign_activity( activity_id( "ACT_WAIT_NPC" ), 300 );
+    g->u.activity.str_values.push_back( p.name );
+    add_msg( m_good, _( "%s gives you a decent haircut..." ), p.name );
+}
+
 void talk_function::buy_haircut( npc &p )
 {
     g->u.add_morale( MORALE_HAIRCUT, 5, 5, 720_minutes, 3_minutes );

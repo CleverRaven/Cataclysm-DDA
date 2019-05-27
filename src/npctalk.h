@@ -25,6 +25,7 @@ void buy_chicken( npc & );
 void bionic_install( npc & );
 void bionic_remove( npc & );
 
+void barber( npc & );
 void buy_haircut( npc & );
 void buy_shave( npc & );
 void morale_chat( npc & );
