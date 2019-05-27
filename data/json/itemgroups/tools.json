@@ -367,10 +367,5 @@
       [ "circsaw_blade", 10 ],
       [ "elec_chainsaw_off", 35 ]
     ]
-  },
-  {
-    "type": "item_group",
-    "id": "slaughter_tools",
-    "items": [ [ "knife_butcher", 30 ], [ "tongs", 10 ], [ "hacksaw", 10 ] ]
   }
 ]
