@@ -2869,25 +2869,28 @@ nc_color item::color_in_inventory() const
         // Guns are green if you are carrying ammo for them
         // ltred if you have ammo but no mags
         // Gun with integrated mag counts as both
-        ammotype amtype = ammo_type();
-        // get_ammo finds uncontained ammo, find_ammo finds ammo in magazines
-        bool has_ammo = !u.get_ammo( amtype ).empty() || !u.find_ammo( *this, false, -1 ).empty();
-        bool has_mag = magazine_integral() || !u.find_ammo( *this, true, -1 ).empty();
-        if( has_ammo && has_mag ) {
-            ret = c_green;
-        } else if( has_ammo || has_mag ) {
-            ret = c_light_red;
+        for( const ammotype &at : ammo_types() ) {
+            // get_ammo finds uncontained ammo, find_ammo finds ammo in magazines
+            bool has_ammo = !u.get_ammo( at ).empty() || !u.find_ammo( *this, false, -1 ).empty();
+            bool has_mag = magazine_integral() || !u.find_ammo( *this, true, -1 ).empty();
+            if( has_ammo && has_mag ) {
+                ret = c_green;
+                break;
+            } else if( has_ammo || has_mag ) {
+                ret = c_light_red;
+                break;
+            }
         }
     } else if( is_ammo() ) {
         // Likewise, ammo is green if you have guns that use it
         // ltred if you have the gun but no mags
         // Gun with integrated mag counts as both
         bool has_gun = u.has_item_with( [this]( const item & i ) {
-            return i.is_gun() && type->ammo->type.count( i.ammo_type() );
+            return i.is_gun() && i.ammo_types().count( type->ammo->type );
         } );
         bool has_mag = u.has_item_with( [this]( const item & i ) {
-            return ( i.is_gun() && i.magazine_integral() && type->ammo->type.count( i.ammo_type() ) ) ||
-                   ( i.is_magazine() && type->ammo->type.count( i.ammo_type() ) );
+            return ( i.is_gun() && i.magazine_integral() && i.ammo_types().count( type->ammo->type ) ) ||
+                   ( i.is_magazine() && i.ammo_types().count( type->ammo->type ) );
         } );
         if( has_gun && has_mag ) {
             ret = c_green;
