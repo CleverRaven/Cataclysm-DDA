@@ -1183,7 +1183,7 @@ void npc::decide_needs()
         elem = 20;
     }
     if( weapon.is_gun() ) {
-        needrank[need_ammo] = 5 * get_ammo( weapon.type->gun->ammo ).size();
+        needrank[need_ammo] = 5 * get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
     }
 
     needrank[need_weapon] = weapon_value( weapon );
