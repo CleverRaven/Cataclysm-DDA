@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "classic_zombies",
+    "name": "Classic zombies",
+    "authors": [ "Hirmuolio" ],
+    "maintainers": [ "" ],
+    "description": "Classic zombie apocalypze",
+    "category": "rebalance",
+    "dependencies": [ "dda" ]
+  }
+]
