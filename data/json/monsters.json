@@ -654,7 +654,8 @@
       "STUMBLES",
       "HUMAN",
       "PATH_AVOID_DANGER_2",
-      "PRIORITIZE_TARGETS"
+      "PRIORITIZE_TARGETS",
+      "HACK_IMMUNE"
     ]
   },
   {
@@ -720,7 +721,7 @@
     "special_attacks": [ [ "CHICKENBOT", 4 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "chickenbot", 1 ] ] },
     "death_function": [ "EXPLODE" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS" ]
+    "flags": [ "SEES", "HEARS", "BASHES", "NO_BREATHE", "ELECTRONIC", "PRIORITIZE_TARGETS", "HACK_DEFENSE" ]
   },
   {
     "id": "mon_chud",
@@ -784,7 +785,7 @@
     "special_attacks": [ [ "COPBOT", 3 ] ],
     "death_drops": { "groups": [ [ "robots", 4 ], [ "copbot", 1 ] ] },
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "HEARS", "BASHES", "ELECTRONIC", "NO_BREATHE", "PRIORITIZE_TARGETS", "PATH_AVOID_DANGER_1", "HACK_DEFENSE" ]
   },
   {
     "id": "mon_crawler",

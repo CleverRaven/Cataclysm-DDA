@@ -143,7 +143,9 @@ const std::map<std::string, m_flag> flag_map = {
     { "DRIPS_NAPALM", MF_DRIPS_NAPALM },
     { "DRIPS_GASOLINE", MF_DRIPS_GASOLINE },
     { "ELECTRIC_FIELD", MF_ELECTRIC_FIELD },
-    { "LOUDMOVES", MF_LOUDMOVES }
+    { "LOUDMOVES", MF_LOUDMOVES },
+    { "HACK_IMMUNE", MF_HACK_IMMUNE },
+    { "HACK_DEFENSE", MF_HACK_DEFENSE }
 };
 
 }

@@ -155,6 +155,7 @@ const efftype_id effect_infected( "infected" );
 const efftype_id effect_jetinjector( "jetinjector" );
 const efftype_id effect_meth( "meth" );
 const efftype_id effect_music( "music" );
+const efftype_id effect_not_receiving( "not_receiving" );
 const efftype_id effect_paincysts( "paincysts" );
 const efftype_id effect_panacea( "panacea" );
 const efftype_id effect_pet( "pet" );
@@ -5751,6 +5752,8 @@ bool iuse::robotcontrol_can_target( player *p, const monster &m )
     return !m.is_dead()
            && m.type->in_species( ROBOT )
            && m.friendly == 0
+           && !m.has_flag(MF_HACK_IMMUNE)
+           && !m.has_effect( effect_not_receiving, num_bp )
            && rl_dist( p->pos(), m.pos() ) <= 10;
 }
 
@@ -5766,16 +5769,21 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    int choice = uilist( _( "Welcome to hackPRO!:" ), {
-        _( "Prepare IFF protocol override" ),
-        _( "Set friendly robots to passive mode" ),
-        _( "Set friendly robots to combat mode" )
-    } );
+    /** @EFFECT_INT speeds up hacking preperation */
+    /** @EFFECT_COMPUTER speeds up hacking preperation */
+    int deliver_move_cost = std::max( 100, 1000 - p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10 );
+    const int mode_move_cost = 100;
+
+    int choice = uilist(_("Welcome to hackPRO!:"),
+                        {{ uilist_entry( 0, true, -1, _("Scan for broadcasting robots"), _("Scan for nearby robots that are accepting connections"), std::to_string(deliver_move_cost))},
+                         { uilist_entry( 1, true, -1, _("Set friendly robots to passive mode"), _("Robots will stop pursuing all targets for attack"), std::to_string(mode_move_cost))},
+                         { uilist_entry( 2, true, -1, _("Set friendly robots to combat mode"), _("Robots will pursue all targets for attack"), std::to_string(mode_move_cost))}
+                         });
     switch( choice ) {
         case 0: { // attempt to make a robot friendly
             uilist pick_robot;
             pick_robot.text = _( "Choose an endpoint to hack." );
-            // Build a list of all unfriendly robots in range.
+            // Build a list of all unfriendly robots in range, that are accepting connections
             std::vector< std::shared_ptr< monster> > mons; // TODO: change into vector<Creature*>
             std::vector< tripoint > locations;
             int entry_num = 0;
@@ -5808,15 +5816,23 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
             std::shared_ptr< monster > z = mons[mondex];
             p->add_msg_if_player( _( "You start reprogramming the %s into an ally." ), z->name() );
 
-            /** @EFFECT_INT speeds up hacking preperation */
-            /** @EFFECT_COMPUTER speeds up hacking preperation */
-            int move_cost = std::max( 100, 1000 - p->int_cur * 10 - p->get_skill_level( skill_computer ) * 10 );
-            player_activity act( activity_id( "ACT_ROBOT_CONTROL" ), move_cost );
+            player_activity act( activity_id( "ACT_ROBOT_CONTROL" ), deliver_move_cost );
             act.monsters.emplace_back( z );
 
             p->assign_activity( act );
 
             return it->type->charges_to_use();
+        }
+        case 3: { // program a new payload that will not be known to robots
+            //p->moves -= new_protocol_move_cost;
+            //it->set_var("iif_payload", it->get_var("iif_payload", 0) + 1);
+            //p->add_msg_if_player( _( "You finish preparing a new payload for hacking."));
+            return it->type->charges_to_use();
+            // need an action here
+            // decrease payload sending time to just booting up a laptop
+            // active hacking action will constantly roll for robots to detect hacking
+            // robots in range have a change to detect
+            // adaptive programming for robots will make it progressively harder rolls
         }
         case 1: { //make all friendly robots stop their purposeless extermination of (un)life.
             p->moves -= 100;

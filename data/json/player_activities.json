@@ -543,7 +543,8 @@
     "stop_phrase": "Stop programming override?",
     "suspendable": false,
     "based_on": "time",
-    "no_resume": true
+    "no_resume": true,
+    "rooted": true
   },
   {
     "id": "ACT_WEAR",

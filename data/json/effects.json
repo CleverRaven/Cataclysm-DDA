@@ -215,6 +215,12 @@
     "desc": [ "AI tag used for monsters pushing each other.  This is a bug if you have it." ]
   },
   {
+    "type": "effect_type",
+    "id": "not_receiving",
+    "name": [ "Not Accepting Remote Connections" ],
+    "desc": [ "AI tag used for robots not accepting remote connections. This is a bug if you have it." ]
+  },
+  {
     "//": "ACTUAL PLAYER EFFECTS START HERE",
     "type": "effect_type",
     "id": "downed",

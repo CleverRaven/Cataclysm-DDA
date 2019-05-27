@@ -89,9 +89,11 @@ const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_electronics( "electronics" );
 
 const species_id HUMAN( "HUMAN" );
+const species_id ROBOT( "ROBOT" );
 const species_id ZOMBIE( "ZOMBIE" );
 
 const efftype_id effect_milked( "milked" );
+const efftype_id effect_not_receiving( "not_receiving" );
 const efftype_id effect_sleep( "sleep" );
 
 using namespace activity_handlers;
@@ -3441,10 +3443,32 @@ void activity_handlers::robot_control_do_turn( player_activity *act, player *p )
         return;
     }
 
-    // TODO: Add some kind of chance of getting the target's attention
-
-    // Allow time to pass
-    p->pause();
+    // robot can detect hacking attempt
+    // 1. roll against hacking attempt
+    // 2. if failure, then robot will
+    // 3. sound alarm, say "Remote intrusion detected! Notifying network."
+    // 4. All robots within 10 tiles that are receiving will be notified, set not_receiving
+    // 5. This robot sets not_receiving
+    /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
+    /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
+    const float success = p->get_skill_level( skill_id( "computer" ) ) - 1.5 * ( z->type->difficulty ) /
+                          ( ( rng( 2, p->int_cur ) / 2 ) + ( p->get_skill_level( skill_id( "computer" ) ) / 2 ) );
+    debugmsg( "In robot_control_do_turn success is %s", success);
+    if( success >= -2 ) {
+        act->index++; // how many times checked
+        act->position+=success; // cumulative successes
+        return; // good so far, continue hacking
+    } else { // critical failure! we were detected
+        sounds::sound( z->pos(), 20, sounds::sound_t::speech, _( "a loud robot voice say, \"Remote intrusion detected! Notifying network. Shutting down transmitter.\"" ));
+        for( monster &candidate : g->all_monsters() ) {
+            if( !candidate.is_dead() && candidate.type->in_species( ROBOT ) && candidate.friendly == 0 && rl_dist( z->pos(), candidate.pos() ) <= 10 ) {
+                candidate.add_effect( effect_not_receiving, 1_turns, num_bp, true );
+            }
+        }
+        z->add_effect( effect_not_receiving, 1_turns, num_bp, true );
+        act->set_to_null();
+        return;
+    }
 }
 
 void activity_handlers::robot_control_finish( player_activity *act, player *p )
@@ -3453,6 +3477,11 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
 
     if( act->monsters.empty() ) {
         debugmsg( "No monster assigned in ACT_ROBOT_CONTROL" );
+        return;
+    }
+
+    if( act->index <= 0 ) {
+        debugmsg( "robot_control_do_turn not called in ACT_ROBOT_CONTROL" );
         return;
     }
 
@@ -3466,15 +3495,14 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
 
     p->add_msg_if_player( _( "You unleash your override attack on the %s." ), z->name() );
 
-    /** @EFFECT_INT increases chance of successful robot reprogramming, vs difficulty */
-    /** @EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty */
-    const float success = p->get_skill_level( skill_id( "computer" ) ) - 1.5 * ( z->type->difficulty ) /
-                          ( ( rng( 2, p->int_cur ) / 2 ) + ( p->get_skill_level( skill_id( "computer" ) ) / 2 ) );
-    if( success >= 0 ) {
+    const float avg_success = act->position / act->index;
+    debugmsg( "In finish with avg_success: %s", avg_success );
+
+    if( avg_success >= 0 ) {
         p->add_msg_if_player( _( "You successfully override the %s's IFF protocols!" ),
                               z->name() );
         z->friendly = -1;
-    } else if( success >= -2 ) { //A near success
+    } else if( avg_success >= -2 ) { //A near success
         p->add_msg_if_player( _( "The %s short circuits as you attempt to reprogram it!" ),
                               z->name() );
         z->apply_damage( p, bp_torso, rng( 1, 10 ) ); //damage it a little
@@ -3490,8 +3518,6 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
                 z->friendly = rng( 5, 40 ); // it didn't
             }
         }
-    } else {
-        p->add_msg_if_player( _( "...but the robot refuses to acknowledge you as an ally!" ) );
     }
     p->practice( skill_id( "computer" ), 10 );
 }
