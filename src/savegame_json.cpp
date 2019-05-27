@@ -1703,7 +1703,7 @@ void monster::load( JsonObject &data )
     data.read( "morale", morale );
     data.read( "hallucination", hallucination );
     data.read( "stairscount", staircount ); // really?
-
+    data.read( "fish_population", fish_population );
     // Load legacy plans.
     std::vector<tripoint> plans;
     data.read( "plans", plans );
@@ -1772,6 +1772,7 @@ void monster::store( JsonOut &json ) const
     json.member( "hp", hp );
     json.member( "special_attacks", special_attacks );
     json.member( "friendly", friendly );
+    json.member( "fish_population", fish_population );
     json.member( "faction", faction.id().str() );
     json.member( "mission_id", mission_id );
     json.member( "no_extra_death_drops", no_extra_death_drops );

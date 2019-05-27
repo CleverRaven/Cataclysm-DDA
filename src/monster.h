@@ -429,6 +429,8 @@ class monster : public Creature
         bool made_footstep;
         std::string unique_name; // If we're unique
         bool hallucination;
+        int fish_population =
+            1; // abstract for a fish monster representing a hidden stock of population in that area.
 
         void setpos( const tripoint &p ) override;
         const tripoint &pos() const override;

@@ -492,7 +492,7 @@ class game
         /** Handles swimming by the player. Called by avatar_action::move(). */
         void plswim( const tripoint &p );
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
-        void catch_a_monster( std::vector<monster *> &catchables, const tripoint &pos, player *p,
+        void catch_a_monster( monster *fish, const tripoint &pos, player *p,
                               const time_duration &catch_duration );
         /**
          * Get the fishable monsters within the contiguous fishable terrain starting at fish_pos,
