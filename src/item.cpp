@@ -1304,11 +1304,13 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     if( is_magazine() && !has_flag( "NO_RELOAD" ) ) {
 
         if( parts->test( iteminfo_parts::MAGAZINE_CAPACITY ) ) {
-            auto fmt = string_format(
-                           ngettext( "<num> round of %s", "<num> rounds of %s", ammo_capacity() ),
-                           ammo_type()->name() );
-            info.emplace_back( "MAGAZINE", _( "Capacity: " ), fmt, iteminfo::no_flags,
-                               ammo_capacity() );
+            for( const ammotype &at : ammo_types() ) {
+                auto fmt = string_format(
+                               ngettext( "<num> round of %s", "<num> rounds of %s", ammo_capacity() ),
+                               at->name() );
+                info.emplace_back( "MAGAZINE", _( "Capacity: " ), fmt, iteminfo::no_flags,
+                                   ammo_capacity() );
+            }
         }
         if( parts->test( iteminfo_parts::MAGAZINE_RELOAD ) ) {
             info.emplace_back( "MAGAZINE", _( "Reload time: " ), _( "<num> per round" ),
@@ -1322,11 +1324,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( ammo_remaining() > 0 ) {
                 info.emplace_back( "AMMO", _( "Ammunition: " ), ammo_data()->nname( ammo_remaining() ) );
             } else if( is_ammo() ) {
-                info.emplace_back( "AMMO", _( "Types: " ),
-                                   enumerate_as_string( type->ammo->type.begin(), type->ammo->type.end(),
-                []( const ammotype & e ) {
-                    return e->name();
-                }, enumeration_conjunction::none ) );
+                info.emplace_back( "AMMO", _( "Type: " ), type->ammo->type->name() );
             }
 
             const auto &ammo = *ammo_data()->ammo;
@@ -1428,14 +1426,18 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                                                   mod->magazine_current()->tname() ) );
             }
             if( mod->ammo_capacity() && parts->test( iteminfo_parts::GUN_CAPACITY ) ) {
-                auto fmt = string_format(
-                               ngettext( "<num> round of %s", "<num> rounds of %s", mod->ammo_capacity() ),
-                               mod->ammo_type()->name() );
-                info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ), fmt, iteminfo::no_flags,
-                                   mod->ammo_capacity() );
+                for( const ammotype &at : mod->ammo_types() ) {
+                    auto fmt = string_format(
+                                   ngettext( "<num> round of %s", "<num> rounds of %s", mod->ammo_capacity() ),
+                                   at->name() );
+                    info.emplace_back( "GUN", _( "<bold>Capacity:</bold> " ), fmt, iteminfo::no_flags,
+                                       mod->ammo_capacity() );
+                }
             }
         } else if( parts->test( iteminfo_parts::GUN_TYPE ) ) {
-            info.emplace_back( "GUN", _( "Type: " ), mod->ammo_type()->name() );
+            for( const ammotype &at : mod->ammo_types() ) {
+                info.emplace_back( "GUN", _( "Type: " ), at->name() );
+            }
         }
 
         if( mod->ammo_data() && parts->test( iteminfo_parts::AMMO_REMAINING ) ) {
@@ -1715,9 +1717,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.emplace_back( "GUNMOD", _( "Handling modifier: " ), "",
                                iteminfo::show_plus, mod.handling );
         }
-        if( type->mod->ammo_modifier && parts->test( iteminfo_parts::GUNMOD_AMMO ) ) {
-            info.push_back( iteminfo( "GUNMOD", string_format( _( "Ammo: <stat>%s</stat>" ),
-                                      type->mod->ammo_modifier->name() ) ) );
+        if( !type->mod->ammo_modifier.empty() && parts->test( iteminfo_parts::GUNMOD_AMMO ) ) {
+            for( const ammotype &at : type->mod->ammo_modifier ) {
+                info.push_back( iteminfo( "GUNMOD", string_format( _( "Ammo: <stat>%s</stat>" ),
+                                          at->name() ) ) );
+            }
         }
         if( mod.reload_modifier != 0 && parts->test( iteminfo_parts::GUNMOD_RELOAD ) ) {
             info.emplace_back( "GUNMOD", _( "Reload modifier: " ), _( "<num>%" ),
@@ -2109,10 +2113,14 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         } else if( ammo_capacity() != 0 && parts->test( iteminfo_parts::TOOL_CAPACITY ) ) {
             std::string tmp;
             bool bionic_tool = has_flag( "USES_BIONIC_POWER" );
-            if( ammo_type() ) {
+            if( !ammo_types().empty() ) {
                 //~ "%s" is ammunition type. This types can't be plural.
                 tmp = ngettext( "Maximum <num> charge of %s.", "Maximum <num> charges of %s.", ammo_capacity() );
-                tmp = string_format( tmp, ammo_type()->name() );
+                tmp = string_format( tmp, enumerate_as_string( ammo_types().begin(),
+                ammo_types().end(), []( const ammotype & e ) {
+                    return e->name();
+                }, enumeration_conjunction::none ) );
+
                 // No need to display max charges, since charges are always equal to bionic power
             } else if( !bionic_tool ) {
                 tmp = ngettext( "Maximum <num> charge.", "Maximum <num> charges.", ammo_capacity() );
