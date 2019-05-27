@@ -1750,26 +1750,6 @@
   },
   {
     "type": "item_group",
-    "id": "cannedmeat",
-    "items": [
-      { "item": "meat_pickled", "prob": 6, "charges": 2, "container-item": "jar_glass_sealed" },
-      { "item": "meat_canned", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "offal_canned", "prob": 1, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "fish_pickled", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "item": "meat_pickled", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      [ "pork_beans", 40 ],
-      [ "can_chicken", 40 ],
-      [ "broth", 15 ],
-      [ "soup_meat", 15 ],
-      [ "soup_chicken", 15 ],
-      [ "curry_meat", 15 ],
-      [ "dogfood", 5 ],
-      [ "catfood", 5 ],
-      [ "lutefisk", 1 ]
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "cannedfood",
     "items": [
       [ "can_beans", 40 ],
