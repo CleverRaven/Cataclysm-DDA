@@ -6,7 +6,7 @@
     "authors": [ "Hirmuolio" ],
     "maintainers": [ "" ],
     "description": "Only spawn classic zombies and natural wildlife.  This disables certain buildings and map extras.",
-    "category": "rebalance",
+    "category": "monster_exclude",
     "dependencies": [ "dda" ]
   }
 ]
