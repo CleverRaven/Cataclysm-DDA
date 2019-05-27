@@ -48,17 +48,6 @@
 #if defined(BACKTRACE)
 #   if defined(_WIN32)
 #       include <dbghelp.h>
-#   endif
-#   if defined(__CYGWIN__)
-//TDOD:PTZ170112 You may want to try a WinAPI function like CaptureStackBackTrace instead
-//https://msdn.microsoft.com/en-us/library/windows/desktop/bb204633(v=vs.85).aspx
-//TODO:PTZ170115 check cygwin-devel as in 2015 someone thought off these for cygwin too...!
-//http://cygwin.1069669.n5.nabble.com/backtrace-3-in-Cygwin-tt116597.html
-//https://trac.webkit.org/browser/trunk/Source/WTF/wtf/Assertions.cpp#L226
-//https://msdn.microsoft.com/en-us/library/windows/hardware/ff552119.aspx
-
-#       define backtrace(_a, _n) (sizeof(_a) * _n)
-#       define backtrace_symbols(_a, _sz) calloc( _sz * 0x200 * sizeof(_a), sizeof(char));
 #   else
 #       include <execinfo.h>
 #       include <unistd.h>
@@ -1026,6 +1015,9 @@ static std::string windows_version()
     }
 
     if( !success ) {
+#if defined (__MINGW32__) || defined (__MINGW64__) || defined (__CYGWIN__) || defined (MSYS2)
+        output = "MINGW/CYGWIN/MSYS2 on unknown Windows version";
+#else
         output = "";
         using RtlGetVersion = LONG( WINAPI * )( PRTL_OSVERSIONINFOW );
         const HMODULE handle_ntdll = GetModuleHandleA( "ntdll" );
@@ -1046,6 +1038,7 @@ static std::string windows_version()
                 }
             }
         }
+#endif
     }
     return output;
 }
