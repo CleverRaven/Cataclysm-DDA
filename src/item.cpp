@@ -6330,7 +6330,7 @@ void item::reload_option::qty( int val )
     if( target->has_flag( "RELOAD_ONE" ) && !ammo->has_flag( "SPEEDLOADER" ) ) {
         remaining_capacity = 1;
     }
-    if( target->ammo_type() == ammotype( "plutonium" ) ) {
+    if( ammo_obj.type->ammo->type == "plutonium" ) {
         remaining_capacity = remaining_capacity / PLUTONIUM_CHARGES +
                              ( remaining_capacity % PLUTONIUM_CHARGES != 0 );
     }
