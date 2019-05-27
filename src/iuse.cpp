@@ -1906,11 +1906,11 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
                 p->practice( skill_survival, rng( 3, 10 ) );
                 if( fishables.size() > 1 ) {
                     monster *chosen_fish = random_entry( fishables );
+                    // reduce the abstract fish_population marker of that fish
                     chosen_fish->fish_population -= 1;
                     if( chosen_fish->fish_population <= 0 ) {
                         g->catch_a_monster( chosen_fish, pos, p, 300_hours ); //catch the fish!
                     } else {
-                        // reduce the abstract fish_population marker of that fish
                         g->m.add_item_or_charges( p->pos(), item::make_corpse( chosen_fish->type->id,
                                                   calendar::turn + rng( 0_turns,
                                                           3_hours ) ) );
