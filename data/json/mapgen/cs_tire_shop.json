@@ -1,108 +1,11 @@
 [
   {
-    "type": "vehicle_group",
-    "id": "oa_vg_ts_vehicles",
-    "vehicles": [
-      [ "car", 2000 ],
-      [ "electric_car", 500 ],
-      [ "suv", 800 ],
-      [ "suv_electric", 200 ],
-      [ "car_mini", 800 ],
-      [ "beetle", 500 ],
-      [ "motorcycle", 200 ],
-      [ "motorcycle_sidecart", 100 ],
-      [ "scooter", 200 ],
-      [ "scooter_electric", 300 ],
-      [ "pickup", 800 ],
-      [ "hippie_van", 1000 ]
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "oa_ig_ts_tables",
-    "items": [
-      [ "radio", 30 ],
-      [ "rag", 30 ],
-      [ "cell_phone", 20 ],
-      [ "mag_mechanics", 20 ],
-      [ "manual_mechanics", 10 ],
-      [ "jack", 60 ],
-      [ "jack_small", 60 ],
-      [ "jack_makeshift", 30 ],
-      [ "wrench", 50 ],
-      [ "gloves_work", 30 ],
-      [ "glasses_safety", 20 ]
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "oa_ig_ts_lockers",
-    "items": [
-      { "group": "ammo_pocket_batteries_full", "prob": 10 },
-      [ "radio", 10 ],
-      [ "rag", 30 ],
-      [ "jack", 20 ],
-      [ "jack_small", 30 ],
-      [ "flashlight", 20 ],
-      [ "heavy_flashlight", 10 ],
-      [ "jumper_cable", 20 ],
-      [ "jumper_cable_heavy", 10 ],
-      [ "pliers", 10 ],
-      [ "battery_motorbike", 10 ],
-      [ "battery_car", 10 ],
-      [ "stereo", 10 ],
-      [ "wrench", 10 ],
-      [ "gloves_work", 10 ],
-      [ "glasses_safety", 10 ],
-      [ "solar_cell", 10 ],
-      [ "screwdriver", 15 ],
-      [ "superglue", 5 ],
-      [ "polisher", 15 ],
-      [ "solar_panel", 15 ],
-      [ "spare_tire_carrier", 10 ],
-      [ "mounted_spare_tire", 10 ]
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "oa_ig_ts_crates",
-    "items": [
-      { "group": "ammo_any_batteries_full", "prob": 10 },
-      [ "radio", 10 ],
-      [ "rag", 30 ],
-      [ "jack", 20 ],
-      [ "jack_small", 30 ],
-      [ "flashlight", 20 ],
-      [ "heavy_flashlight", 10 ],
-      [ "jumper_cable", 20 ],
-      [ "jumper_cable_heavy", 10 ],
-      [ "pliers", 10 ],
-      [ "battery_motorbike", 10 ],
-      [ "battery_car", 10 ],
-      [ "stereo", 10 ],
-      [ "wrench", 10 ],
-      [ "gloves_work", 10 ],
-      [ "glasses_safety", 10 ],
-      [ "solar_cell", 10 ],
-      [ "screwdriver", 15 ],
-      [ "superglue", 5 ],
-      [ "polisher", 15 ],
-      [ "solar_panel", 15 ],
-      [ "spare_tire_carrier", 10 ],
-      [ "mounted_spare_tire", 10 ]
-    ]
-  },
-  {
-    "type": "item_group",
-    "id": "oa_ig_ts_tires",
-    "items": [ [ "wheel_small", 30 ], [ "wheel", 30 ], [ "wheel_wide", 20 ] ]
-  },
-  {
     "type": "mapgen",
     "om_terrain": [ "cs_tire_shop" ],
     "method": "json",
     "weight": 1000,
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         ",..~~y''''y~~''''''~~.,,",
         ".,.~~y''''y~~''''''~~..,",
@@ -124,37 +27,29 @@
         ".,..| cc--l---- --  Sg..",
         "...,| ch|L C|Vv c|  Sg,.",
         ".,..|   |L C|   c|-D-|..",
-        "..,.|rrr|L C|hhhh|T S|.,",
+        "..,.|rrr|L C|hhhh|T S|4,",
         "...,-ggg-----gggg-----..",
-        ".,..,..,...,..,....,...,",
-        "...,,....,.....,.....,.."
+        ".,..,..,.u<ux.,....,...,",
+        "...,,..........,.....,.."
       ],
       "terrain": {
-        ".": "t_grass",
+        ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ] ],
         ",": "t_dirt",
         "'": "t_pavement",
         "~": "t_sidewalk",
         " ": "t_floor",
         "#": "t_grate",
         "=": "t_door_metal_locked",
-        "|": "t_wall",
-        "-": "t_wall",
+        "|": "t_wall_b",
+        "-": "t_wall_b",
         "e": "t_gates_mech_control",
         "g": "t_window",
         "l": "t_door_locked",
         "y": "t_pavement_y",
         "D": "t_door_c",
         "M": "t_metal_floor",
-        "c": "t_floor",
-        "L": "t_floor",
-        "r": "t_floor",
-        "h": "t_floor",
-        "T": "t_floor",
-        "S": "t_floor",
-        "C": "t_floor",
-        "v": "t_floor",
-        "V": "t_floor",
-        "t": "t_floor"
+        "4": "t_gutter_downspout",
+        "<": "t_ladder_up"
       },
       "furniture": {
         "c": "f_counter",
@@ -166,7 +61,9 @@
         "r": "f_rack",
         "v": "f_vending_c",
         "V": "f_vending_c",
-        "t": "f_table"
+        "t": "f_table",
+        "u": "f_dumpster",
+        "x": "f_recycle_bin"
       },
       "place_vehicles": [ { "vehicle": "oa_vg_ts_vehicles", "x": 15, "y": 10, "rotation": 270, "chance": 50, "fuel": 10 } ],
       "items": {
@@ -183,6 +80,70 @@
       "add": [ { "item": "microwave", "x": 16, "y": 18, "chance": 2 }, { "item": "coffeemaker", "x": 16, "y": 19, "chance": 2 } ],
       "toilets": { "T": {  } },
       "place_signs": [ { "signage": "Discount Tires", "x": 22, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "cs_tire_shop_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "    |22222222222222223  ",
+        "    |................3  ",
+        "    |................3  ",
+        "    |................3  ",
+        "    |................3  ",
+        "    |................3  ",
+        "    |................3  ",
+        "    |................3  ",
+        "    |................3  ",
+        "    |................3  ",
+        "    |................3  ",
+        "    |................3  ",
+        "    |................3  ",
+        "    |................3  ",
+        "    |................5  ",
+        "    -----####---------  ",
+        "         #>##           ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "terrain": { ">": "t_ladder_down" },
+      "place_items": [ { "item": "roof_trash", "x": [ 7, 15 ], "y": [ 7, 18 ], "chance": 20, "repeat": [ 1, 3 ] } ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 40 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 10 ],
+            [ "roof_2x2_utilities", 10 ],
+            [ "roof_2x2_golf", 5 ]
+          ],
+          "x": [ 7, 16 ],
+          "y": 17
+        },
+        {
+          "chunks": [
+            [ "null", 50 ],
+            [ "roof_4x4_party", 5 ],
+            [ "roof_4x4_holdout", 5 ],
+            [ "roof_4x4_utility", 10 ],
+            [ "roof_4x4_utility_1", 10 ],
+            [ "roof_6x6_survivor", 10 ],
+            [ "roof_6x6_utility", 10 ]
+          ],
+          "x": [ 6, 15 ],
+          "y": [ 9, 12 ]
+        }
+      ]
     }
   }
 ]

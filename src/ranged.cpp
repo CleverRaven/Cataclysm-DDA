@@ -810,7 +810,7 @@ static std::vector<aim_type> get_default_aim_type()
     return aim_types;
 }
 
-typedef std::vector<std::tuple<double, char, std::string>> RatingVector;
+using RatingVector = std::vector<std::tuple<double, char, std::string>>;
 static std::string get_colored_bar( const double val, const int width, const std::string &label,
                                     RatingVector::iterator begin, RatingVector::iterator end )
 {
@@ -1402,6 +1402,7 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             }
 
             wrefresh( g->w_terrain );
+            g->draw_panels();
             draw_targeting_window( w_target, relevant->tname(),
                                    mode, ctxt, aim_types, tiny );
             wrefresh( w_target );

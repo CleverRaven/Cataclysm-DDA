@@ -45,6 +45,25 @@
   },
   {
     "type": "overmap_special",
+    "id": "Boat Rental",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "boat_rental_north" } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "water" ],
+    "city_distance": [ 5, 15 ],
+    "city_sizes": [ 0, 12 ],
+    "occurrences": [ 0, 5 ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Riverside Dwelling",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "riverside_dwelling_north" } ],
+    "locations": [ "water" ],
+    "city_distance": [ -1, 25 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 0, 12 ]
+  },
+  {
+    "type": "overmap_special",
     "id": "farm_abandoned",
     "overmaps": [
       { "point": [ 1, 0, 0 ], "overmap": "car_corner_aban1_north" },
@@ -487,6 +506,32 @@
     "city_sizes": [ 4, 12 ],
     "occurrences": [ 1, 1 ],
     "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "overmap_special",
+    "id": "Alcatraz Prison",
+    "overmaps": [
+      { "point": [ 4, 0, 0 ], "overmap": "prison_alcatraz_1_north" },
+      { "point": [ 3, 0, 0 ], "overmap": "prison_alcatraz_2_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "prison_alcatraz_3_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "prison_alcatraz_4_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "prison_alcatraz_5_north" },
+      { "point": [ 4, 1, 0 ], "overmap": "prison_alcatraz_6_north" },
+      { "point": [ 3, 1, 0 ], "overmap": "prison_alcatraz_7_north" },
+      { "point": [ 2, 1, 0 ], "overmap": "prison_alcatraz_8_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "prison_alcatraz_9_north" },
+      { "point": [ 0, 1, 0 ], "overmap": "prison_alcatraz_10_north" },
+      { "point": [ 4, 2, 0 ], "overmap": "prison_alcatraz_11_north" },
+      { "point": [ 3, 2, 0 ], "overmap": "prison_alcatraz_12_north" },
+      { "point": [ 2, 2, 0 ], "overmap": "prison_alcatraz_13_north" },
+      { "point": [ 1, 2, 0 ], "overmap": "prison_alcatraz_14_north" },
+      { "point": [ 0, 2, 0 ], "overmap": "prison_alcatraz_15_north" }
+    ],
+    "locations": [ "lake_surface" ],
+    "city_distance": [ 3, -1 ],
+    "city_sizes": [ 4, 12 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC", "LAKE" ]
   },
   {
     "type": "overmap_special",

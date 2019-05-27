@@ -83,7 +83,7 @@
 # PROFILE is for use with gprof or a similar program -- don't bother generally.
 # RELEASE_FLAGS is flags for release builds.
 RELEASE_FLAGS =
-WARNINGS = -Werror -Wall -Wextra -Woverloaded-virtual -Wpedantic
+WARNINGS = -Werror -Wall -Wextra -Woverloaded-virtual -Wpedantic -Wmissing-declarations
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
@@ -310,6 +310,10 @@ ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
   OTHERS += -std=gnu++14
 else
   OTHERS += -std=c++14
+endif
+
+ifeq ($(CYGWIN),1)
+WARNINGS += -Wimplicit-fallthrough=0
 endif
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
@@ -1030,7 +1034,9 @@ clean-tests:
 	$(MAKE) -C tests clean
 
 validate-pr:
+ifneq ($(CYGWIN),1)
 	@build-scripts/validate_pr_in_jenkins
+endif
 
 .PHONY: tests check ctags etags clean-tests install lint validate-pr
 

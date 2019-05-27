@@ -286,16 +286,16 @@ class input_manager
     private:
         friend class input_context;
 
-        typedef std::vector<input_event> t_input_event_list;
-        typedef std::map<std::string, action_attributes> t_actions;
-        typedef std::map<std::string, t_actions> t_action_contexts;
+        using t_input_event_list = std::vector<input_event>;
+        using t_actions = std::map<std::string, action_attributes>;
+        using t_action_contexts = std::map<std::string, t_actions>;
         t_action_contexts action_contexts;
-        typedef std::map<std::string, std::string> t_string_string_map;
+        using t_string_string_map = std::map<std::string, std::string>;
 
-        typedef std::map<long, std::string> t_key_to_name_map;
+        using t_key_to_name_map = std::map<long, std::string>;
         t_key_to_name_map keycode_to_keyname;
         t_key_to_name_map gamepad_keycode_to_keyname;
-        typedef std::map<std::string, long> t_name_to_key_map;
+        using t_name_to_key_map = std::map<std::string, long>;
         t_name_to_key_map keyname_to_keycode;
 
         // See @ref get_previously_pressed_key

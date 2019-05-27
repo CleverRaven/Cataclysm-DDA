@@ -127,6 +127,7 @@ Character::Character() :
     // 45 days to starve to death
     healthy_calories = 55000;
     stored_calories = healthy_calories;
+    initialize_stomach_contents();
 
     name.clear();
 
@@ -187,6 +188,27 @@ void Character::mod_stat( const std::string &stat, float modifier )
     } else {
         Creature::mod_stat( stat, modifier );
     }
+}
+
+std::string Character::disp_name( bool possessive ) const
+{
+    if( !possessive ) {
+        if( is_player() ) {
+            return pgettext( "not possessive", "you" );
+        }
+        return name;
+    } else {
+        if( is_player() ) {
+            return _( "your" );
+        }
+        return string_format( _( "%s's" ), name );
+    }
+}
+
+std::string Character::skin_name() const
+{
+    // TODO: Return actual deflecting layer name
+    return _( "armor" );
 }
 
 int Character::effective_dispersion( int dispersion ) const
@@ -484,6 +506,15 @@ void Character::add_effect( const efftype_id &eff_id, const time_duration dur, b
 
 void Character::process_turn()
 {
+    for( auto &i : *my_bionics ) {
+        if( i.incapacitated_time > 0_turns ) {
+            i.incapacitated_time -= 1_turns;
+            if( i.incapacitated_time == 0_turns ) {
+                add_msg_if_player( m_bad, _( "Your %s bionic comes back online." ), i.info().name );
+            }
+        }
+    }
+
     Creature::process_turn();
 }
 
@@ -672,7 +703,7 @@ bool Character::has_active_bionic( const bionic_id &b ) const
 {
     for( auto &i : *my_bionics ) {
         if( i.id == b ) {
-            return ( i.powered );
+            return ( i.powered && i.incapacitated_time == 0_turns );
         }
     }
     return false;
@@ -747,6 +778,7 @@ long int Character::i_add_to_container( const item &it, const bool unloading )
     visit_items( [ & ]( item * item ) {
         if( charges > 0 && item->is_ammo_container() && item_type == item->contents.front().typeId() ) {
             charges = add_to_container( *item );
+            item->handle_pickup_ownership( *this );
         }
         return VisitResponse::NEXT;
     } );
@@ -774,7 +806,6 @@ item &Character::i_add( item it, bool should_stack )
             break;
         }
     }
-
     auto &item_in_inv = inv.add_item( it, keep_invlet, true, should_stack );
     item_in_inv.on_pickup( *this );
     return item_in_inv;
@@ -2147,6 +2178,35 @@ int Character::get_sleep_deprivation() const
     return sleep_deprivation;
 }
 
+void Character::on_damage_of_type( int adjusted_damage, damage_type type, body_part bp )
+{
+    // Electrical damage has a chance to temporarily incapacitate bionics in the damaged body_part.
+    if( type == DT_ELECTRIC ) {
+        const time_duration min_disable_time = 10_turns * adjusted_damage;
+        for( auto &i : *my_bionics ) {
+            if( !i.powered ) {
+                // Unpowered bionics are protected from power surges.
+                continue;
+            }
+            const auto &info = i.info();
+            if( info.shockproof || info.faulty ) {
+                continue;
+            }
+            const auto &bodyparts = info.occupied_bodyparts;
+            if( bodyparts.find( bp ) != bodyparts.end() ) {
+                const int bp_hp = hp_cur[bp_to_hp( bp )];
+                // The chance to incapacitate is as high as 50% if the attack deals damage equal to one third of the body part's current health.
+                if( x_in_y( adjusted_damage * 3, bp_hp ) && one_in( 2 ) ) {
+                    if( i.incapacitated_time == 0_turns ) {
+                        add_msg_if_player( m_bad, _( "Your %s bionic shorts out!" ), info.name );
+                    }
+                    i.incapacitated_time += rng( min_disable_time, 10 * min_disable_time );
+                }
+            }
+        }
+    }
+}
+
 void Character::reset_bonuses()
 {
     // Reset all bonuses to 0 and multipliers to 1.0
@@ -3099,4 +3159,64 @@ float Character::healing_rate_medicine( float at_rest_quality, const body_part b
         rate_medicine *= 1.0f + primary_hp_mod;
     }
     return rate_medicine;
+}
+
+float Character::get_bmi() const
+{
+    return 12 * get_kcal_percent() + 13;
+}
+
+units::mass Character::bodyweight() const
+{
+    return units::from_gram( round( get_bmi() * pow( height() / 100, 2 ) ) );
+}
+
+int Character::height() const
+{
+    // TODO: Make this a player creation option
+    return 175;
+}
+
+int Character::get_bmr() const
+{
+    /**
+    Values are for males, and average!
+    */
+    const int age = 25;
+    const int equation_constant = 5;
+    return ceil( metabolic_rate_base() * activity_level * ( units::to_gram<int>( 10 * bodyweight() ) +
+                 ( 6.25 * height() ) - ( 5 * age ) + equation_constant ) );
+}
+
+void Character::increase_activity_level( float new_level )
+{
+    if( activity_level < new_level ) {
+        activity_level = new_level;
+    }
+}
+
+void Character::decrease_activity_level( float new_level )
+{
+    if( activity_level > new_level ) {
+        activity_level = new_level;
+    }
+}
+void Character::reset_activity_level()
+{
+    activity_level = NO_EXERCISE;
+}
+
+std::string Character::activity_level_str() const
+{
+    if( activity_level <= NO_EXERCISE ) {
+        return _( "NO_EXERCISE" );
+    } else if( activity_level <= LIGHT_EXERCISE ) {
+        return _( "LIGHT_EXERCISE" );
+    } else if( activity_level <= MODERATE_EXERCISE ) {
+        return _( "MODERATE_EXERCISE" );
+    } else if( activity_level <= ACTIVE_EXERCISE ) {
+        return _( "ACTIVE_EXERCISE" );
+    } else {
+        return _( "EXTRA_EXERCISE" );
+    }
 }

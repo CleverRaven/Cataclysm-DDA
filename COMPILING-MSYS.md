@@ -101,4 +101,4 @@ make CCACHE=1 RELEASE=1 MSYS2=1 DYNAMIC_LINKING=1 SDL=1 TILES=1 SOUND=1 LOCALIZE
 ./cataclysm-tiles
 ```
 
-**Note:** If you want to run compiled executable from Explorer you will also need to update user or system`PATH` variable with path to MSYS2 runtime binaries (e.g. `C:\msys64\mingw64\bin`).
+**Note:** If you want to run compiled executable from Explorer you will also need to update user or system `PATH` variable with path to MSYS2 runtime binaries (e.g. `C:\msys64\mingw64\bin`).

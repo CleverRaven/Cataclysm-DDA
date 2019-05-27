@@ -49,6 +49,7 @@ const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_common_cold( "common_cold" );
 const efftype_id effect_flu( "flu" );
+const efftype_id effect_fungus( "fungus" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -390,7 +391,7 @@ bool player::vitamin_set( const vitamin_id &vit, int qty )
     return true;
 }
 
-float player::metabolic_rate_base() const
+float Character::metabolic_rate_base() const
 {
     float hunger_rate = get_option< float >( "PLAYER_HUNGER_RATE" );
     return hunger_rate * ( 1.0f + mutation_value( "metabolism_modifier" ) );
@@ -846,6 +847,10 @@ bool player::eat( item &food, bool force )
             add_msg_if_player( m_bad, _( "You feel horrible for eating a person." ) );
             add_morale( MORALE_CANNIBAL, -60, -400, 60_minutes, 30_minutes );
         }
+    }
+
+    if( food.has_flag( "FUNGAL_VECTOR" ) && !has_trait( trait_id( "M_IMMUNE" ) ) ) {
+        add_effect( effect_fungus, 1_turns, num_bp, true );
     }
 
     // The fun changes for these effects are applied in fun_for().

@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <algorithm>
 #include <cassert>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
@@ -18,6 +19,8 @@
 #include <set>
 #include <sstream>
 #include <type_traits>
+#include <utility>
+#include <vector>
 
 #include "cursesdef.h"
 #include "filesystem.h"
@@ -45,6 +48,17 @@
 #if defined(BACKTRACE)
 #   if defined(_WIN32)
 #       include <dbghelp.h>
+#   endif
+#   if defined(__CYGWIN__)
+//TDOD:PTZ170112 You may want to try a WinAPI function like CaptureStackBackTrace instead
+//https://msdn.microsoft.com/en-us/library/windows/desktop/bb204633(v=vs.85).aspx
+//TODO:PTZ170115 check cygwin-devel as in 2015 someone thought off these for cygwin too...!
+//http://cygwin.1069669.n5.nabble.com/backtrace-3-in-Cygwin-tt116597.html
+//https://trac.webkit.org/browser/trunk/Source/WTF/wtf/Assertions.cpp#L226
+//https://msdn.microsoft.com/en-us/library/windows/hardware/ff552119.aspx
+
+#       define backtrace(_a, _n) (sizeof(_a) * _n)
+#       define backtrace_symbols(_a, _sz) calloc( _sz * 0x200 * sizeof(_a), sizeof(char));
 #   else
 #       include <execinfo.h>
 #       include <unistd.h>
@@ -58,6 +72,11 @@
 #       include <SDL.h>
 #   endif
 #endif // TILES
+
+#if defined(__ANDROID__)
+// used by android_version() function for __system_property_get().
+#include <sys/system_properties.h>
+#endif
 
 // Static defines                                                   {{{1
 // ---------------------------------------------------------------------
@@ -464,7 +483,7 @@ static std::ostream &operator<<( std::ostream &out, DebugClass cl )
 }
 
 #if defined(BACKTRACE)
-#if !defined(_WIN32)
+#if !defined(_WIN32) && !defined(__CYGWIN__)
 // Verify that a string is safe for passing as an argument to addr2line.
 // In particular, we want to avoid any characters of significance to the shell.
 static bool debug_is_safe_string( const char *start, const char *finish )
@@ -603,6 +622,10 @@ void debug_write_backtrace( std::ostream &out )
     }
     out << "\n";
 #else
+#   if defined(__CYGWIN__)
+    // BACKTRACE is not supported under CYGWIN!
+    ( void ) out;
+#   else
     int count = backtrace( tracePtrs, TRACE_SIZE );
     char **funcNames = backtrace_symbols( tracePtrs, count );
     for( int i = 0; i < count; ++i ) {
@@ -732,6 +755,7 @@ void debug_write_backtrace( std::ostream &out )
         call_addr2line( last_binary_name, addresses );
     }
     free( funcNames );
+#   endif
 #endif
 }
 #endif
@@ -788,7 +812,7 @@ std::string game_info::operating_system()
     return "Windows";
 #elif defined(__linux__)
     return "Linux";
-#elif defined(unix) || defined(__unix__) || defined(__unix) || defined(__APPLE__) && defined(__MACH__) // unix; BSD; MacOs
+#elif defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) // unix; BSD; MacOs
 #if defined(__APPLE__) && defined(__MACH__)
     // The following include is **only** needed for the TARGET_xxx defines below and is only included if both of the above defines are true.
     // The whole function only relying on compiler defines, it is probably more meaningful to include it here and not mingle with the
@@ -804,13 +828,243 @@ std::string game_info::operating_system()
     /* OSX */
     return "MacOs";
 #endif // TARGET_IPHONE_SIMULATOR
-#elif defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
+#elif defined(BSD) // defined(__DragonFly__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
     return "BSD";
 #else
     return "Unix";
 #endif // __APPLE__
 #else
     return "Unknown";
+#endif
+}
+
+#if !defined(__CYGWIN__) && ( defined (__linux__) || defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) || defined(BSD) ) // linux; unix; MacOs; BSD
+/** Execute a command with the shell by using `popen()`.
+ * @param command The full command to execute.
+ * @note The output buffer is limited to 512 characters.
+ * @returns The result of the command (only stdout) or an empty string if there was a problem.
+ */
+static std::string shell_exec( const std::string &command )
+{
+    std::vector<char> buffer( 512 );
+    std::string output;
+    try {
+        std::unique_ptr<FILE, decltype( &pclose )> pipe( popen( command.c_str(), "r" ), pclose );
+        if( pipe ) {
+            while( fgets( buffer.data(), buffer.size(), pipe.get() ) != nullptr ) {
+                output += buffer.data();
+            }
+        }
+    } catch( ... ) {
+        output = "";
+    }
+    return output;
+}
+#endif
+
+#if defined (__ANDROID__)
+/** Get a precise version number for Android systems.
+ * @note see:
+ *    - https://stackoverflow.com/a/19777977/507028
+ *    - https://github.com/pytorch/cpuinfo/blob/master/test/build.prop/galaxy-s7-us.log
+ * @returns If successful, a string containing the Android system version, otherwise an empty string.
+ */
+static std::string android_version()
+{
+    std::string output;
+
+    // buffer used for the __system_property_get() function.
+    // note: according to android sources, it can't be greater than 92 chars (see 'PROP_VALUE_MAX' define in system_properties.h)
+    std::vector<char> buffer( 255 );
+
+    static const std::vector<std::pair<std::string, std::string>> system_properties = {
+        // The manufacturer of the product/hardware; e.g. "Samsung", this is different than the carrier.
+        { "ro.product.manufacturer", "Manufacturer" },
+        // The end-user-visible name for the end product; .e.g. "SAMSUNG-SM-G930A" for a Samsung S7.
+        { "ro.product.model", "Model" },
+        // The Android system version; e.g. "6.0.1"
+        { "ro.build.version.release", "Release" },
+        // The internal value used by the underlying source control to represent this build; e.g "G930AUCS4APK1" for a Samsung S7 on 6.0.1.
+        { "ro.build.version.incremental", "Incremental" },
+    };
+
+    for( const auto &entry : system_properties ) {
+        int len = __system_property_get( entry.first.c_str(), &buffer[0] );
+        std::string value;
+        if( len <= 0 ) {
+            // failed to get the property
+            value = "<unknown>";
+        } else {
+            value = std::string( buffer.data() );
+        }
+        output.append( string_format( "%s: %s; ", entry.second, value ) );
+    }
+    return output;
+}
+
+#elif defined(BSD)
+
+/** Get a precise version number for BSD systems.
+ * @note The code shells-out to call `uname -a`.
+ * @returns If successful, a string containing the Linux system version, otherwise an empty string.
+ */
+static std::string bsd_version()
+{
+    std::string output;
+    output = shell_exec( "uname -a" );
+    if( !output.empty() ) {
+        // remove trailing '\n', if any.
+        output.erase( std::remove( output.begin(), output.end(), '\n' ),
+                      output.end() );
+    }
+    return output;
+}
+
+#elif defined(__linux__)
+
+/** Get a precise version number for Linux systems.
+ * @note The code shells-out to call `lsb_release -a`.
+ * @returns If successful, a string containing the Linux system version, otherwise an empty string.
+ */
+static std::string linux_version()
+{
+    std::string output;
+    output = shell_exec( "lsb_release -a" );
+    if( !output.empty() ) {
+        // replace '\n' and '\t' in output.
+        static const std::vector<std::pair<std::string, std::string>> to_replace = {
+            {"\n", "; "},
+            {"\t", " "},
+        };
+        for( const auto &e : to_replace ) {
+            std::string::size_type pos;
+            while( ( pos = output.find( e.first ) ) != std::string::npos ) {
+                output.replace( pos, e.first.length(), e.second );
+            }
+        }
+    }
+    return output;
+}
+
+#elif defined(__APPLE__) && defined(__MACH__) && !defined(BSD)
+
+/** Get a precise version number for MacOs systems.
+ * @note The code shells-out to call `sw_vers` with various options.
+ * @returns If successful, a string containing the MacOS system version, otherwise an empty string.
+ */
+static std::string mac_os_version()
+{
+    std::string output;
+    static const std::vector<std::pair<std::string,  std::string>> commands = {
+        { "sw_vers -productName", "Name" },
+        { "sw_vers -productVersion", "Version" },
+        { "sw_vers -buildVersion", "Build" },
+    };
+
+    for( const auto &entry : commands ) {
+        std::string command_result = shell_exec( entry.first );
+        if( command_result.empty() ) {
+            command_result = "<unknown>";
+        } else {
+            // remove trailing '\n', if any.
+            command_result.erase( std::remove( command_result.begin(), command_result.end(), '\n' ),
+                                  command_result.end() );
+        }
+        output.append( string_format( "%s: %s; ", entry.second, command_result ) );
+    }
+    return output;
+}
+
+#elif defined (_WIN32)
+
+/** Get a precise version number for Windows systems.
+ * @note Since Windows 10 all version-related APIs lie about the underlying system if the application is not Manifested (see VerifyVersionInfoA
+ *     or GetVersionEx documentation for further explanation). In this function we use the registry or the native RtlGetVersion which both
+ *     report correct versions and are compatible down to XP.
+ * @returns If successful, a string containing the Windows system version number, otherwise an empty string.
+ */
+static std::string windows_version()
+{
+    std::string output;
+    HKEY handle_key;
+    bool success = RegOpenKeyExA( HKEY_LOCAL_MACHINE, R"(SOFTWARE\Microsoft\Windows NT\CurrentVersion)",
+                                  0,
+                                  KEY_QUERY_VALUE, &handle_key ) == ERROR_SUCCESS;
+    if( success ) {
+        DWORD value_type;
+        constexpr DWORD c_buffer_size = 512;
+        std::vector<BYTE> byte_buffer( c_buffer_size );
+        DWORD buffer_size = c_buffer_size;
+        DWORD major_version = 0;
+        success = RegQueryValueExA( handle_key, "CurrentMajorVersionNumber", nullptr, &value_type,
+                                    &byte_buffer[0], &buffer_size ) == ERROR_SUCCESS && value_type == REG_DWORD;
+        if( success ) {
+            major_version = *reinterpret_cast<const DWORD *>( &byte_buffer[0] );
+            output.append( std::to_string( major_version ) );
+        }
+        if( success ) {
+            buffer_size = c_buffer_size;
+            success = RegQueryValueExA( handle_key, "CurrentMinorVersionNumber", nullptr, &value_type,
+                                        &byte_buffer[0], &buffer_size ) == ERROR_SUCCESS && value_type == REG_DWORD;
+            if( success ) {
+                const DWORD minor_version = *reinterpret_cast<const DWORD *>( &byte_buffer[0] );
+                output.append( "." );
+                output.append( std::to_string( minor_version ) );
+            }
+        }
+        if( success && major_version == 10 ) {
+            buffer_size = c_buffer_size;
+            success = RegQueryValueExA( handle_key, "ReleaseId", nullptr, &value_type, &byte_buffer[0],
+                                        &buffer_size ) == ERROR_SUCCESS && value_type == REG_SZ;
+            if( success ) {
+                output.append( " " );
+                output.append( std::string( reinterpret_cast<char *>( byte_buffer.data() ) ) );
+            }
+        }
+
+        RegCloseKey( handle_key );
+    }
+
+    if( !success ) {
+        output = "";
+        using RtlGetVersion = LONG( WINAPI * )( PRTL_OSVERSIONINFOW );
+        const HMODULE handle_ntdll = GetModuleHandleA( "ntdll" );
+        if( handle_ntdll != nullptr ) {
+            // Use union-based type-punning to convert function pointer
+            // type without gcc warnings.
+            union {
+                RtlGetVersion p;
+                FARPROC q;
+            } rtl_get_version_func;
+            rtl_get_version_func.q = GetProcAddress( handle_ntdll, "RtlGetVersion" );
+            if( rtl_get_version_func.p != nullptr ) {
+                RTL_OSVERSIONINFOW os_version_info = RTL_OSVERSIONINFOW();
+                os_version_info.dwOSVersionInfoSize = sizeof( RTL_OSVERSIONINFOW );
+                if( rtl_get_version_func.p( &os_version_info ) == 0 ) { // NT_STATUS_SUCCESS = 0
+                    output.append( string_format( "%i.%i %i", os_version_info.dwMajorVersion,
+                                                  os_version_info.dwMinorVersion, os_version_info.dwBuildNumber ) );
+                }
+            }
+        }
+    }
+    return output;
+}
+#endif // Various OS define tests
+
+std::string game_info::operating_system_version()
+{
+#if defined(__ANDROID__)
+    return android_version();
+#elif defined(BSD)
+    return bsd_version();
+#elif defined(__linux__)
+    return linux_version();
+#elif defined(__APPLE__) && defined(__MACH__) && !defined(BSD)
+    return mac_os_version();
+#elif defined(_WIN32)
+    return windows_version();
+#else
+    return "<unknown>";
 #endif
 }
 
@@ -865,10 +1119,15 @@ std::string game_info::mods_loaded()
 
 std::string game_info::game_report()
 {
+    std::string os_version = operating_system_version();
+    if( os_version.empty() ) {
+        os_version = "<unknown>";
+    }
     std::stringstream report;
     report <<
-           "- OS: " << operating_system() << " [" << bitness() << "]\n" <<
-           "- Game Version: " << game_version() << "\n" <<
+           "- OS: " << operating_system() << "\n" <<
+           "    - OS Version: " << os_version << "\n" <<
+           "- Game Version: " << game_version() << " [" << bitness() << "]\n" <<
            "- Graphics Version: " << graphics_version() << "\n" <<
            "- Mods loaded: [\n    " << mods_loaded() << "\n]\n";
 

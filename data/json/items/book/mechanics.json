@@ -16,7 +16,7 @@
     "required_level": 4,
     "max_level": 8,
     "intelligence": 6,
-    "time": 30,
+    "time": "30 m",
     "fun": -1
   },
   {
@@ -43,7 +43,7 @@
     "skill": "mechanics",
     "max_level": 1,
     "intelligence": 5,
-    "time": 8,
+    "time": "8 m",
     "fun": 2
   },
   {
@@ -60,7 +60,7 @@
     "skill": "mechanics",
     "max_level": 3,
     "intelligence": 5,
-    "time": 18
+    "time": "18 m"
   },
   {
     "id": "textbook_biodiesel",
@@ -79,7 +79,7 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 9,
-    "time": 30
+    "time": "30 m"
   },
   {
     "id": "textbook_mechanics",
@@ -98,7 +98,7 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 6,
-    "time": 30,
+    "time": "30 m",
     "fun": -1
   }
 ]

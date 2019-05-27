@@ -434,6 +434,7 @@ struct conditional_t {
         void set_has_weapon( bool is_npc = false );
         void set_is_driving( bool is_npc = false );
         void set_is_day();
+        void set_has_stolen_item( bool is_npc = false );
         void set_is_outside();
         void set_is_by_radio();
         void set_u_has_camp();

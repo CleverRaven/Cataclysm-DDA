@@ -574,7 +574,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         } else if( action == "HELP_KEYBINDINGS" ) {
             g->draw_ter();
             wrefresh( g->w_terrain );
-            g->draw_panels();
+            g->draw_panels( true );
             redraw = true;
         }
     }
@@ -639,7 +639,7 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
 
     g->draw_ter();
     wrefresh( g->w_terrain );
-    g->draw_panels();
+    g->draw_panels( true );
 
     return true;
 }

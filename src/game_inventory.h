@@ -21,7 +21,7 @@ class player;
 class salvage_actor;
 class repair_item_actor;
 
-typedef std::function<bool( const item_location & )> item_location_filter;
+using item_location_filter = std::function<bool ( const item_location & )>;
 
 class inventory_filter_preset : public inventory_selector_preset
 {

@@ -27,9 +27,9 @@ template <typename T> class optional;
 
 bool item_is_blacklisted( const std::string &id );
 
-typedef std::string Item_tag;
-typedef std::string Group_tag;
-typedef std::vector<item> Item_list;
+using Item_tag = std::string;
+using Group_tag = std::string;
+using Item_list = std::vector<item>;
 
 class Item_factory;
 class JsonObject;
@@ -247,7 +247,7 @@ class Item_factory
 
         mutable std::map<itype_id, std::unique_ptr<itype>> m_runtimes;
 
-        typedef std::map<Group_tag, std::unique_ptr<Item_spawn_data>> GroupMap;
+        using GroupMap = std::map<Group_tag, std::unique_ptr<Item_spawn_data>>;
         GroupMap m_template_groups;
 
         /** Checks that ammo is listed in ammunition_type::name().

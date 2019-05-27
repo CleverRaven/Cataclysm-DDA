@@ -431,6 +431,8 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
         if( has_miss_recovery_tec( cur_weapon ) ) {
             move_cost /= 2;
         }
+
+        ma_onmiss_effects(); // trigger martial arts on-miss effects
     } else {
         // Remember if we see the monster at start - it may change
         const bool seen = g->u.sees( t );
@@ -503,9 +505,18 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
             if( !specialmsg.empty() ) {
                 add_msg_if_player( m_neutral, specialmsg );
             }
+
+            if( critical_hit ) {
+                ma_oncrit_effects(); // trigger martial arts on-crit effects
+            }
+
         }
 
         t.check_dead_state();
+
+        if( t.is_dead_state() ) {
+            ma_onkill_effects(); // trigger martial arts on-kill effects
+        }
     }
 
     const int melee = get_skill_level( skill_melee );
