@@ -7720,7 +7720,10 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
             } else if( base.is_watertight_container() ) {
                 name = base.is_container_empty() ? "liquid" : base.contents.front().tname();
             } else {
-                name = base.ammo_type()->name();
+                name = enumerate_as_string( base.ammo_types().begin(),
+                base.ammo_types().end(), []( const ammotype & at ) {
+                    return at->name();
+                }, enumeration_conjunction::none );
             }
             add_msg_if_player( m_info, _( "You don't have any %s to reload your %s!" ),
                                name, base.tname() );
