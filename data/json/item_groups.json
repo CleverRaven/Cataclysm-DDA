@@ -4057,10 +4057,7 @@
       [ "kris", 5 ],
       [ "cheese_hard", 1 ],
       [ "apron_leather", 1 ],
-      [ "pot_copper", 3 ],
-      [ "shield_kite", 5 ],
-      [ "shield_heater", 10 ],
-      [ "shield_buckler", 1 ]
+      [ "pot_copper", 3 ]
     ]
   },
   {
@@ -4452,13 +4449,7 @@
       [ "tourist_table", 10 ],
       [ "thermos", 25 ],
       [ "magic_8_ball", 2 ],
-      [ "coin_quarter", 2 ],
-      [ "shield_hoplon", 1 ],
-      [ "shield_scutum", 1 ],
-      [ "shield_round", 3 ],
-      [ "shield_kite", 3 ],
-      [ "shield_heater", 5 ],
-      [ "shield_buckler", 5 ]
+      [ "coin_quarter", 2 ]
     ]
   },
   {
@@ -7965,9 +7956,7 @@
       [ "survivor_shavingkit", 3 ],
       [ "survivor_hairtrimmer", 1 ],
       [ "survivor_scope", 1 ],
-      [ "survnote", 30 ],
-      [ "shield_wooden", 10 ],
-      [ "shield_wooden_large", 5 ]
+      [ "survnote", 30 ]
     ]
   },
   {
@@ -8296,13 +8285,7 @@
       [ "spear_dory", 3 ],
       [ "fire_lance", 2 ],
       [ "lance_charge", 1 ],
-      [ "lance_charge_shot", 1 ],
-      [ "shield_hoplon", 1 ],
-      [ "shield_scutum", 1 ],
-      [ "shield_round", 3 ],
-      [ "shield_kite", 3 ],
-      [ "shield_heater", 5 ],
-      [ "shield_buckler", 5 ]
+      [ "lance_charge_shot", 1 ]
     ]
   },
   {
