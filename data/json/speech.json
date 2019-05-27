@@ -1731,6 +1731,42 @@
     "type": "speech",
     "speaker": "foodperson_mask",
     "sound": "\"I AM FOODPERSON. AND I BRING SUSTENANCE!\"",
+    "volume": 17
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"Come to FoodPlace today and buy food!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"FoodPlace the best restaurant in an area!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"Our Food contains up to 95% real food.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"FoodPlace: It's the Calories.\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"You Need Food, Don't You? Then come with me to FOODPLACE!!\"",
+    "volume": 15
+  },
+  {
+    "type": "speech",
+    "speaker": "foodperson_mask",
+    "sound": "\"FoodPlace: edible food is OUR guarantee!\"",
     "volume": 15
   }
 ]
