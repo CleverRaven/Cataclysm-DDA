@@ -598,8 +598,14 @@ void player_morale::on_item_takeoff( const item &it )
 void player_morale::on_worn_item_transform( const item &it )
 {
     item dummy = it;
-    dummy.convert( dynamic_cast<iuse_transform *>( item::find_type(
-                       it.typeId() )->get_use( "transform" )->get_actor_ptr() )->target );
+
+    if( item::find_type( it.typeId() )->can_use( "transform" ) ) {
+        dummy.convert( dynamic_cast<iuse_transform *>( item::find_type(
+                           it.typeId() )->get_use( "transform" )->get_actor_ptr() )->target );
+    } else if( it.is_tool_reversible() ) {
+        dummy.convert( *( it.type )->tool->revert_to );
+    }
+
 
     set_worn( dummy, false );
     set_worn( it, true );

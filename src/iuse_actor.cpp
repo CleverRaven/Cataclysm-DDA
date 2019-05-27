@@ -188,7 +188,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
                          ( it.has_flag( "ALLOWS_REMOTE_USE" ) && square_dist( p.pos(), pos ) == 1 );
 
     if( possess && need_worn && !p.is_worn( it ) ) {
-        p.add_msg_if_player( m_info, _( "You need to wear %s to be able to activate it." ), it.tname() );
+        p.add_msg_if_player( m_info, _( "You need to wear the %1$s before activating it." ), it.tname() );
         return 0;
     }
     if( need_charges && it.ammo_remaining() < need_charges ) {
