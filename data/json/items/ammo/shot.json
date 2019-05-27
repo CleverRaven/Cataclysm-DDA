@@ -9,6 +9,15 @@
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
   {
+    "id": "reloaded_shot_dragon",
+    "copy-from": "shot_dragon",
+    "type": "AMMO",
+    "name": "reloaded dragon's breath shell",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
     "id": "reloaded_shot_00",
     "copy-from": "shot_00",
     "type": "AMMO",
@@ -76,6 +85,16 @@
     "price": 2400,
     "proportional": { "damage": 0.3, "recoil": 0.6, "loudness": 0.8 },
     "extend": { "effects": [ "NOGIB" ] }
+  },
+  {
+    "id": "shot_dragon",
+    "copy-from": "shot_00",
+    "type": "AMMO",
+    "name": "dragon's breath shell",
+    "description": "A shotgun shell filled with incendiary pellets or shards, used mostly as a distress flare or pyrotechnics tool.  When the round is fired, high temperature sparks and flames shoot out of the barrel, igniting everything in their path.",
+    "price": 2400,
+    "proportional": { "damage": 0.2, "recoil": 0.5, "loudness": 0.7 },
+    "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
   },
   {
     "id": "shot_flechette",
