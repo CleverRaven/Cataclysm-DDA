@@ -2,11 +2,7 @@
   {
     "type": "item_group",
     "id": "medieval",
-    "items": [
-      [ "shield_kite", 5 ],
-      [ "shield_heater", 10 ],
-      [ "shield_buckler", 1 ]
-    ]
+    "items": [ [ "shield_kite", 5 ], [ "shield_heater", 10 ], [ "shield_buckler", 1 ] ]
   },
   {
     "type": "item_group",
@@ -23,10 +19,7 @@
   {
     "type": "item_group",
     "id": "survivorzed_extra",
-    "items": [
-      [ "shield_wooden", 10 ],
-      [ "shield_wooden_large", 5 ]
-    ]
+    "items": [ [ "shield_wooden", 10 ], [ "shield_wooden_large", 5 ] ]
   },
   {
     "type": "item_group",
