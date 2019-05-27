@@ -87,6 +87,11 @@
       }
     },
     "responses": [
+      {
+        "condition": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" },
+        "text": "I've talked to the others, and they're all willing to come.  So, you joining us?",
+        "topic": "TALK_REFUGEE_BEGGAR_1_RECRUITED"
+      },
       { "text": "What are you doing here?", "topic": "TALK_REFUGEE_BEGGAR_1_INTRO" },
       {
         "text": "Hey, here, I might have some food for you.  Let me check.",
@@ -335,5 +340,11 @@
       { "text": "OK.  For now let's talk about something else.", "topic": "TALK_NONE" },
       { "text": "OK, I'll talk to them too.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_1_RECRUITED",
+    "dynamic_line": "Well... you have shown that you can survive out there, and you've been able to provide food, so I know you're thriving more than we are here.  All right, I'll tell you what.  I'm not going anywhere without my friends here, we've been through way too much together.  If you can convince Luo, Brandon, and Yusuke to come along, then I'll go.",
+    "responses": [ { "text": "All right!  Let's get going.", "topic": "TALK_DONE", "effect": "follow" } ]
   }
 ]

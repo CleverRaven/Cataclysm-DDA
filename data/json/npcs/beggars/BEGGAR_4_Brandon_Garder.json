@@ -100,6 +100,11 @@
       "no": "Because I sure ain't fit, so I'm sittin' out here until I starve to death.  Help a poor sickly soul out?"
     },
     "responses": [
+      {
+        "condition": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" },
+        "text": "I've talked to the others, and they're all willing to come.  So, you joining us?",
+        "topic": "TALK_REFUGEE_BEGGAR_4_RECRUITED"
+      },
       { "text": "I could maybe help you out... want something to eat?", "topic": "TALK_REFUGEE_BEGGAR_4_GIVE_FOOD" },
       { "text": "What's wrong with you?", "topic": "TALK_REFUGEE_BEGGAR_4_TALK2" },
       { "text": "They won't let you in because you're sick?", "topic": "TALK_REFUGEE_BEGGAR_4_SICKLY" },
@@ -285,12 +290,17 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_4_RECRUIT2",
-    "//": "Until I code Dino Dave, no way to get to this.",
     "dynamic_line": "Well... I'll be honest, I didn't even think Dave could be sorted out, and you've gone and called my bluff!  It's a darn fine thing you've done for that poor soul.  Listen, I wasn't... entirely serious about wanting to come with you, but if you can convince the others to go, then I guess I'll come along.",
     "speaker_effect": [ { "effect": { "u_add_var": "brendan_recruited", "type": "general", "context": "recruit", "value": "yes" } } ],
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_4_RECRUITED",
+    "dynamic_line": "Golly.  I didn't expect that, but I'm as good as my word.  Let's get going.",
+    "responses": [ { "text": "Let's get going.", "topic": "TALK_DONE", "effect": "follow" } ]
   }
 ]

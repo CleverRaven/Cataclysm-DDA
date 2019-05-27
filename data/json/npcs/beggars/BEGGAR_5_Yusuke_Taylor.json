@@ -26,7 +26,13 @@
     "worn_override": "NC_BEGGAR_5_worn",
     "carry_override": "EMPTY_GROUP",
     "weapon_override": "EMPTY_GROUP",
-    "traits": [ { "trait": "FUR" }, { "trait": "OPTIMISTIC" }, { "trait": "LIGHTSTEP" }, { "trait": "CLAWS_RETRACT" }, { "group": "Appearance_Mixed" } ],
+    "traits": [
+      { "trait": "FUR" },
+      { "trait": "OPTIMISTIC" },
+      { "trait": "LIGHTSTEP" },
+      { "trait": "CLAWS_RETRACT" },
+      { "group": "Appearance_Mixed" }
+    ],
     "skills": [
       { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "constant": -3 } ] } },
       { "skill": "electronics", "bonus": { "rng": [ 3, 6 ] } },

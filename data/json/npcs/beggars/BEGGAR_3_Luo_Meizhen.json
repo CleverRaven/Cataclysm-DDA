@@ -98,6 +98,11 @@
     },
     "responses": [
       {
+        "condition": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" },
+        "text": "I've talked to the others, and they're all willing to come.  So, you joining us?",
+        "topic": "TALK_REFUGEE_BEGGAR_3_RECRUITED"
+      },
+      {
         "condition": { "and": [ { "not": { "npc_has_effect": "beggar_has_eaten" } }, { "not": { "npc_has_effect": "insulted_luo" } } ] },
         "text": "What's up?",
         "topic": "TALK_REFUGEE_BEGGAR_3_COMPLAIN"
@@ -559,5 +564,11 @@
     "responses": [
       { "text": "Glad you like it.  If I think of something you can do in return, I'll let you know.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_3_RECRUITED",
+    "dynamic_line": "Well good.  Let's get going, I want to see some more of these crazy mushrooms.",
+    "responses": [ { "text": "I'll see what I can do.", "topic": "TALK_DONE", "effect": "follow" } ]
   }
 ]
