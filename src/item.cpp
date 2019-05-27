@@ -5889,7 +5889,7 @@ std::set<ammotype> item::ammo_types( bool conversion ) const
 
 itype_id item::ammo_default( bool conversion ) const
 {
-    auto res = ammo_type( conversion )->default_ammotype();
+    auto res = ammotype( *ammo_types( conversion ).begin() )->default_ammotype();
     return !res.empty() ? res : "NULL";
 }
 
