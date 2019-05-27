@@ -1,0 +1,43 @@
+[
+  {
+    "type": "item_group",
+    "id": "medieval",
+    "items": [
+      [ "shield_kite", 5 ],
+      [ "shield_heater", 10 ],
+      [ "shield_buckler", 1 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "pawn",
+    "items": [
+      [ "shield_hoplon", 1 ],
+      [ "shield_scutum", 1 ],
+      [ "shield_round", 3 ],
+      [ "shield_kite", 3 ],
+      [ "shield_heater", 5 ],
+      [ "shield_buckler", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "survivorzed_extra",
+    "items": [
+      [ "shield_wooden", 10 ],
+      [ "shield_wooden_large", 5 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "antique_rare",
+    "items": [
+      [ "shield_hoplon", 1 ],
+      [ "shield_scutum", 1 ],
+      [ "shield_round", 3 ],
+      [ "shield_kite", 3 ],
+      [ "shield_heater", 5 ],
+      [ "shield_buckler", 5 ]
+    ]
+  }
+]
