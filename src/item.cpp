@@ -203,8 +203,8 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
         last_rot_check = bday;
 
     } else if( type->tool ) {
-        if( ammo_remaining() && ammo_type() ) {
-            ammo_set( ammo_type()->default_ammotype(), ammo_remaining() );
+        if( ammo_remaining() && !ammo_types().empty() ) {
+            ammo_set( ammo_default(), ammo_remaining() );
         }
     }
 
