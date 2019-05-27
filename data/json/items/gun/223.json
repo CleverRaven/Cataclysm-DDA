@@ -129,7 +129,7 @@
     "dispersion": 140,
     "durability": 3,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "sling", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "muzzle", 1 ], [ "sling", 1 ] ],
     "magazines": [ [ "223", [ "lw223mag", "lw223bigmag" ] ] ],
     "flags": [ "DISABLE_SIGHTS" ]
   },
@@ -147,6 +147,7 @@
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "brass catcher", 1 ],
+      [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "barrel", 1 ],
@@ -170,6 +171,7 @@
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "brass catcher", 1 ],
+      [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "barrel", 1 ],
@@ -192,6 +194,7 @@
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "brass catcher", 1 ],
+      [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ],
       [ "barrel", 1 ],
@@ -209,7 +212,15 @@
     "durability": 9,
     "relative": { "weight": 1200, "volume": 2 },
     "built_in_mods": [ "lead_acog_scope", "lead_red_dot_sight", "lead_grip", "lead_glm", "lead_stabilizer" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "sights", 2 ], [ "sling", 1 ], [ "underbarrel", 2 ], [ "rail", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "brass catcher", 1 ],
+      [ "muzzle", 1 ],
+      [ "sights", 2 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 2 ],
+      [ "rail", 1 ]
+    ]
   },
   {
     "id": "m249",

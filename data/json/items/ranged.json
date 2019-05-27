@@ -74,7 +74,8 @@
     "range": 5,
     "dispersion": 75,
     "durability": 6,
-    "clip_size": 1
+    "clip_size": 1,
+    "valid_mod_locations": [ [ "grip mount", 1 ], [ "underbarrel mount", 1 ] ]
   },
   {
     "id": "wristrocket",
@@ -95,7 +96,8 @@
     "range": 8,
     "dispersion": 45,
     "durability": 7,
-    "clip_size": 1
+    "clip_size": 1,
+    "valid_mod_locations": [ [ "grip mount", 1 ], [ "underbarrel mount", 1 ] ]
   },
   {
     "id": "bullet_crossbow",

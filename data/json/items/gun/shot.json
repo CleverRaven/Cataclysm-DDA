@@ -132,7 +132,17 @@
     "durability": 8,
     "clip_size": 8,
     "built_in_mods": [ "lead_red_dot_sight", "lead_laser_sight" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "brass catcher", 1 ], [ "sights", 1 ], [ "sling", 1 ], [ "underbarrel", 1 ] ]
+    "valid_mod_locations": [
+      [ "accessories", 2 ],
+      [ "brass catcher", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "underbarrel", 1 ],
+      [ "muzzle", 1 ],
+      [ "grip mount", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ]
+    ]
   },
   {
     "id": "m1014",
