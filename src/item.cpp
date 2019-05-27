@@ -4392,7 +4392,7 @@ bool item::craft_has_charges()
 {
     if( count_by_charges() ) {
         return true;
-    } else if( !ammo_type() ) {
+    } else if( ammo_types().empty() ) {
         return true;
     }
 
