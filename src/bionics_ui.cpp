@@ -96,6 +96,9 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
     if( bio_data.toggled ) {
         properties.push_back( bio.powered ? _( "ON" ) : _( "OFF" ) );
     }
+    if( bio.incapacitated_time > 0_turns ) {
+        properties.push_back( _( "(incapacitated)" ) );
+    }
 
     return enumerate_as_string( properties, enumeration_conjunction::none );
 }

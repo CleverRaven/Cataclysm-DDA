@@ -79,8 +79,8 @@ struct wrapped_vehicle {
     vehicle *v;
 };
 
-typedef std::vector<wrapped_vehicle> VehicleList;
-typedef std::string items_location;
+using VehicleList = std::vector<wrapped_vehicle>;
+using items_location = std::string;
 class map;
 
 enum ter_bitflags : int;
@@ -1220,7 +1220,8 @@ class map
         void place_vending( int x, int y, const std::string &type, bool reinforced = false );
         // places an NPC, if static NPCs are enabled or if force is true
         int place_npc( int x, int y, const string_id<npc_template> &type, const bool force = false );
-
+        void apply_faction_ownership( const int x1, const int y1, const int x2, const int y2,
+                                      const faction_id id );
         void add_spawn( const mtype_id &type, const int count, const int x, const int y,
                         bool friendly = false,
                         const int faction_id = -1, const int mission_id = -1,
@@ -1588,8 +1589,8 @@ class map
          * It's a really heinous function pointer so a typedef is the best
          * solution in this instance.
          */
-        typedef bool ( *map_process_func )( item_stack &, std::list<item>::iterator &, const tripoint &,
-                                            const std::string &, float, temperature_flag );
+        using map_process_func = bool ( * )( item_stack &, std::list<item>::iterator &, const tripoint &,
+                                             const std::string &, float, temperature_flag );
     private:
 
         // Iterates over every item on the map, passing each item to the provided function.

@@ -22,7 +22,7 @@
 #include "material.h"
 #include "type_id.h"
 
-typedef statistics<bool> firing_statistics;
+using firing_statistics = statistics<bool>;
 
 template < class T >
 std::ostream &operator <<( std::ostream &os, const std::vector<T> &v )

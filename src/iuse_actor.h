@@ -660,6 +660,24 @@ class musical_instrument_actor : public iuse_actor
 };
 
 /**
+ * Learn a spell
+ */
+class learn_spell_actor : public iuse_actor
+{
+    public:
+        // list of spell ids that can be learned from this item
+        std::vector<std::string> spells;
+
+        learn_spell_actor( const std::string &type = "learn_spell" ) : iuse_actor( type ) {}
+
+        ~learn_spell_actor() override = default;
+        void load( JsonObject &jo ) override;
+        int use( player &p, item &, bool, const tripoint & ) const override;
+        iuse_actor *clone() const override;
+        void info( const item &, std::vector<iteminfo> & ) const override;
+};
+
+/**
  * Holster a weapon
  */
 class holster_actor : public iuse_actor

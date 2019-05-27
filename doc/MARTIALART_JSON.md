@@ -9,6 +9,7 @@
 "name" : "Debug Mastery",   // In-game name displayed
 "description": "A secret martial art used only by developers and cheaters.",    // In-game description
 "initiate": [ "You stand ready.", "%s stands ready." ],     // Message shown when player or NPC chooses this art
+"autolearn": [ [ "unarmed", "2" ] ],     // A list of skill requirements that if met, automatically teach the player the martial art
 "arm_block" : 99,           // Unarmed skill level at which arm blocking is unlocked
 "leg_block" : 99,           // Unarmed skill level at which arm blocking is unlocked
 "static_buffs" : [          // List of buffs that are automatically applied every turn
@@ -19,6 +20,9 @@
 "onattack_buffs" : []       // List of buffs that are automatically applied after any attack, hit or miss
 "onhit_buffs" : []          // List of buffs that are automatically applied on successful hit
 "onmove_buffs" : []         // List of buffs that are automatically applied on movement
+"onmiss_buffs" : []         // List of buffs that are automatically applied on a miss
+"oncrit_buffs" : []         // List of buffs that are automatically applied on a crit
+"onkill_buffs" : []         // List of buffs that are automatically applied upon killing an enemy
 "techniques" : [            // List of techniques available when this martial art is used
     "tec_debug_slow",
     "tec_debug_arpen"
@@ -34,7 +38,7 @@
 "name" : "phasing strike",  // In-game name displayed
 "unarmed_allowed" : true,   // Can an unarmed character use this technique
 "strict_unarmed" : true,    // Does this buff require the character to be actually unarmed or does it allow unarmed weapons
-"melee_allowed" : true,     // Can an armed character use this technique
+"melee_allowed" : true,     // Means that ANY melee weapon can be used, NOT just the martial art's weapons 
 "min_melee" : 3,            // Minimum skill and its level required to use this technique. Can be any skill.
 "req_buffs": [ "eskrima_hit_buff" ],    // This technique requires a named buff to be active
 "crit_tec" : true,          // Can this technique be used on crit (and only on crit)?

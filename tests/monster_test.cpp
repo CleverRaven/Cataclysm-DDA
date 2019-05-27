@@ -22,7 +22,7 @@
 #include "item.h"
 #include "line.h"
 
-typedef statistics<int> move_statistics;
+using move_statistics = statistics<int>;
 
 static int moves_to_destination( const std::string &monster_type,
                                  const tripoint &start, const tripoint &end )

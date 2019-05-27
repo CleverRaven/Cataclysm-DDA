@@ -15,7 +15,7 @@
 
 struct WORLD;
 
-typedef WORLD *WORLDPTR;
+using WORLDPTR = WORLD *;
 class dependency_tree;
 class JsonObject;
 class mod_manager;
@@ -67,7 +67,7 @@ struct MOD_INFORMATION {
 class mod_manager
 {
     public:
-        typedef std::vector<mod_id> t_mod_list;
+        using t_mod_list = std::vector<mod_id>;
 
         mod_manager();
         ~mod_manager();

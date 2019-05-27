@@ -16,8 +16,8 @@
 #include "translations.h"
 #include "generic_factory.h"
 
-typedef std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>> TraitGroupMap;
-typedef std::set<trait_id> TraitSet;
+using TraitGroupMap = std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>>;
+using TraitSet = std::set<trait_id>;
 
 TraitSet trait_blacklist;
 TraitGroupMap trait_groups;

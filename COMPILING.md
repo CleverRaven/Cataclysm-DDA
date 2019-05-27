@@ -10,10 +10,11 @@
   * [Cross-compile to Windows from Linux](#cross-compile-to-windows-from-linux)
   * [Cross-compile to Mac OS X from Linux](#cross-compile-to-mac-os-x-from-linux)
   * [Cross-compile to Android from Linux](#cross-compile-to-android-from-linux)
+  * [Troubleshooting](#debian-troubleshooting)
 * [Mac OS X](#mac-os-x)
   * [Simple build using Homebrew](#simple-build-using-homebrew)
   * [Advanced info for Developers](#advanced-info-for-developers)
-  * [Troubleshooting](#troubleshooting)
+  * [Troubleshooting](#mac-troubleshooting)
 * [Windows](#windows)
   * [Visual Studio Guide](#visual-studio-guide)
   * [MinGW Guide](#mingw-guide)
@@ -34,15 +35,15 @@ You have three major choices here: GCC, Clang and MXE.
 
 (Note that your distro may have separate packages e.g. `gcc` only includes the C compiler and for C++ you'll need to install `g++`.)
 
-Cataclysm is targeting C++11 standard and that means you'll need a compiler that supports it. You can easily check if your version of `g++` supports C++11 by running:
+Cataclysm is targeting C++14 standard and that means you'll need a compiler that supports it. You can easily check if your version of `g++` supports C++14 by running:
 
-    $ g++ --std=c++11
+    $ g++ --std=c++14
     g++: fatal error: no input files
     compilation terminated.
 
 If you get a line like:
 
-    g++: error: unrecognized command line option ‘--std=c++11’
+    g++: error: unrecognized command line option ‘--std=c++14’
 
 This means you'll need a newer version of GCC (`g++`).
 
@@ -352,6 +353,10 @@ To build a signed release APK (ie. one that can be installed on a device), [buil
 ### Additional notes
 
 The app stores data files on the device in `/sdcard/Android/data/com.cleverraven/cataclysmdda/files`. The data is backwards compatible with the desktop version.
+
+## Linux Troubleshooting
+
+If you get an error stating `make: build-scripts/validate_pr_in_jenkins: Command not found` clone a separate copy of the upstream source to a new git repository as your git setup has become corrupted by the Blob.
 
 # Mac OS X
 
@@ -728,7 +733,7 @@ There are reports of CDDA building fine on recent OpenBSD and FreeBSD machines (
 
 ### Building on FreeBSD/amd64 10.1 with the system compiler
 
-FreeBSD uses clang as the default compiler as of 10.0, and combines it with libc++ to provide C++11 support out of the box. You will however need gmake (examples for binary packages):
+FreeBSD uses clang as the default compiler as of 10.0, and combines it with libc++ to provide C++14 support out of the box. You will however need gmake (examples for binary packages):
 
 `pkg install gmake`
 

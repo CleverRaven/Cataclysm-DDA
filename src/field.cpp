@@ -437,6 +437,42 @@ const std::array<field_t, num_fields> fieldlist = { {
         },
 
         {
+            "fd_cold_air1",
+            {"", "", ""}, '&', -1,
+            {def_c_white, def_c_blue, def_c_blue}, {true, true, true}, {false, false, false}, 50_minutes,
+            {0, 0, 0},
+            GAS,
+            false
+        },
+
+        {
+            "fd_cold_air2",
+            {"", "", ""}, '&', -1,
+            {def_c_white, def_c_blue, def_c_blue}, {true, true, true}, {false, false, false}, 50_minutes,
+            {0, 0, 0},
+            GAS,
+            false
+        },
+
+        {
+            "fd_cold_air3",
+            {"", "", ""}, '&', -1,
+            {def_c_white, def_c_blue, def_c_blue}, {true, true, true}, {false, false, false}, 50_minutes,
+            {0, 0, 0},
+            GAS,
+            false
+        },
+
+        {
+            "fd_cold_air4",
+            {"", "", ""}, '&', -1,
+            {def_c_white, def_c_blue, def_c_blue}, {true, true, true}, {false, false, false}, 50_minutes,
+            {0, 0, 0},
+            GAS,
+            false
+        },
+
+        {
             "fd_hot_air1",
             {"", "", ""}, '&', -1,
             {def_c_white, def_c_yellow, def_c_red}, {true, true, true}, {false, false, false}, 50_minutes,
@@ -745,7 +781,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
             }
         }
     };
-
     /*
     Function: create_hot_air
     Helper function that encapsulates the logic involved in creating hot air.
@@ -1450,7 +1485,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         spread_gas( cur, p, curtype, 15, 1_minutes );
                         break;
                     }
-
+                    case fd_cold_air1:
+                    case fd_cold_air2:
+                    case fd_cold_air3:
+                    case fd_cold_air4:
                     case fd_hot_air1:
                     case fd_hot_air2:
                     case fd_hot_air3:

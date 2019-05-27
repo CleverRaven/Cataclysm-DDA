@@ -450,7 +450,7 @@ void talk_function::give_equipment( npc &p )
     item it = *giving[chosen].loc.get_item();
     giving[chosen].loc.remove_item();
     popup( _( "%1$s gives you a %2$s" ), p.name, it.tname() );
-
+    it.set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
     g->u.i_add( it );
     p.op_of_u.owed -= giving[chosen].price;
     p.add_effect( effect_asked_for_item, 3_hours );
@@ -661,6 +661,35 @@ void talk_function::stranger_neutral( npc &p )
     add_msg( _( "%s feels less threatened by you." ), p.name );
     p.set_attitude( NPCATT_NULL );
     p.chatbin.first_topic = "TALK_STRANGER_NEUTRAL";
+}
+
+void talk_function::drop_stolen_item( npc &p )
+{
+    for( auto &elem : g->u.inv_dump() ) {
+        if( elem->get_old_owner() ) {
+            if( elem->get_old_owner()->id.str() == p.my_fac->id.str() ) {
+                item to_drop = g->u.i_rem( elem );
+                to_drop.remove_old_owner();
+                to_drop.set_owner( p.my_fac );
+                g->m.add_item_or_charges( g->u.pos(), to_drop );
+            }
+        }
+    }
+    if( p.known_stolen_item ) {
+        p.known_stolen_item = nullptr;
+    }
+    if( g->u.is_hauling() ) {
+        g->u.stop_hauling();
+    }
+    p.set_attitude( NPCATT_NULL );
+}
+
+void talk_function::remove_stolen_status( npc &p )
+{
+    if( p.known_stolen_item ) {
+        p.known_stolen_item = nullptr;
+    }
+    p.set_attitude( NPCATT_NULL );
 }
 
 void talk_function::start_mugging( npc &p )

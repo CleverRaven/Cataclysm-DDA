@@ -1444,6 +1444,7 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
     // attempt to determine beam density required to cover all squares
     const double wstep = ( wangle / ( wdist * SQRT_2 ) );
 
+    // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter)
     for( double ao = wstep; ao <= wangle; ao += wstep ) {
         if( trigdist ) {
             double fdist = ( ao * HALFPI ) / wangle;
