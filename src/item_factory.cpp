@@ -253,7 +253,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
     // for magazines ensure default_ammo is set
     if( obj.magazine && obj.magazine->default_ammo == "NULL" ) {
-        obj.magazine->default_ammo = obj.magazine->type->default_ammotype();
+        obj.magazine->default_ammo = ammotype( *obj.magazine->type.begin() )->default_ammotype();
     }
     if( obj.gun ) {
         handle_legacy_ranged( *obj.gun );
