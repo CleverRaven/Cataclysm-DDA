@@ -30,7 +30,10 @@
 #include "pimpl.h"
 #include "type_id.h"
 
-static std::map<faction_id, faction_template> _all_faction_templates;
+namespace npc_factions
+{
+std::vector<faction_template> all_templates;
+}
 
 const faction_id your_faction = faction_id( "your_followers" );
 
@@ -55,12 +58,12 @@ faction::faction( const faction_template &templ )
 void faction_template::load( JsonObject &jsobj )
 {
     faction_template fac( jsobj );
-    _all_faction_templates.emplace( fac.id, fac );
+    npc_factions::all_templates.emplace_back( fac );
 }
 
 void faction_template::reset()
 {
-    _all_faction_templates.clear();
+    npc_factions::all_templates.clear();
 }
 
 faction_template::faction_template( JsonObject &jsobj )
@@ -288,8 +291,8 @@ void faction_manager::create_if_needed()
     if( !factions.empty() ) {
         return;
     }
-    for( const auto &elem : _all_faction_templates ) {
-        factions.emplace_back( elem.second );
+    for( const auto &fac_temp : npc_factions::all_templates ) {
+        factions.emplace_back( fac_temp );
     }
 }
 
@@ -300,8 +303,7 @@ faction *faction_manager::get( const faction_id &id )
             return &elem;
         }
     }
-    for( const auto &iter : _all_faction_templates ) {
-        const faction_template &elem = iter.second;
+    for( const faction_template &elem : npc_factions::all_templates ) {
         if( elem.id == id ) {
             factions.emplace_back( elem );
             return &factions.back();
