@@ -790,6 +790,8 @@ class npc : public player
         // Faction version number
         int get_faction_ver() const;
         void set_faction_ver( int new_version );
+        bool has_faction_relationship( const player &guy,
+                                       const npc_factions::relationship flag ) const;
         // We want to kill/mug/etc the player
         bool is_enemy() const;
         // Traveling w/ player (whether as a friend or a slave)

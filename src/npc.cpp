@@ -1503,6 +1503,26 @@ void npc::set_faction_ver( int new_version )
     faction_api_version = new_version;
 }
 
+bool npc::has_faction_relationship( const player &p, const npc_factions::relationship flag ) const
+{
+    if( !my_fac ) {
+        return false;
+    }
+
+    faction_id your_fac_id;
+    if( p.is_player() ) {
+        your_fac_id = faction_id( "your_followers" );
+    } else {
+        const npc &guy = dynamic_cast<const npc &>( p );
+        if( guy.my_fac ) {
+            your_fac_id = guy.my_fac->id;
+        } else {
+            return false;
+        }
+    }
+    return my_fac->has_relationship( your_fac_id, flag );
+}
+
 bool npc::is_ally( const player &p ) const
 {
     if( p.getID() == getID() ) {
