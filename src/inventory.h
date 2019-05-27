@@ -27,12 +27,12 @@ class JsonOut;
 class player;
 struct tripoint;
 
-typedef std::list< std::list<item> > invstack;
-typedef std::vector< std::list<item>* > invslice;
-typedef std::vector< const std::list<item>* > const_invslice;
-typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
-typedef std::unordered_map< itype_id, std::list<const item *> > itype_bin;
-typedef std::bitset<std::numeric_limits<char>::max()> invlets_bitset;
+using invstack = std::list<std::list<item> >;
+using invslice = std::vector<std::list<item> *>;
+using const_invslice = std::vector<const std::list<item> *>;
+using indexed_invslice = std::vector< std::pair<std::list<item>*, int> >;
+using itype_bin = std::unordered_map< itype_id, std::list<const item *> >;
+using invlets_bitset = std::bitset<std::numeric_limits<char>::max()>;
 
 /**
  * Wrapper to handled a set of valid "inventory" letters. "inventory" can be any set of

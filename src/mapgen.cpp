@@ -33,6 +33,7 @@
 #include "mapdata.h"
 #include "mapgen_functions.h"
 #include "mapgenformat.h"
+#include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "mtype.h"
@@ -309,8 +310,8 @@ bool defer;
 JsonObject jsi;
 }
 
-void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
-                       const std::string &message )
+static void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
+                              const std::string &message )
 {
     mapgen_defer::defer = true;
     mapgen_defer::jsi = jsi;
@@ -372,7 +373,7 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
     return ret;
 }
 
-void load_nested_mapgen( JsonObject &jio, const std::string &id_base )
+static void load_nested_mapgen( JsonObject &jio, const std::string &id_base )
 {
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "json" ) {
@@ -390,7 +391,7 @@ void load_nested_mapgen( JsonObject &jio, const std::string &id_base )
     }
 }
 
-void load_update_mapgen( JsonObject &jio, const std::string &id_base )
+static void load_update_mapgen( JsonObject &jio, const std::string &id_base )
 {
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "json" ) {
@@ -481,8 +482,9 @@ size_t mapgen_function_json_base::calc_index( const size_t x, const size_t y ) c
     return y * mapgensize_y + x;
 }
 
-bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y, const int mapgensize_x,
-                          const int mapgensize_y, JsonObject &jso )
+static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
+                                 const int mapgensize_x, const int mapgensize_y,
+                                 JsonObject &jso )
 {
     if( x.val < 0 || x.val > mapgensize_x - 1 || y.val < 0 || y.val > mapgensize_y - 1 ) {
         return false;
@@ -551,6 +553,8 @@ jmapgen_int::jmapgen_int( JsonObject &jo, const std::string &tag )
         val = sparray.get_int( 0 );
         if( sparray.size() == 2 ) {
             valmax = sparray.get_int( 1 );
+        } else {
+            valmax = val;
         }
     } else {
         val = valmax = jo.get_int( tag );
@@ -799,6 +803,24 @@ class jmapgen_npc : public jmapgen_piece
                     p->set_mutation( trait_id( new_trait ) );
                 }
             }
+        }
+};
+/**
+* Place ownership area
+*/
+class jmapgen_faction : public jmapgen_piece
+{
+    public:
+        faction_id id;
+        jmapgen_faction( JsonObject &jsi ) : jmapgen_piece() {
+            if( jsi.has_string( "id" ) ) {
+                id = faction_id( jsi.get_string( "id" ) );
+                std::string facid = jsi.get_string( "id" );
+            }
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const float /*mdensity*/, mission * ) const override {
+            dat.m.apply_faction_ownership( x.val, y.val, x.valmax, y.valmax, id );
         }
 };
 /**
@@ -2132,7 +2154,7 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_graffiti>( jo, "graffiti", format_placings );
     new_pal.load_place_mapings<jmapgen_translate>( jo, "translate", format_placings );
     new_pal.load_place_mapings<jmapgen_zone>( jo, "zones", format_placings );
-
+    new_pal.load_place_mapings<jmapgen_faction>( jo, "faction_owner_character", format_placings );
     return new_pal;
 }
 
@@ -2317,7 +2339,8 @@ bool mapgen_function_json_base::setup_common( JsonObject jo )
     objects.load_objects<jmapgen_graffiti>( jo, "place_graffiti" );
     objects.load_objects<jmapgen_translate>( jo, "translate_ter" );
     objects.load_objects<jmapgen_zone>( jo, "place_zones" );
-
+    // Needs to be last as it affects other placed items
+    objects.load_objects<jmapgen_faction>( jo, "faction_owner" );
     if( !mapgen_defer::defer ) {
         is_ready = true; // skip setup attempts from any additional pointers
     }
@@ -5028,7 +5051,8 @@ void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_po
                     break; // Nothing!  Lucky!
 
                 case 1: { // Toxic gas
-                    int cx = rng( 9, 14 ), cy = rng( 9, 14 );
+                    int cx = rng( 9, 14 );
+                    int cy = rng( 9, 14 );
                     ter_set( cx, cy, t_rock );
                     add_field( {cx, cy, abs_sub.z}, fd_gas_vent, 2 );
                 }
@@ -5049,7 +5073,8 @@ void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_po
                 break;
 
                 case 3: { // Wrecked equipment
-                    int x = rng( 9, 14 ), y = rng( 9, 14 );
+                    int x = rng( 9, 14 );
+                    int y = rng( 9, 14 );
                     for( int i = x - 3; i < x + 3; i++ ) {
                         for( int j = y - 3; j < y + 3; j++ ) {
                             if( !one_in( 4 ) ) {
@@ -5312,7 +5337,8 @@ void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_po
             case 2: { // The Thing dog
                 int num_bodies = rng( 4, 8 );
                 for( int i = 0; i < num_bodies; i++ ) {
-                    int x = rng( 4, SEEX * 2 - 5 ), y = rng( 4, SEEX * 2 - 5 );
+                    int x = rng( 4, SEEX * 2 - 5 );
+                    int y = rng( 4, SEEX * 2 - 5 );
                     add_item( x, y, item::make_corpse() );
                     place_items( "mine_equipment", 60, x, y, x, y, false, 0 );
                 }
@@ -6911,6 +6937,19 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type, bool forc
     return temp->getID();
 }
 
+void map::apply_faction_ownership( const int x1, const int y1, const int x2, const int y2,
+                                   const faction_id id )
+{
+    faction *fac = g->faction_manager_ptr->get( id );
+    for( const tripoint &p : points_in_rectangle( tripoint( x1, y1, abs_sub.z ), tripoint( x2, y2,
+            abs_sub.z ) ) ) {
+        auto items = i_at( p.x, p.y );
+        for( item &elem : items ) {
+            elem.set_owner( fac );
+        }
+    }
+}
+
 std::vector<item *> map::place_items( const items_location &loc, const int chance,
                                       const tripoint &f,
                                       const tripoint &t, const bool ongrass, const time_point &turn,
@@ -7051,7 +7090,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
     const int smx = p.x / SEEX;
     const int smy = p.y / SEEY;
     // debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
-    auto veh = std::unique_ptr<vehicle>( new vehicle( type, veh_fuel, veh_status ) );
+    auto veh = std::make_unique<vehicle>( type, veh_fuel, veh_status );
     veh->posx = p.x % SEEX;
     veh->posy = p.y % SEEY;
     veh->smx = smx;
@@ -7140,7 +7179,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
              * vehicles into global coordinates, find the distance between them and
              * p and then install them that way.
              * Create a vehicle with type "null" so it starts out empty. */
-            auto wreckage = std::unique_ptr<vehicle>( new vehicle() );
+            auto wreckage = std::make_unique<vehicle>();
             wreckage->posx = other_veh->posx;
             wreckage->posy = other_veh->posy;
             wreckage->smx = other_veh->smx;
@@ -8240,10 +8279,6 @@ void fill_background( map *m, ter_id type )
     m->draw_fill_background( type );
 }
 void fill_background( map *m, ter_id( *f )() )
-{
-    m->draw_fill_background( f );
-}
-void fill_background( map *m, const weighted_int_list<ter_id> &f )
 {
     m->draw_fill_background( f );
 }

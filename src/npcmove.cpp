@@ -11,6 +11,7 @@
 #include <cmath>
 
 #include "ammo.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "cata_algo.h"
 #include "clzones.h"
@@ -208,7 +209,7 @@ bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound 
     return sound_a.volume < sound_b.volume;
 }
 
-bool clear_shot_reach( const tripoint &from, const tripoint &to )
+static bool clear_shot_reach( const tripoint &from, const tripoint &to )
 {
     std::vector<tripoint> path = line_to( from, to );
     path.pop_back();
@@ -353,7 +354,7 @@ float npc::evaluate_enemy( const Creature &target ) const
 }
 
 static constexpr int def_radius = 6;
-bool too_close( const tripoint &critter_pos, const tripoint &ally_pos )
+static bool too_close( const tripoint &critter_pos, const tripoint &ally_pos )
 {
     return rl_dist( critter_pos, ally_pos ) <= def_radius;
 }
@@ -568,6 +569,14 @@ void npc::regen_ai_cache()
     auto i = std::begin( ai_cache.sound_alerts );
     while( i != std::end( ai_cache.sound_alerts ) ) {
         if( sees( g->m.getlocal( i->abs_pos ) ) ) {
+            // if they were responding to a call for guards because of thievery
+            npc *const sound_source = g->critter_at<npc>( g->m.getlocal( i->abs_pos ) );
+            if( sound_source ) {
+                if( my_fac == sound_source->my_fac && sound_source->known_stolen_item ) {
+                    sound_source->known_stolen_item = nullptr;
+                    set_attitude( NPCATT_RECOVER_GOODS );
+                }
+            }
             i = ai_cache.sound_alerts.erase( i );
             if( ai_cache.sound_alerts.size() == 1 ) {
                 path.clear();
@@ -1147,6 +1156,21 @@ void npc::execute_action( npc_action action )
     }
 }
 
+void npc::witness_thievery( item *it )
+{
+    // Shopkeep is behind glass
+    if( myclass == npc_class_id( "NC_EVAC_SHOPKEEP" ) ) {
+        known_stolen_item = it;
+        return;
+    }
+    set_attitude( NPCATT_RECOVER_GOODS );
+    known_stolen_item = it;
+    for( auto &elem : g->u.inv_dump() ) {
+        if( elem->get_old_owner() ) {
+        }
+    }
+}
+
 npc_action npc::method_of_fleeing()
 {
     if( in_vehicle ) {
@@ -1345,7 +1369,7 @@ npc_action npc::address_needs()
     return address_needs( ai_cache.danger );
 }
 
-bool wants_to_reload( const npc &who, const item &it )
+static bool wants_to_reload( const npc &who, const item &it )
 {
     if( !who.can_reload( it ) ) {
         return false;
@@ -1361,7 +1385,7 @@ bool wants_to_reload( const npc &who, const item &it )
     return remaining < required || remaining < it.ammo_capacity();
 }
 
-bool wants_to_reload_with( const item &weap, const item &ammo )
+static bool wants_to_reload_with( const item &weap, const item &ammo )
 {
     return !ammo.is_magazine() || ammo.ammo_remaining() > weap.ammo_remaining();
 }
@@ -1712,7 +1736,7 @@ npc_action npc::address_needs( float danger )
 
 npc_action npc::address_player()
 {
-    if( attitude == NPCATT_TALK && sees( g->u ) ) {
+    if( ( attitude == NPCATT_TALK || attitude == NPCATT_RECOVER_GOODS ) && sees( g->u ) ) {
         if( g->u.in_sleep_state() ) {
             // Leave sleeping characters alone.
             return npc_undecided;
@@ -2392,7 +2416,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
     }
 }
 
-void npc::see_item_say_smth( const itype_id object, const std::string smth )
+void npc::see_item_say_smth( const itype_id &object, const std::string &smth )
 {
     for( const tripoint &p : closest_tripoints_first( 6, pos() ) ) {
         if( g->m.sees_some_items( p, *this ) && sees( p ) ) {
@@ -2446,7 +2470,25 @@ void npc::find_item()
             // Don't even consider liquids.
             return;
         }
-
+        std::vector<npc *> followers;
+        for( auto &elem : g->get_follower_list() ) {
+            std::shared_ptr<npc> npc_to_get = overmap_buffer.find_npc( elem );
+            if( !npc_to_get ) {
+                continue;
+            }
+            npc *npc_to_add = npc_to_get.get();
+            followers.push_back( npc_to_add );
+        }
+        for( auto &elem : followers ) {
+            if( it.has_owner() && it.get_owner() != my_fac && ( elem->sees( this->pos() ) ||
+                    elem->sees( wanted_item_pos ) ) ) {
+                return;
+            }
+        }
+        if( it.has_owner() && it.get_owner() != my_fac && ( g->u.sees( this->pos() ) ||
+                g->u.sees( wanted_item_pos ) ) ) {
+            return;
+        }
         if( whitelisting && !item_whitelisted( it ) ) {
             return;
         }
@@ -2633,7 +2675,6 @@ void npc::pick_up_item()
         if( itval < worst_item_value ) {
             worst_item_value = itval;
         }
-
         i_add( it );
     }
 
@@ -3012,7 +3053,7 @@ bool npc::scan_new_items()
     // TODO: Armor?
 }
 
-void npc_throw( npc &np, item &it, int index, const tripoint &pos )
+static void npc_throw( npc &np, item &it, int index, const tripoint &pos )
 {
     if( g->u.sees( np ) ) {
         add_msg( _( "%1$s throws a %2$s." ), np.name, it.tname() );
@@ -3278,7 +3319,7 @@ void npc::use_painkiller()
 // Not be unhealthy
 // Not have side effects
 // Be eaten before it rots (favor soon-to-rot perishables)
-float rate_food( const item &it, int want_nutr, int want_quench )
+static float rate_food( const item &it, int want_nutr, int want_quench )
 {
     const auto &food = it.get_comestible();
     if( !food ) {
@@ -3794,7 +3835,7 @@ Creature *npc::current_ally()
 }
 
 // Maybe TODO: Move to Character method and use map methods
-body_part bp_affected( npc &who, const efftype_id &effect_type )
+static body_part bp_affected( npc &who, const efftype_id &effect_type )
 {
     body_part ret = num_bp;
     int highest_intensity = INT_MIN;

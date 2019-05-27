@@ -127,6 +127,9 @@ constexpr size_t set_segment( size_t line, om_direction::type dir )
 
 constexpr bool has_segment( size_t line, om_direction::type dir )
 {
+    if( dir == om_direction::type::invalid ) {
+        return false;
+    }
     return static_cast<bool>( line & 1 << static_cast<int>( dir ) );
 }
 
@@ -140,7 +143,7 @@ constexpr bool is_straight( size_t line )
            || line == 10;
 }
 
-size_t from_dir( om_direction::type dir )
+static size_t from_dir( om_direction::type dir )
 {
     switch( dir ) {
         case om_direction::type::north:
@@ -316,7 +319,7 @@ bool operator!=( const int_id<oter_t> &lhs, const char *rhs )
     return !( lhs == rhs );
 }
 
-void set_oter_ids()   // FIXME: constify
+static void set_oter_ids()   // FIXME: constify
 {
     ot_null         = oter_str_id::NULL_ID();
     // NOT required.
@@ -506,8 +509,8 @@ bool is_ot_subtype( const char *otype, const oter_id &oter )
  * load mapgen functions from an overmap_terrain json entry
  * suffix is for roads/subways/etc which have "_straight", "_curved", "_tee", "_four_way" function mappings
  */
-void load_overmap_terrain_mapgens( JsonObject &jo, const std::string &id_base,
-                                   const std::string &suffix = "" )
+static void load_overmap_terrain_mapgens( JsonObject &jo, const std::string &id_base,
+        const std::string &suffix = "" )
 {
     const std::string fmapkey( id_base + suffix );
     const std::string jsonkey( "mapgen" + suffix );
@@ -877,19 +880,7 @@ void overmap_special::load( JsonObject &jo, const std::string &src )
     const bool is_special = jo.get_string( "type", "" ) == "overmap_special";
 
     mandatory( jo, was_loaded, "overmaps", terrains );
-
-    // If the special has locations, then add those to the locations
-    // of each of the terrains IF the terrain has no locations already.
-    std::set<string_id<overmap_location>> locations;
-    optional( jo, was_loaded, "locations", locations );
-    if( !locations.empty() ) {
-        for( auto &t : terrains ) {
-            if( t.locations.empty() ) {
-                t.locations.insert( locations.begin(), locations.end() );
-            }
-        }
-    }
-
+    optional( jo, was_loaded, "locations", default_locations );
 
     if( is_special ) {
         mandatory( jo, was_loaded, "occurrences", occurrences );
@@ -908,6 +899,16 @@ void overmap_special::load( JsonObject &jo, const std::string &src )
 
 void overmap_special::finalize()
 {
+    // If the special has default locations, then add those to the locations
+    // of each of the terrains IF the terrain has no locations already.
+    if( !default_locations.empty() ) {
+        for( auto &t : terrains ) {
+            if( t.locations.empty() ) {
+                t.locations.insert( default_locations.begin(), default_locations.end() );
+            }
+        }
+    }
+
     for( auto &elem : connections ) {
         const auto &oter = get_terrain_at( elem.p );
         if( !elem.terrain && oter.terrain ) {
@@ -4300,8 +4301,7 @@ cata::optional<basecamp *> overmap::find_camp( const int x, const int y )
 {
     for( auto &v : camps ) {
         if( v.camp_omt_pos().x == x && v.camp_omt_pos().y == y ) {
-            cata::optional<basecamp *> p;
-            p = &v;
+            cata::optional<basecamp *> p = &v;
             return p;
         }
     }

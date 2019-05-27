@@ -14,6 +14,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "ballistics.h"
 #include "bodypart.h"
 #include "debug.h"
@@ -146,12 +147,12 @@ static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
 
 // shared utility functions
-bool within_visual_range( monster *z, int max_range )
+static bool within_visual_range( monster *z, int max_range )
 {
     return !( rl_dist( z->pos(), g->u.pos() ) > max_range || !z->sees( g->u ) );
 }
 
-bool within_target_range( const monster *const z, const Creature *const target, int range )
+static bool within_target_range( const monster *const z, const Creature *const target, int range )
 {
     if( target == nullptr ||
         rl_dist( z->pos(), target->pos() ) > range ||
@@ -161,7 +162,7 @@ bool within_target_range( const monster *const z, const Creature *const target, 
     return true;
 }
 
-Creature *sting_get_target( monster *z, float range = 5.0f )
+static Creature *sting_get_target( monster *z, float range = 5.0f )
 {
     Creature *target = z->attack_target();
 
@@ -172,7 +173,7 @@ Creature *sting_get_target( monster *z, float range = 5.0f )
     return rl_dist( z->pos(), target->pos() ) <= range ? target : nullptr;
 }
 
-bool sting_shoot( monster *z, Creature *target, damage_instance &dam )
+static bool sting_shoot( monster *z, Creature *target, damage_instance &dam )
 {
     if( target->uncanny_dodge() ) {
         target->add_msg_if_player( m_bad, _( "The %s shoots a dart but you dodge it." ),
@@ -196,7 +197,7 @@ bool sting_shoot( monster *z, Creature *target, damage_instance &dam )
 // If allow_zlev is false, don't allow attacking up/down at all.
 // If allow_zlev is true, also allow distance == 1 and on different z-level
 // as long as floor/ceiling doesn't exist.
-bool is_adjacent( const monster *z, const Creature *target, const bool allow_zlev )
+static bool is_adjacent( const monster *z, const Creature *target, const bool allow_zlev )
 {
     if( target == nullptr ) {
         return false;
@@ -222,7 +223,7 @@ bool is_adjacent( const monster *z, const Creature *target, const bool allow_zle
     return g->m.ter( up ) == t_open_air && g->m.is_outside( down );
 }
 
-npc make_fake_npc( monster *z, int str, int dex, int inte, int per )
+static npc make_fake_npc( monster *z, int str, int dex, int inte, int per )
 {
     npc tmp;
     tmp.name = _( "The " ) + z->name();
@@ -1050,7 +1051,7 @@ find_empty_neighbors( const Creature &c )
 /**
  * Get a size_t value in the closed interval [0, size]; a convenience to avoid messy casting.
   */
-size_t get_random_index( const size_t size )
+static size_t get_random_index( const size_t size )
 {
     return static_cast<size_t>( rng( 0, static_cast<long>( size - 1 ) ) );
 }
@@ -1266,7 +1267,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
     return true;
 }
 
-body_part body_part_hit_by_plant()
+static body_part body_part_hit_by_plant()
 {
     body_part hit = num_bp;
     if( one_in( 2 ) ) {
@@ -1383,7 +1384,8 @@ bool mattack::grow_vine( monster *z )
         }
     }
     z->moves -= 100;
-    int xshift = rng( 0, 2 ), yshift = rng( 0, 2 );
+    int xshift = rng( 0, 2 );
+    int yshift = rng( 0, 2 );
     for( int x = 0; x < 3; x++ ) {
         for( int y = 0; y < 3; y++ ) {
             tripoint dest( z->posx() + ( x + xshift ) % 3 - 1,
@@ -2776,7 +2778,7 @@ bool mattack::nurse_assist( monster *z )
 
     const bool u_see = g->u.sees( *z );
 
-    if( u_see && one_in( 10 ) ) {
+    if( u_see && one_in( 100 ) ) {
         add_msg( m_info, _( "The %s is scanning its surroundings." ), z->name() );
     }
 
@@ -2818,19 +2820,19 @@ bool mattack::nurse_operate( monster *z )
     }
     const bool u_see = g->u.sees( *z );
 
-    if( u_see && one_in( 10 ) ) {
+    if( u_see && one_in( 100 ) ) {
         add_msg( m_info, _( "The %s is scanning its surroundings." ), z->name() );
     }
 
 
     if( ( ( g->u.is_wearing( "badge_doctor" ) ||
-            z->attitude_to( g->u ) == Creature::Attitude::A_FRIENDLY ) && u_see ) && one_in( 30 ) ) {
+            z->attitude_to( g->u ) == Creature::Attitude::A_FRIENDLY ) && u_see ) && one_in( 100 ) ) {
 
         add_msg( m_info, _( "The %s doesn't seem to register you as a doctor." ), z->name() );
     }
 
     if( z->ammo[ammo_type] == 0 && u_see ) {
-        if( one_in( 30 ) ) {
+        if( one_in( 100 ) ) {
             add_msg( m_info, _( "The %s looks at its empty anesthesia kit with a dejected look." ), z->name() );
         }
         return false;
@@ -2853,7 +2855,11 @@ bool mattack::nurse_operate( monster *z )
             }
         }
     }
-
+    if( found_target && z->attitude_to( g->u ) == Creature::Attitude::A_FRIENDLY ) {
+        if( one_in( 2 ) ) {
+            return false; // 50% chance to not turn hostile again
+        }
+    }
     if( found_target && u_see ) {
         add_msg( m_info, _( "The %1$s scans %2$s and seems to detect something." ), z->name(),
                  target->disp_name() );
@@ -2861,6 +2867,7 @@ bool mattack::nurse_operate( monster *z )
 
     if( found_target ) {
 
+        z->friendly = 0;
         z->anger = 100;
         std::list<tripoint> couch_pos = g->m.find_furnitures_in_radius( z->pos(), 10,
                                         furn_id( "f_autodoc_couch" ) ) ;
@@ -3124,7 +3131,11 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
     if( target == &g->u ) {
         if( !z->has_effect( effect_targeted ) ) {
             //~Potential grenading detected.
-            add_msg( m_warning, _( "Those laser dots don't seem very friendly..." ) );
+            if( g->u.has_trait( trait_id( "PROF_CHURL" ) ) ) {
+                add_msg( m_warning, _( "Thee eye o dat divil be upon me!" ) );
+            } else {
+                add_msg( m_warning, _( "Those laser dots don't seem very friendly..." ) );
+            }
             g->u.add_effect( effect_laserlocked,
                              3_turns ); // Effect removed in game.cpp, duration doesn't much matter
             sounds::sound( z->pos(), 10, sounds::sound_t::speech, _( "Targeting." ), false, "speech",
@@ -4825,8 +4836,8 @@ struct grenade_helper_struct {
 };
 
 // Returns 0 if this should be retired, 1 if it was successful, and -1 if something went horribly wrong
-int grenade_helper( monster *const z, Creature *const target, const int dist,
-                    const int moves, std::map<std::string, grenade_helper_struct> data )
+static int grenade_helper( monster *const z, Creature *const target, const int dist,
+                           const int moves, std::map<std::string, grenade_helper_struct> data )
 {
     // Can't do anything if we can't act
     if( !z->can_act() ) {

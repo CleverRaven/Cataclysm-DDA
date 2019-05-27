@@ -14,7 +14,7 @@
     "skill": "gun",
     "max_level": 1,
     "intelligence": 2,
-    "time": 7,
+    "time": "7 m",
     "fun": 1
   },
   {
@@ -31,7 +31,7 @@
     "skill": "gun",
     "max_level": 3,
     "intelligence": 3,
-    "time": 15
+    "time": "15 m"
   },
   {
     "id": "pocket_firearms",
@@ -48,6 +48,6 @@
     "skill": "gun",
     "max_level": 2,
     "intelligence": 6,
-    "time": 20
+    "time": "20 m"
   }
 ]

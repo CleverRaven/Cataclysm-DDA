@@ -9,6 +9,7 @@
 #include <algorithm>
 
 #include "ammo.h"
+#include "avatar.h"
 #include "character.h"
 #include "color.h"
 #include "debug.h"
@@ -90,6 +91,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "SOLAR_PANEL", VPFLAG_SOLAR_PANEL },
     { "WIND_TURBINE", VPFLAG_WIND_TURBINE },
     { "SPACE_HEATER", VPFLAG_SPACE_HEATER, },
+    { "COOLER", VPFLAG_COOLER, },
     { "WATER_WHEEL", VPFLAG_WATER_WHEEL },
     { "RECHARGE", VPFLAG_RECHARGE },
     { "VISION", VPFLAG_EXTENDS_VISION },
@@ -195,7 +197,7 @@ static void parse_vp_reqs( JsonObject &obj, const std::string &id, const std::st
 void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &jo,
                               const itype_id &fuel_type )
 {
-    vpslot_engine e_info;
+    vpslot_engine e_info{};
     if( eptr ) {
         e_info = *eptr;
     }
@@ -227,7 +229,7 @@ void vpart_info::load_engine( cata::optional<vpslot_engine> &eptr, JsonObject &j
 
 void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo )
 {
-    vpslot_wheel wh_info;
+    vpslot_wheel wh_info{};
     if( whptr ) {
         wh_info = *whptr;
     }
@@ -263,7 +265,7 @@ void vpart_info::load_wheel( cata::optional<vpslot_wheel> &whptr, JsonObject &jo
 
 void vpart_info::load_workbench( cata::optional<vpslot_workbench> &wbptr, JsonObject &jo )
 {
-    vpslot_workbench wb_info;
+    vpslot_workbench wb_info{};
     if( wbptr ) {
         wb_info = *wbptr;
     }
@@ -677,7 +679,6 @@ int vpart_info::format_description( std::ostringstream &msg, const std::string &
     msg << _( "<color_white>Description</color>\n" );
     msg << "> " << format_color;
 
-    class::item base( item );
     std::ostringstream long_descrip;
     if( ! description.empty() ) {
         long_descrip << _( description );
@@ -703,6 +704,7 @@ int vpart_info::format_description( std::ostringstream &msg, const std::string &
         long_descrip << "  " << _( nobelt.info() );
     }
     if( has_flag( "TURRET" ) ) {
+        class::item base( item );
         long_descrip << string_format( _( "\nRange: %1$5d     Damage: %2$5.0f" ),
                                        base.gun_range( true ),
                                        base.gun_damage().total_damage() );

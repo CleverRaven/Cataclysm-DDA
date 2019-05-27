@@ -16,6 +16,7 @@
 
 #include "action.h"
 #include "advanced_inv.h"
+#include "avatar.h"
 #include "clzones.h"
 #include "construction.h"
 #include "craft_command.h"
@@ -30,6 +31,7 @@
 #include "iexamine.h"
 #include "itype.h"
 #include "iuse_actor.h"
+#include "magic.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -41,6 +43,7 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player.h"
+#include "ranged.h"
 #include "recipe.h"
 #include "requirements.h"
 #include "rng.h"
@@ -144,7 +147,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_FERTILIZE_PLOT" ), fertilize_plot_do_turn },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_do_turn },
     { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_do_turn },
-    { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_do_turn }
+    { activity_id( "ACT_TREE_COMMUNION" ), tree_communion_do_turn },
+    { activity_id( "ACT_STUDY_SPELL" ), study_spell_do_turn}
 };
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -207,10 +211,12 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish },
     { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish },
     { activity_id( "ACT_HACK_DOOR" ), hack_door_finish },
-    { activity_id( "ACT_HACK_SAFE" ), hack_safe_finish }
+    { activity_id( "ACT_HACK_SAFE" ), hack_safe_finish },
+    { activity_id( "ACT_SPELLCASTING" ), spellcasting_finish },
+    { activity_id( "ACT_STUDY_SPELL" ), study_spell_finish }
 };
 
-void messages_in_process( const player_activity &act, const player &p )
+static void messages_in_process( const player_activity &act, const player &p )
 {
     if( act.moves_left <= 91000 && act.moves_left > 89000 ) {
         p.add_msg_if_player( m_info, _( "You figure it'll take about an hour and a half at this rate." ) );
@@ -265,7 +271,7 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
-bool check_butcher_cbm( const int roll )
+static bool check_butcher_cbm( const int roll )
 {
     // Failure rates for dissection rolls
     // 90% at roll 0, 72% at roll 1, 60% at roll 2, 51% @ 3, 45% @ 4, 40% @ 5, ... , 25% @ 10
@@ -277,8 +283,8 @@ bool check_butcher_cbm( const int roll )
     return !failed;
 }
 
-void butcher_cbm_item( const std::string &what, const tripoint &pos,
-                       const time_point &age, const int roll )
+static void butcher_cbm_item( const std::string &what, const tripoint &pos,
+                              const time_point &age, const int roll )
 {
     if( roll < 0 ) {
         return;
@@ -296,8 +302,8 @@ void butcher_cbm_item( const std::string &what, const tripoint &pos,
     }
 }
 
-void butcher_cbm_group( const std::string &group, const tripoint &pos,
-                        const time_point &age, const int roll )
+static void butcher_cbm_group( const std::string &group, const tripoint &pos,
+                               const time_point &age, const int roll )
 {
     if( roll < 0 ) {
         return;
@@ -318,7 +324,7 @@ void butcher_cbm_group( const std::string &group, const tripoint &pos,
     }
 }
 
-void set_up_butchery( player_activity &act, player &u, butcher_type action )
+static void set_up_butchery( player_activity &act, player &u, butcher_type action )
 {
     if( !act.values.empty() ) {
         act.index = act.values.back();
@@ -408,34 +414,36 @@ void set_up_butchery( player_activity &act, player &u, butcher_type action )
                               u.has_amount( "vine_30", 1 ) || u.has_amount( "grapnel", 1 );
         const bool big_corpse = corpse.size >= MS_MEDIUM;
 
-        if( big_corpse && has_rope && !has_tree_nearby && !b_rack_present ) {
-            u.add_msg_if_player( m_info,
-                                 _( "You need to suspend this corpse to butcher it, you have a rope to lift the corpse but there is no tree nearby." ) );
-            act.index = -1;
-            return;
-        } else if( big_corpse && !has_rope && !b_rack_present ) {
-            u.add_msg_if_player( m_info,
-                                 _( "For a corpse this big you need a rope and a nearby tree, a butchering rack, or a hanging meathook to perform a full butchery." ) );
-            act.index = -1;
-            return;
-        }
-        if( big_corpse && !has_table_nearby ) {
-            u.add_msg_if_player( m_info,
-                                 _( "For a corpse this big you need a table nearby or something else with a flat surface to perform a full butchery." ) );
-            act.index = -1;
-            return;
-        }
         if( !u.has_quality( quality_id( "CUT" ) ) ) {
             u.add_msg_if_player( m_info, _( "You need a cutting tool to perform a full butchery." ) );
             act.index = -1;
             return;
         }
-        if( big_corpse && !( u.has_quality( quality_id( "SAW_W" ) ) ||
-                             u.has_quality( quality_id( "SAW_M" ) ) ) ) {
-            u.add_msg_if_player( m_info,
-                                 _( "For a corpse this big you need a saw to perform a full butchery." ) );
-            act.index = -1;
-            return;
+        if( big_corpse ) {
+            if( has_rope && !has_tree_nearby && !b_rack_present ) {
+                u.add_msg_if_player( m_info,
+                                     _( "You need to suspend this corpse to butcher it. While you have a rope to lift the corpse, there is no tree nearby to hang it from." ) );
+                act.index = -1;
+                return;
+            }
+            if( !has_rope && !b_rack_present ) {
+                u.add_msg_if_player( m_info,
+                                     _( "To perform a full butchery on a corpse this big, you need either a butchering rack, a nearby hanging meathook, or both a long rope in your inventory and a nearby tree to hang the corpse from." ) );
+                act.index = -1;
+                return;
+            }
+            if( !has_table_nearby ) {
+                u.add_msg_if_player( m_info,
+                                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface. A leather tarp spread out on the ground could suffice." ) );
+                act.index = -1;
+                return;
+            }
+            if( !( u.has_quality( quality_id( "SAW_W" ) ) || u.has_quality( quality_id( "SAW_M" ) ) ) ) {
+                u.add_msg_if_player( m_info,
+                                     _( "For a corpse this big you need a saw to perform a full butchery." ) );
+                act.index = -1;
+                return;
+            }
         }
     }
 
@@ -580,7 +588,7 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     return time_to_cut;
 }
 // The below function exists to allow mods to migrate their content fully to the new harvest system. This function should be removed eventually.
-harvest_id butchery_flags_deprecate( const mtype &mt )
+static harvest_id butchery_flags_deprecate( const mtype &mt )
 {
     std::string harvest_id_name = "null";
     if( mt.has_flag( MF_CBM_CIV ) ) {
@@ -668,7 +676,7 @@ harvest_id butchery_flags_deprecate( const mtype &mt )
 }
 
 // this function modifies the input weight by its damage level, depending on the bodypart
-int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
+static int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
 {
     const float slight_damage = 0.9;
     const float damage = 0.75;
@@ -721,9 +729,9 @@ int corpse_damage_effect( int weight, const std::string &entry_type, int damage_
     return weight;
 }
 
-void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
-                             const std::function<int()> &roll_butchery, butcher_type action,
-                             const std::function<double()> &roll_drops )
+static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
+                                    const std::function<int()> &roll_butchery, butcher_type action,
+                                    const std::function<double()> &roll_drops )
 {
     p.add_msg_if_player( m_neutral, _( mt.harvest->message() ) );
     int monster_weight = to_gram( mt.weight );
@@ -980,7 +988,7 @@ void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &p,
     }
 }
 
-void butchery_quarter( item *corpse_item, player &p )
+static void butchery_quarter( item *corpse_item, player &p )
 {
     corpse_item->set_flag( "QUARTERED" );
     p.add_msg_if_player( m_good,
@@ -1231,76 +1239,6 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
     // multibutchering
     act->index = -1;
-}
-
-enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, LST_MONSTER = 4};
-
-// All serialize_liquid_source functions should add the same number of elements to the vectors of
-// the activity. This makes it easier to distinguish the values of the source and the values of the target.
-void serialize_liquid_source( player_activity &act, const vehicle &veh, const int part_num,
-                              const item &liquid )
-{
-    act.values.push_back( LST_VEHICLE );
-    act.values.push_back( part_num );
-    act.coords.push_back( veh.global_pos3() );
-    act.str_values.push_back( serialize( liquid ) );
-}
-
-void serialize_liquid_source( player_activity &act, const monster &mon, const item &liquid )
-{
-    act.values.push_back( LST_MONSTER );
-    act.values.push_back( 0 ); // dummy
-    act.coords.push_back( mon.pos() );
-    act.str_values.push_back( serialize( liquid ) );
-}
-
-void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid )
-{
-    const auto stack = g->m.i_at( pos );
-    // Need to store the *index* of the item on the ground, but it may be a virtual item from
-    // an infinite liquid source.
-    const auto iter = std::find_if( stack.begin(), stack.end(), [&]( const item & i ) {
-        return &i == &liquid;
-    } );
-    if( iter == stack.end() ) {
-        act.values.push_back( LST_INFINITE_MAP );
-        act.values.push_back( 0 ); // dummy
-    } else {
-        act.values.push_back( LST_MAP_ITEM );
-        act.values.push_back( std::distance( stack.begin(), iter ) );
-    }
-    act.coords.push_back( pos );
-    act.str_values.push_back( serialize( liquid ) );
-}
-
-enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, LTT_MONSTER = 4 };
-
-void serialize_liquid_target( player_activity &act, const vehicle &veh )
-{
-    act.values.push_back( LTT_VEHICLE );
-    act.values.push_back( 0 ); // dummy
-    act.coords.push_back( veh.global_pos3() );
-}
-
-void serialize_liquid_target( player_activity &act, int container_item_pos )
-{
-    act.values.push_back( LTT_CONTAINER );
-    act.values.push_back( container_item_pos );
-    act.coords.push_back( tripoint() ); // dummy
-}
-
-void serialize_liquid_target( player_activity &act, const tripoint &pos )
-{
-    act.values.push_back( LTT_MAP );
-    act.values.push_back( 0 ); // dummy
-    act.coords.push_back( pos );
-}
-
-void serialize_liquid_target( player_activity &act, const monster &mon )
-{
-    act.values.push_back( LTT_MAP );
-    act.values.push_back( 0 ); // dummy
-    act.coords.push_back( mon.pos() );
 }
 
 void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
@@ -2252,7 +2190,7 @@ enum repeat_type : int {
     REPEAT_CANCEL,      // Stop repeating
 };
 
-repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
+static repeat_type repeat_menu( const std::string &title, repeat_type last_selection )
 {
     uilist rmenu;
     rmenu.text = title;
@@ -2701,7 +2639,11 @@ void activity_handlers::butcher_do_turn( player_activity *, player *p )
 
 void activity_handlers::read_finish( player_activity *act, player *p )
 {
-    p->do_read( *act->targets.front().get_item() );
+    if( avatar *u = dynamic_cast<avatar *>( p ) ) {
+        u->do_read( *act->targets.front().get_item() );
+    } else {
+        act->set_to_null();
+    }
     if( !act ) {
         p->add_msg_if_player( m_info, _( "You finish reading." ) );
     }
@@ -3072,10 +3014,9 @@ void activity_handlers::dig_finish( player_activity *act, player *p )
             g->m.spawn_item( pos, "bone_human", rng( 5, 15 ) );
             g->m.furn_set( pos, f_coffin_c );
         }
-        std::vector<item *> dropped;
+        std::vector<item *> dropped = g->m.place_items( "allclothes", 50, pos, pos, false, calendar::turn );
         g->m.place_items( "grave", 25, pos, pos, false, calendar::turn );
         g->m.place_items( "jewelry_front", 20, pos, pos, false, calendar::turn );
-        dropped = g->m.place_items( "allclothes", 50, pos, pos, false, calendar::turn );
         for( const auto &it : dropped ) {
             if( it->is_armor() ) {
                 it->item_tags.insert( "FILTHY" );
@@ -3556,7 +3497,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
     act->set_to_null();
 }
 
-hack_result try_hack( player &p )
+static hack_result try_hack( player &p )
 {
     if( p.has_trait( trait_id( "ILLITERATE" ) ) ) {
         add_msg( _( "You can't read anything on the screen." ) );
@@ -3654,4 +3595,166 @@ void activity_handlers::hack_safe_finish( player_activity *act, player *p )
 
     p->practice( skill_id( "computer" ), 20 );
     act->set_to_null();
+}
+
+static void blood_magic( player *p, int cost )
+{
+    static std::array<body_part, 6> part = { {
+            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
+        }
+    };
+    int max_hp_part = 0;
+    std::vector<uilist_entry> uile;
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        uilist_entry entry( i, p->hp_cur[i] > cost, i + 49, body_part_hp_bar_ui_text( part[i] ) );
+        if( p->hp_cur[max_hp_part] < p->hp_cur[i] ) {
+            max_hp_part = i;
+        }
+        const auto &hp = get_hp_bar( p->hp_cur[i], p->hp_max[i] );
+        entry.ctxt = colorize( hp.first, hp.second );
+        uile.emplace_back( entry );
+    }
+    int action = -1;
+    while( action < 0 ) {
+        action = uilist( _( "Choose part\nto draw blood from." ), uile );
+    }
+    p->hp_cur[action] -= cost;
+    p->mod_pain( std::max( ( int )1, cost / 3 ) );
+}
+
+void activity_handlers::spellcasting_finish( player_activity *act, player *p )
+{
+    act->set_to_null();
+    spell &casting = p->magic.get_spell( spell_id( act->name ) );
+
+    // choose target for spell (if the spell has a range > 0)
+
+    target_handler th;
+    std::vector<tripoint> trajectory;
+    tripoint target = p->pos();
+    bool target_is_valid = false;
+    if( casting.range() > 0 && !casting.is_valid_target( target_none ) ) {
+        do {
+            trajectory = th.target_ui( casting );
+            if( !trajectory.empty() ) {
+                target = trajectory.back();
+                target_is_valid = casting.is_valid_target( target );
+            } else {
+                target_is_valid = false;
+            }
+            if( !target_is_valid ) {
+                if( query_yn( _( "Stop casting spell?  Time spent will be lost." ) ) ) {
+                    return;
+                }
+            }
+        } while( !target_is_valid );
+    }
+
+    // no turning back now. it's all said and done.
+    bool success = rng_float( 0.0f, 1.0f ) >= casting.spell_fail( *p );
+    int exp_gained = casting.casting_exp( *p );
+    if( !success ) {
+        p->add_msg_if_player( m_bad, "You lose your concentration!" );
+        if( !casting.is_max_level() ) {
+            // still get some experience for trying
+            casting.gain_exp( exp_gained / 5 );
+            p->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
+                                  casting.xp() );
+        }
+        return;
+    }
+    p->add_msg_if_player( _( "You cast %s!" ), casting.name() );
+
+    // figure out which function is the effect (maybe change this into how iuse or activity_handlers does it)
+    const std::string fx = casting.effect();
+    if( fx == "pain_split" ) {
+        spell_effect::pain_split();
+    } else if( fx == "move_earth" ) {
+        spell_effect::move_earth( target );
+    } else if( fx == "target_attack" ) {
+        spell_effect::target_attack( casting, p->pos(), target );
+    } else if( fx == "projectile_attack" ) {
+        spell_effect::projectile_attack( casting, p->pos(), target );
+    } else if( fx == "cone_attack" ) {
+        spell_effect::cone_attack( casting, p->pos(), target );
+    } else if( fx == "line_attack" ) {
+        spell_effect::line_attack( casting, p->pos(), target );
+    } else if( fx == "teleport_random" ) {
+        spell_effect::teleport( casting.range(), casting.range() + casting.aoe() );
+    } else if( fx == "spawn_item" ) {
+        spell_effect::spawn_ethereal_item( casting );
+    } else {
+        debugmsg( "ERROR: Spell effect not defined properly." );
+    }
+
+    // pay the cost
+    int cost = casting.energy_cost();
+    switch( casting.energy_source() ) {
+        case mana_energy:
+            p->magic.mod_mana( *p, -cost );
+            break;
+        case stamina_energy:
+            p->stamina -= cost;
+            break;
+        case bionic_energy:
+            p->power_level -= cost;
+            break;
+        case hp_energy:
+            blood_magic( p, cost );
+        case none_energy:
+        default:
+            break;
+    }
+    if( !casting.is_max_level() ) {
+        // reap the reward
+        if( casting.get_level() == 0 ) {
+            casting.gain_level();
+            p->add_msg_if_player( m_good,
+                                  _( "Something about how this spell works just clicked!  You gained a level!" ) );
+        } else {
+            casting.gain_exp( exp_gained );
+            p->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
+                                  casting.xp() );
+        }
+    }
+}
+
+void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
+{
+    if( p->fine_detail_vision_mod() > 4 ) {
+        act->values[2] = -1;
+        act->moves_left = 0;
+        return;
+    }
+    if( act->get_str_value( 1 ) == "study" ) {
+        spell &studying = p->magic.get_spell( spell_id( act->name ) );
+        if( act->get_str_value( 0 ) == "gain_level" ) {
+            if( studying.get_level() < act->get_value( 1 ) ) {
+                act->moves_left = 1000000;
+            } else {
+                act->moves_left = 0;
+            }
+        }
+        const int xp = roll_remainder( studying.exp_modifier( *p ) );
+        act->values[0] += xp;
+        studying.gain_exp( xp );
+    }
+    act->moves_left -= 100;
+}
+
+void activity_handlers::study_spell_finish( player_activity *act, player *p )
+{
+    act->set_to_null();
+
+    if( act->get_str_value( 1 ) == "study" ) {
+        p->add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
+                              act->get_value( 0 ) );
+        p->practice( skill_id( "spellcraft" ), act->get_value( 0 ) / 5,
+                     p->magic.get_spell( spell_id( act->name ) ).get_difficulty() );
+    } else if( act->get_str_value( 1 ) == "learn" && act->values[2] == 0 ) {
+        p->magic.learn_spell( act->name, *p );
+    }
+    if( act->values[2] == -1 ) {
+        p->add_msg_if_player( m_bad, _( "It's too dark to read." ) );
+    }
 }

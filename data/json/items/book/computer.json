@@ -15,7 +15,7 @@
     "required_level": 5,
     "max_level": 8,
     "intelligence": 13,
-    "time": 50,
+    "time": "50 m",
     "fun": -1
   },
   {
@@ -35,7 +35,7 @@
     "required_level": 3,
     "max_level": 5,
     "intelligence": 11,
-    "time": 35,
+    "time": "35 m",
     "fun": -2
   },
   {
@@ -53,7 +53,7 @@
     "skill": "computer",
     "max_level": 2,
     "intelligence": 5,
-    "time": 15
+    "time": "15 m"
   },
   {
     "id": "mag_computer",
@@ -70,7 +70,7 @@
     "skill": "computer",
     "max_level": 1,
     "intelligence": 5,
-    "time": 8
+    "time": "8 m"
   },
   {
     "id": "manual_computers",
@@ -88,7 +88,7 @@
     "skill": "computer",
     "max_level": 3,
     "intelligence": 5,
-    "time": 15
+    "time": "15 m"
   },
   {
     "id": "textbook_computer",
@@ -107,7 +107,7 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 11,
-    "time": 35,
+    "time": "35 m",
     "fun": -2
   }
 ]

@@ -68,7 +68,7 @@
       "r": "f_rack",
       "S": "f_sink",
       "T": "f_toilet",
-      "O": "f_crate_c",
+      "O": [ [ "f_cardboard_box", 6 ], "f_crate_c" ],
       "a": "f_trashcan",
       "F": "f_filing_cabinet",
       "Q": "f_safe_l",

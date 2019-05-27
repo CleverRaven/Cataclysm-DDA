@@ -16,7 +16,7 @@
     "required_level": 4,
     "max_level": 7,
     "intelligence": 8,
-    "time": 30
+    "time": "30 m"
   },
   {
     "id": "jewelry_book",
@@ -34,7 +34,7 @@
     "required_level": 6,
     "max_level": 6,
     "intelligence": 8,
-    "time": 60
+    "time": "60 m"
   },
   {
     "id": "mag_fabrication",
@@ -51,7 +51,7 @@
     "skill": "fabrication",
     "max_level": 1,
     "intelligence": 5,
-    "time": 8,
+    "time": "8 m",
     "fun": 2
   },
   {
@@ -69,7 +69,7 @@
     "skill": "fabrication",
     "max_level": 3,
     "intelligence": 5,
-    "time": 16,
+    "time": "16 m",
     "fun": 1
   },
   {
@@ -88,7 +88,7 @@
     "required_level": 2,
     "max_level": 4,
     "intelligence": 8,
-    "time": 30
+    "time": "30 m"
   },
   {
     "id": "recipe_bows",
@@ -106,7 +106,7 @@
     "required_level": 3,
     "max_level": 5,
     "intelligence": 8,
-    "time": 30
+    "time": "30 m"
   },
   {
     "id": "recipe_bullets",
@@ -124,7 +124,7 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 9,
-    "time": 30
+    "time": "30 m"
   },
   {
     "id": "recipe_caseless",
@@ -141,7 +141,7 @@
     "required_level": 6,
     "max_level": 7,
     "intelligence": 12,
-    "time": 45,
+    "time": "45 m",
     "fun": 1
   },
   {
@@ -160,7 +160,7 @@
     "required_level": 9,
     "max_level": 10,
     "intelligence": 12,
-    "time": 45,
+    "time": "45 m",
     "fun": -1
   },
   {
@@ -178,7 +178,7 @@
     "required_level": 5,
     "max_level": 6,
     "intelligence": 8,
-    "time": 20
+    "time": "20 m"
   },
   {
     "id": "recipe_mininuke_launch",
@@ -196,7 +196,7 @@
     "required_level": 4,
     "max_level": 5,
     "intelligence": 9,
-    "time": 10
+    "time": "10 m"
   },
   {
     "id": "textbook_armeast",
@@ -214,7 +214,7 @@
     "required_level": 5,
     "max_level": 10,
     "intelligence": 9,
-    "time": 60,
+    "time": "60 m",
     "fun": -1
   },
   {
@@ -233,7 +233,7 @@
     "required_level": 5,
     "max_level": 10,
     "intelligence": 9,
-    "time": 55,
+    "time": "55 m",
     "fun": -1
   },
   {
@@ -252,7 +252,7 @@
     "required_level": 5,
     "max_level": 10,
     "intelligence": 9,
-    "time": 60,
+    "time": "60 m",
     "fun": -1
   },
   {
@@ -271,7 +271,7 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
-    "time": 30
+    "time": "30 m"
   },
   {
     "id": "textbook_fireman",
@@ -289,7 +289,7 @@
     "required_level": 7,
     "max_level": 9,
     "intelligence": 8,
-    "time": 10
+    "time": "10 m"
   },
   {
     "id": "textbook_gaswarfare",
@@ -307,7 +307,7 @@
     "required_level": 4,
     "max_level": 7,
     "intelligence": 9,
-    "time": 10,
+    "time": "10 m",
     "fun": -2
   },
   {
@@ -326,7 +326,7 @@
     "required_level": 5,
     "max_level": 10,
     "intelligence": 9,
-    "time": 55,
+    "time": "55 m",
     "fun": -1
   },
   {
@@ -345,7 +345,7 @@
     "required_level": 5,
     "max_level": 10,
     "intelligence": 9,
-    "time": 55,
+    "time": "55 m",
     "fun": -1
   },
   {
@@ -365,7 +365,7 @@
     "required_level": 4,
     "max_level": 7,
     "intelligence": 9,
-    "time": 30
+    "time": "30 m"
   },
   {
     "id": "101_carpentry",
@@ -382,7 +382,7 @@
     "skill": "fabrication",
     "max_level": 2,
     "intelligence": 5,
-    "time": 16
+    "time": "16 m"
   },
   {
     "id": "carpentry_book",
@@ -401,7 +401,7 @@
     "required_level": 5,
     "max_level": 8,
     "intelligence": 9,
-    "time": 55,
+    "time": "55 m",
     "fun": -1
   },
   {
@@ -419,7 +419,7 @@
     "skill": "fabrication",
     "max_level": 1,
     "intelligence": 5,
-    "time": 8,
+    "time": "8 m",
     "fun": 1
   },
   {
@@ -437,7 +437,7 @@
     "skill": "fabrication",
     "max_level": 3,
     "intelligence": 5,
-    "time": 16
+    "time": "16 m"
   },
   {
     "id": "textbook_carpentry",
@@ -456,7 +456,7 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
-    "time": 30,
+    "time": "30 m",
     "fun": -1
   }
 ]
