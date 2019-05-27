@@ -5851,9 +5851,9 @@ const itype *item::ammo_data() const
 
     auto mods = is_gun() ? gunmods() : toolmods();
     for( const auto e : mods ) {
-        if( e->type->mod->ammo_modifier &&
-            item_controller->has_template( itype_id( e->type->mod->ammo_modifier.str() ) ) ) {
-            return item_controller->find_template( itype_id( e->type->mod->ammo_modifier.str() ) );
+        if( !e->type->mod->ammo_modifier.empty() &&
+            item_controller->has_template( e->ammo_current() ) ) {
+            return item_controller->find_template( e->ammo_current() );
         }
     }
 
