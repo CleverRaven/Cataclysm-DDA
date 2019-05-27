@@ -5,7 +5,7 @@
     "name": "Classic zombies",
     "authors": [ "Hirmuolio" ],
     "maintainers": [ "" ],
-    "description": "Classic zombie apocalypze",
+    "description": "Only spawn classic zombies and natural wildlife.  This disables certain buildings and map extras.",
     "category": "rebalance",
     "dependencies": [ "dda" ]
   }
