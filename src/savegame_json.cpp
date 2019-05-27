@@ -2638,6 +2638,7 @@ void faction::deserialize( JsonIn &jsin )
     if( jo.has_array( "opinion_of" ) ) {
         opinion_of = jo.get_int_array( "opinion_of" );
     }
+    load_relations( jo );
 }
 
 void faction::serialize( JsonOut &json ) const
@@ -2653,6 +2654,17 @@ void faction::serialize( JsonOut &json ) const
     json.member( "food_supply", food_supply );
     json.member( "wealth", wealth );
     json.member( "opinion_of", opinion_of );
+    json.member( "relations" );
+    json.start_object();
+    for( const auto &rel_data : relations ) {
+        json.member( rel_data.first );
+        json.start_object();
+        for( const auto &rel_flag : npc_factions::relation_strs ) {
+            json.member( rel_flag.first, rel_data.second.test( rel_flag.second ) );
+        }
+        json.end_object();
+    }
+    json.end_object();
 
     json.end_object();
 }

@@ -1,6 +1,7 @@
 #include "faction.h"
 
 #include <cstdlib>
+#include <bitset>
 #include <map>
 #include <string>
 #include <memory>
@@ -67,6 +68,19 @@ void faction_template::reset()
     npc_factions::all_templates.clear();
 }
 
+void faction_template::load_relations( JsonObject &jsobj )
+{
+    JsonObject jo = jsobj.get_object( "relations" );
+    for( const std::string &fac_id : jo.get_member_names() ) {
+        JsonObject rel_jo = jo.get_object( fac_id );
+        std::bitset<npc_factions::rel_types> fac_relation( 0 );
+        for( const auto &rel_flag : npc_factions::relation_strs ) {
+            fac_relation.set( rel_flag.second, rel_jo.get_bool( rel_flag.first, false ) );
+        }
+        relations[fac_id] = fac_relation;
+    }
+}
+
 faction_template::faction_template( JsonObject &jsobj )
     : name( jsobj.get_string( "name" ) )
     , likes_u( jsobj.get_int( "likes_u" ) )
@@ -84,6 +98,7 @@ faction_template::faction_template( JsonObject &jsobj )
     } else {
         currency = "null";
     }
+    load_relations( jsobj );
 }
 
 std::string faction::describe() const
@@ -312,6 +327,11 @@ faction *faction_manager::get( const faction_id &id )
                         elem.currency = fac_temp.currency;
                         elem.name = fac_temp.name;
                         elem.desc = fac_temp.desc;
+                        for( const auto &rel_data : fac_temp.relations ) {
+                            if( elem.relations.find( rel_data.first ) == elem.relations.end() ) {
+                                elem.relations[rel_data.first] = rel_data.second;
+                            }
+                        }
                         break;
                     }
                 }
