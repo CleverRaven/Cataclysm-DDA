@@ -810,8 +810,8 @@ bool Item_factory::check_ammo_type( std::ostream &msg, const ammotype &ammo ) co
 
     if( std::none_of( m_templates.begin(),
     m_templates.end(), [&ammo]( const decltype( m_templates )::value_type & e ) {
-    return e.second.ammo && e.second.ammo->type.count( ammo );
-    } ) ) {
+    return e.second.ammo && e.second.ammo->type == ammo;
+} ) ) {
         msg << string_format( "there is no actual ammo of type %s defined", ammo.c_str() ) << "\n";
         return false;
     }
