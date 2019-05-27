@@ -6992,8 +6992,8 @@ void item::set_countdown( int num_turns )
         debugmsg( "Tried to set a negative countdown value %d.", num_turns );
         return;
     }
-    if( ammo_type() ) {
-        debugmsg( "Tried to set countdown on an item with ammo=%s.", ammo_type().c_str() );
+    if( !ammo_types().empty() ) {
+        debugmsg( "Tried to set countdown on an item with ammo." );
         return;
     }
     charges = num_turns;
