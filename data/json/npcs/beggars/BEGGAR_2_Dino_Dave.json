@@ -60,8 +60,8 @@
     "dynamic_line": {
       "has_no_available_mission": {
         "has_no_assigned_mission": "We've done it!  We've solved the list!",
-          "no": "How's things with you?  My cardboard collection is getting quite impressive."
-        },
+        "no": "How's things with you?  My cardboard collection is getting quite impressive."
+      },
       "no": "Have I told you about cardboard, friend?  Do you have any?"
     },
     "responses": [
@@ -217,12 +217,19 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_JOBSDONE",
     "dynamic_line": {
-      "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes",
+      "u_has_var": "beggars_recruited",
+      "type": "general",
+      "context": "recruit",
+      "value": "yes",
       "yes": "Well... I had it all pretty together, but the others have left, and now the masters won't let me build my sanctuary.  Can you help me figure them out?",
       "no": "That's it!  I'm just gonna need a little time to get it all set up.  Thanks.  You've helped me a lot.  I'm feeling much more myself with all this to keep me going."
     },
     "responses": [
-      { "condition": { "not": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" } }, "text": "Why don't you leave this place?  Come with me, I could use some help out there.", "topic": "TALK_REFUGEE_BEGGAR_2_JOIN" }
+      {
+        "condition": { "not": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" } },
+        "text": "Why don't you leave this place?  Come with me, I could use some help out there.",
+        "topic": "TALK_REFUGEE_BEGGAR_2_JOIN"
+      },
       { "text": "Well.  No problem, glad to be of service.  Talk to you later.", "topic": "TALK_DONE" }
     ]
   },
@@ -230,9 +237,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_2_JOIN",
     "dynamic_line": "No!  I just got everything together.  I am not leaving, not now.  Everything's finally coming together!",
-    "responses": [
-      { "text": "Well.  No problem, glad to be of service.  Talk to you later.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "Well.  No problem, glad to be of service.  Talk to you later.", "topic": "TALK_DONE" } ]
   },
   {
     "id": "MISSION_BEGGAR_2_BOX_SMALL",

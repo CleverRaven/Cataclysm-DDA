@@ -100,7 +100,7 @@
       {
         "condition": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" },
         "text": "I've talked to the others, and they're all willing to come.  So, you joining us?",
-        "topic": "TALK_REFUGEE_BEGGAR_3_RECRUITED"
+        "topic": "TALK_REFUGEE_BEGGAR_3_RECRUITED2"
       },
       {
         "condition": { "and": [ { "not": { "npc_has_effect": "beggar_has_eaten" } }, { "not": { "npc_has_effect": "insulted_luo" } } ] },
@@ -132,13 +132,27 @@
       {
         "condition": {
           "and": [
-            { "npc_has_var": "luo_mycus_mission", "type": "general", "context": "mission", "value": "yes" },
             { "u_has_item": "veggy_tainted" },
+            { "npc_has_var": "luo_attempt_recruit", "type": "general", "context": "recruit", "value": "yes" },
             { "not": { "npc_has_effect": "insulted_luo" } }
           ]
         },
         "text": "I found a sample of alien fungus for you.",
-        "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS4"
+        "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS4_RECRUIT"
+      },
+      {
+        "condition": {
+          "and": [
+            { "u_has_item": "veggy_tainted" },
+            {
+              "not": { "npc_has_var": "luo_attempt_recruit", "type": "general", "context": "recruit", "value": "yes" }
+            },
+            { "not": { "npc_has_effect": "insulted_luo" } }
+          ]
+        },
+        "text": "I found a sample of alien fungus for you.",
+        "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS4_NOTREADY",
+        "effect": { "npc_add_var": "luo_owed", "type": "general", "context": "recruit", "value": "yes" }
       },
       { "text": "Ok... see ya.", "topic": "TALK_DONE" }
     ]
@@ -226,13 +240,25 @@
       {
         "condition": {
           "and": [
-            { "npc_has_var": "luo_mycus_mission", "type": "general", "context": "mission", "value": "yes" },
+            { "not": { "npc_has_effect": "apology_luo", "type": "general", "context": "conversation", "value": "yes" } },
+            { "npc_has_var": "dont_insult_luo", "type": "general", "context": "conversation", "value": "yes" },
+            { "not": { "npc_has_effect": "insulted_luo" } }
+          ]
+        },
+        "text": "We're cool.  Sorry for insulting you earlier.",
+        "effect": { "npc_add_var": "apology_luo", "type": "general", "context": "conversation", "value": "yes" },
+        "topic": "TALK_REFUGEE_BEGGAR_3_APOLOGY"
+      },
+      {
+        "condition": {
+          "and": [
             { "u_has_item": "veggy_tainted" },
+            { "npc_has_var": "luo_attempt_recruit", "type": "general", "context": "recruit", "value": "yes" },
             { "not": { "npc_has_effect": "insulted_luo" } }
           ]
         },
         "text": "I found a sample of alien fungus for you.",
-        "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS4"
+        "topic": "TALK_REFUGEE_BEGGAR_3_MYCUS4_RECRUIT"
       },
       { "text": "Ok... see ya.", "topic": "TALK_DONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -373,7 +399,7 @@
       {
         "condition": { "npc_has_var": "luo_owed", "type": "general", "context": "recruit", "value": "yes" },
         "text": "Oh, come on.  I'm not a random stranger anymore, I brought you that crazy mushroom didn't I?",
-        "topic": "TALK_REFUGEE_BEGGAR_3_RECRUITED"
+        "topic": "TALK_REFUGEE_BEGGAR_3_RECRUITED1"
       },
       {
         "condition": { "not": { "npc_has_var": "luo_owed", "type": "general", "context": "recruit", "value": "yes" } },
@@ -417,7 +443,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_BEGGAR_3_RECRUITED",
+    "id": "TALK_REFUGEE_BEGGAR_3_RECRUITED1",
     "dynamic_line": "Aw damn, I was worried you'd say that.  Okay, listen: you've got yourself a deal.  I'll come to your base, but you've gotta get me hooked up with a microscope as soon as you can.  This could be the beginning of something really cool.  Oh, and it should go without saying that I'm not coming unless you can find a place for my friends here in your base.  I'm sure you anticipated that.  Talk them into going and I'm in.  It should be easy, they're a bunch of sweet hearted saps.",
     "responses": [
       {
@@ -553,21 +579,21 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_MYCUS4_RECRUIT",
-    "dynamic_line": "Well.  Well, well, well.  This is really interesting.  Look, you can see reticulations here, it looks sort of like an enlarged piece of a stipe from a basidiocarp... but look at this, these fibres are clearly unlike anything I've seen before.  I wonder if they're motile?/n/nOkay, listen: you've got yourself a deal.  I'll come to your base, but you've gotta get me hooked up with a microscope as soon as you can.  This could be the beginning of something really cool.  Oh, and it should go without saying that I'm not coming unless you can find a place for my friends here in your base.  I'm sure you anticipated that.  Talk them into going and I'm in.  It should be easy, they're a bunch of sweet hearted saps.",
+    "dynamic_line": "Well.  Well, well, well.  This is really interesting.  Look, you can see reticulations here, it looks sort of like an enlarged piece of a stipe from a basidiocarp... but look at this, these fibres are clearly unlike anything I've seen before.  I wonder if they're motile?\n\nOkay, listen: you've got yourself a deal.  I'll come to your base, but you've gotta get me hooked up with a microscope as soon as you can.  This could be the beginning of something really cool.  Oh, and it should go without saying that I'm not coming unless you can find a place for my friends here in your base.  I'm sure you anticipated that.  Talk them into going and I'm in.  It should be easy, they're a bunch of sweet hearted saps.",
     "speaker_effect": [ { "effect": { "u_add_var": "luo_recruited", "type": "general", "context": "recruit", "value": "yes" } } ],
     "responses": [ { "text": "Great!  I'll go see what I can do about that.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_3_MYCUS4_NOTREADY",
-    "dynamic_line": "Well.  Well, well, well.  This is really interesting.  Look, you can see reticulations here, it looks sort of like an enlarged piece of a stipe from a basidiocarp... but look at this, these fibres are clearly unlike anything I've seen before.  I wonder if they're motile?/n/nSorry.  I could stare at this all day.  I owe you one, a big one.  Thanks for this.  Let me know if you ever need a favour from a chubby beggar woman.",
+    "dynamic_line": "Well.  Well, well, well.  This is really interesting.  Look, you can see reticulations here, it looks sort of like an enlarged piece of a stipe from a basidiocarp... but look at this, these fibres are clearly unlike anything I've seen before.  I wonder if they're motile?\n\nSorry.  I could stare at this all day.  I owe you one, a big one.  Thanks for this.  Let me know if you ever need a favour from a chubby beggar woman.",
     "responses": [
       { "text": "Glad you like it.  If I think of something you can do in return, I'll let you know.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_BEGGAR_3_RECRUITED",
+    "id": "TALK_REFUGEE_BEGGAR_3_RECRUITED2",
     "dynamic_line": "Well good.  Let's get going, I want to see some more of these crazy mushrooms.",
     "responses": [ { "text": "I'll see what I can do.", "topic": "TALK_DONE", "effect": "follow" } ]
   }
