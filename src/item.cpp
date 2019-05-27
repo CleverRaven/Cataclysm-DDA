@@ -6076,12 +6076,17 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
                !mod.has_flag( "PUMP_RAIL_COMPATIBLE" ) && has_flag( "PUMP_ACTION" ) ) {
         return ret_val<bool>::make_failure( _( "can only accept small mods on that slot" ) );
 
-    } else if( !mod.type->mod->acceptable_ammo.empty() &&
-               !mod.type->mod->acceptable_ammo.count( ammo_type( false ) ) ) {
-        //~ %1$s - name of the gunmod, %2$s - name of the ammo
-        return ret_val<bool>::make_failure( _( "%1$s cannot be used on %2$s" ), mod.tname( 1 ),
-                                            ammo_type( false )->name() );
-
+    } else if( !mod.type->mod->acceptable_ammo.empty() ) {
+        bool compat_ammo = false;
+        for( const ammotype &at : mod.type->mod->acceptable_ammo ) {
+            if( ammo_types( false ).count( at ) ) {
+                compat_ammo = true;
+            }
+        }
+        if( compat_ammo ) {
+            return ret_val<bool>::make_failure(
+                       _( "%1$s cannot be used on item with no compatible ammo types" ), mod.tname( 1 ) );
+        }
     } else if( mod.typeId() == "waterproof_gunmod" && has_flag( "WATERPROOF_GUN" ) ) {
         return ret_val<bool>::make_failure( _( "is already waterproof" ) );
 
@@ -6091,7 +6096,7 @@ ret_val<bool> item::is_gunmod_compatible( const item &mod ) const
     } else if( mod.typeId() == "brass_catcher" && has_flag( "RELOAD_EJECT" ) ) {
         return ret_val<bool>::make_failure( _( "cannot have a brass catcher" ) );
 
-    } else if( ( mod.type->mod->ammo_modifier || !mod.type->mod->magazine_adaptor.empty() )
+    } else if( ( mod.type->mod->ammo_modifier.empty() || !mod.type->mod->magazine_adaptor.empty() )
                && ( ammo_remaining() > 0 || magazine_current() ) ) {
         return ret_val<bool>::make_failure( _( "must be unloaded before installing this mod" ) );
     }
