@@ -623,7 +623,7 @@ void debug_write_backtrace( std::ostream &out )
     out << "\n";
 #else
 #   if defined(__CYGWIN__)
-// BACKTRACE is not supported under CYGWIN!
+    // BACKTRACE is not supported under CYGWIN!
     ( void ) out;
 #   else
     int count = backtrace( tracePtrs, TRACE_SIZE );
