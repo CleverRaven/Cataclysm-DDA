@@ -8241,7 +8241,7 @@ bool item::is_reloadable() const
     } else if( !is_gun() && !is_tool() && !is_magazine() ) {
         return false;
 
-    } else if( !ammo_type() ) {
+    } else if( ammo_types().empty() ) {
         return false;
     }
 
