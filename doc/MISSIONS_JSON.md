@@ -70,18 +70,32 @@ the player's current kill count that must be killed to complete the mission.
 
 ### dialogue
 This is a dictionary of strings.  The NPC says these exact strings in response to the player
-inquiring about the mission or reporting its completion.
+inquiring about the mission or reporting its completion.  All these strings are required, even if they may not be used in the mission.
+     string ID       |                                  Usage
+-------------------- | --------------------------------------------------------------------------
+`describe`           | The NPC's overall description of the mission.
+`offer`              | The specifics of the mission given when the player selects that mission for consideration.
+`accepted`           | The NPC's response if the player accepts the mission
+`rejected`           | The NPC's response if the player refuses the mission
+`advice`             | If the player asks for advice on how to complete the mission, they hear this
+`inquire`            | This is used if the NPC asks the player how the mission is going
+`success`            | The NPC's response to a report that the mission was successful
+`success_lie`        | The NPC's response if they catch the player lieing about a mission's success
+`failure`            | The NPC's response if the player reports a failed mission.
 
 ### start
 Optional field.  If it is present and a string, it must be name of a function in mission_start::
-that takes a mission * and performs the start code for the mission.  A hardcoded function is
-currently necessary to set up any mission other than MGOAL_FIND_ITEM", "MGOAL_KILL_MONSTER_TYPE",
-or "MGOAL_KILL_MONSTER_SPEC".
+that takes a mission * and performs the start code for the mission.  This allows missions other 
+than the standard mission types to be run.  A hardcoded function is currently necessary to set 
+up any mission other than MGOAL_FIND_ITEM", "MGOAL_KILL_MONSTER_TYPE", or "MGOAL_KILL_MONSTER_SPEC".
 
-Alternately, if present, it can be an object with any of the following optional fields:
+Alternately, if present, it can be an object as described below.
+
+### start / end / fail effects
+If any of these optional fields are present they can be objects with the following fields contained:
 
 #### effects
-This is an effects array, exactly as defined in NPCs.md, and can use any of the values from
+This is an effects array, exactly as defined in [NPCs.md](./NPCs.md), and can use any of the values from
 effects.  In all cases, the NPC involved is the quest giver.
 
 #### reveal_om_ter
@@ -156,7 +170,7 @@ value rather than relative.
 values.  This can change the mission target's overmap terrain type away from `om_terrain`.
 
 #### update_mapgen
-The `update_mapgen`` object or array provides a way to modify existing overmap tiles (including the ones created by "assign_mission_target") to add mission specific monsters, NPCs, computers, or items.
+The `update_mapgen` object or array provides a way to modify existing overmap tiles (including the ones created by "assign_mission_target") to add mission specific monsters, NPCs, computers, or items.
 
 As an array, `update_mapgen` consists of two or more `update_mapgen` objects.
 
@@ -167,8 +181,47 @@ See doc/MAPGEN.md for more details on JSON mapgen and `update_mapgen`.
 An NPC, monster, or computer placed using `update_mapgen` will be the target of a mission if it has the `target` boolean set to `true` in its `place` object in `update_mapgen`.
 
 ## Adding new missions to NPC dialogue
-Any NPC that has missions needs to either:
+In order to assign missions to NPCs, the first step is to find that NPC's definition.  For unique NPCs this is usually at the top of the npc's JSON file and looks something like this:
+`{
+  "type": "npc",
+  "id": "refugee_beggar2",
+  "//": "Schizophrenic beggar in the refugee center.",
+  "name_unique": "Dino Dave",
+  "gender": "male",
+  "name_suffix": "beggar",
+  "class": "NC_BEGGAR_2",
+  "attitude": 0,
+  "mission": 7,
+  "chat": "TALK_REFUGEE_BEGGAR_2",
+  "faction": "lobby_beggars"
+},`
+Add a new line that defines the NPC's starting mission:
+`  "mission_offered": "MISSION_BEGGAR_2_BOX_SMALL"`
+
+Any NPC that has missions needs to have a dialogue option that leads to TALK_MISSION_LIST, to get the player 
+started on their first mission for the NPC, and either:
 * Add one of their talk_topic IDs to the list of generic mission reponse IDs in the first
-talk_topic of data/json/npcs/TALK_COMMON_MISSION.json
+talk_topic of data/json/npcs/TALK_COMMON_MISSION.json, or
 * Have a similar talk_topic with responses that lead to TALK_MISSION_INQUIRE and
 TALK_MISSION_LIST_ASSIGNED.
+Either of these options will allow the player to do normal mission management dialogue with the NPC.
+
+This is an example of how a custom mission inquiry might appear.  This will only appear in the NPC's dialogue 
+options if the player has already been assigned a mission.
+`  {
+    "type": "talk_topic",
+    "//": "Generic responses for Old Guard Necropolis NPCs that can have missions",
+    "id": [ "TALK_OLD_GUARD_NEC_CPT", "TALK_OLD_GUARD_NEC_COMMO" ],
+    "responses": [
+      {
+        "text": "About the mission...",
+        "topic": "TALK_MISSION_INQUIRE",
+        "condition": { "and": [ "has_assigned_mission", { "u_is_wearing": "badge_marshal" } ] }
+      },
+      {
+        "text": "About one of those missions...",
+        "topic": "TALK_MISSION_LIST_ASSIGNED",
+        "condition": { "and": [ "has_many_assigned_missions", { "u_is_wearing": "badge_marshal" } ] }
+      }
+    ]
+  },`
