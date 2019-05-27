@@ -49,15 +49,7 @@
       [ "legguard_metal", 10 ],
       [ "helmet_corinthian", 45 ],
       [ "armor_cuirass", 25 ],
-      [ "legguard_bronze", 20 ],
-      [ "shield_wooden", 10 ],
-      [ "shield_wooden_large", 5 ],
-      [ "shield_hoplon", 10 ],
-      [ "shield_scutum", 10 ],
-      [ "shield_round", 10 ],
-      [ "shield_kite", 10 ],
-      [ "shield_heater", 20 ],
-      [ "shield_buckler", 25 ]
+      [ "legguard_bronze", 20 ]
     ]
   },
   {

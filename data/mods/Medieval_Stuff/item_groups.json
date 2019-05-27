@@ -32,5 +32,19 @@
       [ "shield_heater", 5 ],
       [ "shield_buckler", 5 ]
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "museum_armor",
+    "items": [
+      [ "shield_wooden", 10 ],
+      [ "shield_wooden_large", 5 ],
+      [ "shield_hoplon", 10 ],
+      [ "shield_scutum", 10 ],
+      [ "shield_round", 10 ],
+      [ "shield_kite", 10 ],
+      [ "shield_heater", 20 ],
+      [ "shield_buckler", 25 ]
+    ]
   }
 ]
