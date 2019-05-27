@@ -364,7 +364,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     }
 
     // handle reloadable tools and guns with no specific ammo type as special case
-    if( ( ammo == "null" && !ammo_type() ) || ammo_type().str() == "money" ) {
+    if( ( ammo == "null" && ammo_types().empty() ) || ammo_types().count( ammotype( "money" ) ) ) {
         if( ( is_tool() || is_gun() ) && magazine_integral() ) {
             curammo = nullptr;
             charges = std::min( qty, ammo_capacity() );
@@ -374,7 +374,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
 
     // check ammo is valid for the item
     const itype *atype = item_controller->find_template( ammo );
-    if( !atype->ammo || !atype->ammo->type.count( ammo_type() ) ) {
+    if( !atype->ammo || !ammo_types().count( atype->ammo->type ) ) {
         debugmsg( "Tried to set invalid ammo of %s for %s", atype->nname( qty ), tname() );
         return *this;
     }
@@ -403,7 +403,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
             // if default magazine too small fetch instead closest available match
             if( mag->magazine->capacity < qty ) {
                 // as above call to magazine_default successful can infer minimum one option exists
-                auto iter = type->magazines.find( ammo_type() );
+                auto iter = type->magazines.find( ammotype( ammo ) );
                 std::vector<itype_id> opts( iter->second.begin(), iter->second.end() );
                 std::sort( opts.begin(), opts.end(), []( const itype_id & lhs, const itype_id & rhs ) {
                     return find_type( lhs )->magazine->capacity < find_type( rhs )->magazine->capacity;
