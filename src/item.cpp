@@ -626,7 +626,7 @@ bool item::stacks_with( const item &rhs, bool check_components ) const
     if( type != rhs.type ) {
         return false;
     }
-    if( ammo_type() == "money" && charges != 0 && rhs.charges != 0 ) {
+    if( charges != 0 && rhs.charges != 0 && ammo_current() == "money" ) {
         // Dealing with nonempty cash cards
         return true;
     }
