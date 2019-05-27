@@ -181,8 +181,9 @@ See doc/MAPGEN.md for more details on JSON mapgen and `update_mapgen`.
 An NPC, monster, or computer placed using `update_mapgen` will be the target of a mission if it has the `target` boolean set to `true` in its `place` object in `update_mapgen`.
 
 ## Adding new missions to NPC dialogue
-In order to assign missions to NPCs, the first step is to find that NPC's definition.  For unique NPCs this is usually at the top of the npc's JSON file and looks something like this:\n
-`{
+In order to assign missions to NPCs, the first step is to find that NPC's definition.  For unique NPCs this is usually at the top of the npc's JSON file and looks something like this:
+```JSON
+{
   "type": "npc",
   "id": "refugee_beggar2",
   "//": "Schizophrenic beggar in the refugee center.",
@@ -194,9 +195,9 @@ In order to assign missions to NPCs, the first step is to find that NPC's defini
   "mission": 7,
   "chat": "TALK_REFUGEE_BEGGAR_2",
   "faction": "lobby_beggars"
-},`\n
-Add a new line that defines the NPC's starting mission:\n
-`  "mission_offered": "MISSION_BEGGAR_2_BOX_SMALL"`
+},
+```
+Add a new line that defines the NPC's starting mission, eg: `"mission_offered": "MISSION_BEGGAR_2_BOX_SMALL"`
 
 Any NPC that has missions needs to have a dialogue option that leads to TALK_MISSION_LIST, to get the player 
 started on their first mission for the NPC, and either:
@@ -210,7 +211,8 @@ Either of these options will allow the player to do normal mission management di
 
 This is an example of how a custom mission inquiry might appear.  This will only appear in the NPC's dialogue 
 options if the player has already been assigned a mission.
-`  {
+```JSON
+{
     "type": "talk_topic",
     "//": "Generic responses for Old Guard Necropolis NPCs that can have missions",
     "id": [ "TALK_OLD_GUARD_NEC_CPT", "TALK_OLD_GUARD_NEC_COMMO" ],
@@ -226,4 +228,5 @@ options if the player has already been assigned a mission.
         "condition": { "and": [ "has_many_assigned_missions", { "u_is_wearing": "badge_marshal" } ] }
       }
     ]
-  },`
+  },
+ ```
