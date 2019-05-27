@@ -43,6 +43,7 @@ void nanofab( player &p, const tripoint &examp );
 void controls_gate( player &p, const tripoint &examp );
 void cardreader( player &p, const tripoint &examp );
 void cardreader_robofac( player &p, const tripoint &examp );
+void cardreader_corp( player &p, const tripoint &examp );
 void intercom( player &p, const tripoint &examp );
 void cvdmachine( player &p, const tripoint &examp );
 void rubble( player &p, const tripoint &examp );
