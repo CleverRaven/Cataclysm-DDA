@@ -17,6 +17,7 @@
 #include "action.h"
 #include "advanced_inv.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "clzones.h"
 #include "construction.h"
 #include "craft_command.h"
@@ -2544,7 +2545,7 @@ void activity_handlers::aim_do_turn( player_activity *act, player * )
     if( act->index == 0 ) {
         g->m.invalidate_map_cache( g->get_levz() );
         g->m.build_map_cache( g->get_levz() );
-        g->plfire();
+        avatar_action::fire( g->u, g->m );
     }
 }
 
