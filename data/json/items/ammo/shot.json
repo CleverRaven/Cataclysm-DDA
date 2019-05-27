@@ -92,7 +92,7 @@
     "type": "AMMO",
     "name": "dragon's breath shell",
     "description": "A shotgun shell filled with incendiary pellets or shards, used mostly as a distress flare or pyrotechnics tool.  When the round is fired, high temperature sparks and flames shoot out of the barrel, igniting everything in their path.",
-    "price": 2400,
+    "price": 14000,
     "proportional": { "damage": 0.2, "recoil": 0.5, "loudness": 0.7 },
     "extend": { "effects": [ "INCENDIARY", "STREAM", "NOGIB" ] }
   },
