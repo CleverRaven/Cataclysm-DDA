@@ -17,6 +17,7 @@
     "id": "style_crt_enforcement",
     "name": "C.R.I.T Enforcement",
     "description": "A defensive style that is centered around stunning swings, knockback and grounding enemies. Each attack landed increases your armor by 0.125 and offers other combat bonuses based on stats.",
+    "initiate": [ "Initiate enforcement.", "%s initiates enforcement." ],
     "arm_block": 2,
     "leg_block": 10,
     "static_buffs": [
