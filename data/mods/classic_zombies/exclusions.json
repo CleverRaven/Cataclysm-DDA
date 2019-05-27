@@ -25,117 +25,46 @@
       "forest": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 40,
-          "mx_military": 8,
-          "mx_science": 20,
-          "mx_collegekids": 25,
-          "mx_drugdeal": 20,
-          "mx_supplydrop": 10,
           "mx_portal": 0,
-          "mx_minefield": 50,
-          "mx_crater": 10,
-          "mx_fumarole": 8,
           "mx_portal_in": 0,
           "mx_anomaly": 0,
-          "mx_spider": 0,
-          "mx_grove": 500,
-          "mx_shrubbery": 500,
-          "mx_clearcut": 125,
-          "mx_pond": 125,
-          "mx_clay_deposit": 125,
-          "mx_point_dead_vegetation": 500,
-          "mx_point_burned_ground": 500
+          "mx_spider": 0
         }
       },
       "forest_thick": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 40,
-          "mx_military": 8,
-          "mx_science": 20,
-          "mx_collegekids": 25,
-          "mx_drugdeal": 20,
-          "mx_supplydrop": 10,
           "mx_portal": 0,
-          "mx_minefield": 50,
-          "mx_crater": 10,
-          "mx_fumarole": 8,
           "mx_portal_in": 0,
           "mx_anomaly": 0,
           "mx_shia": 0,
           "mx_spider": 0,
-          "mx_jabberwock": 0,
-          "mx_grove": 500,
-          "mx_shrubbery": 500,
-          "mx_clearcut": 125,
-          "mx_pond": 125,
-          "mx_clay_deposit": 125,
-          "mx_point_dead_vegetation": 500,
-          "mx_point_burned_ground": 500
+          "mx_jabberwock": 0
         }
       },
       "forest_water": {
         "chance": 20,
         "extras": {
-          "mx_helicopter": 40,
-          "mx_military": 8,
-          "mx_science": 20,
-          "mx_collegekids": 25,
-          "mx_drugdeal": 20,
-          "mx_supplydrop": 10,
           "mx_portal": 0,
-          "mx_minefield": 50,
-          "mx_crater": 10,
-          "mx_fumarole": 8,
           "mx_portal_in": 0,
           "mx_anomaly": 0,
-          "mx_spider": 0,
-          "mx_grove": 500,
-          "mx_shrubbery": 500,
-          "mx_clearcut": 125,
-          "mx_pond": 125,
-          "mx_clay_deposit": 125,
-          "mx_point_dead_vegetation": 500,
-          "mx_point_burned_ground": 500
+          "mx_spider": 0
         }
       },
       "field": {
         "chance": 90,
         "extras": {
-          "mx_helicopter": 40,
-          "mx_military": 8,
-          "mx_science": 20,
-          "mx_collegekids": 25,
-          "mx_drugdeal": 20,
-          "mx_supplydrop": 10,
           "mx_portal": 0,
-          "mx_minefield": 50,
-          "mx_crater": 10,
-          "mx_fumarole": 8,
           "mx_portal_in": 0,
-          "mx_anomaly": 0,
-          "mx_point_dead_vegetation": 50,
-          "mx_point_burned_ground": 50
+          "mx_anomaly": 0
         }
       },
       "road": {
         "chance": 75,
         "extras": {
-          "mx_helicopter": 40,
-          "mx_military": 25,
-          "mx_science": 40,
-          "mx_collegekids": 50,
-          "mx_roadblock": 100,
-          "mx_bandits_block": 80,
-          "mx_drugdeal": 30,
-          "mx_supplydrop": 10,
           "mx_portal": 0,
-          "mx_minefield": 80,
-          "mx_crater": 10,
-          "mx_fumarole": 8,
           "mx_portal_in": 0,
-          "mx_anomaly": 0,
-          "mx_roadworks": 100
+          "mx_anomaly": 0
         }
       },
       "build": {
@@ -143,26 +72,16 @@
         "extras": {
           "mx_house_spider": 0,
           "mx_house_wasp": 0,
-          "mx_military": 5,
-          "mx_science": 12,
-          "mx_collegekids": 15,
           "mx_portal": 0,
-          "mx_crater": 60,
-          "mx_fumarole": 8,
           "mx_portal_in": 0,
-          "mx_anomaly": 0,
-          "mx_point_burned_ground": 5
+          "mx_anomaly": 0
         }
       },
       "marloss": { "chance": 0, "extras": { "mx_marloss_pilgrimage": 0 } },
       "subway": {
         "chance": 75,
         "extras": {
-          "mx_military": 5,
-          "mx_science": 12,
-          "mx_collegekids": 15,
           "mx_portal": 0,
-          "mx_fumarole": 20,
           "mx_portal_in": 0,
           "mx_anomaly": 0
         }
