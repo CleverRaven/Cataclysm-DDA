@@ -1943,7 +1943,7 @@ bool npc::wont_hit_friend( const tripoint &tar, const item &it, bool throwing ) 
 
 bool npc::enough_time_to_reload( const item &gun ) const
 {
-    int rltime = item_reload_cost( gun, item( gun.ammo_type()->default_ammotype() ),
+    int rltime = item_reload_cost( gun, item( gun.ammo_default() ),
                                    gun.ammo_capacity() );
     const float turns_til_reloaded = static_cast<float>( rltime ) / get_speed();
 
