@@ -1548,6 +1548,7 @@ void iexamine::flower_cactus( player &p, const tripoint &examp )
     g->m.furn_set( examp, f_null );
 
     handle_harvest( p, "cactus_pad", false );
+    handle_harvest( p, "seed_cactus", false );
 }
 
 /**
