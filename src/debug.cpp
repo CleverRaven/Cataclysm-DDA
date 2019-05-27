@@ -48,6 +48,17 @@
 #if defined(BACKTRACE)
 #   if defined(_WIN32)
 #       include <dbghelp.h>
+#   endif
+#   if defined(__CYGWIN__)
+//TDOD:PTZ170112 You may want to try a WinAPI function like CaptureStackBackTrace instead
+//https://msdn.microsoft.com/en-us/library/windows/desktop/bb204633(v=vs.85).aspx
+//TODO:PTZ170115 check cygwin-devel as in 2015 someone thought off these for cygwin too...!
+//http://cygwin.1069669.n5.nabble.com/backtrace-3-in-Cygwin-tt116597.html
+//https://trac.webkit.org/browser/trunk/Source/WTF/wtf/Assertions.cpp#L226
+//https://msdn.microsoft.com/en-us/library/windows/hardware/ff552119.aspx
+
+#       define backtrace(_a, _n) (sizeof(_a) * _n)
+#       define backtrace_symbols(_a, _sz) calloc( _sz * 0x200 * sizeof(_a), sizeof(char));
 #   else
 #       include <execinfo.h>
 #       include <unistd.h>
@@ -472,7 +483,7 @@ static std::ostream &operator<<( std::ostream &out, DebugClass cl )
 }
 
 #if defined(BACKTRACE)
-#if !defined(_WIN32)
+#if !defined(_WIN32) && !defined(__CYGWIN__)
 // Verify that a string is safe for passing as an argument to addr2line.
 // In particular, we want to avoid any characters of significance to the shell.
 static bool debug_is_safe_string( const char *start, const char *finish )
@@ -611,6 +622,10 @@ void debug_write_backtrace( std::ostream &out )
     }
     out << "\n";
 #else
+#   if defined(__CYGWIN__)
+    // BACKTRACE is not supported under CYGWIN!
+    ( void ) out;
+#   else
     int count = backtrace( tracePtrs, TRACE_SIZE );
     char **funcNames = backtrace_symbols( tracePtrs, count );
     for( int i = 0; i < count; ++i ) {
@@ -740,6 +755,7 @@ void debug_write_backtrace( std::ostream &out )
         call_addr2line( last_binary_name, addresses );
     }
     free( funcNames );
+#   endif
 #endif
 }
 #endif
@@ -822,7 +838,7 @@ std::string game_info::operating_system()
 #endif
 }
 
-#if defined (__linux__) || defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) || defined(BSD) // linux; unix; MacOs; BSD
+#if !defined(__CYGWIN__) && ( defined (__linux__) || defined(unix) || defined(__unix__) || defined(__unix) || ( defined(__APPLE__) && defined(__MACH__) ) || defined(BSD) ) // linux; unix; MacOs; BSD
 /** Execute a command with the shell by using `popen()`.
  * @param command The full command to execute.
  * @note The output buffer is limited to 512 characters.
@@ -873,13 +889,13 @@ static std::string android_version()
     };
 
     for( const auto &entry : system_properties ) {
-        int len = __system_property_get( entry.first, &buffer[0] );
+        int len = __system_property_get( entry.first.c_str(), &buffer[0] );
         std::string value;
         if( len <= 0 ) {
             // failed to get the property
             value = "<unknown>";
         } else {
-            value = std::string( buffer.begin(), buffer.end() );
+            value = std::string( buffer.data() );
         }
         output.append( string_format( "%s: %s; ", entry.second, value ) );
     }
@@ -1002,7 +1018,7 @@ static std::string windows_version()
                                         &buffer_size ) == ERROR_SUCCESS && value_type == REG_SZ;
             if( success ) {
                 output.append( " " );
-                output.append( std::string( byte_buffer.begin(), byte_buffer.end() ) );
+                output.append( std::string( reinterpret_cast<char *>( byte_buffer.data() ) ) );
             }
         }
 
@@ -1109,9 +1125,9 @@ std::string game_info::game_report()
     }
     std::stringstream report;
     report <<
-           "- OS: " << operating_system() << " [" << bitness() << "]\n" <<
+           "- OS: " << operating_system() << "\n" <<
            "    - OS Version: " << os_version << "\n" <<
-           "- Game Version: " << game_version() << "\n" <<
+           "- Game Version: " << game_version() << " [" << bitness() << "]\n" <<
            "- Graphics Version: " << graphics_version() << "\n" <<
            "- Mods loaded: [\n    " << mods_loaded() << "\n]\n";
 

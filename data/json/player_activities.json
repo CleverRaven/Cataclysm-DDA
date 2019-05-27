@@ -583,6 +583,15 @@
     "no_resume": true
   },
   {
+    "id": "ACT_SPELLCASTING",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "stop_phrase": "Stop casting?",
+    "suspendable": false,
+    "based_on": "speed",
+    "no_resume": true
+  },
+  {
     "id": "ACT_STUDY_SPELL",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

@@ -129,7 +129,7 @@ TEST_CASE( "starting_items" )
 
     g->u = get_sanitized_player();
     // Avoid false positives from ingredients like salt and cornmeal.
-    const player control = get_sanitized_player();
+    const avatar control = get_sanitized_player();
 
     std::vector<trait_id> traits = next_subset( mutations );
     for( ; !traits.empty(); traits = next_subset( mutations ) ) {

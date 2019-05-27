@@ -14,7 +14,7 @@
     "skill": "traps",
     "max_level": 4,
     "intelligence": 4,
-    "time": 20
+    "time": "20 m"
   },
   {
     "id": "mag_traps",
@@ -31,7 +31,7 @@
     "skill": "traps",
     "max_level": 1,
     "intelligence": 5,
-    "time": 8
+    "time": "8 m"
   },
   {
     "id": "manual_traps",
@@ -47,7 +47,7 @@
     "skill": "traps",
     "max_level": 3,
     "intelligence": 4,
-    "time": 20
+    "time": "20 m"
   },
   {
     "id": "textbook_traps",
@@ -67,7 +67,7 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
-    "time": 30
+    "time": "30 m"
   },
   {
     "id": "trappers_companion",
@@ -86,6 +86,6 @@
     "required_level": 5,
     "max_level": 8,
     "intelligence": 10,
-    "time": 55
+    "time": "55 m"
   }
 ]

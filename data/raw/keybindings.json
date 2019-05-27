@@ -1844,6 +1844,12 @@
   },
   {
     "type": "keybinding",
+    "name": "View Temperature Map",
+    "category": "DEFAULTMODE",
+    "id": "debug_temp"
+  },
+  {
+    "type": "keybinding",
     "name": "Switch Sidebar Style",
     "category": "DEFAULTMODE",
     "id": "toggle_sidebar_style"
@@ -2053,6 +2059,12 @@
     "name": "Movement Mode Menu",
     "category": "DEFAULTMODE",
     "id": "open_movement"
+  },
+  {
+    "type": "keybinding",
+    "id": "cast_spell",
+    "name": "Spellcasting",
+    "category": "DEFAULTMODE"
   },
   {
     "type": "keybinding",

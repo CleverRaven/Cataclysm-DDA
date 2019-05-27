@@ -185,11 +185,6 @@ class player : public Character
         player &operator=( const player & ) = delete;
         player &operator=( player && );
 
-        // newcharacter.cpp
-        bool create( character_type type, const std::string &tempname = "" );
-        void randomize( bool random_scenario, points_left &points, bool play_now = false );
-        bool load_template( const std::string &template_name, points_left &points );
-
         /** Calls Character::normalize()
          *  normalizes HP and body temperature
          */
@@ -230,13 +225,10 @@ class player : public Character
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
         // populate variables, inventory items, and misc from json object
-        virtual void deserialize( JsonIn &jsin );
+        virtual void deserialize( JsonIn &jsin ) = 0;
 
         // by default save all contained info
-        virtual void serialize( JsonOut &jsout ) const;
-
-        void serialize_map_memory( JsonOut &jsout ) const;
-        void deserialize_map_memory( JsonIn &jsin );
+        virtual void serialize( JsonOut &jsout ) const = 0;
 
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info();
@@ -428,21 +420,6 @@ class player : public Character
         /** Returns true if the player or their vehicle has a watch */
         bool has_watch() const;
 
-        void toggle_map_memory();
-        bool should_show_map_memory();
-        /** Memorizes a given tile in tiles mode; finalize_tile_memory needs to be called after it */
-        void memorize_tile( const tripoint &pos, const std::string &ter, const int subtile,
-                            const int rotation );
-        /** Returns last stored map tile in given location in tiles mode */
-        memorized_terrain_tile get_memorized_tile( const tripoint &p ) const;
-        /** Memorizes a given tile in curses mode; finalize_terrain_memory_curses needs to be called after it */
-        void memorize_symbol( const tripoint &pos, const long symbol );
-        /** Returns last stored map tile in given location in curses mode */
-        long get_memorized_symbol( const tripoint &p ) const;
-        /** Returns the amount of tiles survivor can remember. */
-        size_t max_memorized_tiles() const;
-        void clear_memorized_tile( const tripoint &pos );
-
         // see Creature::sees
         bool sees( const tripoint &c, bool is_player = false, int range_mod = 0 ) const override;
         // see Creature::sees
@@ -502,6 +479,12 @@ class player : public Character
         void ma_onblock_effects();
         /** Fires all get hit-triggered martial arts events */
         void ma_ongethit_effects();
+        /** Fires all miss-triggered martial arts events */
+        void ma_onmiss_effects();
+        /** Fires all crit-triggered martial arts events */
+        void ma_oncrit_effects();
+        /** Fires all kill-triggered martial arts events */
+        void ma_onkill_effects();
 
         /** Returns true if the player has any martial arts buffs attached */
         bool has_mabuff( const mabuff_id &buff_id ) const;
@@ -1157,31 +1140,10 @@ class player : public Character
         /** Starts activity to install toolmod */
         void toolmod_add( item_location tool, item_location mod );
 
-        /**
-         * Helper function for player::read.
-         *
-         * @param book Book to read
-         * @param reasons Starting with g->u, for each player/NPC who cannot read, a message will be pushed back here.
-         * @returns nullptr, if neither the player nor his followers can read to the player, otherwise the player/NPC
-         * who can read and can read the fastest
-         */
-        const player *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
-        /**
-         * Helper function for get_book_reader
-         * @warning This function assumes that the everyone is able to read
-         *
-         * @param book The book being read
-         * @param reader the player/NPC who's reading to the caller
-         * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
-         */
-        int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
         bool fun_to_read( const item &book ) const;
-        /** Handles reading effects and returns true if activity started */
-        bool read( int inventory_position, const bool continuous = false );
-        /** Completes book reading action. **/
-        void do_read( item &book );
         /** Note that we've read a book at least once. **/
-        bool has_identified( const std::string &item_id ) const;
+        virtual bool has_identified( const std::string &item_id ) const = 0;
+
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur = 30_minutes );
         /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
@@ -1202,9 +1164,6 @@ class player : public Character
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::time_of_cataclysm;
         bool bio_soporific_powered_at_last_sleep_check;
-        /** Used in max_memorized_tiles to cache memory capacity. **/
-        mutable time_point current_map_memory_turn = calendar::before_time_starts;
-        mutable size_t current_map_memory_capacity = 0;
 
     public:
         /** Returns a value from 1.0 to 5.0 that acts as a multiplier
@@ -1218,7 +1177,6 @@ class player : public Character
         hint_rating rate_action_wear( const item &it ) const;
         hint_rating rate_action_change_side( const item &it ) const;
         hint_rating rate_action_eat( const item &it ) const;
-        hint_rating rate_action_read( const item &it ) const;
         hint_rating rate_action_takeoff( const item &it ) const;
         hint_rating rate_action_reload( const item &it ) const;
         hint_rating rate_action_unload( const item &it ) const;
@@ -1310,7 +1268,6 @@ class player : public Character
          * All items that have the given flag (@ref item::has_flag).
          */
         std::vector<const item *> all_items_with_flag( const std::string &flag ) const;
-
         void process_active_items();
         /**
          * Remove charges from a specific item (given by its item position).
@@ -1732,31 +1689,6 @@ class player : public Character
         void spores();
         void blossoms();
 
-        std::vector<mission *> get_active_missions() const;
-        std::vector<mission *> get_completed_missions() const;
-        std::vector<mission *> get_failed_missions() const;
-        /**
-         * Returns the mission that is currently active. Returns null if mission is active.
-         */
-        mission *get_active_mission() const;
-        /**
-         * Returns the target of the active mission or @ref overmap::invalid_tripoint if there is
-         * no active mission.
-         */
-        tripoint get_active_mission_target() const;
-        /**
-         * Set which mission is active. The mission must be listed in @ref active_missions.
-         */
-        void set_active_mission( mission &cur_mission );
-        /**
-         * Called when a mission has been assigned to the player.
-         */
-        void on_mission_assignment( mission &new_mission );
-        /**
-         * Called when a mission has been completed or failed. Either way it's finished.
-         * Check @ref mission::has_failed to see which case it is.
-         */
-        void on_mission_finished( mission &cur_mission );
         /**
          * Called when a mutation is gained
          */
@@ -1848,13 +1780,6 @@ class player : public Character
         /** Processes human-specific effects of an effect. */
         void process_one_effect( effect &e, bool is_new ) override;
 
-    private:
-        friend class debug_menu::mission_debug;
-
-    protected:
-        // TODO: move this to avatar
-        // Items the player has identified.
-        std::unordered_set<std::string> items_identified;
     private:
 
         /** Check if an area-of-effect technique has valid targets */
@@ -1953,27 +1878,6 @@ class player : public Character
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
         //NPCs also use this ID value. Values should never be reused.
 
-    protected:
-        // TODO: move these to avatar
-        /**
-         * Missions that the player has accepted and that are not finished (one
-         * way or the other).
-         */
-        std::vector<mission *> active_missions;
-        /**
-         * Missions that the player has successfully completed.
-         */
-        std::vector<mission *> completed_missions;
-        /**
-         * Missions that have failed while being assigned to the player.
-         */
-        std::vector<mission *> failed_missions;
-        /**
-         * The currently active mission, or null if no mission is currently in progress.
-         */
-        mission *active_mission;
-    private:
-
         /** smart pointer to targeting data stored for aiming the player's weapon across turns. */
         std::shared_ptr<targeting_data> tdata;
 
@@ -1992,10 +1896,14 @@ class player : public Character
         /** Amount of time the player has spent in each overmap tile. */
         std::unordered_map<point, time_duration> overmap_time;
 
-    protected:
-        // TODO: move these to avatar
-        map_memory player_map_memory;
-        bool show_map_memory;
+        // magic mod
+
+        // list of spells known by player
+        std::map<spell_id, spell> spellbook;
+        // the base mana a player would start with
+        int mana_base;
+        // current mana
+        int mana;
 };
 
 #endif

@@ -6,6 +6,7 @@
     "authors": [ "HuXTUS", "Whaley" ],
     "description": "Adds boats.",
     "category": "vehicles",
-    "dependencies": [ "dda" ]
+    "dependencies": [ "dda" ],
+    "obsolete": true
   }
 ]

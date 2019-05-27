@@ -9,6 +9,8 @@
 #include <vector>
 #include <utility>
 
+#include "faction.h"
+#include "int_id.h"
 #include "mapgen_functions.h"
 #include "regional_settings.h"
 #include "type_id.h"
@@ -294,6 +296,7 @@ class mapgen_function_json_base
         void setup_common();
         bool setup_common( JsonObject jo );
         void setup_setmap( JsonArray &parray );
+        void set_faction_owner( JsonObject jo );
         // Returns true if the mapgen qualifies at this point already
         virtual bool setup_internal( JsonObject &jo ) = 0;
         virtual void setup_setmap_internal() { }
@@ -432,6 +435,7 @@ void fill_background( map *m, ter_id type );
 void fill_background( map *m, ter_id( *f )() );
 void square( map *m, ter_id type, int x1, int y1, int x2, int y2 );
 void square( map *m, ter_id( *f )(), int x1, int y1, int x2, int y2 );
+void square( map *m, const weighted_int_list<ter_id> &f, int x1, int y1, int x2, int y2 );
 void square_furn( map *m, furn_id type, int x1, int y1, int x2, int y2 );
 void rough_circle( map *m, ter_id type, int x, int y, int rad );
 void rough_circle_furn( map *m, furn_id type, int x, int y, int rad );
