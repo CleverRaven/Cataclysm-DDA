@@ -5,8 +5,11 @@
 #include "enums.h"
 
 class avatar;
+class item;
 class map;
+
 struct point;
+struct targeting_data;
 
 namespace avatar_action
 {
@@ -26,6 +29,29 @@ inline bool move( avatar &you, map &m, const point &d )
 bool ramp_move( avatar &you, map &m, const tripoint &dest );
 
 void autoattack( avatar &you, map &m );
+
+
+/**
+ * Returns true if the player is allowed to fire a given item, or false if otherwise.
+ * reload_time is stored as a side effect of condition testing.
+ * @param args Contains item data and targeting mode for the gun we want to fire.
+ * @return True if all conditions are true, otherwise false.
+ */
+bool fire_check( avatar &you, const map &m, const targeting_data &args );
+
+/**
+ * Handles interactive parts of gun firing (target selection, etc.).
+ * @return Whether an attack was actually performed.
+ */
+bool fire( avatar &you, const map &m );
+/**
+ * Handles interactive parts of gun firing (target selection, etc.).
+ * This version stores targeting parameters for weapon, used for calls to the nullary form.
+ * @param weapon Reference to a weapon we want to start aiming.
+ * @param bp_cost The amount by which the player's power reserve is decreased after firing.
+ * @return Whether an attack was actually performed.
+ */
+bool fire( item &weapon, int bp_cost = 0 );
 }
 
 
