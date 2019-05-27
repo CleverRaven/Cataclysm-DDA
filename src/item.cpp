@@ -5779,7 +5779,7 @@ int item::ammo_required() const
     }
 
     if( is_gun() ) {
-        if( !ammo_type() ) {
+        if( ammo_types().empty() ) {
             return 0;
         } else if( has_flag( "FIRE_100" ) ) {
             return 100;
