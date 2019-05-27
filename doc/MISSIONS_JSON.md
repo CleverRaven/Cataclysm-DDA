@@ -72,7 +72,7 @@ the player's current kill count that must be killed to complete the mission.
 This is a dictionary of strings.  The NPC says these exact strings in response to the player
 inquiring about the mission or reporting its completion.  All these strings are required, even if they may not be used in the mission.
 
-     string ID       |                                  Usage
+string ID            |                                  Usage
 ---                  | ---
 `describe`           | The NPC's overall description of the mission.
 `offer`              | The specifics of the mission given when the player selects that mission for consideration.
