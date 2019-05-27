@@ -1374,14 +1374,11 @@ int npc::value( const item &it, int market_price ) const
     }
 
     if( it.is_ammo() ) {
-        if( weapon.is_gun() && it.type->ammo->type.count( weapon.ammo_type() ) ) {
+        if( weapon.is_gun() && weapon.ammo_types().count( it.type->ammo->type ) ) {
             ret += 14; // TODO: magazines - don't count ammo as usable if the weapon isn't.
         }
 
-        if( std::any_of( it.type->ammo->type.begin(), it.type->ammo->type.end(),
-        [&]( const ammotype & e ) {
-        return has_gun_for_ammo( e );
-        } ) ) {
+        if( has_gun_for_ammo( it.type->ammo->type ) ) {
             ret += 14; // TODO: consider making this cumulative (once was)
         }
     }
