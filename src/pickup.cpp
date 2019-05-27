@@ -802,7 +802,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                             stealing = true;
                         }
                     }
-                    if( stacked_here[true_it].begin()->_item.ammo_type() == "money" ) {
+                    if( stacked_here[true_it].begin()->_item.ammo_current() == "money" ) {
                         //Count charges
                         // TODO: transition to the item_location system used for the inventory
                         unsigned long charges_total = 0;
