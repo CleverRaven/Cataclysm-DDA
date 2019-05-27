@@ -784,7 +784,7 @@ void npc::starting_weapon( const npc_class_id &type )
     }
 
     if( weapon.is_gun() ) {
-        weapon.ammo_set( weapon.type->gun->ammo->default_ammotype() );
+        weapon.ammo_set( weapon.ammo_default() );
     }
     weapon.set_owner( my_fac );
 }
