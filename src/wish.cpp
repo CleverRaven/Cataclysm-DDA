@@ -13,6 +13,7 @@
 #include "input.h"
 #include "item_factory.h"
 #include "map.h"
+#include "npc.h"
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"

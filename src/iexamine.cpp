@@ -3924,7 +3924,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     };
 
     bool adjacent_couch = false;
-    static player null_player;
+    static avatar null_player;
     tripoint couch_pos;
     player &patient = player_on_couch( p, examp, null_player, adjacent_couch, couch_pos );
 

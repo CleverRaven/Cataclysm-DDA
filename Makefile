@@ -312,6 +312,10 @@ else
   OTHERS += -std=c++14
 endif
 
+ifeq ($(CYGWIN),1)
+WARNINGS += -Wimplicit-fallthrough=0
+endif
+
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
 
 BINDIST_EXTRAS += README.md data doc
@@ -1030,7 +1034,9 @@ clean-tests:
 	$(MAKE) -C tests clean
 
 validate-pr:
+ifneq ($(CYGWIN),1)
 	@build-scripts/validate_pr_in_jenkins
+endif
 
 .PHONY: tests check ctags etags clean-tests install lint validate-pr
 
