@@ -1499,21 +1499,20 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 
     // Survival gives a bigger boost, and Perception is leveled a bit.
     // Both survival and perception affect time to forage
-    ///\EFFECT_SURVIVAL increases forage success chance
 
     ///\EFFECT_PER slightly increases forage success chance
+    ///\EFFECT_SURVIVAL increases forage success chance
     if( veggy_chance < p->get_skill_level( skill_survival ) * 3 + p->per_cur - 2 ) {
         const auto dropped = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
             add_msg( m_good, _( "You found: %s!" ), it->tname() );
             found_something = true;
-            if( it->typeId() == "mushroom" ) {
-                if( one_in( 10 ) ) {
-                    it->item_tags.insert( "HIDDEN_POISON" );
-                    it->poison = rng( 2, 7 );
-                } else if( one_in( 10 ) ) {
-                    it->item_tags.insert( "HIDDEN_HALLU" );
-                }
+            if( it->has_flag( "FORAGE_POISON" ) && one_in( 10 ) ) {
+                it->set_flag( "HIDDEN_POISON" );
+                it->poison = rng( 2, 7 );
+            }
+            if( it->has_flag( "FORAGE_HALLU" ) && !it->has_flag( "HIDDEN_POISON" ) && one_in( 10 ) ) {
+                it->set_flag( "HIDDEN_HALLU" );
             }
         }
     }
