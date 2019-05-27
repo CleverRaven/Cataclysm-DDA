@@ -27,6 +27,7 @@
     "id": "style_crt_cqb",
     "name": "C.R.I.T CQB",
     "description": "A defensive style centered around rapid paralyzing strikes and piercing jabs.  Each attack landed increases your speed by 0.5 along with a slew of combat bonuses. 25 percent bash damage.",
+    "initiate": [ "Initiate CQB.", "%s initiates CQB." ],
     "arm_block": 3,
     "leg_block": 6,
     "static_buffs": [

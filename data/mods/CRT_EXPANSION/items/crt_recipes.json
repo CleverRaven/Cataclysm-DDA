@@ -9,11 +9,11 @@
     "time": 400,
     "autolearn": true,
     "components": [ [ [ "withered", 3 ] ] ]
-  }
+  },
   {
     "result": "withered_bundle",
     "type": "uncraft",
     "time": 300,
     "components": [ [ [ "withered", 3 ] ] ]
-  },
+  }
 ]

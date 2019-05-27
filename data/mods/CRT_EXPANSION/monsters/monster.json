@@ -22,21 +22,12 @@
     "melee_dice_sides": 1,
     "melee_cut": 3,
     "dodge": 3,
-     "armor_bash": 10,
+    "armor_bash": 10,
     "armor_cut": 16,
     "harvest": "zombie",
     "special_attacks": [ [ "TENTACLE", 2 ], [ "scratch", 10 ] ],
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "HEARS",
-      "GOODHEARING",
-      "WARM",
-      "CLIMBS",
-      "NOHEAD",
-      "POISON",
-      "BLEED",
-      "NO_BREATHE"
-    ]
+    "flags": [ "HEARS", "GOODHEARING", "WARM", "CLIMBS", "NOHEAD", "POISON", "BLEED", "NO_BREATHE" ]
   },
   {
     "id": "mon_dullahan",
@@ -63,13 +54,6 @@
     "harvest": "zombie",
     "special_attacks": [ [ "TENTACLE", 7 ], [ "scratch", 8 ] ],
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "WARM",
-      "CLIMBS",
-      "NOHEAD",
-      "POISON",
-      "BLEED",
-      "NO_BREATHE"
-    ]
+    "flags": [ "WARM", "CLIMBS", "NOHEAD", "POISON", "BLEED", "NO_BREATHE" ]
   }
 ]

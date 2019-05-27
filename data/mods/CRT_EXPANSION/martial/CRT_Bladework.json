@@ -17,6 +17,7 @@
     "id": "style_crt_blade",
     "name": "C.R.I.T Blade-work",
     "description": "An offensive style that is centered around rapid slashes and prodding.  Each attack landed increases your speed by 3 and offers other combat bonuses",
+    "initiate": [ "Initiate blade-work.", "%s initiates blade-work." ],
     "arm_block": 3,
     "leg_block": 99,
     "static_buffs": [
