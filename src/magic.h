@@ -136,7 +136,7 @@ class spell_type
         enum_bitset<valid_target> valid_targets;
 
         // lits of bodyparts this spell applies its effect to
-        enum_bitset<body_part> effected_bps;
+        enum_bitset<body_part> affected_bps;
 
         static void load_spell( JsonObject &jo, const std::string &src );
         void load( JsonObject &jo, const std::string & );
@@ -211,7 +211,7 @@ class spell
         // is this spell valid
         bool is_valid() const;
         // is the bodypart affected by the effect
-        bool bp_is_effected( body_part bp ) const;
+        bool bp_is_affected( body_part bp ) const;
 
         // get spell id (from type)
         spell_id id() const;

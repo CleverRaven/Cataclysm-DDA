@@ -138,8 +138,8 @@ void spell_type::load( JsonObject &jo, const std::string & )
     const auto trigger_reader = enum_flags_reader<valid_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
 
-    const auto bp_reader = enum_flags_reader<body_part> { "effected_bps" };
-    optional( jo, was_loaded, "effected_body_parts", effected_bps, bp_reader );
+    const auto bp_reader = enum_flags_reader<body_part> { "affected_bps" };
+    optional( jo, was_loaded, "affected_body_parts", affected_bps, bp_reader );
 
     optional( jo, was_loaded, "effect_str", effect_str, "" );
 
@@ -456,9 +456,9 @@ bool spell::is_valid() const
     return type->is_valid();
 }
 
-bool spell::bp_is_effected( body_part bp ) const
+bool spell::bp_is_affected( body_part bp ) const
 {
-    return type->effected_bps[bp];
+    return type->affected_bps[bp];
 }
 
 std::string spell::effect() const
@@ -1100,7 +1100,7 @@ static void damage_targets( spell &sp, std::set<tripoint> targets )
             const int dur_moves = sp.duration();
             const time_duration dur_td = 1_turns * dur_moves / 100;
             for( const body_part bp : all_body_parts ) {
-                if( sp.bp_is_effected( bp ) ) {
+                if( sp.bp_is_affected( bp ) ) {
                     cr->add_effect( efftype_id( sp.effect_data() ), dur_td, bp );
                 }
             }
