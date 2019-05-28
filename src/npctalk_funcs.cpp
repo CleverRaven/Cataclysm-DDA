@@ -500,7 +500,7 @@ void talk_function::give_all_aid( npc &p )
     }
 }
 
-static void generic_barber( std::string mut_type )
+static void generic_barber( const std::string &mut_type )
 {
     uilist hair_menu;
     std::string menu_text;
