@@ -5171,12 +5171,9 @@ static bool heat_item( player &p )
     if( target.item_tags.count( "FROZEN" ) ) {
         target.apply_freezerburn();
 
-        if( target.has_flag( "EATEN_COLD" ) &&
-            !query_yn( _( "%s is best served cold.  Heat beyond defrosting?" ),
-                       colorize( target.tname(), target.color_in_inventory() ) ) ) {
-
+        if( target.has_flag( "EATEN_COLD" ) ) {
             target.cold_up();
-            add_msg( _( "You defrost the food." ) );
+            add_msg( _( "You defrost the food, but don't heat it up, since you enjoy it cold." ) );
         } else {
             add_msg( _( "You defrost and heat up the food." ) );
             target.heat_up();
