@@ -579,7 +579,13 @@ static void mx_bandits_block( map &m, const tripoint &abs_sub )
     const bool forest_at_west = is_ot_type( "forest", west );
     const bool forest_at_east = is_ot_type( "forest", east );
 
-    if( forest_at_north && forest_at_south ) {
+    const bool road_at_north = is_ot_type( "road", north );
+    const bool road_at_south = is_ot_type( "road", south );
+    const bool road_at_west = is_ot_type( "road", west );
+    const bool road_at_east = is_ot_type( "road", east );
+
+    if( forest_at_north && forest_at_south &&
+        road_at_west && road_at_east ) {
         line( &m, t_trunk, 1, 3, 1, 6 );
         line( &m, t_trunk, 1, 8, 1, 13 );
         line( &m, t_trunk, 2, 14, 2, 17 );
@@ -591,7 +597,8 @@ static void mx_bandits_block( map &m, const tripoint &abs_sub )
         if( one_in( 2 ) ) {
             m.place_npc( 1, 1, string_id<npc_template>( "bandit" ) );
         }
-    } else if( forest_at_west && forest_at_east ) {
+    } else if( forest_at_west && forest_at_east &&
+               road_at_north && road_at_south ) {
         line( &m, t_trunk, 1, 1, 3, 1 );
         line( &m, t_trunk, 5, 1, 10, 1 );
         line( &m, t_trunk, 11, 3, 16, 3 );
