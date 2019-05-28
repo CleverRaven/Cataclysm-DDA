@@ -1492,9 +1492,11 @@ void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &sr
 {
     bool strict = src == "dda";
 
-    JsonArray atypes = jo.get_array( "ammo" );
-    for( size_t i = 0; i < atypes.size(); ++i ) {
-        slot.ammo_id.insert( ammotype( atypes.get_string( i ) ) );
+    if( jo.has_array( "ammo" ) ) {
+        JsonArray atypes = jo.get_array( "ammo" );
+        for( size_t i = 0; i < atypes.size(); ++i ) {
+            slot.ammo_id.insert( ammotype( atypes.get_string( i ) ) );
+        }
     }
     assign( jo, "max_charges", slot.max_charges, strict, 0 );
     assign( jo, "initial_charges", slot.def_charges, strict, 0 );
@@ -1533,9 +1535,11 @@ void Item_factory::load( islot_mod &slot, JsonObject &jo, const std::string &src
 {
     bool strict = src == "dda";
 
-    JsonArray atypes = jo.get_array( "ammo_modifier" );
-    for( size_t i = 0; i < atypes.size(); ++i ) {
-        slot.ammo_modifier.insert( ammotype( atypes.get_string( i ) ) );
+    if( jo.has_array( "ammo_modifier" ) ) {
+        JsonArray atypes = jo.get_array( "ammo_modifier" );
+        for( size_t i = 0; i < atypes.size(); ++i ) {
+            slot.ammo_modifier.insert( ammotype( atypes.get_string( i ) ) );
+        }
     }
     assign( jo, "capacity_multiplier", slot.capacity_multiplier, strict );
 
