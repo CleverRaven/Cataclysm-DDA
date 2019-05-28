@@ -1,0 +1,14 @@
+[
+  {
+    "type": "ammunition_type",
+    "id": "pellets",
+    "name": "lead pellets",
+    "default": "pellet"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "pulsesb",
+    "name": "pulse ammo",
+    "default": "pulsesb"
+  }
+]
