@@ -9151,11 +9151,12 @@ point game::place_player( const tripoint &dest_loc )
                         valid.push_back( jk );
                     }
                 }
-                if( !valid.empty() ){
+                if( !valid.empty() ) {
                     critter.move_to( random_entry( valid ) );
                     add_msg( _( "You push the %s out of the way." ), critter.name() );
                 } else {
                     add_msg( _( "There is no room to push the %s out of the way." ), critter.name() );
+                    return point( u.pos().x, u.pos().y );
                 }
             } else {
                 critter.move_to( u.pos(), true ); // Force the movement even though the player is there right now.
