@@ -1818,6 +1818,12 @@ std::vector<tripoint> target_handler::target_ui( spell &casting )
             mvwprintw( w_target, line_number++, 1, _( "Range: %d Elevation: %d Targets: %d" ), range,
                        relative_elevation, t.size() );
         }
+
+        g->draw_cursor( dst );
+        for ( const tripoint &area : spell_aoe ) {
+            g->m.drawsq( g->w_terrain, pc, area, true, true, center );
+        }
+
         if( casting.aoe() > 0 ) {
             nc_color color = c_light_gray;
             if( casting.effect() == "projectile_attack" || casting.effect() == "target_attack" ) {
@@ -1845,8 +1851,6 @@ std::vector<tripoint> target_handler::target_ui( spell &casting )
             // Just print the monster name if we're short on space.
             int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 12 );
             critter->print_info( w_target, line_number, available_lines, 1 );
-        } else {
-            mvwputch( g->w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x, c_red, '*' );
         }
 
         wrefresh( g->w_terrain );
@@ -1959,11 +1963,6 @@ std::vector<tripoint> target_handler::target_ui( spell &casting )
             g->u.facing = FD_RIGHT;
         } else if( dst.x < src.x ) {
             g->u.facing = FD_LEFT;
-        }
-
-        g->draw_cursor( dst );
-        for( const tripoint &area : spell_aoe ) {
-            g->m.drawsq( g->w_terrain, pc, area, true, true, center );
         }
 
     } while( true );
