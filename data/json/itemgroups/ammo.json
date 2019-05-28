@@ -203,7 +203,7 @@
     "type": "item_group",
     "id": "ammo_shotgun_common",
     "//": "Shotgun ammo commonly owned by citizens and found in many locations.",
-    "items": [ [ "shot_00", 100 ], [ "shot_bird", 70 ], [ "shot_dragon", 20 ] ]
+    "items": [ [ "shot_00", 100 ], [ "shot_bird", 70 ], [ "shot_dragon", 10 ] ]
   },
   {
     "type": "item_group",
