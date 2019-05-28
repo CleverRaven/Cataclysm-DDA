@@ -234,6 +234,7 @@ Ammo ID            | Description                 | Energy, J | Dmg | Base Brl | 
 .30-06 Springfield | 165gr soft point bullet     | 3894      | 62  | 24in     |        damage increased by 4 |
 .30-06 M2          | 165.7gr AP bullet           | 3676      | 60  | 24in     |         damage reduced by 10 |
 .30-06 M14A1       | Incendiary ammunition       | 3894      | 62  | 24in     |         damage reduced by 10 |
+.45-70 Govt.       | 300gr soft point bullet     | 3867      | 66  | 24in     |        damage increased by 4 |
 .300 Winchester Magnum | 220gr JHP bullet        | 5299      | 73  | 24in     |        damage increased by 5 |
 .700 NX            | 1000gr JSP bullet           | 12100     | 110 | 28in     |                              |
 .50 BMG Ball       | 750gr FMJ-BT bullet         | 17083     | 131 | 45in     |                              |
