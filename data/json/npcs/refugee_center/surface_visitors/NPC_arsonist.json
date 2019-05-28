@@ -1,5 +1,19 @@
 [
   {
+    "type": "npc",
+    "id": "arsonist",
+    "//": "Appears in the refugee center as a unique trader and potential mission provider.",
+    "name_unique": "Makayla Sanchez",
+    "name_suffix": "Arsonist",
+    "//": "Gender is only referenced when the npc has a complete unique name",
+    "gender": "female",
+    "class": "NC_ARSONIST",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_ARSONIST",
+    "faction": "wasteland_scavengers"
+  },
+  {
     "type": "talk_topic",
     "id": "TALK_ARSONIST",
     "dynamic_line": {

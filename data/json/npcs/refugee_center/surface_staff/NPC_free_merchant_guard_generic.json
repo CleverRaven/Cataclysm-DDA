@@ -1,5 +1,16 @@
 [
   {
+    "type": "npc",
+    "id": "guard",
+    "//": "A generic guard for the Free Merchants faction.",
+    "name_suffix": "Guard",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_GUARD",
+    "faction": "free_merchants"
+  },
+  {
     "id": "TALK_GUARD",
     "type": "talk_topic",
     "dynamic_line": [

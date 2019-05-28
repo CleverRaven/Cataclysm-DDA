@@ -1,5 +1,16 @@
 [
   {
+    "type": "npc",
+    "id": "scavenger_hunter",
+    "//": "Appears in the refugee center as a trader.",
+    "name_suffix": "Hunter",
+    "class": "NC_HUNTER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_EVAC_HUNTER",
+    "faction": "wasteland_scavengers"
+  },
+  {
     "id": "TALK_EVAC_HUNTER",
     "type": "talk_topic",
     "dynamic_line": {
