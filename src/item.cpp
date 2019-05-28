@@ -6336,9 +6336,11 @@ void item::reload_option::qty( int val )
     if( target->has_flag( "RELOAD_ONE" ) && !ammo->has_flag( "SPEEDLOADER" ) ) {
         remaining_capacity = 1;
     }
-    if( ammo_obj.type->ammo->type == "plutonium" ) {
-        remaining_capacity = remaining_capacity / PLUTONIUM_CHARGES +
-                             ( remaining_capacity % PLUTONIUM_CHARGES != 0 );
+    if( ammo_obj.type->ammo ) {
+        if( ammo_obj.type->ammo->type == ammotype( "plutonium" ) ) {
+            remaining_capacity = remaining_capacity / PLUTONIUM_CHARGES +
+                                 ( remaining_capacity % PLUTONIUM_CHARGES != 0 );
+        }
     }
 
     bool ammo_by_charges = ammo_obj.is_ammo() || ammo_in_liquid_container;
@@ -6411,10 +6413,11 @@ bool item::reload( player &u, item_location loc, int qty )
                 ? get_remaining_capacity_for_liquid( *ammo )
                 : ammo_capacity() - ammo_remaining();
 
-    if( ammo->type->ammo->type == "plutonium" ) {
-        limit = limit / PLUTONIUM_CHARGES + ( limit % PLUTONIUM_CHARGES != 0 );
+    if( ammo->type->ammo ) {
+        if( ammo->type->ammo->type == ammotype( "plutonium" ) ) {
+            limit = limit / PLUTONIUM_CHARGES + ( limit % PLUTONIUM_CHARGES != 0 );
+        }
     }
-
     qty = std::min( qty, limit );
 
     casings_handle( [&u]( item & e ) {
