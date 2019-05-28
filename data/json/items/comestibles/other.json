@@ -460,8 +460,8 @@
   {
     "type": "COMESTIBLE",
     "id": "coffee_raw_fine",
-    "name": "Fine coffee powder",
-    "name_plural": "Fine coffee powder",
+    "name": "fine coffee powder",
+    "name_plural": "fine coffee powder",
     "weight": 14,
     "color": "brown",
     "addiction_type": "caffeine",
