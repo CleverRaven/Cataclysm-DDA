@@ -450,7 +450,7 @@
         "U": { "monster": "mon_dog_gshepherd", "chance": 10 },
         ":": { "monster": "mon_dog_gshepherd", "chance": 1 }
       },
-      "place_graffiti": [ { "text": "Dufresne was here", "x": 18, "y": 29 } ]
+      "place_graffiti": [ { "text": "Dufresne was here", "x": 18, "y": 28 } ]
     }
   },
   {
