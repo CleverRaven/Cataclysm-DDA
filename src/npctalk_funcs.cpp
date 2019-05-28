@@ -526,9 +526,9 @@ static void generic_barber( std::string mut_type )
     if( choice != 0 ) {
         if( g->u.has_trait( cur_hair ) ) {
             g->u.remove_mutation( cur_hair, true );
-            g->u.set_mutation( hair_muts[ choice - 1 ] );
-            add_msg( m_info, _( "You get a trendy new cut!" ) );
         }
+        g->u.set_mutation( hair_muts[ choice - 1 ] );
+        add_msg( m_info, _( "You get a trendy new cut!" ) );
     }
 }
 
