@@ -1948,11 +1948,6 @@ void options_manager::add_options_world_default()
          false
        );
 
-    add( "CLASSIC_ZOMBIES", "world_default", translate_marker( "Classic zombies" ),
-         translate_marker( "Only spawn classic zombies and natural wildlife.  Requires a reset of save folder to take effect.  This disables certain buildings." ),
-         false
-       );
-
     add( "BLACK_ROAD", "world_default", translate_marker( "Surrounded start" ),
          translate_marker( "If true, spawn zombies at shelters.  Makes the starting game a lot harder." ),
          false

@@ -152,6 +152,7 @@ void shaving_finish( player_activity *act, player *p );
 void haircut_finish( player_activity *act, player *p );
 void unload_mag_finish( player_activity *act, player *p );
 void robot_control_finish( player_activity *act, player *p );
+void mind_splicer_finish( player_activity *act, player *p );
 void hack_door_finish( player_activity *act, player *p );
 void hack_safe_finish( player_activity *act, player *p );
 void spellcasting_finish( player_activity *act, player *p );

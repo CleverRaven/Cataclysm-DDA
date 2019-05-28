@@ -17,6 +17,7 @@
 #include "action.h"
 #include "advanced_inv.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "clzones.h"
 #include "construction.h"
 #include "craft_command.h"
@@ -210,6 +211,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_HAIRCUT" ), haircut_finish },
     { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish },
     { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish },
+    { activity_id( "ACT_MIND_SPLICER" ), mind_splicer_finish },
     { activity_id( "ACT_HACK_DOOR" ), hack_door_finish },
     { activity_id( "ACT_HACK_SAFE" ), hack_safe_finish },
     { activity_id( "ACT_SPELLCASTING" ), spellcasting_finish },
@@ -1499,21 +1501,20 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 
     // Survival gives a bigger boost, and Perception is leveled a bit.
     // Both survival and perception affect time to forage
-    ///\EFFECT_SURVIVAL increases forage success chance
 
     ///\EFFECT_PER slightly increases forage success chance
+    ///\EFFECT_SURVIVAL increases forage success chance
     if( veggy_chance < p->get_skill_level( skill_survival ) * 3 + p->per_cur - 2 ) {
         const auto dropped = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
             add_msg( m_good, _( "You found: %s!" ), it->tname() );
             found_something = true;
-            if( it->typeId() == "mushroom" ) {
-                if( one_in( 10 ) ) {
-                    it->item_tags.insert( "HIDDEN_POISON" );
-                    it->poison = rng( 2, 7 );
-                } else if( one_in( 10 ) ) {
-                    it->item_tags.insert( "HIDDEN_HALLU" );
-                }
+            if( it->has_flag( "FORAGE_POISON" ) && one_in( 10 ) ) {
+                it->set_flag( "HIDDEN_POISON" );
+                it->poison = rng( 2, 7 );
+            }
+            if( it->has_flag( "FORAGE_HALLU" ) && !it->has_flag( "HIDDEN_POISON" ) && one_in( 10 ) ) {
+                it->set_flag( "HIDDEN_HALLU" );
             }
         }
     }
@@ -2544,7 +2545,7 @@ void activity_handlers::aim_do_turn( player_activity *act, player * )
     if( act->index == 0 ) {
         g->m.invalidate_map_cache( g->get_levz() );
         g->m.build_map_cache( g->get_levz() );
-        g->plfire();
+        avatar_action::fire( g->u, g->m );
     }
 }
 
@@ -3757,4 +3758,20 @@ void activity_handlers::study_spell_finish( player_activity *act, player *p )
     if( act->values[2] == -1 ) {
         p->add_msg_if_player( m_bad, _( "It's too dark to read." ) );
     }
+}
+
+//This is just used for robofac_intercom_mission_2
+void activity_handlers::mind_splicer_finish( player_activity *act, player *p )
+{
+    act->set_to_null();
+
+    if( act->targets.size() != 1 || !act->targets[0] ) {
+        debugmsg( "Incompatible arguments to: activity_handlers::mind_splicer_finish" );
+        return;
+    }
+    item &data_card = *act->targets[0];
+    p->add_msg_if_player( m_info, _( "...you finally find the memory banks." ) );
+    p->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
+    data_card.contents.clear();
+    data_card.put_in( item( "mind_scan_robofac" ) );
 }

@@ -7039,13 +7039,6 @@ void map::add_spawn( const mtype_id &type, int count, int x, int y, bool friendl
                   type.c_str(), count, x, y );
         return;
     }
-    if( get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
-        const mtype &mt = type.obj();
-        if( !mt.in_category( "CLASSIC" ) && !mt.in_category( "WILDLIFE" ) ) {
-            // Don't spawn non-classic monsters in classic zombie mode.
-            return;
-        }
-    }
     if( MonsterGroupManager::monster_is_blacklisted( type ) ) {
         return;
     }

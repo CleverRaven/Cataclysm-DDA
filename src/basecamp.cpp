@@ -39,24 +39,29 @@ static const std::string base_dir = "[B]";
 static const std::string prefix = "faction_base_";
 static const int prefix_len = 13;
 
-static const std::string faction_encode( const std::string &type )
+static const std::string faction_encode_short( const std::string &type )
 {
     return prefix + type + "_";
 }
 
-static const std::string faction_encode_full( const expansion_data &e, int offset = 0 )
+static const std::string faction_encode_abs( const expansion_data &e, int number )
 {
-    return faction_encode( e.type ) + to_string( e.cur_level + offset );
+    return faction_encode_short( e.type ) + to_string( number );
 }
+
+static std::map<std::string, int> max_upgrade_cache;
 
 static int max_upgrade_by_type( const std::string &type )
 {
-    int max = -1;
-    const std::string faction_base = faction_encode( type );
-    while( oter_str_id( faction_base + to_string( max + 1 ) ).is_valid() ) {
-        max += 1;
+    if( max_upgrade_cache.find( type ) == max_upgrade_cache.end() ) {
+        int max = -1;
+        const std::string faction_base = faction_encode_short( type );
+        while( recipe_id( faction_base + to_string( max + 1 ) ).is_valid() ) {
+            max += 1;
+        }
+        max_upgrade_cache[type] = max;
     }
-    return max;
+    return max_upgrade_cache[type];
 }
 
 basecamp::basecamp(): bb_pos( tripoint_zero )
@@ -129,16 +134,6 @@ void basecamp::define_camp( npc &p )
     }
 }
 
-bool basecamp::reset_camp()
-{
-    const std::string base_dir = "[B]";
-    const std::string bldg = next_upgrade( base_dir, 0 );
-    if( !om_upgrade( bldg, omt_pos ) ) {
-        return false;
-    }
-    return true;
-}
-
 /// Returns the description for the recipe of the next building @ref bldg
 std::string basecamp::om_upgrade_description( const std::string &bldg, bool trunc ) const
 {
@@ -160,59 +155,105 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
         comp = string_format( _( "Notes:\n%s\n\nSkill used: %s\n%s\n" ),
                               making.description, making.skill_used.obj().name(), comp );
     } else {
-        time_duration duration = time_duration::from_turns( making.time / 100 );
         comp = string_format( _( "Notes:\n%s\n\nSkill used: %s\n"
                                  "Difficulty: %d\n%s \nRisk: None\nTime: %s\n" ),
                               making.description, making.skill_used.obj().name(),
-                              making.difficulty, comp, to_string( duration ) );
+                              making.difficulty, comp, to_string( making.batch_duration() ) );
     }
     return comp;
 }
 
 // upgrade levels
-bool basecamp::has_level( const std::string &type, int min_level, const std::string &dir ) const
+// legacy next upgrade
+const std::string basecamp::next_upgrade( const std::string &dir, const int offset ) const
 {
     auto e = expansions.find( dir );
-    if( e != expansions.end() ) {
-        return e->second.type == type && e->second.cur_level >= min_level;
+    if( e == expansions.end() ) {
+        return "null";
     }
-    return false;
+    const expansion_data &e_data = e->second;
+
+    int cur_level = -1;
+    for( int i = 0; i < max_upgrade_by_type( e_data.type ); i++ ) {
+        const std::string candidate = faction_encode_abs( e_data, i );
+        if( e_data.provides.find( candidate ) == e_data.provides.end() ) {
+            break;
+        } else {
+            cur_level = i;
+        }
+    }
+    if( cur_level >= 0 ) {
+        return faction_encode_abs( e_data, cur_level + offset );
+    }
+    return "null";
 }
 
-bool basecamp::any_has_level( const std::string &type, int min_level ) const
+bool basecamp::has_provides( const std::string &req, const expansion_data &e_data, int level ) const
 {
-    for( auto &expansion : expansions ) {
-        if( expansion.second.type == type && expansion.second.cur_level >= min_level ) {
+    for( const auto &provide : e_data.provides ) {
+        if( provide.first == req && provide.second > level ) {
             return true;
         }
     }
     return false;
 }
 
-bool basecamp::can_expand() const
+bool basecamp::has_provides( const std::string &req, const std::string &dir, int level ) const
 {
-    auto e = expansions.find( base_dir );
-    if( e == expansions.end() ) {
-        return false;
-    }
-    return static_cast<int>( directions.size() ) < ( e->second.cur_level / 2 - 1 );
-}
-
-const std::string basecamp::next_upgrade( const std::string &dir, const int offset ) const
-{
-    auto e = expansions.find( dir );
-    if( e != expansions.end() ) {
-        int cur_level = e->second.cur_level;
-        if( cur_level >= 0 ) {
-            // cannot upgrade anymore
-            if( offset > 0 && cur_level >= max_upgrade_by_type( e->second.type ) ) {
-                return "null";
-            } else {
-                return faction_encode_full( e->second, offset );
+    if( dir == "all" ) {
+        for( const auto &e : expansions ) {
+            if( has_provides( req, e.second, level ) ) {
+                return true;
             }
         }
+    } else {
+        const auto &e = expansions.find( dir );
+        if( e != expansions.end() ) {
+            return has_provides( req, e->second, level );
+        }
     }
-    return "null";
+    return false;
+}
+
+bool basecamp::can_expand()
+{
+    return has_provides( "bed", base_dir, directions.size() * 2 );
+}
+
+const std::vector<basecamp_upgrade> basecamp::available_upgrades( const std::string &dir )
+{
+    std::vector<basecamp_upgrade> ret_data;
+    auto e = expansions.find( dir );
+    if( e != expansions.end() ) {
+        expansion_data &e_data = e->second;
+        for( int number = 1; number < max_upgrade_by_type( e_data.type ); number++ ) {
+            const std::string &bldg = faction_encode_abs( e_data, number );
+            const recipe &recp = recipe_id( bldg ).obj();
+            bool should_display = false;
+            for( const auto &bp_require : recp.blueprint_requires() ) {
+                if( e_data.provides.find( bldg ) != e_data.provides.end() ) {
+                    break;
+                }
+                if( e_data.provides.find( bp_require.first ) == e_data.provides.end() ) {
+                    break;
+                }
+                if( e_data.provides[bp_require.first] < bp_require.second ) {
+                    break;
+                }
+                should_display = true;
+            }
+            if( !should_display ) {
+                continue;
+            }
+            basecamp_upgrade data;
+            data.bldg = bldg;
+            data.name = recp.blueprint_name();
+            const auto &reqs = recp.requirements();
+            data.avail = reqs.can_make_with_inventory( _inv, recp.get_component_filter(), 1 );
+            ret_data.emplace_back( data );
+        }
+    }
+    return ret_data;
 }
 
 // recipes and craft support functions
@@ -226,13 +267,8 @@ std::map<std::string, std::string> basecamp::recipe_deck( const std::string &dir
     if( e == expansions.end() ) {
         return cooking_recipes;
     }
-    const std::string building = faction_encode( e->second.type );
-    for( int building_min = 0 ; building_min <= e->second.cur_level; building_min++ ) {
-        const std::string building_level = building + to_string( building_min );
-        if( !oter_str_id( building_level ) ) {
-            continue;
-        }
-        std::map<std::string, std::string> test_s = recipe_group::get_recipes( building_level );
+    for( const auto &provides : e->second.provides ) {
+        std::map<std::string, std::string> test_s = recipe_group::get_recipes( provides.first );
         cooking_recipes.insert( test_s.begin(), test_s.end() );
     }
     return cooking_recipes;
@@ -242,7 +278,7 @@ const std::string basecamp::get_gatherlist() const
 {
     auto e = expansions.find( base_dir );
     if( e != expansions.end() ) {
-        const std::string gatherlist = "gathering_" + faction_encode_full( e->second );
+        const std::string gatherlist = "gathering_" + faction_encode_abs( e->second, 4 );
         if( item_group::group_is_defined( gatherlist ) ) {
             return gatherlist;
         }
@@ -261,21 +297,49 @@ void basecamp::add_resource( const itype_id &camp_resource )
     fuel_types.insert( bcp_r.ammo_id );
 }
 
+void basecamp::update_resources( const std::string bldg )
+{
+    if( !recipe_id( bldg ).is_valid() ) {
+        return;
+    }
+
+    const recipe &making = recipe_id( bldg ).obj();
+    for( const itype_id &bp_resource : making.blueprint_resources() ) {
+        add_resource( bp_resource );
+    }
+}
+
+void basecamp::update_provides( const std::string bldg, expansion_data &e_data )
+{
+    if( !recipe_id( bldg ).is_valid() ) {
+        return;
+    }
+
+    const recipe &making = recipe_id( bldg ).obj();
+    for( const auto &bp_provides : making.blueprint_provides() ) {
+        if( e_data.provides.find( bp_provides.first ) == e_data.provides.end() ) {
+            e_data.provides[bp_provides.first] = 0;
+        }
+        e_data.provides[bp_provides.first] += bp_provides.second;
+    }
+}
+
 void basecamp::reset_camp_resources( bool by_radio )
 {
     reset_camp_workers();
     if( !resources_updated ) {
         resources_updated = true;
         for( auto &e : expansions ) {
-            for( int level = 0; level < e.second.cur_level; level++ ) {
-                const std::string &bldg = faction_encode_full( e.second, -level );
+            expansion_data &e_data = e.second;
+            for( int level = 0; level <= e_data.cur_level; level++ ) {
+                const std::string &bldg = faction_encode_abs( e_data, level );
                 if( bldg == "null" ) {
                     break;
                 }
-                const recipe &making = recipe_id( bldg ).obj();
-                for( const itype_id &bp_resource : making.blueprint_provides() ) {
-                    add_resource( bp_resource );
-                }
+                update_provides( bldg, e_data );
+            }
+            for( const auto &bp_provides : e_data.provides ) {
+                update_resources( bp_provides.first );
             }
         }
     }

@@ -389,11 +389,9 @@
     "comfort": 5,
     "floor_bedding_warmth": 1000,
     "required_str": -1,
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 12 }, { "item": "blanket", "count": 2 }, { "item": "nail", "charges": [ 8, 10 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "mattress", "count": 1 } ], "furn_set": "f_bed_frame" },
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -405,6 +403,55 @@
         { "item": "splinter", "count": [ 3, 6 ] },
         { "item": "rag", "count": [ 40, 55 ] }
       ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bed_frame",
+    "name": "bed frame",
+    "symbol": "#",
+    "description": "This is an empty bed frame.  With a mattress on it, it would be a nice place to sleep.  Sleeping on it right now wouldn't be great.",
+    "color": "brown",
+    "move_cost_mod": 4,
+    "coverage": 40,
+    "required_str": 5,
+    "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 8, 10 ] } ] },
+    "max_volume": 4000,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whack.",
+      "items": [
+        { "item": "2x4", "count": [ 5, 8 ] },
+        { "item": "nail", "charges": [ 6, 8 ] },
+        { "item": "splinter", "count": [ 3, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_floor_mattress",
+    "name": "mattress",
+    "description": "A comfortable mattress has been tossed on the floor for sleeping here.  It's not quite as comfy as a real bed, but it's pretty close.",
+    "symbol": "0",
+    "color": "magenta",
+    "move_cost_mod": 3,
+    "coverage": 40,
+    "comfort": 4,
+    "floor_bedding_warmth": 800,
+    "required_str": 7,
+    "deployed_item": "mattress",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "SHORT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE" ],
+    "deconstruct": { "items": [ { "item": "mattress", "count": 1 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "rrrrip!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "rag", "count": [ 40, 55 ] } ]
     }
   },
   {
@@ -2160,8 +2207,7 @@
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEED" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 1, "str_max": 5, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_transform": "f_plant_seedling",
-    "plant_base": "f_null"
+    "plant_data": { "transform": "f_plant_seedling", "base": "f_null" }
   },
   {
     "type": "furniture",
@@ -2175,8 +2221,7 @@
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_transform": "f_plant_mature",
-    "plant_base": "f_null"
+    "plant_data": { "transform": "f_plant_mature", "base": "f_null" }
   },
   {
     "type": "furniture",
@@ -2190,8 +2235,7 @@
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 3, "str_max": 8, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_transform": "f_plant_harvest",
-    "plant_base": "f_null"
+    "plant_data": { "transform": "f_plant_harvest", "base": "f_null" }
   },
   {
     "type": "furniture",
@@ -2205,8 +2249,7 @@
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_transform": "f_null",
-    "plant_base": "f_null"
+    "plant_data": { "transform": "f_null", "base": "f_null" }
   },
   {
     "type": "furniture",
@@ -2218,7 +2261,6 @@
     "move_cost_mod": 1,
     "required_str": 10,
     "looks_like": "t_dirtmound",
-    "plant_transform": "f_planter_seed",
     "flags": [ "TRANSPARENT", "PLANTABLE", "FLAT", "MOUNTABLE" ],
     "deconstruct": {
       "items": [
@@ -2240,6 +2282,7 @@
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
+    "plant_data": { "transform": "f_planter_seed" },
     "examine_action": "dirtmound"
   },
   {
@@ -2274,8 +2317,7 @@
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
-    "plant_transform": "f_planter_seedling",
-    "plant_base": "f_planter"
+    "plant_data": { "transform": "f_planter_seedling", "base": "f_planter" }
   },
   {
     "type": "furniture",
@@ -2309,8 +2351,7 @@
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
-    "plant_transform": "f_planter_mature",
-    "plant_base": "f_planter"
+    "plant_data": { "transform": "f_planter_mature", "base": "f_planter" }
   },
   {
     "type": "furniture",
@@ -2344,8 +2385,7 @@
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
-    "plant_transform": "f_planter_harvest",
-    "plant_base": "f_planter"
+    "plant_data": { "transform": "f_planter_harvest", "base": "f_planter" }
   },
   {
     "type": "furniture",
@@ -2379,8 +2419,7 @@
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
-    "plant_transform": "f_planter",
-    "plant_base": "f_planter"
+    "plant_data": { "transform": "f_planter", "base": "f_planter" }
   },
   {
     "type": "furniture",
@@ -4582,10 +4621,11 @@
     "symbol": "0",
     "bgcolor": "white",
     "move_cost_mod": -1,
-    "coverage": 40,
+    "coverage": 60,
     "required_str": -1,
     "max_volume": 4000,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "BLOCKSDOOR" ],
+    "examine_action": "fireplace",
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },

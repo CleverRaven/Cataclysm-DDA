@@ -1108,7 +1108,7 @@ void spawn_ethereal_item( spell &sp )
 {
     item granted( sp.effect_data(), calendar::turn );
     if( !granted.is_comestible() ) {
-        granted.set_rot( -sp.duration_turns() );
+        granted.set_var( "ethereal", to_turns<int>( sp.duration_turns() ) );
         granted.set_flag( "ETHEREAL_ITEM" );
     }
     if( granted.count_by_charges() && sp.damage() > 0 ) {
@@ -1117,8 +1117,10 @@ void spawn_ethereal_item( spell &sp )
     if( g->u.can_wear( granted ).success() ) {
         granted.set_flag( "FIT" );
         g->u.wear_item( granted, false );
-    } else {
+    } else if( !g->u.is_armed() ) {
         g->u.weapon = granted;
+    } else {
+        g->u.i_add( granted );
     }
     if( !granted.count_by_charges() ) {
         for( int i = 1; i < sp.damage(); i++ ) {

@@ -360,6 +360,20 @@
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
+    "type": "GENERIC",
+    "id": "mind_splicer",
+    "symbol": "o",
+    "color": "white",
+    "name": "mind splicer kit",
+    "description": "Surgical forceps, cables and a modified smartphone inside a small plastic pouch.  Assembled to steal the mind of some poor man, these are tools of the creepy high-tech sandman.",
+    "material": "plastic",
+    "price": 12500,
+    "use_action": "MIND_SPLICER",
+    "volume": 4,
+    "weight": 600,
+    "flags": [ "TRADER_AVOID" ]
+  },
+  {
     "id": "ax",
     "type": "TOOL",
     "name": "wood axe",
@@ -1863,7 +1877,7 @@
     "ammo": "battery",
     "initial_charges": 110,
     "max_charges": 120,
-    "charges_per_use": 5,
+    "charges_per_use": 1,
     "use_action": [
       {
         "target": "smart_phone_flashlight",
@@ -1873,16 +1887,30 @@
         "need_charges_msg": "The smartphone's charge is too low.",
         "type": "transform"
       },
-      { "revert_to": "smart_phone", "type": "CAMERA" }
+      { "revert_to": "smart_phone", "type": "CAMERA" },
+      "MP3"
     ],
     "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
+    "id": "smartphone_music",
+    "copy-from": "smart_phone",
+    "type": "TOOL",
+    "name": "smartphone - music",
+    "name_plural": "smartphones - music",
+    "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
+    "turns_per_charge": 150,
+    "revert_to": "smart_phone",
+    "use_action": "MP3_ON",
+    "flags": [ "TRADER_AVOID" ],
+    "magazine_well": 1
   },
   {
     "id": "smart_phone_flashlight",
     "copy-from": "smart_phone",
     "type": "TOOL",
-    "name": "smartphone - Flashlight",
-    "name_plural": "smartphones - Flashlight",
+    "name": "smartphone - flashlight",
+    "name_plural": "smartphones - flashlight",
     "turns_per_charge": 50,
     "revert_to": "smart_phone",
     "use_action": {

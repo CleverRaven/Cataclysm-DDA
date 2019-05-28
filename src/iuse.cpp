@@ -3934,12 +3934,16 @@ int iuse::shocktonfa_on( player *p, item *it, bool t, const tripoint &pos )
 int iuse::mp3( player *p, item *it, bool, const tripoint & )
 {
     if( !it->ammo_sufficient() ) {
-        p->add_msg_if_player( m_info, _( "The mp3 player's batteries are dead." ) );
-    } else if( p->has_active_item( "mp3_on" ) ) {
-        p->add_msg_if_player( m_info, _( "You are already listening to an mp3 player!" ) );
+        p->add_msg_if_player( m_info, _( "The device's batteries are dead." ) );
+    } else if( p->has_active_item( "mp3_on" ) || p->has_active_item( "smartphone_music" ) ) {
+        p->add_msg_if_player( m_info, _( "You are already listening to music!" ) );
     } else {
         p->add_msg_if_player( m_info, _( "You put in the earbuds and start listening to music." ) );
-        it->convert( "mp3_on" ).active = true;
+        if( it->typeId() == "mp3" ) {
+            it->convert( "mp3_on" ).active = true;
+        } else if( it->typeId() == "smart_phone" ) {
+            it->convert( "smartphone_music" ).active = true;
+        }
     }
     return it->type->charges_to_use();
 }
@@ -4022,8 +4026,13 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
             play_music( *p, pos, 0, 20 );
         }
     } else { // Turning it off
-        p->add_msg_if_player( _( "The mp3 player turns off." ) );
-        it->convert( "mp3" ).active = false;
+        if( it->typeId() == "mp3_on" ) {
+            p->add_msg_if_player( _( "The mp3 player turns off." ) );
+            it->convert( "mp3" ).active = false;
+        } else if( it->typeId() == "smartphone_music" ) {
+            p->add_msg_if_player( _( "The phone turns off." ) );
+            it->convert( "smart_phone" ).active = false;
+        }
     }
     return it->type->charges_to_use();
 }
@@ -4440,6 +4449,34 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
 
     it->put_in( blood );
     return it->type->charges_to_use();
+}
+
+//This is just used for robofac_intercom_mission_2
+int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
+{
+    for( auto &map_it : g->m.i_at( p->posx(), p->posy() ) ) {
+        if( map_it.typeId() == "rmi2_corpse" &&
+            query_yn( _( "Use the mind splicer kit on the %s?" ), colorize( map_it.tname(),
+                      map_it.color_in_inventory() ) ) ) {
+            int pos = g->inv_for_id( itype_id( "data_card" ), _( "Select storage media" ) );
+            item &data_card = p->i_at( pos );
+            if( data_card.is_null() ) {
+                add_msg( m_info, _( "Nevermind." ) );
+                return 0;
+            }
+            ///\EFFECT_DEX makes using the mind splicer faster
+            ///\EFFECT_FIRSTAID makes using the mind splicer faster
+            const time_duration time = std::max( 150_minutes - 20_minutes * ( p->get_skill_level(
+                    skill_firstaid ) - 1 ) - 10_minutes * ( p->get_dex() - 8 ), 30_minutes );
+
+            player_activity act( activity_id( "ACT_MIND_SPLICER" ), to_moves<int>( time ) );
+            act.targets.push_back( item_location( *p, &data_card ) );
+            p->assign_activity( act );
+            return it->type->charges_to_use();
+        }
+    }
+    add_msg( m_info, _( "There's nothing to use the %s on here." ), it->tname() );
+    return 0;
 }
 
 void iuse::cut_log_into_planks( player &p )

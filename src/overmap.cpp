@@ -440,7 +440,6 @@ const std::vector<overmap_special> &overmap_specials::get_all()
 
 overmap_special_batch overmap_specials::get_default_batch( const point &origin )
 {
-    const bool only_classic = get_option<bool>( "CLASSIC_ZOMBIES" );
     const int city_size = get_option<int>( "CITY_SIZE" );
     std::vector<const overmap_special *> res;
 
@@ -450,10 +449,6 @@ overmap_special_batch overmap_specials::get_default_batch( const point &origin )
         std::any_of( elem.terrains.begin(), elem.terrains.end(), []( const overmap_special_terrain & t ) {
         return t.locations.empty();
         } ) ) {
-            continue;
-        }
-
-        if( only_classic && elem.flags.count( "CLASSIC" ) == 0 ) {
             continue;
         }
 
@@ -4070,7 +4065,7 @@ void overmap::place_mongroups()
         }
     }
 
-    if( !( get_option<bool>( "CLASSIC_ZOMBIES" ) || get_option<bool>( "DISABLE_ANIMAL_CLASH" ) ) ) {
+    if( get_option<bool>( "DISABLE_ANIMAL_CLASH" ) ) {
         // Figure out where swamps are, and place swamp monsters
         for( int x = 3; x < OMAPX - 3; x += 7 ) {
             for( int y = 3; y < OMAPY - 3; y += 7 ) {
@@ -4090,34 +4085,30 @@ void overmap::place_mongroups()
         }
     }
 
-    if( !get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
-        // Figure out where rivers and lakes are, and place appropriate critters
-        for( int x = 3; x < OMAPX - 3; x += 7 ) {
-            for( int y = 3; y < OMAPY - 3; y += 7 ) {
-                int river_count = 0;
-                for( int sx = x - 3; sx <= x + 3; sx++ ) {
-                    for( int sy = y - 3; sy <= y + 3; sy++ ) {
-                        if( is_river_or_lake( ter( sx, sy, 0 ) ) ) {
-                            river_count++;
-                        }
+    // Figure out where rivers and lakes are, and place appropriate critters
+    for( int x = 3; x < OMAPX - 3; x += 7 ) {
+        for( int y = 3; y < OMAPY - 3; y += 7 ) {
+            int river_count = 0;
+            for( int sx = x - 3; sx <= x + 3; sx++ ) {
+                for( int sy = y - 3; sy <= y + 3; sy++ ) {
+                    if( is_river_or_lake( ter( sx, sy, 0 ) ) ) {
+                        river_count++;
                     }
                 }
-                if( river_count >= 25 ) {
-                    add_mon_group( mongroup( mongroup_id( "GROUP_RIVER" ), x * 2, y * 2, 0, 3,
-                                             rng( river_count * 8, river_count * 25 ) ) );
-                }
+            }
+            if( river_count >= 25 ) {
+                add_mon_group( mongroup( mongroup_id( "GROUP_RIVER" ), x * 2, y * 2, 0, 3,
+                                         rng( river_count * 8, river_count * 25 ) ) );
             }
         }
     }
 
-    if( !get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
-        // Place the "put me anywhere" groups
-        int numgroups = rng( 0, 3 );
-        for( int i = 0; i < numgroups; i++ ) {
-            add_mon_group( mongroup( mongroup_id( "GROUP_WORM" ), rng( 0, OMAPX * 2 - 1 ), rng( 0,
-                                     OMAPY * 2 - 1 ), 0,
-                                     rng( 20, 40 ), rng( 30, 50 ) ) );
-        }
+    // Place the "put me anywhere" groups
+    int numgroups = rng( 0, 3 );
+    for( int i = 0; i < numgroups; i++ ) {
+        add_mon_group( mongroup( mongroup_id( "GROUP_WORM" ), rng( 0, OMAPX * 2 - 1 ), rng( 0,
+                                 OMAPY * 2 - 1 ), 0,
+                                 rng( 20, 40 ), rng( 30, 50 ) ) );
     }
 }
 

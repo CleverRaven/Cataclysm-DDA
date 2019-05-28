@@ -408,6 +408,28 @@
     "components": [ [ [ "iv_purifier", 3 ] ], [ [ "royal_jelly", 1 ] ], [ [ "slime_scrap", 1 ] ], [ [ "syringe", 1 ] ] ]
   },
   {
+    "result": "laser_rifle_cheap",
+    "type": "recipe",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": 300000,
+    "reversible": true,
+    "autolearn": [ [ "electronics", 4 ] ],
+    "book_learn": [ [ "advanced_electronics", 3 ], [ "textbook_electronics", 3 ] ],
+    "qualities": [ { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [ [ [ "soldering_iron", 200 ], [ "toolset", 200 ] ] ],
+    "components": [
+      [ [ "amplifier", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 100 ] ],
+      [ [ "e_scrap", 10 ] ],
+      [ [ "lens", 2 ] ],
+      [ [ "plastic_chunk", 6 ] ]
+    ]
+  },
+  {
     "result": "afs_hauling_space",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -419,5 +441,26 @@
     "using": [ [ "welding_standard", 10 ] ],
     "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "WRENCH", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
     "components": [ [ [ "hdframe", 3 ] ], [ [ "sheet_metal", 4 ] ] ]
+  },
+  {
+    "result": "plut_cell",
+    "type": "recipe",
+    "category": "CC_ELECTRONIC",
+    "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+    "skill_used": "electronics",
+    "difficulty": 5,
+    "time": 5000,
+    "autolearn": [ [ "electronics", 7 ] ],
+    "book_learn": [ [ "textbook_atomic", 5 ] ],
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
+    "tools": [ [ [ "soldering_iron", 50 ] ] ],
+    "components": [
+      [ [ "nuclear_fuel", 2 ] ],
+      [ [ "e_scrap", 5 ] ],
+      [ [ "lead", 25 ] ],
+      [ [ "plastic_chunk", 5 ] ],
+      [ [ "scrap", 5 ] ],
+      [ [ "can_drink_unsealed", 5 ], [ "can_food_unsealed", 5 ], [ "canister_empty", 5 ] ]
+    ]
   }
 ]
