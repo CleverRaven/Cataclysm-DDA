@@ -207,7 +207,7 @@
     "id": "tin_cup",
     "name": "tin cup",
     "symbol": "u",
-    "description": "An emaled tin cup.  Great for camping or for prison use; makes a wonderful sound when clanged along bars.",
+    "description": "An enameled tin cup.  Great for camping or for prison use; makes a wonderful sound when clanged along bars.",
     "looks_like": "ceramic_cup",
     "proportional": { "weight": 0.8 },
     "copy-from": "base_tin_dish",
