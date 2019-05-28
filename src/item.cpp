@@ -1877,8 +1877,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
 
             //If we have the wrong size, we do not fit so alert the player
-            if( sizing_level == sizing::big_sized_human_char ||
-                sizing_level == sizing::human_sized_small_char )  {
+            if( sizing_level == sizing::human_sized_small_char )  {
                 format = _( "<num> <bad>(too big)</bad>" );
             } else if( sizing_level == sizing::big_sized_small_char ) {
                 format = _( "<num> <bad>(huge!)</bad>" );
