@@ -11,7 +11,7 @@
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",
-    "gun_data": { "skill": "rifle", "range": 30, "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME", "NPC_AVOID" ], "durability": 10 },
+      "gun_data": { "skill": "rifle", "range": 30, "ranged_damage": 1, "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME", "NPC_AVOID" ], "durability": 10 },
     "flags": [ "IRREMOVABLE"  ]
   }
 ]
