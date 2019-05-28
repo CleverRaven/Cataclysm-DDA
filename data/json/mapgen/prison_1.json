@@ -459,9 +459,27 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "prison_alcatraz_5_2f", "prison_alcatraz_4_2f", "prison_alcatraz_3_2f", "prison_alcatraz_2_2f", "prison_alcatraz_1_2f" ],
-      [ "prison_alcatraz_10_2f", "prison_alcatraz_9_2f", "prison_alcatraz_8_2f", "prison_alcatraz_7_2f", "prison_alcatraz_6_2f" ],
-      [ "prison_alcatraz_15_2f", "prison_alcatraz_14_2f", "prison_alcatraz_13_2f", "prison_alcatraz_12_2f", "prison_alcatraz_11_2f" ]
+      [
+        "prison_alcatraz_5_2f",
+        "prison_alcatraz_4_2f",
+        "prison_alcatraz_3_2f",
+        "prison_alcatraz_2_2f",
+        "prison_alcatraz_1_2f"
+      ],
+      [
+        "prison_alcatraz_10_2f",
+        "prison_alcatraz_9_2f",
+        "prison_alcatraz_8_2f",
+        "prison_alcatraz_7_2f",
+        "prison_alcatraz_6_2f"
+      ],
+      [
+        "prison_alcatraz_15_2f",
+        "prison_alcatraz_14_2f",
+        "prison_alcatraz_13_2f",
+        "prison_alcatraz_12_2f",
+        "prison_alcatraz_11_2f"
+      ]
     ],
     "weight": 250,
     "object": {
@@ -541,7 +559,7 @@
       ],
       "palettes": [ "prison_palette" ],
       "terrain": {
-        " ": [ "t_open_air"  ],
+        " ": [ "t_open_air" ],
         ".": [ "t_flat_roof" ],
         "(": [ "t_metal_railing" ],
         "^": [ "t_concrete" ],
@@ -549,12 +567,8 @@
         "4": [ "t_gutter_west" ],
         "q": [ "t_floor" ]
       },
-      "furniture": {
-        "q": [ "f_locker" ]
-      },
-      "items": {
-        "q": { "item": "guns_rifle_rare", "chance": 50 }
-      }
+      "furniture": { "q": [ "f_locker" ] },
+      "items": { "q": { "item": "guns_rifle_rare", "chance": 50 } }
     }
   },
   {
