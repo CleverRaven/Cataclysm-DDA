@@ -30,7 +30,8 @@
     "type": "AMMO",
     "description": "A high-strength ethanol solution mixed with methanol to make it toxic to drink, so as to avoid pre-apocalyptic regulations on ethanol.  Intended for use in alcohol-burning stoves and as a solvent.",
     "price": 10,
-    "price_postapoc": 300
+    "price_postapoc": 300,
+	"ammo_type": "conc_alcohol"
   },
   {
     "id": "chem_methanol",
@@ -39,7 +40,8 @@
     "type": "AMMO",
     "description": "High purity methanol suitable for use in chemical reactions.  Could be used in alcohol-burning stoves.  Very toxic.",
     "price": 5,
-    "price_postapoc": 100
+    "price_postapoc": 100,
+	"ammo_type": "conc_alcohol"
   },
   {
     "id": "diesel",
