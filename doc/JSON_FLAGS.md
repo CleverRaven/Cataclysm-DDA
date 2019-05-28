@@ -513,6 +513,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```FLAMMABLE``` Can be lit on fire.
 - ```FLAT_SURF``` Furniture or terrain with a flat hard surface (e.g. table, but not chair; tree stump, etc.).
 - ```FLAT``` Player can build and move furniture on.
+- ```FORAGE_HALLU``` This item can be found with the `HIDDEN_HALLU` flag when found through foraging.
+- ```FORAGE_POISION``` This item can be found with the `HIDDEN_POISON` flag when found through foraging.
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
 - ```GROWTH_SEED``` This plant is in its seed stage of growth.

@@ -14,9 +14,6 @@
 
 ter_furn_id::ter_furn_id() : ter( t_null ), furn( f_null ) { }
 
-//Classic Extras is for when you have special zombies turned off.
-static const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military", "mx_roadblock", "mx_drugdeal", "mx_supplydrop", "mx_minefield", "mx_crater", "mx_collegekids", "mx_house_wasp", "mx_house_spider" };
-
 template<typename T>
 void read_and_set_or_throw( JsonObject &jo, const std::string &member, T &target, bool required )
 {
@@ -452,10 +449,6 @@ void load_region_settings( JsonObject &jo )
                     std::set<std::string> keys = exjo.get_member_names();
                     for( const auto &key : keys ) {
                         if( key != "//" ) {
-                            if( get_option<bool>( "CLASSIC_ZOMBIES" )
-                                && classic_extras.count( key ) == 0 ) {
-                                continue;
-                            }
                             extras.values.add( key, exjo.get_int( key, 0 ) );
                         }
                     }
@@ -653,10 +646,6 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
             std::set<std::string> extrakeys = extrasjo.get_member_names();
             for( const auto &key : extrakeys ) {
                 if( key != "//" ) {
-                    if( get_option<bool>( "CLASSIC_ZOMBIES" )
-                        && classic_extras.count( key ) == 0 ) {
-                        continue;
-                    }
                     region.region_extras[zone].values.add_or_replace( key, extrasjo.get_int( key ) );
                 }
             }
