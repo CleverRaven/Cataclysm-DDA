@@ -157,7 +157,8 @@
       { "item": "ruger_1022", "prob": 70, "charges-min": 0, "charges-max": 10 },
       { "item": "ruger_mini", "prob": 60, "charges-min": 0, "charges-max": 5 },
       { "item": "sks", "prob": 40, "charges-min": 0, "charges-max": 10 },
-      { "item": "win70", "prob": 15, "charges-min": 0, "charges-max": 3 }
+      { "item": "win70", "prob": 15, "charges-min": 0, "charges-max": 3 },
+      { "item": "1895sbl", "prob": 15, "charges-min": 0, "charges-max": 7 }
     ]
   },
   {
@@ -185,9 +186,7 @@
       { "item": "savage_111f", "prob": 15, "charges-min": 0, "charges-max": 3 },
       { "item": "sharps", "prob": 15, "charges-min": 0, "charges-max": 1 },
       { "item": "weatherby_5", "prob": 15, "charges-min": 0, "charges-max": 3 },
-      { "item": "hk417_13", "prob": 40, "charges-min": 0, "charges-max": 20 },
-      { "item": "1895sbl", "prob": 15, "charges-min": 0, "charges-max": 7 }
-        
+      { "item": "hk417_13", "prob": 40, "charges-min": 0, "charges-max": 20 }       
     ]
   },
   {
