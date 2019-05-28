@@ -33,7 +33,6 @@
     "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": "Magnum Research BFR",
-    "name_plural": "Magnum Research BFR",
     "description": "A massive single-action revolver.  While the .45-70 rifle round loses significant velocity in its short pistol barrel, it still competes with other large magnum handguns in terms of power.",
     "weight": 1950,
     "volume": 4,
