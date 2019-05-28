@@ -933,7 +933,7 @@ void Item_factory::check_definitions() const
             }
         }
         if( type->ammo ) {
-            if( !type->ammo->type ) {
+            if( !type->ammo->type && type->ammo->type != ammotype( "NULL" ) ) {
                 msg << "must define at least one ammo type" << "\n";
             }
             check_ammo_type( msg, type->ammo->type );
