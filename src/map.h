@@ -392,7 +392,7 @@ class map
         * 0         | Impassable. Use `passable`/`impassable` to check for this.
         * n > 0     | x*n turns to move past this
         */
-        int move_cost( const tripoint &p, const vehicle *ignored_vehicle = nullptr ) const;
+        int move_cost( const tripoint &to, const vehicle *ignored_vehicle = nullptr, const cata::optional<tripoint> &from = cata::nullopt ) const;
         bool impassable( const tripoint &p ) const;
         bool passable( const tripoint &p ) const;
 
