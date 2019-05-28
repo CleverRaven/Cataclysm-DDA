@@ -5959,8 +5959,14 @@ bool item::magazine_integral() const
 
 itype_id item::magazine_default( bool conversion ) const
 {
-    auto mag = type->magazine_default.find( ammotype( *ammo_types( conversion ).begin() ) );
-    return mag != type->magazine_default.end() ? mag->second : "null";
+    std::set<ammotype> atypes = ammo_types( conversion );
+    if( !atypes.empty() ) {
+        auto mag = type->magazine_default.find( ammotype( *atypes.begin() ) );
+        if( mag != type->magazine_default.end() ) {
+            return mag->second;
+        }
+    }
+    return "null";
 }
 
 std::set<itype_id> item::magazine_compatible( bool conversion ) const
