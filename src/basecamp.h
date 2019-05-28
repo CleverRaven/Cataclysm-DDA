@@ -27,8 +27,11 @@ class mission_data;
 
 struct expansion_data {
     std::string type;
-    int cur_level;
+    std::map<std::string, int> provides;
     tripoint pos;
+    // legacy camp level, replaced by provides map and set to -1
+    int cur_level;
+
 };
 
 using npc_ptr = std::shared_ptr<npc>;
@@ -52,6 +55,12 @@ struct basecamp_resource {
 struct basecamp_fuel {
     itype_id ammo_id;
     int available = 0;
+};
+
+struct basecamp_upgrade {
+    std::string bldg;
+    std::string name;
+    bool avail = false;
 };
 
 class basecamp
@@ -89,19 +98,21 @@ class basecamp
         void query_new_name();
         void add_expansion( const std::string &terrain, const tripoint &new_pos );
         void define_camp( npc &p );
-        bool reset_camp();
 
         std::string expansion_tab( const std::string &dir ) const;
 
         // upgrade levels
-        bool has_level( const std::string &type, int min_level, const std::string &dir ) const;
-        bool any_has_level( const std::string &type, int min_level ) const;
-        bool can_expand() const;
+        bool has_provides( const std::string &req, const expansion_data &e_data, int level = 0 ) const;
+        bool has_provides( const std::string &req, const std::string &dir = "all", int level = 0 ) const;
+        void update_resources( const std::string bldg );
+        void update_provides( const std::string bldg, expansion_data &e_data );
+
+
+        bool can_expand();
         /// Returns the name of the building the current building @ref dir upgrades into,
         /// "null" if there isn't one
         const std::string next_upgrade( const std::string &dir, const int offset = 1 ) const;
-        /// Improve the camp tile to the next level
-        bool om_upgrade( const std::string &next_upgrade, const tripoint &upos );
+        const std::vector<basecamp_upgrade> available_upgrades( const std::string &dir );
 
         // camp utility functions
         int recruit_evaluation() const;
@@ -227,6 +238,9 @@ class basecamp
         /// Called to close upgrade missions, @ref miss is the name of the mission id
         /// and @ref dir is the direction of the location to be upgraded
         bool upgrade_return( const std::string &dir, const std::string &miss );
+        /// As above, but with an explicit blueprint recipe to upgrade
+        bool upgrade_return( const std::string &dir, const std::string &miss, const std::string &bldg );
+
         /// Choose which expansion you should start, called when a survey mission is completed
         bool survey_return();
         bool menial_return();
