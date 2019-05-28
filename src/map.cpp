@@ -1653,19 +1653,62 @@ int map::move_cost_ter_furn( const int x, const int y ) const
 
 // Move cost: 3D
 
-int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
+int map::move_cost( const tripoint &from, const tripoint &to, const vehicle *ignored_vehicle ) const
 {
-    if( !inbounds( p ) ) {
+    if( !inbounds( to ) ) {
         return 0;
     }
-
-    const furn_t &furniture = furn( p ).obj();
-    const ter_t &terrain = ter( p ).obj();
-    const optional_vpart_position vp = veh_at( p );
+    
+    tripoint dmove = to - from;
+    bool diagonal = abs(dmove.x) == abs(dmove.y); // both 1
+    
+    const furn_t &furniture = furn( to ).obj();
+    const ter_t &terrain = ter( to ).obj();
+    const optional_vpart_position vp = veh_at( to );
     vehicle *const veh = ( !vp || &vp->vehicle() == ignored_vehicle ) ? nullptr : &vp->vehicle();
     const int part = veh ? vp->part_index() : -1;
+    
+    int cost_to = move_cost_internal( furniture, terrain, veh, part );
+    
+    if( !diagonal || cost_to == 0 ){
+        return cost_to;
+    } else {
+        // Calculate diagonal obstacles.
+        tripoint to_x = from + tripoint(dmove.x,0,0); 
+        tripoint to_y = from + tripoint(0,dmove.y,0); 
+        
+        const furn_t &furniture_x = furn( to_x ).obj();
+        const ter_t &terrain_x = ter( to_x ).obj(); 
 
-    return move_cost_internal( furniture, terrain, veh, part );
+        const furn_t &furniture_y = furn( to_y ).obj();
+        const ter_t &terrain_y = ter( to_y ).obj();       
+        
+        const optional_vpart_position vp_x = veh_at( to_x );
+        vehicle *const veh_x = ( !vp_x || &vp_x->vehicle() == ignored_vehicle ) ? nullptr : &vp_x->vehicle();
+        
+        const optional_vpart_position vp_y = veh_at( to_y );
+        vehicle *const veh_y = ( !vp_y || &vp_y->vehicle() == ignored_vehicle ) ? nullptr : &vp_y->vehicle();
+        
+        const int part_x = veh_x ? vp_x->part_index() : -1;
+        const int part_y = veh_y ? vp_y->part_index() : -1;
+        
+        /* 
+         * If parts are of the same vehicle ignore them if they are not contiguous in mount space,
+         * else consider them as parts of the map (most likely a wreckage).
+        */
+        
+        if( veh_y && veh_x && veh_y==veh_x ){            
+            point dmount = vp_y->mount() - vp_x->mount();
+            bool connected = abs(dmount.x) == 1 || abs(dmount.y) == 1; // Diagonal parts count as connected.
+            if( !connected ){
+                part_x = -1;
+                part_y = -1;                
+            }
+        }
+        
+        return cost_to + move_cost_internal( furniture_x, terrain_x, veh_x, part_x ) + move_cost_internal( furniture_y, terrain_y, veh_y, part_y );        
+    }
+    
 }
 
 bool map::impassable( const tripoint &p ) const
