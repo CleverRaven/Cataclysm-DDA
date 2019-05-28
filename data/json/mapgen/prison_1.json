@@ -439,10 +439,7 @@
         "2": [ { "item": "cannedfood", "chance": 70, "repeat": [ 1, 3 ] }, { "item": "pasta", "chance": 70, "repeat": [ 1, 3 ] } ]
       },
       "monster": {
-        ",": [
-          { "monster": "mon_zombie_cop", "chance": 1 },
-          { "monster": "mon_zombie_prisoner", "chance": 2 }
-        ],
+        ",": [ { "monster": "mon_zombie_cop", "chance": 1 }, { "monster": "mon_zombie_prisoner", "chance": 2 } ],
         "^": { "monster": "mon_zombie_brute", "chance": 1 },
         " ": { "monster": "mon_dog_zombie_cop", "chance": 1 },
         ".": { "monster": "mon_secubot", "chance": 1 },
