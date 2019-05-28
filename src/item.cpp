@@ -2343,7 +2343,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         if( is_armor() && u.has_trait( trait_id( "WOOLALLERGY" ) ) && ( made_of( material_id( "wool" ) ) ||
                 item_tags.count( "wooled" ) ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This clothing gives you an <bad>allergic reaction</bad>." ) ) );
+                                      _( "* This clothing will give you an <bad>allergic reaction</bad>." ) ) );
         }
 
         if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS ) ) {
