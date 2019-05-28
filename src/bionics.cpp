@@ -12,6 +12,7 @@
 
 #include "action.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "ballistics.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -284,7 +285,7 @@ bool player::activate_bionic( int b, bool eff_only )
         charge_power( bionics[bio.id].power_activate );
         bio_gun = item( bionics[bio.id].fake_item );
         g->refresh_all();
-        g->plfire( bio_gun, bionics[bio.id].power_activate );
+        avatar_action::fire( g->u, g->m, bio_gun, bionics[bio.id].power_activate );
     } else if( bionics[ bio.id ].weapon_bionic ) {
         if( weapon.has_flag( "NO_UNWIELD" ) ) {
             add_msg_if_player( m_info, _( "Deactivate your %s first!" ), weapon.tname() );
@@ -306,7 +307,7 @@ bool player::activate_bionic( int b, bool eff_only )
         weapon.invlet = '#';
         if( bio.ammo_count > 0 ) {
             weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
-            g->plfire( weapon );
+            avatar_action::fire( g->u, g->m, weapon );
             g->refresh_all();
         }
     } else if( bio.id == "bio_ears" && has_active_bionic( bionic_id( "bio_earplugs" ) ) ) {
