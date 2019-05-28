@@ -5911,8 +5911,14 @@ std::set<ammotype> item::ammo_types( bool conversion ) const
 
 itype_id item::ammo_default( bool conversion ) const
 {
-    itype_id res = ammotype( *ammo_types( conversion ).begin() )->default_ammotype();
-    return !res.empty() ? res : "NULL";
+    std::set<ammotype> atypes = ammo_types( conversion );
+    if( !atypes.empty() ) {
+        itype_id res = ammotype( *atypes.begin() )->default_ammotype();
+        if( !res.empty() ) {
+            return res;
+        }
+    }
+    return "NULL";
 }
 
 std::set<std::string> item::ammo_effects( bool with_ammo ) const
