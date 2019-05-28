@@ -109,7 +109,8 @@
       [ "kp3atmag", 4 ],
       [ "rugerlcpmag", 10 ],
       [ "sw22mag", 10 ],
-      [ "p226mag_15rd_357sig", 25 ]
+      [ "p226mag_15rd_357sig", 25 ],
+      [ "p320mag_14rd_357sig", 10 ]
     ]
   },
   {
