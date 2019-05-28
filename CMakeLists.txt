@@ -20,7 +20,8 @@ option(LOCALIZE     "Support for language localizations. Also enable UTF support
 option(LANGUAGES    "Compile localization files for specified languages."			""   )
 option(DYNAMIC_LINKING "Use dynamic linking. Or use static to remove MinGW dependency instead."	"ON")
 option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy plugin" "OFF")
-set(LLVM_INCLUDE_DIRS "" CACHE STRING "Paths to llvm and clang headers used for clang-tidy plugin")
+set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
+set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
 set(GIT_BINARY       "" CACHE STRING "Git binary name or path.")
 set(PREFIX           "" CACHE STRING "Location of Data & GFX directories")
 
