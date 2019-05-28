@@ -1928,6 +1928,7 @@ class item : public visitable<item>
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
 
+    public:
         enum class sizing {
             human_sized_human_char = 0,
             big_sized_human_char,
