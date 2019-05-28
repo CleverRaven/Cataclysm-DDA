@@ -1,5 +1,93 @@
 [
   {
+    "type": "npc",
+    "id": "old_guard_rep",
+    "//": "Appears in the refugee center as a source of missions and info.  Faction critical.",
+    "//": "name_suffix is appended to the end of the npc's name.",
+    "//": "using 'name_unique' instead will set the guy's name as is.",
+    "name_suffix": "Representative",
+    "//": "Class is based on the enum in npc.h.  The important ones are 0=NC_NONE, 2=NC_SHOPKEEP,",
+    "//": "3=NC_HACKER, 4=NC_DOCTOR, 5=NC_TRADER, 6=NC_NINJA, 7=NC_COWBOY, 8=NC_SCIENTIST,",
+    "//": "9=NC_BOUNTY_HUNTER, 10=NC_THUG, 11=NC_SCAVENGER, 13=NC_HUNTER, 14=NC_SOLDIER.",
+    "class": "NC_COWBOY",
+    "//": "Attitude is based on the enum in npc.h.  The important ones are 0=NPCATT_NULL, 1=NPCATT_TALK",
+    "//": "3=NPCATT_FOLLOW, 7=NPCATT_DEFEND, 10=NPCATT_KILL, and 11=NPCATT_FLEE",
+    "attitude": 0,
+    "//": "Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL, 3=NPC_MISSION_SHOPKEEP",
+    "//": "and 7=NPC_MISSION_GUARD",
+    "//": "8 = NPC_MISSION_GUARD_PATROL will actively investigate noises",
+    "mission": 7,
+    "chat": "TALK_OLD_GUARD_REP",
+    "faction": "old_guard",
+    "mission_offered": "MISSION_OLD_GUARD_REP_1"
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP",
+    "type": "talk_topic",
+    "dynamic_line": { "u_has_any_trait": [ "PROF_FED" ], "yes": "Marshal...", "no": "Citizen..." },
+    "responses": [
+      { "text": "Who are you?", "topic": "TALK_OLD_GUARD_REP_NEW" },
+      { "text": "Heard anything about the outside world?", "topic": "TALK_OLD_GUARD_REP_WORLD" },
+      { "text": "Is there any way I can join the 'Old Guard'?", "topic": "TALK_OLD_GUARD_REP_ASK_JOIN" },
+      { "text": "Does the Old Guard need anything?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Well, bye.", "topic": "TALK_DONE" }
+    ],
+    "//": "TODO: The rep should know whether you're actually a sworn officer: Wearing the badge without the trait => Bad idea"
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_NEW",
+    "type": "talk_topic",
+    "dynamic_line": "I'm the region's federal liaison.  Most people here call us the 'Old Guard' and I rather like the sound of it.  Despite how things currently appear, the federal government was not entirely destroyed.  After the outbreak I was chosen to coordinate civilian and militia efforts in support of military operations.",
+    "responses": [
+      { "text": "So what are you actually doing here?", "topic": "TALK_OLD_GUARD_REP_NEW_DOING" },
+      { "text": "Never mind...", "topic": "TALK_OLD_GUARD_REP" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_NEW_DOING",
+    "type": "talk_topic",
+    "dynamic_line": "I ensure that the citizens here have what they need to survive and protect themselves from raiders.  Keeping some form of law is going to be the most important element in rebuilding the world.  We do what we can to keep the 'Free Merchants' here prospering and in return they have provided us with spare men and supplies when they can.",
+    "responses": [
+      { "text": "Is there a catch?", "topic": "TALK_OLD_GUARD_REP_NEW_DOWNSIDE" },
+      { "text": "Anything more to it?", "topic": "TALK_OLD_GUARD_REP_NEW_DOWNSIDE" },
+      { "text": "Never mind...", "topic": "TALK_OLD_GUARD_REP" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_NEW_DOWNSIDE",
+    "type": "talk_topic",
+    "dynamic_line": "Well... I was like any other civilian till they conscripted me so I'll tell it to you straight.  They're the best hope we got right now.  They are stretched impossibly thin but are willing to do what is needed to maintain order.  They don't care much about looters since they understand most everyone is dead, but if you have something they need... you WILL give it to them.  Since most survivors here have nothing they want, they are welcomed as champions.",
+    "responses": [ { "text": "Hmmm...", "topic": "TALK_OLD_GUARD_REP" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_WORLD",
+    "type": "talk_topic",
+    "dynamic_line": "There isn't much pushed out by public relations that I'd actually believe.  From what I gather, communication between the regional force commands is almost non-existent.  What I do know is that the 'Old Guard' is currently based out of the 2nd Fleet and patrols the Atlantic coast trying to provide support to the remaining footholds.",
+    "responses": [
+      { "text": "The 2nd Fleet?", "topic": "TALK_OLD_GUARD_REP_WORLD_2NDFLEET" },
+      { "text": "Tell me about the footholds.", "topic": "TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS" },
+      { "text": "Never mind...", "topic": "TALK_OLD_GUARD_REP" }
+    ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_WORLD_2NDFLEET",
+    "type": "talk_topic",
+    "dynamic_line": "I don't know much about how it formed but it is the armada of military and commercial ships that's floating off the coast.  They have everything from supertankers and carriers to fishing trawlers... even a few NATO ships.  Most civilians are offered a cabin on one of the liners to retire to if they serve as a federal employee for a few years.",
+    "responses": [ { "text": "Hmmm...", "topic": "TALK_OLD_GUARD_REP" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_WORLD_FOOTHOLDS",
+    "type": "talk_topic",
+    "dynamic_line": "They may just be propaganda but apparently one or two cities were successful in 'walling themselves off.'  Around here I was told that there were a few places like this one but I couldn't tell you where.",
+    "responses": [ { "text": "Hmmm...", "topic": "TALK_OLD_GUARD_REP" } ]
+  },
+  {
+    "id": "TALK_OLD_GUARD_REP_ASK_JOIN",
+    "type": "talk_topic",
+    "dynamic_line": "You can't actually join unless you go through a recruiter.  We can usually use help though, ask me from time to time if there is any work available.  Completing missions as a contractor is a great way to make a name for yourself among the most powerful men left in the world.",
+    "responses": [ { "text": "Hmmm...", "topic": "TALK_OLD_GUARD_REP" } ]
+  },
+  {
     "id": "MISSION_OLD_GUARD_REP_1",
     "type": "mission_definition",
     "name": "Kill Bandits",
@@ -130,123 +218,6 @@
       "advice": "I'd recommend having two deputies... it would be a death trap if a single man got surrounded.",
       "inquire": "Has the leadership been dealt with?",
       "success": "Marshal, you continue to impress us.  If you are interested, I recently received a message that a unit was deploying into our AO.  I don't have the exact coordinates but they said they were securing an underground facility and may require assistance.  The bird dropped them off next to a pump station.  Can't tell you much more.  If you could locate the captain in charge, I'm sure he could use your skills.  Don't forget to wear your badge when meeting with them.  Thank you once again marshal.",
-      "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
-    }
-  },
-  {
-    "id": "MISSION_SCIENCE_REP_1",
-    "type": "mission_definition",
-    "name": "Analyze Zombie Blood",
-    "goal": "MGOAL_FIND_ITEM",
-    "difficulty": 5,
-    "value": 50000,
-    "item": "software_blood_data",
-    "start": {
-      "effect": [ { "u_buy_item": "vacutainer" }, { "u_buy_item": "usb_drive" } ],
-      "assign_mission_target": { "om_terrain": "hospital_2", "om_special": "hospital", "reveal_radius": 3 }
-    },
-    "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_SCIENCE_REP_2",
-    "dialogue": {
-      "describe": "It could be very informative to perform an analysis of zombie blood...",
-      "offer": "We don't have the equipment for real analysis here so it'll need to be done in the field.  I need you to get a fresh sample of zombie blood, take it to a hospital, and perform a centrifuge analysis of it.",
-      "accepted": "Excellent.  Take this blood draw kit; once you've found a zombie corpse, use it to extract blood from the body, then take it to a hospital for analysis.",
-      "rejected": "Are you sure?  The scientific value of that blood data could be priceless...",
-      "advice": "The centrifuge is a bit technical; you might want to study up on the usage of computers before completing that part.",
-      "inquire": "Well, do you have the data yet?",
-      "success": "Excellent!  This may be the key to removing the infection.",
-      "success_lie": "Wait, you couldn't possibly have the data!  Liar!",
-      "failure": "What a shame, that data could have proved invaluable..."
-    }
-  },
-  {
-    "id": "MISSION_SCIENCE_REP_2",
-    "type": "mission_definition",
-    "name": "Download Workstation Data",
-    "goal": "MGOAL_FIND_ANY_ITEM",
-    "difficulty": 5,
-    "value": 50000,
-    "item": "software_lab_data",
-    "start": "create_lab_console",
-    "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_SCIENCE_REP_3",
-    "dialogue": {
-      "describe": "We need help...",
-      "offer": "The medical software didn't just analyze the blood, it triggered a government alert.  Medical staff was under orders to immediately drive any matching samples to the nearest laboratory.  That must mean the government knew!  We have the destination address.  Go there, get in, and bring back any records you can download off a computer.",
-      "accepted": "Great!  I've mapped out a route to the address.",
-      "rejected": "Can't blame you, but come back if you change your mind.",
-      "advice": "If the laboratory is locked, maybe you can find an id card from employees who died in the evacuation.  Also brush up on your computer skills, any computers will have some security on them.  Bring back anything you find on a USB drive.",
-      "inquire": "Have you completed your mission?",
-      "success": "Thanks!  This data looks damaged, but maybe I can make something out of it.",
-      "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
-    }
-  },
-  {
-    "id": "MISSION_SCIENCE_REP_3",
-    "type": "mission_definition",
-    "name": "Download Encryption Codes",
-    "goal": "MGOAL_FIND_ANY_ITEM",
-    "difficulty": 5,
-    "value": 50000,
-    "item": "software_lab_data",
-    "start": "create_hidden_lab_console",
-    "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_SCIENCE_REP_4",
-    "dialogue": {
-      "describe": "We need help...",
-      "offer": "Unfortunately the data you got was incomplete and mostly encrypted.  There may be a way to get encryption codes, though.  I found a complaint by the infosec team that they were unable to deliver critical security updates to one research site.  It was some kind of more restricted secondary site hidden beneath a town, they weren't allowed in.  That means it should have unsecured computers we can get the codes from.",
-      "accepted": "Great!  I've mapped out a route, it should look like a normal house.  Bring back anything you find on a USB drive.",
-      "rejected": "Can't blame you, but come back if you change your mind.",
-      "advice": "Expect the lab to be locked as usual.",
-      "inquire": "Have you completed your mission?",
-      "success": "Wonderful!  Now I just need to get an undamaged, complete archive, and we can really figure out what happened.",
-      "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
-    }
-  },
-  {
-    "id": "MISSION_SCIENCE_REP_4",
-    "type": "mission_definition",
-    "name": "Download Research Archives",
-    "goal": "MGOAL_FIND_ANY_ITEM",
-    "difficulty": 5,
-    "value": 50000,
-    "item": "software_lab_data",
-    "start": "create_ice_lab_console",
-    "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_SCIENCE_REP_5",
-    "dialogue": {
-      "describe": "We need help...",
-      "offer": "So there looks to be months, maybe years of experiments, and that data set must be huge.  Database servers massive enough to house it would overheat running on emergency power.  But I did found communications from a lab that had some kind of freezing portal open during the cataclysm, sending everything to subzero temperatures.  I bet the archives inside that lab are still working.",
-      "accepted": "Great!  I've mapped out a route.  Bundle up, it gets colder the deeper you go and it looks like the archives were on the fourth basement level.",
-      "rejected": "Can't blame you, but come back if you change your mind.",
-      "advice": "That lab is going to start freezing and just get colder the deeper you go.  You'll really need special equipment to survive that far down.  Bring back anything you find on a USB drive.",
-      "inquire": "Have you completed your mission?",
-      "success": "Thanks!  This is a lot of data to go through.",
-      "success_lie": "What good does this do us?",
-      "failure": "It was a lost cause anyways..."
-    }
-  },
-  {
-    "id": "MISSION_SCIENCE_REP_5",
-    "type": "mission_definition",
-    "name": "Find Lab Tunnels",
-    "goal": "MGOAL_FIND_ANY_ITEM",
-    "difficulty": 5,
-    "value": 50000,
-    "item": "software_train_data",
-    "start": "reveal_lab_train_depot",
-    "origins": [ "ORIGIN_SECONDARY" ],
-    "dialogue": {
-      "describe": "We need help...",
-      "offer": "In the data we found a major contract for tunneling and train equipment, ordered a long time ago.  It's the best lead we have.  Here's the address of the government lab where the equipment was delivered.  I want you to go there, find the tunnels that they dug, and download everything you can about the train network.",
-      "accepted": "So glad for your help.",
-      "rejected": "Can't blame you, but come back if you change your mind.",
-      "advice": "The equipment was rated for 50 feet underground, so that tunnel entrance is going to be deeper inside a lab than a normal subway.  Fifty feet would mean maybe four stories down.  Bring back anything you find on a USB drive.",
-      "inquire": "Have you completed your mission?",
-      "success": "Fantastic!  I should be able to reconstruct what cargo moved between which labs.  I wonder what was really going on down there.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
     }
