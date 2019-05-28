@@ -9590,7 +9590,7 @@ const std::set<itype_id> player::get_books_for_recipe( const inventory &crafting
         itype_id book_id = book_lvl.first;
         int required_skill_level = book_lvl.second;
         // NPCs don't need to identify books
-        if( has_identified( book_id ) ) {
+        if( !has_identified( book_id ) ) {
             continue;
         }
 
