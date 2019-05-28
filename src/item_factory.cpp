@@ -2036,19 +2036,20 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     if( jo.has_array( "magazines" ) ) {
         def.magazine_default.clear();
         def.magazines.clear();
-    }
-    JsonArray mags = jo.get_array( "magazines" );
-    while( mags.has_more() ) {
-        JsonArray arr = mags.next_array();
 
-        ammotype ammo( arr.get_string( 0 ) ); // an ammo type (e.g. 9mm)
-        JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
+        JsonArray mags = jo.get_array( "magazines" );
+        while( mags.has_more() ) {
+            JsonArray arr = mags.next_array();
 
-        // the first magazine for this ammo type is the default;
-        def.magazine_default[ ammo ] = compat.get_string( 0 );
+            ammotype ammo( arr.get_string( 0 ) ); // an ammo type (e.g. 9mm)
+            JsonArray compat = arr.get_array( 1 ); // compatible magazines for this ammo type
 
-        while( compat.has_more() ) {
-            def.magazines[ ammo ].insert( compat.next_string() );
+            // the first magazine for this ammo type is the default
+            def.magazine_default[ ammo ] = compat.get_string( 0 );
+
+            while( compat.has_more() ) {
+                def.magazines[ ammo ].insert( compat.next_string() );
+            }
         }
     }
 
