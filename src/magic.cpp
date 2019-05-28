@@ -1074,6 +1074,35 @@ static std::set<tripoint> spell_effect_area( spell &sp, const tripoint &source,
     return targets;
 }
 
+static void add_effect_to_target( const tripoint &target, const spell &sp )
+{
+    const int dur_moves = sp.duration();
+    const time_duration dur_td = 1_turns * dur_moves / 100;
+
+    Creature *const critter = g->critter_at<Creature>( target );
+    Character *const guy = g->critter_at<Character>( target );
+    efftype_id spell_effect( sp.effect_data() );
+    bool bodypart_effected = false;
+
+    if ( guy )
+    {
+        for ( const body_part bp : all_body_parts ) {
+            if ( sp.bp_is_affected( bp ) ) {
+                guy->add_effect( spell_effect, dur_td, bp );
+                bodypart_effected = true;
+            }
+        }
+        if ( bodypart_effected )
+        {
+            return;
+        }
+    }
+    if ( !bodypart_effected )
+    {
+        critter->add_effect( spell_effect, dur_td, num_bp );
+    }
+}
+
 static void damage_targets( spell &sp, std::set<tripoint> targets )
 {
     for( const tripoint target : targets ) {
@@ -1097,13 +1126,7 @@ static void damage_targets( spell &sp, std::set<tripoint> targets )
             add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
         }
         if( !sp.effect_data().empty() ) {
-            const int dur_moves = sp.duration();
-            const time_duration dur_td = 1_turns * dur_moves / 100;
-            for( const body_part bp : all_body_parts ) {
-                if( sp.bp_is_affected( bp ) ) {
-                    cr->add_effect( efftype_id( sp.effect_data() ), dur_td, bp );
-                }
-            }
+            add_effect_to_target( target, sp );
         }
     }
 }
