@@ -4589,11 +4589,9 @@
   {
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_PRISON",
-    "default": "mon_zombie",
+    "default": "mon_zombie_prisoner",
     "monsters": [
-      { "monster": "mon_zombie", "freq": 200, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_fat", "freq": 100, "cost_multiplier": 0 },
-      { "monster": "mon_zombie_tough", "freq": 50, "cost_multiplier": 0 },
+      { "monster": "mon_zombie_prisoner", "freq": 350, "cost_multiplier": 0 },
       { "monster": "mon_zombie_electric", "freq": 10, "cost_multiplier": 0 }
     ]
   },
