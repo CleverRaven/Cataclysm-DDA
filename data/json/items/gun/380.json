@@ -9,7 +9,7 @@
     "volume": 2,
     "price": 160000,
     "bashing": 5,
-    "ammo": "380",
+    "ammo": [ "380" ],
     "burst": 23,
     "magazines": [ [ "380", [ "mac11mag" ] ] ]
   },
@@ -22,7 +22,7 @@
     "weight": 240,
     "volume": "231ml",
     "price": 25000,
-    "ammo": "380",
+    "ammo": [ "380" ],
     "magazines": [ [ "380", [ "kp3atmag" ] ] ]
   },
   {
@@ -38,7 +38,7 @@
     "bashing": 1,
     "material": [ "steel" ],
     "color": "dark_gray",
-    "ammo": "380",
+    "ammo": [ "380" ],
     "dispersion": 480,
     "durability": 7,
     "magazines": [ [ "380", [ "fn1910mag" ] ] ]
@@ -56,7 +56,7 @@
     "bashing": 1,
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
-    "ammo": "380",
+    "ammo": [ "380" ],
     "dispersion": 480,
     "durability": 8,
     "magazines": [ [ "380", [ "rugerlcpmag" ] ] ]

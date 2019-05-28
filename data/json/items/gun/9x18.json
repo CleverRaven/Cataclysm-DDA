@@ -13,7 +13,7 @@
     "bashing": 9,
     "material": [ "steel", "plastic" ],
     "color": "dark_gray",
-    "ammo": "9x18",
+    "ammo": [ "9x18" ],
     "dispersion": 480,
     "durability": 6,
     "valid_mod_locations": [
@@ -40,7 +40,7 @@
     "//": "Total unloaded weight of gun 1451.496 grams, rounded to 1451.  Current weight of folding stock 200 grams.",
     "description": "A version of the Skorpion submachine gun chambered in 9x18mm Makarov, with a slightly longer barrel than the original design.",
     "weight": 1251,
-    "ammo": "9x18",
+    "ammo": [ "9x18" ],
     "burst": 15,
     "magazines": [ [ "9x18", [ "skorpion82mag" ] ] ]
   }

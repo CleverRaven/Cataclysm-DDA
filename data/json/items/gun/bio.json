@@ -12,7 +12,7 @@
     "symbol": "(",
     "color": "magenta",
     "skill": "shotgun",
-    "ammo": "shot",
+    "ammo": [ "shot" ],
     "dispersion": 855,
     "durability": 6,
     "clip_size": 1,

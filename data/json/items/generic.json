@@ -2779,7 +2779,7 @@
       50000,
       100000
     ],
-    "ammo": "money"
+    "ammo": [ "money" ]
   },
   {
     "id": "robofac_test_data",

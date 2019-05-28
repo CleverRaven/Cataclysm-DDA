@@ -35,7 +35,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "shot",
+    "ammo": [ "shot" ],
     "skill": "pistol",
     "ranged_damage": 6,
     "dispersion": 900,
