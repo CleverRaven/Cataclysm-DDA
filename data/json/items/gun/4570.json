@@ -6,7 +6,7 @@
     "name": "Marlin 1895 SBL",
     "description": "A handy but powerful lever-action rifle chambered for .45-70 Government. Designed for wilderness guides for defense against large predators such as grizzly bears, moose, and dinosaurs.",
     "weight": 3650,
-    "volume": 6,
+    "volume": 9,
     "price": 400000,
     "to_hit": 1,
     "bashing": 12,
@@ -19,8 +19,10 @@
     "clip_size": 7,
     "valid_mod_locations": [
       [ "accessories", 4 ],
+      [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ]
     ],
@@ -60,9 +62,9 @@
     "type": "GUN",
     "name": "1874 Sharps",
     "name_plural": "1874 Sharps",
-    "description": "A reproduction of an antique single-shot .45-70 rifle once used to hunt buffalo and other large game in the 19th Century.  Highly accurate and powerful for the time, this one is made to handle modern smokeless ammunition.",
+    "description": "A reproduction of an antique single-shot .45-70 rifle once used to hunt buffalo and other large game in the late 19th Century.  Highly accurate and powerful for the time, this one is made to handle modern smokeless ammunition.",
     "weight": 5500,
-    "volume": 10,
+    "volume": 13,
     "price": 120000,
     "to_hit": 1,
     "bashing": 12,
@@ -75,14 +77,16 @@
     "dispersion": 100,
     "durability": 8,
     "clip_size": 1,
+    "built_in_mods": [ "match_trigger" ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
       [ "sights", 1 ],
       [ "sling", 1 ]
     ],
-    "flags": [ "NEVER_JAMS" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
   }
 ]
