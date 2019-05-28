@@ -10,7 +10,7 @@
     "comestible_type": "DRINK",
     "symbol": "~",
     "quench": 30,
-    "calories": 90,
+    "calories": 5,
     "description": "Vegetable stock.  Tasty and fairly nutritious.",
     "price": 350,
     "material": "veggy",
