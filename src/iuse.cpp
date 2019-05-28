@@ -6007,6 +6007,23 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
         
         item book( scanned_book, calendar::turn );
 
+        // recipe searches for ',recipeident,' - for some, probably superfluous, reason
+        if( !eink.has_var( "EIPC_RECIPES" ) ) {
+            eink.set_var( "EIPC_RECIPES", "," );
+        }
+        int rcount = 0;
+        for( const auto &r : book.type->book->recipes ) {
+            auto old_recipes = eink.get_var( "EIPC_RECIPES" );
+            if( old_recipes.find( r.recipe->ident().str() + "," ) == std::string::npos ) {
+                eink.set_var( "EIPC_RECIPES", old_recipes + r.recipe->ident().str() + "," );
+                rcount++;
+            }
+        }
+        if( rcount > 0 ) {
+            something_downloaded = true;
+            p.add_msg_if_player( m_good, _( "You bookmark %d new recipes in tablet's library." ), rcount );
+        }
+
         const auto old_books = eink.get_var( "EIPC_BOOKS" );
         if( old_books.find( scanned_book ) == std::string::npos ) {
             something_downloaded = true;
@@ -6014,23 +6031,6 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 
             p.add_msg_if_player( m_good, _( "You download %s into the tablet's memory." ),
                                  book.tname() );
-
-            // recipe searches for ',recipeident,' - for some, probably superfluous, reason
-            if( !eink.has_var( "EIPC_RECIPES" ) ) {
-                eink.set_var( "EIPC_RECIPES", "," );
-            }
-
-            int rcount = 0;
-            for( const auto &r : book.type->book->recipes ) {
-                auto old_recipes = eink.get_var( "EIPC_RECIPES" );
-                if( old_recipes.find( r.recipe->ident().str() + "," ) == std::string::npos ) {
-                    eink.set_var( "EIPC_RECIPES", old_recipes + r.recipe->ident().str() + "," );
-                    rcount++;
-                }
-            }
-            if( rcount > 0 ) {
-                p.add_msg_if_player( m_good, _( "You also bookmark %d new recipes in tablet's library." ), rcount );
-            }
         } else {
             p.add_msg_if_player( m_good, _( "Your tablet already has %s." ),
                                  book.tname() );
@@ -6074,7 +6074,6 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
                         photos[strqpos] = *chq;
                     }
                 }
-
             }
             eink.set_var( "EINK_MONSTER_PHOTOS", photos );
         }
@@ -6850,8 +6849,8 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         
         if( book.is_null() ) {
             p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
-    return it->type->charges_to_use();
-}
+            return it->type->charges_to_use();
+        }
 
         index = g->inv_for_flag( "MC_MOBILE", _( "Insert memory card" ) );
         item &mc = p->i_at( index );
@@ -6883,13 +6882,6 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         mc.unset_flags();
         mc.item_tags.insert( "MC_HAS_DATA" );
         mc.set_var( "MC_BOOK", book.typeId() );
-        
-        // item copy( item( book.type, calendar::turn ) );
-        // copy.set_var( "weight", 0 );
-        // copy.item_tags.insert( "NO_DROP" );
-        // copy.item_tags.insert( "IRREMOVABLE" );
-        // mc.contents.erase();
-        // mc.put_in( copy );
 
         p->add_msg_if_player( m_info, _( "You scan %s and store it on memory card" ), book.tname() );
 
