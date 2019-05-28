@@ -3179,7 +3179,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             ret << _( " (hallucinogenic)" );
         }
     }
-    if( goes_bad() || is_food() ) {
+    if( has_flag( "ETHEREAL_ITEM" ) ) {
+        ret << " (" << get_var( "ethereal" ) << " turns)";
+    } else if( goes_bad() || is_food() ) {
         if( item_tags.count( "DIRTY" ) ) {
             ret << _( " (dirty)" );
         } else if( rotten() ) {
@@ -7202,7 +7204,7 @@ std::string item::components_to_string() const
 
 bool item::needs_processing() const
 {
-    return active || has_flag( "RADIO_ACTIVATION" ) ||
+    return active || has_flag( "RADIO_ACTIVATION" ) || has_flag( "ETHEREAL_ITEM" ) ||
            ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
            is_artifact() || is_food();
 }
@@ -7973,6 +7975,18 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
         } else {
             ++it;
         }
+    }
+
+    if( has_flag( "ETHEREAL_ITEM" ) ) {
+        if( !has_var( "ethereal" ) ) {
+            return true;
+        }
+        set_var( "ethereal", std::stoi( get_var( "ethereal" ) ) - 1 );
+        const bool processed = std::stoi( get_var( "ethereal" ) ) <= 0;
+        if( processed && carrier != nullptr ) {
+            carrier->add_msg_if_player( _( "%s %s disappears!" ), carrier->disp_name( true ), tname() );
+        }
+        return processed;
     }
 
     if( activate ) {
