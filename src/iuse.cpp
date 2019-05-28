@@ -4451,6 +4451,34 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
+//This is just used for robofac_intercom_mission_2
+int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
+{
+    for( auto &map_it : g->m.i_at( p->posx(), p->posy() ) ) {
+        if( map_it.typeId() == "rmi2_corpse" &&
+            query_yn( _( "Use the mind splicer kit on the %s?" ), colorize( map_it.tname(),
+                      map_it.color_in_inventory() ) ) ) {
+            int pos = g->inv_for_id( itype_id( "data_card" ), _( "Select storage media" ) );
+            item &data_card = p->i_at( pos );
+            if( data_card.is_null() ) {
+                add_msg( m_info, _( "Nevermind." ) );
+                return 0;
+            }
+            ///\EFFECT_DEX makes using the mind splicer faster
+            ///\EFFECT_FIRSTAID makes using the mind splicer faster
+            const time_duration time = std::max( 150_minutes - 20_minutes * ( p->get_skill_level(
+                    skill_firstaid ) - 1 ) - 10_minutes * ( p->get_dex() - 8 ), 30_minutes );
+
+            player_activity act( activity_id( "ACT_MIND_SPLICER" ), to_moves<int>( time ) );
+            act.targets.push_back( item_location( *p, &data_card ) );
+            p->assign_activity( act );
+            return it->type->charges_to_use();
+        }
+    }
+    add_msg( m_info, _( "There's nothing to use the %s on here." ), it->tname() );
+    return 0;
+}
+
 void iuse::cut_log_into_planks( player &p )
 {
     p.moves -= 300;
