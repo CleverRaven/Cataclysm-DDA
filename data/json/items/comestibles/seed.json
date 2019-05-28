@@ -279,7 +279,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "seed_withered",
+    "id": "seed_flower",
     "copy-from": "seed",
     "name": "decorative plant seeds",
     "name_plural": "decorative plant seeds",
