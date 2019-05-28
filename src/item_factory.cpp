@@ -965,7 +965,7 @@ void Item_factory::check_definitions() const
                 }
                 for( const ammotype &at : type->gun->ammo ) {
                     if( !type->magazines.empty() && !type->magazine_default.count( at ) ) {
-                        msg << "specified magazine but none provided for ammo type" << at.str() << "\n";
+                        msg << "specified magazine but none provided for ammo type " << at.str() << "\n";
                     }
                 }
             }
