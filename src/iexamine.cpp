@@ -1564,7 +1564,7 @@ void iexamine::flower_dahlia( player &p, const tripoint &examp )
         return;
     }
 
-    bool can_get_root = (p.has_quality( quality_id( "DIG" ) ) || p.has_trait( trait_BURROW ) );
+    bool can_get_root = p.has_quality( quality_id( "DIG" ) ) || p.has_trait( trait_BURROW );
 
     if( can_get_root ) {
         if( !query_yn( _( "Pick %s?" ), g->m.furnname( examp ) ) ) {
@@ -1572,7 +1572,8 @@ void iexamine::flower_dahlia( player &p, const tripoint &examp )
             return;
         }
     } else {
-        if( !query_yn( _( "You don't have a digging tool to dig up roots. Pick %s anyway?" ), g->m.furnname( examp ) ) ) {
+        if( !query_yn( _( "You don't have a digging tool to dig up roots. Pick %s anyway?" ),
+                       g->m.furnname( examp ) ) ) {
             none( p, examp );
             return;
         }
@@ -1580,9 +1581,9 @@ void iexamine::flower_dahlia( player &p, const tripoint &examp )
 
     g->m.furn_set( examp, f_null );
 
-    if ( can_get_root ) {
+    if( can_get_root ) {
         handle_harvest( p, "dahlia_root", false );
-	}
+    }
     handle_harvest( p, "seed_dahlia", false );
     handle_harvest( p, "withered", false );
     // There was a bud and flower spawn here
@@ -1629,7 +1630,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
             for( int i = 0; i < roll; i++ ) {
                 handle_harvest( p, entry.drop, false );
             }
-       }
+    }
     }
 
     if( !got_anything ) {
