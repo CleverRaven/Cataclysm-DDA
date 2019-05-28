@@ -36,7 +36,7 @@
     "difficulty": 5,
     "time": 100,
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 2 ] ], [ [ "incendiary", 5 ] ] ],
+    "components": [ [ [ "shot_hull", 1 ] ], [ [ "shotgun_primer", 1 ] ], [ [ "gunpowder", 3 ] ], [ [ "incendiary", 5 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   },
   {

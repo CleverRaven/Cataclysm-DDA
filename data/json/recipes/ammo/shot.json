@@ -43,7 +43,7 @@
     "charges": 1,
     "using": [ [ "ammo_shot", 1 ] ],
     "tools": [ [ [ "press", -1 ] ] ],
-    "components": [ [ [ "incendiary", 5 ] ] ]
+    "components": [ [ [ "gunpowder", 3 ], [ "chem_black_powder", 3 ] ], [ [ "incendiary", 5 ] ] ]
   },
   {
     "result": "reloaded_shot_flechette",
