@@ -470,7 +470,7 @@
         ":": "t_door_glass_c",
         "=": "t_wall_glass",
         "O": "t_window",
-        "]": "t_floor",
+        "]": "f_floor",
         "i": "t_door_locked_interior",
         "|": "t_wall_w",
         "}": "t_floor",
