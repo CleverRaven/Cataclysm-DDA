@@ -1390,9 +1390,12 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
     }
 
     assign( jo, "skill", slot.skill_used, strict );
-    JsonArray atypes = jo.get_array( "ammo" );
-    for( size_t i = 0; i < atypes.size(); ++i ) {
-        slot.ammo.insert( ammotype( atypes.get_string( i ) ) );
+    if( jo.has_array( "ammo" ) ) {
+        slot.ammo.clear();
+        JsonArray atypes = jo.get_array( "ammo" );
+        for( size_t i = 0; i < atypes.size(); ++i ) {
+            slot.ammo.insert( ammotype( atypes.get_string( i ) ) );
+        }
     }
     assign( jo, "range", slot.range, strict );
     if( jo.has_object( "ranged_damage" ) ) {
