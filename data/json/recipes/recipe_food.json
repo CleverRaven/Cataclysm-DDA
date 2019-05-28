@@ -1358,6 +1358,20 @@
   },
   {
     "type": "recipe",
+    "result": "coffee_raw_fine",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "40 m",
+    "autolearn": true,
+    "contained": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "HAMMER_FINE", "level": 1 } ],
+    "components": [ [ [ "roasted_coffee_bean", 1 ], [ "coffee_raw", 1 ] ], [ [ "bag_plastic", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "coffee_raw_kentucky",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -1397,6 +1411,20 @@
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
     "components": [ [ [ "coffee_raw", 1 ], [ "coffee_syrup", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "espresso",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+	"difficulty": 1,
+    "time": "10 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "coffee_raw_fine", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
   },
   {
     "type": "recipe",
