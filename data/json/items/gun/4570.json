@@ -1,11 +1,11 @@
 [
   {
     "id": "1895sbl",
+    "copy-from": "rifle_manual",
     "type": "GUN",
-    "reload_noise_volume": 10,
     "name": "Marlin 1895 SBL",
     "description": "A handy but powerful lever-action rifle chambered for .45-70 Government. Designed for wilderness guides for defense against large predators such as grizzly bears, moose, and dinosaurs.",
-    "weight": 3850,
+    "weight": 3650,
     "volume": 6,
     "price": 400000,
     "to_hit": 1,
@@ -18,7 +18,6 @@
     "dispersion": 200,
     "durability": 8,
     "clip_size": 7,
-    "reload": 175,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
@@ -30,21 +29,21 @@
   },
   {
     "id": "bfr",
+    "copy-from": "pistol_revolver",
     "type": "GUN",
     "name": "Magnum Research BFR",
     "name_plural": "Magnum Research BFR",
-    "description": "A massive single-action revolver.  While the .45-70 rifle round loses a lot of velocity in its short pistol barrel, it's still powerful enough to compete with the largest magnum handguns.",
-    "weight": 2100,
+    "description": "A massive single-action revolver.  While the .45-70 rifle round loses significant velocity in its short pistol barrel, it still competes with other large magnum handguns in terms of power.",
+    "weight": 1950,
     "volume": 4,
     "price": 329900,
     "to_hit": -2,
     "bashing": 12,
-    "material": [ "steel", "wood" ],
+    "material": [ "steel", "plastic" ],
     "color": "dark_gray",
     "symbol": "(",
     "ammo": "4570",
-    "skill": "pistol",
-    "ranged_damage": -10,
+    "ranged_damage": -20,
     "dispersion": 180,
     "durability": 8,
     "clip_size": 5,
@@ -55,15 +54,15 @@
       [ "mechanism", 4 ],
       [ "sights", 1 ]
     ],
-    "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
     "id": "sharps",
+    "copy-from": "gun_base",
     "type": "GUN",
     "name": "1874 Sharps",
     "name_plural": "1874 Sharps",
     "description": "A reproduction of an antique single-shot .45-70 rifle once used to hunt buffalo and other large game in the 19th Century.  Highly accurate and powerful for the time, this one is made to handle modern smokeless ammunition.",
-    "weight": 4900,
+    "weight": 5500,
     "volume": 10,
     "price": 120000,
     "to_hit": 1,
@@ -85,6 +84,6 @@
       [ "sights", 1 ],
       [ "sling", 1 ]
     ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "NEVER_JAMS" ]
   }
 ]
