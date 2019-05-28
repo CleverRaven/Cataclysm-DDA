@@ -309,7 +309,7 @@
     "flags": [ "MAG_COMPACT" ]
   },
   {
-    "id": "p320mag_17rd",
+    "id": "p320mag_17rd_9x19mm",
     "type": "MAGAZINE",
     "name": "P320 magazine 9x19mm",
     "description": "A 17 round double stack box magazine for the SIG Sauer P320.",
