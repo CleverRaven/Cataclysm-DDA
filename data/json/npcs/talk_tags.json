@@ -1168,12 +1168,12 @@
   {
     "type": "snippet",
     "category": "<ally_rule_follow_distance_2_true_text>",
-    "text": "Follow me at about four paces."
+    "text": "<mypronoun> will follow you at about two paces."
   },
   {
     "type": "snippet",
     "category": "<ally_rule_follow_distance_2_false_text>",
-    "text": "Follow me at about two paces."
+    "text": "<mypronoun> will follow you at about four paces."
   },
   {
     "type": "snippet",

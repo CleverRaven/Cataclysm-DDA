@@ -1719,8 +1719,7 @@ int npc::follow_distance() const
         return 1;
     }
     // Uses ally_rule follow_distance_2 to determine if should follow by 2 or 4 tiles
-    if( rules.has_flag(
-            ally_rule::follow_distance_2 ) ) {
+    if( rules.has_flag( ally_rule::follow_distance_2 ) ) {
         return 2;
     }
     // If NPC doesn't see player, change follow distance to 2
