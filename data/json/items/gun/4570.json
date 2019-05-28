@@ -4,7 +4,7 @@
     "copy-from": "rifle_manual",
     "type": "GUN",
     "name": "Marlin 1895 SBL",
-    "description": "A handy but powerful lever-action rifle chambered for .45-70 Government. Designed for wilderness guides for defense against large predators such as grizzly bears, moose, and dinosaurs.",
+    "description": "A handy but powerful lever-action rifle chambered for .45-70 Government.  Designed for wilderness guides for defense against large predators such as grizzly bears, moose, and dinosaurs.",
     "weight": 3650,
     "volume": 9,
     "price": 400000,
