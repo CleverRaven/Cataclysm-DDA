@@ -377,6 +377,20 @@
     "to_hit": -3
   },
   {
+    "type": "GENERIC",
+    "id": "data_card",
+    "symbol": ",",
+    "color": "white",
+    "name": "data card",
+    "description": "Some type of advanced data storage device.  Useful for storing very large amounts of information.",
+    "price": 10000,
+    "price_postapoc": 100,
+    "material": "plastic",
+    "weight": 18,
+    "volume": 0,
+    "to_hit": -3
+  },
+  {
     "id": "golf_tee",
     "type": "GENERIC",
     "category": "other",
@@ -2786,6 +2800,19 @@
     "weight": 6,
     "volume": 0,
     "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "rmi2_corpse",
+    "symbol": "%",
+    "color": "white",
+    "name": "desiccated corpse",
+    "description": "A badly mangled and desiccated partial corpse.  It seems whatever thing killed him did so with a single swipe of a gigantic claw.",
+    "category": "other",
+    "material": "hflesh",
+    "price": 0,
+    "volume": 30,
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "gasdiscount_silver",
