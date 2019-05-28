@@ -1,5 +1,24 @@
 [
   {
+    "type": "item_group",
+    "id": "mansion_guns",
+    "magazine": 100,
+    "ammo": 100,
+    "subtype": "distribution",
+    "entries": [
+      { "group": "guns_pistol_common", "prob": 20 },
+      { "group": "guns_rifle_common", "prob": 20 },
+      { "group": "guns_shotgun_common", "prob": 20 },
+      { "group": "guns_pistol_obscure", "prob": 60 },
+      { "group": "guns_rifle_obscure", "prob": 60 },
+      { "group": "guns_shotgun_obscure", "prob": 60 },
+      { "group": "guns_survival", "prob": 30 },
+      { "group": "ammo_obscure", "prob": 90 },
+      { "group": "ammo_reloaded", "prob": 30 },
+      { "group": "mags_obscure", "prob": 30 }
+    ]
+  },
+  {
     "id": "corpse_mansion",
     "type": "item_group",
     "subtype": "distribution",
@@ -400,7 +419,10 @@
       [ "pike_fake", 50 ],
       { "group": "broadsword_fake+scabbard", "prob": 17 },
       [ "mace_fake", 6 ],
-      [ "morningstar_fake", 5 ]
+      [ "morningstar_fake", 5 ],
+      [ "fire_lance", 2 ],
+      [ "lance_charge", 1 ],
+      [ "lance_charge_shot", 1 ]
     ]
   },
   {
