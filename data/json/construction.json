@@ -2182,7 +2182,7 @@
   {
     "type": "construction",
     "description": "Build Planter",
-    "catergory": "FURN",
+    "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "25 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
