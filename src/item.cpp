@@ -1232,7 +1232,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         if( u.allergy_type( *food_item ) != morale_type( "morale_null" ) ) {
             info.emplace_back( "DESCRIPTION",
-                               _( "* This food will cause you an <bad>allergic reaction</bad>." ) );
+                               _( "* This food will cause an <bad>allergic reaction</bad>." ) );
         }
 
         if( food_item->has_flag( "CANNIBALISM" ) && parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
