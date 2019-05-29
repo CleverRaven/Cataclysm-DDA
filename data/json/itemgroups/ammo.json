@@ -154,6 +154,7 @@
       [ "762_51", 50 ],
       [ "4570_sp", 40 ],
       [ "4570_pen", 20 ],
+      [ "4570_low", 40 ],
       [ "762_m87", 25 ],
       [ "8mm_civilian", 15 ]
     ]
@@ -204,6 +205,8 @@
       [ "reloaded_556_incendiary", 5 ],
       [ "reloaded_4570_sp", 15 ],
       [ "reloaded_4570_pen", 5 ],
+      [ "reloaded_4570_low", 15 ],
+      [ "reloaded_4570_bp", 10 ],
       [ "reloaded_762_51", 10 ],
       [ "reloaded_762_51_incendiary", 5 ],
       [ "reloaded_762_54R", 40 ],
