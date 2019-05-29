@@ -142,6 +142,7 @@ const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_blind( "blind" );
 const efftype_id effect_bloodworms( "bloodworms" );
 const efftype_id effect_boomered( "boomered" );
+const efftype_id effect_bouldering( "bouldering" );
 const efftype_id effect_brainworms( "brainworms" );
 const efftype_id effect_cig( "cig" );
 const efftype_id effect_contacts( "contacts" );
@@ -6665,13 +6666,13 @@ const auto feature_description_at_point = []( const tripoint center_point,
         if( !sign_message.empty() ) {
             furn_str += _( " with message \"" ) + sign_message + "\"";
         }
-
-        item item = get_top_item_at_point( center_point, min_visible_volume );
-        if( !item.is_null() ) {
-            furn_str += _( " with " ) + colorized_item_name( item );
-            item_found = true;
+        if( !furn->has_flag( "CONTAINER" ) && !furn->has_flag( "SEALED" ) ) {
+            item item = get_top_item_at_point( center_point, min_visible_volume );
+            if( !item.is_null() ) {
+                furn_str += _( " with " ) + colorized_item_name( item );
+                item_found = true;
+            }
         }
-
         return furn_str;
     }
     return std::string();
@@ -6730,7 +6731,8 @@ const auto effects_description_for_creature = []( Creature *const creature, std:
         { effect_lack_sleep, ef_con( " looks <color_gray>very tired</color>. " ) },
         { effect_lying_down, ef_con( " is <color_dark_blue>sleeping</color>. ", "lies" ) },
         { effect_sleep, ef_con( " is <color_dark_blue>sleeping</color>. ", "lies" ) },
-        { effect_haslight, ef_con( " is <color_yellow>lit</color>. " ) }
+        { effect_haslight, ef_con( " is <color_yellow>lit</color>. " ) },
+        { effect_bouldering, ef_con( "", "balancing" ) }
     };
 
     std::string figure_effects;
