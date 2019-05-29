@@ -49,10 +49,10 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "C.R.I.T Knuckledusters",
-    "description": "C.R.I.T CQB knuckledusters. Not too different from any normal pair.",
+    "description": "C.R.I.T CQB knuckledusters. Not too different from any normal pair. Pretty heavy though.",
     "color": "dark_gray",
     "material": [ "hardsteel" ],
-    "weight": 350,
+    "weight": 850,
     "volume": 3,
     "price": 20000,
     "bashing": 10,
@@ -83,7 +83,7 @@
     "symbol": ";",
     "qualities": [ [ "BUTCHER", 7 ] ],
     "flags": [ "UNBREAKABLE_MELEE" ],
-    "techniques": [ "WBLOCK_2", "tec_feint", "tec_counter", "BERSERK", "DSINERTIAL" ]
+    "techniques": [ "WBLOCK_2", "tec_feint", "tec_counter", "BERSERK", "DSINERTIAL", "PROBE"]
   },
   {
     "id": "blade_crt",
