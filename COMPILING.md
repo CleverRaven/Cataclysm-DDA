@@ -366,29 +366,17 @@ To build Cataclysm on Mac you'll need [Command Line Tools for Xcode](https://dev
 
 Homebrew installation will come with tiles and sound support enabled by default.
 
-Once you have Homebrew installed, open Terminal and run one of the following commands.
-
-For a tiles build:
+Once you have Homebrew installed, open Terminal and run one the following command.
 
     brew install cataclysm
 
-For an experimental tiles build:
-
-    brew install cataclysm --HEAD
-
-Whichever build you choose, Homebrew will install the appropriate dependencies as needed. The installation will be in `/usr/local/Cellar/cataclysm` with a symlink named `cataclysm` in `/usr/local/bin`.
+Homebrew will install the appropriate dependencies as needed. The installation will be in `/usr/local/Cellar/cataclysm` with a symlink named `cataclysm` in `/usr/local/bin`.
 
 To launch Cataclysm, just open Terminal and run `cataclysm`.
 
-To update an experimental build, you must uninstall Cataclysm, then reinstall using one of the above commands. Reinstall Cataclysm using the one of the following commands.
-
-For a tiles build:
+Reinstall Cataclysm using the following command.
 
     brew reinstall cataclysm
-
-For an experimental tiles build:
-
-    brew reinstall cataclysm --HEAD
 
 ## Advanced info for Developers
 
