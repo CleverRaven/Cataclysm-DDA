@@ -89,7 +89,7 @@ std::string basecamp::board_name() const
 // read an expansion's terrain ID of the form faction_base_$TYPE_$CURLEVEL
 // find the last underbar, strip off the prefix of faction_base_ (which is 13 chars),
 // and the pull out the $TYPE and $CURLEVEL
-// This is legacy support for existing camps; future camps will just set type and level
+// This is legacy support for existing camps; future camps don't use cur_level at all
 static expansion_data parse_expansion( const std::string &terrain, const tripoint &new_pos )
 {
     expansion_data e;
@@ -167,7 +167,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
 // legacy next upgrade
 const std::string basecamp::next_upgrade( const std::string &dir, const int offset ) const
 {
-    auto e = expansions.find( dir );
+    const auto &e = expansions.find( dir );
     if( e == expansions.end() ) {
         return "null";
     }
@@ -230,10 +230,10 @@ const std::vector<basecamp_upgrade> basecamp::available_upgrades( const std::str
             const std::string &bldg = faction_encode_abs( e_data, number );
             const recipe &recp = recipe_id( bldg ).obj();
             bool should_display = false;
+            if( e_data.provides.find( bldg ) != e_data.provides.end() ) {
+                continue;
+            }
             for( const auto &bp_require : recp.blueprint_requires() ) {
-                if( e_data.provides.find( bldg ) != e_data.provides.end() ) {
-                    break;
-                }
                 if( e_data.provides.find( bp_require.first ) == e_data.provides.end() ) {
                     break;
                 }
@@ -259,24 +259,24 @@ const std::vector<basecamp_upgrade> basecamp::available_upgrades( const std::str
 // recipes and craft support functions
 std::map<std::string, std::string> basecamp::recipe_deck( const std::string &dir ) const
 {
-    if( dir == "ALL" || dir == "COOK" || dir == "BASE" || dir == "FARM" || dir == "SMITH" ) {
-        return recipe_group::get_recipes( dir );
+    std::map<std::string, std::string> recipes = recipe_group::get_recipes_by_bldg( dir );
+    if( !recipes.empty() ) {
+        return recipes;
     }
-    std::map<std::string, std::string> cooking_recipes;
-    auto e = expansions.find( dir );
+    const auto &e = expansions.find( dir );
     if( e == expansions.end() ) {
-        return cooking_recipes;
+        return recipes;
     }
     for( const auto &provides : e->second.provides ) {
-        std::map<std::string, std::string> test_s = recipe_group::get_recipes( provides.first );
-        cooking_recipes.insert( test_s.begin(), test_s.end() );
+        const auto &test_s = recipe_group::get_recipes_by_id( provides.first );
+        recipes.insert( test_s.begin(), test_s.end() );
     }
-    return cooking_recipes;
+    return recipes;
 }
 
 const std::string basecamp::get_gatherlist() const
 {
-    auto e = expansions.find( base_dir );
+    const auto &e = expansions.find( base_dir );
     if( e != expansions.end() ) {
         const std::string gatherlist = "gathering_" + faction_encode_abs( e->second, 4 );
         if( item_group::group_is_defined( gatherlist ) ) {
@@ -284,7 +284,6 @@ const std::string basecamp::get_gatherlist() const
         }
     }
     return "forest";
-
 }
 
 void basecamp::add_resource( const itype_id &camp_resource )
@@ -556,19 +555,13 @@ std::string basecamp::expansion_tab( const std::string &dir ) const
     if( dir == base_dir ) {
         return _( "Base Missions" );
     }
-    auto e = expansions.find( dir );
+    const auto &expansion_types = recipe_group::get_recipes_by_id( "all_faction_base_expansions" );
+
+    const auto &e = expansions.find( dir );
     if( e != expansions.end() ) {
-        if( e->second.type == "garage" ) {
-            return _( "Garage Expansion" );
-        }
-        if( e->second.type == "kitchen" ) {
-            return _( "Kitchen Expansion" );
-        }
-        if( e->second.type == "blacksmith" ) {
-            return _( "Blacksmith Expansion" );
-        }
-        if( e->second.type == "farm" ) {
-            return _( "Farm Expansion" );
+        const auto e_type = expansion_types.find( faction_encode_abs( e->second, 0 ) );
+        if( e_type != expansion_types.end() ) {
+            return e_type->second + _( "Expansion" );
         }
     }
     return _( "Empty Expansion" );

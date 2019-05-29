@@ -1746,11 +1746,14 @@ void basecamp::start_combat_mission( const std::string &miss )
     }
 }
 
-// FIXME: Refactor to check the companion list first
+// the structure of this function drives me insane
+// recipe_deck returns a map of descriptions to recipe ids
+// loop through the recipe deck map, looking for direction + description, ie "[N] Cook: Meat Pie"
+// if there's a match, we know the player selected this mission
 void basecamp::start_crafting( const std::string &cur_id, const std::string &cur_dir,
                                const std::string &type, const std::string &miss_id, bool by_radio )
 {
-    std::map<std::string, std::string> recipes = recipe_deck( type );
+    const std::map<std::string, std::string> &recipes = recipe_deck( type );
     for( auto &r : recipes ) {
         if( cur_id != cur_dir + r.first ) {
             continue;
