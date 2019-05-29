@@ -35,7 +35,7 @@
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
-    {
+  {
     "id": "bp_shot_bird",
     "copy-from": "shot_bird",
     "type": "AMMO",
