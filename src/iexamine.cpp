@@ -1577,7 +1577,7 @@ void iexamine::flower_dahlia( player &p, const tripoint &examp )
             none( p, examp );
             return;
         }
-	}
+    }
 
     g->m.furn_set( examp, f_null );
 
@@ -1630,7 +1630,7 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
             for( int i = 0; i < roll; i++ ) {
                 handle_harvest( p, entry.drop, false );
             }
-    }
+        }
     }
 
     if( !got_anything ) {
