@@ -243,10 +243,23 @@ static const quality_id AXE( "AXE" );
 static const quality_id DIG( "DIG" );
 
 struct extended_photo_def;
+struct object_names_collection;
+
+void item_save_monsters( player *p, item *it, const std::vector<monster *> &monster_vec,
+                         const int photo_quality );
 bool show_photo_selection( player *p, item *it, const std::string &var_name );
+
 bool item_read_extended_photos( item *, std::vector<extended_photo_def> &, std::string,
                                 bool = false );
 void item_write_extended_photos( item *, const std::vector<extended_photo_def> &, std::string );
+
+std::string get_field_description_at( const tripoint &point );
+object_names_collection enumerate_objects_around_point( const tripoint point, const int radius,
+        const tripoint bounds_center_point, const int bounds_radius, const tripoint camera_pos,
+        const units::volume &min_visible_volume, bool create_figure_desc,
+        std::unordered_set<tripoint> &ignored_points, std::unordered_set<std::string> &vehicles_recorded );
+extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const tripoint camera_pos,
+        std::vector<monster *> &monster_vec, std::vector<player *> &player_vec );
 
 static const std::vector<std::string> camera_ter_whitelist_flags = {
     "HIDE_PLACE", "FUNGUS", "TREE", "PERMEABLE", "SHRUB",
@@ -6531,22 +6544,23 @@ const auto trap_name_at = []( const tripoint &point )
 
 std::string get_field_description_at( const tripoint &point )
 {
-    static const std::unordered_set<field_id> covered_in_affix_ids = {
+    typedef std::unordered_set<field_id, std::hash<int>> Field_id_set;
+    static const Field_id_set covered_in_affix_ids = {
         fd_blood, fd_bile, fd_gibs_flesh, fd_gibs_veggy, fd_web,
         fd_slime, fd_acid, fd_sap, fd_sludge, fd_blood_veggy,
         fd_blood_insect, fd_blood_invertebrate,  fd_gibs_insect,
         fd_gibs_invertebrate, fd_rubble
     };
-    static const std::unordered_set<field_id> on_affix_ids = {
+    static const Field_id_set on_affix_ids = {
         fd_fire, fd_flame_burst
     };
-    static const std::unordered_set<field_id> under_affix_ids = {
+    static const Field_id_set under_affix_ids = {
         fd_gas_vent, fd_fire_vent, fd_fatigue
     };
-    static const std::unordered_set<field_id> illuminated_by_affix_ids = {
+    static const Field_id_set illuminated_by_affix_ids = {
         fd_spotlight, fd_laser, fd_dazzling, fd_spotlight, fd_electricity
     };
-    typedef std::pair<std::unordered_set<field_id>, std::string> affix_pair;
+    typedef std::pair<Field_id_set, std::string> affix_pair;
     static const std::vector<affix_pair> affixes_vec = {
         { covered_in_affix_ids, _( " covered in " ) },
         { on_affix_ids, _( " on " ) },
@@ -6571,7 +6585,8 @@ std::string get_field_description_at( const tripoint &point )
         }
     }
     return field_text;
-};
+}
+
 const auto colorized_item_name = []( const item &item )
 {
     auto color = item.color_in_inventory();
