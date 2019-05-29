@@ -348,7 +348,7 @@
     "type": "profession",
     "ident": "crt_juggernaught",
     "name": "C.R.I.T Lone Wolf",
-    "description": "STR 14 recommended. You are fully armored badass granted the full authority of a U.S Marshal. Sent in as the one man army capable of handling anything, you stalked into a warzone and laid out entire battalions by yourself, be it through cunning strategy or brute force. Time to hang them all.",
+    "description": "STR 14 recommended (For weight).  You are fully armored badass granted the full authority of a U.S Marshal. Sent in as the one man army capable of handling anything, you stalked into a warzone and laid out entire battalions by yourself, be it through cunning strategy or brute force. Time to hang them all.",
     "traits": [ "MARTIAL_CRT", "PROF_FED" ],
     "CBMs": [
       "bio_weight",
@@ -427,7 +427,7 @@
     "type": "profession",
     "ident": "crt",
     "name": "C.R.I.T Spec Ops",
-    "description": "STR 10 recommended. You were an elite member of the Catastrophe Response/Research & Investigation Team. A looming spectre which responded to secular threats which allowed your faction to leap decades in front of other world powers. Your squad was the first to be deployed into the New England region, ground zero, to contain the impending outbreak and gain information to relay back to command. Good luck soldier.",
+    "description": "STR 12 recommended (For weight). You were an elite member of the Catastrophe Response/Research & Investigation Team. A looming spectre which responded to secular threats which allowed your faction to leap decades in front of other world powers. Your squad was the first to be deployed into the New England region, ground zero, to contain the impending outbreak and gain information to relay back to command. Good luck soldier.",
     "traits": [ "MARTIAL_CRT" ],
     "CBMs": [
       "bio_razors",
