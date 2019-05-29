@@ -329,6 +329,8 @@ static const trait_id trait_JITTERY( "JITTERY" );
 static const trait_id trait_LARGE( "LARGE" );
 static const trait_id trait_LARGE_OK( "LARGE_OK" );
 static const trait_id trait_LEAVES( "LEAVES" );
+static const trait_id trait_LEAVES2( "LEAVES2" );
+static const trait_id trait_LEAVES3( "LEAVES3" );
 static const trait_id trait_LEG_TENTACLES( "LEG_TENTACLES" );
 static const trait_id trait_LEG_TENT_BRACE( "LEG_TENT_BRACE" );
 static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
@@ -417,6 +419,7 @@ static const trait_id trait_THICK_SCALES( "THICK_SCALES" );
 static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_TOUGH_FEET( "TOUGH_FEET" );
+static const trait_id trait_TRANSPIRATION( "TRANSPIRATION" );
 static const trait_id trait_TROGLO( "TROGLO" );
 static const trait_id trait_TROGLO2( "TROGLO2" );
 static const trait_id trait_TROGLO3( "TROGLO3" );
@@ -4443,6 +4446,11 @@ needs_rates player::calc_needs_rates()
         }
     }
 
+    if( has_trait( trait_TRANSPIRATION ) ) {
+        // Transpiration, the act of moving nutrients with evaporating water, can take a very heavy toll on your thirst when it's really hot.
+        rates.thirst *= ( ( g->weather.get_temperature( pos() ) - 65 / 2 ) / 40.0f );
+    }
+
     if( is_npc() ) {
         rates.hunger *= 0.25f;
         rates.thirst *= 0.25f;
@@ -5278,35 +5286,26 @@ void player::suffer()
     }
 
     bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
+    int root_vitamins = 0;
+    int root_water = 0;
     if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "PLOWABLE", pos() ) && !wearing_shoes ) {
-        if( one_in( 100 ) ) {
-            add_msg_if_player( m_good, _( "This soil is delicious!" ) );
-            if( get_hunger() > -20 ) {
-                mod_hunger( -2 );
-                // absorbs kcal directly
-                mod_stored_nutr( -2 );
-            }
-            if( get_thirst() > -20 ) {
-                mod_thirst( -2 );
-            }
-            mod_healthy_mod( 10, 50 );
-            // No losing oneself in the fertile embrace of rich
-            // New England loam.  But it can be a near thing.
-            /** @EFFECT_INT decreases chance of losing focus points while eating soil with ROOTS3 */
-            if( ( one_in( int_cur ) ) && ( focus_pool >= 25 ) ) {
-                focus_pool--;
-            }
-        } else if( one_in( 50 ) ) {
-            if( get_hunger() > -20 ) {
-                mod_hunger( -1 );
-                // absorbs kcal directly
-                mod_stored_nutr( -1 );
-            }
-            if( get_thirst() > -20 ) {
-                mod_thirst( -1 );
-            }
-            mod_healthy_mod( 5, 50 );
+        root_vitamins += 1;
+        if( get_thirst() <= -2000 ) {
+            root_water += 51;
         }
+    }
+
+    if( x_in_y( root_vitamins, 96 ) ) {
+        vitamin_mod( vitamin_id( "iron" ), 1, true );
+        vitamin_mod( vitamin_id( "calcium" ), 1, true );
+        mod_healthy_mod( 5, 50 );
+    }
+
+    if( x_in_y( root_water, 425 ) ) {
+        // Plants draw some crazy amounts of water from the ground in real life,
+        // so these numbers try to reflect that uncertain but large amount
+        // this should take 12 hours to meet your daily needs with ROOTS2, and 8 with ROOTS3
+        mod_thirst( -1 );
     }
 
     if( !in_sleep_state() ) {
@@ -5785,7 +5784,30 @@ void player::suffer()
         }
     }
 
-    if( has_trait( trait_LEAVES ) && g->is_in_sunlight( pos() ) && one_in( 600 ) ) {
+    const int player_local_temp = g->weather.get_temperature( pos() );
+    double sleeve_factor = armwear_factor();
+    const bool has_hat = wearing_something_on( bp_head );
+    const bool leafy = has_trait( trait_LEAVES ) || has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
+    const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
+    const bool leafiest = has_trait( trait_LEAVES3 );
+    int sunlight_nutrition = 0;
+    if( leafy && g->is_in_sunlight( pos() ) ) {
+        int flux = ( player_local_temp - 65 ) / 2;
+        if( !has_hat ) {
+            sunlight_nutrition += 100 + flux;
+        }
+        if( leafier ) {
+            int rate = ( ( 100 * sleeve_factor ) + flux ) * 2;
+            sunlight_nutrition += rate * ( leafiest ? 2 : 1 );
+        }
+    }
+
+    if( x_in_y( sunlight_nutrition, 3000 ) ) {
+        vitamin_mod( vitamin_id( "vitA" ), 1, true );
+        vitamin_mod( vitamin_id( "vitC" ), 1, true );
+    }
+
+    if( x_in_y( sunlight_nutrition, 2000 ) ) {
         mod_hunger( -1 );
         // photosynthesis absorbs kcal directly
         mod_stored_nutr( -1 );
@@ -7493,24 +7515,21 @@ void player::rooted_message() const
     }
 }
 
+// TODO: Move this into player::suffer()
 void player::rooted()
 // Should average a point every two minutes or so; ground isn't uniformly fertile
-// Overfilling triggered hibernation checks, so capping.
 {
     double shoe_factor = footwear_factor();
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
         g->m.has_flag( "PLOWABLE", pos() ) && shoe_factor != 1.0 ) {
-        if( one_in( 20.0 / ( 1.0 - shoe_factor ) ) ) {
-            if( get_hunger() > -20 ) {
-                mod_hunger( -1 );
-                // absorbs nutrients from soil directly
-                mod_stored_nutr( -1 );
-            }
-            if( get_thirst() > -20 ) {
-                mod_thirst( -1 );
-            }
-            mod_healthy_mod( 5, 50 );
+        if( one_in( 96 ) ) {
+            vitamin_mod( vitamin_id( "iron" ), 1, true );
+            vitamin_mod( vitamin_id( "calcium" ), 1, true );
         }
+        if( get_thirst() <= -2000 && x_in_y( 75, 425 ) ) {
+            mod_thirst( -1 );
+        }
+        mod_healthy_mod( 5, 50 );
     }
 }
 
@@ -7543,7 +7562,6 @@ item::reload_option player::select_ammo( const item &base,
                 return string_format( _( "%s with %s (%d)" ), e.ammo->type_name(),
                                       e.ammo->ammo_data()->nname( e.ammo->ammo_remaining() ), e.ammo->ammo_remaining() );
             }
-
         } else if( e.ammo->is_watertight_container() ||
                    ( e.ammo->is_ammo_container() && g->u.is_worn( *e.ammo ) ) ) {
             // worn ammo containers should be named by their contents with their location also updated below
@@ -10612,6 +10630,18 @@ double player::footwear_factor() const
         ret += .5;
     }
     if( wearing_something_on( bp_foot_r ) ) {
+        ret += .5;
+    }
+    return ret;
+}
+
+double player::armwear_factor() const
+{
+    double ret = 0;
+    if( wearing_something_on( bp_arm_l ) ) {
+        ret += .5;
+    }
+    if( wearing_something_on( bp_arm_r ) ) {
         ret += .5;
     }
     return ret;
