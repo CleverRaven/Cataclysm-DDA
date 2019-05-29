@@ -1473,7 +1473,6 @@
   {
     "type": "recipe",
     "result": "cordato",
-	"id_suffix": "from_espresso_milk_mix":
 	"result_mult": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1483,56 +1482,6 @@
 	"flags": [ "BLIND_HARD" ],
     "batch_time_factors": [ 80, 4 ],
 	"components": [ [ [ "espresso", 1 ] ], [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "con_milk" , 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "cordato",
-	"result_mult": 2,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_DRINKS",
-    "skill_used": "cooking",
-    "difficulty": 1,
-    "time": "11 m",
-    "autolearn": true,
-    "batch_time_factors": [ 80, 4 ],
-    "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "coffee_raw_fine", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [
-        [ "gin", 1 ],
-        [ "rum", 1 ],
-        [ "single_malt_whiskey", 1 ],
-        [ "tequila", 1 ],
-        [ "triple_sec", 1 ],
-        [ "vodka", 1 ],
-        [ "whiskey", 1 ],
-        [ "brandy", 1 ],
-		[ "mixed_alcohol_strong" , 1 ]
-      ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "corretto",
-	"id_suffix": "from_espresso_spirits_mix",
-	"result_mult": 2,
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_DRINKS",
-    "skill_used": "cooking",
-    "time": "7 m",
-    "autolearn": true,
-	"flags": [ "BLIND_HARD" ],
-    "batch_time_factors": [ 80, 4 ],
-	"components": [ [ [ "espresso", 1 ] ],
-		[
-        [ "gin", 1 ],
-        [ "rum", 1 ],
-        [ "single_malt_whiskey", 1 ],
-        [ "tequila", 1 ],
-        [ "triple_sec", 1 ],
-        [ "vodka", 1 ],
-        [ "whiskey", 1 ],
-        [ "brandy", 1 ],
-		[ "mixed_alcohol_strong" , 1 ]
-      ] ]
   },
   {
     "type": "recipe",
