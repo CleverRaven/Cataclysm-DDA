@@ -301,7 +301,7 @@
   },
   {
     "id": "box_large",
-    "type": "CONTAINER",
+    "type": "TOOL",
     "category": "other",
     "name": "large cardboard box",
     "name_plural": "large cardboard boxes",

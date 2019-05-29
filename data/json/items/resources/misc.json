@@ -19,7 +19,7 @@
   },
   {
     "id": "mattress",
-    "type": "GENERIC",
+    "type": "TOOL",
     "category": "spare_parts",
     "name": "mattress",
     "name_plural": "mattresses",
