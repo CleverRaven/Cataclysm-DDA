@@ -5910,12 +5910,17 @@ static void init_memory_card_with_random_stuff( item &it )
             data_chance--;
         }
 
-        if( one_in( data_chance ) ) {
-            it.set_var( "MC_RECIPE", "SIMPLE" );
-        }
-
         if( it.has_flag( "MC_SCIENCE_STUFF" ) ) {
-            it.set_var( "MC_RECIPE", "SCIENCE" );
+            item book = item_group::item_from( "textbooks" );
+            // book groups contain [ "survnote", 2 ], how astute
+            if( !book.is_null() && book.is_book() ) {
+                it.set_var( "MC_BOOK", book.typeId() );
+            }
+        } else if( one_in( data_chance ) ) {
+            item book = item_group::item_from( "book_school" );
+            if( !book.is_null() && book.is_book() ) {
+                it.set_var( "MC_BOOK", book.typeId() );
+            }
         }
     }
 }
@@ -5949,80 +5954,11 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
         eink.set_var( "EIPC_MUSIC", old_songs + new_songs );
     }
 
-    if( !mc.get_var( "MC_RECIPE" ).empty() ) {
-        const bool science = mc.get_var( "MC_RECIPE" ) == "SCIENCE";
-
-        mc.erase_var( "MC_RECIPE" );
-
-        std::vector<const recipe *> candidates;
-
-        for( const auto &e : recipe_dict ) {
-            const auto &r = e.second;
-
-            if( science ) {
-                if( r.difficulty >= 3 && one_in( r.difficulty + 1 ) ) {
-                    candidates.push_back( &r );
-                }
-            } else {
-                if( r.category == "CC_FOOD" ) {
-                    if( r.difficulty <= 3 && one_in( r.difficulty ) ) {
-                        candidates.push_back( &r );
-                    }
-                }
-
-            }
-
-        }
-
-        if( !candidates.empty() ) {
-
-            const recipe *r = random_entry( candidates );
-            const recipe_id &rident = r->ident();
-
-            const auto old_recipes = eink.get_var( "EIPC_RECIPES" );
-            if( old_recipes.empty() ) {
-                something_downloaded = true;
-                eink.set_var( "EIPC_RECIPES", "," + rident.str() + "," );
-
-                p.add_msg_if_player( m_good, _( "You download a recipe for %s into the tablet's memory." ),
-                                     r->result_name() );
-            } else {
-                if( old_recipes.find( "," + rident.str() + "," ) == std::string::npos ) {
-                    something_downloaded = true;
-                    eink.set_var( "EIPC_RECIPES", old_recipes + rident.str() + "," );
-
-                    p.add_msg_if_player( m_good, _( "You download a recipe for %s into the tablet's memory." ),
-                                         r->result_name() );
-                } else {
-                    p.add_msg_if_player( m_good, _( "Your tablet already has a recipe for %s." ),
-                                         r->result_name() );
-                }
-            }
-        }
-    }
-
     const auto scanned_book = mc.get_var( "MC_BOOK" );
     if( !scanned_book.empty() ) {
         mc.erase_var( "MC_BOOK" );
         
         item book( scanned_book, calendar::turn );
-
-        // recipe searches for ',recipeident,' - for some, probably superfluous, reason
-        if( !eink.has_var( "EIPC_RECIPES" ) ) {
-            eink.set_var( "EIPC_RECIPES", "," );
-        }
-        int rcount = 0;
-        for( const auto &r : book.type->book->recipes ) {
-            auto old_recipes = eink.get_var( "EIPC_RECIPES" );
-            if( old_recipes.find( r.recipe->ident().str() + "," ) == std::string::npos ) {
-                eink.set_var( "EIPC_RECIPES", old_recipes + r.recipe->ident().str() + "," );
-                rcount++;
-            }
-        }
-        if( rcount > 0 ) {
-            something_downloaded = true;
-            p.add_msg_if_player( m_good, _( "You bookmark %d new recipes in tablet's library." ), rcount );
-        }
 
         const auto old_books = eink.get_var( "EIPC_BOOKS" );
         if( old_books.find( scanned_book ) == std::string::npos ) {
@@ -6127,7 +6063,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
     } else if( !p->is_npc() ) {
 
         enum {
-            ei_invalid, ei_photo, ei_music, ei_recipe, ei_read, ei_monsters, ei_download, ei_decrypt
+            ei_invalid, ei_photo, ei_music, ei_read, ei_monsters, ei_download, ei_decrypt
         };
 
         if( p->is_underwater() ) {
@@ -6166,14 +6102,10 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             amenu.addentry( ei_music, false, 'm', _( "No music on device" ) );
         }
 
-        if( !it->get_var( "EIPC_RECIPES" ).empty() ) {
-            amenu.addentry( ei_recipe, true, 'r', _( "View recipes on E-ink screen" ) );
-        }
-
         if( !it->get_var( "EIPC_BOOKS" ).empty() ) {
-            amenu.addentry( ei_read, true, 'R', _( "Read e-books on E-ink screen" ) );
+            amenu.addentry( ei_read, true, 'r', _( "Read e-books on E-ink screen" ) );
         } else {
-            amenu.addentry( ei_read, false, 'R', _( "No e-books stored on device" ) );
+            amenu.addentry( ei_read, false, 'r', _( "No e-books stored on device" ) );
         }
 
         if( !it->get_var( "EINK_MONSTER_PHOTOS" ).empty() ) {
@@ -6265,39 +6197,10 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
             return it->type->charges_to_use();
         }
 
-        if( ei_recipe == choice ) {
-            p->moves -= 50;
-
-            uilist rmenu;
-
-            rmenu.text = _( "List recipes:" );
-
-            std::vector<recipe_id> candidate_recipes;
-            std::istringstream f( it->get_var( "EIPC_RECIPES" ) );
-            std::string s;
-            int k = 0;
-            while( getline( f, s, ',' ) ) {
-
-                if( s.empty() ) {
-                    continue;
-                }
-
-                candidate_recipes.emplace_back( s );
-
-                const auto &recipe = *candidate_recipes.back();
-                if( recipe ) {
-                    rmenu.addentry( k++, true, -1, recipe.result_name() );
-                }
-            }
-
-            rmenu.query();
-
-            return it->type->charges_to_use();
-        }
-
         if( ei_read == choice ) {
             p->moves -= 50;
 
+            std::string recipes = ",";
             std::istringstream f( it->get_var( "EIPC_BOOKS" ) );
             std::string s;
             while( getline( f, s, ',' ) ) {
@@ -6313,8 +6216,16 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
                 book.item_tags.insert( "IRREMOVABLE" );
                 book.item_tags.insert( "EBOOK" );
                 p->inv.add_item( book );
+                // update eink recipes here
+                if( g->u.has_identified( book.typeId() ) ) {
+                    for( const auto &r : book.type->book->recipes ) {
+                        if( recipes.find( r.recipe->ident().str() + "," ) == std::string::npos ) {
+                            recipes += r.recipe->ident().str() + ",";
+                        }
+                    }
+                }
             }
-            
+            it->set_var( "EIPC_RECIPES", recipes);
             avatar &u = g->u;
             auto loc = game_menus::inv::eread( u );
             
