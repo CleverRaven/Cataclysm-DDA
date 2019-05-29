@@ -63,7 +63,7 @@
     "copy-from": "gloves_tactical",
     "type": "ARMOR",
     "name": "pair of C.R.I.T fingertip-less gloves",
-    "description": "C.R.I.T standard-issue gloves. Made with superalloy mesh for those with gene-modding and/or mutations while still allowing greater manipulation of items and moderate protection.",
+    "description": "C.R.I.T standard-issue gloves. Made with superalloy mesh for those with gene-modding and/or CBMs while still allowing greater manipulation of items and moderate protection.",
     "encumbrance": 12,
     "coverage": 85,
     "warmth": 20,
@@ -76,7 +76,7 @@
     "copy-from": "crt_gloves",
     "type": "ARMOR",
     "name": "pair of C.R.I.T fingertip-less liners",
-    "description": "C.R.I.T standard-issue glove liners. Made with neroprene and rubber mesh for warmth and fingertip-less for those with gene-modding and/or mutations while still allowing greater manipulation of items and moderate protection.",
+    "description": "C.R.I.T standard-issue glove liners. Made with neroprene and rubber mesh for warmth and fingertip-less for those with gene-modding and/or CBMs while still allowing greater manipulation of items and moderate protection.",
     "encumbrance": 3,
     "coverage": 85,
     "warmth": 15,
@@ -103,7 +103,7 @@
     "copy-from": "chestrig",
     "type": "ARMOR",
     "name": "C.R.I.T chestrig",
-    "description": "C.R.I.T standard-issue chestrig, has mesh and MOLLE loops for gear and slots for light-armor padding.",
+    "description": "C.R.I.T standard-issue chestrig, has mesh and MOLLE loops for gear and light-armor padding.",
     "color": "dark_gray",
     "material": [ "kevlar", "plastic" ],
     "flags": [ "STURDY", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS" ]
@@ -113,7 +113,7 @@
     "copy-from": "legguard_hard",
     "type": "ARMOR",
     "name": "C.R.I.T leg guards",
-    "description": "C.R.I.T standard-issue leg armor. Simple design and durable material allows for easy movement and the padding keeps the legs safe and warm in colder conditions.",
+    "description": "C.R.I.T standard-issue leg armor. Simple design and durable material allows for easy movement and the padding keeps you warm and safe in colder conditions.",
     "color": "dark_gray",
     "material": [ "superalloy", "rubber", "neoprene" ],
     "weight": 1300,
@@ -129,7 +129,7 @@
     "category": "armor",
     "name": "pair of C.R.I.T arm guards",
     "name_plural": "pairs of C.R.I.T arm guards",
-    "description": "A pair of arm guards made from superalloy molded upon neoprene, and then insulated with rubber. They are sturdy and will block attacks, but they are ridiculously heavy.",
+    "description": "A pair of arm guards made from superalloy molded upon neoprene, and then insulated with rubber. Ridiculously heavy but sturdy and will block attacks, .",
     "weight": 1820,
     "volume": 12,
     "price": 200000,
@@ -160,7 +160,7 @@
     "type": "ARMOR",
     "category": "armor",
     "name": "C.R.I.T infantry duster",
-    "description": "A thick full-length duster coat with rubber insulation. Mildly encumbering, but rather protective against any anti-infantry electrical discharges from the robots. Has several pockets for storage.",
+    "description": "A thick full-length duster coat with rubber insulation. Mildly encumbering, but rather protective against any anti-infantry electrical discharges from rogue robots. Has several pockets for storage.",
     "weight": 2120,
     "volume": 23,
     "price": 25500,
@@ -175,7 +175,7 @@
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 9,
-    "flags": [ "POCKETS", "OUTER", "COLLAR", "STURDY", "WATERPROOF", "RAINPROOF" ]
+    "flags": [ "POCKETS", "OUTER", "COLLAR", "STURDY", "WATERPROOF"]
   },
   {
     "id": "ds_monitor",
@@ -196,7 +196,7 @@
     "artifact_data": { "charge_type": "ARTC_NULL", "effects_worn": [ "AEP_ALL_UP" ] },
     "material_thickness": 10,
     "environmental_protection": 0,
-    "flags": [ "ONLY_ONE", "TRADER_AVOID", "BELTED" ]
+    "flags": [ "ONLY_ONE", "TRADER_AVOID", "BELTED", "WATCH" ]
   },
   {
     "id": "ds_armor",
@@ -261,7 +261,7 @@
     "coverage": 30,
     "encumbrance": 3,
     "storage": 6,
-    "material_thickness": 2,
+    "material_thickness": 1,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED", "RAINPROOF" ]
   },
   {
