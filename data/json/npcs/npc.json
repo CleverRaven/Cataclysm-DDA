@@ -1,6 +1,28 @@
 [
   {
     "type": "npc",
+    "id": "old_guard_rep",
+    "//": "Appears in the refugee center as a source of missions and info.  Faction critical.",
+    "//": "name_suffix is appended to the end of the npc's name.",
+    "//": "using 'name_unique' instead will set the guy's name as is.",
+    "name_suffix": "Representative",
+    "//": "Class is based on the enum in npc.h.  The important ones are 0=NC_NONE, 2=NC_SHOPKEEP,",
+    "//": "3=NC_HACKER, 4=NC_DOCTOR, 5=NC_TRADER, 6=NC_NINJA, 7=NC_COWBOY, 8=NC_SCIENTIST,",
+    "//": "9=NC_BOUNTY_HUNTER, 10=NC_THUG, 11=NC_SCAVENGER, 13=NC_HUNTER, 14=NC_SOLDIER.",
+    "class": "NC_COWBOY",
+    "//": "Attitude is based on the enum in npc.h.  The important ones are 0=NPCATT_NULL, 1=NPCATT_TALK",
+    "//": "3=NPCATT_FOLLOW, 7=NPCATT_DEFEND, 10=NPCATT_KILL, and 11=NPCATT_FLEE",
+    "attitude": 0,
+    "//": "Mission is based on the enum in npc.h.  The important ones are 0=NPC_MISSION_NUL, 3=NPC_MISSION_SHOPKEEP",
+    "//": "and 7=NPC_MISSION_GUARD",
+    "//": "8 = NPC_MISSION_GUARD_PATROL will actively investigate noises",
+    "mission": 7,
+    "chat": "TALK_OLD_GUARD_REP",
+    "faction": "old_guard",
+    "mission_offered": "MISSION_OLD_GUARD_REP_1"
+  },
+  {
+    "type": "npc",
     "id": "old_guard_soldier",
     "//": "Generic guard for the old guard.",
     "name_suffix": "Soldier",
@@ -9,6 +31,19 @@
     "mission": 8,
     "chat": "TALK_OLD_GUARD_SOLDIER",
     "faction": "old_guard"
+  },
+  {
+    "type": "npc",
+    "id": "science_rep",
+    "//": "Appears in the refugee center as a source of missions and info.  Faction critical.",
+    "name_suffix": "Doctor",
+    "class": "NC_DOCTOR",
+    "attitude": 0,
+    "//": "Possibly should change to NPC_MISSION_SHOPKEEP and sell medical supplies.",
+    "mission": 7,
+    "chat": "TALK_SCIENCE_REP",
+    "faction": "old_guard",
+    "mission_offered": "MISSION_SCIENCE_REP_1"
   },
   {
     "type": "npc",
@@ -33,6 +68,85 @@
     "chat": "TALK_OLD_GUARD_NEC_COMMO",
     "faction": "old_guard",
     "mission_offered": "MISSION_OLD_GUARD_NEC_COMMO_1"
+  },
+  {
+    "type": "npc",
+    "id": "evac_merchant",
+    "//": "Appears in the refugee center as shopkeeper with missions.  Faction critical.",
+    "name_suffix": "Merchant",
+    "class": "NC_EVAC_SHOPKEEP",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_EVAC_MERCHANT",
+    "mission_offered": "MISSION_FREE_MERCHANTS_EVAC_1",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc",
+    "id": "evac_broker",
+    "//": "Appears in the refugee center as a bulk trader.  Promotes production of nonperishable food.",
+    "name_suffix": "Broker",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_FREE_MERCHANT_STOCKS",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc",
+    "id": "evac_guard1",
+    "//": "Appears in the refugee center as a guard with custom dialogue.",
+    "name_suffix": "Guard",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_EVAC_GUARD1",
+    "mission_offered": "MISSION_EVAC_SMOKER_GET_CIGARETTES",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc",
+    "id": "evac_guard2",
+    "//": "Appears in the refugee center as a guard with custom dialogue.",
+    "name_suffix": "Guard",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_EVAC_GUARD2",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc",
+    "id": "evac_guard3",
+    "//": "Appears in the refugee center as a guard with custom dialogue.",
+    "name_suffix": "Guard",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_EVAC_GUARD3",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc",
+    "id": "guard",
+    "//": "A generic guard for the Free Merchants faction.",
+    "name_suffix": "Guard",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_GUARD",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc",
+    "id": "hostile_guard",
+    "//": "A generic hostile guard for the Free Merchants faction.  For where the player shouldn't venture.'",
+    "name_suffix": "Guard",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 10,
+    "mission": 8,
+    "chat": "TALK_DONE",
+    "faction": "free_merchants"
   },
   {
     "type": "npc",
@@ -214,6 +328,42 @@
     "mission": 8,
     "chat": "TALK_GUARD",
     "faction": "tacoma_commune"
+  },
+  {
+    "type": "npc",
+    "id": "scavenger_hunter",
+    "//": "Appears in the refugee center as a trader.",
+    "name_suffix": "Hunter",
+    "class": "NC_HUNTER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_EVAC_HUNTER",
+    "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc",
+    "id": "scavenger_merc",
+    "//": "Appears in the refugee center as a partner for hire.",
+    "name_suffix": "Merc",
+    "class": "NC_SCAVENGER_MERC",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_SCAVENGER_MERC",
+    "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc",
+    "id": "arsonist",
+    "//": "Appears in the refugee center as a unique trader and potential mission provider.",
+    "name_unique": "Makayla Sanchez",
+    "name_suffix": "Arsonist",
+    "//": "Gender is only referenced when the npc has a complete unique name",
+    "gender": "female",
+    "class": "NC_ARSONIST",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_ARSONIST",
+    "faction": "wasteland_scavengers"
   },
   {
     "type": "npc",

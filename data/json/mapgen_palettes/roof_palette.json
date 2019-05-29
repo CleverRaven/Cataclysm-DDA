@@ -12,7 +12,6 @@
       "3": "t_gutter_east",
       "|": "t_gutter_west",
       "5": "t_gutter_drop",
-      "#": "t_grate",
       "&": "t_null",
       ":": "t_null",
       "X": "t_null",

@@ -561,15 +561,5 @@
     "id": "hk_ucp",
     "type": "MIGRATION",
     "replace": "hk_mp7"
-  },
-  {
-    "id": "rechargable_battery",
-    "type": "MIGRATION",
-    "replace": "heavy_battery_cell"
-  },
-  {
-    "id": "hd_battery",
-    "type": "MIGRATION",
-    "replace": "heavy_plus_battery_cell"
   }
 ]

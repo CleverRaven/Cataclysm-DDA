@@ -360,20 +360,6 @@
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
   },
   {
-    "type": "GENERIC",
-    "id": "mind_splicer",
-    "symbol": "o",
-    "color": "white",
-    "name": "mind splicer kit",
-    "description": "Surgical forceps, cables and a modified smartphone inside a small plastic pouch.  Assembled to steal the mind of some poor man, these are tools of the creepy high-tech sandman.",
-    "material": "plastic",
-    "price": 12500,
-    "use_action": "MIND_SPLICER",
-    "volume": 4,
-    "weight": 600,
-    "flags": [ "TRADER_AVOID" ]
-  },
-  {
     "id": "ax",
     "type": "TOOL",
     "name": "wood axe",

@@ -1502,34 +1502,17 @@
   },
   {
     "type": "construction",
-    "description": "Build Bed from Scratch",
+    "description": "Build Bed",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 4 ] ],
+    "required_skills": [ [ "fabrication", 4 ], [ "tailor", 4 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ], [ [ "mattress", 1 ] ] ],
+    "components": [
+      [ [ "2x4", 12 ] ],
+      [ [ "nail", 10 ] ],
+      [ [ "sheet", 4 ], [ "blanket", 2 ], [ "down_blanket", 2 ], [ "fur_blanket", 2 ] ]
+    ],
     "pre_special": "check_empty",
-    "post_terrain": "f_bed"
-  },
-  {
-    "type": "construction",
-    "description": "Build Bed Frame",
-    "category": "FURN",
-    "required_skills": [ [ "fabrication", 4 ] ],
-    "time": 55,
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ] ],
-    "pre_special": "check_empty",
-    "post_terrain": "f_bed_frame"
-  },
-  {
-    "type": "construction",
-    "description": "Add Mattress to Bed Frame",
-    "category": "FURN",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": 5,
-    "components": [ [ [ "mattress", 1 ] ] ],
-    "pre_terrain": "f_bed_frame",
     "post_terrain": "f_bed"
   },
   {

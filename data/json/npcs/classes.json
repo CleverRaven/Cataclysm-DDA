@@ -26,6 +26,28 @@
   },
   {
     "type": "npc_class",
+    "id": "NC_EVAC_SHOPKEEP",
+    "name": "Merchant",
+    "job_description": "I'm a local shopkeeper.",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "//": "This is a unique NPC who doesn't get randomly selected background traits",
+    "common": false,
+    "bonus_int": { "one_in": 4 },
+    "bonus_per": { "one_in": 4 },
+    "shopkeeper_item_group": "NC_EVAC_SHOPKEEP_misc",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "mechanics", "bonus": { "one_in": 2 } },
+      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "barter", "bonus": { "rng": [ 3, 5 ] } }
+    ]
+  },
+  {
+    "type": "npc_class",
     "id": "NC_SHOPKEEP",
     "name": "Shopkeep",
     "job_description": "I'm a local shopkeeper.",
