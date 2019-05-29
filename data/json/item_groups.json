@@ -2216,7 +2216,13 @@
       [ "l-stick", 1 ],
       [ "tourist_table", 30 ],
       [ "trailmap", 5 ],
-      [ "chem_hexamine", 5 ]
+      [ "chem_hexamine", 5 ],
+      [ "flint_steel", 10 ],
+      [ "bottle_metal", 5 ],
+      [ "tarp", 10 ],
+      [ "esbit_stove", 10 ],
+      [ "bottle_folding", 10 ],
+      [ "mess_tin", 10 ]
     ]
   },
   {
@@ -2433,7 +2439,13 @@
       [ "powered_earmuffs", 80 ],
       [ "bandolier_wrist", 100 ],
       [ "tourist_table", 20 ],
-      [ "chem_hexamine", 5 ]
+      [ "chem_hexamine", 5 ],
+      [ "flint_steel", 10 ],
+      [ "bottle_metal", 5 ],
+      [ "tarp", 10 ],
+      [ "esbit_stove", 10 ],
+      [ "bottle_folding", 5 ],
+      [ "mess_tin", 10 ]
     ]
   },
   {
@@ -3113,7 +3125,9 @@
       [ "elec_hairtrimmer", 15 ],
       [ "razor_blade", 5 ],
       [ "kilt", 5 ],
-      [ "l-stick", 1 ]
+      [ "l-stick", 1 ],
+      [ "flint_steel", 5 ],
+      [ "bottle_metal", 5 ]
     ]
   },
   {
@@ -4539,7 +4553,10 @@
       [ "bootsheath", 10 ],
       [ "survnote", 1 ],
       [ "solarpack", 1 ],
-      [ "tourist_table", 5 ]
+      [ "tourist_table", 5 ],
+      [ "chem_hexamine", 5 ],
+      [ "esbit_stove", 10 ],
+      [ "mess_tin", 10 ]
     ]
   },
   {
@@ -4688,7 +4705,14 @@
       [ "holster", 4 ],
       [ "bandolier_shotgun", 3 ],
       [ "survnote", 2 ],
-      [ "bodypillow", 1 ]
+      [ "bodypillow", 1 ],
+      [ "flint_steel", 6 ],
+      [ "bottle_metal", 2 ],
+      [ "tarp", 15 ],
+      [ "chem_hexamine", 4 ],
+      [ "esbit_stove", 8 ],
+      [ "bottle_folding", 6 ],
+      [ "mess_tin", 8 ]
     ]
   },
   {
@@ -5612,7 +5636,10 @@
       [ "holster", 15 ],
       [ "sholster", 10 ],
       [ "bandolier_shotgun", 8 ],
-      [ "solarpack", 5 ]
+      [ "solarpack", 5 ],
+      [ "chem_hexamine", 3 ],
+      [ "esbit_stove", 6 ],
+      [ "mess_tin", 4 ]
     ]
   },
   {
@@ -7028,7 +7055,10 @@
       [ "bot_manhack", 1 ],
       [ "bot_grenade_hack", 1 ],
       [ "l-stick", 1 ],
-      [ "solarpack", 2 ]
+      [ "solarpack", 2 ],
+      [ "chem_hexamine", 5 ],
+      [ "esbit_stove", 8 ],
+      [ "mess_tin", 4 ]
     ]
   },
   {
@@ -8369,7 +8399,9 @@
       [ "pointy_stick", 50 ],
       [ "copper_knife", 10 ],
       [ "copper_ax", 10 ],
-      [ "bone_flute", 10 ]
+      [ "bone_flute", 10 ],
+      [ "spear_stone", 50 ],
+      [ "hand_axe", 50 ]
     ]
   },
   {
