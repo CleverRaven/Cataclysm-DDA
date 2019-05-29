@@ -1,4 +1,4 @@
-#include "player.h" // IWYU pragma: associated
+#include "avatar.h" // IWYU pragma: associated
 
 #include <cstdlib>
 #include <algorithm>
@@ -171,20 +171,20 @@ enum struct tab_direction {
     QUIT
 };
 
-tab_direction set_points( const catacurses::window &w, player &u, points_left &points );
-tab_direction set_stats( const catacurses::window &w, player &u, points_left &points );
-tab_direction set_traits( const catacurses::window &w, player &u, points_left &points );
-tab_direction set_scenario( const catacurses::window &w, player &u, points_left &points,
+tab_direction set_points( const catacurses::window &w, avatar &u, points_left &points );
+tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &points );
+tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &points );
+tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left &points,
                             const tab_direction direction );
-tab_direction set_profession( const catacurses::window &w, player &u, points_left &points,
+tab_direction set_profession( const catacurses::window &w, avatar &u, points_left &points,
                               const tab_direction direction );
-tab_direction set_skills( const catacurses::window &w, player &u, points_left &points );
+tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &points );
 tab_direction set_description( const catacurses::window &w, avatar &you, bool allow_reroll,
                                points_left &points );
 
 static cata::optional<std::string> query_for_template_name();
-static void save_template( const player &u, const std::string &name, const points_left &points );
-void reset_scenario( player &u, const scenario *scen );
+static void save_template( const avatar &u, const std::string &name, const points_left &points );
+void reset_scenario( avatar &u, const scenario *scen );
 
 void Character::pick_name( bool bUseDefault )
 {
@@ -714,7 +714,7 @@ void draw_sorting_indicator( const catacurses::window &w_sorting, const input_co
     fold_and_print( w_sorting, 0, 0, ( TERMX / 2 ), c_light_gray, sort_text );
 }
 
-tab_direction set_points( const catacurses::window &w, player &, points_left &points )
+tab_direction set_points( const catacurses::window &w, avatar &, points_left &points )
 {
     tab_direction retval = tab_direction::NONE;
     const int content_height = TERMY - 6;
@@ -807,7 +807,7 @@ Scenarios and professions affect skill point pool" ) );
     return retval;
 }
 
-tab_direction set_stats( const catacurses::window &w, player &u, points_left &points )
+tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &points )
 {
     unsigned char sel = 1;
     const int iSecondColumn = 27;
@@ -1016,7 +1016,7 @@ tab_direction set_stats( const catacurses::window &w, player &u, points_left &po
     } while( true );
 }
 
-tab_direction set_traits( const catacurses::window &w, player &u, points_left &points )
+tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &points )
 {
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
 
@@ -1302,7 +1302,7 @@ struct {
 } profession_sorter;
 
 /** Handle the profession tab of the character generation menu */
-tab_direction set_profession( const catacurses::window &w, player &u, points_left &points,
+tab_direction set_profession( const catacurses::window &w, avatar &u, points_left &points,
                               const tab_direction direction )
 {
     draw_tabs( w, _( "PROFESSION" ) );
@@ -1624,7 +1624,7 @@ static int skill_increment_cost( const Character &u, const skill_id &skill )
     return std::max( 1, ( u.get_skill_level( skill ) + 1 ) / 2 );
 }
 
-tab_direction set_skills( const catacurses::window &w, player &u, points_left &points )
+tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &points )
 {
     draw_tabs( w, _( "SKILLS" ) );
     const int iContentHeight = TERMY - 6;
@@ -1837,7 +1837,7 @@ struct {
     }
 } scenario_sorter;
 
-tab_direction set_scenario( const catacurses::window &w, player &u, points_left &points,
+tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left &points,
                             const tab_direction direction )
 {
     draw_tabs( w, _( "SCENARIO" ) );
@@ -2545,7 +2545,7 @@ cata::optional<std::string> query_for_template_name()
     }
 }
 
-void save_template( const player &u, const std::string &name, const points_left &points )
+void save_template( const avatar &u, const std::string &name, const points_left &points )
 {
     std::string native = utf8_to_native( name );
 #if defined(_WIN32)
@@ -2616,7 +2616,7 @@ bool avatar::load_template( const std::string &template_name, points_left &point
     } );
 }
 
-void reset_scenario( player &u, const scenario *scen )
+void reset_scenario( avatar &u, const scenario *scen )
 {
     auto psorter = profession_sorter;
     psorter.sort_by_points = true;

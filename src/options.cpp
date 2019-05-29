@@ -1180,7 +1180,7 @@ void options_manager::add_options_general()
 
     add( "CIRCLEDIST", "general", translate_marker( "Circular distances" ),
          translate_marker( "If true, the game will calculate range in a realistic way: light sources will be circles, diagonal movement will cover more ground and take longer.  If disabled, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall." ),
-         false
+         true
        );
 
     add( "DROP_EMPTY", "general", translate_marker( "Drop empty containers" ),
@@ -1945,11 +1945,6 @@ void options_manager::add_options_world_default()
 
     add( "WANDER_SPAWNS", "world_default", translate_marker( "Wander spawns" ),
          translate_marker( "Emulation of zombie hordes.  Zombie spawn points wander around cities and may go to noise.  Must reset world directory after changing for it to take effect." ),
-         false
-       );
-
-    add( "CLASSIC_ZOMBIES", "world_default", translate_marker( "Classic zombies" ),
-         translate_marker( "Only spawn classic zombies and natural wildlife.  Requires a reset of save folder to take effect.  This disables certain buildings." ),
          false
        );
 

@@ -251,7 +251,7 @@ bool mattack::eat_crop( monster *z )
 {
     for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
         if( g->m.has_flag( "PLANT", p ) && one_in( 4 ) ) {
-            g->m.furn_set( p, furn_str_id( g->m.furn( p )->plant_base ) );
+            g->m.furn_set( p, furn_str_id( g->m.furn( p )->plant->base ) );
             g->m.i_clear( p );
             return true;
         }
@@ -3131,7 +3131,11 @@ void mattack::frag( monster *z, Creature *target ) // This is for the bots, not 
     if( target == &g->u ) {
         if( !z->has_effect( effect_targeted ) ) {
             //~Potential grenading detected.
-            add_msg( m_warning, _( "Those laser dots don't seem very friendly..." ) );
+            if( g->u.has_trait( trait_id( "PROF_CHURL" ) ) ) {
+                add_msg( m_warning, _( "Thee eye o dat divil be upon me!" ) );
+            } else {
+                add_msg( m_warning, _( "Those laser dots don't seem very friendly..." ) );
+            }
             g->u.add_effect( effect_laserlocked,
                              3_turns ); // Effect removed in game.cpp, duration doesn't much matter
             sounds::sound( z->pos(), 10, sounds::sound_t::speech, _( "Targeting." ), false, "speech",

@@ -166,7 +166,8 @@
     "activity_level": "LIGHT_EXERCISE",
     "stop_phrase": "Stop fishing?",
     "rooted": true,
-    "based_on": "time"
+    "based_on": "speed",
+    "suspendable": false
   },
   {
     "id": "ACT_PICKAXE",
@@ -583,6 +584,15 @@
     "no_resume": true
   },
   {
+    "id": "ACT_SPELLCASTING",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "stop_phrase": "Stop casting?",
+    "suspendable": false,
+    "based_on": "speed",
+    "no_resume": true
+  },
+  {
     "id": "ACT_STUDY_SPELL",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
@@ -608,6 +618,14 @@
     "stop_phrase": "Stop using drugs?",
     "suspendable": false,
     "based_on": "neither",
+    "no_resume": true
+  },
+  {
+    "id": "ACT_MIND_SPLICER",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "stop_phrase": "Stop using the mind splicer?",
+    "based_on": "speed",
     "no_resume": true
   },
   {

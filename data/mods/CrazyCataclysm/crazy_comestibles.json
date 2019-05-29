@@ -15,7 +15,7 @@
     "charges": 4,
     "stack_size": 20,
     "fun": 10,
-    "flags": [ "MYCUS_OK" ]
+    "flags": [ "MYCUS_OK", "FUNGAL_VECTOR" ]
   },
   {
     "type": "recipe",

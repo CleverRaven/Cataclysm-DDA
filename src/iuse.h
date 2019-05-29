@@ -141,6 +141,7 @@ class iuse
         int vortex( player *, item *, bool, const tripoint & );
         int dog_whistle( player *, item *, bool, const tripoint & );
         int blood_draw( player *, item *, bool, const tripoint & );
+        int mind_splicer( player *, item *, bool, const tripoint & );
         static void cut_log_into_planks( player & );
         int lumber( player *, item *, bool, const tripoint & );
         int chop_tree( player *, item *, bool, const tripoint & );

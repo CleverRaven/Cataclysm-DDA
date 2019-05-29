@@ -448,6 +448,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```INEDIBLE``` Inedible by default, enabled to eat when in conjunction with (mutation threshold) flags: BIRD, CATTLE.
 - ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function penalties will be reversed for plants.
 - ```FREEZERBURN``` First thaw is MUSHY, second is rotten
+- ```FUNGAL_VECTOR``` Will give a fungal infection when consumed.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
 - ```MELTS``` Provides half fun unless frozen. Edible when frozen.
@@ -464,7 +465,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```USE_ON_NPC``` Can be used on NPCs (not necessarily by them).
 - ```ZOOM``` Zoom items can increase your overmap sight range.
-
 
 ## Furniture and Terrain
 
@@ -513,6 +513,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```FLAMMABLE``` Can be lit on fire.
 - ```FLAT_SURF``` Furniture or terrain with a flat hard surface (e.g. table, but not chair; tree stump, etc.).
 - ```FLAT``` Player can build and move furniture on.
+- ```FORAGE_HALLU``` This item can be found with the `HIDDEN_HALLU` flag when found through foraging.
+- ```FORAGE_POISION``` This item can be found with the `HIDDEN_POISON` flag when found through foraging.
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
 - ```GROWTH_SEED``` This plant is in its seed stage of growth.
@@ -688,11 +690,16 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 ## MAP SPECIALS
 
 - ```mx_anomaly``` ...  Natural anomaly (crater + artifact).
+- ```mx_bandits_block``` ...  Road block made by bandits from tree logs.
+- ```mx_burned_ground``` ... Fire has ravaged this place.
+- ```mx_point_burned_ground``` ... Fire has ravaged this place. (partial application)
 - ```mx_clay_deposit``` ... A small surface clay deposit.
 - ```mx_clearcut``` ... All trees become stumps.
 - ```mx_collegekids``` ... Corpses and items.
 - ```mx_crater``` ... Crater with rubble (and radioactivity).
 - ```mx_drugdeal``` ... Corpses and some drugs.
+- ```mx_dead_vegetation``` ... Kills all plants. (aftermath of acid rain etc.)
+- ```mx_point_dead_vegetation``` ... Kills all plants. (aftermath of acid rain etc.) (partial application)
 - ```mx_fumarole``` ... A lava rift.
 - ```mx_grove``` ... All trees and shrubs become a single species of tree.
 - ```mx_helicopter``` ... Metal wreckage and some items.
@@ -704,6 +711,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```mx_portal_in``` ... Another portal to neither space.
 - ```mx_portal``` ... Portal to neither space.
 - ```mx_roadblock``` ... Roadblock furniture with turrets and some cars.
+- ```mx_roadworks``` ... Partialy closed damaged road with chance of work equipment and utility vehicles.
 - ```mx_science``` ... Corpses and some scientist items.
 - ```mx_shia``` ... A *chance* of Shia, if Crazy Catalcysm is enabled.
 - ```mx_shrubbery``` ... All trees and shrubs become a single species of shrub.
@@ -889,6 +897,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```POISON``` Poisonous to eat.
 - ```PUSH_MON``` Can push creatures out of its way.
 - ```QUEEN``` When it dies, local populations start to die off too.
+- ```REGENERATES_1``` Monster regenerates slowly over time.
 - ```REGENERATES_10``` Monster regenerates quickly over time.
 - ```REGENERATES_50``` Monster regenerates very quickly over time.
 - ```REGENERATES_IN_DARK``` Monster regenerates very quickly in poorly lit tiles.

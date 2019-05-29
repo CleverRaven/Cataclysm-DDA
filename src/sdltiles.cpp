@@ -1114,6 +1114,11 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         FillRectDIB( offsetx, offsety, wwidth, wheight, catacurses::black );
         update = true;
     } else if( g && w == g->w_pixel_minimap && g->pixel_minimap_option ) {
+        // ensure the space the minimap covers is "dirtied".
+        // this is necessary when it's the only part of the sidebar being drawn
+        // TODO: Figure out how to properly make the minimap code do whatever it is this does
+        font->draw_window( w );
+
         // Make sure the entire minimap window is black before drawing.
         clear_window_area( w );
         tilecontext->draw_minimap(
@@ -3800,10 +3805,21 @@ static int overmap_font_height()
     return ( overmap_font ? overmap_font : font )->fontheight;
 }
 
-void to_map_font_dimension( int &w, int &h )
+void to_map_font_dim_width( int &w )
 {
     w = ( w * fontwidth ) / map_font_width();
+}
+
+void to_map_font_dim_height( int &h )
+{
     h = ( h * fontheight ) / map_font_height();
+}
+
+
+void to_map_font_dimension( int &w, int &h )
+{
+    to_map_font_dim_width( w );
+    to_map_font_dim_height( h );
 }
 
 void from_map_font_dimension( int &w, int &h )

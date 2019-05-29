@@ -2189,7 +2189,7 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
         uilist_entry entry( sp_nm );
         if( p.magic.knows_spell( sp_id ) ) {
             const spell sp = p.magic.get_spell( sp_id );
-            entry.ctxt = string_format( "Level %u", sp.get_level() );
+            entry.ctxt = string_format( _( "Level %u" ), sp.get_level() );
             if( sp.is_max_level() ) {
                 entry.ctxt += _( " (Max)" );
                 entry.enabled = false;

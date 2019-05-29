@@ -2738,6 +2738,10 @@ void map::decay_fields_and_scent( const time_duration &amount )
                             case fd_methsmoke:
                             case fd_relax_gas:
                             case fd_fungal_haze:
+                            case fd_cold_air1:
+                            case fd_cold_air2:
+                            case fd_cold_air3:
+                            case fd_cold_air4:
                             case fd_hot_air1:
                             case fd_hot_air2:
                             case fd_hot_air3:
@@ -6932,15 +6936,16 @@ void map::grow_plant( const tripoint &p )
         return;
     }
     const time_duration plantEpoch = seed.get_plant_epoch();
-    if( seed.age() >= plantEpoch && !furn.has_flag( "GROWTH_HARVEST" ) ) {
+    if( seed.age() >= plantEpoch * furn.plant->growth_multiplier &&
+        !furn.has_flag( "GROWTH_HARVEST" ) ) {
         if( seed.age() < plantEpoch * 2 ) {
             if( has_flag_furn( "GROWTH_SEEDLING", p ) ) {
                 return;
             }
             i_rem( p, 1 );
             rotten_item_spawn( seed, p );
-            furn_set( p, furn_str_id( furn.plant_transform ) );
-        } else if( seed.age() < plantEpoch * 3 ) {
+            furn_set( p, furn_str_id( furn.plant->transform ) );
+        } else if( seed.age() < plantEpoch * 3 * furn.plant->growth_multiplier ) {
             if( has_flag_furn( "GROWTH_MATURE", p ) ) {
                 return;
             }
@@ -6950,7 +6955,7 @@ void map::grow_plant( const tripoint &p )
             if( !has_flag_furn( "GROWTH_SEEDLING", p ) ) {
                 rotten_item_spawn( seed, p );
             }
-            furn_set( p, furn_str_id( furn.plant_transform ) );
+            furn_set( p, furn_str_id( furn.plant->transform ) );
         } else {
             //You've skipped two stages so roll monsters two times
             if( has_flag_furn( "GROWTH_SEEDLING", p ) ) {
@@ -6965,7 +6970,7 @@ void map::grow_plant( const tripoint &p )
                 rotten_item_spawn( seed, p );
                 rotten_item_spawn( seed, p );
             }
-            furn_set( p, furn_str_id( furn.plant_transform ) );
+            furn_set( p, furn_str_id( furn.plant->transform ) );
         }
     }
 }

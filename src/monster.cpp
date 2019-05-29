@@ -213,6 +213,9 @@ monster::monster( const mtype_id &id ) : monster()
     upgrades = type->upgrades && ( type->half_life || type->age_grow );
     reproduces = type->reproduces && type->baby_timer && !monster::has_flag( MF_NO_BREED );
     biosignatures = type->biosignatures;
+    if( monster::has_flag( MF_AQUATIC ) ) {
+        fish_population = dice( 1, 20 );
+    }
 }
 
 monster::monster( const mtype_id &id, const tripoint &p ) : monster( id )
@@ -2128,6 +2131,10 @@ void monster::process_effects()
 
     if( has_flag( MF_REGENERATES_10 ) && heal( 10 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
         add_msg( m_warning, _( "The %s seems a little healthier." ), name() );
+    }
+
+    if( has_flag( MF_REGENERATES_1 ) && heal( 1 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
+        add_msg( m_warning, _( "The %s is healing slowly." ), name() );
     }
 
     if( has_flag( MF_REGENERATES_IN_DARK ) ) {

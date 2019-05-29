@@ -1,0 +1,61 @@
+[
+  {
+    "type": "effect_type",
+    "id": "enchant_windrun",
+    "name": [ "Windrunning" ],
+    "desc": [ "You are bolstered and pushed along by the power of the wind." ],
+    "apply_message": "You are bolstered and pushed along by the power of the wind",
+    "remove_message": "The wind at your back dies down.",
+    "rating": "good",
+    "base_mods": { "speed_mod": [ 20 ], "stamina_min": [ 10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "effect_ethereal_grasp",
+    "name": [ "Ethereal Hold" ],
+    "desc": [ "Ghostly arms are trying to hold you in place!" ],
+    "max_intensity": 4,
+    "int_add_val": 1,
+    "apply_message": "Ethereal arms shoot out of the ground and grab onto you!",
+    "remove_message": "The ghostly arms fade away.",
+    "base_mods": { "speed_mod": [ -40 ] },
+    "scaling_mods": { "speed_mod": [ -10 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "bless",
+    "name": [ "Blessed" ],
+    "desc": [ "You are filled with energy that improves everything you do." ],
+    "apply_message": "You are filled with energy that improves everything you do!",
+    "remove_message": "Your energy fades.",
+    "rating": "good",
+    "base_mods": { "per_mod": [ 2 ], "dex_mod": [ 2 ], "str_mod": [ 2, 2 ], "speed_mod": [ 20 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "protect_env",
+    "name": [ "Enviromental Protection" ],
+    "desc": [ "You are protected by an energy field." ],
+    "apply_message": "You are protected by an energy field.",
+    "remove_message": "Your energy field fades.",
+    "rating": "good",
+    "show_in_info": true,
+    "base_mods": {
+      "environmental_protection": [ 5 ],
+      "material_thickness": [ 3 ],
+      "warmth": [ 50 ],
+      "covers": [ "HEAD", "LEGS", "TORSO", "ARMS", "HANDS", "FEET" ]
+    }
+  },
+  {
+    "type": "effect_type",
+    "id": "armor_frost",
+    "name": [ "Frost Armor" ],
+    "desc": [ "Covers you in a thin layer of magical ice to protect you from harm." ],
+    "apply_message": "You are protected by Frost Armor.",
+    "remove_message": "Your Frost Armor melts away.",
+    "rating": "good",
+    "show_in_info": true,
+    "base_mods": { "environmental_protection": [ 5 ], "material_thickness": [ 5 ], "warmth": [ 20 ] }
+  }
+]

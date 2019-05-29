@@ -338,8 +338,8 @@ std::string spell::colorized_fail_percent( const player &p ) const
 {
     const float fail_fl = spell_fail( p ) * 100.0f;
     std::string fail_str;
-    fail_fl == 100.0f ? fail_str = _( "Difficult!" ) : fail_str = _( string_format( "%.1f %% %s",
-                                   fail_fl, "Failure Chance" ) );
+    fail_fl == 100.0f ? fail_str = _( "Difficult!" ) : fail_str =  string_format( "%.1f %% %s",
+                                   fail_fl, _( "Failure Chance" ) );
     nc_color color;
     if( fail_fl > 90.0f ) {
         color = c_magenta;
@@ -571,7 +571,6 @@ dealt_damage_instance spell::get_dealt_damage_instance() const
 {
     dealt_damage_instance dmg;
     dmg.set_damage( dmg_type(), damage() );
-    add_msg( "%i", damage() );
     return dmg;
 }
 
@@ -667,7 +666,7 @@ void known_magic::learn_spell( const spell_type *sp, player &p, bool force )
         debugmsg( "Tried to learn invalid spell" );
         return;
     }
-    if( !force ) {
+    if( !force && sp->spell_class != trait_id( "NONE" ) ) {
         if( can_learn_spell( p, sp->id ) && !p.has_trait( sp->spell_class ) ) {
             if( query_yn(
                     _( "Learning this spell will make you a %s and lock you out of other unique spells.\nContinue?" ),
@@ -880,7 +879,7 @@ void move_earth( const tripoint &target )
         add_msg( _( "More debris shifts out of the pit." ) );
     } else if( soft_dirt.count( ter_here ) == 1 ) {
         g->m.ter_set( target, t_pit_shallow );
-        add_msg( _( "The earth moves out of the way for you" ) );
+        add_msg( _( "The earth moves out of the way for you." ) );
     } else if( hard_dirt.count( ter_here ) == 1 ) {
         g->m.ter_set( target, t_sand );
         add_msg( _( "The rocks here are ground into sand." ) );
@@ -1109,7 +1108,7 @@ void spawn_ethereal_item( spell &sp )
 {
     item granted( sp.effect_data(), calendar::turn );
     if( !granted.is_comestible() ) {
-        granted.set_rot( -sp.duration_turns() );
+        granted.set_var( "ethereal", to_turns<int>( sp.duration_turns() ) );
         granted.set_flag( "ETHEREAL_ITEM" );
     }
     if( granted.count_by_charges() && sp.damage() > 0 ) {
@@ -1118,8 +1117,10 @@ void spawn_ethereal_item( spell &sp )
     if( g->u.can_wear( granted ).success() ) {
         granted.set_flag( "FIT" );
         g->u.wear_item( granted, false );
-    } else {
+    } else if( !g->u.is_armed() ) {
         g->u.weapon = granted;
+    } else {
+        g->u.i_add( granted );
     }
     if( !granted.count_by_charges() ) {
         for( int i = 1; i < sp.damage(); i++ ) {

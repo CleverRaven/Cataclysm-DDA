@@ -37,6 +37,7 @@
 #include "item.h"
 #include "item_factory.h"
 #include "json.h"
+#include "magic.h"
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
@@ -534,21 +535,6 @@ void Character::store( JsonOut &json ) const
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///// player.h, avatar + npc
 
-/*
- * Prepare a json object for player, including player specific data, and data common to
- * players and npcs.
- * TODO: Make player abstract and delete this
- */
-void player::serialize( JsonOut &json ) const
-{
-    json.start_object();
-    // This must be after the json object has been started, so any super class
-    // puts their data into the same json object.
-    store( json );
-
-    json.end_object();
-}
-
 /**
  * Gather variables for saving. These variables are common to both the avatar and npcs.
  */
@@ -655,17 +641,6 @@ void player::store( JsonOut &json ) const
         }
         json.end_array();
     }
-}
-
-/*
- * Load player (soon to be renamed to survivor) from ginormous json blob.
- * Used for avatars and npcs.
- * TODO: Make player abstract and delete this
- */
-void player::deserialize( JsonIn &jsin )
-{
-    JsonObject data = jsin.get_object();
-    load( data );
 }
 
 /**
@@ -838,6 +813,7 @@ void avatar::store( JsonOut &json ) const
 
     json.member( "stamina", stamina );
     json.member( "move_mode", move_mode );
+    json.member( "magic", magic );
 
     // crafting etc
     json.member( "activity", activity );
@@ -932,6 +908,7 @@ void avatar::load( JsonObject &data )
     data.read( "keep_hands_free", keep_hands_free );
 
     data.read( "stamina", stamina );
+    data.read( "magic", magic );
     data.read( "move_mode", move_mode );
 
     set_highest_cat_level();
@@ -1700,7 +1677,7 @@ void monster::load( JsonObject &data )
     data.read( "morale", morale );
     data.read( "hallucination", hallucination );
     data.read( "stairscount", staircount ); // really?
-
+    data.read( "fish_population", fish_population );
     // Load legacy plans.
     std::vector<tripoint> plans;
     data.read( "plans", plans );
@@ -1769,6 +1746,7 @@ void monster::store( JsonOut &json ) const
     json.member( "hp", hp );
     json.member( "special_attacks", special_attacks );
     json.member( "friendly", friendly );
+    json.member( "fish_population", fish_population );
     json.member( "faction", faction.id().str() );
     json.member( "mission_id", mission_id );
     json.member( "no_extra_death_drops", no_extra_death_drops );
@@ -3035,7 +3013,15 @@ void basecamp::serialize( JsonOut &json ) const
             json.start_object();
             json.member( "dir", expansion.first );
             json.member( "type", expansion.second.type );
-            json.member( "cur_level", expansion.second.cur_level );
+            json.member( "provides" );
+            json.start_array();
+            for( const auto provide : expansion.second.provides ) {
+                json.start_object();
+                json.member( "id", provide.first );
+                json.member( "amount", provide.second );
+                json.end_object();
+            }
+            json.end_array();
             json.member( "pos", expansion.second.pos );
             json.end_object();
         }
@@ -3066,7 +3052,19 @@ void basecamp::deserialize( JsonIn &jsin )
         expansion_data e;
         const std::string dir = edata.get_string( "dir" );
         edata.read( "type", e.type );
-        edata.read( "cur_level", e.cur_level );
+        if( edata.has_int( "cur_level" ) ) {
+            edata.read( "cur_level", e.cur_level );
+        }
+        if( edata.has_array( "provides" ) ) {
+            e.cur_level = -1;
+            JsonArray provides_arr = edata.get_array( "provides" );
+            while( provides_arr.has_more() ) {
+                JsonObject provide_data = provides_arr.next_object();
+                std::string id = provide_data.get_string( "id" );
+                int amount = provide_data.get_int( "amount" );
+                e.provides[ id ] = amount;
+            }
+        }
         edata.read( "pos", e.pos );
         expansions[ dir ] = e;
         if( dir != "[B]" ) {
