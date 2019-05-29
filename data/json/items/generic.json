@@ -2122,6 +2122,19 @@
   },
   {
     "type": "GENERIC",
+    "id": "chamomile",
+    "name": "handful of chamomile flowers",
+    "name_plural": "handfuls of chamomile flowers",
+    "description": "White chamomile flowers, used as a herbal remedy since the ancient times.",
+    "weight": 50,
+    "color": "white",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": 1,
+    "price": 0
+  },
+  {
+    "type": "GENERIC",
     "id": "clay_lump",
     "symbol": ",",
     "color": "brown",
