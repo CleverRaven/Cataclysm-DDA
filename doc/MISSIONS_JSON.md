@@ -88,7 +88,7 @@ string ID            |                                  Usage
 Optional field.  If it is present and a string, it must be name of a function in mission_start::
 that takes a mission * and performs the start code for the mission.  This allows missions other 
 than the standard mission types to be run.  A hardcoded function is currently necessary to set 
-up any mission other than MGOAL_FIND_ITEM", "MGOAL_KILL_MONSTER_TYPE", or "MGOAL_KILL_MONSTER_SPEC".
+up missions with "MGOAL_COMPUTER_TOGGLE".
 
 Alternately, if present, it can be an object as described below.
 
