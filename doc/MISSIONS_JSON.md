@@ -81,7 +81,7 @@ string ID            |                                  Usage
 `advice`             | If the player asks for advice on how to complete the mission, they hear this
 `inquire`            | This is used if the NPC asks the player how the mission is going
 `success`            | The NPC's response to a report that the mission was successful
-`success_lie`        | The NPC's response if they catch the player lieing about a mission's success
+`success_lie`        | The NPC's response if they catch the player lying about a mission's success
 `failure`            | The NPC's response if the player reports a failed mission.
 
 ### start
