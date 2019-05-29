@@ -367,7 +367,7 @@
       [ "coffee", 55 ],
 	  [ "cortado", 15 ],
 	  [ "americano", 15],
-	  [ "espresso", 25]
+	  [ "espresso", 25],
       [ "cookies", 5 ],
       [ "cup_plastic", 70 ],
       [ "tea", 15 ]
