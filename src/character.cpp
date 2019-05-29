@@ -1854,6 +1854,18 @@ int Character::get_int_bonus() const
     return int_bonus;
 }
 
+static int get_speedydex_bonus( const int dex )
+{
+    // this is the number to be multiplied by the increment
+    const int modified_dex = std::max( dex - get_option<int>( "SPEEDYDEX_MIN_DEX" ), 0 );
+    return modified_dex * get_option<int>( "SPEEDYDEX_DEX_SPEED" );
+}
+
+int Character::get_speed() const
+{
+    return Creature::get_speed() + get_speedydex_bonus( get_dex() );
+}
+
 int Character::ranged_dex_mod() const
 {
     ///\EFFECT_DEX <20 increases ranged penalty
