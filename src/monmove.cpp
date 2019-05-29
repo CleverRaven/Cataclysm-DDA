@@ -94,7 +94,7 @@ bool monster::is_immune_field( const field_id fid ) const
 bool monster::can_move_to( const tripoint &p ) const
 {
     const bool can_climb = has_flag( MF_CLIMBS ) || has_flag( MF_FLIES );
-    if( g->m.impassable( p ) && !( can_climb && g->m.has_flag( "CLIMBABLE", p ) ) ) {
+    if( g->m.impassable( p, pos() ) && !( can_climb && g->m.has_flag( "CLIMBABLE", p ) ) ) {
         return false;
     }
 
@@ -1209,7 +1209,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     // Allows climbing monsters to move on terrain with movecost <= 0
     Creature *critter = g->critter_at( p, is_hallucination() );
     if( g->m.has_flag( "CLIMBABLE", p ) ) {
-        if( g->m.impassable( p ) && critter == nullptr ) {
+        if( g->m.impassable( p, pos() ) && critter == nullptr ) {
             if( flies ) {
                 moves -= 100;
                 force = true;

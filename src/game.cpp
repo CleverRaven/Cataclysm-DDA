@@ -4302,7 +4302,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
             add_msg( _( "%s was stunned!" ), targ->name() );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( m.impassable( traj[i].x, traj[i].y ) ) {
+            if( m.impassable( traj[i], traj[i-1] ) ) {
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -4360,7 +4360,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
             add_msg( _( "%s was stunned!" ), targ->name );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( m.impassable( traj[i].x, traj[i].y ) ) { // oops, we hit a wall!
+            if( m.impassable( traj[i], traj[i-1] ) ) { // oops, we hit a wall!
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -9335,6 +9335,7 @@ bool game::ramp_move( const tripoint &dest_loc )
 
 bool game::walk_move( const tripoint &dest_loc )
 {
+    std::cout << "walking " << dest_loc << std::endl;
     const optional_vpart_position vp_here = m.veh_at( u.pos() );
     const optional_vpart_position vp_there = m.veh_at( dest_loc );
 
@@ -9384,7 +9385,7 @@ bool game::walk_move( const tripoint &dest_loc )
         u.grab( OBJECT_NONE );
     }
 
-    if( m.impassable( dest_loc ) && !pushing && !shifting_furniture ) {
+    if( m.impassable( dest_loc, u.pos() ) && !pushing && !shifting_furniture ) {
         return false;
     }
     u.set_underwater( false );

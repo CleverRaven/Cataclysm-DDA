@@ -390,7 +390,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             has_momentum = proj.impact.total_damage() > 0;
         }
 
-        if( ( !has_momentum || !is_bullet ) && g->m.impassable( tp ) ) {
+        if( ( !has_momentum || !is_bullet ) && g->m.impassable( tp, source ) ) {
             // Don't let flamethrowers go through walls
             // TODO: Let them go through bars
             traj_len = i;
@@ -405,7 +405,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         g->draw_bullet( tp, static_cast<int>( traj_len-- ), trajectory, bullet );
     }
 
-    if( g->m.impassable( tp ) ) {
+    if( g->m.impassable( tp, source ) ) {
         tp = prev_point;
     }
 

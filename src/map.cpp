@@ -1652,32 +1652,36 @@ int map::move_cost_ter_furn( const int x, const int y ) const
 }
 
 // Move cost: 3D
-
-int map::move_cost( const tripoint &to, const vehicle *ignored_vehicle, const cata::optional<tripoint> &from ) const
+int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
 {
-    if( !inbounds( to ) ) {
-        return 0;
-    }
-    
-    const furn_t &furniture = furn( to ).obj();
-    const ter_t &terrain = ter( to ).obj();
-    const optional_vpart_position vp = veh_at( to );
-    vehicle *const veh = ( !vp || &vp->vehicle() == ignored_vehicle ) ? nullptr : &vp->vehicle();
-    const int part = veh ? vp->part_index() : -1;
-    
-    int cost_to = move_cost_internal( furniture, terrain, veh, part );
+     if( !inbounds( p ) ) {
+         return 0;
+     }
+ 
+     const furn_t &furniture = furn( p ).obj();
+     const ter_t &terrain = ter( p ).obj();
+     const optional_vpart_position vp = veh_at( p );
+     vehicle *const veh = ( !vp || &vp->vehicle() == ignored_vehicle ) ? nullptr : &vp->vehicle();
+     const int part = veh ? vp->part_index() : -1;
+ 
+     return move_cost_internal( furniture, terrain, veh, part );
+}
+
+int map::move_cost( const tripoint &to, const tripoint &from, const vehicle *ignored_vehicle ) const
+{   
+    int cost_to = move_cost( to, ignored_vehicle );
         
     // Ignore diagonal if target is already impassable.
-    if( cost_to != 0 && from ) {
+    if( cost_to != 0 ) {
                 
-        const tripoint dmove = to - from.value();
+        const tripoint dmove = to - from;
         bool diagonal = abs(dmove.x) == abs(dmove.y); // both 1
         
         if( diagonal ) {
         
             // Calculate diagonal obstacles.
-            tripoint to_x = from.value() + tripoint(dmove.x,0,0); 
-            tripoint to_y = from.value() + tripoint(0,dmove.y,0); 
+            tripoint to_x = from + tripoint(dmove.x,0,0); 
+            tripoint to_y = from + tripoint(0,dmove.y,0); 
             
             const furn_t &furniture_x = furn( to_x ).obj();
             const ter_t &terrain_x = ter( to_x ).obj(); 
@@ -1692,25 +1696,28 @@ int map::move_cost( const tripoint &to, const vehicle *ignored_vehicle, const ca
             vehicle *const veh_y = ( !vp_y || &vp_y->vehicle() == ignored_vehicle ) ? nullptr : &vp_y->vehicle();
             
             int part_x = veh_x ? vp_x->part_index() : -1;
-            int part_y = veh_y ? vp_y->part_index() : -1;
+            int part_y = veh_y ? vp_y->part_index() : -1;            
             
-            /* 
-             * If parts are of the same vehicle ignore them if they are not contiguous in mount space,
-             * else consider them as parts of the map (most likely a wreckage).
-            */
-            
+            //If parts are of the same vehicle ignore them if they are not contiguous in mount space.           
             if( veh_y && veh_x && veh_y==veh_x ){            
                 point dmount = vp_y->mount() - vp_x->mount();
-                bool connected = abs(dmount.x) == 1 || abs(dmount.y) == 1; // Diagonal parts count as connected.
+                std::cout << tripoint(vp_y->mount(),0) << " - " << tripoint(vp_x->mount(),0) << " = " << tripoint(dmount,0) << std::endl;
+                bool connected = abs(dmount.x) < 2  && abs(dmount.y) < 2; // Diagonal parts count as connected too.                
                 if( !connected ){
                     part_x = -1;
-                    part_y = -1;                
+                    part_y = -1;                     
                 }
+            }                
+            int comp_cost = move_cost_internal( furniture_x, terrain_x, veh_x, part_x ) + move_cost_internal( furniture_y, terrain_y, veh_y, part_y );                   
+            if( comp_cost != 0){
+                cost_to += comp_cost/2; // debatable
             }
-            
-            cost_to += move_cost_internal( furniture_x, terrain_x, veh_x, part_x ) + move_cost_internal( furniture_y, terrain_y, veh_y, part_y );        
+            else{
+                return 0;
+            }
         }
     }
+    std::cout << "cost " << cost_to << std::endl;
     return cost_to;    
 }
 
@@ -1719,9 +1726,19 @@ bool map::impassable( const tripoint &p ) const
     return !passable( p );
 }
 
+bool map::impassable( const tripoint &to, const tripoint &from ) const
+{
+    return !passable( to, from );
+}
+
 bool map::passable( const tripoint &p ) const
 {
     return move_cost( p ) != 0;
+}
+
+bool map::passable( const tripoint &to, const tripoint &from ) const
+{
+    return move_cost( to, from ) != 0;
 }
 
 int map::move_cost_ter_furn( const tripoint &p ) const
@@ -1793,7 +1810,7 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 
     if( from.z == to.z ) {
         // But here we need to, to prevent bashing critters
-        return passable( to ) || ( bash && inbounds( to ) );
+        return passable( to, from ) || ( bash && inbounds( to ) );
     } else if( !zlevels ) {
         return false;
     }

@@ -11648,7 +11648,7 @@ tripoint player::adjacent_tile() const
             continue;
         }
         const trap &curtrap = g->m.tr_at( p );
-        if( g->critter_at( p ) == nullptr && g->m.passable( p ) &&
+        if( g->critter_at( p ) == nullptr && g->m.passable( p, pos() ) &&
             ( curtrap.is_null() || curtrap.is_benign() ) ) {
             // Only consider tile if unoccupied, passable and has no traps
             dangerous_fields = 0;
