@@ -1987,6 +1987,7 @@
     "difficulty": 5,
     "time": "3 m",
     "autolearn": true,
+    "using": [ [ "forging_standard", 1 ] ],
     "charges": 1,
     "qualities": [
       { "id": "ANVIL", "level": 1 },
@@ -1994,7 +1995,7 @@
       { "id": "CHISEL", "level": 3 },
       { "id": "CUT", "level": 1 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ], [ "forge", 1 ], [ "oxy_torch", 1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ] ],
     "components": [ [ [ "copper", 1 ] ], [ [ "duct_tape", 1 ] ] ]
   },
   {
