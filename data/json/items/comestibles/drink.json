@@ -260,7 +260,7 @@
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
-	"vitamins": [ [ "vitA", 5 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
+    "vitamins": [ [ "vitA", 5 ], [ "vitC", 2 ], [ "calcium", 12 ] ],
     "fun": 5
   },
   {

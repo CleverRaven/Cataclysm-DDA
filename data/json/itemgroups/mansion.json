@@ -913,7 +913,7 @@
       [ "sandwich_cucumber", 40 ],
       { "item": "wine_riesling", "prob": 30, "container-item": "glass" },
       { "item": "coffee", "prob": 15, "container-item": "ceramic_cup" },
-	  { "item": "espresso", "prob": 15, "container-item": "ceramic_cup" },
+      { "item": "espresso", "prob": 15, "container-item": "ceramic_cup" },
       [ "cake2", 20 ],
       { "group": "wines_worthy", "prob": 10 },
       [ "jihelucake", 10 ],

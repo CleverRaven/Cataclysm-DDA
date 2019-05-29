@@ -415,7 +415,7 @@
     "name_plural": "Irish coffee",
     "weight": 260,
     "color": "brown",
-    "addiction_type":  "alcohol",
+    "addiction_type": "alcohol",
     "use_action": "ALCOHOL",
     "stim": 12,
     "container": "bottle_glass",

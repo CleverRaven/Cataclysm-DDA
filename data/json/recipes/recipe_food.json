@@ -1429,7 +1429,7 @@
   {
     "type": "recipe",
     "result": "americano",
-	"result_mult": 3,
+    "result_mult": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -1444,21 +1444,21 @@
   {
     "type": "recipe",
     "result": "americano",
-	"id_suffix": "from_espresso_dilute",
-	"result_mult": 3,
+    "id_suffix": "from_espresso_dilute",
+    "result_mult": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "time": "7 m",
     "autolearn": true,
-	"flags": [ "BLIND_HARD" ],
+    "flags": [ "BLIND_HARD" ],
     "batch_time_factors": [ 80, 4 ],
-	"components": [ [ [ "espresso", 1 ] ], [ [ "water_clean", 2 ] ] ]
+    "components": [ [ [ "espresso", 1 ] ], [ [ "water_clean", 2 ] ] ]
   },
   {
     "type": "recipe",
     "result": "cortado",
-	"result_mult": 2,
+    "result_mult": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -1468,26 +1468,30 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "coffee_raw_fine", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "con_milk" , 1 ] ] ]
+    "components": [
+      [ [ "coffee_raw_fine", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "con_milk", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
     "result": "cortado",
-	"id_suffix": "from_espresso_milk_mix",
-	"result_mult": 2,
+    "id_suffix": "from_espresso_milk_mix",
+    "result_mult": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "time": "7 m",
     "autolearn": true,
-	"flags": [ "BLIND_HARD" ],
+    "flags": [ "BLIND_HARD" ],
     "batch_time_factors": [ 80, 4 ],
-	"components": [ [ [ "espresso", 1 ] ], [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "con_milk" , 1 ] ] ]
+    "components": [ [ [ "espresso", 1 ] ], [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "con_milk", 1 ] ] ]
   },
   {
     "type": "recipe",
     "result": "corretto",
-	"result_mult": 2,
+    "result_mult": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
@@ -1497,7 +1501,10 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 5, "LIST" ] ] ],
-    "components": [ [ [ "coffee_raw_fine", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [
+    "components": [
+      [ [ "coffee_raw_fine", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [
         [ "gin", 1 ],
         [ "rum", 1 ],
         [ "single_malt_whiskey", 1 ],
@@ -1506,23 +1513,25 @@
         [ "vodka", 1 ],
         [ "whiskey", 1 ],
         [ "brandy", 1 ],
-		[ "mixed_alcohol_strong" , 1 ]
-      ] ]
+        [ "mixed_alcohol_strong", 1 ]
+      ]
+    ]
   },
   {
     "type": "recipe",
     "result": "corretto",
-	"id_suffix": "from_espresso_spirits_mix",
-	"result_mult": 2,
+    "id_suffix": "from_espresso_spirits_mix",
+    "result_mult": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
     "skill_used": "cooking",
     "time": "7 m",
     "autolearn": true,
-	"flags": [ "BLIND_HARD" ],
+    "flags": [ "BLIND_HARD" ],
     "batch_time_factors": [ 80, 4 ],
-	"components": [ [ [ "espresso", 1 ] ],
-		[
+    "components": [
+      [ [ "espresso", 1 ] ],
+      [
         [ "gin", 1 ],
         [ "rum", 1 ],
         [ "single_malt_whiskey", 1 ],
@@ -1531,8 +1540,9 @@
         [ "vodka", 1 ],
         [ "whiskey", 1 ],
         [ "brandy", 1 ],
-		[ "mixed_alcohol_strong" , 1 ]
-      ] ]
+        [ "mixed_alcohol_strong", 1 ]
+      ]
+    ]
   },
   {
     "type": "recipe",
