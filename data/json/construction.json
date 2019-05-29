@@ -2660,7 +2660,7 @@
     "difficulty": 1,
     "time": "50m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "pointy_stick", 4 ] ], [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "tarp", 1 ] ] ],
+    "components": [ [ [ "pointy_stick", 4 ] ], [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "tarp", 1 ], [ "plastic_sheet", 1 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_flags": [ "DIGGABLE", "FLAT" ],
     "post_terrain": "t_tarptent"
@@ -2673,7 +2673,7 @@
     "difficulty": 2,
     "time": "45m",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "pointy_stick", 3 ] ], [ [ "string_36", 1 ], [ "string_6", 3 ] ], [ [ "tarp", 1 ] ] ],
+    "components": [ [ [ "pointy_stick", 3 ] ], [ [ "string_36", 1 ], [ "string_6", 3 ] ], [ [ "tarp", 1 ], [ "plastic_sheet", 1 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_flags": [ "DIGGABLE", "FLAT" ],
     "post_terrain": "t_raincatcher"
