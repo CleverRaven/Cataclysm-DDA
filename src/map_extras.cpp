@@ -1353,10 +1353,13 @@ static void burned_ground_parser( map &m, const tripoint &loc )
 
     // burn-away flammable items
     while( m.flammable_items_at( loc ) ) {
-        for( auto it = m.i_at( loc ).begin(); it != m.i_at( loc ).end(); ++it ) {
+        map_stack stack = m.i_at( loc );
+        for( auto it = stack.begin(); it != stack.end(); ) {
             if( it->flammable() ) {
-                m.i_rem( loc, it );
                 m.create_burnproducts( loc, *it, it->weight() );
+                it = stack.erase( it );
+            } else {
+                it++;
             }
         }
     }
