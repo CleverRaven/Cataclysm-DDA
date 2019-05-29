@@ -14,5 +14,13 @@
     "qualities": [ { "id": "PULL", "level": 1 } ],
     "components": [ [ [ "copper", 7 ] ], [ [ "4570_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 17 ] ] ],
     "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "result": "4570_low",
+    "type": "uncraft",
+    "time": 500,
+    "qualities": [ { "id": "PULL", "level": 1 } ],
+    "components": [ [ [ "lead", 9 ] ], [ [ "4570_casing", 1 ] ], [ [ "lgrifle_primer", 1 ] ], [ [ "gunpowder", 12 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
   }
 ]
