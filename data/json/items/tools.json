@@ -5165,6 +5165,26 @@
     }
   },
   {
+    "id": "tarp_raincatcher",
+    "type": "TOOL",
+    "name": "tarp raincatcher",
+    "description": "Some sticks and string with a tarpaulin to set up an improvised raincatcher.",
+    "weight": 3980,
+    "volume": 16,
+    "price": 6000,
+    "material": [ "wood", "plastic" ],
+    "symbol": ";",
+    "color": "yellow",
+    "use_action": {
+      "type": "place_trap",
+      "allow_under_player": true,
+      "trap": "tr_raincatcher",
+      "moves": 100,
+      "practice": 0,
+      "done_message": "You set up the raincatcher, waiting to collect water."
+    }
+  },
+  {
     "id": "metal_smoother",
     "type": "TOOL",
     "name": "metallic smoother",

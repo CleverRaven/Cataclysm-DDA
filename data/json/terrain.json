@@ -10737,30 +10737,4 @@
     },
     "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT" ]
   },
-  {
-    "id": "t_raincatcher",
-    "type": "terrain",
-    "name": "tarp raincatcher",
-    "symbol": ".",
-    "color": [ "brown" ],
-    "move_cost": 2,
-    "trap": "tr_raincatcher",
-    "bash": {
-      "str_min": 6,
-      "str_max": 12,
-      "ter_set": "t_dirt",
-      "sound": "crash!",
-      "sound_fail": "whack!",
-      "items": [
-        { "item": "stick", "count": [ 1, 1 ] },
-        { "item": "splinter", "count": [ 1, 2 ] },
-        { "item": "plastic_chunk", "count": [ 4, 8 ] }
-      ]
-    },
-    "deconstruct": {
-      "ter_set": "t_dirt",
-      "items": [ { "item": "pointy_stick", "count": 3 }, { "item": "string_6", "count": 3 }, { "item": "tarp", "count": 1 } ]
-    },
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "EASY_DECONSTRUCT" ]
-  }
 ]
