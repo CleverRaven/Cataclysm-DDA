@@ -74,15 +74,15 @@ inquiring about the mission or reporting its completion.  All these strings are 
 
 string ID            |                                  Usage
 ---                  | ---
-`describe`           | The NPC's overall description of the mission.
-`offer`              | The specifics of the mission given when the player selects that mission for consideration.
+`describe`           | The NPC's overall description of the mission
+`offer`              | The specifics of the mission given when the player selects that mission for consideration
 `accepted`           | The NPC's response if the player accepts the mission
 `rejected`           | The NPC's response if the player refuses the mission
 `advice`             | If the player asks for advice on how to complete the mission, they hear this
 `inquire`            | This is used if the NPC asks the player how the mission is going
 `success`            | The NPC's response to a report that the mission was successful
 `success_lie`        | The NPC's response if they catch the player lying about a mission's success
-`failure`            | The NPC's response if the player reports a failed mission.
+`failure`            | The NPC's response if the player reports a failed mission
 
 ### start
 Optional field.  If it is present and a string, it must be name of a function in mission_start::
