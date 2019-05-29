@@ -262,7 +262,7 @@
     "id": "schematics_skitterbot",
     "type": "BOOK",
     "name": "skitterbot schematics",
-    "name_plural": "security bot schematics",
+    "name_plural": "skitter bot schematics",
     "description": "Assembly plans, design specs, and technical drawings for the skitterbot. Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
