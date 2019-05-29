@@ -1486,7 +1486,7 @@
   },
   {
     "type": "recipe",
-    "result": "cordato",
+    "result": "corretto",
 	"result_mult": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
