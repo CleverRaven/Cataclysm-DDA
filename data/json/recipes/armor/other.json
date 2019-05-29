@@ -33,8 +33,9 @@
     "difficulty": 6,
     "time": "120 m",
     "book_learn": [ [ "jewelry_book", 6 ] ],
+    "using": [ [ "forging_standard", 2 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "gold_small", 3 ] ] ]
   },
   {
@@ -46,8 +47,9 @@
     "difficulty": 6,
     "time": "120 m",
     "book_learn": [ [ "jewelry_book", 6 ] ],
+    "using": [ [ "forging_standard", 2 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "gold_small", 12 ] ] ]
   },
   {
@@ -58,8 +60,9 @@
     "difficulty": 6,
     "time": "120 m",
     "book_learn": [ [ "jewelry_book", 6 ] ],
+    "using": [ [ "forging_standard", 2 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "type": "recipe",
     "components": [ [ [ "copper", 60 ] ] ]
   },
@@ -71,8 +74,9 @@
     "difficulty": 6,
     "time": "120 m",
     "book_learn": [ [ "jewelry_book", 6 ] ],
+    "using": [ [ "forging_standard", 2 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 50 ], [ "oxy_torch", 10 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "type": "recipe",
     "components": [ [ [ "silver_small", 15 ] ] ]
   },

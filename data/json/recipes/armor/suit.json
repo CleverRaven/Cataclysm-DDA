@@ -117,10 +117,10 @@
     "difficulty": 8,
     "time": "560 m",
     "book_learn": [ [ "textbook_armwest", 7 ] ],
+    "using": [ [ "forging_standard", 20 ], [ "steel_standard", 20 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 400 ], [ "oxy_torch", 80 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [
-      [ [ "steel_lump", 20 ], [ "steel_chunk", 80 ] ],
       [ [ "fur", 20 ], [ "tanned_pelt", 3 ], [ "leather", 20 ], [ "tanned_hide", 3 ] ]
     ]
   },
@@ -210,8 +210,9 @@
     "difficulty": 9,
     "time": "600 m",
     "book_learn": [ [ "textbook_armwest", 8 ] ],
+    "using": [ [ "forging_standard", 20 ], [ "steel_standard", 30 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 450 ], [ "oxy_torch", 90 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "steel_lump", 30 ] ], [ [ "fur", 16 ], [ "tanned_pelt", 3 ], [ "leather", 16 ], [ "tanned_hide", 3 ] ] ]
   },
   {
@@ -223,10 +224,10 @@
     "difficulty": 9,
     "time": "560 m",
     "book_learn": [ [ "textbook_armeast", 8 ] ],
+    "using": [ [ "forging_standard", 22 ], [ "steel_standard", 16 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 450 ], [ "oxy_torch", 90 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [
-      [ [ "steel_lump", 16 ], [ "steel_chunk", 64 ] ],
       [ [ "fur", 28 ], [ "tanned_pelt", 6 ], [ "leather", 28 ], [ "tanned_hide", 6 ] ],
       [ [ "rag", 10 ] ]
     ]
