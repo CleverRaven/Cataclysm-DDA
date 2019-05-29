@@ -1058,7 +1058,7 @@
     "type": "ARMOR",
     "name": "pair of roller shoes (on)",
     "name_plural": "pairs of roller shoes (on)",
-    "description": "A pair of sneakers with wheels, currently, the wheels are out. ",
+    "description": "A pair of sneakers with wheels, currently, the wheels are out.",
     "weight": 840,
     "volume": 6,
     "price": 10000,
