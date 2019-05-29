@@ -1679,6 +1679,7 @@ std::vector<tripoint> target_handler::target_ui( spell &casting )
     // TODO: this should return a reference to a static vector which is cleared on each call.
     static const std::vector<tripoint> empty_result{};
     std::vector<tripoint> ret;
+    std::set<tripoint> spell_aoe;
 
     tripoint src = pc.pos();
     tripoint dst = pc.pos();
@@ -1736,10 +1737,20 @@ std::vector<tripoint> target_handler::target_ui( spell &casting )
         }
         return true;
     };
-
+    const std::string fx = casting.effect();
     const tripoint old_offset = pc.view_offset;
     do {
         ret = g->m.find_clear_path( src, dst );
+
+        if( fx == "target_attack" || fx == "projectile_attack" ) {
+            spell_aoe = spell_effect::spell_effect_blast( casting, src, ret.back(), casting.aoe(), true );
+        } else if( fx == "cone_attack" ) {
+            spell_aoe = spell_effect::spell_effect_cone( casting, src, ret.back(), casting.aoe(), true );
+        } else if( fx == "line_attack" ) {
+            spell_aoe = spell_effect::spell_effect_line( casting, src, ret.back(), casting.aoe(), true );
+        } else {
+            spell_aoe.clear();
+        }
 
         // This chunk of code handles shifting the aim point around
         // at maximum range when using circular distance.
@@ -1807,6 +1818,12 @@ std::vector<tripoint> target_handler::target_ui( spell &casting )
             mvwprintw( w_target, line_number++, 1, _( "Range: %d Elevation: %d Targets: %d" ), range,
                        relative_elevation, t.size() );
         }
+
+        g->draw_cursor( dst );
+        for ( const tripoint &area : spell_aoe ) {
+            g->m.drawsq( g->w_terrain, pc, area, true, true, center );
+        }
+
         if( casting.aoe() > 0 ) {
             nc_color color = c_light_gray;
             if( casting.effect() == "projectile_attack" || casting.effect() == "target_attack" ) {
@@ -1834,8 +1851,6 @@ std::vector<tripoint> target_handler::target_ui( spell &casting )
             // Just print the monster name if we're short on space.
             int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 12 );
             critter->print_info( w_target, line_number, available_lines, 1 );
-        } else {
-            mvwputch( g->w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x, c_red, '*' );
         }
 
         wrefresh( g->w_terrain );
@@ -1906,8 +1921,6 @@ std::vector<tripoint> target_handler::target_ui( spell &casting )
                 g->draw_critter( *critter, center );
             } else if( g->m.pl_sees( dst, -1 ) ) {
                 g->m.drawsq( g->w_terrain, pc, dst, false, true, center );
-            } else {
-                mvwputch( g->w_terrain, POSY, POSX, c_black, 'X' );
             }
 
             // constrain by range

@@ -20,6 +20,8 @@
 #include "rng.h"
 #include "translations.h"
 
+#include <set>
+
 namespace
 {
 const std::map<std::string, valid_target> target_map = {
@@ -903,14 +905,14 @@ static bool in_spell_aoe( const tripoint &target, const tripoint &epicenter, con
     return rl_dist( epicenter, target ) <= radius;
 }
 
-static std::set<tripoint> spell_effect_blast( spell &, const tripoint &, const tripoint &target,
-        const int aoe_radius, const bool ignore_walls )
+std::set<tripoint> spell_effect_blast( spell &, const tripoint &, const tripoint &target,
+                                       const int aoe_radius, const bool ignore_walls )
 {
     std::set<tripoint> targets;
     // TODO: Make this breadth-first
-    for( int x = target.x - aoe_radius; x < target.x + aoe_radius; x++ ) {
-        for( int y = target.y - aoe_radius; y < target.y + aoe_radius; y++ ) {
-            for( int z = target.z - aoe_radius; z < target.z + aoe_radius; z++ ) {
+    for( int x = target.x - aoe_radius; x <= target.x + aoe_radius; x++ ) {
+        for( int y = target.y - aoe_radius; y <= target.y + aoe_radius; y++ ) {
+            for( int z = target.z - aoe_radius; z <= target.z + aoe_radius; z++ ) {
                 const tripoint potential_target( x, y, z );
                 if( in_spell_aoe( potential_target, target, aoe_radius, ignore_walls ) ) {
                     targets.emplace( potential_target );
@@ -921,13 +923,13 @@ static std::set<tripoint> spell_effect_blast( spell &, const tripoint &, const t
     return targets;
 }
 
-static std::set<tripoint> spell_effect_cone( spell &sp, const tripoint &source,
-        const tripoint &target,
-        const int aoe_radius, const bool ignore_walls )
+std::set<tripoint> spell_effect_cone( spell &sp, const tripoint &source,
+                                      const tripoint &target,
+                                      const int aoe_radius, const bool ignore_walls )
 {
     std::set<tripoint> targets;
     // cones go all the way to end (if they don't hit an obstacle)
-    const int range = sp.range();
+    const int range = sp.range() + 1;
     const int initial_angle = coord_to_angle( source, target );
     std::set<tripoint> end_points;
     for( int angle = initial_angle - floor( aoe_radius / 2.0 );
@@ -951,9 +953,9 @@ static std::set<tripoint> spell_effect_cone( spell &sp, const tripoint &source,
     return targets;
 }
 
-static std::set<tripoint> spell_effect_line( spell &, const tripoint &source,
-        const tripoint &target,
-        const int aoe_radius, const bool ignore_walls )
+std::set<tripoint> spell_effect_line( spell &, const tripoint &source,
+                                      const tripoint &target,
+                                      const int aoe_radius, const bool ignore_walls )
 {
     std::set<tripoint> targets;
     const int initial_angle = coord_to_angle( source, target );
@@ -966,43 +968,58 @@ static std::set<tripoint> spell_effect_line( spell &, const tripoint &source,
     tripoint cclockwise_end_point;
     calc_ray_end( initial_angle + 90, ceil( aoe_radius / 2.0 ), target, cclockwise_end_point );
 
-    std::vector<tripoint> start_width_lh = line_to( source, cclockwise_starting_point );
-    std::vector<tripoint> start_width_rh = line_to( source, clockwise_starting_point );
 
-    int start_width_lh_blocked = start_width_lh.size();
-    int start_width_rh_blocked = start_width_rh.size() + 1;
-    for( const tripoint &p : start_width_lh ) {
-        if( ignore_walls || g->m.passable( p ) ) {
-            start_width_lh_blocked--;
-        } else {
-            break;
+    std::vector<tripoint> start_width = line_to( clockwise_starting_point, cclockwise_starting_point );
+    start_width.insert( start_width.begin(), clockwise_end_point );
+    std::vector<tripoint> end_width = line_to( clockwise_end_point, cclockwise_end_point );
+    end_width.insert( end_width.begin(), clockwise_starting_point );
+
+    std::vector<tripoint> cwise_line = line_to( clockwise_starting_point, cclockwise_starting_point );
+    cwise_line.insert( cwise_line.begin(), clockwise_starting_point );
+    std::vector<tripoint> ccwise_line = line_to( cclockwise_starting_point, cclockwise_end_point );
+    ccwise_line.insert( ccwise_line.begin(), cclockwise_starting_point );
+
+    for( const tripoint &start_line_pt : start_width ) {
+        bool passable = true;
+        for( const tripoint &potential_target : line_to( source, start_line_pt ) ) {
+            passable = g->m.passable( potential_target ) || ignore_walls;
+            if( passable ) {
+                targets.emplace( potential_target );
+            } else {
+                break;
+            }
         }
-    }
-    for( const tripoint &p : start_width_rh ) {
-        if( ignore_walls || g->m.passable( p ) ) {
-            start_width_rh_blocked--;
-        } else {
-            break;
+        if( !passable ) {
+            // leading edge of line attack is very important to the whole
+            // if the leading edge is blocked, none of the attack spawning
+            // from that edge can propogate
+            continue;
         }
-    }
-
-    std::reverse( start_width_rh.begin(), start_width_rh.end() );
-    std::vector<tripoint> start_width;
-    start_width.reserve( start_width_lh.size() + start_width_rh.size() + 2 );
-    start_width.insert( start_width.end(), start_width_rh.begin(), start_width_rh.end() );
-    start_width.emplace_back( source );
-    start_width.insert( start_width.end(), start_width_lh.begin(), start_width_lh.end() );
-    std::vector<tripoint> end_width = line_to( cclockwise_end_point, clockwise_end_point );
-    // line_to omits the starting point. we want it back.
-    end_width.insert( end_width.begin(), cclockwise_end_point );
-
-    // we're going from right to left (clockwise to counterclockwise)
-    for( int i = start_width_rh_blocked;
-         i <= static_cast<int>( start_width.size() ) - start_width_lh_blocked; i++ ) {
-        for( tripoint &ep : end_width ) {
-            for( tripoint &p : line_to( start_width[i], ep ) ) {
-                if( ignore_walls || g->m.passable( p ) ) {
-                    targets.emplace( p );
+        for( const tripoint &end_line_pt : end_width ) {
+            std::vector<tripoint> temp_line = line_to( start_line_pt, end_line_pt );
+            for( const tripoint &potential_target : temp_line ) {
+                if( ignore_walls || g->m.passable( potential_target ) ) {
+                    targets.emplace( potential_target );
+                } else {
+                    break;
+                }
+            }
+        }
+        for( const tripoint &cwise_line_pt : cwise_line ) {
+            std::vector<tripoint> temp_line = line_to( start_line_pt, cwise_line_pt );
+            for( const tripoint &potential_target : temp_line ) {
+                if( ignore_walls || g->m.passable( potential_target ) ) {
+                    targets.emplace( potential_target );
+                } else {
+                    break;
+                }
+            }
+        }
+        for( const tripoint &ccwise_line_pt : ccwise_line ) {
+            std::vector<tripoint> temp_line = line_to( start_line_pt, ccwise_line_pt );
+            for( const tripoint &potential_target : temp_line ) {
+                if( ignore_walls || g->m.passable( potential_target ) ) {
+                    targets.emplace( potential_target );
                 } else {
                     break;
                 }
