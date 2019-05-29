@@ -1820,7 +1820,7 @@ std::vector<tripoint> target_handler::target_ui( spell &casting )
         }
 
         g->draw_cursor( dst );
-        for ( const tripoint &area : spell_aoe ) {
+        for( const tripoint &area : spell_aoe ) {
             g->m.drawsq( g->w_terrain, pc, area, true, true, center );
         }
 
