@@ -23,7 +23,7 @@
   { "id": "4570_pen",
     "copy-from": "4570_sp",
     "type": "AMMO",
-    "name": ".45-70 +P Penetrator",
+    "name": ".45-70 +P penetrator",
     "description": ".45-70 Government +P ammunition loaded with a 305 grain solid copper penetrator projectile.  Designed for maximum penetration through thick hide and bone while maintaining ideal wounding characteristics.",
     "price": 5000,
     "count": 10,
