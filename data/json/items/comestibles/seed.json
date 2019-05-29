@@ -761,6 +761,7 @@
     "type": "COMESTIBLE",
     "id": "seed_chamomile",
     "copy-from": "seed",
+    "looks_like": "seed_raw_dandelion",
     "name": "chamomile seeds",
     "name_plural": "chamomile seeds",
     "description": "Some chamomile seeds.",
