@@ -1700,8 +1700,7 @@ int map::move_cost( const tripoint &to, const tripoint &from, const vehicle *ign
             
             //If parts are of the same vehicle ignore them if they are not contiguous in mount space.           
             if( veh_y && veh_x && veh_y==veh_x ){            
-                point dmount = vp_y->mount() - vp_x->mount();
-                std::cout << tripoint(vp_y->mount(),0) << " - " << tripoint(vp_x->mount(),0) << " = " << tripoint(dmount,0) << std::endl;
+                point dmount = vp_y->mount() - vp_x->mount();                
                 bool connected = abs(dmount.x) < 2  && abs(dmount.y) < 2; // Diagonal parts count as connected too.                
                 if( !connected ){
                     part_x = -1;
@@ -1716,8 +1715,7 @@ int map::move_cost( const tripoint &to, const tripoint &from, const vehicle *ign
                 return 0;
             }
         }
-    }
-    std::cout << "cost " << cost_to << std::endl;
+    }    
     return cost_to;    
 }
 

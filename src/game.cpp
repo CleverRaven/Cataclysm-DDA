@@ -9334,8 +9334,7 @@ bool game::ramp_move( const tripoint &dest_loc )
 }
 
 bool game::walk_move( const tripoint &dest_loc )
-{
-    std::cout << "walking " << dest_loc << std::endl;
+{    
     const optional_vpart_position vp_here = m.veh_at( u.pos() );
     const optional_vpart_position vp_there = m.veh_at( dest_loc );
 
