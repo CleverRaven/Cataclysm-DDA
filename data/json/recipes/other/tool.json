@@ -201,12 +201,9 @@
     "difficulty": 3,
     "time": 60000,
     "autolearn": true,
-    "book_learn": [ [ "mag_survival", 1 ], [ "atomic_survival", 1 ], [ "textbook_carpentry", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
-      [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "steel_chunk", 1 ], [ "steel_lump", 1 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "sinew", 40 ], [ "thread", 40 ], [ "plant_fibre", 40 ], [ "yarn", 40 ] ]
+      [ [ "steel_chunk", 1 ], [ "steel_lump", 1 ] ]
     ]
   },
   {
