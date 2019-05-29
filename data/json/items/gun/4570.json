@@ -43,7 +43,7 @@
     "color": "dark_gray",
     "symbol": "(",
     "ammo": "4570",
-    "ranged_damage": -20,
+    "ranged_damage": -15,
     "dispersion": 180,
     "durability": 8,
     "clip_size": 5,
