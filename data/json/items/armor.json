@@ -10271,5 +10271,25 @@
     "material_thickness": 2,
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "OVERSIZE" ]
+  },
+  {
+    "id": "tarp",
+    "type": "ARMOR",
+    "name": "tarpaulin",
+    "description": "A plastic sheet with several grommets for securing it with rope or cord.  Useful for improvised rain protection.",
+    "weight": 1244,
+    "volume": 8,
+    "price": 5000,
+    "to_hit": -1,
+    "material": [ "plastic" ],
+    "symbol": "[",
+    "color": "light_blue",
+    "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "coverage": 90,
+    "encumbrance": 30,
+    "warmth": 10,
+    "material_thickness": 1,
+    "environmental_protection": 1,
+    "flags": [ "OVERSIZE", "OUTER", "WATERPROOF", "RAINPROOF", "ALLOWS_NATURAL_ATTACKS" ]
   }
 ]

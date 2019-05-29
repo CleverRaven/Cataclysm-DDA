@@ -9110,5 +9110,37 @@
     "color": "brown_yellow",
     "looks_like": "frame_wood_light",
     "flags": [ "NONCONDUCTIVE" ]
+  },
+  {
+    "id": "hand_axe",
+    "type": "TOOL",
+    "name": "hand axe",
+    "name_plural": "hand axes",
+    "description": "This is a broad piece of sharpened stone, with enough left untouched to hold safely.  The Swiss Army knife of the lower paleolithic.",
+    "weight": 453,
+    "volume": 2,
+    "price": 0,
+    "to_hit": -1,
+    "bashing": 5,
+    "cutting": 3,
+    "material": "stone",
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 6 ], [ "SAW_W", 1 ], [ "AXE", 1 ], [ "HAMMER", 1 ] ]
+  },
+  {
+    "id": "makeshift_axe",
+    "type": "TOOL",
+    "name": "makeshift axe",
+    "description": "This is a sharpened chunk of steel affixed to a stick.  It works passably well as an axe but really can't compare to a proper axe.",
+    "weight": 3254,
+    "volume": 14,
+    "price": 0,
+    "bashing": 11,
+    "cutting": 8,
+    "material": [ "wood", "steel" ],
+    "symbol": "/",
+    "color": "light_gray",
+    "qualities": [ [ "AXE", 2 ] ]
   }
 ]
