@@ -1036,9 +1036,9 @@
   {
     "id": "roller_shoes_off",
     "type": "ARMOR",
-    "name": "pair of roller shoes (off)",
-    "name_plural": "pairs of roller shoes (off)",
-    "description": "A pair of sneakers with wheels, currently, the wheels are hidden.",
+    "name": "pair of heelys (off)",
+    "name_plural": "pairs of heelys (off)",
+    "description": "A pair of sneakers with wheels, currently the wheels are hidden.",
     "weight": 840,
     "volume": 6,
     "price": 10000,
@@ -1056,8 +1056,8 @@
   {
     "id": "roller_shoes_on",
     "type": "ARMOR",
-    "name": "pair of roller shoes (on)",
-    "name_plural": "pairs of roller shoes (on)",
+    "name": "pair of heelys (on)",
+    "name_plural": "pairs of heelys (on)",
     "description": "A pair of sneakers with wheels, currently the wheels are out.",
     "weight": 840,
     "volume": 6,
