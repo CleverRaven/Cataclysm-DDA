@@ -1444,6 +1444,7 @@
   {
     "type": "recipe",
     "result": "americano",
+	"id_suffix": "from_espresso_dilute",
 	"result_mult": 3,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
