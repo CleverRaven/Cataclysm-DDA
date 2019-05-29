@@ -1901,6 +1901,17 @@ int player::run_cost( int base_cost, bool diag ) const
             movecost *= 1.3f;
         }
     }
+    
+        
+    // Skates with only one wheel (roller shoes) are fairly less stable
+    // and fairly slower as well
+    if( worn_with_flag( "ROLLER_ONE" ) ) {
+        if( on_road ) {
+            movecost *= 0.85f;
+        } else {
+            movecost *= 1.55f;
+        }
+    }
 
     movecost +=
         ( ( encumb( bp_foot_l ) + encumb( bp_foot_r ) ) * 2.5 +
@@ -2818,7 +2829,7 @@ int player::get_shout_volume() const
     }
 
     // Masks and such dampen the sound
-    // Balanced around whisper for wearing bondage mask
+    // balanced around whisper for wearing bondage mask
     // and noise ~= 10 (door smashing) for wearing dust mask for character with strength = 8
     /** @EFFECT_STR increases shouting volume */
     const int penalty = encumb( bp_mouth ) * 3 / 2;
@@ -3203,6 +3214,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
     }
     if( worn_with_flag( "REQUIRES_BALANCE" ) && !has_effect( effect_downed ) ) {
         int rolls = 4;
+        if (worn_with_flag("HEELIES") { rolls += 2; }
         if( has_trait( trait_PROF_SKATER ) ) {
             rolls--;
         }
