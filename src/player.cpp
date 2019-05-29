@@ -5787,7 +5787,8 @@ void player::suffer()
     const int player_local_temp = g->weather.get_temperature( pos() );
     double sleeve_factor = armwear_factor();
     const bool has_hat = wearing_something_on( bp_head );
-    const bool leafy = has_trait( trait_LEAVES ) || has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
+    const bool leafy = has_trait( trait_LEAVES ) || has_trait( trait_LEAVES2 ) ||
+                       has_trait( trait_LEAVES3 );
     const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
     const bool leafiest = has_trait( trait_LEAVES3 );
     int sunlight_nutrition = 0;
