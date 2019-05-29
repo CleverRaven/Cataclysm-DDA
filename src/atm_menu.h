@@ -24,8 +24,8 @@ class atm_menu
         atm_menu &operator=( atm_menu const & ) = delete;
         atm_menu &operator=( atm_menu && )      = delete;
 
-        explicit atm_menu( player &p );        
-        explicit atm_menu( player &p, item* it );
+        explicit atm_menu( player &p );
+        explicit atm_menu( player &p, item *it );
 
         void start();
     private:

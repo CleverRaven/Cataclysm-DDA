@@ -16,12 +16,12 @@
 //--------------------------------------------------------------------------------------------------
 //! Implements atm interactions
 //--------------------------------------------------------------------------------------------------
-atm_menu::atm_menu( player &p ) : u( p ), portable(false)
+atm_menu::atm_menu( player &p ) : u( p ), portable( false )
 {
     reset( false );
 };
 
-atm_menu::atm_menu( player &p, item* it ) : u( p ), portable( true ), a( it )
+atm_menu::atm_menu( player &p, item *it ) : u( p ), portable( true ), a( it )
 {
     reset( false );
 }
@@ -30,20 +30,20 @@ void atm_menu::start()
 {
     for( bool result = false; !result; ) {
         switch( choose_option() ) {
-        case purchase_card:
-            result = do_purchase_card();
-            break;
-        case deposit_money:
-            result = do_deposit_money();
-            break;
-        case withdraw_money:
-            result = do_withdraw_money();
-            break;
-        case transfer_all_money:
-            result = do_transfer_all_money();
-            break;
-        default:
-            return;
+            case purchase_card:
+                result = do_purchase_card();
+                break;
+            case deposit_money:
+                result = do_deposit_money();
+                break;
+            case withdraw_money:
+                result = do_withdraw_money();
+                break;
+            case transfer_all_money:
+                result = do_transfer_all_money();
+                break;
+            default:
+                return;
         }
         if( !u.activity.is_null() ) {
             break;
@@ -248,18 +248,16 @@ bool atm_menu::do_transfer_all_money()
             // the next turn. Putting this here makes sure there will be something to be
             // done next turn.
             u.assign_activity( activity_id( "ACT_ATM" ), 0, transfer_all_money, u.get_item_position( dst ) );
-            if ( portable && ( u.activity.targets.size() == 0 ) )
-            {
+            if( portable && ( u.activity.targets.size() == 0 ) ) {
                 u.activity.targets.push_back( item_location( u, a ) );
             }
             break;
         }
 
-        if ( portable ) {
-            if ( a->ammo_sufficient() ) {
+        if( portable ) {
+            if( a->ammo_sufficient() ) {
                 a->ammo_consume( a->ammo_required(), u.pos() );
-            } 
-            else {
+            } else {
                 u.add_msg_if_player( m_info, _( "Mini-ATM batteries are dead." ) );
                 break;
             }

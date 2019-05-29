@@ -171,3 +171,4 @@ Xcode/
 
 # gdb
 .gdb_history
+CMakeSettings.json
