@@ -7348,7 +7348,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
         if( cooktime <= 0 ) {
             item &meal = it->emplace_back( it->get_var( "DISH" ) );
-            if( *recipe_id( it->get_var( "RECIPE" ) ).hot_result() ) {
+            if( *recipe_id( it->get_var( "RECIPE" ) )->hot_result() ) {
                 meal.heat_up();
             } else {
                 meal.set_item_temperature( temp_to_kelvin( std::max( temperatures::cold,
