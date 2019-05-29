@@ -1438,7 +1438,7 @@
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
-    "tools": [ [ [ "water_boiling_heat", 5, "LIST" ] ] ],
+    "tools": [ [ [ "water_boiling_heat", 11, "LIST" ] ] ],
     "components": [ [ [ "coffee_raw_fine", 1 ] ], [ [ "water", 3 ], [ "water_clean", 3 ] ] ]
   },
   {
@@ -1454,6 +1454,34 @@
 	"flags": [ "BLIND_HARD" ],
     "batch_time_factors": [ 80, 4 ],
 	"components": [ [ [ "espresso", 1 ] ], [ [ "water_clean", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cordato",
+	"result_mult": 2,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "11 m",
+    "autolearn": true,
+    "batch_time_factors": [ 80, 4 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "coffee_raw_fine", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "con_milk" , 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "cordato",
+	"result_mult": 2,
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "7 m",
+    "autolearn": true,
+	"flags": [ "BLIND_HARD" ],
+    "batch_time_factors": [ 80, 4 ],
+	"components": [ [ [ "espresso", 1 ] ], [ [ "milk", 1 ], [ "milk_reconstituted", 1 ], [ "con_milk" , 1 ] ] ]
   },
   {
     "type": "recipe",
