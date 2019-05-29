@@ -94,7 +94,7 @@
     "material": "mushroom",
     "volume": 1,
     "fun": -3,
-    "flags": [ "FREEZERBURN", "SMOKABLE" ],
+    "flags": [ "FREEZERBURN", "SMOKABLE", "FORAGE_POISON", "FORAGE_HALLU" ],
     "smoking_result": "dry_mushroom",
     "vitamins": [ [ "vitC", 2 ], [ "iron", 2 ] ]
   }

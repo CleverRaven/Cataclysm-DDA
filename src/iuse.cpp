@@ -21,6 +21,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
 #include "explosion.h"
@@ -1768,6 +1769,20 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
     return 0;
 }
 
+static bool good_fishing_spot( tripoint pos )
+{
+    std::vector<monster *> fishables = g->get_fishable( 60, pos );
+    // isolated little body of water with no definite fish population
+    oter_id &cur_omt = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( pos ) ) );
+    std::string om_id = cur_omt.id().c_str();
+    if( fishables.empty() && !g->m.has_flag( "CURRENT", pos ) &&
+        om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_lake_shore() ) {
+        g->u.add_msg_if_player( m_info, _( "You doubt you will have much luck catching fish here" ) );
+        return false;
+    }
+    return true;
+}
+
 int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ) {
@@ -1780,22 +1795,16 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     const tripoint pnt = *pnt_;
-
     if( !g->m.has_flag( "FISHABLE", pnt ) ) {
         p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
         return 0;
     }
-
-    std::vector<monster *> fishables = g->get_fishable( 60, pnt );
-    if( fishables.empty() ) {
-        p->add_msg_if_player( m_info,
-                              _( "There are no fish around.  Try another spot." ) ); // maybe let the player find that out by himself?
+    if( !good_fishing_spot( pnt ) ) {
         return 0;
     }
-
     p->add_msg_if_player( _( "You cast your line and wait to hook something..." ) );
-
-    p->assign_activity( activity_id( "ACT_FISH" ), 30000, 0, p->get_item_position( it ), it->tname() );
+    p->assign_activity( activity_id( "ACT_FISH" ), to_moves<int>( 5_hours ), 0,
+                        p->get_item_position( it ), it->tname() );
     p->activity.placement = pnt;
 
     return 0;
@@ -1835,11 +1844,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
             return 0;
         }
-
-        std::vector<monster *> fishables = g->get_fishable( 60, pnt );
-        if( fishables.empty() ) {
-            p->add_msg_if_player( m_info,
-                                  _( "There is no fish around.  Try another spot." ) ); // maybe let the player find that out by himself?
+        if( !good_fishing_spot( pnt ) ) {
             return 0;
         }
         it->active = true;
@@ -1899,8 +1904,17 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
                                                pos ); //get the fishables around the trap's spot
             for( int i = 0; i < fishes; i++ ) {
                 p->practice( skill_survival, rng( 3, 10 ) );
-                if( fishables.size() > 1 ) {
-                    g->catch_a_monster( fishables, pos, p, 300_hours ); //catch the fish!
+                if( fishables.size() >= 1 ) {
+                    monster *chosen_fish = random_entry( fishables );
+                    // reduce the abstract fish_population marker of that fish
+                    chosen_fish->fish_population -= 1;
+                    if( chosen_fish->fish_population <= 0 ) {
+                        g->catch_a_monster( chosen_fish, pos, p, 300_hours ); //catch the fish!
+                    } else {
+                        g->m.add_item_or_charges( p->pos(), item::make_corpse( chosen_fish->type->id,
+                                                  calendar::turn + rng( 0_turns,
+                                                          3_hours ) ) );
+                    }
                 } else {
                     //there will always be a chance that the player will get lucky and catch a fish
                     //not existing in the fishables vector. (maybe it was in range, but wandered off)
@@ -3934,12 +3948,16 @@ int iuse::shocktonfa_on( player *p, item *it, bool t, const tripoint &pos )
 int iuse::mp3( player *p, item *it, bool, const tripoint & )
 {
     if( !it->ammo_sufficient() ) {
-        p->add_msg_if_player( m_info, _( "The mp3 player's batteries are dead." ) );
-    } else if( p->has_active_item( "mp3_on" ) ) {
-        p->add_msg_if_player( m_info, _( "You are already listening to an mp3 player!" ) );
+        p->add_msg_if_player( m_info, _( "The device's batteries are dead." ) );
+    } else if( p->has_active_item( "mp3_on" ) || p->has_active_item( "smartphone_music" ) ) {
+        p->add_msg_if_player( m_info, _( "You are already listening to music!" ) );
     } else {
         p->add_msg_if_player( m_info, _( "You put in the earbuds and start listening to music." ) );
-        it->convert( "mp3_on" ).active = true;
+        if( it->typeId() == "mp3" ) {
+            it->convert( "mp3_on" ).active = true;
+        } else if( it->typeId() == "smart_phone" ) {
+            it->convert( "smartphone_music" ).active = true;
+        }
     }
     return it->type->charges_to_use();
 }
@@ -4022,8 +4040,13 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
             play_music( *p, pos, 0, 20 );
         }
     } else { // Turning it off
-        p->add_msg_if_player( _( "The mp3 player turns off." ) );
-        it->convert( "mp3" ).active = false;
+        if( it->typeId() == "mp3_on" ) {
+            p->add_msg_if_player( _( "The mp3 player turns off." ) );
+            it->convert( "mp3" ).active = false;
+        } else if( it->typeId() == "smartphone_music" ) {
+            p->add_msg_if_player( _( "The phone turns off." ) );
+            it->convert( "smart_phone" ).active = false;
+        }
     }
     return it->type->charges_to_use();
 }
@@ -4440,6 +4463,34 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
 
     it->put_in( blood );
     return it->type->charges_to_use();
+}
+
+//This is just used for robofac_intercom_mission_2
+int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
+{
+    for( auto &map_it : g->m.i_at( p->posx(), p->posy() ) ) {
+        if( map_it.typeId() == "rmi2_corpse" &&
+            query_yn( _( "Use the mind splicer kit on the %s?" ), colorize( map_it.tname(),
+                      map_it.color_in_inventory() ) ) ) {
+            int pos = g->inv_for_id( itype_id( "data_card" ), _( "Select storage media" ) );
+            item &data_card = p->i_at( pos );
+            if( data_card.is_null() ) {
+                add_msg( m_info, _( "Nevermind." ) );
+                return 0;
+            }
+            ///\EFFECT_DEX makes using the mind splicer faster
+            ///\EFFECT_FIRSTAID makes using the mind splicer faster
+            const time_duration time = std::max( 150_minutes - 20_minutes * ( p->get_skill_level(
+                    skill_firstaid ) - 1 ) - 10_minutes * ( p->get_dex() - 8 ), 30_minutes );
+
+            player_activity act( activity_id( "ACT_MIND_SPLICER" ), to_moves<int>( time ) );
+            act.targets.push_back( item_location( *p, &data_card ) );
+            p->assign_activity( act );
+            return it->type->charges_to_use();
+        }
+    }
+    add_msg( m_info, _( "There's nothing to use the %s on here." ), it->tname() );
+    return 0;
 }
 
 void iuse::cut_log_into_planks( player &p )
@@ -5162,12 +5213,9 @@ static bool heat_item( player &p )
     if( target.item_tags.count( "FROZEN" ) ) {
         target.apply_freezerburn();
 
-        if( target.has_flag( "EATEN_COLD" ) &&
-            !query_yn( _( "%s is best served cold.  Heat beyond defrosting?" ),
-                       colorize( target.tname(), target.color_in_inventory() ) ) ) {
-
+        if( target.has_flag( "EATEN_COLD" ) ) {
             target.cold_up();
-            add_msg( _( "You defrost the food." ) );
+            add_msg( _( "You defrost the food, but don't heat it up, since you enjoy it cold." ) );
         } else {
             add_msg( _( "You defrost and heat up the food." ) );
             target.heat_up();

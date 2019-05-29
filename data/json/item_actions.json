@@ -106,6 +106,11 @@
   },
   {
     "type": "item_action",
+    "id": "MIND_SPLICER",
+    "name": "Extract data from memory banks"
+  },
+  {
+    "type": "item_action",
     "id": "ROBOTCONTROL",
     "name": "Hack a robot"
   },
@@ -617,12 +622,12 @@
   {
     "type": "item_action",
     "id": "MP3",
-    "name": "Turn on"
+    "name": "Play music"
   },
   {
     "type": "item_action",
     "id": "MP3_ON",
-    "name": "Turn off"
+    "name": "Turn off music"
   },
   {
     "type": "item_action",

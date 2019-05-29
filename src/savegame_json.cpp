@@ -1677,7 +1677,7 @@ void monster::load( JsonObject &data )
     data.read( "morale", morale );
     data.read( "hallucination", hallucination );
     data.read( "stairscount", staircount ); // really?
-
+    data.read( "fish_population", fish_population );
     // Load legacy plans.
     std::vector<tripoint> plans;
     data.read( "plans", plans );
@@ -1746,6 +1746,7 @@ void monster::store( JsonOut &json ) const
     json.member( "hp", hp );
     json.member( "special_attacks", special_attacks );
     json.member( "friendly", friendly );
+    json.member( "fish_population", fish_population );
     json.member( "faction", faction.id().str() );
     json.member( "mission_id", mission_id );
     json.member( "no_extra_death_drops", no_extra_death_drops );
@@ -3012,7 +3013,15 @@ void basecamp::serialize( JsonOut &json ) const
             json.start_object();
             json.member( "dir", expansion.first );
             json.member( "type", expansion.second.type );
-            json.member( "cur_level", expansion.second.cur_level );
+            json.member( "provides" );
+            json.start_array();
+            for( const auto provide : expansion.second.provides ) {
+                json.start_object();
+                json.member( "id", provide.first );
+                json.member( "amount", provide.second );
+                json.end_object();
+            }
+            json.end_array();
             json.member( "pos", expansion.second.pos );
             json.end_object();
         }
@@ -3043,7 +3052,19 @@ void basecamp::deserialize( JsonIn &jsin )
         expansion_data e;
         const std::string dir = edata.get_string( "dir" );
         edata.read( "type", e.type );
-        edata.read( "cur_level", e.cur_level );
+        if( edata.has_int( "cur_level" ) ) {
+            edata.read( "cur_level", e.cur_level );
+        }
+        if( edata.has_array( "provides" ) ) {
+            e.cur_level = -1;
+            JsonArray provides_arr = edata.get_array( "provides" );
+            while( provides_arr.has_more() ) {
+                JsonObject provide_data = provides_arr.next_object();
+                std::string id = provide_data.get_string( "id" );
+                int amount = provide_data.get_int( "amount" );
+                e.provides[ id ] = amount;
+            }
+        }
         edata.read( "pos", e.pos );
         expansions[ dir ] = e;
         if( dir != "[B]" ) {

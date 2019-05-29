@@ -412,27 +412,6 @@ class game
         bool revive_corpse( const tripoint &location, item &corpse );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
         void save_cyborg( item *cyborg, const tripoint couch_pos, player &installer );
-        /**
-         * Returns true if the player is allowed to fire a given item, or false if otherwise.
-         * reload_time is stored as a side effect of condition testing.
-         * @param args Contains item data and targeting mode for the gun we want to fire.
-         * @return True if all conditions are true, otherwise false.
-         */
-        bool plfire_check( const targeting_data &args );
-
-        /**
-         * Handles interactive parts of gun firing (target selection, etc.).
-         * @return Whether an attack was actually performed.
-         */
-        bool plfire();
-        /**
-         * Handles interactive parts of gun firing (target selection, etc.).
-         * This version stores targeting parameters for weapon, used for calls to the nullary form.
-         * @param weapon Reference to a weapon we want to start aiming.
-         * @param bp_cost The amount by which the player's power reserve is decreased after firing.
-         * @return Whether an attack was actually performed.
-         */
-        bool plfire( item &weapon, int bp_cost = 0 );
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
@@ -492,7 +471,7 @@ class game
         /** Handles swimming by the player. Called by avatar_action::move(). */
         void plswim( const tripoint &p );
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
-        void catch_a_monster( std::vector<monster *> &catchables, const tripoint &pos, player *p,
+        void catch_a_monster( monster *fish, const tripoint &pos, player *p,
                               const time_duration &catch_duration );
         /**
          * Get the fishable monsters within the contiguous fishable terrain starting at fish_pos,

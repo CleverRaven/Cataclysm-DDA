@@ -1155,7 +1155,7 @@ static void fire()
                         switch_mode, switch_ammo, prepare_fire, post_fire
                     };
                     u.set_targeting_data( args );
-                    g->plfire();
+                    avatar_action::fire( g->u, g->m );
 
                     break;
                 }
@@ -1202,7 +1202,7 @@ static void fire()
     }
 
     if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
-        g->plfire( u.weapon );
+        avatar_action::fire( g->u, g->m, u.weapon );
     } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
         int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
         if( u.has_effect( effect_relax_gas ) ) {
@@ -1833,7 +1833,7 @@ bool game::handle_action()
             case ACTION_FIRE_BURST: {
                 gun_mode_id original_mode = u.weapon.gun_get_mode_id();
                 if( u.weapon.gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
-                    plfire( u.weapon );
+                    avatar_action::fire( u, m, u.weapon );
                     u.weapon.gun_set_mode( original_mode );
                 }
                 break;

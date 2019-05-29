@@ -1877,8 +1877,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
 
             //If we have the wrong size, we do not fit so alert the player
-            if( sizing_level == sizing::big_sized_human_char ||
-                sizing_level == sizing::human_sized_small_char )  {
+            if( sizing_level == sizing::human_sized_small_char )  {
                 format = _( "<num> <bad>(too big)</bad>" );
             } else if( sizing_level == sizing::big_sized_small_char ) {
                 format = _( "<num> <bad>(huge!)</bad>" );
@@ -2360,34 +2359,34 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 if( has_flag( "FIT" ) ) {
                     if( sizing_level == sizing::human_sized_human_char ) {
                         info.push_back( iteminfo( "DESCRIPTION",
-                                                  _( "* This piece of clothing <info>fits</info> you perfectly." ) ) );
+                                                  _( "* This clothing <info>fits</info> you perfectly." ) ) );
                     } else if( sizing_level == sizing::big_sized_big_char ) {
                         info.push_back( iteminfo( "DESCRIPTION",
-                                                  _( "* This piece of clothing <info>fits</info> your large frame perfectly." ) ) );
+                                                  _( "* This clothing <info>fits</info> your large frame perfectly." ) ) );
                     } else if( sizing_level == sizing::small_sized_small_char ) {
                         info.push_back( iteminfo( "DESCRIPTION",
-                                                  _( "* This piece of clothing <info>fits</info> your small frame perfectly." ) ) );
+                                                  _( "* This clothing <info>fits</info> your small frame perfectly." ) ) );
                     }
                 }
 
                 if( sizing_level == sizing::big_sized_human_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing is <bad>oversized</bad> and does <bad>not fit</bad> you." ) ) );
+                                              _( "* This clothing is <bad>oversized</bad> and does <bad>not fit</bad> you." ) ) );
                 } else if( sizing_level == sizing::big_sized_small_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing is hilariously <bad>oversized</bad> and does <bad>not fit</bad> your <info>abnormally small mutated anatomy</info>." ) ) );
+                                              _( "* This clothing is hilariously <bad>oversized</bad> and does <bad>not fit</bad> your <info>abnormally small mutated anatomy</info>." ) ) );
                 } else if( sizing_level == sizing::human_sized_big_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing is <bad>normal sized</bad> and does <bad>not fit</info> your <info>abnormally large mutated anatomy</info>." ) ) );
+                                              _( "* This clothing is <bad>normal sized</bad> and does <bad>not fit</info> your <info>abnormally large mutated anatomy</info>." ) ) );
                 } else if( sizing_level == sizing::human_sized_small_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing is <bad>normal sized</bad> and does <bad>not fit</bad> your <info>abnormally small mutated anatomy</info>." ) ) );
+                                              _( "* This clothing is <bad>normal sized</bad> and does <bad>not fit</bad> your <info>abnormally small mutated anatomy</info>." ) ) );
                 } else if( sizing_level == sizing::small_sized_big_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing is hilariously <bad>undersized</bad> and does <bad>not fit</info> your <info>abnormally large mutated anatomy</info>." ) ) );
+                                              _( "* This clothing is hilariously <bad>undersized</bad> and does <bad>not fit</info> your <info>abnormally large mutated anatomy</info>." ) ) );
                 } else if( sizing_level == sizing::small_sized_human_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing is <bad>undersized</bad> and does <bad>not fit</info> you." ) ) );
+                                              _( "* This clothing is <bad>undersized</bad> and does <bad>not fit</info> you." ) ) );
                 }
             }
 
@@ -2396,42 +2395,42 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                     if( has_flag( "FIT" ) ) {
                         if( sizing_level == sizing::small_sized_human_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be upsized</info>." ) ) );
+                                                      _( "* This clothing <info>can be upsized</info>." ) ) );
                         } else if( sizing_level == sizing::human_sized_small_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be downsized</info>." ) ) );
+                                                      _( "* This clothing <info>can be downsized</info>." ) ) );
                         } else if( sizing_level == sizing::big_sized_human_char ||
                                    sizing_level == sizing::big_sized_small_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <bad>can not be downsized.</bad>" ) ) );
+                                                      _( "* This clothing <bad>can not be downsized.</bad>" ) ) );
                         } else if( sizing_level == sizing::small_sized_big_char ||
                                    sizing_level == sizing::human_sized_big_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <bad>can not be upsized.</bad>" ) ) );
+                                                      _( "* This clothing <bad>can not be upsized.</bad>" ) ) );
                         }
                     } else {
                         if( sizing_level == sizing::small_sized_human_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be refitted</info> and <info>upsized</info>." ) ) );
+                                                      _( "* This clothing <info>can be refitted</info> and <info>upsized</info>." ) ) );
                         } else if( sizing_level == sizing::human_sized_small_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be refitted</info> and <info>downsized</info>." ) ) );
+                                                      _( "* This clothing <info>can be refitted</info> and <info>downsized</info>." ) ) );
                         } else if( sizing_level == sizing::big_sized_human_char ||
                                    sizing_level == sizing::big_sized_small_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be refitted</info> but <bad>not downsized.</bad>" ) ) );
+                                                      _( "* This clothing <info>can be refitted</info> but <bad>not downsized.</bad>" ) ) );
                         } else if( sizing_level == sizing::small_sized_big_char ||
                                    sizing_level == sizing::human_sized_big_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be refitted</info> but <bad>not upsized.</bad>" ) ) );
+                                                      _( "* This clothing <info>can be refitted</info> but <bad>not upsized.</bad>" ) ) );
                         } else {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be refitted</info>." ) ) );
+                                                      _( "* This clothing <info>can be refitted</info>." ) ) );
                         }
                     }
                 } else {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing <bad>can not be refitted, upsized, or downsized</bad>." ) ) );
+                                              _( "* This clothing <bad>can not be refitted, upsized, or downsized</bad>." ) ) );
                 }
             }
 
@@ -3179,7 +3178,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             ret << _( " (hallucinogenic)" );
         }
     }
-    if( goes_bad() || is_food() ) {
+    if( has_flag( "ETHEREAL_ITEM" ) ) {
+        ret << " (" << get_var( "ethereal" ) << " turns)";
+    } else if( goes_bad() || is_food() ) {
         if( item_tags.count( "DIRTY" ) ) {
             ret << _( " (dirty)" );
         } else if( rotten() ) {
@@ -3208,8 +3209,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 
     const sizing sizing_level = get_sizing( g->u, get_encumber( g->u ) != 0 );
 
-    if( sizing_level == sizing::big_sized_human_char ||
-        sizing_level == sizing::human_sized_small_char ) {
+
+    if( sizing_level == sizing::human_sized_small_char ) {
         ret << _( " (too big)" );
     } else if( sizing_level == sizing::big_sized_small_char ) {
         ret << _( " (huge!)" );
@@ -7202,7 +7203,7 @@ std::string item::components_to_string() const
 
 bool item::needs_processing() const
 {
-    return active || has_flag( "RADIO_ACTIVATION" ) ||
+    return active || has_flag( "RADIO_ACTIVATION" ) || has_flag( "ETHEREAL_ITEM" ) ||
            ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
            is_artifact() || is_food();
 }
@@ -7973,6 +7974,18 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
         } else {
             ++it;
         }
+    }
+
+    if( has_flag( "ETHEREAL_ITEM" ) ) {
+        if( !has_var( "ethereal" ) ) {
+            return true;
+        }
+        set_var( "ethereal", std::stoi( get_var( "ethereal" ) ) - 1 );
+        const bool processed = std::stoi( get_var( "ethereal" ) ) <= 0;
+        if( processed && carrier != nullptr ) {
+            carrier->add_msg_if_player( _( "%s %s disappears!" ), carrier->disp_name( true ), tname() );
+        }
+        return processed;
     }
 
     if( activate ) {

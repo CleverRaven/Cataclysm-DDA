@@ -29,6 +29,7 @@
 #include "artifact.h"
 #include "auto_pickup.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
@@ -1585,10 +1586,9 @@ void game::process_activity()
     }
 }
 
-void game::catch_a_monster( std::vector<monster *> &catchables, const tripoint &pos, player *p,
+void game::catch_a_monster( monster *fish, const tripoint &pos, player *p,
                             const time_duration &catch_duration ) // catching function
 {
-    monster *const fish = random_entry_removed( catchables );
     //spawn the corpse, rotten by a part of the duration
     m.add_item_or_charges( pos, item::make_corpse( fish->type->id, calendar::turn + rng( 0_turns,
                            catch_duration ) ) );
@@ -6807,33 +6807,34 @@ void game::draw_trail_to_square( const tripoint &t, bool bDrawX )
     wrefresh( w_terrain );
 }
 
-static void centerlistview( const tripoint &active_item_position )
+static void centerlistview( const tripoint &active_item_position, int ui_width )
 {
     player &u = g->u;
     if( get_option<std::string>( "SHIFT_LIST_ITEM_VIEW" ) != "false" ) {
         u.view_offset.z = active_item_position.z;
-        int xpos = POSX + active_item_position.x;
-        int ypos = POSY + active_item_position.y;
         if( get_option<std::string>( "SHIFT_LIST_ITEM_VIEW" ) == "centered" ) {
-            int xOffset = TERRAIN_WINDOW_WIDTH / 2;
-            int yOffset = TERRAIN_WINDOW_HEIGHT / 2;
-            if( xpos < 0 ) {
-                u.view_offset.x = xpos - xOffset;
-            } else {
-                u.view_offset.x = xpos - ( TERRAIN_WINDOW_WIDTH ) + xOffset;
-            }
-
-            if( ypos < 0 ) {
-                u.view_offset.y = ypos - yOffset;
-            } else {
-                u.view_offset.y = ypos - ( TERRAIN_WINDOW_HEIGHT ) + yOffset;
-            }
+            u.view_offset.x = active_item_position.x;
+            u.view_offset.y = active_item_position.y;
         } else {
+            int xpos = POSX + active_item_position.x;
+            int ypos = POSY + active_item_position.y;
+
+            // item/monster list UI is on the right, so get the difference between its width
+            // and the width of the sidebar on the right (if any)
+            int sidebar_right_adjusted = ui_width - panel_manager::get_manager().get_width_right();
+            // if and only if that difference is greater than zero, use that as offset
+            int right_offset = sidebar_right_adjusted > 0 ? sidebar_right_adjusted : 0;
+
+            // Convert offset to tile counts, calculate adjusted terrain window width
+            // This lets us account for possible differences in terrain width between
+            // the normal sidebar and the list-all-whatever display.
+            to_map_font_dim_width( right_offset );
+            int terrain_width = TERRAIN_WINDOW_WIDTH - right_offset;
+
             if( xpos < 0 ) {
                 u.view_offset.x = xpos;
-                // magic number is because terrain window is drawn underneath the sidebar
-            } else if( xpos >= TERRAIN_WINDOW_WIDTH - 11 ) {
-                u.view_offset.x = xpos - 48;
+            } else if( xpos >= terrain_width ) {
+                u.view_offset.x = xpos - ( terrain_width - 1 );
             } else {
                 u.view_offset.x = 0;
             }
@@ -7013,7 +7014,7 @@ void game::list_items_monsters()
 
     refresh_all();
     if( ret == game::vmenu_ret::FIRE ) {
-        plfire( u.weapon );
+        avatar_action::fire( u, m, u.weapon );
     }
     reenter_fullscreen();
 }
@@ -7364,7 +7365,7 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
                 draw_item_info( w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true );
 
                 iLastActive.emplace( active_pos );
-                centerlistview( active_pos );
+                centerlistview( active_pos, width );
                 draw_trail_to_square( active_pos, true );
             }
             draw_scrollbar( w_items_border, iActive, iMaxRows, iItemNum, 1 );
@@ -7633,7 +7634,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             // Only redraw trail/terrain if x/y position changed or if keybinding menu erased it
             tripoint iActivePos = cCurMon->pos() - u.pos();
             iLastActivePos.emplace( iActivePos );
-            centerlistview( iActivePos );
+            centerlistview( iActivePos, width );
             draw_trail_to_square( iActivePos, false );
 
             draw_scrollbar( w_monsters_border, iActive, iMaxRows, static_cast<int>( monster_list.size() ), 1 );
@@ -7781,216 +7782,6 @@ void game::plthrow( int pos, const cata::optional<tripoint> &blind_throw_from_po
     }
     u.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
     reenter_fullscreen();
-}
-
-// TODO: Move data/functions related to targeting out of game class
-bool game::plfire_check( const targeting_data &args )
-{
-    // TODO: Make this check not needed
-    if( args.relevant == nullptr ) {
-        debugmsg( "Can't plfire_check a null" );
-        return false;
-    }
-
-    if( u.has_effect( effect_relax_gas ) ) {
-        if( one_in( 5 ) ) {
-            add_msg( m_good, _( "Your eyes steel, and you raise your weapon!" ) );
-        } else {
-            u.moves -= rng( 2, 5 ) * 10;
-            add_msg( m_bad, _( "You can't fire your weapon, it's too heavy..." ) );
-            // break a possible loop when aiming
-            if( u.activity ) {
-                u.cancel_activity();
-            }
-
-            return false;
-        }
-    }
-
-    item &weapon = *args.relevant;
-    if( weapon.is_gunmod() ) {
-        add_msg( m_info,
-                 _( "The %s must be attached to a gun, it can not be fired separately." ),
-                 weapon.tname() );
-        return false;
-    }
-
-    auto gun = weapon.gun_current_mode();
-    // check that a valid mode was returned and we are able to use it
-    if( !( gun && u.can_use( *gun ) ) ) {
-        add_msg( m_info, _( "You can no longer fire." ) );
-        return false;
-    }
-
-    const optional_vpart_position vp = m.veh_at( u.pos() );
-    if( vp && vp->vehicle().player_in_control( u ) && gun->is_two_handed( u ) ) {
-        add_msg( m_info, _( "You need a free arm to drive!" ) );
-        return false;
-    }
-
-    if( !weapon.is_gun() ) {
-        // The weapon itself isn't a gun, this weapon is not fireable.
-        return false;
-    }
-
-    if( gun->has_flag( "FIRE_TWOHAND" ) && ( !u.has_two_arms() ||
-            u.worn_with_flag( "RESTRICT_HANDS" ) ) ) {
-        add_msg( m_info, _( "You need two free hands to fire your %s." ), gun->tname() );
-        return false;
-    }
-
-    // Skip certain checks if we are directly firing a vehicle turret
-    if( args.mode != TARGET_MODE_TURRET_MANUAL ) {
-        if( !gun->ammo_sufficient() && !gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
-            if( !gun->ammo_remaining() ) {
-                add_msg( m_info, _( "You need to reload!" ) );
-            } else {
-                add_msg( m_info, _( "Your %s needs %i charges to fire!" ),
-                         gun->tname(), gun->ammo_required() );
-            }
-            return false;
-        }
-
-        if( gun->get_gun_ups_drain() > 0 ) {
-            const int ups_drain = gun->get_gun_ups_drain();
-            const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
-
-            if( !( u.has_charges( "UPS_off", ups_drain ) ||
-                   u.has_charges( "adv_UPS_off", adv_ups_drain ) ||
-                   ( u.has_active_bionic( bionic_id( "bio_ups" ) ) && u.power_level >= ups_drain ) ) ) {
-                add_msg( m_info,
-                         _( "You need a UPS with at least %d charges or an advanced UPS with at least %d charges to fire that!" ),
-                         ups_drain, adv_ups_drain );
-                return false;
-            }
-        }
-
-        if( gun->has_flag( "MOUNTED_GUN" ) ) {
-            const bool v_mountable = static_cast<bool>( m.veh_at( u.pos() ).part_with_feature( "MOUNTABLE",
-                                     true ) );
-            bool t_mountable = m.has_flag_ter_or_furn( "MOUNTABLE", u.pos() );
-            if( !t_mountable && !v_mountable ) {
-                add_msg( m_info,
-                         _( "You must stand near acceptable terrain or furniture to use this weapon. A table, a mound of dirt, a broken window, etc." ) );
-                return false;
-            }
-        }
-    }
-
-    return true;
-}
-
-bool game::plfire()
-{
-    targeting_data args = u.get_targeting_data();
-    if( !args.relevant ) {
-        // args missing a valid weapon, this shouldn't happen.
-        debugmsg( "Player tried to fire a null weapon." );
-        return false;
-    }
-    // If we were wielding this weapon when we started aiming, make sure we still are.
-    bool lost_weapon = ( args.held && &u.weapon != args.relevant );
-    bool failed_check = !plfire_check( args );
-    if( lost_weapon || failed_check ) {
-        u.cancel_activity();
-        return false;
-    }
-
-    int reload_time = 0;
-    gun_mode gun = args.relevant->gun_current_mode();
-
-    // bows take more energy to fire than guns.
-    u.weapon.is_gun() ? u.increase_activity_level( LIGHT_EXERCISE ) : u.increase_activity_level(
-        MODERATE_EXERCISE );
-
-    // TODO: move handling "RELOAD_AND_SHOOT" flagged guns to a separate function.
-    if( gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
-        if( !gun->ammo_remaining() ) {
-            item::reload_option opt = u.ammo_location &&
-                                      gun->can_reload_with( u.ammo_location->typeId() ) ? item::reload_option( &u, args.relevant,
-                                              args.relevant, u.ammo_location.clone() ) : u.select_ammo( *gun );
-            if( !opt ) {
-                // Menu canceled
-                return false;
-            }
-            reload_time += opt.moves();
-            if( !gun->reload( u, std::move( opt.ammo ), 1 ) ) {
-                // Reload not allowed
-                return false;
-            }
-
-            // Burn 2x the strength required to fire in stamina.
-            u.mod_stat( "stamina", gun->get_min_str() * -2 );
-            // At low stamina levels, firing starts getting slow.
-            int sta_percent = ( 100 * u.stamina ) / u.get_stamina_max();
-            reload_time += ( sta_percent < 25 ) ? ( ( 25 - sta_percent ) * 2 ) : 0;
-
-            // Update targeting data to include ammo's range bonus
-            args.range = gun.target->gun_range( &u );
-            args.ammo = gun->ammo_data();
-            u.set_targeting_data( args );
-
-            refresh_all();
-        }
-    }
-
-    temp_exit_fullscreen();
-    m.draw( w_terrain, u.pos() );
-    std::vector<tripoint> trajectory = target_handler().target_ui( u, args );
-
-    if( trajectory.empty() ) {
-        bool not_aiming = u.activity.id() != activity_id( "ACT_AIM" );
-        if( not_aiming && gun->has_flag( "RELOAD_AND_SHOOT" ) ) {
-            const auto previous_moves = u.moves;
-            unload( *gun );
-            // Give back time for unloading as essentially nothing has been done.
-            // Note that reload_time has not been applied either.
-            u.moves = previous_moves;
-        }
-        reenter_fullscreen();
-        return false;
-    }
-    draw_ter(); // Recenter our view
-    wrefresh( w_terrain );
-    draw_panels();
-
-    int shots = 0;
-
-    u.moves -= reload_time;
-    // TODO: add check for TRIGGERHAPPY
-    if( args.pre_fire ) {
-        args.pre_fire( shots );
-    }
-    shots = u.fire_gun( trajectory.back(), gun.qty, *gun );
-    if( args.post_fire ) {
-        args.post_fire( shots );
-    }
-
-    if( shots && args.power_cost ) {
-        u.charge_power( -args.power_cost * shots );
-    }
-    reenter_fullscreen();
-    return shots != 0;
-}
-
-bool game::plfire( item &weapon, int bp_cost )
-{
-    // TODO: bionic power cost of firing should be derived from a value of the relevant weapon.
-    gun_mode gun = weapon.gun_current_mode();
-    // gun can be null if the item is an unattached gunmod
-    if( !gun ) {
-        add_msg( m_info, _( "The %s can't be fired in its current state." ), weapon.tname() );
-        return false;
-    }
-
-    targeting_data args = {
-        TARGET_MODE_FIRE, &weapon, gun.target->gun_range( &u ),
-        bp_cost, &u.weapon == &weapon, gun->ammo_data(),
-        target_callback(), target_callback(),
-        firing_callback(), firing_callback()
-    };
-    u.set_targeting_data( args );
-    return plfire();
 }
 
 // Used to set up the first Hotkey in the display set
