@@ -195,8 +195,8 @@
     "id": "leather_shop_repair",
     "type": "item_group",
     "items": [
-      [ "sewing_kit", 20 ],
-      [ "tailors_kit", 35 ],
+      [ "sewing_kit", 5 ],
+      [ "tailors_kit", 50 ],
       [ "thread", 10 ],
       [ "string_6", 50 ],
       [ "leather", 10 ],
