@@ -183,7 +183,7 @@ class options_manager
                 float fStep;
         };
 
-        typedef std::unordered_map<std::string, cOpt> options_container;
+        using options_container = std::unordered_map<std::string, cOpt>;
 
         void init();
         void add_options_general();

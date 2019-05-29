@@ -1412,14 +1412,134 @@
   {
     "type": "speech",
     "speaker": "mon_mi_go",
-    "sound": "That creepy abandoned post-apocalyptic lab complex looks safe...",
+    "sound": "\"That creepy abandoned post-apocalyptic lab complex looks safe...\"",
     "volume": 20
   },
   {
     "type": "speech",
     "speaker": "mon_mi_go",
-    "sound": "Don't worry, it isn't like anything could teleport out of the containment cells.",
+    "sound": "\"Don't worry, it isn't like anything could teleport out of the containment cells.\"",
     "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"Burning...  from the inside...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"This smell...  Don't know...\"",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "heavy breathing.",
+    "volume": 10
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "a scraping noise.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"No...  Stop the burning!\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"Hrgm...  Blood...  Hungry...\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"Hunger...  Must eat...\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"Run... Chase... Eat...\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "hysterical laughing.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "coughing.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "growling.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "wheezing.",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"WHY THE FUCK are you doing this to me?\"",
+    "volume": 20
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"LEAVE!  NOW!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"I TOLD YOU TO GET OUT OF HERE!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"WHAT THE FUCK DO YOU WANT FROM ME?!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"STOP!\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "indistinct shouting.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "screaming.",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "mon_mutant_experimental",
+    "sound": "\"MEAT!\"",
+    "volume": 40
   },
   {
     "type": "speech",
@@ -1538,7 +1658,7 @@
   {
     "type": "speech",
     "speaker": "mon_prototype_cyborg",
-    "sound": "Screems of pain.",
+    "sound": "screams of pain.",
     "volume": 20
   },
   {

@@ -14,7 +14,7 @@
     "skill": "archery",
     "max_level": 2,
     "intelligence": 7,
-    "time": 20
+    "time": "20 m"
   },
   {
     "id": "mag_archery",
@@ -31,7 +31,7 @@
     "skill": "archery",
     "max_level": 1,
     "intelligence": 2,
-    "time": 7,
+    "time": "7 m",
     "fun": 1
   },
   {
@@ -49,6 +49,6 @@
     "skill": "archery",
     "max_level": 3,
     "intelligence": 7,
-    "time": 20
+    "time": "20 m"
   }
 ]

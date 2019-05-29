@@ -44,7 +44,7 @@ template<typename T>
 class string_id
 {
     public:
-        typedef string_id<T> This;
+        using This = string_id<T>;
 
         /**
          * Forwarding constructor, forwards any parameter to the std::string

@@ -1,0 +1,27 @@
+[
+  {
+    "type": "npc",
+    "id": "guard",
+    "//": "A generic guard for the Free Merchants faction.",
+    "name_suffix": "Guard",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_GUARD",
+    "faction": "free_merchants"
+  },
+  {
+    "id": "TALK_GUARD",
+    "type": "talk_topic",
+    "dynamic_line": [
+      "I'm not in charge here, you're looking for someone else...",
+      "Keep civil or I'll bring the pain.",
+      "Just on watch, move along.",
+      {
+        "u_male": [ "Sir.", "Rough out there, isn't it?" ],
+        "no": [ "Ma'am", "Ma'am, you really shouldn't be traveling out there." ]
+      }
+    ],
+    "responses": [ { "text": "Don't mind me...", "topic": "TALK_DONE" } ]
+  }
+]

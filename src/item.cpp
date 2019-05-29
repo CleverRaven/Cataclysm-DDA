@@ -17,6 +17,7 @@
 
 #include "advanced_inv.h"
 #include "ammo.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
@@ -110,9 +111,9 @@ const material_id mat_kevlar( "kevlar" );
 
 const trait_id trait_small2( "SMALL2" );
 const trait_id trait_small_ok( "SMALL_OK" );
-
 const trait_id trait_huge( "HUGE" );
 const trait_id trait_huge_ok( "HUGE_OK" );
+using npc_class_id = string_id<npc_class>;
 
 const std::string &rad_badge_color( const int rad )
 {
@@ -155,14 +156,14 @@ item &null_item_reference()
     return result;
 }
 
-const long item::INFINITE_CHARGES = std::numeric_limits<long>::max();
+const int item::INFINITE_CHARGES = INT_MAX;
 
 item::item() : bday( calendar::start )
 {
     type = nullitem();
 }
 
-item::item( const itype *type, time_point turn, long qty ) : type( type ), bday( turn )
+item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( turn )
 {
     corpse = typeId() == "corpse" ? &mtype_id::NULL_ID().obj() : nullptr;
     item_counter = type->countdown_interval;
@@ -220,7 +221,7 @@ item::item( const itype *type, time_point turn, long qty ) : type( type ), bday(
     }
 }
 
-item::item( const itype_id &id, time_point turn, long qty )
+item::item( const itype_id &id, time_point turn, int qty )
     : item( find_type( id ), turn, qty ) {}
 
 item::item( const itype *type, time_point turn, default_charges_tag )
@@ -248,7 +249,7 @@ static const item *get_most_rotten_component( const item &craft )
     return most_rotten;
 }
 
-item::item( const recipe *rec, long qty, std::list<item> items )
+item::item( const recipe *rec, int qty, std::list<item> items )
     : item( "craft", calendar::turn, qty )
 {
     making = rec;
@@ -338,7 +339,7 @@ item &item::activate()
     return *this;
 }
 
-item &item::ammo_set( const itype_id &ammo, long qty )
+item &item::ammo_set( const itype_id &ammo, int qty )
 {
     if( qty < 0 ) {
         // completely fill an integral or existing magazine
@@ -462,7 +463,7 @@ item &item::set_damage( int qty )
     return *this;
 }
 
-item item::split( long qty )
+item item::split( int qty )
 {
     if( !count_by_charges() || qty <= 0 || qty >= charges ) {
         return item();
@@ -599,7 +600,7 @@ item item::in_container( const itype_id &cont ) const
     }
 }
 
-long item::charges_per_volume( const units::volume &vol ) const
+int item::charges_per_volume( const units::volume &vol ) const
 {
     if( count_by_charges() ) {
         if( type->volume == 0_ml ) {
@@ -806,48 +807,6 @@ void item::clear_vars()
     item_vars.clear();
 }
 
-const char ivaresc = 001;
-
-bool itag2ivar( const std::string &item_tag, std::map<std::string, std::string> &item_vars )
-{
-    size_t pos = item_tag.find( '=' );
-    if( item_tag.at( 0 ) == ivaresc && pos != std::string::npos && pos >= 2 ) {
-        std::string val_decoded;
-        int svarlen = 0;
-        int svarsep = 0;
-        svarsep = item_tag.find( '=' );
-        svarlen = item_tag.size();
-        val_decoded.clear();
-        std::string var_name = item_tag.substr( 1, svarsep - 1 ); // will assume sanity here for now
-        for( int s = svarsep + 1; s < svarlen;
-             s++ ) { // cheap and temporary, AFAIK stringstream IFS = [\r\n\t ];
-            if( item_tag[s] == ivaresc && s < svarlen - 2 ) {
-                if( item_tag[s + 1] == '0' && item_tag[s + 2] == 'A' ) {
-                    s += 2;
-                    val_decoded.append( 1, '\n' );
-                } else if( item_tag[s + 1] == '0' && item_tag[s + 2] == 'D' ) {
-                    s += 2;
-                    val_decoded.append( 1, '\r' );
-                } else if( item_tag[s + 1] == '0' && item_tag[s + 2] == '6' ) {
-                    s += 2;
-                    val_decoded.append( 1, '\t' );
-                } else if( item_tag[s + 1] == '2' && item_tag[s + 2] == '0' ) {
-                    s += 2;
-                    val_decoded.append( 1, ' ' );
-                } else {
-                    val_decoded.append( 1, item_tag[s] ); // hhrrrmmmmm should be passing \a?
-                }
-            } else {
-                val_decoded.append( 1, item_tag[s] );
-            }
-        }
-        item_vars[var_name] = val_decoded;
-        return true;
-    } else {
-        return false;
-    }
-}
-
 // TODO: Get rid of, handle multiple types gracefully
 static int get_ranged_pierce( const common_ranged_data &ranged )
 {
@@ -879,7 +838,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo, int batc
 
 // Generates a long-form description of the freshness of the given rottable food item.
 // NB: Doesn't check for non-rottable!
-std::string get_freshness_description( const item &food_item )
+static std::string get_freshness_description( const item &food_item )
 {
     // So, skilled characters looking at food that is neither super-fresh nor about to rot
     // can guess its age as one of {quite fresh,midlife,past midlife,old soon}, and also
@@ -991,7 +950,7 @@ item::sizing item::get_sizing( const Character &p, bool wearable ) const
 
 }
 
-int get_base_env_resist( const item &it )
+static int get_base_env_resist( const item &it )
 {
     const auto t = it.find_armor_data();
     if( t == nullptr ) {
@@ -1133,6 +1092,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 return string_format( "<stat>%s</stat>", _( material->name() ) );
             }, enumeration_conjunction::none );
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list ) ) );
+        }
+        if( has_owner() ) {
+            info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ), get_owner()->name ) ) );
         }
         if( has_var( "contained_name" ) && parts->test( iteminfo_parts::BASE_CONTENTS ) ) {
             info.push_back( iteminfo( "BASE", string_format( _( "Contains: %s" ),
@@ -1441,7 +1403,6 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
 
         bool has_ammo = curammo && mod->ammo_remaining();
 
-        damage_instance ammo_dam = has_ammo ? curammo->ammo->damage : damage_instance();
         // TODO: This doesn't cover multiple damage types
         int ammo_pierce     = has_ammo ? get_ranged_pierce( *curammo->ammo ) : 0;
         int ammo_dispersion = has_ammo ? curammo->ammo->dispersion : 0;
@@ -1524,6 +1485,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 }
             } else {
                 if( parts->test( iteminfo_parts::GUN_DAMAGE_LOADEDAMMO ) ) {
+                    damage_instance ammo_dam = has_ammo ? curammo->ammo->damage : damage_instance();
                     info.push_back( iteminfo( "GUN", "ammo_damage", "",
                                               iteminfo::no_newline | iteminfo::no_name |
                                               iteminfo::show_plus,
@@ -1915,8 +1877,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
 
             //If we have the wrong size, we do not fit so alert the player
-            if( sizing_level == sizing::big_sized_human_char ||
-                sizing_level == sizing::human_sized_small_char )  {
+            if( sizing_level == sizing::human_sized_small_char )  {
                 format = _( "<num> <bad>(too big)</bad>" );
             } else if( sizing_level == sizing::big_sized_small_char ) {
                 format = _( "<num> <bad>(huge!)</bad>" );
@@ -2398,34 +2359,34 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 if( has_flag( "FIT" ) ) {
                     if( sizing_level == sizing::human_sized_human_char ) {
                         info.push_back( iteminfo( "DESCRIPTION",
-                                                  _( "* This piece of clothing <info>fits</info> you perfectly." ) ) );
+                                                  _( "* This clothing <info>fits</info> you perfectly." ) ) );
                     } else if( sizing_level == sizing::big_sized_big_char ) {
                         info.push_back( iteminfo( "DESCRIPTION",
-                                                  _( "* This piece of clothing <info>fits</info> your large frame perfectly." ) ) );
+                                                  _( "* This clothing <info>fits</info> your large frame perfectly." ) ) );
                     } else if( sizing_level == sizing::small_sized_small_char ) {
                         info.push_back( iteminfo( "DESCRIPTION",
-                                                  _( "* This piece of clothing <info>fits</info> your small frame perfectly." ) ) );
+                                                  _( "* This clothing <info>fits</info> your small frame perfectly." ) ) );
                     }
                 }
 
                 if( sizing_level == sizing::big_sized_human_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing is <bad>oversized</bad> and does <bad>not fit</bad> you." ) ) );
+                                              _( "* This clothing is <bad>oversized</bad> and does <bad>not fit</bad> you." ) ) );
                 } else if( sizing_level == sizing::big_sized_small_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing is hilariously <bad>oversized</bad> and does <bad>not fit</bad> your <info>abnormally small mutated anatomy</info>." ) ) );
+                                              _( "* This clothing is hilariously <bad>oversized</bad> and does <bad>not fit</bad> your <info>abnormally small mutated anatomy</info>." ) ) );
                 } else if( sizing_level == sizing::human_sized_big_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing is <bad>normal sized</bad> and does <bad>not fit</info> your <info>abnormally large mutated anatomy</info>." ) ) );
+                                              _( "* This clothing is <bad>normal sized</bad> and does <bad>not fit</info> your <info>abnormally large mutated anatomy</info>." ) ) );
                 } else if( sizing_level == sizing::human_sized_small_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing is <bad>normal sized</bad> and does <bad>not fit</bad> your <info>abnormally small mutated anatomy</info>." ) ) );
+                                              _( "* This clothing is <bad>normal sized</bad> and does <bad>not fit</bad> your <info>abnormally small mutated anatomy</info>." ) ) );
                 } else if( sizing_level == sizing::small_sized_big_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing is hilariously <bad>undersized</bad> and does <bad>not fit</info> your <info>abnormally large mutated anatomy</info>." ) ) );
+                                              _( "* This clothing is hilariously <bad>undersized</bad> and does <bad>not fit</info> your <info>abnormally large mutated anatomy</info>." ) ) );
                 } else if( sizing_level == sizing::small_sized_human_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing is <bad>undersized</bad> and does <bad>not fit</info> you." ) ) );
+                                              _( "* This clothing is <bad>undersized</bad> and does <bad>not fit</info> you." ) ) );
                 }
             }
 
@@ -2434,42 +2395,42 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                     if( has_flag( "FIT" ) ) {
                         if( sizing_level == sizing::small_sized_human_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be upsized</info>." ) ) );
+                                                      _( "* This clothing <info>can be upsized</info>." ) ) );
                         } else if( sizing_level == sizing::human_sized_small_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be downsized</info>." ) ) );
+                                                      _( "* This clothing <info>can be downsized</info>." ) ) );
                         } else if( sizing_level == sizing::big_sized_human_char ||
                                    sizing_level == sizing::big_sized_small_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <bad>can not be downsized.</bad>" ) ) );
+                                                      _( "* This clothing <bad>can not be downsized.</bad>" ) ) );
                         } else if( sizing_level == sizing::small_sized_big_char ||
                                    sizing_level == sizing::human_sized_big_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <bad>can not be upsized.</bad>" ) ) );
+                                                      _( "* This clothing <bad>can not be upsized.</bad>" ) ) );
                         }
                     } else {
                         if( sizing_level == sizing::small_sized_human_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be refitted</info> and <info>upsized</info>." ) ) );
+                                                      _( "* This clothing <info>can be refitted</info> and <info>upsized</info>." ) ) );
                         } else if( sizing_level == sizing::human_sized_small_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be refitted</info> and <info>downsized</info>." ) ) );
+                                                      _( "* This clothing <info>can be refitted</info> and <info>downsized</info>." ) ) );
                         } else if( sizing_level == sizing::big_sized_human_char ||
                                    sizing_level == sizing::big_sized_small_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be refitted</info> but <bad>not downsized.</bad>" ) ) );
+                                                      _( "* This clothing <info>can be refitted</info> but <bad>not downsized.</bad>" ) ) );
                         } else if( sizing_level == sizing::small_sized_big_char ||
                                    sizing_level == sizing::human_sized_big_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be refitted</info> but <bad>not upsized.</bad>" ) ) );
+                                                      _( "* This clothing <info>can be refitted</info> but <bad>not upsized.</bad>" ) ) );
                         } else {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be refitted</info>." ) ) );
+                                                      _( "* This clothing <info>can be refitted</info>." ) ) );
                         }
                     }
                 } else {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing <bad>can not be refitted, upsized, or downsized</bad>." ) ) );
+                                              _( "* This clothing <bad>can not be refitted, upsized, or downsized</bad>." ) ) );
                 }
             }
 
@@ -2814,7 +2775,7 @@ const std::string &item::symbol() const
 
 nc_color item::color_in_inventory() const
 {
-    player &u = g->u; // TODO: make a const reference
+    avatar &u = g->u; // TODO: make a const reference
 
     // Only item not otherwise colored gets colored as favorite
     nc_color ret = is_favorite ? c_white : c_light_gray;
@@ -2971,7 +2932,10 @@ void item::on_wear( Character &p )
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_worn );
     }
-
+    // if game is loaded - dont want ownership assigned during char creation
+    if( g->u.getID() != -1 ) {
+        handle_pickup_ownership( p );
+    }
     p.on_item_wear( *this );
 }
 
@@ -3031,8 +2995,54 @@ void item::on_wield( player &p, int mv )
     } else {
         msg = _( "You wield your %s." );
     }
-
+    // if game is loaded - dont want ownership assigned during char creation
+    if( g->u.getID() != -1 ) {
+        handle_pickup_ownership( p );
+    }
     p.add_msg_if_player( m_neutral, msg, tname() );
+}
+
+void item::handle_pickup_ownership( Character &c )
+{
+    faction *yours;
+    if( &c == &g->u ) {
+        yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+    } else {
+        npc *guy = dynamic_cast<npc *>( &c );
+        yours = guy->my_fac;
+    }
+    // Add ownership to item if unowned
+    if( !has_owner() ) {
+        set_owner( yours );
+    } else {
+        if( get_owner() != yours && &c == &g->u ) {
+            std::vector<npc *> witnesses;
+            for( npc &elem : g->all_npcs() ) {
+                if( rl_dist( elem.pos(), g->u.pos() ) < MAX_VIEW_DISTANCE && elem.my_fac == get_owner() &&
+                    elem.sees( g->u.pos() ) ) {
+                    elem.say( "<witnessed_thievery>", 7 );
+                    npc *npc_to_add = &elem;
+                    witnesses.push_back( npc_to_add );
+                }
+            }
+            if( !witnesses.empty() ) {
+                set_old_owner( get_owner() );
+                bool guard_chosen = false;
+                for( auto &elem : witnesses ) {
+                    if( elem->myclass == npc_class_id( "NC_BOUNTY_HUNTER" ) ) {
+                        guard_chosen = true;
+                        elem->witness_thievery( &*this );
+                        break;
+                    }
+                }
+                if( !guard_chosen ) {
+                    int random_index = rand() % witnesses.size();
+                    witnesses[random_index]->witness_thievery( &*this );
+                }
+            }
+            set_owner( yours );
+        }
+    }
 }
 
 void item::on_pickup( Character &p )
@@ -3041,12 +3051,14 @@ void item::on_pickup( Character &p )
     if( p.is_fake() ) {
         return;
     }
-
     // TODO: artifacts currently only work with the player character
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_carried );
     }
-
+    // if game is loaded - dont want ownership assigned during char creation
+    if( g->u.getID() != -1 ) {
+        handle_pickup_ownership( p );
+    }
     if( is_bucket_nonempty() ) {
         for( const auto &it : contents ) {
             g->m.add_item_or_charges( p.pos(), it );
@@ -3166,7 +3178,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             ret << _( " (hallucinogenic)" );
         }
     }
-    if( goes_bad() || is_food() ) {
+    if( has_flag( "ETHEREAL_ITEM" ) ) {
+        ret << " (" << get_var( "ethereal" ) << " turns)";
+    } else if( goes_bad() || is_food() ) {
         if( item_tags.count( "DIRTY" ) ) {
             ret << _( " (dirty)" );
         } else if( rotten() ) {
@@ -3195,8 +3209,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 
     const sizing sizing_level = get_sizing( g->u, get_encumber( g->u ) != 0 );
 
-    if( sizing_level == sizing::big_sized_human_char ||
-        sizing_level == sizing::human_sized_small_char ) {
+
+    if( sizing_level == sizing::human_sized_small_char ) {
         ret << _( " (too big)" );
     } else if( sizing_level == sizing::big_sized_small_char ) {
         ret << _( " (huge!)" );
@@ -3401,7 +3415,7 @@ int item::price( bool practical ) const
 }
 
 // TODO: MATERIALS add a density field to materials.json
-units::mass item::weight( bool include_contents ) const
+units::mass item::weight( bool include_contents, bool integral ) const
 {
     if( is_null() ) {
         return 0_gram;
@@ -3420,7 +3434,12 @@ units::mass item::weight( bool include_contents ) const
         return ret;
     }
 
-    units::mass ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
+    units::mass ret;
+    if( integral ) {
+        ret = units::from_gram( get_var( "integral_weight", to_gram( type->integral_weight ) ) );
+    } else {
+        ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
+    }
 
     if( has_flag( "REDUCED_WEIGHT" ) ) {
         ret *= 0.75;
@@ -3430,6 +3449,7 @@ units::mass item::weight( bool include_contents ) const
         ret *= charges;
 
     } else if( is_corpse() ) {
+        assert( corpse ); // To appease static analysis
         ret = corpse->weight;
         if( has_flag( "FIELD_DRESS" ) || has_flag( "FIELD_DRESS_FAILED" ) ) {
             ret *= 0.75;
@@ -3468,7 +3488,11 @@ units::mass item::weight( bool include_contents ) const
         ret -= std::min( max_barrel_weight, barrel_weight );
     }
 
-    if( include_contents ) {
+    if( is_gun() ) {
+        for( const auto elem : gunmods() ) {
+            ret += elem->weight( true, true );
+        }
+    } else if( include_contents ) {
         for( auto &elem : contents ) {
             ret += elem.weight();
         }
@@ -3958,7 +3982,7 @@ int item::spoilage_sort_order()
  * @see calc_rot_array
  * @see rot_chart
  */
-int calc_hourly_rotpoints_at_temp( const int temp )
+static int calc_hourly_rotpoints_at_temp( const int temp )
 {
     // default temp = 65, so generic->rotten() assumes 600 decay points per hour
     const int dropoff = 38;     // ditch our fancy equation and do a linear approach to 0 rot at 31f
@@ -3983,7 +4007,7 @@ int calc_hourly_rotpoints_at_temp( const int temp )
  * Initialize the rot table.
  * @see rot_chart
  */
-std::vector<int> calc_rot_array( const size_t cap )
+static std::vector<int> calc_rot_array( const size_t cap )
 {
     std::vector<int> ret;
     ret.reserve( cap );
@@ -4311,7 +4335,7 @@ bool item::count_by_charges() const
     return type->count_by_charges();
 }
 
-long item::count() const
+int item::count() const
 {
     return count_by_charges() ? charges : 1;
 }
@@ -4520,7 +4544,7 @@ bool item::mod_damage( int qty, damage_type dt )
     bool destroy = false;
 
     if( count_by_charges() ) {
-        charges -= std::min( static_cast<long>( type->stack_size * qty / itype::damage_scale ), charges );
+        charges -= std::min( type->stack_size * qty / itype::damage_scale, charges );
         destroy |= charges == 0;
     }
 
@@ -5352,8 +5376,11 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const p
     std::vector<std::pair<const recipe *, int>> recipe_entries;
     if( is_book() ) {
         // NPCs don't need to identify books
-        if( u.is_player() && !u.has_identified( typeId() ) ) {
-            return recipe_entries;
+        // TODO: remove this cast
+        if( const avatar *a = dynamic_cast<const avatar *>( &u ) ) {
+            if( !a->has_identified( typeId() ) ) {
+                return recipe_entries;
+            }
         }
 
         for( const auto &elem : type->book->recipes ) {
@@ -5622,7 +5649,7 @@ int item::gun_range( const player *p ) const
     return std::max( 0, ret );
 }
 
-long item::ammo_remaining() const
+int item::ammo_remaining() const
 {
     const item *mag = magazine_current();
     if( mag ) {
@@ -5632,14 +5659,14 @@ long item::ammo_remaining() const
     if( is_tool() || is_gun() ) {
         // includes auxiliary gunmods
         if( has_flag( "USES_BIONIC_POWER" ) ) {
-            long power = g->u.power_level;
+            int power = g->u.power_level;
             return power;
         }
         return charges;
     }
 
     if( is_magazine() || is_bandolier() ) {
-        long res = 0;
+        int res = 0;
         for( const auto &e : contents ) {
             res += e.charges;
         }
@@ -5649,14 +5676,14 @@ long item::ammo_remaining() const
     return 0;
 }
 
-long item::ammo_capacity() const
+int item::ammo_capacity() const
 {
     return ammo_capacity( false );
 }
 
-long item::ammo_capacity( bool potential_capacity ) const
+int item::ammo_capacity( bool potential_capacity ) const
 {
-    long res = 0;
+    int res = 0;
 
     const item *mag = magazine_current();
     if( mag ) {
@@ -5692,7 +5719,7 @@ long item::ammo_capacity( bool potential_capacity ) const
     return res;
 }
 
-long item::ammo_required() const
+int item::ammo_required() const
 {
     if( is_tool() ) {
         return std::max( type->charges_to_use(), 0 );
@@ -5720,7 +5747,7 @@ bool item::ammo_sufficient( int qty ) const
     return ammo_remaining() >= ammo_required() * qty;
 }
 
-long item::ammo_consume( long qty, const tripoint &pos )
+int item::ammo_consume( int qty, const tripoint &pos )
 {
     if( qty < 0 ) {
         debugmsg( "Cannot consume negative quantity of ammo for %s", tname() );
@@ -6221,7 +6248,7 @@ int item::reload_option::moves() const
     return mv;
 }
 
-void item::reload_option::qty( long val )
+void item::reload_option::qty( int val )
 {
     bool ammo_in_container = ammo->is_ammo_container();
     bool ammo_in_liquid_container = ammo->is_watertight_container();
@@ -6236,9 +6263,9 @@ void item::reload_option::qty( long val )
 
     // Checking ammo capacity implicitly limits guns with removable magazines to capacity 0.
     // This gets rounded up to 1 later.
-    long remaining_capacity = target->is_watertight_container() ?
-                              target->get_remaining_capacity_for_liquid( ammo_obj, true ) :
-                              target->ammo_capacity() - target->ammo_remaining();
+    int remaining_capacity = target->is_watertight_container() ?
+                             target->get_remaining_capacity_for_liquid( ammo_obj, true ) :
+                             target->ammo_capacity() - target->ammo_remaining();
     if( target->has_flag( "RELOAD_ONE" ) && !ammo->has_flag( "SPEEDLOADER" ) ) {
         remaining_capacity = 1;
     }
@@ -6248,13 +6275,13 @@ void item::reload_option::qty( long val )
     }
 
     bool ammo_by_charges = ammo_obj.is_ammo() || ammo_in_liquid_container;
-    long available_ammo = ammo_by_charges ? ammo_obj.charges : ammo_obj.ammo_remaining();
+    int available_ammo = ammo_by_charges ? ammo_obj.charges : ammo_obj.ammo_remaining();
     // constrain by available ammo, target capacity and other external factors (max_qty)
     // @ref max_qty is currently set when reloading ammo belts and limits to available linkages
     qty_ = std::min( { val, available_ammo, remaining_capacity, max_qty } );
 
     // always expect to reload at least one charge
-    qty_ = std::max( qty_, 1L );
+    qty_ = std::max( qty_, 1 );
 
 }
 
@@ -6290,7 +6317,7 @@ void item::casings_handle( const std::function<bool( item & )> &func )
     }
 }
 
-bool item::reload( player &u, item_location loc, long qty )
+bool item::reload( player &u, item_location loc, int qty )
 {
     if( qty <= 0 ) {
         debugmsg( "Tried to reload zero or less charges" );
@@ -6313,9 +6340,9 @@ bool item::reload( player &u, item_location loc, long qty )
     }
 
     // limit quantity of ammo loaded to remaining capacity
-    long limit = is_watertight_container()
-                 ? get_remaining_capacity_for_liquid( *ammo )
-                 : ammo_capacity() - ammo_remaining();
+    int limit = is_watertight_container()
+                ? get_remaining_capacity_for_liquid( *ammo )
+                : ammo_capacity() - ammo_remaining();
 
     if( ammo_type() == ammotype( "plutonium" ) ) {
         limit = limit / PLUTONIUM_CHARGES + ( limit % PLUTONIUM_CHARGES != 0 );
@@ -6598,7 +6625,7 @@ units::volume item::get_total_capacity() const
     return result;
 }
 
-long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket,
+int item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_bucket,
         std::string *err ) const
 {
     const auto error = [ &err ]( const std::string & message ) {
@@ -6608,7 +6635,7 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buc
         return 0;
     };
 
-    long remaining_capacity = 0;
+    int remaining_capacity = 0;
 
     // TODO: (sm) is_reloadable_with and this function call each other and can recurse for
     // watertight containers.
@@ -6644,11 +6671,11 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, bool allow_buc
     return remaining_capacity;
 }
 
-long item::get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
+int item::get_remaining_capacity_for_liquid( const item &liquid, const Character &p,
         std::string *err ) const
 {
     const bool allow_bucket = this == &p.weapon || !p.has_item( *this );
-    long res = get_remaining_capacity_for_liquid( liquid, allow_bucket, err );
+    int res = get_remaining_capacity_for_liquid( liquid, allow_bucket, err );
 
     if( res > 0 && !type->rigid && p.inv.has_item( *this ) ) {
         const units::volume volume_to_expand = std::max( p.volume_capacity() - p.volume_carried(),
@@ -6664,11 +6691,11 @@ long item::get_remaining_capacity_for_liquid( const item &liquid, const Characte
     return res;
 }
 
-bool item::use_amount( const itype_id &it, long &quantity, std::list<item> &used,
+bool item::use_amount( const itype_id &it, int &quantity, std::list<item> &used,
                        const std::function<bool( const item & )> &filter )
 {
     // Remember quantity so that we can unseal self
-    long old_quantity = quantity;
+    int old_quantity = quantity;
     // First, check contents
     for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
         if( a->use_amount( it, quantity, used ) ) {
@@ -6854,7 +6881,7 @@ void item::set_item_temperature( float new_temperature )
     reset_temp_check();
 }
 
-void item::fill_with( item &liquid, long amount )
+void item::fill_with( item &liquid, int amount )
 {
     amount = std::min( get_remaining_capacity_for_liquid( liquid, true ),
                        std::min( amount, liquid.charges ) );
@@ -6911,13 +6938,13 @@ void item::set_countdown( int num_turns )
     charges = num_turns;
 }
 
-bool item::use_charges( const itype_id &what, long &qty, std::list<item> &used,
+bool item::use_charges( const itype_id &what, int &qty, std::list<item> &used,
                         const tripoint &pos, const std::function<bool( const item & )> &filter )
 {
     std::vector<item *> del;
 
     // Remember qty to unseal self
-    long old_qty = qty;
+    int old_qty = qty;
     visit_items( [&what, &qty, &used, &pos, &del, &filter]( item * e ) {
         if( qty == 0 ) {
             // found sufficient charges
@@ -7061,11 +7088,10 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         explosion_handler::explosion( p, type->explosion );
         return true;
     } else if( type->ammo && ( type->ammo->special_cookoff || type->ammo->cookoff ) ) {
-        long charges_remaining = charges;
-        const long rounds_exploded = rng( 1, charges_remaining );
+        int charges_remaining = charges;
+        const int rounds_exploded = rng( 1, charges_remaining );
         // Yank the exploding item off the map for the duration of the explosion
         // so it doesn't blow itself up.
-        item temp_item = *this;
         const islot_ammo &ammo_type = *type->ammo;
 
         if( ammo_type.special_cookoff ) {
@@ -7074,6 +7100,7 @@ bool item::detonate( const tripoint &p, std::vector<item> &drops )
         }
         charges_remaining -= rounds_exploded;
         if( charges_remaining > 0 ) {
+            item temp_item = *this;
             temp_item.charges = charges_remaining;
             drops.push_back( temp_item );
         }
@@ -7154,11 +7181,11 @@ bool item::can_holster( const item &obj, bool ignore ) const
 
 std::string item::components_to_string() const
 {
-    typedef std::map<std::string, int> t_count_map;
+    using t_count_map = std::map<std::string, int>;
     t_count_map counts;
     for( const auto &elem : components ) {
-        const std::string name = elem.display_name();
         if( !elem.has_flag( "BYPRODUCT" ) ) {
+            const std::string name = elem.display_name();
             counts[name]++;
         }
     }
@@ -7176,7 +7203,7 @@ std::string item::components_to_string() const
 
 bool item::needs_processing() const
 {
-    return active || has_flag( "RADIO_ACTIVATION" ) ||
+    return active || has_flag( "RADIO_ACTIVATION" ) || has_flag( "ETHEREAL_ITEM" ) ||
            ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
            is_artifact() || is_food();
 }
@@ -7202,7 +7229,7 @@ void item::apply_freezerburn()
     }
 }
 
-void item::process_temperature_rot( int temp, float insulation, const tripoint pos,
+void item::process_temperature_rot( float insulation, const tripoint &pos,
                                     player *carrier, const temperature_flag flag )
 {
     const time_point now = calendar::turn;
@@ -7215,27 +7242,40 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
         return;
     }
 
-    bool carried = carrier != nullptr && carrier->has_item( *this );
-
     // process temperature and rot at most once every 100_turns (10 min)
     // note we're also gated by item::processing_speed
     time_duration smallest_interval = 10_minutes;
-    if( now - last_temp_check < smallest_interval ) {
-        // Could be newly created item.
-        if( specific_energy < 0 ) {
-            if( carried ) {
-                temp += 5; // body heat increases inventory temperature
-            }
-            calc_temp( temp, insulation, now );
-            calc_rot( now, temp );
-        }
+    if( now - last_temp_check < smallest_interval && specific_energy > 0 ) {
         return;
     }
 
-    // body heat increases inventory temperature by 5F
-    // This is apllied separately in many places since we may use the unmodified enviroment temperature from get_cur_weather_gen
+    int temp = g->weather.get_temperature( pos );
+
+    switch( flag ) {
+        case TEMP_NORMAL:
+            // Just use the temperature normally
+            break;
+        case TEMP_FRIDGE:
+            temp = std::min( temp, temperatures::fridge );
+            break;
+        case TEMP_FREEZER:
+            temp = std::min( temp, temperatures::freezer );
+            break;
+        case TEMP_HEATER:
+            temp = std::max( temp, temperatures::normal );
+            break;
+        case TEMP_ROOT_CELLAR:
+            temp = AVERAGE_ANNUAL_TEMPERATURE;
+            break;
+        default:
+            debugmsg( "Temperature flag enum not valid. Using current temperature." );
+    }
+
+    bool carried = carrier != nullptr && carrier->has_item( *this );
+    // body heat increases inventory temperature by 5F and insulation by 50%
     if( carried ) {
-        insulation *= 1.5; // clothing provides inventory some level of insulation
+        insulation *= 1.5;
+        temp += 5;
     }
 
     time_point time;
@@ -7255,8 +7295,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
 
         int enviroment_mod;
         // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
-        // So lets not take them into account for items that were created before calendar::start
-        if( to_turn<int>( last_temp_check ) > to_turn<int>( calendar::start ) ) {
+        if( !g->new_game ) {
             enviroment_mod = get_heat_radiation( pos, false );
             enviroment_mod += get_convection_temperature( pos );
         } else {
@@ -7299,8 +7338,7 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
                     env_temperature = AVERAGE_ANNUAL_TEMPERATURE;
                     break;
                 default:
-                    env_temperature = temp;
-                    debugmsg( "Temperature flag enum not valid. Using current temperature." );
+                    debugmsg( "Temperature flag enum not valid. Using normal temperature." );
             }
 
             // Calculate item temperature from enviroment temperature
@@ -7327,17 +7365,13 @@ void item::process_temperature_rot( int temp, float insulation, const tripoint p
 
     // Remaining <1 h from above
     // and items that are held near the player
-    // If the item has negative energy process it now. It is a new item.
     if( now - time > smallest_interval ) {
-        if( carried ) {
-            temp += 5; // body heat increases inventory temperature
-        }
         calc_temp( temp, insulation, now );
         calc_rot( now, temp );
         return;
     }
 
-    // Some new items can evade all the above. Set them here.
+    // Just now created items will get here.
     if( specific_energy < 0 ) {
         set_item_temperature( temp_to_kelvin( temp ) );
     }
@@ -7893,7 +7927,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
 {
     if( type->tool->turns_per_charge > 0 &&
         static_cast<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
-        auto qty = std::max( ammo_required(), 1L );
+        auto qty = std::max( ammo_required(), 1 );
         qty -= ammo_consume( qty, pos );
 
         // for items in player possession if insufficient charges within tool try UPS
@@ -7925,17 +7959,7 @@ bool item::process_tool( player *carrier, const tripoint &pos )
     return false;
 }
 
-bool item::process( player *carrier, const tripoint &pos, bool activate )
-{
-    if( has_temperature() || is_food_container() ) {
-        return process( carrier, pos, activate, g->weather.get_temperature( pos ), 1,
-                        temperature_flag::TEMP_NORMAL );
-    } else {
-        return process( carrier, pos, activate, 0, 1, temperature_flag::TEMP_NORMAL );
-    }
-}
-
-bool item::process( player *carrier, const tripoint &pos, bool activate, int temp,
+bool item::process( player *carrier, const tripoint &pos, bool activate,
                     float insulation, const temperature_flag flag )
 {
     const bool preserves = type->container && type->container->preserves;
@@ -7945,11 +7969,23 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
             // is not changed, the item is still fresh.
             it->last_rot_check = calendar::turn;
         }
-        if( it->process( carrier, pos, activate, temp, type->insulation_factor * insulation, flag ) ) {
+        if( it->process( carrier, pos, activate, type->insulation_factor * insulation, flag ) ) {
             it = contents.erase( it );
         } else {
             ++it;
         }
+    }
+
+    if( has_flag( "ETHEREAL_ITEM" ) ) {
+        if( !has_var( "ethereal" ) ) {
+            return true;
+        }
+        set_var( "ethereal", std::stoi( get_var( "ethereal" ) ) - 1 );
+        const bool processed = std::stoi( get_var( "ethereal" ) ) <= 0;
+        if( processed && carrier != nullptr ) {
+            carrier->add_msg_if_player( _( "%s %s disappears!" ), carrier->disp_name( true ), tname() );
+        }
+        return processed;
     }
 
     if( activate ) {
@@ -8012,13 +8048,13 @@ bool item::process( player *carrier, const tripoint &pos, bool activate, int tem
     }
     // All foods that go bad have temperature
     if( has_temperature() ) {
-        process_temperature_rot( temp, insulation, pos, carrier, flag );
+        process_temperature_rot( insulation, pos, carrier, flag );
     }
 
     return false;
 }
 
-void item::mod_charges( long mod )
+void item::mod_charges( int mod )
 {
     if( has_infinite_charges() ) {
         return;

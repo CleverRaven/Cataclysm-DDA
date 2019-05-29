@@ -11,6 +11,8 @@
 #include "action.h"
 #include "advanced_inv.h"
 #include "auto_pickup.h"
+#include "avatar.h"
+#include "avatar_action.h"
 #include "bionics.h"
 #include "calendar.h"
 #include "clzones.h"
@@ -28,6 +30,7 @@
 #include "help.h"
 #include "input.h"
 #include "itype.h"
+#include "magic.h"
 #include "map.h"
 #include "mapdata.h"
 #include "mapsharing.h"
@@ -95,21 +98,25 @@ class user_turn
         }
 
         bool has_timeout_elapsed() {
-            float turn_duration = get_option<float>( "TURN_DURATION" );
+            return moves_elapsed() > 100;
+        }
+
+        int moves_elapsed() {
+            const float turn_duration = get_option<float>( "TURN_DURATION" );
             // Magic number 0.005 chosen due to option menu's 2 digit precision and
             // the option menu UI rounding <= 0.005 down to "0.00" in the display.
             // This conditional will catch values (e.g. 0.003) that the options menu
             // would round down to "0.00" in the options menu display. This prevents
             // the user from being surprised by floating point rounding near zero.
             if( turn_duration <= 0.005 ) {
-                return false;
+                return 0;
             }
-
             auto now = std::chrono::steady_clock::now();
             std::chrono::milliseconds elapsed_ms =
                 std::chrono::duration_cast<std::chrono::milliseconds>( now - user_turn_start );
-            return elapsed_ms.count() >= 1000.0 * turn_duration;
+            return elapsed_ms.count() / ( 10.0 * turn_duration );
         }
+
 };
 
 input_context game::get_player_input( std::string &action )
@@ -643,6 +650,7 @@ static void smash()
 
     didit = m.bash( smashp, smashskill, false, false, smash_floor ).did_bash;
     if( didit ) {
+        u.increase_activity_level( MODERATE_EXERCISE );
         u.handle_melee_wear( u.weapon );
         u.moves -= move_cost;
         const int mod_sta = ( ( u.weapon.weight() / 100_gram ) + 20 ) * -1;
@@ -682,7 +690,7 @@ static void smash()
     }
 }
 
-bool try_set_alarm()
+static bool try_set_alarm()
 {
     uilist as_m;
     const bool already_set = g->u.has_effect( effect_alarm_clock );
@@ -1060,7 +1068,7 @@ static void takeoff()
 
 static void read()
 {
-    player &u = g->u;
+    avatar &u = g->u;
     // Can read items from inventory or within one tile (including in vehicles)
     auto loc = game_menus::inv::read( u );
 
@@ -1147,7 +1155,7 @@ static void fire()
                         switch_mode, switch_ammo, prepare_fire, post_fire
                     };
                     u.set_targeting_data( args );
-                    g->plfire();
+                    avatar_action::fire( g->u, g->m );
 
                     break;
                 }
@@ -1194,7 +1202,7 @@ static void fire()
     }
 
     if( u.weapon.is_gun() && !u.weapon.gun_current_mode().melee() ) {
-        g->plfire( u.weapon );
+        avatar_action::fire( g->u, g->m, u.weapon );
     } else if( u.weapon.has_flag( "REACH_ATTACK" ) ) {
         int range = u.weapon.has_flag( "REACH3" ) ? 3 : 2;
         if( u.has_effect( effect_relax_gas ) ) {
@@ -1251,6 +1259,100 @@ static void open_movement_mode_menu()
     }
 }
 
+static void cast_spell()
+{
+    player &u = g->u;
+
+    if( u.is_armed() ) {
+        add_msg( m_bad, _( "You need your hands free to cast spells!" ) );
+        return;
+    }
+
+    std::vector<spell_id> spells = u.magic.spells();
+
+    if( spells.empty() ) {
+        add_msg( m_bad, _( "You don't know any spells to cast." ) );
+        return;
+    }
+
+    bool can_cast_spells = false;
+    std::vector<uilist_entry> spell_names;
+    {
+        uilist_entry dummy( _( "Spell" ) );
+        dummy.ctxt = string_format( "%3s  %3s  %3s %5s %10s %4s %3s", _( "LVL" ), _( "XP%" ), _( "RNG" ),
+                                    _( "FAIL%" ), _( "Cast Time" ), _( "Cost" ), _( "DMG" ) );
+        dummy.enabled = false;
+        dummy.text_color = c_light_blue;
+        dummy.force_color = true;
+        spell_names.emplace_back( dummy );
+    }
+    for( spell_id sp : spells ) {
+        spell temp_spell = u.magic.get_spell( sp );
+        std::string nm = temp_spell.name();
+        uilist_entry entry( nm );
+        if( temp_spell.can_cast( u ) ) {
+            can_cast_spells = true;
+        } else {
+            entry.enabled = false;
+        }
+        std::string turns = temp_spell.casting_time() >= 100 ? string_format( _( "%i turns" ),
+                            temp_spell.casting_time() / 100 ) : string_format( _( "%i moves" ), temp_spell.casting_time() );
+        std::string cost = string_format( "%4i", temp_spell.energy_cost() );
+        switch( temp_spell.energy_source() ) {
+            case mana_energy:
+                cost = colorize( cost, c_light_blue );
+                break;
+            case stamina_energy:
+                cost = colorize( cost, c_green );
+                break;
+            case hp_energy:
+                cost = colorize( cost, c_red );
+                break;
+            case bionic_energy:
+                cost = colorize( cost, c_yellow );
+                break;
+            case none_energy:
+                cost = colorize( _( "none" ), c_light_gray );
+                break;
+            default:
+                debugmsg( "ERROR: %s has invalid energy_type", temp_spell.id().c_str() );
+                break;
+        }
+        entry.ctxt = string_format( "%3i (%3s) %3i %3i %% %10s %4s %3i", temp_spell.get_level(),
+                                    temp_spell.is_max_level() ? _( "MAX" ) : temp_spell.exp_progress(), temp_spell.range(),
+                                    static_cast<int>( round( 100.0f * temp_spell.spell_fail( u ) ) ), turns, cost,
+                                    temp_spell.damage() );
+        spell_names.emplace_back( entry );
+    }
+
+    if( !can_cast_spells ) {
+        add_msg( m_bad, _( "You can't cast any of the spells you know!" ) );
+    }
+
+    // if there's only one spell we know, we still want to see its information
+    // the 0th "spell" is a header
+    int action = uilist( _( "Choose your spell:" ), spell_names ) - 1;
+    if( action < 0 ) {
+        return;
+    }
+
+    spell sp = u.magic.get_spell( spells[action] );
+
+    if( !u.magic.has_enough_energy( u, sp ) ) {
+        add_msg( m_bad, _( "You don't have enough %s to cast the spell." ), sp.energy_string() );
+        return;
+    }
+
+    if( sp.energy_source() == hp_energy && !u.has_quality( quality_id( "CUT" ) ) ) {
+        add_msg( m_bad, _( "You cannot cast Blood Magic without a cutting implement." ) );
+        return;
+    }
+
+    player_activity cast_spell( activity_id( "ACT_SPELLCASTING" ), sp.casting_time() );
+    cast_spell.name = sp.id().c_str();
+    u.assign_activity( cast_spell, false );
+}
+
 void game::open_consume_item_menu()
 {
     uilist as_m;
@@ -1282,6 +1384,7 @@ bool game::handle_action()
     std::string action;
     input_context ctxt;
     action_id act = ACTION_NULL;
+    user_turn current_turn;
     // Check if we have an auto-move destination
     if( u.has_destination() ) {
         act = u.get_next_auto_move_direction();
@@ -1723,10 +1826,14 @@ bool game::handle_action()
                 fire();
                 break;
 
+            case ACTION_CAST_SPELL:
+                cast_spell();
+                break;
+
             case ACTION_FIRE_BURST: {
                 gun_mode_id original_mode = u.weapon.gun_get_mode_id();
                 if( u.weapon.gun_set_mode( gun_mode_id( "AUTO" ) ) ) {
-                    plfire( u.weapon );
+                    avatar_action::fire( u, m, u.weapon );
                     u.weapon.gun_set_mode( original_mode );
                 }
                 break;
@@ -1880,7 +1987,11 @@ bool game::handle_action()
                     }
                     set_safe_mode( SAFE_MODE_ON );
                 } else if( u.has_effect( effect_laserlocked ) ) {
-                    add_msg( m_info, _( "Ignoring laser targeting!" ) );
+                    if( u.has_trait( trait_id( "PROF_CHURL" ) ) ) {
+                        add_msg( m_warning, _( "You make the sign of the cross." ) );
+                    } else {
+                        add_msg( m_info, _( "Ignoring laser targeting!" ) );
+                    }
                     u.remove_effect( effect_laserlocked );
                     safe_mode_warning_logged = false;
                 }
@@ -2067,6 +2178,13 @@ bool game::handle_action()
                 display_scent();
                 break;
 
+            case ACTION_DISPLAY_TEMPERATURE:
+                if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
+                    break;    //don't do anything when sharing and not debugger
+                }
+                display_temperature();
+                break;
+
             case ACTION_TOGGLE_DEBUG_MODE:
                 if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                     break;    //don't do anything when sharing and not debugger
@@ -2092,7 +2210,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_AUTOATTACK:
-                autoattack();
+                avatar_action::autoattack( u, m );
                 break;
 
             default:
@@ -2126,14 +2244,16 @@ bool game::handle_action()
                     }
                     dest_delta = dest_next;
                 }
-                continue_auto_move = plmove( dest_delta );
+                continue_auto_move = avatar_action::move( u, m, dest_delta );
             }
         }
     }
     if( !continue_auto_move ) {
         u.clear_destination();
     }
-
+    if( act != ACTION_TIMEOUT ) {
+        u.mod_moves( -current_turn.moves_elapsed() );
+    }
     gamemode->post_action( act );
 
     u.movecounter = ( !u.is_dead_state() ? ( before_action_moves - u.moves ) : 0 );

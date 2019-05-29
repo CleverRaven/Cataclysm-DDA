@@ -180,7 +180,7 @@ static const std::unordered_map<std::string, ter_connects> ter_connects_map = { 
     }
 };
 
-void load_map_bash_tent_centers( JsonArray ja, std::vector<furn_str_id> &centers )
+static void load_map_bash_tent_centers( JsonArray ja, std::vector<furn_str_id> &centers )
 {
     while( ja.has_more() ) {
         centers.emplace_back( ja.next_string() );
@@ -279,6 +279,21 @@ bool furn_workbench_info::load( JsonObject &jsobj, const std::string &member )
     assign( j, "multiplier", multiplier );
     assign( j, "mass", allowed_mass );
     assign( j, "volume", allowed_volume );
+
+    return true;
+}
+
+plant_data::plant_data() : transform( furn_str_id::NULL_ID() ), base( furn_str_id::NULL_ID() ),
+    growth_multiplier( 1.0f ), harvest_multiplier( 1.0f ) {}
+
+bool plant_data::load( JsonObject &jsobj, const std::string &member )
+{
+    JsonObject j = jsobj.get_object( member );
+
+    assign( j, "transform", transform );
+    assign( j, "base", base );
+    assign( j, "growth_multiplier", growth_multiplier );
+    assign( j, "harvest_multiplier", harvest_multiplier );
 
     return true;
 }
@@ -462,7 +477,7 @@ ter_id t_null,
        t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit, t_grave, t_grave_new,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
-       t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white,
+       t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_moss,
        t_metal_floor,
        t_pavement, t_pavement_y, t_sidewalk, t_concrete,
        t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,
@@ -597,6 +612,7 @@ void set_ter_ids()
     t_grass = ter_id( "t_grass" );
     t_grass_long = ter_id( "t_grass_long" );
     t_grass_tall = ter_id( "t_grass_tall" );
+    t_moss = ter_id( "t_moss" );
     t_metal_floor = ter_id( "t_metal_floor" );
     t_pavement = ter_id( "t_pavement" );
     t_pavement_y = ter_id( "t_pavement_y" );
@@ -1138,7 +1154,7 @@ void ter_t::load( JsonObject &jo, const std::string &src )
     deconstruct.load( jo, "deconstruct", false );
 }
 
-void check_bash_items( const map_bash_info &mbi, const std::string &id, bool is_terrain )
+static void check_bash_items( const map_bash_info &mbi, const std::string &id, bool is_terrain )
 {
     if( !item_group::group_is_defined( mbi.drop_group ) ) {
         debugmsg( "%s: bash result item group %s does not exist", id.c_str(), mbi.drop_group.c_str() );
@@ -1156,7 +1172,8 @@ void check_bash_items( const map_bash_info &mbi, const std::string &id, bool is_
     }
 }
 
-void check_decon_items( const map_deconstruct_info &mbi, const std::string &id, bool is_terrain )
+static void check_decon_items( const map_deconstruct_info &mbi, const std::string &id,
+                               bool is_terrain )
 {
     if( !mbi.can_do ) {
         return;
@@ -1219,9 +1236,6 @@ void furn_t::load( JsonObject &jo, const std::string &src )
               DEFAULT_MAX_VOLUME_IN_SQUARE );
     optional( jo, was_loaded, "crafting_pseudo_item", crafting_pseudo_item, "" );
     optional( jo, was_loaded, "deployed_item", deployed_item );
-    optional( jo, was_loaded, "plant_transform", plant_transform );
-    optional( jo, was_loaded, "plant_base", plant_base );
-
     load_symbol( jo );
     transparent = false;
 
@@ -1238,6 +1252,10 @@ void furn_t::load( JsonObject &jo, const std::string &src )
     if( jo.has_object( "workbench" ) ) {
         workbench = furn_workbench_info();
         workbench->load( jo, "workbench" );
+    }
+    if( jo.has_object( "plant_data" ) ) {
+        plant = plant_data();
+        plant->load( jo, "plant_data" );
     }
 }
 

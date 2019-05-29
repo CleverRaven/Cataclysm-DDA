@@ -1,0 +1,21 @@
+[
+  {
+    "id": "smite",
+    "type": "SPELL",
+    "name": "Smite",
+    "description": "Evil has become pervasive throughout the world.  Let your power be the light that shines in the darkness!",
+    "valid_targets": [ "hostile" ],
+    "min_damage": 10,
+    "max_damage": 200,
+    "damage_increment": 15,
+    "min_range": 1,
+    "max_range": 1,
+    "effect": "target_attack",
+    "base_casting_time": 85,
+    "base_energy_cost": 250,
+    "spell_class": "ANIMIST",
+    "difficulty": 8,
+    "max_level": 15,
+    "energy_source": "MANA"
+  }
+]

@@ -159,7 +159,7 @@ class player_morale
         std::array<body_part_data, num_bp> body_parts;
         body_part_data no_body_part;
 
-        typedef std::function<void( player_morale *morale )> mutation_handler;
+        using mutation_handler = std::function<void ( player_morale * )>;
         struct mutation_data {
             public:
                 mutation_data() = default;
