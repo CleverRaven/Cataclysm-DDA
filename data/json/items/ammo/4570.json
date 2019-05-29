@@ -35,7 +35,6 @@
     "name": ".45-70 LFN cowboy",
     "description": ".45-70 Government ammunition loaded with a 405 grain lead flat nose bullet to original specifications for safe use in antique firearms.  Quite a bit less powerful than modern ammo, but still packs a punch.",
     "price":3500,
-    "count": 20,
     "relative": { "range": -8, "damage": -14, "pierce": -2, "recoil": -900 }
   },
   { "id": "reloaded_4570_sp",
