@@ -165,7 +165,7 @@
     "id": "prison_textile",
     "type": "item_group",
     "subtype": "collection",
-    "entries": [ { "item": "blanket", "prob": 25 }, { "item": "jumpsuit", "prob": 35 } ]
+    "entries": [ { "item": "blanket", "prob": 25 }, { "item": "striped_shirt", "prob": 35 }, { "item": "striped_shirt", "prob": 35 } ]
   },
   {
     "id": "bowling_alcohol",
@@ -508,5 +508,89 @@
       { "item": "gasoline", "prob": 30, "charges-min": 450, "charges-max": 4000, "container-item": "jerrycan" },
       { "item": "gasoline", "prob": 10, "charges-min": 2650, "charges-max": 10000, "container-item": "jerrycan_big" }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "oa_ig_ts_tables",
+    "//": "for cs_tire_shop",
+    "items": [
+      [ "radio", 30 ],
+      [ "rag", 30 ],
+      [ "cell_phone", 20 ],
+      [ "mag_mechanics", 20 ],
+      [ "manual_mechanics", 10 ],
+      [ "jack", 60 ],
+      [ "jack_small", 60 ],
+      [ "jack_makeshift", 30 ],
+      [ "wrench", 50 ],
+      [ "gloves_work", 30 ],
+      [ "glasses_safety", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "oa_ig_ts_lockers",
+    "//": "for cs_tire_shop",
+    "items": [
+      { "group": "ammo_pocket_batteries_full", "prob": 10 },
+      [ "radio", 10 ],
+      [ "rag", 30 ],
+      [ "jack", 20 ],
+      [ "jack_small", 30 ],
+      [ "flashlight", 20 ],
+      [ "heavy_flashlight", 10 ],
+      [ "jumper_cable", 20 ],
+      [ "jumper_cable_heavy", 10 ],
+      [ "pliers", 10 ],
+      [ "battery_motorbike", 10 ],
+      [ "battery_car", 10 ],
+      [ "stereo", 10 ],
+      [ "wrench", 10 ],
+      [ "gloves_work", 10 ],
+      [ "glasses_safety", 10 ],
+      [ "solar_cell", 10 ],
+      [ "screwdriver", 15 ],
+      [ "superglue", 5 ],
+      [ "polisher", 15 ],
+      [ "solar_panel", 15 ],
+      [ "spare_tire_carrier", 10 ],
+      [ "mounted_spare_tire", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "oa_ig_ts_crates",
+    "//": "for cs_tire_shop",
+    "items": [
+      { "group": "ammo_any_batteries_full", "prob": 10 },
+      [ "radio", 10 ],
+      [ "rag", 30 ],
+      [ "jack", 20 ],
+      [ "jack_small", 30 ],
+      [ "flashlight", 20 ],
+      [ "heavy_flashlight", 10 ],
+      [ "jumper_cable", 20 ],
+      [ "jumper_cable_heavy", 10 ],
+      [ "pliers", 10 ],
+      [ "battery_motorbike", 10 ],
+      [ "battery_car", 10 ],
+      [ "stereo", 10 ],
+      [ "wrench", 10 ],
+      [ "gloves_work", 10 ],
+      [ "glasses_safety", 10 ],
+      [ "solar_cell", 10 ],
+      [ "screwdriver", 15 ],
+      [ "superglue", 5 ],
+      [ "polisher", 15 ],
+      [ "solar_panel", 15 ],
+      [ "spare_tire_carrier", 10 ],
+      [ "mounted_spare_tire", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "oa_ig_ts_tires",
+    "//": "for cs_tire_shop",
+    "items": [ [ "wheel_small", 30 ], [ "wheel", 30 ], [ "wheel_wide", 20 ] ]
   }
 ]

@@ -8,6 +8,7 @@
 #include <memory>
 #include <vector>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "game.h"
 #include "game_inventory.h"

@@ -7,6 +7,7 @@
 #include <list>
 #include <memory>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "game.h"
 #include "input.h"
@@ -259,7 +260,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 const bool they = whose == 0;
                 const auto &list = they ? theirs : yours;
                 const auto &offset = they ? them_off : you_off;
-                const auto &person = they ? p : g->u;
+                const player &person = they ? static_cast<player &>( p ) : static_cast<player &>( g->u );
                 auto &w_whose = they ? w_them : w_you;
                 int win_w = getmaxx( w_whose );
                 // Borders
@@ -456,6 +457,12 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
         if( !ex ) {
             g->u.practice( skill_barter, practice / 2 );
         }
+    }
+    for( auto &elem : g->u.inv_dump() ) {
+        elem->set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
+    }
+    for( auto &elem : p.inv_dump() ) {
+        elem->set_owner( p.my_fac );
     }
     g->refresh_all();
     return traded;

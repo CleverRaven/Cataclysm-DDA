@@ -7,7 +7,7 @@
     "time": 50000,
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 6 ] ], [ [ "amplifier", 4 ] ], [ [ "plut_cell", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "components": [ [ [ "power_supply", 6 ] ], [ [ "amplifier", 4 ] ], [ [ "light_battery_cell", 1 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
   },
   {
     "type": "uncraft",
@@ -17,7 +17,13 @@
     "time": 70000,
     "using": [ [ "soldering_standard", 32 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
-    "components": [ [ [ "power_supply", 10 ] ], [ [ "amplifier", 6 ] ], [ [ "plut_cell", 2 ] ], [ [ "burnt_out_bionic", 1 ] ] ]
+    "components": [
+      [ [ "power_supply", 10 ] ],
+      [ [ "amplifier", 6 ] ],
+      [ [ "light_plus_battery_cell", 1 ] ],
+      [ [ "light_battery_cell", 1 ] ],
+      [ [ "burnt_out_bionic", 1 ] ]
+    ]
   },
   {
     "type": "uncraft",

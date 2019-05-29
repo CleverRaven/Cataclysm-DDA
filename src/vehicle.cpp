@@ -17,6 +17,7 @@
 #include <memory>
 
 #include "ammo.h"
+#include "avatar.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "creature.h"
@@ -1290,6 +1291,7 @@ int vehicle::install_part( const point &dp, const vehicle_part &new_part )
                 "PLANTER",
                 "SCOOP",
                 "SPACE_HEATER",
+                "COOLER",
                 "WATER_PURIFIER",
                 "ROCKWHEEL"
             }
@@ -1512,6 +1514,16 @@ bool vehicle::remove_part( int p )
 
     const tripoint part_loc = global_part_pos3( p );
 
+    // Unboard any entities standing on removed boardable parts
+    if( part_flag( p, "BOARDABLE" ) ) {
+        std::vector<int> bp = boarded_parts();
+        for( auto &elem : bp ) {
+            if( elem == p ) {
+                g->m.unboard_vehicle( part_loc );
+            }
+        }
+    }
+
     // If `p` has flag `parent_flag`, remove child with flag `child_flag`
     // Returns true if removal occurs
     const auto remove_dependent_part = [&]( const std::string & parent_flag,
@@ -1536,16 +1548,6 @@ bool vehicle::remove_part( int p )
 
     remove_dependent_part( "SEAT", "SEATBELT" );
     remove_dependent_part( "BATTERY_MOUNT", "NEEDS_BATTERY_MOUNT" );
-
-    // Unboard any entities standing on removed boardable parts
-    if( part_flag( p, "BOARDABLE" ) ) {
-        std::vector<int> bp = boarded_parts();
-        for( auto &elem : bp ) {
-            if( elem == p ) {
-                g->m.unboard_vehicle( part_loc );
-            }
-        }
-    }
 
     // Release any animal held by the part
     if( parts[p].has_flag( vehicle_part::animal_flag ) ) {
@@ -2816,7 +2818,7 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
     const vehicle_part & rhs ) {
         // don't count frozen liquid
         if( rhs.is_tank() && rhs.base.contents_made_of( SOLID ) ) {
-            return static_cast<long>( lhs );
+            return lhs;
         }
         return lhs + ( rhs.ammo_current() == ftype ? rhs.ammo_remaining() : 0 );
     } );
@@ -3085,7 +3087,7 @@ int vehicle::water_acceleration( const bool fueled, int at_vel_in_vmi ) const
 // cubic equation solution
 // don't use complex numbers unless necessary and it's usually not
 // see https://math.vanderbilt.edu/schectex/courses/cubic/ for the gory details
-double simple_cubic_solution( double a, double b, double c, double d )
+static double simple_cubic_solution( double a, double b, double c, double d )
 {
     double p = -b / ( 3 * a );
     double q = p * p * p + ( b * c - 3 * a * d ) / ( 6 * a * a );
@@ -3815,6 +3817,10 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             fuel_remainder[ ft ] = -amnt_precise_j;
         }
     }
+    // we want this to update the activity level whenever the engine is running
+    if( load > 0 && fuel_left( fuel_type_muscle ) > 0 ) {
+        g->u.increase_activity_level( ACTIVE_EXERCISE );
+    }
     //do this with chance proportional to current load
     // But only if the player is actually there!
     if( load > 0 && one_in( 1000 / load ) && fuel_left( fuel_type_muscle ) > 0 ) {
@@ -3834,7 +3840,6 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             g->u.charge_power( -10 );
         }
         if( one_in( 10 ) ) {
-            g->u.mod_stored_nutr( mod );
             g->u.mod_thirst( mod );
             g->u.mod_fatigue( mod );
         }
@@ -4128,9 +4133,9 @@ int vehicle::charge_battery( int amount, bool include_other_vehicles )
         chargeable_parts.erase( iter );
         // Calculate number of charges to reach the next %, but insure it's at least
         // one more than current charge.
-        long next_charge_level = ( ( charge_level + 1 ) * p->ammo_capacity() ) / 100;
+        int next_charge_level = ( ( charge_level + 1 ) * p->ammo_capacity() ) / 100;
         next_charge_level = std::max( next_charge_level, p->ammo_remaining() + 1 );
-        long qty = std::min( static_cast<long>( amount ), next_charge_level - p->ammo_remaining() );
+        int qty = std::min( amount, next_charge_level - p->ammo_remaining() );
         p->ammo_set( fuel_type_battery, p->ammo_remaining() + qty );
         amount -= qty;
         if( p->ammo_capacity() > p->ammo_remaining() ) {
@@ -4166,9 +4171,8 @@ int vehicle::discharge_battery( int amount, bool recurse )
         vehicle_part *p = iter->second;
         dischargeable_parts.erase( iter );
         // Calculate number of charges to reach the previous %.
-        long prev_charge_level = ( ( charge_level - 1 ) * p->ammo_capacity() ) / 100;
-        int amount_to_discharge = std::min( p->ammo_remaining() - prev_charge_level,
-                                            static_cast<long>( amount ) );
+        int prev_charge_level = ( ( charge_level - 1 ) * p->ammo_capacity() ) / 100;
+        int amount_to_discharge = std::min( p->ammo_remaining() - prev_charge_level, amount );
         p->ammo_consume( amount_to_discharge, global_part_pos3( *p ) );
         amount -= amount_to_discharge;
         if( p->ammo_remaining() > 0 ) {
@@ -4292,8 +4296,8 @@ void vehicle::slow_leak()
             g->m.add_item_or_charges( dest, leak );
             p.ammo_consume( qty, global_part_pos3( p ) );
         } else if( fuel == fuel_type_plutonium_cell ) {
-            item leak( "plut_slurry_dense", calendar::turn, qty );
             if( p.ammo_remaining() >= PLUTONIUM_CHARGES / 10 ) {
+                item leak( "plut_slurry_dense", calendar::turn, qty );
                 g->m.add_item_or_charges( dest, leak );
                 p.ammo_consume( qty * PLUTONIUM_CHARGES / 10, global_part_pos3( p ) );
             } else {
@@ -4341,13 +4345,13 @@ void vehicle::make_active( item_location &loc )
     active_items.add( item_index, cargo_part->mount );
 }
 
-long vehicle::add_charges( int part, const item &itm )
+int vehicle::add_charges( int part, const item &itm )
 {
     if( !itm.count_by_charges() ) {
         debugmsg( "Add charges was called for an item not counted by charges!" );
         return 0;
     }
-    const long ret = get_items( part ).amount_can_fit( itm );
+    const int ret = get_items( part ).amount_can_fit( itm );
     if( ret == 0 ) {
         return 0;
     }
@@ -4373,7 +4377,7 @@ bool vehicle::add_item( int part, const item &itm )
     }
     bool charge = itm.count_by_charges();
     vehicle_stack istack = get_items( part );
-    const long to_move = istack.amount_can_fit( itm );
+    const int to_move = istack.amount_can_fit( itm );
     if( to_move == 0 || ( charge && to_move < itm.charges ) ) {
         return false; // @add_charges should be used in the latter case
     }
@@ -4634,6 +4638,7 @@ void vehicle::refresh()
     water_wheels.clear();
     funnels.clear();
     heaters.clear();
+    coolers.clear();
     relative_parts.clear();
     loose_parts.clear();
     wheelcache.clear();
@@ -4721,6 +4726,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( "SPACE_HEATER" ) ) {
             heaters.push_back( p );
+        }
+        if( vpi.has_flag( "COOLER" ) ) {
+            coolers.push_back( p );
         }
         if( vpi.has_flag( VPFLAG_WHEEL ) ) {
             wheelcache.push_back( p );
@@ -5311,7 +5319,7 @@ void vehicle::leak_fuel( vehicle_part &pt )
     // leak up to 1/3 of remaining fuel per iteration and continue until the part is empty
     auto *fuel = item::find_type( pt.ammo_current() );
     while( !tiles.empty() && pt.ammo_remaining() ) {
-        int qty = pt.ammo_consume( rng( 0, std::max( pt.ammo_remaining() / 3, 1L ) ),
+        int qty = pt.ammo_consume( rng( 0, std::max( pt.ammo_remaining() / 3, 1 ) ),
                                    global_part_pos3( pt ) );
         if( qty > 0 ) {
             g->m.add_item_or_charges( random_entry( tiles ), item( fuel, calendar::turn, qty ) );
@@ -5321,9 +5329,9 @@ void vehicle::leak_fuel( vehicle_part &pt )
     pt.ammo_unset();
 }
 
-std::map<itype_id, long> vehicle::fuels_left() const
+std::map<itype_id, int> vehicle::fuels_left() const
 {
-    std::map<itype_id, long> result;
+    std::map<itype_id, int> result;
     for( const auto &p : parts ) {
         if( p.is_fuel_store() && p.ammo_current() != "null" ) {
             result[ p.ammo_current() ] += p.ammo_remaining();
@@ -5421,7 +5429,7 @@ inline int modulo( int v, int m )
     return r >= 0 ? r : r + m;
 }
 
-bool is_sm_tile_over_water( const tripoint &real_global_pos )
+static bool is_sm_tile_over_water( const tripoint &real_global_pos )
 {
 
     const tripoint smp = ms_to_sm_copy( real_global_pos );
@@ -5442,7 +5450,7 @@ bool is_sm_tile_over_water( const tripoint &real_global_pos )
              sm->get_furn( { px, py } ).obj().has_flag( TFLAG_CURRENT ) );
 }
 
-bool is_sm_tile_outside( const tripoint &real_global_pos )
+static bool is_sm_tile_outside( const tripoint &real_global_pos )
 {
 
     const tripoint smp = ms_to_sm_copy( real_global_pos );
@@ -5486,7 +5494,7 @@ void vehicle::update_time( const time_point &update_to )
     // Weather stuff, only for z-levels >= 0
     // TODO: Have it wash cars from blood?
     if( funnels.empty() && solar_panels.empty() && wind_turbines.empty() && water_wheels.empty() &&
-        heaters.empty() ) {
+        heaters.empty() && coolers.empty() ) {
         return;
     }
     // heaters emitting hot air
@@ -5497,6 +5505,16 @@ void vehicle::update_time( const time_point &update_to )
         }
         int density = abs( pt.info().epower ) * 2;
         g->m.adjust_field_strength( global_part_pos3( pt ), fd_hot_air3, density );
+        discharge_battery( pt.info().epower );
+    }
+    // coolers emitting cold air
+    for( int idx : coolers ) {
+        const vehicle_part &pt = parts[idx];
+        if( pt.is_unavailable() || ( !pt.enabled ) ) {
+            continue;
+        }
+        int density = abs( pt.info().epower ) * 5;
+        g->m.adjust_field_strength( global_part_pos3( pt ), fd_cold_air3, density );
         discharge_battery( pt.info().epower );
     }
     // Get one weather data set per vehicle, they don't differ much across vehicle area

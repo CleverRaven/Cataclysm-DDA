@@ -258,7 +258,7 @@
 		<Compiler>
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
-			<Add option="-std=c++11" />
+			<Add option="-std=c++14" />
 			<Add option="-DCB_BUILD" />
 			<Add option="-D_WINDOWS -D_MINGW -D_WIN32 -DWIN32 -D__MINGW__" />
 		</Compiler>

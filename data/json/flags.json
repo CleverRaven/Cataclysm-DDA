@@ -120,6 +120,11 @@
     "info": "This gear <good>completely protects</good> you from <info>electric discharges</info>."
   },
   {
+    "id": "ETHEREAL_ITEM",
+    "type": "json_flag",
+    "info": "This item disappears as soon as its timer runs out whether it is food or not."
+  },
+  {
     "id": "ONLY_ONE",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -313,6 +318,12 @@
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This clothing <good>partially protects</good> you from <info>radiation</info>.",
     "conflicts": [ "RAD_PROOF" ]
+  },
+  {
+    "id": "REQUIRES_BALANCE",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear requires careful balance to use. Being hit while wearing it could make you <bad>fall down</bad>."
   },
   {
     "id": "TWO_WAY_RADIO",

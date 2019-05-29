@@ -26,6 +26,7 @@
     "id": "bionics",
     "type": "item_group",
     "items": [
+      [ "bio_furnace", 10 ],
       [ "bn_bio_solar", 10 ],
       [ "afs_bio_precision_solderers", 10 ],
       [ "afs_bio_missiles", 10 ],
@@ -36,17 +37,32 @@
   {
     "id": "bionics_common",
     "type": "item_group",
-    "items": [ [ "bn_bio_solar", 10 ], [ "afs_bio_precision_solderers", 5 ], [ "afs_bio_linguistic_coprocessor", 8 ] ]
+    "items": [
+      [ "bio_furnace", 10 ],
+      [ "bn_bio_solar", 10 ],
+      [ "afs_bio_precision_solderers", 5 ],
+      [ "afs_bio_linguistic_coprocessor", 8 ]
+    ]
+  },
+  {
+    "id": "bionics_mil",
+    "type": "item_group",
+    "items": [ [ "bio_furnace", 10 ] ]
   },
   {
     "id": "bionics_sci",
     "type": "item_group",
-    "items": [ [ "bn_bio_solar", 5 ], [ "afs_bio_precision_solderers", 7 ], [ "afs_bio_linguistic_coprocessor", 5 ] ]
+    "items": [
+      [ "bio_furnace", 5 ],
+      [ "bn_bio_solar", 5 ],
+      [ "afs_bio_precision_solderers", 7 ],
+      [ "afs_bio_linguistic_coprocessor", 5 ]
+    ]
   },
   {
     "id": "bionics_op",
     "type": "item_group",
-    "items": [ [ "bn_bio_solar", 15 ], [ "afs_bio_missiles", 10 ], [ "afs_bio_dopamine_stimulators", 10 ] ]
+    "items": [ [ "bio_furnace", 15 ], [ "bn_bio_solar", 15 ], [ "afs_bio_missiles", 10 ], [ "afs_bio_dopamine_stimulators", 10 ] ]
   },
   {
     "id": "bionics_subs",
@@ -221,7 +237,42 @@
       [ "afs_textbook_shotguns", 3 ],
       [ "afs_textbook_handguns", 3 ],
       [ "afs_textbook_rifles", 3 ],
-      [ "afs_textbook_launchers", 3 ]
+      [ "afs_textbook_launchers", 3 ],
+      [ "textbook_atomic", 8 ]
+    ]
+  },
+  {
+    "id": "guns_pistol_improvised",
+    "type": "item_group",
+    "items": [ [ "v29_cheap", 10 ] ]
+  },
+  {
+    "id": "nuclear_waste",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "nuclear_waste", "container-item": "hazardous_waste_drum", "charges": 10 } ]
+  },
+  {
+    "id": "nuclear_reactor",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "nuclear_waste", "count-min": 5, "count-max": 10 },
+      { "item": "nuclear_fuel", "count-min": 1, "count-max": 10 }
+    ]
+  },
+  {
+    "id": "reactor_gear",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [
+      { "item": "hazmat_suit", "prob": 33 },
+      { "item": "prussian_blue", "prob": 33 },
+      { "item": "rad_monitor", "prob": 33 },
+      { "item": "iodine", "prob": 33 },
+      { "item": "flashlight", "prob": 33 },
+      { "item": "1st_aid", "prob": 15 },
+      { "item": "geiger_off", "prob": 15 }
     ]
   }
 ]

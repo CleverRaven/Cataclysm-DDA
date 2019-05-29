@@ -53,7 +53,7 @@
     "name": "Alloy Plating - Arms",
     "description": "The flesh on your arms has been surgically replaced by a strong armor, protecting you greatly.",
     "occupied_bodyparts": [ [ "ARM_L", 4 ], [ "ARM_R", 4 ] ],
-    "flags": [ "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
     "id": "bio_armor_eyes",
@@ -61,7 +61,7 @@
     "name": "Protective Lenses",
     "description": "Your eye sockets have been surgically sealed with highly protective mirrored lenses and your tear ducts have been re-routed to your mouth.  When you cry, you must spit out or swallow your tears.",
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
-    "flags": [ "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
     "id": "bio_armor_head",
@@ -69,7 +69,7 @@
     "name": "Alloy Plating - Head",
     "description": "The flesh on your head has been surgically replaced by a strong armor, protecting both your head and jaw regions.",
     "occupied_bodyparts": [ [ "HEAD", 5 ] ],
-    "flags": [ "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
     "id": "bio_armor_legs",
@@ -77,7 +77,7 @@
     "name": "Alloy Plating - Legs",
     "description": "The flesh on your legs has been surgically replaced by a strong armor, protecting you greatly.",
     "occupied_bodyparts": [ [ "LEG_L", 6 ], [ "LEG_R", 6 ] ],
-    "flags": [ "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
     "id": "bio_armor_torso",
@@ -85,7 +85,7 @@
     "name": "Alloy Plating - Torso",
     "description": "The flesh on your torso has been surgically replaced by a strong armor, protecting you greatly.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
-    "flags": [ "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
     "id": "bio_batteries",
@@ -156,7 +156,7 @@
     "capacity": 10,
     "description": "You have a complex port surgically mounted above your hip.  While active, it will drain power through a jumper cable held on your person.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ],
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED" ]
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_SHOCKPROOF", "BIONIC_TOGGLED" ]
   },
   {
     "id": "bio_carbon",
@@ -175,7 +175,7 @@
       [ "FOOT_L", 1 ],
       [ "FOOT_R", 1 ]
     ],
-    "flags": [ "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
     "id": "bio_chain_lightning",
@@ -274,7 +274,7 @@
     "name": "Expanded Digestive System",
     "description": "You have been outfitted with three synthetic stomachs and industrial-grade intestines.  Not only can you extract much more nutrition from food, but you are highly resistant to foodborne illness, and can sometimes eat rotten food.",
     "occupied_bodyparts": [ [ "TORSO", 20 ] ],
-    "flags": [ "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
     "id": "bio_dis_acid",
@@ -340,7 +340,7 @@
     "name": "Ethanol Burner",
     "description": "You burn alcohol as fuel in an extremely efficient reaction.  However, you will still suffer the inebriating effects of the substance.",
     "occupied_bodyparts": [ [ "TORSO", 26 ] ],
-    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
     "id": "bio_evap",
@@ -390,7 +390,7 @@
       [ "FOOT_L", 1 ],
       [ "FOOT_R", 1 ]
     ],
-    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "act_cost": 1,
     "react_cost": 1,
     "time": 2
@@ -954,7 +954,7 @@
     "name": "Internal Storage",
     "description": "Space inside your chest cavity has been surgically converted into a storage area.  You may carry an extra 2 liters of volume.",
     "occupied_bodyparts": [ [ "TORSO", 32 ] ],
-    "flags": [ "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
     "id": "bio_str_enhancer",
@@ -1122,7 +1122,7 @@
     "name": "Titanium Skeletal Bracing",
     "description": "Titanium bracing has been installed onto your elbows, knees, and spine, making them far better at handling strain.  Your carrying capacity is increased by 20 kilograms, or about 44 pounds.",
     "occupied_bodyparts": [ [ "TORSO", 8 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
-    "flags": [ "BIONIC_NPC_USABLE" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
   },
   {
     "id": "bio_shock_absorber",

@@ -84,5 +84,15 @@
     "type": "overmap_location",
     "id": "railroad_level_crossing_allowed",
     "terrains": [ "hiway_ns", "hiway_ew", "road" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "lake_surface",
+    "terrains": [ "lake_surface" ]
+  },
+  {
+    "type": "overmap_location",
+    "id": "lake_shore",
+    "terrains": [ "lake_shore" ]
   }
 ]

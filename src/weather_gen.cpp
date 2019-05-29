@@ -166,7 +166,7 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
 int weather_generator::get_wind_direction( const season_type season, unsigned seed ) const
 {
     unsigned dirseed = seed;
-    std::default_random_engine wind_dir_gen( dirseed );
+    cata_default_random_engine wind_dir_gen( dirseed );
     // Assign chance to angle direction
     if( season == SPRING ) {
         std::discrete_distribution<int> distribution {3, 3, 5, 8, 11, 10, 5, 2, 5, 6, 6, 5, 8, 10, 8, 6};
