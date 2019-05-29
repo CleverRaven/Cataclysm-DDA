@@ -1,0 +1,73 @@
+[
+  {
+    "id": "forage_spring",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "veggy_wild", "prob": 100, "count-min": 1, "count-max": 2 },
+      { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
+      { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
+      { "item": "rhubarb", "prob": 5, "count-min": 2, "count-max": 5 },
+      { "item": "wild_herbs", "prob": 10 },
+      { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 2 },
+      { "item": "garlic", "prob": 1 },
+      { "item": "seed_garlic", "prob": 4, "count-min": 1, "count-max": 2 },
+      { "item": "seed_canola", "prob": 5, "count-min": 1, "count-max": 2 },
+      { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 2 },
+      { "item": "bee_balm", "prob": 5, "count-min": 1, "count-max": 2 },
+      { "item": "mugwort", "prob": 5, "count-min": 1, "count-max": 2 }
+    ]
+  },
+  {
+    "id": "forage_summer",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "veggy_wild", "prob": 50, "count-min": 1, "count-max": 2 },
+      { "group": "forage_mushroom", "prob": 25 },
+      { "item": "egg_bird", "prob": 5, "count-min": 2, "count-max": 5 },
+      { "item": "egg_reptile", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "wild_herbs", "prob": 20 },
+      { "item": "buckwheat", "prob": 5, "count-min": 1, "count-max": 4 },
+      { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "garlic", "prob": 1 },
+      { "item": "seed_garlic", "prob": 4, "count-min": 1, "count-max": 6 },
+      { "item": "seed_canola", "prob": 10, "count-min": 1, "count-max": 3 },
+      { "item": "dogbane", "prob": 10, "count-min": 1, "count-max": 3 },
+      { "item": "bee_balm", "prob": 10, "count-min": 1, "count-max": 3 },
+      { "item": "mugwort", "prob": 10, "count-min": 1, "count-max": 3 }
+    ]
+  },
+  {
+    "id": "forage_autumn",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "group": "forage_mushroom", "prob": 50 },
+      { "item": "wild_herbs", "prob": 10 },
+      { "item": "buckwheat", "prob": 15, "count-min": 2, "count-max": 4 },
+      { "item": "thyme", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "garlic", "prob": 1 },
+      { "item": "seed_garlic", "prob": 4, "count-min": 1, "count-max": 6 },
+      { "item": "seed_canola", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "dogbane", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "bee_balm", "prob": 5, "count-min": 1, "count-max": 3 },
+      { "item": "mugwort", "prob": 5, "count-min": 1, "count-max": 3 }
+    ]
+  },
+  {
+    "id": "forage_winter",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [  ]
+  },
+  {
+    "id": "forage_mushroom",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mushroom", "prob": 4, "count-min": 1, "count-max": 3 },
+      { "item": "mushroom_morel", "prob": 2, "count-min": 1, "count-max": 4 }
+    ]
+  }
+]

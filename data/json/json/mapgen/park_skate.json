@@ -1,0 +1,65 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "skate_park" ],
+    "weight": 100,
+    "object": {
+      "rows": [
+        "ssssssssssssssssssssssss",
+        "ssssssssssssssssssssssss",
+        "||||||||||ss||||||||||||",
+        "|.##u...u|ss|..u.#.u...|",
+        "|........|ss|..........|",
+        ".....S...|ss|||.........",
+        ".........|sspppppppppp..",
+        "........u|ssp________p..",
+        "...#.....|ssp________p..",
+        ".........|sspppppppppp..",
+        "......ss.|ss__________..",
+        ".Su..s__s|ss__------__..",
+        "....s____sss__________..",
+        "...s__00__ss__________..",
+        "...s__00__ssr_____l___..",
+        "...#s____sssr________w..",
+        ".....s__s.ssr________w..",
+        "......ss..sscrr____www..",
+        "..#.......ss__________..",
+        ".....____&ss__________..",
+        "....._____ss__________..",
+        ".....u____..__________..",
+        "........................",
+        "...........#............"
+      ],
+      "terrain": {
+        "#": "t_underbrush_harvested_autumn",
+        "&": "t_pavement",
+        "-": "t_railing_v",
+        ".": "t_grass",
+        "0": "t_pit_shallow",
+        "S": "t_shrub",
+        "_": "t_pavement",
+        "c": "t_chainfence_posts",
+        "l": "t_little_column",
+        "p": "t_pavement_y",
+        "r": "t_railing_h",
+        "s": "t_sidewalk",
+        "u": "t_underbrush",
+        "w": "t_wall",
+        "|": "t_chainfence_v"
+      },
+      "furniture": { "&": "f_trashcan" },
+      "place_items": [ { "item": "snacks", "x": 10, "y": 19, "chance": 5 } ],
+      "place_monsters": [
+        { "monster": "GROUP_SCHOOL", "x": [ 11, 15 ], "y": [ 10, 15 ], "chance": 2, "repeat": 2 },
+        { "monster": "GROUP_PARK_ANIMAL", "x": [ 4, 19 ], "y": [ 13, 18 ], "repeat": 3 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "bicycle", "x": 10, "y": 7, "chance": 3, "status": 0, "rotation": 270 },
+        { "vehicle": "bicycle", "x": 17, "y": 8, "chance": 2, "status": 0, "rotation": 180 },
+        { "vehicle": "scooter", "x": 16, "y": 12, "chance": 5 },
+        { "vehicle": "bicycle", "x": 16, "y": 19, "chance": 7, "status": 0 }
+      ]
+    }
+  }
+]

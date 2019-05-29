@@ -1,0 +1,100 @@
+[
+  {
+    "abstract": "abstractmap",
+    "type": "GENERIC",
+    "category": "maps",
+    "name": "abstract map",
+    "description": "seeing this is a bug",
+    "weight": 30,
+    "volume": 1,
+    "price": 1000,
+    "to_hit": -1,
+    "material": "paper",
+    "symbol": ";",
+    "color": "light_gray"
+  },
+  {
+    "id": "militarymap",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": "military operations map",
+    "description": "This is a printed topographical map of the local area.  Originally of military origin, it details the locations of evacuation centers and military facilities.  Using it will add points of interest to your map.",
+    "color": "green",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 180,
+      "terrain": [ "hiway", "road", "bridge", "fema_entrance", "bunker", "outpost", "silo", "shelter", "police" ],
+      "message": "You add roads and facilities to your map."
+    }
+  },
+  {
+    "id": "survivormap",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": "survivor's map",
+    "description": "This is a hand-drawn map of the local area.  Whomever created it has marked down the locations of nearby supply sources including gun stores and gas stations.  Using it will add points of interest to your map.",
+    "color": "white",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 180,
+      "terrain": [ "hiway", "road", "bridge", "s_pharm", "s_gun", "s_grocery", "mil_surplus", "s_gas" ],
+      "message": "You add roads and possible supply points to your map."
+    }
+  },
+  {
+    "id": "roadmap",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": "road map",
+    "description": "This is a road map for the local area.  Listing information on civic sites like hospitals and police stations, it can be used to add points of interest to your map.",
+    "color": "yellow",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 180,
+      "terrain": [ "hiway", "road", "bridge", "shelter", "hospital", "school", "police", "sub_station", "bank" ],
+      "message": "You add roads and points of interest to your map."
+    }
+  },
+  {
+    "id": "trailmap",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": "trail guide",
+    "description": "This is a printed guide to the best local trails.  It has general details about the trails, trailhead amenities, suggestions for the best thru-hikes, and advice on interacting with local wildlife in a responsible and respectful manner.",
+    "color": "green",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 180,
+      "terrain": [ "forest_trail", "trailhead" ],
+      "message": "You add trails and trailheads to your map."
+    }
+  },
+  {
+    "id": "touristmap",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": "tourist guide",
+    "description": "This is glossy printed pamphlet for tourists that details local hotels and attractions.",
+    "color": "blue",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 180,
+      "terrain": [ "hiway", "road", "bridge", "hotel_tower", "s_restaurant", "cathedral", "s_restaurant_fast", "megastore", "museum" ],
+      "message": "You add roads and tourist attractions to your map."
+    }
+  },
+  {
+    "id": "restaurantmap",
+    "copy-from": "abstractmap",
+    "type": "GENERIC",
+    "name": "restaurant guide",
+    "description": "This is glossy printed pamphlet that details dining establishments in the local area.  Printed by the Chamber of Commerce, it lists the addresses of all the best diners and bars.  Using it will add points of interest to your map.",
+    "color": "pink",
+    "use_action": {
+      "type": "reveal_map",
+      "radius": 180,
+      "terrain": [ "hiway", "road", "bridge", "s_restaurant_coffee", "s_restaurant", "bar", "s_pizza_parlor", "s_restaurant_fast" ],
+      "message": "You add roads and restaurants to your map."
+    }
+  }
+]

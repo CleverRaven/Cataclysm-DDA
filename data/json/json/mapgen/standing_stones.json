@@ -1,0 +1,77 @@
+[
+  {
+    "id": "standing_stones_accident",
+    "type": "item_group",
+    "subtype": "collection",
+    "items": [
+      [ "holy_symbol", 5 ],
+      [ "holy_symbol_wood", 4 ],
+      [ "essay_book", 6 ],
+      [ "poetry_book", 6 ],
+      [ "philosophy_book", 2 ],
+      [ "holybook_havamal", 8 ],
+      [ "robe", 3 ],
+      [ "tunic", 3 ]
+    ]
+  },
+  {
+    "id": "standing_stones_libation",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "item": "mead", "container-item": "bowl_clay", "charges-min": 2, "charges-max": 7 } ]
+  },
+  {
+    "name": "GROUP_STANDING_STONES",
+    "type": "monstergroup",
+    "default": "mon_null",
+    "monsters": [ { "monster": "mon_darkman", "freq": 100, "cost_multiplier": 1, "conditions": [ "NIGHT" ] } ]
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "standing_stones" ],
+    "weight": 500,
+    "object": {
+      "rows": [
+        "ffffffffffffffffffff..ff",
+        ".ffffff....fffffffffff..",
+        "ff.ffffffff.....o...fff.",
+        "ff..f...ffffffff......ff",
+        ".fff.o.........f....ffff",
+        "f.....fff......fff....f.",
+        "f......f........ff......",
+        "ff....................o.",
+        ".f.o........o...........",
+        "...........ss...O.....ff",
+        ".........ossssss.......f",
+        ".......sssssssss.....fff",
+        "fff..Ossss#sOsss.o.....f",
+        "f......sssssssss.....o..",
+        "........ossssssO.......f",
+        "o.......ss..ss.........f",
+        "fff.......o.............",
+        "....................ffff",
+        ".ff....................f",
+        "f....o...............of.",
+        "fff..................f..",
+        "ffffffffff.....o...ffff.",
+        "ff.f.f.f.f....fff..f.f.f",
+        "ffffff..........ffffffff"
+      ],
+      "terrain": {
+        "#": "t_dirt",
+        ".": [ "t_grass", "t_grass", "t_grass", "t_dirt", "t_dirt" ],
+        "O": "t_dirt",
+        "f": [ "t_grass", "t_grass", "t_grass", "t_tree", "t_tree_young", "t_underbrush", "t_underbrush", "t_underbrush", "t_dirt" ],
+        "o": "t_dirt",
+        "s": "t_dirt"
+      },
+      "furniture": { "#": "f_brazier", "O": "f_boulder_large", "o": "f_boulder_small" },
+      "place_items": [
+        { "item": "standing_stones_accident", "x": [ 9, 14 ], "y": [ 13, 15 ], "chance": 50, "repeat": [ 3, 6 ] },
+        { "item": "standing_stones_libation", "x": 11, "y": 11, "chance": 100 }
+      ],
+      "loot": { "#": { "item": "stick", "repeat": [ 1, 2 ] } }
+    }
+  }
+]

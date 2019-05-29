@@ -620,6 +620,14 @@
     "no_resume": true
   },
   {
+    "id": "ACT_MIND_SPLICER",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "stop_phrase": "Stop using the mind splicer?",
+    "based_on": "speed",
+    "no_resume": true
+  },
+  {
     "id": "ACT_HACK_DOOR",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

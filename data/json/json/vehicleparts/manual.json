@@ -1,0 +1,47 @@
+[
+  {
+    "abstract": "engine_manual",
+    "type": "vehicle_part",
+    "location": "engine_block",
+    "fuel_type": "muscle",
+    "symbol": "*",
+    "color": "light_gray",
+    "broken_symbol": "#",
+    "broken_color": "red",
+    "damage_modifier": 50,
+    "difficulty": 1,
+    "noise_factor": 5,
+    "m2c": 45,
+    "exclusions": [ "manual" ],
+    "flags": [ "ENGINE", "E_STARTS_INSTANTLY", "E_ALTERNATOR" ]
+  },
+  {
+    "id": "foot_pedals",
+    "type": "vehicle_part",
+    "copy-from": "engine_manual",
+    "name": "foot pedals",
+    "item": "foot_crank",
+    "durability": 50,
+    "description": "A set of bicycle style foot pedals.  If mounted on the same tile as seat, they allow you to move the vehicle at the cost of your stamina.",
+    "power": 1600,
+    "muscle_power_factor": 140,
+    "folded_volume": 2,
+    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
+    "extend": { "flags": [ "FOLDABLE", "MUSCLE_LEGS", "CONTROLS", "TOOL_WRENCH" ] }
+  },
+  {
+    "id": "hand_rims",
+    "type": "vehicle_part",
+    "copy-from": "engine_manual",
+    "name": "hand rims",
+    "item": "hand_rims",
+    "durability": 50,
+    "description": "A set of wheelchair style wheels.  If mounted on the same tile as seat, they allow you to move the vehicle at the cost of your stamina.",
+    "power": 800,
+    "muscle_power_factor": 50,
+    "damage_modifier": 50,
+    "folded_volume": 2,
+    "breaks_into": [ { "item": "steel_chunk", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
+    "extend": { "flags": [ "FOLDABLE", "MUSCLE_ARMS", "CONTROLS" ] }
+  }
+]

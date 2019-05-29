@@ -38,7 +38,8 @@
         ],
         "terrain": { "@": "t_grass", "b": "t_dirt", "M": "t_dirt" },
         "fields": { "b": { "field": "fd_blood", "density": 1 } },
-        "mapping": { "@": { "items": { "item": "produce" }, "item": [ { "item": "EMPbomb", "count": 2 }, { "item": "corpse" } ] } },
+        "items": { "@": { "item": "NC_ROBOFAC_FIELD_RESEARCHER_worn", "chance": 100 } },
+        "item": { "@": [ { "item": "EMPbomb", "amount": 2 }, { "item": "corpse" } ] },
         "monster": { "M": { "monster": "mon_robofac_prototype" } }
       }
     },
@@ -49,7 +50,7 @@
       ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_FREE_MERCHANTS_EVAC_3",
+    "followup": "MISSION_ROBOFAC_INTERCOM_2",
     "dialogue": {
       "describe": "No, I said ... [*You hear a short, muffled conversation from across the intercom*]/nWell, it seems we do have a use for you.  It's dangerous and you are likely to die, but if you complete it we will allow you limited access to our resources.",
       "offer": "One of our scientists recently left the lab to perform a field test on a prototype robot, but failed to return, and has not been heard of since.  Investigate the test and return with her and the prototype. Failing that, return with the data recorder that was attached to our prototype.",
@@ -58,6 +59,32 @@
       "advice": "If the robot remains operational don’t try to fight it head on, because it WILL kill you.  Dr. Prado left the Hub with a handful of EMP grenades, use those to disable the robot.",
       "inquire": "Don't you have a job to do?",
       "success": "Unfortunate only the data was salvageable, but you have our thanks for returning it nonetheless.",
+      "success_lie": "What good does this do us?",
+      "failure": "Simply useless..."
+    }
+  },
+  {
+    "id": "MISSION_ROBOFAC_INTERCOM_2",
+    "type": "mission_definition",
+    "name": "Steal a dead man's mind",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 5,
+    "item": "mind_scan_robofac",
+    "value": 1000,
+    "start": {
+      "assign_mission_target": { "om_terrain": "road_ew", "reveal_radius": 2, "random": true, "search_range": 80 },
+      "update_mapgen": { "place_nested": [ { "chunks": [ "robofac_mi2_convoy_ambush_chunk" ], "x": 0, "y": 0 } ] },
+      "effect": [ { "u_buy_item": "mind_splicer" }, { "u_buy_item": "data_card" } ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "...",
+      "offer": "When the portal storms started, the Government issued an evacuation order for critical XEDRA personnel and sent convoys to retrieve them, with our head of AI research among the recalled.  We recently discovered that he died when the convoy transferring him was ambushed in the initial chaos, but his corpse and memory bionic might remain intact enough for us to extract valuable knowledge.  We want you to travel to the location, make a copy of his Bionic Memory Unit, and return it to us.",
+      "accepted": "Remember, do extraction /exactly/ as specified, otherwise the bionic will self-destruct.",
+      "rejected": "Yes, we recognize that our request is exceptional.  Return if you change your mind.",
+      "advice": " You do know what a memory unit looks like, right?  Matte gray, pill-sized, right in front of the corpus callosum.  We suggest a forceps through the eye socket, shaking slightly, then slowly and carefully...",
+      "inquire": "Do you have the scan?",
+      "success": "You have our thanks and payment.",
       "success_lie": "What good does this do us?",
       "failure": "Simply useless..."
     }

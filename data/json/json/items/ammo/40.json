@@ -1,0 +1,69 @@
+[
+  {
+    "id": "10mm",
+    "copy-from": "40sw",
+    "type": "AMMO",
+    "name": "10mm Auto",
+    "description": "10mm Auto ammunition with 180gr FMJ bullets.  The 10mm Auto round is one of the most powerful pistol cartridges available, although its usefulness is limited by high recoil.",
+    "price": 2900,
+    "count": 20,
+    "relative": { "damage": 4, "pierce": 4, "dispersion": -10, "recoil": 20 }
+  },
+  {
+    "id": "40fmj",
+    "copy-from": "40sw",
+    "type": "AMMO",
+    "name": ".40 S&W FMJ",
+    "description": ".40 S&W ammunition with 180gr FMJ bullets.  Designed to retain the 10mm Auto cartridge's power with lower recoil, the .40 S&W round became popular for law enforcement and personal defense.",
+    "relative": { "damage": -3, "pierce": 6 }
+  },
+  {
+    "id": "40sw",
+    "type": "AMMO",
+    "name": ".40 S&W JHP",
+    "description": ".40 S&W ammunition with 135gr JHP bullets.  The .40 S&W round is a descended from the 10mm Auto cartridge and maintains most of its predecessor's strengths while reducing recoil.",
+    "weight": 9,
+    "volume": 1,
+    "price": 2800,
+    "material": [ "brass", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 40,
+    "stack_size": 40,
+    "ammo_type": "40",
+    "casing": "40_casing",
+    "range": 14,
+    "damage": 26,
+    "pierce": 4,
+    "dispersion": 50,
+    "recoil": 560,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "reloaded_10mm",
+    "copy-from": "10mm",
+    "type": "AMMO",
+    "name": "reloaded 10mm Auto",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "reloaded_40fmj",
+    "copy-from": "40fmj",
+    "type": "AMMO",
+    "name": "reloaded .40 S&W FMJ",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "reloaded_40sw",
+    "copy-from": "40sw",
+    "type": "AMMO",
+    "name": "reloaded .40 S&W JHP",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  }
+]

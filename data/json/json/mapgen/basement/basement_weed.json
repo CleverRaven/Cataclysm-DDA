@@ -1,0 +1,55 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "basement" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_rock",
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "|----------------------|",
+        "|c....................c|",
+        "|c.ddd..ddd..ddd..ddd.c|",
+        "|c.ddd..ddd..ddd..ddd.c|",
+        "|c.ddd..ddd..ddd..ddd.c|",
+        "|c....................c|",
+        "|c.ddd..ddd..ddd..ddd.c|",
+        "|c.ddd..ddd..ddd..ddd.c|",
+        "|c.ddd..ddd..ddd..ddd.c|",
+        "|c....................c|",
+        "|c.ddd..ddd..ddd..ddd.c|",
+        "|c.ddd..ddd..ddd..ddd.c|",
+        "|c.ddd..ddd..ddd..ddd.c|",
+        "|c....................c|",
+        "|c....................c|",
+        "|......................|",
+        "|.........|++|.........|",
+        "|.........|..|.........|",
+        "|.........|<<|.........|",
+        "------------------------",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        "
+      ],
+      "terrain": {
+        "+": "t_door_c",
+        "-": "t_wall",
+        ".": "t_rock_floor",
+        "<": "t_stairs_up",
+        "c": "t_rock_floor",
+        "d": "t_dirt",
+        "|": "t_wall"
+      },
+      "furniture": { "c": "f_counter" },
+      "place_loot": [
+        { "item": "seed_weed", "x": [ 3, 20 ], "y": [ 2, 12 ], "chance": 96, "repeat": [ 1, 10 ] },
+        { "item": "weed", "x": [ 3, 20 ], "y": [ 2, 12 ], "chance": 80, "repeat": [ 1, 10 ] },
+        { "group": "stoner", "x": 1, "y": [ 1, 14 ], "chance": 10, "repeat": [ 1, 10 ] },
+        { "group": "stoner", "x": 22, "y": [ 1, 14 ], "chance": 10, "repeat": [ 1, 10 ] }
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 23 ], "y": [ 1, 19 ], "chance": 2 } ]
+    }
+  }
+]

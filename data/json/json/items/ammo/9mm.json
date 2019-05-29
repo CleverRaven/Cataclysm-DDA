@@ -1,0 +1,89 @@
+[
+  {
+    "id": "9mm",
+    "type": "AMMO",
+    "name": "9x19mm JHP",
+    "description": "9x19mm ammunition with a 116gr jacketed hollow point bullet.  JHP rounds have inferior penetration to FMJ rounds but their expansion slightly increases stopping power against unarmored targets and reduces overpenetration.",
+    "weight": 7,
+    "volume": 1,
+    "price": 2400,
+    "material": [ "brass", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 50,
+    "stack_size": 50,
+    "ammo_type": "9mm",
+    "casing": "9mm_casing",
+    "range": 14,
+    "damage": 26,
+    "dispersion": 60,
+    "recoil": 500,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "9mmfmj",
+    "copy-from": "9mm",
+    "type": "AMMO",
+    "name": "9x19mm FMJ",
+    "description": "9x19mm ammunition with a brass jacketed 115gr bullet.  It is a popular round for military, law enforcement, and civilian use even after almost 150 years.",
+    "relative": { "damage": -2, "pierce": 4 }
+  },
+  {
+    "id": "9mmP",
+    "copy-from": "9mm",
+    "type": "AMMO",
+    "name": "9x19mm +P",
+    "description": "Overpressure 9x19mm ammunition.  The round's increased velocity results in superior accuracy and stopping power at the cost of higher recoil.",
+    "price": 3800,
+    "count": 25,
+    "relative": { "damage": 2, "pierce": 2, "dispersion": -15 },
+    "proportional": { "recoil": 1.1 }
+  },
+  {
+    "id": "9mmP2",
+    "copy-from": "9mm",
+    "type": "AMMO",
+    "name": "9x19mm +P+",
+    "description": "A step beyond the high-pressure 9x19mm +P round, the +P+ has even higher internal pressure offering superior damage, accuracy, and penetration.",
+    "price": 5200,
+    "count": 10,
+    "relative": { "damage": 4, "pierce": 4, "dispersion": -30 },
+    "proportional": { "recoil": 1.2 }
+  },
+  {
+    "id": "reloaded_9mm",
+    "copy-from": "9mm",
+    "type": "AMMO",
+    "name": "reloaded 9x19mm JHP",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "reloaded_9mmfmj",
+    "copy-from": "9mmfmj",
+    "type": "AMMO",
+    "name": "reloaded 9x19mm FMJ",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "reloaded_9mmP",
+    "copy-from": "9mmP",
+    "type": "AMMO",
+    "name": "reloaded 9x19mm +P",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "reloaded_9mmP2",
+    "copy-from": "9mmP2",
+    "type": "AMMO",
+    "name": "reloaded 9x19mm +P+",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  }
+]

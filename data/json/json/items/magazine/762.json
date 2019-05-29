@@ -1,0 +1,51 @@
+[
+  {
+    "id": "762x39_clip",
+    "type": "MAGAZINE",
+    "name": "rifle clip - 7.62x39mm",
+    "//": "Provisional.",
+    "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load a bolt-action rifle.",
+    "weight": 40,
+    "volume": "100ml",
+    "price": 1000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "762",
+    "capacity": 10,
+    "flags": [ "SPEEDLOADER" ]
+  },
+  {
+    "id": "akmbigmag",
+    "type": "MAGAZINE",
+    "name": "AKM extended magazine",
+    "description": "A 40-round, 7.62x39mm magazine initially designed for the RPK but compatible with the AKM rifle.",
+    "weight": 570,
+    "volume": 3,
+    "price": 8300,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "762",
+    "capacity": 40,
+    "reliability": 8,
+    "reload_time": 120,
+    "flags": [ "MAG_BULKY" ]
+  },
+  {
+    "id": "akmmag",
+    "type": "MAGAZINE",
+    "name": "AKM magazine",
+    "description": "A standard 30-round magazine made for the AKM rifle, made of stamped sheet metal.",
+    "weight": 430,
+    "volume": 2,
+    "price": 2800,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "762",
+    "capacity": 30,
+    "reliability": 9,
+    "flags": [ "MAG_COMPACT" ]
+  }
+]

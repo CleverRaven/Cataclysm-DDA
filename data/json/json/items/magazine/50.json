@@ -1,0 +1,31 @@
+[
+  {
+    "id": "belt50",
+    "copy-from": "magazine_belt",
+    "type": "MAGAZINE",
+    "name": "ammo belt .50 BMG",
+    "ammo_type": "50",
+    "capacity": 100,
+    "count": 100,
+    "linkage": "ammolink50"
+  },
+  {
+    "id": "m107a1mag",
+    "type": "MAGAZINE",
+    "name": "Barrett magazine",
+    "//": "Fully loaded 10 magazine, presumably loaded with the 114.7 gram M33 Ball cartridge, weighs 1868.801 grams. Source inetres.com",
+    "description": "Standard 10-round box magazine for a Barrett M107A1 anti-materiel rifle.",
+    "weight": 727,
+    "volume": 2,
+    "price": 10000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "looks_like": "8x40_50_mag",
+    "ammo_type": "50",
+    "capacity": 10,
+    "reliability": 9,
+    "reload_time": 130,
+    "flags": [ "MAG_BULKY" ]
+  }
+]

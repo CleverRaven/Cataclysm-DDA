@@ -1,0 +1,56 @@
+[
+  {
+    "id": "545",
+    "type": "AMMO",
+    "name": "5.45x39mm 7N10",
+    "//": "Mainlined from Icecoon's Weapons Pack.",
+    "description": "5.45x39mm 7N10 ammunition with 56gr FMJ bullets.  The 5.45x39mm round was introduced along with the AK-74 in 1974.  It has superior wounding potential to the older 7.62x39mm round and quickly replaced it in Soviet military use.",
+    "weight": 10,
+    "volume": 1,
+    "price": 2900,
+    "material": [ "steel", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 30,
+    "stack_size": 30,
+    "ammo_type": "545x39",
+    "casing": "545_casing",
+    "range": 37,
+    "damage": 40,
+    "pierce": 6,
+    "dispersion": 30,
+    "recoil": 1400,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "545_ap",
+    "copy-from": "545",
+    "type": "AMMO",
+    "name": "5.45x39mm 7N22",
+    "description": "Armor piercing 5.45x39mm ammunition with 57gr bullets containing a steel penetrator.  Developed in 1998 by the Russian military.",
+    "price": 6500,
+    "symbol": "=",
+    "color": "yellow",
+    "relative": { "damage": -2, "pierce": 8 }
+  },
+  {
+    "id": "reloaded_545",
+    "copy-from": "545",
+    "type": "AMMO",
+    "name": "reloaded 5.45x39mm",
+    "description": "The 5.45x39mm was the standard ammunition for the AK series from 1974.  Its designers were inspired by the 5.56x45mm NATO cartridge.  This one has been hand-reloaded.",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "reloaded_545_ap",
+    "copy-from": "545_ap",
+    "type": "AMMO",
+    "name": "reloaded 5.45x39mm AP",
+    "description": "Armor piercing 5.45x39mm ammunition with hand-reloaded bullets containing a steel penetrator.  Developed in 1998 by the Russian military.",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  }
+]

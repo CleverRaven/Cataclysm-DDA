@@ -1,0 +1,36 @@
+[
+  {
+    "id": "5x50_100_mag",
+    "type": "MAGAZINE",
+    "name": "RMFB100 5x50mm extended magazine",
+    "description": "A 100 round box magazine for use with 5x50mm flechette firearms.",
+    "weight": 360,
+    "volume": "630ml",
+    "price": 15000,
+    "material": [ "superalloy", "plastic" ],
+    "symbol": "#",
+    "color": "dark_gray",
+    "ammo_type": "5x50",
+    "capacity": 100,
+    "reliability": 10,
+    "reload_time": 60,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "5x50_50_mag",
+    "type": "MAGAZINE",
+    "name": "RMFB50 5x50mm magazine",
+    "description": "A 50 round box magazine for use with 5x50mm flechette firearms.",
+    "weight": 240,
+    "volume": "315ml",
+    "price": 12500,
+    "material": [ "superalloy", "plastic" ],
+    "symbol": "#",
+    "color": "dark_gray",
+    "ammo_type": "5x50",
+    "capacity": 50,
+    "reliability": 10,
+    "reload_time": 50,
+    "flags": [ "MAG_COMPACT" ]
+  }
+]

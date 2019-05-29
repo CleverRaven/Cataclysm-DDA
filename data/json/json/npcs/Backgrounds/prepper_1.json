@@ -1,0 +1,45 @@
+[
+  {
+    "id": "BGSS_PREPPER_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "Ooooh, boy.  I was ready for this.  The winds were blowing this way for years.  I had a full last man on earth shelter set up just out of town.  So, of course, just my luck: I was miles out of town for a work conference when China attacked and the world ended.",
+    "responses": [
+      { "text": "What happened to you?", "topic": "BGSS_PREPPER_1_STORY2" },
+      { "text": "What about your shelter?", "topic": "BGSS_PREPPER_1_LMOE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Our conference was at a retreat by a lake.  We all got the emergency broadcast on our cells, but I was the only one to read between the lines and see it for what it was: large scale bio-terrorism.  I wasn't about to stay and find out who of my coworkers was a sleeper agent.  Although I'd bet fifty bucks it was Lee.  Anyway, I stole the co-ordinator's pickup and headed straight for my shelter.",
+    "responses": [
+      { "text": "Did you get there?", "topic": "BGSS_PREPPER_1_STORY3" },
+      { "text": "What about your shelter?", "topic": "BGSS_PREPPER_1_LMOE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "No, I barely got two miles.  I crashed into some kind of hell-spawn chink bio-weapon, a crazy screeching <monster> made of arms and legs and heads from all sorts of creatures, humans too.  I think I killed it, but I know for sure I killed the truck.  Grabbed my duffel bag and ran, after putting a couple bullets into it for good measure.  I hope I never see something like that again.",
+    "responses": [
+      { "text": "What about your shelter?", "topic": "BGSS_PREPPER_1_LMOE" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_PREPPER_1_LMOE",
+    "type": "talk_topic",
+    "dynamic_line": "I still haven't made it there.  Every time I've tried I've been headed off by the <zombies>.  Who knows, maybe someday.",
+    "//": "In the future this NPC should give you the map coordinates to the LMOE shelter if you persuade.",
+    "responses": [
+      { "text": "Could you tell me that story again?", "topic": "BGSS_PREPPER_1_STORY1" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

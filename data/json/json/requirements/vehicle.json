@@ -1,0 +1,33 @@
+[
+  {
+    "id": "vehicle_bolt",
+    "type": "requirement",
+    "//": "Compatible with legacy flag TOOL_WRENCH or when installing wheels",
+    "qualities": [ { "id": "WRENCH", "level": 2 } ]
+  },
+  {
+    "id": "vehicle_nail_install",
+    "type": "requirement",
+    "//": "Compatible with legacy flag NAILABLE",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "nail", 20 ] ] ]
+  },
+  {
+    "id": "vehicle_nail_removal",
+    "type": "requirement",
+    "//": "Compatible with legacy flag NAILABLE",
+    "qualities": [ { "id": "HAMMER", "level": 2 } ]
+  },
+  {
+    "id": "vehicle_screw",
+    "type": "requirement",
+    "//": "Compatible with legacy flag TOOL_SCREWDRIVER",
+    "qualities": [ { "id": "SCREW", "level": 1 } ]
+  },
+  {
+    "id": "vehicle_weld_removal",
+    "type": "requirement",
+    "//": "Counterpart to welding_* installation requirements",
+    "qualities": [ { "id": "SAW_M", "level": 2 } ]
+  }
+]

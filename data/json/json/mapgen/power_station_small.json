@@ -1,0 +1,71 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "pwr_sub_s" ],
+    "weight": 10,
+    "object": {
+      "fill_ter": "t_concrete",
+      "rows": [
+        "........................",
+        "------------------------",
+        "|   T                  |",
+        "|                      |",
+        "|   }                  |",
+        "| T hST                |",
+        "|              wwwwdwwww",
+        "| T {BT        vc******v",
+        "|              Wc******v",
+        "| T hsT{BT     vC******W",
+        "|              vC******W",
+        "|        8S    vC******W",
+        "| T      T     Wc******v",
+        "|    888       Wc******v",
+        "|    888       wwwwdwwww",
+        "| T  888 T             |",
+        "|        8S            |",
+        "|                      |",
+        "| T hST{BT             |",
+        "|   {              -++--",
+        "|   B              |  ..",
+        "| T hST            |  ..",
+        "|   }              |  ..",
+        "--------------------...."
+      ],
+      "terrain": {
+        " ": "t_concrete",
+        "*": "t_floor",
+        "+": "t_chaingate_c",
+        "-": "t_chainfence_h",
+        ".": "t_grass",
+        "8": "t_potential_trans",
+        "B": "t_oil_circ_brkr_l",
+        "C": "t_console_broken",
+        "S": "t_switchgear_l",
+        "T": "t_support_l",
+        "W": "t_window",
+        "c": "t_floor",
+        "d": "t_door_locked",
+        "h": "t_station_disc",
+        "s": "t_switchgear_s",
+        "v": "t_wall",
+        "w": "t_wall",
+        "x": "t_chainfence_posts",
+        "{": "t_current_trans",
+        "|": "t_chainfence_v",
+        "}": "t_lgtn_arrest"
+      },
+      "furniture": { "c": "f_counter" },
+      "place_loot": [
+        { "group": "supplies_electronics", "x": 16, "y": [ 7, 8 ], "chance": 40, "repeat": [ 1, 3 ] },
+        { "group": "tools_lighting_industrial", "x": 16, "y": [ 7, 8 ], "chance": 30, "repeat": [ 1, 2 ] },
+        { "group": "tools_common", "x": 16, "y": [ 7, 8 ], "chance": 40, "repeat": [ 1, 2 ] },
+        { "group": "clothing_work_set", "x": 16, "y": [ 7, 8 ], "chance": 25 },
+        { "group": "supplies_electronics", "x": 16, "y": [ 12, 13 ], "chance": 40, "repeat": [ 1, 3 ] },
+        { "group": "tools_lighting_industrial", "x": 16, "y": [ 12, 13 ], "chance": 30, "repeat": [ 1, 2 ] },
+        { "group": "tools_common", "x": 16, "y": [ 12, 13 ], "chance": 40, "repeat": [ 1, 2 ] },
+        { "group": "clothing_work_set", "x": 16, "y": [ 12, 13 ], "chance": 25 }
+      ]
+    }
+  }
+]

@@ -1,0 +1,345 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "orchard_processing" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_metal_floor",
+      "rows": [
+        "QQQQQQQQQQQQQQQQQQQQQQQQ",
+        "q                      q",
+        "q                      q",
+        "q                      q",
+        "q $$$$$$$$$$$$$$$$$$$$ q",
+        "q $------------------$ q",
+        "q $-,,C-.........OOX-$ q",
+        "q $-Ck,o.OcccO....OX-$ q",
+        "q $--ox-.........OXX-$ q",
+        "q $-.........--++----$ q",
+        "q $-..O......-T...XX-$ q",
+        "q $-f.c......+....XX-$ q",
+        "q $-f.c......+.....X-$ q",
+        "q $-f.c......-....XX-$ q",
+        "q $-..O......-.....X-$ q",
+        "q $-.........-....|X-$ q",
+        "q $------++---====---$ q",
+        "q       $]]$]'''''']   q",
+        "q 7$$7  $]]$]'''''']   q",
+        "q       $]]$]'''''']   q",
+        "''''''''''''''''''''   q",
+        "''''''''''''''''''''   q",
+        "''''''''''''''''''''   q",
+        "''''''''''''''''''''   q"
+      ],
+      "terrain": {
+        " ": [ "t_dirt", "t_grass", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        "$": [ "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_shrub", "t_underbrush" ],
+        "'": "t_pavement",
+        "+": "t_door_metal_c",
+        ",": "t_floor",
+        "-": "t_wall_metal",
+        ".": "t_metal_floor",
+        "7": "t_tree",
+        "=": "t_door_metal_locked",
+        "C": "t_floor",
+        "]": "t_sidewalk",
+        "k": "t_floor",
+        "o": "t_window",
+        "x": "t_door_c",
+        "|": "t_gates_control_metal",
+        "Q": "t_fence_v",
+        "q": "t_fence_h"
+      },
+      "furniture": { "C": "f_chair", "O": "f_crate_o", "T": "f_table", "X": "f_crate_c", "c": "f_counter", "f": "f_rack", "k": "f_desk" },
+      "place_items": [
+        { "item": "office", "x": 7, "y": 7, "chance": 75, "repeat": [ 1, 3 ] },
+        { "item": "office", "x": 16, "y": 10, "chance": 50 },
+        { "item": "hardware", "x": 6, "y": [ 11, 13 ], "chance": 50, "repeat": [ 1, 2 ] }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_PEST", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 15 },
+        { "monster": "GROUP_SAFE", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 40 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 45 }
+      ],
+      "place_vehicles": [
+        { "vehicle": "suburban_home", "x": 2, "y": 21, "chance": 45, "rotation": -90 },
+        { "vehicle": "suburban_home", "x": 7, "y": 21, "chance": 45, "rotation": -90 },
+        { "vehicle": "suburban_home", "x": 12, "y": 21, "chance": 45, "rotation": -90 },
+        { "vehicle": "highway", "x": 16, "y": 21, "chance": 45 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "orchard_stall" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "....................   q",
+        "....................   q",
+        "....................   q",
+        "....................   q",
+        "....................****",
+        "....................****",
+        "...................*****",
+        "...................*   q",
+        "...................*   q",
+        "..................**   q",
+        ".................**    q",
+        "..............****     q",
+        "q**********************q",
+        "q******bbb**-------+--$q",
+        "q******ttt**-cT{xxS,s-$q",
+        "q******bbb**oc,D,,,,F-$q",
+        "q***********oc,,,,,,F-$q",
+        "q***********-POOk,,TF-$q",
+        "q ********* -----++---$q",
+        "q7 ****btb 7-XOO,,,ff-$q",
+        "q  ****btb  -XO,,,,,|-$q",
+        "q7 ****btb 7---=====--$q",
+        "q *********   |*****dd q",
+        "QQQQ***QQQQQQQQQQ***QQQQ"
+      ],
+      "terrain": {
+        " ": [ "t_dirt", "t_grass_long", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        "$": "t_shrub",
+        "*": "t_dirt",
+        "+": "t_door_c",
+        ",": "t_floor",
+        "-": "t_wall_wood",
+        ".": "t_pavement",
+        "7": "t_tree",
+        "=": "t_door_metal_locked",
+        "b": "t_dirt",
+        "o": "t_window_empty",
+        "t": "t_dirt",
+        "|": "t_barndoor",
+        "Q": "t_fence_v",
+        "q": "t_fence_h"
+      },
+      "furniture": {
+        "D": "f_trashcan",
+        "F": "f_fridge",
+        "O": "f_crate_o",
+        "P": "f_sign",
+        "S": "f_smoking_rack",
+        "T": "f_table",
+        "X": "f_crate_c",
+        "b": "f_bench",
+        "c": "f_counter",
+        "d": "f_dumpster",
+        "f": "f_rack",
+        "k": "f_wood_keg",
+        "s": "f_safe_o",
+        "t": "f_table",
+        "x": "f_oven",
+        "{": "f_sink"
+      },
+      "place_signs": [ { "signage": "Get Apples n Ciders!", "x": 13, "y": 17 } ],
+      "place_items": [
+        { "item": "fridge", "x": 20, "y": [ 15, 17 ], "chance": 75, "repeat": [ 1, 3 ] },
+        { "item": "farming_tools", "x": [ 19, 20 ], "y": 19, "chance": 50, "repeat": [ 1, 2 ] },
+        { "item": "trash", "x": 22, "y": [ 15, 16 ], "chance": 65, "repeat": [ 1, 2 ] },
+        { "item": "trash", "x": 11, "y": 12, "chance": 75 }
+      ],
+      "place_monsters": [
+        { "monster": "GROUP_PEST", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 30 },
+        { "monster": "GROUP_SAFE", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 30 },
+        { "monster": "GROUP_DOMESTIC", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 40 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 45 }
+      ],
+      "place_vehicles": [ { "vehicle": "suburban_home", "x": 4, "y": 17, "chance": 50, "rotation": -90 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "orchard_tree_apple" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "  $$***     $$ $ *** $$ ",
+        " $  ***  $      $***    ",
+        "$ 7 *** 7$$    7$*** 7 $",
+        "   $***     $    ***$   ",
+        "************************",
+        "************************",
+        "************************",
+        "   $***    $     ***   $",
+        "  7 *** 7      7 *** 7  ",
+        " $  *** $    $   ***    ",
+        "    ***          ***  $ ",
+        "$$  ***   $$   $ ***$$  ",
+        "   $***$   $     ***    ",
+        "    ***     $$   ***   $",
+        " $  ***  $       ***    ",
+        "  7$*** 7      7 *** 7  ",
+        "   $***     $$   ***$$  ",
+        "************************",
+        "************************",
+        "************************",
+        " $$ ***        $ ***  $ ",
+        "  7 *** 7  $$  7 *** 7  ",
+        " $  ***       $  *** $$ ",
+        "    ***   $$     ***   $"
+      ],
+      "terrain": {
+        " ": [ "t_dirt", "t_grass_long", "t_grass_long", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        "*": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
+        "$": [ "t_shrub", "t_shrub", "t_underbrush", "t_grass", "t_dirt" ],
+        "7": [ "t_tree_apple", "t_tree_apple", "t_tree_dead" ]
+      },
+      "place_monsters": [
+        { "monster": "GROUP_PEST", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 60 },
+        { "monster": "GROUP_DOMESTIC", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 40 },
+        { "monster": "GROUP_SAFE", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 30 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 25 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "orchard_tree_apple" ],
+    "weight": 75,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "  $$***     $$ $ *** $$ ",
+        " $  ***  $      $***    ",
+        "$ 7 *** 7$$    7$*** 7 $",
+        "   $***     $    ***$   ",
+        "*******          *******",
+        "*******  $    $$ *******",
+        "******* $        *******",
+        "   $***    $     ***   $",
+        "  7 *** 7      7 *** 7  ",
+        " $  *** $    $   ***    ",
+        "    ***          ***  $ ",
+        "$$  ***   $$   $ ***$$  ",
+        "   $***$   $     ***    ",
+        "    ***     $$   ***   $",
+        " $  ***  $       ***    ",
+        "  7$*** 7      7 *** 7  ",
+        "   $***     $$   ***$$  ",
+        "************************",
+        "************************",
+        "************************",
+        " $$ ***        $ ***  $ ",
+        "  7 *** 7  $$  7 *** 7  ",
+        " $  ***       $  *** $$ ",
+        "    ***   $$     ***   $"
+      ],
+      "terrain": {
+        " ": [ "t_dirt", "t_grass_long", "t_grass_long", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        "*": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
+        "$": [ "t_shrub", "t_shrub", "t_underbrush", "t_grass", "t_dirt" ],
+        "7": [ "t_tree_apple", "t_tree_apple", "t_tree_dead" ]
+      },
+      "place_monsters": [
+        { "monster": "GROUP_PEST", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 60 },
+        { "monster": "GROUP_DOMESTIC", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 40 },
+        { "monster": "GROUP_SAFE", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 30 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 25 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "orchard_tree_apple" ],
+    "weight": 75,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "    ***     $$ $ *** $$ ",
+        " $  ***  $      $***    ",
+        "$ 7 *** 7$$    7$*** 7 $",
+        "   $***     $    ***$   ",
+        "************************",
+        "************************",
+        "************************",
+        "   $***    $      $    $",
+        "  7 *** 7    $$7     7  ",
+        " $ $*** $    $          ",
+        "   $***               $ ",
+        "    ***        $    $$  ",
+        "   $***$   $            ",
+        "    ***     $$   $     $",
+        " $  ***  $        $     ",
+        "  7 *** 7      7     7$ ",
+        "$$ $***     $$      $$$ ",
+        "************************",
+        "************************",
+        "************************",
+        " $  *** $$     $ ***  $ ",
+        "  7 *** 7$     7 *** 7  ",
+        "$   ***     $    *** $$ ",
+        "   $***   $$     ***   $"
+      ],
+      "terrain": {
+        " ": [ "t_dirt", "t_grass_long", "t_grass_long", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        "*": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
+        "$": [ "t_shrub", "t_shrub", "t_underbrush", "t_grass", "t_dirt" ],
+        "7": [ "t_tree_apple", "t_tree_apple", "t_tree_dead" ]
+      },
+      "place_monsters": [
+        { "monster": "GROUP_PEST", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 60 },
+        { "monster": "GROUP_DOMESTIC", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 50 },
+        { "monster": "GROUP_SAFE", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 20 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 25 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "orchard_tree_apple" ],
+    "weight": 75,
+    "object": {
+      "fill_ter": "t_dirt",
+      "rows": [
+        "    ***     $$ $ *** $$ ",
+        " $  ***  $      $***    ",
+        "$ 7 *** 7$$    7$*** 7 $",
+        "   $***     $    ***$   ",
+        "************************",
+        "************************",
+        "************************",
+        "   $***    $      $    $",
+        "  7 *** 7    $$7     7  ",
+        " $ $*** $    $          ",
+        "   $***               $ ",
+        "    ***        $    $$  ",
+        "   $***$   $            ",
+        "    ***     $$   $     $",
+        " $  ***  $        $     ",
+        "  7 *** 7      7     7$ ",
+        "$$ $***     $$      $$$ ",
+        "*******        $  $     ",
+        "*******  $   $         $",
+        "*******      $     $$   ",
+        " $  *** $$     $      $ ",
+        "  7 *** 7$     7     7  ",
+        "$   ***     $    $   $$ ",
+        "   $***   $$     $     $"
+      ],
+      "terrain": {
+        " ": [ "t_dirt", "t_grass_long", "t_grass_long", "t_grass", "t_grass", "t_grass", "t_grass" ],
+        "*": [ "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_dirt", "t_grass" ],
+        "$": [ "t_shrub", "t_shrub", "t_underbrush", "t_grass", "t_dirt" ],
+        "7": [ "t_tree_apple", "t_tree_apple", "t_tree_dead" ]
+      },
+      "place_monsters": [
+        { "monster": "GROUP_PEST", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 60 },
+        { "monster": "GROUP_DOMESTIC", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 50 },
+        { "monster": "GROUP_SAFE", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 20 },
+        { "monster": "GROUP_ZOMBIE", "x": [ 1, 22 ], "y": [ 1, 22 ], "chance": 25 }
+      ]
+    }
+  }
+]

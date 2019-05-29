@@ -1,0 +1,61 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_BARTENDER_extra",
+    "items": [ [ "backpack", 90 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BARTENDER_coat",
+    "items": [ [ "trenchcoat", 80 ], [ "vest", 60 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_BARTENDER_misc",
+    "items": [
+      [ "whiskey", 16 ],
+      [ "vodka", 20 ],
+      [ "gin", 20 ],
+      [ "rum", 14 ],
+      [ "tequila", 12 ],
+      [ "moonshine", 15 ],
+      [ "triple_sec", 12 ],
+      [ "bum_wine", 20 ],
+      [ "mixed_alcohol_strong", 15 ],
+      [ "mixed_alcohol_weak", 15 ],
+      [ "fruit_wine", 12 ],
+      [ "brandy", 12 ],
+      [ "irish_coffee", 12 ],
+      [ "drink_boozeberry", 8 ],
+      [ "drink_rumcola", 12 ],
+      [ "drink_screwdriver", 12 ],
+      [ "drink_wsour", 12 ],
+      [ "drink_wild_apple", 8 ],
+      [ "drink_hobo", 8 ],
+      [ "drink_beeknees", 8 ],
+      [ "drink_kalimotxo", 8 ],
+      [ "drink_strawberry_surprise", 8 ],
+      [ "long_island", 6 ],
+      [ "eggnog_spiked", 6 ],
+      [ "wine_riesling", 6 ],
+      [ "wine_chardonnay", 10 ],
+      [ "wine_cabernet", 10 ],
+      [ "wine_noir", 2 ],
+      [ "dandelion_wine", 10 ],
+      [ "pine_wine", 10 ],
+      [ "mead", 2 ],
+      [ "beer", 35 ],
+      [ "hb_beer", 25 ],
+      [ "european_pilsner", 25 ],
+      [ "pale_ale", 25 ],
+      [ "india_pale_ale", 25 ],
+      [ "stout", 15 ],
+      [ "belgian_ale", 10 ],
+      [ "imperial_stout", 4 ],
+      [ "single_malt_whiskey", 2 ],
+      [ "cig", 50 ],
+      [ "chaw", 20 ],
+      [ "cigar", 40 ]
+    ]
+  }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "id": "700nx",
+    "type": "AMMO",
+    "name": ".700 NX",
+    "description": "The .700 Nitro Express is a very powerful rifle round designed for long-range use.  Its stupendous accuracy and armor piercing capabilities make it one of the most deadly rounds available, offset only by its drastic recoil and noise.",
+    "weight": 80,
+    "volume": 1,
+    "price": 75000,
+    "material": [ "brass", "powder" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "count": 10,
+    "stack_size": 5,
+    "ammo_type": "700nx",
+    "casing": "700nx_casing",
+    "range": 42,
+    "damage": 110,
+    "pierce": 30,
+    "dispersion": 15,
+    "recoil": 12100,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "reloaded_700nx",
+    "copy-from": "700nx",
+    "type": "AMMO",
+    "name": "reloaded .700 NX",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  }
+]

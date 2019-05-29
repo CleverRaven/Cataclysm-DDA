@@ -1,0 +1,37 @@
+[
+  {
+    "id": "BGSS_NO_PAST_4_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "Who I was is gone.  All that stuff burned away in <the_cataclysm>.  Got it?  Who I am now started two days into it.  I was on the run from a big-ass hell zombie, running like I'd always been doing, when I found a steel baseball bat just laying on the ground.  I took it as a sign and beat that gooey bastard to a pulp... and that's when I became me.  I still run, because who doesn't, but I stand my ground now.",
+    "responses": [
+      { "text": "What happened to you after that?", "topic": "BGSS_NO_PAST_4_STORY2" },
+      {
+        "text": "It can't be healthy to abandon your past like that...",
+        "topic": "BGSS_NO_PAST_4_DROPIT",
+        "opinion": { "anger": 3 }
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_NO_PAST_4_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "I went on, running when I had to and fighting when I could, like the rest of us.  Started learning who I am now.  Lost the bat in a fight against some crazy electric lightning shooting zombie.  It was arcing electricity through my bat so I dropped it and used a nearby two-by-four, but I wound up having to run and leave the ol' slugger behind.  I nearly died that day.",
+    "responses": [
+      {
+        "text": "It can't be healthy to abandon your past like that...",
+        "topic": "BGSS_NO_PAST_4_DROPIT",
+        "opinion": { "anger": 3 }
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_NO_PAST_4_DROPIT",
+    "type": "talk_topic",
+    "dynamic_line": "Listen.  I said it clearly, and if you keep picking at it I'm gonna get mad.  Who I was is gone.  Dead.  I don't give a shit about your 'healthy', don't <swear> ask again.",
+    "responses": [ { "text": "What were you saying before?", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

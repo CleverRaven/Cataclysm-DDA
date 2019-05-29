@@ -1,0 +1,595 @@
+[
+  {
+    "abstract": "board",
+    "type": "vehicle_part",
+    "name": "board",
+    "item": "sheet_metal",
+    "location": "center",
+    "difficulty": 1,
+    "durability": 240,
+    "description": "A metal wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
+    "breaks_into": "ig_vp_sheet_metal",
+    "flags": [ "OPAQUE", "OBSTACLE", "FULL_BOARD", "NO_ROOF_NEEDED" ]
+  },
+  {
+    "abstract": "clothboard",
+    "type": "vehicle_part",
+    "name": "cloth board",
+    "item": "sheet",
+    "location": "center",
+    "broken_color": "dark_gray",
+    "difficulty": 1,
+    "durability": 15,
+    "description": "A cloth wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
+    "folded_volume": 15,
+    "breaks_into": "ig_vp_cloth",
+    "flags": [ "OPAQUE", "OBSTACLE", "FOLDABLE", "NAILABLE", "FULL_BOARD", "NO_ROOF_NEEDED" ]
+  },
+  {
+    "abstract": "cloth_halfboard",
+    "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "name": "cloth quarterpanel",
+    "description": "A half-height cloth wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "proportional": { "durability": 0.8 },
+    "extend": { "flags": [ "HALF_BOARD" ] },
+    "delete": { "flags": [ "OPAQUE", "FULL_BOARD" ] }
+  },
+  {
+    "abstract": "halfboard",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "name": "quarterpanel",
+    "description": "A half-height metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "proportional": { "durability": 0.8 },
+    "extend": { "flags": [ "HALF_BOARD" ] },
+    "delete": { "flags": [ "OPAQUE", "FULL_BOARD" ] }
+  },
+  {
+    "abstract": "stowboard",
+    "type": "vehicle_part",
+    "name": "stow board",
+    "item": "sheet_metal",
+    "location": "center",
+    "color": "white",
+    "broken_symbol": "#",
+    "broken_color": "light_gray",
+    "difficulty": 2,
+    "durability": 200,
+    "description": "A metal wall with a storage locker.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
+    "size": 250,
+    "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED", "FULL_BOARD", "NO_ROOF_NEEDED" ]
+  },
+  {
+    "abstract": "hdstowboard",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "name": "heavy duty stow board",
+    "item": "steel_plate",
+    "color": "brown",
+    "broken_color": "dark_gray",
+    "proportional": { "durability": 4.15, "size": 0.76 },
+    "flags": [ "OBSTACLE", "OPAQUE", "CARGO", "COVERED", "FULL_BOARD" ]
+  },
+  {
+    "abstract": "hdboard",
+    "type": "vehicle_part",
+    "name": "heavy duty board",
+    "item": "steel_plate",
+    "location": "center",
+    "color": "dark_gray",
+    "difficulty": 1,
+    "durability": 1000,
+    "description": "A strong metal wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
+    "breaks_into": "ig_vp_steel_plate",
+    "flags": [ "OPAQUE", "OBSTACLE", "FULL_BOARD", "NO_ROOF_NEEDED" ]
+  },
+  {
+    "abstract": "hdhalfboard",
+    "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "name": "heavy duty quarterpanel",
+    "description": "A half-height strong metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "proportional": { "durability": 0.8 },
+    "extend": { "flags": [ "HALF_BOARD" ] },
+    "delete": { "flags": [ "OPAQUE", "FULL_BOARD" ] }
+  },
+  {
+    "abstract": "woodboard",
+    "type": "vehicle_part",
+    "name": "wooden board",
+    "item": "wood_plate",
+    "location": "center",
+    "color": "brown",
+    "broken_color": "brown",
+    "difficulty": 1,
+    "durability": 300,
+    "description": "A wooden wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
+    "breaks_into": "ig_vp_wood_plate",
+    "flags": [ "OPAQUE", "OBSTACLE", "NAILABLE", "FULL_BOARD", "NO_ROOF_NEEDED" ]
+  },
+  {
+    "abstract": "woodhalfboard",
+    "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "name": "wooden quarterpanel",
+    "description": "A half-height wooden wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "proportional": { "durability": 0.8 },
+    "extend": { "flags": [ "HALF_BOARD" ] },
+    "delete": { "flags": [ "OPAQUE", "FULL_BOARD" ] }
+  },
+  {
+    "abstract": "xlhalfboard",
+    "type": "vehicle_part",
+    "name": "extra light quarterpanel",
+    "item": "pipe",
+    "location": "center",
+    "difficulty": 1,
+    "durability": 100,
+    "description": "A half-height thin metal wall.  Keeps zombies outside the vehicle but allows people to see over it.",
+    "breaks_into": [ { "item": "pipe", "prob": 50 } ],
+    "flags": [ "OBSTACLE", "HALF_BOARD", "NO_ROOF_NEEDED" ]
+  },
+  {
+    "id": "halfboard_cover",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "^"
+  },
+  {
+    "id": "board_horizontal",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "clothboard_horizontal",
+    "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "cloth_halfboard_horizontal",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "halfboard_horizontal",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "stowboard_horizontal",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "hdstowboard_horizontal",
+    "copy-from": "hdstowboard",
+    "type": "vehicle_part",
+    "looks_like": "stowboard_horizontal",
+    "symbol": "h"
+  },
+  {
+    "id": "hdboard_horizontal",
+    "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "hdhalfboard_horizontal",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "woodboard_horizontal",
+    "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "woodhalfboard_horizontal",
+    "copy-from": "woodhalfboard",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "xlhalfboard_horizontal",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "cloth_halfboard_horizontal_2",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "halfboard_horizontal_2",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "hdhalfboard_horizontal_2",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "woodhalfboard_horizontal_2",
+    "copy-from": "woodhalfboard",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "xlhalfboard_horizontal_2",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "board_ne",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "clothboard_ne",
+    "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "cloth_halfboard_ne",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "halfboard_ne",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "stowboard_ne",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "hdstowboard_ne",
+    "copy-from": "hdstowboard",
+    "type": "vehicle_part",
+    "looks_like": "stowboard_ne",
+    "symbol": "u"
+  },
+  {
+    "id": "hdboard_ne",
+    "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "hdhalfboard_ne",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "woodboard_ne",
+    "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "woodhalfboard_ne",
+    "copy-from": "woodhalfboard",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "xlhalfboard_ne",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "board_nw",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "clothboard_nw",
+    "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "cloth_halfboard_nw",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "halfboard_nw",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "stowboard_nw",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "hdstowboard_nw",
+    "copy-from": "hdstowboard",
+    "type": "vehicle_part",
+    "looks_like": "stowboard_nw",
+    "symbol": "y"
+  },
+  {
+    "id": "hdboard_nw",
+    "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "hdhalfboard_nw",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "woodboard_nw",
+    "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "woodhalfboard_nw",
+    "copy-from": "woodhalfboard",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "xlhalfboard_nw",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "board_se",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "clothboard_se",
+    "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "cloth_halfboard_se",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "halfboard_se",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "stowboard_se",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "hdstowboard_se",
+    "copy-from": "hdstowboard",
+    "type": "vehicle_part",
+    "looks_like": "stowboard_se",
+    "symbol": "n"
+  },
+  {
+    "id": "hdboard_se",
+    "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "hdhalfboard_se",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "woodboard_se",
+    "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "woodhalfboard_se",
+    "copy-from": "woodhalfboard",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "xlhalfboard_se",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "board_sw",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "clothboard_sw",
+    "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "cloth_halfboard_sw",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "halfboard_sw",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "stowboard_sw",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "hdstowboard_sw",
+    "copy-from": "hdstowboard",
+    "type": "vehicle_part",
+    "looks_like": "stowboard_sw",
+    "symbol": "b"
+  },
+  {
+    "id": "hdboard_sw",
+    "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "hdhalfboard_sw",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "woodboard_sw",
+    "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "woodhalfboard_sw",
+    "copy-from": "woodhalfboard",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "xlhalfboard_sw",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "board_vertical",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "clothboard_vertical",
+    "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "cloth_halfboard_vertical",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "halfboard_vertical",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "stowboard_vertical",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "hdstowboard_vertical",
+    "copy-from": "hdstowboard",
+    "type": "vehicle_part",
+    "looks_like": "stowboard_vertical",
+    "symbol": "j"
+  },
+  {
+    "id": "hdboard_vertical",
+    "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "hdhalfboard_vertical",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "woodboard_vertical",
+    "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "woodhalfboard_vertical",
+    "copy-from": "woodhalfboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "xlhalfboard_vertical",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "cloth_halfboard_vertical_2",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "H"
+  },
+  {
+    "id": "halfboard_vertical_2",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "H"
+  },
+  {
+    "id": "hdhalfboard_vertical_2",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "H"
+  },
+  {
+    "id": "xlhalfboard_vertical_2",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "H"
+  }
+]

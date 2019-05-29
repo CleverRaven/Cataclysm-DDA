@@ -1,0 +1,33 @@
+[
+  {
+    "id": "46mm",
+    "type": "AMMO",
+    "name": "4.6x30mm",
+    "description": "4.6x30mm ammunition with 31gr copper plated steel bullets.  The 4.6x30mm round was developed by H&K to compete with FN Herstal's 5.7x28mm cartridge.  It has low recoil and excellent armor penetration.",
+    "weight": 5,
+    "volume": 1,
+    "price": 5200,
+    "material": [ "steel", "powder" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "count": 40,
+    "stack_size": 80,
+    "ammo_type": "46",
+    "casing": "46mm_casing",
+    "range": 14,
+    "damage": 18,
+    "pierce": 20,
+    "dispersion": 40,
+    "recoil": 90,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "reloaded_46mm",
+    "copy-from": "46mm",
+    "type": "AMMO",
+    "name": "reloaded 4.6x30mm",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  }
+]

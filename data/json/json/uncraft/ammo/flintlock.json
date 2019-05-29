@@ -1,0 +1,18 @@
+[
+  {
+    "result": "flintlock_ammo",
+    "type": "uncraft",
+    "time": 500,
+    "using": [ [ "ammo_bullet", 10 ] ],
+    "components": [ [ [ "chem_black_powder", 5 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  },
+  {
+    "result": "flintlock_shot",
+    "type": "uncraft",
+    "time": 500,
+    "using": [ [ "ammo_bullet", 10 ] ],
+    "components": [ [ [ "chem_black_powder", 5 ] ] ],
+    "flags": [ "UNCRAFT_SINGLE_CHARGE" ]
+  }
+]

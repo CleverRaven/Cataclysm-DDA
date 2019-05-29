@@ -1,0 +1,34 @@
+[
+  {
+    "id": "300_winmag",
+    "type": "AMMO",
+    "name": ".300 Winchester Magnum",
+    "description": ".300 Winchester Magnum rounds with 220gr JHP bullets.  The 300WM round is an extremely powerful and accurate rifle round introduced in 1963.  It has proven popular with hunters and snipers, although it is not as common as .308 or .30-06.",
+    "weight": 28,
+    "volume": 1,
+    "price": 2500,
+    "material": [ "brass", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 10,
+    "stack_size": 15,
+    "ammo_type": "300",
+    "casing": "300_casing",
+    "range": 65,
+    "damage": 70,
+    "pierce": 8,
+    "dispersion": 15,
+    "recoil": 5300,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "reloaded_300_winmag",
+    "copy-from": "300_winmag",
+    "type": "AMMO",
+    "name": "reloaded .300 Winchester Magnum",
+    "description": "The .300 Winchester Magnum is extremely versatile and has been adopted by many shooting disciplines.  The cartridge has found use by hunters, military units, and law enforcement departments.  This one has been hand-reloaded.",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  }
+]

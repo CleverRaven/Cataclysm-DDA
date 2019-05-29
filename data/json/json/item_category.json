@@ -1,0 +1,128 @@
+[
+  {
+    "id": "guns",
+    "type": "ITEM_CATEGORY",
+    "name": "GUNS",
+    "sort_rank": -23
+  },
+  {
+    "id": "magazines",
+    "type": "ITEM_CATEGORY",
+    "name": "MAGAZINES",
+    "sort_rank": -22
+  },
+  {
+    "id": "ammo",
+    "type": "ITEM_CATEGORY",
+    "name": "AMMO",
+    "sort_rank": -21
+  },
+  {
+    "id": "weapons",
+    "type": "ITEM_CATEGORY",
+    "name": "WEAPONS",
+    "sort_rank": -20
+  },
+  {
+    "id": "tools",
+    "type": "ITEM_CATEGORY",
+    "name": "TOOLS",
+    "sort_rank": -19
+  },
+  {
+    "id": "clothing",
+    "type": "ITEM_CATEGORY",
+    "name": "CLOTHING",
+    "sort_rank": -18
+  },
+  {
+    "id": "food",
+    "type": "ITEM_CATEGORY",
+    "name": "FOOD",
+    "sort_rank": -17
+  },
+  {
+    "id": "drugs",
+    "type": "ITEM_CATEGORY",
+    "name": "DRUGS",
+    "sort_rank": -16
+  },
+  {
+    "id": "books",
+    "type": "ITEM_CATEGORY",
+    "name": "BOOKS",
+    "sort_rank": -15
+  },
+  {
+    "id": "maps",
+    "type": "ITEM_CATEGORY",
+    "name": "MAPS",
+    "sort_rank": -14
+  },
+  {
+    "id": "mods",
+    "type": "ITEM_CATEGORY",
+    "name": "MODS",
+    "sort_rank": -13
+  },
+  {
+    "id": "mutagen",
+    "type": "ITEM_CATEGORY",
+    "name": "MUTAGENS",
+    "sort_rank": -12
+  },
+  {
+    "id": "bionics",
+    "type": "ITEM_CATEGORY",
+    "name": "BIONICS",
+    "sort_rank": -12
+  },
+  {
+    "id": "veh_parts",
+    "type": "ITEM_CATEGORY",
+    "name": "VEHICLE PARTS",
+    "sort_rank": -10
+  },
+  {
+    "id": "other",
+    "type": "ITEM_CATEGORY",
+    "name": "OTHER",
+    "sort_rank": -9
+  },
+  {
+    "id": "fuel",
+    "type": "ITEM_CATEGORY",
+    "name": "FUEL",
+    "sort_rank": -8
+  },
+  {
+    "id": "seeds",
+    "type": "ITEM_CATEGORY",
+    "name": "SEEDS",
+    "sort_rank": -7
+  },
+  {
+    "id": "chems",
+    "type": "ITEM_CATEGORY",
+    "name": "CHEMICAL STUFF",
+    "sort_rank": 5
+  },
+  {
+    "id": "spare_parts",
+    "type": "ITEM_CATEGORY",
+    "name": "SPARE PARTS",
+    "sort_rank": 8
+  },
+  {
+    "id": "artifacts",
+    "type": "ITEM_CATEGORY",
+    "name": "ARTIFACTS",
+    "sort_rank": 10
+  },
+  {
+    "id": "armor",
+    "type": "ITEM_CATEGORY",
+    "name": "ARMOR",
+    "sort_rank": 20
+  }
+]

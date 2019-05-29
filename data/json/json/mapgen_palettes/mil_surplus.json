@@ -1,0 +1,43 @@
+[
+  {
+    "type": "palette",
+    "id": "mil_surplus",
+    "terrain": {
+      ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+      " ": "t_floor",
+      "#": "t_floor",
+      "@": "t_floor",
+      "^": "t_floor",
+      "%": "t_floor",
+      "&": "t_floor",
+      "h": "t_floor",
+      "A": "t_floor",
+      "B": "t_floor",
+      "C": "t_floor",
+      "D": "t_floor",
+      "R": "t_floor",
+      "S": "t_floor",
+      "~": "t_sidewalk",
+      "-": "t_wall",
+      "|": "t_wall",
+      "'": "t_window",
+      "`": "t_window_alarm",
+      "+": "t_door_c",
+      "/": "t_door_curtain_c"
+    },
+    "furniture": {
+      "#": "f_counter",
+      "h": "f_chair",
+      "%": "f_sink",
+      "@": "f_mannequin",
+      "^": [ "f_bigmirror", "f_bigmirror", "f_bigmirror", "f_bigmirror_b" ],
+      "R": "f_rack",
+      "S": "f_stool",
+      "A": "f_rack",
+      "B": "f_rack",
+      "C": "f_rack",
+      "D": [ "f_displaycase", "f_displaycase", "f_displaycase", "f_displaycase", "f_displaycase_b" ]
+    },
+    "toilets": { "&": {  } }
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "abstract": "book_magazine",
+    "type": "BOOK",
+    "name": "Readable magazine",
+    "weight": 70,
+    "volume": 1,
+    "material": "paper",
+    "symbol": "?",
+    "color": "pink",
+    "max_level": 1,
+    "intelligence": 5,
+    "time": 8,
+    "fun": 1
+  },
+  {
+    "abstract": "book_martial",
+    "type": "GENERIC",
+    "category": "books",
+    "name": "Martial art manual",
+    "weight": 150,
+    "volume": 1,
+    "price": 20000,
+    "material": "paper",
+    "symbol": "?",
+    "color": "green",
+    "use_action": "MA_MANUAL",
+    "book_data": { "time": 10, "intelligence": 9 }
+  }
+]

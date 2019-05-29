@@ -1,0 +1,26 @@
+[
+  {
+    "id": "BGSS_PROFESSOR_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I'm actually a chemistry professor at Harvard.  I'd been on sabbatical for the last six months.  I can't imagine the university was a good place to be, given what I've heard about Boston...  I'm not sure anyone made it out.  I was out at my cabin near Chatham, ostensibly working on the finishing touches for a paper, but mostly just sipping whisky and thanking my lucky stars for tenure.  Those were good days.  Then came <the_cataclysm>, the military convoys, the <zombies>.  My cabin was crushed by a <monster>, just collateral damage after it got blasted off Orleans by a tank.  I was already busy running frantically by then.",
+    "responses": [
+      {
+        "text": "Do you think there's some way your knowledge could help us understand all this?",
+        "topic": "BGSS_PROFESSOR_1_SCIENCEHELP"
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_PROFESSOR_1_SCIENCEHELP",
+    "type": "talk_topic",
+    "dynamic_line": "Hard to say.  I'm not really an organic chemist, I did geological chemistry.  I'm at a loss to how that relates, but if you come across something where my knowledge would help I'll gladly offer it.",
+    "//": "TK, down the road: if it becomes interesting to give stone or soil samples to this guy he might produce interesting data.",
+    "//": "TKTK, waaay down the road building a survivor lab in the basecamp may be an option.  This survivor might be able to study strange rocks and metals, eg.  from a fungal spire, or (if they're ever in game) from other dimensions.",
+    "responses": [
+      { "text": "Cool.  What did you say before that?", "topic": "TALK_NONE" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

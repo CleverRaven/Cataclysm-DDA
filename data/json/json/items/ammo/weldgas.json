@@ -1,0 +1,21 @@
+[
+  {
+    "id": "oxyacetylene",
+    "type": "AMMO",
+    "name": "oxyacetylene",
+    "description": "A highly explosive fuel mixture composed of equal parts of oxygen and acetylene gas.",
+    "weight": 40,
+    "volume": 1,
+    "price": 2400,
+    "material": [ "hydrocarbons" ],
+    "symbol": "=",
+    "color": "red",
+    "count": 100,
+    "stack_size": 100,
+    "ammo_type": "weldgas",
+    "effects": [ "COOKOFF" ],
+    "explode_in_fire": true,
+    "explosion": { "power": 20, "shrapnel": 0 },
+    "flags": [ "NO_DROP", "IRREMOVABLE" ]
+  }
+]

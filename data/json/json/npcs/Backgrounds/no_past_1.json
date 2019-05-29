@@ -1,0 +1,8 @@
+[
+  {
+    "id": "BGSS_NO_PAST_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "Before <the_cataclysm>?  Who cares about that?  This is a new world, and yeah, it's pretty <shitty>.  It's the one we've got though, so let's not dwell in the past when we should be making the best of what little we have left.",
+    "responses": [ { "text": "I can respect that.", "topic": "TALK_FRIEND" } ]
+  }
+]

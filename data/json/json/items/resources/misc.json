@@ -1,0 +1,20 @@
+[
+  {
+    "id": "incendiary",
+    "type": "AMMO",
+    "category": "chems",
+    "name": "incendiary",
+    "name_plural": "incendiaries",
+    "description": "Material from an incendiary round, useful in constructing incendiary ammunition.",
+    "weight": 5,
+    "volume": 1,
+    "price": 10000,
+    "container": "bag_plastic",
+    "material": [ "powder" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "count": 100,
+    "ammo_type": "components",
+    "effects": [ "COOKOFF" ]
+  }
+]

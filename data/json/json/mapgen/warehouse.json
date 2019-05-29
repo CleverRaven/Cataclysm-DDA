@@ -1,0 +1,90 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "warehouse" ],
+    "weight": 500,
+    "object": {
+      "rows": [
+        "....S.SSSSSSSSSSSS......",
+        "zzzzSzSSSSSSSSSSSSzzzzzz",
+        ".---3-MMMMMMMMMMMM-----.",
+        ".|11 6            w111|.",
+        ".|11               1 1|.",
+        ".|1  1               1|.",
+        ".|11                11|.",
+        ".|1                 11|.",
+        ".|111                1|.",
+        ".|1 1              1  |.",
+        ".|1111               @|.",
+        ".|1111                |.",
+        ".|111               1 |.",
+        ".|111                 |.",
+        ".|11   1            61|.",
+        ".|--3---            11|.",
+        ".|55   |@        1  11|.",
+        ".|4    |1          111|.",
+        ".O2   9|1 11  111  111|.",
+        ".|5 6 9|1 111  611 111|.",
+        "z|5@788|11111111111111|z",
+        "z---O------------------z",
+        "z^^zzzz^^zz^^zz^^zzzz^^z",
+        "zzzz..zzzzzzzzzzzz..zzzz"
+      ],
+      "set": [
+        { "point": "terrain", "id": "t_dirt", "x": 23, "y": [ 0, 23 ], "repeat": [ 5, 10 ] },
+        { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 5, 8 ] },
+        { "point": "terrain", "id": "t_tree_pine", "x": [ 0, 5 ], "y": 0, "repeat": [ 0, 1 ] },
+        { "point": "terrain", "id": "t_tree_pine", "x": [ 18, 23 ], "y": 0, "repeat": [ 0, 1 ] },
+        { "point": "terrain", "id": "t_shrub", "x": 0, "y": [ 2, 19 ], "repeat": [ 1, 4 ] },
+        { "point": "terrain", "id": "t_shrub", "x": 23, "y": [ 2, 19 ], "repeat": [ 1, 4 ] },
+        { "point": "terrain", "id": "t_tree_pine", "x": 0, "y": [ 2, 19 ], "repeat": [ 0, 2 ] },
+        { "point": "terrain", "id": "t_tree_pine", "x": 23, "y": [ 2, 19 ], "repeat": [ 0, 2 ] }
+      ],
+      "terrain": {
+        " ": "t_floor",
+        "-": "t_wall",
+        ".": "t_grass",
+        "1": "t_floor",
+        "2": "t_floor",
+        "3": "t_door_locked",
+        "4": "t_floor",
+        "5": "t_floor",
+        "6": "t_floor",
+        "7": "t_floor",
+        "8": "t_floor",
+        "9": "t_floor",
+        "@": "t_floor",
+        "M": "t_door_metal_locked",
+        "O": "t_window",
+        "S": "t_sidewalk",
+        "^": "t_tree_pine",
+        "w": "t_gates_mech_control",
+        "z": "t_shrub",
+        "|": "t_wall"
+      },
+      "furniture": {
+        "1": "f_crate_c",
+        "2": "f_sink",
+        "5": "f_counter",
+        "6": "f_chair",
+        "7": "f_desk",
+        "8": "f_bookcase",
+        "9": "f_sofa",
+        "@": "f_trashcan"
+      },
+      "toilets": { "4": {  } },
+      "place_items": [
+        { "item": "home_hw", "x": [ 3, 20 ], "y": [ 3, 20 ], "chance": 4 },
+        { "item": "cannedfood", "x": [ 2, 2 ], "y": [ 19, 20 ], "chance": 20 },
+        { "item": "softdrugs", "x": [ 2, 3 ], "y": [ 16, 16 ], "chance": 30 }
+      ],
+      "place_monsters": [ { "monster": "GROUP_ZOMBIE", "x": [ 2, 21 ], "y": [ 2, 21 ], "chance": 2 } ],
+      "place_vehicles": [
+        { "vehicle": "flatbed_truck", "x": 12, "y": 13, "chance": 50, "rotation": 270 },
+        { "vehicle": "warehouse_vehicles", "x": 17, "y": 13, "chance": 50, "rotation": 270 },
+        { "vehicle": "tatra_truck", "x": 8, "y": 7, "chance": 50, "rotation": 270 }
+      ]
+    }
+  }
+]

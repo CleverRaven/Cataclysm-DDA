@@ -1,0 +1,124 @@
+[
+  {
+    "id": "adhesive",
+    "type": "requirement",
+    "//": "Materials used for joining (typically non-metallic) parts",
+    "components": [ [ [ "duct_tape", 25 ], [ "superglue", 1 ], [ "bone_glue", 1 ] ] ]
+  },
+  {
+    "id": "ammo_bullet",
+    "type": "requirement",
+    "//": "Materials used when forming bullets",
+    "components": [ [ [ "lead", 1 ], [ "bismuth", 1 ], [ "silver_small", 1 ], [ "gold_small", 1 ], [ "platinum_small", 1 ] ] ]
+  },
+  {
+    "id": "cordage",
+    "type": "requirement",
+    "//": "Materials used for tying items, bowstrings, and other uses involving string or makeshift cordage",
+    "components": [ [ [ "string_36", 1 ], [ "string_6", 6 ], [ "withered", 12 ], [ "straw_pile", 12 ] ] ]
+  },
+  {
+    "id": "cordage_short",
+    "type": "requirement",
+    "//": "Materials used for tying smaller items requiring less string",
+    "components": [ [ [ "string_6", 1 ], [ "withered", 2 ], [ "straw_pile", 2 ] ] ]
+  },
+  {
+    "id": "cvd_diamond",
+    "type": "requirement",
+    "//": "Materials required to apply diamond coating (per 250ml volume)",
+    "components": [ [ [ "plasma", 5 ] ], [ [ "charcoal", 25 ], [ "coal_lump", 25 ] ] ]
+  },
+  {
+    "id": "nanofabricator",
+    "type": "requirement",
+    "//": "Materials required by the nanofabricator to create an item (per 250ml volume)",
+    "components": [ [ [ "nanomaterial", 5 ] ] ]
+  },
+  {
+    "id": "fabric_standard",
+    "type": "requirement",
+    "//": "Materials used for crafting or repairing clothing or sheeting",
+    "components": [ [ [ "rag", 1 ], [ "leather", 1 ], [ "nomex", 1 ], [ "neoprene", 1 ] ] ]
+  },
+  {
+    "id": "filament",
+    "type": "requirement",
+    "//": "Materials for use when sewing items",
+    "components": [ [ [ "thread", 1 ], [ "sinew", 1 ], [ "plant_fibre", 1 ], [ "yarn", 1 ] ] ]
+  },
+  {
+    "id": "glazing",
+    "type": "requirement",
+    "//": "Materials for glazing pottery",
+    "components": [
+      [
+        [ "tallow", 1 ],
+        [ "cooking_oil", 8 ],
+        [ "cooking_oil2", 8 ],
+        [ "wax", 1 ],
+        [ "lamp_oil", 200 ],
+        [ "salt_water", 5 ],
+        [ "ash", 50 ],
+        [ "tin", 50 ]
+      ]
+    ]
+  },
+  {
+    "id": "rope_natural",
+    "type": "requirement",
+    "//": "Materials used for lashing, when choice of makeshift rope or vine is sensible",
+    "components": [
+      [
+        [ "rope_6", 5 ],
+        [ "rope_30", 1 ],
+        [ "rope_makeshift_6", 5 ],
+        [ "rope_makeshift_30", 1 ],
+        [ "vine_30", 1 ],
+        [ "grapnel", 1 ]
+      ]
+    ]
+  },
+  {
+    "id": "rope_natural_short",
+    "type": "requirement",
+    "//": "Materials used for lashing, when choice of makeshift rope is sensible",
+    "components": [ [ [ "rope_6", 1 ], [ "rope_makeshift_6", 1 ] ] ]
+  },
+  {
+    "id": "steel_standard",
+    "type": "requirement",
+    "//": "Materials for use when forging items from steel",
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ] ]
+  },
+  {
+    "id": "steel_tiny",
+    "type": "requirement",
+    "//": "Materials for use when forging atypically small items from steel",
+    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
+  },
+  {
+    "id": "waterproofing",
+    "type": "requirement",
+    "//": "Materials for waterproofing leather and wooden items.",
+    "components": [ [ [ "wax", 1 ], [ "pine_bough", 5 ] ] ]
+  },
+  {
+    "id": "fletching",
+    "type": "requirement",
+    "//": "Materials for fletching arrows.",
+    "components": [
+      [
+        [ "feather", 10 ],
+        [ "duct_tape", 40 ],
+        [ "paper", 40 ],
+        [ "bag_plastic", 1 ],
+        [ "bottle_plastic_small", 1 ],
+        [ "box_small", 1 ],
+        [ "plastic_chunk", 1 ],
+        [ "aluminum_foil", 40 ],
+        [ "cash_card", 2 ]
+      ]
+    ]
+  }
+]

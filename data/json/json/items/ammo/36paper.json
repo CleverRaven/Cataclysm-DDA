@@ -1,0 +1,21 @@
+[
+  {
+    "id": "36navy",
+    "type": "AMMO",
+    "name": ".36 paper cartridge",
+    "description": "A paper cartridge containing a premeasured amount of black powder and a .36 projectile.  Used by the Colt M1861 Navy.",
+    "weight": 6,
+    "volume": 1,
+    "price": 5000,
+    "material": [ "paper", "powder", "lead" ],
+    "symbol": "=",
+    "color": "white",
+    "count": 25,
+    "ammo_type": "36paper",
+    "range": 15,
+    "damage": 19,
+    "dispersion": 80,
+    "recoil": 210,
+    "effects": [ "COOKOFF", "MUZZLE_SMOKE" ]
+  }
+]

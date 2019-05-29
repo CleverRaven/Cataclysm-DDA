@@ -1,0 +1,70 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_jewelry" ],
+    "weight": 500,
+    "object": {
+      "rows": [
+        "....________________....",
+        "....,____,____,____,....",
+        "....,____,____,____,....",
+        "....,____,____,____,....",
+        "....,____,____,____,....",
+        "....FFFFFFFFFFFFFFFF....",
+        "....FFFFFFFFFFFFFFFF....",
+        "....|-hhhhh++hhhhh-|....",
+        "....|              |....",
+        "....|hh          hh|....",
+        "....|#v   hhhh   v#|....",
+        "....|#v   v##v   v#|....",
+        "....|#v   v##v   v#|....",
+        "85^5|#v   hhhh   v#|....",
+        "8___|hh          hh|....",
+        "8___|             r|....",
+        "8___|             r|....",
+        "8__f|#####        r|....",
+        "8__f|          rrrr|....",
+        "8___|-&------------|....",
+        "8___&    ######   T|....",
+        "8555| c           T|....",
+        "....|GG            |....",
+        "....|--------------|...."
+      ],
+      "terrain": {
+        " ": "t_floor",
+        "#": "t_floor",
+        "&": "t_door_locked",
+        "+": "t_door_glass_c",
+        ",": "t_pavement_y",
+        "-": "t_wall",
+        ".": "t_grass",
+        "5": "t_chainfence_h",
+        "8": "t_chainfence_v",
+        "F": "t_sidewalk",
+        "G": "t_floor",
+        "T": "t_floor",
+        "^": "t_chaingate_l",
+        "_": "t_pavement",
+        "c": "t_floor",
+        "f": "t_pavement",
+        "h": "t_wall_glass",
+        "r": "t_floor",
+        "v": "t_wall_glass",
+        "|": "t_wall"
+      },
+      "furniture": { "#": "f_counter", "G": "f_desk", "T": "f_safe_l", "c": "f_chair", "f": "f_trashcan", "r": "f_rack" },
+      "place_items": [
+        { "item": "jewelry_front", "x": [ 5, 5 ], "y": [ 10, 13 ], "chance": 75 },
+        { "item": "jewelry_front", "x": [ 18, 18 ], "y": [ 10, 13 ], "chance": 75 },
+        { "item": "jewelry_front", "x": [ 11, 12 ], "y": [ 11, 12 ], "chance": 75 },
+        { "item": "jewelry_front", "x": [ 15, 18 ], "y": [ 18, 18 ], "chance": 50 },
+        { "item": "jewelry_front", "x": [ 18, 18 ], "y": [ 15, 17 ], "chance": 50 },
+        { "item": "jewelry_back", "x": [ 9, 14 ], "y": [ 20, 20 ], "chance": 80, "repeat": [ 1, 2 ] },
+        { "item": "jewelry_safe", "x": [ 18, 18 ], "y": [ 20, 21 ], "chance": 95 },
+        { "item": "trash", "x": [ 3, 3 ], "y": [ 17, 18 ], "chance": 50 }
+      ],
+      "place_vehicles": [ { "vehicle": "security_van", "x": 11, "y": 2, "chance": 20, "fuel": 20, "status": 0, "rotation": 0 } ]
+    }
+  }
+]

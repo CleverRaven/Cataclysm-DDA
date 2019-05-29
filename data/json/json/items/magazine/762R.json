@@ -1,0 +1,18 @@
+[
+  {
+    "id": "762R_clip",
+    "type": "MAGAZINE",
+    "name": "rifle clip - 7.62x54mmR",
+    "//": "Provisional.",
+    "description": "A tiny piece of grooved metal designed to allow a shooter to quickly load a bolt-action rifle.",
+    "weight": 40,
+    "volume": "50ml",
+    "price": 1000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "762R",
+    "capacity": 5,
+    "flags": [ "SPEEDLOADER" ]
+  }
+]

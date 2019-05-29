@@ -1,0 +1,50 @@
+[
+  {
+    "id": "44fmj",
+    "copy-from": "44magnum",
+    "type": "AMMO",
+    "name": ".44 Magnum FMJ",
+    "description": "A brass-jacketed variant of the .44 Magnum round.  This increases penetration slightly at the cost of reduced damage from expansion.",
+    "relative": { "damage": -4, "pierce": 8 }
+  },
+  {
+    "id": "44magnum",
+    "type": "AMMO",
+    "name": ".44 Magnum",
+    "description": ".44 magnum ammunition with 240gr JHP bullets.  The .44 magnum round is one of the most powerful handgun cartridges available.  It has excellent stopping power but suffers from extremely high recoil for a handgun round.",
+    "weight": 13,
+    "volume": 1,
+    "price": 2900,
+    "material": [ "brass", "powder" ],
+    "symbol": "=",
+    "color": "light_gray",
+    "count": 20,
+    "stack_size": 20,
+    "ammo_type": "44",
+    "casing": "44_casing",
+    "range": 16,
+    "damage": 40,
+    "pierce": 4,
+    "dispersion": 30,
+    "recoil": 1570,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "reloaded_44fmj",
+    "copy-from": "44fmj",
+    "type": "AMMO",
+    "name": "reloaded .44 Magnum FMJ",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "reloaded_44magnum",
+    "copy-from": "44magnum",
+    "type": "AMMO",
+    "name": "reloaded .44 Magnum",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  }
+]

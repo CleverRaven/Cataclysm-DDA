@@ -1,0 +1,53 @@
+[
+  {
+    "id": "762_m43",
+    "type": "AMMO",
+    "name": "7.62x39mm 57-N-231",
+    "description": "7.62x39mm 57-N-231 ammunition with 121.9gr steel core FMJ bullets.  Developed in WW2 by the Soviet Union the 7.62x39mm round rapidly became extremely popular all over the world.  The bullet has poor wounding potential due to its stability, only beginning to yaw after 26cm.",
+    "weight": 16,
+    "volume": 1,
+    "price": 5200,
+    "material": [ "steel", "powder" ],
+    "symbol": "=",
+    "color": "dark_gray",
+    "count": 30,
+    "stack_size": 20,
+    "ammo_type": "762",
+    "casing": "762_casing",
+    "range": 30,
+    "damage": 45,
+    "pierce": 8,
+    "dispersion": 35,
+    "recoil": 2036,
+    "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
+  },
+  {
+    "id": "762_m87",
+    "copy-from": "762_m43",
+    "type": "AMMO",
+    "name": "7.62x39mm M67",
+    "//": "Entirely provisional.  Could someone design a better wound ballistics system?",
+    "description": "7.62x39mm M67 rounds with 123gr bullets.  The inadequate terminal ballistics of the M43 round led to the development of the M67 round in Yugoslavia in the 1960s.  It destabilizes much faster than M43 after hitting a target leading to greater damage.",
+    "price": 6800,
+    "relative": { "damage": 4, "pierce": 2 }
+  },
+  {
+    "id": "reloaded_762_m43",
+    "copy-from": "762_m43",
+    "type": "AMMO",
+    "name": "reloaded 7.62x39mm M43",
+    "description": "7.62x39mm ammunition with 121.9gr bullets.  Developed in WW2 by the Soviet Union the 7.62x39mm round rapidly became extremely popular all over the world.  The bullet has poor wounding potential due to its stability, only beginning to yaw after 26cm.",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "reloaded_762_m87",
+    "copy-from": "762_m87",
+    "type": "AMMO",
+    "name": "reloaded 7.62x39mm M67",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  }
+]

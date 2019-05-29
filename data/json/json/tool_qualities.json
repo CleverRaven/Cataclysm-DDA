@@ -1,0 +1,215 @@
+[
+  {
+    "type": "tool_quality",
+    "id": "CUT",
+    "name": "cutting",
+    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize" ] ] ]
+  },
+  {
+    "type": "tool_quality",
+    "id": "CUT_FINE",
+    "name": "fine cutting",
+    "usages": [ [ 1, [ "salvage", "inscribe", "cauterize", "enzlave" ] ] ]
+  },
+  {
+    "type": "tool_quality",
+    "id": "GLARE",
+    "name": "glare protection"
+  },
+  {
+    "type": "tool_quality",
+    "id": "ANESTHESIA",
+    "name": "anesthesia"
+  },
+  {
+    "type": "tool_quality",
+    "id": "SMOOTH",
+    "name": "smoothing"
+  },
+  {
+    "type": "tool_quality",
+    "id": "WELD",
+    "name": "welding"
+  },
+  {
+    "type": "tool_quality",
+    "id": "HAMMER",
+    "name": "hammering"
+  },
+  {
+    "type": "tool_quality",
+    "id": "HAMMER_FINE",
+    "name": "fine hammering"
+  },
+  {
+    "type": "tool_quality",
+    "id": "SAW_W",
+    "name": "wood sawing",
+    "usages": [ [ 2, [ "LUMBER" ] ] ]
+  },
+  {
+    "type": "tool_quality",
+    "id": "SAW_M",
+    "name": "metal sawing",
+    "usages": [ [ 2, [ "HACKSAW", "saw_barrel" ] ] ]
+  },
+  {
+    "type": "tool_quality",
+    "id": "SAW_M_FINE",
+    "name": "fine metal sawing"
+  },
+  {
+    "type": "tool_quality",
+    "id": "COOK",
+    "name": "food cooking"
+  },
+  {
+    "type": "tool_quality",
+    "id": "BOIL",
+    "name": "boiling"
+  },
+  {
+    "type": "tool_quality",
+    "id": "CONTAIN",
+    "name": "containing"
+  },
+  {
+    "type": "tool_quality",
+    "id": "CHEM",
+    "name": "chemical making"
+  },
+  {
+    "type": "tool_quality",
+    "id": "SMOKE_PIPE",
+    "name": "smoking"
+  },
+  {
+    "type": "tool_quality",
+    "id": "DISTILL",
+    "name": "distilling"
+  },
+  {
+    "type": "tool_quality",
+    "id": "AXE",
+    "name": "tree cutting",
+    "usages": [ [ 1, [ "CHOP_TREE", "CHOP_LOGS" ] ], [ 2, [ "LUMBER" ] ] ]
+  },
+  {
+    "type": "tool_quality",
+    "id": "DIG",
+    "name": "digging",
+    "usages": [ [ 1, [ "MAKEMOUND", "DIG", "FILL_PIT", "DIG_CHANNEL" ] ], [ 2, [ "CLEAR_RUBBLE" ] ] ]
+  },
+  {
+    "type": "tool_quality",
+    "id": "WRENCH",
+    "name": "bolt turning"
+  },
+  {
+    "type": "tool_quality",
+    "id": "WRENCH_FINE",
+    "name": "fine bolt turning"
+  },
+  {
+    "type": "tool_quality",
+    "id": "SCREW",
+    "name": "screw driving",
+    "usages": [ [ 1, [ "REMOVE_ALL_MODS" ] ] ]
+  },
+  {
+    "type": "tool_quality",
+    "id": "SCREW_FINE",
+    "name": "fine screw driving"
+  },
+  {
+    "type": "tool_quality",
+    "id": "BUTCHER",
+    "name": "butchering"
+  },
+  {
+    "type": "tool_quality",
+    "id": "DRILL",
+    "name": "drilling"
+  },
+  {
+    "type": "tool_quality",
+    "id": "PRY",
+    "name": "prying"
+  },
+  {
+    "type": "tool_quality",
+    "id": "LIFT",
+    "name": "lifting"
+  },
+  {
+    "type": "tool_quality",
+    "id": "JACK",
+    "name": "jacking"
+  },
+  {
+    "type": "tool_quality",
+    "id": "SELF_JACK",
+    "name": "self jacking"
+  },
+  {
+    "type": "tool_quality",
+    "id": "CHISEL",
+    "name": "chiseling"
+  },
+  {
+    "type": "tool_quality",
+    "id": "SEW",
+    "name": "sewing"
+  },
+  {
+    "type": "tool_quality",
+    "id": "KNIT",
+    "name": "knitting"
+  },
+  {
+    "type": "tool_quality",
+    "id": "PULL",
+    "name": "bullet pulling"
+  },
+  {
+    "type": "tool_quality",
+    "id": "ANVIL",
+    "name": "anvil"
+  },
+  {
+    "type": "tool_quality",
+    "id": "ANALYSIS",
+    "name": "analysis",
+    "//": "A category meant to include various ways of identifying that the chemical you have is the chemical you want.",
+    "//": "analysis 1 is very basic stuff, eg. melting point determination or spectrophotometry.",
+    "//": "analysis 2 and 3 imply increasing degrees of precision."
+  },
+  {
+    "type": "tool_quality",
+    "id": "CONCENTRATE",
+    "name": "concentration",
+    "//": "Meant to represent a wide range of chemical functions to increase the concentration of a substance without changing state or solvent.",
+    "//": "Good examples might be rotary evaporation or centrifugation"
+  },
+  {
+    "type": "tool_quality",
+    "id": "SEPARATE",
+    "name": "separation",
+    "//": "This is to represent separating things that aren't separated by distillation or chromatography.",
+    "//": "Good example: a separation funnel which separates hydrophilic/phobic chemicals."
+  },
+  {
+    "type": "tool_quality",
+    "id": "FINE_DISTILL",
+    "name": "fine distillation",
+    "//": "Fine distillation is about precisely separating specific components.",
+    "//": "This is in contrast to high level normal distillation which is more about high output."
+  },
+  {
+    "type": "tool_quality",
+    "id": "CHROMATOGRAPHY",
+    "name": "chromatography",
+    "//": "Think of this as 'fine separating'. Chromatography represents a number of precise separation techniques",
+    "//": "useful in both analysis and purification."
+  }
+]

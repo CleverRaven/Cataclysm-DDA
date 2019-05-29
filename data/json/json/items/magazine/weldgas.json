@@ -1,0 +1,36 @@
+[
+  {
+    "id": "tinyweldtank",
+    "type": "MAGAZINE",
+    "name": "small welding tank",
+    "description": "A compact steel cylinder designed for holding pressurized welding gases.  It is marked with several faded and now unreadable symbols.",
+    "weight": 1500,
+    "volume": 4,
+    "price": 5600,
+    "material": "steel",
+    "symbol": "#",
+    "color": "brown",
+    "ammo_type": "weldgas",
+    "capacity": 60,
+    "count": 60,
+    "reliability": 10,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
+    "id": "weldtank",
+    "type": "MAGAZINE",
+    "name": "welding tank",
+    "description": "A large steel cylinder designed for holding pressurized welding gases.  It is marked with several faded and now unreadable symbols.",
+    "weight": 6000,
+    "volume": 12,
+    "price": 5600,
+    "material": "steel",
+    "symbol": "#",
+    "color": "brown",
+    "ammo_type": "weldgas",
+    "capacity": 240,
+    "count": 240,
+    "reliability": 10,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ]
+  }
+]

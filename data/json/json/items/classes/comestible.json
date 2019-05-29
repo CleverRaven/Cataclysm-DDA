@@ -1,0 +1,17 @@
+[
+  {
+    "abstract": "spice",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": "Spice",
+    "//": "Spices are inedible in their base form but useful in crafting",
+    "flags": "NUTRIENT_OVERRIDE",
+    "weight": 5,
+    "volume": 1,
+    "price": 250,
+    "container": "bag_plastic",
+    "material": "powder",
+    "symbol": "%",
+    "charges": 100
+  }
+]

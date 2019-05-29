@@ -1,0 +1,17 @@
+[
+  {
+    "abstract": "magazine_belt",
+    "type": "MAGAZINE",
+    "name": "ammo belt",
+    "description": "An ammo belt consisting of metal linkages which disintegrate upon firing.",
+    "volume": 0,
+    "price": 0,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "rigid": false,
+    "reliability": 6,
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 5 },
+    "flags": [ "MAG_BELT", "MAG_DESTROY", "BELTED", "OVERSIZE" ]
+  }
+]

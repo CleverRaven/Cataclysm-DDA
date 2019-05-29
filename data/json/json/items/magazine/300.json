@@ -1,0 +1,19 @@
+[
+  {
+    "id": "m2010mag",
+    "type": "MAGAZINE",
+    "name": "M2010 ESR magazine",
+    "description": "A 5-round box magazine used by M2010 ESR sniper rifle.",
+    "weight": 78,
+    "volume": 1,
+    "price": 3500,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "looks_like": "8x40_50_mag",
+    "ammo_type": "300",
+    "capacity": 5,
+    "reliability": 9,
+    "flags": [ "MAG_COMPACT" ]
+  }
+]

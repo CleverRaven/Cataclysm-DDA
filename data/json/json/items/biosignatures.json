@@ -1,0 +1,55 @@
+[
+  {
+    "type": "COMESTIBLE",
+    "id": "feces_bird",
+    "name": "bird litter",
+    "category": "chems",
+    "weight": 40,
+    "color": "brown",
+    "spoils_in": "4 days 16 hours",
+    "comestible_type": "FOOD",
+    "symbol": "%",
+    "quench": -3,
+    "healthy": -10,
+    "calories": 26,
+    "description": "Bird dropping, feathers, and soiled bits of rubbish.",
+    "price": 0,
+    "material": "feces",
+    "volume": 1,
+    "charges": 4,
+    "stack_size": 4,
+    "fun": -25
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "feces_cow",
+    "name": "cow pie",
+    "copy-from": "feces_bird",
+    "weight": 750,
+    "volume": 4,
+    "description": "A fresh cow pie, could probably be used to make some great fertilizer."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "feces_dog",
+    "name": "dog dung",
+    "copy-from": "feces_manure",
+    "description": "Droppings from a canine."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "feces_manure",
+    "name": "manure",
+    "copy-from": "feces_bird",
+    "weight": 250,
+    "volume": 2,
+    "description": "Common manure, could probably be used to make some great fertilizer."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "feces_roach",
+    "name": "roach dirt",
+    "copy-from": "feces_bird",
+    "description": "Large black pellets of rotting material."
+  }
+]

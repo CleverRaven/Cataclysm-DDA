@@ -1,0 +1,416 @@
+[
+  {
+    "id": "folding_frame",
+    "type": "vehicle_part",
+    "name": "foldable light frame",
+    "item": "foldframe",
+    "location": "structure",
+    "symbol": "h",
+    "difficulty": 2,
+    "durability": 50,
+    "description": "A light metal framework, designed to fold.  Other vehicle components can be mounted on it.  If all the frames and components of a vehicle are foldable, the vehicle can be folding into a small package and picked up as a normal item.",
+    "folded_volume": 10,
+    "breaks_into": [ { "item": "steel_chunk", "count": [ 0, 2 ] }, { "item": "scrap", "count": [ 1, 2 ] } ],
+    "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE" ]
+  },
+  {
+    "id": "folding_wooden_frame",
+    "type": "vehicle_part",
+    "name": "foldable wooden frame",
+    "item": "foldwoodframe",
+    "location": "structure",
+    "symbol": "h",
+    "color": "brown",
+    "broken_color": "brown",
+    "difficulty": 2,
+    "durability": 15,
+    "description": "A light wooden framework, designed to fold.  Other vehicle components can be mounted on it.  If all the frames and components of a vehicle are foldable, the vehicle can be folding into a small package and picked up as a normal item.",
+    "folded_volume": 15,
+    "breaks_into": [ { "item": "splinter", "count": [ 0, 6 ] }, { "item": "nail", "charges": [ 1, 15 ] } ],
+    "flags": [ "INITIAL_PART", "MOUNTABLE", "FOLDABLE", "NAILABLE" ]
+  },
+  {
+    "abstract": "frame",
+    "type": "vehicle_part",
+    "name": "frame",
+    "item": "frame",
+    "location": "structure",
+    "difficulty": 1,
+    "durability": 400,
+    "description": "A metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
+    "breaks_into": "ig_vp_frame",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": 120000, "using": [ [ "welding_standard", 10 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "using": "vehicle_weld_removal" },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 30000, "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "MOUNTABLE" ]
+  },
+  {
+    "abstract": "frame_wood",
+    "type": "vehicle_part",
+    "name": "wooden frame",
+    "item": "frame_wood",
+    "location": "structure",
+    "color": "brown",
+    "broken_color": "brown",
+    "difficulty": 1,
+    "durability": 150,
+    "description": "A wooden framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Wood and nail construction means it can be constructed and added to the vehicle without welding tools.",
+    "breaks_into": [ { "item": "splinter", "count": [ 7, 9 ] }, { "item": "nail", "charges": [ 5, 10 ] } ],
+    "flags": [ "NAILABLE" ]
+  },
+  {
+    "abstract": "frame_wood_light",
+    "type": "vehicle_part",
+    "name": "light wooden frame",
+    "item": "frame_wood_light",
+    "location": "structure",
+    "color": "brown",
+    "broken_color": "brown",
+    "difficulty": 0,
+    "durability": 100,
+    "description": "A light wooden framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Wood and rope constructions means it can be constructed and added to the vehicle without welding tools or nails.",
+    "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "string_36", "count": [ 10, 15 ] } ],
+    "requirements": {
+      "install": { "time": 60000, "using": [ [ "rope_natural_short", 1 ] ] },
+      "repair": { "time": 30000, "using": [ [ "adhesive", 1 ] ] }
+    }
+  },
+  {
+    "abstract": "hdframe",
+    "type": "vehicle_part",
+    "name": "heavy duty frame",
+    "item": "hdframe",
+    "location": "structure",
+    "color": "dark_gray",
+    "difficulty": 3,
+    "durability": 1600,
+    "description": "A heavy metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.  Increased mass makes it more resistant to damage in collisions.",
+    "breaks_into": "ig_vp_hdframe",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 3 ] ], "time": 240000, "using": [ [ "welding_standard", 20 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "using": "vehicle_weld_removal" },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": 60000, "using": [ [ "welding_standard", 10 ] ] }
+    },
+    "flags": [ "MOUNTABLE" ]
+  },
+  {
+    "abstract": "xlframe",
+    "type": "vehicle_part",
+    "name": "extra light frame",
+    "item": "xlframe",
+    "location": "structure",
+    "color": "light_gray",
+    "difficulty": 1,
+    "durability": 150,
+    "description": "A light metal framework.  Other vehicle components can be mounted on it, and it can be attached to other frames to increase the vehicle's size.",
+    "breaks_into": "ig_vp_xlframe",
+    "flags": [ "MOUNTABLE" ]
+  },
+  {
+    "id": "frame_cover",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "^"
+  },
+  {
+    "id": "frame_wood_cover",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "^"
+  },
+  {
+    "id": "frame_wood_light_cover",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "^"
+  },
+  {
+    "id": "hdframe_cover",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "^"
+  },
+  {
+    "id": "xlframe_cover",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "^"
+  },
+  {
+    "id": "frame_cross",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
+  },
+  {
+    "id": "frame_wood_cross",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
+  },
+  {
+    "id": "frame_wood_light_cross",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
+  },
+  {
+    "id": "hdframe_cross",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
+  },
+  {
+    "id": "xlframe_cross",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
+  },
+  {
+    "id": "frame_horizontal",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_horizontal",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_light_horizontal",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "hdframe_horizontal",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "xlframe_horizontal",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_horizontal_2",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "frame_wood_horizontal_2",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "frame_wood_light_horizontal_2",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "hdframe_horizontal_2",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "xlframe_horizontal_2",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "frame_ne",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "frame_wood_ne",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "frame_wood_light_ne",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "hdframe_ne",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "xlframe_ne",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "u"
+  },
+  {
+    "id": "frame_nw",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "frame_wood_nw",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "frame_wood_light_nw",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "hdframe_nw",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "xlframe_nw",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "y"
+  },
+  {
+    "id": "frame_se",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "frame_wood_se",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "frame_wood_light_se",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "hdframe_se",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "xlframe_se",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "n"
+  },
+  {
+    "id": "frame_sw",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "frame_wood_sw",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "frame_wood_light_sw",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "hdframe_sw",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "xlframe_sw",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "b"
+  },
+  {
+    "id": "frame_vertical",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "frame_wood_vertical",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "frame_wood_light_vertical",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "hdframe_vertical",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "xlframe_vertical",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "frame_vertical_2",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "H"
+  },
+  {
+    "id": "frame_wood_vertical_2",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "H"
+  },
+  {
+    "id": "frame_wood_light_vertical_2",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "H"
+  },
+  {
+    "id": "hdframe_vertical_2",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "H"
+  },
+  {
+    "id": "xlframe_vertical_2",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "H"
+  }
+]

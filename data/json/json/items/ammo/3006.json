@@ -1,0 +1,87 @@
+[
+  {
+    "id": "270",
+    "type": "AMMO",
+    "name": ".270 Winchester",
+    "description": ".270 Winchester ammunition with 130gr soft point bullets.  Similar to .30-06, the .270 round was a popular hunting cartridge until the mid 21st century when it was supplanted by new designs.  It is a powerful round capable of taking down large targets with ease.  While not advisable, it may be possible to use it in some firearms chambered for .30-06.",
+    "weight": 20,
+    "volume": 1,
+    "price": 1700,
+    "material": [ "brass", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 20,
+    "stack_size": 20,
+    "ammo_type": "3006",
+    "casing": "3006_casing",
+    "range": 65,
+    "damage": 64,
+    "pierce": 4,
+    "dispersion": 10,
+    "recoil": 3800,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "3006",
+    "copy-from": "270",
+    "type": "AMMO",
+    "name": ".30-06 Springfield",
+    "description": ".30-06 Springfield rounds with 165gr soft point bullets.  The .30-06 cartridge has excellent accuracy, range, and stopping power making it popular with hunters and snipers for well over a century.",
+    "price": 1200,
+    "count": 10,
+    "relative": { "range": -4, "damage": -2, "pierce": 6, "dispersion": 10 },
+    "extend": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "3006_incendiary",
+    "copy-from": "3006",
+    "type": "AMMO",
+    "name": ".30-06 M14A1 tracer",
+    "description": "Armor piercing incendiary .30-06 M14A1 ammunition containing tracer rounds to help keep the weapon they are fired from on target.  It penetrates all but the strongest body armor with ease.",
+    "extend": { "effects": [ "INCENDIARY" ] }
+  },
+  {
+    "id": "3006fmj",
+    "copy-from": "3006",
+    "type": "AMMO",
+    "name": ".30-06 M2 AP",
+    "description": "Armor piercing .30-06 M2 ammunition with 168gr FMJ bullets.  It is an extremely powerful and accurate cartridge but pays for its armor penetration abilities with lowered damage.",
+    "relative": { "damage": -4, "pierce": 8 }
+  },
+  {
+    "id": "reloaded_270",
+    "copy-from": "270",
+    "type": "AMMO",
+    "name": "reloaded .270 Winchester",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "reloaded_3006",
+    "copy-from": "3006",
+    "type": "AMMO",
+    "name": "reloaded .30-06 Springfield",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "reloaded_3006_incendiary",
+    "copy-from": "3006_incendiary",
+    "type": "AMMO",
+    "name": "reloaded .30-06 incendiary",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "reloaded_3006fmj",
+    "copy-from": "3006fmj",
+    "type": "AMMO",
+    "name": "reloaded .30-06 M2 AP",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  }
+]

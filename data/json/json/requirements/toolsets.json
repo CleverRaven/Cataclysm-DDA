@@ -1,0 +1,61 @@
+[
+  {
+    "id": "bullet_forming",
+    "type": "requirement",
+    "//": "Forming of bullets from raw materials",
+    "tools": [ [ [ "press", -1 ] ], [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ] ]
+  },
+  {
+    "id": "forging_standard",
+    "type": "requirement",
+    "//": "Forging of steel items (per steel chunk), charcoal forge is already a substitute for forge",
+    "tools": [ [ [ "forge", 20 ], [ "oxy_torch", 20 ] ] ]
+  },
+  {
+    "id": "sewing_standard",
+    "type": "requirement",
+    "//": "Crafting or repair of fabric items",
+    "qualities": [ { "id": "SEW", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "filament", 1, "LIST" ] ] ]
+  },
+  {
+    "id": "welding_standard",
+    "type": "requirement",
+    "//": "Crafting or repair of steel items or installation of vehicle parts",
+    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "tools": [ [ [ "welder", 10 ], [ "welder_crude", 15 ], [ "toolset", 15 ], [ "oxy_torch", 2 ] ] ]
+  },
+  {
+    "id": "chainmail_standard",
+    "type": "requirement",
+    "//": "Construction of chainmail items",
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "ANVIL", "level": 3 } ],
+    "tools": [
+      [ [ "pliers", -1 ], [ "multitool", -1 ] ],
+      [ [ "boltcutters", -1 ], [ "toolset", -1 ] ],
+      [ [ "cordless_drill", 10 ] ]
+    ]
+  },
+  {
+    "id": "soldering_standard",
+    "type": "requirement",
+    "//": "Soldering metal items",
+    "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ] ] ],
+    "components": [ [ [ "solder_wire", 1 ] ] ]
+  },
+  {
+    "id": "cutting_wire_standard",
+    "type": "requirement",
+    "//": "Cutting wires",
+    "tools": [
+      [
+        [ "hacksaw", -1 ],
+        [ "multitool", -1 ],
+        [ "boltcutters", -1 ],
+        [ "toolset", -1 ],
+        [ "toolbox", -1 ],
+        [ "survivor_belt", -1 ]
+      ]
+    ]
+  }
+]

@@ -1,0 +1,73 @@
+[
+  {
+    "id": "22_cb",
+    "copy-from": "22_lr",
+    "type": "AMMO",
+    "name": ".22 CB",
+    "description": "The .22 Conical Ball is a variety of .22 ammunition that propels its bullet using a primer instead of gunpowder.  The end result is a subsonic round that is so weak as to be nearly useless given your predicament.",
+    "price": 1800,
+    "count": 100,
+    "stack_size": 150,
+    "recoil": 39,
+    "proportional": { "range": 0.6, "damage": 0.5, "dispersion": 1.2 },
+    "extend": { "effects": [ "NOGIB" ] }
+  },
+  {
+    "id": "22_fmj",
+    "copy-from": "22_lr",
+    "type": "AMMO",
+    "name": ".22 FMJ",
+    "description": ".22 Long Rifle ammunition with 30gr FMJ bullets.  The .22LR round is extremely weak with very low stopping power, short range, and negligible recoil.  It is most useful for rifle training, and hunting small animals.",
+    "relative": { "damage": -1, "pierce": 2 }
+  },
+  {
+    "id": "22_lr",
+    "type": "AMMO",
+    "name": ".22 LR",
+    "description": ".22 Long Rifle ammunition with 40gr unjacketed bullets.  The .22LR round is extremely weak with very low stopping power, short range, and negligible recoil.  It is most useful for rifle training, and hunting small animals.",
+    "weight": 3,
+    "volume": 1,
+    "price": 2500,
+    "material": [ "brass", "lead", "powder" ],
+    "symbol": "=",
+    "color": "yellow",
+    "count": 80,
+    "stack_size": 100,
+    "ammo_type": "22",
+    "casing": "22_casing",
+    "range": 13,
+    "damage": 12,
+    "dispersion": 60,
+    "recoil": 150,
+    "effects": [ "COOKOFF" ]
+  },
+  {
+    "id": "22_ratshot",
+    "copy-from": "22_lr",
+    "type": "AMMO",
+    "name": ".22 rat-shot",
+    "description": "A .22 caliber cartridge loaded with very small pieces of shot contained within a fragmenting plastic capsule.  It has an extremely short range and penetration ability, but it can hit targets with greater ease.",
+    "count": 100,
+    "dispersion": 0,
+    "proportional": { "range": 0.6, "damage": 0.5, "recoil": 0.5 },
+    "extend": { "effects": [ "SHOT", "NOGIB" ] }
+  },
+  {
+    "id": "reloaded_22_lr",
+    "copy-from": "22_lr",
+    "type": "AMMO",
+    "name": "handloaded .22 LR",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  },
+  {
+    "id": "reloaded_22_fmj",
+    "copy-from": "22_fmj",
+    "type": "AMMO",
+    "name": "handloaded .22 FMJ",
+    "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
+    "extend": { "effects": [ "RECYCLED" ] },
+    "delete": { "effects": [ "NEVER_MISFIRES" ] }
+  }
+]
