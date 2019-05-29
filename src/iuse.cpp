@@ -7457,7 +7457,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 dish.cold_up();  //don't know how to check if the dish is frozen liquid and prevent extraction of it into inventory...
             }
             const std::string dish_name = dish.tname( dish.charges, false );
-            const bool is_hot = dish.has_flag( "HOT" );
+            const bool is_hot = dish.has_flag( "HOT" ) && dish.has_flag( "EATEN_HOT" );
             if( dish.made_of( LIQUID ) ) {
                 if( !p->check_eligible_containers_for_crafting( *recipe_id( it->get_var( "RECIPE" ) ), 1 ) ) {
                     p->add_msg_if_player( m_info, _( "You don't have a suitable container to store your %s." ),
