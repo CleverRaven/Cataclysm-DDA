@@ -1457,7 +1457,7 @@
   },
   {
     "type": "recipe",
-    "result": "cordato",
+    "result": "cortado",
 	"result_mult": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
@@ -1472,8 +1472,8 @@
   },
   {
     "type": "recipe",
-    "result": "cordato",
-	"id_suffix": "from_espresso_milk_mix":
+    "result": "cortado",
+	"id_suffix": "from_espresso_milk_mix",
 	"result_mult": 2,
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",
