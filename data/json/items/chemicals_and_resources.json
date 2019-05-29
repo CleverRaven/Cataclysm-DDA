@@ -528,7 +528,7 @@
     "volume": 1,
     "weight": 16.625,
     "bashing": 1,
-    "ammo_type": "components",
+    "ammo_type": "esbit",
     "container": "box_small",
     "count": 20
   },
