@@ -21,6 +21,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
 #include "explosion.h"
@@ -1768,6 +1769,20 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
     return 0;
 }
 
+static bool good_fishing_spot( tripoint pos )
+{
+    std::vector<monster *> fishables = g->get_fishable( 60, pos );
+    // isolated little body of water with no definite fish population
+    oter_id &cur_omt = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( pos ) ) );
+    std::string om_id = cur_omt.id().c_str();
+    if( fishables.empty() && !g->m.has_flag( "CURRENT", pos ) &&
+        om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_lake_shore() ) {
+        g->u.add_msg_if_player( m_info, _( "You doubt you will have much luck catching fish here" ) );
+        return false;
+    }
+    return true;
+}
+
 int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ) {
@@ -1780,22 +1795,16 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     const tripoint pnt = *pnt_;
-
     if( !g->m.has_flag( "FISHABLE", pnt ) ) {
         p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
         return 0;
     }
-
-    std::vector<monster *> fishables = g->get_fishable( 60, pnt );
-    if( fishables.empty() ) {
-        p->add_msg_if_player( m_info,
-                              _( "There are no fish around.  Try another spot." ) ); // maybe let the player find that out by himself?
+    if( !good_fishing_spot( pnt ) ) {
         return 0;
     }
-
     p->add_msg_if_player( _( "You cast your line and wait to hook something..." ) );
-
-    p->assign_activity( activity_id( "ACT_FISH" ), 30000, 0, p->get_item_position( it ), it->tname() );
+    p->assign_activity( activity_id( "ACT_FISH" ), to_moves<int>( 5_hours ), 0,
+                        p->get_item_position( it ), it->tname() );
     p->activity.placement = pnt;
 
     return 0;
@@ -1835,11 +1844,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
             return 0;
         }
-
-        std::vector<monster *> fishables = g->get_fishable( 60, pnt );
-        if( fishables.empty() ) {
-            p->add_msg_if_player( m_info,
-                                  _( "There is no fish around.  Try another spot." ) ); // maybe let the player find that out by himself?
+        if( !good_fishing_spot( pnt ) ) {
             return 0;
         }
         it->active = true;
@@ -1899,8 +1904,17 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
                                                pos ); //get the fishables around the trap's spot
             for( int i = 0; i < fishes; i++ ) {
                 p->practice( skill_survival, rng( 3, 10 ) );
-                if( fishables.size() > 1 ) {
-                    g->catch_a_monster( fishables, pos, p, 300_hours ); //catch the fish!
+                if( fishables.size() >= 1 ) {
+                    monster *chosen_fish = random_entry( fishables );
+                    // reduce the abstract fish_population marker of that fish
+                    chosen_fish->fish_population -= 1;
+                    if( chosen_fish->fish_population <= 0 ) {
+                        g->catch_a_monster( chosen_fish, pos, p, 300_hours ); //catch the fish!
+                    } else {
+                        g->m.add_item_or_charges( p->pos(), item::make_corpse( chosen_fish->type->id,
+                                                  calendar::turn + rng( 0_turns,
+                                                          3_hours ) ) );
+                    }
                 } else {
                     //there will always be a chance that the player will get lucky and catch a fish
                     //not existing in the fishables vector. (maybe it was in range, but wandered off)

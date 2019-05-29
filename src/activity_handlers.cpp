@@ -127,6 +127,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_ARMOR_LAYERS" ), armor_layers_do_turn },
     { activity_id( "ACT_ATM" ), atm_do_turn },
     { activity_id( "ACT_CRACKING" ), cracking_do_turn },
+    { activity_id( "ACT_FISH" ), fish_do_turn },
     { activity_id( "ACT_REPAIR_ITEM" ), repair_item_do_turn },
     { activity_id( "ACT_BUTCHER" ), butcher_do_turn },
     { activity_id( "ACT_BUTCHER_FULL" ), butcher_do_turn },
@@ -1424,52 +1425,6 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
     act->values.clear();
 }
 
-// fish-with-rod fish catching function.
-static void rod_fish( player *p, int sSkillLevel, int fishChance, const tripoint &fish_point )
-{
-    if( sSkillLevel > fishChance ) {
-        std::vector<monster *> fishables = g->get_fishable( 60, fish_point ); //get the nearby fish list.
-        //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
-        if( fishables.empty() ) {
-            if( one_in( 20 ) ) {
-                item fish;
-                const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
-                            mongroup_id( "GROUP_FISH" ) );
-                const mtype_id &fish_mon = random_entry_ref( fish_group );
-                g->m.add_item_or_charges( p->pos(), item::make_corpse( fish_mon ) );
-                p->add_msg_if_player( m_good, _( "You caught a %s." ), fish_mon.obj().nname() );
-            } else {
-                p->add_msg_if_player( _( "You didn't catch anything." ) );
-            }
-        } else {
-            g->catch_a_monster( fishables, p->pos(), p, 50_hours );
-        }
-
-    } else {
-        p->add_msg_if_player( _( "You didn't catch anything." ) );
-    }
-}
-
-void activity_handlers::fish_finish( player_activity *act, player *p )
-{
-    item &it = p->i_at( act->position );
-    int sSkillLevel = 0;
-    int fishChance = 20;
-    if( it.has_flag( "FISH_POOR" ) ) {
-        sSkillLevel = p->get_skill_level( skill_survival ) + dice( 1, 6 );
-        fishChance = dice( 1, 20 );
-    } else if( it.has_flag( "FISH_GOOD" ) ) {
-        // Much better chances with a good fishing implement.
-        sSkillLevel = p->get_skill_level( skill_survival ) * 1.5 + dice( 1, 6 ) + 3;
-        fishChance = dice( 1, 20 );
-    }
-    const tripoint fish_pos = act->placement;
-    ///\EFFECT_SURVIVAL increases chance of fishing success
-    rod_fish( p, sSkillLevel, fishChance, fish_pos );
-    p->practice( skill_survival, rng( 5, 15 ) );
-    act->set_to_null();
-}
-
 void activity_handlers::forage_finish( player_activity *act, player *p )
 {
     const int veggy_chance = rng( 1, 100 );
@@ -2605,6 +2560,76 @@ void activity_handlers::armor_layers_do_turn( player_activity *, player *p )
 void activity_handlers::atm_do_turn( player_activity *, player *p )
 {
     iexamine::atm( *p, p->pos() );
+}
+
+// fish-with-rod fish catching function.
+static void rod_fish( player *p, const tripoint &fish_point )
+{
+    std::vector<monster *> fishables = g->get_fishable( 60, fish_point ); //get the nearby fish list.
+    //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
+    if( fishables.empty() ) {
+        const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
+                    mongroup_id( "GROUP_FISH" ) );
+        const mtype_id fish_mon = random_entry_ref( fish_group );
+        g->m.add_item_or_charges( p->pos(), item::make_corpse( fish_mon, calendar::turn + rng( 0_turns,
+                                  3_hours ) ) );
+        p->add_msg_if_player( m_good, _( "You caught a %s." ), fish_mon.obj().nname() );
+    } else {
+        monster *chosen_fish = random_entry( fishables );
+        chosen_fish->fish_population -= 1;
+        if( chosen_fish->fish_population <= 0 ) {
+            g->catch_a_monster( chosen_fish, p->pos(), p, 50_hours );
+        } else {
+            g->m.add_item_or_charges( p->pos(), item::make_corpse( chosen_fish->type->id,
+                                      calendar::turn + rng( 0_turns,
+                                              3_hours ) ) );
+            p->add_msg_if_player( m_good, _( "You caught a %s." ), chosen_fish->type->nname() );
+        }
+    }
+}
+
+
+void activity_handlers::fish_do_turn( player_activity *act, player *p )
+{
+    item &it = p->i_at( act->position );
+    int fish_chance = 1;
+    int survival_skill = p->get_skill_level( skill_survival );
+    if( it.has_flag( "FISH_POOR" ) ) {
+        survival_skill += dice( 1, 6 );
+    } else if( it.has_flag( "FISH_GOOD" ) ) {
+        // Much better chances with a good fishing implement.
+        survival_skill += dice( 4, 9 );
+        survival_skill *= 2;
+    }
+    const tripoint fish_pos = act->placement;
+    std::vector<monster *> fishables = g->get_fishable( 60, fish_pos );
+    // Fish are always there, even if it dosnt seem like they are visible!
+    if( fishables.empty() ) {
+        fish_chance += survival_skill / 2;
+    } else {
+        // if they are visible however, it implies a larger population
+        for( auto elem : fishables ) {
+            fish_chance += elem->fish_population;
+        }
+        fish_chance += survival_skill;
+    }
+    // no matter the population of fish, your skill and tool limits the ease of catching.
+    fish_chance = std::min( survival_skill * 10, fish_chance );
+    if( x_in_y( fish_chance, 100000 ) ) {
+        add_msg( m_good, _( "You feel a tug on your line!" ) );
+        rod_fish( p, fish_pos );
+    }
+    if( calendar::once_every( 60_minutes ) ) {
+        p->practice( skill_survival, rng( 1, 3 ) );
+    }
+
+}
+
+void activity_handlers::fish_finish( player_activity *act, player *p )
+{
+    ( void )p;
+    act->set_to_null();
+    add_msg( m_info, _( "You finish fishing" ) );
 }
 
 void activity_handlers::cracking_do_turn( player_activity *act, player *p )

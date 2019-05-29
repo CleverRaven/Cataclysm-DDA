@@ -1586,10 +1586,9 @@ void game::process_activity()
     }
 }
 
-void game::catch_a_monster( std::vector<monster *> &catchables, const tripoint &pos, player *p,
+void game::catch_a_monster( monster *fish, const tripoint &pos, player *p,
                             const time_duration &catch_duration ) // catching function
 {
-    monster *const fish = random_entry_removed( catchables );
     //spawn the corpse, rotten by a part of the duration
     m.add_item_or_charges( pos, item::make_corpse( fish->type->id, calendar::turn + rng( 0_turns,
                            catch_duration ) ) );
