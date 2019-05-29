@@ -98,7 +98,7 @@
       [ "drink_screwdriver", 45 ],
       [ "drink_wild_apple", 20 ],
       [ "long_island", 27 ],
-	  [ "corretto", 15 ]
+      [ "corretto", 15 ]
     ]
   },
   {
@@ -334,7 +334,7 @@
       [ "chips3", 25 ],
       [ "choco_coffee_beans", 50 ],
       [ "coffee_raw", 50 ],
-	  [ "coffee_raw_fine", 15 ],
+      [ "coffee_raw_fine", 15 ],
       [ "coffee_syrup", 15 ],
       [ "cookies", 35 ],
       [ "tea_raw", 50 ]
@@ -365,9 +365,9 @@
       [ "ceramic_cup", 30 ],
       [ "choco_coffee_beans", 40 ],
       [ "coffee", 55 ],
-	  [ "cortado", 15 ],
-	  [ "americano", 15],
-	  [ "espresso", 25],
+      [ "cortado", 15 ],
+      [ "americano", 15 ],
+      [ "espresso", 25 ],
       [ "cookies", 5 ],
       [ "cup_plastic", 70 ],
       [ "tea", 15 ]
@@ -385,7 +385,7 @@
       [ "atomic_coffeepot", 1 ],
       [ "bottle_glass", 15 ],
       [ "coffee_raw", 25 ],
-	  [ "coffee_raw_fine", 15 ],
+      [ "coffee_raw_fine", 15 ],
       [ "coffee_syrup", 25 ],
       [ "cup_plastic", 35 ],
       [ "jug_plastic", 15 ]
@@ -658,7 +658,7 @@
       { "item": "pickle", "prob": 40, "charges": 6, "container-item": "jar_glass_sealed" },
       [ "coffee_syrup", 35 ],
       [ "coffee_raw", 45 ],
-	  [ "coffee_raw_fine", 35],
+      [ "coffee_raw_fine", 35 ],
       [ "tea_raw", 45 ],
       [ "salt", 50 ],
       [ "pepper", 50 ],
