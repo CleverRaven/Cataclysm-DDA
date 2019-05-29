@@ -89,8 +89,8 @@
     "symbol": "=",
     "color": "red",
     "ammo_type": "fire_lance",
-    "range": 3,
-    "damage": 50,
+    "range": 2,
+    "damage": 15,
     "recoil": 3000,
     "effects": [ "COOKOFF", "RECYCLED" ]
   },
@@ -108,7 +108,7 @@
     "color": "red",
     "ammo_type": "fire_lance",
     "range": 4,
-    "damage": 75,
+    "damage": 35,
     "pierce": 1,
     "recoil": 3000,
     "effects": [ "COOKOFF", "SHOT", "RECYCLED" ]

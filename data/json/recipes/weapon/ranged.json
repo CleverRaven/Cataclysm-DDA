@@ -239,7 +239,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
-    "difficulty": 3,
+    "difficulty": 6,
     "skills_required": [ "gun", 1 ],
     "time": 12000,
     "reversible": true,
