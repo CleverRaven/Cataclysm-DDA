@@ -859,7 +859,7 @@ requirement_data requirement_data::disassembly_requirements() const
                 new_qualities.emplace_back( quality_id( "PULL" ), 1, 1 );
                 break;
             }
-            if (type == "fire" && remove_fire == true) {
+            if( type == "fire" && remove_fire == true ) {
                 replaced = true;
                 break;
             }
