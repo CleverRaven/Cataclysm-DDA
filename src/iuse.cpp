@@ -6932,6 +6932,16 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
     int outside_tiles_num = 0;
     int total_tiles_num = 0;
 
+    const auto map_deincrement_or_erase = []( std::unordered_map<std::string, int> &obj_map,
+    const std::string & key ) {
+        if( obj_map.find( key ) != obj_map.end() ) {
+            obj_map[ key ] --;
+            if( obj_map[ key ] <= 0 ) {
+                obj_map.erase( key );
+            }
+        }
+    };
+
     // firstly scan for critters and mark nearby furniture, vehicles and items
     for( const tripoint &current : bounds ) {
         if( !g->m.sees( camera_pos, current, dist + 3 ) ) {
@@ -7012,7 +7022,10 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
 
     bool  found_vehicle_aim_point = g->m.veh_at( aim_point ).has_value(),
           found_furniture_aim_point = !furn_desc.empty();
-    found_item_aim_point = !item.is_null();
+    // feature_description_at_point do not update flag if no furniture found, so need to check again
+    if( !found_furniture_aim_point ) {
+        found_item_aim_point = !item.is_null();
+    }
 
     auto ter_aim = g->m.ter( aim_point );
     auto furn_aim = g->m.furn( aim_point );
@@ -7035,26 +7048,24 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
         auto veh_name = "<color_light_blue>" + veh_part_pos->vehicle().disp_name() + "</color>";
         photo.name = veh_name;
         photo_text += veh_name + ".";
-        obj_coll.vehicles.erase( veh_name );
+        map_deincrement_or_erase( obj_coll.vehicles, veh_name );
     } else if( found_furniture_aim_point || found_item_aim_point )  {
         std::string item_desc = colorized_item_description( item ),
-                    item_name = colorized_item_name( item ),
-                    field_desc = get_field_description_at( aim_point );
+                    item_name = colorized_item_name( item );
         if( found_furniture_aim_point ) {
             furn_desc = trap_name + furn_desc + field_desc;
             photo.name = furn_desc;
             photo_text += photo.name + ".";
-            obj_coll.furniture.erase( furn_desc );
+            map_deincrement_or_erase( obj_coll.furniture, furn_desc );
         } else if( found_item_aim_point ) {
             item_name = trap_name + item_name + field_desc;
             photo.name = item_name;
             photo_text += item_name + ". " + string_format( _( "It lies on the %1$s." ),
                           ter_name );
-
-            obj_coll.items.erase( item_name );
+            map_deincrement_or_erase( obj_coll.items, item_name );
         }
         if( found_furniture_aim_point && !furn_aim->description.empty() ) {
-            photo_text += "\n\n" + furn_aim->name() + ":\n" + furn_aim->description;
+            photo_text += "\n\n<color_yellow>" + furn_aim->name() + "</color>:\n" + furn_aim->description;
         }
         if( found_item_aim_point ) {
             photo_text += "\n\n" + item_name + ":\n" + item_desc;
@@ -7063,6 +7074,9 @@ extended_photo_def photo_def_for_camera_point( const tripoint aim_point, const t
         ter_name = trap_name + ter_name + field_desc;
         photo.name = ter_name;
         photo_text += photo.name + ".";
+        map_deincrement_or_erase( obj_coll.terrain, ter_name );
+        map_deincrement_or_erase( obj_coll.furniture, ter_name );
+
         if( !ter_aim->description.empty() ) {
             photo_text += "\n\n" + photo.name + ":\n" + ter_aim->description;
         }
