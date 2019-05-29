@@ -432,5 +432,48 @@
       [ "long_underpants", 20 ],
       [ "under_armor_shorts", 20 ]
     ]
+  },
+  {
+    "id": "jewelry_furshop",
+    "type": "item_group",
+    "items": [
+      [ "gold_watch", 50 ],
+      [ "sf_watch", 50 ],
+      [ "brooch", 80 ],
+      [ "pearl_collar", 50 ],
+      [ "silver_bracelet", 30 ],
+      [ "gold_bracelet", 20 ]
+    ]
+  },
+  {
+    "id": "dress_shop",
+    "type": "item_group",
+    "items": [
+      [ "skirt", 40 ],
+      [ "skirt_leather", 5 ],
+      [ "dress", 120 ],
+      [ "sundress", 50 ],
+      [ "nanoskirt", 30 ],
+      [ "camisole", 60 ],
+      [ "corset", 20 ],
+      [ "stockings", 50 ],
+      [ "leggings", 20 ],
+      [ "tights", 50 ]
+    ]
+  },
+  {
+    "id": "dress_shoes",
+    "type": "item_group",
+    "items": [ [ "dress_shoes", 50 ], [ "heels", 50 ], [ "leathersandals", 20 ] ]
+  },
+  {
+    "id": "wedding_dresses",
+    "type": "item_group",
+    "items": [ [ "dress", 50 ], [ "veil_wedding", 150 ], [ "dress_wedding", 150 ] ]
+  },
+  {
+    "id": "wedding_suits",
+    "type": "item_group",
+    "items": [ [ "tux", 100 ], [ "suit", 80 ], [ "waistcoat", 50 ], [ "dress_shirt", 100 ], [ "undershirt", 50 ] ]
   }
 ]
