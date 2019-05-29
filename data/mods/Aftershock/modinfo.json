@@ -3,9 +3,9 @@
     "type": "MOD_INFO",
     "ident": "aftershock",
     "name": "Aftershock",
-    "authors": [ "Esther" ],
+    "authors": [ "Esther", "Coolthulu" ],
     "maintainers": [ "Esther" ],
-    "description": "Drifts the game away from realism and more towards sci-fi.  NOTE: Incompatible with Bright Nights.",
+    "description": "Drifts the game away from realism and more towards sci-fi.",
     "category": "content",
     "dependencies": [ "dda" ]
   },

@@ -9,6 +9,7 @@
 #include <utility>
 
 #include "string_id.h"
+#include "optional.h"
 #include "pldata.h"
 #include "type_id.h"
 
@@ -26,8 +27,8 @@ enum add_type : int;
 class profession
 {
     public:
-        typedef std::pair<skill_id, int> StartingSkill;
-        typedef std::vector<StartingSkill> StartingSkillList;
+        using StartingSkill = std::pair<skill_id, int>;
+        using StartingSkillList = std::vector<StartingSkill>;
         struct itypedec {
             std::string type_id;
             /** Snippet id, @see snippet_library. */
@@ -38,7 +39,7 @@ class profession
             itypedec( const std::string &t, const std::string &d ) : type_id( t ), snippet_id( d ) {
             }
         };
-        typedef std::vector<itypedec> itypedecvec;
+        using itypedecvec = std::vector<itypedec>;
         friend class string_id<profession>;
         friend class generic_factory<profession>;
 
@@ -64,6 +65,7 @@ class profession
         std::vector<addiction> _starting_addictions;
         std::vector<bionic_id> _starting_CBMs;
         std::vector<trait_id> _starting_traits;
+        cata::optional<mtype_id> _starting_pet;
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
 
@@ -96,6 +98,7 @@ class profession
         signed int point_cost() const;
         std::list<item> items( bool male, const std::vector<trait_id> &traits ) const;
         std::vector<addiction> addictions() const;
+        cata::optional<mtype_id> pet() const;
         std::vector<bionic_id> CBMs() const;
         const StartingSkillList skills() const;
 

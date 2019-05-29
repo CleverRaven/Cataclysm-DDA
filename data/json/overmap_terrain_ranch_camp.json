@@ -514,6 +514,33 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "ranch_camp_57_roof",
+    "name": "field",
+    "sym": "│",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_57_silo",
+    "name": "silo",
+    "sym": "│",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_57_silocap",
+    "name": "silo cap",
+    "sym": "│",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "ranch_camp_58",
     "name": "field",
     "sym": "#",
@@ -586,8 +613,26 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "ranch_camp_65_roof",
+    "name": "barn roof",
+    "sym": "#",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "ranch_camp_66",
     "name": "barn",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_66_roof",
+    "name": "barn roof",
     "sym": "#",
     "color": "i_brown",
     "see_cost": 2,
@@ -604,8 +649,26 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "ranch_camp_67_roof",
+    "name": "garage roof",
+    "sym": "O",
+    "color": "white",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "ranch_camp_68",
     "name": "ranch",
+    "sym": "v",
+    "color": "light_green",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_68_roof",
+    "name": "ranch roof",
     "sym": "v",
     "color": "light_green",
     "see_cost": 2,
@@ -667,7 +730,25 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "ranch_camp_74_roof",
+    "name": "field",
+    "sym": "─",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "ranch_camp_75",
+    "name": "field",
+    "sym": "┘",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "ranch_camp_75_roof",
     "name": "field",
     "sym": "┘",
     "color": "brown",

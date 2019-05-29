@@ -12,6 +12,7 @@
 #include <vector>
 #include <exception>
 #include <unordered_set>
+#include <set>
 
 #include "catacharset.h"
 #include "cata_utility.h"
@@ -126,6 +127,9 @@ constexpr size_t set_segment( size_t line, om_direction::type dir )
 
 constexpr bool has_segment( size_t line, om_direction::type dir )
 {
+    if( dir == om_direction::type::invalid ) {
+        return false;
+    }
     return static_cast<bool>( line & 1 << static_cast<int>( dir ) );
 }
 
@@ -139,7 +143,7 @@ constexpr bool is_straight( size_t line )
            || line == 10;
 }
 
-size_t from_dir( om_direction::type dir )
+static size_t from_dir( om_direction::type dir )
 {
     switch( dir ) {
         case om_direction::type::north:
@@ -177,7 +181,9 @@ static const std::map<std::string, oter_flags> oter_flags_map = {
     { "SIDEWALK",       has_sidewalk   },
     { "NO_ROTATE",      no_rotate      },
     { "LINEAR",         line_drawing   },
-    { "SUBWAY",         subway_connection }
+    { "SUBWAY",         subway_connection },
+    { "LAKE",           lake },
+    { "LAKE_SHORE",     lake_shore },
 };
 
 template<>
@@ -313,7 +319,7 @@ bool operator!=( const int_id<oter_t> &lhs, const char *rhs )
     return !( lhs == rhs );
 }
 
-void set_oter_ids()   // FIXME: constify
+static void set_oter_ids()   // FIXME: constify
 {
     ot_null         = oter_str_id::NULL_ID();
     // NOT required.
@@ -434,17 +440,15 @@ const std::vector<overmap_special> &overmap_specials::get_all()
 
 overmap_special_batch overmap_specials::get_default_batch( const point &origin )
 {
-    const bool only_classic = get_option<bool>( "CLASSIC_ZOMBIES" );
     const int city_size = get_option<int>( "CITY_SIZE" );
     std::vector<const overmap_special *> res;
 
     res.reserve( specials.size() );
     for( const overmap_special &elem : specials.get_all() ) {
-        if( elem.locations.empty() || elem.occurrences.empty() ) {
-            continue;
-        }
-
-        if( only_classic && elem.flags.count( "CLASSIC" ) == 0 ) {
+        if( elem.occurrences.empty() ||
+        std::any_of( elem.terrains.begin(), elem.terrains.end(), []( const overmap_special_terrain & t ) {
+        return t.locations.empty();
+        } ) ) {
             continue;
         }
 
@@ -461,6 +465,11 @@ overmap_special_batch overmap_specials::get_default_batch( const point &origin )
 bool is_river( const oter_id &ter )
 {
     return ter->is_river();
+}
+
+bool is_river_or_lake( const oter_id &ter )
+{
+    return ter->is_river() || ter->is_lake() || ter->is_lake_shore();
 }
 
 bool is_ot_type( const std::string &otype, const oter_id &oter )
@@ -495,8 +504,8 @@ bool is_ot_subtype( const char *otype, const oter_id &oter )
  * load mapgen functions from an overmap_terrain json entry
  * suffix is for roads/subways/etc which have "_straight", "_curved", "_tee", "_four_way" function mappings
  */
-void load_overmap_terrain_mapgens( JsonObject &jo, const std::string &id_base,
-                                   const std::string &suffix = "" )
+static void load_overmap_terrain_mapgens( JsonObject &jo, const std::string &id_base,
+        const std::string &suffix = "" )
 {
     const std::string fmapkey( id_base + suffix );
     const std::string jsonkey( "mapgen" + suffix );
@@ -821,6 +830,14 @@ const std::vector<oter_t> &overmap_terrains::get_all()
     return terrains.get_all();
 }
 
+bool overmap_special_terrain::can_be_placed_on( const oter_id &oter ) const
+{
+    return std::any_of( locations.begin(), locations.end(),
+    [&oter]( const string_id<overmap_location> &loc ) {
+        return loc->test( oter );
+    } );
+}
+
 const overmap_special_terrain &overmap_special::get_terrain_at( const tripoint &p ) const
 {
     const auto iter = std::find_if( terrains.begin(),
@@ -832,14 +849,6 @@ const overmap_special_terrain &overmap_special::get_terrain_at( const tripoint &
         return null_terrain;
     }
     return *iter;
-}
-
-bool overmap_special::can_be_placed_on( const oter_id &oter ) const
-{
-    return std::any_of( locations.begin(), locations.end(),
-    [ &oter ]( const string_id<overmap_location> &loc ) {
-        return loc->test( oter );
-    } );
 }
 
 bool overmap_special::requires_city() const
@@ -866,7 +875,7 @@ void overmap_special::load( JsonObject &jo, const std::string &src )
     const bool is_special = jo.get_string( "type", "" ) == "overmap_special";
 
     mandatory( jo, was_loaded, "overmaps", terrains );
-    mandatory( jo, was_loaded, "locations", locations );
+    optional( jo, was_loaded, "locations", default_locations );
 
     if( is_special ) {
         mandatory( jo, was_loaded, "occurrences", occurrences );
@@ -885,6 +894,16 @@ void overmap_special::load( JsonObject &jo, const std::string &src )
 
 void overmap_special::finalize()
 {
+    // If the special has default locations, then add those to the locations
+    // of each of the terrains IF the terrain has no locations already.
+    if( !default_locations.empty() ) {
+        for( auto &t : terrains ) {
+            if( t.locations.empty() ) {
+                t.locations.insert( default_locations.begin(), default_locations.end() );
+            }
+        }
+    }
+
     for( auto &elem : connections ) {
         const auto &oter = get_terrain_at( elem.p );
         if( !elem.terrain && oter.terrain ) {
@@ -936,13 +955,6 @@ void overmap_special::check() const
     std::set<int> invalid_terrains;
     std::set<tripoint> points;
 
-    for( const auto &element : locations ) {
-        if( !element.is_valid() ) {
-            debugmsg( "In overmap special \"%s\", location \"%s\" is invalid.",
-                      id.c_str(), element.c_str() );
-        }
-    }
-
     for( const auto &elem : terrains ) {
         const auto &oter = elem.terrain;
 
@@ -961,6 +973,18 @@ void overmap_special::check() const
                       id.c_str(), pos.x, pos.y, pos.z );
         } else {
             points.insert( pos );
+        }
+
+        if( elem.locations.empty() ) {
+            debugmsg( "In overmap special \"%s\", no location is defined for point [%d,%d,%d] or the overall special.",
+                      id.c_str(), pos.x, pos.y, pos.z );
+        }
+
+        for( const auto &l : elem.locations ) {
+            if( !l.is_valid() ) {
+                debugmsg( "In overmap special \"%s\", point [%d,%d,%d], location \"%s\" is invalid.",
+                          id.c_str(), pos.x, pos.y, pos.z, l.c_str() );
+            }
         }
     }
 
@@ -1314,224 +1338,15 @@ void overmap::generate( const overmap *north, const overmap *east,
                         overmap_special_batch &enabled_specials )
 {
     dbg( D_INFO ) << "overmap::generate start...";
-    // West/North endpoints of rivers
-    std::vector<point> river_start;
-    // East/South endpoints of rivers
-    std::vector<point> river_end;
 
-    // Determine points where rivers & roads should connect w/ adjacent maps
-    // optimized comparison.
-    const oter_id river_center( "river_center" );
-
-    if( north != nullptr ) {
-        for( int i = 2; i < OMAPX - 2; i++ ) {
-            if( is_river( north->get_ter( i, OMAPY - 1, 0 ) ) ) {
-                ter( i, 0, 0 ) = river_center;
-            }
-            if( is_river( north->get_ter( i, OMAPY - 1, 0 ) ) &&
-                is_river( north->get_ter( i - 1, OMAPY - 1, 0 ) ) &&
-                is_river( north->get_ter( i + 1, OMAPY - 1, 0 ) ) ) {
-                if( river_start.empty() ||
-                    river_start[river_start.size() - 1].x < i - 6 ) {
-                    river_start.push_back( point( i, 0 ) );
-                }
-            }
-        }
-        for( auto &i : north->roads_out ) {
-            if( i.pos.y == OMAPY - 1 ) {
-                roads_out.push_back( city( i.pos.x, 0, 0 ) );
-            }
-        }
-    }
-    size_t rivers_from_north = river_start.size();
-    if( west != nullptr ) {
-        for( int i = 2; i < OMAPY - 2; i++ ) {
-            if( is_river( west->get_ter( OMAPX - 1, i, 0 ) ) ) {
-                ter( 0, i, 0 ) = river_center;
-            }
-            if( is_river( west->get_ter( OMAPX - 1, i, 0 ) ) &&
-                is_river( west->get_ter( OMAPX - 1, i - 1, 0 ) ) &&
-                is_river( west->get_ter( OMAPX - 1, i + 1, 0 ) ) ) {
-                if( river_start.size() == rivers_from_north ||
-                    river_start[river_start.size() - 1].y < i - 6 ) {
-                    river_start.push_back( point( 0, i ) );
-                }
-            }
-        }
-        for( auto &i : west->roads_out ) {
-            if( i.pos.x == OMAPX - 1 ) {
-                roads_out.push_back( city( 0, i.pos.y, 0 ) );
-            }
-        }
-    }
-    if( south != nullptr ) {
-        for( int i = 2; i < OMAPX - 2; i++ ) {
-            if( is_river( south->get_ter( i, 0, 0 ) ) ) {
-                ter( i, OMAPY - 1, 0 ) = river_center;
-            }
-            if( is_river( south->get_ter( i,     0, 0 ) ) &&
-                is_river( south->get_ter( i - 1, 0, 0 ) ) &&
-                is_river( south->get_ter( i + 1, 0, 0 ) ) ) {
-                if( river_end.empty() ||
-                    river_end[river_end.size() - 1].x < i - 6 ) {
-                    river_end.push_back( point( i, OMAPY - 1 ) );
-                }
-            }
-        }
-        for( auto &i : south->roads_out ) {
-            if( i.pos.y == 0 ) {
-                roads_out.push_back( city( i.pos.x, OMAPY - 1, 0 ) );
-            }
-        }
-    }
-    size_t rivers_to_south = river_end.size();
-    if( east != nullptr ) {
-        for( int i = 2; i < OMAPY - 2; i++ ) {
-            if( is_river( east->get_ter( 0, i, 0 ) ) ) {
-                ter( OMAPX - 1, i, 0 ) = river_center;
-            }
-            if( is_river( east->get_ter( 0, i, 0 ) ) &&
-                is_river( east->get_ter( 0, i - 1, 0 ) ) &&
-                is_river( east->get_ter( 0, i + 1, 0 ) ) ) {
-                if( river_end.size() == rivers_to_south ||
-                    river_end[river_end.size() - 1].y < i - 6 ) {
-                    river_end.push_back( point( OMAPX - 1, i ) );
-                }
-            }
-        }
-        for( auto &i : east->roads_out ) {
-            if( i.pos.x == 0 ) {
-                roads_out.push_back( city( OMAPX - 1, i.pos.y, 0 ) );
-            }
-        }
-    }
-
-    // Even up the start and end points of rivers. (difference of 1 is acceptable)
-    // Also ensure there's at least one of each.
-    std::vector<point> new_rivers;
-    if( north == nullptr || west == nullptr ) {
-        while( river_start.empty() || river_start.size() + 1 < river_end.size() ) {
-            new_rivers.clear();
-            if( north == nullptr ) {
-                new_rivers.push_back( point( rng( 10, OMAPX - 11 ), 0 ) );
-            }
-            if( west == nullptr ) {
-                new_rivers.push_back( point( 0, rng( 10, OMAPY - 11 ) ) );
-            }
-            river_start.push_back( random_entry( new_rivers ) );
-        }
-    }
-    if( south == nullptr || east == nullptr ) {
-        while( river_end.empty() || river_end.size() + 1 < river_start.size() ) {
-            new_rivers.clear();
-            if( south == nullptr ) {
-                new_rivers.push_back( point( rng( 10, OMAPX - 11 ), OMAPY - 1 ) );
-            }
-            if( east == nullptr ) {
-                new_rivers.push_back( point( OMAPX - 1, rng( 10, OMAPY - 11 ) ) );
-            }
-            river_end.push_back( random_entry( new_rivers ) );
-        }
-    }
-
-    // Now actually place those rivers.
-    if( river_start.size() > river_end.size() && !river_end.empty() ) {
-        std::vector<point> river_end_copy = river_end;
-        while( !river_start.empty() ) {
-            const point start = random_entry_removed( river_start );
-            if( !river_end.empty() ) {
-                place_river( start, river_end[0] );
-                river_end.erase( river_end.begin() );
-            } else {
-                place_river( start, random_entry( river_end_copy ) );
-            }
-        }
-    } else if( river_end.size() > river_start.size() && !river_start.empty() ) {
-        std::vector<point> river_start_copy = river_start;
-        while( !river_end.empty() ) {
-            const point end = random_entry_removed( river_end );
-            if( !river_start.empty() ) {
-                place_river( river_start[0], end );
-                river_start.erase( river_start.begin() );
-            } else {
-                place_river( random_entry( river_start_copy ), end );
-            }
-        }
-    } else if( !river_end.empty() ) {
-        if( river_start.size() != river_end.size() ) {
-            river_start.push_back( point( rng( OMAPX / 4, ( OMAPX * 3 ) / 4 ),
-                                          rng( OMAPY / 4, ( OMAPY * 3 ) / 4 ) ) );
-        }
-        for( size_t i = 0; i < river_start.size(); i++ ) {
-            place_river( river_start[i], river_end[i] );
-        }
-    }
-
+    place_rivers( north, east, south, west );
+    place_lakes();
     place_forests();
     place_swamps();
-
     place_cities();
-
     place_forest_trails();
-
-    // Ideally we should have at least two exit points for roads, on different sides
-    if( roads_out.size() < 2 ) {
-        std::vector<city> viable_roads;
-        int tmp;
-        // Populate viable_roads with one point for each neighborless side.
-        // Make sure these points don't conflict with rivers.
-        // TODO: In theory this is a potential infinite loop...
-        if( north == nullptr ) {
-            do {
-                tmp = rng( 10, OMAPX - 11 );
-            } while( is_river( ter( tmp, 0, 0 ) ) || is_river( ter( tmp - 1, 0, 0 ) ) ||
-                     is_river( ter( tmp + 1, 0, 0 ) ) );
-            viable_roads.push_back( city( tmp, 0, 0 ) );
-        }
-        if( east == nullptr ) {
-            do {
-                tmp = rng( 10, OMAPY - 11 );
-            } while( is_river( ter( OMAPX - 1, tmp, 0 ) ) || is_river( ter( OMAPX - 1, tmp - 1, 0 ) ) ||
-                     is_river( ter( OMAPX - 1, tmp + 1, 0 ) ) );
-            viable_roads.push_back( city( OMAPX - 1, tmp, 0 ) );
-        }
-        if( south == nullptr ) {
-            do {
-                tmp = rng( 10, OMAPX - 11 );
-            } while( is_river( ter( tmp, OMAPY - 1, 0 ) ) || is_river( ter( tmp - 1, OMAPY - 1, 0 ) ) ||
-                     is_river( ter( tmp + 1, OMAPY - 1, 0 ) ) );
-            viable_roads.push_back( city( tmp, OMAPY - 1, 0 ) );
-        }
-        if( west == nullptr ) {
-            do {
-                tmp = rng( 10, OMAPY - 11 );
-            } while( is_river( ter( 0, tmp, 0 ) ) || is_river( ter( 0, tmp - 1, 0 ) ) ||
-                     is_river( ter( 0, tmp + 1, 0 ) ) );
-            viable_roads.push_back( city( 0, tmp, 0 ) );
-        }
-        while( roads_out.size() < 2 && !viable_roads.empty() ) {
-            roads_out.push_back( random_entry_removed( viable_roads ) );
-        }
-    }
-
-    std::vector<point> road_points; // cities and roads_out together
-    // Compile our master list of roads; it's less messy if roads_out is first
-    road_points.reserve( roads_out.size() + cities.size() );
-    for( const auto &elem : roads_out ) {
-        road_points.emplace_back( elem.pos );
-    }
-    for( const auto &elem : cities ) {
-        road_points.emplace_back( elem.pos.x, elem.pos.y );
-    }
-
-    // And finally connect them via roads.
-    const string_id<overmap_connection> local_road( "local_road" );
-    connect_closest_points( road_points, 0, *local_road );
-
+    place_roads( north, east, south, west );
     place_specials( enabled_specials );
-
-    // After we've placed all the specials and connected everything else via roads,
-    // try and place some trailheads.
     place_forest_trailheads();
 
     polish_river();
@@ -1711,17 +1526,47 @@ bool overmap::generate_sub( const int z )
         }
     }
 
+    const auto create_real_train_lab_points = [this, z]( const std::vector<point> &train_points,
+    std::vector<point> &real_train_points ) {
+        bool is_first_in_pair = true;
+        for( auto &i : train_points ) {
+            const std::vector<point> nearby_locations {
+                point( i.x, i.y - 1 ),
+                point( i.x, i.y + 1 ),
+                point( i.x + 1, i.y ),
+                point( i.x - 1, i.y ) };
+            if( is_first_in_pair ) {
+                ter( i.x, i.y, z ) = oter_id( "open_air" ); // mark tile to prevent subway gen
+
+                for( auto &nearby_loc : nearby_locations ) {
+                    if( is_ot_subtype( "empty_rock", ter( nearby_loc.x, nearby_loc.y, z ) ) ) {
+                        // mark tile to prevent subway gen
+                        ter( nearby_loc.x, nearby_loc.y, z ) = oter_id( "open_air" );
+                    }
+                }
+            } else {
+                // change train connection point back to rock to allow gen
+                if( is_ot_subtype( "open_air", ter( i.x, i.y, z ) ) ) {
+                    ter( i.x, i.y, z ) = oter_id( "empty_rock" );
+                }
+                real_train_points.push_back( i );
+            }
+            is_first_in_pair = !is_first_in_pair;
+        }
+    };
+    std::vector<point> subway_lab_train_points; // real points for subway, excluding train depot points
+    create_real_train_lab_points( lab_train_points, subway_lab_train_points );
+    create_real_train_lab_points( central_lab_train_points, subway_lab_train_points );
+
     const string_id<overmap_connection> subway_tunnel( "subway_tunnel" );
 
-    subway_points.insert( subway_points.end(), lab_train_points.begin(), lab_train_points.end() );
-    subway_points.insert( subway_points.end(), central_lab_train_points.begin(),
-                          central_lab_train_points.end() );
+    subway_points.insert( subway_points.end(), subway_lab_train_points.begin(),
+                          subway_lab_train_points.end() );
     connect_closest_points( subway_points, z, *subway_tunnel );
     // If on z = 4 and central lab is present, be sure to connect normal labs and central labs (just in case).
-    if( z == -4 && !central_lab_points.empty() && !lab_train_points.empty() ) {
+    if( z == -4 && !central_lab_points.empty() ) {
         std::vector<point> extra_route;
-        extra_route.push_back( central_lab_train_points.back() );
-        extra_route.push_back( lab_train_points.back() );
+        extra_route.push_back( subway_lab_train_points.back() );
         connect_closest_points( extra_route, z, *subway_tunnel );
     }
 
@@ -1732,18 +1577,28 @@ bool overmap::generate_sub( const int z )
     }
 
     // The first lab point is adjacent to a lab, set it a depot (as long as track was actually laid).
-    const auto create_train_depots = [this, z]( const oter_id & train_type,
+    const auto create_train_depots = [this, z, &subway_tunnel]( const oter_id & train_type,
     const std::vector<point> &train_points ) {
         bool is_first_in_pair = true;
+        std::vector<point> extra_route;
         for( auto &i : train_points ) {
             if( is_first_in_pair ) {
-                if( is_ot_subtype( "subway", ter( i.x + 1, i.y, z ) ) ||
-                    is_ot_subtype( "subway", ter( i.x - 1, i.y, z ) ) ||
-                    is_ot_subtype( "subway", ter( i.x, i.y + 1, z ) ) ||
-                    is_ot_subtype( "subway", ter( i.x, i.y - 1, z ) ) ) {
-                    ter( i.x, i.y, z ) = train_type;
-                } else {
-                    ter( i.x, i.y, z ) = oter_id( "empty_rock" );
+                const std::vector<point> subway_possible_loc { point( i.x, i.y - 1 ), point( i.x, i.y + 1 ), point( i.x + 1, i.y ), point( i.x - 1, i.y ) };
+                extra_route.clear();
+                ter( i.x, i.y, z ) = oter_id( "empty_rock" ); // this clears marked tiles
+                bool is_depot_generated = false;
+                for( auto &subway_loc : subway_possible_loc ) {
+                    if( !is_depot_generated && is_ot_subtype( "subway", ter( subway_loc.x, subway_loc.y, z ) ) ) {
+                        extra_route.push_back( i );
+                        extra_route.push_back( subway_loc );
+                        connect_closest_points( extra_route, z, *subway_tunnel );
+
+                        ter( i.x, i.y, z ) = train_type;
+                        is_depot_generated = true; // only one connection to depot
+                    } else if( is_ot_subtype( "open_air", ter( subway_loc.x, subway_loc.y, z ) ) ) {
+                        // clear marked
+                        ter( subway_loc.x, subway_loc.y, z ) = oter_id( "empty_rock" );
+                    }
                 }
             }
             is_first_in_pair = !is_first_in_pair;
@@ -2312,6 +2167,287 @@ void overmap::place_forests()
     }
 }
 
+void overmap::place_lakes()
+{
+    const om_noise::om_noise_layer_lake f( global_base_point(), g->get_seed() );
+
+    // We're going to flood-fill our lake so that we can consider the entire lake when evaluating it
+    // for placement, even when the lake runs off the edge of the current overmap.
+    std::unordered_set<point> visited;
+    const auto get_lake = [&]( const point & starting_point, std::vector<point> &lake_points ) {
+        std::queue<point> to_check;
+        to_check.push( starting_point );
+        while( !to_check.empty() ) {
+            const point current_point = to_check.front();
+            to_check.pop();
+
+            if( visited.find( current_point ) != visited.end() ) {
+                continue;
+            }
+
+            visited.emplace( current_point );
+
+            // It's a lake if it exceeds the noise threshold defined in the region settings.
+            const bool is_lake = f.noise_at( current_point ) > settings.overmap_lake.noise_threshold_lake;
+            if( is_lake ) {
+                lake_points.emplace_back( current_point );
+                to_check.push( point( current_point.x, current_point.y + 1 ) );
+                to_check.push( point( current_point.x, current_point.y - 1 ) );
+                to_check.push( point( current_point.x + 1, current_point.y ) );
+                to_check.push( point( current_point.x - 1, current_point.y ) );
+            }
+        }
+    };
+
+    const oter_id lake_surface( "lake_surface" );
+    const oter_id lake_shore( "lake_shore" );
+
+    for( int i = 0; i < OMAPX; i++ ) {
+        for( int j = 0; j < OMAPY; j++ ) {
+            point seed_point( i, j );
+            if( visited.find( seed_point ) != visited.end() ) {
+                continue;
+            }
+
+            // It's a lake if it exceeds the noise threshold defined in the region settings.
+            if( f.noise_at( seed_point ) <= settings.overmap_lake.noise_threshold_lake ) {
+                continue;
+            }
+
+            std::vector<point> lake_points;
+            get_lake( seed_point, lake_points );
+
+            // If this lake doesn't exceed our minimum size threshold, then skip it. We can use this to
+            // exclude the tiny lakes that don't provide interesting map features and exist mostly as a
+            // noise artifact.
+            if( lake_points.size() < static_cast<std::vector<point>::size_type>
+                ( settings.overmap_lake.lake_size_min ) ) {
+                continue;
+            }
+
+            // Build a set of "lake" points. We're actually going to combine both the lake points
+            // we just found AND all of the rivers on the map, because we want our lakes to write
+            // over any rivers that are placed already. Note that the assumption here is that river
+            // overmap generation (e.g. place_rivers) runs BEFORE lake overmap generation.
+            std::unordered_set<point> lake_set;
+            for( auto &p : lake_points ) {
+                lake_set.emplace( p );
+            }
+
+            for( int x = 0; x < OMAPX; x++ ) {
+                for( int y = 0; y < OMAPY; y++ ) {
+                    if( ter( x, y, 0 )->is_river() ) {
+                        lake_set.emplace( point( x, y ) );
+                    }
+                }
+            }
+
+            // Iterate through all of our lake points, rejecting the ones that are out of bounds. For
+            // those that are inbounds, look at the 8 adjacent locations and see if they are also part
+            // of our lake points set. If they are, that means that this location is entirely surrounded
+            // by lake and should be considered a lake surface. If at least one adjacent location is not
+            // part of this lake points set, that means this location should be considered a lake shore.
+            // Either way, make the determination and set the overmap terrain.
+            for( auto &p : lake_points ) {
+                if( !inbounds( p ) ) {
+                    continue;
+                }
+
+                bool shore = false;
+                for( int ni = -1; ni <= 1 && !shore; ni++ ) {
+                    for( int nj = -1; nj <= 1 && !shore; nj++ ) {
+                        const int nx = p.x + ni;
+                        const int ny = p.y + nj;
+                        if( lake_set.find( { nx, ny } ) == lake_set.end() ) {
+                            shore = true;
+                        }
+                    }
+                }
+
+                ter( p.x, p.y, 0 ) = shore ? lake_shore : lake_surface;
+            }
+
+            // We're going to attempt to connect some points on this lake to the nearest river.
+            const auto connect_lake_to_closest_river = [&]( const point & lake_connection_point ) {
+                int closest_distance = -1;
+                point closest_point;
+                for( int x = 0; x < OMAPX; x++ ) {
+                    for( int y = 0; y < OMAPY; y++ ) {
+                        if( !ter( x, y, 0 )->is_river() ) {
+                            continue;
+                        }
+                        const int distance = square_dist( lake_connection_point.x, lake_connection_point.y, x, y );
+                        if( distance < closest_distance || closest_distance < 0 ) {
+                            closest_point = { x, y };
+                            closest_distance = distance;
+                        }
+                    }
+                }
+
+                if( closest_distance > 0 ) {
+                    place_river( closest_point, lake_connection_point );
+                }
+            };
+
+            // Get the north and south most points in our lake.
+            auto north_south_most = std::minmax_element( lake_points.begin(),
+            lake_points.end(), []( const point & lhs, const point & rhs ) {
+                return lhs.y < rhs.y;
+            } );
+
+            point northmost = *north_south_most.first;
+            point southmost = *north_south_most.second;
+
+            // It's possible that our northmost/southmost points in the lake are not on this overmap, because our
+            // lake may extend across multiple overmaps.
+            if( inbounds( northmost ) ) {
+                connect_lake_to_closest_river( northmost );
+            }
+
+            if( inbounds( southmost ) ) {
+                connect_lake_to_closest_river( southmost );
+            }
+        }
+    }
+}
+
+void overmap::place_rivers( const overmap *north, const overmap *east, const overmap *south,
+                            const overmap *west )
+{
+    // West/North endpoints of rivers
+    std::vector<point> river_start;
+    // East/South endpoints of rivers
+    std::vector<point> river_end;
+
+    // Determine points where rivers & roads should connect w/ adjacent maps
+    // optimized comparison.
+    const oter_id river_center( "river_center" );
+
+    if( north != nullptr ) {
+        for( int i = 2; i < OMAPX - 2; i++ ) {
+            if( is_river( north->get_ter( i, OMAPY - 1, 0 ) ) ) {
+                ter( i, 0, 0 ) = river_center;
+            }
+            if( is_river( north->get_ter( i, OMAPY - 1, 0 ) ) &&
+                is_river( north->get_ter( i - 1, OMAPY - 1, 0 ) ) &&
+                is_river( north->get_ter( i + 1, OMAPY - 1, 0 ) ) ) {
+                if( river_start.empty() ||
+                    river_start[river_start.size() - 1].x < i - 6 ) {
+                    river_start.push_back( point( i, 0 ) );
+                }
+            }
+        }
+    }
+    size_t rivers_from_north = river_start.size();
+    if( west != nullptr ) {
+        for( int i = 2; i < OMAPY - 2; i++ ) {
+            if( is_river( west->get_ter( OMAPX - 1, i, 0 ) ) ) {
+                ter( 0, i, 0 ) = river_center;
+            }
+            if( is_river( west->get_ter( OMAPX - 1, i, 0 ) ) &&
+                is_river( west->get_ter( OMAPX - 1, i - 1, 0 ) ) &&
+                is_river( west->get_ter( OMAPX - 1, i + 1, 0 ) ) ) {
+                if( river_start.size() == rivers_from_north ||
+                    river_start[river_start.size() - 1].y < i - 6 ) {
+                    river_start.push_back( point( 0, i ) );
+                }
+            }
+        }
+    }
+    if( south != nullptr ) {
+        for( int i = 2; i < OMAPX - 2; i++ ) {
+            if( is_river( south->get_ter( i, 0, 0 ) ) ) {
+                ter( i, OMAPY - 1, 0 ) = river_center;
+            }
+            if( is_river( south->get_ter( i, 0, 0 ) ) &&
+                is_river( south->get_ter( i - 1, 0, 0 ) ) &&
+                is_river( south->get_ter( i + 1, 0, 0 ) ) ) {
+                if( river_end.empty() ||
+                    river_end[river_end.size() - 1].x < i - 6 ) {
+                    river_end.push_back( point( i, OMAPY - 1 ) );
+                }
+            }
+        }
+    }
+    size_t rivers_to_south = river_end.size();
+    if( east != nullptr ) {
+        for( int i = 2; i < OMAPY - 2; i++ ) {
+            if( is_river( east->get_ter( 0, i, 0 ) ) ) {
+                ter( OMAPX - 1, i, 0 ) = river_center;
+            }
+            if( is_river( east->get_ter( 0, i, 0 ) ) &&
+                is_river( east->get_ter( 0, i - 1, 0 ) ) &&
+                is_river( east->get_ter( 0, i + 1, 0 ) ) ) {
+                if( river_end.size() == rivers_to_south ||
+                    river_end[river_end.size() - 1].y < i - 6 ) {
+                    river_end.push_back( point( OMAPX - 1, i ) );
+                }
+            }
+        }
+    }
+
+    // Even up the start and end points of rivers. (difference of 1 is acceptable)
+    // Also ensure there's at least one of each.
+    std::vector<point> new_rivers;
+    if( north == nullptr || west == nullptr ) {
+        while( river_start.empty() || river_start.size() + 1 < river_end.size() ) {
+            new_rivers.clear();
+            if( north == nullptr ) {
+                new_rivers.push_back( point( rng( 10, OMAPX - 11 ), 0 ) );
+            }
+            if( west == nullptr ) {
+                new_rivers.push_back( point( 0, rng( 10, OMAPY - 11 ) ) );
+            }
+            river_start.push_back( random_entry( new_rivers ) );
+        }
+    }
+    if( south == nullptr || east == nullptr ) {
+        while( river_end.empty() || river_end.size() + 1 < river_start.size() ) {
+            new_rivers.clear();
+            if( south == nullptr ) {
+                new_rivers.push_back( point( rng( 10, OMAPX - 11 ), OMAPY - 1 ) );
+            }
+            if( east == nullptr ) {
+                new_rivers.push_back( point( OMAPX - 1, rng( 10, OMAPY - 11 ) ) );
+            }
+            river_end.push_back( random_entry( new_rivers ) );
+        }
+    }
+
+    // Now actually place those rivers.
+    if( river_start.size() > river_end.size() && !river_end.empty() ) {
+        std::vector<point> river_end_copy = river_end;
+        while( !river_start.empty() ) {
+            const point start = random_entry_removed( river_start );
+            if( !river_end.empty() ) {
+                place_river( start, river_end[0] );
+                river_end.erase( river_end.begin() );
+            } else {
+                place_river( start, random_entry( river_end_copy ) );
+            }
+        }
+    } else if( river_end.size() > river_start.size() && !river_start.empty() ) {
+        std::vector<point> river_start_copy = river_start;
+        while( !river_end.empty() ) {
+            const point end = random_entry_removed( river_end );
+            if( !river_start.empty() ) {
+                place_river( river_start[0], end );
+                river_start.erase( river_start.begin() );
+            } else {
+                place_river( random_entry( river_start_copy ), end );
+            }
+        }
+    } else if( !river_end.empty() ) {
+        if( river_start.size() != river_end.size() ) {
+            river_start.push_back( point( rng( OMAPX / 4, ( OMAPX * 3 ) / 4 ),
+                                          rng( OMAPY / 4, ( OMAPY * 3 ) / 4 ) ) );
+        }
+        for( size_t i = 0; i < river_start.size(); i++ ) {
+            place_river( river_start[i], river_end[i] );
+        }
+    }
+}
+
 void overmap::place_swamps()
 {
     // Buffer our river terrains by a variable radius and increment a counter for the location each
@@ -2363,8 +2499,97 @@ void overmap::place_swamps()
     }
 }
 
+void overmap::place_roads( const overmap *north, const overmap *east, const overmap *south,
+                           const overmap *west )
+{
+    if( north != nullptr ) {
+        for( auto &i : north->roads_out ) {
+            if( i.pos.y == OMAPY - 1 ) {
+                roads_out.push_back( city( i.pos.x, 0, 0 ) );
+            }
+        }
+    }
+    if( west != nullptr ) {
+        for( auto &i : west->roads_out ) {
+            if( i.pos.x == OMAPX - 1 ) {
+                roads_out.push_back( city( 0, i.pos.y, 0 ) );
+            }
+        }
+    }
+    if( south != nullptr ) {
+        for( auto &i : south->roads_out ) {
+            if( i.pos.y == 0 ) {
+                roads_out.push_back( city( i.pos.x, OMAPY - 1, 0 ) );
+            }
+        }
+    }
+    if( east != nullptr ) {
+        for( auto &i : east->roads_out ) {
+            if( i.pos.x == 0 ) {
+                roads_out.push_back( city( OMAPX - 1, i.pos.y, 0 ) );
+            }
+        }
+    }
+
+    // Ideally we should have at least two exit points for roads, on different sides
+    if( roads_out.size() < 2 ) {
+        std::vector<city> viable_roads;
+        int tmp;
+        // Populate viable_roads with one point for each neighborless side.
+        // Make sure these points don't conflict with rivers.
+        // TODO: In theory this is a potential infinite loop...
+        if( north == nullptr ) {
+            do {
+                tmp = rng( 10, OMAPX - 11 );
+            } while( is_river( ter( tmp, 0, 0 ) ) || is_river( ter( tmp - 1, 0, 0 ) ) ||
+                     is_river( ter( tmp + 1, 0, 0 ) ) );
+            viable_roads.push_back( city( tmp, 0, 0 ) );
+        }
+        if( east == nullptr ) {
+            do {
+                tmp = rng( 10, OMAPY - 11 );
+            } while( is_river( ter( OMAPX - 1, tmp, 0 ) ) || is_river( ter( OMAPX - 1, tmp - 1, 0 ) ) ||
+                     is_river( ter( OMAPX - 1, tmp + 1, 0 ) ) );
+            viable_roads.push_back( city( OMAPX - 1, tmp, 0 ) );
+        }
+        if( south == nullptr ) {
+            do {
+                tmp = rng( 10, OMAPX - 11 );
+            } while( is_river( ter( tmp, OMAPY - 1, 0 ) ) || is_river( ter( tmp - 1, OMAPY - 1, 0 ) ) ||
+                     is_river( ter( tmp + 1, OMAPY - 1, 0 ) ) );
+            viable_roads.push_back( city( tmp, OMAPY - 1, 0 ) );
+        }
+        if( west == nullptr ) {
+            do {
+                tmp = rng( 10, OMAPY - 11 );
+            } while( is_river( ter( 0, tmp, 0 ) ) || is_river( ter( 0, tmp - 1, 0 ) ) ||
+                     is_river( ter( 0, tmp + 1, 0 ) ) );
+            viable_roads.push_back( city( 0, tmp, 0 ) );
+        }
+        while( roads_out.size() < 2 && !viable_roads.empty() ) {
+            roads_out.push_back( random_entry_removed( viable_roads ) );
+        }
+    }
+
+    std::vector<point> road_points; // cities and roads_out together
+    // Compile our master list of roads; it's less messy if roads_out is first
+    road_points.reserve( roads_out.size() + cities.size() );
+    for( const auto &elem : roads_out ) {
+        road_points.emplace_back( elem.pos );
+    }
+    for( const auto &elem : cities ) {
+        road_points.emplace_back( elem.pos.x, elem.pos.y );
+    }
+
+    // And finally connect them via roads.
+    const string_id<overmap_connection> local_road( "local_road" );
+    connect_closest_points( road_points, 0, *local_road );
+}
+
 void overmap::place_river( point pa, point pb )
 {
+    const oter_id river_center( "river_center" );
+
     int x = pa.x;
     int y = pa.y;
     do {
@@ -2385,7 +2610,9 @@ void overmap::place_river( point pa, point pb )
         for( int i = -1; i <= 1; i++ ) {
             for( int j = -1; j <= 1; j++ ) {
                 if( y + i >= 0 && y + i < OMAPY && x + j >= 0 && x + j < OMAPX ) {
-                    ter( x + j, y + i, 0 ) = oter_id( "river_center" );
+                    if( !ter( x + j, y + i, 0 )->is_lake() ) {
+                        ter( x + j, y + i, 0 ) = river_center;
+                    }
                 }
             }
         }
@@ -2429,7 +2656,10 @@ void overmap::place_river( point pa, point pb )
                 if( inbounds( tripoint( x + j, y + i, 0 ), 1 ) ||
                     // UNLESS, of course, that's where the river is headed!
                     ( abs( pb.y - ( y + i ) ) < 4 && abs( pb.x - ( x + j ) ) < 4 ) ) {
-                    ter( x + j, y + i, 0 ) = oter_id( "river_center" );
+
+                    if( !ter( x + j, y + i, 0 )->is_lake() ) {
+                        ter( x + j, y + i, 0 ) = river_center;
+                    }
                 }
             }
         }
@@ -2768,7 +2998,8 @@ bool overmap::build_lab( int x, int y, int z, int s, std::vector<point> *lab_tra
                      ter( trainx, trainy, z ) == labt_finale ||
                      adjacent_labs != 1 ) );
         if( tries < 50 ) {
-            lab_train_points->push_back( point( trainx, trainy ) );
+            lab_train_points->push_back( point( trainx, trainy ) ); // possible train depot
+            // next is rail connection
             if( is_ot_subtype( "lab", ter( trainx, trainy - 1, z ) ) ) {
                 lab_train_points->push_back( point( trainx, trainy + 1 ) );
             } else if( is_ot_subtype( "lab", ter( trainx, trainy + 1, z ) ) ) {
@@ -3266,9 +3497,9 @@ void overmap::good_river( int x, int y, int z )
         return;
     }
     if( ( x == 0 ) || ( x == OMAPX - 1 ) ) {
-        if( !is_river( ter( x, y - 1, z ) ) ) {
+        if( !is_river_or_lake( ter( x, y - 1, z ) ) ) {
             ter( x, y, z ) = oter_id( "river_north" );
-        } else if( !is_river( ter( x, y + 1, z ) ) ) {
+        } else if( !is_river_or_lake( ter( x, y + 1, z ) ) ) {
             ter( x, y, z ) = oter_id( "river_south" );
         } else {
             ter( x, y, z ) = oter_id( "river_center" );
@@ -3276,28 +3507,28 @@ void overmap::good_river( int x, int y, int z )
         return;
     }
     if( ( y == 0 ) || ( y == OMAPY - 1 ) ) {
-        if( !is_river( ter( x - 1, y, z ) ) ) {
+        if( !is_river_or_lake( ter( x - 1, y, z ) ) ) {
             ter( x, y, z ) = oter_id( "river_west" );
-        } else if( !is_river( ter( x + 1, y, z ) ) ) {
+        } else if( !is_river_or_lake( ter( x + 1, y, z ) ) ) {
             ter( x, y, z ) = oter_id( "river_east" );
         } else {
             ter( x, y, z ) = oter_id( "river_center" );
         }
         return;
     }
-    if( is_river( ter( x - 1, y, z ) ) ) {
-        if( is_river( ter( x, y - 1, z ) ) ) {
-            if( is_river( ter( x, y + 1, z ) ) ) {
-                if( is_river( ter( x + 1, y, z ) ) ) {
+    if( is_river_or_lake( ter( x - 1, y, z ) ) ) {
+        if( is_river_or_lake( ter( x, y - 1, z ) ) ) {
+            if( is_river_or_lake( ter( x, y + 1, z ) ) ) {
+                if( is_river_or_lake( ter( x + 1, y, z ) ) ) {
                     // River on N, S, E, W;
                     // but we might need to take a "bite" out of the corner
-                    if( !is_river( ter( x - 1, y - 1, z ) ) ) {
+                    if( !is_river_or_lake( ter( x - 1, y - 1, z ) ) ) {
                         ter( x, y, z ) = oter_id( "river_c_not_nw" );
-                    } else if( !is_river( ter( x + 1, y - 1, z ) ) ) {
+                    } else if( !is_river_or_lake( ter( x + 1, y - 1, z ) ) ) {
                         ter( x, y, z ) = oter_id( "river_c_not_ne" );
-                    } else if( !is_river( ter( x - 1, y + 1, z ) ) ) {
+                    } else if( !is_river_or_lake( ter( x - 1, y + 1, z ) ) ) {
                         ter( x, y, z ) = oter_id( "river_c_not_sw" );
-                    } else if( !is_river( ter( x + 1, y + 1, z ) ) ) {
+                    } else if( !is_river_or_lake( ter( x + 1, y + 1, z ) ) ) {
                         ter( x, y, z ) = oter_id( "river_c_not_se" );
                     } else {
                         ter( x, y, z ) = oter_id( "river_center" );
@@ -3306,43 +3537,43 @@ void overmap::good_river( int x, int y, int z )
                     ter( x, y, z ) = oter_id( "river_east" );
                 }
             } else {
-                if( is_river( ter( x + 1, y, z ) ) ) {
+                if( is_river_or_lake( ter( x + 1, y, z ) ) ) {
                     ter( x, y, z ) = oter_id( "river_south" );
                 } else {
                     ter( x, y, z ) = oter_id( "river_se" );
                 }
             }
         } else {
-            if( is_river( ter( x, y + 1, z ) ) ) {
-                if( is_river( ter( x + 1, y, z ) ) ) {
+            if( is_river_or_lake( ter( x, y + 1, z ) ) ) {
+                if( is_river_or_lake( ter( x + 1, y, z ) ) ) {
                     ter( x, y, z ) = oter_id( "river_north" );
                 } else {
                     ter( x, y, z ) = oter_id( "river_ne" );
                 }
             } else {
-                if( is_river( ter( x + 1, y, z ) ) ) { // Means it's swampy
+                if( is_river_or_lake( ter( x + 1, y, z ) ) ) { // Means it's swampy
                     ter( x, y, z ) = oter_id( "forest_water" );
                 }
             }
         }
     } else {
-        if( is_river( ter( x, y - 1, z ) ) ) {
-            if( is_river( ter( x, y + 1, z ) ) ) {
-                if( is_river( ter( x + 1, y, z ) ) ) {
+        if( is_river_or_lake( ter( x, y - 1, z ) ) ) {
+            if( is_river_or_lake( ter( x, y + 1, z ) ) ) {
+                if( is_river_or_lake( ter( x + 1, y, z ) ) ) {
                     ter( x, y, z ) = oter_id( "river_west" );
                 } else { // Should never happen
                     ter( x, y, z ) = oter_id( "forest_water" );
                 }
             } else {
-                if( is_river( ter( x + 1, y, z ) ) ) {
+                if( is_river_or_lake( ter( x + 1, y, z ) ) ) {
                     ter( x, y, z ) = oter_id( "river_sw" );
                 } else { // Should never happen
                     ter( x, y, z ) = oter_id( "forest_water" );
                 }
             }
         } else {
-            if( is_river( ter( x, y + 1, z ) ) ) {
-                if( is_river( ter( x + 1, y, z ) ) ) {
+            if( is_river_or_lake( ter( x, y + 1, z ) ) ) {
+                if( is_river_or_lake( ter( x + 1, y, z ) ) ) {
                     ter( x, y, z ) = oter_id( "river_nw" );
                 } else { // Should never happen
                     ter( x, y, z ) = oter_id( "forest_water" );
@@ -3548,7 +3779,7 @@ bool overmap::can_place_special( const overmap_special &special, const tripoint 
         const oter_id tid = get_ter( rp );
 
         if( rp.z == 0 ) {
-            return special.can_be_placed_on( tid );
+            return elem.can_be_placed_on( tid );
         } else {
             return tid == get_default_terrain( rp.z );
         }
@@ -3578,7 +3809,7 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
             for( int x = -2; x <= 2; x++ ) {
                 for( int y = -2; y <= 2; y++ ) {
                     auto &cur_ter = ter( location.x + x, location.y + y, location.z );
-                    if( one_in( 1 + abs( x ) + abs( y ) ) && special.can_be_placed_on( cur_ter ) ) {
+                    if( one_in( 1 + abs( x ) + abs( y ) ) && elem.can_be_placed_on( cur_ter ) ) {
                         cur_ter = tid;
                     }
                 }
@@ -3834,7 +4065,7 @@ void overmap::place_mongroups()
         }
     }
 
-    if( !( get_option<bool>( "CLASSIC_ZOMBIES" ) || get_option<bool>( "DISABLE_ANIMAL_CLASH" ) ) ) {
+    if( get_option<bool>( "DISABLE_ANIMAL_CLASH" ) ) {
         // Figure out where swamps are, and place swamp monsters
         for( int x = 3; x < OMAPX - 3; x += 7 ) {
             for( int y = 3; y < OMAPY - 3; y += 7 ) {
@@ -3854,34 +4085,30 @@ void overmap::place_mongroups()
         }
     }
 
-    if( !get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
-        // Figure out where rivers are, and place swamp monsters
-        for( int x = 3; x < OMAPX - 3; x += 7 ) {
-            for( int y = 3; y < OMAPY - 3; y += 7 ) {
-                int river_count = 0;
-                for( int sx = x - 3; sx <= x + 3; sx++ ) {
-                    for( int sy = y - 3; sy <= y + 3; sy++ ) {
-                        if( is_river( ter( sx, sy, 0 ) ) ) {
-                            river_count++;
-                        }
+    // Figure out where rivers and lakes are, and place appropriate critters
+    for( int x = 3; x < OMAPX - 3; x += 7 ) {
+        for( int y = 3; y < OMAPY - 3; y += 7 ) {
+            int river_count = 0;
+            for( int sx = x - 3; sx <= x + 3; sx++ ) {
+                for( int sy = y - 3; sy <= y + 3; sy++ ) {
+                    if( is_river_or_lake( ter( sx, sy, 0 ) ) ) {
+                        river_count++;
                     }
                 }
-                if( river_count >= 25 ) {
-                    add_mon_group( mongroup( mongroup_id( "GROUP_RIVER" ), x * 2, y * 2, 0, 3,
-                                             rng( river_count * 8, river_count * 25 ) ) );
-                }
+            }
+            if( river_count >= 25 ) {
+                add_mon_group( mongroup( mongroup_id( "GROUP_RIVER" ), x * 2, y * 2, 0, 3,
+                                         rng( river_count * 8, river_count * 25 ) ) );
             }
         }
     }
 
-    if( !get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
-        // Place the "put me anywhere" groups
-        int numgroups = rng( 0, 3 );
-        for( int i = 0; i < numgroups; i++ ) {
-            add_mon_group( mongroup( mongroup_id( "GROUP_WORM" ), rng( 0, OMAPX * 2 - 1 ), rng( 0,
-                                     OMAPY * 2 - 1 ), 0,
-                                     rng( 20, 40 ), rng( 30, 50 ) ) );
-        }
+    // Place the "put me anywhere" groups
+    int numgroups = rng( 0, 3 );
+    for( int i = 0; i < numgroups; i++ ) {
+        add_mon_group( mongroup( mongroup_id( "GROUP_WORM" ), rng( 0, OMAPX * 2 - 1 ), rng( 0,
+                                 OMAPY * 2 - 1 ), 0,
+                                 rng( 20, 40 ), rng( 30, 50 ) ) );
     }
 }
 
@@ -4065,8 +4292,7 @@ cata::optional<basecamp *> overmap::find_camp( const int x, const int y )
 {
     for( auto &v : camps ) {
         if( v.camp_omt_pos().x == x && v.camp_omt_pos().y == y ) {
-            cata::optional<basecamp *> p;
-            p = &v;
+            cata::optional<basecamp *> p = &v;
             return p;
         }
     }
@@ -4098,11 +4324,11 @@ overmap_special_id overmap_specials::create_building_from( const string_id<oter_
     overmap_special new_special;
 
     new_special.id = overmap_special_id( "FakeSpecial_" + base.str() );
-    new_special.locations.insert( land );
-    new_special.locations.insert( swamp );
 
     overmap_special_terrain ter;
     ter.terrain = base.obj().get_first().id();
+    ter.locations.insert( land );
+    ter.locations.insert( swamp );
     new_special.terrains.push_back( ter );
 
     return specials.insert( new_special ).id;

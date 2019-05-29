@@ -1,0 +1,12 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "classic_zombies",
+    "name": "Classic zombies",
+    "authors": [ "Hirmuolio" ],
+    "maintainers": [ "" ],
+    "description": "Only spawn classic zombies and natural wildlife.  This disables certain buildings and map extras.",
+    "category": "monster_exclude",
+    "dependencies": [ "dda" ]
+  }
+]

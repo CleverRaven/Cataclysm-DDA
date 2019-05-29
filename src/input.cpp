@@ -532,7 +532,14 @@ void input_manager::remove_input_for_action(
                 // user will fallback to the hotkey in the default context.
                 actions.erase( action );
             } else {
-                action->second.input_events.clear();
+                // If a context no longer has any keybindings remaining for an action but
+                // there's an attempt to remove bindings anyway, presumably the user wants
+                // to fully remove the binding from that context.
+                if( action->second.input_events.empty() ) {
+                    actions.erase( action );
+                } else {
+                    action->second.input_events.clear();
+                }
             }
         }
     }
@@ -705,11 +712,12 @@ const std::string input_context::get_desc( const std::string &action_descriptor,
         return "(*)"; // * for wildcard
     }
 
+    bool is_local = false;
     const std::vector<input_event> &events = inp_mngr.get_input_for_action( action_descriptor,
-            category );
+            category, &is_local );
 
     if( events.empty() ) {
-        return _( "Unbound!" );
+        return is_local ? _( "Unbound locally!" ) : _( "Unbound globally!" ) ;
     }
 
     std::vector<input_event> inputs_to_show;
@@ -1096,20 +1104,26 @@ void input_context::display_menu()
 
             // Check if this entry is local or global.
             bool is_local = false;
-            inp_mngr.get_action_attributes( action_id, category, &is_local );
+            const action_attributes &actions = inp_mngr.get_action_attributes( action_id, category, &is_local );
+            bool is_empty = actions.input_events.empty();
             const std::string name = get_action_name( action_id );
 
-            if( status == s_remove && ( !get_option<bool>( "QUERY_KEYBIND_REMOVAL" ) ||
-                                        query_yn( _( "Clear keys for %s?" ), name ) ) ) {
+            // We don't want to completely delete a global context entry.
+            // Only attempt removal for a local context, or when there's
+            // bindings for the default context.
+            if( status == s_remove && ( is_local || !is_empty ) ) {
+                if( !get_option<bool>( "QUERY_KEYBIND_REMOVAL" ) || query_yn( is_local &&
+                        is_empty ? _( "Reset to global bindings for %s?" ) : _( "Clear keys for %s?" ), name ) ) {
 
-                // If it's global, reset the global actions.
-                std::string category_to_access = category;
-                if( !is_local ) {
-                    category_to_access = default_context_id;
+                    // If it's global, reset the global actions.
+                    std::string category_to_access = category;
+                    if( !is_local ) {
+                        category_to_access = default_context_id;
+                    }
+
+                    inp_mngr.remove_input_for_action( action_id, category_to_access );
+                    changed = true;
                 }
-
-                inp_mngr.remove_input_for_action( action_id, category_to_access );
-                changed = true;
             } else if( status == s_add_global && is_local ) {
                 // Disallow adding global actions to an action that already has a local defined.
                 popup( _( "There are already local keybindings defined for this action, please remove them first." ) );

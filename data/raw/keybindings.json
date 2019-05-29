@@ -915,20 +915,6 @@
   },
   {
     "type": "keybinding",
-    "name": "Zoom In",
-    "category": "TARGET",
-    "id": "zoom_in",
-    "bindings": [ { "input_method": "keyboard", "key": "z" } ]
-  },
-  {
-    "type": "keybinding",
-    "name": "Zoom Out",
-    "category": "TARGET",
-    "id": "zoom_out",
-    "bindings": [ { "input_method": "keyboard", "key": "Z" } ]
-  },
-  {
-    "type": "keybinding",
     "id": "CENTER",
     "name": "Center On Character",
     "bindings": [ { "input_method": "keyboard", "key": "0" } ]
@@ -1829,14 +1815,12 @@
   {
     "type": "keybinding",
     "name": "Zoom In",
-    "category": "DEFAULTMODE",
     "id": "zoom_in",
     "bindings": [ { "input_method": "keyboard", "key": "z" } ]
   },
   {
     "type": "keybinding",
     "name": "Zoom Out",
-    "category": "DEFAULTMODE",
     "id": "zoom_out",
     "bindings": [ { "input_method": "keyboard", "key": "Z" } ]
   },
@@ -1857,6 +1841,12 @@
     "name": "View Scentmap",
     "category": "DEFAULTMODE",
     "id": "debug_scent"
+  },
+  {
+    "type": "keybinding",
+    "name": "View Temperature Map",
+    "category": "DEFAULTMODE",
+    "id": "debug_temp"
   },
   {
     "type": "keybinding",
@@ -2072,6 +2062,12 @@
   },
   {
     "type": "keybinding",
+    "id": "cast_spell",
+    "name": "Spellcasting",
+    "category": "DEFAULTMODE"
+  },
+  {
+    "type": "keybinding",
     "id": "COMPARE",
     "category": "LIST_ITEMS",
     "name": "Compare",
@@ -2143,20 +2139,6 @@
     "category": "LOOK",
     "name": "List items and monsters",
     "bindings": [ { "input_method": "keyboard", "key": "V" } ]
-  },
-  {
-    "type": "keybinding",
-    "name": "Zoom In",
-    "category": "LOOK",
-    "id": "zoom_in",
-    "bindings": [ { "input_method": "keyboard", "key": "z" } ]
-  },
-  {
-    "type": "keybinding",
-    "name": "Zoom Out",
-    "category": "LOOK",
-    "id": "zoom_out",
-    "bindings": [ { "input_method": "keyboard", "key": "Z" } ]
   },
   {
     "type": "keybinding",

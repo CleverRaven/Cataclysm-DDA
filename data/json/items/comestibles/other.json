@@ -571,7 +571,7 @@
     "vitamins": [ [ "calcium", 1 ], [ "iron", 7 ] ],
     "fun": 5,
     "color": "brown",
-    "flags": [ "INEDIBLE", "BIRD" ],
+    "flags": [ "INEDIBLE", "BIRD", "NUTRIENT_OVERRIDE" ],
     "use_action": "BIRDFOOD"
   },
   {

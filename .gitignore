@@ -171,3 +171,8 @@ Xcode/
 
 # gdb
 .gdb_history
+
+# Flatpak build artifacts
+/.flatpak-builder/
+/repo/
+/build-dir/

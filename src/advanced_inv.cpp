@@ -1,6 +1,7 @@
 #include "advanced_inv.h"
 
 #include "auto_pickup.h"
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "debug.h"
@@ -341,6 +342,15 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         }
 
         std::string item_name;
+        std::string stolen_string;
+        bool stolen = false;
+        if( it.has_owner() ) {
+            const faction *item_fac = it.get_owner();
+            if( item_fac != g->faction_manager_ptr->get( faction_id( "your_followers" ) ) ) {
+                stolen_string = string_format( "<color_light_red>!</color>" );
+                stolen = true;
+            }
+        }
         if( it.ammo_type() == "money" ) {
             //Count charges
             // TODO: transition to the item_location system used for the normal inventory
@@ -348,9 +358,18 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             for( const auto item : sitem.items ) {
                 charges_total += item->charges;
             }
-            item_name = it.display_money( sitem.items.size(), charges_total );
+            if( stolen ) {
+                item_name = string_format( "%s %s", stolen_string, it.display_money( sitem.items.size(),
+                                           charges_total ) );
+            } else {
+                item_name = it.display_money( sitem.items.size(), charges_total );
+            }
         } else {
-            item_name = it.display_name();
+            if( stolen ) {
+                item_name = string_format( "%s %s", stolen_string, it.display_name() );
+            } else {
+                item_name = it.display_name();
+            }
         }
         if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
             item_name = string_format( "%s %s", it.symbol(), item_name );
@@ -615,7 +634,8 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
         const char *bracket = ( squares[i].can_store_in_vehicle() ) ? "<>" : "[]";
         bool in_vehicle = ( pane.in_vehicle() && squares[i].id == area && sel == area && area != AIM_ALL );
         bool all_brackets = ( area == AIM_ALL && ( i >= AIM_SOUTHWEST && i <= AIM_NORTHEAST ) );
-        nc_color bcolor = c_red, kcolor = c_red;
+        nc_color bcolor = c_red;
+        nc_color kcolor = c_red;
         if( squares[i].canputitems( pane.get_cur_item_ptr() ) ) {
             bcolor = ( in_vehicle ) ? c_light_blue :
                      ( area == i || all_brackets ) ? c_light_gray : c_dark_gray;
@@ -774,11 +794,6 @@ void advanced_inv_area::init()
     }
 }
 
-std::string center_text( const char *str, int width )
-{
-    return std::string( ( ( width - strlen( str ) ) / 2 ), ' ' ) + str;
-}
-
 void advanced_inventory::init()
 {
     for( auto &square : squares ) {
@@ -902,7 +917,7 @@ bool advanced_inventory_pane::is_filtered( const item &it ) const
 }
 
 // roll our own, to handle moving stacks better
-typedef std::vector<std::list<item *>> itemstack;
+using itemstack = std::vector<std::list<item *> >;
 
 template <typename T>
 static itemstack i_stacked( T items )

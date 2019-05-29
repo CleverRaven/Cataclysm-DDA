@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "action.h"
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "game.h"
 #include "gamemode.h"
@@ -46,7 +47,7 @@ bool tutorial_game::init()
         elem = false;
     }
     g->scent.reset();
-    g->temperature = 65;
+    g->weather.temperature = 65;
     // We use a Z-factor of 10 so that we don't plop down tutorial rooms in the
     // middle of the "real" game world
     g->u.normalize();

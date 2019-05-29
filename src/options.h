@@ -117,7 +117,7 @@ class options_manager
 
                 static std::vector<std::string> getPrerequisiteSupportedTypes() {
                     return { "bool", "string", "string_select", "string_input" };
-                };
+                }
 
                 void setPrerequisites( const std::string &sOption, const std::vector<std::string> &sAllowedValues );
                 void setPrerequisite( const std::string &sOption, const std::string &sAllowedValue = "true" ) {
@@ -183,7 +183,7 @@ class options_manager
                 float fStep;
         };
 
-        typedef std::unordered_map<std::string, cOpt> options_container;
+        using options_container = std::unordered_map<std::string, cOpt>;
 
         void init();
         void add_options_general();

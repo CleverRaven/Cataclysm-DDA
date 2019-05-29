@@ -22,8 +22,8 @@ class JsonOut;
 
 struct MonsterGroupEntry;
 
-typedef std::vector<MonsterGroupEntry> FreqDef;
-typedef FreqDef::iterator FreqDef_iter;
+using FreqDef = std::vector<MonsterGroupEntry>;
+using FreqDef_iter = FreqDef::iterator;
 
 struct MonsterGroupEntry {
     mtype_id name;
@@ -35,7 +35,7 @@ struct MonsterGroupEntry {
     time_duration starts;
     time_duration ends;
     bool lasts_forever() const {
-        return ( ends <= 0_turns );
+        return ends <= 0_turns;
     }
 
     MonsterGroupEntry( const mtype_id &id, int new_freq, int new_cost,
@@ -185,7 +185,7 @@ class MonsterGroupManager
 
     private:
         static std::map<mongroup_id, MonsterGroup> monsterGroupMap;
-        typedef std::set<std::string> t_string_set;
+        using t_string_set = std::set<std::string>;
         static t_string_set monster_blacklist;
         static t_string_set monster_whitelist;
         static t_string_set monster_categories_blacklist;

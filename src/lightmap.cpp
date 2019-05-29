@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "fragment_cloud.h" // IWYU pragma: keep
 #include "game.h"
 #include "map.h"
@@ -94,7 +95,7 @@ void map::build_transparency_cache( const int zlev )
         &transparency_cache[0][0], MAPSIZE_X * MAPSIZE_Y,
         static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR ) );
 
-    const float sight_penalty = weather_data( g->weather ).sight_penalty;
+    const float sight_penalty = weather_data( g->weather.weather ).sight_penalty;
 
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
@@ -232,7 +233,7 @@ void map::build_sunlight_cache( int zlev )
     const auto &prev_transparency_cache = prev_map_cache.transparency_cache;
     const auto &prev_floor_cache = prev_map_cache.floor_cache;
     const auto &outside_cache = map_cache.outside_cache;
-    const float sight_penalty = weather_data( g->weather ).sight_penalty;
+    const float sight_penalty = weather_data( g->weather.weather ).sight_penalty;
     for( int x = 0, prev_x = offset.x; x < MAPSIZE_X; x++, prev_x++ ) {
         bool x_inbounds = true;
         if( prev_x < 0 || prev_x >= MAPSIZE_X ) {
@@ -1443,6 +1444,7 @@ void map::apply_light_arc( const tripoint &p, int angle, float luminance, int wi
     // attempt to determine beam density required to cover all squares
     const double wstep = ( wangle / ( wdist * SQRT_2 ) );
 
+    // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter)
     for( double ao = wstep; ao <= wangle; ao += wstep ) {
         if( trigdist ) {
             double fdist = ( ao * HALFPI ) / wangle;

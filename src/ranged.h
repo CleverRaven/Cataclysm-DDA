@@ -3,9 +3,11 @@
 
 #include <functional>
 #include <vector>
+#include "type_id.h"
 
 class item;
 class player;
+class spell;
 struct itype;
 struct tripoint;
 
@@ -22,7 +24,8 @@ enum target_mode : int {
     TARGET_MODE_TURRET,
     TARGET_MODE_TURRET_MANUAL,
     TARGET_MODE_REACH,
-    TARGET_MODE_THROW_BLIND
+    TARGET_MODE_THROW_BLIND,
+    TARGET_MODE_SPELL
 };
 
 // TODO: move callbacks to a new struct and define some constructors for ease of use
@@ -64,6 +67,9 @@ class target_handler
                                          const itype *ammo = nullptr,
                                          const target_callback &on_mode_change = target_callback(),
                                          const target_callback &on_ammo_change = target_callback() );
+        // magic version of target_ui
+        std::vector<tripoint> target_ui( spell_id sp );
+        std::vector<tripoint> target_ui( spell &casting );
 };
 
 int range_with_even_chance_of_good_hit( int dispersion );

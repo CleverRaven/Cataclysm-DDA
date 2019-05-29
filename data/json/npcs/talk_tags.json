@@ -479,6 +479,21 @@
   },
   {
     "type": "snippet",
+    "category": "<witnessed_thievery>",
+    "text": [
+      "Hey! I <swear> saw you take that <name_b>! Drop it. Now.",
+      "You best be dropping what you just picked up right now <name_b>.",
+      "I've got eyes, you <swear> <name_b> thief!",
+      "Hey! That belongs to us! Drop it.",
+      "<swear>, I've seen a <swear> thief!",
+      "I saw that! Drop what you just stole!",
+      "Thieves will not last long around me <name_g>, please drop that.",
+      "Consider this a warning <name_b>, thieves will not be tolerated, drop it.",
+      "You think I'm <swear> blind <name_b>? Don't touch our stuff."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<happy>",
     "text": [
       "content",
@@ -879,6 +894,46 @@
     "type": "snippet",
     "category": "<crack_smoke>",
     "text": [ "Ew, smells like burning rubber!", "Ugh, that smells rancid!", "<meth_smoke>" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<need_batteries>",
+    "text": [
+      "I need some batteries to power my CBMs.",
+      "I can't recharge my CBMs without some batteries.",
+      "Hey, <name_g>, can I get some batteries here?  I need to recharge."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<need_booze>",
+    "text": [
+      "Pass me a beer, I need to power my ethanol burner.",
+      "Ethanol burners!  The power source that's fun to recharge.  Get me a drink, please!",
+      "Waiter!  I need a refill, my ethanol burner is running out of charge!"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<need_junk>",
+    "text": [
+      "I need some junk to power my internal furnace.",
+      "I can't recharge my CBMs without some firewood for my internal furnace.",
+      "Hey, <name_g>, can I get some waste paper or withered plants?  I need to recharge."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<need_radioactives>",
+    "text": [
+      "I can't believe I'm saying this, but I need radioactive plutonium slurry for my internal reactor.",
+      "I can't use my internal reactor to recharge my CBMs without some plutonium slurry.",
+      "Hey, <name_g>, pass me some plutonium slurry if you have any, I need to refuel my internal reactor.",
+      "Beta radiation can be blocked by clothing, but is really dangerous if you ingest it.  So can I have some plutonium slurry to power my reactor and give me cancer?",
+      "I need some radioactive slurry to power my reactor.  Or a less dangerous power source, that would be even better!",
+      "Please, <name_g>, get me some radioactive slurry to fuel my internal reactor.  Or get me another way to recharge my CBMs!",
+      "I can't use my internal reactor to recharge my CBMs without some plutonium slurry.  Which wouldn't be a problem if I had anything else that would recharge my CBMs!"
+    ]
   },
   {
     "type": "snippet",

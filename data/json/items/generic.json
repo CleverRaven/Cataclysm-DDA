@@ -377,6 +377,20 @@
     "to_hit": -3
   },
   {
+    "type": "GENERIC",
+    "id": "data_card",
+    "symbol": ",",
+    "color": "white",
+    "name": "data card",
+    "description": "Some type of advanced data storage device.  Useful for storing very large amounts of information.",
+    "price": 10000,
+    "price_postapoc": 100,
+    "material": "plastic",
+    "weight": 18,
+    "volume": 0,
+    "to_hit": -3
+  },
+  {
     "id": "golf_tee",
     "type": "GENERIC",
     "category": "other",
@@ -840,7 +854,7 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -857,7 +871,7 @@
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -874,7 +888,7 @@
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -892,7 +906,31 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_nursebot",
+    "symbol": ",",
+    "color": "dark_gray",
+    "name": "broken nurse bot",
+    "category": "other",
+    "description": "A broken nurse bot.  Its smooth face staring vacantly into empty space.  Could be gutted for parts.",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 140000,
+    "volume": 250,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_nursebot_defective",
+    "name": "broken nurse bot",
+    "copy-from": "broken_nursebot"
   },
   {
     "type": "GENERIC",
@@ -902,6 +940,24 @@
     "name": "broken riot control bot",
     "category": "other",
     "description": "A broken riot control bot.  Much less threatening now that it's out of gas.  Could be gutted for parts.",
+    "price": 30000,
+    "price_postapoc": 1000,
+    "material": [ "steel", "plastic" ],
+    "weight": 140000,
+    "volume": 250,
+    "bashing": 6,
+    "cutting": 6,
+    "to_hit": -3,
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "broken_robofac_prototype",
+    "symbol": ",",
+    "color": "green",
+    "name": "broken prototype robot",
+    "category": "other",
+    "description": "A broken prototype robot, well more broken than before.  Could be gutted for parts.",
     "price": 30000,
     "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
@@ -928,7 +984,7 @@
     "bashing": 6,
     "cutting": 10,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -945,7 +1001,7 @@
     "bashing": 10,
     "cutting": 6,
     "to_hit": -2,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -962,7 +1018,7 @@
     "bashing": 20,
     "cutting": 15,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -979,7 +1035,7 @@
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -996,7 +1052,7 @@
     "bashing": 4,
     "cutting": 4,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1013,7 +1069,7 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1031,7 +1087,7 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1049,7 +1105,7 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1067,7 +1123,7 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1085,7 +1141,7 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1103,7 +1159,7 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1121,7 +1177,7 @@
     "bashing": 6,
     "cutting": 6,
     "to_hit": -3,
-    "flags": [ "TRADER_AVOID" ]
+    "flags": [ "TRADER_AVOID", "NO_REPAIR" ]
   },
   {
     "type": "GENERIC",
@@ -1645,6 +1701,13 @@
     "weight": 89,
     "volume": 1,
     "cutting": 6,
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_glass",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You carefuly place the shards on the ground, ready to be cracked by something passing by."
+    },
     "flags": [ "HURT_WHEN_WIELDED", "HURT_WHEN_PULLED", "TRADER_AVOID" ],
     "to_hit": -1
   },
@@ -1676,7 +1739,14 @@
     "weight": 24176,
     "volume": 50,
     "bashing": 4,
-    "to_hit": -5
+    "to_hit": -5,
+    "use_action": {
+      "type": "place_trap",
+      "trap": "tr_glass",
+      "moves": 150,
+      "practice": 2,
+      "done_message": "You break the pane and place the shards on the ground, ready to be cracked by something passing by."
+    }
   },
   {
     "type": "GENERIC",
@@ -2093,6 +2163,65 @@
     "container": "bag_canvas",
     "price": 5000,
     "material": "powder",
+    "weight": 2340,
+    "volume": 4,
+    "bashing": 4
+  },
+  {
+    "type": "GENERIC",
+    "id": "soft_adobe_brick",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "brown",
+    "name": "soft adobe brick",
+    "name_plural": "soft adobe bricks",
+    "description": "A compacted mass of soil and natural fibers, still too wet to build with.  Load it onto a pallet and leave it to dry.",
+    "price": 0,
+    "material": "soil",
+    "weight": 1750,
+    "volume": 3,
+    "bashing": 2,
+    "to_hit": -3,
+    "use_action": {
+      "target": "adobe_brick",
+      "msg": "You test the brick, and it seems solid enough to use.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 100800,
+      "not_ready_msg": "The brick is still too damp to bear weight.",
+      "//": "Should be about a week. Irl it's ten days, so make big batches."
+    }
+  },
+  {
+    "type": "GENERIC",
+    "id": "adobe_brick",
+    "category": "spare_parts",
+    "symbol": ",",
+    "color": "yellow",
+    "looks_like": "brick",
+    "name": "adobe brick",
+    "description": "A compacted mass of soil and natural fibers, baked dry enough to harden into a brick.",
+    "material": "soil",
+    "flags": "NONCONDUCTIVE",
+    "weight": 1500,
+    "volume": 3,
+    "bashing": 10,
+    "to_hit": -2,
+    "price": 2000,
+    "qualities": [ [ "HAMMER", 1 ] ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "mortar_adobe",
+    "symbol": "%",
+    "color": "brown",
+    "name": "adobe mortar",
+    "name_plural": "adobe mortar",
+    "description": "A thick, pasty mud, low in sand content to reduce crumbling once dry.  Used to glue larger, heavier pieces of mud and clay together.",
+    "category": "spare_parts",
+    "container": "bag_canvas",
+    "price": 200,
+    "material": "soil",
     "weight": 2340,
     "volume": 4,
     "bashing": 4
@@ -2657,6 +2786,33 @@
       100000
     ],
     "ammo": "money"
+  },
+  {
+    "id": "robofac_test_data",
+    "type": "TOOL",
+    "symbol": ",",
+    "color": "yellow",
+    "name": "prototype I/O recorder",
+    "description": "This small transparent card was attached to the prototype robot's CPU.  It might contain the data the intercom spoke of.",
+    "category": "other",
+    "price": 500,
+    "material": "plastic",
+    "weight": 6,
+    "volume": 0,
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "rmi2_corpse",
+    "symbol": "%",
+    "color": "white",
+    "name": "desiccated corpse",
+    "description": "A badly mangled and desiccated partial corpse.  It seems whatever thing killed him did so with a single swipe of a gigantic claw.",
+    "category": "other",
+    "material": "hflesh",
+    "price": 0,
+    "volume": 30,
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "gasdiscount_silver",

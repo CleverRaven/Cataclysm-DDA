@@ -27,6 +27,15 @@
     "components": [ [ [ "scrap", 5 ] ] ]
   },
   {
+    "result": "mattress",
+    "type": "uncraft",
+    "skill_used": "tailor",
+    "difficulty": 1,
+    "time": 2200,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "rag", 60 ] ], [ [ "sheet", 4 ] ] ]
+  },
+  {
     "result": "character_sheet",
     "type": "uncraft",
     "skill_used": "fabrication",

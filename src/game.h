@@ -30,6 +30,7 @@
 #include "type_id.h"
 #include "monster.h"
 #include "game_inventory.h"
+#include "weather.h"
 
 #define DEFAULT_TILESET_ZOOM 16
 
@@ -83,6 +84,7 @@ struct targeting_data;
 struct special_game;
 
 using itype_id = std::string;
+class avatar;
 class map;
 class faction_manager;
 class new_faction_manager;
@@ -95,7 +97,7 @@ class map_item_stack;
 struct WORLD;
 class save_t;
 
-typedef WORLD *WORLDPTR;
+using WORLDPTR = WORLD *;
 class overmap;
 class event_manager;
 
@@ -109,7 +111,7 @@ struct visibility_variables;
 class scent_map;
 class loading_ui;
 
-typedef std::function<bool( const item & )> item_filter;
+using item_filter = std::function<bool ( const item & )>;
 
 enum peek_act : int {
     PA_BLIND_THROW
@@ -127,6 +129,8 @@ struct w_map {
     bool toggle;
     catacurses::window win;
 };
+
+bool is_valid_in_w_terrain( int x, int y );
 
 // There is only one game instance, so losing a few bytes of memory
 // due to padding is not much of a concern.
@@ -178,6 +182,11 @@ class game
          */
         bool load_packs( const std::string &msg, const std::vector<mod_id> &packs, loading_ui &ui );
 
+        /**
+         * @brief Should be invoked whenever options change.
+         */
+        void on_options_changed();
+
     protected:
         /** Loads dynamic data from the given directory. May throw. */
         void load_data_from_dir( const std::string &path, const std::string &src, loading_ui &ui );
@@ -206,8 +215,13 @@ class game
         void draw();
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
-        void draw_panels();
-        void draw_panels( size_t column, size_t index );
+
+        // when force_redraw is true, redraw all panel instead of just animated panels
+        // mostly used after UI updates
+        void draw_panels( bool force_draw = false );
+        // when force_redraw is true, redraw all panel instead of just animated panels
+        // mostly used after UI updates
+        void draw_panels( size_t column, size_t index, bool force_draw = false );
         /**
          * Returns the location where the indicator should go relative to the reality bubble,
          * or nothing to indicate no indicator should be drawn.
@@ -398,27 +412,6 @@ class game
         bool revive_corpse( const tripoint &location, item &corpse );
         /**Turns Broken Cyborg monster into Cyborg NPC via surgery*/
         void save_cyborg( item *cyborg, const tripoint couch_pos, player &installer );
-        /**
-         * Returns true if the player is allowed to fire a given item, or false if otherwise.
-         * reload_time is stored as a side effect of condition testing.
-         * @param args Contains item data and targeting mode for the gun we want to fire.
-         * @return True if all conditions are true, otherwise false.
-         */
-        bool plfire_check( const targeting_data &args );
-
-        /**
-         * Handles interactive parts of gun firing (target selection, etc.).
-         * @return Whether an attack was actually performed.
-         */
-        bool plfire();
-        /**
-         * Handles interactive parts of gun firing (target selection, etc.).
-         * This version stores targeting parameters for weapon, used for calls to the nullary form.
-         * @param weapon Reference to a weapon we want to start aiming.
-         * @param bp_cost The amount by which the player's power reserve is decreased after firing.
-         * @return Whether an attack was actually performed.
-         */
-        bool plfire( item &weapon, int bp_cost = 0 );
         /** Redirects to player::cancel_activity(). */
         void cancel_activity();
         /** Asks if the player wants to cancel their activity, and if so cancels it. */
@@ -475,10 +468,10 @@ class game
 
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport( player *p = nullptr, bool add_teleglow = true );
-        /** Handles swimming by the player. Called by plmove(). */
+        /** Handles swimming by the player. Called by avatar_action::move(). */
         void plswim( const tripoint &p );
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
-        void catch_a_monster( std::vector<monster *> &catchables, const tripoint &pos, player *p,
+        void catch_a_monster( monster *fish, const tripoint &pos, player *p,
                               const time_duration &catch_duration );
         /**
          * Get the fishable monsters within the contiguous fishable terrain starting at fish_pos,
@@ -503,7 +496,7 @@ class game
         void refresh_all();
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
-        void update_map( player &p );
+        point update_map( player &p );
         point update_map( int &x, int &y );
         void update_overmap_seen(); // Update which overmap tiles we can see
 
@@ -582,9 +575,6 @@ class game
         */
         bool take_screenshot( const std::string &file_path ) const;
 
-        // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
-        int get_temperature( const tripoint &location );
-
         /**
          * The top left corner of the reality bubble (in submaps coordinates). This is the same
          * as @ref map::abs_sub of the @ref m map.
@@ -601,7 +591,6 @@ class game
          * The overmap which contains the center submap of the reality bubble.
          */
         overmap &get_cur_om() const;
-        const weather_generator &get_cur_weather_gen() const;
 
         /** Get all living player allies */
         std::vector<npc *> allies();
@@ -677,6 +666,15 @@ class game
         /** Attempt to load first valid save (if any) in world */
         bool load( const std::string &world );
 
+        /** Returns true if the menu handled stuff and player shouldn't do anything else */
+        bool npc_menu( npc &who );
+
+        // Handle phasing through walls, returns true if it handled the move
+        bool phasing_move( const tripoint &dest );
+        // Regular movement. Returns false if it failed for any reason
+        bool walk_move( const tripoint &dest );
+        void on_move_effects();
+
     private:
         // Game-start procedures
         void load( const save_t &name ); // Load a player-specific save file
@@ -722,28 +720,11 @@ class game
         /** Check for dangerous stuff at dest_loc, return false if the player decides
         not to step there */
         bool prompt_dangerous_tile( const tripoint &dest_loc ) const;
-        /** Returns true if the menu handled stuff and player shouldn't do anything else */
-        bool npc_menu( npc &who );
-        // Standard movement; handles attacks, traps, &c. Returns false if auto move
-        // should be canceled
-        bool plmove( int dx, int dy, int dz = 0 );
-        inline bool plmove( tripoint d ) {
-            return plmove( d.x, d.y, d.z );
-        }
-        inline bool plmove( point d ) {
-            return plmove( d.x, d.y );
-        }
         // Handle pushing during move, returns true if it handled the move
         bool grabbed_move( const tripoint &dp );
         bool grabbed_veh_move( const tripoint &dp );
         bool grabbed_furn_move( const tripoint &dp );
-        // Handle moving from a ramp
-        bool ramp_move( const tripoint &dest );
-        // Handle phasing through walls, returns true if it handled the move
-        bool phasing_move( const tripoint &dest );
-        // Regular movement. Returns false if it failed for any reason
-        bool walk_move( const tripoint &dest );
-        void on_move_effects();
+
 
         void control_vehicle(); // Use vehicle controls  '^'
         void examine( const tripoint &p ); // Examine nearby terrain  'e'
@@ -763,7 +744,6 @@ class game
         void reload( int pos, bool prompt = false );
         void reload( item_location &loc, bool prompt = false, bool empty = true );
         void mend( int pos = INT_MIN );
-        void autoattack();
     public:
         /** Eat food or fuel  'E' (or 'a') */
         void eat();
@@ -773,7 +753,7 @@ class game
         void reload_item(); // Reload an item
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
-        void place_player( const tripoint &dest );
+        point place_player( const tripoint &dest );
         void place_player_overmap( const tripoint &om_dest );
 
         bool unload( item &it ); // Unload a gun/tool  'U'
@@ -844,7 +824,6 @@ class game
         void monmove();          // Monster movement
         void overmap_npc_move(); // NPC overmap movement
         void process_activity(); // Processes and enacts the player's activity
-        void update_weather();   // Updates the temperature and weather patten
         void handle_key_blocking_activity(); // Abort reading etc.
         void open_consume_item_menu(); // Custom menu for consuming specific group of items
         bool handle_action();
@@ -853,6 +832,10 @@ class game
 
         void item_action_menu(); // Displays item action menu
 
+        bool is_game_over();     // Returns true if the player quit or died
+        void death_screen();     // Display our stats, "GAME OVER BOO HOO"
+        void draw_minimap();     // Draw the 5x5 minimap
+    public:
         /**
          * If there is a robot (that can be disabled), query the player
          * and try to disable it.
@@ -861,11 +844,6 @@ class game
          * has effectively done nothing.
          */
         bool disable_robot( const tripoint &p );
-
-        bool is_game_over();     // Returns true if the player quit or died
-        void death_screen();     // Display our stats, "GAME OVER BOO HOO"
-        void draw_minimap();     // Draw the 5x5 minimap
-    public:
         // Draws the pixel minimap based on the player's current location
         void draw_pixel_minimap( const catacurses::window &w );
     private:
@@ -902,6 +880,7 @@ class game
 
         // Debug functions
         void display_scent();   // Displays the scent map
+        void display_temperature();    // Displays temperature map
 
         Creature *is_hostile_within( int distance );
 
@@ -911,7 +890,7 @@ class game
     protected:
         // May be a bit hacky, but it's probably better than the header spaghetti
         pimpl<map> map_ptr;
-        pimpl<player> u_ptr;
+        pimpl<avatar> u_ptr;
         pimpl<live_view> liveview_ptr;
         live_view &liveview;
         pimpl<scent_map> scent_ptr;
@@ -920,7 +899,7 @@ class game
     public:
         /** Make map a reference here, to avoid map.h in game.h */
         map &m;
-        player &u;
+        avatar &u;
         scent_map &scent;
         event_manager &events;
 
@@ -933,12 +912,6 @@ class game
         /** True if the game has just started or loaded, else false. */
         bool new_game;
 
-        signed char temperature;              // The air temperature
-        bool lightning_active;
-        weather_type weather;   // Weather pattern--SEE weather.h
-        int winddirection;
-        int windspeed;
-        pimpl<w_point> weather_precise; // Cached weather data
         const scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairz;
@@ -965,23 +938,22 @@ class game
 
         bool debug_pathfinding = false; // show NPC pathfinding on overmap ui
         bool displaying_scent;
+        bool displaying_temperature;
 
         bool show_panel_adm;
         bool right_sidebar;
-        bool reinitmap;
         bool fullscreen;
         bool was_fullscreen;
+        bool auto_travel_mode = false;
+        safe_mode_type safe_mode;
 
         //pixel minimap management
         int pixel_minimap_option;
-        bool auto_travel_mode = false;
-        safe_mode_type safe_mode;
         int turnssincelastmon; // needed for auto run mode
-        cata::optional<int> wind_direction_override;
-        cata::optional<int> windspeed_override;
-        weather_type weather_override;
-        // not only sets nextweather, but updates weather as well
-        void set_nextweather( time_point t );
+
+        weather_manager weather;
+
+        int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:
         std::shared_ptr<player> u_shared_ptr;
         std::vector<std::shared_ptr<npc>> active_npc;
@@ -994,10 +966,8 @@ class game
         std::string list_item_downvote;
 
         std::vector<std::shared_ptr<monster>> new_seen_mon;
-        int mostseen;  // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
         bool safe_mode_warning_logged;
         bool bVMonsterLookFire;
-        time_point nextweather; // The time on which weather will shift next.
         int next_npc_id, next_mission_id; // Keep track of UIDs
         std::set<int> follower_ids; // Keep track of follower NPC IDs
         std::map<mtype_id, int> kills;         // Player's kill count
@@ -1008,8 +978,6 @@ class game
         // remoteveh() cache
         time_point remoteveh_cache_time;
         vehicle *remoteveh_cache;
-        /** temperature cache, cleared every turn, sparse map of map tripoints to temperatures */
-        std::unordered_map< tripoint, int > temperature_cache;
         /** Has a NPC been spawned since last load? */
         bool npcs_dirty;
         /** Has anything died in this turn and needs to be cleaned up? */

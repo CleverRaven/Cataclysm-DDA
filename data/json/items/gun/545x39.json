@@ -34,7 +34,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "545x39", [ "ak74mag", "rpk74mag" ] ], [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ],
+    "magazines": [ [ "545x39", [ "ak74mag", "rpk74mag" ] ] ],
     "flags": [ "NEVER_JAMS" ]
   },
   {
@@ -71,6 +71,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "545x39", [ "ak74mag", "rpk74mag" ] ], [ "223", [ "stanag30", "stanag50", "survivor223mag" ] ] ]
+    "magazines": [ [ "545x39", [ "ak74mag", "rpk74mag" ] ] ]
   }
 ]

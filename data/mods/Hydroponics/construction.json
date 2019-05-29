@@ -1,0 +1,25 @@
+[
+  {
+    "type": "construction",
+    "description": "Build Hydroponics",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ], [ "survival", 2 ], [ "electronics", 2 ] ],
+    "time": 180,
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "SCREW", "level": 1 } ], [ { "id": "WRENCH", "level": 2 } ] ],
+    "components": [
+      [ [ "pipe", 6 ], [ "xlframe", 1 ] ],
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "metal_tank_little", 2 ] ],
+      [ [ "cu_pipe", 4 ] ],
+      [ [ "small_storage_battery", 1 ] ],
+      [ [ "plut_cell", 1 ] ],
+      [ [ "e_scrap", 2 ] ],
+      [ [ "lightstrip_inactive", 2 ] ],
+      [ [ "circuit", 1 ] ],
+      [ [ "fertilizer_commercial", 1 ] ],
+      [ [ "water", 100 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_hydroponics"
+  }
+]

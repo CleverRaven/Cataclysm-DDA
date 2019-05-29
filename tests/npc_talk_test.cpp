@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "calendar.h"
 #include "coordinate_conversions.h"
@@ -35,7 +36,7 @@ const efftype_id effect_infected( "infected" );
 static const trait_id trait_PROF_FED( "PROF_FED" );
 static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 
-npc &create_test_talker()
+static npc &create_test_talker()
 {
     const string_id<npc_template> test_talker( "test_talker" );
     const int model_id = g->m.place_npc( 25, 25, test_talker, true );
@@ -57,7 +58,7 @@ npc &create_test_talker()
     return *model_npc;
 }
 
-void gen_response_lines( dialogue &d, size_t expected_count )
+static void gen_response_lines( dialogue &d, size_t expected_count )
 {
     d.gen_responses( d.topic_stack.back() );
     for( talk_response &response : d.responses ) {
@@ -72,7 +73,7 @@ void gen_response_lines( dialogue &d, size_t expected_count )
     REQUIRE( d.responses.size() == expected_count );
 }
 
-void change_om_type( const std::string &new_type )
+static void change_om_type( const std::string &new_type )
 {
     const point omt_pos = ms_to_omt_copy( g->m.getabs( g->u.posx(), g->u.posy() ) );
     oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, g->u.posz() );

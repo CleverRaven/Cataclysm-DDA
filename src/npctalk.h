@@ -19,10 +19,14 @@ void mission_favor( npc & );
 void give_equipment( npc & );
 void give_aid( npc & );
 void give_all_aid( npc & );
-
+void buy_horse( npc & );
+void buy_cow( npc & );
+void buy_chicken( npc & );
 void bionic_install( npc & );
 void bionic_remove( npc & );
 
+void barber_beard( npc & );
+void barber_hair( npc & );
 void buy_haircut( npc & );
 void buy_shave( npc & );
 void morale_chat( npc & );
@@ -53,9 +57,12 @@ void stranger_neutral( npc & );      // p is now neutral towards you
 void start_mugging( npc & );
 void player_leaving( npc & );
 
+void remove_stolen_status( npc & );
+
 void drop_weapon( npc & );
 void player_weapon_away( npc & );
 void player_weapon_drop( npc & );
+void drop_stolen_item( npc & );
 
 void lead_to_safety( npc & );
 void start_training( npc & );

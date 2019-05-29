@@ -1,5 +1,6 @@
 #include "inventory_ui.h"
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "game.h"
@@ -473,8 +474,8 @@ void inventory_column::set_width( const size_t new_width )
 void inventory_column::set_height( size_t new_height )
 {
     if( height != new_height ) {
-        if( new_height == 0 ) {
-            debugmsg( "Unable to assign zero height." );
+        if( new_height <= 1 ) {
+            debugmsg( "Unable to assign height <= 1 (was %zd).", new_height );
             return;
         }
         height = new_height;
@@ -524,6 +525,7 @@ void inventory_column::reset_width()
 
 size_t inventory_column::page_of( size_t index ) const
 {
+    assert( entries_per_page ); // To appease static analysis
     return index / entries_per_page;
 }
 
@@ -980,8 +982,8 @@ void selection_column::on_change( const inventory_entry &entry )
 }
 
 // TODO: Move it into some 'item_stack' class.
-std::vector<std::list<item *>> restack_items( const std::list<item>::const_iterator &from,
-                            const std::list<item>::const_iterator &to, bool check_components = false )
+static std::vector<std::list<item *>> restack_items( const std::list<item>::const_iterator &from,
+                                   const std::list<item>::const_iterator &to, bool check_components = false )
 {
     std::vector<std::list<item *>> res;
 
@@ -1776,7 +1778,7 @@ item_location inventory_pick_selector::execute()
         if( input.action == "HELP_KEYBINDINGS" || input.action == "INVENTORY_FILTER" ) {
             g->draw_ter();
             wrefresh( g->w_terrain );
-            g->draw_panels();
+            g->draw_panels( true );
         }
     }
 }
