@@ -4447,7 +4447,7 @@ needs_rates player::calc_needs_rates()
     }
 
     if( has_trait( trait_TRANSPIRATION ) ) {
-        // Tranpiration, the act of moving nutrients with evaporating water, can take a very heavy toll on your thirst when it's really hot.
+        // Transpiration, the act of moving nutrients with evaporating water, can take a very heavy toll on your thirst when it's really hot.
         rates.thirst *= ( ( g->weather.get_temperature( pos() ) - 65 / 2 ) / 40.0f );
     }
 
@@ -5786,10 +5786,10 @@ void player::suffer()
 
     const int player_local_temp = g->weather.get_temperature( pos() );
     double sleeve_factor = armwear_factor();
-    bool has_hat = wearing_something_on( bp_head );
-    bool leafy = has_trait( trait_LEAVES ) || has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
-    bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
-    bool leafiest = has_trait( trait_LEAVES3 );
+    const bool has_hat = wearing_something_on( bp_head );
+    const bool leafy = has_trait( trait_LEAVES ) || has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
+    const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
+    const bool leafiest = has_trait( trait_LEAVES3 );
     int sunlight_nutrition = 0;
     if( leafy && g->is_in_sunlight( pos() ) ) {
         int flux = ( player_local_temp - 65 ) / 2;
