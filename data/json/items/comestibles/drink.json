@@ -256,7 +256,7 @@
     "calories": 68,
     "description": "Equal parts milk and espresso, this drink gives a less acidic dose of caffeine.",
     "price": 100,
-    "material": "water",
+    "material": [ "water", "milk" ],
     "volume": 1,
     "phase": "liquid",
     "flags": [ "EATEN_HOT" ],
