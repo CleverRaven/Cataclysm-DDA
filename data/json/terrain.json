@@ -10699,9 +10699,9 @@
     "color": [ "brown" ],
     "move_cost": 2,
     "bash": {
-      "str_min": 40,
-      "str_max": 90,
-      "ter_set": "t_dirt",
+      "str_min": 4,
+      "str_max": 60,
+      "ter_set": "t_tree_pine",
       "sound": "crunch!",
       "sound_fail": "whack!",
       "items": [
