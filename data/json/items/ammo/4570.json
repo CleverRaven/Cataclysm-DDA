@@ -41,7 +41,7 @@
   { "id": "reloaded_4570_pen",
     "copy-from": "4570_pen",
     "type": "AMMO",
-    "name": "Reloaded .45-70 +P Penetrator",
+    "name": "reloaded .45-70 +P penetrator",
     "description": ".45-70 Government +P ammunition loaded with a 305 grain solid copper penetrator projectile.  Designed for maximum penetration through thick hide and bone while maintaining ideal wounding characteristics.  This one has been hand-loaded.",
     "proportional": { "price": 0.7, "damage": 0.9, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
