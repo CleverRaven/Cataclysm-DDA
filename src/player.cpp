@@ -1901,7 +1901,7 @@ int player::run_cost( int base_cost, bool diag ) const
             movecost *= 1.3f;
         }
     }
-        
+    
     // Skates with only one wheel (roller shoes) are fairly less stable
     // and fairly slower as well
     if( worn_with_flag( "ROLLER_ONE" ) ) {
@@ -3213,7 +3213,9 @@ void player::on_hit( Creature *source, body_part bp_hit,
     }
     if( worn_with_flag( "REQUIRES_BALANCE" ) && !has_effect( effect_downed ) ) {
         int rolls = 4;
-        if ( worn_with_flag( "HEELIES" ) ) { rolls += 2; }
+        if( worn_with_flag( "HEELIES" ) ) {
+            rolls += 2;
+        }
         if( has_trait( trait_PROF_SKATER ) ) {
             rolls--;
         }
