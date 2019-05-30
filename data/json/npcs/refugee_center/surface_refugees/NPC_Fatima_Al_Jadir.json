@@ -1,8 +1,8 @@
 [
   {
     "type": "npc",
-    "id": "refugee_Fatimaal_Jadir",
-    "name_unique": "Fatima al_Jadir",
+    "id": "refugee_FatimaalJadir",
+    "name_unique": "Fatima al Jadir",
     "gender": "female",
     "name_suffix": "refugee",
     "class": "NC_REFUGEE_Fatima",
@@ -63,7 +63,14 @@
   {
     "type": "talk_topic",
     "//": "common talk responses",
-    "id": [ "TALK_REFUGEE_Fatima_1_firstmeet", "TALK_REFUGEE_Fatima_2", "TALK_REFUGEE_Fatima_Background", "TALK_REFUGEE_Fatima_Situation", "TALK_REFUGEE_Fatima_Welding", "TALK_REFUGEE_Fatima_Cataclysm"  ],
+    "id": [
+      "TALK_REFUGEE_Fatima_1_firstmeet",
+      "TALK_REFUGEE_Fatima_2",
+      "TALK_REFUGEE_Fatima_Background",
+      "TALK_REFUGEE_Fatima_Situation",
+      "TALK_REFUGEE_Fatima_Welding",
+      "TALK_REFUGEE_Fatima_Cataclysm"
+    ],
     "dynamic_line": "What brings you around here?  We don't see a lot of new faces.",
     "responses": [
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Fatima_Background" },
@@ -76,11 +83,14 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_1",
     "dynamic_line": {
-      "u_has_var": "u_met_Fatima_al_Jadir", "type": "general", "context": "meeting", "value": "yes",
+      "u_has_var": "u_met_Fatima_al_Jadir",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
       "yes": [ "Hello again.", "Good to see you're still around.", "Oh, hi." ],
       "no": "Oh, hey, a new face.  Hi, I'm Fatima.  Just visiting I hope?  It's nice to meet new people but there are no beds to share."
     },
-    "speaker_effect": { "effect": { "u_add_var": "u_met_Fatima_al_Jadir", "type": "general", "context": "meeting", "value": "yes" } } ],
+    "speaker_effect": { "effect": { "u_add_var": "u_met_Fatima_al_Jadir", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
       {
         "text": "Nice to meet you too, Fatima.  I'm just passing through.",
@@ -92,9 +102,7 @@
         "condition": { "u_has_var": "u_met_Fatima_al_Jadir", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_REFUGEE_Fatima_2"
       },
-      {
-        "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE"
-      }
+      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -110,11 +118,14 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Background",
-    "dynamic_line": "Before <the_cataclysm> I had just finished welding school actually, and was about to start looking for a job.  That was fun, being a young Muslim woman in a Massachussets trade college, let me tell you."
-	"responses": [
-      { "text": "Welding seems like a pretty non-traditional occupational choice; is there a story there?", "topic": "TALK_REFUGEE_Fatima_Welding" },
+    "dynamic_line": "Before <the_cataclysm> I had just finished welding school actually, and was about to start looking for a job.  That was fun, being a young Muslim woman in a Massachussets trade college, let me tell you.",
+    "responses": [
+      {
+        "text": "Welding seems like a pretty non-traditional occupational choice; is there a story there?",
+        "topic": "TALK_REFUGEE_Fatima_Welding"
+      },
       { "text": "How did you wind up here at the center?", "topic": "TALK_REFUGEE_Fatima_Cataclysm" }
-	]	  
+    ]
   },
   {
     "type": "talk_topic",
