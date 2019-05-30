@@ -379,54 +379,53 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
     return true;
 }
 
-void game::plswim( const tripoint &p )
+void avatar_action::swim( map &m, avatar &you, const tripoint &p )
 {
-    if ( !m.has_flag( "SWIMMABLE", p ) ) {
+    if( !m.has_flag( "SWIMMABLE", p ) ) {
         dbg( D_ERROR ) << "game:plswim: Tried to swim in "
-            << m.tername( p ) << "!";
+                       << m.tername( p ) << "!";
         debugmsg( "Tried to swim in %s!", m.tername( p ) );
         return;
     }
-    if ( u.has_effect( effect_onfire ) ) {
+    if( you.has_effect( effect_onfire ) ) {
         add_msg( _( "The water puts out the flames!" ) );
-        u.remove_effect( effect_onfire );
+        you.remove_effect( effect_onfire );
     }
-    if ( u.has_effect( effect_glowing ) ) {
+    if( you.has_effect( effect_glowing ) ) {
         add_msg( _( "The water washes off the glowing goo!" ) );
-        u.remove_effect( effect_glowing );
+        you.remove_effect( effect_glowing );
     }
-    int movecost = u.swim_speed();
-    u.practice( skill_id( "swimming" ), u.is_underwater() ? 2 : 1 );
-    if ( movecost >= 500 ) {
-        if ( !u.is_underwater() && !( u.shoe_type_count( "swim_fins" ) == 2 ||
-            ( u.shoe_type_count( "swim_fins" ) == 1 && one_in( 2 ) ) ) ) {
+    int movecost = you.swim_speed();
+    you.practice( skill_id( "swimming" ), you.is_underwater() ? 2 : 1 );
+    if( movecost >= 500 ) {
+        if( !you.is_underwater() && !( you.shoe_type_count( "swim_fins" ) == 2 ||
+                                       ( you.shoe_type_count( "swim_fins" ) == 1 && one_in( 2 ) ) ) ) {
             add_msg( m_bad, _( "You sink like a rock!" ) );
-            u.set_underwater( true );
+            you.set_underwater( true );
             ///\EFFECT_STR increases breath-holding capacity while sinking
-            u.oxygen = 30 + 2 * u.str_cur;
+            you.oxygen = 30 + 2 * you.str_cur;
         }
     }
-    if ( u.oxygen <= 5 && u.is_underwater() ) {
-        if ( movecost < 500 ) {
+    if( you.oxygen <= 5 && you.is_underwater() ) {
+        if( movecost < 500 ) {
             popup( _( "You need to breathe! (%s to surface.)" ), press_x( ACTION_MOVE_UP ) );
-        }
-        else {
+        } else {
             popup( _( "You need to breathe but you can't swim!  Get to dry land, quick!" ) );
         }
     }
-    bool diagonal = ( p.x != u.posx() && p.y != u.posy() );
-    if ( u.in_vehicle ) {
-        m.unboard_vehicle( u.pos() );
+    bool diagonal = ( p.x != you.posx() && p.y != you.posy() );
+    if( you.in_vehicle ) {
+        m.unboard_vehicle( you.pos() );
     }
-    u.setpos( p );
-    update_map( u );
-    if ( m.veh_at( u.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
-        m.board_vehicle( u.pos(), &u );
+    you.setpos( p );
+    g->update_map( you );
+    if( m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        m.board_vehicle( you.pos(), &you );
     }
-    u.moves -= ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? 1.41 : 1 );
-    u.inv.rust_iron_items();
+    you.moves -= ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? 1.41 : 1 );
+    you.inv.rust_iron_items();
 
-    u.burn_move_stamina( movecost );
+    you.burn_move_stamina( movecost );
 
     body_part_set drenchFlags{ {
             bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
@@ -434,10 +433,10 @@ void game::plswim( const tripoint &p )
         }
     };
 
-    if ( u.is_underwater() ) {
+    if( you.is_underwater() ) {
         drenchFlags |= { { bp_head, bp_eyes, bp_mouth, bp_hand_l, bp_hand_r } };
     }
-    u.drench( 100, drenchFlags, true );
+    you.drench( 100, drenchFlags, true );
 }
 
 static float rate_critter( const Creature &c )
