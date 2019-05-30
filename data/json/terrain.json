@@ -8353,6 +8353,26 @@
   },
   {
     "type": "terrain",
+    "id": "t_wall_y",
+    "aliases": [ "t_wall_h_p", "t_wall_v_p" ],
+    "name": "yellow wall",
+    "description": "Wall painted pink.",
+    "symbol": "LINE_OXOX",
+    "color": "pink",
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 210,
+      "sound": "crash!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": "wall_bash_results"
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_wall_p",
     "aliases": [ "t_wall_h_p", "t_wall_v_p" ],
     "name": "purple wall",
