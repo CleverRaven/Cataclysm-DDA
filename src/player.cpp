@@ -3213,7 +3213,7 @@ void player::on_hit( Creature *source, body_part bp_hit,
     }
     if( worn_with_flag( "REQUIRES_BALANCE" ) && !has_effect( effect_downed ) ) {
         int rolls = 4;
-        if( worn_with_flag( "HEELIES" ) ) {
+        if( worn_with_flag( "ROLLER_ONE" ) ) {
             rolls += 2;
         }
         if( has_trait( trait_PROF_SKATER ) ) {
