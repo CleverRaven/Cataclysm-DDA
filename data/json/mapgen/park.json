@@ -272,7 +272,7 @@
         "s": "t_sidewalk",
         "t": "t_tree",
         "z": "t_shrub",
-        "~": "t_water_sh"
+        "~": "t_water_pool_shallow"
       },
       "furniture": { "A": "f_statue", "H": "f_bench", "R": "f_trashcan", "T": "f_table", "f": "f_dahlia" },
       "place_items": [ { "item": "trash", "x": 4, "y": 5, "chance": 50 } ],
@@ -839,7 +839,7 @@
         "S": "t_grass",
         "_": "t_grass",
         "b": "t_grass",
-        "w": "t_water_sh",
+        "w": "t_water_pool_shallow",
         "|": "t_fence_h"
       }
     },

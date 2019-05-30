@@ -140,7 +140,7 @@ class item_category;
  * Most members are used only for sorting.
  */
 struct advanced_inv_listitem {
-    typedef std::string itype_id;
+    using itype_id = std::string;
     /**
      * Index of the item in the itemstack.
      */

@@ -292,11 +292,11 @@ namespace spell_effect
 {
 void teleport( int min_distance, int max_distance );
 void pain_split(); // only does g->u
-void shallow_pit( const tripoint &target );
-void target_attack( spell &sp, const tripoint &target );
-void projectile_attack( spell &sp, const tripoint &target );
-void cone_attack( spell &sp, const tripoint &target );
-void line_attack( spell &sp, const tripoint &target );
+void move_earth( const tripoint &target );
+void target_attack( spell &sp, const tripoint &source, const tripoint &target );
+void projectile_attack( spell &sp, const tripoint &source, const tripoint &target );
+void cone_attack( spell &sp, const tripoint &source, const tripoint &target );
+void line_attack( spell &sp, const tripoint &source, const tripoint &target );
 void spawn_ethereal_item( spell &sp );
 }
 

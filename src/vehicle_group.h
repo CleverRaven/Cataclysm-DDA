@@ -88,7 +88,7 @@ struct VehiclePlacement {
     const VehicleLocation *pick() const;
     static void load( JsonObject &jo );
 
-    typedef std::vector<VehicleLocation> LocationMap;
+    using LocationMap = std::vector<VehicleLocation>;
     LocationMap locations;
 };
 
@@ -105,7 +105,7 @@ class VehicleFunction
         virtual void apply( map &m, const std::string &terrainid ) const = 0;
 };
 
-typedef void ( *vehicle_gen_pointer )( map &m, const std::string &terrainid );
+using vehicle_gen_pointer = void ( * )( map &, const std::string & );
 
 class VehicleFunction_builtin : public VehicleFunction
 {
@@ -182,7 +182,7 @@ class VehicleSpawn
     private:
         weighted_float_list<std::shared_ptr<VehicleFunction>> types;
 
-        typedef std::unordered_map<std::string, vehicle_gen_pointer> FunctionMap;
+        using FunctionMap = std::unordered_map<std::string, vehicle_gen_pointer>;
         static FunctionMap builtin_functions;
 };
 

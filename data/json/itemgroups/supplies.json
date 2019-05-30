@@ -56,6 +56,8 @@
     "//": "large quantities of common building supplies.",
     "items": [
       { "item": "2x4", "prob": 100, "count": [ 5, 20 ] },
+      { "item": "wood_sheet", "prob": 50, "count": [ 1, 2 ] },
+      { "item": "wood_panel", "prob": 60, "count": [ 1, 4 ] },
       { "item": "rock", "prob": 70, "count": [ 10, 20 ] },
       { "item": "coal_lump", "prob": 20, "count": [ 1, 10 ] },
       { "item": "material_cement", "prob": 100, "charges": 500, "container-item": "bag_canvas" },
@@ -67,6 +69,7 @@
       { "item": "rope_6", "prob": 10 },
       { "item": "sheet_metal", "prob": 10 },
       { "item": "sheet_metal_small", "prob": 10 },
+      { "item": "plastic_sheet", "prob": 30, "count": [ 5, 15 ] },
       { "item": "rebar", "prob": 40, "count": [ 5, 10 ] },
       { "item": "brick", "prob": 40, "count": [ 5, 10 ] },
       { "item": "pipe", "prob": 40, "count": [ 5, 10 ] },
@@ -101,6 +104,7 @@
       [ "bubblewrap", 20 ],
       [ "pump_complex", 5 ],
       [ "well_pump", 5 ],
+      [ "plastic_sheet", 20 ],
       [ "recharge_station", 20 ]
     ]
   },
@@ -132,6 +136,8 @@
       {
         "distribution": [
           { "item": "2x4", "prob": 500, "count": [ 20, 50 ] },
+          { "item": "wood_sheet", "prob": 400, "count": [ 10, 30 ] },
+          { "item": "wood_panel", "prob": 300, "count": [ 15, 40 ] },
           { "item": "log", "prob": 200, "count": [ 5, 10 ] },
           { "item": "stick_long", "prob": 100, "count": [ 10, 20 ] },
           { "item": "stick", "prob": 50, "count": [ 5, 10 ] },
@@ -139,6 +145,7 @@
         ],
         "prob": 100
       },
+      [ "plastic_sheet", 50 ],
       [ "pine_bough", 10 ]
     ]
   },
@@ -158,6 +165,10 @@
       [ "rope_30", 35 ],
       [ "circsaw_blade", 8 ],
       [ "glass_sheet", 5 ],
+      [ "box_small", 2 ],
+      [ "box_medium", 2 ],
+      [ "box_large", 2 ],
+      [ "plastic_sheet", 30 ],
       { "item": "pipe", "prob": 20, "count": [ 5, 10 ] },
       { "item": "nail", "prob": 60, "count": [ 2, 4 ] },
       [ "hose", 15 ],
@@ -167,6 +178,7 @@
       [ "metal_tank", 10 ],
       [ "metal_tank_little", 10 ],
       [ "water_faucet", 10 ],
+      [ "wood_panel", 10 ],
       { "item": "wire", "prob": 50, "count": [ 1, 10 ] },
       { "item": "wire_barbed", "prob": 20, "count": [ 1, 10 ] },
       [ "duct_tape", 60 ],
@@ -391,6 +403,10 @@
       [ "clock", 2 ],
       [ "coffeemaker", 2 ],
       [ "bubblewrap", 10 ],
+      [ "box_small", 3 ],
+      [ "box_medium", 3 ],
+      [ "box_large", 2 ],
+      [ "plastic_sheet", 3 ],
       [ "glowstick", 10 ],
       [ "radio", 2 ],
       [ "fan", 5 ],

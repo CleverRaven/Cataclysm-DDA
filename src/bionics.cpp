@@ -11,6 +11,8 @@
 #include <memory>
 
 #include "action.h"
+#include "avatar.h"
+#include "avatar_action.h"
 #include "ballistics.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -158,6 +160,12 @@ bool player::activate_bionic( int b, bool eff_only )
 {
     bionic &bio = ( *my_bionics )[b];
 
+    if( bio.incapacitated_time > 0_turns ) {
+        add_msg( m_info, _( "Your %s is shorting out and can't be activated." ),
+                 bionics[bio.id].name.c_str() );
+        return false;
+    }
+
     // Preserve the fake weapon used to initiate bionic gun firing
     static item bio_gun( weapon );
 
@@ -198,7 +206,7 @@ bool player::activate_bionic( int b, bool eff_only )
         charge_power( bionics[bio.id].power_activate );
         bio_gun = item( bionics[bio.id].fake_item );
         g->refresh_all();
-        g->plfire( bio_gun, bionics[bio.id].power_activate );
+        avatar_action::fire( g->u, g->m, bio_gun, bionics[bio.id].power_activate );
     } else if( bionics[ bio.id ].weapon_bionic ) {
         if( weapon.has_flag( "NO_UNWIELD" ) ) {
             add_msg( m_info, _( "Deactivate your %s first!" ), weapon.tname() );
@@ -216,7 +224,7 @@ bool player::activate_bionic( int b, bool eff_only )
         weapon.invlet = '#';
         if( bio.ammo_count > 0 ) {
             weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
-            g->plfire( weapon );
+            avatar_action::fire( g->u, g->m, weapon );
             g->refresh_all();
         }
     } else if( bio.id == "bio_ears" && has_active_bionic( bionic_id( "bio_earplugs" ) ) ) {
@@ -608,6 +616,12 @@ bool player::deactivate_bionic( int b, bool eff_only )
 {
     bionic &bio = ( *my_bionics )[b];
 
+    if( bio.incapacitated_time > 0_turns ) {
+        add_msg( m_info, _( "Your %s is shorting out and can't be deactivated." ),
+                 bionics[bio.id].name.c_str() );
+        return false;
+    }
+
     // Just do the effect, no stat changing or messages
     if( !eff_only ) {
         if( !bio.powered ) {
@@ -899,6 +913,75 @@ void player::bionics_uninstall_failure( player &installer, int difficulty, int s
 
 }
 
+void player::bionics_uninstall_failure( monster &installer, player &patient, int difficulty,
+                                        int success,
+                                        float adjusted_skill )
+{
+
+    // "success" should be passed in as a negative integer representing how far off we
+    // were for a successful removal.  We use this to determine consequences for failing.
+    success = abs( success );
+
+    // failure level is decided by how far off the monster was from a successful removal, and
+    // this is scaled up or down by the ratio of difficulty/skill.  At high skill levels (or low
+    // difficulties), only minor consequences occur.  At low skill levels, severe consequences
+    // are more likely.
+    const int failure_level = static_cast<int>( sqrt( success * 4.0 * difficulty / adjusted_skill ) );
+    const int fail_type = std::min( 5, failure_level );
+
+    bool u_see = sees( patient );
+
+    if( u_see || patient.is_player() ) {
+        if( fail_type <= 0 ) {
+            add_msg( m_neutral, _( "The removal fails without incident." ) );
+            return;
+        }
+        switch( rng( 1, 5 ) ) {
+            case 1:
+                add_msg( m_mixed, _( "The %s flub the operation." ), installer.name() );
+                break;
+            case 2:
+                add_msg( m_mixed, _( "The %s messes up the operation." ), installer.name() );
+                break;
+            case 3:
+                add_msg( m_mixed, _( "The operation fails." ) );
+                break;
+            case 4:
+                add_msg( m_mixed, _( "The operation is a failure." ) );
+                break;
+            case 5:
+                add_msg( m_mixed, _( "The %s screws up the operation." ), installer.name() );
+                break;
+        }
+    }
+
+    switch( fail_type ) {
+        case 1:
+            if( !has_trait( trait_id( "NOPAIN" ) ) ) {
+                patient.add_msg_if_player( m_bad, _( "It really hurts!" ) );
+                patient.mod_pain( rng( failure_level * 3, failure_level * 6 ) );
+            }
+            break;
+
+        case 2:
+        case 3:
+            if( u_see ) {
+                add_msg( m_bad, _( "%s body is damaged!" ), patient.disp_name( true ) );
+            }
+            patient.hurtall( rng( failure_level, failure_level * 2 ), this );
+            break;
+
+        case 4:
+        case 5:
+            if( u_see ) {
+                add_msg( m_bad, _( "%s body is severely damaged!" ), patient.disp_name( true ) );
+            }
+            patient.hurtall( rng( 30, 80 ), this );
+            break;
+    }
+
+}
+
 // bionic manipulation adjusted skill
 float player::bionics_adjusted_skill( const skill_id &most_important_skill,
                                       const skill_id &important_skill,
@@ -1062,6 +1145,77 @@ bool player::uninstall_bionic( const bionic_id &b_id, player &installer, bool au
     g->m.invalidate_map_cache( g->get_levz() );
     g->refresh_all();
     return true;
+}
+
+bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
+                               float adjusted_skill, bool autodoc )
+{
+    const std::string ammo_type( "anesthetic" );
+
+    if( installer.ammo[ammo_type] <= 0 ) {
+        if( g->u.sees( installer ) ) {
+            add_msg( "The %s's anesthesia kit looks empty", installer.name() );
+        }
+        return false;
+    }
+
+    item bionic_to_uninstall = item( target_cbm.id.str(), 0 );
+    const itype *itemtype = bionic_to_uninstall.type;
+    int difficulty = itemtype->bionic->difficulty;
+    int chance_of_success = bionic_manip_cos( adjusted_skill, autodoc, difficulty + 2 );
+    int success = chance_of_success - rng( 1, 100 );
+
+    const time_duration duration = difficulty * 20_minutes;
+    if( !installer.has_effect( effect_operating ) ) { // don't stack up the effect
+        installer.add_effect( effect_operating, duration + 5_turns );
+    }
+
+    if( patient.is_player() ) {
+        add_msg( m_bad,
+                 _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
+    } else if( g->u.sees( installer ) ) {
+        add_msg( m_bad,
+                 _( "The %1$s gently inserts a syringe into %2$s's arm and starts injecting something while holding them down." ),
+                 installer.name(), patient.disp_name() );
+    }
+
+    installer.ammo[ammo_type] -= 1 ;
+
+    patient.add_effect( effect_narcosis, duration );
+    patient.add_effect( effect_sleep, duration );
+
+    if( patient.is_player() ) {
+        add_msg( "You fall asleep and %1$s starts operating.", installer.disp_name() );
+    } else if( g->u.sees( patient ) ) {
+        add_msg( "%1$s falls asleep and %2$s starts operating.", patient.disp_name(),
+                 installer.disp_name() );
+    }
+
+    if( success > 0 ) {
+
+        if( patient.is_player() ) {
+            add_msg( m_neutral, _( "Your parts are jiggled back into their familiar places." ) );
+            add_msg( m_mixed, _( "Successfully removed %s." ), target_cbm.info().name );
+        } else if( patient.is_npc() && g->u.sees( patient ) ) {
+            add_msg( m_neutral, _( "%s's parts are jiggled back into their familiar places." ),
+                     patient.disp_name() );
+            add_msg( m_mixed, _( "Successfully removed %s." ), target_cbm.info().name );
+        }
+
+        // remove power bank provided by bionic
+        patient.max_power_level -= target_cbm.info().capacity;
+        patient.remove_bionic( target_cbm.id );
+        if( item::type_is_defined( target_cbm.id.c_str() ) ) {
+            g->m.spawn_item( patient.pos(), target_cbm.id.c_str(), 1 );
+        } else {
+            g->m.spawn_item( patient.pos(), "burnt_out_bionic", 1 );
+        }
+    } else {
+        bionics_uninstall_failure( installer, patient, difficulty, success, adjusted_skill );
+    }
+    g->refresh_all();
+
+    return false;
 }
 
 bool player::install_bionics( const itype &type, player &installer, bool autodoc, int skill_level )
@@ -1516,6 +1670,7 @@ void load_bionic( JsonObject &jsobj )
                                  false );
     new_bionic.sleep_friendly = get_bool_or_flag( jsobj, "sleep_friendly", "BIONIC_SLEEP_FRIENDLY",
                                 false );
+    new_bionic.shockproof = get_bool_or_flag( jsobj, "shockproof", "BIONIC_SHOCKPROOF", false );
 
     if( new_bionic.gun_bionic && new_bionic.weapon_bionic ) {
         debugmsg( "Bionic %s specified as both gun and weapon bionic", id.c_str() );
@@ -1612,6 +1767,9 @@ void bionic::serialize( JsonOut &json ) const
     json.member( "charge", charge );
     json.member( "ammo_loaded", ammo_loaded );
     json.member( "ammo_count", ammo_count );
+    if( incapacitated_time > 0 ) {
+        json.member( "incapacitated_time", incapacitated_time );
+    }
     json.end_object();
 }
 
@@ -1627,6 +1785,9 @@ void bionic::deserialize( JsonIn &jsin )
     }
     if( jo.has_int( "ammo_count" ) ) {
         ammo_count = jo.get_int( "ammo_count" );
+    }
+    if( jo.has_int( "incapacitated_time" ) ) {
+        incapacitated_time = 1_turns * jo.get_int( "incapacitated_time" );
     }
 }
 

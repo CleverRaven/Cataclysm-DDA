@@ -100,6 +100,7 @@ const std::map<std::string, m_flag> flag_map = {
     { "NO_BREATHE", MF_NO_BREATHE },
     { "REGENERATES_50", MF_REGENERATES_50 },
     { "REGENERATES_10", MF_REGENERATES_10 },
+    { "REGENERATES_1", MF_REGENERATES_1 },
     { "REGENERATES_IN_DARK", MF_REGENERATES_IN_DARK },
     { "FLAMMABLE", MF_FLAMMABLE },
     { "REVIVES", MF_REVIVES },

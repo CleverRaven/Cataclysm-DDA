@@ -299,6 +299,7 @@ int om_harvest_ter_break( npc &comp, const tripoint &omt_tgt, const ter_id &t, i
 /// @ref take, whether you take the item or count it
 mass_volume om_harvest_itm( npc_ptr comp, const tripoint &omt_tgt, int chance = 100,
                             bool take = true );
+void apply_camp_ownership( const tripoint camp_pos, int radius );
 /*
  * Counts or cuts trees into trunks and trunks into logs
  * @param omt_tgt the targeted OM tile
@@ -515,14 +516,6 @@ void talk_function::recover_camp( npc &p )
 
 void talk_function::remove_overseer( npc &p )
 {
-    tripoint omt_tri = p.global_omt_location();
-    cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt_tri.x, omt_tri.y );
-    if( bcp ) {
-        basecamp *temp_camp = *bcp;
-        if( !temp_camp->reset_camp() ) {
-            return;
-        }
-    }
     size_t suffix = p.name.find( _( ", Camp Manager" ) );
     if( suffix != std::string::npos ) {
         p.name = p.name.substr( 0, suffix );
@@ -576,24 +569,37 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
 {
     std::string entry;
 
-    const std::string camp_ctr = "camp";
     const std::string base_dir = "[B]";
-    std::string bldg = next_upgrade( base_dir, 1 );
-    reset_camp_workers();
+    reset_camp_resources( by_radio );
+    std::string gather_bldg = "null";
 
-    if( bldg != "null" ) {
-        comp_list npc_list = get_mission_workers( "_faction_upgrade_camp" );
+    // return legacy workers
+    comp_list npc_list = get_mission_workers( "_faction_upgrade_camp" );
+    if( !npc_list.empty() ) {
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_upgrade_camp" ];
-        entry = upgrade_description( bldg, by_radio );
-        mission_key.add_start( miss_info.miss_id, miss_info.desc, "", entry, npc_list.empty() );
-        if( !npc_list.empty() ) {
+        entry = miss_info.action;
+        bool avail = update_time_left( entry, npc_list );
+        mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc, "", entry, avail );
+    }
+
+    for( const basecamp_upgrade &upgrade : available_upgrades( base_dir ) ) {
+        gather_bldg = upgrade.bldg;
+        const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_upgrade_camp" ];
+        comp_list npc_list = get_mission_workers( upgrade.bldg + "_faction_upgrade_camp" );
+        if( npc_list.empty() ) {
+            entry = upgrade_description( upgrade.bldg );
+            mission_key.add_start( miss_info.miss_id + upgrade.bldg,
+                                   miss_info.desc + " " + upgrade.name, "", entry, upgrade.avail );
+        } else {
             entry = miss_info.action;
             bool avail = update_time_left( entry, npc_list );
-            mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc, "", entry, avail );
+            mission_key.add_return( miss_info.ret_miss_id + upgrade.bldg,
+                                    miss_info.ret_desc + " " + upgrade.name, "", entry, avail );
         }
     }
 
-    if( has_level( camp_ctr, 0, base_dir ) ) {
+    // this used to be optional, but now it isn't.  Keep it at the same scope
+    {
         comp_list npc_list = get_mission_workers( "_faction_camp_crafting_" + base_dir );
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_camp_crafting_" ];
         //This handles all crafting by the base, regardless of level
@@ -617,7 +623,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         }
     }
 
-    if( has_level( camp_ctr, 1, base_dir ) ) {
+    if( has_provides( "gathering" ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_gathering" );
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_camp_gathering" ];
         entry = string_format( _( "Notes: \n"
@@ -629,7 +635,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                   "%s\n"
                                   "Risk: Very Low\n"
                                   "Time: 3 Hours, Repeated\n"
-                                  "Positions: %d/3\n" ), gathering_description( bldg ),
+                                  "Positions: %d/3\n" ), gathering_description( gather_bldg ),
                                npc_list.size() );
         mission_key.add_start( miss_info.miss_id, miss_info.desc, "", entry, npc_list.size() < 3 );
         if( !npc_list.empty() ) {
@@ -672,7 +678,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         }
     }
 
-    if( has_level( camp_ctr, 2, base_dir ) ) {
+    if( has_provides( "firewood" ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_firewood" );
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_camp_firewood" ];
         entry = string_format( _( "Notes:\n"
@@ -694,7 +700,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         }
     }
 
-    if( has_level( camp_ctr, 3, base_dir ) ) {
+    if( has_provides( "sorting" ) ) {
         if( !by_radio ) {
             comp_list npc_list = get_mission_workers( "_faction_camp_menial" );
             const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_camp_menial" ];
@@ -748,7 +754,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         }
     }
 
-    if( has_level( camp_ctr, 5, base_dir ) ) {
+    if( has_provides( "logging" ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_cut_log" );
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_camp_cut_log" ];
         entry = string_format( _( "Notes:\n"
@@ -771,7 +777,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         }
     }
 
-    if( has_level( camp_ctr, 5, base_dir ) ) {
+    if( has_provides( "logging" ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_clearcut" );
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_camp_clearcut" ];
         entry = string_format( _( "Notes:\n"
@@ -795,7 +801,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         }
     }
 
-    if( has_level( camp_ctr, 7, base_dir ) ) {
+    if( has_provides( "relaying" ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_hide_site" );
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_camp_hide_site" ];
         entry = string_format( _( "Notes:\n"
@@ -817,7 +823,8 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             mission_key.add_return( miss_info.ret_miss_id, miss_info.ret_desc, "", entry, avail );
         }
     }
-    if( has_level( camp_ctr, 7, base_dir ) ) {
+
+    if( has_provides( "relaying" ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_hide_trans" );
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_camp_hide_trans" ];
         entry = string_format( _( "Notes:\n"
@@ -841,7 +848,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         }
     }
 
-    if( has_level( camp_ctr, 2, base_dir ) ) {
+    if( has_provides( "foraging" ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_foraging" );
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_camp_foraging" ];
         entry = string_format( _( "Notes:\n"
@@ -863,7 +870,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         }
     }
 
-    if( has_level( camp_ctr, 6, base_dir ) ) {
+    if( has_provides( "trapping" ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_trapping" );
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_camp_trapping" ];
         entry = string_format( _( "Notes:\n"
@@ -884,7 +891,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         }
     }
 
-    if( has_level( camp_ctr, 8, base_dir ) ) {
+    if( has_provides( "hunting" ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_hunting" );
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_camp_hunting" ];
         entry = string_format( _( "Notes:\n"
@@ -905,7 +912,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         }
     }
 
-    if( has_level( camp_ctr, 9, base_dir ) ) {
+    if( has_provides( "walls" ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_om_fortifications" );
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_camp_om_fortifications" ];
         entry = upgrade_description( "faction_wall_level_N_0", by_radio );
@@ -921,7 +928,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         }
     }
 
-    if( has_level( camp_ctr, 11, base_dir ) ) {
+    if( has_provides( "recruiting" ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_recruit_0" );
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_camp_recruit_0" ];
         entry = recruit_description( npc_list.size() );
@@ -933,7 +940,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         }
     }
 
-    if( has_level( camp_ctr, 13, base_dir ) ) {
+    if( has_provides( "scouting" ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_scout_0" );
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_camp_scout_0" ];
         entry =  string_format( _( "Notes:\n"
@@ -957,7 +964,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         }
     }
 
-    if( has_level( camp_ctr, 15, base_dir ) ) {
+    if( has_provides( "patrolling" ) ) {
         comp_list npc_list = get_mission_workers( "_faction_camp_combat_0" );
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_camp_combat_0" ];
         entry =  string_format( _( "Notes:\n"
@@ -985,24 +992,37 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
 
     //This starts all of the expansion missions
     for( const std::string &dir : directions ) {
-        const std::string bldg_exp = next_upgrade( dir, 1 );
         const tripoint omt_trg = omt_pos + talk_function::om_dir_to_offset( dir );
-        if( bldg_exp != "null" ) {
-            comp_list npc_list = get_mission_workers( "_faction_upgrade_exp_" + dir );
+
+        // return legacy workers
+        comp_list npc_list = get_mission_workers( "_faction_upgrade_exp_" + dir );
+        if( !npc_list.empty() ) {
             const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_upgrade_exp_" ];
-            entry = upgrade_description( bldg_exp, by_radio );
-            mission_key.add_start( dir + miss_info.miss_id, dir + miss_info.desc, dir, entry,
-                                   npc_list.empty() );
-            if( !npc_list.empty() ) {
+            entry = miss_info.action;
+            bool avail = update_time_left( entry, npc_list );
+            mission_key.add_return( "Recover Ally, " + dir + " Expansion",
+                                    _( "Recover Ally, " ) + dir + _( " Expansion" ), dir,
+                                    entry, avail );
+        }
+
+        for( const basecamp_upgrade &upgrade : available_upgrades( dir ) ) {
+            const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_upgrade_exp_" ];
+            comp_list npc_list = get_mission_workers( upgrade.bldg + "_faction_upgrade_exp" + dir );
+            if( npc_list.empty() ) {
+                entry = upgrade_description( upgrade.bldg );
+                mission_key.add_start( dir + miss_info.miss_id + upgrade.bldg,
+                                       dir + miss_info.desc + " " + upgrade.name, dir, entry,
+                                       upgrade.avail );
+            } else {
                 entry = miss_info.action;
                 bool avail = update_time_left( entry, npc_list );
-                mission_key.add_return( "Recover Ally, " + dir + " Expansion",
-                                        _( "Recover Ally, " ) + dir + _( " Expansion" ), dir,
-                                        entry, avail );
+                mission_key.add_return( "Recover Ally, " + dir + " Expansion" + upgrade.bldg,
+                                        _( "Recover Ally, " ) + dir + _( " Expansion" ) + " " +
+                                        upgrade.name, dir, entry, avail );
             }
         }
 
-        if( has_level( "garage", 1, dir ) ) {
+        if( has_provides( "dismantling", dir ) ) {
             comp_list npc_list = get_mission_workers( "_faction_exp_chop_shop_" + dir );
             const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_exp_chop_shop_" ];
             entry = _( "Notes:\n"
@@ -1025,9 +1045,8 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             }
         }
 
-        std::map<std::string, std::string> cooking_recipes = recipe_deck( dir );
-        if( has_level( "kitchen", 1, dir ) ) {
-            inventory found_inv = crafting_inventory( by_radio );
+        std::map<std::string, std::string> craft_recipes = recipe_deck( dir );
+        if( has_provides( "kitchen", dir ) ) {
             comp_list npc_list = get_mission_workers( "_faction_exp_kitchen_cooking_" + dir );
             const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_exp_kitchen_cooking_" ];
             if( npc_list.empty() ) {
@@ -1048,8 +1067,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             }
         }
 
-        if( has_level( "blacksmith", 1, dir ) ) {
-            inventory found_inv = crafting_inventory( by_radio );
+        if( has_provides( "blacksmith", dir ) ) {
             comp_list npc_list = get_mission_workers( "_faction_exp_blacksmith_crafting_" + dir );
             const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_exp_blacksmith_crafting_" ];
             if( npc_list.empty() ) {
@@ -1070,7 +1088,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             }
         }
 
-        if( has_level( "farm", 1, dir ) ) {
+        if( has_provides( "farming", dir ) ) {
             size_t plots = 0;
             comp_list npc_list = get_mission_workers( "_faction_exp_plow_" + dir );
             const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_exp_plow_" ];
@@ -1096,7 +1114,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                         entry, avail );
             }
         }
-        if( has_level( "farm", 1, dir ) ) {
+        if( has_provides( "farming", dir ) ) {
             size_t plots = 0;
             comp_list npc_list = get_mission_workers( "_faction_exp_plant_" + dir );
             const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_exp_plant_" ];
@@ -1124,7 +1142,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                                         entry, avail );
             }
         }
-        if( has_level( "farm", 1, dir ) ) {
+        if( has_provides( "farming", dir ) ) {
             size_t plots = 0;
             comp_list npc_list = get_mission_workers( "_faction_exp_harvest_" + dir );
             const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_exp_harvest_" ];
@@ -1150,8 +1168,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
             }
         }
 
-        if( has_level( "farm", 4, dir ) ) {
-            inventory found_inv = crafting_inventory( by_radio );
+        if( has_provides( "reseeding", dir ) ) {
             comp_list npc_list = get_mission_workers( "_faction_exp_farm_crafting_" + dir );
             const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_exp_farm_crafting_" ];
             if( npc_list.empty() ) {
@@ -1188,10 +1205,14 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
         set_sort_points();
     }
 
-    if( miss_id == "Upgrade Camp" ) {
-        start_upgrade( next_upgrade( base_dir, 1 ), "_faction_upgrade_camp", by_radio );
+    if( miss_id.size() > 12 && miss_id.substr( 0, 12 ) == "Upgrade Camp" ) {
+        const std::string bldg = miss_id.substr( 12 );
+        start_upgrade( bldg, bldg + "_faction_upgrade_camp", by_radio );
     } else if( miss_id == "Recover Ally from Upgrading" ) {
         upgrade_return( base_dir, "_faction_upgrade_camp" );
+    } else if( miss_id.size() > 27 && miss_id.substr( 0, 27 ) == "Recover Ally from Upgrading" ) {
+        const std::string bldg = miss_id.substr( 27 );
+        upgrade_return( base_dir, bldg + "_faction_upgrade_camp", bldg );
     }
 
     if( miss_id == "Gather Materials" ) {
@@ -1306,11 +1327,19 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
     for( const std::string &dir : directions ) {
         if( dir == miss_dir ) {
             const tripoint omt_trg = expansions[ dir ].pos;
-            if( miss_id == miss_dir + " Expansion Upgrade" ) {
-                start_upgrade( next_upgrade( miss_dir, 1 ), "_faction_upgrade_exp_" + miss_dir,
-                               by_radio );
+            if( miss_id.size() > 19 &&
+                miss_id.substr( 0, 19 ) == ( miss_dir + " Expansion Upgrade" ) ) {
+                const std::string bldg = miss_id.substr( 19 );
+                start_upgrade( bldg, bldg + "_faction_upgrade_exp_" + miss_dir, by_radio );
             } else if( miss_id == "Recover Ally, " + miss_dir + " Expansion" ) {
                 upgrade_return( dir, "_faction_upgrade_exp_" + miss_dir );
+            } else {
+                const std::string search_str = "Recover Ally, " + miss_dir + " Expansion";
+                size_t search_len = search_str.size();
+                if( miss_id.size() > search_len && miss_id.substr( search_len ) == search_str ) {
+                    const std::string bldg = miss_id.substr( search_len );
+                    upgrade_return( dir, bldg + "_faction_upgrade_exp_" + miss_dir, bldg );
+                }
             }
 
             start_crafting( miss_id, miss_dir, "FARM", "_faction_exp_farm_crafting_",
@@ -1368,7 +1397,7 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
 
     g->draw_ter();
     wrefresh( g->w_terrain );
-    g->draw_panels();
+    g->draw_panels( true );
 
     return true;
 }
@@ -1394,17 +1423,14 @@ npc_ptr basecamp::start_mission( const std::string &miss_id, time_duration durat
     return comp;
 }
 
-void basecamp::start_upgrade( const std::string &bldg, const std::string &key,
-                              bool by_radio )
+void basecamp::start_upgrade( const std::string &bldg, const std::string &key, bool by_radio )
 {
     const recipe &making = recipe_id( bldg ).obj();
     //Stop upgrade if you don't have materials
-    inventory total_inv = crafting_inventory( by_radio );
-    if( making.requirements().can_make_with_inventory( total_inv, making.get_component_filter(), 1 ) ) {
-        time_duration making_time = time_duration::from_turns( making.time / 100 );
+    if( making.requirements().can_make_with_inventory( _inv, making.get_component_filter(), 1 ) ) {
         bool must_feed = bldg != "faction_base_camp_1";
 
-        npc_ptr comp = start_mission( key, making_time, must_feed,
+        npc_ptr comp = start_mission( key, making.batch_duration(), must_feed,
                                       _( "begins to upgrade the camp..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
@@ -1688,7 +1714,7 @@ void basecamp::start_fortifications( std::string &bldg_exp, bool by_radio )
                 return;
             }
             trips += 2;
-            build_time += time_duration::from_turns( making.time / 100 );
+            build_time += making.batch_duration();
             dist += rl_dist( fort_om.x, fort_om.y, omt_pos.x, omt_pos.y );
             travel_time += companion_travel_time_calc( fort_om, omt_pos, 0_minutes, 2 );
         }
@@ -1772,9 +1798,7 @@ void basecamp::start_crafting( const std::string &cur_id, const std::string &cur
             popup( _( "Your batch is too large!" ) );
             continue;
         }
-        int batch_turns = making.batch_time( batch_size, 1.0, 0 ) / 100;
-        time_duration making_time = time_duration::from_turns( batch_turns );
-        npc_ptr comp = start_mission( miss_id + cur_dir, making_time, true,
+        npc_ptr comp = start_mission( miss_id + cur_dir, making.batch_duration(), true,
                                       _( "begins to work..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
@@ -2088,31 +2112,38 @@ npc_ptr basecamp::mission_return( const std::string &miss_id, time_duration min_
 
 bool basecamp::upgrade_return( const std::string &dir, const std::string &miss )
 {
+    const std::string bldg = next_upgrade( dir, 1 );
+    if( bldg == "null" ) {
+        return false;
+    }
+    return upgrade_return( dir, miss, bldg );
+}
+
+bool basecamp::upgrade_return( const std::string &dir, const std::string &miss,
+                               const std::string &bldg )
+{
     auto e = expansions.find( dir );
     if( e == expansions.end() ) {
         return false;
     }
     const tripoint upos = e->second.pos;
-
-    const std::string bldg = next_upgrade( dir, 1 );
-    if( bldg == "null" ) {
-        return false;
-    }
     const recipe &making = recipe_id( bldg ).obj();
 
-    time_duration making_time = time_duration::from_turns( making.time / 100 );
-    const std::string msg = _( "returns from upgrading the camp having earned a bit of "
-                               "experience..." );
-    npc_ptr comp = mission_return( miss, making_time, true, msg, "construction",
-                                   making.difficulty );
+    npc_ptr comp = companion_choose_return( miss, making.batch_duration() );
+
     if( comp == nullptr ) {
         return false;
     }
-
     if( !run_mapgen_update_func( making.get_blueprint(), upos ) ) {
         return false;
     }
-    e->second.cur_level += 1;
+    update_provides( bldg, e->second );
+    update_resources( bldg );
+
+    const std::string msg = _( "returns from upgrading the camp having earned a bit of "
+                               "experience..." );
+    finish_return( *comp, false, msg, "construction", making.difficulty );
+
     return true;
 }
 
@@ -2551,9 +2582,8 @@ int basecamp::recipe_batch_max( const recipe &making, const inventory &total_inv
     const int max_checks = 9;
     for( size_t batch_size = 1000; batch_size > 0; batch_size /= 10 ) {
         for( int iter = 0; iter < max_checks; iter++ ) {
-            int batch_turns = making.batch_time( max_batch + batch_size, 1.0, 0 ) / 100;
-            int food_req = time_to_food( time_duration::from_turns( batch_turns ) );
-            bool can_make = making.requirements().can_make_with_inventory( total_inv,
+            int food_req = time_to_food( making.batch_duration( max_batch + batch_size, 1.0, 0 ) );
+            bool can_make = making.requirements().can_make_with_inventory( _inv,
                             making.get_component_filter(), max_batch + batch_size );
             if( can_make && camp_food_supply() > food_req ) {
                 max_batch += batch_size;
@@ -2629,12 +2659,6 @@ void basecamp::hunting_results( int skill, const std::string &task, int attempts
             }
         }
     }
-}
-
-// map manipulation functions
-bool basecamp::om_upgrade( const std::string &/*next_upgrade*/, const tripoint &/*upos*/ )
-{
-    return true;
 }
 
 int om_harvest_furn_est( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance )
@@ -3219,11 +3243,10 @@ std::string basecamp::upgrade_description( const std::string &bldg, bool by_radi
     for( auto &elem : component_print_buffer ) {
         comp = comp + elem + "\n";
     }
-    time_duration duration = time_duration::from_turns( making.time / 100 );
     comp = string_format( _( "Notes:\n%s\n \nSkill used: %s\n"
                              "Difficulty: %d\n%s \nRisk: None\nTime: %s\n" ),
                           making.description, making.skill_used.obj().name(),
-                          making.difficulty, comp, to_string( duration ) );
+                          making.difficulty, comp, to_string( making.batch_duration() ) );
     return comp;
 }
 
@@ -3245,10 +3268,9 @@ std::string basecamp::craft_description( const std::string &itm, bool by_radio )
     for( auto &elem : component_print_buffer ) {
         comp = comp + elem + "\n";
     }
-    time_duration duration = time_duration::from_turns( making.time / 100 );
     comp = string_format( _( "Skill used: %s\nDifficulty: %d\n%s\nTime: %s\n" ),
                           making.skill_used.obj().name(), making.difficulty, comp,
-                          to_string( duration ) );
+                          to_string( making.batch_duration() ) );
     return comp;
 }
 
@@ -3269,14 +3291,7 @@ int basecamp::recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, i
     //More than 5 farms at recruiting base
     int farm = 0;
     for( const std::string &dir : directions ) {
-        e = expansions.find( dir );
-        if( e == expansions.end() ) {
-            continue;
-        }
-        if( e->second.cur_level >= 0 && next_upgrade( dir, 1 ) == "null" ) {
-            sexpansions += 2;
-        }
-        if( e->second.type == "farm" && e->second.cur_level > 0 ) {
+        if( has_provides( "farming", dir ) ) {
             farm++;
         }
     }
@@ -3478,8 +3493,8 @@ bool basecamp::distribute_food()
         popup( _( "No items are located at the drop point..." ) );
         return false;
     }
-    double quick_rot = 0.6 + ( any_has_level( "kitchen", 4 ) ? 0.1 : 0 );
-    double slow_rot = 0.8 + ( any_has_level( "kitchen", 4 ) ? 0.05 : 0 );
+    double quick_rot = 0.6 + ( has_provides( "pantry" ) ? 0.1 : 0 );
+    double slow_rot = 0.8 + ( has_provides( "pantry" ) ? 0.05 : 0 );
     int total = 0;
     std::vector<item> keep_me;
     for( const tripoint &p_food_stock_abs : z_food ) {
@@ -3548,6 +3563,7 @@ void basecamp::place_results( item result, bool by_radio )
         target_bay.load( omt_pos.x * 2, omt_pos.y * 2, omt_pos.z, false );
         const tripoint &new_spot = target_bay.getlocal( get_dumping_spot() );
         target_bay.add_item_or_charges( new_spot, result, true );
+        apply_camp_ownership( new_spot, 10 );
         target_bay.save();
     } else {
         auto &mgr = zone_manager::get_manager();
@@ -3562,11 +3578,25 @@ void basecamp::place_results( item result, bool by_radio )
             for( auto &src : src_sorted ) {
                 const auto &src_loc = g->m.getlocal( src );
                 g->m.add_item_or_charges( src_loc, result, true );
+                apply_camp_ownership( src_loc, 10 );
                 break;
             }
             //or dump them at players feet
         } else {
             g->m.add_item_or_charges( g->u.pos(), result, true );
+            apply_camp_ownership( g->u.pos(), 0 );
+        }
+    }
+}
+
+void apply_camp_ownership( const tripoint camp_pos, int radius )
+{
+    for( const tripoint &p : g->m.points_in_rectangle( tripoint( camp_pos.x - radius,
+            camp_pos.y - radius, camp_pos.z ), tripoint( camp_pos.x + radius, camp_pos.y + radius,
+                    camp_pos.z ) ) ) {
+        auto items = g->m.i_at( p.x, p.y );
+        for( item &elem : items ) {
+            elem.set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
         }
     }
 }

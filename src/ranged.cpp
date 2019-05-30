@@ -809,9 +809,9 @@ static std::vector<aim_type> get_default_aim_type()
     return aim_types;
 }
 
-typedef std::vector<std::tuple<double, char, std::string>> RatingVector;
-std::string get_colored_bar( const double val, const int width, const std::string &label,
-                             RatingVector::iterator begin, RatingVector::iterator end )
+using RatingVector = std::vector<std::tuple<double, char, std::string>>;
+static std::string get_colored_bar( const double val, const int width, const std::string &label,
+                                    RatingVector::iterator begin, RatingVector::iterator end )
 {
     std::string result;
 
@@ -1393,13 +1393,11 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
             line_number = draw_throw_aim( pc, w_target, line_number, ctxt, relevant, dst, true );
         }
 
-        wrefresh( g->w_terrain );
-        g->draw_panels();
-        draw_targeting_window( w_target, relevant->tname(),
-                               mode, ctxt, aim_types, tiny );
-        wrefresh( w_target );
-
-        catacurses::refresh();
+            wrefresh( g->w_terrain );
+            g->draw_panels();
+            draw_targeting_window( w_target, relevant->tname(),
+                                   mode, ctxt, aim_types, tiny );
+            wrefresh( w_target );
 
         std::string action;
         if( pc.activity.id() == activity_id( "ACT_AIM" ) && pc.activity.str_values[0] != "AIM" ) {

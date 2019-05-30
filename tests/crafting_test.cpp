@@ -116,7 +116,7 @@ TEST_CASE( "recipe_subset" )
 TEST_CASE( "available_recipes", "[recipes]" )
 {
     const recipe *r = &recipe_id( "brew_mead" ).obj();
-    player dummy;
+    avatar dummy;
 
     REQUIRE( dummy.get_skill_level( r->skill_used ) == 0 );
     REQUIRE_FALSE( dummy.knows_recipe( r ) );
@@ -211,7 +211,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
 TEST_CASE( "crafting_with_a_companion", "[.]" )
 {
     const recipe *r = &recipe_id( "brew_mead" ).obj();
-    player dummy;
+    avatar dummy;
 
     REQUIRE( dummy.get_skill_level( r->skill_used ) == 0 );
     REQUIRE_FALSE( dummy.knows_recipe( r ) );

@@ -16,7 +16,7 @@
     "required_level": 5,
     "max_level": 8,
     "intelligence": 10,
-    "time": 55,
+    "time": "55 m",
     "fun": -1
   },
   {
@@ -34,7 +34,7 @@
     "skill": "firstaid",
     "max_level": 1,
     "intelligence": 1,
-    "time": 8,
+    "time": "8 m",
     "fun": 1
   },
   {
@@ -52,7 +52,7 @@
     "skill": "firstaid",
     "max_level": 3,
     "intelligence": 7,
-    "time": 20
+    "time": "20 m"
   },
   {
     "id": "pocket_firstaid",
@@ -69,7 +69,7 @@
     "skill": "firstaid",
     "max_level": 2,
     "intelligence": 6,
-    "time": 20
+    "time": "20 m"
   },
   {
     "id": "textbook_firstaid",
@@ -88,7 +88,7 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
-    "time": 30
+    "time": "30 m"
   },
   {
     "id": "booklet_firstaid",
@@ -104,7 +104,7 @@
     "color": "pink",
     "skill": "firstaid",
     "max_level": 1,
-    "time": 8,
+    "time": "8 m",
     "fun": 1
   }
 ]

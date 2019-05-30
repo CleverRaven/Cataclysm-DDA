@@ -479,6 +479,21 @@
   },
   {
     "type": "snippet",
+    "category": "<witnessed_thievery>",
+    "text": [
+      "Hey! I <swear> saw you take that <name_b>! Drop it. Now.",
+      "You best be dropping what you just picked up right now <name_b>.",
+      "I've got eyes, you <swear> <name_b> thief!",
+      "Hey! That belongs to us! Drop it.",
+      "<swear>, I've seen a <swear> thief!",
+      "I saw that! Drop what you just stole!",
+      "Thieves will not last long around me <name_g>, please drop that.",
+      "Consider this a warning <name_b>, thieves will not be tolerated, drop it.",
+      "You think I'm <swear> blind <name_b>? Don't touch our stuff."
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<happy>",
     "text": [
       "content",

@@ -26,8 +26,8 @@ enum add_type : int;
 class profession
 {
     public:
-        typedef std::pair<skill_id, int> StartingSkill;
-        typedef std::vector<StartingSkill> StartingSkillList;
+        using StartingSkill = std::pair<skill_id, int>;
+        using StartingSkillList = std::vector<StartingSkill>;
         struct itypedec {
             std::string type_id;
             /** Snippet id, @see snippet_library. */
@@ -38,7 +38,7 @@ class profession
             itypedec( const std::string &t, const std::string &d ) : type_id( t ), snippet_id( d ) {
             }
         };
-        typedef std::vector<itypedec> itypedecvec;
+        using itypedecvec = std::vector<itypedec>;
         friend class string_id<profession>;
         friend class generic_factory<profession>;
 

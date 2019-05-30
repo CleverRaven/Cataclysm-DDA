@@ -1735,6 +1735,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "cs_tire_shop_roof",
+    "copy-from": "generic_city_building",
+    "name": "tire shop roof",
+    "sym": "O",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "headshop",
     "copy-from": "generic_city_building",
     "name": "Head Shop",

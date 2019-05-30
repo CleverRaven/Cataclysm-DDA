@@ -416,14 +416,14 @@ std::vector<std::string> get_hotkeys( const std::string &s );
  *
  */
 /*@{*/
-typedef enum {
+enum PopupFlags {
     PF_NONE        = 0,
     PF_GET_KEY     = 1 << 0,
     PF_NO_WAIT     = 1 << 1,
     PF_ON_TOP      = 1 << 2,
     PF_FULLSCREEN  = 1 << 3,
     PF_NO_WAIT_ON_TOP = PF_NO_WAIT | PF_ON_TOP,
-} PopupFlags;
+};
 
 template<typename ...Args>
 inline long popup_getkey( const char *const mes, Args &&... args )

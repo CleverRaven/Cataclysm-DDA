@@ -46,7 +46,7 @@ class thread
         HANDLE mHandle;
         id mThreadId;
     public:
-        typedef HANDLE native_handle_type;
+        using native_handle_type = HANDLE;
         id get_id() const noexcept {
             return mThreadId;
         }
@@ -61,7 +61,7 @@ class thread
         }
         template<class Function, class... Args>
         explicit thread( Function &&f, Args &&... args ) {
-            typedef decltype( std::bind( f, args... ) ) Call;
+            using Call = decltype( std::bind( f, args... ) );
             Call *call = new Call( std::bind( f, args... ) );
             mHandle = ( HANDLE )_beginthreadex( NULL, 0, threadfunc<Call>,
                                                 ( LPVOID )call, 0, ( unsigned * ) & ( mThreadId.mId ) );

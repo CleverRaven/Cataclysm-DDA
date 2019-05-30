@@ -10,6 +10,14 @@
     "entries": [  ]
   },
   {
+    "id": "fish_tiny",
+    "type": "harvest",
+    "entries": [
+      { "drop": "fish", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "meat_scrap", "type": "flesh", "mass_ratio": 0.08 }
+    ]
+  },
+  {
     "id": "fish_small",
     "type": "harvest",
     "entries": [

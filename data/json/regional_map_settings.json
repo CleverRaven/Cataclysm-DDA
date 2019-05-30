@@ -412,7 +412,9 @@
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
           "mx_pond": 125,
-          "mx_clay_deposit": 125
+          "mx_clay_deposit": 125,
+          "mx_point_dead_vegetation": 500,
+          "mx_point_burned_ground": 500
         }
       },
       "forest_thick": {
@@ -437,7 +439,9 @@
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
           "mx_pond": 125,
-          "mx_clay_deposit": 125
+          "mx_clay_deposit": 125,
+          "mx_point_dead_vegetation": 500,
+          "mx_point_burned_ground": 500
         }
       },
       "forest_water": {
@@ -460,7 +464,9 @@
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
           "mx_pond": 125,
-          "mx_clay_deposit": 125
+          "mx_clay_deposit": 125,
+          "mx_point_dead_vegetation": 500,
+          "mx_point_burned_ground": 500
         }
       },
       "field": {
@@ -477,7 +483,9 @@
           "mx_crater": 10,
           "mx_fumarole": 8,
           "mx_portal_in": 1,
-          "mx_anomaly": 3
+          "mx_anomaly": 3,
+          "mx_point_dead_vegetation": 50,
+          "mx_point_burned_ground": 50
         }
       },
       "road": {
@@ -496,7 +504,8 @@
           "mx_crater": 10,
           "mx_fumarole": 8,
           "mx_portal_in": 2,
-          "mx_anomaly": 3
+          "mx_anomaly": 3,
+          "mx_roadworks": 100
         }
       },
       "build": {
@@ -509,7 +518,8 @@
           "mx_crater": 60,
           "mx_fumarole": 8,
           "mx_portal_in": 1,
-          "mx_anomaly": 3
+          "mx_anomaly": 3,
+          "mx_point_burned_ground": 5
         }
       },
       "subway": {

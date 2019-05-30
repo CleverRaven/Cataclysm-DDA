@@ -17,6 +17,8 @@
 #include "cata_utility.h"
 #include "debug.h"
 #include "enums.h"
+#include "faction.h"
+#include "flat_set.h"
 #include "io_tags.h"
 #include "item_location.h"
 #include "string_id.h"
@@ -1836,9 +1838,35 @@ class item : public visitable<item>
         void set_age( const time_duration &age );
         time_point birthday() const;
         void set_birthday( const time_point &bday );
-
+        void handle_pickup_ownership( Character &p );
         int get_gun_ups_drain() const;
-
+        inline void set_old_owner( const faction *temp_owner ) {
+            old_owner = temp_owner;
+        }
+        inline void remove_old_owner() {
+            old_owner = nullptr;
+        }
+        inline void set_owner( faction *new_owner ) {
+            owner = new_owner;
+        }
+        inline void remove_owner() {
+            owner = nullptr;
+        }
+        inline const faction *get_owner() const {
+            if( owner ) {
+                return owner;
+            }
+            return nullptr;
+        }
+        inline const faction *get_old_owner() const {
+            if( old_owner ) {
+                return old_owner;
+            }
+            return nullptr;
+        }
+        inline bool has_owner() const {
+            return owner;
+        }
         int get_min_str() const;
 
         const recipe &get_making() const;
@@ -1865,6 +1893,7 @@ class item : public visitable<item>
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
 
+    public:
         enum class sizing {
             human_sized_human_char = 0,
             big_sized_human_char,
@@ -1948,7 +1977,10 @@ class item : public visitable<item>
          * PNULL.
          */
         phase_id current_phase = static_cast<phase_id>( 0 );
-
+        // The faction that owns this item.
+        const faction *owner = nullptr;
+        // The faction that previously owned this item
+        const faction *old_owner = nullptr;
         int damage_ = 0;
         light_emission light = nolight;
 
