@@ -6849,6 +6849,14 @@ int iuse::foodperson( player *p, item *it, bool t, const tripoint &pos )
                            "foodperson_mask" );
 
         }
+
+        if( calendar::once_every( 1_hours ) ) {
+            time_duration shift = time_duration::from_turns( it->magazine_current()->ammo_remaining() *
+                                  it->type->tool->turns_per_charge );
+
+            add_msg( m_info, _( "Your HUD lights-up: \"Your shift ends in %s\"." ), to_string( shift ) );
+        }
+
     }
 
     return it->type->charges_to_use();
