@@ -286,6 +286,104 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_clothes_roof",
+    "name": "clothing store",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_1",
+    "name": "clothing store",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_roof_1",
+    "name": "clothing store roof",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_2",
+    "name": "clothing store",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_roof_2",
+    "name": "clothing store roof",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_3",
+    "name": "clothing store",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_roof_3",
+    "name": "clothing store roof",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_4",
+    "name": "clothing store",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_roof_4",
+    "name": "clothing store roof",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_upper_roof_4",
+    "name": "clothing store roof",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_5",
+    "name": "clothing store",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_roof_5",
+    "name": "clothing store roof",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_6",
+    "name": "clothing store",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_roof_6",
+    "name": "clothing store roof",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_bookstore",
     "name": "bookstore",
     "copy-from": "generic_city_building",

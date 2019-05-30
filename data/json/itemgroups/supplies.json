@@ -438,5 +438,23 @@
       [ "record_accounting", 1 ],
       [ "money_bundle", 1 ]
     ]
+  },
+  {
+    "id": "gym_school",
+    "type": "item_group",
+    "items": [
+      [ "basketball", 100 ],
+      [ "baseball", 100 ],
+      [ "hat_ball", 10 ],
+      [ "helmet_ball", 20 ],
+      [ "bat", 80 ],
+      [ "football", 100 ],
+      [ "football_armor", 20 ],
+      [ "helmet_football", 20 ],
+      [ "medical_gauze", 10 ],
+      [ "heatpack", 10 ],
+      [ "whistle", 5 ],
+      [ "airhorn", 2 ]
+    ]
   }
 ]

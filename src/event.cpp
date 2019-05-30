@@ -4,6 +4,7 @@
 #include <memory>
 
 #include "avatar.h"
+#include "avatar_action.h"
 #include "debug.h"
 #include "game.h"
 #include "line.h"
@@ -226,7 +227,7 @@ void event::actualize()
                     add_msg( m_warning, _( "Water fills nearly to the ceiling!" ) );
                     g->u.add_memorial_log( pgettext( "memorial_male", "Water level reached the ceiling." ),
                                            pgettext( "memorial_female", "Water level reached the ceiling." ) );
-                    g->plswim( g->u.pos() );
+                    avatar_action::swim( g->m, g->u, g->u.pos() );
                 }
             }
             // flood_buf is filled with correct tiles; now copy them back to g->m

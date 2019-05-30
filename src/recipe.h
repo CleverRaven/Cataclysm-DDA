@@ -15,6 +15,7 @@
 
 class item;
 class JsonObject;
+class time_duration;
 
 using itype_id = std::string; // From itype.h
 class Character;
@@ -103,6 +104,8 @@ class recipe
         bool has_byproducts() const;
 
         int batch_time( int batch, float multiplier, size_t assistants ) const;
+        time_duration batch_duration( int batch = 1, float multiplier = 1.0,
+                                      size_t assistants = 0 ) const;
 
         bool has_flag( const std::string &flag_name ) const;
 
@@ -118,7 +121,10 @@ class recipe
 
         bool is_blueprint() const;
         const std::string &get_blueprint() const;
-        const std::vector<itype_id> &blueprint_provides() const;
+        const std::string &blueprint_name() const;
+        const std::vector<itype_id> &blueprint_resources() const;
+        const std::vector<std::pair<std::string, int>> &blueprint_provides() const;
+        const std::vector<std::pair<std::string, int>> &blueprint_requires() const;
 
         bool hot_result() const;
 
@@ -163,7 +169,10 @@ class recipe
         int batch_rsize = 0; // minimum batch size to needed to reach batch_rscale
         int result_mult = 1; // used by certain batch recipes that create more than one stack of the result
         std::string blueprint;
-        std::vector<itype_id> blueprint_resources;
+        std::string bp_name;
+        std::vector<itype_id> bp_resources;
+        std::vector<std::pair<std::string, int>> bp_provides;
+        std::vector<std::pair<std::string, int>> bp_requires;
 };
 
 #endif // RECIPE_H
