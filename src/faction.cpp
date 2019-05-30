@@ -99,6 +99,7 @@ faction_template::faction_template( JsonObject &jsobj )
         currency = "null";
     }
     load_relations( jsobj );
+    mon_faction = jsobj.get_string( "mon_faction", "human" );
 }
 
 std::string faction::describe() const
@@ -337,6 +338,7 @@ faction *faction_manager::get( const faction_id &id )
                         elem.currency = fac_temp.currency;
                         elem.name = fac_temp.name;
                         elem.desc = fac_temp.desc;
+                        elem.mon_faction = fac_temp.mon_faction;
                         for( const auto &rel_data : fac_temp.relations ) {
                             if( elem.relations.find( rel_data.first ) == elem.relations.end() ) {
                                 elem.relations[rel_data.first] = rel_data.second;

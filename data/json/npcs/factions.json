@@ -21,6 +21,7 @@
         "knows your voice": true
       }
     },
+    "mon_faction": "player",
     "description": "The survivors who have entrusted you with their well-being.  If morale drops, poor performance and mutiny may become issues."
   },
   {
@@ -289,6 +290,33 @@
       "your_followers": { "kill_on_sight": true }
     },
     "description": "The largest gang of hooligans and bandits that preys upon other survivors.  Even if you have no gear, there is always a need for slaves and fresh meat."
+  },
+  {
+    "type": "faction",
+    "id": "apis_hive",
+    "name": "Mutants Bees",
+    "likes_u": -25,
+    "respects_u": -25,
+    "known_by_u": false,
+    "size": 1,
+    "power": 10,
+    "food_supply": 2304,
+    "wealth": 0,
+    "relations": {
+      "apis_hive": {
+        "kill on sight": false,
+        "watch your back": true,
+        "share my stuff": true,
+        "guard your stuff": true,
+        "lets you in": true,
+        "defends your space": true,
+        "knows your voice": true
+      },
+      "free_merchants": { "kill_on_sight": true },
+      "old_guard": { "kill_on_sight": true },
+      "your_followers": { "kill_on_sight": true }
+    },
+    "description": "Mutant bees who hate everyone."
   },
   {
     "type": "faction",

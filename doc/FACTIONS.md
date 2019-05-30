@@ -56,6 +56,7 @@ Field | Meaning
 `"wealth"` | integer, number of post-apocalyptic currency in cents that that faction has to purchase stuff.
 `"currency"` | string, the item `"id"` of the faction's preferred currency.  Faction shopkeeps will trade faction current at 100% value, for both selling and buying.
 `"relations"` | dictionary, a description of how the faction sees other factions.  See below
+`"mon_faction"` | string, optional.  The monster faction `"name"` of the monster faction that this faction counts as.  Defaults to "human" if unspecified.
 
 ## Faction relations
 Factions can have relations with each other that apply to each member of the faction.  Faction relationships are not reciprocal: members of the Free Merchants will defend members of the Lobby Beggars, but members of the Lobby Beggars will not defend members of the Free Merchants.

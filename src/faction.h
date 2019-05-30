@@ -78,6 +78,7 @@ class faction_template
         int wealth;  //Total trade currency
         std::string currency; // itype_id of the faction currency
         std::map<std::string, std::bitset<npc_factions::rel_types>> relations;
+        std::string mon_faction; // mon_faction_id of the monster faction; defaults to human
 };
 
 class faction : public faction_template

@@ -2424,6 +2424,14 @@ std::set<tripoint> npc::get_path_avoid() const
 
 mfaction_id npc::get_monster_faction() const
 {
+    if( my_fac ) {
+        string_id<monfaction> my_mon_fac = string_id<monfaction>( my_fac->mon_faction );
+        if( my_mon_fac.is_valid() ) {
+            return my_mon_fac;
+        }
+    }
+
+    // legacy checks
     // Those can't be static int_ids, because mods add factions
     static const string_id<monfaction> human_fac( "human" );
     static const string_id<monfaction> player_fac( "player" );
