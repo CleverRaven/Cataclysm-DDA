@@ -149,7 +149,7 @@
     "dynamic_line": "I don't really want to talk about my life before this shit-show, if that's what you mean.  I don't need a shoulder to cry on.  I'm a hairdresser, is that enough personal information for you?",
     "responses": [
       {
-        "talk": "Could you give me a haircut?",
+        "text": "Could you give me a haircut?",
         "topic": "TALK_REFUGEE_Vanessa_Haircut_no",
         "condition": { "not": { "npc_has_var": "Vanessa_hairkit", "type": "mission", "context": "services", "value": "yes" } }
       }
