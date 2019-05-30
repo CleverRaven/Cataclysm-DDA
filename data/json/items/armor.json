@@ -10046,6 +10046,7 @@
     "category": "armor",
     "name": "XL heavy survivor suit",
     "description": "A massive, heavy, hand-built combination armor made from a reinforced bulletproof vest and a metal-plated leather jumpsuit.  Protects from the elements as well as from harm.",
+    "looks_like": "hsurvivor_suit",
     "weight": 16500,
     "volume": 75,
     "price": 200000,
