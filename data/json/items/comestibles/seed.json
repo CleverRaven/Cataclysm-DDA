@@ -756,5 +756,15 @@
     "description": "Some roasted coffee beans, can be ground into powder.",
     "addiction_type": "caffeine",
     "flags": [ "EDIBLE_FROZEN" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "seed_chamomile",
+    "copy-from": "seed",
+    "looks_like": "seed_raw_dandelion",
+    "name": "chamomile seeds",
+    "name_plural": "chamomile seeds",
+    "description": "Some chamomile seeds.",
+    "seed_data": { "plant_name": "chamomile", "fruit": "chamomile", "byproducts": [ "withered" ], "grow": "91 days" }
   }
 ]
