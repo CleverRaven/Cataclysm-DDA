@@ -1598,11 +1598,6 @@ void game::catch_a_monster( monster *fish, const tripoint &pos, player *p,
     fish->die( p );
 }
 
-void game::cancel_activity()
-{
-    u.cancel_activity();
-}
-
 static bool cancel_auto_move( player &p, const std::string &text )
 {
     if( p.has_destination() ) {
