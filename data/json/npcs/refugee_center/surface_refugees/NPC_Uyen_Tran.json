@@ -64,7 +64,6 @@
     "type": "talk_topic",
     "//": "common talk responses",
     "id": [ "TALK_REFUGEE_Uyen_2", "TALK_REFUGEE_Uyen_Background", "TALK_REFUGEE_Uyen_Situation" ],
-    "dynamic_line": "What brings you around here?  We don't see a lot of new faces.",
     "responses": [
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Uyen_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Uyen_Situation" },
@@ -77,11 +76,14 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Uyen_1",
     "dynamic_line": {
-      "u_has_var": "u_met_Uyen_Tran", "type": "general", "context": "meeting", "value": "yes",
+      "u_has_var": "u_met_Uyen_Tran",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
       "yes": [ "Hello again.", "Good to see you're still around.", "Oh, hi." ],
       "no": "Hi there.  You look new, nice to meet you.  My name's Uyen."
     },
-    "speaker_effect": { "effect": { "u_add_var": "u_met_Uyen_Tran", "type": "general", "context": "meeting", "value": "yes" } } ],
+    "speaker_effect": { "effect": { "u_add_var": "u_met_Uyen_Tran", "type": "general", "context": "meeting", "value": "yes" } },
     "responses": [
       {
         "text": "Nice to meet you too, Uyen.",
@@ -93,9 +95,7 @@
         "condition": { "u_has_var": "u_met_Uyen_Tran", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_REFUGEE_Uyen_2"
       },
-      {
-        "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE"
-      }
+      { "text": "I'm afraid I can't talk right now.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -144,9 +144,7 @@
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
     },
-    "end": {
-      "effect": { "u_buy_item": "FMCNote", "count": 25 },
-    }
+    "end": { "effect": { "u_buy_item": "FMCNote", "count": 25 } }
   },
   {
     "id": "MISSION_REFUGEE_Uyen_2",
@@ -169,8 +167,6 @@
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
     },
-    "end": {
-      "effect": { "u_buy_item": "FMCNote", "count": 25 },
-    }
+    "end": { "effect": { "u_buy_item": "FMCNote", "count": 25 } }
   }
 ]
