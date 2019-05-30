@@ -165,10 +165,15 @@ class messages_impl
         }
 
         void add_msg_string( std::string &&msg ) {
-            add_msg_string( std::move( msg ), m_neutral );
+            add_msg_string( std::move( msg ), m_neutral, gmf_none );
         }
 
-        void add_msg_string( std::string &&msg, game_message_type const type ) {
+        void add_msg_string( std::string &&msg, const game_message_params &params ) {
+            add_msg_string( std::move( msg ), params.type, params.flags );
+        }
+
+        void add_msg_string( std::string &&msg, game_message_type const type,
+                             const game_message_flags flags ) {
             if( msg.length() == 0 || !active ) {
                 return;
             }
@@ -179,7 +184,7 @@ class messages_impl
 
             game_message m = game_message( std::move( msg ), type );
 
-            refresh_cooldown( m );
+            refresh_cooldown( m, flags );
             hide_message_in_cooldown( m );
 
             if( coalesce_messages( m ) ) {
@@ -256,8 +261,9 @@ class messages_impl
 
         /** Refresh the cooldown timers, removing elapsed ones and making new ones if needed.
          * @param message The current message that needs to be checked.
+         * @param flags Flags pertaining to the message.
          */
-        void refresh_cooldown( const game_message &message ) {
+        void refresh_cooldown( const game_message &message, const game_message_flags flags ) {
             // is cooldown used? (also checks for messages arriving here at game initialization: we don't care about them).
             if( message_cooldown <= 0 || message.turn() <= 0 ) {
                 return;
@@ -274,6 +280,11 @@ class messages_impl
                 } else {
                     ++it;
                 }
+            }
+
+            // do not hide messages which bypasses cooldown.
+            if( ( flags & gmf_bypass_cooldown ) != 0 ) {
+                return;
             }
 
             // Is the message string already in the cooldown queue?
@@ -333,9 +344,9 @@ void Messages::add_msg( std::string msg )
     player_messages.add_msg_string( std::move( msg ) );
 }
 
-void Messages::add_msg( const game_message_type type, std::string msg )
+void Messages::add_msg( const game_message_params &params, std::string msg )
 {
-    player_messages.add_msg_string( std::move( msg ), type );
+    player_messages.add_msg_string( std::move( msg ), params );
 }
 
 void Messages::clear_messages()
@@ -848,7 +859,7 @@ void add_msg( std::string msg )
     Messages::add_msg( std::move( msg ) );
 }
 
-void add_msg( game_message_type const type, std::string msg )
+void add_msg( const game_message_params &params, std::string msg )
 {
-    Messages::add_msg( type, std::move( msg ) );
+    Messages::add_msg( params, std::move( msg ) );
 }
