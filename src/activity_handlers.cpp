@@ -213,7 +213,8 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_HACK_DOOR" ), hack_door_finish },
     { activity_id( "ACT_HACK_SAFE" ), hack_safe_finish },
     { activity_id( "ACT_SPELLCASTING" ), spellcasting_finish },
-    { activity_id( "ACT_STUDY_SPELL" ), study_spell_finish }
+    { activity_id( "ACT_STUDY_SPELL" ), study_spell_finish },
+    { activity_id( "ACT_SCAN_BOOK" ), scan_book_finish }
 };
 
 static void messages_in_process( const player_activity &act, const player &p )
@@ -3762,4 +3763,14 @@ void activity_handlers::study_spell_finish( player_activity *act, player *p )
     if( act->values[2] == -1 ) {
         p->add_msg_if_player( m_bad, _( "It's too dark to read." ) );
     }
+}
+
+void activity_handlers::scan_book_finish( player_activity *act, player *p )
+{
+    item &book = *act->targets[0];
+    item &mc = *act->targets[1];
+    mc.item_tags.insert( "MC_HAS_DATA" );
+    mc.set_var( "MC_BOOK", book.typeId() );
+    p->add_msg_if_player( _( "You meticulously scan %s and store it on sd card." ), book.tname() );
+    act->set_to_null();
 }

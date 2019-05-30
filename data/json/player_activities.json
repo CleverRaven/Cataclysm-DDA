@@ -636,5 +636,12 @@
     "suspendable": false,
     "based_on": "time",
     "no_resume": true
+  },
+  {
+    "id": "ACT_SCAN_BOOK",
+    "type": "activity_type",
+    "activity_level": "NO_EXERCISE",
+    "stop_phrase": "Stop scanning?",
+    "based_on": "speed"
   }
 ]

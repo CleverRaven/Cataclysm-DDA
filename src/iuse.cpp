@@ -6750,7 +6750,6 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             return 0;
         }
         
-        // quick, eh? should be made an activity
         p->moves -= 200;
         
         int index = g->inv_for_filter( _( "Scan which book?" ), []( const item & itm ) {
@@ -6761,6 +6760,11 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         if( book.is_null() ) {
             p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
             return it->type->charges_to_use();
+        }
+        
+        if( it->charges < it->type->charges_to_use() * ( book.volume() / 50_ml ) ) {
+            p->add_msg_if_player( m_info, _( "Your %s dosn't have enough charges to scan book this big!" ), it->tname() );
+            return 0;
         }
 
         index = g->inv_for_flag( "MC_MOBILE", _( "Insert memory card" ) );
@@ -6791,12 +6795,14 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         mc.convert( "mobile_memory_card" );
         mc.clear_vars();
         mc.unset_flags();
-        mc.item_tags.insert( "MC_HAS_DATA" );
-        mc.set_var( "MC_BOOK", book.typeId() );
+        
+        p->assign_activity( activity_id( "ACT_SCAN_BOOK" ), ( book.volume() / 25_ml ) * 1000 );
+        p->activity.targets.push_back( item_location( *p, &book ) );
+        p->activity.targets.push_back( item_location( *p, &mc ) );
+        
+        p->add_msg_if_player( m_info, _( "You start scanning %s." ), book.tname() );
 
-        p->add_msg_if_player( m_info, _( "You scan %s and store it on memory card" ), book.tname() );
-
-        return it->type->charges_to_use();
+        return it->type->charges_to_use() * ( book.volume() / 50_ml );
     }
 
     return it->type->charges_to_use();
