@@ -1025,7 +1025,7 @@ std::string trim_punctuation_marks( const std::string &s )
     } );
 }
 
-typedef std::string::value_type char_t;
+using char_t = std::string::value_type;
 std::string to_upper_case( const std::string &s )
 {
     std::string res;

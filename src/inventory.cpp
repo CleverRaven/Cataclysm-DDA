@@ -9,6 +9,7 @@
 #include <memory>
 #include <set>
 
+#include "avatar.h"
 #include "debug.h"
 #include "game.h"
 #include "iexamine.h"
@@ -199,7 +200,7 @@ void inventory::unsort()
     binned = false;
 }
 
-bool stack_compare( const std::list<item> &lhs, const std::list<item> &rhs )
+static bool stack_compare( const std::list<item> &lhs, const std::list<item> &rhs )
 {
     return lhs.front() < rhs.front();
 }
@@ -369,7 +370,7 @@ void inventory::restack( player &p )
 #endif
 }
 
-static long count_charges_in_list( const itype *type, const map_stack &items )
+static int count_charges_in_list( const itype *type, const map_stack &items )
 {
     for( const auto &candidate : items ) {
         if( candidate.type == type ) {
@@ -388,14 +389,21 @@ void inventory::form_from_map( const tripoint &origin, int range, bool assign_in
 void inventory::form_from_map( map &m, const tripoint &origin, int range, bool assign_invlet,
                                bool clear_path )
 {
-    items.clear();
-    for( const tripoint &p : m.points_in_radius( origin, range ) ) {
-        // can not reach this -> can not access its contents
-        if( clear_path ) {
-            if( origin != p && !m.clear_path( origin, p, range, 1, 100 ) ) {
-                continue;
-            }
+    // populate a grid of spots that can be reached
+    std::vector<tripoint> reachable_pts = {};
+    // If we need a clear path we care about the reachability of points
+    if( clear_path ) {
+        m.reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
+    } else {
+        // Fill reachable points with points_in_radius
+        tripoint_range in_radius = m.points_in_radius( origin, range );
+        for( const tripoint &p : in_radius ) {
+            reachable_pts.emplace_back( p );
         }
+    }
+
+    items.clear();
+    for( const tripoint &p : reachable_pts ) {
         if( m.has_furn( p ) ) {
             const furn_t &f = m.furn( p ).obj();
             const itype *type = f.crafting_pseudo_item_type();
@@ -557,6 +565,7 @@ void inventory::form_from_map( map &m, const tripoint &origin, int range, bool a
             add_item( chemistry_set );
         }
     }
+    reachable_pts.clear();
 }
 
 std::list<item> inventory::reduce_stack( const int position, const int quantity )
@@ -715,10 +724,9 @@ int inventory::position_by_type( const itype_id &type ) const
     return INT_MIN;
 }
 
-std::list<item> inventory::use_amount( itype_id it, int _quantity,
+std::list<item> inventory::use_amount( itype_id it, int quantity,
                                        const std::function<bool( const item & )> &filter )
 {
-    long quantity = _quantity; // Don't want to change the function signature right now
     items.sort( stack_compare );
     std::list<item> ret;
     for( invstack::iterator iter = items.begin(); iter != items.end() && quantity > 0; /* noop */ ) {
@@ -753,10 +761,10 @@ bool inventory::has_components( const itype_id &it, int quantity,
     return has_amount( it, quantity, false, filter );
 }
 
-bool inventory::has_charges( const itype_id &it, long quantity,
+bool inventory::has_charges( const itype_id &it, int quantity,
                              const std::function<bool( const item & )> &filter ) const
 {
-    return ( charges_of( it, std::numeric_limits<long>::max(), filter ) >= quantity );
+    return ( charges_of( it, INT_MAX, filter ) >= quantity );
 }
 
 int inventory::leak_level( const std::string &flag ) const
@@ -923,7 +931,7 @@ void for_each_item_in_both(
             continue;
         }
 
-        long num_to_count = other_it->second;
+        int num_to_count = other_it->second;
         if( representative.count_by_charges() ) {
             item copy = representative;
             copy.charges = std::min( copy.charges, num_to_count );
@@ -1004,7 +1012,8 @@ std::vector<item *> inventory::active_items()
 
 void inventory::assign_empty_invlet( item &it, const Character &p, const bool force )
 {
-    if( !get_option<bool>( "AUTO_INV_ASSIGN" ) ) {
+    const std::string auto_setting = get_option<std::string>( "AUTO_INV_ASSIGN" );
+    if( auto_setting == "disabled" || ( ( auto_setting == "favorites" ) && !it.is_favorite ) ) {
         return;
     }
 

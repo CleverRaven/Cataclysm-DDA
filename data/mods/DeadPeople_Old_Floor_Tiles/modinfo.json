@@ -5,7 +5,7 @@
     "name": "[DP_MOD] Alternative Floor Tiles",
     "authors": [ "SomeDeadGuy" ],
     "description": "Brings previous wooden floor tiles back!",
-    "category": "none",
+    "category": "graphical",
     "dependencies": [ "dda" ]
   }
 ]

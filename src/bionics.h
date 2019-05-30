@@ -10,6 +10,7 @@
 #include <utility>
 
 #include "bodypart.h"
+#include "calendar.h"
 #include "string_id.h"
 #include "type_id.h"
 
@@ -66,6 +67,10 @@ struct bionic_data {
     */
     bool sleep_friendly = false;
     /**
+    * If true, this bionic can't be incapacitated by electrical attacks.
+    */
+    bool shockproof = false;
+    /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
     std::map<body_part, size_t> occupied_bodyparts;
@@ -108,11 +113,14 @@ struct bionic {
     itype_id    ammo_loaded = "null";
     /* Ammount of ammo actually held inside by this bionic gun in deactivated state */
     unsigned int         ammo_count = 0;
+    /* An amount of time during which this bionic has been rendered inoperative. */
+    time_duration        incapacitated_time;
 
     bionic()
-        : id( "bio_batteries" ) { }
+        : id( "bio_batteries" ), incapacitated_time( 0_turns ) {
+    }
     bionic( bionic_id pid, char pinvlet )
-        : id( std::move( pid ) ), invlet( pinvlet ) { }
+        : id( std::move( pid ) ), invlet( pinvlet ), incapacitated_time( 0_turns ) { }
 
     const bionic_data &info() const {
         return *id;

@@ -9,6 +9,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "craft_command.h"
 #include "game.h"

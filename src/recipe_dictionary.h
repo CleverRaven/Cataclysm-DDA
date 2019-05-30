@@ -17,7 +17,7 @@ class JsonIn;
 class JsonOut;
 class JsonObject;
 
-typedef std::string itype_id;
+using itype_id = std::string;
 
 class recipe_dictionary
 {

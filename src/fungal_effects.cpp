@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "avatar.h"
 #include "creature.h"
 #include "field.h"
 #include "game.h"
@@ -278,7 +279,9 @@ bool fungal_effects::spread_fungus( const tripoint &p )
                         }
                     } else if( m.has_flag( "PLANT", dest ) ) {
                         // Replace the (already existing) seed
-                        m.i_at( p )[0] = item( "fungal_seeds", calendar::turn );
+                        if( !m.i_at( p ).empty() ) {
+                            m.i_at( p )[0] = item( "fungal_seeds", calendar::turn );
+                        }
                     }
                 }
             }

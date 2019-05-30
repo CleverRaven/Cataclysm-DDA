@@ -196,7 +196,7 @@ class weather_manager
         // Updates the temperature and weather patten
         void update_weather();
         // The air temperature
-        signed char temperature;
+        int temperature;
         bool lightning_active;
         // Weather pattern
         weather_type weather;
@@ -215,6 +215,7 @@ class weather_manager
         std::unordered_map< tripoint, int > temperature_cache;
         // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
         int get_temperature( const tripoint &location );
+        void clear_temp_cache();
 };
 
 #endif

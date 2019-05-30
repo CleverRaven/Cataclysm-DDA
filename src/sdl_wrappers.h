@@ -83,6 +83,7 @@ void RenderCopy( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &textur
 SDL_Texture_Ptr CreateTextureFromSurface( const SDL_Renderer_Ptr &renderer,
         const SDL_Surface_Ptr &surface );
 void SetRenderDrawColor( const SDL_Renderer_Ptr &renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a );
+void RenderDrawPoint( const SDL_Renderer_Ptr &renderer, int x, int y );
 void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect );
 void FillRect( const SDL_Surface_Ptr &surface, const SDL_Rect *rect, Uint32 color );
 bool SetTextureColorMod( const SDL_Texture_Ptr &texture, Uint32 r, Uint32 g, Uint32 b );
@@ -109,6 +110,20 @@ inline bool operator==( const SDL_Color &lhs, const SDL_Color &rhs )
 }
 
 inline bool operator!=( const SDL_Color &lhs, const SDL_Color &rhs )
+{
+    return !operator==( lhs, rhs );
+}
+
+inline bool operator==( const SDL_Rect &lhs, const SDL_Rect &rhs )
+{
+    return
+        lhs.x == rhs.x &&
+        lhs.y == rhs.y &&
+        lhs.w == rhs.w &&
+        lhs.h == rhs.h;
+}
+
+inline bool operator!=( const SDL_Rect &lhs, const SDL_Rect &rhs )
 {
     return !operator==( lhs, rhs );
 }

@@ -56,7 +56,7 @@ class item_stack
          * @returns Value of zero or greater for all items. For items counted by charges, it is always at
          * most it.charges.
          */
-        long amount_can_fit( const item &it ) const;
+        int amount_can_fit( const item &it ) const;
         /** Return the item (or nullptr) that stacks with the argument */
         item *stacks_with( const item &it );
         const item *stacks_with( const item &it ) const;

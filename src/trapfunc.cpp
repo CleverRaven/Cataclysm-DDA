@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <utility>
 
+#include "avatar.h"
 #include "debug.h"
 #include "explosion.h"
 #include "event.h"
@@ -51,7 +52,7 @@ static const trait_id trait_WINGS_BIRD( "WINGS_BIRD" );
 static const trait_id trait_WINGS_BUTTERFLY( "WINGS_BUTTERFLY" );
 
 // A pit becomes less effective as it fills with corpses.
-float pit_effectiveness( const tripoint &p )
+static float pit_effectiveness( const tripoint &p )
 {
     units::volume corpse_volume = 0_ml;
     for( auto &pit_content : g->m.i_at( p ) ) {
@@ -88,11 +89,11 @@ void trapfunc::bubble( Creature *c, const tripoint &p )
 
 void trapfunc::glass( Creature *c, const tripoint &p )
 {
-    // tiny animals don't trigger glass trap
-    if( ( c != nullptr && c->get_size() == MS_TINY ) || c->is_hallucination() ) {
-        return;
-    }
     if( c != nullptr ) {
+        // tiny animals and hallucinations don't trigger glass trap
+        if( c->get_size() == MS_TINY || c->is_hallucination() ) {
+            return;
+        }
         c->add_msg_player_or_npc( m_warning, _( "You step on some glass!" ),
                                   _( "<npcname> steps on some glass!" ) );
         c->add_memorial_log( pgettext( "memorial_male", "Stepped on glass." ),
@@ -220,11 +221,11 @@ void trapfunc::caltrops( Creature *c, const tripoint & )
 
 void trapfunc::caltrops_glass( Creature *c, const tripoint &p )
 {
-    // tiny animals don't trigger caltrops, they can squeeze between them
-    if( ( c != nullptr && c->get_size() == MS_TINY ) || c->is_hallucination() ) {
-        return;
-    }
     if( c != nullptr ) {
+        // tiny animals don't trigger caltrops, they can squeeze between them
+        if( c->get_size() == MS_TINY || c->is_hallucination() ) {
+            return;
+        }
         c->add_memorial_log( pgettext( "memorial_male", "Stepped on a glass caltrop." ),
                              pgettext( "memorial_female", "Stepped on a glass caltrop." ) );
         c->add_msg_player_or_npc( m_bad, _( "You step on a sharp glass caltrop!" ),
@@ -970,7 +971,7 @@ void trapfunc::portal( Creature *c, const tripoint &p )
 }
 
 // Don't ask NPCs - they always want to do the first thing that comes to their minds
-bool query_for_item( const player *pl, const std::string &itemname, const char *que )
+static bool query_for_item( const player *pl, const std::string &itemname, const char *que )
 {
     return pl->has_amount( itemname, 1 ) && ( !pl->is_player() || query_yn( que ) );
 }
@@ -989,8 +990,8 @@ static bool sinkhole_safety_roll( player *p, const std::string &itemname, const 
     ///\EFFECT_DEX increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
 
     ///\EFFECT_THROW increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
-    const int roll = rng( p->get_skill_level( skill_throw ),
-                          p->get_skill_level( skill_throw ) + p->str_cur + p->dex_cur );
+    const int throwing_skill_level = p->get_skill_level( skill_throw );
+    const int roll = rng( throwing_skill_level, throwing_skill_level + p->str_cur + p->dex_cur );
     if( roll < diff ) {
         p->add_msg_if_player( m_bad, _( "You fail to attach it..." ) );
         p->use_amount( itemname, 1 );

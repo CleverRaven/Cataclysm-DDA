@@ -14,9 +14,6 @@
 
 ter_furn_id::ter_furn_id() : ter( t_null ), furn( f_null ) { }
 
-//Classic Extras is for when you have special zombies turned off.
-static const std::set<std::string> classic_extras = { "mx_helicopter", "mx_military", "mx_roadblock", "mx_drugdeal", "mx_supplydrop", "mx_minefield", "mx_crater", "mx_collegekids", "mx_house_wasp", "mx_house_spider" };
-
 template<typename T>
 void read_and_set_or_throw( JsonObject &jo, const std::string &member, T &target, bool required )
 {
@@ -30,8 +27,8 @@ void read_and_set_or_throw( JsonObject &jo, const std::string &member, T &target
     }
 }
 
-void load_forest_biome_component( JsonObject &jo, forest_biome_component &forest_biome_component,
-                                  const bool overlay )
+static void load_forest_biome_component(
+    JsonObject &jo, forest_biome_component &forest_biome_component, const bool overlay )
 {
     read_and_set_or_throw<int>( jo, "chance", forest_biome_component.chance, !overlay );
     read_and_set_or_throw<int>( jo, "sequence", forest_biome_component.sequence, !overlay );
@@ -59,7 +56,7 @@ void load_forest_biome_component( JsonObject &jo, forest_biome_component &forest
     }
 }
 
-void load_forest_biome_terrain_dependent_furniture( JsonObject &jo,
+static void load_forest_biome_terrain_dependent_furniture( JsonObject &jo,
         forest_biome_terrain_dependent_furniture &forest_biome_terrain_dependent_furniture,
         const bool overlay )
 {
@@ -90,7 +87,7 @@ void load_forest_biome_terrain_dependent_furniture( JsonObject &jo,
     }
 }
 
-void load_forest_biome( JsonObject &jo, forest_biome &forest_biome, const bool overlay )
+static void load_forest_biome( JsonObject &jo, forest_biome &forest_biome, const bool overlay )
 {
     read_and_set_or_throw<int>( jo, "sparseness_adjacency_factor",
                                 forest_biome.sparseness_adjacency_factor, !overlay );
@@ -162,9 +159,10 @@ void load_forest_biome( JsonObject &jo, forest_biome &forest_biome, const bool o
     }
 }
 
-void load_forest_mapgen_settings( JsonObject &jo, forest_mapgen_settings &forest_mapgen_settings,
-                                  const bool strict,
-                                  const bool overlay )
+static void load_forest_mapgen_settings( JsonObject &jo,
+        forest_mapgen_settings &forest_mapgen_settings,
+        const bool strict,
+        const bool overlay )
 {
     if( !jo.has_object( "forest_mapgen_settings" ) ) {
         if( strict ) {
@@ -183,8 +181,9 @@ void load_forest_mapgen_settings( JsonObject &jo, forest_mapgen_settings &forest
     }
 }
 
-void load_forest_trail_settings( JsonObject &jo, forest_trail_settings &forest_trail_settings,
-                                 const bool strict, const bool overlay )
+static void load_forest_trail_settings( JsonObject &jo,
+                                        forest_trail_settings &forest_trail_settings,
+                                        const bool strict, const bool overlay )
 {
     if( !jo.has_object( "forest_trail_settings" ) ) {
         if( strict ) {
@@ -240,7 +239,7 @@ void load_forest_trail_settings( JsonObject &jo, forest_trail_settings &forest_t
     }
 }
 
-void load_overmap_feature_flag_settings( JsonObject &jo,
+static void load_overmap_feature_flag_settings( JsonObject &jo,
         overmap_feature_flag_settings &overmap_feature_flag_settings,
         const bool strict, const bool overlay )
 {
@@ -287,8 +286,9 @@ void load_overmap_feature_flag_settings( JsonObject &jo,
     }
 }
 
-void load_overmap_forest_settings( JsonObject &jo, overmap_forest_settings &overmap_forest_settings,
-                                   const bool strict, const bool overlay )
+static void load_overmap_forest_settings(
+    JsonObject &jo, overmap_forest_settings &overmap_forest_settings, const bool strict,
+    const bool overlay )
 {
     if( !jo.has_object( "overmap_forest_settings" ) ) {
         if( strict ) {
@@ -311,8 +311,9 @@ void load_overmap_forest_settings( JsonObject &jo, overmap_forest_settings &over
     }
 }
 
-void load_overmap_lake_settings( JsonObject &jo, overmap_lake_settings &overmap_lake_settings,
-                                 const bool strict, const bool overlay )
+static void load_overmap_lake_settings( JsonObject &jo,
+                                        overmap_lake_settings &overmap_lake_settings,
+                                        const bool strict, const bool overlay )
 {
     if( !jo.has_object( "overmap_lake_settings" ) ) {
         if( strict ) {
@@ -448,10 +449,6 @@ void load_region_settings( JsonObject &jo )
                     std::set<std::string> keys = exjo.get_member_names();
                     for( const auto &key : keys ) {
                         if( key != "//" ) {
-                            if( get_option<bool>( "CLASSIC_ZOMBIES" )
-                                && classic_extras.count( key ) == 0 ) {
-                                continue;
-                            }
                             extras.values.add( key, exjo.get_int( key, 0 ) );
                         }
                     }
@@ -649,10 +646,6 @@ void apply_region_overlay( JsonObject &jo, regional_settings &region )
             std::set<std::string> extrakeys = extrasjo.get_member_names();
             for( const auto &key : extrakeys ) {
                 if( key != "//" ) {
-                    if( get_option<bool>( "CLASSIC_ZOMBIES" )
-                        && classic_extras.count( key ) == 0 ) {
-                        continue;
-                    }
                     region.region_extras[zone].values.add_or_replace( key, extrasjo.get_int( key ) );
                 }
             }

@@ -21,6 +21,7 @@
 #include "omdata.h"
 #include "optional.h"
 
+class avatar;
 class player;
 class mission;
 class Creature;
@@ -363,7 +364,7 @@ class mission
         /*@}*/
 
         /** Assigns the mission to the player. */
-        void assign( player &u );
+        void assign( avatar &u );
 
         /** Called when the mission has failed, calls the mission fail callback. */
         void fail();

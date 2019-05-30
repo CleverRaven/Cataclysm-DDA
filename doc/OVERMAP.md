@@ -261,6 +261,16 @@ the underlying overmap terrains that make up the special is that the overmap spe
 a specific rotated version of the associated overmap terrain--generally, this is the `_north` rotation
 as it corresponds to the way in which the JSON for mapgen is defined.
 
+### Locations
+
+The overmap special has two mechanisms for specifying the valid locations (`overmap_location`) that
+it may be placed on. Each individual entry in `overmaps` may have the valid locations specified,
+which is useful if different parts of a special are allowed on different types of terrain (e.g. a
+dock that should have one part on the shore and one part in the water). If all values are the same,
+locations may instead be specified for the entire special using the top level `locations` key, The
+value for an individual entry takes precedence over the top level value, so you may define the top
+level value and then only specify it for individual entries that differ.
+
 ### Fields
 
 |   Identifier    |                                              Description                                              |
@@ -284,7 +294,7 @@ as it corresponds to the way in which the JSON for mapgen is defined.
     "type": "overmap_special",
     "id": "campground",
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "campground_1a_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "campground_1a_north", "locations": [ "forest_edge" ] },
       { "point": [ 1, 0, 0 ], "overmap": "campground_1b_north" },
       { "point": [ 0, 1, 0 ], "overmap": "campground_2a_north" },
       { "point": [ 1, 1, 0 ], "overmap": "campground_2b_north" }
@@ -299,6 +309,14 @@ as it corresponds to the way in which the JSON for mapgen is defined.
   }
 ]
 ```
+
+### Overmaps
+
+| Identifier  |                                Description                                 |
+| ----------- | -------------------------------------------------------------------------- |
+| `point`     | [ x, y, z] of the overmap terrain within the special.                      |
+| `overmap`   | Id of the `overmap_terrain` to place at the location.                      |
+| `locations` | List of `overmap_location` ids that this overmap terrain may be placed on. |
 
 ### Connections
 

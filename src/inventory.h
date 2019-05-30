@@ -27,12 +27,12 @@ class JsonOut;
 class player;
 struct tripoint;
 
-typedef std::list< std::list<item> > invstack;
-typedef std::vector< std::list<item>* > invslice;
-typedef std::vector< const std::list<item>* > const_invslice;
-typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
-typedef std::unordered_map< itype_id, std::list<const item *> > itype_bin;
-typedef std::bitset<std::numeric_limits<char>::max()> invlets_bitset;
+using invstack = std::list<std::list<item> >;
+using invslice = std::vector<std::list<item> *>;
+using const_invslice = std::vector<const std::list<item> *>;
+using indexed_invslice = std::vector< std::pair<std::list<item>*, int> >;
+using itype_bin = std::unordered_map< itype_id, std::list<const item *> >;
+using invlets_bitset = std::bitset<std::numeric_limits<char>::max()>;
 
 /**
  * Wrapper to handled a set of valid "inventory" letters. "inventory" can be any set of
@@ -168,7 +168,7 @@ class inventory : public visitable<inventory>
                         const std::function<bool( const item & )> &filter = return_true<item> ) const;
         bool has_components( const itype_id &it, int quantity,
                              const std::function<bool( const item & )> &filter = return_true<item> ) const;
-        bool has_charges( const itype_id &it, long quantity,
+        bool has_charges( const itype_id &it, int quantity,
                           const std::function<bool( const item & )> &filter = return_true<item> ) const;
 
         int leak_level( const std::string &flag ) const; // level of leaked bad stuff from items

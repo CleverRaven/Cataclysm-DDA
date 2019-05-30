@@ -85,6 +85,7 @@ enum npc_attitude : int {
     NPCATT_LEGACY_5,
     NPCATT_ACTIVITY, // Perform a mission activity
     NPCATT_FLEE_TEMP, // Get away from the player for a while
+    NPCATT_RECOVER_GOODS, // Chase the player to demand stolen goods back
     NPCATT_END
 };
 
@@ -642,6 +643,9 @@ enum talk_topic_enum {
     NUM_TALK_TOPICS
 };
 
+// Function for conversion of legacy topics, defined in savegame_legacy.cpp
+std::string convert_talk_topic( talk_topic_enum const old_value );
+
 struct npc_chatbin {
     /**
      * Add a new mission to the available missions (@ref missions). For compatibility it silently
@@ -686,7 +690,7 @@ struct npc_chatbin {
 class npc_template;
 struct epilogue;
 
-typedef std::map<std::string, epilogue> epilogue_map;
+using epilogue_map = std::map<std::string, epilogue>;
 
 class npc : public player
 {
@@ -849,6 +853,9 @@ class npc : public player
         bool took_painkiller() const;
         void use_painkiller();
         void activate_item( int position );
+        bool has_identified( const std::string & ) const override {
+            return true;
+        }
         /** Is the item safe or does the NPC trust you enough? */
         bool will_accept_from_player( const item &it ) const;
 
@@ -930,6 +937,8 @@ class npc : public player
 
         void handle_sound( int priority, const std::string &description, int heard_volume,
                            const tripoint &spos );
+
+        void witness_thievery( item *it );
 
         /* shift() works much like monster::shift(), and is called when the player moves
          * from one submap to an adjacent submap.  It updates our position (shifting by
@@ -1020,7 +1029,7 @@ class npc : public player
         // Item discovery and fetching
 
         // Comment on item seen
-        void see_item_say_smth( const itype_id item, const std::string smth );
+        void see_item_say_smth( const itype_id &item, const std::string &smth );
         // Look around and pick an item
         void find_item();
         // Move to, or grab, our targeted item
@@ -1166,7 +1175,9 @@ class npc : public player
          */
         tripoint goal;
         std::vector<tripoint> omt_path;
-
+        tripoint wander_pos; // Not actually used (should be: wander there when you hear a sound)
+        int wander_time;
+        item *known_stolen_item = nullptr; // the item that the NPC wants the player to drop or barter for.
         /**
          * Location and index of the corpse we'd like to pulp (if any).
          */

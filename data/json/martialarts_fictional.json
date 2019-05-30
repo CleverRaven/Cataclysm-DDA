@@ -228,44 +228,5 @@
     "unarmed_allowed": true,
     "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
     "messages": [ "You swiftly hit %s", "<npcname> swiftly hits %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_snake_rapid",
-    "name": "Snake Snap",
-    "min_unarmed": 2,
-    "unarmed_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
-    "messages": [ "You swiftly jab %s", "<npcname> swiftly jabs %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_snake_feint",
-    "name": "Snake Slide",
-    "min_unarmed": 3,
-    "unarmed_allowed": true,
-    "defensive": true,
-    "miss_recovery": true,
-    "messages": [ "You make serpentine hand motions at %s", "<npcname> makes serpentine hand motions at %s" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_snake_break",
-    "name": "Snake Slither",
-    "min_unarmed": 4,
-    "unarmed_allowed": true,
-    "defensive": true,
-    "grab_break": true,
-    "messages": [ "You slither free", "<npcname> slithers free" ]
-  },
-  {
-    "type": "technique",
-    "id": "tec_snake_precise",
-    "name": "Snake Strike",
-    "min_unarmed": 4,
-    "unarmed_allowed": true,
-    "crit_tec": true,
-    "messages": [ "You strike out at %s", "<npcname> strikes out at %s" ],
-    "stun_dur": 2
   }
 ]

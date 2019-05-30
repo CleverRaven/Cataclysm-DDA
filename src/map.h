@@ -79,8 +79,8 @@ struct wrapped_vehicle {
     vehicle *v;
 };
 
-typedef std::vector<wrapped_vehicle> VehicleList;
-typedef std::string items_location;
+using VehicleList = std::vector<wrapped_vehicle>;
+using items_location = std::string;
 class map;
 
 enum ter_bitflags : int;
@@ -466,6 +466,20 @@ class map
          */
         bool clear_path( const tripoint &f, const tripoint &t, const int range,
                          const int cost_min, const int cost_max ) const;
+
+
+        /**
+         * Populates a vector of points that are reachable within a number of steps from a
+         * point. It could be generalized to take advantage of z levels, but would need some
+         * additional code to detect whether a valid transition was on a tile.
+         *
+         * Does the following:
+         * 1. Checks if a point is reachable using a flood fill and if it is, adds it to a vector.
+         *
+         */
+        void reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tripoint &f,
+                                    const int range,
+                                    const int cost_min, const int cost_max ) const;
 
         /**
          * Iteratively tries Bresenham lines with different biases
@@ -879,14 +893,14 @@ class map
         int i_rem( const int x, const int y, const int index );
         void i_rem( const int x, const int y, item *it );
         void spawn_item( const int x, const int y, const std::string &itype_id,
-                         const unsigned quantity = 1, const long charges = 0,
+                         const unsigned quantity = 1, const int charges = 0,
                          const time_point &birthday = calendar::time_of_cataclysm, const int damlevel = 0 );
 
         item &add_item_or_charges( const int x, const int y, item obj, bool overflow = true );
 
         void add_item( const int x, const int y, item new_item );
         void spawn_an_item( const int x, const int y, item new_item,
-                            const long charges, const int damlevel );
+                            const int charges, const int damlevel );
         std::vector<item *> place_items( const items_location &loc, const int chance, const int x1,
                                          const int y1,
                                          const int x2, const int y2, bool ongrass, const time_point &turn,
@@ -906,7 +920,7 @@ class map
         void spawn_artifact( const tripoint &p );
         void spawn_natural_artifact( const tripoint &p, const artifact_natural_property prop );
         void spawn_item( const tripoint &p, const std::string &itype_id,
-                         const unsigned quantity = 1, const long charges = 0,
+                         const unsigned quantity = 1, const int charges = 0,
                          const time_point &birthday = calendar::time_of_cataclysm, const int damlevel = 0 );
         units::volume max_volume( const tripoint &p );
         units::volume free_volume( const tripoint &p );
@@ -933,7 +947,7 @@ class map
          */
         item &add_item( const tripoint &p, item new_item );
         item &spawn_an_item( const tripoint &p, item new_item,
-                             const long charges, const int damlevel );
+                             const int charges, const int damlevel );
 
         /**
          * Update an item's active status, for example when adding
@@ -960,11 +974,12 @@ class map
          */
         /*@{*/
         std::list<item> use_amount_square( const tripoint &p, const itype_id &type,
-                                           long &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
-        std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
-                                    long &amount, const std::function<bool( const item & )> &filter = return_true<item> );
+                                           int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
+        std::list<item> use_amount( const tripoint &origin, const int range, const itype_id &type,
+                                    int &amount, const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> use_charges( const tripoint &origin, const int range, const itype_id type,
-                                     long &amount, const std::function<bool( const item & )> &filter = return_true<item> );
+                                     int &amount, const std::function<bool( const item & )> &filter = return_true<item>,
+                                     basecamp *bcp = nullptr );
         /*@}*/
         std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
 
@@ -1015,12 +1030,12 @@ class map
         item *item_from( vehicle *veh, const int cargo_part, const size_t index );
 
         // Traps: 3D
-        void trap_set( const tripoint &p, const trap_id type );
+        void trap_set( const tripoint &p, const trap_id &type );
 
         const trap &tr_at( const tripoint &p ) const;
         void disarm_trap( const tripoint &p );
         void remove_trap( const tripoint &p );
-        const std::vector<tripoint> &trap_locations( const trap_id type ) const;
+        const std::vector<tripoint> &trap_locations( const trap_id &type ) const;
 
         //Spawns byproducts from items destroyed in fire.
         void create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass );
@@ -1205,7 +1220,8 @@ class map
         void place_vending( int x, int y, const std::string &type, bool reinforced = false );
         // places an NPC, if static NPCs are enabled or if force is true
         int place_npc( int x, int y, const string_id<npc_template> &type, const bool force = false );
-
+        void apply_faction_ownership( const int x1, const int y1, const int x2, const int y2,
+                                      const faction_id id );
         void add_spawn( const mtype_id &type, const int count, const int x, const int y,
                         bool friendly = false,
                         const int faction_id = -1, const int mission_id = -1,
@@ -1573,8 +1589,8 @@ class map
          * It's a really heinous function pointer so a typedef is the best
          * solution in this instance.
          */
-        typedef bool ( *map_process_func )( item_stack &, std::list<item>::iterator &, const tripoint &,
-                                            const std::string &, int, float, temperature_flag );
+        using map_process_func = bool ( * )( item_stack &, std::list<item>::iterator &, const tripoint &,
+                                             const std::string &, float, temperature_flag );
     private:
 
         // Iterates over every item on the map, passing each item to the provided function.
@@ -1668,6 +1684,10 @@ class map
         const level_cache &access_cache( int zlev ) const;
         bool need_draw_lower_floor( const tripoint &p );
 };
+
+void shift_map_memory_seen_cache(
+    std::bitset<MAPSIZE_X *MAPSIZE_Y> &map_memory_seen_cache,
+    const int sx, const int sy );
 
 std::vector<point> closest_points_first( int radius, point p );
 std::vector<point> closest_points_first( int radius, int x, int y );

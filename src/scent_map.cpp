@@ -13,7 +13,7 @@
 
 static constexpr int SCENT_RADIUS = 40;
 
-nc_color sev( const size_t level )
+static nc_color sev( const size_t level )
 {
     static const std::array<nc_color, 22> colors = { {
             c_cyan,

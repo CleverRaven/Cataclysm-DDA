@@ -10,6 +10,7 @@
 #include <unordered_set>
 #include <utility>
 
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "debug.h"
@@ -136,7 +137,7 @@ std::string scent_map::serialize() const
     return rle_out.str();
 }
 
-void chkversion( std::istream &fin )
+static void chkversion( std::istream &fin )
 {
     if( fin.peek() == '#' ) {
         std::string vline;

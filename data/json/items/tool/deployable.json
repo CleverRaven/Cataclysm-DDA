@@ -16,6 +16,40 @@
     "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
   },
   {
+    "id": "55gal_firebarrel",
+    "type": "TOOL",
+    "name": "fire barrel (200L)",
+    "name_plural": "fire barrels (200L)",
+    "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in its walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
+    "weight": 20000,
+    "volume": 800,
+    "price": 10000,
+    "to_hit": -5,
+    "bashing": 8,
+    "looks_like": "55gal_drum",
+    "material": [ "steel" ],
+    "symbol": "0",
+    "color": "light_gray",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_55gal_firebarrel" }
+  },
+  {
+    "id": "30gal_firebarrel",
+    "type": "TOOL",
+    "name": "fire barrel (100L)",
+    "name_plural": "fire barrels (100L)",
+    "description": "A large metal barrel used to contain a fire.  It has multiple holes punched in its walls for air supply.  Fires set in a fire barrel will not spread to surrounding flammable objects.",
+    "weight": 12000,
+    "volume": 400,
+    "price": 5000,
+    "to_hit": -4,
+    "bashing": 7,
+    "looks_like": "30gal_drum",
+    "material": [ "steel" ],
+    "symbol": "0",
+    "color": "light_gray",
+    "use_action": { "type": "deploy_furn", "furn_type": "f_30gal_firebarrel" }
+  },
+  {
     "id": "camp_chair",
     "type": "TOOL",
     "name": "camp chair",
@@ -45,6 +79,27 @@
     "symbol": "=",
     "color": "light_gray",
     "use_action": { "type": "deploy_furn", "furn_type": "f_metal_butcher_rack" }
+  },
+  {
+    "id": "inflatable_boat",
+    "type": "TOOL",
+    "symbol": "0",
+    "color": "light_gray",
+    "name": "inflatable boat",
+    "description": "This rubber rowboat (oars included) is deflated for storage.  Activate it (having an air pump in inventory) to inflate and launch.",
+    "price": 350000,
+    "material": "plastic",
+    "weight": 9071,
+    "volume": 86,
+    "bashing": 10,
+    "to_hit": -5,
+    "use_action": {
+      "type": "unfold_vehicle",
+      "vehicle_name": "inflatable_boat",
+      "tools_needed": { "hand_pump": 1 },
+      "unfold_msg": "You painstakingly unfold, inflate, and launch the %s.",
+      "moves": 15000
+    }
   },
   {
     "id": "metal_smoking_rack",

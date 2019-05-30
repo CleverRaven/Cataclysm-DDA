@@ -33,7 +33,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 2,
-    "magazines": [ [ "45", [ "tdi_mag" ] ], [ "9mm", [ "uzimag" ] ] ]
+    "magazines": [ [ "45", [ "tdi_mag" ] ] ]
   },
   {
     "id": "hk_ump45",
@@ -69,7 +69,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "45", [ "ump45mag" ] ], [ "9mm", [ "mp5mag", "mp5bigmag" ] ] ]
+    "magazines": [ [ "45", [ "ump45mag" ] ] ]
   },
   {
     "id": "m1911",
@@ -90,7 +90,7 @@
     "dispersion": 480,
     "durability": 7,
     "magazine_well": 1,
-    "magazines": [ [ "45", [ "m1911mag", "m1911bigmag" ] ], [ "9mm", [ "m9mag", "m9bigmag" ] ] ]
+    "magazines": [ [ "45", [ "m1911mag", "m1911bigmag" ] ] ]
   },
   {
     "id": "mac_10",
@@ -127,7 +127,7 @@
       [ "underbarrel", 1 ]
     ],
     "magazine_well": 1,
-    "magazines": [ [ "45", [ "mac10mag", "smg_45_mag" ] ], [ "380", [ "mac11mag" ] ], [ "9mm", [ "tec9mag" ] ] ]
+    "magazines": [ [ "45", [ "mac10mag" ] ] ]
   },
   {
     "id": "rifle_45",
@@ -250,7 +250,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "magazines": [ [ "45", [ "thompson_mag", "thompson_bigmag", "thompson_drum" ] ], [ "9mm", [ "stenmag", "survivor9mm_mag" ] ] ]
+    "magazines": [ [ "45", [ "thompson_mag", "thompson_bigmag", "thompson_drum" ] ] ]
   },
   {
     "id": "usp_45",
@@ -260,6 +260,7 @@
     "ammo": "45",
     "ranged_damage": 0,
     "built_in_mods": [ "match_trigger" ],
-    "default_mods": [ "suppressor" ]
+    "default_mods": [ "suppressor" ],
+    "magazines": [ [ "45", [ "usp45mag" ] ] ]
   }
 ]

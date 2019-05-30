@@ -394,7 +394,7 @@ void load_mutation_type( JsonObject &jsobj );
 bool mutation_category_is_valid( const std::string &cat );
 bool mutation_type_exists( const std::string &id );
 std::vector<trait_id> get_mutations_in_types( const std::set<std::string> &ids );
-
+std::vector<trait_id> get_mutations_in_type( const std::string &id );
 bool trait_display_sort( const trait_id &a, const trait_id &b ) noexcept;
 
 enum class mutagen_rejection {

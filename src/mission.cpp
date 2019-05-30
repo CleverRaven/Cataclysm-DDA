@@ -9,6 +9,7 @@
 #include <list>
 #include <utility>
 
+#include "avatar.h"
 #include "debug.h"
 #include "game.h"
 #include "line.h"
@@ -186,7 +187,7 @@ mission *mission::reserve_random( const mission_origin origin, const tripoint &p
     return mission::reserve_new( type, npc_id );
 }
 
-void mission::assign( player &u )
+void mission::assign( avatar &u )
 {
     if( player_id == u.getID() ) {
         debugmsg( "strange: player is already assigned to mission %d", uid );

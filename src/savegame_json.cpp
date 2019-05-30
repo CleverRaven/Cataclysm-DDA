@@ -25,6 +25,7 @@
 
 #include "ammo.h"
 #include "auto_pickup.h"
+#include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "calendar.h"
@@ -36,6 +37,7 @@
 #include "item.h"
 #include "item_factory.h"
 #include "json.h"
+#include "magic.h"
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
@@ -96,7 +98,7 @@ static const std::array<std::string, NUM_OBJECTS> obj_type_name = { { "OBJECT_NO
 };
 
 // TODO: investigate serializing other members of the Creature class hierarchy
-void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
+static void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
 {
     if( const auto monster_ptr = obj.lock() ) {
         jsout.start_object();
@@ -112,7 +114,7 @@ void serialize( const std::weak_ptr<monster> &obj, JsonOut &jsout )
     }
 }
 
-void deserialize( std::weak_ptr<monster> &obj, JsonIn &jsin )
+static void deserialize( std::weak_ptr<monster> &obj, JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     tripoint temp_pos;
@@ -183,7 +185,7 @@ std::vector<item> item::magazine_convert()
         qty += charges - type->gun->clip; // excess ammo from magazine extensions
 
         // limit ammo to base capacity and return any excess as a new item
-        charges = std::min( charges, static_cast<long>( type->gun->clip ) );
+        charges = std::min( charges, type->gun->clip );
         if( qty > 0 ) {
             res.emplace_back( ammo_current() != "null" ? ammo_current() : ammo_type()->default_ammotype(),
                               calendar::turn, qty );
@@ -271,8 +273,7 @@ void player_activity::deserialize( JsonIn &jsin )
     int tmppos = 0;
     if( !data.read( "type", tmptype ) ) {
         // Then it's a legacy save.
-        int tmp_type_legacy;
-        data.read( "type", tmp_type_legacy );
+        int tmp_type_legacy = data.get_int( "type" );
         deserialize_legacy_type( tmp_type_legacy, type );
     } else {
         type = activity_id( tmptype );
@@ -330,6 +331,9 @@ void SkillLevel::deserialize( JsonIn &jsin )
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+///// Character.h, avatar + npc
+
 void Character::trait_data::serialize( JsonOut &json ) const
 {
     json.start_object();
@@ -347,10 +351,8 @@ void Character::trait_data::deserialize( JsonIn &jsin )
     data.read( "powered", powered );
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-///// Character.h, player + npc
-/*
- * Gather variables for saving. These variables are common to both the player and NPCs.
+/**
+ * Gather variables for saving. These variables are common to both the avatar and NPCs.
  */
 void Character::load( JsonObject &data )
 {
@@ -478,6 +480,9 @@ void Character::load( JsonObject &data )
     on_stat_change( "sleep_deprivation", sleep_deprivation );
 }
 
+/**
+ * Load variables from json into object. These variables are common to both the avatar and NPCs.
+ */
 void Character::store( JsonOut &json ) const
 {
     Creature::store( json );
@@ -528,11 +533,119 @@ void Character::store( JsonOut &json ) const
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-///// player.h, player (+ npc for now, should eventually only be the player)
-/*
- * Gather variables for saving.
- */
+///// player.h, avatar + npc
 
+/**
+ * Gather variables for saving. These variables are common to both the avatar and npcs.
+ */
+void player::store( JsonOut &json ) const
+{
+    Character::store( json );
+
+    // assumes already in player object
+    // positional data
+    json.member( "posx", position.x );
+    json.member( "posy", position.y );
+    json.member( "posz", position.z );
+
+    // energy
+    json.member( "stim", stim );
+    json.member( "last_sleep_check", last_sleep_check );
+    // pain
+    json.member( "pkill", pkill );
+    // misc levels
+    json.member( "radiation", radiation );
+    json.member( "tank_plut", tank_plut );
+    json.member( "reactor_plut", reactor_plut );
+    json.member( "slow_rad", slow_rad );
+    json.member( "scent", static_cast<int>( scent ) );
+    json.member( "body_wetness", body_wetness );
+
+    // breathing
+    json.member( "oxygen", oxygen );
+
+    // gender
+    json.member( "male", male );
+
+    json.member( "cash", cash );
+    json.member( "recoil", recoil );
+    json.member( "in_vehicle", in_vehicle );
+    json.member( "id", getID() );
+
+    // potential incompatibility with future expansion
+    // TODO: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
+    json.member( "hp_cur", hp_cur );
+    json.member( "hp_max", hp_max );
+    json.member( "damage_bandaged", damage_bandaged );
+    json.member( "damage_disinfected", damage_disinfected );
+
+    // npc; unimplemented
+    json.member( "power_level", power_level );
+    json.member( "max_power_level", max_power_level );
+
+    json.member( "ma_styles", ma_styles );
+    // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
+    json.member( "addictions", addictions );
+    json.member( "followers", follower_ids );
+    json.member( "known_traps" );
+    json.start_array();
+    for( const auto &elem : known_traps ) {
+        json.start_object();
+        json.member( "x", elem.first.x );
+        json.member( "y", elem.first.y );
+        json.member( "z", elem.first.z );
+        json.member( "trap", elem.second );
+        json.end_object();
+    }
+    json.end_array();
+
+    json.member( "worn", worn ); // also saves contents
+
+    json.member( "inv" );
+    inv.json_save_items( json );
+
+    if( !weapon.is_null() ) {
+        json.member( "weapon", weapon ); // also saves contents
+    }
+
+    if( const auto lt_ptr = last_target.lock() ) {
+        if( const npc *const guy = dynamic_cast<const npc *>( lt_ptr.get() ) ) {
+            json.member( "last_target", guy->getID() );
+            json.member( "last_target_type", +1 );
+        } else if( const monster *const mon = dynamic_cast<const monster *>( lt_ptr.get() ) ) {
+            // monsters don't have IDs, so get its index in the Creature_tracker instead
+            json.member( "last_target", g->critter_tracker->temporary_id( *mon ) );
+            json.member( "last_target_type", -1 );
+        }
+    } else {
+        json.member( "last_target_pos", last_target_pos );
+    }
+
+    json.member( "ammo_location", ammo_location );
+
+    json.member( "camps" );
+    json.start_array();
+    for( const tripoint &bcpt : camps ) {
+        json.start_object();
+        json.member( "pos", bcpt );
+        json.end_object();
+    }
+    json.end_array();
+
+    if( !overmap_time.empty() ) {
+        json.member( "overmap_time" );
+        json.start_array();
+        for( const std::pair<point, time_duration> &pr : overmap_time ) {
+            json.write( pr.first );
+            json.write( pr.second );
+        }
+        json.end_array();
+    }
+}
+
+/**
+ * Load variables from json into object. These variables are common to both the avatar and NPCs.
+ */
 void player::load( JsonObject &data )
 {
     Character::load( data );
@@ -663,134 +776,21 @@ void player::load( JsonObject &data )
     }
 }
 
-/*
- * Variables common to player (and npc's, should eventually just be players)
- */
-void player::store( JsonOut &json ) const
-{
-    Character::store( json );
-
-    // assumes already in player object
-    // positional data
-    json.member( "posx", position.x );
-    json.member( "posy", position.y );
-    json.member( "posz", position.z );
-
-    // energy
-    json.member( "stim", stim );
-    json.member( "last_sleep_check", last_sleep_check );
-    // pain
-    json.member( "pkill", pkill );
-    // misc levels
-    json.member( "radiation", radiation );
-    json.member( "tank_plut", tank_plut );
-    json.member( "reactor_plut", reactor_plut );
-    json.member( "slow_rad", slow_rad );
-    json.member( "scent", static_cast<int>( scent ) );
-    json.member( "body_wetness", body_wetness );
-
-    // breathing
-    json.member( "oxygen", oxygen );
-
-    // gender
-    json.member( "male", male );
-
-    json.member( "cash", cash );
-    json.member( "recoil", recoil );
-    json.member( "in_vehicle", in_vehicle );
-    json.member( "id", getID() );
-
-    // potential incompatibility with future expansion
-    // TODO: consider ["parts"]["head"]["hp_cur"] instead of ["hp_cur"][head_enum_value]
-    json.member( "hp_cur", hp_cur );
-    json.member( "hp_max", hp_max );
-    json.member( "damage_bandaged", damage_bandaged );
-    json.member( "damage_disinfected", damage_disinfected );
-
-    // npc; unimplemented
-    json.member( "power_level", power_level );
-    json.member( "max_power_level", max_power_level );
-
-    // martial arts
-    /*for (int i = 0; i < ma_styles.size(); i++) {
-        ptmpvect.push_back( pv( ma_styles[i] ) );
-    }*/
-    json.member( "ma_styles", ma_styles );
-    // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
-    json.member( "addictions", addictions );
-    json.member( "followers", follower_ids );
-    json.member( "known_traps" );
-    json.start_array();
-    for( const auto &elem : known_traps ) {
-        json.start_object();
-        json.member( "x", elem.first.x );
-        json.member( "y", elem.first.y );
-        json.member( "z", elem.first.z );
-        json.member( "trap", elem.second );
-        json.end_object();
-    }
-    json.end_array();
-
-    json.member( "worn", worn ); // also saves contents
-
-    json.member( "inv" );
-    inv.json_save_items( json );
-
-    if( !weapon.is_null() ) {
-        json.member( "weapon", weapon ); // also saves contents
-    }
-
-    if( const auto lt_ptr = last_target.lock() ) {
-        if( const npc *const guy = dynamic_cast<const npc *>( lt_ptr.get() ) ) {
-            json.member( "last_target", guy->getID() );
-            json.member( "last_target_type", +1 );
-        } else if( const monster *const mon = dynamic_cast<const monster *>( lt_ptr.get() ) ) {
-            // monsters don't have IDs, so get its index in the Creature_tracker instead
-            json.member( "last_target", g->critter_tracker->temporary_id( *mon ) );
-            json.member( "last_target_type", -1 );
-        }
-    } else {
-        json.member( "last_target_pos", last_target_pos );
-    }
-
-    json.member( "ammo_location", ammo_location );
-
-    json.member( "camps" );
-    json.start_array();
-    for( const tripoint &bcpt : camps ) {
-        json.start_object();
-        json.member( "pos", bcpt );
-        json.end_object();
-    }
-    json.end_array();
-
-    if( !overmap_time.empty() ) {
-        json.member( "overmap_time" );
-        json.start_array();
-        for( const std::pair<point, time_duration> &pr : overmap_time ) {
-            json.write( pr.first );
-            json.write( pr.second );
-        }
-        json.end_array();
-    }
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-///// player.h, player
-/*
- * Prepare a json object for player, including player specific data, and data common to
-   players and npcs ( which json_save_actor_data() handles ).
- */
-void player::serialize( JsonOut &json ) const
+///// avatar.h
+
+void avatar::serialize( JsonOut &json ) const
 {
     json.start_object();
-    // This must be after the json object has been started, so any super class
-    // puts their data into the same json object.
+
     store( json );
 
-    // TODO: once npcs are separated from the player class,
-    // this code should go into player::store, serialize will then only
-    // contain start_object(), store(), end_object().
+    json.end_object();
+}
+
+void avatar::store( JsonOut &json ) const
+{
+    player::store( json );
 
     // player-specific specifics
     if( prof != nullptr ) {
@@ -813,6 +813,7 @@ void player::serialize( JsonOut &json ) const
 
     json.member( "stamina", stamina );
     json.member( "move_mode", move_mode );
+    json.member( "magic", magic );
 
     // crafting etc
     json.member( "activity", activity );
@@ -859,29 +860,17 @@ void player::serialize( JsonOut &json ) const
 
     json.member( "invcache" );
     inv.json_save_invcache( json );
-
-    // FIXME: separate function, better still another file
-    /*      for( size_t i = 0; i < memorial_log.size(); ++i ) {
-              ptmpvect.push_back(pv(memorial_log[i]));
-          }
-          json.member("memorial",ptmpvect);
-    */
-
-    json.end_object();
 }
 
-/*
- * load player from ginormous json blob
- */
-void player::deserialize( JsonIn &jsin )
+void avatar::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-
     load( data );
+}
 
-    // TODO: once npcs are separated from the player class,
-    // this code should go into player::load, deserialize will then only
-    // contain get_object(), load()
+void avatar::load( JsonObject &data )
+{
+    player::load( data );
 
     std::string prof_ident = "(null)";
     if( data.read( "profession", prof_ident ) && string_id<profession>( prof_ident ).is_valid() ) {
@@ -919,6 +908,7 @@ void player::deserialize( JsonIn &jsin )
     data.read( "keep_hands_free", keep_hands_free );
 
     data.read( "stamina", stamina );
+    data.read( "magic", magic );
     data.read( "move_mode", move_mode );
 
     set_highest_cat_level();
@@ -1139,8 +1129,6 @@ void npc_follower_rules::deserialize( JsonIn &jsin )
     data.read( "pickup_whitelist", *pickup_whitelist );
 }
 
-extern std::string convert_talk_topic( talk_topic_enum );
-
 void npc_chatbin::serialize( JsonOut &json ) const
 {
     json.start_object();
@@ -1279,8 +1267,6 @@ void npc::deserialize( JsonIn &jsin )
 
 void npc::load( JsonObject &data )
 {
-    // TODO: once npcs are separated from the player class,
-    // this should call load on the parent class of npc (probably Character).
     player::load( data );
 
     int misstmp = 0;
@@ -1482,8 +1468,6 @@ void npc::serialize( JsonOut &json ) const
 
 void npc::store( JsonOut &json ) const
 {
-    // TODO: once npcs are separated from the player class,
-    // this should call store on the parent class of npc (probably Character).
     player::store( json );
 
     json.member( "name", name );
@@ -1693,7 +1677,7 @@ void monster::load( JsonObject &data )
     data.read( "morale", morale );
     data.read( "hallucination", hallucination );
     data.read( "stairscount", staircount ); // really?
-
+    data.read( "fish_population", fish_population );
     // Load legacy plans.
     std::vector<tripoint> plans;
     data.read( "plans", plans );
@@ -1762,6 +1746,7 @@ void monster::store( JsonOut &json ) const
     json.member( "hp", hp );
     json.member( "special_attacks", special_attacks );
     json.member( "friendly", friendly );
+    json.member( "fish_population", fish_population );
     json.member( "faction", faction.id().str() );
     json.member( "mission_id", mission_id );
     json.member( "no_extra_death_drops", no_extra_death_drops );
@@ -1927,14 +1912,17 @@ void item::io( Archive &archive )
     const auto load_making = [this]( const std::string & id ) {
         making = &recipe_id( id ).obj();
     };
+    const auto load_owner = [this]( const std::string & id ) {
+        owner = g->faction_manager_ptr->get( faction_id( id ) );
+    };
 
     archive.template io<const itype>( "typeid", type, load_type, []( const itype & i ) {
         return i.get_id();
     }, io::required_tag() );
 
     // normalize legacy saves to always have charges >= 0
-    archive.io( "charges", charges, 0L );
-    charges = std::max( charges, 0L );
+    archive.io( "charges", charges, 0 );
+    charges = std::max( charges, 0 );
 
     int cur_phase = static_cast<int>( current_phase );
     archive.io( "burnt", burnt, 0 );
@@ -1975,6 +1963,10 @@ void item::io( Archive &archive )
     archive.template io<const recipe>( "making", making, load_making,
     []( const recipe & i ) {
         return i.ident().str();
+    } );
+    archive.template io<const faction>( "owner", owner, load_owner,
+    []( const faction & i ) {
+        return i.id.str();
     } );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
@@ -2321,7 +2313,7 @@ void vehicle_part::serialize( JsonOut &json ) const
 /*
  * label
  */
-void deserialize( label &val, JsonIn &jsin )
+static void deserialize( label &val, JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
     data.read( "x", val.x );
@@ -2329,7 +2321,7 @@ void deserialize( label &val, JsonIn &jsin )
     data.read( "text", val.text );
 }
 
-void serialize( const label &val, JsonOut &json )
+static void serialize( const label &val, JsonOut &json )
 {
     json.start_object();
     json.member( "x", val.x );
@@ -3021,7 +3013,15 @@ void basecamp::serialize( JsonOut &json ) const
             json.start_object();
             json.member( "dir", expansion.first );
             json.member( "type", expansion.second.type );
-            json.member( "cur_level", expansion.second.cur_level );
+            json.member( "provides" );
+            json.start_array();
+            for( const auto provide : expansion.second.provides ) {
+                json.start_object();
+                json.member( "id", provide.first );
+                json.member( "amount", provide.second );
+                json.end_object();
+            }
+            json.end_array();
             json.member( "pos", expansion.second.pos );
             json.end_object();
         }
@@ -3052,7 +3052,19 @@ void basecamp::deserialize( JsonIn &jsin )
         expansion_data e;
         const std::string dir = edata.get_string( "dir" );
         edata.read( "type", e.type );
-        edata.read( "cur_level", e.cur_level );
+        if( edata.has_int( "cur_level" ) ) {
+            edata.read( "cur_level", e.cur_level );
+        }
+        if( edata.has_array( "provides" ) ) {
+            e.cur_level = -1;
+            JsonArray provides_arr = edata.get_array( "provides" );
+            while( provides_arr.has_more() ) {
+                JsonObject provide_data = provides_arr.next_object();
+                std::string id = provide_data.get_string( "id" );
+                int amount = provide_data.get_int( "amount" );
+                e.provides[ id ] = amount;
+            }
+        }
         edata.read( "pos", e.pos );
         expansions[ dir ] = e;
         if( dir != "[B]" ) {

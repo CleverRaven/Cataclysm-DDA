@@ -11,7 +11,7 @@
     "symbol": "?",
     "color": "green",
     "intelligence": 7,
-    "time": 18,
+    "time": "18 m",
     "chapters": 28,
     "fun": 2
   },
@@ -29,7 +29,7 @@
     "symbol": "?",
     "color": "light_green",
     "intelligence": 8,
-    "time": 30,
+    "time": "30 m",
     "fun": -1
   },
   {
@@ -43,7 +43,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_cyan",
-    "time": 4,
+    "time": "4 m",
     "chapters": 4,
     "fun": 1
   },
@@ -61,7 +61,7 @@
     "symbol": "?",
     "color": "light_cyan",
     "intelligence": 5,
-    "time": 10
+    "time": "10 m"
   },
   {
     "id": "decoy_elfa",
@@ -75,7 +75,7 @@
     "symbol": "?",
     "color": "light_green",
     "intelligence": 8,
-    "time": 45,
+    "time": "45 m",
     "fun": -2
   },
   {
@@ -91,7 +91,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 10,
-    "time": 26,
+    "time": "26 m",
     "chapters": 40,
     "fun": 3
   },
@@ -108,7 +108,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 6,
-    "time": 18,
+    "time": "18 m",
     "chapters": 24,
     "fun": 3
   },
@@ -126,7 +126,23 @@
     "symbol": "?",
     "color": "green",
     "intelligence": 3,
-    "time": 1
+    "time": "1 m"
+  },
+  {
+    "id": "mycenacean_hymns",
+    "type": "BOOK",
+    "name": "Mycenacean Hymns",
+    "description": "A vellum book containing the hymns central to Marloss faith.  As the verses lead to each other, the text sings of unity and promised paradise.",
+    "weight": 368,
+    "volume": 4,
+    "price": 550,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "cyan",
+    "intelligence": 8,
+    "time": "10 m",
+    "fun": 1,
+    "flags": [ "INSPIRATIONAL" ]
   },
   {
     "id": "holybook_bible1",
@@ -140,7 +156,7 @@
     "symbol": "?",
     "color": "dark_gray",
     "intelligence": 8,
-    "time": 10,
+    "time": "10 m",
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -156,7 +172,7 @@
     "symbol": "?",
     "color": "dark_gray",
     "intelligence": 8,
-    "time": 10,
+    "time": "10 m",
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -172,7 +188,7 @@
     "symbol": "?",
     "color": "dark_gray",
     "intelligence": 8,
-    "time": 10,
+    "time": "10 m",
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -189,7 +205,7 @@
     "symbol": "?",
     "color": "dark_gray",
     "intelligence": 8,
-    "time": 10,
+    "time": "10 m",
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -205,7 +221,7 @@
     "symbol": "?",
     "color": "dark_gray",
     "intelligence": 8,
-    "time": 10,
+    "time": "10 m",
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -222,7 +238,7 @@
     "symbol": "?",
     "color": "dark_gray",
     "intelligence": 8,
-    "time": 10,
+    "time": "10 m",
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -239,7 +255,7 @@
     "symbol": "?",
     "color": "dark_gray",
     "intelligence": 8,
-    "time": 10,
+    "time": "10 m",
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -256,7 +272,7 @@
     "symbol": "?",
     "color": "dark_gray",
     "intelligence": 8,
-    "time": 10,
+    "time": "10 m",
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -273,7 +289,7 @@
     "symbol": "?",
     "color": "dark_gray",
     "intelligence": 8,
-    "time": 10,
+    "time": "10 m",
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -289,7 +305,7 @@
     "symbol": "?",
     "color": "dark_gray",
     "intelligence": 8,
-    "time": 10,
+    "time": "10 m",
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -306,7 +322,7 @@
     "symbol": "?",
     "color": "dark_gray",
     "intelligence": 8,
-    "time": 10,
+    "time": "10 m",
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -323,7 +339,7 @@
     "symbol": "?",
     "color": "dark_gray",
     "intelligence": 8,
-    "time": 10,
+    "time": "10 m",
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -340,7 +356,7 @@
     "symbol": "?",
     "color": "dark_gray",
     "intelligence": 8,
-    "time": 10,
+    "time": "10 m",
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -356,7 +372,7 @@
     "symbol": "?",
     "color": "dark_gray",
     "intelligence": 8,
-    "time": 10,
+    "time": "10 m",
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -372,7 +388,7 @@
     "symbol": "?",
     "color": "dark_gray",
     "intelligence": 8,
-    "time": 10,
+    "time": "10 m",
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -389,7 +405,7 @@
     "symbol": "?",
     "color": "dark_gray",
     "intelligence": 8,
-    "time": 10,
+    "time": "10 m",
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -406,7 +422,7 @@
     "symbol": "?",
     "color": "dark_gray",
     "intelligence": 8,
-    "time": 10,
+    "time": "10 m",
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -423,7 +439,7 @@
     "symbol": "?",
     "color": "dark_gray",
     "intelligence": 8,
-    "time": 10,
+    "time": "10 m",
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -438,7 +454,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_cyan",
-    "time": 7,
+    "time": "7 m",
     "fun": 2
   },
   {
@@ -453,7 +469,7 @@
     "symbol": "?",
     "color": "pink",
     "intelligence": 7,
-    "time": 8,
+    "time": "8 m",
     "fun": 2
   },
   {
@@ -468,7 +484,7 @@
     "symbol": "?",
     "color": "pink",
     "intelligence": 7,
-    "time": 10,
+    "time": "10 m",
     "fun": 2
   },
   {
@@ -482,7 +498,7 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "pink",
-    "time": 10,
+    "time": "10 m",
     "chapters": 4,
     "fun": 1
   },
@@ -500,7 +516,7 @@
     "symbol": "?",
     "color": "light_cyan",
     "intelligence": 2,
-    "time": 10
+    "time": "10 m"
   },
   {
     "id": "news_regional",
@@ -514,7 +530,7 @@
     "symbol": "?",
     "color": "pink",
     "intelligence": 5,
-    "time": 5,
+    "time": "5 m",
     "fun": 1
   },
   {
@@ -529,7 +545,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 4,
-    "time": 20,
+    "time": "20 m",
     "chapters": 16,
     "fun": 4
   },
@@ -545,7 +561,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 4,
-    "time": 20,
+    "time": "20 m",
     "chapters": 16,
     "fun": 2
   },
@@ -561,7 +577,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 4,
-    "time": 20,
+    "time": "20 m",
     "chapters": 16,
     "fun": 2
   },
@@ -585,7 +601,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 6,
-    "time": 20,
+    "time": "20 m",
     "chapters": 24,
     "fun": 3
   },
@@ -609,7 +625,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 7,
-    "time": 25,
+    "time": "25 m",
     "chapters": 28,
     "fun": 4
   },
@@ -625,7 +641,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 7,
-    "time": 18,
+    "time": "18 m",
     "chapters": 28,
     "fun": 1
   },
@@ -641,7 +657,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 5,
-    "time": 20,
+    "time": "20 m",
     "chapters": 20,
     "fun": 1
   },
@@ -657,7 +673,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 7,
-    "time": 20,
+    "time": "20 m",
     "chapters": 28,
     "fun": 4
   },
@@ -673,7 +689,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 7,
-    "time": 18,
+    "time": "18 m",
     "chapters": 28,
     "fun": 1
   },
@@ -689,7 +705,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 7,
-    "time": 18,
+    "time": "18 m",
     "chapters": 28,
     "fun": 4
   },
@@ -705,7 +721,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 6,
-    "time": 18,
+    "time": "18 m",
     "chapters": 24,
     "fun": 3
   },
@@ -721,7 +737,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 4,
-    "time": 20,
+    "time": "20 m",
     "chapters": 16,
     "fun": 4
   },
@@ -737,7 +753,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 4,
-    "time": 15,
+    "time": "15 m",
     "chapters": 16,
     "fun": 2
   },
@@ -753,7 +769,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 7,
-    "time": 20,
+    "time": "20 m",
     "chapters": 28,
     "fun": 4
   },
@@ -769,7 +785,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 7,
-    "time": 36,
+    "time": "36 m",
     "chapters": 28,
     "fun": 2
   },
@@ -785,7 +801,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 6,
-    "time": 20,
+    "time": "20 m",
     "chapters": 24,
     "fun": 3
   },
@@ -801,7 +817,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 7,
-    "time": 20,
+    "time": "20 m",
     "chapters": 28,
     "fun": 4
   },
@@ -817,7 +833,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 5,
-    "time": 18,
+    "time": "18 m",
     "chapters": 20,
     "fun": 3
   },
@@ -833,7 +849,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 7,
-    "time": 20,
+    "time": "20 m",
     "chapters": 28,
     "fun": 4
   },
@@ -849,7 +865,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 5,
-    "time": 18,
+    "time": "18 m",
     "chapters": 20,
     "fun": 3
   },
@@ -865,7 +881,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 7,
-    "time": 18,
+    "time": "18 m",
     "chapters": 28,
     "fun": 1
   },
@@ -881,7 +897,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 7,
-    "time": 20,
+    "time": "20 m",
     "chapters": 28,
     "fun": 4
   },
@@ -905,7 +921,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 7,
-    "time": 20,
+    "time": "20 m",
     "chapters": 28,
     "fun": 4
   },
@@ -922,7 +938,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 11,
-    "time": 36,
+    "time": "36 m",
     "chapters": 44,
     "fun": 3
   },
@@ -940,7 +956,7 @@
     "symbol": "?",
     "color": "yellow",
     "intelligence": 4,
-    "time": 1,
+    "time": "1 m",
     "chapters": 200,
     "fun": -5
   },
@@ -955,7 +971,7 @@
     "material": [ "paper", "leather" ],
     "symbol": "?",
     "color": "light_gray",
-    "time": 10,
+    "time": "10 m",
     "chapters": 4,
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
@@ -973,7 +989,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 9,
-    "time": 18,
+    "time": "18 m",
     "chapters": 36,
     "fun": 2
   },
@@ -990,7 +1006,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 9,
-    "time": 18,
+    "time": "18 m",
     "chapters": 36,
     "fun": 2
   },
@@ -1008,7 +1024,7 @@
     "symbol": "?",
     "color": "light_gray",
     "intelligence": 15,
-    "time": 30,
+    "time": "30 m",
     "fun": -1,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -1025,7 +1041,7 @@
     "symbol": "?",
     "color": "light_green",
     "intelligence": 10,
-    "time": 30,
+    "time": "30 m",
     "fun": -1
   },
   {
@@ -1042,7 +1058,7 @@
     "symbol": "?",
     "color": "light_green",
     "intelligence": 8,
-    "time": 30,
+    "time": "30 m",
     "fun": -1
   },
   {
@@ -1059,7 +1075,7 @@
     "symbol": "?",
     "color": "light_green",
     "intelligence": 4,
-    "time": 30,
+    "time": "30 m",
     "fun": -1
   },
   {
@@ -1075,7 +1091,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 7,
-    "time": 48,
+    "time": "48 m",
     "chapters": 28,
     "fun": 5
   },
@@ -1092,7 +1108,7 @@
     "symbol": "?",
     "color": "light_blue",
     "intelligence": 6,
-    "time": 18,
+    "time": "18 m",
     "chapters": 24,
     "fun": 3
   },
@@ -1110,7 +1126,7 @@
     "symbol": "?",
     "color": "light_cyan",
     "intelligence": 6,
-    "time": 30,
+    "time": "30 m",
     "fun": 2,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -1127,7 +1143,7 @@
     "symbol": "?",
     "color": "dark_gray",
     "intelligence": 8,
-    "time": 10,
+    "time": "10 m",
     "fun": 1,
     "flags": [ "INSPIRATIONAL" ]
   },
@@ -1219,7 +1235,7 @@
     "color": "light_blue",
     "symbol": "?",
     "intelligence": 7,
-    "time": 28,
+    "time": "28 m",
     "chapters": 40,
     "fun": 3
   },
@@ -1314,7 +1330,7 @@
     "color": "light_blue",
     "symbol": "?",
     "intelligence": 7,
-    "time": 28,
+    "time": "28 m",
     "chapters": 40,
     "fun": 4
   }
