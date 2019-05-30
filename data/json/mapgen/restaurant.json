@@ -773,7 +773,7 @@
         {
           "chunks": [ [ "roof_4x4_utility_1", 50 ], [ "roof_4x4_holdout", 5 ], [ "null", 80 ], [ "roof_5x5_coop", 5 ] ],
           "x": 17,
-          "y": 17
+          "y": 16
         }
       ]
     }
