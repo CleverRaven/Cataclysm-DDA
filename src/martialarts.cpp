@@ -110,6 +110,9 @@ void ma_technique::load( JsonObject &jo, const std::string &src )
 
     optional( jo, was_loaded, "weighting", weighting, 1 );
 
+    optional( jo, was_loaded, "downed_target", downed_target, 0 );
+    optional( jo, was_loaded, "stunned_target", stunned_target, 0 );
+
     optional( jo, was_loaded, "down_dur", down_dur, 0 );
     optional( jo, was_loaded, "stun_dur", stun_dur, 0 );
     optional( jo, was_loaded, "knockback_dist", knockback_dist, 0 );
@@ -432,6 +435,10 @@ ma_technique::ma_technique()
     stun_dur = 0;
     knockback_dist = 0;
     knockback_spread = 0; // adding randomness to knockback, like tec_throw
+
+    // conditional
+    downed_target = false;    // only works on downed enemies
+    stunned_target = false;   // only works on stunned enemies
 
     // offensive
     disarms = false; // like tec_disarm
@@ -1063,6 +1070,14 @@ std::string ma_technique::get_description() const
 
     if( disarms ) {
         dump << _( "* Will <info>disarm</info> the target" ) << std::endl;
+    }
+
+    if( downed_target ) {
+        dump << _( "* Only works on a <info>downed</info> target" ) << std::endl;
+    }
+
+    if( stunned_target ) {
+        dump << _( "* Only works on a <info>stunned</info> target" ) << std::endl;
     }
 
     return dump.str();

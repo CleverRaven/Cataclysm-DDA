@@ -93,6 +93,10 @@ class ma_technique
         float knockback_spread; // adding randomness to knockback, like tec_throw
         std::string aoe; // corresponds to an aoe shape, defaults to just the target
 
+        // conditional
+        bool downed_target; // only works on downed enemies
+        bool stunned_target; // only works on stunned enemies
+
         // offensive
         bool disarms; // like tec_disarm
         bool dodge_counter; // counter move activated on a dodge
