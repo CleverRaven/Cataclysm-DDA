@@ -286,7 +286,22 @@ I'm not comfortable with where this is going.
 
 
 (If you decide to go with him buying marijuana from you, btw, I was thinking of him commenting that it helps him relax but also helps with his joints. He's supposed to be a bit older, early fifties or so)
-he'll trade it for Merch (FMCNote) x10
+he'll trade it for Merch (FMCNote) x4
+
+
+
+Easiest thing is to contact me by DM on discord, but otherwise a good starting point would be to pick someone in the refugee center that you find interesting and start writing dialogue for them in a PR. Just let me know so we don't conflict. Draco Dune already exists in game, and would be a pretty good starting one: I planned to give him a quest to help him get a guitar to play music for the other refugees. In my notes he's a pleasant, laid back guy who is doing his best to take this all in stride. He might also trade you some Merch (free merchant money) for marijuana once per week.
+
+
+https://github.com/CleverRaven/Cataclysm-DDA/blob/bc6d06acd32ae65435a6d62c8a210a1e29acb6a8/data/json/npcs/refugee_center/surface_refugees/NPC_Vanessa_Toby.json
+
+Basically you need to check the condition u_has_item to make sure the player has weed, and if they do, use u_sell_item to give the weed to the NPC
+then u_buy_item to give the player some merch in return
+Then you probably want to define an effect and use npc_add_effect to give Draco an effect that expires in several days once he's bought pot from you, so you can't just keep selling it to him to get infinite merch
+
+
+
+
 
 
 
