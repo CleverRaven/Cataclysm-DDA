@@ -261,14 +261,14 @@ bool player::handle_gun_damage( item &it, int shots_fired )
         }
         if( one_in( firing->blackpowder_tolerance ) ) {
             add_msg_player_or_npc( m_bad, _( "Your %s is clogged up with blackpowder fouling!" ),
-                                  _( "<npcname>'s %s is clogged up with blackpowder fouling!" ),
+                                   _( "<npcname>'s %s is clogged up with blackpowder fouling!" ),
                                    it.tname() );
             it.item_tags.insert( "CLOGGED" );
             return false;
         }
         if( !it.has_flag( "BLACKPOWDER_CYCLE" ) && shots_fired > 0 ) {
             add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
-                                  _( "<npcname>'s %s fails to cycle!" ),
+                                   _( "<npcname>'s %s fails to cycle!" ),
                                    it.tname() );
             return false;
         }

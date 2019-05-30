@@ -5546,7 +5546,8 @@ int iuse::gun_clean( player *p, item *it, bool, const tripoint & )
     }
     /** @EFFECT_MECHANICS >0 allows gun cleaning */
     if( p->get_skill_level( skill_mechanics ) < 1 ) {
-        p->add_msg_if_player( m_info, _( "You need a mechanics skill of 1 to use this gun cleaning kit." ) );
+        p->add_msg_if_player( m_info,
+                              _( "You need a mechanics skill of 1 to use this gun cleaning kit." ) );
         return 0;
     }
     int inventory_index = g->inv_for_all( _( "Select the firearm to clean" ) );
@@ -5564,14 +5565,13 @@ int iuse::gun_clean( player *p, item *it, bool, const tripoint & )
         p->moves -= 2000 * p->fine_detail_vision_mod();
         fix.item_tags.erase( "CLOGGED" );
         p->add_msg_if_player( m_good, _( "You unclog your %s!" ), fix.tname( 1, false ) );
-    }
-    else if( fix.item_tags.count( "BLACKPOWDER_FOULING" ) ) {
+    } else if( fix.item_tags.count( "BLACKPOWDER_FOULING" ) ) {
         sounds::sound( p->pos(), 6, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
         p->moves -= 2000 * p->fine_detail_vision_mod();
         fix.item_tags.erase( "BLACKPOWDER_FOULING" );
-        p->add_msg_if_player( m_good, _( "You fully clean out blackpowder fouling from your %s!" ), fix.tname( 1, false ) );
-    }
-    else {
+        p->add_msg_if_player( m_good, _( "You fully clean out blackpowder fouling from your %s!" ),
+                              fix.tname( 1, false ) );
+    } else {
         p->add_msg_if_player( m_info, _( "Your %s doesn't need cleaning." ), fix.tname( 1, false ) );
         return 0;
     }
@@ -5603,7 +5603,9 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     if( fix.item_tags.count( "CLOGGED" ) || fix.item_tags.count( "BLACKPOWDER_FOULING" ) ) {
-        p->add_msg_if_player( m_info, _( "You'll need to clear out blackpowder fouling from your %s before you can repair it." ), fix.tname() );
+        p->add_msg_if_player( m_info,
+                              _( "You'll need to clear out blackpowder fouling from your %s "
+                                 "before you can repair it." ), fix.tname() );
         return 0;
     }
     if( fix.has_flag( "NO_REPAIR" ) ) {
