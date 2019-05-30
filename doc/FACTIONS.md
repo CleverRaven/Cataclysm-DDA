@@ -74,4 +74,4 @@ Flag | Meaning
 `"defends your space"` | Members of the acting faction will become hostile if someone enters territory controlled by the object faction.
 `"knows your voice"` | Members of the acting faction will not comment on speech by members of the object faction.
 
-So far, only `"knows your voice"` has been implemented.
+So far, only `"kill on sight"`, `"knows your voice"`, and `"watch your back"` have been implemented.
