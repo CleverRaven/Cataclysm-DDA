@@ -1443,7 +1443,24 @@
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "using": [ [ "steel_standard", 100 ], [ "welding_standard", 5 ], [ "forging_standard", 2] ],
+    "using": [ [ "steel_standard", 100 ], [ "welding_standard", 5 ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "id_suffix": "forge_hdframe",
+    "result": "hdframe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "90 m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "using": [ [ "steel_standard", 100 ], [ "forging_standard", 2 ] ],
     "tools": [
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ]
     ]
@@ -1523,8 +1540,23 @@
     "reversible": true,
     "note": "sawing it down doesn't teach anything useful",
     "autolearn": true,
-    "using": [ [ "steel_standard", 8 ], [ [ "welding_standard", 10 ], [ "forging_standard", 5 ] ],
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "using": [ [ "steel_standard", 8 ], [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "GLARE", "level": 2 } ]
+  },
+  {
+    "type": "recipe",
+    "id_suffix": "forge_steel_plate",
+    "result": "steel_plate",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "12 m",
+    "reversible": true,
+    "note": "sawing it down doesn't teach anything useful",
+    "autolearn": true,
+    "using": [ [ "steel_standard", 8 ], [ "forging_standard", 5 ] ],
+    "qualities": [ { "id": "GLARE", "level": 2 } ]
   },
   {
     "type": "recipe",
@@ -1537,7 +1569,22 @@
     "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 3 ], [ "welding_book", 3 ], [ "textbook_mechanics", 4 ] ],
     "qualities": [ { "id": "GLARE", "level": 2 } ],
-    "using": [ [ [ "welding_standard", 10 ], [ "forging_standard", 5 ] ] ],
+    "using": [ [ "welding_standard", 10 ] ],
+    "components": [ [ [ "steel_lump", 8 ], [ "steel_plate", 1 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ], [ "spike", 4 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "id_suffix": "forge_spiked_plate",
+    "result": "spiked_plate",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "12 m",
+    "reversible": true,
+    "book_learn": [ [ "textbook_fabrication", 3 ], [ "welding_book", 3 ], [ "textbook_mechanics", 4 ] ],
+    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "using": [ [ "forging_standard", 5 ] ],
     "components": [ [ [ "steel_lump", 8 ], [ "steel_plate", 1 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ], [ "spike", 4 ] ] ]
   },
   {
@@ -1551,8 +1598,23 @@
     "time": "12 m",
     "reversible": true,
     "book_learn": [ [ "textbook_fabrication", 5 ], [ "adv_chemistry", 6 ], [ "welding_book", 5 ] ],
-    "using": [ [ "steel_standard", 24 ], [ [ "welding_standard", 10 ], [ "forging_standard", 5 ] ] ],
-    "qualities": [ { "id": "GLARE", "level": 2 } ],
+    "using": [ [ "steel_standard", 24 ], [ "welding_standard", 10 ] ],
+    "qualities": [ { "id": "GLARE", "level": 2 } ]
+  },
+  {
+    "type": "recipe",
+    "id_suffix": "forge_hard_plate",
+    "result": "hard_plate",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "note": "hardened metal tools require high fabrication, so +1 diff here",
+    "time": "12 m",
+    "reversible": true,
+    "book_learn": [ [ "textbook_fabrication", 5 ], [ "adv_chemistry", 6 ], [ "welding_book", 5 ] ],
+    "using": [ [ "steel_standard", 24 ], [ "forging_standard", 5 ] ],
+    "qualities": [ { "id": "GLARE", "level": 2 } ]
   },
   {
     "type": "recipe",
@@ -2294,7 +2356,7 @@
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "forging_standard", 2 ], [ "steel_tiny", 1] ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2307,7 +2369,7 @@
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 2 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "forging_standard", 5 ], [ "steel_tiny", 1 ] ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2367,7 +2429,7 @@
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "forging_standard", 5 ], [ "steel_standard", 1 ] ],
-    "tools": [ [ [ "tongs", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2394,7 +2456,7 @@
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "forging_standard", 10 ], [ "steel_standard", 1 ] ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2544,7 +2606,7 @@
     "tools": [
       [ [ "tongs", -1 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
-      [ [ "swage", -1 ] ],
+      [ [ "swage", -1 ] ]
     ]
   },
   {
@@ -2809,7 +2871,7 @@
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "forging_standard", 5 ], [ "steel_standard", 1 ] ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2889,7 +2951,7 @@
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 16 ], [ "forging_standard", 20 ] ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3471,7 +3533,7 @@
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 5 ], [ "forging_standard", 12 ] ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3742,7 +3804,7 @@
     "book_learn": [ [ "manual_fabrication", 8 ], [ "textbook_fabrication", 6 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 6 ], [ "forging_standard", 18 ] ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -4356,7 +4418,7 @@
     "book_learn": [ [ "textbook_fabrication", 4 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 2 ], [ "forging_standard", 13 ] ],
-    "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ],
+    "tools": [ [ [ "swage", -1 ] ], [ [ "tongs", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -4368,7 +4430,7 @@
     "time": "90 m",
     "autolearn": true,
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 } ],
-    "using": [ [ "steel_standard", 3 ], [ "forging_standard", 8 ] ],
+    "using": [ [ "steel_standard", 3 ], [ "forging_standard", 8 ] ]
   },
   {
     "type": "recipe",

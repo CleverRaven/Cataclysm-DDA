@@ -1995,7 +1995,7 @@
       { "id": "CHISEL", "level": 3 },
       { "id": "CUT", "level": 1 }
     ],
-    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ] ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "surface_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "copper", 1 ] ], [ [ "duct_tape", 1 ] ] ]
   },
   {
