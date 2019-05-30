@@ -1837,8 +1837,17 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
         }
         return;
     }
-    item &lens_item = p->i_at( act->position );
-    const auto usef = lens_item.type->get_use( "firestarter" );
+
+    item &firestarter = p->i_at( act->position );
+    if( firestarter.has_flag( "REQUIRES_TINDER" ) ) {
+        if( !g->m.tinder_at( act->placement ) ) {
+            p->add_msg_if_player( m_info, _( "This item requires tinder to light." ) );
+            p->cancel_activity();
+        }
+        return;
+    }
+
+    const auto usef = firestarter.type->get_use( "firestarter" );
     if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
         add_msg( m_bad, _( "You have lost the item you were using to start the fire." ) );
         p->cancel_activity();
