@@ -258,7 +258,6 @@ bool player::handle_gun_damage( item &it, int shots_fired )
     if( curammo_effects.count( "BLACKPOWDER" ) ) {
         if( !it.item_tags.count( "BLACKPOWDER_FOULING" ) ) {
             it.item_tags.insert( "BLACKPOWDER_FOULING" );
-            it.active = true; // start rusting process after firing blackpowder
         }
         if( one_in( firing->blackpowder_tolerance ) ) {
             add_msg_player_or_npc( m_bad, _( "Your %s is clogged up with blackpowder fouling!" ),
