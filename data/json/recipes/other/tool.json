@@ -196,7 +196,7 @@
       [ "textbook_fabrication", 1 ]
     ],
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
-    "tools": [ [ [ "forge", 5 ], [ "oxy_torch", 2 ] ],
+    "tools": [ [ [ "forge", 5 ], [ "oxy_torch", 2 ] ] ],
     "components": [ [ [ "scrap", 1 ], [ "can_food_unsealed", 1 ] ] ]
   }
 ]
