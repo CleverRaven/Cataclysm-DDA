@@ -31,6 +31,8 @@ static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_SHELL2( "SHELL2" );
 
 static const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_stunned( "stunned" );
@@ -375,6 +377,67 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
     }
 
     return true;
+}
+
+void game::plswim( const tripoint &p )
+{
+    if ( !m.has_flag( "SWIMMABLE", p ) ) {
+        dbg( D_ERROR ) << "game:plswim: Tried to swim in "
+            << m.tername( p ) << "!";
+        debugmsg( "Tried to swim in %s!", m.tername( p ) );
+        return;
+    }
+    if ( u.has_effect( effect_onfire ) ) {
+        add_msg( _( "The water puts out the flames!" ) );
+        u.remove_effect( effect_onfire );
+    }
+    if ( u.has_effect( effect_glowing ) ) {
+        add_msg( _( "The water washes off the glowing goo!" ) );
+        u.remove_effect( effect_glowing );
+    }
+    int movecost = u.swim_speed();
+    u.practice( skill_id( "swimming" ), u.is_underwater() ? 2 : 1 );
+    if ( movecost >= 500 ) {
+        if ( !u.is_underwater() && !( u.shoe_type_count( "swim_fins" ) == 2 ||
+            ( u.shoe_type_count( "swim_fins" ) == 1 && one_in( 2 ) ) ) ) {
+            add_msg( m_bad, _( "You sink like a rock!" ) );
+            u.set_underwater( true );
+            ///\EFFECT_STR increases breath-holding capacity while sinking
+            u.oxygen = 30 + 2 * u.str_cur;
+        }
+    }
+    if ( u.oxygen <= 5 && u.is_underwater() ) {
+        if ( movecost < 500 ) {
+            popup( _( "You need to breathe! (%s to surface.)" ), press_x( ACTION_MOVE_UP ) );
+        }
+        else {
+            popup( _( "You need to breathe but you can't swim!  Get to dry land, quick!" ) );
+        }
+    }
+    bool diagonal = ( p.x != u.posx() && p.y != u.posy() );
+    if ( u.in_vehicle ) {
+        m.unboard_vehicle( u.pos() );
+    }
+    u.setpos( p );
+    update_map( u );
+    if ( m.veh_at( u.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        m.board_vehicle( u.pos(), &u );
+    }
+    u.moves -= ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? 1.41 : 1 );
+    u.inv.rust_iron_items();
+
+    u.burn_move_stamina( movecost );
+
+    body_part_set drenchFlags{ {
+            bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
+            bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
+        }
+    };
+
+    if ( u.is_underwater() ) {
+        drenchFlags |= { { bp_head, bp_eyes, bp_mouth, bp_hand_l, bp_hand_r } };
+    }
+    u.drench( 100, drenchFlags, true );
 }
 
 static float rate_critter( const Creature &c )
