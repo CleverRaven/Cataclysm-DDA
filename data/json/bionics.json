@@ -949,14 +949,6 @@
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
-    "id": "bio_storage",
-    "type": "bionic",
-    "name": "Internal Storage",
-    "description": "Space inside your chest cavity has been surgically converted into a storage area.  You may carry an extra 2 liters of volume.",
-    "occupied_bodyparts": [ [ "TORSO", 32 ] ],
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
-  },
-  {
     "id": "bio_str_enhancer",
     "type": "bionic",
     "name": "Muscle Augmentation",
