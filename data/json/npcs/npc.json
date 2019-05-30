@@ -446,7 +446,7 @@
   {
     "type": "npc",
     "id": "cyborg_rescued",
-    "//": "A broken cyborg you saved.",
+    "//": "A prototype cyborg you saved.",
     "name_suffix": "Cyborg",
     "class": "NC_CYBORG",
     "attitude": 1,
