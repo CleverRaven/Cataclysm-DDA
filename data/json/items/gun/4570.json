@@ -47,13 +47,7 @@
     "dispersion": 180,
     "durability": 8,
     "clip_size": 5,
-    "valid_mod_locations": [
-      [ "accessories", 2 ],
-      [ "barrel", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "sights", 1 ]
-    ]
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "grip", 1 ], [ "mechanism", 4 ], [ "sights", 1 ] ]
   },
   {
     "id": "sharps",
