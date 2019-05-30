@@ -149,7 +149,7 @@
   {
     "id": "MISSION_REFUGEE_Uyen_2",
     "type": "mission_definition",
-    "name": "Locate Commo Team",
+    "name": "Find 6 bottles of prozac for Uyen",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,
