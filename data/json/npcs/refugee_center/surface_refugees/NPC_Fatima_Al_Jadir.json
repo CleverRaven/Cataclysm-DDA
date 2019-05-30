@@ -18,7 +18,7 @@
     "name": "Refugee",
     "job_description": "I'm just trying to survive.",
     "common": false,
-    "//": "A welder",
+    "//": "A welder, culturally muslim but only recently practicing since the Cataclysm has made her rethink her connections to her family's religion",
     "bonus_str": { "rng": [ -1, 3 ] },
     "bonus_dex": { "rng": [ -2, 2 ] },
     "bonus_int": { "rng": [ -2, 1 ] },
