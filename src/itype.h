@@ -472,6 +472,10 @@ struct islot_gun : common_ranged_data {
      */
     int ups_charges = 0;
     /**
+     * One in X chance for gun to require major cleanup after firing blackpowder shot.
+     */
+    int blackpowder_tolerance = 8;
+    /**
      * Length of gun barrel, if positive allows sawing down of the barrel
      */
     units::volume barrel_length = 0_ml;

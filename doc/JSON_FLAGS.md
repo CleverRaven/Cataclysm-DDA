@@ -159,6 +159,7 @@ These are handled through `ammo_types.json`.  You can tag a weapon with these to
 
 - ```ACIDBOMB``` Leaves a pool of acid on detonation.
 - ```BEANBAG``` Stuns the target.
+- ```BLACKPOWDER``` May clog up the gun with blackpowder fouling, which will also cause rust.
 - ```BLINDS_EYES``` Blinds the target if it hits the head (ranged projectiles can't actually hit the eyes at the moment).
 - ```BOUNCE``` Inflicts target with `bounced` effect and rebounds to a nearby target without this effect.
 - ```COOKOFF``` Explodes when lit on fire.
@@ -318,6 +319,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```GRANADE_ACT``` Assaults enemies with source code fixes?
 - ```GRANADE``` Pull the pin on Granade.
 - ```GRENADE``` Pull the pin on a grenade.
+- ```GUN_CLEAN``` Unclog and clear up a gun from blackpowder fouling.
 - ```HACKSAW``` Cut metal into chunks.
 - ```HAMMER``` Pry boards off of windows, doors and fences.
 - ```HEATPACK``` Activate the heatpack and get warm.
@@ -648,7 +650,10 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 
 - ```BACKBLAST``` Causes a small explosion behind the person firing the weapon. Currently not implemented?
 - ```BIPOD``` Handling bonus only applies on MOUNTABLE map/vehicle tiles. Does not include wield time penalty (see SLOW_WIELD).
+- ```BLACKPOWDER_CYCLE``` For guns, allow burst fire even if loaded with blackpowder ammo.
+- ```BLACKPOWDER_FOULING``` 1 in 500 chance each turn to rust. (temporary item tag)
 - ```CHARGE``` Has to be charged to fire. Higher charges do more damage.
+- ```CLOGGED``` Prevents gun from firing until removed. (temporary item tag)
 - ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun (excluding any mods). Does not include wield time penalty (see NEEDS_UNFOLD).
 - ```CONSUMABLE``` Makes a gunpart have a chance to get damaged depending on ammo fired, and definable fields 'consume_chance' and 'consume_divisor'.
 - ```DISABLE_SIGHTS``` Prevents use of the base weapon sights

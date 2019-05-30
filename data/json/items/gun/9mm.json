@@ -116,6 +116,7 @@
     "ranged_damage": -1,
     "dispersion": 480,
     "durability": 6,
+    "blackpowder_tolerance": 48,
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
   },
@@ -138,6 +139,7 @@
     "ranged_damage": 1,
     "dispersion": 240,
     "durability": 8,
+    "blackpowder_tolerance": 32,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 13 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],
@@ -305,6 +307,7 @@
     "ranged_damage": 1,
     "dispersion": 550,
     "durability": 6,
+    "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
@@ -331,6 +334,7 @@
     "ranged_damage": -3,
     "dispersion": 590,
     "durability": 4,
+    "blackpowder_tolerance": 24,
     "modes": [ [ "DEFAULT", "auto", 10 ] ],
     "loudness": 25,
     "barrel_length": 1,
@@ -367,6 +371,7 @@
     "ranged_damage": 1,
     "dispersion": 360,
     "durability": 5,
+    "blackpowder_tolerance": 24,
     "modes": [ [ "DEFAULT", "auto", 10 ] ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
     "magazines": [ [ "9mm", [ "stenmag", "survivor9mm_mag" ] ] ]
@@ -427,6 +432,7 @@
     "ranged_damage": -1,
     "dispersion": 400,
     "durability": 9,
+    "blackpowder_tolerance": 48,
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "usp9mag" ] ] ]
   },
@@ -485,6 +491,7 @@
     "ranged_damage": -1,
     "dispersion": 480,
     "durability": 6,
+    "blackpowder_tolerance": 48,
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd", "glockbigmag" ] ] ]
   },
@@ -496,7 +503,8 @@
     "description": "A selective fire variation on the Glock 17, originally designed for Austria's EKO Cobra unit.  It has compensator cuts along its barrel to make recoil more manageable.",
     "price": 100000,
     "burst": 20,
-    "built_in_mods": [ "barrel_ported" ]
+    "built_in_mods": [ "barrel_ported" ],
+    "extend": { "flags": [ "BLACKPOWDER_CYCLE" ] }
   },
   {
     "id": "kpf9",
