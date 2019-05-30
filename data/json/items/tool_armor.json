@@ -2533,7 +2533,7 @@
     "name": "Foodperson mask",
     "description": "Foodperson, the mascot your stomach deserves!",
     "weight": 5000,
-    "volume": "15L",
+    "volume": "16L",
     "price": 1500,
     "to_hit": -3,
     "material": [ "cotton", "plastic" ],
@@ -2560,13 +2560,13 @@
       [
         "battery",
         [
-          "light_battery_cell",
-          "light_plus_battery_cell",
-          "light_minus_battery_cell",
-          "light_atomic_battery_cell",
-          "light_minus_atomic_battery_cell",
-          "light_minus_disposable_cell",
-          "light_disposable_cell"
+          "medium_battery_cell",
+          "medium_plus_battery_cell",
+          "medium_minus_battery_cell",
+          "medium_atomic_battery_cell",
+          "medium_minus_atomic_battery_cell",
+          "medium_minus_disposable_cell",
+          "medium_disposable_cell",
         ]
       ]
     ],
