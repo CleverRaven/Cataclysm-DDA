@@ -249,6 +249,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.
 - ```REQUIRES_BALANCE``` Gear that requires a certain balance to be steady with. If the player is hit while wearing, they have a chance to be downed.
 - ```RESTRICT_HANDS``` Prevents the player from wielding a weapon two-handed, forcing one-handed use if the weapon permits it.
+- ```ROLLER_ONE``` A less stable and slower version of ROLLER_QUAD, still allows the player to move faster than walking speed.
+- ```ROLLER_QUAD```The medium choice between ROLLER_INLINE and ROLLER_ONE, while it is more stable, and moves faster, it also has a harsher non-flat terrain penalty then ROLLER_ONE.
+- ```ROLLER_INLINE``` Faster, but less stable overall, the penalty for non-flat terrain is even harsher.
 - ```SKINTIGHT``` Undergarment layer.
 - ```SLOWS_MOVEMENT``` This piece of clothing multiplies move cost by 1.1.
 - ```SLOWS_THIRST``` This piece of clothing multiplies the rate at which the player grows thirsty by 0.70.
