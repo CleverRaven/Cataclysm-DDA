@@ -434,6 +434,17 @@
   },
   {
     "type": "npc",
+    "id": "true_foodperson",
+    "//": "Foodperson mascot, except if you ask them Foodperson is a real hero and it's them!",
+    "name_unique": "Foodperson",
+    "class": "NC_TRUE_FOODPERSON",
+    "attitude": 7,
+    "mission": 7,
+    "chat": "TALK_NC_TRUE_FOODPERSON",
+    "faction": "wasteland_scavengers"
+  },
+  {
+    "type": "npc",
     "id": "cyborg_rescued",
     "//": "A broken cyborg you saved.",
     "name_suffix": "Cyborg",
