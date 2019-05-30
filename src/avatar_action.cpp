@@ -253,7 +253,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
                 add_msg( m_info, _( "%s to dive underwater." ),
                          press_x( ACTION_MOVE_DOWN ) );
             }
-            g->plswim( dest_loc );
+            avatar_action::swim( g->m, g->u, dest_loc );
         }
 
         g->on_move_effects();

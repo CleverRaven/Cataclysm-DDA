@@ -4507,7 +4507,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 break;
             }
             if( m.has_flag( "LIQUID", u.pos() ) && force_remaining < 1 ) {
-                plswim( u.pos() );
+                avatar_action::swim( m, u, u.pos() );
             } else {
                 u.setpos( traj[i] );
             }
