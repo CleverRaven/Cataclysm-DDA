@@ -1216,5 +1216,20 @@
     "color": "brown",
     "ammo_type": "components",
     "looks_like": "bag_canvas"
+  },
+  {
+    "id": "rosin",
+    "type": "AMMO",
+    "category": "chems",
+    "name": "rosin",
+    "description": "This is a chunk of yellowish rosin, usable as a flux for soldering.",
+    "weight": 1,
+    "volume": "10 ml",
+    "count": 10,
+    "price": 0,
+    "material": "wood",
+    "symbol": "=",
+    "color": "yellow",
+    "ammo_type": "components"
   }
 ]
