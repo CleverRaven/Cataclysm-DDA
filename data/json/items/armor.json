@@ -1611,6 +1611,25 @@
     "flags": [ "VARSIZE", "SKINTIGHT" ]
   },
   {
+    "id": "cape_fp",
+    "type": "ARMOR",
+    "name": "Foodperson's cape",
+    "description": "A brightly-colored cape emblazoned with the \"Fp\" symbol.",
+    "weight": 900,
+    "volume": 12,
+    "price": 5000,
+    "to_hit": -1,
+    "material": [ "cotton" ],
+    "symbol": "]",
+    "color": "pink",
+    "covers": [ "TORSO" ],
+    "coverage": 50,
+    "encumbrance": 4,
+    "warmth": 10,
+    "material_thickness": 1,
+    "flags": [ "OVERSIZE", "BELTED" ]
+  },
+  {
     "id": "cassock",
     "type": "ARMOR",
     "name": "cassock",
@@ -1781,13 +1800,13 @@
     "material": [ "plastic", "neoprene" ],
     "symbol": "H",
     "color": "dark_gray",
-    "covers": [ "Torso" ],
+    "covers": [ "TORSO" ],
     "coverage": 90,
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "STURDY" ]
+    "flags": [ "WATER_FRIENDLY", "STURDY", "OUTER" ]
   },
   {
     "id": "chestwrap",
