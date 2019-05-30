@@ -1071,6 +1071,6 @@
     "warmth": 20,
     "material_thickness": 2,
     "use_action": { "type": "transform", "target": "roller_shoes_off", "msg": "You pop the wheels back in.", "moves": 500 },
-    "flags": [ "VARSIZE", "HEELIES", "ROLLER_ONE", "REQUIRES_BALANCE" ]
+    "flags": [ "VARSIZE", "ROLLER_ONE", "REQUIRES_BALANCE" ]
   }
 ]
