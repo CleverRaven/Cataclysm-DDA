@@ -9,7 +9,8 @@
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_REFUGEE_Fatima_1",
-    "faction": "free_merchants"
+    "faction": "free_merchants",
+    "mission_offered": "MISSION_REFUGEE_Fatima_1"
   },
   {
     "type": "npc_class",
@@ -75,7 +76,7 @@
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Fatima_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Fatima_Situation" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+      { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -129,16 +130,38 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Welding",
-    "dynamic_line": "You're darn right it is!  I'm not a very traditional girl.  My mom and dad aren't very traditional either, but my grandparents are.  My brother came out as trans and they made his life hell.  I always loved mechanics and working with my hands, so I decided to pick a job I liked that would piss them off as much as possible.  It was a good choice, not only did it make them livid but I love welding.  I love the feel of standing back and looking at my work, knowing I took a few chunks of scrap metal and made them into something useful.  I love how it feels to make it fit together perfectly.  It just puts me at peace...\n\nI... I do hope they're okay though.  They were bigoted, racist assholes, but they were family and I still have sweet memories of them from when I was little."
+    "dynamic_line": "It sure is!  I'm not a very traditional girl.  My parents aren't very traditional either, but my grandparents are.  My sister came out as gay and they made her life really hard.  I always loved mechanics and working with my hands, so I decided to pick a job I liked that would piss them off as much as possible.  It was a good choice, not only did it make them livid but I love welding.  I love the feel of standing back and looking at my work, knowing I took a few chunks of scrap metal and made them into something useful.  I love how it feels to make it fit together perfectly.  It just puts me at peace...\n\nI... I do hope they're okay though.  They were old fashioned, and they made choices I didn't like, but they were family and I still have sweet memories of them from when I was little."
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Cataclysm",
-    "dynamic_line": "I was on my way to visit my parents back in Burlington, waiting at a bus station, when the evacuation notices started sounding.  I'd been a little out of touch for a bit and didn't realize how bad the rioting was getting.  When my bus arrived it got repurposed into an evacuation vehicle, and took me here.  It was the second bus to arrive, and they were just getting some triage and processing stuff set up.  I was put in charge of helping with the wounded, along with Uyen.  Things went a little funky later on... one of the women doing triage and processing had a bit of a hang-up about particular, um, colors of people being allowed into the center.  She claimed to have lost our 'papers', along with a lot of other peoples'.  Thankfully because we'd helped so many we were able to argue that they could't leave us out, but there was no space left downstairs by the time we got that sorted, so here we are."
+    "dynamic_line": "I was on my way to visit my parents back in Burlington, waiting at a bus station, when the evacuation notices started sounding.  I'd been a little out of touch for a bit and didn't realize how bad the rioting was getting.  When my bus arrived it got repurposed into an evacuation vehicle, and took me here.  It was the second bus to arrive, and they were just getting some triage and processing stuff set up.  I was put in charge of helping with the wounded, along with Uyen.  Things went a little strange later on... one of the women doing triage and processing had a bit of a hang-up about particular, um, colors of people being allowed into the center.  She claimed to have lost our 'papers', along with a lot of other peoples'.  Thankfully because we'd helped so many we were able to argue that they could't leave us out, but there was no space left downstairs by the time we got that sorted, so here we are."
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Situation",
-    "dynamic_line": "It's tense here.  I know I'd feel a lot better if I had something to do with my skills.  Jenny was talking about some project ideas she had that could get me doing my job again, but I admit I'm pretty nervous about going outside."
+    "dynamic_line": "It's tense here.  I know I'd feel a lot better if I had something to do with my skills, or even if I just had a quiet place to pray sometimes.  Jenny was talking about some project ideas she had that could get me doing my job again, but I admit I'm pretty nervous about going outside."
+  },
+  {
+    "id": "MISSION_REFUGEE_Fatima_1",
+    "type": "mission_definition",
+    "name": "Find a copy of the Quran for Fatima",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 2,
+    "value": 0,
+    "item": "holybook_quran",
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "I could use a bit of help to find a copy of the Quran.",
+      "offer": "I feel silly asking this, but here goes.  I've never been really into reading holy books and stuff like that.  I usually went to the mosque on Friday, and I try to pray five times a day but I hardly ever manage it.  I guess I'm not a very good Muslim, but with all that's happened I would really love to have a copy of the Quran to read.  This seems like a time to get back in touch with God, you know?",
+      "accepted": "Thanks you.  I'll see if I can save up a little reward for you.",
+      "rejected": "That's okay.  Thanks for offering.",
+      "advice": "It's not as common as the bible, but you should be able to find copies in most libraries and bookstores.",
+      "inquire": "How is the search going?",
+      "success": "Thank you so much.  Just having a copy to keep at hand does actually feel pretty comforting.  I did a few extra rounds of chores and saved the proceeds for if you managed this, here you go.  It's not much but I hope it helps.",
+      "success_lie": "What good does this do me?",
+      "failure": "It's okay.  I don't know how much comfort I'd have found in an old book anyway."
+    },
+    "end": { "effect": { "u_buy_item": "FMCNote", "count": 5 } }
   }
 ]
