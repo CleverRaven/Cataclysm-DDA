@@ -1901,7 +1901,6 @@ int player::run_cost( int base_cost, bool diag ) const
             movecost *= 1.3f;
         }
     }
-    
         
     // Skates with only one wheel (roller shoes) are fairly less stable
     // and fairly slower as well
@@ -2829,7 +2828,7 @@ int player::get_shout_volume() const
     }
 
     // Masks and such dampen the sound
-    // balanced around whisper for wearing bondage mask
+    // Balanced around whisper for wearing bondage mask
     // and noise ~= 10 (door smashing) for wearing dust mask for character with strength = 8
     /** @EFFECT_STR increases shouting volume */
     const int penalty = encumb( bp_mouth ) * 3 / 2;
