@@ -967,6 +967,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     std::stringstream temp2;
     std::string space = "  ";
     const bool debug = g != nullptr && debug_mode;
+    avatar &u = g->u; // TODO: make a const reference
 
     if( parts == nullptr ) {
         parts = &iteminfo_query::all;
@@ -1227,6 +1228,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         } );
         if( !required_vits.empty() && parts->test( iteminfo_parts::FOOD_VITAMINS ) ) {
             info.emplace_back( "FOOD", _( "Vitamins (RDA): " ), required_vits );
+        }
+
+        if( u.allergy_type( *food_item ) != morale_type( "morale_null" ) ) {
+            info.emplace_back( "DESCRIPTION",
+                               _( "* This food will cause an <bad>allergic reaction</bad>." ) );
         }
 
         if( food_item->has_flag( "CANNIBALISM" ) && parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
@@ -2333,6 +2339,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             insert_separation_line();
         }
 
+        if( is_armor() && u.has_trait( trait_id( "WOOLALLERGY" ) ) && ( made_of( material_id( "wool" ) ) ||
+                item_tags.count( "wooled" ) ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* This clothing will give you an <bad>allergic reaction</bad>." ) ) );
+        }
+
         if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS ) ) {
             // concatenate base and acquired flags...
             std::vector<std::string> flags;
@@ -2784,11 +2796,13 @@ nc_color item::color_in_inventory() const
         ret = c_cyan;
     } else if( has_flag( "LITCIG" ) ) {
         ret = c_red;
+    } else if( is_armor() && u.has_trait( trait_id( "WOOLALLERGY" ) ) &&
+               ( made_of( material_id( "wool" ) ) || item_tags.count( "wooled" ) ) ) {
+        ret = c_red;
     } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
         ret = c_brown;
     } else if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0 ) {
         ret = c_light_green;
-
     } else if( active && !is_food() && !is_food_container() && !is_corpse() ) {
         // Active items show up as yellow
         ret = c_yellow;
@@ -2798,6 +2812,13 @@ nc_color item::color_in_inventory() const
     } else if( is_food() || is_food_container() ) {
         const bool preserves = type->container && type->container->preserves;
         const item &to_color = is_food() ? *this : contents.front();
+
+        // Give color priority to allergy (allergy > inedible by freeze or other conditions)
+        // TODO: refactor u.will_eat to let this section handle coloring priority without duplicating code.
+        if( u.allergy_type( to_color ) != morale_type( "morale_null" ) ) {
+            return c_red;
+        }
+
         // Default: permafood, drugs
         // Brown: rotten (for non-saprophages) or non-rotten (for saprophages)
         // Dark gray: inedible
