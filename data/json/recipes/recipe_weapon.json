@@ -1921,7 +1921,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 1 ], [ "forging_standard", 15 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [  [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -1935,10 +1935,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 2 ], [ "forging_standard", 10 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "2x4", 1 ], [ "stick", 2 ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ]
-    ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2280,10 +2277,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 3 ], [ "forging_standard", 15 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "2x4", 1 ], [ "stick", 2 ] ],
-      [ [ "fur", 1 ], [ "leather", 1 ] ]
-    ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2297,10 +2291,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 3 ], [ "forging_standard", 21 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "2x4", 1 ], [ "stick", 2 ] ],
-      [ [ "fur", 1 ], [ "leather", 1 ] ]
-    ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2314,10 +2305,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 3 ], [ "forging_standard", 20 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "2x4", 1 ], [ "stick", 2 ] ],
-      [ [ "fur", 1 ], [ "leather", 1 ] ]
-    ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2331,10 +2319,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 3 ], [ "forging_standard", 20 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "2x4", 2 ], [ "stick", 4 ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ]
-    ]
+    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2362,10 +2347,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 2 ], [ "forging_standard", 23 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "2x4", 1 ], [ "stick", 2 ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ]
-    ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2379,11 +2361,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 3 ], [ "forging_standard", 21 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "filament", 100, "LIST" ] ],
-      [ [ "2x4", 1 ], [ "stick", 2 ] ],
-      [ [ "fur", 1 ], [ "leather", 1 ] ]
-    ]
+    "components": [ [ [ "filament", 100, "LIST" ] ], [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2397,10 +2375,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 3 ], [ "forging_standard", 23 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "2x4", 1 ], [ "stick", 2 ] ],
-      [ [ "fur", 1 ], [ "leather", 1 ] ]
-    ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2414,10 +2389,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 4 ], [ "forging_standard", 23 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "2x4", 1 ], [ "stick", 2 ] ],
-      [ [ "fur", 1 ], [ "leather", 1 ] ]
-    ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2431,10 +2403,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 4 ], [ "forging_standard", 23 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "2x4", 1 ], [ "stick", 2 ] ],
-      [ [ "fur", 1 ], [ "leather", 1 ] ]
-    ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 1 ], [ "leather", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -2448,10 +2417,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 4 ], [ "forging_standard", 23 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "2x4", 2 ], [ "stick", 4 ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ]
-    ]
+    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2484,10 +2450,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 1 ], [ "forging_standard", 16 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "2x4", 1 ], [ "stick", 1 ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ]
-    ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2501,10 +2464,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 2 ], [ "forging_standard", 20 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "2x4", 1 ], [ "stick", 2 ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ]
-    ]
+    "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2518,10 +2478,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 2 ], [ "forging_standard", 23 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 450 ], [ "oxy_torch", 90 ] ] ],
-    "components": [
-      [ [ "2x4", 2 ], [ "stick", 4 ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ]
-    ]
+    "components": [ [ [ "2x4", 2 ], [ "stick", 4 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2535,10 +2492,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 5 ], [ "forging_standard", 25 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "2x4", 3 ], [ "stick", 6 ] ],
-      [ [ "fur", 3 ], [ "leather", 3 ] ]
-    ]
+    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fur", 3 ], [ "leather", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -2552,10 +2506,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 3 ], [ "forging_standard", 10 ] ],
     "tools": [ [ [ "tongs", -1 ] ] ],
-    "components": [
-      [ [ "2x4", 3 ], [ "stick", 6 ] ],
-      [ [ "fur", 3 ], [ "leather", 3 ] ]
-    ]
+    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fur", 3 ], [ "leather", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -2569,10 +2520,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 4 ], [ "forging_standard", 15 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "2x4", 3 ], [ "stick", 6 ] ],
-      [ [ "fur", 3 ], [ "leather", 3 ] ]
-    ]
+    "components": [ [ [ "2x4", 3 ], [ "stick", 6 ] ], [ [ "fur", 3 ], [ "leather", 3 ] ] ]
   },
   {
     "type": "recipe",
@@ -2586,10 +2534,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 2 ], [ "forging_standard", 18 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "stick_long", 1 ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ]
-    ]
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2779,11 +2724,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 1 ], [ "forging_standard", 23 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "filament", 100, "LIST" ] ],
-      [ [ "stick_long", 1 ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ]
-    ]
+    "components": [ [ [ "filament", 100, "LIST" ] ], [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2797,10 +2738,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 3 ], [ "forging_standard", 18 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "forge", 350 ], [ "oxy_torch", 70 ] ] ],
-    "components": [
-      [ [ "stick_long", 1 ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ]
-    ]
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2814,10 +2752,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 2 ], [ "forging_standard", 23 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "stick_long", 1 ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ]
-    ]
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2831,10 +2766,7 @@
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "using": [ [ "steel_standard", 2 ], [ "forging_standard", 23 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [
-      [ [ "stick_long", 1 ] ],
-      [ [ "fur", 2 ], [ "leather", 2 ] ]
-    ]
+    "components": [ [ [ "stick_long", 1 ] ], [ [ "fur", 2 ], [ "leather", 2 ] ] ]
   },
   {
     "type": "recipe",
