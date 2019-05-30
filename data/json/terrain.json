@@ -8353,9 +8353,9 @@
   },
   {
     "type": "terrain",
-    "id": "t_wall_y",
+    "id": "t_wall_p",
     "aliases": [ "t_wall_h_p", "t_wall_v_p" ],
-    "name": "yellow wall",
+    "name": "pink wall",
     "description": "Wall painted pink.",
     "symbol": "LINE_OXOX",
     "color": "pink",

@@ -37,7 +37,7 @@
         "&": "t_linoleum_gray",
         "+": "t_door_c",
         ",": "t_pavement_y",
-        "-": "t_wall",
+        "-": "t_wall_r",
         "C": "t_curtains",
         "D": "t_door_locked",
         "F": "t_linoleum_gray",
@@ -54,7 +54,7 @@
         "{": "t_linoleum_gray",
         "4": "t_gutter_downspout",
         "<": "t_ladder_up",
-        "|": "t_wall"
+        "|": "t_wall_r"
       },
       "furniture": {
         "#": "f_counter",
@@ -201,7 +201,7 @@
         "'": "t_window",
         "+": "t_door_c",
         ",": "t_pavement_y",
-        "-": "t_wall",
+        "-": "t_wall_y",
         ".": "t_carpet_green",
         "@": "t_console_broken",
         "C": "t_curtains",
@@ -225,7 +225,7 @@
         "4": "t_gutter_downspout",
         "6": "t_tree_willow",
         " ": "t_grass_long",
-        "|": "t_wall"
+        "|": "t_wall_y"
       },
       "furniture": {
         "#": "f_counter",
@@ -369,7 +369,7 @@
         "#": "t_linoleum_gray",
         "+": "t_door_c",
         ",": "t_pavement_y",
-        "-": "t_wall",
+        "-": "t_wall_w",
         ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
         "=": "t_sidewalk",
         "G": "t_linoleum_white",
@@ -389,7 +389,7 @@
         "<": "t_stairs_up",
         "L": "t_linoleum_white",
         "r": "t_linoleum_white",
-        "|": "t_wall"
+        "|": "t_wall_w"
       },
       "furniture": {
         "#": "f_counter",
@@ -538,7 +538,7 @@
         "&": "t_linoleum_gray",
         "+": "t_door_c",
         ",": "t_pavement_y",
-        "-": "t_wall",
+        "-": "t_wall_p",
         "C": "t_curtains",
         "D": "t_door_locked",
         "F": "t_linoleum_gray",
@@ -557,7 +557,7 @@
         "4": "t_gutter_downspout",
         "6": "t_card_fp",
         "<": "t_stairs_up",
-        "|": "t_wall"
+        "|": "t_wall_p"
       },
       "furniture": {
         "#": "f_counter",
@@ -640,7 +640,7 @@
       "terrain": {
         ".": "t_flat_roof",
         " ": "t_open_air",
-        "W": "t_wall",
+        "W": "t_wall_p",
         "D": "t_door_c",
         "[": "t_ladder_up",
         "w": "t_window",
