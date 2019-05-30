@@ -342,6 +342,27 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_restaurant_foodplace",
+    "name": "restaurant",
+    "copy-from": "generic_city_building",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_foodplace_roof",
+    "name": "restaurant roof",
+    "copy-from": "generic_city_building",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_restaurant_foodplace_upper_roof",
+    "name": "restaurant roof",
+    "copy-from": "generic_city_building",
+    "color": "pink"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_restaurant",
     "name": "restaurant",
     "copy-from": "generic_city_building",
