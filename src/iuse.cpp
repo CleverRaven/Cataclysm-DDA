@@ -7348,7 +7348,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
         if( cooktime <= 0 ) {
             item &meal = it->emplace_back( it->get_var( "DISH" ) );
-            if( *recipe_id( it->get_var( "RECIPE" ) )->hot_result() ) {
+            if( ( *recipe_id( it->get_var( "RECIPE" ) ) ).hot_result() ) {
                 meal.heat_up();
             } else {
                 meal.set_item_temperature( temp_to_kelvin( std::max( temperatures::cold,
@@ -7457,7 +7457,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 dish.cold_up();  //don't know how to check if the dish is frozen liquid and prevent extraction of it into inventory...
             }
             const std::string dish_name = dish.tname( dish.charges, false );
-            const bool is_hot = dish.has_flag( "HOT" ) && dish.has_flag( "EATEN_HOT" );
+            const bool is_delicious = dish.has_flag( "HOT" ) && dish.has_flag( "EATEN_HOT" );
             if( dish.made_of( LIQUID ) ) {
                 if( !p->check_eligible_containers_for_crafting( *recipe_id( it->get_var( "RECIPE" ) ), 1 ) ) {
                     p->add_msg_if_player( m_info, _( "You don't have a suitable container to store your %s." ),
@@ -7473,7 +7473,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
             it->contents.erase( dish_it );
             it->erase_var( "RECIPE" );
 
-            if( is_hot ) {
+            if( is_delicious ) {
                 p->add_msg_if_player( m_good,
                                       _( "You got the dish from the multi-cooker.  The %s smells delicious." ),
                                       dish_name );
