@@ -2549,7 +2549,7 @@
     "ammo": "battery",
     "use_action": {
       "type": "transform",
-      "msg": "You turn the mask on.",
+      "msg": "Your HUD lights-up:\"Greetings Foodperson, your shift begins now.  Good Luck!\"",
       "target": "foodperson_mask_on",
       "active": true,
       "need_worn": true,
@@ -2559,12 +2559,7 @@
     "magazines": [
       [
         "battery",
-        [
-          "medium_battery_cell",
-          "medium_plus_battery_cell",
-          "medium_atomic_battery_cell",
-          "medium_disposable_cell"
-        ]
+        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
       ]
     ],
     "magazine_well": 2,
