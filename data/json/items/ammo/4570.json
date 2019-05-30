@@ -1,5 +1,6 @@
 [
-  { "id": "4570_sp",
+  {
+    "id": "4570_sp",
     "type": "AMMO",
     "name": ".45-70 SP",
     "description": ".45-70 Government ammunition loaded with a 305 grain soft point round.  One of the oldest cartridges still in use, it is still a favorite for large game hunting at short ranges.",
@@ -20,7 +21,8 @@
     "recoil": 4300,
     "effects": [ "COOKOFF" ]
   },
-  { "id": "4570_pen",
+  {
+    "id": "4570_pen",
     "copy-from": "4570_sp",
     "type": "AMMO",
     "name": ".45-70 +P penetrator",
@@ -29,15 +31,17 @@
     "count": 10,
     "relative": { "range": 2, "damage": 4, "pierce": 7, "recoil": 300 }
   },
-  { "id": "4570_low",
+  {
+    "id": "4570_low",
     "copy-from": "4570_sp",
     "type": "AMMO",
     "name": ".45-70 LFN cowboy",
     "description": ".45-70 Government ammunition loaded with a 405 grain lead flat nose bullet to original specifications for safe use in antique firearms.  Quite a bit less powerful than modern ammo, but still packs a punch.",
-    "price":3500,
+    "price": 3500,
     "relative": { "range": -8, "damage": -14, "pierce": -2, "recoil": -900 }
   },
-  { "id": "reloaded_4570_sp",
+  {
+    "id": "reloaded_4570_sp",
     "copy-from": "4570_sp",
     "type": "AMMO",
     "name": "reloaded .45-70 SP",
@@ -46,7 +50,8 @@
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
-  { "id": "reloaded_4570_pen",
+  {
+    "id": "reloaded_4570_pen",
     "copy-from": "4570_pen",
     "type": "AMMO",
     "name": "reloaded .45-70 +P penetrator",
@@ -55,7 +60,8 @@
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
-  { "id": "reloaded_4570_low",
+  {
+    "id": "reloaded_4570_low",
     "copy-from": "4570_low",
     "type": "AMMO",
     "name": "reloaded .45-70 LFN cowboy",
@@ -64,7 +70,8 @@
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ] }
   },
-  { "id": "reloaded_4570_bp",
+  {
+    "id": "reloaded_4570_bp",
     "//": "***Add blackpowder effects once #30944 gets merged***",
     "copy-from": "4570_low",
     "type": "AMMO",
