@@ -75,6 +75,7 @@
     "responses": [
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Fatima_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Fatima_Situation" },
+      { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
     ]
@@ -130,17 +131,17 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Welding",
-    "dynamic_line": "It sure is!  I'm not a very traditional girl.  My parents aren't very traditional either, but my grandparents are.  My sister came out as gay and they made her life really hard.  I always loved mechanics and working with my hands, so I decided to pick a job I liked that would piss them off as much as possible.  It was a good choice, not only did it make them livid but I love welding.  I love the feel of standing back and looking at my work, knowing I took a few chunks of scrap metal and made them into something useful.  I love how it feels to make it fit together perfectly.  It just puts me at peace...\n\nI... I do hope they're okay though.  They were old fashioned, and they made choices I didn't like, but they were family and I still have sweet memories of them from when I was little."
+    "dynamic_line": "It sure is!  I'm not a very traditional girl.  My parents aren't very traditional either, but my grandparents are.  My sister came out as gay and they made her life really hard.  I always loved mechanics and working with my hands, so I decided to pick a job I liked that would piss them off as much as possible.  It was a good choice, not only did it make them livid but I love welding.  I love the feel of standing back and looking at my work, knowing I took a few chunks of scrap metal and made them into something useful.  I love how it feels to make it fit together perfectly.  It just puts me at peace...\n\nI... I do hope they're okay though.  They were old fashioned, and they made choices I didn't like, but they were family and I still have sweet memories of them from when I was little.  I've had to do a lot more thinking about God since <the_cataclysm>, and while I'd never agree with the decisions they made, I understand more why they thought they had to make them.  They just wanted the whole family to be right by God as they see Him."
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Cataclysm",
-    "dynamic_line": "I was on my way to visit my parents back in Burlington, waiting at a bus station, when the evacuation notices started sounding.  I'd been a little out of touch for a bit and didn't realize how bad the rioting was getting.  When my bus arrived it got repurposed into an evacuation vehicle, and took me here.  It was the second bus to arrive, and they were just getting some triage and processing stuff set up.  I was put in charge of helping with the wounded, along with Uyen.  Things went a little strange later on... one of the women doing triage and processing had a bit of a hang-up about particular, um, colors of people being allowed into the center.  She claimed to have lost our 'papers', along with a lot of other peoples'.  Thankfully because we'd helped so many we were able to argue that they could't leave us out, but there was no space left downstairs by the time we got that sorted, so here we are."
+    "dynamic_line": "I was on my way to visit my parents back in Burlington, waiting at a bus station, when the evacuation notices started sounding.  I'd been a little out of touch for a bit and didn't realize how bad the rioting was getting.  When my bus arrived it got repurposed into an evacuation vehicle, and took me here.  I... I didn't used to be very religious, it's just something I was born to, but since this happened I've been thinking a lot more about God, and how grateful I am for His help in surviving.  With things still so difficult, it helps to know He's got some plan for me.\n\nAnyway, mine was the second bus to arrive, and they were just getting some triage and processing stuff set up.  I was put in charge of helping with the wounded, along with Uyen.  Things went a little strange later on... one of the women doing triage and processing had a bit of a hang-up about particular, um, colors of people being allowed into the center.  She claimed to have lost our 'papers', along with a lot of other peoples'.  Thankfully because we'd helped so many we were able to argue that they could't leave us out, but there was no space left downstairs by the time we got that sorted, so here we are."
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Fatima_Situation",
-    "dynamic_line": "It's tense here.  I know I'd feel a lot better if I had something to do with my skills, or even if I just had a quiet place to pray sometimes.  Jenny was talking about some project ideas she had that could get me doing my job again, but I admit I'm pretty nervous about going outside."
+    "dynamic_line": "It's tense here.  I know I'd feel a lot better if I had something to do with my skills, or even if I just had a quiet place to pray sometimes.  I feel a bit self-conscious praying in the common areas.  Jenny was talking about some project ideas she had that could get me doing my job again, but I admit I'm pretty nervous about going outside."
   },
   {
     "id": "MISSION_REFUGEE_Fatima_1",
