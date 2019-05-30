@@ -651,6 +651,8 @@
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",
     "stop_phrase": "Stop scanning?",
-    "based_on": "speed"
+    "rooted": true,
+    "based_on": "speed",
+    "refuel_fires": true
   }
 ]

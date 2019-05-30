@@ -6789,7 +6789,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             return 0;
         }
         
-        p->moves -= 200;
+        p->moves -= 50;
         
         int index = g->inv_for_filter( _( "Scan which book?" ), []( const item & itm ) {
             return itm.is_book();
@@ -6801,11 +6801,6 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             return it->type->charges_to_use();
         }
         
-        if( it->charges < it->type->charges_to_use() * ( book.volume() / 50_ml ) ) {
-            p->add_msg_if_player( m_info, _( "Your %s dosn't have enough charges to scan book this big!" ), it->tname() );
-            return 0;
-        }
-
         index = g->inv_for_flag( "MC_MOBILE", _( "Insert memory card" ) );
         item &mc = p->i_at( index );
 
@@ -6835,13 +6830,12 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         mc.clear_vars();
         mc.unset_flags();
         
-        p->assign_activity( activity_id( "ACT_SCAN_BOOK" ), ( book.volume() / 25_ml ) * 1000 );
-        p->activity.targets.push_back( item_location( *p, &book ) );
-        p->activity.targets.push_back( item_location( *p, &mc ) );
+        player_activity act( activity_id( "ACT_SCAN_BOOK" ), ( book.volume() / 250_ml ) * 10000, -1, p->get_item_position( it ));
+        act.targets.push_back( item_location( *p, &book ) );
+        act.targets.push_back( item_location( *p, &mc ) ); 
+        p->assign_activity( act );
         
         p->add_msg_if_player( m_info, _( "You start scanning %s." ), book.tname() );
-
-        return it->type->charges_to_use() * ( book.volume() / 50_ml );
     }
 
     return it->type->charges_to_use();
