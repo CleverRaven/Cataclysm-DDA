@@ -6745,8 +6745,8 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
     }
 
     if( c_scan == choice ) {
-        if( p->is_blind() ) {
-            p->add_msg_if_player( m_bad, _( "You can't see." ) );
+        if( p->fine_detail_vision_mod() > 1.0 ) {
+            p->add_msg_if_player( m_bad, _( "You need to be able to see and have very good lighting conditions for this type of camera work." ) );
             return 0;
         }
         
