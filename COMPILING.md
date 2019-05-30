@@ -360,23 +360,34 @@ If you get an error stating `make: build-scripts/validate_pr_in_jenkins: Command
 
 # Mac OS X
 
-To build Cataclysm on Mac you'll need [Command Line Tools for Xcode](https://developer.apple.com/downloads/) and the [Homebrew](http://brew.sh) package manager. With Homebrew, you can easily install or build Cataclysm using the [Cataclysm](https://formulae.brew.sh/formula/cataclysm) forumla.
+To build Cataclysm on Mac you'll need [Command Line Tools for Xcode](https://developer.apple.com/downloads/) and the [Homebrew](http://brew.sh) package manager. With Homebrew, you can easily install or build Cataclysm using the [cataclysm](https://formulae.brew.sh/formula/cataclysm) forumla.
 
 ## Simple build using Homebrew
 
-Homebrew installation will come with tiles and sound support enabled by default.
+Homebrew installation will come with tiles and sound support enabled.
 
-Once you have Homebrew installed, open Terminal and run one the following command.
+Once you have Homebrew installed, open Terminal and run one of the following commands.
+
+For a stable tiles build:
 
     brew install cataclysm
 
-Homebrew will install the appropriate dependencies as needed. The installation will be in `/usr/local/Cellar/cataclysm` with a symlink named `cataclysm` in `/usr/local/bin`.
+For an experimental tiles build built from the current HEAD of [master](https://github.com/CleverRaven/Cataclysm-DDA/tree/master/):
+
+    brew install cataclysm --HEAD
+
+Whichever build you choose, Homebrew will install the appropriate dependencies as needed. The installation will be in `/usr/local/Cellar/cataclysm` with a symlink named `cataclysm` in `/usr/local/bin`.
 
 To launch Cataclysm, just open Terminal and run `cataclysm`.
 
-Reinstall Cataclysm using the following command.
+To update a stable tiles build simply run:
 
-    brew reinstall cataclysm
+    brew upgrade cataclysm
+
+To update an experimental build, you must uninstall Cataclysm then reinstall with `--HEAD`, triggering a new build from source.
+
+    brew uninstall cataclysm
+    brew install cataclysm --HEAD
 
 ## Advanced info for Developers
 
@@ -541,7 +552,7 @@ You should see a `Cataclysm.dmg` file.
 
 ### ISSUE: Game runs very slowly when built for Mac OS X 10.11 or earlier
 
-For versions of OS X 10.11 and earlier, run-time optimizations are disabled for native builds (`-O0` is specified as a compilation flag) due to errors that can occur in compilation. See [Pull Request #26564](https://github.com/CleverRaven/Cataclysm-DDA/pull/26564) for details. 
+For versions of OS X 10.11 and earlier, run-time optimizations are disabled for native builds (`-O0` is specified as a compilation flag) due to errors that can occur in compilation. See [Pull Request #26564](https://github.com/CleverRaven/Cataclysm-DDA/pull/26564) for details.
 
 If you're on a newer version of OS X, please use an appropriate value for the `OSX_MIN=` option, i.e. `OSX_MIN=10.14` if you are on Mojave.
 
