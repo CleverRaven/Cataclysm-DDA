@@ -1681,7 +1681,12 @@ int map::move_cost( const tripoint &to, const tripoint &from, const vehicle *ign
         
             // Calculate diagonal obstacles.
             tripoint to_x = from + tripoint(dmove.x,0,0); 
-            tripoint to_y = from + tripoint(0,dmove.y,0); 
+            tripoint to_y = from + tripoint(0,dmove.y,0);
+            
+            // Nevermind if diagonals are out of bounds.
+            if( !inbounds( to_x ) || !inbounds( to_y ) ) {
+                 return cost_to;
+             }
             
             const furn_t &furniture_x = furn( to_x ).obj();
             const ter_t &terrain_x = ter( to_x ).obj(); 
@@ -6146,9 +6151,9 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
         !inbounds( T ) ) {
         bresenham_slope = 0;
         return false; // Out of range!
-    }
-    bool visible = true;
-
+    }    
+    bool visible = true; 
+   
     // Ugly `if` for now
     if( !fov_3d || F.z == T.z ) {
         bresenham( F.x, F.y, T.x, T.y, bresenham_slope,
@@ -6166,7 +6171,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
         return visible;
     }
 
-    tripoint last_point = F;
+    tripoint last_point = F;    
     bresenham( F, T, bresenham_slope, 0,
     [this, &visible, &T, &last_point]( const tripoint & new_point ) {
         // Exit before checking the last square, it's still visible even if opaque.
