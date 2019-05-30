@@ -1863,7 +1863,7 @@ void bionic::serialize( JsonOut &json ) const
     json.member( "charge", charge );
     json.member( "ammo_loaded", ammo_loaded );
     json.member( "ammo_count", ammo_count );
-    if( incapacitated_time > 0 ) {
+    if( incapacitated_time > 0_turns ) {
         json.member( "incapacitated_time", incapacitated_time );
     }
     json.end_object();
