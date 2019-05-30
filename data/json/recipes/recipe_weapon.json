@@ -179,17 +179,38 @@
   },
   {
     "type": "recipe",
-    "result": "razor_whip",
+    "result": "chain_whip",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "fabrication",
     "difficulty": 8,
-    "time": 220000,
+    "time": "4 h",
     "reversible": true,
     "autolearn": true,
-    "qualities": [ { "id": "CUT", "level": 1 } ],
-    "using": [ [ "adhesive", 3 ] ],
-    "components": [ [ [ "leather", 15 ] ], [ [ "razor_blade", 15 ] ] ]
+    "qualities": [
+      { "id": "ANVIL", "level": 3 },
+      { "id": "CUT", "level": 1 },
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 3 },
+      { "id": "HAMMER_FINE", "level": 1 },
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "CHISEL", "level": 3 }
+    ],
+    "using": [ [ "adhesive", 2 ], [ "steel_standard", 6 ], [ "forging_standard", 6 ] ],
+    "components": [ [ [ "leather", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "sharp_chain_whip",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "fabrication",
+    "difficulty": 9,
+    "time": "1 h",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [ [ [ "chain_whip", 1 ] ] ]
   },
   {
     "type": "recipe",
