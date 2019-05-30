@@ -2108,11 +2108,7 @@
       [ "mag_mechanics", 2 ],
       [ "mag_rifle", 2 ]
     ],
-    "components": [
-      [ [ "wire", 2 ], [ "cable", 2 ] ],
-      [ [ "screwdriver", 1 ] ],
-      [ [ "rag", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
-    ]
+    "components": [ [ [ "wire", 2 ], [ "cable", 2 ] ], [ [ "screwdriver", 1 ] ], [ [ "rag", 2 ], [ "leather", 2 ], [ "fur", 2 ] ] ]
   },
   {
     "type": "recipe",
