@@ -202,9 +202,7 @@
     "time": 60000,
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [
-      [ [ "steel_chunk", 1 ], [ "steel_lump", 1 ] ]
-    ]
+    "components": [ [ [ "steel_chunk", 1 ], [ "steel_lump", 1 ] ] ]
   },
   {
     "type": "recipe",
