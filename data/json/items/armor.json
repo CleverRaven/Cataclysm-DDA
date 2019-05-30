@@ -1769,6 +1769,27 @@
     "flags": [ "OUTER" ]
   },
   {
+    "id": "chestguard_hard",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": "Hard chest guard",
+    "description": "A plastron of interlocking plastic plate protecting your torso.",
+    "weight": 1000,
+    "volume": 28,
+    "price": 60000,
+    "to_hit": -2,
+    "material": [ "plastic", "neoprene" ],
+    "symbol": "H",
+    "color": "dark_gray",
+    "covers": [ "Torso" ],
+    "coverage": 90,
+    "encumbrance": 20,
+    "warmth": 20,
+    "material_thickness": 3,
+    "environmental_protection": 1,
+    "flags": [ "WATER_FRIENDLY", "STURDY" ]
+  },
+  {
     "id": "chestwrap",
     "type": "ARMOR",
     "name": "chestwrap",
