@@ -643,7 +643,7 @@
         "W": "t_wall_p",
         "D": "t_door_c",
         "[": "t_ladder_up",
-        "w": "t_window",
+        "w": "t_window_domestic",
         "|": "t_gutter_west",
         ",": "t_floor",
         "-": "t_gutter_south",
