@@ -2116,9 +2116,10 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( !ammo_types().empty() ) {
                 //~ "%s" is ammunition type. This types can't be plural.
                 tmp = ngettext( "Maximum <num> charge of %s.", "Maximum <num> charges of %s.", ammo_capacity() );
-                tmp = string_format( tmp, enumerate_as_string( ammo_types().begin(),
-                ammo_types().end(), []( const ammotype & e ) {
-                    return e->name();
+                const std::set<ammotype> atypes = ammo_types();
+                tmp = string_format( tmp, enumerate_as_string( atypes.begin(),
+                atypes.end(), []( const ammotype &at ) {
+                    return at->name();
                 }, enumeration_conjunction::none ) );
 
                 // No need to display max charges, since charges are always equal to bionic power
