@@ -16,6 +16,6 @@
     "max_charges": 2000,
     "charges_per_use": 1,
     "use_action": { "type": "firestarter", "moves": 1000, "moves_slow": 5000 },
-    "flags": [ "FIRESTARTER" ]
+    "flags": [ "FIRESTARTER", "REQUIRES_TINDER" ]
   }
 ]
