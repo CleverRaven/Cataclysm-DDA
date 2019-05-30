@@ -15,8 +15,8 @@ NPCs can assign missions to the player.  There is a fairly regular structure for
        "effect": { "u_buy_item": "black_box" },
        "assign_mission_target": { "om_terrain": "lab", "reveal_radius": 3 }
     },
-    "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_EXPLORE_SARCOPHAGUS",
+    "origins": [ "ORIGIN_SECONDARY" ],              // ORIGIN_SECONDARY means this is not valid for starter and dynamic NPCs
+    "followup": "MISSION_EXPLORE_SARCOPHAGUS",      // OPTIONAL if a followup mission exists
     "dialogue": {
       "describe": "With the black box in hand, we need to find a lab.",
       "offer": "Thanks to your searching we've got the black box but now we need to have a look'n-side her.  Now, most buildings don't have power anymore but there are a few that might be of use.  Have you ever seen one of those science labs that have popped up in the middle of nowhere?  Them suckers have a glowing terminal out front so I know they have power somewhere inside'em.  If you can get inside and find a computer lab that still works you ought to be able to find out what's in the black box.",
