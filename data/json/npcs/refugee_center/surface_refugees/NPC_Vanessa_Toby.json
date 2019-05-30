@@ -81,6 +81,17 @@
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Vanessa_Situation" },
       { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
       {
+        "text": "I'd like to hire out those scissors of yours.",
+        "topic": "TALK_REFUGEE_Vanessa_Haircut",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_effect": "vanessa_haircut_in_progress" } },
+            { "not": { "npc_has_effect": "vanessa_shave_in_progress" } },
+            { "npc_has_var": "Vanessa_hairkit", "type": "mission", "context": "services", "value": "yes" }
+          ]
+        }
+      },
+      {
         "text": "Hmm, can we change this haircut a little please?",
         "topic": "TALK_DONE",
         "effect": "barber_hair",
@@ -146,6 +157,18 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_REFUGEE_Vanessa_Situation",
+    "dynamic_line": {
+      "npc_has_var": "Vanessa_hairkit",
+      "type": "mission",
+      "context": "services",
+      "value": "yes",
+      "no": "You want the sarcastic version, or the really sarcastic version?  I'm stuck in a dank shitty brick building with two dozen strangers, the world's dead, and there's not enough food to go around.  Why don't you fuckin' figure it out?",
+      "yes": "Well, I'm stuck in a dank shitty brick building with two dozen strangers, the world's dead, and there's not enough food to go around.  At least I can do some work to keep me busy though, and the extra merch does go a long way to keeping my belly full.  People like getting a good haircut."
+    }
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_REFUGEE_Vanessa_Haircut_no",
     "dynamic_line": "I can see you need one, but last time I used these shears it was to stab a zombie in the face.  I don't think you'd want them in your hair.  Maybe you could help me get set up properly?",
     "responses": [ { "text": "What can I do to help you out?", "topic": "TALK_MISSION_LIST" } ]
@@ -186,7 +209,9 @@
           "barber_hair",
           { "npc_add_effect": "vanessa_haircut_in_progress", "duration": 100 }
         ]
-      }
+      },
+      { "text": "That's a bit rich for my blood.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "That's a bit rich for my blood.  I better head out.", "topic": "TALK_DONE" }
     ]
   },
   {
