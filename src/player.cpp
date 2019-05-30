@@ -1908,7 +1908,7 @@ int player::run_cost( int base_cost, bool diag ) const
         if( on_road ) {
             movecost *= 0.85f;
         } else {
-            movecost *= 1.55f;
+            movecost *= 1.1f;
         }
     }
 
