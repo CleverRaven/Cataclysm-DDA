@@ -414,7 +414,7 @@ struct grid_overlay {
     float default_value;
 
     // origin_offset is specified as the coordinates of the "camera" within the overlay.
-    grid_overlay( const point origin_offset, const float default_value ) {
+    grid_overlay( const point &origin_offset, const float default_value ) {
         this->offset = ORIGIN - origin_offset;
         this->default_value = default_value;
     }

@@ -258,7 +258,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
     }
 }
 
-static void prep_craft( const recipe_id &rid, const std::vector<item> tools,
+static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
                         bool expect_craftable )
 {
     clear_player();
@@ -282,7 +282,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> tools,
 }
 
 // This fakes a craft in a reasonable way which is fast
-static void fake_test_craft( const recipe_id &rid, const std::vector<item> tools,
+static void fake_test_craft( const recipe_id &rid, const std::vector<item> &tools,
                              bool expect_craftable )
 {
     prep_craft( rid, tools, expect_craftable );
@@ -422,7 +422,7 @@ static void set_time( int time )
 
 // This tries to actually run the whole craft activity, which is more thorough,
 // but slow
-static int actually_test_craft( const recipe_id &rid, const std::vector<item> tools,
+static int actually_test_craft( const recipe_id &rid, const std::vector<item> &tools,
                                 int interrupt_after_turns )
 {
     prep_craft( rid, tools, true );
