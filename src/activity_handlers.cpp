@@ -2673,11 +2673,11 @@ void activity_handlers::read_finish( player_activity *act, player *p )
         act->set_to_null();
     }
     if( act->is_null() ) {
-        auto ebooks = p->items_with( []( const item &it ) {
+        auto ebooks = p->items_with( []( const item & it ) {
             return it.has_flag( "EBOOK" );
         } );
         for( auto &e : ebooks ) {
-            p->remove_item(*e);
+            p->remove_item( *e );
         }
         p->add_msg_if_player( m_info, _( "You finish reading." ) );
     }
@@ -3816,7 +3816,7 @@ void activity_handlers::study_spell_finish( player_activity *act, player *p )
 void activity_handlers::scan_book_do_turn( player_activity *act, player *p )
 {
     if( calendar::once_every( 1_minutes ) ) {
-        
+
         item &it = p->i_at( act->position );
 
         if( p->fine_detail_vision_mod() > 1.0 ) {
@@ -3824,15 +3824,15 @@ void activity_handlers::scan_book_do_turn( player_activity *act, player *p )
             p->add_msg_if_player( m_warning, _( "It's not bright enough to continue." ) );
             return;
         }
-        if( it.ammo_remaining() < it.ammo_required() ) {
+        if( !it.ammo_sufficient( 1 ) ) {
             p->cancel_activity();
             p->add_msg_if_player( m_warning, _( "Your %s ran out of battery charges." ), it.tname() );
             return;
         }
         // would be nice if it didnt spammed messages multiple times
         messages_in_process( *act, *p );
-        
-        it.ammo_consume( it.type->charges_to_use(), p->pos() );
+
+        it.ammo_consume( 1, p->pos() );
     }
 }
 

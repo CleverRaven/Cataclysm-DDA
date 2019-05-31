@@ -5996,7 +5996,7 @@ static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
     const auto scanned_book = mc.get_var( "MC_BOOK" );
     if( !scanned_book.empty() ) {
         mc.erase_var( "MC_BOOK" );
-        
+
         item book( scanned_book, calendar::turn );
 
         const auto old_books = eink.get_var( "EIPC_BOOKS" );
@@ -6264,27 +6264,27 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
                     }
                 }
             }
-            it->set_var( "EIPC_RECIPES", recipes);
+            it->set_var( "EIPC_RECIPES", recipes );
             avatar &u = g->u;
             auto loc = game_menus::inv::eread( u );
-            
+
             if( loc ) {
                 int pos = loc.obtain( u );
                 u.read( pos );
             } else {
                 // cleanup ebooks
-                auto ebooks = p->items_with( []( const item &it ) {
+                auto ebooks = p->items_with( []( const item & it ) {
                     return it.has_flag( "EBOOK" );
                 } );
                 for( auto &e : ebooks ) {
-                    p->remove_item(*e);
+                    p->remove_item( *e );
                 }
                 add_msg( _( "Never mind." ) );
             }
 
             return it->type->charges_to_use();
         }
-        
+
         if( ei_monsters == choice ) {
 
             uilist pmenu;
@@ -6785,22 +6785,23 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
 
     if( c_scan == choice ) {
         if( p->fine_detail_vision_mod() > 1.0 ) {
-            p->add_msg_if_player( m_bad, _( "You need to be able to see and have very good lighting conditions for this type of camera work." ) );
+            p->add_msg_if_player( m_bad,
+                                  _( "You need to be able to see and have very good lighting conditions for this type of camera work." ) );
             return 0;
         }
-        
+
         p->moves -= 50;
-        
+
         int index = g->inv_for_filter( _( "Scan which book?" ), []( const item & itm ) {
             return itm.is_book();
         } );
         item &book = p->i_at( index );
-        
+
         if( book.is_null() ) {
             p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
             return it->type->charges_to_use();
         }
-        
+
         index = g->inv_for_flag( "MC_MOBILE", _( "Insert memory card" ) );
         item &mc = p->i_at( index );
 
@@ -6829,12 +6830,13 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         mc.convert( "mobile_memory_card" );
         mc.clear_vars();
         mc.unset_flags();
-        
-        player_activity act( activity_id( "ACT_SCAN_BOOK" ), ( book.volume() / 250_ml ) * 10000, -1, p->get_item_position( it ));
+
+        player_activity act( activity_id( "ACT_SCAN_BOOK" ), ( book.volume() / 250_ml ) * 10000, -1,
+                             p->get_item_position( it ) );
         act.targets.push_back( item_location( *p, &book ) );
-        act.targets.push_back( item_location( *p, &mc ) ); 
+        act.targets.push_back( item_location( *p, &mc ) );
         p->assign_activity( act );
-        
+
         p->add_msg_if_player( m_info, _( "You start scanning %s." ), book.tname() );
     }
 
