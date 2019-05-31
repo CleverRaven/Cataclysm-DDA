@@ -1977,7 +1977,7 @@
     "weight": 939,
     "volume": 11,
     "bashing": 4,
-    "cutting": 8,
+    "cutting": 30,
     "to_hit": 2,
     "category": "weapons"
   },
@@ -2014,7 +2014,7 @@
     "weight": 1814,
     "volume": 11,
     "bashing": 10,
-    "cutting": 28,
+    "cutting": 38,
     "to_hit": 1,
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
@@ -2032,8 +2032,8 @@
     "techniques": [ "WBLOCK_2" ],
     "weight": 1814,
     "volume": 11,
-    "bashing": 14,
-    "cutting": 16,
+    "bashing": 10,
+    "cutting": 30,
     "to_hit": 1,
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
@@ -2070,8 +2070,8 @@
     "techniques": [ "WBLOCK_2" ],
     "weight": 1360,
     "volume": 8,
-    "bashing": 6,
-    "cutting": 25,
+    "bashing": 14,
+    "cutting": 31,
     "to_hit": 1,
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
@@ -2108,8 +2108,8 @@
     "techniques": [ "WBLOCK_2" ],
     "weight": 2721,
     "volume": 8,
-    "bashing": 8,
-    "cutting": 18,
+    "bashing": 12,
+    "cutting": 25,
     "to_hit": 1,
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 8 ] ]
@@ -2237,7 +2237,7 @@
     "price": 1800,
     "to_hit": 1,
     "bashing": 1,
-    "cutting": 16,
+    "cutting": 18,
     "material": "steel",
     "symbol": "/",
     "color": "dark_gray",
@@ -2434,3 +2434,4 @@
     "flags": [ "SPEAR", "REACH_ATTACK", "DURABLE_MELEE" ]
   }
 ]
+    
