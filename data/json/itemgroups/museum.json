@@ -135,10 +135,7 @@
       [ "colt_army", 50 ],
       [ "colt_navy", 50 ],
       [ "36navy", 50 ],
-      [ "44army", 50 ],
-      [ "fire_lance", 20 ],
-      [ "lance_charge", 10 ],
-      [ "lance_charge_shot", 5 ]
+      [ "44army", 50 ]
     ]
   },
   {
