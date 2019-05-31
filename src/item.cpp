@@ -1399,7 +1399,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         item tmp;
         if( mod->ammo_required() && !mod->ammo_remaining() ) {
             tmp = *mod;
-            tmp.ammo_set( tmp.ammo_default() );
+            tmp.ammo_set( tmp.common_ammo_default() );
             aprox = &tmp;
         }
 
@@ -5919,6 +5919,23 @@ itype_id item::ammo_default( bool conversion ) const
         itype_id res = ammotype( *atypes.begin() )->default_ammotype();
         if( !res.empty() ) {
             return res;
+        }
+    }
+    return "NULL";
+}
+
+itype_id item::common_ammo_default( bool conversion ) const
+{
+    std::set<ammotype> atypes = ammo_types( conversion );
+    if( !atypes.empty() ) {
+        for( const ammotype &at : atypes ) {
+            const item *mag = magazine_current();
+            if( mag && mag->type->magazine->type.count( at ) ) {
+                itype_id res = at->default_ammotype();
+                if( !res.empty() ) {
+                    return res;
+                }
+            }
         }
     }
     return "NULL";
