@@ -61,25 +61,8 @@ static const int npm_width = 3;
 /** Note preview map height without borders. Odd number. */
 static const int npm_height = 3;
 
-namespace
+namespace overmap_ui
 {
-
-// drawing relevant data, e.g. what to draw.
-struct draw_data_t {
-    // draw monster groups on the overmap.
-    bool debug_mongroup = false;
-    // draw weather, e.g. clouds etc.
-    bool debug_weather = false;
-    // draw weather only around player position
-    bool visible_weather = false;
-    // draw editor.
-    bool debug_editor = false;
-    // draw scent traces.
-    bool debug_scent = false;
-    // draw zone location.
-    tripoint select = tripoint( -1, -1, -1 );
-    int iZoneIndex = -1;
-};
 
 // {note symbol, note color, offset to text}
 std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &note )
@@ -963,7 +946,8 @@ static void create_note( const tripoint &curs )
                                    2, npm_width + 2 );
     catacurses::window w_preview_title = catacurses::newwin( 2, max_note_length + 1, 0, 0 );
     catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, 2, 0 );
-    std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows = std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
+    std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows =
+        std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
 
 #if defined(__ANDROID__)
     if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
@@ -1405,69 +1389,69 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
 
 void ui::omap::display()
 {
-    ::display( g->u.global_omt_location(), draw_data_t() );
+    overmap_ui::display( g->u.global_omt_location(), overmap_ui::draw_data_t() );
 }
 
 void ui::omap::display_hordes()
 {
-    draw_data_t data;
+    overmap_ui::draw_data_t data;
     data.debug_mongroup = true;
-    ::display( g->u.global_omt_location(), data );
+    overmap_ui::display( g->u.global_omt_location(), data );
 }
 
 void ui::omap::display_weather()
 {
-    draw_data_t data;
+    overmap_ui::draw_data_t data;
     data.debug_weather = true;
     tripoint pos = g->u.global_omt_location();
     pos.z = 10;
-    ::display( pos, data );
+    overmap_ui::display( pos, data );
 }
 
 void ui::omap::display_visible_weather()
 {
-    draw_data_t data;
+    overmap_ui::draw_data_t data;
     data.visible_weather = true;
     tripoint pos = g->u.global_omt_location();
     pos.z = 10;
-    ::display( pos, data );
+    overmap_ui::display( pos, data );
 }
 
 void ui::omap::display_scents()
 {
-    draw_data_t data;
+    overmap_ui::draw_data_t data;
     data.debug_scent = true;
-    ::display( g->u.global_omt_location(), data );
+    overmap_ui::display( g->u.global_omt_location(), data );
 }
 
 void ui::omap::display_editor()
 {
-    draw_data_t data;
+    overmap_ui::draw_data_t data;
     data.debug_editor = true;
-    ::display( g->u.global_omt_location(), data );
+    overmap_ui::display( g->u.global_omt_location(), data );
 }
 
 void ui::omap::display_zones( const tripoint &center, const tripoint &select, const int iZoneIndex )
 {
-    draw_data_t data;
+    overmap_ui::draw_data_t data;
     data.select = select;
     data.iZoneIndex = iZoneIndex;
-    ::display( center, data );
+    overmap_ui::display( center, data );
 }
 
 tripoint ui::omap::choose_point()
 {
-    return ::display( g->u.global_omt_location() );
+    return overmap_ui::display( g->u.global_omt_location() );
 }
 
 tripoint ui::omap::choose_point( const tripoint &origin )
 {
-    return ::display( origin );
+    return overmap_ui::display( origin );
 }
 
 tripoint ui::omap::choose_point( int z )
 {
     tripoint loc = g->u.global_omt_location();
     loc.z = z;
-    return ::display( loc );
+    return overmap_ui::display( loc );
 }
