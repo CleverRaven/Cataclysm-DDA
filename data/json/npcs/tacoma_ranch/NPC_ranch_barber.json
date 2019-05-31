@@ -21,13 +21,13 @@
         "text": "[$5] I'll have a shave",
         "topic": "TALK_RANCH_BARBER_CUT",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 3 } },
-        "effect": [ { "buy_shave", { "u_sell_items": { "item": "FMCNote", "count": 3 }, "barber_beard" ]
+        "effect": [ { "buy_shave", { "u_sell_item": "FMCNote", "count": 3 }, "barber_beard" ]
       },
       {
         "text": "[$10] I'll get a haircut",
         "topic": "TALK_RANCH_BARBER_CUT",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 6 } },
-        "effect": [ "buy_haircut", { "u_sell_items": { "item": "FMCNote", "count": 6 } }, "barber_hair" ]
+        "effect": [ "buy_haircut", { "u_sell_item": "FMCNote", "count": 6 }, "barber_hair" ]
       },
       { "text": "Maybe another time...", "topic": "TALK_DONE" }
     ]
