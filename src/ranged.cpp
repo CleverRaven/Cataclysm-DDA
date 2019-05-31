@@ -2292,7 +2292,14 @@ double player::gun_value( const item &weap, int ammo ) const
     }
 
     const islot_gun &gun = *weap.type->gun;
-    const itype_id ammo_type = weap.ammo_current() != "null" ? weap.ammo_current() : weap.ammo_default( true );
+    itype_id ammo_type;
+    if( weap.ammo_current() != "null" ) {
+        ammo_type = weap.ammo_current();
+    } else if( weap.magazine_current() ) {
+        ammo_type = weap.common_ammo_default();
+    } else {
+        ammo_type = weap.ammo_default();
+    }
     const itype *def_ammo_i = ammo_type != "NULL" ?
                               item::find_type( ammo_type ) :
                               nullptr;
