@@ -2282,7 +2282,7 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
 double player::gun_value( const item &weap, int ammo ) const
 {
     // TODO: Mods
-    // TODO: Allow using a specified type of ammo rather than default
+    // TODO: Allow using a specified type of ammo rather than default or current
     if( !weap.type->gun ) {
         return 0.0;
     }
@@ -2292,14 +2292,14 @@ double player::gun_value( const item &weap, int ammo ) const
     }
 
     const islot_gun &gun = *weap.type->gun;
-    const itype_id ammo_type = weap.ammo_default( true );
+    const itype_id ammo_type = weap.ammo_current() != "null" ? weap.ammo_current() : weap.ammo_default( true );
     const itype *def_ammo_i = ammo_type != "NULL" ?
                               item::find_type( ammo_type ) :
                               nullptr;
 
     damage_instance gun_damage = weap.gun_damage();
     item tmp = weap;
-    tmp.ammo_set( weap.ammo_default() );
+    tmp.ammo_set( ammo_type );
     int total_dispersion = get_weapon_dispersion( tmp ).max() +
                            effective_dispersion( tmp.sight_dispersion() );
 
