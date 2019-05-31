@@ -17,7 +17,6 @@
     "name": "Merchant",
     "job_description": "I'm a local shopkeeper.",
     "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
-    "//": "This is a unique NPC who doesn't get randomly selected background traits",
     "common": false,
     "bonus_int": { "one_in": 4 },
     "bonus_per": { "one_in": 4 },
@@ -424,7 +423,10 @@
           { "class": "ranch_foreman", "x": 16, "y": 15, "target": true, "add_trait": "NPC_MISSION_LEV_1" },
           { "class": "ranch_construction_1", "x": 9, "y": 17 }
         ]
-      }
+      },
+      "effect": [
+        { "u_add_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" }
+      ]
     },
     "end": {
       "effect": [
@@ -498,7 +500,7 @@
       "rejected": "We'll hold for the moment, but I'll get an ulcer if I have to keep worrying.  If you reconsider let me know.",
       "advice": "Grocery stores, house kitchens, there's plenty of places to look.",
       "inquire": "How is the search going?",
-      "success": "That's one less thing to worry about.  Glad to have someone like you on our side.  Here's 25 merch, and the broker will buy any further glass jars you can find - at a reduced price, we can't keep up the premium rate.",
+      "success": "That's one less thing to worry about.  Glad to have someone like you on our side.  Here's 25 merch, and the broker will buy any further glass jars you can find - at a reduced price, we can't keep up the premium rate.  Actually, the broker was saying they had some jobs like this for you, and that it might be easier to just go straight through their office if you want more work.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
     }
