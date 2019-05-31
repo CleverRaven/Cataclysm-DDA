@@ -192,6 +192,16 @@
       { "text": "What are you doing here?", "topic": "TALK_EVAC_MERCHANT_PLANS" },
       { "text": "Heard anything about the outside world?", "topic": "TALK_EVAC_MERCHANT_WORLD" },
       { "text": "Is there any way I can join your group?", "topic": "TALK_EVAC_MERCHANT_ASK_JOIN" },
+      {
+        "text": "What's with these beggars?",
+        "condition": { "not": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" } },
+        "topic": "TALK_EVAC_MERCHANT_BEGGARS1"
+      },
+      {
+        "text": "I took care of your beggar problem.",
+        "condition": { "u_has_var": "beggars_recruited", "type": "general", "context": "recruit", "value": "yes" },
+        "topic": "TALK_EVAC_MERCHANT_BEGGARS2"
+      },
       { "text": "Can I do anything for the center?", "topic": "TALK_MISSION_LIST" },
       { "text": "Let's trade then.", "effect": "start_trade", "topic": "TALK_EVAC_MERCHANT" },
       {
@@ -206,14 +216,14 @@
   {
     "id": "TALK_EVAC_MERCHANT_NEW",
     "type": "talk_topic",
-    "dynamic_line": "Before you say anything else, we're full.  Few days ago we had an outbreak due to lett'n in too many new refugees.  We do desperately need supplies and are willing to trade what we can for it.  Pay top dollar for jerky if you have any.",
+    "dynamic_line": "Before you say anything else, we're full.  We don't have the space, nor the food, to take in more refugees.  We do desperately need supplies and are willing to trade what we can for it.  Pay top dollar for jerky if you have any; just talk to the broker in the back.",
     "responses": [ { "text": "No rest for the weary...", "topic": "TALK_EVAC_MERCHANT" } ]
   },
   {
     "id": "TALK_EVAC_MERCHANT_PLANS",
     "type": "talk_topic",
-    "dynamic_line": "To be honest, we started out with six buses full of office workers and soccer moms... after the refugee outbreak a day or two ago the more courageous ones in our party ended up dead.  The only thing we want now is to run enough trade through here to keep us alive.  Don't care who your goods come from or how you got them, just don't bring trouble.",
-    "responses": [ { "text": "It's just as bad out here, if not worse.", "topic": "TALK_EVAC_MERCHANT_PLANS2" } ]
+    "dynamic_line": "To be honest, we started out with six buses full of office workers and soccer moms... we did what we could to sort through the masses, take the people with the best chance of survival first.  It sounds harsh but it was the only option.  The only thing we want now is to run enough trade through here to keep us alive... with our address in the evac shelter computers, people keep coming here and we have to turn them away, but we've found we can trade their salvage for what we've got.  We plan to turn that into a business model.  Don't care who your goods come from or how you got them, just don't bring trouble.",
+    "responses": [ { "text": "It's just as bad out there, if not worse.", "topic": "TALK_EVAC_MERCHANT_PLANS2" } ]
   },
   {
     "id": "TALK_EVAC_MERCHANT_PLANS2",
@@ -222,16 +232,16 @@
     "responses": [
       { "text": "Guess shit's a mess everywhere...", "topic": "TALK_EVAC_MERCHANT" },
       {
-        "text": "[INT 12] Wait, six buses and refugees... how many people do you still have crammed in here?",
+        "text": "[INT 10] Wait, six buses and refugees... how many people do you still have crammed in here?",
         "topic": "TALK_EVAC_MERCHANT_PLANS3",
-        "condition": { "u_has_intelligence": 12 }
+        "condition": { "u_has_intelligence": 10 }
       }
     ]
   },
   {
     "id": "TALK_EVAC_MERCHANT_PLANS3",
     "type": "talk_topic",
-    "dynamic_line": "Well the refugees were staying here on the first floor when one their parties tried to sneak a dying guy in through the loading bay, we ended up being awoken to shrieks and screams.  Maybe two dozen people died that night.  The remaining refugees were banished the next day and went on to form a couple of scavenging bands.  I'd say we got twenty decent men or women still here but our real strength comes from all of our business partners that are accustomed to doing whatever is needed to survive.",
+    "dynamic_line": "Downstairs, a few dozen.  Seventeen more living up here, until we can figure out a way to make space for them.  There used to be quite a few more, but things were handled poorly in the chaos, and we lost a few, and their loss triggered a few more.  It wasn't a good time.",
     "responses": [ { "text": "Guess it works for you...", "topic": "TALK_EVAC_MERCHANT" } ]
   },
   {
@@ -287,6 +297,44 @@
       { "text": "Heard of anything better than the odd gun cache?", "topic": "TALK_EVAC_MERCHANT_PRIME_LOOT" },
       { "text": "Was hoping for something more...", "topic": "TALK_EVAC_MERCHANT" }
     ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_BEGGARS1",
+    "type": "talk_topic",
+    "dynamic_line": "They're folks that wanted to come down to our shelter, but we're too full and have neither space nor supplies to share.  Most like them have turned and gone seeking their own place, but these ones... these ones didn't.  We've been trying to find them a safe place, but there's a shortage of safety going around.  Until then we're letting them crash here so long as they don't mess the place up.",
+    "responses": [
+      {
+        "text": "I don't suppose there'd be some kind of reward if I could clear them out of here?",
+        "topic": "TALK_EVAC_MERCHANT_BEGGARS1_Reward",
+        "effect": { "npc_add_var": "beggars_reward_agreed", "type": "general", "context": "recruit", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_BEGGARS1_Reward",
+    "type": "talk_topic",
+    "dynamic_line": "We don't have much to share, but I'm sure we could pay you in our own currency if you could clean up our burgeoning health hazard without anyone getting hurt, yeah.",
+    "responses": [ { "text": "I'll see what I can do.", "topic": "TALK_EVAC_MERCHANT" } ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_BEGGARS2",
+    "type": "talk_topic",
+    "dynamic_line": "It was a fine thing you did, taking those poor souls somewhere safe.  I assume that's what you did.  If you have other plans, I still appreciate having the lobby clear, but please let me live in my happy imaginings.  I'm sure they're out frolicking in a nice field somewhere.  It's a shame that cardboard fellow didn't go too, but he's relatively easy to handle alone.",
+    "responses": [
+      {
+        "text": "I do believe we discussed a reward?",
+        "topic": "TALK_EVAC_MERCHANT_BEGGARS2_Reward",
+        "condition": { "npc_has_var": "beggars_reward_agreed", "type": "general", "context": "recruit", "value": "yes" }
+      },
+      { "text": "Just glad to help.", "topic": "TALK_EVAC_MERCHANT" }
+    ]
+  },
+  {
+    "id": "TALK_EVAC_MERCHANT_BEGGARS2_Reward",
+    "type": "talk_topic",
+    "dynamic_line": "And so we did.  You didn't do the full job, but we're fair people here.  Here's five merch a head for the folks you found a new home for.",
+    "speaker_effect": { "effect": { "u_buy_item": "FMCNote", "count": 20 } },
+    "responses": [ { "text": "Thanks.", "topic": "TALK_EVAC_MERCHANT" } ]
   },
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_1",
@@ -424,9 +472,7 @@
           { "class": "ranch_construction_1", "x": 9, "y": 17 }
         ]
       },
-      "effect": [
-        { "u_add_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" }
-      ]
+      "effect": [ { "u_add_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" } ]
     },
     "end": {
       "effect": [
