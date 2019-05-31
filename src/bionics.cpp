@@ -1573,8 +1573,6 @@ int player::get_total_bionics_slots( const body_part bp ) const
             return 18;
 
         case bp_eyes:
-            return 4;
-
         case bp_mouth:
             return 4;
 

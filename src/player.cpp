@@ -3404,9 +3404,7 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
             break;
         case bp_hand_l: // Fall through to arms
         case bp_arm_l:
-            // Hit to arms/hands are really bad to our aim
-            recoil_mul = 200;
-            break;
+        // Hit to arms/hands are really bad to our aim
         case bp_hand_r: // Fall through to arms
         case bp_arm_r:
             recoil_mul = 200;
@@ -10210,7 +10208,6 @@ int player::get_armor_type( damage_type dt, body_part bp ) const
 {
     switch( dt ) {
         case DT_TRUE:
-            return 0;
         case DT_BIOLOGICAL:
             return 0;
         case DT_BASH:

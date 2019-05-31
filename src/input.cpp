@@ -1234,7 +1234,6 @@ void input_manager::wait_for_any_key()
     while( true ) {
         switch( inp_mngr.get_input_event().type ) {
             case CATA_INPUT_KEYBOARD:
-                return;
             // errors are accepted as well to avoid an infinite loop
             case CATA_INPUT_ERROR:
                 return;
