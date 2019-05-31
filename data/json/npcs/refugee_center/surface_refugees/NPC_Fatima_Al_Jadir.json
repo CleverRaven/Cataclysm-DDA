@@ -163,6 +163,11 @@
       "success_lie": "What good does this do me?",
       "failure": "It's okay.  I don't know how much comfort I'd have found in an old book anyway."
     },
-    "end": { "effect": { "u_buy_item": "FMCNote", "count": 5 } }
+    "end": {
+      "effect": [
+        { "u_buy_item": { "item": "FMCNote", "count": 5 } },
+        { "u_add_var": "Fatima_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+      ]
+    }
   }
 ]

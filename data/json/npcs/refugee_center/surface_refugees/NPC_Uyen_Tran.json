@@ -144,7 +144,12 @@
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
     },
-    "end": { "effect": { "u_buy_item": "FMCNote", "count": 25 } }
+    "end": {
+      "effect": [
+        { "u_buy_item": { "item": "FMCNote", "count": 25 } },
+        { "u_add_var": "Uyen_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+      ]
+    }
   },
   {
     "id": "MISSION_REFUGEE_Uyen_2",
@@ -167,6 +172,11 @@
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
     },
-    "end": { "effect": { "u_buy_item": "FMCNote", "count": 25 } }
+    "end": {
+      "effect": [
+        { "u_buy_item": { "item": "FMCNote", "count": 25 } },
+        { "u_add_var": "Uyen_Mission2", "type": "mission", "context": "flag", "value": "yes" }
+      ]
+    }
   }
 ]
