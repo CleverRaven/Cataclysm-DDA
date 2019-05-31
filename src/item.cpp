@@ -1398,8 +1398,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         item *aprox = nullptr;
         item tmp;
         if( mod->ammo_required() && !mod->ammo_remaining() ) {
+            tmp.ammo_set( mod->magazine_current() ? tmp.common_ammo_default() : tmp.ammo_default() );
             tmp = *mod;
-            tmp.ammo_set( tmp.common_ammo_default() );
             aprox = &tmp;
         }
 
