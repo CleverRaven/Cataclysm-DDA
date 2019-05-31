@@ -304,16 +304,22 @@
         "place_monster": [ { "monster": "mon_zombie_electric", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]
       }
     },
+    "end":  {
+      "effect": [
+        { "u_buy_item": "FMCNote", "count": 25 },
+        { "u_add_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+      ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_2",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "If you really want to lend a hand we could use your help clearing out the dead in the back bay.  Fearful of going outside during the first days of the cataclysm we ended up throwing our dead and the zombies we managed to kill in the sealed back bay.  Our promising leader at the time even fell... he turned into something different.  Kill all of them and make sure they won't bother us again.  We can't pay much but it would help us to reclaim the bay.",
+      "offer": "If you really want to lend a hand we could use your help clearing out the dead in the back bay.  Fearful of going outside during the first days of the cataclysm we ended up throwing our dead and the zombies we managed to kill in the sealed back bay.  Our promising leader at the time even fell... he turned into something different.  Kill all of them and make sure they won't bother us again.  We can't pay much, besides some of our own internal money which isn't good for that much yet, but it would help us to reclaim the bay.",
       "accepted": "Please be careful, we don't need any more deaths.",
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
       "advice": "If you can, get a friend or two to help you.",
       "inquire": "Will they be bothering us any longer?",
-      "success": "Thank you, having that big of a threat close to home was nerve wrecking.",
+      "success": "Thank you, having that big of a threat close to home was nerve wracking.  Here's some of our local certified notes, we've been paying these to our workers in exchange for supplies.  They're getting some value in the center as a trade item, I'm afraid they're all we have to spare at the moment.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
     }
@@ -382,12 +388,18 @@
           { "vehicle": "motorcycle", "x": 7, "y": 7, "rotation": 90, "fuel": 500, "status": -1, "chance": 100 }
         ]
       }
-    },
+    },,
+    "end":  {
+      "effect": [
+        { "u_buy_item": "FMCNote", "count": 30 },
+        { "u_add_var": "FMShopkeep_Mission2", "type": "mission", "context": "flag", "value": "yes" }
+      ]
+    }
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_3",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "This is a bit more involved than the last request, we recently lost a scavenger party coming to trade with us and would like you to investigate.  We strongly suspect a raider band or horde caught them off-guard.  I can give you the coordinates of their last radio message but little else.  In either case, deal with the threat so that the scavengers can continue to pass through in relative safety.  The best reward I can offer is a claim to the supplies they were carrying.",
+      "offer": "This is a bit more involved than the last request, we recently lost a scavenger party coming to trade with us and would like you to investigate.  We strongly suspect a raider band or horde caught them off-guard.  I can give you the coordinates of their last radio message but little else.  In either case, deal with the threat so that the scavengers can continue to pass through in relative safety.  The best reward I can offer is a claim to the supplies they were carrying, plus thirty certified notes - that's our own internal money, good for trading and such.",
       "accepted": "Our community survives on trade, we appreciate it.",
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
       "advice": "If you can, get a friend or two to help you.",
@@ -414,16 +426,22 @@
         ]
       }
     },
+    "end":  {
+      "effect": [
+        { "u_buy_item": "FMCNote", "count": 50 },
+        { "u_add_var": "FMShopkeep_Mission3", "type": "mission", "context": "flag", "value": "yes" }
+      ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_FREE_MERCHANTS_EVAC_5",
+    "followup": "MISSION_FREE_MERCHANTS_EVAC_4",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "The new outpost that we've started could use your assistance.  I need you to get the foreman's prospectus before we begin to send additional refugees to the farming commune.  Consult with the foreman to get more detailed tasks.",
+      "offer": "We recently set out some skilled people to start an outpost, to secure us some food supplies in a safer location.  The new outpost that we've started could use your assistance.  I need you to get the foreman's prospectus before we begin to send additional refugees to the farming commune.  Consult with the foreman to get more detailed tasks.  We've got 50 Certified Notes for you if you can do this for us.",
       "accepted": "I'm sure the outpost will expand quickly with your assistance.",
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
       "advice": "Just follow your map.",
       "inquire": "Do you have the prospectus?",
-      "success": "With this we'll be able to convince others to invest in the commune.  Thank you.",
+      "success": "With this we'll be able to convince others to invest in the commune.  Thank you, here's your money.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
     }
@@ -431,19 +449,26 @@
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_4",
     "type": "mission_definition",
-    "name": "Find 25 Plutonium Fuel Cells",
+    "name": "Find 10 solar panels",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 400000,
-    "item": "plut_cell",
-    "count": 25,
+    "item": "solar_panel",
+    "count": 10,
     "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_FREE_MERCHANTS_EVAC_5",
+    "end":  {
+      "effect": [
+        { "u_buy_item": "FMCNote", "count": 100 },
+        { "u_add_var": "FMShopkeep_Mission4", "type": "mission", "context": "flag", "value": "yes" }
+      ]
+    },
     "dialogue": {
       "describe": "We need help...",
-      "offer": "We are starting to build new infrastructure here and would like to get a few new electrical systems online... unfortunately our existing system relies on an array of something called RTGs.  Running generators isn't a viable option underground, of course.  The military was using some kind of high density energy batteries for experimental weaponry before the cataclysm, and I'm told that we can use those for a temporary solution, and when we burn through the high density part our eggheads say they might be able to reuse the plutonium core to build more RTGs.  It's a big job.",
+      "offer": "We are starting to build new infrastructure here and would like to get a few new electrical systems online... unfortunately our existing system relies on an array of something called RTGs.  Running generators isn't a viable option underground, of course.  We have a big flat roof up top, and if we had a few solar panels we could use them to top up our usage.  We could pay you pretty handsomely to bring us, say, ten solar panels?",
       "accepted": "If you can do this for us our survival options would vastly increase.",
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
-      "advice": "Can't help you much, I've never even seen one of these plutonium batteries... or whatever they are, I keep getting a lecture whenever I call them that.",
+      "advice": "Solar panels are pretty common on electric cars and on rooftops.",
       "inquire": "How is the search going?",
       "success": "Great, I know it isn't much but we hope to continue to expand thanks to your help.",
       "success_lie": "What good does this do us?",
@@ -453,51 +478,27 @@
   {
     "id": "MISSION_FREE_MERCHANTS_EVAC_5",
     "type": "mission_definition",
-    "name": "Find 40 Canned Food",
+    "name": "Find 100 canning jars",
     "goal": "MGOAL_FIND_ITEM_GROUP",
     "difficulty": 3,
     "value": 400000,
-    "item_group": "foodintincan",
-    "count": 40,
-    "required_container": "can_food",
-    "remove_container": true,
-    "empty_container": "can_food_unsealed",
-    "end": {
-      "update_mapgen": {
-        "om_terrain": "evac_center_19",
-        "om_special": "evac_center",
-        "place_loot": [
-          { "item": "can_beans", "x": 1, "y": 5, "chance": 100, "repeat": 3 },
-          { "item": "can_spam", "x": 1, "y": 6, "chance": 100, "repeat": 2 },
-          { "item": "can_tomato", "x": 1, "y": 7, "chance": 100, "repeat": 3 },
-          { "item": "can_sardine", "x": 2, "y": 5, "chance": 100, "repeat": 2 },
-          { "item": "soup_veggy", "x": 2, "y": 6, "chance": 100, "repeat": 3 },
-          { "item": "soup_dumplings", "x": 2, "y": 7, "chance": 100, "repeat": 2 },
-          { "item": "soup_meat", "x": 1, "y": 10, "chance": 100, "repeat": 3 },
-          { "item": "soup_tomato", "x": 1, "y": 11, "chance": 100, "repeat": 2 },
-          { "item": "soup_fish", "x": 1, "y": 12, "chance": 100, "repeat": 3 },
-          { "item": "fish_canned", "x": 2, "y": 10, "chance": 100, "repeat": 2 },
-          { "item": "curry_veggy", "x": 2, "y": 11, "chance": 100, "repeat": 3 },
-          { "item": "ravioli", "x": 2, "y": 12, "chance": 100, "repeat": 2 },
-          { "item": "curry_meat", "x": 1, "y": 15, "chance": 100, "repeat": 3 },
-          { "item": "chili", "x": 1, "y": 16, "chance": 100, "repeat": 2 },
-          { "item": "soup_chicken", "x": 1, "y": 17, "chance": 100, "repeat": 3 },
-          { "item": "pork_beans", "x": 2, "y": 15, "chance": 100, "repeat": 2 },
-          { "item": "soup_mushroom", "x": 2, "y": 16, "chance": 100, "repeat": 3 },
-          { "item": "can_tuna", "x": 2, "y": 17, "chance": 100, "repeat": 2 }
-        ]
-      }
+    "item": "jar_glass",
+    "count": 100,
+    "end":  {
+      "effect": [
+        { "u_buy_item": "FMCNote", "count": 25 },
+        { "u_add_var": "FMShopkeep_Mission5", "type": "mission", "context": "flag", "value": "yes" }
+      ]
     },
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_FREE_MERCHANTS_EVAC_4",
     "dialogue": {
       "describe": "We need help...",
-      "offer": "While we've managed to secure day to day food supplies, it's very much hand to mouth. Our reserves would barely last a few days if something kept our people locked in. We need a stockpile to avoid that. It would have to be made of something that would be long lasting though, so canned food's the way to go. Get us about 40 cans and we should be able to ride out anything that comes our way.",
+      "offer": "While we've managed to secure day to day food supplies, it's very much hand to mouth. Our reserves would barely last a few days if something kept our people locked in.  We need a stockpile to avoid that.  Thanks to our outpost we have a bit of meat and vegetables coming in, but we need a better way to preserve them.  Some of our people know enough about food canning that if we had a good stock of canning jars, we could make pickles and canned meats to get us set for the winter.  I'll pay you a premium rate if you can bring us around a hundred jars to get us started.",
       "accepted": "It'll take a load off my shoulders if I can finally stop worrying about this.",
-      "rejected": "We'll hold for the moment, but I'll get an ulcer if I have to keep worrying. If you reconsider let me know.",
+      "rejected": "We'll hold for the moment, but I'll get an ulcer if I have to keep worrying.  If you reconsider let me know.",
       "advice": "Grocery stores, house kitchens, there's plenty of places to look.",
       "inquire": "How is the search going?",
-      "success": "That's one less thing to worry about. Glad to have someone like you on our side.",
+      "success": "That's one less thing to worry about.  Glad to have someone like you on our side.  Here's 25 merch, and the broker will buy any further glass jars you can find - at a reduced price, we can't keep up the premium rate.",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways..."
     }
