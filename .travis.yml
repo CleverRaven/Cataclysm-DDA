@@ -120,8 +120,8 @@ jobs:
       name: "GCC 5.4 Make build with Curses"
       if: type != pull_request
 
-    - env: COMPILER=g++-6
-      name: "GCC 6 Make build with Curses"
+    - env: COMPILER=g++-6 CODE_COVERAGE=true
+      name: "GCC 6 Make build with Curses and Code Coverage"
       if: type != pull_request
       compiler: gcc
       addons: &gcc6
@@ -129,8 +129,8 @@ jobs:
           packages: ["g++-6",   "g++-6-multilib",   "libc6-dbg", "libc6-dbg:i386"]
           sources: *apt_sources
 
-    - env: COMPILER=g++-7 CXXFLAGS='-Wno-implicit-fallthrough -D_GLIBCXX_DEBUG' CODE_COVERAGE=true
-      name: "GCC 7 Make build with Curses, GLIBCXX_DEBUG and code coverage"
+    - env: COMPILER=g++-7 CXXFLAGS='-Wno-implicit-fallthrough -D_GLIBCXX_DEBUG'
+      name: "GCC 7 Make build with Curses and GLIBCXX_DEBUG"
       if: type != pull_request
       compiler: gcc
       addons: &gcc7
@@ -204,5 +204,5 @@ script:
   - build-scripts/build.sh
 
 after_success:
-  - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi
+  - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-6; fi
   - if [ -n "${CODE_COVERAGE}" ]; then bash <(curl -s https://codecov.io/bash); fi
