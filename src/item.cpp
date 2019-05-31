@@ -2118,7 +2118,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 tmp = ngettext( "Maximum <num> charge of %s.", "Maximum <num> charges of %s.", ammo_capacity() );
                 const std::set<ammotype> atypes = ammo_types();
                 tmp = string_format( tmp, enumerate_as_string( atypes.begin(),
-                atypes.end(), []( const ammotype &at ) {
+                atypes.end(), []( const ammotype & at ) {
                     return at->name();
                 }, enumeration_conjunction::none ) );
 
@@ -5978,25 +5978,28 @@ itype_id item::magazine_default( bool conversion ) const
 
 std::set<itype_id> item::magazine_compatible( bool conversion ) const
 {
+    std::set<itype_id> mags = {};
     // mods that define magazine_adaptor may override the items usual magazines
     auto mods = is_gun() ? gunmods() : toolmods();
     for( const auto m : mods ) {
         if( !m->type->mod->magazine_adaptor.empty() ) {
-            for( const ammotype &at : ammo_types( conversion ) ) {
-                if( m->type->mod->magazine_adaptor.count( at ) ) {
-                    return m->type->mod->magazine_adaptor.find( at )->second;
+            for( const ammotype &atype : ammo_types( conversion ) ) {
+                if( m->type->mod->magazine_adaptor.count( atype ) ) {
+                    std::set<itype_id> magazines_for_atype = m->type->mod->magazine_adaptor.find( atype )->second;
+                    mags.insert( magazines_for_atype.begin(), magazines_for_atype.end() );
                 }
             }
-            return std::set<itype_id>();
+            return mags;
         }
     }
 
-    for( const ammotype &at : ammo_types( conversion ) ) {
-        if( type->magazines.count( at ) ) {
-            return type->magazines.find( at )->second;
+    for( const ammotype &atype : ammo_types( conversion ) ) {
+        if( type->magazines.count( atype ) ) {
+            std::set<itype_id> magazines_for_atype = type->magazines.find( atype )->second;
+            mags.insert( magazines_for_atype.begin(), magazines_for_atype.end() );
         }
     }
-    return std::set<itype_id>();
+    return mags;
 }
 
 item *item::magazine_current()
