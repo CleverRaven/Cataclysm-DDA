@@ -184,7 +184,7 @@
     "melee_allowed": true,
     "defensive": true,
     "miss_recovery": true,
-    "messages": [ "You feint at %s", "<npcname> feints at %s" ]
+    "messages": [ "You feint at %s.", "<npcname> feints at %s." ]
   },
   {
     "type": "technique",
