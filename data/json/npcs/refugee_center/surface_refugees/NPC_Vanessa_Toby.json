@@ -87,7 +87,7 @@
           "and": [
             { "not": { "npc_has_effect": "vanessa_haircut_in_progress" } },
             { "not": { "npc_has_effect": "vanessa_shave_in_progress" } },
-            { "npc_has_var": "Vanessa_hairkit", "type": "mission", "context": "services", "value": "yes" }
+            { "npc_has_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes" }
           ]
         }
       },
@@ -151,7 +151,7 @@
       {
         "text": "Could you give me a haircut?",
         "topic": "TALK_REFUGEE_Vanessa_Haircut_no",
-        "condition": { "not": { "npc_has_var": "Vanessa_hairkit", "type": "mission", "context": "services", "value": "yes" } }
+        "condition": { "not": { "npc_has_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes" } }
       }
     ]
   },
@@ -159,9 +159,9 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Vanessa_Situation",
     "dynamic_line": {
-      "npc_has_var": "Vanessa_hairkit",
+      "npc_has_var": "Vanessa_Mission1",
       "type": "mission",
-      "context": "services",
+      "context": "flag",
       "value": "yes",
       "no": "You want the sarcastic version, or the really sarcastic version?  I'm stuck in a dank shitty brick building with two dozen strangers, the world's dead, and there's not enough food to go around.  Why don't you fuckin' figure it out?",
       "yes": "Well, I'm stuck in a dank shitty brick building with two dozen strangers, the world's dead, and there's not enough food to go around.  At least I can do some work to keep me busy though, and the extra merch does go a long way to keeping my belly full.  People like getting a good haircut."
@@ -181,9 +181,9 @@
       {
         "text": "Please give me a haircut.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_items": [ "item": "FMCNote", "count": 4 ] },
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 4 } },
         "effect": [
-          { "u_sell_item": [ "item": "FMCNote", "count": 4 },
+          { "u_sell_item": { "item": "FMCNote", "count": 4 } },
           "barber_hair",
           "buy_haircut",
           { "npc_add_effect": "vanessa_haircut_in_progress", "duration": 100 }
@@ -192,9 +192,9 @@
       {
         "text": "Please give me a shave.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_items": [ "item": "FMCNote", "count": 2 ] },
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 2 } },
         "effect": [
-          { "u_sell_item": [ "item": "FMCNote", "count": 2 ] },
+          { "u_sell_item": { "item": "FMCNote", "count": 2 } },
           "barber_beard",
           "buy_shave",
           { "npc_add_effect": "vanessa_shave_in_progress", "duration": 100 }
@@ -235,7 +235,7 @@
     },
     "end": {
       "effect": [
-        { "npc_add_var": "Vanessa_hairkit", "type": "mission", "context": "services", "value": "yes" },
+        { "npc_add_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes" },
         { "npc_add_var": "owed_haircut_1", "type": "mission", "context": "services", "value": "yes" }
       ]
     }
