@@ -858,7 +858,7 @@
     "unarmed_allowed": true,
     "defensive": true,
     "miss_recovery": true,
-    "messages": [ "You raise your arms intimidatingly at %s", "<npcname> performs the Crane Wing at %s" ]
+    "messages": [ "You raise your arms intimidatingly at %s.", "<npcname> performs the Crane Wing at %s." ]
   },
   {
     "type": "technique",
