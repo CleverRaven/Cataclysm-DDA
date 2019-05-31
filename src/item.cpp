@@ -1437,9 +1437,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 }
             }
         } else if( parts->test( iteminfo_parts::GUN_TYPE ) ) {
-            for( const ammotype &at : mod->ammo_types() ) {
-                info.emplace_back( "GUN", _( "Type: " ), at->name() );
-            }
+            const std::set<ammotype> &atypes = mod->ammo_types();
+            info.emplace_back( "GUN", _( "Type: " ), enumerate_as_string( atypes.begin(),
+            atypes.end(), []( const ammotype & at ) {
+                return at->name();
+            }, enumeration_conjunction::none ) );
         }
 
         if( mod->ammo_data() && parts->test( iteminfo_parts::AMMO_REMAINING ) ) {
