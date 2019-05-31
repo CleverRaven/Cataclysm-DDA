@@ -4595,6 +4595,7 @@ const T *game::critter_at( const tripoint &p, bool allow_hallucination ) const
 template const monster *game::critter_at<monster>( const tripoint &, bool ) const;
 template const npc *game::critter_at<npc>( const tripoint &, bool ) const;
 template const player *game::critter_at<player>( const tripoint &, bool ) const;
+template const avatar *game::critter_at<avatar>( const tripoint &, bool ) const;
 template const Character *game::critter_at<Character>( const tripoint &, bool ) const;
 template Character *game::critter_at<Character>( const tripoint &, bool );
 template const Creature *game::critter_at<Creature>( const tripoint &, bool ) const;

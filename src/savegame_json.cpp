@@ -848,6 +848,8 @@ void avatar::store( JsonOut &json ) const
     json.member( "stomach", stomach );
     json.member( "guts", guts );
 
+    json.member( "translocators", translocators );
+
     morale->store( json );
 
     // mission stuff
@@ -965,6 +967,8 @@ void avatar::load( JsonObject &data )
 
     data.read( "stomach", stomach );
     data.read( "guts", guts );
+
+    data.read( "translocators", translocators );
 
     morale->load( data );
 

@@ -5,6 +5,8 @@
 #include "enums.h"
 #include "player.h"
 
+#include "magic_teleporter_list.h"
+
 class avatar : public player
 {
     public:
@@ -106,6 +108,8 @@ class avatar : public player
          * @param target Target NPC to steal from
          */
         void steal( npc &target );
+
+        teleporter_list translocators;
     private:
         map_memory player_map_memory;
         bool show_map_memory;
