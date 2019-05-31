@@ -4,6 +4,7 @@
 #include <set>
 
 #include "action.h"
+#include "avatar.h"
 #include "color.h"
 #include "construction.h"
 #include "debug.h"

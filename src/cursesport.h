@@ -26,10 +26,10 @@ namespace cata_cursesport
 using base_color = catacurses::base_color;
 
 //a pair of colors[] indexes, foreground and background
-typedef struct {
+struct pairs {
     base_color FG;
     base_color BG;
-} pairs;
+};
 
 //Individual lines, so that we can track changed lines
 struct cursecell {

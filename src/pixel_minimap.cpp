@@ -2,6 +2,7 @@
 
 #include "pixel_minimap.h"
 
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "game.h"
 #include "map.h"

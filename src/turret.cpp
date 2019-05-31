@@ -4,6 +4,7 @@
 #include <numeric>
 #include <memory>
 
+#include "avatar.h"
 #include "game.h"
 #include "gun_mode.h"
 #include "item.h"

@@ -44,7 +44,7 @@ material_type::material_type() :
     _dmg_adj = { translate_marker( "lightly damaged" ), translate_marker( "damaged" ), translate_marker( "very damaged" ), translate_marker( "thoroughly damaged" ) };
 }
 
-mat_burn_data load_mat_burn_data( JsonObject &jsobj )
+static mat_burn_data load_mat_burn_data( JsonObject &jsobj )
 {
     mat_burn_data bd;
     assign( jsobj, "immune", bd.immune );

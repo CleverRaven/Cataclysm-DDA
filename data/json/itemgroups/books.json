@@ -564,5 +564,10 @@
     "id": "record_patient",
     "type": "item_group",
     "items": [ [ "record_patient", 100 ] ]
+  },
+  {
+    "id": "tailorbooks",
+    "type": "item_group",
+    "items": [ [ "tailor_portfolio", 30 ], [ "mag_tailor", 50 ], [ "manual_tailor", 30 ], [ "textbook_tailor", 30 ] ]
   }
 ]

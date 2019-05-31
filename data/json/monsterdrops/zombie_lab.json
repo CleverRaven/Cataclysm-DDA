@@ -39,7 +39,6 @@
       [ "bio_ups", 10 ],
       [ "bio_torsionratchet", 30 ],
       [ "bio_tools", 10 ],
-      [ "bio_storage", 15 ],
       [ "bio_flashlight", 30 ],
       [ "bio_lighter", 25 ],
       [ "bio_magnet", 20 ],

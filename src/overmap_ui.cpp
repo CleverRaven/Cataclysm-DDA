@@ -13,6 +13,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "basecamp.h"
 #include "cata_utility.h"
 #include "clzones.h"

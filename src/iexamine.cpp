@@ -15,6 +15,7 @@
 
 #include "activity_handlers.h"
 #include "ammo.h"
+#include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "calendar.h"
@@ -1405,7 +1406,7 @@ void iexamine::fswitch( player &p, const tripoint &examp )
 /**
  * If it's winter: show msg and return true. Otherwise return false
  */
-bool dead_plant( bool flower, player &p, const tripoint &examp )
+static bool dead_plant( bool flower, player &p, const tripoint &examp )
 {
     if( season_of_year( calendar::turn ) == WINTER ) {
         if( flower ) {
@@ -1424,7 +1425,7 @@ bool dead_plant( bool flower, player &p, const tripoint &examp )
 /**
  * Helper method to see if player has traits, hunger and mouthwear for drinking nectar.
  */
-bool can_drink_nectar( const player &p )
+static bool can_drink_nectar( const player &p )
 {
     return ( p.has_active_mutation( trait_id( "PROBOSCIS" ) )  ||
              p.has_active_mutation( trait_id( "BEAK_HUM" ) ) ) &&
@@ -1434,7 +1435,7 @@ bool can_drink_nectar( const player &p )
 /**
  * Consume Nectar. -15 hunger.
  */
-bool drink_nectar( player &p )
+static bool drink_nectar( player &p )
 {
     if( can_drink_nectar( p ) ) {
         p.moves -= 50; // Takes 30 seconds
@@ -1445,6 +1446,22 @@ bool drink_nectar( player &p )
     }
 
     return false;
+}
+
+/**
+ * Spawn an item after harvesting the plant
+ */
+static void handle_harvest( player &p, std::string itemid, bool force_drop )
+{
+    item harvest = item( itemid );
+    if( !force_drop && p.can_pickVolume( harvest, true ) &&
+        p.can_pickWeight( harvest, true ) ) {
+        p.i_add( harvest );
+        p.add_msg_if_player( _( "You harvest: %s." ), harvest.tname() );
+    } else {
+        g->m.add_item_or_charges( p.pos(), harvest );
+        p.add_msg_if_player( _( "You harvest and drop: %s." ), harvest.tname() );
+    }
 }
 
 /**
@@ -1504,14 +1521,8 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
 
     g->m.furn_set( examp, f_null );
 
-    if( p.can_pickWeight( item( "poppy_bud" ), true ) &&
-        p.can_pickVolume( item( "poppy_bud" ), true ) ) {
-        p.i_add( item( "poppy_bud" ) );
-        p.add_msg_if_player( _( "You harvest: poppy bud" ) );
-    } else {
-        g->m.add_item_or_charges( p.pos(), item( "poppy_bud" ) );
-        p.add_msg_if_player( _( "You harvest and drop: poppy bud" ) );
-    }
+    handle_harvest( p, "poppy_bud", false );
+    handle_harvest( p, "withered", false );
 }
 
 /**
@@ -1536,63 +1547,8 @@ void iexamine::flower_cactus( player &p, const tripoint &examp )
 
     g->m.furn_set( examp, f_null );
 
-    item cactus_pad = item( "cactus_pad" );
-    if( p.can_pickWeight( cactus_pad, true ) &&
-        p.can_pickVolume( cactus_pad, true ) ) {
-        p.i_add( cactus_pad );
-        p.add_msg_if_player( _( "You harvest: %s." ), cactus_pad.tname() );
-    } else {
-        g->m.add_item_or_charges( p.pos(), cactus_pad );
-        p.add_msg_if_player( _( "You harvest and drop: %s." ), cactus_pad.tname() );
-    }
-}
-/**
- * It's a flower, drink nectar if your able to.
- */
-void iexamine::flower_bluebell( player &p, const tripoint &examp )
-{
-    if( dead_plant( true, p, examp ) ) {
-        return;
-    }
-
-    drink_nectar( p );
-
-    // There was a bud and flower spawn here
-    // But those were useless, don't re-add until they get useful
-    none( p, examp );
-    return;
-}
-
-/**
- * It's a flower, drink nectar if your able to.
- */
-void iexamine::flower_tulip( player &p, const tripoint &examp )
-{
-    if( dead_plant( true, p, examp ) ) {
-        return;
-    }
-
-    drink_nectar( p );
-
-    // Add flower spawn once flowers are useful.
-    none( p, examp );
-    return;
-}
-
-/**
- * It's a flower, drink nectar if your able to.
- */
-void iexamine::flower_spurge( player &p, const tripoint &examp )
-{
-    if( dead_plant( true, p, examp ) ) {
-        return;
-    }
-
-    drink_nectar( p );
-
-    // Add flower spawn once flowers are useful.
-    none( p, examp );
-    return;
+    handle_harvest( p, "cactus_pad", false );
+    handle_harvest( p, "seed_cactus", false );
 }
 
 /**
@@ -1608,27 +1564,28 @@ void iexamine::flower_dahlia( player &p, const tripoint &examp )
         return;
     }
 
-    if( !p.has_quality( quality_id( "DIG" ) ) ) {
-        none( p, examp );
-        add_msg( m_info, _( "If only you had a shovel to dig up those roots..." ) );
-        return;
-    }
+    bool can_get_root = p.has_quality( quality_id( "DIG" ) ) || p.has_trait( trait_BURROW );
 
-    if( !query_yn( _( "Pick %s?" ), g->m.furnname( examp ) ) ) {
-        none( p, examp );
-        return;
+    if( can_get_root ) {
+        if( !query_yn( _( "Pick %s?" ), g->m.furnname( examp ) ) ) {
+            none( p, examp );
+            return;
+        }
+    } else {
+        if( !query_yn( _( "You don't have a digging tool to dig up roots. Pick %s anyway?" ),
+                       g->m.furnname( examp ) ) ) {
+            none( p, examp );
+            return;
+        }
     }
 
     g->m.furn_set( examp, f_null );
 
-    if( p.can_pickWeight( item( "dahlia_root" ), true ) &&
-        p.can_pickVolume( item( "dahlia_root" ), true ) ) {
-        p.i_add( item( "dahlia_root" ) );
-        p.add_msg_if_player( _( "You harvest: dahlia root" ) );
-    } else {
-        g->m.add_item_or_charges( p.pos(), item( "dahlia_root" ) );
-        p.add_msg_if_player( _( "You harvest and drop: dahlia root" ) );
+    if( can_get_root ) {
+        handle_harvest( p, "dahlia_root", false );
     }
+    handle_harvest( p, "seed_dahlia", false );
+    handle_harvest( p, "withered", false );
     // There was a bud and flower spawn here
     // But those were useless, don't re-add until they get useful
 }
@@ -1668,15 +1625,11 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         float min_num = entry.base_num.first + lev * entry.scale_num.first;
         float max_num = entry.base_num.second + lev * entry.scale_num.second;
         int roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
-        for( int i = 0; i < roll; i++ ) {
-            if( p.can_pickWeight( item( entry.drop ), true ) && p.can_pickVolume( item( entry.drop ), true ) ) {
-                p.i_add( item( entry.drop ) );
-                p.add_msg_if_player( _( "You harvest: %s." ), item( entry.drop ).tname() );
-            } else {
-                g->m.add_item_or_charges( p.pos(), item( entry.drop ) );
-                p.add_msg_if_player( _( "You harvest and drop: %s." ), item( entry.drop ).tname() );
-            }
+        if( roll >= 1 ) {
             got_anything = true;
+            for( int i = 0; i < roll; i++ ) {
+                handle_harvest( p, entry.drop, false );
+            }
         }
     }
 
@@ -1757,6 +1710,7 @@ void iexamine::flower_marloss( player &p, const tripoint &examp )
     }
     g->m.furn_set( examp, f_null );
     g->m.spawn_item( p.pos(), "marloss_seed", 1, 3, calendar::turn );
+    handle_harvest( p, "withered", false );
 }
 
 /**
@@ -1786,16 +1740,10 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
             }
         }
     }
-    int roll = round( rng_float( 1, 5 ) );
+    int roll = rng( 1, 5 );
+    bool drop_eggs = ( monster_count >= 1 ? true : false );
     for( int i = 0; i < roll; i++ ) {
-        if( monster_count == 0 && p.can_pickWeight( item( "spider_egg" ), true ) &&
-            p.can_pickVolume( item( "spider_egg" ), true ) ) {
-            p.i_add( item( "spider_egg" ) );
-            p.add_msg_if_player( _( "You harvest: spider egg" ) );
-        } else {
-            g->m.add_item_or_charges( p.pos(), item( "spider_egg" ) );
-            p.add_msg_if_player( _( "You harvest and drop: spider egg" ) );
-        }
+        handle_harvest( p, "spider_egg", drop_eggs );
     }
     if( monster_count == 1 ) {
         add_msg( m_warning, _( "A spiderling bursts from the %s!" ), old_furn_name );
@@ -1898,7 +1846,7 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
     used_seed.front().set_age( 0_turns );
     g->m.add_item_or_charges( examp, used_seed.front() );
     if( g->m.has_flag_furn( "PLANTABLE", examp ) ) {
-        g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant_transform ) );
+        g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
     } else {
         g->m.set( examp, t_dirt, f_plant_seed );
     }
@@ -2040,20 +1988,22 @@ void iexamine::harvest_plant( player &p, const tripoint &examp )
     } else { // Generic seed, use the seed item data
         const itype &type = *seed.type;
         g->m.i_clear( examp );
-        g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant_transform ) );
 
         int skillLevel = p.get_skill_level( skill_survival );
         ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
-        int plantCount = rng( skillLevel / 2, skillLevel );
-        if( plantCount >= 12 ) {
-            plantCount = 12;
-        } else if( plantCount <= 0 ) {
-            plantCount = 1;
+        int plant_count = rng( skillLevel / 2, skillLevel );
+        plant_count *= g->m.furn( examp )->plant->harvest_multiplier;
+        const int max_harvest_count = get_option<int>( "MAX_HARVEST_COUNT" );
+        if( plant_count >= max_harvest_count ) {
+            plant_count = max_harvest_count;
+        } else if( plant_count <= 0 ) {
+            plant_count = 1;
         }
-        const int seedCount = std::max( 1, rng( plantCount / 4, plantCount / 2 ) );
-        for( auto &i : get_harvest_items( type, plantCount, seedCount, true ) ) {
+        const int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
+        for( auto &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
             g->m.add_item_or_charges( examp, i );
         }
+        g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
         p.moves -= 500;
     }
 }
@@ -2852,7 +2802,7 @@ void iexamine::tree_hickory( player &p, const tripoint &examp )
     p.moves -= 2000 / ( p.get_skill_level( skill_survival ) + 1 ) + 100;
 }
 
-item_location maple_tree_sap_container()
+static item_location maple_tree_sap_container()
 {
     const item maple_sap = item( "maple_sap", 0 );
     return g->inv_map_splice( [&]( const item & it ) {
@@ -3883,8 +3833,8 @@ void iexamine::ledge( player &p, const tripoint &examp )
     }
 }
 
-player &player_on_couch( player &p, const tripoint &autodoc_loc, player &null_patient,
-                         bool &adjacent_couch, tripoint &couch_pos )
+static player &player_on_couch( player &p, const tripoint &autodoc_loc, player &null_patient,
+                                bool &adjacent_couch, tripoint &couch_pos )
 {
     for( const auto &couch_loc : g->m.points_in_radius( autodoc_loc, 1, 0 ) ) {
         const furn_str_id couch( "f_autodoc_couch" );
@@ -3904,7 +3854,7 @@ player &player_on_couch( player &p, const tripoint &autodoc_loc, player &null_pa
     return null_patient;
 }
 
-item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
+static item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
 {
     for( item &it : g->m.i_at( couch_pos ) ) {
         if( it.typeId() == "bot_broken_cyborg" || it.typeId() == "bot_prototype_cyborg" ) {
@@ -3919,7 +3869,7 @@ item &cyborg_on_couch( const tripoint &couch_pos, item &null_cyborg )
     return null_cyborg;
 }
 
-player &best_installer( player &p, player &null_player, int difficulty )
+static player &best_installer( player &p, player &null_player, int difficulty )
 {
     float player_skill = p.bionics_adjusted_skill( skill_firstaid,
                          skill_computer,
@@ -3978,7 +3928,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     };
 
     bool adjacent_couch = false;
-    static player null_player;
+    static avatar null_player;
     tripoint couch_pos;
     player &patient = player_on_couch( p, examp, null_player, adjacent_couch, couch_pos );
 
@@ -4218,7 +4168,7 @@ static bool is_non_rotten_crafting_component( const item &it )
     return is_crafting_component( it ) && !it.rotten();
 }
 
-void mill_activate( player &p, const tripoint &examp )
+static void mill_activate( player &p, const tripoint &examp )
 {
     const furn_id cur_mill_type = g->m.furn( examp );
     furn_id next_mill_type = f_null;
@@ -4284,7 +4234,7 @@ void mill_activate( player &p, const tripoint &examp )
     add_msg( _( "You remove the brake on the millstone and it slowly starts to turn." ) );
 }
 
-void smoker_activate( player &p, const tripoint &examp )
+static void smoker_activate( player &p, const tripoint &examp )
 {
     furn_id cur_smoker_type = g->m.furn( examp );
     furn_id next_smoker_type = f_null;
@@ -4429,7 +4379,7 @@ void iexamine::mill_finalize( player &, const tripoint &examp, const time_point 
     g->m.furn_set( examp, next_mill_type );
 }
 
-void smoker_finalize( player &, const tripoint &examp, const time_point &start_time )
+static void smoker_finalize( player &, const tripoint &examp, const time_point &start_time )
 {
     furn_id cur_smoker_type = g->m.furn( examp );
     furn_id next_smoker_type = f_null;
@@ -4474,7 +4424,8 @@ void smoker_finalize( player &, const tripoint &examp, const time_point &start_t
     g->m.furn_set( examp, next_smoker_type );
 }
 
-void smoker_load_food( player &p, const tripoint &examp, const units::volume &remaining_capacity )
+static void smoker_load_food( player &p, const tripoint &examp,
+                              const units::volume &remaining_capacity )
 {
     std::vector<item_comp> comps;
 
@@ -4581,7 +4532,8 @@ void smoker_load_food( player &p, const tripoint &examp, const units::volume &re
     p.invalidate_crafting_inventory();
 }
 
-void mill_load_food( player &p, const tripoint &examp, const units::volume &remaining_capacity )
+static void mill_load_food( player &p, const tripoint &examp,
+                            const units::volume &remaining_capacity )
 {
     std::vector<item_comp> comps;
 
@@ -5260,9 +5212,6 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "flower_poppy", &iexamine::flower_poppy },
             { "flower_cactus", &iexamine::flower_cactus },
             { "fungus", &iexamine::fungus },
-            { "flower_spurge", &iexamine::flower_spurge },
-            { "flower_tulip", &iexamine::flower_tulip },
-            { "flower_bluebell", &iexamine::flower_bluebell },
             { "flower_dahlia", &iexamine::flower_dahlia },
             { "flower_marloss", &iexamine::flower_marloss },
             { "egg_sackbw", &iexamine::egg_sackbw },

@@ -247,7 +247,11 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```RAD_PROOF``` This piece of clothing completely protects you from radiation.
 - ```RAD_RESIST``` This piece of clothing partially protects you from radiation.
 - ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.
+- ```REQUIRES_BALANCE``` Gear that requires a certain balance to be steady with. If the player is hit while wearing, they have a chance to be downed.
 - ```RESTRICT_HANDS``` Prevents the player from wielding a weapon two-handed, forcing one-handed use if the weapon permits it.
+- ```ROLLER_ONE``` A less stable and slower version of ROLLER_QUAD, still allows the player to move faster than walking speed.
+- ```ROLLER_QUAD```The medium choice between ROLLER_INLINE and ROLLER_ONE, while it is more stable, and moves faster, it also has a harsher non-flat terrain penalty then ROLLER_ONE.
+- ```ROLLER_INLINE``` Faster, but less stable overall, the penalty for non-flat terrain is even harsher.
 - ```SKINTIGHT``` Undergarment layer.
 - ```SLOWS_MOVEMENT``` This piece of clothing multiplies move cost by 1.1.
 - ```SLOWS_THIRST``` This piece of clothing multiplies the rate at which the player grows thirsty by 0.70.
@@ -273,6 +277,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BIONIC_SLEEP_FRIENDLY``` This bionic won't prompt the user to turn it off if they try to sleep while it's active.
 - ```BIONIC_TOGGLED``` This bionic only has a function when activated, else it causes it's effect every turn.
 - ```BIONIC_WEAPON``` This bionic is a weapon bionic and activating it will create (or destroy) bionic's fake_item in user's hands.  Prevents all other activation effects.
+- ```BIONIC_SHOCKPROOF``` This bionic can't be incapacitated by electrical attacks.
 
 
 ## Books
@@ -446,6 +451,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```INEDIBLE``` Inedible by default, enabled to eat when in conjunction with (mutation threshold) flags: BIRD, CATTLE.
 - ```FERTILIZER``` Works as fertilizer for farming, of if this consumed with the PLANTBLECH function penalties will be reversed for plants.
 - ```FREEZERBURN``` First thaw is MUSHY, second is rotten
+- ```FUNGAL_VECTOR``` Will give a fungal infection when consumed.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
 - ```MELTS``` Provides half fun unless frozen. Edible when frozen.
@@ -462,7 +468,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```USE_ON_NPC``` Can be used on NPCs (not necessarily by them).
 - ```ZOOM``` Zoom items can increase your overmap sight range.
-
 
 ## Furniture and Terrain
 
@@ -511,6 +516,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```FLAMMABLE``` Can be lit on fire.
 - ```FLAT_SURF``` Furniture or terrain with a flat hard surface (e.g. table, but not chair; tree stump, etc.).
 - ```FLAT``` Player can build and move furniture on.
+- ```FORAGE_HALLU``` This item can be found with the `HIDDEN_HALLU` flag when found through foraging.
+- ```FORAGE_POISION``` This item can be found with the `HIDDEN_POISON` flag when found through foraging.
 - ```GOES_DOWN``` Can use <kbd>></kbd> to go down a level.
 - ```GOES_UP``` Can use <kbd><</kbd> to go up a level.
 - ```GROWTH_SEED``` This plant is in its seed stage of growth.
@@ -633,8 +640,10 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```RAIN_PROTECT``` ... Protects from sunlight and from rain, when wielded.
 - ```REDUCED_BASHING``` ... Gunmod flag; reduces the item's bashing damage by 50%.
 - ```REDUCED_WEIGHT``` ... Gunmod flag; reduces the item's base weight by 25%.
+- ```REQUIRES_TINDER``` ... Requires tinder to be present on the tile this item tries to start a fire on.
 - ```SLEEP_AID``` ... This item helps in sleeping.
 - ```SLOW_WIELD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill. Stacks with "NEEDS_UNFOLD".
+- ```TINDER``` ... This item can be used as tinder for lighting a fire with a REQUIRES_TINDER flagged firestarter.
 - ```TRADER_AVOID``` ... NPCs will not start with this item. Use this for active items (e.g. flashlight (on)), dangerous items (e.g. active bomb), fake item or unusual items (e.g. unique quest item).
 - ```UNBREAKABLE_MELEE``` ... Does never get damaged when used as melee weapon.
 - ```UNRECOVERABLE``` Cannot be recovered from a disassembly.
@@ -686,11 +695,16 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 ## MAP SPECIALS
 
 - ```mx_anomaly``` ...  Natural anomaly (crater + artifact).
+- ```mx_bandits_block``` ...  Road block made by bandits from tree logs.
+- ```mx_burned_ground``` ... Fire has ravaged this place.
+- ```mx_point_burned_ground``` ... Fire has ravaged this place. (partial application)
 - ```mx_clay_deposit``` ... A small surface clay deposit.
 - ```mx_clearcut``` ... All trees become stumps.
 - ```mx_collegekids``` ... Corpses and items.
 - ```mx_crater``` ... Crater with rubble (and radioactivity).
 - ```mx_drugdeal``` ... Corpses and some drugs.
+- ```mx_dead_vegetation``` ... Kills all plants. (aftermath of acid rain etc.)
+- ```mx_point_dead_vegetation``` ... Kills all plants. (aftermath of acid rain etc.) (partial application)
 - ```mx_fumarole``` ... A lava rift.
 - ```mx_grove``` ... All trees and shrubs become a single species of tree.
 - ```mx_helicopter``` ... Metal wreckage and some items.
@@ -702,6 +716,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```mx_portal_in``` ... Another portal to neither space.
 - ```mx_portal``` ... Portal to neither space.
 - ```mx_roadblock``` ... Roadblock furniture with turrets and some cars.
+- ```mx_roadworks``` ... Partialy closed damaged road with chance of work equipment and utility vehicles.
 - ```mx_science``` ... Corpses and some scientist items.
 - ```mx_shia``` ... A *chance* of Shia, if Crazy Catalcysm is enabled.
 - ```mx_shrubbery``` ... All trees and shrubs become a single species of shrub.
@@ -887,6 +902,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```POISON``` Poisonous to eat.
 - ```PUSH_MON``` Can push creatures out of its way.
 - ```QUEEN``` When it dies, local populations start to die off too.
+- ```REGENERATES_1``` Monster regenerates slowly over time.
 - ```REGENERATES_10``` Monster regenerates quickly over time.
 - ```REGENERATES_50``` Monster regenerates very quickly over time.
 - ```REGENERATES_IN_DARK``` Monster regenerates very quickly in poorly lit tiles.
@@ -1037,8 +1053,6 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 ## Overmap
 
 ### Overmap connections
-
-#### Flags
 
 - ```ORTHOGONAL``` The connection generally prefers straight lines, avoids turning wherever possible.
 

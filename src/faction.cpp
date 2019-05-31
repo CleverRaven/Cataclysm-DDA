@@ -7,6 +7,7 @@
 #include <set>
 #include <utility>
 
+#include "avatar.h"
 #include "basecamp.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -307,6 +308,14 @@ faction *faction_manager::get( const faction_id &id )
             return &elem;
         }
     }
+    for( const auto &iter : _all_faction_templates ) {
+        const faction_template &elem = iter.second;
+        if( elem.id == id ) {
+            factions.emplace_back( elem );
+            return &factions.back();
+        }
+    }
+
     debugmsg( "Requested non-existing faction '%s'", id.str() );
     return nullptr;
 }
@@ -409,7 +418,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
             max_range *= ( 1 + ( pos().z * 0.1 ) );
             if( is_stationed ) {
                 // if camp that NPC is at, has a radio tower
-                if( stationed_at->has_level( "camp", 20, "[B]" ) ) {
+                if( stationed_at->has_provides( "radio_tower" ) ) {
                     max_range *= 5;
                 }
             }
@@ -418,7 +427,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                     g->u.global_omt_location().y );
             if( const cata::optional<basecamp *> player_camp = overmap_buffer.find_camp(
                         g->u.global_omt_location().x, g->u.global_omt_location().y ) ) {
-                if( ( *player_camp )->has_level( "camp", 20, "[B]" ) ) {
+                if( ( *player_camp )->has_provides( "radio_tower" ) ) {
                     max_range *= 5;
                 }
             }

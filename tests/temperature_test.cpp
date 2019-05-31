@@ -11,7 +11,7 @@
 #include "game.h"
 
 
-bool is_nearly( float value, float expected )
+static bool is_nearly( float value, float expected )
 {
     // Rounding errors make the values change around a bit
     // Inside reality bubble and outside reality bubble also get slightly different results
@@ -21,7 +21,7 @@ bool is_nearly( float value, float expected )
     return ret_val;
 }
 
-void set_map_temperature( int new_temperature )
+static void set_map_temperature( int new_temperature )
 {
     g->weather.temperature = new_temperature;
     g->weather.clear_temp_cache();

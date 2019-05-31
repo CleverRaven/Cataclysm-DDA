@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "avatar.h"
 #include "debug.h"
 #include "game.h"
 #include "messages.h"

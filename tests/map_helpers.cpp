@@ -1,8 +1,11 @@
+#include "map_helpers.h"
+
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "creature_tracker.h"
 #include "game.h"
 #include "map.h"

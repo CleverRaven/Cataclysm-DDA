@@ -45,13 +45,12 @@
           { "item": "broken_copbot", "chance": 4 },
           { "item": "broken_riotbot", "chance": 4 },
           { "item": "broken_skitterbot", "chance": 3 }
-        ],
-        "l": { "item": "battery", "amount": [ 0, 2 ] }
+        ]
       },
       "items": {
         "$": { "item": "bots", "chance": 80 },
         "b": { "item": "textbooks", "chance": 60 },
-        "l": { "item": "electronics", "chance": 60 },
+        "l": [ { "item": "electronics", "chance": 60 }, { "item": "ammo_pocket_batteries_full", "repeat": [ 0, 2 ] } ],
         "L": { "item": "tools_common", "chance": 60 },
         "T": { "item": "tools_common", "chance": 30 },
         "X": { "item": "consumer_electronics", "chance": 70 }

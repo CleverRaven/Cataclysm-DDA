@@ -129,7 +129,7 @@ void shutdown_sound()
 
 void musicFinished();
 
-void play_music_file( const std::string &filename, int volume )
+static void play_music_file( const std::string &filename, int volume )
 {
     if( !check_sound( volume ) ) {
         return;
@@ -338,7 +338,7 @@ void sfx::load_playlist( JsonObject &jsobj )
 
 // Returns a random sound effect matching given id and variant or `nullptr` if there is no
 // matching sound effect.
-const sound_effect *find_random_effect( const id_and_variant &id_variants_pair )
+static const sound_effect *find_random_effect( const id_and_variant &id_variants_pair )
 {
     const auto iter = sfx_resources.sound_effects.find( id_variants_pair );
     if( iter == sfx_resources.sound_effects.end() ) {
@@ -348,7 +348,7 @@ const sound_effect *find_random_effect( const id_and_variant &id_variants_pair )
 }
 
 // Same as above, but with fallback to "default" variant. May still return `nullptr`
-const sound_effect *find_random_effect( const std::string &id, const std::string &variant )
+static const sound_effect *find_random_effect( const std::string &id, const std::string &variant )
 {
     const auto eff = find_random_effect( id_and_variant( id, variant ) );
     if( eff != nullptr ) {
@@ -363,7 +363,7 @@ bool sfx::has_variant_sound( const std::string &id, const std::string &variant )
 }
 
 // Deletes the dynamically created chunk (if such a chunk had been played).
-void cleanup_when_channel_finished( int /* channel */, void *udata )
+static void cleanup_when_channel_finished( int /* channel */, void *udata )
 {
     Mix_Chunk *chunk = static_cast<Mix_Chunk *>( udata );
     free( chunk->abuf );
@@ -372,11 +372,11 @@ void cleanup_when_channel_finished( int /* channel */, void *udata )
 
 // empty effect, as we cannot change the size of the output buffer,
 // therefore we cannot do the math from do_pitch_shift here
-void empty_effect( int /* chan */, void * /* stream */, int /* len */, void * /* udata */ )
+static void empty_effect( int /* chan */, void * /* stream */, int /* len */, void * /* udata */ )
 {
 }
 
-Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
+static Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch )
 {
     Uint32 s_in = s->alen / 4;
     Uint32 s_out = static_cast<Uint32>( static_cast<float>( s_in ) * pitch );

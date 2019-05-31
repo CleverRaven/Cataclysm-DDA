@@ -8,6 +8,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "player.h"
@@ -22,9 +23,9 @@
 #include "shadowcasting.h"
 #include "type_id.h"
 
-void full_map_test( const std::vector<std::string> &setup,
-                    const std::vector<std::string> &expected_results,
-                    const calendar time )
+static void full_map_test( const std::vector<std::string> &setup,
+                           const std::vector<std::string> &expected_results,
+                           const calendar time )
 {
     const ter_id t_brick_wall( "t_brick_wall" );
     const ter_id t_window_frame( "t_window_frame" );
@@ -38,14 +39,6 @@ void full_map_test( const std::vector<std::string> &setup,
     g->u.worn.clear(); // Remove any light-emitting clothing
     g->u.clear_effects();
     clear_map();
-    const int mapsize = g->m.getmapsize() * SEEX;
-    for( int z = 11; z < 21; ++z ) {
-        for( int x = 0; x < mapsize; ++x ) {
-            for( int y = 0; y < mapsize; ++y ) {
-                g->m.set( { x, y, z }, t_open_air, f_null );
-            }
-        }
-    }
     g->reset_light_level();
 
     REQUIRE( !g->u.is_blind() );

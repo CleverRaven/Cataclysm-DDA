@@ -3,6 +3,7 @@
 #define MAGIC_H
 
 #include <map>
+#include <set>
 
 #include "damage.h"
 #include "enum_bitset.h"
@@ -288,11 +289,21 @@ namespace spell_effect
 {
 void teleport( int min_distance, int max_distance );
 void pain_split(); // only does g->u
-void shallow_pit( const tripoint &target );
+void move_earth( const tripoint &target );
 void target_attack( spell &sp, const tripoint &source, const tripoint &target );
 void projectile_attack( spell &sp, const tripoint &source, const tripoint &target );
 void cone_attack( spell &sp, const tripoint &source, const tripoint &target );
 void line_attack( spell &sp, const tripoint &source, const tripoint &target );
+
+std::set<tripoint> spell_effect_blast( spell &, const tripoint &, const tripoint &target,
+                                       const int aoe_radius, const bool ignore_walls );
+std::set<tripoint> spell_effect_cone( spell &sp, const tripoint &source,
+                                      const tripoint &target,
+                                      const int aoe_radius, const bool ignore_walls );
+std::set<tripoint> spell_effect_line( spell &, const tripoint &source,
+                                      const tripoint &target,
+                                      const int aoe_radius, const bool ignore_walls );
+
 void spawn_ethereal_item( spell &sp );
 }
 

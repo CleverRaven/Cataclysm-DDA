@@ -8,6 +8,7 @@
 #include <memory>
 #include <utility>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "map.h"
@@ -21,7 +22,7 @@
 #include "item.h"
 #include "line.h"
 
-typedef statistics<int> move_statistics;
+using move_statistics = statistics<int>;
 
 static int moves_to_destination( const std::string &monster_type,
                                  const tripoint &start, const tripoint &end )
@@ -61,7 +62,7 @@ struct track {
     tripoint location;
 };
 
-std::ostream &operator << ( std::ostream &os, track const &value )
+static std::ostream &operator<<( std::ostream &os, track const &value )
 {
     os << value.participant <<
        " l:" << value.location <<
@@ -70,7 +71,7 @@ std::ostream &operator << ( std::ostream &os, track const &value )
     return os;
 }
 
-std::ostream &operator << ( std::ostream &os, const std::vector<track> &vec )
+static std::ostream &operator<<( std::ostream &os, const std::vector<track> &vec )
 {
     for( auto &track_instance : vec ) {
         os << track_instance << " ";

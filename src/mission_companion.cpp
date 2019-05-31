@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include <utility>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
@@ -573,7 +574,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
         } else if( action == "HELP_KEYBINDINGS" ) {
             g->draw_ter();
             wrefresh( g->w_terrain );
-            g->draw_panels();
+            g->draw_panels( true );
             redraw = true;
         }
     }
@@ -638,7 +639,7 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
 
     g->draw_ter();
     wrefresh( g->w_terrain );
-    g->draw_panels();
+    g->draw_panels( true );
 
     return true;
 }
@@ -1143,7 +1144,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
 
 }
 
-int scavenging_combat_skill( npc &p, int bonus, bool guns )
+static int scavenging_combat_skill( npc &p, int bonus, bool guns )
 {
     // the following doxygen aliases do not yet exist. this is marked for future reference
     ///\EFFECT_MELEE_NPC affects scavenging_patrol results
@@ -1767,7 +1768,7 @@ std::vector<npc_ptr> talk_function::companion_list( const npc &p, const std::str
     return available;
 }
 
-int companion_combat_rank( const npc &p )
+static int companion_combat_rank( const npc &p )
 {
     int combat = 2 * p.get_dex() + 3 * p.get_str() + 2 * p.get_per() + p.get_int();
     combat += p.get_skill_level( skill_archery ) + p.get_skill_level( skill_bashing ) +
@@ -1776,7 +1777,7 @@ int companion_combat_rank( const npc &p )
     return combat * std::min( p.get_dex(), 32 ) * std::min( p.get_str(), 32 ) / 64;
 }
 
-int companion_survival_rank( const npc &p )
+static int companion_survival_rank( const npc &p )
 {
     int survival = 2 * p.get_dex() + p.get_str() + 2 * p.get_per() + 1.5 * p.get_int();
     survival += p.get_skill_level( skill_archery ) + p.get_skill_level( skill_firstaid ) +
@@ -1785,7 +1786,7 @@ int companion_survival_rank( const npc &p )
     return survival * std::min( p.get_dex(), 32 ) * std::min( p.get_per(), 32 ) / 64;
 }
 
-int companion_industry_rank( const npc &p )
+static int companion_industry_rank( const npc &p )
 {
     int industry = p.get_dex() + p.get_str() + p.get_per() + 3 * p.get_int();
     industry += p.get_skill_level( skill_cooking ) + p.get_skill_level( skill_electronics ) +
@@ -1794,7 +1795,7 @@ int companion_industry_rank( const npc &p )
     return industry * std::min( p.get_int(), 32 ) / 8 ;
 }
 
-bool companion_sort_compare( const npc_ptr &first, const npc_ptr &second )
+static bool companion_sort_compare( const npc_ptr &first, const npc_ptr &second )
 {
     return companion_combat_rank( *first ) > companion_combat_rank( *second );
 }

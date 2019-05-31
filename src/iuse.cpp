@@ -18,8 +18,10 @@
 
 #include "action.h"
 #include "artifact.h"
+#include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h" // for weed_msg
 #include "explosion.h"
@@ -236,7 +238,7 @@ void remove_radio_mod( item &it, player &p )
 }
 
 // Checks that the player does not have an active item with LITCIG flag.
-bool check_litcig( player &u )
+static bool check_litcig( player &u )
 {
     auto cigs = u.items_with( []( const item & it ) {
         return it.active && it.has_flag( "LITCIG" );
@@ -246,31 +248,6 @@ bool check_litcig( player &u )
     }
     u.add_msg_if_player( m_info, _( "You're already smoking a %s!" ), cigs[0]->tname() );
     return false;
-}
-
-// For an explosion (which releases some kind of gas), this function
-// calculates the points around that explosion where to create those
-// gas fields.
-// Those points must have a clear line of sight and a clear path to
-// the center of the explosion.
-// They must also be passable.
-std::vector<tripoint> points_for_gas_cloud( const tripoint &center, int radius )
-{
-    const std::vector<tripoint> gas_sources = closest_tripoints_first( radius, center );
-    std::vector<tripoint> result;
-    for( const auto &p : gas_sources ) {
-        if( g->m.impassable( p ) ) {
-            continue;
-        }
-        if( p != center ) {
-            if( !g->m.clear_path( center, p, radius, 1, 100 ) ) {
-                // Can not splatter gas from center to that point, something is in the way
-                continue;
-            }
-        }
-        result.push_back( p );
-    }
-    return result;
 }
 
 /* iuse methods return the number of charges expended, which is usually it->charges_to_use().
@@ -333,7 +310,7 @@ static constexpr time_duration alc_strength( const int strength, const time_dura
     return strength == 0 ? weak : strength == 1 ? medium : strong;
 }
 
-int alcohol( player &p, const item &it, const int strength )
+static int alcohol( player &p, const item &it, const int strength )
 {
     // Weaker characters are cheap drunks
     /** @EFFECT_STR_MAX reduces drunkenness duration */
@@ -1092,7 +1069,7 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-void spawn_spores( const player &p )
+static void spawn_spores( const player &p )
 {
     int spores_spawned = 0;
     fungal_effects fe( *g, g->m );
@@ -1404,12 +1381,13 @@ enum Petfood {
     BIRDFOOD
 };
 
-int feedpet( player &p, monster &mon, m_flag food_flag, const char *message )
+static int feedpet( player &p, monster &mon, item &it, m_flag food_flag, const char *message )
 {
     if( mon.has_flag( food_flag ) ) {
         p.add_msg_if_player( m_good, message, mon.get_name() );
         mon.friendly = -1;
         mon.add_effect( effect_pet, 1_turns, num_bp, true );
+        p.consume_charges( it, 1 );
         return 1;
     } else {
         p.add_msg_if_player( _( "The %s doesn't want that kind of food." ), mon.get_name() );
@@ -1417,7 +1395,7 @@ int feedpet( player &p, monster &mon, m_flag food_flag, const char *message )
     }
 }
 
-int petfood( player &p, const item &it, Petfood animal_food_type )
+static int petfood( player &p, item &it, Petfood animal_food_type )
 {
     const cata::optional<tripoint> pnt_ = choose_adjacent( string_format( _( "Put the %s where?" ),
                                           it.tname() ) );
@@ -1437,10 +1415,12 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
                 if( person.is_ally( p ) || x_in_y( 9, 10 ) ) {
                     person.say(
                         _( "Okay, but please, don't give me this again.  I don't want to eat dog food in the cataclysm all day." ) );
+                    p.consume_charges( it, 1 );
                     return 1;
                 } else {
                     p.add_msg_if_player( _( "%s knocks it out from your hand!" ), person.name );
                     person.make_angry();
+                    p.consume_charges( it, 1 );
                     return 1;
                 }
             } else {
@@ -1468,21 +1448,22 @@ int petfood( player &p, const item &it, Petfood animal_food_type )
                     if( one_in( 5 ) ) {
                         p.add_msg_if_player(
                             _( "Apparently it's more interested in your flesh than the dog food in your hand!" ) );
+                        p.consume_charges( it, 1 );
                         return 1;
                     }
                 } else {
-                    return feedpet( p, mon, MF_DOGFOOD,
+                    return feedpet( p, mon, it, MF_DOGFOOD,
                                     _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
                 }
                 break;
             case CATFOOD:
-                return feedpet( p, mon, MF_CATFOOD,
+                return feedpet( p, mon, it, MF_CATFOOD,
                                 _( "The %s seems to like you!  Or maybe it just tolerates your presence better.  It's hard to tell with felines." ) );
             case CATTLEFODDER:
-                return feedpet( p, mon, MF_CATTLEFODDER,
+                return feedpet( p, mon, it, MF_CATTLEFODDER,
                                 _( "The %s seems to like you!  It lets you pat its head and seems friendly." ) );
             case BIRDFOOD:
-                return feedpet( p, mon, MF_BIRDFOOD,
+                return feedpet( p, mon, it, MF_BIRDFOOD,
                                 _( "The %s seems to like you!  It runs around your legs and seems friendly." ) );
         }
 
@@ -1788,6 +1769,20 @@ int iuse::remove_all_mods( player *p, item *, bool, const tripoint & )
     return 0;
 }
 
+static bool good_fishing_spot( tripoint pos )
+{
+    std::vector<monster *> fishables = g->get_fishable( 60, pos );
+    // isolated little body of water with no definite fish population
+    oter_id &cur_omt = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( pos ) ) );
+    std::string om_id = cur_omt.id().c_str();
+    if( fishables.empty() && !g->m.has_flag( "CURRENT", pos ) &&
+        om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_lake_shore() ) {
+        g->u.add_msg_if_player( m_info, _( "You doubt you will have much luck catching fish here" ) );
+        return false;
+    }
+    return true;
+}
+
 int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
 {
     if( p->is_npc() ) {
@@ -1800,22 +1795,16 @@ int iuse::fishing_rod( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     const tripoint pnt = *pnt_;
-
     if( !g->m.has_flag( "FISHABLE", pnt ) ) {
         p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
         return 0;
     }
-
-    std::vector<monster *> fishables = g->get_fishable( 60, pnt );
-    if( fishables.empty() ) {
-        p->add_msg_if_player( m_info,
-                              _( "There are no fish around.  Try another spot." ) ); // maybe let the player find that out by himself?
+    if( !good_fishing_spot( pnt ) ) {
         return 0;
     }
-
     p->add_msg_if_player( _( "You cast your line and wait to hook something..." ) );
-
-    p->assign_activity( activity_id( "ACT_FISH" ), 30000, 0, p->get_item_position( it ), it->tname() );
+    p->assign_activity( activity_id( "ACT_FISH" ), to_moves<int>( 5_hours ), 0,
+                        p->get_item_position( it ), it->tname() );
     p->activity.placement = pnt;
 
     return 0;
@@ -1855,11 +1844,7 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
             p->add_msg_if_player( m_info, _( "You can't fish there!" ) );
             return 0;
         }
-
-        std::vector<monster *> fishables = g->get_fishable( 60, pnt );
-        if( fishables.empty() ) {
-            p->add_msg_if_player( m_info,
-                                  _( "There is no fish around.  Try another spot." ) ); // maybe let the player find that out by himself?
+        if( !good_fishing_spot( pnt ) ) {
             return 0;
         }
         it->active = true;
@@ -1919,8 +1904,17 @@ int iuse::fish_trap( player *p, item *it, bool t, const tripoint &pos )
                                                pos ); //get the fishables around the trap's spot
             for( int i = 0; i < fishes; i++ ) {
                 p->practice( skill_survival, rng( 3, 10 ) );
-                if( fishables.size() > 1 ) {
-                    g->catch_a_monster( fishables, pos, p, 300_hours ); //catch the fish!
+                if( fishables.size() >= 1 ) {
+                    monster *chosen_fish = random_entry( fishables );
+                    // reduce the abstract fish_population marker of that fish
+                    chosen_fish->fish_population -= 1;
+                    if( chosen_fish->fish_population <= 0 ) {
+                        g->catch_a_monster( chosen_fish, pos, p, 300_hours ); //catch the fish!
+                    } else {
+                        g->m.add_item_or_charges( p->pos(), item::make_corpse( chosen_fish->type->id,
+                                                  calendar::turn + rng( 0_turns,
+                                                          3_hours ) ) );
+                    }
                 } else {
                     //there will always be a chance that the player will get lucky and catch a fish
                     //not existing in the fishables vector. (maybe it was in range, but wandered off)
@@ -2919,9 +2913,9 @@ int iuse::siphon( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-int toolweapon_off( player &p, item &it, const bool fast_startup,
-                    const bool condition, const int volume,
-                    const std::string &msg_success, const std::string &msg_failure )
+static int toolweapon_off( player &p, item &it, const bool fast_startup,
+                           const bool condition, const int volume,
+                           const std::string &msg_success, const std::string &msg_failure )
 {
     p.moves -= fast_startup ? 60 : 80;
     if( condition && it.ammo_remaining() > 0 ) {
@@ -3017,10 +3011,10 @@ int iuse::trimmer_off( player *p, item *it, bool, const tripoint & )
                            _( "You yank the cord, but nothing happens." ) );
 }
 
-int toolweapon_on( player &p, item &it, const bool t,
-                   const std::string &tname, const bool works_underwater,
-                   const int sound_chance, const int volume,
-                   const std::string &sound, const bool double_charge_cost = false )
+static int toolweapon_on( player &p, item &it, const bool t,
+                          const std::string &tname, const bool works_underwater,
+                          const int sound_chance, const int volume,
+                          const std::string &sound, const bool double_charge_cost = false )
 {
     std::string off_type =
         it.typeId().substr( 0, it.typeId().size() - 3 ) +
@@ -3954,17 +3948,21 @@ int iuse::shocktonfa_on( player *p, item *it, bool t, const tripoint &pos )
 int iuse::mp3( player *p, item *it, bool, const tripoint & )
 {
     if( !it->ammo_sufficient() ) {
-        p->add_msg_if_player( m_info, _( "The mp3 player's batteries are dead." ) );
-    } else if( p->has_active_item( "mp3_on" ) ) {
-        p->add_msg_if_player( m_info, _( "You are already listening to an mp3 player!" ) );
+        p->add_msg_if_player( m_info, _( "The device's batteries are dead." ) );
+    } else if( p->has_active_item( "mp3_on" ) || p->has_active_item( "smartphone_music" ) ) {
+        p->add_msg_if_player( m_info, _( "You are already listening to music!" ) );
     } else {
         p->add_msg_if_player( m_info, _( "You put in the earbuds and start listening to music." ) );
-        it->convert( "mp3_on" ).active = true;
+        if( it->typeId() == "mp3" ) {
+            it->convert( "mp3_on" ).active = true;
+        } else if( it->typeId() == "smart_phone" ) {
+            it->convert( "smartphone_music" ).active = true;
+        }
     }
     return it->type->charges_to_use();
 }
 
-std::string get_music_description()
+static std::string get_music_description()
 {
     static const std::string no_description = _( "a sweet guitar solo!" );
     static const std::string rare = _( "some bass-heavy post-glam speed polka." );
@@ -4042,8 +4040,13 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
             play_music( *p, pos, 0, 20 );
         }
     } else { // Turning it off
-        p->add_msg_if_player( _( "The mp3 player turns off." ) );
-        it->convert( "mp3" ).active = false;
+        if( it->typeId() == "mp3_on" ) {
+            p->add_msg_if_player( _( "The mp3 player turns off." ) );
+            it->convert( "mp3" ).active = false;
+        } else if( it->typeId() == "smartphone_music" ) {
+            p->add_msg_if_player( _( "The phone turns off." ) );
+            it->convert( "smart_phone" ).active = false;
+        }
     }
     return it->type->charges_to_use();
 }
@@ -4460,6 +4463,34 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
 
     it->put_in( blood );
     return it->type->charges_to_use();
+}
+
+//This is just used for robofac_intercom_mission_2
+int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
+{
+    for( auto &map_it : g->m.i_at( p->posx(), p->posy() ) ) {
+        if( map_it.typeId() == "rmi2_corpse" &&
+            query_yn( _( "Use the mind splicer kit on the %s?" ), colorize( map_it.tname(),
+                      map_it.color_in_inventory() ) ) ) {
+            int pos = g->inv_for_id( itype_id( "data_card" ), _( "Select storage media" ) );
+            item &data_card = p->i_at( pos );
+            if( data_card.is_null() ) {
+                add_msg( m_info, _( "Nevermind." ) );
+                return 0;
+            }
+            ///\EFFECT_DEX makes using the mind splicer faster
+            ///\EFFECT_FIRSTAID makes using the mind splicer faster
+            const time_duration time = std::max( 150_minutes - 20_minutes * ( p->get_skill_level(
+                    skill_firstaid ) - 1 ) - 10_minutes * ( p->get_dex() - 8 ), 30_minutes );
+
+            player_activity act( activity_id( "ACT_MIND_SPLICER" ), to_moves<int>( time ) );
+            act.targets.push_back( item_location( *p, &data_card ) );
+            p->assign_activity( act );
+            return it->type->charges_to_use();
+        }
+    }
+    add_msg( m_info, _( "There's nothing to use the %s on here." ), it->tname() );
+    return 0;
 }
 
 void iuse::cut_log_into_planks( player &p )
@@ -5182,12 +5213,9 @@ static bool heat_item( player &p )
     if( target.item_tags.count( "FROZEN" ) ) {
         target.apply_freezerburn();
 
-        if( target.has_flag( "EATEN_COLD" ) &&
-            !query_yn( _( "%s is best served cold.  Heat beyond defrosting?" ),
-                       colorize( target.tname(), target.color_in_inventory() ) ) ) {
-
+        if( target.has_flag( "EATEN_COLD" ) ) {
             target.cold_up();
-            add_msg( _( "You defrost the food." ) );
+            add_msg( _( "You defrost the food, but don't heat it up, since you enjoy it cold." ) );
         } else {
             add_msg( _( "You defrost and heat up the food." ) );
             target.heat_up();
@@ -5856,7 +5884,7 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
-void init_memory_card_with_random_stuff( item &it )
+static void init_memory_card_with_random_stuff( item &it )
 {
     if( it.has_flag( "MC_MOBILE" ) && ( it.has_flag( "MC_RANDOM_STUFF" ) ||
                                         it.has_flag( "MC_SCIENCE_STUFF" ) ) && !( it.has_flag( "MC_USED" ) ||
@@ -5931,7 +5959,7 @@ void init_memory_card_with_random_stuff( item &it )
     }
 }
 
-bool einkpc_download_memory_card( player &p, item &eink, item &mc )
+static bool einkpc_download_memory_card( player &p, item &eink, item &mc )
 {
     bool something_downloaded = false;
     if( mc.get_var( "MC_PHOTOS", 0 ) > 0 ) {
@@ -6961,7 +6989,7 @@ int iuse::radiocaron( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-void sendRadioSignal( player &p, const std::string &signal )
+static void sendRadioSignal( player &p, const std::string &signal )
 {
     for( size_t i = 0; i < p.inv.size(); i++ ) {
         item &it = p.inv.find_item( i );
@@ -7119,7 +7147,7 @@ static bool hackveh( player &p, item &it, vehicle &veh )
     return success;
 }
 
-vehicle *pickveh( const tripoint &center, bool advanced )
+static vehicle *pickveh( const tripoint &center, bool advanced )
 {
     static const std::string ctrl = "CTRL_ELECTRONIC";
     static const std::string advctrl = "REMOTE_CONTROLS";
@@ -7234,7 +7262,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-bool multicooker_hallu( player &p )
+static bool multicooker_hallu( player &p )
 {
     p.moves -= 200;
     const int random_hallu = rng( 1, 7 );
@@ -7320,9 +7348,11 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
         if( cooktime <= 0 ) {
             item &meal = it->emplace_back( it->get_var( "DISH" ) );
-            if( meal.has_flag( "EATEN_HOT" ) ) {
+            if( ( *recipe_id( it->get_var( "RECIPE" ) ) ).hot_result() ) {
                 meal.heat_up();
             } else {
+                meal.set_item_temperature( temp_to_kelvin( std::max( temperatures::cold,
+                                           g->weather.get_temperature( pos ) ) ) );
                 meal.reset_temp_check();
             }
 
@@ -7416,24 +7446,41 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 it->active = false;
                 it->erase_var( "DISH" );
                 it->erase_var( "COOKTIME" );
+                it->erase_var( "RECIPE" );
             }
             return 0;
         }
 
         if( mc_take == choice ) {
             item &dish = *dish_it;
+            if( dish.has_flag( "FROZEN" ) ) {
+                dish.cold_up();  //don't know how to check if the dish is frozen liquid and prevent extraction of it into inventory...
+            }
+            const std::string dish_name = dish.tname( dish.charges, false );
+            const bool is_delicious = dish.has_flag( "HOT" ) && dish.has_flag( "EATEN_HOT" );
+            if( dish.made_of( LIQUID ) ) {
+                if( !p->check_eligible_containers_for_crafting( *recipe_id( it->get_var( "RECIPE" ) ), 1 ) ) {
+                    p->add_msg_if_player( m_info, _( "You don't have a suitable container to store your %s." ),
+                                          dish_name );
 
-            if( dish.has_flag( "HOT" ) ) {
-                p->add_msg_if_player( m_good,
-                                      _( "You got the dish from the multi-cooker.  The %s smells delicious." ),
-                                      dish.tname( dish.charges, false ) );
+                    return 0;
+                }
+                liquid_handler::handle_all_liquid( dish, PICKUP_RANGE );
             } else {
-                p->add_msg_if_player( m_good, _( "You got the %s from the multi-cooker." ),
-                                      dish.tname( dish.charges, false ) );
+                p->i_add( dish );
             }
 
-            p->i_add( dish );
             it->contents.erase( dish_it );
+            it->erase_var( "RECIPE" );
+
+            if( is_delicious ) {
+                p->add_msg_if_player( m_good,
+                                      _( "You got the dish from the multi-cooker.  The %s smells delicious." ),
+                                      dish_name );
+            } else {
+                p->add_msg_if_player( m_good, _( "You got the %s from the multi-cooker." ),
+                                      dish_name );
+            }
 
             return 0;
         }
@@ -7494,6 +7541,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                     p->consume_items( it, 1, is_crafting_component );
                 }
 
+                it->set_var( "RECIPE", meal->ident().str() );
                 it->set_var( "DISH", meal->result() );
                 it->set_var( "COOKTIME", mealtime );
 

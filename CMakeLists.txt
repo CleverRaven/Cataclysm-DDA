@@ -212,7 +212,9 @@ IF(MSVC)
 		add_definitions(-D_X86_)
 	endif()
 ELSE()
-	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror -Wall -Wextra -Woverloaded-virtual -Wpedantic -std=c++14")
+	SET(CATA_WARNINGS
+		"-Werror -Wall -Wextra -Woverloaded-virtual -Wpedantic -Wmissing-declarations")
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS} -std=c++14")
 	SET(CMAKE_CXX_FLAGS_DEBUG "-Og -g")
 ENDIF()
 

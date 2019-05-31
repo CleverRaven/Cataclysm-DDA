@@ -232,7 +232,6 @@ struct _wdirent {
     int d_type;                                 /* File type */
     wchar_t d_name[PATH_MAX + 1];               /* File name */
 };
-typedef struct _wdirent _wdirent;
 
 struct _WDIR {
     struct _wdirent ent;                        /* Current directory entry */
@@ -241,7 +240,6 @@ struct _WDIR {
     HANDLE handle;                              /* Win32 search handle */
     wchar_t *patt;                              /* Initial directory name */
 };
-typedef struct _WDIR _WDIR;
 
 static _WDIR *_wopendir( const wchar_t *dirname );
 static struct _wdirent *_wreaddir( _WDIR *dirp );
@@ -264,13 +262,11 @@ struct dirent {
     int d_type;                                 /* File type */
     char d_name[PATH_MAX + 1];                  /* File name */
 };
-typedef struct dirent dirent;
 
 struct DIR {
     struct dirent ent;
     struct _WDIR *wdirp;
 };
-typedef struct DIR DIR;
 
 static DIR *opendir( const char *dirname );
 static struct dirent *readdir( DIR *dirp );

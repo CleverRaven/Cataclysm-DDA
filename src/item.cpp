@@ -17,6 +17,7 @@
 
 #include "advanced_inv.h"
 #include "ammo.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "bodypart.h"
 #include "cata_utility.h"
@@ -110,9 +111,9 @@ const material_id mat_kevlar( "kevlar" );
 
 const trait_id trait_small2( "SMALL2" );
 const trait_id trait_small_ok( "SMALL_OK" );
-
 const trait_id trait_huge( "HUGE" );
 const trait_id trait_huge_ok( "HUGE_OK" );
+using npc_class_id = string_id<npc_class>;
 
 const std::string &rad_badge_color( const int rad )
 {
@@ -204,7 +205,6 @@ item::item( const itype *type, time_point turn, int qty ) : type( type ), bday( 
     } else if( type->tool ) {
         if( ammo_remaining() && ammo_type() ) {
             ammo_set( ammo_type()->default_ammotype(), ammo_remaining() );
-            on_charges_changed();
         }
     }
 
@@ -807,48 +807,6 @@ void item::clear_vars()
     item_vars.clear();
 }
 
-const char ivaresc = 001;
-
-bool itag2ivar( const std::string &item_tag, std::map<std::string, std::string> &item_vars )
-{
-    size_t pos = item_tag.find( '=' );
-    if( item_tag.at( 0 ) == ivaresc && pos != std::string::npos && pos >= 2 ) {
-        std::string val_decoded;
-        int svarlen = 0;
-        int svarsep = 0;
-        svarsep = item_tag.find( '=' );
-        svarlen = item_tag.size();
-        val_decoded.clear();
-        std::string var_name = item_tag.substr( 1, svarsep - 1 ); // will assume sanity here for now
-        for( int s = svarsep + 1; s < svarlen;
-             s++ ) { // cheap and temporary, AFAIK stringstream IFS = [\r\n\t ];
-            if( item_tag[s] == ivaresc && s < svarlen - 2 ) {
-                if( item_tag[s + 1] == '0' && item_tag[s + 2] == 'A' ) {
-                    s += 2;
-                    val_decoded.append( 1, '\n' );
-                } else if( item_tag[s + 1] == '0' && item_tag[s + 2] == 'D' ) {
-                    s += 2;
-                    val_decoded.append( 1, '\r' );
-                } else if( item_tag[s + 1] == '0' && item_tag[s + 2] == '6' ) {
-                    s += 2;
-                    val_decoded.append( 1, '\t' );
-                } else if( item_tag[s + 1] == '2' && item_tag[s + 2] == '0' ) {
-                    s += 2;
-                    val_decoded.append( 1, ' ' );
-                } else {
-                    val_decoded.append( 1, item_tag[s] ); // hhrrrmmmmm should be passing \a?
-                }
-            } else {
-                val_decoded.append( 1, item_tag[s] );
-            }
-        }
-        item_vars[var_name] = val_decoded;
-        return true;
-    } else {
-        return false;
-    }
-}
-
 // TODO: Get rid of, handle multiple types gracefully
 static int get_ranged_pierce( const common_ranged_data &ranged )
 {
@@ -880,7 +838,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &iteminfo, int batc
 
 // Generates a long-form description of the freshness of the given rottable food item.
 // NB: Doesn't check for non-rottable!
-std::string get_freshness_description( const item &food_item )
+static std::string get_freshness_description( const item &food_item )
 {
     // So, skilled characters looking at food that is neither super-fresh nor about to rot
     // can guess its age as one of {quite fresh,midlife,past midlife,old soon}, and also
@@ -992,7 +950,7 @@ item::sizing item::get_sizing( const Character &p, bool wearable ) const
 
 }
 
-int get_base_env_resist( const item &it )
+static int get_base_env_resist( const item &it )
 {
     const auto t = it.find_armor_data();
     if( t == nullptr ) {
@@ -1009,6 +967,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
     std::stringstream temp2;
     std::string space = "  ";
     const bool debug = g != nullptr && debug_mode;
+    avatar &u = g->u; // TODO: make a const reference
 
     if( parts == nullptr ) {
         parts = &iteminfo_query::all;
@@ -1134,6 +1093,9 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 return string_format( "<stat>%s</stat>", _( material->name() ) );
             }, enumeration_conjunction::none );
             info.push_back( iteminfo( "BASE", string_format( _( "Material: %s" ), material_list ) ) );
+        }
+        if( has_owner() ) {
+            info.push_back( iteminfo( "BASE", string_format( _( "Owner: %s" ), get_owner()->name ) ) );
         }
         if( has_var( "contained_name" ) && parts->test( iteminfo_parts::BASE_CONTENTS ) ) {
             info.push_back( iteminfo( "BASE", string_format( _( "Contains: %s" ),
@@ -1266,6 +1228,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
         } );
         if( !required_vits.empty() && parts->test( iteminfo_parts::FOOD_VITAMINS ) ) {
             info.emplace_back( "FOOD", _( "Vitamins (RDA): " ), required_vits );
+        }
+
+        if( u.allergy_type( *food_item ) != morale_type( "morale_null" ) ) {
+            info.emplace_back( "DESCRIPTION",
+                               _( "* This food will cause an <bad>allergic reaction</bad>." ) );
         }
 
         if( food_item->has_flag( "CANNIBALISM" ) && parts->test( iteminfo_parts::FOOD_CANNIBALISM ) ) {
@@ -1916,8 +1883,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
 
             //If we have the wrong size, we do not fit so alert the player
-            if( sizing_level == sizing::big_sized_human_char ||
-                sizing_level == sizing::human_sized_small_char )  {
+            if( sizing_level == sizing::human_sized_small_char )  {
                 format = _( "<num> <bad>(too big)</bad>" );
             } else if( sizing_level == sizing::big_sized_small_char ) {
                 format = _( "<num> <bad>(huge!)</bad>" );
@@ -2373,6 +2339,12 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             insert_separation_line();
         }
 
+        if( is_armor() && u.has_trait( trait_id( "WOOLALLERGY" ) ) && ( made_of( material_id( "wool" ) ) ||
+                item_tags.count( "wooled" ) ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* This clothing will give you an <bad>allergic reaction</bad>." ) ) );
+        }
+
         if( parts->test( iteminfo_parts::DESCRIPTION_FLAGS ) ) {
             // concatenate base and acquired flags...
             std::vector<std::string> flags;
@@ -2399,34 +2371,34 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 if( has_flag( "FIT" ) ) {
                     if( sizing_level == sizing::human_sized_human_char ) {
                         info.push_back( iteminfo( "DESCRIPTION",
-                                                  _( "* This piece of clothing <info>fits</info> you perfectly." ) ) );
+                                                  _( "* This clothing <info>fits</info> you perfectly." ) ) );
                     } else if( sizing_level == sizing::big_sized_big_char ) {
                         info.push_back( iteminfo( "DESCRIPTION",
-                                                  _( "* This piece of clothing <info>fits</info> your large frame perfectly." ) ) );
+                                                  _( "* This clothing <info>fits</info> your large frame perfectly." ) ) );
                     } else if( sizing_level == sizing::small_sized_small_char ) {
                         info.push_back( iteminfo( "DESCRIPTION",
-                                                  _( "* This piece of clothing <info>fits</info> your small frame perfectly." ) ) );
+                                                  _( "* This clothing <info>fits</info> your small frame perfectly." ) ) );
                     }
                 }
 
                 if( sizing_level == sizing::big_sized_human_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing is <bad>oversized</bad> and does <bad>not fit</bad> you." ) ) );
+                                              _( "* This clothing is <bad>oversized</bad> and does <bad>not fit</bad> you." ) ) );
                 } else if( sizing_level == sizing::big_sized_small_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing is hilariously <bad>oversized</bad> and does <bad>not fit</bad> your <info>abnormally small mutated anatomy</info>." ) ) );
+                                              _( "* This clothing is hilariously <bad>oversized</bad> and does <bad>not fit</bad> your <info>abnormally small mutated anatomy</info>." ) ) );
                 } else if( sizing_level == sizing::human_sized_big_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing is <bad>normal sized</bad> and does <bad>not fit</info> your <info>abnormally large mutated anatomy</info>." ) ) );
+                                              _( "* This clothing is <bad>normal sized</bad> and does <bad>not fit</info> your <info>abnormally large mutated anatomy</info>." ) ) );
                 } else if( sizing_level == sizing::human_sized_small_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing is <bad>normal sized</bad> and does <bad>not fit</bad> your <info>abnormally small mutated anatomy</info>." ) ) );
+                                              _( "* This clothing is <bad>normal sized</bad> and does <bad>not fit</bad> your <info>abnormally small mutated anatomy</info>." ) ) );
                 } else if( sizing_level == sizing::small_sized_big_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing is hilariously <bad>undersized</bad> and does <bad>not fit</info> your <info>abnormally large mutated anatomy</info>." ) ) );
+                                              _( "* This clothing is hilariously <bad>undersized</bad> and does <bad>not fit</bad> your <info>abnormally large mutated anatomy</info>." ) ) );
                 } else if( sizing_level == sizing::small_sized_human_char ) {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing is <bad>undersized</bad> and does <bad>not fit</info> you." ) ) );
+                                              _( "* This clothing is <bad>undersized</bad> and does <bad>not fit</bad> you." ) ) );
                 }
             }
 
@@ -2435,42 +2407,42 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                     if( has_flag( "FIT" ) ) {
                         if( sizing_level == sizing::small_sized_human_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be upsized</info>." ) ) );
+                                                      _( "* This clothing <info>can be upsized</info>." ) ) );
                         } else if( sizing_level == sizing::human_sized_small_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be downsized</info>." ) ) );
+                                                      _( "* This clothing <info>can be downsized</info>." ) ) );
                         } else if( sizing_level == sizing::big_sized_human_char ||
                                    sizing_level == sizing::big_sized_small_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <bad>can not be downsized.</bad>" ) ) );
+                                                      _( "* This clothing <bad>can not be downsized.</bad>" ) ) );
                         } else if( sizing_level == sizing::small_sized_big_char ||
                                    sizing_level == sizing::human_sized_big_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <bad>can not be upsized.</bad>" ) ) );
+                                                      _( "* This clothing <bad>can not be upsized.</bad>" ) ) );
                         }
                     } else {
                         if( sizing_level == sizing::small_sized_human_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be refitted</info> and <info>upsized</info>." ) ) );
+                                                      _( "* This clothing <info>can be refitted</info> and <info>upsized</info>." ) ) );
                         } else if( sizing_level == sizing::human_sized_small_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be refitted</info> and <info>downsized</info>." ) ) );
+                                                      _( "* This clothing <info>can be refitted</info> and <info>downsized</info>." ) ) );
                         } else if( sizing_level == sizing::big_sized_human_char ||
                                    sizing_level == sizing::big_sized_small_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be refitted</info> but <bad>not downsized.</bad>" ) ) );
+                                                      _( "* This clothing <info>can be refitted</info> but <bad>not downsized.</bad>" ) ) );
                         } else if( sizing_level == sizing::small_sized_big_char ||
                                    sizing_level == sizing::human_sized_big_char ) {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be refitted</info> but <bad>not upsized.</bad>" ) ) );
+                                                      _( "* This clothing <info>can be refitted</info> but <bad>not upsized.</bad>" ) ) );
                         } else {
                             info.push_back( iteminfo( "DESCRIPTION",
-                                                      _( "* This piece of clothing <info>can be refitted</info>." ) ) );
+                                                      _( "* This clothing <info>can be refitted</info>." ) ) );
                         }
                     }
                 } else {
                     info.push_back( iteminfo( "DESCRIPTION",
-                                              _( "* This piece of clothing <bad>can not be refitted, upsized, or downsized</bad>." ) ) );
+                                              _( "* This clothing <bad>can not be refitted, upsized, or downsized</bad>." ) ) );
                 }
             }
 
@@ -2815,7 +2787,7 @@ const std::string &item::symbol() const
 
 nc_color item::color_in_inventory() const
 {
-    player &u = g->u; // TODO: make a const reference
+    avatar &u = g->u; // TODO: make a const reference
 
     // Only item not otherwise colored gets colored as favorite
     nc_color ret = is_favorite ? c_white : c_light_gray;
@@ -2824,11 +2796,13 @@ nc_color item::color_in_inventory() const
         ret = c_cyan;
     } else if( has_flag( "LITCIG" ) ) {
         ret = c_red;
+    } else if( is_armor() && u.has_trait( trait_id( "WOOLALLERGY" ) ) &&
+               ( made_of( material_id( "wool" ) ) || item_tags.count( "wooled" ) ) ) {
+        ret = c_red;
     } else if( is_filthy() || item_tags.count( "DIRTY" ) ) {
         ret = c_brown;
     } else if( has_flag( "LEAK_DAM" ) && has_flag( "RADIOACTIVE" ) && damage() > 0 ) {
         ret = c_light_green;
-
     } else if( active && !is_food() && !is_food_container() && !is_corpse() ) {
         // Active items show up as yellow
         ret = c_yellow;
@@ -2838,6 +2812,13 @@ nc_color item::color_in_inventory() const
     } else if( is_food() || is_food_container() ) {
         const bool preserves = type->container && type->container->preserves;
         const item &to_color = is_food() ? *this : contents.front();
+
+        // Give color priority to allergy (allergy > inedible by freeze or other conditions)
+        // TODO: refactor u.will_eat to let this section handle coloring priority without duplicating code.
+        if( u.allergy_type( to_color ) != morale_type( "morale_null" ) ) {
+            return c_red;
+        }
+
         // Default: permafood, drugs
         // Brown: rotten (for non-saprophages) or non-rotten (for saprophages)
         // Dark gray: inedible
@@ -2972,7 +2953,10 @@ void item::on_wear( Character &p )
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_worn );
     }
-
+    // if game is loaded - dont want ownership assigned during char creation
+    if( g->u.getID() != -1 ) {
+        handle_pickup_ownership( p );
+    }
     p.on_item_wear( *this );
 }
 
@@ -3032,8 +3016,54 @@ void item::on_wield( player &p, int mv )
     } else {
         msg = _( "You wield your %s." );
     }
-
+    // if game is loaded - dont want ownership assigned during char creation
+    if( g->u.getID() != -1 ) {
+        handle_pickup_ownership( p );
+    }
     p.add_msg_if_player( m_neutral, msg, tname() );
+}
+
+void item::handle_pickup_ownership( Character &c )
+{
+    faction *yours;
+    if( &c == &g->u ) {
+        yours = g->faction_manager_ptr->get( faction_id( "your_followers" ) );
+    } else {
+        npc *guy = dynamic_cast<npc *>( &c );
+        yours = guy->my_fac;
+    }
+    // Add ownership to item if unowned
+    if( !has_owner() ) {
+        set_owner( yours );
+    } else {
+        if( get_owner() != yours && &c == &g->u ) {
+            std::vector<npc *> witnesses;
+            for( npc &elem : g->all_npcs() ) {
+                if( rl_dist( elem.pos(), g->u.pos() ) < MAX_VIEW_DISTANCE && elem.my_fac == get_owner() &&
+                    elem.sees( g->u.pos() ) ) {
+                    elem.say( "<witnessed_thievery>", 7 );
+                    npc *npc_to_add = &elem;
+                    witnesses.push_back( npc_to_add );
+                }
+            }
+            if( !witnesses.empty() ) {
+                set_old_owner( get_owner() );
+                bool guard_chosen = false;
+                for( auto &elem : witnesses ) {
+                    if( elem->myclass == npc_class_id( "NC_BOUNTY_HUNTER" ) ) {
+                        guard_chosen = true;
+                        elem->witness_thievery( &*this );
+                        break;
+                    }
+                }
+                if( !guard_chosen ) {
+                    int random_index = rand() % witnesses.size();
+                    witnesses[random_index]->witness_thievery( &*this );
+                }
+            }
+            set_owner( yours );
+        }
+    }
 }
 
 void item::on_pickup( Character &p )
@@ -3042,12 +3072,14 @@ void item::on_pickup( Character &p )
     if( p.is_fake() ) {
         return;
     }
-
     // TODO: artifacts currently only work with the player character
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_carried );
     }
-
+    // if game is loaded - dont want ownership assigned during char creation
+    if( g->u.getID() != -1 ) {
+        handle_pickup_ownership( p );
+    }
     if( is_bucket_nonempty() ) {
         for( const auto &it : contents ) {
             g->m.add_item_or_charges( p.pos(), it );
@@ -3061,31 +3093,6 @@ void item::on_contents_changed()
 {
     if( is_non_resealable_container() ) {
         convert( type->container->unseals_into );
-    }
-    if( is_tool() || is_gun() ) {
-        if( !is_container_empty() ) {
-            for( auto &it : contents ) {
-                if( ammo_type() == ammotype( it.typeId() ) ) {
-                    charges = it.charges;
-                }
-            }
-        } else if( ammo_data()->phase == LIQUID ) {
-            charges = 0;
-        }
-    }
-}
-
-void item::on_charges_changed()
-{
-    if( ( is_tool() || is_gun() ) && !is_container_empty() ) {
-        for( auto &it : contents ) {
-            if( ammo_type() == ammotype( it.typeId() ) ) {
-                it.charges = charges;
-            }
-        }
-    } else if( ( is_tool() || is_gun() ) && is_container_empty() &&
-               charges > 0 ) { // if for some reason the tool/gun has charges but no content
-        contents.emplace_back( ammo_type()->default_ammotype(), calendar::turn, charges );
     }
 }
 
@@ -3192,7 +3199,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
             ret << _( " (hallucinogenic)" );
         }
     }
-    if( goes_bad() || is_food() ) {
+    if( has_flag( "ETHEREAL_ITEM" ) ) {
+        ret << " (" << get_var( "ethereal" ) << " turns)";
+    } else if( goes_bad() || is_food() ) {
         if( item_tags.count( "DIRTY" ) ) {
             ret << _( " (dirty)" );
         } else if( rotten() ) {
@@ -3221,8 +3230,8 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
 
     const sizing sizing_level = get_sizing( g->u, get_encumber( g->u ) != 0 );
 
-    if( sizing_level == sizing::big_sized_human_char ||
-        sizing_level == sizing::human_sized_small_char ) {
+
+    if( sizing_level == sizing::human_sized_small_char ) {
         ret << _( " (too big)" );
     } else if( sizing_level == sizing::big_sized_small_char ) {
         ret << _( " (huge!)" );
@@ -3427,7 +3436,7 @@ int item::price( bool practical ) const
 }
 
 // TODO: MATERIALS add a density field to materials.json
-units::mass item::weight( bool include_contents ) const
+units::mass item::weight( bool include_contents, bool integral ) const
 {
     if( is_null() ) {
         return 0_gram;
@@ -3446,7 +3455,12 @@ units::mass item::weight( bool include_contents ) const
         return ret;
     }
 
-    units::mass ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
+    units::mass ret;
+    if( integral ) {
+        ret = units::from_gram( get_var( "integral_weight", to_gram( type->integral_weight ) ) );
+    } else {
+        ret = units::from_gram( get_var( "weight", to_gram( type->weight ) ) );
+    }
 
     if( has_flag( "REDUCED_WEIGHT" ) ) {
         ret *= 0.75;
@@ -3495,7 +3509,11 @@ units::mass item::weight( bool include_contents ) const
         ret -= std::min( max_barrel_weight, barrel_weight );
     }
 
-    if( include_contents ) {
+    if( is_gun() ) {
+        for( const auto elem : gunmods() ) {
+            ret += elem->weight( true, true );
+        }
+    } else if( include_contents ) {
         for( auto &elem : contents ) {
             ret += elem.weight();
         }
@@ -3985,7 +4003,7 @@ int item::spoilage_sort_order()
  * @see calc_rot_array
  * @see rot_chart
  */
-int calc_hourly_rotpoints_at_temp( const int temp )
+static int calc_hourly_rotpoints_at_temp( const int temp )
 {
     // default temp = 65, so generic->rotten() assumes 600 decay points per hour
     const int dropoff = 38;     // ditch our fancy equation and do a linear approach to 0 rot at 31f
@@ -4010,7 +4028,7 @@ int calc_hourly_rotpoints_at_temp( const int temp )
  * Initialize the rot table.
  * @see rot_chart
  */
-std::vector<int> calc_rot_array( const size_t cap )
+static std::vector<int> calc_rot_array( const size_t cap )
 {
     std::vector<int> ret;
     ret.reserve( cap );
@@ -5259,6 +5277,11 @@ bool item::is_emissive() const
     return light.luminance > 0 || type->light_emission > 0;
 }
 
+bool item::is_deployable() const
+{
+    return type->can_use( "deploy_furn" );
+}
+
 bool item::is_tool() const
 {
     return type->tool.has_value();
@@ -5379,8 +5402,11 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const p
     std::vector<std::pair<const recipe *, int>> recipe_entries;
     if( is_book() ) {
         // NPCs don't need to identify books
-        if( u.is_player() && !u.has_identified( typeId() ) ) {
-            return recipe_entries;
+        // TODO: remove this cast
+        if( const avatar *a = dynamic_cast<const avatar *>( &u ) ) {
+            if( !a->has_identified( typeId() ) ) {
+                return recipe_entries;
+            }
         }
 
         for( const auto &elem : type->book->recipes ) {
@@ -5794,7 +5820,6 @@ int item::ammo_consume( int qty, const tripoint &pos )
             g->u.charge_power( -qty );
         }
         charges -= qty;
-        on_charges_changed();
         if( charges == 0 ) {
             curammo = nullptr;
         }
@@ -6419,7 +6444,6 @@ bool item::reload( player &u, item_location loc, int qty )
             qty = std::min( qty, ammo->charges );
             ammo->charges -= qty;
             charges += qty;
-            on_charges_changed();
         }
     }
 
@@ -7183,7 +7207,7 @@ bool item::can_holster( const item &obj, bool ignore ) const
 
 std::string item::components_to_string() const
 {
-    typedef std::map<std::string, int> t_count_map;
+    using t_count_map = std::map<std::string, int>;
     t_count_map counts;
     for( const auto &elem : components ) {
         if( !elem.has_flag( "BYPRODUCT" ) ) {
@@ -7205,7 +7229,7 @@ std::string item::components_to_string() const
 
 bool item::needs_processing() const
 {
-    return active || has_flag( "RADIO_ACTIVATION" ) ||
+    return active || has_flag( "RADIO_ACTIVATION" ) || has_flag( "ETHEREAL_ITEM" ) ||
            ( is_container() && !contents.empty() && contents.front().needs_processing() ) ||
            is_artifact() || is_food();
 }
@@ -7976,6 +8000,18 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
         } else {
             ++it;
         }
+    }
+
+    if( has_flag( "ETHEREAL_ITEM" ) ) {
+        if( !has_var( "ethereal" ) ) {
+            return true;
+        }
+        set_var( "ethereal", std::stoi( get_var( "ethereal" ) ) - 1 );
+        const bool processed = std::stoi( get_var( "ethereal" ) ) <= 0;
+        if( processed && carrier != nullptr ) {
+            carrier->add_msg_if_player( _( "%s %s disappears!" ), carrier->disp_name( true ), tname() );
+        }
+        return processed;
     }
 
     if( activate ) {

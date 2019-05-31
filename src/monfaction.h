@@ -15,7 +15,7 @@ enum mf_attitude {
     MFA_FRIENDLY        // Friendly
 };
 
-typedef std::unordered_map< mfaction_id, mf_attitude > mfaction_att_map;
+using mfaction_att_map = std::unordered_map< mfaction_id, mf_attitude >;
 
 namespace monfactions
 {

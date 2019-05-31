@@ -14,7 +14,7 @@
     "volume": 18,
     "bashing": 5,
     "to_hit": -1,
-    "flags": [ "IS_PET_ARMOR" ],
+    "flags": [ "IS_PET_ARMOR", "NO_SALVAGE" ],
     "material_thickness": 2,
     "storage": 50,
     "max_pet_vol": "35000 ml",

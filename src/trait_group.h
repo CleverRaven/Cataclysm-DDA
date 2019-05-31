@@ -17,8 +17,8 @@ class Trait_group;
 namespace trait_group
 {
 
-typedef string_id<Trait_group> Trait_group_tag;
-typedef std::vector<trait_id> Trait_list;
+using Trait_group_tag = string_id<Trait_group>;
+using Trait_list = std::vector<trait_id>;
 
 /**
  * Returns a randomized list of traits from the given trait group.
@@ -70,7 +70,7 @@ void debug_spawn();
 class Trait_creation_data
 {
     public:
-        typedef std::vector<trait_group::Trait_group_tag> RecursionList;
+        using RecursionList = std::vector<trait_group::Trait_group_tag>;
 
         Trait_creation_data( int _probability ) : probability( _probability ) {}
         virtual ~Trait_creation_data() = default;
@@ -146,7 +146,7 @@ class Trait_group_creator : public Trait_creation_data
 class Trait_group : public Trait_creation_data
 {
     public:
-        typedef std::vector<std::unique_ptr<Trait_creation_data>> CreatorList;
+        using CreatorList = std::vector<std::unique_ptr<Trait_creation_data> >;
 
         Trait_group( int probability );
         ~Trait_group() override = default;

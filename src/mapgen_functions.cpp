@@ -105,7 +105,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "null",             &mapgen_null },
             { "crater",           &mapgen_crater },
             { "field",            &mapgen_field },
-            { "dirtlot",          &mapgen_dirtlot },
             { "forest",           &mapgen_forest },
             { "forest_trail_straight",    &mapgen_forest_trail_straight },
             { "forest_trail_curved",      &mapgen_forest_trail_curved },
@@ -375,7 +374,7 @@ void mapgen_crater( map *m, oter_id, mapgendata dat, const time_point &turn, flo
 }
 
 // TODO: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);
-void ter_or_furn_set( map *m, const int x, const int y, const ter_furn_id &tfid )
+static void ter_or_furn_set( map *m, const int x, const int y, const ter_furn_id &tfid )
 {
     if( tfid.ter != t_null ) {
         m->ter_set( x, y, tfid.ter );
@@ -417,28 +416,6 @@ void mapgen_field( map *m, oter_id, mapgendata dat, const time_point &turn, floa
 
     m->place_items( "field", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true,
                     turn ); // FIXME: take 'rock' out and add as regional biome setting
-}
-
-void mapgen_dirtlot( map *m, oter_id, mapgendata, const time_point &, float )
-{
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            m->ter_set( i, j, t_dirt );
-            if( one_in( 120 ) ) {
-                m->ter_set( i, j, t_pit_shallow );
-            } else if( one_in( 50 ) ) {
-                m->ter_set( i, j, t_grass );
-            }
-        }
-    }
-    int num_v = rng( 0, 1 ) * rng( 0, 2 ); // (0, 0, 0, 0, 1, 2) vehicles
-    for( int v = 0; v < num_v; v++ ) {
-        const tripoint vp( rng( 0, 16 ) + 4, rng( 0, 16 ) + 4, m->get_abs_sub().z );
-        int theta = rng( 0, 3 ) * 180 + one_in( 3 ) * rng( 0, 89 );
-        if( !m->veh_at( vp ) ) {
-            m->add_vehicle( vgroup_id( "dirtlot" ), vp, theta, -1, -1 );
-        }
-    }
 }
 
 void mapgen_hive( map *m, oter_id, mapgendata dat, const time_point &turn, float )
@@ -786,7 +763,7 @@ void nesw_array_rotate( T *array, size_t len, size_t dist )
 }
 
 // take x/y coordinates in a map and rotate them counterclockwise around the center
-void coord_rotate_cw( int &x, int &y, int rot )
+static void coord_rotate_cw( int &x, int &y, int rot )
 {
     for( ; rot--; ) {
         int temp = y;
@@ -795,7 +772,7 @@ void coord_rotate_cw( int &x, int &y, int rot )
     }
 }
 
-bool compare_neswx( bool *a1, std::initializer_list<int> a2 )
+static bool compare_neswx( bool *a1, std::initializer_list<int> a2 )
 {
     return std::equal( std::begin( a2 ), std::end( a2 ), a1,
     []( int a, bool b ) {
@@ -2841,7 +2818,7 @@ void mapgen_basement_generic_layout( map *m, oter_id, mapgendata, const time_poi
 
 namespace furn_space
 {
-bool clear( const map &m, const tripoint &from, const tripoint &to )
+static bool clear( const map &m, const tripoint &from, const tripoint &to )
 {
     for( const auto &p : m.points_in_rectangle( from, to ) ) {
         if( m.ter( p ).obj().movecost == 0 ) {
@@ -2852,7 +2829,7 @@ bool clear( const map &m, const tripoint &from, const tripoint &to )
     return true;
 }
 
-point best_expand( const map &m, const tripoint &from, int maxx, int maxy )
+static point best_expand( const map &m, const tripoint &from, int maxx, int maxy )
 {
     if( clear( m, from, from + point( maxx, maxy ) ) ) {
         // Common case
@@ -3596,8 +3573,8 @@ void mapgen_ants_tee( map *m, oter_id terrain_type, mapgendata dat, const time_p
 
 }
 
-void mapgen_ants_generic( map *m, oter_id terrain_type, mapgendata dat, const time_point &turn,
-                          float )
+static void mapgen_ants_generic( map *m, oter_id terrain_type, mapgendata dat,
+                                 const time_point &turn, float )
 {
 
     for( int i = 0; i < SEEX * 2; i++ ) {
@@ -4582,7 +4559,7 @@ void madd_field( map *m, int x, int y, field_id type, int density )
     m->add_field( actual_location, type, density, 0_turns );
 }
 
-bool is_suitable_for_stairs( const map *const m, const tripoint &p )
+static bool is_suitable_for_stairs( const map *const m, const tripoint &p )
 {
     const ter_t &p_ter = m->ter( p ).obj();
 
@@ -4592,8 +4569,8 @@ bool is_suitable_for_stairs( const map *const m, const tripoint &p )
         m->furn( p ) == f_null;
 }
 
-void stairs_debug_log( const map *const m, const std::string &msg, const tripoint &p,
-                       DebugLevel level = D_INFO )
+static void stairs_debug_log( const map *const m, const std::string &msg, const tripoint &p,
+                              DebugLevel level = D_INFO )
 {
     const ter_t &p_ter = m->ter( p ).obj();
 

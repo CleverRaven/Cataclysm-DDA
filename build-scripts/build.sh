@@ -18,6 +18,10 @@ if [ -n "$TEST_STAGE" ]
 then
     build-scripts/lint-json.sh
     make -j "$num_jobs" style-json
+
+    # Also build chkjson (even though we're not using it), to catch any
+    # compile errors there
+    make -j "$num_jobs" chkjson
 elif [ -n "$JUST_JSON" ]
 then
     echo "Early exit on just-json change"
@@ -107,7 +111,7 @@ else
         run_tests ./tests/cata_test &
         if [ -n "$MODS" ]
         then
-            run_tests ./tests/cata_test $MODS &
+            run_tests ./tests/cata_test --user-dir=modded $MODS &
             wait -n
         fi
         wait -n
