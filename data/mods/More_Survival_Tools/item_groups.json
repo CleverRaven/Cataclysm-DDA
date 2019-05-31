@@ -22,7 +22,7 @@
   {
     "id": "traveler",
     "type": "item_group",
-    "items": [  [ "hobo_stove", 1 ], [ "tinder", 1 ], [ "tinderbox", 1 ] ]
+    "items": [ [ "hobo_stove", 1 ], [ "tinder", 1 ], [ "tinderbox", 1 ] ]
   },
   {
     "id": "shelter",
