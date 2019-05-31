@@ -420,9 +420,6 @@
       { "group": "broadsword_fake+scabbard", "prob": 17 },
       [ "mace_fake", 6 ],
       [ "morningstar_fake", 5 ],
-      [ "fire_lance", 2 ],
-      [ "lance_charge", 1 ],
-      [ "lance_charge_shot", 1 ]
     ]
   },
   {
