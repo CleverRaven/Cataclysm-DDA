@@ -826,8 +826,8 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": 40,
-    "qualities": [ [ { "id": "SHOVEL", "level": 1 } ] ],
-    "components": [ [ [ "soil", 200 ] ] ],
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "components": [ [ [ "material_soil", 200 ] ] ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_dirt"
   },
@@ -838,7 +838,7 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": 40,
-    "components": [ [ [ "splintered_wood", 50 ] ] ],
+    "components": [ [ [ "splinter", 50 ] ] ],
     "post_terrain": "t_woodchips"
   },
   {
@@ -849,7 +849,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": 100,
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 14 ] ], [ [ "nails", 28 ] ] ],
+    "components": [ [ [ "2x4", 14 ] ], [ [ "nail", 28 ] ] ],
     "post_terrain": "t_floor_noroof"
   },
   {
