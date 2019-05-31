@@ -8583,6 +8583,10 @@
           "fg": 2495
         },
         {
+          "id": ["t_railroad_rubble"],
+          "fg": 2498
+        },
+        {
           "id": ["t_window_bars" ],
           "multitile": true,
           "height_3d": 2,
