@@ -7,21 +7,12 @@
   {
     "id": "camping",
     "type": "item_group",
-    "items": [
-      [ "tinderbox", 5 ],
-      [ "cloak_wool", 5 ],
-      [ "canteen_wood", 5 ],
-      [ "whistle_multitool", 5 ]
-    ]
+    "items": [ [ "tinderbox", 5 ], [ "cloak_wool", 5 ], [ "canteen_wood", 5 ], [ "whistle_multitool", 5 ] ]
   },
   {
     "id": "allsporting",
     "type": "item_group",
-    "items": [
-      [ "tinderbox", 5 ],
-      [ "canteen_wood", 5 ],
-      [ "whistle_multitool", 5 ]
-    ]
+    "items": [ [ "tinderbox", 5 ], [ "canteen_wood", 5 ], [ "whistle_multitool", 5 ] ]
   },
   {
     "id": "trash",
@@ -36,22 +27,12 @@
   {
     "id": "shelter",
     "type": "item_group",
-    "items": [
-      [ "hobo_stove", 3 ],
-      [ "tinder", 3 ],
-      [ "tinderbox", 2 ]
-    ]
+    "items": [ [ "hobo_stove", 3 ], [ "tinder", 3 ], [ "tinderbox", 2 ] ]
   },
   {
     "id": "tools_survival",
     "type": "item_group",
-    "items": [
-      [ "hobo_stove", 3 ],
-      [ "tinder", 3 ],
-      [ "tinderbox", 2 ],
-      [ "canteen_wood", 2 ],
-      [ "whistle_multitool", 1 ]
-    ]
+    "items": [ [ "hobo_stove", 3 ], [ "tinder", 3 ], [ "tinderbox", 2 ], [ "canteen_wood", 2 ], [ "whistle_multitool", 1 ] ]
   },
   {
     "id": "subway",
