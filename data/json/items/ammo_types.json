@@ -85,6 +85,12 @@
   },
   {
     "type": "ammunition_type",
+    "id": "357mag",
+    "name": ".357 magnum",
+    "default": "357mag_jhp"
+  },
+  {
+    "type": "ammunition_type",
     "id": "9x18",
     "name": "9x18mm",
     "default": "9x18mm"
