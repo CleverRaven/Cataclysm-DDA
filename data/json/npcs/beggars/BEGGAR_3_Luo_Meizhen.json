@@ -210,7 +210,7 @@
     "responses": [
       { "text": "You think you were treated like that because of your race?", "topic": "TALK_REFUGEE_BEGGAR_3_RACISM" },
       {
-        "condition": { "u_has _var": "told_about_FM_evacuation", "type": "general", "context": "conversation", "value": "yes" },
+        "condition": { "u_has_var": "told_about_FM_evacuation", "type": "general", "context": "conversation", "value": "yes" },
         "text": "Does that mean you were part of that back room evacuation I heard about?",
         "topic": "TALK_REFUGEE_BEGGAR_3_EVACUATION"
       },
