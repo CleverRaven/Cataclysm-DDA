@@ -18,6 +18,7 @@
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 5 ] ],
     "armor_data": { "covers": [ "ARM_EITHER", "HAND_EITHER" ], "coverage": 10, "encumbrance": 30, "material_thickness": 1 },
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "magazines": [ [ "9mm", [ "stenmag", "survivor9mm_mag" ] ] ],
     "flags": [ "OVERSIZE", "BELTED", "FANCY", "RESTRICT_HANDS" ]
   },
@@ -57,6 +58,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "calicomag" ] ] ]
   },
@@ -95,6 +97,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "m9bigmag", "m9mag" ] ] ]
   },
@@ -155,6 +158,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "magazines": [ [ "9mm", [ "mp5mag", "mp5bigmag" ] ] ]
   },
   {
@@ -177,6 +181,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 12 ] ],
     "built_in_mods": [ "mp5sd_suppressor" ]
   },
@@ -215,6 +220,7 @@
       [ "sights", 1 ],
       [ "sling", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ] ] ]
   },
@@ -313,6 +319,7 @@
     "reload": 200,
     "barrel_length": 3,
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "flags": [ "RELOAD_EJECT" ]
   },
   {
@@ -374,6 +381,7 @@
     "blackpowder_tolerance": 24,
     "modes": [ [ "DEFAULT", "auto", 10 ] ],
     "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "stock", 1 ] ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "magazines": [ [ "9mm", [ "stenmag", "survivor9mm_mag" ] ] ]
   },
   {
@@ -410,6 +418,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_clogged" ],
     "magazine_well": 1,
     "magazines": [ [ "9mm", [ "tec9mag" ] ] ]
   },

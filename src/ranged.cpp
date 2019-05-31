@@ -74,6 +74,9 @@ static const trait_id trait_PYROMANIA( "PYROMANIA" );
 
 const trap_str_id tr_practice_target( "tr_practice_target" );
 
+static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
+static const fault_id fault_gun_clogged( "fault_gun_clogged" );
+
 static projectile make_gun_projectile( const item &gun );
 int time_to_fire( const Character &p, const itype &firing );
 static void cycle_action( item &weap, const tripoint &pos );
@@ -168,7 +171,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
     // mean the gun will actually be accurate underwater.
     int effective_durability = firing->durability;
-    if( it.item_tags.count( "BLACKPOWDER_FOULING" ) && effective_durability > 2 ) {
+    if( it.faults.count( fault_gun_blackpowder ) && effective_durability > 2 ) {
         effective_durability -= 1;
     }
     if( is_underwater() && !it.has_flag( "WATERPROOF_GUN" ) && one_in( effective_durability ) ) {
@@ -256,14 +259,16 @@ bool player::handle_gun_damage( item &it, int shots_fired )
         }
     }
     if( curammo_effects.count( "BLACKPOWDER" ) ) {
-        if( !it.item_tags.count( "BLACKPOWDER_FOULING" ) ) {
-            it.item_tags.insert( "BLACKPOWDER_FOULING" );
+        if( !it.faults.count( fault_gun_blackpowder ) &&
+            it.faults_potential().count( fault_gun_blackpowder ) ) {
+            it.faults.insert( fault_gun_blackpowder );
         }
-        if( one_in( firing->blackpowder_tolerance ) ) {
+        if( one_in( firing->blackpowder_tolerance ) &&
+            it.faults_potential().count( fault_gun_clogged ) ) {
             add_msg_player_or_npc( m_bad, _( "Your %s is clogged up with blackpowder fouling!" ),
                                    _( "<npcname>'s %s is clogged up with blackpowder fouling!" ),
                                    it.tname() );
-            it.item_tags.insert( "CLOGGED" );
+            it.faults.insert( fault_gun_clogged );
             return false;
         }
         if( !it.has_flag( "BLACKPOWDER_CYCLE" ) && shots_fired > 0 ) {

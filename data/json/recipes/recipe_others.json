@@ -2079,19 +2079,18 @@
       [ "mag_rifle", 2 ]
     ],
     "components": [
-      [ [ "wire", 2 ], [ "cable", 2 ] ],
+      [ [ "pipe_cleaner", 1 ] ],
       [ [ "soldering_iron", 1 ] ],
       [ [ "screwdriver_set", 1 ] ],
       [ [ "wrench", 1 ] ],
       [ [ "chisel", 1 ] ],
       [ [ "hacksaw", 1 ] ],
-      [ [ "hammer", 1 ] ],
-      [ [ "rag", 2 ], [ "leather", 2 ], [ "fur", 2 ] ]
+      [ [ "hammer", 1 ] ]
     ]
   },
   {
     "type": "recipe",
-    "result": "gun_cleaning_kit",
+    "result": "pipe_cleaner",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "mechanics",
@@ -2108,7 +2107,7 @@
       [ "mag_mechanics", 2 ],
       [ "mag_rifle", 2 ]
     ],
-    "components": [ [ [ "wire", 2 ], [ "cable", 2 ] ], [ [ "screwdriver", 1 ] ], [ [ "rag", 2 ], [ "leather", 2 ], [ "fur", 2 ] ] ]
+    "components": [ [ [ "wire", 2 ], [ "cable", 2 ] ], [ [ "rag", 2 ], [ "leather", 2 ], [ "fur", 2 ] ] ]
   },
   {
     "type": "recipe",

@@ -398,10 +398,6 @@ struct islot_engine {
     public:
         /** for combustion engines the displacement (cc) */
         int displacement = 0;
-
-    private:
-        /** What faults (if any) can occur */
-        std::set<fault_id> faults;
 };
 
 struct islot_wheel {
@@ -891,6 +887,9 @@ struct itype {
 
         /** What items can be used to repair this item? @see Item_factory::finalize */
         std::set<itype_id> repair;
+
+        /** What faults (if any) can occur */
+        std::set<fault_id> faults;
 
         /** Magazine types (if any) for each ammo type that can be used to reload this item */
         std::map< ammotype, std::set<itype_id> > magazines;

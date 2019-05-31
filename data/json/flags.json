@@ -50,13 +50,6 @@
     "info": "This firearm <good>can fire multiple shots</good> per attack even if firing blackpowder loads."
   },
   {
-    "id": "BLACKPOWDER_FOULING",
-    "type": "json_flag",
-    "context": [ "GUN" ],
-    "info": "This firearm is <bad>fouled</bad> after firing blackpowder loads and is slowly rusting.",
-    "pseudo": true
-  },
-  {
     "id": "BLIND",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -80,13 +73,6 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This piece of clothing has <info>built-in or attached climate control</info>, keeping you at a <good>comfortable temperature</good>."
-  },
-  {
-    "id": "CLOGGED",
-    "type": "json_flag",
-    "context": [ "GUN" ],
-    "info": "This firearm is <bad>badly fouled</bad> after firing blackpowder loads and can't fire until cleaned.",
-    "pseudo": true
   },
   {
     "id": "COLLAR",

@@ -162,8 +162,8 @@ void Item_factory::finalize_pre( itype &obj )
         obj.use_methods.emplace( func, usage_from_string( func ) );
     }
 
-    if( obj.engine && get_option<bool>( "NO_FAULTS" ) ) {
-        obj.engine->faults.clear();
+    if( get_option<bool>( "NO_FAULTS" ) ) {
+        obj.faults.clear();
     }
 
     // If no category was forced via JSON automatically calculate one now
@@ -658,7 +658,6 @@ void Item_factory::init()
     add_iuse( "GRANADE", &iuse::granade );
     add_iuse( "GRANADE_ACT", &iuse::granade_act );
     add_iuse( "GRENADE_INC_ACT", &iuse::grenade_inc_act );
-    add_iuse( "GUN_CLEAN", &iuse::gun_clean );
     add_iuse( "GUN_REPAIR", &iuse::gun_repair );
     add_iuse( "GUNMOD_ATTACH", &iuse::gunmod_attach );
     add_iuse( "TOOLMOD_ATTACH", &iuse::toolmod_attach );
@@ -883,11 +882,9 @@ void Item_factory::check_definitions() const
             }
         }
 
-        if( type->engine ) {
-            for( const auto &f : type->engine->faults ) {
-                if( !f.is_valid() ) {
-                    msg << string_format( "invalid item fault %s", f.c_str() ) << "\n";
-                }
+        for( const auto &f : type->faults ) {
+            if( !f.is_valid() ) {
+                msg << string_format( "invalid item fault %s", f.c_str() ) << "\n";
             }
         }
 
@@ -1322,7 +1319,6 @@ void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
 void Item_factory::load( islot_engine &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "displacement", slot.displacement );
-    assign( jo, "faults", slot.faults );
 }
 
 void Item_factory::load_engine( JsonObject &jo, const std::string &src )
@@ -2049,6 +2045,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
     }
 
     assign( jo, "flags", def.item_tags );
+    assign( jo, "faults", def.faults );
 
     if( jo.has_member( "qualities" ) ) {
         set_qualities_from_json( jo, "qualities", def );

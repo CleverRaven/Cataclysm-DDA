@@ -6928,22 +6928,6 @@
     "use_action": "EXTINGUISHER"
   },
   {
-    "id": "gun_cleaning_kit",
-    "type": "TOOL",
-    "name": "gun cleaning kit",
-    "description": "This is a kit designed to assist in cleaning fouling from a firearm.  Usually used for cleaning blackpowder fouling from muzzleloaders, but if you fired blackpowder loads from a modern weapon for some reason, it could be used for cleaning them too.  Make sure to clean your guns immediately after firing blackpowder loads, or they will rust!",
-    "weight": 600,
-    "volume": 3,
-    "price": 1000,
-    "to_hit": -1,
-    "bashing": 6,
-    "material": [ "steel", "cotton" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "qualities": [ [ "SCREW", 1 ] ],
-    "use_action": "GUN_CLEAN"
-  },
-  {
     "id": "small_repairkit",
     "type": "TOOL",
     "name": "firearm repair kit",

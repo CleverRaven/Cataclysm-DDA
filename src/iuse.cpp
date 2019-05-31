@@ -5538,46 +5538,6 @@ int iuse::talking_doll( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-int iuse::gun_clean( player *p, item *it, bool, const tripoint & )
-{
-    if( p->is_underwater() ) {
-        p->add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
-        return 0;
-    }
-    /** @EFFECT_MECHANICS >0 allows gun cleaning */
-    if( p->get_skill_level( skill_mechanics ) < 1 ) {
-        p->add_msg_if_player( m_info,
-                              _( "You need a mechanics skill of 1 to use this gun cleaning kit." ) );
-        return 0;
-    }
-    int inventory_index = g->inv_for_all( _( "Select the firearm to clean" ) );
-    item &fix = p->i_at( inventory_index );
-    if( fix.is_null() ) {
-        p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
-        return 0;
-    }
-    if( !fix.is_firearm() ) {
-        p->add_msg_if_player( m_info, _( "That isn't a firearm!" ) );
-        return 0;
-    }
-    if( fix.item_tags.count( "CLOGGED" ) ) {
-        sounds::sound( p->pos(), 6, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
-        p->moves -= 2000 * p->fine_detail_vision_mod();
-        fix.item_tags.erase( "CLOGGED" );
-        p->add_msg_if_player( m_good, _( "You unclog your %s!" ), fix.tname( 1, false ) );
-    } else if( fix.item_tags.count( "BLACKPOWDER_FOULING" ) ) {
-        sounds::sound( p->pos(), 6, sounds::sound_t::activity, "crunch", true, "tool", "repair_kit" );
-        p->moves -= 2000 * p->fine_detail_vision_mod();
-        fix.item_tags.erase( "BLACKPOWDER_FOULING" );
-        p->add_msg_if_player( m_good, _( "You fully clean out blackpowder fouling from your %s!" ),
-                              fix.tname( 1, false ) );
-    } else {
-        p->add_msg_if_player( m_info, _( "Your %s doesn't need cleaning." ), fix.tname( 1, false ) );
-        return 0;
-    }
-    return it->type->charges_to_use();
-}
-
 int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
 {
     if( !it->ammo_sufficient() ) {
@@ -5600,12 +5560,6 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
     }
     if( !fix.is_firearm() ) {
         p->add_msg_if_player( m_info, _( "That isn't a firearm!" ) );
-        return 0;
-    }
-    if( fix.item_tags.count( "CLOGGED" ) || fix.item_tags.count( "BLACKPOWDER_FOULING" ) ) {
-        p->add_msg_if_player( m_info,
-                              _( "You'll need to clear out blackpowder fouling from your %s "
-                                 "before you can repair it." ), fix.tname() );
         return 0;
     }
     if( fix.has_flag( "NO_REPAIR" ) ) {

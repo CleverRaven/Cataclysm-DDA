@@ -109,6 +109,8 @@ const efftype_id effect_weed_high( "weed_high" );
 const material_id mat_leather( "leather" );
 const material_id mat_kevlar( "kevlar" );
 
+const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
+
 const trait_id trait_small2( "SMALL2" );
 const trait_id trait_small_ok( "SMALL_OK" );
 const trait_id trait_huge( "HUGE" );
@@ -5120,9 +5122,7 @@ bool item::is_irremovable() const
 std::set<fault_id> item::faults_potential() const
 {
     std::set<fault_id> res;
-    if( type->engine ) {
-        res.insert( type->engine->faults.begin(), type->engine->faults.end() );
-    }
+    res.insert( type->faults.begin(), type->faults.end() );
     return res;
 }
 
@@ -8003,7 +8003,7 @@ bool item::process( player *carrier, const tripoint &pos, bool activate,
         return processed;
     }
 
-    if( item_tags.count( "BLACKPOWDER_FOULING" ) ) {
+    if( faults.count( fault_gun_blackpowder ) ) {
         return process_blackpowder_fouling( carrier );
     }
 
