@@ -4045,7 +4045,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation" );
     amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install" ) );
     amenu.addentry( UNINSTALL_CBM, true, 'u', _( "Choose installed bionic to uninstall" ) );
-    amenu.addentry( BONESETTING, true, 's', _( "Splint broken limbs." ) );
+    amenu.addentry( BONESETTING, true, 's', _( "Splint broken limbs" ) );
 
     amenu.query();
 
