@@ -17,7 +17,10 @@
       "TALK_FREE_MERCHANT_STOCKS",
       "TALK_FREE_MERCHANT_STOCKS_NEW",
       "TALK_FREE_MERCHANT_STOCKS_ALL",
+      "TALK_FREE_MERCHANT_STOCKS_BACKGROUND",
       "TALK_FREE_MERCHANT_STOCKS_FMCN",
+      "TALK_FREE_MERCHANT_STOCKS_REFUGEES",
+      "TALK_FREE_MERCHANT_STOCKS_BEGGARS",
       "TALK_FREE_MERCHANT_STOCKS_SEALED1",
       "TALK_FREE_MERCHANT_STOCKS_SEALED2",
       "TALK_FREE_MERCHANT_STOCKS_RANCH"
@@ -114,7 +117,13 @@
       "gendered_line": "I oversee the food stocks for the center.  There was significant looting during the panic when we first arrived so most of our food was carried away.  I manage what we have left and do everything I can to increase our supplies.  We've got a few growing sources of fresh meats and vegetables, so I prioritize non-perishable food, such as cornmeal, jerky, and fruit wine.",
       "relevant_genders": [ "npc" ]
     },
-    "responses": [ { "text": "Why cornmeal, jerky, and fruit wine?", "topic": "TALK_FREE_MERCHANT_STOCKS_WHY" } ]
+    "responses": [
+      { "text": "Why cornmeal, jerky, and fruit wine?", "topic": "TALK_FREE_MERCHANT_STOCKS_WHY" },
+      {
+        "text": "Okay, but I meant \"who are you\", like, \"what's your story?\"",
+        "topic": "TALK_FREE_MERCHANT_STOCKS_BACKGROUND"
+      }
+    ]
   },
   {
     "type": "talk_topic",
@@ -124,6 +133,11 @@
       { "text": "Are you looking to buy anything else?", "topic": "TALK_FREE_MERCHANT_STOCKS_ALL" },
       { "text": "Very well... let's talk about something else.", "topic": "TALK_FREE_MERCHANT_STOCKS" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_STOCKS_BACKGROUND",
+    "dynamic_line": "I'm sorry, but I'm not here to make friends, I've got a job to do."
   },
   {
     "type": "talk_topic",
