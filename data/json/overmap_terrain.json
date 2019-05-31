@@ -100,16 +100,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "dirtlot",
-    "name": "dirt lot",
-    "sym": "O",
-    "color": "brown",
-    "see_cost": 5,
-    "extras": "field",
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
     "id": "dirtroad1_aban1",
     "name": "forest",
     "sym": "F",
