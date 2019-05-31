@@ -1834,8 +1834,8 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
         if( !g->m.is_flammable( act->placement ) ) {
             p->add_msg_if_player( m_info, _( "There's nothing to light there." ) );
             p->cancel_activity();
+            return;
         }
-        return;
     }
 
     item &firestarter = p->i_at( act->position );
@@ -1843,8 +1843,8 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
         if( !g->m.tinder_at( act->placement ) ) {
             p->add_msg_if_player( m_info, _( "This item requires tinder to light." ) );
             p->cancel_activity();
+            return;
         }
-        return;
     }
 
     const auto usef = firestarter.type->get_use( "firestarter" );
