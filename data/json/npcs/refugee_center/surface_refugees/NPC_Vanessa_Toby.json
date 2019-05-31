@@ -194,7 +194,7 @@
         "topic": "TALK_DONE",
         "condition": { "u_has_items": { "item": "FMCNote", "count": 3 } },
         "effect": [
-          { "u_sell_items": "FMCNote", "count": 3 },
+          { "u_sell_item": "FMCNote", "count": 3 },
           "barber_beard",
           "buy_shave",
           { "npc_add_effect": "vanessa_shave_in_progress", "duration": 100 }
