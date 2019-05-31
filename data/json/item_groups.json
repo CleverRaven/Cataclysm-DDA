@@ -37,6 +37,7 @@
       [ "backpack", 38 ],
       [ "slingpack", 19 ],
       [ "pockknife", 14 ],
+      [ "roller_shoes_off", 10 ],
       [ "knife_swissarmy", 10 ],
       [ "hairpin", 5 ],
       [ "fc_hairpin", 1 ],
@@ -846,6 +847,7 @@
       [ "mask_hockey", 5 ],
       [ "hockey_stick", 10 ],
       [ "roller_blades", 20 ],
+      [ "roller_shoes_off", 10 ],
       [ "jersey", 40 ],
       [ "puck", 5 ],
       [ "baseball", 5 ],
@@ -2645,6 +2647,7 @@
       [ "leathersandals", 10 ],
       [ "rollerskates", 1 ],
       [ "roller_blades", 5 ],
+      [ "roller_shoes_off", 1 ],
       [ "mocassins", 20 ]
     ]
   },
@@ -2856,6 +2859,7 @@
       [ "leathersandals", 100 ],
       [ "rollerskates", 10 ],
       [ "roller_blades", 20 ],
+      [ "roller_shoes_off", 10 ],
       [ "boots_rubber", 20 ],
       [ "clownshoes", 10 ],
       [ "mocassins", 40 ]
@@ -3859,6 +3863,7 @@
       [ "roller_blades", 20 ],
       [ "rollerskates", 10 ],
       [ "rollerskates", 10 ],
+      [ "roller_shoes_off", 10 ],
       [ "survnote", 3 ],
       [ "radio_car_box", 3 ],
       [ "radiocontrol", 10 ],
@@ -4342,6 +4347,7 @@
       [ "boots_hiking", 10 ],
       [ "roller_blades", 20 ],
       [ "rollerskates", 10 ],
+      [ "roller_shoes_off", 10 ],
       [ "runner_bag", 5 ],
       [ "gloves_tactical", 1 ],
       [ "glasses_bal", 5 ],
