@@ -31,6 +31,8 @@ static const trait_id trait_BURROW( "BURROW" );
 static const trait_id trait_SHELL2( "SHELL2" );
 
 static const efftype_id effect_amigara( "amigara" );
+static const efftype_id effect_glowing( "glowing" );
+static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_stunned( "stunned" );
@@ -251,7 +253,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
                 add_msg( m_info, _( "%s to dive underwater." ),
                          press_x( ACTION_MOVE_DOWN ) );
             }
-            g->plswim( dest_loc );
+            avatar_action::swim( g->m, g->u, dest_loc );
         }
 
         g->on_move_effects();
@@ -375,6 +377,66 @@ bool avatar_action::ramp_move( avatar &you, map &m, const tripoint &dest_loc )
     }
 
     return true;
+}
+
+void avatar_action::swim( map &m, avatar &you, const tripoint &p )
+{
+    if( !m.has_flag( "SWIMMABLE", p ) ) {
+        dbg( D_ERROR ) << "game:plswim: Tried to swim in "
+                       << m.tername( p ) << "!";
+        debugmsg( "Tried to swim in %s!", m.tername( p ) );
+        return;
+    }
+    if( you.has_effect( effect_onfire ) ) {
+        add_msg( _( "The water puts out the flames!" ) );
+        you.remove_effect( effect_onfire );
+    }
+    if( you.has_effect( effect_glowing ) ) {
+        add_msg( _( "The water washes off the glowing goo!" ) );
+        you.remove_effect( effect_glowing );
+    }
+    int movecost = you.swim_speed();
+    you.practice( skill_id( "swimming" ), you.is_underwater() ? 2 : 1 );
+    if( movecost >= 500 ) {
+        if( !you.is_underwater() && !( you.shoe_type_count( "swim_fins" ) == 2 ||
+                                       ( you.shoe_type_count( "swim_fins" ) == 1 && one_in( 2 ) ) ) ) {
+            add_msg( m_bad, _( "You sink like a rock!" ) );
+            you.set_underwater( true );
+            ///\EFFECT_STR increases breath-holding capacity while sinking
+            you.oxygen = 30 + 2 * you.str_cur;
+        }
+    }
+    if( you.oxygen <= 5 && you.is_underwater() ) {
+        if( movecost < 500 ) {
+            popup( _( "You need to breathe! (%s to surface.)" ), press_x( ACTION_MOVE_UP ) );
+        } else {
+            popup( _( "You need to breathe but you can't swim!  Get to dry land, quick!" ) );
+        }
+    }
+    bool diagonal = ( p.x != you.posx() && p.y != you.posy() );
+    if( you.in_vehicle ) {
+        m.unboard_vehicle( you.pos() );
+    }
+    you.setpos( p );
+    g->update_map( you );
+    if( m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        m.board_vehicle( you.pos(), &you );
+    }
+    you.moves -= ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? 1.41 : 1 );
+    you.inv.rust_iron_items();
+
+    you.burn_move_stamina( movecost );
+
+    body_part_set drenchFlags{ {
+            bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
+            bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
+        }
+    };
+
+    if( you.is_underwater() ) {
+        drenchFlags |= { { bp_head, bp_eyes, bp_mouth, bp_hand_l, bp_hand_r } };
+    }
+    you.drench( 100, drenchFlags, true );
 }
 
 static float rate_critter( const Creature &c )

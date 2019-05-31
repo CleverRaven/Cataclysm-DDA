@@ -147,6 +147,21 @@
   },
   {
     "type": "COMESTIBLE",
+    "id": "chamomile_tea",
+    "name": "chamomile tea",
+    "name_plural": "chamomile tea",
+    "copy-from": "tea",
+    "color": "green",
+    "use_action": "SLEEP",
+    "spoils_in": "10 days",
+    "quench": 34,
+    "healthy": 1,
+    "description": "A healthy beverage made from chamomile flowers steeped in boiling water.  Can be used to treat insomnia.",
+    "price": 100,
+    "fun": 1
+  },
+  {
+    "type": "COMESTIBLE",
     "id": "choc_drink",
     "name": "chocolate drink",
     "weight": 236,
