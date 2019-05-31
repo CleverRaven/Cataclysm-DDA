@@ -1043,6 +1043,17 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     auto vision_cache = g->u.get_vision_modes();
     nv_goggles_activated = vision_cache[NV_GOGGLES];
 
+    // check that the creature for which we'll draw the visibility map is still alive at that point
+    if( g->displaying_visibility && g->displaying_visibility_creature != nullptr )  {
+        const Creature *creature = g->displaying_visibility_creature;
+        const auto is_same_creature_predicate = [&creature]( const Creature & c ) {
+            return creature == &c;
+        };
+        if( g->get_creature_if( is_same_creature_predicate ) == nullptr )  {
+            g->displaying_visibility_creature = nullptr;
+        }
+    }
+
     for( int row = min_row; row < max_row; row ++ ) {
         std::vector<tile_render_info> draw_points;
         draw_points.reserve( max_col );
@@ -1105,6 +1116,17 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                 overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
                                          formatted_text( std::to_string( temp_value ), col,
                                                  NORTH ) );
+            }
+
+            if( g->displaying_visibility && ( g->displaying_visibility_creature != nullptr ) ) {
+                const bool visibility = g->displaying_visibility_creature->sees( { x, y, center.z } );
+                // <light shade> (U+2591) : <latin small letter o with stroke> (U+00F8)
+                std::string visibility_str = visibility ? "\xe2\x96\x91" : "\xc3\xb8" ;
+                const auto color = visibility ? catacurses::red : catacurses::blue + 8;
+
+                overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, tile_height / 2 ),
+                                         formatted_text( visibility_str, color, NORTH ) );
+
             }
 
             if( apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
