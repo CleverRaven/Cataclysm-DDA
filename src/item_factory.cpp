@@ -964,7 +964,7 @@ void Item_factory::check_definitions() const
                     msg << "RELOAD_AND_SHOOT cannot be used with magazines" << "\n";
                 }
                 for( const ammotype &at : type->gun->ammo ) {
-                    if( !type->magazines.empty() && !type->magazine_default.count( at ) ) {
+                    if( !type->gun->clip && !type->magazines.empty() && !type->magazine_default.count( at ) ) {
                         msg << "specified magazine but none provided for ammo type " << at.str() << "\n";
                     }
                 }
