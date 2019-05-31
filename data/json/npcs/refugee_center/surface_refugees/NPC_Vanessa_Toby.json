@@ -181,9 +181,9 @@
       {
         "text": "Please give me a haircut.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_items": [ "FMCNote", 4 ] },
+        "condition": { "u_has_items": [ "item": "FMCNote", "count": 4 ] },
         "effect": [
-          { "u_sell_item": "FMCNote", "count": 4 },
+          { "u_sell_item": [ "item": "FMCNote", "count": 4 },
           "barber_hair",
           "buy_haircut",
           { "npc_add_effect": "vanessa_haircut_in_progress", "duration": 100 }
@@ -192,9 +192,9 @@
       {
         "text": "Please give me a shave.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_items": [ "FMCNote", 2 ] },
+        "condition": { "u_has_items": [ "item": "FMCNote", "count": 2 ] },
         "effect": [
-          { "u_sell_item": "FMCNote", "count": 2 },
+          { "u_sell_item": [ "item": "FMCNote", "count": 2 ] },
           "barber_beard",
           "buy_shave",
           { "npc_add_effect": "vanessa_shave_in_progress", "duration": 100 }
