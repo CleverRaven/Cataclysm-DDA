@@ -1035,6 +1035,7 @@ class item : public visitable<item>
         bool is_salvageable() const;
         bool is_craft() const;
 
+        bool is_deployable() const;
         bool is_tool() const;
         bool is_tool_reversible() const;
         bool is_artifact() const;
