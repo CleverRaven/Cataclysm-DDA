@@ -824,9 +824,10 @@
     "description": "Fill Pit With Dirt",
     "//": "Fills a deep pit with dirt.",
     "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": 40,
     "qualities": [ [ { "id": "SHOVEL", "level": 1 } ] ],
-    "components": [ [ "soil", 200 ] ],
+    "components": [ [ [ "soil", 200 ] ] ],
     "pre_terrain": "t_pit",
     "post_terrain": "t_dirt"
   },
@@ -835,8 +836,9 @@
     "description": "Make Woodchip Floor",
     "//": "Adds wood chippings to a shallowed dirt area to prevent plants growing, or for looks.",
     "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
     "time": 40,
-    "components": [ [ "splintered_wood", 50 ] ],
+    "components": [ [ [ "splintered_wood", 50 ] ] ],
     "post_terrain": "t_woodchips"
   },
   {
@@ -844,8 +846,9 @@
     "description": "Build Wooden Floor",
     "//": "Makes an outside wooden paving, similar to what would be used in patios.",
     "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 1 ] ],
     "time": 100,
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 14 ] ], [ [ "nails", 28 ] ] ],
     "post_terrain": "t_floor_noroof"
   },
