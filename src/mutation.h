@@ -161,6 +161,11 @@ struct mutation_branch {
 
         /** The item, if any, spawned by the mutation */
         itype_id spawn_item;
+
+        // amount of mana added or subtracted from max
+        float mana_modifier;
+        float mana_multiplier;
+        float mana_regen_multiplier;
     private:
         std::string raw_spawn_item_message;
     public:

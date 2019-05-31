@@ -747,7 +747,8 @@ void known_magic::mod_mana( const player &p, int add_mana )
 int known_magic::max_mana( const player &p ) const
 {
     const float int_bonus = ( ( 0.2f + p.get_int() * 0.1f ) - 1.0f ) * mana_base;
-    return mana_base + int_bonus;
+    return ( ( mana_base + int_bonus ) * p.mutation_value( "mana_multiplier" ) ) +
+           p.mutation_value( "mana_modifier" );
 }
 
 void known_magic::update_mana( const player &p, float turns )
@@ -755,7 +756,7 @@ void known_magic::update_mana( const player &p, float turns )
     // mana should replenish in 8 hours.
     const float full_replenish = to_turns<float>( 8_hours );
     const float ratio = turns / full_replenish;
-    mod_mana( p, floor( ratio * max_mana( p ) ) );
+    mod_mana( p, floor( ratio * max_mana( p ) * p.mutation_value( "mana_regen_multiplier" ) ) );
 }
 
 std::vector<spell_id> known_magic::spells() const

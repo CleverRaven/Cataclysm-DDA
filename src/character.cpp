@@ -3047,6 +3047,12 @@ float Character::mutation_value( const std::string &val ) const
         return calc_mutation_value_additive<&mutation_branch::str_modifier>( cached_mutations );
     } else if( val == "dodge_modifier" ) {
         return calc_mutation_value_additive<&mutation_branch::dodge_modifier>( cached_mutations );
+    } else if( val == "mana_modifier" ) {
+        return calc_mutation_value_additive<&mutation_branch::mana_modifier>( cached_mutations );
+    } else if( val == "mana_multiplier" ) {
+        return calc_mutation_value_additive<&mutation_branch::mana_multiplier>( cached_mutations );
+    } else if( val == "mana_regen_multiplier" ) {
+        return calc_mutation_value_additive<&mutation_branch::mana_regen_multiplier>( cached_mutations );
     } else if( val == "speed_modifier" ) {
         return calc_mutation_value_multiplicative<&mutation_branch::speed_modifier>( cached_mutations );
     } else if( val == "movecost_modifier" ) {
