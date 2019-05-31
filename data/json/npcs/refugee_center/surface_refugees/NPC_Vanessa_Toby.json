@@ -176,14 +176,14 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Vanessa_Haircut",
-    "dynamic_line": "Sure, I can give you a haircut.  It'll be four merch for a haircut, or two for a shave, okay?",
+    "dynamic_line": "Sure, I can give you a haircut.  It'll be six merch for a haircut, or three for a shave, okay?",
     "responses": [
       {
         "text": "Please give me a haircut.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_items": { "item": "FMCNote", "count": 4 } },
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 6 } },
         "effect": [
-          { "u_sell_item": { "item": "FMCNote", "count": 4 } },
+          { "u_sell_items": { "item": "FMCNote", "count": 6 } },
           "barber_hair",
           "buy_haircut",
           { "npc_add_effect": "vanessa_haircut_in_progress", "duration": 100 }
@@ -192,9 +192,9 @@
       {
         "text": "Please give me a shave.",
         "topic": "TALK_DONE",
-        "condition": { "u_has_items": { "item": "FMCNote", "count": 2 } },
+        "condition": { "u_has_items": { "item": "FMCNote", "count": 3 } },
         "effect": [
-          { "u_sell_item": { "item": "FMCNote", "count": 2 } },
+          { "u_sell_items": { "item": "FMCNote", "count": 3 } },
           "barber_beard",
           "buy_shave",
           { "npc_add_effect": "vanessa_shave_in_progress", "duration": 100 }
