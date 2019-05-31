@@ -724,7 +724,7 @@ TEST_CASE( "invlet_favourites_can_erase", "[invlet]" )
     CHECK( fav.invlets_for( "a" ) == "a" );
     fav.erase( 'a' );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( "a" ) == "" );
+    CHECK( fav.invlets_for( "a" ).empty() );
 }
 
 TEST_CASE( "invlet_favourites_removes_clashing_on_insertion", "[invlet]" )
@@ -733,10 +733,10 @@ TEST_CASE( "invlet_favourites_removes_clashing_on_insertion", "[invlet]" )
     fav.set( 'a', "a" );
     verify_invlet_consistency( fav );
     CHECK( fav.invlets_for( "a" ) == "a" );
-    CHECK( fav.invlets_for( "b" ) == "" );
+    CHECK( fav.invlets_for( "b" ).empty() );
     fav.set( 'a', "b" );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( "a" ) == "" );
+    CHECK( fav.invlets_for( "a" ).empty() );
     CHECK( fav.invlets_for( "b" ) == "a" );
 }
 
