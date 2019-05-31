@@ -1427,7 +1427,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             }
             if( mod->ammo_capacity() && parts->test( iteminfo_parts::GUN_CAPACITY ) ) {
                 for( const ammotype &at : mod->ammo_types() ) {
-                    if( mod->magazine_current()->type->magazine->type.count( at ) ) {
+                    if( mod->magazine_current() && mod->magazine_current()->type->magazine->type.count( at ) ) {
                         auto fmt = string_format(
                                        ngettext( "<num> round of %s", "<num> rounds of %s", mod->ammo_capacity() ),
                                        at->name() );
