@@ -226,6 +226,7 @@
     "dialogue": {
       "describe": "If I had some equipment, I could do some hairdresser work here.",
       "offer": "I didn't think to pack my hairdressing equipment when I was evacuated.  If you could put together a basic hair cutting kit for me, I could do a bit of styling for people around here.  I'll even give you a free haircut for your troubles.",
+      "accepted": "Cool, thanks.  It'll be good to have something useful to do, and to not be staring at so many shaggy slobs.",
       "rejected": "Whatever, I'll keep twiddling my thumbs then.",
       "advice": "I don't need too much.  Scissors, a small mirror, a bit of cloth, and some way to keep it all stored clean when I'm not using it, like a leather pouch or something.  I can get the rest of what I need from shelter supplies.",
       "inquire": "How is the search going?",
