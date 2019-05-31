@@ -327,6 +327,249 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "school_2_1",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_2_2",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_2_3",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_2_4",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_2_5",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_2_6",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_2_7",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_2_8",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_2_9",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_3_1",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_3_2",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_3_3",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_3_4",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_3_5",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_3_6",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_3_7",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_3_8",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_3_9",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_4_1",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_4_2",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_4_3",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_4_4",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_4_5",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_4_6",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_4_7",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_4_8",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "school_4_9",
+    "name": "regional school",
+    "sym": "s",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "prison_1_1",
     "name": "prison",
     "sym": "p",
