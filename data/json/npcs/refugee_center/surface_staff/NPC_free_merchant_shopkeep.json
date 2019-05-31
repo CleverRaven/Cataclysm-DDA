@@ -304,7 +304,7 @@
         "place_monster": [ { "monster": "mon_zombie_electric", "name": "Sean McLaughlin", "x": 10, "y": 10, "target": true } ]
       }
     },
-    "end":  {
+    "end": {
       "effect": [
         { "u_buy_item": "FMCNote", "count": 25 },
         { "u_add_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" }
@@ -388,13 +388,13 @@
           { "vehicle": "motorcycle", "x": 7, "y": 7, "rotation": 90, "fuel": 500, "status": -1, "chance": 100 }
         ]
       }
-    },,
-    "end":  {
+    },
+    "end": {
       "effect": [
         { "u_buy_item": "FMCNote", "count": 30 },
         { "u_add_var": "FMShopkeep_Mission2", "type": "mission", "context": "flag", "value": "yes" }
       ]
-    }
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_3",
     "dialogue": {
@@ -426,7 +426,7 @@
         ]
       }
     },
-    "end":  {
+    "end": {
       "effect": [
         { "u_buy_item": "FMCNote", "count": 50 },
         { "u_add_var": "FMShopkeep_Mission3", "type": "mission", "context": "flag", "value": "yes" }
@@ -457,7 +457,7 @@
     "count": 10,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FREE_MERCHANTS_EVAC_5",
-    "end":  {
+    "end": {
       "effect": [
         { "u_buy_item": "FMCNote", "count": 100 },
         { "u_add_var": "FMShopkeep_Mission4", "type": "mission", "context": "flag", "value": "yes" }
@@ -484,7 +484,7 @@
     "value": 400000,
     "item": "jar_glass",
     "count": 100,
-    "end":  {
+    "end": {
       "effect": [
         { "u_buy_item": "FMCNote", "count": 25 },
         { "u_add_var": "FMShopkeep_Mission5", "type": "mission", "context": "flag", "value": "yes" }
