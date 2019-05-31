@@ -440,7 +440,7 @@
     "class": "NC_TRUE_FOODPERSON",
     "attitude": 7,
     "mission": 7,
-    "chat": "TALK_NC_TRUE_FOODPERSON",
+    "chat": "TALK_TRUE_FOODPERSON",
     "faction": "wasteland_scavengers"
   },
   {

@@ -1,0 +1,137 @@
+[
+  {
+    "id": "TALK_TRUE_FOODPERSON",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "npc_has_var": "foodperson_has_talked",
+      "type": "dialogue",
+      "context": "foodperson",
+      "value": "yes",
+      "no": "Greeting citizen, what brings you to the FoodLair?",
+      "yes": "Still here?  Take your time, it's rough out there."
+    },
+    "speaker_effect": {
+      "effect": { "npc_add_var": "foodperson_has_talked", "type": "dialogue", "context": "foodperson", "value": "yes" },
+      "sentinel": "foodperson_has_talked"
+    },
+    "responses": [
+      {
+        "switch": true,
+        "condition": { "npc_has_var": "foodperson_has_talked", "type": "dialogue", "context": "foodperson", "value": "yes" },
+        "text": "Hey. Let's chat for a second.",
+        "topic": "TALK_STRANGER_NEUTRAL"
+      },
+      {
+        "switch": true,
+        "default": true,
+        "text": "Greetings...  Foodperson?",
+        "topic": "TALK_FOODPERSON_INTRODUCTION"
+      },
+      { "switch": true, "default": true, "text": "Nevermind me, I'm just going to leave.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FOODPERSON_INTRODUCTION",
+    "type": "talk_topic",
+    "dynamic_line": "Indeed it is I! The one and only FOODPERSON!",
+    "responses": [
+      {
+        "text": "Wow!  Such an honor to meet you in person!",
+        "topic": "TALK_FOODPERSON_MAIN",
+        "opinion": { "trust": 1, "value": 1 }
+      },
+      {
+        "text": "Are you joking?  Foodpeson is not real, it's a restaurant mascot!",
+        "opinion": { "trust": -1, "value": -1 },
+        "topic": "TALK_FOODPERSON_DOUBTED"
+      },
+      {
+        "text": "The great Foodperson in the flesh!  Such an honor to finaly meet you in person!",
+        "trial": { "type": "LIE", "difficulty": 60, "mod": [ [ "TRUST", 2 ], [ "VALUE", 2 ] ] },
+        "success": { "topic": "TALK_FOODPERSON_MAIN", "opinion": { "trust": 2, "value": 2 } },
+        "failure": { "topic": "TALK_FOODPERSON_VEXED", "opinion": { "trust": -5, "value": -5 } }
+      },
+      { "text": "Ah...  Well, nice to meet you Foodperson.", "topic": "TALK_FOODPERSON_MAIN" }
+    ]
+  },
+  {
+    "id": "TALK_FOODPERSON_VEXED",
+    "type": "talk_topic",
+    "dynamic_line": "Do not mock me, for my strength is very real!  Get out of here now!",
+    "responses": [
+      { "text": "Sheesh, ok calm down I'm leaving!", "topic": "TALK_DONE" },
+      { "text": "Forgive me,  I didn't mean to disrespect you.", "topic": "TALK_FOODPERSON_MAIN" },
+      { "text": "Oh yeah?  Show me what you can do!", "topic": "TALK_DONE", "effect": "hostile" }
+    ]
+  },
+  {
+    "id": "TALK_FOODPERSON_DOUBTED",
+    "type": "talk_topic",
+    "dynamic_line": "A comon mistake, but I can assure you that I'm very real!",
+    "responses": [
+      { "text": "Sure, whatever.", "topic": "TALK_DONE" },
+      { "text": "Ok... I believe you.", "topic": "TALK_FOODPERSON_MAIN" }
+    ]
+  },
+  {
+    "id": "TALK_FOODPERSON_MAIN",
+    "type": "talk_topic",
+    "dynamic_line": "Anyway, do you need something?",
+    "responses": [
+      {
+        "text": "Are you interested in some trading?",
+        "trial": { "type": "PERSUADE", "difficulty": 50, "mod": [ [ "TRUST", 2 ], [ "VALUE", 2 ] ] },
+        "success": { "topic": "TALK_DONE", "effect": "start_trade" },
+        "failure": { "topic": "TALK_FOODPERSON_NOTRADE" }
+      },
+      {
+        "text": "I'm looking for a place to stay.",
+        "trial": { "type": "PERSUADE", "difficulty": 20, "mod": [ [ "TRUST", 2 ], [ "VALUE", 2 ] ] },
+        "success": { "topic": "TALK_FOODPERSON_SHELTER" },
+        "failure": { "topic": "TALK_FOODPERSON_NOSHELTER" }
+      },
+      {
+        "text": "I want to get stronger.  Please teach me.",
+        "trial": { "type": "PERSUADE", "difficulty": 20, "mod": [ [ "TRUST", 2 ], [ "VALUE", 2 ] ] },
+        "success": { "topic": "TALK_DONE", "effect": "start_training" },
+        "failure": { "topic": "TALK_FOODPERSON_NOTRAINING" }
+      },
+      {
+        "text": "I'm building up a team, people with special abilities.",
+        "trial": { "type": "PERSUADE", "difficulty": 0, "mod": [ [ "TRUST", 2 ], [ "VALUE", 2 ] ] },
+        "success": { "topic": "TALK_FOODPERSON_SIDEKICK" },
+        "failure": { "topic": "TALK_FOODPERSON_SOLO" }
+      }
+    ]
+  },
+  {
+    "id": "TALK_FOODPERSON_NOTRADE",
+    "type": "talk_topic",
+    "text": "I already have everything I need here in the FoodLair!",
+    "responses": [ { "text": "Fair enough.", "top": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_FOODPERSON_NOSHELTER",
+    "type": "talk_topic",
+    "text": "This is no place for a civilian.  You should go to the refugee center.",
+    "responses": [ { "text": "Damn!", "top": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_FOODPERSON_NOSHELTER",
+    "type": "talk_topic",
+    "text": "You're not ready for this.",
+    "responses": [ { "text": "But I am worthy!", "top": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_FOODPERSON_SOLO",
+    "type": "talk_topic",
+    "text": "Sorry but I work alone.",
+    "responses": [ { "text": "The lea..heh team could really use your help!", "top": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_FOODPERSON_SHELTER",
+    "type": "talk_topic",
+    "text": "Well...  You seem trustworthy enough, I might have an offer for you.",
+    "responses": [ { "text": "I'm listening.", "top": "TALK_FOODPERSON_SIDEKICK" } ]
+  }
+]
