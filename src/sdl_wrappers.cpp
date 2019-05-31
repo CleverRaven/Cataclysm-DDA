@@ -78,6 +78,11 @@ void SetRenderDrawColor( const SDL_Renderer_Ptr &renderer, const Uint8 r, const 
                   "SDL_SetRenderDrawColor failed" );
 }
 
+void RenderDrawPoint( const SDL_Renderer_Ptr &renderer, int x, int y )
+{
+    printErrorIf( SDL_RenderDrawPoint( renderer.get(), x, y ) != 0, "SDL_RenderDrawPoint failed" );
+}
+
 void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const rect )
 {
     if( !renderer ) {

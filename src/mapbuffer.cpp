@@ -72,7 +72,9 @@ bool mapbuffer::add_submap( int x, int y, int z, submap *sm )
 bool mapbuffer::add_submap( const tripoint &p, std::unique_ptr<submap> &sm )
 {
     const bool result = add_submap( p, sm.get() );
-    sm.release();
+    if( result ) {
+        sm.release();
+    }
     return result;
 }
 
@@ -281,7 +283,7 @@ void mapbuffer::deserialize( JsonIn &jsin )
 {
     jsin.start_array();
     while( !jsin.end_array() ) {
-        std::unique_ptr<submap> sm( new submap() );
+        std::unique_ptr<submap> sm = std::make_unique<submap>();
         tripoint submap_coordinates;
         jsin.start_object();
         bool rubpow_update = false;

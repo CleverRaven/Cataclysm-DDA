@@ -1,0 +1,59 @@
+[
+  {
+    "type": "npc",
+    "id": "evac_guard2",
+    "//": "Appears in the refugee center as a guard with custom dialogue.",
+    "name_suffix": "Guard",
+    "class": "NC_BOUNTY_HUNTER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_EVAC_GUARD2",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_GUARD2",
+    "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "Hello marshal.", "no": "Hello." },
+    "responses": [
+      { "text": "I am actually new.", "topic": "TALK_EVAC_GUARD2_NEW" },
+      { "text": "Are there any rules I should follow while inside?", "topic": "TALK_EVAC_GUARD2_RULES" },
+      { "text": "So who is everyone around here?", "topic": "TALK_EVAC_GUARD2_WHO" },
+      { "text": "Lets trade!", "topic": "TALK_EVAC_GUARD2_TRADE" },
+      { "text": "Is there anything I can do to help?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Thanks!  I will be on my way.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_GUARD2_NEW",
+    "dynamic_line": "Yes of course.  Just don't bring any trouble and it's all fine by me.",
+    "responses": [ { "text": "...", "topic": "TALK_EVAC_GUARD2" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_GUARD2_RULES",
+    "dynamic_line": "Well mostly no.  Just don't go around robbing others and starting fights and you will be all set.  Also, don't go into the basement.  Outsiders are not allowed in there.",
+    "responses": [
+      { "text": "Ok, thanks.", "topic": "TALK_EVAC_GUARD2" },
+      { "text": "So uhhh, why not?", "topic": "TALK_EVAC_GUARD2_RULES_BASEMENT" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_GUARD2_RULES_BASEMENT",
+    "dynamic_line": "In short, we had a problem when a sick refugee died and turned into a zombie.  We had to expel the refugees and most of our surviving group now stays to the basement to prevent it from happening again.  Unless you really prove your worth I don't foresee any exceptions to that rule.",
+    "responses": [ { "text": "...", "topic": "TALK_EVAC_GUARD2" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_GUARD2_WHO",
+    "dynamic_line": "Most are scavengers like you.  They now make a living by looting the cities in search for anything useful: food, weapons, tools, gasoline.  In exchange for their findings we offer them a temporary place to rest and the services of our shop.  I bet some of them would be willing to organize resource runs with you if you ask.",
+    "responses": [ { "text": "Thanks for the heads-up.", "topic": "TALK_EVAC_GUARD2" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_EVAC_GUARD2_TRADE",
+    "dynamic_line": "You are asking the wrong person, should look for our merchant by the main entrance.  Perhaps one of the scavengers is also interested.",
+    "responses": [ { "text": "...", "topic": "TALK_EVAC_GUARD2" } ]
+  }
+]

@@ -3,6 +3,7 @@
 #include <cmath>
 #include <cstdlib>
 
+#include "avatar.h"
 #include "effect.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -508,7 +509,7 @@ void player::hardcoded_effects( effect &it )
             if( !is_npc() ) {
                 //~ %s is bodypart in accusative.
                 add_msg( m_warning, _( "You start scratching your %s!" ), body_part_name_accusative( bp ) );
-                g->cancel_activity();
+                g->u.cancel_activity();
             } else if( g->u.sees( pos() ) ) {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
                 add_msg( _( "%1$s starts scratching their %2$s!" ), name, body_part_name_accusative( bp ) );

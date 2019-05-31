@@ -19,11 +19,11 @@ class tripoint_range
                 tripoint p;
                 const tripoint_range &range;
             public:
-                typedef tripoint                    value_type;
-                typedef std::ptrdiff_t              difference_type;
-                typedef tripoint                   *pointer;
-                typedef tripoint                   &reference;
-                typedef std::forward_iterator_tag   iterator_category;
+                using value_type = tripoint;
+                using difference_type = std::ptrdiff_t;
+                using pointer = tripoint *;
+                using reference = tripoint &;
+                using iterator_category = std::forward_iterator_tag;
 
                 point_generator( const tripoint &_p, const tripoint_range &_range )
                     : p( _p ), range( _range ) {
@@ -67,11 +67,11 @@ class tripoint_range
         tripoint minp;
         tripoint maxp;
     public:
-        typedef point_generator::value_type         value_type;
-        typedef point_generator::difference_type    difference_type;
-        typedef point_generator::pointer            pointer;
-        typedef point_generator::reference          reference;
-        typedef point_generator::iterator_category  iterator_category;
+        using value_type = point_generator::value_type;
+        using difference_type = point_generator::difference_type;
+        using pointer = point_generator::pointer;
+        using reference = point_generator::reference;
+        using iterator_category = point_generator::iterator_category;
 
         tripoint_range( const tripoint &_minp, const tripoint &_maxp ) :
             minp( _minp ), maxp( _maxp ) {

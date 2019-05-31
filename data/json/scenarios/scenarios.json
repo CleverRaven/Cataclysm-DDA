@@ -245,6 +245,17 @@
   },
   {
     "type": "scenario",
+    "ident": "alcatraz",
+    "name": "Challenge-Island Prison Break",
+    "points": -6,
+    "description": "You were delivered to some high-security prison right before the Cataclysm.  You almost managed to escape the walls of a prison...  Too bad it's located on a remote island, and now you need to find out how to escape it too.",
+    "allowed_locs": [ "alcatraz" ],
+    "start_name": "Island prison",
+    "professions": [ "convict", "death_row_convict" ],
+    "flags": [ "LONE_START", "CHALLENGE", "OUTDOOR" ]
+  },
+  {
+    "type": "scenario",
     "ident": "mutant",
     "name": "Experiment",
     "points": 2,
@@ -474,5 +485,15 @@
     "start_name": "Camping",
     "allowed_locs": [ "campsite_a", "campsite", "campground_1a", "campground_2b" ],
     "professions": [ "camper" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "apartmentroofstart",
+    "name": "Apartment Rooftop",
+    "description": "Seeking safety and rescue amidst the chaos you rushed to the rooftop of an apartment building.  The passing helicopters are long gone and the screams echoing in the distance have faded.  Now you’re left alone with the undead closing in.",
+    "flags": [ "SUR_START", "CITY_START", "LONE_START" ],
+    "points": 0,
+    "start_name": "Apartment Rooftop",
+    "allowed_locs": [ "apartments_con_tower_114", "apartments_con_tower_014", "apartments_con_tower_104", "apartments_con_tower_004" ]
   }
 ]

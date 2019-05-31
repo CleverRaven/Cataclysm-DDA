@@ -1,0 +1,7 @@
+[
+  {
+    "type": "item_group",
+    "id": "robofac_basic_robots",
+    "items": [ [ "bot_manhack", 40 ], [ "bot_skitterbot", 25 ] ]
+  }
+]

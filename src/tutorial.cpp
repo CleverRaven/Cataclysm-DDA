@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "action.h"
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "game.h"
 #include "gamemode.h"

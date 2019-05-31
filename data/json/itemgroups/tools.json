@@ -254,7 +254,11 @@
       [ "signal_flare", 20 ],
       [ "sm_extinguisher", 20 ],
       [ "whistle", 20 ],
-      [ "hand_crank_charger", 15 ]
+      [ "hand_crank_charger", 15 ],
+      [ "flint_steel", 5 ],
+      [ "chem_hexamine", 10 ],
+      [ "esbit_stove", 15 ],
+      [ "mess_tin", 5 ]
     ]
   },
   {
@@ -263,10 +267,15 @@
     "items": [
       [ "needle_curved", 30 ],
       [ "scissors", 1000 ],
-      [ "sewing_kit", 100 ],
-      [ "tailors_kit", 30 ],
+      [ "sewing_kit", 120 ],
+      [ "tailors_kit", 10 ],
       [ "knitting_needles", 20 ]
     ]
+  },
+  {
+    "id": "tools_commercial_tailor",
+    "type": "item_group",
+    "items": [ [ "needle_curved", 30 ], [ "scissors", 1000 ], [ "sewing_kit", 10 ], [ "tailors_kit", 120 ] ]
   },
   {
     "type": "item_group",

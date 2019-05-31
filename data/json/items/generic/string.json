@@ -44,7 +44,7 @@
     "copy-from": "rope_30",
     "type": "GENERIC",
     "name": "vine",
-    "description": "A sturdy 30-foot long vine.  Could easily be used as a rope, but can't be disassembled.",
+    "description": "A sturdy 30-foot long vine.  Could easily be used as a rope, but can't be disassembled. Strong enough to suspend a large corpse for butchering.",
     "material": "veggy",
     "color": "light_green"
   },
@@ -61,7 +61,7 @@
     "copy-from": "rope_makeshift_6",
     "type": "GENERIC",
     "name": "long makeshift rope",
-    "description": "A 30-foot long rough rope, woven from natural cordage.  Not strong enough to hold up to falls, but still useful for some things.",
+    "description": "A 30-foot long rough rope, woven from natural cordage.  Not strong enough to hold up to falls, but still useful for some things, such as suspending large corpses for butchering.",
     "armor_data": { "covers": [ "TORSO" ], "coverage": 12, "encumbrance": 14, "material_thickness": 6 },
     "proportional": { "weight": 5, "volume": 5, "price": 5 },
     "extend": { "flags": [ "BELTED" ] }

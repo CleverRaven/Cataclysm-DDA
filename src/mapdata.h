@@ -72,6 +72,18 @@ struct furn_workbench_info {
     furn_workbench_info();
     bool load( JsonObject &jsobj, const std::string &member );
 };
+struct plant_data {
+    // What the furniture turns into when it grows or you plant seeds in it
+    furn_str_id transform;
+    // What the 'base' furniture of the plant is, before you plant in it, and what it turns into when eaten
+    furn_str_id base;
+    // At what percent speed of a normal plant this plant furniture grows at
+    float growth_multiplier;
+    // What percent of the normal harvest this crop gives
+    float harvest_multiplier;
+    plant_data();
+    bool load( JsonObject &jsobj, const std::string &member );
+};
 
 /*
  * List of known flags, used in both terrain.json and furniture.json.
@@ -238,10 +250,6 @@ struct map_data_common_t {
 
         std::string looks_like;
 
-        furn_str_id plant_transform; //What the furniture turns into when it grows or you plant seeds in it
-        //What the 'base' furniture of the plant is, before you plant in it, and what it turns into when eaten
-        furn_str_id plant_base;
-
         iexamine_function examine; //What happens when the terrain/furniture is examined
 
         /**
@@ -339,6 +347,8 @@ struct furn_t : map_data_common_t {
 
     cata::optional<furn_workbench_info> workbench;
 
+    cata::optional<plant_data> plant;
+
     // May return NULL
     const itype *crafting_pseudo_item_type() const;
     // May return NULL
@@ -375,7 +385,7 @@ extern ter_id t_null,
        t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit, t_grave, t_grave_new,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
-       t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white,
+       t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_moss,
        t_metal_floor,
        t_pavement, t_pavement_y, t_sidewalk, t_concrete,
        t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,

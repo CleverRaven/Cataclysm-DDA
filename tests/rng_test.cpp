@@ -55,6 +55,7 @@ TEST_CASE( "x_in_y_distribution" )
     for( float y = 0.1; y < 500.0; y += y_increment ) {
         y_increment *= 1.1;
         float x_increment = 0.1;
+        // NOLINTNEXTLINE(clang-analyzer-security.FloatLoopCounter)
         for( float x = 0.1; x < y; x += x_increment ) {
             check_x_in_y( x, y );
             x_increment *= 1.1;

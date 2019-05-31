@@ -86,20 +86,10 @@
   },
   {
     "id": "wheel_bicycle_or",
+    "copy-from": "wheel_bicycle",
     "type": "WHEEL",
-    "category": "veh_parts",
     "name": "off-road bicycle wheel",
-    "description": "A wide, studded, bicycle wheel intended for off-road biking.",
-    "weight": 1500,
-    "volume": 28,
-    "price": 4000,
-    "bashing": 8,
-    "to_hit": -1,
-    "material": [ "steel", "plastic" ],
-    "symbol": "]",
-    "color": "dark_gray",
-    "diameter": 27,
-    "width": 3
+    "description": "A wide, studded, bicycle wheel intended for off-road biking."
   },
   {
     "id": "wheel_caster",
@@ -172,20 +162,10 @@
   },
   {
     "id": "wheel_motorbike_or",
+    "copy-from": "wheel_motorbike",
     "type": "WHEEL",
-    "category": "veh_parts",
     "name": "off-road motorbike wheel",
-    "description": "A motorbike wheel, studded for improved off-road performance.",
-    "weight": 5443,
-    "volume": 33,
-    "price": 14000,
-    "bashing": 10,
-    "to_hit": -1,
-    "material": [ "steel", "plastic" ],
-    "symbol": "]",
-    "color": "dark_gray",
-    "diameter": 16,
-    "width": 4
+    "description": "A motorbike wheel, studded for improved off-road performance."
   },
   {
     "id": "hd_steel_drum",
@@ -276,20 +256,10 @@
   },
   {
     "id": "wheel_wide_or",
+    "copy-from": "wheel_wide",
     "type": "WHEEL",
-    "category": "veh_parts",
     "name": "off-road wide wheel",
-    "description": "A wide wheel.  \\o/ This wide.  It's studded to provide better grip off-road at the cost of some performance on pavement.",
-    "weight": 22600,
-    "volume": 70,
-    "price": 34000,
-    "bashing": 17,
-    "to_hit": -1,
-    "material": [ "steel", "plastic" ],
-    "symbol": "]",
-    "color": "dark_gray",
-    "diameter": 24,
-    "width": 14
+    "description": "A wide wheel.  \\o/ This wide.  It's studded to provide better grip off-road at the cost of some performance on pavement."
   },
   {
     "id": "wheel_wood",

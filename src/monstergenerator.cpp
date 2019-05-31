@@ -100,6 +100,7 @@ const std::map<std::string, m_flag> flag_map = {
     { "NO_BREATHE", MF_NO_BREATHE },
     { "REGENERATES_50", MF_REGENERATES_50 },
     { "REGENERATES_10", MF_REGENERATES_10 },
+    { "REGENERATES_1", MF_REGENERATES_1 },
     { "REGENERATES_IN_DARK", MF_REGENERATES_IN_DARK },
     { "FLAMMABLE", MF_FLAMMABLE },
     { "REVIVES", MF_REVIVES },
@@ -237,7 +238,7 @@ static int calc_bash_skill( const mtype &t )
     return ret;
 }
 
-m_size volume_to_size( const units::volume vol )
+static m_size volume_to_size( const units::volume vol )
 {
     if( vol <= 7500_ml ) {
         return MS_TINY;
@@ -505,6 +506,7 @@ void MonsterGenerator::init_attack()
     add_hardcoded_attack( "IMPALE", mattack::impale );
     add_hardcoded_attack( "BRANDISH", mattack::brandish );
     add_hardcoded_attack( "FLESH_GOLEM", mattack::flesh_golem );
+    add_hardcoded_attack( "ABSORB_MEAT", mattack::absorb_meat );
     add_hardcoded_attack( "LUNGE", mattack::lunge );
     add_hardcoded_attack( "LONGSWIPE", mattack::longswipe );
     add_hardcoded_attack( "PARROT", mattack::parrot );

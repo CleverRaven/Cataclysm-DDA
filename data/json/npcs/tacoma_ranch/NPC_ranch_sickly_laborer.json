@@ -1,0 +1,42 @@
+[
+  {
+    "type": "npc",
+    "id": "ranch_ill_1",
+    "//": "Flavor",
+    "name_suffix": "Laborer",
+    "class": "NC_HUNTER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_RANCH_ILL_1",
+    "faction": "tacoma_commune"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_ILL_1",
+    "dynamic_line": "Please leave me alone...",
+    "responses": [
+      { "text": "What is your job here?", "topic": "TALK_RANCH_ILL_1_JOB" },
+      { "text": "Do you need any help?", "topic": "TALK_RANCH_ILL_1_HIRE" },
+      { "text": "What's wrong?", "topic": "TALK_RANCH_ILL_1_SICK" },
+      { "text": "I've got to go...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_ILL_1_JOB",
+    "dynamic_line": "I was just a laborer till they could find me something a bit more permanent but being constantly sick has prevented me from doing much of anything.",
+    "responses": [ { "text": "That's sad.", "topic": "TALK_RANCH_ILL_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_ILL_1_HIRE",
+    "dynamic_line": "I don't know what you could do.  I've tried everything.  Just give me time...",
+    "responses": [ { "text": "OK.", "topic": "TALK_RANCH_ILL_1" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_ILL_1_SICK",
+    "dynamic_line": "I keep getting sick!  At first I thought it was something I ate but now it seems like I can't keep anything down...",
+    "responses": [ { "text": "Uhm.", "topic": "TALK_RANCH_ILL_1" } ]
+  }
+]

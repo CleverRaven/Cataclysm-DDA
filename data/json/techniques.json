@@ -312,6 +312,75 @@
   },
   {
     "type": "technique",
+    "id": "tec_pankration_kick",
+    "name": "kick",
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "messages": [ "You kick %s", "<npcname> kicks %s" ],
+    "stun_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_pankration_break",
+    "name": "grab break",
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "defensive": true,
+    "grab_break": true
+  },
+  {
+    "type": "technique",
+    "id": "tec_pankration_counter",
+    "name": "counter-grab",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "req_buffs": [ "pankration_counter" ],
+    "messages": [ "You counter and grab %s", "<npcname> counters and grabs %s" ],
+    "mult_bonuses": [ [ "movecost", 0.5 ] ],
+    "stun_dur": 2,
+    "down_dur": 1
+  },
+  {
+    "type": "technique",
+    "id": "tec_pankration_disarm",
+    "name": "arm lock",
+    "min_unarmed": 5,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "disarms": true,
+    "down_dur": 1,
+    "req_buffs": [ "pankration_grappling" ],
+    "messages": [ "You put %s in an arm lock", "<npcname> puts %s in an arm lock" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_pankration_throw",
+    "name": "throw",
+    "min_unarmed": 6,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "down_dur": 1,
+    "knockback_dist": 2,
+    "knockback_spread": 2,
+    "req_buffs": [ "pankration_grappling" ],
+    "messages": [ "You throw %s", "<npcname> throws %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_pankration_chokehold",
+    "name": "chokehold",
+    "min_unarmed": 7,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "stun_dur": 3,
+    "mult_bonuses": [ [ "damage", "bash", 1.35 ] ],
+    "req_buffs": [ "pankration_grappling" ],
+    "messages": [ "You put %s in a chokehold", "<npcname> puts %s in a chokehold" ]
+  },
+  {
+    "type": "technique",
     "id": "tec_judo_throw",
     "name": "throw",
     "min_unarmed": 3,
@@ -638,7 +707,7 @@
     "name": "puño strike",
     "min_melee": 3,
     "min_bashing_damage": 2,
-    "mult_bonuses": [ [ "damage", "bash", 4.0 ], [ "damage", "cut", 0.0 ], [ "damage", "stab", 0.0 ] ],
+    "mult_bonuses": [ [ "movecost", 0.6 ], [ "damage", "bash", 0.7 ], [ "damage", "cut", 0.0 ], [ "damage", "stab", 0.0 ] ],
     "crit_tec": true,
     "stun_dur": 1,
     "messages": [ "You deliver a puño to %s", "<npcname> haftstrikes %s" ]
@@ -809,6 +878,45 @@
     "crit_tec": true,
     "messages": [ "You hand-peck %s", "<npcname> hand-pecks %s" ],
     "stun_dur": 3
+  },
+  {
+    "type": "technique",
+    "id": "tec_snake_rapid",
+    "name": "Snake Snap",
+    "min_unarmed": 2,
+    "unarmed_allowed": true,
+    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
+    "messages": [ "You swiftly jab %s", "<npcname> swiftly jabs %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_snake_feint",
+    "name": "Snake Slide",
+    "min_unarmed": 3,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "miss_recovery": true,
+    "messages": [ "You make serpentine hand motions at %s", "<npcname> makes serpentine hand motions at %s" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_snake_break",
+    "name": "Snake Slither",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "defensive": true,
+    "grab_break": true,
+    "messages": [ "You slither free", "<npcname> slithers free" ]
+  },
+  {
+    "type": "technique",
+    "id": "tec_snake_precise",
+    "name": "Snake Strike",
+    "min_unarmed": 4,
+    "unarmed_allowed": true,
+    "crit_tec": true,
+    "messages": [ "You strike out at %s", "<npcname> strikes out at %s" ],
+    "stun_dur": 2
   },
   {
     "type": "technique",

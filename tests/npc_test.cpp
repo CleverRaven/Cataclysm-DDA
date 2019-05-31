@@ -5,6 +5,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "common_types.h"
 #include "faction.h"
@@ -31,7 +32,7 @@
 #include "string_id.h"
 #include "type_id.h"
 
-void on_load_test( npc &who, const time_duration &from, const time_duration &to )
+static void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
     calendar::turn = to_turn<int>( calendar::time_of_cataclysm + from );
     who.on_unload();
@@ -39,9 +40,9 @@ void on_load_test( npc &who, const time_duration &from, const time_duration &to 
     who.on_load();
 }
 
-void test_needs( const npc &who, const numeric_interval<int> &hunger,
-                 const numeric_interval<int> &thirst,
-                 const numeric_interval<int> &fatigue )
+static void test_needs( const npc &who, const numeric_interval<int> &hunger,
+                        const numeric_interval<int> &thirst,
+                        const numeric_interval<int> &fatigue )
 {
     CHECK( who.get_hunger() <= hunger.max );
     CHECK( who.get_hunger() >= hunger.min );
@@ -51,7 +52,7 @@ void test_needs( const npc &who, const numeric_interval<int> &hunger,
     CHECK( who.get_fatigue() >= fatigue.min );
 }
 
-npc create_model()
+static npc create_model()
 {
     npc model_npc;
     model_npc.normalize();
@@ -69,7 +70,7 @@ npc create_model()
     return model_npc;
 }
 
-std::string get_list_of_npcs( const std::string &title )
+static std::string get_list_of_npcs( const std::string &title )
 {
 
     std::ostringstream npc_list;

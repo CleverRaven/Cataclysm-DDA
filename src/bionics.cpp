@@ -11,6 +11,8 @@
 #include <memory>
 
 #include "action.h"
+#include "avatar.h"
+#include "avatar_action.h"
 #include "ballistics.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -144,7 +146,7 @@ bionic_data::bionic_data()
     description = "This bionic was not set up correctly, this is a bug";
 }
 
-void force_comedown( effect &eff )
+static void force_comedown( effect &eff )
 {
     if( eff.is_null() || eff.get_effect_type() == nullptr || eff.get_duration() <= 1_turns ) {
         return;
@@ -237,6 +239,12 @@ bool player::activate_bionic( int b, bool eff_only )
 {
     bionic &bio = ( *my_bionics )[b];
 
+    if( bio.incapacitated_time > 0_turns ) {
+        add_msg( m_info, _( "Your %s is shorting out and can't be activated." ),
+                 bionics[bio.id].name.c_str() );
+        return false;
+    }
+
     // Preserve the fake weapon used to initiate bionic gun firing
     static item bio_gun( weapon );
 
@@ -277,7 +285,7 @@ bool player::activate_bionic( int b, bool eff_only )
         charge_power( bionics[bio.id].power_activate );
         bio_gun = item( bionics[bio.id].fake_item );
         g->refresh_all();
-        g->plfire( bio_gun, bionics[bio.id].power_activate );
+        avatar_action::fire( g->u, g->m, bio_gun, bionics[bio.id].power_activate );
     } else if( bionics[ bio.id ].weapon_bionic ) {
         if( weapon.has_flag( "NO_UNWIELD" ) ) {
             add_msg_if_player( m_info, _( "Deactivate your %s first!" ), weapon.tname() );
@@ -287,15 +295,19 @@ bool player::activate_bionic( int b, bool eff_only )
         }
 
         if( !weapon.is_null() ) {
-            add_msg_if_player( m_warning, _( "You're forced to drop your %s." ), weapon.tname() );
-            g->m.add_item_or_charges( pos(), weapon );
+            const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname() );
+            if( !dispose_item( item_location( *this, &weapon ), query ) ) {
+                charge_power( bionics[bio.id].power_activate );
+                bio.powered = false;
+                return false;
+            }
         }
 
         weapon = item( bionics[bio.id].fake_item );
         weapon.invlet = '#';
         if( bio.ammo_count > 0 ) {
             weapon.ammo_set( bio.ammo_loaded, bio.ammo_count );
-            g->plfire( weapon );
+            avatar_action::fire( g->u, g->m, weapon );
             g->refresh_all();
         }
     } else if( bio.id == "bio_ears" && has_active_bionic( bionic_id( "bio_earplugs" ) ) ) {
@@ -689,6 +701,12 @@ bool player::deactivate_bionic( int b, bool eff_only )
 {
     bionic &bio = ( *my_bionics )[b];
 
+    if( bio.incapacitated_time > 0_turns ) {
+        add_msg( m_info, _( "Your %s is shorting out and can't be deactivated." ),
+                 bionics[bio.id].name.c_str() );
+        return false;
+    }
+
     // Just do the effect, no stat changing or messages
     if( !eff_only ) {
         if( !bio.powered ) {
@@ -772,7 +790,7 @@ bool player::deactivate_bionic( int b, bool eff_only )
  * @param rate divides the number of turns we may charge (rate of 2 discharges in half the time).
  * @return indicates whether we successfully charged the bionic.
  */
-bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 1, int rate = 1 )
+static bool attempt_recharge( player &p, bionic &bio, int &amount, int factor = 1, int rate = 1 )
 {
     const bionic_data &info = bio.info();
     const int armor_power_cost = 1;
@@ -1018,7 +1036,7 @@ void player::bionics_uninstall_failure( monster &installer, player &patient, int
                 add_msg( m_mixed, _( "The %s messes up the operation." ), installer.name() );
                 break;
             case 3:
-                add_msg( m_mixed, _( "The The operation fails." ) );
+                add_msg( m_mixed, _( "The operation fails." ) );
                 break;
             case 4:
                 add_msg( m_mixed, _( "The operation is a failure." ) );
@@ -1260,7 +1278,9 @@ bool player::uninstall_bionic( const bionic &target_cbm, monster &installer, pla
     patient.add_effect( effect_narcosis, duration );
     patient.add_effect( effect_sleep, duration );
 
-    if( g->u.sees( patient ) ) {
+    if( patient.is_player() ) {
+        add_msg( "You fall asleep and %1$s starts operating.", installer.disp_name() );
+    } else if( g->u.sees( patient ) ) {
         add_msg( "%1$s falls asleep and %2$s starts operating.", patient.disp_name(),
                  installer.disp_name() );
     }
@@ -1746,6 +1766,7 @@ void load_bionic( JsonObject &jsobj )
                                  false );
     new_bionic.sleep_friendly = get_bool_or_flag( jsobj, "sleep_friendly", "BIONIC_SLEEP_FRIENDLY",
                                 false );
+    new_bionic.shockproof = get_bool_or_flag( jsobj, "shockproof", "BIONIC_SHOCKPROOF", false );
 
     if( new_bionic.gun_bionic && new_bionic.weapon_bionic ) {
         debugmsg( "Bionic %s specified as both gun and weapon bionic", id.c_str() );
@@ -1842,6 +1863,9 @@ void bionic::serialize( JsonOut &json ) const
     json.member( "charge", charge );
     json.member( "ammo_loaded", ammo_loaded );
     json.member( "ammo_count", ammo_count );
+    if( incapacitated_time > 0 ) {
+        json.member( "incapacitated_time", incapacitated_time );
+    }
     json.end_object();
 }
 
@@ -1857,6 +1881,9 @@ void bionic::deserialize( JsonIn &jsin )
     }
     if( jo.has_int( "ammo_count" ) ) {
         ammo_count = jo.get_int( "ammo_count" );
+    }
+    if( jo.has_int( "incapacitated_time" ) ) {
+        incapacitated_time = 1_turns * jo.get_int( "incapacitated_time" );
     }
 }
 

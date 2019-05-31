@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <memory>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "calendar.h"
 #include "game.h"
@@ -11,7 +12,7 @@
 #include "units.h"
 #include "type_id.h"
 
-void reset_time()
+static void reset_time()
 {
     calendar::turn = calendar( 0 );
     player &p = g->u;
@@ -20,7 +21,7 @@ void reset_time()
     clear_player();
 }
 
-void pass_time( player &p, time_duration amt )
+static void pass_time( player &p, time_duration amt )
 {
     for( auto turns = 1_turns; turns < amt; turns += 1_turns ) {
         calendar::turn.increment();
@@ -28,7 +29,7 @@ void pass_time( player &p, time_duration amt )
     }
 }
 
-void clear_stomach( player &p )
+static void clear_stomach( player &p )
 {
     p.guts.set_calories( 0 );
     p.stomach.set_calories( 0 );
@@ -36,7 +37,7 @@ void clear_stomach( player &p )
     p.guts.bowel_movement();
 }
 
-void set_all_vitamins( int target, player &p )
+static void set_all_vitamins( int target, player &p )
 {
     p.vitamin_set( vitamin_id( "vitA" ), target );
     p.vitamin_set( vitamin_id( "vitB" ), target );
@@ -47,7 +48,7 @@ void set_all_vitamins( int target, player &p )
 
 // time (in minutes) it takes for the player to feel hungry
 // passes time on the calendar
-time_duration time_until_hungry( player &p )
+static time_duration time_until_hungry( player &p )
 {
     unsigned int thirty_minutes = 0;
     do {
@@ -57,7 +58,7 @@ time_duration time_until_hungry( player &p )
     return thirty_minutes * 30_minutes;
 }
 
-void print_stomach_contents( player &p, const bool print )
+static void print_stomach_contents( player &p, const bool print )
 {
     if( !print ) {
         return;
@@ -75,7 +76,7 @@ void print_stomach_contents( player &p, const bool print )
 
 // this represents an amount of food you can eat to keep you fed for an entire day
 // accounting for appropriate vitamins
-void eat_all_nutrients( player &p )
+static void eat_all_nutrients( player &p )
 {
     item f( "pizza_veggy" );
     p.eat( f );

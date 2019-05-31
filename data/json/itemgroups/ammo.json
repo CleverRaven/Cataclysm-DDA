@@ -147,7 +147,17 @@
     "type": "item_group",
     "id": "ammo_rifle_rare",
     "//": "Less common rifle ammo including that only used by police/paramilitary forces.",
-    "items": [ [ "300_winmag", 40 ], [ "3006fmj", 50 ], [ "556", 100 ], [ "762_51", 50 ], [ "762_m87", 25 ], [ "8mm_civilian", 15 ] ]
+    "items": [
+      [ "300_winmag", 40 ],
+      [ "3006fmj", 50 ],
+      [ "556", 100 ],
+      [ "762_51", 50 ],
+      [ "4570_sp", 40 ],
+      [ "4570_pen", 20 ],
+      [ "4570_low", 40 ],
+      [ "762_m87", 25 ],
+      [ "8mm_civilian", 15 ]
+    ]
   },
   {
     "type": "item_group",
@@ -193,6 +203,10 @@
       [ "reloaded_308", 40 ],
       [ "reloaded_556", 10 ],
       [ "reloaded_556_incendiary", 5 ],
+      [ "reloaded_4570_sp", 15 ],
+      [ "reloaded_4570_pen", 5 ],
+      [ "reloaded_4570_low", 15 ],
+      [ "reloaded_4570_bp", 10 ],
       [ "reloaded_762_51", 10 ],
       [ "reloaded_762_51_incendiary", 5 ],
       [ "reloaded_762_54R", 40 ],
@@ -370,6 +384,7 @@
       { "item": "44_casing", "prob": 80, "count": 20 },
       { "item": "45_casing", "prob": 80, "count": 20 },
       { "item": "454_casing", "prob": 60, "count": 5 },
+      { "item": "4570_casing", "prob": 60, "count": 10 },
       { "item": "46mm_casing", "prob": 60, "count": 20 },
       { "item": "50_casing", "prob": 60, "count": 5 },
       { "item": "500_casing", "prob": 60, "count": 5 },
@@ -390,7 +405,8 @@
     "items": [
       { "item": "light_battery_cell", "prob": 50, "charges-min": 0, "charges-max": 100 },
       { "item": "light_minus_battery_cell", "prob": 30, "charges-min": 0, "charges-max": 50 },
-      { "item": "light_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 150 }
+      { "item": "light_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 150 },
+      { "item": "light_disposable_cell", "prob": 25, "charges-min": 0, "charges-max": 300 }
     ]
   },
   {
@@ -399,7 +415,8 @@
     "items": [
       { "item": "light_battery_cell", "prob": 50, "charges-min": 100, "charges-max": 100 },
       { "item": "light_minus_battery_cell", "prob": 30, "charges-min": 50, "charges-max": 50 },
-      { "item": "light_plus_battery_cell", "prob": 20, "charges-min": 150, "charges-max": 150 }
+      { "item": "light_plus_battery_cell", "prob": 20, "charges-min": 150, "charges-max": 150 },
+      { "item": "light_disposable_cell", "prob": 25, "charges-min": 300, "charges-max": 300 }
     ]
   },
   {
@@ -407,7 +424,8 @@
     "id": "ammo_medium_batteries",
     "items": [
       { "item": "medium_battery_cell", "prob": 80, "charges-min": 0, "charges-max": 500 },
-      { "item": "medium_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 600 }
+      { "item": "medium_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 600 },
+      { "item": "medium_disposable_cell", "prob": 40, "charges-min": 0, "charges-max": 1200 }
     ]
   },
   {
@@ -415,7 +433,8 @@
     "id": "ammo_medium_batteries_full",
     "items": [
       { "item": "medium_battery_cell", "prob": 80, "charges-min": 500, "charges-max": 500 },
-      { "item": "medium_plus_battery_cell", "prob": 20, "charges-min": 600, "charges-max": 600 }
+      { "item": "medium_plus_battery_cell", "prob": 20, "charges-min": 600, "charges-max": 600 },
+      { "item": "medium_disposable_cell", "prob": 40, "charges-min": 1200, "charges-max": 1200 }
     ]
   },
   {
@@ -423,7 +442,8 @@
     "id": "ammo_heavy_batteries",
     "items": [
       { "item": "heavy_battery_cell", "prob": 80, "charges-min": 0, "charges-max": 1000 },
-      { "item": "heavy_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 1250 }
+      { "item": "heavy_plus_battery_cell", "prob": 20, "charges-min": 0, "charges-max": 1250 },
+      { "item": "heavy_disposable_cell", "prob": 40, "charges-min": 0, "charges-max": 2500 }
     ]
   },
   {
@@ -431,7 +451,8 @@
     "id": "ammo_heavy_batteries_full",
     "items": [
       { "item": "heavy_battery_cell", "prob": 80, "charges-min": 1000, "charges-max": 1000 },
-      { "item": "heavy_plus_battery_cell", "prob": 20, "charges-min": 1250, "charges-max": 1250 }
+      { "item": "heavy_plus_battery_cell", "prob": 20, "charges-min": 1250, "charges-max": 1250 },
+      { "item": "heavy_disposable_cell", "prob": 40, "charges-min": 2500, "charges-max": 2500 }
     ]
   },
   {

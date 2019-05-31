@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "map.h"
@@ -21,11 +22,11 @@
 
 class monster;
 
-typedef statistics<long> efficiency_stat;
+using efficiency_stat = statistics<long>;
 
 const efftype_id effect_blind( "blind" );
 
-void clear_game_drag( const ter_id &terrain )
+static void clear_game_drag( const ter_id &terrain )
 {
     // Set to turn 0 to prevent solars from producing power
     calendar::turn = 0;
@@ -61,7 +62,7 @@ void clear_game_drag( const ter_id &terrain )
 }
 
 
-vehicle *setup_drag_test( const vproto_id &veh_id )
+static vehicle *setup_drag_test( const vproto_id &veh_id )
 {
     clear_game_drag( ter_id( "t_pavement" ) );
 
@@ -95,11 +96,12 @@ vehicle *setup_drag_test( const vproto_id &veh_id )
 // Spawn a vehicle
 // calculate c_air_drag and c_rolling_resistance
 // return whether they're within 5% of expected values
-bool test_drag( const vproto_id &veh_id,
-                const double expected_c_air = 0, const double expected_c_rr = 0,
-                const double expected_c_water = 0,
-                const int expected_safe = 0, const int expected_max = 0,
-                const bool test_results = false )
+static bool test_drag(
+    const vproto_id &veh_id,
+    const double expected_c_air = 0, const double expected_c_rr = 0,
+    const double expected_c_water = 0,
+    const int expected_safe = 0, const int expected_max = 0,
+    const bool test_results = false )
 {
     vehicle *veh_ptr = setup_drag_test( veh_id );
     if( veh_ptr == nullptr ) {
@@ -142,16 +144,15 @@ bool test_drag( const vproto_id &veh_id,
     return valid;
 }
 
-void print_drag_test_strings( const std::string &type )
+static void print_drag_test_strings( const std::string &type )
 {
     test_drag( vproto_id( type ) );
     fflush( stdout );
 }
 
-void test_vehicle_drag( std::string type,
-                        const double expected_c_air, const double expected_c_rr,
-                        const double expected_c_water,
-                        const int expected_safe, const int expected_max )
+static void test_vehicle_drag(
+    std::string type, const double expected_c_air, const double expected_c_rr,
+    const double expected_c_water, const int expected_safe, const int expected_max )
 {
     SECTION( type ) {
         test_drag( vproto_id( type ), expected_c_air, expected_c_rr, expected_c_water,
@@ -224,6 +225,12 @@ std::vector<std::string> vehs_to_test_drag = {
         "schoolbus",
         "security_van",
         "wienermobile",
+        "canoe",
+        "kayak",
+        "kayak_racing",
+        "DUKW",
+        "raft",
+        "inflatable_boat",
     }
 };
 
@@ -302,4 +309,11 @@ TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
     test_vehicle_drag( "schoolbus", 0.411188, 3.060324, 1370.046591, 12891, 15087 );
     test_vehicle_drag( "security_van", 0.541800, 7.592192, 6231.269792, 10977, 13009 );
     test_vehicle_drag( "wienermobile", 1.063697, 2.315334, 1900.304167, 11201, 13374 );
+    test_vehicle_drag( "canoe", 0.609525, 6.948203, 1.967437, 331, 691 );
+    test_vehicle_drag( "kayak", 0.609525, 3.243223, 1.224458, 655, 1236 );
+    test_vehicle_drag( "kayak_racing", 0.609525, 2.912135, 1.099458, 715, 1320 );
+    test_vehicle_drag( "DUKW", 0.776902, 3.713785, 80.325824, 10210, 12293 );
+    test_vehicle_drag( "raft", 0.997815, 8.950399, 5.068750, 259, 548 );
+    test_vehicle_drag( "inflatable_boat", 0.469560, 2.823845, 1.599187, 741, 1382 );
+
 }

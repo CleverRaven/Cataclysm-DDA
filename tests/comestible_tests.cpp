@@ -22,7 +22,7 @@ struct all_stats {
 };
 
 // given a list of components, adds all the calories together
-int comp_calories( std::vector<item_comp> components )
+static int comp_calories( std::vector<item_comp> components )
 {
     int calories = 0;
     for( item_comp it : components ) {
@@ -37,8 +37,8 @@ int comp_calories( std::vector<item_comp> components )
 }
 
 // puts one permutation of item components into a vector
-std::vector<item_comp> item_comp_vector_create( const std::vector<std::vector<item_comp>> &vv,
-        const std::vector<int> &ndx )
+static std::vector<item_comp> item_comp_vector_create(
+    const std::vector<std::vector<item_comp>> &vv, const std::vector<int> &ndx )
 {
     std::vector<item_comp> list;
     for( int i = 0, sz = vv.size(); i < sz; ++i ) {
@@ -47,8 +47,8 @@ std::vector<item_comp> item_comp_vector_create( const std::vector<std::vector<it
     return list;
 }
 
-std::vector<std::vector<item_comp>> recipe_permutations( const
-                                 std::vector< std::vector< item_comp > > &vv )
+static std::vector<std::vector<item_comp>> recipe_permutations(
+        const std::vector< std::vector< item_comp > > &vv )
 {
     std::vector<int> muls;
     std::vector<int> szs;
@@ -80,7 +80,7 @@ std::vector<std::vector<item_comp>> recipe_permutations( const
     return output;
 }
 
-int byproduct_calories( const recipe &recipe_obj )
+static int byproduct_calories( const recipe &recipe_obj )
 {
 
     std::vector<item> byproducts = recipe_obj.create_byproducts();
@@ -93,16 +93,8 @@ int byproduct_calories( const recipe &recipe_obj )
     return kcal;
 }
 
-void print_itemcomp( const std::vector<item_comp> &list )
-{
-    printf( "error in permutation. list of components:\n" );
-    for( const item_comp &itc : list ) {
-        printf( "%s, %d\n", itc.to_string().c_str(), itc.count );
-    }
-    printf( "\n" );
-}
-
-all_stats run_stats( std::vector<std::vector<item_comp>> permutations, int byproduct_calories )
+static all_stats run_stats( std::vector<std::vector<item_comp>> permutations,
+                            int byproduct_calories )
 {
     all_stats mystats;
     for( const std::vector<item_comp> &permut : permutations ) {
@@ -111,7 +103,7 @@ all_stats run_stats( std::vector<std::vector<item_comp>> permutations, int bypro
     return mystats;
 }
 
-item food_or_food_container( item it )
+static item food_or_food_container( item it )
 {
     return it.is_food_container() ? it.contents.front() : it;
 }

@@ -24,6 +24,11 @@
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
+time_duration recipe::batch_duration( int batch, float multiplier, size_t assistants ) const
+{
+    return time_duration::from_turns( batch_time( batch, multiplier, assistants ) / 100 );
+}
+
 int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
 {
     // 1.0f is full speed
@@ -48,7 +53,7 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
         // recipe benefits from batching, so batching scale factor needs to be calculated
         // At batch_rsize, incremental time increase is 99.5% of batch_rscale
         const double scale = batch_rsize / 6.0;
-        for( double x = 0; x < batch; x++ ) {
+        for( int x = 0; x < batch; x++ ) {
             // scaled logistic function output
             const double logf = ( 2.0 / ( 1.0 + exp( -( x / scale ) ) ) ) - 1.0;
             total_time += local_time * ( 1.0 - ( batch_rscale * logf ) );
@@ -90,7 +95,11 @@ void recipe::load( JsonObject &jo, const std::string &src )
         assign( jo, "obsolete", obsolete );
     }
 
-    assign( jo, "time", time, strict, 0 );
+    if( jo.has_int( "time" ) ) {
+        time = jo.get_int( "time" );
+    } else if( jo.has_string( "time" ) ) {
+        time = to_moves<int>( time_duration::read_from_json_string( *jo.get_raw( "time" ) ) );
+    }
     assign( jo, "difficulty", difficulty, strict, 0, MAX_SKILL );
     assign( jo, "flags", flags );
 
@@ -215,13 +224,35 @@ void recipe::load( JsonObject &jo, const std::string &src )
                 byproducts[ arr.get_string( 0 ) ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
             }
         }
+        assign( jo, "construction_blueprint", blueprint );
+        if( !blueprint.empty() ) {
+            assign( jo, "blueprint_name", bp_name );
+            JsonArray bp_array = jo.get_array( "blueprint_resources" );
+            bp_resources.clear();
+            while( bp_array.has_more() ) {
+                std::string resource = bp_array.next_string();
+                bp_resources.emplace_back( resource );
+            }
+            bp_array = jo.get_array( "blueprint_provides" );
+            while( bp_array.has_more() ) {
+                JsonObject provide = bp_array.next_object();
+                bp_provides.emplace_back( std::make_pair( provide.get_string( "id" ),
+                                          provide.get_int( "amount", 1 ) ) );
+            }
+            // all blueprints provide themselves with needing it written in JSON
+            bp_provides.emplace_back( std::make_pair( result_, 1 ) );
+            bp_array = jo.get_array( "blueprint_requires" );
+            while( bp_array.has_more() ) {
+                JsonObject require = bp_array.next_object();
+                bp_requires.emplace_back( std::make_pair( require.get_string( "id" ),
+                                          require.get_int( "amount", 1 ) ) );
+            }
+        }
     } else if( type == "uncraft" ) {
         reversible = true;
     } else {
         jo.throw_error( "unknown recipe type", "type" );
     }
-
-    assign( jo, "construction_blueprint", blueprint );
 
     // inline requirements are always replaced (cannot be inherited)
     const requirement_id req_id( string_format( "inline_%s_%s", type.c_str(), ident_.c_str() ) );
@@ -467,9 +498,29 @@ bool recipe::is_blueprint() const
     return !blueprint.empty();
 }
 
-std::string recipe::get_blueprint() const
+const std::string &recipe::get_blueprint() const
 {
     return blueprint;
+}
+
+const std::string &recipe::blueprint_name() const
+{
+    return bp_name;
+}
+
+const std::vector<itype_id> &recipe::blueprint_resources() const
+{
+    return bp_resources;
+}
+
+const std::vector<std::pair<std::string, int>> &recipe::blueprint_provides() const
+{
+    return bp_provides;
+}
+
+const std::vector<std::pair<std::string, int>>  &recipe::blueprint_requires() const
+{
+    return bp_requires;
 }
 
 bool recipe::hot_result() const

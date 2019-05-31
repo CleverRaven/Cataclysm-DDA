@@ -11,7 +11,7 @@
 #include "string_id.h"
 #include "type_id.h"
 
-typedef std::string itype_id;
+using itype_id = std::string;
 class JsonObject;
 
 // Could be reused for butchery

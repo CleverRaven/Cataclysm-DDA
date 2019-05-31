@@ -15,7 +15,7 @@ class monster;
 template<typename T> class ret_val;
 struct iteminfo;
 
-typedef std::string itype_id;
+using itype_id = std::string;
 struct tripoint;
 
 // iuse methods returning a bool indicating whether to consume a charge of the item being used.
@@ -141,6 +141,7 @@ class iuse
         int vortex( player *, item *, bool, const tripoint & );
         int dog_whistle( player *, item *, bool, const tripoint & );
         int blood_draw( player *, item *, bool, const tripoint & );
+        int mind_splicer( player *, item *, bool, const tripoint & );
         static void cut_log_into_planks( player & );
         int lumber( player *, item *, bool, const tripoint & );
         int chop_tree( player *, item *, bool, const tripoint & );
@@ -222,9 +223,12 @@ class iuse
         static void play_music( player &p, const tripoint &source, int volume, int max_morale );
 
         // Helper for handling pesky wannabe-artists
-        static int handle_ground_graffiti( player &p, item *it, const std::string &prefix, tripoint pt );
+        static int handle_ground_graffiti( player &p, item *it, const std::string &prefix,
+                                           const tripoint &pt );
 
 };
+
+void remove_radio_mod( item &it, player &p );
 
 // Helper for clothes washing
 struct washing_requirements {
@@ -234,13 +238,13 @@ struct washing_requirements {
 };
 washing_requirements washing_requirements_for_volume( units::volume );
 
-typedef int ( iuse::*use_function_pointer )( player *, item *, bool, const tripoint & );
+using use_function_pointer = int ( iuse::* )( player *, item *, bool, const tripoint & );
 
 class iuse_actor
 {
 
     protected:
-        iuse_actor( const std::string &type, long cost = -1 ) : type( type ), cost( cost ) {}
+        iuse_actor( const std::string &type, int cost = -1 ) : type( type ), cost( cost ) {}
 
     public:
         /**
@@ -250,11 +254,11 @@ class iuse_actor
         const std::string type;
 
         /** Units of ammo required per invocation (or use value from base item if negative) */
-        long cost;
+        int cost;
 
         virtual ~iuse_actor() = default;
         virtual void load( JsonObject &jo ) = 0;
-        virtual long use( player &, item &, bool, const tripoint & ) const = 0;
+        virtual int use( player &, item &, bool, const tripoint & ) const = 0;
         virtual ret_val<bool> can_use( const player &, const item &, bool, const tripoint & ) const;
         virtual void info( const item &, std::vector<iteminfo> & ) const {}
         /**
@@ -296,7 +300,7 @@ struct use_function {
 
         ~use_function() = default;
 
-        long call( player &, item &, bool, const tripoint & ) const;
+        int call( player &, item &, bool, const tripoint & ) const;
         ret_val<bool> can_call( const player &p, const item &it, bool t, const tripoint &pos ) const;
 
         iuse_actor *get_actor_ptr() const {

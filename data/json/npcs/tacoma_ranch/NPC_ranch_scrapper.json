@@ -1,0 +1,35 @@
+[
+  {
+    "type": "npc",
+    "id": "ranch_scrapper_1",
+    "//": "Flavor",
+    "name_suffix": "Scrapper",
+    "class": "NC_HUNTER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_RANCH_SCRAPPER",
+    "faction": "tacoma_commune"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_SCRAPPER",
+    "dynamic_line": "Don't mind me.",
+    "responses": [
+      { "text": "What is your job here?", "topic": "TALK_RANCH_SCRAPPER_JOB" },
+      { "text": "Do you need any help?", "topic": "TALK_RANCH_SCRAPPER_HIRE" },
+      { "text": "I've got to go...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_SCRAPPER_JOB",
+    "dynamic_line": "I chop up useless vehicles for spare parts and raw materials.  If we can't use a vehicle immediately we haul it into the ring we are building to surround the outpost.  It provides a measure of defense in the event that we get attacked.",
+    "responses": [ { "text": "Interesting.", "topic": "TALK_RANCH_SCRAPPER" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_SCRAPPER_HIRE",
+    "dynamic_line": "I don't personally, the teams we send out to recover the vehicles usually need a hand but can be hard to catch since they spend most of their time outside the outpost.",
+    "responses": [ { "text": "OK.", "topic": "TALK_RANCH_SCRAPPER" } ]
+  }
+]

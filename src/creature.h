@@ -122,6 +122,11 @@ class Creature
         };
 
         /**
+         * Simplified attitude string for unlocalized needs.
+         */
+        static const std::string attitude_raw_string( Attitude att );
+
+        /**
          * Creature Attitude as String and color
          */
         static const std::pair<std::string, nc_color> &get_attitude_ui_data( Attitude att );
@@ -662,6 +667,7 @@ class Creature
     protected:
         virtual void on_stat_change( const std::string &, int ) {}
         virtual void on_effect_int_change( const efftype_id &, int, body_part ) {}
+        virtual void on_damage_of_type( int, damage_type, body_part ) {}
 
     public:
         body_part select_body_part( Creature *source, int hit_roll ) const;

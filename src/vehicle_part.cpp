@@ -195,7 +195,7 @@ itype_id vehicle_part::ammo_current() const
     return "null";
 }
 
-long vehicle_part::ammo_capacity() const
+int vehicle_part::ammo_capacity() const
 {
     if( is_tank() ) {
         return item::find_type( ammo_current() )->charges_per_volume( base.get_container_capacity() );
@@ -208,7 +208,7 @@ long vehicle_part::ammo_capacity() const
     return 0;
 }
 
-long vehicle_part::ammo_remaining() const
+int vehicle_part::ammo_remaining() const
 {
     if( is_tank() ) {
         return base.contents.empty() ? 0 : base.contents.back().charges;
@@ -221,7 +221,7 @@ long vehicle_part::ammo_remaining() const
     return 0;
 }
 
-int vehicle_part::ammo_set( const itype_id &ammo, long qty )
+int vehicle_part::ammo_set( const itype_id &ammo, int qty )
 {
     const itype *liquid = item::find_type( ammo );
 
@@ -229,7 +229,7 @@ int vehicle_part::ammo_set( const itype_id &ammo, long qty )
     if( is_tank() && liquid->phase >= LIQUID && qty != 0 ) {
         base.contents.clear();
         const auto stack = units::legacy_volume_factor / std::max( liquid->stack_size, 1 );
-        const long limit = units::from_milliliter( ammo_capacity() ) / stack;
+        const int limit = units::from_milliliter( ammo_capacity() ) / stack;
         base.emplace_back( ammo, calendar::turn, qty > 0 ? std::min( qty, limit ) : limit );
         return qty;
     }
@@ -255,7 +255,7 @@ void vehicle_part::ammo_unset()
     }
 }
 
-long vehicle_part::ammo_consume( long qty, const tripoint &pos )
+int vehicle_part::ammo_consume( int qty, const tripoint &pos )
 {
     if( is_tank() && !base.contents.empty() ) {
         const int res = std::min( ammo_remaining(), qty );
@@ -280,8 +280,8 @@ double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
         assert( fuel.is_fuel() );
         // convert energy density in MJ/L to J/ml
         const double energy_p_mL = fuel.fuel_energy() * 1000;
-        const long ml_to_use = static_cast<long>( std::floor( energy_j / energy_p_mL ) );
-        long charges_to_use = fuel.charges_per_volume( ml_to_use * 1_ml );
+        const int ml_to_use = static_cast<int>( std::floor( energy_j / energy_p_mL ) );
+        int charges_to_use = fuel.charges_per_volume( ml_to_use * 1_ml );
 
         if( !charges_to_use ) {
             return 0.0;
@@ -293,7 +293,7 @@ double vehicle_part::consume_energy( const itype_id &ftype, double energy_j )
             fuel.charges -= charges_to_use;
         }
         item fuel_consumed( ftype, calendar::turn, charges_to_use );
-        return energy_p_mL * units::to_milliliter<long>( fuel_consumed.volume( true ) );
+        return energy_p_mL * units::to_milliliter<int>( fuel_consumed.volume( true ) );
     }
     return 0.0;
 }
@@ -340,18 +340,16 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
 {
     // for now we only care about processing food containers since things like
     // fuel don't care about temperature yet
-    temperature_flag flag = temperature_flag::TEMP_NORMAL;
     if( base.is_food_container() ) {
-        int temp = g->weather.get_temperature( pos );
+        temperature_flag flag = temperature_flag::TEMP_NORMAL;
         if( e_heater ) {
-            temp = std::max( temp, temperatures::normal );
             flag = temperature_flag::TEMP_HEATER;
         }
-        base.process( nullptr, pos, false, temp, 1, flag );
+        base.process( nullptr, pos, false, 1, flag );
     }
 }
 
-bool vehicle_part::fill_with( item &liquid, long qty )
+bool vehicle_part::fill_with( item &liquid, int qty )
 {
     if( !is_tank() || !can_reload( liquid ) ) {
         return false;
