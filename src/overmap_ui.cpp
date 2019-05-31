@@ -941,7 +941,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 static void create_note( const tripoint &curs )
 {
     std::string color_notes = _( "Color codes: " );
-    for( const auto &color_pair : get_note_color_names() ) {
+    for( const std::pair<std::string, std::string> &color_pair : get_note_color_names() ) {
         // The color index is not translatable, but the name is.
         color_notes += string_format( "%1$s:<color_%3$s>%2$s</color>, ", color_pair.first.c_str(),
                                       _( color_pair.second ), string_replace( color_pair.second, " ", "_" ) );
@@ -956,14 +956,14 @@ static void create_note( const tripoint &curs )
 
     const std::string old_note = overmap_buffer.note( curs );
     std::string new_note = old_note;
-    const auto map_around = get_overmap_neighbors( curs );
+    auto map_around = get_overmap_neighbors( curs );
 
     const int max_note_length = 45;
     catacurses::window w_preview = catacurses::newwin( npm_height + 2, max_note_length - npm_width - 1,
                                    2, npm_width + 2 );
     catacurses::window w_preview_title = catacurses::newwin( 2, max_note_length + 1, 0, 0 );
     catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, 2, 0 );
-    auto preview_windows = std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
+    std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows = std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
 
 #if defined(__ANDROID__)
     if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
@@ -1125,12 +1125,12 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
 
     if( terrain ) {
         pmenu.title = _( "Select terrain to place:" );
-        for( const auto &oter : overmap_terrains::get_all() ) {
+        for( const oter_t &oter : overmap_terrains::get_all() ) {
             pmenu.addentry( oter.id.id(), true, 0, oter.id.str() );
         }
     } else {
         pmenu.title = _( "Select special to place:" );
-        for( const auto &elem : overmap_specials::get_all() ) {
+        for( const overmap_special &elem : overmap_specials::get_all() ) {
             oslist.push_back( &elem );
             pmenu.addentry( oslist.size() - 1, true, 0, elem.id.str() );
         }
@@ -1158,7 +1158,7 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
         uistate.omedit_rotation = om_direction::type::none;
         // If user chose an already rotated submap, figure out its direction
         if( terrain && can_rotate ) {
-            for( auto r : om_direction::all ) {
+            for( om_direction::type r : om_direction::all ) {
                 if( uistate.place_terrain->id.id() == uistate.place_terrain->get_rotated( r ) ) {
                     uistate.omedit_rotation = r;
                     break;
@@ -1212,7 +1212,7 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
                     overmap_buffer.set_seen( curs.x, curs.y, curs.z, true );
                 } else {
                     overmap_buffer.place_special( *uistate.place_special, curs, uistate.omedit_rotation, false, true );
-                    for( const auto &s_ter : uistate.place_special->terrains ) {
+                    for( const overmap_special_terrain &s_ter : uistate.place_special->terrains ) {
                         const tripoint pos = curs + om_direction::rotate( s_ter.p, uistate.omedit_rotation );
                         overmap_buffer.set_seen( pos.x, pos.y, pos.z, true );
                     }
@@ -1290,7 +1290,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     int fast_scroll_offset = get_option<int>( "FAST_SCROLL_OFFSET" );
     cata::optional<tripoint> mouse_pos;
     bool redraw = true;
-    auto last_blink = std::chrono::steady_clock::now();
+    std::chrono::time_point<std::chrono::steady_clock> last_blink = std::chrono::steady_clock::now();
     do {
         if( redraw ) {
             draw( g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays,
@@ -1385,7 +1385,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
             place_ter_or_special( curs, orig, show_explored, fast_scroll, action );
         }
 
-        auto now = std::chrono::steady_clock::now();
+        std::chrono::time_point<std::chrono::steady_clock> now = std::chrono::steady_clock::now();
         if( now > last_blink + std::chrono::milliseconds( BLINK_SPEED ) ) {
             if( uistate.overmap_blinking ) {
                 uistate.overmap_show_overlays = !uistate.overmap_show_overlays;
