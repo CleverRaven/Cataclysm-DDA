@@ -57,7 +57,7 @@
       },
       {
         "text": "Tell me more about that ranch of yours.",
-        "condition": { "u_add_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" },
+        "condition": { "u_has_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" },
         "topic": "TALK_FREE_MERCHANT_STOCKS_RANCH"
       },
       { "text": "What were you saying before that?", "topic": "TALK_NONE" },
