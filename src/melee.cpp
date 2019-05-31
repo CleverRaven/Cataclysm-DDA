@@ -403,7 +403,8 @@ void player::melee_attack( Creature &t, bool allow_special, const matec_id &forc
             }
 
             if( has_miss_recovery_tec( cur_weapon ) ) {
-                add_msg( _( "You feint." ) );
+                ma_technique tec = get_miss_recovery_tec( cur_weapon );
+                add_msg( _( tec.player_message ), t.disp_name() );
             } else if( stumble_pen >= 60 ) {
                 add_msg( m_bad, _( "You miss and stumble with the momentum." ) );
             } else if( stumble_pen >= 10 ) {
