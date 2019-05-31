@@ -4,7 +4,7 @@
     "id": "evac_broker",
     "//": "Appears in the refugee center as a bulk trader.  Promotes production of nonperishable food.",
     "name_suffix": "Broker",
-    "class": "NC_BOUNTY_HUNTER",
+    "class": "NC_SCAVENGER",
     "attitude": 0,
     "mission": 7,
     "chat": "TALK_FREE_MERCHANT_STOCKS",
@@ -39,6 +39,7 @@
         { "text": "Are you able to buy some canning supplies?",  "topic": "TALK_FREE_MERCHANT_STOCKS_JARS", "condition": { "u_has_var": "FMBroker_Mission1", "type": "mission", "context": "flag", "value": "yes" } },
         { "text": "Who are you?", "topic": "TALK_FREE_MERCHANT_STOCKS_NEW" },
         { "text": "I was told you had work for me?", "topic": "TALK_MISSION_LIST", "condition": { "u_has_var": "FMShopkeep_Mission5", "type": "mission", "context": "flag", "value": "yes" } },
+        { "text": "What's the deal with this written-on paper money you guys use?", "topic": "TALK_FREE_MERCHANT_BROKER_FMCN" },
         { "text": "Well, bye.", "topic": "TALK_DONE" } ]
   },
   {
@@ -109,6 +110,12 @@
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_STOCKS_ALL",
     "dynamic_line": "I'm actually accepting a number of different foodstuffs: beer, sugar, flour, smoked meat, smoked fish, dried fruit and vegetables, cooking oil, preservatives like salt and vinegar; and as mentioned before, jerky, cornmeal, and fruit wine.",
+    "responses": [ { "text": "Interesting...", "topic": "TALK_FREE_MERCHANT_STOCKS" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_FREE_MERCHANT_FMCN",
+    "dynamic_line": "We call them \"Free Merchant Certified Notes\".  We started signing money almost as soon as we got here as a way of showing it represented actual goods and services we had to trade.  Within a few days we'd organized the system, and now it's been evolving into a form of cash.  Internally they're traded for labor and services in exchange for food rations and other trade goods, but we've been using them with suppliers we regularly trade with as well, those that have faith in us.",
     "responses": [ { "text": "Interesting...", "topic": "TALK_FREE_MERCHANT_STOCKS" } ]
   },
   {
