@@ -128,7 +128,7 @@ static bool is_nonzero( const float x )
     return x != 0;
 }
 
-static bool is_nonzero( four_quadrants x )
+static bool is_nonzero( const four_quadrants &x )
 {
     return is_nonzero( x.max() );
 }
