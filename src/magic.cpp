@@ -1084,18 +1084,18 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
     efftype_id spell_effect( sp.effect_data() );
     bool bodypart_effected = false;
 
-    if ( guy ) {
-        for ( const body_part bp : all_body_parts ) {
-            if ( sp.bp_is_affected( bp ) ) {
+    if( guy ) {
+        for( const body_part bp : all_body_parts ) {
+            if( sp.bp_is_affected( bp ) ) {
                 guy->add_effect( spell_effect, dur_td, bp );
                 bodypart_effected = true;
             }
         }
-        if ( bodypart_effected ) {
+        if( bodypart_effected ) {
             return;
         }
     }
-    if ( !bodypart_effected ) {
+    if( !bodypart_effected ) {
         critter->add_effect( spell_effect, dur_td, num_bp );
     }
 }
