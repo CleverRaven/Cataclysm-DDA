@@ -1899,15 +1899,6 @@ class player : public Character
 
         /** Amount of time the player has spent in each overmap tile. */
         std::unordered_map<point, time_duration> overmap_time;
-
-        // magic mod
-
-        // list of spells known by player
-        std::map<spell_id, spell> spellbook;
-        // the base mana a player would start with
-        int mana_base;
-        // current mana
-        int mana;
 };
 
 #endif
