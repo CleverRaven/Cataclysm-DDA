@@ -52,13 +52,13 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     const season_type season = season_of_year( t );
     double mod_t( 0 ); // TODO: make this depend on latitude and altitude?
     // manually specified seasonal temp variation from region_settings.json
-    if( season == WINTER ){
+    if( season == WINTER ) {
         mod_t += winter_temp_manual_mod;
-    } else if( season == SPRING ){
+    } else if( season == SPRING ) {
         mod_t += spring_temp_manual_mod;
-    } else if( season == SUMMER ){
+    } else if( season == SUMMER ) {
         mod_t += summer_temp_manual_mod;
-    } else if( season == AUTUMN ){
+    } else if( season == AUTUMN ) {
         mod_t += autumn_temp_manual_mod;
     }
     const double current_t( base_temperature +
@@ -72,7 +72,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
                                          ctn + 1 ) - 2.3 );
     // Day-night temperature variation.
     double daily_variation( cos( tau * dayFraction - tau / 8 ) * -1 * season_atenuation / 2 +
-                                  season_dispersion * -1 );
+                            season_dispersion * -1 );
     // Add baseline to the noise.
     T += current_t;
     // Add season curve offset to account for the winter-summer difference in day-night difference.
@@ -80,18 +80,18 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
                                        2 ) );
     // Add daily variation scaled to the inverse of the current baseline. A very specific and finicky adjustment curve.
     T += daily_variation * 8 * exp( -pow( current_t / 30,
-                                       2 ) );
+                                          2 ) );
     T = T * 9 / 5 + 32; // Convert to imperial. =|
 
     // Humidity variation
     double mod_h( 0 );
-    if( season == WINTER ){
+    if( season == WINTER ) {
         mod_h += winter_humidity_manual_mod;
-    } else if( season == SPRING ){
+    } else if( season == SPRING ) {
         mod_h += spring_humidity_manual_mod;
-    } else if( season == SUMMER ){
+    } else if( season == SUMMER ) {
         mod_h += summer_humidity_manual_mod;
-    } else if( season == AUTUMN ){
+    } else if( season == AUTUMN ) {
         mod_h += autumn_humidity_manual_mod;
     }
     const double current_h( base_humidity + mod_h );
