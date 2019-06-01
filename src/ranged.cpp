@@ -102,7 +102,6 @@ double Creature::ranged_target_size() const
     if( has_flag( MF_HARDTOSHOOT ) ) {
         switch( get_size() ) {
             case MS_TINY:
-                return occupied_tile_fraction( MS_TINY );
             case MS_SMALL:
                 return occupied_tile_fraction( MS_TINY );
             case MS_MEDIUM:

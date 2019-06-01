@@ -3654,7 +3654,7 @@ static void blood_magic( player *p, int cost )
         action = uilist( _( "Choose part\nto draw blood from." ), uile );
     }
     p->hp_cur[action] -= cost;
-    p->mod_pain( std::max( ( int )1, cost / 3 ) );
+    p->mod_pain( std::max( 1, cost / 3 ) );
 }
 
 static spell casting;

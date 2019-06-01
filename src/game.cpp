@@ -230,7 +230,6 @@ static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
-static const trait_id trait_BURROW( "BURROW" );
 
 static const faction_id your_followers( "your_followers" );
 

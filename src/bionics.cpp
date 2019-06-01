@@ -1573,8 +1573,6 @@ int player::get_total_bionics_slots( const body_part bp ) const
             return 18;
 
         case bp_eyes:
-            return 4;
-
         case bp_mouth:
             return 4;
 
@@ -1863,7 +1861,7 @@ void bionic::serialize( JsonOut &json ) const
     json.member( "charge", charge );
     json.member( "ammo_loaded", ammo_loaded );
     json.member( "ammo_count", ammo_count );
-    if( incapacitated_time > 0 ) {
+    if( incapacitated_time > 0_turns ) {
         json.member( "incapacitated_time", incapacitated_time );
     }
     json.end_object();
