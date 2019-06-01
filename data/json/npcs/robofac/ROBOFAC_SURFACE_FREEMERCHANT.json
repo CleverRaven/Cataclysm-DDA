@@ -45,6 +45,7 @@
   },
   {
     "type": "item_group",
+    "sub-type": "collection",
     "id": "NC_ROBOFAC_FREE_MERCHANT_misc",
     "entries": [
       { "item": "FMCNote", "count-min": 50, "count-max": 300, "prob": 100 },
@@ -87,9 +88,9 @@
       "yes": [
         "Still plenty of outlaws in the roads, perhaps you should tend to your job, marshal...",
         "You see anything you want, marshal?",
-        "Oh, a U.S. marshal, how quaint"
+        "Oh, a U.S. marshal, how quaint."
       ],
-      "no": [ "Welcome...", "Here to trade, I hope?", "Safe travels, scavenger" ]
+      "no": [ "Welcome...", "Here to trade, I hope?", "Safe travels, scavenger." ]
     },
     "responses": [
       { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_ROBOFAC_FREE_MERCHANT" },
