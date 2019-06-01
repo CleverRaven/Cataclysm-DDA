@@ -6239,14 +6239,9 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
         if( ei_read == choice ) {
             p->moves -= 50;
 
-            std::string recipes = ",";
             std::istringstream f( it->get_var( "EIPC_BOOKS" ) );
             std::string s;
             while( getline( f, s, ',' ) ) {
-
-                if( s.empty() ) {
-                    continue;
-                }
 
                 item book( item( s, calendar::turn ) );
                 book.set_var( "weight", 0 );
@@ -6255,16 +6250,9 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
                 book.item_tags.insert( "IRREMOVABLE" );
                 book.item_tags.insert( "EBOOK" );
                 p->inv.add_item( book );
-                // update eink recipes here
-                if( g->u.has_identified( book.typeId() ) ) {
-                    for( const auto &r : book.type->book->recipes ) {
-                        if( recipes.find( r.recipe->ident().str() + "," ) == std::string::npos ) {
-                            recipes += r.recipe->ident().str() + ",";
-                        }
-                    }
-                }
+
             }
-            it->set_var( "EIPC_RECIPES", recipes );
+
             avatar &u = g->u;
             auto loc = game_menus::inv::eread( u );
 

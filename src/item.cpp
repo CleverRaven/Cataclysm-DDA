@@ -5409,23 +5409,24 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const p
                 recipe_entries.push_back( std::make_pair( elem.recipe, elem.skill_level ) );
             }
         }
-    } else if( has_var( "EIPC_RECIPES" ) ) {
+    } else if( has_var( "EIPC_BOOKS" ) ) {
         // See einkpc_download_memory_card() in iuse.cpp where this is set.
-        const std::string recipes = get_var( "EIPC_RECIPES" );
-        // Capture the index one past the delimiter, i.e. start of target string.
-        size_t first_string_index = recipes.find_first_of( ',' ) + 1;
-        while( first_string_index != std::string::npos ) {
-            size_t next_string_index = recipes.find_first_of( ',', first_string_index );
-            if( next_string_index == std::string::npos ) {
-                break;
+        std::istringstream f( get_var( "EIPC_BOOKS" ) );
+        std::string s;
+        while( getline( f, s, ',' ) ) {
+
+            item book( item( s, calendar::turn ) );
+
+            if( const avatar *a = dynamic_cast<const avatar *>( &u ) ) {
+                if( !a->has_identified( book.typeId() ) ) {
+                    continue;
+                }
             }
-            std::string new_recipe = recipes.substr( first_string_index,
-                                     next_string_index - first_string_index );
-            const recipe *r = &recipe_id( new_recipe ).obj();
-            if( u.get_skill_level( r->skill_used ) >= r->difficulty ) {
-                recipe_entries.push_back( std::make_pair( r, r->difficulty ) );
+
+            for( const auto &r : book.type->book->recipes ) {
+                // recipe_subset::include will sort out duplicates
+                recipe_entries.push_back( std::make_pair( r.recipe, r.skill_level ) );
             }
-            first_string_index = next_string_index + 1;
         }
     }
     return recipe_entries;
