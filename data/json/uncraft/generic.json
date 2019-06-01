@@ -33,7 +33,7 @@
     "difficulty": 1,
     "time": 2200,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "rag", 60 ] ], [ [ "sheet", 4 ] ] ]
+    "components": [ [ [ "rag", 60 ] ], [ [ "sheet", 4 ] ], [ [ "scrap", 20 ] ], [ [ "wire", 20 ] ] ]
   },
   {
     "result": "character_sheet",
