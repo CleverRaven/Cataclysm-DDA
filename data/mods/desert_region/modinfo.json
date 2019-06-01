@@ -1,0 +1,13 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "desertpack",
+    "name": "Desert Region",
+    "authors": [ "Dpwb", "DracoGriffin" ],
+    "description": "Nondescript desert set in the Cataclysm universe.",
+    "category": "content",
+    "dependencies": [ "dda" ],
+    "version": "0.1",
+    "obsolete": false
+  }
+]
