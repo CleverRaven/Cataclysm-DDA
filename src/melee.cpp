@@ -1315,6 +1315,8 @@ static int blocking_ability( const item &shield )
         block_bonus = 6;
     } else if( shield.has_technique( WBLOCK_1 ) ) {
         block_bonus = 4;
+    } else if( shield.has_flag( "BLOCK_WHILE_WORN" ) ) {
+        block_bonus = 2;
     }
     return block_bonus;
 }
@@ -1323,6 +1325,8 @@ item &player::best_shield()
 {
     // Note: wielded weapon, not one used for attacks
     int best_value = blocking_ability( weapon );
+    // "BLOCK_WHILE_WORN" without a blocking tech need to be worn for the bonus
+    best_value = best_value == 2 ? 0 : best_value;
     item *best = best_value > 0 ? &weapon : &null_item_reference();
     for( item &shield : worn ) {
         if( shield.has_flag( "BLOCK_WHILE_WORN" ) && blocking_ability( shield ) >= best_value ) {
