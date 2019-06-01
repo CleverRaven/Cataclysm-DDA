@@ -1668,14 +1668,21 @@ int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
 }
 
 int map::move_cost( const tripoint &to, const tripoint &from, const vehicle *ignored_vehicle ) const
+{
+    return std::get<0>(cost_obstacle_internal(to,from,ignored_vehicle));
+}
+
+std::tuple<int,cata::optional<tripoint>> map::cost_obstacle_internal( const tripoint &to, const tripoint &from, const vehicle *ignored_vehicle ) const
 {   
     int cost_to = move_cost( to, ignored_vehicle );
         
     // Ignore diagonal if target is already impassable.
-    if( cost_to != 0 ) {
+    if( cost_to == 0){
+        return std::make_tuple(0,to);
+    } else {
                 
         const tripoint dmove = to - from;
-        bool diagonal = abs(dmove.x) == abs(dmove.y); // both 1
+        bool diagonal = abs(dmove.x) == abs(dmove.y);
         
         if( diagonal ) {
         
@@ -1685,12 +1692,12 @@ int map::move_cost( const tripoint &to, const tripoint &from, const vehicle *ign
             
             // Nevermind if diagonals are out of bounds.
             if( !inbounds( to_x ) || !inbounds( to_y ) ) {
-                 return cost_to;
+                 return std::make_tuple(cost_to, cata::nullopt );
              }
             
             const furn_t &furniture_x = furn( to_x ).obj();
             const ter_t &terrain_x = ter( to_x ).obj(); 
-
+            
             const furn_t &furniture_y = furn( to_y ).obj();
             const ter_t &terrain_y = ter( to_y ).obj();       
             
@@ -1706,22 +1713,24 @@ int map::move_cost( const tripoint &to, const tripoint &from, const vehicle *ign
             //If parts are of the same vehicle ignore them if they are not contiguous in mount space.           
             if( veh_y && veh_x && veh_y==veh_x ){            
                 point dmount = vp_y->mount() - vp_x->mount();                
-                bool connected = abs(dmount.x) < 2  && abs(dmount.y) < 2; // Diagonal parts count as connected too.                
+                bool connected = abs(dmount.x) < 2  && abs(dmount.y) < 2 && abs(dmount.x) != abs(dmount.y); // Diagonal parts don't count as connected.                
                 if( !connected ){
                     part_x = -1;
                     part_y = -1;                     
                 }
-            }                
-            int comp_cost = move_cost_internal( furniture_x, terrain_x, veh_x, part_x ) + move_cost_internal( furniture_y, terrain_y, veh_y, part_y );                   
-            if( comp_cost != 0){
-                cost_to += comp_cost/2; // debatable
-            }
-            else{
-                return 0;
-            }
+                
+            } 
+            // When done with everything else check for vehicle only.
+            const int cost_x = move_cost_internal( furniture_x, terrain_x, veh_x, part_x );
+            const int cost_y = move_cost_internal( furniture_y, terrain_y, veh_y, part_y );
+            
+            if( cost_x + cost_y == 0){
+                return std::make_tuple(0,to_x); // TODO: randomize or swap from 2 tripoints.
+            } 
         }
-    }    
-    return cost_to;    
+        
+        return std::make_tuple(cost_to, cata::nullopt );
+    }  
 }
 
 bool map::impassable( const tripoint &p ) const
@@ -1729,9 +1738,9 @@ bool map::impassable( const tripoint &p ) const
     return !passable( p );
 }
 
-bool map::impassable( const tripoint &to, const tripoint &from ) const
+cata::optional<tripoint> map::impassable( const tripoint &to, const tripoint &from ) const
 {
-    return !passable( to, from );
+    return std::get<1>(cost_obstacle_internal(to,from));
 }
 
 bool map::passable( const tripoint &p ) const
@@ -1741,7 +1750,7 @@ bool map::passable( const tripoint &p ) const
 
 bool map::passable( const tripoint &to, const tripoint &from ) const
 {
-    return move_cost( to, from ) != 0;
+    return std::get<0>(cost_obstacle_internal(to,from)) != 0;
 }
 
 int map::move_cost_ter_furn( const tripoint &p ) const

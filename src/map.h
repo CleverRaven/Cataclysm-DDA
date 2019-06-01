@@ -393,12 +393,19 @@ class map
         * n > 0     | x*n turns to move past this
         */
         int move_cost( const tripoint &p, const vehicle *ignored_vehicle = nullptr ) const;
-        int move_cost( const tripoint &to, const tripoint &from, const vehicle *ignored_vehicle = nullptr ) const;        
-        
+        int move_cost( const tripoint &to, const tripoint &from, const vehicle *ignored_vehicle = nullptr ) const;
+                
         bool impassable( const tripoint &p ) const;
-        bool impassable( const tripoint &to, const tripoint &from ) const;
+        // Return null/false or blocking tripoint.
+        cata::optional<tripoint> impassable( const tripoint &to, const tripoint &from ) const;
         bool passable( const tripoint &p ) const;
         bool passable( const tripoint &to, const tripoint &from ) const;
+        
+        /**
+         * Internal to get movement cost and a blocking tile if any
+         * to account for diagonal neighbor tiles.
+         */
+        std::tuple<int,cata::optional<tripoint>> cost_obstacle_internal( const tripoint &to, const tripoint &from, const vehicle *ignored_vehicle = nullptr ) const;
 
         /**
         * Similar behavior to `move_cost()`, but ignores vehicles.
