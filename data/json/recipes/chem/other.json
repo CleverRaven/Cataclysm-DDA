@@ -41,5 +41,19 @@
         [ "slime_scrap", 1 ]
       ]
     ]
+  },
+  {
+    "result": "rosin",
+    "type": "recipe",
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "time": "60 m",
+    "batch_time_factors": [ 70, 10 ],
+    "autolearn": true,
+    "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "DISTILL", "level": 1 } ],
+    "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
+    "components": [ [ [ "pine_bough", 1 ] ] ]
   }
 ]

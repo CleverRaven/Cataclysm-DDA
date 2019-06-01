@@ -5277,6 +5277,11 @@ bool item::is_emissive() const
     return light.luminance > 0 || type->light_emission > 0;
 }
 
+bool item::is_deployable() const
+{
+    return type->can_use( "deploy_furn" );
+}
+
 bool item::is_tool() const
 {
     return type->tool.has_value();

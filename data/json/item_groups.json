@@ -37,6 +37,7 @@
       [ "backpack", 38 ],
       [ "slingpack", 19 ],
       [ "pockknife", 14 ],
+      [ "roller_shoes_off", 10 ],
       [ "knife_swissarmy", 10 ],
       [ "hairpin", 5 ],
       [ "fc_hairpin", 1 ],
@@ -100,6 +101,7 @@
       [ "pine_bough", 20 ],
       [ "acorns", 15 ],
       [ "pinecone", 5 ],
+      [ "juniper", 5 ],
       [ "hickory_root", 3 ],
       [ "hickory_nut", 5 ],
       [ "one_year_old_newspaper", 2 ],
@@ -733,6 +735,7 @@
       [ "irradiated_lemon", 25 ],
       [ "pear", 50 ],
       [ "irradiated_pear", 25 ],
+      [ "juniper", 1 ],
       [ "grapefruit", 5 ],
       [ "irradiated_grapefruit", 2 ],
       [ "cherries", 10 ],
@@ -844,6 +847,7 @@
       [ "mask_hockey", 5 ],
       [ "hockey_stick", 10 ],
       [ "roller_blades", 20 ],
+      [ "roller_shoes_off", 10 ],
       [ "jersey", 40 ],
       [ "puck", 5 ],
       [ "baseball", 5 ],
@@ -2216,7 +2220,13 @@
       [ "l-stick", 1 ],
       [ "tourist_table", 30 ],
       [ "trailmap", 5 ],
-      [ "chem_hexamine", 5 ]
+      [ "chem_hexamine", 5 ],
+      [ "flint_steel", 10 ],
+      [ "bottle_metal", 5 ],
+      [ "tarp", 10 ],
+      [ "esbit_stove", 10 ],
+      [ "bottle_folding", 10 ],
+      [ "mess_tin", 10 ]
     ]
   },
   {
@@ -2433,7 +2443,13 @@
       [ "powered_earmuffs", 80 ],
       [ "bandolier_wrist", 100 ],
       [ "tourist_table", 20 ],
-      [ "chem_hexamine", 5 ]
+      [ "chem_hexamine", 5 ],
+      [ "flint_steel", 10 ],
+      [ "bottle_metal", 5 ],
+      [ "tarp", 10 ],
+      [ "esbit_stove", 10 ],
+      [ "bottle_folding", 5 ],
+      [ "mess_tin", 10 ]
     ]
   },
   {
@@ -2631,6 +2647,7 @@
       [ "leathersandals", 10 ],
       [ "rollerskates", 1 ],
       [ "roller_blades", 5 ],
+      [ "roller_shoes_off", 1 ],
       [ "mocassins", 20 ]
     ]
   },
@@ -2842,6 +2859,7 @@
       [ "leathersandals", 100 ],
       [ "rollerskates", 10 ],
       [ "roller_blades", 20 ],
+      [ "roller_shoes_off", 10 ],
       [ "boots_rubber", 20 ],
       [ "clownshoes", 10 ],
       [ "mocassins", 40 ]
@@ -3113,7 +3131,9 @@
       [ "elec_hairtrimmer", 15 ],
       [ "razor_blade", 5 ],
       [ "kilt", 5 ],
-      [ "l-stick", 1 ]
+      [ "l-stick", 1 ],
+      [ "flint_steel", 5 ],
+      [ "bottle_metal", 5 ]
     ]
   },
   {
@@ -3843,6 +3863,7 @@
       [ "roller_blades", 20 ],
       [ "rollerskates", 10 ],
       [ "rollerskates", 10 ],
+      [ "roller_shoes_off", 10 ],
       [ "survnote", 3 ],
       [ "radio_car_box", 3 ],
       [ "radiocontrol", 10 ],
@@ -4326,6 +4347,7 @@
       [ "boots_hiking", 10 ],
       [ "roller_blades", 20 ],
       [ "rollerskates", 10 ],
+      [ "roller_shoes_off", 10 ],
       [ "runner_bag", 5 ],
       [ "gloves_tactical", 1 ],
       [ "glasses_bal", 5 ],
@@ -4539,7 +4561,10 @@
       [ "bootsheath", 10 ],
       [ "survnote", 1 ],
       [ "solarpack", 1 ],
-      [ "tourist_table", 5 ]
+      [ "tourist_table", 5 ],
+      [ "chem_hexamine", 5 ],
+      [ "esbit_stove", 10 ],
+      [ "mess_tin", 10 ]
     ]
   },
   {
@@ -4688,7 +4713,14 @@
       [ "holster", 4 ],
       [ "bandolier_shotgun", 3 ],
       [ "survnote", 2 ],
-      [ "bodypillow", 1 ]
+      [ "bodypillow", 1 ],
+      [ "flint_steel", 6 ],
+      [ "bottle_metal", 2 ],
+      [ "tarp", 15 ],
+      [ "chem_hexamine", 4 ],
+      [ "esbit_stove", 8 ],
+      [ "bottle_folding", 6 ],
+      [ "mess_tin", 8 ]
     ]
   },
   {
@@ -5610,7 +5642,10 @@
       [ "holster", 15 ],
       [ "sholster", 10 ],
       [ "bandolier_shotgun", 8 ],
-      [ "solarpack", 5 ]
+      [ "solarpack", 5 ],
+      [ "chem_hexamine", 3 ],
+      [ "esbit_stove", 6 ],
+      [ "mess_tin", 4 ]
     ]
   },
   {
@@ -7025,7 +7060,10 @@
       [ "bot_manhack", 1 ],
       [ "bot_grenade_hack", 1 ],
       [ "l-stick", 1 ],
-      [ "solarpack", 2 ]
+      [ "solarpack", 2 ],
+      [ "chem_hexamine", 5 ],
+      [ "esbit_stove", 8 ],
+      [ "mess_tin", 4 ]
     ]
   },
   {
@@ -8366,7 +8404,9 @@
       [ "pointy_stick", 50 ],
       [ "copper_knife", 10 ],
       [ "copper_ax", 10 ],
-      [ "bone_flute", 10 ]
+      [ "bone_flute", 10 ],
+      [ "spear_stone", 50 ],
+      [ "hand_axe", 50 ]
     ]
   },
   {

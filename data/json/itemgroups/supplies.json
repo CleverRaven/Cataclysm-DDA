@@ -197,7 +197,8 @@
       [ "chem_chromium_oxide", 5 ],
       [ "chem_zinc_powder", 5 ],
       [ "denat_alcohol", 5 ],
-      [ "recharge_station", 10 ]
+      [ "recharge_station", 10 ],
+      [ "tarp", 15 ]
     ]
   },
   {
