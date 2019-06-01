@@ -962,7 +962,7 @@
     "encumbrance": 50,
     "storage": 100,
     "material_thickness": 2,
-    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "NOSALVAGE" ]
+    "flags": [ "OVERSIZE", "RESTRICT_HANDS", "NO_SALVAGE" ]
   },
   {
     "id": "beekeeping_gloves",
