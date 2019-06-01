@@ -65,7 +65,7 @@ namespace overmap_ui
 {
 
 // {note symbol, note color, offset to text}
-std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &note )
+static std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &note )
 {
     std::tuple<char, nc_color, size_t> result {'N', c_yellow, 0};
     bool set_color  = false;
@@ -102,7 +102,7 @@ std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &not
     return result;
 }
 
-std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_overmap_neighbors(
+static std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_overmap_neighbors(
     const tripoint &current )
 {
     const bool has_debug_vision = g->u.has_trait( trait_id( "DEBUG_NIGHTVISION" ) );
@@ -128,7 +128,7 @@ std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_overmap_
     return map_around;
 }
 
-void update_note_preview( const std::string &note,
+static void update_note_preview( const std::string &note,
                           const std::array<std::pair<nc_color, std::string>, npm_width *npm_height> &map_around,
                           const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *>
                           &preview_windows )
@@ -169,7 +169,7 @@ void update_note_preview( const std::string &note,
     wrefresh( *w_preview_map );
 }
 
-weather_type get_weather_at_point( const tripoint &pos )
+static weather_type get_weather_at_point( const tripoint &pos )
 {
     // Weather calculation is a bit expensive, so it's cached here.
     static std::map<tripoint, weather_type> weather_cache;
@@ -188,7 +188,7 @@ weather_type get_weather_at_point( const tripoint &pos )
     return iter->second;
 }
 
-bool get_scent_glyph( const tripoint &pos, nc_color &ter_color, std::string &ter_sym )
+static bool get_scent_glyph( const tripoint &pos, nc_color &ter_color, std::string &ter_sym )
 {
     auto possible_scent = overmap_buffer.scent_at( pos );
     if( possible_scent.creation_time != calendar::before_time_starts ) {
@@ -213,7 +213,7 @@ bool get_scent_glyph( const tripoint &pos, nc_color &ter_color, std::string &ter
     return false;
 }
 
-void draw_city_labels( const catacurses::window &w, const tripoint &center )
+static void draw_city_labels( const catacurses::window &w, const tripoint &center )
 {
     const int win_x_max = getmaxx( w );
     const int win_y_max = getmaxy( w );
@@ -252,7 +252,7 @@ void draw_city_labels( const catacurses::window &w, const tripoint &center )
     }
 }
 
-void draw_camp_labels( const catacurses::window &w, const tripoint &center )
+static void draw_camp_labels( const catacurses::window &w, const tripoint &center )
 {
     const int win_x_max = getmaxx( w );
     const int win_y_max = getmaxy( w );
@@ -290,7 +290,7 @@ void draw_camp_labels( const catacurses::window &w, const tripoint &center )
     }
 }
 
-point draw_notes( int z )
+static point draw_notes( int z )
 {
     const overmapbuffer::t_notes_vector notes = overmap_buffer.get_all_notes( z );
     catacurses::window w_notes = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
@@ -1219,7 +1219,7 @@ static void place_ter_or_special( tripoint &curs, const tripoint &orig, const bo
     }
 }
 
-tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() )
+static tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() )
 {
     g->w_omlegend = catacurses::newwin( TERMY, 28, 0, TERMX - 28 );
     g->w_overmap = catacurses::newwin( OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, 0, 0 );
@@ -1385,7 +1385,7 @@ tripoint display( const tripoint &orig, const draw_data_t &data = draw_data_t() 
     return ret;
 }
 
-} // anonymous namespace
+} // overmap_ui
 
 void ui::omap::display()
 {
