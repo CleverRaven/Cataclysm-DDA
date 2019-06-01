@@ -138,7 +138,6 @@ npc::npc()
     myclass = npc_class_id::NULL_ID();
     patience = 0;
     attitude = NPCATT_NULL;
-    current_activity = "";
 
     *path_settings = pathfinding_settings( 0, 1000, 1000, 10, true, true, true, false );
     for( size_t i = 0; i < 8; i++ ) {

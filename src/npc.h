@@ -735,7 +735,6 @@ class npc : public player
          * a spiral search for an empty square around it is performed.
          */
         void place_on_map();
-        std::string get_current_activity();
         /**
          * See @ref npc_chatbin::add_new_mission
          */
