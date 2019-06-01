@@ -1497,7 +1497,6 @@ static void end_arrow_combo()
 static long sdl_keysym_to_curses( const SDL_Keysym &keysym )
 {
 
-#if !defined(__ANDROID__)
     const std::string diag_mode = get_option<std::string>( "DIAG_MOVE_WITH_MODIFIERS_MODE" );
 
     if( diag_mode == "mode1" ) {
@@ -1557,7 +1556,7 @@ static long sdl_keysym_to_curses( const SDL_Keysym &keysym )
             }
         }
     }
-#endif
+
     if( keysym.mod & KMOD_CTRL && keysym.sym >= 'a' && keysym.sym <= 'z' ) {
         // ASCII ctrl codes, ^A through ^Z.
         return keysym.sym - 'a' + '\1';
