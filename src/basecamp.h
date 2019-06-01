@@ -28,6 +28,7 @@ class mission_data;
 struct expansion_data {
     std::string type;
     std::map<std::string, int> provides;
+    std::map<std::string, int> in_progress;
     tripoint pos;
     // legacy camp level, replaced by provides map and set to -1
     int cur_level;
@@ -61,6 +62,7 @@ struct basecamp_upgrade {
     std::string bldg;
     std::string name;
     bool avail = false;
+    bool in_progress = false;
 };
 
 class basecamp
@@ -106,7 +108,7 @@ class basecamp
         bool has_provides( const std::string &req, const std::string &dir = "all", int level = 0 ) const;
         void update_resources( const std::string &bldg );
         void update_provides( const std::string &bldg, expansion_data &e_data );
-
+        void update_in_progress( const std::string &bldg, const std::string &dir );
 
         bool can_expand();
         /// Returns the name of the building the current building @ref dir upgrades into,

@@ -129,6 +129,7 @@ void basecamp::define_camp( npc &p )
         e.pos = omt_pos;
         expansions[ base_dir ] = e;
         omt_ref = oter_id( "faction_base_camp_0" );
+        update_provides( e.type, expansions[ base_dir ] );
     } else {
         expansions[ base_dir ] = parse_expansion( om_cur, omt_pos );
     }
@@ -245,11 +246,30 @@ const std::vector<basecamp_upgrade> basecamp::available_upgrades( const std::str
             if( !should_display ) {
                 continue;
             }
+            bool in_progress = false;
+            for( const auto &bp_exclude : recp.blueprint_excludes() ) {
+                if( e_data.provides.find( bp_exclude.first ) != e_data.provides.end() ) {
+                    if( e_data.provides[bp_exclude.first] >= bp_exclude.second ) {
+                        should_display = false;
+                        break;
+                    }
+                }
+                if( e_data.in_progress.find( bp_exclude.first ) != e_data.in_progress.end() ) {
+                    if( e_data.in_progress[bp_exclude.first] >= bp_exclude.second ) {
+                        in_progress = true;
+                        break;
+                    }
+                }
+            }
+            if( !should_display ) {
+                continue;
+            }
             basecamp_upgrade data;
             data.bldg = bldg;
             data.name = recp.blueprint_name();
             const auto &reqs = recp.requirements();
             data.avail = reqs.can_make_with_inventory( _inv, recp.get_component_filter(), 1 );
+            data.in_progress = in_progress;
             ret_data.emplace_back( data );
         }
     }
@@ -320,6 +340,27 @@ void basecamp::update_provides( const std::string &bldg, expansion_data &e_data 
             e_data.provides[bp_provides.first] = 0;
         }
         e_data.provides[bp_provides.first] += bp_provides.second;
+    }
+}
+
+
+void basecamp::update_in_progress( const std::string &bldg, const std::string &dir )
+{
+    if( !recipe_id( bldg ).is_valid() ) {
+        return;
+    }
+    auto e = expansions.find( dir );
+    if( e == expansions.end() ) {
+        return;
+    }
+    expansion_data &e_data = e->second;
+
+    const recipe &making = recipe_id( bldg ).obj();
+    for( const auto &bp_provides : making.blueprint_provides() ) {
+        if( e_data.in_progress.find( bp_provides.first ) == e_data.in_progress.end() ) {
+            e_data.in_progress[bp_provides.first] = 0;
+        }
+        e_data.in_progress[bp_provides.first] += bp_provides.second;
     }
 }
 

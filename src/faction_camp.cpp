@@ -600,11 +600,11 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         gather_bldg = upgrade.bldg;
         const bcp_miss_data &miss_info = basecamp_missions_info[ "_faction_upgrade_camp" ];
         comp_list npc_list = get_mission_workers( upgrade.bldg + "_faction_upgrade_camp" );
-        if( npc_list.empty() ) {
+        if( npc_list.empty() && !upgrade.in_progress ) {
             entry = upgrade_description( upgrade.bldg );
             mission_key.add_start( miss_info.miss_id + upgrade.bldg,
                                    miss_info.desc + " " + upgrade.name, "", entry, upgrade.avail );
-        } else {
+        } else if( !npc_list.empty() && upgrade.in_progress ) {
             entry = miss_info.action;
             bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( miss_info.ret_miss_id + upgrade.bldg,
@@ -1417,6 +1417,7 @@ void basecamp::start_upgrade( const std::string &bldg, const std::string &key, b
         if( comp != nullptr ) {
             consume_components( making, 1, by_radio );
         }
+        update_in_progress( bldg, dir );
     } else {
         popup( _( "You don't have the materials for the upgrade." ) );
     }
