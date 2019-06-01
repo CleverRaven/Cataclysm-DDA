@@ -183,7 +183,8 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "defensive": true,
-    "miss_recovery": true
+    "miss_recovery": true,
+    "messages": [ "You feint at %s.", "<npcname> feints at %s." ]
   },
   {
     "type": "technique",
@@ -857,7 +858,7 @@
     "unarmed_allowed": true,
     "defensive": true,
     "miss_recovery": true,
-    "messages": [ "You raise your arms intimidatingly", "<npcname> performs the Crane Wing" ]
+    "messages": [ "You raise your arms intimidatingly at %s.", "<npcname> performs the Crane Wing at %s." ]
   },
   {
     "type": "technique",
