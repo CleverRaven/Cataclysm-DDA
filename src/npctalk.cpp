@@ -1355,7 +1355,7 @@ void parse_tags( std::string &phrase, const player &u, const player &me, const i
         } else if( tag == "<current_activity>" ) {
             std::string activity_name;
             const npc *guy = dynamic_cast<const npc *>( &me );
-            if( !guy->current_activity.empty() ){
+            if( !guy->current_activity.empty() ) {
                 activity_name = guy->current_activity;
             } else {
                 activity_name = "doing this and that";
@@ -2526,7 +2526,7 @@ void conditional_t::set_has_activity( bool is_npc )
         if( is_npc ) {
             return d.beta->has_activity();
         } else {
-            if( !actor->activity.is_null() ){
+            if( !actor->activity.is_null() ) {
                 return true;
             }
         }

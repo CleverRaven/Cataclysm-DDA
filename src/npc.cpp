@@ -29,7 +29,6 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player_activity.h"
 #include "skill.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -2565,11 +2564,11 @@ attitude_group npc::get_attitude_group( npc_attitude att ) const
 
 void npc::set_mission( npc_mission new_mission )
 {
-    if( new_mission != mission ){
+    if( new_mission != mission ) {
         previous_mission = mission;
         mission = new_mission;
     }
-    if( mission == NPC_MISSION_ACTIVITY ){
+    if( mission == NPC_MISSION_ACTIVITY ) {
         current_activity = activity.get_verb();
     }
 }
