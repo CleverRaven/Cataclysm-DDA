@@ -1315,7 +1315,7 @@ static int blocking_ability( const item &shield )
         block_bonus = 6;
     } else if( shield.has_technique( WBLOCK_1 ) ) {
         block_bonus = 4;
-    } else if ( shield.has_flag( "BLOCK_WHILE_WORN" ) ) {
+    } else if( shield.has_flag( "BLOCK_WHILE_WORN" ) ) {
         block_bonus = 2;
     }
     return block_bonus;
