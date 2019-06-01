@@ -4,6 +4,7 @@
     "id": "default",
     "default_oter": "field",
     "default_groundcover": [ [ "t_grass", 4 ], [ "t_grass_long", 2 ], [ "t_dirt", 1 ] ],
+    "river_scale": 1.0,
     "field_coverage": {
       "percent_coverage": 0.9333,
       "default_ter": "t_shrub",
