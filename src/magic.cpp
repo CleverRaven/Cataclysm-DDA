@@ -147,6 +147,9 @@ void spell_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "max_pierce", max_pierce, 0 );
 
     optional( jo, was_loaded, "base_energy_cost", base_energy_cost, 0 );
+    optional( jo, was_loaded, "final_energy_cost", final_energy_cost, base_energy_cost );
+    optional( jo, was_loaded, "energy_increment", energy_increment, 0.0f );
+
     std::string temp_string;
     optional( jo, was_loaded, "spell_class", temp_string, "NONE" );
     spell_class = trait_id( temp_string );
@@ -156,8 +159,10 @@ void spell_type::load( JsonObject &jo, const std::string & )
     dmg_type = damage_type_from_string( temp_string );
     optional( jo, was_loaded, "difficulty", difficulty, 0 );
     optional( jo, was_loaded, "max_level", max_level, 0 );
-    optional( jo, was_loaded, "base_casting_time", base_casting_time, 0 );
 
+    optional( jo, was_loaded, "base_casting_time", base_casting_time, 0 );
+    optional( jo, was_loaded, "final_casting_time", final_casting_time, base_casting_time );
+    optional( jo, was_loaded, "casting_time_increment", casting_time_increment, 0.0f );
 }
 
 void spell_type::check_consistency()
@@ -180,6 +185,14 @@ void spell_type::check_consistency()
         }
         if( sp_t.min_pierce > sp_t.max_pierce ) {
             debugmsg( string_format( "ERROR: %s has higher min_pierce than max_pierce", sp_t.id.c_str() ) );
+        }
+        if( sp_t.casting_time_increment < 0.0f && sp_t.base_casting_time < sp_t.final_casting_time ) {
+            debugmsg( string_format( "ERROR: %s has negative increment and base_casting_time < final_casting_time",
+                                     sp_t.id.c_str() ) );
+        }
+        if( sp_t.casting_time_increment > 0.0f && sp_t.base_casting_time > sp_t.final_casting_time ) {
+            debugmsg( string_format( "ERROR: %s has positive increment and base_casting_time > final_casting_time",
+                                     sp_t.id.c_str() ) );
         }
     }
 }
@@ -269,8 +282,15 @@ bool spell::can_learn( const player &p ) const
 
 int spell::energy_cost() const
 {
-    // todo: formula to vary energy cost
-    return type->base_energy_cost;
+    if( type->base_energy_cost < type->final_energy_cost ) {
+        return std::min( type->final_energy_cost,
+                         static_cast<int>( round( type->base_energy_cost + type->energy_increment * get_level() ) ) );
+    } else if( type->base_energy_cost > type->final_energy_cost ) {
+        return std::max( type->final_energy_cost,
+                         static_cast<int>( round( type->base_energy_cost + type->energy_increment * get_level() ) ) );
+    } else {
+        return type->base_energy_cost;
+    }
 }
 
 bool spell::can_cast( const player &p ) const
@@ -308,8 +328,15 @@ int spell::get_difficulty() const
 
 int spell::casting_time() const
 {
-    // todo: formula for casting time
-    return type->base_casting_time;
+    if( type->base_casting_time < type->final_casting_time ) {
+        return std::min( type->final_casting_time,
+                         static_cast<int>( round( type->base_casting_time + type->casting_time_increment * get_level() ) ) );
+    } else if( type->base_casting_time > type->final_casting_time ) {
+        return std::max( type->final_casting_time,
+                         static_cast<int>( round( type->base_casting_time + type->casting_time_increment * get_level() ) ) );
+    } else {
+        return type->base_casting_time;
+    }
 }
 
 std::string spell::name() const

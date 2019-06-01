@@ -113,6 +113,10 @@ class spell_type
 
         // base energy cost of spell
         int base_energy_cost;
+        // increment of energy cost per spell level
+        float energy_increment;
+        // max or min energy cost, based on sign of energy_increment
+        int final_energy_cost;
 
         // spell is restricted to being cast by only this class
         // if spell_class is empty, spell is unrestricted
@@ -126,6 +130,10 @@ class spell_type
 
         // base amount of time to cast the spell in moves
         int base_casting_time;
+        // increment of casting time per level
+        float casting_time_increment;
+        // max or min casting time
+        int final_casting_time;
 
         // what energy do you use to cast this spell
         energy_type energy_source;
