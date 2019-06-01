@@ -6490,5 +6490,30 @@
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT" ],
     "examine_action": "workbench",
     "workbench": { "multiplier": 0.7, "mass": 1000000, "volume": "1000L" }
+  },
+  {
+    "id": "f_tatami",
+    "type": "furniture",
+    "name": "tatami mat",
+    "description": "A tatami is a type of mat used as a flooring material in traditional Japanese-style rooms.",
+    "symbol": "#",
+    "color": [ "brown" ],
+    "move_cost_mod": 0,
+    "comfort": 2,
+    "floor_bedding_warmth": -1500,
+    "max_volume": 4000,
+    "required_str": 7,
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "crunch.",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "straw_pile", "count": [ 5, 8 ] },
+        { "item": "rag", "count": [ 2, 4 ] },
+        { "item": "string_36", "count": [ 1, 2 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC" ]
   }
 ]
