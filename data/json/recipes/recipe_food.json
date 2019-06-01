@@ -3047,34 +3047,6 @@
   },
   {
     "type": "recipe",
-    "result": "peanut_unshelled",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "peanut", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "walnut_unshelled",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "walnut", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "walnut_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3120,20 +3092,6 @@
   },
   {
     "type": "recipe",
-    "result": "pecan_unshelled",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "pecan", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "pecan_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3146,20 +3104,6 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "pecan_unshelled", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "pistachio_unshelled",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "pistachio", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3178,20 +3122,6 @@
   },
   {
     "type": "recipe",
-    "result": "almond_unshelled",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "almond", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "almond_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3207,20 +3137,6 @@
   },
   {
     "type": "recipe",
-    "result": "chestnut_unshelled",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "chestnut", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "chestnut_roasted",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
@@ -3233,20 +3149,6 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "chestnut_unshelled", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "hazelnut_unshelled",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "hazelnut", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3277,20 +3179,6 @@
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "acorns", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "hickory_nut_unshelled",
-    "category": "CC_FOOD",
-    "subcategory": "CSC_FOOD_VEGGI",
-    "skill_used": "survival",
-    "difficulty": 1,
-    "charges": 1,
-    "time": "6 m",
-    "autolearn": true,
-    "flags": [ "BLIND_EASY" ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "hickory_nut", 1 ] ] ]
   },
   {
     "type": "recipe",
