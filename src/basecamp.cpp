@@ -49,6 +49,16 @@ static const std::string faction_encode_abs( const expansion_data &e, int number
     return faction_encode_short( e.type ) + to_string( number );
 }
 
+static const std::string faction_decode( const std::string &full_type )
+{
+    if( full_type.size() < ( prefix_len + 2 ) ) {
+        return "camp";
+    }
+    int last_bar = full_type.find_last_of( '_' );
+
+    return full_type.substr( prefix_len, last_bar - prefix_len );
+}
+
 static std::map<std::string, int> max_upgrade_cache;
 
 static int max_upgrade_by_type( const std::string &type )
@@ -111,7 +121,7 @@ void basecamp::add_expansion( const std::string &terrain, const tripoint &new_po
     directions.push_back( dir );
 }
 
-void basecamp::define_camp( npc &p )
+void basecamp::define_camp( npc &p, const std::string &camp_type )
 {
     query_new_name();
     omt_pos = p.global_omt_location();
@@ -124,8 +134,8 @@ void basecamp::define_camp( npc &p )
     const std::string om_cur = omt_ref.id().c_str();
     if( om_cur.find( prefix ) == std::string::npos ) {
         expansion_data e;
-        e.type = "camp";
-        e.cur_level = 0;
+        e.type = faction_decode( camp_type );
+        e.cur_level = -1;
         e.pos = omt_pos;
         expansions[ base_dir ] = e;
         omt_ref = oter_id( "faction_base_camp_0" );

@@ -99,7 +99,7 @@ class basecamp
         void set_name( const std::string &new_name );
         void query_new_name();
         void add_expansion( const std::string &terrain, const tripoint &new_pos );
-        void define_camp( npc &p );
+        void define_camp( npc &p, const std::string &camp_type = "default" );
 
         std::string expansion_tab( const std::string &dir ) const;
 
@@ -204,7 +204,8 @@ class basecamp
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment,
                                const std::string &skill_tested, int skill_level );
-        void start_upgrade( const std::string &bldg, const std::string &key, bool by_radio );
+        void start_upgrade( const std::string &bldg, const std::string &dir, const std::string &key,
+                            bool by_radio );
         std::string om_upgrade_description( const std::string &bldg, bool trunc ) const;
         void start_menial_labor();
         void start_crafting( const std::string &cur_id, const std::string &cur_dir,

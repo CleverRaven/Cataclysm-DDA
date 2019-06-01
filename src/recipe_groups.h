@@ -17,6 +17,8 @@ void reset();
 std::map<std::string, std::string> get_recipes_by_bldg( const std::string &id );
 std::map<std::string, std::string> get_recipes_by_id( const std::string &id,
         const std::string &om_terrain_id = "ANY" );
+bool valid_om_terrain( const std::string &group_name, const std::string &recipe_id,
+                       const std::string &om_terrain_id );
 }
 
 #endif

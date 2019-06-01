@@ -106,6 +106,21 @@ std::map<std::string, std::string> recipe_group::get_recipes_by_id( const std::s
     }
     return group.recipes;
 }
+
+bool recipe_group::valid_om_terrain( const std::string &group_name, const std::string &recipe_id,
+                                     const std::string &om_terrain_id )
+{
+    if( !recipe_groups_data.is_valid( group_id( group_name ) ) ) {
+        return false;
+    }
+    const recipe_group_data &group = recipe_groups_data.obj( group_id( group_name ) );
+    const auto &recp_terrain = group.om_terrains.find( recipe_id );
+    if( recp_terrain == group.om_terrains.end() ) {
+        return false;
+    }
+    return recp_terrain->second.find( om_terrain_id ) != recp_terrain->second.end();
+}
+
 void recipe_group::load( JsonObject &jo, const std::string &src )
 {
     recipe_groups_data.load( jo, src );

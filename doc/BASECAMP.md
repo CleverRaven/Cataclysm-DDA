@@ -107,6 +107,29 @@ These are standard mapgen_update JSON; see doc/MAPGEN.md for more details.  Each
 
 This mapgen_update places a large tent in the west central portion of the camp.  The `"place_nested"` references a standard map used in the primitive field camp.
 
+## Recipe groups
+Recipe groups serve two purposes: they indicate what recipes can produced by the camp after an upgrade mission is completed, and they indicate what upgrade paths are available and where camps can be placed.
+
+### Upgrade Paths and Expansions
+There are two special recipe groups, `"all_faction_base_types"` and `"all_faction_base_expansions"`.  They both look like this:
+```json
+  {
+    "type": "recipe_group",
+    "name": "all_faction_base_expansions",
+    "building_type": "NONE",
+    "recipes": [
+      { "id": "faction_base_farm_0", "description": "Farm", "om_terrains": [ "field" ] },
+      { "id": "faction_base_garage_0", "description": "Garage", "om_terrains": [ "field" ] },
+      { "id": "faction_base_kitchen_0", "description": "Kitchen", "om_terrains": [ "field" ] },
+      { "id": "faction_base_blacksmith_0", "description": "Blacksmith Shop", "om_terrains": [ "field" ] }
+    ]
+  },
+```
+
+Each entry in the `"recipes"` array must be a dictionary with the `"id"`, `"description"`, and `"om_terrains"` fields.  `"id"` is the recipe `"id"` of the recipe that starts that basecamp or basecamp expansion upgrade path.  `"description"` is a short name of the basecamp or basecamp expansion.  `"om_terrains"` is a list of overmap terrain ids which can be used as the basis for the basecamp or basecamp expansion.
+
+If the player attempts to start a basecamp on an overmap terrain that has two or more valid basecamp expansion paths, she will allowed to choose which path to start.
+
 ## Sample basecamp upgrade path
 
 The primitive field camp has the following upgrade path:

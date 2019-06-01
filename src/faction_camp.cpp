@@ -420,7 +420,7 @@ static bool update_time_fixed( std::string &entry, const comp_list &npc_list,
     return avail;
 }
 
-static cata::optional<basecamp *> get_basecamp( npc &p )
+static cata::optional<basecamp *> get_basecamp( npc &p, const std::string &camp_type = "default" )
 {
 
     tripoint omt_pos = p.global_omt_location();
@@ -434,8 +434,30 @@ static cata::optional<basecamp *> get_basecamp( npc &p )
         return cata::nullopt;
     }
     basecamp *temp_camp = *bcp;
-    temp_camp->define_camp( p );
+    temp_camp->define_camp( p, camp_type );
     return temp_camp;
+}
+
+std::string select_camp_option( const std::map<std::string, std::string> &pos_options,
+                                const std::string &option )
+{
+    std::vector<std::string> pos_name_ids;
+    std::vector<std::string> pos_names;
+    for( const auto &it : pos_options ) {
+        pos_names.push_back( it.first );
+        pos_name_ids.push_back( it.second );
+    }
+
+    if( pos_name_ids.size() == 1 ) {
+        return pos_name_ids.front();
+    }
+
+    const int choice = uilist( _( option ), pos_names );
+    if( choice < 0 || static_cast<size_t>( choice ) >= pos_name_ids.size() ) {
+        popup( _( "You choose to wait..." ) );
+        return std::string();
+    }
+    return pos_name_ids[choice];
 }
 
 void talk_function::start_camp( npc &p )
@@ -443,19 +465,28 @@ void talk_function::start_camp( npc &p )
     const tripoint omt_pos = p.global_omt_location();
     oter_id &omt_ref = overmap_buffer.ter( omt_pos );
 
-    if( omt_ref.id() != "field" ) {
-        popup( _( "You must build your camp in an empty field." ) );
+    const auto &pos_camps = recipe_group::get_recipes_by_id( "all_faction_base_types",
+                            omt_ref.id().c_str() );
+    if( pos_camps.empty() ) {
+        popup( _( "You cannot build a camp here." ) );
+        return;
+    }
+    const std::string &camp_type = select_camp_option( pos_camps, _( "Select a camp type:" ) );
+    if( camp_type.empty() ) {
         return;
     }
 
     std::vector<std::pair<std::string, tripoint>> om_region = om_building_region( omt_pos, 1 );
+    int near_fields = 0;
     for( const auto &om_near : om_region ) {
-        if( om_near.first != "field" && om_near.first != "forest" &&
-            om_near.first != "forest_thick" && om_near.first != "forest_water" &&
-            om_near.first.find( "river_" ) == std::string::npos ) {
-            popup( _( "You need more room for camp expansions!" ) );
-            return;
+        const oter_id &om_type = oter_id( om_near.first );
+        if( is_ot_subtype( "field", om_type ) ) {
+            near_fields += 1;
         }
+    }
+    if( near_fields < 4 ) {
+        popup( _( "You need more at least 4 adjacent  for camp expansions!" ) );
+        return;
     }
     std::vector<std::pair<std::string, tripoint>> om_region_ext = om_building_region( omt_pos, 3 );
     int forests = 0;
@@ -463,17 +494,18 @@ void talk_function::start_camp( npc &p )
     int swamps = 0;
     int fields = 0;
     for( const auto &om_near : om_region_ext ) {
-        if( om_near.first.find( "faction_base_camp" ) != std::string::npos ) {
+        const oter_id &om_type = oter_id( om_near.first );
+        if( is_ot_subtype( "faction_base", om_type ) ) {
             popup( _( "You are too close to another camp!" ) );
             return;
         }
-        if( om_near.first == "forest" || om_near.first == "forest_thick" ) {
-            forests++;
-        } else if( om_near.first.find( "river_" ) != std::string::npos ) {
-            waters++;
-        } else if( om_near.first == "forest_water" ) {
+        if( is_ot_type( "forest_water", om_type ) ) {
             swamps++;
-        } else if( om_near.first == "field" ) {
+        } else if( is_ot_subtype( "forest", om_type ) ) {
+            forests++;
+        } else if( is_ot_subtype( "river", om_type ) ) {
+            waters++;
+        } else if( is_ot_subtype( "field", om_type ) ) {
             fields++;
         }
     }
@@ -498,10 +530,12 @@ void talk_function::start_camp( npc &p )
     if( display && !query_yn( _( "%s \nAre you sure you wish to continue? " ), buffer ) ) {
         return;
     }
-    if( !run_mapgen_update_func( "faction_base_field_camp_0", omt_pos ) ) {
+    const recipe &making = recipe_id( camp_type ).obj();
+    if( !run_mapgen_update_func( making.get_blueprint(), omt_pos ) ) {
+        popup( _( "%s failed to start the %s basecamp." ), p.disp_name(), making.get_blueprint() );
         return;
     }
-    get_basecamp( p );
+    get_basecamp( p, camp_type );
 }
 
 void talk_function::recover_camp( npc &p )
@@ -1188,7 +1222,7 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
 
     if( miss_id.size() > 12 && miss_id.substr( 0, 12 ) == "Upgrade Camp" ) {
         const std::string bldg = miss_id.substr( 12 );
-        start_upgrade( bldg, bldg + "_faction_upgrade_camp", by_radio );
+        start_upgrade( bldg, base_dir, bldg + "_faction_upgrade_camp", by_radio );
     } else if( miss_id == "Recover Ally from Upgrading" ) {
         upgrade_return( base_dir, "_faction_upgrade_camp" );
     } else if( miss_id.size() > 27 && miss_id.substr( 0, 27 ) == "Recover Ally from Upgrading" ) {
@@ -1311,7 +1345,7 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
             if( miss_id.size() > 19 &&
                 miss_id.substr( 0, 19 ) == ( miss_dir + " Expansion Upgrade" ) ) {
                 const std::string bldg = miss_id.substr( 19 );
-                start_upgrade( bldg, bldg + "_faction_upgrade_exp_" + miss_dir, by_radio );
+                start_upgrade( bldg, miss_dir, bldg + "_faction_upgrade_exp_" + miss_dir, by_radio );
             } else if( miss_id == "Recover Ally, " + miss_dir + " Expansion" ) {
                 upgrade_return( dir, "_faction_upgrade_exp_" + miss_dir );
             } else {
@@ -1404,7 +1438,8 @@ npc_ptr basecamp::start_mission( const std::string &miss_id, time_duration durat
     return comp;
 }
 
-void basecamp::start_upgrade( const std::string &bldg, const std::string &key, bool by_radio )
+void basecamp::start_upgrade( const std::string &bldg, const std::string &dir,
+                              const std::string &key, bool by_radio )
 {
     const recipe &making = recipe_id( bldg ).obj();
     //Stop upgrade if you don't have materials
@@ -2116,6 +2151,8 @@ bool basecamp::upgrade_return( const std::string &dir, const std::string &miss,
         return false;
     }
     if( !run_mapgen_update_func( making.get_blueprint(), upos ) ) {
+        popup( _( "%s failed to build the %s upgrade." ), comp->disp_name(),
+               making.get_blueprint() );
         return false;
     }
     update_provides( bldg, e->second );
@@ -2413,19 +2450,10 @@ bool basecamp::survey_return()
     if( comp == nullptr ) {
         return false;
     }
-    std::vector<std::string> pos_expansion_name_id;
-    std::vector<std::string> pos_expansion_name;
-    std::map<std::string, std::string> pos_expansions =
-        recipe_group::get_recipes( "all_faction_base_expansions" );
-    for( std::map<std::string, std::string>::const_iterator it = pos_expansions.begin();
-         it != pos_expansions.end(); ++it ) {
-        pos_expansion_name.push_back( it->first );
-        pos_expansion_name_id.push_back( it->second );
-    }
-
-    const int expan = uilist( _( "Select an expansion:" ), pos_expansion_name );
-    if( expan < 0 || static_cast<size_t>( expan ) >= pos_expansion_name_id.size() ) {
-        popup( _( "You choose to wait..." ) );
+    const auto &pos_expansions = recipe_group::get_recipes_by_id( "all_faction_base_expansions" );
+    const std::string &expansion_type = select_camp_option( pos_expansions,
+                                        _( "Select an expansion:" ) );
+    if( expansion_type.empty() ) {
         return false;
     }
 
@@ -2445,16 +2473,18 @@ bool basecamp::survey_return()
     }
 
     oter_id &omt_ref = overmap_buffer.ter( where );
-    if( omt_ref.id() != "field" ) {
+    if( !recipe_group::valid_om_terrain( "all_faction_base_expansions", expansion_type,
+                                         omt_ref.id().c_str() ) ) {
         popup( _( "You must construct expansions in fields." ) );
         return false;
     }
 
-    if( !run_mapgen_update_func( pos_expansion_name_id[expan], where ) ) {
+    if( !run_mapgen_update_func( expansion_type, where ) ) {
+        popup( _( "%s failed to add the %s expansion" ), comp->disp_name(), expansion_type );
         return false;
     }
-    omt_ref = oter_id( pos_expansion_name_id[expan] );
-    add_expansion( pos_expansion_name_id[expan], where );
+    omt_ref = oter_id( expansion_type );
+    add_expansion( expansion_type, where );
     const std::string msg = _( "returns from surveying for the expansion." );
     finish_return( *comp, true, msg, "construction", 2 );
     return true;
