@@ -3233,7 +3233,7 @@ std::string Character::activity_level_str() const
     }
 }
 
-int player::item_handling_cost( const item &it, bool penalties, int base_cost ) const
+int Character::item_handling_cost( const item &it, bool penalties, int base_cost ) const
 {
     int mv = base_cost;
     if( penalties ) {
@@ -3257,8 +3257,8 @@ int player::item_handling_cost( const item &it, bool penalties, int base_cost ) 
     return std::min( std::max( mv, 0 ), MAX_HANDLING_COST );
 }
 
-int player::item_store_cost( const item &it, const item & /* container */, bool penalties,
-                             int base_cost ) const
+int Character::item_store_cost( const item &it, const item & /* container */, bool penalties,
+                                int base_cost ) const
 {
     /** @EFFECT_PISTOL decreases time taken to store a pistol */
     /** @EFFECT_SMG decreases time taken to store an SMG */
