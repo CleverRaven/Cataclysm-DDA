@@ -1376,6 +1376,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_daycare_roof",
+    "copy-from": "generic_city_building",
+    "name": "daycare center roof",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_petstore",
     "copy-from": "generic_city_building",
     "name": "pet supply store",
