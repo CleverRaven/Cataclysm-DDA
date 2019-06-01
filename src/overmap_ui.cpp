@@ -129,9 +129,9 @@ static std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_o
 }
 
 static void update_note_preview( const std::string &note,
-                          const std::array<std::pair<nc_color, std::string>, npm_width *npm_height> &map_around,
-                          const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *>
-                          &preview_windows )
+                                 const std::array<std::pair<nc_color, std::string>, npm_width *npm_height> &map_around,
+                                 const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *>
+                                 &preview_windows )
 {
     auto om_symbol = get_note_display_info( note );
     const nc_color note_color = std::get<1>( om_symbol );
