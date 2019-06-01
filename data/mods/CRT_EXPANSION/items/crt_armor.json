@@ -121,6 +121,7 @@
     "price": 20000,
     "warmth": 17,
     "symbol": ":",
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
@@ -143,6 +144,7 @@
     "warmth": 17,
     "material_thickness": 4,
     "environmental_protection": 3,
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {

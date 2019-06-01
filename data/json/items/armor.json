@@ -194,6 +194,7 @@
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
@@ -216,6 +217,7 @@
     "warmth": 10,
     "material_thickness": 3,
     "environmental_protection": 2,
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
@@ -249,6 +251,7 @@
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ]
   },
   {
@@ -270,6 +273,7 @@
     "encumbrance": 16,
     "warmth": 25,
     "material_thickness": 4,
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "STURDY", "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
@@ -291,7 +295,8 @@
     "encumbrance": 20,
     "warmth": 20,
     "material_thickness": 4,
-    "flags": [ "VARSIZE", "OUTER", "STURDY" ]
+    "techniques": [ "WBLOCK_1" ],
+    "flags": [ "VARSIZE", "OUTER", "STURDY", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "armguard_metal",
@@ -313,6 +318,7 @@
     "encumbrance": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
+    "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELTED", "BLOCK_WHILE_WORN", "WATER_FRIENDLY" ]
   },
   {
