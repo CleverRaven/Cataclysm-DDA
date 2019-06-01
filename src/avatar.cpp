@@ -778,6 +778,12 @@ void avatar::do_read( item &book )
         // Note that we've read the book.
         items_identified.insert( book.typeId() );
 
+        // ebook identification during scanning case
+        if( has_activity( activity_id( "ACT_SCAN_BOOK" ) ) ) {
+            add_msg( _( "You find out what's in it in the process." ), book.type_name() );
+            return;
+        }
+
         add_msg( _( "You skim %s to find out what's in it." ), book.type_name() );
         if( skill && get_skill_level_object( skill ).can_train() ) {
             add_msg( m_info, _( "Can bring your %s skill to %d." ),
@@ -818,6 +824,14 @@ void avatar::do_read( item &book )
         }
         if( recipe_list.size() != reading->recipes.size() ) {
             add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
+        }
+
+        // ebook cleanup
+        auto ebooks = items_with( []( const item & it ) {
+            return it.has_flag( "EBOOK" );
+        } );
+        for( auto &e : ebooks ) {
+            remove_item( *e );
         }
         activity.set_to_null();
         return;
@@ -960,6 +974,13 @@ void avatar::do_read( item &book )
         m->second.call( *this, book, false, pos() );
     }
 
+    // ebook cleanup
+    auto ebooks = items_with( []( const item & it ) {
+        return it.has_flag( "EBOOK" );
+    } );
+    for( auto &e : ebooks ) {
+        remove_item( *e );
+    }
     activity.set_to_null();
 }
 

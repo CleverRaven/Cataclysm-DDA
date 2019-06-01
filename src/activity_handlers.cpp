@@ -2673,12 +2673,6 @@ void activity_handlers::read_finish( player_activity *act, player *p )
         act->set_to_null();
     }
     if( act->is_null() ) {
-        auto ebooks = p->items_with( []( const item & it ) {
-            return it.has_flag( "EBOOK" );
-        } );
-        for( auto &e : ebooks ) {
-            p->remove_item( *e );
-        }
         p->add_msg_if_player( m_info, _( "You finish reading." ) );
     }
 }
@@ -3843,6 +3837,11 @@ void activity_handlers::scan_book_finish( player_activity *act, player *p )
     mc.item_tags.insert( "MC_HAS_DATA" );
     mc.set_var( "MC_BOOK", book.typeId() );
     p->add_msg_if_player( _( "You meticulously scan %s and store it on memory card." ), book.tname() );
+    if( avatar *u = dynamic_cast<avatar *>( p ) ) {
+        if( !u->has_identified( book.typeId() ) ) {
+            u->do_read( book );
+        }
+    }
     act->set_to_null();
 }
 
