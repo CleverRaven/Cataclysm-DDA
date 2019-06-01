@@ -19,7 +19,7 @@
         "switch": true,
         "condition": { "npc_has_var": "foodperson_has_talked", "type": "dialogue", "context": "foodperson", "value": "yes" },
         "text": "Hey. Let's chat for a second.",
-        "topic": "TALK_STRANGER_NEUTRAL"
+        "topic": "TALK_FOODPERSON_MAIN"
       },
       {
         "switch": true,
@@ -57,7 +57,7 @@
   {
     "id": "TALK_FOODPERSON_VEXED",
     "type": "talk_topic",
-    "dynamic_line": "Do not mock me, for my strength is very real!  Get out of here now!",
+    "dynamic_line": "Do not mock me, for my strength is quite real!  Get out of here now!",
     "responses": [
       { "text": "Sheesh, ok calm down I'm leaving!", "topic": "TALK_DONE" },
       { "text": "Forgive me,  I didn't mean to disrespect you.", "topic": "TALK_FOODPERSON_MAIN" },
@@ -108,30 +108,40 @@
     "id": "TALK_FOODPERSON_NOTRADE",
     "type": "talk_topic",
     "text": "I already have everything I need here in the FoodLair!",
-    "responses": [ { "text": "Fair enough.", "top": "TALK_NONE" } ]
+    "responses": [ { "text": "Fair enough.", "topic": "TALK_NONE" } ]
   },
   {
     "id": "TALK_FOODPERSON_NOSHELTER",
     "type": "talk_topic",
     "text": "This is no place for a civilian.  You should go to the refugee center.",
-    "responses": [ { "text": "Damn!", "top": "TALK_NONE" } ]
+    "responses": [ { "text": "Damn!", "topic": "TALK_NONE" } ]
   },
   {
     "id": "TALK_FOODPERSON_NOSHELTER",
     "type": "talk_topic",
     "text": "You're not ready for this.",
-    "responses": [ { "text": "But I am worthy!", "top": "TALK_NONE" } ]
+    "responses": [ { "text": "But I am worthy!", "topic": "TALK_NONE" } ]
   },
   {
     "id": "TALK_FOODPERSON_SOLO",
     "type": "talk_topic",
     "text": "Sorry but I work alone.",
-    "responses": [ { "text": "The lea..heh team could really use your help!", "top": "TALK_NONE" } ]
+    "responses": [ { "text": "We could really use your help!", "topic": "TALK_NONE" } ]
   },
   {
     "id": "TALK_FOODPERSON_SHELTER",
     "type": "talk_topic",
-    "text": "Well...  You seem trustworthy enough, I might have an offer for you.",
-    "responses": [ { "text": "I'm listening.", "top": "TALK_FOODPERSON_SIDEKICK" } ]
+    "text": "Well...  You seem like a decent sort, I might have an offer for you.",
+    "responses": [ { "text": "I'm listening.", "topic": "TALK_FOODPERSON_SIDEKICK" } ]
+  },
+  {
+    "id": "TALK_FOODPERSON_SIDEKICK",
+    "type": "talk_topic",
+    "text": "What about you prove your worth and join me as my sidekick?",
+    "responses": [
+      { "text": "That sounds great!", "topic": "TALK_MISSION_LIST" },
+      { "text": "Ok...", "topic": "TALK_MISSION_LIST" },
+      { "text": "Huh... No thanks.", "topic": "TALK_NONE" }
+    ]
   }
 ]

@@ -441,6 +441,7 @@
     "attitude": 7,
     "mission": 7,
     "chat": "TALK_TRUE_FOODPERSON",
+    "mission_offered": "MISSION_PROVE_YOUR_WORTH",
     "faction": "wasteland_scavengers"
   },
   {

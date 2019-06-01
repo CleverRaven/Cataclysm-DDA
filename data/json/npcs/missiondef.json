@@ -742,5 +742,33 @@
     "value": 0,
     "origins": [ "ORIGIN_GAME_START" ],
     "item": "antibiotics"
+  },
+  {
+    "id": "MISSION_PROVE_YOUR_WORTH",
+    "type": "mission_definition",
+    "name": "Prove your worth to Foodperson",
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "fp_loyalty_card",
+    "count": 10,
+    "difficulty": 1,
+    "value": 0,
+    "end": {
+      "effect": [
+        { "npc_add_var": "npc_foodperson_impressed", "type": "dialogue", "context": "foodperson", "value": "yes" },
+        { "u_add_var": "proved_worth", "type": "dialogue", "context": "foodperson", "value": "yes" }
+      ]
+    },
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "dialogue": {
+      "describe": "Prove your dedication to Foodplace.",
+      "offer": "Show me the proof of your loyalty to the great Foodplace, and I'll consider you worthy of my friendship.  Ten loyalty cards should be enough, I'm sure you already have much more than that waiting for you at home, right?",
+      "accepted": "That's the spirit!  Good luck kid.",
+      "rejected": "That's alright not everyone is cutout for this.",
+      "advice": "Those are very precious, people would probably keep them on their person or in bank vaults.  And definitly not throw them in the trash!",
+      "inquire": "How is it going?",
+      "success": "YES!  I knew you could do it!  Such a feat deserves an appropriate reward.",
+      "success_lie": "Well... where are they?",
+      "failure": "I'm so disappointed in you kid..."
+    }
   }
 ]
