@@ -143,6 +143,26 @@
   },
   {
     "type": "city_building",
+    "id": "dojo",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dojo_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "dojo_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "dojo_upper_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "dojo_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dojo_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "dojo_roof_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "dojo_upper_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "police",
     "locations": [ "land" ],
     "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "police_north" }, { "point": [ 0, 0, 1 ], "overmap": "police_roof_north" } ]
