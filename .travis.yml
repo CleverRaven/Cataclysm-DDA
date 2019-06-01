@@ -122,6 +122,7 @@ jobs:
 
     - env: COMPILER=g++-6 CODE_COVERAGE=true
       name: "GCC 6 Make build with Curses and Code Coverage"
+      if: type != pull_request
       compiler: gcc
       addons: &gcc6
         apt:
