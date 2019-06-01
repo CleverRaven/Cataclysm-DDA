@@ -259,7 +259,7 @@ struct formatted_text {
  *     - A point where to draw the color block (x, y)
  *     - The color of the block at 'point'.
  */
-typedef std::pair<SDL_BlendMode, std::multimap<point, SDL_Color>>  color_block_overlay_container;
+using color_block_overlay_container = std::pair<SDL_BlendMode, std::multimap<point, SDL_Color>>;
 
 class cata_tiles
 {
