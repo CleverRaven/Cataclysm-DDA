@@ -6,9 +6,10 @@
     "default_groundcover": [ [ "t_searth_test", 4 ], [ "t_sand", 1 ] ],
     "river_scale": 0.2,
     "field_coverage": {
-      "percent_coverage": 0.9333,
-      "default_ter": "t_cactus",
+      "percent_coverage": 0.1333,
+      "default_ter": "t_shrub",
       "other": {
+        "f_cholla_cactus": 12.3333,
         "t_tree_young": 0.2,
         "t_tree": 0.1,
         "t_tree_birch": 0.05,
@@ -113,8 +114,8 @@
       "shore_extendable_overmap_terrain": [ "forest", "forest_thick", "forest_water", "field" ]
     },
     "overmap_forest_settings": {
-      "noise_threshold_forest": 0.2,
-      "noise_threshold_forest_thick": 0.25,
+      "noise_threshold_forest": 0.5,
+      "noise_threshold_forest_thick": 0.55,
       "noise_threshold_swamp_adjacent_water": 0.3,
       "noise_threshold_swamp_isolated": 0.6,
       "river_floodplain_buffer_distance_min": 3,
@@ -127,12 +128,12 @@
         "item_group_chance": 60,
         "item_spawn_iterations": 1,
         "clear_groundcover": false,
-        "groundcover": { "t_grass_long": 5, "t_grass_tall": 1, "t_dirt": 1 },
+        "groundcover": { "t_grass_long": 1, "t_grass_tall": 1, "t_dirt": 1, "t_search_test": 2, "t_sand": 1 },
         "clear_components": false,
         "components": {
           "trees": {
             "sequence": 0,
-            "chance": 12,
+            "chance": 6,
             "clear_types": false,
             "types": {
               "t_tree_young": 128,

@@ -64,6 +64,7 @@
         "cost_multiplier": 25,
         "ends": 168,
         "conditions": [ "DAWN", "DUSK" ]
+      },
       { "monster": "mon_scorpion_giant", "freq": 3, "cost_multiplier": 25, "ends": 672 },
       {
         "monster": "mon_scorpion_giant",
