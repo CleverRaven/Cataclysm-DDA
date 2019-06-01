@@ -200,6 +200,7 @@
     "components": [ [ [ "scrap", 1 ], [ "can_food_unsealed", 1 ] ] ]
   },
   {
+    "type": "recipe",
     "result": "hand_axe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
