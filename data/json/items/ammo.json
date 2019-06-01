@@ -11,6 +11,7 @@
     "description": "Some free-floating battery charge. This can be reloaded into rechargable battery cells, but can never be unloaded.",
     "flags": "TRADER_AVOID",
     "material": "iron",
+    "effects": [ "COOKOFF" ],
     "volume": 1,
     "//": "Setting battery volume to 0 causes weirdness in vehicle tests.  Please don't do that.",
     "ammo_type": "battery",
@@ -29,13 +30,13 @@
     "weight": 5,
     "volume": 0,
     "price": 1500,
-    "material": [ "iron" ],
+    "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "capacity": 50,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "FLAMMABLE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
   },
   {
     "id": "light_minus_atomic_battery_cell",
@@ -47,14 +48,14 @@
     "weight": 80,
     "volume": 0,
     "price": 15000,
-    "material": [ "iron" ],
+    "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "green",
     "ammo_type": "battery",
     "count": 500,
     "capacity": 500,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "FLAMMABLE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
   },
   {
     "id": "light_minus_disposable_cell",
@@ -66,14 +67,14 @@
     "weight": 5,
     "volume": 0,
     "price": 3000,
-    "material": [ "iron" ],
+    "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "count": 100,
     "capacity": 100,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "FLAMMABLE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
   },
   {
     "id": "light_battery_cell",
@@ -85,13 +86,13 @@
     "weight": 50,
     "volume": "75ml",
     "price": 3500,
-    "material": [ "iron" ],
+    "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "capacity": 100,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "FLAMMABLE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
   },
   {
     "id": "light_plus_battery_cell",
@@ -103,13 +104,13 @@
     "weight": 75,
     "volume": "115ml",
     "price": 5000,
-    "material": [ "iron" ],
+    "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "capacity": 150,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "FLAMMABLE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
   },
   {
     "id": "light_atomic_battery_cell",
@@ -121,14 +122,14 @@
     "weight": 160,
     "volume": "115ml",
     "price": 50000,
-    "material": [ "iron" ],
+    "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "green",
     "ammo_type": "battery",
     "count": 1000,
     "capacity": 1000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "FLAMMABLE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
   },
   {
     "id": "light_disposable_cell",
@@ -140,14 +141,14 @@
     "weight": 75,
     "volume": "115ml",
     "price": 10000,
-    "material": [ "iron" ],
+    "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "count": 300,
     "capacity": 300,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "FLAMMABLE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
   },
   {
     "id": "medium_battery_cell",
@@ -159,13 +160,13 @@
     "weight": 250,
     "volume": "375ml",
     "price": 10000,
-    "material": [ "iron" ],
+    "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "capacity": 500,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "FLAMMABLE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
   },
   {
     "id": "medium_plus_battery_cell",
@@ -177,13 +178,13 @@
     "weight": 350,
     "volume": "450ml",
     "price": 12500,
-    "material": [ "iron" ],
+    "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "capacity": 600,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "FLAMMABLE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
   },
   {
     "id": "medium_atomic_battery_cell",
@@ -195,14 +196,14 @@
     "weight": 800,
     "volume": "375ml",
     "price": 100000,
-    "material": [ "iron" ],
+    "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "green",
     "ammo_type": "battery",
     "count": 5000,
     "capacity": 5000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "FLAMMABLE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
   },
   {
     "id": "medium_disposable_cell",
@@ -214,14 +215,14 @@
     "weight": 350,
     "volume": "450ml",
     "price": 10000,
-    "material": [ "iron" ],
+    "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "count": 1200,
     "capacity": 1200,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "FLAMMABLE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
   },
   {
     "id": "heavy_battery_cell",
@@ -233,13 +234,13 @@
     "weight": 500,
     "volume": "750ml",
     "price": 10000,
-    "material": [ "iron" ],
+    "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "capacity": 1000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "FLAMMABLE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
   },
   {
     "id": "heavy_plus_battery_cell",
@@ -251,13 +252,13 @@
     "weight": 950,
     "volume": "1000ml",
     "price": 12500,
-    "material": [ "iron" ],
+    "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "capacity": 1250,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "FLAMMABLE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
   },
   {
     "id": "heavy_atomic_battery_cell",
@@ -269,14 +270,14 @@
     "weight": 1600,
     "volume": "750ml",
     "price": 100000,
-    "material": [ "iron" ],
+    "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "green",
     "ammo_type": "battery",
     "count": 10000,
     "capacity": 10000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE", "FLAMMABLE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
   },
   {
     "id": "heavy_disposable_cell",
@@ -288,14 +289,14 @@
     "weight": 950,
     "volume": "1000ml",
     "price": 10000,
-    "material": [ "iron" ],
+    "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
     "ammo_type": "battery",
     "count": 2500,
     "capacity": 2500,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE", "FLAMMABLE" ]
+    "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
   },
   {
     "type": "TOOL",
