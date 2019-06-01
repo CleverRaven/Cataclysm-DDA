@@ -871,7 +871,10 @@
     "unarmed_allowed": true,
     "defensive": true,
     "grab_break": true,
-    "messages": [ "The %s tries to grab you, but you swing your arms and break free!", "The %s tries to grab <npcname>, but they flap free!" ]
+    "messages": [
+      "The %s tries to grab you, but you swing your arms and break free!",
+      "The %s tries to grab <npcname>, but they flap free!"
+    ]
   },
   {
     "type": "technique",
