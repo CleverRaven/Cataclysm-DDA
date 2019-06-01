@@ -1130,7 +1130,6 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
                 // overlay string
                 std::string visibility_str = visibility ? "+" : "-";
-                const auto color = visibility ? catacurses::green : catacurses::blue + 8;
                 overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 4, tile_height / 4 ),
                                          formatted_text( visibility_str, catacurses::black, NORTH ) );
             }
