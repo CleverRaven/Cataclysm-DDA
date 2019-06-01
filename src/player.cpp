@@ -8398,45 +8398,6 @@ void player::mend_item( item_location &&obj, bool interactive )
     }
 }
 
-int player::item_handling_cost( const item &it, bool penalties, int base_cost ) const
-{
-    int mv = base_cost;
-    if( penalties ) {
-        // 40 moves per liter, up to 200 at 5 liters
-        mv += std::min( 200, it.volume() / 20_ml );
-    }
-
-    if( weapon.typeId() == "e_handcuffs" ) {
-        mv *= 4;
-    } else if( penalties && has_effect( effect_grabbed ) ) {
-        mv *= 2;
-    }
-
-    // For single handed items use the least encumbered hand
-    if( it.is_two_handed( *this ) ) {
-        mv += encumb( bp_hand_l ) + encumb( bp_hand_r );
-    } else {
-        mv += std::min( encumb( bp_hand_l ), encumb( bp_hand_r ) );
-    }
-
-    return std::min( std::max( mv, 0 ), MAX_HANDLING_COST );
-}
-
-int player::item_store_cost( const item &it, const item & /* container */, bool penalties,
-                             int base_cost ) const
-{
-    /** @EFFECT_PISTOL decreases time taken to store a pistol */
-    /** @EFFECT_SMG decreases time taken to store an SMG */
-    /** @EFFECT_RIFLE decreases time taken to store a rifle */
-    /** @EFFECT_SHOTGUN decreases time taken to store a shotgun */
-    /** @EFFECT_LAUNCHER decreases time taken to store a launcher */
-    /** @EFFECT_STABBING decreases time taken to store a stabbing weapon */
-    /** @EFFECT_CUTTING decreases time taken to store a cutting weapon */
-    /** @EFFECT_BASHING decreases time taken to store a bashing weapon */
-    int lvl = get_skill_level( it.is_gun() ? it.gun_skill() : it.melee_skill() );
-    return item_handling_cost( it, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
-}
-
 int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
 {
     if( ammo.is_ammo() ) {
