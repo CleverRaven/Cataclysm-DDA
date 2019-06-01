@@ -740,6 +740,18 @@ bool player::has_grab_break_tec() const
     return false;
 }
 
+ma_technique player::get_grab_break_tec() const
+{
+    ma_technique tec;
+    for( auto &technique : get_all_techniques( item() ) ) {
+        if( technique.obj().grab_break ) {
+            tec = technique.obj();
+            break;
+        }
+    }
+    return tec;
+}
+
 bool player::can_leg_block() const
 {
     const martialart &ma = style_selected.obj();
