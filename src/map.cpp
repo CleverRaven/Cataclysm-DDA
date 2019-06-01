@@ -1667,12 +1667,12 @@ int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
      return move_cost_internal( furniture, terrain, veh, part );
 }
 
-int map::move_cost( const tripoint &to, const tripoint &from, const vehicle *ignored_vehicle ) const
+int map::move_cost_from_point( const tripoint &to, const tripoint &from, const vehicle *ignored_vehicle ) const
 {
-    return std::get<0>(cost_obstacle_internal(to,from,ignored_vehicle));
+    return std::get<0>(obstacle_from_point(to,from,ignored_vehicle));
 }
 
-std::tuple<int,cata::optional<tripoint>> map::cost_obstacle_internal( const tripoint &to, const tripoint &from, const vehicle *ignored_vehicle ) const
+std::tuple<int,cata::optional<tripoint>> map::obstacle_from_point( const tripoint &to, const tripoint &from, const vehicle *ignored_vehicle ) const
 {   
     int cost_to = move_cost( to, ignored_vehicle );
         
@@ -1738,9 +1738,9 @@ bool map::impassable( const tripoint &p ) const
     return !passable( p );
 }
 
-cata::optional<tripoint> map::impassable( const tripoint &to, const tripoint &from ) const
+cata::optional<tripoint> map::blocking_from_point( const tripoint &to, const tripoint &from ) const
 {
-    return std::get<1>(cost_obstacle_internal(to,from));
+    return std::get<1>(obstacle_from_point(to,from));
 }
 
 bool map::passable( const tripoint &p ) const
@@ -1748,9 +1748,9 @@ bool map::passable( const tripoint &p ) const
     return move_cost( p ) != 0;
 }
 
-bool map::passable( const tripoint &to, const tripoint &from ) const
+bool map::passable_from_point( const tripoint &to, const tripoint &from ) const
 {
-    return std::get<0>(cost_obstacle_internal(to,from)) != 0;
+    return std::get<0>(obstacle_from_point(to,from)) != 0;
 }
 
 int map::move_cost_ter_furn( const tripoint &p ) const

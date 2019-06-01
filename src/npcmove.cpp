@@ -2321,7 +2321,7 @@ void npc::move_pause()
 
 static cata::optional<tripoint> nearest_passable( const tripoint &p, const tripoint &closest_to )
 {
-    if( g->m.passable( p ) ) {
+    if( g->m.passable( p, pos() ) ) {
         return p;
     }
 
@@ -2333,7 +2333,7 @@ static cata::optional<tripoint> nearest_passable( const tripoint &p, const tripo
         return rl_dist( closest_to, l ) < rl_dist( closest_to, r );
     } );
     auto iter = std::find_if( candidates.begin(), candidates.end(), []( const tripoint & pt ) {
-        return g->m.passable( pt );
+        return g->m.passable( pt, pos() );
     } );
     if( iter != candidates.end() ) {
         return *iter;

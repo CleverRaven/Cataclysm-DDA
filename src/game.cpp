@@ -9384,7 +9384,7 @@ bool game::walk_move( const tripoint &dest_loc )
         u.grab( OBJECT_NONE );
     }
 
-    if( m.impassable( dest_loc, u.pos() ) && !pushing && !shifting_furniture ) {
+    if( m.!passable_from_point( dest_loc, u.pos() ) && !pushing && !shifting_furniture ) {
         return false;
     }
     u.set_underwater( false );
@@ -9417,8 +9417,8 @@ bool game::walk_move( const tripoint &dest_loc )
     // Max out recoil
     u.recoil = MAX_RECOIL;
 
-    // Print a message if movement is slow
-    const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move
+    // Print a message if movement is slow    
+    const int mcost_to = m.move_cost_from_point( dest_loc, pos() ); //calculate this _after_ calling grabbed_move
     const bool fungus = m.has_flag_ter_or_furn( "FUNGUS", u.pos() ) ||
                         m.has_flag_ter_or_furn( "FUNGUS",
                                 dest_loc ); //fungal furniture has no slowing effect on mycus characters
@@ -10287,23 +10287,27 @@ void game::fling_creature( Creature *c, const int &dir, float flvel, bool contro
             if( !critter.is_dead() ) {
                 thru = false;
             }
-        } else if( m.impassable( pt ) ) {
-            if( !m.veh_at( pt ).obstacle_at_part() ) {
-                force = std::min<float>( m.bash_strength( pt ), flvel );
-            } else {
-                // No good way of limiting force here
-                // Keep it 1 less than maximum to make the impact hurt
-                // but to keep the target flying after it
-                force = flvel - 1;
-            }
-            const int damage = rng( force, force * 2.0f ) / 9;
-            c->impact( damage, pt );
-            if( m.is_bashable( pt ) ) {
-                // Only go through if we successfully make the tile passable
-                m.bash( pt, flvel );
-                thru = m.passable( pt );
-            } else {
-                thru = false;
+        } else{
+            const cata::optional<tripoint> obstacle = m.blocking_from_point( pt, c->pos() );
+            if( obstacle ) {
+                pt = obstacle.value();
+                if( !m.veh_at( pt ).obstacle_at_part() ) {
+                    force = std::min<float>( m.bash_strength( pt ), flvel );
+                } else {
+                    // No good way of limiting force here
+                    // Keep it 1 less than maximum to make the impact hurt
+                    // but to keep the target flying after it
+                    force = flvel - 1;
+                }
+                const int damage = rng( force, force * 2.0f ) / 9;
+                c->impact( damage, pt );
+                if( m.is_bashable( pt ) ) {
+                    // Only go through if we successfully make the tile passable
+                    m.bash( pt, flvel );
+                    thru = m.passable( pt );
+                } else {
+                    thru = false;
+                }
             }
         }
 

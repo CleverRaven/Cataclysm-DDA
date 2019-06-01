@@ -215,7 +215,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     // If we were targetting a tile rather than a monster, don't overshoot
     // Unless the target was a wall, then we are aiming high enough to overshoot
     const bool no_overshoot = proj_effects.count( "NO_OVERSHOOT" ) ||
-                              ( g->critter_at( target_arg ) == nullptr && g->m.passable( target_arg ) );
+                              ( g->critter_at( target_arg ) == nullptr && !g->m.passable_from_point( target_arg, source ) );
 
     double extend_to_range = no_overshoot ? range : proj_arg.range;
 
@@ -390,7 +390,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             has_momentum = proj.impact.total_damage() > 0;
         }
 
-        if( ( !has_momentum || !is_bullet ) && g->m.impassable( tp, source ) ) {
+        if( ( !has_momentum || !is_bullet ) && !g->m.passable_from_point( tp, source ) ) {
             // Don't let flamethrowers go through walls
             // TODO: Let them go through bars
             traj_len = i;
@@ -405,7 +405,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         g->draw_bullet( tp, static_cast<int>( traj_len-- ), trajectory, bullet );
     }
 
-    if( g->m.impassable( tp, source ) ) {
+    if( !g->m.passable_from_point( tp, source ) ) {
         tp = prev_point;
     }
 
