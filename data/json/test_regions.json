@@ -4,8 +4,6 @@
     "id": "desert_test",
     "default_oter": "field",
     "default_groundcover": [ [ "t_searth_test", 3 ], [ "t_sand", 1 ] ],
-    "default_river": "t_water_moving_dp",
-    "default_riverbank": "t_water_moving_sh",
     "field_coverage": {
       "percent_coverage": 1.9333,
       "default_ter": "t_sand",
