@@ -1327,24 +1327,5 @@
     "count": 50,
     "ammo_type": "tinder",
     "effects": [ "NEVER_MISFIRES" ]
-  },
-  {
-    "type": "AMMO",
-    "id": "rpg_dice",
-    "price": 10,
-    "name": "rpg dice",
-    "symbol": "=",
-    "color": "light_gray",
-    "description": "dice used to play certain role playing games they come in all shapes and sizes",
-    "material": "plastic",
-    "volume": 1,
-    "weight": 1,
-    "ammo_type": "pebble",
-    "damage": 1,
-    "range": 20,
-    "dispersion": 15,
-    "loudness": 0,
-    "count": 7,
-    "effects": [ "NEVER_MISFIRES" ]
   }
 ]
