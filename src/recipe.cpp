@@ -291,11 +291,14 @@ void recipe::add_requirements( const std::vector<std::pair<requirement_id, int>>
 
 std::string recipe::get_consistency_error() const
 {
-    if( !item::type_is_defined( result_ )  && category != "CC_BUILDING" ) {
+    if( category == "CC_BUILDING" ) {
+        if( is_blueprint() || oter_str_id( result_.c_str() ).is_valid() ) {
+            return std::string();
+        }
         return "defines invalid result";
     }
 
-    if( category == "CC_BUILDING" && !oter_str_id( result_.c_str() ).is_valid() ) {
+    if( !item::type_is_defined( result_ ) ) {
         return "defines invalid result";
     }
 
