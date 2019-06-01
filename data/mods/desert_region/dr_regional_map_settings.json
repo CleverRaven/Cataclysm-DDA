@@ -4,6 +4,7 @@
     "id": "default",
     "default_oter": "desert",
     "default_groundcover": [ [ "t_searth_test", 4 ], [ "t_sand", 1 ] ],
+    "river_scale": 0.2,
     "field_coverage": {
       "percent_coverage": 0.9333,
       "default_ter": "t_cactus",
