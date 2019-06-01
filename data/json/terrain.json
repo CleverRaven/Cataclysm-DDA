@@ -5206,7 +5206,7 @@
     "type": "terrain",
     "id": "t_tree_willow",
     "name": "willow tree",
-    "description": "A tall, wide deciduous tree of the 'Salix' genus, with long thin leafy branches that hang down like curtains.  You could tear off some bark if you examined the tree more closely.  You could cut it down with the right tools.",
+    "description": "A tall, wide deciduous tree of the 'Salix' genus, with long thin leafy branches that hang down like curtains.  You could tear off some bark.  You could cut it down with the right tools.",
     "symbol": "4",
     "color": [ "light_green", "light_green", "light_green", "brown" ],
     "//": "barren in winter, harvestable all year round",
