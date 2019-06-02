@@ -155,7 +155,7 @@
     "dialogue": {
       "describe": "I could use a bit of help to find a copy of the Quran.",
       "offer": "I feel silly asking this, but here goes.  I've never been really into reading holy books and stuff like that.  I usually went to the mosque on Friday, and I try to pray five times a day but I hardly ever manage it.  I guess I'm not a very good Muslim, but with all that's happened I would really love to have a copy of the Quran to read.  This seems like a time to get back in touch with God, you know?",
-      "accepted": "Thanks you.  I'll see if I can save up a little reward for you.",
+      "accepted": "Thank you.  I'll see if I can save up a little reward for you.",
       "rejected": "That's okay.  Thanks for offering.",
       "advice": "It's not as common as the bible, but you should be able to find copies in most libraries and bookstores.  Make sure you get the translated version, I can't read Arabic!",
       "inquire": "How is the search going?",
