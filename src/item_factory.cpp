@@ -1397,6 +1397,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
             slot.ammo.insert( ammotype( atypes.get_string( i ) ) );
         }
     } else if( jo.has_string( "ammo" ) ) {
+        slot.ammo.clear();
         slot.ammo.insert( ammotype( jo.get_string( "ammo" ) ) );
     }
     assign( jo, "range", slot.range, strict );
