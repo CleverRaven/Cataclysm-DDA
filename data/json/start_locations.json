@@ -232,6 +232,12 @@
   },
   {
     "type": "start_location",
+    "ident": "fp_break_room",
+    "name": "Foodplace Break Room",
+    "target": "s_restaurant_foodplace_roof"
+  },
+  {
+    "type": "start_location",
     "ident": "school",
     "name": "School",
     "target": "school_1_5"
