@@ -105,6 +105,7 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "null",             &mapgen_null },
             { "crater",           &mapgen_crater },
             { "field",            &mapgen_field },
+            { "desert",            &mapgen_field},
             { "dirtlot",          &mapgen_dirtlot },
             { "forest",           &mapgen_forest },
             { "forest_trail_straight",    &mapgen_forest_trail_straight },
