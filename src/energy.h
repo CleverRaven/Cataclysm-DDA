@@ -135,11 +135,6 @@ class energy_quantity
         friend energy_quantity rng( energy_quantity lo, energy_quantity hi );
 };
 
-energy_quantity rng( energy_quantity lo, energy_quantity hi )
-{
-    return energy_quantity( rng( lo.millijoules, hi.millijoules ) );
-}
-
 /**
  * Convert the given number into an energy quantity by calling the matching
  * `energy_quantity::from_*` function.
