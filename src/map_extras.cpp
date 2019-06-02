@@ -842,7 +842,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
 
         for( const auto &loc : g->m.points_in_radius( { 17, 4, abs_sub.z }, 3, 0 ) ) {
             if( one_in( 4 ) ) {
-                m.add_item_or_charges( loc, item( "762_51_casing" ) );
+                m.add_item_or_charges( loc, item( "223_casing" ) );
             }
         }
 
