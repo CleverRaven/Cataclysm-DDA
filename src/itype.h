@@ -12,6 +12,7 @@
 #include "calendar.h"
 #include "color.h" // nc_color
 #include "damage.h"
+#include "energy.h"
 #include "enums.h" // point
 #include "explosion.h"
 #include "game_constants.h"
@@ -741,6 +742,10 @@ struct islot_artifact {
     int dream_freq_met;
 };
 
+struct islot_battery {
+    energy_quantity energy;
+};
+
 struct itype {
         friend class Item_factory;
 
@@ -767,6 +772,7 @@ struct itype {
         cata::optional<islot_ammo> ammo;
         cata::optional<islot_seed> seed;
         cata::optional<islot_artifact> artifact;
+        cata::optional<islot_battery> battery;
         /*@}*/
 
     protected:

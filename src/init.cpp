@@ -277,6 +277,9 @@ void DynamicDataLoader::initialize()
     add( "MAGAZINE", []( JsonObject & jo, const std::string & src ) {
         item_controller->load_magazine( jo, src );
     } );
+    add( "BATTERY", []( JsonObject & jo, const std::string & src ) {
+        item_controller->load_battery( jo, src );
+    } );
     add( "GENERIC", []( JsonObject & jo, const std::string & src ) {
         item_controller->load_generic( jo, src );
     } );

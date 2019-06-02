@@ -162,6 +162,7 @@ class Item_factory
         void load_fuel( JsonObject &jo, const std::string &src );
         void load_gunmod( JsonObject &jo, const std::string &src );
         void load_magazine( JsonObject &jo, const std::string &src );
+        void load_battery( JsonObject &jo, const std::string &src );
         void load_generic( JsonObject &jo, const std::string &src );
         void load_bionic( JsonObject &jo, const std::string &src );
         /*@}*/
@@ -304,6 +305,7 @@ class Item_factory
         void load( islot_ammo &slot, JsonObject &jo, const std::string &src );
         void load( islot_seed &slot, JsonObject &jo, const std::string &src );
         void load( islot_artifact &slot, JsonObject &jo, const std::string &src );
+        void load( islot_battery &slot, JsonObject &jo, const std::string &src );
 
         //json data handlers
         void set_use_methods_from_json( JsonObject &jo, const std::string &member,

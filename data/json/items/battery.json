@@ -1,7 +1,7 @@
 [
   {
     "id": "light_minus_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "spare_parts",
     "name": "ultra-light battery",
     "name_plural": "ultra-light batteries",
@@ -12,14 +12,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "capacity": 50,
+    "max_energy": 50,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "RECHARGE" ]
   },
   {
     "id": "light_minus_atomic_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "spare_parts",
     "name": "ultra-light plutonium fuel battery",
     "name_plural": "ultra-light plutonium fuel batteries",
@@ -30,15 +29,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "green",
-    "ammo_type": "battery",
-    "count": 500,
-    "capacity": 500,
+    "max_energy": 500,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "NO_SALVAGE", "LEAK_DAM", "RADIOACTIVE" ]
   },
   {
     "id": "light_minus_disposable_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "spare_parts",
     "name": "ultra-light disposable battery",
     "name_plural": "ultra-light disposable batteries",
@@ -49,15 +46,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "count": 100,
-    "capacity": 100,
+    "max_energy": 100,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
   },
   {
     "id": "light_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "spare_parts",
     "name": "light battery",
     "name_plural": "light batteries",
@@ -68,14 +63,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "capacity": 100,
+    "max_energy": 100,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "RECHARGE" ]
   },
   {
     "id": "light_plus_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "spare_parts",
     "name": "light battery (high-capacity)",
     "name_plural": "light batteries (high-capacity)",
@@ -86,14 +80,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "capacity": 150,
+    "max_energy": 150,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "RECHARGE" ]
   },
   {
     "id": "light_atomic_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "spare_parts",
     "name": "light plutonium fuel battery",
     "name_plural": "light plutonium fuel batteries",
@@ -104,15 +97,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "green",
-    "ammo_type": "battery",
-    "count": 1000,
-    "capacity": 1000,
+    "max_energy": 1000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "NO_SALVAGE", "LEAK_DAM", "RADIOACTIVE" ]
   },
   {
     "id": "light_disposable_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "spare_parts",
     "name": "light disposable battery",
     "name_plural": "light disposable batteries",
@@ -123,15 +114,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "count": 300,
-    "capacity": 300,
+    "max_energy": 300,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
   },
   {
     "id": "medium_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "spare_parts",
     "name": "medium battery",
     "name_plural": "medium batteries",
@@ -142,14 +131,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "capacity": 500,
+    "max_energy": 500,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "RECHARGE" ]
   },
   {
     "id": "medium_plus_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "spare_parts",
     "name": "medium battery (high-capacity)",
     "name_plural": "medium batteries (high-capacity)",
@@ -160,14 +148,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "capacity": 600,
+    "max_energy": 600,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "RECHARGE" ]
   },
   {
     "id": "medium_atomic_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "spare_parts",
     "name": "medium plutonium fuel battery",
     "name_plural": "medium plutonium fuel batteries",
@@ -178,15 +165,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "green",
-    "ammo_type": "battery",
-    "count": 5000,
-    "capacity": 5000,
+    "max_energy": 5000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "NO_SALVAGE", "LEAK_DAM", "RADIOACTIVE" ]
   },
   {
     "id": "medium_disposable_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "spare_parts",
     "name": "medium disposable battery",
     "name_plural": "medium disposable batteries",
@@ -197,15 +182,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "count": 1200,
-    "capacity": 1200,
+    "max_energy": 1200,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
   },
   {
     "id": "heavy_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "spare_parts",
     "name": "heavy battery",
     "name_plural": "heavy batteries",
@@ -216,14 +199,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "capacity": 1000,
+    "max_energy": 1000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "RECHARGE" ]
   },
   {
     "id": "heavy_plus_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "spare_parts",
     "name": "heavy battery (high-capacity)",
     "name_plural": "heavy batteries (high-capacity)",
@@ -234,14 +216,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "capacity": 1250,
+    "max_energy": 1250,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "RECHARGE" ]
+    "flags": [ "NO_SALVAGE", "RECHARGE" ]
   },
   {
     "id": "heavy_atomic_battery_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "spare_parts",
     "name": "heavy plutonium fuel battery",
     "name_plural": "heavy plutonium fuel batteries",
@@ -252,15 +233,13 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "green",
-    "ammo_type": "battery",
-    "count": 10000,
-    "capacity": 10000,
+    "max_energy": 10000,
     "looks_like": "battery",
-    "flags": [ "NO_SALVAGE", "NO_UNLOAD", "LEAK_DAM", "RADIOACTIVE" ]
+    "flags": [ "NO_SALVAGE", "LEAK_DAM", "RADIOACTIVE" ]
   },
   {
     "id": "heavy_disposable_cell",
-    "type": "MAGAZINE",
+    "type": "BATTERY",
     "category": "spare_parts",
     "name": "heavy disposable battery",
     "name_plural": "heavy disposable batteries",
@@ -271,9 +250,7 @@
     "material": [ "iron", "plastic" ],
     "symbol": "=",
     "color": "yellow",
-    "ammo_type": "battery",
-    "count": 2500,
-    "capacity": 2500,
+    "max_energy": 2500,
     "looks_like": "battery",
     "flags": [ "NO_SALVAGE", "NO_UNLOAD" ]
   }

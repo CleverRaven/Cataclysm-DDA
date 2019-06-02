@@ -1339,6 +1339,15 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string &sr
     assign( jo, "show_stats", slot.force_stat_display, strict );
 }
 
+void Item_factory::load( islot_battery &slot, JsonObject &jo, const std::string & )
+{
+    if( jo.has_string( "max_energy" ) ) {
+        slot.energy = energy_quantity::read_from_json_string( *jo.get_raw( "max_energy" ) );
+    } else {
+        slot.energy = energy_quantity::from_kilojoules( jo.get_int( "max_energy" ) );
+    }
+}
+
 void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
 {
     itype def;
@@ -1879,6 +1888,15 @@ void Item_factory::load_magazine( JsonObject &jo, const std::string &src )
     itype def;
     if( load_definition( jo, src, def ) ) {
         load_slot( def.magazine, jo, src );
+        load_basic_info( jo, def, src );
+    }
+}
+
+void Item_factory::load_battery( JsonObject &jo, const std::string &src )
+{
+    itype def;
+    if( load_definition( jo, src, def ) ) {
+        load_slot( def.battery, jo, src );
         load_basic_info( jo, def, src );
     }
 }
