@@ -1,0 +1,392 @@
+[
+  {
+    "type": "palette",
+    "id": "base_defensive_walls",
+    "terrain": {
+      " ": "t_null",
+      "u": "t_pit_shallow",
+      "U": "t_pit",
+      "W": "t_pit_spikes",
+      "|": "t_palisade",
+      "#": "t_junk_palisade"
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "faction_base_wall_corner_outer_pits",
+	"//": "Corner wall: Deep pits",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "uuuuuu",
+        "u     ",
+        "u     ",
+        "u     ",
+        "u     ",
+        "u     "
+      ],
+      "palettes": [ "base_defensive_walls" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "faction_base_wall_corner_outer_pits",
+	"//": "Corner wall: Deep pits",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "UUUUUU",
+        "U     ",
+        "U     ",
+        "U     ",
+        "U     ",
+        "U     "
+      ],
+      "palettes": [ "base_defensive_walls" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "faction_base_wall_corner_outer_pits3",
+	"//": "Corner wall: Spiked pits outside wall",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "WWWWWW",
+        "W     ",
+        "W     ",
+        "W     ",
+        "W     ",
+        "W     "
+      ],
+      "palettes": [ "base_defensive_walls" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "faction_base_wall_corner_outer_palisade",
+	"//": "Corner wall: Outer palisade wall for double layering or for bigger interior walkway",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "||||||",
+        "|     ",
+        "|     ",
+        "|     ",
+        "|     ",
+        "|     "
+      ],
+      "palettes": [ "base_defensive_walls" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "faction_base_wall_corner_outer_palisade",
+	"//": "Corner wall: Outer junk wall for double layering or for bigger interior walkway",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "######",
+        "#     ",
+        "#     ",
+        "#     ",
+        "#     ",
+        "#     "
+      ],
+      "palettes": [ "base_defensive_walls" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "faction_base_wall_corner_inner_pits1",
+	"//": "Corner wall: Shallow pits",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        " uuuuu",
+        " u    ",
+        " u    ",
+        " u    ",
+        " u    "
+      ],
+      "palettes": [ "base_defensive_walls" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "faction_base_wall_corner_inner_pits2",
+	"//": "Corner wall: Deep pits, inner portion - wall beginning",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        " UUUUU",
+        " U    ",
+        " U    ",
+        " U    ",
+        " U    "
+      ],
+      "palettes": [ "base_defensive_walls" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "faction_base_wall_corner_inner_palisade",
+	"//": "Corner wall: Wooden palisade",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        " |||||",
+        " |    ",
+        " |    ",
+        " |    ",
+        " |    "
+      ],
+      "palettes": [ "base_defensive_walls" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "faction_base_wall_corner_inner_junkmetal",
+	"//": "Corner wall: Junk metal palisade",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        " #####",
+        " #    ",
+        " #    ",
+        " #    ",
+        " #    "
+      ],
+      "palettes": [ "base_defensive_walls" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "faction_base_wall_straight_outer_pits1",
+	"//": "Edge wall: Shallow pits outside where wall will be",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "uuuuuuuuuuuu",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            "
+      ],
+      "palettes": [ "base_defensive_walls" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "faction_base_wall_straight_outer_pits2",
+	"//": "Edge wall: Deep pits outside where wall will be",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "UUUUUUUUUUUU",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            "
+      ],
+      "palettes": [ "base_defensive_walls" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "faction_base_wall_straight_outer_pits3",
+	"//": "Edge wall: Spiked pits outside where wall will be",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "WWWWWWWWWWWW",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            "
+      ],
+      "palettes": [ "base_defensive_walls" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "faction_base_wall_straight_outer_palisade",
+	"//": "Edge wall: Palisade outer wall for double thick walls or wider walkways",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "||||||||||||",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            "
+      ],
+      "palettes": [ "base_defensive_walls" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "faction_base_wall_straight_outer_junkwall",
+	"//": "Edge wall: Junk outer wall for double thick walls or wider walkways",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "############",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            "
+      ],
+      "palettes": [ "base_defensive_walls" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "faction_base_wall_straight_inner_pits1",
+	"//": "Edge wall: Shallow pits where wall will be",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "uuuuuuuuuuuu",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            "
+      ],
+      "palettes": [ "base_defensive_walls" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "faction_base_wall_straight_inner_pits2",
+	"//": "Edge wall: Deep pits where wall will be",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "UUUUUUUUUUUU",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            "
+      ],
+      "palettes": [ "base_defensive_walls" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "faction_base_wall_straight_outer_palisade",
+	"//": "Edge wall: Palisade outer wall for double thick walls or wider walkways",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "||||||||||||",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            "
+      ],
+      "palettes": [ "base_defensive_walls" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "faction_base_wall_straight_outer_junkwall",
+	"//": "Edge wall: Junk outer wall for double thick walls or wider walkways",
+    "object": {
+      "mapgensize": [ 12, 12 ],
+      "rows": [
+        "            ",
+        "############",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            ",
+        "            "
+      ],
+      "palettes": [ "base_defensive_walls" ]
+    }
+  }
+]
