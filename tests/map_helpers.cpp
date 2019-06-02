@@ -1,8 +1,11 @@
+#include "map_helpers.h"
+
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "creature_tracker.h"
 #include "game.h"
 #include "map.h"
@@ -15,14 +18,17 @@
 #include "game_constants.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
+#include "type_id.h"
 
 void wipe_map_terrain()
 {
-    // Remove all the obstacles.
     const int mapsize = g->m.getmapsize() * SEEX;
-    for( int x = 0; x < mapsize; ++x ) {
-        for( int y = 0; y < mapsize; ++y ) {
-            g->m.set( x, y, t_grass, f_null );
+    for( int z = 0; z <= OVERMAP_HEIGHT; ++z ) {
+        ter_id terrain = z == 0 ? t_grass : t_open_air;
+        for( int x = 0; x < mapsize; ++x ) {
+            for( int y = 0; y < mapsize; ++y ) {
+                g->m.set( { x, y, z}, terrain, f_null );
+            }
         }
     }
     for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
@@ -40,14 +46,12 @@ void clear_creatures()
 
 void clear_npcs()
 {
-    // Unload and reaload to ensure that all active NPCs are in the
-    // overmap_buffer.
-    g->unload_npcs();
-    g->load_npcs();
+    // Reload to ensure that all active NPCs are in the overmap_buffer.
+    g->reload_npcs();
     for( npc &n : g->all_npcs() ) {
         n.die( nullptr );
-        overmap_buffer.remove_npc( n.getID() );
     }
+    g->cleanup_dead();
 }
 
 void clear_fields( const int zlevel )

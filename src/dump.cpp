@@ -1,6 +1,6 @@
 #include "game.h" // IWYU pragma: associated
 
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 #include <iostream>
 #include <iterator>
@@ -9,6 +9,7 @@
 #include <utility>
 
 #include "ammo.h"
+#include "avatar.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "init.h"
 #include "item_factory.h"
@@ -28,6 +29,7 @@
 #include "translations.h"
 #include "units.h"
 #include "material.h"
+#include "string_id.h"
 
 bool game::dump_stats( const std::string &what, dump_mode mode,
                        const std::vector<std::string> &opts )

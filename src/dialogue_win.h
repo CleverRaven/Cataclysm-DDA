@@ -2,7 +2,7 @@
 #ifndef DIALOGUE_WIN_H
 #define DIALOGUE_WIN_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <vector>
 #include <string>
 #include <utility>

@@ -13,7 +13,7 @@
       { "item": "adderall", "prob": 40 },
       { "item": "id_military", "prob": 5 },
       { "item": "militarymap", "prob": 5 },
-      { "item": "cash_card", "charges-min": 0, "charges-max": 50000 },
+      { "item": "cash_card", "prob": 10, "charges-min": 0, "charges-max": 50000 },
       { "group": "mil_food", "prob": 15 },
       { "item": "bone_human", "count": [ 5, 8 ], "prob": 100 },
       { "item": "human_flesh", "count": [ 5, 8 ], "prob": 100 },
@@ -62,7 +62,7 @@
           { "item": "two_way_radio", "prob": 50 },
           { "item": "grenade", "prob": 5 },
           { "item": "id_military", "prob": 5 },
-          { "item": "cash_card", "charges-min": 0, "charges-max": 50000 },
+          { "item": "cash_card", "prob": 10, "charges-min": 0, "charges-max": 50000 },
           { "group": "misc_smoking", "prob": 30 }
         ]
       },

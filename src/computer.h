@@ -94,7 +94,7 @@ struct computer_option {
     int security;
 
     computer_option();
-    computer_option( std::string N, computer_action A, int S );
+    computer_option( const std::string &N, computer_action A, int S );
 
     static computer_option from_json( JsonObject &jo );
 };

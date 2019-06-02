@@ -12,7 +12,6 @@
 #include "item_group.h"
 #include "output.h"
 #include "json.h"
-#include "mapdata.h"
 
 // TODO: Make a generic factory
 static std::map<harvest_id, harvest_list> harvest_all;

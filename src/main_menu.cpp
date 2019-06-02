@@ -10,6 +10,7 @@
 #include <sstream>
 
 #include "auto_pickup.h"
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "debug.h"
@@ -406,7 +407,7 @@ bool main_menu::opening_screen()
     ctxt.register_action( "ANY_INPUT" );
     bool start = false;
 
-    g->u = player();
+    g->u = avatar();
 
     int sel_line = 0;
 
@@ -550,12 +551,12 @@ bool main_menu::opening_screen()
                         } catch( const std::exception &err ) {
                             debugmsg( "Error: %s", err.what() );
                             g->gamemode.reset();
-                            g->u = player();
+                            g->u = avatar();
                             continue;
                         }
                         if( !g->gamemode->init() ) {
                             g->gamemode.reset();
-                            g->u = player();
+                            g->u = avatar();
                             continue;
                         }
                         start = true;
@@ -645,6 +646,7 @@ bool main_menu::new_character_tab()
         vSubItems.push_back( pgettext( "Main Menu|New Game", "Play <N|n>ow!" ) );
     }
     std::vector<std::vector<std::string>> vNewGameHotkeys;
+    vNewGameHotkeys.reserve( vSubItems.size() );
     for( const std::string &item : vSubItems ) {
         vNewGameHotkeys.push_back( get_hotkeys( item ) );
     }
@@ -705,7 +707,7 @@ bool main_menu::new_character_tab()
                         g->setup();
                     } catch( const std::exception &err ) {
                         debugmsg( "Error: %s", err.what() );
-                        g->u = player();
+                        g->u = avatar();
                         continue;
                     }
                     character_type play_type = PLTYPE_CUSTOM;
@@ -724,7 +726,7 @@ bool main_menu::new_character_tab()
                             break;
                     }
                     if( !g->u.create( play_type ) ) {
-                        g->u = player();
+                        g->u = avatar();
                         load_char_templates();
                         werase( w_background );
                         wrefresh( w_background );
@@ -735,7 +737,7 @@ bool main_menu::new_character_tab()
                     wrefresh( w_background );
 
                     if( !g->start_game() ) {
-                        g->u = player();
+                        g->u = avatar();
                         continue;
                     }
                     start = true;
@@ -799,7 +801,7 @@ bool main_menu::new_character_tab()
             } else if( action == "RIGHT" || action == "CONFIRM" ) {
                 WORLDPTR world = world_generator->pick_world();
                 if( world == nullptr ) {
-                    g->u = player();
+                    g->u = avatar();
                     continue;
                 }
                 world_generator->set_active_world( world );
@@ -807,11 +809,11 @@ bool main_menu::new_character_tab()
                     g->setup();
                 } catch( const std::exception &err ) {
                     debugmsg( "Error: %s", err.what() );
-                    g->u = player();
+                    g->u = avatar();
                     continue;
                 }
                 if( !g->u.create( PLTYPE_TEMPLATE, templates[sel3] ) ) {
-                    g->u = player();
+                    g->u = avatar();
                     load_char_templates();
                     werase( w_background );
                     wrefresh( w_background );
@@ -820,7 +822,7 @@ bool main_menu::new_character_tab()
                 werase( w_background );
                 wrefresh( w_background );
                 if( !g->start_game() ) {
-                    g->u = player();
+                    g->u = avatar();
                     continue;
                 }
                 start = true;
@@ -973,7 +975,7 @@ bool main_menu::load_character_tab()
                         g->setup();
                     } catch( const std::exception &err ) {
                         debugmsg( "Error: %s", err.what() );
-                        g->u = player();
+                        g->u = avatar();
                         continue;
                     }
 

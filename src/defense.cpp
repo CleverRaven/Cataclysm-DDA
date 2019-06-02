@@ -4,6 +4,7 @@
 #include <set>
 
 #include "action.h"
+#include "avatar.h"
 #include "color.h"
 #include "construction.h"
 #include "debug.h"
@@ -28,10 +29,9 @@
 #include "game_constants.h"
 #include "item.h"
 #include "monster.h"
-#include "omdata.h"
 #include "pldata.h"
-#include "itype.h"
 #include "mapdata.h"
+#include "string_id.h"
 
 #define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters
@@ -88,7 +88,7 @@ defense_game::defense_game()
 bool defense_game::init()
 {
     calendar::turn = HOURS( 12 ); // Start at noon
-    g->temperature = 65;
+    g->weather.temperature = 65;
     if( !g->u.create( PLTYPE_CUSTOM ) ) {
         return false;
     }

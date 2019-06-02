@@ -1,8 +1,8 @@
 #include "npc.h"
 
-#include <limits.h>
-#include <math.h>
-#include <stdlib.h>
+#include <climits>
+#include <cmath>
+#include <cstdlib>
 #include <algorithm>
 #include <functional>
 #include <limits>
@@ -10,6 +10,7 @@
 
 #include "ammo.h"
 #include "auto_pickup.h"
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "effect.h"
 #include "game.h"
@@ -55,8 +56,11 @@
 #include "translations.h"
 #include "units.h"
 #include "visitable.h"
+#include "int_id.h"
+#include "pldata.h"
 
 class basecamp;
+class monfaction;
 
 const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_electronics( "electronics" );
@@ -127,6 +131,7 @@ npc::npc()
     death_drops = true;
     dead = false;
     hit_by_player = false;
+    hallucination = false;
     moves = 100;
     mission = NPC_MISSION_NULL;
     myclass = npc_class_id::NULL_ID();
@@ -457,6 +462,9 @@ void npc::set_fac( const string_id<faction> &id )
 {
     my_fac = g->faction_manager_ptr->get( id );
     fac_id = my_fac->id;
+    for( auto &e : inv_dump() ) {
+        e->set_owner( my_fac );
+    }
 }
 
 void npc::clear_fac()
@@ -466,8 +474,8 @@ void npc::clear_fac()
 }
 // item id from group "<class-name>_<what>" or from fallback group
 // may still be a null item!
-item random_item_from( const npc_class_id &type, const std::string &what,
-                       const std::string &fallback )
+static item random_item_from( const npc_class_id &type, const std::string &what,
+                              const std::string &fallback )
 {
     auto result = item_group::item_from( type.str() + "_" + what );
     if( result.is_null() ) {
@@ -477,13 +485,13 @@ item random_item_from( const npc_class_id &type, const std::string &what,
 }
 
 // item id from "<class-name>_<what>" or from "npc_<what>"
-item random_item_from( const npc_class_id &type, const std::string &what )
+static item random_item_from( const npc_class_id &type, const std::string &what )
 {
     return random_item_from( type, what, "npc_" + what );
 }
 
 // item id from "<class-name>_<what>_<gender>" or from "npc_<what>_<gender>"
-item get_clothing_item( const npc_class_id &type, const std::string &what, bool male )
+static item get_clothing_item( const npc_class_id &type, const std::string &what, bool male )
 {
     item result;
     //Check if class has gendered clothing
@@ -538,9 +546,9 @@ void starting_clothes( npc &who, const npc_class_id &type, bool male )
         if( it.has_flag( "VARSIZE" ) ) {
             it.item_tags.insert( "FIT" );
         }
-
         if( who.can_wear( it ).success() ) {
             who.worn.push_back( it );
+            it.set_owner( who.my_fac );
         }
     }
 }
@@ -600,7 +608,9 @@ void starting_inv( npc &who, const npc_class_id &type )
     res.erase( std::remove_if( res.begin(), res.end(), [&]( const item & e ) {
         return e.has_flag( "TRADER_AVOID" );
     } ), res.end() );
-
+    for( auto &it : res ) {
+        it.set_owner( who.my_fac );
+    }
     who.inv += res;
 }
 
@@ -714,14 +724,12 @@ skill_id npc::best_skill() const
 int npc::best_skill_level() const
 {
     int highest_level = std::numeric_limits<int>::min();
-    skill_id highest_skill( skill_id::NULL_ID() );
 
     for( const auto &p : *_skills ) {
         if( p.first.obj().is_combat_skill() ) {
             const int level = p.second.level();
             if( level > highest_level ) {
                 highest_level = level;
-                highest_skill = p.first;
             }
         }
     }
@@ -762,6 +770,7 @@ void npc::starting_weapon( const npc_class_id &type )
     if( weapon.is_gun() ) {
         weapon.ammo_set( weapon.type->gun->ammo->default_ammotype() );
     }
+    weapon.set_owner( my_fac );
 }
 
 bool npc::wear_if_wanted( const item &it )
@@ -1110,6 +1119,9 @@ void npc::make_angry()
 
 void npc::on_attacked( const Creature &attacker )
 {
+    if( is_hallucination() ) {
+        die( nullptr );
+    }
     if( attacker.is_player() && !is_enemy() ) {
         make_angry();
         hit_by_player = true;
@@ -1211,12 +1223,19 @@ void npc::say( const std::string &line, const int priority ) const
     if( g->u.sees( *this ) && g->u.is_deaf() ) {
         add_msg( m_warning, _( "%1$s says something but you can't hear it!" ), name );
     }
+    // Hallucinations don't make noise when they speak
+    if( !is_hallucination() ) {
+        add_msg( _( "%1$s saying \"%2$s\"" ), name, formatted_line );
+        return;
+    }
     // Sound happens even if we can't hear it
     sounds::sound_t spriority = static_cast<sounds::sound_t>( priority );
     if( spriority == sounds::sound_t::order || spriority == sounds::sound_t::alert ) {
-        sounds::sound( pos(), get_shout_volume(), spriority, sound );
+        sounds::sound( pos(), get_shout_volume(), spriority, sound, false, "speech",
+                       male ? "NPC_m" : "NPC_f" );
     } else {
-        sounds::sound( pos(), 16, sounds::sound_t::speech, sound );
+        sounds::sound( pos(), 16, sounds::sound_t::speech, sound, false, "speech",
+                       male ? "NPC_m_loud" : "NPC_f_loud" );
     }
 }
 
@@ -1649,7 +1668,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 
 int npc::smash_ability() const
 {
-    if( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) {
+    if( !is_hallucination() && ( !is_player_ally() || rules.has_flag( ally_rule::allow_bash ) ) ) {
         ///\EFFECT_STR_NPC increases smash ability
         return str_cur + weapon.damage_melee( DT_BASH );
     }
@@ -1859,7 +1878,7 @@ std::string npc::opinion_text() const
     return ret.str();
 }
 
-void maybe_shift( cata::optional<tripoint> &pos, int dx, int dy )
+static void maybe_shift( cata::optional<tripoint> &pos, int dx, int dy )
 {
     if( pos ) {
         pos->x += dx;
@@ -1867,7 +1886,7 @@ void maybe_shift( cata::optional<tripoint> &pos, int dx, int dy )
     }
 }
 
-void maybe_shift( tripoint &pos, int dx, int dy )
+static void maybe_shift( tripoint &pos, int dx, int dy )
 {
     if( pos != tripoint_min ) {
         pos.x += dx;
@@ -1908,6 +1927,13 @@ void npc::die( Creature *nkiller )
 
     dead = true;
     Character::die( nkiller );
+
+    if( is_hallucination() ) {
+        if( g->u.sees( *this ) ) {
+            add_msg( _( "%s disappears." ), name.c_str() );
+        }
+        return;
+    }
 
     if( g->u.sees( *this ) ) {
         add_msg( _( "%s dies!" ), name );
@@ -1985,6 +2011,8 @@ std::string npc_attitude_name( npc_attitude att )
             return _( "Healing you" );
         case NPCATT_ACTIVITY:
             return _( "Performing a task" );
+        case NPCATT_RECOVER_GOODS:
+            return _( "Trying to recover stolen goods" );
         case NPCATT_LEGACY_1:
         case NPCATT_LEGACY_2:
         case NPCATT_LEGACY_3:
@@ -1992,7 +2020,6 @@ std::string npc_attitude_name( npc_attitude att )
         case NPCATT_LEGACY_5:
         case NPCATT_LEGACY_6:
             return _( "NPC Legacy Attitude" );
-            break;
         default:
             break;
     }
@@ -2115,6 +2142,9 @@ void npc::on_load()
     }
     if( g->m.veh_at( pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) && !in_vehicle ) {
         g->m.board_vehicle( pos(), this );
+    }
+    if( has_trait( trait_id( "HALLUCINATION" ) ) ) {
+        hallucination = true;
     }
 }
 
@@ -2293,6 +2323,10 @@ std::ostream &operator<< ( std::ostream &os, const npc_need &need )
 
 bool npc::will_accept_from_player( const item &it ) const
 {
+    if( is_hallucination() ) {
+        return false;
+    }
+
     if( is_minion() || g->u.has_trait( trait_id( "DEBUG_MIND_CONTROL" ) ) ||
         it.has_flag( "NPC_SAFE" ) ) {
         return true;
@@ -2572,10 +2606,11 @@ npc_follower_rules::npc_follower_rules()
     set_flag( ally_rule::allow_complain );
     set_flag( ally_rule::allow_pulp );
     clear_flag( ally_rule::close_doors );
-    clear_flag( ally_rule::avoid_combat );
+    clear_flag( ally_rule::follow_close );
     clear_flag( ally_rule::avoid_doors );
     clear_flag( ally_rule::hold_the_line );
     clear_flag( ally_rule::ignore_noise );
+    clear_flag( ally_rule::forbid_engage );
 }
 
 bool npc_follower_rules::has_flag( ally_rule test, bool check_override ) const
@@ -2609,6 +2644,31 @@ void npc_follower_rules::toggle_flag( ally_rule toggle )
     } else {
         set_flag( toggle );
     }
+}
+
+void npc_follower_rules::set_specific_override_state( ally_rule rule, bool state )
+{
+    if( state ) {
+        set_override( rule );
+    } else {
+        clear_override( rule );
+    }
+    enable_override( rule );
+}
+
+void npc_follower_rules::toggle_specific_override_state( ally_rule rule, bool state )
+{
+    if( has_override_enable( rule ) && has_override( rule ) == state ) {
+        clear_override( rule );
+        disable_override( rule );
+    } else {
+        set_specific_override_state( rule, state );
+    }
+}
+
+bool npc::is_hallucination() const
+{
+    return hallucination;
 }
 
 bool npc_follower_rules::has_override_enable( ally_rule test ) const
@@ -2648,10 +2708,10 @@ void npc_follower_rules::set_danger_overrides()
 {
     overrides = ally_rule::DEFAULT;
     override_enable = ally_rule::DEFAULT;
-    set_override( ally_rule::avoid_combat );
+    set_override( ally_rule::follow_close );
     set_override( ally_rule::avoid_doors );
     set_override( ally_rule::hold_the_line );
-    enable_override( ally_rule::avoid_combat );
+    enable_override( ally_rule::follow_close );
     enable_override( ally_rule::allow_sleep );
     enable_override( ally_rule::close_doors );
     enable_override( ally_rule::avoid_doors );
@@ -2664,3 +2724,7 @@ void npc_follower_rules::clear_overrides()
     override_enable = ally_rule::DEFAULT;
 }
 
+int npc::get_thirst() const
+{
+    return Character::get_thirst() - units::to_milliliter<int>( stomach.get_water() ) / 5;
+}

@@ -1,7 +1,10 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <algorithm>
+#include <functional>
 
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "dialogue.h"
 #include "json.h"
@@ -15,8 +18,14 @@
 #include "enums.h"
 #include "player.h"
 #include "rng.h"
+#include "debug.h"
+#include "line.h"
+#include "omdata.h"
+#include "optional.h"
+#include "translations.h"
+#include "type_id.h"
 
-const tripoint reveal_destination( const std::string &type )
+static const tripoint reveal_destination( const std::string &type )
 {
     const tripoint your_pos = g->u.global_omt_location();
     const tripoint center_pos = overmap_buffer.find_random( your_pos, type, rng( 40, 80 ), false );
@@ -29,7 +38,7 @@ const tripoint reveal_destination( const std::string &type )
     return overmap::invalid_tripoint;
 }
 
-void reveal_route( mission *miss, const tripoint &destination )
+static void reveal_route( mission *miss, const tripoint &destination )
 {
     const npc *p = g->find_npc( miss->get_npc_id() );
     if( p == nullptr ) {
@@ -47,7 +56,7 @@ void reveal_route( mission *miss, const tripoint &destination )
     }
 }
 
-void reveal_target( mission *miss, const std::string &omter_id )
+static void reveal_target( mission *miss, const std::string &omter_id )
 {
     const npc *p = g->find_npc( miss->get_npc_id() );
     if( p == nullptr ) {
@@ -67,7 +76,7 @@ void reveal_target( mission *miss, const std::string &omter_id )
     }
 }
 
-void reveal_any_target( mission *miss, const std::vector<std::string> &omter_ids )
+static void reveal_any_target( mission *miss, const std::vector<std::string> &omter_ids )
 {
     reveal_target( miss, random_entry( omter_ids ) );
 }
@@ -99,7 +108,7 @@ tripoint mission_util::reveal_om_ter( const std::string &omter, int reveal_rad, 
  * Given a (valid!) city reference, select a random house within the city borders.
  * @return global overmap terrain coordinates of the house.
  */
-tripoint random_house_in_city( const city_reference &cref )
+static tripoint random_house_in_city( const city_reference &cref )
 {
     const auto city_center_omt = sm_to_omt_copy( cref.abs_sm_pos );
     const auto size = cref.city->size;
@@ -158,7 +167,7 @@ tripoint mission_util::target_closest_lab_entrance( const tripoint &origin, int 
     return closest;
 }
 
-cata::optional<tripoint> find_or_create_om_terrain( const tripoint &origin_pos,
+static cata::optional<tripoint> find_or_create_om_terrain( const tripoint &origin_pos,
         const mission_target_params &params )
 {
     tripoint target_pos = overmap::invalid_tripoint;
@@ -223,7 +232,7 @@ cata::optional<tripoint> find_or_create_om_terrain( const tripoint &origin_pos,
     return target_pos;
 }
 
-tripoint get_mission_om_origin( const mission_target_params &params )
+static tripoint get_mission_om_origin( const mission_target_params &params )
 {
     // use the player or NPC's current position, adjust for the z value if any
     tripoint origin_pos = g->u.global_omt_location();
@@ -250,8 +259,7 @@ cata::optional<tripoint> mission_util::assign_mission_target( const mission_targ
     // use the player or NPC's current position, adjust for the z value if any
     tripoint origin_pos = get_mission_om_origin( params );
 
-    cata::optional<tripoint> target_pos = cata::nullopt;
-    target_pos = find_or_create_om_terrain( origin_pos, params );
+    cata::optional<tripoint> target_pos = find_or_create_om_terrain( origin_pos, params );
 
     if( target_pos ) {
         if( params.offset ) {
@@ -501,8 +509,8 @@ bool mission_type::parse_funcs( JsonObject &jo, std::function<void( mission * )>
     phase_func = [ funcs, talk_effects ]( mission * miss ) {
         ::dialogue d;
         d.beta = g->find_npc( miss->get_npc_id() );
+        standard_npc default_npc( "Default" );
         if( d.beta == nullptr ) {
-            standard_npc default_npc( "Default" );
             d.beta = &default_npc;
         }
         d.alpha = &g->u;

@@ -1,12 +1,13 @@
 #include "action.h"
 
-#include <limits.h>
+#include <climits>
 #include <algorithm>
 #include <istream>
 #include <iterator>
 #include <memory>
 #include <utility>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
@@ -30,7 +31,7 @@
 #include "enums.h"
 #include "item.h"
 #include "ret_val.h"
-#include "itype.h"
+#include "type_id.h"
 
 class inventory;
 
@@ -58,7 +59,8 @@ void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
         std::string id;
         keymap_txt >> id;
         if( id.empty() ) {
-            getline( keymap_txt, id );  // Empty line, chomp it
+            // Empty line, chomp it
+            getline( keymap_txt, id );
         } else if( id == "unbind" ) {
             keymap_txt >> id;
             const action_id act = look_up_action( id );
@@ -96,10 +98,10 @@ Fix \"%s\" at your next chance!", ch, id, FILENAMES["keymap"] );
     }
 }
 
-std::vector<char> keys_bound_to( action_id act )
+std::vector<char> keys_bound_to( action_id act, const bool restrict_to_printable )
 {
     input_context ctxt = get_default_mode_input_context();
-    return ctxt.keys_bound_to( action_ident( act ) );
+    return ctxt.keys_bound_to( action_ident( act ), restrict_to_printable );
 }
 
 action_id action_from_key( char ch )
@@ -179,6 +181,8 @@ std::string action_ident( action_id act )
             return "advinv";
         case ACTION_PICKUP:
             return "pickup";
+        case ACTION_PICKUP_FEET:
+            return "pickup_feet";
         case ACTION_GRAB:
             return "grab";
         case ACTION_HAUL:
@@ -213,6 +217,8 @@ std::string action_ident( action_id act )
             return "take_off";
         case ACTION_EAT:
             return "eat";
+        case ACTION_OPEN_CONSUME:
+            return "open_consume";
         case ACTION_READ:
             return "read";
         case ACTION_WIELD:
@@ -233,6 +239,8 @@ std::string action_ident( action_id act )
             return "fire";
         case ACTION_FIRE_BURST:
             return "fire_burst";
+        case ACTION_CAST_SPELL:
+            return "cast_spell";
         case ACTION_SELECT_FIRE_MODE:
             return "select_fire_mode";
         case ACTION_DROP:
@@ -301,6 +309,10 @@ std::string action_ident( action_id act )
             return "debug";
         case ACTION_DISPLAY_SCENT:
             return "debug_scent";
+        case ACTION_DISPLAY_TEMPERATURE:
+            return "debug_temp";
+        case ACTION_DISPLAY_VISIBILITY:
+            return "debug_visibility";
         case ACTION_TOGGLE_DEBUG_MODE:
             return "debug_mode";
         case ACTION_ZOOM_OUT:
@@ -400,6 +412,8 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_TOGGLE_FULLSCREEN:
         case ACTION_DEBUG:
         case ACTION_DISPLAY_SCENT:
+        case ACTION_DISPLAY_TEMPERATURE:
+        case ACTION_DISPLAY_VISIBILITY:
         case ACTION_ZOOM_OUT:
         case ACTION_ZOOM_IN:
         case ACTION_TOGGLE_PIXEL_MINIMAP:
@@ -520,16 +534,12 @@ point get_delta_from_movement_direction( action_id act )
     }
 }
 
-// Get the key for an action, used in the action menu to give each action the
-// hotkey it is bound to.
-// We ignore bindings to '?' because that will already do something else in
-// this menu (open the menu keybindings).
-long hotkey_for_action( action_id action )
+long hotkey_for_action( action_id action, const bool restrict_to_printable )
 {
     auto is_valid_key = []( char key ) {
         return key != '?';
     };
-    std::vector<char> keys = keys_bound_to( action );
+    std::vector<char> keys = keys_bound_to( action, restrict_to_printable );
     auto valid = std::find_if( keys.begin(), keys.end(), is_valid_key );
     return valid == keys.end() ? -1 : *valid;
 }
@@ -598,7 +608,7 @@ bool can_examine_at( const tripoint &p )
     return tr.can_see( p, g->u );
 }
 
-bool can_pickup_at( const tripoint &p )
+static bool can_pickup_at( const tripoint &p )
 {
     bool veh_has_items = false;
     const optional_vpart_position vp = g->m.veh_at( p );
@@ -630,6 +640,7 @@ bool can_interact_at( action_id action, const tripoint &p )
         case ACTION_EXAMINE:
             return can_examine_at( p );
         case ACTION_PICKUP:
+        case ACTION_PICKUP_FEET:
             return can_pickup_at( p );
         default:
             return false;
@@ -781,6 +792,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_WEAR );
             REGISTER_ACTION( ACTION_TAKE_OFF );
             REGISTER_ACTION( ACTION_EAT );
+            REGISTER_ACTION( ACTION_OPEN_CONSUME );
             REGISTER_ACTION( ACTION_READ );
             REGISTER_ACTION( ACTION_WIELD );
             REGISTER_ACTION( ACTION_UNLOAD );
@@ -798,6 +810,8 @@ action_id handle_action_menu()
 #endif // TILES
             REGISTER_ACTION( ACTION_TOGGLE_PANEL_ADM );
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
+            REGISTER_ACTION( ACTION_DISPLAY_TEMPERATURE );
+            REGISTER_ACTION( ACTION_DISPLAY_VISIBILITY );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
         } else if( category == _( "Interact" ) ) {
             REGISTER_ACTION( ACTION_EXAMINE );
@@ -808,6 +822,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_CLOSE );
             REGISTER_ACTION( ACTION_CHAT );
             REGISTER_ACTION( ACTION_PICKUP );
+            REGISTER_ACTION( ACTION_PICKUP_FEET );
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_HAUL );
             REGISTER_ACTION( ACTION_BUTCHER );
@@ -821,6 +836,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_FIRE );
             REGISTER_ACTION( ACTION_RELOAD_ITEM );
             REGISTER_ACTION( ACTION_RELOAD_WEAPON );
+            REGISTER_ACTION( ACTION_CAST_SPELL );
             REGISTER_ACTION( ACTION_SELECT_FIRE_MODE );
             REGISTER_ACTION( ACTION_THROW );
             REGISTER_ACTION( ACTION_FIRE_BURST );
@@ -883,8 +899,8 @@ action_id handle_action_menu()
         }
         //border=2, selectors=3, after=3 for balance.
         width += 2 + 3 + 3;
-        int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
-        int iy = ( TERMY > static_cast<int>( entries.size() ) + 2 ) ? ( TERMY - static_cast<int>
+        int ix = TERMX > width ? ( TERMX - width ) / 2 - 1 : 0;
+        int iy = TERMY > static_cast<int>( entries.size() ) + 2 ? ( TERMY - static_cast<int>
                  ( entries.size() ) - 2 ) / 2 - 1 : 0;
         int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
                                 std::max( iy, 0 ), title, entries );
@@ -930,6 +946,7 @@ action_id handle_main_menu()
     REGISTER_ACTION( ACTION_ACTIONMENU );
     REGISTER_ACTION( ACTION_QUICKSAVE );
     REGISTER_ACTION( ACTION_SAVE );
+    REGISTER_ACTION( ACTION_DEBUG );
 
     int width = 0;
     for( auto &entry : entries ) {
@@ -939,8 +956,8 @@ action_id handle_main_menu()
     }
     //border=2, selectors=3, after=3 for balance.
     width += 2 + 3 + 3;
-    const int ix = ( TERMX > width ) ? ( TERMX - width ) / 2 - 1 : 0;
-    const int iy = ( TERMY > static_cast<int>( entries.size() ) + 2 ) ? ( TERMY - static_cast<int>
+    const int ix = TERMX > width ? ( TERMX - width ) / 2 - 1 : 0;
+    const int iy = TERMY > static_cast<int>( entries.size() ) + 2 ? ( TERMY - static_cast<int>
                    ( entries.size() ) - 2 ) / 2 - 1 : 0;
     int selection = uilist( std::max( ix, 0 ), std::min( width, TERMX - 2 ),
                             std::max( iy, 0 ), _( "MAIN MENU" ), entries );
@@ -1037,8 +1054,6 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
     }
     if( highlighted ) {
         wrefresh( g->w_terrain );
-        // prevent hiding panels when examining an object
-        g->draw_panels();
     }
 
     return choose_adjacent( message, allow_vertical );

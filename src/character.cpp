@@ -1,7 +1,7 @@
 #include "character.h"
 
-#include <limits.h>
-#include <stdlib.h>
+#include <climits>
+#include <cstdlib>
 #include <algorithm>
 #include <numeric>
 #include <sstream>
@@ -10,6 +10,7 @@
 #include <memory>
 
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "debug.h"
@@ -124,8 +125,9 @@ Character::Character() :
     fatigue = 0;
     sleep_deprivation = 0;
     // 45 days to starve to death
-    healthy_calories = 77000;
+    healthy_calories = 55000;
     stored_calories = healthy_calories;
+    initialize_stomach_contents();
 
     name.clear();
 
@@ -186,6 +188,27 @@ void Character::mod_stat( const std::string &stat, float modifier )
     } else {
         Creature::mod_stat( stat, modifier );
     }
+}
+
+std::string Character::disp_name( bool possessive ) const
+{
+    if( !possessive ) {
+        if( is_player() ) {
+            return pgettext( "not possessive", "you" );
+        }
+        return name;
+    } else {
+        if( is_player() ) {
+            return _( "your" );
+        }
+        return string_format( _( "%s's" ), name );
+    }
+}
+
+std::string Character::skin_name() const
+{
+    // TODO: Return actual deflecting layer name
+    return _( "armor" );
 }
 
 int Character::effective_dispersion( int dispersion ) const
@@ -450,7 +473,7 @@ bool Character::move_effects( bool attacking )
             const monster *const mon = g->critter_at<monster>( dest );
             if( mon && ( mon->has_flag( MF_GRABS ) ||
                          mon->type->has_special_attack( "GRAB" ) ) ) {
-                zed_number ++;
+                zed_number += mon->get_grab_strength();
             }
         }
         if( zed_number == 0 ) {
@@ -461,7 +484,7 @@ bool Character::move_effects( bool attacking )
 
             /** @EFFECT_STR increases chance to escape grab, if >DEX */
         } else if( rng( 0, std::max( get_dex(), get_str() ) ) <
-                   rng( get_effect_int( effect_grabbed ), 8 ) ) {
+                   rng( get_effect_int( effect_grabbed, bp_torso ), 8 ) ) {
             // Randomly compare higher of dex or str to grab intensity.
             add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
                                    _( "<npcname> tries to break out of the grab, but fails!" ) );
@@ -483,6 +506,15 @@ void Character::add_effect( const efftype_id &eff_id, const time_duration dur, b
 
 void Character::process_turn()
 {
+    for( auto &i : *my_bionics ) {
+        if( i.incapacitated_time > 0_turns ) {
+            i.incapacitated_time -= 1_turns;
+            if( i.incapacitated_time == 0_turns ) {
+                add_msg_if_player( m_bad, _( "Your %s bionic comes back online." ), i.info().name );
+            }
+        }
+    }
+
     Creature::process_turn();
 }
 
@@ -671,8 +703,17 @@ bool Character::has_active_bionic( const bionic_id &b ) const
 {
     for( auto &i : *my_bionics ) {
         if( i.id == b ) {
-            return ( i.powered );
+            return ( i.powered && i.incapacitated_time == 0_turns );
         }
+    }
+    return false;
+}
+
+bool Character::has_any_bionic() const
+{
+    bionic_collection tmp_collec = *my_bionics;
+    if( !tmp_collec.empty() ) {
+        return true;
     }
     return false;
 }
@@ -737,6 +778,7 @@ long int Character::i_add_to_container( const item &it, const bool unloading )
     visit_items( [ & ]( item * item ) {
         if( charges > 0 && item->is_ammo_container() && item_type == item->contents.front().typeId() ) {
             charges = add_to_container( *item );
+            item->handle_pickup_ownership( *this );
         }
         return VisitResponse::NEXT;
     } );
@@ -764,7 +806,6 @@ item &Character::i_add( item it, bool should_stack )
             break;
         }
     }
-
     auto &item_in_inv = inv.add_item( it, keep_invlet, true, should_stack );
     item_in_inv.on_pickup( *this );
     return item_in_inv;
@@ -1072,25 +1113,31 @@ int Character::best_nearby_lifting_assist( const tripoint &world_pos ) const
 units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) const
 {
     const std::map<const item *, int> empty;
-    const auto &without = tweaks.without_items ? tweaks.without_items->get() : empty;
+    const std::map<const item *, int> &without = tweaks.without_items ? tweaks.without_items->get() :
+            empty;
 
     units::mass ret = 0_gram;
-    if( !without.count( &weapon ) ) {
-
-        const auto thisweight = weapon.weight();
-        const auto liftrequirement = ceil( units::to_gram<float>( thisweight ) / units::to_gram<float>
-                                           ( TOOL_LIFT_FACTOR ) );
-        if( g->new_game || best_nearby_lifting_assist() < liftrequirement ) {
-            ret += thisweight;
-        }
-    }
     for( auto &i : worn ) {
         if( !without.count( &i ) ) {
             ret += i.weight();
         }
     }
-    const auto &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
+    const inventory &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
     ret += i.weight_without( without );
+
+    if( !without.count( &weapon ) ) {
+
+        const units::mass thisweight = weapon.weight();
+        if( thisweight + ret > weight_capacity() ) {
+            const float liftrequirement = ceil( units::to_gram<float>( thisweight ) / units::to_gram<float>
+                                                ( TOOL_LIFT_FACTOR ) );
+            if( g->new_game || best_nearby_lifting_assist() < liftrequirement ) {
+                ret += thisweight;
+            }
+        } else {
+            ret += thisweight;
+        }
+    }
     return ret;
 }
 
@@ -1538,10 +1585,10 @@ int Character::extraEncumbrance( const layer_level level, const int bp ) const
     return encumbrance_cache[bp].layer_penalty_details[static_cast<int>( level )].total;
 }
 
-void layer_item( std::array<encumbrance_data, num_bp> &vals,
-                 const item &it,
-                 std::array<layer_level, num_bp> &highest_layer_so_far,
-                 bool power_armor, const Character &c )
+static void layer_item( std::array<encumbrance_data, num_bp> &vals,
+                        const item &it,
+                        std::array<layer_level, num_bp> &highest_layer_so_far,
+                        bool power_armor, const Character &c )
 {
     const auto item_layer = it.get_layer();
     int encumber_val = it.get_encumber( c );
@@ -1681,9 +1728,9 @@ int Character::encumb( body_part bp ) const
     return encumbrance_cache[bp].encumbrance;
 }
 
-void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
-                            const mutation_branch &mut,
-                            const body_part_set &oversize )
+static void apply_mut_encumbrance( std::array<encumbrance_data, num_bp> &vals,
+                                   const mutation_branch &mut,
+                                   const body_part_set &oversize )
 {
     for( const auto &enc : mut.encumbrance_always ) {
         vals[enc.first].encumbrance += enc.second;
@@ -1805,6 +1852,18 @@ int Character::get_per_bonus() const
 int Character::get_int_bonus() const
 {
     return int_bonus;
+}
+
+static int get_speedydex_bonus( const int dex )
+{
+    // this is the number to be multiplied by the increment
+    const int modified_dex = std::max( dex - get_option<int>( "SPEEDYDEX_MIN_DEX" ), 0 );
+    return modified_dex * get_option<int>( "SPEEDYDEX_DEX_SPEED" );
+}
+
+int Character::get_speed() const
+{
+    return Creature::get_speed() + get_speedydex_bonus( get_dex() );
 }
 
 int Character::ranged_dex_mod() const
@@ -2131,6 +2190,35 @@ int Character::get_sleep_deprivation() const
     return sleep_deprivation;
 }
 
+void Character::on_damage_of_type( int adjusted_damage, damage_type type, body_part bp )
+{
+    // Electrical damage has a chance to temporarily incapacitate bionics in the damaged body_part.
+    if( type == DT_ELECTRIC ) {
+        const time_duration min_disable_time = 10_turns * adjusted_damage;
+        for( auto &i : *my_bionics ) {
+            if( !i.powered ) {
+                // Unpowered bionics are protected from power surges.
+                continue;
+            }
+            const auto &info = i.info();
+            if( info.shockproof || info.faulty ) {
+                continue;
+            }
+            const auto &bodyparts = info.occupied_bodyparts;
+            if( bodyparts.find( bp ) != bodyparts.end() ) {
+                const int bp_hp = hp_cur[bp_to_hp( bp )];
+                // The chance to incapacitate is as high as 50% if the attack deals damage equal to one third of the body part's current health.
+                if( x_in_y( adjusted_damage * 3, bp_hp ) && one_in( 2 ) ) {
+                    if( i.incapacitated_time == 0_turns ) {
+                        add_msg_if_player( m_bad, _( "Your %s bionic shorts out!" ), info.name );
+                    }
+                    i.incapacitated_time += rng( min_disable_time, 10 * min_disable_time );
+                }
+            }
+        }
+    }
+}
+
 void Character::reset_bonuses()
 {
     // Reset all bonuses to 0 and multipliers to 1.0
@@ -2446,6 +2534,15 @@ nc_color Character::limb_color( body_part bp, bool bleed, bool bite, bool infect
 std::string Character::get_name() const
 {
     return name;
+}
+
+std::vector<std::string> Character::get_grammatical_genders() const
+{
+    if( male ) {
+        return { "m" };
+    } else {
+        return { "f" };
+    }
 }
 
 nc_color Character::symbol_color() const
@@ -2920,67 +3017,48 @@ float calc_mutation_value_multiplicative( const std::vector<const mutation_branc
     return ret;
 }
 
+static const std::map<std::string, std::function <float( std::vector<const mutation_branch *> )>>
+mutation_value_map = {
+    { "healing_awake", calc_mutation_value<&mutation_branch::healing_awake> },
+    { "healing_resting", calc_mutation_value<&mutation_branch::healing_resting> },
+    { "hp_modifier", calc_mutation_value<&mutation_branch::hp_modifier> },
+    { "hp_modifier_secondary", calc_mutation_value<&mutation_branch::hp_modifier_secondary> },
+    { "hp_adjustment", calc_mutation_value<&mutation_branch::hp_adjustment> },
+    { "metabolism_modifier", calc_mutation_value<&mutation_branch::metabolism_modifier> },
+    { "thirst_modifier", calc_mutation_value<&mutation_branch::thirst_modifier> },
+    { "fatigue_regen_modifier", calc_mutation_value<&mutation_branch::fatigue_regen_modifier> },
+    { "fatigue_modifier", calc_mutation_value<&mutation_branch::fatigue_modifier> },
+    { "stamina_regen_modifier", calc_mutation_value<&mutation_branch::stamina_regen_modifier> },
+    { "stealth_modifier", calc_mutation_value<&mutation_branch::stealth_modifier> },
+    { "str_modifier", calc_mutation_value<&mutation_branch::str_modifier> },
+    { "dodge_modifier", calc_mutation_value_additive<&mutation_branch::dodge_modifier> },
+    { "mana_modifier", calc_mutation_value_additive<&mutation_branch::mana_modifier> },
+    { "mana_multiplier", calc_mutation_value_additive<&mutation_branch::mana_multiplier> },
+    { "mana_regen_multiplier", calc_mutation_value_additive<&mutation_branch::mana_regen_multiplier> },
+    { "speed_modifier", calc_mutation_value_multiplicative<&mutation_branch::speed_modifier> },
+    { "movecost_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_modifier> },
+    { "movecost_flatground_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_flatground_modifier> },
+    { "movecost_obstacle_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_obstacle_modifier> },
+    { "attackcost_modifier", calc_mutation_value_multiplicative<&mutation_branch::attackcost_modifier> },
+    { "max_stamina_modifier", calc_mutation_value_multiplicative<&mutation_branch::max_stamina_modifier> },
+    { "weight_capacity_modifier", calc_mutation_value_multiplicative<&mutation_branch::weight_capacity_modifier> },
+    { "hearing_modifier", calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier> },
+    { "noise_modifier", calc_mutation_value_multiplicative<&mutation_branch::noise_modifier> },
+    { "overmap_sight", calc_mutation_value_multiplicative<&mutation_branch::overmap_sight> },
+    { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> }
+};
+
 float Character::mutation_value( const std::string &val ) const
 {
     // Syntax similar to tuple get<n>()
-    // TODO: Get rid of if/else ladder
-    if( val == "healing_awake" ) {
-        return calc_mutation_value<&mutation_branch::healing_awake>( cached_mutations );
-    } else if( val == "healing_resting" ) {
-        return calc_mutation_value<&mutation_branch::healing_resting>( cached_mutations );
-    } else if( val == "hp_modifier" ) {
-        return calc_mutation_value<&mutation_branch::hp_modifier>( cached_mutations );
-    } else if( val == "hp_modifier_secondary" ) {
-        return calc_mutation_value<&mutation_branch::hp_modifier_secondary>( cached_mutations );
-    } else if( val == "hp_adjustment" ) {
-        return calc_mutation_value<&mutation_branch::hp_adjustment>( cached_mutations );
-    } else if( val == "metabolism_modifier" ) {
-        return calc_mutation_value<&mutation_branch::metabolism_modifier>( cached_mutations );
-    } else if( val == "thirst_modifier" ) {
-        return calc_mutation_value<&mutation_branch::thirst_modifier>( cached_mutations );
-    } else if( val == "fatigue_regen_modifier" ) {
-        return calc_mutation_value<&mutation_branch::fatigue_regen_modifier>( cached_mutations );
-    } else if( val == "fatigue_modifier" ) {
-        return calc_mutation_value<&mutation_branch::fatigue_modifier>( cached_mutations );
-    } else if( val == "stamina_regen_modifier" ) {
-        return calc_mutation_value<&mutation_branch::stamina_regen_modifier>( cached_mutations );
-    } else if( val == "stealth_modifier" ) {
-        return calc_mutation_value<&mutation_branch::stealth_modifier>( cached_mutations );
-    } else if( val == "str_modifier" ) {
-        return calc_mutation_value_additive<&mutation_branch::str_modifier>( cached_mutations );
-    } else if( val == "dodge_modifier" ) {
-        return calc_mutation_value_additive<&mutation_branch::dodge_modifier>( cached_mutations );
-    } else if( val == "speed_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::speed_modifier>( cached_mutations );
-    } else if( val == "movecost_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::movecost_modifier>( cached_mutations );
-    } else if( val == "movecost_flatground_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::movecost_flatground_modifier>
-               ( cached_mutations );
-    } else if( val == "movecost_obstacle_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::movecost_obstacle_modifier>
-               ( cached_mutations );
-    } else if( val == "attackcost_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::attackcost_modifier>
-               ( cached_mutations );
-    } else if( val == "max_stamina_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::max_stamina_modifier>
-               ( cached_mutations );
-    } else if( val == "weight_capacity_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::weight_capacity_modifier>
-               ( cached_mutations );
-    } else if( val == "hearing_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier>( cached_mutations );
-    } else if( val == "noise_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::noise_modifier>( cached_mutations );
-    } else if( val == "overmap_sight" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::overmap_sight>( cached_mutations );
-    } else if( val == "overmap_multiplier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier>( cached_mutations );
-    }
+    const auto found = mutation_value_map.find( val );
 
-    debugmsg( "Invalid mutation value name %s", val );
-    return 0.0f;
+    if( found == mutation_value_map.end() ) {
+        debugmsg( "Invalid mutation value name %s", val );
+        return 0.0f;
+    } else {
+        return found->second( cached_mutations );
+    }
 }
 
 float Character::healing_rate( float at_rest_quality ) const
@@ -3074,4 +3152,103 @@ float Character::healing_rate_medicine( float at_rest_quality, const body_part b
         rate_medicine *= 1.0f + primary_hp_mod;
     }
     return rate_medicine;
+}
+
+float Character::get_bmi() const
+{
+    return 12 * get_kcal_percent() + 13;
+}
+
+units::mass Character::bodyweight() const
+{
+    return units::from_gram( round( get_bmi() * pow( height() / 100, 2 ) ) );
+}
+
+int Character::height() const
+{
+    // TODO: Make this a player creation option
+    return 175;
+}
+
+int Character::get_bmr() const
+{
+    /**
+    Values are for males, and average!
+    */
+    const int age = 25;
+    const int equation_constant = 5;
+    return ceil( metabolic_rate_base() * activity_level * ( units::to_gram<int>( 10 * bodyweight() ) +
+                 ( 6.25 * height() ) - ( 5 * age ) + equation_constant ) );
+}
+
+void Character::increase_activity_level( float new_level )
+{
+    if( activity_level < new_level ) {
+        activity_level = new_level;
+    }
+}
+
+void Character::decrease_activity_level( float new_level )
+{
+    if( activity_level > new_level ) {
+        activity_level = new_level;
+    }
+}
+void Character::reset_activity_level()
+{
+    activity_level = NO_EXERCISE;
+}
+
+std::string Character::activity_level_str() const
+{
+    if( activity_level <= NO_EXERCISE ) {
+        return _( "NO_EXERCISE" );
+    } else if( activity_level <= LIGHT_EXERCISE ) {
+        return _( "LIGHT_EXERCISE" );
+    } else if( activity_level <= MODERATE_EXERCISE ) {
+        return _( "MODERATE_EXERCISE" );
+    } else if( activity_level <= ACTIVE_EXERCISE ) {
+        return _( "ACTIVE_EXERCISE" );
+    } else {
+        return _( "EXTRA_EXERCISE" );
+    }
+}
+
+int Character::item_handling_cost( const item &it, bool penalties, int base_cost ) const
+{
+    int mv = base_cost;
+    if( penalties ) {
+        // 40 moves per liter, up to 200 at 5 liters
+        mv += std::min( 200, it.volume() / 20_ml );
+    }
+
+    if( weapon.typeId() == "e_handcuffs" ) {
+        mv *= 4;
+    } else if( penalties && has_effect( effect_grabbed ) ) {
+        mv *= 2;
+    }
+
+    // For single handed items use the least encumbered hand
+    if( it.is_two_handed( *this ) ) {
+        mv += encumb( bp_hand_l ) + encumb( bp_hand_r );
+    } else {
+        mv += std::min( encumb( bp_hand_l ), encumb( bp_hand_r ) );
+    }
+
+    return std::min( std::max( mv, 0 ), MAX_HANDLING_COST );
+}
+
+int Character::item_store_cost( const item &it, const item & /* container */, bool penalties,
+                                int base_cost ) const
+{
+    /** @EFFECT_PISTOL decreases time taken to store a pistol */
+    /** @EFFECT_SMG decreases time taken to store an SMG */
+    /** @EFFECT_RIFLE decreases time taken to store a rifle */
+    /** @EFFECT_SHOTGUN decreases time taken to store a shotgun */
+    /** @EFFECT_LAUNCHER decreases time taken to store a launcher */
+    /** @EFFECT_STABBING decreases time taken to store a stabbing weapon */
+    /** @EFFECT_CUTTING decreases time taken to store a cutting weapon */
+    /** @EFFECT_BASHING decreases time taken to store a bashing weapon */
+    int lvl = get_skill_level( it.is_gun() ? it.gun_skill() : it.melee_skill() );
+    return item_handling_cost( it, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
 }

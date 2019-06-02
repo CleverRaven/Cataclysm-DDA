@@ -1,0 +1,19 @@
+[
+  {
+    "type": "npc",
+    "id": "ranch_construction_1",
+    "//": "Flavor",
+    "name_suffix": "Carpenter",
+    "class": "NC_HUNTER",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_RANCH_CONSTRUCTION_1",
+    "faction": "tacoma_commune"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_CONSTRUCTION_1",
+    "dynamic_line": "My partner is in charge of fortifying this place, you should ask him about what needs to be done.",
+    "responses": [ { "text": "I'll talk to him then...", "topic": "TALK_DONE" } ]
+  }
+]

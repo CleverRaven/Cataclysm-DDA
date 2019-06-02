@@ -2,8 +2,8 @@
 #ifndef MAP_H
 #define MAP_H
 
-#include <stddef.h>
-#include <stdint.h>
+#include <cstddef>
+#include <cstdint>
 #include <array>
 #include <bitset>
 #include <list>
@@ -19,22 +19,22 @@
 #include "calendar.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "int_id.h"
 #include "item.h"
 #include "item_stack.h"
 #include "lightmap.h"
 #include "shadowcasting.h"
-#include "string_id.h"
+#include "type_id.h"
 #include "units.h"
 #include "cata_utility.h"
+
+struct furn_t;
+struct ter_t;
+template <typename T> class string_id;
 
 namespace catacurses
 {
 class window;
 } // namespace catacurses
-class emit;
-
-using emit_id = string_id<emit>;
 class optional_vpart_position;
 class player;
 class monster;
@@ -46,43 +46,28 @@ class field;
 class field_entry;
 class vehicle;
 struct fragment_cloud;
-struct submap;
+class submap;
 class item_location;
 class map_cursor;
 struct maptile;
+struct mapgendata;
 class basecamp;
 class computer;
 class Character;
 class zone_data;
 struct trap;
-struct oter_t;
 
 enum direction : unsigned;
 using itype_id = std::string;
-using trap_id = int_id<trap>;
-using oter_id = int_id<oter_t>;
 template<typename T>
 class visitable;
 struct regional_settings;
 struct mongroup;
-struct ter_t;
-
-using ter_id = int_id<ter_t>;
-using ter_str_id = string_id<ter_t>;
-struct furn_t;
-
-using furn_id = int_id<furn_t>;
-using furn_str_id = string_id<furn_t>;
-struct mtype;
-
-using mtype_id = string_id<mtype>;
 struct projectile;
 struct veh_collision;
 class tileray;
-class harvest_list;
-
-using harvest_id = string_id<harvest_list>;
 class npc_template;
+class vpart_reference;
 
 // TODO: This should be const& but almost no functions are const
 struct wrapped_vehicle {
@@ -94,17 +79,8 @@ struct wrapped_vehicle {
     vehicle *v;
 };
 
-typedef std::vector<wrapped_vehicle> VehicleList;
-typedef std::string items_location;
-struct vehicle_prototype;
-
-using vproto_id = string_id<vehicle_prototype>;
-class VehicleGroup;
-
-using vgroup_id = string_id<VehicleGroup>;
-struct MonsterGroup;
-
-using mongroup_id = string_id<MonsterGroup>;
+using VehicleList = std::vector<wrapped_vehicle>;
+using items_location = std::string;
 class map;
 
 enum ter_bitflags : int;
@@ -491,6 +467,20 @@ class map
         bool clear_path( const tripoint &f, const tripoint &t, const int range,
                          const int cost_min, const int cost_max ) const;
 
+
+        /**
+         * Populates a vector of points that are reachable within a number of steps from a
+         * point. It could be generalized to take advantage of z levels, but would need some
+         * additional code to detect whether a valid transition was on a tile.
+         *
+         * Does the following:
+         * 1. Checks if a point is reachable using a flood fill and if it is, adds it to a vector.
+         *
+         */
+        void reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tripoint &f,
+                                    const int range,
+                                    const int cost_min, const int cost_max ) const;
+
         /**
          * Iteratively tries Bresenham lines with different biases
          * until it finds a clear line or decides there isn't one.
@@ -556,7 +546,11 @@ class map
         const vehicle *veh_at_internal( const tripoint &p, int &part_num ) const;
         // Put player on vehicle at x,y
         void board_vehicle( const tripoint &p, player *pl );
-        // Remove player from vehicle at p
+        // Remove given passenger from given vehicle part.
+        // If dead_passenger, then null passenger is acceptable.
+        void unboard_vehicle( const vpart_reference &, player *passenger,
+                              bool dead_passenger = false );
+        // Remove passenger from vehicle at p.
         void unboard_vehicle( const tripoint &p, bool dead_passenger = false );
         // Change vehicle coordinates and move vehicle's driver along.
         // WARNING: not checking collisions!
@@ -773,6 +767,13 @@ class map
          *  all terrain is floor and the last terrain is a wall */
         bool is_last_ter_wall( const bool no_furn, const int x, const int y,
                                const int xmax, const int ymax, const direction dir ) const;
+
+        /**
+         * Checks if there are any tinder flagged items on the tile.
+         * @param p tile to check
+         */
+        bool tinder_at( const tripoint &p );
+
         /**
          * Checks if there are any flammable items on the tile.
          * @param p tile to check
@@ -882,7 +883,7 @@ class map
 
         // Temperature
         // Temperature for submap
-        int &temperature( const tripoint &p );
+        int get_temperature( const tripoint &p ) const;
         // Set temperature for all four submap quadrants
         void set_temperature( const tripoint &p, const int temperature );
         // 2D overload for mapgen
@@ -899,14 +900,14 @@ class map
         int i_rem( const int x, const int y, const int index );
         void i_rem( const int x, const int y, item *it );
         void spawn_item( const int x, const int y, const std::string &itype_id,
-                         const unsigned quantity = 1, const long charges = 0,
+                         const unsigned quantity = 1, const int charges = 0,
                          const time_point &birthday = calendar::time_of_cataclysm, const int damlevel = 0 );
 
         item &add_item_or_charges( const int x, const int y, item obj, bool overflow = true );
 
         void add_item( const int x, const int y, item new_item );
         void spawn_an_item( const int x, const int y, item new_item,
-                            const long charges, const int damlevel );
+                            const int charges, const int damlevel );
         std::vector<item *> place_items( const items_location &loc, const int chance, const int x1,
                                          const int y1,
                                          const int x2, const int y2, bool ongrass, const time_point &turn,
@@ -926,7 +927,7 @@ class map
         void spawn_artifact( const tripoint &p );
         void spawn_natural_artifact( const tripoint &p, const artifact_natural_property prop );
         void spawn_item( const tripoint &p, const std::string &itype_id,
-                         const unsigned quantity = 1, const long charges = 0,
+                         const unsigned quantity = 1, const int charges = 0,
                          const time_point &birthday = calendar::time_of_cataclysm, const int damlevel = 0 );
         units::volume max_volume( const tripoint &p );
         units::volume free_volume( const tripoint &p );
@@ -953,7 +954,7 @@ class map
          */
         item &add_item( const tripoint &p, item new_item );
         item &spawn_an_item( const tripoint &p, item new_item,
-                             const long charges, const int damlevel );
+                             const int charges, const int damlevel );
 
         /**
          * Update an item's active status, for example when adding
@@ -980,11 +981,12 @@ class map
          */
         /*@{*/
         std::list<item> use_amount_square( const tripoint &p, const itype_id &type,
-                                           long &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
-        std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
-                                    long &amount, const std::function<bool( const item & )> &filter = return_true<item> );
+                                           int &quantity, const std::function<bool( const item & )> &filter = return_true<item> );
+        std::list<item> use_amount( const tripoint &origin, const int range, const itype_id &type,
+                                    int &amount, const std::function<bool( const item & )> &filter = return_true<item> );
         std::list<item> use_charges( const tripoint &origin, const int range, const itype_id type,
-                                     long &amount, const std::function<bool( const item & )> &filter = return_true<item> );
+                                     int &amount, const std::function<bool( const item & )> &filter = return_true<item>,
+                                     basecamp *bcp = nullptr );
         /*@}*/
         std::list<std::pair<tripoint, item *> > get_rc_items( int x = -1, int y = -1, int z = -1 );
 
@@ -1035,12 +1037,12 @@ class map
         item *item_from( vehicle *veh, const int cargo_part, const size_t index );
 
         // Traps: 3D
-        void trap_set( const tripoint &p, const trap_id type );
+        void trap_set( const tripoint &p, const trap_id &type );
 
         const trap &tr_at( const tripoint &p ) const;
         void disarm_trap( const tripoint &p );
         void remove_trap( const tripoint &p );
-        const std::vector<tripoint> &trap_locations( const trap_id type ) const;
+        const std::vector<tripoint> &trap_locations( const trap_id &type ) const;
 
         //Spawns byproducts from items destroyed in fire.
         void create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass );
@@ -1225,7 +1227,8 @@ class map
         void place_vending( int x, int y, const std::string &type, bool reinforced = false );
         // places an NPC, if static NPCs are enabled or if force is true
         int place_npc( int x, int y, const string_id<npc_template> &type, const bool force = false );
-
+        void apply_faction_ownership( const int x1, const int y1, const int x2, const int y2,
+                                      const faction_id id );
         void add_spawn( const mtype_id &type, const int count, const int x, const int y,
                         bool friendly = false,
                         const int faction_id = -1, const int mission_id = -1,
@@ -1422,7 +1425,41 @@ class map
                        const oter_id &t_above, const oter_id &t_below, const time_point &when,
                        const float density, const int zlevel, const regional_settings *rsettings );
 
+        void draw_office_tower( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                                const float density );
+        void draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                       const float density );
+        void draw_silo( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                        const float density );
+        void draw_temple( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                          const float density );
+        void draw_sewer( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                         const float density );
+        void draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                        const float density );
+        void draw_spiral( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                          const float density );
+        void draw_sarcophagus( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                               const float density );
+        void draw_toxic_dump( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                              const float density );
+        void draw_megastore( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                             const float density );
+        void draw_fema( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                        const float density );
+        void draw_anthill( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                           const float density );
+        void draw_slimepit( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                            const float density );
+        void draw_spider_pit( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                              const float density );
+        void draw_triffid( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                           const float density );
+        void draw_connections( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
+                               const float density );
+
         void build_transparency_cache( int zlev );
+        void build_sunlight_cache( int zlev );
     public:
         void build_outside_cache( int zlev );
         void build_floor_cache( int zlev );
@@ -1559,8 +1596,8 @@ class map
          * It's a really heinous function pointer so a typedef is the best
          * solution in this instance.
          */
-        typedef bool ( *map_process_func )( item_stack &, std::list<item>::iterator &, const tripoint &,
-                                            const std::string &, int, float );
+        using map_process_func = bool ( * )( item_stack &, std::list<item>::iterator &, const tripoint &,
+                                             const std::string &, float, temperature_flag );
     private:
 
         // Iterates over every item on the map, passing each item to the provided function.
@@ -1642,10 +1679,22 @@ class map
 
         std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius ) const;
 
+        /**returns positions of furnitures matching target in the specified radius*/
+        std::list<tripoint> find_furnitures_in_radius( const tripoint &center, size_t radius,
+                furn_id target,
+                size_t radiusz = 0 );
+        /**returns creatures in specified radius*/
+        std::list<Creature *> get_creatures_in_radius( const tripoint &center, size_t radius,
+                size_t radiusz = 0 );
+
         level_cache &access_cache( int zlev );
         const level_cache &access_cache( int zlev ) const;
         bool need_draw_lower_floor( const tripoint &p );
 };
+
+void shift_map_memory_seen_cache(
+    std::bitset<MAPSIZE_X *MAPSIZE_Y> &map_memory_seen_cache,
+    const int sx, const int sy );
 
 std::vector<point> closest_points_first( int radius, point p );
 std::vector<point> closest_points_first( int radius, int x, int y );

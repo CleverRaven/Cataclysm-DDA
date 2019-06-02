@@ -1,6 +1,6 @@
 #include "lru_cache.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <iterator>
 
 #include "map_memory.h"

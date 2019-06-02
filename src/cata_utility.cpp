@@ -1,7 +1,7 @@
 #include "cata_utility.h"
 
-#include <ctype.h>
-#include <stdio.h>
+#include <cctype>
+#include <cstdio>
 #include <algorithm>
 #include <cmath>
 #include <string>

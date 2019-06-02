@@ -1,0 +1,21 @@
+[
+  {
+    "type": "profession",
+    "ident": "mma_battle_angel",
+    "name": "Battle Angel",
+    "description": "A combat-ready cyborg once salvaged from an obscure junkyard...",
+    "points": 8,
+    "traits": [ "MMA_MARTIAL_ARTS_PANZER" ],
+    "skills": [ { "level": 3, "name": "unarmed" }, { "level": 3, "name": "melee" }, { "level": 1, "name": "dodge" } ],
+    "items": { "both": { "items": [ "wetsuit", "trenchcoat", "gloves_fingerless", "knee_pads", "boots" ] } },
+    "CBMs": [
+      "bio_power_storage_mkII",
+      "bio_armor_arms",
+      "bio_armor_head",
+      "bio_armor_legs",
+      "bio_armor_torso",
+      "bio_blade",
+      "bio_metabolics"
+    ]
+  }
+]

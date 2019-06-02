@@ -1,6 +1,6 @@
 #include "overmap_connection.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <cassert>
 #include <map>

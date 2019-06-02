@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "avatar.h"
 #include "creature.h"
 #include "field.h"
 #include "game.h"
@@ -17,10 +18,9 @@
 #include "enums.h"
 #include "item.h"
 #include "item_stack.h"
-#include "itype.h"
-#include "pldata.h"
 #include "rng.h"
 #include "translations.h"
+#include "type_id.h"
 
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_spore( "mon_spore" );
@@ -279,7 +279,9 @@ bool fungal_effects::spread_fungus( const tripoint &p )
                         }
                     } else if( m.has_flag( "PLANT", dest ) ) {
                         // Replace the (already existing) seed
-                        m.i_at( p )[0] = item( "fungal_seeds", calendar::turn );
+                        if( !m.i_at( p ).empty() ) {
+                            m.i_at( p )[0] = item( "fungal_seeds", calendar::turn );
+                        }
                     }
                 }
             }

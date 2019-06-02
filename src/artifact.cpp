@@ -1,6 +1,6 @@
 #include "artifact.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <array>
 #include <sstream>
 #include <algorithm>
@@ -22,7 +22,7 @@
 #include "iuse.h"
 #include "optional.h"
 #include "units.h"
-#include "item.h"
+#include "type_id.h"
 
 template<typename V, typename B>
 inline units::quantity<V, B> rng( const units::quantity<V, B> &min,

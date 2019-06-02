@@ -1,6 +1,6 @@
 #include "veh_interact.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <cmath>
 #include <functional>
@@ -15,12 +15,14 @@
 #include <utility>
 
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "crafting.h"
 #include "debug.h"
 #include "fault.h"
 #include "game.h"
+#include "handle_liquid.h"
 #include "itype.h"
 #include "map.h"
 #include "map_selector.h"
@@ -49,7 +51,8 @@
 #include "tileray.h"
 #include "units.h"
 #include "material.h"
-#include "pldata.h"
+#include "item.h"
+#include "string_id.h"
 
 static inline const std::string status_color( bool status )
 {
@@ -822,6 +825,7 @@ bool veh_interact::do_install( std::string &msg )
                part.has_flag( "SEAT" ) ||
                part.has_flag( "BED" ) ||
                part.has_flag( "SPACE_HEATER" ) ||
+               part.has_flag( "COOLER" ) ||
                part.has_flag( "DOOR_MOTOR" ) ||
                part.has_flag( "WATER_PURIFIER" ) ||
                part.has_flag( "WORKBENCH" );
@@ -1043,7 +1047,7 @@ bool veh_interact::do_repair( std::string &msg )
 
         werase( w_parts );
         veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart,
-                              need_repair[pos] );
+                              need_repair[pos], true );
         wrefresh( w_parts );
 
         const std::string action = main_context.handle_input();
@@ -1059,7 +1063,7 @@ bool veh_interact::do_repair( std::string &msg )
 
         } else if( action == "QUIT" ) {
             werase( w_parts );
-            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1 );
+            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1, true );
             wrefresh( w_parts );
             werase( w_msg );
             wrefresh( w_msg );
@@ -1633,7 +1637,7 @@ bool veh_interact::do_remove( std::string &msg )
     while( true ) {
         //redraw list of parts
         werase( w_parts );
-        veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, pos );
+        veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, pos, true );
         wrefresh( w_parts );
         int part = parts_here[ pos ];
 
@@ -1655,7 +1659,7 @@ bool veh_interact::do_remove( std::string &msg )
             break;
         } else if( action == "QUIT" ) {
             werase( w_parts );
-            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1 );
+            veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1, true );
             wrefresh( w_parts );
             werase( w_msg );
             wrefresh( w_msg );
@@ -1698,7 +1702,7 @@ bool veh_interact::do_siphon( std::string &msg )
         const int idx = veh->find_part( base );
         item liquid( base.contents.back() );
         const int liq_charges = liquid.charges;
-        if( g->handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
+        if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( idx, liq_charges - liquid.charges );
         }
         return true;
@@ -1932,7 +1936,7 @@ void veh_interact::move_cursor( int dx, int dy, int dstart_at )
               special_symbol( sym ) );
     wrefresh( w_disp );
     werase( w_parts );
-    veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1 );
+    veh->print_part_list( w_parts, 0, getmaxy( w_parts ) - 1, getmaxx( w_parts ), cpart, -1, true );
     wrefresh( w_parts );
 
     werase( w_msg );
@@ -2594,7 +2598,7 @@ void veh_interact::count_durability()
         return lhs + rhs.base.max_damage();
     } );
 
-    int pct = 100 * qty / total;
+    int pct = total ? 100 * qty / total : 0;
 
     if( pct < 5 ) {
         total_durability_text = _( "like new" );
@@ -2626,7 +2630,7 @@ void veh_interact::count_durability()
  * @param vpid The id of the vpart type to look for.
  * @return The item that was consumed.
  */
-item consume_vpart_item( const vpart_id &vpid )
+static item consume_vpart_item( const vpart_id &vpid )
 {
     std::vector<bool> candidates;
     const itype_id itid = vpid.obj().item;
@@ -2678,7 +2682,7 @@ item consume_vpart_item( const vpart_id &vpid )
     if( candidates[selection] ) {
         item_used = g->u.use_amount( itid, 1 );
     } else {
-        long quantity = 1;
+        int quantity = 1;
         item_used = g->m.use_amount( g->u.pos(), PICKUP_RANGE, itid, quantity );
     }
     remove_ammo( item_used, g->u );
@@ -2711,7 +2715,7 @@ void act_vehicle_siphon( vehicle *veh )
         const int idx = veh->find_part( base );
         item liquid( base.contents.back() );
         const int liq_charges = liquid.charges;
-        if( g->handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
+        if( liquid_handler::handle_liquid( liquid, nullptr, 1, nullptr, veh, idx ) ) {
             veh->drain( idx, liq_charges - liquid.charges );
             veh->invalidate_mass();
         }

@@ -2,7 +2,7 @@
 #ifndef INPUT_H
 #define INPUT_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <functional>
 #include <map>
 #include <string>
@@ -57,7 +57,7 @@ static constexpr int LEGEND_HEIGHT = 11;
 static constexpr int BORDER_SPACE = 2;
 
 bool is_mouse_enabled();
-std::string get_input_string_from_file( std::string fname = "input.txt" );
+std::string get_input_string_from_file( const std::string &fname = "input.txt" );
 
 enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
 
@@ -286,16 +286,16 @@ class input_manager
     private:
         friend class input_context;
 
-        typedef std::vector<input_event> t_input_event_list;
-        typedef std::map<std::string, action_attributes> t_actions;
-        typedef std::map<std::string, t_actions> t_action_contexts;
+        using t_input_event_list = std::vector<input_event>;
+        using t_actions = std::map<std::string, action_attributes>;
+        using t_action_contexts = std::map<std::string, t_actions>;
         t_action_contexts action_contexts;
-        typedef std::map<std::string, std::string> t_string_string_map;
+        using t_string_string_map = std::map<std::string, std::string>;
 
-        typedef std::map<long, std::string> t_key_to_name_map;
+        using t_key_to_name_map = std::map<long, std::string>;
         t_key_to_name_map keycode_to_keyname;
         t_key_to_name_map gamepad_keycode_to_keyname;
-        typedef std::map<std::string, long> t_name_to_key_map;
+        using t_name_to_key_map = std::map<std::string, long>;
         t_name_to_key_map keyname_to_keycode;
 
         // See @ref get_previously_pressed_key
@@ -384,7 +384,7 @@ class input_context
         }
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
-        input_context( std::string category ) : registered_any_input( false ),
+        input_context( const std::string &category ) : registered_any_input( false ),
             category( category ), handling_coordinate_input( false ) {
 #if defined(__ANDROID__)
             input_context_stack.push_back( this );
@@ -639,8 +639,12 @@ class input_context
         /**
          * Keys (and only keys, other input types are not included) that
          * trigger the given action.
+         * @param action_descriptor The action descriptor for which to get the bound keys.
+         * @param restrict_to_printable If `true` the function returns the bound keys only if they are printable. If `false`, all keys (whether they are printable or not) are returned.
+         * @returns All keys bound to the given action descriptor.
          */
-        std::vector<char> keys_bound_to( const std::string &action_id ) const;
+        std::vector<char> keys_bound_to( const std::string &action_descriptor,
+                                         bool restrict_to_printable = true ) const;
 
         /**
         * Get/Set edittext to display IME unspecified string.

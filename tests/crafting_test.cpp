@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "itype.h"
@@ -27,6 +28,7 @@
 #include "requirements.h"
 #include "string_id.h"
 #include "material.h"
+#include "type_id.h"
 
 TEST_CASE( "recipe_subset" )
 {
@@ -115,7 +117,7 @@ TEST_CASE( "recipe_subset" )
 TEST_CASE( "available_recipes", "[recipes]" )
 {
     const recipe *r = &recipe_id( "brew_mead" ).obj();
-    player dummy;
+    avatar dummy;
 
     REQUIRE( dummy.get_skill_level( r->skill_used ) == 0 );
     REQUIRE_FALSE( dummy.knows_recipe( r ) );
@@ -210,7 +212,7 @@ TEST_CASE( "available_recipes", "[recipes]" )
 TEST_CASE( "crafting_with_a_companion", "[.]" )
 {
     const recipe *r = &recipe_id( "brew_mead" ).obj();
-    player dummy;
+    avatar dummy;
 
     REQUIRE( dummy.get_skill_level( r->skill_used ) == 0 );
     REQUIRE_FALSE( dummy.knows_recipe( r ) );
@@ -224,6 +226,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
 
         g->load_npcs();
 
+        CHECK( !dummy.in_vehicle );
         dummy.setpos( who.pos() );
         const auto helpers( dummy.get_crafting_helpers() );
 
@@ -255,7 +258,7 @@ TEST_CASE( "crafting_with_a_companion", "[.]" )
     }
 }
 
-static void prep_craft( const recipe_id &rid, const std::vector<item> tools,
+static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
                         bool expect_craftable )
 {
     clear_player();
@@ -279,7 +282,7 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> tools,
 }
 
 // This fakes a craft in a reasonable way which is fast
-static void fake_test_craft( const recipe_id &rid, const std::vector<item> tools,
+static void fake_test_craft( const recipe_id &rid, const std::vector<item> &tools,
                              bool expect_craftable )
 {
     prep_craft( rid, tools, expect_craftable );
@@ -419,7 +422,7 @@ static void set_time( int time )
 
 // This tries to actually run the whole craft activity, which is more thorough,
 // but slow
-static int actually_test_craft( const recipe_id &rid, const std::vector<item> tools,
+static int actually_test_craft( const recipe_id &rid, const std::vector<item> &tools,
                                 int interrupt_after_turns )
 {
     prep_craft( rid, tools, true );

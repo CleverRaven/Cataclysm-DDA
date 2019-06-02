@@ -22,7 +22,6 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "color.h"
-#include "creature.h"
 #include "cursesdef.h"
 #include "item.h"
 #include "pimpl.h"
@@ -199,6 +198,8 @@ void martialart::load( JsonObject &jo, const std::string & )
 
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
+    mandatory( jo, was_loaded, "initiate", initiate );
+    optional( jo, was_loaded, "autolearn", autolearn_skills );
 
     optional( jo, was_loaded, "static_buffs", static_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onmove_buffs", onmove_buffs, ma_buff_reader{} );
@@ -207,6 +208,9 @@ void martialart::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "ondodge_buffs", ondodge_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "onblock_buffs", onblock_buffs, ma_buff_reader{} );
     optional( jo, was_loaded, "ongethit_buffs", ongethit_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "onmiss_buffs", onmiss_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "oncrit_buffs", oncrit_buffs, ma_buff_reader{} );
+    optional( jo, was_loaded, "onkill_buffs", onkill_buffs, ma_buff_reader{} );
 
     optional( jo, was_loaded, "techniques", techniques, auto_flags_reader<matec_id> {} );
     optional( jo, was_loaded, "weapons", weapons, auto_flags_reader<itype_id> {} );
@@ -247,7 +251,7 @@ std::vector<matype_id> all_martialart_types()
     return result;
 }
 
-void check( const ma_requirements &req, const std::string &display_text )
+static void check( const ma_requirements &req, const std::string &display_text )
 {
     for( auto &r : req.req_buffs ) {
         if( !r.is_valid() ) {
@@ -583,7 +587,7 @@ martialart::martialart()
 
 // simultaneously check and add all buffs. this is so that buffs that have
 // buff dependencies added by the same event trigger correctly
-void simultaneous_add( player &u, const std::vector<mabuff_id> &buffs )
+static void simultaneous_add( player &u, const std::vector<mabuff_id> &buffs )
 {
     std::vector<const ma_buff *> buffer; // hey get it because it's for buffs????
     for( auto &buffid : buffs ) {
@@ -632,6 +636,21 @@ void martialart::apply_ongethit_buffs( player &u ) const
     simultaneous_add( u, ongethit_buffs );
 }
 
+void martialart::apply_onmiss_buffs( player &u ) const
+{
+    simultaneous_add( u, onmiss_buffs );
+}
+
+void martialart::apply_oncrit_buffs( player &u ) const
+{
+    simultaneous_add( u, oncrit_buffs );
+}
+
+void martialart::apply_onkill_buffs( player &u ) const
+{
+    simultaneous_add( u, onkill_buffs );
+}
+
 bool martialart::has_technique( const player &u, const matec_id &tec_id ) const
 {
     for( const auto &elem : techniques ) {
@@ -661,6 +680,15 @@ bool martialart::weapon_valid( const item &it ) const
     return !strictly_unarmed && it.has_flag( "UNARMED_WEAPON" );
 }
 
+std::string martialart::get_initiate_player_message() const
+{
+    return initiate[0];
+}
+
+std::string martialart::get_initiate_npc_message() const
+{
+    return initiate[1];
+}
 // Player stuff
 
 // technique
@@ -688,6 +716,19 @@ bool player::has_miss_recovery_tec( const item &weap ) const
     return false;
 }
 
+ma_technique player::get_miss_recovery_tec( const item &weap ) const
+{
+    ma_technique tech;
+    for( auto &technique : get_all_techniques( weap ) ) {
+        if( technique.obj().miss_recovery ) {
+            tech = technique.obj();
+            break;
+        }
+    }
+
+    return tech;
+}
+
 // This one isn't used with a weapon
 bool player::has_grab_break_tec() const
 {
@@ -697,6 +738,18 @@ bool player::has_grab_break_tec() const
         }
     }
     return false;
+}
+
+ma_technique player::get_grab_break_tec() const
+{
+    ma_technique tec;
+    for( auto &technique : get_all_techniques( item() ) ) {
+        if( technique.obj().grab_break ) {
+            tec = technique.obj();
+            break;
+        }
+    }
+    return tec;
 }
 
 bool player::can_leg_block() const
@@ -770,6 +823,18 @@ void player::ma_onblock_effects()
 void player::ma_ongethit_effects()
 {
     style_selected.obj().apply_ongethit_buffs( *this );
+}
+void player::ma_onmiss_effects()
+{
+    style_selected.obj().apply_onmiss_buffs( *this );
+}
+void player::ma_oncrit_effects()
+{
+    style_selected.obj().apply_oncrit_buffs( *this );
+}
+void player::ma_onkill_effects()
+{
+    style_selected.obj().apply_onkill_buffs( *this );
 }
 
 template<typename C, typename F>
@@ -917,6 +982,25 @@ void player::add_martialart( const matype_id &ma_id )
     ma_styles.push_back( ma_id );
 }
 
+bool player::can_autolearn( const matype_id &ma_id ) const
+{
+    if( ma_id.obj().autolearn_skills.empty() ) {
+        return false;
+    }
+
+    const std::vector<std::vector<std::string>> skills = ma_id.obj().autolearn_skills;
+    for( auto &elem : skills ) {
+        const skill_id skill_req( elem[0] );
+        const int required_level = std::stoi( elem[1] );
+
+        if( required_level > get_skill_level( skill_req ) ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 float ma_technique::damage_bonus( const player &u, damage_type type ) const
 {
     return bonuses.get_flat( u, AFFECTED_DAMAGE, type );
@@ -1045,7 +1129,10 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         buff_desc( _( "Passive" ), ma.static_buffs, true );
         buff_desc( _( "Move" ), ma.onmove_buffs );
         buff_desc( _( "Hit" ), ma.onhit_buffs );
+        buff_desc( _( "Miss" ), ma.onmiss_buffs );
         buff_desc( _( "Attack" ), ma.onattack_buffs );
+        buff_desc( _( "Crit" ), ma.oncrit_buffs );
+        buff_desc( _( "Kill" ), ma.onkill_buffs );
         buff_desc( _( "Dodge" ), ma.ondodge_buffs );
         buff_desc( _( "Block" ), ma.onblock_buffs );
         buff_desc( _( "Get hit" ), ma.ongethit_buffs );

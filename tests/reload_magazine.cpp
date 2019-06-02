@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "player.h"
@@ -13,6 +14,7 @@
 #include "item.h"
 #include "item_location.h"
 #include "string_id.h"
+#include "type_id.h"
 
 struct itype;
 

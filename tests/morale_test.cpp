@@ -4,6 +4,7 @@
 #include "morale.h"
 #include "morale_types.h"
 #include "calendar.h"
+#include "type_id.h"
 
 TEST_CASE( "player_morale" )
 {

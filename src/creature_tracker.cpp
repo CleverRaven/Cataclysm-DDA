@@ -10,6 +10,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "string_formatter.h"
+#include "type_id.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 

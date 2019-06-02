@@ -30,6 +30,18 @@
   },
   {
     "type": "effect_type",
+    "id": "dragging",
+    "name": [ "Dragging" ],
+    "desc": [ "AI tag for when a monster is dragging you behind it.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "operating",
+    "name": [ "Operating" ],
+    "desc": [ "AI tag for when a monster is operating on you.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "countdown",
     "name": [ "Counting Down" ],
     "desc": [ "AI tag for monster's counting down.  This is a bug if you have it." ]
@@ -211,6 +223,18 @@
     "apply_message": "You're knocked to the floor!",
     "rating": "bad",
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "assisted",
+    "name": [ "Assisted" ],
+    "desc": [ "You're receiving assistance to practice a surgery." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "got_checked",
+    "name": [ "Got a check-up" ],
+    "desc": [ "Your received a complete check-up and are now aware of the state of your health." ]
   },
   {
     "type": "effect_type",

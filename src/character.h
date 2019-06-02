@@ -2,7 +2,7 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <bitset>
 #include <map>
 #include <unordered_map>
@@ -19,6 +19,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "creature.h"
+#include "game_constants.h"
 #include "inventory.h"
 #include "pimpl.h"
 #include "pldata.h"
@@ -28,18 +29,16 @@
 #include "enums.h"
 #include "item.h"
 #include "optional.h"
+#include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "type_id.h"
 #include "units.h"
 
-class Skill;
 struct pathfinding_settings;
 class item_location;
-
-using skill_id = string_id<Skill>;
 class SkillLevel;
 class SkillLevelMap;
-
 enum field_id : int;
 class JsonObject;
 class JsonIn;
@@ -47,9 +46,6 @@ class JsonOut;
 class vehicle;
 struct mutation_branch;
 class bionic_collection;
-struct bionic_data;
-
-using bionic_id = string_id<bionic_data>;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -205,6 +201,8 @@ class Character : public Creature, public visitable<Character>
         virtual int get_per_bonus() const;
         virtual int get_int_bonus() const;
 
+        int get_speed() const override;
+
         // Penalty modifiers applied for ranged attacks due to low stats
         virtual int ranged_dex_mod() const;
         virtual int ranged_per_mod() const;
@@ -260,6 +258,11 @@ class Character : public Creature, public visitable<Character>
         virtual void set_sleep_deprivation( int nsleep_deprivation );
 
         void mod_stat( const std::string &stat, float modifier ) override;
+
+        /** Returns either "you" or the player's name */
+        std::string disp_name( bool possessive = false ) const override;
+        /** Returns the name of the player's outer layer, e.g. "armor plates" */
+        std::string skin_name() const override;
 
         /* Adjusts provided sight dispersion to account for player stats */
         int effective_dispersion( int dispersion ) const;
@@ -405,7 +408,7 @@ class Character : public Creature, public visitable<Character>
 
     private:
         /** Retrieves a stat mod of a mutation. */
-        int get_mod( const trait_id &mut, std::string arg ) const;
+        int get_mod( const trait_id &mut, const std::string &arg ) const;
         /** Applies skill-based boosts to stats **/
         void apply_skill_boost();
 
@@ -451,6 +454,8 @@ class Character : public Creature, public visitable<Character>
         bool has_bionic( const bionic_id &b ) const;
         /** Returns true if the player has the entered bionic id and it is powered on */
         bool has_active_bionic( const bionic_id &b ) const;
+        /**Returns true if the player has any bionic*/
+        bool has_any_bionic() const;
 
         // --------------- Generic Item Stuff ---------------
 
@@ -475,6 +480,27 @@ class Character : public Creature, public visitable<Character>
             }
             return false;
         }
+
+        /**
+         * Calculate (but do not deduct) the number of moves required when handling (e.g. storing, drawing etc.) an item
+         * @param it Item to calculate handling cost for
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
+         * @param base_cost Cost due to storage type.
+         * @return cost in moves ranging from 0 to MAX_HANDLING_COST
+         */
+        int item_handling_cost( const item &it, bool penalties = true,
+                                int base_cost = INVENTORY_HANDLING_PENALTY ) const;
+
+        /**
+         * Calculate (but do not deduct) the number of moves required when storing an item in a container
+         * @param it Item to calculate storage cost for
+         * @param container Container to store item in
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
+         * @param base_cost Cost due to storage type.
+         * @return cost in moves ranging from 0 to MAX_HANDLING_COST
+         */
+        int item_store_cost( const item &it, const item &container, bool penalties = true,
+                             int base_cost = INVENTORY_HANDLING_PENALTY ) const;
 
         /** Returns nearby items which match the provided predicate */
         std::vector<item_location> nearby( const std::function<bool( const item *, const item * )> &func,
@@ -694,6 +720,8 @@ class Character : public Creature, public visitable<Character>
 
         std::string get_name() const override;
 
+        std::vector<std::string> get_grammatical_genders() const override;
+
         /**
          * It is supposed to hide the query_yn to simplify player vs. npc code.
          */
@@ -768,8 +796,35 @@ class Character : public Creature, public visitable<Character>
 
         pimpl<bionic_collection> my_bionics;
 
+        stomach_contents stomach;
+        stomach_contents guts;
+
+        void initialize_stomach_contents();
+
+        /** Stable base metabolic rate due to traits */
+        float metabolic_rate_base() const;
+        // calculates the BMI
+        float get_bmi() const;
+        // returns amount of calories burned in a day given various metabolic factors
+        int get_bmr() const;
+        // returns the height of the player character in cm
+        int height() const;
+        // returns bodyweight of the Character
+        units::mass bodyweight() const;
+        // increases the activity level to the next level
+        // does not decrease activity level
+        void increase_activity_level( float new_level );
+        // decreases the activity level to the previous level
+        // does not increase activity level
+        void decrease_activity_level( float new_level );
+        // sets activity level to NO_EXERCISE
+        void reset_activity_level();
+        // outputs player activity level to a printable string
+        std::string activity_level_str() const;
+
     protected:
         void on_stat_change( const std::string &, int ) override {}
+        void on_damage_of_type( int adjusted_damage, damage_type type, body_part bp ) override;
         virtual void on_mutation_gain( const trait_id & ) {}
         virtual void on_mutation_loss( const trait_id & ) {}
     public:
@@ -807,6 +862,8 @@ class Character : public Creature, public visitable<Character>
         /** How healthy the character is. */
         int healthy;
         int healthy_mod;
+        // the player's activity level for metabolism calculations
+        float activity_level = NO_EXERCISE;
 
         std::array<encumbrance_data, num_bp> encumbrance_cache;
 

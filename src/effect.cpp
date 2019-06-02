@@ -14,9 +14,7 @@
 #include "rng.h"
 #include "string_formatter.h"
 #include "color.h"
-#include "creature.h"
 #include "enums.h"
-#include "pldata.h"
 
 namespace
 {
@@ -381,7 +379,8 @@ game_message_type effect_type::gain_game_message_type() const
         case e_mixed:
             return m_mixed;
         default:
-            return m_neutral;  // Should never happen
+            // Should never happen
+            return m_neutral;
     }
 }
 game_message_type effect_type::lose_game_message_type() const
@@ -396,7 +395,8 @@ game_message_type effect_type::lose_game_message_type() const
         case e_mixed:
             return m_mixed;
         default:
-            return m_neutral;  // Should never happen
+            // Should never happen
+            return m_neutral;
     }
 }
 std::string effect_type::get_apply_message() const

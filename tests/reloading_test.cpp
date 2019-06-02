@@ -4,6 +4,7 @@
 #include <set>
 #include <string>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
@@ -121,7 +122,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     REQUIRE( gun.ammo_remaining() == gun.ammo_capacity() );
 }
 
-void reload_a_revolver( player &dummy, item &gun, item &ammo )
+static void reload_a_revolver( player &dummy, item &gun, item &ammo )
 {
     while( gun.ammo_remaining() < gun.ammo_capacity() ) {
         g->reload_weapon( false );

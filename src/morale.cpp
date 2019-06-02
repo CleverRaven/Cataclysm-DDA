@@ -1,6 +1,6 @@
 #include "morale.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <set>
 #include <cmath>
@@ -21,10 +21,8 @@
 #include "output.h"
 #include "translations.h"
 #include "color.h"
-#include "creature.h"
 #include "enums.h"
 #include "iuse.h"
-#include "player.h"
 
 static const efftype_id effect_cold( "cold" );
 static const efftype_id effect_hot( "hot" );
@@ -255,6 +253,8 @@ player_morale::player_morale() :
     mutations[trait_id( "ROOTS1" )]         = mutation_data( update_constrained );
     mutations[trait_id( "ROOTS2" )]        = mutation_data( update_constrained );
     mutations[trait_id( "ROOTS3" )]        = mutation_data( update_constrained );
+    mutations[trait_id( "LEAVES2" )]       = mutation_data( update_constrained );
+    mutations[trait_id( "LEAVES3" )]       = mutation_data( update_constrained );
     mutations[trait_id( "MASOCHIST" )]     = mutation_data( update_masochist );
     mutations[trait_id( "MASOCHIST_MED" )] = mutation_data( update_masochist );
     mutations[trait_id( "CENOBITE" )]      = mutation_data( update_masochist );
@@ -353,7 +353,6 @@ int player_morale::get_level() const
     if( !level_is_valid ) {
         const morale_mult mult = get_temper_mult();
 
-        level = 0;
         int sum_of_positive_squares = 0;
         int sum_of_negative_squares = 0;
 
@@ -809,6 +808,10 @@ void player_morale::update_constrained_penalty()
         has_mutation( trait_id( "ROOTS3" ) ) ) {
         pen += bp_pen( bp_foot_l, 5 );
         pen += bp_pen( bp_foot_r, 5 );
+    }
+    if( has_mutation( trait_id( "LEAVES2" ) ) || has_mutation( trait_id( "LEAVES3" ) ) ) {
+        pen += bp_pen( bp_arm_l, 5 );
+        pen += bp_pen( bp_arm_r, 5 );
     }
     set_permanent( MORALE_PERM_CONSTRAINED, -std::min( pen, 10 ) );
 }

@@ -2,7 +2,7 @@
 #ifndef PLAYER_ACTIVITY_H
 #define PLAYER_ACTIVITY_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <climits>
 #include <set>
 #include <vector>
