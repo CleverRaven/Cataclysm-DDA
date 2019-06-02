@@ -6165,16 +6165,31 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
    
     // Ugly `if` for now
     if( !fov_3d || F.z == T.z ) {
+        tripoint previous_tripoint = F;
         bresenham( F.x, F.y, T.x, T.y, bresenham_slope,
-        [this, &visible, &T]( const point & new_point ) {
+        [this, &visible, &T, &previous_tripoint]( const point & new_point ) {
             // Exit before checking the last square, it's still visible even if opaque.
-            if( new_point.x == T.x && new_point.y == T.y ) {
-                return false;
-            }
+            //if( new_point.x == T.x && new_point.y == T.y ) {
+            //    return false;
+            //} only if no diagonal tiles block it          
+            
             if( !this->trans( tripoint( new_point, T.z ) ) ) {
                 visible = false;
                 return false;
+            } else if ( abs( new_point.x-previous_tripoint.x ) == abs( new_point.y-previous_tripoint.y )){
+                // Check diagonals
+                const tripoint new_x = tripoint( new_point.x , previous_tripoint.y, T.z );
+                const tripoint new_y = tripoint( previous_tripoint.x , new_point.y, T.z );
+                std::cout << "diags: " << new_x << " & " << new_y << std::endl;
+                if( !inbounds( new_x ) || !inbounds( new_y ) ){                    
+                    return false; // Out of range!
+                }
+                if ( !this->trans( new_x ) && !this->trans( new_y )){
+                    visible = false;
+                    return false;
+                }
             }
+            previous_tripoint = tripoint( new_point, T.z);
             return true;
         } );
         return visible;
@@ -6407,18 +6422,21 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
             return false; // Out of range!
         }
         bool is_clear = true;
+        tripoint previous_tripoint = f;
+        
         bresenham( f.x, f.y, t.x, t.y, 0,
-        [this, &is_clear, cost_min, cost_max, &t]( const point & new_point ) {
+        [this, &is_clear, cost_min, cost_max, &t, &previous_tripoint]( const point & new_point ) {
             // Exit before checking the last square, it's still reachable even if it is an obstacle.
-            if( new_point.x == t.x && new_point.y == t.y ) {
-                return false;
-            }
-
-            const int cost = this->move_cost( new_point.x, new_point.y );
+            //if( new_point.x == t.x && new_point.y == t.y ) {
+            //    return false;
+            //} (or not)
+            tripoint new_tripoint = tripoint(new_point.x, new_point.y, 0);
+            const int cost = this->move_cost_from_point( new_tripoint , previous_tripoint );
             if( cost < cost_min || cost > cost_max ) {
                 is_clear = false;
                 return false;
             }
+            previous_tripoint = new_tripoint;
             return true;
         } );
         return is_clear;
