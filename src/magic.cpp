@@ -31,13 +31,33 @@ const std::map<std::string, valid_target> target_map = {
     { "ground", valid_target::target_ground },
     { "none", valid_target::target_none }
 };
+const std::map<std::string, body_part> bp_map = {
+    { "TORSO", body_part::bp_torso },
+    { "HEAD", body_part::bp_head },
+    { "EYES", body_part::bp_eyes },
+    { "MOUTH", body_part::bp_mouth },
+    { "ARM_L", body_part::bp_arm_l },
+    { "ARM_R", body_part::bp_arm_r },
+    { "HAND_L", body_part::bp_hand_l },
+    { "HAND_R", body_part::bp_hand_r },
+    { "LEG_L", body_part::bp_leg_l },
+    { "LEG_R", body_part::bp_leg_r },
+    { "FOOT_L", body_part::bp_foot_l },
+    { "FOOT_R", body_part::bp_foot_r }
+};
 }
+
 namespace io
 {
 template<>
 valid_target string_to_enum<valid_target>( const std::string &trigger )
 {
     return string_to_enum_look_up( target_map, trigger );
+}
+template<>
+body_part string_to_enum<body_part>( const std::string &trigger )
+{
+    return string_to_enum_look_up( bp_map, trigger );
 }
 }
 
@@ -119,6 +139,9 @@ void spell_type::load( JsonObject &jo, const std::string & )
 
     const auto trigger_reader = enum_flags_reader<valid_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
+
+    const auto bp_reader = enum_flags_reader<body_part> { "affected_bps" };
+    optional( jo, was_loaded, "affected_body_parts", affected_bps, bp_reader );
 
     optional( jo, was_loaded, "effect_str", effect_str, "" );
 
@@ -460,6 +483,11 @@ bool spell::is_valid() const
         return false;
     }
     return type->is_valid();
+}
+
+bool spell::bp_is_affected( body_part bp ) const
+{
+    return type->affected_bps[bp];
 }
 
 std::string spell::effect() const
@@ -1091,6 +1119,32 @@ static std::set<tripoint> spell_effect_area( spell &sp, const tripoint &source,
     return targets;
 }
 
+static void add_effect_to_target( const tripoint &target, const spell &sp )
+{
+    const int dur_moves = sp.duration();
+    const time_duration dur_td = 1_turns * dur_moves / 100;
+
+    Creature *const critter = g->critter_at<Creature>( target );
+    Character *const guy = g->critter_at<Character>( target );
+    efftype_id spell_effect( sp.effect_data() );
+    bool bodypart_effected = false;
+
+    if( guy ) {
+        for( const body_part bp : all_body_parts ) {
+            if( sp.bp_is_affected( bp ) ) {
+                guy->add_effect( spell_effect, dur_td, bp );
+                bodypart_effected = true;
+            }
+        }
+        if( bodypart_effected ) {
+            return;
+        }
+    }
+    if( !bodypart_effected ) {
+        critter->add_effect( spell_effect, dur_td, num_bp );
+    }
+}
+
 static void damage_targets( spell &sp, std::set<tripoint> targets )
 {
     for( const tripoint target : targets ) {
@@ -1114,12 +1168,7 @@ static void damage_targets( spell &sp, std::set<tripoint> targets )
             add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
         }
         if( !sp.effect_data().empty() ) {
-            const int dur_moves = sp.duration();
-            const time_duration dur_td = 1_turns * dur_moves / 100;
-            const std::vector<body_part> all_bp = { bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r, };
-            for( const body_part bp : all_bp ) {
-                cr->add_effect( efftype_id( sp.effect_data() ), dur_td, bp );
-            }
+            add_effect_to_target( target, sp );
         }
     }
 }
