@@ -1331,6 +1331,30 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "dollarstore_roof",
+    "copy-from": "generic_city_building",
+    "name": "dollar store roof",
+    "sym": "$",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dollarstore_1",
+    "copy-from": "generic_city_building",
+    "name": "dollar store",
+    "sym": "$",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dollarstore_roof_1",
+    "copy-from": "generic_city_building",
+    "name": "dollar store roof",
+    "sym": "$",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "lancenter",
     "name": "LAN center",
     "copy-from": "generic_city_building",
