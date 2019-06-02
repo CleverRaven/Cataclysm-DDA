@@ -1933,6 +1933,7 @@ void time_duration::deserialize( JsonIn &jsin )
     }
 }
 
+// TODO: template unit string readers
 energy_quantity energy_quantity::read_from_json_string( JsonIn &jsin ) {
     static const std::vector<std::pair<std::string, energy_quantity>> units = { {
             { "mJ", 1_millijoules },
