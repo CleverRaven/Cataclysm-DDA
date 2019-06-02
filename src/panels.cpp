@@ -1128,7 +1128,7 @@ static void draw_limb( avatar &u, const catacurses::window &w )
 
         const std::string str = body_part_hp_bar_ui_text( part[i] );
         wmove( w, ny, nx );
-        if( i == 0 ) {
+        if( str.length() == 4 ) {
             wprintz( w, u.limb_color( part[i], true, true, true ), str + " :" );
         } else {
             wprintz( w, u.limb_color( part[i], true, true, true ), str + ":" );
