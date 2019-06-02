@@ -1366,7 +1366,7 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
     // Remember if we're using a weapon or a limb to block.
     // So that we don't suddenly switch that for any reason.
     const bool weapon_blocking = !shield.is_null();
-    if( weapon_blocking ) {
+    if( !is_force_unarmed() && weapon_blocking ) {
         /** @EFFECT_STR increases attack blocking effectiveness with a weapon */
 
         /** @EFFECT_MELEE increases attack blocking effectiveness with a weapon */
@@ -1416,7 +1416,7 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
             // but severely mitigated damage if not
         } else if( elem.type == DT_HEAT || elem.type == DT_ACID || elem.type == DT_COLD ) {
             // Unarmed weapons won't block those
-            if( weapon_blocking && !unarmed ) {
+            if( !is_force_unarmed() && weapon_blocking && !unarmed ) {
                 float previous_amount = elem.amount;
                 elem.amount /= 5;
                 damage_blocked += previous_amount - elem.amount;
@@ -1425,7 +1425,7 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
             // conductive weapon
         } else if( elem.type == DT_ELECTRIC ) {
             // Unarmed weapons and conductive weapons won't block this
-            if( weapon_blocking && !unarmed && !conductive_shield ) {
+            if( !is_force_unarmed() && weapon_blocking && !unarmed && !conductive_shield ) {
                 float previous_amount = elem.amount;
                 elem.amount /= 5;
                 damage_blocked += previous_amount - elem.amount;
@@ -1437,7 +1437,7 @@ bool player::block_hit( Creature *source, body_part &bp_hit, damage_instance &da
 
     // weapon blocks are preferred to limb blocks
     std::string thing_blocked_with;
-    if( weapon_blocking ) {
+    if( !is_force_unarmed() && weapon_blocking ) {
         thing_blocked_with = shield.tname();
         // TODO: Change this depending on damage blocked
         float wear_modifier = 1.0f;
