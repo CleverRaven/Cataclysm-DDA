@@ -499,7 +499,6 @@
       ]
     }
   },
-
   {
     "type": "mapgen",
     "method": "json",
@@ -710,7 +709,8 @@
         { "item": "gloves_rubber", "x": 19, "y": 17, "repeat": 1, "chance": 100 },
         { "item": "boots_rubber", "x": 19, "y": 17, "repeat": 1, "chance": 100 },
         { "item": "medium_disposable_cell", "x": 21, "y": 22, "repeat": 5, "chance": 100 }
-      ]
+      ],
+      "place_nested": [ { "chunks": [ [ "foodperson_break_room", 5 ], [ "null", 95 ] ], "x": 15, "y": 10 } ]
     }
   },
   {
