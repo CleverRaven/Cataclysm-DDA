@@ -329,6 +329,17 @@
   },
   {
     "type": "scenario",
+    "ident": "foodplace",
+    "name": "The mascot rises",
+    "points": 0,
+    "description": "You just finished your shift and got back in the break room when you heard the alarms and the security door shutting down behind you.  There's a lot of customer out there and you're not sure Foodplace delicious food is going to be enough for them.",
+    "allowed_locs": [ "s_restaurant_foodplace_roof" ],
+    "professions": [ "true_foodperson", "unemployed" ],
+    "start_name": "Foodplace break room",
+    "flags": [ "CITY_START" ]
+  },
+  {
+    "type": "scenario",
     "ident": "schools_out",
     "name": "School",
     "points": 0,
