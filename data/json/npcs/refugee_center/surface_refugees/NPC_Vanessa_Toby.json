@@ -212,8 +212,7 @@
       "TALK_REFUGEE_Vanessa_1_firstmeet",
       "TALK_REFUGEE_Vanessa_2",
       "TALK_REFUGEE_Vanessa_Background",
-      "TALK_REFUGEE_Vanessa_Situation",
-      "TALK_REFUGEE_Vanessa_Haircut"
+      "TALK_REFUGEE_Vanessa_Situation"
     ],
     "responses": [
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Vanessa_Background" },
