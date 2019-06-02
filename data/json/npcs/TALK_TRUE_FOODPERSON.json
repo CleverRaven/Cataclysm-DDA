@@ -56,7 +56,7 @@
         },
         "text": "I am you but from an alternate reality.",
         "trial": { "type": "LIE", "difficulty": 10 },
-        "success": { "topic": "TALK_FOODPERSON_TEAMUP", "opinion": { "trust": 2, "value": 2 } },
+        "success": { "topic": "TALK_FOODPERSON_MULTIVERSE", "opinion": { "trust": 2, "value": 2 } },
         "failure": { "topic": "TALK_FOODPERSON_ONLYONE", "opinion": { "trust": -5, "value": -5 } }
       },
       {
@@ -127,6 +127,9 @@
             { "not": { "npc_has_var": "npc_failed_trade", "type": "dialogue", "context": "foodperson", "value": "yes" } },
             {
               "not": { "npc_has_var": "npc_succes_trade", "type": "dialogue", "context": "foodperson", "value": "yes" }
+            },
+            {
+              "not": { "npc_has_var": "npc_foodpersons_sharing", "type": "dialogue", "context": "foodperson", "value": "yes" }
             }
           ]
         },
@@ -135,11 +138,27 @@
         "failure": { "topic": "TALK_FOODPERSON_NOTRADE" }
       },
       {
-        "text": "Are you interested in some more trading?",
+        "text": "Let's trade?",
         "condition": {
           "and": [
             { "not": { "npc_has_var": "npc_failed_trade", "type": "dialogue", "context": "foodperson", "value": "yes" } },
-            { "npc_has_var": "npc_succes_trade", "type": "dialogue", "context": "foodperson", "value": "yes" }
+            {
+              "or": [
+                { "npc_has_var": "npc_succes_trade", "type": "dialogue", "context": "foodperson", "value": "yes" },
+                {
+                  "npc_has_var": "npc_foodperson_impressed",
+                  "type": "dialogue",
+                  "context": "foodperson",
+                  "value": "yes"
+                },
+                {
+                  "npc_has_var": "npc_foodpersons_sharing",
+                  "type": "dialogue",
+                  "context": "foodperson",
+                  "value": "yes"
+                }
+              ]
+            }
           ]
         },
         "effect": "start_trade",
@@ -174,11 +193,27 @@
         "failure": { "topic": "TALK_FOODPERSON_NOTRAINING" }
       },
       {
-        "text": "Please teach more.",
+        "text": "Please share your knowledge.",
         "condition": {
           "and": [
             { "not": { "npc_has_var": "npc_failed_training", "type": "dialogue", "context": "foodperson", "value": "yes" } },
-            { "npc_has_var": "npc_succes_training", "type": "dialogue", "context": "foodperson", "value": "yes" }
+            {
+              "or": [
+                { "npc_has_var": "npc_succes_training", "type": "dialogue", "context": "foodperson", "value": "yes" },
+                {
+                  "npc_has_var": "npc_foodperson_impressed",
+                  "type": "dialogue",
+                  "context": "foodperson",
+                  "value": "yes"
+                },
+                {
+                  "npc_has_var": "npc_foodpersons_sharing",
+                  "type": "dialogue",
+                  "context": "foodperson",
+                  "value": "yes"
+                }
+              ]
+            }
           ]
         },
         "effect": "start_training",
@@ -191,6 +226,12 @@
             { "not": { "npc_has_var": "npc_failed_team", "type": "dialogue", "context": "foodperson", "value": "yes" } },
             {
               "not": { "npc_has_var": "npc_succes_team", "type": "dialogue", "context": "foodperson", "value": "yes" }
+            },
+            {
+              "not": { "npc_has_var": "npc_foodperson_impressed", "type": "dialogue", "context": "foodperson", "value": "yes" }
+            },
+            {
+              "not": { "npc_has_var": "npc_foodpersons_sharing", "type": "dialogue", "context": "foodperson", "value": "yes" }
             }
           ]
         },
@@ -268,6 +309,65 @@
       { "text": "Ok...", "topic": "TALK_MISSION_LIST" },
       { "text": "I need to think about it.", "topic": "TALK_FOODPERSON_MAIN" },
       { "text": "Huh... No thanks.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FOODPERSON_MULTIVERSE",
+    "type": "talk_topic",
+    "dynamic_line": "Wha...  But.  But...  How?",
+    "responses": [
+      {
+        "text": "No time to explain, the world is at an end and we must join forces to save it!",
+        "topic": "TALK_FOODPERSON_TEAMUP"
+      },
+      {
+        "text": "The cataclysm weakened the space-time continuum, I accidently fell through a tear in reality and ended up here.  I will need acces to your ressources to keep fighting.",
+        "topic": "TALK_FOODPERSON_SHARING"
+      },
+      {
+        "text": "I am the ultimate Foodperson, I travel the multivers consuming powers from all the Foodpersons.  And now I've come for you!",
+        "topic": "TALK_FOODPERSON_ONLYONE"
+      },
+      { "text": "Can't tell you now. In due time all will be revealed.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FOODPERSON_SHARING",
+    "type": "talk_topic",
+    "dynamic_line": "Of course wathever you need...Foodperson.",
+    "speaker_effect": { "effect": { "npc_add_var": "npc_foodpersons_sharing", "type": "dialogue", "context": "foodperson", "value": "yes" } },
+    "responses": [
+      {
+        "text": "Thank you Foodperson!  It's good to know I have a friend here.",
+        "topic": "TALK_FOODPERSON_MAIN",
+        "opinion": { "trust": 10, "value": 10 }
+      }
+    ]
+  },
+  {
+    "id": "TALK_FOODPERSON_TEAMUP",
+    "type": "talk_topic",
+    "dynamic_line": "It's crazy out there, it's going to be a tough battle but I'm with you!",
+    "responses": [
+      {
+        "text": "Let's go, we have a world to save!",
+        "topic": "TALK_DONE",
+        "effect": "follow",
+        "opinion": { "trust": 20, "value": 20 }
+      }
+    ]
+  },
+  {
+    "id": "TALK_FOODPERSON_ONLYONE",
+    "type": "talk_topic",
+    "dynamic_line": "There can be only one!",
+    "responses": [
+      { "text": "I AM THE ONE!", "topic": "TALK_DONE", "effect": "hostile", "opinion": { "trust": -20, "value": -20 } },
+      {
+        "text": "Wow calm down,  it's just a prank bro.",
+        "topic": "TALK_DONE",
+        "opinion": { "trust": -20, "value": -20 }
+      }
     ]
   }
 ]
