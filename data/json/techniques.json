@@ -193,7 +193,8 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "defensive": true,
-    "grab_break": true
+    "grab_break": true,
+    "messages": [ "The %s tries to grab you, but you break its grab!", "The %s tries to grab <npcname>, but they break its grab!" ]
   },
   {
     "type": "technique",
@@ -329,7 +330,8 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "defensive": true,
-    "grab_break": true
+    "grab_break": true,
+    "messages": [ "The %s tries to grab you, but you break its grab!", "The %s tries to grab <npcname>, but they break its grab!" ]
   },
   {
     "type": "technique",
@@ -513,7 +515,8 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "defensive": true,
-    "grab_break": true
+    "grab_break": true,
+    "messages": [ "The %s tries to grab you, but you break its grab!", "The %s tries to grab <npcname>, but they break its grab!" ]
   },
   {
     "type": "technique",
@@ -868,7 +871,10 @@
     "unarmed_allowed": true,
     "defensive": true,
     "grab_break": true,
-    "messages": [ "You swing your arms and break free", "<npcname> flaps free" ]
+    "messages": [
+      "The %s tries to grab you, but you swing your arms and break free!",
+      "The %s tries to grab <npcname>, but they flap free!"
+    ]
   },
   {
     "type": "technique",
@@ -907,7 +913,7 @@
     "unarmed_allowed": true,
     "defensive": true,
     "grab_break": true,
-    "messages": [ "You slither free", "<npcname> slithers free" ]
+    "messages": [ "The %s tries to grab you, but you slither free!", "The %s tries to grab <npcname>, but they slither free!" ]
   },
   {
     "type": "technique",
