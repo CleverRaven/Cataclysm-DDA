@@ -13,7 +13,7 @@
     "material": [ "steel", "aluminum", "plastic" ],
     "symbol": "(",
     "color": "dark_gray",
-    "ammo": [ "357sig" ],
+    "ammo": "357sig",
     "dispersion": 480,
     "durability": 7,
     "magazine_well": 1,

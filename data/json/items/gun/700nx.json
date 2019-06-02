@@ -13,7 +13,7 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "light_blue",
-    "ammo": [ "700nx" ],
+    "ammo": "700nx",
     "skill": "rifle",
     "dispersion": 90,
     "durability": 8,

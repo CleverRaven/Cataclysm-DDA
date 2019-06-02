@@ -14,7 +14,7 @@
     "symbol": ";",
     "color": "green",
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
+    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "target": "electric_lantern_on",
@@ -56,7 +56,7 @@
     "volume": 2,
     "price": 500,
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
+    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You turn the flashlight on.",
@@ -141,7 +141,7 @@
     "symbol": ";",
     "color": "blue",
     "charges_per_use": 1,
-    "ammo": [ "battery" ],
+    "ammo": "battery",
     "use_action": {
       "type": "transform",
       "msg": "You turn the heavy duty flashlight on.",
@@ -195,7 +195,7 @@
     "color": "red",
     "material": [ "copper", "glass" ],
     "charges_per_use": 1,
-    "ammo": [ "weldgas" ],
+    "ammo": "weldgas",
     "use_action": {
       "type": "transform",
       "msg": "You light the %s.",

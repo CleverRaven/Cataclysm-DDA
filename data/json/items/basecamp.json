@@ -6,7 +6,7 @@
     "name": "basecamp charcoal smoker",
     "description": "A fake charcoal smoker used for basecamps.",
     "sub": "char_smoker",
-    "ammo": [ "charcoal" ],
+    "ammo": "charcoal",
     "max_charges": 2000
   },
   {
@@ -16,7 +16,7 @@
     "name": "basecamp fireplace",
     "description": "A fake fireplace used for basecamps.",
     "sub": "hotplate",
-    "ammo": [ "tinder" ],
+    "ammo": "tinder",
     "max_charges": 50000,
     "charge_factor": 25
   },
@@ -47,7 +47,7 @@
     "name": "basecamp stove",
     "description": "A fake stove used for basecamps.",
     "sub": "hotplate",
-    "ammo": [ "tinder" ],
+    "ammo": "tinder",
     "max_charges": 50000,
     "charge_factor": 10
   },

@@ -4,7 +4,7 @@
     "copy-from": "magazine_belt",
     "type": "MAGAZINE",
     "name": "ammo belt .50 BMG",
-    "ammo_type": [ "50" ],
+    "ammo_type": "50",
     "capacity": 100,
     "count": 100,
     "linkage": "ammolink50"
@@ -22,7 +22,7 @@
     "symbol": "#",
     "color": "light_gray",
     "looks_like": "8x40_50_mag",
-    "ammo_type": [ "50" ],
+    "ammo_type": "50",
     "capacity": 10,
     "reliability": 9,
     "reload_time": 130,

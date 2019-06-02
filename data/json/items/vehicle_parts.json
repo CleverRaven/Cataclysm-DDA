@@ -45,7 +45,7 @@
     "bashing": 7,
     "category": "veh_parts",
     "price": 90000,
-    "ammo": [ "plutonium" ],
+    "ammo": "plutonium",
     "max_charges": 10000
   },
   {
@@ -226,7 +226,7 @@
     "capacity": 2000,
     "reliability": 10,
     "//": "mods will need to expand",
-    "ammo_type": [ "charcoal" ],
+    "ammo_type": "charcoal",
     "price": 3000
   },
   {

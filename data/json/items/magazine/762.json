@@ -11,7 +11,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "762" ],
+    "ammo_type": "762",
     "capacity": 10,
     "flags": [ "SPEEDLOADER" ]
   },
@@ -26,7 +26,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "762" ],
+    "ammo_type": "762",
     "capacity": 40,
     "reliability": 8,
     "reload_time": 120,
@@ -43,7 +43,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "762" ],
+    "ammo_type": "762",
     "capacity": 30,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ]

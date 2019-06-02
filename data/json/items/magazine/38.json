@@ -10,7 +10,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "38" ],
+    "ammo_type": "38",
     "capacity": 25,
     "reliability": 1,
     "reload_time": 160,
@@ -27,7 +27,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "38" ],
+    "ammo_type": "38",
     "capacity": 10,
     "reliability": 8,
     "flags": [ "MAG_COMPACT" ]
@@ -43,7 +43,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "38" ],
+    "ammo_type": "38",
     "capacity": 7,
     "flags": [ "SPEEDLOADER" ]
   },
@@ -58,7 +58,7 @@
     "material": "steel",
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": [ "38" ],
+    "ammo_type": "38",
     "capacity": 5,
     "flags": [ "SPEEDLOADER" ]
   }

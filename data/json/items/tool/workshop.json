@@ -56,7 +56,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "ammo": [ "weldgas" ],
+    "ammo": "weldgas",
     "charges_per_use": 4,
     "use_action": "OXYTORCH",
     "qualities": [ [ "WELD", 2 ] ],
