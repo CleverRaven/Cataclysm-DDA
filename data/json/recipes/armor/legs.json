@@ -289,7 +289,7 @@
     "subcategory": "CSC_ARMOR_LEGS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "20 m",
+    "time": "40 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 1 ] ],

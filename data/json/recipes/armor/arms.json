@@ -122,7 +122,7 @@
     "subcategory": "CSC_ARMOR_ARMS",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "20 m",
+    "time": "30 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 1 ] ],

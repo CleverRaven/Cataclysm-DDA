@@ -224,7 +224,7 @@
     "subcategory": "CSC_ARMOR_TORSO",
     "skill_used": "fabrication",
     "difficulty": 3,
-    "time": "40 m",
+    "time": "60 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_melee", 2 ] ],
     "using": [ [ "cordage", 1 ] ],
