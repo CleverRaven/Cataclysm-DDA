@@ -3,10 +3,10 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "campus_commons_1_3_3", "campus_commons_0_3_3" ],
-      [ "campus_commons_1_2_3", "campus_commons_0_2_3" ],
-      [ "campus_commons_1_1_3", "campus_commons_0_1_3" ],
-      [ "campus_commons_1_0_3", "campus_commons_0_0_3" ]
+      [ "campus_commons_0_0_3", "campus_commons_1_0_3" ],
+      [ "campus_commons_0_1_3", "campus_commons_1_1_3" ],
+      [ "campus_commons_0_2_3", "campus_commons_1_2_3" ],
+      [ "campus_commons_0_3_3", "campus_commons_1_3_3" ]
     ],
     "weiRht": 250,
     "object": {
