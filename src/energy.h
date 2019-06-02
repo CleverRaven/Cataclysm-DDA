@@ -3,6 +3,8 @@
 
 #include <utility>
 
+#include "rng.h"
+
 class JsonIn;
 class JsonOut;
 
