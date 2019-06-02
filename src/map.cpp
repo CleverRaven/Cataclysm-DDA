@@ -8136,16 +8136,10 @@ void map::add_corpse( const tripoint &p )
         body.item_tags.insert( "REVIVE_SPECIAL" );
     }
 
+    put_items_from_loc( "default_zombie_clothes", p, 0 );
+    put_items_from_loc( "default_zombie_items", p, 0 );
+
     add_item_or_charges( p, body );
-    put_items_from_loc( "shoes",  p, 0 );
-    put_items_from_loc( "pants",  p, 0 );
-    put_items_from_loc( "shirts", p, 0 );
-    if( one_in( 6 ) ) {
-        put_items_from_loc( "jackets", p, 0 );
-    }
-    if( one_in( 15 ) ) {
-        put_items_from_loc( "bags", p, 0 );
-    }
 }
 
 field &map::get_field( const tripoint &p )
