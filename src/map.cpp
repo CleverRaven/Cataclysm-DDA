@@ -1822,7 +1822,7 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 
     if( from.z == to.z ) {
         // But here we need to, to prevent bashing critters
-        return passable( to, from ) || ( bash && inbounds( to ) );
+        return passable_from_point( to, from ) || ( bash && inbounds( to ) );
     } else if( !zlevels ) {
         return false;
     }

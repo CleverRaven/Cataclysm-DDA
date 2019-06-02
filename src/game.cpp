@@ -4302,7 +4302,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
             add_msg( _( "%s was stunned!" ), targ->name() );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( m.impassable( traj[i], traj[i-1] ) ) {
+            if( !m.passable_from_point( traj[i], traj[i-1] ) ) {
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -4360,7 +4360,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
             add_msg( _( "%s was stunned!" ), targ->name );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( m.impassable( traj[i], traj[i-1] ) ) { // oops, we hit a wall!
+            if( !m.passable_from_point( traj[i], traj[i-1] ) ) { // oops, we hit a wall!
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -9384,7 +9384,7 @@ bool game::walk_move( const tripoint &dest_loc )
         u.grab( OBJECT_NONE );
     }
 
-    if( m.!passable_from_point( dest_loc, u.pos() ) && !pushing && !shifting_furniture ) {
+    if( !m.passable_from_point( dest_loc, u.pos() ) && !pushing && !shifting_furniture ) {
         return false;
     }
     u.set_underwater( false );
@@ -9418,7 +9418,7 @@ bool game::walk_move( const tripoint &dest_loc )
     u.recoil = MAX_RECOIL;
 
     // Print a message if movement is slow    
-    const int mcost_to = m.move_cost_from_point( dest_loc, pos() ); //calculate this _after_ calling grabbed_move
+    const int mcost_to = m.move_cost_from_point( dest_loc, u.pos() ); //calculate this _after_ calling grabbed_move
     const bool fungus = m.has_flag_ter_or_furn( "FUNGUS", u.pos() ) ||
                         m.has_flag_ter_or_furn( "FUNGUS",
                                 dest_loc ); //fungal furniture has no slowing effect on mycus characters

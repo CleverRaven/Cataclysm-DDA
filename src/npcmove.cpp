@@ -59,7 +59,7 @@
 #include "units.h"
 #include "pldata.h"
 
-class nearest_passable;
+//class nearest_passable;
 static constexpr float NPC_DANGER_VERY_LOW = 5.0f;
 static constexpr float NPC_DANGER_MAX = 150.0f;
 static constexpr float MAX_FLOAT = 5000000000.0f;
@@ -218,7 +218,7 @@ static bool clear_shot_reach( const tripoint &from, const tripoint &to )
         Creature *inter = g->critter_at( p );
         if( inter != nullptr ) {
             return false;
-        } else if( g->m.impassable( p, from ) ) {
+        } else if( !g->m.passable_from_point( p, from ) ) {
             return false;
         }
     }
@@ -285,7 +285,7 @@ bool npc::sees_dangerous_field( const tripoint &p ) const
 
 bool npc::could_move_onto( const tripoint &p ) const
 {
-    if( !g->m.passable( p, pos() ) ) {
+    if( !g->m.passable_from_point( p, pos() ) ) {
         return false;
     }
 
@@ -1986,7 +1986,7 @@ bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
     // Allow moving into any bashable spots, but penalize them during pathing
     // Doors are not passable for hallucinations
     return( rl_dist( pos(), p ) <= 1 &&
-            ( g->m.passable( p, pos() ) || ( can_open_door( p, !g->m.is_outside( pos() ) ) && !is_hallucination() ) ||
+            ( g->m.passable_from_point( p, pos() ) || ( can_open_door( p, !g->m.is_outside( pos() ) ) && !is_hallucination() ) ||
               ( !no_bashing && g->m.bash_rating( smash_ability(), p ) > 0 ) )
           );
 }
@@ -2105,7 +2105,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         // TODO: Make it properly find the tile to move to
         moves -= 100;
         moved = true;
-    } else if( g->m.passable( p, pos() ) ) {
+    } else if( g->m.passable_from_point( p, pos() ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         moves -= run_cost( g->m.combined_movecost( pos(), p ), diag );
         moved = true;
@@ -2321,7 +2321,7 @@ void npc::move_pause()
 
 static cata::optional<tripoint> nearest_passable( const tripoint &p, const tripoint &closest_to )
 {
-    if( g->m.passable( p, pos() ) ) {
+    if( g->m.passable( p ) ) {
         return p;
     }
 
@@ -2333,7 +2333,7 @@ static cata::optional<tripoint> nearest_passable( const tripoint &p, const tripo
         return rl_dist( closest_to, l ) < rl_dist( closest_to, r );
     } );
     auto iter = std::find_if( candidates.begin(), candidates.end(), []( const tripoint & pt ) {
-        return g->m.passable( pt, pos() );
+        return g->m.passable( pt );
     } );
     if( iter != candidates.end() ) {
         return *iter;
@@ -2364,7 +2364,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
 
     std::copy_if( range.begin(), range.end(), std::back_inserter( escape_points ),
     [&]( const tripoint & elem ) {
-        return g->m.passable( elem, pos() );
+        return g->m.passable_from_point( elem, pos() );
     } );
 
     algo::sort_by_rating( escape_points.begin(), escape_points.end(), [&]( const tripoint & elem ) {
@@ -3680,7 +3680,7 @@ void npc::go_to_omt_destination()
     // sx and sy are now equal to the direction we need to move in
     tripoint dest( posx() + 8 * sx, posy() + 8 * sy, goal.z );
     for( int i = 0; i < 8; i++ ) {
-        if( ( g->m.passable( dest, pos() ) || can_open_door( dest, true ) ||
+        if( ( g->m.passable_from_point( dest, pos() ) || can_open_door( dest, true ) ||
               //Needs 20% chance of bashing success to be considered for pathing
               g->m.bash_rating( smash_ability(), dest ) >= 2 ) &&
             ( one_in( 4 ) || sees( dest ) ) ) {

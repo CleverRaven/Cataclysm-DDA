@@ -84,7 +84,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         const tripoint vehpos = grabbed_vehicle->global_pos3();
         for( int p : wheel_indices ) {
             const tripoint wheel_pos = vehpos + grabbed_vehicle->parts[p].precalc[0];
-            const int mapcost = m.move_cost( wheel_pos, u.pos(), grabbed_vehicle );
+            const int mapcost = m.move_cost_from_point( wheel_pos, u.pos(), grabbed_vehicle );
             mc += ( str_req / wheel_indices.size() ) * mapcost;
         }
         //set strength check threshold

@@ -215,7 +215,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     // If we were targetting a tile rather than a monster, don't overshoot
     // Unless the target was a wall, then we are aiming high enough to overshoot
     const bool no_overshoot = proj_effects.count( "NO_OVERSHOOT" ) ||
-                              ( g->critter_at( target_arg ) == nullptr && !g->m.passable_from_point( target_arg, source ) );
+                              ( g->critter_at( target_arg ) == nullptr && g->m.impassable( target_arg ) );
 
     double extend_to_range = no_overshoot ? range : proj_arg.range;
 
