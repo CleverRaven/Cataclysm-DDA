@@ -5952,12 +5952,12 @@ static void init_memory_card_with_random_stuff( item &it )
         if( one_in( data_chance-- ) || it.has_flag( "MC_SCIENCE_STUFF" ) ) {
             item book = item_group::item_from( "textbooks" );
             // book groups contain [ "survnote", 2 ], how astute
-            if( !book.is_null() && book.is_book() ) {
+            if( !book.is_null() && book.is_book() && book.get_chapters() == 0 ) {
                 it.set_var( "MC_BOOK", book.typeId() );
             }
         } else if( one_in( data_chance ) ) {
             item book = item_group::item_from( "manuals" );
-            if( !book.is_null() && book.is_book() && !book.type->book->chapters ) {
+            if( !book.is_null() && book.is_book() && book.get_chapters() == 0 ) {
                 it.set_var( "MC_BOOK", book.typeId() );
             }
         }
@@ -6783,7 +6783,7 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
         }
 
         int index = g->inv_for_filter( _( "Scan which book?" ), []( const item & itm ) {
-            return itm.is_book() && !itm.type->book->chapters;
+            return itm.is_book() && itm.get_chapters() == 0;
         }, _( "You need to have a study book to scan." ) );
         item &book = p->i_at( index );
 
