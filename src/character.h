@@ -481,6 +481,27 @@ class Character : public Creature, public visitable<Character>
             return false;
         }
 
+        /**
+         * Calculate (but do not deduct) the number of moves required when handling (e.g. storing, drawing etc.) an item
+         * @param it Item to calculate handling cost for
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
+         * @param base_cost Cost due to storage type.
+         * @return cost in moves ranging from 0 to MAX_HANDLING_COST
+         */
+        int item_handling_cost( const item &it, bool penalties = true,
+                                int base_cost = INVENTORY_HANDLING_PENALTY ) const;
+
+        /**
+         * Calculate (but do not deduct) the number of moves required when storing an item in a container
+         * @param it Item to calculate storage cost for
+         * @param container Container to store item in
+         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
+         * @param base_cost Cost due to storage type.
+         * @return cost in moves ranging from 0 to MAX_HANDLING_COST
+         */
+        int item_store_cost( const item &it, const item &container, bool penalties = true,
+                             int base_cost = INVENTORY_HANDLING_PENALTY ) const;
+
         /** Returns nearby items which match the provided predicate */
         std::vector<item_location> nearby( const std::function<bool( const item *, const item * )> &func,
                                            int radius = 1 ) const;

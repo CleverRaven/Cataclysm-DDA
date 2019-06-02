@@ -121,15 +121,7 @@ struct points_left {
     }
 
     int skill_points_left() const {
-        switch( limit ) {
-            case FREEFORM:
-            case ONE_POOL:
-                return stat_points + trait_points + skill_points;
-            case MULTI_POOL:
-                return stat_points + trait_points + skill_points;
-        }
-
-        return 0;
+        return stat_points + trait_points + skill_points;
     }
 
     bool is_freeform() {
@@ -565,9 +557,8 @@ bool avatar::create( character_type type, const std::string &tempname )
             learn_recipe( &r );
         }
     }
-    if( prof->pet() ) {
-        cata::optional<mtype_id> mtypemon = prof->pet();
-        starting_pet = *mtypemon;
+    for( mtype_id elem : prof->pets() ) {
+        starting_pets.push_back( elem );
     }
     std::list<item> prof_items = prof->items( male, get_mutations() );
 
@@ -1515,11 +1506,12 @@ tab_direction set_profession( const catacurses::window &w, avatar &u, points_lef
         }
         // Profession pet
         cata::optional<mtype_id> montype;
-        if( sorted_profs[cur_id]->pet() ) {
-            const auto prof_pet = *sorted_profs[cur_id]->pet();
-            monster mon( prof_pet );
-            buffer << "<color_light_blue>" << _( "Pet:" ) << "</color>\n";
-            buffer << mon.get_name() << "\n";
+        if( !sorted_profs[cur_id]->pets().empty() ) {
+            buffer << "<color_light_blue>" << _( "Pets:" ) << "</color>\n";
+            for( auto elem : sorted_profs[cur_id]->pets() ) {
+                monster mon( elem );
+                buffer << mon.get_name() << "\n";
+            }
         }
         werase( w_items );
         const auto scroll_msg = string_format(

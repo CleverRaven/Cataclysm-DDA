@@ -71,7 +71,7 @@
       "~": "t_carpet_green",
       "+": "t_door_c",
       ",": "t_pavement_y",
-      "-": "t_wall",
+      "-": "t_wall_w",
       ".": "t_grass",
       "1": "t_linoleum_white",
       "2": "t_linoleum_gray",
@@ -144,7 +144,7 @@
       "y": "t_linoleum_gray",
       "<": "t_stairs_up",
       "z": "t_floor",
-      "|": "t_wall"
+      "|": "t_wall_w"
     },
     "toilets": { "t": {  } }
   },

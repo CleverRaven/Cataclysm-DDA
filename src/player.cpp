@@ -1903,6 +1903,16 @@ int player::run_cost( int base_cost, bool diag ) const
         }
     }
 
+    // Skates with only one wheel (roller shoes) are fairly less stable
+    // and fairly slower as well
+    if( worn_with_flag( "ROLLER_ONE" ) ) {
+        if( on_road ) {
+            movecost *= 0.85f;
+        } else {
+            movecost *= 1.1f;
+        }
+    }
+
     movecost +=
         ( ( encumb( bp_foot_l ) + encumb( bp_foot_r ) ) * 2.5 +
           ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) * 1.5 ) / 10;
@@ -3204,6 +3214,9 @@ void player::on_hit( Creature *source, body_part bp_hit,
     }
     if( worn_with_flag( "REQUIRES_BALANCE" ) && !has_effect( effect_downed ) ) {
         int rolls = 4;
+        if( worn_with_flag( "ROLLER_ONE" ) ) {
+            rolls += 2;
+        }
         if( has_trait( trait_PROF_SKATER ) ) {
             rolls--;
         }
@@ -3391,9 +3404,7 @@ dealt_damage_instance player::deal_damage( Creature *source, body_part bp,
             break;
         case bp_hand_l: // Fall through to arms
         case bp_arm_l:
-            // Hit to arms/hands are really bad to our aim
-            recoil_mul = 200;
-            break;
+        // Hit to arms/hands are really bad to our aim
         case bp_hand_r: // Fall through to arms
         case bp_arm_r:
             recoil_mul = 200;
@@ -4824,7 +4835,8 @@ void player::cough( bool harmful, int loudness )
     if( !is_npc() ) {
         add_msg( m_bad, _( "You cough heavily." ) );
     }
-    sounds::sound( pos(), loudness, sounds::sound_t::speech, _( "a hacking cough." ), "misc", "cough" );
+    sounds::sound( pos(), loudness, sounds::sound_t::speech, _( "a hacking cough." ), false, "misc",
+                   "cough" );
 
     moves -= 80;
 
@@ -8385,45 +8397,6 @@ void player::mend_item( item_location &&obj, bool interactive )
     }
 }
 
-int player::item_handling_cost( const item &it, bool penalties, int base_cost ) const
-{
-    int mv = base_cost;
-    if( penalties ) {
-        // 40 moves per liter, up to 200 at 5 liters
-        mv += std::min( 200, it.volume() / 20_ml );
-    }
-
-    if( weapon.typeId() == "e_handcuffs" ) {
-        mv *= 4;
-    } else if( penalties && has_effect( effect_grabbed ) ) {
-        mv *= 2;
-    }
-
-    // For single handed items use the least encumbered hand
-    if( it.is_two_handed( *this ) ) {
-        mv += encumb( bp_hand_l ) + encumb( bp_hand_r );
-    } else {
-        mv += std::min( encumb( bp_hand_l ), encumb( bp_hand_r ) );
-    }
-
-    return std::min( std::max( mv, 0 ), MAX_HANDLING_COST );
-}
-
-int player::item_store_cost( const item &it, const item & /* container */, bool penalties,
-                             int base_cost ) const
-{
-    /** @EFFECT_PISTOL decreases time taken to store a pistol */
-    /** @EFFECT_SMG decreases time taken to store an SMG */
-    /** @EFFECT_RIFLE decreases time taken to store a rifle */
-    /** @EFFECT_SHOTGUN decreases time taken to store a shotgun */
-    /** @EFFECT_LAUNCHER decreases time taken to store a launcher */
-    /** @EFFECT_STABBING decreases time taken to store a stabbing weapon */
-    /** @EFFECT_CUTTING decreases time taken to store a cutting weapon */
-    /** @EFFECT_BASHING decreases time taken to store a bashing weapon */
-    int lvl = get_skill_level( it.is_gun() ? it.gun_skill() : it.melee_skill() );
-    return item_handling_cost( it, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
-}
-
 int player::item_reload_cost( const item &it, const item &ammo, int qty ) const
 {
     if( ammo.is_ammo() ) {
@@ -9292,7 +9265,7 @@ bool player::invoke_item( item *used, const std::string &method, const tripoint 
 
     if( used->is_tool() || used->is_medication() || used->get_contained().is_medication() ) {
         return consume_charges( *actually_used, charges_used );
-    } else if( used->is_bionic() && charges_used > 0 ) {
+    } else if( ( used->is_bionic() && charges_used > 0 ) || used->is_deployable() ) {
         i_rem( used );
         return true;
     }
@@ -10196,7 +10169,6 @@ int player::get_armor_type( damage_type dt, body_part bp ) const
 {
     switch( dt ) {
         case DT_TRUE:
-            return 0;
         case DT_BIOLOGICAL:
             return 0;
         case DT_BASH:

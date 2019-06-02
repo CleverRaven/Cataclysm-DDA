@@ -877,6 +877,7 @@ class game
         // Debug functions
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
+        void display_visibility(); // Displays visibility map
 
         Creature *is_hostile_within( int distance );
 
@@ -935,6 +936,9 @@ class game
         bool debug_pathfinding = false; // show NPC pathfinding on overmap ui
         bool displaying_scent;
         bool displaying_temperature;
+        bool displaying_visibility;
+        /** Creature for which to display the visibility map */
+        Creature *displaying_visibility_creature;
 
         bool show_panel_adm;
         bool right_sidebar;

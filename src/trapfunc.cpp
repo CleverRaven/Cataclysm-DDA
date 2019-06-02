@@ -1336,7 +1336,7 @@ void trapfunc::snake( Creature *c, const tripoint &p )
         return;
     }
     //~ the sound a snake makes
-    sounds::sound( p, 10, sounds::sound_t::movement, _( "ssssssss" ), "misc", "snake_hiss" );
+    sounds::sound( p, 10, sounds::sound_t::movement, _( "ssssssss" ), false, "misc", "snake_hiss" );
     if( one_in( 6 ) ) {
         g->m.remove_trap( p );
     }

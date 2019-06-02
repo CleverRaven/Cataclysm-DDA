@@ -60,6 +60,7 @@
 #include "map_memory.h"
 #include "math_defines.h"
 #include "optional.h"
+#include "sdltiles.h"
 #include "string_id.h"
 #include "tileray.h"
 #include "translations.h"
@@ -971,7 +972,7 @@ struct tile_render_info {
 };
 
 void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, int height,
-                       std::multimap<point, formatted_text> &overlay_strings )
+                       std::multimap<point, formatted_text> &overlay_strings, color_block_overlay_container &color_blocks )
 {
     if( !g ) {
         return;
@@ -1043,6 +1044,17 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     auto vision_cache = g->u.get_vision_modes();
     nv_goggles_activated = vision_cache[NV_GOGGLES];
 
+    // check that the creature for which we'll draw the visibility map is still alive at that point
+    if( g->displaying_visibility && g->displaying_visibility_creature != nullptr )  {
+        const Creature *creature = g->displaying_visibility_creature;
+        const auto is_same_creature_predicate = [&creature]( const Creature & c ) {
+            return creature == &c;
+        };
+        if( g->get_creature_if( is_same_creature_predicate ) == nullptr )  {
+            g->displaying_visibility_creature = nullptr;
+        }
+    }
+
     for( int row = min_row; row < max_row; row ++ ) {
         std::vector<tile_render_info> draw_points;
         draw_points.reserve( max_col );
@@ -1105,6 +1117,21 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                 overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
                                          formatted_text( std::to_string( temp_value ), col,
                                                  NORTH ) );
+            }
+
+            if( g->displaying_visibility && ( g->displaying_visibility_creature != nullptr ) ) {
+                const bool visibility = g->displaying_visibility_creature->sees( { x, y, center.z } );
+
+                // color overlay.
+                auto block_color = visibility ? windowsPalette[catacurses::green] : SDL_Color{ 192, 192, 192, 255 };
+                block_color.a = 100;
+                color_blocks.first = SDL_BLENDMODE_BLEND;
+                color_blocks.second.emplace( player_to_screen( x, y ), block_color );
+
+                // overlay string
+                std::string visibility_str = visibility ? "+" : "-";
+                overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 4, tile_height / 4 ),
+                                         formatted_text( visibility_str, catacurses::black, NORTH ) );
             }
 
             if( apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {

@@ -1168,7 +1168,7 @@ static void mx_clay_deposit( map &m, const tripoint &abs_sub )
     }
 }
 
-static void dead_vegetation_parser( map &m, const tripoint loc )
+static void dead_vegetation_parser( map &m, const tripoint &loc )
 {
     // furniture plants die to withered plants
     const furn_t &fid = m.furn( loc ).obj();

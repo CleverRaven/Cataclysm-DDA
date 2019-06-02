@@ -859,6 +859,7 @@ requirement_data requirement_data::disassembly_requirements() const
     // Maybe TODO: Cache it somewhere and return a reference instead
     requirement_data ret = *this;
     auto new_qualities = std::vector<quality_requirement>();
+    bool remove_fire = false;
     for( auto &it : ret.tools ) {
         bool replaced = false;
         for( const auto &tool : it ) {
@@ -880,6 +881,17 @@ requirement_data requirement_data::disassembly_requirements() const
             }
 
             if( type == "crucible" ) {
+                replaced = true;
+                break;
+            }
+            //This ensures that you don't need a hand press to break down reloaded ammo.
+            if( type == "press" ) {
+                replaced = true;
+                remove_fire = true;
+                new_qualities.emplace_back( quality_id( "PULL" ), 1, 1 );
+                break;
+            }
+            if( type == "fire" && remove_fire == true ) {
                 replaced = true;
                 break;
             }

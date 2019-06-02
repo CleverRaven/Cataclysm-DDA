@@ -911,7 +911,7 @@
     "points": 4,
     "skills": [ { "level": 2, "name": "gun" }, { "level": 2, "name": "pistol" }, { "level": 2, "name": "survival" } ],
     "traits": [ "PROF_POLICE" ],
-    "pet": "mon_dog_gshepherd",
+    "pets": [ { "name": "mon_dog_gshepherd", "amount": 1 } ],
     "items": {
       "both": {
         "items": [ "pants_army", "socks", "badge_deputy", "sheriffshirt", "boots", "dog_whistle", "two_way_radio", "wristwatch" ],
@@ -924,6 +924,33 @@
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "boy_shorts" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "crazy_cat_lady",
+    "name": { "male": "Crazy Cat Dude", "female": "Crazy Cat Lady" },
+    "description": "Everyone is dead?  Well, it doesn't matter... your cats are all the friends you need!",
+    "points": 5,
+    "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "cooking" }, { "level": 1, "name": "tailor" } ],
+    "pets": [ { "name": "mon_cat", "amount": 30 } ],
+    "items": {
+      "both": {
+        "items": [
+          "jeans",
+          "longshirt",
+          "socks",
+          "coat_winter",
+          "boots_winter",
+          "knit_scarf",
+          "pockknife",
+          "water_clean",
+          "matches",
+          "wristwatch"
+        ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
     }
   },
   {
@@ -1214,8 +1241,7 @@
           { "group": "charged_cell_phone" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "shotgun_d", "ammo-item": "shot_00", "charges": 2, "contents-item": "shoulder_strap" },
-          { "item": "shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
-          { "item": "shot_00", "charges": 6 },
+          { "item": "shot_00", "charges": 18, "container-item": "bandolier_shotgun" },
           { "item": "sheath", "contents-item": "knife_hunting" }
         ]
       },
@@ -2829,8 +2855,7 @@
         "entries": [
           { "item": "knife_combat", "container-item": "sheath" },
           { "item": "XL_holster", "contents-group": "shotgun_d_roadwarrior" },
-          { "item": "reloaded_shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
-          { "item": "reloaded_shot_00", "charges": 6 }
+          { "item": "reloaded_shot_00", "charges": 18, "container-item": "bandolier_shotgun" }
         ]
       },
       "male": [ "boxer_shorts" ],
@@ -2871,8 +2896,7 @@
         "entries": [
           { "item": "knife_trench", "container-item": "sheath" },
           { "item": "ashot", "ammo-item": "reloaded_shot_00", "container-item": "holster" },
-          { "item": "reloaded_shot_00", "charges": 12, "container-item": "bandolier_shotgun" },
-          { "item": "reloaded_shot_00", "charges": 7 },
+          { "item": "reloaded_shot_00", "charges": 19, "container-item": "bandolier_shotgun" },
           { "item": "helsing", "ammo-item": "bolt_steel", "contents-item": "shoulder_strap" },
           { "item": "bolt_steel", "charges": 12, "container-item": "quiver" },
           { "item": "survivor_mess_kit", "charges": [ 20, 30 ] }

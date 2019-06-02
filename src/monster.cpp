@@ -1613,7 +1613,6 @@ int monster::get_armor_type( damage_type dt, body_part bp ) const
 
     switch( dt ) {
         case DT_TRUE:
-            return 0;
         case DT_BIOLOGICAL:
             return 0;
         case DT_BASH:
@@ -1627,7 +1626,6 @@ int monster::get_armor_type( damage_type dt, body_part bp ) const
         case DT_HEAT:
             return worn_armor + static_cast<int>( type->armor_fire );
         case DT_COLD:
-            return worn_armor;
         case DT_ELECTRIC:
             return worn_armor;
         case DT_NULL:

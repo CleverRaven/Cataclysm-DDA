@@ -1130,6 +1130,10 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
             return false;
         }
     }
+    if( !g->m.is_flammable( pos ) ) {
+        p.add_msg_if_player( m_info, _( "There's nothing to light there." ) );
+        return false;
+    }
     if( pos == p.pos() ) {
         p.add_msg_if_player( m_info, _( "You would set yourself on fire." ) );
         p.add_msg_if_player( _( "But you're already smokin' hot." ) );

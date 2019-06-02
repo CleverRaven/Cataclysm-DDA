@@ -3017,67 +3017,48 @@ float calc_mutation_value_multiplicative( const std::vector<const mutation_branc
     return ret;
 }
 
+static const std::map<std::string, std::function <float( std::vector<const mutation_branch *> )>>
+mutation_value_map = {
+    { "healing_awake", calc_mutation_value<&mutation_branch::healing_awake> },
+    { "healing_resting", calc_mutation_value<&mutation_branch::healing_resting> },
+    { "hp_modifier", calc_mutation_value<&mutation_branch::hp_modifier> },
+    { "hp_modifier_secondary", calc_mutation_value<&mutation_branch::hp_modifier_secondary> },
+    { "hp_adjustment", calc_mutation_value<&mutation_branch::hp_adjustment> },
+    { "metabolism_modifier", calc_mutation_value<&mutation_branch::metabolism_modifier> },
+    { "thirst_modifier", calc_mutation_value<&mutation_branch::thirst_modifier> },
+    { "fatigue_regen_modifier", calc_mutation_value<&mutation_branch::fatigue_regen_modifier> },
+    { "fatigue_modifier", calc_mutation_value<&mutation_branch::fatigue_modifier> },
+    { "stamina_regen_modifier", calc_mutation_value<&mutation_branch::stamina_regen_modifier> },
+    { "stealth_modifier", calc_mutation_value<&mutation_branch::stealth_modifier> },
+    { "str_modifier", calc_mutation_value<&mutation_branch::str_modifier> },
+    { "dodge_modifier", calc_mutation_value_additive<&mutation_branch::dodge_modifier> },
+    { "mana_modifier", calc_mutation_value_additive<&mutation_branch::mana_modifier> },
+    { "mana_multiplier", calc_mutation_value_additive<&mutation_branch::mana_multiplier> },
+    { "mana_regen_multiplier", calc_mutation_value_additive<&mutation_branch::mana_regen_multiplier> },
+    { "speed_modifier", calc_mutation_value_multiplicative<&mutation_branch::speed_modifier> },
+    { "movecost_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_modifier> },
+    { "movecost_flatground_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_flatground_modifier> },
+    { "movecost_obstacle_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_obstacle_modifier> },
+    { "attackcost_modifier", calc_mutation_value_multiplicative<&mutation_branch::attackcost_modifier> },
+    { "max_stamina_modifier", calc_mutation_value_multiplicative<&mutation_branch::max_stamina_modifier> },
+    { "weight_capacity_modifier", calc_mutation_value_multiplicative<&mutation_branch::weight_capacity_modifier> },
+    { "hearing_modifier", calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier> },
+    { "noise_modifier", calc_mutation_value_multiplicative<&mutation_branch::noise_modifier> },
+    { "overmap_sight", calc_mutation_value_multiplicative<&mutation_branch::overmap_sight> },
+    { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> }
+};
+
 float Character::mutation_value( const std::string &val ) const
 {
     // Syntax similar to tuple get<n>()
-    // TODO: Get rid of if/else ladder
-    if( val == "healing_awake" ) {
-        return calc_mutation_value<&mutation_branch::healing_awake>( cached_mutations );
-    } else if( val == "healing_resting" ) {
-        return calc_mutation_value<&mutation_branch::healing_resting>( cached_mutations );
-    } else if( val == "hp_modifier" ) {
-        return calc_mutation_value<&mutation_branch::hp_modifier>( cached_mutations );
-    } else if( val == "hp_modifier_secondary" ) {
-        return calc_mutation_value<&mutation_branch::hp_modifier_secondary>( cached_mutations );
-    } else if( val == "hp_adjustment" ) {
-        return calc_mutation_value<&mutation_branch::hp_adjustment>( cached_mutations );
-    } else if( val == "metabolism_modifier" ) {
-        return calc_mutation_value<&mutation_branch::metabolism_modifier>( cached_mutations );
-    } else if( val == "thirst_modifier" ) {
-        return calc_mutation_value<&mutation_branch::thirst_modifier>( cached_mutations );
-    } else if( val == "fatigue_regen_modifier" ) {
-        return calc_mutation_value<&mutation_branch::fatigue_regen_modifier>( cached_mutations );
-    } else if( val == "fatigue_modifier" ) {
-        return calc_mutation_value<&mutation_branch::fatigue_modifier>( cached_mutations );
-    } else if( val == "stamina_regen_modifier" ) {
-        return calc_mutation_value<&mutation_branch::stamina_regen_modifier>( cached_mutations );
-    } else if( val == "stealth_modifier" ) {
-        return calc_mutation_value<&mutation_branch::stealth_modifier>( cached_mutations );
-    } else if( val == "str_modifier" ) {
-        return calc_mutation_value_additive<&mutation_branch::str_modifier>( cached_mutations );
-    } else if( val == "dodge_modifier" ) {
-        return calc_mutation_value_additive<&mutation_branch::dodge_modifier>( cached_mutations );
-    } else if( val == "speed_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::speed_modifier>( cached_mutations );
-    } else if( val == "movecost_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::movecost_modifier>( cached_mutations );
-    } else if( val == "movecost_flatground_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::movecost_flatground_modifier>
-               ( cached_mutations );
-    } else if( val == "movecost_obstacle_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::movecost_obstacle_modifier>
-               ( cached_mutations );
-    } else if( val == "attackcost_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::attackcost_modifier>
-               ( cached_mutations );
-    } else if( val == "max_stamina_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::max_stamina_modifier>
-               ( cached_mutations );
-    } else if( val == "weight_capacity_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::weight_capacity_modifier>
-               ( cached_mutations );
-    } else if( val == "hearing_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier>( cached_mutations );
-    } else if( val == "noise_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::noise_modifier>( cached_mutations );
-    } else if( val == "overmap_sight" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::overmap_sight>( cached_mutations );
-    } else if( val == "overmap_multiplier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier>( cached_mutations );
-    }
+    const auto found = mutation_value_map.find( val );
 
-    debugmsg( "Invalid mutation value name %s", val );
-    return 0.0f;
+    if( found == mutation_value_map.end() ) {
+        debugmsg( "Invalid mutation value name %s", val );
+        return 0.0f;
+    } else {
+        return found->second( cached_mutations );
+    }
 }
 
 float Character::healing_rate( float at_rest_quality ) const
@@ -3231,4 +3212,43 @@ std::string Character::activity_level_str() const
     } else {
         return _( "EXTRA_EXERCISE" );
     }
+}
+
+int Character::item_handling_cost( const item &it, bool penalties, int base_cost ) const
+{
+    int mv = base_cost;
+    if( penalties ) {
+        // 40 moves per liter, up to 200 at 5 liters
+        mv += std::min( 200, it.volume() / 20_ml );
+    }
+
+    if( weapon.typeId() == "e_handcuffs" ) {
+        mv *= 4;
+    } else if( penalties && has_effect( effect_grabbed ) ) {
+        mv *= 2;
+    }
+
+    // For single handed items use the least encumbered hand
+    if( it.is_two_handed( *this ) ) {
+        mv += encumb( bp_hand_l ) + encumb( bp_hand_r );
+    } else {
+        mv += std::min( encumb( bp_hand_l ), encumb( bp_hand_r ) );
+    }
+
+    return std::min( std::max( mv, 0 ), MAX_HANDLING_COST );
+}
+
+int Character::item_store_cost( const item &it, const item & /* container */, bool penalties,
+                                int base_cost ) const
+{
+    /** @EFFECT_PISTOL decreases time taken to store a pistol */
+    /** @EFFECT_SMG decreases time taken to store an SMG */
+    /** @EFFECT_RIFLE decreases time taken to store a rifle */
+    /** @EFFECT_SHOTGUN decreases time taken to store a shotgun */
+    /** @EFFECT_LAUNCHER decreases time taken to store a launcher */
+    /** @EFFECT_STABBING decreases time taken to store a stabbing weapon */
+    /** @EFFECT_CUTTING decreases time taken to store a cutting weapon */
+    /** @EFFECT_BASHING decreases time taken to store a bashing weapon */
+    int lvl = get_skill_level( it.is_gun() ? it.gun_skill() : it.melee_skill() );
+    return item_handling_cost( it, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
 }

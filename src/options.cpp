@@ -1336,7 +1336,6 @@ void options_manager::add_options_interface()
 
     mOptionsSort["interface"]++;
 
-#if !defined(__ANDROID__)
     add( "DIAG_MOVE_WITH_MODIFIERS_MODE", "interface",
          translate_marker( "Diagonal movement with cursor keys and modifiers" ),
          /*
@@ -1376,7 +1375,6 @@ void options_manager::add_options_interface()
          */
     translate_marker( "Allows diagonal movement with cursor keys using CTRL and SHIFT modifiers.  Diagonal movement action keys are taken from keybindings, so you need these to be configured." ), { { "none", translate_marker( "None" ) }, { "mode1", translate_marker( "Mode 1: Numpad Emulation" ) }, { "mode2", translate_marker( "Mode 2: CW/CCW" ) }, { "mode3", translate_marker( "Mode 3: L/R Tilt" ) } },
     "none", COPT_CURSES_HIDE );
-#endif
 
     mOptionsSort["interface"]++;
 
