@@ -894,7 +894,6 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         m.furn_set( x1, SEEY * 2 - 1, furn_str_id( "f_sign_warning" ) );
         m.set_signage( tripoint( x1, SEEY * 2 - 1, abs_sub.z ), text );
     }
-    
 }
 
 static void mx_crater( map &m, const tripoint &abs_sub )
