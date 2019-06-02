@@ -1850,6 +1850,12 @@
   },
   {
     "type": "keybinding",
+    "name": "View Visibility Map",
+    "category": "DEFAULTMODE",
+    "id": "debug_visibility"
+  },
+  {
+    "type": "keybinding",
     "name": "Switch Sidebar Style",
     "category": "DEFAULTMODE",
     "id": "toggle_sidebar_style"

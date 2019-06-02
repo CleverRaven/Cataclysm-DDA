@@ -538,8 +538,12 @@ class player : public Character
 
         /** Returns true if the player has technique-based miss recovery */
         bool has_miss_recovery_tec( const item &weap ) const;
+        /** Returns the technique used for miss recovery */
+        ma_technique get_miss_recovery_tec( const item &weap ) const;
         /** Returns true if the player has a grab breaking technique available */
         bool has_grab_break_tec() const override;
+        /** Returns the grab breaking technique if available */
+        ma_technique get_grab_break_tec() const;
         /** Returns true if the player has the leg block technique available */
         bool can_leg_block() const;
         /** Returns true if the player has the arm block technique available */
@@ -1021,27 +1025,6 @@ class player : public Character
          * @param interactive if true prompts player when multiple faults, otherwise mends the first
          */
         void mend_item( item_location &&obj, bool interactive = true );
-
-        /**
-         * Calculate (but do not deduct) the number of moves required when handling (e.g. storing, drawing etc.) an item
-         * @param it Item to calculate handling cost for
-         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
-         * @param base_cost Cost due to storage type.
-         * @return cost in moves ranging from 0 to MAX_HANDLING_COST
-         */
-        int item_handling_cost( const item &it, bool penalties = true,
-                                int base_cost = INVENTORY_HANDLING_PENALTY ) const;
-
-        /**
-         * Calculate (but do not deduct) the number of moves required when storing an item in a container
-         * @param it Item to calculate storage cost for
-         * @param container Container to store item in
-         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
-         * @param base_cost Cost due to storage type.
-         * @return cost in moves ranging from 0 to MAX_HANDLING_COST
-         */
-        int item_store_cost( const item &it, const item &container, bool penalties = true,
-                             int base_cost = INVENTORY_HANDLING_PENALTY ) const;
 
         /**
          * Calculate (but do not deduct) the number of moves required to reload an item with specified quantity of ammo
@@ -1599,7 +1582,7 @@ class player : public Character
         bool manual_examine = false;
 
         std::vector <addiction> addictions;
-        cata::optional<mtype_id> starting_pet;
+        std::vector<mtype_id> starting_pets;
 
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,
                                       const tripoint &loc = tripoint_zero );
@@ -1897,15 +1880,6 @@ class player : public Character
 
         /** Amount of time the player has spent in each overmap tile. */
         std::unordered_map<point, time_duration> overmap_time;
-
-        // magic mod
-
-        // list of spells known by player
-        std::map<spell_id, spell> spellbook;
-        // the base mana a player would start with
-        int mana_base;
-        // current mana
-        int mana;
 };
 
 #endif

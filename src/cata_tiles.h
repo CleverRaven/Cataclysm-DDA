@@ -253,6 +253,14 @@ struct formatted_text {
     formatted_text( const std::string &text, const int color, const direction direction );
 };
 
+/** type used for color blocks overlays.
+ * first: The SDL blend mode used for the color.
+ * second:
+ *     - A point where to draw the color block (x, y)
+ *     - The color of the block at 'point'.
+ */
+using color_block_overlay_container = std::pair<SDL_BlendMode, std::multimap<point, SDL_Color>>;
+
 class cata_tiles
 {
     public:
@@ -268,7 +276,8 @@ class cata_tiles
 
         /** Draw to screen */
         void draw( int destx, int desty, const tripoint &center, int width, int height,
-                   std::multimap<point, formatted_text> &overlay_strings );
+                   std::multimap<point, formatted_text> &overlay_strings,
+                   color_block_overlay_container &color_blocks );
 
         /** Minimap functionality */
         void draw_minimap( int destx, int desty, const tripoint &center, int width, int height );

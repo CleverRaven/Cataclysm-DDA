@@ -716,6 +716,19 @@ bool player::has_miss_recovery_tec( const item &weap ) const
     return false;
 }
 
+ma_technique player::get_miss_recovery_tec( const item &weap ) const
+{
+    ma_technique tech;
+    for( auto &technique : get_all_techniques( weap ) ) {
+        if( technique.obj().miss_recovery ) {
+            tech = technique.obj();
+            break;
+        }
+    }
+
+    return tech;
+}
+
 // This one isn't used with a weapon
 bool player::has_grab_break_tec() const
 {
@@ -725,6 +738,18 @@ bool player::has_grab_break_tec() const
         }
     }
     return false;
+}
+
+ma_technique player::get_grab_break_tec() const
+{
+    ma_technique tec;
+    for( auto &technique : get_all_techniques( item() ) ) {
+        if( technique.obj().grab_break ) {
+            tec = technique.obj();
+            break;
+        }
+    }
+    return tec;
 }
 
 bool player::can_leg_block() const

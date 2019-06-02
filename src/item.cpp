@@ -4735,13 +4735,13 @@ int item::damage_resist( damage_type dt, bool to_self ) const
     return 0;
 }
 
-bool item::is_two_handed( const player &u ) const
+bool item::is_two_handed( const Character &guy ) const
 {
     if( has_flag( "ALWAYS_TWOHAND" ) ) {
         return true;
     }
     ///\EFFECT_STR determines which weapons can be wielded with one hand
-    return ( ( weight() / 113_gram ) > u.str_cur * 4 );
+    return ( ( weight() / 113_gram ) > guy.str_cur * 4 );
 }
 
 const std::vector<material_id> &item::made_of() const
@@ -5275,6 +5275,11 @@ bool item::is_funnel_container( units::volume &bigger_than ) const
 bool item::is_emissive() const
 {
     return light.luminance > 0 || type->light_emission > 0;
+}
+
+bool item::is_deployable() const
+{
+    return type->can_use( "deploy_furn" );
 }
 
 bool item::is_tool() const

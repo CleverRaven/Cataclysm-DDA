@@ -30,6 +30,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "martialarts.h"
 #include "messages.h"
 #include "mondefense.h"
 #include "monster.h"
@@ -2571,6 +2572,9 @@ bool mattack::grab( monster *z )
         if( target->has_effect( effect_grabbed ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        z->name() );
+        } else if( pl->has_grab_break_tec() ) {
+            ma_technique tech = pl->get_grab_break_tec();
+            target->add_msg_player_or_npc( m_info, _( tech.player_message ), _( tech.npc_message ), z->name() );
         } else {
             target->add_msg_player_or_npc( m_info, _( "The %s tries to grab you, but you break its grab!" ),
                                            _( "The %s tries to grab <npcname>, but they break its grab!" ),

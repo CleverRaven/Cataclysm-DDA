@@ -27,6 +27,21 @@
   },
   {
     "type": "city_building",
+    "id": "s_daycare",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_daycare_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_daycare_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "cs_sex_shop",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cs_sex_shop_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cs_sex_shop_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "cs_private_park",
     "locations": [ "land" ],
     "overmaps": [
@@ -124,6 +139,26 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_butcher_2_north" },
       { "point": [ 0, 0, 1 ], "overmap": "s_butcher_roof_2_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "dojo",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dojo_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "dojo_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "dojo_upper_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "dojo_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dojo_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "dojo_roof_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "dojo_upper_roof_1_north" }
     ]
   },
   {
@@ -241,6 +276,24 @@
       { "point": [ 0, 0, 0 ], "overmap": "motel_1_north" },
       { "point": [ 0, 1, 0 ], "overmap": "motel_2_north" },
       { "point": [ 1, 1, 0 ], "overmap": "motel_3_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "dollarstore",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dollarstore_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "dollarstore_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "dollarstore_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dollarstore_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "dollarstore_roof_1_north" }
     ]
   },
   {
@@ -1366,7 +1419,7 @@
     "id": "office_doctor_1",
     "locations": [ "land" ],
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "office_doctor_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "office_doctor_1_north" },
       { "point": [ 0, 0, 1 ], "overmap": "office_doctor_roof_1_north" }
     ]
   },

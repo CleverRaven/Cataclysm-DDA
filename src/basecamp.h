@@ -104,8 +104,8 @@ class basecamp
         // upgrade levels
         bool has_provides( const std::string &req, const expansion_data &e_data, int level = 0 ) const;
         bool has_provides( const std::string &req, const std::string &dir = "all", int level = 0 ) const;
-        void update_resources( const std::string bldg );
-        void update_provides( const std::string bldg, expansion_data &e_data );
+        void update_resources( const std::string &bldg );
+        void update_provides( const std::string &bldg, expansion_data &e_data );
 
 
         bool can_expand();
@@ -134,7 +134,7 @@ class basecamp
         int recipe_batch_max( const recipe &making ) const;
         void form_crafting_inventory( const bool by_radio = false );
         void form_crafting_inventory( map &target_map );
-        std::list<item> use_charges( const itype_id fake_id, int &quantity );
+        std::list<item> use_charges( const itype_id &fake_id, int &quantity );
         void consume_components( const recipe &making, int batch_size, bool by_radio = false );
         void consume_components( map &target_map, const recipe &making, int batch_size,
                                  bool by_radio = false );

@@ -297,7 +297,7 @@ void basecamp::add_resource( const itype_id &camp_resource )
     fuel_types.insert( bcp_r.ammo_id );
 }
 
-void basecamp::update_resources( const std::string bldg )
+void basecamp::update_resources( const std::string &bldg )
 {
     if( !recipe_id( bldg ).is_valid() ) {
         return;
@@ -309,7 +309,7 @@ void basecamp::update_resources( const std::string bldg )
     }
 }
 
-void basecamp::update_provides( const std::string bldg, expansion_data &e_data )
+void basecamp::update_provides( const std::string &bldg, expansion_data &e_data )
 {
     if( !recipe_id( bldg ).is_valid() ) {
         return;
@@ -429,7 +429,7 @@ void basecamp::set_name( const std::string &new_name )
  * we could put this logic in map::use_charges() the way the vehicle code does, but I think
  * that's sloppy
  */
-std::list<item> basecamp::use_charges( const itype_id fake_id, int &quantity )
+std::list<item> basecamp::use_charges( const itype_id &fake_id, int &quantity )
 {
     std::list<item> ret;
     if( quantity <= 0 ) {
