@@ -297,6 +297,8 @@ enum action_id : int {
     ACTION_TOGGLE_AUTO_FORAGING,
     /** Toggle temperature map */
     ACTION_DISPLAY_TEMPERATURE,
+    /** Toggle visibility map */
+    ACTION_DISPLAY_VISIBILITY,
     /** Not an action, serves as count of enumerated actions */
     NUM_ACTIONS
     /**@}*/

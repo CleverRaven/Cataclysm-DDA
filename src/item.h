@@ -480,7 +480,7 @@ class item : public visitable<item>
         /**
          * Whether the character needs both hands to wield this item.
          */
-        bool is_two_handed( const player &u ) const;
+        bool is_two_handed( const Character &guy ) const;
 
         /** Is this item an effective melee weapon for the given damage type? */
         bool is_melee( damage_type dt ) const;
@@ -1035,6 +1035,7 @@ class item : public visitable<item>
         bool is_salvageable() const;
         bool is_craft() const;
 
+        bool is_deployable() const;
         bool is_tool() const;
         bool is_tool_reversible() const;
         bool is_artifact() const;

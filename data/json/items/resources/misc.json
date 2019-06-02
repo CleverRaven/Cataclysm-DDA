@@ -27,9 +27,10 @@
     "weight": 20000,
     "volume": "300000 ml",
     "price": 1000,
-    "material": "cotton",
+    "material": [ "cotton", "steel" ],
     "symbol": "0",
     "color": "white",
+    "flags": [ "NONCONDUCTIVE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_floor_mattress" }
   }
 ]

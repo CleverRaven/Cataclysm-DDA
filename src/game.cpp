@@ -230,7 +230,6 @@ static const trait_id trait_RUMINANT( "RUMINANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
-static const trait_id trait_BURROW( "BURROW" );
 
 static const faction_id your_followers( "your_followers" );
 
@@ -265,6 +264,7 @@ game::game() :
     new_game( false ),
     displaying_scent( false ),
     displaying_temperature( false ),
+    displaying_visibility( false ),
     safe_mode( SAFE_MODE_ON ),
     pixel_minimap_option( 0 ),
     mostseen( 0 ),
@@ -811,19 +811,23 @@ bool game::start_game()
     // Now that we're done handling coordinates, ensure the player's submap is in the center of the map
     update_map( u );
     // Profession pets
-    if( u.starting_pet ) {
+    if( !u.starting_pets.empty() ) {
         std::vector<tripoint> valid;
-        for( const tripoint &jk : g->m.points_in_radius( u.pos(), 1 ) ) {
+        for( const tripoint &jk : g->m.points_in_radius( u.pos(), 5 ) ) {
             if( is_empty( jk ) ) {
                 valid.push_back( jk );
             }
         }
-        if( !valid.empty() ) {
-            monster *mon = summon_mon( *u.starting_pet, random_entry( valid ) );
-            mon->friendly = -1;
-            mon->add_effect( effect_pet, 1_turns, num_bp, true );
-        } else {
-            add_msg( m_debug, "cannot place starting pet, no space!" );
+        for( auto elem : u.starting_pets ) {
+            if( !valid.empty() ) {
+                tripoint chosen = random_entry( valid );
+                valid.erase( std::remove( valid.begin(), valid.end(), chosen ), valid.end() );
+                monster *mon = summon_mon( elem, chosen );
+                mon->friendly = -1;
+                mon->add_effect( effect_pet, 1_turns, num_bp, true );
+            } else {
+                add_msg( m_debug, "cannot place starting pet, no space!" );
+            }
         }
     }
     // Assign all of this scenario's missions to the player.
@@ -2290,6 +2294,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "debug" );
     ctxt.register_action( "debug_scent" );
     ctxt.register_action( "debug_temp" );
+    ctxt.register_action( "debug_visibility" );
     ctxt.register_action( "debug_mode" );
     ctxt.register_action( "zoom_out" );
     ctxt.register_action( "zoom_in" );
@@ -6509,6 +6514,7 @@ look_around_result game::look_around( catacurses::window w_info, tripoint &cente
 
     ctxt.register_action( "debug_scent" );
     ctxt.register_action( "debug_temp" );
+    ctxt.register_action( "debug_visibility" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -10798,6 +10804,9 @@ void game::display_scent()
         if( displaying_temperature ) {
             displaying_temperature = false;
         }
+        if( displaying_visibility ) {
+            displaying_visibility = false;
+        }
         displaying_scent = !displaying_scent;
     } else {
         int div;
@@ -10820,7 +10829,23 @@ void game::display_temperature()
         if( displaying_scent ) {
             displaying_scent = false;
         }
+        if( displaying_visibility ) {
+            displaying_visibility = false;
+        }
         displaying_temperature = !displaying_temperature;
+    }
+}
+
+void game::display_visibility()
+{
+    if( use_tiles ) {
+        if( displaying_scent ) {
+            displaying_scent = false;
+        }
+        if( displaying_temperature ) {
+            displaying_temperature = false;
+        }
+        displaying_visibility = !displaying_visibility;
     }
 }
 

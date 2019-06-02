@@ -3692,7 +3692,7 @@ int iuse::firecracker_pack_act( player *, item *it, bool, const tripoint &pos )
             ex = it->charges;
         }
         for( i = 0; i < ex; i++ ) {
-            sounds::sound( pos, 20, sounds::sound_t::combat, _( "Bang!" ), "explosion", "small" );
+            sounds::sound( pos, 20, sounds::sound_t::combat, _( "Bang!" ), false, "explosion", "small" );
         }
         it->charges -= ex;
     }
@@ -7348,9 +7348,11 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
         if( cooktime <= 0 ) {
             item &meal = it->emplace_back( it->get_var( "DISH" ) );
-            if( meal.has_flag( "EATEN_HOT" ) ) {
+            if( ( *recipe_id( it->get_var( "RECIPE" ) ) ).hot_result() ) {
                 meal.heat_up();
             } else {
+                meal.set_item_temperature( temp_to_kelvin( std::max( temperatures::cold,
+                                           g->weather.get_temperature( pos ) ) ) );
                 meal.reset_temp_check();
             }
 
@@ -7444,24 +7446,41 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 it->active = false;
                 it->erase_var( "DISH" );
                 it->erase_var( "COOKTIME" );
+                it->erase_var( "RECIPE" );
             }
             return 0;
         }
 
         if( mc_take == choice ) {
             item &dish = *dish_it;
+            if( dish.has_flag( "FROZEN" ) ) {
+                dish.cold_up();  //don't know how to check if the dish is frozen liquid and prevent extraction of it into inventory...
+            }
+            const std::string dish_name = dish.tname( dish.charges, false );
+            const bool is_delicious = dish.has_flag( "HOT" ) && dish.has_flag( "EATEN_HOT" );
+            if( dish.made_of( LIQUID ) ) {
+                if( !p->check_eligible_containers_for_crafting( *recipe_id( it->get_var( "RECIPE" ) ), 1 ) ) {
+                    p->add_msg_if_player( m_info, _( "You don't have a suitable container to store your %s." ),
+                                          dish_name );
 
-            if( dish.has_flag( "HOT" ) ) {
-                p->add_msg_if_player( m_good,
-                                      _( "You got the dish from the multi-cooker.  The %s smells delicious." ),
-                                      dish.tname( dish.charges, false ) );
+                    return 0;
+                }
+                liquid_handler::handle_all_liquid( dish, PICKUP_RANGE );
             } else {
-                p->add_msg_if_player( m_good, _( "You got the %s from the multi-cooker." ),
-                                      dish.tname( dish.charges, false ) );
+                p->i_add( dish );
             }
 
-            p->i_add( dish );
             it->contents.erase( dish_it );
+            it->erase_var( "RECIPE" );
+
+            if( is_delicious ) {
+                p->add_msg_if_player( m_good,
+                                      _( "You got the dish from the multi-cooker.  The %s smells delicious." ),
+                                      dish_name );
+            } else {
+                p->add_msg_if_player( m_good, _( "You got the %s from the multi-cooker." ),
+                                      dish_name );
+            }
 
             return 0;
         }
@@ -7522,6 +7541,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                     p->consume_items( it, 1, is_crafting_component );
                 }
 
+                it->set_var( "RECIPE", meal->ident().str() );
                 it->set_var( "DISH", meal->result() );
                 it->set_var( "COOKTIME", mealtime );
 

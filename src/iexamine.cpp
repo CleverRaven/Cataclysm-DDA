@@ -780,8 +780,6 @@ void iexamine::cardreader_robofac( player &p, const tripoint &examp )
     } else {
         switch( hack_attempt( p ) ) {
             case HACK_FAIL:
-                add_msg( _( "Nothing happens." ) );
-                break;
             case HACK_NOTHING:
                 add_msg( _( "Nothing happens." ) );
                 break;

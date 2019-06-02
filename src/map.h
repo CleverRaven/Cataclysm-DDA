@@ -767,6 +767,13 @@ class map
          *  all terrain is floor and the last terrain is a wall */
         bool is_last_ter_wall( const bool no_furn, const int x, const int y,
                                const int xmax, const int ymax, const direction dir ) const;
+
+        /**
+         * Checks if there are any tinder flagged items on the tile.
+         * @param p tile to check
+         */
+        bool tinder_at( const tripoint &p );
+
         /**
          * Checks if there are any flammable items on the tile.
          * @param p tile to check

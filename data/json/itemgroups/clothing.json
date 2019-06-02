@@ -434,6 +434,36 @@
     ]
   },
   {
+    "id": "judo_belts",
+    "type": "item_group",
+    "items": [
+      [ "judo_belt_white", 100 ],
+      [ "judo_belt_yellow", 50 ],
+      [ "judo_belt_orange", 25 ],
+      [ "judo_belt_green", 15 ],
+      [ "judo_belt_blue", 5 ],
+      [ "judo_belt_brown", 4 ],
+      [ "judo_belt_black", 1 ]
+    ]
+  },
+  {
+    "id": "gi",
+    "type": "item_group",
+    "items": [
+      [ "karate_gi", 100 ],
+      [ "tabi_gi", 25 ],
+      [ "judo_gi", 50 ],
+      [ "keikogi", 25 ],
+      [ "zubon_gi", 25 ],
+      [ "hakama_gi", 10 ],
+      [ "mouthpiece", 5 ],
+      [ "obi_gi", 10 ],
+      [ "geta", 1 ],
+      [ "haori", 1 ],
+      [ "yukata", 1 ]
+    ]
+  },
+  {
     "id": "jewelry_furshop",
     "type": "item_group",
     "items": [
