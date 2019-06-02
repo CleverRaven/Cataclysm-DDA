@@ -32,6 +32,7 @@
 #include "craft_command.h"
 #include "debug.h"
 #include "effect.h"
+#include "energy.h"
 #include "game.h"
 #include "inventory.h"
 #include "io.h"
@@ -1929,6 +1930,76 @@ void time_duration::deserialize( JsonIn &jsin )
         *this = read_from_json_string( jsin );
     } else {
         turns_ = jsin.get_int();
+    }
+}
+
+energy_quantity energy_quantity::read_from_json_string( JsonIn &jsin ) {
+    static const std::vector<std::pair<std::string, energy_quantity>> units = { {
+            { "mJ", 1_millijoules },
+            { "J", 1_joules },
+            { "kJ", 1_kilojoules }
+        }
+    };
+    const size_t pos = jsin.tell();
+    size_t i = 0;
+    const auto error = [&]( const char *const msg ) {
+        jsin.seek( pos + i );
+        jsin.error( msg );
+    };
+
+    const std::string s = jsin.get_string();
+    // returns whether we are at the end of the string
+    const auto skip_spaces = [&]() {
+        while( i < s.size() && s[i] == ' ' ) {
+            ++i;
+        }
+        return i >= s.size();
+    };
+    const auto get_unit = [&]() {
+        if( skip_spaces() ) {
+            error( "invalid energy quantity string: missing unit" );
+        }
+        for( const auto &pair : units ) {
+            const std::string &unit = pair.first;
+            if( s.size() >= unit.size() + i && s.compare( i, unit.size(), unit ) == 0 ) {
+                i += unit.size();
+                return pair.second;
+            }
+        }
+        error( "invalid energy quantity string: unknown unit" );
+        throw; // above always throws
+    };
+
+    if( skip_spaces() ) {
+        error( "invalid energy quantity string: empty string" );
+    }
+    energy_quantity result = 0;
+    do {
+        int sign_value = +1;
+        if( s[i] == '-' ) {
+            sign_value = -1;
+            ++i;
+        } else if( s[i] == '+' ) {
+            ++i;
+        }
+        if( i >= s.size() || !isdigit( s[i] ) ) {
+            error( "invalid energy quantity string: number expected" );
+        }
+        int value = 0;
+        for( ; i < s.size() && isdigit( s[i] ); ++i ) {
+            value = value * 10 + ( s[i] - '0' );
+        }
+        result += sign_value * value * get_unit();
+    } while( !skip_spaces() );
+    return result;
+}
+
+void energy_quantity::deserialize( JsonIn &jsin )
+{
+    if( jsin.test_string() ) {
+        *this = read_from_json_string( jsin );
+    } else {
+        millijoules = jsin.get_int();
     }
 }
 
