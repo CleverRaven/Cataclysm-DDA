@@ -2618,6 +2618,7 @@ npc_follower_rules::npc_follower_rules()
     clear_flag( ally_rule::hold_the_line );
     clear_flag( ally_rule::ignore_noise );
     clear_flag( ally_rule::forbid_engage );
+    set_flag( ally_rule::follow_distance_2 );
 }
 
 bool npc_follower_rules::has_flag( ally_rule test, bool check_override ) const
