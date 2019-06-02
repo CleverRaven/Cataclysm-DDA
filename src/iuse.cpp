@@ -5949,15 +5949,15 @@ static void init_memory_card_with_random_stuff( item &it )
             data_chance--;
         }
 
-        if( it.has_flag( "MC_SCIENCE_STUFF" ) ) {
+        if( one_in( data_chance-- ) || it.has_flag( "MC_SCIENCE_STUFF" ) ) {
             item book = item_group::item_from( "textbooks" );
             // book groups contain [ "survnote", 2 ], how astute
             if( !book.is_null() && book.is_book() ) {
                 it.set_var( "MC_BOOK", book.typeId() );
             }
         } else if( one_in( data_chance ) ) {
-            item book = item_group::item_from( "book_school" );
-            if( !book.is_null() && book.is_book() ) {
+            item book = item_group::item_from( "manuals" );
+            if( !book.is_null() && book.is_book() && !book.type->book->chapters ) {
                 it.set_var( "MC_BOOK", book.typeId() );
             }
         }
@@ -6782,29 +6782,25 @@ int iuse::camera( player *p, item *it, bool, const tripoint & )
             return 0;
         }
 
-        p->moves -= 50;
-
         int index = g->inv_for_filter( _( "Scan which book?" ), []( const item & itm ) {
-            return itm.is_book();
-        } );
+            return itm.is_book() && !itm.type->book->chapters;
+        }, _( "You need to have a study book to scan." ) );
         item &book = p->i_at( index );
 
         if( book.is_null() ) {
-            p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
-            return it->type->charges_to_use();
+            return 0;
         }
 
-        index = g->inv_for_flag( "MC_MOBILE", _( "Insert memory card" ) );
+        index = g->inv_for_filter( _( "Insert memory card" ),  []( const item & itm ) {
+            return itm.has_flag( "MC_MOBILE" );
+        }, _( "You need a memory card to store scanned book." ) );
         item &mc = p->i_at( index );
 
         if( mc.is_null() ) {
-            p->add_msg_if_player( m_info, _( "You need a memory card to store scanned book." ) );
-            return it->type->charges_to_use();
+            return 0;
         }
-        if( !mc.has_flag( "MC_MOBILE" ) ) {
-            p->add_msg_if_player( m_info, _( "This is not a compatible memory card." ) );
-            return it->type->charges_to_use();
-        }
+
+        p->moves -= 50;
 
         init_memory_card_with_random_stuff( mc );
 
