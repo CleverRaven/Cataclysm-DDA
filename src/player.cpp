@@ -375,6 +375,7 @@ static const trait_id trait_PRED2( "PRED2" );
 static const trait_id trait_PRED3( "PRED3" );
 static const trait_id trait_PRED4( "PRED4" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
+static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_PYROMANIA( "PYROMANIA" );
@@ -953,6 +954,25 @@ void player::apply_persistent_morale()
             add_morale( MORALE_PERM_NOMAD, -pen, -pen, 1_minutes, 1_minutes, true );
         }
     }
+
+
+    if( has_trait( trait_PROF_FOODP ) ) {
+        // Loosing your face is distressing
+        if( !( is_wearing( itype_id( "foodperson_mask" ) ) ||
+               is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+            add_morale( MORALE_PERM_NOFACE, -20, -20, 1_minutes, 1_minutes, true );
+        } else if( is_wearing( itype_id( "foodperson_mask" ) ) ||
+                   is_wearing( itype_id( "foodperson_mask_on" ) ) ) {
+            rem_morale( MORALE_PERM_NOFACE );
+        }
+
+        if( is_wearing( itype_id( "foodperson_mask_on" ) ) ) {
+            add_morale( MORALE_PERM_FPMODE_ON, 10, 10, 1_minutes, 1_minutes, true );
+        } else {
+            rem_morale( MORALE_PERM_FPMODE_ON );
+        }
+    }
+
 }
 
 void player::update_mental_focus()
@@ -2807,6 +2827,13 @@ int player::get_shout_volume() const
     int base = 10;
     int shout_multiplier = 2;
 
+    // You can't shout without your face
+    if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
+                                            is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+        base = 0;
+        shout_multiplier = 0;
+    }
+
     // Mutations make shouting louder, they also define the default message
     if( has_trait( trait_SHOUT3 ) ) {
         shout_multiplier = 4;
@@ -2842,6 +2869,14 @@ void player::shout( std::string msg, bool order )
 {
     int base = 10;
     std::string shout = "";
+
+    // You can't shout without your face
+    if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
+                                            is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+        add_msg_if_player( m_warning, _( "You try to shout but you have no face!" ) );
+        return;
+    }
+
 
     // Mutations make shouting louder, they also define the default message
     if( has_trait( trait_SHOUT3 ) ) {
