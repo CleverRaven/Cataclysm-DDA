@@ -69,46 +69,6 @@
   },
   {
     "type": "talk_topic",
-    "//": "common talk responses",
-    "id": [
-      "TALK_REFUGEE_Vanessa_1_firstmeet",
-      "TALK_REFUGEE_Vanessa_2",
-      "TALK_REFUGEE_Vanessa_Background",
-      "TALK_REFUGEE_Vanessa_Situation"
-    ],
-    "responses": [
-      { "text": "What's your story?", "topic": "TALK_REFUGEE_Vanessa_Background" },
-      { "text": "How are things here?", "topic": "TALK_REFUGEE_Vanessa_Situation" },
-      { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
-      {
-        "text": "I'd like to hire out those scissors of yours.",
-        "topic": "TALK_REFUGEE_Vanessa_Haircut",
-        "condition": {
-          "and": [
-            { "not": { "npc_has_effect": "vanessa_haircut_in_progress" } },
-            { "not": { "npc_has_effect": "vanessa_shave_in_progress" } },
-            { "npc_has_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes" }
-          ]
-        }
-      },
-      {
-        "text": "Hmm, can we change this haircut a little please?",
-        "topic": "TALK_DONE",
-        "effect": "barber_hair",
-        "condition": { "npc_has_effect": "vanessa_haircut_in_progress" }
-      },
-      {
-        "text": "Hmm, can we change this shave a little please?",
-        "topic": "TALK_DONE",
-        "effect": "barber_beard",
-        "condition": { "npc_has_effect": "vanessa_shave_in_progress" }
-      },
-      { "text": "What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "type": "talk_topic",
     "id": "TALK_REFUGEE_Vanessa_1",
     "dynamic_line": {
       "u_has_var": "u_met_Vanessa_Toby",
@@ -171,7 +131,11 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Vanessa_Haircut_no",
     "dynamic_line": "I can see you need one, but last time I used these shears it was to stab a zombie in the face.  I don't think you'd want them in your hair.  Maybe you could help me get set up properly?",
-    "responses": [ { "text": "What can I do to help you out?", "topic": "TALK_MISSION_LIST" } ]
+    "responses": [
+      { "text": "What can I do to help you out?", "topic": "TALK_MISSION_LIST" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
@@ -240,5 +204,46 @@
         { "npc_add_var": "owed_haircut_1", "type": "mission", "context": "services", "value": "yes" }
       ]
     }
+  },
+  {
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [
+      "TALK_REFUGEE_Vanessa_1_firstmeet",
+      "TALK_REFUGEE_Vanessa_2",
+      "TALK_REFUGEE_Vanessa_Background",
+      "TALK_REFUGEE_Vanessa_Situation",
+      "TALK_REFUGEE_Vanessa_Haircut"
+    ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_REFUGEE_Vanessa_Background" },
+      { "text": "How are things here?", "topic": "TALK_REFUGEE_Vanessa_Situation" },
+      { "text": "Is there anything I can do to help you out?", "topic": "TALK_MISSION_LIST" },
+      {
+        "text": "I'd like to hire out those scissors of yours.",
+        "topic": "TALK_REFUGEE_Vanessa_Haircut",
+        "condition": {
+          "and": [
+            { "not": { "npc_has_effect": "vanessa_haircut_in_progress" } },
+            { "not": { "npc_has_effect": "vanessa_shave_in_progress" } },
+            { "npc_has_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+          ]
+        }
+      },
+      {
+        "text": "Hmm, can we change this haircut a little please?",
+        "topic": "TALK_DONE",
+        "effect": "barber_hair",
+        "condition": { "npc_has_effect": "vanessa_haircut_in_progress" }
+      },
+      {
+        "text": "Hmm, can we change this shave a little please?",
+        "topic": "TALK_DONE",
+        "effect": "barber_beard",
+        "condition": { "npc_has_effect": "vanessa_shave_in_progress" }
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
   }
 ]
