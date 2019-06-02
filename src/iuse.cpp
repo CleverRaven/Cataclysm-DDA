@@ -6246,6 +6246,8 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
                 item book( item( s, calendar::turn ) );
                 book.set_var( "weight", 0 );
                 book.set_var( "volume", 0 );
+                book.set_var( "description",
+                              "Seeing this item is a bug, opening and closing eink read menu or cancelling any reading activity will remove any stray ebooks from inventory.  Please contact the developer if you have a way to reproduce this appearing." );
                 book.item_tags.insert( "NO_DROP" );
                 book.item_tags.insert( "IRREMOVABLE" );
                 book.item_tags.insert( "EBOOK" );
@@ -6255,19 +6257,21 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 
             avatar &u = g->u;
             auto loc = game_menus::inv::eread( u );
+            bool reading = false;
 
             if( loc ) {
                 int pos = loc.obtain( u );
-                u.read( pos );
+                reading = u.read( pos );
             } else {
-                // cleanup ebooks
+                add_msg( _( "Never mind." ) );
+            }
+            if( !reading ) {
                 auto ebooks = p->items_with( []( const item & it ) {
                     return it.has_flag( "EBOOK" );
                 } );
                 for( auto &e : ebooks ) {
                     p->remove_item( *e );
                 }
-                add_msg( _( "Never mind." ) );
             }
 
             return it->type->charges_to_use();

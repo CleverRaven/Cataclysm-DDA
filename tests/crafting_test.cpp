@@ -180,28 +180,32 @@ TEST_CASE( "available_recipes", "[recipes]" )
         }
     }
 
-    GIVEN( "an eink pc with a cannibal recipe" ) {
-        const recipe *r2 = &recipe_id( "soup_human" ).obj();
+    GIVEN( "an eink pc with a brewing cookbook" ) {
+
+        item &cookbook = dummy.i_add( item( "brewing_cookbook" ) );
+        dummy.do_read( cookbook );
+        dummy.i_rem( &cookbook );
+
         item &eink = dummy.i_add( item( "eink_tablet_pc" ) );
-        eink.set_var( "EIPC_RECIPES", ",soup_human," );
-        REQUIRE_FALSE( dummy.knows_recipe( r2 ) );
+        eink.set_var( "EIPC_BOOKS", "brewing_cookbook," );
+        REQUIRE_FALSE( dummy.knows_recipe( r ) );
 
         WHEN( "the player holds it and has an appropriate skill" ) {
-            dummy.set_skill_level( r2->skill_used, 2 );
+            dummy.set_skill_level( r->skill_used, 2 );
 
             AND_WHEN( "he searches for the recipe in the tablet" ) {
                 THEN( "he finds it!" ) {
-                    CHECK( dummy.get_recipes_from_books( dummy.inv ).contains( r2 ) );
+                    CHECK( dummy.get_recipes_from_books( dummy.inv ).contains( r ) );
                 }
                 THEN( "he still hasn't the recipe memorized" ) {
-                    CHECK_FALSE( dummy.knows_recipe( r2 ) );
+                    CHECK_FALSE( dummy.knows_recipe( r ) );
                 }
             }
             AND_WHEN( "he gets rid of the tablet" ) {
                 dummy.i_rem( &eink );
 
                 THEN( "he cant make the recipe anymore" ) {
-                    CHECK_FALSE( dummy.get_recipes_from_books( dummy.inv ).contains( r2 ) );
+                    CHECK_FALSE( dummy.get_recipes_from_books( dummy.inv ).contains( r ) );
                 }
             }
         }
