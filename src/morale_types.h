@@ -90,6 +90,8 @@ extern const morale_type MORALE_BOOK;
 extern const morale_type MORALE_COMFY;
 extern const morale_type MORALE_SCREAM;
 extern const morale_type MORALE_PERM_MASOCHIST;
+extern const morale_type MORALE_PERM_NOFACE;
+extern const morale_type MORALE_PERM_FPMODE_ON;
 extern const morale_type MORALE_PERM_HOARDER;
 extern const morale_type MORALE_PERM_FANCY;
 extern const morale_type MORALE_PERM_OPTIMIST;
