@@ -869,6 +869,15 @@
     "description": "A plastic name tag marking the wearer as a real doctor of the medical kind."
   },
   {
+    "id": "badge_foodkid",
+    "copy-from": "badge_abstract",
+    "type": "ARMOR",
+    "name": "Foodkid badge",
+    "material": [ "plastic" ],
+    "weight": 10,
+    "description": "A star shaped badge, on it you can read \"Foodkid\" in bold letters.  This is Foodperson's trusty sidekick's badge."
+  },
+  {
     "id": "balclava",
     "type": "ARMOR",
     "name": "balaclava",
