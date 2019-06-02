@@ -1033,8 +1033,8 @@ void avatar::vomit()
 // Ignore list that lasts for the session (rather than the single activity)
 bool avatar::is_distraction_ignored_this_session( distraction_type type ) const
 {
-    ignored_distractions_this_session( rhs.ignored_distractions_this_session );
-    ignored_distractions_this_session = rhs.ignored_distractions_this_session;
+    //    ignored_distractions_this_session( rhs.ignored_distractions_this_session );
+    //    ignored_distractions_this_session = rhs.ignored_distractions_this_session;
     return ignored_distractions_this_session.find( type ) != ignored_distractions_this_session.end();
 }
 

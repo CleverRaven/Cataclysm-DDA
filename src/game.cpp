@@ -1629,7 +1629,7 @@ static bool cancel_auto_move( player &p, const std::string &text )
 bool game::cancel_activity_or_ignore_query( const distraction_type type, const std::string &text )
 {
     if( cancel_auto_move( u, text ) || !u.activity ||
-        u.activity.is_distraction_ignored( type ) || u.is_distraction_ignored( type ) ) {
+        u.activity.is_distraction_ignored( type ) || u.is_distraction_ignored_this_session( type ) ) {
         return false;
     }
 
