@@ -798,32 +798,103 @@ static void mx_portal( map &m, const tripoint &abs_sub )
 
 static void mx_minefield( map &m, const tripoint &abs_sub )
 {
+    const oter_id &center = overmap_buffer.ter( abs_sub.x, abs_sub.y, abs_sub.z );
+    const oter_id &north = overmap_buffer.ter( abs_sub.x, abs_sub.y - 1, abs_sub.z );
+    const oter_id &south = overmap_buffer.ter( abs_sub.x, abs_sub.y + 1, abs_sub.z );
+    const oter_id &west = overmap_buffer.ter( abs_sub.x - 1, abs_sub.y, abs_sub.z );
+    const oter_id &east = overmap_buffer.ter( abs_sub.x + 1, abs_sub.y, abs_sub.z );
+
+    const bool bridge_at_center = is_ot_type( "bridge", center );
+    const bool bridge_at_north = is_ot_type( "bridge", north );
+    const bool bridge_at_south = is_ot_type( "bridge", south );
+    const bool bridge_at_west = is_ot_type( "bridge", west );
+    const bool bridge_at_east = is_ot_type( "bridge", east );
+
+    const bool road_at_center = is_ot_type( "road", center );
+    const bool road_at_north = is_ot_type( "road", north );
+    const bool road_at_south = is_ot_type( "road", south );
+    const bool road_at_west = is_ot_type( "road", west );
+    const bool road_at_east = is_ot_type( "road", east );
+
     const int num_mines = rng( 6, 20 );
-
-    for( int i = 0; i < num_mines; i++ ) {
-        // No mines at the extreme edges: safe to walk on a sign tile
-        const int x = rng( 1, SEEX * 2 - 2 ), y = rng( 1, SEEY * 2 - 2 );
-        if( m.has_flag( "DIGGABLE", x, y ) ) {
-            mtrap_set( &m, x, y, tr_landmine_buried );
-        } else {
-            mtrap_set( &m, x, y, tr_landmine );
-        }
-    }
-
     const std::string text = _( "DANGER! MINEFIELD!" );
-    const int x = SEEX * 2 - 1;
-    const int y = SEEY * 2 - 1;
-    const int x1 = rng( SEEX / 2, SEEX / 2 + SEEX ), x2 = rng( SEEX / 2, SEEX / 2 + SEEX );
-    const int y1 = rng( SEEY / 2, SEEY / 2 + SEEY ), y2 = rng( SEEY / 2, SEEY / 2 + SEEY );
+    int x, y, x1, y1 = 0;
 
-    m.furn_set( x1, 0, furn_str_id( "f_sign_warning" ) );
-    m.set_signage( tripoint( x1,  0, abs_sub.z ), text );
-    m.furn_set( x2, y, furn_str_id( "f_sign_warning" ) );
-    m.set_signage( tripoint( x2,  y, abs_sub.z ), text );
-    m.furn_set( 0, y1, furn_str_id( "f_sign_warning" ) );
-    m.set_signage( tripoint( 0, y1, abs_sub.z ), text );
-    m.furn_set( x, y2, furn_str_id( "f_sign_warning" ) );
-    m.set_signage( tripoint( x, y2, abs_sub.z ), text );
+    if( bridge_at_north && !bridge_at_center && road_at_south ) {
+
+        line_furn( &m, f_sandbag_half, 3, 4, 3, 7 );
+        line_furn( &m, f_sandbag_half, 3, 7, 9, 7 );
+        line_furn( &m, f_sandbag_half, 9, 4, 9, 7 );
+
+        for( const auto &loc : g->m.points_in_radius( { 6, 4, abs_sub.z }, 3, 0 ) ) {
+            if( one_in( 4 ) ) {
+                m.add_item_or_charges( loc, item( "762_51_casing" ) );
+            }
+        }
+
+        if( one_in( 2 ) ) {
+            m.add_vehicle( vproto_id( "humvee" ), 5, 3, 270, 70, -1 );
+        }
+
+        line_furn( &m, f_sandbag_half, 15, 3, 15, 6 );
+        line_furn( &m, f_sandbag_half, 15, 6, 20, 6 );
+        line_furn( &m, f_sandbag_half, 20, 3, 20, 6 );
+
+        for( const auto &loc : g->m.points_in_radius( { 17, 4, abs_sub.z }, 3, 0 ) ) {
+            if( one_in( 4 ) ) {
+                m.add_item_or_charges( loc, item( "762_51_casing" ) );
+            }
+        }
+
+        if( one_in( 2 ) ) {
+            m.add_splatter_trail( fd_blood, { 17, 6, abs_sub.z }, { 19, 3, abs_sub.z } );
+            item body = item::make_corpse();
+            m.put_items_from_loc( "mon_zombie_soldier_death_drops", { 17, 5, abs_sub.z }, 0 );
+            m.add_item_or_charges( { 17, 5, abs_sub.z }, body );
+        }
+
+        line( &m, t_fence_barbed, 0, 9, SEEX * 2, 9 );
+
+        std::vector<point> barbed_wire = line_to( 0, 9, SEEX * 2, 9 );
+        for( auto &i : barbed_wire ) {
+            if( one_in( 10 ) ) {
+                m.add_corpse( { i.x, i.y, abs_sub.z } );
+                m.add_field( { i.x, i.y, abs_sub.z }, fd_blood, 1, 0_turns );
+            }
+        }
+
+        for( int i = 0; i < num_mines; i++ ) {
+            const int x = rng( 1, SEEX * 2 ), y = rng( SEEY, SEEY * 2 - 2 );
+            if( m.has_flag( "DIGGABLE", x, y ) ) {
+                mtrap_set( &m, x, y, tr_landmine_buried );
+            } else {
+                mtrap_set( &m, x, y, tr_landmine );
+            }
+        }
+
+        for( int i = 0; i < num_mines; i++ ) {
+            const int x = rng( 1, SEEX * 2 ), y = rng( SEEY, SEEY * 2 - 2 );
+            if( m.tr_at( { x, y, abs_sub.z } ).is_null() ) {
+                m.add_field( { x, y, abs_sub.z }, fd_blood, 1, 0_turns );
+                if( one_in( 10 ) ) {
+                    m.add_corpse( { x, y, abs_sub.z } );
+                    for( const auto &loc : g->m.points_in_radius( { x, y, abs_sub.z }, 1 ) ) {
+                        if( one_in( 2 ) ) {
+                            m.add_field( { loc.x, loc.y, abs_sub.z }, fd_gibs_flesh, 1, 0_turns );
+                        }
+                    }
+                }
+            }
+        }
+
+        x = rng( 1, SEEX );
+        x1 = rng( SEEX + 1, SEEX * 2 );
+        m.furn_set( x, SEEY * 2 - 1, furn_str_id( "f_sign_warning" ) );
+        m.set_signage( tripoint( x, SEEY * 2 - 1, abs_sub.z ), text );
+        m.furn_set( x1, SEEY * 2 - 1, furn_str_id( "f_sign_warning" ) );
+        m.set_signage( tripoint( x1, SEEY * 2 - 1, abs_sub.z ), text );
+    }
+    
 }
 
 static void mx_crater( map &m, const tripoint &abs_sub )
