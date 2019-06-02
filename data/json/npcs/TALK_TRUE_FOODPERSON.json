@@ -63,6 +63,28 @@
         "condition": {
           "and": [
             { "not": { "npc_has_var": "foodperson_has_talked", "type": "dialogue", "context": "foodperson", "value": "yes" } },
+            { "u_is_wearing": "foodperson_mask" },
+            { "u_has_trait": "PROF_FOODP" }
+          ]
+        },
+        "text": "I am Foodperson, who are YOU?",
+        "topic": "TALK_FOODPERSON_TWO"
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "foodperson_has_talked", "type": "dialogue", "context": "foodperson", "value": "yes" } },
+            { "u_is_wearing": "foodperson_mask" },
+            { "u_has_trait": "PROF_FOODP" }
+          ]
+        },
+        "text": "There is only one real Foodperson!",
+        "topic": "TALK_FOODPERSON_ONLYONE"
+      },
+      {
+        "condition": {
+          "and": [
+            { "not": { "npc_has_var": "foodperson_has_talked", "type": "dialogue", "context": "foodperson", "value": "yes" } },
             { "u_is_wearing": "foodperson_mask" }
           ]
         },
@@ -302,13 +324,30 @@
   {
     "id": "TALK_FOODPERSON_SIDEKICK",
     "type": "talk_topic",
-    "dynamic_line": "What about you prove your worth and join me as my sidekick?",
+    "dynamic_line": "What about: you prove your worth and join me as my sidekick?",
     "speaker_effect": { "effect": { "npc_add_var": "npc_sidekick_offer", "type": "dialogue", "context": "foodperson", "value": "yes" } },
     "responses": [
       { "text": "That sounds great!", "topic": "TALK_MISSION_LIST" },
       { "text": "Ok...", "topic": "TALK_MISSION_LIST" },
       { "text": "I need to think about it.", "topic": "TALK_FOODPERSON_MAIN" },
       { "text": "Huh... No thanks.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_FOODPERSON_TWO",
+    "type": "talk_topic",
+    "dynamic_line": "The way you talk, the way you move... You're... You're me?  But how?",
+    "responses": [
+      {
+        "text": "I... I don't know.  Things I've been hectic lately.  It probably has something to do with the cataclysm!  What do you say we team up to find out?",
+        "topic": "TALK_FOODPERSON_TEAMUP"
+      },
+      {
+        "text": "It might have something to do with the cataclysm, mind if I stay here while we try to figure this out?",
+        "topic": "TALK_FOODPERSON_SHARING"
+      },
+      { "text": "This can't be true, you're trying to trick me!", "topic": "TALK_FOODPERSON_ONLYONE" },
+      { "text": "I need time to think.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -334,7 +373,7 @@
   {
     "id": "TALK_FOODPERSON_SHARING",
     "type": "talk_topic",
-    "dynamic_line": "Of course wathever you need...Foodperson.",
+    "dynamic_line": "Of course wathever you need... Foodperson.",
     "speaker_effect": { "effect": { "npc_add_var": "npc_foodpersons_sharing", "type": "dialogue", "context": "foodperson", "value": "yes" } },
     "responses": [
       {
@@ -347,7 +386,7 @@
   {
     "id": "TALK_FOODPERSON_TEAMUP",
     "type": "talk_topic",
-    "dynamic_line": "It's crazy out there, it's going to be a tough battle but I'm with you!",
+    "dynamic_line": "It's crazy out there, it's going to be a tough journey but I'm with you!",
     "responses": [
       {
         "text": "Let's go, we have a world to save!",
@@ -364,9 +403,20 @@
     "responses": [
       { "text": "I AM THE ONE!", "topic": "TALK_DONE", "effect": "hostile", "opinion": { "trust": -20, "value": -20 } },
       {
+        "condition": { "not": { "u_has_trait": "PROF_FOODP" } },
         "text": "Wow calm down,  it's just a prank bro.",
         "topic": "TALK_DONE",
         "opinion": { "trust": -20, "value": -20 }
+      },
+      {
+        "condition": { "u_has_trait": "PROF_FOODP" },
+        "text": "WAIT!  There might be another way!",
+        "topic": "TALK_NONE"
+      },
+      {
+        "condition": { "u_has_trait": "PROF_FOODP" },
+        "text": "I don't want to fight you.  I'm leaving.",
+        "topic": "TALK_DONE"
       }
     ]
   }
