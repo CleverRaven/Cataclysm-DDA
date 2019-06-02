@@ -102,7 +102,7 @@
       { "item": "corkscrew", "prob": 60 },
       { "item": "bottle_opener", "prob": 75 },
       { "item": "candle", "prob": 75 },
-      { "item": "RPG_dice", "prob": 10 },
+      { "item": "RPG_die", "prob": 10 },
       { "distribution": [ { "item": "matches" }, { "item": "lighter" } ], "prob": 90 }
     ]
   },
