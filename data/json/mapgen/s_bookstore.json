@@ -38,11 +38,11 @@
         "*": [ [ "t_grass", 5 ], [ "t_dirt", 2 ], [ "t_grass_long", 4 ] ],
         "^": [ "t_tree_walnut", "t_tree_chestnut", "t_tree_beech", "t_tree", "t_tree_hazelnut" ],
         "+": "t_door_c",
-        "-": "t_wall",
+        "-": "t_wall_w",
         ".": "t_floor",
         ":": "t_door_glass_c",
         "O": "t_window",
-        "|": "t_wall",
+        "|": "t_wall_w",
         "4": "t_gutter_downspout",
         "<": "t_ladder_up",
         "~": "t_sidewalk"
