@@ -1396,6 +1396,8 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
         for( size_t i = 0; i < atypes.size(); ++i ) {
             slot.ammo.insert( ammotype( atypes.get_string( i ) ) );
         }
+    } else if( jo.has_string( "ammo" ) ) {
+        slot.ammo.insert( ammotype( jo.get_string( "ammo" ) ) );
     }
     assign( jo, "range", slot.range, strict );
     if( jo.has_object( "ranged_damage" ) ) {
@@ -1500,6 +1502,8 @@ void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &sr
         for( size_t i = 0; i < atypes.size(); ++i ) {
             slot.ammo_id.insert( ammotype( atypes.get_string( i ) ) );
         }
+    } else if( jo.has_string( "ammo" ) ) {
+        slot.ammo_id.insert( ammotype( jo.get_string( "ammo" ) ) );
     }
     assign( jo, "max_charges", slot.max_charges, strict, 0 );
     assign( jo, "initial_charges", slot.def_charges, strict, 0 );
@@ -1543,6 +1547,8 @@ void Item_factory::load( islot_mod &slot, JsonObject &jo, const std::string &src
         for( size_t i = 0; i < atypes.size(); ++i ) {
             slot.ammo_modifier.insert( ammotype( atypes.get_string( i ) ) );
         }
+    } else if( jo.has_string( "ammo_modifier" ) ) {
+        slot.ammo_modifier.insert( ammotype( jo.get_string( "ammo_modifier" ) ) );
     }
     assign( jo, "capacity_multiplier", slot.capacity_multiplier, strict );
 
@@ -1822,10 +1828,13 @@ void Item_factory::load_gunmod( JsonObject &jo, const std::string &src )
 void Item_factory::load( islot_magazine &slot, JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
-
-    JsonArray atypes = jo.get_array( "ammo_type" );
-    for( size_t i = 0; i < atypes.size(); ++i ) {
-        slot.type.insert( ammotype( atypes.get_string( i ) ) );
+    if( jo.has_array( "ammo_type" ) ) {
+        JsonArray atypes = jo.get_array( "ammo_type" );
+        for( size_t i = 0; i < atypes.size(); ++i ) {
+            slot.type.insert( ammotype( atypes.get_string( i ) ) );
+        }
+    } else if( jo.has_string( "ammo_type" ) ) {
+        slot.type.insert( ammotype( jo.get_string( "ammo_type" ) ) );
     }
     assign( jo, "capacity", slot.capacity, strict, 0 );
     assign( jo, "count", slot.count, strict, 0 );
