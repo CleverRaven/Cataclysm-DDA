@@ -70,7 +70,6 @@ using oter_type_str_id = string_id<oter_type_t>;
 oter_id  ot_null,
          ot_crater,
          ot_field,
-         ot_desert,
          ot_forest,
          ot_forest_thick,
          ot_forest_water,
@@ -326,7 +325,6 @@ static void set_oter_ids()   // FIXME: constify
     ot_null         = oter_str_id::NULL_ID();
     // NOT required.
     ot_crater       = oter_id( "crater" );
-    ot_desert       = oter_id( "desert" );
     ot_field        = oter_id( "field" );
     ot_forest       = oter_id( "forest" );
     ot_forest_thick = oter_id( "forest_thick" );

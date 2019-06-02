@@ -106,7 +106,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "crater",           &mapgen_crater },
             { "field",            &mapgen_field },
             { "forest",           &mapgen_forest },
-            { "desert",           &mapgen_field },
             { "forest_trail_straight",    &mapgen_forest_trail_straight },
             { "forest_trail_curved",      &mapgen_forest_trail_curved },
             // TODO: Add a dedicated dead-end function. For now it copies the straight section above.
