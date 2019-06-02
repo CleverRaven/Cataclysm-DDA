@@ -1978,7 +1978,7 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
     // time-based instead of speed based because it's a sustained activity
     act->moves_left -= 100;
     item &hand_crank_item = p ->i_at( act->position );
-    
+
     if( calendar::once_every( 144_seconds ) ) {
         p->mod_fatigue( 1 );
         if( hand_crank_item.ammo_capacity() > hand_crank_item.ammo_remaining() ) {
