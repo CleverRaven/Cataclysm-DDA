@@ -1082,8 +1082,17 @@
     "knockback_spread": 1,
     "knockback_follow": 1,
     "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ],
-    "messages": [ "You chain punch %s", "<npcname> chain punches %s" ],
+    "messages": [ "You chain strike %s", "<npcname> chain strikes %s" ],
     "description": "50% moves, 66% damage, knockback and follow"
+  },
+  {
+    "type": "technique",
+    "id": "tec_wingchun_break",
+    "name": "Grab Break",
+    "unarmed_allowed": true,
+    "melee_allowed": true,
+    "defensive": true,
+    "grab_break": true
   },
   {
     "type": "technique",
@@ -1094,7 +1103,7 @@
     "strictly_unarmed": true,
     "defensive": true,
     "miss_recovery": true,
-    "messages": [ "You miss but keep punching at %s", "<npcname> misses but keeps punching at %s" ]
+    "messages": [ "You miss but keep striking at %s", "<npcname> misses but keeps striking at %s" ]
   },
   {
     "type": "technique",
@@ -1122,7 +1131,6 @@
     "name": "disarm",
     "min_unarmed": 6,
     "unarmed_allowed": true,
-    "crit_tec": true,
     "disarms": true,
     "messages": [ "You disarm %s", "<npcname> disarms %s" ]
   }
