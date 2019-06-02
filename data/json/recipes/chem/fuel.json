@@ -45,6 +45,7 @@
   },
   {
     "result": "biodiesel",
+    "byproducts": [ [ "chem_glycerol" ] ],
     "type": "recipe",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_FUEL",
