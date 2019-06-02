@@ -789,7 +789,7 @@
     "material": [ "flesh" ],
     "volume": 4,
     "fun": -25,
-    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": true }
+    "use_action": { "type": "mutagen", "mutation_category": "CHIMERA", "is_strong": true }
   },
   {
     "type": "COMESTIBLE",
