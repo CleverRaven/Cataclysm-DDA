@@ -540,16 +540,21 @@ static void WinDestroy()
     ::window.reset();
 }
 
-inline void FillRectDIB( SDL_Rect &rect, unsigned char color )
+inline void FillRectDIB_SDLColor( const SDL_Rect &rect, const SDL_Color &color )
 {
     if( alt_rect_tex_enabled ) {
-        draw_alt_rect( renderer, rect, windowsPalette[color].r, windowsPalette[color].g,
-                       windowsPalette[color].b );
+        draw_alt_rect( renderer, rect, color.r, color.g, color.b );
     } else {
-        SetRenderDrawColor( renderer, windowsPalette[color].r, windowsPalette[color].g,
-                            windowsPalette[color].b, 255 );
+        SetRenderDrawColor( renderer, color.r, color.g, color.b, color.a );
         RenderFillRect( renderer, &rect );
     }
+}
+
+inline void FillRectDIB( const SDL_Rect &rect, const unsigned char color,
+                         const unsigned char alpha = 255 )
+{
+    const SDL_Color sdl_color = { windowsPalette[color].r, windowsPalette[color].g, windowsPalette[color].b, alpha };
+    FillRectDIB_SDLColor( rect, sdl_color );
 }
 
 //The following 3 methods use mem functions for fast drawing
@@ -579,6 +584,13 @@ inline void FillRectDIB( int x, int y, int width, int height, unsigned char colo
     rect.w = width;
     rect.h = height;
     FillRectDIB( rect, color );
+}
+
+inline void fill_rect_xywh_color( const int x, const int y, const int width, const int height,
+                                  const SDL_Color &color )
+{
+    const SDL_Rect rect = { x, y, width, height };
+    FillRectDIB_SDLColor( rect, color );
 }
 
 SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int color )
@@ -1004,6 +1016,9 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
     WINDOW *const win = w.get<WINDOW>();
     bool update = false;
     if( g && w == g->w_terrain && use_tiles ) {
+        // color blocks overlay; drawn on top of tiles and on top of overlay strings (if any).
+        color_block_overlay_container color_blocks;
+
         // Strings with colors do be drawn with map_font on top of tiles.
         std::multimap<point, formatted_text> overlay_strings;
 
@@ -1015,8 +1030,22 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             tripoint( g->ter_view_x, g->ter_view_y, g->ter_view_z ),
             TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
             TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight,
-            overlay_strings );
+            overlay_strings,
+            color_blocks );
 
+        // color blocks overlay
+        if( !color_blocks.second.empty() ) {
+            SDL_BlendMode blend_mode;
+            GetRenderDrawBlendMode( renderer, blend_mode ); // save the current blend mode
+            SetRenderDrawBlendMode( renderer, color_blocks.first ); // set the new blend mode
+            for( const auto &e : color_blocks.second ) {
+                fill_rect_xywh_color( e.first.x, e.first.y, tilecontext->get_tile_width(),
+                                      tilecontext->get_tile_height(), e.second );
+            }
+            SetRenderDrawBlendMode( renderer, blend_mode ); // set the old blend mode
+        }
+
+        // overlay strings
         point prev_coord;
         int x_offset = 0;
         int alignment_offset = 0;

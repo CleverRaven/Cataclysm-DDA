@@ -60,6 +60,7 @@
 #include "map_memory.h"
 #include "math_defines.h"
 #include "optional.h"
+#include "sdltiles.h"
 #include "string_id.h"
 #include "tileray.h"
 #include "translations.h"
@@ -971,7 +972,7 @@ struct tile_render_info {
 };
 
 void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, int height,
-                       std::multimap<point, formatted_text> &overlay_strings )
+                       std::multimap<point, formatted_text> &overlay_strings, color_block_overlay_container &color_blocks )
 {
     if( !g ) {
         return;
@@ -1120,13 +1121,17 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
             if( g->displaying_visibility && ( g->displaying_visibility_creature != nullptr ) ) {
                 const bool visibility = g->displaying_visibility_creature->sees( { x, y, center.z } );
-                // <light shade> (U+2591) : <latin small letter o with stroke> (U+00F8)
-                std::string visibility_str = visibility ? "\xe2\x96\x91" : "\xc3\xb8" ;
-                const auto color = visibility ? catacurses::red : catacurses::blue + 8;
 
-                overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, tile_height / 2 ),
-                                         formatted_text( visibility_str, color, NORTH ) );
+                // color overlay.
+                auto block_color = visibility ? windowsPalette[catacurses::green] : SDL_Color{ 192, 192, 192, 255 };
+                block_color.a = 100;
+                color_blocks.first = SDL_BLENDMODE_BLEND;
+                color_blocks.second.emplace( player_to_screen( x, y ), block_color );
 
+                // overlay string
+                std::string visibility_str = visibility ? "+" : "-";
+                overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 4, tile_height / 4 ),
+                                         formatted_text( visibility_str, catacurses::black, NORTH ) );
             }
 
             if( apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
