@@ -686,16 +686,16 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
     return avatar_action::fire( you, m );
 }
 
-void game::plthrow( int pos, const cata::optional<tripoint> &blind_throw_from_pos )
+void avatar_action::plthrow( avatar &you, int pos, const cata::optional<tripoint> &blind_throw_from_pos )
 {
-    if( u.has_active_mutation( trait_SHELL2 ) ) {
+    if( you.has_active_mutation( trait_SHELL2 ) ) {
         add_msg( m_info, _( "You can't effectively throw while you're in your shell." ) );
         return;
     }
 
     if( pos == INT_MIN ) {
-        pos = inv_for_all( _( "Throw item" ), _( "You don't have any items to throw." ) );
-        refresh_all();
+        pos = g->inv_for_all( _( "Throw item" ), _( "You don't have any items to throw." ) );
+        g->refresh_all();
     }
 
     if( pos == INT_MIN ) {
@@ -703,8 +703,8 @@ void game::plthrow( int pos, const cata::optional<tripoint> &blind_throw_from_po
         return;
     }
 
-    item thrown = u.i_at( pos );
-    int range = u.throw_range( thrown );
+    item thrown = you.i_at( pos );
+    int range = you.throw_range( thrown );
     if( range < 0 ) {
         add_msg( m_info, _( "You don't have that item." ) );
         return;
@@ -719,11 +719,11 @@ void game::plthrow( int pos, const cata::optional<tripoint> &blind_throw_from_po
         return;
     }
 
-    if( u.has_effect( effect_relax_gas ) ) {
+    if( you.has_effect( effect_relax_gas ) ) {
         if( one_in( 5 ) ) {
             add_msg( m_good, _( "You concentrate mightily, and your body obeys!" ) );
         } else {
-            u.moves -= rng( 2, 5 ) * 10;
+            you.moves -= rng( 2, 5 ) * 10;
             add_msg( m_bad, _( "You can't muster up the effort to throw anything..." ) );
             return;
         }
@@ -731,13 +731,13 @@ void game::plthrow( int pos, const cata::optional<tripoint> &blind_throw_from_po
 
     // you must wield the item to throw it
     if( pos != -1 ) {
-        u.i_rem( pos );
-        if( !u.wield( thrown ) ) {
+        you.i_rem( pos );
+        if( !you.wield( thrown ) ) {
             // We have to remove the item before checking for wield because it
             // can invalidate our pos index.  Which means we have to add it
             // back if the player changed their mind about unwielding their
             // current item
-            u.i_add( thrown );
+            you.i_add( thrown );
             return;
         }
     }
@@ -747,22 +747,22 @@ void game::plthrow( int pos, const cata::optional<tripoint> &blind_throw_from_po
     // otherwise see.
     const tripoint original_player_position = u.pos();
     if( blind_throw_from_pos ) {
-        u.setpos( *blind_throw_from_pos );
-        draw_ter();
+        you.setpos( *blind_throw_from_pos );
+        g->draw_ter();
     }
 
-    temp_exit_fullscreen();
-    m.draw( w_terrain, u.pos() );
+    g->temp_exit_fullscreen();
+    g->m.draw( g->w_terrain, you.pos() );
 
     const target_mode throwing_target_mode = blind_throw_from_pos ? TARGET_MODE_THROW_BLIND :
             TARGET_MODE_THROW;
     // target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
-    std::vector<tripoint> trajectory = target_handler().target_ui( u, throwing_target_mode, &thrown,
+    std::vector<tripoint> trajectory = target_handler().target_ui( you, throwing_target_mode, &thrown,
                                        range );
 
     // If we previously shifted our position, put ourselves back now that we've picked our target.
     if( blind_throw_from_pos ) {
-        u.setpos( original_player_position );
+        you.setpos( original_player_position );
     }
 
     if( trajectory.empty() ) {
@@ -770,11 +770,11 @@ void game::plthrow( int pos, const cata::optional<tripoint> &blind_throw_from_po
     }
 
     if( thrown.count_by_charges() && thrown.charges > 1 ) {
-        u.i_at( -1 ).charges--;
+        you.i_at( -1 ).charges--;
         thrown.charges = 1;
     } else {
-        u.i_rem( -1 );
+        you.i_rem( -1 );
     }
-    u.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
-    reenter_fullscreen();
+    you.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
+    g->reenter_fullscreen();
 }

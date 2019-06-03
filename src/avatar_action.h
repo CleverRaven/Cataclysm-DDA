@@ -55,6 +55,9 @@ bool fire( avatar &you, map &m );
  * @return Whether an attack was actually performed.
  */
 bool fire( avatar &you, map &m, item &weapon, int bp_cost = 0 );
+// Throw an item  't'
+void plthrow( avatar &you, int pos = INT_MIN,
+              const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 }
 
 
