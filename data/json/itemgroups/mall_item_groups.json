@@ -119,7 +119,8 @@
       [ "clown_suit", 5 ],
       [ "clownshoes", 5 ],
       [ "radio_car_box", 10 ],
-      [ "RPG_die", 5 ]
+      [ "RPG_die", 5 ],
+      [ "metal_RPG_die", 1 ]
     ]
   },
   {
