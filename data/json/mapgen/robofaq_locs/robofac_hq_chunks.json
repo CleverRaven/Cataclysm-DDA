@@ -31,7 +31,7 @@
       "c": "t_dirt",
       "F": "t_pit_shallow"
     },
-    "furniture": { "#": "f_skin_wall", "+": "f_skin_door", "x": "f_table", "t": "f_table", "h": "f_chair", "F": "f_firering" },
+    "furniture": { "#": "f_skin_wall", "+": "f_skin_door", "x": "f_crate_c", "t": "f_table", "h": "f_chair", "F": "f_firering" },
     "traps": { "c": "tr_fur_rollmat", "v": "tr_funnel" },
     "place_npcs": [
       { "class": "roabofac_free_merchant", "x": 5, "y": 3 },
@@ -44,6 +44,6 @@
       "F": { "item": "pot", "chance": 100 },
       "v": { "item": "jug_plastic", "chance": 100 }
     },
-    "place_items": [ { "item": "robofac_basic_trade", "chance": 94, "x": 2, "y": [ 2, 4 ] } ]
+    "place_loot": [ { "group": "NC_ROBOFAC_INTERCOM_trade", "chance": 100, "x": 2, "y": [ 2, 4 ], "repeat": [ 9, 15 ] } ]
   }
 }
