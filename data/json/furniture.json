@@ -541,7 +541,7 @@
     "color": "brown",
     "move_cost_mod": 3,
     "coverage": 35,
-    "comfort": 2,
+    "comfort": 1,
     "floor_bedding_warmth": 100,
     "required_str": -1,
     "deconstruct": { "items": [ { "item": "withered", "count": 10 } ] },
