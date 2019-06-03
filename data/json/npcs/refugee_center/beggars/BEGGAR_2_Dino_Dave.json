@@ -273,8 +273,8 @@
     "followup": "MISSION_BEGGAR_2_DUCT_TAPE",
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
-      "describe": "Gotta start small right?  Litle ones for keeping little things safe.  I could use 'em.",
-      "offer": "Gotta start small right?  Litle ones for keeping little things safe.  I could use 'em.  I need a bunch of 'em.  Little ones, you know?  Can you bring me like... like... forty?",
+      "describe": "Gotta start small right?  Little ones for keeping little things safe.  I could use 'em.",
+      "offer": "Gotta start small right?  Little ones for keeping little things safe.  I could use 'em.  I need a bunch of 'em.  Little ones, you know?  Can you bring me like... like... forty?",
       "accepted": "Oh man, thanks so much my friend.  You won't regret it.",
       "rejected": "I didn't think so.",
       "advice": "Watch out, he's looking for it too.",
