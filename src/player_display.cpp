@@ -224,6 +224,19 @@ static std::string get_encumbrance_description( const player &p, body_part bp, b
     return s;
 }
 
+static bool is_cqb_skill( const skill_id &id )
+{
+    // TODO: this skill list here is used in other places as well. Useless redundancy and
+    // dependency. Maybe change it into a flag of the skill that indicates it's a skill used
+    // by the bionic?
+    static const std::array<skill_id, 5> cqb_skills = { {
+            skill_id( "melee" ), skill_id( "unarmed" ), skill_id( "cutting" ),
+            skill_id( "bashing" ), skill_id( "stabbing" ),
+        }
+    };
+    return std::find( cqb_skills.begin(), cqb_skills.end(), id ) != cqb_skills.end();
+}
+
 void player::disp_info()
 {
     unsigned line;
@@ -625,16 +638,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         int level_num = level.level();
         int exercise = level.exercise();
 
-        // TODO: this skill list here is used in other places as well. Useless redundancy and
-        // dependency. Maybe change it into a flag of the skill that indicates it's a skill used
-        // by the bionic?
-        static const std::array<skill_id, 5> cqb_skills = { {
-                skill_id( "melee" ), skill_id( "unarmed" ), skill_id( "cutting" ),
-                skill_id( "bashing" ), skill_id( "stabbing" ),
-            }
-        };
-        if( has_active_bionic( bionic_id( "bio_cqb" ) ) &&
-            std::find( cqb_skills.begin(), cqb_skills.end(), elem->ident() ) != cqb_skills.end() ) {
+        if( has_active_bionic( bionic_id( "bio_cqb" ) ) && is_cqb_skill( elem->ident() ) ) {
             level_num = 5;
             exercise = 0;
             text_color = c_yellow;
