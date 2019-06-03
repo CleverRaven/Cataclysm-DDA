@@ -102,8 +102,6 @@
 
 constexpr double SQRT_2 = 1.41421356237309504880;
 
-const double MAX_RECOIL = 3000;
-
 const mtype_id mon_player_blob( "mon_player_blob" );
 const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
@@ -476,7 +474,6 @@ stat_mod player::get_pain_penalty() const
 }
 
 player::player() : Character()
-    , next_climate_control_check( calendar::before_time_starts )
     , cached_time( calendar::before_time_starts )
 {
     id = -1; // -1 is invalid
@@ -488,27 +485,12 @@ player::player() : Character()
     int_max = 8;
     per_cur = 8;
     per_max = 8;
-    dodges_left = 1;
-    blocks_left = 1;
-    power_level = 0;
-    max_power_level = 0;
-    stamina = 1000; //Temporary value for stamina. It will be reset later from external json option.
-    stim = 0;
-    pkill = 0;
-    radiation = 0;
-    tank_plut = 0;
-    reactor_plut = 0;
-    slow_rad = 0;
-    cash = 0;
-    scent = 500;
     male = true;
     prof = profession::has_initialized() ? profession::generic() :
            nullptr; //workaround for a potential structural limitation, see player::create
 
     start_location = start_location_id( "shelter" );
     moves = 100;
-    movecounter = 0;
-    oxygen = 0;
     last_climate_control_ret = false;
     in_vehicle = false;
     controlling_vehicle = false;
@@ -524,7 +506,6 @@ player::player() : Character()
     last_batch = 0;
     lastconsumed = itype_id( "null" );
     next_expected_position = cata::nullopt;
-    death_drops = true;
 
     empty_traits();
 

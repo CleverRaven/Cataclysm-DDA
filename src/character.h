@@ -822,6 +822,37 @@ class Character : public Creature, public visitable<Character>
         // outputs player activity level to a printable string
         std::string activity_level_str() const;
 
+        int stamina;
+        int oxygen;
+        int radiation;
+        // how strongly the character smells
+        int scent;
+
+        int dodges_left;
+        int blocks_left;
+
+        std::map<std::string, int> mutation_category_level;
+
+        time_point next_climate_control_check;
+        bool last_climate_control_ret;
+        int power_level;
+        int max_power_level;
+        int tank_plut;
+        int reactor_plut;
+        int slow_rad;
+        double recoil;
+        std::weak_ptr<Creature> last_target;
+        cata::optional<tripoint> last_target_pos;
+        // Save favorite ammo location
+        item_location ammo_location;
+        int stim;
+        int pkill;
+        unsigned long cash;
+        int movecounter;
+        // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
+        bool death_drops;
+        std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
+
     protected:
         void on_stat_change( const std::string &, int ) override {}
         void on_damage_of_type( int adjusted_damage, damage_type type, body_part bp ) override;

@@ -474,6 +474,51 @@ void Character::load( JsonObject &data )
         return VisitResponse::NEXT;
     } );
 
+    data.read( "stim", stim );
+    data.read( "pkill", pkill );
+    data.read( "radiation", radiation );
+    data.read( "tank_plut", tank_plut );
+    data.read( "reactor_plut", reactor_plut );
+    data.read( "slow_rad", slow_rad );
+    data.read( "scent", scent );
+    data.read( "oxygen", oxygen );
+    data.read( "cash", cash );
+    data.read( "recoil", recoil );
+
+    data.read( "power_level", power_level );
+    data.read( "max_power_level", max_power_level );
+
+    // Bionic power scale has been changed, savegame version 21 has the new scale
+    if( savegame_loading_version <= 20 ) {
+        power_level *= 25;
+        max_power_level *= 25;
+    }
+
+    // Bionic power should not be negative!
+    if( power_level < 0 ) {
+        power_level = 0;
+    }
+
+    int tmptar = 0;
+    int tmptartyp = 0;
+    data.read( "last_target", tmptar );
+    data.read( "last_target_type", tmptartyp );
+    data.read( "last_target_pos", last_target_pos );
+    data.read( "ammo_location", ammo_location );
+
+    // Fixes savefile with invalid last_target_pos.
+    if( last_target_pos && *last_target_pos == tripoint_min ) {
+        last_target_pos = cata::nullopt;
+    }
+
+    if( tmptartyp == +1 ) {
+        // Use overmap_buffer because game::active_npc is not filled yet.
+        last_target = overmap_buffer.find_npc( tmptar );
+    } else if( tmptartyp == -1 ) {
+        // Need to do this *after* the monsters have been loaded!
+        last_target = g->critter_tracker->from_temporary_id( tmptar );
+    }
+
     on_stat_change( "thirst", thirst );
     on_stat_change( "hunger", hunger );
     on_stat_change( "fatigue", fatigue );
@@ -514,6 +559,7 @@ void Character::store( JsonOut &json ) const
     json.member( "stored_calories", stored_calories );
 
     // breathing
+    json.member( "oxygen", oxygen );
     json.member( "underwater", underwater );
 
     // traits: permanent 'mutations' more or less
@@ -529,6 +575,37 @@ void Character::store( JsonOut &json ) const
     for( const auto &pair : *_skills ) {
         json.member( pair.first.str(), pair.second );
     }
+
+    // misc levels
+    json.member( "stim", stim );
+    json.member( "pkill", pkill );
+    json.member( "radiation", radiation );
+    json.member( "tank_plut", tank_plut );
+    json.member( "reactor_plut", reactor_plut );
+    json.member( "slow_rad", slow_rad );
+    json.member( "scent", static_cast<int>( scent ) );
+    json.member( "cash", cash );
+    json.member( "recoil", recoil );
+
+    if( const std::shared_ptr<Creature> lt_ptr = last_target.lock() ) {
+        if( const npc *const guy = dynamic_cast<const npc *>( lt_ptr.get() ) ) {
+            json.member( "last_target", guy->getID() );
+            json.member( "last_target_type", +1 );
+        } else if( const monster *const mon = dynamic_cast<const monster *>( lt_ptr.get() ) ) {
+            // monsters don't have IDs, so get its index in the Creature_tracker instead
+            json.member( "last_target", g->critter_tracker->temporary_id( *mon ) );
+            json.member( "last_target_type", -1 );
+        }
+    } else {
+        json.member( "last_target_pos", last_target_pos );
+    }
+
+    json.member( "ammo_location", ammo_location );
+
+    // npc; unimplemented
+    json.member( "power_level", power_level );
+    json.member( "max_power_level", max_power_level );
+
     json.end_object();
 }
 
@@ -549,26 +626,13 @@ void player::store( JsonOut &json ) const
     json.member( "posz", position.z );
 
     // energy
-    json.member( "stim", stim );
     json.member( "last_sleep_check", last_sleep_check );
     // pain
-    json.member( "pkill", pkill );
-    // misc levels
-    json.member( "radiation", radiation );
-    json.member( "tank_plut", tank_plut );
-    json.member( "reactor_plut", reactor_plut );
-    json.member( "slow_rad", slow_rad );
-    json.member( "scent", static_cast<int>( scent ) );
     json.member( "body_wetness", body_wetness );
-
-    // breathing
-    json.member( "oxygen", oxygen );
 
     // gender
     json.member( "male", male );
 
-    json.member( "cash", cash );
-    json.member( "recoil", recoil );
     json.member( "in_vehicle", in_vehicle );
     json.member( "id", getID() );
 
@@ -578,10 +642,6 @@ void player::store( JsonOut &json ) const
     json.member( "hp_max", hp_max );
     json.member( "damage_bandaged", damage_bandaged );
     json.member( "damage_disinfected", damage_disinfected );
-
-    // npc; unimplemented
-    json.member( "power_level", power_level );
-    json.member( "max_power_level", max_power_level );
 
     json.member( "ma_styles", ma_styles );
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
@@ -607,21 +667,6 @@ void player::store( JsonOut &json ) const
     if( !weapon.is_null() ) {
         json.member( "weapon", weapon ); // also saves contents
     }
-
-    if( const auto lt_ptr = last_target.lock() ) {
-        if( const npc *const guy = dynamic_cast<const npc *>( lt_ptr.get() ) ) {
-            json.member( "last_target", guy->getID() );
-            json.member( "last_target_type", +1 );
-        } else if( const monster *const mon = dynamic_cast<const monster *>( lt_ptr.get() ) ) {
-            // monsters don't have IDs, so get its index in the Creature_tracker instead
-            json.member( "last_target", g->critter_tracker->temporary_id( *mon ) );
-            json.member( "last_target_type", -1 );
-        }
-    } else {
-        json.member( "last_target_pos", last_target_pos );
-    }
-
-    json.member( "ammo_location", ammo_location );
 
     json.member( "camps" );
     json.start_array();
@@ -660,34 +705,11 @@ void player::load( JsonObject &data )
     if( !data.read( "posz", position.z ) && g != nullptr ) {
         position.z = g->get_levz();
     }
-    data.read( "stim", stim );
-    data.read( "pkill", pkill );
-    data.read( "radiation", radiation );
-    data.read( "tank_plut", tank_plut );
-    data.read( "reactor_plut", reactor_plut );
-    data.read( "slow_rad", slow_rad );
-    data.read( "scent", scent );
-    data.read( "oxygen", oxygen );
     data.read( "male", male );
-    data.read( "cash", cash );
-    data.read( "recoil", recoil );
     data.read( "in_vehicle", in_vehicle );
     data.read( "last_sleep_check", last_sleep_check );
     if( data.read( "id", tmpid ) ) {
         setID( tmpid );
-    }
-
-    data.read( "power_level", power_level );
-    data.read( "max_power_level", max_power_level );
-    // Bionic power scale has been changed, savegame version 21 has the new scale
-    if( savegame_loading_version <= 20 ) {
-        power_level *= 25;
-        max_power_level *= 25;
-    }
-
-    // Bionic power should not be negative!
-    if( power_level < 0 ) {
-        power_level = 0;
     }
 
     data.read( "ma_styles", ma_styles );
@@ -735,26 +757,6 @@ void player::load( JsonObject &data )
 
     on_stat_change( "pkill", pkill );
     on_stat_change( "perceived_pain", get_perceived_pain() );
-
-    int tmptar = 0;
-    int tmptartyp = 0;
-    data.read( "last_target", tmptar );
-    data.read( "last_target_type", tmptartyp );
-    data.read( "last_target_pos", last_target_pos );
-    data.read( "ammo_location", ammo_location );
-
-    // Fixes savefile with invalid last_target_pos.
-    if( last_target_pos && *last_target_pos == tripoint_min ) {
-        last_target_pos = cata::nullopt;
-    }
-
-    if( tmptartyp == +1 ) {
-        // Use overmap_buffer because game::active_npc is not filled yet.
-        last_target = overmap_buffer.find_npc( tmptar );
-    } else if( tmptartyp == -1 ) {
-        // Need to do this *after* the monsters have been loaded!
-        last_target = g->critter_tracker->from_temporary_id( tmptar );
-    }
 
     JsonArray basecamps = data.get_array( "camps" );
     camps.clear();

@@ -97,6 +97,8 @@ static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
 static const trait_id trait_URSINE_EYE( "URSINE_EYE" );
 static const trait_id debug_nodmg( "DEBUG_NODMG" );
 
+const double MAX_RECOIL = 3000;
+
 // *INDENT-OFF*
 Character::Character() :
     Creature(),
@@ -104,7 +106,8 @@ Character::Character() :
     hp_cur( {{ 0 }} ),
     hp_max( {{ 0 }} ),
     damage_bandaged( {{ 0 }} ),
-    damage_disinfected( {{ 0 }} )
+    damage_disinfected( {{ 0 }} ),
+    next_climate_control_check( calendar::before_time_starts )
 {
     str_max = 0;
     dex_max = 0;
@@ -114,6 +117,23 @@ Character::Character() :
     dex_cur = 0;
     per_cur = 0;
     int_cur = 0;
+    stamina = 1000; // Temporary value for stamina. It will be reset later from external json option.
+    oxygen = 0;
+    radiation = 0;
+    scent = 500;
+    dodges_left = 1;
+    blocks_left = 1;
+    power_level = 0;
+    max_power_level = 0;
+    tank_plut = 0;
+    reactor_plut = 0;
+    slow_rad = 0;
+    stim = 0;
+    pkill = 0;
+    recoil = MAX_RECOIL;
+    cash = 0;
+    movecounter = 0;
+    death_drops = true;
     str_bonus = 0;
     dex_bonus = 0;
     per_bonus = 0;
