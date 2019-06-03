@@ -1126,13 +1126,12 @@ static void draw_limb( avatar &u, const catacurses::window &w )
             nx = 19;
         }
 
-        const std::string str = body_part_hp_bar_ui_text( part[i] );
+        std::string str = body_part_hp_bar_ui_text( part[i] );
         wmove( w, ny, nx );
-        if( i == 0 ) {
-            wprintz( w, u.limb_color( part[i], true, true, true ), str + " :" );
-        } else {
-            wprintz( w, u.limb_color( part[i], true, true, true ), str + ":" );
+        while( str.length() < 5 ) {
+            str = str + " ";
         }
+        wprintz( w, u.limb_color( part[i], true, true, true ), str + ":" );
     }
     wrefresh( w );
 }
