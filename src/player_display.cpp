@@ -1132,7 +1132,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     const bool rusting = level.isRusting();
                     int exercise = level.exercise();
                     int level_num = level.level();
-                    if( has_active_bionic( bionic_id( "bio_cqb" ) ) && is_cqb_skill( sSkill->ident() ) ) {
+                    bool locked = false;
+                    if( has_active_bionic( bionic_id( "bio_cqb" ) ) && is_cqb_skill( aSkill->ident() ) ) {
                         level_num = 5;
                         exercise = 0;
                         locked = true;
@@ -1207,7 +1208,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                         int level_num = level.level();
                         int exercise = level.exercise();
                         bool locked = false;
-                        if( has_active_bionic( bionic_id( "bio_cqb" ) ) && is_cqb_skill( sSkill->ident() ) ) {
+                        if( has_active_bionic( bionic_id( "bio_cqb" ) ) && is_cqb_skill( thisSkill->ident() ) ) {
                             level_num = 5;
                             exercise = 0;
                             locked = true;
