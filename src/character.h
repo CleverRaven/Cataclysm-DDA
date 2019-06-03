@@ -832,6 +832,8 @@ class Character : public Creature, public visitable<Character>
         virtual void on_item_takeoff( const item & ) {}
         virtual void on_worn_item_washed( const item & ) {}
 
+        /** Removes "sleep" and "lying_down" from the player */
+        void wake_up();
     protected:
         Character();
         Character( const Character & ) = delete;
