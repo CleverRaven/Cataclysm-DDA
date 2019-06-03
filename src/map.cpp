@@ -1733,6 +1733,47 @@ std::tuple<int,cata::optional<tripoint>> map::obstacle_from_point( const tripoin
     }  
 }
 
+cata::optional<tripoint> map::check_for_diagonal( const tripoint &to, const tripoint &from, const std::function<bool( const tripoint & )> &interact ) const
+{
+    // Ugly hack to swap return point each call, (maybe make random?).
+    static bool i = false;
+    i = !i;
+    const tripoint dmove = to - from;
+    if( abs(dmove.x) != 1 || abs(dmove.y) != 1 ){
+        // Not diagonal vector.
+        return cata::nullopt;        
+    }
+    
+    // Calculate diagonal obstacles.
+    const tripoint to_x = tripoint(to.x, from.y , to.z); 
+    const tripoint to_y = tripoint(from.x, to.y , to.z);
+    
+    // Nevermind if diagonals are out of bounds.
+    if( !inbounds( to_x ) || !inbounds( to_y ) ) {
+         return cata::nullopt;
+    }
+    
+    // Check vehicle is the same and parts are meant to be connected.
+    // Diagonal parts don't count as connected.
+    const optional_vpart_position vp_x = veh_at( to_x );
+    //vehicle *const veh_x = (!vp_x ) ? nullptr : &vp_x->vehicle();            
+    const optional_vpart_position vp_y = veh_at( to_y );
+    //vehicle *const veh_y = (!vp_y ) ? nullptr : &vp_y->vehicle();    
+    
+    if( vp_x && vp_y && &vp_x->vehicle() == &vp_y->vehicle() ) {
+        const point dmount = vp_y->mount() - vp_x->mount();                
+        const bool connected = abs(dmount.x) != abs(dmount.y) && ( abs(dmount.x) == 1 || abs(dmount.y) == 1 ); // Diagonal parts don't count as connected.
+        if( connected && interact(to_x) && interact(to_y) ){
+            if(i){
+                return to_x;
+            } else{
+                return to_y;
+            }            
+        } 
+    } 
+    return cata::nullopt;
+}
+
 bool map::impassable( const tripoint &p ) const
 {
     return !passable( p );
@@ -6161,37 +6202,35 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
         bresenham_slope = 0;
         return false; // Out of range!
     }    
-    bool visible = true; 
-   
+    bool visible = true;     
     // Ugly `if` for now
     if( !fov_3d || F.z == T.z ) {
         tripoint previous_tripoint = F;
         bresenham( F.x, F.y, T.x, T.y, bresenham_slope,
         [this, &visible, &T, &previous_tripoint]( const point & new_point ) {
-            // Exit before checking the last square, it's still visible even if opaque.
-            //if( new_point.x == T.x && new_point.y == T.y ) {
-            //    return false;
-            //} only if no diagonal tiles block it          
-            
-            if( !this->trans( tripoint( new_point, T.z ) ) ) {
-                visible = false;
-                return false;
-            } else if ( abs( new_point.x-previous_tripoint.x ) == abs( new_point.y-previous_tripoint.y )){
+            // Exit before checking the last square, it's still visible even if opaque.            
+            if( new_point.x != T.x || new_point.y != T.y ) {
+                if( !this->trans( tripoint( new_point, T.z ) ) ) {                
+                    visible = false;
+                    return false;
+                }            
+            }
+            // Check diagonals
+            if ( abs( new_point.x-previous_tripoint.x ) == abs( new_point.y-previous_tripoint.y )){
                 // Check diagonals
                 const tripoint new_x = tripoint( new_point.x , previous_tripoint.y, T.z );
-                const tripoint new_y = tripoint( previous_tripoint.x , new_point.y, T.z );
-                std::cout << "diags: " << new_x << " & " << new_y << std::endl;
-                if( !inbounds( new_x ) || !inbounds( new_y ) ){                    
-                    return false; // Out of range!
+                const tripoint new_y = tripoint( previous_tripoint.x , new_point.y, T.z );                
+                if( !inbounds( new_x ) || !inbounds( new_y ) ){
+                    return true; // Out of range!
                 }
-                if ( !this->trans( new_x ) && !this->trans( new_y )){
+                if ( !this->trans( new_x ) && !this->trans( new_y )){                    
                     visible = false;
                     return false;
                 }
             }
             previous_tripoint = tripoint( new_point, T.z);
             return true;
-        } );
+        } );        
         return visible;
     }
 

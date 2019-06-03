@@ -406,6 +406,8 @@ class map
          * to account for diagonal neighbor tiles.
          */
         std::tuple<int,cata::optional<tripoint>> obstacle_from_point( const tripoint &to, const tripoint &from, const vehicle *ignored_vehicle = nullptr ) const;
+        //std::vector <tripoint> line_to( const tripoint &loc1, const tripoint &loc2 );
+        cata::optional<tripoint> check_for_diagonal( const tripoint &to, const tripoint &from, const std::function<bool( const tripoint & )> &interact ) const;
 
         /**
         * Similar behavior to `move_cost()`, but ignores vehicles.
