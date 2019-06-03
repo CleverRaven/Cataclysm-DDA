@@ -1978,29 +1978,57 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
     std::map<int, int> row_indices;
     while( !exit ) {
         auto &panels = layouts[current_layout_id];
-        column == 0 ? max_index = panels.size() : max_index = layouts.size();
 
         if( redraw ) {
             redraw = false;
             werase( w );
             static const std::string title = _( "SIDEBAR OPTIONS" );
             decorate_panel( title, w );
+            // clear the panel list
+            for( int i = 1; i <= 13; i++ ) {
+                for( int j = 1; j <= 12; j++ ) {
+                    mvwputch( w, i, j, c_black, ' ' );
+                }
+            }
             // the row that the panel name is printed on
             int row = 1;
+            row_indices.clear();
             for( size_t i = 0; i < panels.size(); i++ ) {
                 if( panels[i].render() ) {
                     row_indices.emplace( row - 1, i );
+                    row++;
+                } else if( !panels[i].render && column == 0 ) {
                     if( selected && index == i ) {
                         row++;
                     }
-                    mvwprintz( w, row++, 4, panels[i].toggle ? c_white : c_dark_gray, _( panels[i].get_name() ) );
-                    if( selected && source_index == i ) {
-                        mvwprintz( w, index + 1, 5, c_yellow, _( panels[i].get_name() ) );
+                }
+            }
+
+            column == 0 ? max_index = row_indices.size() : max_index = layouts.size();
+            int vertical_offset = 0;
+            int selected_offset = 0;
+
+            for( std::pair<int, int> row_indx : row_indices ) {
+                nc_color toggle_color = panels[row_indx.second].toggle ? c_white : c_dark_gray;
+                std::string name = _( panels[row_indx.second].get_name() );
+                if( !selected ) {
+                    mvwprintz( w, row_indx.first + 1, 4, toggle_color, name );
+                } else {
+                    if ( index - 1 <= row_indx.first ) {
+                        vertical_offset = 2;
                     }
-                } else if( !panels[i].render && column == 0 ) {
-                    max_index--;
-                    if( selected ) {
-                        row++;
+                    else {
+                        vertical_offset = 1;
+                    }
+                    mvwprintz( w, row_indx.first + vertical_offset, 4, toggle_color, name );
+                    if ( source_index == row_indx.second ) {
+                        if ( index <= source_index ) {
+                            selected_offset = 0;
+                        }
+                        else {
+                            selected_offset = 1;
+                        }
+                        mvwprintz( w, index + selected_offset, 5, c_yellow, name );
                     }
                 }
             }
@@ -2010,7 +2038,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                            _( layout.first ) );
                 i++;
             }
-            mvwprintz( w, selected ? index + 1 : index, 1 + ( column_width * column ), c_yellow, ">>" );
+            mvwprintz( w, index + selected_offset, 1 + ( column_width * column ), c_yellow, ">>" );
             mvwvline( w, 1, 13, 0, 13 );
             mvwvline( w, 1, 43, 0, 13 );
             mvwprintz( w, 1, 15, c_light_green, trunc_ellipse( ctxt.press_x( "TOGGLE_PANEL" ), 27 ) + ":" );
