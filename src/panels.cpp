@@ -2014,18 +2014,16 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                 if( !selected ) {
                     mvwprintz( w, row_indx.first + 1, 4, toggle_color, name );
                 } else {
-                    if ( index - 1 <= row_indx.first ) {
+                    if( index - 1 <= row_indx.first ) {
                         vertical_offset = 2;
-                    }
-                    else {
+                    } else {
                         vertical_offset = 1;
                     }
                     mvwprintz( w, row_indx.first + vertical_offset, 4, toggle_color, name );
-                    if ( source_index == row_indx.second ) {
-                        if ( index <= source_index ) {
+                    if( source_index == row_indx.second ) {
+                        if( index <= source_index ) {
                             selected_offset = 0;
-                        }
-                        else {
+                        } else {
                             selected_offset = 1;
                         }
                         mvwprintz( w, index + selected_offset, 5, c_yellow, name );
