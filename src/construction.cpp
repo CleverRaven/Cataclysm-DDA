@@ -195,6 +195,11 @@ static nc_color construction_color( const std::string &con_name, bool highlight 
     return highlight ? hilite( col ) : col;
 }
 
+std::vector<construction> get_constructions()
+{
+    return constructions;
+}
+
 void construction_menu()
 {
     static bool hide_unconstructable = false;
@@ -822,11 +827,15 @@ void place_construction( const std::string &desc )
     }
 
     const construction &con = *valid.find( pnt )->second;
-    g->u.assign_activity( activity_id( "ACT_BUILD" ), con.adjusted_time(), con.id );
+    g->u.assign_activity( activity_id( "ACT_BUILD" ), con.time, con.id );
     item partial_construction( "partial_construction", 0 );
-    g->m.add_item_or_charges( pnt, partial_construction );
-    partial_construction.set_marker_name( con.description );
-    item_location item_loc( map_cursor( pnt ), &partial_construction );
+    item &added_item = g->m.add_item_or_charges( pnt, partial_construction );
+    added_item.set_var( "time_passed", 0 );
+    added_item.set_var( "construction_time", con.time );
+    added_item.set_var( "construction_progress", 0 );
+    std::string con_desc = string_format( _( "Unfinished task: %s, 0% complete" ), con.description );
+    added_item.set_var( "name", con_desc );
+    item_location item_loc( map_cursor( pnt ), &added_item );
     g->u.activity.targets.push_back( item_loc.clone() );
     g->u.activity.placement = pnt;
 }
@@ -866,13 +875,9 @@ void complete_construction()
 
     const tripoint terp = u.activity.placement;
     // Remove the unfinished item marker
-    auto items = g->m.i_at( terp );
 
-    for(int x=items.size(); x>0; x--){
-        if( items[x-1].has_flag( "MARKER" ) ){
-            g->m.i_rem( terp, &items[x-1]);
-        }
-    }
+    item *con_item = u.activity.targets.front().get_item();
+    g->m.i_rem( terp, con_item );
     // Make the terrain change
     if( !built.post_terrain.empty() ) {
         if( built.post_is_furniture ) {

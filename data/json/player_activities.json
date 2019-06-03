@@ -120,7 +120,8 @@
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
     "stop_phrase": "Stop construction?",
-    "based_on": "speed"
+    "based_on": "neither",
+    "refuel_fires": "true"
   },
   {
     "id": "ACT_VEHICLE",

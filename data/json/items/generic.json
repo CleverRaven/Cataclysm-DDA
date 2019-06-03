@@ -50,7 +50,7 @@
     "description": "seeing this is a bug",
     "price": 0,
     "volume": 0,
-    "flags": [ "PSEUDO", "MARKER" ]
+    "flags": [ "PSEUDO", "NO_SALVAGE", "TRADER_AVOID" ]
   },
   {
     "type": "GENERIC",
