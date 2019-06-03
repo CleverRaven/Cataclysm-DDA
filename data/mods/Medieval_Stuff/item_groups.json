@@ -55,7 +55,7 @@
     "id": "museum_armor",
     "type": "item_group",
     "items": [
-     [ "shield_wooden", 10 ],
+      [ "shield_wooden", 10 ],
       [ "shield_wooden_large", 5 ],
       [ "shield_hoplon", 10 ],
       [ "shield_scutum", 10 ],
