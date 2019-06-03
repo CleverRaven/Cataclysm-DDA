@@ -3,6 +3,7 @@
 #define AVATAR_ACTION_H
 
 #include "enums.h"
+#include "optional.h"
 
 class avatar;
 class item;

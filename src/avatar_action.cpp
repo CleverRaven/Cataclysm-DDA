@@ -17,6 +17,7 @@
 #include "options.h"
 #include "output.h"
 #include "player.h"
+#include "projectile.h"
 #include "ranged.h"
 #include "translations.h"
 #include "type_id.h"
@@ -746,7 +747,7 @@ void avatar_action::plthrow( avatar &you, int pos,
     // Shift our position to our "peeking" position, so that the UI
     // for picking a throw point lets us target the location we couldn't
     // otherwise see.
-    const tripoint original_player_position = u.pos();
+    const tripoint original_player_position = you.pos();
     if( blind_throw_from_pos ) {
         you.setpos( *blind_throw_from_pos );
         g->draw_ter();

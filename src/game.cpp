@@ -2042,7 +2042,7 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
                     wield( pos );
                     break;
                 case 't':
-                    plthrow( pos );
+                    avatar_action::plthrow( u, pos );
                     break;
                 case 'c':
                     change_side( pos );
@@ -5580,7 +5580,7 @@ void game::peek( const tripoint &p )
     u.setpos( prev );
 
     if( result.peek_action && *result.peek_action == PA_BLIND_THROW ) {
-        plthrow( INT_MIN, p );
+        avatar_action::plthrow( u, INT_MIN, p );
     }
 
     draw_ter();

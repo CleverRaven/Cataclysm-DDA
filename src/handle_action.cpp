@@ -1825,7 +1825,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_THROW:
-                plthrow();
+                avatar_action::plthrow( g->u );
                 break;
 
             case ACTION_FIRE:
