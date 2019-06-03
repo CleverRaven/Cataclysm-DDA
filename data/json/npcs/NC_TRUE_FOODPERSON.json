@@ -5,15 +5,15 @@
     "subtype": "collection",
     "entries": [
       { "item": "foodperson_mask" },
-      { "item": "pants_cargo" },
       { "item": "briefs" },
-      { "item": "cape_fp" },
+      { "item": "socks" },
+      { "item": "pants_cargo" },
       { "item": "dress_shirt" },
+      { "item": "chestguard_hard" },
+      { "item": "cape_fp" },
       { "item": "armguard_hard" },
       { "item": "legguard_hard" },
       { "item": "gloves_rubber" },
-      { "item": "socks" },
-      { "item": "chestguard_hard" },
       { "item": "boots_rubber" }
     ]
   },
