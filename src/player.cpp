@@ -2814,7 +2814,7 @@ void player::pause()
     search_surroundings();
 }
 
-int player::get_shout_volume() const
+int Character::get_shout_volume() const
 {
     int base = 10;
     int shout_multiplier = 2;
@@ -2850,7 +2850,7 @@ int player::get_shout_volume() const
     return noise;
 }
 
-void player::shout( std::string msg, bool order )
+void Character::shout( std::string msg, bool order )
 {
     int base = 10;
     std::string shout = "";

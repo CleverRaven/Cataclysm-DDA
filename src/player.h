@@ -461,9 +461,6 @@ class player : public Character
         void toggle_run_mode(); // Toggles running on/off.
         void toggle_crouch_mode(); // Toggles crouching on/off.
 
-        int get_shout_volume() const;
-        void shout( std::string text = "", bool order = false );
-
         // martialarts.cpp
         /** Fires all non-triggered martial arts events */
         void ma_static_effects();
