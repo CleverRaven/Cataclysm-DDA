@@ -550,6 +550,8 @@ class player : public Character
         bool can_arm_block() const;
         /** Returns true if either can_leg_block() or can_arm_block() returns true */
         bool can_limb_block() const;
+        /** Returns true if the current style forces unarmed attack techniques */
+        bool is_force_unarmed() const;
 
         // melee.cpp
         /** Returns the best item for blocking with */
