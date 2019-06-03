@@ -795,6 +795,11 @@ bool player::can_limb_block() const
     return can_arm_block() || can_leg_block();
 }
 
+bool player::is_force_unarmed() const
+{
+    return style_selected.obj().force_unarmed;
+}
+
 // event handlers
 void player::ma_static_effects()
 {
