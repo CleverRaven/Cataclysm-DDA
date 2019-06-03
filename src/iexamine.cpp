@@ -23,6 +23,7 @@
 #include "catacharset.h"
 #include "clzones.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
+#include "construction.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "debug.h"
@@ -119,6 +120,7 @@ static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
 
@@ -3125,6 +3127,43 @@ void iexamine::trap( player &p, const tripoint &examp )
         add_msg( m_info, _( "That %s looks too dangerous to mess with. Best leave it alone." ),
                  tr.name() );
         return;
+    }
+    if( tr.loadid == tr_unfinished_construction ) {
+        auto items_at = g->m.i_at( examp );
+        bool found_marker = false;
+        for( auto &elem : items_at ) {
+            if( elem.typeId() == "partial_construction" ) {
+                found_marker = true;
+                item *marker_item = &elem;
+                std::vector<construction> list_constructions = get_constructions();
+                const construction &built = list_constructions[static_cast<size_t>( marker_item->get_var( "index",
+                                                                 0 ) ) ];
+                if( !query_yn( _( "Here there is an %s, continue construction?" ), marker_item->get_var( "name",
+                               "" ) ) ) {
+                    if( query_yn( _( "Cancel construction?" ) ) ) {
+                        for( const auto elem : marker_item->components ) {
+                            g->m.add_item_or_charges( g->u.pos(), elem );
+                        }
+                        g->m.i_rem( examp, marker_item );
+                        g->m.disarm_trap( examp );
+                        return;
+                    } else {
+                        return;
+                    }
+                } else {
+                    g->u.assign_activity( activity_id( "ACT_BUILD" ), built.time, built.id );
+                    item_location item_loc( map_cursor( examp ), marker_item );
+                    g->u.activity.targets.push_back( item_loc.clone() );
+                    g->u.activity.placement = examp;
+                    return;
+                }
+            }
+        }
+        if( found_marker == false ) {
+            // The construction marker trap got seperated from the marker item.
+            add_msg( m_info, _( "There is an unfinished construction here, but the components are gone" ) );
+            g->m.remove_trap( examp );
+        }
     }
     // Some traps are not actual traps. Those should get a different query.
     if( seen && possible == 0 &&

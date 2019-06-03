@@ -117,6 +117,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_AIM" ), aim_do_turn },
     { activity_id( "ACT_PICKUP" ), pickup_do_turn },
     { activity_id( "ACT_WEAR" ), wear_do_turn },
+    { activity_id( "ACT_BUILD" ), build_do_turn },
     { activity_id( "ACT_EAT_MENU" ), eat_menu_do_turn },
     { activity_id( "ACT_CONSUME_FOOD_MENU" ), consume_food_menu_do_turn },
     { activity_id( "ACT_CONSUME_DRINK_MENU" ), consume_drink_menu_do_turn },
@@ -191,7 +192,6 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_SOCIALIZE" ), socialize_finish },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
     { activity_id( "ACT_DISASSEMBLE" ), disassemble_finish },
-    { activity_id( "ACT_BUILD" ), build_finish },
     { activity_id( "ACT_VIBE" ), vibe_finish },
     { activity_id( "ACT_ATM" ), atm_finish },
     { activity_id( "ACT_AIM" ), aim_finish },
@@ -2728,6 +2728,47 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
+void activity_handlers::build_do_turn( player_activity *act, player *p )
+{
+    item *con_item = act->targets.front().get_item();
+    // this shouldn't happen, unfinished crafts should not dissappear during activity
+    if( !con_item ) {
+        add_msg( m_debug, "The marker item is no longer there, cancelling construction," );
+        p->cancel_activity();
+        return;
+    }
+    const std::vector<construction> &list_constructions = get_constructions();
+    const construction &built = list_constructions[act->index];
+
+    // item_counter represents the percent progress relative to the base batch time
+    // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6732000 )
+    const int old_counter = con_item->item_counter;
+
+    // Base moves for construction with no speed modifier or assistants
+    // Must ensure >= 1 so we don't divide by 0;
+    const double base_total_moves = std::max( 1, built.time );
+    // Current expected total moves, includes construction speed modifiers and assistants
+    const double cur_total_moves = std::max( 1, built.adjusted_time() );
+    // Delta progress in moves adjusted for current crafting speed
+    const double delta_progress = p->get_moves() * base_total_moves / cur_total_moves;
+    // Current progress in moves
+    const double current_progress = old_counter * base_total_moves / 10000000.0 +
+                                    delta_progress;
+    // Current progress as a percent of base_total_moves to 2 decimal places
+    con_item->item_counter = round( current_progress / base_total_moves * 10000000.0 );
+    p->set_moves( 0 );
+
+    con_item->item_counter = std::min( static_cast<int>( con_item->item_counter ), 10000000 );
+    std::string con_desc = string_format( _( "Unfinished task: %s. It is %d percent complete" ),
+                                          built.description, static_cast<int>( con_item->item_counter / 100000 ) );
+    con_item->set_var( "name", con_desc );
+
+    // if construction_progress has reached 100% or more
+    if( con_item->item_counter >= 10000000 ) {
+        complete_construction();
+    }
+}
+
 void activity_handlers::craft_do_turn( player_activity *act, player *p )
 {
     item *craft = act->targets.front().get_item();
@@ -2815,11 +2856,6 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
 void activity_handlers::disassemble_finish( player_activity *, player *p )
 {
     p->complete_disassemble();
-}
-
-void activity_handlers::build_finish( player_activity *, player * )
-{
-    complete_construction();
 }
 
 void activity_handlers::vibe_finish( player_activity *act, player *p )

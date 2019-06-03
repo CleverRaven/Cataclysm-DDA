@@ -44,6 +44,12 @@ struct spawn_point {
         mission_id( MIS ), friendly( F ), name( N ) {}
 };
 
+struct partial_con {
+    int counter = 0;
+    std::list<item> components = {};
+    size_t id = 0;
+};
+
 template<int sx, int sy>
 struct maptile_soa {
     ter_id          ter[sx][sy];  // Terrain on each square
@@ -193,6 +199,7 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
          * deleted.
          */
         std::vector<std::unique_ptr<vehicle>> vehicles;
+        std::map<tripoint, partial_con> partial_constructions;
         std::unique_ptr<computer> comp;
         basecamp camp;  // only allowing one basecamp per submap
 
