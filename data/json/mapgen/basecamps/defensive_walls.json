@@ -3,7 +3,7 @@
     "type": "palette",
     "id": "base_defensive_walls",
     "terrain": {
-      " ": "t_null",
+      " ": "tull",
       "u": "t_pit_shallow",
       "U": "t_pit",
       "W": "t_pit_spikes",
