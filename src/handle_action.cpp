@@ -1187,7 +1187,12 @@ static void fire()
 
                 actions.emplace_back( [&] { u.invoke_item( &w, "holster" ); } );
 
-            } else if( w.is_gun() && w.gunmod_find( "shoulder_strap" ) ) {
+            } else if( w.is_gun() && w.has_flag( "HANDLESS" ) && w.gunmod_find( "shoulder_strap" ) ) {
+                // wield item worn using shoulder strap, without wielding.
+                options.push_back( w.display_name() );
+                avatar_action::fire( g->u, g->m, w );
+            }
+            else if( w.is_gun() && w.gunmod_find( "shoulder_strap" ) ) {
                 // wield item currently worn using shoulder strap
                 options.push_back( w.display_name() );
                 actions.emplace_back( [&] { u.wield( w ); } );
