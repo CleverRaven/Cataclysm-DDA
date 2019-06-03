@@ -8259,6 +8259,8 @@ std::string item::type_name( unsigned int quantity ) const
                                              "%s corpses of %s", quantity ),
                                   corpse->nname(), corpse_name );
         }
+    } else if( has_flag( "MARKER" ) ){
+        return string_format( npgettext( "item name", "unfinished %s", "unfinished %s", quantity ), marker_name );
     } else if( typeId() == "blood" ) {
         if( corpse == nullptr || corpse->id.is_null() ) {
             return string_format( npgettext( "item name", "human blood",
@@ -8273,6 +8275,19 @@ std::string item::type_name( unsigned int quantity ) const
     } else {
         return type->nname( quantity );
     }
+}
+
+void item::set_marker_name( std::string new_name )
+{
+    marker_name = new_name;
+}
+
+std::string item::get_marker_name()
+{
+    if( marker_name.empty() ){
+        return std::string();
+    }
+    return marker_name;
 }
 
 std::string item::get_corpse_name()

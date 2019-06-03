@@ -1787,6 +1787,10 @@ class item : public visitable<item>
          * Returns name of deceased being if it had any or empty string if not
          **/
         std::string get_corpse_name();
+        // Returns name of the unfinished partially built thing that this is a marker for
+        std::string get_marker_name();
+        // Sets the marker_name
+        void set_marker_name( std::string new_name );
         /**
          * Returns the translated item name for the item with given id.
          * The name is in the proper plural form as specified by the
@@ -1974,6 +1978,7 @@ class item : public visitable<item>
         std::map<std::string, std::string> item_vars;
         const mtype *corpse = nullptr;
         std::string corpse_name;       // Name of the late lamented
+        std::string marker_name;       // Name of the thing that is partially built
         std::set<matec_id> techniques; // item specific techniques
 
         // Only for in-progress crafts

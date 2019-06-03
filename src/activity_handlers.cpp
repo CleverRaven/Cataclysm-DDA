@@ -8,6 +8,7 @@
 #include <array>
 #include <iterator>
 #include <memory>
+#include <iostream>
 #include <ostream>
 #include <set>
 #include <stdexcept>
@@ -117,6 +118,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_AIM" ), aim_do_turn },
     { activity_id( "ACT_PICKUP" ), pickup_do_turn },
     { activity_id( "ACT_WEAR" ), wear_do_turn },
+    { activity_id( "ACT_BUILD" ), build_do_turn },
     { activity_id( "ACT_EAT_MENU" ), eat_menu_do_turn },
     { activity_id( "ACT_CONSUME_FOOD_MENU" ), consume_food_menu_do_turn },
     { activity_id( "ACT_CONSUME_DRINK_MENU" ), consume_drink_menu_do_turn },
@@ -2726,6 +2728,26 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
         p->add_msg_if_player( _( "You try to sleep, but can't..." ) );
     }
     act->set_to_null();
+}
+
+void activity_handlers::build_do_turn( player_activity *act, player *p )
+{
+    item *con_item = act->targets.front().get_item();
+    // this shouldn't happen, unfinished crafts should not dissappear during activity
+    if( !con_item ){
+        std::cout << "nullptr on con_item" << std::endl;
+        add_msg( m_bad, "The marker item is no longer there, cancelling construction," );
+        p->cancel_activity();
+        return;
+    }
+    std::cout << "marker item name is" << con_item->tname() << std::endl;
+    /*
+    if( !con_item->has_flag( "MARKER" ) ) {
+        debugmsg( "ACT_BUILD target item is not a craft.  Aborting ACT_BUILD." );
+        p->cancel_activity();
+        return;
+    }
+    */
 }
 
 void activity_handlers::craft_do_turn( player_activity *act, player *p )

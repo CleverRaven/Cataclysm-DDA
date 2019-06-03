@@ -823,6 +823,11 @@ void place_construction( const std::string &desc )
 
     const construction &con = *valid.find( pnt )->second;
     g->u.assign_activity( activity_id( "ACT_BUILD" ), con.adjusted_time(), con.id );
+    item partial_construction( "partial_construction", 0 );
+    g->m.add_item_or_charges( pnt, partial_construction );
+    partial_construction.set_marker_name( con.description );
+    item_location item_loc( map_cursor( pnt ), &partial_construction );
+    g->u.activity.targets.push_back( item_loc.clone() );
     g->u.activity.placement = pnt;
 }
 
@@ -859,8 +864,16 @@ void complete_construction()
         u.consume_tools( it );
     }
 
-    // Make the terrain change
     const tripoint terp = u.activity.placement;
+    // Remove the unfinished item marker
+    auto items = g->m.i_at( terp );
+
+    for(int x=items.size(); x>0; x--){
+        if( items[x-1].has_flag( "MARKER" ) ){
+            g->m.i_rem( terp, &items[x-1]);
+        }
+    }
+    // Make the terrain change
     if( !built.post_terrain.empty() ) {
         if( built.post_is_furniture ) {
             g->m.furn_set( terp, furn_str_id( built.post_terrain ) );
