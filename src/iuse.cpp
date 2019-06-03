@@ -6840,7 +6840,7 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-int iuse::foodperson( player *p, item *it, bool t, const tripoint &pos )
+int iuse::foodperson( player *, item *it, bool t, const tripoint &pos )
 {
     if( t ) {
         if( calendar::once_every( 1_minutes ) ) {
