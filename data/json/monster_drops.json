@@ -98,7 +98,10 @@
         ],
         "prob": 5
       },
-      { "distribution": [ { "item": "RPG_die", "prob": 70 }, { "item": "dnd_handbook", "prob": 30 } ], "prob": 1 },
+      {
+        "distribution": [ { "item": "RPG_die", "prob": 70 }, { "item": "dnd_handbook", "prob": 30 }, { "item": "meatl_RPG_die", "prob": 10 } ],
+        "prob": 1
+      },
       {
         "distribution": [
           { "item": "cig", "prob": 65, "charges-min": 0, "charges-max": 20 },
