@@ -821,31 +821,36 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
     int x, y, x1, y1 = 0;
 
     if( bridge_at_north && !bridge_at_center && road_at_south ) {
-
+        //Sandbag block at the left edge
         line_furn( &m, f_sandbag_half, 3, 4, 3, 7 );
         line_furn( &m, f_sandbag_half, 3, 7, 9, 7 );
         line_furn( &m, f_sandbag_half, 9, 4, 9, 7 );
 
+        //7.62x51mm casings left from m60 of the humvee
         for( const auto &loc : g->m.points_in_radius( { 6, 4, abs_sub.z }, 3, 0 ) ) {
             if( one_in( 4 ) ) {
                 m.add_item_or_charges( loc, item( "762_51_casing" ) );
             }
         }
 
+        //50% to spawn a humvee in the left block
         if( one_in( 2 ) ) {
             m.add_vehicle( vproto_id( "humvee" ), 5, 3, 270, 70, -1 );
         }
 
+        //Sandbag block at the right edge 
         line_furn( &m, f_sandbag_half, 15, 3, 15, 6 );
         line_furn( &m, f_sandbag_half, 15, 6, 20, 6 );
         line_furn( &m, f_sandbag_half, 20, 3, 20, 6 );
 
+        //5.56x45mm casings left from a soldier
         for( const auto &loc : g->m.points_in_radius( { 17, 4, abs_sub.z }, 3, 0 ) ) {
             if( one_in( 4 ) ) {
                 m.add_item_or_charges( loc, item( "223_casing" ) );
             }
         }
 
+        //50% chance to spawn a dead soldier with a trail of blood
         if( one_in( 2 ) ) {
             m.add_splatter_trail( fd_blood, { 17, 6, abs_sub.z }, { 19, 3, abs_sub.z } );
             item body = item::make_corpse();
@@ -853,16 +858,20 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
             m.add_item_or_charges( { 17, 5, abs_sub.z }, body );
         }
 
+        //Horizontal line of barber wire fence
         line( &m, t_fence_barbed, 0, 9, SEEX * 2, 9 );
 
         std::vector<point> barbed_wire = line_to( 0, 9, SEEX * 2, 9 );
         for( auto &i : barbed_wire ) {
+            //10% chance to spawn corpses of bloody people/zombies on every tile of barbed wire fence
             if( one_in( 10 ) ) {
                 m.add_corpse( { i.x, i.y, abs_sub.z } );
                 m.add_field( { i.x, i.y, abs_sub.z }, fd_blood, 1, 0_turns );
             }
         }
 
+        //Spawn 6-20 mines in the lower submap.
+        //Spawn ordinary mine on asphalt, otherwise spawn buried mine
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 1, SEEX * 2 ), y = rng( SEEY, SEEY * 2 - 2 );
             if( m.has_flag( "DIGGABLE", x, y ) ) {
@@ -872,13 +881,16 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
             }
         }
 
+        //Spawn 6-20 puddles of blood on tiles without mines
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 1, SEEX * 2 ), y = rng( SEEY, SEEY * 2 - 2 );
             if( m.tr_at( { x, y, abs_sub.z } ).is_null() ) {
                 m.add_field( { x, y, abs_sub.z }, fd_blood, 1, 0_turns );
+                //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
                     m.add_corpse( { x, y, abs_sub.z } );
                     for( const auto &loc : g->m.points_in_radius( { x, y, abs_sub.z }, 1 ) ) {
+                        //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
                             m.add_field( { loc.x, loc.y, abs_sub.z }, fd_gibs_flesh, 1, 0_turns );
                         }
@@ -887,6 +899,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
             }
         }
 
+        //Set two warning signs on the last line of the submap
         x = rng( 1, SEEX );
         x1 = rng( SEEX + 1, SEEX * 2 );
         m.furn_set( x, SEEY * 2 - 1, furn_str_id( "f_sign_warning" ) );
