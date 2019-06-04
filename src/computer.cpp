@@ -67,7 +67,6 @@ const species_id ZOMBIE( "ZOMBIE" );
 const species_id HUMAN( "HUMAN" );
 
 const efftype_id effect_amigara( "amigara" );
-const efftype_id effect_mending( "mending" );
 
 int alerts = 0;
 
