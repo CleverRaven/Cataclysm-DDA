@@ -955,7 +955,6 @@ void player::apply_persistent_morale()
         }
     }
 
-
     if( has_trait( trait_PROF_FOODP ) ) {
         // Loosing your face is distressing
         if( !( is_wearing( itype_id( "foodperson_mask" ) ) ||
