@@ -60,6 +60,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
@@ -80,6 +81,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
@@ -119,6 +121,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
@@ -159,6 +162,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
@@ -262,6 +266,7 @@
     "symbol": ".",
     "color": "white",
     "move_cost": 2,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "str_min": 4,
@@ -282,6 +287,7 @@
     "symbol": ".",
     "color": "dark_gray",
     "move_cost": 4,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "FLAT" ],
     "bash": {
       "sound": "SCRRRASH!",
@@ -300,6 +306,7 @@
     "symbol": ".",
     "color": "cyan",
     "move_cost": 2,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "sound": "SMASH!",
@@ -656,6 +663,7 @@
     "symbol": ".",
     "color": "light_cyan",
     "move_cost": 2,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 100, "str_max": 500, "str_min_supported": 200 }
   },
@@ -942,6 +950,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
@@ -1081,6 +1090,7 @@
     "color": [ "light_red" ],
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_thatch_roof",
     "bash": {
       "str_min": 10,
       "str_max": 140,
@@ -1137,6 +1147,7 @@
     "color": "light_red",
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
@@ -1233,7 +1244,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_rock_floor",
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 70,
@@ -1254,7 +1265,7 @@
     "color": "cyan",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_metal_floor",
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 200,
@@ -1279,6 +1290,7 @@
     "color": "light_cyan",
     "move_cost": 0,
     "coverage": 90,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 4,
@@ -1300,6 +1312,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_cyan",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "ALARMED", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 4,
@@ -1321,6 +1334,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_cyan",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 40,
@@ -1341,6 +1355,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_gray",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_reinforced_glass_shutter_open",
     "bash": {
@@ -1366,6 +1381,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_cyan",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "MINEABLE", "BLOCK_WIND" ],
     "close": "t_reinforced_glass_shutter",
     "bash": {
@@ -3677,6 +3693,7 @@
     "symbol": "\"",
     "color": "light_cyan",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
@@ -3699,6 +3716,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 6,
@@ -3720,6 +3738,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 60,
+    "roof": "t_flat_roof",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3768,6 +3787,7 @@
     "color": "white",
     "move_cost": 0,
     "coverage": 60,
+    "roof": "t_flat_roof",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3801,6 +3821,7 @@
     "color": "white",
     "move_cost": 4,
     "coverage": 60,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
     "close": "t_window_no_curtains",
     "bash": {
@@ -3824,6 +3845,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 6,
@@ -3846,6 +3868,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND" ],
     "examine_action": "curtains",
     "bash": {
@@ -3873,6 +3896,7 @@
     "color": "light_gray",
     "move_cost": 4,
     "coverage": 60,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
     "examine_action": "curtains",
     "close": "t_window_domestic",
@@ -3901,6 +3925,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -3946,6 +3971,7 @@
     "symbol": "\"",
     "color": "light_cyan",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3975,6 +4001,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "ALARMED", "WALL", "BARRICADABLE_WINDOW", "BLOCK_WIND" ],
     "bash": {
       "str_min": 6,
@@ -3991,11 +4018,11 @@
     "type": "terrain",
     "id": "t_window_empty",
     "name": "empty window",
+    "roof": "t_flat_roof",
     "description": "An empty window frame consisting of two by fours and nails.  You could install a sheet of glass, or even board it up for protection.  You could also convert it into a wall if you took the time to construct it.",
     "symbol": "0",
     "color": "yellow",
     "move_cost": 4,
-    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "FLAMMABLE", "SUPPORTS_ROOF", "MOUNTABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
     "bash": {
       "str_min": 10,
@@ -4019,6 +4046,7 @@
     "color": "light_cyan",
     "move_cost": 8,
     "coverage": 60,
+    "roof": "t_flat_roof",
     "bash": {
       "str_min": 1,
       "str_max": 1,
@@ -4040,6 +4068,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 3,
@@ -4061,6 +4090,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 3,
@@ -4082,6 +4112,7 @@
     "color": "red",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
@@ -4101,6 +4132,7 @@
     "color": "red",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
@@ -4120,6 +4152,7 @@
     "color": "cyan",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 18,
@@ -4139,6 +4172,7 @@
     "color": "cyan",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 18,
@@ -4157,6 +4191,7 @@
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
     "bash": {
       "str_min": 60,
@@ -4180,6 +4215,7 @@
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "ALARMED", "CONNECT_TO_WALL" ],
     "bash": {
       "str_min": 3,
