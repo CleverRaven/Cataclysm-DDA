@@ -24,6 +24,20 @@
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
+    "id": "riding_saddle",
+    "type": "TOOL",
+    "name": "riding saddle",
+    "description": "A saddle that can be placed on a tamed animal that is capable of being ridden.",
+    "weight": 800,
+    "volume": 8,
+    "price": 0,
+    "to_hit": -1,
+    "bashing": 5,
+    "material": [ "leather" ],
+    "symbol": "M",
+    "color": "yellow"
+  },
+  {
     "id": "EMPbomb_act",
     "type": "TOOL",
     "category": "weapons",

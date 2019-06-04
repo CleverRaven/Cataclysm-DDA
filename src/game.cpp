@@ -216,6 +216,10 @@ const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_winded( "winded" );
+const efftype_id effect_ridden( "ridden" );
+const efftype_id effect_riding( "riding" );
+const efftype_id effect_has_bag( "has_bag" );
+const efftype_id effect_harnessed( "harnessed" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
@@ -4151,7 +4155,7 @@ void game::monmove()
 
         m.creature_in_field( critter );
 
-        while( critter.moves > 0 && !critter.is_dead() ) {
+        while( critter.moves > 0 && !critter.is_dead() && !critter.has_effect( effect_ridden ) ) {
             critter.made_footstep = false;
             // Controlled critters don't make their own plans
             if( !critter.has_effect( effect_controlled ) ) {
@@ -5400,39 +5404,54 @@ void game::examine( const tripoint &examp )
     Creature *c = critter_at( examp );
     if( c != nullptr ) {
         monster *mon = dynamic_cast<monster *>( c );
-        if( mon != nullptr && mon->has_effect( effect_pet ) ) {
+        if( mon != nullptr && mon->has_effect( effect_pet ) && !u.has_effect( effect_riding ) ) {
             if( monexamine::pet_menu( *mon ) ) {
                 return;
             }
+        } else if( u.has_effect( effect_riding ) ) {
+            add_msg( m_warning, _( "You cannot do that while mounted." ) );
         }
-
         npc *np = dynamic_cast<npc *>( c );
-        if( np != nullptr ) {
+        if( np != nullptr && !u.has_effect( effect_riding ) ) {
             if( npc_menu( *np ) ) {
                 return;
             }
+        } else if( np != nullptr && u.has_effect( effect_riding ) ) {
+            add_msg( m_warning, _( "You cannot do that while mounted." ) );
         }
     }
 
     const optional_vpart_position vp = m.veh_at( examp );
-    if( vp ) {
+    if( vp && !u.has_effect( effect_riding ) ) {
         vp->vehicle().interact_with( examp, vp->part_index() );
         return;
+    } else if( vp && u.has_effect( effect_riding ) ) {
+        add_msg( m_warning, _( "You cannot interact with a vehicle while mounted." ) );
     }
 
-    if( m.has_flag( "CONSOLE", examp ) ) {
+    if( m.has_flag( "CONSOLE", examp ) && !u.has_effect( effect_riding ) ) {
         use_computer( examp );
         return;
+    } else if( m.has_flag( "CONSOLE", examp ) && u.has_effect( effect_riding ) ) {
+        add_msg( m_warning, _( "You cannot use a console while mounted." ) );
     }
     const furn_t &xfurn_t = m.furn( examp ).obj();
     const ter_t &xter_t = m.ter( examp ).obj();
 
     const tripoint player_pos = u.pos();
 
-    if( m.has_furn( examp ) ) {
+    if( m.has_furn( examp ) && !u.has_effect( effect_riding ) ) {
         xfurn_t.examine( u, examp );
+    } else if( m.has_furn( examp ) && u.has_effect( effect_riding ) ) {
+        add_msg( m_warning, _( "You cannot do that while mounted." ) );
     } else {
-        xter_t.examine( u, examp );
+        if( !u.has_effect( effect_riding ) ) {
+            xter_t.examine( u, examp );
+        } else if( u.has_effect( effect_riding ) && xter_t.examine == &iexamine::none ) {
+            xter_t.examine( u, examp );
+        } else {
+            add_msg( m_warning, _( "You cannot do that while mounted." ) );
+        }
     }
 
     // Did the player get moved? Bail out if so; our examp probably
@@ -5446,11 +5465,13 @@ void game::examine( const tripoint &examp )
         none = false;
     }
 
-    if( !m.tr_at( examp ).is_null() ) {
+    if( !m.tr_at( examp ).is_null() && !u.has_effect( effect_riding ) ) {
         iexamine::trap( u, examp );
         draw_ter();
         wrefresh( w_terrain );
-        draw_panels( true );
+        draw_panels();
+    } else if( !m.tr_at( examp ).is_null() && u.has_effect( effect_riding ) ) {
+        add_msg( m_warning, _( "You cannot do that while mounted." ) );
     }
 
     // In case of teleport trap or somesuch
@@ -5458,7 +5479,7 @@ void game::examine( const tripoint &examp )
         return;
     }
 
-    // Feedback for fire lasting time
+    // Feedback for fire lasting time, this can be judged while mounted
     const std::string fire_fuel = get_fire_fuel_string( examp );
     if( !fire_fuel.empty() ) {
         add_msg( fire_fuel );
@@ -8806,6 +8827,12 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
         !query_yn( _( "Really step into %s?" ), enumerate_as_string( harmful_stuff ) ) ) {
         return false;
     }
+    if( !harmful_stuff.empty() && u.has_effect( effect_riding ) &&
+        m.tr_at( dest_loc ).loadid == tr_ledge && u.mounted_creature ) {
+        add_msg( m_warning, _( "Your %s refuses to move over that ledge!" ),
+                 u.mounted_creature.get()->get_name() );
+        return false;
+    }
     return true;
 }
 
@@ -8827,7 +8854,6 @@ bool game::walk_move( const tripoint &dest_loc )
         pushing = dp ==  u.grab_point;
         pulling = dp == -u.grab_point;
     }
-
     if( grabbed && dest_loc.z != u.posz() ) {
         add_msg( m_warning, _( "You let go of the grabbed object." ) );
         grabbed = false;
@@ -8854,7 +8880,6 @@ bool game::walk_move( const tripoint &dest_loc )
         // We were grabbing something WEIRD, let's pretend we weren't
         grabbed = false;
     }
-
     if( u.grab_point != tripoint_zero && !grabbed ) {
         add_msg( m_warning, _( "Can't find grabbed object." ) );
         u.grab( OBJECT_NONE );
@@ -8863,12 +8888,15 @@ bool game::walk_move( const tripoint &dest_loc )
     if( m.impassable( dest_loc ) && !pushing && !shifting_furniture ) {
         return false;
     }
+    if( u.has_effect( effect_riding ) && vp_there ) {
+        add_msg( m_warning, _( "You cannot board a vehicle whilst mounted." ) );
+        return false;
+    }
     u.set_underwater( false );
 
     if( !shifting_furniture && !pushing && !prompt_dangerous_tile( dest_loc ) ) {
         return true;
     }
-
     // Used to decide whether to print a 'moving is slow message
     const int mcost_from = m.move_cost( u.pos() ); //calculate this _before_ calling grabbed_move
 
@@ -8883,13 +8911,30 @@ bool game::walk_move( const tripoint &dest_loc )
     } else if( mcost == 0 ) {
         return false;
     }
-
     bool diag = trigdist && u.posx() != dest_loc.x && u.posy() != dest_loc.y;
     const int previous_moves = u.moves;
-    u.moves -= u.run_cost( mcost, diag );
-
-    u.burn_move_stamina( previous_moves - u.moves );
-
+    if( u.has_effect( effect_riding ) && u.mounted_creature != nullptr ) {
+        if( m.has_flag_ter_or_furn( "MOUNTABLE", dest_loc ) ||
+            m.has_flag_ter_or_furn( "BARRICADABLE_DOOR", dest_loc ) ||
+            m.has_flag_ter_or_furn( "OPENCLOSE_INSIDE", dest_loc ) ||
+            m.has_flag_ter_or_furn( "BARRICADABLE_DOOR_DAMAGED", dest_loc ) ||
+            m.has_flag_ter_or_furn( "BARRICADABLE_DOOR_REINFORCED", dest_loc ) ) {
+            add_msg( m_warning, _( "You cannot pass obstacles whilst mounted." ) );
+            return false;
+        }
+        monster *crit = u.mounted_creature.get();
+        u.moves -= static_cast<int>( ceil( ( u.run_cost( mcost,
+                                             diag ) * 100.0 / crit->get_speed() ) + ( ( u.get_weight() / 120_gram ) / 40 ) ) );
+    } else {
+        u.moves -= u.run_cost( mcost, diag );
+        /**
+        TODO:
+        This should really use the mounted creatures stamina, if mounted.
+        Monsters don't currently have stamina however.
+        For the time being just don't burn players stamina when mounted.
+        */
+        u.burn_move_stamina( previous_moves - u.moves );
+    }
     // Max out recoil
     u.recoil = MAX_RECOIL;
 
@@ -8901,7 +8946,7 @@ bool game::walk_move( const tripoint &dest_loc )
     const bool slowed = ( ( !u.has_trait( trait_PARKOUR ) && ( mcost_to > 2 || mcost_from > 2 ) ) ||
                           mcost_to > 4 || mcost_from > 4 ) &&
                         !( u.has_trait( trait_M_IMMUNE ) && fungus );
-    if( slowed ) {
+    if( slowed && !u.has_effect( effect_riding ) ) {
         // Unless u.pos() has a higher movecost than dest_loc, state that dest_loc is the cause
         if( mcost_to >= mcost_from ) {
             if( auto displayed_part = vp_there.part_displayed() ) {
@@ -8923,9 +8968,9 @@ bool game::walk_move( const tripoint &dest_loc )
             }
         }
     }
-
-    if( u.has_trait( trait_id( "LEG_TENT_BRACE" ) ) && ( !u.footwear_factor() ||
-            ( u.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
+    if( !u.has_effect( effect_riding ) && u.has_trait( trait_id( "LEG_TENT_BRACE" ) ) &&
+        ( !u.footwear_factor() ||
+          ( u.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
         // DX and IN are long suits for Cephalopods,
         // so this shouldn't cause too much hardship
         // Presumed that if it's swimmable, they're
@@ -8938,7 +8983,6 @@ bool game::walk_move( const tripoint &dest_loc )
             u.mod_fatigue( 1 );
         }
     }
-
     if( !u.has_artifact_with( AEP_STEALTH ) && !u.has_trait( trait_id( "DEBUG_SILENT" ) ) ) {
         int volume = 6;
         volume *= u.mutation_value( "noise_modifier" );
@@ -8963,7 +9007,6 @@ bool game::walk_move( const tripoint &dest_loc )
                            "misc", "rattling" );
         }
     }
-
     if( u.is_hauling() ) {
         u.assign_activity( activity_id( "ACT_MOVE_ITEMS" ) );
         // Whether the source is inside a vehicle (not supported)
@@ -8989,7 +9032,7 @@ bool game::walk_move( const tripoint &dest_loc )
         add_msg( m_good, _( "You are hiding in the %s." ), m.name( dest_loc ) );
     }
 
-    if( dest_loc != u.pos() ) {
+    if( dest_loc != u.pos() && !u.has_effect( effect_riding ) ) {
         u.lifetime_stats.squares_walked++;
     }
 
@@ -9034,7 +9077,7 @@ point game::place_player( const tripoint &dest_loc )
         }
     }
     // TODO: Move the stuff below to a Character method so that NPCs can reuse it
-    if( m.has_flag( "ROUGH", dest_loc ) && ( !u.in_vehicle ) ) {
+    if( m.has_flag( "ROUGH", dest_loc ) && ( !u.in_vehicle ) && ( !u.has_effect( effect_riding ) ) ) {
         if( one_in( 5 ) && u.get_armor_bash( bp_foot_l ) < rng( 2, 5 ) ) {
             add_msg( m_bad, _( "You hurt your left foot on the %s!" ),
                      m.has_flag_ter( "ROUGH", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
@@ -9051,22 +9094,28 @@ point game::place_player( const tripoint &dest_loc )
     ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
     if( m.has_flag( "SHARP", dest_loc ) && !one_in( 3 ) && !x_in_y( 1 + u.dex_cur / 2, 40 ) &&
         ( !u.in_vehicle ) && ( !u.has_trait( trait_PARKOUR ) || one_in( 4 ) ) ) {
-        body_part bp = random_body_part();
-        if( u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 10 ) ) ).total_damage() > 0 ) {
-            //~ 1$s - bodypart name in accusative, 2$s is terrain name.
-            add_msg( m_bad, _( "You cut your %1$s on the %2$s!" ),
-                     body_part_name_accusative( bp ),
-                     m.has_flag_ter( "SHARP", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
-                         dest_loc ) );
-            if( ( u.has_trait( trait_INFRESIST ) ) && ( one_in( 1024 ) ) ) {
-                u.add_effect( effect_tetanus, 1_turns, num_bp, true );
-            } else if( ( !u.has_trait( trait_INFIMMUNE ) || !u.has_trait( trait_INFRESIST ) ) &&
-                       ( one_in( 256 ) ) ) {
-                u.add_effect( effect_tetanus, 1_turns, num_bp, true );
+        if( u.has_effect( effect_riding ) && u.mounted_creature ) {
+            monster *mon = u.mounted_creature.get();
+            add_msg( _( "Your %s gets cut!" ), mon->get_name() );
+            mon->apply_damage( nullptr, bp_torso, rng( 1, 10 ) );
+        } else {
+            body_part bp = random_body_part();
+            if( u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 10 ) ) ).total_damage() > 0 ) {
+                //~ 1$s - bodypart name in accusative, 2$s is terrain name.
+                add_msg( m_bad, _( "You cut your %1$s on the %2$s!" ),
+                         body_part_name_accusative( bp ),
+                         m.has_flag_ter( "SHARP", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
+                             dest_loc ) );
+                if( ( u.has_trait( trait_INFRESIST ) ) && ( one_in( 1024 ) ) ) {
+                    u.add_effect( effect_tetanus, 1_turns, num_bp, true );
+                } else if( ( !u.has_trait( trait_INFIMMUNE ) || !u.has_trait( trait_INFRESIST ) ) &&
+                           ( one_in( 256 ) ) ) {
+                    u.add_effect( effect_tetanus, 1_turns, num_bp, true );
+                }
             }
         }
     }
-    if( m.has_flag( "UNSTABLE", dest_loc ) ) {
+    if( m.has_flag( "UNSTABLE", dest_loc ) && !u.has_effect( effect_riding ) ) {
         u.add_effect( effect_bouldering, 1_turns, num_bp, true );
     } else if( u.has_effect( effect_bouldering ) ) {
         u.remove_effect( effect_bouldering );
@@ -9081,14 +9130,39 @@ point game::place_player( const tripoint &dest_loc )
     if( m.has_flag( "SWIMMABLE", dest_loc ) && u.has_effect( effect_onfire ) ) {
         add_msg( _( "The water puts out the flames!" ) );
         u.remove_effect( effect_onfire );
+        if( u.has_effect( effect_riding ) && u.mounted_creature ) {
+            monster *mon = u.mounted_creature.get();
+            if( mon->has_effect( effect_onfire ) ) {
+                mon->remove_effect( effect_onfire );
+            }
+        }
     }
 
     if( monster *const mon_ptr = critter_at<monster>( dest_loc ) ) {
         // We displaced a monster. It's probably a bug if it wasn't a friendly mon...
         // Immobile monsters can't be displaced.
         monster &critter = *mon_ptr;
-        critter.move_to( u.pos(), true ); // Force the movement even though the player is there right now.
-        add_msg( _( "You displace the %s." ), critter.name() );
+        // TODO handling for ridden creatures other than players mount.
+        if( !critter.has_effect( effect_ridden ) ) {
+            if( u.has_effect( effect_riding ) && u.mounted_creature ) {
+                std::vector<tripoint> valid;
+                for( const tripoint &jk : g->m.points_in_radius( critter.pos(), 1 ) ) {
+                    if( is_empty( jk ) ) {
+                        valid.push_back( jk );
+                    }
+                }
+                if( !valid.empty() ) {
+                    critter.move_to( random_entry( valid ) );
+                    add_msg( _( "You push the %s out of the way." ), critter.name() );
+                } else {
+                    add_msg( _( "There is no room to push the %s out of the way." ), critter.name() );
+                    return point( u.pos().x, u.pos().y );
+                }
+            } else {
+                critter.move_to( u.pos(), true ); // Force the movement even though the player is there right now.
+                add_msg( _( "You displace the %s." ), critter.name() );
+            }
+        }
     }
 
     // If the player is in a vehicle, unboard them from the current part
@@ -9107,6 +9181,12 @@ point game::place_player( const tripoint &dest_loc )
         u.stop_hauling();
     }
     u.setpos( dest_loc );
+    if( u.has_effect( effect_riding ) && u.mounted_creature ) {
+        monster *mon = u.mounted_creature.get();
+        mon->setpos( dest_loc );
+        mon->process_triggers();
+        m.creature_in_field( *mon );
+    }
     point submap_shift = update_map( u );
     // Important: don't use dest_loc after this line. `update_map` may have shifted the map
     // and dest_loc was not adjusted and therefore is still in the un-shifted system and probably wrong.
@@ -9114,7 +9194,7 @@ point game::place_player( const tripoint &dest_loc )
     // adjusted_pos = ( old_pos.x - submap_shift.x * SEEX, old_pos.y - submap_shift.y * SEEY, old_pos.z )
 
     //Auto pulp or butcher and Auto foraging
-    if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0 ) {
+    if( get_option<bool>( "AUTO_FEATURES" ) && mostseen == 0  && !u.has_effect( effect_riding ) ) {
         static const direction adjacentDir[8] = { NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST };
 
         const std::string forage_type = get_option<std::string>( "AUTO_FORAGING" );
@@ -9189,23 +9269,27 @@ point game::place_player( const tripoint &dest_loc )
     }
 
     //Autopickup
-    if( get_option<bool>( "AUTO_PICKUP" ) && !u.is_hauling() &&
+    if( !u.has_effect( effect_riding ) && get_option<bool>( "AUTO_PICKUP" ) && !u.is_hauling() &&
         ( !get_option<bool>( "AUTO_PICKUP_SAFEMODE" ) || mostseen == 0 ) &&
         ( m.has_items( u.pos() ) || get_option<bool>( "AUTO_PICKUP_ADJACENT" ) ) ) {
         Pickup::pick_up( u.pos(), -1 );
     }
 
     // If the new tile is a boardable part, board it
-    if( vp1.part_with_feature( "BOARDABLE", true ) ) {
+    if( vp1.part_with_feature( "BOARDABLE", true ) && !u.has_effect( effect_riding ) ) {
         m.board_vehicle( u.pos(), &u );
     }
 
     // Traps!
     // Try to detect.
     u.search_surroundings();
-    m.creature_on_trap( u );
+    if( u.has_effect( effect_riding ) && u.mounted_creature ) {
+        m.creature_on_trap( *u.mounted_creature );
+    } else {
+        m.creature_on_trap( u );
+    }
     // Drench the player if swimmable
-    if( m.has_flag( "SWIMMABLE", u.pos() ) ) {
+    if( m.has_flag( "SWIMMABLE", u.pos() ) && !u.has_effect( effect_riding ) ) {
         u.drench( 40, { { bp_foot_l, bp_foot_r, bp_leg_l, bp_leg_r } }, false );
     }
 
@@ -9215,6 +9299,8 @@ point game::place_player( const tripoint &dest_loc )
             !g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), u.pos() ) ) {
             if( u.is_blind() && !m.i_at( u.pos() ).empty() ) {
                 add_msg( _( "There's something here, but you can't see what it is." ) );
+            } else if( u.has_effect( effect_riding ) && !m.i_at( u.pos() ).empty() ) {
+                add_msg( _( "There's something here, but you can't reach it whilst mounted." ) );
             } else if( m.has_items( u.pos() ) ) {
                 std::vector<std::string> names;
                 std::vector<size_t> counts;
@@ -9285,16 +9371,26 @@ point game::place_player( const tripoint &dest_loc )
         }
     }
 
-    if( vp1.part_with_feature( "CONTROLS", true ) && u.in_vehicle ) {
+    if( vp1.part_with_feature( "CONTROLS", true ) && u.in_vehicle && !u.has_effect( effect_riding ) ) {
         add_msg( _( "There are vehicle controls here." ) );
         add_msg( m_info, _( "%s to drive." ), press_x( ACTION_CONTROL_VEHICLE ) );
+    } else if( vp1.part_with_feature( "CONTROLS", true ) && u.in_vehicle &&
+               u.has_effect( effect_riding ) ) {
+        add_msg( _( "There are vehicle controls here but you cannot reach them whilst mounted." ) );
     }
     return submap_shift;
 }
 
 void game::place_player_overmap( const tripoint &om_dest )
 {
-    //First offload the active npcs.
+    // if player is teleporting around, they dont bring their horse with them
+    if( u.has_effect( effect_riding ) && u.mounted_creature ) {
+        u.remove_effect( effect_riding );
+        monster *critter = u.mounted_creature.get();
+        critter->remove_effect( effect_ridden );
+        u.mounted_creature = nullptr;
+    }
+    // offload the active npcs.
     unload_npcs();
     for( monster &critter : all_monsters() ) {
         despawn_monster( critter );
@@ -10062,7 +10158,6 @@ void game::vertical_move( int movez, bool force )
         u.activity.coords.push_back( tripoint_zero );
         map_stack items = m.i_at( adjusted_pos );
         if( items.empty() ) {
-            std::cout << "no items" << std::endl;
             u.stop_hauling();
         }
         int index = 0;

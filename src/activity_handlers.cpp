@@ -2018,12 +2018,12 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
     for( size_t e = 0; e < veh->engines.size(); ++e ) {
         if( veh->is_engine_on( e ) ) {
             attempted++;
-            if( !veh->is_engine_type( e, "muscle" ) ) {
+            if( !veh->is_engine_type( e, "muscle" ) && !veh->is_engine_type( e, "animal" ) ) {
                 non_muscle_attempted++;
             }
             if( veh->start_engine( e ) ) {
                 started++;
-                if( !veh->is_engine_type( e, "muscle" ) ) {
+                if( !veh->is_engine_type( e, "muscle" ) && !veh->is_engine_type( e, "animal" ) ) {
                     non_muscle_started++;
                 }
             }

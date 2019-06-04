@@ -24,6 +24,7 @@
 #include "catacharset.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
+#include "creature_tracker.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "effect.h"
@@ -173,6 +174,7 @@ const efftype_id effect_pkill1( "pkill1" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_recover( "recover" );
+const efftype_id effect_riding( "riding" );
 const efftype_id effect_sad( "sad" );
 const efftype_id effect_shakes( "shakes" );
 const efftype_id effect_sleep( "sleep" );
@@ -189,6 +191,7 @@ const efftype_id effect_weed_high( "weed_high" );
 const efftype_id effect_winded( "winded" );
 const efftype_id effect_bleed( "bleed" );
 const efftype_id effect_magnesium_supplements( "magnesium" );
+const efftype_id effect_ridden( "ridden" );
 
 const matype_id style_none( "style_none" );
 const matype_id style_kicks( "style_kicks" );
@@ -1828,7 +1831,7 @@ int player::run_cost( int base_cost, bool diag ) const
     if( diag ) {
         movecost *= 0.7071f; // because everything here assumes 100 is base
     }
-
+    float stamina_modifier;
     const bool flatground = movecost < 105;
     // The "FLAT" tag includes soft surfaces, so not a good fit.
     const bool on_road = flatground && g->m.has_flag( "ROAD", pos() );
@@ -1841,101 +1844,105 @@ int player::run_cost( int base_cost, bool diag ) const
         }
     }
 
-    if( has_trait( trait_M_IMMUNE ) && on_fungus ) {
-        if( movecost > 75 ) {
-            movecost =
-                75; // Mycal characters are faster on their home territory, even through things like shrubs
+    if( !has_effect( effect_riding ) ) {
+        if( movecost > 100 ) {
+            movecost *= Character::mutation_value( "movecost_obstacle_modifier" );
+            if( movecost < 100 ) {
+                movecost = 100;
+            }
         }
-    }
-
-    if( hp_cur[hp_leg_l] == 0 ) {
-        movecost += 50;
-    } else if( hp_cur[hp_leg_l] < hp_max[hp_leg_l] * .40 ) {
-        movecost += 25;
-    }
-
-    if( hp_cur[hp_leg_r] == 0 ) {
-        movecost += 50;
-    } else if( hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40 ) {
-        movecost += 25;
-    }
-
-    movecost *= Character::mutation_value( "movecost_modifier" );
-
-    if( flatground ) {
-        movecost *= Character::mutation_value( "movecost_flatground_modifier" );
-    }
-
-    if( has_trait( trait_PADDED_FEET ) && !footwear_factor() ) {
-        movecost *= .9f;
-    }
-
-    if( has_active_bionic( bio_jointservo ) ) {
-        if( move_mode == "run" ) {
-            movecost *= 0.85f;
-        } else {
-            movecost *= 0.95f;
+        if( has_trait( trait_M_IMMUNE ) && on_fungus ) {
+            if( movecost > 75 ) {
+                movecost =
+                    75; // Mycal characters are faster on their home territory, even through things like shrubs
+            }
         }
-    } else if( has_bionic( bio_jointservo ) ) {
-        movecost *= 1.1f;
-    }
-
-    if( worn_with_flag( "SLOWS_MOVEMENT" ) ) {
-        movecost *= 1.1f;
-    }
-    if( worn_with_flag( "FIN" ) ) {
-        movecost *= 1.5f;
-    }
-    if( worn_with_flag( "ROLLER_INLINE" ) ) {
-        if( on_road ) {
-            movecost *= 0.5f;
-        } else {
-            movecost *= 1.5f;
+        if( hp_cur[hp_leg_l] == 0 ) {
+            movecost += 50;
+        } else if( hp_cur[hp_leg_l] < hp_max[hp_leg_l] * .40 ) {
+            movecost += 25;
         }
-    }
-    // Quad skates might be more stable than inlines,
-    // but that also translates into a slower speed when on good surfaces.
-    if( worn_with_flag( "ROLLER_QUAD" ) ) {
-        if( on_road ) {
-            movecost *= 0.7f;
-        } else {
-            movecost *= 1.3f;
-        }
-    }
 
-    // Skates with only one wheel (roller shoes) are fairly less stable
-    // and fairly slower as well
-    if( worn_with_flag( "ROLLER_ONE" ) ) {
-        if( on_road ) {
-            movecost *= 0.85f;
-        } else {
+        if( hp_cur[hp_leg_r] == 0 ) {
+            movecost += 50;
+        } else if( hp_cur[hp_leg_r] < hp_max[hp_leg_r] * .40 ) {
+            movecost += 25;
+        }
+        movecost *= Character::mutation_value( "movecost_modifier" );
+        if( flatground ) {
+            movecost *= Character::mutation_value( "movecost_flatground_modifier" );
+        }
+        if( has_trait( trait_PADDED_FEET ) && !footwear_factor() ) {
+            movecost *= .9f;
+        }
+        if( has_active_bionic( bio_jointservo ) ) {
+            if( move_mode == "run" ) {
+                movecost *= 0.85f;
+            } else {
+                movecost *= 0.95f;
+            }
+        } else if( has_bionic( bio_jointservo ) ) {
             movecost *= 1.1f;
         }
+
+        if( worn_with_flag( "SLOWS_MOVEMENT" ) ) {
+            movecost *= 1.1f;
+        }
+        if( worn_with_flag( "FIN" ) ) {
+            movecost *= 1.5f;
+        }
+        if( worn_with_flag( "ROLLER_INLINE" ) ) {
+            if( on_road ) {
+                movecost *= 0.5f;
+            } else {
+                movecost *= 1.5f;
+            }
+        }
+        // Quad skates might be more stable than inlines,
+        // but that also translates into a slower speed when on good surfaces.
+        if( worn_with_flag( "ROLLER_QUAD" ) ) {
+            if( on_road ) {
+                movecost *= 0.7f;
+            } else {
+                movecost *= 1.3f;
+            }
+        }
+        // Skates with only one wheel (roller shoes) are fairly less stable
+        // and fairly slower as well
+        if( worn_with_flag( "ROLLER_ONE" ) ) {
+            if( on_road ) {
+                movecost *= 0.85f;
+            } else {
+                movecost *= 1.1f;
+            }
+        }
+
+        movecost +=
+            ( ( encumb( bp_foot_l ) + encumb( bp_foot_r ) ) * 2.5 +
+              ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) * 1.5 ) / 10;
+
+        // ROOTS3 does slow you down as your roots are probing around for nutrients,
+        // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
+        // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
+        const bool mutfeet = has_trait( trait_LEG_TENTACLES ) || has_trait( trait_PADDED_FEET ) ||
+                             has_trait( trait_HOOVES ) || has_trait( trait_TOUGH_FEET ) || has_trait( trait_ROOTS2 );
+        if( !is_wearing_shoes( side::LEFT ) && !mutfeet ) {
+            movecost += 8;
+        }
+        if( !is_wearing_shoes( side::RIGHT ) && !mutfeet ) {
+            movecost += 8;
+        }
+
+        if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "DIGGABLE", pos() ) ) {
+            movecost += 10 * footwear_factor();
+        }
+        // Both walk and run speed drop to half their maximums as stamina approaches 0.
+        // Convert stamina to a float first to allow for decimal place carrying
+        stamina_modifier = ( static_cast<float>( stamina ) / get_stamina_max() + 1 ) / 2;
+    } else {
+        stamina_modifier = 1.0;
     }
 
-    movecost +=
-        ( ( encumb( bp_foot_l ) + encumb( bp_foot_r ) ) * 2.5 +
-          ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) * 1.5 ) / 10;
-
-    // ROOTS3 does slow you down as your roots are probing around for nutrients,
-    // whether you want them to or not.  ROOTS1 is just too squiggly without shoes
-    // to give you some stability.  Plants are a bit of a slow-mover.  Deal.
-    const bool mutfeet = has_trait( trait_LEG_TENTACLES ) || has_trait( trait_PADDED_FEET ) ||
-                         has_trait( trait_HOOVES ) || has_trait( trait_TOUGH_FEET ) || has_trait( trait_ROOTS2 );
-    if( !is_wearing_shoes( side::LEFT ) && !mutfeet ) {
-        movecost += 8;
-    }
-    if( !is_wearing_shoes( side::RIGHT ) && !mutfeet ) {
-        movecost += 8;
-    }
-
-    if( has_trait( trait_ROOTS3 ) && g->m.has_flag( "DIGGABLE", pos() ) ) {
-        movecost += 10 * footwear_factor();
-    }
-
-    // Both walk and run speed drop to half their maximums as stamina approaches 0.
-    // Convert stamina to a float first to allow for decimal place carrying
-    float stamina_modifier = ( static_cast<float>( stamina ) / get_stamina_max() + 1 ) / 2;
     if( move_mode == "run" && stamina > 0 ) {
         // Rationale: Average running speed is 2x walking speed. (NOT sprinting)
         stamina_modifier *= 2.0;
@@ -1955,6 +1962,17 @@ int player::run_cost( int base_cost, bool diag ) const
 int player::swim_speed() const
 {
     int ret;
+    if( has_effect( effect_riding ) && mounted_creature != nullptr ) {
+        monster *mon = mounted_creature.get();
+        // no difference in swim speed by monster type yet.
+        // TODO : difference in swim speed by monster type.
+        // No monsters are currently mountable and can swim, though mods may allow this.
+        if( mon->has_flag( MF_SWIMS ) ) {
+            ret = 25;
+            ret += get_weight() / 120_gram - 50 * mon->get_size();
+            return ret;
+        }
+    }
     const auto usable = exclusive_flag_coverage( "ALLOWS_NATURAL_ATTACKS" );
     float hand_bonus_mult = ( usable.test( bp_hand_l ) ? 0.5f : 0.0f ) +
                             ( usable.test( bp_hand_r ) ? 0.5f : 0.0f );
@@ -2916,16 +2934,32 @@ void player::set_movement_mode( const std::string &new_mode )
             if( is_hauling() ) {
                 stop_hauling();
             }
-            add_msg( _( "You start running." ) );
+            if( has_effect( effect_riding ) ) {
+                add_msg( _( "You spur your steed into a gallop." ) );
+            } else {
+                add_msg( _( "You start running." ) );
+            }
         } else {
-            add_msg( m_bad, _( "You're too tired to run." ) );
+            if( has_effect( effect_riding ) ) {
+                add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
+            } else {
+                add_msg( m_bad, _( "You're too tired to run." ) );
+            }
         }
     } else if( new_mode == "crouch" ) {
         move_mode = "crouch";
-        add_msg( _( "You start crouching." ) );
+        if( has_effect( effect_riding ) ) {
+            add_msg( _( "You slow your steed to a walk." ) );
+        } else {
+            add_msg( _( "You start crouching." ) );
+        }
     } else {
         move_mode = "walk";
-        add_msg( _( "You start walking." ) );
+        if( has_effect( effect_riding ) ) {
+            add_msg( _( "You nudge your steed to a steady trot." ) );
+        } else {
+            add_msg( _( "You start walking." ) );
+        }
     }
 }
 
@@ -11389,6 +11423,105 @@ void player::burn_move_stamina( int moves )
         if( ( ( current_weight - max_weight ) / 800_gram > get_pain() && get_pain() < 100 ) ) {
             mod_pain( 1 );
         }
+    }
+}
+
+void player::forced_dismount()
+{
+    remove_effect( effect_riding );
+    if( mounted_creature ) {
+        auto mon = mounted_creature.get();
+        mon->remove_effect( effect_ridden );
+        mounted_creature = nullptr;
+    }
+    std::vector<tripoint> valid;
+    for( const tripoint &jk : g->m.points_in_radius( pos(), 1 ) ) {
+        if( g->is_empty( jk ) ) {
+            valid.push_back( jk );
+        }
+    }
+    if( !valid.empty() ) {
+        setpos( random_entry( valid ) );
+        add_msg( m_bad, _( "You fall off your mount!" ) );
+        const int dodge = get_dodge();
+        const int damage = std::max( 0, rng( 1, 20 ) - rng( dodge, dodge * 2 ) );
+        body_part hit = num_bp;
+        switch( rng( 1, 10 ) ) {
+            case  1:
+                if( one_in( 2 ) ) {
+                    hit = bp_foot_l;
+                } else {
+                    hit = bp_foot_r;
+                }
+                break;
+            case  2:
+            case  3:
+            case  4:
+                if( one_in( 2 ) ) {
+                    hit = bp_leg_l;
+                } else {
+                    hit = bp_leg_r;
+                }
+                break;
+            case  5:
+            case  6:
+            case  7:
+                if( one_in( 2 ) ) {
+                    hit = bp_arm_l;
+                } else {
+                    hit = bp_arm_r;
+                }
+                break;
+            case  8:
+            case  9:
+                hit = bp_torso;
+                break;
+            case 10:
+                hit = bp_head;
+                break;
+        }
+        if( damage > 0 ) {
+            add_msg( m_bad, _( "You hurt yourself!" ) );
+            deal_damage( nullptr, hit, damage_instance( DT_BASH, damage ) );
+            add_memorial_log( pgettext( "memorial_male", "Fell off a mount." ),
+                              pgettext( "memorial_female", "Fell off a mount." ) );
+            check_dead_state();
+        }
+        add_effect( effect_downed, 5_turns, num_bp, true );
+    } else {
+        add_msg( m_debug, "Forced_dismount could not find a square to deposit player" );
+    }
+    moves -= 150;
+    set_movement_mode( "walk" );
+    g->update_map( g->u );
+}
+
+void player::dismount()
+{
+    if( has_effect( effect_riding ) && mounted_creature != nullptr ) {
+        if( const cata::optional<tripoint> pnt = choose_adjacent( _( "Dismount where?" ) ) ) {
+            if( g->is_empty( *pnt ) ) {
+                tripoint temp_pt = *pnt;
+                int xdiff = pos().x - temp_pt.x;
+                int ydiff = pos().y - temp_pt.y;
+                remove_effect( effect_riding );
+                monster *critter = mounted_creature.get();
+                critter->remove_effect( effect_ridden );
+                mounted_creature = nullptr;
+                setpos( *pnt );
+                g->refresh_all();
+                critter->setpos( tripoint( pos().x - xdiff, pos().y - ydiff, pos().z ) );
+                mod_moves( -100 );
+                set_movement_mode( "walk" );
+                return;
+            } else {
+                add_msg( m_warning, _( "You cannot dismount there!" ) );
+                return;
+            }
+        }
+    } else {
+        add_msg( m_debug, "dismount called when not riding" );
+        return;
     }
 }
 

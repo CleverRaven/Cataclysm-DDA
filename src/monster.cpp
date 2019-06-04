@@ -48,6 +48,10 @@
 #include "player.h"
 #include "int_id.h"
 #include "string_id.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_reference.h" // IWYU pragma: keep
 
 struct pathfinding_settings;
 
@@ -122,6 +126,7 @@ const efftype_id effect_docile( "docile" );
 const efftype_id effect_downed( "downed" );
 const efftype_id effect_emp( "emp" );
 const efftype_id effect_grabbed( "grabbed" );
+const efftype_id effect_harnessed( "harnessed" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_hit_by_player( "hit_by_player" );
 const efftype_id effect_in_pit( "in_pit" );
@@ -132,6 +137,9 @@ const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_pacified( "pacified" );
 const efftype_id effect_paralyzepoison( "paralyzepoison" );
 const efftype_id effect_poison( "poison" );
+const efftype_id effect_riding( "riding" );
+const efftype_id effect_ridden( "ridden" );
+const efftype_id effect_saddled( "saddled" );
 const efftype_id effect_run( "run" );
 const efftype_id effect_shrieking( "shrieking" );
 const efftype_id effect_stunned( "stunned" );
@@ -239,6 +247,10 @@ void monster::setpos( const tripoint &p )
     bool wandering = wander();
     g->update_zombie_pos( *this, p );
     position = p;
+    if( has_effect( effect_ridden ) && position != g->u.pos() ) {
+        add_msg( m_debug, "Ridden monster %s moved independently and dumped player", get_name() );
+        g->u.forced_dismount();
+    }
     if( wandering ) {
         unset_dest();
     }
@@ -1925,6 +1937,14 @@ void monster::die( Creature *nkiller )
         // We are already dead, don't die again, note that monster::dead is
         // *only* set to true in this function!
         return;
+    }
+    // We were carrying a creature, deposit the rider
+    if( has_effect( effect_ridden ) ) {
+        if( has_effect( effect_saddled ) ) {
+            item riding_saddle( "riding_saddle", 0 );
+            g->m.add_item_or_charges( pos(), riding_saddle );
+        }
+        g->u.forced_dismount();
     }
     g->set_critter_died();
     dead = true;

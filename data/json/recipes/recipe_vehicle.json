@@ -40,6 +40,23 @@
     "components": [ [ [ "sheet_metal", 3 ] ] ]
   },
   {
+    "result": "yoke_harness",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": 120000,
+    "book_learn": [ [ "textbook_fabrication", 5 ], [ "textbook_carpentry", 5 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "using": [ [ "sewing_standard", 100 ] ],
+    "components": [
+      [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "fur", 6 ], [ "tanned_pelt", 1 ] ],
+      [ [ "2x4", 4 ] ],
+      [ [ "rope_6", 2 ] ]
+    ]
+  },
+  {
     "result": "bike_rack",
     "type": "recipe",
     "category": "CC_OTHER",

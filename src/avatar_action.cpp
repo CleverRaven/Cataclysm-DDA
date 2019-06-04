@@ -36,6 +36,8 @@ static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 static const efftype_id effect_stunned( "stunned" );
+static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_harnessed( "harnessed" );
 
 bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
 {
@@ -67,7 +69,8 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
 
     if( m.has_flag( TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
-        !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) ) {
+        !m.veh_at( dest_loc ) && !you.is_underwater() && !you.has_effect( effect_stunned ) &&
+        !you.has_effect( effect_riding ) ) {
         if( you.weapon.has_flag( "DIG_TOOL" ) ) {
             if( you.weapon.type->can_use( "JACKHAMMER" ) && you.weapon.ammo_sufficient() ) {
                 you.invoke_item( &you.weapon, "JACKHAMMER", dest_loc );
@@ -100,8 +103,16 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
     const int new_dx = dest_loc.x - you.posx();
     if( new_dx > 0 ) {
         you.facing = FD_RIGHT;
+        if( you.has_effect( effect_riding ) && you.mounted_creature ) {
+            auto mons = you.mounted_creature.get();
+            mons->facing = FD_RIGHT;
+        }
     } else if( new_dx < 0 ) {
         you.facing = FD_LEFT;
+        if( you.has_effect( effect_riding ) && you.mounted_creature ) {
+            auto mons = you.mounted_creature.get();
+            mons->facing = FD_LEFT;
+        }
     }
 
     if( dz == 0 && ramp_move( you, m, dest_loc ) ) {
@@ -181,7 +192,7 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
             }
             g->draw_hit_mon( dest_loc, critter, critter.is_dead() );
             return false;
-        } else if( critter.has_flag( MF_IMMOBILE ) ) {
+        } else if( critter.has_flag( MF_IMMOBILE ) || critter.has_effect( effect_harnessed ) ) {
             add_msg( m_info, _( "You can't displace your %s." ), critter.name() );
             return false;
         }
@@ -247,6 +258,13 @@ bool avatar_action::move( avatar &you, map &m, int dx, int dy, int dz )
 
     if( toSwimmable && toDeepWater && !toBoat ) {  // Dive into water!
         // Requires confirmation if we were on dry land previously
+        if( you.has_effect( effect_riding ) && you.mounted_creature != nullptr ) {
+            auto mon = you.mounted_creature.get();
+            if( !mon->has_flag( MF_SWIMS ) || mon->get_size() < you.get_size() + 2 ) {
+                add_msg( m_warning, _( "Your mount shies away from the water!" ) );
+                return false;
+            }
+        }
         if( ( fromSwimmable && fromDeepWater && !fromBoat ) || query_yn( _( "Dive into the water?" ) ) ) {
             if( ( !fromDeepWater || fromBoat ) && you.swim_speed() < 500 ) {
                 add_msg( _( "You start swimming." ) );
@@ -390,6 +408,12 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     if( you.has_effect( effect_onfire ) ) {
         add_msg( _( "The water puts out the flames!" ) );
         you.remove_effect( effect_onfire );
+        if( you.has_effect( effect_riding ) && you.mounted_creature != nullptr ) {
+            monster *mon = you.mounted_creature.get();
+            if( mon->has_effect( effect_onfire ) ) {
+                mon->remove_effect( effect_onfire );
+            }
+        }
     }
     if( you.has_effect( effect_glowing ) ) {
         add_msg( _( "The water washes off the glowing goo!" ) );
@@ -417,6 +441,11 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     if( you.in_vehicle ) {
         m.unboard_vehicle( you.pos() );
     }
+    if( you.has_effect( effect_riding ) &&
+        m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
+        add_msg( m_warning, _( "You cannot board a vehicle while mounted." ) );
+        return;
+    }
     you.setpos( p );
     g->update_map( you );
     if( m.veh_at( you.pos() ).part_with_feature( VPFLAG_BOARDABLE, true ) ) {
@@ -425,7 +454,9 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
     you.moves -= ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? 1.41 : 1 );
     you.inv.rust_iron_items();
 
-    you.burn_move_stamina( movecost );
+    if( !you.has_effect( effect_riding ) ) {
+        you.burn_move_stamina( movecost );
+    }
 
     body_part_set drenchFlags{ {
             bp_leg_l, bp_leg_r, bp_torso, bp_arm_l,
