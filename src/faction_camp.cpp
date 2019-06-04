@@ -601,11 +601,11 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
         gather_bldg = upgrade.bldg;
         const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_upgrade_camp" ];
         comp_list npc_list = get_mission_workers( upgrade.bldg + "_faction_upgrade_camp" );
-        if( npc_list.empty() ) {
+        if( npc_list.empty() && !upgrade.in_progress ) {
             entry = om_upgrade_description( upgrade.bldg );
             mission_key.add_start( miss_info.miss_id + upgrade.bldg,
                                    miss_info.desc + " " + upgrade.name, "", entry, upgrade.avail );
-        } else {
+        } else if( !npc_list.empty() && upgrade.in_progress ) {
             entry = miss_info.action;
             bool avail = update_time_left( entry, npc_list );
             mission_key.add_return( miss_info.ret_miss_id + upgrade.bldg,
@@ -1190,7 +1190,7 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
 
     if( miss_id.size() > 12 && miss_id.substr( 0, 12 ) == "Upgrade Camp" ) {
         const std::string bldg = miss_id.substr( 12 );
-        start_upgrade( bldg, bldg + "_faction_upgrade_camp", by_radio );
+        start_upgrade( bldg, base_dir, bldg + "_faction_upgrade_camp", by_radio );
     } else if( miss_id == "Recover Ally from Upgrading" ) {
         upgrade_return( base_dir, "_faction_upgrade_camp" );
     } else if( miss_id.size() > 27 && miss_id.substr( 0, 27 ) == "Recover Ally from Upgrading" ) {
@@ -1310,10 +1310,10 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
     for( const std::string &dir : directions ) {
         if( dir == miss_dir ) {
             const tripoint omt_trg = expansions[ dir ].pos;
-            if( miss_id.size() > 21 &&
-                miss_id.substr( 0, 22 - ( 4 - miss_dir.size() ) ) == ( miss_dir + " Expansion Upgrade" ) ) {
-                const std::string bldg = miss_id.substr( 22 - ( 4 - miss_dir.size() ) );
-                start_upgrade( bldg, bldg + "_faction_upgrade_exp_" + miss_dir, by_radio );
+            if( miss_id.size() > ( 18 + miss_dir.size() ) &&
+                miss_id.substr( 0, 18 + miss_dir.size() ) == ( miss_dir + " Expansion Upgrade" ) ) {
+                const std::string bldg = miss_id.substr( 18 + miss_dir.size() );
+                start_upgrade( bldg, dir, bldg + "_faction_upgrade_exp_" + miss_dir, by_radio );
             } else if( miss_id == "Recover Ally, " + miss_dir + " Expansion" ) {
                 upgrade_return( dir, "_faction_upgrade_exp_" + miss_dir );
             } else {
@@ -1406,7 +1406,8 @@ npc_ptr basecamp::start_mission( const std::string &miss_id, time_duration durat
     return comp;
 }
 
-void basecamp::start_upgrade( const std::string &bldg, const std::string &key, bool by_radio )
+void basecamp::start_upgrade( const std::string &bldg, const std::string &dir,
+                              const std::string &key, bool by_radio )
 {
     const recipe &making = recipe_id( bldg ).obj();
     //Stop upgrade if you don't have materials
@@ -1417,9 +1418,11 @@ void basecamp::start_upgrade( const std::string &bldg, const std::string &key, b
         npc_ptr comp = start_mission( key, work_days, must_feed,
                                       _( "begins to upgrade the camp..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
-        if( comp != nullptr ) {
-            consume_components( making, 1, by_radio );
+        if( comp == nullptr ) {
+            return;
         }
+        consume_components( making, 1, by_radio );
+        update_in_progress( bldg, dir );
     } else {
         popup( _( "You don't have the materials for the upgrade." ) );
     }
