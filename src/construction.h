@@ -74,7 +74,7 @@ struct construction {
         std::string get_time_string() const;
 };
 
-std::vector<construction> get_constructions();
+const std::vector<construction> &get_constructions();
 
 //! Set all constructions to take the specified time.
 void standardize_construction_times( int time );

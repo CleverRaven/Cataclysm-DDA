@@ -2738,7 +2738,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
         p->cancel_activity();
         return;
     }
-    std::vector<construction> list_constructions = get_constructions();
+    const std::vector<construction> &list_constructions = get_constructions();
     const construction &built = list_constructions[act->index];
 
     // item_counter represents the percent progress relative to the base batch time

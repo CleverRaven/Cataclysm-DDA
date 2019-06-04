@@ -196,7 +196,7 @@ static nc_color construction_color( const std::string &con_name, bool highlight 
     return highlight ? hilite( col ) : col;
 }
 
-std::vector<construction> get_constructions()
+const std::vector<construction> &get_constructions()
 {
     return constructions;
 }
