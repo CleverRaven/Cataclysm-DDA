@@ -368,7 +368,7 @@
         "topic": "TALK_FOODPERSON_SIDEKICK"
       },
       {
-        "text": "Alright I though about this, what do you say we team up?",
+        "text": "Alright, I thought about this, what do you say about we team up?",
         "condition": {
           "and": [
             { "npc_has_var": "npc_foodpersons_sharing", "type": "dialogue", "context": "foodperson", "value": "yes" },
