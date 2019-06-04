@@ -534,7 +534,7 @@
   },
   {
     "type": "furniture",
-    "id": "f_leaves_bed",
+    "id": "f_leaves_pile",
     "name": "pile of leaves",
     "symbol": "#",
     "description": "A sizeable pile of leaves.  You could sleep on it if you don't care about comfort or warmth.",
