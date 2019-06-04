@@ -535,16 +535,16 @@
   {
     "type": "furniture",
     "id": "f_leaves_bed",
-    "name": "pile of leaves bed",
+    "name": "pile of leaves",
     "symbol": "#",
-    "description": "Makeshift bed made by piling up leaves.  Not very comfortable or warm, but better than nothing.",
+    "description": "A sizeable pile of leaves.  You could sleep on it if you don't care about comfort or warmth.",
     "color": "brown",
     "move_cost_mod": 3,
     "coverage": 35,
     "comfort": 1,
     "floor_bedding_warmth": 50,
     "required_str": -1,
-    "deconstruct": { "items": [ { "item": "withered", "count": 10 } ] },
+    "deconstruct": { "items": [ { "item": "withered", "count": 50 } ] },
     "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
     "bash": {
@@ -552,7 +552,7 @@
       "str_max": 6,
       "sound": "crunch!",
       "sound_fail": "whump.",
-      "items": [ { "item": "withered", "count": [ 9, 10 ] } ]
+      "items": [ { "item": "withered", "count": [ 45, 50 ] } ]
     }
   },
   {
