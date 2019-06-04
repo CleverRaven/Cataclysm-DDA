@@ -2734,13 +2734,14 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
 {
     item *con_item = act->targets.front().get_item();
     // this shouldn't happen, unfinished crafts should not dissappear during activity
-    if( !con_item ){
+    if( !con_item ) {
         add_msg( m_bad, "The marker item is no longer there, cancelling construction," );
         p->cancel_activity();
         return;
     }
     std::vector<construction> list_constructions = get_constructions();
     const construction &built = list_constructions[act->index];
+
     // item_counter represents the percent progress relative to the base batch time
     // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6732000 )
     const int old_counter = con_item->get_var( "construction_progress", 0 );
@@ -2756,26 +2757,16 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     const double current_progress = old_counter * base_total_moves / 10000000.0 +
                                     delta_progress;
     // Current progress as a percent of base_total_moves to 2 decimal places
-    con_item->set_var( "construction_progress", round( current_progress / base_total_moves * 10000000.0 ) );
+    con_item->set_var( "construction_progress",
+                       round( current_progress / base_total_moves * 10000000.0 ) );
     p->set_moves( 0 );
 
-    // This is to ensure we don't over count skill steps
-    con_item->set_var( "construction_progress", std::min( static_cast<int>( con_item->get_var( "construction_progress", 0 ) ), 10000000 ) );
-    std::string con_desc = string_format( _( "Unfinished task: %s. It is %d percent complete" ), built.description, static_cast<int>( con_item->get_var( "construction_progress", 0 ) / 100000 ) );
+    con_item->set_var( "construction_progress",
+                       std::min( static_cast<int>( con_item->get_var( "construction_progress", 0 ) ), 10000000 ) );
+    std::string con_desc = string_format( _( "Unfinished task: %s. It is %d percent complete" ),
+                                          built.description, static_cast<int>( con_item->get_var( "construction_progress", 0 ) / 100000 ) );
     con_item->set_var( "name", con_desc );
-    // Skill is gained after every 5% progress
-    const int skill_steps = con_item->get_var( "construction_progress", 0 ) / 500000 - old_counter / 500000;
-    if( skill_steps > 0 ){
-        for( const auto &pr : built.required_skills ) {
-            p->practice( pr.first, static_cast<int>( ( ( 10 + 15 * pr.second ) / built.time ) * skill_steps ),
-                        static_cast<int>( pr.second * 1.25 ) );
-            // Friendly NPCs gain exp from assisting or watching...
-            for( auto &elem : g->u.get_crafting_helpers() ) {
-                elem->practice( pr.first, static_cast<int>( ( ( 10 + 15 * pr.second ) / built.time ) * skill_steps ),
-                            static_cast<int>( pr.second * 1.25 ) );
-            }
-        }
-    }
+
     // if construction_progress has reached 100% or more
     if( con_item->get_var( "construction_progress", 0 ) >= 10000000 ) {
         act->targets.front().remove_item();

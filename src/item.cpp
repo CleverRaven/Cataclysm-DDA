@@ -249,6 +249,12 @@ static const item *get_most_rotten_component( const item &craft )
     return most_rotten;
 }
 
+item::item( std::list<item> items )
+    : item( "partial_construction", calendar::turn )
+{
+    components = items;
+}
+
 item::item( const recipe *rec, int qty, std::list<item> items )
     : item( "craft", calendar::turn, qty )
 {

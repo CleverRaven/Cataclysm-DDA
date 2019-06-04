@@ -187,6 +187,10 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
             return false;
         }
     }
+    if( newit.has_flag( "MARKER" ) ) {
+        popup( _( "You can't pick up an unfinished constrution" ) );
+        return false;
+    }
     if( newit.invlet != '\0' &&
         u.invlet_to_position( newit.invlet ) != INT_MIN ) {
         // Existing invlet is not re-usable, remove it and let the code in player.cpp/inventory.cpp

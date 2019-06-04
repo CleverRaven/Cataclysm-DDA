@@ -2177,6 +2177,11 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         redraw = true;
         return false;
     }
+    if( it.has_flag( "MARKER" ) ) {
+        popup( _( "You can't pick up an unfinished constrution" ) );
+        redraw = true;
+        return false;
+    }
 
     // Check volume, this should work the same for inventory, map and vehicles, but not for worn
     const long room_for = it.charges_per_volume( free_volume );

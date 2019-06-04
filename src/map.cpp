@@ -2984,7 +2984,21 @@ void map::smash_items( const tripoint &p, const int power )
                     contents.push_back( elem );
                 }
             }
-
+            // Unfnished construction spilling its contents if destroyed.
+            if( i->has_flag( "MARKER" ) ) {
+                remove_trap( p );
+                std::vector<tripoint> spaces;
+                for( const auto potential_pt : points_in_radius( p, 4 ) ) {
+                    if( g->is_empty( potential_pt ) ) {
+                        spaces.push_back( potential_pt );
+                    }
+                }
+                for( const auto elem : i->components ) {
+                    if( !spaces.empty() ) {
+                        add_item_or_charges( random_entry( spaces ), elem );
+                    }
+                }
+            }
             i = i_rem( p, i );
         } else {
             i++;

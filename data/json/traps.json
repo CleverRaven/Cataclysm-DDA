@@ -521,6 +521,18 @@
   },
   {
     "type": "trap",
+    "id": "tr_unfinished_construction",
+    "name": "unfinished construction",
+    "color": "white",
+    "symbol": "U",
+    "visibility": -1,
+    "avoidance": 0,
+    "difficulty": 0,
+    "action": "none",
+    "benign": true
+  },
+  {
+    "type": "trap",
     "id": "tr_raincatcher",
     "name": "raincatcher",
     "color": "blue",

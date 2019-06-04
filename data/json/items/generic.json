@@ -43,14 +43,14 @@
     "type": "GENERIC",
     "//": "pseudo item, only used for construction as a designator for being unfinished",
     "id": "partial_construction",
-    "symbol": "U",
+    "symbol": " ",
     "color": "white",
     "name": "unfinished construction",
     "name_plural": "none",
     "description": "seeing this is a bug",
     "price": 0,
     "volume": 0,
-    "flags": [ "PSEUDO", "NO_SALVAGE", "TRADER_AVOID" ]
+    "flags": [ "PSEUDO", "NO_SALVAGE", "TRADER_AVOID", "MARKER" ]
   },
   {
     "type": "GENERIC",

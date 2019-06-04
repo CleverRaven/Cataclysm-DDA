@@ -60,6 +60,7 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 
 const trap_str_id tr_firewood_source( "tr_firewood_source" );
 const trap_str_id tr_practice_target( "tr_practice_target" );
+const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 // Construction functions.
 namespace construct
@@ -825,17 +826,31 @@ void place_construction( const std::string &desc )
         cons.front()->explain_failure( pnt );
         return;
     }
-
+    std::list<item> used;
     const construction &con = *valid.find( pnt )->second;
-    g->u.assign_activity( activity_id( "ACT_BUILD" ), con.time, con.id );
-    item partial_construction( "partial_construction", 0 );
-    item &added_item = g->m.add_item_or_charges( pnt, partial_construction );
+    // Set the trap that has the examine function
+    g->m.trap_set( pnt, tr_unfinished_construction );
+    // Use up the components
+    for( const auto &it : con.requirements->get_components() ) {
+        std::list<item> tmp = g->u.consume_items( it, 1, is_crafting_component );
+        used.splice( used.end(), tmp );
+    }
+    for( const auto &it : con.requirements->get_tools() ) {
+        g->u.consume_tools( it );
+    }
+    // Make the partial construction item
+    item partial_construction = item( used );
+    // Add it to the world ( add_item will force placement on impassable furniture )
+    item &added_item = g->m.add_item( pnt, partial_construction );
+    // Add the vars
     added_item.set_var( "time_passed", 0 );
     added_item.set_var( "construction_time", con.time );
     added_item.set_var( "construction_progress", 0 );
+    added_item.set_var( "index", static_cast<int>( con.id ) );
     std::string con_desc = string_format( _( "Unfinished task: %s, 0% complete" ), con.description );
     added_item.set_var( "name", con_desc );
     item_location item_loc( map_cursor( pnt ), &added_item );
+    g->u.assign_activity( activity_id( "ACT_BUILD" ), con.time, con.id );
     g->u.activity.targets.push_back( item_loc.clone() );
     g->u.activity.placement = pnt;
 }
@@ -843,8 +858,8 @@ void place_construction( const std::string &desc )
 void complete_construction()
 {
     player &u = g->u;
+    const tripoint terp = u.activity.placement;
     const construction &built = constructions[u.activity.index];
-
     const auto award_xp = [&]( player & c ) {
         for( const auto &pr : built.required_skills ) {
             c.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) * ( 1 + built.time / 30000.0 ) ),
@@ -865,19 +880,28 @@ void complete_construction()
 
         award_xp( *elem );
     }
-
-    for( const auto &it : built.requirements->get_components() ) {
-        u.consume_items( it, 1, is_crafting_component );
-    }
-    for( const auto &it : built.requirements->get_tools() ) {
-        u.consume_tools( it );
-    }
-
-    const tripoint terp = u.activity.placement;
     // Remove the unfinished item marker
-
     item *con_item = u.activity.targets.front().get_item();
     g->m.i_rem( terp, con_item );
+    g->m.disarm_trap( terp );
+    // Move any items that have found their way onto the construction site.
+    std::vector<tripoint> dump_spots;
+    for( const auto pt : g->m.points_in_radius( terp, 1 ) ) {
+        if( g->is_empty( pt ) ) {
+            dump_spots.push_back( pt );
+        }
+    }
+    if( !dump_spots.empty() ) {
+        tripoint dump_spot = random_entry( dump_spots );
+        auto items_at = g->m.i_at( terp );
+        for( auto it = items_at.rbegin(); it != items_at.rend(); it++ ) {
+            g->m.add_item_or_charges( dump_spot, *it );
+            item *item_ptr = &*it;
+            g->m.i_rem( terp, item_ptr );
+        }
+    } else {
+        add_msg( m_debug, "No space to displace items from construction finishing" );
+    }
     // Make the terrain change
     if( !built.post_terrain.empty() ) {
         if( built.post_is_furniture ) {

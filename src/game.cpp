@@ -235,6 +235,8 @@ static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 
+const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+
 static const faction_id your_followers( "your_followers" );
 
 void intro();
@@ -5420,7 +5422,6 @@ void game::examine( const tripoint &examp )
             add_msg( m_warning, _( "You cannot do that while mounted." ) );
         }
     }
-
     const optional_vpart_position vp = m.veh_at( examp );
     if( vp && !u.has_effect( effect_riding ) ) {
         vp->vehicle().interact_with( examp, vp->part_index() );
@@ -5470,6 +5471,10 @@ void game::examine( const tripoint &examp )
         draw_ter();
         wrefresh( w_terrain );
         draw_panels();
+        if( m.tr_at( examp ).loadid == tr_unfinished_construction ) {
+            // Don't examine item to pick up unfinsihed marker
+            return;
+        }
     } else if( !m.tr_at( examp ).is_null() && u.has_effect( effect_riding ) ) {
         add_msg( m_warning, _( "You cannot do that while mounted." ) );
     }
