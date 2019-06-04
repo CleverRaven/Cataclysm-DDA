@@ -62,11 +62,6 @@
     "faction": "free_merchants"
   },
   {
-    "type": "effect_type",
-    "id": "u_met_Pablo_Nunez",
-    "//": "Use this flag to indicate if the player has met this NPC before."
-  },
-  {
     "type": "talk_topic",
     "//": "common talk responses",
     "id": [
@@ -187,11 +182,13 @@
       {
         "text": "Why not move to the Tacoma Commune?",
         "topic": "TALK_REFUGEE_Pablo_Tacoma",
+        "effect": { "u_add_var": "Pablo_ask_tacoma", "type": "recruit", "context": "general", "value": "yes" },
         "condition": { "u_has_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" }
       },
       {
         "text": "I've got a secure base.  You and your wife could come with me.",
         "topic": "TALK_REFUGEE_Pablo_Recruit",
+        "effect": { "u_add_var": "Pablo_ask_recruit", "type": "recruit", "context": "general", "value": "yes" },
         "condition": "u_has_camp"
       }
     ]
