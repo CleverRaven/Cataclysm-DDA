@@ -810,7 +810,6 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
     const bool bridge_at_west = is_ot_type( "bridge", west );
     const bool bridge_at_east = is_ot_type( "bridge", east );
 
-    const bool road_at_center = is_ot_type( "road", center );
     const bool road_at_north = is_ot_type( "road", north );
     const bool road_at_south = is_ot_type( "road", south );
     const bool road_at_west = is_ot_type( "road", west );
@@ -829,7 +828,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         //7.62x51mm casings left from m60 of the humvee
         for( const auto &loc : g->m.points_in_radius( { 6, 4, abs_sub.z }, 3, 0 ) ) {
             if( one_in( 4 ) ) {
-                m.add_item_or_charges( loc, item( "762_51_casing" ) );
+                m.spawn_item( loc, "762_51_casing" );
             }
         }
 
@@ -838,7 +837,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
             m.add_vehicle( vproto_id( "humvee" ), 5, 3, 270, 70, -1 );
         }
 
-        //Sandbag block at the right edge 
+        //Sandbag block at the right edge
         line_furn( &m, f_sandbag_half, 15, 3, 15, 6 );
         line_furn( &m, f_sandbag_half, 15, 6, 20, 6 );
         line_furn( &m, f_sandbag_half, 20, 3, 20, 6 );
@@ -846,7 +845,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         //5.56x45mm casings left from a soldier
         for( const auto &loc : g->m.points_in_radius( { 17, 4, abs_sub.z }, 2, 0 ) ) {
             if( one_in( 4 ) ) {
-                m.add_item_or_charges( loc, item( "223_casing" ) );
+                m.spawn_item( loc, "223_casing" );
             }
         }
 
@@ -854,7 +853,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         if( one_in( 2 ) ) {
             m.add_splatter_trail( fd_blood, { 17, 6, abs_sub.z }, { 19, 3, abs_sub.z } );
             item body = item::make_corpse();
-            m.put_items_from_loc( "mon_zombie_soldier_death_drops", { 17, 5, abs_sub.z }, 0 );
+            m.put_items_from_loc( "mon_zombie_soldier_death_drops", { 17, 5, abs_sub.z } );
             m.add_item_or_charges( { 17, 5, abs_sub.z }, body );
         }
 
@@ -862,7 +861,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         std::vector<point> empty_magazines_locations = line_to( 15, 5, 20, 5 );
         for( auto &i : empty_magazines_locations ) {
             if( one_in( 3 ) ) {
-                m.add_item_or_charges( { i.x, i.y, abs_sub.z }, item( "stanag30" ) );
+                m.spawn_item( { i.x, i.y, abs_sub.z }, "stanag30" );
             }
         }
 
@@ -874,7 +873,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
             //10% chance to spawn corpses of bloody people/zombies on every tile of barbed wire fence
             if( one_in( 10 ) ) {
                 m.add_corpse( { i.x, i.y, abs_sub.z } );
-                m.add_field( { i.x, i.y, abs_sub.z }, fd_blood, rng( 1, 3 ), 0_turns );
+                m.add_field( { i.x, i.y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
             }
         }
 
@@ -893,14 +892,14 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 1, SEEX * 2 ), y = rng( SEEY, SEEY * 2 - 2 );
             if( m.tr_at( { x, y, abs_sub.z } ).is_null() ) {
-                m.add_field( { x, y, abs_sub.z }, fd_blood, rng( 1, 3 ), 0_turns );
+                m.add_field( { x, y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
                     m.add_corpse( { x, y, abs_sub.z } );
                     for( const auto &loc : m.points_in_radius( { x, y, abs_sub.z }, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
-                            m.add_field( { loc.x, loc.y, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ), 0_turns );
+                            m.add_field( { loc.x, loc.y, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
                         }
                     }
                 }
@@ -931,7 +930,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
             //10% chance to spawn corpses of bloody people/zombies on every tile of barbed wire fence
             if( one_in( 10 ) ) {
                 m.add_corpse( { i.x, i.y, abs_sub.z } );
-                m.add_field( { i.x, i.y, abs_sub.z }, fd_blood, rng( 1, 3 ), 0_turns );
+                m.add_field( { i.x, i.y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
             }
         }
 
@@ -943,25 +942,25 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
             for( const auto &loc : g->m.points_in_radius( { 11, 21, abs_sub.z }, 1 ) ) {
                 //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                 if( one_in( 2 ) ) {
-                    m.add_field( { loc.x, loc.y, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ), 0_turns );
+                    m.add_field( { loc.x, loc.y, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
                 }
             }
             item body = item::make_corpse();
-            m.put_items_from_loc( "mon_zombie_soldier_death_drops", { 11, 21, abs_sub.z }, 0 );
+            m.put_items_from_loc( "mon_zombie_soldier_death_drops", { 11, 21, abs_sub.z } );
             m.add_item_or_charges( { 11, 21, abs_sub.z }, body );
         }
 
         //5.56x45mm casings left from a soldier
         for( const auto &loc : m.points_in_radius( { 9, 15, abs_sub.z }, 2, 0 ) ) {
             if( one_in( 4 ) ) {
-                m.add_item_or_charges( loc, item( "223_casing" ) );
+                m.spawn_item( loc, "223_casing" );
             }
         }
 
         //5.56x45mm casings left from another soldier
         for( const auto &loc : g->m.points_in_radius( { 15, 15, abs_sub.z }, 2, 0 ) ) {
             if( one_in( 4 ) ) {
-                m.add_item_or_charges( loc, item( "223_casing" ) );
+                m.spawn_item( loc, "223_casing" );
             }
         }
 
@@ -969,7 +968,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         std::vector<point> empty_magazines_locations = line_to( 5, 16, 18, 16 );
         for( auto &i : empty_magazines_locations ) {
             if( one_in( 3 ) ) {
-                m.add_item_or_charges( { i.x, i.y, abs_sub.z }, item( "stanag30" ) );
+                m.spawn_item( { i.x, i.y, abs_sub.z }, "stanag30" );
             }
         }
 
@@ -994,14 +993,14 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 1, SEEX * 2 ), y = rng( 1, SEEY );
             if( m.tr_at( { x, y, abs_sub.z } ).is_null() ) {
-                m.add_field( { x, y, abs_sub.z }, fd_blood, rng( 1, 3 ), 0_turns );
+                m.add_field( { x, y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
                     m.add_corpse( { x, y, abs_sub.z } );
                     for( const auto &loc : g->m.points_in_radius( { x, y, abs_sub.z }, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
-                            m.add_field( { loc.x, loc.y, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ), 0_turns );
+                            m.add_field( { loc.x, loc.y, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
                         }
                     }
                 }
@@ -1030,13 +1029,13 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
 
         //Place makeshift beds in the first tent and place loot
         m.furn_set( { 1, 4, abs_sub.z }, f_makeshift_bed );
-        m.put_items_from_loc( "army_bed", { 1, 4, abs_sub.z }, 0 );
+        m.put_items_from_loc( "army_bed", { 1, 4, abs_sub.z } );
         m.furn_set( { 1, 6, abs_sub.z }, f_makeshift_bed );
         m.furn_set( { 1, 8, abs_sub.z }, f_makeshift_bed );
         m.furn_set( { 1, 10, abs_sub.z }, f_makeshift_bed );
-        m.put_items_from_loc( "army_bed", { 1, 10, abs_sub.z }, 0 );
+        m.put_items_from_loc( "army_bed", { 1, 10, abs_sub.z } );
         m.furn_set( { 1, 12, abs_sub.z }, f_makeshift_bed );
-        m.put_items_from_loc( "army_bed", { 1, 12, abs_sub.z }, 0 );
+        m.put_items_from_loc( "army_bed", { 1, 12, abs_sub.z } );
 
         //33% chance for a crazy maniac ramming the tent with some unfortunate inside
         if( one_in( 3 ) ) {
@@ -1058,19 +1057,19 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
             line_furn( &m, f_null, 10, 7, 10, 8 );
 
             //Spill sand from damaged sandbags
-            std::vector<point> sandbag_positions = squares_in_direction( 10,7,11,8 );
+            std::vector<point> sandbag_positions = squares_in_direction( 10, 7, 11, 8 );
             for( auto &i : sandbag_positions ) {
                 m.spawn_item( { i.x, i.y, abs_sub.z }, "bag_canvas", rng( 5, 13 ) );
                 m.spawn_item( { i.x, i.y, abs_sub.z }, "material_sand", rng( 3, 8 ) );
             }
         } else {
-            m.put_items_from_loc( "army_bed", { 1, 6, abs_sub.z }, 0 );
-            m.put_items_from_loc( "army_bed", { 1, 8, abs_sub.z }, 0 );
+            m.put_items_from_loc( "army_bed", { 1, 6, abs_sub.z } );
+            m.put_items_from_loc( "army_bed", { 1, 8, abs_sub.z } );
 
             //5.56x45mm casings left from a soldier
             for( const auto &loc : m.points_in_radius( { 9, 8, abs_sub.z }, 2, 0 ) ) {
                 if( one_in( 4 ) ) {
-                    m.add_item_or_charges( loc, item( "223_casing" ) );
+                    m.spawn_item( loc, "223_casing" );
                 }
             }
 
@@ -1078,7 +1077,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
             std::vector<point> empty_magazines_locations = line_to( 9, 3, 9, 13 );
             for( auto &i : empty_magazines_locations ) {
                 if( one_in( 3 ) ) {
-                    m.add_item_or_charges( { i.x, i.y, abs_sub.z }, item( "stanag30" ) );
+                    m.spawn_item( { i.x, i.y, abs_sub.z }, "stanag30" );
                 }
             }
             //Intact sandbag barricade
@@ -1102,7 +1101,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         //5.56x45mm casings left from another soldier
         for( const auto &loc : m.points_in_radius( { 9, 18, abs_sub.z }, 2, 0 ) ) {
             if( one_in( 4 ) ) {
-                m.add_item_or_charges( loc, item( "223_casing" ) );
+                m.spawn_item( loc, "223_casing" );
             }
         }
 
@@ -1110,7 +1109,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         std::vector<point> empty_magazines_locations = line_to( 9, 16, 9, 20 );
         for( auto &i : empty_magazines_locations ) {
             if( one_in( 3 ) ) {
-                m.add_item_or_charges( { i.x, i.y, abs_sub.z }, item( "stanag30" ) );
+                m.spawn_item( { i.x, i.y, abs_sub.z }, "stanag30" );
             }
         }
 
@@ -1119,7 +1118,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
             //10% chance to spawn corpses of bloody people/zombies on every tile of barbed wire fence
             if( one_in( 10 ) ) {
                 m.add_corpse( { i.x, i.y, abs_sub.z } );
-                m.add_field( { i.x, i.y, abs_sub.z }, fd_blood, rng( 1, 3 ), 0_turns );
+                m.add_field( { i.x, i.y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
             }
         }
 
@@ -1138,14 +1137,14 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( SEEX + 1, SEEX * 2 - 2 ), y = rng( 1, SEEY * 2 );
             if( m.tr_at( { x, y, abs_sub.z } ).is_null() ) {
-                m.add_field( { x, y, abs_sub.z }, fd_blood, rng( 1, 3 ), 0_turns );
+                m.add_field( { x, y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
                     m.add_corpse( { x, y, abs_sub.z } );
                     for( const auto &loc : g->m.points_in_radius( { x, y, abs_sub.z }, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
-                            m.add_field( { loc.x, loc.y, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ), 0_turns );
+                            m.add_field( { loc.x, loc.y, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
                         }
                     }
                 }
@@ -1162,7 +1161,6 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
     }
 
     if( bridge_at_east && !bridge_at_center && road_at_west ) {
-
         //Spawn military cargo truck blocking the entry
         m.add_vehicle( vproto_id( "military_cargo_truck" ), 15, 11, 270, 70, 1 );
 
@@ -1176,14 +1174,14 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         if( one_in( 2 ) ) {
             m.add_splatter_trail( fd_blood, { 14, 5, abs_sub.z }, { 17, 5, abs_sub.z } );
             item body = item::make_corpse();
-            m.put_items_from_loc( "mon_zombie_soldier_death_drops", { 15, 5, abs_sub.z }, 0 );
+            m.put_items_from_loc( "mon_zombie_soldier_death_drops", { 15, 5, abs_sub.z } );
             m.add_item_or_charges( { 15, 5, abs_sub.z }, body );
         }
 
         //5.56x45mm casings left from soldiers
         for( const auto &loc : m.points_in_radius( { 15, 5, abs_sub.z }, 2, 0 ) ) {
             if( one_in( 4 ) ) {
-                m.add_item_or_charges( loc, item( "223_casing" ) );
+                m.spawn_item( loc, "223_casing" );
             }
         }
 
@@ -1191,7 +1189,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         std::vector<point> empty_magazines_locations = line_to( 15, 2, 15, 8 );
         for( auto &i : empty_magazines_locations ) {
             if( one_in( 3 ) ) {
-                m.add_item_or_charges( { i.x, i.y, abs_sub.z }, item( "stanag30" ) );
+                m.spawn_item( { i.x, i.y, abs_sub.z }, "stanag30" );
             }
         }
 
@@ -1220,7 +1218,7 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
 
             //Spawn chopped soldier corpse
             item body = item::make_corpse();
-            m.put_items_from_loc( "mon_zombie_soldier_death_drops", { 23, 12, abs_sub.z }, 0 );
+            m.put_items_from_loc( "mon_zombie_soldier_death_drops", { 23, 12, abs_sub.z } );
             m.add_item_or_charges( { 23, 12, abs_sub.z }, body );
             m.add_field( { 23, 12, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
 
@@ -1271,14 +1269,14 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
         for( int i = 0; i < num_mines; i++ ) {
             const int x = rng( 1, SEEX ), y = rng( 1, SEEY * 2 );
             if( m.tr_at( { x, y, abs_sub.z } ).is_null() ) {
-                m.add_field( { x, y, abs_sub.z }, fd_blood, rng( 1, 3 ), 0_turns );
+                m.add_field( { x, y, abs_sub.z }, fd_blood, rng( 1, 3 ) );
                 //10% chance to spawn a corpse of dead people/zombie on a tile with blood
                 if( one_in( 10 ) ) {
                     m.add_corpse( { x, y, abs_sub.z } );
                     for( const auto &loc : g->m.points_in_radius( { x, y, abs_sub.z }, 1 ) ) {
                         //50% chance to spawn gibs in every tile around corpse in 1-tile radius
                         if( one_in( 2 ) ) {
-                            m.add_field( { loc.x, loc.y, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ), 0_turns );
+                            m.add_field( { loc.x, loc.y, abs_sub.z }, fd_gibs_flesh, rng( 1, 3 ) );
                         }
                     }
                 }
