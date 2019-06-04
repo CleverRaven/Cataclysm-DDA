@@ -500,7 +500,7 @@
   {
     "id": "TALK_FOODPERSON_SHARING",
     "type": "talk_topic",
-    "dynamic_line": "Of course wathever you need... Foodperson.",
+    "dynamic_line": "Of course, whatever you need...  Foodperson.",
     "speaker_effect": { "effect": { "npc_add_var": "npc_foodpersons_sharing", "type": "dialogue", "context": "foodperson", "value": "yes" } },
     "responses": [
       {
