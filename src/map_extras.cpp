@@ -43,6 +43,7 @@
 #include "type_id.h"
 #include "messages.h"
 #include "coordinate_conversions.h"
+#include "options.h"
 
 class npc_template;
 
@@ -2334,8 +2335,18 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
 {
     const map_extra &extra = id.obj();
     const map_extra_pointer mx_func = extra.function_pointer;
+    const std::string mx_note =
+        string_format( "%s:%s;<color_yellow>%s</color>: <color_white>%s</color>",
+                       extra.get_symbol(),
+                       get_note_string_from_color( extra.color ),
+                       extra.name,
+                       extra.description );
     if( mx_func != nullptr ) {
         mx_func( m, abs_sub );
+        if( get_option<bool>( "AUTO_NOTES" ) && get_option<bool>( "AUTO_NOTES_MAP_EXTRAS" ) &&
+            !mx_note.empty() ) {
+            overmap_buffer.add_note( sm_to_omt_copy( abs_sub ), mx_note );
+        }
     }
 }
 void apply_function( const std::string &id, map &m, const tripoint &abs_sub )

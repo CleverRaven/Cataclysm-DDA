@@ -481,7 +481,6 @@ struct color_tag_parse_result {
 };
 
 extern std::unordered_map<std::string, note_color> color_by_string_map;
-extern std::unordered_map<std::string, note_color> color_shortcuts;
 
 nc_color hilite( const nc_color &c );
 nc_color invert_color( const nc_color &c );
@@ -499,6 +498,7 @@ color_tag_parse_result get_color_from_tag( const std::string &s );
 std::string get_tag_from_color( const nc_color &color );
 std::string colorize( const std::string &text, const nc_color &color );
 
+std::string get_note_string_from_color( const nc_color &color );
 nc_color get_note_color( const std::string &note_id );
 std::list<std::pair<std::string, std::string>> get_note_color_names();
 

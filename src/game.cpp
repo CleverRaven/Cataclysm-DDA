@@ -10296,7 +10296,8 @@ void game::vertical_shift( const int z_after )
 
 void game::vertical_notes( int z_before, int z_after )
 {
-    if( z_before == z_after || !get_option<bool>( "AUTO_NOTES" ) ) {
+    if( z_before == z_after || !get_option<bool>( "AUTO_NOTES" ) ||
+        !get_option<bool>( "AUTO_NOTES_STAIRS" ) ) {
         return;
     }
 

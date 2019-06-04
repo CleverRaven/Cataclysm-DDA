@@ -644,6 +644,17 @@ std::string colorize( const std::string &text, const nc_color &color )
     return get_tag_from_color( color ) + text + "</color>";
 }
 
+std::string get_note_string_from_color( const nc_color &color )
+{
+    for( auto i : color_by_string_map ) {
+        if( i.second.color == color ) {
+            return i.first;
+        }
+    }
+    // The default note string.
+    return "Y";
+}
+
 nc_color get_note_color( const std::string &note_id )
 {
     const auto candidate_color = color_by_string_map.find( note_id );

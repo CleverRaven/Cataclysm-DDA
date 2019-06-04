@@ -1178,6 +1178,27 @@ void options_manager::add_options_general()
 
     mOptionsSort["general"]++;
 
+    add( "AUTO_NOTES", "general", translate_marker( "Auto notes" ),
+         translate_marker( "If true, automatically sets notes" ),
+         false
+       );
+
+    add( "AUTO_NOTES_STAIRS", "general", translate_marker( "Auto notes (stairs)" ),
+         translate_marker( "If true, automatically sets notes on places that have stairs that go up or down" ),
+         false
+       );
+
+    get_option( "AUTO_NOTES_STAIRS" ).setPrerequisite( "AUTO_NOTES" );
+
+    add( "AUTO_NOTES_MAP_EXTRAS", "general", translate_marker( "Auto notes (map extras)" ),
+         translate_marker( "If true, automatically sets notes on places that contain various map extras" ),
+         false
+       );
+
+    get_option( "AUTO_NOTES_MAP_EXTRAS" ).setPrerequisite( "AUTO_NOTES" );
+
+    mOptionsSort["general"]++;
+
     add( "CIRCLEDIST", "general", translate_marker( "Circular distances" ),
          translate_marker( "If true, the game will calculate range in a realistic way: light sources will be circles, diagonal movement will cover more ground and take longer.  If disabled, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall." ),
          true
@@ -1187,11 +1208,6 @@ void options_manager::add_options_general()
          translate_marker( "Set to drop empty containers after use.  No: Don't drop any. - Watertight: All except watertight containers. - All: Drop all containers." ),
     { { "no", translate_marker( "No" ) }, { "watertight", translate_marker( "Watertight" ) }, { "all", translate_marker( "All" ) } },
     "no"
-       );
-
-    add( "AUTO_NOTES", "general", translate_marker( "Auto notes" ),
-         translate_marker( "If true, automatically sets notes on places that have stairs that go up or down" ),
-         true
        );
 
     add( "DEATHCAM", "general", translate_marker( "DeathCam" ),
