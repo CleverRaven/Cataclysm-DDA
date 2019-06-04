@@ -459,7 +459,7 @@
   {
     "id": "TALK_FOODPERSON_TWO",
     "type": "talk_topic",
-    "dynamic_line": "The way you talk, the way you move... You're... You're me?  But how?",
+    "dynamic_line": "The way you talk, the way you move...  You're...  You're me?  But how?",
     "responses": [
       {
         "text": "I... I don't know.  It probably has something to do with the cataclysm!  What do you say we team up to find out?",
