@@ -134,7 +134,7 @@ static void load_available_constructions( std::vector<std::string> &available,
     cat_available.clear();
     available.clear();
     for( auto &it : constructions ) {
-        if( !hide_unconstructable || can_construct( it ) ) {
+        if( it.on_display && ( !hide_unconstructable || can_construct( it ) ) ) {
             bool already_have_it = false;
             for( auto &avail_it : available ) {
                 if( avail_it == it.description ) {
@@ -1397,6 +1397,8 @@ void load_construction( JsonObject &jo )
     assign_or_debugmsg( con.post_special, jo.get_string( "post_special", "" ), post_special_map );
     assign_or_debugmsg( con.explain_failure, jo.get_string( "explain_failure", "" ), explain_fail_map );
     con.vehicle_start = jo.get_bool( "vehicle_start", false );
+
+    con.on_display = jo.get_bool( "on_display", true );
 
     constructions.push_back( con );
 }

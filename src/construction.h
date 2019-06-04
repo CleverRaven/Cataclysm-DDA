@@ -78,6 +78,9 @@ struct construction {
         std::vector<std::string> get_folded_time_string( int width ) const;
         // Result of construction scaling option
         float time_scale() const;
+
+        // make the construction available for selection
+        bool on_display = true;
     private:
         std::string get_time_string() const;
 };
