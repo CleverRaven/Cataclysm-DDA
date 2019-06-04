@@ -55,6 +55,16 @@ const std::string base_camps::faction_decode( const std::string &full_type )
     return full_type.substr( prefix_len, last_bar - prefix_len );
 }
 
+const time_duration base_camps::to_workdays( const time_duration &work_time )
+{
+    if( work_time < 11_hours ) {
+        return work_time;
+    }
+    int work_days = work_time / 10_hours;
+    time_duration excess_time = work_time - work_days * 10_hours;
+    return excess_time + 24_hours * work_days;
+}
+
 static std::map<std::string, int> max_upgrade_cache;
 
 int base_camps::max_upgrade_by_type( const std::string &type )
@@ -158,14 +168,12 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
     for( auto &elem : component_print_buffer ) {
         comp = comp + elem + "\n";
     }
-    if( trunc ) {
-        comp = string_format( _( "Notes:\n%s\n\nSkill used: %s\n%s\n" ),
-                              making.description, making.skill_used.obj().name(), comp );
-    } else {
-        comp = string_format( _( "Notes:\n%s\n\nSkill used: %s\n"
-                                 "Difficulty: %d\n%s \nRisk: None\nTime: %s\n" ),
-                              making.description, making.skill_used.obj().name(),
-                              making.difficulty, comp, to_string( making.batch_duration() ) );
+    comp = string_format( _( "Notes:\n%s\n\nSkills used: %s\n%s\n" ),
+                          making.description, making.required_skills_string(), comp );
+    if( !trunc ) {
+        time_duration base_time = making.batch_duration();
+        comp += string_format( _( "Risk: None\nTime: %s\n" ),
+                               to_string( base_camps::to_workdays( base_time ) ) );
     }
     return comp;
 }

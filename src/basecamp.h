@@ -53,6 +53,7 @@ const int prefix_len = 13;
 const std::string faction_encode_short( const std::string &type );
 const std::string faction_encode_abs( const expansion_data &e, int number );
 const std::string faction_decode( const std::string &full_type );
+const time_duration to_workdays( const time_duration &work_time );
 int max_upgrade_by_type( const std::string &type );
 }
 

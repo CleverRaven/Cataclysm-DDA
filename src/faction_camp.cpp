@@ -1413,7 +1413,8 @@ void basecamp::start_upgrade( const std::string &bldg, const std::string &key, b
     if( making.requirements().can_make_with_inventory( _inv, making.get_component_filter(), 1 ) ) {
         bool must_feed = bldg != "faction_base_camp_1";
 
-        npc_ptr comp = start_mission( key, making.batch_duration(), must_feed,
+        time_duration work_days = base_camps::to_workdays( making.batch_duration() );
+        npc_ptr comp = start_mission( key, work_days, must_feed,
                                       _( "begins to upgrade the camp..." ), false, {},
                                       making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
@@ -1701,7 +1702,7 @@ void basecamp::start_fortifications( std::string &bldg_exp, bool by_radio )
             dist += rl_dist( fort_om.x, fort_om.y, omt_pos.x, omt_pos.y );
             travel_time += companion_travel_time_calc( fort_om, omt_pos, 0_minutes, 2 );
         }
-        time_duration total_time = travel_time + build_time;
+        time_duration total_time = base_camps::to_workdays( travel_time + build_time );
         int need_food = time_to_food( total_time );
         if( !query_yn( _( "Trip Estimate:\n%s" ), camp_trip_description( total_time, build_time,
                        travel_time, dist, trips, need_food ) ) ) {
@@ -1782,9 +1783,9 @@ void basecamp::start_crafting( const std::string &cur_id, const std::string &cur
             popup( _( "Your batch is too large!" ) );
             continue;
         }
-        npc_ptr comp = start_mission( miss_id + cur_dir, making.batch_duration(), true,
-                                      _( "begins to work..." ), false, {},
-                                      making.skill_used.str(), making.difficulty );
+        time_duration work_days = base_camps::to_workdays( making.batch_duration( batch_size ) );
+        npc_ptr comp = start_mission( miss_id + cur_dir, work_days, true, _( "begins to work..." ),
+                                      false, {}, making.skill_used.str(), making.difficulty );
         if( comp != nullptr ) {
             consume_components( making, batch_size, by_radio );
             for( const item &results : making.create_results( batch_size ) ) {
@@ -2565,7 +2566,9 @@ int basecamp::recipe_batch_max( const recipe &making ) const
     const int max_checks = 9;
     for( size_t batch_size = 1000; batch_size > 0; batch_size /= 10 ) {
         for( int iter = 0; iter < max_checks; iter++ ) {
-            int food_req = time_to_food( making.batch_duration( max_batch + batch_size, 1.0, 0 ) );
+            time_duration work_days;
+            work_days = base_camps::to_workdays( making.batch_duration( max_batch + batch_size ) );
+            int food_req = time_to_food( work_days );
             bool can_make = making.requirements().can_make_with_inventory( _inv,
                             making.get_component_filter(), max_batch + batch_size );
             if( can_make && camp_food_supply() > food_req ) {
@@ -3228,7 +3231,7 @@ std::string basecamp::craft_description( const std::string &itm )
     }
     comp = string_format( _( "Skill used: %s\nDifficulty: %d\n%s\nTime: %s\n" ),
                           making.skill_used.obj().name(), making.difficulty, comp,
-                          to_string( making.batch_duration() ) );
+                          to_string( base_camps::to_workdays( making.batch_duration() ) ) );
     return comp;
 }
 
