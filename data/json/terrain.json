@@ -4023,7 +4023,6 @@
     "symbol": "0",
     "color": "yellow",
     "move_cost": 4,
-    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "FLAMMABLE", "SUPPORTS_ROOF", "MOUNTABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
     "bash": {
       "str_min": 10,
