@@ -76,20 +76,26 @@
       "TALK_REFUGEE_Pablo_Background2_pregnancy",
       "TALK_REFUGEE_Pablo_Background2_sorry",
       "TALK_REFUGEE_Pablo_Background2_survivors",
-      "TALK_REFUGEE_Pablo_Situation"
+      "TALK_REFUGEE_Pablo_Background2_cleared",
+      "TALK_REFUGEE_Pablo_Situation",
+      "TALK_REFUGEE_Pablo_Tacoma",
+      "TALK_REFUGEE_Pablo_Recruit"
     ],
     "responses": [
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Pablo_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Pablo_Situation" },
-	  { "text": "What were you saying before?", "topic": "TALK_NONE" },
-	  { "text": "I'd better get going.  Bye, Pablo.", "topic": "TALK_DONE" }
-	]
-	}
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.  Bye, Pablo.", "topic": "TALK_DONE" }
+    ]
+  },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_1",
     "dynamic_line": {
-      "u_has_var": "u_met_Pablo_Nunez", "type": "general", "context": "meeting", "value": "yes",
+      "u_has_var": "u_met_Pablo_Nunez",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
       "yes": [ "Hello, nice to see you again.", "It's good to see you're still around." ],
       "no": "Hi there.  I'm Pablo, nice to see a new face."
     },
@@ -103,7 +109,7 @@
       {
         "text": "Hi, Pablo.  What's up?",
         "topic": "TALK_REFUGEE_Pablo_2",
-		"condition": { "u_has_var": "u_met_Pablo_Nunez", "type": "general", "context": "meeting", "value": "yes" }
+        "condition": { "u_has_var": "u_met_Pablo_Nunez", "type": "general", "context": "meeting", "value": "yes" }
       },
       {
         "text": "Hi Pablo, nice to meet you.  I gotta go though.",
@@ -113,7 +119,7 @@
       },
       {
         "text": "Hi Pablo, nice to see you too.  I gotta go though.",
-		"condition": { "u_has_var": "u_met_Pablo_Nunez", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "u_has_var": "u_met_Pablo_Nunez", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
@@ -132,24 +138,24 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_Background1",
     "dynamic_line": "I was an accountant before.  Just finished my CPA last year and I already had a position as a manager at my firm.  Everything was looking good.  We decided we were ready for a baby.  Hindsight makes us idiots, hey?",
-	"responses": [ { "text": "How did you wind up in this place?", "topic": "TALK_REFUGEE_Pablo_Background2" } ]
+    "responses": [ { "text": "How did you wind up in this place?", "topic": "TALK_REFUGEE_Pablo_Background2" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_Background2",
     "dynamic_line": "Dana and I were evacuated early, because of her pregnancy. They took us to a concentration center, and then we got on a bus to come here. The bus though, it was rolled over by a giant monster, and many died. We made it out along with a few others, and we kept going until we made it here. It wasn't much farther, and for some reason the monster didn't chase us, just kept tearing at the bus.",
-	"responses": [
-	  { "text": "What about the pregnancy?", "topic": "TALK_REFUGEE_Pablo_Background2_pregnancy" },
-	  { "text": "What happened to the other crash survivors?", "topic": "TALK_REFUGEE_Pablo_Background2_survivors" },
-	  { "text": "What were you saying before?", "topic": "TALK_NONE" },
-	  { "text": "I'd better get going.  Bye, Pablo.", "topic": "TALK_DONE" }
-	]
+    "responses": [
+      { "text": "What about the pregnancy?", "topic": "TALK_REFUGEE_Pablo_Background2_pregnancy" },
+      { "text": "What happened to the other crash survivors?", "topic": "TALK_REFUGEE_Pablo_Background2_survivors" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.  Bye, Pablo.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_Background2_pregnancy",
     "dynamic_line": "The doctor did what she could but after the accident and the stress of the attack... No.",
-	"responses": [ { "text": "I'm sorry for your loss.", "topic": "TALK_REFUGEE_Pablo_Background2_sorry" } ]
+    "responses": [ { "text": "I'm sorry for your loss.", "topic": "TALK_REFUGEE_Pablo_Background2_sorry" } ]
   },
   {
     "type": "talk_topic",
@@ -158,7 +164,46 @@
   },
   {
     "type": "talk_topic",
+    "id": "TALK_REFUGEE_Pablo_Background2_survivors",
+    "dynamic_line": "From the bus?  A few of us made it in the end; the Singh family were on that bus with us.  We were some of the last refugees to arrive.  They put us into a room for processing, where a bunch of the wounded were being handled as best as they could manage.  They were short staffed though, and they missed one.  We all thought he was just having a nap, but he wasn't, and when he got back up as a zombie, there was a huge panic.  Gunshots in a small, crowded room, and trampling... it was really ugly.  We were close to the door and managed to get out right away, but then a couple panicking people closed the place off and left innocent people in there for what seemed like ages, calling it an 'outbreak'.  By the time leveller heads prevailed, there weren't many people left in there to recover.",
+    "responses": [
+      {
+        "text": "I've been back to the quarantined area, cleared it out.  It was ugly back there.",
+        "topic": "TALK_REFUGEE_Pablo_Background2_cleared",
+        "condition": { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Pablo_Background2_cleared",
+    "dynamic_line": "Thanks for that, both for taking away the constant worry about all those <zombies> close at hand, and for putting those poor souls at rest at last."
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_Situation",
-    "dynamic_line": ""
+    "dynamic_line": "It's pretty tough here.  We're packed into too small a location with too many people.  Everyone is dealing with their own trauma.  Rhy is trying to help out, but she can't be a proper counsellor in these circumstances.  I don't know how we're going to survive for long.  As for me, I wish I could be anywhere but here.  I need to see the sky again, or I'm going to go insane.",
+    "responses": [
+      {
+        "text": "Why not move to the Tacoma Commune?",
+        "topic": "TALK_REFUGEE_Pablo_Tacoma",
+        "condition": { "u_has_var": "tacoma_started", "type": "knowledge", "context": "flag", "value": "yes" }
+      },
+      {
+        "text": "I've got a secure base.  You and your wife could come with me.",
+        "topic": "TALK_REFUGEE_Pablo_Recruit",
+        "condition": "u_has_camp"
+      }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Pablo_Tacoma",
+    "dynamic_line": "I heard about that place.  What use would they have for an accountant, though?  If they have work for my wife Dana and I, I'd definitely consider it."
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Pablo_Recruit",
+    "dynamic_line": "Really?  I might consider it.  Talk to my wife, Dana.  She's put down a lot more roots here, it would be up to her I think.  I'd go anywhere right now."
   }
 ]
