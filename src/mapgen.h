@@ -2,28 +2,28 @@
 #ifndef MAPGEN_H
 #define MAPGEN_H
 
+#include <cstddef>
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
+#include <utility>
 
+#include "faction.h"
 #include "int_id.h"
+#include "mapgen_functions.h"
+#include "regional_settings.h"
+#include "type_id.h"
 
 class time_point;
-struct ter_t;
-using ter_id = int_id<ter_t>;
-struct furn_t;
-using furn_id = int_id<furn_t>;
-struct oter_t;
-using oter_id = int_id<oter_t>;
 struct point;
 class JsonArray;
 class JsonObject;
-struct mapgendata;
+class mission;
 struct tripoint;
 class map;
-typedef void ( *building_gen_pointer )( map *, oter_id, mapgendata, const time_point &, float );
-struct ter_furn_id;
+
+using building_gen_pointer = void ( * )( map *, oter_id, mapgendata, const time_point &, float );
 
 //////////////////////////////////////////////////////////////////////////
 ///// function pointer class; provides abstract referencing of
@@ -120,7 +120,12 @@ struct jmapgen_setmap {
         x( ix ), y( iy ), x2( ix2 ), y2( iy2 ), op( iop ), val( ival ), chance( ione_in ),
         repeat( irepeat ), rotation( irotation ),
         fuel( ifuel ), status( istatus ) {}
-    bool apply( const mapgendata &dat, int offset_x, int offset_y ) const;
+    bool apply( const mapgendata &dat, int offset_x, int offset_y, mission *miss = nullptr ) const;
+    /**
+     * checks if applying these objects to data would cause cause a collision with vehicles
+     * on the same map
+     **/
+    bool has_vehicle_collision( const mapgendata &dat, int offset_x, int offset_y ) const;
 };
 
 /**
@@ -147,14 +152,19 @@ struct jmapgen_setmap {
 class jmapgen_piece
 {
     protected:
-        jmapgen_piece() = default;
+        jmapgen_piece() : repeat( 1, 1 ) { }
     public:
         /** Sanity-check this piece */
-        virtual void check( const std::string &/*oter_name*/ ) const { };
+        virtual void check( const std::string &/*oter_name*/ ) const { }
         /** Place something on the map from mapgendata dat, at (x,y). mon_density */
         virtual void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
-                            float mon_density ) const = 0;
+                            float mon_density, mission *miss = nullptr ) const = 0;
         virtual ~jmapgen_piece() = default;
+        jmapgen_int repeat;
+        virtual bool has_vehicle_collision( const mapgendata &/*dat*/, int /*offset_x*/,
+                                            int /*offset_y*/ ) const {
+            return false;
+        }
 };
 
 /**
@@ -183,7 +193,7 @@ class mapgen_palette
          * similar to objects, but it uses key to get the actual position where to place things
          * out of the json "bitmap" (which is used to paint the terrain/furniture).
          */
-        using placing_map = std::map< int, std::vector< std::shared_ptr<jmapgen_piece> > >;
+        using placing_map = std::map< int, std::vector< std::shared_ptr<const jmapgen_piece> > >;
 
         std::map<int, ter_id> format_terrain;
         std::map<int, furn_id> format_furniture;
@@ -225,11 +235,11 @@ class mapgen_palette
 
 struct jmapgen_objects {
 
-        jmapgen_objects( int offset_x, int offset_y, size_t mapsize_x, size_t mapsize_x_y );
+        jmapgen_objects( int offset_x, int offset_y, size_t mapsize_x, size_t mapsize_y );
 
         bool check_bounds( const jmapgen_place place, JsonObject &jso );
 
-        void add( const jmapgen_place &place, std::shared_ptr<jmapgen_piece> piece );
+        void add( const jmapgen_place &place, std::shared_ptr<const jmapgen_piece> piece );
 
         /**
          * PieceType must be inheriting from jmapgen_piece. It must have constructor that accepts a
@@ -248,14 +258,21 @@ struct jmapgen_objects {
 
         void check( const std::string &oter_name ) const;
 
-        void apply( const mapgendata &dat, float density ) const;
-        void apply( const mapgendata &dat, int offset_x, int offset_y, float density ) const;
+        void apply( const mapgendata &dat, float density, mission *miss = nullptr ) const;
+        void apply( const mapgendata &dat, int offset_x, int offset_y, float density,
+                    mission *miss = nullptr ) const;
+
+        /**
+         * checks if applying these objects to data would cause cause a collision with vehicles
+         * on the same map
+         **/
+        bool has_vehicle_collision( const mapgendata &dat, int offset_x, int offset_y ) const;
 
     private:
         /**
          * Combination of where to place something and what to place.
          */
-        using jmapgen_obj = std::pair<jmapgen_place, std::shared_ptr<jmapgen_piece> >;
+        using jmapgen_obj = std::pair<jmapgen_place, std::shared_ptr<const jmapgen_piece> >;
         std::vector<jmapgen_obj> objects;
         int offset_x;
         int offset_y;
@@ -266,7 +283,7 @@ struct jmapgen_objects {
 class mapgen_function_json_base
 {
     public:
-        bool check_inbounds( const jmapgen_int &x, const jmapgen_int &y ) const;
+        bool check_inbounds( const jmapgen_int &x, const jmapgen_int &y, JsonObject &jso ) const;
         size_t calc_index( size_t x, size_t y ) const;
 
     private:
@@ -277,7 +294,9 @@ class mapgen_function_json_base
         virtual ~mapgen_function_json_base();
 
         void setup_common();
+        bool setup_common( JsonObject jo );
         void setup_setmap( JsonArray &parray );
+        void set_faction_owner( JsonObject jo );
         // Returns true if the mapgen qualifies at this point already
         virtual bool setup_internal( JsonObject &jo ) = 0;
         virtual void setup_setmap_internal() { }
@@ -310,13 +329,29 @@ class mapgen_function_json : public mapgen_function_json_base, public virtual ma
         ~mapgen_function_json() override = default;
 
         ter_id fill_ter;
-        std::string luascript;
+        oter_id predecessor_mapgen;
 
     protected:
         bool setup_internal( JsonObject &jo ) override;
 
     private:
         jmapgen_int rotation;
+};
+
+class update_mapgen_function_json : public mapgen_function_json_base
+{
+    public:
+        update_mapgen_function_json( const std::string &s );
+        ~update_mapgen_function_json() override = default;
+
+        void setup();
+        bool setup_update( JsonObject &jo );
+        void check( const std::string &oter_name ) const;
+        bool update_map( const tripoint &omt_pos, int offset_x, int offset_y,
+                         mission *miss, bool verify = false ) const;
+    protected:
+        bool setup_internal( JsonObject &/*jo*/ ) override;
+        ter_id fill_ter;
 };
 
 class mapgen_function_json_nested : public mapgen_function_json_base
@@ -335,17 +370,6 @@ class mapgen_function_json_nested : public mapgen_function_json_base
         jmapgen_int rotation;
 };
 
-/////////////////////////////////////////////////////////////////////////////////
-///// lua mapgen
-class mapgen_function_lua : public virtual mapgen_function
-{
-    public:
-        const std::string scr;
-        mapgen_function_lua( std::string s, int w = 1000 ) : mapgen_function( w ), scr( s ) {
-            // scr = s; // @todo: if ( luaL_loadstring(L, scr.c_str() ) ) { error }
-        }
-        void generate( map *, const oter_id &, const mapgendata &, const time_point &, float ) override;
-};
 /////////////////////////////////////////////////////////
 ///// global per-terrain mapgen function lists
 /*
@@ -411,6 +435,7 @@ void fill_background( map *m, ter_id type );
 void fill_background( map *m, ter_id( *f )() );
 void square( map *m, ter_id type, int x1, int y1, int x2, int y2 );
 void square( map *m, ter_id( *f )(), int x1, int y1, int x2, int y2 );
+void square( map *m, const weighted_int_list<ter_id> &f, int x1, int y1, int x2, int y2 );
 void square_furn( map *m, furn_id type, int x1, int y1, int x2, int y2 );
 void rough_circle( map *m, ter_id type, int x, int y, int rad );
 void rough_circle_furn( map *m, furn_id type, int x, int y, int rad );
@@ -419,6 +444,6 @@ void circle( map *m, ter_id type, int x, int y, int rad );
 void circle_furn( map *m, furn_id type, int x, int y, int rad );
 void add_corpse( map *m, int x, int y );
 
-typedef void ( *map_special_pointer )( map &m, const tripoint &abs_sub );
+using map_special_pointer = void ( * )( map &, const tripoint & );
 
 #endif

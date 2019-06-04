@@ -1,7 +1,12 @@
 #include "popup.h"
 
+#include <algorithm>
+#include <array>
+#include <memory>
+
 #include "input.h"
 #include "output.h"
+#include "catacharset.h"
 
 extern bool test_mode;
 
@@ -180,7 +185,8 @@ void query_popup::init() const
                 for( const auto &opt : line ) {
                     button_width += utf8_width( opt, true );
                 }
-                // Right align. todo: multi-line buttons
+                // Right align.
+                // TODO: multi-line buttons
                 int button_x = std::max( 0, msg_width - button_width -
                                          horz_padding * static_cast<int>( line.size() - 1 ) );
                 for( const auto &opt : line ) {
@@ -344,7 +350,7 @@ std::string query_popup::wait_text( const std::string &text )
 }
 
 query_popup::result::result()
-    : wait_input( false ), action( "ERROR" ), evt()
+    : wait_input( false ), action( "ERROR" )
 {
 }
 

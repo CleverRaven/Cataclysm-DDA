@@ -93,8 +93,8 @@
   {
     "type": "overmap_terrain",
     "id": "fieldoffice",
+    "sym": "^",
     "name": "wildlife field office",
-    "sym": 94,
     "color": "brown",
     "see_cost": 5,
     "extras": "build",

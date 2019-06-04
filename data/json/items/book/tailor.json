@@ -21,7 +21,7 @@
     "skill": "tailor",
     "max_level": 1,
     "intelligence": 5,
-    "time": 24,
+    "time": "24 m",
     "fun": 1
   },
   {
@@ -39,7 +39,7 @@
     "skill": "tailor",
     "max_level": 1,
     "intelligence": 5,
-    "time": 8,
+    "time": "8 m",
     "fun": 2
   },
   {
@@ -57,7 +57,7 @@
     "skill": "tailor",
     "max_level": 3,
     "intelligence": 4,
-    "time": 18
+    "time": "18 m"
   },
   {
     "id": "tailor_portfolio",
@@ -75,8 +75,26 @@
     "required_level": 5,
     "max_level": 8,
     "intelligence": 10,
-    "time": 55,
+    "time": "55 m",
     "fun": -1
+  },
+  {
+    "id": "tailor_japanese",
+    "type": "BOOK",
+    "name": "Traditional Japanese Kimono",
+    "description": "An illustrated textbook on the crafting of Japanese traditional garb.",
+    "weight": 2400,
+    "volume": 6,
+    "price": 8000,
+    "bashing": 8,
+    "material": [ "paper", "leather" ],
+    "symbol": "?",
+    "color": "red",
+    "skill": "tailor",
+    "required_level": 3,
+    "max_level": 6,
+    "intelligence": 8,
+    "time": "40 m"
   },
   {
     "id": "recipe_fauxfur",
@@ -94,7 +112,7 @@
     "required_level": 2,
     "max_level": 5,
     "intelligence": 7,
-    "time": 20,
+    "time": "20 m",
     "fun": 1
   },
   {
@@ -114,6 +132,6 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 8,
-    "time": 30
+    "time": "30 m"
   }
 ]

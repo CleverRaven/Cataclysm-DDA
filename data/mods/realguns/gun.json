@@ -47,7 +47,8 @@
     "name": "S&W 610",
     "name_plural": "S&W 610",
     "description": "The Smith and Wesson 610 is a classic six-shooter revolver chambered for 10mm rounds, or for S&W's own .40 round.",
-    "ammo": "10mm_auto"
+    "ammo": "10mm_auto",
+    "magazines": [ [ "10mm_auto", [ "40_speedloader6" ] ] ]
   },
   {
     "id": "saiga_12",
@@ -94,7 +95,7 @@
     "reload": 100,
     "barrel_length": 2,
     "built_in_mods": [ "M6_shotgun" ],
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "underbarrel", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "muzzle", 1 ], [ "sling", 1 ], [ "underbarrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "RELOAD_EJECT", "NEEDS_UNFOLD", "COLLAPSIBLE_STOCK" ]
   },
   {
@@ -181,7 +182,15 @@
     "durability": 9,
     "clip_size": 1,
     "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 4 ], [ "barrel", 1 ], [ "bore", 1 ], [ "muzzle", 1 ], [ "sights", 1 ], [ "stock", 1 ] ],
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "sling", 1 ],
+      [ "muzzle", 1 ],
+      [ "sights", 1 ],
+      [ "stock", 1 ]
+    ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -202,7 +211,7 @@
     "clip_size": 1,
     "reload": 200,
     "barrel_length": 4,
-    "valid_mod_locations": [ [ "accessories", 2 ], [ "stock", 1 ], [ "barrel", 1 ] ],
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "sling", 1 ], [ "stock", 1 ], [ "barrel", 1 ] ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
   },
   {
@@ -222,7 +231,7 @@
     "dispersion": 520,
     "durability": 7,
     "modes": [ [ "DEFAULT", "multi", 2 ] ],
-    "valid_mod_locations": [ [ "grip", 1 ] ],
+    "valid_mod_locations": [ [ "brass catcher", 1 ], [ "grip", 1 ] ],
     "magazine_well": 2,
     "magazines": [ [ "38_super", [ "af2011a1mag" ] ] ]
   },

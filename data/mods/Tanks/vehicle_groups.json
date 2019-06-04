@@ -1,65 +1,68 @@
 [
-    {
-        "type" : "vehicle_group",
-        "id" : "city_wrecks",
-        "vehicles" : [
-            ["tank_light", 100],
-            ["tank_medium", 60],
-            ["sp_howitzer", 40],
-            ["mobile_gun_system", 50],
-            ["ifv", 30],
-            ["tractor_bandit", 25],
-            ["tank_atomic", 25]
-        ]
-    },{
-        "type" : "vehicle_group",
-        "id" : "city_vehicles",
-        "vehicles" : [
-            ["tank_light", 80],
-            ["tank_medium", 60],
-            ["sp_howitzer", 40],
-            ["mobile_gun_system", 50],
-            ["ifv", 30],
-            ["tractor_bandit", 20],
-            ["tank_atomic", 25]
-        ]
-    },{
-        "type" : "vehicle_group",
-        "id" : "highway",
-        "vehicles" : [
-            ["tank_light", 200],
-            ["tank_medium", 100],
-            ["sp_howitzer", 100],
-            ["mobile_gun_system", 75],
-            ["ifv", 75],
-            ["tractor_bandit", 50],
-            ["tank_atomic", 25]
-        ]
-    },{
-        "type" : "vehicle_group",
-        "id" : "military_vehicles",
-        "vehicles" : [
-            ["tank_light", 500],
-            ["tank_medium", 250],
-            ["tank_atomic", 100],
-            ["sp_howitzer", 200],
-            ["ifv", 200],
-            ["mobile_gun_system", 200]
-        ]
-    },{
-        "type" : "vehicle_group",
-        "id" : "bandit_vehicles",
-        "vehicles" : [
-            ["tractor_bandit", 150]
-        ]
-    },{
-        "type" : "vehicle_group",
-        "id" : "farm_vehicles",
-        "vehicles" : [
-            ["tractor_heavy_plow",250],
-            ["tractor_heavy_seed",250],
-            ["tractor_heavy_reaper",250],
-            ["tractor_bandit", 100]
-        ]
-    }
+  {
+    "type": "vehicle_group",
+    "id": "city_wrecks",
+    "vehicles": [
+      [ "tank_light", 100 ],
+      [ "tank_medium", 60 ],
+      [ "sp_howitzer", 40 ],
+      [ "mobile_gun_system", 50 ],
+      [ "ifv", 30 ],
+      [ "tractor_bandit", 25 ],
+      [ "tank_atomic", 25 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "city_vehicles",
+    "vehicles": [
+      [ "tank_light", 80 ],
+      [ "tank_medium", 60 ],
+      [ "sp_howitzer", 40 ],
+      [ "mobile_gun_system", 50 ],
+      [ "ifv", 30 ],
+      [ "tractor_bandit", 20 ],
+      [ "tank_atomic", 25 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "highway",
+    "vehicles": [
+      [ "tank_light", 200 ],
+      [ "tank_medium", 100 ],
+      [ "sp_howitzer", 100 ],
+      [ "mobile_gun_system", 75 ],
+      [ "ifv", 75 ],
+      [ "tractor_bandit", 50 ],
+      [ "tank_atomic", 25 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "military_vehicles",
+    "vehicles": [
+      [ "tank_light", 500 ],
+      [ "tank_medium", 250 ],
+      [ "tank_atomic", 100 ],
+      [ "sp_howitzer", 200 ],
+      [ "ifv", 200 ],
+      [ "mobile_gun_system", 200 ]
+    ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "bandit_vehicles",
+    "vehicles": [ [ "tractor_bandit", 150 ] ]
+  },
+  {
+    "type": "vehicle_group",
+    "id": "farm_vehicles",
+    "vehicles": [
+      [ "tractor_heavy_plow", 250 ],
+      [ "tractor_heavy_seed", 250 ],
+      [ "tractor_heavy_reaper", 250 ],
+      [ "tractor_bandit", 100 ]
+    ]
+  }
 ]

@@ -2,7 +2,6 @@
 #ifndef EVENT_H
 #define EVENT_H
 
-#include <climits>
 #include <list>
 
 #include "calendar.h"
@@ -35,8 +34,10 @@ struct event {
 
     event( event_type e_t, const time_point &w, int f_id, tripoint p );
 
-    void actualize(); // When the time runs out
-    void per_turn();  // Every turn
+    // When the time runs out
+    void actualize();
+    // Every turn
+    void per_turn();
 };
 
 class event_manager

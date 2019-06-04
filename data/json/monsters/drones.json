@@ -13,11 +13,7 @@
     "aggression": 100,
     "morale": 100,
     "luminance": 5,
-    "death_drops": {
-      "subtype": "collection",
-      "groups": [ [ "robots", 80 ] ],
-      "//": "80% chance of an item from group robots"
-    },
+    "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ], "//": "80% chance of an item from group robots" },
     "death_function": [ "BROKEN_AMMO" ],
     "flags": [ "SEES", "FLIES", "NOHEAD", "ELECTRONIC", "NO_BREATHE", "INTERIOR_AMMO" ]
   },
@@ -74,7 +70,7 @@
     "color": "dark_gray",
     "armor_cut": 4,
     "revert_to_itype": "bot_gasbomb_hack",
-    "starting_ammo": { "gasbomb": 1 },
+    "starting_ammo": { "tear_gas_payload": 1 },
     "special_attacks": [ [ "KAMIKAZE", 0 ] ]
   },
   {
@@ -107,12 +103,7 @@
     "armor_bash": 2,
     "armor_cut": 8,
     "revert_to_itype": "bot_manhack",
-    "death_drops": {
-      "groups": [
-        [ "robots", 4 ],
-        [ "manhack", 1 ]
-      ]
-    },
+    "death_drops": { "groups": [ [ "robots", 4 ], [ "manhack", 1 ] ] },
     "death_function": [ "BROKEN" ],
     "extend": { "flags": [ "HIT_AND_RUN" ] }
   },

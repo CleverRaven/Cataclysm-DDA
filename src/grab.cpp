@@ -1,12 +1,23 @@
 #include "game.h" // IWYU pragma: associated
 
+#include <cstdlib>
+#include <cmath>
+#include <algorithm>
+
+#include "avatar.h"
 #include "map.h"
 #include "messages.h"
-#include "output.h"
 #include "player.h"
 #include "sounds.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "debug.h"
+#include "rng.h"
+#include "tileray.h"
+#include "translations.h"
+#include "units.h"
+
+const efftype_id effect_harnessed( "harnessed" );
 
 bool game::grabbed_veh_move( const tripoint &dp )
 {
@@ -18,7 +29,15 @@ bool game::grabbed_veh_move( const tripoint &dp )
     }
     vehicle *grabbed_vehicle = &grabbed_vehicle_vp->vehicle();
     const int grabbed_part = grabbed_vehicle_vp->part_index();
-
+    for( size_t part_index = 0; part_index < grabbed_vehicle->parts.size(); ++part_index ) {
+        monster *mon = grabbed_vehicle->get_pet( part_index );
+        if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
+            add_msg( m_info, _( "You cannot move this vehicle whilst your %s is harnessed!" ),
+                     mon->get_name() );
+            u.grab( OBJECT_NONE );
+            return false;
+        }
+    }
     const vehicle *veh_under_player = veh_pointer_or_null( m.veh_at( u.pos() ) );
     if( grabbed_vehicle == veh_under_player ) {
         u.grab_point = -dp;
@@ -26,7 +45,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     }
 
     tripoint dp_veh = -u.grab_point;
-    tripoint prev_grab = u.grab_point;
+    const tripoint prev_grab = u.grab_point;
     tripoint next_grab = u.grab_point;
 
     bool zigzag = false;
@@ -90,7 +109,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         //if vehicle has no wheels str_req make a noise.
         if( str_req <= u.get_str() ) {
             sounds::sound( grabbed_vehicle->global_pos3(), str_req * 2, sounds::sound_t::movement,
-                           _( "a scraping noise." ) );
+                           _( "a scraping noise." ), true, "misc", "scraping" );
         }
     }
 
@@ -100,18 +119,18 @@ bool game::grabbed_veh_move( const tripoint &dp )
         //calculate exertion factor and movement penalty
         ///\EFFECT_STR increases speed of dragging vehicles
         u.moves -= 100 * str_req / std::max( 1, u.get_str() );
-        int ex = dice( 1, 3 ) - 1 + str_req;
+        const int ex = dice( 1, 3 ) - 1 + str_req;
         if( ex > u.get_str() ) {
-            add_msg( m_bad, _( "You strain yourself to move the %s!" ), grabbed_vehicle->name.c_str() );
+            add_msg( m_bad, _( "You strain yourself to move the %s!" ), grabbed_vehicle->name );
             u.moves -= 200;
             u.mod_pain( 1 );
         } else if( ex == u.get_str() ) {
             u.moves -= 200;
-            add_msg( _( "It takes some time to move the %s." ), grabbed_vehicle->name.c_str() );
+            add_msg( _( "It takes some time to move the %s." ), grabbed_vehicle->name );
         }
     } else {
         u.moves -= 100;
-        add_msg( m_bad, _( "You lack the strength to move the %s" ), grabbed_vehicle->name.c_str() );
+        add_msg( m_bad, _( "You lack the strength to move the %s" ), grabbed_vehicle->name );
         return true;
     }
 
@@ -135,7 +154,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         const tripoint player_prev = u.pos();
         u.setpos( tripoint_zero );
         std::vector<veh_collision> colls;
-        bool failed = grabbed_vehicle->collision( colls, actual_dir, true );
+        const bool failed = grabbed_vehicle->collision( colls, actual_dir, true );
         u.setpos( player_prev );
         if( !colls.empty() ) {
             blocker_name = colls.front().target_name;
@@ -153,7 +172,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     }
 
     if( final_dp_veh == tripoint_zero ) {
-        add_msg( _( "The %s collides with %s." ), grabbed_vehicle->name.c_str(), blocker_name.c_str() );
+        add_msg( _( "The %s collides with %s." ), grabbed_vehicle->name, blocker_name );
         u.grab_point = prev_grab;
         return true;
     }

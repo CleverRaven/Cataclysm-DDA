@@ -31,5 +31,22 @@
     "reliability": 8,
     "reload_time": 130,
     "flags": [ "MAG_BULKY" ]
+  },
+  {
+    "id": "shotbelt_20",
+    "type": "MAGAZINE",
+    "name": "shotshell belt",
+    "description": "A non-disintegrating cloth ammo belt which can hold up to 20 shotgun shells.  Notably less reliable than metal ammo belts.",
+    "weight": 200,
+    "volume": 2,
+    "price": 1000,
+    "material": "cotton",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "shot",
+    "capacity": 20,
+    "reliability": 5,
+    "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 2 },
+    "flags": [ "MAG_EJECT", "BELTED", "OVERSIZE" ]
   }
 ]

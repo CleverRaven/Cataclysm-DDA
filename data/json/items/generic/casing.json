@@ -131,6 +131,15 @@
     "volume": "6ml"
   },
   {
+    "id": "4570_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".45-70 casing",
+    "description": "An empty casing from a .45-70 Government round.",
+    "weight": 4,
+    "volume": "10ml"
+  },
+  {
     "id": "46mm_casing",
     "copy-from": "casing",
     "type": "GENERIC",
@@ -255,6 +264,15 @@
     "type": "GENERIC",
     "name": "9x18mm casing",
     "description": "An empty casing from a 9x18mm round.",
+    "weight": 3,
+    "volume": "5ml"
+  },
+  {
+    "id": "380_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".380 ACP casing",
+    "description": "An empty casing from a .380 ACP round.",
     "weight": 3,
     "volume": "5ml"
   },

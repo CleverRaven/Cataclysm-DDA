@@ -20,12 +20,12 @@
     "copy-from": "engine_combustion",
     "type": "vehicle_part",
     "fuel_type": "diesel",
-    "fuel_options": [ "diesel", "chem_ethanol", "chem_methanol", "denat_alcohol", "lamp_oil" ],
+    "fuel_options": [ "diesel", "biodiesel", "lamp_oil" ],
     "cold_affects_start": true,
     "m2c": 65,
     "//": "40% energy efficiency",
     "extend": { "flags": [ "E_COLD_START" ] },
-    "description": "A combustion engine.  Burns diesel fuel from a tank in the vehicle.  Can also burn methanol, ethanol, or lamp oil, though somewhat less efficiently."
+    "description": "A combustion engine.  Burns diesel fuel from a tank in the vehicle.  Can also burn biodiesel or lamp oil, though somewhat less efficiently."
   },
   {
     "abstract": "gasoline_engine",
@@ -35,6 +35,16 @@
     "m2c": 60,
     "//": "30% energy efficiency",
     "description": "A combustion engine.  Burns gasoline fuel from a tank in the vehicle."
+  },
+  {
+    "abstract": "gas_turbine_engine",
+    "copy-from": "engine_combustion",
+    "type": "vehicle_part",
+    "fuel_type": "gasoline",
+    "fuel_options": [ "gasoline", "diesel", "lamp_oil" ],
+    "m2c": 60,
+    "//": "25% energy efficiency",
+    "description": "An advanced combustion engine.  Burns gasoline or diesel fuel from a tank in the vehicle.  Can also burn lamp oil, though somewhat less efficiently.  Better power-to-weight ratio than a traditional engine, but consumes more fuel."
   },
   {
     "id": "diesel_engine_i6",
@@ -285,6 +295,57 @@
       { "item": "steel_chunk", "count": [ 30, 60 ] },
       { "item": "scrap", "count": [ 30, 60 ] },
       { "item": "water", "count": [ 50, 120 ] }
+    ]
+  },
+  {
+    "id": "engine_turbine_small",
+    "copy-from": "gas_turbine_engine",
+    "type": "vehicle_part",
+    "item": "small_turbine_engine",
+    "difficulty": 7,
+    "durability": 400,
+    "epower": -10,
+    "power": 1006695,
+    "energy_consumption": 4026780,
+    "breaks_into": [
+      { "item": "alloy_plate", "count": [ 1, 2 ] },
+      { "item": "steel_lump", "count": [ 45, 58 ] },
+      { "item": "steel_chunk", "count": [ 45, 58 ] },
+      { "item": "scrap", "count": [ 45, 58 ] }
+    ]
+  },
+  {
+    "id": "engine_turbine_medium",
+    "copy-from": "gas_turbine_engine",
+    "type": "vehicle_part",
+    "item": "medium_turbine_engine",
+    "difficulty": 8,
+    "durability": 400,
+    "epower": -10,
+    "power": 1416830,
+    "energy_consumption": 5667320,
+    "breaks_into": [
+      { "item": "alloy_plate", "count": [ 2, 4 ] },
+      { "item": "steel_lump", "count": [ 50, 65 ] },
+      { "item": "steel_chunk", "count": [ 50, 65 ] },
+      { "item": "scrap", "count": [ 50, 65 ] }
+    ]
+  },
+  {
+    "id": "engine_turbine_large",
+    "copy-from": "gas_turbine_engine",
+    "type": "vehicle_part",
+    "item": "large_turbine_engine",
+    "difficulty": 9,
+    "durability": 400,
+    "epower": -10,
+    "power": 4474199,
+    "energy_consumption": 17896796,
+    "breaks_into": [
+      { "item": "alloy_plate", "count": [ 4, 6 ] },
+      { "item": "steel_lump", "count": [ 100, 120 ] },
+      { "item": "steel_chunk", "count": [ 100, 120 ] },
+      { "item": "scrap", "count": [ 100, 120 ] }
     ]
   }
 ]

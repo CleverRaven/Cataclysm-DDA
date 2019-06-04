@@ -61,7 +61,7 @@
         "o": "f_bookcase",
         "r": "f_rack"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "items": { "p": { "item": "mail", "chance": 30, "repeat": [ 2, 5 ] } },
       "place_loot": [
         { "group": "dresser", "x": [ 18, 18 ], "y": [ 20, 20 ], "chance": 80, "repeat": [ 1, 4 ] },
@@ -151,7 +151,10 @@
     "nested_mapgen_id": "bathroom_suicide",
     "object": {
       "mapgensize": [ 3, 3 ],
-      "place_fields": [ { "field": "fd_blood", "x": 2, "y": 1, "repeat": [ 0, 2 ] }, { "field": "fd_blood", "x": 2, "y": 2, "repeat": [ 0, 2 ] } ],
+      "place_fields": [
+        { "field": "fd_blood", "x": 2, "y": 1, "repeat": [ 0, 2 ] },
+        { "field": "fd_blood", "x": 2, "y": 2, "repeat": [ 0, 2 ] }
+      ],
       "place_liquids": [
         { "liquid": "blood", "x": 2, "y": 1, "amount": [ 1, 3 ] },
         { "liquid": "blood", "x": 2, "y": 2, "amount": [ 1, 3 ] },
@@ -160,8 +163,8 @@
       ],
       "place_loot": [
         { "group": "house_suicide_clothing", "x": 2, "y": 2 },
-        { "item": "corpse", "x": 2, "y": 2 },
-        { "item": "razor_blade", "x": 2, "y": 2 }
+        { "item": "razor_blade", "x": 2, "y": 2 },
+        { "item": "corpse", "x": 2, "y": 2 }
       ]
     }
   }

@@ -9,6 +9,7 @@
     { include: ["<ext/new_allocator.h>", "private", "<list>", "public"] },
     { include: ["<ext/new_allocator.h>", "private", "<unordered_map>", "public"] },
     { include: ["<ext/new_allocator.h>", "private", "<unordered_set>", "public"] },
+    { include: ["<ext/type_traits.h>", "private", "<cmath>", "public"] },
     { include: ["<debug/array>", "private", "<array>", "public"] },
     { include: ["<debug/bitset>", "private", "<bitset>", "public"] },
     { include: ["<debug/deque>", "private", "<deque>", "public"] },

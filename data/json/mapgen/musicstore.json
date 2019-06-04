@@ -20,25 +20,11 @@
           { "item": "ukulele", "prob": 50 },
           { "item": "violin", "prob": 90 },
           {
-            "collection": [
-              { "item": "case_violin" },
-              { "item": "tommygun" },
-              { "item": "grip" },
-              { "item": "thompson_drum" }
-            ], "prob": 15
+            "collection": [ { "item": "case_violin" }, { "item": "tommygun" }, { "item": "grip" }, { "item": "thompson_drum" } ],
+            "prob": 15
           },
-          {
-            "collection": [
-              { "item": "case_violin" },
-              { "item": "violin_golden" }
-            ], "prob": 50
-          },
-          {
-            "collection": [
-              { "item": "spoon" },
-              { "item": "washboard" }
-            ], "prob": 15
-          }
+          { "collection": [ { "item": "case_violin" }, { "item": "violin_golden" } ], "prob": 50 },
+          { "collection": [ { "item": "spoon" }, { "item": "washboard" } ], "prob": 15 }
         ]
       }
     ]
@@ -59,12 +45,7 @@
   {
     "id": "mussto_stringinst",
     "type": "item_group",
-    "items": [
-      [ "acoustic_guitar", 100 ],
-      [ "violin", 80 ],
-      [ "ukulele", 90 ],
-      [ "banjo", 100 ]
-    ]
+    "items": [ [ "acoustic_guitar", 100 ], [ "violin", 80 ], [ "ukulele", 90 ], [ "banjo", 100 ] ]
   },
   {
     "id": "light_reading",
@@ -156,7 +137,7 @@
         "r": "f_rack"
       },
       "vendingmachines": { "1": { "item_group": "vending_drink" }, "2": { "item_group": "vending_food" } },
-      "toilets": { "T": {} },
+      "toilets": { "T": {  } },
       "place_loot": [
         { "group": "mussto_stringinst", "x": [ 5, 10 ], "y": 10, "chance": 30, "repeat": [ 1, 2 ] },
         { "group": "mussto_windinst", "x": [ 5, 10 ], "y": 11, "chance": 40, "repeat": [ 1, 2 ] },

@@ -1265,7 +1265,7 @@
     "id": "mon_milbot_gaurdian",
     "type": "MONSTER",
     "copy-from": "mon_milbot_base",
-    "name": "robo-gaurdian",
+    "name": "robo-guardian",
     "description": "A salvaged military robot refitted with a pair of integrated 9mm firearms.  Multiple weapons provide a high rate of fire, but jury-rigged sensors limit the effective range and accuracy. It makes for a good close range bodyguard.",
     "diff": 10,
     "speed": 70,

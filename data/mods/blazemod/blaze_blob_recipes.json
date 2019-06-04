@@ -203,6 +203,18 @@
     ]
   },
   {
+    "result": "frostie_wheel",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "cooking",
+    "difficulty": 8,
+    "time": 15000,
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "frostie", 1 ] ], [ [ "water", 200 ] ] ]
+  },
+  {
     "result": "fuzzlegrow",
     "type": "recipe",
     "category": "CC_OTHER",

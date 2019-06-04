@@ -1,14 +1,20 @@
 #include "trait_group.h"
 
+#include <cstddef>
 #include <algorithm>
 #include <cassert>
 #include <sstream>
+#include <map>
+#include <utility>
+#include <type_traits>
 
 #include "debug.h"
 #include "json.h"
 #include "rng.h"
 #include "translations.h"
 #include "ui.h"
+#include "compatibility.h"
+#include "mutation.h"
 
 using namespace trait_group;
 
@@ -29,7 +35,7 @@ void trait_group::load_trait_group( JsonObject &jsobj, const Trait_group_tag &gi
 }
 
 // NOTE: This function is largely based on item_group::get_unique_group_id()
-Trait_group_tag get_unique_trait_group_id()
+static Trait_group_tag get_unique_trait_group_id()
 {
     // This is just a hint what id to use next. Overflow of it is defined and if the group
     // name is already used, we simply go the next id.
@@ -82,7 +88,7 @@ void trait_group::debug_spawn()
     uilist menu;
     menu.text = _( "Test which group?" );
     for( size_t i = 0; i < groups.size(); i++ ) {
-        menu.entries.emplace_back( i, true, -2, groups[i].str() );
+        menu.entries.emplace_back( static_cast<int>( i ), true, -2, groups[i].str() );
     }
     while( true ) {
         menu.query();
@@ -108,7 +114,7 @@ void trait_group::debug_spawn()
         for( const auto &e : traitnames2 ) {
             std::ostringstream buffer;
             buffer << e.first << " x " << e.second << "\n";
-            menu2.entries.emplace_back( menu2.entries.size(), true, -2, buffer.str() );
+            menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2, buffer.str() );
         }
         menu2.query();
     }
@@ -174,7 +180,7 @@ Trait_list Trait_group_creator::create( RecursionList &rec ) const
         debugmsg( "unknown trait creation list %s", id.c_str() );
         return result;
     }
-    auto tcd = mutation_branch::get_group( id );
+    const auto tcd = mutation_branch::get_group( id );
 
     Trait_list tmplist = tcd->create( rec );
     rec.pop_back();

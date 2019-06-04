@@ -31,7 +31,6 @@ order to build CataclysmDDA:
    * `zlib`
    * `bzip2`
  * Optional
-   * `lua51`
    * `gettext`
  * Curses
    * `ncurses`
@@ -68,7 +67,6 @@ Obtain packages specified above with your system package manager.
 	pacman -S mingw-w64-i686-toolchain msys/git \
 		  mingw-w64-i686-cmake \
 		  mingw-w64-i686-SDL2_{image,mixer,ttf} \
-		  mingw-w64-i686-lua51 \
 		  ncurses-devel \
 		  gettext-devel
  ```
@@ -82,7 +80,6 @@ Obtain packages specified above with your system package manager.
 	pacman -S mingw-w64-x86_64-toolchain msys/git \
 		  mingw-w64-x86_64-cmake \
 		  mingw-w64-x86_64-SDL2_{image,mixer,ttf} \
-		  mingw-w64-x86_64-lua51 \
 		  ncurses-devel \
 		  gettext-devel
  ```
@@ -178,9 +175,6 @@ The above example creates a build directory inside the source directory, but tha
    * `libintl-8.dll`
    * `libiconv-2.dll`
 
- * LUA deps:
-   * `lua51.dll`
-
  * TILES deps:
    * `SDL2.dll`
    * `SDL2_ttf.dll`
@@ -216,7 +210,7 @@ The above example creates a build directory inside the source directory, but tha
 CMake can generate  `.sln` and `.vcxproj` files used either by Visual Studio itself or by MSBuild command line compiler (if you don't want
 a full fledged IDE) and have more "native" binaries than what MSYS/Cygwin can provide.
 
-At the moment only a limited combination of options is supported (tiles only, no lua, no localizations, no backtrace).
+At the moment only a limited combination of options is supported (tiles only, no localizations, no backtrace).
 
 Get the tools:
   * CMake from the official site - https://cmake.org/download/.
@@ -229,7 +223,6 @@ Get the required libraries:
   * `SDL2_image` - https://www.libsdl.org/projects/SDL_image/
   * `SDL2_mixer` (optional, for sound support) - https://www.libsdl.org/projects/SDL_mixer/
   * Unsupported (and unused in the following instructions) optional libs:
-    * `Lua` - http://luabinaries.sourceforge.net/
     *  `gettext`/`libintl` - http://gnuwin32.sourceforge.net/packages/gettext.htm
     * `ncurses` - ???
 
@@ -315,11 +308,6 @@ Run the game. Should work.
  Support for in-game sounds & music.
 
 
- * LUA=`<boolean>`
-
- This enables Lua support. Needed only for full-fledged mods.
-
-
  * USE_HOME_DIR=`<boolean>`
 
  Use user's home directory for save files.
@@ -342,16 +330,11 @@ Run the game. Should work.
  -DLANGUAGES="cs;de;el;es_AR;es_ES"
  ```
 
- * LUA_BINARY=`<str>`
-
- Override default Lua binary name or path. You can try to use `luajit` for extra speed.
-
-
  * GIT_BINARY=`<str>`
 
  Override default Git binary name or path.
 
- So a CMake command for building Cataclysm-DDA in release mode with tiles, sound and lua support will look as follows, provided it is run in build directory located in the project.
+ So a CMake command for building Cataclysm-DDA in release mode with tiles and sound support will look as follows, provided it is run in build directory located in the project.
 ```
-cmake ../ -DCMAKE_BUILD_TYPE=Release -DTILES=ON -DSOUND=ON -DLUA=ON
+cmake ../ -DCMAKE_BUILD_TYPE=Release -DTILES=ON -DSOUND=ON
 ```

@@ -1,109 +1,81 @@
 [
   {
     "result": "cantilever_medium",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
     "skills_required": [ "fabrication", 3 ],
     "difficulty": 5,
-    "time": 360000,
-    "book_learn": [ [ "textbook_fabrication", 6 ] , [ "textbook_mechanics", 5 ] ],
+    "time": "360 m",
+    "book_learn": [ [ "textbook_fabrication", 6 ], [ "textbook_mechanics", 5 ] ],
     "using": [ [ "welding_standard", 10 ], [ "steel_standard", 2 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 }
-    ],
-    "components": [
-      [ [ "pipe", 32 ] ],
-      [ [ "chain", 1 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "components": [ [ [ "pipe", 32 ] ], [ [ "chain", 1 ] ] ]
   },
   {
     "result": "cantilever_small",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 2,
-    "time": 60000,
-    "book_learn": [ [ "textbook_fabrication", 4 ] , [ "textbook_mechanics", 2 ] , [ "manual_mechanics", 2 ] ],
+    "time": "60 m",
+    "book_learn": [ [ "textbook_fabrication", 4 ], [ "textbook_mechanics", 2 ], [ "manual_mechanics", 2 ] ],
     "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 2 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "WRENCH", "level": 1 }
-    ],
-    "components": [
-      [ [ "pipe", 8 ] ],
-      [ [ "wire", 8 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "pipe", 8 ] ], [ [ "wire", 8 ] ] ]
   },
   {
     "result": "pallet_lifter",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
     "skills_required": [ "fabrication", 2 ],
     "difficulty": 2,
-    "time": 60000,
+    "time": "60 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 5 ], [ "steel_tiny", 2 ] ],
-    "qualities": [
-      { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_M", "level": 1 },
-      { "id": "WRENCH", "level": 1 }
-    ],
-    "components": [
-      [ [ "jack", 1 ] ],
-      [ [ "pipe", 4 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
+    "components": [ [ [ "jack", 1 ] ], [ [ "pipe", 4 ] ] ]
   },
   {
     "result": "drivebelt_makeshift",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 2,
-    "time": 2000,
+    "time": "2 m",
     "book_learn": [ [ "mag_fieldrepair", 1 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "rag", 4 ], [ "leather_belt", 1 ], [ "rope_6", 1 ] ],
-      [ [ "duct_tape", 20 ] ]
-    ]
+    "components": [ [ [ "rag", 4 ], [ "leather_belt", 1 ], [ "rope_6", 1 ] ], [ [ "duct_tape", 20 ] ] ]
   },
   {
     "result": "filter_air_makeshift",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 2,
-    "time": 2000,
+    "time": "2 m",
     "book_learn": [ [ "mag_fieldrepair", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [ [ "bottle_plastic", 1 ] ],
-      [ [ "paper", 50 ] ],
-      [ [ "duct_tape", 20 ] ]
-    ]
+    "components": [ [ [ "bottle_plastic", 1 ] ], [ [ "paper", 50 ] ], [ [ "duct_tape", 20 ] ] ]
   },
   {
     "result": "filter_liquid_makeshift",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 2,
-    "time": 2000,
+    "time": "2 m",
     "book_learn": [ [ "mag_fieldrepair", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
@@ -114,23 +86,16 @@
   },
   {
     "result": "cargo_lock",
-    "type" : "recipe",
+    "type": "recipe",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
     "skill_used": "mechanics",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 1,
-    "time": 4000,
+    "time": "4 m",
     "autolearn": true,
-    "qualities": [
-      { "id": "HAMMER_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "SAW_M_FINE", "level": 1 }
-    ],
-    "components": [
-      [ [ "sheet_metal", 1 ], [ "steel_standard", 1, "LIST" ] ],
-      [ [ "clockworks", 2 ] ]
-    ]
+    "qualities": [ { "id": "HAMMER_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "SAW_M_FINE", "level": 1 } ],
+    "components": [ [ [ "sheet_metal", 1 ], [ "steel_standard", 1, "LIST" ] ], [ [ "clockworks", 2 ], [ "lock", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -140,7 +105,7 @@
     "skill_used": "fabrication",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
-    "time": 60000,
+    "time": "60 m",
     "autolearn": true,
     "using": [ [ "rope_natural", 4 ], [ "welding_standard", 12 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -155,7 +120,7 @@
     "skill_used": "fabrication",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
-    "time": 60000,
+    "time": "60 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -169,7 +134,7 @@
     "skill_used": "fabrication",
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
-    "time": 60000,
+    "time": "60 m",
     "autolearn": true,
     "using": [ [ "rope_natural", 2 ], [ "welding_standard", 6 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
@@ -184,7 +149,7 @@
     "skills_required": [ "mechanics", 1 ],
     "difficulty": 4,
     "id_suffix": "repurpose_wire_basket",
-    "time": 25000,
+    "time": "25 m",
     "autolearn": true,
     "using": [ [ "welding_standard", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 }, { "id": "WRENCH", "level": 1 } ],

@@ -8,8 +8,7 @@
     "symbol": "%",
     "color": "red",
     "parasites": 32,
-    "vitamins": [  ],
-    "rot_spawn": "GROUP_CARRION"
+    "vitamins": [  ]
   },
   {
     "id": "fish",
@@ -25,7 +24,7 @@
     "spoils_in": "12 hours",
     "flags": [ "SMOKABLE" ],
     "smoking_result": "fish_smoked",
-    "vitamins": [ [ "vitB", 9 ] ],
+    "vitamins": [ [ "vitA", 2 ], [ "vitC", 2 ], [ "calcium", 2 ], [ "iron", 3 ], [ "vitB", 9 ] ],
     "calories": 121
   },
   {
@@ -94,7 +93,7 @@
     "healthy": -1,
     "fun": -10,
     "cooks_like": "meat_cooked",
-    "vitamins": [ [ "vitC", 4 ], [ "iron", 17 ], [ "vitB", 187 ], [ "calcium", 0 ] ],
+    "vitamins": [ [ "vitC", 13 ], [ "calcium", 2 ], [ "iron", 53 ], [ "vitB", 778 ] ],
     "flags": [ "SMOKABLE" ],
     "smoking_result": "meat_smoked"
   },
@@ -108,7 +107,7 @@
     "cooks_like": "meat_scrap_cooked",
     "proportional": { "weight": 0.1, "volume": 0.1, "price": 0.1, "calories": 0.1 },
     "delete": { "flags": [ "SMOKABLE" ] },
-    "vitamins": [ [ "vitB", 18 ], [ "vitC", 0 ], [ "iron", 0 ] ]
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 0 ], [ "iron", 0 ], [ "vitB", 0 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -129,9 +128,7 @@
     "health": -25,
     "fun": -25,
     "use_action": "POISON",
-    "vitamins": [  ],
-    "rot_spawn": "GROUP_CARRION",
-    "rot_spawn_chance": 101
+    "vitamins": [  ]
   },
   {
     "id": "meat_cooked",
@@ -144,6 +141,7 @@
     "calories": 402,
     "healthy": 0,
     "fun": 0,
+    "vitamins": [ [ "vitC", 16 ], [ "calcium", 2 ], [ "iron", 69 ], [ "vitB", 778 ] ],
     "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ]
   },
   {
@@ -243,6 +241,7 @@
     "name": "meat jerky",
     "name_plural": "meat jerky",
     "description": "Salty dried meat that lasts for a long time, but will make you thirsty.",
+    "primary_material": "cured_meat",
     "weight": 85,
     "container": "bag_plastic",
     "color": "brown",
@@ -254,7 +253,7 @@
     "quench": -5,
     "fun": 4,
     "calories": 348,
-    "vitamins": [ [ "vitC", 0 ], [ "iron", 6 ], [ "vitB", 8 ] ],
+    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 26 ], [ "vitB", 35 ] ],
     "delete": { "flags": [ "SMOKABLE" ] },
     "proportional": { "price": 0.64 }
   },
@@ -265,6 +264,7 @@
     "name": "salted fish",
     "name_plural": "salted fish",
     "description": "Salty dried fish that lasts for a long time, but will make you thirsty.",
+    "primary_material": "cured_meat",
     "container": "bag_plastic",
     "color": "light_gray",
     "spoils_in": "24 days",
@@ -272,7 +272,7 @@
     "parasites": 0,
     "quench": -5,
     "fun": 4,
-    "vitamins": [ [ "vitA", 0 ], [ "vitC", 0 ], [ "calcium", 2 ], [ "iron", 1 ], [ "vitB", 42 ] ],
+    "vitamins": [ [ "vitA", 7 ], [ "vitC", 7 ], [ "calcium", 25 ], [ "iron", 21 ], [ "vitB", 617 ] ],
     "proportional": { "price": 2, "volume": 0.28, "weight": 0.28 }
   },
   {
@@ -282,6 +282,7 @@
     "name": "jerk jerky",
     "name_plural": "jerk jerky",
     "description": "Salty dried human flesh that lasts for a long time, but will make you thirsty.",
+    "primary_material": "cured_meat",
     "color": "brown",
     "spoils_in": "24 days",
     "healthy": 0,
@@ -341,7 +342,7 @@
     "looks_like": "offal",
     "name": "piece of raw lung",
     "name_plural": "pieces of raw lung",
-    "description": "A portion of lung from an animal.  It's spongy and pink, and spoils very quickly.  It can be a delicacy if properly prepared - but if improperly prepared, it's a chewy lump of flavourless connective tissue.",
+    "description": "A portion of lung from an animal.  It's spongy and pink, and spoils very quickly.  It can be a delicacy if properly prepared - but if improperly prepared, it's a chewy lump of flavorless connective tissue.",
     "weight": 56,
     "volume": 1,
     "color": "pink",
@@ -360,7 +361,7 @@
     "looks_like": "offal_cooked",
     "name": "cooked piece of lung",
     "name_plural": "cooked pieces of lung",
-    "description": " Prepared in this way, it's a chewy grayish lump of flavourless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
+    "description": " Prepared in this way, it's a chewy grayish lump of flavorless connective tissue.  It doesn't look any tastier than it did raw, but the parasites are all cooked out.",
     "parasites": 0
   },
   {
@@ -481,7 +482,7 @@
     "fun": -50
   },
   {
-    "type": "GENERIC",
+    "type": "COMESTIBLE",
     "id": "bone",
     "category": "spare_parts",
     "name": "bone",
@@ -491,7 +492,8 @@
     "description": "A bone from some creature or other.  Could be used to make some stuff, like needles.",
     "price": 0,
     "material": "bone",
-    "volume": 1
+    "volume": 1,
+    "vitamins": [ [ "calcium", 96 ] ]
   },
   {
     "type": "COMESTIBLE",
@@ -511,9 +513,7 @@
     "material": "flesh",
     "volume": 1,
     "stack_size": 1,
-    "fun": -20,
-    "rot_spawn": "GROUP_CARRION",
-    "rot_spawn_chance": 15
+    "fun": -20
   },
   {
     "type": "COMESTIBLE",
@@ -563,9 +563,7 @@
     "volume": 1,
     "fun": -10,
     "flags": [ "TRADER_AVOID", "SMOKABLE" ],
-    "smoking_result": "dry_meat_tainted",
-    "rot_spawn": "GROUP_CARRION_INFECTED",
-    "rot_spawn_chance": 15
+    "smoking_result": "dry_meat_tainted"
   },
   {
     "type": "COMESTIBLE",
@@ -612,9 +610,7 @@
     "//": "Not for use in edible recipes, and should require ~200% as much as normal for applicable inedible recipes.",
     "material": "flesh",
     "volume": 1,
-    "fun": -10,
-    "rot_spawn": "GROUP_CARRION_INFECTED",
-    "rot_spawn_chance": 15
+    "fun": -10
   },
   {
     "type": "COMESTIBLE",
@@ -653,9 +649,7 @@
     "material": "flesh",
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
-    "fun": -5,
-    "rot_spawn": "GROUP_CARRION",
-    "rot_spawn_chance": 15
+    "fun": -5
   },
   {
     "type": "COMESTIBLE",
@@ -680,9 +674,7 @@
     "material": "flesh",
     "volume": 1,
     "flags": [ "EATEN_HOT" ],
-    "fun": -3,
-    "rot_spawn": "GROUP_CARRION",
-    "rot_spawn_chance": 12
+    "fun": -3
   },
   {
     "type": "COMESTIBLE",
@@ -711,8 +703,7 @@
     "flags": "TRADER_AVOID",
     "volume": "25ml",
     "stack_size": 1,
-    "fun": -12,
-    "rot_spawn": "GROUP_CARRION"
+    "fun": -12
   },
   {
     "type": "COMESTIBLE",
@@ -722,8 +713,7 @@
     "spoils_in": "6 hours",
     "use_action": "POISON",
     "description": "A carefully folded poisonous raw skin harvested from an unnatural creature.  You can cure it for storage and tanning.",
-    "price": 0,
-    "rot_spawn": "GROUP_CARRION_INFECTED"
+    "price": 0
   },
   {
     "type": "COMESTIBLE",
@@ -752,8 +742,7 @@
     "flags": [ "NO_SALVAGE", "TRADER_AVOID" ],
     "volume": "25ml",
     "stack_size": 1,
-    "fun": -24,
-    "rot_spawn": "GROUP_CARRION"
+    "fun": -24
   },
   {
     "type": "COMESTIBLE",
@@ -764,8 +753,25 @@
     "use_action": "POISON",
     "description": "A carefully folded raw skin harvested from a fur-bearing unnatural creature.  It still has the fur attached and is poisonous.  You can cure it for storage and tanning.",
     "price": 0,
-    "flags": [ "NO_SALVAGE" ],
-    "rot_spawn": "GROUP_CARRION_INFECTED"
+    "flags": [ "NO_SALVAGE" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "id": "flesh_golem_heart",
+    "name": "seeping heart",
+    "weight": 2035,
+    "color": "black_red",
+    "symbol": "%",
+    "healthy": -10,
+    "calories": 200,
+    "quench": 10,
+    "description": "A thick mass of flesh superficially resembling a mammalian heart, covered in dimpled grooves and the size of your fist.",
+    "price": 3000,
+    "material": [ "flesh" ],
+    "volume": 2,
+    "fun": -25,
+    "use_action": { "type": "mutagen", "mutation_category": "BEAST", "is_strong": false }
   },
   {
     "type": "COMESTIBLE",

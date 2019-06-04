@@ -4,21 +4,24 @@
 
 #include <memory>
 #include <unordered_map>
+#include <string>
+#include <vector>
 
 #include "mapgen.h"
 #include "optional.h"
 #include "rng.h"
 #include "string_id.h"
+#include "type_id.h"
 #include "weighted_list.h"
 
 class JsonObject;
-class VehicleGroup;
-using vgroup_id = string_id<VehicleGroup>;
+class map;
 class VehicleSpawn;
+class VehicleGroup;
+
 using vspawn_id = string_id<VehicleSpawn>;
-struct vehicle_prototype;
-using vproto_id = string_id<vehicle_prototype>;
 struct point;
+
 extern std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 
 /**
@@ -28,14 +31,14 @@ extern std::unordered_map<vgroup_id, VehicleGroup> vgroups;
 class VehicleGroup
 {
     public:
-        VehicleGroup() : vehicles() {}
+        VehicleGroup() {}
 
         void add_vehicle( const vproto_id &type, const int &probability ) {
             vehicles.add( type, probability );
         }
 
         const vproto_id &pick() const {
-            return *( vehicles.pick() );
+            return *vehicles.pick();
         }
 
         static void load( JsonObject &jo );
@@ -85,7 +88,7 @@ struct VehiclePlacement {
     const VehicleLocation *pick() const;
     static void load( JsonObject &jo );
 
-    typedef std::vector<VehicleLocation> LocationMap;
+    using LocationMap = std::vector<VehicleLocation>;
     LocationMap locations;
 };
 
@@ -102,7 +105,7 @@ class VehicleFunction
         virtual void apply( map &m, const std::string &terrainid ) const = 0;
 };
 
-typedef void ( *vehicle_gen_pointer )( map &m, const std::string &terrainid );
+using vehicle_gen_pointer = void ( * )( map &, const std::string & );
 
 class VehicleFunction_builtin : public VehicleFunction
 {
@@ -153,7 +156,7 @@ class VehicleFunction_json : public VehicleFunction
 class VehicleSpawn
 {
     public:
-        VehicleSpawn() : types() {}
+        VehicleSpawn() {}
 
         void add( const double &weight, const std::shared_ptr<VehicleFunction> &func ) {
             types.add( func, weight );
@@ -179,7 +182,7 @@ class VehicleSpawn
     private:
         weighted_float_list<std::shared_ptr<VehicleFunction>> types;
 
-        typedef std::unordered_map<std::string, vehicle_gen_pointer> FunctionMap;
+        using FunctionMap = std::unordered_map<std::string, vehicle_gen_pointer>;
         static FunctionMap builtin_functions;
 };
 

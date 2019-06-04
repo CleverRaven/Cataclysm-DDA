@@ -18,6 +18,11 @@
   },
   {
     "type": "tool_quality",
+    "id": "ANESTHESIA",
+    "name": "anesthesia"
+  },
+  {
+    "type": "tool_quality",
     "id": "SMOOTH",
     "name": "smoothing"
   },
@@ -93,7 +98,7 @@
     "type": "tool_quality",
     "id": "DIG",
     "name": "digging",
-    "usages": [ [ 1, [ "MAKEMOUND", "DIG", "FILL_PIT" ] ], [ 2, [ "CLEAR_RUBBLE" ] ] ]
+    "usages": [ [ 1, [ "MAKEMOUND", "DIG", "FILL_PIT", "DIG_CHANNEL" ] ], [ 2, [ "CLEAR_RUBBLE" ] ] ]
   },
   {
     "type": "tool_quality",

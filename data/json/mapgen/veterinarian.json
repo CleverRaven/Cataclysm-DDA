@@ -76,7 +76,7 @@
       [ "medical_tape", 35 ],
       [ "blood", 5 ],
       [ "vaccine_shot", 15 ],
-      [ "anesthesia", 20 ]
+      [ "anesthetic_kit", 20 ]
     ]
   },
   {

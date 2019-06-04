@@ -2,11 +2,13 @@
 #ifndef WEATHER_GEN_H
 #define WEATHER_GEN_H
 
+#include <string>
+
 #include "calendar.h"
-struct point;
+
 struct tripoint;
-class time_point;
 class JsonObject;
+
 enum weather_type : int;
 
 struct w_point {
@@ -16,22 +18,25 @@ struct w_point {
     double windpower;
     std::string wind_desc;
     int winddirection;
-    std::string dirstring;
-    std::string shortdirstring;
     bool   acidic;
 };
 
 class weather_generator
 {
     public:
-        double base_temperature = 6.5; // Average temperature of New England
-        double base_humidity = 66.0; // Average humidity
-        double base_pressure = 1015.0; // Average atmospheric pressure
+        // Average temperature of New England
+        double base_temperature = 6.5;
+        // Average humidity
+        double base_humidity = 66.0;
+        // Average atmospheric pressure
+        double base_pressure = 1015.0;
         double base_acid = 0.0;
-        double base_wind = 5.7; //Average yearly windspeed of New England
-        int base_wind_distrib_peaks = 30; //How much the wind peaks above average
-        int base_wind_season_variation =
-            64; //How much the wind folows seasonal variation ( lower means more change )
+        // Average yearly windspeed of New England
+        double base_wind = 5.7;
+        // How much the wind peaks above average
+        int base_wind_distrib_peaks = 30;
+        // How much the wind folows seasonal variation ( lower means more change )
+        int base_wind_season_variation = 64;
         static int current_winddir;
 
         weather_generator();
@@ -46,9 +51,6 @@ class weather_generator
         weather_type get_weather_conditions( const w_point & ) const;
         int get_wind_direction( const season_type, unsigned seed ) const;
         int convert_winddir( const int ) const;
-        std::string get_dirstring( int ) const;
-        std::string get_shortdirstring( int ) const;
-        std::string get_wind_desc( double ) const;
         int get_water_temperature() const;
         void test_weather() const;
 

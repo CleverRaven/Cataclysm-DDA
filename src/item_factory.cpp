@@ -1,9 +1,14 @@
 #include "item_factory.h"
 
+#include <cstdlib>
 #include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <sstream>
+#include <array>
+#include <iterator>
+#include <stdexcept>
+#include <type_traits>
 
 #include "addiction.h"
 #include "ammo.h"
@@ -12,7 +17,6 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "enums.h"
-#include "field.h"
 #include "init.h"
 #include "item.h"
 #include "item_category.h"
@@ -21,7 +25,6 @@
 #include "json.h"
 #include "material.h"
 #include "options.h"
-#include "overmap.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
 #include "string_formatter.h"
@@ -30,8 +33,20 @@
 #include "ui.h"
 #include "veh_type.h"
 #include "vitamin.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "color.h"
+#include "damage.h"
+#include "explosion.h"
+#include "game_constants.h"
+#include "optional.h"
+#include "recipe.h"
+#include "string_id.h"
+#include "units.h"
 
-typedef std::set<std::string> t_string_set;
+class player;
+
+using t_string_set = std::set<std::string>;
 static t_string_set item_blacklist;
 
 static std::set<std::string> repair_actions;
@@ -108,7 +123,7 @@ static bool assign_coverage_from_json( JsonObject &jo, const std::string &key,
 
 void Item_factory::finalize_pre( itype &obj )
 {
-    // @todo: separate repairing from reinforcing/enhancement
+    // TODO: separate repairing from reinforcing/enhancement
     if( obj.damage_max == obj.damage_min ) {
         obj.item_tags.insert( "NO_REPAIR" );
     }
@@ -169,6 +184,10 @@ void Item_factory::finalize_pre( itype &obj )
     // use base volume if integral volume unspecified
     if( obj.integral_volume < 0_ml ) {
         obj.integral_volume = obj.volume;
+    }
+    // use base weight if integral weight unspecified
+    if( obj.integral_weight < 0_gram ) {
+        obj.integral_weight = obj.weight;
     }
     // for ammo and comestibles stack size defaults to count of initial charges
     // Set max stack size to 200 to prevent integer overflow
@@ -238,7 +257,7 @@ void Item_factory::finalize_pre( itype &obj )
     }
     if( obj.gun ) {
         handle_legacy_ranged( *obj.gun );
-        // @todo: add explicit action field to gun definitions
+        // TODO: add explicit action field to gun definitions
         const auto defmode_name = [&]() {
             if( obj.gun->clip == 1 ) {
                 return translate_marker( "manual" ); // break-type actions
@@ -267,7 +286,7 @@ void Item_factory::finalize_pre( itype &obj )
         }
 
         if( obj.gun->handling < 0 ) {
-            // @todo: specify in JSON via classes
+            // TODO: specify in JSON via classes
             if( obj.gun->skill_used == skill_id( "rifle" ) ||
                 obj.gun->skill_used == skill_id( "smg" ) ||
                 obj.gun->skill_used == skill_id( "shotgun" ) ) {
@@ -277,9 +296,9 @@ void Item_factory::finalize_pre( itype &obj )
             }
         }
 
-        obj.gun->reload_noise = _( obj.gun->reload_noise.c_str() );
+        obj.gun->reload_noise = _( obj.gun->reload_noise );
 
-        // @todo: Move to jsons?
+        // TODO: Move to jsons?
         if( obj.gun->skill_used == skill_id( "archery" ) ||
             obj.gun->skill_used == skill_id( "throw" ) ) {
             obj.item_tags.insert( "WATERPROOF_GUN" );
@@ -300,7 +319,7 @@ void Item_factory::finalize_pre( itype &obj )
             auto healthy = std::max( obj.comestible->healthy, 1 ) * 10;
             auto mat = obj.materials;
 
-            // @todo: migrate inedible comestibles to appropriate alternative types.
+            // TODO: migrate inedible comestibles to appropriate alternative types.
             mat.erase( std::remove_if( mat.begin(), mat.end(), []( const string_id<material_type> &m ) {
                 return !m.obj().edible();
             } ), mat.end() );
@@ -422,7 +441,7 @@ void Item_factory::finalize()
     }
 
     // We may actually have some runtimes here - ones loaded from saved game
-    // @todo: support for runtimes that repair
+    // TODO: support for runtimes that repair
     for( auto &e : m_runtimes ) {
         finalize_pre( *e.second );
         finalize_post( *e.second );
@@ -467,17 +486,9 @@ void Item_factory::finalize_item_blacklist()
     }
 }
 
-void add_to_set( t_string_set &s, JsonObject &json, const std::string &name )
-{
-    JsonArray jarr = json.get_array( name );
-    while( jarr.has_more() ) {
-        s.insert( jarr.next_string() );
-    }
-}
-
 void Item_factory::load_item_blacklist( JsonObject &json )
 {
-    add_to_set( item_blacklist, json, "items" );
+    add_array_to_set( item_blacklist, json, "items" );
 }
 
 Item_factory::~Item_factory() = default;
@@ -496,7 +507,7 @@ class iuse_function_wrapper : public iuse_actor
             : iuse_actor( type ), cpp_function( f ) { }
 
         ~iuse_function_wrapper() override = default;
-        long use( player &p, item &it, bool a, const tripoint &pos ) const override {
+        int use( player &p, item &it, bool a, const tripoint &pos ) const override {
             iuse tmp;
             return ( tmp.*cpp_function )( &p, &it, a, pos );
         }
@@ -517,7 +528,7 @@ class iuse_function_wrapper_with_info : public iuse_function_wrapper
             : iuse_function_wrapper( type, f ), info_string( info ) { }
 
         void info( const item &, std::vector<iteminfo> &info ) const override {
-            info.emplace_back( "DESCRIPTION", _( info_string.c_str() ) );
+            info.emplace_back( "DESCRIPTION", _( info_string ) );
         }
         iuse_actor *clone() const override {
             return new iuse_function_wrapper_with_info( *this );
@@ -571,10 +582,9 @@ void Item_factory::init()
     add_iuse( "ANTICONVULSANT", &iuse::anticonvulsant );
     add_iuse( "ANTIFUNGAL", &iuse::antifungal );
     add_iuse( "ANTIPARASITIC", &iuse::antiparasitic );
-    add_iuse( "ARROW_FLAMABLE", &iuse::arrow_flamable );
+    add_iuse( "ARROW_FLAMABLE", &iuse::arrow_flammable );
     add_iuse( "ARTIFACT", &iuse::artifact );
     add_iuse( "ATOMIC_CAFF", &iuse::atomic_caff );
-    add_iuse( "BATTLETORCH_LIT", &iuse::battletorch_lit );
     add_iuse( "BELL", &iuse::bell );
     add_iuse( "BLECH", &iuse::blech );
     add_iuse( "BOLTCUTTERS", &iuse::boltcutters );
@@ -595,6 +605,7 @@ void Item_factory::init()
     add_iuse( "CHAINSAW_ON", &iuse::chainsaw_on );
     add_iuse( "CHEW", &iuse::chew );
     add_iuse( "BIRDFOOD", &iuse::feedbird );
+    add_iuse( "BURROW", &iuse::burrow );
     add_iuse( "CHOP_TREE", &iuse::chop_tree );
     add_iuse( "CHOP_LOGS", &iuse::chop_logs );
     add_iuse( "CIRCSAW_ON", &iuse::circsaw_on );
@@ -612,8 +623,10 @@ void Item_factory::init()
     add_iuse( "ECS_LAJATANG_ON", &iuse::ecs_lajatang_on );
     add_iuse( "DATURA", &iuse::datura );
     add_iuse( "DIG", &iuse::dig );
+    add_iuse( "DIVE_TANK", &iuse::dive_tank );
     add_iuse( "DIRECTIONAL_ANTENNA", &iuse::directional_antenna );
     add_iuse( "DISASSEMBLE", &iuse::disassemble );
+    add_iuse( "CRAFT", &iuse::craft );
     add_iuse( "DOGFOOD", &iuse::dogfood );
     add_iuse( "DOG_WHISTLE", &iuse::dog_whistle );
     add_iuse( "DOLLCHAT", &iuse::talking_doll );
@@ -662,6 +675,7 @@ void Item_factory::init()
     add_iuse( "LUMBER", &iuse::lumber );
     add_iuse( "MAGIC_8_BALL", &iuse::magic_8_ball );
     add_iuse( "MAKEMOUND", &iuse::makemound );
+    add_iuse( "DIG_CHANNEL", &iuse::dig_channel );
     add_iuse( "MARLOSS", &iuse::marloss );
     add_iuse( "MARLOSS_GEL", &iuse::marloss_gel );
     add_iuse( "MARLOSS_SEED", &iuse::marloss_seed );
@@ -724,7 +738,6 @@ void Item_factory::init()
     add_iuse( "TELEPORT", &iuse::teleport );
     add_iuse( "THORAZINE", &iuse::thorazine );
     add_iuse( "THROWABLE_EXTINGUISHER_ACT", &iuse::throwable_extinguisher_act );
-    add_iuse( "TORCH_LIT", &iuse::torch_lit );
     add_iuse( "TOWEL", &iuse::towel );
     add_iuse( "TRIMMER_OFF", &iuse::trimmer_off );
     add_iuse( "TRIMMER_ON", &iuse::trimmer_on );
@@ -732,13 +745,15 @@ void Item_factory::init()
     add_iuse( "UNPACK_ITEM", &iuse::unpack_item );
     add_iuse( "VACCINE", &iuse::vaccine );
     add_iuse( "BLOOD_DRAW", &iuse::blood_draw );
+    add_iuse( "MIND_SPLICER", &iuse::mind_splicer );
     add_iuse( "VIBE", &iuse::vibe );
+    add_iuse( "HAND_CRANK", &iuse::hand_crank );
     add_iuse( "VORTEX", &iuse::vortex );
     add_iuse( "WASHCLOTHES", &iuse::washclothes );
     add_iuse( "WATER_PURIFIER", &iuse::water_purifier );
     add_iuse( "WEAK_ANTIBIOTIC", &iuse::weak_antibiotic );
     add_iuse( "WEATHER_TOOL", &iuse::weather_tool );
-    add_iuse( "WEED_BROWNIE", &iuse::weed_brownie );
+    add_iuse( "WEED_CAKE", &iuse::weed_cake );
     add_iuse( "XANAX", &iuse::xanax );
     add_iuse( "BREAK_STICK", &iuse::break_stick );
     add_iuse( "MAGNESIUM_TABLET", &iuse::magnesium_tablet );
@@ -775,6 +790,8 @@ void Item_factory::init()
     add_actor( new mutagen_actor() );
     add_actor( new mutagen_iv_actor() );
     add_actor( new deploy_tent_actor() );
+    add_actor( new learn_spell_actor() );
+    add_actor( new cast_spell_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"].reset( new Item_group( Item_group::G_COLLECTION, 100, 0, 0 ) );
@@ -935,7 +952,7 @@ void Item_factory::check_definitions() const
 
             if( !type->gun->ammo ) {
                 // if gun doesn't use ammo forbid both integral or detachable magazines
-                if( bool( type->gun->clip ) || !type->magazines.empty() ) {
+                if( static_cast<bool>( type->gun->clip ) || !type->magazines.empty() ) {
                     msg << "cannot specify clip_size or magazine without ammo type" << "\n";
                 }
 
@@ -1101,7 +1118,7 @@ void Item_factory::check_definitions() const
         if( msg.str().empty() ) {
             continue;
         }
-        debugmsg( "warnings for type %s:\n%s", type->id.c_str(), msg.str().c_str() );
+        debugmsg( "warnings for type %s:\n%s", type->id.c_str(), msg.str() );
     }
     for( const auto &e : migrations ) {
         if( !m_templates.count( e.second.replace ) ) {
@@ -1258,7 +1275,7 @@ void Item_factory::load( islot_artifact &slot, JsonObject &jo, const std::string
     slot.dream_freq_unmet = jo.get_int( "dream_freq_unmet", 0 );
     slot.dream_freq_met   = jo.get_int( "dream_freq_met",   0 );
     slot.dream_msg_unmet  =
-        jo.get_string_array( "dream_unmet" ); //@todo Make sure it doesn't cause problems if this is empty
+        jo.get_string_array( "dream_unmet" ); // TODO: Make sure it doesn't cause problems if this is empty
     slot.dream_msg_met    = jo.get_string_array( "dream_met" );
     load_optional_enum_array( slot.effects_wielded, jo, "effects_wielded" );
     load_optional_enum_array( slot.effects_activated, jo, "effects_activated" );
@@ -1289,6 +1306,7 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo, const std::string &sr
     assign( jo, "loudness", slot.loudness, strict, 0 );
     assign( jo, "effects", slot.ammo_effects, strict );
     assign( jo, "prop_damage", slot.prop_damage, strict );
+    assign( jo, "show_stats", slot.force_stat_display, strict );
 }
 
 void Item_factory::load_ammo( JsonObject &jo, const std::string &src )
@@ -1378,7 +1396,7 @@ void Item_factory::load( islot_gun &slot, JsonObject &jo, const std::string &src
 
     assign( jo, "pierce", slot.legacy_pierce, strict, 0 );
     assign( jo, "dispersion", slot.dispersion, strict );
-    assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, int( MAX_RECOIL ) );
+    assign( jo, "sight_dispersion", slot.sight_dispersion, strict, 0, static_cast<int>( MAX_RECOIL ) );
     assign( jo, "recoil", slot.recoil, strict, 0 );
     assign( jo, "handling", slot.handling, strict );
     assign( jo, "durability", slot.durability, strict, 0, 10 );
@@ -1424,6 +1442,15 @@ void Item_factory::load_armor( JsonObject &jo, const std::string &src )
     }
 }
 
+void Item_factory::load_pet_armor( JsonObject &jo, const std::string &src )
+{
+    itype def;
+    if( load_definition( jo, src, def ) ) {
+        load_slot( def.pet_armor, jo, src );
+        load_basic_info( jo, def, src );
+    }
+}
+
 void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
@@ -1440,18 +1467,30 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo, const std::string &s
     assign_coverage_from_json( jo, "covers", slot.covers, slot.sided );
 }
 
+void Item_factory::load( islot_pet_armor &slot, JsonObject &jo, const std::string &src )
+{
+    bool strict = src == "dda";
+
+    assign( jo, "material_thickness", slot.thickness, strict, 0 );
+    assign( jo, "max_pet_vol", slot.max_vol, strict, 0_ml );
+    assign( jo, "min_pet_vol", slot.min_vol, strict, 0_ml );
+    assign( jo, "pet_bodytype", slot.bodytype, strict );
+    assign( jo, "environmental_protection", slot.env_resist, strict, 0 );
+    assign( jo, "environmental_protection_with_filter", slot.env_resist_w_filter, strict, 0 );
+    assign( jo, "storage", slot.storage, strict, 0_ml );
+    assign( jo, "power_armor", slot.power_armor, strict );
+}
+
 void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &src )
 {
     bool strict = src == "dda";
 
-    // @todo: update tool slot to use signed integers (int) throughout
     assign( jo, "ammo", slot.ammo_id, strict );
-    assign( jo, "max_charges", slot.max_charges, strict, 0L );
-    assign( jo, "initial_charges", slot.def_charges, strict, 0L );
-    assign( jo, "charges_per_use", slot.charges_per_use, strict,
-            static_cast<decltype( slot.charges_per_use )>( 0 ) );
-    assign( jo, "turns_per_charge", slot.turns_per_charge, strict,
-            static_cast<decltype( slot.turns_per_charge )>( 0 ) );
+    assign( jo, "max_charges", slot.max_charges, strict, 0 );
+    assign( jo, "initial_charges", slot.def_charges, strict, 0 );
+    assign( jo, "charges_per_use", slot.charges_per_use, strict, 0 );
+    assign( jo, "charge_factor", slot.charge_factor, strict, 1 );
+    assign( jo, "turns_per_charge", slot.turns_per_charge, strict, 0 );
     assign( jo, "revert_to", slot.revert_to, strict );
     assign( jo, "revert_msg", slot.revert_msg, strict );
     assign( jo, "sub", slot.subtype, strict );
@@ -1462,7 +1501,7 @@ void Item_factory::load( islot_tool &slot, JsonObject &jo, const std::string &sr
             jarr.throw_error( "You can have a fixed initial amount of charges, or randomized. Not both." );
         }
         while( jarr.has_more() ) {
-            slot.rand_charges.push_back( jarr.next_long() );
+            slot.rand_charges.push_back( jarr.next_int() );
         }
         if( slot.rand_charges.size() == 1 ) {
             // see item::item(...) for the use of this array
@@ -1537,7 +1576,11 @@ void Item_factory::load( islot_book &slot, JsonObject &jo, const std::string &sr
     assign( jo, "required_level", slot.req, strict, 0, MAX_SKILL );
     assign( jo, "fun", slot.fun, strict );
     assign( jo, "intelligence", slot.intel, strict, 0 );
-    assign( jo, "time", slot.time, strict, 0 );
+    if( jo.has_int( "time" ) ) {
+        slot.time = jo.get_int( "time" );
+    } else if( jo.has_string( "time" ) ) {
+        slot.time = to_minutes<int>( time_duration::read_from_json_string( *jo.get_raw( "time" ) ) );
+    }
     assign( jo, "skill", slot.skill, strict );
     assign( jo, "chapters", slot.chapters, strict, 0 );
 }
@@ -1568,6 +1611,28 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
     assign( jo, "cooks_like", slot.cooks_like, strict );
     assign( jo, "smoking_result", slot.smoking_result, strict );
 
+    if( jo.has_member( "primary_material" ) ) {
+        slot.specific_heat_solid = material_id(
+                                       jo.get_string( "primary_material" ) )->specific_heat_solid();
+        slot.specific_heat_liquid = material_id(
+                                        jo.get_string( "primary_material" ) )->specific_heat_liquid();
+        slot.latent_heat = material_id( jo.get_string( "primary_material" ) )->latent_heat();
+    } else if( jo.has_member( "material" ) ) {
+        float specific_heat_solid = 0;
+        float specific_heat_liquid = 0;
+        float latent_heat = 0;
+
+        for( auto &m : jo.get_tags( "material" ) ) {
+            specific_heat_solid += material_id( m )->specific_heat_solid();
+            specific_heat_liquid += material_id( m )->specific_heat_liquid();
+            latent_heat += material_id( m )->latent_heat();
+        }
+        // Average based on number of materials.
+        slot.specific_heat_liquid = specific_heat_liquid / jo.get_tags( "material" ).size();
+        slot.specific_heat_solid = specific_heat_solid / jo.get_tags( "material" ).size();
+        slot.latent_heat = latent_heat / jo.get_tags( "material" ).size();
+    }
+
     if( jo.has_string( "addiction_type" ) ) {
         slot.add = addiction_type( jo.get_string( "addiction_type" ) );
     }
@@ -1577,19 +1642,19 @@ void Item_factory::load( islot_comestible &slot, JsonObject &jo, const std::stri
     bool got_calories = false;
 
     if( jo.has_int( "calories" ) ) {
-        slot.nutr = jo.get_int( "calories" ) / islot_comestible::kcal_per_nutr;
+        slot.kcal = jo.get_int( "calories" );
         got_calories = true;
 
     } else if( jo.get_object( "relative" ).has_int( "calories" ) ) {
-        slot.nutr += jo.get_object( "relative" ).get_int( "calories" ) / islot_comestible::kcal_per_nutr;
+        slot.kcal += jo.get_object( "relative" ).get_int( "calories" );
         got_calories = true;
 
     } else if( jo.get_object( "proportional" ).has_float( "calories" ) ) {
-        slot.nutr *= jo.get_object( "proportional" ).get_float( "calories" );
+        slot.kcal *= jo.get_object( "proportional" ).get_float( "calories" );
         got_calories = true;
 
-    } else {
-        jo.read( "nutrition", slot.nutr );
+    } else if( jo.has_int( "nutrition" ) ) {
+        slot.kcal = jo.get_int( "nutrition" ) * islot_comestible::kcal_per_nutr;
     }
 
     if( jo.has_member( "nutrition" ) && got_calories ) {
@@ -1662,7 +1727,7 @@ void Item_factory::load( islot_seed &slot, JsonObject &jo, const std::string & )
 {
     assign( jo, "grow", slot.grow, false, 1_days );
     slot.fruit_div = jo.get_int( "fruit_div", 1 );
-    slot.plant_name = _( jo.get_string( "plant_name" ).c_str() );
+    slot.plant_name = _( jo.get_string( "plant_name" ) );
     slot.fruit_id = jo.get_string( "fruit" );
     slot.spawn_seeds = jo.get_bool( "seeds", true );
     slot.byproducts = jo.get_string_array( "byproducts" );
@@ -1693,9 +1758,15 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo, const std::string &
     assign( jo, "aim_speed", slot.aim_speed, strict, -1 );
     assign( jo, "handling_modifier", slot.handling, strict );
     assign( jo, "range_modifier", slot.range );
+    assign( jo, "consume_chance", slot.consume_chance );
+    assign( jo, "consume_divisor", slot.consume_divisor );
     assign( jo, "ammo_effects", slot.ammo_effects, strict );
     assign( jo, "ups_charges", slot.ups_charges );
-    assign( jo, "install_time", slot.install_time );
+    if( jo.has_int( "time" ) ) {
+        slot.install_time = jo.get_int( "time" );
+    } else if( jo.has_string( "time" ) ) {
+        slot.install_time = to_moves<int>( time_duration::read_from_json_string( *jo.get_raw( "time" ) ) );
+    }
 
     if( jo.has_member( "mod_targets" ) ) {
         slot.usable.clear();
@@ -1874,6 +1945,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
 
     assign( jo, "category", def.category_force, strict );
     assign( jo, "weight", def.weight, strict, 0_gram );
+    assign( jo, "integral_weight", def.integral_weight, strict, 0_gram );
     assign( jo, "volume", def.volume );
     assign( jo, "price", def.price );
     assign( jo, "price_postapoc", def.price_post );
@@ -1897,7 +1969,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
         JsonArray jarr = jo.get_array( "thrown_damage" );
         def.thrown_damage = load_damage_instance( jarr );
     } else {
-        // @todo: Move to finalization
+        // TODO: Move to finalization
         def.thrown_damage.clear();
         def.thrown_damage.add_damage( DT_BASH, def.melee[DT_BASH] + def.weight / 1.0_kilogram );
     }
@@ -2016,6 +2088,7 @@ void Item_factory::load_basic_info( JsonObject &jo, itype &def, const std::strin
 
     load_slot_optional( def.container, jo, "container_data", src );
     load_slot_optional( def.armor, jo, "armor_data", src );
+    load_slot_optional( def.pet_armor, jo, "pet_armor_data", src );
     load_slot_optional( def.book, jo, "book_data", src );
     load_slot_optional( def.gun, jo, "gun_data", src );
     load_slot_optional( def.bionic, jo, "bionic_data", src );
@@ -2103,7 +2176,7 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
         // check contents of migrated containers do not exceed capacity
         if( obj.is_container() && !obj.contents.empty() ) {
             item &child = obj.contents.back();
-            const long capacity = child.charges_per_volume( obj.get_container_capacity() );
+            const int capacity = child.charges_per_volume( obj.get_container_capacity() );
             child.charges = std::min( child.charges, capacity );
         }
     }
@@ -2156,7 +2229,6 @@ void Item_factory::clear()
 
     categories.clear();
 
-    // Also clear functions referring to lua
     iuse_function_list.clear();
 
     m_templates.clear();
@@ -2172,7 +2244,7 @@ void Item_factory::clear()
     frozen = false;
 }
 
-std::string to_string( Item_group::Type t )
+static std::string to_string( Item_group::Type t )
 {
     switch( t ) {
         case Item_group::Type::G_COLLECTION:
@@ -2184,8 +2256,9 @@ std::string to_string( Item_group::Type t )
     return "BUGGED";
 }
 
-Item_group *make_group_or_throw( const Group_tag &group_id, std::unique_ptr<Item_spawn_data> &isd,
-                                 Item_group::Type t, int ammo_chance, int magazine_chance )
+static Item_group *make_group_or_throw( const Group_tag &group_id,
+                                        std::unique_ptr<Item_spawn_data> &isd,
+                                        Item_group::Type t, int ammo_chance, int magazine_chance )
 {
     Item_group *ig = dynamic_cast<Item_group *>( isd.get() );
     if( ig == nullptr ) {
@@ -2229,7 +2302,7 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObje
         if( !obj.has_array( arr_name ) ) {
             return;
         } else if( name != "contents" ) {
-            obj.throw_error( string_format( "You can't use an array for '%s'", arr_name.c_str() ) );
+            obj.throw_error( string_format( "You can't use an array for '%s'", arr_name ) );
         }
         JsonArray arr = obj.get_array( arr_name );
         while( arr.has_more() ) {
@@ -2240,9 +2313,9 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObje
     get_array( gname, true );
 
     if( obj.has_member( name ) ) {
-        obj.throw_error( string_format( "This has been a TODO since 2014. Use '%s' and/or '%s' instead.",
-                                        iname.c_str(), gname.c_str() ) );
-        return false; // TODO!
+        obj.throw_error( string_format( "This has been a TODO: since 2014. Use '%s' and/or '%s' instead.",
+                                        iname, gname ) );
+        return false; // TODO: !
     }
     if( obj.has_string( iname ) ) {
         entries.push_back( std::make_pair( obj.get_string( iname ), false ) );
@@ -2252,8 +2325,7 @@ bool Item_factory::load_sub_ref( std::unique_ptr<Item_spawn_data> &ptr, JsonObje
     }
 
     if( entries.size() > 1 && name != "contents" ) {
-        obj.throw_error( string_format( "You can only use one of '%s' and '%s'", iname.c_str(),
-                                        gname.c_str() ) );
+        obj.throw_error( string_format( "You can only use one of '%s' and '%s'", iname, gname ) );
         return false;
     } else if( entries.size() == 1 ) {
         const auto type = entries.front().second ? Single_item_creator::Type::S_ITEM_GROUP :
@@ -2376,7 +2448,6 @@ void Item_factory::load_item_group( JsonObject &jsobj, const Group_tag &group_id
                                     const std::string &subtype )
 {
     std::unique_ptr<Item_spawn_data> &isd = m_template_groups[group_id];
-    Item_group *ig = dynamic_cast<Item_group *>( isd.get() );
 
     Item_group::Type type = Item_group::G_COLLECTION;
     if( subtype == "old" || subtype == "distribution" ) {
@@ -2384,8 +2455,8 @@ void Item_factory::load_item_group( JsonObject &jsobj, const Group_tag &group_id
     } else if( subtype != "collection" ) {
         jsobj.throw_error( "unknown item group type", "subtype" );
     }
-    ig = make_group_or_throw( group_id, isd, type, jsobj.get_int( "ammo", 0 ),
-                              jsobj.get_int( "magazine", 0 ) );
+    Item_group *ig = make_group_or_throw( group_id, isd, type, jsobj.get_int( "ammo", 0 ),
+                                          jsobj.get_int( "magazine", 0 ) );
 
     if( subtype == "old" ) {
         JsonArray items = jsobj.get_array( "items" );
@@ -2574,7 +2645,7 @@ std::vector<Group_tag> Item_factory::get_all_group_names()
     return rval;
 }
 
-bool Item_factory::add_item_to_group( const Group_tag group_id, const Item_tag item_id,
+bool Item_factory::add_item_to_group( const Group_tag &group_id, const Item_tag &item_id,
                                       int chance )
 {
     if( m_template_groups.find( group_id ) == m_template_groups.end() ) {
@@ -2600,7 +2671,7 @@ void item_group::debug_spawn()
     uilist menu;
     menu.text = _( "Test which group?" );
     for( size_t i = 0; i < groups.size(); i++ ) {
-        menu.entries.emplace_back( i, true, -2, groups[i] );
+        menu.entries.emplace_back( static_cast<int>( i ), true, -2, groups[i] );
     }
     while( true ) {
         menu.query();
@@ -2626,7 +2697,7 @@ void item_group::debug_spawn()
         for( const auto &e : itemnames2 ) {
             std::ostringstream buffer;
             buffer << e.first << " x " << e.second << "\n";
-            menu2.entries.emplace_back( menu2.entries.size(), true, -2, buffer.str() );
+            menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2, buffer.str() );
         }
         menu2.query();
     }

@@ -39,6 +39,7 @@
       [ "accessories", 2 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "magazine", 1 ],
@@ -48,6 +49,14 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ]
+  },
+  {
+    "abstract": "pistol_backup",
+    "copy-from": "pistol_base",
+    "type": "GUN",
+    "name": "backup pistol",
+    "//": "diminuitive backup pistols that lack underbarrel rails, sight dovetails and decent places to affix stocks.",
+    "valid_mod_locations": [ [ "accessories", 2 ], [ "barrel", 1 ], [ "bore", 1 ], [ "grip", 1 ], [ "mechanism", 2 ] ]
   },
   {
     "abstract": "pistol_revolver",
@@ -77,12 +86,14 @@
       [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "magazine", 1 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ]
@@ -98,11 +109,13 @@
       [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ]
@@ -130,11 +143,13 @@
       [ "accessories", 4 ],
       [ "barrel", 1 ],
       [ "bore", 1 ],
+      [ "brass catcher", 1 ],
       [ "grip", 1 ],
       [ "mechanism", 4 ],
       [ "muzzle", 1 ],
       [ "rail", 1 ],
       [ "sights", 1 ],
+      [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ]

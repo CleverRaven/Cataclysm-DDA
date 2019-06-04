@@ -1,37 +1,5 @@
 [
   {
-    "id": "hardware_clothing",
-    "type": "item_group",
-    "items": [
-      [ "hat_hard", 100 ],
-      [ "boots", 50 ],
-      [ "glasses_safety", 50 ],
-      [ "tool_belt", 25 ],
-      [ "elbow_pads", 50 ],
-      [ "knee_pads", 50 ],
-      [ "gloves_work", 45 ],
-      [ "ear_plugs", 75 ],
-      [ "mask_dust", 75 ],
-      [ "miner_hat", 5 ],
-      [ "cleansuit", 5 ]
-    ]
-  },
-  {
-    "id": "vending_drink_home_impr",
-    "type": "item_group",
-    "items": [
-      [ "water_clean", 50 ],
-      [ "water_mineral", 20 ],
-      [ "oj", 40 ],
-      [ "juice", 35 ],
-      [ "cranberry_juice", 35 ],
-      [ "cola", 50 ],
-      [ "lemonlime", 45 ],
-      [ "V8", 15 ],
-      [ "gum", 15 ]
-    ]
-  },
-  {
     "id": "hardware_trash",
     "type": "item_group",
     "items": [
@@ -45,65 +13,6 @@
       [ "bag_plastic", 20 ],
       [ "news_regional", 15 ],
       [ "mag_news", 15 ]
-    ]
-  },
-  {
-    "id": "paint",
-    "type": "item_group",
-    "items": [
-      [ "r_paint", 45 ],
-      [ "b_paint", 45 ],
-      [ "w_paint", 45 ],
-      [ "g_paint", 45 ],
-      [ "p_paint", 45 ],
-      [ "y_paint", 45 ],
-      [ "paint_brush", 55 ]
-    ]
-  },
-  {
-    "id": "hand_tools",
-    "type": "item_group",
-    "items": [
-      [ "flashlight", 35 ],
-      [ "wrench", 50 ],
-      [ "hammer", 40 ],
-      [ "saw", 50 ],
-      [ "ax", 20 ],
-      [ "hacksaw", 50 ],
-      [ "chipper", 60 ],
-      [ "boltcutters", 50 ],
-      [ "screwdriver", 35 ]
-    ]
-  },
-  {
-    "id": "power_tools",
-    "type": "item_group",
-    "items": [
-      [ "chainsaw_off", 10 ],
-      [ "elec_chainsaw_off", 10 ],
-      [ "trimmer_off", 40 ],
-      [ "jackhammer", 50 ],
-      [ "elec_jackhammer", 50 ],
-      [ "circsaw_off", 10 ]
-    ]
-  },
-  {
-    "id": "elec_parts",
-    "type": "item_group",
-    "items": [
-      [ "cable", 65 ],
-      [ "power_supply", 50 ],
-      [ "amplifier", 50 ]
-    ]
-  },
-  {
-    "id": "raw_materials",
-    "type": "item_group",
-    "items": [
-      [ "2x4", 40 ],
-      [ "nail", 80 ],
-      [ "material_cement", 60 ],
-      [ "material_sand", 60 ]
     ]
   },
   {
@@ -169,8 +78,8 @@
       "place_items": [
         { "item": "hand_tools", "x": [ 3, 7 ], "y": 11, "chance": 40 },
         { "item": "hardware_clothing", "x": [ 16, 22 ], "y": 1, "chance": 80 },
-        { "item": "elec_parts", "x": 11, "y": [ 4, 9 ], "chance": 90, "repeat": [ 2, 3 ] },
-        { "item": "elec_parts", "x": 9, "y": [ 4, 9 ], "chance": 90, "repeat": [ 2, 3 ] }
+        { "item": "supplies_electronics", "x": 11, "y": [ 4, 9 ], "chance": 90, "repeat": [ 2, 3 ] },
+        { "item": "supplies_electronics", "x": 9, "y": [ 4, 9 ], "chance": 90, "repeat": [ 2, 3 ] }
       ],
       "place_monsters": [ { "monster": "GROUP_MALL", "x": [ 2, 23 ], "y": [ 2, 23 ], "density": 1 } ]
     }
@@ -314,13 +223,13 @@
         "F": "f_fridge",
         "s": "f_sink"
       },
-      "toilets": { "t": {} },
+      "toilets": { "t": {  } },
       "place_items": [
-        { "item": "raw_materials", "x": [ 12, 18 ], "y": 17, "chance": 70, "repeat": [ 2, 3 ] },
-        { "item": "raw_materials", "x": 18, "y": [ 9, 12 ], "chance": 70, "repeat": [ 2, 3 ] },
-        { "item": "raw_materials", "x": 18, "y": [ 14, 16 ], "chance": 70, "repeat": [ 2, 3 ] },
-        { "item": "raw_materials", "x": 22, "y": [ 9, 12 ], "chance": 70, "repeat": [ 2, 3 ] },
-        { "item": "raw_materials", "x": 22, "y": [ 14, 17 ], "chance": 70, "repeat": [ 2, 3 ] },
+        { "item": "hardware_bulk", "x": [ 12, 18 ], "y": 17, "chance": 70, "repeat": [ 2, 3 ] },
+        { "item": "hardware_bulk", "x": 18, "y": [ 9, 12 ], "chance": 70, "repeat": [ 2, 3 ] },
+        { "item": "hardware_bulk", "x": 18, "y": [ 14, 16 ], "chance": 70, "repeat": [ 2, 3 ] },
+        { "item": "hardware_bulk", "x": 22, "y": [ 9, 12 ], "chance": 70, "repeat": [ 2, 3 ] },
+        { "item": "hardware_bulk", "x": 22, "y": [ 14, 17 ], "chance": 70, "repeat": [ 2, 3 ] },
         { "item": "farming_tools", "x": [ 1, 7 ], "y": 10, "chance": 40, "repeat": [ 1, 2 ] },
         { "item": "farming_tools", "x": [ 1, 7 ], "y": 14, "chance": 40, "repeat": [ 1, 2 ] },
         { "item": "farming_seeds", "x": [ 1, 7 ], "y": 12, "chance": 90, "repeat": [ 2, 3 ] },
@@ -394,13 +303,13 @@
         "t": "f_toilet"
       },
       "place_items": [
-        { "item": "raw_materials", "x": 0, "y": [ 9, 12 ], "chance": 60, "repeat": [ 2, 3 ] },
-        { "item": "raw_materials", "x": 0, "y": [ 14, 17 ], "chance": 60, "repeat": [ 2, 3 ] },
-        { "item": "raw_materials", "x": 4, "y": [ 9, 12 ], "chance": 60, "repeat": [ 2, 3 ] },
-        { "item": "raw_materials", "x": 4, "y": [ 14, 17 ], "chance": 60, "repeat": [ 2, 3 ] },
-        { "item": "raw_materials", "x": [ 5, 10 ], "y": 17, "chance": 60, "repeat": [ 2, 3 ] },
-        { "item": "elec_parts", "x": [ 9, 10 ], "y": [ 20, 21 ], "chance": 80 },
-        { "item": "elec_parts", "x": [ 13, 14 ], "y": [ 20, 21 ], "chance": 80 },
+        { "item": "hardware_bulk", "x": 0, "y": [ 9, 12 ], "chance": 60, "repeat": [ 2, 3 ] },
+        { "item": "hardware_bulk", "x": 0, "y": [ 14, 17 ], "chance": 60, "repeat": [ 2, 3 ] },
+        { "item": "hardware_bulk", "x": 4, "y": [ 9, 12 ], "chance": 60, "repeat": [ 2, 3 ] },
+        { "item": "hardware_bulk", "x": 4, "y": [ 14, 17 ], "chance": 60, "repeat": [ 2, 3 ] },
+        { "item": "hardware_bulk", "x": [ 5, 10 ], "y": 17, "chance": 60, "repeat": [ 2, 3 ] },
+        { "item": "supplies_electronics", "x": [ 9, 10 ], "y": [ 20, 21 ], "chance": 80 },
+        { "item": "supplies_electronics", "x": [ 13, 14 ], "y": [ 20, 21 ], "chance": 80 },
         { "item": "hardware_clothing", "x": [ 13, 14 ], "y": [ 12, 13 ], "chance": 70, "repeat": [ 1, 2 ] },
         { "item": "hardware_clothing", "x": [ 17, 18 ], "y": [ 12, 13 ], "chance": 70, "repeat": [ 1, 2 ] },
         { "item": "hardware_clothing", "x": [ 13, 14 ], "y": [ 16, 17 ], "chance": 70, "repeat": [ 1, 2 ] },
@@ -480,9 +389,9 @@
         "x": "f_crate_c"
       },
       "place_items": [
-        { "item": "raw_materials", "x": [ 1, 2 ], "y": [ 11, 12 ], "chance": 80, "repeat": [ 2, 3 ] },
-        { "item": "raw_materials", "x": [ 1, 2 ], "y": [ 14, 15 ], "chance": 80, "repeat": [ 2, 3 ] },
-        { "item": "raw_materials", "x": [ 1, 2 ], "y": [ 18, 19 ], "chance": 80, "repeat": [ 2, 3 ] },
+        { "item": "hardware_bulk", "x": [ 1, 2 ], "y": [ 11, 12 ], "chance": 80, "repeat": [ 2, 3 ] },
+        { "item": "hardware_bulk", "x": [ 1, 2 ], "y": [ 14, 15 ], "chance": 80, "repeat": [ 2, 3 ] },
+        { "item": "hardware_bulk", "x": [ 1, 2 ], "y": [ 18, 19 ], "chance": 80, "repeat": [ 2, 3 ] },
         { "item": "power_tools", "x": [ 10, 11 ], "y": [ 11, 12 ], "chance": 60 },
         { "item": "hand_tools", "x": [ 8, 7 ], "y": [ 14, 15 ], "chance": 70 },
         { "item": "paint", "x": [ 12, 13 ], "y": [ 14, 15 ], "chance": 80, "repeat": [ 2, 3 ] },

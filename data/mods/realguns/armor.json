@@ -5,10 +5,10 @@
     "type": "ARMOR",
     "name": "pistol bandolier",
     "use_action": {
-        "type": "bandolier",
-        "capacity": 18,
-        "ammo": [ "32", "762x25", "38", "357_mag", "38_super", "40", "10mm_auto", "44", "45", "45lc", "9x18", "9mm", "454", "500" ],
-        "draw_cost": 20
+      "type": "bandolier",
+      "capacity": 18,
+      "ammo": [ "32", "762x25", "38", "357_mag", "38_super", "40", "10mm_auto", "44", "45", "45lc", "9x18", "9mm", "454", "500" ],
+      "draw_cost": 20
     }
   },
   {
@@ -16,11 +16,6 @@
     "copy-from": "bandolier_shotgun",
     "type": "ARMOR",
     "name": "shotgun bandolier",
-    "use_action": {
-        "type": "bandolier",
-        "capacity": 12,
-        "ammo": [ "410", "shot", "20x66mm" ],
-        "draw_cost": 20
-    }
+    "use_action": { "type": "bandolier", "capacity": 12, "ammo": [ "410", "shot", "20x66mm" ], "draw_cost": 20 }
   }
 ]

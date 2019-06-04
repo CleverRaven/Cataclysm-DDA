@@ -76,7 +76,7 @@
   },
   {
     "type": "dream",
-    "messages": [ "You have a strange dream about living in a cave.", "Your dreams give a strange reclusive feeling." ],
+    "messages": [ "You have a strange dream about living in a cave.", "Your dreams give you a strange reclusive feeling." ],
     "category": "TROGLOBITE",
     "strength": 1
   },

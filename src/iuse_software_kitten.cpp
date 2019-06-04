@@ -1,11 +1,13 @@
 #include "iuse_software_kitten.h"
 
 #include <cstdlib>  // Needed for rand()
+#include <vector>
 
 #include "cursesdef.h"
 #include "input.h"
 #include "output.h"
 #include "posix_time.h"
+#include "rng.h"
 #include "translations.h"
 
 #define EMPTY -1
@@ -215,6 +217,7 @@ std::string robot_finds_kitten::getmessage( int idx )
         _( "It's 1000 secrets the government doesn't want you to know!" ),
         _( "The letters O and R." ),
         _( "A magical... magic thing." ),
+        _( "That is a moose, a thing of pure evil. You should \"RUN!\"" ),
     };
     if( idx < 0 || idx >= nummessages ) {
         return std::string( _( "It is SOFTWARE BUG." ) );
@@ -225,7 +228,7 @@ std::string robot_finds_kitten::getmessage( int idx )
 
 robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
 {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     input_context ctxt( "IUSE_SOFTWARE_KITTEN" );
 #endif
 
@@ -256,21 +259,21 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
     }
     /* Now we initialize the various game OBJECTs.
        * Assign a position to the player. */
-    robot.x = rand() % rfkCOLS;
-    robot.y = rand() % ( rfkLINES - 3 ) + 3;
+    robot.x = rng( 0, rfkCOLS - 1 );
+    robot.y = rng( 0, rfkLINES - 3 - 1 ) + 3;
     robot.character = '#';
     robot.color = c_white;
     rfkscreen[robot.x][robot.y] = ROBOT;
 
     /* Assign the kitten a unique position. */
     do {
-        kitten.x = rand() % rfkCOLS;
-        kitten.y = rand() % ( rfkLINES - 3 ) + 3;
+        kitten.x = rng( 0, rfkCOLS - 1 );
+        kitten.y = rng( 0, rfkLINES - 3 - 1 ) + 3;
     } while( rfkscreen[kitten.x][kitten.y] != EMPTY );
 
     /* Assign the kitten a character and a color. */
     do {
-        kitten.character = ktile[rand() % 82];
+        kitten.character = ktile[rng( 0, 81 )];
     } while( kitten.character == '#' || kitten.character == ' ' );
 
     do {
@@ -283,14 +286,14 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
     for( int c = 0; c < numbogus; c++ ) {
         /* Assign a unique position. */
         do {
-            bogus[c].x = rand() % rfkCOLS;
-            bogus[c].y = ( rand() % ( rfkLINES - 3 ) ) + 3;
+            bogus[c].x = rng( 0, rfkCOLS - 1 );
+            bogus[c].y = rng( 0, rfkLINES - 3 - 1 ) + 3;
         } while( rfkscreen[bogus[c].x][bogus[c].y] != EMPTY );
         rfkscreen[bogus[c].x][bogus[c].y] = c + 2;
 
         /* Assign a character. */
         do {
-            bogus[c].character = ktile[rand() % 82];
+            bogus[c].character = ktile[rng( 0, 81 )];
         } while( bogus[c].character == '#' || bogus[c].character == ' ' );
 
         do {
@@ -300,7 +303,7 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
         /* Assign a unique message. */
         int index = 0;
         do {
-            index = rand() % nummessages;
+            index = rng( 0, nummessages - 1 );
         } while( used_messages[index] != 0 );
         bogus_messages[c] = index;
         used_messages[index] = 1;
@@ -327,7 +330,7 @@ robot_finds_kitten::robot_finds_kitten( const catacurses::window &w )
 
     wrefresh( w );
     /* Now the fun begins. */
-    int input = inp_mngr.get_input_event().get_first_input(); // @todo: use input context
+    int input = inp_mngr.get_input_event().get_first_input(); // TODO: use input context
 
     while( input != 'q' && input != 'Q' && input != KEY_ESCAPE ) {
         process_input( input, w );

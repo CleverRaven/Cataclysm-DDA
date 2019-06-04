@@ -41,6 +41,7 @@ void detonate( monster &z );      // Take the enemy with you
 void broken_ammo( monster &z );   // Breaks ammo and then itself
 void preg_roach( monster &z );    // Spawns 1-3 roach nymphs
 void fireball( monster &z );      // Explodes in fire
+void conflagration( monster &z ); // Similar to above but bigger and guaranteed.
 
 void gameover( monster &z );      // Game over!  Defense mode
 } //namespace mdeath

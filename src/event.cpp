@@ -1,5 +1,10 @@
 #include "event.h"
 
+#include <array>
+#include <memory>
+
+#include "avatar.h"
+#include "avatar_action.h"
 #include "debug.h"
 #include "game.h"
 #include "line.h"
@@ -8,10 +13,13 @@
 #include "messages.h"
 #include "morale_types.h"
 #include "options.h"
-#include "output.h"
 #include "rng.h"
 #include "sounds.h"
 #include "translations.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "player.h"
+#include "type_id.h"
 
 const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 const mtype_id mon_copbot( "mon_copbot" );
@@ -75,7 +83,8 @@ void event::actualize()
             }
             // You could drop the flag, you know.
             if( g->u.has_amount( "petrified_eye", 1 ) ) {
-                sounds::sound( g->u.pos(), 60, sounds::sound_t::speech, _( "a tortured scream!" ) );
+                sounds::sound( g->u.pos(), 60, sounds::sound_t::alert, _( "a tortured scream!" ), false, "shout",
+                               "scream_tortured" );
                 if( !g->u.is_deaf() ) {
                     add_msg( _( "The eye you're carrying lets out a tortured scream!" ) );
                     g->u.add_morale( MORALE_SCREAM, -15, 0, 30_minutes, 5_turns );
@@ -218,7 +227,7 @@ void event::actualize()
                     add_msg( m_warning, _( "Water fills nearly to the ceiling!" ) );
                     g->u.add_memorial_log( pgettext( "memorial_male", "Water level reached the ceiling." ),
                                            pgettext( "memorial_female", "Water level reached the ceiling." ) );
-                    g->plswim( g->u.pos() );
+                    avatar_action::swim( g->m, g->u, g->u.pos() );
                 }
             }
             // flood_buf is filled with correct tiles; now copy them back to g->m
@@ -262,7 +271,7 @@ void event::per_turn()
     switch( type ) {
         case EVENT_WANTED: {
             // About once every 5 minutes. Suppress in classic zombie mode.
-            if( g->get_levz() >= 0 && one_in( 50 ) && !get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
+            if( g->get_levz() >= 0 && one_in( 50 ) && !get_option<bool>( "DISABLE_ROBOT_RESPONSE" ) ) {
                 point place = g->m.random_outdoor_tile();
                 if( place.x == -1 && place.y == -1 ) {
                     return; // We're safely indoors!
@@ -282,7 +291,7 @@ void event::per_turn()
                 when -= 1_turns;
                 return;
             }
-            if( calendar::once_every( 3_turns ) ) {
+            if( calendar::once_every( 3_turns ) && !g->u.is_deaf() ) {
                 add_msg( m_warning, _( "You hear screeches from the rock above and around you!" ) );
             }
             break;

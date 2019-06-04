@@ -12,12 +12,7 @@
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "shotgun", "smg", "crossbow" ],
-    "gun_data": {
-      "ammo": "flammable",
-      "skill": "launcher",
-      "dispersion": 300,
-      "durability": 10
-    },
+    "gun_data": { "ammo": "flammable", "skill": "launcher", "dispersion": 300, "durability": 10 },
     "magazine_well": 1,
     "magazines": [ [ "flammable", [ "aux_pressurized_tank" ] ] ],
     "dispersion_modifier": 30,

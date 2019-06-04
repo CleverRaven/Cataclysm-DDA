@@ -3,11 +3,9 @@
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <memory>
 
-#include "debug.h"
-#include "game.h"
 #include "input.h"
-#include "map.h"
 #include "output.h"
 #include "translations.h"
 
@@ -35,7 +33,7 @@ void dialogue_window::print_header( const std::string &name )
     mvwvline( d_win, 1, win_midx + 1, LINE_XOXO, winy - 1 );
     mvwputch( d_win, 0, win_midx + 1, BORDER_COLOR, LINE_OXXX );
     mvwputch( d_win, winy - 1, win_midx + 1, BORDER_COLOR, LINE_XXOX );
-    mvwprintz( d_win, 1,  1, c_white, _( "Dialogue: %s" ), name.c_str() );
+    mvwprintz( d_win, 1,  1, c_white, _( "Dialogue: %s" ), name );
     mvwprintz( d_win, 1, win_midx + 3, c_white, _( "Your response:" ) );
     npc_name = name;
 }
@@ -73,8 +71,8 @@ void dialogue_window::print_history( const size_t hilight_lines )
     int newindex = history.size() - hilight_lines;
     // Print at line 2 and below, line 1 contains the header, line 0 the border
     while( curindex >= 0 && curline >= 2 ) {
-        // red for new text, gray for old, similar to coloring of messages
-        nc_color const col = ( curindex >= newindex ) ? c_red : c_dark_gray;
+        // white for new text, light gray for old messages
+        nc_color const col = ( curindex >= newindex ) ? c_white : c_light_gray;
         mvwprintz( d_win, curline, 1, col, history[curindex] );
         curline--;
         curindex--;
@@ -139,7 +137,7 @@ void dialogue_window::display_responses( const int hilight_lines,
     if( text_only ) {
         return;
     }
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
     input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
     for( size_t i = 0; i < responses.size(); i++ ) {
         ctxt.register_manual_key( 'a' + i );

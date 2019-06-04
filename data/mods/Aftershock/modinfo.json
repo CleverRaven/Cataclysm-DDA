@@ -1,0 +1,17 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "aftershock",
+    "name": "Aftershock",
+    "authors": [ "Esther", "Coolthulu" ],
+    "maintainers": [ "Esther" ],
+    "description": "Drifts the game away from realism and more towards sci-fi.",
+    "category": "content",
+    "dependencies": [ "dda" ]
+  },
+  {
+    "//": "We have our own headless zombies that were added first!",
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [ "mon_zombie_brainless", "mon_zombie_ears", "mon_zombie_skull" ]
+  }
+]

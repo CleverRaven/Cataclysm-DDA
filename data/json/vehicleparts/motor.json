@@ -6,7 +6,7 @@
     "item": "motor",
     "location": "engine_block",
     "description": "An electric motor.",
-    "noise_factor": 3,
+    "noise_factor": 5,
     "m2c": 90,
     "fuel_type": "battery",
     "symbol": "*",

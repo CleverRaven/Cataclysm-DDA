@@ -23,6 +23,7 @@
     "reload": 200,
     "techniques": [ "WBLOCK_1", "PRECISE" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "RELOAD_ONE", "SPEAR", "REACH_ATTACK" ]
+    "flags": [ "RELOAD_ONE", "SPEAR", "REACH_ATTACK" ],
+    "valid_mod_locations": [ [ "sling", 1 ] ]
   }
 ]

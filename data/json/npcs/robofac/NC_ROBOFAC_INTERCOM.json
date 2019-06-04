@@ -1,0 +1,13 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_INTERCOM_trade",
+    "entries": [ { "group": "robofac_basic_trade", "repeat": [ 15, 25 ] } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_INTERCOM_worn",
+    "subtype": "collection",
+    "entries": [ { "item": "duffelbag" } ]
+  }
+]

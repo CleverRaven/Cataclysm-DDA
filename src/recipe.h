@@ -2,21 +2,22 @@
 #ifndef RECIPE_H
 #define RECIPE_H
 
+#include <cstddef>
 #include <map>
 #include <set>
 #include <vector>
+#include <functional>
+#include <string>
+#include <utility>
 
 #include "requirements.h"
-#include "string_id.h"
+#include "type_id.h"
 
-class recipe_dictionary;
-class Skill;
 class item;
-using skill_id = string_id<Skill>;
+class JsonObject;
+class time_duration;
+
 using itype_id = std::string; // From itype.h
-using requirement_id = string_id<requirement_data>;
-class recipe;
-using recipe_id = string_id<recipe>;
 class Character;
 
 class recipe
@@ -60,6 +61,8 @@ class recipe
             return requirements_.is_blacklisted();
         }
 
+        const std::function<bool( const item & )> get_component_filter() const;
+
         /** Prevent this recipe from ever being added to the player's learned recipies ( used for special NPC crafting ) */
         bool never_learn = false;
 
@@ -101,6 +104,8 @@ class recipe
         bool has_byproducts() const;
 
         int batch_time( int batch, float multiplier, size_t assistants ) const;
+        time_duration batch_duration( int batch = 1, float multiplier = 1.0,
+                                      size_t assistants = 0 ) const;
 
         bool has_flag( const std::string &flag_name ) const;
 
@@ -113,6 +118,15 @@ class recipe
 
         /** Returns a non-empty string describing an inconsistency (if any) in the recipe. */
         std::string get_consistency_error() const;
+
+        bool is_blueprint() const;
+        const std::string &get_blueprint() const;
+        const std::string &blueprint_name() const;
+        const std::vector<itype_id> &blueprint_resources() const;
+        const std::vector<std::pair<std::string, int>> &blueprint_provides() const;
+        const std::vector<std::pair<std::string, int>> &blueprint_requires() const;
+
+        bool hot_result() const;
 
     private:
         void add_requirements( const std::vector<std::pair<requirement_id, int>> &reqs );
@@ -154,6 +168,11 @@ class recipe
         double batch_rscale = 0.0;
         int batch_rsize = 0; // minimum batch size to needed to reach batch_rscale
         int result_mult = 1; // used by certain batch recipes that create more than one stack of the result
+        std::string blueprint;
+        std::string bp_name;
+        std::vector<itype_id> bp_resources;
+        std::vector<std::pair<std::string, int>> bp_provides;
+        std::vector<std::pair<std::string, int>> bp_requires;
 };
 
 #endif // RECIPE_H

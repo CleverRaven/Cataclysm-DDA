@@ -3,7 +3,7 @@
 #include <cmath>
 #include <cstdlib>
 
-#include "game_constants.h"
+#include "math_defines.h"
 
 static const int sx[4] = { 1, -1, -1, 1 };
 static const int sy[4] = { 1, 1, -1, -1 };

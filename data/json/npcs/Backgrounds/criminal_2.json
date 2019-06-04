@@ -12,7 +12,7 @@
   {
     "id": "BGSS_CRIMINAL_2_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "I was just in a warehouse, not in Zambonia.  I had the internet.  Watched those crazy videos on youtube in real time, scared the shit out of me.  I had it pretty good though, I'd lifted a bunch of canned food and shit, and I had a pretty sweet little squat in that warehouse.  I'd been planning on spending a long time there after all, while I figured out how to get in good with my crew.",
+    "dynamic_line": "I was just in a warehouse, not in Zambonia.  I had the internet.  Watched those crazy videos on YouTube in real time, scared the shit out of me.  I had it pretty good though, I'd lifted a bunch of canned food and shit, and I had a pretty sweet little squat in that warehouse.  I'd been planning on spending a long time there after all, while I figured out how to get in good with my crew.",
     "responses": [
       { "text": "Something must have driven you out of there.", "topic": "BGSS_CRIMINAL_2_STORY3" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },

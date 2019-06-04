@@ -1,5 +1,20 @@
 [
   {
+    "id": "40_speedloader6",
+    "type": "MAGAZINE",
+    "name": ".40 6-round speedloader",
+    "description": "This speedloader can hold 6 rounds of .40 and quickly reload a compatible revolver.",
+    "weight": 92,
+    "volume": 1,
+    "price": 1500,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "40",
+    "capacity": 6,
+    "flags": [ "SPEEDLOADER" ]
+  },
+  {
     "id": "glock40bigmag",
     "type": "MAGAZINE",
     "name": "Glock .40S&W extended magazine",
@@ -46,6 +61,23 @@
     "ammo_type": "40",
     "capacity": 12,
     "reliability": 9,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "smg_40_mag",
+    "type": "MAGAZINE",
+    "name": "makeshift .40 20-round magazine",
+    "description": "A makeshift 20-round single-column steel magazine which fits Glock 22 pistol, but may fit some makeshift magazine-fed firearms as well.  Don't expect much reliability.",
+    "weight": 300,
+    "volume": 3,
+    "price": 4000,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "40",
+    "capacity": 20,
+    "reliability": 1,
+    "reload_time": 160,
     "flags": [ "MAG_COMPACT" ]
   }
 ]

@@ -1,60 +1,49 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "bandit_tower_3tlc",
-        "comment" : "top left corner, third and odd level floors.",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "########################",
-                "########################",
-                "########################",
-                "#######==ww=====ww==ww==",
-                "#######=K..K|J+.JJJ|dd==",
-                "#####===.KK.|-|J...|.d==",
-                "#####===.KK.+K|.JJJ|d.dd",
-                "###=====+------+----d..d",
-                "###=kkk............+.d.d",
-                "###=*.....-------+----.d",
-                "###wA....Y|jjjjj|.yyy|dd",
-                "###wA.....+.....|....|--",
-                "###wA....Y|jjjjj|yyy.+.y",
-                "###=k.....--------------",
-                "###=kkkk.....!..........",
-                "###=----!----|..........",
-                "###gY.......Y|..===!!==.",
-                "###g.........|..===..Mee",
-                "###g...BBB@..|..==<<<Mee",
-                "###gN..BBB...|..==<<<Mee",
-                "###g...BBB...|..==<<<Mee",
-                "###g.........|..=MMMMMMM",
-                "###gY..YYY..Y|..=eeeeM==",
-                "###===-------|...eeeeM=="
-            ],
-            "rotation": 0,
-            "palettes": [
-                "tri_tower",
-                "upper_level",
-                "bandit_tower_stuff"
-            ],
-            "furniture":{
-                "j": "f_dresser",
-                "J": "f_dresser",
-                "k": "f_dresser",
-                "K": "f_dresser"
-            },
-            "items":{
-                "d": { "item": "allclothes", "chance": 75 },
-                "j": { "item": "shoestore_shoes", "chance": 90 },
-                "J": { "item": "dresses", "chance": 80 },
-                "k": { "item": "fancyfurs", "chance": 60 },
-                "K": { "item": "hatstore_hats", "chance": 80 }
-            },
-            "npcs": {
-                "@": { "class": "bandit" }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "bandit_tower_3tlc",
+    "comment": "top left corner, third and odd level floors.",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "#######==ww=====ww==ww==",
+        "#######=K..K|J+.JJJ|dd==",
+        "#####===.KK.|-|J...|.d==",
+        "#####===.KK.+K|.JJJ|d.dd",
+        "###=====+------+----d..d",
+        "###=kkk............+.d.d",
+        "###=*.....-------+----.d",
+        "###wA....Y|jjjjj|.yyy|dd",
+        "###wA.....+.....|....|--",
+        "###wA....Y|jjjjj|yyy.+.y",
+        "###=k.....--------------",
+        "###=kkkk.....!..........",
+        "###=----!----|..........",
+        "###gY.......Y|..===!!==.",
+        "###g.........|..===..Mee",
+        "###g...BBB@..|..==<<<Mee",
+        "###gN..BBB...|..==<<<Mee",
+        "###g...BBB...|..==<<<Mee",
+        "###g.........|..=MMMMMMM",
+        "###gY..YYY..Y|..=eeeeM==",
+        "###===-------|...eeeeM=="
+      ],
+      "rotation": 0,
+      "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
+      "furniture": { "j": "f_dresser", "J": "f_dresser", "k": "f_dresser", "K": "f_dresser" },
+      "items": {
+        "d": { "item": "allclothes", "chance": 75 },
+        "j": { "item": "shoestore_shoes", "chance": 90 },
+        "J": { "item": "dresses", "chance": 80 },
+        "k": { "item": "fancyfurs", "chance": 60 },
+        "K": { "item": "hatstore_hats", "chance": 80 }
+      },
+      "npcs": { "@": { "class": "bandit" } }
     }
+  }
 ]

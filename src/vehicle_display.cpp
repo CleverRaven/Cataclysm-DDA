@@ -1,16 +1,16 @@
 #include "vehicle.h" // IWYU pragma: associated
 
+#include <cstdlib>
 #include <algorithm>
 #include <set>
 #include <sstream>
+#include <memory>
 
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
-#include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
-#include "game.h"
 #include "itype.h"
 #include "options.h"
 #include "output.h"
@@ -18,13 +18,16 @@
 #include "translations.h"
 #include "veh_type.h"
 #include "vpart_position.h"
+#include "units.h"
+#include "color.h"
+#include "optional.h"
 
 static const std::string part_location_structure( "structure" );
 static const itype_id fuel_type_muscle( "muscle" );
 
 const std::string vehicle::disp_name() const
 {
-    return string_format( _( "the %s" ), name.c_str() );
+    return string_format( _( "the %s" ), name );
 }
 
 char vehicle::part_sym( const int p, const bool exact ) const
@@ -129,9 +132,10 @@ nc_color vehicle::part_color( const int p, const bool exact ) const
  * @param width The width of the window.
  * @param p The index of the part being examined.
  * @param hl The index of the part to highlight (if any).
+ * @param detail Whether or not to show detailed contents for fuel components.
  */
 int vehicle::print_part_list( const catacurses::window &win, int y1, const int max_y, int width,
-                              int p, int hl /*= -1*/ ) const
+                              int p, int hl /*= -1*/, bool detail ) const
 {
     if( p < 0 || p >= static_cast<int>( parts.size() ) ) {
         return y1;
@@ -146,19 +150,30 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
         }
 
         const vehicle_part &vp = parts[ pl [ i ] ];
-        nc_color col_cond = vp.is_broken() ? c_dark_gray : vp.base.damage_color();
 
         std::string partname = vp.name();
 
         if( vp.is_fuel_store() && vp.ammo_current() != "null" ) {
-            partname += string_format( " (%s)", item::nname( vp.ammo_current() ).c_str() );
+            if( detail ) {
+                if( vp.ammo_current() == "battery" ) {
+                    partname += string_format( _( " (%s/%s charge)" ), vp.ammo_remaining(), vp.ammo_capacity() );
+                } else {
+                    const itype *pt_ammo_cur = item::find_type( vp.ammo_current() );
+                    auto stack = units::legacy_volume_factor / pt_ammo_cur->stack_size;
+                    partname += string_format( _( " (%.1fL %s)" ),
+                                               round_up( units::to_liter( vp.ammo_remaining() * stack ),
+                                                         1 ), item::nname( vp.ammo_current() ) );
+                }
+            } else {
+                partname += string_format( " (%s)", item::nname( vp.ammo_current() ) );
+            }
         }
 
         if( part_flag( pl[i], "CARGO" ) ) {
             //~ used/total volume of a cargo vehicle part
             partname += string_format( _( " (vol: %s/%s %s)" ),
-                                       format_volume( stored_volume( pl[i] ) ).c_str(),
-                                       format_volume( max_volume( pl[i] ) ).c_str(),
+                                       format_volume( stored_volume( pl[i] ) ),
+                                       format_volume( max_volume( pl[i] ) ),
                                        volume_units_abbr() );
         }
 
@@ -178,7 +193,7 @@ int vehicle::print_part_list( const catacurses::window &win, int y1, const int m
         nc_color sym_color = static_cast<int>( i ) == hl ? hilite( c_light_gray ) : c_light_gray;
         mvwprintz( win, y, 1, sym_color, left_sym );
         trim_and_print( win, y, 2, getmaxx( win ) - 4,
-                        static_cast<int>( i ) == hl ? hilite( col_cond ) : col_cond, partname );
+                        static_cast<int>( i ) == hl ? hilite( c_light_gray ) : c_light_gray, partname );
         wprintz( win, sym_color, right_sym );
 
         if( i == 0 && vpart_position( const_cast<vehicle &>( *this ), pl[i] ).is_inside() ) {
@@ -402,8 +417,9 @@ void vehicle::print_fuel_indicator( const catacurses::window &win, int y, int x,
         if( fuel_data != fuel_usages.end() ) {
             rate = consumption_per_hour( fuel_type, fuel_data->second );
             units = _( "mL" );
-        } else if( fuel_type == itype_id( "battery" ) ) {
-            rate = power_to_energy_bat( total_epower_w() + total_reactor_epower_w(), 3600 );
+        }
+        if( fuel_type == itype_id( "battery" ) ) {
+            rate += power_to_energy_bat( total_epower_w() + total_reactor_epower_w(), 3600 );
             units = _( "kJ" );
         }
         if( rate != 0 ) {

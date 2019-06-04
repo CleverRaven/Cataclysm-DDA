@@ -1,9 +1,15 @@
+#include <initializer_list>
+#include <limits>
+#include <list>
+
 #include "catch/catch.hpp"
 #include "calendar.h"
 #include "itype.h"
 #include "ret_val.h"
 #include "units.h"
 #include "item.h"
+#include "enums.h"
+#include "optional.h"
 
 TEST_CASE( "item_volume", "[item]" )
 {

@@ -1,0 +1,388 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ruins_4x4_front",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "____",
+        "____",
+        "__C_",
+        "____"
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      "C": { "items": [ { "item": "wood_stash", "chance": 60, "repeat": [ 1, 4 ] } ] },
+      "place_monster": [ { "monster": "mon_dog_zombie_rot", "chance": 60, "x": 1, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ruins_4x4_front",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "____",
+        "_h__",
+        "__h_",
+        "____"
+      ],
+      "palettes": [ "desolatebarn_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ruins_4x4_front",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "____",
+        "_C__",
+        "____",
+        "____"
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      "C": { "items": [ { "item": "hardware", "chance": 60, "damage": [ 1, 4 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ruins_4x4_junk",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 0 ],
+      "rows": [
+        "____",
+        "_^__",
+        "__R^",
+        "__R_"
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      "^": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] },
+      "R": { "items": [ { "item": "hardware", "chance": 25, "damage": [ 1, 4 ] } ] },
+      "place_monster": [ { "monster": "mon_dog_skeleton", "chance": 60, "x": 2, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ruins_4x4_junk",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "____",
+        "_h__",
+        "hhh_",
+        "____"
+      ],
+      "palettes": [ "desolatebarn_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ruins_4x4_junk",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "___^",
+        "____",
+        "_^__",
+        "_mg^"
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      "^": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ruins_4x4_camp",
+    "//": "Survivor holdout camp",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "C_b_",
+        "N!N_",
+        "NnNg",
+        "NNN_"
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      "place_items": [
+        { "chance": 70, "item": "bed", "x": 1, "y": 2, "repeat": [ 1, 3 ] },
+        { "chance": 60, "item": "cannedfood", "x": 0, "y": 0, "repeat": [ 2, 6 ] },
+        { "chance": 60, "item": "pasta", "x": 0, "y": 0, "repeat": [ 2, 4 ] },
+        { "chance": 60, "item": "snacks", "x": 0, "y": 0, "repeat": [ 1, 3 ] },
+        { "chance": 70, "item": "stash_wood", "x": 3, "y": [ 0, 1 ], "repeat": [ 2, 5 ] }
+      ],
+      "place_npcs": [ { "chance": 90, "class": "rural_holdout_solo", "x": 1, "y": 2 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ruins_4x4_camp",
+    "//": "Single bandit camp",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "C_b_",
+        "N!N_",
+        "NnNg",
+        "NNN_"
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      "place_items": [
+        { "chance": 70, "item": "bed", "x": 1, "y": 2, "repeat": [ 1, 3 ] },
+        { "chance": 60, "item": "cannedfood", "x": 0, "y": 0, "repeat": [ 2, 6 ] },
+        { "chance": 60, "item": "pasta", "x": 0, "y": 0, "repeat": [ 2, 4 ] },
+        { "chance": 60, "item": "snacks", "x": 0, "y": 0, "repeat": [ 1, 3 ] },
+        { "chance": 70, "item": "stash_wood", "x": 3, "y": [ 0, 1 ], "repeat": [ 2, 5 ] },
+        { "chance": 30, "item": "guns_rifle_common", "x": 3, "y": 3 },
+        { "chance": 50, "item": "ammo_rifle_common", "x": 3, "y": 3, "repeat": [ 2, 4 ] },
+        { "chance": 40, "item": "mags_rifle_common", "x": 3, "y": 3, "repeat": [ 1, 2 ] }
+      ],
+      "place_npcs": [ { "chance": 90, "class": "bandit", "x": 1, "y": 2 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ruins_4x4_camp",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "^___",
+        "N!N_",
+        "NnN^",
+        "NNN^"
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      "place_items": [
+        { "chance": 40, "item": "bed", "x": 1, "y": 2, "repeat": [ 1, 3 ] },
+        { "chance": 30, "item": "cannedfood", "x": 0, "y": 3, "repeat": [ 2, 6 ] },
+        { "chance": 20, "item": "pasta", "x": 0, "y": 3, "repeat": [ 2, 4 ] },
+        { "chance": 20, "item": "snacks", "x": 0, "y": 3, "repeat": [ 1, 3 ] },
+        { "chance": 30, "item": "stash_wood", "x": 3, "y": [ 0, 3 ], "repeat": [ 2, 5 ] }
+      ],
+      "place_npcs": [ { "chance": 60, "class": "derelict_dweller", "x": 2, "y": 0 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ruins_4x4_NPCs",
+    "//": "A friendly NPC holdout lives here.",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "CC_b",
+        "AA__",
+        "hhh_",
+        "CCC_"
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      "place_items": [
+        { "chance": 70, "item": "bed", "x": [ 0, 1 ], "y": 1, "repeat": [ 2, 4 ] },
+        { "chance": 60, "item": "cannedfood", "x": [ 0, 1 ], "y": 0, "repeat": [ 2, 6 ] },
+        { "chance": 60, "item": "pasta", "x": [ 0, 1 ], "y": 0, "repeat": [ 2, 4 ] },
+        { "chance": 60, "item": "snacks", "x": [ 0, 1 ], "y": 0, "repeat": [ 1, 3 ] },
+        { "chance": 70, "item": "stash_wood", "x": 3, "y": [ 1, 3 ], "repeat": [ 2, 4 ] },
+        { "chance": 60, "item": "lumberyard", "x": 3, "y": [ 1, 3 ], "repeat": [ 3, 6 ] },
+        { "chance": 60, "item": "camping", "x": [ 0, 2 ], "y": 3, "repeat": [ 3, 6 ] }
+      ],
+      "place_npcs": [ { "chance": 90, "class": "rural_holdout_solo", "x": 1, "y": 2 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ruins_4x4_NPCs",
+    "//": "An angry crazed hermit lives in this place.",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "CC_b",
+        "AA__",
+        "hhh_",
+        "CCC_"
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      "place_items": [
+        { "chance": 70, "item": "bed", "x": [ 0, 1 ], "y": 1, "repeat": [ 2, 4 ] },
+        { "chance": 60, "item": "cannedfood", "x": [ 0, 1 ], "y": 0, "repeat": [ 2, 6 ] },
+        { "chance": 60, "item": "pasta", "x": [ 0, 1 ], "y": 0, "repeat": [ 2, 4 ] },
+        { "chance": 60, "item": "snacks", "x": [ 0, 1 ], "y": 0, "repeat": [ 1, 3 ] },
+        { "chance": 70, "item": "stash_wood", "x": 3, "y": [ 1, 3 ], "repeat": [ 2, 4 ] },
+        { "chance": 60, "item": "lumberyard", "x": 3, "y": [ 1, 3 ], "repeat": [ 3, 6 ] },
+        { "chance": 60, "item": "camping", "x": [ 0, 2 ], "y": 3, "repeat": [ 3, 6 ] }
+      ],
+      "place_npcs": [ { "chance": 90, "class": "derelict_dweller", "x": 1, "y": 2 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ruins_4x4_NPCs",
+    "//": "A friendly pair of survivors lives here.",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "CC_b",
+        "AA__",
+        "AA__",
+        "CCC_"
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      "place_items": [
+        { "chance": 70, "item": "bed", "x": [ 0, 1 ], "y": [ 1, 2 ], "repeat": [ 3, 6 ] },
+        { "chance": 60, "item": "cannedfood", "x": [ 0, 1 ], "y": 0, "repeat": [ 2, 6 ] },
+        { "chance": 60, "item": "pasta", "x": [ 0, 1 ], "y": 0, "repeat": [ 2, 4 ] },
+        { "chance": 60, "item": "snacks", "x": [ 0, 1 ], "y": 0, "repeat": [ 1, 3 ] },
+        { "chance": 70, "item": "stash_wood", "x": 3, "y": [ 1, 3 ], "repeat": [ 2, 4 ] },
+        { "chance": 60, "item": "lumberyard", "x": 3, "y": [ 1, 3 ], "repeat": [ 3, 6 ] },
+        { "chance": 60, "item": "camping", "x": [ 0, 2 ], "y": 3, "repeat": [ 3, 6 ] }
+      ],
+      "place_npcs": [
+        { "chance": 100, "class": "rural_holdout_solo", "x": 2, "y": 1 },
+        { "chance": 100, "class": "rural_holdout_solo", "x": 1, "y": 2 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ruins_4x4_NPCs",
+    "//": "A group of bandits lives here.",
+    "object": {
+      "mapgensize": [ 4, 4 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "CC_b",
+        "AA__",
+        "AA__",
+        "CCC_"
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      "place_items": [
+        { "chance": 70, "item": "bed", "x": [ 0, 1 ], "y": [ 1, 2 ], "repeat": [ 3, 6 ] },
+        { "chance": 30, "item": "guns_rifle_common", "x": [ 0, 1 ], "y": [ 1, 2 ], "repeat": [ 2, 4 ] },
+        { "chance": 50, "item": "ammo_rifle_common", "x": [ 0, 1 ], "y": [ 1, 2 ], "repeat": [ 2, 4 ] },
+        { "chance": 40, "item": "mags_rifle_common", "x": [ 0, 1 ], "y": [ 1, 2 ], "repeat": [ 2, 4 ] },
+        { "chance": 60, "item": "cannedfood", "x": [ 0, 1 ], "y": 0, "repeat": [ 2, 6 ] },
+        { "chance": 60, "item": "pasta", "x": [ 0, 1 ], "y": 0, "repeat": [ 2, 4 ] },
+        { "chance": 60, "item": "snacks", "x": [ 0, 1 ], "y": 0, "repeat": [ 1, 3 ] },
+        { "chance": 70, "item": "stash_wood", "x": 3, "y": [ 1, 3 ], "repeat": [ 2, 4 ] },
+        { "chance": 60, "item": "lumberyard", "x": 3, "y": [ 1, 3 ], "repeat": [ 3, 6 ] },
+        { "chance": 60, "item": "camping", "x": [ 0, 2 ], "y": 3, "repeat": [ 3, 6 ] }
+      ],
+      "place_npcs": [
+        { "chance": 100, "class": "bandit", "x": 2, "y": 1 },
+        { "chance": 90, "class": "bandit", "x": 0, "y": 2 },
+        { "chance": 50, "class": "thug", "x": 3, "y": 4 }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ruins_8x8_yard",
+    "//": "yard with well",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "....d...",
+        ".rP.....",
+        "..r...d.",
+        "...d....",
+        "....#...",
+        "...#....",
+        "..#t##d.",
+        "....#..."
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      "r": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ruins_8x8_yard",
+    "//": "yard with tractor",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "d.ddd.#.",
+        "ddd.d.t.",
+        ".d.d.d#.",
+        "d.ddd.#.",
+        ".ddd.dt.",
+        "d.d.d.t.",
+        ".dd.dd#.",
+        "...d...."
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      "place_vehicles": [ { "chance": 40, "fuel": 0, "rotation": 90, "status": 1, "vehicle": "oldtractor", "x": 1, "y": 1 } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ruins_8x8_yard",
+    "//": "yard with rusty tanks",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "..d...#.",
+        "d...d...",
+        "..QQ....",
+        "..QQ....",
+        "..d....#",
+        "#.......",
+        "........",
+        "...d...."
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      ".": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "ruins_8x8_yard",
+    "//": "yard with shed",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "..d...#.",
+        "d...d...",
+        ".r||w|&.",
+        "..|rrr&.",
+        "..|rdd.#",
+        "#.|&&ddd",
+        "......dd",
+        "...d...."
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      "r": { "items": [ { "item": "hardware", "chance": 10, "damage": [ 1, 4 ] } ] }
+    }
+  }
+]

@@ -1,5 +1,12 @@
 #include "visitable.h"
 
+#include <climits>
+#include <algorithm>
+#include <map>
+#include <memory>
+#include <unordered_map>
+#include <utility>
+
 #include "bionics.h"
 #include "character.h"
 #include "debug.h"
@@ -9,11 +16,13 @@
 #include "map.h"
 #include "map_selector.h"
 #include "player.h"
-#include "string_id.h"
 #include "submap.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "active_item_cache.h"
+#include "enums.h"
+#include "pimpl.h"
 
 /** @relates visitable */
 template <typename T>
@@ -103,7 +112,7 @@ static int has_quality_internal( const T &self, const quality_id &qual, int leve
 
     self.visit_items( [&qual, level, &limit, &qty]( const item * e ) {
         if( e->get_quality( qual ) >= level ) {
-            qty = sum_no_wrap( qty, int( e->count() ) );
+            qty = sum_no_wrap( qty, static_cast<int>( e->count() ) );
             if( qty >= limit ) {
                 return VisitResponse::ABORT; // found sufficient items
             }
@@ -744,10 +753,10 @@ std::list<item> visitable<vehicle_selector>::remove_items_with( const
 }
 
 template <typename T>
-static long charges_of_internal( const T &self, const itype_id &id, long limit,
-                                 const std::function<bool( const item & )> &filter )
+static int charges_of_internal( const T &self, const itype_id &id, int limit,
+                                const std::function<bool( const item & )> &filter )
 {
-    long qty = 0;
+    int qty = 0;
 
     bool found_tool_with_UPS = false;
     self.visit_items( [&]( const item * e ) {
@@ -783,21 +792,21 @@ static long charges_of_internal( const T &self, const itype_id &id, long limit,
 
 /** @relates visitable */
 template <typename T>
-long visitable<T>::charges_of( const std::string &what, long limit,
-                               const std::function<bool( const item & )> &filter ) const
+int visitable<T>::charges_of( const std::string &what, int limit,
+                              const std::function<bool( const item & )> &filter ) const
 {
     return charges_of_internal( *this, what, limit, filter );
 }
 
 /** @relates visitable */
 template <>
-long visitable<inventory>::charges_of( const std::string &what, long limit,
-                                       const std::function<bool( const item & )> &filter ) const
+int visitable<inventory>::charges_of( const std::string &what, int limit,
+                                      const std::function<bool( const item & )> &filter ) const
 {
     if( what == "UPS" ) {
-        long qty = 0;
+        int qty = 0;
         qty = sum_no_wrap( qty, charges_of( "UPS_off" ) );
-        qty = sum_no_wrap( qty, long( charges_of( "adv_UPS_off" ) / 0.6 ) );
+        qty = sum_no_wrap( qty, static_cast<int>( charges_of( "adv_UPS_off" ) / 0.6 ) );
         return std::min( qty, limit );
     }
     const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
@@ -806,7 +815,7 @@ long visitable<inventory>::charges_of( const std::string &what, long limit,
         return 0;
     }
 
-    long res = 0;
+    int res = 0;
     for( const item *it : iter->second ) {
         res = sum_no_wrap( res, charges_of_internal( *it, what, limit, filter ) );
         if( res >= limit ) {
@@ -814,31 +823,31 @@ long visitable<inventory>::charges_of( const std::string &what, long limit,
         }
     }
 
-    return std::min<long>( limit, res );
+    return std::min( limit, res );
 }
 
 /** @relates visitable */
 template <>
-long visitable<Character>::charges_of( const std::string &what, long limit,
-                                       const std::function<bool( const item & )> &filter ) const
+int visitable<Character>::charges_of( const std::string &what, int limit,
+                                      const std::function<bool( const item & )> &filter ) const
 {
     auto self = static_cast<const Character *>( this );
     auto p = dynamic_cast<const player *>( self );
 
     if( what == "toolset" ) {
         if( p && p->has_active_bionic( bionic_id( "bio_tools" ) ) ) {
-            return std::min( static_cast<long>( p->power_level ), limit );
+            return std::min( p->power_level, limit );
         } else {
             return 0;
         }
     }
 
     if( what == "UPS" ) {
-        long qty = 0;
+        int qty = 0;
         qty = sum_no_wrap( qty, charges_of( "UPS_off" ) );
-        qty = sum_no_wrap( qty, long( charges_of( "adv_UPS_off" ) / 0.6 ) );
+        qty = sum_no_wrap( qty, static_cast<int>( charges_of( "adv_UPS_off" ) / 0.6 ) );
         if( p && p->has_active_bionic( bionic_id( "bio_ups" ) ) ) {
-            qty = sum_no_wrap( qty, long( p->power_level ) );
+            qty = sum_no_wrap( qty, p->power_level );
         }
         return std::min( qty, limit );
     }
@@ -852,7 +861,8 @@ static int amount_of_internal( const T &self, const itype_id &id, bool pseudo, i
 {
     int qty = 0;
     self.visit_items( [&qty, &id, &pseudo, &limit, &filter]( const item * e ) {
-        if( e->typeId() == id && filter( *e ) && ( pseudo || !e->has_flag( "PSEUDO" ) ) ) {
+        if( ( id == "any" || e->typeId() == id ) && filter( *e ) && ( pseudo ||
+                !e->has_flag( "PSEUDO" ) ) ) {
             qty = sum_no_wrap( qty, 1 );
         }
         return qty != limit ? VisitResponse::NEXT : VisitResponse::ABORT;
@@ -875,16 +885,24 @@ int visitable<inventory>::amount_of( const std::string &what, bool pseudo, int l
 {
     const auto &binned = static_cast<const inventory *>( this )->get_binned_items();
     const auto iter = binned.find( what );
-    if( iter == binned.end() ) {
+    if( iter == binned.end() && what != "any" ) {
         return 0;
     }
 
     int res = 0;
-    for( const item *it : iter->second ) {
-        res = sum_no_wrap( res, it->amount_of( what, pseudo, limit, filter ) );
+    if( what == "any" ) {
+        for( const auto &kv : binned ) {
+            for( const item *it : kv.second ) {
+                res = sum_no_wrap( res, it->amount_of( what, pseudo, limit, filter ) );
+            }
+        }
+    } else {
+        for( const item *it : iter->second ) {
+            res = sum_no_wrap( res, it->amount_of( what, pseudo, limit, filter ) );
+        }
     }
 
-    return std::min<long>( limit, res );
+    return std::min( limit, res );
 }
 
 /** @relates visitable */

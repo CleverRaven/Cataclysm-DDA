@@ -1,5 +1,20 @@
 [
   {
+    "id": "9mm_speedloader7",
+    "type": "MAGAZINE",
+    "name": "LW-7 speedloader",
+    "description": "This speedloader, made by Leadworks for use with L2032 Lookout revolver, can hold 7 rounds of 9x19mm and quickly reload a compatible revolver.",
+    "weight": 72,
+    "volume": 1,
+    "price": 2800,
+    "material": "plastic",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "9mm",
+    "capacity": 7,
+    "flags": [ "SPEEDLOADER" ]
+  },
+  {
     "id": "calicomag",
     "type": "MAGAZINE",
     "name": "Calico magazine",
@@ -225,7 +240,7 @@
     "color": "light_gray",
     "ammo_type": "9mm",
     "capacity": 20,
-    "reliability": 5,
+    "reliability": 1,
     "reload_time": 160,
     "flags": [ "MAG_COMPACT" ]
   },
@@ -275,6 +290,22 @@
     "ammo_type": "9mm",
     "capacity": 32,
     "reliability": 8,
+    "flags": [ "MAG_COMPACT" ]
+  },
+  {
+    "id": "kpf9mag",
+    "type": "MAGAZINE",
+    "name": "Kel-Tec PF-9 magazine",
+    "description": "A standard 7-round steel box magazine for the Kel-Tec PF-9.",
+    "weight": 60,
+    "volume": "60ml",
+    "price": 1900,
+    "material": "steel",
+    "symbol": "#",
+    "color": "light_gray",
+    "ammo_type": "9mm",
+    "capacity": 7,
+    "reliability": 9,
     "flags": [ "MAG_COMPACT" ]
   }
 ]

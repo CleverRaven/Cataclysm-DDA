@@ -3,6 +3,7 @@
 #define SCENT_H
 
 #include <array>
+#include <string>
 
 #include "calendar.h"
 #include "enums.h" // IWYU pragma: keep
@@ -13,6 +14,7 @@ static constexpr int SCENT_MAP_Z_REACH = 1;
 
 class map;
 class game;
+
 namespace catacurses
 {
 class window;

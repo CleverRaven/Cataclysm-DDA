@@ -2,19 +2,22 @@
 #ifndef MATTACK_ACTORS_H
 #define MATTACK_ACTORS_H
 
+#include <climits>
 #include <map>
 #include <vector>
+#include <string>
+#include <utility>
 
 #include "damage.h"
 #include "mattack_common.h"
 #include "mtype.h"
-#include "string_id.h"
+#include "type_id.h"
 #include "weighted_list.h"
+#include "bodypart.h"
 
 class JsonObject;
 class monster;
-class gun_mode;
-using gun_mode_id = string_id<gun_mode>;
+class Creature;
 
 class leap_actor : public mattack_actor
 {

@@ -1,12 +1,15 @@
-#ifdef TILES
+#if defined(TILES)
 
 #include "sdl_wrappers.h"
 
 #include <cassert>
+#include <ostream>
+#include <stdexcept>
+#include <string>
 
 #include "debug.h"
 
-#ifdef TILES
+#if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
 #       include <SDL2/SDL_image.h>
 #   else
@@ -75,6 +78,11 @@ void SetRenderDrawColor( const SDL_Renderer_Ptr &renderer, const Uint8 r, const 
                   "SDL_SetRenderDrawColor failed" );
 }
 
+void RenderDrawPoint( const SDL_Renderer_Ptr &renderer, int x, int y )
+{
+    printErrorIf( SDL_RenderDrawPoint( renderer.get(), x, y ) != 0, "SDL_RenderDrawPoint failed" );
+}
+
 void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *const rect )
 {
     if( !renderer ) {
@@ -111,6 +119,16 @@ void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, const SDL_BlendMo
     }
     printErrorIf( SDL_SetRenderDrawBlendMode( renderer.get(), blendMode ) != 0,
                   "SDL_SetRenderDrawBlendMode failed" );
+}
+
+void GetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode &blend_mode )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to use a null renderer";
+        return;
+    }
+    printErrorIf( SDL_GetRenderDrawBlendMode( renderer.get(), &blend_mode ) != 0,
+                  "SDL_GetRenderDrawBlendMode failed" );
 }
 
 SDL_Surface_Ptr load_image( const char *const path )

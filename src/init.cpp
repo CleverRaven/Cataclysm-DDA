@@ -1,16 +1,21 @@
 #include "init.h"
 
+#include <cstddef>
 #include <cassert>
 #include <fstream>
 #include <sstream> // for throwing errors
 #include <string>
 #include <vector>
+#include <exception>
+#include <iterator>
+#include <memory>
+#include <stdexcept>
 
 #include "activity_type.h"
 #include "ammo.h"
 #include "anatomy.h"
+#include "behavior.h"
 #include "bionics.h"
-#include "clzones.h"
 #include "construction.h"
 #include "crafting_gui.h"
 #include "debug.h"
@@ -32,6 +37,7 @@
 #include "martialarts.h"
 #include "material.h"
 #include "mission.h"
+#include "magic.h"
 #include "mod_tileset.h"
 #include "monfaction.h"
 #include "mongroup.h"
@@ -51,7 +57,9 @@
 #include "requirements.h"
 #include "rotatable_symbols.h"
 #include "scenario.h"
+#include "sdltiles.h"
 #include "skill.h"
+#include "skill_boost.h"
 #include "sounds.h"
 #include "speech.h"
 #include "start_location.h"
@@ -63,10 +71,9 @@
 #include "vehicle_group.h"
 #include "vitamin.h"
 #include "worldfactory.h"
-
-#if defined(TILES)
-void load_tileset();
-#endif
+#include "bodypart.h"
+#include "translations.h"
+#include "type_id.h"
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -85,8 +92,8 @@ void DynamicDataLoader::load_object( JsonObject &jo, const std::string &src,
                                      const std::string &base_path,
                                      const std::string &full_path )
 {
-    std::string type = jo.get_string( "type" );
-    t_type_function_map::iterator it = type_function_map.find( type );
+    const std::string type = jo.get_string( "type" );
+    const t_type_function_map::iterator it = type_function_map.find( type );
     if( it == type_function_map.end() ) {
         jo.throw_error( "unrecognized JSON object", "type" );
     }
@@ -116,14 +123,14 @@ void DynamicDataLoader::load_deferred( deferred_json &data )
                 discarded << elem.first;
             }
             debugmsg( "JSON contains circular dependency. Discarded %i objects:\n%s",
-                      data.size(), discarded.str().c_str() );
+                      data.size(), discarded.str() );
             data.clear();
             return; // made no progress on this cycle so abort
         }
     }
 }
 
-void load_ignored_type( JsonObject &jo )
+static void load_ignored_type( JsonObject &jo )
 {
     // This does nothing!
     // This function is used for types that are to be ignored
@@ -194,6 +201,7 @@ void DynamicDataLoader::initialize()
     add( "ammunition_type", &ammunition_type::load_ammunition_type );
     add( "scenario", &scenario::load_scenario );
     add( "start_location", &start_location::load_location );
+    add( "skill_boost", &skill_boost::load_boost );
 
     // json/colors.json would be listed here, but it's loaded before the others (see init_colors())
     // Non Static Function Access
@@ -229,6 +237,9 @@ void DynamicDataLoader::initialize()
     } );
     add( "ARMOR", []( JsonObject & jo, const std::string & src ) {
         item_controller->load_armor( jo, src );
+    } );
+    add( "PET_ARMOR", []( JsonObject & jo, const std::string & src ) {
+        item_controller->load_pet_armor( jo, src );
     } );
     add( "TOOL", []( JsonObject & jo, const std::string & src ) {
         item_controller->load_tool( jo, src );
@@ -283,7 +294,7 @@ void DynamicDataLoader::initialize()
     add( "SPECIES", []( JsonObject & jo, const std::string & src ) {
         MonsterGenerator::generator().load_species( jo, src );
     } );
-
+    add( "monster_adjustment", &load_monster_adjustment );
     add( "recipe_category", &load_recipe_category );
     add( "recipe",  &recipe_dictionary::load_recipe );
     add( "uncraft", &recipe_dictionary::load_uncraft );
@@ -297,6 +308,7 @@ void DynamicDataLoader::initialize()
     add( "overmap_terrain", &overmap_terrains::load );
     add( "construction", &load_construction );
     add( "mapgen", &load_mapgen );
+    add( "overmap_land_use_code", &overmap_land_use_codes::load );
     add( "overmap_connection", &overmap_connections::load );
     add( "overmap_location", &overmap_locations::load );
     add( "overmap_special", &overmap_specials::load );
@@ -321,6 +333,7 @@ void DynamicDataLoader::initialize()
     add( "npc_class", &npc_class::load_npc_class );
     add( "talk_topic", &load_talk_topic );
     add( "epilogue", &epilogue::load_epilogue );
+    add( "behavior", &behavior::load_behavior );
 
     add( "MONSTER_FACTION", &monfactions::load_monster_faction );
 
@@ -345,6 +358,7 @@ void DynamicDataLoader::initialize()
     add( "body_part", &body_part_struct::load_bp );
     add( "anatomy", &anatomy::load_anatomy );
     add( "morale_type", &morale_type_data::load_type );
+    add( "SPELL", &spell_type::load_spell );
 #if defined(TILES)
     add( "mod_tileset", &load_mod_tileset );
 #else
@@ -446,6 +460,7 @@ void DynamicDataLoader::unload_data()
     mutations_category.clear();
     mutation_category_trait::reset();
     mutation_branch::reset_all();
+    spell_type::reset_all();
     reset_bionics();
     clear_tutorial_messages();
     reset_furn_ter();
@@ -466,11 +481,13 @@ void DynamicDataLoader::unload_data()
     reset_mapgens();
     reset_effect_types();
     reset_speech();
+    overmap_land_use_codes::reset();
     overmap_connections::reset();
     overmap_locations::reset();
     overmap_specials::reset();
     ammunition_type::reset();
     unload_talk_topics();
+    behavior::reset();
     start_location::reset();
     scenario::reset();
     gates::reset();
@@ -489,7 +506,7 @@ void DynamicDataLoader::unload_data()
 void DynamicDataLoader::finalize_loaded_data()
 {
     // Create a dummy that will not display anything
-    // @todo: Make it print to stdout?
+    // TODO: Make it print to stdout?
     loading_ui ui( false );
     finalize_loaded_data( ui );
 }
@@ -519,6 +536,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Bionics" ), &finalize_bionics },
             { _( "Terrain" ), &set_ter_ids },
             { _( "Furniture" ), &set_furn_ids },
+            { _( "Overmap land use codes" ), &overmap_land_use_codes::finalize },
             { _( "Overmap terrain" ), &overmap_terrains::finalize },
             { _( "Overmap connections" ), &overmap_connections::finalize },
             { _( "Overmap specials" ), &overmap_specials::finalize },
@@ -532,11 +550,14 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             },
             { _( "Monster groups" ), &MonsterGroupManager::FinalizeMonsterGroups },
             { _( "Monster factions" ), &monfactions::finalize },
+            { _( "Factions" ), &npc_factions::finalize },
             { _( "Crafting recipes" ), &recipe_dictionary::finalize },
             { _( "Recipe groups" ), &recipe_group::check },
             { _( "Martial arts" ), &finialize_martial_arts },
             { _( "Constructions" ), &finalize_constructions },
             { _( "NPC classes" ), &npc_class::finalize_all },
+            { _( "Missions" ), &mission_type::finalize },
+            { _( "Behaviors" ), &behavior::finalize },
             { _( "Harvest lists" ), &harvest_list::finalize_all },
             { _( "Anatomies" ), &anatomy::finalize_all },
 #if defined(TILES)
@@ -599,6 +620,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Martial arts" ), &check_martialarts },
             { _( "Mutations" ), &mutation_branch::check_consistency },
             { _( "Mutation Categories" ), &mutation_category_trait::check_consistency },
+            { _( "Overmap land use codes" ), &overmap_land_use_codes::check_consistency },
             { _( "Overmap connections" ), &overmap_connections::check_consistency },
             { _( "Overmap terrain" ), &overmap_terrains::check_consistency },
             { _( "Overmap locations" ), &overmap_locations::check_consistency },
@@ -608,6 +630,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Bionics" ), &check_bionics },
             { _( "Gates" ), &gates::check },
             { _( "NPC classes" ), &npc_class::check_consistency },
+            { _( "Behaviors" ), &behavior::check_consistency },
             { _( "Mission types" ), &mission_type::check_consistency },
             {
                 _( "Item actions" ), []()
@@ -618,7 +641,8 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
             { _( "Harvest lists" ), &harvest_list::check_consistency },
             { _( "NPC templates" ), &npc_template::check_consistency },
             { _( "Body parts" ), &body_part_struct::check_consistency },
-            { _( "Anatomies" ), &anatomy::check_consistency }
+            { _( "Anatomies" ), &anatomy::check_consistency },
+            { _( "Spells" ), &spell_type::check_consistency }
         }
     };
 

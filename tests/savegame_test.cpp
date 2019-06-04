@@ -1,25 +1,32 @@
 #include <fstream>
 #include <memory>
-#include <ostream>
+#include <algorithm>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "catch/catch.hpp"
 #include "filesystem.h"
 #include "mongroup.h"
 #include "npc.h"
 #include "overmap.h"
+#include "enums.h"
+#include "monster.h"
+#include "string_id.h"
+#include "type_id.h"
 
 // Intentionally ignoring the name member.
-bool operator==( const city &a, const city &b )
+static bool operator==( const city &a, const city &b )
 {
     return a.pos == b.pos && a.size == b.size;
 }
-bool operator==( const radio_tower &a, const radio_tower &b )
+static bool operator==( const radio_tower &a, const radio_tower &b )
 {
     return a.x == b.x && a.y == b.y && a.strength == b.strength &&
            a.type == b.type && a.message == b.message;
 }
 
-void check_test_overmap_data( const overmap &test_map )
+static void check_test_overmap_data( const overmap &test_map )
 {
     // Spot-check a bunch of terrain values.
     // Bottom level, "L 0" in the save
@@ -152,6 +159,12 @@ void check_test_overmap_data( const overmap &test_map )
         {282, 48, 190, "This is emergency broadcast station 14124.  Please proceed quickly and calmly to your designated evacuation point.", MESSAGE_BROADCAST},
         {306, 66, 90, "This is emergency broadcast station 15333.  Please proceed quickly and calmly to your designated evacuation point.", MESSAGE_BROADCAST}};
     REQUIRE( test_map.radios.size() == expected_towers.size() );
+
+#if defined (MSYS2)
+    for( auto &expected_tower : expected_towers ) {
+        expected_tower.message = expected_tower.message + '\r';
+    }
+#endif
     for( const auto &candidate_tower : test_map.radios ) {
         REQUIRE( std::find( expected_towers.begin(), expected_towers.end(),
                             candidate_tower ) != expected_towers.end() );

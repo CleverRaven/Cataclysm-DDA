@@ -1,0 +1,12 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE",
+    "monsters": [ { "monster": "mon_afs_headless_zombie", "freq": 20, "cost_multiplier": 2 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_MID",
+    "monsters": [ { "monster": "mon_afs_headless_horror", "freq": 10, "cost_multiplier": 20 } ]
+  }
+]
