@@ -32,6 +32,7 @@
 #include "player.h"
 #include "skill.h"
 #include "skill_boost.h"
+#include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "veh_interact.h"
@@ -45,6 +46,7 @@
 #include "stomach.h"
 #include "ui.h"
 
+const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );
@@ -61,10 +63,12 @@ const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
+const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_narcosis( "narcosis" );
 const efftype_id effect_no_sight( "no_sight" );
 const efftype_id effect_riding( "riding" );
 const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 const efftype_id effect_webbed( "webbed" );
 
 const skill_id skill_dodge( "dodge" );
@@ -79,6 +83,8 @@ static const trait_id trait_DISORGANIZED( "DISORGANIZED" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
+static const trait_id trait_GILLS( "GILLS" );
+static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
 static const trait_id trait_MEMBRANE( "MEMBRANE" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
@@ -91,6 +97,8 @@ static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL( "SHELL" );
+static const trait_id trait_SHOUT2( "SHOUT2" );
+static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
@@ -3322,4 +3330,111 @@ int Character::item_store_cost( const item &it, const item & /* container */, bo
     /** @EFFECT_BASHING decreases time taken to store a bashing weapon */
     int lvl = get_skill_level( it.is_gun() ? it.gun_skill() : it.melee_skill() );
     return item_handling_cost( it, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
+}
+
+void Character::wake_up()
+{
+    remove_effect( effect_sleep );
+    remove_effect( effect_slept_through_alarm );
+    remove_effect( effect_lying_down );
+    // Do not remove effect_alarm_clock now otherwise it invalidates an effect iterator in player::process_effects().
+    // We just set it for later removal (also happening in player::process_effects(), so no side effects) with a duration of 0 turns.
+    if( has_effect( effect_alarm_clock ) ) {
+        get_effect( effect_alarm_clock ).set_duration( 0_turns );
+    }
+    recalc_sight_limits();
+}
+
+int Character::get_shout_volume() const
+{
+    int base = 10;
+    int shout_multiplier = 2;
+
+    // Mutations make shouting louder, they also define the default message
+    if( has_trait( trait_SHOUT3 ) ) {
+        shout_multiplier = 4;
+        base = 20;
+    } else if( has_trait( trait_SHOUT2 ) ) {
+        base = 15;
+        shout_multiplier = 3;
+    }
+
+    // Masks and such dampen the sound
+    // Balanced around whisper for wearing bondage mask
+    // and noise ~= 10 (door smashing) for wearing dust mask for character with strength = 8
+    /** @EFFECT_STR increases shouting volume */
+    const int penalty = encumb( bp_mouth ) * 3 / 2;
+    int noise = base + str_cur * shout_multiplier - penalty;
+
+    // Minimum noise volume possible after all reductions.
+    // Volume 1 can't be heard even by player
+    constexpr int minimum_noise = 2;
+
+    if( noise <= base ) {
+        noise = std::max( minimum_noise, noise );
+    }
+
+    // Screaming underwater is not good for oxygen and harder to do overall
+    if( underwater ) {
+        noise = std::max( minimum_noise, noise / 2 );
+    }
+    return noise;
+}
+
+void Character::shout( std::string msg, bool order )
+{
+    int base = 10;
+    std::string shout = "";
+
+    // Mutations make shouting louder, they also define the default message
+    if( has_trait( trait_SHOUT3 ) ) {
+        base = 20;
+        if( msg.empty() ) {
+            msg = is_player() ? _( "yourself let out a piercing howl!" ) : _( "a piercing howl!" );
+            shout = "howl";
+        }
+    } else if( has_trait( trait_SHOUT2 ) ) {
+        base = 15;
+        if( msg.empty() ) {
+            msg = is_player() ? _( "yourself scream loudly!" ) : _( "a loud scream!" );
+            shout = "scream";
+        }
+    }
+
+    if( msg.empty() ) {
+        msg = is_player() ? _( "yourself shout loudly!" ) : _( "a loud shout!" );
+        shout = "default";
+    }
+    int noise = get_shout_volume();
+
+    // Minimum noise volume possible after all reductions.
+    // Volume 1 can't be heard even by player
+    constexpr int minimum_noise = 2;
+
+    if( noise <= base ) {
+        std::string dampened_shout;
+        std::transform( msg.begin(), msg.end(), std::back_inserter( dampened_shout ), tolower );
+        msg = std::move( dampened_shout );
+    }
+
+    // Screaming underwater is not good for oxygen and harder to do overall
+    if( underwater ) {
+        if( !has_trait( trait_GILLS ) && !has_trait( trait_GILLS_CEPH ) ) {
+            mod_stat( "oxygen", -noise );
+        }
+    }
+
+    const int penalty = encumb( bp_mouth ) * 3 / 2;
+    // TODO: indistinct noise descriptions should be handled in the sounds code
+    if( noise <= minimum_noise ) {
+        add_msg_if_player( m_warning,
+                           _( "The sound of your voice is almost completely muffled!" ) );
+        msg = is_player() ? _( "your muffled shout" ) : _( "an indistinct voice" );
+    } else if( noise * 2 <= noise + penalty ) {
+        // The shout's volume is 1/2 or lower of what it would be without the penalty
+        add_msg_if_player( m_warning, _( "The sound of your voice is significantly muffled!" ) );
+    }
+
+    sounds::sound( pos(), noise, order ? sounds::sound_t::order : sounds::sound_t::alert, msg, false,
+                   "shout", shout );
 }

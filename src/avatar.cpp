@@ -3,6 +3,8 @@
 #include "action.h"
 #include "bionics.h"
 #include "character.h"
+#include "creature.h"
+#include "effect.h"
 #include "filesystem.h"
 #include "game.h"
 #include "help.h"
@@ -28,9 +30,12 @@
 #include "vpart_position.h"
 
 const efftype_id effect_contacts( "contacts" );
+const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
+static const bionic_id bio_watch( "bio_watch" );
 
 static const trait_id trait_FORGETFUL( "FORGETFUL" );
 static const trait_id trait_GOODMEMORY( "GOODMEMORY" );
@@ -976,4 +981,21 @@ hint_rating avatar::rate_action_read( const item &it ) const
 
     std::vector<std::string> dummy;
     return get_book_reader( it, dummy ) == nullptr ? HINT_IFFY : HINT_GOOD;
+}
+
+void avatar::wake_up()
+{
+    if( has_effect( effect_sleep ) ) {
+        if( calendar::turn - get_effect( effect_sleep ).get_start_time() > 2_hours ) {
+            print_health();
+        }
+        if( has_effect( effect_slept_through_alarm ) ) {
+            if( has_bionic( bio_watch ) ) {
+                add_msg( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
+            } else {
+                add_msg( m_warning, _( "It looks like you've slept through the alarm..." ) );
+            }
+        }
+    }
+    Character::wake_up();
 }

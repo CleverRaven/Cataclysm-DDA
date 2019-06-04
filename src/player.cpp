@@ -2832,100 +2832,6 @@ void player::pause()
     search_surroundings();
 }
 
-int player::get_shout_volume() const
-{
-    int base = 10;
-    int shout_multiplier = 2;
-
-    // Mutations make shouting louder, they also define the default message
-    if( has_trait( trait_SHOUT3 ) ) {
-        shout_multiplier = 4;
-        base = 20;
-    } else if( has_trait( trait_SHOUT2 ) ) {
-        base = 15;
-        shout_multiplier = 3;
-    }
-
-    // Masks and such dampen the sound
-    // Balanced around whisper for wearing bondage mask
-    // and noise ~= 10 (door smashing) for wearing dust mask for character with strength = 8
-    /** @EFFECT_STR increases shouting volume */
-    const int penalty = encumb( bp_mouth ) * 3 / 2;
-    int noise = base + str_cur * shout_multiplier - penalty;
-
-    // Minimum noise volume possible after all reductions.
-    // Volume 1 can't be heard even by player
-    constexpr int minimum_noise = 2;
-
-    if( noise <= base ) {
-        noise = std::max( minimum_noise, noise );
-    }
-
-    // Screaming underwater is not good for oxygen and harder to do overall
-    if( underwater ) {
-        noise = std::max( minimum_noise, noise / 2 );
-    }
-    return noise;
-}
-
-void player::shout( std::string msg, bool order )
-{
-    int base = 10;
-    std::string shout = "";
-
-    // Mutations make shouting louder, they also define the default message
-    if( has_trait( trait_SHOUT3 ) ) {
-        base = 20;
-        if( msg.empty() ) {
-            msg = is_player() ? _( "yourself let out a piercing howl!" ) : _( "a piercing howl!" );
-            shout = "howl";
-        }
-    } else if( has_trait( trait_SHOUT2 ) ) {
-        base = 15;
-        if( msg.empty() ) {
-            msg = is_player() ? _( "yourself scream loudly!" ) : _( "a loud scream!" );
-            shout = "scream";
-        }
-    }
-
-    if( msg.empty() ) {
-        msg = is_player() ? _( "yourself shout loudly!" ) : _( "a loud shout!" );
-        shout = "default";
-    }
-    int noise = get_shout_volume();
-
-    // Minimum noise volume possible after all reductions.
-    // Volume 1 can't be heard even by player
-    constexpr int minimum_noise = 2;
-
-    if( noise <= base ) {
-        std::string dampened_shout;
-        std::transform( msg.begin(), msg.end(), std::back_inserter( dampened_shout ), tolower );
-        msg = std::move( dampened_shout );
-    }
-
-    // Screaming underwater is not good for oxygen and harder to do overall
-    if( underwater ) {
-        if( !has_trait( trait_GILLS ) && !has_trait( trait_GILLS_CEPH ) ) {
-            mod_stat( "oxygen", -noise );
-        }
-    }
-
-    const int penalty = encumb( bp_mouth ) * 3 / 2;
-    // TODO: indistinct noise descriptions should be handled in the sounds code
-    if( noise <= minimum_noise ) {
-        add_msg_if_player( m_warning,
-                           _( "The sound of your voice is almost completely muffled!" ) );
-        msg = is_player() ? _( "your muffled shout" ) : _( "an indistinct voice" );
-    } else if( noise * 2 <= noise + penalty ) {
-        // The shout's volume is 1/2 or lower of what it would be without the penalty
-        add_msg_if_player( m_warning, _( "The sound of your voice is significantly muffled!" ) );
-    }
-
-    sounds::sound( pos(), noise, order ? sounds::sound_t::order : sounds::sound_t::alert, msg, false,
-                   "shout", shout );
-}
-
 void player::set_movement_mode( const std::string &new_mode )
 {
     if( new_mode == "run" ) {
@@ -9999,32 +9905,6 @@ void player::fall_asleep( const time_duration &duration )
         }
     }
     add_effect( effect_sleep, duration );
-}
-
-void player::wake_up()
-{
-    if( has_effect( effect_sleep ) ) {
-        if( calendar::turn - get_effect( effect_sleep ).get_start_time() > 2_hours ) {
-            print_health();
-        }
-        if( has_effect( effect_slept_through_alarm ) ) {
-            if( has_bionic( bio_watch ) ) {
-                add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
-            } else {
-                add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm..." ) );
-            }
-        }
-    }
-
-    remove_effect( effect_sleep );
-    remove_effect( effect_slept_through_alarm );
-    remove_effect( effect_lying_down );
-    // Do not remove effect_alarm_clock now otherwise it invalidates an effect iterator in player::process_effects().
-    // We just set it for later removal (also happening in player::process_effects(), so no side effects) with a duration of 0 turns.
-    if( has_effect( effect_alarm_clock ) ) {
-        get_effect( effect_alarm_clock ).set_duration( 0_turns );
-    }
-    recalc_sight_limits();
 }
 
 std::string player::is_snuggling() const

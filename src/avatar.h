@@ -92,6 +92,7 @@ class avatar : public player
 
         hint_rating rate_action_read( const item &it ) const;
 
+        void wake_up();
     private:
         map_memory player_map_memory;
         bool show_map_memory;

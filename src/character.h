@@ -411,7 +411,6 @@ class Character : public Creature, public visitable<Character>
         int get_mod( const trait_id &mut, const std::string &arg ) const;
         /** Applies skill-based boosts to stats **/
         void apply_skill_boost();
-
     protected:
         /** Applies stat mods to character. */
         void apply_mods( const trait_id &mut, bool add_remove );
@@ -832,6 +831,12 @@ class Character : public Creature, public visitable<Character>
         virtual void on_item_takeoff( const item & ) {}
         virtual void on_worn_item_washed( const item & ) {}
 
+        /** Removes "sleep" and "lying_down" */
+        void wake_up();
+        // how loud a character can shout. based on mutations and clothing
+        int get_shout_volume() const;
+        // shouts a message
+        void shout( std::string text = "", bool order = false );
     protected:
         Character();
         Character( const Character & ) = delete;

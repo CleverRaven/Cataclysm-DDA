@@ -461,9 +461,6 @@ class player : public Character
         void toggle_run_mode(); // Toggles running on/off.
         void toggle_crouch_mode(); // Toggles crouching on/off.
 
-        int get_shout_volume() const;
-        void shout( std::string text = "", bool order = false );
-
         // martialarts.cpp
         /** Fires all non-triggered martial arts events */
         void ma_static_effects();
@@ -1140,8 +1137,6 @@ class player : public Character
         /** Adds "sleep" to the player */
         void fall_asleep();
         void fall_asleep( const time_duration &duration );
-        /** Removes "sleep" and "lying_down" from the player */
-        void wake_up();
         /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
         std::string is_snuggling() const;
 
