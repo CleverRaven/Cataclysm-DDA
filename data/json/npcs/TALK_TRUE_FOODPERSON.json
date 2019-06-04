@@ -161,7 +161,7 @@
     "type": "talk_topic",
     "dynamic_line": "Do not mock me, for my strength is quite real!  Get out of here now!",
     "responses": [
-      { "text": "Sheesh, ok calm down I'm leaving!", "topic": "TALK_DONE" },
+      { "text": "Sheesh, ok, calm down, I'm leaving!", "topic": "TALK_DONE" },
       { "text": "Forgive me,  I didn't mean to disrespect you.", "topic": "TALK_FOODPERSON_MAIN" },
       { "text": "Oh yeah?  Show me what you can do!", "topic": "TALK_DONE", "effect": "hostile" }
     ]
