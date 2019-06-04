@@ -881,7 +881,6 @@ void complete_construction()
     }
     // Remove the unfinished item marker
     u.activity.targets.front().remove_item();
-    g->m.i_rem( terp, con_item );
     g->m.disarm_trap( terp );
     // Move any items that have found their way onto the construction site.
     std::vector<tripoint> dump_spots;
