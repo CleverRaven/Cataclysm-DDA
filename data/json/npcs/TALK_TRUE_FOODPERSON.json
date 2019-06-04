@@ -21,7 +21,7 @@
       },
       "no": {
         "u_is_wearing": "foodkid_badge",
-        "yes": "Welcome Home Foodkid!",
+        "yes": "Welcome home Foodkid!",
         "no": {
           "npc_has_var": "npc_foodperson_impressed",
           "type": "dialogue",
