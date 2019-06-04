@@ -845,7 +845,7 @@ void place_construction( const std::string &desc )
     // Add the vars
     added_item.set_var( "time_passed", 0 );
     added_item.set_var( "construction_time", con.time );
-    added_item.set_var( "construction_progress", 0 );
+    added_item.item_counter = 0;
     added_item.set_var( "index", static_cast<int>( con.id ) );
     std::string con_desc = string_format( _( "Unfinished task: %s, 0% complete" ), con.description );
     added_item.set_var( "name", con_desc );

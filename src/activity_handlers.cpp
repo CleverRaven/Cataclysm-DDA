@@ -2743,7 +2743,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
 
     // item_counter represents the percent progress relative to the base batch time
     // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6732000 )
-    const int old_counter = con_item->get_var( "construction_progress", 0 );
+    const int old_counter = con_item->item_counter;
 
     // Base moves for construction with no speed modifier or assistants
     // Must ensure >= 1 so we don't divide by 0;
@@ -2756,18 +2756,16 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     const double current_progress = old_counter * base_total_moves / 10000000.0 +
                                     delta_progress;
     // Current progress as a percent of base_total_moves to 2 decimal places
-    con_item->set_var( "construction_progress",
-                       round( current_progress / base_total_moves * 10000000.0 ) );
+    con_item->item_counter = round( current_progress / base_total_moves * 10000000.0 );
     p->set_moves( 0 );
 
-    con_item->set_var( "construction_progress",
-                       std::min( static_cast<int>( con_item->get_var( "construction_progress", 0 ) ), 10000000 ) );
+    con_item->item_counter = std::min( static_cast<int>( con_item->item_counter ), 10000000 );
     std::string con_desc = string_format( _( "Unfinished task: %s. It is %d percent complete" ),
-                                          built.description, static_cast<int>( con_item->get_var( "construction_progress", 0 ) / 100000 ) );
+                                          built.description, static_cast<int>( con_item->item_counter / 100000 ) );
     con_item->set_var( "name", con_desc );
 
     // if construction_progress has reached 100% or more
-    if( con_item->get_var( "construction_progress", 0 ) >= 10000000 ) {
+    if( con_item->item_counter >= 10000000 ) {
         complete_construction();
     }
 }
