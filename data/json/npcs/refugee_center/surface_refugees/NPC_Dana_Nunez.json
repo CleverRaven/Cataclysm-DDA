@@ -10,7 +10,7 @@
     "mission": 7,
     "chat": "TALK_REFUGEE_Dana_1",
     "faction": "free_merchants",
-	"mission_offered": "MISSION_REFUGEE_Dana_Sourdough"
+    "mission_offered": "MISSION_REFUGEE_Dana_Sourdough"
   },
   {
     "type": "npc_class",
@@ -200,18 +200,10 @@
     "value": 1000,
     "item": "landough_calrisean",
     "start": {
-      "update_mapgen": {
-        "om_terrain": "bakery",
-		"om_special": "bakery",
-        "place_item": { "item": "landough_calrisean", "x": 5, "y": 16 }
-      }
+      "update_mapgen": { "om_terrain": "bakery", "om_special": "bakery", "place_item": { "item": "landough_calrisean", "x": 5, "y": 16 } }
     },
-    "end": {
-      "effect": [
-        { "u_add_var": "Dana_Sourdough", "type": "mission", "context": "flag", "value": "yes" }
-      ]
-    },
-    "origins": [ "ORIGIN_SECONDARY" ]
+    "end": { "effect": [ { "u_add_var": "Dana_Sourdough", "type": "mission", "context": "flag", "value": "yes" } ] },
+    "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I could get my real sourdough starter...",
       "offer": "If you really like this second-rate bread, you could risk your life for something actually worth it.  I left my actual sourdough starter back in the bakery where I worked.  That baby is a hundred years old, and makes the best damn bread you've ever tasted.  If you can bring it to me, I'll bake you the finest bread you've ever had.",
