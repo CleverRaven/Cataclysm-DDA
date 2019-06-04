@@ -18,7 +18,7 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "def_wall_corner_outer_pits1",
-	"//": "Corner wall: Deep pits",
+	"//": "Corner wall: Shallow pits",
     "object": {
       "mapgensize": [ 6, 6 ],
       "rows": [
