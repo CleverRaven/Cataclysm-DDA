@@ -467,7 +467,7 @@
         "topic": "TALK_FOODPERSON_TEAMUP"
       },
       {
-        "text": "It might has something to do with <the_cataclysm>, mind if I stay here while we try to figure this out?",
+        "text": "It might have something to do with <the_cataclysm>, mind if I stay here while we try to figure this out?",
         "effect": { "npc_add_var": "foodperson_meeting_solved", "type": "dialogue", "context": "foodperson", "value": "yes" },
         "topic": "TALK_FOODPERSON_SHARING"
       },
