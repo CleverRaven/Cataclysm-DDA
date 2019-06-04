@@ -15,6 +15,7 @@
 #include "field.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "generic_factory.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -41,8 +42,23 @@
 #include "vpart_reference.h"
 #include "type_id.h"
 #include "messages.h"
+#include "coordinate_conversions.h"
 
 class npc_template;
+
+namespace
+{
+
+generic_factory<map_extra> extras( "map extra" );
+
+}
+
+/** @relates string_id */
+template<>
+const map_extra &string_id<map_extra>::obj() const
+{
+    return extras.obj( *this );
+}
 
 namespace MapExtras
 {
@@ -2314,9 +2330,41 @@ map_extra_pointer get_function( const std::string &name )
     return iter->second;
 }
 
+void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs_sub )
+{
+    const map_extra &extra = id.obj();
+    const map_extra_pointer mx_func = extra.function_pointer;
+    if( mx_func != nullptr ) {
+        mx_func( m, abs_sub );
+    }
+}
+void apply_function( const std::string &id, map &m, const tripoint &abs_sub )
+{
+    apply_function( string_id<map_extra>( id ), m, abs_sub );
+}
+
 FunctionMap all_functions()
 {
     return builtin_functions;
 }
 
+void load( JsonObject &jo, const std::string &src )
+{
+    extras.load( jo, src );
+}
+
+}
+
+void map_extra::load( JsonObject &jo, const std::string & )
+{
+    mandatory( jo, was_loaded, "name", name );
+    mandatory( jo, was_loaded, "description", description );
+    mandatory( jo, was_loaded, "function", function );
+    function_pointer = MapExtras::get_function( function );
+    if( function_pointer == nullptr ) {
+        debugmsg( "invalid map extra function (%s) defined for map extra (%s)", function, id.str() );
+    }
+    optional( jo, was_loaded, "sym", symbol, unicode_codepoint_from_symbol_reader, NULL_UNICODE );
+    color = jo.has_member( "color" ) ? color_from_string( jo.get_string( "color" ) ) : c_white;
+    optional( jo, was_loaded, "autonote", autonote, false );
 }

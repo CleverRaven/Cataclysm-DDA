@@ -396,14 +396,13 @@ void start_location::burn( const tripoint &omtstart,
 }
 
 void start_location::add_map_extra( const tripoint &omtstart,
-                                      const std::string &map_extra ) const
+                                    const std::string &map_extra ) const
 {
     const tripoint player_location = omt_to_sm_copy( omtstart );
     tinymap m;
     m.load( player_location.x, player_location.y, player_location.z, false );
 
-    const auto ptr = MapExtras::get_function( map_extra );
-    ptr( m, player_location );
+    MapExtras::apply_function( map_extra, m, player_location );
 
     m.save();
 }

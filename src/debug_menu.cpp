@@ -20,6 +20,7 @@
 #include "coordinate_conversions.h"
 #include "filesystem.h"
 #include "game.h"
+#include "map_extras.h"
 #include "messages.h"
 #include "mission.h"
 #include "morale_types.h"
@@ -58,7 +59,6 @@
 #include "item.h"
 #include "sounds.h"
 #include "trait_group.h"
-#include "map_extras.h"
 #include "artifact.h"
 #include "vpart_position.h"
 #include "rng.h"
@@ -1439,14 +1439,11 @@ void debug()
                 mx_menu.query();
                 int mx_choice = mx_menu.ret;
                 if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
-                    auto func = MapExtras::get_function( mx_str[mx_choice] );
-                    if( func != nullptr ) {
-                        const tripoint where( ui::omap::choose_point() );
-                        if( where != overmap::invalid_tripoint ) {
-                            tinymap mx_map;
-                            mx_map.load( where.x * 2, where.y * 2, where.z, false );
-                            func( mx_map, where );
-                        }
+                    const tripoint where( ui::omap::choose_point() );
+                    if( where != overmap::invalid_tripoint ) {
+                        tinymap mx_map;
+                        mx_map.load( where.x * 2, where.y * 2, where.z, false );
+                        MapExtras::apply_function( mx_str[mx_choice], mx_map, where );
                     }
                 }
                 break;
