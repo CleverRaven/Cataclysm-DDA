@@ -1429,7 +1429,7 @@ void debug()
                 raise( SIGSEGV );
                 break;
             case DEBUG_MAP_EXTRA: {
-                std::unordered_map<std::string, map_special_pointer> FM = MapExtras::all_functions();
+                std::unordered_map<std::string, map_extra_pointer> FM = MapExtras::all_functions();
                 uilist mx_menu;
                 std::vector<std::string> mx_str;
                 for( auto &extra : FM ) {

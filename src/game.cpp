@@ -698,10 +698,10 @@ bool game::start_game()
     }
     start_loc.prepare_map( omtstart );
 
-    if( scen->has_map_special() ) {
-        // Specials can add monster spawn points and similar and should be done before the main
+    if( scen->has_map_extra() ) {
+        // Map extras can add monster spawn points and similar and should be done before the main
         // map is loaded.
-        start_loc.add_map_special( omtstart, scen->get_map_special() );
+        start_loc.add_map_extra( omtstart, scen->get_map_extra() );
     }
 
     tripoint lev = omt_to_sm_copy( omtstart );
