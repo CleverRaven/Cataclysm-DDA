@@ -67,7 +67,7 @@
     "id": "guns_pistol_rare",
     "items": [
       { "item": "wand_magic_missile", "prob": 35, "charges-min": 12, "charges-max": 34 },
-      { "item": "wand_mafireball", "prob": 25, "charges-min": 3, "charges-max": 24 }
+      { "item": "wand_fireball", "prob": 25, "charges-min": 3, "charges-max": 24 }
     ]
   }
 ]
