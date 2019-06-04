@@ -41,7 +41,6 @@
 #include "mongroup.h"
 #include "morale_types.h"
 #include "mtype.h"
-#include "npc.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player.h"
