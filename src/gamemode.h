@@ -114,7 +114,6 @@ enum defense_location {
 enum caravan_category {
     CARAVAN_CART = 0,
     CARAVAN_MELEE,
-    CARAVAN_ARCHAIC,
     CARAVAN_RANGED,
     CARAVAN_AMMUNITION,
     CARAVAN_COMPONENTS,
@@ -156,6 +155,7 @@ struct defense_game : public special_game {
 
         // DATA
         int current_wave;
+        int caravan_tech_level;
 
         defense_style style;       // What type of game is it?
         defense_location location; // Where are we?
