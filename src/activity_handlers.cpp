@@ -8,7 +8,6 @@
 #include <array>
 #include <iterator>
 #include <memory>
-#include <iostream>
 #include <ostream>
 #include <set>
 #include <stdexcept>
