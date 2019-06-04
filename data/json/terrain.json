@@ -7843,7 +7843,7 @@
     "looks_like": "t_card_science",
     "name": "card reader",
     "description": "This looks like a smartcard reader.  You can see \"Fp\" soberly printed on the reader.  The reading surface is pretty big, you have no idea what could open it.",
-    "//": "FoodPace",
+    "//": "FoodPlace",
     "symbol": "q",
     "color": "pink",
     "move_cost": 0,
