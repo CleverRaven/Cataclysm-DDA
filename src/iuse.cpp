@@ -6847,7 +6847,6 @@ int iuse::foodperson( player *, item *it, bool t, const tripoint &pos )
             const SpeechBubble &speech = get_speech( "foodperson_mask" );
             sounds::sound( pos, speech.volume, sounds::sound_t::alarm, speech.text, true, "speech",
                            "foodperson_mask" );
-
         }
 
         if( calendar::once_every( 1_hours ) ) {
