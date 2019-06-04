@@ -2581,6 +2581,7 @@
     "id": "foodperson_mask_on",
     "type": "TOOL_ARMOR",
     "name": "Foodperson mask (on)",
+    "name_plural": "Foodperson masks (on)",
     "copy-from": "foodperson_mask",
     "turns_per_charge": 15,
     "revert_to": "foodperson_mask",
