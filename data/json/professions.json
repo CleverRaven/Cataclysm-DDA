@@ -3714,7 +3714,7 @@
     "type": "profession",
     "ident": "politician",
     "name": "Career Politician",
-    "description" : "You've spent your life appealing to the people, persuading many and promising much throughout your time in office. Now that your voting base wants to eat you alive, winning hearts and minds just got that much harder.",
+    "description" : "You've spent your life appealing to the people, persuading many and promising much throughout your time in office.  Now that your voting base wants to eat you alive, winning hearts and minds just got that much harder.",
     "points": 0,
     "skills": [ {"level": 2, "name": "barter" }, { "level": 3, "name": "speech" } ],	
     "items": {
