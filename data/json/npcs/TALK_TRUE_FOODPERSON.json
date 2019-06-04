@@ -126,7 +126,7 @@
             { "not": { "u_has_trait": "PROF_FOODP" } }
           ]
         },
-        "text": "I am the REAL Foodperson!.",
+        "text": "I am the REAL Foodperson!",
         "topic": "TALK_FOODPERSON_ONLYONE"
       },
       { "text": "Nevermind me, I'm just going to leave.", "topic": "TALK_DONE" }
