@@ -204,7 +204,8 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             if( !m.i_at( p ).empty() ) {
                 m.i_at( p )[0] = item( "fungal_seeds", calendar::turn );
             } else {
-                add_msg( m_debug, "No seed item in the PLANT terrain at position %d,%d,%d", p.x, p.y, p.z );
+                DebugLog( D_ERROR, DC_ALL ) << "No seed item in the PLANT terrain at position " <<
+                                            string_format( "%d,%d,%d.", p.x, p.y, p.z );
             }
         }
     }
