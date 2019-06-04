@@ -256,12 +256,6 @@
   },
   {
     "type": "start_location",
-    "ident": "lakeshore",
-    "name": "lake shore",
-    "target": "lake_dock_small"
-  },
-  {
-    "type": "start_location",
     "ident": "Swamp Shack",
     "name": "Hermit Shack",
     "target": "hunter_shack"

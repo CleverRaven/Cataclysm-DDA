@@ -362,16 +362,6 @@
   },
   {
     "type": "scenario",
-    "ident": "lakeside",
-    "name": "lakeside",
-    "points": 0,
-    "description": "You find yourself amongst trees.  The screaming and the moaning is fainter this far from civilization, but you'd better know what you're doing out here.",
-    "start_name": "lakeshore",
-    "professions": [ "survivalist", "camper", "bionic_prepper" ],
-    "allowed_locs": [ "lakeshore" ]
-  },
-  {
-    "type": "scenario",
     "ident": "wilderness",
     "name": "Wilderness",
     "points": 0,
