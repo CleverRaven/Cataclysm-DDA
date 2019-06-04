@@ -475,7 +475,7 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
 
     const sounds::sound_t spriority = static_cast<sounds::sound_t>( priority );
     bool player_ally = g->u.pos() == spos && is_player_ally();
-    npc *const sound_source = g->critter_at<npc>( spos );
+    player *const sound_source = g->critter_at<player>( spos );
     bool npc_ally = sound_source && sound_source->is_npc() && is_ally( *sound_source );
 
     if( ( player_ally || npc_ally ) && spriority == sounds::sound_t::order ) {
@@ -523,9 +523,9 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
         if( spriority == sounds::sound_t::movement && !in_vehicle ) {
             warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
         } else if( spriority > sounds::sound_t::movement ) {
-            if( !( player_ally || npc_ally ) && ( spriority == sounds::sound_t::speech ||
-                                                  spriority == sounds::sound_t::alert ||
-                                                  spriority == sounds::sound_t::order ) ) {
+            if( ( spriority == sounds::sound_t::speech || spriority == sounds::sound_t::alert ||
+                  spriority == sounds::sound_t::order ) && sound_source &&
+                !has_faction_relationship( *sound_source, npc_factions::knows_your_voice ) ) {
                 warn_about( "speech_noise", rng( 1, 10 ) * 1_minutes );
             } else if( spriority > sounds::sound_t::activity ) {
                 warn_about( "combat_noise", rng( 1, 10 ) * 1_minutes );

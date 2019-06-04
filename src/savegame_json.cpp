@@ -2632,10 +2632,6 @@ void faction::deserialize( JsonIn &jsin )
     JsonObject jo = jsin.get_object();
 
     jo.read( "id", id );
-    jo.read( "name", name );
-    if( !jo.read( "desc", desc ) ) {
-        desc.clear();
-    }
     jo.read( "likes_u", likes_u );
     jo.read( "respects_u", respects_u );
     jo.read( "known_by_u", known_by_u );
@@ -2650,6 +2646,7 @@ void faction::deserialize( JsonIn &jsin )
     if( jo.has_array( "opinion_of" ) ) {
         opinion_of = jo.get_int_array( "opinion_of" );
     }
+    load_relations( jo );
 }
 
 void faction::serialize( JsonOut &json ) const
@@ -2657,8 +2654,6 @@ void faction::serialize( JsonOut &json ) const
     json.start_object();
 
     json.member( "id", id );
-    json.member( "name", name );
-    json.member( "desc", desc );
     json.member( "likes_u", likes_u );
     json.member( "respects_u", respects_u );
     json.member( "known_by_u", known_by_u );
@@ -2667,6 +2662,17 @@ void faction::serialize( JsonOut &json ) const
     json.member( "food_supply", food_supply );
     json.member( "wealth", wealth );
     json.member( "opinion_of", opinion_of );
+    json.member( "relations" );
+    json.start_object();
+    for( const auto &rel_data : relations ) {
+        json.member( rel_data.first );
+        json.start_object();
+        for( const auto &rel_flag : npc_factions::relation_strs ) {
+            json.member( rel_flag.first, rel_data.second.test( rel_flag.second ) );
+        }
+        json.end_object();
+    }
+    json.end_object();
 
     json.end_object();
 }

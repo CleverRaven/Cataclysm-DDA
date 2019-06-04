@@ -414,6 +414,27 @@ void npc::assess_danger()
             }
         }
     }
+    // find our Character friends and enemies
+    std::vector<std::weak_ptr<Creature>> hostile_guys;
+    for( const npc &guy : g->all_npcs() ) {
+        if( &guy == this || !guy.is_active() || !sees( guy.pos() ) ) {
+            continue;
+        }
+
+        if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
+            ai_cache.friends.emplace_back( g->shared_from( guy ) );
+        } else if( attitude_to( guy ) != A_NEUTRAL ) {
+            hostile_guys.emplace_back( g->shared_from( guy ) );
+        }
+    }
+    if( sees( g->u.pos() ) ) {
+        if( is_enemy() ) {
+            hostile_guys.emplace_back( g->shared_from( g->u ) );
+        } else if( is_friendly( g->u ) ) {
+            ai_cache.friends.emplace_back( g->shared_from( g->u ) );
+        }
+    }
+
     for( const monster &critter : g->all_monsters() ) {
         if( !sees( critter ) ) {
             continue;
@@ -445,12 +466,15 @@ void npc::assess_danger()
             continue;
         }
 
-        // don't ignore monsters that are too close or too close to the player
-        float min_priority = dist <= def_radius ||
-                             ( is_player_ally() && too_close( critter.pos(), g->u.pos() ) ) ?
-                             NPC_DANGER_VERY_LOW : 0.0f;
-        float priority = std::max( min_priority,
-                                   critter_danger - 2.0f * ( scaled_distance - 1.0f ) );
+        // don't ignore monsters that are too close or too close to an ally
+        bool is_too_close = dist <= def_radius;
+        const auto test_too_close = [critter, &is_too_close]( const std::weak_ptr<Creature> guy ) {
+            is_too_close |= too_close( critter.pos(), guy.lock().get()->pos() );
+            return is_too_close;
+        };
+        std::any_of( ai_cache.friends.begin(), ai_cache.friends.end(), test_too_close );
+        float priority = std::max( critter_danger - 2.0f * ( scaled_distance - 1.0f ),
+                                   is_too_close ?  NPC_DANGER_VERY_LOW : 0.0f );
         cur_threat_map[direction_from( pos(), critter.pos() )] += priority;
         if( priority > highest_priority ) {
             highest_priority = priority;
@@ -459,52 +483,53 @@ void npc::assess_danger()
         }
     }
 
-    const auto handle_hostile = [&]( const player & guy, float guy_threat, const std::string & bogey,
-    const std::string & warning ) {
-        if( guy_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
+    const auto handle_hostile = [&]( const player & foe, float foe_threat,
+    const std::string & bogey, const std::string & warning ) {
+        if( foe_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
             warn_about( "monster", 10_minutes, bogey );
         }
 
-        int dist = rl_dist( pos(), guy.pos() );
-        int scaled_distance = std::max( 1, ( 100 * dist ) / guy.get_speed() );
-        ai_cache.total_danger += guy_threat / scaled_distance;
-        if( !is_player_ally() || ok_by_rules( guy, dist, scaled_distance ) ) {
-            float min_priority = dist <= def_radius ||
-                                 ( is_friendly( g->u ) && too_close( guy.pos(), g->u.pos() ) ) ?
-                                 NPC_DANGER_VERY_LOW : 0.0f;
-            float priority = std::max( guy_threat - 2.0f * ( scaled_distance - 1 ),
-                                       min_priority );
-            cur_threat_map[direction_from( pos(), guy.pos() )] += priority;
+        int dist = rl_dist( pos(), foe.pos() );
+        int scaled_distance = std::max( 1, ( 100 * dist ) / foe.get_speed() );
+        ai_cache.total_danger += foe_threat / scaled_distance;
+        if( !is_player_ally() || ok_by_rules( foe, dist, scaled_distance ) ) {
+            bool is_too_close = dist <= def_radius;
+            for( const std::weak_ptr<Creature> guy : ai_cache.friends ) {
+                is_too_close |= too_close( foe.pos(), guy.lock().get()->pos() );
+                if( is_too_close ) {
+                    break;
+                }
+            }
+            float priority = std::max( foe_threat - 2.0f * ( scaled_distance - 1 ),
+                                       is_too_close ?  NPC_DANGER_VERY_LOW : 0.0f );
+            cur_threat_map[direction_from( pos(), foe.pos() )] += priority;
             if( priority > highest_priority ) {
-                warn_about( warning, 1_minutes, guy.disp_name() );
+                warn_about( warning, 1_minutes, foe.disp_name() );
                 highest_priority = priority;
-                ai_cache.danger = guy_threat;
-                ai_cache.target = g->shared_from( guy );
+                ai_cache.danger = foe_threat;
+                ai_cache.target = g->shared_from( foe );
             }
         }
-        return guy_threat;
+        return foe_threat;
     };
 
-    for( const npc &guy : g->all_npcs() ) {
-        if( &guy == this || !sees( guy.pos() ) ) {
-            continue;
-        }
-
-        auto att = attitude_to( guy );
-        if( att == A_FRIENDLY ) {
-            ai_cache.friends.emplace_back( g->shared_from( guy ) );
-        } else if( att == A_NEUTRAL ) {
-            // Nothing
-            continue;
-        }
-        float guy_threat = evaluate_enemy( guy );
-        if( att == A_FRIENDLY ) {
-            float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
-            assessment = std::max( min_danger, assessment - guy_threat * 0.5f );
-        } else if( att == A_HOSTILE ) {
-            assessment += handle_hostile( guy, guy_threat, "bandit", "kill_npc" );
+    for( const std::weak_ptr<Creature> &guy : hostile_guys ) {
+        player *foe = dynamic_cast<player *>( guy.lock().get() );
+        if( foe && foe->is_npc() ) {
+            assessment += handle_hostile( *foe, evaluate_enemy( *foe ), "bandit", "kill_npc" );
         }
     }
+
+    for( const std::weak_ptr<Creature> &guy : ai_cache.friends ) {
+        player *ally = dynamic_cast<player *>( guy.lock().get() );
+        if( !( ally && ally->is_npc() ) ) {
+            continue;
+        }
+        float guy_threat = evaluate_enemy( *ally );
+        float min_danger = assessment >= NPC_DANGER_VERY_LOW ? NPC_DANGER_VERY_LOW : -10.0f;
+        assessment = std::max( min_danger, assessment - guy_threat * 0.5f );
+    }
+
     if( sees( g->u.pos() ) ) {
         // Mod for the player
         // cap player difficulty at 150

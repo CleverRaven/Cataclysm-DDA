@@ -1503,6 +1503,26 @@ void npc::set_faction_ver( int new_version )
     faction_api_version = new_version;
 }
 
+bool npc::has_faction_relationship( const player &p, const npc_factions::relationship flag ) const
+{
+    if( !my_fac ) {
+        return false;
+    }
+
+    faction_id your_fac_id;
+    if( p.is_player() ) {
+        your_fac_id = faction_id( "your_followers" );
+    } else {
+        const npc &guy = dynamic_cast<const npc &>( p );
+        if( guy.my_fac ) {
+            your_fac_id = guy.my_fac->id;
+        } else {
+            return false;
+        }
+    }
+    return my_fac->has_relationship( your_fac_id, flag );
+}
+
 bool npc::is_ally( const player &p ) const
 {
     if( p.getID() == getID() ) {
@@ -1555,7 +1575,7 @@ bool npc::is_minion() const
 
 bool npc::guaranteed_hostile() const
 {
-    return is_enemy() || ( my_fac != nullptr && my_fac->likes_u < -10 );
+    return is_enemy() || ( my_fac && my_fac->likes_u < -10 );
 }
 
 bool npc::is_walking_with() const
@@ -1628,6 +1648,16 @@ bool npc::is_travelling() const
 
 Creature::Attitude npc::attitude_to( const Creature &other ) const
 {
+    if( other.is_npc() || other.is_player() ) {
+        const player &guy = dynamic_cast<const player &>( other );
+        // check faction relationships first
+        if( has_faction_relationship( guy, npc_factions::kill_on_sight ) ) {
+            return A_HOSTILE;
+        } else if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
+            return A_FRIENDLY;
+        }
+    }
+
     if( is_player_ally() ) {
         // Friendly NPCs share player's alliances
         return g->u.attitude_to( other );
@@ -2394,6 +2424,14 @@ std::set<tripoint> npc::get_path_avoid() const
 
 mfaction_id npc::get_monster_faction() const
 {
+    if( my_fac ) {
+        string_id<monfaction> my_mon_fac = string_id<monfaction>( my_fac->mon_faction );
+        if( my_mon_fac.is_valid() ) {
+            return my_mon_fac;
+        }
+    }
+
+    // legacy checks
     // Those can't be static int_ids, because mods add factions
     static const string_id<monfaction> human_fac( "human" );
     static const string_id<monfaction> player_fac( "player" );
