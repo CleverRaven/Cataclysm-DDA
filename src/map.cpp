@@ -1669,7 +1669,13 @@ int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
 
 int map::move_cost_from_point( const tripoint &to, const tripoint &from, const vehicle *ignored_vehicle ) const
 {
-    return std::get<0>(obstacle_from_point(to,from,ignored_vehicle));
+    int cost_to = move_cost( to, ignored_vehicle );
+    if( cost_to == 0 || check_for_diagonal(to, from, [this](const tripoint & np){
+         return move_cost(np) == 0;
+    } ) ) {
+        return 0;
+    }    
+    return cost_to;
 }
 
 std::tuple<int,cata::optional<tripoint>> map::obstacle_from_point( const tripoint &to, const tripoint &from, const vehicle *ignored_vehicle ) const

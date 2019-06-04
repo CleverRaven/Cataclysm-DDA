@@ -1157,7 +1157,10 @@ bool monster::attack_at( const tripoint &p )
         return false; // TODO: Remove this
     }
 
-    if( p == g->u.pos() ) {
+    if( p == g->u.pos() && !g->m.check_for_diagonal(p, pos(), [](const tripoint & np){
+         return g->m.move_cost(np) == 0;
+    } ) ) {
+        std::cout << "can attack" << std::endl;
         melee_attack( g->u );
         return true;
     }

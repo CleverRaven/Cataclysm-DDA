@@ -230,7 +230,7 @@ bool Creature::sees( const Creature &critter ) const
             return false;
         }
     }
-    std::cout << get_name() << " sees " << critter.get_name() << " : " << sees( critter.pos(), critter.is_player() ) << std::endl; 
+    //std::cout << get_name() << " sees " << critter.get_name() << " : " << sees( critter.pos(), critter.is_player() ) << std::endl; 
     return sees( critter.pos(), critter.is_player() );
 }
 
