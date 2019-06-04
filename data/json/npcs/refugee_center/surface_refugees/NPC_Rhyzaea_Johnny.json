@@ -117,7 +117,7 @@
     "responses": [
       { "text": "Tell me about yourself.", "topic": "TALK_REFUGEE_Rhyzaea_Background2" },
       { "text": "Tell me about your family.", "topic": "TALK_REFUGEE_Rhyzaea_Family" },
-      { "text": "Tell me about band.", "topic": "TALK_REFUGEE_Rhyzaea_Band" }
+      { "text": "Tell me about your band.", "topic": "TALK_REFUGEE_Rhyzaea_Band" }
     ]
   },
   {
@@ -126,7 +126,8 @@
     "dynamic_line": "I was a counsellor actually, I worked for my band, Gitxsan.  Did a lot of mental health and addictions for people that had been through some really tough stuff.  Maybe not zombies eating your child level tough, but surprisingly not far off.  My people have gone through some real messy crap.",
     "responses": [
       { "text": "Tell me about your family.", "topic": "TALK_REFUGEE_Rhyzaea_Family" },
-      { "text": "Tell me about band.", "topic": "TALK_REFUGEE_Rhyzaea_Band" },
+      { "text": "Tell me about your band.", "topic": "TALK_REFUGEE_Rhyzaea_Band" },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
     ]
   },
@@ -137,6 +138,7 @@
     "responses": [
       { "text": "Tell me about yourself.", "topic": "TALK_REFUGEE_Rhyzaea_Background2" },
       { "text": "Tell me about your family.", "topic": "TALK_REFUGEE_Rhyzaea_Family" },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
     ]
   },
@@ -146,7 +148,8 @@
     "dynamic_line": "My mom and dad are back in Hazelton, they live with my grandma and my older brother; he took a hard knock to the head doing dumb things as a kid, and he can't really take care of himself now.  I have a daughter, Angel, she's sixteen and didn't want to come with me on this trip.  God help me, I can't bear to think of her, she must think I'm dead.",
     "responses": [
       { "text": "Tell me about yourself.", "topic": "TALK_REFUGEE_Rhyzaea_Background2" },
-      { "text": "Tell me about band.", "topic": "TALK_REFUGEE_Rhyzaea_Band" },
+      { "text": "Tell me about your band.", "topic": "TALK_REFUGEE_Rhyzaea_Band" },
+      { "text": "What was it you were saying before?", "topic": "TALK_NONE" },
       { "text": "Well, it's been nice talking to you, but I need to head out.", "topic": "TALK_DONE" }
     ]
   },
