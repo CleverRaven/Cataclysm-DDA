@@ -172,7 +172,7 @@
     "dynamic_line": "A comon mistake, but I can assure you that I'm very real!",
     "responses": [
       { "text": "Sure, whatever.", "topic": "TALK_DONE" },
-      { "text": "Ok... I believe you.", "topic": "TALK_FOODPERSON_MAIN" }
+      { "text": "Ok...  I believe you.", "topic": "TALK_FOODPERSON_MAIN" }
     ]
   },
   {
