@@ -462,7 +462,7 @@
     "dynamic_line": "The way you talk, the way you move...  You're...  You're me?  But how?",
     "responses": [
       {
-        "text": "I... I don't know.  It probably has something to do with the cataclysm!  What do you say we team up to find out?",
+        "text": "I...  I don't know.  It probably has something to do with <the_cataclysm>!  What do you say we team up to find out?",
         "effect": { "npc_add_var": "foodperson_meeting_solved", "type": "dialogue", "context": "foodperson", "value": "yes" },
         "topic": "TALK_FOODPERSON_TEAMUP"
       },
