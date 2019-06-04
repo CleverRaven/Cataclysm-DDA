@@ -1052,6 +1052,17 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
 
             //Remove tent parts after drive-through
             square_furn( &m, f_null, 0, 6, 8, 9 );
+
+            //Add sandbag barricade and then destroy few sections where car smashed it
+            line_furn( &m, f_sandbag_half, 10, 3, 10, 13 );
+            line_furn( &m, f_null, 10, 7, 10, 8 );
+
+            //Spill sand from damaged sandbags
+            std::vector<point> sandbag_positions = squares_in_direction( 10,7,11,8 );
+            for( auto &i : sandbag_positions ) {
+                m.spawn_item( { i.x, i.y, abs_sub.z }, "sandbag", rng( 5, 13 ) );
+                m.spawn_item( { i.x, i.y, abs_sub.z }, "material_sand", rng( 3, 8 ) );
+            }
         } else {
             m.put_items_from_loc( "army_bed", { 1, 6, abs_sub.z }, 0 );
             m.put_items_from_loc( "army_bed", { 1, 8, abs_sub.z }, 0 );
@@ -1070,10 +1081,11 @@ static void mx_minefield( map &m, const tripoint &abs_sub )
                     m.add_item_or_charges( { i.x, i.y, abs_sub.z }, item( "stanag30" ) );
                 }
             }
+            //Intact sandbag barricade
+            line_furn( &m, f_sandbag_half, 10, 3, 10, 13 );
         }
 
         //Add sandbags and barbed wire fence barricades
-        line_furn( &m, f_sandbag_half, 10, 3, 10, 13 );
         line( &m, t_fence_barbed, 12, 3, 12, 13 );
         line_furn( &m, f_sandbag_half, 10, 16, 10, 20 );
         line( &m, t_fence_barbed, 12, 16, 12, 20 );
