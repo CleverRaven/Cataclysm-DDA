@@ -880,7 +880,7 @@ void complete_construction()
         award_xp( *elem );
     }
     // Remove the unfinished item marker
-    item *con_item = u.activity.targets.front().get_item();
+    u.activity.targets.front().remove_item();
     g->m.i_rem( terp, con_item );
     g->m.disarm_trap( terp );
     // Move any items that have found their way onto the construction site.
