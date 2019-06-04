@@ -29,6 +29,12 @@ struct partial_con {
     size_t id = 0;
 };
 
+struct build_reqs {
+    std::map<skill_id, int> skills;
+    std::map<requirement_id, int> reqs;
+    int time = 0;
+};
+
 struct construction {
         // Construction type category
         std::string category;
@@ -97,4 +103,7 @@ void complete_construction( player *p );
 void check_constructions();
 void finalize_constructions();
 
+void get_build_reqs_for_furn_ter_ids( const std::pair<std::map<ter_id, int>,
+                                      std::map<furn_id, int>> &changed_ids,
+                                      build_reqs &total_reqs );
 #endif
