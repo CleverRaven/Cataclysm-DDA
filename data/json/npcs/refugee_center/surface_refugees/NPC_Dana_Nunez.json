@@ -16,7 +16,7 @@
     "traits": [ { "trait": "PAINRESIST" }, { "trait": "MYOPIC" }, { "group": "Appearance_Irish" } ],
     "skills": [
       { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "rng": [ 0, -4 ] } ] } ] } },
-      { "skill": "tailor", "bonus": { "rng": [ 1, 2 ] } },
+      { "skill": "cooking", "bonus": { "rng": [ 4, 6 ] } },
       { "skill": "unarmed", "bonus": { "rng": [ 1, 2 ] } },
       { "skill": "melee", "bonus": { "rng": [ 0, 1 ] } }
     ]
@@ -59,9 +59,31 @@
     "faction": "free_merchants"
   },
   {
-    "type": "effect_type",
-    "id": "u_met_Dana_Nunez",
-    "//": "Use this flag to indicate if the player has met this NPC before."
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [
+      "TALK_REFUGEE_Dana_1_firstmeet",
+      "TALK_REFUGEE_Dana_2",
+      "TALK_REFUGEE_Dana_Background",
+      "TALK_REFUGEE_Dana_Background_baking",
+      "TALK_REFUGEE_Dana_Situation"
+    ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_REFUGEE_Dana_Background" },
+      { "text": "How are things here?", "topic": "TALK_REFUGEE_Dana_Situation" },
+      {
+        "text": "I spoke to your husband about getting you a job at the Tacoma Ranch.  What would you think about that?",
+        "topic": "TALK_REFUGEE_Dana_Tacoma",
+        "condition": { "u_has_var": "Pablo_ask_tacoma", "type": "recruit", "context": "general", "value": "yes" }
+      },
+      {
+        "text": "Your husband said to ask you what you'd think about getting out of this place and coming to work for me at my own camp.",
+        "topic": "TALK_REFUGEE_Dana_Tacoma",
+        "condition": { "u_has_var": "Pablo_ask_recruit", "type": "recruit", "context": "general", "value": "yes" }
+      },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.  Bye, Dana.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
@@ -74,44 +96,24 @@
     "responses": [
       {
         "text": "Dana, hey?  Nice to meet you.",
-        "condition": { "not": { "u_has_effect": "u_met_Dana_Nunez" } },
-        "effect": { "u_add_effect": "u_met_Dana_Nunez", "duration": "PERMANENT" },
-        "topic": "TALK_REFUGEE_Dana_1_firstmeet",
-        "switch": true
+        "effect": { "u_add_var": "u_met_Dana_Nunez", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Dana_Nunez", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_REFUGEE_Dana_1_firstmeet"
       },
       {
         "text": "Hi, Dana.  What's up?",
-        "condition": { "days_since_cataclysm": 180 },
-        "topic": "TALK_REFUGEE_Dana_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, Dana.  What's up?",
-        "condition": { "days_since_cataclysm": 60 },
-        "topic": "TALK_REFUGEE_Dana_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, Dana.  What's up?",
-        "condition": { "days_since_cataclysm": 30 },
-        "topic": "TALK_REFUGEE_Dana_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, Dana.  What's up?",
-        "condition": { "u_has_effect": "u_met_Dana_Nunez" },
-        "topic": "TALK_REFUGEE_Dana_2_stub",
-        "switch": true
+        "topic": "TALK_REFUGEE_Dana_2",
+        "condition": { "u_has_var": "u_met_Dana_Nunez", "type": "general", "context": "meeting", "value": "yes" }
       },
       {
         "text": "Hi Dana, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_effect": "u_met_Dana_Nunez", "duration": "PERMANENT" },
-        "condition": { "not": { "u_has_effect": "u_met_Dana_Nunez" } },
+        "effect": { "u_add_var": "u_met_Dana_Nunez", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Dana_Nunez", "type": "general", "context": "meeting", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
         "text": "Hi Dana, nice to see you too.  I gotta go though.",
-        "condition": { "u_has_effect": "u_met_Dana_Nunez" },
+        "condition": { "u_has_var": "u_met_Dana_Nunez", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
@@ -119,17 +121,73 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Dana_1_firstmeet",
-    "dynamic_line": "We don't get many new faces around here.  How can I help you?",
+    "dynamic_line": "We don't get many new faces around here.  How can I help you?"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Dana_2",
+    "dynamic_line": "Getting by as much as I can.  What brings you around today?"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Dana_Background",
+    "dynamic_line": "I was working in a nice restaurant as a baker, until <the_cataclysm>.  I was pregnant, and it was getting close to time to go on mat leave; lots of time on my feet, getting up stupid-early to make pastries, you know.  Because of the pregnancy we were evacuated early and shipped out this way, but our bus was attacked in the chaos.  We managed to escape, but had to hike the rest of the way, with the Singhs and a few other refugees that didn't make it.  I lost the baby.  It wasn't a good time.",
+    "responses": [ { "text": "Have you done any baking lately?", "topic": "TALK_REFUGEE_Dana_Background_baking" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Dana_Background_baking",
+    "dynamic_line": {
+      "npc_has_effect": "dana_baking_sold",
+      "no": "I do a bit.  I got a sourdough starter going almost as soon as I arrived, and it's making passable bread already.  I cooked some up yesterday actually, I could probably trade a loaf of fresh bread for, say, about eight cups of flour.",
+      "yes": "Not since I last saw you, sorry.  Come by in another day or two and I'll try to keep a loaf set aside for you, but they disappear fast."
+    },
     "responses": [
-      { "text": "What's up in your life these days?", "topic": "TALK_REFUGEE_Dana_2_stub" },
-      { "text": "I just wanted to say hi.  I'll be on my way.", "topic": "TALK_DONE" }
+      {
+        "text": "That sounds like a great deal, here's some flour for you.",
+        "topic": "TALK_REFUGEE_Dana_Background_baking2",
+        "condition": { "and": [ { "not": { "npc_has_effect": "dana_baking_sold" } }, { "u_has_items": "flour", "count": 8 } ] },
+        "effect": [ { "u_sell_item": "flour", "count": 8 }, { "u_buy_item": "sourdough_bread" } ]
+      },
+      { "text": "Thanks, can we talk about something else?", "topic": "TALK_REFUGEE_Dana_2" },
+      { "text": "I'll look into that.  I'd better get going though.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Dana_2_stub",
-    "dynamic_line": "Not much is up right now.  Ask me again some time.",
-    "//": "TK: not written yet",
-    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+    "id": "TALK_REFUGEE_Dana_Background_baking2",
+    "dynamic_line": "Great, here's a loaf of my locally-famous, not-very-mature sourdough.  It's not too bad honestly.  Everyone here seems to like it.",
+    "speaker_effect": { "effect": { "npc_add_effect": "dana_baking_sold", "duration": 30000 } },
+    "responses": [
+      { "text": "Thanks, can we talk about something else?", "topic": "TALK_REFUGEE_Dana_2" },
+      { "text": "It smells awesome.  I'm going to head out now, thanks!", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "effect_type",
+    "id": "dana_baking_sold"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Dana_Situation",
+    "dynamic_line": "Things are tense at the best of times.  We didn't choose this crowd, so not all of us really get along.  I like Jenny and Fatima, and the three of us are kind of lucky to have friends here, but that doesn't make up for us being a bunch of unfamiliar faces crammed into a tiny space.  Someone's gonna murder someone soon, mark my words."
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Dana_Tacoma",
+    "dynamic_line": "Huh.  I've made a few friends here, but not so much as I'd stick around here with no future prospects, hoping someone downstairs dies to make room for me.  It does sound nice, if they're looking for more workers.",
+    "responses": [
+      { "text": "I'll look into that.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'll look into that.  I'd better get going though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Dana_Recruit",
+    "dynamic_line": "Pablo's a little quicker on the trigger than I am.  We're trying to have a baby, did you know that?  It's a bit crazy in this world, but I won't change those plans.  Tell you what: if your camp has access to a doctor and some medical facilities, in case I actually can get pregnant again, I would consider getting out of here and signing up.",
+    "responses": [
+      { "text": "I'll look into that.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'll look into that.  I'd better get going though.", "topic": "TALK_DONE" }
+    ]
   }
 ]
