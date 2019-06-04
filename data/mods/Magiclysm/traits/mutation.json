@@ -5,6 +5,7 @@
     "name": "Lesser Mana Efficiency",
     "points": 1,
     "description": "You are able to store a little more mana in your body than usual.",
+    "cancels": [ "MANA_SUB1", "MANA_SUB2", "MANA_SUB3" ],
     "starting_trait": true,
     "mana_modifier": 500
   },
@@ -14,6 +15,7 @@
     "name": "Mana Efficiency",
     "points": 2,
     "description": "You are able to store more mana in your body than usual.",
+    "cancels": [ "MANA_SUB1", "MANA_SUB2", "MANA_SUB3" ],
     "starting_trait": true,
     "prereqs": [ "MANA_ADD1" ],
     "mana_modifier": 1000
@@ -24,6 +26,7 @@
     "name": "Greater Mana Efficiency",
     "points": 4,
     "description": "You are able to store a lot more mana in your body than usual.",
+    "cancels": [ "MANA_SUB1", "MANA_SUB2", "MANA_SUB3" ],
     "starting_trait": true,
     "prereqs": [ "MANA_ADD2" ],
     "mana_modifier": 2000
@@ -34,6 +37,7 @@
     "name": "Lesser Mana Inefficiency",
     "points": -1,
     "description": "You are able to store a little less mana in your body than usual.",
+    "cancels": [ "MANA_ADD1", "MANA_ADD2", "MANA_ADD3" ],
     "mana_modifier": 500
   },
   {
@@ -42,7 +46,8 @@
     "name": "Mana Inefficiency",
     "points": -2,
     "description": "You are able to store less mana in your body than usual.",
-    "prereqs": [ "MANA_ADD1" ],
+    "cancels": [ "MANA_ADD1", "MANA_ADD2", "MANA_ADD3" ],
+    "prereqs": [ "MANA_SUB1" ],
     "mana_modifier": 1000
   },
   {
@@ -51,7 +56,8 @@
     "name": "Greater Mana Inefficiency",
     "points": -3,
     "description": "You are able to store a lot less mana in your body than usual.",
-    "prereqs": [ "MANA_ADD2" ],
+    "cancels": [ "MANA_ADD1", "MANA_ADD2", "MANA_ADD3" ],
+    "prereqs": [ "MANA_SUB2" ],
     "mana_modifier": 2000
   },
   {
