@@ -779,7 +779,7 @@ static void move_items( player &p, const tripoint &src, bool from_vehicle,
         }
 
         // Check that we can pick it up.
-        if( !temp_item->made_of_from_type( LIQUID ) && !temp_item->has_flag( "MARKER" ) ) {
+        if( !temp_item->made_of_from_type( LIQUID ) && temp_item->typeId() != "partial_construction" ) {
             // This is for hauling across zlevels, remove when going up and down stairs
             // is no longer teleportation
             int distance = src.z == dest.z ? std::max( rl_dist( src, dest ), 1 ) : 1;

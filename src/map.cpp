@@ -2985,7 +2985,7 @@ void map::smash_items( const tripoint &p, const int power )
                 }
             }
             // Unfnished construction spilling its contents if destroyed.
-            if( i->has_flag( "MARKER" ) ) {
+            if( i->typeId() == "partial_construction" ) {
                 remove_trap( p );
                 std::vector<tripoint> spaces;
                 for( const auto potential_pt : points_in_radius( p, 4 ) ) {

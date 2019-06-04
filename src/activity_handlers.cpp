@@ -2734,7 +2734,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     item *con_item = act->targets.front().get_item();
     // this shouldn't happen, unfinished crafts should not dissappear during activity
     if( !con_item ) {
-        add_msg( m_bad, "The marker item is no longer there, cancelling construction," );
+        add_msg( m_debug, "The marker item is no longer there, cancelling construction," );
         p->cancel_activity();
         return;
     }
@@ -2768,7 +2768,6 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
 
     // if construction_progress has reached 100% or more
     if( con_item->get_var( "construction_progress", 0 ) >= 10000000 ) {
-        act->targets.front().remove_item();
         complete_construction();
     }
 }

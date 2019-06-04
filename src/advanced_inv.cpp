@@ -2177,7 +2177,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
         redraw = true;
         return false;
     }
-    if( it.has_flag( "MARKER" ) ) {
+    if( it.typeId() == "partial_construction" ) {
         popup( _( "You can't pick up an unfinished constrution" ) );
         redraw = true;
         return false;

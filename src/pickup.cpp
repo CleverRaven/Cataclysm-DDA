@@ -187,7 +187,7 @@ bool pick_one_up( const tripoint &pickup_target, item &newit, vehicle *veh,
             return false;
         }
     }
-    if( newit.has_flag( "MARKER" ) ) {
+    if( newit.typeId() == "partial_construction" ) {
         popup( _( "You can't pick up an unfinished constrution" ) );
         return false;
     }

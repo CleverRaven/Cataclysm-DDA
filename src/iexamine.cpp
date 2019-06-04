@@ -3132,7 +3132,7 @@ void iexamine::trap( player &p, const tripoint &examp )
         auto items_at = g->m.i_at( examp );
         bool found_marker = false;
         for( auto &elem : items_at ) {
-            if( elem.has_flag( "MARKER" ) ) {
+            if( elem.typeId() == "partial_construction" ) {
                 found_marker = true;
                 item *marker_item = &elem;
                 std::vector<construction> list_constructions = get_constructions();
