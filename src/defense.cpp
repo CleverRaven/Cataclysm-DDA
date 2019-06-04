@@ -49,6 +49,7 @@ std::vector<itype_id> caravan_items( caravan_category cat );
 std::set<m_flag> monflags_to_add;
 
 int caravan_price( player &u, int price );
+int caravan_tech_level = 0;
 
 void draw_caravan_borders( const catacurses::window &w, int current_window );
 void draw_caravan_categories( const catacurses::window &w, int category_selected,
@@ -128,6 +129,7 @@ void defense_game::per_turn()
         if( current_wave > 1 && current_wave % waves_between_caravans == 0 ) {
             popup( _( "A caravan approaches!  Press spacebar..." ) );
             caravan();
+            caravan_tech_level++;
         }
         spawn_wave();
     }
@@ -1149,8 +1151,6 @@ std::string caravan_category_name( caravan_category cat )
             return _( "Shopping Cart" );
         case CARAVAN_MELEE:
             return _( "Melee Weapons" );
-        case CARAVAN_ARCHAIC:
-            return _( "Archaic Weapons" );
         case CARAVAN_RANGED:
             return _( "Ranged Weapons" );
         case CARAVAN_AMMUNITION:
@@ -1182,9 +1182,42 @@ std::vector<itype_id> caravan_items( caravan_category cat )
             return ret;
 
         case CARAVAN_MELEE:
-            item_list = item_group::items_from( "defense_caravan_melee" );
+            if( ( caravan_tech_level == 1 ) ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_1" );
+                break;
+            } else if( ( caravan_tech_level == 2 ) ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_2" );
+                break;
+            } else if( ( caravan_tech_level == 3 ) ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_3" );
+                break;
+            } else if( ( caravan_tech_level == 4 ) ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_4" );
+                break;
+            } else if( ( caravan_tech_level == 5 ) ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_5" );
+                break;
+            } else if( ( caravan_tech_level == 6 ) ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_6" );
+                break;
+            } else if( ( caravan_tech_level == 7 ) ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_7" );
+                break;
+            } else if( ( caravan_tech_level == 8 ) ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_8" );
+                break;
+            } else if( ( caravan_tech_level == 9 ) ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_9" );
+                break;
+            } else if( ( caravan_tech_level == 10 ) ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_10" );
+                break;
+            } else if( ( caravan_tech_level >= 10 ) ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_max" );
+                break;
+            }
             break;
-  
+
         case CARAVAN_RANGED:
             item_list = item_group::items_from( "defense_caravan_ranged" );
             break;
