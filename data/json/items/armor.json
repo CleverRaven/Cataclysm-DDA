@@ -1800,7 +1800,7 @@
     "id": "chestguard_hard",
     "type": "ARMOR",
     "category": "armor",
-    "name": "Hard chest guard",
+    "name": "hard chest guard",
     "description": "A plastron of interlocking plastic plate protecting your torso.",
     "weight": 1000,
     "volume": 28,
