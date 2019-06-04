@@ -767,7 +767,7 @@
       "advice": "Those are very precious, people would probably keep them on their person or in bank vaults.  And definitely not throw them in the trash!",
       "inquire": "How is it going?  Do you have them?",
       "success": "YES!  I knew you could do it!  You proved your worth and I'm proud to call you a friend.",
-      "success_lie": "Well... where are they?",
+      "success_lie": "Well...  where are they?",
       "failure": "I'm so disappointed in you kid..."
     }
   }
