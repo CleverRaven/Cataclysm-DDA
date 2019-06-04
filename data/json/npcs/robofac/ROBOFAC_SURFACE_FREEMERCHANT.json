@@ -1,0 +1,111 @@
+[
+  {
+    "type": "npc",
+    "id": "roabofac_free_merchant",
+    "//": "A free merchant caravanner that temporarily supplies the hq with foodstuff.",
+    "name_suffix": "Free Merchant",
+    "class": "NC_EVAC_SHOPKEEP",
+    "attitude": 0,
+    "mission": 3,
+    "chat": "TALK_ROBOFAC_FREE_MERCHANT",
+    "faction": "free_merchants"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ROBOFAC_FREE_MERCHANT",
+    "name": "Merchant",
+    "job_description": "I'm the owner of a trade caravan.",
+    "traits": [ { "group": "NPC_starting_traits" }, { "group": "Appearance_demographics" } ],
+    "//": "This is a unique NPC who doesn't get randomly selected background traits",
+    "common": false,
+    "bonus_int": { "one_in": 4 },
+    "bonus_per": { "one_in": 4 },
+    "shopkeeper_item_group": "NC_ROBOFAC_FREE_MERCHANT_misc",
+    "skills": [
+      {
+        "skill": "ALL",
+        "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -2 }, { "one_in": 4 } ] } ] }
+      },
+      { "skill": "mechanics", "bonus": { "one_in": 2 } },
+      { "skill": "computer", "bonus": { "one_in": 2 } },
+      { "skill": "electronics", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "speech", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "barter", "bonus": { "rng": [ 3, 5 ] } }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_FREE_MERCHANT_storage",
+    "items": [ [ "duffelbag", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_ROBOFAC_FREE_MERCHANT_coat",
+    "items": [ [ "trenchcoat", 80 ], [ "vest", 60 ] ]
+  },
+  {
+    "type": "item_group",
+    "sub-type": "collection",
+    "id": "NC_ROBOFAC_FREE_MERCHANT_misc",
+    "entries": [
+      { "item": "FMCNote", "count-min": 50, "count-max": 300, "prob": 100 },
+      { "group": "produce", "count-min": 10, "count-max": 20, "prob": 100 },
+      { "group": "bunker_basement_food", "count-min": 5, "count-max": 10, "prob": 100 },
+      { "item": "jerky", "count-min": 10, "count-max": 25, "prob": 100 },
+      { "item": "FMCNote", "count-min": 50, "count-max": 300, "prob": 100 },
+      [ "trenchcoat", 25 ],
+      [ "trenchcoat_leather", 20 ],
+      [ "trenchcoat_fur", 10 ],
+      [ "jacket_leather", 25 ],
+      [ "jacket_jean", 15 ],
+      [ "jacket_flannel", 15 ],
+      [ "pants_cargo", 40 ],
+      [ "shorts_cargo", 25 ],
+      [ "pants_leather", 15 ],
+      [ "gloves_fingerless", 30 ],
+      [ "gloves_fur", 5 ],
+      [ "gloves_leather", 35 ],
+      [ "boots", 20 ],
+      [ "boots_hiking", 30 ],
+      [ "hood_rain", 15 ],
+      [ "runner_bag", 20 ],
+      [ "sunglasses", 15 ],
+      [ "goggles_ski", 5 ],
+      [ "wristwatch", 30 ],
+      [ "bandana", 20 ],
+      [ "scarf", 15 ],
+      [ "fungicide", 20 ],
+      [ "antifungal", 20 ],
+      [ "antiparasitic", 20 ],
+      [ "grapnel", 5 ]
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_FREE_MERCHANT",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": [
+        "Still plenty of outlaws in the roads, perhaps you should tend to your job, marshal...",
+        "You see anything you want, marshal?",
+        "Oh, a U.S. marshal, how quaint."
+      ],
+      "no": [ "Welcome...", "Here to trade, I hope?", "Safe travels, scavenger." ]
+    },
+    "responses": [
+      { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_ROBOFAC_FREE_MERCHANT" },
+      { "text": "What are you doing here?", "topic": "TALK_ROBOFAC_FREE_MERCHANT_DOING" },
+      { "text": "Well, bye.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "TALK_ROBOFAC_FREE_MERCHANT_DOING",
+    "type": "talk_topic",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": "I keep to my own business, and you keep to yours, marshal.  Seems like a fair deal?",
+      "no": "We have been supplying this lab here with food from a few hunting and farming communities nearby.  The roads are though and dangerous, but it makes good money, and beats scavenging the cities for scraps."
+    },
+    "responses": [ { "text": "Keep safe, then.", "topic": "TALK_ROBOFAC_FREE_MERCHANT" } ]
+  }
+]

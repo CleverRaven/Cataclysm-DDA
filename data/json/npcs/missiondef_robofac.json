@@ -76,6 +76,15 @@
       "update_mapgen": { "place_nested": [ { "chunks": [ "robofac_mi2_convoy_ambush_chunk" ], "x": 0, "y": 0 } ] },
       "effect": [ { "u_buy_item": "mind_splicer" }, { "u_buy_item": "data_card" } ]
     },
+    "end": {
+      "update_mapgen": [
+        {
+          "om_terrain": "robofachq_surface_b0",
+          "om_special": "hub_01",
+          "place_nested": [ { "chunks": [ "robofac_hq_surface_freemerchant_camp" ], "x": 4, "y": 0 } ]
+        }
+      ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "...",
