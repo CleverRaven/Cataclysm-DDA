@@ -839,7 +839,8 @@ void place_construction( const std::string &desc )
         g->u.consume_tools( it );
     }
     // Make the partial construction item
-    item partial_construction = item( used );
+    item partial_construction( "partial_construction", calendar::turn );
+    partial_construction.components = used;
     // Add it to the world ( add_item will force placement on impassable furniture )
     item &added_item = g->m.add_item( pnt, partial_construction );
     // Add the vars

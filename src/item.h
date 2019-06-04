@@ -183,8 +183,6 @@ class item : public visitable<item>
 
         /** For constructing in-progress crafts */
         item( const recipe *rec, int qty, std::list<item> items );
-        /** For in-progress construction marker */
-        item( std::list<item> items );
         /**
          * Filter converting this instance to another type preserving all other aspects
          * @param new_type the type id to convert to
