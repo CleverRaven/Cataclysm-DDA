@@ -844,7 +844,6 @@ void place_construction( const std::string &desc )
     // Add it to the world ( add_item will force placement on impassable furniture )
     item &added_item = g->m.add_item( pnt, partial_construction );
     // Add the vars
-    added_item.set_var( "construction_time", con.time );
     added_item.item_counter = 0;
     added_item.set_var( "index", static_cast<int>( con.id ) );
     std::string con_desc = string_format( _( "Unfinished task: %s, 0% complete" ), con.description );
