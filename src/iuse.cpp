@@ -6855,7 +6855,6 @@ int iuse::foodperson( player *, item *it, bool t, const tripoint &pos )
 
             add_msg( m_info, _( "Your HUD lights-up: \"Your shift ends in %s\"." ), to_string( shift ) );
         }
-
     }
 
     return it->type->charges_to_use();
