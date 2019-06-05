@@ -162,7 +162,7 @@
   },
   {
     "type": "mutation",
-    "id": "BAD_MANA_MULTI1",
+    "id": "BAD_MANA_MULT1",
     "name": "Poor Mana Sensitivity",
     "points": -1,
     "description": "You have a hard time sensing the mana in your body, making less of your reserves available for use.",
@@ -173,7 +173,7 @@
   },
   {
     "type": "mutation",
-    "id": "BAD_MANA_MULTI2",
+    "id": "BAD_MANA_MULT2",
     "name": "Very Poor Mana Sensitivity",
     "points": -3,
     "description": "You have a hard time sensing the mana in your body, making less of your reserves available for use.",
@@ -184,7 +184,7 @@
   },
   {
     "type": "mutation",
-    "id": "BAD_MANA_MULTI3",
+    "id": "BAD_MANA_MULT3",
     "name": "Abysmal Mana Sensitivity",
     "points": -6,
     "description": "You have a hard time sensing the mana in your body, making less of your reserves available for use.",
