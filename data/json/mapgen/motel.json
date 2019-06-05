@@ -166,7 +166,7 @@
         "0": "t_sidewalk",
         "2": "t_window_domestic",
         "3": "t_door_locked",
-		"4": "t_gutter_downspout",
+        "4": "t_gutter_downspout",
         "6": "t_floor",
         "7": "t_floor",
         "8": "t_floor",
@@ -197,7 +197,7 @@
         "x": "t_fencegate_c",
         "|": "t_wall_w",
         "~": "t_fence_h",
-		"<": "t_ladder_up"
+        "<": "t_ladder_up"
       },
       "furniture": {
         "0": "f_dive_block",
@@ -288,7 +288,7 @@
         ".": "t_grass",
         "2": "t_window_domestic",
         "3": "t_door_locked",
-		"4": "t_gutter_downspout",
+        "4": "t_gutter_downspout",
         "6": "t_floor",
         "7": "t_floor",
         "8": "t_floor",
@@ -413,7 +413,7 @@
         ".": "t_grass",
         "2": "t_window_domestic",
         "3": "t_door_locked",
-		"4": "t_gutter_downspout",
+        "4": "t_gutter_downspout",
         "6": "t_floor",
         "7": "t_floor",
         "8": "t_floor",
@@ -517,7 +517,7 @@
     "om_terrain": [ "motel_entrance_roof" ],
     "weight": 1000,
     "object": {
-	  "fill_ter": "t_open_air",
+      "fill_ter": "t_open_air",
       "rows": [
         "                        ",
         "                        ",
@@ -545,7 +545,7 @@
         "                        "
       ],
       "palettes": [ "roof_palette" ]
-	}
+    }
   },
   {
     "type": "mapgen",
@@ -553,7 +553,7 @@
     "om_terrain": [ "motel_1_roof" ],
     "weight": 1000,
     "object": {
-	  "fill_ter": "t_open_air",
+      "fill_ter": "t_open_air",
       "rows": [
         "                        ",
         "                        ",
@@ -580,11 +580,9 @@
         " |.........3            ",
         " |.........3            "
       ],
-	  "palettes": [ "roof_palette" ],
-	  "terrain": {
-		">": "t_ladder_down"
-	  },
-	  "place_nested": [
+      "palettes": [ "roof_palette" ],
+      "terrain": { ">": "t_ladder_down" },
+      "place_nested": [
         {
           "chunks": [
             [ "null", 20 ],
@@ -592,12 +590,12 @@
             [ "roof_2x2_utilities_c", 5 ],
             [ "roof_2x2_utilities_d", 40 ],
             [ "roof_4x4_party", 5 ],
-			[ "roof_4x4_holdout", 5 ]
+            [ "roof_4x4_holdout", 5 ]
           ],
           "x": [ 3, 8 ],
           "y": [ 17, 20 ]
         }
-	  ]
+      ]
     }
   },
   {
@@ -606,7 +604,7 @@
     "om_terrain": [ "motel_2_roof" ],
     "weight": 1000,
     "object": {
-	  "fill_ter": "t_open_air",
+      "fill_ter": "t_open_air",
       "rows": [
         " |.........3            ",
         " |.........3            ",
@@ -633,8 +631,8 @@
         "           -------------",
         "                        "
       ],
-	  "palettes": [ "roof_palette" ],
-	  "place_nested": [
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
         {
           "chunks": [
             [ "null", 20 ],
@@ -642,24 +640,24 @@
             [ "roof_2x2_utilities_c", 5 ],
             [ "roof_2x2_utilities_d", 40 ],
             [ "roof_4x4_party", 5 ],
-			[ "roof_4x4_holdout", 5 ]
+            [ "roof_4x4_holdout", 5 ]
           ],
           "x": [ 3, 8 ],
           "y": [ 0, 12 ]
         },
-		{
+        {
           "chunks": [
             [ "null", 20 ],
             [ "roof_2x2_utilities_b", 15 ],
             [ "roof_2x2_utilities_c", 5 ],
             [ "roof_2x2_utilities_d", 40 ],
             [ "roof_4x4_party", 5 ],
-			[ "roof_4x4_holdout", 5 ]
+            [ "roof_4x4_holdout", 5 ]
           ],
           "x": [ 14, 20 ],
           "y": [ 14, 18 ]
         }
-	  ]
+      ]
     }
   },
   {
@@ -668,7 +666,7 @@
     "om_terrain": [ "motel_3_roof" ],
     "weight": 1000,
     "object": {
-	  "fill_ter": "t_open_air",
+      "fill_ter": "t_open_air",
       "rows": [
         "                        ",
         "                        ",
@@ -695,8 +693,8 @@
         "----------------------53",
         "                        "
       ],
-	  "palettes": [ "roof_palette" ],
-	  "place_nested": [
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
         {
           "chunks": [
             [ "null", 20 ],
@@ -704,12 +702,12 @@
             [ "roof_2x2_utilities_c", 5 ],
             [ "roof_2x2_utilities_d", 40 ],
             [ "roof_4x4_party", 5 ],
-			[ "roof_4x4_holdout", 5 ]
+            [ "roof_4x4_holdout", 5 ]
           ],
           "x": [ 4, 20 ],
           "y": [ 14, 18 ]
         }
-	  ]
+      ]
     }
   },
   {
