@@ -1079,6 +1079,14 @@ void construct::done_deconstruct( const tripoint &p )
             add_msg( _( "That %s can not be disassembled!" ), t.name() );
             return;
         }
+        if( t.deconstruct.deconstruct_above ) {
+            const tripoint top = p + tripoint( 0, 0, 1 );
+            if ( g->m.has_furn( top ) ) {
+                add_msg( _( "That %s can not be dissasembled, since there is furniture above it" ), t.name() );
+                return;
+            }
+            done_deconstruct( p + tripoint( 0, 0, 1 ) );     
+        }
         if( t.id == "t_console_broken" )  {
             if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
                 g->u.practice( skill_electronics, 20, 4 );
