@@ -205,7 +205,7 @@ script:
 
 before_cache:
   - echo "${TRAVIS_PULL_REQUEST}"
-  - if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then rm -rf /home/travis/.ccache; fi
+  - if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then find /home/travis/.ccache -not \( -name .ccache -o -name ccache.conf \) -delete; fi
 
 after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi
