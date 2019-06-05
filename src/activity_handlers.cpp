@@ -2759,7 +2759,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     pc->counter = round( current_progress / base_total_moves * 10000000.0 );
     p->set_moves( 0 );
 
-    pc->counter = std::min( static_cast<int>( pc->counter ), 10000000 );
+    pc->counter = std::min( pc->counter, 10000000 );
 
     // if construction_progress has reached 100% or more
     if( pc->counter >= 10000000 ) {
