@@ -190,14 +190,6 @@
   },
   {
     "type": "mutation",
-    "id": "RADIOGENIC",
-    "name": "Radiogenic",
-    "points": 3,
-    "description": "Your system has adapted to radiation.  While irradiated, you will actually heal slowly, converting the radiation into hit points.",
-    "category": [ "SLIME", "MEDICAL", "VAMP" ]
-  },
-  {
-    "type": "mutation",
     "id": "INFRESIST",
     "name": "Infection Resistant",
     "points": 2,
@@ -274,19 +266,6 @@
   },
   {
     "type": "mutation",
-    "id": "TOUGH2",
-    "name": "Durable",
-    "points": 3,
-    "description": "You can shrug off almost anything!  You get a 30% bonus to all hit points.",
-    "valid": false,
-    "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
-    "prereqs": [ "TOUGH" ],
-    "changes_to": [ "TOUGH3" ],
-    "social_modifiers": { "intimidate": 3 },
-    "hp_modifier": 0.3
-  },
-  {
-    "type": "mutation",
     "id": "SLEEPY",
     "name": "Sleepy",
     "points": -1,
@@ -305,20 +284,9 @@
     "points": 2,
     "description": "You are capable of carrying far more than someone with similar strength could.  Your maximum weight carried is increased by 35%.",
     "starting_trait": true,
-    "category": [ "VAMP" ],
     "valid": false,
-    "cancels": [ "BADBACK" ]
-  },
-  {
-    "type": "mutation",
-    "id": "FASTLEARNER",
-    "name": "Fast Learner",
-    "points": 3,
-    "description": "You have a flexible mind, allowing you to learn skills much faster than others.  Note that this only applies to real-world experience, not to skill gain from other sources like books.",
-    "starting_trait": true,
-    "category": [ "VAMP" ],
-    "valid": false,
-    "cancels": [ "SLOWLEARNER" ]
+    "cancels": [ "BADBACK" ],
+    "weight_capacity_modifier": 1.35
   },
   {
     "type": "mutation",
@@ -441,19 +409,6 @@
   },
   {
     "type": "mutation",
-    "id": "PSYCHOPATH",
-    "name": "Psychopath",
-    "points": 2,
-    "description": "You don't experience guilt like others do.  Even when you know your actions are wrong, you just don't care.",
-    "category": [ "VAMP" ],
-    "starting_trait": true,
-    "valid": false,
-    "social_modifiers": { "intimidate": 5 },
-    "cancels": [ "PACIFIST" ],
-    "flags": [ "CANNIBAL" ]
-  },
-  {
-    "type": "mutation",
     "id": "WEAKSCENT",
     "name": "Weak Scent",
     "points": 1,
@@ -484,20 +439,6 @@
     "starting_trait": true,
     "category": [ "ALPHA", "ELFA", "VAMP" ],
     "fatigue_modifier": -0.15
-  },
-  {
-    "type": "mutation",
-    "id": "WAKEFUL2",
-    "name": "Very Little Sleep",
-    "points": 3,
-    "description": "You don't sleep often.  But when you do, you need very little of it.",
-    "valid": false,
-    "types": [ "SLEEP" ],
-    "prereqs": [ "WAKEFUL" ],
-    "changes_to": [ "WAKEFUL3" ],
-    "threshreq": [ "THRESH_ALPHA", "THRESH_ELFA", "THRESH_VAMP" ],
-    "category": [ "ALPHA", "ELFA", "VAMP" ],
-    "fatigue_modifier": -0.25
   },
   {
     "type": "mutation",
@@ -536,18 +477,6 @@
     "cancels": [ "UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3" ],
     "prereqs": [ "BEAUTIFUL" ],
     "changes_to": [ "BEAUTIFUL3" ]
-  },
-  {
-    "type": "mutation",
-    "id": "BEAUTIFUL3",
-    "name": "Glorious",
-    "points": 4,
-    "visibility": -10,
-    "ugliness": -10,
-    "description": "You are incredibly beautiful.  People cannot help themselves for your charms, and will do whatever they can to please you.",
-    "cancels": [ "UGLY", "DEFORMED", "DEFORMED2", "DEFORMED3" ],
-    "prereqs": [ "BEAUTIFUL2" ],
-    "category": [ "ELFA", "VAMP" ]
   },
   {
     "type": "mutation",
@@ -591,16 +520,6 @@
     "changes_to": [ "HEAVYSLEEPER2" ],
     "starting_trait": true,
     "category": [ "INSECT", "PLANT", "MEDICAL", "LUPINE", "VAMP" ]
-  },
-  {
-    "type": "mutation",
-    "id": "HEAVYSLEEPER2",
-    "name": "Very Heavy Sleeper",
-    "points": -2,
-    "description": "You could probably sleep through a firefight.",
-    "valid": false,
-    "prereqs": [ "HEAVYSLEEPER" ],
-    "category": [ "BEAST", "LUPINE", "VAMP" ]
   },
   {
     "type": "mutation",
@@ -671,7 +590,7 @@
     "leads_to": [ "ELFA_NV" ],
     "valid": false,
     "cancels": [ "BIRD_EYE", "LIZ_EYE", "FEL_EYE", "URSINE_EYE", "COMPOUND_EYES" ],
-    "category": [ "ELFA", "VAMP" ],
+    "category": [ "ELFA", "WENDIGO" ],
     "social_modifiers": { "lie": 5, "persuade": 5, "intimidate": -5 }
   },
   {
@@ -699,18 +618,6 @@
     "category": [ "PLANT", "VAMP" ],
     "healing_awake": 0.66,
     "healing_resting": 0.5
-  },
-  {
-    "type": "mutation",
-    "id": "REGEN",
-    "name": "Regeneration",
-    "points": 6,
-    "description": "Your flesh regenerates from wounds incredibly quickly.",
-    "types": [ "HEALING" ],
-    "prereqs": [ "FASTHEALER2" ],
-    "category": [ "SLIME", "TROGLOBITE", "VAMP" ],
-    "healing_awake": 2.0,
-    "healing_resting": 1.5
   },
   {
     "type": "mutation",
@@ -765,7 +672,23 @@
     "points": 2,
     "description": "Your bones are very light.  This enables you to move and attack 10% faster, but also reduces your carrying weight by 20% and makes bashing attacks hurt a little more.",
     "category": [ "MOUSE", "VAMP" ],
-    "changes_to": [ "HOLLOW_BONES" ]
+    "changes_to": [ "HOLLOW_BONES" ],
+    "movecost_modifier": 0.9,
+    "attackcost_modifier": 0.9,
+    "weight_capacity_modifier": 0.8
+  },
+    {
+    "type": "mutation",
+    "id": "HOLLOW_BONES",
+    "name": "Hollow Bones",
+    "points": 1,
+    "mixed_effect": true,
+    "description": "You have Avian Bone Syndrome--your bones are nearly hollow.  Your body is very light as a result, enabling you to move and attack 20% faster, but also frail; you can carry 40% less, and bashing attacks injure you more.",
+    "prereqs": [ "LIGHT_BONES" ],
+    "category": [ "BIRD", "SLIME", "ELFA", "VAMP" ],
+    "movecost_modifier": 0.8,
+    "attackcost_modifier": 0.8,
+    "weight_capacity_modifier": 0.6
   },
   {
     "type": "mutation",
@@ -844,39 +767,6 @@
     "description": "You recover from pain slightly faster than normal.",
     "changes_to": [ "PAINREC2" ],
     "category": [ "VAMP" ]
-  },
-  {
-    "type": "mutation",
-    "id": "PAINREC2",
-    "name": "Quick Pain Recovery",
-    "points": 5,
-    "description": "You recover from pain faster than normal.",
-    "prereqs": [ "PAINREC1" ],
-    "changes_to": [ "PAINREC3" ]
-  },
-  {
-    "type": "mutation",
-    "id": "PAINREC3",
-    "name": "Very Quick Pain Recovery",
-    "points": 8,
-    "description": "You recover from pain much faster than normal.",
-    "prereqs": [ "PAINREC2" ],
-    "category": [ "MEDICAL" ]
-  },
-  {
-    "type": "mutation",
-    "id": "NOPAIN",
-    "name": "Deadened",
-    "points": 2,
-    "description": "Nothing hurts any more.  Those bites tickle and the wounds itch a bit, but that's it.",
-    "valid": false,
-    "purifiable": false,
-    "prereqs": [ "MASOCHIST", "PAINRESIST" ],
-    "prereqs2": [ "PAINREC3" ],
-    "cancels": [ "MORE_PAIN", "MORE_PAIN2", "MORE_PAIN3" ],
-    "threshreq": [ "THRESH_MEDICAL", "THRESH_VAMP" ],
-    "//": "MASOCHIST_MED, CENOBITE, and NOPAIN don't cancel each other.  By design.  Poor painless people...",
-    "category": [ "MEDICAL", "VAMP" ]
   },
   {
     "type": "mutation",
