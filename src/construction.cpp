@@ -46,7 +46,6 @@
 #include "item.h"
 #include "player_activity.h"
 #include "pldata.h"
-#include "submap.h"
 #include "morale_types.h"
 
 class inventory;
@@ -847,7 +846,6 @@ void place_construction( const std::string &desc )
     }
 
     g->u.assign_activity( activity_id( "ACT_BUILD" ) );
-    g->u.activity.index = pc.id;
     g->u.activity.placement = pnt;
 }
 

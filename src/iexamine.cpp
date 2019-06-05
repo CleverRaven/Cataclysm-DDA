@@ -58,7 +58,6 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
-#include "submap.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
@@ -3134,7 +3133,7 @@ void iexamine::trap( player &p, const tripoint &examp )
     if( tr.loadid == tr_unfinished_construction ) {
         partial_con *pc = g->m.partial_con_at( examp );
         if( pc ) {
-            std::vector<construction> list_constructions = get_constructions();
+            const std::vector<construction> &list_constructions = get_constructions();
             const construction &built = list_constructions[pc->id];
             if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
                            built.description, pc->counter / 100000 ) ) {
@@ -3149,7 +3148,7 @@ void iexamine::trap( player &p, const tripoint &examp )
                     return;
                 }
             } else {
-                g->u.assign_activity( activity_id( "ACT_BUILD" ), built.time, built.id );
+                g->u.assign_activity( activity_id( "ACT_BUILD" ) );
                 g->u.activity.placement = examp;
                 return;
             }
