@@ -5213,7 +5213,6 @@ partial_con *map::partial_con_at( const tripoint &p )
     }
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    tripoint p_shifted( l.x, l.y, p.z );
     auto it = current_submap->partial_constructions.find( p_shifted );
     if( it != current_submap->partial_constructions.end() ) {
         return &it->second;
