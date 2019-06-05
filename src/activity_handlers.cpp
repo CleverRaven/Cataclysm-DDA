@@ -2759,7 +2759,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
 
     pc->counter = std::min( pc->counter, 10000000 );
 
-    // if construction_progress has reached 100% or more
+    // If construction_progress has reached 100% or more
     if( pc->counter >= 10000000 ) {
         // Activity is cancelled in complete_construction()
         complete_construction();
