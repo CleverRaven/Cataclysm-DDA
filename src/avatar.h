@@ -97,6 +97,8 @@ class avatar : public player
         // Grab furniture / vehicle
         void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
         object_type get_grab_type() const;
+        /** Handles player vomiting effects */
+        void vomit();
     private:
         map_memory player_map_memory;
         bool show_map_memory;

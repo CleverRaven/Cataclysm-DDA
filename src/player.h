@@ -709,8 +709,6 @@ class player : public Character
 
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
-        /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
-        tripoint adjacent_tile() const;
 
         /**
          * Checks both the neighborhoods of from and to for climbable surfaces,
@@ -819,8 +817,6 @@ class player : public Character
         bool irradiate( float rads, bool bypass = false );
         /** Handles the chance for broken limbs to spontaneously heal to 1 HP */
         void mend( int rate_multiplier );
-        /** Handles player vomiting effects */
-        void vomit();
 
         /** Creates an auditory hallucination */
         void sound_hallu();
