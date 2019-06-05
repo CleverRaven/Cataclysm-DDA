@@ -82,6 +82,11 @@
         "topic": "TALK_REFUGEE_Dana_Tacoma",
         "condition": { "u_has_var": "Pablo_ask_recruit", "type": "recruit", "context": "general", "value": "yes" }
       },
+      {
+        "text": "Got any more bread I can trade flour for?",
+        "topic": "TALK_REFUGEE_Dana_Background_baking",
+        "condition": { "npc_has_var": "Dana_Bread_Sales", "type": "knowledge", "context": "trade", "value": "yes" }
+      },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.  Bye, Dana.", "topic": "TALK_DONE" }
     ]
@@ -140,7 +145,14 @@
     "id": "TALK_REFUGEE_Dana_Background_baking",
     "dynamic_line": {
       "npc_has_effect": "dana_baking_sold",
-      "no": "I do a bit.  I got a sourdough starter going almost as soon as I arrived, and it's making passable bread already.  I cooked some up yesterday actually, I could probably trade a loaf of fresh bread for, say, about eight cups of flour.",
+      "no": {
+        "npc_has_var": "Dana_Bread_Sales",
+        "type": "knowledge",
+        "context": "trade",
+        "value": "yes",
+        "yes": "I sure do, if you've got eight cups of flour for me, I'd be happy to trade you another loaf.",
+        "no": "I do a bit.  I got a sourdough starter going almost as soon as I arrived, and it's making passable bread already.  I cooked some up yesterday actually, I could probably trade a loaf of fresh bread for, say, about eight cups of flour."
+      },
       "yes": "Not since I last saw you, sorry.  Come by in another day or two and I'll try to keep a loaf set aside for you, but they disappear fast."
     },
     "responses": [
@@ -157,12 +169,34 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Dana_Background_baking2",
-    "dynamic_line": "Great, here's a loaf of my locally-famous, not-very-mature sourdough.  It's not too bad honestly.  Everyone here seems to like it.",
-    "speaker_effect": { "effect": { "npc_add_effect": "dana_baking_sold", "duration": 30000 } },
-    "responses": [
-      { "text": "Thanks, can we talk about something else?", "topic": "TALK_REFUGEE_Dana_2" },
-      { "text": "It smells awesome.  I'm going to head out now, thanks!", "topic": "TALK_DONE" }
-    ]
+    "dynamic_line": {
+      "u_has_var": "Dana_Sourdough",
+      "type": "mission",
+      "context": "flag",
+      "value": "yes",
+      "yes": [
+        "Great, here's a loaf of the best damn sourdough bread in the world.  I used to make that claim as a joke, but I feel like now there's a fighting chance nobody else can beat me.",
+        "Excellent.  Enjoy the mighty bounty of Landough Calrisean.",
+        "Here you go, from the family recipe.  Which is basically just flour, salt, and water.  It's not that special except for the starter.",
+        "Hope you enjoy it as much as I do, this is the best damn bread in the world now."
+      ],
+      "no": "Great, here's a loaf of my locally-famous, not-very-mature sourdough.  It's not too bad honestly.  Everyone here seems to like it.",
+      "speaker_effect": {
+        "effect": [
+          { "npc_add_effect": "dana_baking_sold", "duration": 30000 },
+          { "npc_add_var": "Dana_Bread_Sales", "type": "knowledge", "context": "trade", "value": "yes" }
+        ]
+      },
+      "responses": [
+        {
+          "text": "You seem pretty unhappy about the quality of your bread.  Is there something I can do to help?",
+          "topic": "TALK_MISSION_LIST",
+          "condition": { "not": { "u_has_var": "Dana_Sourdough", "type": "mission", "context": "flag", "value": "yes" } }
+        },
+        { "text": "Thanks, can we talk about something else?", "topic": "TALK_REFUGEE_Dana_2" },
+        { "text": "It smells awesome.  I'm going to head out now, thanks!", "topic": "TALK_DONE" }
+      ]
+    }
   },
   {
     "type": "effect_type",
@@ -176,11 +210,21 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Dana_Tacoma",
-    "dynamic_line": "Huh.  I've made a few friends here, but not so much as I'd stick around here with no future prospects, hoping someone downstairs dies to make room for me.  It does sound nice, if they're looking for more workers.",
-    "responses": [
-      { "text": "I'll look into that.  What were you saying before?", "topic": "TALK_NONE" },
-      { "text": "I'll look into that.  I'd better get going though.", "topic": "TALK_DONE" }
-    ]
+    "dynamic_line": {
+      "u_add_var": "Nunez_Tacoma",
+      "type": "recruit",
+      "context": "general",
+      "value": "phase_1",
+      "no": "Huh.  I've made a few friends here, but not so much as I'd stick around here with no future prospects, hoping someone downstairs dies to make room for me.  It does sound nice, if they're looking for more workers.",
+      "yes": "Have you heard anything back from the ranch about jobs yet?"
+    },
+    "speaker_effect": {
+      "effect": { "u_add_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_1" },
+      "responses": [
+        { "text": "I'll look into that.  What were you saying before?", "topic": "TALK_NONE" },
+        { "text": "I'll look into that.  I'd better get going though.", "topic": "TALK_DONE" }
+      ]
+    }
   },
   {
     "type": "talk_topic",
@@ -215,5 +259,12 @@
       "success_lie": "What good does this do us?",
       "failure": "I am not sure if I'm gonna make it through the cataclysm without my special jar of goop."
     }
+  },
+  {
+    "id": "landough_calrisean",
+    "copy-from": "sourdough_starter",
+    "looks_like": "sourdough_starter",
+    "name": "Dana's family sourdough starter",
+    "description": "This crusty old jar has a glow-in-the-dark millenium falcon decal on the side, and a label that reads, \"Landough Calrisean.  Dana's.  Do not touch on pain of death.\""
   }
 ]
