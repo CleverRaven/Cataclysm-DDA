@@ -2731,7 +2731,6 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 
 void activity_handlers::build_do_turn( player_activity *act, player *p )
 {
-
     const std::vector<construction> &list_constructions = get_constructions();
     const construction &built = list_constructions[act->index];
     partial_con *pc = g->m.partial_con_at( act->placement );
