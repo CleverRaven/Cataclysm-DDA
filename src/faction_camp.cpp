@@ -1436,7 +1436,7 @@ void basecamp::start_menial_labor()
 
     comp->set_attitude( NPCATT_ACTIVITY );
     comp->assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
-    comp->mission = NPC_MISSION_ACTIVITY;
+    comp->set_mission( NPC_MISSION_ACTIVITY );
     popup( _( "%s goes off to clean toilets and sort loot." ), comp->disp_name() );
 }
 
@@ -2131,6 +2131,7 @@ bool basecamp::menial_return()
     if( comp == nullptr ) {
         return false;
     }
+    comp->revert_after_activity();
     return true;
 }
 

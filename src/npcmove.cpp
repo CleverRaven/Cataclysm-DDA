@@ -2983,8 +2983,7 @@ bool npc::do_player_activity()
             activity = backlog.front();
             backlog.pop_front();
         } else {
-            mission = NPC_MISSION_NULL;
-            attitude = NPCATT_FOLLOW;
+            revert_after_activity();
             // if we loaded after being out of the bubble for a while, we might have more
             // moves than we need, so clear them
             set_moves( 0 );

@@ -925,8 +925,8 @@ def extract(item, infilename):
        c = "Please leave anything in <angle brackets> unchanged."
        writestr(outfile, item["info"], comment=c, **kwargs)
        wrote = True
-    if "stop_phrase" in item:
-       writestr(outfile, item["stop_phrase"], **kwargs)
+    if "verb" in item:
+       writestr(outfile, item["verb"], **kwargs)
        wrote = True
     if "special_attacks" in item:
         special_attacks = item["special_attacks"]
