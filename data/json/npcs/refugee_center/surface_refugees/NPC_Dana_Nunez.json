@@ -206,7 +206,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I could get my real sourdough starter...",
-      "offer": "If you really like this second-rate bread, you could risk your life for something actually worth it.  I left my actual sourdough starter back in the bakery where I worked.  That baby is a hundred years old, and makes the best damn bread you've ever tasted.  If you can bring it to me, I'll bake you the finest bread you've ever had.",
+      "offer": "If you really like this second-rate bread, you could risk your life for something actually worth it.  I left my actual sourdough starter back in the bakery where I worked.  That baby is a hundred years old, and has been in my family for generations... if you can bring it to me, I'll bake you the finest bread you've ever had.",
       "accepted": "Take care of yourself out there.  And listen, when you bring my sourdough back, I don't want to see a scratch on her, you understand?",
       "rejected": "I can understand why you think you wouldn't want to risk your life for a bread starter.  You haven't tried that bread.",
       "advice": "She'll be in the right-hand fridge, in a jar with a picture of the Millenium Falcon on it.",
