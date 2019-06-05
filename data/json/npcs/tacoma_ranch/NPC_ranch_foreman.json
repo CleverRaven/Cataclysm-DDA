@@ -33,7 +33,11 @@
         "topic": "TALK_RANCH_FOREMAN",
         "effect": { "companion_mission": "FOREMAN" }
       },
-      { "text": "Hey, are you looking for workers here?  I know a couple people back at the refugee center that might be willing to come.", "topic": "TALK_RANCH_FOREMAN_Nunez", "condition": { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_1" } },
+      {
+        "text": "Hey, are you looking for workers here?  I know a couple people back at the refugee center that might be willing to come.",
+        "topic": "TALK_RANCH_FOREMAN_Nunez",
+        "condition": { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_1" }
+      },
       { "text": "I've got to go...", "topic": "TALK_DONE" }
     ]
   },
