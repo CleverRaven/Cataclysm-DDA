@@ -1721,13 +1721,6 @@ class player : public Character
         void disarm( npc &target );
 
         /**
-         * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
-         * notices your steal attempt and getting angry with you, and you successfully stealing the item.
-         * @param target Target NPC to steal from
-         */
-        void steal( npc &target );
-
-        /**
          * Accessor method for weapon targeting data, used for interactive weapon aiming.
          * @return a reference to the data pointed by player's tdata member.
          */
