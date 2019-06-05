@@ -999,3 +999,19 @@ void avatar::wake_up()
     }
     Character::wake_up();
 }
+
+void avatar::vomit()
+{
+    if( stomach.contains() != 0_ml ) {
+        // Remove all joy from previously eaten food and apply the penalty
+        rem_morale( MORALE_FOOD_GOOD );
+        rem_morale( MORALE_FOOD_HOT );
+        rem_morale( MORALE_HONEY ); // bears must suffer too
+        add_morale( MORALE_VOMITED, -2 * units::to_milliliter( stomach.contains() / 50 ), -40, 90_minutes,
+                    45_minutes, false ); // 1.5 times longer
+
+    } else {
+        add_msg( m_warning, _( "You retched, but your stomach is empty." ) );
+    }
+    Character::vomit();
+}
