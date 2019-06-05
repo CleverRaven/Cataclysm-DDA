@@ -3133,7 +3133,7 @@ void iexamine::trap( player &p, const tripoint &examp )
     if( tr.loadid == tr_unfinished_construction ) {
         partial_con *pc = g->m.partial_con_at( examp );
         if( pc ) {
-            std::vector<construction> list_constructions = get_constructions();
+            const std::vector<construction> &list_constructions = get_constructions();
             const construction &built = list_constructions[pc->id];
             if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
                            built.description, pc->counter / 100000 ) ) {
