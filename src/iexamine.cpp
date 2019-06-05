@@ -4072,7 +4072,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
-            const float volume_anesth = ( itemtype->bionic->difficulty * 20 * 2 ); // 2ml/min
+            const float volume_anesth = itemtype->bionic->difficulty * 20 * 2; // 2ml/min
             if( volume_anesth > drug_count && acomps.empty() ) {
                 add_msg( m_bad, "You don't have enough anesthetic for this operation." );
                 return;
@@ -4134,7 +4134,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             // Malfunctioning bionics don't have associated items and get a difficulty of 12
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
             const time_duration duration = difficulty * 20_minutes;
-            const float volume_anesth = ( difficulty * 20 * 2 ); // 2ml/min
+            const float volume_anesth = difficulty * 20 * 2; // 2ml/min
             if( volume_anesth > drug_count && acomps.empty() ) {
                 add_msg( m_bad, "You don't have enough anesthetic for this operation." );
                 return;

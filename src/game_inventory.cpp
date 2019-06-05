@@ -1584,7 +1584,7 @@ class bionic_install_preset: public inventory_selector_preset
             const item *it = loc.get_item();
             const itype *itemtype = it->type;
             const int difficulty = itemtype->bionic->difficulty;
-            int amount = itemtype->bionic->difficulty * 40;
+            int amount = difficulty * 40;
 
             return string_format( _( "%i mL" ), amount );
         }
