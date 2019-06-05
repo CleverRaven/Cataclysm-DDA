@@ -29,7 +29,6 @@ struct mtype;
 struct trap;
 struct ter_t;
 struct furn_t;
-struct partial_con;
 
 struct spawn_point {
     point pos;
