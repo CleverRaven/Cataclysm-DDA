@@ -846,7 +846,6 @@ void place_construction( const std::string &desc )
     }
 
     g->u.assign_activity( activity_id( "ACT_BUILD" ) );
-    g->u.activity.index = pc.id;
     g->u.activity.placement = pnt;
 }
 
