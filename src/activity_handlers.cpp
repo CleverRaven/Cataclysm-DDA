@@ -2733,7 +2733,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     const std::vector<construction> &list_constructions = get_constructions();
     const construction &built = list_constructions[act->index];
     partial_con *pc = g->m.partial_con_at( act->placement );
-    if( pc == nullptr ) {
+    if( !pc ) {
         debugmsg( "No partial construction found at activity placement, aborting activity" );
         g->m.remove_trap( act->placement );
         p->cancel_activity();
