@@ -970,7 +970,8 @@
     "name": "motel",
     "sym": "h",
     "color": "light_blue"
-  },{
+  },
+  {
     "type": "overmap_terrain",
     "id": "motel_entrance_roof",
     "copy-from": "generic_city_building",
