@@ -5235,7 +5235,6 @@ void map::partial_con_remove( const tripoint &p )
         current_submap->partial_constructions.erase( it );
         return;
     }
-
 }
 
 void map::partial_con_set( const tripoint &p, const partial_con &con )

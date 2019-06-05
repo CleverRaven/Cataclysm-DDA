@@ -5801,7 +5801,8 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
         std::vector<construction> list_constructions = get_constructions();
         const construction &built = list_constructions[pc->id];
         if( tr.loadid == tr_unfinished_construction ) {
-            tr_name = string_format( _( "Unfinished task: %s, %d%% complete" ), built.description, pc->counter / 100000 );
+            tr_name = string_format( _( "Unfinished task: %s, %d%% complete" ), built.description,
+                                     pc->counter / 100000 );
         } else {
             tr_name = tr.name();
         }
