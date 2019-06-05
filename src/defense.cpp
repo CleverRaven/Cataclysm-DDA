@@ -125,19 +125,19 @@ static void calculate_tech_level( int initial_difficulty, int wave_difficulty, i
 static void calculate_tech_level_2( int initial_difficulty, int wave_difficulty, int caravan_visits ){
     float z = initial_difficulty;
     float w = wave_difficulty;
-    caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 14 ) ) );
+    caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 21 ) ) );
 }
 
 static void calculate_tech_level_3( int initial_difficulty, int wave_difficulty, int caravan_visits ){
     float z = initial_difficulty;
     float w = wave_difficulty;
-    caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 14 ) ) );
+    caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 28 ) ) );
 }
 
 static void calculate_tech_level_4( int initial_difficulty, int wave_difficulty, int caravan_visits ){
     float z = initial_difficulty;
     float w = wave_difficulty;
-    caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 14 ) ) );
+    caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 35 ) ) );
 }
 
 void defense_game::per_turn()
