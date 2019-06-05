@@ -301,7 +301,7 @@ stomach_pass_rates stomach_contents::get_pass_rates( bool stomach )
     if( stomach ) {
         rates.min_vol = std::max( capacity() / 50, 100_ml );
         // 3 hours to empty in 30 minute increments
-        rates.percent_vol = 4.0f / 6.0f;
+        rates.percent_vol = 1.0f / 6.0f;
         rates.min_vit = 1;
         rates.percent_vit = 1.0f / 6.0f;
         rates.min_kcal = 5;
