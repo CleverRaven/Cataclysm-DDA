@@ -1402,7 +1402,6 @@
     "fire_resist": 2,
     "elec_resist": 0,
     "chip_resist": 10,
-    "repaired_with": "material_aluminium_ingot",
     "bash_dmg_verb": "dented",
     "cut_dmg_verb": "scratched"
   }
