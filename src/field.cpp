@@ -2214,14 +2214,11 @@ void map::player_in_field( player &u )
                 }
                 break;
 
-            //Why do these get removed???
+            // Why do these get removed???
+            // Stepping on a shock vent shuts it down.
             case fd_shock_vent:
-                //Stepping on a shock vent shuts it down.
-                cur.setFieldDensity( 0 );
-                continue;
-
+            // Stepping on an acid vent shuts it down.
             case fd_acid_vent:
-                //Stepping on an acid vent shuts it down.
                 cur.setFieldDensity( 0 );
                 continue;
 

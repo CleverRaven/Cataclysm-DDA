@@ -25,6 +25,8 @@ void buy_chicken( npc & );
 void bionic_install( npc & );
 void bionic_remove( npc & );
 
+void barber_beard( npc & );
+void barber_hair( npc & );
 void buy_haircut( npc & );
 void buy_shave( npc & );
 void morale_chat( npc & );
@@ -32,6 +34,8 @@ void morale_chat_activity( npc & );
 void buy_10_logs( npc & );
 void buy_100_logs( npc & );
 void start_trade( npc & );
+void sort_loot( npc & );
+void revert_activity( npc & );
 void goto_location( npc & );
 void assign_base( npc & );
 void assign_guard( npc & );

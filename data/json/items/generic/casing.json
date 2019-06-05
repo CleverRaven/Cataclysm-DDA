@@ -131,6 +131,15 @@
     "volume": "6ml"
   },
   {
+    "id": "4570_casing",
+    "copy-from": "casing",
+    "type": "GENERIC",
+    "name": ".45-70 casing",
+    "description": "An empty casing from a .45-70 Government round.",
+    "weight": 4,
+    "volume": "10ml"
+  },
+  {
     "id": "46mm_casing",
     "copy-from": "casing",
     "type": "GENERIC",

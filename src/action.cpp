@@ -311,6 +311,8 @@ std::string action_ident( action_id act )
             return "debug_scent";
         case ACTION_DISPLAY_TEMPERATURE:
             return "debug_temp";
+        case ACTION_DISPLAY_VISIBILITY:
+            return "debug_visibility";
         case ACTION_TOGGLE_DEBUG_MODE:
             return "debug_mode";
         case ACTION_ZOOM_OUT:
@@ -411,6 +413,7 @@ bool can_action_change_worldstate( const action_id act )
         case ACTION_DEBUG:
         case ACTION_DISPLAY_SCENT:
         case ACTION_DISPLAY_TEMPERATURE:
+        case ACTION_DISPLAY_VISIBILITY:
         case ACTION_ZOOM_OUT:
         case ACTION_ZOOM_IN:
         case ACTION_TOGGLE_PIXEL_MINIMAP:
@@ -808,6 +811,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_TOGGLE_PANEL_ADM );
             REGISTER_ACTION( ACTION_DISPLAY_SCENT );
             REGISTER_ACTION( ACTION_DISPLAY_TEMPERATURE );
+            REGISTER_ACTION( ACTION_DISPLAY_VISIBILITY );
             REGISTER_ACTION( ACTION_TOGGLE_DEBUG_MODE );
         } else if( category == _( "Interact" ) ) {
             REGISTER_ACTION( ACTION_EXAMINE );

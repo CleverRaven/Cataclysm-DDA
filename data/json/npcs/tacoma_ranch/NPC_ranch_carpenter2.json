@@ -1,0 +1,28 @@
+[
+  {
+    "type": "npc",
+    "id": "ranch_construction_2",
+    "//": "Construction skill trainer",
+    "name_suffix": "Carpenter",
+    "class": "NC_THUG",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_RANCH_CONSTRUCTION_2",
+    "faction": "tacoma_commune"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_CONSTRUCTION_2",
+    "dynamic_line": "Howdy.",
+    "responses": [
+      { "text": "What are you doing here?", "topic": "TALK_RANCH_CONSTRUCTION_2_JOB" },
+      { "text": "I've got to go...", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_RANCH_CONSTRUCTION_2_JOB",
+    "dynamic_line": "I was among one of the first groups of immigrants sent here to fortify the outpost.  I might have exaggerated my construction skills to get the hell out of the refugee center.  Unless you are a trader there isn't much work there and food was really becoming scarce when I left.",
+    "responses": [ { "text": "I see.", "topic": "TALK_RANCH_CONSTRUCTION_2" } ]
+  }
+]

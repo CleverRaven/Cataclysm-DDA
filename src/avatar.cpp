@@ -3,6 +3,9 @@
 #include "action.h"
 #include "bionics.h"
 #include "character.h"
+#include "creature.h"
+#include "effect.h"
+#include "enums.h"
 #include "filesystem.h"
 #include "game.h"
 #include "help.h"
@@ -28,9 +31,12 @@
 #include "vpart_position.h"
 
 const efftype_id effect_contacts( "contacts" );
+const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
+static const bionic_id bio_watch( "bio_watch" );
 
 static const trait_id trait_FORGETFUL( "FORGETFUL" );
 static const trait_id trait_GOODMEMORY( "GOODMEMORY" );
@@ -43,6 +49,7 @@ avatar::avatar() : player()
 {
     show_map_memory = true;
     active_mission = nullptr;
+    grab_type = OBJECT_NONE;
 }
 
 void avatar::memorial( std::ostream &memorial_file, const std::string &epitaph )
@@ -765,6 +772,19 @@ bool avatar::read( int inventory_position, const bool continuous )
     return true;
 }
 
+void avatar::grab( object_type grab_type, const tripoint &grab_point )
+{
+    this->grab_type = grab_type;
+    this->grab_point = grab_point;
+
+    path_settings->avoid_rough_terrain = grab_type != OBJECT_NONE;
+}
+
+object_type avatar::get_grab_type() const
+{
+    return grab_type;
+}
+
 void avatar::do_read( item &book )
 {
     const auto &reading = book.type->book;
@@ -976,4 +996,37 @@ hint_rating avatar::rate_action_read( const item &it ) const
 
     std::vector<std::string> dummy;
     return get_book_reader( it, dummy ) == nullptr ? HINT_IFFY : HINT_GOOD;
+}
+
+void avatar::wake_up()
+{
+    if( has_effect( effect_sleep ) ) {
+        if( calendar::turn - get_effect( effect_sleep ).get_start_time() > 2_hours ) {
+            print_health();
+        }
+        if( has_effect( effect_slept_through_alarm ) ) {
+            if( has_bionic( bio_watch ) ) {
+                add_msg( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
+            } else {
+                add_msg( m_warning, _( "It looks like you've slept through the alarm..." ) );
+            }
+        }
+    }
+    Character::wake_up();
+}
+
+void avatar::vomit()
+{
+    if( stomach.contains() != 0_ml ) {
+        // Remove all joy from previously eaten food and apply the penalty
+        rem_morale( MORALE_FOOD_GOOD );
+        rem_morale( MORALE_FOOD_HOT );
+        rem_morale( MORALE_HONEY ); // bears must suffer too
+        add_morale( MORALE_VOMITED, -2 * units::to_milliliter( stomach.contains() / 50 ), -40, 90_minutes,
+                    45_minutes, false ); // 1.5 times longer
+
+    } else {
+        add_msg( m_warning, _( "You retched, but your stomach is empty." ) );
+    }
+    Character::vomit();
 }

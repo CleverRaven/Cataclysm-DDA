@@ -225,6 +225,9 @@
         { "class": "evac_guard1", "x": 57, "y": 21 },
         { "class": "refugee_DracoDune", "x": 49, "y": 6 },
         { "class": "refugee_JohnClemens", "x": 52, "y": 7 },
+        { "class": "refugee_UyenTran", "x": 69, "y": 4 },
+        { "class": "refugee_RhyzaeaJohnny", "x": 69, "y": 2 },
+        { "class": "refugee_FatimaalJadir", "x": 72, "y": 3 },
         { "class": "guard", "x": 62, "y": 21 },
         { "class": "refugee_beggar5", "x": 64, "y": 22 }
       ]

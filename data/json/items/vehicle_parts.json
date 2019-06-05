@@ -78,6 +78,24 @@
     "price": 80000
   },
   {
+    "id": "yoke_harness",
+    "type": "WHEEL",
+    "name": "yoke and harness",
+    "category": "veh_parts",
+    "description": "A bar and harness to attach a creature to a wheeled vehicle, they then should be able to pull it.",
+    "weight": 1000,
+    "volume": 15,
+    "price": 48000,
+    "bashing": 3,
+    "to_hit": -1,
+    "material": [ "leather", "wood" ],
+    "symbol": "H",
+    "color": "yellow",
+    "diameter": 8,
+    "width": 4,
+    "looks_like": "foldframe"
+  },
+  {
     "id": "bike_rack",
     "type": "GENERIC",
     "name": "bike rack",

@@ -32,8 +32,10 @@
 #include "player.h"
 #include "skill.h"
 #include "skill_boost.h"
+#include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "trap.h"
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -45,6 +47,7 @@
 #include "stomach.h"
 #include "ui.h"
 
+const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );
@@ -56,14 +59,23 @@ const efftype_id effect_crushed( "crushed" );
 const efftype_id effect_darkness( "darkness" );
 const efftype_id effect_disinfected( "disinfected" );
 const efftype_id effect_downed( "downed" );
+const efftype_id effect_drunk( "drunk" );
+const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
+const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_narcosis( "narcosis" );
+const efftype_id effect_nausea( "nausea" );
 const efftype_id effect_no_sight( "no_sight" );
+const efftype_id effect_pkill1( "pkill1" );
+const efftype_id effect_pkill2( "pkill2" );
+const efftype_id effect_pkill3( "pkill3" );
+const efftype_id effect_riding( "riding" );
 const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 const efftype_id effect_webbed( "webbed" );
 
 const skill_id skill_dodge( "dodge" );
@@ -78,6 +90,8 @@ static const trait_id trait_DISORGANIZED( "DISORGANIZED" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
+static const trait_id trait_GILLS( "GILLS" );
+static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
 static const trait_id trait_MEMBRANE( "MEMBRANE" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
@@ -90,6 +104,8 @@ static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL( "SHELL" );
+static const trait_id trait_SHOUT2( "SHOUT2" );
+static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
@@ -372,8 +388,16 @@ bool Character::move_effects( bool attacking )
         return false;
     }
     if( has_effect( effect_webbed ) ) {
-        /** @EFFECT_STR increases chance to escape webs */
-        if( x_in_y( get_str(), 6 * get_effect_int( effect_webbed ) ) ) {
+        if( has_effect( effect_riding ) && g->u.mounted_creature ) {
+            auto mon = g->u.mounted_creature.get();
+            if( x_in_y( mon->type->melee_dice * mon->type->melee_sides,
+                        6 * get_effect_int( effect_webbed ) ) ) {
+                add_msg( _( "The %s breaks free of the webs!" ), mon->get_name() );
+                mon->remove_effect( effect_webbed );
+                remove_effect( effect_webbed );
+            }
+            /** @EFFECT_STR increases chance to escape webs */
+        } else if( x_in_y( get_str(), 6 * get_effect_int( effect_webbed ) ) ) {
             add_msg_player_or_npc( m_good, _( "You free yourself from the webs!" ),
                                    _( "<npcname> frees themselves from the webs!" ) );
             remove_effect( effect_webbed );
@@ -383,38 +407,62 @@ bool Character::move_effects( bool attacking )
         return false;
     }
     if( has_effect( effect_lightsnare ) ) {
-        /** @EFFECT_STR increases chance to escape light snare */
-
-        /** @EFFECT_DEX increases chance to escape light snare */
-        if( x_in_y( get_str(), 12 ) || x_in_y( get_dex(), 8 ) ) {
-            remove_effect( effect_lightsnare );
-            add_msg_player_or_npc( m_good, _( "You free yourself from the light snare!" ),
-                                   _( "<npcname> frees themselves from the light snare!" ) );
-            item string( "string_36", calendar::turn );
-            item snare( "snare_trigger", calendar::turn );
-            g->m.add_item_or_charges( pos(), string );
-            g->m.add_item_or_charges( pos(), snare );
+        if( has_effect( effect_riding ) && g->u.mounted_creature ) {
+            auto mon = g->u.mounted_creature.get();
+            if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 12 ) ) {
+                mon->remove_effect( effect_lightsnare );
+                remove_effect( effect_lightsnare );
+                g->m.spawn_item( pos(), "string_36" );
+                g->m.spawn_item( pos(), "snare_trigger" );
+                add_msg( _( "The %s escapes the light snare!" ), mon->get_name() );
+            }
         } else {
-            add_msg_if_player( m_bad,
-                               _( "You try to free yourself from the light snare, but can't get loose!" ) );
+            /** @EFFECT_STR increases chance to escape light snare */
+
+            /** @EFFECT_DEX increases chance to escape light snare */
+            if( x_in_y( get_str(), 12 ) || x_in_y( get_dex(), 8 ) ) {
+                remove_effect( effect_lightsnare );
+                add_msg_player_or_npc( m_good, _( "You free yourself from the light snare!" ),
+                                       _( "<npcname> frees themselves from the light snare!" ) );
+                item string( "string_36", calendar::turn );
+                item snare( "snare_trigger", calendar::turn );
+                g->m.add_item_or_charges( pos(), string );
+                g->m.add_item_or_charges( pos(), snare );
+            } else {
+                add_msg_if_player( m_bad,
+                                   _( "You try to free yourself from the light snare, but can't get loose!" ) );
+            }
+            return false;
         }
-        return false;
     }
     if( has_effect( effect_heavysnare ) ) {
-        /** @EFFECT_STR increases chance to escape heavy snare, slightly */
-
-        /** @EFFECT_DEX increases chance to escape light snare */
-        if( x_in_y( get_str(), 32 ) || x_in_y( get_dex(), 16 ) ) {
-            remove_effect( effect_heavysnare );
-            add_msg_player_or_npc( m_good, _( "You free yourself from the heavy snare!" ),
-                                   _( "<npcname> frees themselves from the heavy snare!" ) );
-            item rope( "rope_6", calendar::turn );
-            item snare( "snare_trigger", calendar::turn );
-            g->m.add_item_or_charges( pos(), rope );
-            g->m.add_item_or_charges( pos(), snare );
+        if( has_effect( effect_riding ) && g->u.mounted_creature ) {
+            auto mon = g->u.mounted_creature.get();
+            if( mon->type->melee_dice * mon->type->melee_sides >= 7 ) {
+                if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 32 ) ) {
+                    mon->remove_effect( effect_heavysnare );
+                    remove_effect( effect_heavysnare );
+                    g->m.spawn_item( pos(), "rope_6" );
+                    g->m.spawn_item( pos(), "snare_trigger" );
+                    add_msg( _( "The %s escapes the heavy snare!" ), mon->get_name() );
+                }
+            }
         } else {
-            add_msg_if_player( m_bad,
-                               _( "You try to free yourself from the heavy snare, but can't get loose!" ) );
+            /** @EFFECT_STR increases chance to escape heavy snare, slightly */
+
+            /** @EFFECT_DEX increases chance to escape light snare */
+            if( x_in_y( get_str(), 32 ) || x_in_y( get_dex(), 16 ) ) {
+                remove_effect( effect_heavysnare );
+                add_msg_player_or_npc( m_good, _( "You free yourself from the heavy snare!" ),
+                                       _( "<npcname> frees themselves from the heavy snare!" ) );
+                item rope( "rope_6", calendar::turn );
+                item snare( "snare_trigger", calendar::turn );
+                g->m.add_item_or_charges( pos(), rope );
+                g->m.add_item_or_charges( pos(), snare );
+            } else {
+                add_msg_if_player( m_bad,
+                                   _( "You try to free yourself from the heavy snare, but can't get loose!" ) );
+            }
         }
         return false;
     }
@@ -425,15 +473,31 @@ bool Character::move_effects( bool attacking )
            As such we are currently making it a bit easier for players and NPC's to get out of bear traps.
         */
         /** @EFFECT_STR increases chance to escape bear trap */
-        if( x_in_y( get_str(), 100 ) ) {
-            remove_effect( effect_beartrap );
-            add_msg_player_or_npc( m_good, _( "You free yourself from the bear trap!" ),
-                                   _( "<npcname> frees themselves from the bear trap!" ) );
-            item beartrap( "beartrap", calendar::turn );
-            g->m.add_item_or_charges( pos(), beartrap );
+        // If is riding, then despite the character having the effect, it is the mounted creature that escapes.
+        if( has_effect( effect_riding ) && is_player() && g->u.mounted_creature ) {
+            auto mon = g->u.mounted_creature.get();
+            if( mon->type->melee_dice * mon->type->melee_sides >= 18 ) {
+                if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 200 ) ) {
+                    mon->remove_effect( effect_beartrap );
+                    remove_effect( effect_beartrap );
+                    g->m.spawn_item( pos(), "beartrap" );
+                    add_msg( _( "The %s escapes the bear trap!" ), mon->get_name() );
+                } else {
+                    add_msg_if_player( m_bad,
+                                       _( "Your %s tries to free itself from the bear trap, but can't get loose!" ), mon->get_name() );
+                }
+            }
         } else {
-            add_msg_if_player( m_bad,
-                               _( "You try to free yourself from the bear trap, but can't get loose!" ) );
+            if( x_in_y( get_str(), 100 ) ) {
+                remove_effect( effect_beartrap );
+                add_msg_player_or_npc( m_good, _( "You free yourself from the bear trap!" ),
+                                       _( "<npcname> frees themselves from the bear trap!" ) );
+                item beartrap( "beartrap", calendar::turn );
+                g->m.add_item_or_charges( pos(), beartrap );
+            } else {
+                add_msg_if_player( m_bad,
+                                   _( "You try to free yourself from the bear trap, but can't get loose!" ) );
+            }
         }
         return false;
     }
@@ -469,30 +533,52 @@ bool Character::move_effects( bool attacking )
     }
     if( has_effect( effect_grabbed ) && !attacking ) {
         int zed_number = 0;
-        for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
-            const monster *const mon = g->critter_at<monster>( dest );
-            if( mon && ( mon->has_flag( MF_GRABS ) ||
-                         mon->type->has_special_attack( "GRAB" ) ) ) {
-                zed_number += mon->get_grab_strength();
+        if( has_effect( effect_riding ) && g->u.mounted_creature ) {
+            auto mon = g->u.mounted_creature.get();
+            if( mon->has_effect( effect_grabbed ) ) {
+                if( ( dice( mon->type->melee_dice + mon->type->melee_sides,
+                            3 ) < get_effect_int( effect_grabbed ) ) ||
+                    !one_in( 4 ) ) {
+                    add_msg( m_bad, _( "Your %s tries to break free, but fails!" ), mon->get_name() );
+                    return false;
+                } else {
+                    add_msg( m_good, _( "Your %s breaks free from the grab!" ), mon->get_name() );
+                    remove_effect( effect_grabbed );
+                    mon->remove_effect( effect_grabbed );
+                }
+            } else {
+                if( one_in( 4 ) ) {
+                    add_msg( m_bad, _( "You are pulled from your %s!" ), mon->get_name() );
+                    remove_effect( effect_grabbed );
+                    g->u.forced_dismount();
+                }
             }
-        }
-        if( zed_number == 0 ) {
-            add_msg_player_or_npc( m_good, _( "You find yourself no longer grabbed." ),
-                                   _( "<npcname> finds themselves no longer grabbed." ) );
-            remove_effect( effect_grabbed );
-            /** @EFFECT_DEX increases chance to escape grab, if >STR */
-
-            /** @EFFECT_STR increases chance to escape grab, if >DEX */
-        } else if( rng( 0, std::max( get_dex(), get_str() ) ) <
-                   rng( get_effect_int( effect_grabbed, bp_torso ), 8 ) ) {
-            // Randomly compare higher of dex or str to grab intensity.
-            add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
-                                   _( "<npcname> tries to break out of the grab, but fails!" ) );
-            return false;
         } else {
-            add_msg_player_or_npc( m_good, _( "You break out of the grab!" ),
-                                   _( "<npcname> breaks out of the grab!" ) );
-            remove_effect( effect_grabbed );
+            for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ) { // *NOPAD*
+                const monster *const mon = g->critter_at<monster>( dest );
+                if( mon && ( mon->has_flag( MF_GRABS ) ||
+                             mon->type->has_special_attack( "GRAB" ) ) ) {
+                    zed_number += mon->get_grab_strength();
+                }
+            }
+            if( zed_number == 0 ) {
+                add_msg_player_or_npc( m_good, _( "You find yourself no longer grabbed." ),
+                                       _( "<npcname> finds themselves no longer grabbed." ) );
+                remove_effect( effect_grabbed );
+                /** @EFFECT_DEX increases chance to escape grab, if >STR */
+
+                /** @EFFECT_STR increases chance to escape grab, if >DEX */
+            } else if( rng( 0, std::max( get_dex(), get_str() ) ) <
+                       rng( get_effect_int( effect_grabbed, bp_torso ), 8 ) ) {
+                // Randomly compare higher of dex or str to grab intensity.
+                add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
+                                       _( "<npcname> tries to break out of the grab, but fails!" ) );
+                return false;
+            } else {
+                add_msg_player_or_npc( m_good, _( "You break out of the grab!" ),
+                                       _( "<npcname> breaks out of the grab!" ) );
+                remove_effect( effect_grabbed );
+            }
         }
     }
     return true;
@@ -1854,6 +1940,18 @@ int Character::get_int_bonus() const
     return int_bonus;
 }
 
+static int get_speedydex_bonus( const int dex )
+{
+    // this is the number to be multiplied by the increment
+    const int modified_dex = std::max( dex - get_option<int>( "SPEEDYDEX_MIN_DEX" ), 0 );
+    return modified_dex * get_option<int>( "SPEEDYDEX_DEX_SPEED" );
+}
+
+int Character::get_speed() const
+{
+    return Creature::get_speed() + get_speedydex_bonus( get_dex() );
+}
+
 int Character::ranged_dex_mod() const
 {
     ///\EFFECT_DEX <20 increases ranged penalty
@@ -3005,67 +3103,48 @@ float calc_mutation_value_multiplicative( const std::vector<const mutation_branc
     return ret;
 }
 
+static const std::map<std::string, std::function <float( std::vector<const mutation_branch *> )>>
+mutation_value_map = {
+    { "healing_awake", calc_mutation_value<&mutation_branch::healing_awake> },
+    { "healing_resting", calc_mutation_value<&mutation_branch::healing_resting> },
+    { "hp_modifier", calc_mutation_value<&mutation_branch::hp_modifier> },
+    { "hp_modifier_secondary", calc_mutation_value<&mutation_branch::hp_modifier_secondary> },
+    { "hp_adjustment", calc_mutation_value<&mutation_branch::hp_adjustment> },
+    { "metabolism_modifier", calc_mutation_value<&mutation_branch::metabolism_modifier> },
+    { "thirst_modifier", calc_mutation_value<&mutation_branch::thirst_modifier> },
+    { "fatigue_regen_modifier", calc_mutation_value<&mutation_branch::fatigue_regen_modifier> },
+    { "fatigue_modifier", calc_mutation_value<&mutation_branch::fatigue_modifier> },
+    { "stamina_regen_modifier", calc_mutation_value<&mutation_branch::stamina_regen_modifier> },
+    { "stealth_modifier", calc_mutation_value<&mutation_branch::stealth_modifier> },
+    { "str_modifier", calc_mutation_value<&mutation_branch::str_modifier> },
+    { "dodge_modifier", calc_mutation_value_additive<&mutation_branch::dodge_modifier> },
+    { "mana_modifier", calc_mutation_value_additive<&mutation_branch::mana_modifier> },
+    { "mana_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_multiplier> },
+    { "mana_regen_multiplier", calc_mutation_value_multiplicative<&mutation_branch::mana_regen_multiplier> },
+    { "speed_modifier", calc_mutation_value_multiplicative<&mutation_branch::speed_modifier> },
+    { "movecost_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_modifier> },
+    { "movecost_flatground_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_flatground_modifier> },
+    { "movecost_obstacle_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_obstacle_modifier> },
+    { "attackcost_modifier", calc_mutation_value_multiplicative<&mutation_branch::attackcost_modifier> },
+    { "max_stamina_modifier", calc_mutation_value_multiplicative<&mutation_branch::max_stamina_modifier> },
+    { "weight_capacity_modifier", calc_mutation_value_multiplicative<&mutation_branch::weight_capacity_modifier> },
+    { "hearing_modifier", calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier> },
+    { "noise_modifier", calc_mutation_value_multiplicative<&mutation_branch::noise_modifier> },
+    { "overmap_sight", calc_mutation_value_multiplicative<&mutation_branch::overmap_sight> },
+    { "overmap_multiplier", calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier> }
+};
+
 float Character::mutation_value( const std::string &val ) const
 {
     // Syntax similar to tuple get<n>()
-    // TODO: Get rid of if/else ladder
-    if( val == "healing_awake" ) {
-        return calc_mutation_value<&mutation_branch::healing_awake>( cached_mutations );
-    } else if( val == "healing_resting" ) {
-        return calc_mutation_value<&mutation_branch::healing_resting>( cached_mutations );
-    } else if( val == "hp_modifier" ) {
-        return calc_mutation_value<&mutation_branch::hp_modifier>( cached_mutations );
-    } else if( val == "hp_modifier_secondary" ) {
-        return calc_mutation_value<&mutation_branch::hp_modifier_secondary>( cached_mutations );
-    } else if( val == "hp_adjustment" ) {
-        return calc_mutation_value<&mutation_branch::hp_adjustment>( cached_mutations );
-    } else if( val == "metabolism_modifier" ) {
-        return calc_mutation_value<&mutation_branch::metabolism_modifier>( cached_mutations );
-    } else if( val == "thirst_modifier" ) {
-        return calc_mutation_value<&mutation_branch::thirst_modifier>( cached_mutations );
-    } else if( val == "fatigue_regen_modifier" ) {
-        return calc_mutation_value<&mutation_branch::fatigue_regen_modifier>( cached_mutations );
-    } else if( val == "fatigue_modifier" ) {
-        return calc_mutation_value<&mutation_branch::fatigue_modifier>( cached_mutations );
-    } else if( val == "stamina_regen_modifier" ) {
-        return calc_mutation_value<&mutation_branch::stamina_regen_modifier>( cached_mutations );
-    } else if( val == "stealth_modifier" ) {
-        return calc_mutation_value<&mutation_branch::stealth_modifier>( cached_mutations );
-    } else if( val == "str_modifier" ) {
-        return calc_mutation_value_additive<&mutation_branch::str_modifier>( cached_mutations );
-    } else if( val == "dodge_modifier" ) {
-        return calc_mutation_value_additive<&mutation_branch::dodge_modifier>( cached_mutations );
-    } else if( val == "speed_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::speed_modifier>( cached_mutations );
-    } else if( val == "movecost_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::movecost_modifier>( cached_mutations );
-    } else if( val == "movecost_flatground_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::movecost_flatground_modifier>
-               ( cached_mutations );
-    } else if( val == "movecost_obstacle_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::movecost_obstacle_modifier>
-               ( cached_mutations );
-    } else if( val == "attackcost_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::attackcost_modifier>
-               ( cached_mutations );
-    } else if( val == "max_stamina_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::max_stamina_modifier>
-               ( cached_mutations );
-    } else if( val == "weight_capacity_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::weight_capacity_modifier>
-               ( cached_mutations );
-    } else if( val == "hearing_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier>( cached_mutations );
-    } else if( val == "noise_modifier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::noise_modifier>( cached_mutations );
-    } else if( val == "overmap_sight" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::overmap_sight>( cached_mutations );
-    } else if( val == "overmap_multiplier" ) {
-        return calc_mutation_value_multiplicative<&mutation_branch::overmap_multiplier>( cached_mutations );
-    }
+    const auto found = mutation_value_map.find( val );
 
-    debugmsg( "Invalid mutation value name %s", val );
-    return 0.0f;
+    if( found == mutation_value_map.end() ) {
+        debugmsg( "Invalid mutation value name %s", val );
+        return 0.0f;
+    } else {
+        return found->second( cached_mutations );
+    }
 }
 
 float Character::healing_rate( float at_rest_quality ) const
@@ -3219,4 +3298,220 @@ std::string Character::activity_level_str() const
     } else {
         return _( "EXTRA_EXERCISE" );
     }
+}
+
+int Character::item_handling_cost( const item &it, bool penalties, int base_cost ) const
+{
+    int mv = base_cost;
+    if( penalties ) {
+        // 40 moves per liter, up to 200 at 5 liters
+        mv += std::min( 200, it.volume() / 20_ml );
+    }
+
+    if( weapon.typeId() == "e_handcuffs" ) {
+        mv *= 4;
+    } else if( penalties && has_effect( effect_grabbed ) ) {
+        mv *= 2;
+    }
+
+    // For single handed items use the least encumbered hand
+    if( it.is_two_handed( *this ) ) {
+        mv += encumb( bp_hand_l ) + encumb( bp_hand_r );
+    } else {
+        mv += std::min( encumb( bp_hand_l ), encumb( bp_hand_r ) );
+    }
+
+    return std::min( std::max( mv, 0 ), MAX_HANDLING_COST );
+}
+
+int Character::item_store_cost( const item &it, const item & /* container */, bool penalties,
+                                int base_cost ) const
+{
+    /** @EFFECT_PISTOL decreases time taken to store a pistol */
+    /** @EFFECT_SMG decreases time taken to store an SMG */
+    /** @EFFECT_RIFLE decreases time taken to store a rifle */
+    /** @EFFECT_SHOTGUN decreases time taken to store a shotgun */
+    /** @EFFECT_LAUNCHER decreases time taken to store a launcher */
+    /** @EFFECT_STABBING decreases time taken to store a stabbing weapon */
+    /** @EFFECT_CUTTING decreases time taken to store a cutting weapon */
+    /** @EFFECT_BASHING decreases time taken to store a bashing weapon */
+    int lvl = get_skill_level( it.is_gun() ? it.gun_skill() : it.melee_skill() );
+    return item_handling_cost( it, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
+}
+
+void Character::wake_up()
+{
+    remove_effect( effect_sleep );
+    remove_effect( effect_slept_through_alarm );
+    remove_effect( effect_lying_down );
+    // Do not remove effect_alarm_clock now otherwise it invalidates an effect iterator in player::process_effects().
+    // We just set it for later removal (also happening in player::process_effects(), so no side effects) with a duration of 0 turns.
+    if( has_effect( effect_alarm_clock ) ) {
+        get_effect( effect_alarm_clock ).set_duration( 0_turns );
+    }
+    recalc_sight_limits();
+}
+
+int Character::get_shout_volume() const
+{
+    int base = 10;
+    int shout_multiplier = 2;
+
+    // Mutations make shouting louder, they also define the default message
+    if( has_trait( trait_SHOUT3 ) ) {
+        shout_multiplier = 4;
+        base = 20;
+    } else if( has_trait( trait_SHOUT2 ) ) {
+        base = 15;
+        shout_multiplier = 3;
+    }
+
+    // Masks and such dampen the sound
+    // Balanced around whisper for wearing bondage mask
+    // and noise ~= 10 (door smashing) for wearing dust mask for character with strength = 8
+    /** @EFFECT_STR increases shouting volume */
+    const int penalty = encumb( bp_mouth ) * 3 / 2;
+    int noise = base + str_cur * shout_multiplier - penalty;
+
+    // Minimum noise volume possible after all reductions.
+    // Volume 1 can't be heard even by player
+    constexpr int minimum_noise = 2;
+
+    if( noise <= base ) {
+        noise = std::max( minimum_noise, noise );
+    }
+
+    // Screaming underwater is not good for oxygen and harder to do overall
+    if( underwater ) {
+        noise = std::max( minimum_noise, noise / 2 );
+    }
+    return noise;
+}
+
+void Character::shout( std::string msg, bool order )
+{
+    int base = 10;
+    std::string shout = "";
+
+    // Mutations make shouting louder, they also define the default message
+    if( has_trait( trait_SHOUT3 ) ) {
+        base = 20;
+        if( msg.empty() ) {
+            msg = is_player() ? _( "yourself let out a piercing howl!" ) : _( "a piercing howl!" );
+            shout = "howl";
+        }
+    } else if( has_trait( trait_SHOUT2 ) ) {
+        base = 15;
+        if( msg.empty() ) {
+            msg = is_player() ? _( "yourself scream loudly!" ) : _( "a loud scream!" );
+            shout = "scream";
+        }
+    }
+
+    if( msg.empty() ) {
+        msg = is_player() ? _( "yourself shout loudly!" ) : _( "a loud shout!" );
+        shout = "default";
+    }
+    int noise = get_shout_volume();
+
+    // Minimum noise volume possible after all reductions.
+    // Volume 1 can't be heard even by player
+    constexpr int minimum_noise = 2;
+
+    if( noise <= base ) {
+        std::string dampened_shout;
+        std::transform( msg.begin(), msg.end(), std::back_inserter( dampened_shout ), tolower );
+        msg = std::move( dampened_shout );
+    }
+
+    // Screaming underwater is not good for oxygen and harder to do overall
+    if( underwater ) {
+        if( !has_trait( trait_GILLS ) && !has_trait( trait_GILLS_CEPH ) ) {
+            mod_stat( "oxygen", -noise );
+        }
+    }
+
+    const int penalty = encumb( bp_mouth ) * 3 / 2;
+    // TODO: indistinct noise descriptions should be handled in the sounds code
+    if( noise <= minimum_noise ) {
+        add_msg_if_player( m_warning,
+                           _( "The sound of your voice is almost completely muffled!" ) );
+        msg = is_player() ? _( "your muffled shout" ) : _( "an indistinct voice" );
+    } else if( noise * 2 <= noise + penalty ) {
+        // The shout's volume is 1/2 or lower of what it would be without the penalty
+        add_msg_if_player( m_warning, _( "The sound of your voice is significantly muffled!" ) );
+    }
+
+    sounds::sound( pos(), noise, order ? sounds::sound_t::order : sounds::sound_t::alert, msg, false,
+                   "shout", shout );
+}
+
+void Character::vomit()
+{
+    add_memorial_log( pgettext( "memorial_male", "Threw up." ),
+                      pgettext( "memorial_female", "Threw up." ) );
+
+    if( stomach.contains() != 0_ml ) {
+        // empty stomach contents
+        stomach.bowel_movement();
+        g->m.add_field( adjacent_tile(), fd_bile, 1 );
+        add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
+    }
+
+    if( !has_effect( effect_nausea ) ) {  // Prevents never-ending nausea
+        const effect dummy_nausea( &effect_nausea.obj(), 0_turns, num_bp, false, 1, calendar::turn );
+        add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() * units::to_milliliter(
+                stomach.contains() ) / 21, dummy_nausea.get_int_dur_factor() ) );
+    }
+
+    moves -= 100;
+    for( auto &elem : *effects ) {
+        for( auto &_effect_it : elem.second ) {
+            auto &it = _effect_it.second;
+            if( it.get_id() == effect_foodpoison ) {
+                it.mod_duration( -30_minutes );
+            } else if( it.get_id() == effect_drunk ) {
+                it.mod_duration( rng( -10_minutes, -50_minutes ) );
+            }
+        }
+    }
+    remove_effect( effect_pkill1 );
+    remove_effect( effect_pkill2 );
+    remove_effect( effect_pkill3 );
+    // Don't wake up when just retching
+    if( stomach.contains() > 0_ml ) {
+        wake_up();
+    }
+}
+
+// adjacent_tile() returns a safe, unoccupied adjacent tile. If there are no such tiles, returns player position instead.
+tripoint Character::adjacent_tile() const
+{
+    std::vector<tripoint> ret;
+    int dangerous_fields = 0;
+    for( const tripoint &p : g->m.points_in_radius( pos(), 1 ) ) {
+        if( p == pos() ) {
+            // Don't consider player position
+            continue;
+        }
+        const trap &curtrap = g->m.tr_at( p );
+        if( g->critter_at( p ) == nullptr && g->m.passable( p ) &&
+            ( curtrap.is_null() || curtrap.is_benign() ) ) {
+            // Only consider tile if unoccupied, passable and has no traps
+            dangerous_fields = 0;
+            auto &tmpfld = g->m.field_at( p );
+            for( auto &fld : tmpfld ) {
+                const field_entry &cur = fld.second;
+                if( cur.is_dangerous() ) {
+                    dangerous_fields++;
+                }
+            }
+
+            if( dangerous_fields == 0 ) {
+                ret.push_back( p );
+            }
+        }
+    }
+
+    return random_entry( ret, pos() ); // player position if no valid adjacent tiles
 }

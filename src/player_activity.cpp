@@ -77,6 +77,11 @@ std::string player_activity::get_stop_phrase() const
     return type->stop_phrase();
 }
 
+std::string player_activity::get_verb() const
+{
+    return type->verb();
+}
+
 int player_activity::get_value( size_t index, int def ) const
 {
     return ( index < values.size() ) ? values[index] : def;

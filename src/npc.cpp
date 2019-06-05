@@ -614,6 +614,22 @@ void starting_inv( npc &who, const npc_class_id &type )
     who.inv += res;
 }
 
+void npc::revert_after_activity()
+{
+    mission = previous_mission;
+    attitude = previous_attitude;
+}
+
+npc_mission npc::get_previous_mission()
+{
+    return previous_mission;
+}
+
+npc_attitude npc::get_previous_attitude()
+{
+    return previous_attitude;
+}
+
 void npc::setpos( const tripoint &pos )
 {
     position = pos;
@@ -1503,6 +1519,26 @@ void npc::set_faction_ver( int new_version )
     faction_api_version = new_version;
 }
 
+bool npc::has_faction_relationship( const player &p, const npc_factions::relationship flag ) const
+{
+    if( !my_fac ) {
+        return false;
+    }
+
+    faction_id your_fac_id;
+    if( p.is_player() ) {
+        your_fac_id = faction_id( "your_followers" );
+    } else {
+        const npc &guy = dynamic_cast<const npc &>( p );
+        if( guy.my_fac ) {
+            your_fac_id = guy.my_fac->id;
+        } else {
+            return false;
+        }
+    }
+    return my_fac->has_relationship( your_fac_id, flag );
+}
+
 bool npc::is_ally( const player &p ) const
 {
     if( p.getID() == getID() ) {
@@ -1555,7 +1591,7 @@ bool npc::is_minion() const
 
 bool npc::guaranteed_hostile() const
 {
-    return is_enemy() || ( my_fac != nullptr && my_fac->likes_u < -10 );
+    return is_enemy() || ( my_fac && my_fac->likes_u < -10 );
 }
 
 bool npc::is_walking_with() const
@@ -1628,6 +1664,16 @@ bool npc::is_travelling() const
 
 Creature::Attitude npc::attitude_to( const Creature &other ) const
 {
+    if( other.is_npc() || other.is_player() ) {
+        const player &guy = dynamic_cast<const player &>( other );
+        // check faction relationships first
+        if( has_faction_relationship( guy, npc_factions::kill_on_sight ) ) {
+            return A_HOSTILE;
+        } else if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
+            return A_FRIENDLY;
+        }
+    }
+
     if( is_player_ally() ) {
         // Friendly NPCs share player's alliances
         return g->u.attitude_to( other );
@@ -2394,6 +2440,14 @@ std::set<tripoint> npc::get_path_avoid() const
 
 mfaction_id npc::get_monster_faction() const
 {
+    if( my_fac ) {
+        string_id<monfaction> my_mon_fac = string_id<monfaction>( my_fac->mon_faction );
+        if( my_mon_fac.is_valid() ) {
+            return my_mon_fac;
+        }
+    }
+
+    // legacy checks
     // Those can't be static int_ids, because mods add factions
     static const string_id<monfaction> human_fac( "human" );
     static const string_id<monfaction> player_fac( "player" );
@@ -2546,6 +2600,22 @@ attitude_group npc::get_attitude_group( npc_attitude att ) const
     return attitude_group::neutral;
 }
 
+void npc::set_mission( npc_mission new_mission )
+{
+    if( new_mission != mission ) {
+        previous_mission = mission;
+        mission = new_mission;
+    }
+    if( mission == NPC_MISSION_ACTIVITY ) {
+        current_activity = activity.get_verb();
+    }
+}
+
+bool npc::has_activity() const
+{
+    return mission == NPC_MISSION_ACTIVITY;
+}
+
 npc_attitude npc::get_attitude() const
 {
     return attitude;
@@ -2553,12 +2623,12 @@ npc_attitude npc::get_attitude() const
 
 void npc::set_attitude( npc_attitude new_attitude )
 {
-    if( new_attitude == NPCATT_FLEE ) {
-        new_attitude = NPCATT_FLEE_TEMP;
-    }
-
     if( new_attitude == attitude ) {
         return;
+    }
+    previous_attitude = attitude;
+    if( new_attitude == NPCATT_FLEE ) {
+        new_attitude = NPCATT_FLEE_TEMP;
     }
     if( new_attitude == NPCATT_FLEE_TEMP && !has_effect( effect_npc_flee_player ) ) {
         add_effect( effect_npc_flee_player, 24_hours, num_bp );
