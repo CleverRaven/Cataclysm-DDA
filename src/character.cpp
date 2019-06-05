@@ -90,6 +90,7 @@ static const trait_id trait_DISORGANIZED( "DISORGANIZED" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
+static const trait_id trait_PROF_FOODP( "PROF_FOODP" );
 static const trait_id trait_GILLS( "GILLS" );
 static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
@@ -3366,6 +3367,13 @@ int Character::get_shout_volume() const
         shout_multiplier = 3;
     }
 
+    // You can't shout without your face
+    if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
+                                            is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+        base = 0;
+        shout_multiplier = 0;
+    }
+
     // Masks and such dampen the sound
     // Balanced around whisper for wearing bondage mask
     // and noise ~= 10 (door smashing) for wearing dust mask for character with strength = 8
@@ -3392,6 +3400,13 @@ void Character::shout( std::string msg, bool order )
 {
     int base = 10;
     std::string shout = "";
+
+    // You can't shout without your face
+    if( has_trait( trait_PROF_FOODP ) && !( is_wearing( itype_id( "foodperson_mask" ) ) ||
+                                            is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+        add_msg_if_player( m_warning, _( "You try to shout but you have no face!" ) );
+        return;
+    }
 
     // Mutations make shouting louder, they also define the default message
     if( has_trait( trait_SHOUT3 ) ) {
