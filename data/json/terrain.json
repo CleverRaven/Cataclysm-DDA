@@ -7922,13 +7922,7 @@
         { "item": "splinter", "count": [ 2, 8 ] }
       ]
     },
-    "deconstruct": { 
-        "ter_set": "t_open_air", 
-        "items": [ 
-            { "item": "nail", "charges": [ 4, 8 ] }, 
-            { "item": "2x4", "count": [ 0, 4 ] }
-        ]
-    }
+    "deconstruct": { "ter_set": "t_open_air", "items": [ { "item": "nail", "charges": [ 4, 8 ] }, { "item": "2x4", "count": [ 0, 4 ] } ] }
   },
   {
     "type": "terrain",
@@ -7939,24 +7933,44 @@
     "color": "light_red",
     "move_cost": 4,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "PLACE_ITEM" ],
-    "deconstruct": { 
-        "deconstruct_above": true,
-        "ter_set": "t_floor", 
-        "items": [ 
-            { "item": "nail", "charges": [ 12, 20 ] }, 
-            { "item": "2x4", "count": [ 2, 6 ] }
-        ]
+    "deconstruct": {
+      "deconstruct_above": true,
+      "ter_set": "t_floor",
+      "items": [ { "item": "nail", "charges": [ 12, 20 ] }, { "item": "2x4", "count": [ 2, 6 ] } ]
     },
     "bash": {
       "str_min": 10,
       "str_max": 70,
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "ter_set": "t_null",
+      "ter_set": "t_floor",
       "items": [
         { "item": "2x4", "count": [ 0, 5 ] },
         { "item": "nail", "charges": [ 0, 5 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_stairs_up_broken",
+    "name": "broken wooden stairs",
+    "description": "TODO",
+    "symbol": "<",
+    "color": "light_red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "SUPPORTS_ROOF", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 8,
+      "str_max": 110,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "2x4", "count": [ 0, 2 ] },
+        { "item": "wood_panel", "count": [ 0, 1 ] },
+        { "item": "nail", "charges": [ 0, 5 ] },
+        { "item": "splinter", "count": [ 2, 8 ] }
       ]
     }
   },
@@ -7969,21 +7983,21 @@
     "color": "light_red",
     "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "GOES_UP", "SUPPORTS_ROOF", "PLACE_ITEM" ],
-    "deconstruct": { 
-        "deconstruct_above": true,
-        "ter_set": "t_floor", 
-        "items": [ 
-            { "item": "nail", "charges": [ 12, 20 ] }, 
-            { "item": "2x4", "count": [ 8, 12 ] },
-            { "item": "wood_panel", "count": [ 1, 3 ] } 
-        ]
+    "deconstruct": {
+      "deconstruct_above": true,
+      "ter_set": "t_floor",
+      "items": [
+        { "item": "nail", "charges": [ 12, 20 ] },
+        { "item": "2x4", "count": [ 8, 12 ] },
+        { "item": "wood_panel", "count": [ 1, 3 ] }
+      ]
     },
     "bash": {
       "str_min": 12,
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whump!",
-      "ter_set": "t_wood_stairs_up_half",
+      "ter_set": "t_wood_stairs_up_broken",
       "items": [
         { "item": "2x4", "count": [ 0, 3 ] },
         { "item": "wood_panel", "count": [ 0, 2 ] },
