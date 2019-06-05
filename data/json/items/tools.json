@@ -6010,7 +6010,7 @@
       "sound_volume": 0,
       "sound_msg": "ssss...",
       "no_deactivate_msg": "You've already lit the %s, try throwing it instead.",
-      "explosion": { "power": 150, "shrapnel": { "casing_mass": 500, "fragment_mass": 1 } }
+      "explosion": { "power": 500, "shrapnel": { "casing_mass": 500, "fragment_mass": 1 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
   },
