@@ -35,6 +35,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "trap.h"
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -58,6 +59,8 @@ const efftype_id effect_crushed( "crushed" );
 const efftype_id effect_darkness( "darkness" );
 const efftype_id effect_disinfected( "disinfected" );
 const efftype_id effect_downed( "downed" );
+const efftype_id effect_drunk( "drunk" );
+const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_infected( "infected" );
@@ -65,7 +68,11 @@ const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_narcosis( "narcosis" );
+const efftype_id effect_nausea( "nausea" );
 const efftype_id effect_no_sight( "no_sight" );
+const efftype_id effect_pkill1( "pkill1" );
+const efftype_id effect_pkill2( "pkill2" );
+const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_riding( "riding" );
 const efftype_id effect_sleep( "sleep" );
 const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
@@ -3437,4 +3444,74 @@ void Character::shout( std::string msg, bool order )
 
     sounds::sound( pos(), noise, order ? sounds::sound_t::order : sounds::sound_t::alert, msg, false,
                    "shout", shout );
+}
+
+void Character::vomit()
+{
+    add_memorial_log( pgettext( "memorial_male", "Threw up." ),
+                      pgettext( "memorial_female", "Threw up." ) );
+
+    if( stomach.contains() != 0_ml ) {
+        // empty stomach contents
+        stomach.bowel_movement();
+        g->m.add_field( adjacent_tile(), fd_bile, 1 );
+        add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
+    }
+
+    if( !has_effect( effect_nausea ) ) {  // Prevents never-ending nausea
+        const effect dummy_nausea( &effect_nausea.obj(), 0_turns, num_bp, false, 1, calendar::turn );
+        add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() * units::to_milliliter(
+                stomach.contains() ) / 21, dummy_nausea.get_int_dur_factor() ) );
+    }
+
+    moves -= 100;
+    for( auto &elem : *effects ) {
+        for( auto &_effect_it : elem.second ) {
+            auto &it = _effect_it.second;
+            if( it.get_id() == effect_foodpoison ) {
+                it.mod_duration( -30_minutes );
+            } else if( it.get_id() == effect_drunk ) {
+                it.mod_duration( rng( -10_minutes, -50_minutes ) );
+            }
+        }
+    }
+    remove_effect( effect_pkill1 );
+    remove_effect( effect_pkill2 );
+    remove_effect( effect_pkill3 );
+    // Don't wake up when just retching
+    if( stomach.contains() > 0_ml ) {
+        wake_up();
+    }
+}
+
+// adjacent_tile() returns a safe, unoccupied adjacent tile. If there are no such tiles, returns player position instead.
+tripoint Character::adjacent_tile() const
+{
+    std::vector<tripoint> ret;
+    int dangerous_fields = 0;
+    for( const tripoint &p : g->m.points_in_radius( pos(), 1 ) ) {
+        if( p == pos() ) {
+            // Don't consider player position
+            continue;
+        }
+        const trap &curtrap = g->m.tr_at( p );
+        if( g->critter_at( p ) == nullptr && g->m.passable( p ) &&
+            ( curtrap.is_null() || curtrap.is_benign() ) ) {
+            // Only consider tile if unoccupied, passable and has no traps
+            dangerous_fields = 0;
+            auto &tmpfld = g->m.field_at( p );
+            for( auto &fld : tmpfld ) {
+                const field_entry &cur = fld.second;
+                if( cur.is_dangerous() ) {
+                    dangerous_fields++;
+                }
+            }
+
+            if( dangerous_fields == 0 ) {
+                ret.push_back( p );
+            }
+        }
+    }
+
+    return random_entry( ret, pos() ); // player position if no valid adjacent tiles
 }

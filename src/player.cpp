@@ -6517,52 +6517,6 @@ void player::mend( int rate_multiplier )
     }
 }
 
-void player::vomit()
-{
-    add_memorial_log( pgettext( "memorial_male", "Threw up." ),
-                      pgettext( "memorial_female", "Threw up." ) );
-
-    if( stomach.contains() != 0_ml ) {
-        // Remove all joy from previously eaten food and apply the penalty
-        rem_morale( MORALE_FOOD_GOOD );
-        rem_morale( MORALE_FOOD_HOT );
-        rem_morale( MORALE_HONEY ); // bears must suffer too
-        add_morale( MORALE_VOMITED, -2 * units::to_milliliter( stomach.contains() / 50 ), -40, 90_minutes,
-                    45_minutes, false ); // 1.5 times longer
-        stomach.bowel_movement(); // puke all of it
-        g->m.add_field( adjacent_tile(), fd_bile, 1 );
-
-        add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
-    } else {
-        add_msg_if_player( m_warning, _( "You retched, but your stomach is empty." ) );
-    }
-
-    if( !has_effect( effect_nausea ) ) { // Prevents never-ending nausea
-        const effect dummy_nausea( &effect_nausea.obj(), 0_turns, num_bp, false, 1, calendar::turn );
-        add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() * units::to_milliliter(
-                stomach.contains() ) / 21, dummy_nausea.get_int_dur_factor() ) );
-    }
-
-    moves -= 100;
-    for( auto &elem : *effects ) {
-        for( auto &_effect_it : elem.second ) {
-            auto &it = _effect_it.second;
-            if( it.get_id() == effect_foodpoison ) {
-                it.mod_duration( -30_minutes );
-            } else if( it.get_id() == effect_drunk ) {
-                it.mod_duration( rng( -10_minutes, -50_minutes ) );
-            }
-        }
-    }
-    remove_effect( effect_pkill1 );
-    remove_effect( effect_pkill2 );
-    remove_effect( effect_pkill3 );
-    // Don't wake up when just retching
-    if( stomach.contains() > 0_ml ) {
-        wake_up();
-    }
-}
-
 void player::sound_hallu()
 {
     // Random 'dangerous' sound from a random direction
@@ -10983,38 +10937,6 @@ bool player::uncanny_dodge()
         add_msg( _( "%s tries to dodge but there's no room!" ), this->disp_name() );
     }
     return false;
-}
-
-// adjacent_tile() returns a safe, unoccupied adjacent tile. If there are no such tiles, returns player position instead.
-tripoint player::adjacent_tile() const
-{
-    std::vector<tripoint> ret;
-    int dangerous_fields = 0;
-    for( const tripoint &p : g->m.points_in_radius( pos(), 1 ) ) {
-        if( p == pos() ) {
-            // Don't consider player position
-            continue;
-        }
-        const trap &curtrap = g->m.tr_at( p );
-        if( g->critter_at( p ) == nullptr && g->m.passable( p ) &&
-            ( curtrap.is_null() || curtrap.is_benign() ) ) {
-            // Only consider tile if unoccupied, passable and has no traps
-            dangerous_fields = 0;
-            auto &tmpfld = g->m.field_at( p );
-            for( auto &fld : tmpfld ) {
-                const field_entry &cur = fld.second;
-                if( cur.is_dangerous() ) {
-                    dangerous_fields++;
-                }
-            }
-
-            if( dangerous_fields == 0 ) {
-                ret.push_back( p );
-            }
-        }
-    }
-
-    return random_entry( ret, pos() ); // player position if no valid adjacent tiles
 }
 
 int player::climbing_cost( const tripoint &from, const tripoint &to ) const

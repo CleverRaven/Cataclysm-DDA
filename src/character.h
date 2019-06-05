@@ -831,12 +831,17 @@ class Character : public Creature, public visitable<Character>
         virtual void on_item_takeoff( const item & ) {}
         virtual void on_worn_item_washed( const item & ) {}
 
+        /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
+        tripoint adjacent_tile() const;
+
         /** Removes "sleep" and "lying_down" */
         void wake_up();
         // how loud a character can shout. based on mutations and clothing
         int get_shout_volume() const;
         // shouts a message
         void shout( std::string text = "", bool order = false );
+        /** Handles Character vomiting effects */
+        void vomit();
     protected:
         Character();
         Character( const Character & ) = delete;
