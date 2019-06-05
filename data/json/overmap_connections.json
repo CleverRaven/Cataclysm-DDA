@@ -3,7 +3,7 @@
     "type": "overmap_connection",
     "id": "local_road",
     "subtypes": [
-      { "terrain": "road", "locations": [ "field", "road", "desert" ] },
+      { "terrain": "road", "locations": [ "field", "road" ] },
       { "terrain": "road", "locations": [ "forest_without_trail" ], "basic_cost": 20 },
       { "terrain": "road", "locations": [ "forest_trail" ], "basic_cost": 25 },
       { "terrain": "road", "locations": [ "swamp" ], "basic_cost": 40 },

@@ -6,11 +6,6 @@
   },
   {
     "type": "overmap_location",
-    "id": "desert",
-    "terrains": [ "field" ]
-  },
-  {
-    "type": "overmap_location",
     "id": "forest_without_trail",
     "terrains": [ "forest", "forest_thick" ]
   },
