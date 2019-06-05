@@ -9,7 +9,7 @@
     "volume": 12,
     "price": 50000,
     "ammo_type": "anesthetic",
-    "count": 3,
+    "count": 3000,
     "phase": "liquid",
     "container": "jar_3l_glass",
     "symbol": "!",
