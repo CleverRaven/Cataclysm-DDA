@@ -5217,7 +5217,6 @@ partial_con *map::partial_con_at( const tripoint &p )
     if( it != current_submap->partial_constructions.end() ) {
         return &it->second;
     }
-
     return nullptr;
 }
 
