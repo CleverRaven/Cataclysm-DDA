@@ -21,6 +21,7 @@
 #include "flat_set.h"
 #include "io_tags.h"
 #include "item_location.h"
+#include "requirements.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
@@ -67,7 +68,6 @@ struct fire_data;
 struct damage_instance;
 struct damage_unit;
 class map;
-struct item_comp;
 
 enum damage_type : int;
 
@@ -182,7 +182,7 @@ class item : public visitable<item>
         item( const itype *type, time_point turn, solitary_tag );
 
         /** For constructing in-progress crafts */
-        item( const recipe *rec, int qty, std::list<item> items );
+        item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
 
         /**
          * Filter converting this instance to another type preserving all other aspects
@@ -1906,7 +1906,7 @@ class item : public visitable<item>
          * Causes a debugmsg and returns empty requirement data if called on a non-craft
          * @return what is needed to continue craft, may be empty requirement data
          */
-        requirement_data get_continue_reqs();
+        requirement_data get_continue_reqs() const;
 
 
     private:
@@ -1979,6 +1979,7 @@ class item : public visitable<item>
         // Only for in-progress crafts
         const recipe *making = nullptr;
         int next_failure_point = -1;
+        std::vector<item_comp> comps_used;
 
     public:
         int charges;
