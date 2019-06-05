@@ -1,4 +1,4 @@
-[
+﻿[
   {
     "id": "debug_mon",
     "type": "MONSTER",
@@ -152,7 +152,7 @@
     "id": "mon_beekeeper",
     "type": "MONSTER",
     "name": "scarred zombie",
-    "description": "A deformed human body, its skin has been transformed into one thick, calloused envelope of scar tissue.",
+    "description": "A deformed human body, its skin transformed into one thick, calloused envelope of scar tissue.",
     "default_faction": "zombie",
     "bodytype": "human",
     "species": [ "ZOMBIE", "HUMAN" ],
@@ -844,7 +844,7 @@
     "id": "mon_darkman",
     "type": "MONSTER",
     "name": "wraith",
-    "description": "A gigantic shadow, chaotically changing in shape and volume , two piercing orbs of light dominate what can only be described as its head.",
+    "description": "A gigantic shadow, chaotically changing in shape and volume.  Two piercing orbs of light dominate what can only be described as its head.",
     "default_faction": "nether",
     "species": [ "NETHER" ],
     "diff": 2,
@@ -1004,7 +1004,7 @@
     "id": "mon_dog_zombie_rot",
     "type": "MONSTER",
     "name": "rot-weiler",
-    "description": "Acrid smell accompanies this corpse of canine.  Its whole body is covered in chains of pulsing cysts and slime dribbling ulcers.",
+    "description": "Acrid smell accompanies this corpse of canine.  Its whole body is covered in chains of pulsing cysts and slime-dribbling ulcers.",
     "default_faction": "zombie",
     "bodytype": "dog",
     "species": [ "ZOMBIE" ],
@@ -2929,7 +2929,7 @@
     "id": "mon_zombie",
     "type": "MONSTER",
     "name": "zombie",
-    "description": "A human body, swaying as it moves, an unstoppable rage is visible in its oily black eyes.",
+    "description": "A human body, swaying as it moves, an unstoppable rage visible in its oily black eyes.",
     "default_faction": "zombie",
     "bodytype": "human",
     "categories": [ "CLASSIC" ],
