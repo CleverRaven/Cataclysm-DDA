@@ -846,8 +846,6 @@ void place_construction( const std::string &desc )
         g->u.consume_tools( it );
     }
 
-    std::string con_desc = string_format( _( "Unfinished task: %s, 0% complete" ), con.description );
-
     g->u.assign_activity( activity_id( "ACT_BUILD" ) );
     g->u.activity.index = con.id;
     g->u.activity.placement = pnt;
