@@ -46,7 +46,6 @@
 #include "item.h"
 #include "player_activity.h"
 #include "pldata.h"
-#include "submap.h"
 #include "morale_types.h"
 
 class inventory;
