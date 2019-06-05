@@ -218,13 +218,25 @@
       "no": "Huh.  I've made a few friends here, but not so much as I'd stick around here with no future prospects, hoping someone downstairs dies to make room for me.  It does sound nice, if they're looking for more workers.",
       "yes": "Have you heard anything back from the ranch about jobs yet?"
     },
-    "speaker_effect": {
-      "effect": { "u_add_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_1" },
-      "responses": [
-        { "text": "I'll look into that.  What were you saying before?", "topic": "TALK_NONE" },
-        { "text": "I'll look into that.  I'd better get going though.", "topic": "TALK_DONE" }
-      ]
-    }
+    "speaker_effect": { "effect": { "u_add_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_1" } },
+    "responses": [
+      {
+        "text": "I spoke to the foreman over at Tacoma Ranch.  If you're willing to put in the work, they'll find some work for you over there.",
+        "topic": "TALK_REFUGEE_Dana_Tacoma2",
+        "effect": { "u_add_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_3" }
+      },
+      { "text": "I'll look into that.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'll look into that.  I'd better get going though.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Dana_Tacoma2",
+    "dynamic_line": "All right.  I've taken some time to think about it, and I'm willing to go.  I'm sure they'll have use for a baker over there, after all, and if I don't get out of this place there's a very real chance I'm going to snap.  You can go let Pablo know first hand, if you want; he's been pretty excited about the idea.",
+    "responses": [
+      { "text": "Sure, I'll go tell him.  What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "Sure, I'll go tell him.  I'd better get going though.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
