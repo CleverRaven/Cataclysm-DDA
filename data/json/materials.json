@@ -1390,8 +1390,8 @@
   },
   {
     "type": "material",
-    "ident": "aluminum",
-    "name": "Aluminum",
+    "ident": "zinc",
+    "name": "Zinc",
     "density": 10,
     "specific_heat_liquid": 1.18,
     "specific_heat_solid": 0.91,
