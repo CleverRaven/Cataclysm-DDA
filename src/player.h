@@ -225,10 +225,10 @@ class player : public Character
         int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
         // populate variables, inventory items, and misc from json object
-        virtual void deserialize( JsonIn &jsin );
+        virtual void deserialize( JsonIn &jsin ) = 0;
 
         // by default save all contained info
-        virtual void serialize( JsonOut &jsout ) const;
+        virtual void serialize( JsonOut &jsout ) const = 0;
 
         /** Handles and displays detailed character info for the '@' screen */
         void disp_info();
@@ -387,7 +387,7 @@ class player : public Character
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
         bool mutate_towards( const trait_id &mut );
         /** Removes a mutation, downgrading to the previous level if possible */
-        void remove_mutation( const trait_id &mut );
+        void remove_mutation( const trait_id &mut, bool silent = false );
         /** Returns true if the player has the entered mutation child flag */
         bool has_child_flag( const trait_id &mut ) const;
         /** Removes the mutation's child flag from the player's list */
@@ -460,9 +460,6 @@ class player : public Character
         void reset_move_mode(); // Resets to walking.
         void toggle_run_mode(); // Toggles running on/off.
         void toggle_crouch_mode(); // Toggles crouching on/off.
-
-        int get_shout_volume() const;
-        void shout( std::string text = "", bool order = false );
 
         // martialarts.cpp
         /** Fires all non-triggered martial arts events */
@@ -538,14 +535,20 @@ class player : public Character
 
         /** Returns true if the player has technique-based miss recovery */
         bool has_miss_recovery_tec( const item &weap ) const;
+        /** Returns the technique used for miss recovery */
+        ma_technique get_miss_recovery_tec( const item &weap ) const;
         /** Returns true if the player has a grab breaking technique available */
         bool has_grab_break_tec() const override;
+        /** Returns the grab breaking technique if available */
+        ma_technique get_grab_break_tec() const;
         /** Returns true if the player has the leg block technique available */
         bool can_leg_block() const;
         /** Returns true if the player has the arm block technique available */
         bool can_arm_block() const;
         /** Returns true if either can_leg_block() or can_arm_block() returns true */
         bool can_limb_block() const;
+        /** Returns true if the current style forces unarmed attack techniques */
+        bool is_force_unarmed() const;
 
         // melee.cpp
         /** Returns the best item for blocking with */
@@ -706,8 +709,6 @@ class player : public Character
 
         /** Handles the uncanny dodge bionic and effects, returns true if the player successfully dodges */
         bool uncanny_dodge() override;
-        /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
-        tripoint adjacent_tile() const;
 
         /**
          * Checks both the neighborhoods of from and to for climbable surfaces,
@@ -816,8 +817,6 @@ class player : public Character
         bool irradiate( float rads, bool bypass = false );
         /** Handles the chance for broken limbs to spontaneously heal to 1 HP */
         void mend( int rate_multiplier );
-        /** Handles player vomiting effects */
-        void vomit();
 
         /** Creates an auditory hallucination */
         void sound_hallu();
@@ -1023,27 +1022,6 @@ class player : public Character
         void mend_item( item_location &&obj, bool interactive = true );
 
         /**
-         * Calculate (but do not deduct) the number of moves required when handling (e.g. storing, drawing etc.) an item
-         * @param it Item to calculate handling cost for
-         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
-         * @param base_cost Cost due to storage type.
-         * @return cost in moves ranging from 0 to MAX_HANDLING_COST
-         */
-        int item_handling_cost( const item &it, bool penalties = true,
-                                int base_cost = INVENTORY_HANDLING_PENALTY ) const;
-
-        /**
-         * Calculate (but do not deduct) the number of moves required when storing an item in a container
-         * @param it Item to calculate storage cost for
-         * @param container Container to store item in
-         * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
-         * @param base_cost Cost due to storage type.
-         * @return cost in moves ranging from 0 to MAX_HANDLING_COST
-         */
-        int item_store_cost( const item &it, const item &container, bool penalties = true,
-                             int base_cost = INVENTORY_HANDLING_PENALTY ) const;
-
-        /**
          * Calculate (but do not deduct) the number of moves required to reload an item with specified quantity of ammo
          * @param it Item to calculate reload cost for
          * @param ammo either ammo or magazine to use when reloading the item
@@ -1140,31 +1118,10 @@ class player : public Character
         /** Starts activity to install toolmod */
         void toolmod_add( item_location tool, item_location mod );
 
-        /**
-         * Helper function for player::read.
-         *
-         * @param book Book to read
-         * @param reasons Starting with g->u, for each player/NPC who cannot read, a message will be pushed back here.
-         * @returns nullptr, if neither the player nor his followers can read to the player, otherwise the player/NPC
-         * who can read and can read the fastest
-         */
-        const player *get_book_reader( const item &book, std::vector<std::string> &reasons ) const;
-        /**
-         * Helper function for get_book_reader
-         * @warning This function assumes that the everyone is able to read
-         *
-         * @param book The book being read
-         * @param reader the player/NPC who's reading to the caller
-         * @param learner if not nullptr, assume that the caller and reader read at a pace that isn't too fast for him
-         */
-        int time_to_read( const item &book, const player &reader, const player *learner = nullptr ) const;
         bool fun_to_read( const item &book ) const;
-        /** Handles reading effects and returns true if activity started */
-        bool read( int inventory_position, const bool continuous = false );
-        /** Completes book reading action. **/
-        void do_read( item &book );
         /** Note that we've read a book at least once. **/
-        bool has_identified( const std::string &item_id ) const;
+        virtual bool has_identified( const std::string &item_id ) const = 0;
+
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur = 30_minutes );
         /** Rate point's ability to serve as a bed. Only takes certain mutations into account, and not fatigue nor stimulants. */
@@ -1176,8 +1133,6 @@ class player : public Character
         /** Adds "sleep" to the player */
         void fall_asleep();
         void fall_asleep( const time_duration &duration );
-        /** Removes "sleep" and "lying_down" from the player */
-        void wake_up();
         /** Checks to see if the player is using floor items to keep warm, and return the name of one such item if so */
         std::string is_snuggling() const;
 
@@ -1198,7 +1153,6 @@ class player : public Character
         hint_rating rate_action_wear( const item &it ) const;
         hint_rating rate_action_change_side( const item &it ) const;
         hint_rating rate_action_eat( const item &it ) const;
-        hint_rating rate_action_read( const item &it ) const;
         hint_rating rate_action_takeoff( const item &it ) const;
         hint_rating rate_action_reload( const item &it ) const;
         hint_rating rate_action_unload( const item &it ) const;
@@ -1237,6 +1191,8 @@ class player : public Character
         int head_cloth_encumbrance() const;
         /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */
         double footwear_factor() const;
+        /** Same as footwear factor, but for arms */
+        double armwear_factor() const;
         /** Returns 1 if the player is wearing an item of that count on one foot, 2 if on both, and zero if on neither */
         int shoe_type_count( const itype_id &it ) const;
         /** Returns true if the player is wearing power armor */
@@ -1508,10 +1464,8 @@ class player : public Character
         action_id get_next_auto_move_direction();
         bool defer_move( const tripoint &next );
         void shift_destination( int shiftx, int shifty );
-
-        // Grab furniture / vehicle
-        void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
-        object_type get_grab_type() const;
+        void forced_dismount();
+        void dismount();
 
         // Hauling items on the ground
         void start_hauling();
@@ -1593,8 +1547,8 @@ class player : public Character
         int radiation;
         unsigned long cash;
         int movecounter;
-        // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
-        bool death_drops;
+        std::shared_ptr<monster> mounted_creature;
+        bool death_drops;// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
         std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
         // Equalizes heat between body parts
         void temp_equalizer( body_part bp1, body_part bp2 );
@@ -1619,7 +1573,7 @@ class player : public Character
         bool manual_examine = false;
 
         std::vector <addiction> addictions;
-        cata::optional<mtype_id> starting_pet;
+        std::vector<mtype_id> starting_pets;
 
         void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,
                                       const tripoint &loc = tripoint_zero );
@@ -1802,9 +1756,6 @@ class player : public Character
         /** Processes human-specific effects of an effect. */
         void process_one_effect( effect &e, bool is_new ) override;
 
-        // TODO: move this to avatar
-        // Items the player has identified.
-        std::unordered_set<std::string> items_identified;
     private:
 
         /** Check if an area-of-effect technique has valid targets */
@@ -1888,9 +1839,6 @@ class player : public Character
         time_point cached_time;
         tripoint cached_position;
 
-    protected:
-        // TODO: move this to avatar
-        object_type grab_type;
     private:
 
         struct weighted_int_list<std::string> melee_miss_reasons;
@@ -1920,15 +1868,6 @@ class player : public Character
 
         /** Amount of time the player has spent in each overmap tile. */
         std::unordered_map<point, time_duration> overmap_time;
-
-        // magic mod
-
-        // list of spells known by player
-        std::map<spell_id, spell> spellbook;
-        // the base mana a player would start with
-        int mana_base;
-        // current mana
-        int mana;
 };
 
 #endif

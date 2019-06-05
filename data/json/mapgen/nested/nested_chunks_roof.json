@@ -391,5 +391,29 @@
       "furniture": { "B": [ "f_birdbath", "f_statue" ], "b": "f_bench" },
       "sealed_item": { "1": { "item": { "item": "seed_rose" }, "furniture": "f_planter_seedling" } }
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "roof_6x6_garden_3",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "______",
+        "44433_",
+        "BBBBB_",
+        "22233_",
+        "BBBBB_",
+        "11112_"
+      ],
+      "terrain": { "_": "t_null", "B": "t_railroad_rubble" },
+      "sealed_item": {
+        "1": { "item": { "item": "seed_chamomile" }, "furniture": "f_planter_harvest" },
+        "2": { "item": { "item": "seed_thyme" }, "furniture": "f_planter_harvest" },
+        "3": { "item": { "item": "seed_bee_balm" }, "furniture": "f_planter_harvest" },
+        "4": { "item": { "item": "seed_mugwort" }, "furniture": "f_planter_harvest" }
+      }
+    }
   }
 ]

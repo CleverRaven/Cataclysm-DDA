@@ -998,6 +998,41 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "dojo_roof",
+    "name": "dojo roof",
+    "copy-from": "generic_city_building",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dojo_upper_roof",
+    "name": "dojo roof",
+    "copy-from": "generic_city_building",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dojo_1",
+    "name": "dojo",
+    "copy-from": "generic_city_building",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dojo_roof_1",
+    "name": "dojo roof",
+    "copy-from": "generic_city_building",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dojo_upper_roof_1",
+    "name": "dojo roof",
+    "copy-from": "generic_city_building",
+    "color": "i_light_cyan"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "cs_private_park",
     "copy-from": "generic_city_building",
     "name": "private park",

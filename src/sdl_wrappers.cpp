@@ -121,6 +121,16 @@ void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, const SDL_BlendMo
                   "SDL_SetRenderDrawBlendMode failed" );
 }
 
+void GetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode &blend_mode )
+{
+    if( !renderer ) {
+        dbg( D_ERROR ) << "Tried to use a null renderer";
+        return;
+    }
+    printErrorIf( SDL_GetRenderDrawBlendMode( renderer.get(), &blend_mode ) != 0,
+                  "SDL_GetRenderDrawBlendMode failed" );
+}
+
 SDL_Surface_Ptr load_image( const char *const path )
 {
     assert( path );

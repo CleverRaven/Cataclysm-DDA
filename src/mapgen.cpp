@@ -7039,13 +7039,6 @@ void map::add_spawn( const mtype_id &type, int count, int x, int y, bool friendl
                   type.c_str(), count, x, y );
         return;
     }
-    if( get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
-        const mtype &mt = type.obj();
-        if( !mt.in_category( "CLASSIC" ) && !mt.in_category( "WILDLIFE" ) ) {
-            // Don't spawn non-classic monsters in classic zombie mode.
-            return;
-        }
-    }
     if( MonsterGroupManager::monster_is_blacklisted( type ) ) {
         return;
     }
@@ -8291,6 +8284,10 @@ void square_furn( map *m, furn_id type, int x1, int y1, int x2, int y2 )
     m->draw_square_furn( type, x1, y1, x2, y2 );
 }
 void square( map *m, ter_id( *f )(), int x1, int y1, int x2, int y2 )
+{
+    m->draw_square_ter( f, x1, y1, x2, y2 );
+}
+void square( map *m, const weighted_int_list<ter_id> &f, int x1, int y1, int x2, int y2 )
 {
     m->draw_square_ter( f, x1, y1, x2, y2 );
 }

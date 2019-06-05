@@ -17,6 +17,7 @@
 #include "action.h"
 #include "advanced_inv.h"
 #include "avatar.h"
+#include "avatar_action.h"
 #include "clzones.h"
 #include "construction.h"
 #include "craft_command.h"
@@ -126,6 +127,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_ARMOR_LAYERS" ), armor_layers_do_turn },
     { activity_id( "ACT_ATM" ), atm_do_turn },
     { activity_id( "ACT_CRACKING" ), cracking_do_turn },
+    { activity_id( "ACT_FISH" ), fish_do_turn },
     { activity_id( "ACT_REPAIR_ITEM" ), repair_item_do_turn },
     { activity_id( "ACT_BUTCHER" ), butcher_do_turn },
     { activity_id( "ACT_BUTCHER_FULL" ), butcher_do_turn },
@@ -210,6 +212,7 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_HAIRCUT" ), haircut_finish },
     { activity_id( "ACT_UNLOAD_MAG" ), unload_mag_finish },
     { activity_id( "ACT_ROBOT_CONTROL" ), robot_control_finish },
+    { activity_id( "ACT_MIND_SPLICER" ), mind_splicer_finish },
     { activity_id( "ACT_HACK_DOOR" ), hack_door_finish },
     { activity_id( "ACT_HACK_SAFE" ), hack_safe_finish },
     { activity_id( "ACT_SPELLCASTING" ), spellcasting_finish },
@@ -1422,52 +1425,6 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
     act->values.clear();
 }
 
-// fish-with-rod fish catching function.
-static void rod_fish( player *p, int sSkillLevel, int fishChance, const tripoint &fish_point )
-{
-    if( sSkillLevel > fishChance ) {
-        std::vector<monster *> fishables = g->get_fishable( 60, fish_point ); //get the nearby fish list.
-        //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
-        if( fishables.empty() ) {
-            if( one_in( 20 ) ) {
-                item fish;
-                const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
-                            mongroup_id( "GROUP_FISH" ) );
-                const mtype_id &fish_mon = random_entry_ref( fish_group );
-                g->m.add_item_or_charges( p->pos(), item::make_corpse( fish_mon ) );
-                p->add_msg_if_player( m_good, _( "You caught a %s." ), fish_mon.obj().nname() );
-            } else {
-                p->add_msg_if_player( _( "You didn't catch anything." ) );
-            }
-        } else {
-            g->catch_a_monster( fishables, p->pos(), p, 50_hours );
-        }
-
-    } else {
-        p->add_msg_if_player( _( "You didn't catch anything." ) );
-    }
-}
-
-void activity_handlers::fish_finish( player_activity *act, player *p )
-{
-    item &it = p->i_at( act->position );
-    int sSkillLevel = 0;
-    int fishChance = 20;
-    if( it.has_flag( "FISH_POOR" ) ) {
-        sSkillLevel = p->get_skill_level( skill_survival ) + dice( 1, 6 );
-        fishChance = dice( 1, 20 );
-    } else if( it.has_flag( "FISH_GOOD" ) ) {
-        // Much better chances with a good fishing implement.
-        sSkillLevel = p->get_skill_level( skill_survival ) * 1.5 + dice( 1, 6 ) + 3;
-        fishChance = dice( 1, 20 );
-    }
-    const tripoint fish_pos = act->placement;
-    ///\EFFECT_SURVIVAL increases chance of fishing success
-    rod_fish( p, sSkillLevel, fishChance, fish_pos );
-    p->practice( skill_survival, rng( 5, 15 ) );
-    act->set_to_null();
-}
-
 void activity_handlers::forage_finish( player_activity *act, player *p )
 {
     const int veggy_chance = rng( 1, 100 );
@@ -1499,21 +1456,20 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 
     // Survival gives a bigger boost, and Perception is leveled a bit.
     // Both survival and perception affect time to forage
-    ///\EFFECT_SURVIVAL increases forage success chance
 
     ///\EFFECT_PER slightly increases forage success chance
+    ///\EFFECT_SURVIVAL increases forage success chance
     if( veggy_chance < p->get_skill_level( skill_survival ) * 3 + p->per_cur - 2 ) {
         const auto dropped = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
             add_msg( m_good, _( "You found: %s!" ), it->tname() );
             found_something = true;
-            if( it->typeId() == "mushroom" ) {
-                if( one_in( 10 ) ) {
-                    it->item_tags.insert( "HIDDEN_POISON" );
-                    it->poison = rng( 2, 7 );
-                } else if( one_in( 10 ) ) {
-                    it->item_tags.insert( "HIDDEN_HALLU" );
-                }
+            if( it->has_flag( "FORAGE_POISON" ) && one_in( 10 ) ) {
+                it->set_flag( "HIDDEN_POISON" );
+                it->poison = rng( 2, 7 );
+            }
+            if( it->has_flag( "FORAGE_HALLU" ) && !it->has_flag( "HIDDEN_POISON" ) && one_in( 10 ) ) {
+                it->set_flag( "HIDDEN_HALLU" );
             }
         }
     }
@@ -1878,11 +1834,20 @@ void activity_handlers::start_fire_do_turn( player_activity *act, player *p )
         if( !g->m.is_flammable( act->placement ) ) {
             p->add_msg_if_player( m_info, _( "There's nothing to light there." ) );
             p->cancel_activity();
+            return;
         }
-        return;
     }
-    item &lens_item = p->i_at( act->position );
-    const auto usef = lens_item.type->get_use( "firestarter" );
+
+    item &firestarter = p->i_at( act->position );
+    if( firestarter.has_flag( "REQUIRES_TINDER" ) ) {
+        if( !g->m.tinder_at( act->placement ) ) {
+            p->add_msg_if_player( m_info, _( "This item requires tinder to light." ) );
+            p->cancel_activity();
+            return;
+        }
+    }
+
+    const auto usef = firestarter.type->get_use( "firestarter" );
     if( usef == nullptr || usef->get_actor_ptr() == nullptr ) {
         add_msg( m_bad, _( "You have lost the item you were using to start the fire." ) );
         p->cancel_activity();
@@ -2053,12 +2018,12 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
     for( size_t e = 0; e < veh->engines.size(); ++e ) {
         if( veh->is_engine_on( e ) ) {
             attempted++;
-            if( !veh->is_engine_type( e, "muscle" ) ) {
+            if( !veh->is_engine_type( e, "muscle" ) && !veh->is_engine_type( e, "animal" ) ) {
                 non_muscle_attempted++;
             }
             if( veh->start_engine( e ) ) {
                 started++;
-                if( !veh->is_engine_type( e, "muscle" ) ) {
+                if( !veh->is_engine_type( e, "muscle" ) && !veh->is_engine_type( e, "animal" ) ) {
                     non_muscle_started++;
                 }
             }
@@ -2544,7 +2509,7 @@ void activity_handlers::aim_do_turn( player_activity *act, player * )
     if( act->index == 0 ) {
         g->m.invalidate_map_cache( g->get_levz() );
         g->m.build_map_cache( g->get_levz() );
-        g->plfire();
+        avatar_action::fire( g->u, g->m );
     }
 }
 
@@ -2606,6 +2571,76 @@ void activity_handlers::atm_do_turn( player_activity *, player *p )
     iexamine::atm( *p, p->pos() );
 }
 
+// fish-with-rod fish catching function.
+static void rod_fish( player *p, const tripoint &fish_point )
+{
+    std::vector<monster *> fishables = g->get_fishable( 60, fish_point ); //get the nearby fish list.
+    //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
+    if( fishables.empty() ) {
+        const std::vector<mtype_id> fish_group = MonsterGroupManager::GetMonstersFromGroup(
+                    mongroup_id( "GROUP_FISH" ) );
+        const mtype_id fish_mon = random_entry_ref( fish_group );
+        g->m.add_item_or_charges( p->pos(), item::make_corpse( fish_mon, calendar::turn + rng( 0_turns,
+                                  3_hours ) ) );
+        p->add_msg_if_player( m_good, _( "You caught a %s." ), fish_mon.obj().nname() );
+    } else {
+        monster *chosen_fish = random_entry( fishables );
+        chosen_fish->fish_population -= 1;
+        if( chosen_fish->fish_population <= 0 ) {
+            g->catch_a_monster( chosen_fish, p->pos(), p, 50_hours );
+        } else {
+            g->m.add_item_or_charges( p->pos(), item::make_corpse( chosen_fish->type->id,
+                                      calendar::turn + rng( 0_turns,
+                                              3_hours ) ) );
+            p->add_msg_if_player( m_good, _( "You caught a %s." ), chosen_fish->type->nname() );
+        }
+    }
+}
+
+
+void activity_handlers::fish_do_turn( player_activity *act, player *p )
+{
+    item &it = p->i_at( act->position );
+    int fish_chance = 1;
+    int survival_skill = p->get_skill_level( skill_survival );
+    if( it.has_flag( "FISH_POOR" ) ) {
+        survival_skill += dice( 1, 6 );
+    } else if( it.has_flag( "FISH_GOOD" ) ) {
+        // Much better chances with a good fishing implement.
+        survival_skill += dice( 4, 9 );
+        survival_skill *= 2;
+    }
+    const tripoint fish_pos = act->placement;
+    std::vector<monster *> fishables = g->get_fishable( 60, fish_pos );
+    // Fish are always there, even if it dosnt seem like they are visible!
+    if( fishables.empty() ) {
+        fish_chance += survival_skill / 2;
+    } else {
+        // if they are visible however, it implies a larger population
+        for( auto elem : fishables ) {
+            fish_chance += elem->fish_population;
+        }
+        fish_chance += survival_skill;
+    }
+    // no matter the population of fish, your skill and tool limits the ease of catching.
+    fish_chance = std::min( survival_skill * 10, fish_chance );
+    if( x_in_y( fish_chance, 100000 ) ) {
+        add_msg( m_good, _( "You feel a tug on your line!" ) );
+        rod_fish( p, fish_pos );
+    }
+    if( calendar::once_every( 60_minutes ) ) {
+        p->practice( skill_survival, rng( 1, 3 ) );
+    }
+
+}
+
+void activity_handlers::fish_finish( player_activity *act, player *p )
+{
+    ( void )p;
+    act->set_to_null();
+    add_msg( m_info, _( "You finish fishing" ) );
+}
+
 void activity_handlers::cracking_do_turn( player_activity *act, player *p )
 {
     auto cracking_tool = p->crafting_inventory().items_with( []( const item & it ) -> bool {
@@ -2639,7 +2674,11 @@ void activity_handlers::butcher_do_turn( player_activity *, player *p )
 
 void activity_handlers::read_finish( player_activity *act, player *p )
 {
-    p->do_read( *act->targets.front().get_item() );
+    if( avatar *u = dynamic_cast<avatar *>( p ) ) {
+        u->do_read( *act->targets.front().get_item() );
+    } else {
+        act->set_to_null();
+    }
     if( !act ) {
         p->add_msg_if_player( m_info, _( "You finish reading." ) );
     }
@@ -3615,13 +3654,30 @@ static void blood_magic( player *p, int cost )
         action = uilist( _( "Choose part\nto draw blood from." ), uile );
     }
     p->hp_cur[action] -= cost;
-    p->mod_pain( std::max( ( int )1, cost / 3 ) );
+    p->mod_pain( std::max( 1, cost / 3 ) );
+}
+
+static spell casting;
+
+static spell &player_or_item_spell( player *p, const spell_id &sp, int level )
+{
+    if( level == -1 ) {
+        return p->magic.get_spell( sp );
+    }
+    casting = spell( sp );
+    while( casting.get_level() < level && !casting.is_max_level() ) {
+        casting.gain_level();
+    }
+    return casting;
 }
 
 void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 {
     act->set_to_null();
-    spell &casting = p->magic.get_spell( spell_id( act->name ) );
+    const int level_override = act->get_value( 0 );
+    spell &casting = player_or_item_spell( p, spell_id( act->name ), level_override );
+    const bool no_fail = act->get_value( 1 ) == 1;
+    const bool no_mana = act->get_value( 2 ) == 0;
 
     // choose target for spell (if the spell has a range > 0)
 
@@ -3631,7 +3687,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     bool target_is_valid = false;
     if( casting.range() > 0 && !casting.is_valid_target( target_none ) ) {
         do {
-            trajectory = th.target_ui( casting );
+            trajectory = th.target_ui( casting, no_fail, no_mana );
             if( !trajectory.empty() ) {
                 target = trajectory.back();
                 target_is_valid = casting.is_valid_target( target );
@@ -3647,11 +3703,11 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     }
 
     // no turning back now. it's all said and done.
-    bool success = rng_float( 0.0f, 1.0f ) >= casting.spell_fail( *p );
+    bool success = no_fail || rng_float( 0.0f, 1.0f ) >= casting.spell_fail( *p );
     int exp_gained = casting.casting_exp( *p );
     if( !success ) {
         p->add_msg_if_player( m_bad, "You lose your concentration!" );
-        if( !casting.is_max_level() ) {
+        if( !casting.is_max_level() && level_override == -1 ) {
             // still get some experience for trying
             casting.gain_exp( exp_gained / 5 );
             p->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained / 5,
@@ -3682,35 +3738,38 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     } else {
         debugmsg( "ERROR: Spell effect not defined properly." );
     }
-
-    // pay the cost
-    int cost = casting.energy_cost();
-    switch( casting.energy_source() ) {
-        case mana_energy:
-            p->magic.mod_mana( *p, -cost );
-            break;
-        case stamina_energy:
-            p->stamina -= cost;
-            break;
-        case bionic_energy:
-            p->power_level -= cost;
-            break;
-        case hp_energy:
-            blood_magic( p, cost );
-        case none_energy:
-        default:
-            break;
+    if( !no_mana ) {
+        // pay the cost
+        int cost = casting.energy_cost();
+        switch( casting.energy_source() ) {
+            case mana_energy:
+                p->magic.mod_mana( *p, -cost );
+                break;
+            case stamina_energy:
+                p->stamina -= cost;
+                break;
+            case bionic_energy:
+                p->power_level -= cost;
+                break;
+            case hp_energy:
+                blood_magic( p, cost );
+            case none_energy:
+            default:
+                break;
+        }
     }
-    if( !casting.is_max_level() ) {
-        // reap the reward
-        if( casting.get_level() == 0 ) {
-            casting.gain_level();
-            p->add_msg_if_player( m_good,
-                                  _( "Something about how this spell works just clicked!  You gained a level!" ) );
-        } else {
-            casting.gain_exp( exp_gained );
-            p->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
-                                  casting.xp() );
+    if( level_override == -1 ) {
+        if( !casting.is_max_level() ) {
+            // reap the reward
+            if( casting.get_level() == 0 ) {
+                casting.gain_level();
+                p->add_msg_if_player( m_good,
+                                      _( "Something about how this spell works just clicked!  You gained a level!" ) );
+            } else {
+                casting.gain_exp( exp_gained );
+                p->add_msg_if_player( m_good, _( "You gain %i experience.  New total %i." ), exp_gained,
+                                      casting.xp() );
+            }
         }
     }
 }
@@ -3753,4 +3812,20 @@ void activity_handlers::study_spell_finish( player_activity *act, player *p )
     if( act->values[2] == -1 ) {
         p->add_msg_if_player( m_bad, _( "It's too dark to read." ) );
     }
+}
+
+//This is just used for robofac_intercom_mission_2
+void activity_handlers::mind_splicer_finish( player_activity *act, player *p )
+{
+    act->set_to_null();
+
+    if( act->targets.size() != 1 || !act->targets[0] ) {
+        debugmsg( "Incompatible arguments to: activity_handlers::mind_splicer_finish" );
+        return;
+    }
+    item &data_card = *act->targets[0];
+    p->add_msg_if_player( m_info, _( "...you finally find the memory banks." ) );
+    p->add_msg_if_player( m_info, _( "The kit makes a copy of the data inside the bionic." ) );
+    data_card.contents.clear();
+    data_card.put_in( item( "mind_scan_robofac" ) );
 }

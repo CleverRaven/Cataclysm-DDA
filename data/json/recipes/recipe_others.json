@@ -76,6 +76,17 @@
   },
   {
     "type": "recipe",
+    "result": "wood_panel",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "time": 1000,
+    "autolearn": true,
+    "byproducts": [ [ "wood_panel", 1 ] ],
+    "qualities": [ { "id": "SAW_W", "level": 2 } ],
+    "components": [ [ [ "wood_sheet", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "wind_mill",
     "category": "CC_OTHER",
     "skill_used": "fabrication",
@@ -116,7 +127,8 @@
       { "id": "SAW_W", "level": 2 }
     ],
     "components": [
-      [ [ "2x4", 30 ], [ "frame_wood", 5 ] ],
+      [ [ "2x4", 15 ], [ "frame_wood", 3 ] ],
+      [ [ "wood_panel", 6 ], [ "wood_sheet", 3 ] ],
       [ [ "sheet_metal_small", 6 ] ],
       [ [ "nail", 100 ] ],
       [ [ "pipe", 8 ] ],
@@ -914,8 +926,8 @@
     "reversible": true,
     "decomp_learn": 1,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 6 ] ], [ [ "nail", 8 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 2 } ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -3519,6 +3531,19 @@
   },
   {
     "type": "recipe",
+    "result": "tarp_raincatcher",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "time": "45m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "pointy_stick", 3 ] ], [ [ "string_36", 1 ], [ "string_6", 3 ] ], [ [ "tarp", 1 ], [ "plastic_sheet", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "funnel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3806,6 +3831,51 @@
     "batch_time_factors": [ 75, 4 ],
     "tools": [ [ [ "brick_kiln", 60 ], [ "kiln", 60 ] ] ],
     "components": [ [ [ "clay_lump", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "soft_adobe_brick",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": 10000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "frame_wood", -1 ], [ "frame_wood_light", -1 ] ] ],
+    "batch_time_factors": [ 75, 4 ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "material_soil", 2 ] ],
+      [ [ "withered", 2 ], [ "straw_pile", 2 ], [ "feces_cow", 1 ], [ "feces_roach", 1 ], [ "feces_manure", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "adobe_pallet_full",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": 30000,
+    "autolearn": true,
+    "components": [ [ [ "soft_adobe_brick", 20 ] ], [ [ "frame_wood_light", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mortar_adobe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": 5000,
+    "autolearn": true,
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "batch_time_factors": [ 50, 5 ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "material_soil", 1 ] ] ]
   },
   {
     "type": "recipe",

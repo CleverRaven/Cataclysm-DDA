@@ -26,6 +26,7 @@
 #include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "debug.h"
+#include "effect.h"
 #include "event.h"
 #include "field.h"
 #include "fungal_effects.h"
@@ -100,6 +101,7 @@ const skill_id skill_mechanics( "mechanics" );
 const skill_id skill_cooking( "cooking" );
 const skill_id skill_survival( "survival" );
 
+const efftype_id effect_mending( "mending" );
 const efftype_id effect_pkill2( "pkill2" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_sleep( "sleep" );
@@ -780,8 +782,6 @@ void iexamine::cardreader_robofac( player &p, const tripoint &examp )
     } else {
         switch( hack_attempt( p ) ) {
             case HACK_FAIL:
-                add_msg( _( "Nothing happens." ) );
-                break;
             case HACK_NOTHING:
                 add_msg( _( "Nothing happens." ) );
                 break;
@@ -1497,6 +1497,22 @@ static bool drink_nectar( player &p )
 }
 
 /**
+ * Spawn an item after harvesting the plant
+ */
+static void handle_harvest( player &p, std::string itemid, bool force_drop )
+{
+    item harvest = item( itemid );
+    if( !force_drop && p.can_pickVolume( harvest, true ) &&
+        p.can_pickWeight( harvest, true ) ) {
+        p.i_add( harvest );
+        p.add_msg_if_player( _( "You harvest: %s." ), harvest.tname() );
+    } else {
+        g->m.add_item_or_charges( p.pos(), harvest );
+        p.add_msg_if_player( _( "You harvest and drop: %s." ), harvest.tname() );
+    }
+}
+
+/**
  * Prompt pick (or drink nectar if able) poppy bud. Not safe for player.
  *
  * Drinking causes: -25 hunger, +20 fatigue, pkill2-70 effect and, 1 in 20 pkiller-1 addiction.
@@ -1553,14 +1569,8 @@ void iexamine::flower_poppy( player &p, const tripoint &examp )
 
     g->m.furn_set( examp, f_null );
 
-    if( p.can_pickWeight( item( "poppy_bud" ), true ) &&
-        p.can_pickVolume( item( "poppy_bud" ), true ) ) {
-        p.i_add( item( "poppy_bud" ) );
-        p.add_msg_if_player( _( "You harvest: poppy bud" ) );
-    } else {
-        g->m.add_item_or_charges( p.pos(), item( "poppy_bud" ) );
-        p.add_msg_if_player( _( "You harvest and drop: poppy bud" ) );
-    }
+    handle_harvest( p, "poppy_bud", false );
+    handle_harvest( p, "withered", false );
 }
 
 /**
@@ -1585,63 +1595,8 @@ void iexamine::flower_cactus( player &p, const tripoint &examp )
 
     g->m.furn_set( examp, f_null );
 
-    item cactus_pad = item( "cactus_pad" );
-    if( p.can_pickWeight( cactus_pad, true ) &&
-        p.can_pickVolume( cactus_pad, true ) ) {
-        p.i_add( cactus_pad );
-        p.add_msg_if_player( _( "You harvest: %s." ), cactus_pad.tname() );
-    } else {
-        g->m.add_item_or_charges( p.pos(), cactus_pad );
-        p.add_msg_if_player( _( "You harvest and drop: %s." ), cactus_pad.tname() );
-    }
-}
-/**
- * It's a flower, drink nectar if your able to.
- */
-void iexamine::flower_bluebell( player &p, const tripoint &examp )
-{
-    if( dead_plant( true, p, examp ) ) {
-        return;
-    }
-
-    drink_nectar( p );
-
-    // There was a bud and flower spawn here
-    // But those were useless, don't re-add until they get useful
-    none( p, examp );
-    return;
-}
-
-/**
- * It's a flower, drink nectar if your able to.
- */
-void iexamine::flower_tulip( player &p, const tripoint &examp )
-{
-    if( dead_plant( true, p, examp ) ) {
-        return;
-    }
-
-    drink_nectar( p );
-
-    // Add flower spawn once flowers are useful.
-    none( p, examp );
-    return;
-}
-
-/**
- * It's a flower, drink nectar if your able to.
- */
-void iexamine::flower_spurge( player &p, const tripoint &examp )
-{
-    if( dead_plant( true, p, examp ) ) {
-        return;
-    }
-
-    drink_nectar( p );
-
-    // Add flower spawn once flowers are useful.
-    none( p, examp );
-    return;
+    handle_harvest( p, "cactus_pad", false );
+    handle_harvest( p, "seed_cactus", false );
 }
 
 /**
@@ -1657,27 +1612,28 @@ void iexamine::flower_dahlia( player &p, const tripoint &examp )
         return;
     }
 
-    if( !p.has_quality( quality_id( "DIG" ) ) ) {
-        none( p, examp );
-        add_msg( m_info, _( "If only you had a shovel to dig up those roots..." ) );
-        return;
-    }
+    bool can_get_root = p.has_quality( quality_id( "DIG" ) ) || p.has_trait( trait_BURROW );
 
-    if( !query_yn( _( "Pick %s?" ), g->m.furnname( examp ) ) ) {
-        none( p, examp );
-        return;
+    if( can_get_root ) {
+        if( !query_yn( _( "Pick %s?" ), g->m.furnname( examp ) ) ) {
+            none( p, examp );
+            return;
+        }
+    } else {
+        if( !query_yn( _( "You don't have a digging tool to dig up roots. Pick %s anyway?" ),
+                       g->m.furnname( examp ) ) ) {
+            none( p, examp );
+            return;
+        }
     }
 
     g->m.furn_set( examp, f_null );
 
-    if( p.can_pickWeight( item( "dahlia_root" ), true ) &&
-        p.can_pickVolume( item( "dahlia_root" ), true ) ) {
-        p.i_add( item( "dahlia_root" ) );
-        p.add_msg_if_player( _( "You harvest: dahlia root" ) );
-    } else {
-        g->m.add_item_or_charges( p.pos(), item( "dahlia_root" ) );
-        p.add_msg_if_player( _( "You harvest and drop: dahlia root" ) );
+    if( can_get_root ) {
+        handle_harvest( p, "dahlia_root", false );
     }
+    handle_harvest( p, "seed_dahlia", false );
+    handle_harvest( p, "withered", false );
     // There was a bud and flower spawn here
     // But those were useless, don't re-add until they get useful
 }
@@ -1717,15 +1673,11 @@ static bool harvest_common( player &p, const tripoint &examp, bool furn, bool ne
         float min_num = entry.base_num.first + lev * entry.scale_num.first;
         float max_num = entry.base_num.second + lev * entry.scale_num.second;
         int roll = std::min<int>( entry.max, round( rng_float( min_num, max_num ) ) );
-        for( int i = 0; i < roll; i++ ) {
-            if( p.can_pickWeight( item( entry.drop ), true ) && p.can_pickVolume( item( entry.drop ), true ) ) {
-                p.i_add( item( entry.drop ) );
-                p.add_msg_if_player( _( "You harvest: %s." ), item( entry.drop ).tname() );
-            } else {
-                g->m.add_item_or_charges( p.pos(), item( entry.drop ) );
-                p.add_msg_if_player( _( "You harvest and drop: %s." ), item( entry.drop ).tname() );
-            }
+        if( roll >= 1 ) {
             got_anything = true;
+            for( int i = 0; i < roll; i++ ) {
+                handle_harvest( p, entry.drop, false );
+            }
         }
     }
 
@@ -1806,6 +1758,7 @@ void iexamine::flower_marloss( player &p, const tripoint &examp )
     }
     g->m.furn_set( examp, f_null );
     g->m.spawn_item( p.pos(), "marloss_seed", 1, 3, calendar::turn );
+    handle_harvest( p, "withered", false );
 }
 
 /**
@@ -1835,16 +1788,10 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
             }
         }
     }
-    int roll = round( rng_float( 1, 5 ) );
+    int roll = rng( 1, 5 );
+    bool drop_eggs = ( monster_count >= 1 ? true : false );
     for( int i = 0; i < roll; i++ ) {
-        if( monster_count == 0 && p.can_pickWeight( item( "spider_egg" ), true ) &&
-            p.can_pickVolume( item( "spider_egg" ), true ) ) {
-            p.i_add( item( "spider_egg" ) );
-            p.add_msg_if_player( _( "You harvest: spider egg" ) );
-        } else {
-            g->m.add_item_or_charges( p.pos(), item( "spider_egg" ) );
-            p.add_msg_if_player( _( "You harvest and drop: spider egg" ) );
-        }
+        handle_harvest( p, "spider_egg", drop_eggs );
     }
     if( monster_count == 1 ) {
         add_msg( m_warning, _( "A spiderling bursts from the %s!" ), old_furn_name );
@@ -1947,7 +1894,7 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
     used_seed.front().set_age( 0_turns );
     g->m.add_item_or_charges( examp, used_seed.front() );
     if( g->m.has_flag_furn( "PLANTABLE", examp ) ) {
-        g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant_transform ) );
+        g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
     } else {
         g->m.set( examp, t_dirt, f_plant_seed );
     }
@@ -2089,20 +2036,22 @@ void iexamine::harvest_plant( player &p, const tripoint &examp )
     } else { // Generic seed, use the seed item data
         const itype &type = *seed.type;
         g->m.i_clear( examp );
-        g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant_transform ) );
 
         int skillLevel = p.get_skill_level( skill_survival );
         ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
-        int plantCount = rng( skillLevel / 2, skillLevel );
-        if( plantCount >= 12 ) {
-            plantCount = 12;
-        } else if( plantCount <= 0 ) {
-            plantCount = 1;
+        int plant_count = rng( skillLevel / 2, skillLevel );
+        plant_count *= g->m.furn( examp )->plant->harvest_multiplier;
+        const int max_harvest_count = get_option<int>( "MAX_HARVEST_COUNT" );
+        if( plant_count >= max_harvest_count ) {
+            plant_count = max_harvest_count;
+        } else if( plant_count <= 0 ) {
+            plant_count = 1;
         }
-        const int seedCount = std::max( 1, rng( plantCount / 4, plantCount / 2 ) );
-        for( auto &i : get_harvest_items( type, plantCount, seedCount, true ) ) {
+        const int seedCount = std::max( 1, rng( plant_count / 4, plant_count / 2 ) );
+        for( auto &i : get_harvest_items( type, plant_count, seedCount, true ) ) {
             g->m.add_item_or_charges( examp, i );
         }
+        g->m.furn_set( examp, furn_str_id( g->m.furn( examp )->plant->transform ) );
         p.moves -= 500;
     }
 }
@@ -4024,10 +3973,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     enum options {
         INSTALL_CBM,
         UNINSTALL_CBM,
+        BONESETTING,
     };
 
     bool adjacent_couch = false;
-    static player null_player;
+    static avatar null_player;
     tripoint couch_pos;
     player &patient = player_on_couch( p, examp, null_player, adjacent_couch, couch_pos );
 
@@ -4084,11 +4034,20 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         }
     }
 
+    uilist amenu;
+    amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation" );
+    amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install" ) );
+    amenu.addentry( UNINSTALL_CBM, true, 'u', _( "Choose installed bionic to uninstall" ) );
+    amenu.addentry( BONESETTING, true, 's', _( "Splint broken limbs" ) );
+
+    amenu.query();
+
     bool needs_anesthesia = true;
     // Legacy
     std::vector<item_comp> acomps;
     std::vector<tool_comp> anesth_kit;
-    if( patient.has_trait( trait_NOPAIN ) || patient.has_bionic( bionic_id( "bio_painkiller" ) ) ) {
+    if( patient.has_trait( trait_NOPAIN ) || patient.has_bionic( bionic_id( "bio_painkiller" ) ) ||
+        amenu.ret > 1 ) {
         needs_anesthesia = false;
     } else {
         std::vector<const item *> a_filter = p.crafting_inventory().items_with( []( const item & it ) {
@@ -4106,17 +4065,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             acomps.push_back( item_comp( anesthesia_item->typeId(), 1 ) ); // legacy
         }
         if( anesth_kit.empty() && acomps.empty() ) {
-            popup( _( "You need an anesthesia kit with at least one charge for autodoc to perform any operation." ) );
+            popup( _( "You need an anesthesia kit with at least one charge for autodoc to perform any bionic manipulation." ) );
             return;
         }
     }
-
-    uilist amenu;
-    amenu.text = _( "Autodoc Mk. XI.  Status: Online.  Please choose operation." );
-    amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install." ) );
-    amenu.addentry( UNINSTALL_CBM, true, 'u', _( "Choose installed bionic to uninstall." ) );
-
-    amenu.query();
 
     switch( amenu.ret ) {
         case INSTALL_CBM: {
@@ -4238,6 +4190,50 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
                 }
                 installer.mod_moves( -500 );
+            }
+            break;
+        }
+
+        case BONESETTING: {
+            int broken_limbs_count = 0;
+            for( int i = 0; i < num_hp_parts; i++ ) {
+                const bool broken = patient.get_hp( static_cast<hp_part>( i ) ) <= 0;
+                body_part part = patient.hp_to_bp( static_cast<hp_part>( i ) );
+                effect &existing_effect = patient.get_effect( effect_mending, part );
+                // Skip part if not broken or already healed 50%
+                if( !broken || ( !existing_effect.is_null() &&
+                                 existing_effect.get_duration() >
+                                 existing_effect.get_max_duration() - 5_days - 1_turns ) ) {
+                    continue;
+                }
+                broken_limbs_count++;
+                patient.moves -= 500;
+                patient.add_msg_player_or_npc( m_good, _( "The machine rapidly sets and splints your broken %s." ),
+                                               _( "The machine rapidly sets and splints <npcname>'s broken %s." ),
+                                               body_part_name( part ) );
+                // TODO: fail here if unable to perform the action, i.e. can't wear more, trait mismatch.
+                if( !patient.worn_with_flag( "SPLINT", part ) ) {
+                    item splint;
+                    if( i == hp_arm_l || i == hp_arm_r ) {
+                        splint = item( "arm_splint", 0 );
+                    } else if( i == hp_leg_l || i == hp_leg_r ) {
+                        splint = item( "leg_splint", 0 );
+                    }
+                    item &equipped_splint = patient.i_add( splint );
+                    cata::optional<std::list<item>::iterator> worn_item =
+                        patient.wear( equipped_splint, false );
+                    if( worn_item && !patient.worn_with_flag( "SPLINT", part ) ) {
+                        patient.change_side( **worn_item, false );
+                    }
+                }
+                patient.add_effect( effect_mending, 0_turns, part, true );
+                effect &mending_effect = patient.get_effect( effect_mending, part );
+                mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
+            }
+            if( broken_limbs_count == 0 ) {
+                //~ %1$s is patient name
+                popup_player_or_npc( patient, _( "You have no limbs that require splinting." ),
+                                     _( "%1$s doesn't have limbs that require splinting." ) );
             }
             break;
         }
@@ -5312,9 +5308,6 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "flower_poppy", &iexamine::flower_poppy },
             { "flower_cactus", &iexamine::flower_cactus },
             { "fungus", &iexamine::fungus },
-            { "flower_spurge", &iexamine::flower_spurge },
-            { "flower_tulip", &iexamine::flower_tulip },
-            { "flower_bluebell", &iexamine::flower_bluebell },
             { "flower_dahlia", &iexamine::flower_dahlia },
             { "flower_marloss", &iexamine::flower_marloss },
             { "egg_sackbw", &iexamine::egg_sackbw },

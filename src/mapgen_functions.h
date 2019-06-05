@@ -106,8 +106,6 @@ void mapgen_crater( map *m, oter_id terrain_type, mapgendata dat, const time_poi
                     float density );
 void mapgen_field( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
                    float density );
-void mapgen_dirtlot( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
-                     float density );
 void mapgen_forest( map *m, oter_id terrain_type, mapgendata dat, const time_point &time,
                     float density );
 void mapgen_forest_trail_straight( map *m, oter_id terrain_type, mapgendata dat,

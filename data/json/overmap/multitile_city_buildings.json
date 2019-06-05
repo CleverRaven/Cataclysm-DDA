@@ -27,6 +27,21 @@
   },
   {
     "type": "city_building",
+    "id": "s_daycare",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_daycare_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_daycare_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "cs_sex_shop",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "cs_sex_shop_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "cs_sex_shop_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "cs_private_park",
     "locations": [ "land" ],
     "overmaps": [
@@ -124,6 +139,26 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "s_butcher_2_north" },
       { "point": [ 0, 0, 1 ], "overmap": "s_butcher_roof_2_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "dojo",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dojo_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "dojo_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "dojo_upper_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "dojo_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dojo_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "dojo_roof_1_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "dojo_upper_roof_1_north" }
     ]
   },
   {
@@ -241,6 +276,24 @@
       { "point": [ 0, 0, 0 ], "overmap": "motel_1_north" },
       { "point": [ 0, 1, 0 ], "overmap": "motel_2_north" },
       { "point": [ 1, 1, 0 ], "overmap": "motel_3_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "dollarstore",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dollarstore_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "dollarstore_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "dollarstore_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "dollarstore_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "dollarstore_roof_1_north" }
     ]
   },
   {
@@ -603,7 +656,34 @@
       { "point": [ 2, 1, 0 ], "overmap": "school_1_4_north" },
       { "point": [ 0, 2, 0 ], "overmap": "school_1_9_north" },
       { "point": [ 1, 2, 0 ], "overmap": "school_1_8_north" },
-      { "point": [ 2, 2, 0 ], "overmap": "school_1_7_north" }
+      { "point": [ 2, 2, 0 ], "overmap": "school_1_7_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "school_2_3_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "school_2_2_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "school_2_1_north" },
+      { "point": [ 0, 1, 1 ], "overmap": "school_2_6_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "school_2_5_north" },
+      { "point": [ 2, 1, 1 ], "overmap": "school_2_4_north" },
+      { "point": [ 0, 2, 1 ], "overmap": "school_2_9_north" },
+      { "point": [ 1, 2, 1 ], "overmap": "school_2_8_north" },
+      { "point": [ 2, 2, 1 ], "overmap": "school_2_7_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "school_3_3_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "school_3_2_north" },
+      { "point": [ 2, 0, 2 ], "overmap": "school_3_1_north" },
+      { "point": [ 0, 1, 2 ], "overmap": "school_3_6_north" },
+      { "point": [ 1, 1, 2 ], "overmap": "school_3_5_north" },
+      { "point": [ 2, 1, 2 ], "overmap": "school_3_4_north" },
+      { "point": [ 0, 2, 2 ], "overmap": "school_3_9_north" },
+      { "point": [ 1, 2, 2 ], "overmap": "school_3_8_north" },
+      { "point": [ 2, 2, 2 ], "overmap": "school_3_7_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "school_4_3_north" },
+      { "point": [ 1, 0, 3 ], "overmap": "school_4_2_north" },
+      { "point": [ 2, 0, 3 ], "overmap": "school_4_1_north" },
+      { "point": [ 0, 1, 3 ], "overmap": "school_4_6_north" },
+      { "point": [ 1, 1, 3 ], "overmap": "school_4_5_north" },
+      { "point": [ 2, 1, 3 ], "overmap": "school_4_4_north" },
+      { "point": [ 0, 2, 3 ], "overmap": "school_4_9_north" },
+      { "point": [ 1, 2, 3 ], "overmap": "school_4_8_north" },
+      { "point": [ 2, 2, 3 ], "overmap": "school_4_7_north" }
     ]
   },
   {
@@ -1349,7 +1429,7 @@
     "id": "office_doctor_1",
     "locations": [ "land" ],
     "overmaps": [
-      { "point": [ 0, 0, 0 ], "overmap": "office_doctor_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "office_doctor_1_north" },
       { "point": [ 0, 0, 1 ], "overmap": "office_doctor_roof_1_north" }
     ]
   },
@@ -1389,6 +1469,67 @@
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "candy_shop_1_north" },
       { "point": [ 0, 0, 1 ], "overmap": "candy_shop_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_clothes",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_clothes_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_clothes_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_clothes_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_clothes_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_clothes_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_clothes_2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_clothes_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_clothes_roof_2_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_clothes_3",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_clothes_3_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_clothes_roof_3_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_clothes_4",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_clothes_4_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_clothes_roof_4_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_clothes_upper_roof_4_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_clothes_5",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_clothes_5_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_clothes_roof_5_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_clothes_6",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_clothes_6_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_clothes_roof_6_north" }
     ]
   },
   {

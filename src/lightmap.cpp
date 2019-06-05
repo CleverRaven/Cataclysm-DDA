@@ -1181,20 +1181,16 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
     constexpr float light_transparency_solid = LIGHT_TRANSPARENCY_SOLID;
     constexpr int map_dimensions = MAPSIZE_X * MAPSIZE_Y;
     std::uninitialized_fill_n(
-        &seen_cache[0][0], map_dimensions, light_transparency_solid );
-    std::uninitialized_fill_n(
         &camera_cache[0][0], map_dimensions, light_transparency_solid );
 
     if( !fov_3d ) {
+        std::uninitialized_fill_n(
+            &seen_cache[0][0], map_dimensions, light_transparency_solid );
         seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
 
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
             seen_cache, transparency_cache, origin.x, origin.y, 0 );
     } else {
-        if( origin.z == target_z ) {
-            seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
-        }
-
         // Cache the caches (pointers to them)
         std::array<const float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> transparency_caches;
         std::array<float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> seen_caches;
@@ -1204,6 +1200,11 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.transparency_cache;
             seen_caches[z + OVERMAP_DEPTH] = &cur_cache.seen_cache;
             floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
+            std::uninitialized_fill_n(
+                &cur_cache.seen_cache[0][0], map_dimensions, light_transparency_solid );
+        }
+        if( origin.z == target_z ) {
+            get_cache( origin.z ).seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
         }
         cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
             seen_caches, transparency_caches, floor_caches, origin, 0, 1.0 );

@@ -21,7 +21,7 @@ bool mutation_type_exists( const std::string &id )
     return mutation_types.find( id ) != mutation_types.end();
 }
 
-static std::vector<trait_id> get_mutations_in_type( const std::string &id )
+std::vector<trait_id> get_mutations_in_type( const std::string &id )
 {
     std::vector<trait_id> ret;
     for( auto it : mutation_branch::get_all() ) {

@@ -24,6 +24,20 @@
     "flags": [ "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "GRENADE" ]
   },
   {
+    "id": "riding_saddle",
+    "type": "TOOL",
+    "name": "riding saddle",
+    "description": "A saddle that can be placed on a tamed animal that is capable of being ridden.",
+    "weight": 800,
+    "volume": 8,
+    "price": 0,
+    "to_hit": -1,
+    "bashing": 5,
+    "material": [ "leather" ],
+    "symbol": "M",
+    "color": "yellow"
+  },
+  {
     "id": "EMPbomb_act",
     "type": "TOOL",
     "category": "weapons",
@@ -73,6 +87,20 @@
       "menu_text": "Activate",
       "type": "transform"
     }
+  },
+  {
+    "id": "hand_pump",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "blue",
+    "name": "hand pump",
+    "description": "This pump is suitable for pumping air into inflatable objects.",
+    "price": 400,
+    "material": [ "aluminum", "plastic" ],
+    "weight": 113,
+    "volume": 2,
+    "bashing": 4,
+    "to_hit": -1
   },
   {
     "id": "UPS_off",
@@ -257,17 +285,17 @@
     "type": "GENERIC",
     "category": "tools",
     "name": "atomic coffee maker",
-    "description": "Never sacrifice taste for convenience, when you can have both with the Rivtech atomic coffee maker!  Its simple and robust atomic-age construction guarantees a service life of at least 160 million years.",
-    "weight": 4102,
-    "volume": 3,
+    "description": "This is a Curie-G coffeemaker, by CuppaTech.  It famously uses a radioactive generator to heat water for coffee. Normally the water is heated using energy stored in a capacitor, and makes ordinary coffee.  However, as a special feature, water from the RTG containment area can be used, giving the coffee a very special kick.  The Curie-G is illegal in most countries.",
+    "weight": 6102,
+    "volume": "1000 ml",
     "price": 100000,
     "to_hit": -2,
     "bashing": 5,
     "material": [ "plastic", "aluminum" ],
+    "qualities": [ [ "BOIL", 1 ] ],
     "symbol": ",",
     "color": "light_green",
-    "qualities": [ [ "BOIL", 1 ] ],
-    "use_action": "HOTPLATE",
+    "//": "It would be nice if this could have a use action to thaw frozen stuff.  It's not hot enough to work as a hotplate.",
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE" ]
   },
   {
@@ -275,8 +303,8 @@
     "type": "GENERIC",
     "category": "tools",
     "name": "atomic lamp",
-    "description": "Enjoy the serene Cherenkov-blue glow of the Rivtech atomic desk lamp, and feel confident that you won't have to worry about depleting its power supply for at least 40 million years of faithful service.  Use it to close the cover and hide the light.",
-    "weight": 5438,
+    "description": "Powered by the magic of nuclear decay and low-energy LEDs, this very expensive lamp will emit a small amount of light for at least a decade.  Before the Cataclysm, it was mostly an expensive way to show off your preparedness.  Now, it's actually pretty cool.  Use it to close the cover and hide the light.",
+    "weight": 1438,
     "volume": 4,
     "price": 175000,
     "to_hit": -2,
@@ -293,8 +321,8 @@
     "category": "tools",
     "name": "atomic lamp (covered)",
     "name_plural": "atomic lamps (covered)",
-    "description": "Enjoy the serene Cherenkov-blue glow of the Rivtech atomic desk lamp, and feel confident that you won't have to worry about depleting its power supply for at least 40 million years of faithful service.  The cover is closed.  Use it to open the cover and show the light.",
-    "weight": 5438,
+    "description": "Powered by the magic of nuclear decay and low-energy LEDs, this very expensive lamp will emit a small amount of light for at least a decade.  Before the Cataclysm, it was mostly an expensive way to show off your preparedness.  Now, it's actually pretty cool.  The cover is closed.  Use it to open the cover and show the light.",
+    "weight": 1438,
     "volume": 4,
     "price": 175000,
     "to_hit": -2,
@@ -309,9 +337,9 @@
     "id": "atomic_light",
     "type": "GENERIC",
     "category": "tools",
-    "name": "atomic nightlight",
-    "description": "Enjoy the serene Cherenkov-blue glow of the Rivtech atomic nightlight, and feel confident that you won't have to worry about depleting its power supply for at least 160 million years of faithful service.  Use it to close the cover and hide the light.",
-    "weight": 3714,
+    "name": "atomic reading light",
+    "description": "Powered by the magic of nuclear decay and low-energy LEDs, this extremely expensive little light will provide just enough light to read by for at least a decade.  It is also available with a cute cartoon bear cover to turn it into a nightlight for a very wealthy child with a fear of the dark.  Use it to close the cover and hide the light.",
+    "weight": 214,
     "volume": 1,
     "price": 125000,
     "to_hit": -2,
@@ -331,10 +359,10 @@
     "id": "atomic_light_off",
     "type": "GENERIC",
     "category": "tools",
-    "name": "atomic nightlight (covered)",
-    "name_plural": "atomic nightlights (covered)",
-    "description": "Enjoy the serene Cherenkov-blue glow of the Rivtech atomic nightlight, and feel confident that you won't have to worry about depleting its power supply for at least 160 million years of faithful service.  The cover is closed.  Use it to open the cover and show the light.",
-    "weight": 3714,
+    "name": "atomic reading light (covered)",
+    "name_plural": "atomic reading lights (covered)",
+    "description": "Powered by the magic of nuclear decay and low-energy LEDs, this extremely expensive little light will provide just enough light to read by for at least a decade.  It is also available with a cute cartoon bear cover to turn it into a nightlight for a very wealthy child with a fear of the dark.  The cover is closed.  Use it to open the cover and show the light.",
+    "weight": 214,
     "volume": 1,
     "price": 125000,
     "to_hit": -2,
@@ -344,6 +372,20 @@
     "color": "light_green",
     "use_action": { "target": "atomic_light", "msg": "You open the nightlight's cover.", "menu_text": "Open cover", "type": "transform" },
     "flags": [ "LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE", "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "mind_splicer",
+    "symbol": "o",
+    "color": "white",
+    "name": "mind splicer kit",
+    "description": "Surgical forceps, cables and a modified smartphone inside a small plastic pouch.  Assembled to steal the mind of some poor man, these are tools of the creepy high-tech sandman.",
+    "material": "plastic",
+    "price": 12500,
+    "use_action": "MIND_SPLICER",
+    "volume": 4,
+    "weight": 600,
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "ax",
@@ -1849,7 +1891,7 @@
     "ammo": "battery",
     "initial_charges": 110,
     "max_charges": 120,
-    "charges_per_use": 5,
+    "charges_per_use": 1,
     "use_action": [
       {
         "target": "smart_phone_flashlight",
@@ -1859,16 +1901,30 @@
         "need_charges_msg": "The smartphone's charge is too low.",
         "type": "transform"
       },
-      { "revert_to": "smart_phone", "type": "CAMERA" }
+      { "revert_to": "smart_phone", "type": "CAMERA" },
+      "MP3"
     ],
     "flags": [ "WATCH", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
+  },
+  {
+    "id": "smartphone_music",
+    "copy-from": "smart_phone",
+    "type": "TOOL",
+    "name": "smartphone - music",
+    "name_plural": "smartphones - music",
+    "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
+    "turns_per_charge": 150,
+    "revert_to": "smart_phone",
+    "use_action": "MP3_ON",
+    "flags": [ "TRADER_AVOID" ],
+    "magazine_well": 1
   },
   {
     "id": "smart_phone_flashlight",
     "copy-from": "smart_phone",
     "type": "TOOL",
-    "name": "smartphone - Flashlight",
-    "name_plural": "smartphones - Flashlight",
+    "name": "smartphone - flashlight",
+    "name_plural": "smartphones - flashlight",
     "turns_per_charge": 50,
     "revert_to": "smart_phone",
     "use_action": {
@@ -5123,6 +5179,26 @@
     }
   },
   {
+    "id": "tarp_raincatcher",
+    "type": "TOOL",
+    "name": "tarp raincatcher",
+    "description": "Some sticks and string with a tarpaulin to set up an improvised raincatcher.",
+    "weight": 3980,
+    "volume": 16,
+    "price": 6000,
+    "material": [ "wood", "plastic" ],
+    "symbol": ";",
+    "color": "yellow",
+    "use_action": {
+      "type": "place_trap",
+      "allow_under_player": true,
+      "trap": "tr_raincatcher",
+      "moves": 100,
+      "practice": 0,
+      "done_message": "You set up the raincatcher, waiting to collect water."
+    }
+  },
+  {
     "id": "metal_smoother",
     "type": "TOOL",
     "name": "metallic smoother",
@@ -5892,7 +5968,7 @@
     "type": "TOOL",
     "category": "weapons",
     "name": "pipe bomb",
-    "description": "This is a section of a pipe filled with explosive materials.  Use this item to light the fuse, which gives you three turns to get away from it before it detonates.  You'll need a lighter or some matches to use it.",
+    "description": "This is a section of a pipe filled with explosive materials.  Use this item to light the fuse, which gives you five turns to get away from it before it detonates.  You'll need a lighter or some matches to use it.",
     "weight": 1298,
     "volume": 2,
     "price": 1500,
@@ -5904,7 +5980,7 @@
     "use_action": {
       "target": "pipebomb_act",
       "msg": "You light the fuse on the pipe bomb.",
-      "target_charges": 3,
+      "target_charges": 5,
       "active": true,
       "need_fire": 1,
       "menu_text": "Light fuse",
@@ -5927,7 +6003,7 @@
     "symbol": "*",
     "color": "light_gray",
     "initial_charges": 3,
-    "max_charges": 3,
+    "max_charges": 5,
     "turns_per_charge": 1,
     "use_action": {
       "type": "explosion",
@@ -5937,20 +6013,6 @@
       "explosion": { "power": 500, "shrapnel": { "casing_mass": 500, "fragment_mass": 1 } }
     },
     "flags": [ "BOMB", "TRADER_AVOID", "DANGEROUS" ]
-  },
-  {
-    "id": "plastic_chunk",
-    "type": "TOOL",
-    "category": "spare_parts",
-    "name": "plastic chunk",
-    "description": "This is a piece of plastic.  It could be used to fabricate, repair, or reinforce plastic items.",
-    "weight": 70,
-    "volume": 1,
-    "price": 0,
-    "material": "plastic",
-    "symbol": ",",
-    "color": "light_blue",
-    "flags": [ "NO_SALVAGE" ]
   },
   {
     "id": "pliers",
@@ -9040,5 +9102,71 @@
       }
     ],
     "flags": [ "LIGHT_3", "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "adobe_pallet_full",
+    "type": "TOOL",
+    "name": "pallet of wet adobe bricks",
+    "name_plural": "pallets of wet adobe bricks",
+    "description": "A pallet full of heavy mud bricks which need to dry slowly to be usable.",
+    "weight": 35000,
+    "volume": 50,
+    "price": 100,
+    "to_hit": -2,
+    "material": [ "soil", "wood" ],
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "frame_wood_light",
+    "flags": [ "NONCONDUCTIVE" ],
+    "use_action": {
+      "target": "adobe_pallet_done",
+      "msg": "You test the bricks, and they're solid enough to use.",
+      "moves": 50,
+      "type": "delayed_transform",
+      "transform_age": 100800,
+      "not_ready_msg": "The bricks are still too damp to bear weight.",
+      "//": "Should be about a week. Irl it's ten days, so make big batches."
+    }
+  },
+  {
+    "id": "adobe_pallet_done",
+    "type": "TOOL",
+    "category": "tools",
+    "name": "pallet of dry adobe bricks",
+    "name_plural": "pallets of dry adobe bricks",
+    "description": "A pallet of humble mud bricks that have dried for a week, while you were out risking your life.  Disassemble it to retrieve your frame and building supplies.",
+    "weight": 30000,
+    "volume": 50,
+    "price": 40000,
+    "to_hit": -3,
+    "material": [ "ceramic", "wood" ],
+    "symbol": "#",
+    "color": "brown_yellow",
+    "looks_like": "frame_wood_light",
+    "flags": [ "NONCONDUCTIVE" ]
+  },
+  {
+    "id": "hand_axe",
+    "type": "TOOL",
+    "name": "stone hand axe",
+    "description": "This is a broad piece of sharpened stone, with enough left untouched to hold safely.  The Swiss Army knife of the lower paleolithic.",
+    "weight": 453,
+    "volume": 2,
+    "price": 0,
+    "to_hit": -1,
+    "bashing": 5,
+    "cutting": 3,
+    "material": "stone",
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 6 ], [ "SAW_W", 1 ], [ "AXE", 1 ], [ "HAMMER", 1 ] ]
+  },
+  {
+    "id": "makeshift_axe",
+    "copy-from": "hand_axe",
+    "type": "TOOL",
+    "name": "metal hand axe",
+    "description": "This is a chunk of steel with one edge hammered down to something resembling a cutting edge.  It works passably well as an axe but really can't compare to a proper axe.",
+    "material": "steel"
   }
 ]

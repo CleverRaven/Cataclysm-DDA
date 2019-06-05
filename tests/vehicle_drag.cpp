@@ -225,6 +225,12 @@ std::vector<std::string> vehs_to_test_drag = {
         "schoolbus",
         "security_van",
         "wienermobile",
+        "canoe",
+        "kayak",
+        "kayak_racing",
+        "DUKW",
+        "raft",
+        "inflatable_boat",
     }
 };
 
@@ -303,4 +309,11 @@ TEST_CASE( "vehicle_drag", "[vehicle] [engine]" )
     test_vehicle_drag( "schoolbus", 0.411188, 3.060324, 1370.046591, 12891, 15087 );
     test_vehicle_drag( "security_van", 0.541800, 7.592192, 6231.269792, 10977, 13009 );
     test_vehicle_drag( "wienermobile", 1.063697, 2.315334, 1900.304167, 11201, 13374 );
+    test_vehicle_drag( "canoe", 0.609525, 6.948203, 1.967437, 331, 691 );
+    test_vehicle_drag( "kayak", 0.609525, 3.243223, 1.224458, 655, 1236 );
+    test_vehicle_drag( "kayak_racing", 0.609525, 2.912135, 1.099458, 715, 1320 );
+    test_vehicle_drag( "DUKW", 0.776902, 3.713785, 80.325824, 10210, 12293 );
+    test_vehicle_drag( "raft", 0.997815, 8.950399, 5.068750, 259, 548 );
+    test_vehicle_drag( "inflatable_boat", 0.469560, 2.823845, 1.599187, 741, 1382 );
+
 }

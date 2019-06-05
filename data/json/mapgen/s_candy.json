@@ -52,7 +52,7 @@
         "u": "t_underbrush",
         "w": "t_window",
         "4": "t_gutter_downspout",
-        "|": "t_wall"
+        "|": "t_wall_y"
       },
       "furniture": {
         "#": "f_counter",
@@ -213,7 +213,7 @@
         "s": "t_sidewalk",
         "t": "t_tree_maple_tapped",
         "u": "t_underbrush",
-        "w": "t_wall",
+        "w": "t_wall_y",
         "5": "t_gutter_downspout",
         "|": "t_brick_wall"
       },

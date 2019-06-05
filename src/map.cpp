@@ -2624,6 +2624,16 @@ bool map::is_last_ter_wall( const bool no_furn, const int x, const int y,
     return result;
 }
 
+bool map::tinder_at( const tripoint &p )
+{
+    for( const auto &i : i_at( p ) ) {
+        if( i.has_flag( "TINDER" ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool map::flammable_items_at( const tripoint &p, int threshold )
 {
     if( !has_items( p ) ||
@@ -6936,15 +6946,16 @@ void map::grow_plant( const tripoint &p )
         return;
     }
     const time_duration plantEpoch = seed.get_plant_epoch();
-    if( seed.age() >= plantEpoch && !furn.has_flag( "GROWTH_HARVEST" ) ) {
+    if( seed.age() >= plantEpoch * furn.plant->growth_multiplier &&
+        !furn.has_flag( "GROWTH_HARVEST" ) ) {
         if( seed.age() < plantEpoch * 2 ) {
             if( has_flag_furn( "GROWTH_SEEDLING", p ) ) {
                 return;
             }
             i_rem( p, 1 );
             rotten_item_spawn( seed, p );
-            furn_set( p, furn_str_id( furn.plant_transform ) );
-        } else if( seed.age() < plantEpoch * 3 ) {
+            furn_set( p, furn_str_id( furn.plant->transform ) );
+        } else if( seed.age() < plantEpoch * 3 * furn.plant->growth_multiplier ) {
             if( has_flag_furn( "GROWTH_MATURE", p ) ) {
                 return;
             }
@@ -6954,7 +6965,7 @@ void map::grow_plant( const tripoint &p )
             if( !has_flag_furn( "GROWTH_SEEDLING", p ) ) {
                 rotten_item_spawn( seed, p );
             }
-            furn_set( p, furn_str_id( furn.plant_transform ) );
+            furn_set( p, furn_str_id( furn.plant->transform ) );
         } else {
             //You've skipped two stages so roll monsters two times
             if( has_flag_furn( "GROWTH_SEEDLING", p ) ) {
@@ -6969,7 +6980,7 @@ void map::grow_plant( const tripoint &p )
                 rotten_item_spawn( seed, p );
                 rotten_item_spawn( seed, p );
             }
-            furn_set( p, furn_str_id( furn.plant_transform ) );
+            furn_set( p, furn_str_id( furn.plant->transform ) );
         }
     }
 }
@@ -8135,16 +8146,10 @@ void map::add_corpse( const tripoint &p )
         body.item_tags.insert( "REVIVE_SPECIAL" );
     }
 
+    put_items_from_loc( "default_zombie_clothes", p, 0 );
+    put_items_from_loc( "default_zombie_items", p, 0 );
+
     add_item_or_charges( p, body );
-    put_items_from_loc( "shoes",  p, 0 );
-    put_items_from_loc( "pants",  p, 0 );
-    put_items_from_loc( "shirts", p, 0 );
-    if( one_in( 6 ) ) {
-        put_items_from_loc( "jackets", p, 0 );
-    }
-    if( one_in( 15 ) ) {
-        put_items_from_loc( "bags", p, 0 );
-    }
 }
 
 field &map::get_field( const tripoint &p )
