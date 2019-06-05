@@ -204,7 +204,6 @@ script:
   - build-scripts/build.sh
 
 before_cache:
-  - echo "${TRAVIS_PULL_REQUEST}"
   - if [ "${TRAVIS_PULL_REQUEST}" != "false" ]; then find /home/travis/.ccache -not \( -name .ccache -o -name ccache.conf \) -delete; fi
 
 after_success:
