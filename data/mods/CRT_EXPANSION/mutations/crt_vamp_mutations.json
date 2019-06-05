@@ -677,7 +677,7 @@
     "attackcost_modifier": 0.9,
     "weight_capacity_modifier": 0.8
   },
-    {
+  {
     "type": "mutation",
     "id": "HOLLOW_BONES",
     "name": "Hollow Bones",
