@@ -2732,7 +2732,6 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
 void activity_handlers::build_do_turn( player_activity *act, player *p )
 {
     const std::vector<construction> &list_constructions = get_constructions();
-    const construction &built = list_constructions[act->index];
     partial_con *pc = g->m.partial_con_at( act->placement );
     if( pc == nullptr ) {
         debugmsg( "No partial construction found at activity placement, aborting activity" );
@@ -2740,6 +2739,7 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
         p->cancel_activity();
         return;
     }
+    const construction &built = list_constructions[pc->id];
     // item_counter represents the percent progress relative to the base batch time
     // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6732000 )
     const int old_counter = pc->counter;
