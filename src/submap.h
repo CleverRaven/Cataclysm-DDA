@@ -13,6 +13,7 @@
 #include "basecamp.h"
 #include "calendar.h"
 #include "computer.h"
+#include "construction.h"
 #include "field.h"
 #include "game_constants.h"
 #include "item.h"
@@ -28,6 +29,7 @@ struct mtype;
 struct trap;
 struct ter_t;
 struct furn_t;
+struct partial_con;
 
 struct spawn_point {
     point pos;
@@ -42,12 +44,6 @@ struct spawn_point {
                  const std::string &N = "NONE" ) :
         pos( P ), count( C ), type( T ), faction_id( FAC ),
         mission_id( MIS ), friendly( F ), name( N ) {}
-};
-
-struct partial_con {
-    int counter = 0;
-    std::list<item> components = {};
-    size_t id = 0;
 };
 
 template<int sx, int sy>

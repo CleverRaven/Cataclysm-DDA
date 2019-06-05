@@ -1036,15 +1036,15 @@ class map
          * Fetch an item from this vehicle, with sanity checks to ensure it still exists.
          */
         item *item_from( vehicle *veh, const int cargo_part, const size_t index );
-
+        // Partial construction functions
+        void partial_con_set( const tripoint &p, const partial_con &con );
+        void partial_con_remove( const tripoint &p );
+        partial_con *partial_con_at( const tripoint &p );
         // Traps: 3D
         void trap_set( const tripoint &p, const trap_id &type );
 
-        void partial_con_set( const tripoint &p, const partial_con &con );
-        void partial_con_remove( const tripoint &p );
         const trap &tr_at( const tripoint &p ) const;
 
-        partial_con *partial_con_at( const tripoint &p );
         void disarm_trap( const tripoint &p );
         void remove_trap( const tripoint &p );
         const std::vector<tripoint> &trap_locations( const trap_id &type ) const;

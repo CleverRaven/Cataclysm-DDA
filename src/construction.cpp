@@ -847,7 +847,7 @@ void place_construction( const std::string &desc )
     }
 
     g->u.assign_activity( activity_id( "ACT_BUILD" ) );
-    g->u.activity.index = con.id;
+    g->u.activity.index = pc.id;
     g->u.activity.placement = pnt;
 }
 
@@ -881,7 +881,7 @@ void complete_construction()
     // Move any items that have found their way onto the construction site.
     std::vector<tripoint> dump_spots;
     for( const auto pt : g->m.points_in_radius( terp, 1 ) ) {
-        if( g->is_empty( pt ) ) {
+        if( g->is_empty( pt ) && pt != terp ) {
             dump_spots.push_back( pt );
         }
     }

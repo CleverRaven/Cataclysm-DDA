@@ -5229,12 +5229,7 @@ void map::partial_con_remove( const tripoint &p )
     }
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    tripoint p_shifted( l.x, l.y, p.z );
-    if( partial_con_at( p ) != nullptr ) {
-        auto it = current_submap->partial_constructions.find( p_shifted );
-        current_submap->partial_constructions.erase( it );
-        return;
-    }
+    current_submap->partial_constructions.erase( tripoint( l.x, l.y, p.z ) );
 }
 
 void map::partial_con_set( const tripoint &p, const partial_con &con )
@@ -5244,12 +5239,9 @@ void map::partial_con_set( const tripoint &p, const partial_con &con )
     }
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if( partial_con_at( p ) != nullptr ) {
-        debugmsg( "set partial con on top of terrain  which already has a partial con" );
-        return;
+    if( !current_submap->partial_constructions.emplace( tripoint( l.x, l.y, p.z ), con ).second ) {
+        debugmsg( "set partial con on top of terrain which already has a partial con" );
     }
-    tripoint p_shifted( l.x, l.y, p.z );
-    current_submap->partial_constructions.emplace( p_shifted, con );
 }
 
 void map::trap_set( const tripoint &p, const trap_id &type )
