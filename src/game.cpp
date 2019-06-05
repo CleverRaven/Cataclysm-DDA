@@ -5798,7 +5798,7 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
     if( tr.can_see( lp, u ) ) {
         partial_con *pc = g->m.partial_con_at( lp );
         std::string tr_name;
-        std::vector<construction> list_constructions = get_constructions();
+        const std::vector<construction> &list_constructions = get_constructions();
         const construction &built = list_constructions[pc->id];
         if( tr.loadid == tr_unfinished_construction ) {
             tr_name = string_format( _( "Unfinished task: %s, %d%% complete" ), built.description,
