@@ -74,11 +74,17 @@
       "TALK_REFUGEE_Pablo_Background2_cleared",
       "TALK_REFUGEE_Pablo_Situation",
       "TALK_REFUGEE_Pablo_Tacoma",
+      "TALK_REFUGEE_Pablo_Tacoma2",
       "TALK_REFUGEE_Pablo_Recruit"
     ],
     "responses": [
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Pablo_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Pablo_Situation" },
+      {
+        "text": "Dana wanted me to be the one to let you know: they've got work for you over at the ranch.  You could get out of here if you want.",
+        "topic": "TALK_REFUGEE_Pablo_Tacoma2",
+        "condition": { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_3" }
+      },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.  Bye, Pablo.", "topic": "TALK_DONE" }
     ]
@@ -197,6 +203,11 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Pablo_Tacoma",
     "dynamic_line": "I heard about that place.  What use would they have for an accountant, though?  If they have work for my wife Dana and I, I'd definitely consider it."
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Pablo_Tacoma2",
+    "dynamic_line": "This is amazing news!  Thank you so much!  I've talked to some of the traders who have been there and I really think I can help, mostly with the manual labour but also with the bookkeeping end.  It sounds so much better than this place.  Thanks, my friend!  We'll get packing, and see if we can get a place on the next caravan out.  It'll be a little while I'm sure, but at least our child won't be born in captivity."
   },
   {
     "type": "talk_topic",

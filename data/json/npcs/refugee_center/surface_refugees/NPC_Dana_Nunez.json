@@ -77,6 +77,7 @@
       "TALK_REFUGEE_Dana_2",
       "TALK_REFUGEE_Dana_Background",
       "TALK_REFUGEE_Dana_Background_baking",
+      "TALK_REFUGEE_Dana_Background_baking_revival",
       "TALK_REFUGEE_Dana_Situation"
     ],
     "responses": [
@@ -89,7 +90,7 @@
       },
       {
         "text": "Your husband said to ask you what you'd think about getting out of this place and coming to work for me at my own camp.",
-        "topic": "TALK_REFUGEE_Dana_Tacoma",
+        "topic": "TALK_REFUGEE_Dana_Recruit",
         "condition": { "u_has_var": "Pablo_ask_recruit", "type": "recruit", "context": "general", "value": "yes" }
       },
       {
