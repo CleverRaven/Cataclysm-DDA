@@ -10288,7 +10288,7 @@ void game::fling_creature( Creature *c, const int &dir, float flvel, bool contro
                 thru = false;
             }
         } else{
-            const cata::optional<tripoint> obstacle = m.blocking_from_point( pt, c->pos() );
+            const cata::optional<tripoint> obstacle = m.obstacle_point( pt, c->pos() );
             if( obstacle ) {
                 pt = obstacle.value();
                 if( !m.veh_at( pt ).obstacle_at_part() ) {

@@ -3852,11 +3852,12 @@ bool mattack::stretch_bite( monster *z )
     z->moves -= 150;
 
     for( auto &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ) {
-        if( g->m.impassable( pnt ) ) {
+        const cata::optional<tripoint> obstacle = g->m.obstacle_point( pnt, z->pos() );
+        if( obstacle ) {
             z->add_effect( effect_stunned, 6_turns );
             target->add_msg_player_or_npc( _( "The %1$s stretches its head at you, but bounces off the %2$s" ),
                                            _( "The %1$s stretches its head at <npcname>, but bounces off the %2$s" ),
-                                           z->name(), g->m.obstacle_name( pnt ) );
+                                           z->name(), g->m.obstacle_name( obstacle.value() ) );
             return true;
         }
     }

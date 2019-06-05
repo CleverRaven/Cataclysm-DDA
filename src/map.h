@@ -399,14 +399,9 @@ class map
         // Return null/false or blocking tripoint.
         cata::optional<tripoint> blocking_from_point( const tripoint &to, const tripoint &from ) const;
         bool passable( const tripoint &p ) const;
-        bool passable_from_point( const tripoint &to, const tripoint &from ) const;
+        bool passable_from_point( const tripoint &to, const tripoint &from ) const;        
         
-        /**
-         * Internal to get movement cost and a blocking tile if any
-         * to account for diagonal neighbor tiles.
-         */
-        std::tuple<int,cata::optional<tripoint>> obstacle_from_point( const tripoint &to, const tripoint &from, const vehicle *ignored_vehicle = nullptr ) const;
-        //std::vector <tripoint> line_to( const tripoint &loc1, const tripoint &loc2 );
+        cata::optional<tripoint> obstacle_point( const tripoint &to, const tripoint &from ) const;        
         cata::optional<tripoint> check_for_diagonal( const tripoint &to, const tripoint &from, const std::function<bool( const tripoint & )> &interact ) const;
 
         /**

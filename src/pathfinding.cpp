@@ -206,11 +206,24 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         const auto line_path = line_to( f, t );
         const auto &pf_cache = get_pathfinding_cache_ref( f.z );
         // Check all points for any special case (including just hard terrain)
-        if( std::all_of( line_path.begin(), line_path.end(), [&pf_cache]( const tripoint & p ) {
-        return !( pf_cache.special[p.x][p.y] & non_normal );
-        } ) ) {
+        bool all_valid = true;
+        for( auto p = line_path.cbegin() ; p != line_path.cend(); ++p ){
+            if( !( pf_cache.special[p->x][p->y] & non_normal )){
+                // This point is good so check for it's veh diagonals.
+                if( p != line_path.cbegin() && check_for_diagonal(*p, *(p-1), [&pf_cache, &all_valid]( const tripoint & tp ){               
+                    return ( pf_cache.special[tp.x][tp.y] & non_normal );
+                }  )  ){
+                    all_valid = false;
+                    break;
+                }     
+            } else{
+                all_valid = false;
+                break;
+            }
+        }
+        if( all_valid ){
             const std::set<tripoint> sorted_line( line_path.begin(), line_path.end() );
-
+        
             if( is_disjoint( sorted_line, pre_closed ) ) {
                 return line_path;
             }

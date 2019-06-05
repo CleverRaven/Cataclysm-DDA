@@ -1156,15 +1156,18 @@ bool monster::attack_at( const tripoint &p )
     if( p.z != posz() ) {
         return false; // TODO: Remove this
     }
-
-    if( p == g->u.pos() && !g->m.check_for_diagonal(p, pos(), [](const tripoint & np){
+    // Diagonal vehicle obstacles.
+    if( g->m.check_for_diagonal(p, pos(), [](const tripoint & np){
          return g->m.move_cost(np) == 0;
-    } ) ) {
-        std::cout << "can attack" << std::endl;
+    } )){
+        return false;
+    }
+
+    if( p == g->u.pos() ){
         melee_attack( g->u );
         return true;
     }
-
+    
     if( const auto mon_ = g->critter_at<monster>( p, is_hallucination() ) ) {
         monster &mon = *mon_;
 
@@ -1197,8 +1200,7 @@ bool monster::attack_at( const tripoint &p )
         guy->on_attacked( *this ); // allow NPC hallucination to be one shot by monsters
         melee_attack( *guy );
         return true;
-    }
-
+    }    
     // Nothing to attack.
     return false;
 }
