@@ -7902,6 +7902,62 @@
   },
   {
     "type": "terrain",
+    "id": "t_wood_stairs_down",
+    "name": "wooden stairs",
+    "description": "TODO",
+    "symbol": ">",
+    "color": "light_red",
+    "move_cost": 2,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "GOES_DOWN", "INDOORS", "PLACE_ITEM" ]
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_stairs_up_half",
+    "name": "half-built wooden stairs",
+    "description": "TODO",
+    "symbol": "<",
+    "color": "light_red",
+    "move_cost": 4,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "INDOORS", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 70,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_null",
+      "items": [
+        { "item": "2x4", "count": [ 0, 5 ] },
+        { "item": "nail", "charges": [ 0, 5 ] },
+        { "item": "splinter", "count": [ 5, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_wood_stairs_up",
+    "name": "wooden stairs",
+    "description": "TODO",
+    "symbol": "<",
+    "color": "light_red",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "GOES_UP", "INDOORS", "PLACE_ITEM" ],
+    "bash": {
+      "str_min": 12,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "whump!",
+      "ter_set": "t_wood_stairs_up_half",
+      "items": [
+        { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
+        { "item": "nail", "charges": [ 1, 5 ] },
+        { "item": "splinter", "count": [ 1, 4 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_stairs_down",
     "name": "stairs",
     "description": "A flight of stairs leading down.",

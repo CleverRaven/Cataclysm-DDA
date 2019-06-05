@@ -72,6 +72,7 @@ static bool check_nothing( const tripoint & )
 bool check_empty( const tripoint & ); // tile is empty
 bool check_support( const tripoint & ); // at least two orthogonal supports
 bool check_deconstruct( const tripoint & ); // either terrain or furniture must be deconstructible
+bool check_empty_up_OK( const tripoint & ); // tile is empty and below OVERMAP_HEIGHT
 bool check_up_OK( const tripoint & ); // tile is below OVERMAP_HEIGHT
 bool check_down_OK( const tripoint & ); // tile is above OVERMAP_DEPTH
 bool check_no_trap( const tripoint & );
@@ -86,6 +87,7 @@ void done_digormine_stair( const tripoint &, bool );
 void done_dig_stair( const tripoint & );
 void done_mine_downstair( const tripoint & );
 void done_mine_upstair( const tripoint & );
+void done_wood_stairs( const tripoint & );
 void done_window_curtains( const tripoint & );
 void done_extract_maybe_revert_to_dirt( const tripoint & );
 void done_mark_firewood( const tripoint & );
@@ -925,6 +927,12 @@ bool construct::check_deconstruct( const tripoint &p )
     return g->m.ter( p.x, p.y ).obj().deconstruct.can_do;
 }
 
+bool construct::check_empty_up_OK( const tripoint &p )
+{
+    // Combination of check_empty and check_up_OK
+    return check_empty( p ) && check_up_OK ( p );
+}
+
 bool construct::check_up_OK( const tripoint & )
 {
     // You're not going above +OVERMAP_HEIGHT.
@@ -1192,6 +1200,12 @@ void construct::done_mine_upstair( const tripoint &p )
     tmpmap.save();
 }
 
+void construct::done_wood_stairs( const tripoint & p ) 
+{
+    const tripoint top = p + tripoint( 0, 0, 1 );
+    g->m.ter_set( top, ter_id( "t_wood_stairs_down" ) );
+}
+
 void construct::done_window_curtains( const tripoint & )
 {
     // copied from iexamine::curtains
@@ -1320,6 +1334,7 @@ void load_construction( JsonObject &jo )
             { "check_empty", construct::check_empty },
             { "check_support", construct::check_support },
             { "check_deconstruct", construct::check_deconstruct },
+            { "check_empty_up_OK", construct::check_empty_up_OK },
             { "check_up_OK", construct::check_up_OK },
             { "check_down_OK", construct::check_down_OK },
             { "check_no_trap", construct::check_no_trap }
@@ -1334,6 +1349,7 @@ void load_construction( JsonObject &jo )
             { "done_dig_stair", construct::done_dig_stair },
             { "done_mine_downstair", construct::done_mine_downstair },
             { "done_mine_upstair", construct::done_mine_upstair },
+            { "done_wood_stairs", construct::done_wood_stairs },
             { "done_window_curtains", construct::done_window_curtains },
             { "done_extract_maybe_revert_to_dirt", construct::done_extract_maybe_revert_to_dirt },
             { "done_mark_firewood", construct::done_mark_firewood },
