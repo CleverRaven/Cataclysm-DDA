@@ -1085,7 +1085,7 @@ void construct::done_deconstruct( const tripoint &p )
                 add_msg( _( "That %s can not be dissasembled, since there is furniture above it" ), t.name() );
                 return;
             }
-            done_deconstruct( p + tripoint( 0, 0, 1 ) );     
+            done_deconstruct( top );
         }
         if( t.id == "t_console_broken" )  {
             if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
