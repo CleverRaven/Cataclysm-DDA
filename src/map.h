@@ -46,6 +46,7 @@ class field;
 class field_entry;
 class vehicle;
 struct fragment_cloud;
+struct partial_con;
 class submap;
 class item_location;
 class map_cursor;
@@ -1039,7 +1040,11 @@ class map
         // Traps: 3D
         void trap_set( const tripoint &p, const trap_id &type );
 
+        void partial_con_set( const tripoint &p, const partial_con &con );
+        void partial_con_remove( const tripoint &p );
         const trap &tr_at( const tripoint &p ) const;
+
+        partial_con *partial_con_at( const tripoint &p );
         void disarm_trap( const tripoint &p );
         void remove_trap( const tripoint &p );
         const std::vector<tripoint> &trap_locations( const trap_id &type ) const;

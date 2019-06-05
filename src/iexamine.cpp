@@ -57,6 +57,7 @@
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
+#include "submap.h"
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
@@ -3129,40 +3130,29 @@ void iexamine::trap( player &p, const tripoint &examp )
         return;
     }
     if( tr.loadid == tr_unfinished_construction ) {
-        auto items_at = g->m.i_at( examp );
-        bool found_marker = false;
-        for( auto &elem : items_at ) {
-            if( elem.typeId() == "partial_construction" ) {
-                found_marker = true;
-                item *marker_item = &elem;
-                std::vector<construction> list_constructions = get_constructions();
-                const construction &built = list_constructions[static_cast<size_t>( marker_item->get_var( "index",
-                                                                 0 ) ) ];
-                if( !query_yn( _( "Here there is an %s, continue construction?" ), marker_item->get_var( "name",
-                               "" ) ) ) {
-                    if( query_yn( _( "Cancel construction?" ) ) ) {
-                        for( const auto elem : marker_item->components ) {
-                            g->m.add_item_or_charges( g->u.pos(), elem );
-                        }
-                        g->m.i_rem( examp, marker_item );
-                        g->m.disarm_trap( examp );
-                        return;
-                    } else {
-                        return;
+        partial_con *pc = g->m.partial_con_at( examp );
+        if( pc != nullptr ) {
+            std::vector<construction> list_constructions = get_constructions();
+            const construction &built = list_constructions[pc->id];
+            if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
+                           built.description, pc->counter / 100000 ) ) {
+                if( query_yn( _( "Cancel construction?" ) ) ) {
+                    g->m.disarm_trap( examp );
+                    for( const item &it : pc->components ) {
+                        g->m.add_item_or_charges( g->u.pos(), it );
                     }
+                    g->m.partial_con_remove( examp );
+                    return;
                 } else {
-                    g->u.assign_activity( activity_id( "ACT_BUILD" ), built.time, built.id );
-                    item_location item_loc( map_cursor( examp ), marker_item );
-                    g->u.activity.targets.push_back( item_loc.clone() );
-                    g->u.activity.placement = examp;
                     return;
                 }
+            } else {
+                g->u.assign_activity( activity_id( "ACT_BUILD" ), built.time, built.id );
+                g->u.activity.placement = examp;
+                return;
             }
-        }
-        if( found_marker == false ) {
-            // The construction marker trap got seperated from the marker item.
-            add_msg( m_info, _( "There is an unfinished construction here, but the components are gone" ) );
-            g->m.remove_trap( examp );
+        } else {
+            return;
         }
     }
     // Some traps are not actual traps. Those should get a different query.

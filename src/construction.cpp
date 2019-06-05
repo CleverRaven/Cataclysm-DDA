@@ -46,6 +46,7 @@
 #include "item.h"
 #include "player_activity.h"
 #include "pldata.h"
+#include "submap.h"
 #include "morale_types.h"
 
 class inventory;
@@ -828,6 +829,10 @@ void place_construction( const std::string &desc )
     }
     std::list<item> used;
     const construction &con = *valid.find( pnt )->second;
+    // create the partial construction struct
+    partial_con pc;
+    pc.id = con.id;
+    pc.counter = 0;
     // Set the trap that has the examine function
     g->m.trap_set( pnt, tr_unfinished_construction );
     // Use up the components
@@ -835,6 +840,8 @@ void place_construction( const std::string &desc )
         std::list<item> tmp = g->u.consume_items( it, 1, is_crafting_component );
         used.splice( used.end(), tmp );
     }
+    pc.components = used;
+    g->m.partial_con_set( pnt, pc );
     for( const auto &it : con.requirements->get_tools() ) {
         g->u.consume_tools( it );
     }
@@ -872,6 +879,7 @@ void complete_construction()
         award_xp( *elem );
     }
     g->m.disarm_trap( terp );
+    g->m.partial_con_remove( terp );
     // Move any items that have found their way onto the construction site.
     std::vector<tripoint> dump_spots;
     for( const auto pt : g->m.points_in_radius( terp, 1 ) ) {

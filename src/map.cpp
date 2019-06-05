@@ -8,6 +8,7 @@
 #include <cstring>
 #include <iterator>
 #include <limits>
+#include <iostream>
 #include <queue>
 #include <sstream>
 #include <type_traits>
@@ -5203,6 +5204,53 @@ const trap &map::tr_at( const tripoint &p ) const
     }
 
     return current_submap->get_trap( l ).obj();
+}
+
+partial_con *map::partial_con_at( const tripoint &p )
+{
+    if( !inbounds( p ) ) {
+        return nullptr;
+    }
+    point l;
+    submap *const current_submap = get_submap_at( p, l );
+    tripoint p_shifted( l.x, l.y, p.z );
+    auto it = current_submap->partial_constructions.find( p_shifted );
+    if( it != current_submap->partial_constructions.end() ) {
+        return &it->second;
+    }
+
+    return nullptr;
+}
+
+void map::partial_con_remove( const tripoint &p )
+{
+    if( !inbounds( p ) ) {
+        return;
+    }
+    point l;
+    submap *const current_submap = get_submap_at( p, l );
+    tripoint p_shifted( l.x, l.y, p.z );
+    if( partial_con_at( p ) != nullptr ) {
+        auto it = current_submap->partial_constructions.find( p_shifted );
+        current_submap->partial_constructions.erase( it );
+        return;
+    }
+
+}
+
+void map::partial_con_set( const tripoint &p, const partial_con &con )
+{
+    if( !inbounds( p ) ) {
+        return;
+    }
+    point l;
+    submap *const current_submap = get_submap_at( p, l );
+    if( partial_con_at( p ) != nullptr ) {
+        debugmsg( "set partial con on top of terrain  which already has a partial con" );
+        return;
+    }
+    tripoint p_shifted( l.x, l.y, p.z );
+    current_submap->partial_constructions.emplace( p_shifted, con );
 }
 
 void map::trap_set( const tripoint &p, const trap_id &type )
