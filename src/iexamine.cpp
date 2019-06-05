@@ -3148,7 +3148,7 @@ void iexamine::trap( player &p, const tripoint &examp )
                     return;
                 }
             } else {
-                g->u.assign_activity( activity_id( "ACT_BUILD" ), built.time, built.id );
+                g->u.assign_activity( activity_id( "ACT_BUILD" ) );
                 g->u.activity.placement = examp;
                 return;
             }
