@@ -516,7 +516,6 @@ player::player() : Character()
     in_vehicle = false;
     controlling_vehicle = false;
     grab_point = tripoint_zero;
-    grab_type = OBJECT_NONE;
     hauling = false;
     move_mode = "walk";
     style_selected = style_none;
@@ -11099,19 +11098,6 @@ void player::shift_destination( int shiftx, int shifty )
         elem.x += shiftx;
         elem.y += shifty;
     }
-}
-
-void player::grab( object_type grab_type, const tripoint &grab_point )
-{
-    this->grab_type = grab_type;
-    this->grab_point = grab_point;
-
-    path_settings->avoid_rough_terrain = grab_type != OBJECT_NONE;
-}
-
-object_type player::get_grab_type() const
-{
-    return grab_type;
 }
 
 void player::start_hauling()

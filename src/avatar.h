@@ -2,6 +2,7 @@
 #ifndef AVATAR_H
 #define AVATAR_H
 
+#include "enums.h"
 #include "player.h"
 
 class avatar : public player
@@ -93,6 +94,9 @@ class avatar : public player
         hint_rating rate_action_read( const item &it ) const;
 
         void wake_up();
+        // Grab furniture / vehicle
+        void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
+        object_type get_grab_type() const;
         /** Handles player vomiting effects */
         void vomit();
     private:
@@ -123,6 +127,8 @@ class avatar : public player
 
         // Items the player has identified.
         std::unordered_set<std::string> items_identified;
+
+        object_type grab_type;
 };
 
 #endif
