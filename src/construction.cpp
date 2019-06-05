@@ -894,7 +894,7 @@ void complete_construction()
             g->m.i_rem( terp, item_ptr );
         }
     } else {
-        add_msg( m_debug, "No space to displace items from construction finishing" );
+        debugmsg( "No space to displace items from construction finishing" );
     }
     // Make the terrain change
     if( !built.post_terrain.empty() ) {
