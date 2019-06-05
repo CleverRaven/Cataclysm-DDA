@@ -5,6 +5,7 @@
 #include "character.h"
 #include "creature.h"
 #include "effect.h"
+#include "enums.h"
 #include "filesystem.h"
 #include "game.h"
 #include "help.h"
@@ -48,6 +49,7 @@ avatar::avatar() : player()
 {
     show_map_memory = true;
     active_mission = nullptr;
+    grab_type = OBJECT_NONE;
 }
 
 void avatar::memorial( std::ostream &memorial_file, const std::string &epitaph )
@@ -768,6 +770,19 @@ bool avatar::read( int inventory_position, const bool continuous )
     }
 
     return true;
+}
+
+void avatar::grab( object_type grab_type, const tripoint &grab_point )
+{
+    this->grab_type = grab_type;
+    this->grab_point = grab_point;
+
+    path_settings->avoid_rough_terrain = grab_type != OBJECT_NONE;
+}
+
+object_type avatar::get_grab_type() const
+{
+    return grab_type;
 }
 
 void avatar::do_read( item &book )

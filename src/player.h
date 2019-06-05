@@ -1470,9 +1470,6 @@ class player : public Character
         void shift_destination( int shiftx, int shifty );
         void forced_dismount();
         void dismount();
-        // Grab furniture / vehicle
-        void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
-        object_type get_grab_type() const;
 
         // Hauling items on the ground
         void start_hauling();
@@ -1846,9 +1843,6 @@ class player : public Character
         time_point cached_time;
         tripoint cached_position;
 
-    protected:
-        // TODO: move this to avatar
-        object_type grab_type;
     private:
 
         struct weighted_int_list<std::string> melee_miss_reasons;

@@ -535,7 +535,7 @@ static void handbrake()
 // Establish or release a grab on a vehicle
 static void grab()
 {
-    player &u = g->u;
+    avatar &u = g->u;
     map &m = g->m;
 
     if( u.get_grab_type() != OBJECT_NONE ) {
