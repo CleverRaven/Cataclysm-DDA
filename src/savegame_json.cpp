@@ -898,7 +898,6 @@ void avatar::load( JsonObject &data )
         data.read( "backlog", temp );
         backlog.push_front( temp );
     }
-
     data.read( "controlling_vehicle", controlling_vehicle );
 
     data.read( "grab_point", grab_point );
@@ -1343,6 +1342,7 @@ void npc::load( JsonObject &data )
     data.read( "guardx", guard_pos.x );
     data.read( "guardy", guard_pos.y );
     data.read( "guardz", guard_pos.z );
+    data.read( "current_activity", current_activity );
 
     if( data.has_member( "pulp_locationx" ) ) {
         pulp_location.emplace();
@@ -1368,6 +1368,17 @@ void npc::load( JsonObject &data )
             mission = NPC_MISSION_NULL;
         }
     }
+    if( data.read( "previous_mission", misstmp ) ) {
+        previous_mission = npc_mission( misstmp );
+        static const std::set<npc_mission> legacy_missions = {{
+                NPC_MISSION_LEGACY_1, NPC_MISSION_LEGACY_2,
+                NPC_MISSION_LEGACY_3
+            }
+        };
+        if( legacy_missions.count( mission ) > 0 ) {
+            previous_mission = NPC_MISSION_NULL;
+        }
+    }
 
     if( data.read( "my_fac", facID ) ) {
         fac_id = faction_id( facID );
@@ -1388,6 +1399,17 @@ void npc::load( JsonObject &data )
         };
         if( legacy_attitudes.count( attitude ) > 0 ) {
             attitude = NPCATT_NULL;
+        }
+    }
+    if( data.read( "previous_attitude", atttmp ) ) {
+        previous_attitude = npc_attitude( atttmp );
+        static const std::set<npc_attitude> legacy_attitudes = {{
+                NPCATT_LEGACY_1, NPCATT_LEGACY_2, NPCATT_LEGACY_3,
+                NPCATT_LEGACY_4, NPCATT_LEGACY_5, NPCATT_LEGACY_6
+            }
+        };
+        if( legacy_attitudes.count( attitude ) > 0 ) {
+            previous_attitude = NPCATT_NULL;
         }
     }
 
@@ -1498,15 +1520,17 @@ void npc::store( JsonOut &json ) const
     json.member( "guardx", guard_pos.x );
     json.member( "guardy", guard_pos.y );
     json.member( "guardz", guard_pos.z );
-
+    json.member( "current_activity", current_activity );
     json.member( "pulp_location", pulp_location );
 
     json.member( "mission", mission ); // TODO: stringid
+    json.member( "previous_mission", previous_mission );
     json.member( "faction_api_ver", faction_api_version );
     if( !fac_id.str().empty() ) { // set in constructor
         json.member( "my_fac", my_fac->id.c_str() );
     }
     json.member( "attitude", static_cast<int>( attitude ) );
+    json.member( "previous_attitude", static_cast<int>( attitude ) );
     json.member( "op_of_u", op_of_u );
     json.member( "chatbin", chatbin );
     json.member( "rules", rules );

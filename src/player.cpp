@@ -516,7 +516,6 @@ player::player() : Character()
     in_vehicle = false;
     controlling_vehicle = false;
     grab_point = tripoint_zero;
-    grab_type = OBJECT_NONE;
     hauling = false;
     move_mode = "walk";
     style_selected = style_none;
@@ -2830,100 +2829,6 @@ void player::pause()
     }
 
     search_surroundings();
-}
-
-int player::get_shout_volume() const
-{
-    int base = 10;
-    int shout_multiplier = 2;
-
-    // Mutations make shouting louder, they also define the default message
-    if( has_trait( trait_SHOUT3 ) ) {
-        shout_multiplier = 4;
-        base = 20;
-    } else if( has_trait( trait_SHOUT2 ) ) {
-        base = 15;
-        shout_multiplier = 3;
-    }
-
-    // Masks and such dampen the sound
-    // Balanced around whisper for wearing bondage mask
-    // and noise ~= 10 (door smashing) for wearing dust mask for character with strength = 8
-    /** @EFFECT_STR increases shouting volume */
-    const int penalty = encumb( bp_mouth ) * 3 / 2;
-    int noise = base + str_cur * shout_multiplier - penalty;
-
-    // Minimum noise volume possible after all reductions.
-    // Volume 1 can't be heard even by player
-    constexpr int minimum_noise = 2;
-
-    if( noise <= base ) {
-        noise = std::max( minimum_noise, noise );
-    }
-
-    // Screaming underwater is not good for oxygen and harder to do overall
-    if( underwater ) {
-        noise = std::max( minimum_noise, noise / 2 );
-    }
-    return noise;
-}
-
-void player::shout( std::string msg, bool order )
-{
-    int base = 10;
-    std::string shout = "";
-
-    // Mutations make shouting louder, they also define the default message
-    if( has_trait( trait_SHOUT3 ) ) {
-        base = 20;
-        if( msg.empty() ) {
-            msg = is_player() ? _( "yourself let out a piercing howl!" ) : _( "a piercing howl!" );
-            shout = "howl";
-        }
-    } else if( has_trait( trait_SHOUT2 ) ) {
-        base = 15;
-        if( msg.empty() ) {
-            msg = is_player() ? _( "yourself scream loudly!" ) : _( "a loud scream!" );
-            shout = "scream";
-        }
-    }
-
-    if( msg.empty() ) {
-        msg = is_player() ? _( "yourself shout loudly!" ) : _( "a loud shout!" );
-        shout = "default";
-    }
-    int noise = get_shout_volume();
-
-    // Minimum noise volume possible after all reductions.
-    // Volume 1 can't be heard even by player
-    constexpr int minimum_noise = 2;
-
-    if( noise <= base ) {
-        std::string dampened_shout;
-        std::transform( msg.begin(), msg.end(), std::back_inserter( dampened_shout ), tolower );
-        msg = std::move( dampened_shout );
-    }
-
-    // Screaming underwater is not good for oxygen and harder to do overall
-    if( underwater ) {
-        if( !has_trait( trait_GILLS ) && !has_trait( trait_GILLS_CEPH ) ) {
-            mod_stat( "oxygen", -noise );
-        }
-    }
-
-    const int penalty = encumb( bp_mouth ) * 3 / 2;
-    // TODO: indistinct noise descriptions should be handled in the sounds code
-    if( noise <= minimum_noise ) {
-        add_msg_if_player( m_warning,
-                           _( "The sound of your voice is almost completely muffled!" ) );
-        msg = is_player() ? _( "your muffled shout" ) : _( "an indistinct voice" );
-    } else if( noise * 2 <= noise + penalty ) {
-        // The shout's volume is 1/2 or lower of what it would be without the penalty
-        add_msg_if_player( m_warning, _( "The sound of your voice is significantly muffled!" ) );
-    }
-
-    sounds::sound( pos(), noise, order ? sounds::sound_t::order : sounds::sound_t::alert, msg, false,
-                   "shout", shout );
 }
 
 void player::set_movement_mode( const std::string &new_mode )
@@ -6611,52 +6516,6 @@ void player::mend( int rate_multiplier )
     }
 }
 
-void player::vomit()
-{
-    add_memorial_log( pgettext( "memorial_male", "Threw up." ),
-                      pgettext( "memorial_female", "Threw up." ) );
-
-    if( stomach.contains() != 0_ml ) {
-        // Remove all joy from previously eaten food and apply the penalty
-        rem_morale( MORALE_FOOD_GOOD );
-        rem_morale( MORALE_FOOD_HOT );
-        rem_morale( MORALE_HONEY ); // bears must suffer too
-        add_morale( MORALE_VOMITED, -2 * units::to_milliliter( stomach.contains() / 50 ), -40, 90_minutes,
-                    45_minutes, false ); // 1.5 times longer
-        stomach.bowel_movement(); // puke all of it
-        g->m.add_field( adjacent_tile(), fd_bile, 1 );
-
-        add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
-    } else {
-        add_msg_if_player( m_warning, _( "You retched, but your stomach is empty." ) );
-    }
-
-    if( !has_effect( effect_nausea ) ) { // Prevents never-ending nausea
-        const effect dummy_nausea( &effect_nausea.obj(), 0_turns, num_bp, false, 1, calendar::turn );
-        add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() * units::to_milliliter(
-                stomach.contains() ) / 21, dummy_nausea.get_int_dur_factor() ) );
-    }
-
-    moves -= 100;
-    for( auto &elem : *effects ) {
-        for( auto &_effect_it : elem.second ) {
-            auto &it = _effect_it.second;
-            if( it.get_id() == effect_foodpoison ) {
-                it.mod_duration( -30_minutes );
-            } else if( it.get_id() == effect_drunk ) {
-                it.mod_duration( rng( -10_minutes, -50_minutes ) );
-            }
-        }
-    }
-    remove_effect( effect_pkill1 );
-    remove_effect( effect_pkill2 );
-    remove_effect( effect_pkill3 );
-    // Don't wake up when just retching
-    if( stomach.contains() > 0_ml ) {
-        wake_up();
-    }
-}
-
 void player::sound_hallu()
 {
     // Random 'dangerous' sound from a random direction
@@ -10001,32 +9860,6 @@ void player::fall_asleep( const time_duration &duration )
     add_effect( effect_sleep, duration );
 }
 
-void player::wake_up()
-{
-    if( has_effect( effect_sleep ) ) {
-        if( calendar::turn - get_effect( effect_sleep ).get_start_time() > 2_hours ) {
-            print_health();
-        }
-        if( has_effect( effect_slept_through_alarm ) ) {
-            if( has_bionic( bio_watch ) ) {
-                add_msg_if_player( m_warning, _( "It looks like you've slept through your internal alarm..." ) );
-            } else {
-                add_msg_if_player( m_warning, _( "It looks like you've slept through the alarm..." ) );
-            }
-        }
-    }
-
-    remove_effect( effect_sleep );
-    remove_effect( effect_slept_through_alarm );
-    remove_effect( effect_lying_down );
-    // Do not remove effect_alarm_clock now otherwise it invalidates an effect iterator in player::process_effects().
-    // We just set it for later removal (also happening in player::process_effects(), so no side effects) with a duration of 0 turns.
-    if( has_effect( effect_alarm_clock ) ) {
-        get_effect( effect_alarm_clock ).set_duration( 0_turns );
-    }
-    recalc_sight_limits();
-}
-
 std::string player::is_snuggling() const
 {
     auto begin = g->m.i_at( pos() ).begin();
@@ -11105,38 +10938,6 @@ bool player::uncanny_dodge()
     return false;
 }
 
-// adjacent_tile() returns a safe, unoccupied adjacent tile. If there are no such tiles, returns player position instead.
-tripoint player::adjacent_tile() const
-{
-    std::vector<tripoint> ret;
-    int dangerous_fields = 0;
-    for( const tripoint &p : g->m.points_in_radius( pos(), 1 ) ) {
-        if( p == pos() ) {
-            // Don't consider player position
-            continue;
-        }
-        const trap &curtrap = g->m.tr_at( p );
-        if( g->critter_at( p ) == nullptr && g->m.passable( p ) &&
-            ( curtrap.is_null() || curtrap.is_benign() ) ) {
-            // Only consider tile if unoccupied, passable and has no traps
-            dangerous_fields = 0;
-            auto &tmpfld = g->m.field_at( p );
-            for( auto &fld : tmpfld ) {
-                const field_entry &cur = fld.second;
-                if( cur.is_dangerous() ) {
-                    dangerous_fields++;
-                }
-            }
-
-            if( dangerous_fields == 0 ) {
-                ret.push_back( p );
-            }
-        }
-    }
-
-    return random_entry( ret, pos() ); // player position if no valid adjacent tiles
-}
-
 int player::climbing_cost( const tripoint &from, const tripoint &to ) const
 {
     if( !g->m.valid_move( from, to, false, true ) ) {
@@ -11297,19 +11098,6 @@ void player::shift_destination( int shiftx, int shifty )
         elem.x += shiftx;
         elem.y += shifty;
     }
-}
-
-void player::grab( object_type grab_type, const tripoint &grab_point )
-{
-    this->grab_type = grab_type;
-    this->grab_point = grab_point;
-
-    path_settings->avoid_rough_terrain = grab_type != OBJECT_NONE;
-}
-
-object_type player::get_grab_type() const
-{
-    return grab_type;
 }
 
 void player::start_hauling()

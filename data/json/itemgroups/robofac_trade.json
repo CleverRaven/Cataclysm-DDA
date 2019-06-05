@@ -2,6 +2,7 @@
   {
     "type": "item_group",
     "id": "robofac_basic_trade",
+    "subtype": "distribution",
     "entries": [
       { "group": "bionics_common", "prob": 100 },
       { "group": "textbooks", "prob": 100 },
@@ -17,16 +18,19 @@
   {
     "type": "item_group",
     "id": "robofac_id_cards",
+    "subtype": "distribution",
     "items": [ [ "id_science", 90 ], [ "id_military", 5 ], [ "id_industrial", 5 ] ]
   },
   {
     "type": "item_group",
     "id": "robofac_basic_grenades",
+    "subtype": "distribution",
     "items": [ [ "EMPbomb", 70 ], [ "scrambler", 30 ] ]
   },
   {
     "type": "item_group",
     "id": "robofac_basic_robots",
+    "subtype": "distribution",
     "items": [ [ "bot_manhack", 40 ], [ "bot_skitterbot", 25 ] ]
   }
 ]

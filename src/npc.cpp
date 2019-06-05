@@ -614,6 +614,22 @@ void starting_inv( npc &who, const npc_class_id &type )
     who.inv += res;
 }
 
+void npc::revert_after_activity()
+{
+    mission = previous_mission;
+    attitude = previous_attitude;
+}
+
+npc_mission npc::get_previous_mission()
+{
+    return previous_mission;
+}
+
+npc_attitude npc::get_previous_attitude()
+{
+    return previous_attitude;
+}
+
 void npc::setpos( const tripoint &pos )
 {
     position = pos;
@@ -2584,6 +2600,22 @@ attitude_group npc::get_attitude_group( npc_attitude att ) const
     return attitude_group::neutral;
 }
 
+void npc::set_mission( npc_mission new_mission )
+{
+    if( new_mission != mission ) {
+        previous_mission = mission;
+        mission = new_mission;
+    }
+    if( mission == NPC_MISSION_ACTIVITY ) {
+        current_activity = activity.get_verb();
+    }
+}
+
+bool npc::has_activity() const
+{
+    return mission == NPC_MISSION_ACTIVITY;
+}
+
 npc_attitude npc::get_attitude() const
 {
     return attitude;
@@ -2591,12 +2623,12 @@ npc_attitude npc::get_attitude() const
 
 void npc::set_attitude( npc_attitude new_attitude )
 {
-    if( new_attitude == NPCATT_FLEE ) {
-        new_attitude = NPCATT_FLEE_TEMP;
-    }
-
     if( new_attitude == attitude ) {
         return;
+    }
+    previous_attitude = attitude;
+    if( new_attitude == NPCATT_FLEE ) {
+        new_attitude = NPCATT_FLEE_TEMP;
     }
     if( new_attitude == NPCATT_FLEE_TEMP && !has_effect( effect_npc_flee_player ) ) {
         add_effect( effect_npc_flee_player, 24_hours, num_bp );

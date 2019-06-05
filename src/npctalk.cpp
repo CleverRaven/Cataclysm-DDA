@@ -598,14 +598,13 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
             d.missions_assigned.push_back( mission );
         }
     }
-
     d.add_topic( chatbin.first_topic );
     if( radio_contact ) {
         d.add_topic( "TALK_RADIO" );
         d.by_radio = true;
     } else if( is_leader() ) {
         d.add_topic( "TALK_LEADER" );
-    } else if( is_player_ally() && is_walking_with() ) {
+    } else if( is_player_ally() && ( is_walking_with() || has_activity() ) ) {
         d.add_topic( "TALK_FRIEND" );
     } else if( get_attitude() == NPCATT_RECOVER_GOODS ) {
         d.add_topic( "TALK_STOLE_ITEM" );
@@ -1353,6 +1352,15 @@ void parse_tags( std::string &phrase, const player &u, const player &me, const i
             } else {
                 phrase.replace( fa, l, me.weapon.ammo_type()->name() );
             }
+        } else if( tag == "<current_activity>" ) {
+            std::string activity_name;
+            const npc *guy = dynamic_cast<const npc *>( &me );
+            if( !guy->current_activity.empty() ) {
+                activity_name = guy->current_activity;
+            } else {
+                activity_name = "doing this and that";
+            }
+            phrase.replace( fa, l, activity_name );
         } else if( tag == "<punc>" ) {
             switch( rng( 0, 2 ) ) {
                 case 0:
@@ -2225,6 +2233,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
             WRAP( clear_mission ),
             WRAP( mission_reward ),
             WRAP( start_trade ),
+            WRAP( sort_loot ),
             WRAP( assign_guard ),
             WRAP( stop_guard ),
             WRAP( start_camp ),
@@ -2262,6 +2271,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
             WRAP( flee ),
             WRAP( leave ),
             WRAP( stop_following ),
+            WRAP( revert_activity ),
             WRAP( goto_location ),
             WRAP( stranger_neutral ),
             WRAP( start_mugging ),
@@ -2506,6 +2516,21 @@ void conditional_t::set_has_trait_flag( JsonObject &jo, const std::string &membe
             return actor->crossed_threshold();
         }
         return actor->has_trait_flag( trait_flag_to_check );
+    };
+}
+
+void conditional_t::set_has_activity( bool is_npc )
+{
+    condition = [is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            return d.beta->has_activity();
+        } else {
+            if( !actor->activity.is_null() ) {
+                return true;
+            }
+        }
+        return false;
     };
 }
 
@@ -3174,6 +3199,8 @@ conditional_t::conditional_t( JsonObject jo )
         set_has_trait_flag( jo, "npc_has_trait_flag", true );
     } else if( jo.has_member( "npc_has_class" ) ) {
         set_npc_has_class( jo );
+    } else if( jo.has_string( "npc_has_activity" ) ) {
+        set_has_activity( is_npc );
     } else if( jo.has_string( "u_has_mission" ) ) {
         set_u_has_mission( jo );
     } else if( jo.has_int( "u_has_strength" ) ) {
@@ -3324,6 +3351,8 @@ conditional_t::conditional_t( const std::string &type )
         set_is_driving();
     } else if( type == "npc_driving" ) {
         set_is_driving( is_npc );
+    } else if( type == "npc_has_activity" ) {
+        set_has_activity( is_npc );
     } else if( type == "is_day" ) {
         set_is_day();
     } else if( type == "u_has_stolen_item" ) {
