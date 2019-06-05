@@ -534,6 +534,9 @@ extern furn_id f_null,
        f_wind_mill, f_wind_mill_active,
        f_robotic_arm, f_vending_reinforced,
        f_brazier,
+       f_firering,
+       f_tourist_table,
+       f_camp_chair,
        f_autodoc_couch;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
