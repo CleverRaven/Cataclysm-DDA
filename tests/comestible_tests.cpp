@@ -22,7 +22,7 @@ struct all_stats {
 };
 
 // given a list of components, adds all the calories together
-static int comp_calories( std::vector<item_comp> components )
+static int comp_calories( const std::vector<item_comp> &components )
 {
     int calories = 0;
     for( item_comp it : components ) {
@@ -93,7 +93,7 @@ static int byproduct_calories( const recipe &recipe_obj )
     return kcal;
 }
 
-static all_stats run_stats( std::vector<std::vector<item_comp>> permutations,
+static all_stats run_stats( const std::vector<std::vector<item_comp>> &permutations,
                             int byproduct_calories )
 {
     all_stats mystats;
@@ -103,7 +103,7 @@ static all_stats run_stats( std::vector<std::vector<item_comp>> permutations,
     return mystats;
 }
 
-static item food_or_food_container( item it )
+static item food_or_food_container( const item &it )
 {
     return it.is_food_container() ? it.contents.front() : it;
 }

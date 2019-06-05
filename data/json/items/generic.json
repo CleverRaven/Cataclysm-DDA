@@ -13,6 +13,21 @@
   },
   {
     "type": "GENERIC",
+    "//": "pseudo item, used as fuel type for engines that are animal-powered",
+    "id": "animal",
+    "symbol": "?",
+    "color": "white",
+    "name": "animal",
+    "name_plural": "none",
+    "description": "seeing this is a bug",
+    "stackable": true,
+    "price": 0,
+    "volume": 0,
+    "flags": [ "PSEUDO", "PERPETUAL" ],
+    "fuel": { "energy": 1 }
+  },
+  {
+    "type": "GENERIC",
     "//": "pseudo item, only used for crafting as a required tool",
     "id": "fire",
     "symbol": "$",
@@ -369,6 +384,20 @@
     "color": "white",
     "name": "USB drive",
     "description": "A USB thumb drive.  Useful for holding software.",
+    "price": 10000,
+    "price_postapoc": 100,
+    "material": "plastic",
+    "weight": 18,
+    "volume": 0,
+    "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "data_card",
+    "symbol": ",",
+    "color": "white",
+    "name": "data card",
+    "description": "Some type of advanced data storage device.  Useful for storing very large amounts of information.",
     "price": 10000,
     "price_postapoc": 100,
     "material": "plastic",
@@ -2108,6 +2137,19 @@
   },
   {
     "type": "GENERIC",
+    "id": "chamomile",
+    "name": "handful of chamomile flowers",
+    "name_plural": "handfuls of chamomile flowers",
+    "description": "White chamomile flowers, used as a herbal remedy since the ancient times.",
+    "weight": 50,
+    "color": "white",
+    "symbol": ",",
+    "material": [ "veggy" ],
+    "volume": 1,
+    "price": 0
+  },
+  {
+    "type": "GENERIC",
     "id": "clay_lump",
     "symbol": ",",
     "color": "brown",
@@ -2786,6 +2828,19 @@
     "weight": 6,
     "volume": 0,
     "to_hit": -3
+  },
+  {
+    "type": "GENERIC",
+    "id": "rmi2_corpse",
+    "symbol": "%",
+    "color": "white",
+    "name": "desiccated corpse",
+    "description": "A badly mangled and desiccated partial corpse.  It seems whatever thing killed him did so with a single swipe of a gigantic claw.",
+    "category": "other",
+    "material": "hflesh",
+    "price": 0,
+    "volume": 30,
+    "flags": [ "TRADER_AVOID" ]
   },
   {
     "id": "gasdiscount_silver",

@@ -6,6 +6,7 @@
 #include <unordered_set>
 
 #include "action.h"
+#include "avatar_action.h"
 #include "field.h"
 #include "game.h"
 #include "item.h"
@@ -458,7 +459,7 @@ void player::activate_mutation( const trait_id &mut )
         mut_ranged = item( mdata.ranged_mutation );
         add_msg_if_player( mdata.ranged_mutation_message() );
         g->refresh_all();
-        g->plfire( mut_ranged );
+        avatar_action::fire( g->u, g->m, mut_ranged );
         tdata.powered = false;
         return;
     }
@@ -958,7 +959,7 @@ bool player::mutate_towards( const trait_id &mut )
     return true;
 }
 
-void player::remove_mutation( const trait_id &mut )
+void player::remove_mutation( const trait_id &mut, bool silent )
 {
     const auto &mdata = mut.obj();
     // Check if there's a prerequisite we should shrink back into
@@ -1054,10 +1055,12 @@ void player::remove_mutation( const trait_id &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg_player_or_npc( rating,
-                               _( "Your %1$s mutation turns into %2$s." ),
-                               _( "<npcname>'s %1$s mutation turns into %2$s." ),
-                               mdata.name(), replace_mdata.name() );
+        if( !silent ) {
+            add_msg_player_or_npc( rating,
+                                   _( "Your %1$s mutation turns into %2$s." ),
+                                   _( "<npcname>'s %1$s mutation turns into %2$s." ),
+                                   mdata.name(), replace_mdata.name() );
+        }
         set_mutation( replacing );
         mutation_loss_effect( mut );
         mutation_effect( replacing );
@@ -1074,10 +1077,12 @@ void player::remove_mutation( const trait_id &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg_player_or_npc( rating,
-                               _( "Your %1$s mutation turns into %2$s." ),
-                               _( "<npcname>'s %1$s mutation turns into %2$s." ),
-                               mdata.name(), replace_mdata.name() );
+        if( !silent ) {
+            add_msg_player_or_npc( rating,
+                                   _( "Your %1$s mutation turns into %2$s." ),
+                                   _( "<npcname>'s %1$s mutation turns into %2$s." ),
+                                   mdata.name(), replace_mdata.name() );
+        }
         set_mutation( replacing2 );
         mutation_loss_effect( mut );
         mutation_effect( replacing2 );
@@ -1093,10 +1098,12 @@ void player::remove_mutation( const trait_id &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg_player_or_npc( rating,
-                               _( "You lose your %s mutation." ),
-                               _( "<npcname> loses their %s mutation." ),
-                               mdata.name() );
+        if( !silent ) {
+            add_msg_player_or_npc( rating,
+                                   _( "You lose your %s mutation." ),
+                                   _( "<npcname> loses their %s mutation." ),
+                                   mdata.name() );
+        }
         mutation_loss_effect( mut );
     }
 

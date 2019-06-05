@@ -102,7 +102,6 @@ double Creature::ranged_target_size() const
     if( has_flag( MF_HARDTOSHOOT ) ) {
         switch( get_size() ) {
             case MS_TINY:
-                return occupied_tile_fraction( MS_TINY );
             case MS_SMALL:
                 return occupied_tile_fraction( MS_TINY );
             case MS_MEDIUM:
@@ -1657,12 +1656,14 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
 }
 
 // magic mod
-std::vector<tripoint> target_handler::target_ui( spell_id sp )
+std::vector<tripoint> target_handler::target_ui( spell_id sp, const bool no_fail,
+        const bool no_mana )
 {
-    return target_ui( g->u.magic.get_spell( sp ) );
+    return target_ui( g->u.magic.get_spell( sp ), no_fail, no_mana );
 }
 // does not have a targeting mode because we know this is the spellcasting version of this function
-std::vector<tripoint> target_handler::target_ui( spell &casting )
+std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_fail,
+        const bool no_mana )
 {
     player &pc = g->u;
     if( !casting.can_cast( pc ) ) {
@@ -1679,6 +1680,7 @@ std::vector<tripoint> target_handler::target_ui( spell &casting )
     // TODO: this should return a reference to a static vector which is cleared on each call.
     static const std::vector<tripoint> empty_result{};
     std::vector<tripoint> ret;
+    std::set<tripoint> spell_aoe;
 
     tripoint src = pc.pos();
     tripoint dst = pc.pos();
@@ -1736,10 +1738,20 @@ std::vector<tripoint> target_handler::target_ui( spell &casting )
         }
         return true;
     };
-
+    const std::string fx = casting.effect();
     const tripoint old_offset = pc.view_offset;
     do {
         ret = g->m.find_clear_path( src, dst );
+
+        if( fx == "target_attack" || fx == "projectile_attack" ) {
+            spell_aoe = spell_effect::spell_effect_blast( casting, src, ret.back(), casting.aoe(), true );
+        } else if( fx == "cone_attack" ) {
+            spell_aoe = spell_effect::spell_effect_cone( casting, src, ret.back(), casting.aoe(), true );
+        } else if( fx == "line_attack" ) {
+            spell_aoe = spell_effect::spell_effect_line( casting, src, ret.back(), casting.aoe(), true );
+        } else {
+            spell_aoe.clear();
+        }
 
         // This chunk of code handles shifting the aim point around
         // at maximum range when using circular distance.
@@ -1776,17 +1788,24 @@ std::vector<tripoint> target_handler::target_ui( spell &casting )
         const int relative_elevation = dst.z - pc.pos().z;
         mvwprintz( w_target, line_number++, 1, c_light_green, _( "Casting: %s (Level %u)" ), casting.name(),
                    casting.get_level() );
-        if( casting.energy_source() == hp_energy ) {
-            line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, c_light_gray,
-                                           _( "Cost: %s %s" ), casting.energy_cost_string( pc ), casting.energy_string() );
-        } else {
-            line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, c_light_gray,
-                                           _( "Cost: %s %s (Current: %s)" ), casting.energy_cost_string( pc ), casting.energy_string(),
-                                           casting.energy_cur_string( pc ) );
+        if( !no_mana || casting.energy_source() == none_energy ) {
+            if( casting.energy_source() == hp_energy ) {
+                line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, c_light_gray,
+                                               _( "Cost: %s %s" ), casting.energy_cost_string( pc ), casting.energy_string() );
+            } else {
+                line_number += fold_and_print( w_target, line_number, 1, getmaxx( w_target ) - 2, c_light_gray,
+                                               _( "Cost: %s %s (Current: %s)" ), casting.energy_cost_string( pc ), casting.energy_string(),
+                                               casting.energy_cur_string( pc ) );
+            }
         }
         nc_color clr = c_light_gray;
-        print_colored_text( w_target, line_number++, 1, clr, clr,
-                            casting.colorized_fail_percent( pc ) );
+        if( !no_fail ) {
+            print_colored_text( w_target, line_number++, 1, clr, clr,
+                                casting.colorized_fail_percent( pc ) );
+        } else {
+            print_colored_text( w_target, line_number++, 1, clr, clr, colorize( _( "0.0 % Failure Chance" ),
+                                c_light_green ) );
+        }
         if( dst != src ) {
             // Only draw those tiles which are on current z-level
             auto ret_this_zlevel = ret;
@@ -1807,6 +1826,12 @@ std::vector<tripoint> target_handler::target_ui( spell &casting )
             mvwprintw( w_target, line_number++, 1, _( "Range: %d Elevation: %d Targets: %d" ), range,
                        relative_elevation, t.size() );
         }
+
+        g->draw_cursor( dst );
+        for( const tripoint &area : spell_aoe ) {
+            g->m.drawsq( g->w_terrain, pc, area, true, true, center );
+        }
+
         if( casting.aoe() > 0 ) {
             nc_color color = c_light_gray;
             if( casting.effect() == "projectile_attack" || casting.effect() == "target_attack" ) {
@@ -1834,8 +1859,6 @@ std::vector<tripoint> target_handler::target_ui( spell &casting )
             // Just print the monster name if we're short on space.
             int available_lines = compact ? 1 : ( height - num_instruction_lines - line_number - 12 );
             critter->print_info( w_target, line_number, available_lines, 1 );
-        } else {
-            mvwputch( g->w_terrain, POSY + dst.y - center.y, POSX + dst.x - center.x, c_red, '*' );
         }
 
         wrefresh( g->w_terrain );
@@ -1906,8 +1929,6 @@ std::vector<tripoint> target_handler::target_ui( spell &casting )
                 g->draw_critter( *critter, center );
             } else if( g->m.pl_sees( dst, -1 ) ) {
                 g->m.drawsq( g->w_terrain, pc, dst, false, true, center );
-            } else {
-                mvwputch( g->w_terrain, POSY, POSX, c_black, 'X' );
             }
 
             // constrain by range
