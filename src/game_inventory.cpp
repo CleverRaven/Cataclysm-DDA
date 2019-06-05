@@ -642,8 +642,8 @@ class comestible_inventory_preset : public inventory_selector_preset
 
 item_location game_menus::inv::consume( player &p )
 {
-    if( !p.has_activity( activity_id( "ACT_EAT_MENU" ) ) ) {
-        p.assign_activity( activity_id( "ACT_EAT_MENU" ) );
+    if( !g->u.has_activity( activity_id( "ACT_EAT_MENU" ) ) ) {
+        g->u.assign_activity( activity_id( "ACT_EAT_MENU" ) );
     }
 
     return inv_internal( p, comestible_inventory_preset( p ),
