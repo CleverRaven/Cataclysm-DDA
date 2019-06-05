@@ -1546,7 +1546,7 @@
     "components": [ [ [ "withered", 50 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_special": "check_empty",
-    "post_terrain": "f_leaves_bed"
+    "post_terrain": "f_leaves_pile"
   },
   {
     "type": "construction",
