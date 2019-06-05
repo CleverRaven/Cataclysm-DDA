@@ -3252,8 +3252,18 @@ units::mass Character::bodyweight() const
 
 int Character::height() const
 {
+    int height = 175;
+
+    if( get_size() == MS_SMALL ) {
+        height = 60;
+    } else if( get_size() == MS_LARGE ) {
+        height = 210;
+    } else if( get_size() == MS_HUGE ) {
+        height = 280;
+    }
+
     // TODO: Make this a player creation option
-    return 175;
+    return height;
 }
 
 int Character::get_bmr() const
