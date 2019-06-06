@@ -115,7 +115,7 @@
     "symbol": "%",
     "color": "light_gray",
     "name": "withered plant",
-    "description": "A dead plant.  Good for starting fires.",
+    "description": "A dead plant.  Good for starting fires or making a pile of leaves to sleep on.",
     "material": "paper",
     "weight": 20,
     "volume": 1,
