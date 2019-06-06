@@ -452,8 +452,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         // Ok, we found something
         if( info ) {
             const bool explored = show_explored && overmap_buffer.is_explored( omx, omy, z );
-            ter_color = explored ? c_dark_gray : info->get_color( uistate.overmap_land_use_codes );
-            ter_sym = info->get_symbol( uistate.overmap_land_use_codes );
+            ter_color = explored ? c_dark_gray : info->get_color( uistate.overmap_show_land_use_codes );
+            ter_sym = info->get_symbol( uistate.overmap_show_land_use_codes );
         }
     };
 
@@ -464,7 +464,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     // and record the bounds to optimize lookups below
     std::unordered_map<point, std::pair<std::string, nc_color>> special_cache;
 
-    point s_begin, s_end = point_zero;
+    point s_begin = point_zero;
+    point s_end = point_zero;
     if( blink && uistate.place_special ) {
         for( const auto &s_ter : uistate.place_special->terrains ) {
             if( s_ter.p.z == 0 ) {
@@ -583,7 +584,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 } else if( target.z < z ) {
                     ter_sym = "v";
                 }
-            } else if( blink && overmap_buffer.has_note( cur_pos ) ) {
+            } else if( blink && uistate.overmap_show_map_notes && overmap_buffer.has_note( cur_pos ) ) {
                 // Display notes in all situations, even when not seen
                 std::tie( ter_sym, ter_color, std::ignore ) =
                     get_note_display_info( overmap_buffer.note( cur_pos ) );
@@ -741,13 +742,15 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
     std::vector<std::pair<nc_color, std::string>> corner_text;
 
-    const std::string &note_text = overmap_buffer.note( cursx, cursy, z );
-    if( !note_text.empty() ) {
-        const std::tuple<char, nc_color, size_t> note_info = get_note_display_info(
-                    note_text );
-        const size_t pos = std::get<2>( note_info );
-        if( pos != std::string::npos ) {
-            corner_text.emplace_back( std::get<1>( note_info ), note_text.substr( pos ) );
+    if( uistate.overmap_show_map_notes ) {
+        const std::string &note_text = overmap_buffer.note( cursx, cursy, z );
+        if( !note_text.empty() ) {
+            const std::tuple<char, nc_color, size_t> note_info = get_note_display_info(
+                        note_text );
+            const size_t pos = std::get<2>( note_info );
+            if( pos != std::string::npos ) {
+                corner_text.emplace_back( std::get<1>( note_info ), note_text.substr( pos ) );
+            }
         }
     }
 
@@ -891,9 +894,10 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         print_hint( "CREATE_NOTE" );
         print_hint( "DELETE_NOTE" );
         print_hint( "LIST_NOTES" );
+        print_hint( "TOGGLE_MAP_NOTES", uistate.overmap_show_map_notes ? c_pink : c_magenta );
         print_hint( "TOGGLE_BLINKING", uistate.overmap_blinking ? c_pink : c_magenta );
         print_hint( "TOGGLE_OVERLAYS", show_overlays ? c_pink : c_magenta );
-        print_hint( "TOGGLE_LAND_USE_CODES", uistate.overmap_land_use_codes ? c_pink : c_magenta );
+        print_hint( "TOGGLE_LAND_USE_CODES", uistate.overmap_show_land_use_codes ? c_pink : c_magenta );
         print_hint( "TOGGLE_CITY_LABELS", uistate.overmap_show_city_labels ? c_pink : c_magenta );
         print_hint( "TOGGLE_HORDES", uistate.overmap_show_hordes ? c_pink : c_magenta );
         print_hint( "TOGGLE_EXPLORED", is_explored ? c_pink : c_magenta );
@@ -1254,6 +1258,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
     ictxt.register_action( "DELETE_NOTE" );
     ictxt.register_action( "SEARCH" );
     ictxt.register_action( "LIST_NOTES" );
+    ictxt.register_action( "TOGGLE_MAP_NOTES" );
     ictxt.register_action( "TOGGLE_BLINKING" );
     ictxt.register_action( "TOGGLE_OVERLAYS" );
     ictxt.register_action( "TOGGLE_HORDES" );
@@ -1350,7 +1355,9 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
                 show_explored = !show_explored;
             }
         } else if( action == "TOGGLE_LAND_USE_CODES" ) {
-            uistate.overmap_land_use_codes = !uistate.overmap_land_use_codes;
+            uistate.overmap_show_land_use_codes = !uistate.overmap_show_land_use_codes;
+        } else if( action == "TOGGLE_MAP_NOTES" ) {
+            uistate.overmap_show_map_notes = !uistate.overmap_show_map_notes;
         } else if( action == "TOGGLE_HORDES" ) {
             uistate.overmap_show_hordes = !uistate.overmap_show_hordes;
         } else if( action == "TOGGLE_CITY_LABELS" ) {
