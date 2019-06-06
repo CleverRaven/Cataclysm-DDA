@@ -1268,6 +1268,24 @@
   },
   {
     "type": "city_building",
+    "id": "fire_station",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "fire_station_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "fire_station_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "fire_station_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "fire_station_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "fire_station_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "animalpound",
     "locations": [ "land" ],
     "overmaps": [
