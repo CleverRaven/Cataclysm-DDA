@@ -56,6 +56,9 @@
 #include <SDL_keyboard.h>
 #endif
 
+static constexpr int UILIST_MAP_NOTE_DELETED = -2047;
+static constexpr int UILIST_MAP_NOTE_EDITED = -2048;
+
 /** Note preview map width without borders. Odd number. */
 static const int npm_width = 3;
 /** Note preview map height without borders. Odd number. */
@@ -63,7 +66,6 @@ static const int npm_height = 3;
 
 namespace overmap_ui
 {
-
 // {note symbol, note color, offset to text}
 static std::tuple<char, nc_color, size_t> get_note_display_info( const std::string &note )
 {
@@ -290,86 +292,120 @@ static void draw_camp_labels( const catacurses::window &w, const tripoint &cente
     }
 }
 
-static point draw_notes( int z )
+class map_notes_callback : public uilist_callback
 {
-    const overmapbuffer::t_notes_vector notes = overmap_buffer.get_all_notes( z );
-    catacurses::window w_notes = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                 ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0,
-                                 ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
+    private:
+        overmapbuffer::t_notes_vector _notes;
+        int _z;
+        int _selected = 0;
+        point point_selected() {
+            return _notes[_selected].first;
+        }
+        tripoint note_location() {
+            return tripoint( point_selected().x, point_selected().y, _z );
+        }
+        std::string old_note() {
+            return overmap_buffer.note( note_location() );
+        }
+    public:
+        map_notes_callback( const overmapbuffer::t_notes_vector &notes, int z ) {
+            _notes = notes;
+            _z = z;
+        }
+        bool key( const input_context &ctxt, const input_event &event, int, uilist *menu ) override {
+            _selected = menu->selected;
+            if( _selected >= 0 && _selected < static_cast<int>( _notes.size() ) ) {
+                const std::string action = ctxt.input_to_action( event );
+                if( action == "DELETE_NOTE" ) {
+                    if( overmap_buffer.has_note( note_location() ) &&
+                        query_yn( _( "Really delete note?" ) ) ) {
+                        overmap_buffer.delete_note( note_location() );
+                    }
+                    menu->ret = UILIST_MAP_NOTE_DELETED;
+                    return true;
+                }
+                if( action == "EDIT_NOTE" ) {
+                    create_note( note_location() );
+                    menu->ret = UILIST_MAP_NOTE_EDITED;
+                    return true;
+                }
+            }
+            return false;
+        }
+        void select( int, uilist *menu ) override {
+            _selected = menu->selected;
+            const auto map_around = get_overmap_neighbors( note_location() );
+            const int max_note_length = 45;
+            catacurses::window w_preview = catacurses::newwin( npm_height + 2, max_note_length - npm_width - 1,
+                                           2, npm_width + 2 );
+            catacurses::window w_preview_title = catacurses::newwin( 2, max_note_length + 1, 0, 0 );
+            catacurses::window w_preview_map = catacurses::newwin( npm_height + 2, npm_width + 2, 2, 0 );
+            const std::tuple<catacurses::window *, catacurses::window *, catacurses::window *> preview_windows =
+                std::make_tuple( &w_preview, &w_preview_title, &w_preview_map );
+            update_note_preview( old_note(), map_around, preview_windows );
+        }
+};
 
-    draw_border( w_notes );
-
-    const std::string title = _( "Notes:" );
-    const std::string back_msg = _( "< Prev notes" );
-    const std::string forward_msg = _( "Next notes >" );
-
-    // Number of items to show at one time, 2 rows for border, 2 for title & bottom text
-    const unsigned maxitems = FULL_SCREEN_HEIGHT - 4;
-    int ch = '.';
-    unsigned start = 0;
-    const int back_len = utf8_width( back_msg );
-    bool redraw = true;
+static point draw_notes( const tripoint &origin )
+{
     point result( -1, -1 );
 
-    mvwprintz( w_notes, 1, 1, c_white, title );
-    do {
-#if defined(__ANDROID__)
-        input_context ctxt( "DRAW_NOTES" );
-#endif
-        if( redraw ) {
-            for( int i = 2; i < FULL_SCREEN_HEIGHT - 1; i++ ) {
-                for( int j = 1; j < FULL_SCREEN_WIDTH - 1; j++ ) {
-                    mvwputch( w_notes, i, j, c_black, ' ' );
-                }
+    bool refresh = true;
+    uilist nmenu;
+    while( refresh ) {
+        refresh = false;
+        nmenu.init();
+        g->refresh_all();
+        nmenu.desc_enabled = true;
+        nmenu.input_category = "OVERMAP_NOTES";
+        nmenu.additional_actions.emplace_back( "DELETE_NOTE", "" );
+        nmenu.additional_actions.emplace_back( "EDIT_NOTE", "" );
+        const input_context ctxt( nmenu.input_category );
+        nmenu.text = string_format(
+                         _( "<%s> - show note, <%s> - edit note, <%s> - delete note, <%s> - close window" ),
+                         colorize( "RETURN", c_yellow ),
+                         colorize( ctxt.key_bound_to( "EDIT_NOTE" ), c_yellow ),
+                         colorize( ctxt.key_bound_to( "DELETE_NOTE" ), c_yellow ),
+                         colorize( "ESCAPE", c_yellow )
+                     );
+        int row = 0;
+        overmapbuffer::t_notes_vector notes = overmap_buffer.get_all_notes( origin.z );
+        nmenu.title = string_format( _( "Map notes (%d)" ), notes.size() );
+        for( const auto &point_with_note : notes ) {
+            const point p = point_with_note.first;
+            if( p.x == origin.x && p.y == origin.y ) {
+                nmenu.selected = row;
             }
-            for( unsigned i = 0; i < maxitems; i++ ) {
-                const unsigned cur_it = start + i;
-                if( cur_it >= notes.size() ) {
-                    continue;
-                }
-                // Print letter ('a' <=> cur_it == start)
-                mvwputch( w_notes, i + 2, 1, c_blue, 'a' + i );
-                mvwputch( w_notes, i + 2, 3, c_light_gray, '-' );
-
-                const std::string note_text = notes[cur_it].second;
-                const auto om_symbol = get_note_display_info( note_text );
-                const std::string tmp_note = string_format( "%s%c</color> <color_yellow>%s</color>",
-                                             get_tag_from_color( std::get<1>( om_symbol ) ),
-                                             std::get<0>( om_symbol ),
-                                             note_text.substr( std::get<2>( om_symbol ),
-                                                     std::string::npos ) );
-                trim_and_print( w_notes, i + 2, 5, FULL_SCREEN_WIDTH - 7, c_light_gray, "%s", tmp_note );
-#if defined(__ANDROID__)
-                ctxt.register_manual_key( 'a' + i, notes[cur_it].second.c_str() );
-#endif
-            }
-            if( start >= maxitems ) {
-                mvwprintw( w_notes, maxitems + 2, 1, back_msg );
-            }
-            if( start + maxitems < notes.size() ) {
-                mvwprintw( w_notes, maxitems + 2, 2 + back_len, forward_msg );
-            }
-            mvwprintz( w_notes, 1, 40, c_white, _( "Press letter to center on note" ) );
-            mvwprintz( w_notes, FULL_SCREEN_HEIGHT - 2, 40, c_white, _( "Spacebar - Return to map  " ) );
-            wrefresh( w_notes );
-            redraw = false;
+            const std::string &note = point_with_note.second;
+            auto om_symbol = get_note_display_info( note );
+            const nc_color note_color = std::get<1>( om_symbol );
+            const std::string note_symbol = std::string( 1, std::get<0>( om_symbol ) );
+            const std::string note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
+            point p_omt( p.x, p.y );
+            const point p_player = point( g->u.global_omt_location().x, g->u.global_omt_location().y );
+            const int distance_player = rl_dist( p_player, p_omt );
+            const point sm_pos = omt_to_sm_copy( p_omt );
+            const point p_om = omt_to_om_remain( p_omt );
+            const std::string location_desc = overmap_buffer.get_description_at( sm_pos, origin.z );
+            nmenu.addentry_desc( string_format( _( "[%s] %s" ), colorize( note_symbol, note_color ),
+                                                note_text ),
+                                 string_format(
+                                     _( "<color_red>LEVEL %i, %d'%d, %d'%d</color> : %s (Distance: <color_white>%d</color>)" ),
+                                     origin.z, p_om.x, p_omt.x, p_om.y, p_omt.y, location_desc, distance_player ) );
+            nmenu.entries[row].ctxt = string_format(
+                                          _( "<color_light_gray>Distance: </color><color_white>%d</color>" ), distance_player );
+            row++;
         }
-        // TODO: use input context
-        ch = inp_mngr.get_input_event().get_first_input();
-        if( ch == '<' && start >= maxitems ) {
-            start -= maxitems;
-            redraw = true;
-        } else if( ch == '>' && start + maxitems < notes.size() ) {
-            start += maxitems;
-            redraw = true;
-        } else if( ch >= 'a' && ch <= 'z' ) {
-            const unsigned chosen = ch - 'a' + start;
-            if( chosen < notes.size() ) {
-                result = notes[chosen].first;
-                break; // -> return result
-            }
+        map_notes_callback cb( notes, origin.z );
+        nmenu.callback = &cb;
+        nmenu.query();
+        if( nmenu.ret == UILIST_MAP_NOTE_DELETED || nmenu.ret == UILIST_MAP_NOTE_EDITED ) {
+            refresh = true;
+        } else if( nmenu.ret >= 0 && nmenu.ret < static_cast<int>( notes.size() ) ) {
+            result = notes[nmenu.ret].first;
+            refresh = false;
         }
-    } while( ch != ' ' && ch != '\n' && ch != KEY_ESCAPE );
+    }
     return result;
 }
 
@@ -836,8 +872,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
 
             mvwputch( wbar, 1, 1, ter.get_color(), ter.get_symbol() );
 
-            lines = fold_and_print( wbar, 1, 3, 25, ter.get_color(),
-                                    overmap_buffer.get_description_at( sm_pos ) );
+            lines = fold_and_print( wbar, 1, 3, 25, c_light_gray, overmap_buffer.get_description_at( sm_pos ) );
         }
     } else if( viewing_weather ) {
         const auto curs_pos = tripoint( cursx, cursy, z );
@@ -925,7 +960,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
     wrefresh( w );
 }
 
-static void create_note( const tripoint &curs )
+void create_note( const tripoint &curs )
 {
     std::string color_notes = _( "Color codes: " );
     for( const std::pair<std::string, std::string> &color_pair : get_note_color_names() ) {
@@ -1331,7 +1366,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
                 overmap_buffer.delete_note( curs );
             }
         } else if( action == "LIST_NOTES" ) {
-            const point p = draw_notes( curs.z );
+            const point p = draw_notes( curs );
             if( p.x != -1 && p.y != -1 ) {
                 curs.x = p.x;
                 curs.y = p.y;

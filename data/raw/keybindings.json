@@ -680,6 +680,20 @@
   {
     "type": "keybinding",
     "id": "DELETE_NOTE",
+    "category": "OVERMAP_NOTES",
+    "name": "Delete Note",
+    "bindings": [ { "input_method": "keyboard", "key": "D" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EDIT_NOTE",
+    "category": "OVERMAP_NOTES",
+    "name": "Edit Note",
+    "bindings": [ { "input_method": "keyboard", "key": "E" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DELETE_NOTE",
     "category": "OVERMAP",
     "name": "Delete Note",
     "bindings": [ { "input_method": "keyboard", "key": "D" } ]

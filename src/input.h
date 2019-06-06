@@ -645,6 +645,8 @@ class input_context
          */
         std::vector<char> keys_bound_to( const std::string &action_descriptor,
                                          bool restrict_to_printable = true ) const;
+        std::string key_bound_to( const std::string &action_descriptor, size_t index = 0,
+                                  bool restrict_to_printable = true ) const;
 
         /**
         * Get/Set edittext to display IME unspecified string.
