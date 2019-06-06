@@ -1347,7 +1347,8 @@
     "dispersion": 15,
     "loudness": 0,
     "count": 7,
-    "effects": [ "NEVER_MISFIRES" ]
+    "effects": [ "NEVER_MISFIRES" ],
+    "use_action": "RPGDIE"
   },
   {
     "type": "AMMO",
@@ -1368,6 +1369,7 @@
     "dispersion": 10,
     "loudness": 0,
     "count": 7,
-    "effects": [ "NEVER_MISFIRES" ]
+    "effects": [ "NEVER_MISFIRES" ],
+    "use_action": "RPGDIE"
   }
 ]
