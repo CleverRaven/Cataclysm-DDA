@@ -2,6 +2,7 @@
 
 #include <sstream>
 #include <set>
+#include <cmath>
 
 #include "action.h"
 #include "avatar.h"
@@ -56,6 +57,7 @@ std::vector<itype_id> caravan_items( caravan_category cat );
 std::set<m_flag> monflags_to_add;
 
 int caravan_price( player &u, int price );
+int caravan_tech_level = 0;
 
 void draw_caravan_borders( const catacurses::window &w, int current_window );
 void draw_caravan_categories( const catacurses::window &w, int category_selected,
@@ -72,6 +74,7 @@ defense_game::defense_game()
     : time_between_waves( 0_turns )
 {
     current_wave = 0;
+    caravan_visits = 0;
     hunger = false;
     thirst = false;
     sleep  = false;
@@ -99,6 +102,7 @@ bool defense_game::init()
     init_mtypes();
     init_constructions();
     current_wave = 0;
+    caravan_visits = 0;
     hunger = false;
     thirst = false;
     sleep  = false;
@@ -119,6 +123,30 @@ bool defense_game::init()
     return true;
 }
 
+static void calculate_tech_level( int initial_difficulty, int wave_difficulty, int caravan_visits ){
+    float z = initial_difficulty;
+    float w = wave_difficulty;
+    caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 14 ) ) );
+}
+
+static void calculate_tech_level_2( int initial_difficulty, int wave_difficulty, int caravan_visits ){
+    float z = initial_difficulty;
+    float w = wave_difficulty;
+    caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 21 ) ) );
+}
+
+static void calculate_tech_level_3( int initial_difficulty, int wave_difficulty, int caravan_visits ){
+    float z = initial_difficulty;
+    float w = wave_difficulty;
+    caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 28 ) ) );
+}
+
+static void calculate_tech_level_4( int initial_difficulty, int wave_difficulty, int caravan_visits ){
+    float z = initial_difficulty;
+    float w = wave_difficulty;
+    caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 35 ) ) );
+}
+
 void defense_game::per_turn()
 {
     if( !thirst ) {
@@ -132,12 +160,22 @@ void defense_game::per_turn()
     }
     if( calendar::once_every( time_between_waves ) ) {
         current_wave++;
+        caravan_visits++;
         if( current_wave > 1 && current_wave % waves_between_caravans == 0 ) {
             popup( _( "A caravan approaches!  Press spacebar..." ) );
             caravan();
+            calculate_tech_level( initial_difficulty, wave_difficulty, caravan_visits );
+            if( caravan_tech_level >= 3 && caravan_tech_level <= 4 ){
+                calculate_tech_level_2( initial_difficulty, wave_difficulty, caravan_visits );
+            } else if ( caravan_tech_level >= 4 && caravan_tech_level <= 5 ){
+                calculate_tech_level_3( initial_difficulty, wave_difficulty, caravan_visits );
+            } else if ( caravan_tech_level >= 5 && caravan_tech_level <= 6 ){
+                calculate_tech_level_4( initial_difficulty, wave_difficulty, caravan_visits );
+            }
         }
         spawn_wave();
     }
+
 }
 
 void defense_game::pre_action( action_id &act )
@@ -1167,6 +1205,10 @@ std::string caravan_category_name( caravan_category cat )
             return _( "Clothing & Armor" );
         case CARAVAN_TOOLS:
             return _( "Tools, Traps & Grenades" );
+        case CARAVAN_BIONICS:
+            return _( "Bionics and Stuff" );
+        case CARAVAN_BOOKS:
+            return _( "Books" );
         case NUM_CARAVAN_CATEGORIES:
             break; // error message below
     }
@@ -1182,7 +1224,40 @@ std::vector<itype_id> caravan_items( caravan_category cat )
             return ret;
 
         case CARAVAN_MELEE:
-            item_list = item_group::items_from( "defense_caravan_melee" );
+            if( ( caravan_tech_level == 1 ) ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_1" );
+                break;
+            } else if( caravan_tech_level == 2 ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_2" );
+                break;
+            } else if( caravan_tech_level == 3 ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_3" );
+                break;
+            } else if( caravan_tech_level == 4 ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_4" );
+                break;
+            } else if( caravan_tech_level == 5 ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_5" );
+                break;
+            } else if( caravan_tech_level == 6 ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_6" );
+                break;
+            } else if( caravan_tech_level == 7 ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_7" );
+                break;
+            } else if( caravan_tech_level == 8 ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_8" );
+                break;
+            } else if( caravan_tech_level == 9 ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_9" );
+                break;
+            } else if( caravan_tech_level == 10 ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_10" );
+                break;
+            } else if( caravan_tech_level >= 10 ){
+                item_list = item_group::items_from( "defense_caravan_melee_tech_max" );
+                break;
+            }
             break;
 
         case CARAVAN_RANGED:
@@ -1207,6 +1282,14 @@ std::vector<itype_id> caravan_items( caravan_category cat )
 
         case CARAVAN_TOOLS:
             item_list = item_group::items_from( "defense_caravan_tools" );
+            break;
+
+        case CARAVAN_BIONICS:
+            item_list = item_group::items_from( "defense_caravan_bionics" );
+            break;
+
+        case CARAVAN_BOOKS:
+            item_list = item_group::items_from( "defense_caravan_books" );
             break;
 
         case NUM_CARAVAN_CATEGORIES:

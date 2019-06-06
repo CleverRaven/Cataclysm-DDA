@@ -120,6 +120,8 @@ enum caravan_category {
     CARAVAN_FOOD,
     CARAVAN_CLOTHES,
     CARAVAN_TOOLS,
+    CARAVAN_BIONICS,
+    CARAVAN_BOOKS,
     NUM_CARAVAN_CATEGORIES
 };
 
@@ -153,6 +155,8 @@ struct defense_game : public special_game {
 
         // DATA
         int current_wave;
+        int caravan_tech_level;
+        int caravan_visits;
 
         defense_style style;       // What type of game is it?
         defense_location location; // Where are we?
