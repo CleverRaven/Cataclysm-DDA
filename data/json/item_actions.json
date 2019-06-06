@@ -636,6 +636,11 @@
   },
   {
     "type": "item_action",
+    "id": "RPGDIE",
+    "name": "Roll die"
+  },
+  {
+    "type": "item_action",
     "id": "GASMASK",
     "name": "Prepare to use"
   },

@@ -2691,6 +2691,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 }
             }
         }
+        if( this->get_var( "die_num_sides", 0 ) != 0 ) {
+            info.emplace_back( "DESCRIPTION",
+                               string_format( _( "* This item can be used as a <info>die</info>, and has %s sides." ),
+                                              static_cast<int>( this->get_var( "die_num_sides", 0 ) ) ) );
+        }
 
         // list recipes you could use it in
         itype_id tid;
