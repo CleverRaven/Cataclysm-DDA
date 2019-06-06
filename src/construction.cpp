@@ -929,7 +929,6 @@ bool construct::check_deconstruct( const tripoint &p )
 
 bool construct::check_empty_up_OK( const tripoint &p )
 {
-    // Combination of check_empty and check_up_OK
     return check_empty( p ) && check_up_OK ( p );
 }
 
