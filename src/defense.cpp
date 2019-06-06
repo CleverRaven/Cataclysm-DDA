@@ -165,6 +165,9 @@ void defense_game::per_turn()
             popup( _( "A caravan approaches!  Press spacebar..." ) );
             caravan();
             calculate_tech_level( initial_difficulty, wave_difficulty, caravan_visits );
+            if( caravan_tech_level >= 1 && caravan_tech_level <= 2 ) {
+                calculate_tech_level( initial_difficulty, wave_difficulty, caravan_visits );
+            }
             if( caravan_tech_level >= 3 && caravan_tech_level <= 4 ) {
                 calculate_tech_level_2( initial_difficulty, wave_difficulty, caravan_visits );
             } else if ( caravan_tech_level >= 4 && caravan_tech_level <= 5 ) {
