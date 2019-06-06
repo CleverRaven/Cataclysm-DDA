@@ -1,48 +1,44 @@
 [
-    {
-        "type" : "mapgen",
-        "om_terrain" : ["mil_outpost_1mid"],
-        "comment" : "ground level middle parking lot",
-        "method": "json",
-        "weight": 250,
-        "object": {
-            "fill_ter": "t_pavement",
-            "rows": [
-                ",,,                  ,,,",
-                ",,                    ,,",
-                ",                      ,",
-                "                        ",
-                "                        ",
-                "   V           V        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                   V    ",
-                "  v        V            ",
-                "                        ",
-                "                        ",
-                "              v         ",
-                "                        ",
-                "       v                ",
-                "                    v   ",
-                "                        ",
-                "                        ",
-                "    v          v        ",
-                ",                      ,",
-                ",,                    ,,",
-                ",,,                  ,,,"
-            ],
-            "palettes":[
-               "mil_outpost_bandit"
-            ],
-            "terrain":{
-                " ": "t_pavement"
-            },
-            "vehicles": {
-                "v": { "vehicle": "motorcycle", "chance": 70, "fuel": 50, "status": 3 },
-                "V": { "vehicle": "motorcycle_sidecart", "chance": 70, "fuel": 50, "status": 3 }
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": [ "mil_outpost_1mid" ],
+    "comment": "ground level middle parking lot",
+    "method": "json",
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_pavement",
+      "rows": [
+        ",,,                  ,,,",
+        ",,                    ,,",
+        ",                      ,",
+        "                        ",
+        "                        ",
+        "   V           V        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                   V    ",
+        "  v        V            ",
+        "                        ",
+        "                        ",
+        "              v         ",
+        "                        ",
+        "       v                ",
+        "                    v   ",
+        "                        ",
+        "                        ",
+        "    v          v        ",
+        ",                      ,",
+        ",,                    ,,",
+        ",,,                  ,,,"
+      ],
+      "palettes": [ "mil_outpost_bandit" ],
+      "terrain": { " ": "t_pavement" },
+      "vehicles": {
+        "v": { "vehicle": "motorcycle", "chance": 70, "fuel": 50, "status": 3 },
+        "V": { "vehicle": "motorcycle_sidecart", "chance": 70, "fuel": 50, "status": 3 }
+      }
     }
+  }
 ]

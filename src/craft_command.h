@@ -2,24 +2,16 @@
 #ifndef CRAFT_COMMAND_H
 #define CRAFT_COMMAND_H
 
-#include <list>
 #include <vector>
+#include <string>
 
 #include "enums.h"
 #include "requirements.h"
-#include "string_id.h"
 
 class inventory;
 class item;
 class player;
 class recipe;
-
-struct component;
-struct tool_comp;
-struct item_comp;
-
-struct requirement_data;
-using requirement_id = string_id<requirement_data>;
 
 /**
 *   enum used by comp_selection to indicate where a component should be consumed from.
@@ -56,7 +48,7 @@ class craft_command
         /** Instantiates an empty craft_command, which can't be executed. */
         craft_command() = default;
         craft_command( const recipe *to_make, int batch_size, bool is_long, player *crafter,
-                       const tripoint loc = tripoint_zero ) :
+                       const tripoint &loc = tripoint_zero ) :
             rec( to_make ), batch_size( batch_size ), longcraft( is_long ), crafter( crafter ), loc( loc ) {}
 
         /** Selects components to use for the craft, then assigns the crafting activity to 'crafter'. */

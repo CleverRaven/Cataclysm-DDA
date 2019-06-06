@@ -1,7 +1,10 @@
 #include "game.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <sstream>
+#include <utility>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "harvest.h"
 #include "input.h"
@@ -10,7 +13,9 @@
 #include "output.h"
 #include "player.h"
 #include "string_formatter.h"
-#include "ui.h"
+#include "color.h"
+#include "translations.h"
+#include "string_id.h"
 
 const skill_id skill_survival( "survival" );
 
@@ -22,7 +27,7 @@ enum class description_target : int {
     terrain
 };
 
-const Creature *seen_critter( const game &g, const tripoint &p )
+static const Creature *seen_critter( const game &g, const tripoint &p )
 {
     const Creature *critter = g.critter_at( p, true );
     if( critter != nullptr && g.u.sees( *critter ) ) {

@@ -2,12 +2,14 @@
 
 #include <string>
 #include <vector>
+#include <set>
+#include <utility>
 
-#include "game.h" // TODO: This is a circular dependency
 #include "generic_factory.h"
 #include "json.h"
-#include "messages.h"
-#include "player.h"
+#include "debug.h"
+#include "string_id.h"
+#include "type_id.h"
 
 // recipe_groups namespace
 
@@ -15,6 +17,7 @@ namespace
 {
 
 struct recipe_group_data;
+
 using group_id = string_id<recipe_group_data>;
 
 struct recipe_group_data {
@@ -54,7 +57,7 @@ void recipe_group_data::check() const
     }
 }
 
-std::map<std::string, std::string> recipe_group::get_recipes( std::string id )
+std::map<std::string, std::string> recipe_group::get_recipes( const std::string &id )
 {
     std::map<std::string, std::string> all_rec;
     if( id == "ALL" ) {

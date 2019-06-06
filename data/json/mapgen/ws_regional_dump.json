@@ -5,10 +5,9 @@
     "default": "mon_zombie_crawler",
     "monsters": [
       { "monster": "mon_zombie_technician", "freq": 150, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_gasbag", "freq": 150, "cost_multiplier": 1 },
+      { "monster": "mon_zombie_fat", "freq": 150, "cost_multiplier": 1 },
       { "monster": "mon_zombie_crawler", "freq": 100, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_survivor", "freq": 70, "cost_multiplier": 1 },
-      { "monster": "mon_zombie_hulk", "freq": 50, "cost_multiplier": 1 }
+      { "monster": "mon_zombie_survivor", "freq": 70, "cost_multiplier": 1 }
     ]
   },
   {
@@ -34,7 +33,7 @@
     "type": "item_group",
     "id": "oa_ig_rd_desks",
     "items": [
-      [ "battery", 30 ],
+      { "group": "ammo_pocket_batteries", "prob": 30 },
       [ "radio", 10 ],
       [ "eyedrops", 10 ],
       [ "rag", 30 ],
@@ -87,7 +86,7 @@
     "type": "item_group",
     "id": "oa_ig_rd_lockers",
     "items": [
-      [ "battery", 10 ],
+      { "group": "ammo_pocket_batteries", "prob": 10 },
       [ "radio", 10 ],
       [ "rag", 30 ],
       [ "flashlight", 20 ],
@@ -116,7 +115,7 @@
       [ "hat_hard_hooded", 25 ],
       [ "wearable_light", 5 ],
       [ "ear_plugs", 50 ],
-      [ "battery", 50 ],
+      { "group": "ammo_pocket_batteries", "prob": 50 },
       [ "flashlight", 40 ],
       [ "boots_rubber", 20 ],
       [ "toolbox", 5 ],
@@ -127,7 +126,7 @@
     "type": "item_group",
     "id": "oa_ig_rd_electronic_trash",
     "items": [
-      [ "battery", 10 ],
+      { "group": "ammo_pocket_batteries", "prob": 10 },
       [ "solar_panel", 15 ],
       [ "jumper_cable", 5 ],
       [ "pipe", 20 ],

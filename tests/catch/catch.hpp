@@ -6256,7 +6256,7 @@ public:
 					if (col.size() < width)
 						padding = std::string(width - col.size(), ' ');
 					else
-						padding = "";
+						padding.clear();
 				} else {
 					padding += std::string(width, ' ');
 				}

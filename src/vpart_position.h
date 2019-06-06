@@ -2,12 +2,15 @@
 #ifndef VPART_POSITION_H
 #define VPART_POSITION_H
 
+#include <cstddef>
 #include <functional>
 #include <string>
+#include <utility>
 
 #include "optional.h"
 
 class vehicle;
+
 enum vpart_bitflags : int;
 class vpart_reference;
 struct tripoint;

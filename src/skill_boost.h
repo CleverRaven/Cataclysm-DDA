@@ -3,14 +3,14 @@
 #define SKILL_BOOST_H
 
 #include <vector>
+#include <string>
 
-#include "json.h"
 #include "optional.h"
 #include "string_id.h"
 
-class skill_boost;
 template<typename T>
 class generic_factory;
+class JsonObject;
 
 class skill_boost
 {

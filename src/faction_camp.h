@@ -4,25 +4,16 @@
 
 #include <string>
 #include <vector>
+#include <utility>
 
 namespace catacurses
 {
 class window;
 } // namespace catacurses
-class martialart;
-class JsonObject;
-class mission;
-class time_point;
 class npc;
-class item;
 struct point;
 struct tripoint;
-struct comp_rank;
 struct mission_entry;
-class player;
-class npc_template;
-template<typename T>
-class string_id;
 
 enum camp_tab_mode {
     TAB_MAIN,

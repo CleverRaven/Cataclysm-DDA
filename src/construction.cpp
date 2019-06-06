@@ -2,14 +2,18 @@
 
 #include <algorithm>
 #include <sstream>
+#include <array>
+#include <iterator>
+#include <memory>
+#include <utility>
 
 #include "action.h"
+#include "avatar.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "game.h"
 #include "input.h"
-#include "inventory.h"
 #include "item_group.h"
 #include "iuse.h"
 #include "json.h"
@@ -32,6 +36,19 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "calendar.h"
+#include "character.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "int_id.h"
+#include "item.h"
+#include "player_activity.h"
+#include "pldata.h"
+#include "morale_types.h"
+
+class inventory;
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_electronics( "electronics" );
@@ -39,6 +56,7 @@ static const skill_id skill_electronics( "electronics" );
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
+static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 
 const trap_str_id tr_firewood_source( "tr_firewood_source" );
 const trap_str_id tr_practice_target( "tr_practice_target" );
@@ -47,7 +65,7 @@ const trap_str_id tr_practice_target( "tr_practice_target" );
 namespace construct
 {
 // Checks for whether terrain mod can proceed
-bool check_nothing( const tripoint & )
+static bool check_nothing( const tripoint & )
 {
     return true;
 }
@@ -59,8 +77,9 @@ bool check_down_OK( const tripoint & ); // tile is empty and you're not on z-10 
 bool check_no_trap( const tripoint & );
 
 // Special actions to be run post-terrain-mod
-void done_nothing( const tripoint & ) {}
+static void done_nothing( const tripoint & ) {}
 void done_trunk_plank( const tripoint & );
+void done_grave( const tripoint & );
 void done_vehicle( const tripoint & );
 void done_deconstruct( const tripoint & );
 void done_digormine_stair( const tripoint &, bool );
@@ -96,7 +115,7 @@ void standardize_construction_times( const int time )
     }
 }
 
-std::vector<construction *> constructions_by_desc( const std::string &description )
+static std::vector<construction *> constructions_by_desc( const std::string &description )
 {
     std::vector<construction *> result;
     for( auto &constructions_a : constructions ) {
@@ -107,9 +126,9 @@ std::vector<construction *> constructions_by_desc( const std::string &descriptio
     return result;
 }
 
-void load_available_constructions( std::vector<std::string> &available,
-                                   std::map<std::string, std::vector<std::string>> &cat_available,
-                                   bool hide_unconstructable )
+static void load_available_constructions( std::vector<std::string> &available,
+        std::map<std::string, std::vector<std::string>> &cat_available,
+        bool hide_unconstructable )
 {
     cat_available.clear();
     available.clear();
@@ -130,7 +149,7 @@ void load_available_constructions( std::vector<std::string> &available,
     }
 }
 
-void draw_grid( const catacurses::window &w, const int list_width )
+static void draw_grid( const catacurses::window &w, const int list_width )
 {
     draw_border( w );
     mvwprintz( w, 0, 2, c_light_red, _( " Construction " ) );
@@ -146,7 +165,7 @@ void draw_grid( const catacurses::window &w, const int list_width )
     wrefresh( w );
 }
 
-nc_color construction_color( const std::string &con_name, bool highlight )
+static nc_color construction_color( const std::string &con_name, bool highlight )
 {
     nc_color col = c_dark_gray;
     if( g->u.has_trait( trait_id( "DEBUG_HS" ) ) ) {
@@ -386,7 +405,6 @@ void construction_menu()
                     std::vector<construction *> options = constructions_by_desc( current_desc );
 
                     construct_buffers.clear();
-                    total_project_breakpoints = 0;
                     current_construct_breakpoint = 0;
                     construct_buffer_breakpoints.clear();
                     full_construct_buffer.clear();
@@ -663,7 +681,8 @@ void construction_menu()
             load_available_constructions( available, cat_available, hide_unconstructable );
         } else if( action == "CONFIRM" ) {
             if( constructs.empty() || select >= static_cast<int>( constructs.size() ) ) {
-                continue;// Nothing to be done here
+                // Nothing to be done here
+                continue;
             }
             if( player_can_build( g->u, total_inv, constructs[select] ) ) {
                 place_construction( constructs[select] );
@@ -694,7 +713,7 @@ bool player_can_build( player &p, const inventory &inv, const std::string &desc 
     return false;
 }
 
-bool character_has_skill_for( const Character &c, const construction &con )
+static bool character_has_skill_for( const Character &c, const construction &con )
 {
     return std::all_of( con.required_skills.begin(), con.required_skills.end(),
     [&]( const std::pair<skill_id, int> &pr ) {
@@ -726,7 +745,7 @@ bool can_construct( const std::string &desc )
     return false;
 }
 
-bool can_construct( const construction &con, const tripoint &p )
+static bool can_construct( const construction &con, const tripoint &p )
 {
     // see if the special pre-function checks out
     bool place_okay = con.pre_special( p );
@@ -932,7 +951,53 @@ void construct::done_trunk_plank( const tripoint &p )
     }
 }
 
-vpart_id vpart_from_item( const std::string &item_id )
+void construct::done_grave( const tripoint &p )
+{
+    map_stack its = g->m.i_at( p );
+    for( item it : its ) {
+        if( it.is_corpse() ) {
+            if( it.get_corpse_name().empty() ) {
+                if( it.get_mtype()->has_flag( MF_HUMAN ) ) {
+                    if( g->u.has_trait( trait_SPIRITUAL ) ) {
+                        g->u.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
+                        add_msg( m_good,
+                                 _( "You feel relieved after providing last rites for this human being, whose name is lost in the Cataclysm." ) );
+                    } else {
+                        add_msg( m_neutral, _( "You bury remains of a human, whose name is lost in the Cataclysm." ) );
+                    }
+                    g->u.add_memorial_log( pgettext( "memorial_male",
+                                                     string_format( "You buried unknown victim of the Cataclysm.", it.type_name() ).c_str() ),
+                                           pgettext( "memorial_female", string_format( "You buried unknown victim of The Cataclysm.",
+                                                     it.type_name() ).c_str() ) );
+                }
+            } else {
+                if( g->u.has_trait( trait_SPIRITUAL ) ) {
+                    g->u.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
+                    add_msg( m_good,
+                             _( "You feel sadness, but also relief after providing last rites for %s, whose name you will keep in your memory." ),
+                             it.get_corpse_name() );
+                } else {
+                    add_msg( m_neutral,
+                             _( "You bury remains of %s, who joined uncounted masses perished in the Cataclysm." ),
+                             it.get_corpse_name() );
+                }
+                g->u.add_memorial_log( pgettext( "memorial_male", string_format( "You buried %s.",
+                                                 it.get_corpse_name() ).c_str() ),
+                                       pgettext( "memorial_female", string_format( "You buried %s.", it.get_corpse_name() ).c_str() ) );
+            }
+        }
+    }
+    if( g->u.has_quality( quality_id( "CUT" ) ) ) {
+        iuse::handle_ground_graffiti( g->u, nullptr, _( "Inscribe something on the grave?" ), p );
+    } else {
+        add_msg( m_neutral,
+                 _( "Unfortunately you don't have anything sharp to place an inscription on the grave." ) );
+    }
+
+    g->m.destroy_furn( p, true );
+}
+
+static vpart_id vpart_from_item( const std::string &item_id )
 {
     for( const auto &e : vpart_info::all() ) {
         const vpart_info &vp = e.second;
@@ -1022,7 +1087,7 @@ void construct::done_deconstruct( const tripoint &p )
     }
 }
 
-void unroll_digging( const int numer_of_2x4s )
+static void unroll_digging( const int numer_of_2x4s )
 {
     // refund components!
     item rope( "rope_30" );
@@ -1210,9 +1275,11 @@ void load_construction( JsonObject &jo )
     }
 
     con.category = jo.get_string( "category", "OTHER" );
-    // constructions use different time units in json, this makes it compatible
-    // with recipes/requirements, TODO: should be changed in json
-    con.time = jo.get_int( "time" ) * 1000;
+    if( jo.has_int( "time" ) ) {
+        con.time = to_moves<int>( time_duration::from_minutes( jo.get_int( "time" ) ) );
+    } else if( jo.has_string( "time" ) ) {
+        con.time = to_moves<int>( time_duration::read_from_json_string( *jo.get_raw( "time" ) ) );
+    }
 
     if( jo.has_string( "using" ) ) {
         con.requirements = requirement_id( jo.get_string( "using" ) );
@@ -1261,6 +1328,7 @@ void load_construction( JsonObject &jo )
     static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = {{
             { "", construct::done_nothing },
             { "done_trunk_plank", construct::done_trunk_plank },
+            { "done_grave", construct::done_grave },
             { "done_vehicle", construct::done_vehicle },
             { "done_deconstruct", construct::done_deconstruct },
             { "done_dig_stair", construct::done_dig_stair },

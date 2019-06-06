@@ -1,11 +1,18 @@
+#include <stddef.h>
 #include <string>
+#include <memory>
+#include <set>
+#include <utility>
+#include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "common_types.h"
 #include "faction.h"
 #include "field.h"
 #include "game.h"
 #include "map.h"
+#include "map_helpers.h"
 #include "npc.h"
 #include "npc_class.h"
 #include "overmapbuffer.h"
@@ -15,8 +22,17 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h" // IWYU pragma: keep
+#include "calendar.h"
+#include "creature.h"
+#include "enums.h"
+#include "game_constants.h"
+#include "line.h"
+#include "optional.h"
+#include "pimpl.h"
+#include "string_id.h"
+#include "type_id.h"
 
-void on_load_test( npc &who, const time_duration &from, const time_duration &to )
+static void on_load_test( npc &who, const time_duration &from, const time_duration &to )
 {
     calendar::turn = to_turn<int>( calendar::time_of_cataclysm + from );
     who.on_unload();
@@ -24,9 +40,9 @@ void on_load_test( npc &who, const time_duration &from, const time_duration &to 
     who.on_load();
 }
 
-void test_needs( const npc &who, const numeric_interval<int> &hunger,
-                 const numeric_interval<int> &thirst,
-                 const numeric_interval<int> &fatigue )
+static void test_needs( const npc &who, const numeric_interval<int> &hunger,
+                        const numeric_interval<int> &thirst,
+                        const numeric_interval<int> &fatigue )
 {
     CHECK( who.get_hunger() <= hunger.max );
     CHECK( who.get_hunger() >= hunger.min );
@@ -36,7 +52,7 @@ void test_needs( const npc &who, const numeric_interval<int> &hunger,
     CHECK( who.get_fatigue() >= fatigue.min );
 }
 
-npc create_model()
+static npc create_model()
 {
     npc model_npc;
     model_npc.normalize();
@@ -52,6 +68,17 @@ npc create_model()
     model_npc.set_mutation( trait_id( "WEB_WEAVER" ) );
 
     return model_npc;
+}
+
+static std::string get_list_of_npcs( const std::string &title )
+{
+
+    std::ostringstream npc_list;
+    npc_list << title << ":\n";
+    for( const npc &n : g->all_npcs() ) {
+        npc_list << "  " << &n << ": " << n.name << '\n';
+    }
+    return npc_list.str();
 }
 
 TEST_CASE( "on_load-sane-values", "[.]" )
@@ -289,26 +316,8 @@ TEST_CASE( "npc-movement" )
 
     g->place_player( tripoint( 60, 60, 0 ) );
 
-    // kill npcs before removing vehicles so they are correctly unboarded
-    for( int y = 0; y < height; ++y ) {
-        for( int x = 0; x < width; ++x ) {
-            const tripoint p = g->u.pos() + point( x, y );
-            Creature *cre = g->critter_at( p );
-            if( cre != nullptr && cre != &g->u ) {
-                npc *guy = dynamic_cast<npc *>( cre );
-                cre->die( nullptr );
-                if( guy ) {
-                    overmap_buffer.remove_npc( guy->getID() );
-                }
-            }
-        }
-    }
-    g->unload_npcs();
-    // remove existing vehicles
-    VehicleList vehs = g->m.get_vehicles( g->u.pos(), g->u.pos() + point( width - 1, height - 1 ) );
-    for( auto &veh : vehs ) {
-        g->m.detach_vehicle( veh.v );
-    }
+    clear_map();
+
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const char type = setup[y][x];
@@ -424,21 +433,8 @@ TEST_CASE( "npc_can_target_player" )
 
     g->place_player( tripoint( 10, 10, 0 ) );
 
-    // kill npcs before removing vehicles so they are correctly unboarded
-    for( int y = 0; y < height; ++y ) {
-        for( int x = 0; x < width; ++x ) {
-            const tripoint p = g->u.pos() + point( x, y );
-            Creature *cre = g->critter_at( p );
-            if( cre != nullptr && cre != &g->u ) {
-                npc *guy = dynamic_cast<npc *>( cre );
-                cre->die( nullptr );
-                if( guy ) {
-                    overmap_buffer.remove_npc( guy->getID() );
-                }
-            }
-        }
-    }
-    g->unload_npcs();
+    clear_npcs();
+    clear_creatures();
 
     const auto spawn_npc = []( const int x, const int y, const std::string & npc_class ) {
         const string_id<npc_template> test_guy( npc_class );
@@ -447,6 +443,7 @@ TEST_CASE( "npc_can_target_player" )
 
         npc *guy = g->find_npc( model_id );
         REQUIRE( guy != nullptr );
+        CHECK( !guy->in_vehicle );
         guy->setpos( g->u.pos() + point( x, y ) );
         return guy;
     };
@@ -455,6 +452,8 @@ TEST_CASE( "npc_can_target_player" )
     REQUIRE( rl_dist( g->u.pos(), hostile->pos() ) <= 1 );
     hostile->set_attitude( NPCATT_KILL );
     hostile->name = "Enemy NPC";
+
+    INFO( get_list_of_npcs( "NPCs after spawning one" ) );
 
     hostile->regen_ai_cache();
     REQUIRE( hostile->current_target() != nullptr );

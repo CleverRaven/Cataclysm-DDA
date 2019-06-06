@@ -5,13 +5,14 @@
 #include <array>
 #include <map>
 #include <string>
+#include <tuple>
 
 #include "calendar.h"
 #include "color.h"
 #include "game_constants.h"
-#include "map.h"
-#include "map_iterator.h"
-#include "mapdata.h"
+
+struct maptile;
+struct tripoint;
 
 enum phase_id : int;
 
@@ -102,6 +103,10 @@ enum field_id : int {
     fd_incendiary,
     fd_relax_gas,
     fd_fungal_haze,
+    fd_cold_air1,
+    fd_cold_air2,
+    fd_cold_air3,
+    fd_cold_air4,
     fd_hot_air1,
     fd_hot_air2,
     fd_hot_air3,

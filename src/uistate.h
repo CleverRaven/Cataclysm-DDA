@@ -9,9 +9,7 @@
 
 #include "enums.h"
 #include "omdata.h"
-
-class ammunition_type;
-using ammotype = string_id<ammunition_type>;
+#include "type_id.h"
 
 class item;
 
@@ -24,7 +22,7 @@ class uistatedata
         /**** this will set a default value on startup, however to save, see below ****/
     private:
         // not needed for compilation, but keeps syntax plugins happy
-        typedef std::string itype_id;
+        using itype_id = std::string;
         enum side { left  = 0, right = 1, NUM_PANES = 2 };
     public:
         /**** declare your variable here. It can be anything, really *****/

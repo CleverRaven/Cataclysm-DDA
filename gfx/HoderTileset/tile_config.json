@@ -76,6 +76,10 @@
             "fg":12
         },
         {
+            "id":"highlight",
+            "fg":12
+        },
+        {
             "id":"lighting_boomered_light",
             "fg":50,
             "rotates":false
@@ -10950,13 +10954,6 @@
       {
          "id" : "fn57",
          "fg" : 1400,
-         "bg" : 193,
-         "rotates" : false,
-         "multitile" : false
-      },
-      {
-         "id" : "hk_ucp",
-         "fg" : 1401,
          "bg" : 193,
          "rotates" : false,
          "multitile" : false

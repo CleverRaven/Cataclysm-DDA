@@ -2,6 +2,7 @@
 #ifndef RECIPE_DICTIONARY_H
 #define RECIPE_DICTIONARY_H
 
+#include <cstddef>
 #include <algorithm>
 #include <functional>
 #include <map>
@@ -10,14 +11,13 @@
 #include <vector>
 
 #include "recipe.h"
-#include "string_id.h"
+#include "type_id.h"
 
 class JsonIn;
 class JsonOut;
 class JsonObject;
-typedef std::string itype_id;
-class recipe;
-using recipe_id = string_id<recipe>;
+
+using itype_id = std::string;
 
 class recipe_dictionary
 {

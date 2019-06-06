@@ -2,9 +2,12 @@
 #ifndef PLAYER_ACTIVITY_H
 #define PLAYER_ACTIVITY_H
 
+#include <cstddef>
 #include <climits>
 #include <set>
 #include <vector>
+#include <memory>
+#include <string>
 
 #include "enums.h"
 #include "item_location.h"
@@ -14,7 +17,6 @@ class player;
 class Character;
 class JsonIn;
 class JsonOut;
-class player_activity;
 class activity_type;
 class monster;
 
@@ -72,6 +74,8 @@ class player_activity
         // Question to ask when the activity is to be stopped,
         // e.g. "Stop doing something?", already translated.
         std::string get_stop_phrase() const;
+
+        std::string get_verb() const;
 
         int get_value( size_t index, int def = 0 ) const;
         std::string get_str_value( size_t index, const std::string &def = "" ) const;

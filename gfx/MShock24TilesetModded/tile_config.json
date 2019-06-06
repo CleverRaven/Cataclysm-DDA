@@ -20954,6 +20954,11 @@
           "rotates": false
         },
         {
+          "id": "highlight",
+          "fg": 1947,
+          "rotates": false
+        },
+        {
           "id": "line_target",
           "bg": 1947,
           "rotates": false

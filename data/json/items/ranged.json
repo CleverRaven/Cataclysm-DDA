@@ -576,30 +576,5 @@
     "clip_size": 100,
     "reload": 0,
     "valid_mod_locations": [ [ "sling", 1 ] ]
-  },
-  {
-    "id": "chemical_thrower",
-    "type": "GUN",
-    "reload_noise_volume": 10,
-    "reload_noise": "slosh.",
-    "symbol": "(",
-    "color": "dark_gray",
-    "name": "chemical thrower",
-    "description": "A bulky, self-made chemical sprayer with an internal conversion mechanism that allows all sorts of chemicals to be dispersed to your surroundings.",
-    "price": 15000,
-    "material": [ "steel", "plastic" ],
-    "flags": [ "FIRE_50", "NEVER_JAMS" ],
-    "skill": "launcher",
-    "ammo": "chemical_spray",
-    "weight": 1150,
-    "volume": 25,
-    "bashing": 9,
-    "to_hit": -1,
-    "ranged_damage": -5,
-    "dispersion": 300,
-    "durability": 6,
-    "clip_size": 1000,
-    "reload": 10,
-    "valid_mod_locations": [ [ "sling", 1 ] ]
   }
 ]

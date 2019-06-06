@@ -1,6 +1,15 @@
 #include "worldfactory.h"
 
+#include <cstdio>
 #include <algorithm>
+#include <array>
+#include <cstdlib>
+#include <fstream>
+#include <iterator>
+#include <set>
+#include <sstream>
+#include <unordered_map>
+#include <utility>
 
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -9,16 +18,17 @@
 #include "debug.h"
 #include "enums.h"
 #include "filesystem.h"
-#include "gamemode.h"
 #include "input.h"
 #include "json.h"
-#include "mapsharing.h"
 #include "mod_manager.h"
 #include "name.h"
 #include "output.h"
 #include "path_info.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "color.h"
+#include "game.h"
+#include "string_id.h"
 
 using namespace std::placeholders;
 
@@ -53,7 +63,7 @@ save_t save_t::from_base_path( const std::string &base_path )
     return save_t( base64_decode( base_path ) );
 }
 
-std::string get_next_valid_worldname()
+static std::string get_next_valid_worldname()
 {
     std::string worldname = Name::get( nameIsWorldName );
 
@@ -641,7 +651,6 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
 
                 } else {
                     if( iNum == iActive ) {
-                        cursor = iActive - iCatBeforeCursor;
                         //mvwprintw( w, iNum - start + iCatSortOffset, 1, "   " );
                         if( is_active_list ) {
                             mvwprintz( w, iNum - start, 1, c_yellow, ">> " );

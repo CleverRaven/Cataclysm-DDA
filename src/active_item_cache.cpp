@@ -1,6 +1,7 @@
 #include "active_item_cache.h"
 
 #include <algorithm>
+#include <utility>
 
 #include "debug.h"
 #include "item.h"
@@ -83,3 +84,11 @@ void active_item_cache::subtract_locations( const point &delta )
     }
 }
 
+void active_item_cache::rotate_locations( int turns, const point &dim )
+{
+    for( auto &pair : active_items ) {
+        for( item_reference &ir : pair.second ) {
+            ir.location = ir.location.rotate( turns, dim );
+        }
+    }
+}

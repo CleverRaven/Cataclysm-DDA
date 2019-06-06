@@ -4,17 +4,11 @@
 
 #include <list>
 
-#include "enums.h"
-
-class vehicle;
 class item;
 class Character;
-class player;
 class map;
-namespace catacurses
-{
-class window;
-} // namespace catacurses
+struct tripoint;
+
 namespace Pickup
 {
 /**
@@ -24,8 +18,13 @@ namespace Pickup
 bool do_pickup( const tripoint &pickup_target_arg, bool from_vehicle,
                 std::list<int> &indices, std::list<int> &quantities, bool autopickup );
 
-/** Pick up items; ',' or via examine() */
-void pick_up( const tripoint &p, int min );
+enum from_where : int {
+    from_cargo = 0,
+    from_ground,
+    prompt
+};
+/** Pick up items; 'g' or ',' or via examine() */
+void pick_up( const tripoint &p, int min, from_where get_items_from = prompt );
 /** Determines the cost of moving an item by a character. */
 int cost_to_move_item( const Character &who, const item &it );
 

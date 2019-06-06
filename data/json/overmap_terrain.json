@@ -49,6 +49,26 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "boat_rental",
+    "name": "boat rental",
+    "sym": "#",
+    "color": "white",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "riverside_dwelling",
+    "name": "riverside dwelling",
+    "sym": "+",
+    "color": "i_yellow",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 1
+  },
+  {
+    "type": "overmap_terrain",
     "id": "cabin_strange",
     "name": "forest",
     "sym": "F",
@@ -76,16 +96,6 @@
     "see_cost": 5,
     "extras": "build",
     "mondensity": 2,
-    "flags": [ "NO_ROTATE" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "dirtlot",
-    "name": "dirt lot",
-    "sym": "O",
-    "color": "brown",
-    "see_cost": 5,
-    "extras": "field",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -392,6 +402,66 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "campground_roof",
+    "name": "campground roof",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campground_1a_npc",
+    "name": "campground",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campground_1b_npc",
+    "name": "campground",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campground_2a_npc",
+    "name": "campground",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campground_2b_npc",
+    "name": "campground",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "campground_roof_npc",
+    "name": "campground roof",
+    "sym": "+",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "desolatebarn",
     "copy-from": "generic_city_building_no_sidewalk",
     "name": "desolate barn",
@@ -443,130 +513,10 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "cs_public_art_piece",
-    "copy-from": "generic_city_building",
-    "name": "public art piece",
-    "sym": 97,
-    "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "cs_public_space",
     "copy-from": "generic_city_building",
     "name": "public space",
     "color": "i_white"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cs_car_showroom",
-    "copy-from": "generic_city_building",
-    "name": "car showroom",
-    "sym": 99,
-    "color": "i_cyan"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cs_car_dealership",
-    "copy-from": "generic_city_building",
-    "name": "car dealership",
-    "sym": 99,
-    "color": "i_cyan"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "cs_tire_shop",
-    "copy-from": "generic_city_building",
-    "name": "tire shop",
-    "sym": 79,
-    "color": "white"
-  },
-  {
-    "type": "overmap_terrain",
-    "abstract": "generic_regional_dump",
-    "copy-from": "generic_city_building_no_sidewalk",
-    "name": "regional dump",
-    "sym": 100,
-    "color": "i_brown"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ws_regional_dump_0_0",
-    "copy-from": "generic_regional_dump"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ws_regional_dump_1_0",
-    "copy-from": "generic_regional_dump"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ws_regional_dump_2_0",
-    "copy-from": "generic_regional_dump"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ws_regional_dump_3_0",
-    "copy-from": "generic_regional_dump"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ws_regional_dump_0_1",
-    "copy-from": "generic_regional_dump"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ws_regional_dump_1_1",
-    "copy-from": "generic_regional_dump"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ws_regional_dump_2_1",
-    "copy-from": "generic_regional_dump"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ws_regional_dump_3_1",
-    "copy-from": "generic_regional_dump"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ws_regional_dump_0_2",
-    "copy-from": "generic_regional_dump"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ws_regional_dump_1_2",
-    "copy-from": "generic_regional_dump"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ws_regional_dump_2_2",
-    "copy-from": "generic_regional_dump"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ws_regional_dump_3_2",
-    "copy-from": "generic_regional_dump"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ws_regional_dump_0_3",
-    "copy-from": "generic_regional_dump"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ws_regional_dump_1_3",
-    "copy-from": "generic_regional_dump"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ws_regional_dump_2_3",
-    "copy-from": "generic_regional_dump"
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "ws_regional_dump_3_3",
-    "copy-from": "generic_regional_dump"
   },
   {
     "type": "overmap_terrain",

@@ -2,6 +2,7 @@
 
 #include <map>
 #include <string>
+#include <algorithm>
 
 #include "cursesdef.h"
 #include "iuse_software_kitten.h"

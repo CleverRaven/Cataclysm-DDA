@@ -31615,6 +31615,11 @@
           "rotates": false
         },
         {
+          "id": "highlight",
+          "fg": 2853,
+          "rotates": false
+        },
+        {
           "id": "line_target",
           "bg": 2853,
           "rotates": false

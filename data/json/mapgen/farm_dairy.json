@@ -41,7 +41,7 @@
         ".$......................",
         ".$......................"
       ],
-      "terrain": { "$": "t_chainfence_v", ".": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ] },
+      "terrain": { "$": "t_splitrail_fence", ".": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ] },
       "place_monsters": [
         { "monster": "GROUP_COWS", "x": [ 1, 10 ], "y": [ 1, 9 ], "density": 0.5 },
         { "monster": "GROUP_COWS", "x": [ 1, 12 ], "y": [ 1, 12 ], "density": 0.5 },
@@ -83,7 +83,7 @@
         "......................$.",
         "......................$."
       ],
-      "terrain": { "$": "t_chainfence_v", ".": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ] },
+      "terrain": { "$": "t_splitrail_fence", ".": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ] },
       "place_monsters": [
         { "monster": "GROUP_COWS", "x": [ 1, 10 ], "y": [ 1, 9 ], "density": 0.5 },
         { "monster": "GROUP_COWS", "x": [ 1, 12 ], "y": [ 1, 12 ], "density": 0.5 },
@@ -127,7 +127,7 @@
         "........................"
       ],
       "terrain": {
-        "$": "t_chainfence_v",
+        "$": "t_splitrail_fence",
         "%": "t_milking_machine",
         "*": "t_window_bars",
         "+": "t_door_o",
@@ -182,7 +182,7 @@
         "........................"
       ],
       "terrain": {
-        "$": "t_chainfence_v",
+        "$": "t_splitrail_fence",
         "'": "t_door_o",
         "*": "t_window_domestic",
         "+": "t_door_locked_interior",
@@ -192,7 +192,7 @@
         "Y": "t_floor",
         "_": "t_floor",
         "a": [ "t_grass", "t_grass", "t_dirt", "t_dirt", "t_dirt" ],
-        "f": "t_door_metal_c",
+        "f": "t_splitrail_fencegate_c",
         "|": "t_wall"
       },
       "furniture": {

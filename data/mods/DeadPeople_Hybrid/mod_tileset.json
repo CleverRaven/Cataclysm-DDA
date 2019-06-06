@@ -1,7 +1,7 @@
 [
   {
     "type": "mod_tileset",
-    "compatibility": [ "MSX++DEAD_PEOPLE" ],
+    "compatibility": [ "MSX++DEAD_PEOPLE", "UNDEAD_PEOPLE" ],
     "tiles-new": [
       {
         "file": "Hybrid_Items.png",

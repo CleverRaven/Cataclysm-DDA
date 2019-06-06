@@ -2,6 +2,8 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
+#include <climits>
+#include <cstddef>
 #include <bitset>
 #include <functional>
 #include <map>
@@ -13,26 +15,33 @@
 #include "calendar.h"
 #include "creature.h"
 #include "enums.h"
-#include "int_id.h"
+#include "bodypart.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "damage.h"
+#include "item.h"
+#include "mtype.h"
+#include "optional.h"
+#include "pldata.h"
+#include "type_id.h"
+#include "units.h"
 
 class JsonObject;
 class JsonIn;
 class JsonOut;
-class map;
-class game;
-class item;
-class monfaction;
 class player;
 class Character;
-struct mtype;
+class effect;
+struct dealt_projectile_attack;
+struct pathfinding_settings;
+struct trap;
+
 enum class mon_trigger;
 enum field_id : int;
 
-using mfaction_id = int_id<monfaction>;
-using mtype_id = string_id<mtype>;
-
 class monster;
-typedef std::map< mfaction_id, std::set< monster * > > mfactions;
+
+using mfactions = std::map< mfaction_id, std::set< monster * > >;
 
 class mon_special_attack
 {
@@ -322,6 +331,8 @@ class monster : public Creature
         float  hit_roll() const override;  // For the purposes of comparing to player::dodge_roll()
         float  dodge_roll() override;  // For the purposes of comparing to player::hit_roll()
 
+        int get_grab_strength() const; // intensity of grabbed effect
+
         monster_horde_attraction get_horde_attraction();
         void set_horde_attraction( monster_horde_attraction mha );
         bool will_join_horde( int size );
@@ -401,22 +412,30 @@ class monster : public Creature
         tripoint wander_pos; // Wander destination - Just try to move in that direction
         int wandf;           // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
+        player *dragged_foe; // player being dragged by the monster
 
         // DEFINING VALUES
         int friendly;
         int anger = 0;
         int morale = 0;
-        mfaction_id faction; // Our faction (species, for most monsters)
-        int mission_id; // If we're related to a mission
+        // Our faction (species, for most monsters)
+        mfaction_id faction;
+        // If we're related to a mission
+        int mission_id;
         const mtype *type;
-        bool no_extra_death_drops;    // if true, don't spawn loot items as part of death
-        bool no_corpse_quiet = false; //if true, monster dies quietly and leaves no corpse
-        bool death_drops =
-            true; // Turned to false for simulating monsters during distant missions so they don't drop in sight
+        // If true, don't spawn loot items as part of death.
+        bool no_extra_death_drops;
+        // If true, monster dies quietly and leaves no corpse.
+        bool no_corpse_quiet = false;
+        // Turned to false for simulating monsters during distant missions so they don't drop in sight.
+        bool death_drops = true;
         bool is_dead() const;
         bool made_footstep;
-        std::string unique_name; // If we're unique
+        // If we're unique
+        std::string unique_name;
         bool hallucination;
+        // abstract for a fish monster representing a hidden stock of population in that area.
+        int fish_population = 1;
 
         void setpos( const tripoint &p ) override;
         const tripoint &pos() const override;

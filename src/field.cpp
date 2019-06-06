@@ -1,9 +1,18 @@
 #include "field.h"
 
+#include <cmath>
+#include <cstddef>
 #include <algorithm>
 #include <queue>
 #include <tuple>
+#include <iterator>
+#include <list>
+#include <memory>
+#include <set>
+#include <utility>
+#include <vector>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
@@ -22,7 +31,6 @@
 #include "monster.h"
 #include "mtype.h"
 #include "npc.h"
-#include "output.h"
 #include "overmapbuffer.h"
 #include "rng.h"
 #include "scent_map.h"
@@ -31,7 +39,19 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "weather_gen.h"
+#include "bodypart.h"
+#include "creature.h"
+#include "damage.h"
+#include "int_id.h"
+#include "item.h"
+#include "line.h"
+#include "math_defines.h"
+#include "optional.h"
+#include "player.h"
+#include "pldata.h"
+#include "string_id.h"
+#include "units.h"
+#include "type_id.h"
 
 const species_id FUNGUS( "FUNGUS" );
 
@@ -417,6 +437,42 @@ const std::array<field_t, num_fields> fieldlist = { {
         },
 
         {
+            "fd_cold_air1",
+            {"", "", ""}, '&', -1,
+            {def_c_white, def_c_blue, def_c_blue}, {true, true, true}, {false, false, false}, 50_minutes,
+            {0, 0, 0},
+            GAS,
+            false
+        },
+
+        {
+            "fd_cold_air2",
+            {"", "", ""}, '&', -1,
+            {def_c_white, def_c_blue, def_c_blue}, {true, true, true}, {false, false, false}, 50_minutes,
+            {0, 0, 0},
+            GAS,
+            false
+        },
+
+        {
+            "fd_cold_air3",
+            {"", "", ""}, '&', -1,
+            {def_c_white, def_c_blue, def_c_blue}, {true, true, true}, {false, false, false}, 50_minutes,
+            {0, 0, 0},
+            GAS,
+            false
+        },
+
+        {
+            "fd_cold_air4",
+            {"", "", ""}, '&', -1,
+            {def_c_white, def_c_blue, def_c_blue}, {true, true, true}, {false, false, false}, 50_minutes,
+            {0, 0, 0},
+            GAS,
+            false
+        },
+
+        {
             "fd_hot_air1",
             {"", "", ""}, '&', -1,
             {def_c_white, def_c_yellow, def_c_red}, {true, true, true}, {false, false, false}, 50_minutes,
@@ -546,7 +602,7 @@ bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, const ter_bitflags
     return ter.has_flag( flag ) || furn.has_flag( flag );
 }
 
-int ter_furn_movecost( const ter_t &ter, const furn_t &furn )
+static int ter_furn_movecost( const ter_t &ter, const furn_t &furn )
 {
     if( ter.movecost == 0 ) {
         return 0;
@@ -570,11 +626,6 @@ static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
         { +1, +1, 0 },
     }
 };
-
-bool at_edge( const size_t x, const size_t y )
-{
-    return x == 0 || x == SEEX || y == 0 || y == SEEY;
-}
 
 /*
 Function: process_fields_in_submap
@@ -620,8 +671,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
     int percent_spread, const time_duration & outdoor_age_speedup ) {
         const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
         bool sheltered = g->is_sheltered( p );
-        int winddirection = g->winddirection;
-        int windpower = get_local_windpower( g->windspeed, cur_om_ter, p, winddirection, sheltered );
+        int winddirection = g->weather.winddirection;
+        int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
+                                             sheltered );
         // Reset nearby scents to zero
         for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
             g->scent.set( tmp, 0 );
@@ -729,7 +781,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
             }
         }
     };
-
     /*
     Function: create_hot_air
     Helper function that encapsulates the logic involved in creating hot air.
@@ -884,8 +935,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         }
                         break;
                     case fd_plasma:
-                        dirty_transparency_cache = true;
-                        break;
                     case fd_laser:
                         dirty_transparency_cache = true;
                         break;
@@ -895,8 +944,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // Entire objects for ter/frn for flags
                         const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
                         bool sheltered = g->is_sheltered( p );
-                        int winddirection = g->winddirection;
-                        int windpower = get_local_windpower( g->windspeed, cur_om_ter, p, winddirection, sheltered );
+                        int winddirection = g->weather.winddirection;
+                        int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
+                                                             sheltered );
                         const auto &ter = map_tile.get_ter_t();
                         const auto &frn = map_tile.get_furn_t();
 
@@ -1362,10 +1412,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     break;
 
                     case fd_smoke:
-                        dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 10, 0_turns );
-                        break;
-
                     case fd_tear_gas:
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 10, 0_turns );
@@ -1402,10 +1448,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                         if( one_in( 20 ) ) {
                             if( npc *const np = g->critter_at<npc>( p ) ) {
-                                if( np->is_friend() ) {
-                                    np->say( one_in( 10 ) ? _( "Whew... smells like skunk!" ) :
-                                             _( "Man, that smells like some good shit!" ) );
-                                }
+                                np->complain_about( "weed_smell", 10_minutes, "<weed_smell>" );
                             }
                         }
 
@@ -1415,12 +1458,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_methsmoke: {
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 175, 7_minutes );
-
                         if( one_in( 20 ) ) {
                             if( npc *const np = g->critter_at<npc>( p ) ) {
-                                if( np->is_friend() ) {
-                                    np->say( _( "I don't know... should you really be smoking that stuff?" ) );
-                                }
+                                np->complain_about( "meth_smell", 30_minutes, "<meth_smell>" );
                             }
                         }
                     }
@@ -1432,9 +1472,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                         if( one_in( 20 ) ) {
                             if( npc *const np = g->critter_at<npc>( p ) ) {
-                                if( np->is_friend() ) {
-                                    np->say( one_in( 2 ) ? _( "Ew, smells like burning rubber!" ) : _( "Ugh, that smells rancid!" ) );
-                                }
+                                np->complain_about( "crack_smell", 30_minutes, "<crack_smell>" );
                             }
                         }
                     }
@@ -1447,7 +1485,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         spread_gas( cur, p, curtype, 15, 1_minutes );
                         break;
                     }
-
+                    case fd_cold_air1:
+                    case fd_cold_air2:
+                    case fd_cold_air3:
+                    case fd_cold_air4:
                     case fd_hot_air1:
                     case fd_hot_air2:
                     case fd_hot_air3:
@@ -2173,14 +2214,11 @@ void map::player_in_field( player &u )
                 }
                 break;
 
-            //Why do these get removed???
+            // Why do these get removed???
+            // Stepping on a shock vent shuts it down.
             case fd_shock_vent:
-                //Stepping on a shock vent shuts it down.
-                cur.setFieldDensity( 0 );
-                continue;
-
+            // Stepping on an acid vent shuts it down.
             case fd_acid_vent:
-                //Stepping on an acid vent shuts it down.
                 cur.setFieldDensity( 0 );
                 continue;
 
@@ -2610,9 +2648,8 @@ std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddir
         const tripoint &pos )
 {
     double raddir = ( ( winddirection + 180 ) % 360 ) * ( M_PI / 180 );
-    float fx, fy;
-    fy = -cos( raddir );
-    fx = sin( raddir );
+    float fx = -cos( raddir );
+    float fy = sin( raddir );
     int roundedx;
     int roundedy;
     if( fx > 0.5 ) {

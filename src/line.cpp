@@ -2,6 +2,11 @@
 
 #include <cstdlib>
 #include <cassert>
+#include <algorithm>
+#include <array>
+#include <memory>
+#include <tuple>
+#include <utility>
 
 #include "translations.h"
 #include "string_formatter.h"
@@ -317,7 +322,7 @@ unsigned make_xyz( const int x, const int y, const int z )
 }
 
 // returns the normalized dx, dy, dz for the current line vector.
-std::tuple<double, double, double> slope_of( const std::vector<tripoint> &line )
+static std::tuple<double, double, double> slope_of( const std::vector<tripoint> &line )
 {
     assert( !line.empty() && line.front() != line.back() );
     const double len = trig_dist( line.front(), line.back() );

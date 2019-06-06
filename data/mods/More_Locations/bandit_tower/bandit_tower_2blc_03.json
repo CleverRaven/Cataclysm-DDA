@@ -1,59 +1,43 @@
 [
-    {
-        "type": "mapgen",
-        "om_terrain": "bandit_tower_2blc",
-        "comment" : "bottom left corner, second story and even levels",
-        "weight": 250,
-        "method": "json",
-        "object": {
-            "fill_ter": "t_floor",
-            "rows": [
-                "########################",
-                "########################",
-                "########################",
-                "#######==ww=====ww==ww==",
-                "#######=Dc...BB....+.d==",
-                "#####===D....BB....|yy==",
-                "#####===.........dd|AAA.",
-                "###=====+------+----....",
-                "###=......+........+....",
-                "###=A.....-------+----yy",
-                "###wA....a|z........z|dd",
-                "###wA.....+....BB....|+-",
-                "###wW....R|....BB....+.d",
-                "###=yyy+yy--------------",
-                "###=....................",
-                "###=....................",
-                "888..........D.*=======.",
-                "888..........Dc.=====Mee",
-                "###y.........DDD==<<<Mee",
-                "###y..............<<<Mee",
-                "###y..............<<<Mee",
-                "###y............=MMMMMMM",
-                "###yvpVpvpVpvp..=eeeeM==",
-                "###===-------|..2eeeeM=="
-            ],
-            "rotation": 3,
-            "palettes": [
-                "tri_tower",
-                "upper_level",
-                "bandit_tower_stuff"
-            ],
-            "terrain":{
-                "5": "t_pavement",
-                "8": "t_bridge",
-                "y": "t_wall_wood"
-            },
-            "furniture":{
-                "p": "f_indoor_plant_y",
-                "v": "f_vending_c",
-                "V": "f_vending_c",
-                "z": "f_statue"
-            },
-            "items": {
-                "v": { "item": "alcohol", "chance": 85 },
-                "V": { "item": "harddrugs", "chance": 45 } 
-            }
-        }
+  {
+    "type": "mapgen",
+    "om_terrain": "bandit_tower_2blc",
+    "comment": "bottom left corner, second story and even levels",
+    "weight": 250,
+    "method": "json",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "########################",
+        "########################",
+        "########################",
+        "#######==ww=====ww==ww==",
+        "#######=Dc...BB....+.d==",
+        "#####===D....BB....|yy==",
+        "#####===.........dd|AAA.",
+        "###=====+------+----....",
+        "###=......+........+....",
+        "###=A.....-------+----yy",
+        "###wA....a|z........z|dd",
+        "###wA.....+....BB....|+-",
+        "###wW....R|....BB....+.d",
+        "###=yyy+yy--------------",
+        "###=....................",
+        "###=....................",
+        "888..........D.*=======.",
+        "888..........Dc.=====Mee",
+        "###y.........DDD==<<<Mee",
+        "###y..............<<<Mee",
+        "###y..............<<<Mee",
+        "###y............=MMMMMMM",
+        "###yvpVpvpVpvp..=eeeeM==",
+        "###===-------|..2eeeeM=="
+      ],
+      "rotation": 3,
+      "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
+      "terrain": { "5": "t_pavement", "8": "t_bridge", "y": "t_wall_wood" },
+      "furniture": { "p": "f_indoor_plant_y", "v": "f_vending_c", "V": "f_vending_c", "z": "f_statue" },
+      "items": { "v": { "item": "alcohol", "chance": 85 }, "V": { "item": "harddrugs", "chance": 45 } }
     }
+  }
 ]

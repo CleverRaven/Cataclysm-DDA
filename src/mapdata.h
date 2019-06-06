@@ -2,36 +2,30 @@
 #ifndef MAPDATA_H
 #define MAPDATA_H
 
+#include <cstddef>
 #include <array>
 #include <bitset>
 #include <set>
 #include <vector>
+#include <string>
 
 #include "color.h"
 #include "int_id.h"
 #include "optional.h"
 #include "string_id.h"
+#include "type_id.h"
 #include "units.h"
 
 class JsonObject;
 struct itype;
-struct trap;
 struct ter_t;
 struct furn_t;
-class harvest_list;
 class player;
 struct tripoint;
+
 using iexamine_function = void ( * )( player &, const tripoint & );
 
-using trap_id = int_id<trap>;
-using trap_str_id = string_id<trap>;
-
-using ter_id = int_id<ter_t>;
-using ter_str_id = string_id<ter_t>;
-using furn_id = int_id<furn_t>;
-using furn_str_id = string_id<furn_t>;
 using itype_id = std::string;
-using harvest_id = string_id<harvest_list>;
 
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
@@ -76,6 +70,18 @@ struct furn_workbench_info {
     units::mass allowed_mass;
     units::volume allowed_volume;
     furn_workbench_info();
+    bool load( JsonObject &jsobj, const std::string &member );
+};
+struct plant_data {
+    // What the furniture turns into when it grows or you plant seeds in it
+    furn_str_id transform;
+    // What the 'base' furniture of the plant is, before you plant in it, and what it turns into when eaten
+    furn_str_id base;
+    // At what percent speed of a normal plant this plant furniture grows at
+    float growth_multiplier;
+    // What percent of the normal harvest this crop gives
+    float harvest_multiplier;
+    plant_data();
     bool load( JsonObject &jsobj, const std::string &member );
 };
 
@@ -185,6 +191,7 @@ enum ter_bitflags : int {
     TFLAG_HIDE_PLACE,
     TFLAG_BLOCK_WIND,
     TFLAG_FLAT,
+    TFLAG_RAIL,
 
     NUM_TERFLAGS
 };
@@ -340,6 +347,8 @@ struct furn_t : map_data_common_t {
 
     cata::optional<furn_workbench_info> workbench;
 
+    cata::optional<plant_data> plant;
+
     // May return NULL
     const itype *crafting_pseudo_item_type() const;
     // May return NULL
@@ -373,10 +382,10 @@ t_basalt
 extern ter_id t_null,
        t_hole, // Real nothingness; makes you fall a z-level
        // Ground
-       t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit, t_grave,
+       t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit, t_grave, t_grave_new,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
-       t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white,
+       t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_moss,
        t_metal_floor,
        t_pavement, t_pavement_y, t_sidewalk, t_concrete,
        t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,
@@ -520,9 +529,14 @@ extern furn_id f_null,
        f_flower_marloss,
        f_tatami,
        f_kiln_empty, f_kiln_full, f_kiln_metal_empty, f_kiln_metal_full,
-       f_smoking_rack, f_smoking_rack_active,
+       f_smoking_rack, f_smoking_rack_active, f_metal_smoking_rack, f_metal_smoking_rack_active,
+       f_water_mill, f_water_mill_active,
+       f_wind_mill, f_wind_mill_active,
        f_robotic_arm, f_vending_reinforced,
        f_brazier,
+       f_firering,
+       f_tourist_table,
+       f_camp_chair,
        f_autodoc_couch;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

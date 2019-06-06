@@ -1,7 +1,11 @@
 #include "help.h"
 
+#include <cstddef>
 #include <algorithm>
 #include <vector>
+#include <array>
+#include <iterator>
+#include <list>
 
 #include "action.h"
 #include "catacharset.h"
@@ -12,6 +16,10 @@
 #include "path_info.h"
 #include "text_snippets.h"
 #include "translations.h"
+#include "cata_utility.h"
+#include "color.h"
+#include "debug.h"
+#include "string_formatter.h"
 
 help &get_help()
 {
@@ -128,8 +136,6 @@ void help::display_help()
                                 1 + static_cast<int>( ( TERMY > FULL_SCREEN_HEIGHT ) ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ),
                                 1 + static_cast<int>( ( TERMX > FULL_SCREEN_WIDTH ) ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ) );
 
-    bool needs_refresh = true;
-
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
@@ -139,13 +145,10 @@ void help::display_help()
     std::string action;
 
     do {
-        if( needs_refresh ) {
-            draw_border( w_help_border, BORDER_COLOR, _( " HELP " ) );
-            wrefresh( w_help_border );
-            draw_menu( w_help );
-            catacurses::refresh();
-            needs_refresh = false;
-        }
+        draw_border( w_help_border, BORDER_COLOR, _( " HELP " ) );
+        wrefresh( w_help_border );
+        draw_menu( w_help );
+        catacurses::refresh();
 
         action = ctxt.handle_input();
         std::string sInput = ctxt.get_raw_input().text;
@@ -181,8 +184,6 @@ void help::display_help()
                 }
             }
         }
-
-        needs_refresh = true;
     } while( action != "QUIT" );
 }
 

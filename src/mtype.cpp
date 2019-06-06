@@ -8,8 +8,10 @@
 #include "item.h"
 #include "itype.h"
 #include "mondeath.h"
-#include "monstergenerator.h"
 #include "translations.h"
+#include "mapdata.h"
+
+struct species_type;
 
 const species_id MOLLUSK( "MOLLUSK" );
 
@@ -108,7 +110,7 @@ bool mtype::has_placate_trigger( mon_trigger trigger ) const
 
 bool mtype::in_category( const std::string &category ) const
 {
-    return ( categories.find( category ) != categories.end() );
+    return categories.find( category ) != categories.end();
 }
 
 bool mtype::in_species( const species_id &spec ) const

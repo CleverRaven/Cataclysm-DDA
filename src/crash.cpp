@@ -1,13 +1,17 @@
-#if defined(BACKTRACE)
-
 #include "crash.h"
 
+#if defined(BACKTRACE)
+
+#include <cstdlib>
 #include <csignal>
 #include <cstdio>
-#include <cstdint>
 #include <exception>
 #include <initializer_list>
 #include <typeinfo>
+#include <iostream>
+#include <map>
+#include <string>
+#include <utility>
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

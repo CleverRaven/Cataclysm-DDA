@@ -1,18 +1,20 @@
 # Region Settings
 
 The **region_settings** define the attributes for map generation that apply to an entire region.
-The general settings define the default overmap terrain and ground cover, as well as the factors
-that control forest and swamp growth. Additional sections are as follows:
+The general settings define the default overmap terrain and ground cover. Additional sections are
+as follows:
 
-|             Section             |                            Description                             |
-| ------------------------------- | ------------------------------------------------------------------ |
-| `field_coverage`                | Defines the flora that cover the `field` overmap terrain.          |
-| `forest_mapgen_settings`        | Defines flora (and "stuff") that cover the `forest` terrain types. |
-| `forest_trail_settings`         | Defines the overmap and local structure of forest trails.          |
-| `city`                          | Defines the structural compositions of cities.                     |
-| `map_extras`                    | Defines the map extra groups referenced by overmap terrains.       |
-| `weather`                       | Defines the base weather attributes for the region.                |
-| `overmap_feature_flag_settings` | Defines operations on overmap features based on their flags.       |
+|             Section             |                             Description                             |
+| ------------------------------- | ------------------------------------------------------------------- |
+| `field_coverage`                | Defines the flora that cover the `field` overmap terrain.           |
+| `overmap_lake_settings`         | Defines parameters for generating lakes in the region.              |
+| `overmap_forest_settings`       | Defines parameters for generating forests and swamps in the region. |
+| `forest_mapgen_settings`        | Defines flora (and "stuff") that cover the `forest` terrain types.  |
+| `forest_trail_settings`         | Defines the overmap and local structure of forest trails.           |
+| `city`                          | Defines the structural compositions of cities.                      |
+| `map_extras`                    | Defines the map extra groups referenced by overmap terrains.        |
+| `weather`                       | Defines the base weather attributes for the region.                 |
+| `overmap_feature_flag_settings` | Defines operations on overmap features based on their flags.        |
 
 Note that for the default region, all attributes and sections are required.
 
@@ -24,12 +26,6 @@ Note that for the default region, all attributes and sections are required.
 | `id`                    | Unique identfier for this region.                                  |
 | `default_oter`          | Default overmap terrain for this region.                           |
 | `default_groundcover`   | List of terrain types and weights applied as default ground cover. |
-| `num_forests`           | Number of forest "chunks".                                         |
-| `forest_size_min`       | Minimum size for a forest chunk, in # of overmap terrains.         |
-| `forest_size_max`       | Maximum size for a forest chunk, in # of overmap terrains          |
-| `swamp_maxsize`         | Maximum size for a swamp chunk, in # of overmap terrains.          |
-| `swamp_river_influence` | Impacts swamp chance near rivers. Higher = more.                   |
-| `swamp_spread_chance`   | One in X chance that a swamp is created outside a forest or field. |
 
 
 ### Example
@@ -41,13 +37,7 @@ Note that for the default region, all attributes and sections are required.
 	"default_groundcover": [
 		["t_grass", 4],
 		["t_dirt", 1]
-	],
-	"num_forests": 250,
-	"forest_size_min": 15,
-	"forest_size_max": 40,
-	"swamp_maxsize": 4,
-	"swamp_river_influence": 5,
-	"swamp_spread_chance": 8500
+	]
 }
 ```
 
@@ -86,6 +76,66 @@ cover the `field` overmap terrain.
 			"f_dandelion": 6.6
 		},
 		"boosted_other_percent": 50.0
+	}
+}
+```
+
+## Overmap Lake Settings
+
+The **overmap_lake_settings** section defines the attributes used in generating lakes on the
+overmap. The actual placement of these features is determined globally across all overmaps so that
+the edges of the features align, and these parameters are mostly about how those global features
+are interpreted. 
+
+### Fields
+
+|             Identifier             |                               Description                               |
+| ---------------------------------- | ----------------------------------------------------------------------- |
+| `noise_threshold_lake`             | [0, 1], x > value spawns a `lake_surface` or `lake_shore`.              |
+| `lake_size_min`                    | Minimum size of the lake in overmap terrains for it to actually spawn.  |
+| `shore_extendable_overmap_terrain` | List of overmap terrains that can be extended to the shore if adjacent. |
+
+### Example
+
+```json
+{
+	"overmap_lake_settings": {
+		"noise_threshold_lake": 0.25,
+		"lake_size_min": 20,
+		"shore_extendable_overmap_terrain": ["forest", "forest_thick", "forest_water", "field"]
+	}
+}
+```
+
+## Overmap Forest Settings
+
+The **overmap_forest_settings** section defines the attributes used in generating forest and swamps
+on the overmap. The actual placement of these features is determined globally across all overmaps
+so that the edges of the features align, and these parameters are mostly about how those global
+features are interpreted.
+
+### Fields
+
+|               Identifier               |                              Description                               |
+| -------------------------------------- | ---------------------------------------------------------------------- |
+| `noise_threshold_forest`               | [0, 1], x > value spawns `forest`.                                     |
+| `noise_threshold_forest_thick`         | [0, 1], x > value spawns `forest_thick`.                               |
+| `noise_threshold_swamp_adjacent_water` | [0, 1], x > value spawns `forest_water` if forest near a waterbody.    |
+| `noise_threshold_swamp_isolated`       | [0, 1], x > value spawns `forest_water` if forest isolated from water. |
+| `river_floodplain_buffer_distance_min` | Minimum buffer distance in overmap terrains for river floodplains.     |
+| `river_floodplain_buffer_distance_max` | Maximum buffer distance in overmap terrains for river floodplains.     |
+
+### Example
+
+```json
+{
+	"overmap_forest_settings": {
+		"noise_threshold_forest": 0.25,
+		"noise_threshold_forest_thick": 0.3,
+		"noise_threshold_swamp_adjacent_water": 0.3,
+		"noise_threshold_swamp_isolated": 0.6,
+		"river_floodplain_buffer_distance_min": 3,
+		"river_floodplain_buffer_distance_max": 15
 	}
 }
 ```

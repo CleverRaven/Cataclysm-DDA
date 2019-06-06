@@ -36,7 +36,6 @@
     "volume": 1,
     "phase": "liquid",
     "fun": 20,
-    "flags": [ "FREEZERBURN" ],
     "vitamins": [ [ "calcium", 8 ], [ "iron", 1 ] ]
   },
   {

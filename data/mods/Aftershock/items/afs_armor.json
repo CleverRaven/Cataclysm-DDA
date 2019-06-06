@@ -113,8 +113,6 @@
     "warmth": 20,
     "environmental_protection": 11,
     "qualities": [ [ "GLARE", 3 ] ],
-    "max_charges": 100,
-    "initial_charges": 100,
     "charges_per_use": 1,
     "ammo": "battery",
     "use_action": {
@@ -126,7 +124,22 @@
       "need_charges_msg": "The helmet's batteries are dead."
     },
     "flags": [ "WATERPROOF", "FLASH_PROTECTION", "ONLY_ONE", "STURDY" ],
-    "looks_like": "depowered_helmet"
+    "looks_like": "depowered_helmet",
+    "magazines": [
+      [
+        "battery",
+        [
+          "light_battery_cell",
+          "light_minus_battery_cell",
+          "light_plus_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_disposable_cell"
+        ]
+      ]
+    ],
+    "magazine_well": 1
   },
   {
     "id": "afs_hev_helmet_on",

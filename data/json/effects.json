@@ -12,6 +12,18 @@
   },
   {
     "type": "effect_type",
+    "id": "ridden",
+    "name": [ "Ridden" ],
+    "desc": [ "AI tag for when critter is being ridden. This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "harnessed",
+    "name": [ "Harnessed" ],
+    "desc": [ "AI tag for when critter is being harnessed by a vehicle. This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "docile",
     "name": [ "Docile Monster" ],
     "desc": [ "AI tag for when monsters are tamed.  This is a bug if you have it." ]
@@ -27,6 +39,18 @@
     "id": "run",
     "name": [ "Hit-and-run Running" ],
     "desc": [ "AI tag for when hit-and-run monsters run away.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "dragging",
+    "name": [ "Dragging" ],
+    "desc": [ "AI tag for when a monster is dragging you behind it.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "operating",
+    "name": [ "Operating" ],
+    "desc": [ "AI tag for when a monster is operating on you.  This is a bug if you have it." ]
   },
   {
     "type": "effect_type",
@@ -173,6 +197,12 @@
   },
   {
     "type": "effect_type",
+    "id": "monster_saddled",
+    "name": [ "Has Saddle" ],
+    "desc": [ "AI tag used for critters wearing a saddle.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "tied",
     "name": [ "Tied Up" ],
     "desc": [ "AI tag used for tied up critters.  This is a bug if you have it." ]
@@ -211,6 +241,18 @@
     "apply_message": "You're knocked to the floor!",
     "rating": "bad",
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "assisted",
+    "name": [ "Assisted" ],
+    "desc": [ "You're receiving assistance to practice a surgery." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "got_checked",
+    "name": [ "Got a check-up" ],
+    "desc": [ "Your received a complete check-up and are now aware of the state of your health." ]
   },
   {
     "type": "effect_type",
@@ -263,6 +305,14 @@
     "base_mods": { "per_mod": [ -5 ], "dex_mod": [ -2 ] },
     "scaling_mods": { "speed_mod": [ -3 ] },
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "riding",
+    "name": [ "Riding" ],
+    "desc": [ "You are riding an animal." ],
+    "apply_message": "You mount your steed.",
+    "rating": "good"
   },
   {
     "type": "effect_type",

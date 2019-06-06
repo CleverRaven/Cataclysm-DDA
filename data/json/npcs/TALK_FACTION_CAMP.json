@@ -8,21 +8,23 @@
       { "text": "Tell me how faction camps have changed.", "topic": "TALK_CAMP_TUTORIAL_CHANGES" },
       {
         "text": "I want you to build a camp here.",
+        "topic": "TALK_HALLU_CAMP",
+        "condition": { "npc_has_trait": "HALLUCINATION" },
+        "switch": true
+      },
+      {
+        "text": "I want you to build a camp here.",
         "topic": "TALK_DONE",
         "effect": "start_camp",
-        "condition": { "u_at_om_location": "field" }
+        "condition": { "u_at_om_location": "field" },
+        "switch": true,
+        "default": true
       },
       {
         "text": "Show me what needs to be done at the camp.",
         "topic": "TALK_DONE",
         "effect": "basecamp_mission",
         "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
-      },
-      {
-        "text": "I want you to take over the camp here.",
-        "topic": "TALK_DONE",
-        "effect": "recover_camp",
-        "condition": { "and": [ { "u_at_om_location": "FACTION_CAMP_ANY" }, { "not": { "npc_role_nearby": "FACTION_CAMP" } } ] }
       },
       { "text": "Nothing.  Let's talk about something else.", "topic": "TALK_FRIEND" },
       { "text": "Never mind, let's talk about other things you can do", "topic": "TALK_ALLY_TUTORIAL" },
@@ -107,7 +109,7 @@
   {
     "id": "TALK_CAMP_TUTORIAL_CHANGES",
     "type": "talk_topic",
-    "dynamic_line": "\n1.  Faction camps used to require a second NPC to act as overseer and camp manager, but that's been replaced by the bulletin board and two-way radio. \n2.  It used to be impossible to upgrade faction camps if there was a vehicle, even a cart, on the same map.  You can now upgrade camps even if there is a vehicle on the map, as long as the upgrade doesn't change the area under the vehicle. \n3.  Faction camps used to upgrade by completely redrawing the map.  Damage to the camp would be replaced when the camp was upgraded.  Now upgrades only change the actual area being upgraded, and you will have to repair damage to the camp yourself.",
+    "dynamic_line": "\n1.  Faction camps used to require a second NPC to act as overseer and camp manager, but that's been replaced by the bulletin board and two-way radio.\n2.  It used to be impossible to upgrade faction camps if there was a vehicle, even a cart, on the same map.  You can now upgrade camps even if there is a vehicle on the map, as long as the upgrade doesn't change the area under the vehicle.\n3.  Faction camps used to upgrade by completely redrawing the map.  Damage to the camp would be replaced when the camp was upgraded.  Now upgrades only change the actual area being upgraded, and you will have to repair damage to the camp yourself.\n4.  There used to be a single path for upgrading the main camp.  Now, after you have completed the first tent, you will have many options for your next upgrade, and you can have different companions working on different upgrades of the main camp at the same time.",
     "responses": [
       { "text": "Thanks, let's go back to talking about camps.", "topic": "TALK_NONE" },
       { "text": "Never mind, let's talk about something else.", "topic": "TALK_FRIEND" },
@@ -127,5 +129,11 @@
       },
       { "text": "See you around.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "id": "TALK_HALLU_CAMP",
+    "type": "talk_topic",
+    "dynamic_line": "<hallu_dont_camp>",
+    "responses": [ { "text": "Fair enough.", "topic": "TALK_NONE" } ]
   }
 ]

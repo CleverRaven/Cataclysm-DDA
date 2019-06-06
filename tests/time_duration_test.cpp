@@ -1,10 +1,11 @@
 #include <sstream>
+#include <string>
 
 #include "catch/catch.hpp"
 #include "calendar.h"
 #include "json.h"
 
-time_duration parse_time_duration( const std::string &json )
+static time_duration parse_time_duration( const std::string &json )
 {
     std::istringstream buffer( json );
     JsonIn jsin( buffer );

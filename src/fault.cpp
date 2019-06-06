@@ -1,5 +1,7 @@
 #include "fault.h"
 
+#include <utility>
+
 #include "debug.h"
 #include "json.h"
 #include "requirements.h"

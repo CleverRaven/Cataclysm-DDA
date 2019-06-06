@@ -1,11 +1,16 @@
 #include "requirements.h"
 
+#include <cstdlib>
 #include <algorithm>
-#include <cmath>
 #include <limits>
 #include <sstream>
+#include <iterator>
+#include <list>
+#include <memory>
+#include <set>
+#include <unordered_map>
 
-#include "calendar.h"
+#include "avatar.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "game.h"
@@ -18,6 +23,9 @@
 #include "player.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "color.h"
+#include "item.h"
+#include "visitable.h"
 
 static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
@@ -273,6 +281,37 @@ bool requirement_data::any_marked_available( const std::vector<T> &comps )
 }
 
 template<typename T>
+std::string requirement_data::print_all_objs( const std::string &header,
+        const std::vector< std::vector<T> > &objs )
+{
+    std::ostringstream buffer;
+    for( const auto &list : objs ) {
+        if( !buffer.str().empty() ) {
+            buffer << "\n" << _( "and " );
+        }
+        for( auto it = list.begin(); it != list.end(); ++it ) {
+            if( it != list.begin() ) {
+                buffer << _( " or " );
+            }
+            buffer << it->to_string();
+        }
+    }
+    if( buffer.str().empty() ) {
+        return std::string();
+    }
+    return header + "\n" + buffer.str() + "\n";
+}
+
+std::string requirement_data::list_all() const
+{
+    std::ostringstream buffer;
+    buffer << print_all_objs( _( "These tools are required:" ), tools );
+    buffer << print_all_objs( _( "These tools are required:" ), qualities );
+    buffer << print_all_objs( _( "These components are required:" ), components );
+    return buffer.str();
+}
+
+template<typename T>
 std::string requirement_data::print_missing_objs( const std::string &header,
         const std::vector< std::vector<T> > &objs )
 {
@@ -302,7 +341,7 @@ std::string requirement_data::list_missing() const
     std::ostringstream buffer;
     buffer << print_missing_objs( _( "These tools are missing:" ), tools );
     buffer << print_missing_objs( _( "These tools are missing:" ), qualities );
-    buffer << print_missing_objs( _( "Those components are missing:" ), components );
+    buffer << print_missing_objs( _( "These components are missing:" ), components );
     return buffer.str();
 }
 
@@ -446,7 +485,7 @@ std::vector<std::string> requirement_data::get_folded_components_list( int width
 template<typename T>
 std::vector<std::string> requirement_data::get_folded_list( int width,
         const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
-        const std::vector< std::vector<T> > &objs, int batch, std::string hilite ) const
+        const std::vector< std::vector<T> > &objs, int batch, const std::string &hilite ) const
 {
     // hack: ensure 'cached' availability is up to date
     can_make_with_inventory( crafting_inv, filter );
@@ -459,7 +498,21 @@ std::vector<std::string> requirement_data::get_folded_list( int width,
         for( const T &component : comp_list ) {
             nc_color color = component.get_color( has_one, crafting_inv, filter, batch );
             const std::string color_tag = get_tag_from_color( color );
-            const std::string text = component.to_string( batch );
+            std::string text = component.to_string( batch );
+            if( component.get_component_type() == COMPONENT_ITEM ) {
+                const itype_id item_id = static_cast<itype_id>( component.type );
+                int qty;
+                if( item::count_by_charges( item_id ) ) {
+                    qty = crafting_inv.charges_of( item_id, INT_MAX, filter );
+                } else {
+                    qty = crafting_inv.amount_of( item_id, false, INT_MAX, filter );
+                }
+                if( qty > 0 ) {
+                    text = item::count_by_charges( item_id ) ?
+                           string_format( _( "%s (%d of %ld)" ), item::nname( item_id ), component.count * batch, qty ) :
+                           string_format( _( "%s of %ld" ), text, qty );
+                }
+            }
 
             if( std::find( buffer_has.begin(), buffer_has.end(), text + color_tag ) != buffer_has.end() ) {
                 continue;
@@ -599,8 +652,9 @@ bool tool_comp::has( const inventory &crafting_inv,
     if( !by_charges() ) {
         return crafting_inv.has_tools( type, std::abs( count ), filter );
     } else {
-        int charges_found = crafting_inv.charges_of( type, count * batch, filter );
-        if( charges_found == count * batch ) {
+        const int charges_required = count * batch * item::find_type( type )->charge_factor();
+        int charges_found = crafting_inv.charges_of( type, charges_required, filter );
+        if( charges_found == charges_required ) {
             return true;
         }
         const auto &binned = crafting_inv.get_binned_items();
@@ -620,13 +674,13 @@ bool tool_comp::has( const inventory &crafting_inv,
         }
         if( has_UPS ) {
             const int UPS_charges_used =
-                crafting_inv.charges_of( "UPS", ( count * batch ) - charges_found, filter );
-            if( visitor && UPS_charges_used + charges_found >= ( count * batch ) ) {
+                crafting_inv.charges_of( "UPS", charges_required - charges_found, filter );
+            if( visitor && UPS_charges_used + charges_found >= charges_required ) {
                 visitor( UPS_charges_used );
             }
             charges_found += UPS_charges_used;
         }
-        return charges_found == count * batch;
+        return charges_found == charges_required;
     }
 }
 
@@ -805,6 +859,7 @@ requirement_data requirement_data::disassembly_requirements() const
     // Maybe TODO: Cache it somewhere and return a reference instead
     requirement_data ret = *this;
     auto new_qualities = std::vector<quality_requirement>();
+    bool remove_fire = false;
     for( auto &it : ret.tools ) {
         bool replaced = false;
         for( const auto &tool : it ) {
@@ -826,6 +881,17 @@ requirement_data requirement_data::disassembly_requirements() const
             }
 
             if( type == "crucible" ) {
+                replaced = true;
+                break;
+            }
+            //This ensures that you don't need a hand press to break down reloaded ammo.
+            if( type == "press" ) {
+                replaced = true;
+                remove_fire = true;
+                new_qualities.emplace_back( quality_id( "PULL" ), 1, 1 );
+                break;
+            }
+            if( type == "fire" && remove_fire == true ) {
                 replaced = true;
                 break;
             }
@@ -897,6 +963,59 @@ requirement_data requirement_data::disassembly_requirements() const
             return !comp.recoverable || item( comp.type ).has_flag( "UNRECOVERABLE" );
         } ), cov.end() );
         return cov.empty();
+    } ), ret.components.end() );
+
+    return ret;
+}
+
+requirement_data requirement_data::continue_requirements( const std::vector<item_comp>
+        &required_comps, const std::list<item> &remaining_comps )
+{
+    // Create an empty requirement_data
+    requirement_data ret;
+
+    // Tools and qualities are not checked upon resuming yet
+    // TODO: Check tools and qualities
+    for( const item_comp &it : required_comps ) {
+        ret.components.emplace_back( std::vector<item_comp>( {it} ) );
+    }
+
+    inventory craft_components;
+    craft_components += remaining_comps;
+
+    // Remove requirements that are completely fulfilled by current craft components
+    // For each requirement that isn't completely fulfilled, reduce the requirement by the amount
+    // that we still have
+    // We also need to consume whatever charges we use in case two requirements share a common type
+    ret.components.erase( std::remove_if( ret.components.begin(), ret.components.end(),
+    [&craft_components]( std::vector<item_comp> &comps ) {
+        item_comp &comp = comps.front();
+        if( item::count_by_charges( comp.type ) && comp.count > 0 ) {
+            int qty = craft_components.charges_of( comp.type, comp.count );
+            comp.count -= qty;
+            // This is terrible but inventory doesn't have a use_charges() function so...
+            std::vector<item *> del;
+            craft_components.visit_items( [&comp, &qty, &del]( item * e ) {
+                std::list<item> used;
+                if( e->use_charges( comp.type, qty, used, tripoint_zero ) ) {
+                    del.push_back( e );
+                }
+                return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
+            } );
+            craft_components.remove_items_with( [&del]( const item & e ) {
+                for( const item *it : del ) {
+                    if( it == &e ) {
+                        return true;
+                    }
+                }
+                return false;
+            } );
+        } else {
+            int amount = craft_components.amount_of( comp.type, comp.count );
+            comp.count -= amount;
+            craft_components.use_amount( comp.type, amount );
+        }
+        return comp.count <= 0;
     } ), ret.components.end() );
 
     return ret;

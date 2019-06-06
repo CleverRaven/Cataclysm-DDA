@@ -1,0 +1,37 @@
+[
+  {
+    "type": "npc",
+    "id": "old_guard_soldier",
+    "//": "Generic guard for the old guard.",
+    "name_suffix": "Soldier",
+    "class": "NC_SOLDIER",
+    "attitude": 0,
+    "mission": 8,
+    "chat": "TALK_OLD_GUARD_SOLDIER",
+    "faction": "old_guard"
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_OLD_GUARD_SOLDIER",
+    "dynamic_line": {
+      "u_is_wearing": "badge_marshal",
+      "yes": [
+        "Hello, marshal.",
+        "Marshal, I'm afraid I can't talk now.",
+        "I'm not in charge here, marshal.",
+        "I'm supposed to direct all questions to my leadership, marshal."
+      ],
+      "no": [
+        "Hey, citizen... I'm not sure you belong here.",
+        "You should mind your own business, nothing to see here.",
+        "If you need something you'll need to talk to someone else.",
+        {
+          "u_male": true,
+          "yes": [ "Sir.", "Dude, if you can hold your own you should look into enlisting." ],
+          "no": [ "Ma'am", "Hey miss, don't you think it would be safer if you stuck with me?" ]
+        }
+      ]
+    },
+    "responses": [ { "text": "Don't mind me...", "topic": "TALK_DONE" } ]
+  }
+]

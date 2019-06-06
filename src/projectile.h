@@ -8,13 +8,10 @@
 
 #include "damage.h"
 #include "enums.h"
-#include "explosion.h"
 
 class Creature;
-class dispersion_sources;
-class vehicle;
 struct explosion_data;
-struct itype;
+class item;
 
 struct projectile {
         damage_instance impact;

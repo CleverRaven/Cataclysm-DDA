@@ -1,17 +1,19 @@
 #include "scent_map.h"
 
+#include <cstdlib>
 #include <cassert>
-#include <cmath>
+#include <algorithm>
 
 #include "calendar.h"
 #include "color.h"
 #include "game.h"
 #include "map.h"
 #include "output.h"
+#include "cursesdef.h"
 
 static constexpr int SCENT_RADIUS = 40;
 
-nc_color sev( const size_t level )
+static nc_color sev( const size_t level )
 {
     static const std::array<nc_color, 22> colors = { {
             c_cyan,
@@ -110,7 +112,7 @@ bool scent_map::inbounds( const tripoint &p ) const
                                                     gm.m.valid_move( p, tripoint( p.x, p.y, gm.get_levz() ), false, true ) );
     if( !scent_map_z_level_inbounds ) {
         return false;
-    };
+    }
     const point scent_map_boundary_min( point_zero );
     const point scent_map_boundary_max( MAPSIZE_X, MAPSIZE_Y );
     const point scent_map_clearance_min( point_zero );

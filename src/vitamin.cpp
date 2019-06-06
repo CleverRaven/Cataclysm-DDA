@@ -1,6 +1,7 @@
 #include "vitamin.h"
 
 #include <map>
+#include <memory>
 
 #include "assign.h"
 #include "calendar.h"

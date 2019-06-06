@@ -1,11 +1,16 @@
+#include <stddef.h>
 #include <sstream>
 #include <string>
 
 #include "catch/catch.hpp"
-#include "game.h"
 #include "monattack.h"
 #include "monster.h"
 #include "npc.h"
+#include "creature.h"
+#include "item.h"
+#include "player.h"
+#include "material.h"
+#include "type_id.h"
 
 static float brute_probability( Creature &attacker, Creature &target, const size_t iters )
 {
@@ -51,7 +56,7 @@ inline std::string percent_string( const float f )
     return ss.str();
 }
 
-void check_near( float prob, const float expected, const float tolerance )
+static void check_near( float prob, const float expected, const float tolerance )
 {
     const float low = expected - tolerance;
     const float high = expected + tolerance;

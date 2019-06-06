@@ -141,7 +141,7 @@
       { "level": 1, "name": "survival" },
       { "level": 1, "name": "mechanics" }
     ],
-    "traits": [ "PSYCHOPATH" ],
+    "traits": [ "PSYCHOPATH", "KILLER" ],
     "items": {
       "both": [
         "afs_welding_mask",

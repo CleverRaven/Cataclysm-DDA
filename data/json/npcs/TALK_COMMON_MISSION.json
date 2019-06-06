@@ -14,7 +14,8 @@
       "TALK_OLD_GUARD_REP",
       "TALK_EVAC_GUARD2",
       "TALK_RANCH_FOREMAN",
-      "TALK_RANCH_CROP_OVERSEER"
+      "TALK_RANCH_CROP_OVERSEER",
+      "TALK_CITY_COP"
     ],
     "responses": [
       { "text": "About that job...", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },

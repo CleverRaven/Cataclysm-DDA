@@ -2,12 +2,15 @@
 
 #include <map>
 #include <unordered_map>
+#include <set>
+#include <utility>
+#include <vector>
 
 #include "anatomy.h"
 #include "debug.h"
 #include "generic_factory.h"
-#include "rng.h"
 #include "translations.h"
+#include "json.h"
 
 side opposite_side( side s )
 {
@@ -48,7 +51,7 @@ generic_factory<body_part_struct> body_part_factory( "body part" );
 
 } // namespace
 
-body_part legacy_id_to_enum( const std::string &legacy_id )
+static body_part legacy_id_to_enum( const std::string &legacy_id )
 {
     static const std::unordered_map<std::string, body_part> body_parts = {
         { "TORSO", bp_torso },
@@ -140,7 +143,7 @@ const bodypart_ids &convert_bp( body_part bp )
     return body_parts[static_cast<size_t>( bp )];
 }
 
-const body_part_struct &get_bp( body_part bp )
+static const body_part_struct &get_bp( body_part bp )
 {
     return convert_bp( bp ).obj();
 }

@@ -1,14 +1,20 @@
 #include "crafting_gui.h"
 
+#include <cstddef>
 #include <algorithm>
 #include <map>
 #include <string>
 #include <vector>
+#include <iterator>
+#include <list>
+#include <memory>
+#include <set>
+#include <utility>
 
+#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "crafting.h"
-#include "debug.h"
 #include "game.h"
 #include "input.h"
 #include "itype.h"
@@ -23,6 +29,15 @@
 #include "translations.h"
 #include "ui.h"
 #include "uistate.h"
+#include "calendar.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "item.h"
+#include "recipe.h"
+#include "type_id.h"
+
+class inventory;
+class npc;
 
 enum TAB_MODE {
     NORMAL,
@@ -49,7 +64,7 @@ int related_menu_fill( uilist &rmenu,
                        const std::vector<std::pair<itype_id, std::string>> &related_recipes,
                        const recipe_subset &available );
 
-std::string get_cat_name( const std::string &prefixed_name )
+static std::string get_cat_name( const std::string &prefixed_name )
 {
     return prefixed_name.substr( 3, prefixed_name.size() - 3 );
 }
@@ -80,7 +95,7 @@ void load_recipe_category( JsonObject &jsobj )
     }
 }
 
-std::string get_subcat_name( const std::string &cat, const std::string &prefixed_name )
+static std::string get_subcat_name( const std::string &cat, const std::string &prefixed_name )
 {
     std::string prefix = "CSC_" + get_cat_name( cat ) + "_";
 
@@ -91,7 +106,7 @@ std::string get_subcat_name( const std::string &cat, const std::string &prefixed
     return ( prefixed_name == "CSC_ALL" ? _( "ALL" ) : _( "NONCRAFT" ) );
 }
 
-void translate_all()
+static void translate_all()
 {
     for( const auto &cat : craft_cat_list ) {
         normalized_names[cat] = _( get_cat_name( cat ) );
@@ -108,8 +123,8 @@ void reset_recipe_categories()
     craft_subcat_list.clear();
 }
 
-int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpos, nc_color col,
-                 int batch )
+static int print_items( const recipe &r, const catacurses::window &w, int ypos, int xpos,
+                        nc_color col, int batch )
 {
     if( !r.has_byproducts() ) {
         return 0;
@@ -673,7 +688,8 @@ const recipe *select_crafting_recipe( int &batch_size )
             scroll_pos++;
         } else if( action == "PREV_TAB" ) {
             tab.prev();
-            subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );//default ALL
+            // Default ALL
+            subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );
             redraw = true;
         } else if( action == "RIGHT" ) {
             std::string start = subtab.cur();
@@ -684,7 +700,8 @@ const recipe *select_crafting_recipe( int &batch_size )
             redraw = true;
         } else if( action == "NEXT_TAB" ) {
             tab.next();
-            subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );//default ALL
+            // Default ALL
+            subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );
             redraw = true;
         } else if( action == "DOWN" ) {
             line++;
@@ -881,6 +898,7 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     if( !related_results.empty() ) {
         rel_menu.addentry( ++np_last, false, -1, _( "RESULTS" ) );
     }
+    // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
     np_last = related_menu_fill( rel_menu, related_results, available );
 
     rel_menu.settext( _( "Related recipes:" ) );
@@ -1001,8 +1019,10 @@ static void draw_recipe_tabs( const catacurses::window &w, const std::string &ta
 
     switch( mode ) {
         case NORMAL: {
-            int pos_x = 2;//draw the tabs on each other
-            int tab_step = 3;//step between tabs, two for tabs border
+            // Draw the tabs on each other
+            int pos_x = 2;
+            // Step between tabs, two for tabs border
+            int tab_step = 3;
             for( const auto &tt : craft_cat_list ) {
                 draw_tab( w, pos_x, normalized_names[tt], tab == tt );
                 pos_x += utf8_width( normalized_names[tt] ) + tab_step;
@@ -1043,8 +1063,10 @@ static void draw_recipe_subtabs( const catacurses::window &w, const std::string 
 
     switch( mode ) {
         case NORMAL: {
-            int pos_x = 2;//draw the tabs on each other
-            int tab_step = 3;//step between tabs, two for tabs border
+            // Draw the tabs on each other
+            int pos_x = 2;
+            // Step between tabs, two for tabs border
+            int tab_step = 3;
             for( const auto &stt : craft_subcat_list[tab] ) {
                 bool empty = available_recipes.empty_category( tab, stt != "CSC_ALL" ? stt : "" );
                 draw_subtab( w, pos_x, normalized_names[stt], subtab == stt, true, empty );

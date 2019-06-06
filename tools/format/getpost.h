@@ -31,7 +31,7 @@ THE SOFTWARE.
 #include <map>
 #include <new>
 
-std::string urlDecode( std::string str )
+inline std::string urlDecode( std::string str )
 {
     std::string temp;
     int i;
@@ -60,7 +60,7 @@ std::string urlDecode( std::string str )
     return temp;
 }
 
-void initializeGet( std::map <std::string, std::string> &Get )
+inline void initializeGet( std::map <std::string, std::string> &Get )
 {
     std::string tmpkey, tmpvalue;
     std::string *tmpstr = &tmpkey;
@@ -92,7 +92,7 @@ void initializeGet( std::map <std::string, std::string> &Get )
     }
 }
 
-void initializePost( std::map <std::string, std::string> &Post )
+inline void initializePost( std::map <std::string, std::string> &Post )
 {
     std::string tmpkey, tmpvalue;
     std::string *tmpstr = &tmpkey;

@@ -1,8 +1,10 @@
 #include "damage.h"
 
+#include <cstddef>
 #include <algorithm>
 #include <map>
 #include <numeric>
+#include <utility>
 
 #include "debug.h"
 #include "item.h"
@@ -10,6 +12,7 @@
 #include "monster.h"
 #include "mtype.h"
 #include "translations.h"
+#include "cata_utility.h"
 
 bool damage_unit::operator==( const damage_unit &other ) const
 {
@@ -271,7 +274,7 @@ const skill_id &skill_by_dt( damage_type dt )
     }
 }
 
-damage_unit load_damage_unit( JsonObject &curr )
+static damage_unit load_damage_unit( JsonObject &curr )
 {
     damage_type dt = dt_by_name( curr.get_string( "damage_type" ) );
     if( dt == DT_NULL ) {

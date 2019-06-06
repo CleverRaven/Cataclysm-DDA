@@ -1,8 +1,14 @@
 #include "pathfinding.h"
 
+#include <cstdlib>
+#include <cmath>
 #include <algorithm>
 #include <queue>
 #include <set>
+#include <array>
+#include <memory>
+#include <utility>
+#include <vector>
 
 #include "cata_utility.h"
 #include "coordinates.h"
@@ -17,6 +23,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_reference.h"
+#include "line.h"
+#include "type_id.h"
 
 enum astar_state {
     ASL_NONE,
@@ -67,7 +75,7 @@ struct pathfinder {
             return *ptr;
         }
 
-        ptr = std::unique_ptr<path_data_layer>( new path_data_layer() );
+        ptr = std::make_unique<path_data_layer>();
         ptr->init( minx, miny, maxx, maxy );
         return *ptr;
     }

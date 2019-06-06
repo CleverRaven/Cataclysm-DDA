@@ -1,24 +1,30 @@
 #include "npctrade.h"
 
+#include <cstdlib>
 #include <algorithm>
 #include <string>
 #include <vector>
+#include <list>
+#include <memory>
 
+#include "avatar.h"
 #include "cata_utility.h"
-#include "debug.h"
 #include "game.h"
-#include "help.h"
 #include "input.h"
-#include "item_group.h"
-#include "map.h"
 #include "map_selector.h"
 #include "npc.h"
 #include "output.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "vehicle.h"
 #include "vehicle_selector.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "item.h"
+#include "player.h"
+#include "units.h"
+#include "visitable.h"
+#include "type_id.h"
 
 const skill_id skill_barter( "barter" );
 
@@ -54,7 +60,7 @@ std::vector<item_pricing> init_selling( npc &p )
         }
     }
 
-    if( p.is_friend() & !p.weapon.is_null() && !p.weapon.has_flag( "NO_UNWIELD" ) ) {
+    if( p.is_player_ally() & !p.weapon.is_null() && !p.weapon.has_flag( "NO_UNWIELD" ) ) {
         result.emplace_back( p, &p.weapon, p.value( p.weapon ), false );
     }
 
@@ -166,7 +172,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     }
 
     // Just exchanging items, no barter involved
-    const bool ex = p.is_friend();
+    const bool ex = p.is_player_ally();
 
     // How much cash you get in the deal (negative = losing money)
     long cash = cost + p.op_of_u.owed;
@@ -254,12 +260,10 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                 const bool they = whose == 0;
                 const auto &list = they ? theirs : yours;
                 const auto &offset = they ? them_off : you_off;
-                const auto &person = they ? p : g->u;
+                const player &person = they ? static_cast<player &>( p ) : static_cast<player &>( g->u );
                 auto &w_whose = they ? w_them : w_you;
-                int win_h = getmaxy( w_whose );
                 int win_w = getmaxx( w_whose );
                 // Borders
-                win_h -= 2;
                 win_w -= 2;
                 for( size_t i = offset; i < list.size() && i < entries_per_page + offset; i++ ) {
                     const item_pricing &ip = list[i];
@@ -453,6 +457,12 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
         if( !ex ) {
             g->u.practice( skill_barter, practice / 2 );
         }
+    }
+    for( auto &elem : g->u.inv_dump() ) {
+        elem->set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
+    }
+    for( auto &elem : p.inv_dump() ) {
+        elem->set_owner( p.my_fac );
     }
     g->refresh_all();
     return traded;

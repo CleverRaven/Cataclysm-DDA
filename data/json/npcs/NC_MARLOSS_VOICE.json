@@ -1,0 +1,34 @@
+[
+  {
+    "type": "item_group",
+    "id": "NC_VOICE_weapon",
+    "items": [ [ "q_staff", 20 ], [ "stick_long", 80 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_VOICE_worn",
+    "subtype": "collection",
+    "entries": [
+      { "group": "NC_VOICE_armor" },
+      { "item": "helmet_nomad", "prob": 60 },
+      { "item": "marloss_scarf" },
+      { "item": "survivor_goggles", "prob": 20 },
+      { "item": "boots" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_VOICE_carry",
+    "subtype": "collection",
+    "entries": [
+      { "item": "marloss_berry", "count": [ 1, 4 ] },
+      { "item": "marloss_seed", "count": [ 1, 4 ] },
+      { "item": "mycenacean_hymns" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_VOICE_armor",
+    "items": [ [ "armor_nomad", 20 ], [ "armor_nomad_light", 80 ] ]
+  }
+]

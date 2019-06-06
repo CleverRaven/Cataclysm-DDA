@@ -92,7 +92,7 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "lightstrip_dead", 3 ] ],
+      [ [ "lightstrip_inactive", 3 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "lens", 2 ] ],
       [ [ "processor", 2 ] ],
@@ -111,7 +111,7 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "lightstrip_dead", 3 ] ],
+      [ [ "lightstrip_inactive", 3 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "lens", 2 ] ],
       [ [ "processor", 2 ] ],
@@ -130,7 +130,7 @@
     "using": [ [ "soldering_standard", 5 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "lightstrip_dead", 3 ] ],
+      [ [ "lightstrip_inactive", 3 ] ],
       [ [ "plut_cell", 1 ] ],
       [ [ "lens", 2 ] ],
       [ [ "processor", 2 ] ],

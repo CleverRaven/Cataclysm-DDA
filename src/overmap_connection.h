@@ -4,14 +4,16 @@
 
 #include <list>
 #include <vector>
+#include <set>
+#include <string>
 
-#include "enums.h"
 #include "int_id.h"
 #include "omdata.h"
 #include "string_id.h"
 
 class JsonObject;
 class JsonIn;
+struct overmap_location;
 
 class overmap_connection
 {
