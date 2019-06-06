@@ -18,7 +18,7 @@
       { "item": "scimitar_fake" }
     ]
   },
-    {
+  {
     "type": "item_group",
     "id": "defense_caravan_melee_tier_2",
     "subtype": "collection",
@@ -37,7 +37,7 @@
       { "item": "cutlass_fake" }
     ]
   },
-    {
+  {
     "type": "item_group",
     "id": "defense_caravan_melee_tier_3",
     "subtype": "collection",
@@ -62,7 +62,7 @@
       { "item": "pointy_stick" }
     ]
   },
-    {
+  {
     "type": "item_group",
     "id": "defense_caravan_melee_tier_4",
     "subtype": "collection",
@@ -87,7 +87,7 @@
       { "item": "q_staff" }
     ]
   },
-    {
+  {
     "type": "item_group",
     "id": "defense_caravan_melee_tier_5",
     "subtype": "collection",
@@ -103,7 +103,7 @@
       { "item": "knife_butcher" }
     ]
   },
-    {
+  {
     "type": "item_group",
     "id": "defense_caravan_melee_tier_6",
     "subtype": "collection",
@@ -144,7 +144,7 @@
       { "item": "spear_forked" }
     ]
   },
-    {
+  {
     "type": "item_group",
     "id": "defense_caravan_melee_tier_7",
     "subtype": "collection",
@@ -173,7 +173,7 @@
       { "item": "ax" }
     ]
   },
-    {
+  {
     "type": "item_group",
     "id": "defense_caravan_melee_tier_8",
     "subtype": "collection",
@@ -194,7 +194,7 @@
       { "item": "knife_rm42" }
     ]
   },
-    {
+  {
     "type": "item_group",
     "id": "defense_caravan_melee_tier_9",
     "subtype": "collection",
@@ -220,7 +220,7 @@
       { "item": "zweifire_off" }
     ]
   },
-    {
+  {
     "type": "item_group",
     "id": "defense_caravan_melee_tier_10",
     "subtype": "collection",
@@ -363,16 +363,6 @@
       { "item": "2x4" },
       { "group": "ammo_any_batteries_full" },
       { "item": "nail" },
-      { "item": ""},
-      { "item": ""},
-      { "item": ""},
-      { "item": ""},
-      { "item": ""},
-      { "item": ""},
-      { "item": ""},
-      { "item": ""},
-      { "item": ""},
-      { "item": ""},
       { "item": "ceramic_shard" },
       { "item": "gasoline" }
     ]
