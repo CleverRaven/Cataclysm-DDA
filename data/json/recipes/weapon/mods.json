@@ -634,11 +634,11 @@
     ],
     "components": [
       [ [ "plastic_chunk", 6 ] ],
-      [ [ "blade", 2 ] ],
       [ [ "motor_tiny", 1 ] ],
       [ [ "power_supply", 1 ] ],
       [ [ "scrap", 1 ] ],
-      [ [ "cable", 5 ] ]
+      [ [ "cable", 5 ] ],
+      [ [ "rope_6", 1 ] ]
     ]
   }
 ]
