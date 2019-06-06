@@ -16,7 +16,7 @@
       [ "recipe_serum", 7 ],
       [ "recipe_labchem", 7 ]
     ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [
@@ -56,7 +56,7 @@
     "difficulty": 9,
     "time": "15 m",
     "book_learn": [ [ "recipe_serum", 8 ], [ "recipe_labchem", 9 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen", 2 ] ] ]
   },
@@ -70,7 +70,7 @@
     "difficulty": 9,
     "time": "10 m",
     "book_learn": [ [ "recipe_creepy", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
@@ -88,7 +88,7 @@
     "difficulty": 10,
     "time": "15 m",
     "book_learn": [ [ "recipe_serum", 8 ], [ "recipe_creepy", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_plant", 2 ] ] ]
   },
@@ -102,7 +102,7 @@
     "difficulty": 9,
     "time": "10 m",
     "book_learn": [ [ "recipe_maiar", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
@@ -120,7 +120,7 @@
     "difficulty": 10,
     "time": "15 m",
     "book_learn": [ [ "recipe_serum", 8 ], [ "recipe_maiar", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_insect", 2 ] ] ]
   },
@@ -134,7 +134,7 @@
     "difficulty": 9,
     "time": "10 m",
     "book_learn": [ [ "recipe_maiar", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "mutagen", 1 ] ], [ [ "spider_egg", 1 ], [ "chitin_piece", 4 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   },
@@ -148,7 +148,7 @@
     "difficulty": 10,
     "time": "15 m",
     "book_learn": [ [ "recipe_serum", 8 ], [ "recipe_maiar", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_spider", 2 ] ] ]
   },
@@ -162,7 +162,7 @@
     "difficulty": 9,
     "time": "10 m",
     "book_learn": [ [ "recipe_maiar", 8 ], [ "recipe_creepy", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "mutagen", 1 ] ], [ [ "sewage", 3 ], [ "slime_scrap", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   },
@@ -176,7 +176,7 @@
     "difficulty": 9,
     "time": "15 m",
     "book_learn": [ [ "recipe_serum", 8 ], [ "recipe_maiar", 8 ], [ "recipe_creepy", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_slime", 2 ] ] ]
   },
@@ -190,7 +190,7 @@
     "difficulty": 9,
     "time": "10 m",
     "book_learn": [ [ "recipe_animal", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
@@ -208,7 +208,7 @@
     "difficulty": 9,
     "time": "15 m",
     "book_learn": [ [ "recipe_serum", 8 ], [ "recipe_animal", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_fish", 2 ] ] ]
   },
@@ -222,7 +222,7 @@
     "difficulty": 9,
     "time": "10 m",
     "book_learn": [ [ "recipe_creepy", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
@@ -240,7 +240,7 @@
     "difficulty": 9,
     "time": "15 m",
     "book_learn": [ [ "recipe_serum", 8 ], [ "recipe_creepy", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_rat", 2 ] ] ]
   },
@@ -254,7 +254,7 @@
     "difficulty": 9,
     "time": "10 m",
     "book_learn": [ [ "recipe_animal", 7 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   },
@@ -268,7 +268,7 @@
     "difficulty": 9,
     "time": "15 m",
     "book_learn": [ [ "recipe_serum", 8 ], [ "recipe_animal", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_beast", 2 ] ] ]
   },
@@ -282,7 +282,7 @@
     "difficulty": 9,
     "time": "10 m",
     "book_learn": [ [ "recipe_animal", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   },
@@ -296,7 +296,7 @@
     "difficulty": 9,
     "time": "15 m",
     "book_learn": [ [ "recipe_serum", 8 ], [ "recipe_animal", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_ursine", 2 ] ] ]
   },
@@ -310,7 +310,7 @@
     "difficulty": 9,
     "time": "10 m",
     "book_learn": [ [ "recipe_animal", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
@@ -338,7 +338,7 @@
     "difficulty": 9,
     "time": "15 m",
     "book_learn": [ [ "recipe_serum", 8 ], [ "recipe_animal", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_mouse", 2 ] ] ]
   },
@@ -352,7 +352,7 @@
     "difficulty": 9,
     "time": "10 m",
     "book_learn": [ [ "recipe_animal", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   },
@@ -366,7 +366,7 @@
     "difficulty": 9,
     "time": "15 m",
     "book_learn": [ [ "recipe_serum", 8 ], [ "recipe_animal", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_feline", 2 ] ] ]
   },
@@ -380,7 +380,7 @@
     "difficulty": 9,
     "time": "10 m",
     "book_learn": [ [ "recipe_animal", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   },
@@ -394,7 +394,7 @@
     "difficulty": 9,
     "time": "15 m",
     "book_learn": [ [ "recipe_serum", 8 ], [ "recipe_animal", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_lupine", 2 ] ] ]
   },
@@ -408,7 +408,7 @@
     "difficulty": 9,
     "time": "10 m",
     "book_learn": [ [ "recipe_animal", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   },
@@ -422,7 +422,7 @@
     "difficulty": 9,
     "time": "15 m",
     "book_learn": [ [ "recipe_serum", 8 ], [ "recipe_animal", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_cattle", 2 ] ] ]
   },
@@ -436,7 +436,7 @@
     "difficulty": 9,
     "time": "10 m",
     "book_learn": [ [ "recipe_creepy", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
@@ -454,7 +454,7 @@
     "difficulty": 9,
     "time": "15 m",
     "book_learn": [ [ "recipe_serum", 8 ], [ "recipe_creepy", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_cephalopod", 2 ] ] ]
   },
@@ -468,7 +468,7 @@
     "difficulty": 9,
     "time": "10 m",
     "book_learn": [ [ "recipe_animal", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "mutagen", 1 ] ], [ [ "eggs_bird", 1, "LIST" ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   },
@@ -482,7 +482,7 @@
     "difficulty": 9,
     "time": "15 m",
     "book_learn": [ [ "recipe_serum", 8 ], [ "recipe_animal", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_bird", 2 ] ] ]
   },
@@ -496,7 +496,7 @@
     "difficulty": 9,
     "time": "10 m",
     "book_learn": [ [ "recipe_animal", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "mutagen", 1 ] ], [ [ "egg_reptile", 1 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   },
@@ -510,7 +510,7 @@
     "difficulty": 9,
     "time": "15 m",
     "book_learn": [ [ "recipe_serum", 8 ], [ "recipe_animal", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_lizard", 2 ] ] ]
   },
@@ -524,7 +524,7 @@
     "difficulty": 9,
     "time": "10 m",
     "book_learn": [ [ "recipe_maiar", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [ [ [ "mutagen", 1 ] ], [ [ "meat", 3 ] ], [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ] ]
   },
@@ -538,7 +538,7 @@
     "difficulty": 9,
     "time": "15 m",
     "book_learn": [ [ "recipe_serum", 8 ], [ "recipe_maiar", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_troglobite", 2 ] ] ]
   },
@@ -552,7 +552,7 @@
     "difficulty": 9,
     "time": "10 m",
     "book_learn": [ [ "recipe_medicalmut", 9 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
@@ -592,7 +592,7 @@
     "difficulty": 10,
     "time": "15 m",
     "book_learn": [ [ "recipe_medicalmut", 9 ], [ "recipe_serum", 9 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_medical", 2 ] ] ]
   },
@@ -612,7 +612,7 @@
       [ "recipe_maiar", 8 ],
       [ "recipe_labchem", 7 ]
     ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "royal_jelly", 4 ], [ "mutagen", 2 ] ],
@@ -630,7 +630,7 @@
     "difficulty": 10,
     "time": "15 m",
     "book_learn": [ [ "recipe_serum", 9 ], [ "recipe_labchem", 9 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "purifier", 2 ] ] ]
   },
@@ -644,7 +644,7 @@
     "difficulty": 10,
     "time": "20 m",
     "book_learn": [ [ "recipe_alpha", 9 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [
       [ [ "mutagen_slime", 2 ], [ "iv_mutagen_slime", 1 ] ],
@@ -663,7 +663,7 @@
     "difficulty": 10,
     "time": "15 m",
     "book_learn": [ [ "recipe_alpha", 9 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_alpha", 2 ] ] ]
   },
@@ -677,7 +677,7 @@
     "difficulty": 10,
     "time": "12 m",
     "book_learn": [ [ "recipe_elfa", 10 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 31, "LIST" ] ] ],
     "components": [ [ [ "mutagen_slime", 2 ], [ "iv_mutagen_slime", 1 ] ], [ [ "mutagen_plant", 1 ] ], [ [ "mutagen_bird", 1 ] ] ]
   },
@@ -691,7 +691,7 @@
     "difficulty": 10,
     "time": "15 m",
     "book_learn": [ [ "recipe_elfa", 10 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_elfa", 2 ] ] ]
   },
@@ -705,7 +705,7 @@
     "difficulty": 10,
     "time": "15 m",
     "book_learn": [ [ "recipe_chimera", 9 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_lizard", 1 ] ], [ [ "mutagen_bird", 1 ] ], [ [ "mutagen_beast", 1 ] ], [ [ "mutagen_cattle", 1 ] ] ]
   },
@@ -719,7 +719,7 @@
     "difficulty": 10,
     "time": "15 m",
     "book_learn": [ [ "recipe_chimera", 8 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_chimera", 2 ] ] ]
   },
@@ -733,7 +733,7 @@
     "difficulty": 10,
     "time": "12 m",
     "book_learn": [ [ "recipe_raptor", 9 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "SEPARATE", "level": 1 }, { "id": "ANALYSIS", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 31, "LIST" ] ] ],
     "components": [ [ [ "mutagen_lizard", 1 ] ], [ [ "mutagen_bird", 1 ] ], [ [ "purifier", 1 ] ] ]
   },
@@ -747,7 +747,7 @@
     "difficulty": 10,
     "time": "15 m",
     "book_learn": [ [ "recipe_raptor", 9 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
+    "qualities": [ { "id": "CHEM", "level": 3 }, { "id": "FINE_DISTILL", "level": 1 }, { "id": "CONCENTRATE", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 37, "LIST" ] ] ],
     "components": [ [ [ "mutagen_raptor", 2 ] ] ]
   }
