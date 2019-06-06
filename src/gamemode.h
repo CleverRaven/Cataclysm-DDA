@@ -11,8 +11,8 @@
 #include "type_id.h"
 
 enum action_id : int;
-using itype_id = std::string;
-namespace catacurses
+    using itype_id = std::string;
+    namespace catacurses
 {
 class window;
 } // namespace catacurses
@@ -70,19 +70,19 @@ enum tut_lesson {
 };
 
 struct tutorial_game : public special_game {
-        special_game_id id() override {
-            return SGAME_TUTORIAL;
-        }
-        bool init() override;
-        void per_turn() override;
-        void pre_action( action_id &act ) override;
-        void post_action( action_id act ) override;
-        void game_over() override { }
+    special_game_id id() override {
+        return SGAME_TUTORIAL;
+    }
+    bool init() override;
+    void per_turn() override;
+    void pre_action( action_id &act ) override;
+    void post_action( action_id act ) override;
+    void game_over() override { }
 
-    private:
-        void add_message( tut_lesson lesson );
+private:
+    void add_message( tut_lesson lesson );
 
-        bool tutorials_seen[NUM_LESSONS];
+    bool tutorials_seen[NUM_LESSONS];
 };
 
 // DEFENSE
@@ -126,63 +126,63 @@ enum caravan_category {
 };
 
 struct defense_game : public special_game {
-        defense_game();
+    defense_game();
 
-        special_game_id id() override {
-            return SGAME_DEFENSE;
-        }
-        bool init() override;
-        void per_turn() override;
-        void pre_action( action_id &act ) override;
-        void post_action( action_id act ) override;
-        void game_over() override;
+    special_game_id id() override {
+        return SGAME_DEFENSE;
+    }
+    bool init() override;
+    void per_turn() override;
+    void pre_action( action_id &act ) override;
+    void post_action( action_id act ) override;
+    void game_over() override;
 
-    private:
-        void init_to_style( defense_style new_style );
+private:
+    void init_to_style( defense_style new_style );
 
-        void setup();
-        void refresh_setup( const catacurses::window &w, int selection );
-        void init_mtypes();
-        void init_constructions();
-        void init_map();
+    void setup();
+    void refresh_setup( const catacurses::window &w, int selection );
+    void init_mtypes();
+    void init_constructions();
+    void init_map();
 
-        void spawn_wave();
-        void caravan();
-        std::vector<mtype_id> pick_monster_wave();
-        void spawn_wave_monster( const mtype_id &type );
+    void spawn_wave();
+    void caravan();
+    std::vector<mtype_id> pick_monster_wave();
+    void spawn_wave_monster( const mtype_id &type );
 
-        std::string special_wave_message( std::string name );
+    std::string special_wave_message( std::string name );
 
-        // DATA
-        int current_wave;
-        int caravan_tech_level;
-        int caravan_visits;
+    // DATA
+    int current_wave;
+    int caravan_tech_level;
+    int caravan_visits;
 
-        defense_style style;       // What type of game is it?
-        defense_location location; // Where are we?
+    defense_style style;       // What type of game is it?
+    defense_location location; // Where are we?
 
-        int initial_difficulty; // Total "level" of monsters in first wave
-        int wave_difficulty;    // Increased "level" of monsters per wave
+    int initial_difficulty; // Total "level" of monsters in first wave
+    int wave_difficulty;    // Increased "level" of monsters per wave
 
-        time_duration time_between_waves;     // Cooldown / building / healing time
-        int waves_between_caravans; // How many waves until we get to trade?
+    time_duration time_between_waves;     // Cooldown / building / healing time
+    int waves_between_caravans; // How many waves until we get to trade?
 
-        unsigned long initial_cash;  // How much cash do we start with?
-        unsigned long cash_per_wave; // How much cash do we get per wave?
-        unsigned long cash_increase; // How much does the above increase per wave?
+    unsigned long initial_cash;  // How much cash do we start with?
+    unsigned long cash_per_wave; // How much cash do we get per wave?
+    unsigned long cash_increase; // How much does the above increase per wave?
 
-        bool zombies;
-        bool specials;
-        bool spiders;
-        bool triffids;
-        bool robots;
-        bool subspace;
+    bool zombies;
+    bool specials;
+    bool spiders;
+    bool triffids;
+    bool robots;
+    bool subspace;
 
-        bool hunger; // Do we hunger?
-        bool thirst; // Do we thirst?
-        bool sleep;  // Do we need to sleep?
+    bool hunger; // Do we hunger?
+    bool thirst; // Do we thirst?
+    bool sleep;  // Do we need to sleep?
 
-        bool mercenaries; // Do caravans offer the option of hiring a mercenary?
+    bool mercenaries; // Do caravans offer the option of hiring a mercenary?
 
 };
 
