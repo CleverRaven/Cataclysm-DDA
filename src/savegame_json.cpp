@@ -3039,7 +3039,7 @@ void deserialize( recipe_subset &value, JsonIn &jsin )
     }
 }
 
-void serialize( const item_comp &value, JsonOut &jsout )
+static void serialize( const item_comp &value, JsonOut &jsout )
 {
     jsout.start_object();
 
@@ -3050,7 +3050,7 @@ void serialize( const item_comp &value, JsonOut &jsout )
     jsout.end_object();
 }
 
-void deserialize( item_comp &value, JsonIn &jsin )
+static void deserialize( item_comp &value, JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
     jo.read( "type", value.type );
