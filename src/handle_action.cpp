@@ -1045,7 +1045,7 @@ static void loot()
 
 static void wear()
 {
-    player &u = g->u;
+    avatar &u = g->u;
     item_location loc = game_menus::inv::wear( u );
 
     if( loc ) {
@@ -1057,7 +1057,7 @@ static void wear()
 
 static void takeoff()
 {
-    player &u = g->u;
+    avatar &u = g->u;
     item_location loc = game_menus::inv::take_off( u );
 
     if( loc ) {
