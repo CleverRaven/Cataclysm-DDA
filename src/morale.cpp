@@ -360,30 +360,32 @@ morale_mult player_morale::get_temper_mult() const
 
 void player_morale::calculate_percentage()
 {
-        const morale_mult mult = get_temper_mult();
+    const morale_mult mult = get_temper_mult();
 
-        int sum_of_positive_squares = 0;
-        int sum_of_negative_squares = 0;
+    int sum_of_positive_squares = 0;
+    int sum_of_negative_squares = 0;
 
-        for (auto &m : points) {
-            const int bonus = m.get_net_bonus(mult);
-            if (bonus > 0) {
-                sum_of_positive_squares += pow(bonus, 2);
-            }
-            else {
-                sum_of_negative_squares += pow(bonus, 2);
-            }
+    for (auto &m : points) {
+        const int bonus = m.get_net_bonus(mult);
+        if (bonus > 0) {
+            sum_of_positive_squares += pow(bonus, 2);
         }
-
-        for (auto &m : points) {
-            const int bonus = m.get_net_bonus(mult);
-            if (bonus > 0) {
-                m.set_percent_contribution((pow(bonus, 2) / sum_of_positive_squares) * 100 );
-            }
-            else {
-                m.set_percent_contribution((pow(bonus, 2) / sum_of_negative_squares) * 100 );
-            }
+        else 
+        {
+            sum_of_negative_squares += pow(bonus, 2);
         }
+    }
+
+    for (auto &m : points) {
+        const int bonus = m.get_net_bonus(mult);
+        if (bonus > 0) {
+            m.set_percent_contribution((pow(bonus, 2) / sum_of_positive_squares) * 100 );
+        }
+        else 
+        {
+            m.set_percent_contribution((pow(bonus, 2) / sum_of_negative_squares) * 100 );
+        }
+    }
 }
 
 int player_morale::get_total_negative_value() const
@@ -466,7 +468,7 @@ void player_morale::display( double focus_gain )
      */
     calculate_percentage();
 
-    const char *morale_gain_caption = _( "Total morale gain" );
+    const char *morale_gain_caption = _( "Total morale change" );
     const char *focus_gain_caption = _( "Focus gain per minute" );
     const char *points_is_empty = _( "Nothing affects your morale" );
 
