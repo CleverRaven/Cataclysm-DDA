@@ -101,9 +101,12 @@
       {
         "text": "Got any more bread I can trade flour for?",
         "topic": "TALK_REFUGEE_Dana_Background_baking",
-        "condition": { "and": [ { "npc_has_var": "Dana_Bread_Sales", "type": "knowledge", "context": "trade", "value": "yes" },
-         { "not": { "npc_has_effect": "dana_sourdough_revival" } }
-        ] }
+        "condition": {
+          "and": [
+            { "npc_has_var": "Dana_Bread_Sales", "type": "knowledge", "context": "trade", "value": "yes" },
+            { "not": { "npc_has_effect": "dana_sourdough_revival" } }
+          ]
+        }
       },
       {
         "text": "Got any more bread I can trade flour for?",
@@ -301,7 +304,12 @@
       "update_mapgen": { "om_terrain": "bakery", "om_special": "bakery", "place_item": { "item": "landough_calrisean", "x": 5, "y": 16 } },
       "effect": { "u_add_var": "Dana_Sourdough", "type": "mission", "context": "flag", "value": "in_progress" }
     },
-    "end": { "effect": [ { "u_add_var": "Dana_Sourdough", "type": "mission", "context": "flag", "value": "yes" }, { "npc_add_effect": "dana_sourdough_revival", "duration": 100000 } ] },
+    "end": {
+      "effect": [
+        { "u_add_var": "Dana_Sourdough", "type": "mission", "context": "flag", "value": "yes" },
+        { "npc_add_effect": "dana_sourdough_revival", "duration": 100000 }
+      ]
+    },
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I could get my real sourdough starter...",
