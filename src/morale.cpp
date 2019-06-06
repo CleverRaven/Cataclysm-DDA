@@ -369,9 +369,7 @@ void player_morale::calculate_percentage()
         const int bonus = m.get_net_bonus(mult);
         if (bonus > 0) {
             sum_of_positive_squares += pow(bonus, 2);
-        }
-        else 
-        {
+        } else {
             sum_of_negative_squares += pow(bonus, 2);
         }
     }
@@ -380,9 +378,7 @@ void player_morale::calculate_percentage()
         const int bonus = m.get_net_bonus(mult);
         if (bonus > 0) {
             m.set_percent_contribution((pow(bonus, 2) / sum_of_positive_squares) * 100 );
-        }
-        else 
-        {
+        } else {
             m.set_percent_contribution((pow(bonus, 2) / sum_of_negative_squares) * 100 );
         }
     }
@@ -493,30 +489,22 @@ void player_morale::display( double focus_gain )
     catacurses::window w = catacurses::newwin( win_h, win_w, win_y, win_x );
     //lambda function used to print almost everything to the window
     const auto print_line = [ w ]( int y, const char *label, double value, bool isPercentage = false,
-        nc_color color_override = c_unset ) -> int {
+                                   nc_color color_override = c_unset ) -> int {
         nc_color color;
-        if( value != 0.0 )
-        {
+        if( value != 0.0 ) {
             const int decimals = ( value - static_cast<int>( value ) != 0.0 ) ? 2 : 0;
-            if (color_override == c_unset )
-            {
+            if (color_override == c_unset ) {
                 color = ( value > 0.0 ) ? c_green : c_light_red;
-            }
-            else
-            {
+            } else {
                 color = color_override;
             }
-            if ( isPercentage )
-            {
+            if ( isPercentage ) {
                 mvwprintz( w, y, getmaxx( w ) - 8, color, "%6.*f%%", decimals, value );
-            }
-            else
-            {
+            } else {
                 mvwprintz( w, y, getmaxx( w ) - 8, color, "%+6.*f", decimals, value );
             }
             
-        } else
-        {
+        } else {
             color = c_dark_gray;
             mvwprintz( w, y, getmaxx( w ) - 3, color, "-" );
         }
@@ -560,8 +548,7 @@ void player_morale::display( double focus_gain )
             for( size_t i = offset; i < static_cast<size_t>( rows_total ); ++i ) {
                 const std::string name = points[i].get_name();
                 const int bonus = points[i].get_net_bonus( mult );
-                if ( bonus > 0 )
-                {
+                if ( bonus > 0 ) {
                     line += print_line( 4 + line, name.c_str(), points[i].get_percent_contribution(), true );
                 }
          
@@ -576,8 +563,7 @@ void player_morale::display( double focus_gain )
             for (size_t i = offset; i < static_cast<size_t>( rows_total ); ++i) {
                 const std::string name = points[i].get_name();
                 const int bonus = points[i].get_net_bonus( mult );
-                if (bonus < 0) 
-                {
+                if (bonus < 0) {
                     line += print_line(4 + line, name.c_str(), points[i].get_percent_contribution(), true, c_light_red);
                 }
                 if ( line >= rows_visible ) {
