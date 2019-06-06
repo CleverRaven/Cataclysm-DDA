@@ -283,6 +283,7 @@
       {
         "text": "I spoke to the foreman over at Tacoma Ranch.  If you're willing to put in the work, they'll find some work for you over there.",
         "topic": "TALK_REFUGEE_Dana_Tacoma2",
+        "condition": { "u_has_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_2" },
         "effect": { "u_add_var": "Nunez_Tacoma", "type": "recruit", "context": "general", "value": "phase_3" }
       },
       { "text": "I'll look into that.  What were you saying before?", "topic": "TALK_NONE" },
