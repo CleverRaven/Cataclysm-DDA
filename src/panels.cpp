@@ -1974,8 +1974,8 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
     bool redraw = true;
     bool exit = false;
     // map of row the panel is on vs index
-    // panels not rendered will not be in this map
-    std::map<int, int> row_indices;
+    // panels not renderable due to game configuration will not be in this map
+    std::map<size_t, size_t> row_indices;
     while( !exit ) {
         auto &panels = layouts[current_layout_id];
 
@@ -2007,21 +2007,24 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
             column == 0 ? max_index = row_indices.size() : max_index = layouts.size();
             int vertical_offset = 0;
             int selected_offset = 0;
+            size_t modified_index = row_indices[index - 1];
 
-            for( std::pair<int, int> row_indx : row_indices ) {
+            for( std::pair<size_t, size_t> row_indx : row_indices ) {
                 nc_color toggle_color = panels[row_indx.second].toggle ? c_white : c_dark_gray;
                 std::string name = _( panels[row_indx.second].get_name() );
                 if( !selected ) {
                     mvwprintz( w, row_indx.first + 1, 4, toggle_color, name );
                 } else {
-                    if( index - 1 <= row_indx.first ) {
+                    if( modified_index < row_indx.first ) {
+                        vertical_offset = 2;
+                    } else if( modified_index == row_indx.first && row_indx.first < source_index ) {
                         vertical_offset = 2;
                     } else {
                         vertical_offset = 1;
                     }
                     mvwprintz( w, row_indx.first + vertical_offset, 4, toggle_color, name );
-                    if( source_index == row_indx.second ) {
-                        if( index <= source_index ) {
+                    if( source_index == row_indx.first ) {
+                        if( modified_index < source_index ) {
                             selected_offset = 0;
                         } else {
                             selected_offset = 1;
