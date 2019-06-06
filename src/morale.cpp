@@ -365,21 +365,21 @@ void player_morale::calculate_percentage()
     int sum_of_positive_squares = 0;
     int sum_of_negative_squares = 0;
 
-    for (auto &m : points) {
-        const int bonus = m.get_net_bonus(mult);
-        if (bonus > 0) {
-            sum_of_positive_squares += pow(bonus, 2);
+    for( auto &m : points ) {
+        const int bonus = m.get_net_bonus( mult );
+        if( bonus > 0 ) {
+            sum_of_positive_squares += pow( bonus, 2 );
         } else {
-            sum_of_negative_squares += pow(bonus, 2);
+            sum_of_negative_squares += pow( bonus, 2 );
         }
     }
 
-    for (auto &m : points) {
+    for( auto &m : points ) {
         const int bonus = m.get_net_bonus(mult);
-        if (bonus > 0) {
-            m.set_percent_contribution((pow(bonus, 2) / sum_of_positive_squares) * 100 );
+        if( bonus > 0 ) {
+            m.set_percent_contribution( ( pow( bonus, 2 ) / sum_of_positive_squares ) * 100 );
         } else {
-            m.set_percent_contribution((pow(bonus, 2) / sum_of_negative_squares) * 100 );
+            m.set_percent_contribution( ( pow( bonus, 2 ) / sum_of_negative_squares) * 100 );
         }
     }
 }
@@ -388,9 +388,9 @@ int player_morale::get_total_negative_value() const
 {
     const morale_mult mult = get_temper_mult();
     int sum = 0;
-    for (auto &m : points) {
+    for( auto &m : points ) {
         const int bonus = m.get_net_bonus( mult );
-        if (bonus < 0) {
+        if( bonus < 0 ) {
             sum += pow( bonus, 2 );
         }
     }
@@ -401,9 +401,9 @@ int player_morale::get_total_positive_value() const
 {
     const morale_mult mult = get_temper_mult();
     int sum = 0;
-    for (auto &m : points) {
+    for( auto &m : points ) {
         const int bonus = m.get_net_bonus( mult );
-        if (bonus > 0) {
+        if( bonus > 0 ) {
             sum += pow( bonus, 2 );
         }
 
