@@ -38,11 +38,6 @@ void cast_zlight_segment(
     const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
     const tripoint &offset, const int offset_distance,
     const T numerator )
-/* old recursion args
-    float start_major, const float end_major,
-    float start_minor, const float end_minor,
-    T cumulative_transparency )
-*/
 {
     const float radius = 60.0f - offset_distance;
 
@@ -59,7 +54,7 @@ void cast_zlight_segment(
     // We start out with one span covering the entire horizontal and vertical space
     // we are interested in.  Then as changes in transparency are encountered, we truncate
     // that initial span and insert new spans after it in the list.
-    std::list<span> spans = { { 0.0, 1.0, 0.0, 1.0, LIGHT_TRANSPARENCY_OPEN_AIR } };
+    std::list<span<T>> spans = { { 0.0, 1.0, 0.0, 1.0, LIGHT_TRANSPARENCY_OPEN_AIR } };
     // At each "depth", a.k.a. distance from the origin, we iterate once over the list of spans,
     // possibly splitting them.
     for( int distance = 1; distance <= radius; distance++ ) {
@@ -68,7 +63,7 @@ void cast_zlight_segment(
         T current_transparency = 0.0f;
 
         for( auto it = spans.begin(); it != spans.end(); ++it ) {
-            span &this_span = *it;
+            span<T> &this_span = *it;
             // TODO: Precalculate min/max delta.z based on start/end and distance
             for( delta.z = 0; delta.z <= distance; delta.z++ ) {
                 float trailing_edge_major = ( delta.z - 0.5f ) / ( delta.y + 0.5f );
@@ -153,7 +148,7 @@ void cast_zlight_segment(
                         // Need to reset minor slope, because we're starting a new line
                         new_start_minor = leading_edge_minor;
                         // Need more precision or artifacts happen
-                        leading_edge_minor = start_minor;
+                        leading_edge_minor = this_span.start_minor;
                         started_span = true;
                     }
 
@@ -205,35 +200,38 @@ void cast_zlight_segment(
                         }
                         // One way or the other, the current span is now BCD.
                         // First handle B.
-                        const float major_mid_end = std::min( this_span.end_major, end_major );
+                        const float major_mid = std::max( this_span.start_major,
+                                                          trailing_edge_major );
+                        const float major_mid_end = std::min( this_span.end_major,
+                                                              leading_edge_major );
                         spans.emplace( it, major_mid, major_mid_end,
                                        this_span.start_minor, leading_edge_minor,
                                        next_cumulative_transparency );
-			// Overwrite new_start_minor since previous tile is transparent.
-			new_start_minor = trailing_edge_minor;
+                        // Overwrite new_start_minor since previous tile is transparent.
+                        new_start_minor = trailing_edge_minor;
                     }
-		    // Current span is BCD, but B either doesn't exist or is handled.
-		    // Split off D if it exists.
-		    if( leading_edge_major < this_span.end_major ) {
-		        spans.emplace( std::next( it ),
-				       leading_edge_major, this_span.end_major,
-				       this_span.start_minor, this_span.end_minor,
-				       this_span.cumulative_transparency );
-		    }
+                    // Current span is BCD, but B either doesn't exist or is handled.
+                    // Split off D if it exists.
+                    if( leading_edge_major < this_span.end_major ) {
+                        spans.emplace( std::next( it ),
+                                       leading_edge_major, this_span.end_major,
+                                       this_span.start_minor, this_span.end_minor,
+                                       this_span.cumulative_transparency );
+                    }
                     // Truncate this_span to the current block.
-		    this_span.end_major = std::min( this_span.end_major, leading_edge_major );
-		    this_span.start_major = std::max( this_span.start_major, trailing_edge_major );
+                    this_span.end_major = std::min( this_span.end_major, leading_edge_major );
+                    this_span.start_major = std::max( this_span.start_major, trailing_edge_major );
                     // The new span starts at the leading edge of the previous square if it is opaque,
                     // and at the trailing edge of the current square if it is transparent.
-		    this_span.start_minor = new_start_minor;
-		    this_span.cumulative_value = next_cumulative_transparency;
+                    this_span.start_minor = new_start_minor;
+                    this_span.cumulative_value = next_cumulative_transparency;
 
-		    new_start_minor = leading_edge_minor;
+                    new_start_minor = leading_edge_minor;
                     current_transparency = new_transparency;
                 }
 
                 if( !check( current_transparency, last_intensity ) ) {
-                    start_major = leading_edge_major;
+                    this_span.start_major = leading_edge_major;
                 }
             }
 
@@ -248,72 +246,74 @@ void cast_zlight_segment(
                 break;
             }
             // Cumulative average of the values encountered.
-            cumulative_transparency = accumulate( cumulative_transparency, current_transparency, distance );
+            this_span.cumulative_transparency = accumulate( this_span.cumulative_transparency,
+                                                            current_transparency, distance );
         }
     }
+}
 
-    template<typename T, T( *calc )( const T &, const T &, const int & ),
-             bool( *check )( const T &, const T & ),
-             T( *accumulate )( const T &, const T &, const int & )>
-    void cast_zlight(
-        const std::array<T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
-        const std::array<const T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
-        const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
-        const tripoint & origin, const int offset_distance, const T numerator ) {
-        // Down
-        cast_zlight_segment < 0, 1, 0, 1, 0, 0, -1, T, calc, check, accumulate > (
-            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-        cast_zlight_segment < 1, 0, 0, 0, 1, 0, -1, T, calc, check, accumulate > (
-            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+template<typename T, T( *calc )( const T &, const T &, const int & ),
+         bool( *check )( const T &, const T & ),
+         T( *accumulate )( const T &, const T &, const int & )>
+void cast_zlight(
+    const std::array<T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
+    const std::array<const T( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
+    const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
+    const tripoint & origin, const int offset_distance, const T numerator ) {
+    // Down
+    cast_zlight_segment < 0, 1, 0, 1, 0, 0, -1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment < 1, 0, 0, 0, 1, 0, -1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
-        cast_zlight_segment < 0, -1, 0, 1, 0, 0, -1, T, calc, check, accumulate > (
-            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-        cast_zlight_segment < -1, 0, 0, 0, 1, 0, -1, T, calc, check, accumulate > (
-            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment < 0, -1, 0, 1, 0, 0, -1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment < -1, 0, 0, 0, 1, 0, -1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
-        cast_zlight_segment < 0, 1, 0, -1, 0, 0, -1, T, calc, check, accumulate > (
-            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-        cast_zlight_segment < 1, 0, 0, 0, -1, 0, -1, T, calc, check, accumulate > (
-            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment < 0, 1, 0, -1, 0, 0, -1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment < 1, 0, 0, 0, -1, 0, -1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
-        cast_zlight_segment < 0, -1, 0, -1, 0, 0, -1, T, calc, check, accumulate > (
-            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-        cast_zlight_segment < -1, 0, 0, 0, -1, 0, -1, T, calc, check, accumulate > (
-            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment < 0, -1, 0, -1, 0, 0, -1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment < -1, 0, 0, 0, -1, 0, -1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
-        // Up
-        cast_zlight_segment<0, 1, 0, 1, 0, 0, 1, T, calc, check, accumulate>(
-            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-        cast_zlight_segment<1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate>(
-            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    // Up
+    cast_zlight_segment<0, 1, 0, 1, 0, 0, 1, T, calc, check, accumulate>(
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment<1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate>(
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
-        cast_zlight_segment < 0, -1, 0, 1, 0, 0, 1, T, calc, check, accumulate > (
-            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-        cast_zlight_segment < -1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate > (
-            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment < 0, -1, 0, 1, 0, 0, 1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment < -1, 0, 0, 0, 1, 0, 1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
-        cast_zlight_segment < 0, 1, 0, -1, 0, 0, 1, T, calc, check, accumulate > (
-            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-        cast_zlight_segment < 1, 0, 0, 0, -1, 0, 1, T, calc, check, accumulate > (
-            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment < 0, 1, 0, -1, 0, 0, 1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment < 1, 0, 0, 0, -1, 0, 1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
 
-        cast_zlight_segment < 0, -1, 0, -1, 0, 0, 1, T, calc, check, accumulate > (
-            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-        cast_zlight_segment < -1, 0, 0, 0, -1, 0, 1, T, calc, check, accumulate > (
-            output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
-    }
+    cast_zlight_segment < 0, -1, 0, -1, 0, 0, 1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+    cast_zlight_segment < -1, 0, 0, 0, -1, 0, 1, T, calc, check, accumulate > (
+        output_caches, input_arrays, floor_caches, origin, offset_distance, numerator );
+}
 
-    // I can't figure out how to make implicit instantiation work when the parameters of
-    // the template-supplied function pointers are involved, so I'm explicitly instantiating instead.
-    template void cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
-        const std::array<float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
-        const std::array<const float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
-        const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
-        const tripoint & origin, const int offset_distance, const float numerator );
+// I can't figure out how to make implicit instantiation work when the parameters of
+// the template-supplied function pointers are involved, so I'm explicitly instantiating instead.
+template void cast_zlight<float, sight_calc, sight_check, accumulate_transparency>(
+    const std::array<float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
+    const std::array<const float ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &input_arrays,
+    const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
+    const tripoint & origin, const int offset_distance, const float numerator );
 
-    template void cast_zlight<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>(
-        const std::array<fragment_cloud( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
-        const std::array<const fragment_cloud( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS>
-        &input_arrays,
-        const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
-        const tripoint & origin, const int offset_distance, const fragment_cloud numerator );
+template void cast_zlight<fragment_cloud, shrapnel_calc, shrapnel_check, accumulate_fragment_cloud>(
+    const std::array<fragment_cloud( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &output_caches,
+    const std::array<const fragment_cloud( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS>
+    &input_arrays,
+    const std::array<const bool ( * )[MAPSIZE_X][MAPSIZE_Y], OVERMAP_LAYERS> &floor_caches,
+    const tripoint & origin, const int offset_distance, const fragment_cloud numerator );
