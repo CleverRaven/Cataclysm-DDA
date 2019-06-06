@@ -2003,6 +2003,8 @@ void item::io( Archive &archive )
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
     archive.io( "light_dir", light.direction, nolight.direction );
+    archive.io( "comps_used", comps_used, io::empty_default_tag() );
+    archive.io( "next_failure_point", next_failure_point, -1 );
 
     item_controller->migrate_item( orig, *this );
 
@@ -3035,6 +3037,25 @@ void deserialize( recipe_subset &value, JsonIn &jsin )
     while( !jsin.end_array() ) {
         value.include( &recipe_id( jsin.get_string() ).obj() );
     }
+}
+
+void serialize( const item_comp &value, JsonOut &jsout )
+{
+    jsout.start_object();
+
+    jsout.member( "type", value.type );
+    jsout.member( "count", value.count );
+    jsout.member( "recoverable", value.recoverable );
+
+    jsout.end_object();
+}
+
+void deserialize( item_comp &value, JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "type", value.type );
+    jo.read( "count", value.count );
+    jo.read( "recoverable", value.recoverable );
 }
 
 // basecamp
