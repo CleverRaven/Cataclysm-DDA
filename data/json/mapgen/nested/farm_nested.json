@@ -1,0 +1,16 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "2x2_haybale",
+    "object": {
+      "mapgensize": [ 2, 2 ],
+      "rotation": [ 0, 3 ],
+      "rows": [
+        "@@",
+        "@@"
+      ],
+      "palettes": [ "farm_lots" ]
+    }
+  }
+]
