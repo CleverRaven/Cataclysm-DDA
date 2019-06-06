@@ -2194,7 +2194,7 @@ std::pair<std::string, nc_color> Character::get_hunger_description() const
         hunger_color = c_yellow;
         hunger_string = _( "Hungry" );
     } else if( hunger < -60 ) {
-        hunger_color = c_green;
+        hunger_color = c_yellow;
         hunger_string = _( "Engorged" );
     } else if( hunger < -20 ) {
         hunger_color = c_green;

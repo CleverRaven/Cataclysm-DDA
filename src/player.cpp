@@ -12006,7 +12006,7 @@ std::pair<std::string, nc_color> player::get_hunger_description() const
         } else if( contains > cap * 11 / 20 ) {
             hunger_string = _( "Sated" );
             hunger_color = c_green;
-        } else if( recently_ate && contains > cap * 3 / 8 ) {
+        } else if( recently_ate && contains >= cap * 3 / 8 ) {
             hunger_string = _( "Full" );
             hunger_color = c_green;
         } else if( ( stomach.time_since_ate() > 90_minutes && contains < cap / 8 ) || ( just_ate &&
