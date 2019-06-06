@@ -3056,7 +3056,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "charges_per_use": 25,
+    "charges_per_use": 250,
     "use_action": "JACKHAMMER",
     "flags": [ "STAB", "DIG_TOOL", "POWERED" ],
     "magazines": [
