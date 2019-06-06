@@ -8101,6 +8101,10 @@ void game::butcher()
                     u.assign_activity( activity_id( "ACT_LONGSALVAGE" ), 0, salvage_tool_index );
                     break;
                 case MULTIBUTCHER:
+                    if( u.fine_detail_vision_mod() > 4 ) {
+                        u.add_msg_if_player( _("It's too dark to butcher anything"));
+                        break;
+                    }
                     butcher_submenu( items, corpses );
                     for( int i : corpses ) {
                         u.activity.values.push_back( i );
@@ -8118,6 +8122,10 @@ void game::butcher()
             }
             break;
         case BUTCHER_CORPSE: {
+            if( u.fine_detail_vision_mod() > 4 ) {
+                u.add_msg_if_player( _("It's too dark to butcher anything"));
+                break;
+            }
             butcher_submenu( items, corpses, indexer_index );
             draw_ter();
             wrefresh( w_terrain );
