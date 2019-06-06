@@ -158,8 +158,8 @@ TEST_CASE( "starve_test_hunger3" )
     if( print_tests ) {
         printf( "\n\n" );
     }
-    CHECK( day <= 15 );
-    CHECK( day >= 14 );
+    CHECK( day <= 11 );
+    CHECK( day >= 10 );
 }
 
 // does eating enough food per day keep you alive
