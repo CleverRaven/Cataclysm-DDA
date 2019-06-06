@@ -2073,10 +2073,7 @@ int Character::get_stored_kcal() const
 
 void Character::mod_stored_kcal( int nkcal )
 {
-    // this needs to be capped until there are negative effects on being overweight
-    const int capped = std::min( stored_calories + nkcal,
-                                 static_cast<int>( get_healthy_kcal() * 1.1 ) );
-    set_stored_kcal( capped );
+    set_stored_kcal( stored_calories + nkcal );
 }
 
 void Character::mod_stored_nutr( int nnutr )
@@ -2318,6 +2315,12 @@ void Character::reset_bonuses()
     Creature::reset_bonuses();
 }
 
+int Character::get_max_healthy() const
+{
+    const float bmi = get_bmi();
+    return clamp( static_cast<int>( round( -3 * ( bmi - 18.5 ) * ( bmi - 25 ) + 200 ) ), -200, 200 );
+}
+
 void Character::update_health( int external_modifiers )
 {
     if( has_artifact_with( AEP_SICK ) ) {
@@ -2326,8 +2329,8 @@ void Character::update_health( int external_modifiers )
     }
     // Limit healthy_mod to [-200, 200].
     // This also sets approximate bounds for the character's health.
-    if( get_healthy_mod() > 200 ) {
-        set_healthy_mod( 200 );
+    if( get_healthy_mod() > get_max_healthy() ) {
+        set_healthy_mod( get_max_healthy() );
     } else if( get_healthy_mod() < -200 ) {
         set_healthy_mod( -200 );
     }
@@ -3245,9 +3248,55 @@ float Character::get_bmi() const
     return 12 * get_kcal_percent() + 13;
 }
 
+std::string Character::get_weight_string() const
+{
+    const float bmi = get_bmi();
+    if( get_option<bool>( "CRAZY" ) ) {
+        if( bmi > 50.0f ) {
+            return _( "AW HELL NAH" );
+        } else if( bmi > 45.0f ) {
+            return _( "DAYUM" );
+        } else if( bmi > 40.0f ) {
+            return _( "Fluffy" );
+        } else if( bmi > 35.0f ) {
+            return _( "Husky" );
+        } else if( bmi > 30.0f ) {
+            return _( "Healthy" );
+        } else if( bmi > 25.0f ) {
+            return _( "Big" );
+        } else if( bmi > 18.5f ) {
+            return _( "Normal" );
+        } else if( bmi > 16.0f ) {
+            return _( "Bean Pole" );
+        } else if( bmi > 14.0f ) {
+            return _( "Severely Underweight" );
+        } else {
+            return _( "Spooky Scary Skeleton" );
+        }
+    } else {
+        if( bmi > 40.0f ) {
+            return _( "Morbidly Obese" );
+        } else if( bmi > 35.0f ) {
+            return _( "Very Obese" );
+        } else if( bmi > 30.0f ) {
+            return _( "Obese" );
+        } else if( bmi > 25.0f ) {
+            return _( "Overweight" );
+        } else if( bmi > 18.5f ) {
+            return _( "Normal" );
+        } else if( bmi > 16.0f ) {
+            return _( "Underweight" );
+        } else if( bmi > 14.0f ) {
+            return _( "Severely Underweight" );
+        } else {
+            return _( "Emaciated" );
+        }
+    }
+}
+
 units::mass Character::bodyweight() const
 {
-    return units::from_gram( round( get_bmi() * pow( height() / 100, 2 ) ) );
+    return units::from_kilogram( get_bmi() * pow( height() / 100.0f, 2 ) );
 }
 
 int Character::height() const
@@ -3263,7 +3312,8 @@ int Character::get_bmr() const
     */
     const int age = 25;
     const int equation_constant = 5;
-    return ceil( metabolic_rate_base() * activity_level * ( units::to_gram<int>( 10 * bodyweight() ) +
+    return ceil( metabolic_rate_base() * activity_level * ( units::to_gram<int>
+                 ( bodyweight() / 100.0 ) +
                  ( 6.25 * height() ) - ( 5 * age ) + equation_constant ) );
 }
 

@@ -802,6 +802,10 @@ class Character : public Creature, public visitable<Character>
 
         /** Stable base metabolic rate due to traits */
         float metabolic_rate_base() const;
+        // gets the max value healthy you can be, related to your weight
+        int get_max_healthy() const;
+        // gets the string that describes your weight
+        std::string get_weight_string() const;
         // calculates the BMI
         float get_bmi() const;
         // returns amount of calories burned in a day given various metabolic factors

@@ -568,6 +568,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     display_stat( _( "Dexterity:" ),    dex_cur, dex_max, 3 );
     display_stat( _( "Intelligence:" ), int_cur, int_max, 4 );
     display_stat( _( "Perception:" ),   per_cur, per_max, 5 );
+    mvwprintz( w_stats, 6, 1, c_light_gray, _( "Weight:" ) );
+    mvwprintz( w_stats, 6, 25 - get_weight_string().size(), c_light_gray, get_weight_string() );
 
     wrefresh( w_stats );
 
@@ -787,7 +789,6 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 center_print( w_stats, 0, h_light_gray, title_STATS );
 
                 // Clear bonus/penalty menu.
-                mvwprintz( w_stats, 6, 0, c_light_gray, "%26s", "" );
                 mvwprintz( w_stats, 7, 0, c_light_gray, "%26s", "" );
                 mvwprintz( w_stats, 8, 0, c_light_gray, "%26s", "" );
 
@@ -844,6 +845,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                         mvwprintz( w_info, 5, 1, c_magenta, _( "Aiming penalty:" ) );
                         mvwprintz( w_info, 5, 21, c_magenta, "%+4d", -ranged_per_mod() );
                     }
+                } else if( line == 4 ) {
+                    mvwprintz( w_stats, 6, 1, h_light_gray, _( "Weight:" ) );
+                    mvwprintz( w_stats, 6, 25 - get_weight_string().size(), h_light_gray, get_weight_string() );
+                    fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
+                                    _( "This is a quick glance at how healthy your weight is."
+                                       "  Your weight can affect your maximum health score the farther away from normal it is." ) );
                 }
                 wrefresh( w_stats );
                 wrefresh( w_info );
@@ -851,12 +858,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 action = ctxt.handle_input();
                 if( action == "DOWN" ) {
                     line++;
-                    if( line == 4 ) {
+                    if( line == 5 ) {
                         line = 0;
                     }
                 } else if( action == "UP" ) {
                     if( line == 0 ) {
-                        line = 3;
+                        line = 4;
                     } else {
                         line--;
                     }
@@ -873,6 +880,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 mvwprintz( w_stats, 3, 1, c_light_gray, _( "Dexterity:" ) );
                 mvwprintz( w_stats, 4, 1, c_light_gray, _( "Intelligence:" ) );
                 mvwprintz( w_stats, 5, 1, c_light_gray, _( "Perception:" ) );
+                mvwprintz( w_stats, 6, 1, c_light_gray, _( "Weight:" ) );
+                mvwprintz( w_stats, 6, 25 - get_weight_string().size(), c_light_gray, get_weight_string() );
                 wrefresh( w_stats );
                 break;
             case 2: { // Encumbrance tab
