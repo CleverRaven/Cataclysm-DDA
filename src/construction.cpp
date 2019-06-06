@@ -929,7 +929,6 @@ bool construct::check_deconstruct( const tripoint &p )
 
 bool construct::check_empty_up_OK( const tripoint &p )
 {
-    // Combination of check_empty and check_up_OK
     return check_empty( p ) && check_up_OK ( p );
 }
 
@@ -1082,7 +1081,7 @@ void construct::done_deconstruct( const tripoint &p )
         if( t.deconstruct.deconstruct_above ) {
             const tripoint top = p + tripoint( 0, 0, 1 );
             if ( g->m.has_furn( top ) ) {
-                add_msg( _( "That %s can not be dissasembled, since there is furniture above it" ), t.name() );
+                add_msg( _( "That %s can not be dissasembled, since there is furniture above it." ), t.name() );
                 return;
             }
             done_deconstruct( top );
