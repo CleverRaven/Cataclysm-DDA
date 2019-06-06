@@ -2215,8 +2215,8 @@ bool game::handle_action()
                 get_options().save();
                 //~ Auto pickup is now set to x
                 add_msg( _( "%s is now set to %s." ),
-                    get_options().get_option( "AUTO_PICKUP" ).getMenuText(),
-                    get_options().get_option( "AUTO_PICKUP" ).getValueName() );
+                         get_options().get_option( "AUTO_PICKUP" ).getMenuText(),
+                         get_options().get_option( "AUTO_PICKUP" ).getValueName() );
                 break;
 
             case ACTION_DISPLAY_SCENT:
