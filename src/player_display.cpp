@@ -848,9 +848,11 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 } else if( line == 4 ) {
                     mvwprintz( w_stats, 6, 1, h_light_gray, _( "Weight:" ) );
                     mvwprintz( w_stats, 6, 25 - get_weight_string().size(), h_light_gray, get_weight_string() );
-                    fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
-                                    _( "This is a quick glance at how healthy your weight is."
-                                       "  Your weight can affect your maximum health score the farther away from normal it is." ) );
+                    const int lines = fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
+                                                      _( "Your weight is a general indicator of how much fat your body has stored up,"
+                                                         " which in turn shows how prepared you are to survive for a time without food."
+                                                         "Having too much, or too little, can be unhealthy." ) );
+                    fold_and_print( w_info, 1 + lines, 1, FULL_SCREEN_WIDTH - 2, c_magenta, get_weight_description() );
                 }
                 wrefresh( w_stats );
                 wrefresh( w_info );

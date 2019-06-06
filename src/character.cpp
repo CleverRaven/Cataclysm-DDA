@@ -3269,7 +3269,7 @@ std::string Character::get_weight_string() const
         } else if( bmi > 16.0f ) {
             return _( "Bean Pole" );
         } else if( bmi > 14.0f ) {
-            return _( "Severely Underweight" );
+            return _( "Emaciated" );
         } else {
             return _( "Spooky Scary Skeleton" );
         }
@@ -3287,10 +3287,32 @@ std::string Character::get_weight_string() const
         } else if( bmi > 16.0f ) {
             return _( "Underweight" );
         } else if( bmi > 14.0f ) {
-            return _( "Severely Underweight" );
-        } else {
             return _( "Emaciated" );
+        } else {
+            return _( "Skeletal" );
         }
+    }
+}
+
+std::string Character::get_weight_description() const
+{
+    const float bmi = get_bmi();
+    if( bmi > 40.0f ) {
+        return _( "You have far more fat than is healthy or useful.  It is causing you major problems." );
+    } else if( bmi > 35.0f ) {
+        return _( "You have too much fat.  It impacts your day to day health and wellness." );
+    } else if( bmi > 30.0f ) {
+        return _( "you've definitely put on a lot of extra weight.  Although it's helpful in times of famine, this is too much and is impacting your health." );
+    } else if( bmi > 25.0f ) {
+        return _( "You've put on some extra pounds.  Nothing too excessive but it's starting to impact your health and waistline a bit." );
+    } else if( bmi > 18.5f ) {
+        return _( "You look to be a pretty healthy weight, with some fat to last you through the winter but nothing excessive." );
+    } else if( bmi > 16.0f ) {
+        return _( "You are thin, thinner than is healthy.  You are less resilient to going without food." );
+    } else if( bmi > 14.0f ) {
+        return _( "You are very unhealthily underweight, nearing starvation." );
+    } else {
+        return _( "You have very little meat left on your bones.  You appear to be starving." );
     }
 }
 
