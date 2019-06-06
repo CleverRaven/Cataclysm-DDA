@@ -137,7 +137,7 @@ void cast_zlight_segment(
                     }
 
                     const int dist = rl_dist( origin, delta ) + offset_distance;
-                    last_intensity = calc( numerator, this_span.cumulative_transparency, dist );
+                    last_intensity = calc( numerator, this_span.cumulative_value, dist );
 
                     if( !floor_block ) {
                         ( *output_caches[z_index] )[current.x][current.y] =
@@ -158,7 +158,7 @@ void cast_zlight_segment(
                         continue;
                     }
 
-                    T next_cumulative_transparency = accumulate( this_span.cumulative_transparency,
+                    T next_cumulative_transparency = accumulate( this_span.cumulative_value,
 								 current_transparency, distance );
                     // We split the span into up to 4 sub-blocks (sub-frustums actually,
                     // this is the view from the origin looking out):
@@ -192,7 +192,7 @@ void cast_zlight_segment(
                             spans.emplace( std::next( it ),
                                            trailing_edge_major, this_span.end_major,
                                            this_span.start_minor, this_span.end_minor,
-                                           this_span.cumulative_transparency );
+                                           this_span.cumulative_value );
                             // All we do to A is truncate it.
                             this_span.end_major = trailing_edge_major;
                             // Then make the current span the one we just inserted.
@@ -216,7 +216,7 @@ void cast_zlight_segment(
                         spans.emplace( std::next( it ),
                                        leading_edge_major, this_span.end_major,
                                        this_span.start_minor, this_span.end_minor,
-                                       this_span.cumulative_transparency );
+                                       this_span.cumulative_value );
                     }
                     // Truncate this_span to the current block.
                     this_span.end_major = std::min( this_span.end_major, leading_edge_major );
@@ -246,8 +246,8 @@ void cast_zlight_segment(
                 break;
             }
             // Cumulative average of the values encountered.
-            this_span.cumulative_transparency = accumulate( this_span.cumulative_transparency,
-                                                            current_transparency, distance );
+            this_span.cumulative_value = accumulate( this_span.cumulative_value,
+                                                     current_transparency, distance );
         }
     }
 }
