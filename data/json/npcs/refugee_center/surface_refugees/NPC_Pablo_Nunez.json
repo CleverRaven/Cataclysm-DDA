@@ -78,7 +78,7 @@
       "TALK_REFUGEE_Pablo_Recruit"
     ],
     "responses": [
-      { "text": "What's your story?", "topic": "TALK_REFUGEE_Pablo_Background" },
+      { "text": "What's your story?", "topic": "TALK_REFUGEE_Pablo_Background1" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Pablo_Situation" },
       {
         "text": "Dana wanted me to be the one to let you know: they've got work for you over at the ranch.  You could get out of here if you want.",
