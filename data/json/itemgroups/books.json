@@ -641,6 +641,18 @@
     "items": [ [ "record_patient", 100 ] ]
   },
   {
+    "id": "fireman_doc",
+    "type": "item_group",
+    "items": [
+      [ "textbook_fireman", 100 ],
+      [ "emergency_book", 100 ],
+      [ "manual_first_aid", 50 ],
+      [ "manual_swimming", 50 ],
+      [ "textbook_firstaid", 10 ],
+      [ "mag_computer", 50 ]
+    ]
+  },
+  {
     "id": "tailorbooks",
     "type": "item_group",
     "items": [ [ "tailor_portfolio", 30 ], [ "mag_tailor", 50 ], [ "manual_tailor", 30 ], [ "textbook_tailor", 30 ] ]
