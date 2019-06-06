@@ -12,25 +12,8 @@
     "color": "dark_gray",
     "location": "reloading mechanism",
     "mod_targets": [ "rifle" ],
-    "reload_modifier": 150,
-    "min_str_required_mod": -9,
-    "min_skills": [ [ "gun", 1 ] ]
-  },
-  {
-    "id": "lever_crossbow_mech",
-    "type": "GUNMOD",
-    "name": "lever crossbow reload mechanism",
-    "description": "A steel lever mechanism for a crossbow, letting you draw the string back more easily.  For larger siege crossbows.  Takes a bit longer to use though.",
-    "weight": 400,
-    "volume": 2,
-    "price": 3000,
-    "material": "steel",
-    "symbol": ":",
-    "color": "dark_gray",
-    "location": "heavy reloading mechanism",
-    "mod_targets": [ "rifle" ],
-    "reload_modifier": 150,
-    "min_str_required_mod": -30,
+    "reload_modifier": 1.5,
+    "min_str_required_mod": 0.5,
     "min_skills": [ [ "gun", 1 ] ]
   },
   {
@@ -44,10 +27,10 @@
     "material": [ "steel", "cotton" ],
     "symbol": ":",
     "color": "dark_gray",
-    "location": [ [ "reloading mechanism" ], [ "heavy reloading mechanism" ] ],
+    "location": "reloading mechanism",
     "mod_targets": [ "rifle" ],
-    "reload_modifier": 300,
-    "min_str_required_mod": -60,
+    "reload_modifier": 3,
+    "min_str_required_mod": 0,
     "min_skills": [ [ "gun", 2 ] ]
   },
   {
@@ -61,11 +44,11 @@
     "material": [ "steel", "plastic" ],
     "symbol": ":",
     "color": "dark_gray",
-    "location": [ [ "reloading mechanism" ], [ "heavy reloading mechanism" ] ],
+    "location": "reloading mechanism",
     "mod_targets": [ "rifle" ],
     "ups_charges": 3,
-    "reload_modifier": 50,
-    "min_str_required_mod": -60,
+    "reload_modifier": 0.5,
+    "min_str_required_mod": 0,
     "min_skills": [ [ "gun", 2 ] ]
   }
 ]
