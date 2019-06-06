@@ -3103,6 +3103,16 @@ void basecamp::deserialize( JsonIn &jsin )
                 e.provides[ id ] = amount;
             }
         }
+        // incase of save corruption, sanity check provides from expansions
+        if( e.type == "kitchen" ){
+            e.provides[ "faction_base_kitchen_0" ] = 1;
+        } else if( e.type == "farm" ){
+            e.provides[ "faction_base_farm_0" ] = 1;
+        } else if( e.type == "garage" ){
+            e.provides[ "faction_base_garage_0" ] = 1;
+        } else if( e.type == "blacksmith" ){
+            e.provides[ "faction_base_blacksmith_0" ] = 1;
+        }
         edata.read( "pos", e.pos );
         expansions[ dir ] = e;
         if( dir != "[B]" ) {
