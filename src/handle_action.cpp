@@ -2210,6 +2210,15 @@ bool game::handle_action()
                          get_options().get_option( "AUTO_FORAGING" ).getValueName() );
                 break;
 
+            case ACTION_TOGGLE_AUTO_PICKUP:
+                get_options().get_option( "AUTO_PICKUP" ).setNext();
+                get_options().save();
+                //~ Auto pickup is now set to x
+                add_msg( _( "%s is now set to %s." ),
+                         get_options().get_option( "AUTO_PICKUP" ).getMenuText(),
+                         get_options().get_option( "AUTO_PICKUP" ).getValueName() );
+                break;
+
             case ACTION_DISPLAY_SCENT:
                 if( MAP_SHARING::isCompetitive() && !MAP_SHARING::isDebugger() ) {
                     break;    //don't do anything when sharing and not debugger

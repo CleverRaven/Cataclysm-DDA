@@ -1918,6 +1918,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Toggle Auto Pickup",
+    "category": "DEFAULTMODE",
+    "id": "toggle_auto_pickup"
+  },
+  {
+    "type": "keybinding",
     "name": "Action Menu",
     "category": "DEFAULTMODE",
     "id": "action_menu",
