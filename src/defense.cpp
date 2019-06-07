@@ -1235,36 +1235,47 @@ std::vector<itype_id> caravan_items( caravan_category cat )
     case CARAVAN_MELEE:
         if( caravan_tech_level >= 1 && caravan_tech_level < 2 ) {
             item_list = item_group::items_from( "defense_caravan_melee_tier_1" );
+            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), defense_game::caravan_tech_level );
             break;
         } else if( caravan_tech_level >= 2 && caravan_tech_level < 3 ) {
             item_list = item_group::items_from( "defense_caravan_melee_tier_2" );
+            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), defense_game::caravan_tech_level );
             break;
         } else if( caravan_tech_level >= 3 && caravan_tech_level < 4 ) {
             item_list = item_group::items_from( "defense_caravan_melee_tier_3" );
+            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), defense_game::caravan_tech_level );
             break;
         } else if( caravan_tech_level >= 4 && caravan_tech_level < 5 ) {
             item_list = item_group::items_from( "defense_caravan_melee_tier_4" );
+            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), defense_game::caravan_tech_level );
             break;
         } else if( caravan_tech_level >= 5 && caravan_tech_level < 6 ) {
             item_list = item_group::items_from( "defense_caravan_melee_tier_5" );
+            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), defense_game::caravan_tech_level );
             break;
         } else if( caravan_tech_level >= 6 && caravan_tech_level < 7 ) {
             item_list = item_group::items_from( "defense_caravan_melee_tier_6" );
+            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), defense_game::caravan_tech_level );
             break;
         } else if( caravan_tech_level >= 7 && caravan_tech_level < 8 ) {
             item_list = item_group::items_from( "defense_caravan_melee_tier_7" );
+            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), defense_game::caravan_tech_level );
             break;
         } else if( caravan_tech_level >= 8 && caravan_tech_level < 9 ) {
             item_list = item_group::items_from( "defense_caravan_melee_tier_8" );
+            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), defense_game::caravan_tech_level );
             break;
         } else if( caravan_tech_level >= 9 && caravan_tech_level < 10 ) {
             item_list = item_group::items_from( "defense_caravan_melee_tier_9" );
+            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), defense_game::caravan_tech_level );
             break;
         } else if( caravan_tech_level >= 10 && caravan_tech_level < 11 ) {
             item_list = item_group::items_from( "defense_caravan_melee_tier_10" );
+            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), defense_game::caravan_tech_level );
             break;
         } else if( caravan_tech_level >= 11 ) {
             item_list = item_group::items_from( "defense_caravan_melee_tier_max" );
+            add_msg( m_info, _( "Caravan Tech Level in CARAVAN_MELEE: %f." ), defense_game::caravan_tech_level );
             break;
         }
         break;
