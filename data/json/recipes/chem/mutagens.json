@@ -332,16 +332,7 @@
     "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
     "components": [
       [ [ "mutagen", 1 ] ],
-      [
-        [ "cheese", 1 ],
-        [ "cheese_hard", 1 ],
-        [ "can_cheese", 1 ],
-        [ "chocolate", 2 ],
-        [ "candy", 3 ],
-        [ "candy2", 3 ],
-        [ "candy3", 3 ],
-        [ "sugar", 10 ]
-      ],
+      [ [ "sweetbread", 1 ], [ "kidney", 1 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
     ],
     "//": "fun fact: mice don't like cheese as much as sugar! we include it in the recipe because most people correlate the two, and as a fun poke at it"
