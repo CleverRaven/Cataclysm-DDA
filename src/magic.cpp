@@ -1136,9 +1136,6 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
                 bodypart_effected = true;
             }
         }
-        if( bodypart_effected ) {
-            return;
-        }
     }
     if( !bodypart_effected ) {
         critter->add_effect( spell_effect, dur_td, num_bp );
@@ -1161,14 +1158,14 @@ static void damage_targets( spell &sp, std::set<tripoint> targets )
         atk.end_point = target;
         atk.hit_critter = cr;
         atk.proj = bolt;
+        if( !sp.effect_data().empty() ) {
+            add_effect_to_target( target, sp );
+        }
         if( sp.damage() > 0 ) {
             cr->deal_projectile_attack( &g->u, atk, true );
         } else {
             sp.heal( target );
             add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
-        }
-        if( !sp.effect_data().empty() ) {
-            add_effect_to_target( target, sp );
         }
     }
 }
