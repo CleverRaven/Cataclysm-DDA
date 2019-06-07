@@ -7,7 +7,12 @@
 #include "line.h"
 
 template<typename T>
-struct span {
+struct span { 
+    span( const float &s_major, const float &e_major,
+          const float &s_minor, const float &e_minor,
+          const T &value ) :
+        start_major( s_major ), end_major( e_major ), start_minor( s_minor ), end_minor( e_minor ),
+        cumulative_value( value ) {}
     // TODO: Make these fixed-point or byte/byte pairs
     float start_major;
     float end_major;
