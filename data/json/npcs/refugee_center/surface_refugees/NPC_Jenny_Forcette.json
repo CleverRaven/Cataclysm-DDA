@@ -263,7 +263,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_FreeMerchants",
-    "dynamic_line": "They run this place, and they don't run a charity.  We get paid for working around the place, maintaining it, what have you, and we trade cash for food.  The thing is, supply and demand and all... there's a lot more cash than food around.  It's easier to buy a laptop than a piece of beef jerky, and there's no sign of that getting better.  The balance is way off right now, a hard day of work barely gets you enough to fill your belly.  I shouldn't bitch too much though.  I don't know much better way to run it, although rumour is that the folks living downstairs have it a lot easier than we do.  I try not to think too much on that.",
+    "dynamic_line": "They run this place, and they don't run a charity.  We get paid for working around the place, maintaining it, what have you, and we trade cash for food.  The thing is, supply and demand and all... there's a lot more cash than food around.  It's easier to buy a laptop than a piece of beef jerky, and there's no sign of that getting better.  The balance is way off right now, a hard day of work barely gets you enough to fill your belly.  I shouldn't bitch too much though.  I don't know much better way to run it, although rumor is that the folks living downstairs have it a lot easier than we do.  I try not to think too much on that.",
     "responses": [
       { "text": "Can you tell me about Fatima?", "topic": "TALK_REFUGEE_JENNY_Refugees2_Fatima" },
       {
@@ -374,7 +374,7 @@
   {
     "id": "MISSION_REFUGEE_Jenny_GET_MOTOR",
     "type": "mission_definition",
-    "name": "Bring Jenny a motor for her compressor.",
+    "name": "Find an electric motor",
     "difficulty": 1,
     "value": 0,
     "goal": "MGOAL_FIND_ITEM",
