@@ -6,6 +6,7 @@
 #include <iterator>
 #include <memory>
 #include <utility>
+#include <iostream>
 
 #include "action.h"
 #include "avatar.h"
@@ -844,7 +845,6 @@ void place_construction( const std::string &desc )
     for( const auto &it : con.requirements->get_tools() ) {
         g->u.consume_tools( it );
     }
-
     g->u.assign_activity( activity_id( "ACT_BUILD" ) );
     g->u.activity.placement = pnt;
 }
@@ -853,7 +853,13 @@ void complete_construction()
 {
     player &u = g->u;
     const tripoint terp = u.activity.placement;
-    const construction &built = constructions[u.activity.index];
+    partial_con *pc = g->m.partial_con_at( terp );
+    if( !pc ) {
+        debugmsg( "No partial construction found at activity placement in complete_construction()" );
+        g->m.remove_trap( terp );
+        return;
+    }
+    const construction &built = constructions[pc->id];
     const auto award_xp = [&]( player & c ) {
         for( const auto &pr : built.required_skills ) {
             c.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) * ( 1 + built.time / 30000.0 ) ),
@@ -862,7 +868,6 @@ void complete_construction()
     };
 
     award_xp( g->u );
-
     // Friendly NPCs gain exp from assisting or watching...
     for( auto &elem : g->u.get_crafting_helpers() ) {
         if( character_has_skill_for( *elem, built ) ) {
