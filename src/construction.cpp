@@ -6,7 +6,6 @@
 #include <iterator>
 #include <memory>
 #include <utility>
-#include <iostream>
 
 #include "action.h"
 #include "avatar.h"
