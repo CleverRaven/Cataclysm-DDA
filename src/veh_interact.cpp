@@ -446,15 +446,14 @@ task_reason veh_interact::cant_do( char mode )
             enough_morale = g->u.has_morale_to_craft();
             valid_target = !can_mount.empty() && 0 == veh->tags.count( "convertible" );
             //tool checks processed later
+            enough_light = g->u.fine_detail_vision_mod() <= 4;
             has_tools = true;
             break;
         case 'r': // repair mode
             enough_morale = g->u.has_morale_to_craft();
             valid_target = !need_repair.empty() && cpart >= 0;
             has_tools = true; // checked later
-            if( g->u.fine_detail_vision_mod() > 4 ) {
-                enough_light = false;
-            }
+            enough_light = g->u.fine_detail_vision_mod() <= 4;
             break;
 
         case 'm': { // mend mode
@@ -468,9 +467,7 @@ task_reason veh_interact::cant_do( char mode )
                     return !pt.faults().empty();
                 }
             } );
-            if( g->u.fine_detail_vision_mod() > 4 ) {
-                enough_light = false;
-            }
+            enough_light = g->u.fine_detail_vision_mod() <= 4;
             has_tools = true; // checked later
         }
         break;
@@ -485,9 +482,7 @@ task_reason veh_interact::cant_do( char mode )
             //tool and skill checks processed later
             has_tools = true;
             has_skill = true;
-            if( g->u.fine_detail_vision_mod() > 4 ) {
-                enough_light = false;
-            }
+            enough_light = g->u.fine_detail_vision_mod() <= 4;
             break;
         case 's': // siphon mode
             valid_target = false;
@@ -513,9 +508,7 @@ task_reason veh_interact::cant_do( char mode )
             valid_target = wheel != nullptr;
             ///\EFFECT_STR allows changing tires on heavier vehicles without a jack
             has_tools = has_wrench && has_wheel && ( g->u.can_lift( *veh ) || has_jack );
-            if( g->u.fine_detail_vision_mod() > 4 ) {
-                enough_light = false;
-            }
+            enough_light = g->u.fine_detail_vision_mod() <= 4;
             break;
 
         case 'w': // assign crew
