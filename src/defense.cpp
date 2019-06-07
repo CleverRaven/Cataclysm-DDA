@@ -94,12 +94,6 @@ defense_game::defense_game()
     init_to_style( DEFENSE_EASY );
 }
 
-static void calculate_tech_level( int initial_difficulty, int wave_difficulty, int caravan_visits, float &caravan_tech_level ) {
-    int z = initial_difficulty;
-    int w = wave_difficulty;
-    caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 14 ) ) );
-}
-
 bool defense_game::init()
 {
     calendar::turn = HOURS( 12 ); // Start at noon
@@ -135,6 +129,11 @@ bool defense_game::init()
     return true;
 }
 
+static void calculate_tech_level( int initial_difficulty, int wave_difficulty, int current_wave, float &caravan_tech_level ) {
+    caravan_tech_level = ( current_wave );
+    add_msg( m_info, _( "Caravan Tech Level: %f." ), defense_game::caravan_tech_level );
+}
+
 static void calculate_tech_level_2( int initial_difficulty, int wave_difficulty, int caravan_visits, float &caravan_tech_level ) {
     int z = initial_difficulty;
     int w = wave_difficulty;
@@ -165,11 +164,11 @@ void defense_game::per_turn()
     }
     if( calendar::once_every( time_between_waves ) ) {
         current_wave++;
-        caravan_visits++;
         if( current_wave > 1 && current_wave % waves_between_caravans == 0 ) {
+            caravan_visits++;
             popup( _( "A caravan approaches!  Press spacebar..." ) );
             caravan();
-            add_msg( m_info, _( "Caravan Tech Level: %f." ), caravan_tech_level );
+            add_msg( m_info, _( "Caravan Tech Level: %f." ), defense_game::caravan_tech_level );
             add_msg( m_info, _( "Initial Game Difficulty: %i." ), initial_difficulty );
             add_msg( m_info, _( "Wave Difficulty: %i." ), wave_difficulty );
             add_msg( m_info, _( "Caravan Visits: %i." ), caravan_visits );
@@ -1234,7 +1233,7 @@ std::vector<itype_id> caravan_items( caravan_category cat )
         return ret;
 
     case CARAVAN_MELEE:
-        if( caravan_tech_level < 2 ) {
+        if( caravan_tech_level >= 1 && caravan_tech_level < 2 ) {
             item_list = item_group::items_from( "defense_caravan_melee_tier_1" );
             break;
         } else if( caravan_tech_level >= 2 && caravan_tech_level < 3 ) {
