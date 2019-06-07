@@ -362,7 +362,7 @@ static point draw_notes( const tripoint &origin )
         nmenu.additional_actions.emplace_back( "EDIT_NOTE", "" );
         const input_context ctxt( nmenu.input_category );
         nmenu.text = string_format(
-                         _( "<%s> - show note, <%s> - edit note, <%s> - delete note, <%s> - close window" ),
+                         _( "<%s> - center on note, <%s> - edit note, <%s> - delete note, <%s> - close window" ),
                          colorize( "RETURN", c_yellow ),
                          colorize( ctxt.key_bound_to( "EDIT_NOTE" ), c_yellow ),
                          colorize( ctxt.key_bound_to( "DELETE_NOTE" ), c_yellow ),
