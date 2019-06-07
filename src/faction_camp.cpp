@@ -1025,6 +1025,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
                 mission_key.add_return( "Recover Ally, " + dir + " Expansion" + upgrade.bldg,
                                         _( "Recover Ally, " ) + dir + _( " Expansion" ) + " " +
                                         upgrade.name, dir, entry, avail );
+                add_msg( "NPC list not empty and 1. %s 2. %s 3 . %s 4. %s", "Recover Ally, " + dir + " Expansion" + upgrade.bldg, _( "Recover Ally, " ) + dir + _( " Expansion" ) + " " + upgrade.name, dir, entry );
             }
         }
 
@@ -1309,10 +1310,12 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
 
     for( const std::string &dir : directions ) {
         if( dir == miss_dir ) {
+            add_msg( "dir is miss_dir");
             const tripoint omt_trg = expansions[ dir ].pos;
-            if( miss_id.size() > 19 &&
-                miss_id.substr( 0, 19 ) == ( miss_dir + " Expansion Upgrade" ) ) {
-                const std::string bldg = miss_id.substr( 19 );
+            add_msg( "miss_id size %d, miss_id substr %s", static_cast<int>( miss_id.size() ), miss_id.substr( 0, 21 ) );
+            if( miss_id.size() > 21 &&
+                miss_id.substr( 0, 21 ) == ( miss_dir + " Expansion Upgrade" ) ) {
+                const std::string bldg = miss_id.substr( 21 );
                 start_upgrade( bldg, bldg + "_faction_upgrade_exp_" + miss_dir, by_radio );
             } else if( miss_id == "Recover Ally, " + miss_dir + " Expansion" ) {
                 upgrade_return( dir, "_faction_upgrade_exp_" + miss_dir );
