@@ -113,8 +113,10 @@ expansion_data basecamp::parse_expansion( const std::string &terrain, const trip
     e.type = terrain.substr( base_camps::prefix_len, last_bar - base_camps::prefix_len );
     e.cur_level = std::stoi( terrain.substr( last_bar + 1 ) );
     e.pos = new_pos;
-    const std::string &bldg = base_camps::faction_encode_abs( e, e.cur_level );
-    update_provides( bldg, e );
+    resources_updated = false;
+    // expensive hack but only for rare legacy camps
+    bool by_radio = rl_dist( g->u.global_omt_location(), omt_pos ) > 2;
+    reset_camp_resources( by_radio );
     return e;
 }
 
