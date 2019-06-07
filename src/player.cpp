@@ -6878,7 +6878,7 @@ void player::process_active_items()
         if( !w.active ) {
             continue;
         }
-        if( w.has_flag("ACTIVE_CLOAKING") ) {
+        if( w.has_flag( "ACTIVE_CLOAKING" ) ) {
             cloak = &w;
         }
         // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
