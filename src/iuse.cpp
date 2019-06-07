@@ -4053,10 +4053,10 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
 
 int iuse::rpgdie( player *you, item *die, bool, const tripoint & )
 {
-    const std::array<int, 6> sides_options = { 4, 6, 8, 10, 12, 20 };
+    const std::vector<int> sides_options = { 4, 6, 8, 10, 12, 20, 50 };
     int num_sides = die->get_var( "die_num_sides", 0 );
     if( num_sides == 0 ) {
-        const int sides = sides_options[ rng( 0, 5 ) ];
+        const int sides = sides_options[ rng( 0, sides_options.size() - 1 ) ];
         num_sides = sides;
         die->set_var( "die_num_sides", sides );
     }
