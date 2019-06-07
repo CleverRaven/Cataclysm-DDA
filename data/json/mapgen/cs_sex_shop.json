@@ -26,10 +26,10 @@
         "..|b,,,,,,,,,,,,,,,,,|..",
         "..|bcccccccc,,,,,,bbb|..",
         "..|-------------x----|..",
-        "..|BBB,,sss,|,,,,,D,T|..",
-        "..|BBB,,,,,,x,|------|..",
-        "..|BBB,,sss,|,x,,,BBB|..",
-        "..-----------X|h,,BBB|..",
+        "..|B,B,,BBB,|,,,,,D,T|..",
+        "..|BB,,,,,,,x,|------|..",
+        "..|BBB,,CCC,|,x,,,,BB|..",
+        "..-----------X|hLLB,B|..",
         "....4ooooooooo--------.."
       ],
       "terrain": {
@@ -52,25 +52,25 @@
         "c": "f_displaycase",
         "b": "f_bookcase",
         "t": "f_table",
-        "B": "f_bed",
+        "B": "f_cardboard_box",
         "T": "f_toilet",
         "s": "f_sofa",
+        "L": "f_locker",
         "h": "f_armchair"
       },
       "toilets": { "T": { "x": 20, "y": 19 } },
       "items": {
-        "B": { "item": "backroom", "chance": 20 },
+        "B": [
+          { "item": "ss_merch_2", "chance": 20 },
+          { "item": "ss_merch_1", "chance": 20 },
+          { "item": "ss_merch_3", "chance": 20 }
+        ],
         "s": { "item": "backroom", "chance": 20 },
         "c": { "item": "ss_merch_1", "chance": 20 },
         "b": { "item": "ss_merch_2", "chance": 30 },
-        "t": { "item": "ss_merch_3", "chance": 10 }
+        "t": { "item": "ss_merch_3", "chance": 10 },
+        "L": { "item": "cleaning", "chance": 30 }
       },
-      "place_items": [
-        { "item": "bed", "chance": 70, "x": [ 3, 5 ], "y": [ 19, 21 ] },
-        { "item": "bed", "chance": 70, "x": [ 4, 5 ], "y": 20 },
-        { "item": "bed", "chance": 70, "x": [ 6, 8 ], "y": 20 },
-        { "item": "bed", "chance": 70, "x": [ 18, 20 ], "y": [ 21, 22 ] }
-      ],
       "add": [
         { "item": "roadmap", "x": 3, "y": 6, "chance": 5 },
         { "item": "roadmap", "x": 5, "y": 6, "chance": 5 },

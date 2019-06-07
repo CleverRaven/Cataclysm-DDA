@@ -162,24 +162,24 @@ static item_location inv_internal( player &u, const inventory_selector_preset &p
     } while( true );
 }
 
-void game_menus::inv::common( player &p )
+void game_menus::inv::common( avatar &you )
 {
     // Return to inventory menu on those inputs
     static const std::set<int> loop_options = { { '\0', '=', 'f' } };
 
-    inventory_pick_selector inv_s( p );
+    inventory_pick_selector inv_s( you );
 
     inv_s.set_title( _( "Inventory" ) );
     inv_s.set_hint( string_format(
                         _( "Item hotkeys assigned: <color_light_gray>%d</color>/<color_light_gray>%d</color>" ),
-                        p.allocated_invlets().size(), inv_chars.size() ) );
+                        you.allocated_invlets().size(), inv_chars.size() ) );
 
     int res = 0;
 
     do {
-        p.inv.restack( p );
+        you.inv.restack( you );
         inv_s.clear_items();
-        inv_s.add_character_items( p );
+        inv_s.add_character_items( you );
         inv_s.update();
 
         const item_location &location = inv_s.execute();
@@ -194,7 +194,7 @@ void game_menus::inv::common( player &p )
         }
 
         g->refresh_all();
-        res = g->inventory_item_menu( p.get_item_position( location.get_item() ) );
+        res = g->inventory_item_menu( you.get_item_position( location.get_item() ) );
         g->refresh_all();
 
     } while( loop_options.count( res ) != 0 );
@@ -330,9 +330,9 @@ class take_off_inventory_preset: public armor_inventory_preset
         }
 };
 
-item_location game_menus::inv::take_off( player &p )
+item_location game_menus::inv::take_off( avatar &you )
 {
-    return inv_internal( p, take_off_inventory_preset( p, "color_red" ), _( "Take off item" ), 1,
+    return inv_internal( you, take_off_inventory_preset( you, "color_red" ), _( "Take off item" ), 1,
                          _( "You don't wear anything." ) );
 }
 
@@ -343,7 +343,7 @@ item_location game::inv_map_splice( item_filter filter, const std::string &title
                          title, radius, none_message );
 }
 
-item_location game_menus::inv::container_for( player &p, const item &liquid, int radius )
+item_location game_menus::inv::container_for( avatar &you, const item &liquid, int radius )
 {
     const auto filter = [ &liquid ]( const item_location & location ) {
         if( location.where() == item_location::type::character ) {
@@ -359,7 +359,7 @@ item_location game_menus::inv::container_for( player &p, const item &liquid, int
         return location->get_remaining_capacity_for_liquid( liquid, allow_buckets ) > 0;
     };
 
-    return inv_internal( p, inventory_filter_preset( filter ),
+    return inv_internal( you, inventory_filter_preset( filter ),
                          string_format( _( "Container for %s" ), liquid.display_name( liquid.charges ) ), radius,
                          string_format( _( "You don't have a suitable container for carrying %s." ),
                                         liquid.tname() ) );
@@ -771,9 +771,9 @@ class activatable_inventory_preset : public pickup_inventory_preset
         const player &p;
 };
 
-item_location game_menus::inv::use( player &p )
+item_location game_menus::inv::use( avatar &you )
 {
-    return inv_internal( p, activatable_inventory_preset( p ),
+    return inv_internal( you, activatable_inventory_preset( you ),
                          _( "Use item" ), 1,
                          _( "You don't have any items you can use." ) );
 }
@@ -988,9 +988,9 @@ class read_inventory_preset: public pickup_inventory_preset
         const player &p;
 };
 
-item_location game_menus::inv::read( player &p )
+item_location game_menus::inv::read( avatar &you )
 {
-    return inv_internal( p, read_inventory_preset( p ),
+    return inv_internal( you, read_inventory_preset( you ),
                          _( "Read" ), 1,
                          _( "You have nothing to read." ) );
 }
@@ -998,7 +998,7 @@ item_location game_menus::inv::read( player &p )
 class steal_inventory_preset : public pickup_inventory_preset
 {
     public:
-        steal_inventory_preset( const player &p, const player &victim ) :
+        steal_inventory_preset( const avatar &p, const player &victim ) :
             pickup_inventory_preset( p ), victim( victim ) {}
 
         bool is_shown( const item_location &loc ) const override {
@@ -1009,9 +1009,9 @@ class steal_inventory_preset : public pickup_inventory_preset
         const player &victim;
 };
 
-item_location game_menus::inv::steal( player &p, player &victim )
+item_location game_menus::inv::steal( avatar &you, player &victim )
 {
-    return inv_internal( victim, steal_inventory_preset( p, victim ),
+    return inv_internal( victim, steal_inventory_preset( you, victim ),
                          string_format( _( "Steal from %s" ), victim.name ), -1,
                          string_format( _( "%s's inventory is empty." ), victim.name ) );
 }
@@ -1101,9 +1101,9 @@ class weapon_inventory_preset: public inventory_selector_preset
         const player &p;
 };
 
-item_location game_menus::inv::wield( player &p )
+item_location game_menus::inv::wield( avatar &you )
 {
-    return inv_internal( p, weapon_inventory_preset( p ), _( "Wield item" ), 1,
+    return inv_internal( you, weapon_inventory_preset( you ), _( "Wield item" ), 1,
                          _( "You have nothing to wield." ) );
 }
 

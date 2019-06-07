@@ -795,6 +795,11 @@ bool player::can_limb_block() const
     return can_arm_block() || can_leg_block();
 }
 
+bool player::is_force_unarmed() const
+{
+    return style_selected.obj().force_unarmed;
+}
+
 // event handlers
 void player::ma_static_effects()
 {
@@ -1113,6 +1118,28 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         if( ma.force_unarmed ) {
             buffer << _( "<bold>This style forces you to use unarmed strikes, even if wielding a weapon.</bold>" );
             buffer << std::endl << "--" << std::endl;
+        }
+
+        if( ma.arm_block_with_bio_armor_arms || ma.arm_block != 99 ||
+            ma.leg_block_with_bio_armor_legs || ma.leg_block != 99 ) {
+            if( ma.arm_block_with_bio_armor_arms ) {
+                buffer << _( "You can <info>arm block</info> by installing the <info>Arms Alloy Plating CBM</info>" );
+                buffer << std::endl;
+            } else if( ma.arm_block != 99 ) {
+                buffer << string_format(
+                           _( "You can <info>arm block</info> at <info>unarmed combat:</info> <stat>%s</stat>" ),
+                           ma.arm_block ) << std::endl;
+            }
+
+            if( ma.leg_block_with_bio_armor_legs ) {
+                buffer << _( "You can <info>leg block</info> by installing the <info>Legs Alloy Plating CBM</info>" );
+                buffer << std::endl;
+            } else if( ma.leg_block != 99 ) {
+                buffer << string_format(
+                           _( "You can <info>leg block</info> at <info>unarmed combat:</info> <stat>%s</stat>" ),
+                           ma.leg_block ) << std::endl;
+            }
+            buffer << "--" << std::endl;
         }
 
         auto buff_desc = [&]( const std::string & title, const std::vector<mabuff_id> &buffs,

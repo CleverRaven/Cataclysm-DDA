@@ -249,11 +249,12 @@ static const item *get_most_rotten_component( const item &craft )
     return most_rotten;
 }
 
-item::item( const recipe *rec, int qty, std::list<item> items )
+item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections )
     : item( "craft", calendar::turn, qty )
 {
     making = rec;
     components = items;
+    comps_used = selections;
 
     if( is_food() ) {
         active = true;

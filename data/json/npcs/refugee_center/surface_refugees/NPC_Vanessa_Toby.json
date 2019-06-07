@@ -171,7 +171,11 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Vanessa_Haircut_no",
     "dynamic_line": "I can see you need one, but last time I used these shears it was to stab a zombie in the face.  I don't think you'd want them in your hair.  Maybe you could help me get set up properly?",
-    "responses": [ { "text": "What can I do to help you out?", "topic": "TALK_MISSION_LIST" } ]
+    "responses": [
+      { "text": "What can I do to help you out?", "topic": "TALK_MISSION_LIST" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",

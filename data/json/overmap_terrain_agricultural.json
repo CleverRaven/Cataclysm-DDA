@@ -709,5 +709,255 @@
     "see_cost": 5,
     "extras": "field",
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_lot_wire_straight_h",
+    "name": "farm field",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_lot_wire_turn_h",
+    "name": "farm field",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_lot_wire_straight_v",
+    "name": "farm field",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_lot_wire_turn_v",
+    "name": "farm field",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_lot_wire_turn_uni",
+    "name": "farm field",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_lot_wire_straight_v_open",
+    "name": "farm field",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_lot_wire_straight_h_open",
+    "name": "farm field",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_lot_wire_turn_v_open",
+    "name": "farm field",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_lot_wire_turn_h_open",
+    "name": "farm field",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_lot_M",
+    "name": "farm field",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "farm_lot_M1",
+    "name": "farm field",
+    "sym": "#",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dirt_road",
+    "name": "dirt road",
+    "sym": "│",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dirt_road_3way",
+    "name": "dirt road",
+    "sym": "┬",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dirt_road_turn",
+    "name": "dirt road",
+    "sym": "┐",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dirt_road_turn1",
+    "name": "dirt road",
+    "sym": "┌",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dirt_road_forest",
+    "name": "dirt road",
+    "sym": "│",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dirt_road_turn_forest",
+    "name": "dirt road",
+    "sym": "┐",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dirt_road_turn1_forest",
+    "name": "dirt road",
+    "sym": "┌",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2silos",
+    "name": "silos",
+    "sym": "O",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2silos_1",
+    "name": "silos",
+    "sym": "O",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2silos_2",
+    "name": "silos",
+    "sym": "O",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "2silos_roof",
+    "name": "silos",
+    "sym": "O",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "coop_chicken",
+    "name": "chicken coop",
+    "sym": "#",
+    "color": "brown",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_farm",
+    "name": "farm house",
+    "sym": "^",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "house_farm_roof",
+    "name": "farm house roof",
+    "sym": "^",
+    "color": "i_brown",
+    "see_cost": 5,
+    "extras": "build",
+    "mondensity": 2
   }
 ]
