@@ -1121,8 +1121,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         }
 
         if( ma.arm_block_with_bio_armor_arms || ma.arm_block != 99 ||
-            ma.leg_block_with_bio_armor_legs || ma.leg_block != 99 )
-        {
+            ma.leg_block_with_bio_armor_legs || ma.leg_block != 99 ) {
             if( ma.arm_block_with_bio_armor_arms ) {
                 buffer << _( "You can <info>arm block</info> by installing the <info>Arms Alloy Plating CBM</info>" );
                 buffer << std::endl;
