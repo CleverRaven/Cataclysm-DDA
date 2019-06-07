@@ -36,8 +36,10 @@
     "dispersion": 30,
     "durability": 10,
     "loudness": 12,
+    "modes": [ [ "DEFAULT", "single shot", 1 ], [ "burst", "triple shot", 3 ] ],
     "reload": 500,
-    "ammo_effects": [ "PLASMA", "EXPLOSIVE", "FLAME" ],
+    "built_in_mods": [ "bio_powershot" ],
+    "ammo_effects": [ "PLASMA" ],
     "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
   },
   {
