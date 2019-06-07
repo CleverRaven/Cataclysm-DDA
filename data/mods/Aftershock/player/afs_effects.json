@@ -1,0 +1,24 @@
+[
+  {
+    "type": "effect_type",
+    "id": "afs_bionic_rejection",
+    "name": [ "Bionic Rejection" ],
+    "desc": [ "Your body is adjusting to a new bionic.  It makes you intensely uncomfortable, and disrupts your ability to focus." ],
+    "apply_message": "Your body screams in protest to the new bionic!",
+    "remove_message": "You've broken in your new bionic.",
+    "rating": "bad",
+    "pain_sizing": true,
+    "base_mods": { "per_mod": [ -3, -1 ], "int_mod": [ -3, -1 ], "pain_min": [ 1 ], "pain_chance": [ 100, 300 ] },
+    "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "afs_immune_response",
+    "name": [ "Immune Response" ],
+    "desc": [ "Aided by your bionics, your immune system is aggressively attacking a foreign agent.  This is very uncomfortable." ],
+    "rating": "bad",
+    "pain_sizing": true,
+    "base_mods": { "per_mod": [ -1 ], "int_mod": [ -2 ], "pain_min": [ 1 ], "pain_chance": [ 100, 300 ] },
+    "show_in_info": true
+  }
+]

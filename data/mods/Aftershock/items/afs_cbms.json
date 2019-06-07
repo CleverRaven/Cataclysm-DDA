@@ -45,5 +45,75 @@
     "price": 1000000,
     "price_postapoc": 100000,
     "difficulty": 8
+  },
+  {
+    "id": "afs_bio_lightning_rod",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Lightning Rod CBM",
+    "description": "A thick and superconductive insulated metal rod that extends down the length of your arm and replaces your hand with something alike to a metal gauntlet.  While active, you raise the arm towards the sky, drawing lightning strikes from the heavens into yourself.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 6
+  },
+  {
+    "id": "afs_bio_hydrophobic_epidermis",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Hydrophobic Epidermis CBM",
+    "description": "Inside this metal box is a series of peach-colored synthetic fabric strips folded onto each other.  When pressed into the skin, they meld with it and alter it at the microscopic level before dissolving, making it completely waterproof.",
+    "price": 100000,
+    "price_postapoc": 10000,
+    "difficulty": 4
+  },
+  {
+    "id": "afs_bio_synthetic_heart",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Synthetic Heart CBM",
+    "description": "This mechanical pump is meant to replace your heart, and functions off of your body heat, requiring no power on its own.  It operates much more safely and efficiently than a normal human heart, boosting stamina regeneration and allowing open wounds to rapidly clot to prevent blood loss.",
+    "price": 50000,
+    "price_postapoc": 5000,
+    "difficulty": 3
+  },
+  {
+    "id": "afs_bio_nodisease",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Leukocyte Dispatcher CBM",
+    "description": "A small unit that augments your nervous system and provides immediate immune response to foreign agents.  While powered, this will cleanse you of any external invaders, including disease, infection, and parasites.",
+    "price": 100000,
+    "price_postapoc": 50000,
+    "difficulty": 6
+  },
+  {
+    "id": "afs_bio_weight",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Volonium Skeletal Bracing CBM",
+    "description": "This add-on upgrade to the Titanium Skeletal Bracing CBM further increases carrying weight by a tremendous amount using an ultra-strength synthetic alloy.  It requires its precursor to be installed first.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 5
+  },
+  {
+    "id": "afs_bio_plasma_blade",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Plasma Blade CBM",
+    "description": "This ultra-advanced bionic is lined with volonium heatsinks and powerful magnetic field projectors.  While active, it creates a superheated blade of plasma at a breathtaking power cost.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 10
+  },
+  {
+    "id": "afs_bio_jackhammer",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": "Acoustic Pulverizers CBM",
+    "description": "Two large, reinforced sound emitters, meant to be embedded into the palm.  When provided with bionic power, they can be used to emit staggered bursts of intense sound capable of breaking down solid barriers.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 7
   }
 ]

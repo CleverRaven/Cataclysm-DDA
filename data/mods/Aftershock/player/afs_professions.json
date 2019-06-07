@@ -29,7 +29,7 @@
     "ident": "afs_linux_patron",
     "name": "Linux Patron",
     "description": "You've grown up using Linux, have hacked together your own operating system out of Gentoo and a bunch of packages, and campaign for open source like it's a basic human right.  None of these things matter in the apocalypse, but your knowledge of the inner workings of 87% of the world's servers might.",
-    "points": 2,
+    "points": 1,
     "skills": [ { "level": 5, "name": "computer" } ],
     "items": {
       "both": [
@@ -133,7 +133,7 @@
     "type": "profession",
     "ident": "afs_serial_killer",
     "name": "Serial Killer",
-    "description": "Whether due to insanity, a lack of conscience, or some other reason, your unorthodox employment centered around taking lives.  You pilfered a welding mask from the local garage, and an axe from a stopped fire truck, and created an identity for yourself painted in red.  But now, it seems, someone with skills like yours might actually have a chance.",
+    "description": "Whether due to insanity, a lack of conscience, or something more exotic, your unorthodox employment centered around taking lives.  You pilfered some equipment from a hardware store, and created an identity for yourself painted in red.  Now, it seems, your skills will come in handy.",
     "points": 3,
     "skills": [
       { "level": 3, "name": "melee" },
@@ -145,7 +145,7 @@
     "items": {
       "both": [
         "afs_welding_mask",
-        "crowbar",
+        "afs_pry_bar",
         "fire_ax",
         "jacket_leather",
         "undershirt",
@@ -190,7 +190,7 @@
     "type": "profession",
     "ident": "afs_circus_strongman",
     "name": { "male": "Circus Strongman", "female": "Circus Strongwoman" },
-    "description": "You were born with a genetic defect that made your body unnaturally strong.  Your life was strange and multifaceted, and ultimately, you ended up traveling with a troupe up and down the coastline, putting on shows of strength  (NOTE: To preserve balance, choose this profession *before* adjusting your stats.  Or don't.  I'm a description, not a cop.)",
+    "description": "You were born with a genetic defect that made your body unnaturally strong.  Your life was strange and multifaceted, and ultimately, you ended up traveling with a troupe up and down the coastline, putting on shows of strength.  (NOTE: To preserve balance, choose this profession *before* adjusting your stats.  Or don't.  I'm a description, not a cop.)",
     "points": 2,
     "traits": [ "AFS_PROF_STRONGMAN" ],
     "items": { "both": [ "b_shorts", "undershirt" ], "male": [ "briefs" ], "female": [ "boy_shorts" ] }
@@ -224,7 +224,7 @@
     "type": "profession",
     "ident": "afs_cbm_engineer",
     "name": "CBM Engineer",
-    "description": "You worked as a technician in a sterile, high-security facility concerned with the fabrication of bionic implants.  Armed with the solderers in your hands, and aided by precise machines, you earned great pay.",
+    "description": "You worked as a technician in a sterile, high-security facility concerned with the fabrication of bionic implants.  Armed with the solderers in your hands, and aided by precise machines, you fueled the cybernetic world, and remained a part of it when the end came.",
     "points": 2,
     "skills": [ { "level": 4, "name": "electronics" } ],
     "CBMs": [ "afs_bio_precision_solderers", "bio_power_storage", "bio_batteries" ],
@@ -251,5 +251,50 @@
       "male": [ "briefs", "collarpin", "diamond_ring" ],
       "female": [ "panties", "hairpin", "pearl_collar" ]
     }
+  },
+  {
+    "type": "profession",
+    "ident": "afs_broken_cyborg",
+    "name": "Rivtech Model 'Keres' Unit M.II",
+    "description": "You remember nothing of your past; nothing before the augmentations, the 'enhancements' - only what you are now.  Hell was brought to you long before the Cataclysm as you suffered in one of many hidden facilities, and only now do you have a chance to control your fate once more, as a broken, unfinished weapon of war.  Now, standing in the ashes of the world, you discover something flickering within your wrecked body... a spark of humanity; a will to survive.",
+    "points": 3,
+    "CBMs": [
+      "bio_dis_shock",
+      "bio_drain",
+      "bio_noise",
+      "bio_power_weakness",
+      "bio_itchy",
+      "bio_nostril",
+      "bio_thumbs",
+      "bio_spasm",
+      "bio_shakes",
+      "bio_leaky",
+      "bio_sleepy",
+      "bio_deformity",
+      "bio_voice",
+      "bio_pokedeye",
+      "bio_ankles",
+      "bio_trip",
+      "bio_stiff",
+      "bio_furnace",
+      "bio_uncanny_dodge",
+      "bio_watch",
+      "bio_meteorologist",
+      "bio_night_vision",
+      "bio_targeting",
+      "bio_torsionratchet",
+      "bio_armor_head",
+      "bio_armor_torso",
+      "bio_armor_arms",
+      "bio_armor_legs",
+      "bio_armor_eyes",
+      "afs_bio_power_storage_mkIV",
+      "afs_bio_power_storage_mkIV",
+      "afs_bio_plasma_blade",
+      "afs_bio_weight",
+      "afs_bio_hydrophobic_epidermis",
+      "afs_bio_synthetic_heart"
+    ],
+    "items": { "both": [ "pants", "coat_lab", "undershirt" ], "male": [ "briefs" ], "female": [ "boy_shorts" ] }
   }
 ]

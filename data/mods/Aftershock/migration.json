@@ -1,0 +1,23 @@
+[
+  {
+    "//": "Since Bright Nights was merged into Aftershock, this is where old items from there are migrated or removed.",
+    "id": "nuclear_waste",
+    "type": "MIGRATION",
+    "replace": "plut_cell"
+  },
+  {
+    "id": "nuclear_fuel",
+    "type": "MIGRATION",
+    "replace": "plut_cell"
+  },
+  {
+    "id": "hazardous_waste_drum",
+    "type": "MIGRATION",
+    "replace": "55gal_drum"
+  },
+  {
+    "id": "textbook_atomic",
+    "type": "MIGRATION",
+    "replace": "recipe_lab_cvd"
+  }
+]

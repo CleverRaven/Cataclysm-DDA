@@ -6,12 +6,28 @@
     "name": "precision solderers",
     "flags": "TRADER_AVOID",
     "qualities": [ [ "SAW_M_FINE", 1 ], [ "SCREW_FINE", 1 ], [ "CUT_FINE", 2 ] ]
+  },  
+  {
+    "id": "afs_acoustic_pulverizers",
+    "type": "TOOL",
+    "name": "acoustic pulverizers",
+    "name_plural": "acoustic pulverizers",
+    "description": "A set of sound emitters on each palm.  When provided with bionic power, you can use them to blast holes in solid surfaces.  Wub-wub-wub.",
+    "weight": 0,
+    "volume": 1,
+    "material": "steel",
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": "battery",
+    "charges_per_use": 50,
+    "use_action": "JACKHAMMER",
+    "flags": [ "TRADER_AVOID", "DIG_TOOL", "NO_UNWIELD", "USES_BIONIC_POWER" ]
   },
   {
     "id": "afs_basin",
     "type": "CONTAINER",
     "name": "basin",
-    "description": "A wide, shallow basin used to hold liquid, hammered from a piece of sheet metal.  Ideal for collecting water.",
+    "description": "A wide, shallow basin used to hold liquid, hammered from a piece of sheet metal.  Ideal for collecting water, and because other things can be put inside it while it's empty to conserve space, it doesn't take up much room.",
     "weight": 5000,
     "volume": 10,
     "price": 1000,
@@ -28,7 +44,7 @@
     "id": "afs_fridge",
     "type": "GENERIC",
     "name": "vehicle refrigerator",
-    "description": "A household refrigerator with impressive capacity.  Its power connection has been refurbished, and it can be mounted onto a vehicle to draw from its power.",
+    "description": "A household refrigerator with impressive capacity.  Its power connection has been refurbished to run off of a vehicle battery.",
     "symbol": "{",
     "color": "white",
     "weight": 142882,
@@ -46,7 +62,7 @@
     "type": "GENERIC",
     "name": "vehicle freezer",
     "copy-from": "afs_fridge",
-    "description": "This refurbished refrigerator has been stripped of much of its internal components and converted to run at a much lower temperature, causing it to serve as a freezer for more power.  Like its predecessor, it runs on vehicle power.",
+    "description": "This refurbished refrigerator has been stripped of many of its internal components and converted to run at a much lower temperature, causing it to serve as a freezer at the cost of more power.  Like its predecessor, it runs on vehicle batteries.",
     "color": "light_blue"
   },
   {
@@ -105,7 +121,7 @@
     "copy-from": "vehicle_rig",
     "name": "MetalMaster forge buddy",
     "name_plural": "MetalMaster forge buddies",
-    "description": "From the makers of the best-selling* FOODCO kitchen buddy comes the MetalMaster forge buddy, for all your metalworking, firing, and welding needs!  It's just as clunky and awkward as the thing it's spinning off, and still requires a vehicle battery to function."
+    "description": "From the makers of the best-selling* FOODCO kitchen buddy comes the MetalMaster forge buddy, for all your metalworking, firing, and welding needs!  It's just as clunky and awkward as the thing it's based on, and still requires a vehicle battery to function."
   },
   {
     "type": "GENERIC",
@@ -129,7 +145,7 @@
     "category": "veh_parts",
     "name": "large storage battery",
     "name_plural": "large storage batteries",
-    "description": "A huge lithium ion storage battery, weighing easily 600 pounds.  Holds a tremendous amount of energy.",
+    "description": "A huge lithium ion storage battery, easily weighing 600 pounds.  Holds a tremendous amount of energy.",
     "weight": 300000,
     "volume": 80,
     "price": 400000,
@@ -142,35 +158,5 @@
     "ammo_type": "battery",
     "capacity": 100000,
     "flags": [ "NO_SALVAGE", "NO_UNLOAD", "NO_RELOAD", "RECHARGE" ]
-  },
-  {
-    "id": "nuclear_waste",
-    "type": "GENERIC",
-    "name": "nuclear waste",
-    "description": "A small pellet of silvery metal, still warm to the touch.",
-    "weight": 30,
-    "volume": 1,
-    "price": 0,
-    "material": "iron",
-    "symbol": "*",
-    "color": "light_green",
-    "flags": [ "RADIOACTIVE", "LEAK_ALWAYS" ]
-  },
-  {
-    "id": "nuclear_fuel",
-    "copy-from": "nuclear_waste",
-    "type": "GENERIC",
-    "name": "nuclear fuel pellet",
-    "description": "A small pellet of fissile material.  Handle carefully."
-  },
-  {
-    "id": "hazardous_waste_drum",
-    "copy-from": "55gal_drum",
-    "type": "CONTAINER",
-    "name": "hazardous waste drum",
-    "description": "A yellow drum meant for the storage of hazardous substances.",
-    "material": [ "steel", "lead" ],
-    "symbol": "0",
-    "color": "yellow"
   }
 ]

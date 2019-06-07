@@ -157,7 +157,7 @@
     "id": "afs_quilt",
     "type": "ARMOR",
     "name": "quilt",
-    "description": "A big, comfy quilt made of thick wool in a triangle pattern.  Extremely cozy!",
+    "description": "A big, comfy quilt made of thick wool in a diamond pattern.  Extremely cozy!",
     "weight": 1814,
     "volume": 20,
     "price": 5500,
@@ -208,7 +208,7 @@
     "id": "afs_survivor_belt",
     "copy-from": "survivor_belt",
     "type": "ARMOR",
-    "name": "survivor utility belt (holster)",
+    "name": "survivor utility belt (tool clip)",
     "description": "A custom-built leather utility belt covered with straps and pouches containing many useful hand tools and a clip for holding various equipment.  Durable and carefully crafted to be comfortable to wear.  Activate to clip something to it.",
     "use_action": {
       "type": "holster",

@@ -88,7 +88,7 @@
       "items": {
         "r": [ { "item": "cleaning", "chance": 90 }, { "item": "hardware", "chance": 90 } ],
         "t": { "item": "hardware", "chance": 90 },
-        "*": { "item": "nuclear_waste", "chance": 70 }
+        "*": { "item": "plut_cell", "chance": 70 }
       },
       "monster": { "M": { "monster": "mon_hazmatbot" } }
     }
@@ -132,7 +132,7 @@
       ],
       "palettes": [ "general_jc" ],
       "terrain": { "-": "t_wall_metal", "1": "t_support_l", "#": "t_rock", "%": "t_machinery_heavy" },
-      "items": { "*": { "item": "nuclear_waste", "chance": 70 } },
+      "items": { "*": { "item": "plut_cell", "chance": 70 } },
       "monster": { "M": { "monster": "mon_hazmatbot" } }
     }
   },
@@ -180,9 +180,9 @@
       },
       "items": {
         "d": { "item": "cop_armory", "chance": 5 },
-        "l": { "item": "reactor_gear", "chance": 70 },
+        "l": { "item": "cleansuit", "chance": 70 },
         "r": { "item": "cleaning", "chance": 100 },
-        "*": { "item": "nuclear_waste", "chance": 70 }
+        "*": { "item": "plut_cell", "chance": 70 }
       },
       "monster": { "M": { "monster": "mon_hazmatbot" } }
     }
@@ -235,7 +235,7 @@
         "E": "t_elevator_control",
         "Y": "t_utility_light"
       },
-      "items": { "d": { "item": "cop_armory", "chance": 5 }, "l": { "item": "reactor_gear", "chance": 70 } },
+      "items": { "d": { "item": "cop_armory", "chance": 5 }, "l": { "item": "cleansuit", "chance": 70 } },
       "place_items": [
         { "item": "nuclear_reactor", "x": 11, "y": 6, "chance": 100 },
         { "item": "nuclear_reactor", "x": 12, "y": 6, "chance": 100 },

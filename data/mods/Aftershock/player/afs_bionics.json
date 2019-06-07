@@ -44,5 +44,79 @@
     "act_cost": 5,
     "react_cost": 5,
     "time": 200
+  },
+  {
+    "id": "afs_bio_lightning_rod",
+    "type": "bionic",
+    "name": "Lightning Rod",
+    "description": "Extremely powerful superconductors and magnetic metals are implanted into your left arm.  Activate to raise this arm to the sky or lower it; while raised, you are unable to use the arm, but lightning strikes during thunderstorms may be drawn to you and travel down the conductors, massively recharging your bionic power and supercharging you for a short duration.  When this happens, 24 hours must pass before you can use the lightning rod again.",
+    "occupied_bodyparts": [ [ "ARM_L", 10 ] ],
+    "flags": [ "BIONIC_POWER_SOURCE", "BIONIC_TOGGLED", "BIONIC_SHOCKPROOF" ],
+    "time": 1
+  },
+  {
+    "id": "afs_bio_hydrophobic_epidermis",
+    "type": "bionic",
+    "name": "Hydrophobic Epidermis",
+    "description": "The outer layer of your skin has been physically altered at the microscopic level, making you impervious to any kind of wetness.",
+    "flags": [ "BIONIC_SHOCKPROOF" ]
+  },
+  {
+    "id": "afs_bio_synthetic_heart",
+    "type": "bionic",
+    "name": "Synthetic Heart",
+    "description": "Your heart has been removed and replaced by a mechanical pump that runs off of your body heat.  This slightly increases your stamina regeneration, as well as slowing your rate of bleeding and protecting you from cardiac arrest.",
+    "occupied_bodyparts": [ [ "TORSO", 10 ] ]
+  },
+  {
+    "id": "afs_bio_nodisease",
+    "type": "bionic",
+    "name": "Leukocyte Dispatcher",
+    "description": "Wired into your body's nervous system is a dispatcher that detects foreign invaders and causes immediate and full immune response.  While powered, this bionic will make you immune to diseases, infection, and parasites, but you'll feel crummy for a while every time it prevents one.",
+    "occupied_bodyparts": [ [ "TORSO", 10 ] ],
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_SLEEP_FRIENDLY" ],
+    "act_cost": 10,
+    "react_cost": 1,
+    "time": 600
+  },
+  {
+    "id": "afs_bio_weight",
+    "type": "bionic",
+    "name": "Volonium Skeletal Bracing",
+    "description": "Volonium hinges and joints have been inserted into your skeletal structure, making it extremely strong.  Your carrying capacity is increased by 100 kilograms, or roughly 200 pounds.",
+    "occupied_bodyparts": [ [ "TORSO", 8 ], [ "ARM_L", 3 ], [ "ARM_R", 3 ], [ "LEG_L", 3 ], [ "LEG_R", 3 ] ],
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
+    "upgraded_bionic": "bio_weight"
+  },
+  {
+    "id": "afs_bio_jackhammer",
+    "type": "bionic",
+    "name": "Acoustic Pulverizers",
+    "description": "Embedded in your palms are sound emitters capable of producing staggered, highly-powerful blasts of sound very quickly, mounted along with arm bracings to protect your body from the shocks.  You can utilize these emitters to break down solid objects through repeated force through bionic power, effectively imitating a jackhammer at a cost of 50 bionic power per operation.",
+    "occupied_bodyparts": [ [ "ARM_L", 4 ], [ "ARM_R", 4 ], [ "HAND_L", 4 ], [ "HAND_R", 4 ] ],
+    "fake_item": "afs_acoustic_pulverizers",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ]
+  },
+  {
+    "id": "afs_bio_plasma_blade",
+    "//": "this is 'borrowed' from Winged_Monotone's oc, Spathi. thanks, mono!",
+    "type": "bionic",
+    "name": "Plasma Blade",
+    "description": "Magnetic field projectors and heatsinks built into the framework of your arm can activate to produce a blade of superheated plasma reaching temperatures of 6000 Kelvin.  It slices through almost anything it comes in contact with, but has an immense power draw.",
+    "occupied_bodyparts": [ [ "ARM_R", 10 ], [ "HAND_R", 5 ] ],
+    "fake_item": "afs_plasma_blade",
+    "flags": [ "BIONIC_TOGGLED", "BIONIC_WEAPON", "NO_UNWIELD" ],
+    "act_cost": 75,
+    "react_cost": 75,
+    "time": 1
+  },
+  {
+    "id": "afs_bio_power_storage_mkIV",
+    "//": "doesn't have an item. This is exclusive to one of the professions.",
+    "type": "bionic",
+    "name": "Power Storage Mk. IV",
+    "capacity": 1250,
+    "description": "An experimental Rivtech bionic designed for living weapons.  Increases your power capacity by 1250 units.",
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_FIRE_AND_FORGET" ]
   }
 ]

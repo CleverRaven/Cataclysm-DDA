@@ -10,7 +10,7 @@
     "price_postapoc": 20000,
     "material": [ "superalloy", "diamond" ],
     "symbol": "[",
-    "color": "ltgray",
+    "color": "gray",
     "ammo": "battery",
     "charges_per_use": 1,
     "use_action": {
@@ -72,7 +72,7 @@
     "symbol": "(",
     "color": "white",
     "name": "hard-light longbow",
-    "description": "A sleek, stringless white metal longbow constructed of ultralight, atomic-age materials.  Rather than using ammunition, each shot uses high-tech projectors to create a string and arrow out of hard light on the spot, which provide excellent accuracy and armor penetration.  Being a bow, it's still not as powerful as conventional ballistic weapons.  It runs off of UPS power, and rather efficiently so.",
+    "description": "A sleek, stringless white metal longbow constructed of ultralight, cyber-age materials.  Rather than using ammunition, each shot uses high-tech projectors to create a string and arrow out of hard light on the spot, which provide excellent accuracy and armor penetration.  Being a bow, it's still not as powerful as conventional ballistic weapons.  It runs off of UPS power, and rather efficiently so.",
     "price": 1000000,
     "price_postapoc": 20000,
     "material": [ "titanium", "plastic" ],
@@ -139,7 +139,7 @@
     "id": "afs_bionic_rocket",
     "type": "GUN",
     "name": "deployed grenade launcher",
-    "description": "A grenade launcher mounted onto your right-hand wrist.  Less powerful than a proper grenade launcher, but infinitely more portable, and quick to reload.",
+    "description": "A grenade launcher extending from your right-hand wrist.  Less powerful than a proper grenade launcher, but infinitely more portable, and quick to reload.",
     "volume": 9,
     "price": 0,
     "to_hit": -2,
@@ -159,7 +159,7 @@
     "id": "laser_rifle_cheap",
     "type": "GUN",
     "name": "shoddy laser rifle",
-    "description": "This is a cheap laser rifle made from common components.  Weak, but can be powered with rechargeable batteries.",
+    "description": "A handmade energy weapon made from scrap parts to replicate a diagram found in a book somewhere.  Inefficient, slow, and unwieldy, but quiet, and can be powered using batteries.",
     "weight": 8000,
     "volume": 10,
     "price": 40000,
@@ -180,5 +180,20 @@
     "ammo_effects": [ "LASER", "DRAW_AS_LINE" ],
     "magazines": [ [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell" ] ] ],
     "flags": [ "NEVER_JAMS", "FIRE_20" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "afs_plasma_blade",
+    "name": "plasma blade",
+    "description": "A foot-long blade of searing violet plasma lined along the side of your arm.",
+    "weight": 0,
+    "to_hit": 3,
+    "color": "magenta",
+    "symbol": "{",
+    "techniques": [ "WBLOCK_2" ],
+    "volume": 1,
+    "cutting": 110,
+    "flags": [ "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
+    "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 30 ] ]
   }
 ]

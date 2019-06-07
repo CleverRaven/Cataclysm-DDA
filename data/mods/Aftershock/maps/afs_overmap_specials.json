@@ -21,7 +21,8 @@
     "locations": [ "wilderness", "swamp" ],
     "city_distance": [ -1, 6 ],
     "city_sizes": [ 2, 14 ],
-    "occurrences": [ 0, 4 ],
+    "//": "Currently doesn't spawn in new worlds, but old ones will keep it.",
+    "occurrences": [ 0 ],
     "rotate": false
   }
 ]

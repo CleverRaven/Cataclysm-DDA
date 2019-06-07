@@ -21,5 +21,15 @@
     "cancels": [ "STR_UP" ],
     "profession": true,
     "passive_mods": { "str_mod": 7 }
+  },
+  {
+    "type": "mutation",
+    "id": "AFS_BIONIC_REJECTION",
+    "name": "Cybernetic Rejection",
+    "category": [ "ALPHA" ],
+    "points": -3,
+    "valid": false,
+    "starting_trait": true,
+    "description": "Whether physical or mental, your body just can't handle bionic implants, and has an intense negative reaction to them.  Installing any new bionics will cause severe negative side effects, scaling with the complexity of the bionic."
   }
 ]
