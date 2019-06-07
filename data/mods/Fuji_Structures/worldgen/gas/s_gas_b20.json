@@ -75,7 +75,7 @@
       "furniture": {
         "h": "f_rubble_rock",
         "o": "f_bed",
-        "p": "f_autodoc"
+        "p": "f_autodoc",
         "q": "f_table",
         "r": "f_chair",
         "B": "f_rack",
@@ -125,7 +125,6 @@
         { "monster": "GROUP_SCI", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.5 }
       ],
       "fields": { "l": { "field": "fd_nuke_gas", "density": 1, "age": 0 }, "L": { "field": "fd_nuke_gas", "density": 1, "age": 0 } }
-      }
     }
   }
 ]
