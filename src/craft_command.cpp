@@ -137,8 +137,9 @@ item craft_command::create_in_progress_craft()
 {
     // Use up the components and tools
     std::list<item> used;
+    std::vector<item_comp> comps_used;
     if( crafter->has_trait( trait_id( "DEBUG_HS" ) ) ) {
-        return item( rec, batch_size, used );
+        return item( rec, batch_size, used, comps_used );
     }
 
     if( empty() ) {
@@ -165,7 +166,13 @@ item craft_command::create_in_progress_craft()
         crafter->consume_tools( it, batch_size );
     }
 
-    return item( rec, batch_size, used );
+    for( const comp_selection<item_comp> &selection : item_selections ) {
+        item_comp comp_used = selection.comp;
+        comp_used.count *= batch_size;
+        comps_used.emplace_back( comp_used );
+    }
+
+    return item( rec, batch_size, used, comps_used );
 }
 
 std::vector<comp_selection<item_comp>> craft_command::check_item_components_missing(

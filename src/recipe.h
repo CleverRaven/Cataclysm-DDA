@@ -88,6 +88,7 @@ class recipe
         // Character object (if provided) used to color levels
         std::string required_skills_string( const Character *, bool print_skill_level ) const;
         std::string required_skills_string( const Character * ) const;
+        std::string required_skills_string() const;
 
         // Create a string to describe the time savings of batch-crafting, if any.
         // Format: "N% at >M units" or "none"

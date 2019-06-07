@@ -46,7 +46,7 @@
         "g": "t_grass",
         "u": "t_underbrush_harvested_spring",
         "<": "t_stairs_up",
-        "|": "t_wall"
+        "|": "t_wall_w"
       },
       "furniture": {
         "#": "f_chair",

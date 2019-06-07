@@ -228,6 +228,11 @@
     "dynamic_line": "Oh, same old story at first.  I got evacuated on to the local concentration center, then picked up on a repurposed school bus and dragged out here.  Then the chick processing me to get in saw my name and Chinese name and conveniently 'lost' my paperwork.  I was sent out here to wait for further processing, while I watched busloads of people get processed and taken in.  By the time they 'found' it, the place was full up, wouldn't ya know it.  Now I'm stuck out here and they won't consider letting me in.",
     "responses": [
       { "text": "You think you were treated like that because of your race?", "topic": "TALK_REFUGEE_BEGGAR_3_RACISM" },
+      {
+        "condition": { "u_has_var": "told_about_FM_evacuation", "type": "general", "context": "conversation", "value": "yes" },
+        "text": "Does that mean you were part of that back room evacuation I heard about?",
+        "topic": "TALK_REFUGEE_BEGGAR_3_EVACUATION"
+      },
       { "text": "Why stay out here then?", "topic": "TALK_REFUGEE_BEGGAR_3_WHYSTAY" },
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_3_EXPERTISE" },
       {
@@ -263,6 +268,12 @@
       { "text": "Ok... see ya.", "topic": "TALK_DONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_3_EVACUATION",
+    "dynamic_line": "Oh yeah, that was a hell of a shitstorm.  We were waiting back there for 'processing' for hours and hours, with the sick and wounded.  One guy died, we all thought he was sleeping until he got back up.  That started a panic, gunshots in a closed area, that kind of stuff.  In just a few minutes, a bunch more people were dead.  Then the assholes called it an 'outbreak' and tried to barricade us in... took us way too long to convince the panicking guards that we were alive and needed to get out.  I'll give the one guy credit, Jason: when he found out they'd locked living people in with zombies, he came in himself, as some of the newly dead were starting to get back up, and he held them off for us to escape.  That... that was probably the only actual good thing I've seen since before the end of the world: he owned his error and he put himself in harm's way to make up for it.  Massive respect to that guy.  So, of course, he's a zombie now.  Fuck, thanks for reminding me of all that sunny fun.",
+    "responses": [ { "text": "Sorry for bringing it up. What were you saying?", "topic": "TALK_NONE" } ]
   },
   {
     "type": "talk_topic",

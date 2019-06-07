@@ -716,6 +716,19 @@ bool player::has_miss_recovery_tec( const item &weap ) const
     return false;
 }
 
+ma_technique player::get_miss_recovery_tec( const item &weap ) const
+{
+    ma_technique tech;
+    for( auto &technique : get_all_techniques( weap ) ) {
+        if( technique.obj().miss_recovery ) {
+            tech = technique.obj();
+            break;
+        }
+    }
+
+    return tech;
+}
+
 // This one isn't used with a weapon
 bool player::has_grab_break_tec() const
 {
@@ -725,6 +738,18 @@ bool player::has_grab_break_tec() const
         }
     }
     return false;
+}
+
+ma_technique player::get_grab_break_tec() const
+{
+    ma_technique tec;
+    for( auto &technique : get_all_techniques( item() ) ) {
+        if( technique.obj().grab_break ) {
+            tec = technique.obj();
+            break;
+        }
+    }
+    return tec;
 }
 
 bool player::can_leg_block() const
@@ -768,6 +793,11 @@ bool player::can_arm_block() const
 bool player::can_limb_block() const
 {
     return can_arm_block() || can_leg_block();
+}
+
+bool player::is_force_unarmed() const
+{
+    return style_selected.obj().force_unarmed;
 }
 
 // event handlers
@@ -1088,6 +1118,28 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         if( ma.force_unarmed ) {
             buffer << _( "<bold>This style forces you to use unarmed strikes, even if wielding a weapon.</bold>" );
             buffer << std::endl << "--" << std::endl;
+        }
+
+        if( ma.arm_block_with_bio_armor_arms || ma.arm_block != 99 ||
+            ma.leg_block_with_bio_armor_legs || ma.leg_block != 99 ) {
+            if( ma.arm_block_with_bio_armor_arms ) {
+                buffer << _( "You can <info>arm block</info> by installing the <info>Arms Alloy Plating CBM</info>" );
+                buffer << std::endl;
+            } else if( ma.arm_block != 99 ) {
+                buffer << string_format(
+                           _( "You can <info>arm block</info> at <info>unarmed combat:</info> <stat>%s</stat>" ),
+                           ma.arm_block ) << std::endl;
+            }
+
+            if( ma.leg_block_with_bio_armor_legs ) {
+                buffer << _( "You can <info>leg block</info> by installing the <info>Legs Alloy Plating CBM</info>" );
+                buffer << std::endl;
+            } else if( ma.leg_block != 99 ) {
+                buffer << string_format(
+                           _( "You can <info>leg block</info> at <info>unarmed combat:</info> <stat>%s</stat>" ),
+                           ma.leg_block ) << std::endl;
+            }
+            buffer << "--" << std::endl;
         }
 
         auto buff_desc = [&]( const std::string & title, const std::vector<mabuff_id> &buffs,

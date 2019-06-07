@@ -249,11 +249,12 @@ static const item *get_most_rotten_component( const item &craft )
     return most_rotten;
 }
 
-item::item( const recipe *rec, int qty, std::list<item> items )
+item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections )
     : item( "craft", calendar::turn, qty )
 {
     making = rec;
     components = items;
+    comps_used = selections;
 
     if( is_food() ) {
         active = true;
@@ -4735,13 +4736,13 @@ int item::damage_resist( damage_type dt, bool to_self ) const
     return 0;
 }
 
-bool item::is_two_handed( const player &u ) const
+bool item::is_two_handed( const Character &guy ) const
 {
     if( has_flag( "ALWAYS_TWOHAND" ) ) {
         return true;
     }
     ///\EFFECT_STR determines which weapons can be wielded with one hand
-    return ( ( weight() / 113_gram ) > u.str_cur * 4 );
+    return ( ( weight() / 113_gram ) > guy.str_cur * 4 );
 }
 
 const std::vector<material_id> &item::made_of() const

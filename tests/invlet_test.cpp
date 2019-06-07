@@ -427,7 +427,8 @@ static void invlet_test( player &dummy, const inventory_location from, const inv
         // assign invlet to the second item
         assign_invlet( dummy, item_at( dummy, 0, to ), invlet, second_invlet_state );
 
-        item *final_first = nullptr, *final_second = nullptr;
+        item *final_first = nullptr;
+        item *final_second = nullptr;
         switch( action ) {
             case REMOVE_1ST_REMOVE_2ND_ADD_1ST_ADD_2ND:
                 move_item( dummy, 0, to, from );
@@ -723,7 +724,7 @@ TEST_CASE( "invlet_favourites_can_erase", "[invlet]" )
     CHECK( fav.invlets_for( "a" ) == "a" );
     fav.erase( 'a' );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( "a" ) == "" );
+    CHECK( fav.invlets_for( "a" ).empty() );
 }
 
 TEST_CASE( "invlet_favourites_removes_clashing_on_insertion", "[invlet]" )
@@ -732,10 +733,10 @@ TEST_CASE( "invlet_favourites_removes_clashing_on_insertion", "[invlet]" )
     fav.set( 'a', "a" );
     verify_invlet_consistency( fav );
     CHECK( fav.invlets_for( "a" ) == "a" );
-    CHECK( fav.invlets_for( "b" ) == "" );
+    CHECK( fav.invlets_for( "b" ).empty() );
     fav.set( 'a', "b" );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( "a" ) == "" );
+    CHECK( fav.invlets_for( "a" ).empty() );
     CHECK( fav.invlets_for( "b" ) == "a" );
 }
 

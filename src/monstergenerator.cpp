@@ -137,6 +137,7 @@ const std::map<std::string, m_flag> flag_map = {
     { "CATFOOD", MF_CATFOOD },
     { "CATTLEFODDER", MF_CATTLEFODDER },
     { "BIRDFOOD", MF_BIRDFOOD },
+    { "PET_MOUNTABLE", MF_PET_MOUNTABLE },
     { "DOGFOOD", MF_DOGFOOD },
     { "MILKABLE", MF_MILKABLE },
     { "NO_BREED", MF_NO_BREED },

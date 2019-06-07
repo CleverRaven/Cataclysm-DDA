@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <bitset>
+#include <iostream>
 #include <iterator>
 #include <stdexcept>
 #include <tuple>
@@ -60,6 +61,7 @@
 #include "map_memory.h"
 #include "math_defines.h"
 #include "optional.h"
+#include "sdltiles.h"
 #include "string_id.h"
 #include "tileray.h"
 #include "translations.h"
@@ -83,7 +85,8 @@ static const std::array<std::string, 8> multitile_keys = {{
 
 extern int fontwidth;
 extern int fontheight;
-
+const efftype_id effect_ridden( "ridden" );
+const efftype_id effect_riding( "riding" );
 static const std::string empty_string;
 static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
         "", // C_NONE,
@@ -971,7 +974,7 @@ struct tile_render_info {
 };
 
 void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, int height,
-                       std::multimap<point, formatted_text> &overlay_strings )
+                       std::multimap<point, formatted_text> &overlay_strings, color_block_overlay_container &color_blocks )
 {
     if( !g ) {
         return;
@@ -1120,13 +1123,17 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
             if( g->displaying_visibility && ( g->displaying_visibility_creature != nullptr ) ) {
                 const bool visibility = g->displaying_visibility_creature->sees( { x, y, center.z } );
-                // <light shade> (U+2591) : <latin small letter o with stroke> (U+00F8)
-                std::string visibility_str = visibility ? "\xe2\x96\x91" : "\xc3\xb8" ;
-                const auto color = visibility ? catacurses::red : catacurses::blue + 8;
 
-                overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, tile_height / 2 ),
-                                         formatted_text( visibility_str, color, NORTH ) );
+                // color overlay.
+                auto block_color = visibility ? windowsPalette[catacurses::green] : SDL_Color{ 192, 192, 192, 255 };
+                block_color.a = 100;
+                color_blocks.first = SDL_BLENDMODE_BLEND;
+                color_blocks.second.emplace( player_to_screen( x, y ), block_color );
 
+                // overlay string
+                std::string visibility_str = visibility ? "+" : "-";
+                overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 4, tile_height / 4 ),
+                                         formatted_text( visibility_str, catacurses::black, NORTH ) );
             }
 
             if( apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
@@ -2314,6 +2321,10 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
         }
         if( rot_facing >= 0 ) {
             const auto ent_name = m->type->id;
+            if( m->has_effect( effect_ridden ) ) {
+                int pl_under_height = 6;
+                draw_entity_with_overlays( g->u, p, ll, pl_under_height );
+            }
             result = draw_from_id_string( ent_name.str(), ent_category, ent_subcategory, p, subtile, rot_facing,
                                           ll, false, height_3d );
             sees_player = m->sees( g->u );

@@ -121,15 +121,7 @@ struct points_left {
     }
 
     int skill_points_left() const {
-        switch( limit ) {
-            case FREEFORM:
-            case ONE_POOL:
-                return stat_points + trait_points + skill_points;
-            case MULTI_POOL:
-                return stat_points + trait_points + skill_points;
-        }
-
-        return 0;
+        return stat_points + trait_points + skill_points;
     }
 
     bool is_freeform() {

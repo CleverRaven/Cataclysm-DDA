@@ -5,6 +5,7 @@
 #include <map>
 #include <set>
 
+#include "bodypart.h"
 #include "damage.h"
 #include "enum_bitset.h"
 #include "type_id.h"
@@ -113,6 +114,10 @@ class spell_type
 
         // base energy cost of spell
         int base_energy_cost;
+        // increment of energy cost per spell level
+        float energy_increment;
+        // max or min energy cost, based on sign of energy_increment
+        int final_energy_cost;
 
         // spell is restricted to being cast by only this class
         // if spell_class is empty, spell is unrestricted
@@ -126,6 +131,10 @@ class spell_type
 
         // base amount of time to cast the spell in moves
         int base_casting_time;
+        // increment of casting time per level
+        float casting_time_increment;
+        // max or min casting time
+        int final_casting_time;
 
         // what energy do you use to cast this spell
         energy_type energy_source;
@@ -134,6 +143,9 @@ class spell_type
 
         // list of valid targets enum
         enum_bitset<valid_target> valid_targets;
+
+        // lits of bodyparts this spell applies its effect to
+        enum_bitset<body_part> affected_bps;
 
         static void load_spell( JsonObject &jo, const std::string &src );
         void load( JsonObject &jo, const std::string & );
@@ -207,6 +219,8 @@ class spell
         bool can_learn( const player &p ) const;
         // is this spell valid
         bool is_valid() const;
+        // is the bodypart affected by the effect
+        bool bp_is_affected( body_part bp ) const;
 
         // get spell id (from type)
         spell_id id() const;

@@ -48,6 +48,8 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_zapped( "zapped" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_no_sight( "no_sight" );
+const efftype_id effect_riding( "riding" );
+const efftype_id effect_ridden( "ridden" );
 
 const std::map<std::string, m_size> Creature::size_map = {
     {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
@@ -474,8 +476,15 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
         dealt_dam.bp_hit = get_random_body_part();
         return;
     }
+    // If carrying a rider, there is a chance the hits may hit rider instead.
+    if( has_effect( effect_ridden ) ) {
+        // big mounts and small player = big shield for player.
+        if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
+            g->u.deal_melee_hit( source, hit_spread, critical_hit, dam, dealt_dam );
+            return;
+        }
+    }
     damage_instance d = dam; // copy, since we will mutate in block_hit
-
     body_part bp_hit = select_body_part( source, hit_spread );
     block_hit( source, bp_hit, d );
 
@@ -528,7 +537,14 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         // Total miss
         return;
     }
-
+    // If carrying a rider, there is a chance the hits may hit rider instead.
+    if( has_effect( effect_ridden ) ) {
+        // big mounts and small player = big shield for player.
+        if( one_in( std::max( 2, get_size() - g->u.get_size() ) ) ) {
+            g->u.deal_projectile_attack( source, attack, print_messages );
+            return;
+        }
+    }
     const projectile &proj = attack.proj;
     dealt_damage_instance &dealt_dam = attack.dealt_dam;
     const auto &proj_effects = proj.proj_effects;
@@ -856,6 +872,10 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration dur, bo
     // Check our innate immunity
     if( !force && is_immune_effect( eff_id ) ) {
         return;
+    }
+    if( eff_id == efftype_id( "knockdown" ) && ( has_effect( effect_ridden ) ||
+            has_effect( effect_riding ) ) ) {
+        g->u.forced_dismount();
     }
 
     if( !eff_id.is_valid() ) {
