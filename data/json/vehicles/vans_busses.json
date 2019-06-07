@@ -1338,8 +1338,9 @@
       { "x": -7, "y": 2, "parts": [ "frame_se", "halfboard_se", "wheel", "roof" ] }
     ],
     "items": [
-      { "x": -6, "y": 1, "chance": 80, "items": "light_plus_battery_cell" },
-      { "x": -6, "y": 1, "chance": 80, "items": "light_plus_battery_cell" },
+      { "x": -6, "y": 1, "chance": 80, "item_groups": "ammo_light_batteries_full" },
+      { "x": -6, "y": 1, "chance": 80, "item_groups": "ammo_light_batteries_full" },
+      { "x": -6, "y": 1, "chance": 80, "item_groups": "ammo_light_batteries_full" },
       { "x": -2, "y": 0, "chance": 99, "items": [ "water_mineral", "water_mineral", "water_mineral" ] },
       { "x": -2, "y": 0, "chance": 60, "items": "whiskey" },
       { "x": -2, "y": 0, "chance": 60, "item_groups": "wines_worthy" },
