@@ -182,7 +182,7 @@ void game_menus::inv::common( avatar &you )
         inv_s.add_character_items( you );
         inv_s.update();
 
-        const item_location &location = inv_s.execute();
+        item_location &location = inv_s.execute();
 
         if( location == item_location::nowhere ) {
             if( inv_s.keep_open ) {
@@ -194,7 +194,7 @@ void game_menus::inv::common( avatar &you )
         }
 
         g->refresh_all();
-        res = g->inventory_item_menu( you.get_item_position( location.get_item() ) );
+        res = g->inventory_item_menu( location );
         g->refresh_all();
 
     } while( loop_options.count( res ) != 0 );
@@ -301,6 +301,13 @@ class wear_inventory_preset: public armor_inventory_preset
             return std::string();
         }
 };
+
+item_location game_menus::inv::inv_for_all( avatar &you, const std::string &title,
+        const std::string &none_message )
+{
+    const std::string msg = none_message.empty() ? _( "Your inventory is empty." ) : none_message;
+    return inv_internal( you, inventory_selector_preset(), title, -1, msg );
+}
 
 item_location game_menus::inv::wear( player &p )
 {
@@ -1246,7 +1253,7 @@ item_location game_menus::inv::saw_barrel( player &p, item &tool )
                        );
 }
 
-std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
+std::list<std::pair<item_location &, int>> game_menus::inv::multidrop( player &p )
 {
     p.inv.restack( p );
 
@@ -1262,7 +1269,7 @@ std::list<std::pair<int, int>> game_menus::inv::multidrop( player &p )
 
     if( inv_s.empty() ) {
         popup( std::string( _( "You have nothing to drop." ) ), PF_GET_KEY );
-        return std::list<std::pair<int, int> >();
+        return std::list<std::pair<item_location &, int> >();
     }
 
     return inv_s.execute();

@@ -542,7 +542,7 @@ class game
             RIGHT_OF_INFO,
             LEFT_TERMINAL_EDGE,
         };
-        int inventory_item_menu( int pos, int startx = 0, int width = 50,
+        int inventory_item_menu( item_location &loc, int startx = 0, int width = 50,
                                  inventory_item_menu_positon position = RIGHT_OF_INFO );
 
         /** Custom-filtered menu for inventory and nearby items and those that within specified radius */
@@ -732,9 +732,9 @@ class game
         void drop_in_direction(); // Drop w/ direction  'D'
 
         void butcher(); // Butcher a corpse  'B'
-        void use_item( int pos = INT_MIN ); // Use item; also tries E,R,W  'a'
+        void use_item( item_location &loc ); // Use item; also tries E,R,W  'a'
 
-        void change_side( int pos = INT_MIN ); // Change the side on which an item is worn 'c'
+        void change_side( item_location &loc ); // Change the side on which an item is worn 'c'
         void reload( int pos, bool prompt = false );
         void reload( item_location &loc, bool prompt = false, bool empty = true );
         void mend( int pos = INT_MIN );
@@ -744,6 +744,7 @@ class game
         void eat( item_location( *menu )( player &p ) );
         void eat( int pos );
         void eat( item_location( *menu )( player &p ), int pos );
+        void eat( item_location &loc );
         void reload_item(); // Reload an item
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.

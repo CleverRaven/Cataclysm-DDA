@@ -56,11 +56,14 @@ void compare( player &p, const cata::optional<tripoint> &offset );
 void reassign_letter( player &p, item &it );
 void swap_letters( player &p );
 
+item_location inv_for_all( avatar &you, const std::string &title,
+                           const std::string &none_message = "" );
+
 /**
  * Select items to drop.
  * @return A list of pairs of position, quantity.
  */
-std::list<std::pair<int, int>> multidrop( player &p );
+std::list<std::pair<item_location &, int>> multidrop( player &p );
 
 /** Consuming an item. */
 item_location consume( player &p );

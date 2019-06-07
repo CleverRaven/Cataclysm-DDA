@@ -1883,7 +1883,7 @@ inventory_iuse_selector::inventory_iuse_selector(
     max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() )
 {}
 
-std::list<std::pair<int, int>> inventory_iuse_selector::execute()
+std::list<std::pair<item_location &, int>> inventory_iuse_selector::execute()
 {
     int count = 0;
     while( true ) {
@@ -1928,7 +1928,7 @@ std::list<std::pair<int, int>> inventory_iuse_selector::execute()
             }
             break;
         } else if( input.action == "QUIT" ) {
-            return std::list<std::pair<int, int> >();
+            return std::list<std::pair<item_location &, int> >();
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
         } else {
@@ -1937,11 +1937,13 @@ std::list<std::pair<int, int>> inventory_iuse_selector::execute()
         }
     }
 
-    std::list<std::pair<int, int>> dropped_pos_and_qty;
+    std::list<std::pair<item_location &, int>> dropped_pos_and_qty;
 
-    for( auto use_pair : to_use ) {
-        dropped_pos_and_qty.push_back( std::make_pair( u.get_item_position( use_pair.first ),
-                                       use_pair.second ) );
+    for( std::pair<const item *, int> use_pair : to_use ) {
+        item_location &loc = item_location( const_cast<player &>( u ),
+                                            const_cast<item *>( use_pair.first ) );
+        std::pair<item_location &, int> pair = { loc, use_pair.second };
+        dropped_pos_and_qty.push_back( pair );
     }
 
     return dropped_pos_and_qty;
@@ -2004,7 +2006,7 @@ void inventory_drop_selector::process_selected( int &count,
     count = 0;
 }
 
-std::list<std::pair<int, int>> inventory_drop_selector::execute()
+std::list<std::pair<item_location &, int>> inventory_drop_selector::execute()
 {
     int count = 0;
     while( true ) {
@@ -2076,7 +2078,7 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
             }
             break;
         } else if( input.action == "QUIT" ) {
-            return std::list<std::pair<int, int> >();
+            return std::list<std::pair<item_location &, int> >();
         } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
         } else if( input.action == "TOGGLE_FAVORITE" ) {
@@ -2087,11 +2089,13 @@ std::list<std::pair<int, int>> inventory_drop_selector::execute()
         }
     }
 
-    std::list<std::pair<int, int>> dropped_pos_and_qty;
+    std::list<std::pair<item_location &, int>> dropped_pos_and_qty;
 
-    for( auto drop_pair : dropping ) {
-        dropped_pos_and_qty.push_back( std::make_pair( u.get_item_position( drop_pair.first ),
-                                       drop_pair.second ) );
+    for( std::pair<const item *, int> drop_pair : dropping ) {
+        item_location &loc = item_location( const_cast<player &>( u ),
+                                            const_cast<item *>( drop_pair.first ) );
+        std::pair<item_location &, int> pair = { loc, drop_pair.second };
+        dropped_pos_and_qty.push_back( pair );
     }
 
     return dropped_pos_and_qty;

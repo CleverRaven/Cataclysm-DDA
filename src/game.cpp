@@ -1922,12 +1922,12 @@ void game::handle_key_blocking_activity()
 * @param iWidth width of the item info window (height = height of terminal)
 * @return getch
 */
-int game::inventory_item_menu( int pos, int iStartX, int iWidth,
+int game::inventory_item_menu( item_location &loc, int iStartX, int iWidth,
                                const inventory_item_menu_positon position )
 {
     int cMenu = static_cast<int>( '+' );
 
-    item &oThisItem = u.i_at( pos );
+    item &oThisItem = *loc;
     if( u.has_item( oThisItem ) ) {
 #if defined(__ANDROID__)
         if( get_option<bool>( "ANDROID_INVENTORY_AUTOADD" ) ) {
@@ -2047,52 +2047,52 @@ int game::inventory_item_menu( int pos, int iStartX, int iWidth,
 
             switch( cMenu ) {
                 case 'a':
-                    use_item( pos );
+                    use_item( loc );
                     break;
                 case 'E':
-                    eat( pos );
+                    eat( loc );
                     break;
                 case 'W':
-                    u.wear( u.i_at( pos ) );
+                    u.wear( *loc );
                     break;
                 case 'w':
-                    wield( pos );
+                    wield( loc );
                     break;
                 case 't':
-                    avatar_action::plthrow( u, pos );
+                    avatar_action::plthrow( u, loc );
                     break;
                 case 'c':
-                    change_side( pos );
+                    u.change_side( *loc );
                     break;
                 case 'T':
-                    u.takeoff( u.i_at( pos ) );
+                    u.takeoff( *loc );
                     break;
                 case 'd':
-                    u.drop( pos, u.pos() );
+                    u.drop( loc, u.pos() );
                     break;
                 case 'U':
-                    unload( pos );
+                    unload( *loc );
                     break;
                 case 'r':
-                    reload( pos );
+                    reload( loc );
                     break;
                 case 'p':
-                    reload( pos, true );
+                    reload( loc, true );
                     break;
                 case 'm':
-                    mend( pos );
+                    u.mend_item( loc.clone() );
                     break;
                 case 'R':
-                    u.read( pos );
+                    u.read( *loc );
                     break;
                 case 'D':
-                    u.disassemble( pos );
+                    u.disassemble( loc );
                     break;
                 case 'f':
                     oThisItem.is_favorite = !oThisItem.is_favorite;
                     break;
                 case '=':
-                    game_menus::inv::reassign_letter( u, u.i_at( pos ) );
+                    game_menus::inv::reassign_letter( u, *loc );
                     break;
                 case KEY_PPAGE:
                     iScrollPos--;
@@ -4972,41 +4972,22 @@ static void update_lum( item_location loc, bool add )
     }
 }
 
-void game::use_item( int pos )
+void game::use_item( item_location &loc )
 {
-    bool use_loc = false;
-    item_location loc;
-
-    if( pos == INT_MIN ) {
-        loc = game_menus::inv::use( u );
-
-        if( !loc ) {
-            add_msg( _( "Never mind." ) );
-            return;
-        }
-
-        const item &it = *loc.get_item();
-        if( it.has_flag( "ALLOWS_REMOTE_USE" ) ) {
-            use_loc = true;
-        } else {
-            int obtain_cost = loc.obtain_cost( u );
-            pos = loc.obtain( u );
-            // This method only handles items in te inventory, so refund the obtain cost.
-            u.moves += obtain_cost;
-        }
+    if( loc.where() != item_location::type::character && !loc->has_flag( "ALLOWS_REMOTE_USE" ) ) {
+        int obtain_cost = loc.obtain_cost( u );
+        loc.obtain( u );
+        // This method only handles items in the inventory, so refund the obtain cost.
+        u.moves += obtain_cost;
     }
 
     refresh_all();
 
-    if( use_loc ) {
-        update_lum( loc.clone(), false );
-        u.use( loc.clone() );
-        update_lum( loc.clone(), true );
+    update_lum( loc.clone(), false );
+    u.use( loc.clone() );
+    update_lum( loc.clone(), true );
 
-        make_active( loc.clone() );
-    } else {
-        u.use( pos );
-    }
+    make_active( loc.clone() );
 
     u.invalidate_crafting_inventory();
 }
@@ -5614,7 +5595,8 @@ void game::peek( const tripoint &p )
     u.setpos( prev );
 
     if( result.peek_action && *result.peek_action == PA_BLIND_THROW ) {
-        avatar_action::plthrow( u, INT_MIN, p );
+        avatar_action::plthrow( u, game_menus::inv::inv_for_all( u, _( "Throw Item" ),
+                                _( "You don't have anything to throw." ) ), p );
     }
     m.invalidate_map_cache( p.z );
 
@@ -7943,7 +7925,7 @@ void game::butcher()
     std::vector<int> corpses;
     std::vector<int> disassembles;
     std::vector<int> salvageables;
-    auto items = m.i_at( u.pos() );
+    map_stack items = m.i_at( u.pos() );
     const inventory &crafting_inv = u.crafting_inventory();
 
     // TODO: Properly handle different material whitelists
@@ -8159,8 +8141,8 @@ void game::butcher()
         break;
         case BUTCHER_DISASSEMBLE: {
             // Pick index of first item in the disassembly stack
-            size_t index = disassembly_stacks[indexer_index].first;
-            u.disassemble( items[index], index, true );
+            const size_t index = disassembly_stacks[indexer_index].first;
+            u.disassemble( item_location( map_cursor( u.pos() ), &items[index] ) );
         }
         break;
         case BUTCHER_SALVAGE: {
@@ -8255,28 +8237,21 @@ void game::eat( item_location( *menu )( player &p ), int pos )
     if( pos != INT_MIN ) {
         u.consume( pos );
 
-    } else if( u.consume_item( *it ) ) {
-        if( it->is_food_container() ) {
-            it->contents.erase( it->contents.begin() );
-            add_msg( _( "You leave the empty %s." ), it->tname() );
-        } else {
-            item_loc.remove_item();
-        }
+    } else {
+        eat( item_loc );
     }
 }
 
-void game::change_side( int pos )
+void game::eat( item_location &loc )
 {
-    if( pos == INT_MIN ) {
-        pos = inv_for_filter( _( "Change side for item" ), [&]( const item & it ) {
-            return u.is_worn( it ) && it.is_sided();
-        }, _( "You don't have sided items worn." ) );
+    if( u.consume_item( *loc ) ) {
+        if( loc->is_food_container() ) {
+            loc->contents.erase( loc->contents.begin() );
+            add_msg( _( "You leave the empty %s." ), loc->tname() );
+        } else {
+            loc.remove_item();
+        }
     }
-    if( pos == INT_MIN ) {
-        add_msg( _( "Never mind." ) );
-        return;
-    }
-    u.change_side( pos );
 }
 
 void game::reload( int pos, bool prompt )
@@ -8476,22 +8451,6 @@ void game::unload( int pos )
         if( it->has_flag( "MAG_DESTROY" ) && it->ammo_remaining() == 0 ) {
             item_loc.remove_item();
         }
-    }
-}
-
-void game::mend( int pos )
-{
-    if( pos == INT_MIN ) {
-        if( u.is_armed() ) {
-            pos = -1;
-        } else {
-            add_msg( m_info, _( "You're not wielding anything." ) );
-        }
-    }
-
-    item &obj = g->u.i_at( pos );
-    if( g->u.has_item( obj ) ) {
-        g->u.mend_item( item_location( g->u, &obj ) );
     }
 }
 

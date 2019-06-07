@@ -5598,7 +5598,8 @@ void player::suffer()
                         str[0] = toupper( str[0] );
 
                         add_msg( m_bad, str );
-                        drop( get_item_position( &weapon ), pos() );
+                        item_location loc( *this, &weapon );
+                        drop( loc, pos() );
                     }
                     // NOLINTNEXTLINE(clang-analyzer-deadcode.DeadStores)
                     done_effect = true;
@@ -8590,7 +8591,7 @@ ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res ) 
     return ret_val<bool>::make_success();
 }
 
-bool player::takeoff( const item &it, std::list<item> *res )
+bool player::takeoff( item &it, std::list<item> *res )
 {
     const auto ret = can_takeoff( it, res );
     if( !ret.success() ) {
@@ -8606,7 +8607,8 @@ bool player::takeoff( const item &it, std::list<item> *res )
         if( volume_carried() + it.volume() > volume_capacity_reduced_by( it.get_storage() ) ) {
             if( is_npc() || query_yn( _( "No room in inventory for your %s.  Drop it?" ),
                                       colorize( it.tname(), it.color_in_inventory() ) ) ) {
-                drop( get_item_position( &it ), pos() );
+                item_location loc( *this, &it );
+                drop( *&loc, pos() );
                 return true; // the drop activity ends up taking off the item anyway so shouldn't try to do it again here
             } else {
                 return false;
@@ -8637,15 +8639,16 @@ bool player::takeoff( int pos )
     return takeoff( i_at( pos ) );
 }
 
-void player::drop( int pos, const tripoint &where )
+void player::drop( item_location &loc, const tripoint &where )
 {
-    const item &it = i_at( pos );
-    const int count = it.count();
-
-    drop( { std::make_pair( pos, count ) }, where );
+    std::list<std::pair<item_location &, int>> temp_list = {
+        { loc, loc->count() }
+    };
+    drop( temp_list, where );
 }
 
-void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &target, bool stash )
+void player::drop( const std::list<std::pair<item_location &, int>> &what, const tripoint &target,
+                   bool stash )
 {
     const activity_id type( stash ? "ACT_STASH" : "ACT_DROP" );
 
@@ -8662,9 +8665,10 @@ void player::drop( const std::list<std::pair<int, int>> &what, const tripoint &t
     assign_activity( type );
     activity.placement = target - pos();
 
-    for( auto item_pair : what ) {
-        if( can_unwield( i_at( item_pair.first ) ).success() ) {
-            activity.values.push_back( item_pair.first );
+    for( std::pair<item_location &, int> item_pair : what ) {
+        if( can_unwield( *item_pair.first ).success() ) {
+            // item_location ACT
+            activity.targets.push_back( item_pair.first.clone() );
             activity.values.push_back( item_pair.second );
         }
     }
@@ -9090,7 +9094,7 @@ void player::use( item_location loc )
     } else if( used.is_book() ) {
         // TODO: Remove this nasty cast once this and related functions are migrated to avatar
         if( avatar *u = dynamic_cast<avatar *>( this ) ) {
-            u->read( inventory_position );
+            u->read( used );
         }
     } else if( used.type->has_use() ) {
         invoke_item( &used, loc.position() );

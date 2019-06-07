@@ -1072,10 +1072,10 @@ static void read()
 {
     avatar &u = g->u;
     // Can read items from inventory or within one tile (including in vehicles)
-    auto loc = game_menus::inv::read( u );
+    item_location loc = game_menus::inv::read( u );
 
     if( loc ) {
-        u.read( loc.obtain( u ) );
+        u.read( *loc );
     } else {
         add_msg( _( "Never mind." ) );
     }
@@ -1765,7 +1765,7 @@ bool game::handle_action()
             case ACTION_USE:
                 // Shell-users are presumed to be able to mess with their inventories, etc
                 // while in the shell.  Eating, gear-changing, and item use are OK.
-                use_item();
+                use_item( game_menus::inv::inv_for_all( u, "Use Item" ) );
                 break;
 
             case ACTION_USE_WIELDED:
@@ -1814,11 +1814,11 @@ bool game::handle_action()
                 break;
 
             case ACTION_MEND:
-                mend();
+                u.mend_item( game_menus::inv::inv_for_all( u, _( "Mend Item" ) ) );
                 break;
 
             case ACTION_THROW:
-                avatar_action::plthrow( g->u );
+                avatar_action::plthrow( g->u, game_menus::inv::inv_for_all( g->u, _( "Throw Item" ) ) );
                 break;
 
             case ACTION_FIRE:

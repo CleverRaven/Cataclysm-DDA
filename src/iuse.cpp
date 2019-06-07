@@ -8187,19 +8187,15 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
         popup( std::string( _( "You have nothing to clean." ) ), PF_GET_KEY );
         return 0;
     }
-    std::list<std::pair<int, int>> to_clean = inv_s.execute();
+    std::list<std::pair<item_location &, int>> to_clean = inv_s.execute();
     if( to_clean.empty() ) {
         return 0;
     }
 
     // Determine if we have enough water and cleanser for all the items.
     units::volume total_volume = 0_ml;
-    for( std::pair<int, int> pair : to_clean ) {
-        item i = p->i_at( pair.first );
-        if( pair.first == INT_MIN ) {
-            p->add_msg_if_player( m_info, _( "Never mind." ) );
-            return 0;
-        }
+    for( std::pair<item_location &, int> pair : to_clean ) {
+        item i = *pair.first;
         total_volume += i.volume() * pair.second;
     }
 
@@ -8226,8 +8222,8 @@ int iuse::washclothes( player *p, item *, bool, const tripoint & )
     // Assign the activity values.
     p->assign_activity( activity_id( "ACT_WASH" ), required.time );
 
-    for( std::pair<int, int> pair : to_clean ) {
-        p->activity.values.push_back( pair.first );
+    for( std::pair<item_location &, int> pair : to_clean ) {
+        p->activity.targets.push_back( pair.first.clone() );
         p->activity.values.push_back( pair.second );
     }
 
@@ -8352,7 +8348,8 @@ int iuse::disassemble( player *p, item *it, bool, const tripoint & )
     // disassemble all, but get_item_position returns INT_MIN if it's not
     // actually in our inventory/worn/wielded. Skip this nonsensical case.
     if( pos != INT_MIN ) {
-        p->disassemble( *it, pos, false, false );
+        item_location loc( *p, it );
+        p->disassemble( loc );
     }
     return 0;
 }

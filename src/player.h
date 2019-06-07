@@ -1050,11 +1050,12 @@ class player : public Character
         /** Returns all items that must be taken off before taking off this item */
         std::list<const item *> get_dependent_worn_items( const item &it ) const;
         /** Takes off an item, returning false on fail. The taken off item is processed in the interact */
-        bool takeoff( const item &it, std::list<item> *res = nullptr );
+        bool takeoff( item &it, std::list<item> *res = nullptr );
         bool takeoff( int pos );
         /** Drops an item to the specified location */
-        void drop( int pos, const tripoint &where );
-        void drop( const std::list<std::pair<int, int>> &what, const tripoint &where, bool stash = false );
+        void drop( item_location &loc, const tripoint &where );
+        void drop( const std::list<std::pair<item_location &, int>> &what, const tripoint &where,
+                   bool stash = false );
 
         /** So far only called by unload() from game.cpp */
         bool add_or_drop_with_msg( item &it, const bool unloading = false );
@@ -1420,8 +1421,7 @@ class player : public Character
         ret_val<bool> can_disassemble( const item &obj, const inventory &inv ) const;
 
         bool disassemble();
-        bool disassemble( int pos );
-        bool disassemble( item &obj, int pos, bool ground, bool interactive = true );
+        bool disassemble( item_location &loc, bool interactive = true );
         void disassemble_all( bool one_pass ); // Disassemble all items on the tile
         void complete_disassemble();
         void complete_disassemble( int item_pos, const tripoint &loc,

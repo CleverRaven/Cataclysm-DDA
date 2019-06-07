@@ -1335,17 +1335,17 @@ bool advanced_inventory::move_all_items( bool nested_call )
     }
 
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
-        std::list<std::pair<int, int>> dropped;
+        std::list<std::pair<item_location &, int>> dropped;
 
         if( spane.get_area() == AIM_INVENTORY ) {
             // keep a list of favorites separated, only drop non-fav first if they exist
-            std::list<std::pair<int, int>> dropped_favorite;
+            std::list<std::pair<item_location &, int>> dropped_favorite;
             for( size_t index = 0; index < g->u.inv.size(); ++index ) {
-                const auto &stack = g->u.inv.const_stack( index );
-                const auto &it = stack.front();
+                const std::list<item> &stack = g->u.inv.const_stack( index );
+                const item &it = stack.front();
 
                 if( !spane.is_filtered( it ) ) {
-                    ( it.is_favorite ? dropped_favorite : dropped ).emplace_back( static_cast<int>( index ),
+                    ( it.is_favorite ? dropped_favorite : dropped ).emplace_back( item_location( g->u, &g->u.i_at( index ) ),
                             it.count_by_charges() ? static_cast<int>( it.charges ) : static_cast<int>( stack.size() ) );
                 }
             }
@@ -1359,12 +1359,10 @@ bool advanced_inventory::move_all_items( bool nested_call )
             // do this in reverse, to account for vector item removal messing with future indices
             auto iter = g->u.worn.rbegin();
             for( size_t idx = 0; idx < g->u.worn.size(); ++idx, ++iter ) {
-                const size_t index = ( g->u.worn.size() - idx - 1 );
-                const auto &it = *iter;
-
+                item &it = *iter;
+                
                 if( !spane.is_filtered( it ) ) {
-                    dropped.emplace_back( player::worn_position_to_index( index ),
-                                          it.count() );
+                    dropped.emplace_back( item_location( g->u, &it ), it.count() );
                 }
             }
         }
@@ -1878,6 +1876,7 @@ void advanced_inventory::display()
             if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
                 int idx = ( spane.get_area() == AIM_INVENTORY ) ?
                           sitem->idx : player::worn_position_to_index( sitem->idx );
+                item_location loc( g->u, &g->u.i_at( idx ) );
                 // Setup a "return to AIM" activity. If examining the item creates a new activity
                 // (e.g. reading, reloading, activating), the new activity will be put on top of
                 // "return to AIM". Once the new activity is finished, "return to AIM" comes back
@@ -1886,7 +1885,7 @@ void advanced_inventory::display()
                 // "return to AIM".
                 do_return_entry();
                 assert( g->u.has_activity( activity_id( "ACT_ADV_INVENTORY" ) ) );
-                ret = g->inventory_item_menu( idx, info_startx, info_width,
+                ret = g->inventory_item_menu( loc, info_startx, info_width,
                                               src == advanced_inventory::side::left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO );
                 if( !g->u.has_activity( activity_id( "ACT_ADV_INVENTORY" ) ) ) {
                     exit = true;

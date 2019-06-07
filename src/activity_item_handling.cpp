@@ -58,11 +58,11 @@ const trap_str_id tr_firewood_source( "tr_firewood_source" );
 
 /** Activity-associated item */
 struct act_item {
-    const item *it;         /// Pointer to the inventory item
+    item_location &it;      /// Pointer to the item_location
     int count;              /// How many items need to be processed
     int consumed_moves;     /// Amount of moves that processing will consume
 
-    act_item( const item *it, int count, int consumed_moves )
+    act_item( item_location &it, int count, int consumed_moves )
         : it( it ),
           count( count ),
           consumed_moves( consumed_moves ) {}
@@ -352,7 +352,7 @@ static drop_indexes convert_to_indexes( const player &p, const std::list<act_ite
     drop_indexes res;
 
     for( const auto &ait : items ) {
-        const int pos = p.get_item_position( ait.it );
+        const int pos = p.get_item_position( &*ait.it );
 
         if( pos != INT_MIN && ait.count > 0 ) {
             if( res.empty() || res.back().first != pos ) {
@@ -370,24 +370,26 @@ static std::list<act_item> convert_to_items( const player &p, const drop_indexes
 {
     std::list<act_item> res;
 
-    for( const auto &rec : drop ) {
-        const auto pos = rec.first;
-        const auto count = rec.second;
+    for( const std::pair<int, int> &rec : drop ) {
+        const int pos = rec.first;
+        const int count = rec.second;
 
         if( pos < min_pos || pos > max_pos ) {
             continue;
         } else if( pos >= 0 ) {
             int obtained = 0;
-            for( const auto &it : p.inv.const_stack( pos ) ) {
+            for( const item &it : p.inv.const_stack( pos ) ) {
                 if( obtained >= count ) {
                     break;
                 }
                 const int qty = it.count_by_charges() ? std::min<int>( it.charges, count - obtained ) : 1;
                 obtained += qty;
-                res.emplace_back( &it, qty, 100 ); // TODO: Use a calculated cost
+                item_location loc( const_cast<player &>( p ), const_cast<item *>( &it ) );
+                res.emplace_back( loc, qty, 100 ); // TODO: Use a calculated cost
             }
         } else {
-            res.emplace_back( &p.i_at( pos ), count, pos == -1 ? 0 : 100 ); // TODO: Use a calculated cost
+            item_location loc( const_cast<player &>( p ), const_cast<item *>( &p.i_at( pos ) ) );
+            res.emplace_back( loc, count, pos == -1 ? 0 : 100 ); // TODO: Use a calculated cost
         }
     }
 
@@ -408,15 +410,16 @@ static std::list<act_item> reorder_for_dropping( const player &p, const drop_ind
         return first.it->volume() < second.it->volume();
     } );
     // Add missing dependent worn items (if any).
-    for( const auto &wait : worn ) {
-        for( const auto dit : p.get_dependent_worn_items( *wait.it ) ) {
+    for( const act_item &wait : worn ) {
+        for( const item *dit : p.get_dependent_worn_items( *wait.it ) ) {
             const auto iter = std::find_if( worn.begin(), worn.end(),
             [ dit ]( const act_item & ait ) {
-                return ait.it == dit;
+                return &*ait.it == dit;
             } );
 
             if( iter == worn.end() ) {
-                worn.emplace_front( dit, dit->count(), 100 ); // TODO: Use a calculated cost
+                item_location loc( const_cast<player &>( p ), const_cast<item *>( dit ) );
+                worn.emplace_front( loc, dit->count(), 100 ); // TODO: Use a calculated cost
             }
         }
     }
@@ -476,21 +479,21 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
 {
     std::list<item> res;
 
-    auto items = reorder_for_dropping( p, convert_to_indexes( act ) );
+    std::list<act_item> items = reorder_for_dropping( p, convert_to_indexes( act ) );
 
     debug_drop_list( items );
 
     while( !items.empty() && ( p.is_npc() || p.moves > 0 || items.front().consumed_moves == 0 ) ) {
-        const auto &ait = items.front();
+        const act_item &ait = items.front();
 
         p.mod_moves( -ait.consumed_moves );
 
         if( p.is_worn( *ait.it ) ) {
             p.takeoff( *ait.it, &res );
         } else if( ait.it->count_by_charges() ) {
-            res.push_back( p.reduce_charges( const_cast<item *>( ait.it ), ait.count ) );
+            res.push_back( p.reduce_charges( const_cast<item *>( &*ait.it ), ait.count ) );
         } else {
-            res.push_back( p.i_rem( ait.it ) );
+            res.push_back( p.i_rem( &*ait.it ) );
         }
 
         items.pop_front();
@@ -648,8 +651,8 @@ void activity_handlers::washing_finish( player_activity *act, player *p )
         return;
     }
 
-    for( const auto &ait : items ) {
-        item *filthy_item = const_cast<item *>( ait.it );
+    for( act_item &ait : items ) {
+        item *filthy_item = &*ait.it;
         filthy_item->item_tags.erase( "FILTHY" );
         p->on_worn_item_washed( *filthy_item );
     }

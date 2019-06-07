@@ -206,11 +206,15 @@ static invlet_state check_invlet( player &p, item &it, const char invlet )
     return UNEXPECTED;
 }
 
+// TODO: Change from raw index to item_location or something else
 static void drop_at_feet( player &p, const int pos )
 {
     auto size_before = g->m.i_at( p.pos() ).size();
     p.moves = 100;
-    p.drop( pos, p.pos() );
+    // hacky workaround while we phase out item indices
+    item *it = &p.i_at( pos );
+    item_location &loc = item_location( p, it );
+    p.drop( loc, p.pos() );
     p.activity.do_turn( p );
     REQUIRE( g->m.i_at( p.pos() ).size() == size_before + 1 );
 }

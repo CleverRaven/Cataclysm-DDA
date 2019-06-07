@@ -1660,7 +1660,7 @@ ret_val<bool> player::can_disassemble( const item &obj, const inventory &inv ) c
 
 bool player::disassemble()
 {
-    auto loc = game_menus::inv::disassemble( *this );
+    item_location loc = game_menus::inv::disassemble( *this );
 
     if( !loc ) {
         add_msg( _( "Never mind." ) );
@@ -1669,18 +1669,13 @@ bool player::disassemble()
 
     loc.set_should_stack( false );
 
-    return disassemble( loc.obtain( *this ) );
+    return disassemble( loc );
 }
 
-bool player::disassemble( int dis_pos )
+bool player::disassemble( item_location &loc, bool interactive )
 {
-    return disassemble( i_at( dis_pos ), dis_pos, false );
-}
-
-bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
-{
-    const auto ret = can_disassemble( obj, crafting_inventory() );
-
+    const auto ret = can_disassemble( *loc, crafting_inventory() );
+    const bool ground = loc.where() != item_location::type::character;
     if( !ret.success() ) {
         if( interactive ) {
             add_msg_if_player( m_info, "%s", ret.c_str() );
@@ -1688,11 +1683,11 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
         return false;
     }
 
-    const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
+    const auto &r = recipe_dictionary::get_uncraft( loc->typeId() );
     // last chance to back out
     if( interactive && get_option<bool>( "QUERY_DISASSEMBLE" ) ) {
         std::ostringstream list;
-        const auto components = obj.get_uncraft_components();
+        const auto components = loc->get_uncraft_components();
         for( const auto &component : components ) {
             list << "- " << component.to_string() << std::endl;
         }
@@ -1700,12 +1695,12 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
         if( !r.learn_by_disassembly.empty() && !knows_recipe( &r ) && can_decomp_learn( r ) ) {
             if( !query_yn(
                     _( "Disassembling the %s may yield:\n%s\nReally disassemble?\nYou feel you may be able to understand this object's construction.\n" ),
-                    colorize( obj.tname(), obj.color_in_inventory() ),
+                    colorize( loc->tname(), loc->color_in_inventory() ),
                     list.str() ) ) {
                 return false;
             }
         } else if( !query_yn( _( "Disassembling the %s may yield:\n%s\nReally disassemble?" ),
-                              colorize( obj.tname(), obj.color_in_inventory() ),
+                              colorize( loc->tname(), loc->color_in_inventory() ),
                               list.str() ) ) {
             return false;
         }
@@ -1717,7 +1712,7 @@ bool player::disassemble( item &obj, int pos, bool ground, bool interactive )
         activity.moves_left = r.time;
     }
 
-    activity.values.push_back( pos );
+    activity.targets.push_back( loc.clone() );
     activity.coords.push_back( ground ? this->pos() : tripoint_min );
     activity.str_values.push_back( r.result() );
 
@@ -1728,7 +1723,7 @@ void player::disassemble_all( bool one_pass )
 {
     // Reset all the activity values
     assign_activity( activity_id( "ACT_DISASSEMBLE" ), 0 );
-    auto items = g->m.i_at( pos() );
+    map_stack items = g->m.i_at( pos() );
     bool found_any = false;
     if( !one_pass ) {
         // Kinda hacky
@@ -1740,8 +1735,10 @@ void player::disassemble_all( bool one_pass )
         activity.coords.push_back( tripoint_min );
     }
 
-    for( size_t i = 0; i < items.size(); i++ ) {
-        if( disassemble( items[i], i, true, false ) ) {
+    for( item it : items ) {
+        const map_cursor cur( pos() );
+        item_location loc( cur, &it );
+        if( disassemble( loc, false ) ) {
             found_any = true;
         }
     }

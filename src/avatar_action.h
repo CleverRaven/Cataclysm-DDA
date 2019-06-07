@@ -7,6 +7,7 @@
 
 class avatar;
 class item;
+class item_location;
 class map;
 
 struct point;
@@ -56,7 +57,7 @@ bool fire( avatar &you, map &m );
  */
 bool fire( avatar &you, map &m, item &weapon, int bp_cost = 0 );
 // Throw an item  't'
-void plthrow( avatar &you, int pos = INT_MIN,
+void plthrow( avatar &you, item_location &loc,
               const cata::optional<tripoint> &blind_throw_from_pos = cata::nullopt );
 }
 

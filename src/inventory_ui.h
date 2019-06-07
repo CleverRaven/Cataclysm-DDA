@@ -672,7 +672,7 @@ class inventory_iuse_selector : public inventory_multiselector
                                  const std::string &selector_title,
                                  const inventory_selector_preset &preset = default_preset,
                                  const GetStats & = {} );
-        std::list<std::pair<int, int>> execute();
+        std::list<std::pair<item_location &, int>> execute();
 
     protected:
         stats get_raw_stats() const override;
@@ -689,7 +689,7 @@ class inventory_drop_selector : public inventory_multiselector
     public:
         inventory_drop_selector( const player &p,
                                  const inventory_selector_preset &preset = default_preset );
-        std::list<std::pair<int, int>> execute();
+        std::list<std::pair<item_location &, int>> execute();
 
     protected:
         stats get_raw_stats() const override;
