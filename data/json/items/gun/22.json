@@ -310,7 +310,7 @@
     "price": 7000,
     "to_hit": -3,
     "bashing": 1,
-    "material": [ "budget_steel" ],
+    "material": [ "budget_steel", "zinc" ],
     "color": "dark_gray",
     "ammo": "22",
     "dispersion": 600,
