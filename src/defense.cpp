@@ -131,26 +131,24 @@ bool defense_game::init()
 
 static void calculate_tech_level( int initial_difficulty, int wave_difficulty, int current_wave, float &caravan_tech_level ) {
     caravan_tech_level = ( current_wave );
-    add_msg( m_info, _( "Caravan Tech Level: %f." ), caravan_tech_level );
+    add_msg( m_info, _( "Caravan Tech Level in calculate_tech_level: %f." ), caravan_tech_level );
 }
 
-static void calculate_tech_level_2( int initial_difficulty, int wave_difficulty, int caravan_visits, float &caravan_tech_level ) {
-    int z = initial_difficulty;
-    int w = wave_difficulty;
-    caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 14 ) ) );
+static void calculate_tech_level_2( int initial_difficulty, int wave_difficulty, int current_wave, float &caravan_tech_level ) {
+    caravan_tech_level = ( current_wave );
+    add_msg( m_info, _( "Caravan Tech Level in calculate_tech_level_2: %f." ), caravan_tech_level );
 }
 
-static void calculate_tech_level_3( int initial_difficulty, int wave_difficulty, int caravan_visits, float &caravan_tech_level ) {
-    int z = initial_difficulty;
-    int w = wave_difficulty;
-    caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 14 ) ) );
+static void calculate_tech_level_3( int initial_difficulty, int wave_difficulty, int current_wave, float &caravan_tech_level ) {
+    caravan_tech_level = ( current_wave );
+    add_msg( m_info, _( "Caravan Tech Level in calculate_tech_level_3: %f." ), caravan_tech_level );
 }
 
-static void calculate_tech_level_4( int initial_difficulty, int wave_difficulty, int caravan_visits, float &caravan_tech_level ) {
-    int z = initial_difficulty;
-    int w = wave_difficulty;
-    caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 14 ) ) );
+static void calculate_tech_level_4( int initial_difficulty, int wave_difficulty, int current_wave, float &caravan_tech_level ) {
+    caravan_tech_level = ( current_wave );
+    add_msg( m_info, _( "Caravan Tech Level in calculate_tech_level_4: %f." ), caravan_tech_level );
 }
+
 void defense_game::per_turn()
 {
     if( !thirst ) {
@@ -168,7 +166,7 @@ void defense_game::per_turn()
             caravan_visits++;
             popup( _( "A caravan approaches!  Press spacebar..." ) );
             caravan();
-            add_msg( m_info, _( "Caravan Tech Level: %f." ), defense_game::caravan_tech_level );
+            add_msg( m_info, _( "Caravan Tech Level in per_turn: %f." ), caravan_tech_level );
             add_msg( m_info, _( "Initial Game Difficulty: %i." ), initial_difficulty );
             add_msg( m_info, _( "Wave Difficulty: %i." ), wave_difficulty );
             add_msg( m_info, _( "Caravan Visits: %i." ), caravan_visits );
