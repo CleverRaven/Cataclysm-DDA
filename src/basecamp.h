@@ -132,6 +132,8 @@ class basecamp
         int recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, int &sbonus ) const;
         // confirm there is at least 1 loot destination and 1 unsorted loot zone in the camp
         bool validate_sort_points();
+        // Validates the expansion data
+        expansion_data parse_expansion( const std::string &terrain, const tripoint &new_pos );
         /**
          * Invokes the zone manager and validates that the necessary sort zones exist.
          */

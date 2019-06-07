@@ -1013,7 +1013,7 @@ void basecamp::get_available_missions( mission_data &mission_key, bool by_radio 
 
         for( const basecamp_upgrade &upgrade : available_upgrades( dir ) ) {
             const base_camps::miss_data &miss_info = base_camps::miss_info[ "_faction_upgrade_exp_" ];
-            comp_list npc_list = get_mission_workers( upgrade.bldg + "_faction_upgrade_exp" + dir );
+            comp_list npc_list = get_mission_workers( upgrade.bldg + "_faction_upgrade_exp_" + dir );
             if( npc_list.empty() ) {
                 entry = om_upgrade_description( upgrade.bldg );
                 mission_key.add_start( dir + miss_info.miss_id + upgrade.bldg,
@@ -1310,16 +1310,16 @@ bool basecamp::handle_mission( const std::string &miss_id, const std::string &mi
     for( const std::string &dir : directions ) {
         if( dir == miss_dir ) {
             const tripoint omt_trg = expansions[ dir ].pos;
-            if( miss_id.size() > 19 &&
-                miss_id.substr( 0, 19 ) == ( miss_dir + " Expansion Upgrade" ) ) {
-                const std::string bldg = miss_id.substr( 19 );
+            if( miss_id.size() > 21 &&
+                miss_id.substr( 0, 22 - ( 4 - miss_dir.size() ) ) == ( miss_dir + " Expansion Upgrade" ) ) {
+                const std::string bldg = miss_id.substr( 22 - ( 4 - miss_dir.size() ) );
                 start_upgrade( bldg, bldg + "_faction_upgrade_exp_" + miss_dir, by_radio );
             } else if( miss_id == "Recover Ally, " + miss_dir + " Expansion" ) {
                 upgrade_return( dir, "_faction_upgrade_exp_" + miss_dir );
             } else {
                 const std::string search_str = "Recover Ally, " + miss_dir + " Expansion";
                 size_t search_len = search_str.size();
-                if( miss_id.size() > search_len && miss_id.substr( search_len ) == search_str ) {
+                if( miss_id.size() > search_len && miss_id.substr( 0, search_len ) == search_str ) {
                     const std::string bldg = miss_id.substr( search_len );
                     upgrade_return( dir, bldg + "_faction_upgrade_exp_" + miss_dir, bldg );
                 }

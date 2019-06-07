@@ -106,13 +106,17 @@ std::string basecamp::board_name() const
 // find the last underbar, strip off the prefix of faction_base_ (which is 13 chars),
 // and the pull out the $TYPE and $CURLEVEL
 // This is legacy support for existing camps; future camps don't use cur_level at all
-static expansion_data parse_expansion( const std::string &terrain, const tripoint &new_pos )
+expansion_data basecamp::parse_expansion( const std::string &terrain, const tripoint &new_pos )
 {
     expansion_data e;
     int last_bar = terrain.find_last_of( '_' );
     e.type = terrain.substr( base_camps::prefix_len, last_bar - base_camps::prefix_len );
     e.cur_level = std::stoi( terrain.substr( last_bar + 1 ) );
     e.pos = new_pos;
+    resources_updated = false;
+    // expensive hack but only for rare legacy camps
+    bool by_radio = rl_dist( g->u.global_omt_location(), omt_pos ) > 2;
+    reset_camp_resources( by_radio );
     return e;
 }
 
