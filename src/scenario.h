@@ -31,6 +31,8 @@ class scenario
         std::string _start_name;
 
         bool blacklist = false; // If true, professions is a blacklist.
+        bool extra_professions = false;
+        // If true, professions specified are in addition to non-scenario-specific ones.
         std::vector<string_id<profession>> professions; // as specified in JSON, verbatim
 
         /**
