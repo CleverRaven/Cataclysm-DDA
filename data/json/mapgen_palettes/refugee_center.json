@@ -63,7 +63,7 @@
     "id": "rc_grounds",
     "terrain": {
       "'": [ [ "t_grass", 30 ], [ "t_dirt", 10 ], [ "t_grass_dead", 3 ] ],
-      ",": [ [ "t_pavement_y", 100 ], [ "t_dirt", 2 ], "t_grass_dead" ]
+      ",": [ [ "t_pavement_y", 100 ], [ "t_dirt", 2 ], "t_grass_dead" ],
       ".": [
         [ "t_grass", 300 ],
         [ "t_dirt", 100 ],
