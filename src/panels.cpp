@@ -1972,23 +1972,65 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
 
     bool redraw = true;
     bool exit = false;
+    // map of row the panel is on vs index
+    // panels not renderable due to game configuration will not be in this map
+    std::map<size_t, size_t> row_indices;
     while( !exit ) {
         auto &panels = layouts[current_layout_id];
-        column == 0 ? max_index = panels.size() : max_index = layouts.size();
 
         if( redraw ) {
             redraw = false;
             werase( w );
             static const std::string title = _( "SIDEBAR OPTIONS" );
             decorate_panel( title, w );
+            // clear the panel list
+            for( int i = 1; i <= 13; i++ ) {
+                for( int j = 1; j <= 12; j++ ) {
+                    mvwputch( w, i, j, c_black, ' ' );
+                }
+            }
+            // the row that the panel name is printed on
+            int row = 1;
+            row_indices.clear();
             for( size_t i = 0; i < panels.size(); i++ ) {
+                if( panels[i].render() ) {
+                    row_indices.emplace( row - 1, i );
+                    row++;
+                } else if( !panels[i].render && column == 0 ) {
+                    if( selected && index == i ) {
+                        row++;
+                    }
+                }
+            }
 
-                mvwprintz( w, i + 1, 4,
-                           panels[i].toggle ?
-                           source_index == i && selected ? c_yellow : c_white : c_dark_gray,
-                           selected && index - 1 == i ? " %s" : "%s",
-                           selected && index - 1 == i ? _( saved_name ) : _( panels[i].get_name() ) );
+            column == 0 ? max_index = row_indices.size() : max_index = layouts.size();
+            int vertical_offset = 0;
+            int selected_offset = 0;
+            size_t modified_index = row_indices[index - 1];
 
+            for( std::pair<size_t, size_t> row_indx : row_indices ) {
+                nc_color toggle_color = panels[row_indx.second].toggle ? c_white : c_dark_gray;
+                std::string name = _( panels[row_indx.second].get_name() );
+                if( !selected ) {
+                    mvwprintz( w, row_indx.first + 1, 4, toggle_color, name );
+                } else {
+                    if( modified_index < row_indx.first ) {
+                        vertical_offset = 2;
+                    } else if( modified_index == row_indx.first && row_indx.first < source_index ) {
+                        vertical_offset = 2;
+                    } else {
+                        vertical_offset = 1;
+                    }
+                    mvwprintz( w, row_indx.first + vertical_offset, 4, toggle_color, name );
+                    if( source_index == row_indx.first ) {
+                        if( modified_index < source_index ) {
+                            selected_offset = 0;
+                        } else {
+                            selected_offset = 1;
+                        }
+                        mvwprintz( w, index + selected_offset, 5, c_yellow, name );
+                    }
+                }
             }
             int i = 1;
             for( const auto &layout : layouts ) {
@@ -1996,7 +2038,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                            _( layout.first ) );
                 i++;
             }
-            mvwprintz( w, index, 1 + ( column_width * column ), c_yellow, ">>" );
+            mvwprintz( w, index + selected_offset, 1 + ( column_width * column ), c_yellow, ">>" );
             mvwvline( w, 1, 13, 0, 13 );
             mvwvline( w, 1, 43, 0, 13 );
             mvwprintz( w, 1, 15, c_light_green, trunc_ellipse( ctxt.press_x( "TOGGLE_PANEL" ), 27 ) + ":" );
@@ -2028,14 +2070,14 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
             // source window from the swap
             if( counter == 1 ) {
                 // saving win1 index
-                source_index = index - 1;
+                source_index = row_indices[index - 1];
                 selected = true;
                 saved_name = panels[source_index].get_name();
             }
             // dest window for the swap
             if( counter == 2 ) {
                 // saving win2 index
-                target_index = index - 1;
+                target_index = row_indices[index - 1];
 
                 int distance = target_index - source_index;
                 size_t step_dir = distance > 0 ? 1 : -1;
@@ -2080,7 +2122,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
             redraw = true;
         }
         if( action == "TOGGLE_PANEL" && column == 0 ) {
-            panels[index - 1].toggle = !panels[index - 1].toggle;
+            panels[row_indices[index - 1]].toggle = !panels[row_indices[index - 1]].toggle;
             wrefresh( g->w_terrain );
             g->draw_panels( column, index, true );
             return;
