@@ -71,7 +71,7 @@
     "price_postapoc": 24000,
     "to_hit": -2,
     "bashing": 20,
-    "material": [ "plastic", "zinc" ],
+    "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "light_cyan",
     "ammo_type": "battery",
