@@ -436,6 +436,18 @@ std::string recipe::required_skills_string( const Character *c ) const
     return required_skills_string( c, false );
 }
 
+std::string recipe::required_skills_string() const
+{
+    if( required_skills.empty() ) {
+        return _( "<color_white>none</color>" );
+    }
+    return enumerate_as_string( required_skills.begin(), required_skills.end(),
+    [&]( const std::pair<skill_id, int> &skill ) {
+        return string_format( "<color_white>%s: %d</color>", skill.first.obj().name(),
+                              skill.second );
+    } );
+}
+
 std::string recipe::batch_savings_string() const
 {
     return ( batch_rsize != 0 ) ?

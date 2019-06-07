@@ -1383,6 +1383,25 @@
   },
   {
     "type": "city_building",
+    "id": "gambling_hall",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "gambling_hall_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "gambling_hall_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "gambling_hall_upper_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "gambling_hall_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "gambling_hall_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "gambling_hall_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "bakery",
     "locations": [ "land" ],
     "overmaps": [

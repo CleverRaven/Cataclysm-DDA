@@ -3170,48 +3170,47 @@ void game::draw_panels( size_t column, size_t index, bool force_draw )
     const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
     int spacer = get_option<bool>( "SIDEBAR_SPACERS" ) ? 1 : 0;
     int log_height = 0;
-    for( const auto &panel : mgr.get_current_layout() ) {
-        if( panel.get_height() != -2 && panel.toggle ) {
+    for( const window_panel &panel : mgr.get_current_layout() ) {
+        if( panel.get_height() != -2 && panel.toggle && panel.render() ) {
             log_height += panel.get_height() + spacer;
         }
     }
     log_height = std::max( TERMY - log_height, 3 );
-    for( const auto &panel : mgr.get_current_layout() ) {
-        if( !panel.render() ) {
-            continue;
-        }
-        // height clamped to window height.
-        int h = std::min( panel.get_height(), TERMY - y );
-        if( h == -2 ) {
-            h = log_height;
-        }
-        h += spacer;
-        if( panel.toggle && h > 0 ) {
-            if( panel.always_draw || draw_this_turn ) {
-                panel.draw( u, catacurses::newwin( h, panel.get_width(), y,
-                                                   sidebar_right ? TERMX - panel.get_width() : 0 ) );
+    for( const window_panel &panel : mgr.get_current_layout() ) {
+        if( panel.render() ) {
+            // height clamped to window height.
+            int h = std::min( panel.get_height(), TERMY - y );
+            if( h == -2 ) {
+                h = log_height;
             }
-            if( show_panel_adm ) {
-                auto label = catacurses::newwin( 1, panel.get_name().length(), y, sidebar_right ?
-                                                 TERMX - panel.get_width() - panel.get_name().length() - 1 : panel.get_width() + 1 );
-                werase( label );
-                mvwprintz( label, 0, 0, c_light_red, _( panel.get_name() ) );
-                wrefresh( label );
-                label = catacurses::newwin( h, 1, y,
-                                            sidebar_right ? TERMX - panel.get_width() - 1 : panel.get_width() );
-                werase( label );
-                if( h == 1 ) {
-                    mvwputch( label, 0, 0, c_light_red, LINE_OXOX );
-                } else {
-                    mvwputch( label, 0, 0, c_light_red, LINE_OXXX );
-                    for( int i = 1; i < h - 1; i++ ) {
-                        mvwputch( label, i, 0, c_light_red, LINE_XOXO );
-                    }
-                    mvwputch( label, h - 1, 0, c_light_red, sidebar_right ? LINE_XXOO : LINE_XOOX );
+            h += spacer;
+            if( panel.toggle && panel.render() && h > 0 ) {
+                if( panel.always_draw || draw_this_turn ) {
+                    panel.draw( u, catacurses::newwin( h, panel.get_width(), y,
+                                                       sidebar_right ? TERMX - panel.get_width() : 0 ) );
                 }
-                wrefresh( label );
+                if( show_panel_adm ) {
+                    auto label = catacurses::newwin( 1, panel.get_name().length(), y, sidebar_right ?
+                                                     TERMX - panel.get_width() - panel.get_name().length() - 1 : panel.get_width() + 1 );
+                    werase( label );
+                    mvwprintz( label, 0, 0, c_light_red, _( panel.get_name() ) );
+                    wrefresh( label );
+                    label = catacurses::newwin( h, 1, y,
+                                                sidebar_right ? TERMX - panel.get_width() - 1 : panel.get_width() );
+                    werase( label );
+                    if( h == 1 ) {
+                        mvwputch( label, 0, 0, c_light_red, LINE_OXOX );
+                    } else {
+                        mvwputch( label, 0, 0, c_light_red, LINE_OXXX );
+                        for( int i = 1; i < h - 1; i++ ) {
+                            mvwputch( label, i, 0, c_light_red, LINE_XOXO );
+                        }
+                        mvwputch( label, h - 1, 0, c_light_red, sidebar_right ? LINE_XXOO : LINE_XOOX );
+                    }
+                    wrefresh( label );
+                }
+                y += h;
             }
-            y += h;
         }
     }
     if( show_panel_adm ) {
