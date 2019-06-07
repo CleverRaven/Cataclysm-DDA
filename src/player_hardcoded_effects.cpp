@@ -33,8 +33,8 @@
 
 const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
-const bionic_id afs_bio_nodisease("afs_bio_nodisease");
-const bionic_id afs_bio_synthetic_heart("afs_bio_synthetic_heart");
+const bionic_id afs_bio_nodisease( "afs_bio_nodisease" );
+const bionic_id afs_bio_synthetic_heart( "afs_bio_synthetic_heart" );
 
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
@@ -48,7 +48,7 @@ const efftype_id effect_bloodworms( "bloodworms" );
 const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_brainworms( "brainworms" );
 const efftype_id effect_cold( "cold" );
-const efftype_id effect_common_cold("common_cold");
+const efftype_id effect_common_cold( "common_cold" );
 const efftype_id effect_cough_suppress( "cough_suppress" );
 const efftype_id effect_datura( "datura" );
 const efftype_id effect_dermatik( "dermatik" );
@@ -57,7 +57,7 @@ const efftype_id effect_downed( "downed" );
 const efftype_id effect_evil( "evil" );
 const efftype_id effect_formication( "formication" );
 const efftype_id effect_frostbite( "frostbite" );
-const efftype_id effect_flu("flu");
+const efftype_id effect_flu( "flu" );
 const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_hallu( "hallu" );
@@ -85,7 +85,7 @@ const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
-const efftype_id effect_afs_bionic_rejection("afs_bionic_rejection");
+const efftype_id effect_afs_bionic_rejection( "afs_bionic_rejection" );
 
 const vitamin_id vitamin_iron( "iron" );
 
@@ -295,7 +295,7 @@ static void eff_fun_hallu( player &u, effect &it )
 
 static void eff_fun_bionic_rejection( player &u, effect &it )
 {
-    const bool allDaySuffering = to_turns<int>(it.get_duration()) >= 14400;
+    const bool allDaySuffering = to_turns<int>( it.get_duration() ) >= 14400;
     if( u.focus_pool >= 90 ) {
         u.focus_pool = 90; // Can't focus with this horrible *THING* in our body
     }
@@ -870,20 +870,18 @@ void player::hardcoded_effects( effect &it )
         }
 
         if( dur > 1800_minutes && one_in( 50 * 512 ) ) {
-            if (!has_bionic(afs_bio_synthetic_heart)) {
-                if (!has_trait(trait_id("NOPAIN"))) {
-                    add_msg_if_player(m_bad,
-                        _("Your heart spasms painfully and stops, dragging you back to reality as you die."));
-                }
-                else {
+            if( !has_bionic( afs_bio_synthetic_heart ) ) {
+                if( !has_trait( trait_id( "NOPAIN" ) ) ) {
+                    add_msg_if_player( m_bad,
+                                       _( "Your heart spasms painfully and stops, dragging you back to reality as you die." ) );
+                } else {
                     add_msg_if_player(
-                        _("You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more."));
+                        _( "You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more." ) );
                 }
-                add_memorial_log(pgettext("memorial_male", "Died of datura overdose."),
-                    pgettext("memorial_female", "Died of datura overdose."));
+                add_memorial_log( pgettext( "memorial_male", "Died of datura overdose." ),
+                                  pgettext( "memorial_female", "Died of datura overdose." ) );
                 hp_cur[hp_torso] = 0;
-            }
-            else { // Aftershock's synthetic heart blocks heart attacks
+            } else { // Aftershock's synthetic heart blocks heart attacks
                 add_msg_if_player( m_bad,
                                    _( "Your drug-addled, failing mind slips a little closer towards oblivion." ) );
                 mod_fatigue( 50 );
@@ -937,7 +935,7 @@ void player::hardcoded_effects( effect &it )
             if( has_trait( trait_id( "INFRESIST" ) ) ) {
                 recover_factor += 200;
             }
-            if( has_effect( effect_panacea ) || has_active_bionic(afs_bio_nodisease) ) {
+            if( has_effect( effect_panacea ) || has_active_bionic( afs_bio_nodisease ) ) {
                 recover_factor = 108000; //panacea and an AFS bionic are guaranteed cures
             } else if( has_effect( effect_strong_antibiotic ) ) {
                 recover_factor += 400;
@@ -994,7 +992,7 @@ void player::hardcoded_effects( effect &it )
             if( has_trait( trait_id( "INFRESIST" ) ) ) {
                 recover_factor += 200;
             }
-            if( has_effect( effect_panacea ) || has_active_bionic(afs_bio_nodisease) ) {
+            if( has_effect( effect_panacea ) || has_active_bionic( afs_bio_nodisease ) ) {
                 recover_factor = 864000;
             } else if( has_effect( effect_strong_antibiotic ) ) {
                 recover_factor += 400;
@@ -1082,13 +1080,12 @@ void player::hardcoded_effects( effect &it )
                                    _( "You feel physically rested, but you haven't been able to catch up on your missed sleep yet." ) );
             }
             it.set_duration( 1_turns * dice( 3, 100 ) );
-        }
-        else if (id == effect_flu || id == effect_common_cold) {
-            if (has_active_bionic(afs_bio_nodisease)) {
-                add_msg_if_player(m_mixed,
-                    _("You feel pained and fatigued as your augmented immune system attacks your illness."));
-                add_effect(efftype_id("afs_immune_response"), dur);
-                it.set_duration(0_turns);
+        } else if( id == effect_flu || id == effect_common_cold ) {
+            if( has_active_bionic( afs_bio_nodisease ) ) {
+                add_msg_if_player( m_mixed,
+                                   _( "You feel pained and fatigued as your augmented immune system attacks your illness." ) );
+                add_effect( efftype_id( "afs_immune_response" ), dur );
+                it.set_duration( 0_turns );
             }
         }
 

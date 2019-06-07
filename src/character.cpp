@@ -1252,7 +1252,8 @@ units::mass Character::weight_capacity() const
     if( has_bionic( bionic_id( "bio_weight" ) ) ) {
         ret += 20_kilogram;
     }
-    if (has_bionic(bionic_id("afs_bio_weight"))) { // Aftershock specific bionic; can only be installed over Titanium Skeletal Bracing
+    if( has_bionic(
+            bionic_id( "afs_bio_weight" ) ) ) { // Aftershock specific bionic; can only be installed over Titanium Skeletal Bracing
         ret += 100_kilogram;
     }
     if( ret < 0_gram ) {

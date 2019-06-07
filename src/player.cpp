@@ -253,11 +253,11 @@ static const bionic_id bio_watch( "bio_watch" );
 static const bionic_id bio_synaptic_regen( "bio_synaptic_regen" );
 
 // Aftershock stuff!
-static const bionic_id afs_bio_hydrophobic_epidermis("afs_bio_hydrophobic_epidermis");
-static const bionic_id afs_bio_linguistic_coprocessor("afs_bio_linguistic_coprocessor");
-static const bionic_id afs_bio_lightning_rod("afs_bio_lightning_rod");
-static const bionic_id afs_bio_nodisease("afs_bio_nodisease");
-static const bionic_id afs_bio_synthetic_heart("afs_bio_synthetic_heart");
+static const bionic_id afs_bio_hydrophobic_epidermis( "afs_bio_hydrophobic_epidermis" );
+static const bionic_id afs_bio_linguistic_coprocessor( "afs_bio_linguistic_coprocessor" );
+static const bionic_id afs_bio_lightning_rod( "afs_bio_lightning_rod" );
+static const bionic_id afs_bio_nodisease( "afs_bio_nodisease" );
+static const bionic_id afs_bio_synthetic_heart( "afs_bio_synthetic_heart" );
 
 static const trait_id trait_ACIDBLOOD( "ACIDBLOOD" );
 static const trait_id trait_ACIDPROOF( "ACIDPROOF" );
@@ -2704,7 +2704,8 @@ bool player::has_two_arms() const
 {
     // If you've got a blaster arm, active Aftershock lightning rod, low hp arm, or you're inside a shell then you don't have two
     // arms to use.
-    return !( ( has_bionic( bio_blaster ) || has_active_bionic(afs_bio_lightning_rod) || hp_cur[hp_arm_l] < hp_max[hp_arm_l] * 0.125 ||
+    return !( ( has_bionic( bio_blaster ) || has_active_bionic( afs_bio_lightning_rod ) ||
+                hp_cur[hp_arm_l] < hp_max[hp_arm_l] * 0.125 ||
                 hp_cur[hp_arm_r] < hp_max[hp_arm_r] * 0.125 ) || has_active_mutation( trait_id( "SHELL2" ) ) );
 }
 
@@ -4128,10 +4129,10 @@ void player::get_sick()
         return;
     }
 
-    if (has_active_bionic(afs_bio_nodisease)) { // Aftershock
-        add_msg_if_player(m_mixed,
-            _("Your augmented immune system flares up.  It must be fighting off a contaminant."));
-        add_effect(efftype_id("afs_immune_response"), 12_hours);
+    if( has_active_bionic( afs_bio_nodisease ) ) { // Aftershock
+        add_msg_if_player( m_mixed,
+                           _( "Your augmented immune system flares up.  It must be fighting off a contaminant." ) );
+        add_effect( efftype_id( "afs_immune_response" ), 12_hours );
     }
 
     // Normal people get sick about 2-4 times/year.
@@ -4619,7 +4620,8 @@ void player::update_stamina( int turns )
     // Mutated stamina works even when winded
     float stamina_multiplier = ( !has_effect( effect_winded ) ? 1.0f : 0.0f ) +
                                mutation_value( "stamina_regen_modifier" );
-    if (has_bionic(afs_bio_synthetic_heart)) { // Aftershock-specific bionic; boosts stam. regen by 10% and blocks heart attacks
+    if( has_bionic(
+            afs_bio_synthetic_heart ) ) { // Aftershock-specific bionic; boosts stam. regen by 10% and blocks heart attacks
         stamina_multiplier += 0.1f;
     }
     if( stamina_multiplier > 0.0f ) {
@@ -5092,10 +5094,11 @@ void player::process_effects()
         remove_effect( effect_fungus );
         add_msg_if_player( m_bad,  _( "We have mistakenly colonized a local guide!  Purging now." ) );
     }
-    if( ( has_trait( trait_PARAIMMUNE ) || has_active_bionic(afs_bio_nodisease) )&& ( has_effect( effect_dermatik ) ||
-                                           has_effect( effect_tapeworm ) ||
-                                           has_effect( effect_bloodworms ) || has_effect( effect_brainworms ) ||
-                                           has_effect( effect_paincysts ) ) ) {
+    if( ( has_trait( trait_PARAIMMUNE ) || has_active_bionic( afs_bio_nodisease ) ) &&
+        ( has_effect( effect_dermatik ) ||
+          has_effect( effect_tapeworm ) ||
+          has_effect( effect_bloodworms ) || has_effect( effect_brainworms ) ||
+          has_effect( effect_paincysts ) ) ) {
         remove_effect( effect_dermatik );
         remove_effect( effect_tapeworm );
         remove_effect( effect_bloodworms );
@@ -6586,7 +6589,8 @@ void player::sound_hallu()
 
 void player::drench( int saturation, const body_part_set &flags, bool ignore_waterproof )
 {
-    if( saturation < 1 || has_bionic( afs_bio_hydrophobic_epidermis )) { // Aftershock's Hydrophobic Epidermis can block all wetness
+    if( saturation < 1 ||
+        has_bionic( afs_bio_hydrophobic_epidermis ) ) { // Aftershock's Hydrophobic Epidermis can block all wetness
         return;
     }
 
