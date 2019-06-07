@@ -52,12 +52,18 @@ static const mongroup_id GROUP_TRIFFID = mongroup_id( "GROUP_TRIFFID" );
 static const mongroup_id GROUP_VANILLA = mongroup_id( "GROUP_VANILLA" );
 static const mongroup_id GROUP_ZOMBIE = mongroup_id( "GROUP_ZOMBIE" );
 
+extern int initial_difficulty;
+extern int wave_difficulty;
+extern int caravan_visits;
+extern float caravan_tech_level;
+
+float caravan_tech_level = 1;
+
 std::string caravan_category_name( caravan_category cat );
 std::vector<itype_id> caravan_items( caravan_category cat );
 std::set<m_flag> monflags_to_add;
 
 int caravan_price( player &u, int price );
-int caravan_tech_level = 0;
 
 void draw_caravan_borders( const catacurses::window &w, int current_window );
 void draw_caravan_categories( const catacurses::window &w, int category_selected,
@@ -74,7 +80,7 @@ defense_game::defense_game()
     : time_between_waves( 0_turns )
 {
     current_wave = 0;
-    caravan_visits = 0;
+    caravan_visits = 1;
     hunger = false;
     thirst = false;
     sleep  = false;
@@ -86,6 +92,12 @@ defense_game::defense_game()
     subspace = false;
     mercenaries = false;
     init_to_style( DEFENSE_EASY );
+}
+
+static void calculate_tech_level( int initial_difficulty, int wave_difficulty, int caravan_visits, float &caravan_tech_level ) {
+    int z = initial_difficulty;
+    int w = wave_difficulty;
+    caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 14 ) ) );
 }
 
 bool defense_game::init()
@@ -102,7 +114,7 @@ bool defense_game::init()
     init_mtypes();
     init_constructions();
     current_wave = 0;
-    caravan_visits = 0;
+    caravan_visits = 1;
     hunger = false;
     thirst = false;
     sleep  = false;
@@ -123,30 +135,23 @@ bool defense_game::init()
     return true;
 }
 
-static void calculate_tech_level( int initial_difficulty, int wave_difficulty, int caravan_visits ) {
-    float z = initial_difficulty;
-    float w = wave_difficulty;
+static void calculate_tech_level_2( int initial_difficulty, int wave_difficulty, int caravan_visits, float &caravan_tech_level ) {
+    int z = initial_difficulty;
+    int w = wave_difficulty;
     caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 14 ) ) );
 }
 
-static void calculate_tech_level_2( int initial_difficulty, int wave_difficulty, int caravan_visits ) {
-    float z = initial_difficulty;
-    float w = wave_difficulty;
-    caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 21 ) ) );
+static void calculate_tech_level_3( int initial_difficulty, int wave_difficulty, int caravan_visits, float &caravan_tech_level ) {
+    int z = initial_difficulty;
+    int w = wave_difficulty;
+    caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 14 ) ) );
 }
 
-static void calculate_tech_level_3( int initial_difficulty, int wave_difficulty, int caravan_visits ) {
-    float z = initial_difficulty;
-    float w = wave_difficulty;
-    caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 28 ) ) );
+static void calculate_tech_level_4( int initial_difficulty, int wave_difficulty, int caravan_visits, float &caravan_tech_level ) {
+    int z = initial_difficulty;
+    int w = wave_difficulty;
+    caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 14 ) ) );
 }
-
-static void calculate_tech_level_4( int initial_difficulty, int wave_difficulty, int caravan_visits ) {
-    float z = initial_difficulty;
-    float w = wave_difficulty;
-    caravan_tech_level = ( pow(( w / z ), ( caravan_visits / 35 ) ) );
-}
-
 void defense_game::per_turn()
 {
     if( !thirst ) {
@@ -164,16 +169,18 @@ void defense_game::per_turn()
         if( current_wave > 1 && current_wave % waves_between_caravans == 0 ) {
             popup( _( "A caravan approaches!  Press spacebar..." ) );
             caravan();
-            calculate_tech_level( initial_difficulty, wave_difficulty, caravan_visits );
+            add_msg( m_info, _( "Caravan Tech Level: %f." ), caravan_tech_level );
+            add_msg( m_info, _( "Initial Game Difficulty: %i." ), initial_difficulty );
+            add_msg( m_info, _( "Wave Difficulty: %i." ), wave_difficulty );
+            add_msg( m_info, _( "Caravan Visits: %i." ), caravan_visits );
             if( caravan_tech_level >= 1 && caravan_tech_level <= 2 ) {
-                calculate_tech_level( initial_difficulty, wave_difficulty, caravan_visits );
-            }
-            if( caravan_tech_level >= 3 && caravan_tech_level <= 4 ) {
-                calculate_tech_level_2( initial_difficulty, wave_difficulty, caravan_visits );
+                calculate_tech_level( initial_difficulty, wave_difficulty, caravan_visits, caravan_tech_level );
+            } else if( caravan_tech_level >= 3 && caravan_tech_level <= 4 ) {
+                calculate_tech_level_2( initial_difficulty, wave_difficulty, caravan_visits, caravan_tech_level );
             } else if ( caravan_tech_level >= 4 && caravan_tech_level <= 5 ) {
-                calculate_tech_level_3( initial_difficulty, wave_difficulty, caravan_visits );
+                calculate_tech_level_3( initial_difficulty, wave_difficulty, caravan_visits, caravan_tech_level );
             } else if ( caravan_tech_level >= 5 && caravan_tech_level <= 6 ) {
-                calculate_tech_level_4( initial_difficulty, wave_difficulty, caravan_visits );
+                calculate_tech_level_4( initial_difficulty, wave_difficulty, caravan_visits, caravan_tech_level );
             }
         }
         spawn_wave();
@@ -1227,38 +1234,38 @@ std::vector<itype_id> caravan_items( caravan_category cat )
         return ret;
 
     case CARAVAN_MELEE:
-        if( ( caravan_tech_level == 1 ) ) {
-            item_list = item_group::items_from( "defense_caravan_melee_tech_1" );
+        if( caravan_tech_level < 2 ) {
+            item_list = item_group::items_from( "defense_caravan_melee_tier_1" );
             break;
-        } else if( caravan_tech_level == 2 ) {
-            item_list = item_group::items_from( "defense_caravan_melee_tech_2" );
+        } else if( caravan_tech_level >= 2 && caravan_tech_level < 3 ) {
+            item_list = item_group::items_from( "defense_caravan_melee_tier_2" );
             break;
-        } else if( caravan_tech_level == 3 ) {
-            item_list = item_group::items_from( "defense_caravan_melee_tech_3" );
+        } else if( caravan_tech_level >= 3 && caravan_tech_level < 4 ) {
+            item_list = item_group::items_from( "defense_caravan_melee_tier_3" );
             break;
-        } else if( caravan_tech_level == 4 ) {
-            item_list = item_group::items_from( "defense_caravan_melee_tech_4" );
+        } else if( caravan_tech_level >= 4 && caravan_tech_level < 5 ) {
+            item_list = item_group::items_from( "defense_caravan_melee_tier_4" );
             break;
-        } else if( caravan_tech_level == 5 ) {
-            item_list = item_group::items_from( "defense_caravan_melee_tech_5" );
+        } else if( caravan_tech_level >= 5 && caravan_tech_level < 6 ) {
+            item_list = item_group::items_from( "defense_caravan_melee_tier_5" );
             break;
-        } else if( caravan_tech_level == 6 ) {
-            item_list = item_group::items_from( "defense_caravan_melee_tech_6" );
+        } else if( caravan_tech_level >= 6 && caravan_tech_level < 7 ) {
+            item_list = item_group::items_from( "defense_caravan_melee_tier_6" );
             break;
-        } else if( caravan_tech_level == 7 ) {
-            item_list = item_group::items_from( "defense_caravan_melee_tech_7" );
+        } else if( caravan_tech_level >= 7 && caravan_tech_level < 8 ) {
+            item_list = item_group::items_from( "defense_caravan_melee_tier_7" );
             break;
-        } else if( caravan_tech_level == 8 ) {
-            item_list = item_group::items_from( "defense_caravan_melee_tech_8" );
+        } else if( caravan_tech_level >= 8 && caravan_tech_level < 9 ) {
+            item_list = item_group::items_from( "defense_caravan_melee_tier_8" );
             break;
-        } else if( caravan_tech_level == 9 ) {
-            item_list = item_group::items_from( "defense_caravan_melee_tech_9" );
+        } else if( caravan_tech_level >= 9 && caravan_tech_level < 10 ) {
+            item_list = item_group::items_from( "defense_caravan_melee_tier_9" );
             break;
-        } else if( caravan_tech_level == 10 ) {
-            item_list = item_group::items_from( "defense_caravan_melee_tech_10" );
+        } else if( caravan_tech_level >= 10 && caravan_tech_level < 11 ) {
+            item_list = item_group::items_from( "defense_caravan_melee_tier_10" );
             break;
-        } else if( caravan_tech_level >= 10 ) {
-            item_list = item_group::items_from( "defense_caravan_melee_tech_max" );
+        } else if( caravan_tech_level >= 11 ) {
+            item_list = item_group::items_from( "defense_caravan_melee_tier_max" );
             break;
         }
         break;
