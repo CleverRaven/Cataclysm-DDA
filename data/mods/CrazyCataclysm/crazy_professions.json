@@ -6,7 +6,19 @@
     "description": "This spy has already breached our defenses.  You've seen what he's done to our colleagues!  And worst of all... he could be any one of us!",
     "points": 3,
     "items": {
-      "both": [ "socks", "dress_shoes", "suit", "gloves_light", "balclava", "ecig", "knife_folding", "slingpack", "UPS_off", "heavy_disposable_cell", "cc_invis_watch" ],
+      "both": [
+        "socks",
+        "dress_shoes",
+        "suit",
+        "gloves_light",
+        "balclava",
+        "ecig",
+        "knife_folding",
+        "slingpack",
+        "UPS_off",
+        "heavy_disposable_cell",
+        "cc_invis_watch"
+      ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }

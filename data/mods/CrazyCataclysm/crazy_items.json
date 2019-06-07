@@ -95,10 +95,6 @@
     "covers": [ "HAND_EITHER" ],
     "coverage": 10,
     "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE", "ACTIVE_CLOAKING" ],
-    "use_action": {
-      "type": "ups_based_armor",
-      "activate_msg": "You cloak out.",
-      "deactive_msg": "You decloak."
-    }
+    "use_action": { "type": "ups_based_armor", "activate_msg": "You cloak out.", "deactive_msg": "You decloak." }
   }
 ]
