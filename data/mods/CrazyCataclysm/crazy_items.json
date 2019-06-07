@@ -78,5 +78,27 @@
     "reload": 0,
     "ammo_effects": [ "PLASMA", "EXPLOSIVE_HUGE", "STREAM_BIG", "INCENDIARY", "WIDE" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "TRADER_AVOID" ]
+  },
+  {
+    "id": "cc_invis_watch",
+    "type": "ARMOR",
+    "name": "invis watch",
+    "name_plural": "invis watches",
+    "description": "What looks to be a simple digital watch is actually a cutting-edge cloaking device utilizing the power of Australium(tm)!  Needs a UPS to function.",
+    "weight": 80,
+    "volume": 1,
+    "price": 10000000,
+    "to_hit": -1,
+    "material": [ "silver" ],
+    "symbol": "[",
+    "color": "gray",
+    "covers": [ "HAND_EITHER" ],
+    "coverage": 10,
+    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE", "ACTIVE_CLOAKING" ],
+    "use_action": {
+      "type": "ups_based_armor",
+      "activate_msg": "You cloak out.",
+      "deactive_msg": "You decloak."
+    }
   }
 ]
