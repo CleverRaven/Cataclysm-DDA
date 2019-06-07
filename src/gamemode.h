@@ -138,8 +138,8 @@ struct defense_game : public special_game {
     void game_over() override;
     float caravan_tech_level = 1;
     int caravan_visits;
-    int initial_difficulty;
-    int wave_difficulty;
+    int initial_difficulty;    // Total "level" of monsters in first wave
+    int wave_difficulty;       // Increased "level" of monsters per wave
 
 private:
     void init_to_style( defense_style new_style );
@@ -162,9 +162,6 @@ private:
 
     defense_style style;       // What type of game is it?
     defense_location location; // Where are we?
-
- // Total "level" of monsters in first wave
-    // Increased "level" of monsters per wave
 
     time_duration time_between_waves;     // Cooldown / building / healing time
     int waves_between_caravans; // How many waves until we get to trade?
