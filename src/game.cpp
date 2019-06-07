@@ -7836,9 +7836,8 @@ static void butcher_submenu( map_stack &items, const std::vector<int> &corpses, 
         }
         return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );
     };
-    bool enough_light = true;
-    if( g->u.fine_detail_vision_mod() > 4 ) {
-        enough_light = false;
+    const bool enough_light = g->u.fine_detail_vision_mod() <= 4;
+    if( !enough_light ) {
         popup( _( "Some types of butchery are not possible when it is dark." ) );
     }
     uilist smenu;
