@@ -931,6 +931,38 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "gambling_hall_roof",
+    "copy-from": "generic_city_building",
+    "name": "gambling hall roof",
+    "sym": "g",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "gambling_hall_upper_roof",
+    "copy-from": "generic_city_building",
+    "name": "gambling hall roof",
+    "sym": "g",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "gambling_hall_1",
+    "copy-from": "generic_city_building",
+    "name": "gambling hall",
+    "sym": "g",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "gambling_hall_roof_1",
+    "copy-from": "generic_city_building",
+    "name": "gambling hall roof",
+    "sym": "g",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "stripclub",
     "copy-from": "generic_city_building",
     "name": "strip club",
