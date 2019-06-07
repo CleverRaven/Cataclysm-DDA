@@ -42,7 +42,7 @@
       [ "schoolbus", 100 ],
       [ "bus", 500 ],
       [ "rv", 500 ],
-      [ "limousine", 500 ],
+      [ "limousine", 200 ],
       [ "lux_rv", 100 ],
       [ "meth_lab", 200 ],
       [ "armored_car", 200 ],
