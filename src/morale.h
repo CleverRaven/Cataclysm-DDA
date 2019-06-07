@@ -58,7 +58,7 @@ class player_morale
 
         int get_total_positive_value() const;
         int get_total_negative_value() const;
-        
+
 
         void on_mutation_gain( const trait_id &mid );
         void on_mutation_loss( const trait_id &mid );
@@ -123,7 +123,7 @@ class player_morale
                 /**
                  *this point's percent contribution to the total positive or total negative morale effect
                  */
-                double percent_contribution; 
+                double percent_contribution;
 
                 /**
                  * Returns either new_time or remaining time (which one is greater).
