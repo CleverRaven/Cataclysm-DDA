@@ -44,6 +44,19 @@ namespace catacurses
 class window;
 }
 
+namespace base_camps
+{
+const std::string base_dir = "[B]";
+const std::string prefix = "faction_base_";
+const std::string id = "FACTION_CAMP";
+const int prefix_len = 13;
+const std::string faction_encode_short( const std::string &type );
+const std::string faction_encode_abs( const expansion_data &e, int number );
+const std::string faction_decode( const std::string &full_type );
+const time_duration to_workdays( const time_duration &work_time );
+int max_upgrade_by_type( const std::string &type );
+}
+
 // camp resource structures
 struct basecamp_resource {
     itype_id fake_id;
@@ -203,7 +216,7 @@ class basecamp
                                const std::vector<item *> &equipment,
                                const std::string &skill_tested, int skill_level );
         void start_upgrade( const std::string &bldg, const std::string &key, bool by_radio );
-        std::string om_upgrade_description( const std::string &bldg, bool trunc ) const;
+        std::string om_upgrade_description( const std::string &bldg, bool trunc = false ) const;
         void start_menial_labor();
         void start_crafting( const std::string &cur_id, const std::string &cur_dir,
                              const std::string &type, const std::string &miss_id,
