@@ -57,12 +57,6 @@
     "info": "This item can be used to block attacks when worn."
   },
   {
-    "id": "CBM",
-    "type": "json_flag",
-    "context": [ "BIONIC_ITEM" ],
-    "info": "This item is a Compact Bionic Module.  You'll need to <info>use specialized machinery</info> or <info>ask a surgeon</info> to install it into your body."
-  },
-  {
     "id": "CLIMATE_CONTROL",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

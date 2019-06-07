@@ -71,6 +71,10 @@ struct bionic_data {
     */
     bool shockproof = false;
     /**
+    * If true, this bionic applies its power capacity and then deletes itself.
+    */
+    bool storage_only = false;
+    /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
     std::map<body_part, size_t> occupied_bodyparts;

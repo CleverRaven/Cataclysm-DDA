@@ -65,7 +65,7 @@
     "id": "afs_bio_synthetic_heart",
     "type": "bionic",
     "name": "Synthetic Heart",
-    "description": "Your heart has been removed and replaced by a mechanical pump that runs off of your body heat.  This slightly increases your stamina regeneration, as well as slowing your rate of bleeding and protecting you from cardiac arrest.",
+    "description": "Your heart has been removed and replaced by a mechanical pump that runs off of your body heat.  This slightly increases your stamina regeneration.",
     "occupied_bodyparts": [ [ "TORSO", 10 ] ]
   },
   {
@@ -117,6 +117,6 @@
     "name": "Power Storage Mk. IV",
     "capacity": 1250,
     "description": "An experimental Rivtech bionic designed for living weapons.  Increases your power capacity by 1250 units.",
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_FIRE_AND_FORGET" ]
+    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_STORAGE_ONLY" ]
   }
 ]

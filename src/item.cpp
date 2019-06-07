@@ -2555,6 +2555,17 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This object is <neutral>surrounded</neutral> by a <info>sickly green glow</info>." ) ) );
         }
+        
+        if (has_flag("CBM")) {
+            if (!get_option<bool>("MANUAL_BIONIC_INSTALLATION")) {
+                info.emplace_back("DESCRIPTION",
+                    _("* This item is a Compact Bionic Module. You'll need <info>specialized machinery</info> or a <info>trained surgeon</info> in order to install it."));
+            }
+            else {
+                info.emplace_back("DESCRIPTION",
+                    _("* This item is a Compact Bionic Module. You can <neutral>install it yourself</neutral>, or you could use <info>specialized machinery</info> or ask a <info>trained surgeon</info> to install it."));
+            }
+        }
 
         if( is_brewable() || ( !contents.empty() && contents.front().is_brewable() ) ) {
             const item &brewed = !is_brewable() ? contents.front() : *this;

@@ -33,6 +33,9 @@
 
 const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 
+const bionic_id afs_bio_nodisease("afs_bio_nodisease");
+const bionic_id afs_bio_synthetic_heart("afs_bio_synthetic_heart");
+
 const efftype_id effect_adrenaline( "adrenaline" );
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_antibiotic( "antibiotic" );
@@ -45,6 +48,7 @@ const efftype_id effect_bloodworms( "bloodworms" );
 const efftype_id effect_boomered( "boomered" );
 const efftype_id effect_brainworms( "brainworms" );
 const efftype_id effect_cold( "cold" );
+const efftype_id effect_common_cold("common_cold");
 const efftype_id effect_cough_suppress( "cough_suppress" );
 const efftype_id effect_datura( "datura" );
 const efftype_id effect_dermatik( "dermatik" );
@@ -53,6 +57,7 @@ const efftype_id effect_downed( "downed" );
 const efftype_id effect_evil( "evil" );
 const efftype_id effect_formication( "formication" );
 const efftype_id effect_frostbite( "frostbite" );
+const efftype_id effect_flu("flu");
 const efftype_id effect_fungus( "fungus" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_hallu( "hallu" );
@@ -79,6 +84,8 @@ const efftype_id effect_tetanus( "tetanus" );
 const efftype_id effect_valium( "valium" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
+
+const efftype_id effect_afs_bionic_rejection("afs_bionic_rejection");
 
 const vitamin_id vitamin_iron( "iron" );
 
@@ -286,6 +293,35 @@ static void eff_fun_hallu( player &u, effect &it )
     }
 }
 
+static void eff_fun_bionic_rejection( player &u, effect &it )
+{
+    const bool allDaySuffering = to_turns<int>(it.get_duration()) >= 14400;
+    if( u.focus_pool >= 90 ) {
+        u.focus_pool = 90; // Can't focus with this horrible *THING* in our body
+    }
+    if( one_in( 1024 ) && !u.in_sleep_state() && allDaySuffering ) {
+        u.add_msg_if_player( m_bad,
+                             _( "You scratch and claw at your body, trying to get that awful bionic out..." ) );
+        u.mod_pain( rng( 1, 3 ) );
+        u.moves -= 100;
+        body_part bp = random_body_part( true );
+        ///\EFFECT_INT decreases chance of bionic rejection reaction
+        if( one_in( u.int_cur ) ) {
+            u.add_msg_if_player( m_bad, _( "You tear open your skin with your nails!" ) );
+            u.mod_pain( 5 );
+            u.add_effect( effect_bleed, 1_minutes, bp );
+            u.apply_damage( nullptr, bp, 1 );
+        } else {
+            u.add_msg_if_player( m_bad, _( "It hurts!  It hurts!  Get it OUT!" ) );
+            u.mod_pain( 2 );
+        }
+    } else if( one_in( 512 ) ) {
+        u.add_msg_if_player( m_bad, _( "Your bionic aches with discomfort." ) );
+        u.mod_pain( 1 );
+        u.focus_pool -= 1;
+    }
+}
+
 struct temperature_effect {
     int str_pen;
     int dex_pen;
@@ -439,6 +475,7 @@ void player::hardcoded_effects( effect &it )
             { effect_cold, eff_fun_cold },
             { effect_hot, eff_fun_hot },
             { effect_frostbite, eff_fun_frostbite },
+            { effect_afs_bionic_rejection, eff_fun_bionic_rejection },
         }
     };
     const efftype_id &id = it.get_id();
@@ -833,16 +870,25 @@ void player::hardcoded_effects( effect &it )
         }
 
         if( dur > 1800_minutes && one_in( 50 * 512 ) ) {
-            if( !has_trait( trait_id( "NOPAIN" ) ) ) {
-                add_msg_if_player( m_bad,
-                                   _( "Your heart spasms painfully and stops, dragging you back to reality as you die." ) );
-            } else {
-                add_msg_if_player(
-                    _( "You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more." ) );
+            if (!has_bionic(afs_bio_synthetic_heart)) {
+                if (!has_trait(trait_id("NOPAIN"))) {
+                    add_msg_if_player(m_bad,
+                        _("Your heart spasms painfully and stops, dragging you back to reality as you die."));
+                }
+                else {
+                    add_msg_if_player(
+                        _("You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more."));
+                }
+                add_memorial_log(pgettext("memorial_male", "Died of datura overdose."),
+                    pgettext("memorial_female", "Died of datura overdose."));
+                hp_cur[hp_torso] = 0;
             }
-            add_memorial_log( pgettext( "memorial_male", "Died of datura overdose." ),
-                              pgettext( "memorial_female", "Died of datura overdose." ) );
-            hp_cur[hp_torso] = 0;
+            else { // Aftershock's synthetic heart blocks heart attacks
+                add_msg_if_player( m_bad,
+                                   _( "Your drug-addled, failing mind slips a little closer towards oblivion." ) );
+                mod_fatigue( 50 );
+                mod_pain( 30 );
+            }
         }
     } else if( id == effect_grabbed ) {
         set_num_blocks_bonus( get_num_blocks_bonus() - 1 );
@@ -891,8 +937,8 @@ void player::hardcoded_effects( effect &it )
             if( has_trait( trait_id( "INFRESIST" ) ) ) {
                 recover_factor += 200;
             }
-            if( has_effect( effect_panacea ) ) {
-                recover_factor = 108000; //panacea is a guaranteed cure
+            if( has_effect( effect_panacea ) || has_active_bionic(afs_bio_nodisease) ) {
+                recover_factor = 108000; //panacea and an AFS bionic are guaranteed cures
             } else if( has_effect( effect_strong_antibiotic ) ) {
                 recover_factor += 400;
             } else if( has_effect( effect_antibiotic ) ) {
@@ -906,6 +952,11 @@ void player::hardcoded_effects( effect &it )
                 //~ %s is bodypart name.
                 add_msg_if_player( m_good, _( "Your %s wound begins to feel better!" ),
                                    body_part_name( bp ) );
+                if( has_active_bionic( afs_bio_nodisease ) ) {
+                    add_msg_if_player( m_mixed,
+                                       _( "You feel pained and fatigued as your augmented immune system attacks the infection." ) );
+                    add_effect( efftype_id( "afs_immune_response" ), dur );
+                }
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
                 recovered = true;
@@ -943,7 +994,7 @@ void player::hardcoded_effects( effect &it )
             if( has_trait( trait_id( "INFRESIST" ) ) ) {
                 recover_factor += 200;
             }
-            if( has_effect( effect_panacea ) ) {
+            if( has_effect( effect_panacea ) || has_active_bionic(afs_bio_nodisease) ) {
                 recover_factor = 864000;
             } else if( has_effect( effect_strong_antibiotic ) ) {
                 recover_factor += 400;
@@ -959,6 +1010,11 @@ void player::hardcoded_effects( effect &it )
                 add_msg_if_player( m_good, _( "Your %s wound begins to feel better!" ),
                                    body_part_name( bp ) );
                 add_effect( effect_recover, 4 * dur );
+                if( has_active_bionic( afs_bio_nodisease ) ) {
+                    add_msg_if_player( m_mixed,
+                                       _( "You feel pained and fatigued as your augmented immune system attacks the infection." ) );
+                    add_effect( efftype_id( "afs_immune_response" ), dur );
+                }
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
                 recovered = true;
@@ -1026,6 +1082,14 @@ void player::hardcoded_effects( effect &it )
                                    _( "You feel physically rested, but you haven't been able to catch up on your missed sleep yet." ) );
             }
             it.set_duration( 1_turns * dice( 3, 100 ) );
+        }
+        else if (id == effect_flu || id == effect_common_cold) {
+            if (has_active_bionic(afs_bio_nodisease)) {
+                add_msg_if_player(m_mixed,
+                    _("You feel pained and fatigued as your augmented immune system attacks your illness."));
+                add_effect(efftype_id("afs_immune_response"), dur);
+                it.set_duration(0_turns);
+            }
         }
 
         // TODO: Move this to update_needs when NPCs can mutate
