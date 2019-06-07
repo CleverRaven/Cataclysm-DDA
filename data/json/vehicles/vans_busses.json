@@ -1328,12 +1328,12 @@
       {
         "x": -6,
         "y": 1,
-        "parts": [ "frame_vertical_2", "battery_car", "aisle_lights", "box", "recharge_station", "controls_electronic" ]
+        "parts": [ "frame_vertical_2", "battery_car", "aisle_lights", "trunk", "recharge_station", "controls_electronic" ]
       },
       { "x": -6, "y": -1, "parts": [ "frame_vertical", "halfboard_vertical" ] },
       { "x": -6, "y": 2, "parts": [ "frame_vertical", "halfboard_vertical" ] },
-      { "x": -7, "y": 0, "parts": [ "frame_horizontal", "halfboard_horizontal" ] },
-      { "x": -7, "y": 1, "parts": [ "frame_horizontal", "halfboard_horizontal" ] },
+      { "x": -7, "y": 0, "parts": [ "frame_horizontal", "door_trunk", "door_motor" ] },
+      { "x": -7, "y": 1, "parts": [ "frame_horizontal", "door_trunk", "door_motor" ] },
       { "x": -7, "y": -1, "parts": [ "frame_sw", "halfboard_sw", "wheel", "roof" ] },
       { "x": -7, "y": 2, "parts": [ "frame_se", "halfboard_se", "wheel", "roof" ] }
     ],
