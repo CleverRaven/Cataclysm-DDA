@@ -7,7 +7,7 @@
     "initiate": [ "You decide to not use any martial arts.", "%s enters a generic combat stance." ],
     "arm_block": 1,
     "leg_block": 99,
-	"allow_melee": true
+    "allow_melee": true
   },
   {
     "type": "martial_art",
@@ -28,7 +28,7 @@
     "autolearn": [ [ "unarmed", "2" ] ],
     "arm_block": -1,
     "leg_block": 7,
-	"allow_melee": true,
+    "allow_melee": true,
     "techniques": [ "tec_brawl_feint", "tec_brawl_power", "tec_brawl_trip", "tec_brawl_counter" ]
   },
   {
@@ -261,7 +261,7 @@
     "initiate": [ "You perform a kuji-in mantra with your hands. Rin, Kai, Jin!", "%s performs a series of ninja hand signs." ],
     "arm_block": 3,
     "leg_block": 99,
-	"allow_melee": true,
+    "allow_melee": true,
     "static_buffs": [
       {
         "id": "ninjutsu_static",
