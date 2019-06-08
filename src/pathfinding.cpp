@@ -210,6 +210,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         for( auto p = line_path.cbegin() ; p != line_path.cend(); ++p ){
             if( !( pf_cache.special[p->x][p->y] & non_normal )){
                 // This point is good so check for it's veh diagonals.
+                // If it returns an obstacle then this route is invalid.
                 if( p != line_path.cbegin() && check_for_diagonal(*p, *(p-1), [&pf_cache, &all_valid]( const tripoint & tp ){               
                     return ( pf_cache.special[tp.x][tp.y] & non_normal );
                 }  )  ){

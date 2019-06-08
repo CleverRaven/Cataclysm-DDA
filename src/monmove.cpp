@@ -778,6 +778,11 @@ void monster::move()
                     continue;
                 }
             }
+            // Now doing non z-moves.
+            // Ignore this candidate if not passable.
+            if( !g->m.passable_from_point( candidate, pos()) ){
+                continue;
+            }
 
             // A flag to allow non-stumbling critters to stumble when the most direct choice is bad.
             bool bad_choice = false;
@@ -974,7 +979,7 @@ int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
     int movecost = 0;
 
     const int source_cost = g->m.move_cost( f );
-    const int dest_cost = g->m.move_cost( t );
+    const int dest_cost = g->m.move_cost_from_point( t,f );
     // Digging and flying monsters ignore terrain cost
     if( has_flag( MF_FLIES ) || ( digging() && g->m.has_flag( "DIGGABLE", t ) ) ) {
         movecost = 100;
@@ -1156,10 +1161,8 @@ bool monster::attack_at( const tripoint &p )
     if( p.z != posz() ) {
         return false; // TODO: Remove this
     }
-    // Diagonal vehicle obstacles.
-    if( g->m.check_for_diagonal(p, pos(), [](const tripoint & np){
-         return g->m.move_cost(np) == 0;
-    } )){
+    // Has to be reachable from our position (currently for same z-level only).
+    if( !g->m.passable_from_point(p, pos()) ){
         return false;
     }
 
