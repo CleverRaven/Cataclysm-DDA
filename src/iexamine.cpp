@@ -23,6 +23,7 @@
 #include "catacharset.h"
 #include "clzones.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
+#include "construction.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "debug.h"
@@ -121,6 +122,7 @@ static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
 
@@ -3127,6 +3129,32 @@ void iexamine::trap( player &p, const tripoint &examp )
         add_msg( m_info, _( "That %s looks too dangerous to mess with. Best leave it alone." ),
                  tr.name() );
         return;
+    }
+    if( tr.loadid == tr_unfinished_construction ) {
+        partial_con *pc = g->m.partial_con_at( examp );
+        if( pc ) {
+            const std::vector<construction> &list_constructions = get_constructions();
+            const construction &built = list_constructions[pc->id];
+            if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
+                           built.description, pc->counter / 100000 ) ) {
+                if( query_yn( _( "Cancel construction?" ) ) ) {
+                    g->m.disarm_trap( examp );
+                    for( const item &it : pc->components ) {
+                        g->m.add_item_or_charges( g->u.pos(), it );
+                    }
+                    g->m.partial_con_remove( examp );
+                    return;
+                } else {
+                    return;
+                }
+            } else {
+                g->u.assign_activity( activity_id( "ACT_BUILD" ) );
+                g->u.activity.placement = examp;
+                return;
+            }
+        } else {
+            return;
+        }
     }
     // Some traps are not actual traps. Those should get a different query.
     if( seen && possible == 0 &&

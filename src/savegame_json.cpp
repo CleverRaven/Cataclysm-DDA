@@ -3328,6 +3328,21 @@ void submap::store( JsonOut &jsout ) const
     }
     jsout.end_array();
 
+    jsout.member( "partial_constructions" );
+    jsout.start_array();
+    for( auto &elem : partial_constructions ) {
+        jsout.write( elem.first.x );
+        jsout.write( elem.first.y );
+        jsout.write( elem.first.z );
+        jsout.write( elem.second.counter );
+        jsout.write( elem.second.id );
+        jsout.start_array();
+        for( auto &it : elem.second.components ) {
+            jsout.write( it );
+        }
+        jsout.end_array();
+    }
+    jsout.end_array();
     // Output the computer
     if( comp != nullptr ) {
         jsout.member( "computers", comp->save_data() );
@@ -3552,6 +3567,24 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
             std::unique_ptr<vehicle> tmp( new vehicle() );
             jsin.read( *tmp );
             vehicles.push_back( std::move( tmp ) );
+        }
+    } else if( member_name == "partial_constructions" ) {
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            partial_con pc;
+            int i = jsin.get_int();
+            int j = jsin.get_int();
+            int k = jsin.get_int();
+            tripoint pt = tripoint( i, j, k );
+            pc.counter = jsin.get_int();
+            pc.id = jsin.get_int();
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                item tmp;
+                jsin.read( tmp );
+                pc.components.push_back( tmp );
+            }
+            partial_constructions[pt] = pc;
         }
     } else if( member_name == "computers" ) {
         std::string computer_data = jsin.get_string();

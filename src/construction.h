@@ -4,11 +4,13 @@
 
 #include <cstddef>
 #include <functional>
+#include <list>
 #include <map>
 #include <set>
 #include <vector>
 #include <string>
 
+#include "item.h"
 #include "optional.h"
 #include "string_id.h"
 #include "type_id.h"
@@ -20,6 +22,12 @@ class window;
 class JsonObject;
 class nc_color;
 struct tripoint;
+
+struct partial_con {
+    int counter = 0;
+    std::list<item> components = {};
+    size_t id = 0;
+};
 
 struct construction {
         // Construction type category
@@ -73,6 +81,8 @@ struct construction {
     private:
         std::string get_time_string() const;
 };
+
+const std::vector<construction> &get_constructions();
 
 //! Set all constructions to take the specified time.
 void standardize_construction_times( int time );

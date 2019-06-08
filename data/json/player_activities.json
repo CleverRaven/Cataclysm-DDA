@@ -119,8 +119,9 @@
     "id": "ACT_BUILD",
     "type": "activity_type",
     "activity_level": "ACTIVE_EXERCISE",
-    "verb": "construction",
-    "based_on": "speed"
+    "based_on": "neither",
+    "refuel_fires": "true",
+    "verb": "constructing"
   },
   {
     "id": "ACT_VEHICLE",
