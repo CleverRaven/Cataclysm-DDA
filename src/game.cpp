@@ -5799,14 +5799,15 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
     if( tr.can_see( lp, u ) ) {
         partial_con *pc = g->m.partial_con_at( lp );
         std::string tr_name;
-        const std::vector<construction> &list_constructions = get_constructions();
-        const construction &built = list_constructions[pc->id];
-        if( tr.loadid == tr_unfinished_construction ) {
+        if( pc && tr.loadid == tr_unfinished_construction ) {
+            const std::vector<construction> &list_constructions = get_constructions();
+            const construction &built = list_constructions[pc->id];
             tr_name = string_format( _( "Unfinished task: %s, %d%% complete" ), built.description,
                                      pc->counter / 100000 );
         } else {
             tr_name = tr.name();
         }
+
         mvwprintz( w_look, ++line, column, tr.color, tr_name );
     }
 }
