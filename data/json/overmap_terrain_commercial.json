@@ -1800,6 +1800,14 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_gardening_roof",
+    "name": "gardening supply roof",
+    "copy-from": "generic_city_building",
+    "sym": "F",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "craft_shop",
     "name": "craft shop",
     "copy-from": "generic_city_building",
