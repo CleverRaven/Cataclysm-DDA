@@ -2739,6 +2739,7 @@ static bool character_has_skill_for( const player *p, const construction &con )
 void activity_handlers::build_do_turn( player_activity *act, player *p )
 {
     add_msg( "build_do_turn started");
+    add_msg( "act placement pos %d %d", act->placement.x, act->placement.y );
     const std::vector<construction> &list_constructions = get_constructions();
     partial_con *pc = g->m.partial_con_at( act->placement );
     if( !pc ) {
