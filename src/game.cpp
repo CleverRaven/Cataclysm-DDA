@@ -9002,9 +9002,19 @@ bool game::plmove( int dx, int dy, int dz )
 
     tripoint dest_loc;
     if( dz == 0 && u.has_effect( effect_stunned ) ) {
-        dest_loc.x = rng( u.posx() - 1, u.posx() + 1 );
-        dest_loc.y = rng( u.posy() - 1, u.posy() + 1 );
+        unsigned int tries = 0;
+        auto try_more = [&tries](){ ++tries; return tries<4; };
+        
         dest_loc.z = u.posz();
+        do{
+            dest_loc.x = rng( u.posx() - 1, u.posx() + 1 );
+            dest_loc.y = rng( u.posy() - 1, u.posy() + 1 );
+            //++tries;
+        } while( !m.passable_from_point( dest_loc, u.pos()) && try_more() );
+        if( tries >= 4 ){
+            dest_loc = u.pos();
+        }
+        
     } else {
         if( tile_iso && use_tiles && !u.has_destination() ) {
             rotate_direction_cw( dx, dy );
@@ -9012,6 +9022,9 @@ bool game::plmove( int dx, int dy, int dz )
         dest_loc.x = u.posx() + dx;
         dest_loc.y = u.posy() + dy;
         dest_loc.z = u.posz() + dz;
+        if( !m.passable_from_point( dest_loc, u.pos()) ){
+            return false;
+        }
     }
 
     if( dest_loc == u.pos() ) {
@@ -9418,7 +9431,7 @@ bool game::walk_move( const tripoint &dest_loc )
     u.recoil = MAX_RECOIL;
 
     // Print a message if movement is slow    
-    const int mcost_to = m.move_cost_from_point( dest_loc, u.pos() ); //calculate this _after_ calling grabbed_move
+    const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move
     const bool fungus = m.has_flag_ter_or_furn( "FUNGUS", u.pos() ) ||
                         m.has_flag_ter_or_furn( "FUNGUS",
                                 dest_loc ); //fungal furniture has no slowing effect on mycus characters
