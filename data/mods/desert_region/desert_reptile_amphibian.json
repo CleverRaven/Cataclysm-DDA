@@ -1,0 +1,30 @@
+[
+  {
+    "id": "mon_gilamon",
+    "type": "MONSTER",
+    "name": "Gila monster",
+    "description": "A reptile with aposematic coloration of black and orange that is renowned for an extremely painful venom when it bites.",
+    "default_faction": "small_animal",
+    "bodytype": "lizard",
+    "species": [ "REPTILE" ],
+    "volume": "4000 ml",
+    "weight": 1814,
+    "hp": 16,
+    "speed": 85,
+    "material": [ "iflesh" ],
+    "symbol": "s",
+    "color": "brown",
+    "aggression": -50,
+    "morale": 60,
+    "melee_skill": 5,
+    "melee_dice": 1,
+    "melee_dice_sides": 4,
+    "melee_cut": 4,
+    "harvest": "mammal_tiny",
+    "anger_triggers": [ "HURT", "PLAYER_CLOSE" ],
+    "fear_triggers": [ "PLAYER_CLOSE" ],
+    "placate_triggers": [ "PLAYER_WEAK" ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "ANIMAL", "CLIMBS", "KEENNOSE", "SEES", "HEARS", "SMELLS", "BADVENOM" ]
+  }
+]

@@ -49,33 +49,51 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     const double now( ( time_past_new_year( t ) + calendar::season_length() / 2 ) /
                       calendar::year_length() ); // [0,1)
     const double ctn( cos( tau * now ) );
-    const season_type season = season_of_year( now );
-    // Temperature variation
-    // TODO: make this depend on latitude and altitude?
-    const double mod_t( 0 );
-    // Current baseline temperature. Degrees Celsius.
-    const double current_t( base_temperature + mod_t );
+    const season_type season = season_of_year( t );
+    double mod_t( 0 ); // TODO: make this depend on latitude and altitude?
+    // manually specified seasonal temp variation from region_settings.json
+    if( season == WINTER ) {
+        mod_t += winter_temp_manual_mod;
+    } else if( season == SPRING ) {
+        mod_t += spring_temp_manual_mod;
+    } else if( season == SUMMER ) {
+        mod_t += summer_temp_manual_mod;
+    } else if( season == AUTUMN ) {
+        mod_t += autumn_temp_manual_mod;
+    }
+    const double current_t( base_temperature +
+                            mod_t );
     // Start and end at -1 going up to 1 in summer.
     const double seasonal_variation( ctn * -1 );
     // Harsh winter nights, hot summers.
     const double season_atenuation( ctn / 2 + 1 );
     // Make summers peak faster and winters not perma-frozen.
-    const double season_dispersion( pow( 2, ctn + 1 ) - 2.3 );
+    const double season_dispersion( pow( 2,
+                                         ctn + 1 ) - 2.3 );
     // Day-night temperature variation.
-    const double daily_variation( cos( tau * dayFraction - tau / 8 ) * -1 * season_atenuation / 2 +
-                                  season_dispersion * -1 );
-
+    double daily_variation( cos( tau * dayFraction - tau / 8 ) * -1 * season_atenuation / 2 +
+                            season_dispersion * -1 );
     // Add baseline to the noise.
     T += current_t;
     // Add season curve offset to account for the winter-summer difference in day-night difference.
-    T += seasonal_variation * 8 * exp( -pow( current_t * 2.7 / 10 - 0.5, 2 ) );
+    T += seasonal_variation * 8 * exp( -pow( current_t * 2.7 / 10 - 0.5,
+                                       2 ) );
     // Add daily variation scaled to the inverse of the current baseline. A very specific and finicky adjustment curve.
-    T += daily_variation * 8 * exp( -pow( current_t / 30, 2 ) );
-    // Convert to imperial. =|
-    T = T * 9 / 5 + 32;
+    T += daily_variation * 8 * exp( -pow( current_t / 30,
+                                          2 ) );
+    T = T * 9 / 5 + 32; // Convert to imperial. =|
 
     // Humidity variation
-    const double mod_h( 0 );
+    double mod_h( 0 );
+    if( season == WINTER ) {
+        mod_h += winter_humidity_manual_mod;
+    } else if( season == SPRING ) {
+        mod_h += spring_humidity_manual_mod;
+    } else if( season == SUMMER ) {
+        mod_h += summer_humidity_manual_mod;
+    } else if( season == AUTUMN ) {
+        mod_h += autumn_humidity_manual_mod;
+    }
     const double current_h( base_humidity + mod_h );
     // Humidity stays mostly at the mean level, but has low peaks rarely. It's a percentage.
     H = std::max( std::min( ( ctn / 10.0 + ( -pow( H, 2 ) * 3 + H2 ) ) * current_h / 2.0 + current_h,
@@ -266,5 +284,13 @@ weather_generator weather_generator::load( JsonObject &jo )
     ret.base_wind = jo.get_float( "base_wind", 5.7 );
     ret.base_wind_distrib_peaks = jo.get_int( "base_wind_distrib_peaks", 30 );
     ret.base_wind_season_variation = jo.get_int( "base_wind_season_variation", 64 );
+    ret.summer_temp_manual_mod = jo.get_int( "summer_temp_manual_mod", 0 );
+    ret.spring_temp_manual_mod = jo.get_int( "spring_temp_manual_mod", 0 );
+    ret.autumn_temp_manual_mod = jo.get_int( "autumn_temp_manual_mod", 0 );
+    ret.winter_temp_manual_mod = jo.get_int( "winter_temp_manual_mod", 0 );
+    ret.spring_humidity_manual_mod = jo.get_int( "spring_humidity_manual_mod", 0 );
+    ret.summer_humidity_manual_mod = jo.get_int( "summer_humidity_manual_mod", 0 );
+    ret.autumn_humidity_manual_mod = jo.get_int( "autumn_humidity_manual_mod", 0 );
+    ret.winter_humidity_manual_mod = jo.get_int( "winter_humidity_manual_mod", 0 );
     return ret;
 }
