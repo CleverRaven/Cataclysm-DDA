@@ -1165,7 +1165,7 @@
     "city_sizes": [ 1, 12 ],
     "occurrences": [ 33, 100 ],
     "flags": [ "UNIQUE" ]
-  },[
+  },
   {
     "type": "overmap_special",
     "id": "evac_center",
@@ -2753,9 +2753,7 @@
     "city_sizes": [ 1, 16 ],
     "occurrences": [ 75, 100 ],
     "flags": [ "UNIQUE" ]
-  }
-]
-,
+  },
   {
     "type": "overmap_special",
     "id": "bandit_cabin",
