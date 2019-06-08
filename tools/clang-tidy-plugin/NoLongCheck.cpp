@@ -10,10 +10,23 @@ namespace cata {
 
 void NoLongCheck::registerMatchers(MatchFinder *Finder) {
     using TypeMatcher = clang::ast_matchers::internal::Matcher<QualType>;
-    const TypeMatcher isLong = anyOf(asString("long"), asString("unsigned long"));
-    Finder->addMatcher(valueDecl(hasType(isLong)).bind("decl"), this);
-    Finder->addMatcher(functionDecl(returns(isLong)).bind("return"), this);
-    Finder->addMatcher(cxxStaticCastExpr(hasType(isLong)).bind("cast"), this);
+    const TypeMatcher isIntegerOrRef = anyOf(isInteger(), references(isInteger()));
+    Finder->addMatcher(valueDecl(hasType(isIntegerOrRef)).bind("decl"), this);
+    Finder->addMatcher(functionDecl(returns(isIntegerOrRef)).bind("return"), this);
+    Finder->addMatcher(cxxStaticCastExpr(hasDestinationType(isIntegerOrRef)).bind("cast"), this);
+}
+
+static std::string AlternativesFor( QualType Type ) {
+    Type = Type.getNonReferenceType();
+    Type = Type.getLocalUnqualifiedType();
+    std::string name = Type.getAsString();
+    if( name == "long" ) {
+        return "Prefer int or int64_t to long";
+    } else if( name == "unsigned long" ) {
+        return "Prefer unsigned int or uint64_t to unsigned long";
+    } else {
+        return {};
+    }
 }
 
 static void CheckDecl(NoLongCheck &Check, const MatchFinder::MatchResult &Result) {
@@ -21,16 +34,14 @@ static void CheckDecl(NoLongCheck &Check, const MatchFinder::MatchResult &Result
     if( !MatchedDecl || !MatchedDecl->getLocation().isValid() ) {
         return;
     }
-    QualType Type = MatchedDecl->getType().getUnqualifiedType();
-    if( Type.getAsString() == "long" ) {
-        Check.diag(
-            MatchedDecl->getLocation(), "Variable %0 declared as long.  "
-            "Prefer int or int64_t.") << MatchedDecl;
-    } else {
-        Check.diag(
-            MatchedDecl->getLocation(), "Variable %0 declared as unsigned long.  "
-            "Prefer unsigned int or uint64_t.") << MatchedDecl;
+    QualType Type = MatchedDecl->getType();
+    std::string alternatives = AlternativesFor(Type);
+    if( alternatives.empty() ) {
+        return;
     }
+    Check.diag(
+        MatchedDecl->getLocation(), "Variable %0 declared as %1.  %2.") <<
+        MatchedDecl << Type << alternatives;
 }
 
 static void CheckReturn(NoLongCheck &Check, const MatchFinder::MatchResult &Result) {
@@ -38,16 +49,14 @@ static void CheckReturn(NoLongCheck &Check, const MatchFinder::MatchResult &Resu
     if( !MatchedDecl || !MatchedDecl->getLocation().isValid() ) {
         return;
     }
-    QualType Type = MatchedDecl->getReturnType().getUnqualifiedType();
-    if( Type.getAsString() == "long" ) {
-        Check.diag(
-            MatchedDecl->getLocation(), "Function %0 declared as returning long.  "
-            "Prefer int or int64_t.") << MatchedDecl;
-    } else {
-        Check.diag(
-            MatchedDecl->getLocation(), "Function %0 declared as returning unsigned long.  "
-            "Prefer unsigned int or uint64_t.") << MatchedDecl;
+    QualType Type = MatchedDecl->getReturnType();
+    std::string alternatives = AlternativesFor(Type);
+    if( alternatives.empty() ) {
+        return;
     }
+    Check.diag(
+        MatchedDecl->getLocation(), "Function %0 declared as returning %1.  %2.") <<
+        MatchedDecl << Type << alternatives;
 }
 
 static void CheckCast(NoLongCheck &Check, const MatchFinder::MatchResult &Result) {
@@ -55,16 +64,13 @@ static void CheckCast(NoLongCheck &Check, const MatchFinder::MatchResult &Result
     if( !MatchedDecl ) {
         return;
     }
-    QualType Type = MatchedDecl->getType().getUnqualifiedType();
-    SourceLocation location = MatchedDecl->getTypeInfoAsWritten()->getTypeLoc().getBeginLoc();
-    if( Type.getAsString() == "long" ) {
-        Check.diag(
-            location, "Static cast to long.  Prefer int or int64_t.");
-    } else {
-        Check.diag(
-            location, "Static cast to unsigned long.  "
-            "Prefer unsigned int or uint64_t.");
+    QualType Type = MatchedDecl->getType();
+    std::string alternatives = AlternativesFor(Type);
+    if( alternatives.empty() ) {
+        return;
     }
+    SourceLocation location = MatchedDecl->getTypeInfoAsWritten()->getTypeLoc().getBeginLoc();
+    Check.diag( location, "Static cast to %0.  %1.") << Type << alternatives;
 }
 
 void NoLongCheck::check(const MatchFinder::MatchResult &Result) {
