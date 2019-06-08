@@ -8176,6 +8176,7 @@
     "charges_per_use": 1,
     "use_action": [
       "HAMMER",
+      "BOLTCUTTERS",
       "CROWBAR",
       {
         "type": "repair_item",
@@ -8190,7 +8191,7 @@
     "qualities": [
       [ "HAMMER", 3 ],
       [ "HAMMER_FINE", 1 ],
-      [ "SAW_W", 1 ],
+      [ "SAW_W", 2 ],
       [ "SAW_M", 2 ],
       [ "SAW_M_FINE", 1 ],
       [ "WRENCH", 2 ],
@@ -8200,6 +8201,7 @@
       [ "CUT", 2 ],
       [ "PRY", 1 ],
       [ "DRILL", 1 ],
+      [ "AXE", 1 ],
       [ "BUTCHER", -38 ]
     ]
   },
