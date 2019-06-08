@@ -41,7 +41,8 @@ struct weather_result {
     weather_datum datum;
     bool is_valid;
 };
-static weather_result weather_data_internal( weather_type const type ) {
+static weather_result weather_data_internal( weather_type const type )
+{
     /**
      * Weather types data definition.
      * Name, color in UI, color and glyph on map, ranged penalty, sight penalty,
@@ -112,7 +113,8 @@ static weather_result weather_data_internal( weather_type const type ) {
     return { data[0], false };
 }
 
-static weather_datum weather_data_interal_localized( weather_type const type ) {
+static weather_datum weather_data_interal_localized( weather_type const type )
+{
     weather_result res = weather_data_internal( type );
     if( res.is_valid ) {
         res.datum.name = _( res.datum.name );
@@ -125,37 +127,48 @@ weather_datum const weather_data( weather_type const type )
     return weather_data_interal_localized( type );
 }
 
-namespace weather {
-    std::string name( weather_type const type ) {
-        return weather_data_interal_localized(type).name;
-    }
-    nc_color color( weather_type const type ) {
-        return weather_data_internal(type).datum.color;
-    }
-    nc_color map_color( weather_type const type ) {
-        return weather_data_internal(type).datum.map_color;
-    }
-    char glyph( weather_type const type ) {
-        return weather_data_internal(type).datum.glyph;
-    }
-    int ranged_penalty( weather_type const type ) {
-        return weather_data_internal(type).datum.ranged_penalty;
-    }
-    float sight_penalty( weather_type const type ) {
-        return weather_data_internal(type).datum.sight_penalty;
-    }
-    int light_modifier( weather_type const type ) {
-        return weather_data_internal(type).datum.light_modifier;
-    }
-    int sound_attn( weather_type const type ) {
-        return weather_data_internal(type).datum.sound_attn;
-    }
-    bool dangerous( weather_type const type ) {
-        return weather_data_internal(type).datum.dangerous;
-    }
-    weather_effect_fn effect( weather_type const type ) {
-        return weather_data_internal(type).datum.effect;
-    }
+namespace weather
+{
+std::string name( weather_type const type )
+{
+    return weather_data_interal_localized( type ).name;
+}
+nc_color color( weather_type const type )
+{
+    return weather_data_internal( type ).datum.color;
+}
+nc_color map_color( weather_type const type )
+{
+    return weather_data_internal( type ).datum.map_color;
+}
+char glyph( weather_type const type )
+{
+    return weather_data_internal( type ).datum.glyph;
+}
+int ranged_penalty( weather_type const type )
+{
+    return weather_data_internal( type ).datum.ranged_penalty;
+}
+float sight_penalty( weather_type const type )
+{
+    return weather_data_internal( type ).datum.sight_penalty;
+}
+int light_modifier( weather_type const type )
+{
+    return weather_data_internal( type ).datum.light_modifier;
+}
+int sound_attn( weather_type const type )
+{
+    return weather_data_internal( type ).datum.sound_attn;
+}
+bool dangerous( weather_type const type )
+{
+    return weather_data_internal( type ).datum.dangerous;
+}
+weather_effect_fn effect( weather_type const type )
+{
+    return weather_data_internal( type ).datum.effect;
+}
 }
 
 ///@}

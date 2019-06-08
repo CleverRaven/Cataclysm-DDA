@@ -111,7 +111,7 @@ void snow_glare();
 void snowstorm();
 } //namespace weather_effect
 
-typedef void (*weather_effect_fn)();
+typedef void ( *weather_effect_fn )();
 
 struct weather_datum {
     std::string name;             //!< UI name of weather type.
@@ -134,17 +134,18 @@ struct weather_sum {
 };
 
 weather_datum const weather_data( weather_type const type );
-namespace weather {
-    std::string name( weather_type const type );
-    nc_color color( weather_type const type );
-    nc_color map_color( weather_type const type );
-    char glyph( weather_type const type );
-    int ranged_penalty( weather_type const type );
-    float sight_penalty( weather_type const type );
-    int light_modifier( weather_type const type );
-    int sound_attn( weather_type const type );
-    bool dangerous( weather_type const type );
-    weather_effect_fn effect( weather_type const type );
+namespace weather
+{
+std::string name( weather_type const type );
+nc_color color( weather_type const type );
+nc_color map_color( weather_type const type );
+char glyph( weather_type const type );
+int ranged_penalty( weather_type const type );
+float sight_penalty( weather_type const type );
+int light_modifier( weather_type const type );
+int sound_attn( weather_type const type );
+bool dangerous( weather_type const type );
+weather_effect_fn effect( weather_type const type );
 }
 
 std::string get_shortdirstring( int angle );
