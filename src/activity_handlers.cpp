@@ -99,6 +99,8 @@ const species_id ZOMBIE( "ZOMBIE" );
 const efftype_id effect_milked( "milked" );
 const efftype_id effect_sleep( "sleep" );
 
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
 using namespace activity_handlers;
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -2738,21 +2740,30 @@ static bool character_has_skill_for( const player *p, const construction &con )
 
 void activity_handlers::build_do_turn( player_activity *act, player *p )
 {
-    add_msg( "build_do_turn started");
-    add_msg( "act placement pos %d %d", act->placement.x, act->placement.y );
     const std::vector<construction> &list_constructions = get_constructions();
-    partial_con *pc = g->m.partial_con_at( act->placement );
+    partial_con *pc = g->m.partial_con_at( g->m.getlocal( act->placement ) );
+    // Maybe the player and the NPC are working on the same construction at the same time
     if( !pc ) {
-        debugmsg( "No partial construction found at activity placement, aborting activity" );
-        g->m.remove_trap( act->placement );
-        p->cancel_activity();
+        if( p->is_npc() ) {
+            // if player completes the work while NPC still in activity loop
+            p->activity = player_activity();
+            p->set_moves( 0 );
+        } else {
+            p->cancel_activity();
+        }
+        add_msg( m_info, _( "%s did not find an unfinished construction at the activity spot." ),
+                 p->disp_name() );
         return;
     }
     // if you ( or NPC ) are finishing someone elses started construction...
     const construction &built = list_constructions[pc->id];
-    if( !character_has_skill_for( p, built ) ){
-        add_msg( m_info, _( "%s can't work on this construction, it is too complex"), p->disp_name() );
+    if( !character_has_skill_for( p, built ) ) {
+        add_msg( m_info, _( "%s can't work on this construction anymore." ), p->disp_name() );
         p->cancel_activity();
+        if( p->is_npc() ) {
+            p->activity = player_activity();
+            p->set_moves( 0 );
+        }
         return;
     }
     // item_counter represents the percent progress relative to the base batch time
@@ -2775,7 +2786,6 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     p->set_moves( 0 );
 
     pc->counter = std::min( pc->counter, 10000000 );
-    add_msg( "2776" );
     // If construction_progress has reached 100% or more
     if( pc->counter >= 10000000 ) {
         // Activity is cancelled in complete_construction()
@@ -2785,14 +2795,14 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
 
 void activity_handlers::multiple_construction_do_turn( player_activity *act, player *p )
 {
-    (void)act;
+    ( void )act;
     const activity_id act_multiple_construction = activity_id( "ACT_MULTIPLE_CONSTRUCTION" );
     tripoint src_loc_start = p->pos();
     // search in a radius around unsorted zone to find corpse spots
     std::vector<tripoint> build_spots;
     for( tripoint p : g->m.points_in_radius( src_loc_start, 20 ) ) {
         partial_con *pc = g->m.partial_con_at( p );
-        if( pc ){
+        if( pc ) {
             build_spots.push_back( p );
         }
     }
@@ -2801,7 +2811,6 @@ void activity_handlers::multiple_construction_do_turn( player_activity *act, pla
 
     // sort source tiles by distance
     for( auto &src_loc : build_spots ) {
-        add_msg( "built spot %d %d", src_loc.x, src_loc.y );
         if( !g->m.inbounds( src_loc ) ) {
             if( !g->m.inbounds( p->pos() ) ) {
                 // p is implicitly an NPC that has been moved off the map, so reset the activity
@@ -2826,8 +2835,8 @@ void activity_handlers::multiple_construction_do_turn( player_activity *act, pla
             continue;
         }
         bool adjacent = false;
-        for( auto elem : g->m.points_in_radius( src_loc, 1 ) ){
-            if( p->pos() == elem ){
+        for( auto elem : g->m.points_in_radius( src_loc, 1 ) ) {
+            if( p->pos() == elem ) {
                 adjacent = true;
                 break;
             }
@@ -2849,29 +2858,25 @@ void activity_handlers::multiple_construction_do_turn( player_activity *act, pla
             p->set_destination( route, player_activity( act_multiple_construction ) );
             return;
         }
-        add_msg( "not adjacent");
         // maybe the construction dissappeared, double check before starting work
         partial_con *nc = g->m.partial_con_at( src_loc );
-        if( !nc ){
+        if( !nc ) {
             p->assign_activity( act_multiple_construction );
             return;
         }
         p->backlog.push_front( act_multiple_construction );
         p->assign_activity( activity_id( "ACT_BUILD" ) );
-        p->activity.placement = src_loc;
-        add_msg( "assigned build activity");
+        p->activity.placement = g->m.getabs( src_loc );
         return;
 
     }
     if( p->moves <= 0 ) {
         // Restart activity and break from cycle.
         p->assign_activity( act_multiple_construction );
-        add_msg( "moves <= 0 restarting");
         return;
     }
 
     // If we got here without restarting the activity, it means we're done
-    add_msg( m_info, string_format( _( "%s finished every construction that was possible." ), p->disp_name() ) );
     if( p->is_npc() ) {
         npc *guy = dynamic_cast<npc *>( p );
         guy->current_activity = "";

@@ -845,16 +845,22 @@ void place_construction( const std::string &desc )
         g->u.consume_tools( it );
     }
     g->u.assign_activity( activity_id( "ACT_BUILD" ) );
-    g->u.activity.placement = pnt;
+    g->u.activity.placement = g->m.getabs( pnt );
 }
 
 void complete_construction( player *p )
 {
-    const tripoint terp = p->activity.placement;
+    const tripoint terp = g->m.getlocal( p->activity.placement );
     partial_con *pc = g->m.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
         g->m.remove_trap( terp );
+        if( p->is_npc() ) {
+            npc *guy = dynamic_cast<npc *>( p );
+            guy->current_activity = "";
+            guy->revert_after_activity();
+            guy->set_moves( 0 );
+        }
         return;
     }
     const construction &built = constructions[pc->id];
@@ -868,7 +874,7 @@ void complete_construction( player *p )
     award_xp( *p );
     // Friendly NPCs gain exp from assisting or watching...
     // TODO NPCs watching other NPCs do stuff and learning from it
-    if( p->is_player() ){
+    if( p->is_player() ) {
         for( auto &elem : g->u.get_crafting_helpers() ) {
             if( character_has_skill_for( *elem, built ) ) {
                 add_msg( m_info, _( "%s assists you with the work..." ), elem->name );
