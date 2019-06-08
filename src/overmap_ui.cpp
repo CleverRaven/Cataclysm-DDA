@@ -879,8 +879,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         const bool weather_is_visible = ( data.debug_weather ||
                                           g->u.overmap_los( curs_pos, sight_points * 2 ) );
         if( weather_is_visible ) {
-            const weather_datum wdata = weather_data( get_weather_at_point( curs_pos ) );
-            mvwprintz( wbar, 1, 1, wdata.color, wdata.name );
+            weather_datum weather = weather_data( get_weather_at_point( curs_pos ) );
+            mvwprintz( wbar, 1, 1, weather.color, weather.name );
         } else {
             mvwprintz( wbar, 1, 1, c_dark_gray, _( "# Unexplored" ) );
         }
