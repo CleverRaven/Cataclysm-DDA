@@ -8502,6 +8502,7 @@ void game::wield( item_location &loc )
         u.unwield();
 
         if( is_unwielding ) {
+            u.martialart_use_message();
             return;
         }
     }
