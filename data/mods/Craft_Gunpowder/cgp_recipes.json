@@ -13,7 +13,7 @@
     "using": [ [ "sewing_standard", 20 ], [ "welding_standard", 50 ], [ "forging_standard", 25 ] ],
     "tools": [
       [ [ "small_repairkit", 300 ], [ "large_repairkit", 75 ] ],
-      [ [ "cordless_drill", 300 ], [ "toolset", 450 ] ],
+      [ [ "cordless_drill", 300 ] ],
       [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
       [ [ "swage", -1 ] ]
     ],

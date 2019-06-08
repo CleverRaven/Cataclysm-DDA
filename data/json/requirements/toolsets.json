@@ -33,7 +33,7 @@
     "tools": [
       [ [ "pliers", -1 ], [ "multitool", -1 ] ],
       [ [ "boltcutters", -1 ], [ "toolset", -1 ] ],
-      [ [ "cordless_drill", 10 ], [ "toolset", 15 ] ]
+      [ [ "cordless_drill", 10 ] ]
     ]
   },
   {
