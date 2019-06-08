@@ -1,6 +1,6 @@
 #include "mapgen.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <list>
 #include <random>
@@ -14,12 +14,14 @@
 #include <cmath>
 
 #include "ammo.h"
+#include "clzones.h"
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "debug.h"
 #include "drawing_primitives.h"
 #include "enums.h"
+#include "faction.h"
 #include "game.h"
 #include "item_group.h"
 #include "itype.h"
@@ -31,6 +33,7 @@
 #include "mapdata.h"
 #include "mapgen_functions.h"
 #include "mapgenformat.h"
+#include "messages.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "mtype.h"
@@ -66,58 +69,6 @@
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define MON_RADIUS 3
-
-const mtype_id mon_biollante( "mon_biollante" );
-const mtype_id mon_blank( "mon_blank" );
-const mtype_id mon_blob( "mon_blob" );
-const mtype_id mon_boomer( "mon_boomer" );
-const mtype_id mon_breather( "mon_breather" );
-const mtype_id mon_breather_hub( "mon_breather_hub" );
-const mtype_id mon_broken_cyborg( "mon_broken_cyborg" );
-const mtype_id mon_chickenbot( "mon_chickenbot" );
-const mtype_id mon_crawler( "mon_crawler" );
-const mtype_id mon_creeper_hub( "mon_creeper_hub" );
-const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
-const mtype_id mon_dog_thing( "mon_dog_thing" );
-const mtype_id mon_eyebot( "mon_eyebot" );
-const mtype_id mon_flaming_eye( "mon_flaming_eye" );
-const mtype_id mon_flying_polyp( "mon_flying_polyp" );
-const mtype_id mon_fungaloid( "mon_fungaloid" );
-const mtype_id mon_fungal_fighter( "mon_fungal_fighter" );
-const mtype_id mon_gelatin( "mon_gelatin" );
-const mtype_id mon_gozu( "mon_gozu" );
-const mtype_id mon_gracke( "mon_gracke" );
-const mtype_id mon_hazmatbot( "mon_hazmatbot" );
-const mtype_id mon_hunting_horror( "mon_hunting_horror" );
-const mtype_id mon_kreck( "mon_kreck" );
-const mtype_id mon_mi_go( "mon_mi_go" );
-const mtype_id mon_secubot( "mon_secubot" );
-const mtype_id mon_sewer_snake( "mon_sewer_snake" );
-const mtype_id mon_shoggoth( "mon_shoggoth" );
-const mtype_id mon_spider_web( "mon_spider_web" );
-const mtype_id mon_tankbot( "mon_tankbot" );
-const mtype_id mon_triffid( "mon_triffid" );
-const mtype_id mon_triffid_heart( "mon_triffid_heart" );
-const mtype_id mon_turret( "mon_turret" );
-const mtype_id mon_turret_bmg( "mon_turret_bmg" );
-const mtype_id mon_turret_rifle( "mon_turret_rifle" );
-const mtype_id mon_turret_searchlight( "mon_turret_searchlight" );
-const mtype_id mon_yugg( "mon_yugg" );
-const mtype_id mon_zombie( "mon_zombie" );
-const mtype_id mon_zombie_bio_op( "mon_zombie_bio_op" );
-const mtype_id mon_zombie_brute( "mon_zombie_brute" );
-const mtype_id mon_zombie_child( "mon_zombie_child" );
-const mtype_id mon_zombie_cop( "mon_zombie_cop" );
-const mtype_id mon_zombie_dog( "mon_zombie_dog" );
-const mtype_id mon_zombie_electric( "mon_zombie_electric" );
-const mtype_id mon_zombie_flamer( "mon_zombie_flamer" );
-const mtype_id mon_zombie_grabber( "mon_zombie_grabber" );
-const mtype_id mon_zombie_scientist( "mon_zombie_scientist" );
-const mtype_id mon_zombie_shrieker( "mon_zombie_shrieker" );
-const mtype_id mon_zombie_smoker( "mon_zombie_smoker" );
-const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
-const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
-const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
 const mongroup_id GROUP_DARK_WYRM( "GROUP_DARK_WYRM" );
 const mongroup_id GROUP_DOG_THING( "GROUP_DOG_THING" );
@@ -357,10 +308,10 @@ std::string member;
 std::string message;
 bool defer;
 JsonObject jsi;
-};
+}
 
-void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
-                       const std::string &message )
+static void set_mapgen_defer( const JsonObject &jsi, const std::string &member,
+                              const std::string &message )
 {
     mapgen_defer::defer = true;
     mapgen_defer::jsi = jsi;
@@ -422,7 +373,7 @@ load_mapgen_function( JsonObject &jio, const std::string &id_base,
     return ret;
 }
 
-void load_nested_mapgen( JsonObject &jio, const std::string &id_base )
+static void load_nested_mapgen( JsonObject &jio, const std::string &id_base )
 {
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "json" ) {
@@ -440,7 +391,7 @@ void load_nested_mapgen( JsonObject &jio, const std::string &id_base )
     }
 }
 
-void load_update_mapgen( JsonObject &jio, const std::string &id_base )
+static void load_update_mapgen( JsonObject &jio, const std::string &id_base )
 {
     const std::string mgtype = jio.get_string( "method" );
     if( mgtype == "json" ) {
@@ -531,8 +482,9 @@ size_t mapgen_function_json_base::calc_index( const size_t x, const size_t y ) c
     return y * mapgensize_y + x;
 }
 
-bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y, const int mapgensize_x,
-                          const int mapgensize_y, JsonObject &jso )
+static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
+                                 const int mapgensize_x, const int mapgensize_y,
+                                 JsonObject &jso )
 {
     if( x.val < 0 || x.val > mapgensize_x - 1 || y.val < 0 || y.val > mapgensize_y - 1 ) {
         return false;
@@ -601,6 +553,8 @@ jmapgen_int::jmapgen_int( JsonObject &jo, const std::string &tag )
         val = sparray.get_int( 0 );
         if( sparray.size() == 2 ) {
             valmax = sparray.get_int( 1 );
+        } else {
+            valmax = val;
         }
     } else {
         val = valmax = jo.get_int( tag );
@@ -849,6 +803,24 @@ class jmapgen_npc : public jmapgen_piece
                     p->set_mutation( trait_id( new_trait ) );
                 }
             }
+        }
+};
+/**
+* Place ownership area
+*/
+class jmapgen_faction : public jmapgen_piece
+{
+    public:
+        faction_id id;
+        jmapgen_faction( JsonObject &jsi ) : jmapgen_piece() {
+            if( jsi.has_string( "id" ) ) {
+                id = faction_id( jsi.get_string( "id" ) );
+                std::string facid = jsi.get_string( "id" );
+            }
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const float /*mdensity*/, mission * ) const override {
+            dat.m.apply_faction_ownership( x.val, y.val, x.valmax, y.valmax, id );
         }
 };
 /**
@@ -1609,8 +1581,17 @@ class jmapgen_sealed_item : public jmapgen_piece
                                   summary, chance );
                         return;
                     }
+                    std::string group_id = item_group_spawner->group_id;
+                    for( const itype *type : item_group::every_possible_item_from( group_id ) ) {
+                        if( !type->seed ) {
+                            debugmsg( "%s (with flag PLANT) spawns item group %s which can "
+                                      "spawn item %s which is not a seed.",
+                                      summary, group_id, type->get_id() );
+                            return;
+                        }
+                    }
 
-                    /// TODO: Somehow check that the item group always produces exactly one seed.
+                    /// TODO: Somehow check that the item group always produces exactly one item.
                 }
             }
         }
@@ -1655,6 +1636,34 @@ class jmapgen_translate : public jmapgen_piece
         void apply( const mapgendata &dat, const jmapgen_int &/*x*/, const jmapgen_int &/*y*/,
                     const float /*mdensity*/, mission * ) const override {
             dat.m.translate( from, to );
+        }
+};
+/**
+ * Place a zone
+ */
+class jmapgen_zone : public jmapgen_piece
+{
+    public:
+        zone_type_id zone_type;
+        faction_id faction;
+        std::string name = "";
+        jmapgen_zone( JsonObject &jsi ) : jmapgen_piece() {
+            if( jsi.has_string( "faction" ) && jsi.has_string( "type" ) ) {
+                std::string fac_id = jsi.get_string( "faction" );
+                faction = faction_id( fac_id );
+                std::string zone_id = jsi.get_string( "type" );
+                zone_type = zone_type_id( zone_id );
+                if( jsi.has_string( "name" ) ) {
+                    name = jsi.get_string( "name" );
+                }
+            }
+        }
+        void apply( const mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y,
+                    const float /*mdensity*/, mission * /*miss*/ ) const override {
+            zone_manager &mgr = zone_manager::get_manager();
+            const tripoint start = dat.m.getabs( tripoint( x.val, y.val, 0 ) );
+            const tripoint end = dat.m.getabs( tripoint( x.valmax, y.valmax, 0 ) );
+            mgr.add( name, zone_type, faction, false, true, start, end );
         }
 };
 
@@ -2144,7 +2153,8 @@ mapgen_palette mapgen_palette::load_internal( JsonObject &jo, const std::string 
     new_pal.load_place_mapings<jmapgen_liquid_item>( jo, "liquids", format_placings );
     new_pal.load_place_mapings<jmapgen_graffiti>( jo, "graffiti", format_placings );
     new_pal.load_place_mapings<jmapgen_translate>( jo, "translate", format_placings );
-
+    new_pal.load_place_mapings<jmapgen_zone>( jo, "zones", format_placings );
+    new_pal.load_place_mapings<jmapgen_faction>( jo, "faction_owner_character", format_placings );
     return new_pal;
 }
 
@@ -2164,7 +2174,13 @@ bool mapgen_function_json::setup_internal( JsonObject &jo )
         rotation = jmapgen_int( jo, "rotation" );
     }
 
-    return fill_ter != t_null;
+    if( jo.has_member( "predecessor_mapgen" ) ) {
+        predecessor_mapgen = oter_str_id( jo.get_string( "predecessor_mapgen" ) ).id();
+    } else {
+        predecessor_mapgen = oter_str_id::NULL_ID();
+    }
+
+    return fill_ter != t_null || predecessor_mapgen != oter_str_id::NULL_ID();
 }
 
 bool mapgen_function_json_nested::setup_internal( JsonObject &jo )
@@ -2289,7 +2305,7 @@ bool mapgen_function_json_base::setup_common( JsonObject jo )
 
     // No fill_ter? No format? GTFO.
     if( ! qualifies ) {
-        jo.throw_error( "  Need either 'fill_terrain' or 'rows' + 'terrain' (RTFM)" );
+        jo.throw_error( "  Need one of 'fill_terrain' or 'predecessor_mapgen' or 'rows' + 'terrain' (RTFM)" );
         // TODO: write TFM.
     }
 
@@ -2322,7 +2338,9 @@ bool mapgen_function_json_base::setup_common( JsonObject jo )
     objects.load_objects<jmapgen_nested>( jo, "place_nested" );
     objects.load_objects<jmapgen_graffiti>( jo, "place_graffiti" );
     objects.load_objects<jmapgen_translate>( jo, "translate_ter" );
-
+    objects.load_objects<jmapgen_zone>( jo, "place_zones" );
+    // Needs to be last as it affects other placed items
+    objects.load_objects<jmapgen_faction>( jo, "faction_owner" );
     if( !mapgen_defer::defer ) {
         is_ready = true; // skip setup attempts from any additional pointers
     }
@@ -2566,10 +2584,27 @@ void mapgen_function_json_base::formatted_set_incredibly_simple( map &m, int off
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
 void mapgen_function_json::generate( map *m, const oter_id &terrain_type, const mapgendata &md,
-                                     const time_point &, float d )
+                                     const time_point &turn, float d )
 {
     if( fill_ter != t_null ) {
         m->draw_fill_background( fill_ter );
+    }
+    if( predecessor_mapgen != oter_str_id::NULL_ID() ) {
+        run_mapgen_func( predecessor_mapgen.id().str(), m, predecessor_mapgen, md, turn, d );
+
+        // Now we have to do some rotation shenanigans. We need to ensure that
+        // our predecessor is not rotated out of alignment as part of rotating this location,
+        // and there are actually two sources of rotation--the mapgen can rotate explicitly, and
+        // the entire overmap terrain may be rotatable. To ensure we end up in the right rotation,
+        // we basically have to initially reverse the rotation that we WILL do in the future so that
+        // when we apply that rotation, our predecessor is back in its original state while this
+        // location is rotated as desired.
+
+        m->rotate( ( -rotation.get() + 4 ) % 4 );
+
+        if( terrain_type->is_rotatable() ) {
+            m->rotate( ( -static_cast<int>( terrain_type->get_dir() ) + 4 ) % 4 );
+        }
     }
     if( do_format ) {
         formatted_set_incredibly_simple( *m, 0, 0 );
@@ -2671,20 +2706,11 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
                     t_below, zlevel, *rsettings, *this );
 
     const std::string function_key = terrain_type->get_mapgen_id();
-
     bool found = true;
-    const auto fmapit = oter_mapgen.find( function_key );
-    if( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
-        // int fidx = rng(0, fmapit->second.size() - 1); // simple unweighted list
-        std::map<std::string, std::map<int, int> >::const_iterator weightit = oter_mapgen_weights.find(
-                    function_key );
-        const int rlast = weightit->second.rbegin()->first;
-        const int roll = rng( 1, rlast );
-        const int fidx = weightit->second.lower_bound( roll )->second;
-        //add_msg("draw_map: %s (%s): %d/%d roll %d/%d den %.4f", terrain_type.c_str(), function_key.c_str(), fidx+1, fmapit->second.size(), roll, rlast, density );
 
-        fmapit->second[fidx]->generate( this, terrain_type, dat, when, density );
-    } else {
+    const bool generated = run_mapgen_func( function_key, this, terrain_type, dat, when, density );
+
+    if( !generated ) {
         if( is_ot_type( "megastore", terrain_type ) ) {
             draw_megastore( terrain_type, dat, when, density );
         } else if( is_ot_type( "slimepit", terrain_type ) ||
@@ -2712,7 +2738,7 @@ void map::draw_map( const oter_id &terrain_type, const oter_id &t_north, const o
             draw_mine( terrain_type, dat, when, density );
         } else if( is_ot_type( "silo", terrain_type ) ) {
             draw_silo( terrain_type, dat, when, density );
-        } else if( is_ot_type( "anthill", terrain_type ) ) {
+        } else if( is_ot_subtype( "anthill", terrain_type ) ) {
             draw_anthill( terrain_type, dat, when, density );
         } else if( is_ot_subtype( "lab", terrain_type ) ) {
             draw_lab( terrain_type, dat, when, density );
@@ -4200,12 +4226,6 @@ void map::draw_lab( const oter_id &terrain_type, mapgendata &dat, const time_poi
                     bool monsters_end = false;
                     if( !one_in( 4 ) ) { // Trapped netherworld monsters
                         monsters_end = true;
-                        static const std::array<mtype_id, 11> nethercreatures = { {
-                                mon_flying_polyp, mon_hunting_horror, mon_mi_go, mon_yugg,
-                                mon_gelatin, mon_flaming_eye, mon_kreck, mon_gracke, mon_blank,
-                                mon_gozu, mon_shoggoth,
-                            }
-                        };
                         tw = rng( SEEY + 3, SEEY + 5 );
                         bw = tw + 4;
                         lw = rng( SEEX - 6, SEEX - 2 );
@@ -5031,7 +5051,8 @@ void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_po
                     break; // Nothing!  Lucky!
 
                 case 1: { // Toxic gas
-                    int cx = rng( 9, 14 ), cy = rng( 9, 14 );
+                    int cx = rng( 9, 14 );
+                    int cy = rng( 9, 14 );
                     ter_set( cx, cy, t_rock );
                     add_field( {cx, cy, abs_sub.z}, fd_gas_vent, 2 );
                 }
@@ -5052,7 +5073,8 @@ void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_po
                 break;
 
                 case 3: { // Wrecked equipment
-                    int x = rng( 9, 14 ), y = rng( 9, 14 );
+                    int x = rng( 9, 14 );
+                    int y = rng( 9, 14 );
                     for( int i = x - 3; i < x + 3; i++ ) {
                         for( int j = y - 3; j < y + 3; j++ ) {
                             if( !one_in( 4 ) ) {
@@ -5315,7 +5337,8 @@ void map::draw_mine( const oter_id &terrain_type, mapgendata &dat, const time_po
             case 2: { // The Thing dog
                 int num_bodies = rng( 4, 8 );
                 for( int i = 0; i < num_bodies; i++ ) {
-                    int x = rng( 4, SEEX * 2 - 5 ), y = rng( 4, SEEX * 2 - 5 );
+                    int x = rng( 4, SEEX * 2 - 5 );
+                    int y = rng( 4, SEEX * 2 - 5 );
                     add_item( x, y, item::make_corpse() );
                     place_items( "mine_equipment", 60, x, y, x, y, false, 0 );
                 }
@@ -6040,6 +6063,7 @@ void map::draw_megastore( const oter_id &terrain_type, mapgendata &dat, const ti
         ter_set( SEEX + 1, 0, t_door_glass_c );
         //Vending
         std::vector<int> vset;
+        vset.reserve( 21 );
         int vnum = rng( 2, 6 );
         for( int a = 0; a < 21; a++ ) {
             vset.push_back( a );
@@ -6913,6 +6937,19 @@ int map::place_npc( int x, int y, const string_id<npc_template> &type, bool forc
     return temp->getID();
 }
 
+void map::apply_faction_ownership( const int x1, const int y1, const int x2, const int y2,
+                                   const faction_id id )
+{
+    faction *fac = g->faction_manager_ptr->get( id );
+    for( const tripoint &p : points_in_rectangle( tripoint( x1, y1, abs_sub.z ), tripoint( x2, y2,
+            abs_sub.z ) ) ) {
+        auto items = i_at( p.x, p.y );
+        for( item &elem : items ) {
+            elem.set_owner( fac );
+        }
+    }
+}
+
 std::vector<item *> map::place_items( const items_location &loc, const int chance,
                                       const tripoint &f,
                                       const tripoint &t, const bool ongrass, const time_point &turn,
@@ -7002,13 +7039,6 @@ void map::add_spawn( const mtype_id &type, int count, int x, int y, bool friendl
                   type.c_str(), count, x, y );
         return;
     }
-    if( get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
-        const mtype &mt = type.obj();
-        if( !mt.in_category( "CLASSIC" ) && !mt.in_category( "WILDLIFE" ) ) {
-            // Don't spawn non-classic monsters in classic zombie mode.
-            return;
-        }
-    }
     if( MonsterGroupManager::monster_is_blacklisted( type ) ) {
         return;
     }
@@ -7053,7 +7083,7 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
     const int smx = p.x / SEEX;
     const int smy = p.y / SEEY;
     // debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
-    auto veh = std::unique_ptr<vehicle>( new vehicle( type, veh_fuel, veh_status ) );
+    auto veh = std::make_unique<vehicle>( type, veh_fuel, veh_status );
     veh->posx = p.x % SEEX;
     veh->posy = p.y % SEEY;
     veh->smx = smx;
@@ -7142,7 +7172,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
              * vehicles into global coordinates, find the distance between them and
              * p and then install them that way.
              * Create a vehicle with type "null" so it starts out empty. */
-            auto wreckage = std::unique_ptr<vehicle>( new vehicle() );
+            auto wreckage = std::make_unique<vehicle>();
             wreckage->posx = other_veh->posx;
             wreckage->posy = other_veh->posy;
             wreckage->smx = other_veh->smx;
@@ -7297,6 +7327,10 @@ void map::rotate( int turns )
             }
         }
     }
+
+    // rotate zones
+    zone_manager &mgr = zone_manager::get_manager();
+    mgr.rotate_zones( *this, turns );
 }
 
 // Hideous function, I admit...
@@ -8241,10 +8275,6 @@ void fill_background( map *m, ter_id( *f )() )
 {
     m->draw_fill_background( f );
 }
-void fill_background( map *m, const weighted_int_list<ter_id> &f )
-{
-    m->draw_fill_background( f );
-}
 void square( map *m, ter_id type, int x1, int y1, int x2, int y2 )
 {
     m->draw_square_ter( type, x1, y1, x2, y2 );
@@ -8403,4 +8433,20 @@ bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint
         return false;
     }
     return update_function->second[0]->update_map( omt_pos, 0, 0, miss, cancel_on_collision );
+}
+
+bool run_mapgen_func( const std::string &mapgen_id, map *m, oter_id terrain_type, mapgendata dat,
+                      const time_point &turn, float density )
+{
+    const auto fmapit = oter_mapgen.find( mapgen_id );
+    if( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
+        std::map<std::string, std::map<int, int> >::const_iterator weightit = oter_mapgen_weights.find(
+                    mapgen_id );
+        const int rlast = weightit->second.rbegin()->first;
+        const int roll = rng( 1, rlast );
+        const int fidx = weightit->second.lower_bound( roll )->second;
+        fmapit->second[fidx]->generate( m, terrain_type, dat, turn, density );
+        return true;
+    }
+    return false;
 }

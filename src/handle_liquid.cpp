@@ -2,6 +2,7 @@
 
 #include "action.h"
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "game.h"
 #include "game_inventory.h"
 #include "iexamine.h"
@@ -18,16 +19,56 @@
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
-extern void serialize_liquid_source( player_activity &act, const vehicle &veh, const int part_num,
-                                     const item &liquid );
-extern void serialize_liquid_source( player_activity &act, const tripoint &pos,
-                                     const item &liquid );
-extern void serialize_liquid_source( player_activity &act, const monster &mon, const item &liquid );
+// All serialize_liquid_source functions should add the same number of elements to the vectors of
+// the activity. This makes it easier to distinguish the values of the source and the values of the target.
+static void serialize_liquid_source( player_activity &act, const vehicle &veh, const int part_num,
+                                     const item &liquid )
+{
+    act.values.push_back( LST_VEHICLE );
+    act.values.push_back( part_num );
+    act.coords.push_back( veh.global_pos3() );
+    act.str_values.push_back( serialize( liquid ) );
+}
 
-extern void serialize_liquid_target( player_activity &act, const vehicle &veh );
-extern void serialize_liquid_target( player_activity &act, int container_item_pos );
-extern void serialize_liquid_target( player_activity &act, const tripoint &pos );
-extern void serialize_liquid_target( player_activity &act, const monster &mon );
+static void serialize_liquid_source( player_activity &act, const tripoint &pos, const item &liquid )
+{
+    const auto stack = g->m.i_at( pos );
+    // Need to store the *index* of the item on the ground, but it may be a virtual item from
+    // an infinite liquid source.
+    const auto iter = std::find_if( stack.begin(), stack.end(), [&]( const item & i ) {
+        return &i == &liquid;
+    } );
+    if( iter == stack.end() ) {
+        act.values.push_back( LST_INFINITE_MAP );
+        act.values.push_back( 0 ); // dummy
+    } else {
+        act.values.push_back( LST_MAP_ITEM );
+        act.values.push_back( std::distance( stack.begin(), iter ) );
+    }
+    act.coords.push_back( pos );
+    act.str_values.push_back( serialize( liquid ) );
+}
+
+static void serialize_liquid_target( player_activity &act, const vehicle &veh )
+{
+    act.values.push_back( LTT_VEHICLE );
+    act.values.push_back( 0 ); // dummy
+    act.coords.push_back( veh.global_pos3() );
+}
+
+static void serialize_liquid_target( player_activity &act, int container_item_pos )
+{
+    act.values.push_back( LTT_CONTAINER );
+    act.values.push_back( container_item_pos );
+    act.coords.push_back( tripoint() ); // dummy
+}
+
+static void serialize_liquid_target( player_activity &act, const tripoint &pos )
+{
+    act.values.push_back( LTT_MAP );
+    act.values.push_back( 0 ); // dummy
+    act.coords.push_back( pos );
+}
 
 namespace liquid_handler
 {
@@ -85,8 +126,6 @@ bool handle_liquid_from_container( item &container, int radius )
 {
     return handle_liquid_from_container( container.contents.begin(), container, radius );
 }
-
-
 
 static bool get_liquid_target( item &liquid, item *const source, const int radius,
                                const tripoint *const source_pos,

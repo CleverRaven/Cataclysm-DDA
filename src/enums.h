@@ -2,7 +2,7 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
-#include <assert.h>
+#include <cassert>
 #include <climits>
 #include <ostream>
 #include <cstdint>
@@ -140,6 +140,10 @@ enum object_type {
     NUM_OBJECTS,
 };
 
+enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, LST_MONSTER = 4};
+
+enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, LTT_MONSTER = 4 };
+
 /**
  *  Possible layers that a piece of clothing/armor can occupy
  *
@@ -269,6 +273,15 @@ struct tripoint {
     }
     constexpr tripoint operator-() const {
         return tripoint( -x, -y, -z );
+    }
+    constexpr tripoint operator*( const int rhs ) const {
+        return tripoint( x * rhs, y * rhs, z * rhs );
+    }
+    tripoint &operator*=( const int rhs ) {
+        x *= rhs;
+        y *= rhs;
+        z *= rhs;
+        return *this;
     }
     /*** some point operators and functions ***/
     constexpr tripoint operator+( const point &rhs ) const {
@@ -439,7 +452,28 @@ enum game_message_type : int {
     /* custom SCT colors */
     m_headshot,
     m_critical,
-    m_grazing
+    m_grazing,
+};
+
+enum game_message_flags {
+    /* No specific game message flags */
+    gmf_none = 0,
+    /* Allow the message to bypass message cooldown. */
+    gmf_bypass_cooldown = 1,
+};
+
+/** Structure allowing a combination of `game_message_type` and `game_message_flags`.
+ */
+struct game_message_params {
+    game_message_params( const game_message_type message_type ) : type( message_type ),
+        flags( gmf_none ) {}
+    game_message_params( const game_message_type message_type,
+                         const game_message_flags message_flags ) : type( message_type ), flags( message_flags ) {}
+
+    /* Type of the message */
+    game_message_type type;
+    /* Flags pertaining to the message */
+    game_message_flags flags;
 };
 
 #endif

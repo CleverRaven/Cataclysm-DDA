@@ -1,6 +1,6 @@
 #include "skill.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <iterator>
 #include <array>

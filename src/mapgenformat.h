@@ -2,7 +2,7 @@
 #ifndef MAPGENFORMAT_H
 #define MAPGENFORMAT_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <string>
 #include <vector>
 #include <utility>
@@ -38,7 +38,7 @@ class format_effect
         std::vector<ID> determiners;
 
     public:
-        format_effect( std::string chars,
+        format_effect( const std::string &chars,
                        std::vector<ID> dets );
 
         ID translate( char c ) const;

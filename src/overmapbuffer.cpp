@@ -1,7 +1,7 @@
 #include "overmapbuffer.h"
 
-#include <limits.h>
-#include <math.h>
+#include <climits>
+#include <cmath>
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>
@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 
+#include "avatar.h"
 #include "basecamp.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
@@ -577,7 +578,7 @@ void overmapbuffer::move_vehicle( vehicle *veh, const point &old_msp )
     }
 }
 
-void overmapbuffer::remove_camp( const basecamp camp )
+void overmapbuffer::remove_camp( const basecamp &camp )
 {
     const point omt = point( camp.camp_omt_pos().x, camp.camp_omt_pos().y );
     overmap &om = get_om_global( omt );
@@ -851,9 +852,9 @@ bool overmapbuffer::check_overmap_special_type( const overmap_special_id &id, co
     return om.overmap_pointer->check_overmap_special_type( id, om.coordinates );
 }
 
-omt_find_params assign_params( const std::string &type, int const radius, bool must_be_seen,
-                               bool allow_subtype_matches, bool existing_overmaps_only,
-                               const cata::optional<overmap_special_id> &om_special )
+static omt_find_params assign_params( const std::string &type, int const radius, bool must_be_seen,
+                                      bool allow_subtype_matches, bool existing_overmaps_only,
+                                      const cata::optional<overmap_special_id> &om_special )
 {
     omt_find_params params;
     params.type = type;
@@ -1156,7 +1157,7 @@ std::vector<std::shared_ptr<npc>> overmapbuffer::get_npcs_near_omt( int x, int y
     return result;
 }
 
-radio_tower_reference create_radio_tower_reference( const overmap &om, radio_tower &t,
+static radio_tower_reference create_radio_tower_reference( const overmap &om, radio_tower &t,
         const tripoint &center )
 {
     // global submap coordinates, same as center is
@@ -1286,7 +1287,9 @@ city_reference overmapbuffer::closest_known_city( const tripoint &center )
 
 std::string overmapbuffer::get_description_at( const tripoint &where )
 {
-    const std::string ter_name = ter( sm_to_omt_copy( where ) )->get_name();
+    const auto oter = ter( sm_to_omt_copy( where ) );
+    const nc_color ter_color = oter->get_color();
+    const std::string ter_name = colorize( oter->get_name(), ter_color );
 
     if( where.z != 0 ) {
         return ter_name;
@@ -1299,40 +1302,41 @@ std::string overmapbuffer::get_description_at( const tripoint &where )
     }
 
     const auto &closest_city = *closest_cref.city;
+    const std::string closest_city_name = colorize( closest_city.name, c_yellow );
     const direction dir = direction_from( closest_cref.abs_sm_pos, where );
-    const std::string dir_name = direction_name( dir );
+    const std::string dir_name = colorize( direction_name( dir ), c_light_gray );
 
     const int sm_size = omt_to_sm_copy( closest_cref.city->size );
     const int sm_dist = closest_cref.distance;
 
+    //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+    std::string format_string = "%1$s %2$s from %3$s";
     if( sm_dist <= 3 * sm_size / 4 ) {
         if( sm_size >= 16 ) {
             // The city is big enough to be split in districts.
             if( sm_dist <= sm_size / 4 ) {
-                //~ First parameter is a terrain name, second parameter is a city name.
-                return string_format( _( "%1$s in central %2$s" ), ter_name, closest_city.name );
+                //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+                format_string = _( "%1$s in central %3$s" );
             } else {
                 //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-                return string_format( _( "%1$s in %2$s %3$s" ), ter_name, dir_name, closest_city.name );
+                format_string = _( "%1$s in %2$s %3$s" );
             }
         } else {
-            //~ First parameter is a terrain name, second parameter is a city name.
-            return string_format( _( "%1$s in %2$s" ), ter_name, closest_city.name );
+            //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+            format_string = _( "%1$s in %3$s" );
         }
     } else if( sm_dist <= sm_size ) {
         if( sm_size >= 8 ) {
             // The city is big enough to have outskirts.
             //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-            return string_format( _( "%1$s on the %2$s outskirts of %3$s" ), ter_name, dir_name,
-                                  closest_city.name );
+            format_string = _( "%1$s on the %2$s outskirts of %3$s" );
         } else {
-            //~ First parameter is a terrain name, second parameter is a city name.
-            return string_format( _( "%1$s in %2$s" ), ter_name, closest_city.name );
+            //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
+            format_string = _( "%1$s in %3$s" );
         }
     }
 
-    //~ First parameter is a terrain name, second parameter is a direction, and third parameter is a city name.
-    return string_format( _( "%1$s %2$s from %3$s" ), ter_name, dir_name, closest_city.name );
+    return string_format( format_string, ter_name, dir_name, closest_city_name );
 }
 
 static int modulo( int v, int m )
@@ -1432,17 +1436,16 @@ bool overmapbuffer::place_special( const overmap_special &special, const tripoin
     overmap &om = get_om_global( x, y );
     const tripoint om_loc( x, y, p.z );
 
-    // Get the closest city that is within the overmap because
-    // all of the overmap generation functions only function within
-    // the single overmap. If future generation is hoisted up to the
-    // buffer to spawn overmaps, then this can also be changed accordingly.
-    const city c = om.get_nearest_city( om_loc );
-
     bool placed = false;
     // Only place this special if we can actually place it per its criteria, or we're forcing
     // the placement, which is mostly a debug behavior, since a forced placement may not function
     // correctly (e.g. won't check correct underlying terrain).
     if( om.can_place_special( special, om_loc, dir, must_be_unexplored ) || force ) {
+        // Get the closest city that is within the overmap because
+        // all of the overmap generation functions only function within
+        // the single overmap. If future generation is hoisted up to the
+        // buffer to spawn overmaps, then this can also be changed accordingly.
+        const city c = om.get_nearest_city( om_loc );
         om.place_special( special, om_loc, dir, c, must_be_unexplored, force );
         placed = true;
     }

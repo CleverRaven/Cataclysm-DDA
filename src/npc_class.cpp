@@ -1,6 +1,6 @@
 #include "npc_class.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <list>
 #include <algorithm>
 #include <array>
@@ -164,7 +164,7 @@ void npc_class::check_consistency()
     }
 }
 
-distribution load_distribution( JsonObject &jo )
+static distribution load_distribution( JsonObject &jo )
 {
     if( jo.has_float( "constant" ) ) {
         return distribution::constant( jo.get_float( "constant" ) );
@@ -212,7 +212,7 @@ distribution load_distribution( JsonObject &jo )
     return distribution();
 }
 
-distribution load_distribution( JsonObject &jo, const std::string &name )
+static distribution load_distribution( JsonObject &jo, const std::string &name )
 {
     if( !jo.has_member( name ) ) {
         return distribution();
@@ -262,7 +262,8 @@ void npc_class::load( JsonObject &jo, const std::string & )
             mutation_category_trait::get_all();
         auto jo2 = jo.get_object( "mutation_rounds" );
         for( auto &mutation : jo2.get_member_names() ) {
-            const auto category_match = [&mutation]( std::pair<const std::string, mutation_category_trait> p ) {
+            const auto category_match = [&mutation]( const std::pair<const std::string, mutation_category_trait>
+            &p ) {
                 return p.second.id == mutation;
             };
             if( std::find_if( mutation_categories.begin(), mutation_categories.end(),

@@ -1,6 +1,6 @@
 #include "debug_menu.h" // IWYU pragma: associated
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <map>
 #include <memory>
@@ -13,6 +13,7 @@
 #include "input.h"
 #include "item_factory.h"
 #include "map.h"
+#include "npc.h"
 #include "monster.h"
 #include "monstergenerator.h"
 #include "mtype.h"
@@ -616,7 +617,7 @@ void debug_menu::wishskill( player *p )
             sksetmenu.query();
             g->draw_ter();
             wrefresh( g->w_terrain );
-            g->draw_panels();
+            g->draw_panels( true );
             skset = sksetmenu.ret;
         }
 

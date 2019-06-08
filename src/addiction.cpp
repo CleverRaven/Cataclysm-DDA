@@ -115,7 +115,7 @@ void addict_effect( player &u, addiction &add )
             if( one_in( 20 ) && dice( 2, 20 ) < in ) {
                 u.add_msg_if_player( m_bad, _( "Your hands start shaking... you need some painkillers." ) );
                 u.add_morale( MORALE_CRAVING_OPIATE, -40, -10 * in );
-                u.add_effect( effect_shakes, 2_minutes + in * 5_turns );
+                u.add_effect( effect_shakes, 2_minutes + in * 30_seconds );
             } else if( one_in( 20 ) && dice( 2, 30 ) < in ) {
                 u.add_msg_if_player( m_bad, _( "You feel anxious.  You need your painkillers!" ) );
                 u.add_morale( MORALE_CRAVING_OPIATE, -30, -10 * in );
@@ -180,7 +180,7 @@ void addict_effect( player &u, addiction &add )
                     u.add_morale( MORALE_CRAVING_MUTAGEN, -20, -200 );
                 }
                 if( u.focus_pool > 40 && one_in( 800 - 20 * in ) ) {
-                    u.focus_pool -= ( in );
+                    u.focus_pool -= in;
                     u.add_msg_if_player( m_warning,
                                          _( "You daydream what it'd be like if you were *different*.  Different is good." ) );
                 }

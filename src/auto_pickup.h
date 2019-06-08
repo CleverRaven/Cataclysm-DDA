@@ -43,7 +43,7 @@ class auto_pickup
                     this->bExclude = false;
                 }
 
-                cRules( std::string sRuleIn, bool bActiveIn, bool bExcludeIn ) {
+                cRules( const std::string &sRuleIn, bool bActiveIn, bool bExcludeIn ) {
                     this->sRule = sRuleIn;
                     this->bActive = bActiveIn;
                     this->bExclude = bExcludeIn;

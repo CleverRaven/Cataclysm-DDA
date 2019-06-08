@@ -2,7 +2,7 @@
 #ifndef START_LOCATION_H
 #define START_LOCATION_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <set>
 #include <vector>
 #include <string>

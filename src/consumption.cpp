@@ -1,6 +1,6 @@
 #include "player.h" // IWYU pragma: associated
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <string>
 #include <limits>
@@ -9,6 +9,7 @@
 #include <cmath>
 
 #include "addiction.h"
+#include "avatar.h"
 #include "calendar.h" // ticks_between
 #include "cata_utility.h"
 #include "debug.h"
@@ -48,6 +49,7 @@ const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_visuals( "visuals" );
 const efftype_id effect_common_cold( "common_cold" );
 const efftype_id effect_flu( "flu" );
+const efftype_id effect_fungus( "fungus" );
 
 const mtype_id mon_player_blob( "mon_player_blob" );
 
@@ -251,7 +253,7 @@ std::map<vitamin_id, int> player::vitamins_from( const itype_id &id ) const
 }
 
 // list of traits the player has that modifies vitamin absorption
-std::list<trait_id> mut_vitamin_absorb_modify( const player &p )
+static std::list<trait_id> mut_vitamin_absorb_modify( const player &p )
 {
     std::list<trait_id> traits;
     for( auto &m : p.get_mutations() ) {
@@ -264,7 +266,7 @@ std::list<trait_id> mut_vitamin_absorb_modify( const player &p )
 }
 
 // is the material associated with this item?
-bool material_exists( const material_id &material, const item &item )
+static bool material_exists( const material_id &material, const item &item )
 {
     for( const material_id &mat : item.type->materials ) {
         if( mat == material ) {
@@ -361,7 +363,7 @@ int player::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
     return it->second;
 }
 
-void player::vitamins_mod( std::map<vitamin_id, int> vitamins, bool capped )
+void player::vitamins_mod( const std::map<vitamin_id, int> &vitamins, bool capped )
 {
     for( auto vit : vitamins ) {
         vitamin_mod( vit.first, vit.second, capped );
@@ -389,7 +391,7 @@ bool player::vitamin_set( const vitamin_id &vit, int qty )
     return true;
 }
 
-float player::metabolic_rate_base() const
+float Character::metabolic_rate_base() const
 {
     float hunger_rate = get_option< float >( "PLAYER_HUNGER_RATE" );
     return hunger_rate * ( 1.0f + mutation_value( "metabolism_modifier" ) );
@@ -847,6 +849,10 @@ bool player::eat( item &food, bool force )
         }
     }
 
+    if( food.has_flag( "FUNGAL_VECTOR" ) && !has_trait( trait_id( "M_IMMUNE" ) ) ) {
+        add_effect( effect_fungus, 1_turns, num_bp, true );
+    }
+
     // The fun changes for these effects are applied in fun_for().
     if( food.has_flag( "MUSHY" ) ) {
         add_msg_if_player( m_bad,
@@ -1083,7 +1089,8 @@ bool player::consume_effects( item &food )
     // Moved here and changed a bit - it was too complex
     // Incredibly minor stuff like this shouldn't require complexity
     if( !is_npc() && has_trait( trait_id( "SLIMESPAWNER" ) ) &&
-        ( get_healthy_kcal() < get_stored_kcal() + 4000 || get_thirst() < capacity + 40 ) ) {
+        ( get_healthy_kcal() < get_stored_kcal() + 4000 ||
+          get_thirst() - stomach.get_water() / 5_ml < 40 ) ) {
         add_msg_if_player( m_mixed,
                            _( "You feel as though you're going to split open!  In a good way?" ) );
         mod_pain( 5 );
@@ -1387,7 +1394,7 @@ bool player::can_consume( const item &it ) const
            can_consume_as_is( it.contents.front() );
 }
 
-item &player::get_comestible_from( item &it ) const
+item &player::get_consumable_from( item &it ) const
 {
     if( !it.is_container_empty() && can_consume_as_is( it.contents.front() ) ) {
         return it.contents.front();

@@ -2,7 +2,7 @@
 #ifndef WORLDFACTORY_H
 #define WORLDFACTORY_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <functional>
 #include <iosfwd>
 #include <map>
@@ -81,7 +81,7 @@ class mod_manager;
 class mod_ui;
 class input_context;
 
-typedef WORLD *WORLDPTR;
+using WORLDPTR = WORLD *;
 
 class worldfactory
 {
@@ -148,7 +148,7 @@ class worldfactory
         pimpl<mod_manager> mman;
         pimpl<mod_ui> mman_ui;
 
-        typedef std::function<int( const catacurses::window &, WORLDPTR )> worldgen_display;
+        using worldgen_display = std::function<int ( const catacurses::window &, WORLDPTR )>;
 
         std::vector<worldgen_display> tabs;
 };

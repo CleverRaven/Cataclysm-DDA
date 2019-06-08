@@ -1,9 +1,10 @@
 #include "game.h" // IWYU pragma: associated
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 #include <algorithm>
 
+#include "avatar.h"
 #include "map.h"
 #include "messages.h"
 #include "player.h"
@@ -16,6 +17,8 @@
 #include "translations.h"
 #include "units.h"
 
+const efftype_id effect_harnessed( "harnessed" );
+
 bool game::grabbed_veh_move( const tripoint &dp )
 {
     const optional_vpart_position grabbed_vehicle_vp = m.veh_at( u.pos() + u.grab_point );
@@ -26,7 +29,15 @@ bool game::grabbed_veh_move( const tripoint &dp )
     }
     vehicle *grabbed_vehicle = &grabbed_vehicle_vp->vehicle();
     const int grabbed_part = grabbed_vehicle_vp->part_index();
-
+    for( size_t part_index = 0; part_index < grabbed_vehicle->parts.size(); ++part_index ) {
+        monster *mon = grabbed_vehicle->get_pet( part_index );
+        if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
+            add_msg( m_info, _( "You cannot move this vehicle whilst your %s is harnessed!" ),
+                     mon->get_name() );
+            u.grab( OBJECT_NONE );
+            return false;
+        }
+    }
     const vehicle *veh_under_player = veh_pointer_or_null( m.veh_at( u.pos() ) );
     if( grabbed_vehicle == veh_under_player ) {
         u.grab_point = -dp;

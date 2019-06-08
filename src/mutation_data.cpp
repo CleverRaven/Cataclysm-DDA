@@ -16,8 +16,8 @@
 #include "translations.h"
 #include "generic_factory.h"
 
-typedef std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>> TraitGroupMap;
-typedef std::set<trait_id> TraitSet;
+using TraitGroupMap = std::map<trait_group::Trait_group_tag, std::shared_ptr<Trait_group>>;
+using TraitSet = std::set<trait_id>;
 
 TraitSet trait_blacklist;
 TraitGroupMap trait_groups;
@@ -50,7 +50,7 @@ bool string_id<Trait_group>::is_valid() const
 }
 
 static void extract_mod( JsonObject &j, std::unordered_map<std::pair<bool, std::string>, int> &data,
-                         const std::string &mod_type, bool active, std::string type_key )
+                         const std::string &mod_type, bool active, const std::string &type_key )
 {
     int val = j.get_int( mod_type, 0 );
     if( val != 0 ) {
@@ -351,6 +351,10 @@ void mutation_branch::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "overmap_sight", overmap_sight, 0.0f );
     optional( jo, was_loaded, "overmap_multiplier", overmap_multiplier, 1.0f );
 
+    optional( jo, was_loaded, "mana_modifier", mana_modifier, 0 );
+    optional( jo, was_loaded, "mana_multiplier", mana_multiplier, 1.0f );
+    optional( jo, was_loaded, "mana_regen_multiplier", mana_regen_multiplier, 1.0f );
+
     if( jo.has_object( "social_modifiers" ) ) {
         JsonObject sm = jo.get_object( "social_modifiers" );
         social_mods = load_mutation_social_mods( sm );
@@ -594,7 +598,8 @@ void mutation_branch::load_trait_group( JsonObject &jsobj )
     load_trait_group( jsobj, group_id, subtype );
 }
 
-Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid, bool is_collection )
+static Trait_group &make_group_or_throw( const trait_group::Trait_group_tag &gid,
+        bool is_collection )
 {
     // NOTE: If the gid is already in the map, emplace will just return an iterator to it
     auto found = ( is_collection

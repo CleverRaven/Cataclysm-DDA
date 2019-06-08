@@ -2,7 +2,7 @@
 #ifndef VPART_POSITION_H
 #define VPART_POSITION_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <functional>
 #include <string>
 #include <utility>

@@ -16,7 +16,7 @@
     "required_level": 5,
     "max_level": 8,
     "intelligence": 12,
-    "time": 35,
+    "time": "35 m",
     "fun": -1
   },
   {
@@ -35,7 +35,7 @@
     "required_level": 2,
     "max_level": 4,
     "intelligence": 8,
-    "time": 15,
+    "time": "15 m",
     "fun": 1
   },
   {
@@ -52,7 +52,7 @@
     "skill": "cooking",
     "max_level": 3,
     "intelligence": 4,
-    "time": 10
+    "time": "10 m"
   },
   {
     "id": "cookbook_human",
@@ -71,7 +71,7 @@
     "required_level": 2,
     "max_level": 4,
     "intelligence": 4,
-    "time": 10,
+    "time": "10 m",
     "fun": -5
   },
   {
@@ -90,7 +90,7 @@
     "required_level": 3,
     "max_level": 4,
     "intelligence": 6,
-    "time": 10
+    "time": "10 m"
   },
   {
     "id": "cookbook_sushi",
@@ -109,7 +109,7 @@
     "required_level": 1,
     "max_level": 4,
     "intelligence": 7,
-    "time": 20
+    "time": "20 m"
   },
   {
     "id": "family_cookbook",
@@ -127,7 +127,7 @@
     "required_level": 1,
     "max_level": 5,
     "intelligence": 7,
-    "time": 45,
+    "time": "45 m",
     "fun": 1
   },
   {
@@ -145,7 +145,7 @@
     "skill": "cooking",
     "max_level": 1,
     "intelligence": 5,
-    "time": 8,
+    "time": "8 m",
     "fun": 1
   },
   {
@@ -162,7 +162,7 @@
     "skill": "cooking",
     "max_level": 1,
     "intelligence": 5,
-    "time": 24,
+    "time": "24 m",
     "fun": 1
   },
   {
@@ -181,7 +181,7 @@
     "required_level": 3,
     "max_level": 4,
     "intelligence": 4,
-    "time": 18
+    "time": "18 m"
   },
   {
     "id": "recipe_alpha",
@@ -199,7 +199,7 @@
     "required_level": 8,
     "max_level": 9,
     "intelligence": 12,
-    "time": 45,
+    "time": "45 m",
     "fun": -2
   },
   {
@@ -218,7 +218,7 @@
     "required_level": 8,
     "max_level": 9,
     "intelligence": 12,
-    "time": 45,
+    "time": "45 m",
     "fun": -2
   },
   {
@@ -237,7 +237,7 @@
     "required_level": 8,
     "max_level": 9,
     "intelligence": 12,
-    "time": 45,
+    "time": "45 m",
     "fun": -2
   },
   {
@@ -256,7 +256,7 @@
     "required_level": 8,
     "max_level": 9,
     "intelligence": 12,
-    "time": 45,
+    "time": "45 m",
     "fun": -4
   },
   {
@@ -274,7 +274,7 @@
     "required_level": 9,
     "max_level": 9,
     "intelligence": 12,
-    "time": 45,
+    "time": "45 m",
     "fun": -2
   },
   {
@@ -293,7 +293,7 @@
     "required_level": 5,
     "max_level": 8,
     "intelligence": 11,
-    "time": 35,
+    "time": "35 m",
     "fun": -1
   },
   {
@@ -312,7 +312,7 @@
     "required_level": 8,
     "max_level": 9,
     "intelligence": 12,
-    "time": 45,
+    "time": "45 m",
     "fun": -3
   },
   {
@@ -332,7 +332,7 @@
     "required_level": 8,
     "max_level": 9,
     "intelligence": 12,
-    "time": 35,
+    "time": "35 m",
     "fun": -2
   },
   {
@@ -351,7 +351,7 @@
     "required_level": 10,
     "max_level": 10,
     "intelligence": 12,
-    "time": 45,
+    "time": "45 m",
     "fun": -2
   },
   {
@@ -370,7 +370,7 @@
     "required_level": 8,
     "max_level": 10,
     "intelligence": 12,
-    "time": 45,
+    "time": "45 m",
     "fun": -4
   },
   {
@@ -391,7 +391,7 @@
     "required_level": 2,
     "max_level": 4,
     "intelligence": 10,
-    "time": 45,
+    "time": "45 m",
     "fun": -1
   },
   {
@@ -410,7 +410,7 @@
     "required_level": 3,
     "max_level": 6,
     "intelligence": 12,
-    "time": 35,
+    "time": "35 m",
     "fun": -1
   }
 ]

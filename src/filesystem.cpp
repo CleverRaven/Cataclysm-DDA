@@ -2,7 +2,7 @@
 
 // FILE I/O
 #include <sys/stat.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <cerrno>
 #include <cstdio>

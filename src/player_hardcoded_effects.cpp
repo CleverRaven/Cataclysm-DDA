@@ -1,8 +1,9 @@
 #include "player.h" // IWYU pragma: associated
 
-#include <math.h>
-#include <stdlib.h>
+#include <cmath>
+#include <cstdlib>
 
+#include "avatar.h"
 #include "effect.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -188,7 +189,7 @@ static void eff_fun_rat( player &u, effect &it )
     } else if( rng( 0, 100 ) < dur / 8 ) {
         if( one_in( 3 ) ) {
             u.vomit();
-            it.mod_duration( -10_turns );
+            it.mod_duration( -1_minutes );
         } else {
             u.add_msg_if_player( m_bad, _( "You feel nauseous!" ) );
             it.mod_duration( 3_turns );
@@ -508,7 +509,7 @@ void player::hardcoded_effects( effect &it )
             if( !is_npc() ) {
                 //~ %s is bodypart in accusative.
                 add_msg( m_warning, _( "You start scratching your %s!" ), body_part_name_accusative( bp ) );
-                g->cancel_activity();
+                g->u.cancel_activity();
             } else if( g->u.sees( pos() ) ) {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
                 add_msg( _( "%1$s starts scratching their %2$s!" ), name, body_part_name_accusative( bp ) );
@@ -618,7 +619,7 @@ void player::hardcoded_effects( effect &it )
                     it.set_duration( 0_turns );
                 }
             }
-            if( one_in( 1200 - ( ( dur - 600_minutes ) / 5_turns ) ) && one_in( 20 ) ) {
+            if( one_in( 1200 - ( ( dur - 600_minutes ) / 30_seconds ) ) && one_in( 20 ) ) {
                 if( !is_npc() ) {
                     add_msg( m_bad, _( "You pass out." ) );
                 }
@@ -847,8 +848,10 @@ void player::hardcoded_effects( effect &it )
         set_num_blocks_bonus( get_num_blocks_bonus() - 1 );
         int zed_number = 0;
         for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
-            if( g->critter_at<monster>( dest ) ) {
-                zed_number ++;
+            const monster *const mon = g->critter_at<monster>( dest );
+            if( mon && ( mon->has_flag( MF_GRABS ) ||
+                         mon->type->has_special_attack( "GRAB" ) ) ) {
+                zed_number += mon->get_grab_strength();
             }
         }
         if( zed_number > 0 ) {
@@ -1026,9 +1029,11 @@ void player::hardcoded_effects( effect &it )
         }
 
         // TODO: Move this to update_needs when NPCs can mutate
-        bool compatible_weather_types = g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY
-                                        || g->weather == WEATHER_DRIZZLE || g->weather == WEATHER_RAINY || g->weather == WEATHER_FLURRIES
-                                        || g->weather == WEATHER_CLOUDY || g->weather == WEATHER_SNOW;
+        bool compatible_weather_types = g->weather.weather == WEATHER_CLEAR ||
+                                        g->weather.weather == WEATHER_SUNNY
+                                        || g->weather.weather == WEATHER_DRIZZLE || g->weather.weather == WEATHER_RAINY ||
+                                        g->weather.weather == WEATHER_FLURRIES
+                                        || g->weather.weather == WEATHER_CLOUDY || g->weather.weather == WEATHER_SNOW;
 
         if( calendar::once_every( 10_minutes ) && ( has_trait( trait_id( "CHLOROMORPH" ) ) ||
                 has_trait( trait_id( "M_SKIN3" ) ) || has_trait( trait_id( "WATERSLEEP" ) ) ) &&

@@ -1,7 +1,7 @@
 #include "field.h"
 
-#include <math.h>
-#include <stddef.h>
+#include <cmath>
+#include <cstddef>
 #include <algorithm>
 #include <queue>
 #include <tuple>
@@ -12,6 +12,7 @@
 #include <utility>
 #include <vector>
 
+#include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "coordinate_conversions.h"
@@ -377,7 +378,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         {
             "fd_weedsmoke",
             {translate_marker( "swirl of pot smoke" ), translate_marker( "pot smoke" ), translate_marker( "thick pot smoke" )}, '%', 8,
-            {def_c_white, def_c_light_gray, def_c_dark_gray}, {true, true, true}, {false, false, false}, 325_turns,
+            {def_c_white, def_c_light_gray, def_c_dark_gray}, {true, true, true}, {false, false, false}, 35_minutes,
             {0, 0, 0},
             GAS,
             true
@@ -386,7 +387,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         {
             "fd_cracksmoke",
             {translate_marker( "swirl of crack smoke" ), translate_marker( "crack smoke" ), translate_marker( "thick crack smoke" )}, '%', 8,
-            {def_c_white, def_c_light_gray, def_c_dark_gray}, {true, true, true}, {false, false, false}, 225_turns,
+            {def_c_white, def_c_light_gray, def_c_dark_gray}, {true, true, true}, {false, false, false}, 25_minutes,
             {0, 0, 0},
             GAS,
             true
@@ -394,7 +395,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         {
             "fd_methsmoke",
             {translate_marker( "swirl of meth smoke" ), translate_marker( "meth smoke" ), translate_marker( "thick meth smoke" )}, '%', 8,
-            {def_c_white, def_c_light_gray, def_c_dark_gray}, {true, true, true}, {false, false, false}, 275_turns,
+            {def_c_white, def_c_light_gray, def_c_dark_gray}, {true, true, true}, {false, false, false}, 30_minutes,
             {0, 0, 0},
             GAS,
             true
@@ -430,6 +431,42 @@ const std::array<field_t, num_fields> fieldlist = { {
             "fd_fungal_haze",
             {translate_marker( "hazy cloud" ), translate_marker( "fungal haze" ), translate_marker( "thick fungal haze" )}, '.', 8,
             {def_c_white, def_c_cyan, def_c_cyan }, { true, true, false }, { true, true, true }, 4_minutes,
+            {0, 0, 0},
+            GAS,
+            false
+        },
+
+        {
+            "fd_cold_air1",
+            {"", "", ""}, '&', -1,
+            {def_c_white, def_c_blue, def_c_blue}, {true, true, true}, {false, false, false}, 50_minutes,
+            {0, 0, 0},
+            GAS,
+            false
+        },
+
+        {
+            "fd_cold_air2",
+            {"", "", ""}, '&', -1,
+            {def_c_white, def_c_blue, def_c_blue}, {true, true, true}, {false, false, false}, 50_minutes,
+            {0, 0, 0},
+            GAS,
+            false
+        },
+
+        {
+            "fd_cold_air3",
+            {"", "", ""}, '&', -1,
+            {def_c_white, def_c_blue, def_c_blue}, {true, true, true}, {false, false, false}, 50_minutes,
+            {0, 0, 0},
+            GAS,
+            false
+        },
+
+        {
+            "fd_cold_air4",
+            {"", "", ""}, '&', -1,
+            {def_c_white, def_c_blue, def_c_blue}, {true, true, true}, {false, false, false}, 50_minutes,
             {0, 0, 0},
             GAS,
             false
@@ -565,7 +602,7 @@ bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, const ter_bitflags
     return ter.has_flag( flag ) || furn.has_flag( flag );
 }
 
-int ter_furn_movecost( const ter_t &ter, const furn_t &furn )
+static int ter_furn_movecost( const ter_t &ter, const furn_t &furn )
 {
     if( ter.movecost == 0 ) {
         return 0;
@@ -589,11 +626,6 @@ static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
         { +1, +1, 0 },
     }
 };
-
-bool at_edge( const size_t x, const size_t y )
-{
-    return x == 0 || x == SEEX || y == 0 || y == SEEY;
-}
 
 /*
 Function: process_fields_in_submap
@@ -639,8 +671,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
     int percent_spread, const time_duration & outdoor_age_speedup ) {
         const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
         bool sheltered = g->is_sheltered( p );
-        int winddirection = g->winddirection;
-        int windpower = get_local_windpower( g->windspeed, cur_om_ter, p, winddirection, sheltered );
+        int winddirection = g->weather.winddirection;
+        int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
+                                             sheltered );
         // Reset nearby scents to zero
         for( const tripoint &tmp : points_in_radius( p, 1 ) ) {
             g->scent.set( tmp, 0 );
@@ -748,7 +781,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
             }
         }
     };
-
     /*
     Function: create_hot_air
     Helper function that encapsulates the logic involved in creating hot air.
@@ -912,8 +944,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         // Entire objects for ter/frn for flags
                         const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
                         bool sheltered = g->is_sheltered( p );
-                        int winddirection = g->winddirection;
-                        int windpower = get_local_windpower( g->windspeed, cur_om_ter, p, winddirection, sheltered );
+                        int winddirection = g->weather.winddirection;
+                        int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
+                                                             sheltered );
                         const auto &ter = map_tile.get_ter_t();
                         const auto &frn = map_tile.get_furn_t();
 
@@ -1079,7 +1112,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             // Nothing to burn = fire should be dying out faster
                             // Drain more power from big fires, so that they stop raging over nothing
                             // Except for fires on stoves and fireplaces, those are made to keep the fire alive
-                            cur.setFieldAge( cur.getFieldAge() + 2_turns * cur.getFieldDensity() );
+                            cur.setFieldAge( cur.getFieldAge() + 10_seconds * cur.getFieldDensity() );
                         }
 
                         // Below we will access our nearest 8 neighbors, so let's cache them now
@@ -1406,7 +1439,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     case fd_cigsmoke:
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 250, 65_turns );
+                        spread_gas( cur, p, curtype, 250, 6_minutes );
                         break;
 
                     case fd_weedsmoke: {
@@ -1452,7 +1485,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         spread_gas( cur, p, curtype, 15, 1_minutes );
                         break;
                     }
-
+                    case fd_cold_air1:
+                    case fd_cold_air2:
+                    case fd_cold_air3:
+                    case fd_cold_air4:
                     case fd_hot_air1:
                     case fd_hot_air2:
                     case fd_hot_air3:
@@ -2178,14 +2214,11 @@ void map::player_in_field( player &u )
                 }
                 break;
 
-            //Why do these get removed???
+            // Why do these get removed???
+            // Stepping on a shock vent shuts it down.
             case fd_shock_vent:
-                //Stepping on a shock vent shuts it down.
-                cur.setFieldDensity( 0 );
-                continue;
-
+            // Stepping on an acid vent shuts it down.
             case fd_acid_vent:
-                //Stepping on an acid vent shuts it down.
                 cur.setFieldDensity( 0 );
                 continue;
 
@@ -2615,9 +2648,8 @@ std::tuple<maptile, maptile, maptile> map::get_wind_blockers( const int &winddir
         const tripoint &pos )
 {
     double raddir = ( ( winddirection + 180 ) % 360 ) * ( M_PI / 180 );
-    float fx, fy;
-    fy = -cos( raddir );
-    fx = sin( raddir );
+    float fx = -cos( raddir );
+    float fy = sin( raddir );
     int roundedx;
     int roundedy;
     if( fx > 0.5 ) {

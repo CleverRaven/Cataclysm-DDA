@@ -182,7 +182,7 @@ Where id describes the id of the sound effect, and a list of variants separated 
     # various tools/traps being used (including some associated terrain/furniture)
 * `tool alarm_clock|jackhammer|pickaxe|oxytorch|hacksaw|axe|shovel|crowbar|boltcutters|compactor|gaspump|noise_emitter|repair_kit|camera_shutter|handcuffs`
 * `tool geiger_low|geiger_medium|geiger_high`
-* `trap bubble_wrap|bear_trap|snare|teleport|dissector`
+* `trap bubble_wrap|bear_trap|snare|teleport|dissector|glass_caltrop|glass`
 
     # various activities
 * `activity burrow`

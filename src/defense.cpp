@@ -4,6 +4,7 @@
 #include <set>
 
 #include "action.h"
+#include "avatar.h"
 #include "color.h"
 #include "construction.h"
 #include "debug.h"
@@ -87,7 +88,7 @@ defense_game::defense_game()
 bool defense_game::init()
 {
     calendar::turn = HOURS( 12 ); // Start at noon
-    g->temperature = 65;
+    g->weather.temperature = 65;
     if( !g->u.create( PLTYPE_CUSTOM ) ) {
         return false;
     }

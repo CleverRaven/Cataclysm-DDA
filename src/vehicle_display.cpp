@@ -1,6 +1,6 @@
 #include "vehicle.h" // IWYU pragma: associated
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <set>
 #include <sstream>

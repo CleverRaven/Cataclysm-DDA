@@ -1,8 +1,8 @@
 #include "output.h"
 
-#include <ctype.h>
+#include <cctype>
 #include <errno.h>
-#include <stdio.h>
+#include <cstdio>
 #include <algorithm>
 #include <cstdarg>
 #include <cstdlib>
@@ -64,7 +64,7 @@ extern bool use_tiles;
 extern bool test_mode;
 
 // utf8 version
-std::vector<std::string> foldstring( std::string str, int width, const char split )
+std::vector<std::string> foldstring( const std::string &str, int width, const char split )
 {
     std::vector<std::string> lines;
     if( width < 1 ) {
@@ -1025,7 +1025,7 @@ std::string trim_punctuation_marks( const std::string &s )
     } );
 }
 
-typedef std::string::value_type char_t;
+using char_t = std::string::value_type;
 std::string to_upper_case( const std::string &s )
 {
     std::string res;

@@ -3,6 +3,8 @@
 #include <array>
 #include <memory>
 
+#include "avatar.h"
+#include "avatar_action.h"
 #include "debug.h"
 #include "game.h"
 #include "line.h"
@@ -85,11 +87,11 @@ void event::actualize()
                                "scream_tortured" );
                 if( !g->u.is_deaf() ) {
                     add_msg( _( "The eye you're carrying lets out a tortured scream!" ) );
-                    g->u.add_morale( MORALE_SCREAM, -15, 0, 30_minutes, 5_turns );
+                    g->u.add_morale( MORALE_SCREAM, -15, 0, 30_minutes, 30_seconds );
                 }
             }
             if( !one_in( 25 ) ) { // They just keep coming!
-                g->events.add( EVENT_SPAWN_WYRMS, calendar::turn + rng( 15_turns, 25_turns ) );
+                g->events.add( EVENT_SPAWN_WYRMS, calendar::turn + rng( 1_minutes, 3_minutes ) );
             }
         }
         break;
@@ -225,7 +227,7 @@ void event::actualize()
                     add_msg( m_warning, _( "Water fills nearly to the ceiling!" ) );
                     g->u.add_memorial_log( pgettext( "memorial_male", "Water level reached the ceiling." ),
                                            pgettext( "memorial_female", "Water level reached the ceiling." ) );
-                    g->plswim( g->u.pos() );
+                    avatar_action::swim( g->m, g->u, g->u.pos() );
                 }
             }
             // flood_buf is filled with correct tiles; now copy them back to g->m
@@ -269,7 +271,7 @@ void event::per_turn()
     switch( type ) {
         case EVENT_WANTED: {
             // About once every 5 minutes. Suppress in classic zombie mode.
-            if( g->get_levz() >= 0 && one_in( 50 ) && !get_option<bool>( "CLASSIC_ZOMBIES" ) ) {
+            if( g->get_levz() >= 0 && one_in( 50 ) && !get_option<bool>( "DISABLE_ROBOT_RESPONSE" ) ) {
                 point place = g->m.random_outdoor_tile();
                 if( place.x == -1 && place.y == -1 ) {
                     return; // We're safely indoors!

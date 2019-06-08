@@ -1,6 +1,6 @@
 #include "artifact.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <array>
 #include <sstream>
 #include <algorithm>

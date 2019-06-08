@@ -75,7 +75,7 @@
       { "group": "elecsto_stor", "count": [ 1, 2 ], "prob": 30 },
       { "item": "money_bundle", "count": [ 1, 10 ], "prob": 20 },
       { "item": "scorecard", "count": [ 1, 10 ], "prob": 10 },
-      { "item": "survnote", "count": [ 1, 10 ], "prob": 10 },
+      { "item": "survnote", "prob": 10 },
       { "item": "flyer", "count": [ 1, 10 ], "prob": 30 },
       { "item": "character_sheet", "count": [ 1, 2 ], "prob": 5 },
       { "item": "phonebook", "prob": 10 },

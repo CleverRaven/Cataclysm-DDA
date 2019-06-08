@@ -1,6 +1,6 @@
 #include "weather.h" // IWYU pragma: associated
 
-#include <stddef.h>
+#include <cstddef>
 #include <array>
 #include <cmath>
 #include <map>

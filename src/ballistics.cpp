@@ -1,13 +1,14 @@
 #include "ballistics.h"
 
-#include <math.h>
-#include <stddef.h>
+#include <cmath>
+#include <cstddef>
 #include <algorithm>
 #include <list>
 #include <memory>
 #include <set>
 #include <vector>
 
+#include "avatar.h"
 #include "creature.h"
 #include "dispersion.h"
 #include "explosion.h"

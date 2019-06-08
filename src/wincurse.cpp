@@ -62,7 +62,7 @@ static int TERMINAL_HEIGHT;
 // Declare this locally, because it's not generally cross-compatible in cursesport.h
 LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, std::uint32_t Msg, WPARAM wParam, LPARAM lParam );
 
-std::wstring widen( const std::string &s )
+static std::wstring widen( const std::string &s )
 {
     if( s.empty() ) {
         // MultiByteToWideChar can not handle this case
@@ -76,7 +76,7 @@ std::wstring widen( const std::string &s )
 }
 
 // Registers, creates, and shows the Window!!
-bool WinCreate()
+static bool WinCreate()
 {
     // Get current process handle
     WindowINST = GetModuleHandle( 0 );
@@ -125,10 +125,10 @@ bool WinCreate()
     }
 
     return true;
-};
+}
 
 // Unregisters, releases the DC if needed, and destroys the window.
-void WinDestroy()
+static void WinDestroy()
 {
     if( ( WindowDC != NULL ) && ( ReleaseDC( WindowHandle, WindowDC ) == 0 ) ) {
         WindowDC = 0;
@@ -139,10 +139,10 @@ void WinDestroy()
     if( !( UnregisterClassW( szWindowClass, WindowINST ) ) ) {
         WindowINST = 0;
     }
-};
+}
 
 // Creates a backbuffer to prevent flickering
-void create_backbuffer()
+static void create_backbuffer()
 {
     if( WindowDC != NULL ) {
         ReleaseDC( WindowHandle, WindowDC );
@@ -207,7 +207,7 @@ static void begin_alt_code()
     alt_buffer_len = 0;
 }
 
-void add_alt_code( char c )
+static void add_alt_code( char c )
 {
     // Not exactly how it works, but acceptable
     if( c >= '0' && c <= '9' ) {
@@ -316,7 +316,7 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
                     break;
                 default:
                     break;
-            };
+            }
             return 0;
 
         case WM_KEYUP:
@@ -375,7 +375,7 @@ LRESULT CALLBACK ProcessMessages( HWND__ *hWnd, unsigned int Msg,
         case WM_DESTROY:
             // A messy exit, but easy way to escape game loop
             exit( 0 );
-    };
+    }
 
     return DefWindowProcW( hWnd, Msg, wParam, lParam );
 }
@@ -521,7 +521,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                             break;
                         default:
                             break;
-                    };//switch (tmp)
+                    }//switch (tmp)
                 }//(tmp < 0)
             }//for (i=0;i<win->width;i++)
         }
@@ -534,7 +534,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 }
 
 // Check for any window messages (keypress, paint, mousemove, etc)
-void CheckMessages()
+static void CheckMessages()
 {
     MSG msg;
     while( PeekMessage( &msg, 0, 0, 0, PM_REMOVE ) ) {
@@ -636,7 +636,7 @@ void catacurses::init_interface()
 }
 
 // A very accurate and responsive timer (NEVER use GetTickCount)
-uint64_t GetPerfCount()
+static uint64_t GetPerfCount()
 {
     uint64_t Count;
     QueryPerformanceCounter( ( PLARGE_INTEGER )&Count );

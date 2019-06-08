@@ -2,7 +2,7 @@
   {
     "id": "engine_crane",
     "type": "vehicle",
-    "name": "engine crane",
+    "name": "Engine Crane",
     "blueprint": [ "#" ],
     "parts": [
       { "x": 0, "y": 0, "part": "folding_frame" },

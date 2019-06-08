@@ -2,7 +2,7 @@
 #ifndef VEH_INTERACT_H
 #define VEH_INTERACT_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <sstream>
 #include <vector>
@@ -166,9 +166,6 @@ class veh_interact
         void move_overview_line( int );
 
         void count_durability();
-
-        /** Show durability symbol/name as prefix */
-        std::string name_with_durability() const;
 
         std::string total_durability_text;
         nc_color total_durability_color;

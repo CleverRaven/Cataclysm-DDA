@@ -11,7 +11,8 @@
     "material": "plastic",
     "symbol": "!",
     "color": "red",
-    "use_action": "DISASSEMBLE"
+    "use_action": "DISASSEMBLE",
+    "flags": [ "NO_REPAIR" ]
   },
   {
     "id": "adderall",
@@ -253,9 +254,10 @@
     "name": "hydrogen peroxide",
     "name_plural": "hydrogen peroxide",
     "description": "Dilute hydrogen peroxide, for use as a disinfectant and for bleaching hair or textiles.  Foams a little when in contact with organic matter, but otherwise harmless.",
-    "weight": 275,
+    "weight": 28,
     "volume": 1,
     "price": 100,
+    "charges": 10,
     "symbol": "~",
     "color": "white",
     "phase": "liquid",

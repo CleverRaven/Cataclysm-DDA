@@ -36,7 +36,7 @@
         "&": "t_floor",
         "'": "t_window_no_curtains_open",
         "+": "t_door_glass_c",
-        "-": "t_wall",
+        "-": "t_wall_y",
         ".": "t_grass",
         "C": "t_sidewalk",
         "D": "t_dirt",

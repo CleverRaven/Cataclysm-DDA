@@ -680,6 +680,20 @@
   {
     "type": "keybinding",
     "id": "DELETE_NOTE",
+    "category": "OVERMAP_NOTES",
+    "name": "Delete Note",
+    "bindings": [ { "input_method": "keyboard", "key": "D" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EDIT_NOTE",
+    "category": "OVERMAP_NOTES",
+    "name": "Edit Note",
+    "bindings": [ { "input_method": "keyboard", "key": "E" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DELETE_NOTE",
     "category": "OVERMAP",
     "name": "Delete Note",
     "bindings": [ { "input_method": "keyboard", "key": "D" } ]
@@ -718,6 +732,13 @@
     "category": "OVERMAP",
     "name": "Toggle Land Use Codes",
     "bindings": [ { "input_method": "keyboard", "key": "A" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_MAP_NOTES",
+    "category": "OVERMAP",
+    "name": "Toggle Map Notes",
+    "bindings": [ { "input_method": "keyboard", "key": "G" } ]
   },
   {
     "type": "keybinding",
@@ -1815,14 +1836,12 @@
   {
     "type": "keybinding",
     "name": "Zoom In",
-    "category": "DEFAULTMODE",
     "id": "zoom_in",
     "bindings": [ { "input_method": "keyboard", "key": "z" } ]
   },
   {
     "type": "keybinding",
     "name": "Zoom Out",
-    "category": "DEFAULTMODE",
     "id": "zoom_out",
     "bindings": [ { "input_method": "keyboard", "key": "Z" } ]
   },
@@ -1843,6 +1862,18 @@
     "name": "View Scentmap",
     "category": "DEFAULTMODE",
     "id": "debug_scent"
+  },
+  {
+    "type": "keybinding",
+    "name": "View Temperature Map",
+    "category": "DEFAULTMODE",
+    "id": "debug_temp"
+  },
+  {
+    "type": "keybinding",
+    "name": "View Visibility Map",
+    "category": "DEFAULTMODE",
+    "id": "debug_visibility"
   },
   {
     "type": "keybinding",
@@ -1905,6 +1936,12 @@
     "name": "Toggle Auto Foraging",
     "category": "DEFAULTMODE",
     "id": "toggle_auto_foraging"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Auto Pickup",
+    "category": "DEFAULTMODE",
+    "id": "toggle_auto_pickup"
   },
   {
     "type": "keybinding",
@@ -2058,6 +2095,12 @@
   },
   {
     "type": "keybinding",
+    "id": "cast_spell",
+    "name": "Spellcasting",
+    "category": "DEFAULTMODE"
+  },
+  {
+    "type": "keybinding",
     "id": "COMPARE",
     "category": "LIST_ITEMS",
     "name": "Compare",
@@ -2129,20 +2172,6 @@
     "category": "LOOK",
     "name": "List items and monsters",
     "bindings": [ { "input_method": "keyboard", "key": "V" } ]
-  },
-  {
-    "type": "keybinding",
-    "name": "Zoom In",
-    "category": "LOOK",
-    "id": "zoom_in",
-    "bindings": [ { "input_method": "keyboard", "key": "z" } ]
-  },
-  {
-    "type": "keybinding",
-    "name": "Zoom Out",
-    "category": "LOOK",
-    "id": "zoom_out",
-    "bindings": [ { "input_method": "keyboard", "key": "Z" } ]
   },
   {
     "type": "keybinding",

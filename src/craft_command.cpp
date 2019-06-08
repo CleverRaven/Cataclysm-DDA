@@ -1,6 +1,6 @@
 #include "craft_command.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <sstream>
 #include <algorithm>
 #include <limits>
@@ -137,8 +137,9 @@ item craft_command::create_in_progress_craft()
 {
     // Use up the components and tools
     std::list<item> used;
+    std::vector<item_comp> comps_used;
     if( crafter->has_trait( trait_id( "DEBUG_HS" ) ) ) {
-        return item( rec, batch_size, used );
+        return item( rec, batch_size, used, comps_used );
     }
 
     if( empty() ) {
@@ -165,7 +166,13 @@ item craft_command::create_in_progress_craft()
         crafter->consume_tools( it, batch_size );
     }
 
-    return item( rec, batch_size, used );
+    for( const comp_selection<item_comp> &selection : item_selections ) {
+        item_comp comp_used = selection.comp;
+        comp_used.count *= batch_size;
+        comps_used.emplace_back( comp_used );
+    }
+
+    return item( rec, batch_size, used, comps_used );
 }
 
 std::vector<comp_selection<item_comp>> craft_command::check_item_components_missing(
@@ -178,7 +185,7 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
     for( const auto &item_sel : item_selections ) {
         itype_id type = item_sel.comp.type;
         const item_comp component = item_sel.comp;
-        const long count = ( component.count > 0 ) ? component.count * batch_size : abs( component.count );
+        const int count = component.count > 0 ? component.count * batch_size : abs( component.count );
 
         if( item::count_by_charges( type ) && count > 0 ) {
             switch( item_sel.use_from ) {
@@ -193,8 +200,8 @@ std::vector<comp_selection<item_comp>> craft_command::check_item_components_miss
                     }
                     break;
                 case use_from_both:
-                    if( !( crafter->charges_of( type, std::numeric_limits<long>::max(), filter ) +
-                           map_inv.charges_of( type, std::numeric_limits<long>::max(), filter ) >= count ) ) {
+                    if( !( crafter->charges_of( type, INT_MAX, filter ) +
+                           map_inv.charges_of( type, INT_MAX, filter ) >= count ) ) {
                         missing.push_back( item_sel );
                     }
                     break;
@@ -239,7 +246,7 @@ std::vector<comp_selection<tool_comp>> craft_command::check_tool_components_miss
     for( const auto &tool_sel : tool_selections ) {
         itype_id type = tool_sel.comp.type;
         if( tool_sel.comp.count > 0 ) {
-            const long count = tool_sel.comp.count * batch_size;
+            const int count = tool_sel.comp.count * batch_size;
             switch( tool_sel.use_from ) {
                 case use_from_player:
                     if( !crafter->has_charges( type, count ) ) {

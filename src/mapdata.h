@@ -2,7 +2,7 @@
 #ifndef MAPDATA_H
 #define MAPDATA_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <array>
 #include <bitset>
 #include <set>
@@ -70,6 +70,18 @@ struct furn_workbench_info {
     units::mass allowed_mass;
     units::volume allowed_volume;
     furn_workbench_info();
+    bool load( JsonObject &jsobj, const std::string &member );
+};
+struct plant_data {
+    // What the furniture turns into when it grows or you plant seeds in it
+    furn_str_id transform;
+    // What the 'base' furniture of the plant is, before you plant in it, and what it turns into when eaten
+    furn_str_id base;
+    // At what percent speed of a normal plant this plant furniture grows at
+    float growth_multiplier;
+    // What percent of the normal harvest this crop gives
+    float harvest_multiplier;
+    plant_data();
     bool load( JsonObject &jsobj, const std::string &member );
 };
 
@@ -179,6 +191,7 @@ enum ter_bitflags : int {
     TFLAG_HIDE_PLACE,
     TFLAG_BLOCK_WIND,
     TFLAG_FLAT,
+    TFLAG_RAIL,
 
     NUM_TERFLAGS
 };
@@ -282,6 +295,8 @@ struct map_data_common_t {
 
         std::string extended_description() const;
 
+        bool was_loaded = false;
+
         virtual void load( JsonObject &jo, const std::string &src );
         virtual void check() const;
 };
@@ -304,8 +319,6 @@ struct ter_t : map_data_common_t {
     ter_t();
 
     static size_t count();
-
-    bool was_loaded = false;
 
     void load( JsonObject &jo, const std::string &src ) override;
     void check() const override;
@@ -334,6 +347,8 @@ struct furn_t : map_data_common_t {
 
     cata::optional<furn_workbench_info> workbench;
 
+    cata::optional<plant_data> plant;
+
     // May return NULL
     const itype *crafting_pseudo_item_type() const;
     // May return NULL
@@ -342,8 +357,6 @@ struct furn_t : map_data_common_t {
     furn_t();
 
     static size_t count();
-
-    bool was_loaded = false;
 
     void load( JsonObject &jo, const std::string &src ) override;
     void check() const override;
@@ -370,7 +383,7 @@ extern ter_id t_null,
        t_dirt, t_sand, t_clay, t_dirtmound, t_pit_shallow, t_pit, t_grave, t_grave_new,
        t_pit_corpsed, t_pit_covered, t_pit_spiked, t_pit_spiked_covered, t_pit_glass, t_pit_glass_covered,
        t_rock_floor,
-       t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white,
+       t_grass, t_grass_long, t_grass_tall, t_grass_golf, t_grass_dead, t_grass_white, t_moss,
        t_metal_floor,
        t_pavement, t_pavement_y, t_sidewalk, t_concrete,
        t_thconc_floor, t_thconc_floor_olight, t_strconc_floor,
@@ -519,6 +532,9 @@ extern furn_id f_null,
        f_wind_mill, f_wind_mill_active,
        f_robotic_arm, f_vending_reinforced,
        f_brazier,
+       f_firering,
+       f_tourist_table,
+       f_camp_chair,
        f_autodoc_couch;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

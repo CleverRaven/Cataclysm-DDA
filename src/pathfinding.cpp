@@ -1,7 +1,7 @@
 #include "pathfinding.h"
 
-#include <stdlib.h>
-#include <math.h>
+#include <cstdlib>
+#include <cmath>
 #include <algorithm>
 #include <queue>
 #include <set>
@@ -75,7 +75,7 @@ struct pathfinder {
             return *ptr;
         }
 
-        ptr = std::unique_ptr<path_data_layer>( new path_data_layer() );
+        ptr = std::make_unique<path_data_layer>();
         ptr->init( minx, miny, maxx, maxy );
         return *ptr;
     }

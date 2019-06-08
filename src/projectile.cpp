@@ -21,7 +21,7 @@ projectile::projectile( projectile && ) = default;
 
 projectile::projectile( const projectile &other )
 {
-    ( *this ) = other;
+    *this = other;
 }
 
 projectile &projectile::operator=( const projectile &other )

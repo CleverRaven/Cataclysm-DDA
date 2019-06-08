@@ -2,7 +2,7 @@
 #ifndef MATERIAL_H
 #define MATERIAL_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <array>
 #include <map>
 #include <set>

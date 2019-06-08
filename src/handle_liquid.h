@@ -111,8 +111,6 @@ bool handle_liquid( item &liquid, item *source = nullptr, int radius = 0,
                     const tripoint *source_pos = nullptr,
                     const vehicle *source_veh = nullptr, const int part_num = -1,
                     const monster *source_mon = nullptr );
-};
-
-
+}
 
 #endif

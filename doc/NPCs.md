@@ -126,6 +126,20 @@ The dynamic line is a list of dynamic lines, all of which are displayed.  The dy
 }
 ```
 
+#### A line to be translated with gender context
+The line is to be given a gender context for the NPC, player, or both, to aid
+translation in languages where that matters. For example:
+```json
+{
+    "gendered_line": "Thank you.",
+    "relevant_genders": [ "npc" ]
+}
+```
+("Thank you" is different for male and female speakers in e.g. Portuguese).
+
+Valid choices for entries in the `"relevant_genders"` list are `"npc"` and
+`"u"`.
+
 #### A randomly selected hint
 The dynamic line will be randomly chosen from the hints snippets.
 
@@ -414,6 +428,8 @@ Effect | Description
 `u_lose_trait: trait_string`<br/>`npc_lose_trait: trait_string` | Your character or the NPC will lose the trait.
 `u_add_var, npc_add_var`: `var_name, type: type_str`, `context: context_str`, `value: value_str` | Your character or the NPC will store `value_str` as a variable that can be later retrieved by `u_has_var` or `npc_has_var`.  `npc_add_var` can be used to store arbitary local variables, and `u_add_var` can be used to store arbitrary "global" variables, and should be used in preference to setting effects.
 `u_lose_var`, `npc_lose_var`: `var_name`, `type: type_str`, `context: context_str` | Your character or the NPC will clear any stored variable that has the same `var_name`, `type_str`, and `context_str`.
+`barber_hair` | Opens a menu allowing the player to choose a new hair style.
+`barber_beard` | Opens a menu allowing the player to choose a new beard style.
 
 #### Trade / Items
 

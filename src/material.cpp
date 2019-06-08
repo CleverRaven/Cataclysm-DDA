@@ -44,7 +44,7 @@ material_type::material_type() :
     _dmg_adj = { translate_marker( "lightly damaged" ), translate_marker( "damaged" ), translate_marker( "very damaged" ), translate_marker( "thoroughly damaged" ) };
 }
 
-mat_burn_data load_mat_burn_data( JsonObject &jsobj )
+static mat_burn_data load_mat_burn_data( JsonObject &jsobj )
 {
     mat_burn_data bd;
     assign( jsobj, "immune", bd.immune );
@@ -329,7 +329,8 @@ material_list materials::get_compactable()
 {
     material_list all = get_all();
     material_list compactable;
-    std::copy_if( all.begin(), all.end(), std::back_inserter( compactable ), []( material_type mt ) {
+    std::copy_if( all.begin(), all.end(),
+    std::back_inserter( compactable ), []( const material_type & mt ) {
         return !mt.compacts_into().empty();
     } );
     return compactable;

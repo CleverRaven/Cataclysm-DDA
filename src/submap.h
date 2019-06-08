@@ -2,8 +2,8 @@
 #ifndef SUBMAP_H
 #define SUBMAP_H
 
-#include <stddef.h>
-#include <stdint.h>
+#include <cstddef>
+#include <cstdint>
 #include <list>
 #include <memory>
 #include <vector>
@@ -13,6 +13,7 @@
 #include "basecamp.h"
 #include "calendar.h"
 #include "computer.h"
+#include "construction.h"
 #include "field.h"
 #include "game_constants.h"
 #include "item.h"
@@ -39,7 +40,7 @@ struct spawn_point {
     std::string name;
     spawn_point( const mtype_id &T = mtype_id::NULL_ID(), int C = 0, point P = point_zero,
                  int FAC = -1, int MIS = -1, bool F = false,
-                 std::string N = "NONE" ) :
+                 const std::string &N = "NONE" ) :
         pos( P ), count( C ), type( T ), faction_id( FAC ),
         mission_id( MIS ), friendly( F ), name( N ) {}
 };
@@ -193,6 +194,7 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
          * deleted.
          */
         std::vector<std::unique_ptr<vehicle>> vehicles;
+        std::map<tripoint, partial_con> partial_constructions;
         std::unique_ptr<computer> comp;
         basecamp camp;  // only allowing one basecamp per submap
 
@@ -214,7 +216,7 @@ struct maptile {
         size_t y;
         point pos() const {
             return point( x, y );
-        };
+        }
 
         maptile( submap *sub, const size_t nx, const size_t ny ) :
             sm( sub ), x( nx ), y( ny ) { }

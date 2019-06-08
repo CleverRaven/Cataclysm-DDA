@@ -2,12 +2,13 @@
 #ifndef BODYPART_H
 #define BODYPART_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <array>
 #include <bitset>
 #include <initializer_list>
 #include <string>
 
+#include "enum_bitset.h"
 #include "int_id.h"
 #include "string_id.h"
 
@@ -28,6 +29,11 @@ enum body_part : int {
     bp_foot_l,
     bp_foot_r,
     num_bp
+};
+
+template<>
+struct enum_traits<body_part> {
+    static constexpr auto last = body_part::num_bp;
 };
 
 enum class side : int {
