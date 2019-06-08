@@ -11,10 +11,11 @@ unsigned long b;
 int64_t c;
 uint64_t d;
 
-void f(long e);
+void f1(long e);
 // CHECK-MESSAGES: warning: Variable 'e' declared as long. Prefer int or int64_t. [cata-no-long]
 
-long g();
-// CHECK-MESSAGES: warning: Function 'g' declared as returning long. Prefer int or int64_t. [cata-no-long]
+long f2();
+// CHECK-MESSAGES: warning: Function 'f2' declared as returning long. Prefer int or int64_t. [cata-no-long]
 
-int64_t h();
+int64_t f3();
+auto f4() -> decltype(0L);
