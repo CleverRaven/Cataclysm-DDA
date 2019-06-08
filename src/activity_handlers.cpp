@@ -3835,7 +3835,7 @@ void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
                 act->moves_left = 0;
             }
         }
-        const int xp = roll_remainder( studying.exp_modifier( *p ) );
+        const int xp = roll_remainder( studying.exp_modifier( *p ) / to_turns<float>( 6_seconds ) );
         act->values[0] += xp;
         studying.gain_exp( xp );
     }
@@ -3845,11 +3845,12 @@ void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
 void activity_handlers::study_spell_finish( player_activity *act, player *p )
 {
     act->set_to_null();
+    const int total_exp_gained = act->get_value( 0 );
 
     if( act->get_str_value( 1 ) == "study" ) {
         p->add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
-                              act->get_value( 0 ) );
-        p->practice( skill_id( "spellcraft" ), act->get_value( 0 ) / 5,
+                              total_exp_gained );
+        p->practice( skill_id( "spellcraft" ), total_exp_gained,
                      p->magic.get_spell( spell_id( act->name ) ).get_difficulty() );
     } else if( act->get_str_value( 1 ) == "learn" && act->values[2] == 0 ) {
         p->magic.learn_spell( act->name, *p );
