@@ -848,10 +848,9 @@ void place_construction( const std::string &desc )
     g->u.activity.placement = pnt;
 }
 
-void complete_construction()
+void complete_construction( player *p )
 {
-    player &u = g->u;
-    const tripoint terp = u.activity.placement;
+    const tripoint terp = p->activity.placement;
     partial_con *pc = g->m.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
@@ -866,17 +865,20 @@ void complete_construction()
         }
     };
 
-    award_xp( g->u );
+    award_xp( *p );
     // Friendly NPCs gain exp from assisting or watching...
-    for( auto &elem : g->u.get_crafting_helpers() ) {
-        if( character_has_skill_for( *elem, built ) ) {
-            add_msg( m_info, _( "%s assists you with the work..." ), elem->name );
-        } else {
-            //NPC near you isn't skilled enough to help
-            add_msg( m_info, _( "%s watches you work..." ), elem->name );
-        }
+    // TODO NPCs watching other NPCs do stuff and learning from it
+    if( p->is_player() ){
+        for( auto &elem : g->u.get_crafting_helpers() ) {
+            if( character_has_skill_for( *elem, built ) ) {
+                add_msg( m_info, _( "%s assists you with the work..." ), elem->name );
+            } else {
+                //NPC near you isn't skilled enough to help
+                add_msg( m_info, _( "%s watches you work..." ), elem->name );
+            }
 
-        award_xp( *elem );
+            award_xp( *elem );
+        }
     }
     g->m.disarm_trap( terp );
     g->m.partial_con_remove( terp );
@@ -909,13 +911,12 @@ void complete_construction()
 
     // Spawn byproducts
     if( built.byproduct_item_group ) {
-        g->m.spawn_items( u.pos(), item_group::items_from( *built.byproduct_item_group, calendar::turn ) );
+        g->m.spawn_items( p->pos(), item_group::items_from( *built.byproduct_item_group, calendar::turn ) );
     }
 
-    add_msg( m_info, _( "You finish your construction: %s." ), _( built.description ) );
-
+    add_msg( m_info, _( "%s finishes construction : %s." ), p->disp_name(), _( built.description ) );
     // clear the activity
-    u.activity.set_to_null();
+    p->activity.set_to_null();
 
     // This comes after clearing the activity, in case the function interrupts
     // activities

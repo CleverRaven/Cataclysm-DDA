@@ -720,6 +720,12 @@
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },
         "effect": "sort_loot"
+      },
+      {
+        "text": "Please work on any construction taks that you know how to finish.",
+        "topic": "TALK_DONE",
+        "condition": { "not": "npc_has_activity" },
+        "effect": "do_construction"
       }
     ]
   },

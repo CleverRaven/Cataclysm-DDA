@@ -41,6 +41,7 @@
 #include "mongroup.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "npc.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player.h"
@@ -117,6 +118,7 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_AIM" ), aim_do_turn },
     { activity_id( "ACT_PICKUP" ), pickup_do_turn },
     { activity_id( "ACT_WEAR" ), wear_do_turn },
+    { activity_id( "ACT_MULTIPLE_CONSTRUCTION" ), multiple_construction_do_turn },
     { activity_id( "ACT_BUILD" ), build_do_turn },
     { activity_id( "ACT_EAT_MENU" ), eat_menu_do_turn },
     { activity_id( "ACT_CONSUME_FOOD_MENU" ), consume_food_menu_do_turn },
@@ -2726,6 +2728,14 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
+static bool character_has_skill_for( const player *p, const construction &con )
+{
+    return std::all_of( con.required_skills.begin(), con.required_skills.end(),
+    [&]( const std::pair<skill_id, int> &pr ) {
+        return p->get_skill_level( pr.first ) >= pr.second;
+    } );
+}
+
 void activity_handlers::build_do_turn( player_activity *act, player *p )
 {
     const std::vector<construction> &list_constructions = get_constructions();
@@ -2736,7 +2746,13 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
         p->cancel_activity();
         return;
     }
+    // if you ( or NPC ) are finishing someone elses started construction...
     const construction &built = list_constructions[pc->id];
+    if( !character_has_skill_for( p, built ) ){
+        add_msg( m_info, _( "%s can't work on this construction, it is too complex"), p->disp_name() );
+        p->cancel_activity();
+        return;
+    }
     // item_counter represents the percent progress relative to the base batch time
     // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6732000 )
     const int old_counter = pc->counter;
@@ -2760,7 +2776,103 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
     // If construction_progress has reached 100% or more
     if( pc->counter >= 10000000 ) {
         // Activity is cancelled in complete_construction()
-        complete_construction();
+        complete_construction( p );
+    }
+}
+
+void activity_handlers::multiple_construction_do_turn( player_activity *act, player *p )
+{
+    (void)act;
+    const activity_id act_multiple_construction = activity_id( "ACT_MULTIPLE_CONSTRUCTION" );
+    tripoint src_loc_start = p->pos();
+    // search in a radius around unsorted zone to find corpse spots
+    std::vector<tripoint> build_spots;
+    for( tripoint p : g->m.points_in_radius( src_loc_start, 20 ) ) {
+        partial_con *pc = g->m.partial_con_at( p );
+        if( pc ){
+            build_spots.push_back( p );
+        }
+    }
+    // Nuke the current activity, leaving the backlog alone.
+    p->activity = player_activity();
+
+    // sort source tiles by distance
+    for( auto &src_loc : build_spots ) {
+        add_msg( "built spot %d %d", src_loc.x, src_loc.y );
+        if( !g->m.inbounds( src_loc ) ) {
+            if( !g->m.inbounds( p->pos() ) ) {
+                // p is implicitly an NPC that has been moved off the map, so reset the activity
+                // and unload them
+                p->assign_activity( act_multiple_construction );
+                p->set_moves( 0 );
+                g->reload_npcs();
+                return;
+            }
+            std::vector<tripoint> route = route_adjacent( *p, src_loc );
+            if( route.empty() ) {
+                // can't get there, can't do anything, skip it
+                continue;
+            }
+            p->set_destination( route, player_activity( act_multiple_construction ) );
+            return;
+        }
+
+        // skip tiles on fire so as not to try and butcher corpses on fire
+        // and inaccessible furniture, like filled charcoal kiln
+        if( g->m.get_field( src_loc, fd_fire ) != nullptr ) {
+            continue;
+        }
+        bool adjacent = false;
+        for( auto elem : g->m.points_in_radius( src_loc, 1 ) ){
+            if( p->pos() == elem ){
+                adjacent = true;
+                break;
+            }
+        }
+        if( !adjacent ) {
+            std::vector<tripoint> route = route_adjacent( *p, src_loc );
+
+            // check if we found path to source / adjacent tile
+            if( route.empty() ) {
+                add_msg( m_info, _( "%s can't reach the source tile to construct" ),
+                         p->disp_name() );
+                return;
+            }
+
+            // set the destination and restart activity after player arrives there
+            // we don't need to check for safe mode,
+            // activity will be restarted only if
+            // player arrives on destination tile
+            p->set_destination( route, player_activity( act_multiple_construction ) );
+            return;
+        }
+        add_msg( "not adjacent");
+        // maybe the construction dissappeared, double check before starting work
+        partial_con *nc = g->m.partial_con_at( src_loc );
+        if( !nc ){
+            p->assign_activity( act_multiple_construction );
+            return;
+        }
+        if( p->moves <= 0 ) {
+            // Restart activity and break from cycle.
+            p->assign_activity( act_multiple_construction );
+            add_msg( "moves <= 0 restarting");
+            return;
+        }
+        p->backlog.push_front( act_multiple_construction );
+        p->assign_activity( activity_id( "ACT_BUILD" ), 0, -1 );
+        p->activity.placement = src_loc;
+        add_msg( "assigned build activity");
+        return;
+
+    }
+
+    // If we got here without restarting the activity, it means we're done
+    add_msg( m_info, string_format( _( "%s finished every construction that was possible." ), p->disp_name() ) );
+    if( p->is_npc() ) {
+        npc *guy = dynamic_cast<npc *>( p );
+        guy->current_activity = "";
+        guy->revert_after_activity();
     }
 }
 

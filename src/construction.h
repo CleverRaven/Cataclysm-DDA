@@ -90,7 +90,7 @@ void standardize_construction_times( int time );
 void load_construction( JsonObject &jo );
 void reset_constructions();
 void construction_menu();
-void complete_construction();
+void complete_construction( player *p );
 void check_constructions();
 void finalize_constructions();
 
