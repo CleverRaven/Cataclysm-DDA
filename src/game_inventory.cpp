@@ -1488,6 +1488,10 @@ class bionic_install_preset: public inventory_selector_preset
             append_cell( [ this ]( const item_location & loc ) {
                 return get_operation_duration( loc ) ;
             }, _( "OPERATION DURATION" ) );
+
+            append_cell( [this]( const item_location & loc ) {
+                return get_anesth_amount( loc );
+            }, _( "ANESTHETIC REQUIRED" ) );
         }
 
         bool is_shown( const item_location &loc ) const override {
@@ -1574,6 +1578,15 @@ class bionic_install_preset: public inventory_selector_preset
             }
 
             return string_format( _( "%i%%" ), chance_of_failure );
+        }
+
+        std::string get_anesth_amount( const item_location &loc ) {
+            const item *it = loc.get_item();
+            const itype *itemtype = it->type;
+            const int difficulty = itemtype->bionic->difficulty;
+            int amount = difficulty * 40;
+
+            return string_format( _( "%i mL" ), amount );
         }
 };
 

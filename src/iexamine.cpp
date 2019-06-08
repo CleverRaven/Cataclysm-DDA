@@ -4026,6 +4026,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     // Legacy
     std::vector<item_comp> acomps;
     std::vector<tool_comp> anesth_kit;
+    int drug_count = 0;
+
     if( patient.has_trait( trait_NOPAIN ) || patient.has_bionic( bionic_id( "bio_painkiller" ) ) ||
         amenu.ret > 1 ) {
         needs_anesthesia = false;
@@ -4039,6 +4041,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         for( const item *anesthesia_item : a_filter ) {
             if( anesthesia_item->ammo_remaining() >= 1 ) {
                 anesth_kit.push_back( tool_comp( anesthesia_item->typeId(), 1 ) );
+                drug_count += anesthesia_item->ammo_remaining();
             }
         }
         for( const item *anesthesia_item : b_filter ) {
@@ -4097,6 +4100,12 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
+            const float volume_anesth = itemtype->bionic->difficulty * 20 * 2; // 2ml/min
+            if( volume_anesth > drug_count && acomps.empty() ) {
+                add_msg( m_bad, "You don't have enough anesthetic for this operation." );
+                return;
+            }
+
             if( patient.install_bionics( ( *itemtype ), installer, true ) ) {
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 std::vector<item_comp> comps;
@@ -4105,7 +4114,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 if( needs_anesthesia ) {
                     // Consume obsolete anesthesia first
                     if( acomps.empty() ) {
-                        p.consume_tools( anesth_kit, 1 );
+                        p.consume_tools( anesth_kit, volume_anesth );
                     } else {
                         // Legacy
                         p.consume_items( acomps, 1, is_crafting_component );
@@ -4153,6 +4162,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             // Malfunctioning bionics don't have associated items and get a difficulty of 12
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
             const time_duration duration = difficulty * 20_minutes;
+            const float volume_anesth = difficulty * 20 * 2; // 2ml/min
+            if( volume_anesth > drug_count && acomps.empty() ) {
+                add_msg( m_bad, "You don't have enough anesthetic for this operation." );
+                return;
+            }
 
             player &installer = best_installer( p, null_player, difficulty );
             if( &installer == &null_player ) {
@@ -4163,7 +4177,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 if( needs_anesthesia ) {
                     if( acomps.empty() ) { // consume obsolete anesthesia first
-                        p.consume_tools( anesth_kit, 1 );
+                        p.consume_tools( anesth_kit, volume_anesth );
                     } else {
                         p.consume_items( acomps, 1, is_crafting_component ); // legacy
                     }
