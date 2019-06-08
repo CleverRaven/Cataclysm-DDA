@@ -88,6 +88,7 @@
     "type": "terrain",
     "id": "t_cactus",
     "name": "cactus",
+    "description": "A tall cactus.",
     "symbol": "#",
     "color": "green",
     "move_cost": 8,
