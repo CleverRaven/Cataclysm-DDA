@@ -10,15 +10,22 @@ namespace cata {
 
 void NoLongCheck::registerMatchers(MatchFinder *Finder) {
   Finder->addMatcher(valueDecl(hasType(asString("long"))).bind("decl"), this);
+  Finder->addMatcher(valueDecl(hasType(asString("unsigned long"))).bind("decl"), this);
 }
 
 void NoLongCheck::check(const MatchFinder::MatchResult &Result) {
-  const auto *MatchedDecl = Result.Nodes.getNodeAs<ValueDecl>("decl");
+  const ValueDecl *MatchedDecl = Result.Nodes.getNodeAs<ValueDecl>("decl");
   if( !MatchedDecl || !MatchedDecl->getLocation().isValid() ) {
       return;
   }
-  diag(MatchedDecl->getLocation(), "Variable %0 declared as long.  Prefer int or int64_t.")
-      << MatchedDecl;
+  QualType Type = MatchedDecl->getType().getUnqualifiedType();
+  if( Type.getAsString() == "long" ) {
+    diag(MatchedDecl->getLocation(), "Variable %0 declared as long.  Prefer int or int64_t.")
+         << MatchedDecl;
+  } else {
+    diag(MatchedDecl->getLocation(), "Variable %0 declared as unsigned long.  "
+         "Prefer unsigned int or uint64_t.") << MatchedDecl;
+  }
 }
 
 } // namespace cata
