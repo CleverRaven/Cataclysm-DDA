@@ -19,3 +19,6 @@ long f2();
 
 int64_t f3();
 auto f4() -> decltype(0L);
+
+int i1 = static_cast<long>(0);
+int i2 = static_cast<int64_t>(0);

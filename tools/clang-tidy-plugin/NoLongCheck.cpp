@@ -13,6 +13,7 @@ void NoLongCheck::registerMatchers(MatchFinder *Finder) {
     const TypeMatcher isLong = anyOf(asString("long"), asString("unsigned long"));
     Finder->addMatcher(valueDecl(hasType(isLong)).bind("decl"), this);
     Finder->addMatcher(functionDecl(returns(isLong)).bind("return"), this);
+    Finder->addMatcher(cxxStaticCastExpr(hasType(isLong)).bind("cast"), this);
 }
 
 static void CheckDecl(NoLongCheck &Check, const MatchFinder::MatchResult &Result) {
@@ -49,9 +50,27 @@ static void CheckReturn(NoLongCheck &Check, const MatchFinder::MatchResult &Resu
     }
 }
 
+static void CheckCast(NoLongCheck &Check, const MatchFinder::MatchResult &Result) {
+    const CXXStaticCastExpr *MatchedDecl = Result.Nodes.getNodeAs<CXXStaticCastExpr>("cast");
+    if( !MatchedDecl ) {
+        return;
+    }
+    QualType Type = MatchedDecl->getType().getUnqualifiedType();
+    SourceLocation location = MatchedDecl->getTypeInfoAsWritten()->getTypeLoc().getBeginLoc();
+    if( Type.getAsString() == "long" ) {
+        Check.diag(
+            location, "Static cast to long.  Prefer int or int64_t.");
+    } else {
+        Check.diag(
+            location, "Static cast to unsigned long.  "
+            "Prefer unsigned int or uint64_t.");
+    }
+}
+
 void NoLongCheck::check(const MatchFinder::MatchResult &Result) {
     CheckDecl(*this, Result);
     CheckReturn(*this, Result);
+    CheckCast(*this, Result);
 }
 
 } // namespace cata
