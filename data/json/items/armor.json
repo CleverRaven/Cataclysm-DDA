@@ -6979,7 +6979,7 @@
       "activate_msg": "Your optical cloak flickers as it becomes transparent.",
       "deactive_msg": "Your optical cloak flickers for a moment as it becomes opaque."
     },
-    "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE" ]
+    "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "OUTER", "VARSIZE", "ACTIVE_CLOAKING" ]
   },
   {
     "id": "panties",
