@@ -908,7 +908,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         int y = 16;
 
         const auto print_hint = [&]( const std::string & action, nc_color color = c_magenta ) {
-            y += fold_and_print( wbar, y, 1, 27, color, string_format( _( "%s - %s" ),
+            y += fold_and_print( wbar, y, 1, 27, color, string_format( "%s - %s",
                                  inp_ctxt->get_desc( action ),
                                  inp_ctxt->get_action_name( action ) ) );
         };
