@@ -4328,6 +4328,9 @@ bool item::ready_to_revive( const tripoint &pos ) const
     if( g->m.veh_at( pos ) ) {
         return false;
     }
+    if( !calendar::once_every( 1_seconds ) ) {
+        return false;
+    }
     int age_in_hours = to_hours<int>( age() );
     age_in_hours -= int( static_cast<float>( burnt ) / ( volume() / 250_ml ) );
     if( damage_level( 4 ) > 0 ) {
