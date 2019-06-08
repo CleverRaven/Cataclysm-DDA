@@ -3083,6 +3083,15 @@ void basecamp::serialize( JsonOut &json ) const
                 json.end_object();
             }
             json.end_array();
+            json.member( "in_progress" );
+            json.start_array();
+            for( const auto working : expansion.second.in_progress ) {
+                json.start_object();
+                json.member( "id", working.first );
+                json.member( "amount", working.second );
+                json.end_object();
+            }
+            json.end_array();
             json.member( "pos", expansion.second.pos );
             json.end_object();
         }
@@ -3130,6 +3139,13 @@ void basecamp::deserialize( JsonIn &jsin )
         const std::string &initial_provide = base_camps::faction_encode_abs( e, 0 );
         if( e.provides.find( initial_provide ) == e.provides.end() ) {
             e.provides[ initial_provide ] = 1;
+        }
+        JsonArray in_progress_arr = edata.get_array( "in_progress" );
+        while( in_progress_arr.has_more() ) {
+            JsonObject in_progress_data = in_progress_arr.next_object();
+            std::string id = in_progress_data.get_string( "id" );
+            int amount = in_progress_data.get_int( "amount" );
+            e.in_progress[ id ] = amount;
         }
         edata.read( "pos", e.pos );
         expansions[ dir ] = e;

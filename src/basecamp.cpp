@@ -128,6 +128,7 @@ void basecamp::add_expansion( const std::string &terrain, const tripoint &new_po
 
     const std::string dir = talk_function::om_simple_dir( omt_pos, new_pos );
     expansions[ dir ] = parse_expansion( terrain, new_pos );
+    update_provides( terrain, expansions[ dir ] );
     directions.push_back( dir );
 }
 
@@ -248,18 +249,42 @@ const std::vector<basecamp_upgrade> basecamp::available_upgrades( const std::str
         for( int number = 1; number < base_camps::max_upgrade_by_type( e_data.type ); number++ ) {
             const std::string &bldg = base_camps::faction_encode_abs( e_data, number );
             const recipe &recp = recipe_id( bldg ).obj();
-            bool should_display = false;
+            // skip buildings that are completed
+            if( e_data.provides.find( bldg ) != e_data.provides.end() ) {
+                continue;
+            }
+            // skip building that have unmet requirements
+            size_t needed_requires = recp.blueprint_requires().size();
+            size_t met_requires = 0;
             for( const auto &bp_require : recp.blueprint_requires() ) {
-                if( e_data.provides.find( bldg ) != e_data.provides.end() ) {
-                    break;
-                }
                 if( e_data.provides.find( bp_require.first ) == e_data.provides.end() ) {
                     break;
                 }
                 if( e_data.provides[bp_require.first] < bp_require.second ) {
                     break;
                 }
-                should_display = true;
+                met_requires += 1;
+            }
+            if( met_requires < needed_requires ) {
+                continue;
+            }
+            bool should_display = true;
+            bool in_progress = false;
+            for( const auto &bp_exclude : recp.blueprint_excludes() ) {
+                // skip buildings that are excluded by previous builds
+                if( e_data.provides.find( bp_exclude.first ) != e_data.provides.end() ) {
+                    if( e_data.provides[bp_exclude.first] >= bp_exclude.second ) {
+                        should_display = false;
+                        break;
+                    }
+                }
+                // track buildings that are currently being built
+                if( e_data.in_progress.find( bp_exclude.first ) != e_data.in_progress.end() ) {
+                    if( e_data.in_progress[bp_exclude.first] >= bp_exclude.second ) {
+                        in_progress = true;
+                        break;
+                    }
+                }
             }
             if( !should_display ) {
                 continue;
@@ -269,6 +294,7 @@ const std::vector<basecamp_upgrade> basecamp::available_upgrades( const std::str
             data.name = recp.blueprint_name();
             const auto &reqs = recp.requirements();
             data.avail = reqs.can_make_with_inventory( _inv, recp.get_component_filter(), 1 );
+            data.in_progress = in_progress;
             ret_data.emplace_back( data );
         }
     }
@@ -341,6 +367,27 @@ void basecamp::update_provides( const std::string &bldg, expansion_data &e_data 
             e_data.provides[bp_provides.first] = 0;
         }
         e_data.provides[bp_provides.first] += bp_provides.second;
+    }
+}
+
+
+void basecamp::update_in_progress( const std::string &bldg, const std::string &dir )
+{
+    if( !recipe_id( bldg ).is_valid() ) {
+        return;
+    }
+    auto e = expansions.find( dir );
+    if( e == expansions.end() ) {
+        return;
+    }
+    expansion_data &e_data = e->second;
+
+    const recipe &making = recipe_id( bldg ).obj();
+    for( const auto &bp_provides : making.blueprint_provides() ) {
+        if( e_data.in_progress.find( bp_provides.first ) == e_data.in_progress.end() ) {
+            e_data.in_progress[bp_provides.first] = 0;
+        }
+        e_data.in_progress[bp_provides.first] += bp_provides.second;
     }
 }
 
