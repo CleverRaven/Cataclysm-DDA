@@ -3081,7 +3081,7 @@
     "open": "t_chickenwire_gate_o",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 5 }, { "item": "wire", "count": 10 }, { "item": "nail", "count": 20 } ]
+      "items": [ { "item": "2x4", "count": 5 }, { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
     },
     "bash": {
       "str_min": 5,
@@ -3108,7 +3108,7 @@
     "close": "t_chickenwire_gate_c",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 5 }, { "item": "wire", "count": 10 }, { "item": "nail", "count": 20 } ]
+      "items": [ { "item": "2x4", "count": 5 }, { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
     },
     "bash": {
       "str_min": 5,
@@ -6351,7 +6351,10 @@
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL" ],
     "connects_to": "CHAINFENCE",
     "examine_action": "chainfence",
-    "deconstruct": { "ter_set": "t_chickenwire_fence_post", "items": [ { "item": "wire", "count": 10 }, { "item": "nail", "count": 20 } ] },
+    "deconstruct": {
+      "ter_set": "t_chickenwire_fence_post",
+      "items": [ { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
+    },
     "bash": {
       "str_min": 5,
       "str_max": 12,
@@ -10770,7 +10773,7 @@
     "examine_action": "chainfence",
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "FLAMMABLE_ASH", "CLIMBABLE", "AUTO_WALL_SYMBOL" ],
     "connects_to": "WOODFENCE",
-    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "count": 20 } ] },
+    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": 20 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 12,
@@ -10842,7 +10845,7 @@
     "examine_action": "chainfence",
     "flags": [ "NOITEM", "CLIMBABLE", "PERMEABLE", "AUTO_WALL_SYMBOL", "FLAMMABLE_ASH", "THIN_OBSTACLE" ],
     "connects_to": "WOODFENCE",
-    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "count": 20 } ] },
+    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "charges": 20 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 12,
