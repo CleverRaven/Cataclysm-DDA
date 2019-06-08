@@ -568,6 +568,54 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "parking_2x1_0",
+    "name": "parking lot",
+    "sym": "O",
+    "color": "dark_gray",
+    "see_cost": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "parking_2x1_1",
+    "copy-from": "parking_2x1_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "parking_3x1_0",
+    "copy-from": "parking_2x1_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "parking_3x1_1",
+    "copy-from": "parking_2x1_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "parking_3x1_2",
+    "copy-from": "parking_2x1_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "parking_2x2_0_0",
+    "copy-from": "parking_2x1_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "parking_2x2_0_1",
+    "copy-from": "parking_2x1_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "parking_2x2_1_0",
+    "copy-from": "parking_2x1_0"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "parking_2x2_1_1",
+    "copy-from": "parking_2x1_0"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "irradiator_1_1",
     "name": "irradiation plant",
     "sym": "i",
