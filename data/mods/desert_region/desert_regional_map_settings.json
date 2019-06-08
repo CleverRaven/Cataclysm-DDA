@@ -9,7 +9,7 @@
       "percent_coverage": 0.1333,
       "default_ter": "t_shrub",
       "other": {
-        "f_cholla_cactus": 12.3333,
+        "f_cactus": 12.3333,
         "t_tree_young": 0.2,
         "t_tree": 0.1,
         "t_tree_birch": 0.05,
