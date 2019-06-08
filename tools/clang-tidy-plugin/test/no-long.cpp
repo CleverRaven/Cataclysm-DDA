@@ -13,3 +13,8 @@ uint64_t d;
 
 void f(long e);
 // CHECK-MESSAGES: warning: Variable 'e' declared as long. Prefer int or int64_t. [cata-no-long]
+
+long g();
+// CHECK-MESSAGES: warning: Function 'g' declared as returning long. Prefer int or int64_t. [cata-no-long]
+
+int64_t h();
