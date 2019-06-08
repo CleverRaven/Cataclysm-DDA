@@ -251,7 +251,7 @@ void weather_generator::test_weather() const
             day = day_of_season<int>( i );
         }
         testfile << "|;" << year << ";" << season_of_year( i ) << ";" << day << ";" << hour << ";" << minute
-                 << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure << ";" << wd.name << ";" <<
+                 << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure << ";" << wd.tname() << ";" <<
                  w.windpower << ";" << w.winddirection << std::endl;
     }
 }

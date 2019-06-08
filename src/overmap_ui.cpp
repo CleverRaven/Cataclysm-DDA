@@ -880,7 +880,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                                           g->u.overmap_los( curs_pos, sight_points * 2 ) );
         if( weather_is_visible ) {
             weather_datum weather = weather_data( get_weather_at_point( curs_pos ) );
-            mvwprintz( wbar, 1, 1, weather.color, weather.name );
+            mvwprintz( wbar, 1, 1, weather.color, weather.tname() );
         } else {
             mvwprintz( wbar, 1, 1, c_dark_gray, _( "# Unexplored" ) );
         }

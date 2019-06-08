@@ -103,13 +103,12 @@ weather_datum const weather_data( weather_type const type )
         }};
 
     const auto i = static_cast<size_t>( type );
-    if( i < NUM_WEATHER_TYPES ) {
-        weather_datum localized = data[i];
-        localized.name = _( localized.name );
-        return localized;
-    }
+    return i < NUM_WEATHER_TYPES ? data[i] : data[0];
+}
 
-    return data[0];
+std::string weather_datum::tname() const
+{
+    return _( name );
 }
 
 ///@}

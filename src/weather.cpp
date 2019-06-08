@@ -596,7 +596,7 @@ std::string weather_forecast( const point &abs_sm_pos )
                        _( "The current time is %s Eastern Standard Time.  At %s in %s, it was %s. The temperature was %s. " ),
                        to_string_time_of_day( calendar::turn ), print_time_just_hour( calendar::turn ),
                        city_name,
-                       weather_data( g->weather.weather ).name, print_temperature( g->weather.temperature )
+                       weather_data( g->weather.weather ).tname(), print_temperature( g->weather.temperature )
                    );
 
     //weather_report << ", the dewpoint ???, and the relative humidity ???.  ";
@@ -645,7 +645,7 @@ std::string weather_forecast( const point &abs_sm_pos )
         }
         weather_report << string_format(
                            _( "%s... %s. Highs of %s. Lows of %s. " ),
-                           day, weather_data( forecast ).name,
+                           day, weather_data( forecast ).tname(),
                            print_temperature( high ), print_temperature( low )
                        );
     }
@@ -994,7 +994,7 @@ void weather_manager::update_weather()
             g->get_levz() >= 0 && g->m.is_outside( g->u.pos() )
             && !g->u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
             g->cancel_activity_or_ignore_query( distraction_type::weather_change,
-                                                string_format( _( "The weather changed to %s!" ), weather_data( weather ).name ) );
+                                                string_format( _( "The weather changed to %s!" ), weather_data( weather ).tname() ) );
         }
 
         if( weather != old_weather && g->u.has_activity( activity_id( "ACT_WAIT_WEATHER" ) ) ) {
