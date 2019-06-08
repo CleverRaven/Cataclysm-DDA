@@ -266,7 +266,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     // Trace the trajectory, doing damage in order
     tripoint &tp = attack.end_point;
-    tripoint prev_point = source;
+    tripoint prev_point = source;    
 
     trajectory.insert( trajectory.begin(), source ); // Add the first point to the trajectory
 
@@ -297,7 +297,9 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     for( size_t i = 1; i < traj_len && ( has_momentum || stream ); ++i ) {
         prev_point = tp;
-        tp = trajectory[i];
+        // Get a diagonal obstacle (ie. a vehicle) if any.
+        cata::optional<tripoint> candidate = g->m.obstacle_point(trajectory[i], prev_point);
+        tp = candidate? candidate.value() : trajectory[i];        
 
         if( ( tp.z > prev_point.z && g->m.has_floor( tp ) ) ||
             ( tp.z < prev_point.z && g->m.has_floor( prev_point ) ) ) {
@@ -390,7 +392,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
             has_momentum = proj.impact.total_damage() > 0;
         }
 
-        if( ( !has_momentum || !is_bullet ) && !g->m.passable_from_point( tp, source ) ) {
+        if( ( !has_momentum || !is_bullet ) && !g->m.passable_from_point( tp, prev_point ) ) {
             // Don't let flamethrowers go through walls
             // TODO: Let them go through bars
             traj_len = i;
@@ -405,7 +407,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         g->draw_bullet( tp, static_cast<int>( traj_len-- ), trajectory, bullet );
     }
 
-    if( !g->m.passable_from_point( tp, source ) ) {
+    if( !g->m.passable_from_point( tp, prev_point ) ) {
         tp = prev_point;
     }
 
