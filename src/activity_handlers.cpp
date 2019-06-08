@@ -2738,6 +2738,7 @@ static bool character_has_skill_for( const player *p, const construction &con )
 
 void activity_handlers::build_do_turn( player_activity *act, player *p )
 {
+    add_msg( "build_do_turn started");
     const std::vector<construction> &list_constructions = get_constructions();
     partial_con *pc = g->m.partial_con_at( act->placement );
     if( !pc ) {
@@ -2769,10 +2770,11 @@ void activity_handlers::build_do_turn( player_activity *act, player *p )
                                     delta_progress;
     // Current progress as a percent of base_total_moves to 2 decimal places
     pc->counter = round( current_progress / base_total_moves * 10000000.0 );
+
     p->set_moves( 0 );
 
     pc->counter = std::min( pc->counter, 10000000 );
-
+    add_msg( "2776" );
     // If construction_progress has reached 100% or more
     if( pc->counter >= 10000000 ) {
         // Activity is cancelled in complete_construction()
@@ -2853,18 +2855,18 @@ void activity_handlers::multiple_construction_do_turn( player_activity *act, pla
             p->assign_activity( act_multiple_construction );
             return;
         }
-        if( p->moves <= 0 ) {
-            // Restart activity and break from cycle.
-            p->assign_activity( act_multiple_construction );
-            add_msg( "moves <= 0 restarting");
-            return;
-        }
         p->backlog.push_front( act_multiple_construction );
-        p->assign_activity( activity_id( "ACT_BUILD" ), 0, -1 );
+        p->assign_activity( activity_id( "ACT_BUILD" ) );
         p->activity.placement = src_loc;
         add_msg( "assigned build activity");
         return;
 
+    }
+    if( p->moves <= 0 ) {
+        // Restart activity and break from cycle.
+        p->assign_activity( act_multiple_construction );
+        add_msg( "moves <= 0 restarting");
+        return;
     }
 
     // If we got here without restarting the activity, it means we're done
