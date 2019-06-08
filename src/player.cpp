@@ -11488,7 +11488,7 @@ bool player::can_hear( const tripoint &source, const int volume ) const
     }
     const int dist = rl_dist( source, pos() );
     const float volume_multiplier = hearing_ability();
-    return ( volume - weather_data( g->weather.weather ).sound_attn ) * volume_multiplier >= dist;
+    return ( volume - weather::sound_attn( g->weather.weather ) ) * volume_multiplier >= dist;
 }
 
 float player::hearing_ability() const

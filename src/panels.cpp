@@ -1211,8 +1211,8 @@ static void draw_env1( const avatar &u, const catacurses::window &w )
         mvwprintz( w, 1, 1, c_light_gray, _( "Sky  : Underground" ) );
     } else {
         mvwprintz( w, 1, 1, c_light_gray, _( "Sky  :" ) );
-        wprintz( w, weather_data( g->weather.weather ).color, " %s",
-                 weather_data( g->weather.weather ).name );
+        const weather_datum wdata = weather_data( g->weather.weather );
+        wprintz( w, wdata.color, " %s", wdata.name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
@@ -1293,8 +1293,8 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, 3, 8, c_light_gray, _( "Underground" ) );
     } else {
-        mvwprintz( w, 3, 8, weather_data( g->weather.weather ).color,
-                   weather_data( g->weather.weather ).name );
+        const weather_datum wdata = weather_data( g->weather.weather );
+        mvwprintz( w, 3, 8, wdata.color, wdata.name );
     }
     // display lighting
     const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
@@ -1602,9 +1602,9 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, 0, 0, c_light_gray, _( "Underground" ) );
     } else {
+        const weather_datum wdata = weather_data( g->weather.weather );
         mvwprintz( w, 0, 0, c_light_gray, _( "Weather :" ) );
-        mvwprintz( w, 0, 10, weather_data( g->weather.weather ).color,
-                   weather_data( g->weather.weather ).name );
+        mvwprintz( w, 0, 10, wdata.color, wdata.name );
     }
     mvwprintz( w, 0, 31, c_light_gray, _( "Moon :" ) );
     nc_color clr = c_white;
