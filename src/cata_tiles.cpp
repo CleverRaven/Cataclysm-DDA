@@ -1047,7 +1047,8 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     nv_goggles_activated = vision_cache[NV_GOGGLES];
 
     // check that the creature for which we'll draw the visibility map is still alive at that point
-    if( g->displaying_visibility && g->displaying_visibility_creature != nullptr )  {
+    if( g->display_overlay_state( ACTION_DISPLAY_VISIBILITY ) &&
+        g->displaying_visibility_creature != nullptr )  {
         const Creature *creature = g->displaying_visibility_creature;
         const auto is_same_creature_predicate = [&creature]( const Creature & c ) {
             return creature == &c;
@@ -1082,7 +1083,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             }
 
             // Add scent value to the overlay_strings list for every visible tile when displaying scent
-            if( g->displaying_scent ) {
+            if( g->display_overlay_state( ACTION_DISPLAY_SCENT ) ) {
                 const int scent_value = g->scent.get( {x, y, center.z} );
                 if( scent_value > 0 ) {
                     overlay_strings.emplace( player_to_screen( x, y ) + point( tile_width / 2, 0 ),
@@ -1092,7 +1093,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
             }
 
             // Add temperature value to the overlay_strings list for every visible tile when displaying temperature
-            if( g->displaying_temperature ) {
+            if( g->display_overlay_state( ACTION_DISPLAY_TEMPERATURE ) ) {
                 int temp_value = g->weather.get_temperature( {x, y, center.z} );
                 int ctemp = temp_to_celsius( temp_value );
                 short col;
@@ -1121,7 +1122,8 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                                                  NORTH ) );
             }
 
-            if( g->displaying_visibility && ( g->displaying_visibility_creature != nullptr ) ) {
+            if( g->display_overlay_state( ACTION_DISPLAY_VISIBILITY ) &&
+                ( g->displaying_visibility_creature != nullptr ) ) {
                 const bool visibility = g->displaying_visibility_creature->sees( { x, y, center.z } );
 
                 // color overlay.

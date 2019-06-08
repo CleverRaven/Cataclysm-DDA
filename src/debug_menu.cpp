@@ -120,6 +120,7 @@ enum debug_menu_index {
     DEBUG_DISPLAY_SCENTS_LOCAL,
     DEBUG_DISPLAY_TEMP,
     DEBUG_DISPLAY_VISIBILITY,
+    DEBUG_DISPLAY_LIGHTING,
     DEBUG_LEARN_SPELLS,
     DEBUG_LEVEL_SPELLS
 };
@@ -177,6 +178,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_DISPLAY_SCENTS_LOCAL, true, 's', _( "Toggle display local scents" ) ) },
             { uilist_entry( DEBUG_DISPLAY_TEMP, true, 'T', _( "Toggle display temperature" ) ) },
             { uilist_entry( DEBUG_DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_VISIBILITY, true, 'l', _( "Toggle display lighting" ) ) },
             { uilist_entry( DEBUG_SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( DEBUG_BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
             { uilist_entry( DEBUG_TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
@@ -1240,20 +1242,14 @@ void debug()
                 ui::omap::display_scents();
                 break;
             case DEBUG_DISPLAY_SCENTS_LOCAL:
-                g->displaying_temperature = false;
-                g->displaying_visibility = false;
-                g->displaying_scent = !g->displaying_scent;
+                g->display_toggle_overlay( ACTION_DISPLAY_SCENT );
                 break;
             case DEBUG_DISPLAY_TEMP:
-                g->displaying_scent = false;
-                g->displaying_visibility = false;
-                g->displaying_temperature = !g->displaying_temperature;
+                g->display_toggle_overlay( ACTION_DISPLAY_TEMPERATURE );
                 break;
             case DEBUG_DISPLAY_VISIBILITY: {
-                g->displaying_scent = false;
-                g->displaying_temperature = false;
-                g->displaying_visibility = !g->displaying_visibility;
-                if( g->displaying_visibility ) {
+                g->display_toggle_overlay( ACTION_DISPLAY_VISIBILITY );
+                if( g->display_overlay_state( ACTION_DISPLAY_VISIBILITY ) ) {
                     std::vector< tripoint > locations;
                     uilist creature_menu;
                     int num_creatures = 0;
@@ -1279,6 +1275,10 @@ void debug()
                 } else {
                     g->displaying_visibility_creature = nullptr;
                 }
+            }
+            break;
+            case DEBUG_DISPLAY_LIGHTING: {
+
             }
             break;
             case DEBUG_CHANGE_TIME: {

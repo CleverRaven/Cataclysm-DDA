@@ -16,6 +16,7 @@
 #include <string>
 #include <chrono>
 
+#include "action.h"
 #include "calendar.h"
 #include "cursesdef.h"
 #include "enums.h"
@@ -872,10 +873,18 @@ class game
         void disp_NPC_epilogues();  // Display NPC endings
         void list_missions();       // Listed current, completed and failed missions (mission_ui.cpp)
 
-        // Debug functions
+        /* Debug functions */
+        // overlays flags (on / off)
+        std::map<action_id, bool> displaying_overlays{
+            { ACTION_DISPLAY_SCENT, false },
+            { ACTION_DISPLAY_TEMPERATURE, false },
+            { ACTION_DISPLAY_VISIBILITY, false },
+            { ACTION_DISPLAY_LIGHTING, false },
+        };
         void display_scent();   // Displays the scent map
         void display_temperature();    // Displays temperature map
         void display_visibility(); // Displays visibility map
+        void display_lighting(); // Displays lighting conditions heat map
 
         Creature *is_hostile_within( int distance );
 
@@ -932,9 +941,11 @@ class game
         point driving_view_offset;
 
         bool debug_pathfinding = false; // show NPC pathfinding on overmap ui
-        bool displaying_scent;
-        bool displaying_temperature;
-        bool displaying_visibility;
+
+        /* tile overlays */
+        void display_toggle_overlay(
+            action_id ); // Toggle all other overlays off and flip the given overlay on/off.
+        bool display_overlay_state( action_id ); // Get the state of an overlay (on/off).
         /** Creature for which to display the visibility map */
         Creature *displaying_visibility_creature;
 

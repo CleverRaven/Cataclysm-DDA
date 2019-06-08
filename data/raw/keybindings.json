@@ -1877,6 +1877,12 @@
   },
   {
     "type": "keybinding",
+    "name": "View Lighting Map",
+    "category": "DEFAULTMODE",
+    "id": "debug_lighting"
+  },  
+  {
+    "type": "keybinding",
     "name": "Switch Sidebar Style",
     "category": "DEFAULTMODE",
     "id": "toggle_sidebar_style"
