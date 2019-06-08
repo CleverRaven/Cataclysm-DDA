@@ -17,6 +17,9 @@ class item;
   centralized depot for trivial ui data such as sorting, string_input_popup history, etc.
   To use this, see the ****notes**** below
 */
+// There is only one game instance, so losing a few bytes of memory
+// due to padding is not much of a concern.
+// NOLINTNEXTLINE(clang-analyzer-optin.performance.Padding)
 class uistatedata
 {
         /**** this will set a default value on startup, however to save, see below ****/

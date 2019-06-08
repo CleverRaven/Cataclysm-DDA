@@ -252,6 +252,7 @@ extern bool add_key_to_quick_shortcuts( long key, const std::string &category, b
 //The one and only game instance
 std::unique_ptr<game> g;
 
+//The one and only uistate instance
 uistatedata uistate;
 
 bool is_valid_in_w_terrain( int x, int y )
