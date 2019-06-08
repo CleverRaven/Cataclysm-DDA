@@ -781,11 +781,25 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
         // BIONIC handling - no code for DISSECT to let the bionic drop fall through
         if( entry.type == "bionic" || entry.type == "bionic_group" ) {
             if( action == F_DRESS ) {
+                if( entry.drop == "pheromone" ) {
+                    if( one_in( 3 ) ) {
+                        p.add_msg_if_player( m_bad,
+                                            _( "You notice some strange organs, pehraps harvestable via careful dissection." ) );
+                    }
+                    continue;
+                }
                 p.add_msg_if_player( m_bad,
                                      _( "You suspect there might be bionics implanted in this corpse, that careful dissection might reveal." ) );
                 continue;
             }
             if( action == BUTCHER || action == BUTCHER_FULL || action == DISMEMBER ) {
+                if( entry.drop == "pheromone" ) {
+                    if( one_in( 3 ) ) {
+                        p.add_msg_if_player( m_bad,
+                                           _( "Your butchering tool destroys a strange organ.  Perhaps a more surgical approach would allow harvesting it." ) );
+                    }
+                    continue;
+                }
                 switch( rng( 1, 3 ) ) {
                     case 1:
                         p.add_msg_if_player( m_bad,
