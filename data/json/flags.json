@@ -44,12 +44,6 @@
     "info": "A <good>follower</good> could <info>make use of this CBM</info> if installed properly."
   },
   {
-    "id": "BLACKPOWDER_CYCLE",
-    "type": "json_flag",
-    "context": [ "GUN" ],
-    "info": "This firearm <good>can fire multiple shots</good> per attack even if firing blackpowder loads."
-  },
-  {
     "id": "BLIND",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],

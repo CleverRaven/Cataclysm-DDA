@@ -472,6 +472,10 @@ struct islot_gun : common_ranged_data {
      */
     int blackpowder_tolerance = 8;
     /**
+     * Minimum ammo recoil for gun to be able to fire more than once per attack.
+     */
+    int min_cycle_recoil = 0;
+    /**
      * Length of gun barrel, if positive allows sawing down of the barrel
      */
     units::volume barrel_length = 0_ml;

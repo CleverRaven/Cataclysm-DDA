@@ -271,7 +271,7 @@ bool player::handle_gun_damage( item &it, int shots_fired )
             it.faults.insert( fault_gun_clogged );
             return false;
         }
-        if( !it.has_flag( "BLACKPOWDER_CYCLE" ) && shots_fired > 0 ) {
+        if( it.ammo_data()->ammo->recoil < firing->min_cycle_recoil && shots_fired > 0 ) {
             add_msg_player_or_npc( m_bad, _( "Your %s fails to cycle!" ),
                                    _( "<npcname>'s %s fails to cycle!" ),
                                    it.tname() );
