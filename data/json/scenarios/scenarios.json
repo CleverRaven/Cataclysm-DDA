@@ -213,7 +213,7 @@
   {
     "type": "scenario",
     "ident": "bad_day",
-    "name": "Challenge-Really Bad Day",
+    "name": "Challenge - Really Bad Day",
     "points": -8,
     "description": "You start drunk to the point of incapacitation, depressed, infected, surrounded by fire, and sick with the flu.  This day went downhill really fast.",
     "start_name": "In Burning Building",
@@ -263,7 +263,7 @@
   {
     "type": "scenario",
     "ident": "medieval",
-    "name": "Challenge-Medieval Peasant",
+    "name": "Challenge - Medieval Peasant",
     "points": -6,
     "description": "Som nigromancie hath brought yow hidder!  Ye have only the hoose on youre legges and the knyf at youre syde and youre prayeres to Marie moder of God.",
     "start_name": "Wilderness",
@@ -276,7 +276,7 @@
   {
     "type": "scenario",
     "ident": "lab_chal",
-    "name": "Challenge-Lab Patient",
+    "name": "Challenge - Lab Patient",
     "points": -8,
     "description": "You've been locked in a lab with no (obvious) way out!  Find a way to escape or starve to death.",
     "start_name": "Locked Lab",
@@ -340,7 +340,7 @@
   {
     "type": "scenario",
     "ident": "lab_staff",
-    "name": "Challenge-Lab Staff",
+    "name": "Challenge - Lab Staff",
     "points": -8,
     "description": "You've been locked in a lab with no (obvious) way out!  Find a way to escape or starve to death.",
     "start_name": "Locked Lab",
@@ -461,7 +461,7 @@
   {
     "type": "scenario",
     "ident": "patient",
-    "name": "Challenge-Abandoned",
+    "name": "Challenge - Abandoned",
     "points": -8,
     "description": "Sickly and frail, you have spent most of your life in the patient's ward of the hospital.  When yours was evacuated, you were left behind because you were a lost cause.  You awaken to the sound of movement around the hospital.",
     "allowed_locs": [
@@ -518,7 +518,7 @@
   {
     "type": "scenario",
     "ident": "alcatraz",
-    "name": "Challenge-Island Prison Break",
+    "name": "Challenge - Island Prison Break",
     "points": -6,
     "description": "You were sent to some high-security prison right before the Cataclysm.  You almost managed to escape the walls of a prison...  Too bad it's located on a remote island, and now you need to find out how to escape it too.",
     "allowed_locs": [ "alcatraz" ],
