@@ -2876,7 +2876,7 @@ void activity_handlers::multiple_construction_do_turn( player_activity *act, pla
         return;
     }
 
-    // If we got here without restarting the activity, it means we're done
+    // If we got here without restarting the activity, it means we're done.
     if( p->is_npc() ) {
         npc *guy = dynamic_cast<npc *>( p );
         guy->current_activity = "";
