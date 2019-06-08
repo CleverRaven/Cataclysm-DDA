@@ -28,7 +28,8 @@ class uistatedata
         using itype_id = std::string;
         enum side { left  = 0, right = 1, NUM_PANES = 2 };
     public:
-        /**** declare your variable here. It can be anything, really *****/
+        int ags_pay_gas_selected_pump = 0;
+
         int wishitem_selected = 0;
         int wishmutate_selected = 0;
         int wishmonster_selected = 0;
@@ -44,15 +45,13 @@ class uistatedata
         int adv_inv_last_popup_dest = 0;
         int adv_inv_container_location = -1;
         int adv_inv_container_index = 0;
-        bool adv_inv_container_in_vehicle = false;
         int adv_inv_exit_code = 0;
         itype_id adv_inv_container_type = "null";
         itype_id adv_inv_container_content_type = "null";
         int adv_inv_re_enter_move_all = 0;
         int adv_inv_aim_all_location = 1;
         std::map<int, std::list<item>> adv_inv_veh_items, adv_inv_map_items;
-
-        int ags_pay_gas_selected_pump = 0;
+        bool adv_inv_container_in_vehicle = false;
 
         bool editmap_nsa_viewmode = false;      // true: ignore LOS and lighting
         bool overmap_blinking = true;           // toggles active blinking of overlays.
@@ -69,11 +68,11 @@ class uistatedata
         int last_inv_sel = -2;
 
         // V Menu Stuff
-        bool vmenu_show_items = true; // false implies show monsters
         int list_item_sort = 0;
         std::string list_item_filter;
         std::string list_item_downvote;
         std::string list_item_priority;
+        bool vmenu_show_items = true; // false implies show monsters
         bool list_item_filter_active = false;
         bool list_item_downvote_active = false;
         bool list_item_priority_active = false;
