@@ -1,5 +1,17 @@
 [
   {
+    "type": "npc",
+    "id": "refugee_AleeshaSeward",
+    "name_unique": "Aleesha Seward",
+    "gender": "female",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Aleesha",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_Aleesha_1",
+    "faction": "free_merchants"
+  },
+  {
     "type": "npc_class",
     "id": "NC_REFUGEE_Aleesha",
     "name": "Refugee",
@@ -41,18 +53,6 @@
     "id": "REFUGEE_Aleesha_wield",
     "subtype": "collection",
     "entries": [ { "item": "cudgel" } ]
-  },
-  {
-    "type": "npc",
-    "id": "refugee_AleeshaSeward",
-    "name_unique": "Aleesha Seward",
-    "gender": "female",
-    "name_suffix": "refugee",
-    "class": "NC_REFUGEE_Aleesha",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_REFUGEE_Aleesha_1",
-    "faction": "free_merchants"
   },
   {
     "type": "effect_type",

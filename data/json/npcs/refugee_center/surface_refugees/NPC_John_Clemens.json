@@ -1,5 +1,18 @@
 [
   {
+    "type": "npc",
+    "id": "refugee_JohnClemens",
+    "name_unique": "John Clemens",
+    "gender": "male",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_John",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_John_1",
+    "mission_offered": "MISSION_REFUGEE_John_1",
+    "faction": "free_merchants"
+  },
+  {
     "type": "npc_class",
     "id": "NC_REFUGEE_John",
     "name": "Refugee",
@@ -51,71 +64,47 @@
     "entries": [ { "item": "colt_army" } ]
   },
   {
-    "type": "npc",
-    "id": "refugee_JohnClemens",
-    "name_unique": "John Clemens",
-    "gender": "male",
-    "name_suffix": "refugee",
-    "class": "NC_REFUGEE_John",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_REFUGEE_John_1",
-    "faction": "free_merchants"
-  },
-  {
-    "type": "effect_type",
-    "id": "u_met_John_Clemens",
-    "//": "Use this flag to indicate if the player has met this NPC before."
+    "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [
+      "TALK_REFUGEE_John_2",
+      "TALK_REFUGEE_John_Background",
+      "TALK_REFUGEE_John_Situation"
+    ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_REFUGEE_John_Background" },
+      { "text": "How are things here?", "topic": "TALK_REFUGEE_John_Situation" }
+    ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_John_1",
     "dynamic_line": {
-      "u_has_effect": "u_met_John_Clemens",
+      "u_has_var": "u_met_John_Clemens", "type": "general", "context": "meeting", "value": "yes",
       "yes": "Howdy, pardner.",
       "no": "Howdy, pardner.  They call me Clemens.  John Clemens.  I'm an ol' cowhand."
     },
     "responses": [
       {
         "text": "Nice to meet you, John.",
-        "condition": { "not": { "u_has_effect": "u_met_John_Clemens" } },
-        "effect": { "u_add_effect": "u_met_John_Clemens", "duration": "PERMANENT" },
-        "topic": "TALK_REFUGEE_John_1_firstmeet",
-        "switch": true
+        "effect": { "u_add_var": "u_met_John_Clemens", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_John_Clemens", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_REFUGEE_John_1_firstmeet"
       },
       {
         "text": "Hi, John.  What's up?",
-        "condition": { "days_since_cataclysm": 180 },
-        "topic": "TALK_REFUGEE_John_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, John.  What's up?",
-        "condition": { "days_since_cataclysm": 60 },
-        "topic": "TALK_REFUGEE_John_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, John.  What's up?",
-        "condition": { "days_since_cataclysm": 30 },
-        "topic": "TALK_REFUGEE_John_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, John.  What's up?",
-        "condition": { "u_has_effect": "u_met_John_Clemens" },
-        "topic": "TALK_REFUGEE_John_2_stub",
-        "switch": true
+        "topic": "TALK_REFUGEE_John_2",
+        "condition": { "u_has_var": "u_met_John_Clemens", "type": "general", "context": "meeting", "value": "yes" }
       },
       {
         "text": "Hi John, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_effect": "u_met_John_Clemens", "duration": "PERMANENT" },
-        "condition": { "not": { "u_has_effect": "u_met_John_Clemens" } },
+        "effect": { "u_add_var": "u_met_John_Clemens", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_John_Clemens", "type": "general", "context": "meeting", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
-        "text": "Hi John, nice to see you too.  I gotta go though.",
-        "condition": { "u_has_effect": "u_met_John_Clemens" },
+        "text": "Hi John.  I can't stay to talk.",
+        "condition": { "u_has_var": "u_met_John_Clemens", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]

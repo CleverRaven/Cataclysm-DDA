@@ -1,5 +1,18 @@
 [
   {
+    "type": "npc",
+    "id": "refugee_AlonsoLautrec",
+    "name_unique": "Alonso Lautrec",
+    "gender": "male",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Alonso",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_Alonso_1",
+    "mission_offered": "MISSION_REFUGEE_Alonso_1",
+    "faction": "free_merchants"
+  },
+  {
     "type": "npc_class",
     "id": "NC_REFUGEE_Alonso",
     "name": "Refugee",
@@ -44,23 +57,6 @@
     "id": "REFUGEE_Alonso_wield",
     "subtype": "collection",
     "entries": [ { "item": "cudgel" } ]
-  },
-  {
-    "type": "npc",
-    "id": "refugee_AlonsoLautrec",
-    "name_unique": "Alonso Lautrec",
-    "gender": "male",
-    "name_suffix": "refugee",
-    "class": "NC_REFUGEE_Alonso",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_REFUGEE_Alonso_1",
-    "faction": "free_merchants"
-  },
-  {
-    "type": "effect_type",
-    "id": "u_met_Alonso_Lautrec",
-    "//": "Use this flag to indicate if the player has met this NPC before."
   },
   {
     "type": "talk_topic",

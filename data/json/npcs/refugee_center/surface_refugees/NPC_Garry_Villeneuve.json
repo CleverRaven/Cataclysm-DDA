@@ -1,5 +1,18 @@
 [
   {
+    "type": "npc",
+    "id": "refugee_GarryVilleneuve",
+    "name_unique": "Garry Villeneuve",
+    "gender": "male",
+    "name_suffix": "refugee",
+    "class": "NC_REFUGEE_Garry",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_REFUGEE_Garry_1",
+    "mission_offered": "MISSION_REFUGEE_Garry_1",
+    "faction": "free_merchants"
+  },
+  {
     "type": "npc_class",
     "id": "NC_REFUGEE_Garry",
     "name": "Refugee",
@@ -47,23 +60,6 @@
     "id": "REFUGEE_Garry_wield",
     "subtype": "collection",
     "entries": [ { "item": "hatchet" } ]
-  },
-  {
-    "type": "npc",
-    "id": "refugee_GarryVilleneuve",
-    "name_unique": "Garry Villeneuve",
-    "gender": "male",
-    "name_suffix": "refugee",
-    "class": "NC_REFUGEE_Garry",
-    "attitude": 0,
-    "mission": 7,
-    "chat": "TALK_REFUGEE_Garry_1",
-    "faction": "free_merchants"
-  },
-  {
-    "type": "effect_type",
-    "id": "u_met_Garry_Villeneuve",
-    "//": "Use this flag to indicate if the player has met this NPC before."
   },
   {
     "type": "talk_topic",
