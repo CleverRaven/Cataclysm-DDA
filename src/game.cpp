@@ -2802,7 +2802,8 @@ bool game::save()
             uistate.serialize( jsout );
         }, _( "uistate data" ) ) ) {
             return false;
-        } else {
+        }
+        else {
             world_generator->active_world->add_save( save_t::from_player_name( u.name ) );
             return true;
         }
@@ -2904,10 +2905,10 @@ void game::disp_kills()
     for( auto &elem : kills ) {
         const mtype &m = elem.first.obj();
         kill_counts[std::tuple<std::string, std::string, std::string>(
-                                                m.nname(),
-                                                m.sym,
-                                                string_from_color( m.color )
-                                            )] += elem.second;
+                        m.nname(),
+                        m.sym,
+                        string_from_color( m.color )
+                    )] += elem.second;
         totalkills += elem.second;
     }
 
@@ -4302,7 +4303,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
             add_msg( _( "%s was stunned!" ), targ->name() );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( !m.passable_from_point( traj[i], traj[i-1] ) ) {
+            if( !m.passable_from_point( traj[i], traj[i - 1] ) ) {
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -4360,7 +4361,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
             add_msg( _( "%s was stunned!" ), targ->name );
         }
         for( size_t i = 1; i < traj.size(); i++ ) {
-            if( !m.passable_from_point( traj[i], traj[i-1] ) ) { // oops, we hit a wall!
+            if( !m.passable_from_point( traj[i], traj[i - 1] ) ) { // oops, we hit a wall!
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if( stun != 0 ) {
@@ -6053,28 +6054,28 @@ void game::zones_manager()
         tripoint center = u.pos() + u.view_offset;
 
         const look_around_result first = look_around( w_zones_info, center, center, false, true,
-                false );
+        false );
         if( first.position )
         {
             mvwprintz( w_zones_info, 3, 2, c_white, _( "Select second point." ) );
             wrefresh( w_zones_info );
 
             const look_around_result second = look_around( w_zones_info, center, *first.position,
-                    true, true, false );
+            true, true, false );
             if( second.position ) {
                 werase( w_zones_info );
                 wrefresh( w_zones_info );
 
                 tripoint first_abs = m.getabs( tripoint( std::min( first.position->x,
-                                               second.position->x ),
-                                               std::min( first.position->y, second.position->y ),
-                                               std::min( first.position->z,
-                                                       second.position->z ) ) );
+                second.position->x ),
+                std::min( first.position->y, second.position->y ),
+                std::min( first.position->z,
+                second.position->z ) ) );
                 tripoint second_abs = m.getabs( tripoint( std::max( first.position->x,
-                                                second.position->x ),
-                                                std::max( first.position->y, second.position->y ),
-                                                std::max( first.position->z,
-                                                        second.position->z ) ) );
+                second.position->x ),
+                std::max( first.position->y, second.position->y ),
+                std::max( first.position->z,
+                second.position->z ) ) );
                 return std::pair<tripoint, tripoint>( first_abs, second_abs );
             }
         }
@@ -9003,18 +9004,21 @@ bool game::plmove( int dx, int dy, int dz )
     tripoint dest_loc;
     if( dz == 0 && u.has_effect( effect_stunned ) ) {
         unsigned int tries = 0;
-        auto try_more = [&tries](){ ++tries; return tries<4; };
-        
+        auto try_more = [&tries]() {
+            ++tries;
+            return tries < 4;
+        };
+
         dest_loc.z = u.posz();
-        do{
+        do {
             dest_loc.x = rng( u.posx() - 1, u.posx() + 1 );
             dest_loc.y = rng( u.posy() - 1, u.posy() + 1 );
             //++tries;
-        } while( !m.passable_from_point( dest_loc, u.pos()) && try_more() );
-        if( tries >= 4 ){
+        } while( !m.passable_from_point( dest_loc, u.pos() ) && try_more() );
+        if( tries >= 4 ) {
             dest_loc = u.pos();
         }
-        
+
     } else {
         if( tile_iso && use_tiles && !u.has_destination() ) {
             rotate_direction_cw( dx, dy );
@@ -9022,11 +9026,11 @@ bool game::plmove( int dx, int dy, int dz )
         dest_loc.x = u.posx() + dx;
         dest_loc.y = u.posy() + dy;
         dest_loc.z = u.posz() + dz;
-        
+
         // Only check if diagonal parts are blocking.
-        if( m.check_for_diagonal(dest_loc, u.pos(), [this](const tripoint & np){
-         return m.move_cost(np) == 0;
-        }) ){
+        if( m.check_for_diagonal( dest_loc, u.pos(), [this]( const tripoint & np ) {
+        return m.move_cost( np ) == 0;
+        } ) ) {
             return false;
         }
     }
@@ -9351,7 +9355,7 @@ bool game::ramp_move( const tripoint &dest_loc )
 }
 
 bool game::walk_move( const tripoint &dest_loc )
-{    
+{
     const optional_vpart_position vp_here = m.veh_at( u.pos() );
     const optional_vpart_position vp_there = m.veh_at( dest_loc );
 
@@ -9434,7 +9438,7 @@ bool game::walk_move( const tripoint &dest_loc )
     // Max out recoil
     u.recoil = MAX_RECOIL;
 
-    // Print a message if movement is slow    
+    // Print a message if movement is slow
     const int mcost_to = m.move_cost( dest_loc ); //calculate this _after_ calling grabbed_move
     const bool fungus = m.has_flag_ter_or_furn( "FUNGUS", u.pos() ) ||
                         m.has_flag_ter_or_furn( "FUNGUS",
@@ -10304,7 +10308,7 @@ void game::fling_creature( Creature *c, const int &dir, float flvel, bool contro
             if( !critter.is_dead() ) {
                 thru = false;
             }
-        } else{
+        } else {
             const cata::optional<tripoint> obstacle = m.obstacle_point( pt, c->pos() );
             if( obstacle ) {
                 pt = obstacle.value();

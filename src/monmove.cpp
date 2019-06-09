@@ -780,7 +780,7 @@ void monster::move()
             }
             // Now doing non z-moves.
             // Ignore this candidate if not passable.
-            if( !g->m.passable_from_point( candidate, pos()) ){
+            if( !g->m.passable_from_point( candidate, pos() ) ) {
                 continue;
             }
 
@@ -979,7 +979,7 @@ int monster::calc_movecost( const tripoint &f, const tripoint &t ) const
     int movecost = 0;
 
     const int source_cost = g->m.move_cost( f );
-    const int dest_cost = g->m.move_cost_from_point( t,f );
+    const int dest_cost = g->m.move_cost_from_point( t, f );
     // Digging and flying monsters ignore terrain cost
     if( has_flag( MF_FLIES ) || ( digging() && g->m.has_flag( "DIGGABLE", t ) ) ) {
         movecost = 100;
@@ -1162,15 +1162,15 @@ bool monster::attack_at( const tripoint &p )
         return false; // TODO: Remove this
     }
     // Has to be reachable from our position (currently for same z-level only).
-    if( !g->m.passable_from_point(p, pos()) ){
+    if( !g->m.passable_from_point( p, pos() ) ) {
         return false;
     }
 
-    if( p == g->u.pos() ){
+    if( p == g->u.pos() ) {
         melee_attack( g->u );
         return true;
     }
-    
+
     if( const auto mon_ = g->critter_at<monster>( p, is_hallucination() ) ) {
         monster &mon = *mon_;
 
@@ -1203,7 +1203,7 @@ bool monster::attack_at( const tripoint &p )
         guy->on_attacked( *this ); // allow NPC hallucination to be one shot by monsters
         melee_attack( *guy );
         return true;
-    }    
+    }
     // Nothing to attack.
     return false;
 }

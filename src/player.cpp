@@ -7688,8 +7688,8 @@ item::reload_option player::select_ammo( const item &base,
                              int _last_key, int _default_to, bool _can_partial_reload ) :
                 opts( _opts ), draw_row( _draw_row ),
                 last_key( _last_key ), default_to( _default_to ),
-                can_partial_reload( _can_partial_reload )
-            {}
+                can_partial_reload( _can_partial_reload ) {
+            }
 
             bool key( const input_context &, const input_event &event, int idx, uilist *menu ) override {
                 auto cur_key = event.get_first_input();
@@ -12240,7 +12240,7 @@ std::string player::visible_mutations( const int visibility_cap ) const
         if( mut_branch.visibility > 0 && mut_branch.visibility >= visibility_cap )
         {
             return string_format( "<color_%s>%s</color>", string_from_color( mut_branch.get_display_color() ),
-                                  mut_branch.name() );
+            mut_branch.name() );
         }
 
         return std::string();

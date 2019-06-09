@@ -266,7 +266,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
 
     // Trace the trajectory, doing damage in order
     tripoint &tp = attack.end_point;
-    tripoint prev_point = source;    
+    tripoint prev_point = source;
 
     trajectory.insert( trajectory.begin(), source ); // Add the first point to the trajectory
 
@@ -298,8 +298,8 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
     for( size_t i = 1; i < traj_len && ( has_momentum || stream ); ++i ) {
         prev_point = tp;
         // Get a diagonal obstacle (ie. a vehicle) if any.
-        cata::optional<tripoint> candidate = g->m.obstacle_point(trajectory[i], prev_point);
-        tp = candidate? candidate.value() : trajectory[i];        
+        cata::optional<tripoint> candidate = g->m.obstacle_point( trajectory[i], prev_point );
+        tp = candidate ? candidate.value() : trajectory[i];
 
         if( ( tp.z > prev_point.z && g->m.has_floor( tp ) ) ||
             ( tp.z < prev_point.z && g->m.has_floor( prev_point ) ) ) {

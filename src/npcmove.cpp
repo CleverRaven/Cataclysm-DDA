@@ -1986,7 +1986,8 @@ bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
     // Allow moving into any bashable spots, but penalize them during pathing
     // Doors are not passable for hallucinations
     return( rl_dist( pos(), p ) <= 1 &&
-            ( g->m.passable_from_point( p, pos() ) || ( can_open_door( p, !g->m.is_outside( pos() ) ) && !is_hallucination() ) ||
+            ( g->m.passable_from_point( p, pos() ) || ( can_open_door( p, !g->m.is_outside( pos() ) ) &&
+                    !is_hallucination() ) ||
               ( !no_bashing && g->m.bash_rating( smash_ability(), p ) > 0 ) )
           );
 }
@@ -2818,15 +2819,13 @@ bool npc::find_corpse_to_pulp()
     // Pathing with overdraw can get expensive, limit it
     int path_counter = 4;
     const auto check_tile = [this, &path_counter]( const tripoint & p ) -> const item * {
-        if( !g->m.sees_some_items( p, *this ) || !sees( p ) )
-        {
+        if( !g->m.sees_some_items( p, *this ) || !sees( p ) ) {
             return nullptr;
         }
 
         const auto items = g->m.i_at( p );
         const item *found = nullptr;
-        for( const item &it : items )
-        {
+        for( const item &it : items ) {
             // Pulp only stuff that revives, but don't pulp acid stuff
             // That is, if you aren't protected from this stuff!
             if( it.can_revive() ) {
@@ -2841,8 +2840,7 @@ bool npc::find_corpse_to_pulp()
             }
         }
 
-        if( found != nullptr )
-        {
+        if( found != nullptr ) {
             path_counter--;
             // Only return corpses we can path to
             return update_path( p, false, false ) ? found : nullptr;

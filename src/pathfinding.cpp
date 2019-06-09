@@ -207,24 +207,25 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         const auto &pf_cache = get_pathfinding_cache_ref( f.z );
         // Check all points for any special case (including just hard terrain)
         bool all_valid = true;
-        for( auto p = line_path.cbegin() ; p != line_path.cend(); ++p ){
-            if( !( pf_cache.special[p->x][p->y] & non_normal )){
+        for( auto p = line_path.cbegin() ; p != line_path.cend(); ++p ) {
+            if( !( pf_cache.special[p->x][p->y] & non_normal ) ) {
                 // This point is good so check for it's veh diagonals.
                 // If it returns an obstacle then this route is invalid.
-                if( p != line_path.cbegin() && check_for_diagonal(*p, *(p-1), [&pf_cache, &all_valid]( const tripoint & tp ){               
-                    return ( pf_cache.special[tp.x][tp.y] & non_normal );
-                }  )  ){
+                if( p != line_path.cbegin() &&
+                check_for_diagonal( *p, *( p - 1 ), [&pf_cache, &all_valid]( const tripoint & tp ) {
+                return ( pf_cache.special[tp.x][tp.y] & non_normal );
+                } ) ) {
                     all_valid = false;
                     break;
-                }     
-            } else{
+                }
+            } else {
                 all_valid = false;
                 break;
             }
         }
-        if( all_valid ){
+        if( all_valid ) {
             const std::set<tripoint> sorted_line( line_path.begin(), line_path.end() );
-        
+
             if( is_disjoint( sorted_line, pre_closed ) ) {
                 return line_path;
             }

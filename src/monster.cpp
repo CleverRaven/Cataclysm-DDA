@@ -850,7 +850,7 @@ Creature *monster::attack_target()
     if( target == nullptr || target == this ||
         attitude_to( *target ) == Creature::A_FRIENDLY || !sees( *target ) ) {
         return nullptr;
-    }    
+    }
     return target;
 }
 

@@ -229,7 +229,7 @@ bool Creature::sees( const Creature &critter ) const
             }
             return false;
         }
-    }    
+    }
     return sees( critter.pos(), critter.is_player() );
 }
 
@@ -260,7 +260,7 @@ bool Creature::sees( const tripoint &t, bool is_player, int range_mod ) const
         if( range_mod > 0 ) {
             range = std::min( range, range_mod );
         }
-        bool can_see = g->m.sees( pos(), t, range ); 
+        bool can_see = g->m.sees( pos(), t, range );
         if( can_see && is_player ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.
             const float player_visibility_factor = g->u.visibility() / 100.0f;

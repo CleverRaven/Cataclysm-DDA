@@ -1654,79 +1654,82 @@ int map::move_cost_ter_furn( const int x, const int y ) const
 // Move cost: 3D
 int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
 {
-     if( !inbounds( p ) ) {
-         return 0;
-     }
- 
-     const furn_t &furniture = furn( p ).obj();
-     const ter_t &terrain = ter( p ).obj();
-     const optional_vpart_position vp = veh_at( p );
-     vehicle *const veh = ( !vp || &vp->vehicle() == ignored_vehicle ) ? nullptr : &vp->vehicle();
-     const int part = veh ? vp->part_index() : -1;
- 
-     return move_cost_internal( furniture, terrain, veh, part );
+    if( !inbounds( p ) ) {
+        return 0;
+    }
+
+    const furn_t &furniture = furn( p ).obj();
+    const ter_t &terrain = ter( p ).obj();
+    const optional_vpart_position vp = veh_at( p );
+    vehicle *const veh = ( !vp || &vp->vehicle() == ignored_vehicle ) ? nullptr : &vp->vehicle();
+    const int part = veh ? vp->part_index() : -1;
+
+    return move_cost_internal( furniture, terrain, veh, part );
 }
 
-int map::move_cost_from_point( const tripoint &to, const tripoint &from, const vehicle *ignored_vehicle ) const
+int map::move_cost_from_point( const tripoint &to, const tripoint &from,
+                               const vehicle *ignored_vehicle ) const
 {
     int cost_to = move_cost( to, ignored_vehicle );
-    if( cost_to == 0 || check_for_diagonal(to, from, [this](const tripoint & np){        
-         return move_cost(np) == 0;
+    if( cost_to == 0 || check_for_diagonal( to, from, [this]( const tripoint & np ) {
+    return move_cost( np ) == 0;
     } ) ) {
         return 0;
-    }    
+    }
     return cost_to;
 }
 
 cata::optional<tripoint> map::obstacle_point( const tripoint &to, const tripoint &from ) const
-{   
+{
     int cost_to = move_cost( to );
-    if( cost_to == 0 ){
+    if( cost_to == 0 ) {
         return to;
-    }    
-    return check_for_diagonal(to, from, [this](const tripoint & np){
-         return move_cost(np) == 0;
-    });  
+    }
+    return check_for_diagonal( to, from, [this]( const tripoint & np ) {
+        return move_cost( np ) == 0;
+    } );
 }
 
-cata::optional<tripoint> map::check_for_diagonal( const tripoint &to, const tripoint &from, const std::function<bool( const tripoint & )> &interact ) const
+cata::optional<tripoint> map::check_for_diagonal( const tripoint &to, const tripoint &from,
+        const std::function<bool( const tripoint & )> &interact ) const
 {
     // Ugly hack to swap return point each call, (maybe make random?).
     static bool i = false;
     i = !i;
     const tripoint dmove = to - from;
-    if( abs(dmove.x) != 1 || abs(dmove.y) != 1 ){
+    if( abs( dmove.x ) != 1 || abs( dmove.y ) != 1 ) {
         // Not diagonal vector.
-        return cata::nullopt;        
+        return cata::nullopt;
     }
-    
+
     // Calculate diagonal obstacles.
-    const tripoint to_x = tripoint(to.x, from.y , to.z); 
-    const tripoint to_y = tripoint(from.x, to.y , to.z);
-    
+    const tripoint to_x = tripoint( to.x, from.y , to.z );
+    const tripoint to_y = tripoint( from.x, to.y , to.z );
+
     // Nevermind if diagonals are out of bounds.
     if( !inbounds( to_x ) || !inbounds( to_y ) ) {
-         return cata::nullopt;
+        return cata::nullopt;
     }
-    
+
     // Check vehicle is the same and parts are meant to be connected.
     // Diagonal parts don't count as connected.
     const optional_vpart_position vp_x = veh_at( to_x );
-    //vehicle *const veh_x = (!vp_x ) ? nullptr : &vp_x->vehicle();            
+    //vehicle *const veh_x = (!vp_x ) ? nullptr : &vp_x->vehicle();
     const optional_vpart_position vp_y = veh_at( to_y );
-    //vehicle *const veh_y = (!vp_y ) ? nullptr : &vp_y->vehicle();    
-    
+    //vehicle *const veh_y = (!vp_y ) ? nullptr : &vp_y->vehicle();
+
     if( vp_x && vp_y && &vp_x->vehicle() == &vp_y->vehicle() ) {
         const point dmount = vp_y->mount() - vp_x->mount();
-        const bool connected = abs(dmount.x) + abs(dmount.y) == 1; // Diagonal parts don't count as connected.
-        if( connected && interact(to_x) && interact(to_y) ){
-            if(i){
+        const bool connected = abs( dmount.x ) + abs( dmount.y ) ==
+                               1; // Diagonal parts don't count as connected.
+        if( connected && interact( to_x ) && interact( to_y ) ) {
+            if( i ) {
                 return to_x;
-            } else{
+            } else {
                 return to_y;
-            }            
-        } 
-    } 
+            }
+        }
+    }
     return cata::nullopt;
 }
 
@@ -1742,7 +1745,7 @@ bool map::passable( const tripoint &p ) const
 
 bool map::passable_from_point( const tripoint &to, const tripoint &from ) const
 {
-    return move_cost_from_point(to, from ) != 0;
+    return move_cost_from_point( to, from ) != 0;
 }
 
 int map::move_cost_ter_furn( const tripoint &p ) const
@@ -6152,40 +6155,40 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
         !inbounds( T ) ) {
         bresenham_slope = 0;
         return false; // Out of range!
-    }    
-    bool visible = true;     
+    }
+    bool visible = true;
     // Ugly `if` for now
     if( !fov_3d || F.z == T.z ) {
         tripoint previous_tripoint = F;
         bresenham( F.x, F.y, T.x, T.y, bresenham_slope,
         [this, &visible, &T, &previous_tripoint]( const point & new_point ) {
-            // Exit before checking the last square, it's still visible even if opaque.            
+            // Exit before checking the last square, it's still visible even if opaque.
             if( new_point.x != T.x || new_point.y != T.y ) {
-                if( !this->trans( tripoint( new_point, T.z ) ) ) {                
+                if( !this->trans( tripoint( new_point, T.z ) ) ) {
                     visible = false;
                     return false;
-                }            
+                }
             }
             // Check diagonals
-            if ( abs( new_point.x-previous_tripoint.x ) == abs( new_point.y-previous_tripoint.y )){
+            if( abs( new_point.x - previous_tripoint.x ) == abs( new_point.y - previous_tripoint.y ) ) {
                 // Check diagonals
                 const tripoint new_x = tripoint( new_point.x , previous_tripoint.y, T.z );
-                const tripoint new_y = tripoint( previous_tripoint.x , new_point.y, T.z );                
-                if( !inbounds( new_x ) || !inbounds( new_y ) ){
+                const tripoint new_y = tripoint( previous_tripoint.x , new_point.y, T.z );
+                if( !inbounds( new_x ) || !inbounds( new_y ) ) {
                     return true; // Out of range!
                 }
-                if ( !this->trans( new_x ) && !this->trans( new_y )){                    
+                if( !this->trans( new_x ) && !this->trans( new_y ) ) {
                     visible = false;
                     return false;
                 }
             }
-            previous_tripoint = tripoint( new_point, T.z);
+            previous_tripoint = tripoint( new_point, T.z );
             return true;
-        } );        
+        } );
         return visible;
     }
 
-    tripoint last_point = F;    
+    tripoint last_point = F;
     bresenham( F, T, bresenham_slope, 0,
     [this, &visible, &T, &last_point]( const tripoint & new_point ) {
         // Exit before checking the last square, it's still visible even if opaque.
@@ -6413,7 +6416,7 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
         }
         bool is_clear = true;
         tripoint previous_tripoint = f;
-        
+
         bresenham( f.x, f.y, t.x, t.y, 0,
         [this, &is_clear, cost_min, cost_max, &t, &previous_tripoint]( const point & new_point ) {
             // Exit before checking the last square, it's still reachable even if it is an obstacle.
