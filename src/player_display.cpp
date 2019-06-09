@@ -600,6 +600,7 @@ static void draw_skills_tab( const catacurses::window &w_skills, const catacurse
                              std::string &action, const std::vector<const Skill *> &skillslist,
                              size_t &min, size_t &max, const size_t skill_win_size_y, size_t &half_y )
 {
+    assert( line >= min && line <= max );
     mvwprintz( w_skills, 0, 0, h_light_gray, header_spaces );
     center_print( w_skills, 0, h_light_gray, title_SKILLS );
     half_y = skill_win_size_y / 2;
