@@ -69,6 +69,7 @@
     "id": [
       "TALK_REFUGEE_John_2",
       "TALK_REFUGEE_John_Background",
+      "TALK_REFUGEE_John_Background_cataclysm",
       "TALK_REFUGEE_John_Situation"
     ],
     "responses": [
@@ -92,7 +93,7 @@
         "topic": "TALK_REFUGEE_John_1_firstmeet"
       },
       {
-        "text": "Hi, John.  What's up?",
+        "text": "Hi, John.  Got a minute?",
         "topic": "TALK_REFUGEE_John_2",
         "condition": { "u_has_var": "u_met_John_Clemens", "type": "general", "context": "meeting", "value": "yes" }
       },
@@ -121,13 +122,23 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_John_2",
-    "dynamic_line": ".",
+    "dynamic_line": "What can I do ya for?",
     "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_John_Background",
-    "dynamic_line": ".",
+    "dynamic_line": "My story?  Just a wanderin' cowhand, eatin' dust on the trail.  I settled here for a spell after I came upon some hard times.",
+    "responses": [
+      { "text": "You... you do know what's going on here, right?  With the evacuation and stuff?", "topic": "TALK_REFUGEE_John_Background_cataclysm" },
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_John_Background_cataclysm",
+    "dynamic_line": "Course I do, I ain't an idjit.  It's all the folks here'll talk about.",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -136,7 +147,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_John_Situation",
-    "dynamic_line": ".",
+    "dynamic_line": "Folks don't like bein' kept from the blue sky for too long.  Cooped up like cattle in a barn... we need pastures to run free, if'n y'get my drift.  'Til we got 'em, it's gonna be tense in here.",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
