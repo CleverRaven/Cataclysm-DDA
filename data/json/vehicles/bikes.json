@@ -40,9 +40,20 @@
     "name": "Motocross Bike",
     "blueprint": [ "o#o" ],
     "parts": [
-      { "x": 1, "y": 0, "parts": [ "frame_vertical_2", "wheel_motorbike_or_steerable"] },
-      { "x": 0, "y": 0, "parts": [ "frame_vertical", { "part": "tank_small", "fuel": "gasoline" }, "saddle", "controls", "battery_motorbike_small", "engine_1cyl_large" ] },
-      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "muffler", "wheel_motorbike_or"] }
+      { "x": 1, "y": 0, "parts": [ "frame_vertical_2", "wheel_motorbike_or_steerable" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame_vertical",
+          { "part": "tank_small", "fuel": "gasoline" },
+          "saddle",
+          "controls",
+          "battery_motorbike_small",
+          "engine_1cyl_large"
+        ]
+      },
+      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "muffler", "wheel_motorbike_or" ] }
     ]
   },
   {
@@ -51,9 +62,22 @@
     "name": "Street-Legal Dirt Bike",
     "blueprint": [ "o#o" ],
     "parts": [
-      { "x": 1, "y": 0, "parts": [ "frame_vertical_2", "motorcycle_headlight", "wheel_motorbike_or_steerable"] },
-      { "x": 0, "y": 0, "parts": [ "frame_vertical", { "part": "tank_small", "fuel": "gasoline" }, "horn_car", "controls", "saddle", "controls_electronic", "battery_motorbike_small", "engine_1cyl_large" ] },
-      { "x": -1, "y": 0, "parts": [ "frame_handle", "muffler", "wheel_motorbike_or"] }
+      { "x": 1, "y": 0, "parts": [ "frame_vertical_2", "motorcycle_headlight", "wheel_motorbike_or_steerable" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame_vertical",
+          { "part": "tank_small", "fuel": "gasoline" },
+          "horn_car",
+          "controls",
+          "saddle",
+          "controls_electronic",
+          "battery_motorbike_small",
+          "engine_1cyl_large"
+        ]
+      },
+      { "x": -1, "y": 0, "parts": [ "frame_handle", "muffler", "wheel_motorbike_or" ] }
     ]
   },
   {
