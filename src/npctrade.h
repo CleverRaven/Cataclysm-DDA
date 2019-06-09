@@ -9,6 +9,8 @@
 
 #include "inventory.h"
 #include "item_location.h"
+#include "output.h"
+#include "units.h"
 
 class Character;
 class item;
@@ -30,6 +32,44 @@ struct item_pricing {
     bool selected;
 };
 
+class trading_window
+{
+    public:
+        trading_window() = default;
+        std::vector<item_pricing> theirs;
+        std::vector<item_pricing> yours;
+        bool exchange;
+        int u_get;
+        int npc_requires;
+
+        void setup_win( npc &np );
+        void setup_trade( int cost, npc &np );
+        void update_win( npc &p, const std::string &deal, const int adjusted_u_get );
+        void show_item_data( npc &np, size_t offset, std::vector<item_pricing> &target_list );
+        bool perform_trade( npc &p, const std::string &deal );
+        void update_npc_owed( npc &np );
+
+
+
+
+    private:
+        catacurses::window w_head;
+        catacurses::window w_them;
+        catacurses::window w_you;
+        const int win_they_w = TERMX / 2;
+        const std::string header_message = _( "TAB key to switch lists, letters to pick items,"
+                                              "Enter to finalize, Esc to quit,\n"
+                                              "? to get information on an item." );
+        const size_t entries_per_page = std::min( TERMY - 7, 2 + ( 'z' - 'a' ) + ( 'Z' - 'A' ) );
+        bool update = true;
+        bool focus_them = true; // Is the focus on them?
+        size_t them_off = 0, you_off = 0; // Offset from the start of the list
+
+        inventory temp;
+        units::volume volume_left;
+        units::mass weight_left;
+};
+
 namespace npc_trading
 {
 
@@ -39,9 +79,9 @@ int cash_to_favor( const npc &, int cash );
 
 inventory inventory_exchange( inventory &inv,
                               const std::set<item *> &without, const std::vector<item *> &added );
+bool trade( npc &p, int cost, const std::string &deal );
 std::vector<item_pricing> init_selling( npc &p );
 std::vector<item_pricing> init_buying( npc &p, player &u );
-bool trade( npc &p, int cost, const std::string &deal );
 }
 
 #endif
