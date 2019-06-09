@@ -69,7 +69,7 @@ struct trap {
 
         bool was_loaded = false;
 
-        long sym;
+        int sym;
         nc_color color;
     private:
         int visibility; // 1 to ??, affects detection

@@ -1520,7 +1520,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
         response_lines.push_back( responses[i].create_option_line( *this, 'a' + i ) );
     }
 
-    long ch = text_only ? 'a' + responses.size() - 1 : ' ';
+    int ch = text_only ? 'a' + responses.size() - 1 : ' ';
     bool okay;
     do {
         d_win.refresh_response_display();
@@ -1544,7 +1544,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const talk_topic &topic )
                     ch -= 'a';
                     break;
             }
-        } while( ( ch < 0 || ch >= static_cast<long>( responses.size() ) ) );
+        } while( ( ch < 0 || ch >= static_cast<int>( responses.size() ) ) );
         okay = true;
         std::set<dialogue_consequence> consequences = responses[ch].get_consequences( *this );
         if( consequences.count( dialogue_consequence::hostile ) > 0 ) {

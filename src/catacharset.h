@@ -120,7 +120,7 @@ class utf8_wrapper
         }
 
         // Returns Unicode character at position start
-        long at( size_t start ) const;
+        uint32_t at( size_t start ) const;
 
         // Returns number of Unicode characters
         size_t size() const {

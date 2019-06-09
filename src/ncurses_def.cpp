@@ -233,9 +233,9 @@ void catacurses::init_interface()
 input_event input_manager::get_input_event()
 {
     previously_pressed_key = 0;
-    const long key = getch();
+    const int key = getch();
     if( key != ERR ) {
-        long newch;
+        int newch;
         // Clear the buffer of characters that match the one we're going to act on.
         set_timeout( 0 );
         do {

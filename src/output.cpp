@@ -410,14 +410,14 @@ int right_print( const catacurses::window &w, const int line, const int right_in
     return x;
 }
 
-void wputch( const catacurses::window &w, nc_color FG, long ch )
+void wputch( const catacurses::window &w, nc_color FG, int ch )
 {
     wattron( w, FG );
     waddch( w, ch );
     wattroff( w, FG );
 }
 
-void mvwputch( const catacurses::window &w, int y, int x, nc_color FG, long ch )
+void mvwputch( const catacurses::window &w, int y, int x, nc_color FG, int ch )
 {
     wattron( w, FG );
     mvwaddch( w, y, x, ch );
@@ -431,7 +431,7 @@ void mvwputch( const catacurses::window &w, int y, int x, nc_color FG, const std
     wattroff( w, FG );
 }
 
-void mvwputch_inv( const catacurses::window &w, int y, int x, nc_color FG, long ch )
+void mvwputch_inv( const catacurses::window &w, int y, int x, nc_color FG, int ch )
 {
     nc_color HC = invert_color( FG );
     wattron( w, HC );
@@ -447,7 +447,7 @@ void mvwputch_inv( const catacurses::window &w, int y, int x, nc_color FG, const
     wattroff( w, HC );
 }
 
-void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, long ch )
+void mvwputch_hi( const catacurses::window &w, int y, int x, nc_color FG, int ch )
 {
     nc_color HC = hilite( FG );
     wattron( w, HC );
@@ -648,7 +648,7 @@ std::vector<std::string> get_hotkeys( const std::string &s )
     return hotkeys;
 }
 
-long popup( const std::string &text, PopupFlags flags )
+int popup( const std::string &text, PopupFlags flags )
 {
     query_popup pop;
     pop.message( "%s", text );
@@ -935,10 +935,10 @@ input_event draw_item_info( const catacurses::window &win, const std::string &sI
             selected++;
             werase( win );
         } else if( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) ) {
-            result = input_event( static_cast<long>( '\n' ), CATA_INPUT_KEYBOARD );
+            result = input_event( static_cast<int>( '\n' ), CATA_INPUT_KEYBOARD );
             break;
         } else if( selected == KEY_LEFT ) {
-            result = input_event( static_cast<long>( ' ' ), CATA_INPUT_KEYBOARD );
+            result = input_event( static_cast<int>( ' ' ), CATA_INPUT_KEYBOARD );
             break;
         } else {
             break;
@@ -977,7 +977,7 @@ char rand_char()
 
 // this translates symbol y, u, n, b to NW, NE, SE, SW lines correspondingly
 // h, j, c to horizontal, vertical, cross correspondingly
-long special_symbol( long sym )
+int special_symbol( int sym )
 {
     switch( sym ) {
         case 'j':

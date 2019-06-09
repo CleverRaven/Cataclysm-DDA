@@ -534,7 +534,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                                          pickupW,  pickupH,  0 );
 
         std::string action;
-        long raw_input_char = ' ';
+        int raw_input_char = ' ';
         input_context ctxt( "PICKUP" );
         ctxt.register_action( "UP" );
         ctxt.register_action( "DOWN" );
