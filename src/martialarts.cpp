@@ -1023,15 +1023,12 @@ void player::martialart_use_message() const
     if( !ma.force_unarmed && !ma.weapon_valid( weapon ) ) {
         if( !has_weapon() && ma.strictly_melee ) {
             add_msg_if_player( m_bad, _( "%s cannot be used unarmed." ), ma.name );
-        }
-        else if( has_weapon() && ma.strictly_unarmed ) {
+        } else if( has_weapon() && ma.strictly_unarmed ) {
             add_msg_if_player( m_bad, _( "%s cannot be used with weapons." ), ma.name );
-        }
-        else {
+        } else {
             add_msg_if_player( m_bad, _( "The %s is not a valid %s weapon." ), weapname(), ma.name );
         }
-    }
-    else {
+    } else {
         add_msg_if_player( m_info, _( ma.get_initiate_player_message() ) );
     }
 }
