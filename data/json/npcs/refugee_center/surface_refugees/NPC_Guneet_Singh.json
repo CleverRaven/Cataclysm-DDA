@@ -64,13 +64,13 @@
     "type": "talk_topic",
     "//": "common talk responses",
     "id": [
-      "TALK_REFUGEE_Mandeep_2",
-      "TALK_REFUGEE_Mandeep_Background",
-      "TALK_REFUGEE_Mandeep_Situation"
+      "TALK_REFUGEE_Guneet_2",
+      "TALK_REFUGEE_Guneet_Background",
+      "TALK_REFUGEE_Guneet_Situation"
     ],
     "responses": [
-      { "text": "What's your story?", "topic": "TALK_REFUGEE_Mandeep_Background" },
-      { "text": "How are things here?", "topic": "TALK_REFUGEE_Mandeep_Situation" }
+      { "text": "What's your story?", "topic": "TALK_REFUGEE_Guneet_Background" },
+      { "text": "How are things here?", "topic": "TALK_REFUGEE_Guneet_Situation" }
     ]
   },
   {

@@ -65,51 +65,31 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Garry_1",
     "dynamic_line": {
-      "u_has_effect": "u_met_Garry_Villeneuve",
+      "u_has_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes",
       "yes": [ "Hello again.", "Well, hello.", "Good to see you again." ],
       "no": "Hi.  Hi there.  I'm Garry, Garry Villeneuve."
     },
     "responses": [
       {
         "text": "Nice to meet you, Garry.",
-        "condition": { "not": { "u_has_effect": "u_met_Garry_Villeneuve" } },
-        "effect": { "u_add_effect": "u_met_Garry_Villeneuve", "duration": "PERMANENT" },
-        "topic": "TALK_REFUGEE_Garry_1_firstmeet",
-        "switch": true
+        "effect": { "u_add_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_REFUGEE_Garry_1_firstmeet"
       },
       {
         "text": "Hi, Garry.  What's up?",
-        "condition": { "days_since_cataclysm": 180 },
-        "topic": "TALK_REFUGEE_Garry_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, Garry.  What's up?",
-        "condition": { "days_since_cataclysm": 60 },
-        "topic": "TALK_REFUGEE_Garry_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, Garry.  What's up?",
-        "condition": { "days_since_cataclysm": 30 },
-        "topic": "TALK_REFUGEE_Garry_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, Garry.  What's up?",
-        "condition": { "u_has_effect": "u_met_Garry_Villeneuve" },
-        "topic": "TALK_REFUGEE_Garry_2_stub",
-        "switch": true
+        "topic": "TALK_REFUGEE_Garry_2",
+        "condition": { "u_has_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes" }
       },
       {
         "text": "Hi Garry, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_effect": "u_met_Garry_Villeneuve", "duration": "PERMANENT" },
-        "condition": { "not": { "u_has_effect": "u_met_Garry_Villeneuve" } },
+        "effect": { "u_add_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
-        "text": "Hi Garry, nice to see you too.  I gotta go though.",
-        "condition": { "u_has_effect": "u_met_Garry_Villeneuve" },
+        "text": "Hi Garry.  I can't stay to talk.",
+        "condition": { "u_has_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]

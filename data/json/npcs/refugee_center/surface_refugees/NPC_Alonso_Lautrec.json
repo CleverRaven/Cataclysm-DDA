@@ -62,7 +62,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_1",
     "dynamic_line": {
-      "u_has_effect": "u_met_Alonso_Lautrec",
+      "u_has_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes",
       "yes": "Hello again, gorgeous",
       "no": {
         "u_male": "Oh my, it's good to see such a strong and handsome fellow around here.  They call me Alonso.",
@@ -71,45 +71,25 @@
     },
     "responses": [
       {
-        "text": "Uh, thanks, Alonso.  Nice to meet you.",
-        "condition": { "not": { "u_has_effect": "u_met_Alonso_Lautrec" } },
-        "effect": { "u_add_effect": "u_met_Alonso_Lautrec", "duration": "PERMANENT" },
-        "topic": "TALK_REFUGEE_Alonso_1_firstmeet",
-        "switch": true
+        "text": "Nice to meet you, Alonso.",
+        "effect": { "u_add_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_REFUGEE_Alonso_1_firstmeet"
       },
       {
         "text": "Hi, Alonso.  What's up?",
-        "condition": { "days_since_cataclysm": 180 },
-        "topic": "TALK_REFUGEE_Alonso_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, Alonso.  What's up?",
-        "condition": { "days_since_cataclysm": 60 },
-        "topic": "TALK_REFUGEE_Alonso_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, Alonso.  What's up?",
-        "condition": { "days_since_cataclysm": 30 },
-        "topic": "TALK_REFUGEE_Alonso_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, Alonso.  What's up?",
-        "condition": { "u_has_effect": "u_met_Alonso_Lautrec" },
-        "topic": "TALK_REFUGEE_Alonso_2_stub",
-        "switch": true
+        "topic": "TALK_REFUGEE_Alonso_2",
+        "condition": { "u_has_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes" }
       },
       {
         "text": "Hi Alonso, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_effect": "u_met_Alonso_Lautrec", "duration": "PERMANENT" },
-        "condition": { "not": { "u_has_effect": "u_met_Alonso_Lautrec" } },
+        "effect": { "u_add_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
-        "text": "Hi Alonso, nice to see you too.  I gotta go though.",
-        "condition": { "u_has_effect": "u_met_Alonso_Lautrec" },
+        "text": "Hi Alonso.  I can't stay to talk.",
+        "condition": { "u_has_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]

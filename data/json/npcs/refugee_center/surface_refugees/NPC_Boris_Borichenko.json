@@ -69,51 +69,31 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_1",
     "dynamic_line": {
-      "u_has_effect": "u_met_Boris_Borichenko",
+      "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes",
       "yes": [ "Well, well.  I'm glad you are back.", "Hello again, my friend.", "It is good to see you again." ],
       "no": "Ah, another new face.  Hello.  I am Boris."
     },
     "responses": [
       {
-        "text": "Boris, hey?  Nice to meet you.",
-        "condition": { "not": { "u_has_effect": "u_met_Boris_Borichenko" } },
-        "effect": { "u_add_effect": "u_met_Boris_Borichenko", "duration": "PERMANENT" },
-        "topic": "TALK_REFUGEE_Boris_1_firstmeet",
-        "switch": true
+        "text": "Nice to meet you, Boris.",
+        "effect": { "u_add_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" } },
+        "topic": "TALK_REFUGEE_Boris_1_firstmeet"
       },
       {
         "text": "Hi, Boris.  What's up?",
-        "condition": { "days_since_cataclysm": 180 },
-        "topic": "TALK_REFUGEE_Boris_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, Boris.  What's up?",
-        "condition": { "days_since_cataclysm": 60 },
-        "topic": "TALK_REFUGEE_Boris_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, Boris.  What's up?",
-        "condition": { "days_since_cataclysm": 30 },
-        "topic": "TALK_REFUGEE_Boris_2_stub",
-        "switch": true
-      },
-      {
-        "text": "Hi, Boris.  What's up?",
-        "condition": { "u_has_effect": "u_met_Boris_Borichenko" },
-        "topic": "TALK_REFUGEE_Boris_2_stub",
-        "switch": true
+        "topic": "TALK_REFUGEE_Boris_2",
+        "condition": { "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" }
       },
       {
         "text": "Hi Boris, nice to meet you.  I gotta go though.",
-        "effect": { "u_add_effect": "u_met_Boris_Borichenko", "duration": "PERMANENT" },
-        "condition": { "not": { "u_has_effect": "u_met_Boris_Borichenko" } },
+        "effect": { "u_add_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
+        "condition": { "not": { "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" } },
         "topic": "TALK_DONE"
       },
       {
-        "text": "Hi Boris, nice to see you too.  I gotta go though.",
-        "condition": { "u_has_effect": "u_met_Boris_Borichenko" },
+        "text": "Hi Boris.  I can't stay to talk.",
+        "condition": { "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes" },
         "topic": "TALK_DONE"
       }
     ]
