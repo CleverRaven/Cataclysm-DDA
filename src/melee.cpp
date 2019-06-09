@@ -1252,7 +1252,7 @@ void player::perform_technique( const ma_technique &technique, Creature &t, dama
         // This technique makes the player follow into the tile the target was knocked from
         if( technique.knockback_follow > 0 ) {
             // Check if terrain there is safe then if a critter'ss still there - if clear, move player there
-            if( g->prompt_dangerous_tile( prev_pos ) == false ) {
+            if( !g->prompt_dangerous_tile( prev_pos ) ) {
                 return;
             } else {
                 if( t.pos() != prev_pos ) {
