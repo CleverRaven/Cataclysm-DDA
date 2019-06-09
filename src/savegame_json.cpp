@@ -1838,7 +1838,9 @@ time_duration time_duration::read_from_json_string( JsonIn &jsin )
             { "turns", 1_turns },
             { "turn", 1_turns },
             { "t", 1_turns },
-            // TODO: add seconds
+            { "seconds", 1_seconds },
+            { "second", 1_seconds },
+            { "s", 1_seconds },
             { "minutes", 1_minutes },
             { "minute", 1_minutes },
             { "m", 1_minutes },
@@ -2003,6 +2005,8 @@ void item::io( Archive &archive )
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
     archive.io( "light_dir", light.direction, nolight.direction );
+    archive.io( "comps_used", comps_used, io::empty_default_tag() );
+    archive.io( "next_failure_point", next_failure_point, -1 );
 
     item_controller->migrate_item( orig, *this );
 
@@ -3037,6 +3041,25 @@ void deserialize( recipe_subset &value, JsonIn &jsin )
     }
 }
 
+static void serialize( const item_comp &value, JsonOut &jsout )
+{
+    jsout.start_object();
+
+    jsout.member( "type", value.type );
+    jsout.member( "count", value.count );
+    jsout.member( "recoverable", value.recoverable );
+
+    jsout.end_object();
+}
+
+static void deserialize( item_comp &value, JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "type", value.type );
+    jo.read( "count", value.count );
+    jo.read( "recoverable", value.recoverable );
+}
+
 // basecamp
 void basecamp::serialize( JsonOut &json ) const
 {
@@ -3102,6 +3125,11 @@ void basecamp::deserialize( JsonIn &jsin )
                 int amount = provide_data.get_int( "amount" );
                 e.provides[ id ] = amount;
             }
+        }
+        // incase of save corruption, sanity check provides from expansions
+        const std::string &initial_provide = base_camps::faction_encode_abs( e, 0 );
+        if( e.provides.find( initial_provide ) == e.provides.end() ) {
+            e.provides[ initial_provide ] = 1;
         }
         edata.read( "pos", e.pos );
         expansions[ dir ] = e;

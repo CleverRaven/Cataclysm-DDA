@@ -1045,7 +1045,7 @@ static void loot()
 
 static void wear()
 {
-    player &u = g->u;
+    avatar &u = g->u;
     item_location loc = game_menus::inv::wear( u );
 
     if( loc ) {
@@ -1057,7 +1057,7 @@ static void wear()
 
 static void takeoff()
 {
-    player &u = g->u;
+    avatar &u = g->u;
     item_location loc = game_menus::inv::take_off( u );
 
     if( loc ) {
@@ -2208,6 +2208,15 @@ bool game::handle_action()
                 add_msg( _( "%s is now set to %s." ),
                          get_options().get_option( "AUTO_FORAGING" ).getMenuText(),
                          get_options().get_option( "AUTO_FORAGING" ).getValueName() );
+                break;
+
+            case ACTION_TOGGLE_AUTO_PICKUP:
+                get_options().get_option( "AUTO_PICKUP" ).setNext();
+                get_options().save();
+                //~ Auto pickup is now set to x
+                add_msg( _( "%s is now set to %s." ),
+                         get_options().get_option( "AUTO_PICKUP" ).getMenuText(),
+                         get_options().get_option( "AUTO_PICKUP" ).getValueName() );
                 break;
 
             case ACTION_DISPLAY_SCENT:

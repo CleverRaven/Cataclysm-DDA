@@ -962,15 +962,15 @@ int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
 
     p.practice( skill_mechanics, 1 );
-    /** @EFFECT_DEX speeds up door lock picking */
 
+    /** @EFFECT_DEX speeds up door lock picking */
     /** @EFFECT_MECHANICS speeds up door lock picking */
-    p.moves -= std::max( 0, ( 1000 - ( pick_quality * 100 ) ) - ( p.dex_cur + p.get_skill_level(
-                             skill_mechanics ) ) * 5 );
-    /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
+    p.moves -= std::max( 0, to_turns<int>( 10_minutes - time_duration::from_minutes( pick_quality ) )
+                         - ( p.dex_cur + p.get_skill_level( skill_mechanics ) ) * 5 );
 
     bool destroy = false;
 
+    /** @EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes */
     /** @EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes */
     int pick_roll = ( dice( 2, p.get_skill_level( skill_mechanics ) ) + dice( 2,
                       p.dex_cur ) - it.damage_level( 4 ) / 2 ) * pick_quality;
@@ -1053,7 +1053,7 @@ int deploy_furn_actor::use( player &p, item &it, bool, const tripoint &pos ) con
     }
 
     g->m.furn_set( pnt, furn_type );
-    p.mod_moves( -200 );
+    p.mod_moves( to_turns<int>( 2_seconds ) );
     return 1;
 }
 
@@ -1836,7 +1836,7 @@ int enzlave_actor::use( player &p, item &it, bool t, const tripoint & ) const
     int success = rng( 0, skills ) - rng( 0, difficulty );
 
     /** @EFFECT_FIRSTAID speeds up enzlavement */
-    const int moves = difficulty * 1200 / p.get_skill_level( skill_firstaid );
+    const int moves = difficulty * to_turns<int>( 12_seconds ) / p.get_skill_level( skill_firstaid );
 
     p.assign_activity( activity_id( "ACT_MAKE_ZLAVE" ), moves );
     p.activity.values.push_back( success );
@@ -2113,7 +2113,7 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
             desc = string_format( _( "%1$s %2$s" ), p.disp_name( false ),
                                   random_entry( npc_descriptions ) );
         }
-    } else if( morale_effect < 0 && calendar::once_every( 10_turns ) ) {
+    } else if( morale_effect < 0 && calendar::once_every( 1_minutes ) ) {
         // No musical skills = possible morale penalty
         if( p.is_player() ) {
             desc = _( "You produce an annoying sound" );
@@ -3544,9 +3544,9 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
             if( !patient.has_effect( effect_bandaged, i_bp ) ) {
                 damage += patient.hp_max[i] - patient.hp_cur[i];
             }
-            damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 50_turns;
-            damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 100_turns;
-            damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 100_turns;
+            damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 5_minutes;
+            damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 10_minutes;
+            damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 10_minutes;
             if( damage > highest_damage ) {
                 highest_damage = damage;
                 healed = hp_part( i );

@@ -249,11 +249,12 @@ static const item *get_most_rotten_component( const item &craft )
     return most_rotten;
 }
 
-item::item( const recipe *rec, int qty, std::list<item> items )
+item::item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections )
     : item( "craft", calendar::turn, qty )
 {
     making = rec;
     components = items;
+    comps_used = selections;
 
     if( is_food() ) {
         active = true;
@@ -4327,6 +4328,9 @@ bool item::ready_to_revive( const tripoint &pos ) const
     if( g->m.veh_at( pos ) ) {
         return false;
     }
+    if( !calendar::once_every( 1_seconds ) ) {
+        return false;
+    }
     int age_in_hours = to_hours<int>( age() );
     age_in_hours -= int( static_cast<float>( burnt ) / ( volume() / 250_ml ) );
     if( damage_level( 4 ) > 0 ) {
@@ -7426,7 +7430,7 @@ void item::calc_temp( const int temp, const float insulation, const time_point &
 
     // specific_energy = item thermal energy (10e-5 J/g). Stored in the item
     // temperature = item temperature (10e-5 K). Stored in the item
-    const float conductivity_term = 0.046 * std::pow( to_milliliter( volume() ),
+    const float conductivity_term = 0.0076 * std::pow( to_milliliter( volume() ),
                                     2.0 / 3.0 ) / insulation;
     const float specific_heat_liquid = get_specific_heat_liquid();
     const float specific_heat_solid = get_specific_heat_solid();
@@ -7726,7 +7730,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
         if( item_counter % 2 == 0 ) {
             time_duration duration = 1_minutes;
             if( carrier->has_trait( trait_id( "TOLERANCE" ) ) ) {
-                duration = 5_turns;
+                duration = 30_seconds;
             } else if( carrier->has_trait( trait_id( "LIGHTWEIGHT" ) ) ) {
                 duration = 2_minutes;
             }

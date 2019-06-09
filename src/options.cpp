@@ -589,7 +589,7 @@ std::string options_manager::cOpt::getValueName() const
         return ( bSet ) ? _( "True" ) : _( "False" );
 
     } else if( sType == "int_map" ) {
-        const auto name = std::get<1>( *findInt( iSet ) ).c_str();
+        const std::string name = std::get<1>( *findInt( iSet ) );
         if( verbose ) {
             return string_format( _( "%d: %s" ), iSet, name );
         } else {
@@ -625,7 +625,7 @@ std::string options_manager::cOpt::getDefaultText( const bool bTranslated ) cons
         return string_format( _( "Default: %d - Min: %d, Max: %d" ), iDefault, iMin, iMax );
 
     } else if( sType == "int_map" ) {
-        const auto name = std::get<1>( *findInt( iDefault ) ).c_str();
+        const std::string name = std::get<1>( *findInt( iDefault ) );
         if( verbose ) {
             return string_format( _( "Default: %d: %s" ), iDefault, name );
         } else {

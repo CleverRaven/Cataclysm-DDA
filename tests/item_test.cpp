@@ -145,21 +145,5 @@ TEST_CASE( "stacking_over_time", "[item]" )
                 CHECK( !A.stacks_with( B ) );
             }
         }
-        WHEN( "the items are aged the same to the year but different numbers of seconds" ) {
-            A.mod_rot( A.type->comestible->spoils - calendar::year_length() );
-            B.mod_rot( B.type->comestible->spoils - calendar::year_length() );
-            B.mod_rot( -5_turns );
-            THEN( "they stack" ) {
-                CHECK( A.stacks_with( B ) );
-            }
-        }
-        WHEN( "the items are aged a few seconds different but different years" ) {
-            A.mod_rot( A.type->comestible->spoils - calendar::year_length() );
-            B.mod_rot( B.type->comestible->spoils - calendar::year_length() );
-            B.mod_rot( 5_turns );
-            THEN( "they don't stack" ) {
-                CHECK( !A.stacks_with( B ) );
-            }
-        }
     }
 }

@@ -968,29 +968,54 @@ requirement_data requirement_data::disassembly_requirements() const
     return ret;
 }
 
-requirement_data requirement_data::continue_requirements( const item &craft ) const
+requirement_data requirement_data::continue_requirements( const std::vector<item_comp>
+        &required_comps, const std::list<item> &remaining_comps )
 {
-    // Make a copy
-    requirement_data ret = *this;
+    // Create an empty requirement_data
+    requirement_data ret;
 
     // Tools and qualities are not checked upon resuming yet
     // TODO: Check tools and qualities
-    ret.tools.clear();
-    ret.qualities.clear();
+    for( const item_comp &it : required_comps ) {
+        ret.components.emplace_back( std::vector<item_comp>( {it} ) );
+    }
 
-    const int batch_size = craft.charges;
     inventory craft_components;
-    craft_components += craft.components;
+    craft_components += remaining_comps;
 
-    // Remove requirements that are fulfilled by current craft components
+    // Remove requirements that are completely fulfilled by current craft components
+    // For each requirement that isn't completely fulfilled, reduce the requirement by the amount
+    // that we still have
+    // We also need to consume whatever charges we use in case two requirements share a common type
     ret.components.erase( std::remove_if( ret.components.begin(), ret.components.end(),
-    [craft_components, batch_size]( std::vector<item_comp> &comps ) {
-        for( item_comp &comp : comps ) {
-            if( comp.has( craft_components, return_true<item>, batch_size ) ) {
-                return true;
-            }
+    [&craft_components]( std::vector<item_comp> &comps ) {
+        item_comp &comp = comps.front();
+        if( item::count_by_charges( comp.type ) && comp.count > 0 ) {
+            int qty = craft_components.charges_of( comp.type, comp.count );
+            comp.count -= qty;
+            // This is terrible but inventory doesn't have a use_charges() function so...
+            std::vector<item *> del;
+            craft_components.visit_items( [&comp, &qty, &del]( item * e ) {
+                std::list<item> used;
+                if( e->use_charges( comp.type, qty, used, tripoint_zero ) ) {
+                    del.push_back( e );
+                }
+                return qty > 0 ? VisitResponse::SKIP : VisitResponse::ABORT;
+            } );
+            craft_components.remove_items_with( [&del]( const item & e ) {
+                for( const item *it : del ) {
+                    if( it == &e ) {
+                        return true;
+                    }
+                }
+                return false;
+            } );
+        } else {
+            int amount = craft_components.amount_of( comp.type, comp.count );
+            comp.count -= amount;
+            craft_components.use_amount( comp.type, amount );
         }
-        return false;
+        return comp.count <= 0;
     } ), ret.components.end() );
 
     return ret;

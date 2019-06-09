@@ -2111,7 +2111,7 @@ void player::disarm( npc &target )
     target.on_attacked( *this );
 }
 
-void player::steal( npc &target )
+void avatar::steal( npc &target )
 {
     if( target.is_enemy() ) {
         add_msg( _( "%s is hostile!" ), target.name );

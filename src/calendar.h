@@ -12,22 +12,22 @@ class JsonOut;
 class JsonIn;
 
 /**
- * Convert minutes to six-second turns
+ * Convert minutes to one-second turns
  *
  * @param n Time in minutes
- * @returns Time in six-second turns
+ * @returns Time in one-second turns
  *
  */
 constexpr int MINUTES( int n )
 {
-    return n * 10;
+    return n * 60;
 }
 
 /**
- * Convert hours to six-second turns
+ * Convert hours to one-second turns
  *
  * @param n Time in hours
- * @returns Time in six-second turns
+ * @returns Time in one-second turns
  */
 constexpr int HOURS( int n )
 {
@@ -35,10 +35,10 @@ constexpr int HOURS( int n )
 }
 
 /**
- * Convert days to six-second turns
+ * Convert days to one-second turns
  *
  * @param n Time in days
- * @returns Time in six-second turns
+ * @returns Time in one-second turns
  */
 constexpr int DAYS( int n )
 {
@@ -53,7 +53,7 @@ constexpr int DAYS( int n )
  */
 constexpr int TICKS_TO_SECONDS( int ticks )
 {
-    return static_cast<int>( static_cast<float>( ticks ) / 16.67 );
+    return static_cast<int>( static_cast<float>( ticks ) / 100 );
 }
 
 /** How much light moon provides per lit-up quarter (Full-moon light is four times this value) */
@@ -102,8 +102,7 @@ class calendar
 {
     private:
         /**
-         *  This is the basic "quantum" unit of world time.  It is a six second interval,
-         *  so "seconds" value on the clock will always be a multiple of 6.
+         *  This is the basic "quantum" unit of world time.  It is a one second interval.
          */
         int turn_number;
 
@@ -171,7 +170,7 @@ class calendar
         bool      operator ==( int rhs ) const;
         bool      operator ==( const calendar &rhs ) const;
 
-        /** Increases turn_number by 1. (6 seconds) */
+        /** Increases turn_number by 1. (1 second) */
         void increment();
 
         // Sunlight and day/night calculations
@@ -200,8 +199,7 @@ class calendar
         /**
          * The expected duration of the cataclysm
          *
-         * Large number that can be used to approximate infinite amounts of time.  Represents
-         * approximately 60 billion years (in six-second increments).
+         * Large number that can be used to approximate infinite amounts of time.
          *
          * This number should be regarded as a number of turns, and can safely be converted to a
          * number of seconds or moves (movement points) without integer overflow.  If used to
@@ -252,6 +250,8 @@ class calendar
 
 template<typename T>
 constexpr T to_turns( const time_duration &duration );
+template<typename T>
+constexpr T to_seconds( const time_duration &duration );
 template<typename T>
 constexpr T to_minutes( const time_duration &duration );
 template<typename T>
@@ -323,7 +323,7 @@ class time_duration
          * units. Note that a duration is stored as integer number of turns, so
          * `from_minutes( 0.0001 )` will be stored as "0 turns".
          * The template type is used for the conversion from given time unit to turns, so
-         * `from_hours( 0.5 )` will yield "300 turns".
+         * `from_hours( 0.5 )` will yield "1800 turns".
          * Conversion of units greater than days (seasons) is not supported because they
          * depend on option settings ("season length").
          */
@@ -333,8 +333,12 @@ class time_duration
             return time_duration( t );
         }
         template<typename T>
+        static constexpr time_duration from_seconds( const T t ) {
+            return time_duration( t );
+        }
+        template<typename T>
         static constexpr time_duration from_minutes( const T m ) {
-            return from_turns( m * 10 );
+            return from_turns( m * 60 );
         }
         template<typename T>
         static constexpr time_duration from_hours( const T h ) {
@@ -362,20 +366,24 @@ class time_duration
             return duration.turns_;
         }
         template<typename T>
+        friend constexpr T to_seconds( const time_duration &duration ) {
+            return duration.turns_;
+        }
+        template<typename T>
         friend constexpr T to_minutes( const time_duration &duration ) {
-            return static_cast<T>( duration.turns_ ) / static_cast<T>( 10 );
+            return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 );
         }
         template<typename T>
         friend constexpr T to_hours( const time_duration &duration ) {
-            return static_cast<T>( duration.turns_ ) / static_cast<T>( 10 * 60 );
+            return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 * 60 );
         }
         template<typename T>
         friend constexpr T to_days( const time_duration &duration ) {
-            return static_cast<T>( duration.turns_ ) / static_cast<T>( 10 * 60 * 24 );
+            return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 * 60 * 24 );
         }
         template<typename T>
         friend constexpr T to_weeks( const time_duration &duration ) {
-            return static_cast<T>( duration.turns_ ) / static_cast<T>( 10 * 60 * 24 * 7 );
+            return static_cast<T>( duration.turns_ ) / static_cast<T>( 60 * 60 * 24 * 7 );
         }
         template<typename T>
         friend constexpr T to_moves( const time_duration &duration ) {
@@ -460,6 +468,10 @@ bool x_in_y( const time_duration &a, const time_duration &b );
 constexpr time_duration operator"" _turns( const unsigned long long int v )
 {
     return time_duration::from_turns( v );
+}
+constexpr time_duration operator"" _seconds( const unsigned long long int v )
+{
+    return time_duration::from_seconds( v );
 }
 constexpr time_duration operator"" _minutes( const unsigned long long int v )
 {
