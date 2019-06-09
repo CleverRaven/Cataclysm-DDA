@@ -9,7 +9,7 @@
     "purifiable": false,
     "threshold": true
   },
-    {
+  {
     "type": "mutation",
     "id": "KILLER",
     "name": "Killer Drive",
