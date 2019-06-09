@@ -3,16 +3,20 @@
 
 #include "ClangTidy.h"
 
-namespace clang {
-namespace tidy {
-namespace cata {
+namespace clang
+{
+namespace tidy
+{
+namespace cata
+{
 
-class NoLongCheck : public ClangTidyCheck {
-public:
-  NoLongCheck(StringRef Name, ClangTidyContext *Context)
-      : ClangTidyCheck(Name, Context) {}
-  void registerMatchers(ast_matchers::MatchFinder *Finder) override;
-  void check(const ast_matchers::MatchFinder::MatchResult &Result) override;
+class NoLongCheck : public ClangTidyCheck
+{
+    public:
+        NoLongCheck( StringRef Name, ClangTidyContext *Context )
+            : ClangTidyCheck( Name, Context ) {}
+        void registerMatchers( ast_matchers::MatchFinder *Finder ) override;
+        void check( const ast_matchers::MatchFinder::MatchResult &Result ) override;
 };
 
 } // namespace cata
