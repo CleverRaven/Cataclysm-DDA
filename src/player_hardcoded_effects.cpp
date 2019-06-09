@@ -702,9 +702,10 @@ void player::hardcoded_effects( effect &it )
                 it.set_duration( 0_turns );
             }
         }
-        if( one_in( 10000 ) ) {
-            if( !has_trait( trait_id( "M_IMMUNE" ) && get_option < bool >( "TELEGLOW_FUNGUS_ALLOWED" ) ) ) {
+        if( one_in( 2 ) ) {
+            if( !has_trait( trait_id( "M_IMMUNE" ) ) && get_option < bool >( "TELEGLOW_FUNGUS_ALLOWED" ) ) {
                 add_effect( effect_fungus, 1_turns, num_bp, true );
+                add_msg_if_player( m_info, _( "You now have space AIDS. Sorry." ) );
             } else {
                 add_msg_if_player( m_info, _( "We have many colonists awaiting passage." ) );
             }
