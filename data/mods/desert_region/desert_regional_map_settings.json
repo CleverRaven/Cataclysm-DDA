@@ -4,12 +4,12 @@
     "id": "default",
     "default_oter": "desert",
     "default_groundcover": [ [ "t_searth_test", 4 ], [ "t_sand", 1 ] ],
-    "river_scale": 0.2,
+    "river_scale": 0.0,
     "field_coverage": {
       "percent_coverage": 0.1333,
       "default_ter": "t_shrub",
       "other": {
-        "f_cactus": 12.3333,
+        "t_cactus": 12.3333,
         "t_tree_young": 0.2,
         "t_tree": 0.1,
         "t_tree_birch": 0.05,
