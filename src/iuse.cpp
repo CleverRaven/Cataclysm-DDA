@@ -8304,7 +8304,16 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
     if( !p->can_continue_craft( p->weapon ) ) {
         return 0;
     }
-
+    const recipe &rec = it->get_making();
+    if( p->has_recipe( &rec, p->crafting_inventory(), p->get_crafting_helpers() ) == -1 ) {
+        p->add_msg_player_or_npc(
+            string_format( _( "You don't know the recipe for the %s and can't continue crafting." ),
+                           rec.result_name() ),
+            string_format( _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
+                           rec.result_name() )
+        );
+        return 0;
+    }
     p->add_msg_player_or_npc(
         string_format( pgettext( "in progress craft", "You start working on the %s." ), craft_name ),
         string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ),
