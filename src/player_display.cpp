@@ -1276,24 +1276,24 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                           trait_win_size_y, skill_win_size_y );
 
     std::map<std::string, int> speed_effects;
-    for ( auto &elem : *effects ) {
-        for ( std::pair<const body_part, effect> &_effect_it : elem.second ) {
+    for( auto &elem : *effects ) {
+        for( std::pair<const body_part, effect> &_effect_it : elem.second ) {
             effect &it = _effect_it.second;
             bool reduced = resists_effect( it );
             int move_adjust = it.get_mod( "SPEED", reduced );
-            if ( move_adjust != 0 ) {
+            if( move_adjust != 0 ) {
                 const std::string dis_text = it.get_speed_name();
                 speed_effects[dis_text] += move_adjust;
             }
         }
     }
 
-    for ( std::pair<const std::string, int> &speed_effect : speed_effects ) {
+    for( std::pair<const std::string, int> &speed_effect : speed_effects ) {
         nc_color col = ( speed_effect.second > 0 ? c_green : c_red );
         mvwprintz( w_speed, line, 1, col, "%s", speed_effect.first );
         mvwprintz( w_speed, line, 21, col, ( speed_effect.second > 0 ? "+" : "-" ) );
         mvwprintz( w_speed, line, ( abs( speed_effect.second ) >= 10 ? 22 : 23 ), col, "%d%%",
-            abs( speed_effect.second ) );
+                              abs( speed_effect.second ) );
         line++;
     }
 
