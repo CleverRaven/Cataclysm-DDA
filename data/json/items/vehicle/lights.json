@@ -15,15 +15,12 @@
   {
     "id": "motorcycle_headlight",
     "type": "GENERIC",
-    "name": "car headlight",
+    "name": "motorcycle headlight",
     "description": "A motorcycle headlight to light up the way.",
-    "symbol": ";",
-    "color": "white",
-    "material": "plastic",
-    "category": "veh_parts",
     "weight": 500,
     "volume": 1,
-    "price": 5000
+    "price": 5000,
+    "copy-from": "car_headlight"
   },
   {
     "id": "car_wide_headlight",
