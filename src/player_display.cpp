@@ -535,7 +535,7 @@ static void draw_bionics_tab( const catacurses::window &w_bionics, const catacur
 }
 
 static void draw_effects_tab( const catacurses::window &w_effects, const catacurses::window &w_info,
-                              player &you, unsigned int &line, int &curtab, input_context &ctxt, bool &done,
+                              unsigned int &line, int &curtab, input_context &ctxt, bool &done,
                               std::string &action, std::vector<std::string> &effect_name,
                               size_t &min, size_t &max, const size_t effect_win_size_y,
                               const std::vector<std::string> &effect_text, size_t &half_y )
@@ -1329,7 +1329,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 break;
 
             case 6: // Effects tab
-                draw_effects_tab( w_effects, w_info, *this, line, curtab, ctxt, done, action,
+                draw_effects_tab( w_effects, w_info, line, curtab, ctxt, done, action,
                                   effect_name, min, max, effect_win_size_y, effect_text, half_y );
                 break;
 
