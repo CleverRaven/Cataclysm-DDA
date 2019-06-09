@@ -38,9 +38,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "rc_grounds_W1b", "rc_grounds_W2b", "rc_grounds_W3b", "rc_grounds_W4b", "rc_grounds_W5b" ] ],
-    "weight": 100,
-    "fill_ter": "t_grass",
+    "om_terrain": [ [ "rc_grounds_W1b", "rc_grounds_W2b", "rc_grounds_W3b", "rc_grounds_W4b", "rc_grounds_W5b" ] ],"weight": 100, "object": { "fill_ter": "t_grass",
     "rows": [
       ".|......................................................................................................................",
       ".|......................................................................................................................",
@@ -72,9 +70,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "rc_grounds_W1c", "rc_grounds_W2c", "rc_grounds_W3c", "rc_grounds_W4c", "rc_grounds_W5c" ] ],
-    "weight": 100,
-    "fill_ter": "t_grass",
+    "om_terrain": [ [ "rc_grounds_W1c", "rc_grounds_W2c", "rc_grounds_W3c", "rc_grounds_W4c", "rc_grounds_W5c" ] ],"weight": 100, "object": { "fill_ter": "t_grass",
     "rows": [
       ".|......................................................................................................................",
       ".|......................................................................................................................",
@@ -106,9 +102,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "rc_grounds_W1d", "rc_grounds_W2d", "rc_grounds_W3d", "rc_grounds_W4d", "rc_grounds_W5d" ] ],
-    "weight": 100,
-    "fill_ter": "t_grass",
+    "om_terrain": [ [ "rc_grounds_W1d", "rc_grounds_W2d", "rc_grounds_W3d", "rc_grounds_W4d", "rc_grounds_W5d" ] ],"weight": 100, "object": { "fill_ter": "t_grass",
     "rows": [
       ".|......................................................................................................................",
       ".|......................................................................................................................",
@@ -140,9 +134,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "rc_grounds_W1e", "rc_grounds_W2e", "rc_grounds_W3e", "rc_grounds_W4e", "rc_grounds_W5e" ] ],
-    "weight": 100,
-    "fill_ter": "t_grass",
+    "om_terrain": [ [ "rc_grounds_W1e", "rc_grounds_W2e", "rc_grounds_W3e", "rc_grounds_W4e", "rc_grounds_W5e" ] ],"weight": 100, "object": { "fill_ter": "t_grass",
     "rows": [
       ".|......................................................................................................................",
       ".|......................................................................................................................",
