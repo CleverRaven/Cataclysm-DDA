@@ -102,6 +102,10 @@ static void eff_fun_fungus( player &u, effect &it )
     const time_duration dur = it.get_duration();
     const int intense = it.get_intensity();
     const int bonus = u.get_healthy() / 10 + ( u.resists_effect( it ) ? 100 : 0 );
+    if ( !get_option < bool >( "FUNGAL_INFECTION_ALLOWED" ) ) {
+        it.set_duration( 0_turns );
+        u.add_msg_if_player( m_warning, _( "NO FUNGUS ALLOWED!" ) );
+    }
     switch( intense ) {
         case 1: // First hour symptoms
             if( one_in( 160 + bonus ) ) {
@@ -703,9 +707,8 @@ void player::hardcoded_effects( effect &it )
             }
         }
         if( one_in( 2 ) ) {
-            if( !has_trait( trait_id( "M_IMMUNE" ) ) && get_option < bool >( "TELEGLOW_FUNGUS_ALLOWED" ) ) {
+            if( !has_trait( trait_id( "M_IMMUNE" ) ) ) {
                 add_effect( effect_fungus, 1_turns, num_bp, true );
-                add_msg_if_player( m_info, _( "You now have space AIDS. Sorry." ) );
             } else {
                 add_msg_if_player( m_info, _( "We have many colonists awaiting passage." ) );
             }
