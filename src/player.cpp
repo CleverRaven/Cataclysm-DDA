@@ -5733,7 +5733,7 @@ void player::suffer()
             }
         }
     }
-    
+
     const int player_local_temp = g->weather.get_temperature( pos() );
     double sleeve_factor = armwear_factor();
     const bool has_hat = wearing_something_on( bp_head );
