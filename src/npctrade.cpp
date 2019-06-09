@@ -22,6 +22,7 @@
 #include "cursesdef.h"
 #include "item.h"
 #include "player.h"
+#include "string_input_popup.h"
 #include "units.h"
 #include "visitable.h"
 #include "type_id.h"
@@ -48,7 +49,8 @@ inventory npc_trading::inventory_exchange( inventory &inv,
 }
 
 void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver, player &receiver,
-                                  faction *fac, std::list<item_location *> &from_map )
+                                  faction *fac, std::list<item_location *> &from_map,
+                                  bool npc_gives )
 {
     for( item_pricing &ip : stuff ) {
         if( !ip.selected ) {
@@ -56,16 +58,28 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
         }
         item gift = *ip.loc.get_item();
         gift.set_owner( fac );
-        receiver.i_add( gift );
+        int charges = npc_gives ? ip.u_charges : ip.npc_charges;
+        int count = npc_gives ? ip.u_has : ip.npc_has;
+
+        if( ip.charges ) {
+            gift.charges = charges;
+            receiver.i_add( gift );
+        } else {
+            for( int i = 0; i < count; i++ ) {
+                receiver.i_add( gift );
+            }
+        }
 
         if( ip.loc.where() == item_location::type::character ) {
             if( gift.typeId() == giver.weapon.typeId() ) {
                 giver.remove_weapon();
             }
-            if( giver.has_charges( gift.typeId(), gift.count() ) ) {
-                giver.use_charges( gift.typeId(), gift.count() );
-            } else if( giver.has_amount( gift.typeId(), gift.count() ) ) {
-                giver.use_amount( gift.typeId(), gift.count() );
+            if( ip.charges > 0 ) {
+                giver.use_charges( gift.typeId(), charges );
+            } else if( ip.count > 0 ) {
+                for( int i = 0; i < count; i++ ) {
+                    giver.use_amount( gift.typeId(), 1 );
+                }
             }
         } else {
             from_map.push_back( &ip.loc );
@@ -133,8 +147,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
 
     double adjust = net_price_adjustment( buyer, seller );
 
-    const auto check_item = [is_npc, fac, adjust, &np, &result]( item_location && loc,
-    int count = 1 ) {
+    const auto check_item = [fac, adjust, &np, &result]( item_location && loc, int count = 1 ) {
         item *it_ptr = loc.get_item();
         if( it_ptr == nullptr || it_ptr->is_null() ) {
             return;
@@ -145,7 +158,7 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
         int val = np.value( it, market_price );
         if( np.wants_to_buy( it, val, market_price ) ) {
             result.emplace_back( std::move( loc ), val, count );
-            result.back().adjust_values( adjust, fac, is_npc );
+            result.back().adjust_values( adjust, fac );
         }
     };
 
@@ -170,27 +183,20 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
 
 void item_pricing::set_values( int ip_count )
 {
-    item *ip = loc.get_item();
-    is_container = ip->is_container();
-    if( is_container || ip->count() == 1 ) {
+    item *i_p = loc.get_item();
+    is_container = i_p->is_container() || i_p->is_ammo_container();
+    if( is_container || i_p->count() == 1 ) {
         count = ip_count;
     } else {
-        charges = ip->count();
+        charges = i_p->count();
         price /= charges;
     }
 }
 
-void item_pricing::adjust_values( const double adjust, faction *fac, bool is_npc )
+void item_pricing::adjust_values( const double adjust, faction *fac )
 {
     if( !fac || fac->currency != loc.get_item()->typeId() ) {
         price *= adjust;
-    }
-    if( is_npc ) {
-        npc_has = count;
-        npc_charges = charges;
-    } else {
-        u_has = count;
-        u_charges = charges;
     }
 }
 
@@ -305,10 +311,22 @@ void trading_window::update_win( npc &p, const std::string &deal, const int adju
                 const item_pricing &ip = list[i];
                 const item *it = ip.loc.get_item();
                 auto color = it == &person.weapon ? c_yellow : c_light_gray;
+                const int &owner_sells = they ? ip.u_has : ip.npc_has;
+                const int &owner_sells_charge = they ? ip.u_charges : ip.npc_charges;
                 std::string itname = it->display_name();
                 if( ip.loc.where() != item_location::type::character ) {
                     itname = itname + " " + ip.loc.describe( &g->u );
                     color = c_light_blue;
+                }
+                if( ip.charges > 0 && owner_sells_charge > 0 ) {
+                    itname += string_format( _( ": trading %d" ), owner_sells_charge );
+                } else {
+                    if( ip.count > 1 ) {
+                        itname += string_format( _( " (%d)" ), ip.count );
+                    }
+                    if( owner_sells ) {
+                        itname += string_format( _( ": trading %d" ), owner_sells );
+                    }
                 }
 
                 if( ip.selected ) {
@@ -369,6 +387,19 @@ void trading_window::show_item_data( npc &np, size_t offset,
     if( help < target_list.size() ) {
         popup( target_list[help].loc.get_item()->info(), PF_NONE );
     }
+}
+
+int trading_window::get_var_trade( const item &it, int total_count )
+{
+    string_input_popup popup_input;
+    int how_many = total_count;
+    const std::string title = string_format( _( "Trade how many %s [MAX: %d]: " ),
+                              it.display_name(), total_count );
+    popup_input.title( title ).edit( how_many );
+    if( popup_input.canceled() || how_many <= 0 ) {
+        return -1;
+    }
+    return std::min( total_count, how_many );
 }
 
 bool trading_window::perform_trade( npc &p, const std::string &deal )
@@ -440,16 +471,46 @@ bool trading_window::perform_trade( npc &p, const std::string &deal )
 
                 ch += offset;
                 if( ch < target_list.size() ) {
-                    update = true;
                     item_pricing &ip = target_list[ch];
+                    int change_amount = 1;
+                    int &owner_sells = focus_them ? ip.u_has : ip.npc_has;
+                    int &owner_sells_charge = focus_them ? ip.u_charges : ip.npc_charges;
+
+                    if( ip.selected ) {
+                        if( owner_sells_charge > 0 ) {
+                            change_amount = owner_sells_charge;
+                            owner_sells_charge = 0;
+                        } else if( owner_sells > 0 ) {
+                            change_amount = owner_sells;
+                            owner_sells = 0;
+                        }
+                    } else if( ip.charges > 0 ) {
+                        change_amount = get_var_trade( *ip.loc.get_item(), ip.charges );
+                        if( change_amount < 1 ) {
+                            ch = 0;
+                            continue;
+                        }
+                        owner_sells_charge = change_amount;
+                    } else {
+                        if( ip.count > 1 ) {
+                            change_amount = get_var_trade( *ip.loc.get_item(), ip.count );
+                            if( change_amount < 1 ) {
+                                ch = 0;
+                                continue;
+                            }
+                        }
+                        owner_sells = change_amount;
+                    }
+                    int delta_price = ip.price * change_amount;
+                    update = true;
                     ip.selected = !ip.selected;
                     if( !exchange ) {
                         if( ip.selected == focus_them ) {
-                            u_get += ip.price;
-                            adjusted_u_get += ip.price;
+                            u_get += delta_price;
+                            adjusted_u_get += delta_price;
                         } else {
-                            u_get -= ip.price;
-                            adjusted_u_get -= ip.price;
+                            u_get -= delta_price;
+                            adjusted_u_get -= delta_price;
                         }
                     }
                 }
@@ -481,10 +542,10 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 
         std::list<item_location *> from_map;
 
-        npc_trading::transfer_items( trade_win.yours, g->u, np, np.my_fac, from_map );
+        npc_trading::transfer_items( trade_win.yours, g->u, np, np.my_fac, from_map, false );
         npc_trading::transfer_items( trade_win.theirs, np, g->u,
                                      g->faction_manager_ptr->get( faction_id( "your_followers" ) ),
-                                     from_map );
+                                     from_map, true );
 
         for( item_location *loc_ptr : from_map ) {
             loc_ptr->remove_item();

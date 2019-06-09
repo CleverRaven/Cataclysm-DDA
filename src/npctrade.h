@@ -29,7 +29,7 @@ class item_pricing
             set_values( count );
         }
         void set_values( int ip_count );
-        void adjust_values( const double adjust, faction *fac, bool is_npc );
+        void adjust_values( const double adjust, faction *fac );
 
         item_location loc;
         int price;
@@ -77,6 +77,8 @@ class trading_window
         inventory temp;
         units::volume volume_left;
         units::mass weight_left;
+
+        int get_var_trade( const item &it, int total_count );
 };
 
 namespace npc_trading
@@ -89,8 +91,7 @@ int cash_to_favor( const npc &, int cash );
 inventory inventory_exchange( inventory &inv,
                               const std::set<item *> &without, const std::vector<item *> &added );
 void transfer_items( std::vector<item_pricing> &stuff, player &giver, player &receiver,
-                     faction *fac,
-                     std::list<item_location *> &from_map );
+                     faction *fac, std::list<item_location *> &from_map, bool npc_gives );
 double net_price_adjustment( const player &buyer, const player &seller );
 bool trade( npc &p, int cost, const std::string &deal );
 std::vector<item_pricing> init_selling( npc &p );
