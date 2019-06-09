@@ -114,7 +114,7 @@ struct islot_comestible {
     std::string tool = "null";
 
     /** Defaults # of charges (drugs, loaf of bread? etc) */
-    long def_charges = 1;
+    int def_charges = 1;
 
     /** effect on character thirst (may be negative) */
     int quench = 0;
@@ -638,7 +638,7 @@ struct islot_ammo : common_ranged_data {
     /**
      * Default charges.
      */
-    long def_charges = 1;
+    int def_charges = 1;
 
     /**
      * TODO: document me.

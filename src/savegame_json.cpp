@@ -2925,7 +2925,7 @@ void map_memory::load( JsonIn &jsin )
             p.x = jsin.get_int();
             p.y = jsin.get_int();
             p.z = jsin.get_int();
-            const long symbol = jsin.get_long();
+            const int symbol = jsin.get_int();
             memorize_symbol( std::numeric_limits<int>::max(), p, symbol );
             jsin.end_array();
         }
@@ -2950,7 +2950,7 @@ void map_memory::load( JsonObject &jsin )
     while( map_memory_curses.has_more() ) {
         JsonObject pmap = map_memory_curses.next_object();
         const tripoint p( pmap.get_int( "x" ), pmap.get_int( "y" ), pmap.get_int( "z" ) );
-        memorize_symbol( std::numeric_limits<int>::max(), p, pmap.get_long( "symbol" ) );
+        memorize_symbol( std::numeric_limits<int>::max(), p, pmap.get_int( "symbol" ) );
     }
 }
 
