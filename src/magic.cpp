@@ -375,7 +375,7 @@ float spell::spell_fail( const player &p ) const
     // effective skill of 8 (8 int, 0 spellcraft, 0 spell level, spell difficulty 0) is ~50% failure
     // effective skill of 30 is 0% failure
     const float effective_skill = 2 * ( get_level() - get_difficulty() ) + p.get_int() +
-                                  p.get_skill_level( skill_id( "SPELLCRAFT" ) );
+                                  p.get_skill_level( skill_id( "spellcraft" ) );
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
     if( effective_skill > 30.0f ) {
         return 0.0f;
@@ -599,9 +599,9 @@ float spell::exp_modifier( const player &p ) const
 {
     const float int_modifier = ( p.get_int() - 8.0f ) / 8.0f;
     const float difficulty_modifier = get_difficulty() / 20.0f;
-    const float spellcraft_modifier = p.get_skill_level( skill_id( "SPELLCRAFT" ) ) / 10.0f;
+    const float spellcraft_modifier = p.get_skill_level( skill_id( "spellcraft" ) ) / 10.0f;
 
-    return int_modifier + difficulty_modifier + spellcraft_modifier + 1.0f;
+    return ( int_modifier + difficulty_modifier + spellcraft_modifier ) / 5.0f + 1.0f;
 }
 
 int spell::casting_exp( const player &p ) const
@@ -855,9 +855,9 @@ int known_magic::time_to_learn_spell( const player &p, const std::string &str ) 
 
 int known_magic::time_to_learn_spell( const player &p, spell_id sp ) const
 {
-    const int base_time = 30000;
+    const int base_time = to_moves<int>( 30_minutes );
     return base_time * ( 1.0 + sp.obj().difficulty / ( 1.0 + ( p.get_int() - 8.0 ) / 8.0 ) +
-                         ( p.get_skill_level( skill_id( "SPELLCRAFT" ) ) / 10.0 ) );
+                         ( p.get_skill_level( skill_id( "spellcraft" ) ) / 10.0 ) );
 }
 
 // spell_effect

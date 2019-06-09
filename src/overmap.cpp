@@ -13,6 +13,7 @@
 #include <exception>
 #include <unordered_set>
 #include <set>
+#include <iostream>
 
 #include "catacharset.h"
 #include "cata_utility.h"
@@ -2314,6 +2315,11 @@ void overmap::place_lakes()
 void overmap::place_rivers( const overmap *north, const overmap *east, const overmap *south,
                             const overmap *west )
 {
+    if( settings.river_scale == 0.0 ) {
+        return;
+    }
+    int river_chance = static_cast<int>( std::max( 1.0, 1.0 / settings.river_scale ) );
+    int river_scale = static_cast<int>( std::max( 1.0, settings.river_scale ) );
     // West/North endpoints of rivers
     std::vector<point> river_start;
     // East/South endpoints of rivers
@@ -2331,8 +2337,8 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
             if( is_river( north->get_ter( i, OMAPY - 1, 0 ) ) &&
                 is_river( north->get_ter( i - 1, OMAPY - 1, 0 ) ) &&
                 is_river( north->get_ter( i + 1, OMAPY - 1, 0 ) ) ) {
-                if( river_start.empty() ||
-                    river_start[river_start.size() - 1].x < i - 6 ) {
+                if( one_in( river_chance ) && ( river_start.empty() ||
+                                                river_start[river_start.size() - 1].x < ( i - 6 ) * river_scale ) ) {
                     river_start.push_back( point( i, 0 ) );
                 }
             }
@@ -2347,8 +2353,8 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
             if( is_river( west->get_ter( OMAPX - 1, i, 0 ) ) &&
                 is_river( west->get_ter( OMAPX - 1, i - 1, 0 ) ) &&
                 is_river( west->get_ter( OMAPX - 1, i + 1, 0 ) ) ) {
-                if( river_start.size() == rivers_from_north ||
-                    river_start[river_start.size() - 1].y < i - 6 ) {
+                if( one_in( river_chance ) && ( river_start.size() == rivers_from_north ||
+                                                river_start[river_start.size() - 1].y < ( i - 6 ) * river_scale ) ) {
                     river_start.push_back( point( 0, i ) );
                 }
             }
@@ -2392,10 +2398,10 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
     if( north == nullptr || west == nullptr ) {
         while( river_start.empty() || river_start.size() + 1 < river_end.size() ) {
             new_rivers.clear();
-            if( north == nullptr ) {
+            if( north == nullptr && one_in( river_chance ) ) {
                 new_rivers.push_back( point( rng( 10, OMAPX - 11 ), 0 ) );
             }
-            if( west == nullptr ) {
+            if( west == nullptr && one_in( river_chance ) ) {
                 new_rivers.push_back( point( 0, rng( 10, OMAPY - 11 ) ) );
             }
             river_start.push_back( random_entry( new_rivers ) );
@@ -2404,10 +2410,10 @@ void overmap::place_rivers( const overmap *north, const overmap *east, const ove
     if( south == nullptr || east == nullptr ) {
         while( river_end.empty() || river_end.size() + 1 < river_start.size() ) {
             new_rivers.clear();
-            if( south == nullptr ) {
+            if( south == nullptr && one_in( river_chance ) ) {
                 new_rivers.push_back( point( rng( 10, OMAPX - 11 ), OMAPY - 1 ) );
             }
-            if( east == nullptr ) {
+            if( east == nullptr && one_in( river_chance ) ) {
                 new_rivers.push_back( point( OMAPX - 1, rng( 10, OMAPY - 11 ) ) );
             }
             river_end.push_back( random_entry( new_rivers ) );
@@ -2589,7 +2595,8 @@ void overmap::place_roads( const overmap *north, const overmap *east, const over
 void overmap::place_river( point pa, point pb )
 {
     const oter_id river_center( "river_center" );
-
+    int river_chance = static_cast<int>( std::max( 1.0, 1.0 / settings.river_scale ) );
+    int river_scale = static_cast<int>( std::max( 1.0, settings.river_scale ) );
     int x = pa.x;
     int y = pa.y;
     do {
@@ -2607,10 +2614,10 @@ void overmap::place_river( point pa, point pb )
         if( y > OMAPY - 1 ) {
             y = OMAPY - 1;
         }
-        for( int i = -1; i <= 1; i++ ) {
-            for( int j = -1; j <= 1; j++ ) {
+        for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
+            for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
                 if( y + i >= 0 && y + i < OMAPY && x + j >= 0 && x + j < OMAPX ) {
-                    if( !ter( x + j, y + i, 0 )->is_lake() ) {
+                    if( !ter( x + j, y + i, 0 )->is_lake() && one_in( river_chance ) ) {
                         ter( x + j, y + i, 0 ) = river_center;
                     }
                 }
@@ -2650,14 +2657,14 @@ void overmap::place_river( point pa, point pb )
         if( y > OMAPY - 1 ) {
             y = OMAPY - 1;
         }
-        for( int i = -1; i <= 1; i++ ) {
-            for( int j = -1; j <= 1; j++ ) {
+        for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
+            for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
                 // We don't want our riverbanks touching the edge of the map for many reasons
                 if( inbounds( tripoint( x + j, y + i, 0 ), 1 ) ||
                     // UNLESS, of course, that's where the river is headed!
                     ( abs( pb.y - ( y + i ) ) < 4 && abs( pb.x - ( x + j ) ) < 4 ) ) {
 
-                    if( !ter( x + j, y + i, 0 )->is_lake() ) {
+                    if( !ter( x + j, y + i, 0 )->is_lake() && one_in( river_chance ) ) {
                         ter( x + j, y + i, 0 ) = river_center;
                     }
                 }

@@ -126,6 +126,7 @@ class recipe
         const std::vector<itype_id> &blueprint_resources() const;
         const std::vector<std::pair<std::string, int>> &blueprint_provides() const;
         const std::vector<std::pair<std::string, int>> &blueprint_requires() const;
+        const std::vector<std::pair<std::string, int>> &blueprint_excludes() const;
 
         bool hot_result() const;
 
@@ -174,6 +175,7 @@ class recipe
         std::vector<itype_id> bp_resources;
         std::vector<std::pair<std::string, int>> bp_provides;
         std::vector<std::pair<std::string, int>> bp_requires;
+        std::vector<std::pair<std::string, int>> bp_excludes;
 };
 
 #endif // RECIPE_H

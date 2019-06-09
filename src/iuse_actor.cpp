@@ -2232,11 +2232,11 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     if( knows_spell ) {
         study_spell.str_values[1] = "study";
         const int study_time = uilist( _( "Spend how long studying?" ), {
-            { 30000, true, -1, _( "30 minutes" ) },
-            { 60000, true, -1, _( "1 hour" ) },
-            { 120000, true, -1, _( "2 hours" ) },
-            { 240000, true, -1, _( "4 hours" ) },
-            { 480000, true, -1, _( "8 hours" ) },
+            { to_moves<int>( 30_minutes ), true, -1, _( "30 minutes" ) },
+            { to_moves<int>( 1_hours ), true, -1, _( "1 hour" ) },
+            { to_moves<int>( 2_hours ), true, -1, _( "2 hours" ) },
+            { to_moves<int>( 4_hours ), true, -1, _( "4 hours" ) },
+            { to_moves<int>( 8_hours ), true, -1, _( "8 hours" ) },
             { 10100, true, -1, _( "Until you gain a spell level" ) }
         } );
         if( study_time <= 0 ) {

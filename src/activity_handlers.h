@@ -75,6 +75,7 @@ void consume_food_menu_do_turn( player_activity *act, player *p );
 void consume_drink_menu_do_turn( player_activity *act, player *p );
 void consume_meds_menu_do_turn( player_activity *act, player *p );
 void move_items_do_turn( player_activity *act, player *p );
+void multiple_construction_do_turn( player_activity *act, player *p );
 void move_loot_do_turn( player_activity *act, player *p );
 void adv_inventory_do_turn( player_activity *act, player *p );
 void armor_layers_do_turn( player_activity *act, player *p );
