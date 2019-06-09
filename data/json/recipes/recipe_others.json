@@ -97,10 +97,10 @@
     "skill_used": "fabrication",
     "time": "2 h",
     "autolearn": true,
-    "byproducts": [ [ [ "splinter", [ 1, 8 ] ] ], [ [ "wood_panel", 1 ] ] ],
+    "byproducts": [ [ [ "splinter", [ 1, 8 ] ] ], [ [ "wood_panel", 3 ] ] ],
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "components": [ [ [ "wood_beam", 1 ] ] ],
-    "//": "I am assuming here that you actually get more than 2 smaller-than-represented wood panels, but any application that requires panels means you'll be putting these side by side to get the effect of a single panel."
+    "//": "I am assuming here that you actually get more than 4 smaller-than-represented wood panels, but any application that requires panels means you'll be putting these side by side to get the effect of a single panel."
   },
   {
     "type": "recipe",
@@ -113,6 +113,17 @@
     "byproducts": [ [ "wood_panel", 1 ] ],
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "components": [ [ [ "wood_sheet", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "wood_panel",
+    "id_suffix": "from nailed planks",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_W", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "2x4", 8 ] ], [ [ "nail", 36 ] ] ]
   },
   {
     "type": "recipe",
