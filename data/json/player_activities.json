@@ -17,6 +17,15 @@
     "refuel_fires": true
   },
   {
+    "id": "ACT_MULTIPLE_CONSTRUCTION",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": "constructing",
+    "suspendable": false,
+    "based_on": "neither",
+    "no_resume": true
+  },
+  {
     "id": "ACT_GAME",
     "type": "activity_type",
     "activity_level": "NO_EXERCISE",

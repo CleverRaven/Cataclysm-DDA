@@ -3149,7 +3149,7 @@ void iexamine::trap( player &p, const tripoint &examp )
                 }
             } else {
                 g->u.assign_activity( activity_id( "ACT_BUILD" ) );
-                g->u.activity.placement = examp;
+                g->u.activity.placement = g->m.getabs( examp );
                 return;
             }
         } else {

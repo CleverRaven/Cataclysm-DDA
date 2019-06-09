@@ -35,6 +35,7 @@ void buy_10_logs( npc & );
 void buy_100_logs( npc & );
 void start_trade( npc & );
 void sort_loot( npc & );
+void do_construction( npc & );
 void revert_activity( npc & );
 void goto_location( npc & );
 void assign_base( npc & );
