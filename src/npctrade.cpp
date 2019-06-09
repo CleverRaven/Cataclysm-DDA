@@ -185,8 +185,12 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     // Just exchanging items, no barter involved
     const bool ex = p.is_player_ally();
 
-    // How much cash you get in the deal (negative = losing money)
-    long cash = cost + p.op_of_u.owed;
+    // How much cash you get in the deal (must be less than npc_requires for the deal to happen)
+    int u_get = cost - p.op_of_u.owed;
+    // the NPC doesn't require a barter to exactly match, but there's a small limit to how
+    // much credit they'll extend
+    int npc_requires =  50 * std::max( 0, p.op_of_u.trust + p.op_of_u.value + p.op_of_u.fear -
+                                       p.op_of_u.anger + p.personality.altruism );
     bool focus_them = true; // Is the focus on them?
     bool update = true;     // Re-draw the screen?
     size_t them_off = 0, you_off = 0; // Offset from the start of the list
@@ -195,7 +199,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     if( ex ) {
         // Sometimes owed money fails to reset for friends
         // NPC AI is way too weak to manage money, so let's just make them give stuff away for free
-        cash = 0;
+        u_get = 0;
     }
 
     // Make a temporary copy of the NPC inventory to make sure volume calculations are correct
@@ -203,6 +207,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     units::volume volume_left = p.volume_capacity() - p.volume_carried();
     units::mass weight_left = p.weight_capacity() - p.weight_carried();
 
+    int adjusted_u_get = u_get - npc_requires;
     do {
 #if defined(__ANDROID__)
         input_context ctxt( "NPC_TRADE" );
@@ -242,36 +247,37 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
 
             volume_left = p.volume_capacity() - p.volume_carried_with_tweaks( { temp } );
             weight_left = p.weight_capacity() - p.weight_carried_with_tweaks( { temp } );
-            mvwprintz( w_head, 3, 2, ( volume_left < 0_ml || weight_left < 0_gram ) ? c_red : c_green,
+            bool npc_has_space = volume_left < 0_ml || weight_left < 0_gram;
+            mvwprintz( w_head, 3, 2,  npc_has_space ?  c_red : c_green,
                        _( "Volume: %s %s, Weight: %.1f %s" ),
                        format_volume( volume_left ), volume_units_abbr(),
                        convert_weight( weight_left ), weight_units() );
 
-            std::string cost_string = ex ? _( "Exchange" ) : ( cash >= 0 ? _( "Profit %s" ) :
-                                      _( "Cost %s" ) );
-            mvwprintz( w_head, 3, TERMX / 2 + ( TERMX / 2 - cost_string.length() ) / 2,
-                       ( cash < 0 && static_cast<int>( g->u.cash ) >= cash * -1 ) || ( cash >= 0 &&
-                               static_cast<int>( p.cash )  >= cash ) ? c_green : c_red,
-                       cost_string.c_str(), format_money( std::abs( cash ) ) );
+            std::string cost_str = _( "Exchange" );
+            if( !ex ) {
+                cost_str = string_format( u_get < 0 ? _( "Profit %s" ) : _( "Cost %s" ),
+                                          format_money( std::abs( u_get ) ) );
+            }
+
+            mvwprintz( w_head, 3, TERMX / 2 + ( TERMX / 2 - cost_str.length() ) / 2,
+                       adjusted_u_get < 0 ? c_green : c_red, cost_str );
 
             if( !deal.empty() ) {
-                mvwprintz( w_head, 3, ( TERMX - deal.length() ) / 2, cost < 0 ? c_light_red : c_light_green,
-                           deal.c_str() );
+                mvwprintz( w_head, 3, ( TERMX - deal.length() ) / 2,
+                           adjusted_u_get > 0 ?  c_light_red : c_light_green, deal );
             }
             draw_border( w_them, ( focus_them ? c_yellow : BORDER_COLOR ) );
             draw_border( w_you, ( !focus_them ? c_yellow : BORDER_COLOR ) );
 
-            mvwprintz( w_them, 0, 2, ( cash < 0 || static_cast<int>( p.cash ) >= cash ? c_green : c_red ),
-                       _( "%s: %s" ), p.name, format_money( p.cash ) );
-            mvwprintz( w_you,  0, 2, ( cash > 0 ||
-                                       static_cast<int>( g->u.cash ) >= cash * -1 ? c_green : c_red ),
-                       _( "You: %s" ), format_money( g->u.cash ) );
+            mvwprintz( w_them, 0, 2, adjusted_u_get < 0 ?  c_green : c_red, p.name );
+            mvwprintz( w_you,  0, 2, adjusted_u_get > 0 ?  c_green : c_red, _( "You" ) );
             // Draw lists of items, starting from offset
             for( size_t whose = 0; whose <= 1; whose++ ) {
                 const bool they = whose == 0;
                 const auto &list = they ? theirs : yours;
                 const auto &offset = they ? them_off : you_off;
-                const player &person = they ? static_cast<player &>( p ) : static_cast<player &>( g->u );
+                const player &person = they ?  static_cast<player &>( p ) :
+                                       static_cast<player &>( g->u );
                 auto &w_whose = they ? w_them : w_you;
                 int win_w = getmaxx( w_whose );
                 // Borders
@@ -300,10 +306,11 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                     ctxt.register_manual_key( keychar, itname );
 #endif
 
-                    std::string price_str = string_format( "%.2f", ip.price / 100.0 );
-                    nc_color price_color = ex ? c_dark_gray : ( ip.selected ? c_white : c_light_gray );
+                    std::string price_str = format_money( ip.price );
+                    nc_color price_color = ex ? c_dark_gray : ( ip.selected ? c_white :
+                                           c_light_gray );
                     mvwprintz( w_whose, i - offset + 1, win_w - price_str.length(),
-                               price_color, price_str.c_str() );
+                               price_color, price_str );
                 }
                 if( offset > 0 ) {
                     mvwprintw( w_whose, entries_per_page + 2, 1, _( "< Back" ) );
@@ -359,11 +366,10 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                     popup( target_list[help].loc.get_item()->info(), PF_NONE );
                 }
                 break;
-            case '\n': // Check if we have enough cash...
-                // The player must pay cash, and it should not put the player negative.
-                if( cash < 0 && static_cast<int>( g->u.cash ) < cash * -1 ) {
-                    popup( _( "Not enough cash!  You have %s, price is %s." ), format_money( g->u.cash ),
-                           format_money( -cash ) );
+            case '\n': // Check if the NPC will accept the deal
+                // The player must give more than they get
+                if( adjusted_u_get > 0 ) {
+                    popup( _( "Not enough value!  You need %s." ), format_money( adjusted_u_get ) );
                     update = true;
                     ch = ' ';
                 } else if( volume_left < 0_ml || weight_left < 0_gram ) {
@@ -387,10 +393,14 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
                     update = true;
                     item_pricing &ip = target_list[ch];
                     ip.selected = !ip.selected;
-                    if( !ex && ip.selected == focus_them ) {
-                        cash -= ip.price;
-                    } else if( !ex ) {
-                        cash += ip.price;
+                    if( !ex ) {
+                        if( ip.selected == focus_them ) {
+                            u_get += ip.price;
+                            adjusted_u_get += ip.price;
+                        } else {
+                            u_get -= ip.price;
+                            adjusted_u_get -= ip.price;
+                        }
                     }
                 }
                 ch = 0;
@@ -402,15 +412,14 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
         int practice = 0;
 
         std::list<item_location *> from_map;
-        const auto mark_for_exchange =
-            [&practice, &from_map]( item_pricing & pricing, std::set<item *> &removing,
-        std::vector<item *> &giving ) {
+        const auto mark_for_exchange = [&practice, &from_map]( item_pricing & pricing,
+        std::set<item *> &removing, std::vector<item *> &giving ) {
             if( !pricing.selected ) {
                 return;
             }
 
             giving.push_back( pricing.loc.get_item() );
-            practice++;
+            practice += pricing.price;
 
             if( pricing.loc.where() == item_location::type::character ) {
                 removing.insert( pricing.loc.get_item() );
@@ -433,10 +442,8 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             mark_for_exchange( pricing, removing_theirs, giving_you );
         }
 
-        const inventory &your_new_inv = inventory_exchange( g->u.inv,
-                                        removing_yours, giving_you );
-        const inventory &their_new_inv = inventory_exchange( p.inv,
-                                         removing_theirs, giving_them );
+        const inventory &your_new_inv = inventory_exchange( g->u.inv, removing_yours, giving_you );
+        const inventory &their_new_inv = inventory_exchange( p.inv, removing_theirs, giving_them );
 
         g->u.inv = your_new_inv;
         p.inv = their_new_inv;
@@ -453,20 +460,13 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
             loc_ptr->remove_item();
         }
 
-        if( !ex && cash > static_cast<int>( p.cash ) ) {
-            // Trade was forced, give the NPC's cash to the player.
-            p.op_of_u.owed = ( cash - p.cash );
-            g->u.cash += p.cash;
-            p.cash = 0;
-        } else if( !ex ) {
-            g->u.cash += cash;
-            p.cash -= cash;
+        // NPCs will remember debts, to the limit that they'll extend credit or previous debts
+        if( !ex ) {
+            p.op_of_u.owed = std::min( std::max( p.op_of_u.owed, npc_requires ), - u_get );
         }
 
-        // TODO: Make this depend on prices
-        // TODO: Make this depend on npc price adjustment vs. your price adjustment
         if( !ex ) {
-            g->u.practice( skill_barter, practice / 2 );
+            g->u.practice( skill_barter, practice / 10000 );
         }
     }
     for( auto &elem : g->u.inv_dump() ) {
