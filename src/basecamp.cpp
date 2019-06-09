@@ -113,10 +113,6 @@ expansion_data basecamp::parse_expansion( const std::string &terrain, const trip
     e.type = terrain.substr( base_camps::prefix_len, last_bar - base_camps::prefix_len );
     e.cur_level = std::stoi( terrain.substr( last_bar + 1 ) );
     e.pos = new_pos;
-    resources_updated = false;
-    // expensive hack but only for rare legacy camps
-    bool by_radio = rl_dist( g->u.global_omt_location(), omt_pos ) > 2;
-    reset_camp_resources( by_radio );
     return e;
 }
 
@@ -128,6 +124,9 @@ void basecamp::add_expansion( const std::string &terrain, const tripoint &new_po
 
     const std::string dir = talk_function::om_simple_dir( omt_pos, new_pos );
     expansions[ dir ] = parse_expansion( terrain, new_pos );
+    bool by_radio = rl_dist( g->u.global_omt_location(), omt_pos ) > 2;
+    resources_updated = false;
+    reset_camp_resources( by_radio );
     update_provides( terrain, expansions[ dir ] );
     directions.push_back( dir );
 }
