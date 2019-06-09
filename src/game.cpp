@@ -9022,7 +9022,11 @@ bool game::plmove( int dx, int dy, int dz )
         dest_loc.x = u.posx() + dx;
         dest_loc.y = u.posy() + dy;
         dest_loc.z = u.posz() + dz;
-        if( !m.passable_from_point( dest_loc, u.pos()) ){
+        
+        // Only check if diagonal parts are blocking.
+        if( m.check_for_diagonal(dest_loc, u.pos(), [this](const tripoint & np){
+         return m.move_cost(np) == 0;
+        }) ){
             return false;
         }
     }
