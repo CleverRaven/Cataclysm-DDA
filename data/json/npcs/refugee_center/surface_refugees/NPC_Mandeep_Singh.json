@@ -121,9 +121,26 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Mandeep_2_stub",
-    "dynamic_line": "I am afraid now is not a good time for me.  Perhaps we can talk later?",
-    "//": "TK: not written yet",
-    "responses": [ { "text": "Oh... okay.  Talk to you later.", "topic": "TALK_DONE" } ]
+    "id": "TALK_REFUGEE_Mandeep_2",
+    "dynamic_line": "I understand.  I don't know if I have many answers for you.",
+    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mandeep_Background",
+    "dynamic_line": "My story?  It is much the same as everyone's, I fear.  Loss and violence.  I have not lost as much as many; by the grace of the Lord I have still got my wife and son.  I could not be more grateful.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Mandeep_Situation",
+    "dynamic_line": "It is hard for me to say.  No one is happy here.  I sense that some are frustrated that my family and I have escaped the end of the world apparently unscathed.  That, and perhaps some other things, have made it hard for us to make close friends here.",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
   }
 ]

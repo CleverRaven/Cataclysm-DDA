@@ -99,15 +99,32 @@
     "id": "TALK_REFUGEE_Garry_1_firstmeet",
     "dynamic_line": "Nice to meet you too.  Are you staying here, or something?",
     "responses": [
-      { "text": "No, I'm a traveller.  What's your story?", "topic": "TALK_REFUGEE_Garry_2_stub" },
+      { "text": "No, I'm a traveller.  What's your story?", "topic": "TALK_REFUGEE_Garry_2" },
       { "text": "Nope, in fact I'm leaving right now.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Garry_2_stub",
-    "dynamic_line": "Why don't we talk about it some other time?",
-    "//": "TK: not written yet",
-    "responses": [ { "text": "Sure.  Talk to you later.", "topic": "TALK_DONE" } ]
+    "id": "TALK_REFUGEE_Garry_2",
+    "dynamic_line": ".",
+    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Garry_Background",
+    "dynamic_line": ".",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Garry_Situation",
+    "dynamic_line": ".",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
   }
 ]

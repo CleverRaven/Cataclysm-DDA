@@ -103,15 +103,32 @@
     "id": "TALK_REFUGEE_Boris_1_firstmeet",
     "dynamic_line": "It is nice to meet you too.  To what do I owe the pleasure?",
     "responses": [
-      { "text": "What's up in your life these days?", "topic": "TALK_REFUGEE_Boris_2_stub" },
+      { "text": "What's up in your life these days?", "topic": "TALK_REFUGEE_Boris_2" },
       { "text": "I just wanted to say hi.  I'll be on my way.", "topic": "TALK_DONE" }
     ]
   },
   {
     "type": "talk_topic",
-    "id": "TALK_REFUGEE_Boris_2_stub",
-    "dynamic_line": "Right now, not much.  Maybe ask later.",
-    "//": "TK: not written yet",
+    "id": "TALK_REFUGEE_Boris_2",
+    "dynamic_line": ".",
     "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Background",
+    "dynamic_line": ".",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Boris_Situation",
+    "dynamic_line": ".",
+    "responses": [
+      { "text": "What were you saying before?", "topic": "TALK_NONE" },
+      { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
   }
 ]
