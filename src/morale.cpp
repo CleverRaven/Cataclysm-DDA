@@ -519,6 +519,7 @@ void player_morale::display( double focus_gain )
 
     for( ;; ) {
 
+        //creates the window
         werase( w );
 
         draw_border( w );
