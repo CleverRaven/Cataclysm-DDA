@@ -1138,6 +1138,33 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                                          formatted_text( visibility_str, catacurses::black, NORTH ) );
             }
 
+            if( g->display_overlay_state( ACTION_DISPLAY_LIGHTING ) ) {
+                static std::vector<SDL_Color> lighting_colors;
+                if( g->displaying_lighting_condition == 0 ) {
+                    if( lighting_colors.empty() ) {
+                        SDL_Color white = { 255, 255, 255, 255 };
+                        SDL_Color blue = { 0, 0, 255, 255 };
+                        lighting_colors = color_linear_interpolate( white, blue, 9 );
+                    }
+
+                    // note: lighting will be constrained in the [1.0, 11.0] range.
+                    float lighting = std::max( 1.0, LIGHT_AMBIENT_LIT - g->m.ambient_light_at( {x, y, center.z} ) +
+                                               1.0 );
+
+                    auto tile_pos = player_to_screen( x, y );
+
+                    // color overlay
+                    auto color = lighting_colors[static_cast<int>( lighting ) - 1];
+                    color.a = 100;
+                    color_blocks.first = SDL_BLENDMODE_BLEND;
+                    color_blocks.second.emplace( tile_pos, color );
+
+                    // string overlay
+                    overlay_strings.emplace( tile_pos + point( tile_width / 4, tile_height / 4 ),
+                                             formatted_text( string_format( "%.1f", lighting ), catacurses::black, NORTH ) );
+                }
+            }
+
             if( apply_vision_effects( temp, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
                 int height_3d = 0;
                 draw_terrain_from_memory( tripoint( x, y, center.z ), height_3d );

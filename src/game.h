@@ -948,6 +948,8 @@ class game
         bool display_overlay_state( action_id ); // Get the state of an overlay (on/off).
         /** Creature for which to display the visibility map */
         Creature *displaying_visibility_creature;
+        /** Type of lighting condition overlay to display */
+        int displaying_lighting_condition = 0;
 
         bool show_panel_adm;
         bool right_sidebar;

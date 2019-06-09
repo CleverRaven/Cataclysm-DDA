@@ -178,7 +178,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_DISPLAY_SCENTS_LOCAL, true, 's', _( "Toggle display local scents" ) ) },
             { uilist_entry( DEBUG_DISPLAY_TEMP, true, 'T', _( "Toggle display temperature" ) ) },
             { uilist_entry( DEBUG_DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
-            { uilist_entry( DEBUG_DISPLAY_VISIBILITY, true, 'l', _( "Toggle display lighting" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_LIGHTING, true, 'l', _( "Toggle display lighting" ) ) },
             { uilist_entry( DEBUG_SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( DEBUG_BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
             { uilist_entry( DEBUG_TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
@@ -1278,7 +1278,27 @@ void debug()
             }
             break;
             case DEBUG_DISPLAY_LIGHTING: {
+                g->display_toggle_overlay( ACTION_DISPLAY_LIGHTING );
+                if ( !g->display_overlay_state( ACTION_DISPLAY_LIGHTING ) ) {
+                    break;
+                }
 
+                uilist lighting_menu;
+                std::vector<std::string> lighting_menu_strings{
+                    "Global lighting conditions"
+                };
+
+                int count = 0;
+                for ( const auto& menu_str : lighting_menu_strings ) {
+                    lighting_menu.addentry( count++, true, MENU_AUTOASSIGN, "%s", menu_str );
+                }
+
+                lighting_menu.w_y = 0;
+                lighting_menu.query();
+                if ( ( lighting_menu.ret >= 0 ) &&
+                    ( static_cast<size_t>( lighting_menu.ret ) < lighting_menu_strings.size() ) ) {
+                    g->displaying_lighting_condition = lighting_menu.ret;
+                }
             }
             break;
             case DEBUG_CHANGE_TIME: {
