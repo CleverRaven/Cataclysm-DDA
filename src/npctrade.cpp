@@ -160,8 +160,11 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     if( their_adjust < 1.0 ) {
         their_adjust = 1.0;
     }
-    for( item_pricing &p : theirs ) {
-        p.price *= their_adjust;
+    for( item_pricing &ip : theirs ) {
+        // don't reprice currency
+        if( !p.my_fac || p.my_fac->currency != ip.loc.get_item()->typeId() ) {
+            ip.price *= their_adjust;
+        }
     }
     ///\EFFECT_INT slightly increases bartering price changes, relative to NPC INT
 
@@ -172,8 +175,11 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     if( your_adjust < 1.0 ) {
         your_adjust = 1.0;
     }
-    for( item_pricing &p : yours ) {
-        p.price *= your_adjust;
+    for( item_pricing &ip : yours ) {
+        // don't reprice currency
+        if( !p.my_fac || p.my_fac->currency != ip.loc.get_item()->typeId() ) {
+            ip.price *= your_adjust;
+        }
     }
 
     // Just exchanging items, no barter involved
