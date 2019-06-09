@@ -102,7 +102,7 @@ static void eff_fun_fungus( player &u, effect &it )
     const time_duration dur = it.get_duration();
     const int intense = it.get_intensity();
     const int bonus = u.get_healthy() / 10 + ( u.resists_effect( it ) ? 100 : 0 );
-    if ( !get_option < bool >( "FUNGAL_INFECTION_ALLOWED" ) ) {
+    if( !get_option < bool >( "FUNGAL_INFECTION_ALLOWED" ) ) {
         u.remove_effect( effect_fungus, num_bp );
     }
     switch( intense ) {
