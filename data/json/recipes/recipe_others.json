@@ -83,7 +83,7 @@
     "difficulty": 1,
     "time": "1 h",
     "autolearn": true,
-    "byproducts": [ [ [ "splinter", 20 ] ] ],
+    "byproducts": [ [ "splinter", 20 ] ],
     "qualities": [ { "id": "AXE", "level": 2 } ],
     "//": "Eventually, smoothing tools should also be required, or we should distinguish between rough-hewn and finished beams",
     "components": [ [ [ "log", 6 ] ] ],
