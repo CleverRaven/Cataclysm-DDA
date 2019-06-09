@@ -5,7 +5,7 @@
     "name": "No Rail Stations",
     "authors": [ "Inglonias" ],
     "description": "Removes above-ground rail stations from the game.",
-    "category": "monster_exclude",
+    "category": "buildings",
     "dependencies": [ "dda" ]
   }
 ]
