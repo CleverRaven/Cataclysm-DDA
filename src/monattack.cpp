@@ -207,7 +207,7 @@ static bool is_adjacent( const monster *z, const Creature *target, const bool al
         return false;
     }
 
-    if( z->posz() == target->posz() ) {
+    if( z->posz() == target->posz() && g->m.passable_from_point( target->pos(), z->pos()) ) {
         return true;
     }
 
@@ -752,14 +752,16 @@ bool mattack::boomer( monster *z )
     if( u_see ) {
         add_msg( m_warning, _( "The %s spews bile!" ), z->name() );
     }
-    for( auto &i : line ) {
-        g->m.add_field( i, fd_bile, 1 );
+    for( std::vector<tripoint>::iterator i = line.begin(); i != line.end(); ++i ) {
+        g->m.add_field( *i, fd_bile, 1 );
         // If bile hit a solid tile, return.
-        if( g->m.impassable( i ) ) {
-            g->m.add_field( i, fd_bile, 3 );
-            if( g->u.sees( i ) ) {
+        const tripoint from = i != line.begin()? *(i-1) : z->pos();
+        cata::optional<tripoint> hit = g->m.obstacle_point(*i, from);
+        if( hit ) {
+            g->m.add_field( hit.value(), fd_bile, 3 );
+            if( g->u.sees( hit.value() ) ) {
                 add_msg( _( "Bile splatters on the %s!" ),
-                         g->m.tername( i ) );
+                         g->m.tername( hit.value() ) );
             }
             return true;
         }
