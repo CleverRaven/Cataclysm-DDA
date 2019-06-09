@@ -1963,7 +1963,7 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
     ctxt.register_action( "TOGGLE_PANEL" );
 
     const int column_width = 43; // how far apart the columns are
-    size_t max_index;
+    size_t max_index = 0;
     int counter = 0;
     bool selected = false;
     size_t source_index = 0;
