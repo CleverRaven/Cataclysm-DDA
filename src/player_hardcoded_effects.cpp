@@ -14,6 +14,7 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "options.h"
 #include "sounds.h"
 #include "weather.h"
 #include "rng.h"
@@ -702,7 +703,7 @@ void player::hardcoded_effects( effect &it )
             }
         }
         if( one_in( 10000 ) ) {
-            if( !has_trait( trait_id( "M_IMMUNE" ) ) ) {
+            if( !has_trait( trait_id( "M_IMMUNE" ) && get_option < bool >( "TELEGLOW_FUNGUS_ALLOWED" ) ) ) {
                 add_effect( effect_fungus, 1_turns, num_bp, true );
             } else {
                 add_msg_if_player( m_info, _( "We have many colonists awaiting passage." ) );

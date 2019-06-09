@@ -201,5 +201,12 @@
     "info": "A boolean specifically for Crazy Cataclysm.",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "TELEGLOW_FUNGUS_ALLOWED",
+    "info": "A boolean specifying whether you can get fungal infections from teleglow.",
+    "stype": "bool",
+    "value": true
   }
 ]
