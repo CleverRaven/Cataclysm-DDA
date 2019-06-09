@@ -1211,45 +1211,46 @@ void debug()
 
         case DEBUG_SHOW_SOUND: {
 #if defined(TILES)
-                // *INDENT-OFF*
-                const point offset{
-                    POSX - u.posx() + u.view_offset.x,
-                    POSY - u.posy() + u.view_offset.y
-                }; // *INDENT-ON*
-                g->draw_ter();
-                auto sounds_to_draw = sounds::get_monster_sounds();
-                for( const auto &sound : sounds_to_draw.first ) {
-                    mvwputch( g->w_terrain, offset.y + sound.y, offset.x + sound.x, c_yellow, '?' );
-                }
-                for( const auto &sound : sounds_to_draw.second ) {
-                    mvwputch( g->w_terrain, offset.y + sound.y, offset.x + sound.x, c_red, '?' );
-                }
-                wrefresh( g->w_terrain );
-                g->draw_panels();
-                inp_mngr.wait_for_any_key();
+            // *INDENT-OFF*
+            const point offset{
+                POSX - u.posx() + u.view_offset.x,
+                POSY - u.posy() + u.view_offset.y
+        }; 
+            // *INDENT-ON*
+            g->draw_ter();
+            auto sounds_to_draw = sounds::get_monster_sounds();
+            for( const auto &sound : sounds_to_draw.first ) {
+                mvwputch( g->w_terrain, offset.y + sound.y, offset.x + sound.x, c_yellow, '?' );
+            }
+            for( const auto &sound : sounds_to_draw.second ) {
+                mvwputch( g->w_terrain, offset.y + sound.y, offset.x + sound.x, c_red, '?' );
+            }
+            wrefresh( g->w_terrain );
+            g->draw_panels();
+            inp_mngr.wait_for_any_key();
 #else
-                popup( _( "This binary was not compiled with tiles support." ) );
+            popup( _( "This binary was not compiled with tiles support." ) );
 #endif
             }
-                     break;
+            break;
 
-            case DEBUG_DISPLAY_WEATHER:
-                ui::omap::display_weather();
-                break;
-            case DEBUG_DISPLAY_SCENTS:
-                ui::omap::display_scents();
-                break;
-            case DEBUG_DISPLAY_SCENTS_LOCAL:
-                g->displaying_temperature = false;
-                g->displaying_visibility = false;
-                g->displaying_scent = !g->displaying_scent;
-                break;
-            case DEBUG_DISPLAY_TEMP:
-                g->displaying_scent = false;
-                g->displaying_visibility = false;
-                g->displaying_temperature = !g->displaying_temperature;
-                break;
-            case DEBUG_DISPLAY_VISIBILITY: {
+        case DEBUG_DISPLAY_WEATHER:
+            ui::omap::display_weather();
+            break;
+        case DEBUG_DISPLAY_SCENTS:
+            ui::omap::display_scents();
+            break;
+        case DEBUG_DISPLAY_SCENTS_LOCAL:
+            g->displaying_temperature = false;
+            g->displaying_visibility = false;
+            g->displaying_scent = !g->displaying_scent;
+            break;
+        case DEBUG_DISPLAY_TEMP:
+            g->displaying_scent = false;
+            g->displaying_visibility = false;
+            g->displaying_temperature = !g->displaying_temperature;
+            break;
+        case DEBUG_DISPLAY_VISIBILITY: {
                 g->displaying_scent = false;
                 g->displaying_temperature = false;
                 g->displaying_visibility = !g->displaying_visibility;
@@ -1281,14 +1282,14 @@ void debug()
                 }
             }
             break;
-            case DEBUG_CHANGE_TIME: {
+        case DEBUG_CHANGE_TIME: {
                 auto set_turn = [&]( const int initial, const int factor, const char *const msg ) {
                     const auto text = string_input_popup()
-                        .title( msg )
-                        .width( 20 )
-                        .text( to_string( initial ) )
-                        .only_digits( true )
-                        .query_string();
+                                      .title( msg )
+                                      .width( 20 )
+                                      .text( to_string( initial ) )
+                                      .only_digits( true )
+                                      .query_string();
                     if( text.empty() ) {
                         return;
                     }
@@ -1338,8 +1339,8 @@ void debug()
                     }
                 } while( smenu.ret != UILIST_CANCEL );
             }
-                     break;
-            case DEBUG_SET_AUTOMOVE: {
+            break;
+        case DEBUG_SET_AUTOMOVE: {
                 const cata::optional<tripoint> dest = g->look_around();
                 if( !dest || *dest == u.pos() ) {
                     break;
@@ -1352,40 +1353,40 @@ void debug()
                     popup( "Couldn't find path" );
                 }
             }
-                     break;
-            case DEBUG_SHOW_MUT_CAT:
-                for( const auto &elem : u.mutation_category_level ) {
-                    add_msg( "%s: %d", elem.first.c_str(), elem.second );
-                }
-                break;
+            break;
+        case DEBUG_SHOW_MUT_CAT:
+            for( const auto &elem : u.mutation_category_level ) {
+                add_msg( "%s: %d", elem.first.c_str(), elem.second );
+            }
+            break;
 
-            case DEBUG_OM_EDITOR:
-                ui::omap::display_editor();
-                break;
+        case DEBUG_OM_EDITOR:
+            ui::omap::display_editor();
+            break;
 
-            case DEBUG_BENCHMARK: {
+        case DEBUG_BENCHMARK: {
                 const int ms = string_input_popup()
-                    .title( _( "Enter benchmark length (in milliseconds):" ) )
-                    .width( 20 )
-                    .text( "5000" )
-                    .query_int();
+                               .title( _( "Enter benchmark length (in milliseconds):" ) )
+                               .width( 20 )
+                               .text( "5000" )
+                               .query_int();
                 debug_menu::draw_benchmark( ms );
             }
-                     break;
+            break;
 
-            case DEBUG_OM_TELEPORT:
-                debug_menu::teleport_overmap();
-                break;
-            case DEBUG_TRAIT_GROUP:
-                trait_group::debug_spawn();
-                break;
-            case DEBUG_SHOW_MSG:
-                debugmsg( "Test debugmsg" );
-                break;
-            case DEBUG_CRASH_GAME:
-                raise( SIGSEGV );
-                break;
-            case DEBUG_MAP_EXTRA: {
+        case DEBUG_OM_TELEPORT:
+            debug_menu::teleport_overmap();
+            break;
+        case DEBUG_TRAIT_GROUP:
+            trait_group::debug_spawn();
+            break;
+        case DEBUG_SHOW_MSG:
+            debugmsg( "Test debugmsg" );
+            break;
+        case DEBUG_CRASH_GAME:
+            raise( SIGSEGV );
+            break;
+        case DEBUG_MAP_EXTRA: {
                 std::unordered_map<std::string, map_special_pointer> FM = MapExtras::all_functions();
                 uilist mx_menu;
                 std::vector<std::string> mx_str;
@@ -1408,23 +1409,23 @@ void debug()
                 }
                 break;
             }
-            case DEBUG_DISPLAY_NPC_PATH:
-                g->debug_pathfinding = !g->debug_pathfinding;
-                break;
-            case DEBUG_QUIT_NOSAVE:
-                if( query_yn(
+        case DEBUG_DISPLAY_NPC_PATH:
+            g->debug_pathfinding = !g->debug_pathfinding;
+            break;
+        case DEBUG_QUIT_NOSAVE:
+            if( query_yn(
                     _( "Quit without saving? This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
-                    u.moves = 0;
-                    g->uquit = QUIT_NOSAVED;
-                }
-                break;
-            case DEBUG_TEST_WEATHER: {
+                u.moves = 0;
+                g->uquit = QUIT_NOSAVED;
+            }
+            break;
+        case DEBUG_TEST_WEATHER: {
                 weather_generator weathergen;
                 weathergen.test_weather();
             }
-                break;
+            break;
 
-            case DEBUG_SAVE_SCREENSHOT: {
+        case DEBUG_SAVE_SCREENSHOT: {
 #if defined(TILES)
                 // check that the current '<world>/screenshots' directory exists
                 std::stringstream map_directory;
@@ -1435,26 +1436,25 @@ void debug()
                 // Date format is a somewhat ISO-8601 compliant GMT time date (except for some characters that wouldn't pass on most file systems like ':').
                 std::time_t time = std::time( nullptr );
                 std::stringstream date_buffer;
-                date_buffer << std::put_time( std::gmtime(&time), "%F_%H-%M-%S_%z" );
+                date_buffer << std::put_time( std::gmtime( &time ), "%F_%H-%M-%S_%z" );
                 const auto tmp_file_name = string_format( "[%s]_%s.png", g->u.get_name(), date_buffer.str() );
 
                 std::string file_name = ensure_valid_file_name( tmp_file_name );
                 auto current_file_path = map_directory.str() + file_name;
 
                 // Take a screenshot of the viewport.
-                if ( g->take_screenshot( current_file_path ) ) {
+                if( g->take_screenshot( current_file_path ) ) {
                     popup( string_format( _( "Successfully saved your screenshot to: %s" ), map_directory.str() ) );
-                }
-                else {
+                } else {
                     popup( _( "An error occurred while trying to save the screenshot." ) );
                 }
 #else
                 popup( _( "This binary was not compiled with tiles support." ) );
 #endif
             }
-                break;
+            break;
 
-            case DEBUG_GAME_REPORT: {
+        case DEBUG_GAME_REPORT: {
                 // generate a game report, useful for bug reporting.
                 std::string report = game_info::game_report();
                 // write to log
@@ -1464,25 +1464,25 @@ void debug()
                 // copy to clipboard
                 int clipboard_result = SDL_SetClipboardText( report.c_str() );
                 printErrorIf( clipboard_result != 0, "Error while copying the game report to the clipboard." );
-                if ( clipboard_result == 0 ) {
+                if( clipboard_result == 0 ) {
                     popup_msg += _( " and to the clipboard." );
                 }
 #endif
                 popup( popup_msg );
             }
-                                    break;
-            case DEBUG_LEARN_SPELLS:
-                if ( spell_type::get_all().empty() ) {
-                    add_msg( m_bad, _( "There are no spells to learn.  You must install a mod that adds some." ) );
+            break;
+        case DEBUG_LEARN_SPELLS:
+            if( spell_type::get_all().empty() ) {
+                add_msg( m_bad, _( "There are no spells to learn.  You must install a mod that adds some." ) );
+            } else {
+                for( const spell_type &learn : spell_type::get_all() ) {
+                    g->u.magic.learn_spell( &learn, g->u, true );
                 }
-                else {
-                    for ( const spell_type &learn : spell_type::get_all() ) {
-                        g->u.magic.learn_spell( &learn, g->u, true );
-                    }
-                    add_msg( m_good, _( "You have become an Archwizardpriest!  What will you do with your newfound power?" ) );
-                }
-                break;
-            case DEBUG_LEVEL_SPELLS: {
+                add_msg( m_good,
+                         _( "You have become an Archwizardpriest!  What will you do with your newfound power?" ) );
+            }
+            break;
+        case DEBUG_LEVEL_SPELLS: {
                 std::vector<spell *> spells = g->u.magic.get_spells();
                 if( spells.empty() ) {
                     add_msg( m_bad, _( "Try learning some spells first." ) );
@@ -1519,10 +1519,10 @@ void debug()
                 add_msg( m_good, _( "%s is now level %d!" ), spells[action]->name(), spells[action]->get_level() );
                 break;
             }
-        }
-        catacurses::erase();
-        m.invalidate_map_cache( g->get_levz() );
-        g->refresh_all();
     }
+    catacurses::erase();
+    m.invalidate_map_cache( g->get_levz() );
+    g->refresh_all();
+}
 
 }
