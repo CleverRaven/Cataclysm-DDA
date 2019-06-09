@@ -164,6 +164,9 @@
     "volume": "3 L",
     "symbol": "?",
     "color": "light_blue",
-    "use_action": { "type": "learn_spell", "spells": [ "recover_mana", "recover_bionic_power", "recover_pain", "recover_fatigue", "recover_stamina" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "recover_mana", "recover_bionic_power", "recover_pain", "recover_fatigue", "recover_stamina" ]
+    }
   }
 ]
