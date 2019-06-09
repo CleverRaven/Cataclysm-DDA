@@ -1066,6 +1066,10 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     } else if( fx == "spawn_item" ) {
         damage_string = _( string_format( "Spawn %d %s", sp.damage(), item::nname( sp.effect_data(),
                                           sp.damage() ) ) );
+    } else if( fx == "summon" ) {
+        damage_string = _( string_format( "Summon %d %s", sp.damage(),
+                                          monster( mtype_id( sp.effect_data() ) ).get_name( ) ) );
+        aoe_string = _( string_format( "%s: %d", _( "Spell Radius" ), sp.aoe() ) );
     }
 
     print_colored_text( w_menu, line, h_col1, gray, gray, damage_string );
@@ -1536,6 +1540,53 @@ void recover_energy( spell &sp, const tripoint &target )
         p->mod_healthy( healing );
     } else {
         debugmsg( "Invalid effect_str %s for spell %s", energy_source, sp.name() );
+    }
+}
+
+static bool is_summon_friendly( const spell &sp )
+{
+    const bool hostile = sp.has_flag( "HOSTILE_SUMMON" );
+    bool friendly = !hostile;
+    if ( sp.has_flag( "HOSTILE_50" ) ) {
+        friendly = friendly && rng( 0, 1000 ) < 500;
+    }
+    return friendly;
+}
+
+static bool add_summoned_mon( const mtype_id &id, const tripoint &pos, const time_duration &time,
+                              const spell &sp )
+{
+    const bool permanent = sp.has_flag( "PERMANENT" );
+    monster &spawned_mon = monster( id, pos );
+    if( is_summon_friendly( sp ) ) {
+        spawned_mon.friendly = INT_MAX;
+    } else {
+        spawned_mon.friendly = 0;
+    }
+    if( !permanent ) {
+        spawned_mon.set_summon_time( time );
+    }
+    return g->add_zombie( spawned_mon );
+}
+
+void spawn_summoned_monster( spell &sp, const tripoint &source, const tripoint &target )
+{
+    const mtype_id mon_id( sp.effect_data() );
+    std::set<tripoint> area = spell_effect_area( sp, source, target, spell_effect_blast );
+    // this should never be negative, but this'll keep problems from happening
+    size_t num_mons = abs( sp.damage() );
+    const time_duration summon_time = sp.duration_turns();
+    while( num_mons > 0 && area.size() > 0 ) {
+        const size_t mon_spot = rng( 0, area.size() - 1 );
+        auto iter = area.begin();
+        std::advance( iter, mon_spot );
+        if( add_summoned_mon( mon_id, *iter, summon_time, sp ) ) {
+            num_mons--;
+        } else {
+            add_msg( m_bad, "failed to place monster" );
+        }
+        // whether or not we succeed in spawning a monster, we don't want to try this tripoint again
+        area.erase( iter );
     }
 }
 

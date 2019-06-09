@@ -340,6 +340,7 @@ std::set<tripoint> spell_effect_line( const spell &, const tripoint &source,
 
 void spawn_ethereal_item( spell &sp );
 void recover_energy( spell &sp, const tripoint &target );
+void spawn_summoned_monster( spell &sp, const tripoint &source, const tripoint &target );
 }
 
 #endif

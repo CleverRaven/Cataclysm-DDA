@@ -3929,6 +3929,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
         spell_effect::spawn_ethereal_item( casting );
     } else if( fx == "recover_energy" ) {
         spell_effect::recover_energy( casting, target );
+    } else if( fx == "summon" ) {
+        spell_effect::spawn_summoned_monster( casting, p->pos(), target );
     } else {
         debugmsg( "ERROR: Spell effect not defined properly." );
     }
