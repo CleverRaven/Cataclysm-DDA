@@ -75,36 +75,37 @@
   },
   {
     "type": "item_group",
-    "id": "displays"
-    "items": [ { "item": "mana_potion_lesser", 50 } ]
+    "id": "displays",
+    "items": [ [ "mana_potion_lesser", 50 ] ]
   },
   {
     "id": "coffee_display_2",
     "type": "item_group",
-    "item": [ { "item": "mana_potion_lesser", 10 } ]
+    "item": [ [ "mana_potion_lesser", 10 ] ]
+  },
   {
     "type": "item_group",
     "id": "bar_alcohol",
-    "items": [ { "item": "mana_potion_lesser", 20 } ]
+    "items": [ [ "mana_potion_lesser", 20 ] ]
   },
   {
     "type": "item_group",
     "id": "bar_fridge",
-    "items": [ { "item": "mana_potion_lesser", 5 } ]
+    "items": [ [ "mana_potion_lesser", 5 ] ]
   },
   {
     "type": "item_group",
     "id": "pizza_beer",
-    "items": [ { "item": "mana_potion_lesser", 5 } ]
+    "items": [ [ "mana_potion_lesser", 5 ] ]
   },
   {
     "type": "item_group",
     "id": "pizza_soda",
-    "items": [ { "item": "mana_potion_lesser", 3 } ]
+    "items": [ [ "mana_potion_lesser", 3 ] ]
   },
   {
     "id": "groce_softdrink",
     "type": "item_group",
-    "items": [ { "item": "mana_potion_lesser", 15 } ]
+    "items": [ [ "mana_potion_lesser", 15 ] ]
   }
 ]
