@@ -1841,7 +1841,28 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
 void activity_handlers::start_fire_finish( player_activity *act, player *p )
 {
-    firestarter_actor::resolve_firestarter_use( *p, act->placement );
+    static const std::string iuse_name_string( "firestarter" );
+
+    item &it = p->i_at( act->position );
+    item *used_tool = it.get_usable_item( iuse_name_string );
+    if( used_tool == nullptr ) {
+        debugmsg( "Lost tool used for starting fire" );
+        act->set_to_null();
+        return;
+    }
+
+    const auto use_fun = used_tool->get_use( iuse_name_string );
+    const auto *actor = dynamic_cast<const firestarter_actor *>( use_fun->get_actor_ptr() );
+    if( actor == nullptr ) {
+        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+        act->set_to_null();
+        return;
+    }
+
+    p->consume_charges( it, it.type->charges_to_use() );
+    p->practice( skill_survival, act->index, 5 );
+
+    actor->resolve_firestarter_use( *p, act->placement );
     act->set_to_null();
 }
 
