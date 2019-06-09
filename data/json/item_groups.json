@@ -8434,29 +8434,6 @@
   },
   {
     "type": "item_group",
-    "items": [
-      [ "primitive_knife", 50 ],
-      [ "primitive_axe", 50 ],
-      [ "primitive_shovel", 50 ],
-      [ "primitive_hammer", 50 ],
-      [ "primitive_adze", 50 ],
-      [ "needle_bone", 50 ],
-      [ "needle_wood", 50 ],
-      [ "steel_chunk", 50 ],
-      [ "loincloth_fur", 50 ],
-      [ "distaff_spindle", 50 ],
-      [ "carding_paddles", 50 ],
-      [ "knitting_needles", 50 ],
-      [ "pointy_stick", 50 ],
-      [ "copper_knife", 10 ],
-      [ "copper_ax", 10 ],
-      [ "bone_flute", 10 ],
-      [ "spear_stone", 50 ],
-      [ "hand_axe", 50 ]
-    ]
-  },
-  {
-    "type": "item_group",
     "id": "bionics_tech",
     "subtype": "distribution",
     "//": "Bionics used by technicians.",
