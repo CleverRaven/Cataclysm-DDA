@@ -1049,9 +1049,9 @@ void input_context::display_menu()
                 // defined, so gray out the invlet.
                 mvwprintz( w_help, i + 10, 2, c_dark_gray, "%c ", invlet );
             } else if( status == s_add || status == s_add_global ) {
-                mvwprintz( w_help, i + 10, 2, c_blue, "%c ", invlet );
+                mvwprintz( w_help, i + 10, 2, c_light_blue, "%c ", invlet );
             } else if( status == s_remove ) {
-                mvwprintz( w_help, i + 10, 2, c_blue, "%c ", invlet );
+                mvwprintz( w_help, i + 10, 2, c_light_blue, "%c ", invlet );
             } else {
                 mvwprintz( w_help, i + 10, 2, c_blue, "  " );
             }
