@@ -1350,6 +1350,11 @@ int npc::value( const item &it, int market_price ) const
         return -1000;
     }
 
+    // faction currency trades at market price
+    if( my_fac && my_fac->currency == it.typeId() ) {
+        return market_price;
+    }
+
     int ret = 0;
     // TODO: Cache own weapon value (it can be a bit expensive to compute 50 times/turn)
     double weapon_val = weapon_value( it ) - weapon_value( weapon );
