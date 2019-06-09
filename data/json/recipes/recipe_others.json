@@ -83,7 +83,7 @@
     "difficulty": 1,
     "time": "1 h",
     "autolearn": true,
-    "byproducts": [ [ [ "splinter", [ 10, 30 ] ] ] ],
+    "byproducts": [ [ [ "splinter", 20 ] ] ],
     "qualities": [ { "id": "AXE", "level": 2 } ],
     "//": "Eventually, smoothing tools should also be required, or we should distinguish between rough-hewn and finished beams",
     "components": [ [ [ "log", 6 ] ] ],
@@ -97,7 +97,7 @@
     "skill_used": "fabrication",
     "time": "2 h",
     "autolearn": true,
-    "byproducts": [ [ [ "splinter", [ 1, 8 ] ] ], [ [ "wood_panel", 3 ] ] ],
+    "byproducts": [ [ [ "splinter", 7 ] ], [ [ "wood_panel", 3 ] ] ],
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "components": [ [ [ "wood_beam", 1 ] ] ],
     "//": "I am assuming here that you actually get more than 4 smaller-than-represented wood panels, but any application that requires panels means you'll be putting these side by side to get the effect of a single panel."
@@ -133,7 +133,7 @@
     "skill_used": "fabrication",
     "time": "2 h",
     "autolearn": true,
-    "byproducts": [ [ [ "splinter", [ 1, 12 ] ] ], [ [ "2x4", [ 5, 8 ] ] ] ],
+    "byproducts": [ [ [ "splinter", 4 ] ], [ [ "2x4", 8 ] ] ],
     "qualities": [ { "id": "SAW_W", "level": 2 } ],
     "//": "This should eventually require planing tools once implemented, and should replace the ability to turn a small chunk of log into a long wooden plank.",
     "components": [ [ [ "wood_beam", 1 ] ] ]
