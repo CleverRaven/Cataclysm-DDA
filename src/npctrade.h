@@ -13,23 +13,35 @@
 #include "units.h"
 
 class Character;
+class faction;
 class item;
 class npc;
 class player;
 
-struct item_pricing {
-    item_pricing( Character &c, item *it, int v, bool s ) : loc( c, it ), price( v ), selected( s ) {
-    }
+class item_pricing
+{
+    public:
+        item_pricing( Character &c, item *it, int v, int count ) : loc( c, it ), price( v ) {
+            set_values( count );
+        }
 
-    item_pricing( item_location &&l, int v, bool s ) : loc( std::move( l ) ), price( v ),
-        selected( s ) {
-    }
+        item_pricing( item_location &&l, int v, int count ) : loc( std::move( l ) ), price( v ) {
+            set_values( count );
+        }
+        void set_values( int ip_count );
+        void adjust_values( const double adjust, faction *fac, bool is_npc );
 
-    item_location loc;
-    int price;
-    // Whether this is selected for trading, init_buying and init_selling initialize
-    // this to `false`.
-    bool selected;
+        item_location loc;
+        int price;
+        // Whether this is selected for trading
+        bool selected = false;
+        bool is_container;
+        int count = 0;
+        int charges = 0;
+        int u_has = 0;
+        int npc_has = 0;
+        int u_charges = 0;
+        int npc_charges = 0;
 };
 
 class trading_window
@@ -48,9 +60,6 @@ class trading_window
         void show_item_data( npc &np, size_t offset, std::vector<item_pricing> &target_list );
         bool perform_trade( npc &p, const std::string &deal );
         void update_npc_owed( npc &np );
-
-
-
 
     private:
         catacurses::window w_head;
@@ -79,12 +88,13 @@ int cash_to_favor( const npc &, int cash );
 
 inventory inventory_exchange( inventory &inv,
                               const std::set<item *> &without, const std::vector<item *> &added );
-void transfer_items( std::vector<item_pricing> &stuff, player &giver, player &receiver, faction *fac,
+void transfer_items( std::vector<item_pricing> &stuff, player &giver, player &receiver,
+                     faction *fac,
                      std::list<item_location *> &from_map );
-
+double net_price_adjustment( const player &buyer, const player &seller );
 bool trade( npc &p, int cost, const std::string &deal );
 std::vector<item_pricing> init_selling( npc &p );
-std::vector<item_pricing> init_buying( npc &p, player &u );
+std::vector<item_pricing> init_buying( player &buyer, player &seller, bool is_npc );
 }
 
 #endif

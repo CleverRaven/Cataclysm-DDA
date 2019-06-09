@@ -50,7 +50,7 @@ inventory npc_trading::inventory_exchange( inventory &inv,
 void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver, player &receiver,
                                   faction *fac, std::list<item_location *> &from_map )
 {
-    for( item_pricing &ip: stuff ) {
+    for( item_pricing &ip : stuff ) {
         if( !ip.selected ) {
             continue;
         }
@@ -83,7 +83,7 @@ std::vector<item_pricing> npc_trading::init_selling( npc &p )
         const int price = it.price( true );
         int val = p.value( it );
         if( p.wants_to_sell( it, val, price ) ) {
-            result.emplace_back( p, &i->front(), val, false );
+            result.emplace_back( p, &i->front(), val, i->size() );
         }
     }
 
@@ -94,52 +94,104 @@ std::vector<item_pricing> npc_trading::init_selling( npc &p )
     return result;
 }
 
+double npc_trading::net_price_adjustment( const player &buyer, const player &seller )
+{
+    // Adjust the prices based on your barter skill.
+    // cap adjustment so nothing is ever sold below value
+    ///\EFFECT_INT_NPC slightly increases bartering price changes, relative to your INT
+
+    ///\EFFECT_BARTER_NPC increases bartering price changes, relative to your BARTER
+
+    ///\EFFECT_INT slightly increases bartering price changes, relative to NPC INT
+
+    ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
+    double adjust = 0.05 * ( seller.int_cur - buyer.int_cur ) +
+                    price_adjustment( seller.get_skill_level( skill_barter ) -
+                                      buyer.get_skill_level( skill_barter ) );
+    return( std::max( adjust, 1.0 ) );
+}
+
 template <typename T, typename Callback>
 void buy_helper( T &src, Callback cb )
 {
     src.visit_items( [&src, &cb]( item * node ) {
-        cb( std::move( item_location( src, node ) ) );
+        cb( std::move( item_location( src, node ) ), 1 );
 
         return VisitResponse::SKIP;
     } );
 }
 
-std::vector<item_pricing> npc_trading::init_buying( npc &p, player &u )
+std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &seller, bool is_npc )
 {
     std::vector<item_pricing> result;
+    npc *np_p = dynamic_cast<npc *>( &buyer );
+    if( is_npc ) {
+        np_p = dynamic_cast<npc *>( &seller );
+    }
+    npc &np = *np_p;
+    faction *fac = np.my_fac;
 
-    const auto check_item = [&p, &result]( item_location && loc ) {
+    double adjust = net_price_adjustment( buyer, seller );
+
+    const auto check_item = [is_npc, fac, adjust, &np, &result]( item_location && loc,
+    int count = 1 ) {
         item *it_ptr = loc.get_item();
         if( it_ptr == nullptr || it_ptr->is_null() ) {
             return;
         }
 
-        auto &it = *it_ptr;
+        item &it = *it_ptr;
         const int market_price = it.price( true );
-        int val = p.value( it, market_price );
-        if( p.wants_to_buy( it, val, market_price ) ) {
-            result.emplace_back( std::move( loc ), val, false );
+        int val = np.value( it, market_price );
+        if( np.wants_to_buy( it, val, market_price ) ) {
+            result.emplace_back( std::move( loc ), val, count );
+            result.back().adjust_values( adjust, fac, is_npc );
         }
     };
 
-    invslice slice = u.inv.slice();
+    invslice slice = seller.inv.slice();
     for( auto &i : slice ) {
-        // TODO: Sane way of handling multi-item stacks
-        check_item( item_location( u, &i->front() ) );
+        check_item( item_location( seller, &i->front() ), i->size() );
     }
 
-    if( !u.weapon.has_flag( "NO_UNWIELD" ) ) {
-        check_item( item_location( u, &u.weapon ) );
+    if( !seller.weapon.has_flag( "NO_UNWIELD" ) ) {
+        check_item( item_location( seller, &seller.weapon ), 1 );
     }
 
-    for( auto &cursor : map_selector( u.pos(), 1 ) ) {
+    for( auto &cursor : map_selector( seller.pos(), 1 ) ) {
         buy_helper( cursor, check_item );
     }
-    for( auto &cursor : vehicle_selector( u.pos(), 1 ) ) {
+    for( auto &cursor : vehicle_selector( seller.pos(), 1 ) ) {
         buy_helper( cursor, check_item );
     }
 
     return result;
+}
+
+void item_pricing::set_values( int ip_count )
+{
+    item *ip = loc.get_item();
+    is_container = ip->is_container();
+    if( is_container || ip->count() == 1 ) {
+        count = ip_count;
+    } else {
+        charges = ip->count();
+        price /= charges;
+    }
+}
+
+void item_pricing::adjust_values( const double adjust, faction *fac, bool is_npc )
+{
+    if( !fac || fac->currency != loc.get_item()->typeId() ) {
+        price *= adjust;
+    }
+    if( is_npc ) {
+        npc_has = count;
+        npc_charges = charges;
+    } else {
+        u_has = count;
+        u_charges = charges;
+    }
 }
 
 void trading_window::setup_win( npc &np )
@@ -163,41 +215,8 @@ void trading_window::setup_trade( int cost, npc &np )
     // Note that the NPC's barter skill is factored into these prices.
     // TODO: Recalc item values every time a new item is selected
     // Trading is not linear - starving NPC may pay $100 for 3 jerky, but not $100000 for 300 jerky
-    theirs = npc_trading::init_selling( np );
-    yours = npc_trading::init_buying( np, g->u );
-
-    // Adjust the prices based on your barter skill.
-    // cap adjustment so nothing is ever sold below value
-    ///\EFFECT_INT_NPC slightly increases bartering price changes, relative to your INT
-
-    ///\EFFECT_BARTER_NPC increases bartering price changes, relative to your BARTER
-    double their_adjust = price_adjustment( np.get_skill_level( skill_barter ) -
-                                            g->u.get_skill_level( skill_barter ) ) +
-                          ( np.int_cur - g->u.int_cur ) / 20.0;
-    if( their_adjust < 1.0 ) {
-        their_adjust = 1.0;
-    }
-    for( item_pricing &ip : theirs ) {
-        // don't reprice currency
-        if( !np.my_fac || np.my_fac->currency != ip.loc.get_item()->typeId() ) {
-            ip.price *= their_adjust;
-        }
-    }
-    ///\EFFECT_INT slightly increases bartering price changes, relative to NPC INT
-
-    ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
-    double your_adjust = price_adjustment( g->u.get_skill_level( skill_barter ) -
-                                           np.get_skill_level( skill_barter ) ) +
-                         ( g->u.int_cur - np.int_cur ) / 20.0;
-    if( your_adjust < 1.0 ) {
-        your_adjust = 1.0;
-    }
-    for( item_pricing &ip : yours ) {
-        // don't reprice currency
-        if( !np.my_fac || np.my_fac->currency != ip.loc.get_item()->typeId() ) {
-            ip.price *= your_adjust;
-        }
-    }
+    theirs = npc_trading::init_buying( g->u, np, true );
+    yours = npc_trading::init_buying( np, g->u, false );
 
     // Just exchanging items, no barter involved
     exchange = np.is_player_ally();
