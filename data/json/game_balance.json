@@ -204,8 +204,8 @@
   },
   {
     "type": "EXTERNAL_OPTION",
-    "name": "FUNGAL_INFECTION_ALLOWED",
-    "info": "A boolean specifying whether you can get fungal infections.",
+    "name": "TELEGLOW_FUNGAL_INFECTION",
+    "info": "A boolean specifying whether you can get fungal infections from teleglow.",
     "stype": "bool",
     "value": true
   }

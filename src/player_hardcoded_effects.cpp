@@ -102,9 +102,6 @@ static void eff_fun_fungus( player &u, effect &it )
     const time_duration dur = it.get_duration();
     const int intense = it.get_intensity();
     const int bonus = u.get_healthy() / 10 + ( u.resists_effect( it ) ? 100 : 0 );
-    if( !get_option < bool >( "FUNGAL_INFECTION_ALLOWED" ) ) {
-        u.remove_effect( effect_fungus, num_bp );
-    }
     switch( intense ) {
         case 1: // First hour symptoms
             if( one_in( 160 + bonus ) ) {
@@ -705,10 +702,11 @@ void player::hardcoded_effects( effect &it )
                 it.set_duration( 0_turns );
             }
         }
-        if( one_in( 10000 ) ) {
-            if( !has_trait( trait_id( "M_IMMUNE" ) ) ) {
+        if ( one_in( 10000 ) ) {
+            if ( !has_trait( trait_id( "M_IMMUNE" ) ) && get_option <bool>( "TELEGLOW_FUNGAL_INFECTION" ) ) {
                 add_effect( effect_fungus, 1_turns, num_bp, true );
-            } else {
+            }
+            else {
                 add_msg_if_player( m_info, _( "We have many colonists awaiting passage." ) );
             }
             // Set ourselves up for removal
