@@ -1,0 +1,9 @@
+[
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "FUNGAL_INFECTIONS_ALLOWED",
+    "info": "A boolean specifying whether you can get fungal infections.",
+    "stype": "bool",
+    "value": false
+  }
+]

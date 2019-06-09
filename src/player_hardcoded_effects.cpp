@@ -103,8 +103,7 @@ static void eff_fun_fungus( player &u, effect &it )
     const int intense = it.get_intensity();
     const int bonus = u.get_healthy() / 10 + ( u.resists_effect( it ) ? 100 : 0 );
     if ( !get_option < bool >( "FUNGAL_INFECTION_ALLOWED" ) ) {
-        it.set_duration( 0_turns );
-        u.add_msg_if_player( m_warning, _( "NO FUNGUS ALLOWED!" ) );
+        u.remove_effect( effect_fungus, num_bp );
     }
     switch( intense ) {
         case 1: // First hour symptoms
@@ -706,7 +705,7 @@ void player::hardcoded_effects( effect &it )
                 it.set_duration( 0_turns );
             }
         }
-        if( one_in( 2 ) ) {
+        if( one_in( 10000 ) ) {
             if( !has_trait( trait_id( "M_IMMUNE" ) ) ) {
                 add_effect( effect_fungus, 1_turns, num_bp, true );
             } else {
