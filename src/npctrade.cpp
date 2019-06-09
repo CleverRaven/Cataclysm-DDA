@@ -47,6 +47,32 @@ inventory npc_trading::inventory_exchange( inventory &inv,
     return new_inv;
 }
 
+void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &giver, player &receiver,
+                                  faction *fac, std::list<item_location *> &from_map )
+{
+    for( item_pricing &ip: stuff ) {
+        if( !ip.selected ) {
+            continue;
+        }
+        item gift = *ip.loc.get_item();
+        gift.set_owner( fac );
+        receiver.i_add( gift );
+
+        if( ip.loc.where() == item_location::type::character ) {
+            if( gift.typeId() == giver.weapon.typeId() ) {
+                giver.remove_weapon();
+            }
+            if( giver.has_charges( gift.typeId(), gift.count() ) ) {
+                giver.use_charges( gift.typeId(), gift.count() );
+            } else if( giver.has_amount( gift.typeId(), gift.count() ) ) {
+                giver.use_amount( gift.typeId(), gift.count() );
+            }
+        } else {
+            from_map.push_back( &ip.loc );
+        }
+    }
+}
+
 std::vector<item_pricing> npc_trading::init_selling( npc &p )
 {
     std::vector<item_pricing> result;
@@ -435,49 +461,11 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
         int practice = 0;
 
         std::list<item_location *> from_map;
-        const auto mark_for_exchange = [&practice, &from_map]( item_pricing & pricing,
-        std::set<item *> &removing, std::vector<item *> &giving ) {
-            if( !pricing.selected ) {
-                return;
-            }
 
-            giving.push_back( pricing.loc.get_item() );
-            practice += pricing.price;
-
-            if( pricing.loc.where() == item_location::type::character ) {
-                removing.insert( pricing.loc.get_item() );
-            } else {
-                from_map.push_back( &pricing.loc );
-            }
-        };
-        // This weird exchange is needed to prevent pointer bugs
-        // Removing items from an inventory invalidates the pointers
-        std::set<item *> removing_yours;
-        std::vector<item *> giving_them;
-
-        for( auto &pricing : trade_win.yours ) {
-            mark_for_exchange( pricing, removing_yours, giving_them );
-        }
-
-        std::set<item *> removing_theirs;
-        std::vector<item *> giving_you;
-        for( auto &pricing : trade_win.theirs ) {
-            mark_for_exchange( pricing, removing_theirs, giving_you );
-        }
-
-        const inventory &your_new_inv = inventory_exchange( g->u.inv, removing_yours, giving_you );
-        const inventory &their_new_inv = inventory_exchange( np.inv, removing_theirs, giving_them );
-
-        g->u.inv = your_new_inv;
-        np.inv = their_new_inv;
-
-        if( removing_yours.count( &g->u.weapon ) ) {
-            g->u.remove_weapon();
-        }
-
-        if( removing_theirs.count( &np.weapon ) ) {
-            np.remove_weapon();
-        }
+        npc_trading::transfer_items( trade_win.yours, g->u, np, np.my_fac, from_map );
+        npc_trading::transfer_items( trade_win.theirs, np, g->u,
+                                     g->faction_manager_ptr->get( faction_id( "your_followers" ) ),
+                                     from_map );
 
         for( item_location *loc_ptr : from_map ) {
             loc_ptr->remove_item();
@@ -487,12 +475,6 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
         if( !trade_win.exchange ) {
             trade_win.update_npc_owed( np );
             g->u.practice( skill_barter, practice / 10000 );
-        }
-        for( auto &elem : g->u.inv_dump() ) {
-            elem->set_owner( g->faction_manager_ptr->get( faction_id( "your_followers" ) ) );
-        }
-        for( auto &elem : np.inv_dump() ) {
-            elem->set_owner( np.my_fac );
         }
     }
     g->refresh_all();

@@ -79,6 +79,9 @@ int cash_to_favor( const npc &, int cash );
 
 inventory inventory_exchange( inventory &inv,
                               const std::set<item *> &without, const std::vector<item *> &added );
+void transfer_items( std::vector<item_pricing> &stuff, player &giver, player &receiver, faction *fac,
+                     std::list<item_location *> &from_map );
+
 bool trade( npc &p, int cost, const std::string &deal );
 std::vector<item_pricing> init_selling( npc &p );
 std::vector<item_pricing> init_buying( npc &p, player &u );
