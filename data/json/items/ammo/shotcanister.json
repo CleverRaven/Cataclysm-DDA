@@ -7,7 +7,7 @@
     "symbol": "=",
     "color": "green",
     "description": "This small paper canister resembling a crude shotshell is filled to the brim with assorted pieces of scrap metal.",
-    "material": ["steel" ],
+    "material": [ "steel" ],
     "volume": 1,
     "weight": 55,
     "bashing": 2,
