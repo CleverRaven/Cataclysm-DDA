@@ -442,7 +442,7 @@
         "r": { "item": "cleaning", "chance": 50 },
         ":": { "item": "animalshelter_toys", "chance": 5 },
         "1": { "item": "office_paper", "chance": 50 },
-        "4": [ { "item": "softdrugs", "chance": 50 }, { "item": "harddrugs", "chance": 50 } ]
+        "4": [ { "item": "softdrugs", "chance": 50 }, { "item": "harddrugs", "chance": 50 } ],
         "5": { "item": "alcohol_bottled_canned", "chance": 95, "repeat": [ 1, 3 ] },
         "2": [ { "item": "cannedfood", "chance": 70, "repeat": [ 1, 3 ] }, { "item": "pasta", "chance": 70, "repeat": [ 1, 3 ] } ]
       },
