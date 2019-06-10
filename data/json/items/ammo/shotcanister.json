@@ -52,7 +52,7 @@
     "symbol": "=",
     "color": "green",
     "description": "This small paper canister resembling a crude shotshell is filled to the brim with handmade flechettes, giving it some armor piercing capabilities. ",
-    "material": ["steel" ],
+    "material": [ "steel" ],
     "volume": 1,
     "weight": 55,
     "bashing": 2,
