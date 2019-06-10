@@ -630,8 +630,6 @@
     "time": "1 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
-    "qualities": [],
-    "using": [ ],
     "components": [
       [[ "scrap", 1 ]], 
       [["paper", 2 ]]
@@ -648,8 +646,6 @@
     "time": "1 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
-    "qualities": [],
-    "using": [ ],
     "components": [
       [[ "combatnail", 10 ]], 
       [["paper", 2 ]]
@@ -666,8 +662,6 @@
     "time": "1 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
-    "qualities": [],
-    "using": [ ],
     "components": [
       [[ "bearing", 10 ]], 
       [["paper", 2 ]]
