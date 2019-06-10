@@ -260,7 +260,9 @@ void map::build_sunlight_cache( int zlev )
             // so handle that seperately.
             if( prev_transparency > LIGHT_TRANSPARENCY_SOLID &&
                 !prev_floor_cache[x][y] && prev_light.max() > 0.0 ) {
-                lm[x][y].fill( prev_light.max() * LIGHT_TRANSPARENCY_OPEN_AIR / prev_transparency );
+                lm[x][y].fill( std::max( inside_light_level,
+                                         prev_light.max() * static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR )
+                                         / prev_transparency ) );
             } else {
                 lm[x][y].fill( inside_light_level );
             }
