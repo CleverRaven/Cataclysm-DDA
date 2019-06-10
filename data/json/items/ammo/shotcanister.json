@@ -36,7 +36,7 @@
     "ammo_type": "shotcanister",
     "looks_like": "shot_scrap",
     "range": 2,
-    "pierce" : 1,
+    "pierce": 1,
     "damage": 7,
     "dispersion": 80,
     "loudness": 0,
