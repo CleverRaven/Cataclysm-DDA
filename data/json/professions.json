@@ -887,7 +887,7 @@
     "type": "profession",
     "ident": "homeless",
     "name": "Hobo",
-    "cash" : 0,
+    "cash": 0,
     "description": "Society drove you to the fringes and set you wandering, with no home, no family, no friends, until you could only find solace in the bottom of a bottle.  But society doesn't mean a thing anymore, and for all the crap thrown your way, you're still standing.  God damn, you need a drink.",
     "points": -1,
     "items": {
@@ -1460,7 +1460,7 @@
     "name": "Bionic Thief",
     "description": "You have done many high profile heists, but your gains mean nothing in this world.  All you have left are the tools of your trade and your impeccable style.",
     "points": 4,
-    "cash" : 500000,
+    "cash": 500000,
     "CBMs": [ "bio_batteries", "bio_lockpick", "bio_fingerhack", "bio_power_storage_mkII" ],
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "smg" } ],
     "items": {
@@ -2371,10 +2371,7 @@
           "silver_small",
           "platinum_small"
         ],
-        "entries": [
-          { "item": "cash_card", "charges": 1000000 },
-          { "item": "diamond", "count": 5 }
-        ]
+        "entries": [ { "item": "cash_card", "charges": 1000000 }, { "item": "diamond", "count": 5 } ]
       },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
