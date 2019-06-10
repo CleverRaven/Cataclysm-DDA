@@ -51,7 +51,7 @@
     "name": "flechette shotcanister",
     "symbol": "=",
     "color": "green",
-    "description": "This small paper canister resembling a crude shotshell is filled to the brim with handmade flechettes, giving it some armor piercing capabilities. ",
+    "description": "This small paper canister resembling a crude shotshell is filled to the brim with handmade flechettes, giving it some armor piercing capabilities.",
     "material": [ "steel" ],
     "volume": 1,
     "weight": 55,
