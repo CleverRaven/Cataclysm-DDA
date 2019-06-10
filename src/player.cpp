@@ -3952,8 +3952,8 @@ void player::update_body( const time_point &from, const time_point &to )
 {
     update_stamina( to_turns<int>( to - from ) );
     update_stomach( from, to );
-    if( ticks_between( from, to, 10_turns ) > 0 ) {
-        magic.update_mana( *this, to_turns<float>( 10_turns ) );
+    if( ticks_between( from, to, 3_minutes ) > 0 ) {
+        magic.update_mana( *this, to_turns<float>( 3_minutes ) );
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
