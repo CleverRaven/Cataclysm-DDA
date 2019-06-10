@@ -929,7 +929,7 @@ bool construct::check_deconstruct( const tripoint &p )
 
 bool construct::check_empty_up_OK( const tripoint &p )
 {
-    return check_empty( p ) && check_up_OK ( p );
+    return check_empty( p ) && check_up_OK( p );
 }
 
 bool construct::check_up_OK( const tripoint & )
@@ -1080,7 +1080,7 @@ void construct::done_deconstruct( const tripoint &p )
         }
         if( t.deconstruct.deconstruct_above ) {
             const tripoint top = p + tripoint( 0, 0, 1 );
-            if ( g->m.has_furn( top ) ) {
+            if( g->m.has_furn( top ) ) {
                 add_msg( _( "That %s can not be dissasembled, since there is furniture above it." ), t.name() );
                 return;
             }
@@ -1207,7 +1207,7 @@ void construct::done_mine_upstair( const tripoint &p )
     tmpmap.save();
 }
 
-void construct::done_wood_stairs( const tripoint & p ) 
+void construct::done_wood_stairs( const tripoint &p )
 {
     const tripoint top = p + tripoint( 0, 0, 1 );
     g->m.ter_set( top, ter_id( "t_wood_stairs_down" ) );
