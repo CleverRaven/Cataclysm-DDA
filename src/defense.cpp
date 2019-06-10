@@ -1325,7 +1325,7 @@ void draw_caravan_items( const catacurses::window &w, std::vector<itype_id> *ite
         wprintz( w, c_white, " x %2d", ( *counts )[i] );
         if( ( *counts )[i] > 0 ) {
             signed long price = caravan_price( g->u, item( ( *items )[i],
-                                                 0 ).price( false ) * ( *counts )[i] );
+                                               0 ).price( false ) * ( *counts )[i] );
             wprintz( w, ( price > g->u.cash ? c_red : c_green ), " (%s)", format_money( price ) );
         }
     }

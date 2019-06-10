@@ -2349,7 +2349,7 @@
     "name": "Millionaire",
     "description": "You had a fortune, wether inherited, built by hard work, or gained by pure luck. You invested in trade and nothing was beyond your reach.  Now it's now not worth a dime and no money in the world can guarantee your safety and well being.  Hard times are ahead, so it's time to undust your skills and try to sell some ice to the Innuit.  What currency do they accept?",
     "points": 2,
-    "cash": 10000000000,
+    "cash": 9999999999,
     "traits": [ "PROF_MILLIONAIRE" ],
     "skills": [ { "level": 3, "name": "barter" }, { "level": 2, "name": "speech" } ],
     "items": {
