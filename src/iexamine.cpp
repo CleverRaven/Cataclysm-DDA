@@ -832,9 +832,7 @@ void iexamine::cardreader_foodplace( player &p, const tripoint &examp )
                             p.add_msg_if_player( m_bad, _( "You are in the way of the door, move before trying again." ) );
                         } else {
                             g->m.ter_set( tmp, t_door_metal_locked );
-                            open = false;
                         }
-
                     }
                 }
             }
