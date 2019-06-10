@@ -94,7 +94,7 @@
         "topic": "TALK_REFUGEE_Mangalpreet_1_firstmeet"
       },
       {
-        "text": "Hi, Mangalpreet.  What's up?",
+        "text": "Hi, Mangalpreet.",
         "topic": "TALK_REFUGEE_Mangalpreet_2",
         "condition": { "u_has_var": "u_met_Mangalpreet_Singh", "type": "general", "context": "meeting", "value": "yes" }
       },
@@ -114,7 +114,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mangalpreet_1_firstmeet",
-    "dynamic_line": "Yes, I am glad to meet you too.  Will you be staying with us?  I thought they were taking no more refugees.",
+    "dynamic_line": "Yes, I'm glad to meet you too.  Will you be staying with us?  I thought they were taking no more refugees.",
     "responses": [
       { "text": "I'm a traveller actually.  Just saying hello.", "topic": "TALK_REFUGEE_Mangalpreet_2" },
       { "text": "Actually I'm just heading out.", "topic": "TALK_DONE" }
@@ -123,13 +123,13 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mangalpreet_2",
-    "dynamic_line": ".",
-    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
+    "dynamic_line": "Is there anything you'd like to talk about?",
+    "responses": [ { "text": "Not really.  I'd better get going.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mangalpreet_Background",
-    "dynamic_line": ".",
+    "dynamic_line": "Before the end of the world, I was the vice principal of an elementary school.  Now, I'm not sure what I am.  A person without a purpose.",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -138,7 +138,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mangalpreet_Situation",
-    "dynamic_line": ".",
+    "dynamic_line": "I have my family.  I have the Guru Granth Sahib.  I have these things, but I do not have peace.  No one here does.  We are crowded, we are plagued by the sounds and the memories of the dead.  The situation is grim.",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

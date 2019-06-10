@@ -124,7 +124,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Guneet_Background",
-    "dynamic_line": ".",
+    "dynamic_line": "I was in high school, you know.  Most of the way through my junior year.  \"My story\"?  I got on a bus with my parents, the bus crashed, and everyone died except a few people, most of whom are crammed into this little shelter now.  Who knows when we're getting out.",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
@@ -133,7 +133,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Guneet_Situation",
-    "dynamic_line": ".",
+    "dynamic_line": "It sucks in here, there's no two ways about it.  People don't talk to us because we wear turbans and we still have each other.  They think because we're still together, we didn't lose anything.  My dad believes it, too, and I think my mom's on the fence.",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }

@@ -138,7 +138,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_John_Background_cataclysm",
-    "dynamic_line": "Course I do, I ain't an idjit.  It's all the folks here'll talk about.",
+    "dynamic_line": "Course I do, I ain't an idjit.  It's all the folks here c'n talk about.",
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
