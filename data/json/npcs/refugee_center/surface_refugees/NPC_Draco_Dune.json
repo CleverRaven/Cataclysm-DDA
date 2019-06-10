@@ -70,6 +70,21 @@
     "//": "Use this flag to indicate if the player has gotten to conversation part 3."
   },
   {
+    "type": "effect_type",
+    "id": "u_got_to_Draco_7_Draco_Dune",
+    "//": "Use this flag to indicate if the player has gotten to conversation part 7."
+  },
+  {
+    "type": "effect_type",
+    "id": "u_sold_to_Draco",
+    "//": "Use this flag to indicate if the player sold weed recently to Draco."
+  },
+  {
+    "type": "effect_type",
+    "id": "NC_REFUGEE_Draco_has_guitar",
+    "//": "Use this flag to indicate if the player got Draco a guitar."
+  },
+  {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_1",
     "dynamic_line": {
@@ -201,7 +216,7 @@
     "id": "TALK_REFUGEE_Draco_6a",
     "dynamic_line": "Me too!  You can understand how folks be wantin' some liveliness in these times. Some music sure would help with that.  Damn, I miss it.  All I hear is those MP3 players with there tin-can drum machines and whiny vocals.  Help me find a guitar and we'll really get this place smokin'!",
     "responses": [
-      { "text": "I could be persuaded.", "topic": "TALK_MISSION_LIST" },
+      { "text": "I could be persuaded.", "topic": "TALK_REFUGEE_Draco_7" },
       { "text": "I like that kind of music.", "topic": "TALK_DONE" }
     ]
   },
@@ -210,7 +225,7 @@
     "id": "TALK_REFUGEE_Draco_6b",
     "dynamic_line": "Me too!  Times are hard for folks and that's no laughing matter.  People need some normality in these times.  Some reminders how things used to be.  I think a sing-along or two could do folks good.",
     "responses": [
-      { "text": "Couldn't hurt.", "topic": "TALK_MISSION_LIST" },
+      { "text": "Couldn't hurt.", "topic": "TALK_REFUGEE_Draco_7" },
       { "text": "I don't sing.", "topic": "TALK_DONE" }
     ]
   },
@@ -219,7 +234,7 @@
     "id": "TALK_REFUGEE_Draco_6c",
     "dynamic_line": "Me too!  I did stand-up comedy at a club once.  Well, outside a club anyway.  You know what'd be funny?  Next time one of those stupid ferals starts running around chasing after a squirrel or something, if I had me a guitar I could play the Benny Hill tune and get everybody crackin' up.  Places needs some laughter badly.",
     "responses": [
-      { "text": "That'd be awesome.", "topic": "TALK_MISSION_LIST" },
+      { "text": "That'd be awesome.", "topic": "TALK_REFUGEE_Draco_7" },
       { "text": "Yeah, wouldn't be that funny when Zed heard all the sound and broke in.  Be responsible.", "topic": "TALK_DONE" }
     ]
   },
@@ -228,7 +243,7 @@
     "id": "TALK_REFUGEE_Draco_6d",
     "dynamic_line": "Me too.  It's fight a stay afloat in these times.  Some music would lift all spirits, though, don't you think?",
     "responses": [
-      { "text": "Can you play heavy metal on an acoustic guitar?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Can you play heavy metal on an acoustic guitar?", "topic": "TALK_REFUGEE_Draco_7" },
       { "text": "Boring.  I'm going to go destroy something.", "topic": "TALK_DONE" }
     ]
   },
@@ -237,8 +252,113 @@
     "id": "TALK_REFUGEE_Draco_6e",
     "dynamic_line": "Me too!  For now, anyway, that's not really possible for me.  I mean, I guess you know better than me about that.  Man, I used to travel all around.  Saw halfa the States with my guitar on my back.  Now, though, well, I think I'll stay inside for now.",
     "responses": [
-      { "text": "Maybe I could help with something?", "topic": "TALK_MISSION_LIST" },
+      { "text": "Maybe I could help with something?", "topic": "TALK_REFUGEE_Draco_7" },
       { "text": "Well then, I'll leave you here where it's safe.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_7",
+    "effect": { "u_add_effect": "u_got_to_Draco_7_Draco_Dune", "duration": "PERMANENT" },
+    "dynamic_line": {
+      "u_has_effect": "NC_REFUGEE_Draco_has_guitar",
+      "yes": "My savior!  My patron of the arts!  You're always welcome here, friend.",
+      "no": "Man, just imagine what I could do with a new guitar."
+    },
+    "responses": [
+      { "text": "Let's talk about getting you that guitar.", "topic": "TALK_MISSION_LIST" ,
+        "condition": { "u_has_effect": "NC_REFUGEE_Draco_has_guitar" } },
+      { "text": "I've been thinking about that deal you mentioned.",
+        "condition": { "u_has_effect": "NC_REFUGEE_Draco_offered_weed_deal" },
+        "topic": "TALK_REFUGEE_Draco_10_approve",
+        },
+      { "text": "Anything you buying or selling, by chance?",
+        "condition": { "not": { "u_has_effect": "NC_REFUGEE_Draco_offered_weed_deal" } },
+        "effect": { "npc_add_effect": "NC_REFUGEE_Draco_offered_weed_deal", "duration": "PERMANENT" },
+        "topic": "TALK_REFUGEE_Draco_8",
+        "switch": true 
+        },
+      { "text": "See you around, Draco.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_8",
+    "dynamic_line": "Well now, my friend-o!  You just asked a mighty fine question.  Folks have been missing the little things in life.  New shoes, new cellphones, can't exactly go shopping, or, well, I guess you sorta can, if you mind the broken glass.  I left my wallet in an outdoorsman's store when I 'bought' this warmer coat.  Figured that's kinda it, you know?  It didn't matter anymore.  I don't think my insurance's going to pay out for any health care I get now.  I did what you see in the movies though, I rolled a joint with a hundred dollar bill.  Ended up coughing and rerolling it in regular paper though.  Was too harsh.  Just letting you know in case you get the smart idea of trying it.",
+    "responses": [
+      { "text": "Go on.", "topic": "TALK_REFUGEE_Draco_9" },
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_9",
+    "dynamic_line": "Say, I don't mean to get you in any trouble or nothing, if any folks still care about that, but you haven't seen any green around town, have ya?",
+    "responses": [
+        { "text": "What?.", "topic": "TALK_REFUGEE_Draco_10_question" },
+        { "text": "WHAT.", "topic": "TALK_REFUGEE_Draco_10_disapprove" },
+        { "text": "Oh yeah, some people've been growing it in their basements.", "topic": "TALK_REFUGEE_Draco_10_approve" },
+        { "text": "I'm not comfortable with where this is going.", "topic": "TALK_REFUGEE_Draco_10_disapprove" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_10_question",
+    "dynamic_line": "Where you say you're from again?  You're not as worldly as you look.  I'm talking about weed.  Marijuana.  Wondered if you've happened upon any.",
+    "responses": [
+        { "text": "Oh.  Uh, sure.", "topic": "TALK_REFUGEE_Draco_10_approve" },
+        { "text": "Right, of course I knew that!  There's tons of the stuff out there for the taking.", "topic": "TALK_REFUGEE_Draco_10_approve" },
+        { "text": "Nope, sorry.", "topic": "TALK_REFUGEE_Draco_10_hasnt_found_weed" },
+        { "text": "I'm not doing this.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_10_disapprove",
+    "dynamic_line": "Hey, don't get all serious on me all of a sudden.  It helps me relax.  Lubricates my joints.  Eases the pain, ya know?  Makes every day a bit more bearable.",
+    "responses": [
+        { "text": "I feel ya.", "topic": "TALK_REFUGEE_Draco_10_approve" },
+        { "text": "I can help.", "topic": "TALK_REFUGEE_Draco_10_approve" },
+        { "text": "Find somebody else, dude.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_10_approve",
+    "dynamic_line": {
+      "u_has_effect": "u_sold_to_Draco",
+      "yes": "Yeah, no worries, though.  I'm good at the moment.  Ask me again later and maybe I'll have scrounged up some more cash for you.",
+      "no": "Amazing!  My lucky day.  Let's see here.  What can I offer... I can scrounge up maybe four Merch bucks for, say, five joints or joints-worth of the good stuff."
+    },
+    "//": "I'm not sure how to set the conditional to pay 4 Merch if no guitar, 6 Merch if has guitar."
+    "responses": [
+        { "text": "You have yourself a deal.  Here you go.",
+        "condition": { "u_has_items": { "item": "marijuana", "count": 5 } },
+            "effect": [ {"u_sell_item": "marijuana"}, { "u_buy_item": "FMCNote", "count": 4 },           { "npc_add_effect": "u_sold_to_Draco", "duration": 100000 } ], "topic": "TALK_REFUGEE_Draco_10_sold" },
+        { "text": "You have yourself a deal.  Here you go."
+        "condition": { "u_has_items": { "item": "joint", "count": 5 } }, "effect": [ {"u_sell_item": "joint"}, { "u_buy_item": "FMCNote", "count": 4 },           { "npc_add_effect": "u_sold_to_Draco", "duration": 100000 } ], 
+, , "topic": "TALK_REFUGEE_Draco_10_sold" },
+        { "text": "Sounds a little cheap, but we can deal.  I'll be back with the goods.",
+        "topic": "TALK_REFUGEE_Draco_7" },
+        { "text": "On second thought, this isn't for me.", "topic": "TALK_DONE" }
+    ]
+},
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_10_hasnt_found_weed",
+    "dynamic_line": "Well, let me know when you have.  I'm not going anywhere.",
+    "responses": [
+        { "text": "Sure.", "topic": "TALK_REFUGEE_Draco_10_approve" },
+        { "text": "Let's talk about something else.", "topic": "TALK_REFUGEE_Draco_7" },
+        { "text": "I'm not your drug dealer, buddy.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_Draco_10_sold",
+    "dynamic_line": "Sold!  Thanks for helping me out, friend.",
+    "responses": [
+        { "text": "No problem, Draco.", "topic": "TALK_REFUGEE_Draco_7" },
+        { "text": "You're welcome.  Later.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -250,6 +370,8 @@
     "goal": "MGOAL_FIND_ITEM",
     "item": "acoustic_guitar",
     "origins": [ "ORIGIN_SECONDARY" ],
+    "end": {
+      "effect": { "npc_add_effect": "NC_REFUGEE_Draco_has_guitar", "duration": "PERMANENT"} },
     "dialogue": {
       "describe": "Yeah, sure, imagine how things would be if we had some live music around here?  I don't know how much I could thank you, though, if you're looking for payment.  You'd sure be improving the mood, though.",
       "offer": "I just want a functional acoustic guitar.  Preferably one that hasn't been used to cave in any zombie skulls.",
@@ -257,174 +379,9 @@
       "rejected": "Oh well.  I understand your reluctancy... I guess.",
       "advice": "Well, I'll let you in on a little secret.  Guitars COULD be found at a music store.  Let that one sink in a bit.",
       "inquire": "How's my guitar comin', friend?",
-      "success": "Hell yeah, bud!  You just made a lot of people really happy!",
+      "success": "Hell yeah, bud!  You just made a lot of people really happy!  In thanks, I'll have enough cash to offer you more recompense for our little dealings.",
       "success_lie": "Huh.  This... is something, isn't it.",
       "failure": "No worries.  They don't grow from trees, but we have time."
     }
   }
 ]
-
-/*
-!
-!
-!
-
-NOTES NOTES NOTES AND COPYPASTA FOR USE LATER
-
-
-
-Folks have been missing the little things in life.  New shoes, new cellphones, can't exactly go shopping, or, well, I guess you sorta can, if you mind the broken glass.  I left my wallet in an outdoorsman's store when I 'bought' this warmer coat.  Figured that's kinda it, you know?  It didn't matter anymore.  I don't think my insurance's going to pay out for any health care I get anymore.  I did what you see in the movies though, I rolled one up in a hundred dollar bill.  Ended up coughing and rerolling it in regular paper though.  Was too harsh.  Just letting you know in case you get the smart idea of trying it.
-
-Say, I don't mean to get you in any trouble or nothing, but you haven't seen any green around town, have ya?  
-What?
-WHAT.
-Oh yeah, some people've been growing it in their basements.
-I'm not comfortable with where this is going.
-
-"What it comes down to is, what do we do now?  Some folks have asked when the cavalry is coming.  I ask, when do we admit that we're it?"
-
-
-
-(If you decide to go with him buying marijuana from you, btw, I was thinking of him commenting that it helps him relax but also helps with his joints. He's supposed to be a bit older, early fifties or so)
-he'll trade it for Merch (FMCNote) x5 for bag of pot
-
-
-
-Easiest thing is to contact me by DM on discord, but otherwise a good starting point would be to pick someone in the refugee center that you find interesting and start writing dialogue for them in a PR. Just let me know so we don't conflict. Draco Dune already exists in game, and would be a pretty good starting one: I planned to give him a quest to help him get a guitar to play music for the other refugees. In my notes he's a pleasant, laid back guy who is doing his best to take this all in stride. He might also trade you some Merch (free merchant money) for marijuana once per week.
-
-
-https://github.com/CleverRaven/Cataclysm-DDA/blob/bc6d06acd32ae65435a6d62c8a210a1e29acb6a8/data/json/npcs/refugee_center/surface_refugees/NPC_Vanessa_Toby.json
-
-Basically you need to check the condition u_has_item to make sure the player has weed, and if they do, use u_sell_item to give the weed to the NPC
-then u_buy_item to give the player some merch in return
-Then you probably want to define an effect and use npc_add_effect to give Draco an effect that expires in several days once he's bought pot from you, so you can't just keep selling it to him to get infinite merch
-
-
-
-
-
-
-
-
-{
-    "id": "BGSS_PREPPER_2_STORY1",
-    "type": "talk_topic",
-    "dynamic_line": "Oh, man.  I thought I was ready.  I had it all planned out.  Bug out bags.  Loaded guns.  Maps of escape routes.  Bunker in the back yard.",
-    "responses": [
-      { "text": "Sounds like it didn't work out.", "topic": "BGSS_PREPPER_2_STORY2" },
-      {
-        "text": "Hey, I'd really be interested in seeing those maps.",
-        "topic": "BGSS_PREPPER_2_MAPS",
-        "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } }
-      },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "id": "BGSS_PREPPER_2_STORY2",
-    "type": "talk_topic",
-    "dynamic_line": "Depends on your definition.  I'm alive, aren't I?  When Hell itself came down from the skies and monsters started attacking the cities, I grabbed my stuff and crammed into the bunker.  My surface cameras stayed online for days; I could see everything happening up there.  I watched those things stride past.  I still have nightmares about the way their bodies moved, like they broke the world just to be here.  I had nothing better to do.  I watched them rip up the cops and the military, watched the dead rise back up and start fighting the living.  I watched the nice old lady down the street rip the head off my neighbor's dog.  I saw a soldier's body twitch and grow into some kind of electrified hulk beast.  I watched it all happen.",
-    "responses": [
-      { "text": "Why did you leave your bunker?", "topic": "BGSS_PREPPER_2_STORY3" },
-      {
-        "text": "Hey, I'd really be interested in seeing those maps.",
-        "topic": "BGSS_PREPPER_2_MAPS",
-        "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } }
-      },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "id": "BGSS_PREPPER_2_STORY3",
-    "type": "talk_topic",
-    "dynamic_line": "Honestly?  I was planning to die.  After what I'd seen, I went a little crazy.  I thought it was over for sure, I figured there was no point in fighting it.  I thought I wouldn't last a minute out here, but I couldn't bring myself to end it down there.  I headed out, planning to let the <zombies> finish me off, but what can I say?  Survival instinct is a funny thing, and I killed the ones outside the bunker.  I guess the adrenaline was what I needed.  It's kept me going since then.",
-    "responses": [
-      {
-        "text": "Hey, I'd really be interested in seeing those maps.",
-        "topic": "BGSS_PREPPER_2_MAPS",
-        "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDYES" } }
-      },
-      { "text": "Thanks for telling me that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
-      { "text": "Thanks for telling me that.  <end_talking>", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "id": "BGSS_PREPPER_2_MAPS",
-    "type": "talk_topic",
-    "dynamic_line": "Yeah, I do.  I'd be willing to part with them for, say, $1000.  Straight from your ATM account, no cash cards.",
-    "responses": [
-      {
-        "text": "[$1000] You have a deal.",
-        "topic": "BGSS_PREPPER_2_SOLD",
-        "condition": { "u_has_cash": 100000 },
-        "effect": { "u_spend_cash": 100000 }
-      },
-      {
-        "text": "Whatever's in that map benefits both of us.",
-        "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
-        "trial": { "type": "PERSUADE", "difficulty": 40, "mod": [ [ "VALUE", 3 ], [ "TRUST", 1 ] ] },
-        "success": { "topic": "BGSS_PREPPER_2_SOLD" },
-        "failure": { "topic": "BGSS_PREPPER_2_NOSALE" }
-      },
-      {
-        "text": "How 'bout you <swear> hand it over and I don't get <swear> pissed off?",
-        "condition": { "not": { "npc_has_effect": "player_BGSS_SAIDNO" } },
-        "trial": { "type": "INTIMIDATE", "difficulty": 30, "mod": [ [ "BRAVERY", -1 ], [ "FEAR", 3 ] ] },
-        "success": { "topic": "BGSS_PREPPER_2_SOLD" },
-        "failure": { "topic": "BGSS_PREPPER_2_NOSALE" }
-      },
-      { "text": "Sorry for changing the subject.  What was it you were saying?", "topic": "TALK_NONE" },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "id": "BGSS_PREPPER_2_SOLD",
-    "type": "talk_topic",
-    "dynamic_line": "All right.  Here they are.",
-    "responses": [
-      {
-        "text": "Thanks!  What was it you were saying before?",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT", "u_buy_item": "survivormap" },
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "Thanks!  <done_conversation_section>",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT", "u_buy_item": "survivormap" },
-        "topic": "TALK_FRIEND"
-      },
-      {
-        "text": "Thanks!  <end_talking>",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDYES", "duration": "PERMANENT", "u_buy_item": "survivormap" },
-        "topic": "TALK_DONE"
-      }
-    ]
-  },
-  {
-    "id": "BGSS_PREPPER_2_NOSALE",
-    "type": "talk_topic",
-    "dynamic_line": "Nice try.  You want the maps, you pay up.",
-    "responses": [
-      {
-        "text": "Fine.  What was it you were saying before?",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "PERMANENT" },
-        "topic": "TALK_NONE"
-      },
-      {
-        "text": "<done_conversation_section>",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "PERMANENT" },
-        "topic": "TALK_FRIEND"
-      },
-      {
-        "text": "<end_talking>",
-        "effect": { "npc_add_effect": "player_BGSS_SAIDNO", "duration": "PERMANENT" },
-        "topic": "TALK_DONE"
-      }
-    ]
-  }
-]
-
-
-* /
