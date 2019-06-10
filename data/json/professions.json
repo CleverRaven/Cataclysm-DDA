@@ -2165,7 +2165,7 @@
     "points": 0,
     "skills": [ { "level": 1, "name": "melee" } ],
     "items": {
-      "both": [ "striped_shirt", "striped_pants", "sneakers", "glass_shiv" ],
+      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "glass_shiv" ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -2179,7 +2179,7 @@
     "skills": [ { "level": 1, "name": "melee" } ],
     "traits": [ "KILLER" ],
     "items": {
-      "both": [ "striped_shirt", "striped_pants", "sneakers", "glass_shiv" ],
+      "both": [ "striped_shirt", "striped_pants", "sneakers", "socks", "glass_shiv" ],
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
