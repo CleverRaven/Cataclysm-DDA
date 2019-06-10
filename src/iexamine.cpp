@@ -53,7 +53,7 @@
 #include "overmapbuffer.h"
 #include "pickup.h"
 #include "player.h"
-#include "recipe_dictionary.h"
+#include "recipe.h"
 #include "requirements.h"
 #include "rng.h"
 #include "sounds.h"
