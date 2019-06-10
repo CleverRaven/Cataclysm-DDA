@@ -80,14 +80,14 @@ void map::add_light_from_items( const tripoint &p, std::list<item>::iterator beg
 }
 
 // TODO: Consider making this just clear the cache and dynamically fill it in as trans() is called
-void map::build_transparency_cache( const int zlev )
+bool map::build_transparency_cache( const int zlev )
 {
     auto &map_cache = get_cache( zlev );
     auto &transparency_cache = map_cache.transparency_cache;
     auto &outside_cache = map_cache.outside_cache;
 
     if( !map_cache.transparency_cache_dirty ) {
-        return;
+        return false;
     }
 
     // Default to just barely not transparent.
@@ -167,6 +167,7 @@ void map::build_transparency_cache( const int zlev )
         }
     }
     map_cache.transparency_cache_dirty = false;
+    return true;
 }
 
 void map::apply_character_light( player &p )

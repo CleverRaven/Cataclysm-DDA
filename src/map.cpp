@@ -7782,11 +7782,11 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     }
 }
 
-void map::build_floor_cache( const int zlev )
+bool map::build_floor_cache( const int zlev )
 {
     auto &ch = get_cache( zlev );
     if( !ch.floor_cache_dirty ) {
-        return;
+        return false;
     }
 
     auto &floor_cache = ch.floor_cache;
@@ -7812,6 +7812,7 @@ void map::build_floor_cache( const int zlev )
     }
 
     ch.floor_cache_dirty = false;
+    return zlevels;
 }
 
 void map::build_floor_caches()
@@ -7827,10 +7828,11 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
 {
     const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
     const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
+    bool seen_cache_dirty = false;
     for( int z = minz; z <= maxz; z++ ) {
         build_outside_cache( z );
-        build_transparency_cache( z );
-        build_floor_cache( z );
+        seen_cache_dirty |= build_transparency_cache( z );
+        seen_cache_dirty |= build_floor_cache( z );
     }
 
     tripoint start( 0, 0, minz );
@@ -7877,10 +7879,14 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     const tripoint &p = g->u.pos();
     if( ( has_furn( p ) && !furn( p ).obj().transparent ) || !ter( p ).obj().transparent ) {
         get_cache( p.z ).transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
-        set_transparency_cache_dirty( p.z );
     }
 
-    build_seen_cache( g->u.pos(), zlev );
+    // Initial value is illegal player position.
+    static tripoint player_prev_pos = tripoint_zero;
+    if( seen_cache_dirty || player_prev_pos != p ) {
+        build_seen_cache( g->u.pos(), zlev );
+        player_prev_pos = p;
+    }
     if( !skip_lightmap ) {
         generate_lightmap( zlev );
     }
