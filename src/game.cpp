@@ -4174,6 +4174,8 @@ void game::monmove()
             if( !critter.has_effect( effect_controlled ) ) {
                 // Formulate a path to follow
                 critter.plan( monster_factions );
+            } else {
+                critter.moves = 0;
             }
             critter.move(); // Move one square, possibly hit u
             critter.process_triggers();

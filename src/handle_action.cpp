@@ -936,6 +936,7 @@ static void loot()
         PlantPlots = 8,
         FertilizePlots = 16,
         HarvestPlots = 32,
+        ConstructPlots = 64,
     };
 
     auto just_one = []( int flags ) {
@@ -963,6 +964,9 @@ static void loot()
         flags |= FertilizePlots;
         flags |= HarvestPlots;
     }
+    flags |= g->check_near_zone( zone_type_id( "CONSTRUCTION_BLUEPRINT" ),
+                                 u.pos() ) ? ConstructPlots : 0;
+
 
     if( flags == 0 ) {
         add_msg( m_info, _( "There is no compatible zone nearby." ) );
@@ -1004,6 +1008,10 @@ static void loot()
             menu.addentry_desc( HarvestPlots, true, 'h', _( "Harvest plots" ),
                                 _( "Harvest any full-grown plants from nearby Farm: Plot zones" ) );
         }
+        if( flags & ConstructPlots ) {
+            menu.addentry_desc( ConstructPlots, true, 'c', _( "Construct Plots" ),
+                                _( "Work on any nearby Blueprint: construction zones" ) );
+        }
 
         menu.query();
         flags = ( menu.ret >= 0 ) ? menu.ret : None;
@@ -1037,6 +1045,9 @@ static void loot()
             break;
         case HarvestPlots:
             u.assign_activity( activity_id( "ACT_HARVEST_PLOT" ) );
+            break;
+        case ConstructPlots:
+            u.assign_activity( activity_id( "ACT_BLUEPRINT_CONSTRUCTION" ) );
             break;
         default:
             debugmsg( "Unsupported flag" );
@@ -1936,7 +1947,7 @@ bool game::handle_action()
                 } else if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
                     add_msg( m_info, _( "It is too dark to construct right now." ) );
                 } else {
-                    construction_menu();
+                    construction_menu( false );
                 }
                 break;
 
