@@ -164,6 +164,8 @@ const efftype_id effect_glowing( "glowing" );
 const efftype_id effect_glowing_led( "glowy_led" );
 const efftype_id effect_hallu( "hallu" );
 const efftype_id effect_happy( "happy" );
+const efftype_id effect_harnessed( "harnessed" );
+const efftype_id effect_has_bag( "has_bag" );
 const efftype_id effect_haslight( "haslight" );
 const efftype_id effect_high( "high" );
 const efftype_id effect_in_pit( "in_pit" );
@@ -173,6 +175,7 @@ const efftype_id effect_lack_sleep( "lack_sleep" );
 const efftype_id effect_laserlocked( "laserlocked" );
 const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_meth( "meth" );
+const efftype_id effect_monster_armor( "monster_armor" );
 const efftype_id effect_music( "music" );
 const efftype_id effect_onfire( "onfire" );
 const efftype_id effect_paincysts( "paincysts" );
@@ -180,8 +183,11 @@ const efftype_id effect_panacea( "panacea" );
 const efftype_id effect_pet( "pet" );
 const efftype_id effect_poison( "poison" );
 const efftype_id effect_recover( "recover" );
+const efftype_id effect_ridden( "ridden" );
+const efftype_id effect_riding( "riding" );
 const efftype_id effect_run( "run" );
 const efftype_id effect_sad( "sad" );
+const efftype_id effect_saddled( "monster_saddled" );
 const efftype_id effect_sap( "sap" );
 const efftype_id effect_shakes( "shakes" );
 const efftype_id effect_sleep( "sleep" );
@@ -196,6 +202,7 @@ const efftype_id effect_teargas( "teargas" );
 const efftype_id effect_tapeworm( "tapeworm" );
 const efftype_id effect_teleglow( "teleglow" );
 const efftype_id effect_tetanus( "tetanus" );
+const efftype_id effect_tied( "tied" );
 const efftype_id effect_took_anticonvulsant_visible( "took_anticonvulsant_visible" );
 const efftype_id effect_took_flumed( "took_flumed" );
 const efftype_id effect_took_prozac( "took_prozac" );
@@ -6750,6 +6757,11 @@ static std::string effects_description_for_creature( Creature *const creature, s
         { effect_lying_down, ef_con( _( " is <color_dark_blue>sleeping</color>. " ), _( "lies" ) ) },
         { effect_sleep, ef_con( _( " is <color_dark_blue>sleeping</color>. " ), _( "lies" ) ) },
         { effect_haslight, ef_con( _( " is <color_yellow>lit</color>. " ) ) },
+        { effect_saddled, ef_con( _( " is <color_gray>saddled</color>. " ) ) },
+        { effect_harnessed, ef_con( _( " is being <color_gray>harnessed</color> by a vehicle. " ) ) },
+        { effect_monster_armor, ef_con( _( " is <color_gray>wearing armor</color>. " ) ) },
+        { effect_has_bag, ef_con( _( " have <color_gray>bag</color> attached. " ) ) },
+        { effect_tied, ef_con( _( " is <color_gray>tied</color>. " ) ) },
         { effect_bouldering, ef_con( "", _( "balancing" ) ) }
     };
 
@@ -6776,6 +6788,11 @@ static std::string effects_description_for_creature( Creature *const creature, s
         float pain = creature->get_pain() / 10.f;
         if( pain > 3 ) {
             figure_effects += pronoun_sex + pgettext( "Someone", " is writhing in <color_red>pain</color>. " );
+        }
+        if( creature->has_effect( effect_riding ) ) {
+            pose = _( "rides" );
+            monster *const mon = g->critter_at<monster>( creature->pos(), false );
+            figure_effects += pronoun_sex + _( " is riding <color_light_blue>" ) + mon->name() + "</color>. ";
         }
         if( creature->has_effect( effect_glowing_led ) ) {
             figure_effects += _( "A bionic LED is <color_yellow>glowing</color> softly. " );
@@ -6964,7 +6981,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint aim_point,
             continue; // disallow photos with non-visible objects
         }
         monster *const mon = g->critter_at<monster>( current, false );
-        player *const guy = g->critter_at<player>( current );
+        player *guy = g->critter_at<player>( current );
 
         total_tiles_num++;
         if( g->m.is_outside( current ) ) {
@@ -6975,6 +6992,12 @@ static extended_photo_def photo_def_for_camera_point( const tripoint aim_point,
         if( guy || mon ) {
             std::string figure_appearance, figure_name, pose, pronoun_sex, figure_effects;
             Creature *creature;
+            if( mon && mon->has_effect( effect_ridden ) ) {
+                // only player can ride, see monexamine::mount_pet
+                guy = &g->u;
+                description_figures_appearance[ mon->name() ] = "\"" + mon->type->get_description() + "\"";
+            }
+
             if( guy ) {
                 if( guy->get_movement_mode() == "crouch" ) {
                     pose = _( "sits" );
@@ -7194,14 +7217,20 @@ static void item_save_monsters( player *p, item *it, const std::vector<monster *
             const int old_quality = atoi( quality_char ); // get qual number from char
 
             if( photo_quality > old_quality ) {
-                quality_char = &string_format( "%d", photo_quality )[ 0 ];
-                monster_photos[ quality_num_pos ] = *quality_char;
+                monster_photos[ quality_num_pos ] = string_format( "%d", photo_quality )[ 0 ];
             }
             if( p && !p->is_blind() ) {
                 if( photo_quality > old_quality ) {
-                    p->add_msg_if_player( _( "This photo is better than the previous one." ) );
+                    p->add_msg_if_player( m_good, string_format(
+                                              _( "The quality of <color_light_blue>%s</color> image is better than the previous one." ), name ) );
+                } else if( old_quality == 5 ) {
+                    p->add_msg_if_player( string_format(
+                                              _( "The quality of stored <color_light_blue>%s</color> image is already maximally detailed." ),
+                                              name ) );
                 } else {
-                    p->add_msg_if_player( _( "But the quality of photo is not better than the previous one." ) );
+                    p->add_msg_if_player( m_bad, string_format(
+                                              _( "But the quality of <color_light_blue>%s</color> image is worse than the previous one." ),
+                                              name ) );
                 }
             }
         }
