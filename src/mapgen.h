@@ -349,6 +349,9 @@ class update_mapgen_function_json : public mapgen_function_json_base
         void check( const std::string &oter_name ) const;
         bool update_map( const tripoint &omt_pos, int offset_x, int offset_y,
                          mission *miss, bool verify = false ) const;
+        bool update_map( mapgendata &md, int offset_x = 0, int offset_y = 0,
+                         mission *miss = nullptr, bool verify = false, int rotation = 0 ) const;
+
     protected:
         bool setup_internal( JsonObject &/*jo*/ ) override;
         ter_id fill_ter;
