@@ -2050,6 +2050,7 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
     int non_muscle_attempted = 0;
     int started = 0;
     int non_muscle_started = 0;
+    int non_combustion_started = 0;
     const bool take_control = act->values[0];
 
     for( size_t e = 0; e < veh->engines.size(); ++e ) {
@@ -2062,6 +2063,8 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
                 started++;
                 if( !veh->is_engine_type( e, "muscle" ) && !veh->is_engine_type( e, "animal" ) ) {
                     non_muscle_started++;
+                } else {
+                    non_combustion_started++;
                 }
             }
         }
@@ -2084,6 +2087,9 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
             //Only some of the non-muscle engines started
             add_msg( ngettext( "One of the %s's engines start up.",
                                "Some of the %s's engines start up.", non_muscle_started ), veh->name );
+        } else if( non_combustion_started > 0 ) {
+            //Non-combustions "engines" started
+            add_msg( "The %s is ready for movement.", veh->name );
         } else {
             //All of the non-muscle engines failed
             add_msg( m_bad, ngettext( "The %s's engine fails to start.",
