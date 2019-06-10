@@ -60,6 +60,19 @@
   },
   {
     "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [
+      "TALK_REFUGEE_Alonso_2",
+      "TALK_REFUGEE_Alonso_Background",
+      "TALK_REFUGEE_Alonso_Situation"
+    ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_REFUGEE_Alonso_Background" },
+      { "text": "How are things here?", "topic": "TALK_REFUGEE_Alonso_Situation" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_1",
     "dynamic_line": {
       "u_has_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes",

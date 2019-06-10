@@ -67,6 +67,19 @@
   },
   {
     "type": "talk_topic",
+    "//": "common talk responses",
+    "id": [
+      "TALK_REFUGEE_Boris_2",
+      "TALK_REFUGEE_Boris_Background",
+      "TALK_REFUGEE_Boris_Situation"
+    ],
+    "responses": [
+      { "text": "What's your story?", "topic": "TALK_REFUGEE_Boris_Background" },
+      { "text": "How are things here?", "topic": "TALK_REFUGEE_Boris_Situation" }
+    ]
+  },
+  {
+    "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_1",
     "dynamic_line": {
       "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes",
