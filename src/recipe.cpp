@@ -247,6 +247,14 @@ void recipe::load( JsonObject &jo, const std::string &src )
                 bp_requires.emplace_back( std::make_pair( require.get_string( "id" ),
                                           require.get_int( "amount", 1 ) ) );
             }
+            // all blueprints exclude themselves with needing it written in JSON
+            bp_excludes.emplace_back( std::make_pair( result_, 1 ) );
+            bp_array = jo.get_array( "blueprint_excludes" );
+            while( bp_array.has_more() ) {
+                JsonObject exclude = bp_array.next_object();
+                bp_excludes.emplace_back( std::make_pair( exclude.get_string( "id" ),
+                                          exclude.get_int( "amount", 1 ) ) );
+            }
         }
     } else if( type == "uncraft" ) {
         reversible = true;
@@ -436,6 +444,18 @@ std::string recipe::required_skills_string( const Character *c ) const
     return required_skills_string( c, false );
 }
 
+std::string recipe::required_skills_string() const
+{
+    if( required_skills.empty() ) {
+        return _( "<color_white>none</color>" );
+    }
+    return enumerate_as_string( required_skills.begin(), required_skills.end(),
+    [&]( const std::pair<skill_id, int> &skill ) {
+        return string_format( "<color_white>%s: %d</color>", skill.first.obj().name(),
+                              skill.second );
+    } );
+}
+
 std::string recipe::batch_savings_string() const
 {
     return ( batch_rsize != 0 ) ?
@@ -521,6 +541,11 @@ const std::vector<std::pair<std::string, int>> &recipe::blueprint_provides() con
 const std::vector<std::pair<std::string, int>>  &recipe::blueprint_requires() const
 {
     return bp_requires;
+}
+
+const std::vector<std::pair<std::string, int>>  &recipe::blueprint_excludes() const
+{
+    return bp_excludes;
 }
 
 bool recipe::hot_result() const

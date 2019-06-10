@@ -72,6 +72,7 @@
 "unarmed_allowed" : true,           // Can this buff be applied to an unarmed character
 "unarmed_allowed" : false,          // Can this buff be applied to an armed character
 "strictly_unarmed" : true,          // Does this buff require the character to be actually unarmed. If false, allows unarmed weapons (brass knuckles, punch daggers)
+"strictly_melee" : true,            // Does this buff require the character to use a weapon. 
 "max_stacks" : 8,                   // Maximum number of stacks on the buff. Buff bonuses are multiplied by current buff intensity
 "bonus_blocks": 1       // Extra blocks per turn
 "bonus_dodges": 1       // Extra dodges per turn

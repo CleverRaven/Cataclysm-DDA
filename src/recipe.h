@@ -88,6 +88,7 @@ class recipe
         // Character object (if provided) used to color levels
         std::string required_skills_string( const Character *, bool print_skill_level ) const;
         std::string required_skills_string( const Character * ) const;
+        std::string required_skills_string() const;
 
         // Create a string to describe the time savings of batch-crafting, if any.
         // Format: "N% at >M units" or "none"
@@ -125,6 +126,7 @@ class recipe
         const std::vector<itype_id> &blueprint_resources() const;
         const std::vector<std::pair<std::string, int>> &blueprint_provides() const;
         const std::vector<std::pair<std::string, int>> &blueprint_requires() const;
+        const std::vector<std::pair<std::string, int>> &blueprint_excludes() const;
 
         bool hot_result() const;
 
@@ -173,6 +175,7 @@ class recipe
         std::vector<itype_id> bp_resources;
         std::vector<std::pair<std::string, int>> bp_provides;
         std::vector<std::pair<std::string, int>> bp_requires;
+        std::vector<std::pair<std::string, int>> bp_excludes;
 };
 
 #endif // RECIPE_H

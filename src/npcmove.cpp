@@ -504,7 +504,7 @@ void npc::assess_danger()
                                        is_too_close ?  NPC_DANGER_VERY_LOW : 0.0f );
             cur_threat_map[direction_from( pos(), foe.pos() )] += priority;
             if( priority > highest_priority ) {
-                warn_about( warning, 1_minutes, foe.disp_name() );
+                warn_about( warning, 1_minutes );
                 highest_priority = priority;
                 ai_cache.danger = foe_threat;
                 ai_cache.target = g->shared_from( foe );
@@ -2983,8 +2983,7 @@ bool npc::do_player_activity()
             activity = backlog.front();
             backlog.pop_front();
         } else {
-            mission = NPC_MISSION_NULL;
-            attitude = NPCATT_FOLLOW;
+            revert_after_activity();
             // if we loaded after being out of the bubble for a while, we might have more
             // moves than we need, so clear them
             set_moves( 0 );

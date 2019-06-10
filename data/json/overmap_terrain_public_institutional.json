@@ -1011,6 +1011,30 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "fire_station_roof",
+    "name": "fire station roof",
+    "copy-from": "generic_city_building",
+    "sym": "F",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fire_station_1",
+    "name": "fire station",
+    "copy-from": "generic_city_building",
+    "sym": "F",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "fire_station_roof_1",
+    "name": "fire station roof",
+    "copy-from": "generic_city_building",
+    "sym": "F",
+    "color": "red"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "homeless_0_0_0",
     "name": "homeless shelter",
     "sym": "H",

@@ -77,6 +77,7 @@ static const bionic_id bio_remote( "bio_remote" );
 
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 const skill_id skill_driving( "driving" );
 const skill_id skill_melee( "melee" );
@@ -535,17 +536,17 @@ static void handbrake()
 // Establish or release a grab on a vehicle
 static void grab()
 {
-    player &u = g->u;
+    avatar &you = g->u;
     map &m = g->m;
 
-    if( u.get_grab_type() != OBJECT_NONE ) {
-        if( const optional_vpart_position vp = m.veh_at( u.pos() + u.grab_point ) ) {
+    if( you.get_grab_type() != OBJECT_NONE ) {
+        if( const optional_vpart_position vp = m.veh_at( you.pos() + you.grab_point ) ) {
             add_msg( _( "You release the %s." ), vp->vehicle().name );
-        } else if( m.has_furn( u.pos() + u.grab_point ) ) {
-            add_msg( _( "You release the %s." ), m.furnname( u.pos() + u.grab_point ) );
+        } else if( m.has_furn( you.pos() + you.grab_point ) ) {
+            add_msg( _( "You release the %s." ), m.furnname( you.pos() + you.grab_point ) );
         }
 
-        u.grab( OBJECT_NONE );
+        you.grab( OBJECT_NONE );
         return;
     }
 
@@ -556,22 +557,22 @@ static void grab()
     }
     const tripoint grabp = *grabp_;
 
-    if( grabp == u.pos() ) {
+    if( grabp == you.pos() ) {
         add_msg( _( "You get a hold of yourself." ) );
-        u.grab( OBJECT_NONE );
+        you.grab( OBJECT_NONE );
         return;
     }
 
     if( const optional_vpart_position vp = m.veh_at( grabp ) ) {
-        u.grab( OBJECT_VEHICLE, grabp - u.pos() );
+        you.grab( OBJECT_VEHICLE, grabp - you.pos() );
         add_msg( _( "You grab the %s." ), vp->vehicle().name );
     } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present
         if( m.furn( grabp ).obj().move_str_req < 0 ) {
             add_msg( _( "You can not grab the %s" ), m.furnname( grabp ) );
             return;
         }
-        u.grab( OBJECT_FURNITURE, grabp - u.pos() );
-        if( !m.can_move_furniture( grabp, &u ) ) {
+        you.grab( OBJECT_FURNITURE, grabp - you.pos() );
+        if( !m.can_move_furniture( grabp, &you ) ) {
             add_msg( _( "You grab the %s. It feels really heavy." ), m.furnname( grabp ) );
         } else {
             add_msg( _( "You grab the %s." ), m.furnname( grabp ) );
@@ -1045,7 +1046,7 @@ static void loot()
 
 static void wear()
 {
-    player &u = g->u;
+    avatar &u = g->u;
     item_location loc = game_menus::inv::wear( u );
 
     if( loc ) {
@@ -1057,7 +1058,7 @@ static void wear()
 
 static void takeoff()
 {
-    player &u = g->u;
+    avatar &u = g->u;
     item_location loc = game_menus::inv::take_off( u );
 
     if( loc ) {
@@ -1846,7 +1847,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_THROW:
-                plthrow();
+                avatar_action::plthrow( g->u );
                 break;
 
             case ACTION_FIRE:
@@ -1962,6 +1963,8 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't construct while you're in your shell." ) );
                 } else if( u.has_effect( effect_riding ) ) {
                     add_msg( m_info, _( "You can't construct while you're riding." ) );
+                } else if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
+                    add_msg( m_info, _( "It is too dark to construct right now." ) );
                 } else {
                     construction_menu();
                 }
@@ -2208,6 +2211,15 @@ bool game::handle_action()
                 add_msg( _( "%s is now set to %s." ),
                          get_options().get_option( "AUTO_FORAGING" ).getMenuText(),
                          get_options().get_option( "AUTO_FORAGING" ).getValueName() );
+                break;
+
+            case ACTION_TOGGLE_AUTO_PICKUP:
+                get_options().get_option( "AUTO_PICKUP" ).setNext();
+                get_options().save();
+                //~ Auto pickup is now set to x
+                add_msg( _( "%s is now set to %s." ),
+                         get_options().get_option( "AUTO_PICKUP" ).getMenuText(),
+                         get_options().get_option( "AUTO_PICKUP" ).getValueName() );
                 break;
 
             case ACTION_DISPLAY_SCENT:

@@ -5129,6 +5129,15 @@
     "monsters": [ { "monster": "mon_zombie_swimmer", "freq": 500, "cost_multiplier": 2 } ]
   },
   {
+    "name": "GROUP_FIRE",
+    "type": "monstergroup",
+    "default": "mon_zombie_fireman",
+    "monsters": [
+      { "monster": "mon_zombie_fireman", "freq": 100, "cost_multiplier": 2, "pack_size": [ 3, 5 ] },
+      { "monster": "mon_zombie", "freq": 40, "cost_multiplier": 1 }
+    ]
+  },
+  {
     "name": "GROUP_PLAIN",
     "type": "monstergroup",
     "default": "mon_zombie",

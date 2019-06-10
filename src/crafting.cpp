@@ -994,13 +994,13 @@ void item::handle_craft_failure( player &crafter )
     }
 }
 
-requirement_data item::get_continue_reqs()
+requirement_data item::get_continue_reqs() const
 {
     if( !is_craft() ) {
         debugmsg( "get_continue_reqs() called on non-craft '%s.'  Aborting.", tname() );
         return requirement_data();
     }
-    return making->requirements().continue_requirements( *this );
+    return requirement_data::continue_requirements( comps_used, components );
 }
 
 void player::complete_craft( item &craft, const tripoint &loc )
@@ -1181,7 +1181,8 @@ bool player::can_continue_craft( item &craft )
     if( !continue_reqs.is_empty() ) {
 
         const std::function<bool( const item & )> filter = rec.get_component_filter();
-        const int batch_size = craft.charges;
+        // continue_reqs are for all batches at once
+        const int batch_size = 1;
 
         if( !continue_reqs.can_make_with_inventory( crafting_inventory(), filter, batch_size ) ) {
             std::ostringstream buffer;

@@ -32,8 +32,10 @@
 #include "player.h"
 #include "skill.h"
 #include "skill_boost.h"
+#include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"
+#include "trap.h"
 #include "veh_interact.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -45,6 +47,7 @@
 #include "stomach.h"
 #include "ui.h"
 
+const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_bandaged( "bandaged" );
 const efftype_id effect_beartrap( "beartrap" );
 const efftype_id effect_bite( "bite" );
@@ -56,15 +59,23 @@ const efftype_id effect_crushed( "crushed" );
 const efftype_id effect_darkness( "darkness" );
 const efftype_id effect_disinfected( "disinfected" );
 const efftype_id effect_downed( "downed" );
+const efftype_id effect_drunk( "drunk" );
+const efftype_id effect_foodpoison( "foodpoison" );
 const efftype_id effect_grabbed( "grabbed" );
 const efftype_id effect_heavysnare( "heavysnare" );
 const efftype_id effect_infected( "infected" );
 const efftype_id effect_in_pit( "in_pit" );
 const efftype_id effect_lightsnare( "lightsnare" );
+const efftype_id effect_lying_down( "lying_down" );
 const efftype_id effect_narcosis( "narcosis" );
+const efftype_id effect_nausea( "nausea" );
 const efftype_id effect_no_sight( "no_sight" );
+const efftype_id effect_pkill1( "pkill1" );
+const efftype_id effect_pkill2( "pkill2" );
+const efftype_id effect_pkill3( "pkill3" );
 const efftype_id effect_riding( "riding" );
 const efftype_id effect_sleep( "sleep" );
+const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 const efftype_id effect_webbed( "webbed" );
 
 const skill_id skill_dodge( "dodge" );
@@ -79,6 +90,8 @@ static const trait_id trait_DISORGANIZED( "DISORGANIZED" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
 static const trait_id trait_ELFA_NV( "ELFA_NV" );
 static const trait_id trait_FEL_NV( "FEL_NV" );
+static const trait_id trait_GILLS( "GILLS" );
+static const trait_id trait_GILLS_CEPH( "GILLS_CEPH" );
 static const trait_id trait_GLASSJAW( "GLASSJAW" );
 static const trait_id trait_MEMBRANE( "MEMBRANE" );
 static const trait_id trait_MYOPIC( "MYOPIC" );
@@ -91,6 +104,8 @@ static const trait_id trait_PER_SLIME( "PER_SLIME" );
 static const trait_id trait_SEESLEEP( "SEESLEEP" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHELL( "SHELL" );
+static const trait_id trait_SHOUT2( "SHOUT2" );
+static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
 static const trait_id trait_THRESH_INSECT( "THRESH_INSECT" );
 static const trait_id trait_THRESH_PLANT( "THRESH_PLANT" );
@@ -2058,10 +2073,7 @@ int Character::get_stored_kcal() const
 
 void Character::mod_stored_kcal( int nkcal )
 {
-    // this needs to be capped until there are negative effects on being overweight
-    const int capped = std::min( stored_calories + nkcal,
-                                 static_cast<int>( get_healthy_kcal() * 1.1 ) );
-    set_stored_kcal( capped );
+    set_stored_kcal( stored_calories + nkcal );
 }
 
 void Character::mod_stored_nutr( int nnutr )
@@ -2179,7 +2191,7 @@ std::pair<std::string, nc_color> Character::get_hunger_description() const
         hunger_color = c_yellow;
         hunger_string = _( "Hungry" );
     } else if( hunger < -60 ) {
-        hunger_color = c_green;
+        hunger_color = c_yellow;
         hunger_string = _( "Engorged" );
     } else if( hunger < -20 ) {
         hunger_color = c_green;
@@ -2303,6 +2315,12 @@ void Character::reset_bonuses()
     Creature::reset_bonuses();
 }
 
+int Character::get_max_healthy() const
+{
+    const float bmi = get_bmi();
+    return clamp( static_cast<int>( round( -3 * ( bmi - 18.5 ) * ( bmi - 25 ) + 200 ) ), -200, 200 );
+}
+
 void Character::update_health( int external_modifiers )
 {
     if( has_artifact_with( AEP_SICK ) ) {
@@ -2311,8 +2329,8 @@ void Character::update_health( int external_modifiers )
     }
     // Limit healthy_mod to [-200, 200].
     // This also sets approximate bounds for the character's health.
-    if( get_healthy_mod() > 200 ) {
-        set_healthy_mod( 200 );
+    if( get_healthy_mod() > get_max_healthy() ) {
+        set_healthy_mod( get_max_healthy() );
     } else if( get_healthy_mod() < -200 ) {
         set_healthy_mod( -200 );
     }
@@ -3230,9 +3248,77 @@ float Character::get_bmi() const
     return 12 * get_kcal_percent() + 13;
 }
 
+std::string Character::get_weight_string() const
+{
+    const float bmi = get_bmi();
+    if( get_option<bool>( "CRAZY" ) ) {
+        if( bmi > 50.0f ) {
+            return _( "AW HELL NAH" );
+        } else if( bmi > 45.0f ) {
+            return _( "DAYUM" );
+        } else if( bmi > 40.0f ) {
+            return _( "Fluffy" );
+        } else if( bmi > 35.0f ) {
+            return _( "Husky" );
+        } else if( bmi > 30.0f ) {
+            return _( "Healthy" );
+        } else if( bmi > 25.0f ) {
+            return _( "Big" );
+        } else if( bmi > 18.5f ) {
+            return _( "Normal" );
+        } else if( bmi > 16.0f ) {
+            return _( "Bean Pole" );
+        } else if( bmi > 14.0f ) {
+            return _( "Emaciated" );
+        } else {
+            return _( "Spooky Scary Skeleton" );
+        }
+    } else {
+        if( bmi > 40.0f ) {
+            return _( "Morbidly Obese" );
+        } else if( bmi > 35.0f ) {
+            return _( "Very Obese" );
+        } else if( bmi > 30.0f ) {
+            return _( "Obese" );
+        } else if( bmi > 25.0f ) {
+            return _( "Overweight" );
+        } else if( bmi > 18.5f ) {
+            return _( "Normal" );
+        } else if( bmi > 16.0f ) {
+            return _( "Underweight" );
+        } else if( bmi > 14.0f ) {
+            return _( "Emaciated" );
+        } else {
+            return _( "Skeletal" );
+        }
+    }
+}
+
+std::string Character::get_weight_description() const
+{
+    const float bmi = get_bmi();
+    if( bmi > 40.0f ) {
+        return _( "You have far more fat than is healthy or useful.  It is causing you major problems." );
+    } else if( bmi > 35.0f ) {
+        return _( "You have too much fat.  It impacts your day to day health and wellness." );
+    } else if( bmi > 30.0f ) {
+        return _( "you've definitely put on a lot of extra weight.  Although it's helpful in times of famine, this is too much and is impacting your health." );
+    } else if( bmi > 25.0f ) {
+        return _( "You've put on some extra pounds.  Nothing too excessive but it's starting to impact your health and waistline a bit." );
+    } else if( bmi > 18.5f ) {
+        return _( "You look to be a pretty healthy weight, with some fat to last you through the winter but nothing excessive." );
+    } else if( bmi > 16.0f ) {
+        return _( "You are thin, thinner than is healthy.  You are less resilient to going without food." );
+    } else if( bmi > 14.0f ) {
+        return _( "You are very unhealthily underweight, nearing starvation." );
+    } else {
+        return _( "You have very little meat left on your bones.  You appear to be starving." );
+    }
+}
+
 units::mass Character::bodyweight() const
 {
-    return units::from_gram( round( get_bmi() * pow( height() / 100, 2 ) ) );
+    return units::from_kilogram( get_bmi() * pow( height() / 100.0f, 2 ) );
 }
 
 int Character::height() const
@@ -3248,7 +3334,8 @@ int Character::get_bmr() const
     */
     const int age = 25;
     const int equation_constant = 5;
-    return ceil( metabolic_rate_base() * activity_level * ( units::to_gram<int>( 10 * bodyweight() ) +
+    return ceil( metabolic_rate_base() * activity_level * ( units::to_gram<int>
+                 ( bodyweight() / 100.0 ) +
                  ( 6.25 * height() ) - ( 5 * age ) + equation_constant ) );
 }
 
@@ -3322,4 +3409,181 @@ int Character::item_store_cost( const item &it, const item & /* container */, bo
     /** @EFFECT_BASHING decreases time taken to store a bashing weapon */
     int lvl = get_skill_level( it.is_gun() ? it.gun_skill() : it.melee_skill() );
     return item_handling_cost( it, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
+}
+
+void Character::wake_up()
+{
+    remove_effect( effect_sleep );
+    remove_effect( effect_slept_through_alarm );
+    remove_effect( effect_lying_down );
+    // Do not remove effect_alarm_clock now otherwise it invalidates an effect iterator in player::process_effects().
+    // We just set it for later removal (also happening in player::process_effects(), so no side effects) with a duration of 0 turns.
+    if( has_effect( effect_alarm_clock ) ) {
+        get_effect( effect_alarm_clock ).set_duration( 0_turns );
+    }
+    recalc_sight_limits();
+}
+
+int Character::get_shout_volume() const
+{
+    int base = 10;
+    int shout_multiplier = 2;
+
+    // Mutations make shouting louder, they also define the default message
+    if( has_trait( trait_SHOUT3 ) ) {
+        shout_multiplier = 4;
+        base = 20;
+    } else if( has_trait( trait_SHOUT2 ) ) {
+        base = 15;
+        shout_multiplier = 3;
+    }
+
+    // Masks and such dampen the sound
+    // Balanced around whisper for wearing bondage mask
+    // and noise ~= 10 (door smashing) for wearing dust mask for character with strength = 8
+    /** @EFFECT_STR increases shouting volume */
+    const int penalty = encumb( bp_mouth ) * 3 / 2;
+    int noise = base + str_cur * shout_multiplier - penalty;
+
+    // Minimum noise volume possible after all reductions.
+    // Volume 1 can't be heard even by player
+    constexpr int minimum_noise = 2;
+
+    if( noise <= base ) {
+        noise = std::max( minimum_noise, noise );
+    }
+
+    // Screaming underwater is not good for oxygen and harder to do overall
+    if( underwater ) {
+        noise = std::max( minimum_noise, noise / 2 );
+    }
+    return noise;
+}
+
+void Character::shout( std::string msg, bool order )
+{
+    int base = 10;
+    std::string shout = "";
+
+    // Mutations make shouting louder, they also define the default message
+    if( has_trait( trait_SHOUT3 ) ) {
+        base = 20;
+        if( msg.empty() ) {
+            msg = is_player() ? _( "yourself let out a piercing howl!" ) : _( "a piercing howl!" );
+            shout = "howl";
+        }
+    } else if( has_trait( trait_SHOUT2 ) ) {
+        base = 15;
+        if( msg.empty() ) {
+            msg = is_player() ? _( "yourself scream loudly!" ) : _( "a loud scream!" );
+            shout = "scream";
+        }
+    }
+
+    if( msg.empty() ) {
+        msg = is_player() ? _( "yourself shout loudly!" ) : _( "a loud shout!" );
+        shout = "default";
+    }
+    int noise = get_shout_volume();
+
+    // Minimum noise volume possible after all reductions.
+    // Volume 1 can't be heard even by player
+    constexpr int minimum_noise = 2;
+
+    if( noise <= base ) {
+        std::string dampened_shout;
+        std::transform( msg.begin(), msg.end(), std::back_inserter( dampened_shout ), tolower );
+        msg = std::move( dampened_shout );
+    }
+
+    // Screaming underwater is not good for oxygen and harder to do overall
+    if( underwater ) {
+        if( !has_trait( trait_GILLS ) && !has_trait( trait_GILLS_CEPH ) ) {
+            mod_stat( "oxygen", -noise );
+        }
+    }
+
+    const int penalty = encumb( bp_mouth ) * 3 / 2;
+    // TODO: indistinct noise descriptions should be handled in the sounds code
+    if( noise <= minimum_noise ) {
+        add_msg_if_player( m_warning,
+                           _( "The sound of your voice is almost completely muffled!" ) );
+        msg = is_player() ? _( "your muffled shout" ) : _( "an indistinct voice" );
+    } else if( noise * 2 <= noise + penalty ) {
+        // The shout's volume is 1/2 or lower of what it would be without the penalty
+        add_msg_if_player( m_warning, _( "The sound of your voice is significantly muffled!" ) );
+    }
+
+    sounds::sound( pos(), noise, order ? sounds::sound_t::order : sounds::sound_t::alert, msg, false,
+                   "shout", shout );
+}
+
+void Character::vomit()
+{
+    add_memorial_log( pgettext( "memorial_male", "Threw up." ),
+                      pgettext( "memorial_female", "Threw up." ) );
+
+    if( stomach.contains() != 0_ml ) {
+        // empty stomach contents
+        stomach.bowel_movement();
+        g->m.add_field( adjacent_tile(), fd_bile, 1 );
+        add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
+    }
+
+    if( !has_effect( effect_nausea ) ) {  // Prevents never-ending nausea
+        const effect dummy_nausea( &effect_nausea.obj(), 0_turns, num_bp, false, 1, calendar::turn );
+        add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() * units::to_milliliter(
+                stomach.contains() ) / 21, dummy_nausea.get_int_dur_factor() ) );
+    }
+
+    moves -= 100;
+    for( auto &elem : *effects ) {
+        for( auto &_effect_it : elem.second ) {
+            auto &it = _effect_it.second;
+            if( it.get_id() == effect_foodpoison ) {
+                it.mod_duration( -30_minutes );
+            } else if( it.get_id() == effect_drunk ) {
+                it.mod_duration( rng( -10_minutes, -50_minutes ) );
+            }
+        }
+    }
+    remove_effect( effect_pkill1 );
+    remove_effect( effect_pkill2 );
+    remove_effect( effect_pkill3 );
+    // Don't wake up when just retching
+    if( stomach.contains() > 0_ml ) {
+        wake_up();
+    }
+}
+
+// adjacent_tile() returns a safe, unoccupied adjacent tile. If there are no such tiles, returns player position instead.
+tripoint Character::adjacent_tile() const
+{
+    std::vector<tripoint> ret;
+    int dangerous_fields = 0;
+    for( const tripoint &p : g->m.points_in_radius( pos(), 1 ) ) {
+        if( p == pos() ) {
+            // Don't consider player position
+            continue;
+        }
+        const trap &curtrap = g->m.tr_at( p );
+        if( g->critter_at( p ) == nullptr && g->m.passable( p ) &&
+            ( curtrap.is_null() || curtrap.is_benign() ) ) {
+            // Only consider tile if unoccupied, passable and has no traps
+            dangerous_fields = 0;
+            auto &tmpfld = g->m.field_at( p );
+            for( auto &fld : tmpfld ) {
+                const field_entry &cur = fld.second;
+                if( cur.is_dangerous() ) {
+                    dangerous_fields++;
+                }
+            }
+
+            if( dangerous_fields == 0 ) {
+                ret.push_back( p );
+            }
+        }
+    }
+
+    return random_entry( ret, pos() ); // player position if no valid adjacent tiles
 }

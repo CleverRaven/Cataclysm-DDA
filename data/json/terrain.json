@@ -14,6 +14,7 @@
     "type": "terrain",
     "id": "t_hole",
     "name": "empty space",
+    "description": "This is empty space.",
     "symbol": " ",
     "color": "black",
     "move_cost": 2,
@@ -24,6 +25,7 @@
     "type": "terrain",
     "id": "t_open_air_rooved",
     "name": "open air",
+    "description": "This is open air.",
     "symbol": " ",
     "color": "i_cyan",
     "move_cost": 2,
@@ -3079,7 +3081,7 @@
     "open": "t_chickenwire_gate_o",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 5 }, { "item": "wire", "count": 10 }, { "item": "nail", "count": 20 } ]
+      "items": [ { "item": "2x4", "count": 5 }, { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
     },
     "bash": {
       "str_min": 5,
@@ -3106,7 +3108,7 @@
     "close": "t_chickenwire_gate_c",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 5 }, { "item": "wire", "count": 10 }, { "item": "nail", "count": 20 } ]
+      "items": [ { "item": "2x4", "count": 5 }, { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
     },
     "bash": {
       "str_min": 5,
@@ -6349,7 +6351,10 @@
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL" ],
     "connects_to": "CHAINFENCE",
     "examine_action": "chainfence",
-    "deconstruct": { "ter_set": "t_chickenwire_fence_post", "items": [ { "item": "wire", "count": 10 }, { "item": "nail", "count": 20 } ] },
+    "deconstruct": {
+      "ter_set": "t_chickenwire_fence_post",
+      "items": [ { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
+    },
     "bash": {
       "str_min": 5,
       "str_max": 12,
@@ -8754,7 +8759,7 @@
     "type": "terrain",
     "id": "t_improvised_shelter",
     "name": "improvised shelter",
-    "description": "Improvised shelter providing little bit of protection from the elements.",
+    "description": "Improvised shelter providing little bit of protection, that can be used to take refuge from the elements or to protect a campfire from the rain.",
     "symbol": "#",
     "color": "brown_green",
     "move_cost": 2,
@@ -8773,6 +8778,7 @@
     "type": "terrain",
     "id": "t_open_air",
     "name": "open air",
+    "description": "This is open air.",
     "symbol": " ",
     "color": "i_cyan",
     "move_cost": 2,
@@ -9866,6 +9872,7 @@
     "type": "terrain",
     "id": "t_low_stairs_begin",
     "name": "low stairs (beginning section)",
+    "description": "A flight of stairs leading up.",
     "symbol": "<",
     "color": "dark_gray_white",
     "move_cost": 4,
@@ -9887,6 +9894,7 @@
     "type": "terrain",
     "id": "t_low_stairs_end",
     "name": "low stairs (end section)",
+    "description": "A flight of stairs leading up.",
     "symbol": "<",
     "color": "black_white",
     "move_cost": 0,
@@ -10452,6 +10460,7 @@
     "id": "t_open_air_rooved",
     "type": "terrain",
     "name": "open air",
+    "description": "This is open air.",
     "symbol": " ",
     "color": [ "i_cyan" ],
     "move_cost": 2,
@@ -10764,7 +10773,7 @@
     "examine_action": "chainfence",
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "FLAMMABLE_ASH", "CLIMBABLE", "AUTO_WALL_SYMBOL" ],
     "connects_to": "WOODFENCE",
-    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "count": 20 } ] },
+    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": 20 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 12,
@@ -10836,7 +10845,7 @@
     "examine_action": "chainfence",
     "flags": [ "NOITEM", "CLIMBABLE", "PERMEABLE", "AUTO_WALL_SYMBOL", "FLAMMABLE_ASH", "THIN_OBSTACLE" ],
     "connects_to": "WOODFENCE",
-    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "count": 20 } ] },
+    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "charges": 20 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 12,
@@ -10951,7 +10960,7 @@
     "id": "t_leanto",
     "type": "terrain",
     "name": "pine lean-to",
-    "description": "A small shelter roofed with pine leaves.",
+    "description": "A small shelter roofed with pine leaves, that can be used to take refuge from the elements or to protect a campfire from the rain.",
     "symbol": ";",
     "color": [ "brown" ],
     "move_cost": 2,
@@ -10973,7 +10982,7 @@
     "id": "t_tarptent",
     "type": "terrain",
     "name": "tarp lean-to",
-    "description": "A small shelter covered by waterproof tarp.",
+    "description": "A small shelter covered by waterproof tarp, that can be used to take refuge from the elements or to protect a campfire from the rain.",
     "symbol": ";",
     "color": [ "light_blue" ],
     "move_cost": 2,

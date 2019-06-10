@@ -224,6 +224,19 @@ static std::string get_encumbrance_description( const player &p, body_part bp, b
     return s;
 }
 
+static bool is_cqb_skill( const skill_id &id )
+{
+    // TODO: this skill list here is used in other places as well. Useless redundancy and
+    // dependency. Maybe change it into a flag of the skill that indicates it's a skill used
+    // by the bionic?
+    static const std::array<skill_id, 5> cqb_skills = { {
+            skill_id( "melee" ), skill_id( "unarmed" ), skill_id( "cutting" ),
+            skill_id( "bashing" ), skill_id( "stabbing" ),
+        }
+    };
+    return std::find( cqb_skills.begin(), cqb_skills.end(), id ) != cqb_skills.end();
+}
+
 void player::disp_info()
 {
     unsigned line;
@@ -555,6 +568,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     display_stat( _( "Dexterity:" ),    dex_cur, dex_max, 3 );
     display_stat( _( "Intelligence:" ), int_cur, int_max, 4 );
     display_stat( _( "Perception:" ),   per_cur, per_max, 5 );
+    mvwprintz( w_stats, 6, 1, c_light_gray, _( "Weight:" ) );
+    mvwprintz( w_stats, 6, 25 - get_weight_string().size(), c_light_gray, get_weight_string() );
 
     wrefresh( w_stats );
 
@@ -625,16 +640,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
         int level_num = level.level();
         int exercise = level.exercise();
 
-        // TODO: this skill list here is used in other places as well. Useless redundancy and
-        // dependency. Maybe change it into a flag of the skill that indicates it's a skill used
-        // by the bionic?
-        static const std::array<skill_id, 5> cqb_skills = { {
-                skill_id( "melee" ), skill_id( "unarmed" ), skill_id( "cutting" ),
-                skill_id( "bashing" ), skill_id( "stabbing" ),
-            }
-        };
-        if( has_active_bionic( bionic_id( "bio_cqb" ) ) &&
-            std::find( cqb_skills.begin(), cqb_skills.end(), elem->ident() ) != cqb_skills.end() ) {
+        if( has_active_bionic( bionic_id( "bio_cqb" ) ) && is_cqb_skill( elem->ident() ) ) {
             level_num = 5;
             exercise = 0;
             text_color = c_yellow;
@@ -783,7 +789,6 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 center_print( w_stats, 0, h_light_gray, title_STATS );
 
                 // Clear bonus/penalty menu.
-                mvwprintz( w_stats, 6, 0, c_light_gray, "%26s", "" );
                 mvwprintz( w_stats, 7, 0, c_light_gray, "%26s", "" );
                 mvwprintz( w_stats, 8, 0, c_light_gray, "%26s", "" );
 
@@ -840,6 +845,14 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                         mvwprintz( w_info, 5, 1, c_magenta, _( "Aiming penalty:" ) );
                         mvwprintz( w_info, 5, 21, c_magenta, "%+4d", -ranged_per_mod() );
                     }
+                } else if( line == 4 ) {
+                    mvwprintz( w_stats, 6, 1, h_light_gray, _( "Weight:" ) );
+                    mvwprintz( w_stats, 6, 25 - get_weight_string().size(), h_light_gray, get_weight_string() );
+                    const int lines = fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta,
+                                                      _( "Your weight is a general indicator of how much fat your body has stored up,"
+                                                         " which in turn shows how prepared you are to survive for a time without food."
+                                                         "Having too much, or too little, can be unhealthy." ) );
+                    fold_and_print( w_info, 1 + lines, 1, FULL_SCREEN_WIDTH - 2, c_magenta, get_weight_description() );
                 }
                 wrefresh( w_stats );
                 wrefresh( w_info );
@@ -847,12 +860,12 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 action = ctxt.handle_input();
                 if( action == "DOWN" ) {
                     line++;
-                    if( line == 4 ) {
+                    if( line == 5 ) {
                         line = 0;
                     }
                 } else if( action == "UP" ) {
                     if( line == 0 ) {
-                        line = 3;
+                        line = 4;
                     } else {
                         line--;
                     }
@@ -869,6 +882,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                 mvwprintz( w_stats, 3, 1, c_light_gray, _( "Dexterity:" ) );
                 mvwprintz( w_stats, 4, 1, c_light_gray, _( "Intelligence:" ) );
                 mvwprintz( w_stats, 5, 1, c_light_gray, _( "Perception:" ) );
+                mvwprintz( w_stats, 6, 1, c_light_gray, _( "Weight:" ) );
+                mvwprintz( w_stats, 6, 25 - get_weight_string().size(), c_light_gray, get_weight_string() );
                 wrefresh( w_stats );
                 break;
             case 2: { // Encumbrance tab
@@ -1126,12 +1141,20 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                     const bool can_train = level.can_train();
                     const bool training = level.isTraining();
                     const bool rusting = level.isRusting();
-                    const int exercise = level.exercise();
-
+                    int exercise = level.exercise();
+                    int level_num = level.level();
+                    bool locked = false;
+                    if( has_active_bionic( bionic_id( "bio_cqb" ) ) && is_cqb_skill( aSkill->ident() ) ) {
+                        level_num = 5;
+                        exercise = 0;
+                        locked = true;
+                    }
                     nc_color cstatus;
                     if( i == line ) {
                         selectedSkill = aSkill;
-                        if( !can_train ) {
+                        if( locked ) {
+                            cstatus = h_yellow;
+                        } else if( !can_train ) {
                             cstatus = rusting ? h_light_red : h_white;
                         } else if( exercise >= 100 ) {
                             cstatus = training ? h_pink : h_magenta;
@@ -1141,7 +1164,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                             cstatus = training ? h_light_blue : h_blue;
                         }
                     } else {
-                        if( rusting ) {
+                        if( locked ) {
+                            cstatus = c_yellow;
+                        } else if( rusting ) {
                             cstatus = training ? c_light_red : c_red;
                         } else if( !can_train ) {
                             cstatus = c_white;
@@ -1155,9 +1180,9 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
                     if( aSkill->ident() == skill_id( "dodge" ) ) {
                         mvwprintz( w_skills, static_cast<int>( 1 + i - min ), 14, cstatus, "%4.1f/%-2d(%2d%%)",
-                                   get_dodge(), level.level(), exercise < 0 ? 0 : exercise );
+                                   get_dodge(), level_num, exercise < 0 ? 0 : exercise );
                     } else {
-                        mvwprintz( w_skills, static_cast<int>( 1 + i - min ), 19, cstatus, "%-2d(%2d%%)", level.level(),
+                        mvwprintz( w_skills, static_cast<int>( 1 + i - min ), 19, cstatus, "%-2d(%2d%%)", level_num,
                                    ( exercise <  0 ? 0 : exercise ) );
                     }
                 }
@@ -1191,9 +1216,18 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
                         bool can_train = level.can_train();
                         bool isLearning = level.isTraining();
                         bool rusting = level.isRusting();
-
+                        int level_num = level.level();
+                        int exercise = level.exercise();
+                        bool locked = false;
+                        if( has_active_bionic( bionic_id( "bio_cqb" ) ) && is_cqb_skill( thisSkill->ident() ) ) {
+                            level_num = 5;
+                            exercise = 0;
+                            locked = true;
+                        }
                         nc_color cstatus;
-                        if( rusting ) {
+                        if( locked ) {
+                            cstatus = c_yellow;
+                        } else if( rusting ) {
                             cstatus = isLearning ? c_light_red : c_red;
                         } else if( !can_train ) {
                             cstatus = c_white;
@@ -1205,10 +1239,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
                         if( thisSkill->ident() == skill_id( "dodge" ) ) {
                             mvwprintz( w_skills, i + 1, 14, cstatus, "%4.1f/%-2d(%2d%%)",
-                                       get_dodge(), level.level(), level.exercise() < 0 ? 0 : level.exercise() );
+                                       get_dodge(), level_num, exercise < 0 ? 0 : exercise );
                         } else {
-                            mvwprintz( w_skills, i + 1, 19, cstatus, "%-2d(%2d%%)", level.level(),
-                                       ( level.exercise() <  0 ? 0 : level.exercise() ) );
+                            mvwprintz( w_skills, i + 1, 19, cstatus, "%-2d(%2d%%)", level_num,
+                                       ( exercise <  0 ? 0 : exercise ) );
                         }
                     }
                     wrefresh( w_skills );

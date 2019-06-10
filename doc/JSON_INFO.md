@@ -142,7 +142,7 @@ Available units:
 
 Examples:
 - " +1 day -23 hours 50m " `(1*24*60 - 23*60 + 50 == 110 minutes)`
-- "1 turn 1 minutes 9 turns" (2 minutes because 10 turns are 1 minute)
+- "1 turn 1 minutes 9 turns" (1 minute and 10 seconds because 1 turn is 1 second)
 
 ### All Files
 
@@ -544,7 +544,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 ],
 "difficulty": 3,             // Difficulty of success check
 "time": "5 m",               // Preferred time to perform recipe, can specify in minutes, hours etc.
-"time": 5000,                // Legacy time to perform recipe (where 1000 ~= 10 turns ~= 1 minute game time).
+"time": 5000,                // Legacy time to perform recipe (where 1000 ~= 10 turns ~= 10 seconds game time).
 "reversible": false,         // Can be disassembled.
 "autolearn": true,           // Automatically learned upon gaining required skills
 "autolearn" : [              // Automatically learned upon gaining listed skills
@@ -1088,7 +1088,7 @@ Guns can be defined like this:
 "burst": 5,           // Number of shots fired in burst mode
 "clip_size": 100,     // Maximum amount of ammo that can be loaded
 "ups_charges": 0,     // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
-"reload": 450,         // Amount of time to reload, 100 = 6 seconds = 1 "turn"
+"reload": 450,         // Amount of time to reload, 100 = 1 second = 1 "turn"
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"] //An array of mods that will be added to a weapon on spawn.
 ```
@@ -1426,7 +1426,7 @@ The contents of use_action fields can either be a string indicating a built-in f
 }
 "use_action" : {
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
-    "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (10 turn = 1 minute)
+    "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (60 turns = 1 minute)
     "not_ready_msg" : "The yeast has not been done The yeast isn't done culturing yet." // A message, shown when the item is not old enough
 },
 "use_action": {

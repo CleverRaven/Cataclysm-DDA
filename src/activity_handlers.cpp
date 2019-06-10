@@ -41,6 +41,7 @@
 #include "mongroup.h"
 #include "morale_types.h"
 #include "mtype.h"
+#include "npc.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player.h"
@@ -98,6 +99,8 @@ const species_id ZOMBIE( "ZOMBIE" );
 const efftype_id effect_milked( "milked" );
 const efftype_id effect_sleep( "sleep" );
 
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
+
 using namespace activity_handlers;
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -117,6 +120,8 @@ activity_handlers::do_turn_functions = {
     { activity_id( "ACT_AIM" ), aim_do_turn },
     { activity_id( "ACT_PICKUP" ), pickup_do_turn },
     { activity_id( "ACT_WEAR" ), wear_do_turn },
+    { activity_id( "ACT_MULTIPLE_CONSTRUCTION" ), multiple_construction_do_turn },
+    { activity_id( "ACT_BUILD" ), build_do_turn },
     { activity_id( "ACT_EAT_MENU" ), eat_menu_do_turn },
     { activity_id( "ACT_CONSUME_FOOD_MENU" ), consume_food_menu_do_turn },
     { activity_id( "ACT_CONSUME_DRINK_MENU" ), consume_drink_menu_do_turn },
@@ -191,7 +196,6 @@ activity_handlers::finish_functions = {
     { activity_id( "ACT_SOCIALIZE" ), socialize_finish },
     { activity_id( "ACT_TRY_SLEEP" ), try_sleep_finish },
     { activity_id( "ACT_DISASSEMBLE" ), disassemble_finish },
-    { activity_id( "ACT_BUILD" ), build_finish },
     { activity_id( "ACT_VIBE" ), vibe_finish },
     { activity_id( "ACT_ATM" ), atm_finish },
     { activity_id( "ACT_AIM" ), aim_finish },
@@ -781,11 +785,25 @@ static void butchery_drops_harvest( item *corpse_item, const mtype &mt, player &
         // BIONIC handling - no code for DISSECT to let the bionic drop fall through
         if( entry.type == "bionic" || entry.type == "bionic_group" ) {
             if( action == F_DRESS ) {
+                if( entry.drop == "pheromone" ) {
+                    if( one_in( 3 ) ) {
+                        p.add_msg_if_player( m_bad,
+                                             _( "You notice some strange organs, pehraps harvestable via careful dissection." ) );
+                    }
+                    continue;
+                }
                 p.add_msg_if_player( m_bad,
                                      _( "You suspect there might be bionics implanted in this corpse, that careful dissection might reveal." ) );
                 continue;
             }
             if( action == BUTCHER || action == BUTCHER_FULL || action == DISMEMBER ) {
+                if( entry.drop == "pheromone" ) {
+                    if( one_in( 3 ) ) {
+                        p.add_msg_if_player( m_bad,
+                                             _( "Your butchering tool destroys a strange organ.  Perhaps a more surgical approach would allow harvesting it." ) );
+                    }
+                    continue;
+                }
                 switch( rng( 1, 3 ) ) {
                     case 1:
                         p.add_msg_if_player( m_bad,
@@ -1823,7 +1841,28 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
 void activity_handlers::start_fire_finish( player_activity *act, player *p )
 {
-    firestarter_actor::resolve_firestarter_use( *p, act->placement );
+    static const std::string iuse_name_string( "firestarter" );
+
+    item &it = p->i_at( act->position );
+    item *used_tool = it.get_usable_item( iuse_name_string );
+    if( used_tool == nullptr ) {
+        debugmsg( "Lost tool used for starting fire" );
+        act->set_to_null();
+        return;
+    }
+
+    const auto use_fun = used_tool->get_use( iuse_name_string );
+    const auto *actor = dynamic_cast<const firestarter_actor *>( use_fun->get_actor_ptr() );
+    if( actor == nullptr ) {
+        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+        act->set_to_null();
+        return;
+    }
+
+    p->consume_charges( it, it.type->charges_to_use() );
+    p->practice( skill_survival, act->index, 5 );
+
+    actor->resolve_firestarter_use( *p, act->placement );
     act->set_to_null();
 }
 
@@ -1943,9 +1982,7 @@ void activity_handlers::hand_crank_do_turn( player_activity *act, player *p )
     act->moves_left -= 100;
     item &hand_crank_item = p ->i_at( act->position );
 
-    // TODO: This should be 144 seconds, rather than 24 (6-second) turns
-    // but we don't have a seconds time macro?
-    if( calendar::once_every( 24_turns ) ) {
+    if( calendar::once_every( 144_seconds ) ) {
         p->mod_fatigue( 1 );
         if( hand_crank_item.ammo_capacity() > hand_crank_item.ammo_remaining() ) {
             hand_crank_item.ammo_set( "battery", hand_crank_item.ammo_remaining() + 1 );
@@ -2728,6 +2765,160 @@ void activity_handlers::try_sleep_finish( player_activity *act, player *p )
     act->set_to_null();
 }
 
+static bool character_has_skill_for( const player *p, const construction &con )
+{
+    return std::all_of( con.required_skills.begin(), con.required_skills.end(),
+    [&]( const std::pair<skill_id, int> &pr ) {
+        return p->get_skill_level( pr.first ) >= pr.second;
+    } );
+}
+
+void activity_handlers::build_do_turn( player_activity *act, player *p )
+{
+    const std::vector<construction> &list_constructions = get_constructions();
+    partial_con *pc = g->m.partial_con_at( g->m.getlocal( act->placement ) );
+    // Maybe the player and the NPC are working on the same construction at the same time
+    if( !pc ) {
+        if( p->is_npc() ) {
+            // if player completes the work while NPC still in activity loop
+            p->activity = player_activity();
+            p->set_moves( 0 );
+        } else {
+            p->cancel_activity();
+        }
+        add_msg( m_info, _( "%s did not find an unfinished construction at the activity spot." ),
+                 p->disp_name() );
+        return;
+    }
+    // if you ( or NPC ) are finishing someone elses started construction...
+    const construction &built = list_constructions[pc->id];
+    if( !character_has_skill_for( p, built ) ) {
+        add_msg( m_info, _( "%s can't work on this construction anymore." ), p->disp_name() );
+        p->cancel_activity();
+        if( p->is_npc() ) {
+            p->activity = player_activity();
+            p->set_moves( 0 );
+        }
+        return;
+    }
+    // item_counter represents the percent progress relative to the base batch time
+    // stored precise to 5 decimal places ( e.g. 67.32 percent would be stored as 6732000 )
+    const int old_counter = pc->counter;
+
+    // Base moves for construction with no speed modifier or assistants
+    // Must ensure >= 1 so we don't divide by 0;
+    const double base_total_moves = std::max( 1, built.time );
+    // Current expected total moves, includes construction speed modifiers and assistants
+    const double cur_total_moves = std::max( 1, built.adjusted_time() );
+    // Delta progress in moves adjusted for current crafting speed
+    const double delta_progress = p->get_moves() * base_total_moves / cur_total_moves;
+    // Current progress in moves
+    const double current_progress = old_counter * base_total_moves / 10000000.0 +
+                                    delta_progress;
+    // Current progress as a percent of base_total_moves to 2 decimal places
+    pc->counter = round( current_progress / base_total_moves * 10000000.0 );
+
+    p->set_moves( 0 );
+
+    pc->counter = std::min( pc->counter, 10000000 );
+    // If construction_progress has reached 100% or more
+    if( pc->counter >= 10000000 ) {
+        // Activity is cancelled in complete_construction()
+        complete_construction( p );
+    }
+}
+
+void activity_handlers::multiple_construction_do_turn( player_activity *act, player *p )
+{
+    ( void )act;
+    const activity_id act_multiple_construction = activity_id( "ACT_MULTIPLE_CONSTRUCTION" );
+    tripoint src_loc_start = p->pos();
+    // search in a radius around unsorted zone to find corpse spots
+    std::vector<tripoint> build_spots;
+    for( tripoint p : g->m.points_in_radius( src_loc_start, 20 ) ) {
+        partial_con *pc = g->m.partial_con_at( p );
+        if( pc ) {
+            build_spots.push_back( p );
+        }
+    }
+    // Nuke the current activity, leaving the backlog alone.
+    p->activity = player_activity();
+
+    // sort source tiles by distance
+    for( auto &src_loc : build_spots ) {
+        if( !g->m.inbounds( src_loc ) ) {
+            if( !g->m.inbounds( p->pos() ) ) {
+                // p is implicitly an NPC that has been moved off the map, so reset the activity
+                // and unload them
+                p->assign_activity( act_multiple_construction );
+                p->set_moves( 0 );
+                g->reload_npcs();
+                return;
+            }
+            std::vector<tripoint> route = route_adjacent( *p, src_loc );
+            if( route.empty() ) {
+                // can't get there, can't do anything, skip it
+                continue;
+            }
+            p->set_destination( route, player_activity( act_multiple_construction ) );
+            return;
+        }
+
+        // skip tiles on fire so as not to try and butcher corpses on fire
+        // and inaccessible furniture, like filled charcoal kiln
+        if( g->m.get_field( src_loc, fd_fire ) != nullptr ) {
+            continue;
+        }
+        bool adjacent = false;
+        for( auto elem : g->m.points_in_radius( src_loc, 1 ) ) {
+            if( p->pos() == elem ) {
+                adjacent = true;
+                break;
+            }
+        }
+        if( !adjacent ) {
+            std::vector<tripoint> route = route_adjacent( *p, src_loc );
+
+            // check if we found path to source / adjacent tile
+            if( route.empty() ) {
+                add_msg( m_info, _( "%s can't reach the source tile to construct" ),
+                         p->disp_name() );
+                return;
+            }
+
+            // set the destination and restart activity after player arrives there
+            // we don't need to check for safe mode,
+            // activity will be restarted only if
+            // player arrives on destination tile
+            p->set_destination( route, player_activity( act_multiple_construction ) );
+            return;
+        }
+        // maybe the construction dissappeared, double check before starting work
+        partial_con *nc = g->m.partial_con_at( src_loc );
+        if( !nc ) {
+            p->assign_activity( act_multiple_construction );
+            return;
+        }
+        p->backlog.push_front( act_multiple_construction );
+        p->assign_activity( activity_id( "ACT_BUILD" ) );
+        p->activity.placement = g->m.getabs( src_loc );
+        return;
+
+    }
+    if( p->moves <= 0 ) {
+        // Restart activity and break from cycle.
+        p->assign_activity( act_multiple_construction );
+        return;
+    }
+
+    // If we got here without restarting the activity, it means we're done.
+    if( p->is_npc() ) {
+        npc *guy = dynamic_cast<npc *>( p );
+        guy->current_activity = "";
+        guy->revert_after_activity();
+    }
+}
+
 void activity_handlers::craft_do_turn( player_activity *act, player *p )
 {
     item *craft = act->targets.front().get_item();
@@ -2815,11 +3006,6 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
 void activity_handlers::disassemble_finish( player_activity *, player *p )
 {
     p->complete_disassemble();
-}
-
-void activity_handlers::build_finish( player_activity *, player * )
-{
-    complete_construction();
 }
 
 void activity_handlers::vibe_finish( player_activity *act, player *p )
@@ -3790,7 +3976,7 @@ void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
                 act->moves_left = 0;
             }
         }
-        const int xp = roll_remainder( studying.exp_modifier( *p ) );
+        const int xp = roll_remainder( studying.exp_modifier( *p ) / to_turns<float>( 6_seconds ) );
         act->values[0] += xp;
         studying.gain_exp( xp );
     }
@@ -3800,11 +3986,12 @@ void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
 void activity_handlers::study_spell_finish( player_activity *act, player *p )
 {
     act->set_to_null();
+    const int total_exp_gained = act->get_value( 0 );
 
     if( act->get_str_value( 1 ) == "study" ) {
         p->add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
-                              act->get_value( 0 ) );
-        p->practice( skill_id( "spellcraft" ), act->get_value( 0 ) / 5,
+                              total_exp_gained );
+        p->practice( skill_id( "spellcraft" ), total_exp_gained,
                      p->magic.get_spell( spell_id( act->name ) ).get_difficulty() );
     } else if( act->get_str_value( 1 ) == "learn" && act->values[2] == 0 ) {
         p->magic.learn_spell( act->name, *p );

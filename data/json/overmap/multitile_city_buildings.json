@@ -33,6 +33,15 @@
   },
   {
     "type": "city_building",
+    "id": "s_gardening",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_gardening_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_gardening_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "cs_sex_shop",
     "locations": [ "land" ],
     "overmaps": [
@@ -273,9 +282,13 @@
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 1, 0, 0 ], "overmap": "motel_entrance_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "motel_entrance_roof_north" },
       { "point": [ 0, 0, 0 ], "overmap": "motel_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "motel_1_roof_north" },
       { "point": [ 0, 1, 0 ], "overmap": "motel_2_north" },
-      { "point": [ 1, 1, 0 ], "overmap": "motel_3_north" }
+      { "point": [ 0, 1, 1 ], "overmap": "motel_2_roof_north" },
+      { "point": [ 1, 1, 0 ], "overmap": "motel_3_north" },
+      { "point": [ 1, 1, 1 ], "overmap": "motel_3_roof_north" }
     ]
   },
   {
@@ -1268,6 +1281,24 @@
   },
   {
     "type": "city_building",
+    "id": "fire_station",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "fire_station_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "fire_station_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "fire_station_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "fire_station_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "fire_station_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "animalpound",
     "locations": [ "land" ],
     "overmaps": [
@@ -1361,6 +1392,25 @@
   },
   {
     "type": "city_building",
+    "id": "gambling_hall",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "gambling_hall_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "gambling_hall_roof_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "gambling_hall_upper_roof_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "gambling_hall_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "gambling_hall_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "gambling_hall_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
     "id": "bakery",
     "locations": [ "land" ],
     "overmaps": [
@@ -1431,6 +1481,31 @@
       { "point": [ 0, 0, 0 ], "overmap": "office_doctor_2_north" },
       { "point": [ 0, 0, 1 ], "overmap": "office_doctor_roof_2_north" },
       { "point": [ 0, 0, 2 ], "overmap": "office_doctor_upper_roof_2_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_garage",
+    "locations": [ "land" ],
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "s_garage_north" }, { "point": [ 0, 0, 1 ], "overmap": "s_garage_roof_north" } ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_garage_1",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_garage_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_garage_roof_1_north" }
+    ]
+  },
+  {
+    "type": "city_building",
+    "id": "s_garage_2",
+    "locations": [ "land" ],
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "s_garage_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "s_garage_roof_2_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "s_garage_upper_roof_2_north" }
     ]
   },
   {

@@ -8587,6 +8587,14 @@
           "fg": 2498
         },
         {
+          "id": ["t_grass_long"],
+          "fg": 2499
+        },
+        {
+          "id": ["t_grass_tall"],
+          "fg": 2500
+        },
+        {
           "id": ["t_window_bars" ],
           "multitile": true,
           "height_3d": 2,

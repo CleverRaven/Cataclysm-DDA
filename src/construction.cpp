@@ -60,6 +60,7 @@ static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 
 const trap_str_id tr_firewood_source( "tr_firewood_source" );
 const trap_str_id tr_practice_target( "tr_practice_target" );
+const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 // Construction functions.
 namespace construct
@@ -193,6 +194,11 @@ static nc_color construction_color( const std::string &con_name, bool highlight 
         }
     }
     return highlight ? hilite( col ) : col;
+}
+
+const std::vector<construction> &get_constructions()
+{
+    return constructions;
 }
 
 void construction_menu()
@@ -820,47 +826,87 @@ void place_construction( const std::string &desc )
         cons.front()->explain_failure( pnt );
         return;
     }
-
+    std::list<item> used;
     const construction &con = *valid.find( pnt )->second;
-    g->u.assign_activity( activity_id( "ACT_BUILD" ), con.adjusted_time(), con.id );
-    g->u.activity.placement = pnt;
+    // create the partial construction struct
+    partial_con pc;
+    pc.id = con.id;
+    pc.counter = 0;
+    // Set the trap that has the examine function
+    g->m.trap_set( pnt, tr_unfinished_construction );
+    // Use up the components
+    for( const auto &it : con.requirements->get_components() ) {
+        std::list<item> tmp = g->u.consume_items( it, 1, is_crafting_component );
+        used.splice( used.end(), tmp );
+    }
+    pc.components = used;
+    g->m.partial_con_set( pnt, pc );
+    for( const auto &it : con.requirements->get_tools() ) {
+        g->u.consume_tools( it );
+    }
+    g->u.assign_activity( activity_id( "ACT_BUILD" ) );
+    g->u.activity.placement = g->m.getabs( pnt );
 }
 
-void complete_construction()
+void complete_construction( player *p )
 {
-    player &u = g->u;
-    const construction &built = constructions[u.activity.index];
-
+    const tripoint terp = g->m.getlocal( p->activity.placement );
+    partial_con *pc = g->m.partial_con_at( terp );
+    if( !pc ) {
+        debugmsg( "No partial construction found at activity placement in complete_construction()" );
+        g->m.remove_trap( terp );
+        if( p->is_npc() ) {
+            npc *guy = dynamic_cast<npc *>( p );
+            guy->current_activity = "";
+            guy->revert_after_activity();
+            guy->set_moves( 0 );
+        }
+        return;
+    }
+    const construction &built = constructions[pc->id];
     const auto award_xp = [&]( player & c ) {
         for( const auto &pr : built.required_skills ) {
-            c.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) * ( 1 + built.time / 30000.0 ) ),
+            c.practice( pr.first, static_cast<int>( ( 10 + 15 * pr.second ) * ( 1 + built.time / 180000.0 ) ),
                         static_cast<int>( pr.second * 1.25 ) );
         }
     };
 
-    award_xp( g->u );
-
+    award_xp( *p );
     // Friendly NPCs gain exp from assisting or watching...
-    for( auto &elem : g->u.get_crafting_helpers() ) {
-        if( character_has_skill_for( *elem, built ) ) {
-            add_msg( m_info, _( "%s assists you with the work..." ), elem->name );
-        } else {
-            //NPC near you isn't skilled enough to help
-            add_msg( m_info, _( "%s watches you work..." ), elem->name );
+    // TODO NPCs watching other NPCs do stuff and learning from it
+    if( p->is_player() ) {
+        for( auto &elem : g->u.get_crafting_helpers() ) {
+            if( character_has_skill_for( *elem, built ) ) {
+                add_msg( m_info, _( "%s assists you with the work..." ), elem->name );
+            } else {
+                //NPC near you isn't skilled enough to help
+                add_msg( m_info, _( "%s watches you work..." ), elem->name );
+            }
+
+            award_xp( *elem );
         }
-
-        award_xp( *elem );
     }
-
-    for( const auto &it : built.requirements->get_components() ) {
-        u.consume_items( it, 1, is_crafting_component );
+    g->m.disarm_trap( terp );
+    g->m.partial_con_remove( terp );
+    // Move any items that have found their way onto the construction site.
+    std::vector<tripoint> dump_spots;
+    for( const auto pt : g->m.points_in_radius( terp, 1 ) ) {
+        if( g->is_empty( pt ) && pt != terp ) {
+            dump_spots.push_back( pt );
+        }
     }
-    for( const auto &it : built.requirements->get_tools() ) {
-        u.consume_tools( it );
+    if( !dump_spots.empty() ) {
+        tripoint dump_spot = random_entry( dump_spots );
+        auto items_at = g->m.i_at( terp );
+        for( auto it = items_at.rbegin(); it != items_at.rend(); it++ ) {
+            g->m.add_item_or_charges( dump_spot, *it );
+            item *item_ptr = &*it;
+            g->m.i_rem( terp, item_ptr );
+        }
+    } else {
+        debugmsg( "No space to displace items from construction finishing" );
     }
-
     // Make the terrain change
-    const tripoint terp = u.activity.placement;
     if( !built.post_terrain.empty() ) {
         if( built.post_is_furniture ) {
             g->m.furn_set( terp, furn_str_id( built.post_terrain ) );
@@ -871,13 +917,12 @@ void complete_construction()
 
     // Spawn byproducts
     if( built.byproduct_item_group ) {
-        g->m.spawn_items( u.pos(), item_group::items_from( *built.byproduct_item_group, calendar::turn ) );
+        g->m.spawn_items( p->pos(), item_group::items_from( *built.byproduct_item_group, calendar::turn ) );
     }
 
-    add_msg( m_info, _( "You finish your construction: %s." ), _( built.description ) );
-
+    add_msg( m_info, _( "%s finishes construction : %s." ), p->disp_name(), _( built.description ) );
     // clear the activity
-    u.activity.set_to_null();
+    p->activity.set_to_null();
 
     // This comes after clearing the activity, in case the function interrupts
     // activities

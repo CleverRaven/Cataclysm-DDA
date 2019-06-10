@@ -17,6 +17,7 @@
 #include "options.h"
 #include "output.h"
 #include "player.h"
+#include "projectile.h"
 #include "ranged.h"
 #include "translations.h"
 #include "type_id.h"
@@ -715,4 +716,98 @@ bool avatar_action::fire( avatar &you, map &m, item &weapon, int bp_cost )
     };
     you.set_targeting_data( args );
     return avatar_action::fire( you, m );
+}
+
+void avatar_action::plthrow( avatar &you, int pos,
+                             const cata::optional<tripoint> &blind_throw_from_pos )
+{
+    if( you.has_active_mutation( trait_SHELL2 ) ) {
+        add_msg( m_info, _( "You can't effectively throw while you're in your shell." ) );
+        return;
+    }
+
+    if( pos == INT_MIN ) {
+        pos = g->inv_for_all( _( "Throw item" ), _( "You don't have any items to throw." ) );
+        g->refresh_all();
+    }
+
+    if( pos == INT_MIN ) {
+        add_msg( _( "Never mind." ) );
+        return;
+    }
+
+    item thrown = you.i_at( pos );
+    int range = you.throw_range( thrown );
+    if( range < 0 ) {
+        add_msg( m_info, _( "You don't have that item." ) );
+        return;
+    } else if( range == 0 ) {
+        add_msg( m_info, _( "That is too heavy to throw." ) );
+        return;
+    }
+
+    if( pos == -1 && thrown.has_flag( "NO_UNWIELD" ) ) {
+        // pos == -1 is the weapon, NO_UNWIELD is used for bio_claws_weapon
+        add_msg( m_info, _( "That's part of your body, you can't throw that!" ) );
+        return;
+    }
+
+    if( you.has_effect( effect_relax_gas ) ) {
+        if( one_in( 5 ) ) {
+            add_msg( m_good, _( "You concentrate mightily, and your body obeys!" ) );
+        } else {
+            you.moves -= rng( 2, 5 ) * 10;
+            add_msg( m_bad, _( "You can't muster up the effort to throw anything..." ) );
+            return;
+        }
+    }
+
+    // you must wield the item to throw it
+    if( pos != -1 ) {
+        you.i_rem( pos );
+        if( !you.wield( thrown ) ) {
+            // We have to remove the item before checking for wield because it
+            // can invalidate our pos index.  Which means we have to add it
+            // back if the player changed their mind about unwielding their
+            // current item
+            you.i_add( thrown );
+            return;
+        }
+    }
+
+    // Shift our position to our "peeking" position, so that the UI
+    // for picking a throw point lets us target the location we couldn't
+    // otherwise see.
+    const tripoint original_player_position = you.pos();
+    if( blind_throw_from_pos ) {
+        you.setpos( *blind_throw_from_pos );
+        g->draw_ter();
+    }
+
+    g->temp_exit_fullscreen();
+    g->m.draw( g->w_terrain, you.pos() );
+
+    const target_mode throwing_target_mode = blind_throw_from_pos ? TARGET_MODE_THROW_BLIND :
+            TARGET_MODE_THROW;
+    // target_ui() sets x and y, or returns empty vector if we canceled (by pressing Esc)
+    std::vector<tripoint> trajectory = target_handler().target_ui( you, throwing_target_mode, &thrown,
+                                       range );
+
+    // If we previously shifted our position, put ourselves back now that we've picked our target.
+    if( blind_throw_from_pos ) {
+        you.setpos( original_player_position );
+    }
+
+    if( trajectory.empty() ) {
+        return;
+    }
+
+    if( thrown.count_by_charges() && thrown.charges > 1 ) {
+        you.i_at( -1 ).charges--;
+        thrown.charges = 1;
+    } else {
+        you.i_rem( -1 );
+    }
+    you.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
+    g->reenter_fullscreen();
 }

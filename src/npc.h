@@ -709,7 +709,6 @@ class npc : public player
         bool is_npc() const override {
             return true;
         }
-
         void load_npc_template( const string_id<npc_template> &ident );
 
         // Generating our stats, etc.
@@ -1111,7 +1110,6 @@ class npc : public player
         // Note: NPCs use a different speed rating than players
         // Because they can't run yet
         float speed_rating() const override;
-
         /**
          * Note: this places NPC on a given position in CURRENT MAP coordinates.
          * Do not use when placing a NPC in mapgen.
@@ -1120,9 +1118,14 @@ class npc : public player
         void travel_overmap( const tripoint &pos );
         npc_attitude get_attitude() const;
         void set_attitude( npc_attitude new_attitude );
+        void set_mission( npc_mission new_mission );
+        bool has_activity() const;
+        npc_attitude get_previous_attitude();
+        npc_mission get_previous_mission();
+        void revert_after_activity();
 
         // #############   VALUES   ################
-
+        std::string current_activity = "";
         npc_class_id myclass; // What's our archetype?
         // A temp variable used to inform the game which npc json to use as a template
         std::string idz;
@@ -1135,6 +1138,7 @@ class npc : public player
         // 0 - allies may be in your_followers faction; NPCATT_FOLLOW is an ally (legacy)
         int faction_api_version = 2;  // faction API versioning
         npc_attitude attitude; // What we want to do to the player
+        npc_attitude previous_attitude = NPCATT_NULL;
         /**
          * Global submap coordinates of the submap containing the npc.
          * Use global_*_location to get the global position.
@@ -1184,7 +1188,6 @@ class npc : public player
          * Location and index of the corpse we'd like to pulp (if any).
          */
         cata::optional<tripoint> pulp_location;
-
         time_point restock;
         bool fetching_item;
         bool has_new_items; // If true, we have something new and should re-equip
@@ -1204,6 +1207,7 @@ class npc : public player
         companion_mission_time_ret; //When you are expected to return for calculated/variable mission returns
         inventory companion_mission_inv; //Inventory that is added and dropped on mission
         npc_mission mission;
+        npc_mission previous_mission = NPC_MISSION_NULL;
         npc_personality personality;
         npc_opinion op_of_u;
         npc_chatbin chatbin;
