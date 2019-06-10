@@ -1951,7 +1951,6 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't disassemble items while you're riding." ) );
                 } else {
                     u.disassemble();
-                    g->m.invalidate_map_cache( g->get_levz() );
                     refresh_all();
                 }
                 break;
