@@ -116,7 +116,7 @@
     "symbol": "-",
     "color": "pink",
     "name": "foodplace loyalty card",
-    "description": "A bright pink loyalty card,  all the points are stamped.  This would definitly prove your fidelity to Foodplace, if it still meant anything...",
+    "description": "A bright pink loyalty card, all the points are stamped.  This would definitely prove your fidelity to Foodplace, if it still meant anything...",
     "price": 0,
     "material": "paper",
     "flags": "TRADER_AVOID",
