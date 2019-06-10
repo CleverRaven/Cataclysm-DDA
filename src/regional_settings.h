@@ -213,7 +213,7 @@ struct map_extras {
 struct regional_settings {
     std::string id;           //
     oter_str_id default_oter; // 'field'
-
+    double river_scale;
     weighted_int_list<ter_id> default_groundcover; // ie, 'grass_or_dirt'
     std::shared_ptr<weighted_int_list<ter_str_id>> default_groundcover_str;
 

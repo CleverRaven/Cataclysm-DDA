@@ -33,8 +33,10 @@
 
 static const std::string part_location_structure( "structure" );
 static const itype_id fuel_type_muscle( "muscle" );
+static const itype_id fuel_type_animal( "animal" );
 
 const efftype_id effect_stunned( "stunned" );
+const efftype_id effect_harnessed( "harnessed" );
 const skill_id skill_driving( "driving" );
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
@@ -225,6 +227,21 @@ void vehicle::thrust( int thd )
             velocity = std::max( velocity, std::min( velocity + vel_inc, max_vel ) );
         } else {
             velocity = std::min( velocity, std::max( velocity + vel_inc, min_vel ) );
+        }
+    }
+    // If you are going faster than the animal can handle, harness is damaged
+    // Animal may come free ( and possibly hit by vehicle )
+    for( size_t e = 0; e < parts.size(); e++ ) {
+        const vehicle_part &vp = parts[ e ];
+        if( vp.info().fuel_type == fuel_type_animal && engines.size() != 1 ) {
+            monster *mon = get_pet( e );
+            if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
+                if( velocity > mon->get_speed() * 12 ) {
+                    add_msg( m_bad, _( "Your %s is not fast enough to keep up with the %s" ), mon->get_name(), name );
+                    int dmg = rng( 0, 10 );
+                    damage_direct( e, dmg );
+                }
+            }
         }
     }
 }
@@ -899,6 +916,11 @@ void vehicle::pldrive( int x, int y )
     const float handling_diff = handling_difficulty();
     if( turn_delta != 0 ) {
         float eff = steering_effectiveness();
+        if( eff == -2 ) {
+            add_msg( m_info, _( "You cannot steer an animal-drawn vehicle with no animal harnessed." ) );
+            return;
+        }
+
         if( eff < 0 ) {
             add_msg( m_info, _( "This vehicle has no steering system installed, you can't turn it." ) );
             return;

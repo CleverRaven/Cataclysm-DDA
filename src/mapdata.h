@@ -295,6 +295,8 @@ struct map_data_common_t {
 
         std::string extended_description() const;
 
+        bool was_loaded = false;
+
         virtual void load( JsonObject &jo, const std::string &src );
         virtual void check() const;
 };
@@ -317,8 +319,6 @@ struct ter_t : map_data_common_t {
     ter_t();
 
     static size_t count();
-
-    bool was_loaded = false;
 
     void load( JsonObject &jo, const std::string &src ) override;
     void check() const override;
@@ -357,8 +357,6 @@ struct furn_t : map_data_common_t {
     furn_t();
 
     static size_t count();
-
-    bool was_loaded = false;
 
     void load( JsonObject &jo, const std::string &src ) override;
     void check() const override;
@@ -534,6 +532,9 @@ extern furn_id f_null,
        f_wind_mill, f_wind_mill_active,
        f_robotic_arm, f_vending_reinforced,
        f_brazier,
+       f_firering,
+       f_tourist_table,
+       f_camp_chair,
        f_autodoc_couch;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

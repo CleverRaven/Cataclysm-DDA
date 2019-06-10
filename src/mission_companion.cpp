@@ -429,6 +429,11 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
 
     reset_cur_key_list();
 
+    if( cur_key_list.empty() ) {
+        popup( _( "There are no missions at this colony.  Press Spacebar..." ) );
+        return false;
+    }
+
     g->draw_ter();
     wrefresh( g->w_terrain );
     g->draw_panels();

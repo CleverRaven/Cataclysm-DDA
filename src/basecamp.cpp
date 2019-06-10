@@ -35,23 +35,39 @@
 #include "string_id.h"
 #include "type_id.h"
 
-static const std::string base_dir = "[B]";
-static const std::string prefix = "faction_base_";
-static const int prefix_len = 13;
-
-static const std::string faction_encode_short( const std::string &type )
+const std::string base_camps::faction_encode_short( const std::string &type )
 {
     return prefix + type + "_";
 }
 
-static const std::string faction_encode_abs( const expansion_data &e, int number )
+const std::string base_camps::faction_encode_abs( const expansion_data &e, int number )
 {
     return faction_encode_short( e.type ) + to_string( number );
 }
 
+const std::string base_camps::faction_decode( const std::string &full_type )
+{
+    if( full_type.size() < ( prefix_len + 2 ) ) {
+        return "camp";
+    }
+    int last_bar = full_type.find_last_of( '_' );
+
+    return full_type.substr( prefix_len, last_bar - prefix_len );
+}
+
+const time_duration base_camps::to_workdays( const time_duration &work_time )
+{
+    if( work_time < 11_hours ) {
+        return work_time;
+    }
+    int work_days = work_time / 10_hours;
+    time_duration excess_time = work_time - work_days * 10_hours;
+    return excess_time + 24_hours * work_days;
+}
+
 static std::map<std::string, int> max_upgrade_cache;
 
-static int max_upgrade_by_type( const std::string &type )
+int base_camps::max_upgrade_by_type( const std::string &type )
 {
     if( max_upgrade_cache.find( type ) == max_upgrade_cache.end() ) {
         int max = -1;
@@ -89,12 +105,12 @@ std::string basecamp::board_name() const
 // read an expansion's terrain ID of the form faction_base_$TYPE_$CURLEVEL
 // find the last underbar, strip off the prefix of faction_base_ (which is 13 chars),
 // and the pull out the $TYPE and $CURLEVEL
-// This is legacy support for existing camps; future camps will just set type and level
-static expansion_data parse_expansion( const std::string &terrain, const tripoint &new_pos )
+// This is legacy support for existing camps; future camps don't use cur_level at all
+expansion_data basecamp::parse_expansion( const std::string &terrain, const tripoint &new_pos )
 {
     expansion_data e;
     int last_bar = terrain.find_last_of( '_' );
-    e.type = terrain.substr( prefix_len, last_bar - prefix_len );
+    e.type = terrain.substr( base_camps::prefix_len, last_bar - base_camps::prefix_len );
     e.cur_level = std::stoi( terrain.substr( last_bar + 1 ) );
     e.pos = new_pos;
     return e;
@@ -102,12 +118,16 @@ static expansion_data parse_expansion( const std::string &terrain, const tripoin
 
 void basecamp::add_expansion( const std::string &terrain, const tripoint &new_pos )
 {
-    if( terrain.find( prefix ) == std::string::npos ) {
+    if( terrain.find( base_camps::prefix ) == std::string::npos ) {
         return;
     }
 
     const std::string dir = talk_function::om_simple_dir( omt_pos, new_pos );
     expansions[ dir ] = parse_expansion( terrain, new_pos );
+    bool by_radio = rl_dist( g->u.global_omt_location(), omt_pos ) > 2;
+    resources_updated = false;
+    reset_camp_resources( by_radio );
+    update_provides( terrain, expansions[ dir ] );
     directions.push_back( dir );
 }
 
@@ -122,15 +142,16 @@ void basecamp::define_camp( npc &p )
         add_expansion( expansion.first, expansion.second );
     }
     const std::string om_cur = omt_ref.id().c_str();
-    if( om_cur.find( prefix ) == std::string::npos ) {
+    if( om_cur.find( base_camps::prefix ) == std::string::npos ) {
         expansion_data e;
         e.type = "camp";
         e.cur_level = 0;
         e.pos = omt_pos;
-        expansions[ base_dir ] = e;
+        expansions[ base_camps::base_dir ] = e;
         omt_ref = oter_id( "faction_base_camp_0" );
+        update_provides( e.type, expansions[ base_camps::base_dir ] );
     } else {
-        expansions[ base_dir ] = parse_expansion( om_cur, omt_pos );
+        expansions[ base_camps::base_dir ] = parse_expansion( om_cur, omt_pos );
     }
 }
 
@@ -151,14 +172,12 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
     for( auto &elem : component_print_buffer ) {
         comp = comp + elem + "\n";
     }
-    if( trunc ) {
-        comp = string_format( _( "Notes:\n%s\n\nSkill used: %s\n%s\n" ),
-                              making.description, making.skill_used.obj().name(), comp );
-    } else {
-        comp = string_format( _( "Notes:\n%s\n\nSkill used: %s\n"
-                                 "Difficulty: %d\n%s \nRisk: None\nTime: %s\n" ),
-                              making.description, making.skill_used.obj().name(),
-                              making.difficulty, comp, to_string( making.batch_duration() ) );
+    comp = string_format( _( "Notes:\n%s\n\nSkills used: %s\n%s\n" ),
+                          making.description, making.required_skills_string(), comp );
+    if( !trunc ) {
+        time_duration base_time = making.batch_duration();
+        comp += string_format( _( "Risk: None\nTime: %s\n" ),
+                               to_string( base_camps::to_workdays( base_time ) ) );
     }
     return comp;
 }
@@ -167,15 +186,15 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
 // legacy next upgrade
 const std::string basecamp::next_upgrade( const std::string &dir, const int offset ) const
 {
-    auto e = expansions.find( dir );
+    const auto &e = expansions.find( dir );
     if( e == expansions.end() ) {
         return "null";
     }
     const expansion_data &e_data = e->second;
 
     int cur_level = -1;
-    for( int i = 0; i < max_upgrade_by_type( e_data.type ); i++ ) {
-        const std::string candidate = faction_encode_abs( e_data, i );
+    for( int i = 0; i < base_camps::max_upgrade_by_type( e_data.type ); i++ ) {
+        const std::string candidate = base_camps::faction_encode_abs( e_data, i );
         if( e_data.provides.find( candidate ) == e_data.provides.end() ) {
             break;
         } else {
@@ -183,7 +202,7 @@ const std::string basecamp::next_upgrade( const std::string &dir, const int offs
         }
     }
     if( cur_level >= 0 ) {
-        return faction_encode_abs( e_data, cur_level + offset );
+        return base_camps::faction_encode_abs( e_data, cur_level + offset );
     }
     return "null";
 }
@@ -217,7 +236,7 @@ bool basecamp::has_provides( const std::string &req, const std::string &dir, int
 
 bool basecamp::can_expand()
 {
-    return has_provides( "bed", base_dir, directions.size() * 2 );
+    return has_provides( "bed", base_camps::base_dir, directions.size() * 2 );
 }
 
 const std::vector<basecamp_upgrade> basecamp::available_upgrades( const std::string &dir )
@@ -226,21 +245,45 @@ const std::vector<basecamp_upgrade> basecamp::available_upgrades( const std::str
     auto e = expansions.find( dir );
     if( e != expansions.end() ) {
         expansion_data &e_data = e->second;
-        for( int number = 1; number < max_upgrade_by_type( e_data.type ); number++ ) {
-            const std::string &bldg = faction_encode_abs( e_data, number );
+        for( int number = 1; number < base_camps::max_upgrade_by_type( e_data.type ); number++ ) {
+            const std::string &bldg = base_camps::faction_encode_abs( e_data, number );
             const recipe &recp = recipe_id( bldg ).obj();
-            bool should_display = false;
+            // skip buildings that are completed
+            if( e_data.provides.find( bldg ) != e_data.provides.end() ) {
+                continue;
+            }
+            // skip building that have unmet requirements
+            size_t needed_requires = recp.blueprint_requires().size();
+            size_t met_requires = 0;
             for( const auto &bp_require : recp.blueprint_requires() ) {
-                if( e_data.provides.find( bldg ) != e_data.provides.end() ) {
-                    break;
-                }
                 if( e_data.provides.find( bp_require.first ) == e_data.provides.end() ) {
                     break;
                 }
                 if( e_data.provides[bp_require.first] < bp_require.second ) {
                     break;
                 }
-                should_display = true;
+                met_requires += 1;
+            }
+            if( met_requires < needed_requires ) {
+                continue;
+            }
+            bool should_display = true;
+            bool in_progress = false;
+            for( const auto &bp_exclude : recp.blueprint_excludes() ) {
+                // skip buildings that are excluded by previous builds
+                if( e_data.provides.find( bp_exclude.first ) != e_data.provides.end() ) {
+                    if( e_data.provides[bp_exclude.first] >= bp_exclude.second ) {
+                        should_display = false;
+                        break;
+                    }
+                }
+                // track buildings that are currently being built
+                if( e_data.in_progress.find( bp_exclude.first ) != e_data.in_progress.end() ) {
+                    if( e_data.in_progress[bp_exclude.first] >= bp_exclude.second ) {
+                        in_progress = true;
+                        break;
+                    }
+                }
             }
             if( !should_display ) {
                 continue;
@@ -250,6 +293,7 @@ const std::vector<basecamp_upgrade> basecamp::available_upgrades( const std::str
             data.name = recp.blueprint_name();
             const auto &reqs = recp.requirements();
             data.avail = reqs.can_make_with_inventory( _inv, recp.get_component_filter(), 1 );
+            data.in_progress = in_progress;
             ret_data.emplace_back( data );
         }
     }
@@ -263,7 +307,7 @@ std::map<std::string, std::string> basecamp::recipe_deck( const std::string &dir
         return recipe_group::get_recipes( dir );
     }
     std::map<std::string, std::string> cooking_recipes;
-    auto e = expansions.find( dir );
+    const auto &e = expansions.find( dir );
     if( e == expansions.end() ) {
         return cooking_recipes;
     }
@@ -276,9 +320,10 @@ std::map<std::string, std::string> basecamp::recipe_deck( const std::string &dir
 
 const std::string basecamp::get_gatherlist() const
 {
-    auto e = expansions.find( base_dir );
+    const auto &e = expansions.find( base_camps::base_dir );
     if( e != expansions.end() ) {
-        const std::string gatherlist = "gathering_" + faction_encode_abs( e->second, 4 );
+        const std::string gatherlist = "gathering_" +
+                                       base_camps::faction_encode_abs( e->second, 4 );
         if( item_group::group_is_defined( gatherlist ) ) {
             return gatherlist;
         }
@@ -324,6 +369,27 @@ void basecamp::update_provides( const std::string &bldg, expansion_data &e_data 
     }
 }
 
+
+void basecamp::update_in_progress( const std::string &bldg, const std::string &dir )
+{
+    if( !recipe_id( bldg ).is_valid() ) {
+        return;
+    }
+    auto e = expansions.find( dir );
+    if( e == expansions.end() ) {
+        return;
+    }
+    expansion_data &e_data = e->second;
+
+    const recipe &making = recipe_id( bldg ).obj();
+    for( const auto &bp_provides : making.blueprint_provides() ) {
+        if( e_data.in_progress.find( bp_provides.first ) == e_data.in_progress.end() ) {
+            e_data.in_progress[bp_provides.first] = 0;
+        }
+        e_data.in_progress[bp_provides.first] += bp_provides.second;
+    }
+}
+
 void basecamp::reset_camp_resources( bool by_radio )
 {
     reset_camp_workers();
@@ -332,7 +398,7 @@ void basecamp::reset_camp_resources( bool by_radio )
         for( auto &e : expansions ) {
             expansion_data &e_data = e.second;
             for( int level = 0; level <= e_data.cur_level; level++ ) {
-                const std::string &bldg = faction_encode_abs( e_data, level );
+                const std::string &bldg = base_camps::faction_encode_abs( e_data, level );
                 if( bldg == "null" ) {
                     break;
                 }
@@ -553,7 +619,7 @@ void basecamp::form_crafting_inventory( const bool by_radio )
 // display names
 std::string basecamp::expansion_tab( const std::string &dir ) const
 {
-    if( dir == base_dir ) {
+    if( dir == base_camps::base_dir ) {
         return _( "Base Missions" );
     }
     auto e = expansions.find( dir );

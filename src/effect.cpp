@@ -48,7 +48,7 @@ void weed_msg( player &p )
     const time_duration howhigh = p.get_effect_dur( effect_weed_high );
     ///\EFFECT_INT changes messages when smoking weed
     int smarts = p.get_int();
-    if( howhigh > 125_turns && one_in( 7 ) ) {
+    if( howhigh > 12_minutes && one_in( 7 ) ) {
         int msg = rng( 0, 5 );
         switch( msg ) {
             case 0: // Freakazoid
@@ -101,7 +101,7 @@ void weed_msg( player &p )
             default:
                 return;
         }
-    } else if( howhigh > 100_turns && one_in( 5 ) ) {
+    } else if( howhigh > 10_minutes && one_in( 5 ) ) {
         int msg = rng( 0, 5 );
         switch( msg ) {
             case 0: // Bob Marley
@@ -145,7 +145,7 @@ void weed_msg( player &p )
             default:
                 return;
         }
-    } else if( howhigh > 50_turns && one_in( 3 ) ) {
+    } else if( howhigh > 5_minutes && one_in( 3 ) ) {
         int msg = rng( 0, 5 );
         switch( msg ) {
             case 0: // Cheech and Chong

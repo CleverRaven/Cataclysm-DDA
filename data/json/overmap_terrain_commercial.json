@@ -973,9 +973,25 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "motel_entrance_roof",
+    "copy-from": "generic_city_building",
+    "name": "motel roof",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "motel_1",
     "copy-from": "generic_city_building",
     "name": "motel",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_1_roof",
+    "copy-from": "generic_city_building",
+    "name": "motel roof",
     "sym": "h",
     "color": "light_blue"
   },
@@ -989,9 +1005,25 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "motel_2_roof",
+    "copy-from": "generic_city_building",
+    "name": "motel roof",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "motel_3",
     "copy-from": "generic_city_building",
     "name": "motel",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_3_roof",
+    "copy-from": "generic_city_building",
+    "name": "motel roof",
     "sym": "h",
     "color": "light_blue"
   },
@@ -1762,6 +1794,14 @@
     "type": "overmap_terrain",
     "id": "s_gardening",
     "name": "gardening supply",
+    "copy-from": "generic_city_building",
+    "sym": "F",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_gardening_roof",
+    "name": "gardening supply roof",
     "copy-from": "generic_city_building",
     "sym": "F",
     "color": "green"
