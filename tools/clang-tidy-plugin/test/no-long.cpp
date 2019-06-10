@@ -29,3 +29,19 @@ auto f4() -> decltype( 0L );
 int i1 = static_cast<long>( 0 );
 // CHECK-MESSAGES: warning: Static cast to 'long'.  Prefer int or int64_t to long. [cata-no-long]
 int i2 = static_cast<int64_t>( 0 );
+
+template<typename T>
+void g( T gp0, long gp1 )
+{
+    // CHECK-MESSAGES: warning: Variable 'gp1' declared as 'long'.  Prefer int or int64_t to long. [cata-no-long]
+    long gi0;
+    // CHECK-MESSAGES: warning: Variable 'gi0' declared as 'long'.  Prefer int or int64_t to long. [cata-no-long]
+    T gi1;
+}
+
+void h()
+{
+    g<long>( 0, 0 );
+    // Would like to report an error here for the template argument, but have
+    // not found a way to do so.
+}

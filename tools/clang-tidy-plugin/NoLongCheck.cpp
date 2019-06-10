@@ -46,6 +46,20 @@ static void CheckDecl( NoLongCheck &Check, const MatchFinder::MatchResult &Resul
     if( alternatives.empty() ) {
         return;
     }
+    Decl::Kind contextKind = MatchedDecl->getDeclContext()->getDeclKind();
+    if( contextKind == Decl::Function || contextKind == Decl::CXXMethod ||
+        contextKind == Decl::CXXConstructor || contextKind == Decl::CXXConversion ||
+        contextKind == Decl::CXXDestructor || contextKind == Decl::CXXDeductionGuide ) {
+        TemplateSpecializationKind tsk =
+            static_cast<const FunctionDecl *>(
+                MatchedDecl->getDeclContext() )->getTemplateSpecializationKind();
+        if( tsk == TSK_ImplicitInstantiation ) {
+            // This happens for e.g. a parameter 'T a' to an instantiated
+            // template function where T is long.  We don't want to report such
+            // cases.
+            return;
+        }
+    }
     Check.diag(
         MatchedDecl->getLocation(), "Variable %0 declared as %1.  %2." ) <<
                 MatchedDecl << Type << alternatives;
