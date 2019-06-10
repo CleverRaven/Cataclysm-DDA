@@ -1816,6 +1816,62 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "craft_shop_roof",
+    "name": "craft shop roof",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_upper_roof",
+    "name": "craft shop upper roof",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_1",
+    "name": "craft shop",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_roof_1",
+    "name": "craft shop roof",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_2",
+    "name": "craft shop",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_2ndfloor_2",
+    "name": "craft shop 2nd floor",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_roof_2",
+    "name": "craft shop roof",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "cs_market_small",
     "name": "small market",
     "copy-from": "generic_city_building",
