@@ -27,8 +27,6 @@
     "name": "pebble shotcanister",
     "symbol": "=",
     "color": "green",
-
-
     "description": "This small paper canister resembling a crude shotshell is filled to the brim with tiny pebbles.  Damage is pathetic but flight is much more stable than scrap",
     "material": [ "steel" ],
     "volume": 1,
@@ -74,7 +72,7 @@
     "symbol": "=",
     "color": "green",
     "description": "This small paper canister resembling a crude shotshell is filled to the brim with handmade bearings, stabilizing it's flight pattern a tiny bit.",
-    "material": ["steel" ],
+    "material": [ "steel" ],
     "volume": 1,
     "weight": 55,
     "bashing": 2,
