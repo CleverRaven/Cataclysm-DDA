@@ -4393,7 +4393,7 @@ bool vehicle::add_item( int part, const item &itm )
     // add creaking sounds and damage to overloaded vpart, outright break it past a certain point, or when hitting bumps etc
 
     if( parts[ part ].base.is_gun() ) {
-        if( !itm.is_ammo() || !parts[ part ].base.ammo_types().count( itm.type->ammo->type ) ) {
+        if( !itm.is_ammo() || !parts[ part ].base.ammo_types().count( itm.ammo_type() ) ) {
             return false;
         }
     }

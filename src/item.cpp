@@ -1324,7 +1324,7 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( ammo_remaining() > 0 ) {
                 info.emplace_back( "AMMO", _( "Ammunition: " ), ammo_data()->nname( ammo_remaining() ) );
             } else if( is_ammo() ) {
-                info.emplace_back( "AMMO", _( "Type: " ), type->ammo->type->name() );
+                info.emplace_back( "AMMO", _( "Type: " ), ammo_type()->name() );
             }
 
             const auto &ammo = *ammo_data()->ammo;
@@ -2891,11 +2891,11 @@ nc_color item::color_in_inventory() const
         // ltred if you have the gun but no mags
         // Gun with integrated mag counts as both
         bool has_gun = u.has_item_with( [this]( const item & i ) {
-            return i.is_gun() && i.ammo_types().count( type->ammo->type );
+            return i.is_gun() && i.ammo_types().count( ammo_type() );
         } );
         bool has_mag = u.has_item_with( [this]( const item & i ) {
-            return ( i.is_gun() && i.magazine_integral() && i.ammo_types().count( type->ammo->type ) ) ||
-                   ( i.is_magazine() && i.ammo_types().count( type->ammo->type ) );
+            return ( i.is_gun() && i.magazine_integral() && i.ammo_types().count( ammo_type() ) ) ||
+                   ( i.is_magazine() && i.ammo_types().count( ammo_type() ) );
         } );
         if( has_gun && has_mag ) {
             ret = c_green;
@@ -3863,7 +3863,7 @@ int item::get_quality( const quality_id &id ) const
                                          ( is_tool() && std::all_of( contents.begin(), contents.end(),
     [this]( const item & itm ) {
     if( itm.is_ammo() ) {
-            if( ammo_types().count( itm.type->ammo->type ) ) {
+            if( ammo_types().count( itm.ammo_type() ) ) {
                 return true;
             } else {
                 return false;
@@ -5914,6 +5914,14 @@ std::set<ammotype> item::ammo_types( bool conversion ) const
     return {};
 }
 
+ammotype item::ammo_type() const
+{
+    if( is_ammo() ) {
+        return type->ammo->type;
+    }
+    return ammotype::NULL_ID();
+}
+
 itype_id item::ammo_default( bool conversion ) const
 {
     std::set<ammotype> atypes = ammo_types( conversion );
@@ -5967,7 +5975,7 @@ std::string item::ammo_sort_name() const
         return ammotype( *ammo_types().begin() )->name();
     }
     if( is_ammo() ) {
-        return type->ammo->type->name();
+        return ammo_type()->name();
     }
     return "";
 }
@@ -6368,7 +6376,7 @@ void item::reload_option::qty( int val )
         remaining_capacity = 1;
     }
     if( ammo_obj.type->ammo ) {
-        if( ammo_obj.type->ammo->type == ammotype( "plutonium" ) ) {
+        if( ammo_obj.ammo_type() == ammotype( "plutonium" ) ) {
             remaining_capacity = remaining_capacity / PLUTONIUM_CHARGES +
                                  ( remaining_capacity % PLUTONIUM_CHARGES != 0 );
         }
@@ -6444,11 +6452,10 @@ bool item::reload( player &u, item_location loc, int qty )
                 ? get_remaining_capacity_for_liquid( *ammo )
                 : ammo_capacity() - ammo_remaining();
 
-    if( ammo->type->ammo ) {
-        if( ammo->type->ammo->type == ammotype( "plutonium" ) ) {
-            limit = limit / PLUTONIUM_CHARGES + ( limit % PLUTONIUM_CHARGES != 0 );
-        }
+    if( ammo->ammo_type() == ammotype( "plutonium" ) ) {
+        limit = limit / PLUTONIUM_CHARGES + ( limit % PLUTONIUM_CHARGES != 0 );
     }
+
     qty = std::min( qty, limit );
 
     casings_handle( [&u]( item & e ) {
@@ -6507,7 +6514,7 @@ bool item::reload( player &u, item_location loc, int qty )
             qty = std::min( qty, ammo->ammo_remaining() );
             ammo->ammo_consume( qty, tripoint_zero );
             charges += qty;
-        } else if( ammo->type->ammo->type == "plutonium" ) {
+        } else if( ammo->ammo_type() == "plutonium" ) {
             curammo = find_type( ammo->typeId() );
             ammo->charges -= qty;
 

@@ -1588,6 +1588,10 @@ class item : public visitable<item>
          *  @return empty set if item does not use a specific ammo type (and is consequently not reloadable) */
         std::set<ammotype> ammo_types( bool conversion = true ) const;
 
+        /** Ammo type of an ammo item
+         *  @return ammotype of ammo item or a null id if the item is not ammo */
+        ammotype ammo_type() const;
+
         /** Get default ammo used by item or "NULL" if item does not have a default ammo type
          *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return NULL if item does not use a specific ammo type (and is consequently not reloadable) */

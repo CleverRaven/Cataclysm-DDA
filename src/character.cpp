@@ -1045,7 +1045,7 @@ void Character::remove_mission_items( int mission_id )
 std::vector<const item *> Character::get_ammo( const ammotype &at ) const
 {
     return items_with( [at]( const item & it ) {
-        return it.is_ammo() && it.type->ammo->type == at;
+        return it.ammo_type() == at;
     } );
 }
 
@@ -1096,7 +1096,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             if( node->is_ammo_container() && !node->contents.empty() &&
                 !node->contents_made_of( SOLID ) ) {
                 for( const ammotype &at : ammo ) {
-                    if( node->contents.front().type->ammo->type == at ) {
+                    if( node->contents.front().ammo_type() == at ) {
                         out = item_location( src, node );
                     }
                 }
@@ -1104,7 +1104,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             }
 
             for( const ammotype &at : ammo ) {
-                if( node->is_ammo() && node->type->ammo->type == at ) {
+                if( node->ammo_type() == at ) {
                     out = item_location( src, node );
                 }
             }

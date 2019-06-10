@@ -77,7 +77,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         auto dump = [&rows]( const item & obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
-            r.push_back( obj.type->ammo->type.str() );
+            r.push_back( obj.ammo_type().str() );
             r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
             r.push_back( to_string( obj.type->stack_size ) );

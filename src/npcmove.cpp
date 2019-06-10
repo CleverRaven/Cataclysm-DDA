@@ -1636,8 +1636,8 @@ bool npc::recharge_cbm()
 
     if( use_bionic_by_id( bio_reactor ) || use_bionic_by_id( bio_advreactor ) ) {
         const std::function<bool( const item & )> reactor_filter = []( const item & it ) {
-            return it.is_ammo() && ( it.type->ammo->type == plutonium ||
-                                     it.type->ammo->type == reactor_slurry );
+            return it.is_ammo() && ( it.ammo_type() == plutonium ||
+                                     it.ammo_type() == reactor_slurry );
         };
         if( consume_cbm_items( reactor_filter ) ) {
             return true;
