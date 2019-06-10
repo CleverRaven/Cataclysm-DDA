@@ -134,7 +134,7 @@ static void load_available_constructions( std::vector<std::string> &available,
     cat_available.clear();
     available.clear();
     for( auto &it : constructions ) {
-        if( !hide_unconstructable || can_construct( it ) ) {
+        if( it.on_display && ( !hide_unconstructable || can_construct( it ) ) ) {
             bool already_have_it = false;
             for( auto &avail_it : available ) {
                 if( avail_it == it.description ) {
@@ -1398,6 +1398,8 @@ void load_construction( JsonObject &jo )
     assign_or_debugmsg( con.explain_failure, jo.get_string( "explain_failure", "" ), explain_fail_map );
     con.vehicle_start = jo.get_bool( "vehicle_start", false );
 
+    con.on_display = jo.get_bool( "on_display", true );
+
     constructions.push_back( con );
 }
 
@@ -1529,5 +1531,83 @@ void finalize_constructions()
 
     for( size_t i = 0; i < constructions.size(); i++ ) {
         constructions[ i ].id = i;
+    }
+}
+
+void get_build_reqs_for_furn_ter_ids( const std::pair<std::map<ter_id, int>,
+                                      std::map<furn_id, int>> &changed_ids,
+                                      build_reqs &total_reqs )
+{
+    std::map<size_t, int> total_builds;
+
+    // iteratively recurse through the pre-terrains until the pre-terrain is empty, adding
+    // the constructions to the total_builds map
+    const auto add_builds = [&total_builds]( const construction & build, int count ) {
+        if( total_builds.find( build.id ) == total_builds.end() ) {
+            total_builds[build.id] = 0;
+        }
+        total_builds[build.id] += count;
+        std::string build_pre_ter = build.pre_terrain;
+        while( !build_pre_ter.empty() ) {
+            for( const construction &pre_build : constructions ) {
+                if( pre_build.category == "REPAIR" ) {
+                    continue;
+                }
+                if( pre_build.post_terrain == build_pre_ter ) {
+                    if( total_builds.find( pre_build.id ) == total_builds.end() ) {
+                        total_builds[pre_build.id] = 0;
+                    }
+                    total_builds[pre_build.id] += count;
+                    build_pre_ter = pre_build.pre_terrain;
+                    break;
+                }
+            }
+            break;
+        }
+    };
+
+    // go through the list of terrains and add their constructions and any pre-constructions
+    // to the map of total builds
+    for( const auto &ter_data : changed_ids.first ) {
+        for( const construction &build : constructions ) {
+            if( build.post_terrain.empty() || build.post_is_furniture ||
+                build.category == "REPAIR" ) {
+                continue;
+            }
+            if( ter_id( build.post_terrain ) == ter_data.first ) {
+                add_builds( build, ter_data.second );
+                break;
+            }
+        }
+    }
+    // same, but for furniture
+    for( const auto &furn_data : changed_ids.second ) {
+        for( const construction &build : constructions ) {
+            if( build.post_terrain.empty() || !build.post_is_furniture ||
+                build.category == "REPAIR" ) {
+                continue;
+            }
+            if( furn_id( build.post_terrain ) == furn_data.first ) {
+                add_builds( build, furn_data.second );
+                break;
+            }
+        }
+    }
+
+    for( const auto &build_data : total_builds ) {
+        const construction &build = constructions[build_data.first];
+        const int count = build_data.second;
+        total_reqs.time += build.time * count;
+        if( total_reqs.reqs.find( build.requirements ) == total_reqs.reqs.end() ) {
+            total_reqs.reqs[build.requirements] = 0;
+        }
+        total_reqs.reqs[build.requirements] += count;
+        for( const auto &req_skill : build.required_skills ) {
+            if( total_reqs.skills.find( req_skill.first ) == total_reqs.skills.end() ) {
+                total_reqs.skills[req_skill.first] = req_skill.second;
+            } else if( total_reqs.skills[req_skill.first] < req_skill.second ) {
+                total_reqs.skills[req_skill.first] = req_skill.second;
+            }
+        }
     }
 }
