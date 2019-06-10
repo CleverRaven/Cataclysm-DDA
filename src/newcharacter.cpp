@@ -550,6 +550,19 @@ bool avatar::create( character_type type, const std::string &tempname )
         mod_skill_level( e.first, e.second );
     }
 
+    // setup staring bank money
+    if( prof->cash() != INT16_MIN ) {
+        cash = prof->cash();
+    } else {
+        cash = rng( 0, 200000 );
+    }
+    if( has_trait( trait_id( "DEBT" ) ) ) {
+        cash -= 2000000;
+    }
+    if( has_trait( trait_id( "SAVINGS" ) ) ) {
+        cash += 2000000;
+    }
+
     // Learn recipes
     for( const auto &e : recipe_dict ) {
         const auto &r = e.second;

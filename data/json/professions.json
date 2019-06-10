@@ -400,6 +400,7 @@
     "name": "Churl",
     "description": "What the deuyl?  Ye ne wist noo thing of this straunge plaas nor what wycked enchauntment brought ye hidder.  Wyth this accoustrement ye must needs underfongen to find newe lyflode in the most hidous cataclysm man hath witnessed sithen that deluge Noe rood out in his greet schippe.",
     "points": 1,
+    "cash": 0,
     "items": {
       "both": {
         "items": [ "footrags", "loincloth", "cloak_wool", "ragpouch", "small_relic", "gloves_wraps", "tunic_rag" ],
@@ -716,6 +717,7 @@
     "name": "Gangster",
     "description": "The boss always said he could rely on you to pull through on the tough jobs.  A shame he didn't manage it, himself.  No stranger to a spot of violence, you almost feel at home in this new world already.",
     "points": 3,
+    "cash": 500000,
     "skills": [
       { "level": 1, "name": "melee" },
       { "level": 1, "name": "unarmed" },
@@ -885,6 +887,7 @@
     "type": "profession",
     "ident": "homeless",
     "name": "Hobo",
+    "cash" : 0,
     "description": "Society drove you to the fringes and set you wandering, with no home, no family, no friends, until you could only find solace in the bottom of a bottle.  But society doesn't mean a thing anymore, and for all the crap thrown your way, you're still standing.  God damn, you need a drink.",
     "points": -1,
     "items": {
@@ -898,6 +901,7 @@
     "type": "profession",
     "ident": "tweaker",
     "name": "Tweaker",
+    "cash": 0,
     "description": "You're not entirely sure what happened, but everything has gone to shit, and the only thing running through your head is where you're gonna find your next hit.",
     "points": -2,
     "items": { "both": [ "pants", "boxer_shorts" ], "male": [ "undershirt" ], "female": [ "camisole" ] },
@@ -1166,6 +1170,7 @@
     "name": "Used Car Salesman",
     "description": "You've been accused of being the sort of person who'd be willing to sell your own mother for a dollar.  It always left you insulted - you've been around the block a time or two, and you'd charge way more than a dollar - and get it, too!",
     "points": 0,
+    "cash": 500000,
     "skills": [ { "level": 4, "name": "barter" } ],
     "items": {
       "both": {
@@ -1390,6 +1395,7 @@
     "name": "Student",
     "description": "You were a high school student, but the tests you'll face now will have much higher stakes.  There might even be something useful in one of these books you've been lugging around all year.",
     "points": 1,
+    "cash": -100000,
     "items": {
       "both": {
         "items": [
@@ -1454,6 +1460,7 @@
     "name": "Bionic Thief",
     "description": "You have done many high profile heists, but your gains mean nothing in this world.  All you have left are the tools of your trade and your impeccable style.",
     "points": 4,
+    "cash" : 500000,
     "CBMs": [ "bio_batteries", "bio_lockpick", "bio_fingerhack", "bio_power_storage_mkII" ],
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "smg" } ],
     "items": {
@@ -1471,6 +1478,7 @@
     "name": "Bionic Patient",
     "description": "When the diagnosis came back positive you signed up for a series of experimental bionic surgeries that saved your life.  Now you're healthier than you ever were before, thanks to a suite of bionic systems powered by your own metabolic functions.  Make the most of your second chance at life.",
     "points": 5,
+    "cash": -100000,
     "CBMs": [ "bio_leukocyte", "bio_blood_anal", "bio_blood_filter", "bio_nanobots", "bio_metabolics", "bio_power_storage_mkII" ],
     "items": {
       "both": { "items": [ "jeans", "tshirt", "socks", "sneakers", "wristwatch" ], "entries": [ { "group": "charged_cell_phone" } ] },
@@ -1482,6 +1490,7 @@
     "type": "profession",
     "ident": "patient",
     "name": "Patient",
+    "cash": -100000,
     "description": "When the diagnosis came back positive, you were willing to fight to keep living.  Now, you must renew your vow of tenacity in these new times.",
     "points": -2,
     "items": {
@@ -1912,6 +1921,7 @@
     "name": "Commercial Cyborg",
     "description": "You always had to have the latest and best gadgets and gizmos, so is it any wonder that you upgraded your flesh along with your smart phone?  Only time will tell if your passion for electronics and your status as a marvel of bionic technology will be enough to ensure your survival after the apocalypse.",
     "points": 8,
+    "cash": 500000,
     "CBMs": [ "bio_flashlight", "bio_tools", "bio_ups", "bio_watch", "bio_batteries", "bio_power_storage_mkII" ],
     "skills": [ { "level": 4, "name": "electronics" }, { "level": 2, "name": "fabrication" } ],
     "items": {
@@ -2163,6 +2173,7 @@
     "name": "Convict",
     "description": "The cataclysm gave you a chance to escape, but freedom comes with a steep price.",
     "points": 0,
+    "cash": 0,
     "skills": [ { "level": 1, "name": "melee" } ],
     "items": { "both": [ "striped_shirt", "striped_pants", "glass_shiv" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
   },
@@ -2172,6 +2183,7 @@
     "name": "Death Row Convict",
     "description": "You were a serial killer ready to walk the green mile, but now everyone else is dead, and since true death comes only from your hands, you're in for a job.",
     "points": 0,
+    "cash": 0,
     "skills": [ { "level": 1, "name": "melee" } ],
     "traits": [ "KILLER" ],
     "items": { "both": [ "striped_shirt", "striped_pants", "glass_shiv" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] }
@@ -2182,6 +2194,7 @@
     "name": "Burglar",
     "description": "You thought this would be your lucky break.  Does it count as breaking and entering if everyone in town is undead?",
     "points": 3,
+    "cash": 500000,
     "//": "A ski mask would fit the stereotype better, but wool allergy breaks this.",
     "items": {
       "both": [
@@ -2234,6 +2247,7 @@
     "name": "Cyberjunkie",
     "description": "Long ago your lifelong infatuation with bionic enhancement lead you into a shady world of back-alley bionic clinics and self-installed secondhand CBMs.  The world has moved on but your posthuman hunger still cries out to be fed; where will you get your bionic fix now?",
     "points": 0,
+    "cash": 25000,
     "CBMs": [
       "bio_itchy",
       "bio_shakes",
@@ -2262,6 +2276,7 @@
     "name": "Bionic Monster",
     "description": "Completely overtaken by bionic-induced psychosis, you are a deformed posthuman monster who had no place in society.  But now, where once you were forced to hide in the shadows, you find in this new desolation a world where even a creature such as yourself might find its niche.",
     "points": 2,
+    "cash": 0,
     "CBMs": [
       "bio_thumbs",
       "bio_spasm",
@@ -2308,6 +2323,7 @@
     "name": "Lawyer",
     "description": "Now instead of complaining about your fees, your clients try to eat your brain.  You can't tell which one is worse though.",
     "points": 1,
+    "cash": 500000,
     "skills": [ { "level": 1, "name": "barter" }, { "level": 2, "name": "speech" } ],
     "items": {
       "both": [
@@ -2323,6 +2339,43 @@
         "money_bundle",
         "file"
       ],
+      "male": [ "briefs" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "millionaire",
+    "name": "Millionaire",
+    "description": "You had a fortune, wether inherited, built by hard work, or gained by pure luck. You invested in trade and nothing was beyond your reach.  Now it's now not worth a dime and no money in the world can guarantee your safety and well being.  Hard times are ahead, so it's time to undust your skills and try to sell some ice to the Innuit.  What currency do they accept?",
+    "points": 2,
+    "cash": 10000000000,
+    "traits": [ "PROF_MILLIONAIRE" ],
+    "skills": [ { "level": 3, "name": "barter" }, { "level": 2, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [
+          "suit",
+          "skinny_tie",
+          "tieclip",
+          "socks",
+          "dress_shoes",
+          "smart_phone",
+          "money_bundle",
+          "gold_watch",
+          "gold_ear",
+          "gold_bracelet",
+          "gasdiscount_platinum",
+          "diamond_ring",
+          "gold_small",
+          "silver_small",
+          "platinum_small"
+        ],
+        "entries": [
+          { "item": "cash_card", "charges": 1000000 },
+          { "item": "diamond", "count": 5 }
+        ]
+      },
       "male": [ "briefs" ],
       "female": [ "bra", "panties" ]
     }
@@ -2531,6 +2584,7 @@
     "name": { "male": "Pizza Delivery Boy", "female": "Pizza Delivery Girl" },
     "description": "You were delivering the last pizza of the night to the local cryogenics lab when the cataclysm hit.  Fleeing to the nearest shelter, you find yourself with only your wits and some leftover pizza.  And they didn't even leave a tip!",
     "points": 1,
+    "cash": 50000,
     "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "barter" }, { "level": 1, "name": "speech" } ],
     "items": {
       "both": {
@@ -2592,6 +2646,7 @@
     "name": { "male": "Paperboy", "female": "Papergirl" },
     "description": "You were delivering the morning paper along your usual route when the Cataclysm struck.  The undead hordes don't seem to value the latest news, but at least your trusty bicycle is still in working order.",
     "points": 3,
+    "cash": 25000,
     "skills": [ { "level": 3, "name": "driving" }, { "level": 3, "name": "throw" }, { "level": 1, "name": "speech" } ],
     "items": {
       "both": {
@@ -2913,6 +2968,7 @@
     "name": "Veteran Bandit",
     "description": "After the cities exploded there was a whirlwind of looting; a firestorm of fear.  Men began to feed on men.  On the roads it was a white line nightmare.  Only those mobile enough to scavenge or brutal enough to pillage would survive.  You are one of the latter.",
     "points": 6,
+    "cash": 500000,
     "skills": [
       { "level": 2, "name": "gun" },
       { "level": 2, "name": "rifle" },
@@ -2990,6 +3046,7 @@
     "name": "Naturalist",
     "description": "You have come to an understanding with Mother Nature over long years of self-imposed exile in the wilderness.  The world as they knew it might have ended for your forsaken species, but you can hardly tell the difference.",
     "points": 6,
+    "cash": 0,
     "skills": [
       { "level": 6, "name": "survival" },
       { "level": 4, "name": "fabrication" },
@@ -3180,6 +3237,7 @@
     "name": { "male": "Skater Boy", "female": "Skater Girl" },
     "description": "You love to skate!  At least now the grown-ups aren't telling you where you can't roll.",
     "points": 1,
+    "cash": 10000,
     "skills": [ { "level": 1, "name": "dodge" } ],
     "traits": [ "PROF_SKATER" ],
     "items": {
@@ -3209,6 +3267,7 @@
     "name": "Juvenile Delinquent",
     "description": "You never cared for grown-ups telling you what to do, and that's how you ended up spending most of your days in the principal's office.  Now, not needing grown-ups to tell you what to do is the only reason you're alive.  Man, you really should've played hooky today.",
     "points": 2,
+    "cash": 20000,
     "skills": [ { "level": 1, "name": "gun" }, { "level": 1, "name": "dodge" }, { "level": 1, "name": "melee" } ],
     "items": {
       "both": {
@@ -3241,6 +3300,7 @@
     "name": "Survivalist Jr.",
     "description": "Your parents were crazy preppers who thought some \"cataclysm\" was coming, and insisted on preparing you for it.  Turns out they were right.  You didn't get a chance to thank them.  The only thing you can do for them now is what they always hoped you would do in the dark days ahead: survive.",
     "points": 3,
+    "cash": 20000,
     "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "fabrication" }, { "level": 1, "name": "firstaid" } ],
     "items": {
       "both": {
@@ -3273,6 +3333,7 @@
     "name": "Bionic Student",
     "description": "Your parents were so obsessed with making sure you aced every test that they had you outfitted with bionics to make you smarter and never forget anything.  And now, you are facing the most dire test yet, and once again you had better succeed, or else.",
     "points": 3,
+    "cash": 100000,
     "CBMs": [ "bio_batteries", "bio_power_storage", "bio_int_enhancer", "bio_memory" ],
     "items": {
       "both": [
@@ -3317,6 +3378,7 @@
     "name": "Science Club Member",
     "description": "You were a member of the school science club, and right now you're as upset as you've ever been that the school wouldn't let you play with the really fun chemicals that make things go boom.  At least now no one's around to tell you that you can't.",
     "points": 1,
+    "cash": 20000,
     "skills": [ { "level": 1, "name": "cooking" }, { "level": 1, "name": "mechanics" } ],
     "items": {
       "both": {
@@ -3333,6 +3395,7 @@
     "name": "A/V Club Member",
     "description": "You were a member of the school A/V club.  You're sure there's some way you can use your technical skills to help stay alive.  You just haven't figured out how to make an awesome death ray yet.",
     "points": 1,
+    "cash": 20000,
     "skills": [ { "level": 1, "name": "electronics" }, { "level": 1, "name": "computer" } ],
     "items": {
       "both": {
