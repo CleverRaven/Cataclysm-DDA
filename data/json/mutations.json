@@ -6116,7 +6116,7 @@
     "id": "PROF_MILLIONAIRE",
     "name": "Millionaire",
     "points": 0,
-    "description": "A the time of Cataclysm you were an owner of a fortune stashed in the bank.  Does that have any meaning now?",
+    "description": "At the time of Cataclysm you were an owner of a fortune stashed in the bank.  Does that have any meaning now?",
     "valid": false,
     "purifiable": false,
     "profession": true,
