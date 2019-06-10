@@ -630,10 +630,7 @@
     "time": "1 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
-    "components": [
-      [[ "scrap", 1 ]], 
-      [["paper", 2 ]]
-      ]
+    "components": [ [ [ "scrap", 1 ] ], [ [ "paper", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -646,10 +643,7 @@
     "time": "1 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
-    "components": [
-      [[ "combatnail", 10 ]], 
-      [["paper", 2 ]]
-      ]
+    "components": [ [ [ "combatnail", 10 ] ], [ [ "paper", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -662,10 +656,7 @@
     "time": "1 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
-    "components": [
-      [[ "bearing", 10 ]], 
-      [["paper", 2 ]]
-      ]
+    "components": [ [ [ "bearing", 10 ] ], [ [ "paper", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -678,12 +669,9 @@
     "time": "1 m",
     "autolearn": true,
     "book_learn": [ [ "recipe_bullets", 2 ], [ "manual_shotgun", 2 ] ],
-    "qualities": [],
-    "using": [ ],
-    "components": [
-      [[ "pebble", 10 ]], 
-      [["paper", 2 ]]
-      ]
+    "qualities": [  ],
+    "using": [  ],
+    "components": [ [ [ "pebble", 10 ] ], [ [ "paper", 2 ] ] ]
   },
   {
     "type": "recipe",
