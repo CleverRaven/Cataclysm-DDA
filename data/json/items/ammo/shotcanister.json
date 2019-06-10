@@ -74,7 +74,7 @@
     "name": "bearing shotcanister",
     "symbol": "=",
     "color": "green",
-    "description": "This small paper canister resembling a crude shotshell is filled to the brim with handmade bearings, stabilizing it's flight pattern a tiny bit. ",
+    "description": "This small paper canister resembling a crude shotshell is filled to the brim with handmade bearings, stabilizing it's flight pattern a tiny bit.",
     "material": ["steel" ],
     "volume": 1,
     "weight": 55,
