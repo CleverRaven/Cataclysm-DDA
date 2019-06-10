@@ -1,5 +1,6 @@
 // RUN: %check_clang_tidy %s cata-no-long %t -- -plugins=%cata_plugin --
 
+#include <limits.h>
 #include <stdint.h>
 
 long a1;
@@ -31,7 +32,7 @@ int i1 = static_cast<long>( 0 );
 int i2 = static_cast<int64_t>( 0 );
 
 template<typename T>
-void g( T gp0, long gp1 )
+void g( T gp0, long gp1 = 0 )
 {
     // CHECK-MESSAGES: warning: Variable 'gp1' declared as 'long'.  Prefer int or int64_t to long. [cata-no-long]
     long gi0;
@@ -44,4 +45,11 @@ void h()
     g<long>( 0, 0 );
     // Would like to report an error here for the template argument, but have
     // not found a way to do so.
+
+    g( LONG_MIN );
+    // CHECK-MESSAGES: warning: Use of long-specific macro LONG_MIN [cata-no-long]
+    g( LONG_MAX );
+    // CHECK-MESSAGES: warning: Use of long-specific macro LONG_MAX [cata-no-long]
+    g( ULONG_MAX );
+    // CHECK-MESSAGES: warning: Use of long-specific macro ULONG_MAX [cata-no-long]
 }

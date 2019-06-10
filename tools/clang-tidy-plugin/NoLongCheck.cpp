@@ -1,6 +1,7 @@
 #include "NoLongCheck.h"
 #include "clang/AST/ASTContext.h"
 #include "clang/ASTMatchers/ASTMatchFinder.h"
+#include "clang/Frontend/CompilerInstance.h"
 
 using namespace clang::ast_matchers;
 
@@ -10,6 +11,31 @@ namespace tidy
 {
 namespace cata
 {
+
+class NoLongMacrosCallbacks : public PPCallbacks
+{
+    public:
+        NoLongMacrosCallbacks( NoLongCheck *Check ) :
+            Check( Check ) {}
+
+        void MacroExpands( const Token &MacroNameTok,
+                           const MacroDefinition &,
+                           SourceRange Range,
+                           const MacroArgs * ) override {
+            StringRef MacroName = MacroNameTok.getIdentifierInfo()->getName();
+            if( MacroName == "LONG_MIN" || MacroName == "LONG_MAX" || MacroName == "ULONG_MAX" ) {
+                Check->diag( Range.getBegin(), "Use of long-specific macro %0" ) << MacroName;
+            }
+        }
+    private:
+        NoLongCheck *Check;
+};
+
+void NoLongCheck::registerPPCallbacks( CompilerInstance &Compiler )
+{
+    Compiler.getPreprocessor().addPPCallbacks(
+        llvm::make_unique<NoLongMacrosCallbacks>( this ) );
+}
 
 void NoLongCheck::registerMatchers( MatchFinder *Finder )
 {
