@@ -254,7 +254,7 @@ void map::build_sunlight_cache( int zlev )
             // The formula to apply transparency to the light rays doesn't handle full opacity,
             // so handle that seperately.
             if( prev_transparency > LIGHT_TRANSPARENCY_SOLID &&
-                !prev_floor_cache[x][y] && prev_light.max() > 0.0 ) {
+                !prev_floor_cache[x][y] && prev_light.max() > 0.0 && outside_cache[x][y] ) {
                 lm[x][y].fill( std::max( inside_light_level,
                                          prev_light.max() * static_cast<float>( LIGHT_TRANSPARENCY_OPEN_AIR )
                                          / prev_transparency ) );
