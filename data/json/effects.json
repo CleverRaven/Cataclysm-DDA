@@ -1123,7 +1123,14 @@
       "per_mod": [ -1 ],
       "stamina_min": [ -2 ]
     },
-    "scaling_mods": { "speed_mod": [ 20 ], "str_mod": [ 1.5 ], "dex_mod": [ 1.5 ], "int_mod": [ -2 ], "per_mod": [ 0.5 ], "stamina_min": [ 4 ] }
+    "scaling_mods": {
+      "speed_mod": [ 20 ],
+      "str_mod": [ 1.5 ],
+      "dex_mod": [ 1.5 ],
+      "int_mod": [ -2 ],
+      "per_mod": [ 0.5 ],
+      "stamina_min": [ 4 ]
+    }
   },
   {
     "type": "effect_type",
