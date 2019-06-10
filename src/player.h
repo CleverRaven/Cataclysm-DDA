@@ -373,7 +373,7 @@ class player : public Character
         /** Returns the bionic at a given index in my_bionics[] */
         bionic &bionic_at_index( int i );
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
-        bionic *bionic_by_invlet( long ch );
+        bionic *bionic_by_invlet( int ch );
         /** Returns player luminosity based on the brightest active item they are carrying */
         float active_light() const;
 
@@ -1099,7 +1099,7 @@ class player : public Character
         bool invoke_item( item * );
         bool invoke_item( item *, const std::string & );
         /** Reassign letter. */
-        void reassign_item( item &it, long invlet );
+        void reassign_item( item &it, int invlet );
 
         /** Consume charges of a tool or comestible item, potentially destroying it in the process
          *  @param used item consuming the charges
@@ -1268,7 +1268,7 @@ class player : public Character
         /** Return the item position of the item with given invlet, return INT_MIN if
          * the player does not have such an item with that invlet. Don't use this on npcs.
          * Only use the invlet in the user interface, otherwise always use the item position. */
-        int invlet_to_position( long invlet ) const;
+        int invlet_to_position( int invlet ) const;
 
         /**
         * Check whether player has a bionic power armor interface.

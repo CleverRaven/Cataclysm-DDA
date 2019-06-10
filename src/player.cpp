@@ -6992,10 +6992,10 @@ item player::reduce_charges( item *it, int quantity )
     return result;
 }
 
-int player::invlet_to_position( const long linvlet ) const
+int player::invlet_to_position( const int linvlet ) const
 {
     // Invlets may come from curses, which may also return any kind of key codes, those being
-    // of type long and they can become valid, but different characters when casted to char.
+    // of type int and they can become valid, but different characters when casted to char.
     // Example: KEY_NPAGE (returned when the player presses the page-down key) is 0x152,
     // casted to char would yield 0x52, which happens to be 'R', a valid invlet.
     if( linvlet > std::numeric_limits<char>::max() || linvlet < std::numeric_limits<char>::min() ) {
@@ -9174,7 +9174,7 @@ bool player::invoke_item( item *used, const std::string &method, const tripoint 
     return false;
 }
 
-void player::reassign_item( item &it, long invlet )
+void player::reassign_item( item &it, int invlet )
 {
     bool remove_old = true;
     if( invlet ) {
