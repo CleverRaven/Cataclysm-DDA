@@ -81,7 +81,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_John_1",
     "dynamic_line": {
-      "u_has_var": "u_met_John_Clemens", "type": "general", "context": "meeting", "value": "yes",
+      "u_has_var": "u_met_John_Clemens",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
       "yes": "Howdy, pardner.",
       "no": "Howdy, pardner.  They call me Clemens.  John Clemens.  I'm an ol' cowhand."
     },
@@ -130,7 +133,10 @@
     "id": "TALK_REFUGEE_John_Background",
     "dynamic_line": "My story?  Just a wanderin' cowhand, eatin' dust on the trail.  I settled here for a spell after I came upon some hard times.",
     "responses": [
-      { "text": "You... you do know what's going on here, right?  With the evacuation and stuff?", "topic": "TALK_REFUGEE_John_Background_cataclysm" },
+      {
+        "text": "You... you do know what's going on here, right?  With the evacuation and stuff?",
+        "topic": "TALK_REFUGEE_John_Background_cataclysm"
+      },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
