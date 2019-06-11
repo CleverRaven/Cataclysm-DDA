@@ -502,8 +502,8 @@
     "name": "Rancher",
     "points": 4,
     "description": "Youve lived on your ranch for most of your life, through hrad times and easy timess. One heck of a hard time is ahead..",
-    "allowed_locs": [ "horse_farm_13_north" ],
-    "start_name": "Evac Shelter",
+    "allowed_locs": [ "horse_farm_13" ],
+    "start_name": "Rancher",
     "professions": [ "rancher" ]
-  },
+  }
 ]

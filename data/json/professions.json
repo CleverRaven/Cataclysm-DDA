@@ -3717,7 +3717,7 @@
       },
       "female": [ "chestwrap" ]
     }
-  }
+  },
   {
     "type": "profession",
     "ident": "rancher",
@@ -3727,8 +3727,10 @@
     "skills": { "level": 2, "name": "survival" },
     "items": {
       "both": {
-        "items": [ "jeans", "dress_shirt", "leather_jacket", "socks", "cowboy_hat", "western_boots", "watch", "riding_saddle", "knife" ],
-      }
+        "items": [ "jeans", "dress_shirt", "jacket_leather", "socks", "cowboy_hat", "boots_western", "wristwatch", "riding_saddle", "pockknife" ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
     }
   }
 ]
