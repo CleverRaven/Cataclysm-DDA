@@ -1387,5 +1387,23 @@
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
     "bash_dmg_verb": "damaged",
     "cut_dmg_verb": "damaged"
+  },
+  {
+    "type": "material",
+    "ident": "zinc",
+    "name": "Zinc",
+    "density": 10,
+    "specific_heat_liquid": 1.18,
+    "specific_heat_solid": 0.91,
+    "latent_heat": 260,
+    "bash_resist": 4,
+    "cut_resist": 3,
+    "acid_resist": 4,
+    "fire_resist": 1,
+    "elec_resist": 0,
+    "chip_resist": 10,
+    "dmg_adj": [ "dented", "bent", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched"
   }
 ]

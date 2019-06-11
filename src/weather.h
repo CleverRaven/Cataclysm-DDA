@@ -111,7 +111,7 @@ void snow_glare();
 void snowstorm();
 } //namespace weather_effect
 
-using weather_effect_fn = void (*)();
+using weather_effect_fn = void ( * )();
 
 struct weather_datum {
     std::string name;             //!< UI name of weather type.

@@ -3587,7 +3587,7 @@
     "skills": [ { "level": 2, "name": "speech" }, { "level": 1, "name": "survival" } ],
     "items": {
       "both": {
-        "items": [ "jeans", "tshirt", "socks", "sneakers", "mbag", "pizza_cheese", "cola", "dnd_handbook", "wristwatch" ],
+        "items": [ "jeans", "tshirt", "socks", "sneakers", "mbag", "pizza_cheese", "cola", "dnd_handbook", "wristwatch", "RPG_die" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "briefs" ],
@@ -3719,18 +3719,53 @@
     }
   },
   {
-    "type": "profession",
-    "ident": "rancher",
-    "name": "Rancher",
-    "description": "You've raised cows or horses most of your life, now we'll see what happens next.",
-    "points": 2,
-    "skills": { "level": 2, "name": "survival" },
+    "ident": "politician",
+    "name": "Career Politician",
+    "description": "You've spent your life appealing to the people, persuading many and promising much throughout your time in office.  Now that your voting base wants to eat you alive, winning hearts and minds just got that much harder.",
+    "points": 4,
+    "skills": [ { "level": 4, "name": "barter" }, { "level": 6, "name": "speech" } ],
+    "traits": [ "LIAR" ],
     "items": {
-      "both": {
-        "items": [ "jeans", "dress_shirt", "jacket_leather", "socks", "cowboy_hat", "boots_western", "wristwatch", "riding_saddle", "pockknife", "cattlefodder", "cattlefodder", "cig" ]
-      },
+      "both": [
+        "suit",
+        "tieclip",
+        "socks_wool",
+        "dress_shoes",
+        "smart_phone",
+        "gold_watch",
+        "briefcase",
+        "skinny_tie",
+        "file",
+        "ref_lighter",
+        "cigar"
+      ],
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
     }
+{
+  "type": "profession",
+  "ident": "rancher",
+  "name": "Rancher",
+  "description": "You've raised cows or horses most of your life, now we'll see what happens next.",
+  "points": 2,
+  "skills": { "level": 2, "name": "survival" },
+  "items": {
+    "both": [ 
+        "jeans", 
+        "dress_shirt", 
+        "jacket_leather", 
+        "socks", 
+        "cowboy_hat", 
+        "boots_western", 
+        "wristwatch", 
+        "riding_saddle", 
+        "pockknife", 
+        "cattlefodder", 
+        "cattlefodder", 
+        "cig" 
+     ],
+     "male": [ "boxer_shorts" ],
+     "female": [ "bra", "panties" ] 
   }
+}
 ]
