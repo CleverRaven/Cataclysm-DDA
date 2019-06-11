@@ -3927,6 +3927,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
         spell_effect::teleport( casting.range(), casting.range() + casting.aoe() );
     } else if( fx == "spawn_item" ) {
         spell_effect::spawn_ethereal_item( casting );
+    } else if( fx == "recover_energy" ) {
+        spell_effect::recover_energy( casting, target );
     } else {
         debugmsg( "ERROR: Spell effect not defined properly." );
     }

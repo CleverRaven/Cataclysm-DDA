@@ -319,6 +319,7 @@ std::set<tripoint> spell_effect_line( spell &, const tripoint &source,
                                       const int aoe_radius, const bool ignore_walls );
 
 void spawn_ethereal_item( spell &sp );
+void recover_energy( spell &sp, const tripoint &target );
 }
 
 #endif

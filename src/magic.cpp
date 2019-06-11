@@ -1220,4 +1220,40 @@ void spawn_ethereal_item( spell &sp )
     }
 }
 
+void recover_energy( spell &sp, const tripoint &target )
+{
+    // this spell is not appropriate for healing
+    const int healing = sp.damage();
+    const std::string energy_source = sp.effect_data();
+    // TODO: Change to Character
+    // current limitation is that Character does not have stamina or power_level members
+    player *p = g->critter_at<player>( target );
+
+    if( energy_source == "MANA" ) {
+        p->magic.mod_mana( *p, healing );
+    } else if( energy_source == "STAMINA" ) {
+        if( healing > 0 ) {
+            p->stamina = std::min( p->get_stamina_max(), p->stamina + healing );
+        } else {
+            p->stamina = std::max( 0, p->stamina + healing );
+        }
+    } else if( energy_source == "FATIGUE" ) {
+        // fatigue is backwards
+        p->mod_fatigue( -healing );
+    } else if( energy_source == "BIONIC" ) {
+        if( healing > 0 ) {
+            p->power_level = std::min( p->max_power_level, p->power_level + healing );
+        } else {
+            p->stamina = std::max( 0, p->stamina + healing );
+        }
+    } else if( energy_source == "PAIN" ) {
+        // pain is backwards
+        p->mod_pain_noresist( -healing );
+    } else if( energy_source == "HEALTH" ) {
+        p->mod_healthy( healing );
+    } else {
+        debugmsg( "Invalid effect_str %s for spell %s", energy_source, sp.name() );
+    }
+}
+
 }
