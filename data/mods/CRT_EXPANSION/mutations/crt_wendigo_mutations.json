@@ -40,7 +40,7 @@
     "name": "Animal Kinship",
     "points": 2,
     "description": "Something about your presence is calming to animals, and they will treat you with innate trust. This only applies to natural animals such as woodland creatures.",
-    "category": [ "ELFA", "VAMP" ],
+    "category": [ "ELFA", "VAMP", "WENDIGO" ],
     "prereqs": [ "ANIMALEMPATH" ],
     "cancels": [ "ANIMALDISCORD" ]
   },
@@ -64,7 +64,7 @@
     "prereqs": [ "SMELLY2" ],
     "types": [ "SCENT" ],
     "category": [ "BEAST", "CATTLE", "WENDIGO" ]
-  },  
+  },
   {
     "type": "mutation",
     "id": "NMELD",
@@ -98,7 +98,7 @@
         "body_part": "TORSO",
         "chance": 33,
         "base_damage": { "damage_type": "cut", "amount": 10 },
-        "strength_damage": { "damage_type": "biological", "amount": 0.25 }
+        "strength_damage": { "damage_type": "acid", "amount": 0.25 }
       }
     ]
   }
