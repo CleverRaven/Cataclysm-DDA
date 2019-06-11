@@ -1165,15 +1165,6 @@ bool player::can_continue_craft( item &craft )
     }
 
     const recipe &rec = craft.get_making();
-    if( has_recipe( &rec, crafting_inventory(), get_crafting_helpers() ) == -1 ) {
-        add_msg_player_or_npc(
-            string_format( _( "You don't know the recipe for the %s and can't continue crafting." ),
-                           rec.result_name() ),
-            string_format( _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
-                           rec.result_name() )
-        );
-        return false;
-    }
 
     const requirement_data continue_reqs = craft.get_continue_reqs();
 

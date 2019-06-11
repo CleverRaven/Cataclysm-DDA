@@ -4051,6 +4051,23 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
+int iuse::rpgdie( player *you, item *die, bool, const tripoint & )
+{
+    const std::vector<int> sides_options = { 4, 6, 8, 10, 12, 20, 50 };
+    int num_sides = die->get_var( "die_num_sides", 0 );
+    if( num_sides == 0 ) {
+        const int sides = sides_options[ rng( 0, sides_options.size() - 1 ) ];
+        num_sides = sides;
+        die->set_var( "die_num_sides", sides );
+    }
+    const int roll = rng( 1, num_sides );
+    you->add_msg_if_player( _( "You roll a %d on your %d sided %s" ), roll, num_sides, die->tname() );
+    if( roll == num_sides ) {
+        add_msg( m_good, _( "Critical!" ) );
+    }
+    return roll;
+}
+
 int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
 {
     if( t ) { // Normal use
@@ -8304,7 +8321,16 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
     if( !p->can_continue_craft( p->weapon ) ) {
         return 0;
     }
-
+    const recipe &rec = it->get_making();
+    if( p->has_recipe( &rec, p->crafting_inventory(), p->get_crafting_helpers() ) == -1 ) {
+        p->add_msg_player_or_npc(
+            string_format( _( "You don't know the recipe for the %s and can't continue crafting." ),
+                           rec.result_name() ),
+            string_format( _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
+                           rec.result_name() )
+        );
+        return 0;
+    }
     p->add_msg_player_or_npc(
         string_format( pgettext( "in progress craft", "You start working on the %s." ), craft_name ),
         string_format( pgettext( "in progress craft", "<npcname> starts working on the %s." ),

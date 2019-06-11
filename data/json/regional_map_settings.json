@@ -603,7 +603,9 @@
       "shops": {
         "bus_station": 200,
         "town_hall": 150,
-        "craft_shop": 100,
+        "craft_shop": 200,
+        "craft_shop_1": 200,
+        "craft_shop_2": 200,
         "s_gas": 500,
         "s_pharm": 300,
         "s_pharm_1": 300,

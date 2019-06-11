@@ -360,26 +360,23 @@ void map::on_vehicle_moved( const int smz )
 void map::vehmove()
 {
     // give vehicles movement points
-    {
-        VehicleList vehs = get_vehicles();
-        for( auto &vehs_v : vehs ) {
-            vehicle *veh = vehs_v.v;
-            veh->gain_moves();
-            veh->slow_leak();
-        }
+    VehicleList vehicle_list = get_vehicles();
+    for( auto &vehs_v : vehicle_list ) {
+        vehicle *veh = vehs_v.v;
+        veh->gain_moves();
+        veh->slow_leak();
     }
 
     // 15 equals 3 >50mph vehicles, or up to 15 slow (1 square move) ones
     // But 15 is too low for V12 death-bikes, let's put 100 here
     for( int count = 0; count < 100; count++ ) {
-        if( !vehproceed() ) {
+        if( !vehproceed( vehicle_list ) ) {
             break;
         }
     }
     // Process item removal on the vehicles that were modified this turn.
     // Use a copy because part_removal_cleanup can modify the container.
     auto temp = dirty_vehicle_list;
-    VehicleList vehicle_list = get_vehicles();
     for( const auto &elem : temp ) {
         auto same_ptr = [ elem ]( const struct wrapped_vehicle & tgt ) {
             return elem == tgt.v;
@@ -392,25 +389,23 @@ void map::vehmove()
     dirty_vehicle_list.clear();
 }
 
-bool map::vehproceed()
+bool map::vehproceed( VehicleList &vehs )
 {
-    VehicleList vehs = get_vehicles();
-    vehicle *cur_veh = nullptr;
+    wrapped_vehicle *cur_veh = nullptr;
     float max_of_turn = 0;
     // First horizontal movement
-    for( auto &vehs_v : vehs ) {
+    for( wrapped_vehicle &vehs_v : vehs ) {
         if( vehs_v.v->of_turn > max_of_turn ) {
-            cur_veh = vehs_v.v;
-            max_of_turn = cur_veh->of_turn;
+            cur_veh = &vehs_v;
+            max_of_turn = cur_veh->v->of_turn;
         }
     }
 
     // Then vertical-only movement
     if( cur_veh == nullptr ) {
-        for( auto &vehs_v : vehs ) {
-            vehicle &cveh = *vehs_v.v;
-            if( cveh.is_falling ) {
-                cur_veh = vehs_v.v;
+        for( wrapped_vehicle &vehs_v : vehs ) {
+            if( vehs_v.v->is_falling ) {
+                cur_veh = &vehs_v;
                 break;
             }
         }
@@ -420,7 +415,8 @@ bool map::vehproceed()
         return false;
     }
 
-    return cur_veh->act_on_map();
+    cur_veh->v = cur_veh->v->act_on_map();
+    return true;
 }
 
 static bool sees_veh( const Creature &c, vehicle &veh, bool force_recalc )
@@ -431,18 +427,18 @@ static bool sees_veh( const Creature &c, vehicle &veh, bool force_recalc )
     } );
 }
 
-void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing )
+vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing )
 {
     const bool vertical = dp.z != 0;
     if( ( dp.x == 0 && dp.y == 0 && dp.z == 0 ) ||
         ( abs( dp.x ) > 1 || abs( dp.y ) > 1 || abs( dp.z ) > 1 ) ||
         ( vertical && ( dp.x != 0 || dp.y != 0 ) ) ) {
         debugmsg( "move_vehicle called with %d,%d,%d displacement vector", dp.x, dp.y, dp.z );
-        return;
+        return &veh;
     }
 
     if( dp.z + veh.smz < -OVERMAP_DEPTH || dp.z + veh.smz > OVERMAP_HEIGHT ) {
-        return;
+        return &veh;
     }
 
     veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir(), veh.pivot_point() );
@@ -462,7 +458,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     if( velocity_before == 0 ) {
         debugmsg( "%s tried to move %s with no velocity",
                   veh.name, vertical ? "vertically" : "horizontally" );
-        return;
+        return &veh;
     }
 
     bool veh_veh_coll_flag = false;
@@ -527,7 +523,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
 
     if( veh_veh_coll_flag ) {
         // Break here to let the hit vehicle move away
-        return;
+        return &veh;
     }
 
     // If not enough wheels, mess up the ground a bit.
@@ -574,6 +570,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
 
     const bool seen = sees_veh( g->u, veh, false );
 
+    vehicle *new_vehicle = &veh;
     if( can_move ) {
         // Accept new direction
         if( veh.skidding ) {
@@ -590,7 +587,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         veh.on_move();
         // Actually change position
         tripoint pt = veh.global_pos3(); // displace_vehicle needs a non-const reference
-        displace_vehicle( pt, dp1 );
+        new_vehicle = displace_vehicle( pt, dp1 );
     } else if( !vertical ) {
         veh.stop();
     }
@@ -609,6 +606,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         g->draw();
         refresh_display();
     }
+    return new_vehicle;
 }
 
 float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,

@@ -2692,6 +2692,11 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 }
             }
         }
+        if( this->get_var( "die_num_sides", 0 ) != 0 ) {
+            info.emplace_back( "DESCRIPTION",
+                               string_format( _( "* This item can be used as a <info>die</info>, and has <info>%d</info> sides." ),
+                                              static_cast<int>( this->get_var( "die_num_sides", 0 ) ) ) );
+        }
 
         // list recipes you could use it in
         itype_id tid;
@@ -2792,8 +2797,19 @@ nc_color item::color_in_inventory() const
 
     // Only item not otherwise colored gets colored as favorite
     nc_color ret = is_favorite ? c_white : c_light_gray;
-
-    if( has_flag( "WET" ) ) {
+    if( type->can_use( "learn_spell" ) ) {
+        const use_function *iuse = get_use( "learn_spell" );
+        const learn_spell_actor *actor_ptr = static_cast<learn_spell_actor *>( iuse->get_actor_ptr() );
+        for( const std::string spell_id_str : actor_ptr->spells ) {
+            const spell_id sp_id( spell_id_str );
+            if( u.magic.knows_spell( sp_id ) && !u.magic.get_spell( sp_id ).is_max_level() ) {
+                ret = c_yellow;
+            }
+            if( !u.magic.knows_spell( sp_id ) && u.magic.can_learn_spell( u, sp_id ) ) {
+                return c_light_blue;
+            }
+        }
+    } else if( has_flag( "WET" ) ) {
         ret = c_cyan;
     } else if( has_flag( "LITCIG" ) ) {
         ret = c_red;

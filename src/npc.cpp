@@ -1764,7 +1764,14 @@ int npc::follow_distance() const
           g->m.has_flag( TFLAG_GOES_UP, g->u.pos() ) ) ) {
         return 1;
     }
-    // TODO: Allow player to set that
+    // Uses ally_rule follow_distance_2 to determine if should follow by 2 or 4 tiles
+    if( rules.has_flag( ally_rule::follow_distance_2 ) ) {
+        return 2;
+    }
+    // If NPC doesn't see player, change follow distance to 2
+    if( !sees( g->u ) ) {
+        return 2;
+    }
     return 4;
 }
 
@@ -2681,6 +2688,7 @@ npc_follower_rules::npc_follower_rules()
     clear_flag( ally_rule::hold_the_line );
     clear_flag( ally_rule::ignore_noise );
     clear_flag( ally_rule::forbid_engage );
+    set_flag( ally_rule::follow_distance_2 );
 }
 
 bool npc_follower_rules::has_flag( ally_rule test, bool check_override ) const

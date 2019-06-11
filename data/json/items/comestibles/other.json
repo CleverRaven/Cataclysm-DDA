@@ -366,7 +366,8 @@
   {
     "type": "COMESTIBLE",
     "id": "soybean",
-    "name": "soybean",
+    "name": "soybeans",
+    "name_plural": "soybeans",
     "copy-from": "seed",
     "weight": 160,
     "symbol": ".",
@@ -374,7 +375,7 @@
     "healthy": -5,
     "spoils_in": "364 days",
     "calories": 56,
-    "description": "A light brown bean, has many uses, mildly toxic and not recommended, but you could eat them raw.",
+    "description": "Light brown beans, they have many uses, mildly toxic and not recommended, but you could eat them raw.",
     "price": 90,
     "fun": -5,
     "vitamins": [ [ "iron", 25 ], [ "vitC", 1 ], [ "calcium", 3 ] ]

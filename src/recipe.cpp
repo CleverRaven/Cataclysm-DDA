@@ -15,7 +15,9 @@
 #include "assign.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "construction.h"
 #include "json.h"
+#include "mapgen_functions.h"
 #include "optional.h"
 #include "player.h"
 #include "translations.h"
@@ -255,6 +257,7 @@ void recipe::load( JsonObject &jo, const std::string &src )
                 bp_excludes.emplace_back( std::make_pair( exclude.get_string( "id" ),
                                           exclude.get_int( "amount", 1 ) ) );
             }
+            assign( jo, "blueprint_autocalc", bp_autocalc );
         }
     } else if( type == "uncraft" ) {
         reversible = true;
@@ -270,12 +273,19 @@ void recipe::load( JsonObject &jo, const std::string &src )
 
 void recipe::finalize()
 {
+    if( bp_autocalc ) {
+        add_bp_autocalc_requirements();
+    }
     // concatenate both external and inline requirements
     add_requirements( reqs_external );
     add_requirements( reqs_internal );
 
     reqs_external.clear();
     reqs_internal.clear();
+
+    if( bp_autocalc ) {
+        requirements_.consolidate();
+    }
 
     if( contained && container == "null" ) {
         container = item::find_type( result_ )->default_container.value_or( "null" );
@@ -546,6 +556,24 @@ const std::vector<std::pair<std::string, int>>  &recipe::blueprint_requires() co
 const std::vector<std::pair<std::string, int>>  &recipe::blueprint_excludes() const
 {
     return bp_excludes;
+}
+
+void recipe::add_bp_autocalc_requirements()
+{
+    build_reqs total_reqs;
+    get_build_reqs_for_furn_ter_ids( get_changed_ids_from_update( blueprint ), total_reqs );
+    time = total_reqs.time;
+    for( const auto &skill_data : total_reqs.skills ) {
+        if( required_skills.find( skill_data.first ) == required_skills.end() ) {
+            required_skills[skill_data.first] = skill_data.second;
+        } else {
+            required_skills[skill_data.first] = std::max( skill_data.second,
+                                                required_skills[skill_data.first] );
+        }
+    }
+    for( const auto &req : total_reqs.reqs ) {
+        reqs_internal.emplace_back( std::make_pair( req.first, req.second ) );
+    }
 }
 
 bool recipe::hot_result() const
