@@ -1990,7 +1990,7 @@ class item : public visitable<item>
         int poison = 0;          // How badly poisoned is it?
         int frequency = 0;       // Radio frequency
         int note = 0;            // Associated dynamic text snippet.
-        int irridation = 0;      // Tracks radiation dosage.
+        int irradiation = 0;      // Tracks radiation dosage.
         int item_counter = 0; // generic counter to be used with item flags
         int specific_energy = -10; // Specific energy (0.00001 J/g). Negative value for unprocessed.
         int temperature = 0; // Temperature of the item (in 0.00001 K).

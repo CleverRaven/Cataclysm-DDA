@@ -1963,7 +1963,8 @@ void item::io( Archive &archive )
     archive.io( "poison", poison, 0 );
     archive.io( "frequency", frequency, 0 );
     archive.io( "note", note, 0 );
-    archive.io( "irridation", irridation, 0 );
+    // NB! field is named `irridation` in legacy files
+    archive.io( "irridation", irradiation, 0 );
     archive.io( "bday", bday, calendar::time_of_cataclysm );
     archive.io( "mission_id", mission_id, -1 );
     archive.io( "player_id", player_id, -1 );
@@ -2030,8 +2031,8 @@ void item::io( Archive &archive )
     if( poison != 0 && frequency == 0 && ( typeId() == "radio_on" || typeId() == "radio" ) ) {
         std::swap( frequency, poison );
     }
-    if( poison != 0 && irridation == 0 && typeId() == "rad_badge" ) {
-        std::swap( irridation, poison );
+    if( poison != 0 && irradiation == 0 && typeId() == "rad_badge" ) {
+        std::swap( irradiation, poison );
     }
 
     // Compatibility for item type changes: for example soap changed from being a generic item
