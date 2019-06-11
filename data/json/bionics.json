@@ -16,7 +16,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": 10,
     "react_cost": 10,
-    "time": 6
+    "time": 1
   },
   {
     "id": "bio_advreactor",
@@ -238,7 +238,7 @@
     ],
     "act_cost": 50,
     "react_cost": 50,
-    "time": 6,
+    "time": 1,
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
@@ -249,7 +249,7 @@
     "occupied_bodyparts": [ [ "HEAD", 4 ] ],
     "act_cost": 1,
     "react_cost": 1,
-    "time": 6,
+    "time": 1,
     "flags": [ "BIONIC_TOGGLED" ]
   },
   {
@@ -393,7 +393,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ],
     "act_cost": 1,
     "react_cost": 1,
-    "time": 12
+    "time": 2
   },
   {
     "id": "bio_fingerhack",
@@ -462,8 +462,8 @@
     "occupied_bodyparts": [ [ "FOOT_L", 3 ], [ "FOOT_R", 3 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 5,
-    "react_cost": 5,
-    "time": 6
+    "react_cost": 1,
+    "time": 1
   },
   {
     "id": "bio_heat_absorb",
@@ -504,7 +504,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": 4,
     "react_cost": 4,
-    "time": 6
+    "time": 1
   },
   {
     "id": "bio_hydraulics",
@@ -515,7 +515,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": 17,
     "react_cost": 17,
-    "time": 6
+    "time": 1
   },
   {
     "id": "bio_infrared",
@@ -525,8 +525,8 @@
     "occupied_bodyparts": [ [ "EYES", 1 ] ],
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 5,
-    "react_cost": 5,
-    "time": 6
+    "react_cost": 1,
+    "time": 1
   },
   {
     "id": "bio_int_enhancer",
@@ -650,7 +650,7 @@
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 15,
     "react_cost": 15,
-    "time": 6
+    "time": 1
   },
   {
     "id": "bio_night_vision",
@@ -688,7 +688,7 @@
     "flags": [ "BIONIC_TOGGLED", "BIONIC_NPC_USABLE" ],
     "act_cost": 10,
     "react_cost": 10,
-    "time": 6
+    "time": 1
   },
   {
     "id": "bio_painkiller",
@@ -732,7 +732,7 @@
     "occupied_bodyparts": [ [ "TORSO", 4 ], [ "HEAD", 1 ] ],
     "flags": [ "BIONIC_ARMOR_INTERFACE", "BIONIC_TOGGLED" ],
     "react_cost": 1,
-    "time": 6
+    "time": 1
   },
   {
     "id": "bio_power_armor_interface_mkII",
@@ -742,7 +742,7 @@
     "occupied_bodyparts": [ [ "TORSO", 3 ], [ "HEAD", 2 ] ],
     "flags": [ "BIONIC_ARMOR_INTERFACE", "BIONIC_TOGGLED" ],
     "react_cost": 1,
-    "time": 12
+    "time": 2
   },
   {
     "id": "bio_power_storage",
@@ -777,7 +777,7 @@
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 1,
     "react_cost": 1,
-    "time": 6
+    "time": 1
   },
   {
     "id": "bio_purifier",
@@ -805,7 +805,7 @@
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 1,
     "react_cost": 1,
-    "time": 6
+    "time": 1
   },
   {
     "id": "bio_razors",
@@ -1068,7 +1068,7 @@
     "flags": [ "BIONIC_TOGGLED" ],
     "act_cost": 1,
     "react_cost": 1,
-    "time": 60
+    "time": 10
   },
   {
     "id": "bio_ups",
