@@ -3675,54 +3675,6 @@
   },
   {
     "type": "terrain",
-    "id": "t_rock",
-    "name": "solid rock",
-    "description": "It's solid rock, could be full of all kinds of interesting things.  Best grab your pickaxe or equivalent digging implement, and strike the earth!",
-    "symbol": "#",
-    "color": "white",
-    "move_cost": 0,
-    "coverage": 100,
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "MINEABLE", "BLOCK_WIND" ],
-    "roof": "t_rock_floor",
-    "bash": {
-      "str_min": 100,
-      "str_max": 400,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "ter_set": "t_rock_floor",
-      "ter_set_bashed_from_above": "t_rock_floor_no_roof",
-      "items": [
-        { "item": "rock", "count": [ 3, 7 ] },
-        { "item": "coal_lump", "charges": [ 250, 500 ], "prob": 10 },
-        { "item": "material_limestone", "charges": [ 10, 25 ], "prob": 80 },
-        { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 20 }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_rock_smooth",
-    "name": "smoothed rock",
-    "description": "A block of stone that's been smoothed and shaped, commonly granite or marble for funerary chapels and mausoleums.",
-    "symbol": "LINE_OXOX",
-    "//": "use pillars, 't_column', as a compliment.",
-    "color": "white",
-    "move_cost": 0,
-    "coverage": 100,
-    "roof": "t_flat_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
-    "connects_to": "WALL",
-    "bash": {
-      "str_min": 120,
-      "str_max": 400,
-      "sound": "crash!",
-      "sound_fail": "whump!",
-      "ter_set": "t_rock_floor",
-      "items": [ { "item": "rock", "count": [ 6, 12 ] }, { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 } ]
-    }
-  },
-  {
-    "type": "terrain",
     "id": "t_fault",
     "name": "odd fault",
     "description": "An unnaturally humanoid-shaped hole, it seems oddly familiar.  There's a strange sensation to examine it closer, as if it belongs to you somehow.",
