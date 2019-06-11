@@ -306,8 +306,11 @@
     "locations": [ "land" ],
     "overmaps": [
       { "point": [ 0, 0, 0 ], "overmap": "garage_gas_1_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "garage_gas_roof_1_north" },
       { "point": [ 1, 0, 0 ], "overmap": "garage_gas_2_north" },
-      { "point": [ 2, 0, 0 ], "overmap": "garage_gas_3_north" }
+      { "point": [ 1, 0, 1 ], "overmap": "garage_gas_roof_2_north" },
+      { "point": [ 2, 0, 0 ], "overmap": "garage_gas_3_north" },
+      { "point": [ 2, 0, 1 ], "overmap": "garage_gas_roof_3_north" }
     ]
   },
   {
