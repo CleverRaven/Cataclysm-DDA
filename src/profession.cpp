@@ -206,7 +206,6 @@ void profession::load( JsonObject &jo, const std::string & )
     // TODO: use string_id<mutation_branch> or so
     optional( jo, was_loaded, "traits", _starting_traits, auto_flags_reader<trait_id> {} );
     optional( jo, was_loaded, "flags", flags, auto_flags_reader<> {} );
-    optional( jo, was_loaded, "cash", _starting_cash );
 }
 
 const profession *profession::generic()
@@ -422,11 +421,6 @@ std::vector<trait_id> profession::get_locked_traits() const
 const profession::StartingSkillList profession::skills() const
 {
     return _starting_skills;
-}
-
-signed long profession::cash() const
-{
-    return _starting_cash;
 }
 
 bool profession::has_flag( const std::string &flag ) const

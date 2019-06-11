@@ -68,7 +68,6 @@ class profession
         std::vector<mtype_id> _starting_pets;
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
-        signed long _starting_cash = INT16_MIN;
 
         void check_item_definitions( const itypedecvec &items ) const;
 
@@ -102,7 +101,6 @@ class profession
         std::vector<mtype_id> pets() const;
         std::vector<bionic_id> CBMs() const;
         const StartingSkillList skills() const;
-        signed long cash() const;
 
         /**
          * Check if this type of profession has a certain flag set.

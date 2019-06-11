@@ -529,13 +529,6 @@ A list of trait/mutation ids that are applied to the character.
 
 Mods can modify this via `add:traits` and `remove:traits`.
 
-#### `cash`
-(optional, signed long)
-
-Starting bank money for the character.
-If not defined it will be randomized between 0-2000 USD.
-Character will be in debt when you set it to negative value.
-
 ### Recipes
 
 ```C++
