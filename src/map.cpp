@@ -1693,9 +1693,6 @@ cata::optional<tripoint> map::obstacle_point( const tripoint &to, const tripoint
 cata::optional<tripoint> map::check_for_diagonal( const tripoint &to, const tripoint &from,
         const std::function<bool( const tripoint & )> &property ) const
 {
-    // Ugly hack to swap return point each call, (maybe make random?).
-    static bool i = false;
-    i = !i;
     const tripoint dmove = to - from;
     if( abs( dmove.x ) != 1 || abs( dmove.y ) != 1 ) {
         // Not diagonal vector.
@@ -1723,7 +1720,7 @@ cata::optional<tripoint> map::check_for_diagonal( const tripoint &to, const trip
         const bool connected = abs( dmount.x ) + abs( dmount.y ) ==
                                1; // Diagonal parts don't count as connected.
         if( connected && property( to_x ) && property( to_y ) ) {
-            if( i ) {
+            if( one_in( 2 ) ) {
                 return to_x;
             } else {
                 return to_y;
