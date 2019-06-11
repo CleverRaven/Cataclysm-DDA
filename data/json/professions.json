@@ -3783,7 +3783,7 @@
       { "level": 2, "name": "pistol" },
       { "level": 1, "name": "dodge" },
       { "level": 1, "name": "melee" },
-      { "level": 1, "name": "pistol" },
+      { "level": 1, "name": "pistol" }
     ],
     "pets": [ { "name": "mon_horse", "amount": 1 } ],
     "items": {
@@ -3801,7 +3801,7 @@
           "cattlefodder",
           "cattlefodder",
           "kevlar",
-          "454_speedloader5"
+          "454_speedloader5",
           "canteen",
           "wristwatch",
           "cig"
@@ -3811,12 +3811,12 @@
           { "item": "henry_big_boy", "ammo-item": "44magnum", "container-item": "back_holster" },
           { "item": "44magnum", "charges": 16, "container-item": "bandolier_rifle" },
           { "item": "raging_bull", "ammo-item": "454_Casull", "container-item": "holster" },
-          { "item": "454_Casull", "charges": 18, "container-item": "bandolier_pistol" },
+          { "item": "454_Casull", "charges": 18, "container-item": "bandolier_pistol" }
         ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boy_shorts" ]
     },
     "flags": [ "SCEN_ONLY" ]
-  },
+  }
 ]
