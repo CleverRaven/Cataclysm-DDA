@@ -1092,7 +1092,8 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "defensive": true,
-    "grab_break": true
+    "grab_break": true,
+    "messages": [ "You position yourself well and slip out of a grab", "<npcname> slips out of a grab" ]
   },
   {
     "type": "technique",
