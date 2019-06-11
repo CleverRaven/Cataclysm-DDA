@@ -3718,4 +3718,17 @@
       "female": [ "chestwrap" ]
     }
   }
+  {
+    "type": "profession",
+    "ident": "rancher",
+    "name": "Rancher",
+    "description": "You've raised cows or horses most your life, now, we'll see what happenes next.",
+    "points": 2,
+    "skills": { "level": 2, "name": "survival" },
+    "items": {
+      "both": {
+        "items": [ "jeans", "dress_shirt", "leather_jacket", "socks", "cowboy_hat", "western_boots", "watch", "riding_saddle", "knife" ],
+      }
+    }
+  }
 ]

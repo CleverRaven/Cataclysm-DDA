@@ -1,0 +1,19 @@
+{
+    "id": "saddlebag",
+    "type": "ARMOR",
+    "name": "Saddle Bags",
+    "description": "A pair of covered pouches laid across the back of a horse behind the saddle.",
+    "weight": 1000,
+    "volume": 21,
+    "price": 15000,
+    "material": [ "leather" ],
+    "symbol": "[",
+    "color": "green",
+    "covers": [ "ARMS" ],
+    "coverage": 50,
+    "encumbrance": 30,
+    "storage": 120,
+    "warmth": 10,
+    "material_thickness": 2,
+    "flags": [ "BELTED", "WATER_FRIENDLY" ]
+}
