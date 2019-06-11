@@ -195,7 +195,7 @@
     "allowed_locs": [ "forest", "field", "cabin" ],
     "start_name": "Outside Town",
     "flags": [ "SUM_ADV_START", "LONE_START" ],
-    "professions": [ "naturalist", "road_warrior", "player_bandit", "winter_scavenger", "winter_army", "waste_ranger", "unemployed" ]
+    "professions": [ "naturalist", "road_warrior", "player_bandit", "winter_scavenger", "winter_army", "waste_ranger", "waste_cowboy", "unemployed" ]
   },
   {
     "type": "scenario",
@@ -505,5 +505,14 @@
     "allowed_locs": [ "horse_farm_13" ],
     "start_name": "Horse Farm",
     "professions": [ "rancher" ]
+  }
+  {
+    "type": "scenario",
+    "ident": "barfight",
+    "name": "Saloon Brawl",
+    "description": "You were just visiting the town, and you came to a bar. Now it seems that this day is going to get interesting.",
+    "allowed_locs": "bar",
+    "start_name": "Old Town Saloon",
+    "flags": [ "CITY_START", "SUR_START", "LONE_START" ]
   }
 ]
