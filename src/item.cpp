@@ -3864,12 +3864,12 @@ std::string item::get_property_string( const std::string &prop, const std::strin
     return it != type->properties.end() ? it->second : def;
 }
 
-long item::get_property_long( const std::string &prop, long def ) const
+int64_t item::get_property_int64_t( const std::string &prop, int64_t def ) const
 {
     const auto it = type->properties.find( prop );
     if( it != type->properties.end() ) {
         char *e = nullptr;
-        long  r = std::strtol( it->second.c_str(), &e, 10 );
+        int64_t r = std::strtoll( it->second.c_str(), &e, 10 );
         if( !it->second.empty() && *e == '\0' ) {
             return r;
         }

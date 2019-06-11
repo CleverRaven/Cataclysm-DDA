@@ -1292,7 +1292,7 @@ class item : public visitable<item>
           * Return same type as the passed default value, or string where no default provided
           */
         std::string get_property_string( const std::string &prop, const std::string &def = "" ) const;
-        long get_property_long( const std::string &prop, long def = 0 ) const;
+        int64_t get_property_int64_t( const std::string &prop, int64_t def = 0 ) const;
         /*@}*/
 
         /**
