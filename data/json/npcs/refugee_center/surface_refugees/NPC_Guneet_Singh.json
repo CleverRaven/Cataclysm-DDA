@@ -63,11 +63,7 @@
   {
     "type": "talk_topic",
     "//": "common talk responses",
-    "id": [
-      "TALK_REFUGEE_Guneet_2",
-      "TALK_REFUGEE_Guneet_Background",
-      "TALK_REFUGEE_Guneet_Situation"
-    ],
+    "id": [ "TALK_REFUGEE_Guneet_2", "TALK_REFUGEE_Guneet_Background", "TALK_REFUGEE_Guneet_Situation" ],
     "responses": [
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Guneet_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Guneet_Situation" }
@@ -77,7 +73,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Guneet_1",
     "dynamic_line": {
-      "u_has_var": "u_met_Guneet_Singh", "type": "general", "context": "meeting", "value": "yes",
+      "u_has_var": "u_met_Guneet_Singh",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
       "yes": [ "Hey there.", "Hi.", "Hey again.", "Oh, hi." ],
       "no": "Oh, hello.  I don't think I've seen you around before.  I'm Guneet, people call me Gunny."
     },
