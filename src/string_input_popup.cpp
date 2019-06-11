@@ -496,6 +496,7 @@ void string_input_popup::edit( std::string &value )
     }
 }
 
+// NOLINTNEXTLINE(cata-no-long)
 void string_input_popup::edit( long &value )
 {
     only_digits( true );

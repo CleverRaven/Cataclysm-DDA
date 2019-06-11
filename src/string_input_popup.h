@@ -244,6 +244,8 @@ class string_input_popup
          */
         /**@{*/
         void edit( std::string &value );
+        // Acceptable to use long as part of overload set
+        // NOLINTNEXTLINE(cata-no-long)
         void edit( long &value );
         void edit( int &value );
         /**@}*/

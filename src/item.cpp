@@ -737,6 +737,7 @@ void item::set_var( const std::string &name, const int value )
     item_vars[name] = tmpstream.str();
 }
 
+// NOLINTNEXTLINE(cata-no-long)
 void item::set_var( const std::string &name, const long value )
 {
     std::ostringstream tmpstream;
