@@ -5245,13 +5245,13 @@ void player::suffer()
         }
     }
 
-    if( x_in_y( root_vitamins, 96 ) ) {
+    if( x_in_y( root_vitamins, 576 ) ) {
         vitamin_mod( vitamin_id( "iron" ), 1, true );
         vitamin_mod( vitamin_id( "calcium" ), 1, true );
         mod_healthy_mod( 5, 50 );
     }
 
-    if( x_in_y( root_water, 425 ) ) {
+    if( x_in_y( root_water, 2550 ) ) {
         // Plants draw some crazy amounts of water from the ground in real life,
         // so these numbers try to reflect that uncertain but large amount
         // this should take 12 hours to meet your daily needs with ROOTS2, and 8 with ROOTS3
@@ -5753,12 +5753,12 @@ void player::suffer()
         }
     }
 
-    if( x_in_y( sunlight_nutrition, 3000 ) ) {
+    if( x_in_y( sunlight_nutrition, 18000 ) ) {
         vitamin_mod( vitamin_id( "vitA" ), 1, true );
         vitamin_mod( vitamin_id( "vitC" ), 1, true );
     }
 
-    if( x_in_y( sunlight_nutrition, 2000 ) ) {
+    if( x_in_y( sunlight_nutrition, 12000 ) ) {
         mod_hunger( -1 );
         // photosynthesis absorbs kcal directly
         mod_stored_nutr( -1 );
