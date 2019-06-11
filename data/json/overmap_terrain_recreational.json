@@ -418,6 +418,16 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "BotanicalGarden_1a_roof",
+    "name": "botanical garden",
+    "sym": "g",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
     "id": "BotanicalGarden_1b",
     "name": "botanical garden",
     "sym": "g",
@@ -426,6 +436,16 @@
     "extras": "field",
     "mondensity": 2,
     "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "BotanicalGarden_1b_roof",
+    "name": "botanical garden",
+    "sym": "g",
+    "color": "i_green",
+    "see_cost": 5,
+    "extras": "field",
+    "mondensity": 2
   },
   {
     "type": "overmap_terrain",

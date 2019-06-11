@@ -607,9 +607,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 ter_color = g->u.symbol_color();
                 ter_sym = "@";
             } else if( viewing_weather && ( data.debug_weather || los_sky ) ) {
-                weather_datum weather = weather_data( get_weather_at_point( tripoint( omx, omy, z ) ) );
-                ter_color = weather.map_color;
-                ter_sym = weather.glyph;
+                const weather_type type = get_weather_at_point( tripoint( omx, omy, z ) );
+                ter_color = weather::map_color( type );
+                ter_sym = weather::glyph( type );
             } else if( data.debug_scent && get_scent_glyph( cur_pos, ter_color, ter_sym ) ) {
             } else if( blink && has_target && omx == target.x && omy == target.y ) {
                 // Mission target, display always, player should know where it is anyway.

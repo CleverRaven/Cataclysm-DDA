@@ -1516,7 +1516,7 @@ bool game::do_turn()
     u.process_active_items();
 
     if( get_levz() >= 0 && !u.is_underwater() ) {
-        weather_data( weather.weather ).effect();
+        weather::effect( weather.weather )();
     }
 
     const bool player_is_sleeping = u.has_effect( effect_sleep );
@@ -3604,7 +3604,7 @@ float game::natural_light_level( const int zlev ) const
         ret = DAYLIGHT_LEVEL;
     }
 
-    ret += weather_data( weather.weather ).light_modifier;
+    ret += weather::light_modifier( weather.weather );
 
     // Artifact light level changes here. Even though some of these only have an effect
     // aboveground it is cheaper performance wise to simply iterate through the entire

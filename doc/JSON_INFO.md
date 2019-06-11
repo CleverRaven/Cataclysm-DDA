@@ -562,6 +562,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
   "ANOTHERFLAG"
 ],
 "construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings
+"on_display": false,         // this is a hidden construction item, used by faction camps to calculate construction times but not available to the player
 "qualities": [               // Generic qualities of tools needed to craft
   {"id":"CUT","level":1,"amount":1}
 ],

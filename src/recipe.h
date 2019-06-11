@@ -127,6 +127,11 @@ class recipe
         const std::vector<std::pair<std::string, int>> &blueprint_provides() const;
         const std::vector<std::pair<std::string, int>> &blueprint_requires() const;
         const std::vector<std::pair<std::string, int>> &blueprint_excludes() const;
+        /** Retrieves a map of changed ter_id/furn_id to the number of tiles changed, then
+         *  converts that to requirement_ids and counts.  The requirements later need to be
+         *  consolidated and duplicate tools/qualities eliminated.
+         */
+        void add_bp_autocalc_requirements();
 
         bool hot_result() const;
 
@@ -176,6 +181,7 @@ class recipe
         std::vector<std::pair<std::string, int>> bp_provides;
         std::vector<std::pair<std::string, int>> bp_requires;
         std::vector<std::pair<std::string, int>> bp_excludes;
+        bool bp_autocalc = false;
 };
 
 #endif // RECIPE_H
