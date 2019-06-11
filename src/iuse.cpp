@@ -4051,6 +4051,23 @@ int iuse::mp3_on( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
+int iuse::rpgdie( player *you, item *die, bool, const tripoint & )
+{
+    const std::vector<int> sides_options = { 4, 6, 8, 10, 12, 20, 50 };
+    int num_sides = die->get_var( "die_num_sides", 0 );
+    if( num_sides == 0 ) {
+        const int sides = sides_options[ rng( 0, sides_options.size() - 1 ) ];
+        num_sides = sides;
+        die->set_var( "die_num_sides", sides );
+    }
+    const int roll = rng( 1, num_sides );
+    you->add_msg_if_player( _( "You roll a %d on your %d sided %s" ), roll, num_sides, die->tname() );
+    if( roll == num_sides ) {
+        add_msg( m_good, _( "Critical!" ) );
+    }
+    return roll;
+}
+
 int iuse::dive_tank( player *p, item *it, bool t, const tripoint & )
 {
     if( t ) { // Normal use
