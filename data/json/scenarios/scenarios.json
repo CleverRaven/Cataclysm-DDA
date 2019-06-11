@@ -505,11 +505,12 @@
     "allowed_locs": [ "horse_farm_13" ],
     "start_name": "Horse Farm",
     "professions": [ "rancher" ]
-  }
+  },
   {
     "type": "scenario",
     "ident": "barfight",
     "name": "Saloon Brawl",
+    "points": -1,
     "description": "You were just visiting the town, and you came to a bar. Now it seems that this day is going to get interesting.",
     "allowed_locs": "bar",
     "start_name": "Old Town Saloon",
