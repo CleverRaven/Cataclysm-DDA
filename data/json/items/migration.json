@@ -571,5 +571,25 @@
     "id": "hd_battery",
     "type": "MIGRATION",
     "replace": "heavy_plus_battery_cell"
+  },
+  {
+    "id": "locket",
+    "type": "MIGRATION",
+    "replace": "silver_locket"
+  },
+  {
+    "id": "ring",
+    "type": "MIGRATION",
+    "replace": "gold_ring"
+  },
+  {
+    "id": "necklace",
+    "type": "MIGRATION",
+    "replace": "silver_necklace"
+  },
+  {
+    "id": "brooch",
+    "type": "MIGRATION",
+    "replace": "jade_brooch"
   }
 ]
