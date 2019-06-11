@@ -42,35 +42,35 @@ class Creature;
 class tripoint_range;
 
 enum field_id : int;
-    class field;
-    class field_entry;
-    class vehicle;
-    struct fragment_cloud;
-    class submap;
-    class item_location;
-    class map_cursor;
-    struct maptile;
-    struct mapgendata;
-    class basecamp;
-    class computer;
-    class Character;
-    class zone_data;
-    struct trap;
+class field;
+class field_entry;
+class vehicle;
+struct fragment_cloud;
+class submap;
+class item_location;
+class map_cursor;
+struct maptile;
+struct mapgendata;
+class basecamp;
+class computer;
+class Character;
+class zone_data;
+struct trap;
 
-    enum direction : unsigned;
-    using itype_id = std::string;
-    template<typename T>
-    class visitable;
-    struct regional_settings;
-    struct mongroup;
-    struct projectile;
-    struct veh_collision;
-    class tileray;
-    class npc_template;
-    class vpart_reference;
+enum direction : unsigned;
+using itype_id = std::string;
+template<typename T>
+class visitable;
+struct regional_settings;
+struct mongroup;
+struct projectile;
+struct veh_collision;
+class tileray;
+class npc_template;
+class vpart_reference;
 
-    // TODO: This should be const& but almost no functions are const
-    struct wrapped_vehicle {
+// TODO: This should be const& but almost no functions are const
+struct wrapped_vehicle {
     int x;
     int y;
     int z;
@@ -84,12 +84,12 @@ typedef std::string items_location;
 class map;
 
 enum ter_bitflags : int;
-    struct pathfinding_cache;
-    struct pathfinding_settings;
-    template<typename T>
-    struct weighted_int_list;
+struct pathfinding_cache;
+struct pathfinding_settings;
+template<typename T>
+struct weighted_int_list;
 
-    class map_stack : public item_stack
+class map_stack : public item_stack
 {
     private:
         tripoint location;

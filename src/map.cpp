@@ -1703,8 +1703,8 @@ cata::optional<tripoint> map::check_for_diagonal( const tripoint &to, const trip
     }
 
     // Calculate diagonal obstacles.
-    const tripoint to_x = tripoint( to.x, from.y , to.z );
-    const tripoint to_y = tripoint( from.x, to.y , to.z );
+    const tripoint to_x = tripoint( to.x, from.y, to.z );
+    const tripoint to_y = tripoint( from.x, to.y, to.z );
 
     // Nevermind if diagonals are out of bounds.
     if( !inbounds( to_x ) || !inbounds( to_y ) ) {
@@ -6172,8 +6172,8 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
             // Check diagonals
             if( abs( new_point.x - previous_tripoint.x ) == abs( new_point.y - previous_tripoint.y ) ) {
                 // Check diagonals
-                const tripoint new_x = tripoint( new_point.x , previous_tripoint.y, T.z );
-                const tripoint new_y = tripoint( previous_tripoint.x , new_point.y, T.z );
+                const tripoint new_x = tripoint( new_point.x, previous_tripoint.y, T.z );
+                const tripoint new_y = tripoint( previous_tripoint.x, new_point.y, T.z );
                 if( !inbounds( new_x ) || !inbounds( new_y ) ) {
                     return true; // Out of range!
                 }
