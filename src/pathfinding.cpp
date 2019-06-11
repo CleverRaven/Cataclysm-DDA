@@ -333,7 +333,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 const auto &furniture = tile.get_furn_t();
                 const vehicle *veh = veh_at_internal( p, part );
 
-                const int cost = move_cost_internal( furniture, terrain, veh, part );
+                const int cost = move_cost_from_point( p, cur );
                 // Don't calculate bash rating unless we intend to actually use it
                 const int rating = ( bash == 0 || cost != 0 ) ? -1 :
                                    bash_rating_internal( bash, furniture, terrain, false, veh, part );
