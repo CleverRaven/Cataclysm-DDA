@@ -682,6 +682,13 @@ std::vector<char> input_context::keys_bound_to( const std::string &action_descri
     return result;
 }
 
+std::string input_context::key_bound_to( const std::string &action_descriptor, const size_t index,
+        const bool restrict_to_printable ) const
+{
+    const auto bound_keys = keys_bound_to( action_descriptor, restrict_to_printable );
+    return bound_keys.size() > index ? std::string( 1, bound_keys[index] ) : "";
+}
+
 std::string input_context::get_available_single_char_hotkeys( std::string requested_keys )
 {
     for( std::vector<std::string>::const_iterator registered_action = registered_actions.begin();
@@ -1042,9 +1049,9 @@ void input_context::display_menu()
                 // defined, so gray out the invlet.
                 mvwprintz( w_help, i + 10, 2, c_dark_gray, "%c ", invlet );
             } else if( status == s_add || status == s_add_global ) {
-                mvwprintz( w_help, i + 10, 2, c_blue, "%c ", invlet );
+                mvwprintz( w_help, i + 10, 2, c_light_blue, "%c ", invlet );
             } else if( status == s_remove ) {
-                mvwprintz( w_help, i + 10, 2, c_blue, "%c ", invlet );
+                mvwprintz( w_help, i + 10, 2, c_light_blue, "%c ", invlet );
             } else {
                 mvwprintz( w_help, i + 10, 2, c_blue, "  " );
             }

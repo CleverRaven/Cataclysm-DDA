@@ -17,6 +17,10 @@
 #include "bodypart.h"
 #include "enums.h"
 #include "item.h"
+#include "itype.h"
+#include "mapdata.h"
+#include "messages.h"
+#include "pldata.h"
 #include "rng.h"
 
 namespace

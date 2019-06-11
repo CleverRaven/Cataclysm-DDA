@@ -28,6 +28,7 @@ class mission_data;
 struct expansion_data {
     std::string type;
     std::map<std::string, int> provides;
+    std::map<std::string, int> in_progress;
     tripoint pos;
     // legacy camp level, replaced by provides map and set to -1
     int cur_level;
@@ -42,6 +43,19 @@ using itype_id = std::string;
 namespace catacurses
 {
 class window;
+}
+
+namespace base_camps
+{
+const std::string base_dir = "[B]";
+const std::string prefix = "faction_base_";
+const std::string id = "FACTION_CAMP";
+const int prefix_len = 13;
+const std::string faction_encode_short( const std::string &type );
+const std::string faction_encode_abs( const expansion_data &e, int number );
+const std::string faction_decode( const std::string &full_type );
+const time_duration to_workdays( const time_duration &work_time );
+int max_upgrade_by_type( const std::string &type );
 }
 
 // camp resource structures
@@ -61,6 +75,7 @@ struct basecamp_upgrade {
     std::string bldg;
     std::string name;
     bool avail = false;
+    bool in_progress = false;
 };
 
 class basecamp
@@ -106,7 +121,7 @@ class basecamp
         bool has_provides( const std::string &req, const std::string &dir = "all", int level = 0 ) const;
         void update_resources( const std::string &bldg );
         void update_provides( const std::string &bldg, expansion_data &e_data );
-
+        void update_in_progress( const std::string &bldg, const std::string &dir );
 
         bool can_expand();
         /// Returns the name of the building the current building @ref dir upgrades into,
@@ -119,6 +134,8 @@ class basecamp
         int recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, int &sbonus ) const;
         // confirm there is at least 1 loot destination and 1 unsorted loot zone in the camp
         bool validate_sort_points();
+        // Validates the expansion data
+        expansion_data parse_expansion( const std::string &terrain, const tripoint &new_pos );
         /**
          * Invokes the zone manager and validates that the necessary sort zones exist.
          */
@@ -202,8 +219,9 @@ class basecamp
                                bool must_feed, const std::string &desc, bool group,
                                const std::vector<item *> &equipment,
                                const std::string &skill_tested, int skill_level );
-        void start_upgrade( const std::string &bldg, const std::string &key, bool by_radio );
-        std::string om_upgrade_description( const std::string &bldg, bool trunc ) const;
+        void start_upgrade( const std::string &bldg, const std::string &dir, const std::string &key,
+                            bool by_radio );
+        std::string om_upgrade_description( const std::string &bldg, bool trunc = false ) const;
         void start_menial_labor();
         void start_crafting( const std::string &cur_id, const std::string &cur_dir,
                              const std::string &type, const std::string &miss_id,

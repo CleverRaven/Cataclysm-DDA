@@ -680,6 +680,20 @@
   {
     "type": "keybinding",
     "id": "DELETE_NOTE",
+    "category": "OVERMAP_NOTES",
+    "name": "Delete Note",
+    "bindings": [ { "input_method": "keyboard", "key": "D" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "EDIT_NOTE",
+    "category": "OVERMAP_NOTES",
+    "name": "Edit Note",
+    "bindings": [ { "input_method": "keyboard", "key": "E" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "DELETE_NOTE",
     "category": "OVERMAP",
     "name": "Delete Note",
     "bindings": [ { "input_method": "keyboard", "key": "D" } ]
@@ -718,6 +732,13 @@
     "category": "OVERMAP",
     "name": "Toggle Land Use Codes",
     "bindings": [ { "input_method": "keyboard", "key": "A" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "TOGGLE_MAP_NOTES",
+    "category": "OVERMAP",
+    "name": "Toggle Map Notes",
+    "bindings": [ { "input_method": "keyboard", "key": "G" } ]
   },
   {
     "type": "keybinding",
@@ -1915,6 +1936,12 @@
     "name": "Toggle Auto Foraging",
     "category": "DEFAULTMODE",
     "id": "toggle_auto_foraging"
+  },
+  {
+    "type": "keybinding",
+    "name": "Toggle Auto Pickup",
+    "category": "DEFAULTMODE",
+    "id": "toggle_auto_pickup"
   },
   {
     "type": "keybinding",

@@ -411,7 +411,6 @@ class Character : public Creature, public visitable<Character>
         int get_mod( const trait_id &mut, const std::string &arg ) const;
         /** Applies skill-based boosts to stats **/
         void apply_skill_boost();
-
     protected:
         /** Applies stat mods to character. */
         void apply_mods( const trait_id &mut, bool add_remove );
@@ -803,6 +802,12 @@ class Character : public Creature, public visitable<Character>
 
         /** Stable base metabolic rate due to traits */
         float metabolic_rate_base() const;
+        // gets the max value healthy you can be, related to your weight
+        int get_max_healthy() const;
+        // gets the string that describes your weight
+        std::string get_weight_string() const;
+        // gets the description, printed in player_display, related to your current bmi
+        std::string get_weight_description() const;
         // calculates the BMI
         float get_bmi() const;
         // returns amount of calories burned in a day given various metabolic factors
@@ -832,6 +837,17 @@ class Character : public Creature, public visitable<Character>
         virtual void on_item_takeoff( const item & ) {}
         virtual void on_worn_item_washed( const item & ) {}
 
+        /** Returns an unoccupied, safe adjacent point. If none exists, returns player position. */
+        tripoint adjacent_tile() const;
+
+        /** Removes "sleep" and "lying_down" */
+        void wake_up();
+        // how loud a character can shout. based on mutations and clothing
+        int get_shout_volume() const;
+        // shouts a message
+        void shout( std::string text = "", bool order = false );
+        /** Handles Character vomiting effects */
+        void vomit();
     protected:
         Character();
         Character( const Character & ) = delete;

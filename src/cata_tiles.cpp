@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <bitset>
+#include <iostream>
 #include <iterator>
 #include <stdexcept>
 #include <tuple>
@@ -84,7 +85,8 @@ static const std::array<std::string, 8> multitile_keys = {{
 
 extern int fontwidth;
 extern int fontheight;
-
+const efftype_id effect_ridden( "ridden" );
+const efftype_id effect_riding( "riding" );
 static const std::string empty_string;
 static const std::array<std::string, 12> TILE_CATEGORY_IDS = {{
         "", // C_NONE,
@@ -2319,6 +2321,10 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_le
         }
         if( rot_facing >= 0 ) {
             const auto ent_name = m->type->id;
+            if( m->has_effect( effect_ridden ) ) {
+                int pl_under_height = 6;
+                draw_entity_with_overlays( g->u, p, ll, pl_under_height );
+            }
             result = draw_from_id_string( ent_name.str(), ent_category, ent_subcategory, p, subtile, rot_facing,
                                           ll, false, height_3d );
             sees_player = m->sees( g->u );

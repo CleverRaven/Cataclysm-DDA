@@ -378,7 +378,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         {
             "fd_weedsmoke",
             {translate_marker( "swirl of pot smoke" ), translate_marker( "pot smoke" ), translate_marker( "thick pot smoke" )}, '%', 8,
-            {def_c_white, def_c_light_gray, def_c_dark_gray}, {true, true, true}, {false, false, false}, 325_turns,
+            {def_c_white, def_c_light_gray, def_c_dark_gray}, {true, true, true}, {false, false, false}, 35_minutes,
             {0, 0, 0},
             GAS,
             true
@@ -387,7 +387,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         {
             "fd_cracksmoke",
             {translate_marker( "swirl of crack smoke" ), translate_marker( "crack smoke" ), translate_marker( "thick crack smoke" )}, '%', 8,
-            {def_c_white, def_c_light_gray, def_c_dark_gray}, {true, true, true}, {false, false, false}, 225_turns,
+            {def_c_white, def_c_light_gray, def_c_dark_gray}, {true, true, true}, {false, false, false}, 25_minutes,
             {0, 0, 0},
             GAS,
             true
@@ -395,7 +395,7 @@ const std::array<field_t, num_fields> fieldlist = { {
         {
             "fd_methsmoke",
             {translate_marker( "swirl of meth smoke" ), translate_marker( "meth smoke" ), translate_marker( "thick meth smoke" )}, '%', 8,
-            {def_c_white, def_c_light_gray, def_c_dark_gray}, {true, true, true}, {false, false, false}, 275_turns,
+            {def_c_white, def_c_light_gray, def_c_dark_gray}, {true, true, true}, {false, false, false}, 30_minutes,
             {0, 0, 0},
             GAS,
             true
@@ -1112,7 +1112,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             // Nothing to burn = fire should be dying out faster
                             // Drain more power from big fires, so that they stop raging over nothing
                             // Except for fires on stoves and fireplaces, those are made to keep the fire alive
-                            cur.setFieldAge( cur.getFieldAge() + 2_turns * cur.getFieldDensity() );
+                            cur.setFieldAge( cur.getFieldAge() + 10_seconds * cur.getFieldDensity() );
                         }
 
                         // Below we will access our nearest 8 neighbors, so let's cache them now
@@ -1439,7 +1439,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     case fd_cigsmoke:
                         dirty_transparency_cache = true;
-                        spread_gas( cur, p, curtype, 250, 65_turns );
+                        spread_gas( cur, p, curtype, 250, 6_minutes );
                         break;
 
                     case fd_weedsmoke: {

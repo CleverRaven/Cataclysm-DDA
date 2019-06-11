@@ -191,6 +191,25 @@ void talk_function::start_trade( npc &p )
     trade( p, 0, _( "Trade" ) );
 }
 
+void talk_function::sort_loot( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_MOVE_LOOT" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
+void talk_function::do_construction( npc &p )
+{
+    p.set_attitude( NPCATT_ACTIVITY );
+    p.assign_activity( activity_id( "ACT_MULTIPLE_CONSTRUCTION" ) );
+    p.set_mission( NPC_MISSION_ACTIVITY );
+}
+
+void talk_function::revert_activity( npc &p )
+{
+    p.revert_after_activity();
+}
+
 void talk_function::goto_location( npc &p )
 {
     int i = 0;
@@ -229,7 +248,7 @@ void talk_function::goto_location( npc &p )
         destination = selected_camp->camp_omt_pos();
     }
     p.set_companion_mission( p.global_omt_location(), "TRAVELLER", "travelling", destination );
-    p.mission = NPC_MISSION_TRAVELLING;
+    p.set_mission( NPC_MISSION_TRAVELLING );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.goal = destination;
     p.guard_pos = npc::no_goal_point;
@@ -240,7 +259,7 @@ void talk_function::goto_location( npc &p )
 void talk_function::assign_guard( npc &p )
 {
     if( !p.is_player_ally() ) {
-        p.mission = NPC_MISSION_GUARD;
+        p.set_mission( NPC_MISSION_GUARD );
         p.set_omt_destination();
         return;
     }
@@ -251,7 +270,7 @@ void talk_function::assign_guard( npc &p )
         }
     }
     p.set_attitude( NPCATT_NULL );
-    p.mission = NPC_MISSION_GUARD_ALLY;
+    p.set_mission( NPC_MISSION_GUARD_ALLY );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
     p.set_omt_destination();
     cata::optional<basecamp *> bcp = overmap_buffer.find_camp( p.global_omt_location().x,
@@ -281,13 +300,13 @@ void talk_function::stop_guard( npc &p )
 {
     if( p.mission != NPC_MISSION_GUARD_ALLY ) {
         p.set_attitude( NPCATT_NULL );
-        p.mission = NPC_MISSION_NULL;
+        p.set_mission( NPC_MISSION_NULL );
         return;
     }
 
     p.set_attitude( NPCATT_FOLLOW );
     add_msg( _( "%s begins to follow you." ), p.name );
-    p.mission = NPC_MISSION_NULL;
+    p.set_mission( NPC_MISSION_NULL );
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
     p.guard_pos = npc::no_goal_point;

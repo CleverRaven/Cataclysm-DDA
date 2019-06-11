@@ -30,6 +30,7 @@ struct ma_requirements {
     bool unarmed_allowed; // does this bonus work when unarmed?
     bool melee_allowed; // what about with a melee weapon?
     bool strictly_unarmed; // If unarmed, what about unarmed weapons?
+    bool strictly_melee; // Does it only work with weapons?
 
     /** Minimum amount of given skill to trigger this bonus */
     std::map<skill_id, int> min_skill;
@@ -46,6 +47,7 @@ struct ma_requirements {
         unarmed_allowed = false;
         melee_allowed = false;
         strictly_unarmed = false;
+        strictly_melee = false;
     }
 
     std::string get_description( bool buff = false ) const;
@@ -177,6 +179,7 @@ class ma_buff
         bool melee_allowed;
         bool throw_immune; // are we immune to throws/grabs?
         bool strictly_unarmed; // can we use unarmed weapons?
+        bool strictly_melee; // can we use it without weapons?
 
         void load( JsonObject &jo, const std::string &src );
 };
@@ -233,6 +236,8 @@ class martialart
         std::set<matec_id> techniques; // all available techniques
         std::set<std::string> weapons; // all style weapons
         bool strictly_unarmed; // Punch daggers etc.
+        bool strictly_melee; // Must have a weapon.
+        bool allow_melee; // Can use unarmed or with ANY weapon
         bool force_unarmed; // Don't use ANY weapon - punch or kick if needed
         std::vector<mabuff_id> static_buffs; // all buffs triggered by each condition
         std::vector<mabuff_id> onmove_buffs;
