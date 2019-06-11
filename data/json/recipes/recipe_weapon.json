@@ -1779,6 +1779,26 @@
   },
   {
     "type": "recipe",
+    "result": "pneumatic_shotgun",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ "gun", 3 ],
+    "difficulty": 7,
+    "time": "180 m",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 30 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 3 ] ],
+      [ [ "duct_tape", 100 ], [ "superglue", 1 ] ],
+      [ [ "2x4", 1 ], [ "stick", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "mininuke_launcher",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
