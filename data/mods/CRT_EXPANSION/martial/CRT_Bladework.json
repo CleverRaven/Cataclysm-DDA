@@ -26,6 +26,7 @@
         "name": "C.R.I.T Calculation",
         "description": "DEX provides accuracy and minor cut and stab damage with slight piercing capability.",
         "unarmed_allowed": true,
+        "melee_allowed": true,
         "flat_bonuses": [
           [ "damage", "stab", "dex", 0.15 ],
           [ "damage", "cut", "dex", 0.5 ],
@@ -41,6 +42,7 @@
         "name": "C.R.I.T Intensity",
         "description": "+3 Atk Speed and other small bonuses per stack. Bash damage decreases by 10 percent per stack. Max of 10 stacks",
         "unarmed_allowed": false,
+        "melee_allowed": true,  
         "min_unarmed": 1,
         "buff_duration": 10,
         "max_stacks": 10,
@@ -84,10 +86,10 @@
     "min_unarmed": 1,
     "min_melee": 1,
     "unarmed_allowed": true,
+    "melee_allowed": true,
     "mult_bonuses": [ [ "damage", "bash", 0.8 ], [ "damage", "cut", 0.7 ], [ "damage", "stab", 0.6 ] ],
     "flat_bonuses": [ [ "damage", "stab", "dex", 0.15 ], [ "damage", "cut", "dex", 0.2 ], [ "movecost", "dex", -0.5 ] ],
     "messages": [ "You release a blinding slash at %s", "<npcname> slashes at %s" ],
-    "stun_dur": 0.05
   },
   {
     "type": "technique",
@@ -96,10 +98,10 @@
     "min_unarmed": 2,
     "min_melee": 2,
     "unarmed_allowed": true,
+    "melee_allowed": true,
     "mult_bonuses": [ [ "movecost", 0.65 ], [ "damage", "bash", 0.55 ], [ "damage", "cut", 0.6 ], [ "damage", "stab", 0.55 ] ],
     "flat_bonuses": [ [ "damage", "stab", "dex", 0.01 ], [ "damage", "cut", "dex", 0.015 ], [ "movecost", "dex", -0.45 ] ],
     "messages": [ "You swiftly jab your weapon into %s joints", "<npcname> swiftly jabs their weapon into %s" ],
-    "stun_dur": 0.15
   },
   {
     "type": "technique",
@@ -108,6 +110,7 @@
     "min_unarmed": 3,
     "min_melee": 3,
     "unarmed_allowed": true,
+    "melee_allowed": true,  
     "mult_bonuses": [ [ "movecost", 0.8 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 1.05 ], [ "damage", "stab", 1.0 ] ],
     "flat_bonuses": [ [ "damage", "stab", "dex", 0.1 ], [ "damage", "cut", "dex", 0.5 ], [ "movecost", "dex", -0.2 ] ],
     "crit_tec": true,
@@ -122,6 +125,7 @@
     "min_melee": 5,
     "weighting": 2,
     "unarmed_allowed": true,
+    "melee_allowed": true,
     "mult_bonuses": [
       [ "movecost", 0.95 ],
       [ "damage", "bash", 0.2 ],
