@@ -68,12 +68,7 @@
   {
     "type": "talk_topic",
     "//": "common talk responses",
-    "id": [
-      "TALK_REFUGEE_Boris_2",
-      "TALK_REFUGEE_Boris_Background",
-      "TALK_REFUGEE_Boris_Work1",
-      "TALK_REFUGEE_Boris_Situation"
-    ],
+    "id": [ "TALK_REFUGEE_Boris_2", "TALK_REFUGEE_Boris_Background", "TALK_REFUGEE_Boris_Work1", "TALK_REFUGEE_Boris_Situation" ],
     "responses": [
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Boris_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Boris_Situation" }
@@ -83,7 +78,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_1",
     "dynamic_line": {
-      "u_has_var": "u_met_Boris_Borichenko", "type": "general", "context": "meeting", "value": "yes",
+      "u_has_var": "u_met_Boris_Borichenko",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
       "yes": [ "Well, well.  I'm glad you are back.", "Hello again, my friend.", "It is good to see you again." ],
       "no": "Ah, another new face.  Hello.  I am Boris."
     },
@@ -117,7 +115,10 @@
     "id": "TALK_REFUGEE_Boris_1_firstmeet",
     "dynamic_line": "It is nice to meet you too.  To what do I owe the pleasure?",
     "responses": [
-      { "text": "I'm just a traveller, taking the chance to have some living human company.  What's up in your life these days?", "topic": "TALK_REFUGEE_Boris_2" },
+      {
+        "text": "I'm just a traveller, taking the chance to have some living human company.  What's up in your life these days?",
+        "topic": "TALK_REFUGEE_Boris_2"
+      },
       { "text": "I just wanted to say hi.  I'll be on my way.", "topic": "TALK_DONE" }
     ]
   },
@@ -133,7 +134,10 @@
     "dynamic_line": "I was a carpenter.  I like to keep my hands busy, especially when I am stressed.  Now, here I am, picking my nose and stuck thinking about my problems and all that I've lost.",
     "responses": [
       { "text": "What have you lost, if it's okay for me to ask?", "topic": "TALK_REFUGEE_Boris_Background_loss" },
-      { "text": "It seems like carpentry work would be something the Free Merchants need.  Why are you so bored?", "topic": "TALK_REFUGEE_Boris_Work1" },
+      {
+        "text": "It seems like carpentry work would be something the Free Merchants need.  Why are you so bored?",
+        "topic": "TALK_REFUGEE_Boris_Work1"
+      },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -151,13 +155,19 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Boris_Work1",
     "dynamic_line": {
-      "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes",
+      "u_has_var": "FMShopkeep_Mission1",
+      "type": "mission",
+      "context": "flag",
+      "value": "yes",
       "yes": "Well, now that you mention it, with the back bay cleared I could probably set up back there and start work.  I don't know if I can handle it.  The last time I was back there was the last time I saw Ash... my son.  If... if someone were to clean up back there, wipe away some memories, then I could start renovating it into a better living space.",
-      "no": "There isn't much to do with a hammer and a saw here indoors, and working outside is too dangerous.  If we had enough space for me to do some shuffling around, I could build some privacy walls in here.  I tried to set up a bit of a shop in the garage space, but I had to keep taking everything down for caravan loading and unloading and couldn't get anything done.  The caravans bring food, so they get priority, I can't argue with that.",
+      "no": "There isn't much to do with a hammer and a saw here indoors, and working outside is too dangerous.  If we had enough space for me to do some shuffling around, I could build some privacy walls in here.  I tried to set up a bit of a shop in the garage space, but I had to keep taking everything down for caravan loading and unloading and couldn't get anything done.  The caravans bring food, so they get priority, I can't argue with that."
     },
     "responses": [
-      { "text": "Sure, I could ask around.  Who around here would be the right person to do some cleanup?", "topic": "TALK_REFUGEE_Boris_Work1advice", "condition": {
-      "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" } },
+      {
+        "text": "Sure, I could ask around.  Who around here would be the right person to do some cleanup?",
+        "topic": "TALK_REFUGEE_Boris_Work1advice",
+        "condition": { "u_has_var": "FMShopkeep_Mission1", "type": "mission", "context": "flag", "value": "yes" }
+      },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
@@ -169,15 +179,21 @@
       "and": [
         "Well, almost everyone here has free time, but you'd want to pick someone who wasn't part of what happened back there.  That leaves a lot of us out.  Dana and Pablo, Fatima, and Uyen all have almost as much reason to not want to go back there as Stan, Garry and I do.",
         {
-          "u_has_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes",
+          "u_has_var": "Vanessa_Mission1",
+          "type": "mission",
+          "context": "flag",
+          "value": "yes",
           "yes": "  Vanessa has been making her cash doing hairdressing, and isn't going to mop up gore.  "
         },
         "  Rhyzaea is usally busy doing counselling, and Jenny gets a lot of work doing mechanical stuff.  That only leaves a few people who I'd ask.  ",
         {
-          "u_has_var": "Vanessa_Mission1", "type": "mission", "context": "flag", "value": "yes",
+          "u_has_var": "Vanessa_Mission1",
+          "type": "mission",
+          "context": "flag",
+          "value": "yes",
           "yes": "Aleesha, Draco and John are probably your best bets to ask.",
           "no": "Vanessa, Aleesha, Draco and John are probably your best bets to ask."
-        },
+        }
       ]
     },
     "speaker_effect": { "effect": { "u_add_var": "boris_work1_", "type": "mission", "context": "rc_base", "value": "asking" } },
