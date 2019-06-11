@@ -1133,5 +1133,165 @@
     "color": "white",
     "see_cost": 1,
     "flags": [ "LAKE_SHORE" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_1",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "~"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_2",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "~"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_3",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "~"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_4",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "~"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_5",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "~"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_6",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "~"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_7",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "~"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_8",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "~"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_9",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "~"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_10",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "~"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_11",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "m"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_12",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "m"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_13",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "m"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_14",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "m"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_15",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina",
+    "color": "cyan",
+    "sym": "m"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_16",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina parking",
+    "color": "cyan",
+    "sym": "m"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_17",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina parking",
+    "color": "cyan",
+    "sym": "m"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_18",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina parking",
+    "color": "cyan",
+    "sym": "M"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_19",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina parking",
+    "color": "cyan",
+    "sym": "m"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "marina_20",
+    "copy-from": "generic_city_building_no_sidewalk",
+    "name": "marina parking",
+    "color": "cyan",
+    "sym": "m"
   }
 ]
