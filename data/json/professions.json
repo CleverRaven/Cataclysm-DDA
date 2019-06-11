@@ -3717,5 +3717,31 @@
       },
       "female": [ "chestwrap" ]
     }
+  },
+  {
+    "type": "profession",
+    "ident": "politician",
+    "name": "Career Politician",
+    "description": "You've spent your life appealing to the people, persuading many and promising much throughout your time in office.  Now that your voting base wants to eat you alive, winning hearts and minds just got that much harder.",
+    "points": 4,
+    "skills": [ { "level": 4, "name": "barter" }, { "level": 6, "name": "speech" } ],
+    "traits": [ "LIAR" ],
+    "items": {
+      "both": [
+        "suit",
+        "tieclip",
+        "socks_wool",
+        "dress_shoes",
+        "smart_phone",
+        "gold_watch",
+        "briefcase",
+        "skinny_tie",
+        "file",
+        "ref_lighter",
+        "cigar"
+      ],
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
   }
 ]
