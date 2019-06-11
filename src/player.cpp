@@ -1164,6 +1164,7 @@ void player::update_bodytemp()
     // Difference between high and low is the "safe" heat - one we only apply if it's beneficial
     const int mutation_heat_bonus = mutation_heat_high - mutation_heat_low;
 
+    const int h_radiation = get_heat_radiation( pos(), false );
     // Current temperature and converging temperature calculations
     for( const body_part bp : all_body_parts ) {
         // Skip eyes
@@ -1218,7 +1219,6 @@ void player::update_bodytemp()
         // Bark : lowers blister count to -5; harder to get blisters
         int blister_count = ( has_bark ? -5 : 0 ); // If the counter is high, your skin starts to burn
 
-        const int h_radiation = get_heat_radiation( pos(), false );
         if( frostbite_timer[bp] > 0 ) {
             frostbite_timer[bp] -= std::max( 5, h_radiation );
         }
