@@ -19,6 +19,7 @@
 #include "projectile.h"
 #include "rng.h"
 #include "translations.h"
+#include "ui.h"
 
 #include <set>
 
@@ -550,6 +551,33 @@ nc_color spell::damage_type_color() const
     }
 }
 
+std::string spell::damage_type_string() const
+{
+    switch( dmg_type() ) {
+        case DT_HEAT:
+            return "heat";
+        case DT_ACID:
+            return "acid";
+        case DT_BASH:
+            return "bashing";
+        case DT_BIOLOGICAL:
+            return "biological";
+        case DT_COLD:
+            return "cold";
+        case DT_CUT:
+            return "cutting";
+        case DT_ELECTRIC:
+            return "electric";
+        case DT_STAB:
+            return "stabbing";
+        case DT_TRUE:
+            // not *really* force damage
+            return "force";
+        default:
+            return "error";
+    }
+}
+
 // constants defined below are just for the formula to be used,
 // in order for the inverse formula to be equivalent
 static const float a = 6200.0;
@@ -610,6 +638,30 @@ int spell::casting_exp( const player &p ) const
     const int base_casting_xp = 75;
 
     return round( p.adjust_for_focus( base_casting_xp * exp_modifier( p ) ) );
+}
+
+std::string spell::enumerate_targets() const
+{
+    std::vector<std::string> all_valid_targets;
+    for( const std::pair<std::string, valid_target> pair : target_map ) {
+        if( is_valid_target( pair.second ) && pair.second != target_none ) {
+            all_valid_targets.emplace_back( pair.first );
+        }
+    }
+    if( all_valid_targets.size() == 1 ) {
+        return all_valid_targets[0];
+    }
+    std::string ret;
+    for( auto iter = all_valid_targets.begin(); iter != all_valid_targets.end(); iter++ ) {
+        if( iter + 1 == all_valid_targets.end() ) {
+            ret = string_format( "%s and %s", ret, *iter );
+        } else if( iter == all_valid_targets.begin() ) {
+            ret = string_format( "%s", *iter );
+        } else {
+            ret = string_format( "%s, %s", ret, *iter );
+        }
+    }
+    return ret;
 }
 
 damage_type spell::dmg_type() const
@@ -858,6 +910,227 @@ int known_magic::time_to_learn_spell( const player &p, spell_id sp ) const
     const int base_time = to_moves<int>( 30_minutes );
     return base_time * ( 1.0 + sp.obj().difficulty / ( 1.0 + ( p.get_int() - 8.0 ) / 8.0 ) +
                          ( p.get_skill_level( skill_id( "spellcraft" ) ) / 10.0 ) );
+}
+
+size_t known_magic::get_spellname_max_width()
+{
+    size_t width = 0;
+    for( const spell *sp : get_spells() ) {
+        width = std::max( width, sp->name().length() );
+    }
+    return width;
+}
+
+class spellcasting_callback : public uilist_callback
+{
+    private:
+        std::vector<spell *> known_spells;
+        void draw_spell_info( const spell &sp, const uilist *menu );
+    public:
+        bool casting_ignore;
+
+        spellcasting_callback( std::vector<spell *> &spells,
+                               bool casting_ignore ) : known_spells( spells ),
+            casting_ignore( casting_ignore ) {};
+        bool key( const input_context &, const input_event &event, int /*entnum*/,
+                  uilist * /*menu*/ ) override {
+            if( event.get_first_input() == 'I' ) {
+                casting_ignore = !casting_ignore;
+                return true;
+            }
+            return false;
+        }
+
+        void select( int entnum, uilist *menu ) override {
+            mvwputch( menu->window, 0, menu->w_width - menu->pad_right, c_magenta, LINE_OXXX );
+            mvwputch( menu->window, menu->w_height - 1, menu->w_width - menu->pad_right, c_magenta, LINE_XXOX );
+            for( int i = 1; i < menu->w_height - 1; i++ ) {
+                mvwputch( menu->window, i, menu->w_width - menu->pad_right, c_magenta, LINE_XOXO );
+            }
+            std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) : _( "Popup Distractions" );
+            mvwprintz( menu->window, 0, menu->w_width - menu->pad_right + 2,
+                       casting_ignore ? c_red : c_light_green, ignore_string );
+            draw_spell_info( *known_spells[entnum], menu );
+        }
+};
+
+static std::string moves_to_string( const int moves )
+{
+    const int turns = moves / 100;
+    if( moves < 200 ) {
+        return _( string_format( "%d %s", moves, "moves" ) );
+    } else if( moves < to_moves<int>( 2_minutes ) ) {
+        return _( string_format( "%d %s", turns, "turns" ) );
+    } else if( moves < to_moves<int>( 2_hours ) ) {
+        return _( string_format( "%d %s", to_minutes<int>( turns * 1_turns ), "minutes" ) );
+    } else {
+        return _( string_format( "%d %s", to_hours<int>( turns * 1_turns ), "hours" ) );
+    }
+}
+
+void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu )
+{
+    const int h_offset = menu->w_width - menu->pad_right + 1;
+    // includes spaces on either side for readability
+    const int info_width = menu->pad_right - 4;
+    const int h_col1 = h_offset + 1;
+    const int h_col2 = h_offset + ( info_width / 2 );
+    const catacurses::window w_menu = menu->window;
+    // various pieces of spell data mean different things depending on the effect of the spell
+    const std::string fx = sp.effect();
+    int line = 1;
+    line += fold_and_print( w_menu, line++, h_col1, info_width, c_light_gray, sp.description() );
+
+    print_colored_text( w_menu, line, h_col1, c_light_gray, c_light_gray,
+                        _( string_format( "Spell Level: %d %s", sp.get_level(), sp.is_max_level() ? "(MAX)" : "" ) ) );
+    print_colored_text( w_menu, line++, h_col2, c_light_gray, c_light_gray,
+                        _( string_format( "Max Level: %d", sp.get_max_level() ) ) );
+
+    print_colored_text( w_menu, line, h_col1, c_light_gray, c_light_gray,
+                        sp.colorized_fail_percent( g->u ) );
+    print_colored_text( w_menu, line++, h_col2, c_light_gray, c_light_gray,
+                        _( string_format( "Difficulty: %d", sp.get_difficulty() ) ) );
+
+    print_colored_text( w_menu, line, h_col1, c_light_gray, c_light_gray,
+                        _( string_format( "Current Exp: %s", colorize( to_string( sp.xp() ), c_light_green ) ) ) );
+    print_colored_text( w_menu, line++, h_col2, c_light_gray, c_light_gray,
+                        _( string_format( "to Next Level: %s", colorize( to_string( sp.exp_to_next_level() ),
+                                          c_light_green ) ) ) );
+
+    line++;
+
+    print_colored_text( w_menu, line++, h_col1, c_light_gray, c_light_gray,
+                        _( string_format( "Casting Cost: %s %s%s", sp.energy_cost_string( g->u ), sp.energy_string(),
+                                          sp.energy_source() == hp_energy ? "" :  string_format( " ( % s current )",
+                                                  sp.energy_cur_string( g->u ) ) ) ) );
+
+    print_colored_text( w_menu, line++, h_col1, c_light_gray, c_light_gray,
+                        _( string_format( "Casting Time: %s", moves_to_string( sp.casting_time() ) ) ) );
+
+    line++;
+
+    std::string targets = "";
+    if( sp.is_valid_target( target_none ) ) {
+        targets = "self";
+    } else {
+        targets = sp.enumerate_targets();
+    }
+    print_colored_text( w_menu, line++, h_col1, c_light_gray, c_light_gray,
+                        _( string_format( "Valid Targets: %s", targets ) ) );
+
+    line++;
+
+    const int damage = sp.damage();
+    std::string damage_string;
+    std::string aoe_string;
+    // if it's any type of attack spell, the stats are normal.
+    if( fx == "target_attack" || fx == "projectile_attack" || fx == "cone_attack" ||
+        fx == "line_attack" ) {
+        if( damage >= 0 ) {
+            damage_string = _( string_format( "Damage: %s %s", colorize( to_string( damage ),
+                                              sp.damage_type_color() ),
+                                              colorize( sp.damage_type_string(), sp.damage_type_color() ) ) );
+        } else {
+            damage_string = _( string_format( "Healing: %s", colorize( "+" + to_string( -damage ),
+                                              c_light_green ) ) );
+        }
+        if( sp.aoe() > 0 ) {
+            std::string aoe_string_temp = "Spell Radius";
+            std::string degree_string = "";
+            if( fx == "cone_attack" ) {
+                aoe_string = "Cone Arc";
+                degree_string = "degrees";
+            } else if( fx == "line_attack" ) {
+                aoe_string = "Line Width";
+            }
+            aoe_string = _( string_format( "%s: %d %s", aoe_string_temp, sp.aoe(), degree_string ) );
+        }
+    } else if( fx == "teleport_random" ) {
+        if( sp.aoe() > 0 ) {
+            aoe_string = _( string_format( "Variance: %d", sp.aoe() ) );
+        }
+    } else if( fx == "spawn_item" ) {
+        damage_string = _( string_format( "Spawn %d %s", sp.damage(), item::nname( sp.effect_data(), sp.damage() ) ) );
+    }
+
+    print_colored_text( w_menu, line, h_col1, c_light_gray, c_light_gray, damage_string );
+    print_colored_text( w_menu, line++, h_col2, c_light_gray, c_light_gray, aoe_string );
+
+    print_colored_text( w_menu, line++, h_col1, c_light_gray, c_light_gray,
+                        _( string_format( "Range: %s", sp.range() <= 0 ? "self" : to_string( sp.range() ) ) ) );
+
+    // todo: damage over time here, when it gets implemeted
+
+    print_colored_text( w_menu, line++, h_col2, c_light_gray, c_light_gray, sp.duration() <= 0 ? "" :
+                        _( string_format( "Duration: %s", moves_to_string( sp.duration() ) ) ) );
+}
+
+int known_magic::get_invlet( spell_id &sp, std::set<int> &used_invlets )
+{
+    auto found = invlets.find( sp );
+    if( found != invlets.end() ) {
+        return found->second;
+    }
+    for( const std::pair<spell_id, int> &invlet_pair : invlets ) {
+        used_invlets.emplace( invlet_pair.second );
+    }
+    for( int i = 'a'; i <= 'z'; i++ ) {
+        if( used_invlets.count( i ) == 0 ) {
+            used_invlets.emplace( i );
+            return i;
+        }
+    }
+    for( int i = 'A'; i <= 'Z'; i++ ) {
+        if( used_invlets.count( i ) == 0 ) {
+            used_invlets.emplace( i );
+            return i;
+        }
+    }
+    for( int i = '!'; i <= '-'; i++ ) {
+        if( used_invlets.count( i ) == 0 ) {
+            used_invlets.emplace( i );
+            return i;
+        }
+    }
+    return 0;
+}
+
+spell &known_magic::select_spell( const player &p )
+{
+    spell *sp = nullptr;
+    // max width of spell names
+    const size_t max_spell_name_length = get_spellname_max_width();
+    std::vector<spell *> &known_spells = get_spells();
+    // number of spaces the list has shifted
+    unsigned int list_shift = 0;
+
+    uilist spell_menu;
+    spell_menu.w_height = 24;
+    spell_menu.w_width = 80;
+    spell_menu.w_x = ( TERMX - spell_menu.w_width ) / 2;
+    spell_menu.w_y = ( TERMY - spell_menu.w_height ) / 2;
+    spell_menu.pad_right = spell_menu.w_width - static_cast<int>( max_spell_name_length ) - 5;
+    spell_menu.title = _( "Choose a Spell" );
+    spellcasting_callback cb( known_spells, casting_ignore );
+    spell_menu.callback = &cb;
+
+    std::set<int> used_invlets;
+    used_invlets.emplace( 'I' );
+
+    for( size_t i = 0; i < known_spells.size(); i++ ) {
+        spell_menu.addentry( static_cast<int>( i ), known_spells[i]->can_cast( p ),
+                             get_invlet( known_spells[i]->id(), used_invlets ), known_spells[i]->name() );
+    }
+
+    spell_menu.query();
+
+    casting_ignore = static_cast<spellcasting_callback *>( spell_menu.callback )->casting_ignore;
+
+    if( spell_menu.ret >= 0 ) {
+        return *known_spells[spell_menu.ret];
+    }
+
+    return *sp;
 }
 
 // spell_effect

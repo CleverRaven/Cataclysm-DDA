@@ -8,7 +8,7 @@
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
-    "effect_str": "apt_stonefist",
+    "effect_str": "stonefist",
     "spell_class": "EARTHSHAPER",
     "energy_source": "MANA",
     "difficulty": 2,
