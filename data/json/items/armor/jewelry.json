@@ -128,6 +128,18 @@
     "color": "brown"
   },
   {
+    "id": "copper_necklace",
+    "type": "ARMOR",
+    "name": "copper necklace",
+    "description": "A simple chain of copper, with a clasp in the middle to create a necklace.  You can wear it if you like, but it won't provide any effects.",
+    "weight": 30,
+    "volume": 0,
+    "price": 3000,
+    "material": [ "copper" ],
+    "symbol": "[",
+    "color": "brown"
+  },
+  {
     "id": "copper_ring",
     "type": "ARMOR",
     "name": "copper ring",
@@ -382,7 +394,7 @@
     "symbol": "[",
     "color": "white",
     "covers": [ "MOUTH" ],
-    "flags": [ "FANCY", "SKINTIGHT" ]
+    "flags": [ "SUPER_FANCY", "SKINTIGHT" ]
   },
   {
     "id": "platinum_ear",
@@ -424,42 +436,29 @@
     "flags": [ "FANCY" ]
   },
   {
-    "id": "gold_medal",
+    "id": "platinum_necklace",
     "type": "ARMOR",
-    "name": "gold medal",
-    "description": "A medal awarded for achieving first place in some event.  Before everything fell apart, this could be a source of pride for its owner.  Now it's just another shiny bauble.",
-    "weight": 30,
+    "name": "platinum necklace",
+    "description": "A platinum necklace, with a small, empty heart frame hanging from a chain.  You can wear it if you like, but it won't provide any effects.",
+    "weight": 47,
     "volume": 0,
-    "price": 10000,
-    "material": [ "gold" ],
+    "price": 50000,
+    "material": [ "platinum" ],
     "symbol": "[",
-    "color": "yellow",
-    "flags": [ "SUPER_FANCY" ]
-  },
-  {
-    "id": "gold_necklace",
-    "type": "ARMOR",
-    "name": "gold necklace",
-    "description": "A shiny, unadorned gold necklace.  You can wear it if you like, but it won't provide any effects.",
-    "weight": 30,
-    "volume": 0,
-    "price": 40000,
-    "material": [ "gold" ],
-    "symbol": "[",
-    "color": "yellow",
+    "color": "white",
     "flags": [ "FANCY" ]
   },
   {
-    "id": "gold_ring",
+    "id": "platinum_ring",
     "type": "ARMOR",
-    "name": "gold ring",
-    "description": "A flashy gold ring.  You can wear it if you like, but it won't provide any effects.",
-    "weight": 10,
+    "name": "platinum ring",
+    "description": "A platinum ring, engraved with all manner of swirls and spirals.  You can wear it if you like, but it won't provide any effects.",
+    "weight": 13,
     "volume": 0,
-    "price": 30000,
-    "material": [ "gold" ],
+    "price": 24000,
+    "material": [ "platinum" ],
     "symbol": "[",
-    "color": "yellow",
+    "color": "white",
     "flags": [ "FANCY" ]
   },
   {
