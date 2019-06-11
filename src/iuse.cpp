@@ -6886,7 +6886,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint po
         } else if( !item.is_null() ) {
             item_name = trap_name + item_name + field_desc;
             if( point == point_around_figure && create_figure_desc ) {
-                description_terrain_on_figure = ter_desc + _( " with " ) + item_name;
+                description_terrain_on_figure = ter_desc + _( " with a " ) + item_name;
             } else {
                 ret_obj.items[ item_name ] ++;
             }
@@ -6925,7 +6925,7 @@ static object_names_collection enumerate_objects_around_point( const tripoint po
             }
         }
 
-        const char *transl_str = pgettext( "someone stands/sits *on* something", " on %s." );
+        const char *transl_str = pgettext( "someone stands/sits *on* something", " on a %s." );
         if( !description_part_on_figure.empty() ) {
             ret_obj.figure_text = string_format( transl_str, description_part_on_figure );
         } else {
@@ -6937,8 +6937,10 @@ static object_names_collection enumerate_objects_around_point( const tripoint po
         }
         if( !objects_combined_desc.empty() ) {
             // store objects to description_figures_status
-            std::string objects_text = enumerate_as_string( objects_combined_desc );
-            ret_obj.obj_nearby_text = string_format( _( "Nearby is %s." ), objects_text );
+            std::string objects_text = enumerate_as_string( objects_combined_desc.begin(), objects_combined_desc.end(), []( const std::string &obj){
+                return "a " + obj; 
+            } );
+            ret_obj.obj_nearby_text = string_format( _( "Nearby %s %s." ), objects_combined_desc.size() == 1 ? "is" : "are", objects_text );
         }
     }
     return ret_obj;
@@ -7137,30 +7139,30 @@ static extended_photo_def photo_def_for_camera_point( const tripoint aim_point,
     if( !obj_coll.vehicles.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.vehicles.begin(), obj_coll.vehicles.end(),
                                format_object_pair );
-        photo_text += "\n\n" + string_format( _( "There is %s parked in the background." ),
+        photo_text += "\n\n" + string_format( _( "%s %s parked in the background." ), obj_list, objcoll.vehicles.size() == 1 ? "is" : "are" );
                                               obj_list );
     }
     if( !obj_coll.terrain.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.terrain.begin(), obj_coll.terrain.end(),
                                format_object_pair );
-        photo_text += "\n\n" + string_format( _( "There is %s in background." ),
+        photo_text += "\n\n" + string_format( _( "There is %s in the background." ),
                                               obj_list );
     }
 
     const oter_id &cur_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( aim_point ) ) );
-    std::string overmap_desc = string_format( _( "In the background you can see %s" ),
+    std::string overmap_desc = string_format( _( "In the background you can see a %s" ),
                                colorize( cur_ter->get_name(), cur_ter->get_color() ) );
     if( outside_tiles_num == total_tiles_num ) {
-        photo_text += _( "\n\nThis photo is taken <color_gray>outside</color>." );
+        photo_text += _( "\n\nThis photo was taken <color_gray>outside</color>." );
     } else if( outside_tiles_num == 0 ) {
-        photo_text += _( "\n\nThis photo is taken <color_gray>inside</color>." );
+        photo_text += _( "\n\nThis photo was taken <color_gray>inside</color>." );
         overmap_desc += _( " interior" );
     } else if( outside_tiles_num < total_tiles_num / 2.0 ) {
-        photo_text += _( "\n\nThis photo is taken mostly <color_gray>inside</color>,"
+        photo_text += _( "\n\nThis photo was taken mostly <color_gray>inside</color>,"
                          " but <color_gray>outside</color> can be seen." );
         overmap_desc += _( " interior" );
     } else if( outside_tiles_num >= total_tiles_num / 2.0 ) {
-        photo_text += _( "\n\nThis photo is taken mostly <color_gray>outside</color>,"
+        photo_text += _( "\n\nThis photo was taken mostly <color_gray>outside</color>,"
                          " but <color_gray>inside</color> can be seen." );
     }
     photo_text += "\n" + overmap_desc + ".";
@@ -7168,17 +7170,17 @@ static extended_photo_def photo_def_for_camera_point( const tripoint aim_point,
     if( g->get_levz() >= 0 && need_store_weather ) {
         photo_text += "\n\n";
         if( calendar::turn.is_sunrise_now() ) {
-            photo_text += _( "It is a <color_yellow>sunrise</color>. " );
+            photo_text += _( "It is <color_yellow>sunrise</color>. " );
         } else if( calendar::turn.is_sunset_now() ) {
-            photo_text += _( "It is a <color_light_red>sunset</color>. " );
+            photo_text += _( "It is <color_light_red>sunset</color>. " );
         } else if( calendar::turn.is_night() ) {
-            photo_text += _( "It is a <color_dark_gray>night</color>. " );
+            photo_text += _( "It is <color_dark_gray>night</color>. " );
         } else {
-            photo_text += _( "It is a day. " );
+            photo_text += _( "It is day. " );
         }
 
         const weather_datum w_data = weather_data( g->weather.weather );
-        photo_text += string_format( _( "%s sky is visible." ), colorize( w_data.name, w_data.color ) );
+        photo_text += string_format( _( "The weather is %s" ), colorize( w_data.name, w_data.color ) );
     }
 
     for( const auto &figure : description_figures_appearance ) {
