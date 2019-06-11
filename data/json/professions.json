@@ -3722,7 +3722,7 @@
     "type": "profession",
     "ident": "rancher",
     "name": "Rancher",
-    "description": "You've raised cows or horses most your life, now, we'll see what happenes next.",
+    "description": "You've raised cows or horses most of your life, now we'll see what happens next.",
     "points": 2,
     "skills": { "level": 2, "name": "survival" },
     "items": {
