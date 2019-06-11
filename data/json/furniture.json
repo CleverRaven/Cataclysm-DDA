@@ -2114,7 +2114,11 @@
       "str_max": 200,
       "sound": "screeching metal!",
       "sound_fail": "whump!",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 1, 5 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -2135,7 +2139,11 @@
       "str_max": 200,
       "sound": "screeching metal!",
       "sound_fail": "whump!",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 1, 5 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -2156,7 +2164,11 @@
       "str_max": 200,
       "sound": "screeching metal!",
       "sound_fail": "whump!",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 1, 5 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -2176,7 +2188,11 @@
       "str_max": 200,
       "sound": "screeching metal!",
       "sound_fail": "whump!",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 1, 5 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -2197,7 +2213,11 @@
       "str_max": 200,
       "sound": "screeching metal!",
       "sound_fail": "whump!",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 1, 5 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
@@ -2218,7 +2238,11 @@
       "str_max": 200,
       "sound": "screeching metal!",
       "sound_fail": "whump!",
-      "items": [ { "item": "steel_chunk", "count": [ 1, 5 ] }, { "item": "scrap", "count": [ 1, 5 ] } ]
+      "items": [
+        { "item": "steel_chunk", "count": [ 1, 5 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "rock", "count": [ 1, 2 ] }
+      ]
     }
   },
   {
