@@ -4,7 +4,6 @@
     "id": "hydrop_deconstruct_results",
     "subtype": "collection",
     "entries": [
-      { "item": "withered", "count": [ 3, 6 ] },
       { "item": "pipe", "count": [ 5, 6 ] },
       { "item": "plastic_chunk", "count": 10 },
       { "item": "metal_tank_little", "count": 2 },
@@ -22,7 +21,6 @@
     "id": "hydrop_bash_results",
     "subtype": "collection",
     "entries": [
-      { "item": "withered", "count": [ 3, 6 ] },
       { "item": "pipe", "count": [ 2, 4 ] },
       { "item": "plastic_chunk", "count": [ 8, 10 ] },
       { "item": "metal_tank_little", "count": [ 0, 2 ], "damage": [ 1, 3 ] },

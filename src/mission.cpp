@@ -187,7 +187,7 @@ mission *mission::reserve_random( const mission_origin origin, const tripoint &p
     return mission::reserve_new( type, npc_id );
 }
 
-void mission::assign( player &u )
+void mission::assign( avatar &u )
 {
     if( player_id == u.getID() ) {
         debugmsg( "strange: player is already assigned to mission %d", uid );
@@ -401,9 +401,8 @@ bool mission::is_complete( const int _npc_id ) const
             return npc_id == _npc_id;
 
         case MGOAL_ASSASSINATE:
-            return step >= 1;
-
         case MGOAL_KILL_MONSTER:
+        case MGOAL_COMPUTER_TOGGLE:
             return step >= 1;
 
         case MGOAL_KILL_MONSTER_TYPE:
@@ -411,9 +410,6 @@ bool mission::is_complete( const int _npc_id ) const
 
         case MGOAL_KILL_MONSTER_SPEC:
             return g->kill_count( monster_species ) >= kill_count_to_reach;
-
-        case MGOAL_COMPUTER_TOGGLE:
-            return step >= 1;
 
         default:
             return false;

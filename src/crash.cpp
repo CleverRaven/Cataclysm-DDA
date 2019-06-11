@@ -1,6 +1,6 @@
-#if defined(BACKTRACE)
-
 #include "crash.h"
+
+#if defined(BACKTRACE)
 
 #include <cstdlib>
 #include <csignal>

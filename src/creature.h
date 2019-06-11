@@ -475,7 +475,6 @@ class Creature
 
         int moves;
         bool underwater;
-
         void draw( const catacurses::window &w, int origin_x, int origin_y, bool inverted ) const;
         void draw( const catacurses::window &w, const tripoint &origin, bool inverted ) const;
         /**
@@ -657,7 +656,6 @@ class Creature
         int throw_resist;
 
         bool fake;
-
         Creature();
         Creature( const Creature & ) = default;
         Creature( Creature && ) = default;

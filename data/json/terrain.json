@@ -5,6 +5,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "rock", "count": [ 0, 2 ] },
+      { "item": "wood_panel", "count": [ 0, 1 ] },
       { "item": "nail", "charges": [ 2, 8 ] },
       { "item": "splinter", "count": [ 1, 5 ] }
     ]
@@ -13,6 +14,7 @@
     "type": "terrain",
     "id": "t_hole",
     "name": "empty space",
+    "description": "This is empty space.",
     "symbol": " ",
     "color": "black",
     "move_cost": 2,
@@ -23,6 +25,7 @@
     "type": "terrain",
     "id": "t_open_air_rooved",
     "name": "open air",
+    "description": "This is open air.",
     "symbol": " ",
     "color": "i_cyan",
     "move_cost": 2,
@@ -59,6 +62,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
@@ -79,6 +83,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
@@ -118,6 +123,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
@@ -158,6 +164,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
@@ -261,6 +268,7 @@
     "symbol": ".",
     "color": "white",
     "move_cost": 2,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "str_min": 4,
@@ -281,6 +289,7 @@
     "symbol": ".",
     "color": "dark_gray",
     "move_cost": 4,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "FLAT" ],
     "bash": {
       "sound": "SCRRRASH!",
@@ -299,6 +308,7 @@
     "symbol": ".",
     "color": "cyan",
     "move_cost": 2,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "sound": "SMASH!",
@@ -655,6 +665,7 @@
     "symbol": ".",
     "color": "light_cyan",
     "move_cost": 2,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "INDOORS", "FLAT", "ROAD" ],
     "bash": { "sound": "thump", "ter_set": "t_null", "str_min": 100, "str_max": 500, "str_min_supported": 200 }
   },
@@ -738,6 +749,24 @@
     "move_cost": 2,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "sound": "SMASH!",
+      "ter_set": "t_null",
+      "str_min": 50,
+      "str_max": 400,
+      "str_min_supported": 100,
+      "items": [ { "item": "splinter", "count": [ 2, 8 ] }, { "item": "nail", "charges": [ 5, 10 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_floor_noroof",
+    "name": "wooden floor",
+    "description": "Wooden floor created from boards, packed tightly together and nailed down. Common in patios.",
+    "symbol": ".",
+    "color": "brown",
+    "move_cost": 2,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "FLAT", "ROAD" ],
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_null",
@@ -923,6 +952,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
@@ -1047,6 +1077,7 @@
       "ter_set": "t_null",
       "items": [
         { "item": "2x4", "count": [ 0, 5 ] },
+        { "item": "wood_panel", "count": [ 0, 1 ] },
         { "item": "nail", "charges": [ 0, 5 ] },
         { "item": "splinter", "count": [ 5, 10 ] }
       ]
@@ -1056,10 +1087,12 @@
     "id": "t_wall_wattle",
     "type": "terrain",
     "name": "wattle-and-daub wall",
+    "description": "A relatively primitive wall made by daubing together a lattice of wooden strips using some combination of wet soil, clay, sand, animal dung and straw.",
     "symbol": "LINE_OXOX",
     "color": [ "light_red" ],
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_thatch_roof",
     "bash": {
       "str_min": 10,
       "str_max": 140,
@@ -1074,6 +1107,7 @@
     "id": "t_wall_wattle_broken",
     "type": "terrain",
     "name": "broken wattle-and-daub wall",
+    "description": "This wattle-and-daub wall section has been destroyed, leaving mostly just frame, and is barely held together.",
     "symbol": "&",
     "color": [ "light_red" ],
     "move_cost": 0,
@@ -1091,6 +1125,7 @@
     "id": "t_wall_wattle_half",
     "type": "terrain",
     "name": "half-built wattle-and-daub wall",
+    "description": "This wattle-and-daub wall has some of the wooden strip lattice in place, and still requires the rest of the lattice and supporting wet compound to be filled in.",
     "symbol": "#",
     "color": [ "light_red" ],
     "move_cost": 4,
@@ -1114,6 +1149,7 @@
     "color": "light_red",
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
@@ -1124,6 +1160,7 @@
       "ter_set": "t_wall_wood_chipped",
       "items": [
         { "item": "2x4", "count": [ 0, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 1, 5 ] },
         { "item": "splinter", "count": [ 1, 4 ] }
       ]
@@ -1148,6 +1185,7 @@
       "ter_set": "t_wall_wood_broken",
       "items": [
         { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 1, 3 ] },
         { "item": "splinter", "count": [ 1, 4 ] }
       ]
@@ -1171,6 +1209,7 @@
       "ter_set": "t_null",
       "items": [
         { "item": "2x4", "count": [ 2, 5 ] },
+        { "item": "wood_panel", "count": [ 0, 2 ] },
         { "item": "nail", "charges": [ 4, 10 ] },
         { "item": "splinter", "count": [ 1, 5 ] }
       ]
@@ -1207,7 +1246,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_rock_floor",
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 70,
@@ -1228,7 +1267,7 @@
     "color": "cyan",
     "move_cost": 0,
     "coverage": 100,
-    "roof": "t_metal_floor",
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 200,
@@ -1253,6 +1292,7 @@
     "color": "light_cyan",
     "move_cost": 0,
     "coverage": 90,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 4,
@@ -1274,6 +1314,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_cyan",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "ALARMED", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 4,
@@ -1295,6 +1336,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_cyan",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 40,
@@ -1315,6 +1357,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_gray",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "MINEABLE", "BLOCK_WIND" ],
     "open": "t_reinforced_glass_shutter_open",
     "bash": {
@@ -1340,6 +1383,7 @@
     "symbol": "LINE_OXOX",
     "color": "light_cyan",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "WALL", "AUTO_WALL_SYMBOL", "OPENCLOSE_INSIDE", "MINEABLE", "BLOCK_WIND" ],
     "close": "t_reinforced_glass_shutter",
     "bash": {
@@ -1496,7 +1540,10 @@
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "open": "t_door_o",
-    "deconstruct": { "ter_set": "t_door_frame", "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 12 ] } ] },
+    "deconstruct": {
+      "ter_set": "t_door_frame",
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+    },
     "bash": {
       "str_min": 8,
       "str_max": 80,
@@ -1505,7 +1552,12 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_door_b",
-      "items": [ { "item": "2x4", "prob": 25 }, { "item": "splinter", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 0, 2 ] } ]
+      "items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
     }
   },
   {
@@ -1520,7 +1572,10 @@
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL" ],
     "open": "t_door_lab_o",
-    "deconstruct": { "ter_set": "t_door_lab_frame", "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 12 ] } ] },
+    "deconstruct": {
+      "ter_set": "t_door_lab_frame",
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+    },
     "bash": {
       "str_min": 8,
       "str_max": 80,
@@ -1529,7 +1584,12 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_door_lab_b",
-      "items": [ { "item": "2x4", "prob": 25 }, { "item": "splinter", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 0, 2 ] } ]
+      "items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
     }
   },
   {
@@ -1546,7 +1606,7 @@
     "open": "t_door_white_o",
     "deconstruct": {
       "ter_set": "t_door_white_frame",
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
     },
     "bash": {
       "str_min": 8,
@@ -1556,7 +1616,12 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_door_white_b",
-      "items": [ { "item": "2x4", "prob": 25 }, { "item": "splinter", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 0, 2 ] } ]
+      "items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
     }
   },
   {
@@ -1571,7 +1636,10 @@
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL" ],
     "open": "t_door_gray_o",
-    "deconstruct": { "ter_set": "t_door_gray_frame", "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 12 ] } ] },
+    "deconstruct": {
+      "ter_set": "t_door_gray_frame",
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+    },
     "bash": {
       "str_min": 8,
       "str_max": 80,
@@ -1580,7 +1648,12 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_door_gray_b",
-      "items": [ { "item": "2x4", "prob": 25 }, { "item": "splinter", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 0, 2 ] } ]
+      "items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
     }
   },
   {
@@ -1595,7 +1668,10 @@
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR", "CONNECT_TO_WALL" ],
     "open": "t_door_red_o",
-    "deconstruct": { "ter_set": "t_door_red_frame", "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 12 ] } ] },
+    "deconstruct": {
+      "ter_set": "t_door_red_frame",
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+    },
     "bash": {
       "str_min": 8,
       "str_max": 80,
@@ -1604,7 +1680,12 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_door_red_b",
-      "items": [ { "item": "2x4", "prob": 25 }, { "item": "splinter", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 0, 2 ] } ]
+      "items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
     }
   },
   {
@@ -1621,7 +1702,7 @@
     "open": "t_door_green_o",
     "deconstruct": {
       "ter_set": "t_door_green_frame",
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
     },
     "bash": {
       "str_min": 8,
@@ -1631,7 +1712,12 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_door_green_b",
-      "items": [ { "item": "2x4", "prob": 25 }, { "item": "splinter", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 0, 2 ] } ]
+      "items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
     }
   },
   {
@@ -1646,7 +1732,7 @@
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_white_frame",
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
     },
     "close": "t_door_white_c",
     "bash": {
@@ -1674,7 +1760,10 @@
     "move_cost": 2,
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
-    "deconstruct": { "ter_set": "t_door_gray_frame", "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 12 ] } ] },
+    "deconstruct": {
+      "ter_set": "t_door_gray_frame",
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+    },
     "close": "t_door_gray_c",
     "bash": {
       "str_min": 5,
@@ -1701,7 +1790,10 @@
     "move_cost": 2,
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
-    "deconstruct": { "ter_set": "t_door_red_frame", "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 12 ] } ] },
+    "deconstruct": {
+      "ter_set": "t_door_red_frame",
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+    },
     "close": "t_door_red_c",
     "bash": {
       "str_min": 5,
@@ -1730,7 +1822,7 @@
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_green_frame",
-      "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
     },
     "close": "t_door_green_c",
     "bash": {
@@ -2311,7 +2403,10 @@
     "move_cost": 2,
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
-    "deconstruct": { "ter_set": "t_door_frame", "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 12 ] } ] },
+    "deconstruct": {
+      "ter_set": "t_door_frame",
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+    },
     "close": "t_door_c",
     "bash": {
       "str_min": 5,
@@ -2338,7 +2433,10 @@
     "move_cost": 2,
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
-    "deconstruct": { "ter_set": "t_door_lab_frame", "items": [ { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 12 ] } ] },
+    "deconstruct": {
+      "ter_set": "t_door_lab_frame",
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+    },
     "close": "t_door_lab_c",
     "bash": {
       "str_min": 5,
@@ -2367,7 +2465,12 @@
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD" ],
     "deconstruct": {
       "ter_set": "t_door_frame",
-      "items": [ { "item": "peephole", "count": 1 }, { "item": "2x4", "count": 4 }, { "item": "nail", "charges": [ 6, 12 ] } ]
+      "items": [
+        { "item": "peephole", "count": 1 },
+        { "item": "2x4", "count": 4 },
+        { "item": "wood_panel", "count": 1 },
+        { "item": "nail", "charges": [ 6, 12 ] }
+      ]
     },
     "close": "t_door_c_peep",
     "bash": {
@@ -2398,7 +2501,10 @@
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE_ASH", "DOOR", "NOITEM", "BARRICADABLE_DOOR_REINFORCED", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "open": "t_rdoor_o",
-    "deconstruct": { "ter_set": "t_door_c", "items": [ { "item": "2x4", "count": 24 }, { "item": "nail", "charges": [ 36, 48 ] } ] },
+    "deconstruct": {
+      "ter_set": "t_door_c",
+      "items": [ { "item": "2x4", "count": 24 }, { "item": "wood_panel", "count": 2 }, { "item": "nail", "charges": [ 36, 48 ] } ]
+    },
     "bash": {
       "str_min": 18,
       "str_max": 100,
@@ -2458,7 +2564,10 @@
     "move_cost": 2,
     "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE_ASH", "TRANSPARENT", "FLAT", "BARRICADABLE_DOOR_REINFORCED", "CONNECT_TO_WALL", "ROAD" ],
-    "deconstruct": { "ter_set": "t_door_c", "items": [ { "item": "2x4", "count": 24 }, { "item": "nail", "charges": [ 36, 48 ] } ] },
+    "deconstruct": {
+      "ter_set": "t_door_c",
+      "items": [ { "item": "2x4", "count": 24 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 36, 48 ] } ]
+    },
     "close": "t_rdoor_c",
     "bash": {
       "str_min": 12,
@@ -2495,7 +2604,12 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_door_b",
-      "items": [ { "item": "2x4", "prob": 25 }, { "item": "splinter", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 0, 2 ] } ]
+      "items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
     }
   },
   {
@@ -2528,7 +2642,12 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_door_b",
-      "items": [ { "item": "2x4", "prob": 25 }, { "item": "splinter", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 0, 2 ] } ]
+      "items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
     }
   },
   {
@@ -2589,7 +2708,12 @@
       "sound": "smash!",
       "sound_fail": "whump!",
       "ter_set": "t_door_b",
-      "items": [ { "item": "2x4", "prob": 25 }, { "item": "splinter", "count": [ 1, 2 ] }, { "item": "nail", "charges": [ 0, 2 ] } ]
+      "items": [
+        { "item": "2x4", "prob": 25 },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "splinter", "count": [ 1, 2 ] },
+        { "item": "nail", "charges": [ 0, 2 ] }
+      ]
     }
   },
   {
@@ -2957,7 +3081,7 @@
     "open": "t_chickenwire_gate_o",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 5 }, { "item": "wire", "count": 10 }, { "item": "nail", "count": 20 } ]
+      "items": [ { "item": "2x4", "count": 5 }, { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
     },
     "bash": {
       "str_min": 5,
@@ -2984,7 +3108,7 @@
     "close": "t_chickenwire_gate_c",
     "deconstruct": {
       "ter_set": "t_dirt",
-      "items": [ { "item": "2x4", "count": 5 }, { "item": "wire", "count": 10 }, { "item": "nail", "count": 20 } ]
+      "items": [ { "item": "2x4", "count": 5 }, { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
     },
     "bash": {
       "str_min": 5,
@@ -3016,6 +3140,7 @@
       "ter_set": "t_door_b",
       "items": [
         { "item": "2x4", "count": [ 1, 3 ] },
+        { "item": "wood_panel", "prob": 10 },
         { "item": "nail", "charges": [ 2, 10 ] },
         { "item": "splinter", "count": [ 1, 2 ] }
       ]
@@ -3089,7 +3214,12 @@
       "sound": "crash!",
       "sound_fail": "wham!",
       "ter_set": "t_rdoor_b",
-      "items": [ { "item": "2x4", "count": [ 1, 4 ] }, { "item": "nail", "charges": [ 1, 8 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [
+        { "item": "2x4", "count": [ 1, 4 ] },
+        { "item": "wood_panel", "prob": 10 },
+        { "item": "nail", "charges": [ 1, 8 ] },
+        { "item": "splinter", "count": 1 }
+      ]
     }
   },
   {
@@ -3565,6 +3695,7 @@
     "symbol": "\"",
     "color": "light_cyan",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "deconstruct": { "ter_set": "t_window_empty", "items": [ { "item": "glass_sheet", "count": 1 } ] },
     "bash": {
@@ -3587,6 +3718,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 6,
@@ -3608,6 +3740,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 60,
+    "roof": "t_flat_roof",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3656,6 +3789,7 @@
     "color": "white",
     "move_cost": 0,
     "coverage": 60,
+    "roof": "t_flat_roof",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3689,6 +3823,7 @@
     "color": "white",
     "move_cost": 4,
     "coverage": 60,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
     "close": "t_window_no_curtains",
     "bash": {
@@ -3712,6 +3847,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 6,
@@ -3734,6 +3870,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "WALL", "BLOCK_WIND" ],
     "examine_action": "curtains",
     "bash": {
@@ -3761,6 +3898,7 @@
     "color": "light_gray",
     "move_cost": 4,
     "coverage": 60,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
     "examine_action": "curtains",
     "close": "t_window_domestic",
@@ -3789,6 +3927,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [
       "FLAMMABLE",
       "NOITEM",
@@ -3834,6 +3973,7 @@
     "symbol": "\"",
     "color": "light_cyan",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [
       "TRANSPARENT",
       "FLAMMABLE",
@@ -3863,6 +4003,7 @@
     "color": "dark_gray",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "ALARMED", "WALL", "BARRICADABLE_WINDOW", "BLOCK_WIND" ],
     "bash": {
       "str_min": 6,
@@ -3879,11 +4020,11 @@
     "type": "terrain",
     "id": "t_window_empty",
     "name": "empty window",
+    "roof": "t_flat_roof",
     "description": "An empty window frame consisting of two by fours and nails.  You could install a sheet of glass, or even board it up for protection.  You could also convert it into a wall if you took the time to construct it.",
     "symbol": "0",
     "color": "yellow",
     "move_cost": 4,
-    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "FLAMMABLE", "SUPPORTS_ROOF", "MOUNTABLE", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
     "bash": {
       "str_min": 10,
@@ -3907,6 +4048,7 @@
     "color": "light_cyan",
     "move_cost": 8,
     "coverage": 60,
+    "roof": "t_flat_roof",
     "bash": {
       "str_min": 1,
       "str_max": 1,
@@ -3928,6 +4070,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 3,
@@ -3949,6 +4092,7 @@
     "color": "brown",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 3,
@@ -3970,6 +4114,7 @@
     "color": "red",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
@@ -3989,6 +4134,7 @@
     "color": "red",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 12,
@@ -4008,6 +4154,7 @@
     "color": "cyan",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 18,
@@ -4027,6 +4174,7 @@
     "color": "cyan",
     "move_cost": 0,
     "coverage": 95,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "REDUCE_SCENT", "CONNECT_TO_WALL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 18,
@@ -4045,6 +4193,7 @@
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE" ],
     "bash": {
       "str_min": 60,
@@ -4068,6 +4217,7 @@
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "ALARMED", "CONNECT_TO_WALL" ],
     "bash": {
       "str_min": 3,
@@ -4088,7 +4238,7 @@
     "symbol": "\"",
     "color": "light_green",
     "move_cost": 0,
-    "roof": "t_rock_floor",
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 100,
@@ -4107,7 +4257,7 @@
     "symbol": "\"",
     "color": "light_red",
     "move_cost": 0,
-    "roof": "t_rock_floor",
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 100,
@@ -4126,7 +4276,7 @@
     "symbol": "\"",
     "color": "light_blue",
     "move_cost": 0,
-    "roof": "t_rock_floor",
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "BARRICADABLE_WINDOW", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 100,
@@ -4173,8 +4323,8 @@
     "color": "white",
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "CONNECT_TO_WALL", "MINEABLE", "BLOCK_WIND" ],
-    "roof": "t_rock_floor",
     "connects_to": "WALL",
     "bash": {
       "str_min": 120,
@@ -4709,6 +4859,53 @@
   },
   {
     "type": "terrain",
+    "id": "t_tree_juniper",
+    "name": "juniper tree",
+    "description": "One of the species of 'Juniperus' that grows in New England, juniper berries grow over two to three years, first flowering. On the second year producing a green berry, the last, they produce their more famed blue varieties.  If you examined the foliage more closely, you could probably find some viable clusters.  You could also cut it down with the right tools.",
+    "symbol": "7",
+    "looks_like": "t_tree_pine",
+    "color": [ "light_green", "blue_green", "light_green", "brown" ],
+    "//": "Can be picked at any point in the third year assuming the berries have turned blue. But it takes a long time to regrow.",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT" ],
+    "transforms_into": "t_tree_juniper_harvested",
+    "examine_action": "harvest_ter_nectar",
+    "harvest_by_season": [ { "seasons": [ "autumn" ], "entries": [ { "drop": "juniper", "base_num": [ 12, 24 ], "scaled_num": [ 0, 0.5 ] } ] } ],
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_tree_juniper_harvested",
+    "name": "juniper tree",
+    "description": "One of the species of 'Juniperus' that grows in New England, juniper berries grow over two to three years.  In the first year they flower, in the second year they produce a green berry, the last, they produce their more famed blue varieties.  Looks like all the ripe bunches of berries have been picked.  You could also cut it down with the right tools.",
+    "symbol": "7",
+    "looks_like": "t_tree_pine",
+    "color": [ "light_green", "light_green", "light_green", "brown" ],
+    "//": "Will take three years to regrow, in reality.",
+    "move_cost": 0,
+    "coverage": 80,
+    "flags": [ "FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT", "HARVESTED" ],
+    "examine_action": "harvested_plant",
+    "transforms_into": "t_tree_juniper",
+    "bash": {
+      "str_min": 80,
+      "str_max": 180,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "ter_set": "t_dirt",
+      "items": [ { "item": "stick_long", "count": [ 3, 10 ] }, { "item": "splinter", "count": [ 10, 25 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_tree_peach",
     "name": "peach tree",
     "description": "One of the several species of 'Prunus' trees found in New England, it bears peaches in the summer.  If you examined the branches more closely, you could probably find some mature peaches.  You could also cut it down with the right tools.",
@@ -5047,6 +5244,7 @@
     "type": "terrain",
     "id": "t_tree_willow",
     "name": "willow tree",
+    "description": "A tall, wide deciduous tree of the 'Salix' genus, with long thin leafy branches that hang down like curtains.  You could tear off some bark.  You could cut it down with the right tools.",
     "symbol": "4",
     "color": [ "light_green", "light_green", "light_green", "brown" ],
     "//": "barren in winter, harvestable all year round",
@@ -5071,6 +5269,7 @@
     "type": "terrain",
     "id": "t_tree_willow_harvested",
     "name": "willow tree",
+    "description": "A tall, wide deciduous tree of the 'Salix' genus, with long thin leafy branches that hang down like curtains.  Looks like all usable bark has been torn off, and new rhytidomes have not formed yet.  You could cut it down with the right tools.",
     "symbol": "4",
     "color": [ "brown", "brown", "brown", "brown" ],
     "//": "barren in winter, not harvestable",
@@ -5090,6 +5289,7 @@
     "type": "terrain",
     "id": "t_tree_maple",
     "name": "maple tree",
+    "description": "A large deciduous tree of the 'Acer' genus.  The leaves are distinctively shaped with five prongs.  It could be tapped in order to extract maple syrup.  You could cut it down with the right tools.",
     "symbol": "7",
     "color": [ "red", "light_green", "light_green", "red" ],
     "move_cost": 0,
@@ -5109,6 +5309,7 @@
     "type": "terrain",
     "id": "t_tree_maple_tapped",
     "name": "maple tree",
+    "description": "A large deciduous tree of the 'Acer' genus.  The leaves are distinctively shaped with five prongs.  A spigot is wedged into the trunk, and sweet maple syrup can be extracted.  You could cut it down with the right tools.",
     "symbol": "7",
     "color": [ "red", "light_green", "light_green", "red" ],
     "move_cost": 0,
@@ -5128,6 +5329,7 @@
     "type": "terrain",
     "id": "t_tree_hickory",
     "name": "hickory tree",
+    "description": "A tall deciduous tree of the 'Carya' genus.  You could look for hickory nuts if you examined the tree more closely.  You could cut it down with the right tools.",
     "symbol": "7",
     "color": [ "light_green", "light_green", "brown_green", "brown" ],
     "//": "barren in winter, harvestable in autum",
@@ -5151,6 +5353,7 @@
   {
     "type": "terrain",
     "id": "t_tree_hickory_harvested",
+    "description": "A tall deciduous tree of the 'Carya' genus.  It looks like the tree has been picked clean of hickory nuts.  You could cut it down with the right tools.",
     "name": "hickory tree",
     "symbol": "7",
     "color": [ "light_green", "light_green", "light_green", "brown" ],
@@ -5173,6 +5376,7 @@
     "type": "terrain",
     "id": "t_tree_pistachio",
     "name": "pistachio tree",
+    "description": "A deciduous tree of the 'Pistacia' genus.  This is a cultivated tree, and is not native to this region.  You could look for pistachio nuts if you examined the tree more closely.  You could cut it down with the right tools.",
     "looks_like": "t_tree_hickory",
     "//": "Pistachio tree is not a local native and is only used in specific locations like orchards and gardens.",
     "symbol": "7",
@@ -5196,6 +5400,7 @@
     "type": "terrain",
     "id": "t_tree_pistachio_harvested",
     "name": "pistachio tree",
+    "description": "A deciduous tree of the 'Pistacia' genus.  This is a cultivated tree, and is not native to this region.  Unfortunately, it looks like it has been picked clean of pistachio nuts.  You could cut it down with the right tools.",
     "looks_like": "t_tree_hickory_harvested",
     "symbol": "7",
     "color": [ "light_green", "light_green", "light_green", "brown" ],
@@ -5217,6 +5422,7 @@
     "type": "terrain",
     "id": "t_tree_almond",
     "name": "almond tree",
+    "description": "A deciduous tree of the 'Prunus' genus.  This is a cultivated tree, and is not native to this region.  You could look for fresh almonds if you examined the tree more closely.  You could cut it down with the right tools.",
     "looks_like": "t_tree_hickory",
     "//": "Almond tree is not a local native and is only used in specific locations like orchards and gardens.",
     "symbol": "7",
@@ -5239,6 +5445,7 @@
   {
     "type": "terrain",
     "id": "t_tree_almond_harvested",
+    "description": "A deciduous tree of the 'Prunus' genus.  This is a cultivated tree, and is not native to this region.  There are no almonds left to pick on the tree.  You could cut it down with the right tools.",
     "name": "almond tree",
     "looks_like": "t_tree_hickory_harvested",
     "symbol": "7",
@@ -5261,6 +5468,7 @@
     "type": "terrain",
     "id": "t_tree_pecan",
     "name": "pecan tree",
+    "description": "A tall deciduous tree of the 'Carya' genus.  You could look for pecan nuts if you examined the tree more closely.  You could cut it down with the right tools.",
     "//": "Pecan tree is not a local native and is only used in specific locations like orchards and gardens.",
     "symbol": "7",
     "color": [ "light_green", "light_green", "brown_green", "brown" ],
@@ -5283,6 +5491,7 @@
     "type": "terrain",
     "id": "t_tree_pecan_harvested",
     "name": "pecan tree",
+    "description": "A tall deciduous tree of the 'Carya' genus.  It doesn't look like there are any pecan nuts left on the tree.  You could cut it down with the right tools.",
     "symbol": "7",
     "color": [ "light_green", "light_green", "light_green", "brown" ],
     "move_cost": 0,
@@ -5303,6 +5512,7 @@
     "type": "terrain",
     "id": "t_tree_hickory_dead",
     "name": "dead hickory tree",
+    "description": "The dead remnants of a tall deciduous tree of the 'Carya' genus.  Nothing useful can be foraged from this poor, dead tree.  You could cut it down with the right tools.",
     "symbol": "7",
     "color": "green",
     "//": "dead, not usable at all",
@@ -5341,6 +5551,7 @@
     "type": "terrain",
     "id": "t_underbrush_harvested_spring",
     "name": "underbrush",
+    "description": "Small plants and shrubs that decorate the forest.  It has been rummaged through and doesn't have anything useful left to forage from it.",
     "symbol": "#",
     "color": "green",
     "move_cost": 6,
@@ -5370,6 +5581,7 @@
     "type": "terrain",
     "id": "t_underbrush_harvested_summer",
     "name": "underbrush",
+    "description": "Small plants and shrubs that decorate the forest.  It has been rummaged through and doesn't have anything useful left to forage from it.",
     "symbol": "#",
     "color": "green",
     "move_cost": 6,
@@ -5399,6 +5611,7 @@
     "type": "terrain",
     "id": "t_underbrush_harvested_autumn",
     "name": "underbrush",
+    "description": "Small plants and shrubs that decorate the forest.  It has been rummaged through and doesn't have anything useful left to forage from it.",
     "symbol": "#",
     "color": "green",
     "move_cost": 6,
@@ -5428,6 +5641,7 @@
     "type": "terrain",
     "id": "t_underbrush_harvested_winter",
     "name": "underbrush",
+    "description": "Small plants and shrubs that decorate the forest.  It has been rummaged through and doesn't have anything useful left to forage from it.  Frost covers it.",
     "symbol": "#",
     "color": "green",
     "move_cost": 6,
@@ -5457,6 +5671,7 @@
     "type": "terrain",
     "id": "t_shrub",
     "name": "shrub",
+    "description": "A small shrub.",
     "symbol": "#",
     "color": "green",
     "move_cost": 8,
@@ -5969,6 +6184,7 @@
     "type": "terrain",
     "id": "t_trunk",
     "name": "tree trunk",
+    "description": "A section of trunk from a tree that has been cut down.  Can be sawn into logs with the right tool.",
     "symbol": "1",
     "color": "brown",
     "move_cost": 4,
@@ -5987,6 +6203,7 @@
     "type": "terrain",
     "id": "t_stump",
     "name": "tree stump",
+    "description": "A tree stump, remnant of a tree that has been cut down.",
     "symbol": "^",
     "color": "brown",
     "move_cost": 3,
@@ -6005,6 +6222,7 @@
     "type": "terrain",
     "id": "t_root_wall",
     "name": "root wall",
+    "description": "A dirt wall covered with roots.",
     "symbol": "#",
     "color": "brown",
     "move_cost": 0,
@@ -6024,6 +6242,7 @@
     "type": "terrain",
     "id": "t_wax",
     "name": "wax wall",
+    "description": "A wall made entirely out of wax.",
     "symbol": "#",
     "color": "yellow",
     "move_cost": 0,
@@ -6043,6 +6262,7 @@
     "type": "terrain",
     "id": "t_floor_wax",
     "name": "wax floor",
+    "description": "A floor section made entirely out of wax.",
     "symbol": ".",
     "color": "yellow",
     "move_cost": 2,
@@ -6131,7 +6351,10 @@
     "flags": [ "TRANSPARENT", "NOITEM", "PERMEABLE", "AUTO_WALL_SYMBOL" ],
     "connects_to": "CHAINFENCE",
     "examine_action": "chainfence",
-    "deconstruct": { "ter_set": "t_chickenwire_fence_post", "items": [ { "item": "wire", "count": 10 }, { "item": "nail", "count": 20 } ] },
+    "deconstruct": {
+      "ter_set": "t_chickenwire_fence_post",
+      "items": [ { "item": "wire", "count": 10 }, { "item": "nail", "charges": 20 } ]
+    },
     "bash": {
       "str_min": 5,
       "str_max": 12,
@@ -6246,6 +6469,7 @@
     "id": "t_railing",
     "aliases": [ "t_railing_h", "t_railing_v" ],
     "name": "railing",
+    "description": "A section of wooden railing.",
     "symbol": "LINE_OXOX",
     "color": "yellow",
     "move_cost": 3,
@@ -6270,6 +6494,7 @@
     "id": "t_glass_railing",
     "aliases": [ "t_glass_railing_h", "t_glass_railing_v" ],
     "name": "glass railing",
+    "description": "A section of railing made out of glass.",
     "symbol": "LINE_OXOX",
     "color": "cyan",
     "move_cost": 3,
@@ -6294,6 +6519,7 @@
     "id": "t_metal_railing",
     "aliases": [ "t_metal__railing_h", "t_metal__railing_v" ],
     "name": "metal railing",
+    "description": "A section of metal railing.",
     "symbol": "LINE_OXOX",
     "color": "dark_gray",
     "move_cost": 3,
@@ -6318,6 +6544,7 @@
     "id": "t_concrete_railing",
     "aliases": [ "t_concrete_railing_h", "t_concrete_railing_v" ],
     "name": "concrete railing",
+    "description": "A section of cemented concrete railing.",
     "symbol": "LINE_OXOX",
     "color": "cyan",
     "looks_like": "t_ponywall",
@@ -6663,6 +6890,7 @@
     "type": "terrain",
     "id": "t_water_sh",
     "name": "shallow water",
+    "description": "The water isn't too deep here.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
     "symbol": "~",
     "color": "light_blue",
     "move_cost": 5,
@@ -6674,6 +6902,7 @@
     "type": "terrain",
     "id": "t_water_dp",
     "name": "deep water",
+    "description": "You're having trouble seeing the bottom through the deep water here.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is.",
     "symbol": "~",
     "color": "blue",
     "move_cost": 8,
@@ -6685,6 +6914,7 @@
     "type": "terrain",
     "id": "t_water_moving_sh",
     "name": "flowing shallow water",
+    "description": "The streaming water isn't too deep here.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is, although probably safer than stagnant water.",
     "looks_like": "t_water_sh",
     "symbol": "~",
     "color": "light_blue",
@@ -6697,6 +6927,7 @@
     "type": "terrain",
     "id": "t_water_moving_dp",
     "name": "flowing deep water",
+    "description": "The streaming water looks deep here.  With a watertight container, you could gather fresh water from here.  Not safe to drink as is, although probably safer than stagnant water.",
     "looks_like": "t_water_dp",
     "symbol": "~",
     "color": "blue",
@@ -6709,6 +6940,7 @@
     "type": "terrain",
     "id": "t_swater_sh",
     "name": "shallow water",
+    "description": "The water isn't too deep here.  With a watertight container, you could gather salt water from here.",
     "symbol": "~",
     "color": "light_blue",
     "move_cost": 5,
@@ -6720,6 +6952,7 @@
     "type": "terrain",
     "id": "t_swater_dp",
     "name": "deep water",
+    "description": "You're having trouble seeing the bottom through the deep water here.  With a watertight container, you could gather salt water from here.",
     "symbol": "~",
     "color": "blue",
     "move_cost": 8,
@@ -6731,6 +6964,7 @@
     "type": "terrain",
     "id": "t_water_pool",
     "name": "pool water",
+    "description": "A deep pool full of water.  Never swim without a lifeguard present.  Even though monsters probably ate them.",
     "symbol": "~",
     "color": "light_blue",
     "move_cost": 5,
@@ -6741,6 +6975,7 @@
     "type": "terrain",
     "id": "t_sewage",
     "name": "sewage",
+    "description": "Gross.  Sewage water flows through here.  As if it needed saying, this isn't safe to drink.",
     "symbol": "~",
     "color": "light_green",
     "move_cost": 6,
@@ -6751,6 +6986,7 @@
     "type": "terrain",
     "id": "t_lava",
     "name": "lava",
+    "description": "An extremely hot, glowing liquid, composed of molten rock and/or metal.  In some places, lava-grilled steak is a delicacy.",
     "symbol": "~",
     "color": "red",
     "move_cost": 4,
@@ -6762,6 +6998,7 @@
     "type": "terrain",
     "id": "t_sandbox",
     "name": "sandbox",
+    "description": "Children used to play in this sandbox.  The population of lice probably diminished considerably now that they no longer do.",
     "symbol": "#",
     "color": "yellow",
     "move_cost": 3,
@@ -6792,6 +7029,7 @@
     "type": "terrain",
     "id": "t_slide",
     "name": "slide",
+    "description": "A children's slide.  Too small to slide on comfortably anymore.",
     "symbol": "#",
     "color": "light_cyan",
     "move_cost": 4,
@@ -6810,6 +7048,7 @@
     "type": "terrain",
     "id": "t_monkey_bars",
     "name": "monkey bars",
+    "description": "A set of monkey bars, to be used by children to train their arms by hanging from the bars, and have fun.",
     "symbol": "#",
     "color": "cyan",
     "move_cost": 4,
@@ -6828,6 +7067,7 @@
     "type": "terrain",
     "id": "t_backboard",
     "name": "backboard",
+    "description": "A basketball backboard.",
     "symbol": "7",
     "color": "red",
     "move_cost": 0,
@@ -6870,6 +7110,7 @@
     "type": "terrain",
     "id": "t_gas_tank",
     "name": "tank with gasoline",
+    "description": "A tank filled with gasoline.",
     "symbol": "Q",
     "color": "brown_red",
     "move_cost": 0,
@@ -6880,6 +7121,7 @@
     "type": "terrain",
     "id": "t_little_column",
     "name": "little column",
+    "description": "A small support column.",
     "symbol": "1",
     "color": "light_gray",
     "move_cost": 0,
@@ -6898,6 +7140,7 @@
     "type": "terrain",
     "id": "t_gas_pump_a",
     "name": "gasoline pump",
+    "description": "Precious GASOLINE.  The former world bowed to their petroleum god as it led them to their ruin.  There's plenty left over to fuel your inner road warrior.  If this gas dispenser doesn't give up the goods for free, you may have to pay at a nearby terminal.",
     "//": "clone of t_gas_pump, but other color, must be clone every time",
     "symbol": "&",
     "color": "yellow_red",
@@ -6910,6 +7153,7 @@
     "type": "terrain",
     "id": "t_gas_pump_smashed",
     "name": "smashed gas pump",
+    "description": "The horror!  This gasoline pump has been destroyed, denying you access to the liquid gold.",
     "symbol": "&",
     "color": "light_red",
     "move_cost": 0,
@@ -6953,6 +7197,7 @@
     "type": "terrain",
     "id": "t_diesel_pump_smashed",
     "name": "smashed diesel pump",
+    "description": "You're not getting any diesel out of this pump any time soon.  Some barbarian decided to take their frustration out on it.",
     "symbol": "&",
     "color": "light_green",
     "move_cost": 0,
@@ -6997,6 +7242,7 @@
     "type": "terrain",
     "id": "t_generator_broken",
     "name": "broken generator",
+    "description": "This generator is broken and will not help you produce usable electricity.",
     "symbol": "&",
     "color": "light_gray",
     "move_cost": 0,
@@ -7132,6 +7378,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 50,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
     "deconstruct": {
       "ter_set": "t_floor",
@@ -7177,6 +7424,7 @@
     "color": "blue",
     "move_cost": 0,
     "coverage": 50,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "CONSOLE", "NOITEM", "INDOORS", "SHORT", "PERMEABLE" ],
     "deconstruct": {
       "ter_set": "t_floor",
@@ -7639,10 +7887,12 @@
     "type": "terrain",
     "id": "t_vat",
     "name": "cloning vat",
+    "description": "A vat full of solution, probably intended to hold growing clones of people or other life forms.",
     "symbol": "0",
     "color": "light_cyan",
     "move_cost": 0,
     "coverage": 40,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "SEALED", "PLACE_ITEM", "WALL" ],
     "bash": {
       "str_min": 2,
@@ -7659,6 +7909,7 @@
     "type": "terrain",
     "id": "t_stairs_down",
     "name": "stairs",
+    "description": "A flight of stairs leading down.",
     "symbol": ">",
     "color": "yellow",
     "move_cost": 2,
@@ -7669,6 +7920,7 @@
     "type": "terrain",
     "id": "t_stairs_up",
     "name": "stairs",
+    "description": "A flight of stairs leading up.",
     "symbol": "<",
     "color": "yellow",
     "move_cost": 2,
@@ -7688,6 +7940,7 @@
     "type": "terrain",
     "id": "t_ladder_up",
     "name": "ladder",
+    "description": "A ladder leading up.",
     "symbol": "<",
     "color": "dark_gray",
     "move_cost": 2,
@@ -7697,6 +7950,7 @@
     "type": "terrain",
     "id": "t_ladder_down",
     "name": "ladder",
+    "description": "A ladder leading down.",
     "symbol": ">",
     "color": "dark_gray",
     "move_cost": 2,
@@ -7706,6 +7960,7 @@
     "type": "terrain",
     "id": "t_slope_down",
     "name": "downward slope",
+    "description": "A downward facing slope.",
     "symbol": ">",
     "color": "brown",
     "move_cost": 2,
@@ -7715,6 +7970,7 @@
     "type": "terrain",
     "id": "t_slope_up",
     "name": "upward slope",
+    "description": "An upward facing slope.",
     "symbol": "<",
     "color": "brown",
     "move_cost": 2,
@@ -7724,6 +7980,7 @@
     "type": "terrain",
     "id": "t_rope_up",
     "name": "rope leading up",
+    "description": "A rope.  You could climb up it.",
     "symbol": "<",
     "color": "white",
     "move_cost": 2,
@@ -7733,6 +7990,7 @@
     "type": "terrain",
     "id": "t_manhole_cover",
     "name": "manhole cover",
+    "description": "Just a manhole cover.",
     "symbol": "0",
     "color": "dark_gray",
     "move_cost": 2,
@@ -7742,6 +8000,7 @@
     "type": "terrain",
     "id": "t_intercom",
     "name": "intercom",
+    "description": "An intercom panel.  For when you want to scare the crap out of someone, or just talk to them over the intercom system, if you're boring like that.",
     "symbol": "=",
     "color": "light_gray",
     "move_cost": 0,
@@ -7761,6 +8020,7 @@
     "type": "terrain",
     "id": "t_card_robofac",
     "name": "card reader",
+    "description": "This is a smartcard reader.  It sports the stylized symbol of an atom inside a flask that is universally known to indicate SCIENCE.  An ominous red LED reminds you of a robot gone haywire from an old sci-fi flick.  You could swipe a scientific ID badge near it if you do not fear the machine.",
     "//": "It takes a science card/hack attempt and then calls iexamine::intercom",
     "symbol": "6",
     "color": "pink",
@@ -7873,6 +8133,7 @@
     "color": "green",
     "move_cost": 0,
     "coverage": 50,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": "slot_machine",
     "bash": {
@@ -7904,6 +8165,7 @@
     "color": "light_blue",
     "move_cost": 0,
     "coverage": 50,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "INDOORS" ],
     "examine_action": "elevator",
     "bash": {
@@ -7935,6 +8197,7 @@
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 50,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "INDOORS" ],
     "bash": {
       "str_min": 8,
@@ -7960,15 +8223,18 @@
     "type": "terrain",
     "id": "t_elevator",
     "name": "elevator",
+    "description": "The interior section of an elevator.",
     "symbol": ".",
     "color": "magenta",
     "move_cost": 2,
+    "roof": "t_flat_roof",
     "flags": [ "INDOORS", "TRANSPARENT", "FLAT" ]
   },
   {
     "type": "terrain",
     "id": "t_pedestal_wyrm",
     "name": "dark pedestal",
+    "description": "A dark stone pedestal covered in ancient, unintelligible symbols.  Looks ominous.",
     "symbol": "&",
     "color": "dark_gray",
     "move_cost": 0,
@@ -7988,6 +8254,7 @@
     "type": "terrain",
     "id": "t_pedestal_temple",
     "name": "light pedestal",
+    "description": "A light stone pedestal covered in ancient, unintelligible symbols.",
     "symbol": "&",
     "color": "white",
     "move_cost": 0,
@@ -8007,6 +8274,7 @@
     "type": "terrain",
     "id": "t_rock_red",
     "name": "red stone",
+    "description": "A red stone.",
     "symbol": "#",
     "color": "red",
     "move_cost": 0,
@@ -8025,6 +8293,7 @@
     "type": "terrain",
     "id": "t_rock_green",
     "name": "green stone",
+    "description": "A green stone.",
     "symbol": "#",
     "color": "green",
     "move_cost": 0,
@@ -8043,6 +8312,7 @@
     "type": "terrain",
     "id": "t_rock_blue",
     "name": "blue stone",
+    "description": "A blue stone.",
     "symbol": "#",
     "color": "blue",
     "move_cost": 0,
@@ -8061,6 +8331,7 @@
     "type": "terrain",
     "id": "t_floor_red",
     "name": "red floor",
+    "description": "A red section of flooring.",
     "symbol": ".",
     "color": "red",
     "move_cost": 2,
@@ -8070,6 +8341,7 @@
     "type": "terrain",
     "id": "t_floor_green",
     "name": "green floor",
+    "description": "A green section of flooring.",
     "symbol": ".",
     "color": "green",
     "move_cost": 2,
@@ -8079,6 +8351,7 @@
     "type": "terrain",
     "id": "t_floor_blue",
     "name": "blue floor",
+    "description": "A blue section of flooring.",
     "symbol": ".",
     "color": "blue",
     "move_cost": 2,
@@ -8088,6 +8361,7 @@
     "type": "terrain",
     "id": "t_switch_rg",
     "name": "yellow switch",
+    "description": "A yellow switch.  Should you activate it?",
     "symbol": "6",
     "color": "yellow",
     "move_cost": 0,
@@ -8098,6 +8372,7 @@
     "type": "terrain",
     "id": "t_switch_gb",
     "name": "cyan switch",
+    "description": "A cyan switch.  Should you activate it?",
     "symbol": "6",
     "color": "cyan",
     "move_cost": 0,
@@ -8108,6 +8383,7 @@
     "type": "terrain",
     "id": "t_switch_rb",
     "name": "purple switch",
+    "description": "A purple switch.  Should you activate it?",
     "symbol": "6",
     "color": "magenta",
     "move_cost": 0,
@@ -8118,6 +8394,7 @@
     "type": "terrain",
     "id": "t_switch_even",
     "name": "checkered switch",
+    "description": "A checkered switch.  Should you activate it?",
     "symbol": "6",
     "color": "white",
     "move_cost": 0,
@@ -8132,6 +8409,7 @@
     "symbol": ".",
     "color": "red",
     "move_cost": 2,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
     "bash": {
       "sound": "SMASH!",
@@ -8150,6 +8428,7 @@
     "symbol": ".",
     "color": "yellow",
     "move_cost": 2,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
     "bash": {
       "sound": "SMASH!",
@@ -8168,6 +8447,7 @@
     "symbol": ".",
     "color": "green",
     "move_cost": 2,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
     "bash": {
       "sound": "SMASH!",
@@ -8186,6 +8466,7 @@
     "symbol": ".",
     "color": "magenta",
     "move_cost": 2,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "RUG" ],
     "bash": {
       "sound": "SMASH!",
@@ -8200,9 +8481,11 @@
     "type": "terrain",
     "id": "t_linoleum_white",
     "name": "linoleum tile",
+    "description": "A section of flooring made out of a tough, rubbery material.  Coloured a simple white.",
     "symbol": ".",
     "color": "white",
     "move_cost": 2,
+    "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD" ],
     "bash": {
       "sound": "SMASH!",
@@ -8217,6 +8500,8 @@
     "type": "terrain",
     "id": "t_linoleum_gray",
     "name": "linoleum tile",
+    "roof": "t_flat_roof",
+    "description": "A section of flooring made out of a tough, gray, rubbery material.",
     "symbol": ".",
     "color": "light_gray",
     "move_cost": 2,
@@ -8240,6 +8525,7 @@
     "color": "red",
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
@@ -8260,6 +8546,7 @@
     "color": "white",
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
@@ -8280,6 +8567,7 @@
     "color": "blue",
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
@@ -8300,6 +8588,7 @@
     "color": "green",
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
@@ -8320,6 +8609,7 @@
     "color": "yellow",
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
@@ -8340,6 +8630,7 @@
     "color": "magenta",
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_flat_roof",
     "flags": [ "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "bash": {
       "str_min": 30,
@@ -8354,10 +8645,12 @@
     "type": "terrain",
     "id": "t_rock_wall",
     "name": "stone wall",
+    "description": "A sturdy stone wall.",
     "symbol": "LINE_OXOX",
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 100,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
     "connects_to": "WALL",
     "bash": {
@@ -8373,6 +8666,7 @@
     "type": "terrain",
     "id": "t_rock_wall_half",
     "name": "half-built stone wall",
+    "description": "Half of a sturdy stone wall.  Some work still needs to be done before this stone wall is complete.",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 4,
@@ -8465,7 +8759,7 @@
     "type": "terrain",
     "id": "t_improvised_shelter",
     "name": "improvised shelter",
-    "description": "Improvised shelter providing little bit of protection from the elements.",
+    "description": "Improvised shelter providing little bit of protection, that can be used to take refuge from the elements or to protect a campfire from the rain.",
     "symbol": "#",
     "color": "brown_green",
     "move_cost": 2,
@@ -8484,6 +8778,7 @@
     "type": "terrain",
     "id": "t_open_air",
     "name": "open air",
+    "description": "This is open air.",
     "symbol": " ",
     "color": "i_cyan",
     "move_cost": 2,
@@ -8495,6 +8790,7 @@
     "type": "terrain",
     "id": "t_flat_roof",
     "name": "flat roof",
+    "description": "A flat, gray section of rooftop.",
     "symbol": ".",
     "color": "dark_gray",
     "move_cost": 2,
@@ -8512,6 +8808,7 @@
     "type": "terrain",
     "id": "t_tar_flat_roof",
     "name": "tar paper flat roof",
+    "description": "A flat, gray section of rooftop covered with tar paper.",
     "looks_like": "t_flat_roof",
     "symbol": ".",
     "color": "dark_gray",
@@ -8530,6 +8827,7 @@
     "type": "terrain",
     "id": "t_shingle_flat_roof",
     "name": "shingle flat roof",
+    "description": "A flat section of rooftop covered in shingles.",
     "looks_like": "t_flat_roof",
     "symbol": ".",
     "color": "green",
@@ -8548,6 +8846,7 @@
     "type": "terrain",
     "id": "t_thatch_roof",
     "name": "thatched roof",
+    "description": "A section of roof made out of straw.",
     "looks_like": "t_flat_roof",
     "symbol": ".",
     "color": "yellow",
@@ -8566,6 +8865,7 @@
     "type": "terrain",
     "id": "t_metal_flat_roof",
     "name": "metal flat roof",
+    "description": "A secton of flat, sheet metal rooftop.",
     "looks_like": "t_flat_roof",
     "symbol": ".",
     "color": "light_gray",
@@ -8584,6 +8884,7 @@
     "type": "terrain",
     "id": "t_tile_flat_roof",
     "name": "tile flat roof",
+    "description": "A section of tiled, flat rooftop.",
     "looks_like": "t_flat_roof",
     "symbol": ".",
     "color": "white",
@@ -8660,6 +8961,7 @@
     "type": "terrain",
     "id": "t_sai_box",
     "name": "telecom cabinet",
+    "description": "A cabinet full of telecoms equipment.  With the lines down, you might be able to take it apart for its useful electronics.",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
@@ -8685,6 +8987,7 @@
     "type": "terrain",
     "id": "t_sai_box_damaged",
     "name": "damaged telecom cabinet",
+    "description": "A damaged telecoms cabinet.  Might still be able to salvage some useful electronics scrap from it.",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 0,
@@ -8722,10 +9025,12 @@
     "type": "terrain",
     "id": "t_support_l",
     "name": "large metal support",
+    "description": "A heavy-duty metal support beam.",
     "symbol": "T",
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 80,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "WALL", "SUPPORTS_ROOF", "MINEABLE" ],
     "bash": {
       "str_min": 40,
@@ -8753,10 +9058,12 @@
     "type": "terrain",
     "id": "t_support_s",
     "name": "small metal support",
+    "description": "A metal support beam.",
     "symbol": "l",
     "color": "light_gray",
     "move_cost": 0,
     "coverage": 55,
+    "roof": "t_flat_roof",
     "flags": [ "NOITEM", "WALL", "SUPPORTS_ROOF", "MINEABLE" ],
     "bash": {
       "str_min": 20,
@@ -8784,6 +9091,7 @@
     "type": "terrain",
     "id": "t_oil_circ_brkr_l",
     "name": "HV oil circuit breaker",
+    "description": "A circuit breaker that uses oil in its arc supression chamber.",
     "symbol": "B",
     "color": "light_gray",
     "move_cost": 0,
@@ -8819,6 +9127,7 @@
     "type": "terrain",
     "id": "t_oil_circ_brkr_s",
     "name": "small HV oil circuit breaker",
+    "description": "A small circuit breaker that uses oil in its arc supression chamber.",
     "symbol": "b",
     "color": "light_gray",
     "move_cost": 0,
@@ -8854,6 +9163,7 @@
     "type": "terrain",
     "id": "t_switchgear_l",
     "name": "large switchgear",
+    "description": "A switchgear panel.  It's covered in breaker switches, fuses, and gauges.",
     "symbol": "H",
     "color": "i_light_gray",
     "move_cost": 0,
@@ -8891,6 +9201,7 @@
     "type": "terrain",
     "id": "t_switchgear_s",
     "name": "small switchgear",
+    "description": "A small switchgear panel.  It's covered in breaker switches, fuses, and gauges.",
     "symbol": "L",
     "color": "i_light_gray",
     "move_cost": 0,
@@ -8932,6 +9243,7 @@
     "type": "terrain",
     "id": "t_lgtn_arrest",
     "name": "lightning arrester",
+    "description": "A component designed to protect insulation and conductors in an electrical system by directing lightning through itself and into the ground.",
     "symbol": "}",
     "color": "i_light_gray",
     "move_cost": 0,
@@ -8964,6 +9276,7 @@
     "type": "terrain",
     "id": "t_station_disc",
     "name": "disconnect switch",
+    "description": "A switch used to make sure an electrical system doesn't have any current flowing through it, for maintenance periods.",
     "symbol": "h",
     "color": "light_gray",
     "move_cost": 0,
@@ -9004,6 +9317,7 @@
     "type": "terrain",
     "id": "t_current_trans",
     "name": "current transformer",
+    "description": "An electronic component used to transform the voltage of a current.",
     "symbol": "{",
     "color": "light_gray",
     "move_cost": 0,
@@ -9040,6 +9354,7 @@
     "type": "terrain",
     "id": "t_potential_trans",
     "name": "potential transformer",
+    "description": "A specialised type of electrical transformer, ",
     "symbol": "8",
     "color": "i_light_gray",
     "move_cost": 0,
@@ -9160,6 +9475,7 @@
     "type": "terrain",
     "id": "t_pavement_bg_dp",
     "name": "bridge pavement",
+    "description": "A bridge section made out of metal and concrete.",
     "symbol": ".",
     "color": "dark_gray",
     "move_cost": 2,
@@ -9177,6 +9493,7 @@
     "type": "terrain",
     "id": "t_pavement_y_bg_dp",
     "name": "bridge yellow pavement",
+    "description": "A bridge section made out of metal and concrete.  It's painted yellow.",
     "symbol": ".",
     "color": "yellow",
     "move_cost": 2,
@@ -9194,6 +9511,7 @@
     "type": "terrain",
     "id": "t_sidewalk_bg_dp",
     "name": "bridge sidewalk",
+    "description": "The sidewalk section of a concrete bridge.",
     "symbol": ".",
     "color": "light_gray",
     "move_cost": 2,
@@ -9211,6 +9529,7 @@
     "type": "terrain",
     "id": "t_guardrail_bg_dp",
     "name": "guard rail",
+    "description": "A section of metal railing, put in place to prevent people from falling or taking the easy way out.",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 3,
@@ -9228,6 +9547,7 @@
     "type": "terrain",
     "id": "t_guardrail",
     "name": "guard rail",
+    "description": "A section of metal railing, put in place to prevent people from falling or taking the easy way out.",
     "symbol": "#",
     "color": "light_gray",
     "move_cost": 3,
@@ -9246,6 +9566,7 @@
     "type": "terrain",
     "id": "t_tree_blackjack",
     "name": "blackjack oak",
+    "description": "A deciduous tree of the genus 'Quercus', with bark cracked into rectangular black plates split by narrow orange fissures.  You could peel off the bark sections if you examined the tree more closely.  You could cut it down with the right tools.",
     "symbol": "7",
     "color": "brown",
     "move_cost": 0,
@@ -9268,6 +9589,7 @@
   {
     "type": "terrain",
     "id": "t_tree_blackjack_harvested",
+    "description": "A deciduous tree of the genus 'Quercus', with bark cracked into rectangular black plates split by narrow orange fissures.  All usable bark has been stripped off.  You could cut it down with the right tools.",
     "name": "blackjack oak",
     "symbol": "7",
     "color": "brown",
@@ -9288,6 +9610,7 @@
     "type": "terrain",
     "id": "t_claymound",
     "name": "mound of clay",
+    "description": "A mound of clay soil.",
     "symbol": "#",
     "color": "brown",
     "move_cost": 5,
@@ -9305,6 +9628,7 @@
     "type": "terrain",
     "id": "t_sandmound",
     "name": "mound of sand",
+    "description": "A mound of sand.",
     "symbol": "#",
     "color": "brown",
     "move_cost": 5,
@@ -9322,6 +9646,7 @@
     "type": "terrain",
     "id": "t_conveyor",
     "name": "conveyor belt",
+    "description": "A convetor belt.  Used to transport things.",
     "symbol": "=",
     "color": "brown",
     "move_cost": 6,
@@ -9350,6 +9675,7 @@
     "type": "terrain",
     "id": "t_machinery_light",
     "name": "light machinery",
+    "description": "Assorted light machinery.  You could scavenge it for parts.",
     "symbol": "$",
     "color": "dark_gray",
     "move_cost": 10,
@@ -9393,6 +9719,7 @@
     "type": "terrain",
     "id": "t_machinery_heavy",
     "name": "heavy machinery",
+    "description": "Assorted heavy machinery.  You could scavenge it for parts.",
     "symbol": "%",
     "color": "light_gray",
     "move_cost": 0,
@@ -9442,6 +9769,7 @@
     "type": "terrain",
     "id": "t_machinery_old",
     "name": "old machinery",
+    "description": "Assorted old machinery.  You could scavenge it for parts.",
     "symbol": "&",
     "color": "brown",
     "move_cost": 4,
@@ -9489,6 +9817,7 @@
     "type": "terrain",
     "id": "t_machinery_electronic",
     "name": "electronic machinery",
+    "description": "Assorted electronic machinery.  You could scavenge it for parts.",
     "symbol": "$",
     "color": "yellow",
     "move_cost": 8,
@@ -9543,6 +9872,7 @@
     "type": "terrain",
     "id": "t_low_stairs_begin",
     "name": "low stairs (beginning section)",
+    "description": "A flight of stairs leading up.",
     "symbol": "<",
     "color": "dark_gray_white",
     "move_cost": 4,
@@ -9564,6 +9894,7 @@
     "type": "terrain",
     "id": "t_low_stairs_end",
     "name": "low stairs (end section)",
+    "description": "A flight of stairs leading up.",
     "symbol": "<",
     "color": "black_white",
     "move_cost": 0,
@@ -9585,6 +9916,7 @@
     "id": "t_milking_machine",
     "type": "terrain",
     "name": "milking machine",
+    "description": "A machine used in the dairy industry to milk cows.",
     "symbol": "%",
     "color": [ "light_gray" ],
     "move_cost": 1,
@@ -9614,6 +9946,7 @@
     "id": "t_bulk_tank",
     "type": "terrain",
     "name": "bulk tank",
+    "description": "A heavy, high capacity tank.",
     "symbol": "O",
     "color": [ "light_gray" ],
     "move_cost": 0,
@@ -9670,6 +10003,7 @@
     "id": "t_railroad_track",
     "type": "terrain",
     "name": "railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
@@ -9700,6 +10034,7 @@
     "id": "t_railroad_track_h",
     "type": "terrain",
     "name": "railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
@@ -9730,6 +10065,7 @@
     "id": "t_railroad_track_v",
     "type": "terrain",
     "name": "railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
@@ -9760,6 +10096,7 @@
     "id": "t_railroad_track_d",
     "type": "terrain",
     "name": "railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
@@ -9790,6 +10127,7 @@
     "id": "t_railroad_track_d1",
     "type": "terrain",
     "name": "railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
@@ -9820,6 +10158,7 @@
     "id": "t_railroad_track_d2",
     "type": "terrain",
     "name": "railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.",
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
@@ -9850,6 +10189,7 @@
     "id": "t_railroad_tie",
     "type": "terrain",
     "name": "railroad tie",
+    "description": "This crosstie is used to support the rails.",
     "symbol": "#",
     "color": [ "dark_gray_yellow" ],
     "move_cost": 2,
@@ -9872,6 +10212,7 @@
     "id": "t_railroad_tie_h",
     "type": "terrain",
     "name": "railroad tie",
+    "description": "This crosstie is used to support the rails.",
     "symbol": "#",
     "color": [ "dark_gray_yellow" ],
     "move_cost": 2,
@@ -9894,6 +10235,7 @@
     "id": "t_railroad_tie_v",
     "type": "terrain",
     "name": "railroad tie",
+    "description": "This crosstie is used to support the rails.",
     "symbol": "#",
     "color": [ "dark_gray_yellow" ],
     "move_cost": 2,
@@ -9916,6 +10258,7 @@
     "id": "t_railroad_tie_d",
     "type": "terrain",
     "name": "railroad tie",
+    "description": "This crosstie is used to support the rails.",
     "symbol": "#",
     "color": [ "dark_gray_yellow" ],
     "move_cost": 2,
@@ -9938,6 +10281,7 @@
     "id": "t_railroad_track_on_tie",
     "type": "terrain",
     "name": "railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.",
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
@@ -9971,6 +10315,7 @@
     "id": "t_railroad_track_h_on_tie",
     "type": "terrain",
     "name": "railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.",
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
@@ -10004,6 +10349,7 @@
     "id": "t_railroad_track_v_on_tie",
     "type": "terrain",
     "name": "railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.",
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
@@ -10037,6 +10383,7 @@
     "id": "t_railroad_track_d_on_tie",
     "type": "terrain",
     "name": "railroad track",
+    "description": "Trains used to chug along on these.  These rail tracks stand unused in the face of the Cataclysm.  A crosstie sits underneath, supporting the rails.",
     "symbol": "X",
     "color": [ "cyan" ],
     "move_cost": 3,
@@ -10070,6 +10417,7 @@
     "id": "t_floor_waxed_y",
     "type": "terrain",
     "name": "painted waxed floor",
+    "description": "This section of wax flooring has been painted.",
     "symbol": ".",
     "color": [ "yellow" ],
     "move_cost": 2,
@@ -10088,6 +10436,7 @@
     "id": "t_backboard_in",
     "type": "terrain",
     "name": "backboard",
+    "description": "A metal backboard.",
     "symbol": "7",
     "color": [ "red" ],
     "move_cost": 0,
@@ -10111,6 +10460,7 @@
     "id": "t_open_air_rooved",
     "type": "terrain",
     "name": "open air",
+    "description": "This is open air.",
     "symbol": " ",
     "color": [ "i_cyan" ],
     "move_cost": 2,
@@ -10123,6 +10473,7 @@
     "id": "t_buffer_stop",
     "type": "terrain",
     "name": "buffer stop",
+    "description": "A tiny blockade on the train tracks, meant to signify the end of a track, or mark a 'no-go' zone for trains.",
     "symbol": "S",
     "color": [ "brown" ],
     "move_cost": 3,
@@ -10140,6 +10491,7 @@
     "id": "t_railroad_tie_d1",
     "type": "terrain",
     "name": "railroad tie",
+    "description": "This crosstie is used to support the rails.",
     "symbol": "/",
     "color": [ "dark_gray_yellow" ],
     "move_cost": 2,
@@ -10162,6 +10514,7 @@
     "id": "t_railroad_tie_d2",
     "type": "terrain",
     "name": "railroad tie",
+    "description": "This crosstie is used to support the rails.",
     "symbol": "\\",
     "color": [ "dark_gray_yellow" ],
     "move_cost": 2,
@@ -10184,6 +10537,7 @@
     "id": "t_railroad_crossing_signal",
     "type": "terrain",
     "name": "railroad crossing signal",
+    "description": "Traffic lights meant to light and make noise when a train approaches, to prevent people from turning into meaty mush while they cross the tracks.  Won't stop people from turning into meaty mush by other means, though.",
     "symbol": "1",
     "color": [ "light_gray" ],
     "move_cost": 0,
@@ -10206,6 +10560,7 @@
   {
     "id": "t_crossbuck_wood",
     "type": "terrain",
+    "description": "A traffic sign intended to indicate a level railway crossing.  If the trains were still running.",
     "name": "crossbuck",
     "symbol": "X",
     "color": [ "brown" ],
@@ -10228,6 +10583,7 @@
     "id": "t_crossbuck_metal",
     "type": "terrain",
     "name": "crossbuck",
+    "description": "A traffic sign intended to indicate a level railway crossing.  If the trains were still running.",
     "symbol": "X",
     "color": [ "light_gray" ],
     "move_cost": 0,
@@ -10417,7 +10773,7 @@
     "examine_action": "chainfence",
     "flags": [ "TRANSPARENT", "NOITEM", "THIN_OBSTACLE", "PERMEABLE", "FLAMMABLE_ASH", "CLIMBABLE", "AUTO_WALL_SYMBOL" ],
     "connects_to": "WOODFENCE",
-    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "count": 20 } ] },
+    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 2 }, { "item": "nail", "charges": 20 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 12,
@@ -10489,7 +10845,7 @@
     "examine_action": "chainfence",
     "flags": [ "NOITEM", "CLIMBABLE", "PERMEABLE", "AUTO_WALL_SYMBOL", "FLAMMABLE_ASH", "THIN_OBSTACLE" ],
     "connects_to": "WOODFENCE",
-    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "count": 20 } ] },
+    "deconstruct": { "ter_set": "t_fence_post", "items": [ { "item": "2x4", "count": 10 }, { "item": "nail", "charges": 20 } ] },
     "bash": {
       "str_min": 5,
       "str_max": 12,
@@ -10558,5 +10914,94 @@
     "move_cost": 5,
     "flags": [ "TRANSPARENT", "LIQUID", "SWIMMABLE", "INDOORS" ],
     "examine_action": "water_source"
+  },
+  {
+    "type": "terrain",
+    "id": "t_adobe_brick_wall_halfway",
+    "name": "half-built adobe wall",
+    "description": "Half of an adobe brick wall, looks like it still requires some more resources and effort before being considered a real wall.",
+    "symbol": "#",
+    "color": "brown",
+    "looks_like": "t_brick_wall_halfway",
+    "move_cost": 5,
+    "coverage": 60,
+    "flags": [ "TRANSPARENT", "NOITEM", "MOUNTABLE", "REDUCE_SCENT", "MINEABLE" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 90,
+      "sound": "crash!",
+      "sound_fail": "bash!",
+      "ter_set": "t_null",
+      "items": [ { "item": "material_soil", "count": [ 4, 10 ] }, { "item": "adobe_brick", "count": [ 1, 3 ] } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_adobe_brick_wall",
+    "name": "adobe wall",
+    "description": "A solid adobe brick wall, sturdy enough to support a roof with enough walls and keep out any unwanted visitors.",
+    "symbol": "LINE_OXOX",
+    "color": "brown",
+    "looks_like": "t_brick_wall",
+    "move_cost": 0,
+    "coverage": 100,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL", "MINEABLE", "BLOCK_WIND" ],
+    "connects_to": "WALL",
+    "bash": {
+      "str_min": 40,
+      "str_max": 120,
+      "sound": "crash!",
+      "sound_fail": "bash!",
+      "ter_set": "t_null",
+      "items": [ { "item": "material_soil", "count": [ 8, 20 ] }, { "item": "adobe_brick", "count": [ 2, 6 ] } ]
+    }
+  },
+  {
+    "id": "t_leanto",
+    "type": "terrain",
+    "name": "pine lean-to",
+    "description": "A small shelter roofed with pine leaves, that can be used to take refuge from the elements or to protect a campfire from the rain.",
+    "symbol": ";",
+    "color": [ "brown" ],
+    "move_cost": 2,
+    "bash": {
+      "str_min": 4,
+      "str_max": 60,
+      "ter_set": "t_tree_pine",
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "stick", "count": [ 2, 7 ] },
+        { "item": "splinter", "count": [ 8, 20 ] },
+        { "item": "pine_bough", "count": [ 0, 2 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE_ASH", "THIN_OBSTACLE", "REDUCE_SCENT", "INDOORS", "MOUNTABLE" ]
+  },
+  {
+    "id": "t_tarptent",
+    "type": "terrain",
+    "name": "tarp lean-to",
+    "description": "A small shelter covered by waterproof tarp, that can be used to take refuge from the elements or to protect a campfire from the rain.",
+    "symbol": ";",
+    "color": [ "light_blue" ],
+    "move_cost": 2,
+    "bash": {
+      "str_min": 6,
+      "str_max": 12,
+      "ter_set": "t_dirt",
+      "sound": "crash!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "stick", "count": [ 1, 2 ] },
+        { "item": "splinter", "count": [ 1, 4 ] },
+        { "item": "plastic_chunk", "count": [ 4, 8 ] }
+      ]
+    },
+    "deconstruct": {
+      "ter_set": "t_dirt",
+      "items": [ { "item": "pointy_stick", "count": 4 }, { "item": "string_6", "count": 4 }, { "item": "tarp", "count": 1 } ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "THIN_OBSTACLE", "INDOORS", "MOUNTABLE", "EASY_DECONSTRUCT" ]
   }
 ]

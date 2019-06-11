@@ -518,5 +518,31 @@
     "difficulty": 0,
     "action": "none",
     "benign": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_unfinished_construction",
+    "name": "unfinished construction",
+    "color": "white",
+    "symbol": "U",
+    "visibility": -1,
+    "avoidance": 0,
+    "difficulty": 0,
+    "action": "none",
+    "benign": true
+  },
+  {
+    "type": "trap",
+    "id": "tr_raincatcher",
+    "name": "raincatcher",
+    "color": "blue",
+    "symbol": "V",
+    "visibility": -1,
+    "avoidance": 0,
+    "difficulty": 99,
+    "action": "none",
+    "drops": [ "tarp_raincatcher" ],
+    "benign": true,
+    "funnel_radius": 342
   }
 ]

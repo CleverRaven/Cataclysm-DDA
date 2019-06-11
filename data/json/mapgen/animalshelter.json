@@ -152,7 +152,7 @@
         "%": "t_console_broken",
         "*": "t_shrub",
         "+": "t_door_c",
-        "-": "t_wall",
+        "-": "t_wall_b",
         ".": "t_floor",
         ":": "t_door_glass_c",
         "=": "t_privacy_fence",

@@ -704,14 +704,6 @@
   },
   {
     "type": "overmap_terrain",
-    "id": "dirtlot",
-    "copy-from": "dirtlot",
-    "name": "dirt lot",
-    "sym": "O",
-    "color": "brown"
-  },
-  {
-    "type": "overmap_terrain",
     "id": "sugar_house",
     "copy-from": "sugar_house",
     "name": "sugar house",

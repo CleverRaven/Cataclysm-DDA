@@ -12,6 +12,18 @@
   },
   {
     "type": "effect_type",
+    "id": "ridden",
+    "name": [ "Ridden" ],
+    "desc": [ "AI tag for when critter is being ridden. This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
+    "id": "harnessed",
+    "name": [ "Harnessed" ],
+    "desc": [ "AI tag for when critter is being harnessed by a vehicle. This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "docile",
     "name": [ "Docile Monster" ],
     "desc": [ "AI tag for when monsters are tamed.  This is a bug if you have it." ]
@@ -185,6 +197,12 @@
   },
   {
     "type": "effect_type",
+    "id": "monster_saddled",
+    "name": [ "Has Saddle" ],
+    "desc": [ "AI tag used for critters wearing a saddle.  This is a bug if you have it." ]
+  },
+  {
+    "type": "effect_type",
     "id": "tied",
     "name": [ "Tied Up" ],
     "desc": [ "AI tag used for tied up critters.  This is a bug if you have it." ]
@@ -287,6 +305,14 @@
     "base_mods": { "per_mod": [ -5 ], "dex_mod": [ -2 ] },
     "scaling_mods": { "speed_mod": [ -3 ] },
     "show_in_info": true
+  },
+  {
+    "type": "effect_type",
+    "id": "riding",
+    "name": [ "Riding" ],
+    "desc": [ "You are riding an animal." ],
+    "apply_message": "You mount your steed.",
+    "rating": "good"
   },
   {
     "type": "effect_type",
@@ -723,10 +749,10 @@
     "desc": [ "Your wounds are bandaged." ],
     "main_parts_only": true,
     "rating": "good",
-    "int_dur_factor": 3600,
+    "int_dur_factor": 21600,
     "max_intensity": 16,
     "max_effective_intensity": 8,
-    "max_duration": 57600,
+    "max_duration": 345600,
     "base_mods": { "healing_rate": [ 2 ], "healing_head": [ 50 ], "healing_torso": [ 150 ] },
     "scaling_mods": { "healing_rate": [ 2 ] }
   },
@@ -737,10 +763,10 @@
     "desc": [ "Your wounds are disinfected." ],
     "main_parts_only": true,
     "rating": "good",
-    "int_dur_factor": 3600,
+    "int_dur_factor": 21600,
     "max_intensity": 16,
     "max_effective_intensity": 8,
-    "max_duration": 57600,
+    "max_duration": 345600,
     "base_mods": { "healing_rate": [ 2 ], "healing_head": [ 50 ], "healing_torso": [ 150 ] },
     "scaling_mods": { "healing_rate": [ 2 ] }
   },
@@ -1505,8 +1531,8 @@
     "name": [ "Started recovery", "Recovering", "Mostly recovered" ],
     "desc": [ "This damaged limb is slowly regaining its functions." ],
     "//": "Duration is 10 days, but the actual time taken is probabilistic.",
-    "max_duration": 144000,
-    "int_dur_factor": 36000,
+    "max_duration": 864000,
+    "int_dur_factor": 216000,
     "max_intensity": 3,
     "rating": "good"
   },

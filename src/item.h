@@ -21,6 +21,7 @@
 #include "flat_set.h"
 #include "io_tags.h"
 #include "item_location.h"
+#include "requirements.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
@@ -67,7 +68,6 @@ struct fire_data;
 struct damage_instance;
 struct damage_unit;
 class map;
-struct item_comp;
 
 enum damage_type : int;
 
@@ -182,7 +182,7 @@ class item : public visitable<item>
         item( const itype *type, time_point turn, solitary_tag );
 
         /** For constructing in-progress crafts */
-        item( const recipe *rec, int qty, std::list<item> items );
+        item( const recipe *rec, int qty, std::list<item> items, std::vector<item_comp> selections );
 
         /**
          * Filter converting this instance to another type preserving all other aspects
@@ -480,7 +480,7 @@ class item : public visitable<item>
         /**
          * Whether the character needs both hands to wield this item.
          */
-        bool is_two_handed( const player &u ) const;
+        bool is_two_handed( const Character &guy ) const;
 
         /** Is this item an effective melee weapon for the given damage type? */
         bool is_melee( damage_type dt ) const;
@@ -1035,6 +1035,7 @@ class item : public visitable<item>
         bool is_salvageable() const;
         bool is_craft() const;
 
+        bool is_deployable() const;
         bool is_tool() const;
         bool is_tool_reversible() const;
         bool is_artifact() const;
@@ -1905,7 +1906,7 @@ class item : public visitable<item>
          * Causes a debugmsg and returns empty requirement data if called on a non-craft
          * @return what is needed to continue craft, may be empty requirement data
          */
-        requirement_data get_continue_reqs();
+        requirement_data get_continue_reqs() const;
 
 
     private:
@@ -1928,6 +1929,7 @@ class item : public visitable<item>
         /** Helper for checking reloadability. **/
         bool is_reloadable_helper( const itype_id &ammo, bool now ) const;
 
+    public:
         enum class sizing {
             human_sized_human_char = 0,
             big_sized_human_char,
@@ -1977,6 +1979,7 @@ class item : public visitable<item>
         // Only for in-progress crafts
         const recipe *making = nullptr;
         int next_failure_point = -1;
+        std::vector<item_comp> comps_used;
 
     public:
         int charges;

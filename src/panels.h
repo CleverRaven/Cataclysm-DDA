@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-class player;
+class avatar;
 class JsonIn;
 class JsonOut;
 
@@ -29,12 +29,13 @@ bool default_render();
 class window_panel
 {
     public:
-        window_panel( std::function<void( player &, const catacurses::window & )> draw_func,
+        window_panel( std::function<void( avatar &, const catacurses::window & )> draw_func,
                       const std::string &nm, int ht, int wd, bool default_toggle,
                       std::function<bool( void )> render_func = default_render, bool force_draw = false );
 
-        std::function<void( player &, const catacurses::window & )> draw;
+        std::function<void( avatar &, const catacurses::window & )> draw;
         std::function<bool()> render;
+
         int get_height() const;
         int get_width() const;
         std::string get_name() const;

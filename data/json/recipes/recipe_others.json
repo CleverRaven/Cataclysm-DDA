@@ -76,6 +76,70 @@
   },
   {
     "type": "recipe",
+    "result": "wood_beam",
+    "id_suffix": "from logs",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 h",
+    "autolearn": true,
+    "byproducts": [ [ "splinter", 20 ] ],
+    "qualities": [ { "id": "AXE", "level": 2 } ],
+    "//": "Eventually, smoothing tools should also be required, or we should distinguish between rough-hewn and finished beams",
+    "components": [ [ [ "log", 6 ] ] ],
+    "//2": "This is a terrible stand-in for the fact that logs are only 10kg chunks and not big enough to hew into an 8' or longer wooden beam."
+  },
+  {
+    "type": "recipe",
+    "result": "wood_panel",
+    "id_suffix": "from wooden beams",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "time": "2 h",
+    "autolearn": true,
+    "byproducts": [ [ "splinter", 7 ], [ "wood_panel", 3 ] ],
+    "qualities": [ { "id": "SAW_W", "level": 2 } ],
+    "components": [ [ [ "wood_beam", 1 ] ] ],
+    "//": "I am assuming here that you actually get more than 4 smaller-than-represented wood panels, but any application that requires panels means you'll be putting these side by side to get the effect of a single panel."
+  },
+  {
+    "type": "recipe",
+    "result": "wood_panel",
+    "id_suffix": "from wooden sheets",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "autolearn": true,
+    "byproducts": [ [ "wood_panel", 1 ] ],
+    "qualities": [ { "id": "SAW_W", "level": 2 } ],
+    "components": [ [ [ "wood_sheet", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "wood_panel",
+    "id_suffix": "from nailed planks",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SAW_W", "level": 2 }, { "id": "HAMMER", "level": 2 } ],
+    "components": [ [ [ "2x4", 8 ] ], [ [ "nail", 36 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "2x4",
+    "id_suffix": "from wooden beams",
+    "category": "CC_OTHER",
+    "skill_used": "fabrication",
+    "time": "2 h",
+    "autolearn": true,
+    "byproducts": [ [ "splinter", 4 ], [ "2x4", 8 ] ],
+    "qualities": [ { "id": "SAW_W", "level": 2 } ],
+    "//": "This should eventually require planing tools once implemented, and should replace the ability to turn a small chunk of log into a long wooden plank.",
+    "components": [ [ [ "wood_beam", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "wind_mill",
     "category": "CC_OTHER",
     "skill_used": "fabrication",
@@ -116,7 +180,8 @@
       { "id": "SAW_W", "level": 2 }
     ],
     "components": [
-      [ [ "2x4", 30 ], [ "frame_wood", 5 ] ],
+      [ [ "2x4", 15 ], [ "frame_wood", 3 ] ],
+      [ [ "wood_panel", 6 ], [ "wood_sheet", 3 ] ],
       [ [ "sheet_metal_small", 6 ] ],
       [ [ "nail", 100 ] ],
       [ [ "pipe", 8 ] ],
@@ -914,8 +979,8 @@
     "reversible": true,
     "decomp_learn": 1,
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "2x4", 6 ] ], [ [ "nail", 8 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_W", "level": 2 } ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ]
   },
   {
     "type": "recipe",
@@ -2185,7 +2250,7 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
-    "tools": [ [ [ "brick_kiln", 90 ], [ "kiln", 90 ] ] ],
+    "using": [ [ "earthenware_firing", 90 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 5 ] ] ]
   },
   {
@@ -3519,6 +3584,19 @@
   },
   {
     "type": "recipe",
+    "result": "tarp_raincatcher",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "difficulty": 2,
+    "time": "45m",
+    "reversible": true,
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "pointy_stick", 3 ] ], [ [ "string_36", 1 ], [ "string_6", 3 ] ], [ [ "tarp", 1 ], [ "plastic_sheet", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "funnel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
@@ -3752,7 +3830,7 @@
     "difficulty": 2,
     "time": "45 m",
     "autolearn": true,
-    "tools": [ [ [ "brick_kiln", 90 ], [ "kiln", 90 ] ] ],
+    "using": [ [ "earthenware_firing", 90 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 5 ] ] ]
   },
   {
@@ -3765,7 +3843,7 @@
     "difficulty": 2,
     "time": "35 m",
     "autolearn": true,
-    "tools": [ [ [ "brick_kiln", 75 ], [ "kiln", 75 ] ] ],
+    "using": [ [ "earthenware_firing", 75 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 4 ] ] ]
   },
   {
@@ -3778,7 +3856,7 @@
     "difficulty": 2,
     "time": "50 m",
     "autolearn": true,
-    "tools": [ [ [ "brick_kiln", 100 ], [ "kiln", 100 ] ] ],
+    "using": [ [ "earthenware_firing", 100 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 8 ] ] ]
   },
   {
@@ -3791,7 +3869,7 @@
     "difficulty": 2,
     "time": "20 m",
     "autolearn": true,
-    "tools": [ [ [ "brick_kiln", 40 ], [ "kiln", 40 ] ] ],
+    "using": [ [ "earthenware_firing", 40 ] ],
     "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "clay_lump", 3 ] ] ]
   },
   {
@@ -3804,8 +3882,53 @@
     "time": "40 m",
     "autolearn": true,
     "batch_time_factors": [ 75, 4 ],
-    "tools": [ [ [ "brick_kiln", 60 ], [ "kiln", 60 ] ] ],
+    "using": [ [ "earthenware_firing", 60 ] ],
     "components": [ [ [ "clay_lump", 1 ] ], [ [ "water", 1 ], [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "soft_adobe_brick",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": 10000,
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "frame_wood", -1 ], [ "frame_wood_light", -1 ] ] ],
+    "batch_time_factors": [ 75, 4 ],
+    "components": [
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "material_soil", 2 ] ],
+      [ [ "withered", 2 ], [ "straw_pile", 2 ], [ "feces_cow", 1 ], [ "feces_roach", 1 ], [ "feces_manure", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "adobe_pallet_full",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": 30000,
+    "autolearn": true,
+    "components": [ [ [ "soft_adobe_brick", 20 ] ], [ [ "frame_wood_light", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "mortar_adobe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 2,
+    "time": 5000,
+    "autolearn": true,
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "batch_time_factors": [ 50, 5 ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "material_soil", 1 ] ] ]
   },
   {
     "type": "recipe",

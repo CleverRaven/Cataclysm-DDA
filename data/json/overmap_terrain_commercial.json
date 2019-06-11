@@ -286,6 +286,104 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_clothes_roof",
+    "name": "clothing store",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_1",
+    "name": "clothing store",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_roof_1",
+    "name": "clothing store roof",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_2",
+    "name": "clothing store",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_roof_2",
+    "name": "clothing store roof",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_3",
+    "name": "clothing store",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_roof_3",
+    "name": "clothing store roof",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_4",
+    "name": "clothing store",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_roof_4",
+    "name": "clothing store roof",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_upper_roof_4",
+    "name": "clothing store roof",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_5",
+    "name": "clothing store",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_roof_5",
+    "name": "clothing store roof",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_6",
+    "name": "clothing store",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_clothes_roof_6",
+    "name": "clothing store roof",
+    "copy-from": "generic_city_building",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "s_bookstore",
     "name": "bookstore",
     "copy-from": "generic_city_building",
@@ -875,9 +973,25 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "motel_entrance_roof",
+    "copy-from": "generic_city_building",
+    "name": "motel roof",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "motel_1",
     "copy-from": "generic_city_building",
     "name": "motel",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_1_roof",
+    "copy-from": "generic_city_building",
+    "name": "motel roof",
     "sym": "h",
     "color": "light_blue"
   },
@@ -891,9 +1005,25 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "motel_2_roof",
+    "copy-from": "generic_city_building",
+    "name": "motel roof",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "motel_3",
     "copy-from": "generic_city_building",
     "name": "motel",
+    "sym": "h",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "motel_3_roof",
+    "copy-from": "generic_city_building",
+    "name": "motel roof",
     "sym": "h",
     "color": "light_blue"
   },
@@ -1233,6 +1363,30 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "dollarstore_roof",
+    "copy-from": "generic_city_building",
+    "name": "dollar store roof",
+    "sym": "$",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dollarstore_1",
+    "copy-from": "generic_city_building",
+    "name": "dollar store",
+    "sym": "$",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "dollarstore_roof_1",
+    "copy-from": "generic_city_building",
+    "name": "dollar store roof",
+    "sym": "$",
+    "color": "yellow"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "lancenter",
     "name": "LAN center",
     "copy-from": "generic_city_building",
@@ -1274,6 +1428,13 @@
     "id": "s_daycare",
     "copy-from": "generic_city_building",
     "name": "daycare center",
+    "color": "blue"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "s_daycare_roof",
+    "copy-from": "generic_city_building",
+    "name": "daycare center roof",
     "color": "blue"
   },
   {
@@ -1639,8 +1800,72 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "s_gardening_roof",
+    "name": "gardening supply roof",
+    "copy-from": "generic_city_building",
+    "sym": "F",
+    "color": "green"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "craft_shop",
     "name": "craft shop",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_roof",
+    "name": "craft shop roof",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_upper_roof",
+    "name": "craft shop upper roof",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_1",
+    "name": "craft shop",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_roof_1",
+    "name": "craft shop roof",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_2",
+    "name": "craft shop",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_2ndfloor_2",
+    "name": "craft shop 2nd floor",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_roof_2",
+    "name": "craft shop roof",
     "copy-from": "generic_city_building",
     "sym": "s",
     "color": "cyan"
@@ -1658,6 +1883,14 @@
     "id": "cs_sex_shop",
     "copy-from": "generic_city_building",
     "name": "sex shop",
+    "sym": "x",
+    "color": "i_pink"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cs_sex_shop_roof",
+    "copy-from": "generic_city_building",
+    "name": "sex shop roof",
     "sym": "x",
     "color": "i_pink"
   },

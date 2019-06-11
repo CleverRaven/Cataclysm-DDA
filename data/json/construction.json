@@ -69,7 +69,7 @@
     "required_skills": [ [ "survival", 2 ] ],
     "time": "120 m",
     "qualities": [ [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ] ],
-    "components": [ [ [ "stick", 12 ], [ "2x4", 6 ] ], [ [ "pine_bough", 24 ], [ "willowbark", 24 ] ] ],
+    "components": [ [ [ "stick", 12 ], [ "2x4", 6 ], [ "wood_panel", 1 ] ], [ [ "pine_bough", 24 ], [ "willowbark", 24 ] ] ],
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_improvised_shelter"
   },
@@ -110,7 +110,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "CUT", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 6 ], [ "stick", 6 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ] ],
+    "components": [ [ [ "2x4", 6 ], [ "stick", 6 ], [ "wood_panel", 1 ] ], [ [ "rope_makeshift_6", 2 ], [ "rope_6", 2 ] ] ],
     "pre_note": "Can be deconstructed without tools.",
     "pre_terrain": "t_door_frame",
     "post_terrain": "t_door_makeshift_c"
@@ -134,8 +134,8 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 12 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 2 ] ], [ [ "wood_panel", 1 ] ], [ [ "nail", 12 ] ] ],
     "pre_terrain": "t_door_frame",
     "post_terrain": "t_door_c"
   },
@@ -159,7 +159,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 12 ] ] ],
+    "components": [ [ [ "2x4", 3 ], [ "wood_panel", 1 ] ], [ [ "nail", 12 ] ] ],
     "pre_terrain": "t_door_b",
     "post_terrain": "t_door_c"
   },
@@ -171,7 +171,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 12 ] ] ],
+    "components": [ [ [ "2x4", 3 ], [ "wood_panel", 1 ] ], [ [ "nail", 12 ] ] ],
     "pre_terrain": "t_door_b_peep",
     "post_terrain": "t_door_c_peep"
   },
@@ -183,7 +183,7 @@
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "45 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 6 ] ], [ [ "nail", 24 ] ] ],
+    "components": [ [ [ "2x4", 6 ], [ "wood_panel", 1 ] ], [ [ "nail", 24 ] ] ],
     "pre_terrain": "t_rdoor_b",
     "post_terrain": "t_rdoor_c"
   },
@@ -195,7 +195,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_flags": "BARRICADABLE_DOOR",
     "post_terrain": "t_door_boarded"
   },
@@ -207,7 +207,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_terrain": "t_door_c_peep",
     "post_terrain": "t_door_boarded_peep"
   },
@@ -219,7 +219,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_flags": "BARRICADABLE_DOOR_DAMAGED",
     "post_terrain": "t_door_boarded_damaged"
   },
@@ -231,7 +231,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_terrain": "t_door_b_peep",
     "post_terrain": "t_door_boarded_damaged_peep"
   },
@@ -243,7 +243,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_flags": "BARRICADABLE_DOOR_REINFORCED",
     "post_terrain": "t_rdoor_boarded"
   },
@@ -255,7 +255,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_flags": "BARRICADABLE_DOOR_REINFORCED_DAMAGED",
     "post_terrain": "t_rdoor_boarded_damaged"
   },
@@ -265,8 +265,8 @@
     "category": "REINFORCE",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "90 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 48 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 6 ], [ "wood_panel", 1 ] ], [ [ "2x4", 6 ] ], [ [ "nail", 48 ] ] ],
     "pre_flags": "BARRICADABLE_DOOR",
     "post_terrain": "t_rdoor_c"
   },
@@ -615,10 +615,10 @@
   {
     "type": "construction",
     "description": "Build Wood Wall",
-    "//": "Step 1: half of a wall in an empty space",
+    "//": "Step 1: frame wall in an empty space",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "50 m",
+    "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
     "components": [ [ [ "2x4", 10 ] ], [ [ "nail", 20 ] ] ],
     "pre_special": "check_empty",
@@ -627,12 +627,12 @@
   {
     "type": "construction",
     "description": "Build Wood Wall",
-    "//": "Step 2: complete the half made wall",
+    "//": "Step 2: complete the half made wall by putting paneling on it",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
-    "time": "50 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 10 ] ], [ [ "nail", 20 ] ] ],
+    "time": "30 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 20 ] ] ],
     "pre_terrain": "t_wall_half",
     "post_terrain": "t_wall_wood"
   },
@@ -644,7 +644,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 16 ] ] ],
+    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 16 ] ] ],
     "pre_terrain": "t_wall_wood_chipped",
     "post_terrain": "t_wall_wood"
   },
@@ -656,7 +656,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 8 ] ], [ [ "nail", 32 ] ] ],
+    "components": [ [ [ "2x4", 8 ], [ "wood_panel", 1 ] ], [ [ "nail", 32 ] ] ],
     "pre_terrain": "t_wall_wood_broken",
     "post_terrain": "t_wall_wood_chipped"
   },
@@ -818,6 +818,43 @@
     "components": [ [ [ "concrete", 2 ] ], [ [ "water", 2 ] ] ],
     "pre_terrain": "t_pit_shallow",
     "post_terrain": "t_concrete"
+  },
+  {
+    "type": "construction",
+    "description": "Fill Pit With Dirt",
+    "//": "Fills a deep pit with dirt.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 40,
+    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
+    "components": [ [ [ "material_soil", 200 ] ] ],
+    "pre_special": "check_empty",
+    "pre_terrain": "t_pit",
+    "post_terrain": "t_dirt"
+  },
+  {
+    "type": "construction",
+    "description": "Make Woodchip Floor",
+    "//": "Adds wood chippings to a shallowed dirt area to prevent plants growing, or for looks.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 40,
+    "components": [ [ [ "splinter", 50 ] ] ],
+    "pre_special": "check_empty",
+    "pre_terrain": "t_pit_shallow",
+    "post_terrain": "t_woodchips"
+  },
+  {
+    "type": "construction",
+    "description": "Build Wooden Floor",
+    "//": "Makes an outside wooden paving, similar to what would be used in patios.",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": 100,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 14 ] ], [ [ "nail", 28 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_floor_noroof"
   },
   {
     "type": "construction",
@@ -1049,8 +1086,8 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "50 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 10 ] ], [ [ "nail", 20 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 10 ], [ "wood_panel", 1 ] ], [ [ "nail", 20 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "t_ponywall"
   },
@@ -1060,8 +1097,8 @@
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "120 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 8 ] ], [ [ "nail", 40 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "2x4", 6 ] ], [ [ "nail", 40 ] ] ],
     "pre_note": "Must be supported on at least two sides.",
     "pre_special": "check_support",
     "post_terrain": "t_floor"
@@ -1266,8 +1303,8 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "45 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 8 ] ], [ [ "nail", 24 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "wood_sheet", 2 ], [ "wood_panel", 4 ] ], [ [ "2x4", 4 ] ], [ [ "nail", 24 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_crate_o"
   },
@@ -1277,9 +1314,10 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "60 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
     "components": [
-      [ [ "2x4", 12 ] ],
+      [ [ "2x4", 6 ] ],
+      [ [ "wood_panel", 4 ], [ "wood_sheet", 2 ] ],
       [ [ "sheet", 2 ], [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ],
       [ [ "nail", 24 ] ]
     ],
@@ -1317,7 +1355,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_bulletin"
   },
@@ -1328,7 +1366,7 @@
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "30 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 6 ] ], [ [ "nail", 8 ] ] ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_dresser"
   },
@@ -1339,7 +1377,7 @@
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 16 ] ] ],
+    "components": [ [ [ "2x4", 6 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 16 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_bookcase"
   },
@@ -1382,8 +1420,8 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "20 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 8 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 3 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_cupboard"
   },
@@ -1393,8 +1431,8 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 6 ] ], [ [ "nail", 8 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 2 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_counter"
   },
@@ -1404,8 +1442,8 @@
     "category": "FURN",
     "required_skills": [ [ "fabrication", 1 ] ],
     "time": "30 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 6 ] ], [ [ "nail", 8 ] ] ],
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 1 ] ], [ [ "nail", 8 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_table"
   },
@@ -1501,17 +1539,45 @@
   },
   {
     "type": "construction",
-    "description": "Build Bed",
+    "description": "Build Pile of Leaves",
     "category": "FURN",
-    "required_skills": [ [ "fabrication", 4 ], [ "tailor", 4 ] ],
+    "required_skills": [ [ "survival", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "withered", 50 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_special": "check_empty",
+    "post_terrain": "f_leaves_pile"
+  },
+  {
+    "type": "construction",
+    "description": "Build Bed from Scratch",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
-    "components": [
-      [ [ "2x4", 12 ] ],
-      [ [ "nail", 10 ] ],
-      [ [ "sheet", 4 ], [ "blanket", 2 ], [ "down_blanket", 2 ], [ "fur_blanket", 2 ] ]
-    ],
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ], [ [ "mattress", 1 ] ] ],
     "pre_special": "check_empty",
+    "post_terrain": "f_bed"
+  },
+  {
+    "type": "construction",
+    "description": "Build Bed Frame",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": 55,
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ] ],
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 10 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_bed_frame"
+  },
+  {
+    "type": "construction",
+    "description": "Add Mattress to Bed Frame",
+    "category": "FURN",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": 5,
+    "components": [ [ [ "mattress", 1 ] ] ],
+    "pre_terrain": "f_bed_frame",
     "post_terrain": "f_bed"
   },
   {
@@ -1543,7 +1609,7 @@
     "required_skills": [ [ "fabrication", 0 ] ],
     "time": "20 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "components": [ [ [ "2x4", 3 ] ], [ [ "nail", 6 ] ] ],
+    "components": [ [ [ "2x4", 1 ], [ "wood_panel", 1 ] ], [ [ "2x4", 2 ] ], [ [ "nail", 6 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_sign"
   },
@@ -1669,7 +1735,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "90 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "CUT", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 16 ] ], [ [ "nail", 24 ] ] ],
+    "components": [ [ [ "2x4", 8 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 24 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_desk"
   },
@@ -1680,7 +1746,7 @@
     "required_skills": [ [ "fabrication", 4 ] ],
     "time": "60 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 1 } ], [ { "id": "SAW_M", "level": 1 } ] ],
-    "components": [ [ [ "2x4", 20 ] ], [ [ "nail", 24 ] ], [ [ "pipe", 2 ] ] ],
+    "components": [ [ [ "2x4", 10 ] ], [ [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ], [ [ "nail", 24 ] ], [ [ "pipe", 2 ] ] ],
     "pre_special": "check_empty",
     "post_terrain": "f_wardrobe"
   },
@@ -2016,6 +2082,7 @@
     "category": "OTHER",
     "required_skills": [ [ "mechanics", 0 ] ],
     "time": "10 m",
+    "//2": "no components required, they are filled in at runtime based on the vehicle parts that can be used to start a vehicle",
     "pre_special": "check_empty",
     "post_special": "done_vehicle",
     "vehicle_start": true
@@ -2056,7 +2123,8 @@
     "time": "80 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
     "components": [
-      [ [ "2x4", 8 ] ],
+      [ [ "2x4", 4 ] ],
+      [ [ "2x4", 4 ], [ "wood_sheet", 1 ], [ "wood_panel", 2 ] ],
       [ [ "rope_makeshift_30", 1 ], [ "rope_30", 1 ], [ "vine_30", 1 ] ],
       [ [ "55gal_drum", 2 ], [ "30gal_drum", 2 ], [ "wooden_barrel", 2 ] ]
     ],
@@ -2114,7 +2182,7 @@
   {
     "type": "construction",
     "description": "Build Planter",
-    "catergory": "FURN",
+    "category": "FURN",
     "required_skills": [ [ "fabrication", 3 ] ],
     "time": "25 m",
     "qualities": [ [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ] ],
@@ -2490,6 +2558,22 @@
   },
   {
     "type": "construction",
+    "description": "Build Cardboard Fort",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "15 m",
+    "pre_special": "check_empty",
+    "components": [
+      [ [ "pillow", 4 ], [ "down_pillow", 4 ] ],
+      [ [ "down_blanket", 2 ], [ "blanket", 2 ], [ "fur_blanket", 2 ] ],
+      [ [ "box_large", 1 ] ],
+      [ [ "plastic_sheet", 1 ] ],
+      [ [ "duct_tape", 4 ] ]
+    ],
+    "post_terrain": "f_cardboard_fort"
+  },
+  {
+    "type": "construction",
     "description": "Build Fire Ring",
     "category": "FURN",
     "required_skills": [ [ "survival", 0 ] ],
@@ -2569,5 +2653,88 @@
     "components": [ [ [ "pointy_stick", 2 ], [ "spear_wood", 2 ] ], [ [ "2x4", 8 ] ], [ [ "nail", 20 ] ] ],
     "pre_flags": "DIGGABLE",
     "post_terrain": "t_privacy_fence"
+  },
+  {
+    "type": "construction",
+    "description": "Build Brick Wall from Adobe",
+    "//": "Step 1: start wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": 120,
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "components": [
+      [ [ "adobe_brick", 10 ] ],
+      [ [ "mortar_adobe", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "material_sand", 20 ] ]
+    ],
+    "pre_terrain": "t_dirt",
+    "post_terrain": "t_adobe_brick_wall_halfway"
+  },
+  {
+    "type": "construction",
+    "description": "Build Brick Wall from Adobe",
+    "//": "Step 2: finish wall",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": 120,
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "components": [
+      [ [ "adobe_brick", 10 ] ],
+      [ [ "mortar_adobe", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "material_sand", 20 ] ]
+    ],
+    "pre_terrain": "t_adobe_brick_wall_halfway",
+    "post_terrain": "t_adobe_brick_wall"
+  },
+  {
+    "type": "construction",
+    "skill": "survival",
+    "description": "Build Pine Lean-To",
+    "category": "CONSTRUCT",
+    "difficulty": 2,
+    "time": "90m",
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "stick", 6 ], [ "2x4", 3 ] ] ],
+    "pre_terrain": "t_tree_pine",
+    "post_terrain": "t_leanto"
+  },
+  {
+    "type": "construction",
+    "skill": "survival",
+    "description": "Build Tarp Lean-To",
+    "category": "CONSTRUCT",
+    "difficulty": 1,
+    "time": "50m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "pointy_stick", 4 ] ], [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "tarp", 1 ], [ "plastic_sheet", 1 ] ] ],
+    "pre_note": "Can be deconstructed without tools.",
+    "pre_flags": [ "DIGGABLE", "FLAT" ],
+    "post_terrain": "t_tarptent"
+  },
+  {
+    "type": "construction",
+    "skill": "survival",
+    "description": "Dig a Shallow Pit",
+    "category": "CONSTRUCT",
+    "difficulty": 1,
+    "time": "30m",
+    "on_display": false,
+    "qualities": [ { "id": "DIG", "level": 1 } ],
+    "pre_flags": [ "DIGGABLE", "FLAT" ],
+    "post_terrain": "t_pit_shallow"
+  },
+  {
+    "type": "construction",
+    "skill": "survival",
+    "description": "Dig a Deep Pit",
+    "category": "CONSTRUCT",
+    "difficulty": 1,
+    "time": "150m",
+    "on_display": false,
+    "qualities": [ { "id": "DIG", "level": 2 } ],
+    "pre_flags": [ "DIGGABLE", "FLAT" ],
+    "post_terrain": "t_pit"
   }
 ]

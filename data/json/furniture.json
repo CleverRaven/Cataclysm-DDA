@@ -389,11 +389,9 @@
     "comfort": 5,
     "floor_bedding_warmth": 1000,
     "required_str": -1,
-    "deconstruct": {
-      "items": [ { "item": "2x4", "count": 12 }, { "item": "blanket", "count": 2 }, { "item": "nail", "charges": [ 8, 10 ] } ]
-    },
+    "deconstruct": { "items": [ { "item": "mattress", "count": 1 } ], "furn_set": "f_bed_frame" },
     "max_volume": 4000,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE" ],
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT", "EASY_DECONSTRUCT" ],
     "bash": {
       "str_min": 12,
       "str_max": 40,
@@ -403,8 +401,58 @@
         { "item": "2x4", "count": [ 5, 8 ] },
         { "item": "nail", "charges": [ 6, 8 ] },
         { "item": "splinter", "count": [ 3, 6 ] },
-        { "item": "rag", "count": [ 40, 55 ] }
+        { "item": "rag", "count": [ 40, 55 ] },
+        { "item": "scrap", "count": [ 10, 20 ] }
       ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_bed_frame",
+    "name": "bed frame",
+    "symbol": "#",
+    "description": "This is an empty bed frame.  With a mattress on it, it would be a nice place to sleep.  Sleeping on it right now wouldn't be great.",
+    "color": "brown",
+    "move_cost_mod": 4,
+    "coverage": 40,
+    "required_str": 5,
+    "deconstruct": { "items": [ { "item": "2x4", "count": 12 }, { "item": "nail", "charges": [ 8, 10 ] } ] },
+    "max_volume": 4000,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "CAN_SIT" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 40,
+      "sound": "crunch!",
+      "sound_fail": "whack.",
+      "items": [
+        { "item": "2x4", "count": [ 5, 8 ] },
+        { "item": "nail", "charges": [ 6, 8 ] },
+        { "item": "splinter", "count": [ 3, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_floor_mattress",
+    "name": "mattress",
+    "description": "A comfortable mattress has been tossed on the floor for sleeping here.  It's not quite as comfy as a real bed, but it's pretty close.",
+    "symbol": "0",
+    "color": "magenta",
+    "move_cost_mod": 3,
+    "coverage": 40,
+    "comfort": 4,
+    "floor_bedding_warmth": 800,
+    "required_str": 7,
+    "deployed_item": "mattress",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "SHORT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "MOUNTABLE" ],
+    "deconstruct": { "items": [ { "item": "mattress", "count": 1 } ] },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "rrrrip!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "rag", "count": [ 40, 55 ] } ]
     }
   },
   {
@@ -482,6 +530,29 @@
         { "item": "straw_pile", "count": [ 7, 8 ] },
         { "item": "splinter", "count": [ 1, 2 ] }
       ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_leaves_pile",
+    "name": "pile of leaves",
+    "symbol": "#",
+    "description": "A sizeable pile of leaves.  You could sleep on it if you don't care about comfort or warmth.",
+    "color": "brown",
+    "move_cost_mod": 3,
+    "coverage": 35,
+    "comfort": 1,
+    "floor_bedding_warmth": 50,
+    "required_str": -1,
+    "deconstruct": { "items": [ { "item": "withered", "count": 50 } ] },
+    "max_volume": 4000,
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE", "SHORT", "EASY_DECONSTRUCT" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 6,
+      "sound": "crunch!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "withered", "count": [ 45, 50 ] } ]
     }
   },
   {
@@ -759,14 +830,21 @@
     "coverage": 55,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE" ],
-    "deconstruct": { "items": [ { "item": "2x4", "count": 3 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 3 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
+    },
     "max_volume": 4000,
     "bash": {
       "str_min": 8,
       "str_max": 30,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 1, 3 ] }, { "item": "nail", "charges": [ 2, 6 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [
+        { "item": "2x4", "count": [ 1, 3 ] },
+        { "item": "wood_panel", "count": [ 0, 1 ] },
+        { "item": "nail", "charges": [ 2, 6 ] },
+        { "item": "splinter", "count": 1 }
+      ]
     }
   },
   {
@@ -819,7 +897,9 @@
     "coverage": 45,
     "required_str": 8,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF" ],
-    "deconstruct": { "items": [ { "item": "2x4", "count": 16 }, { "item": "nail", "charges": [ 16, 24 ] } ] },
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 8 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 16, 24 ] } ]
+    },
     "max_volume": 4000,
     "bash": {
       "str_min": 12,
@@ -827,7 +907,8 @@
       "sound": "smash!",
       "sound_fail": "whump.",
       "items": [
-        { "item": "2x4", "count": [ 4, 10 ] },
+        { "item": "2x4", "count": [ 4, 7 ] },
+        { "item": "wood_panel", "count": [ 0, 1 ] },
         { "item": "nail", "charges": [ 10, 16 ] },
         { "item": "splinter", "count": [ 4, 12 ] }
       ]
@@ -939,13 +1020,20 @@
     "required_str": 8,
     "max_volume": 4000,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
-    "deconstruct": { "items": [ { "item": "2x4", "count": 6 }, { "item": "nail", "charges": [ 6, 8 ] } ] },
+    "deconstruct": {
+      "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
+    },
     "bash": {
       "str_min": 12,
       "str_max": 50,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "2x4", "count": [ 2, 6 ] }, { "item": "nail", "charges": [ 4, 8 ] }, { "item": "splinter", "count": 1 } ]
+      "items": [
+        { "item": "2x4", "count": [ 2, 4 ] },
+        { "item": "wood_panel", "count": [ 0, 1 ] },
+        { "item": "nail", "charges": [ 4, 8 ] },
+        { "item": "splinter", "count": 1 }
+      ]
     },
     "examine_action": "workbench",
     "workbench": { "multiplier": 1.1, "mass": 200000, "volume": "75L" }
@@ -1669,6 +1757,7 @@
     "type": "furniture",
     "id": "f_canvas_wall",
     "name": "canvas wall",
+    "description": "A wall made of stretched, waterproof cloth.",
     "symbol": "#",
     "color": "blue",
     "move_cost_mod": -1,
@@ -1688,6 +1777,7 @@
     "type": "furniture",
     "id": "f_large_canvas_wall",
     "name": "canvas wall",
+    "description": "A wall made of stretched, heavy-duty, waterproof cloth.",
     "symbol": "#",
     "color": "blue",
     "move_cost_mod": -1,
@@ -1964,7 +2054,7 @@
     "color": "light_red",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "flower_poppy",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
@@ -2143,8 +2233,7 @@
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEED" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 1, "str_max": 5, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_transform": "f_plant_seedling",
-    "plant_base": "f_null"
+    "plant_data": { "transform": "f_plant_seedling", "base": "f_null" }
   },
   {
     "type": "furniture",
@@ -2158,8 +2247,7 @@
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_SEEDLING" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_transform": "f_plant_mature",
-    "plant_base": "f_null"
+    "plant_data": { "transform": "f_plant_mature", "base": "f_null" }
   },
   {
     "type": "furniture",
@@ -2173,8 +2261,7 @@
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_MATURE" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 3, "str_max": 8, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_transform": "f_plant_harvest",
-    "plant_base": "f_null"
+    "plant_data": { "transform": "f_plant_harvest", "base": "f_null" }
   },
   {
     "type": "furniture",
@@ -2188,8 +2275,7 @@
     "flags": [ "PLANT", "SEALED", "TRANSPARENT", "CONTAINER", "NOITEM", "TINY", "DONT_REMOVE_ROTTEN", "GROWTH_HARVEST" ],
     "examine_action": "aggie_plant",
     "bash": { "str_min": 4, "str_max": 10, "sound": "crunch.", "sound_fail": "whish." },
-    "plant_transform": "f_null",
-    "plant_base": "f_null"
+    "plant_data": { "transform": "f_null", "base": "f_null" }
   },
   {
     "type": "furniture",
@@ -2201,7 +2287,6 @@
     "move_cost_mod": 1,
     "required_str": 10,
     "looks_like": "t_dirtmound",
-    "plant_transform": "f_planter_seed",
     "flags": [ "TRANSPARENT", "PLANTABLE", "FLAT", "MOUNTABLE" ],
     "deconstruct": {
       "items": [
@@ -2223,6 +2308,7 @@
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
+    "plant_data": { "transform": "f_planter_seed" },
     "examine_action": "dirtmound"
   },
   {
@@ -2257,8 +2343,7 @@
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
-    "plant_transform": "f_planter_seedling",
-    "plant_base": "f_planter"
+    "plant_data": { "transform": "f_planter_seedling", "base": "f_planter" }
   },
   {
     "type": "furniture",
@@ -2292,8 +2377,7 @@
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
-    "plant_transform": "f_planter_mature",
-    "plant_base": "f_planter"
+    "plant_data": { "transform": "f_planter_mature", "base": "f_planter" }
   },
   {
     "type": "furniture",
@@ -2327,8 +2411,7 @@
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
-    "plant_transform": "f_planter_harvest",
-    "plant_base": "f_planter"
+    "plant_data": { "transform": "f_planter_harvest", "base": "f_planter" }
   },
   {
     "type": "furniture",
@@ -2362,8 +2445,7 @@
         { "item": "material_soil", "count": [ 60, 75 ] }
       ]
     },
-    "plant_transform": "f_planter",
-    "plant_base": "f_planter"
+    "plant_data": { "transform": "f_planter", "base": "f_planter" }
   },
   {
     "type": "furniture",
@@ -2745,23 +2827,31 @@
     "type": "furniture",
     "id": "f_bluebell",
     "name": "bluebell",
+    "description": "A common bluebell flower.  Pretty.",
     "symbol": "f",
     "color": "blue",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE" ],
-    "examine_action": "flower_bluebell",
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
+      }
+    ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
     "type": "furniture",
     "id": "f_dahlia",
     "name": "dahlia",
+    "description": "A puffy flower with many tightly layered petals.",
     "symbol": "f",
     "color": "magenta",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "flower_dahlia",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
@@ -2774,9 +2864,14 @@
     "color": "light_green",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
     "examine_action": "harvest_furn_nectar",
-    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "datura_seed", "base_num": [ 2, 6 ] } ] } ],
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "datura_seed", "base_num": [ 2, 6 ] }, { "drop": "withered", "base_num": [ 1, 2 ] } ]
+      }
+    ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -2796,11 +2891,12 @@
     "type": "furniture",
     "id": "f_dandelion",
     "name": "dandelion",
+    "description": "A common weed with a yellow flower.  Produces seeds that get carried on the wind by thin, gray filaments.",
     "symbol": "f",
     "color": "yellow",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "raw_dandelion", "base_num": [ 1, 4 ] } ] } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
@@ -2809,38 +2905,54 @@
     "type": "furniture",
     "id": "f_chamomile",
     "name": "chamomile",
-    "description": "Ahh, soothing chamomile tea.  These particular plants doesn't seem very healthy, though.",
+    "description": "Ahh, soothing chamomile tea.",
     "symbol": "f",
     "color": "white",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn",
+    "harvest_by_season": [ { "seasons": [ "summer", "autumn" ], "entries": [ { "drop": "chamomile", "base_num": [ 1, 2 ] } ] } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
     "type": "furniture",
     "id": "f_flower_tulip",
     "name": "tulip",
+    "description": "A bright, colorful flower with petals forming a small cup at its top.",
     "symbol": "f",
     "looks_like": "f_mutpoppy",
     "color": "magenta",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE" ],
-    "examine_action": "flower_tulip",
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
+      }
+    ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
     "type": "furniture",
     "id": "f_flower_spurge",
     "name": "spurge flower",
+    "description": "A yellow-green flower that grows in densely packed bushes.",
     "symbol": "f",
     "looks_like": "f_dandelion",
     "color": "light_green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE" ],
-    "examine_action": "flower_spurge",
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
+      }
+    ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -2852,7 +2964,7 @@
     "color": "brown",
     "move_cost_mod": 1,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
     "examine_action": "harvest_furn",
     "harvest_by_season": [
       { "seasons": [ "winter" ], "entries": [ { "drop": "cattail_rhizome" } ] },
@@ -2867,13 +2979,20 @@
     "type": "furniture",
     "id": "f_black_eyed_susan",
     "name": "black eyed susan",
+    "description": "A yellow flower that has a dark ball in the middle.  Sometimes known as an oxe-eye daisy.",
     "looks_like": "f_dandelion",
     "symbol": "f",
     "color": "yellow",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
+      }
+    ],
     "//": "Add flower and bud spawns once useful.",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
@@ -2881,13 +3000,20 @@
     "type": "furniture",
     "id": "f_lily",
     "name": "lily",
+    "description": "A pretty flower that comes in a variety of colors.",
     "looks_like": "f_flower_tulip",
     "symbol": "f",
     "color": "magenta",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "ORGANIC" ],
     "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
+      }
+    ],
     "//": "Add flower and bud spawns once useful.",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
@@ -2895,13 +3021,20 @@
     "type": "furniture",
     "id": "f_lotus",
     "name": "lotus",
+    "description": "A lovely flower that grows on the surface of bodies of freshwater.  Traditionally connected with many Eastern cultures.",
     "looks_like": "f_lily",
     "symbol": "f",
     "color": "yellow",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "ORGANIC" ],
     "examine_action": "harvest_furn_nectar",
+    "harvest_by_season": [
+      {
+        "seasons": [ "spring", "summer", "autumn" ],
+        "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] }, { "drop": "seed_flower", "base_num": [ 1, 2 ] } ]
+      }
+    ],
     "//": "Add flower and bud spawns once useful.",
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
@@ -2909,12 +3042,13 @@
     "type": "furniture",
     "id": "f_sunflower",
     "name": "sunflower",
+    "description": "A tall, wide-headed flower with a large dark center.  Produces many nutritious seeds.",
     "looks_like": "f_dandelion",
     "symbol": "f",
     "color": "yellow",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
     "examine_action": "harvest_furn_nectar",
     "harvest_by_season": [ { "seasons": [ "summer" ], "entries": [ { "drop": "sunflower" } ] } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
@@ -2928,7 +3062,9 @@
     "color": "green",
     "move_cost_mod": 0,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE" ],
+    "flags": [ "TRANSPARENT", "TINY", "FLAMMABLE_ASH", "NOCOLLIDE", "FLOWER" ],
+    "examine_action": "harvest_furn",
+    "harvest_by_season": [ { "seasons": [ "spring", "summer", "autumn" ], "entries": [ { "drop": "withered", "base_num": [ 1, 2 ] } ] } ],
     "bash": { "str_min": 2, "str_max": 6, "sound": "crunch.", "sound_fail": "whish." }
   },
   {
@@ -3150,6 +3286,7 @@
     "type": "furniture",
     "id": "f_ergometer",
     "name": "ergometer",
+    "description": "An rowing exercise machine.  Without power, it can no longer help you with your workout.  Might have useful electronic parts in it.",
     "symbol": "5",
     "color": "dark_gray",
     "move_cost_mod": 2,
@@ -3315,6 +3452,7 @@
     "type": "furniture",
     "id": "f_canvas_floor",
     "name": "canvas floor",
+    "description": "Flooring made out of stretched, waterproof cloth.  Helps keep the dirt out of the tent.",
     "symbol": "#",
     "color": "white",
     "move_cost_mod": 0,
@@ -3631,6 +3769,7 @@
     "type": "furniture",
     "id": "f_ladder",
     "name": "stepladder",
+    "description": "A short, foldable ladder.  Can help you climb to a rooftop, or maybe slow something down.",
     "symbol": "H",
     "color": "brown",
     "move_cost_mod": 3,
@@ -3717,6 +3856,7 @@
     "type": "furniture",
     "id": "f_slab",
     "name": "stone slab",
+    "description": "A flat slab of heavy stone.",
     "symbol": "n",
     "color": "dark_gray",
     "move_cost_mod": 2,
@@ -4226,6 +4366,27 @@
   },
   {
     "type": "furniture",
+    "id": "f_plastic_groundsheet",
+    "name": "plastic groundsheet",
+    "description": "A large sheet of thick plastic has been tossed on the ground here.  It would be a useful place to do some butchery, perhaps.",
+    "symbol": "D",
+    "bgcolor": "light_blue",
+    "move_cost_mod": 0,
+    "required_str": 3,
+    "deployed_item": "plastic_sheet",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "SHORT", "FLAT_SURF", "CAN_SIT" ],
+    "deconstruct": { "items": [ { "item": "plastic_sheet", "count": 1 } ] },
+    "bash": {
+      "str_min": 5,
+      "str_max": 10,
+      "sound": "whuff!",
+      "sound_fail": "crinkle.",
+      "items": [ { "item": "plastic_sheet", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_fiber_mat",
     "name": "fiber mat",
     "description": "A large mat woven from fibrous material that can be used instead of a picnic blanket, but it's more valuable as a butchery appliance.  Too thin to be a comfortable sleeping place.",
@@ -4277,6 +4438,110 @@
       "sound_fail": "poof.",
       "ter_set": "t_floor",
       "items": [ { "item": "pillow", "count": 19 }, { "item": "blanket", "count": 3 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cardboard_fort",
+    "name": "cardboard fort",
+    "symbol": "^",
+    "description": "A fort built by tipping a cardboard box on its side, lining it with blankets, and partly weather sealing it with a plastic sheet.",
+    "color": "brown",
+    "move_cost_mod": 3,
+    "coverage": 95,
+    "comfort": 4,
+    "floor_bedding_warmth": 700,
+    "required_str": 3,
+    "deconstruct": {
+      "items": [
+        { "item": "box_large", "count": 1 },
+        { "item": "plastic_sheet", "count": 1 },
+        { "item": "blanket", "count": 2 },
+        { "item": "pillow", "count": 4 }
+      ]
+    },
+    "max_volume": 4000,
+    "flags": [
+      "TRANSPARENT",
+      "FLAMMABLE_ASH",
+      "PLACE_ITEM",
+      "ORGANIC",
+      "REDUCE_SCENT",
+      "EASY_DECONSTRUCT",
+      "BASHABLE",
+      "HIDE_PLACE",
+      "NO_SIGHT",
+      "BLOCK_WIND"
+    ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 15,
+      "sound": "crumple!",
+      "sound_fail": "thud.",
+      "items": [ { "item": "paper", "count": [ 50, 100 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cardboard_wall",
+    "name": "cardboard wall",
+    "symbol": "#",
+    "bgcolor": "brown",
+    "move_cost_mod": -1,
+    "coverage": 100,
+    "description": "This is a pile of cardboard boxes that have been filled with rags and junk and stacked together like bricks to form a wall.",
+    "required_str": -1,
+    "flags": [ "NOITEM", "BLOCKSDOOR", "FLAMMABLE_ASH", "ORGANIC", "EASY_DECONSTRUCT", "BLOCK_WIND" ],
+    "deconstruct": {
+      "items": [
+        { "item": "box_large", "count": 1 },
+        { "item": "box_medium", "count": 2 },
+        { "item": "box_small", "count": 4 },
+        { "item": "rag", "count": 50 },
+        { "item": "paper", "count": 50 },
+        { "item": "plastic_chunk", "count": 20 },
+        { "item": "plastic_sheet", "count": 2 }
+      ]
+    },
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "crash!",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "box_large", "count": [ 0, 1 ] },
+        { "item": "box_medium", "count": [ 0, 2 ] },
+        { "item": "box_small", "count": [ 0, 4 ] },
+        { "item": "rag", "count": [ 20, 50 ] },
+        { "item": "paper", "count": [ 50, 150 ] },
+        { "item": "plastic_chunk", "count": [ 5, 20 ] },
+        { "item": "plastic_sheet", "count": [ 0, 2 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_cardboard_box",
+    "name": "large cardboard box",
+    "symbol": "X",
+    "description": "A large cardboard box: this could be used to store things, or as a hiding place.",
+    "color": "brown",
+    "move_cost_mod": 7,
+    "coverage": 90,
+    "comfort": 1,
+    "floor_bedding_warmth": 200,
+    "required_str": 3,
+    "deconstruct": { "items": [ { "item": "box_large", "count": 1 } ] },
+    "max_volume": 6000,
+    "deployed_item": "box_large",
+    "examine_action": "deployed_furniture",
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "PLACE_ITEM", "ORGANIC", "EASY_DECONSTRUCT", "BASHABLE", "HIDE_PLACE", "NO_SIGHT" ],
+    "bash": {
+      "str_min": 2,
+      "str_max": 15,
+      "sound": "crumple!",
+      "sound_fail": "thud.",
+      "items": [ { "item": "paper", "count": [ 50, 100 ] } ]
     }
   },
   {
@@ -4440,10 +4705,11 @@
     "symbol": "0",
     "bgcolor": "white",
     "move_cost_mod": -1,
-    "coverage": 40,
+    "coverage": 60,
     "required_str": -1,
     "max_volume": 4000,
-    "flags": [ "CONTAINER", "PLACE_ITEM", "BLOCKSDOOR" ],
+    "flags": [ "CONTAINER", "PLACE_ITEM", "FIRE_CONTAINER", "SUPPRESS_SMOKE", "BLOCKSDOOR" ],
+    "examine_action": "fireplace",
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -6262,5 +6528,30 @@
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "EASY_DECONSTRUCT" ],
     "examine_action": "workbench",
     "workbench": { "multiplier": 0.7, "mass": 1000000, "volume": "1000L" }
+  },
+  {
+    "id": "f_tatami",
+    "type": "furniture",
+    "name": "tatami mat",
+    "description": "A tatami is a type of mat used as a flooring material in traditional Japanese-style rooms.",
+    "symbol": "#",
+    "color": [ "brown" ],
+    "move_cost_mod": 0,
+    "comfort": 2,
+    "floor_bedding_warmth": -1500,
+    "max_volume": 4000,
+    "required_str": 7,
+    "bash": {
+      "str_min": 8,
+      "str_max": 30,
+      "sound": "crunch.",
+      "sound_fail": "whump.",
+      "items": [
+        { "item": "straw_pile", "count": [ 5, 8 ] },
+        { "item": "rag", "count": [ 2, 4 ] },
+        { "item": "string_36", "count": [ 1, 2 ] }
+      ]
+    },
+    "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC" ]
   }
 ]

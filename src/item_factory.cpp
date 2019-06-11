@@ -745,6 +745,7 @@ void Item_factory::init()
     add_iuse( "UNPACK_ITEM", &iuse::unpack_item );
     add_iuse( "VACCINE", &iuse::vaccine );
     add_iuse( "BLOOD_DRAW", &iuse::blood_draw );
+    add_iuse( "MIND_SPLICER", &iuse::mind_splicer );
     add_iuse( "VIBE", &iuse::vibe );
     add_iuse( "HAND_CRANK", &iuse::hand_crank );
     add_iuse( "VORTEX", &iuse::vortex );
@@ -790,6 +791,7 @@ void Item_factory::init()
     add_actor( new mutagen_iv_actor() );
     add_actor( new deploy_tent_actor() );
     add_actor( new learn_spell_actor() );
+    add_actor( new cast_spell_actor() );
     // An empty dummy group, it will not spawn anything. However, it makes that item group
     // id valid, so it can be used all over the place without need to explicitly check for it.
     m_template_groups["EMPTY_GROUP"].reset( new Item_group( Item_group::G_COLLECTION, 100, 0, 0 ) );

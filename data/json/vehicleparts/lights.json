@@ -116,6 +116,29 @@
     "flags": [ "CONE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
   },
   {
+    "id": "motorcycle_headlight",
+    "type": "vehicle_part",
+    "name": "motorcycle headlight",
+    "item": "motorcycle_headlight",
+    "symbol": "*",
+    "broken_symbol": "*",
+    "color": "white",
+    "broken_color": "white",
+    "durability": 8,
+    "description": "A small, lightweight, bright light that illuminates a narrow cone outside the vehicle when turned on.  During installation, you can choose what direction to point the light, so multiple headlights can illuminate the sides or rear, as well as the front.",
+    "epower": -187,
+    "bonus": 8000,
+    "damage_modifier": 10,
+    "folded_volume": 1,
+    "breaks_into": [ { "item": "cable", "charges": [ 1, 4 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": 20000, "qualities": [ { "id": "SCREW", "level": 1 } ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": 2000, "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [ "CONE_LIGHT", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ]
+  },
+  {
     "id": "wide_headlight",
     "type": "vehicle_part",
     "name": "wide angle headlight",

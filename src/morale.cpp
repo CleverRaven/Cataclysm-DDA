@@ -253,6 +253,8 @@ player_morale::player_morale() :
     mutations[trait_id( "ROOTS1" )]         = mutation_data( update_constrained );
     mutations[trait_id( "ROOTS2" )]        = mutation_data( update_constrained );
     mutations[trait_id( "ROOTS3" )]        = mutation_data( update_constrained );
+    mutations[trait_id( "LEAVES2" )]       = mutation_data( update_constrained );
+    mutations[trait_id( "LEAVES3" )]       = mutation_data( update_constrained );
     mutations[trait_id( "MASOCHIST" )]     = mutation_data( update_masochist );
     mutations[trait_id( "MASOCHIST_MED" )] = mutation_data( update_masochist );
     mutations[trait_id( "CENOBITE" )]      = mutation_data( update_masochist );
@@ -781,7 +783,7 @@ void player_morale::update_bodytemp_penalty( const time_duration &ticks )
 
         if( max_pen != 0 )
         {
-            add( type, -2 * to_turns<int>( ticks ), -std::abs( max_pen ), 10_turns, 5_turns, true );
+            add( type, -2 * to_turns<int>( ticks ), -std::abs( max_pen ), 1_minutes, 30_seconds, true );
         }
     };
     apply_pen( MORALE_COLD, [ this ]( body_part bp ) {
@@ -806,6 +808,10 @@ void player_morale::update_constrained_penalty()
         has_mutation( trait_id( "ROOTS3" ) ) ) {
         pen += bp_pen( bp_foot_l, 5 );
         pen += bp_pen( bp_foot_r, 5 );
+    }
+    if( has_mutation( trait_id( "LEAVES2" ) ) || has_mutation( trait_id( "LEAVES3" ) ) ) {
+        pen += bp_pen( bp_arm_l, 5 );
+        pen += bp_pen( bp_arm_r, 5 );
     }
     set_permanent( MORALE_PERM_CONSTRAINED, -std::min( pen, 10 ) );
 }

@@ -1,5 +1,11 @@
 [
   {
+    "id": "ACTIVE_CLOAKING",
+    "type": "json_flag",
+    "context": [ "ARMOR", "TOOL_ARMOR" ],
+    "info": "This gear has <info>cloaking tech</info> that will <good>make you invisible</good> when active, at the cost of <info>power from a UPS</info>."
+  },
+  {
     "id": "ALARMCLOCK",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -118,6 +124,11 @@
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
     "info": "This gear <good>completely protects</good> you from <info>electric discharges</info>."
+  },
+  {
+    "id": "ETHEREAL_ITEM",
+    "type": "json_flag",
+    "info": "This item disappears as soon as its timer runs out whether it is food or not."
   },
   {
     "id": "ONLY_ONE",

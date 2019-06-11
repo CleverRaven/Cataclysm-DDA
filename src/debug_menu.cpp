@@ -70,7 +70,7 @@
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
-
+const efftype_id effect_riding( "riding" );
 namespace debug_menu
 {
 
@@ -119,6 +119,7 @@ enum debug_menu_index {
     DEBUG_GAME_REPORT,
     DEBUG_DISPLAY_SCENTS_LOCAL,
     DEBUG_DISPLAY_TEMP,
+    DEBUG_DISPLAY_VISIBILITY,
     DEBUG_LEARN_SPELLS,
     DEBUG_LEVEL_SPELLS
 };
@@ -175,6 +176,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_DISPLAY_SCENTS, true, 'S', _( "Display overmap scents" ) ) },
             { uilist_entry( DEBUG_DISPLAY_SCENTS_LOCAL, true, 's', _( "Toggle display local scents" ) ) },
             { uilist_entry( DEBUG_DISPLAY_TEMP, true, 'T', _( "Toggle display temperature" ) ) },
+            { uilist_entry( DEBUG_DISPLAY_VISIBILITY, true, 'v', _( "Toggle display visibility" ) ) },
             { uilist_entry( DEBUG_SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
             { uilist_entry( DEBUG_BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
             { uilist_entry( DEBUG_TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
@@ -367,6 +369,7 @@ void character_edit_menu()
         data << np->myclass.obj().get_name() << "; " <<
              npc_attitude_name( np->get_attitude() ) << "; " <<
              ( np->my_fac ? np->my_fac->name : _( "no faction" ) ) << "; " <<
+             ( np->my_fac ? np->my_fac->currency : _( "no currency" ) ) << "; " <<
              "api: " << np->get_faction_ver() << std::endl;
         if( np->has_destination() ) {
             data << string_format( _( "Destination: %d:%d:%d (%s)" ),
@@ -684,6 +687,9 @@ void character_edit_menu()
             if( const cata::optional<tripoint> newpos = g->look_around() ) {
                 p.setpos( *newpos );
                 if( p.is_player() ) {
+                    if( p.has_effect( effect_riding ) && p.mounted_creature ) {
+                        p.mounted_creature.get()->setpos( *newpos );
+                    }
                     g->update_map( g->u );
                 }
             }
@@ -1121,7 +1127,7 @@ void debug()
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
             for( int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++ ) {
                 weather_menu.addentry( weather_id, true, MENU_AUTOASSIGN,
-                                       weather_data( static_cast<weather_type>( weather_id ) ).name );
+                                       weather::name( static_cast<weather_type>( weather_id ) ) );
             }
 
             weather_menu.query();
@@ -1235,12 +1241,46 @@ void debug()
                 break;
             case DEBUG_DISPLAY_SCENTS_LOCAL:
                 g->displaying_temperature = false;
+                g->displaying_visibility = false;
                 g->displaying_scent = !g->displaying_scent;
                 break;
             case DEBUG_DISPLAY_TEMP:
                 g->displaying_scent = false;
+                g->displaying_visibility = false;
                 g->displaying_temperature = !g->displaying_temperature;
                 break;
+            case DEBUG_DISPLAY_VISIBILITY: {
+                g->displaying_scent = false;
+                g->displaying_temperature = false;
+                g->displaying_visibility = !g->displaying_visibility;
+                if( g->displaying_visibility ) {
+                    std::vector< tripoint > locations;
+                    uilist creature_menu;
+                    int num_creatures = 0;
+                    creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
+                    locations.emplace_back( g->u.pos() ); // add player first.
+                    for( const Creature &critter : g->all_creatures() ) {
+                        if( critter.is_player() ) {
+                            continue;
+                        }
+                        creature_menu.addentry( num_creatures++, true, MENU_AUTOASSIGN, critter.disp_name() );
+                        locations.emplace_back( critter.pos() );
+                    }
+
+                    pointmenu_cb callback( locations );
+                    creature_menu.callback = &callback;
+                    creature_menu.w_y = 0;
+                    creature_menu.query();
+                    if( ( creature_menu.ret >= 0 ) &&
+                        ( static_cast<size_t>( creature_menu.ret ) < locations.size() ) ) {
+                        Creature *creature = g->critter_at<Creature>( locations[creature_menu.ret] );
+                        g->displaying_visibility_creature = creature;
+                    }
+                } else {
+                    g->displaying_visibility_creature = nullptr;
+                }
+            }
+            break;
             case DEBUG_CHANGE_TIME: {
                 auto set_turn = [&]( const int initial, const int factor, const char *const msg ) {
                     const auto text = string_input_popup()
@@ -1346,16 +1386,14 @@ void debug()
                 raise( SIGSEGV );
                 break;
             case DEBUG_MAP_EXTRA: {
-                oter_id terrain_type = overmap_buffer.ter( g->u.global_omt_location() );
-
-                map_extras ex = region_settings_map["default"].region_extras[terrain_type->get_extras()];
+                std::unordered_map<std::string, map_special_pointer> FM = MapExtras::all_functions();
                 uilist mx_menu;
                 std::vector<std::string> mx_str;
-                for( auto &extra : ex.values ) {
-                    mx_menu.addentry( -1, true, -1, extra.obj );
-                    mx_str.push_back( extra.obj );
+                for( auto &extra : FM ) {
+                    mx_menu.addentry( -1, true, -1, extra.first );
+                    mx_str.push_back( extra.first );
                 }
-                mx_menu.query( false );
+                mx_menu.query();
                 int mx_choice = mx_menu.ret;
                 if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
                     auto func = MapExtras::get_function( mx_str[mx_choice] );

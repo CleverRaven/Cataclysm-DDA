@@ -949,14 +949,6 @@
     "flags": [ "BIONIC_FAULTY" ]
   },
   {
-    "id": "bio_storage",
-    "type": "bionic",
-    "name": "Internal Storage",
-    "description": "Space inside your chest cavity has been surgically converted into a storage area.  You may carry an extra 2 liters of volume.",
-    "occupied_bodyparts": [ [ "TORSO", 32 ] ],
-    "flags": [ "BIONIC_NPC_USABLE", "BIONIC_SHOCKPROOF" ]
-  },
-  {
     "id": "bio_str_enhancer",
     "type": "bionic",
     "name": "Muscle Augmentation",
@@ -1029,7 +1021,7 @@
     "id": "bio_tools",
     "type": "bionic",
     "name": "Integrated Toolset",
-    "description": "Surgically implanted in your hands and fingers is a complete tool set - screwdriver, hammer, wrench, hacksaw, wood saw, boltcutters, drill and heating elements.  You can use this in place of many tools when crafting.",
+    "description": "Surgically implanted in your hands and fingers is a set of tools - screwdriver, hammer, wrench, hacksaw, hand drill, and heating elements.  You can use this in place of many tools when crafting.",
     "occupied_bodyparts": [ [ "HAND_L", 3 ], [ "HAND_R", 3 ] ],
     "fake_item": "toolset",
     "included_bionics": [ "bio_tools_extend" ],

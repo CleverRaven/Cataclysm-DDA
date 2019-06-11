@@ -125,8 +125,8 @@ const std::string &talk_trial::name() const
 /** Time (in turns) and cost (in cent) for training: */
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
 {
-    return 1_minutes + 5_turns * g->u.get_skill_level( skill ) -
-           1_turns * p.get_skill_level( skill );
+    return 1_minutes + 30_seconds * g->u.get_skill_level( skill ) -
+           1_seconds * p.get_skill_level( skill );
 }
 
 int calc_skill_training_cost( const npc &p, const skill_id &skill )
@@ -475,7 +475,7 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
 
     const sounds::sound_t spriority = static_cast<sounds::sound_t>( priority );
     bool player_ally = g->u.pos() == spos && is_player_ally();
-    npc *const sound_source = g->critter_at<npc>( spos );
+    player *const sound_source = g->critter_at<player>( spos );
     bool npc_ally = sound_source && sound_source->is_npc() && is_ally( *sound_source );
 
     if( ( player_ally || npc_ally ) && spriority == sounds::sound_t::order ) {
@@ -523,9 +523,9 @@ void npc::handle_sound( int priority, const std::string &description, int heard_
         if( spriority == sounds::sound_t::movement && !in_vehicle ) {
             warn_about( "movement_noise", rng( 1, 10 ) * 1_minutes, description );
         } else if( spriority > sounds::sound_t::movement ) {
-            if( !( player_ally || npc_ally ) && ( spriority == sounds::sound_t::speech ||
-                                                  spriority == sounds::sound_t::alert ||
-                                                  spriority == sounds::sound_t::order ) ) {
+            if( ( spriority == sounds::sound_t::speech || spriority == sounds::sound_t::alert ||
+                  spriority == sounds::sound_t::order ) && sound_source &&
+                !has_faction_relationship( *sound_source, npc_factions::knows_your_voice ) ) {
                 warn_about( "speech_noise", rng( 1, 10 ) * 1_minutes );
             } else if( spriority > sounds::sound_t::activity ) {
                 warn_about( "combat_noise", rng( 1, 10 ) * 1_minutes );
@@ -598,14 +598,13 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
             d.missions_assigned.push_back( mission );
         }
     }
-
     d.add_topic( chatbin.first_topic );
     if( radio_contact ) {
         d.add_topic( "TALK_RADIO" );
         d.by_radio = true;
     } else if( is_leader() ) {
         d.add_topic( "TALK_LEADER" );
-    } else if( is_player_ally() && is_walking_with() ) {
+    } else if( is_player_ally() && ( is_walking_with() || has_activity() ) ) {
         d.add_topic( "TALK_FRIEND" );
     } else if( get_attitude() == NPCATT_RECOVER_GOODS ) {
         d.add_topic( "TALK_STOLE_ITEM" );
@@ -1085,11 +1084,13 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
         for( auto &trained : trainable ) {
             const int cost = calc_skill_training_cost( *p, trained );
-            const int cur_level = g->u.get_skill_level( trained );
-            //~Skill name: current level -> next level (cost in dollars)
-            std::string text = string_format( cost > 0 ? _( "%s: %d -> %d (cost $%d)" ) :
-                                              _( "%s: %d -> %d" ),
-                                              trained.obj().name(), cur_level, cur_level + 1,
+            const SkillLevel skill_level_obj = g->u.get_skill_level_object( trained );
+            const int cur_level = skill_level_obj.level();
+            const int cur_level_exercise = skill_level_obj.exercise();
+            //~Skill name: current level (exercise) -> next level (cost in dollars)
+            std::string text = string_format( cost > 0 ? _( "%s: %d (%d%%) -> %d (cost $%d)" ) :
+                                              _( "%s: %d (%d%%) -> %d" ),
+                                              trained.obj().name(), cur_level, cur_level_exercise, cur_level + 1,
                                               cost / 100 );
             add_response( text, "TALK_TRAIN_START", trained );
         }
@@ -1353,6 +1354,15 @@ void parse_tags( std::string &phrase, const player &u, const player &me, const i
             } else {
                 phrase.replace( fa, l, me.weapon.ammo_type()->name() );
             }
+        } else if( tag == "<current_activity>" ) {
+            std::string activity_name;
+            const npc *guy = dynamic_cast<const npc *>( &me );
+            if( !guy->current_activity.empty() ) {
+                activity_name = guy->current_activity;
+            } else {
+                activity_name = "doing this and that";
+            }
+            phrase.replace( fa, l, activity_name );
         } else if( tag == "<punc>" ) {
             switch( rng( 0, 2 ) ) {
                 case 0:
@@ -2225,6 +2235,8 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
             WRAP( clear_mission ),
             WRAP( mission_reward ),
             WRAP( start_trade ),
+            WRAP( sort_loot ),
+            WRAP( do_construction ),
             WRAP( assign_guard ),
             WRAP( stop_guard ),
             WRAP( start_camp ),
@@ -2241,6 +2253,8 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
             WRAP( give_equipment ),
             WRAP( give_aid ),
             WRAP( give_all_aid ),
+            WRAP( barber_beard ),
+            WRAP( barber_hair ),
             WRAP( buy_haircut ),
             WRAP( buy_shave ),
             WRAP( morale_chat ),
@@ -2260,6 +2274,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, JsonObjec
             WRAP( flee ),
             WRAP( leave ),
             WRAP( stop_following ),
+            WRAP( revert_activity ),
             WRAP( goto_location ),
             WRAP( stranger_neutral ),
             WRAP( start_mugging ),
@@ -2504,6 +2519,21 @@ void conditional_t::set_has_trait_flag( JsonObject &jo, const std::string &membe
             return actor->crossed_threshold();
         }
         return actor->has_trait_flag( trait_flag_to_check );
+    };
+}
+
+void conditional_t::set_has_activity( bool is_npc )
+{
+    condition = [is_npc]( const dialogue & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            return d.beta->has_activity();
+        } else {
+            if( !actor->activity.is_null() ) {
+                return true;
+            }
+        }
+        return false;
     };
 }
 
@@ -3172,6 +3202,8 @@ conditional_t::conditional_t( JsonObject jo )
         set_has_trait_flag( jo, "npc_has_trait_flag", true );
     } else if( jo.has_member( "npc_has_class" ) ) {
         set_npc_has_class( jo );
+    } else if( jo.has_string( "npc_has_activity" ) ) {
+        set_has_activity( is_npc );
     } else if( jo.has_string( "u_has_mission" ) ) {
         set_u_has_mission( jo );
     } else if( jo.has_int( "u_has_strength" ) ) {
@@ -3322,6 +3354,8 @@ conditional_t::conditional_t( const std::string &type )
         set_is_driving();
     } else if( type == "npc_driving" ) {
         set_is_driving( is_npc );
+    } else if( type == "npc_has_activity" ) {
+        set_has_activity( is_npc );
     } else if( type == "is_day" ) {
         set_is_day();
     } else if( type == "u_has_stolen_item" ) {

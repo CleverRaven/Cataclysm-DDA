@@ -20,6 +20,8 @@
 #include "rng.h"
 #include "translations.h"
 
+#include <set>
+
 namespace
 {
 const std::map<std::string, valid_target> target_map = {
@@ -29,13 +31,33 @@ const std::map<std::string, valid_target> target_map = {
     { "ground", valid_target::target_ground },
     { "none", valid_target::target_none }
 };
+const std::map<std::string, body_part> bp_map = {
+    { "TORSO", body_part::bp_torso },
+    { "HEAD", body_part::bp_head },
+    { "EYES", body_part::bp_eyes },
+    { "MOUTH", body_part::bp_mouth },
+    { "ARM_L", body_part::bp_arm_l },
+    { "ARM_R", body_part::bp_arm_r },
+    { "HAND_L", body_part::bp_hand_l },
+    { "HAND_R", body_part::bp_hand_r },
+    { "LEG_L", body_part::bp_leg_l },
+    { "LEG_R", body_part::bp_leg_r },
+    { "FOOT_L", body_part::bp_foot_l },
+    { "FOOT_R", body_part::bp_foot_r }
+};
 }
+
 namespace io
 {
 template<>
 valid_target string_to_enum<valid_target>( const std::string &trigger )
 {
     return string_to_enum_look_up( target_map, trigger );
+}
+template<>
+body_part string_to_enum<body_part>( const std::string &trigger )
+{
+    return string_to_enum_look_up( bp_map, trigger );
 }
 }
 
@@ -118,6 +140,9 @@ void spell_type::load( JsonObject &jo, const std::string & )
     const auto trigger_reader = enum_flags_reader<valid_target> { "valid_targets" };
     mandatory( jo, was_loaded, "valid_targets", valid_targets, trigger_reader );
 
+    const auto bp_reader = enum_flags_reader<body_part> { "affected_bps" };
+    optional( jo, was_loaded, "affected_body_parts", affected_bps, bp_reader );
+
     optional( jo, was_loaded, "effect_str", effect_str, "" );
 
     optional( jo, was_loaded, "min_damage", min_damage, 0 );
@@ -145,6 +170,9 @@ void spell_type::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "max_pierce", max_pierce, 0 );
 
     optional( jo, was_loaded, "base_energy_cost", base_energy_cost, 0 );
+    optional( jo, was_loaded, "final_energy_cost", final_energy_cost, base_energy_cost );
+    optional( jo, was_loaded, "energy_increment", energy_increment, 0.0f );
+
     std::string temp_string;
     optional( jo, was_loaded, "spell_class", temp_string, "NONE" );
     spell_class = trait_id( temp_string );
@@ -154,8 +182,10 @@ void spell_type::load( JsonObject &jo, const std::string & )
     dmg_type = damage_type_from_string( temp_string );
     optional( jo, was_loaded, "difficulty", difficulty, 0 );
     optional( jo, was_loaded, "max_level", max_level, 0 );
-    optional( jo, was_loaded, "base_casting_time", base_casting_time, 0 );
 
+    optional( jo, was_loaded, "base_casting_time", base_casting_time, 0 );
+    optional( jo, was_loaded, "final_casting_time", final_casting_time, base_casting_time );
+    optional( jo, was_loaded, "casting_time_increment", casting_time_increment, 0.0f );
 }
 
 void spell_type::check_consistency()
@@ -178,6 +208,14 @@ void spell_type::check_consistency()
         }
         if( sp_t.min_pierce > sp_t.max_pierce ) {
             debugmsg( string_format( "ERROR: %s has higher min_pierce than max_pierce", sp_t.id.c_str() ) );
+        }
+        if( sp_t.casting_time_increment < 0.0f && sp_t.base_casting_time < sp_t.final_casting_time ) {
+            debugmsg( string_format( "ERROR: %s has negative increment and base_casting_time < final_casting_time",
+                                     sp_t.id.c_str() ) );
+        }
+        if( sp_t.casting_time_increment > 0.0f && sp_t.base_casting_time > sp_t.final_casting_time ) {
+            debugmsg( string_format( "ERROR: %s has positive increment and base_casting_time > final_casting_time",
+                                     sp_t.id.c_str() ) );
         }
     }
 }
@@ -267,8 +305,15 @@ bool spell::can_learn( const player &p ) const
 
 int spell::energy_cost() const
 {
-    // todo: formula to vary energy cost
-    return type->base_energy_cost;
+    if( type->base_energy_cost < type->final_energy_cost ) {
+        return std::min( type->final_energy_cost,
+                         static_cast<int>( round( type->base_energy_cost + type->energy_increment * get_level() ) ) );
+    } else if( type->base_energy_cost > type->final_energy_cost ) {
+        return std::max( type->final_energy_cost,
+                         static_cast<int>( round( type->base_energy_cost + type->energy_increment * get_level() ) ) );
+    } else {
+        return type->base_energy_cost;
+    }
 }
 
 bool spell::can_cast( const player &p ) const
@@ -306,8 +351,15 @@ int spell::get_difficulty() const
 
 int spell::casting_time() const
 {
-    // todo: formula for casting time
-    return type->base_casting_time;
+    if( type->base_casting_time < type->final_casting_time ) {
+        return std::min( type->final_casting_time,
+                         static_cast<int>( round( type->base_casting_time + type->casting_time_increment * get_level() ) ) );
+    } else if( type->base_casting_time > type->final_casting_time ) {
+        return std::max( type->final_casting_time,
+                         static_cast<int>( round( type->base_casting_time + type->casting_time_increment * get_level() ) ) );
+    } else {
+        return type->base_casting_time;
+    }
 }
 
 std::string spell::name() const
@@ -323,7 +375,7 @@ float spell::spell_fail( const player &p ) const
     // effective skill of 8 (8 int, 0 spellcraft, 0 spell level, spell difficulty 0) is ~50% failure
     // effective skill of 30 is 0% failure
     const float effective_skill = 2 * ( get_level() - get_difficulty() ) + p.get_int() +
-                                  p.get_skill_level( skill_id( "SPELLCRAFT" ) );
+                                  p.get_skill_level( skill_id( "spellcraft" ) );
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
     if( effective_skill > 30.0f ) {
         return 0.0f;
@@ -431,6 +483,11 @@ bool spell::is_valid() const
         return false;
     }
     return type->is_valid();
+}
+
+bool spell::bp_is_affected( body_part bp ) const
+{
+    return type->affected_bps[bp];
 }
 
 std::string spell::effect() const
@@ -542,9 +599,9 @@ float spell::exp_modifier( const player &p ) const
 {
     const float int_modifier = ( p.get_int() - 8.0f ) / 8.0f;
     const float difficulty_modifier = get_difficulty() / 20.0f;
-    const float spellcraft_modifier = p.get_skill_level( skill_id( "SPELLCRAFT" ) ) / 10.0f;
+    const float spellcraft_modifier = p.get_skill_level( skill_id( "spellcraft" ) ) / 10.0f;
 
-    return int_modifier + difficulty_modifier + spellcraft_modifier + 1.0f;
+    return ( int_modifier + difficulty_modifier + spellcraft_modifier ) / 5.0f + 1.0f;
 }
 
 int spell::casting_exp( const player &p ) const
@@ -745,7 +802,8 @@ void known_magic::mod_mana( const player &p, int add_mana )
 int known_magic::max_mana( const player &p ) const
 {
     const float int_bonus = ( ( 0.2f + p.get_int() * 0.1f ) - 1.0f ) * mana_base;
-    return mana_base + int_bonus;
+    return std::max( 0.0f, ( ( mana_base + int_bonus ) * p.mutation_value( "mana_multiplier" ) ) +
+                     p.mutation_value( "mana_modifier" ) - p.power_level );
 }
 
 void known_magic::update_mana( const player &p, float turns )
@@ -753,7 +811,7 @@ void known_magic::update_mana( const player &p, float turns )
     // mana should replenish in 8 hours.
     const float full_replenish = to_turns<float>( 8_hours );
     const float ratio = turns / full_replenish;
-    mod_mana( p, floor( ratio * max_mana( p ) ) );
+    mod_mana( p, floor( ratio * max_mana( p ) * p.mutation_value( "mana_regen_multiplier" ) ) );
 }
 
 std::vector<spell_id> known_magic::spells() const
@@ -797,9 +855,9 @@ int known_magic::time_to_learn_spell( const player &p, const std::string &str ) 
 
 int known_magic::time_to_learn_spell( const player &p, spell_id sp ) const
 {
-    const int base_time = 30000;
+    const int base_time = to_moves<int>( 30_minutes );
     return base_time * ( 1.0 + sp.obj().difficulty / ( 1.0 + ( p.get_int() - 8.0 ) / 8.0 ) +
-                         ( p.get_skill_level( skill_id( "SPELLCRAFT" ) ) / 10.0 ) );
+                         ( p.get_skill_level( skill_id( "spellcraft" ) ) / 10.0 ) );
 }
 
 // spell_effect
@@ -903,14 +961,14 @@ static bool in_spell_aoe( const tripoint &target, const tripoint &epicenter, con
     return rl_dist( epicenter, target ) <= radius;
 }
 
-static std::set<tripoint> spell_effect_blast( spell &, const tripoint &, const tripoint &target,
-        const int aoe_radius, const bool ignore_walls )
+std::set<tripoint> spell_effect_blast( spell &, const tripoint &, const tripoint &target,
+                                       const int aoe_radius, const bool ignore_walls )
 {
     std::set<tripoint> targets;
     // TODO: Make this breadth-first
-    for( int x = target.x - aoe_radius; x < target.x + aoe_radius; x++ ) {
-        for( int y = target.y - aoe_radius; y < target.y + aoe_radius; y++ ) {
-            for( int z = target.z - aoe_radius; z < target.z + aoe_radius; z++ ) {
+    for( int x = target.x - aoe_radius; x <= target.x + aoe_radius; x++ ) {
+        for( int y = target.y - aoe_radius; y <= target.y + aoe_radius; y++ ) {
+            for( int z = target.z - aoe_radius; z <= target.z + aoe_radius; z++ ) {
                 const tripoint potential_target( x, y, z );
                 if( in_spell_aoe( potential_target, target, aoe_radius, ignore_walls ) ) {
                     targets.emplace( potential_target );
@@ -921,13 +979,13 @@ static std::set<tripoint> spell_effect_blast( spell &, const tripoint &, const t
     return targets;
 }
 
-static std::set<tripoint> spell_effect_cone( spell &sp, const tripoint &source,
-        const tripoint &target,
-        const int aoe_radius, const bool ignore_walls )
+std::set<tripoint> spell_effect_cone( spell &sp, const tripoint &source,
+                                      const tripoint &target,
+                                      const int aoe_radius, const bool ignore_walls )
 {
     std::set<tripoint> targets;
     // cones go all the way to end (if they don't hit an obstacle)
-    const int range = sp.range();
+    const int range = sp.range() + 1;
     const int initial_angle = coord_to_angle( source, target );
     std::set<tripoint> end_points;
     for( int angle = initial_angle - floor( aoe_radius / 2.0 );
@@ -951,9 +1009,9 @@ static std::set<tripoint> spell_effect_cone( spell &sp, const tripoint &source,
     return targets;
 }
 
-static std::set<tripoint> spell_effect_line( spell &, const tripoint &source,
-        const tripoint &target,
-        const int aoe_radius, const bool ignore_walls )
+std::set<tripoint> spell_effect_line( spell &, const tripoint &source,
+                                      const tripoint &target,
+                                      const int aoe_radius, const bool ignore_walls )
 {
     std::set<tripoint> targets;
     const int initial_angle = coord_to_angle( source, target );
@@ -966,43 +1024,58 @@ static std::set<tripoint> spell_effect_line( spell &, const tripoint &source,
     tripoint cclockwise_end_point;
     calc_ray_end( initial_angle + 90, ceil( aoe_radius / 2.0 ), target, cclockwise_end_point );
 
-    std::vector<tripoint> start_width_lh = line_to( source, cclockwise_starting_point );
-    std::vector<tripoint> start_width_rh = line_to( source, clockwise_starting_point );
 
-    int start_width_lh_blocked = start_width_lh.size();
-    int start_width_rh_blocked = start_width_rh.size() + 1;
-    for( const tripoint &p : start_width_lh ) {
-        if( ignore_walls || g->m.passable( p ) ) {
-            start_width_lh_blocked--;
-        } else {
-            break;
+    std::vector<tripoint> start_width = line_to( clockwise_starting_point, cclockwise_starting_point );
+    start_width.insert( start_width.begin(), clockwise_end_point );
+    std::vector<tripoint> end_width = line_to( clockwise_end_point, cclockwise_end_point );
+    end_width.insert( end_width.begin(), clockwise_starting_point );
+
+    std::vector<tripoint> cwise_line = line_to( clockwise_starting_point, cclockwise_starting_point );
+    cwise_line.insert( cwise_line.begin(), clockwise_starting_point );
+    std::vector<tripoint> ccwise_line = line_to( cclockwise_starting_point, cclockwise_end_point );
+    ccwise_line.insert( ccwise_line.begin(), cclockwise_starting_point );
+
+    for( const tripoint &start_line_pt : start_width ) {
+        bool passable = true;
+        for( const tripoint &potential_target : line_to( source, start_line_pt ) ) {
+            passable = g->m.passable( potential_target ) || ignore_walls;
+            if( passable ) {
+                targets.emplace( potential_target );
+            } else {
+                break;
+            }
         }
-    }
-    for( const tripoint &p : start_width_rh ) {
-        if( ignore_walls || g->m.passable( p ) ) {
-            start_width_rh_blocked--;
-        } else {
-            break;
+        if( !passable ) {
+            // leading edge of line attack is very important to the whole
+            // if the leading edge is blocked, none of the attack spawning
+            // from that edge can propogate
+            continue;
         }
-    }
-
-    std::reverse( start_width_rh.begin(), start_width_rh.end() );
-    std::vector<tripoint> start_width;
-    start_width.reserve( start_width_lh.size() + start_width_rh.size() + 2 );
-    start_width.insert( start_width.end(), start_width_rh.begin(), start_width_rh.end() );
-    start_width.emplace_back( source );
-    start_width.insert( start_width.end(), start_width_lh.begin(), start_width_lh.end() );
-    std::vector<tripoint> end_width = line_to( cclockwise_end_point, clockwise_end_point );
-    // line_to omits the starting point. we want it back.
-    end_width.insert( end_width.begin(), cclockwise_end_point );
-
-    // we're going from right to left (clockwise to counterclockwise)
-    for( int i = start_width_rh_blocked;
-         i <= static_cast<int>( start_width.size() ) - start_width_lh_blocked; i++ ) {
-        for( tripoint &ep : end_width ) {
-            for( tripoint &p : line_to( start_width[i], ep ) ) {
-                if( ignore_walls || g->m.passable( p ) ) {
-                    targets.emplace( p );
+        for( const tripoint &end_line_pt : end_width ) {
+            std::vector<tripoint> temp_line = line_to( start_line_pt, end_line_pt );
+            for( const tripoint &potential_target : temp_line ) {
+                if( ignore_walls || g->m.passable( potential_target ) ) {
+                    targets.emplace( potential_target );
+                } else {
+                    break;
+                }
+            }
+        }
+        for( const tripoint &cwise_line_pt : cwise_line ) {
+            std::vector<tripoint> temp_line = line_to( start_line_pt, cwise_line_pt );
+            for( const tripoint &potential_target : temp_line ) {
+                if( ignore_walls || g->m.passable( potential_target ) ) {
+                    targets.emplace( potential_target );
+                } else {
+                    break;
+                }
+            }
+        }
+        for( const tripoint &ccwise_line_pt : ccwise_line ) {
+            std::vector<tripoint> temp_line = line_to( start_line_pt, ccwise_line_pt );
+            for( const tripoint &potential_target : temp_line ) {
+                if( ignore_walls || g->m.passable( potential_target ) ) {
+                    targets.emplace( potential_target );
                 } else {
                     break;
                 }
@@ -1046,6 +1119,29 @@ static std::set<tripoint> spell_effect_area( spell &sp, const tripoint &source,
     return targets;
 }
 
+static void add_effect_to_target( const tripoint &target, const spell &sp )
+{
+    const int dur_moves = sp.duration();
+    const time_duration dur_td = 1_turns * dur_moves / 100;
+
+    Creature *const critter = g->critter_at<Creature>( target );
+    Character *const guy = g->critter_at<Character>( target );
+    efftype_id spell_effect( sp.effect_data() );
+    bool bodypart_effected = false;
+
+    if( guy ) {
+        for( const body_part bp : all_body_parts ) {
+            if( sp.bp_is_affected( bp ) ) {
+                guy->add_effect( spell_effect, dur_td, bp );
+                bodypart_effected = true;
+            }
+        }
+    }
+    if( !bodypart_effected ) {
+        critter->add_effect( spell_effect, dur_td, num_bp );
+    }
+}
+
 static void damage_targets( spell &sp, std::set<tripoint> targets )
 {
     for( const tripoint target : targets ) {
@@ -1062,19 +1158,14 @@ static void damage_targets( spell &sp, std::set<tripoint> targets )
         atk.end_point = target;
         atk.hit_critter = cr;
         atk.proj = bolt;
+        if( !sp.effect_data().empty() ) {
+            add_effect_to_target( target, sp );
+        }
         if( sp.damage() > 0 ) {
             cr->deal_projectile_attack( &g->u, atk, true );
         } else {
             sp.heal( target );
             add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
-        }
-        if( !sp.effect_data().empty() ) {
-            const int dur_moves = sp.duration();
-            const time_duration dur_td = 1_turns * dur_moves / 100;
-            const std::vector<body_part> all_bp = { bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r, };
-            for( const body_part bp : all_bp ) {
-                cr->add_effect( efftype_id( sp.effect_data() ), dur_td, bp );
-            }
         }
     }
 }
@@ -1108,7 +1199,7 @@ void spawn_ethereal_item( spell &sp )
 {
     item granted( sp.effect_data(), calendar::turn );
     if( !granted.is_comestible() ) {
-        granted.set_rot( -sp.duration_turns() );
+        granted.set_var( "ethereal", to_turns<int>( sp.duration_turns() ) );
         granted.set_flag( "ETHEREAL_ITEM" );
     }
     if( granted.count_by_charges() && sp.damage() > 0 ) {
@@ -1117,8 +1208,10 @@ void spawn_ethereal_item( spell &sp )
     if( g->u.can_wear( granted ).success() ) {
         granted.set_flag( "FIT" );
         g->u.wear_item( granted, false );
-    } else {
+    } else if( !g->u.is_armed() ) {
         g->u.weapon = granted;
+    } else {
+        g->u.i_add( granted );
     }
     if( !granted.count_by_charges() ) {
         for( int i = 1; i < sp.damage(); i++ ) {

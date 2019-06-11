@@ -183,7 +183,8 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "defensive": true,
-    "miss_recovery": true
+    "miss_recovery": true,
+    "messages": [ "You feint at %s.", "<npcname> feints at %s." ]
   },
   {
     "type": "technique",
@@ -192,7 +193,8 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "defensive": true,
-    "grab_break": true
+    "grab_break": true,
+    "messages": [ "The %s tries to grab you, but you break its grab!", "The %s tries to grab <npcname>, but they break its grab!" ]
   },
   {
     "type": "technique",
@@ -328,7 +330,8 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "defensive": true,
-    "grab_break": true
+    "grab_break": true,
+    "messages": [ "The %s tries to grab you, but you break its grab!", "The %s tries to grab <npcname>, but they break its grab!" ]
   },
   {
     "type": "technique",
@@ -512,7 +515,8 @@
     "unarmed_allowed": true,
     "melee_allowed": true,
     "defensive": true,
-    "grab_break": true
+    "grab_break": true,
+    "messages": [ "The %s tries to grab you, but you break its grab!", "The %s tries to grab <npcname>, but they break its grab!" ]
   },
   {
     "type": "technique",
@@ -707,7 +711,7 @@
     "name": "puño strike",
     "min_melee": 3,
     "min_bashing_damage": 2,
-    "mult_bonuses": [ [ "damage", "bash", 4.0 ], [ "damage", "cut", 0.0 ], [ "damage", "stab", 0.0 ] ],
+    "mult_bonuses": [ [ "movecost", 0.6 ], [ "damage", "bash", 0.7 ], [ "damage", "cut", 0.0 ], [ "damage", "stab", 0.0 ] ],
     "crit_tec": true,
     "stun_dur": 1,
     "messages": [ "You deliver a puño to %s", "<npcname> haftstrikes %s" ]
@@ -857,7 +861,7 @@
     "unarmed_allowed": true,
     "defensive": true,
     "miss_recovery": true,
-    "messages": [ "You raise your arms intimidatingly", "<npcname> performs the Crane Wing" ]
+    "messages": [ "You raise your arms intimidatingly at %s.", "<npcname> performs the Crane Wing at %s." ]
   },
   {
     "type": "technique",
@@ -867,7 +871,10 @@
     "unarmed_allowed": true,
     "defensive": true,
     "grab_break": true,
-    "messages": [ "You swing your arms and break free", "<npcname> flaps free" ]
+    "messages": [
+      "The %s tries to grab you, but you swing your arms and break free!",
+      "The %s tries to grab <npcname>, but they flap free!"
+    ]
   },
   {
     "type": "technique",
@@ -906,7 +913,7 @@
     "unarmed_allowed": true,
     "defensive": true,
     "grab_break": true,
-    "messages": [ "You slither free", "<npcname> slithers free" ]
+    "messages": [ "The %s tries to grab you, but you slither free!", "The %s tries to grab <npcname>, but they slither free!" ]
   },
   {
     "type": "technique",

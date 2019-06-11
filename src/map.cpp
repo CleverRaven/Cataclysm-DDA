@@ -2624,6 +2624,16 @@ bool map::is_last_ter_wall( const bool no_furn, const int x, const int y,
     return result;
 }
 
+bool map::tinder_at( const tripoint &p )
+{
+    for( const auto &i : i_at( p ) ) {
+        if( i.has_flag( "TINDER" ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool map::flammable_items_at( const tripoint &p, int threshold )
 {
     if( !has_items( p ) ||
@@ -5194,6 +5204,42 @@ const trap &map::tr_at( const tripoint &p ) const
     return current_submap->get_trap( l ).obj();
 }
 
+partial_con *map::partial_con_at( const tripoint &p )
+{
+    if( !inbounds( p ) ) {
+        return nullptr;
+    }
+    point l;
+    submap *const current_submap = get_submap_at( p, l );
+    auto it = current_submap->partial_constructions.find( tripoint( l.x, l.y, p.z ) );
+    if( it != current_submap->partial_constructions.end() ) {
+        return &it->second;
+    }
+    return nullptr;
+}
+
+void map::partial_con_remove( const tripoint &p )
+{
+    if( !inbounds( p ) ) {
+        return;
+    }
+    point l;
+    submap *const current_submap = get_submap_at( p, l );
+    current_submap->partial_constructions.erase( tripoint( l.x, l.y, p.z ) );
+}
+
+void map::partial_con_set( const tripoint &p, const partial_con &con )
+{
+    if( !inbounds( p ) ) {
+        return;
+    }
+    point l;
+    submap *const current_submap = get_submap_at( p, l );
+    if( !current_submap->partial_constructions.emplace( tripoint( l.x, l.y, p.z ), con ).second ) {
+        debugmsg( "set partial con on top of terrain which already has a partial con" );
+    }
+}
+
 void map::trap_set( const tripoint &p, const trap_id &type )
 {
     if( !inbounds( p ) ) {
@@ -6935,15 +6981,16 @@ void map::grow_plant( const tripoint &p )
         return;
     }
     const time_duration plantEpoch = seed.get_plant_epoch();
-    if( seed.age() >= plantEpoch && !furn.has_flag( "GROWTH_HARVEST" ) ) {
+    if( seed.age() >= plantEpoch * furn.plant->growth_multiplier &&
+        !furn.has_flag( "GROWTH_HARVEST" ) ) {
         if( seed.age() < plantEpoch * 2 ) {
             if( has_flag_furn( "GROWTH_SEEDLING", p ) ) {
                 return;
             }
             i_rem( p, 1 );
             rotten_item_spawn( seed, p );
-            furn_set( p, furn_str_id( furn.plant_transform ) );
-        } else if( seed.age() < plantEpoch * 3 ) {
+            furn_set( p, furn_str_id( furn.plant->transform ) );
+        } else if( seed.age() < plantEpoch * 3 * furn.plant->growth_multiplier ) {
             if( has_flag_furn( "GROWTH_MATURE", p ) ) {
                 return;
             }
@@ -6953,7 +7000,7 @@ void map::grow_plant( const tripoint &p )
             if( !has_flag_furn( "GROWTH_SEEDLING", p ) ) {
                 rotten_item_spawn( seed, p );
             }
-            furn_set( p, furn_str_id( furn.plant_transform ) );
+            furn_set( p, furn_str_id( furn.plant->transform ) );
         } else {
             //You've skipped two stages so roll monsters two times
             if( has_flag_furn( "GROWTH_SEEDLING", p ) ) {
@@ -6968,7 +7015,7 @@ void map::grow_plant( const tripoint &p )
                 rotten_item_spawn( seed, p );
                 rotten_item_spawn( seed, p );
             }
-            furn_set( p, furn_str_id( furn.plant_transform ) );
+            furn_set( p, furn_str_id( furn.plant->transform ) );
         }
     }
 }
@@ -8134,16 +8181,10 @@ void map::add_corpse( const tripoint &p )
         body.item_tags.insert( "REVIVE_SPECIAL" );
     }
 
+    put_items_from_loc( "default_zombie_clothes", p, 0 );
+    put_items_from_loc( "default_zombie_items", p, 0 );
+
     add_item_or_charges( p, body );
-    put_items_from_loc( "shoes",  p, 0 );
-    put_items_from_loc( "pants",  p, 0 );
-    put_items_from_loc( "shirts", p, 0 );
-    if( one_in( 6 ) ) {
-        put_items_from_loc( "jackets", p, 0 );
-    }
-    if( one_in( 15 ) ) {
-        put_items_from_loc( "bags", p, 0 );
-    }
 }
 
 field &map::get_field( const tripoint &p )

@@ -142,7 +142,7 @@ Available units:
 
 Examples:
 - " +1 day -23 hours 50m " `(1*24*60 - 23*60 + 50 == 110 minutes)`
-- "1 turn 1 minutes 9 turns" (2 minutes because 10 turns are 1 minute)
+- "1 turn 1 minutes 9 turns" (1 minute and 10 seconds because 1 turn is 1 second)
 
 ### All Files
 
@@ -544,7 +544,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
 ],
 "difficulty": 3,             // Difficulty of success check
 "time": "5 m",               // Preferred time to perform recipe, can specify in minutes, hours etc.
-"time": 5000,                // Legacy time to perform recipe (where 1000 ~= 10 turns ~= 1 minute game time).
+"time": 5000,                // Legacy time to perform recipe (where 1000 ~= 10 turns ~= 10 seconds game time).
 "reversible": false,         // Can be disassembled.
 "autolearn": true,           // Automatically learned upon gaining required skills
 "autolearn" : [              // Automatically learned upon gaining listed skills
@@ -562,6 +562,7 @@ Mods can modify this via `add:traits` and `remove:traits`.
   "ANOTHERFLAG"
 ],
 "construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings
+"on_display": false,         // this is a hidden construction item, used by faction camps to calculate construction times but not available to the player
 "qualities": [               // Generic qualities of tools needed to craft
   {"id":"CUT","level":1,"amount":1}
 ],
@@ -1088,7 +1089,7 @@ Guns can be defined like this:
 "burst": 5,           // Number of shots fired in burst mode
 "clip_size": 100,     // Maximum amount of ammo that can be loaded
 "ups_charges": 0,     // Additionally to the normal ammo (if any), a gun can require some charges from an UPS. This also works on mods. Attaching a mod with ups_charges will add/increase ups drain on the weapon.
-"reload": 450,         // Amount of time to reload, 100 = 6 seconds = 1 "turn"
+"reload": 450,         // Amount of time to reload, 100 = 1 second = 1 "turn"
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"] //An array of mods that will be added to a weapon on spawn.
 ```
@@ -1426,7 +1427,7 @@ The contents of use_action fields can either be a string indicating a built-in f
 }
 "use_action" : {
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
-    "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (10 turn = 1 minute)
+    "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (60 turns = 1 minute)
     "not_ready_msg" : "The yeast has not been done The yeast isn't done culturing yet." // A message, shown when the item is not old enough
 },
 "use_action": {
@@ -1729,13 +1730,9 @@ Strength required to move the furniture around. Negative values indicate an unmo
 
 (Optional) Can craft here.  Must specify a speed multiplier, allowed mass, and allowed volume.  Mass/volume over these limits incur a speed penalty.  Must be paired with a `"workbench"` `examine_action` to function.
 
-#### `plant_transform`
+#### `plant_data`
 
-(Optional) What the furniture turns into when it is planted on or grows.
-
-#### `plant_base``
-
-(Optional) What the plant furniture turns into when it is eaten by something that eats crops - this should be what it is planted in. Requires `PLANT` flag to function.
+(Optional) This is a plant. Must specify a plant transform, and a base depending on context. You can also add a harvest or growth multiplier if it has the `GROWTH_HARVEST` flag. 
 
 ### Terrain
 
@@ -1942,6 +1939,33 @@ The terrain / furniture that will be set after the original has been deconstruct
 ### `items`
 
 (Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". Upon deconstruction the object, items from that group will be spawned.
+
+### `plant_data`
+
+```JSON
+{
+  "transform": "f_planter_harvest",
+  "base": "f_planter",
+  "growth_multiplier": 1.2,
+  "harvest_multiplier": 0.8
+}
+```
+
+#### `transform`
+
+What the `PLANT` furniture turn into when it grows a stage, or what a `PLANTABLE` furniture turns into when it is planted on.
+
+#### `base`
+
+What the 'base' furniture of the `PLANT` furniture is - what it would be if there was not a plant growing there. Used when monsters 'eat' the plant to preserve what furniture it is.
+
+#### `growth_multiplier`
+
+A flat multiplier on the growth speed on the plant. For numbers greater than one, it will take longer to grow, and for numbers less than one it will take less time to grow.
+
+#### `harvest_multiplier`
+
+A flat multiplier on the harvest count of the plant. For numbers greater than one, the plant will give more produce from harvest, for numbers less than one it will give less produce from harvest.
 
 # Scenarios
 

@@ -46,6 +46,7 @@ class field;
 class field_entry;
 class vehicle;
 struct fragment_cloud;
+struct partial_con;
 class submap;
 class item_location;
 class map_cursor;
@@ -767,6 +768,13 @@ class map
          *  all terrain is floor and the last terrain is a wall */
         bool is_last_ter_wall( const bool no_furn, const int x, const int y,
                                const int xmax, const int ymax, const direction dir ) const;
+
+        /**
+         * Checks if there are any tinder flagged items on the tile.
+         * @param p tile to check
+         */
+        bool tinder_at( const tripoint &p );
+
         /**
          * Checks if there are any flammable items on the tile.
          * @param p tile to check
@@ -1028,11 +1036,15 @@ class map
          * Fetch an item from this vehicle, with sanity checks to ensure it still exists.
          */
         item *item_from( vehicle *veh, const int cargo_part, const size_t index );
-
+        // Partial construction functions
+        void partial_con_set( const tripoint &p, const partial_con &con );
+        void partial_con_remove( const tripoint &p );
+        partial_con *partial_con_at( const tripoint &p );
         // Traps: 3D
         void trap_set( const tripoint &p, const trap_id &type );
 
         const trap &tr_at( const tripoint &p ) const;
+
         void disarm_trap( const tripoint &p );
         void remove_trap( const tripoint &p );
         const std::vector<tripoint> &trap_locations( const trap_id &type ) const;

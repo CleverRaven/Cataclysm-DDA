@@ -4,6 +4,7 @@
     "id": "default",
     "default_oter": "field",
     "default_groundcover": [ [ "t_grass", 4 ], [ "t_grass_long", 2 ], [ "t_dirt", 1 ] ],
+    "river_scale": 1.0,
     "field_coverage": {
       "percent_coverage": 0.9333,
       "default_ter": "t_shrub",
@@ -26,6 +27,7 @@
         "t_tree_apple": 0.02,
         "t_tree_apricot": 0.02,
         "t_tree_cherry": 0.02,
+        "t_tree_juniper": 0.02,
         "t_tree_peach": 0.02,
         "t_tree_pear": 0.02,
         "t_tree_plum": 0.02,
@@ -79,6 +81,7 @@
         "t_tree_apricot": 0.02,
         "t_tree_cherry": 0.02,
         "t_tree_peach": 0.02,
+        "t_tree_juniper": 0.02,
         "t_tree_pear": 0.02,
         "t_tree_plum": 0.02,
         "t_tree_elderberry": 0.02,
@@ -153,6 +156,7 @@
               "t_tree_apple": 2,
               "t_tree_apricot": 2,
               "t_tree_cherry": 2,
+              "t_tree_juniper": 2,
               "t_tree_peach": 2,
               "t_tree_pear": 2,
               "t_tree_plum": 2,
@@ -243,6 +247,7 @@
               "t_tree_apple": 2,
               "t_tree_apricot": 2,
               "t_tree_cherry": 2,
+              "t_tree_juniper": 2,
               "t_tree_peach": 2,
               "t_tree_pear": 2,
               "t_tree_plum": 2,
@@ -330,6 +335,7 @@
               "t_tree_hickory": 8,
               "t_tree_apple": 2,
               "t_tree_cherry": 2,
+              "t_tree_juniper": 2,
               "t_tree_peach": 2,
               "t_tree_pear": 2,
               "t_tree_plum": 2,
@@ -408,7 +414,6 @@
           "mx_drugdeal": 20,
           "mx_supplydrop": 10,
           "mx_portal": 3,
-          "mx_minefield": 50,
           "mx_crater": 10,
           "mx_fumarole": 8,
           "mx_portal_in": 1,
@@ -418,7 +423,9 @@
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
           "mx_pond": 125,
-          "mx_clay_deposit": 125
+          "mx_clay_deposit": 125,
+          "mx_point_dead_vegetation": 500,
+          "mx_point_burned_ground": 500
         }
       },
       "forest_thick": {
@@ -431,7 +438,6 @@
           "mx_drugdeal": 20,
           "mx_supplydrop": 10,
           "mx_portal": 3,
-          "mx_minefield": 50,
           "mx_crater": 10,
           "mx_fumarole": 8,
           "mx_portal_in": 1,
@@ -443,7 +449,9 @@
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
           "mx_pond": 125,
-          "mx_clay_deposit": 125
+          "mx_clay_deposit": 125,
+          "mx_point_dead_vegetation": 500,
+          "mx_point_burned_ground": 500
         }
       },
       "forest_water": {
@@ -456,7 +464,6 @@
           "mx_drugdeal": 20,
           "mx_supplydrop": 10,
           "mx_portal": 3,
-          "mx_minefield": 50,
           "mx_crater": 10,
           "mx_fumarole": 8,
           "mx_portal_in": 1,
@@ -466,7 +473,9 @@
           "mx_shrubbery": 500,
           "mx_clearcut": 125,
           "mx_pond": 125,
-          "mx_clay_deposit": 125
+          "mx_clay_deposit": 125,
+          "mx_point_dead_vegetation": 500,
+          "mx_point_burned_ground": 500
         }
       },
       "field": {
@@ -479,11 +488,12 @@
           "mx_drugdeal": 20,
           "mx_supplydrop": 10,
           "mx_portal": 3,
-          "mx_minefield": 50,
           "mx_crater": 10,
           "mx_fumarole": 8,
           "mx_portal_in": 1,
-          "mx_anomaly": 3
+          "mx_anomaly": 3,
+          "mx_point_dead_vegetation": 50,
+          "mx_point_burned_ground": 50
         }
       },
       "road": {
@@ -502,7 +512,8 @@
           "mx_crater": 10,
           "mx_fumarole": 8,
           "mx_portal_in": 2,
-          "mx_anomaly": 3
+          "mx_anomaly": 3,
+          "mx_roadworks": 100
         }
       },
       "build": {
@@ -517,7 +528,8 @@
           "mx_crater": 60,
           "mx_fumarole": 8,
           "mx_portal_in": 1,
-          "mx_anomaly": 3
+          "mx_anomaly": 3,
+          "mx_point_burned_ground": 5
         }
       },
       "marloss": { "chance": 20, "extras": { "mx_marloss_pilgrimage": 100 } },
@@ -591,7 +603,9 @@
       "shops": {
         "bus_station": 200,
         "town_hall": 150,
-        "craft_shop": 100,
+        "craft_shop": 200,
+        "craft_shop_1": 200,
+        "craft_shop_2": 200,
         "s_gas": 500,
         "s_pharm": 300,
         "s_pharm_1": 300,
@@ -600,11 +614,18 @@
         "s_hardware": 500,
         "s_sports": 500,
         "dojo": 200,
+        "dojo_1": 200,
         "gym": 100,
         "gym_fitness": 200,
         "s_liquor": 500,
         "s_gun": 500,
-        "s_clothes": 500,
+        "s_clothes": 200,
+        "s_clothes_1": 200,
+        "s_clothes_2": 200,
+        "s_clothes_3": 200,
+        "s_clothes_4": 200,
+        "s_clothes_5": 200,
+        "s_clothes_6": 200,
         "s_library": 200,
         "s_bookstore": 200,
         "s_bookstore_1": 200,
@@ -623,7 +644,9 @@
         "s_electronics": 500,
         "pawn": 300,
         "mil_surplus": 200,
-        "s_garage": 500,
+        "s_garage": 300,
+        "s_garage_1": 300,
+        "s_garage_2": 300,
         "station_radio": 400,
         "office_doctor": 200,
         "office_doctor_1": 200,
@@ -647,6 +670,7 @@
         "police_1": 100,
         "police_2": 100,
         "fire_station": 200,
+        "fire_station_1": 200,
         "home_improvement": 200,
         "s_lot": 400,
         "s_arcade": 200,
@@ -683,6 +707,7 @@
         "paintball_field": 100,
         "smoke_lounge": 100,
         "gambling_hall": 100,
+        "gambling_hall_1": 100,
         "music_venue": 100,
         "dump": 100,
         "recyclecenter": 100,
@@ -695,7 +720,8 @@
         "abandonedwarehouse_4": 100,
         "emptycommerciallot": 100,
         "lancenter": 100,
-        "dollarstore": 300,
+        "dollarstore": 200,
+        "dollarstore_1": 200,
         "s_vfw": 100,
         "s_daycare": 100,
         "s_thrift": 100,
