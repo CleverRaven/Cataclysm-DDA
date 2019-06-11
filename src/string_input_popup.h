@@ -219,7 +219,7 @@ class string_input_popup
         /**@{*/
         void query( bool loop = true, bool draw_only = false );
         int query_int( bool loop = true, bool draw_only = false );
-        long query_long( bool loop = true, bool draw_only = false );
+        int64_t query_int64_t( bool loop = true, bool draw_only = false );
         const std::string &query_string( bool loop = true, bool draw_only = false );
         /**@}*/
         /**
