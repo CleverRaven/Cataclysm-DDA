@@ -6709,14 +6709,19 @@ static std::string get_vehicle_hash( const vehicle &veh )
     return string_format( "%s %i %i %i", veh.disp_name(), veh_coord.x, veh_coord.y, veh_coord.z );
 }
 
-static const auto format_object_pair = []( const std::pair<std::string, int> &pair )
+static const auto format_object_pair = []( const std::pair<std::string, int> &pair,
+                                       const std::string &article = "" )
 {
     if( pair.second == 1 ) {
-        return string_format( "%s", pair.first );
+        return string_format( "%s%s", article, pair.first );
     } else if( pair.second > 1 ) {
-        return string_format( "%i %s", pair.second, pair.first );
+        return string_format( "%s%i %s", article, pair.second, pair.first );
     }
     return std::string();
+};
+static const auto format_object_pair_article = []( const std::pair<std::string, int> &pair )
+{
+    return format_object_pair( pair, "a " );
 };
 
 static std::string effects_description_for_creature( Creature *const creature, std::string &pose,
@@ -6921,7 +6926,8 @@ static object_names_collection enumerate_objects_around_point( const tripoint po
 
         for( int i = 0; i < 4; i++ ) {
             for( const auto &p : vecs_to_retrieve[ i ] ) {
-                objects_combined_desc.push_back( format_object_pair( p ) );
+                objects_combined_desc.push_back( i == 1 ? // vehicle name already includes "the"
+                                                 format_object_pair( p ) : format_object_pair_article( p ) );
             }
         }
 
@@ -6937,10 +6943,9 @@ static object_names_collection enumerate_objects_around_point( const tripoint po
         }
         if( !objects_combined_desc.empty() ) {
             // store objects to description_figures_status
-            std::string objects_text = enumerate_as_string( objects_combined_desc.begin(), objects_combined_desc.end(), []( const std::string &obj){
-                return "a " + obj; 
-            } );
-            ret_obj.obj_nearby_text = string_format( _( "Nearby %s %s." ), objects_combined_desc.size() == 1 ? "is" : "are", objects_text );
+            std::string objects_text = enumerate_as_string( objects_combined_desc );
+            ret_obj.obj_nearby_text = string_format( _( "Nearby %s %s." ),
+                                      objects_combined_desc.size() == 1 ? "is" : "are", objects_text );
         }
     }
     return ret_obj;
@@ -7126,27 +7131,27 @@ static extended_photo_def photo_def_for_camera_point( const tripoint aim_point,
 
     if( !obj_coll.items.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.items.begin(), obj_coll.items.end(),
-                               format_object_pair );
-        photo_text += "\n\n" + string_format( _( "There is something lying on the ground: %s." ),
-                                              obj_list );
+                               format_object_pair_article );
+        photo_text += "\n\n" + string_format( _( "There %s something lying on the ground: %s." ),
+                                              obj_coll.items.size() == 1 ? "is" : "are", obj_list );
     }
     if( !obj_coll.furniture.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.furniture.begin(), obj_coll.furniture.end(),
-                               format_object_pair );
+                               format_object_pair_article );
         photo_text += "\n\n" + string_format( _( "Some objects are visible in the background: %s." ),
                                               obj_list );
     }
     if( !obj_coll.vehicles.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.vehicles.begin(), obj_coll.vehicles.end(),
                                format_object_pair );
-        photo_text += "\n\n" + string_format( _( "%s %s parked in the background." ), obj_list, objcoll.vehicles.size() == 1 ? "is" : "are" );
-                                              obj_list );
+        photo_text += "\n\n" + string_format( _( "There %s %s parked in the background." ),
+                                              obj_coll.vehicles.size() == 1 ? "is" : "are", obj_list );
     }
     if( !obj_coll.terrain.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.terrain.begin(), obj_coll.terrain.end(),
-                               format_object_pair );
-        photo_text += "\n\n" + string_format( _( "There is %s in the background." ),
-                                              obj_list );
+                               format_object_pair_article );
+        photo_text += "\n\n" + string_format( _( "There %s %s in the background." ),
+                                              obj_coll.terrain.size() == 1 ? "is" : "are", obj_list );
     }
 
     const oter_id &cur_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( aim_point ) ) );
@@ -7180,7 +7185,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint aim_point,
         }
 
         const weather_datum w_data = weather_data( g->weather.weather );
-        photo_text += string_format( _( "The weather is %s" ), colorize( w_data.name, w_data.color ) );
+        photo_text += string_format( _( "The weather is %s." ), colorize( w_data.name, w_data.color ) );
     }
 
     for( const auto &figure : description_figures_appearance ) {
