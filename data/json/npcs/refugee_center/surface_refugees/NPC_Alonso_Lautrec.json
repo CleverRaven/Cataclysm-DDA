@@ -61,14 +61,19 @@
   {
     "type": "talk_topic",
     "//": "common talk responses",
-    "id": [
-      "TALK_REFUGEE_Alonso_2",
-      "TALK_REFUGEE_Alonso_Background",
-      "TALK_REFUGEE_Alonso_Situation"
-    ],
+    "id": [ "TALK_REFUGEE_Alonso_2", "TALK_REFUGEE_Alonso_Background", "TALK_REFUGEE_Alonso_Situation" ],
     "responses": [
       { "text": "You seem a little forward...", "topic": "TALK_REFUGEE_Alonso_Forward" },
-      { "text": "[PERCEPTION 10] What is up with you?  What's with the fake accent, and speaking in the third person?", "topic": "TALK_REFUGEE_Alonso_CalledOut1", "condition": { "and": [ "u_has_perception": 10 }, { "not": { "npc_has_var": "Alonso_accent", "type": "general", "context": "none", "value": "asked" } } },
+      {
+        "text": "[PERCEPTION 10] What is up with you?  What's with the fake accent, and speaking in the third person?",
+        "topic": "TALK_REFUGEE_Alonso_CalledOut1",
+        "condition": {
+          "and": [
+            { "u_has_perception": 10 },
+            { "not": { "npc_has_var": "Alonso_accent", "type": "general", "context": "none", "value": "asked" } }
+          ]
+        }
+      },
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Alonso_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Alonso_Situation" }
     ]
@@ -77,7 +82,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_1",
     "dynamic_line": {
-      "u_has_var": "u_met_Alonso_Lautrec", "type": "general", "context": "meeting", "value": "yes",
+      "u_has_var": "u_met_Alonso_Lautrec",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
       "yes": "Hello again, gorgeous",
       "no": {
         "u_male": "Oh my, it's good to see such a strong and handsome fellow around here.  They call me Alonso.",
@@ -121,8 +129,11 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_2",
-    "dynamic_line": { 
-      "npc_has_var": "Alonso_accent", "type": "general", "context": "none", "value": "asked",
+    "dynamic_line": {
+      "npc_has_var": "Alonso_accent",
+      "type": "general",
+      "context": "none",
+      "value": "asked",
       "no": "Now that you are here, everything.  Is there anything Alonso can... *do for you*?",
       "yes": "Well, it's a lot better now that you're here.  Nice to see a familiar face."
     },
@@ -135,7 +146,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_Forward",
     "dynamic_line": {
-      "npc_has_var": "Alonso_accent", "type": "general", "context": "none", "value": "asked",
+      "npc_has_var": "Alonso_accent",
+      "type": "general",
+      "context": "none",
+      "value": "asked",
       "no": "Alonso cannot help himself, in the face of someone so fine as you.",
       "yes": "You know me, I gotta be me, right?"
     },
@@ -162,7 +176,11 @@
     "id": "TALK_REFUGEE_Alonso_CalledOut2",
     "dynamic_line": "Better'n you'd maybe think, okay?  Can we drop it?",
     "responses": [
-      { "text": "Just stop talking like that around me, maybe?  It's really obnoxious.", "topic": "TALK_REFUGEE_Alonso_CalledOut3", "effect": { "npc_add_var": "Alonso_accent", "type": "general", "context": "none", "value": "asked" } },
+      {
+        "text": "Just stop talking like that around me, maybe?  It's really obnoxious.",
+        "topic": "TALK_REFUGEE_Alonso_CalledOut3",
+        "effect": { "npc_add_var": "Alonso_accent", "type": "general", "context": "none", "value": "asked" }
+      },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'll leave you to it then.", "topic": "TALK_DONE" }
     ]
@@ -171,7 +189,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_Background",
     "dynamic_line": {
-      "npc_has_var": "Alonso_accent", "type": "general", "context": "none", "value": "asked",
+      "npc_has_var": "Alonso_accent",
+      "type": "general",
+      "context": "none",
+      "value": "asked",
       "no": "Alonso does not wish to talk about the past, only the future.  There are dark days ahead, but perhaps together we can bring a little light?",
       "yes": "I'm tryin' ta forget, y'know?  Don't like thinkin' about the past.  Better to plan for the future, even if the future looks grim."
     },
@@ -183,8 +204,11 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Alonso_Situation",
-    "dynamic_line": 
-      "npc_has_var": "Alonso_accent", "type": "general", "context": "none", "value": "asked",
+    "dynamic_line": {
+      "npc_has_var": "Alonso_accent",
+      "type": "general",
+      "context": "none",
+      "value": "asked",
       "no": "Here in the center, Alonso is a bit lonely.  We get a few brave, strong travellers like yourself, though, and seeing them brightens Alonso's day.",
       "yes": "Could be better.  I don't really got any friends here in the center, but seeing travellers like you always brightens my day."
     },
