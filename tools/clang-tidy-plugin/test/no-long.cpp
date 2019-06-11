@@ -53,3 +53,14 @@ void h()
     g( ULONG_MAX );
     // CHECK-MESSAGES: warning: Use of long-specific macro ULONG_MAX [cata-no-long]
 }
+
+template<typename T>
+struct A {
+    T Af0();
+    long Af1();
+    // CHECK-MESSAGES: warning: Function 'Af1' declared as returning 'long'.  Prefer int or int64_t to long. [cata-no-long]
+    T Af2( long Af2i );
+    // CHECK-MESSAGES: warning: Variable 'Af2i' declared as 'long'.  Prefer int or int64_t to long. [cata-no-long]
+};
+
+A<long> a;
