@@ -27,44 +27,11 @@
 // Compiler-specific defines used by colony:
 
 #if defined(_MSC_VER)
-#define COLONY_FORCE_INLINE __forceinline
 
-#if _MSC_VER < 1600
-#define COLONY_NOEXCEPT throw()
-#define COLONY_NOEXCEPT_SWAP(the_allocator)
-#define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) throw()
-#elif _MSC_VER == 1600
-#define COLONY_MOVE_SEMANTICS_SUPPORT
-#define COLONY_NOEXCEPT throw()
-#define COLONY_NOEXCEPT_SWAP(the_allocator)
-#define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) throw()
-#elif _MSC_VER == 1700
-#define COLONY_TYPE_TRAITS_SUPPORT
-#define COLONY_ALLOCATOR_TRAITS_SUPPORT
-#define COLONY_MOVE_SEMANTICS_SUPPORT
-#define COLONY_NOEXCEPT throw()
-#define COLONY_NOEXCEPT_SWAP(the_allocator)
-#define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) throw()
-#elif _MSC_VER == 1800
-#define COLONY_TYPE_TRAITS_SUPPORT
-#define COLONY_ALLOCATOR_TRAITS_SUPPORT
-#define COLONY_VARIADICS_SUPPORT // Variadics, in this context, means both variadic templates and variadic macros are supported
-#define COLONY_MOVE_SEMANTICS_SUPPORT
-#define COLONY_NOEXCEPT throw()
-#define COLONY_NOEXCEPT_SWAP(the_allocator)
-#define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) throw()
-#define COLONY_INITIALIZER_LIST_SUPPORT
-#elif _MSC_VER >= 1900
-#define COLONY_ALIGNMENT_SUPPORT
-#define COLONY_TYPE_TRAITS_SUPPORT
-#define COLONY_ALLOCATOR_TRAITS_SUPPORT
-#define COLONY_VARIADICS_SUPPORT
-#define COLONY_MOVE_SEMANTICS_SUPPORT
+#define COLONY_FORCE_INLINE __forceinline
 #define COLONY_NOEXCEPT noexcept
 #define COLONY_NOEXCEPT_SWAP(the_allocator) noexcept(std::allocator_traits<the_allocator>::propagate_on_container_swap::value)
 #define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept(std::allocator_traits<the_allocator>::is_always_equal::value)
-#define COLONY_INITIALIZER_LIST_SUPPORT
-#endif
 
 #if defined(_MSVC_LANG) && (_MSVC_LANG >= 201703L)
 #define COLONY_CONSTEXPR constexpr
@@ -72,21 +39,13 @@
 #define COLONY_CONSTEXPR
 #endif
 
-#elif defined(__cplusplus) && __cplusplus >= 201103L // C++11 support, at least
+#else
+
 #define COLONY_FORCE_INLINE // note: GCC creates faster code without forcing inline
 
 #if defined(__GNUC__) && defined(__GNUC_MINOR__) && !defined(__clang__) // If compiler is GCC/G++
-#if (__GNUC__ == 4 && __GNUC_MINOR__ >= 3) || __GNUC__ > 4 // 4.2 and below do not support variadic templates
-#define COLONY_VARIADICS_SUPPORT
-#endif
-#if (__GNUC__ == 4 && __GNUC_MINOR__ >= 4) || __GNUC__ > 4 // 4.3 and below do not support initializer lists
-#define COLONY_INITIALIZER_LIST_SUPPORT
-#endif
-#if (__GNUC__ == 4 && __GNUC_MINOR__ < 6) || __GNUC__ < 4
-#define COLONY_NOEXCEPT throw()
-#define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator)
-#define COLONY_NOEXCEPT_SWAP(the_allocator)
-#elif __GNUC__ < 6
+
+#if __GNUC__ < 6
 #define COLONY_NOEXCEPT noexcept
 #define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept
 #define COLONY_NOEXCEPT_SWAP(the_allocator) noexcept
@@ -95,61 +54,20 @@
 #define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept(std::allocator_traits<the_allocator>::is_always_equal::value)
 #define COLONY_NOEXCEPT_SWAP(the_allocator) noexcept(std::allocator_traits<the_allocator>::propagate_on_container_swap::value)
 #endif
-#if (__GNUC__ == 4 && __GNUC_MINOR__ >= 7) || __GNUC__ > 4
-#define COLONY_ALLOCATOR_TRAITS_SUPPORT
-#endif
-#if (__GNUC__ == 4 && __GNUC_MINOR__ >= 8) || __GNUC__ > 4
-#define COLONY_ALIGNMENT_SUPPORT
-#endif
-#if __GNUC__ >= 5 // GCC v4.9 and below do not support std::is_trivially_copyable
-#define COLONY_TYPE_TRAITS_SUPPORT
-#endif
+
 #elif defined(__GLIBCXX__) // Using another compiler type with libstdc++ - we are assuming full c++11 compliance for compiler - which may not be true
-#if __GLIBCXX__ >= 20080606     // libstdc++ 4.2 and below do not support variadic templates
-#define COLONY_VARIADICS_SUPPORT
-#endif
-#if __GLIBCXX__ >= 20090421     // libstdc++ 4.3 and below do not support initializer lists
-#define COLONY_INITIALIZER_LIST_SUPPORT
-#endif
+
 #if __GLIBCXX__ >= 20160111
-#define COLONY_ALLOCATOR_TRAITS_SUPPORT
 #define COLONY_NOEXCEPT noexcept
 #define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept(std::allocator_traits<the_allocator>::is_always_equal::value)
 #define COLONY_NOEXCEPT_SWAP(the_allocator) noexcept(std::allocator_traits<the_allocator>::propagate_on_container_swap::value)
-#elif __GLIBCXX__ >= 20120322
-#define COLONY_ALLOCATOR_TRAITS_SUPPORT
+#else
 #define COLONY_NOEXCEPT noexcept
 #define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept
 #define COLONY_NOEXCEPT_SWAP(the_allocator) noexcept
-#else
-#define COLONY_NOEXCEPT throw()
-#define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator)
-#define COLONY_NOEXCEPT_SWAP(the_allocator)
 #endif
-#if __GLIBCXX__ >= 20130322
-#define COLONY_ALIGNMENT_SUPPORT
-#endif
-#if __GLIBCXX__ >= 20150422 // libstdc++ v4.9 and below do not support std::is_trivially_copyable
-#define COLONY_TYPE_TRAITS_SUPPORT
-#endif
-#elif defined(_LIBCPP_VERSION)
-#define COLONY_ALLOCATOR_TRAITS_SUPPORT
-#define COLONY_VARIADICS_SUPPORT
-#define COLONY_INITIALIZER_LIST_SUPPORT
-#define COLONY_ALIGNMENT_SUPPORT
-#define COLONY_NOEXCEPT noexcept
-#define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept(std::allocator_traits<the_allocator>::is_always_equal::value)
-#define COLONY_NOEXCEPT_SWAP(the_allocator) noexcept
 
-#if !(defined(_LIBCPP_CXX03_LANG) || defined(_LIBCPP_HAS_NO_RVALUE_REFERENCES))
-#define COLONY_TYPE_TRAITS_SUPPORT
-#endif
-#else // Assume type traits and initializer support for other compilers and standard libraries
-#define COLONY_ALLOCATOR_TRAITS_SUPPORT
-#define COLONY_ALIGNMENT_SUPPORT
-#define COLONY_VARIADICS_SUPPORT
-#define COLONY_INITIALIZER_LIST_SUPPORT
-#define COLONY_TYPE_TRAITS_SUPPORT
+#else
 #define COLONY_NOEXCEPT noexcept
 #define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept(std::allocator_traits<the_allocator>::is_always_equal::value)
 #define COLONY_NOEXCEPT_SWAP(the_allocator) noexcept
@@ -169,58 +87,25 @@
 #define COLONY_CONSTEXPR
 #endif
 
-#define COLONY_MOVE_SEMANTICS_SUPPORT
-#else
-#define COLONY_FORCE_INLINE
-#define COLONY_NOEXCEPT throw()
-#define COLONY_NOEXCEPT_SWAP(the_allocator)
-#define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator)
-#define COLONY_CONSTEXPR
 #endif
 
-#ifdef COLONY_ALLOCATOR_TRAITS_SUPPORT
-#ifdef COLONY_VARIADICS_SUPPORT
-#define COLONY_CONSTRUCT(the_allocator, allocator_instance, location, ...)  std::allocator_traits<the_allocator>::construct(allocator_instance, location, __VA_ARGS__)
-#else
-#define COLONY_CONSTRUCT(the_allocator, allocator_instance, location, data) std::allocator_traits<the_allocator>::construct(allocator_instance, location, data)
-#endif
-
+// TODO: get rid of these defines
+#define COLONY_CONSTRUCT(the_allocator, allocator_instance, location, ...)      std::allocator_traits<the_allocator>::construct(allocator_instance, location, __VA_ARGS__)
 #define COLONY_DESTROY(the_allocator, allocator_instance, location)             std::allocator_traits<the_allocator>::destroy(allocator_instance, location)
 #define COLONY_ALLOCATE(the_allocator, allocator_instance, size, hint)          std::allocator_traits<the_allocator>::allocate(allocator_instance, size, hint)
 #define COLONY_ALLOCATE_INITIALIZATION(the_allocator, size, hint)               std::allocator_traits<the_allocator>::allocate(*this, size, hint)
 #define COLONY_DEALLOCATE(the_allocator, allocator_instance, location, size)    std::allocator_traits<the_allocator>::deallocate(allocator_instance, location, size)
-#else
-#ifdef COLONY_VARIADICS_SUPPORT
-#define COLONY_CONSTRUCT(the_allocator, allocator_instance, location, ...)  allocator_instance.construct(location, __VA_ARGS__)
-#else
-#define COLONY_CONSTRUCT(the_allocator, allocator_instance, location, data) allocator_instance.construct(location, data)
-#endif
-
-#define COLONY_DESTROY(the_allocator, allocator_instance, location)             allocator_instance.destroy(location)
-#define COLONY_ALLOCATE(the_allocator, allocator_instance, size, hint)          allocator_instance.allocate(size, hint)
-#define COLONY_ALLOCATE_INITIALIZATION(the_allocator, size, hint)               the_allocator::allocate(size, hint)
-#define COLONY_DEALLOCATE(the_allocator, allocator_instance, location, size)    allocator_instance.deallocate(location, size)
-#endif
 
 #include <algorithm> // std::sort and std::fill_n
-#include <cstring>  // memset, memcpy
-#include <cassert>  // assert
-#include <limits>  // std::numeric_limits
-#include <memory>   // std::allocator
-#include <iterator> // std::bidirectional_iterator_tag
-
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
+#include <cassert> // assert
 #include <cstddef> // offsetof, used in blank()
-#include <type_traits> // std::is_trivially_destructible, etc
-#endif
-
-#ifdef COLONY_MOVE_SEMANTICS_SUPPORT
-#include <utility> // std::move
-#endif
-
-#ifdef COLONY_INITIALIZER_LIST_SUPPORT
+#include <cstring> // memset, memcpy
 #include <initializer_list>
-#endif
+#include <iterator> // std::bidirectional_iterator_tag
+#include <limits> // std::numeric_limits
+#include <memory> // std::allocator
+#include <type_traits> // std::is_trivially_destructible, etc
+#include <utility> // std::move
 
 template <class element_type, class element_allocator_type = std::allocator<element_type>, typename element_skipfield_type = unsigned short >
 class colony : private
@@ -233,29 +118,16 @@ class colony : private
         using allocator_type = element_allocator_type;
         using skipfield_type = element_skipfield_type;
 
-#ifdef COLONY_ALIGNMENT_SUPPORT
         using aligned_element_type = typename std::aligned_storage < sizeof( element_type ),
               ( alignof( element_type ) > ( sizeof( element_skipfield_type ) * 2 ) ) ? alignof( element_type ) :
               ( sizeof( element_skipfield_type ) * 2 ) >::type;
-#else
-        using aligned_element_type = element_type;
-#endif
 
-#ifdef COLONY_ALLOCATOR_TRAITS_SUPPORT
         using size_type = typename std::allocator_traits<element_allocator_type>::size_type;
         using difference_type = typename std::allocator_traits<element_allocator_type>::difference_type;
         using reference = element_type&;
         using const_reference = const element_type&;
         using pointer = typename std::allocator_traits<element_allocator_type>::pointer;
         using const_pointer = typename std::allocator_traits<element_allocator_type>::const_pointer;
-#else
-        using size_type = typename element_allocator_type::size_type;
-        using difference_type = typename element_allocator_type::difference_type;
-        using reference = typename element_allocator_type::reference;
-        using const_reference = typename element_allocator_type::const_reference;
-        using pointer = typename element_allocator_type::pointer;
-        using const_pointer = typename element_allocator_type::const_pointer;
-#endif
 
         // Iterator declarations:
         template <bool is_const> class      colony_iterator;
@@ -274,7 +146,6 @@ class colony : private
 
         struct group; // forward declaration for typedefs below
 
-#ifdef COLONY_ALLOCATOR_TRAITS_SUPPORT
         using aligned_element_allocator_type = typename
                                                std::allocator_traits<element_allocator_type>::template rebind_alloc<aligned_element_type>;
         using group_allocator_type = typename std::allocator_traits<element_allocator_type>::template
@@ -292,21 +163,6 @@ class colony : private
 
         using pointer_allocator_type = typename std::allocator_traits<element_allocator_type>::template
                                        rebind_alloc<pointer>;
-#else
-        using aligned_element_allocator_type = typename element_allocator_type::template
-                                               rebind<aligned_element_type>::other;  // In case compiler supports alignment but not allocator_traits
-        using group_allocator_type = typename element_allocator_type::template rebind<group>::other;
-        using skipfield_allocator_type = typename element_allocator_type::template
-                                         rebind<skipfield_type>::other;
-        using uchar_allocator_type = typename element_allocator_type::template rebind<unsigned char>::other;
-
-        using aligned_pointer_type = typename aligned_element_allocator_type::pointer;
-        using group_pointer_type = typename group_allocator_type::pointer;
-        using skipfield_pointer_type = typename skipfield_allocator_type::pointer;
-        using uchar_pointer_type = typename uchar_allocator_type::pointer;
-
-        using pointer_allocator_type = typename element_allocator_type::template rebind<pointer>::other;
-#endif
 
         // Colony groups:
         struct group : private
@@ -331,7 +187,6 @@ class colony : private
             size_type
             group_number;               // Used for comparison (> < >= <=) iterator operators (used by distance function and user)
 
-#ifdef COLONY_VARIADICS_SUPPORT
             group( const skipfield_type elements_per_group, group_pointer_type const previous = NULL ):
                 last_endpoint( reinterpret_cast<aligned_pointer_type>( COLONY_ALLOCATE_INITIALIZATION(
                                    uchar_allocator_type, ( ( elements_per_group * ( sizeof( aligned_element_type ) ) ) + ( (
@@ -351,35 +206,7 @@ class colony : private
                 std::memset( &*skipfield, 0, sizeof( skipfield_type ) * ( elements_per_group +
                              1u ) ); // &* to avoid problems with non-trivial pointers
             }
-#else
-            // This is a hack around the fact that element_allocator_type::construct only supports copy construction in C++03 and copy elision does not occur on the vast majority of compilers in this circumstance. And to avoid running out of memory (and losing performance) from allocating the same block twice, we're allocating in this constructor and moving data in the copy constructor.
-            group( const skipfield_type elements_per_group, group_pointer_type const previous = NULL ):
-                last_endpoint( reinterpret_cast<aligned_pointer_type>( COLONY_ALLOCATE_INITIALIZATION(
-                                   uchar_allocator_type, ( ( elements_per_group * ( sizeof( aligned_element_type ) ) ) + ( (
-                                               elements_per_group + 1 ) * sizeof( skipfield_type ) ) ),
-                                   ( previous == NULL ) ? 0 : previous->elements ) ) ),
-                elements( NULL ),
-                skipfield( reinterpret_cast<skipfield_pointer_type>( last_endpoint + elements_per_group ) ),
-                previous_group( previous ),
-                capacity( elements_per_group ) {
-                std::memset( &*skipfield, 0, sizeof( skipfield_type ) * ( elements_per_group + 1u ) );
-            }
 
-            // Not a real copy constructor ie. actually a move constructor. Only used for allocator.construct in C++03 for reasons stated above:
-group( const group &source ) COLONY_NOEXCEPT:
-            uchar_allocator_type( source ),
-                                  last_endpoint( source.last_endpoint + 1 ),
-                                  next_group( NULL ),
-                                  elements( source.last_endpoint ),
-                                  skipfield( source.skipfield ),
-                                  previous_group( source.previous_group ),
-                                  free_list_head( std::numeric_limits<skipfield_type>::max() ),
-                                  capacity( source.capacity ),
-                                  number_of_elements( 1 ),
-                                  erasures_list_next_group( NULL ),
-                                  group_number( ( source.previous_group == NULL ) ? 0 : source.previous_group->group_number + 1u )
-            {}
-#endif
             ~group() COLONY_NOEXCEPT {
                 // Null check not necessary (for copied group as above) as delete will also perform a null check.
                 COLONY_DEALLOCATE( uchar_allocator_type, ( *this ), reinterpret_cast<uchar_pointer_type>( elements ), ( capacity * sizeof( aligned_element_type ) ) + ( ( capacity + 1u ) * sizeof( skipfield_type ) ) );
@@ -434,7 +261,6 @@ group( const group &source ) COLONY_NOEXCEPT:
                     return *this;
                 }
 
-#ifdef COLONY_MOVE_SEMANTICS_SUPPORT
                 // Move assignment - only really necessary if the allocator uses non-standard ie. smart pointers
                 inline colony_iterator &operator=( colony_iterator &&source )
                 COLONY_NOEXCEPT { // Move is a copy in this scenario
@@ -452,7 +278,6 @@ group( const group &source ) COLONY_NOEXCEPT:
                     skipfield_pointer = std::move( source.skipfield_pointer );
                     return *this;
                 }
-#endif
 
                 inline COLONY_FORCE_INLINE bool operator==( const colony_iterator &rh ) const COLONY_NOEXCEPT {
                     return ( element_pointer == rh.element_pointer );
@@ -611,7 +436,6 @@ group( const group &source ) COLONY_NOEXCEPT:
                 element_pointer( source.element_pointer ),
                 skipfield_pointer( source.skipfield_pointer ) {}
 
-#ifdef COLONY_MOVE_SEMANTICS_SUPPORT
                 // move constructor
             inline colony_iterator( colony_iterator &&source ) COLONY_NOEXCEPT:
                 group_pointer( std::move( source.group_pointer ) ),
@@ -622,7 +446,6 @@ group( const group &source ) COLONY_NOEXCEPT:
                 group_pointer( std::move( source.group_pointer ) ),
                 element_pointer( std::move( source.element_pointer ) ),
                 skipfield_pointer( std::move( source.skipfield_pointer ) ) {}
-#endif
         }; // colony_iterator
 
         // Reverse iterators:
@@ -648,13 +471,11 @@ group( const group &source ) COLONY_NOEXCEPT:
                     return *this;
                 }
 
-#ifdef COLONY_MOVE_SEMANTICS_SUPPORT
                 // move assignment
                 inline colony_reverse_iterator &operator=( colony_reverse_iterator &&source ) COLONY_NOEXCEPT {
                     it = std::move( source.it );
                     return *this;
                 }
-#endif
 
                 inline COLONY_FORCE_INLINE bool operator==( const colony_reverse_iterator &rh ) const
                 COLONY_NOEXCEPT {
@@ -791,14 +612,12 @@ group( const group &source ) COLONY_NOEXCEPT:
 
             public:
 
-#ifdef COLONY_MOVE_SEMANTICS_SUPPORT
                 // move constructors
             colony_reverse_iterator( colony_reverse_iterator &&source ) COLONY_NOEXCEPT:
                 it( std::move( source.it ) ) {}
 
             colony_reverse_iterator( typename colony::iterator &&source ) COLONY_NOEXCEPT:
                 it( std::move( source ) ) {}
-#endif
 
         }; // colony_reverse_iterator
 
@@ -848,12 +667,6 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             // skipfield type must be of unsigned integer type (uchar, ushort, uint etc)
             assert( std::numeric_limits<skipfield_type>::is_integer &
                     !std::numeric_limits<skipfield_type>::is_signed );
-
-#ifndef COLONY_ALIGNMENT_SUPPORT
-            // eg. under C++03, aligned_storage is not available, so sizeof(skipfield type) * 2 must be larger or equal to sizeof(element_type), otherwise the doubly-linked free lists of erased element indexes will not work correctly. So if you're storing chars, for example, and using the default skipfield type (unsigned short), the compiler will flag you with this assert. You cannot store char or unsigned char in colony under C++03, and if storing short or unsigned short you must change your skipfield type to unsigned char. Or just use C++11 and above.
-            assert( sizeof( element_type ) >= sizeof( skipfield_type ) *
-                    2 );
-#endif
         }
 
         // Default constuctor (allocator-extended):
@@ -868,11 +681,6 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             group_allocator_pair( std::numeric_limits<skipfield_type>::max() ) {
             assert( std::numeric_limits<skipfield_type>::is_integer &
                     !std::numeric_limits<skipfield_type>::is_signed );
-
-#ifndef COLONY_ALIGNMENT_SUPPORT
-            // see default constructor explanation
-            assert( sizeof( element_type ) >= sizeof( skipfield_type ) * 2 );
-#endif
         }
 
         // Copy constructor:
@@ -913,12 +721,9 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
     private:
 
         inline void blank() COLONY_NOEXCEPT {
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
             if COLONY_CONSTEXPR( std::is_trivial<group_pointer_type>::value && std::is_trivial<aligned_pointer_type>::value && std::is_trivial<skipfield_pointer_type>::value ) { // if all pointer types are trivial, we can just nuke it from orbit with memset (NULL is always 0 in C++):
                 std::memset( static_cast<void *>( this ), 0, offsetof( colony, pointer_allocator_pair ) );
-            } else
-#endif
-            {
+            } else {
                 end_iterator.group_pointer = NULL;
                 end_iterator.element_pointer = NULL;
                 end_iterator.skipfield_pointer = NULL;
@@ -932,8 +737,6 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
         }
 
     public:
-
-#ifdef COLONY_MOVE_SEMANTICS_SUPPORT
 
         // Move constructor:
     colony( colony &&source ) COLONY_NOEXCEPT:
@@ -961,7 +764,6 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             group_allocator_pair( source.group_allocator_pair.max_elements_per_group ) {
             source.blank();
         }
-#endif
 
         // Fill constructor:
         colony( const size_type fill_number, const element_type &element,
@@ -980,11 +782,6 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                     !std::numeric_limits<skipfield_type>::is_signed );
             assert( ( pointer_allocator_pair.min_elements_per_group > 2 ) &
                     ( pointer_allocator_pair.min_elements_per_group <= group_allocator_pair.max_elements_per_group ) );
-
-#ifndef COLONY_ALIGNMENT_SUPPORT
-            assert( sizeof( element_type ) >= sizeof( skipfield_type ) *
-                    2 ); // see default constructor explanation
-#endif
 
             insert( fill_number, element );
         }
@@ -1007,19 +804,12 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             assert( ( pointer_allocator_pair.min_elements_per_group > 2 ) &
                     ( pointer_allocator_pair.min_elements_per_group <= group_allocator_pair.max_elements_per_group ) );
 
-#ifndef COLONY_ALIGNMENT_SUPPORT
-            assert( sizeof( element_type ) >= sizeof( skipfield_type ) *
-                    2 ); // see default constructor explanation
-#endif
-
             insert<iterator_type>( first, last );
         }
 
 
 
         // Initializer-list constructor:
-
-#ifdef COLONY_INITIALIZER_LIST_SUPPORT
         colony( const std::initializer_list<element_type> &element_list,
                 const skipfield_type min_allocation_amount = 0,
                 const skipfield_type max_allocation_amount = std::numeric_limits<skipfield_type>::max(),
@@ -1037,13 +827,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             assert( ( pointer_allocator_pair.min_elements_per_group > 2 ) &
                     ( pointer_allocator_pair.min_elements_per_group <= group_allocator_pair.max_elements_per_group ) );
 
-#ifndef COLONY_ALIGNMENT_SUPPORT
-            assert( sizeof( element_type ) >= sizeof( skipfield_type ) *
-                    2 ); // see default constructor explanation
-#endif
             insert( element_list );
         }
-#endif
 
         inline COLONY_FORCE_INLINE iterator begin() COLONY_NOEXCEPT {
             return begin_iterator;
@@ -1098,13 +883,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
     private:
 
         void destroy_all_data() COLONY_NOEXCEPT {
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
             // Amusingly enough, these changes from && to logical & actually do make a significant difference in debug mode
-            if( ( total_number_of_elements != 0 ) & !( std::is_trivially_destructible<element_type>::value ) )
-#else // If compiler doesn't support traits, iterate regardless - trivial destructors will not be called, hopefully compiler will optimise the 'destruct' loop out for POD types
-            if( total_number_of_elements != 0 )
-#endif
-            {
+            if( ( total_number_of_elements != 0 ) & !( std::is_trivially_destructible<element_type>::value ) ) {
                 total_number_of_elements = 0; // to avoid double-destruction
 
                 while( true ) {
@@ -1146,13 +926,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             begin_iterator.group_pointer = COLONY_ALLOCATE( group_allocator_type, group_allocator_pair, 1, 0 );
 
             try {
-#ifdef COLONY_VARIADICS_SUPPORT
                 COLONY_CONSTRUCT( group_allocator_type, group_allocator_pair, begin_iterator.group_pointer,
                                   first_group_size );
-#else
-                COLONY_CONSTRUCT( group_allocator_type, group_allocator_pair, begin_iterator.group_pointer,
-                                  group( first_group_size ) );
-#endif
             } catch( ... ) {
                 COLONY_DEALLOCATE( group_allocator_type, group_allocator_pair, begin_iterator.group_pointer, 1 );
                 begin_iterator.group_pointer = NULL;
@@ -1177,15 +952,12 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                         const iterator return_iterator =
                             end_iterator; /* Make copy for return before modifying end_iterator */
 
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
                         if COLONY_CONSTEXPR( std::is_nothrow_copy_constructible<element_type>::value ) {
                             // For no good reason this compiles to faster code under GCC:
                             COLONY_CONSTRUCT( element_allocator_type, ( *this ),
                                               reinterpret_cast<pointer>( end_iterator.element_pointer++ ), element );
                             end_iterator.group_pointer->last_endpoint = end_iterator.element_pointer;
-                        } else
-#endif
-                        {
+                        } else {
                             COLONY_CONSTRUCT( element_allocator_type, ( *this ),
                                               reinterpret_cast<pointer>( end_iterator.element_pointer ), element );
                             end_iterator.group_pointer->last_endpoint =
@@ -1207,26 +979,18 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                                                               ( total_number_of_elements ) : group_allocator_pair.max_elements_per_group;
 
                         try {
-#ifdef COLONY_VARIADICS_SUPPORT
                             COLONY_CONSTRUCT( group_allocator_type, group_allocator_pair, &next_group, new_group_size,
                                               end_iterator.group_pointer );
-#else
-                            COLONY_CONSTRUCT( group_allocator_type, group_allocator_pair, &next_group, group( new_group_size,
-                                              end_iterator.group_pointer ) );
-#endif
                         } catch( ... ) {
                             COLONY_DEALLOCATE( group_allocator_type, group_allocator_pair, &next_group, 1 );
                             end_iterator.group_pointer->next_group = NULL;
                             throw;
                         }
 
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
                         if COLONY_CONSTEXPR( std::is_nothrow_copy_constructible<element_type>::value ) {
                             COLONY_CONSTRUCT( element_allocator_type, ( *this ),
                                               reinterpret_cast<pointer>( next_group.elements ), element );
-                        } else
-#endif
-                        {
+                        } else {
                             try {
                                 COLONY_CONSTRUCT( element_allocator_type, ( *this ),
                                                   reinterpret_cast<pointer>( next_group.elements ), element );
@@ -1312,13 +1076,10 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             } else { // ie. newly-constructed colony, no insertions yet and no groups
                 initialize( pointer_allocator_pair.min_elements_per_group );
 
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
                 if COLONY_CONSTEXPR( std::is_nothrow_copy_constructible<element_type>::value ) {
                     COLONY_CONSTRUCT( element_allocator_type, ( *this ),
                                       reinterpret_cast<pointer>( end_iterator.element_pointer++ ), element );
-                } else
-#endif
-                {
+                } else {
                     try {
                         COLONY_CONSTRUCT( element_allocator_type, ( *this ),
                                           reinterpret_cast<pointer>( end_iterator.element_pointer++ ), element );
@@ -1334,23 +1095,19 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             }
         }
 
-#ifdef COLONY_MOVE_SEMANTICS_SUPPORT
-        iterator insert( element_type
-                         &&element ) { // The move-insert function is near-identical to the regular insert function, with the exception of the element construction method and is_nothrow tests.
+        // The move-insert function is near-identical to the regular insert function, with the exception of the element construction method and is_nothrow tests.
+        iterator insert( element_type &&element ) {
             if( end_iterator.element_pointer != NULL ) {
                 switch( ( ( groups_with_erasures_list_head != NULL ) << 1 ) | ( end_iterator.element_pointer ==
                         reinterpret_cast<aligned_pointer_type>( end_iterator.group_pointer->skipfield ) ) ) {
                     case 0: {
                         const iterator return_iterator = end_iterator;
 
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
                         if COLONY_CONSTEXPR( std::is_nothrow_move_constructible<element_type>::value ) {
                             COLONY_CONSTRUCT( element_allocator_type, ( *this ),
                                               reinterpret_cast<pointer>( end_iterator.element_pointer++ ), std::move( element ) );
                             end_iterator.group_pointer->last_endpoint = end_iterator.element_pointer;
-                        } else
-#endif
-                        {
+                        } else {
                             COLONY_CONSTRUCT( element_allocator_type, ( *this ),
                                               reinterpret_cast<pointer>( end_iterator.element_pointer ), std::move( element ) );
                             end_iterator.group_pointer->last_endpoint = ++end_iterator.element_pointer;
@@ -1371,26 +1128,18 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                                                               ( total_number_of_elements ) : group_allocator_pair.max_elements_per_group;
 
                         try {
-#ifdef COLONY_VARIADICS_SUPPORT
                             COLONY_CONSTRUCT( group_allocator_type, group_allocator_pair, &next_group, new_group_size,
                                               end_iterator.group_pointer );
-#else
-                            COLONY_CONSTRUCT( group_allocator_type, group_allocator_pair, &next_group, group( new_group_size,
-                                              end_iterator.group_pointer ) );
-#endif
                         } catch( ... ) {
                             COLONY_DEALLOCATE( group_allocator_type, group_allocator_pair, &next_group, 1 );
                             end_iterator.group_pointer->next_group = NULL;
                             throw;
                         }
 
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
                         if COLONY_CONSTEXPR( std::is_nothrow_move_constructible<element_type>::value ) {
                             COLONY_CONSTRUCT( element_allocator_type, ( *this ),
                                               reinterpret_cast<pointer>( next_group.elements ), std::move( element ) );
-                        } else
-#endif
-                        {
+                        } else {
                             try {
                                 COLONY_CONSTRUCT( element_allocator_type, ( *this ),
                                                   reinterpret_cast<pointer>( next_group.elements ), std::move( element ) );
@@ -1466,13 +1215,10 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             } else {
                 initialize( pointer_allocator_pair.min_elements_per_group );
 
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
                 if COLONY_CONSTEXPR( std::is_nothrow_move_constructible<element_type>::value ) {
                     COLONY_CONSTRUCT( element_allocator_type, ( *this ),
                                       reinterpret_cast<pointer>( end_iterator.element_pointer++ ), std::move( element ) );
-                } else
-#endif
-                {
+                } else {
                     try {
                         COLONY_CONSTRUCT( element_allocator_type, ( *this ),
                                           reinterpret_cast<pointer>( end_iterator.element_pointer++ ), std::move( element ) );
@@ -1487,9 +1233,7 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                 return begin_iterator;
             }
         }
-#endif
 
-#ifdef COLONY_VARIADICS_SUPPORT
         template<typename... arguments>
         iterator emplace( arguments &&...
                           parameters ) { // The emplace function is near-identical to the regular insert function, with the exception of the element construction method, removal of internal VARIADICS support checks, and change to is_nothrow tests.
@@ -1499,15 +1243,12 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                     case 0: {
                         const iterator return_iterator = end_iterator;
 
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
                         if COLONY_CONSTEXPR( std::is_nothrow_constructible<element_type, arguments ...>::value ) {
                             COLONY_CONSTRUCT( element_allocator_type, ( *this ),
                                               reinterpret_cast<pointer>( end_iterator.element_pointer++ ),
                                               std::forward<arguments>( parameters )... );
                             end_iterator.group_pointer->last_endpoint = end_iterator.element_pointer;
-                        } else
-#endif
-                        {
+                        } else {
                             COLONY_CONSTRUCT( element_allocator_type, ( *this ),
                                               reinterpret_cast<pointer>( end_iterator.element_pointer ),
                                               std::forward<arguments>( parameters )... );
@@ -1537,13 +1278,10 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                             throw;
                         }
 
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
                         if COLONY_CONSTEXPR( std::is_nothrow_constructible<element_type, arguments ...>::value ) {
                             COLONY_CONSTRUCT( element_allocator_type, ( *this ),
                                               reinterpret_cast<pointer>( next_group.elements ), std::forward<arguments>( parameters )... );
-                        } else
-#endif
-                        {
+                        } else {
                             try {
                                 COLONY_CONSTRUCT( element_allocator_type, ( *this ),
                                                   reinterpret_cast<pointer>( next_group.elements ), std::forward<arguments>( parameters )... );
@@ -1619,14 +1357,11 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             } else {
                 initialize( pointer_allocator_pair.min_elements_per_group );
 
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
                 if COLONY_CONSTEXPR( std::is_nothrow_constructible<element_type, arguments ...>::value ) {
                     COLONY_CONSTRUCT( element_allocator_type, ( *this ),
                                       reinterpret_cast<pointer>( end_iterator.element_pointer++ ),
                                       std::forward<arguments>( parameters ) ... );
-                } else
-#endif
-                {
+                } else {
                     try {
                         COLONY_CONSTRUCT( element_allocator_type, ( *this ),
                                           reinterpret_cast<pointer>( end_iterator.element_pointer++ ),
@@ -1642,7 +1377,6 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                 return begin_iterator;
             }
         }
-#endif
 
     private:
 
@@ -1652,13 +1386,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                     group_allocator_type, group_allocator_pair, 1, end_iterator.group_pointer );
 
             try {
-#ifdef COLONY_VARIADICS_SUPPORT
                 COLONY_CONSTRUCT( group_allocator_type, group_allocator_pair, next_group, number_of_elements,
                                   end_iterator.group_pointer );
-#else
-                COLONY_CONSTRUCT( group_allocator_type, group_allocator_pair, next_group, group( number_of_elements,
-                                  end_iterator.group_pointer ) );
-#endif
             } catch( ... ) {
                 COLONY_DESTROY( group_allocator_type, group_allocator_pair, next_group );
                 COLONY_DEALLOCATE( group_allocator_type, group_allocator_pair, next_group, 1 );
@@ -1674,29 +1403,22 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
         }
 
         void group_fill( const element_type &element, const skipfield_type number_of_elements ) {
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
+            // ie. we can get away with using the cheaper fill_n here if there is no chance of an exception being thrown:
             if COLONY_CONSTEXPR( std::is_trivially_copyable<element_type>::value &&
                                  std::is_trivially_copy_constructible<element_type>::value &&
-                                 std::is_nothrow_copy_constructible<element_type>::value ) { // ie. we can get away with using the cheaper fill_n here if there is no chance of an exception being thrown:
-#ifdef COLONY_ALIGNMENT_SUPPORT
+                                 std::is_nothrow_copy_constructible<element_type>::value ) {
                 if COLONY_CONSTEXPR( sizeof( aligned_element_type ) == sizeof( element_type ) ) {
                     std::fill_n( reinterpret_cast<pointer>( end_iterator.element_pointer ), number_of_elements,
                                  element );
                 } else {
-                    alignas( sizeof( aligned_element_type ) ) element_type aligned_copy =
-                        element; // to avoid potentially violating memory boundaries in line below, create an initial copy object of same (but aligned) type
+                    // to avoid potentially violating memory boundaries in line below, create an initial copy object of same (but aligned) type
+                    alignas( sizeof( aligned_element_type ) ) element_type aligned_copy = element;
                     std::fill_n( end_iterator.element_pointer, number_of_elements,
                                  *( reinterpret_cast<aligned_pointer_type>( &aligned_copy ) ) );
                 }
-#else // type is not aligned to anything so is safe to use fill_n anyway:
-                std::fill_n( reinterpret_cast<pointer>( end_iterator.element_pointer ), number_of_elements,
-                             element );
-#endif
 
                 end_iterator.element_pointer += number_of_elements;
-            } else
-#endif
-            {
+            } else {
                 const aligned_pointer_type fill_end = end_iterator.element_pointer + number_of_elements;
 
                 do {
@@ -1721,11 +1443,10 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
 
         void fill_skipblock( const element_type &element, aligned_pointer_type const location,
                              skipfield_pointer_type const skipfield_pointer, const skipfield_type number_of_elements ) {
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
+            // ie. we can get away with using the cheaper fill_n here if there is no chance of an exception being thrown:
             if COLONY_CONSTEXPR( std::is_trivially_copyable<element_type>::value &&
                                  std::is_trivially_copy_constructible<element_type>::value &&
-                                 std::is_nothrow_copy_constructible<element_type>::value ) { // ie. we can get away with using the cheaper fill_n here if there is no chance of an exception being thrown:
-#ifdef COLONY_ALIGNMENT_SUPPORT
+                                 std::is_nothrow_copy_constructible<element_type>::value ) {
                 if COLONY_CONSTEXPR( sizeof( aligned_element_type ) == sizeof( element_type ) ) {
                     std::fill_n( reinterpret_cast<pointer>( location ), number_of_elements, element );
                 } else {
@@ -1734,12 +1455,7 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                     std::fill_n( location, number_of_elements,
                                  *( reinterpret_cast<aligned_pointer_type>( &aligned_copy ) ) );
                 }
-#else // type is not aligned to anything so is safe to use fill_n anyway:
-                std::fill_n( reinterpret_cast<pointer>( location ), number_of_elements, element );
-#endif
-            } else
-#endif
-            {
+            } else {
                 const skipfield_type prev_free_list_node = *( reinterpret_cast<skipfield_pointer_type>
                         ( location ) ); // in case of exception, grabbing indexes before free_list node is reused
                 const aligned_pointer_type fill_end = location + number_of_elements;
@@ -1929,13 +1645,11 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             }
         }
 
-#ifdef COLONY_INITIALIZER_LIST_SUPPORT
         // Initializer-list insert
         inline void insert( const std::initializer_list<element_type> &element_list ) {
             // use range insert:
             insert( element_list.begin(), element_list.end() );
         }
-#endif
 
     private:
 
@@ -1949,7 +1663,6 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
 
         // get all elements contiguous in memory and shrink to fit, remove erasures and erasure free lists
         inline COLONY_FORCE_INLINE void consolidate() {
-#ifdef COLONY_MOVE_SEMANTICS_SUPPORT
             colony temp;
             temp.change_group_sizes( static_cast<skipfield_type>( (
                                          pointer_allocator_pair.min_elements_per_group > total_number_of_elements ) ?
@@ -1958,23 +1671,16 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                                              total_number_of_elements ) ),
                                      group_allocator_pair.max_elements_per_group ); // Make first allocated group as large total number of elements, where possible
 
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
             if COLONY_CONSTEXPR( std::is_move_assignable<element_type>::value &&
                                  std::is_move_constructible<element_type>::value ) {
                 temp.insert( std::make_move_iterator( begin_iterator ), std::make_move_iterator( end_iterator ) );
-            } else
-#endif
-            {
+            } else {
                 temp.insert( begin_iterator, end_iterator );
             }
 
             temp.pointer_allocator_pair.min_elements_per_group =
                 pointer_allocator_pair.min_elements_per_group; // reset to correct value for future clear() or erasures
             *this = std::move( temp ); // Avoid generating 2nd temporary
-#else
-            colony temp( *this );
-            swap( temp );
-#endif
         }
 
         void remove_from_groups_with_erasures_list( const group_pointer_type group_to_remove )
@@ -2006,11 +1712,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             assert( *( it.skipfield_pointer ) ==
                     0 ); // ie. element pointed to by iterator has not been erased previously
 
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
-            if COLONY_CONSTEXPR( !
-                                 ( std::is_trivially_destructible<element_type>::value ) ) // This if-statement should be removed by the compiler on resolution of element_type. For some optimizing compilers this step won't be necessary (for MSVC 2013 it makes a difference)
-#endif
-            {
+            // This if-statement should be removed by the compiler on resolution of element_type. For some optimizing compilers this step won't be necessary (for MSVC 2013 it makes a difference)
+            if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
                 COLONY_DESTROY( element_allocator_type, ( *this ),
                                 reinterpret_cast<pointer>( it.element_pointer ) ); // Destruct element
             }
@@ -2235,19 +1938,14 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
 
                     // Schema: first erase all non-erased elements until end of group & remove all skipblocks post-iterator1 from the free_list. Then, either update preceding skipblock or create new one:
 
-#ifdef COLONY_TYPE_TRAITS_SUPPORT // if trivially-destructible, and C++11 or higher, and no erasures in group, skip while loop below and just jump straight to the location
+                    // if trivially-destructible, and no erasures in group, skip while loop below and just jump straight to the location
                     if( ( std::is_trivially_destructible<element_type>::value ) &
                         ( current.group_pointer->free_list_head == std::numeric_limits<skipfield_type>::max() ) ) {
                         number_of_group_erasures += static_cast<size_type>( end - current.element_pointer );
-                    } else
-#endif
-                    {
+                    } else {
                         while( current.element_pointer != end ) {
                             if( *current.skipfield_pointer == 0 ) {
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
-                                if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) )
-#endif
-                                {
+                                if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
                                     COLONY_DESTROY( element_allocator_type, ( *this ),
                                                     reinterpret_cast<pointer>( current.element_pointer ) ); // Destruct element
                                 }
@@ -2272,10 +1970,7 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                                     iterator1.group_pointer->free_list_head = std::numeric_limits<skipfield_type>::max();
                                     number_of_group_erasures += static_cast<size_type>( end - current.element_pointer );
 
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
-                                    if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) )
-#endif
-                                    {
+                                    if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
                                         while( current.element_pointer !=
                                                end ) { // miniloop - avoid checking skipfield for rest of elements in group, as there are no more skipped elements now
                                             COLONY_DESTROY( element_allocator_type, ( *this ),
@@ -2348,10 +2043,7 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                 const group_pointer_type previous_group = current.group_pointer->previous_group;
 
                 while( current.group_pointer != iterator2.group_pointer ) {
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
-                    if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) )
-#endif
-                    {
+                    if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
                         current.element_pointer = current.group_pointer->elements + *( current.group_pointer->skipfield );
                         current.skipfield_pointer = current.group_pointer->skipfield + *
                                                     ( current.group_pointer->skipfield );
@@ -2409,20 +2101,15 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
 
                 const iterator current_saved = current;
 
-#ifdef COLONY_TYPE_TRAITS_SUPPORT // if trivially-destructible, and C++11 or higher, and no erasures in group, skip while loop below and just jump straight to the location
+                // if trivially-destructible, and no erasures in group, skip while loop below and just jump straight to the location
                 if( ( std::is_trivially_destructible<element_type>::value ) &
                     ( current.group_pointer->free_list_head == std::numeric_limits<skipfield_type>::max() ) ) {
                     number_of_group_erasures += static_cast<size_type>( iterator2.element_pointer -
                                                 current.element_pointer );
-                } else
-#endif
-                {
+                } else {
                     while( current.element_pointer != iterator2.element_pointer ) {
                         if( *current.skipfield_pointer == 0 ) {
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
-                            if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) )
-#endif
-                            {
+                            if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
                                 COLONY_DESTROY( element_allocator_type, ( *this ),
                                                 reinterpret_cast<pointer>( current.element_pointer ) ); // Destruct element
                             }
@@ -2448,10 +2135,7 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                                 number_of_group_erasures += static_cast<size_type>( iterator2.element_pointer -
                                                             current.element_pointer );
 
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
-                                if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) )
-#endif
-                                {
+                                if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
                                     while( current.element_pointer != iterator2.element_pointer ) {
                                         COLONY_DESTROY( element_allocator_type, ( *this ),
                                                         reinterpret_cast<pointer>( current.element_pointer++ ) ); // Destruct element
@@ -2519,10 +2203,7 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                         ( number_of_group_erasures );
                 total_number_of_elements -= number_of_group_erasures;
             } else { // ie. full group erasure
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
-                if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) )
-#endif
-                {
+                if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
                     while( current.element_pointer != iterator2.element_pointer ) {
                         COLONY_DESTROY( element_allocator_type, ( *this ),
                                         reinterpret_cast<pointer>( current.element_pointer ) );
@@ -2576,11 +2257,7 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
 #endif
 
         inline size_type max_size() const COLONY_NOEXCEPT {
-#ifdef COLONY_ALLOCATOR_TRAITS_SUPPORT
             return std::allocator_traits<element_allocator_type>::max_size( *this );
-#else
-            return element_allocator_type::max_size();
-#endif
         }
 
         inline size_type capacity() const COLONY_NOEXCEPT {
@@ -2641,31 +2318,22 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
         inline colony &operator=( const colony &source ) {
             assert( &source != this );
 
-#ifdef COLONY_MOVE_SEMANTICS_SUPPORT
             destroy_all_data();
             colony temp( source );
             *this = std::move( temp ); // Avoid generating 2nd temporary
-#else
-            clear();
-            colony temp( source );
-            swap( temp );
-#endif
+
             return *this;
         }
 
-#ifdef COLONY_MOVE_SEMANTICS_SUPPORT
         // Move assignment
         colony &operator=( colony &&source ) COLONY_NOEXCEPT_MOVE_ASSIGNMENT( allocator_type ) {
             assert( &source != this );
             destroy_all_data();
 
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
             if COLONY_CONSTEXPR( std::is_trivial<group_pointer_type>::value &&
                                  std::is_trivial<aligned_pointer_type>::value && std::is_trivial<skipfield_pointer_type>::value ) {
                 std::memcpy( static_cast<void *>( this ), &source, sizeof( colony ) );
-            } else
-#endif
-            {
+            } else {
                 end_iterator = std::move( source.end_iterator );
                 begin_iterator = std::move( source.begin_iterator );
                 groups_with_erasures_list_head = source.groups_with_erasures_list_head;
@@ -2679,7 +2347,6 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             source.blank();
             return *this;
         }
-#endif
 
         bool operator==( const colony &rh ) const COLONY_NOEXCEPT {
             assert( this != &rh );
@@ -3404,25 +3071,19 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                                       std::numeric_limits<skipfield_type>::max() ) ? std::numeric_limits<skipfield_type>::max() :
                                       total_number_of_elements ) );
 
-#if defined(COLONY_TYPE_TRAITS_SUPPORT) && defined(COLONY_MOVE_SEMANTICS_SUPPORT)
                 if COLONY_CONSTEXPR( std::is_move_constructible<element_type>::value ) {
                     for( pointer *current_element_pointer = element_pointers;
                          current_element_pointer != element_pointer; ++current_element_pointer ) {
                         new_location.insert( std::move( *reinterpret_cast<pointer>( *current_element_pointer ) ) );
                     }
-                } else
-#endif
-                {
+                } else {
                     for( pointer *current_element_pointer = element_pointers;
                          current_element_pointer != element_pointer; ++current_element_pointer ) {
                         new_location.insert( *reinterpret_cast<pointer>( *current_element_pointer ) );
                     }
                 }
             } catch( ... ) {
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
-                if COLONY_CONSTEXPR( !std::is_trivially_destructible<pointer>::value )
-#endif
-                {
+                if COLONY_CONSTEXPR( !std::is_trivially_destructible<pointer>::value ) {
                     for( pointer *current_element_pointer = element_pointers;
                          current_element_pointer != element_pointer; ++current_element_pointer ) {
                         COLONY_DESTROY( pointer_allocator_type, pointer_allocator_pair, current_element_pointer );
@@ -3435,16 +3096,9 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             }
 
             // Make the old colony the new one, destroy the old one's data/sequence:
-#ifdef COLONY_MOVE_SEMANTICS_SUPPORT
             *this = std::move( new_location ); // avoid generating temporary
-#else
-            swap( new_location );
-#endif
 
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
-            if COLONY_CONSTEXPR( !std::is_trivially_destructible<pointer>::value )
-#endif
-            {
+            if COLONY_CONSTEXPR( !std::is_trivially_destructible<pointer>::value ) {
                 for( pointer *current_element_pointer = element_pointers;
                      current_element_pointer != element_pointer; ++current_element_pointer ) {
                     COLONY_DESTROY( pointer_allocator_type, pointer_allocator_pair, current_element_pointer );
@@ -3470,13 +3124,7 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             if( source.total_number_of_elements == 0 ) {
                 return;
             } else if( total_number_of_elements == 0 ) {
-#ifdef COLONY_MOVE_SEMANTICS_SUPPORT
                 *this = std::move( source );
-#else
-                clear();
-                swap( source );
-#endif
-
                 return;
             }
 
@@ -3576,30 +3224,26 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
         void swap( colony &source ) COLONY_NOEXCEPT_SWAP( allocator_type ) {
             assert( &source != this );
 
-#ifdef COLONY_TYPE_TRAITS_SUPPORT
+            // if all pointer types are trivial we can just copy using memcpy - avoids constructors/destructors etc and is faster
             if COLONY_CONSTEXPR( std::is_trivial<group_pointer_type>::value &&
                                  std::is_trivial<aligned_pointer_type>::value &&
-                                 std::is_trivial<skipfield_pointer_type>::value ) { // if all pointer types are trivial we can just copy using memcpy - avoids constructors/destructors etc and is faster
+                                 std::is_trivial<skipfield_pointer_type>::value ) {
                 char temp[sizeof( colony )];
                 std::memcpy( &temp, static_cast<void *>( this ), sizeof( colony ) );
                 std::memcpy( static_cast<void *>( this ), static_cast<void *>( &source ), sizeof( colony ) );
                 std::memcpy( static_cast<void *>( &source ), &temp, sizeof( colony ) );
-            }
-#ifdef COLONY_MOVE_SEMANTICS_SUPPORT // If pointer types are not trivial, moving them is probably going to be more efficient than copying them below
-            else if COLONY_CONSTEXPR( std::is_move_assignable<group_pointer_type>::value &&
-                                      std::is_move_assignable<aligned_pointer_type>::value &&
-                                      std::is_move_assignable<skipfield_pointer_type>::value &&
-                                      std::is_move_constructible<group_pointer_type>::value &&
-                                      std::is_move_constructible<aligned_pointer_type>::value &&
-                                      std::is_move_constructible<skipfield_pointer_type>::value ) {
+
+                // If pointer types are not trivial, moving them is probably going to be more efficient than copying them below
+            } else if COLONY_CONSTEXPR( std::is_move_assignable<group_pointer_type>::value &&
+                                        std::is_move_assignable<aligned_pointer_type>::value &&
+                                        std::is_move_assignable<skipfield_pointer_type>::value &&
+                                        std::is_move_constructible<group_pointer_type>::value &&
+                                        std::is_move_constructible<aligned_pointer_type>::value &&
+                                        std::is_move_constructible<skipfield_pointer_type>::value ) {
                 colony temp( std::move( source ) );
                 source = std::move( *this );
                 *this = std::move( temp );
-            }
-#endif
-            else
-#endif
-            {
+            } else {
                 const iterator                      swap_end_iterator = end_iterator,
                                                     swap_begin_iterator = begin_iterator;
                 const group_pointer_type        swap_groups_with_erasures_list_head =
@@ -3641,12 +3285,6 @@ inline void swap( colony<element_type, element_allocator_type, element_skipfield
 
 #undef COLONY_FORCE_INLINE
 
-#undef COLONY_ALIGNMENT_SUPPORT
-#undef COLONY_INITIALIZER_LIST_SUPPORT
-#undef COLONY_TYPE_TRAITS_SUPPORT
-#undef COLONY_ALLOCATOR_TRAITS_SUPPORT
-#undef COLONY_VARIADICS_SUPPORT
-#undef COLONY_MOVE_SEMANTICS_SUPPORT
 #undef COLONY_NOEXCEPT
 #undef COLONY_NOEXCEPT_SWAP
 #undef COLONY_NOEXCEPT_MOVE_ASSIGNMENT
