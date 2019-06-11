@@ -2976,7 +2976,7 @@ int player::read_speed( bool return_stat_effect ) const
         ret = 100;
     }
     // return_stat_effect actually matters here
-    return ( return_stat_effect ? ret : ret / 10 );
+    return 6 * ( return_stat_effect ? ret : ret / 10 );
 }
 
 int player::rust_rate( bool return_stat_effect ) const
