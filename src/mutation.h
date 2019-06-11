@@ -409,9 +409,9 @@ enum class mutagen_rejection {
 };
 
 struct mutagen_attempt {
-    mutagen_attempt( bool a, long c ) : allowed( a ), charges_used( c ) {}
+    mutagen_attempt( bool a, int c ) : allowed( a ), charges_used( c ) {}
     bool allowed;
-    long charges_used;
+    int charges_used;
 };
 
 mutagen_attempt mutagen_common_checks( player &p, const item &it, bool strong,

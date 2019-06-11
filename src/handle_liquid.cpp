@@ -109,7 +109,7 @@ bool handle_liquid_from_container( std::list<item>::iterator in_container,
                                    int radius )
 {
     // TODO: not all code paths on handle_liquid consume move points, fix that.
-    const long old_charges = in_container->charges;
+    const int old_charges = in_container->charges;
     handle_liquid( *in_container, &container, radius );
     if( in_container->charges != old_charges ) {
         container.on_contents_changed();

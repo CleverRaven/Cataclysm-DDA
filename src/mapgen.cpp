@@ -975,7 +975,7 @@ class jmapgen_toilet : public jmapgen_piece
                     const float /*mon_density*/, mission * /*miss*/ ) const override {
             const int rx = x.get();
             const int ry = y.get();
-            const long charges = amount.get();
+            const int charges = amount.get();
             dat.m.furn_set( rx, ry, f_null );
             if( charges == 0 ) {
                 dat.m.place_toilet( rx, ry ); // Use the default charges supplied as default values
@@ -1014,7 +1014,7 @@ class jmapgen_gaspump : public jmapgen_piece
                     const float /*mon_density*/, mission * /*miss*/ ) const override {
             const int rx = x.get();
             const int ry = y.get();
-            long charges = amount.get();
+            int charges = amount.get();
             dat.m.furn_set( rx, ry, f_null );
             if( charges == 0 ) {
                 charges = rng( 10000, 50000 );
