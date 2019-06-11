@@ -1356,7 +1356,7 @@
         { "item": "pipe", "count": [ 4, 8 ] }
       ]
     },
-    "max_volume": 2000,
+    "max_volume": 8000,
     "bash": {
       "str_min": 12,
       "str_max": 40,
