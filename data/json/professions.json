@@ -3727,7 +3727,7 @@
     "skills": { "level": 2, "name": "survival" },
     "items": {
       "both": {
-        "items": [ "jeans", "dress_shirt", "jacket_leather", "socks", "cowboy_hat", "boots_western", "wristwatch", "riding_saddle", "pockknife", "cattlefodder", "cattlefodder" ]
+        "items": [ "jeans", "dress_shirt", "jacket_leather", "socks", "cowboy_hat", "boots_western", "wristwatch", "riding_saddle", "pockknife", "cattlefodder", "cattlefodder", "cig" ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "bra", "panties" ]
