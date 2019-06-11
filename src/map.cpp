@@ -6157,29 +6157,23 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
     // Ugly `if` for now
     if( !fov_3d || F.z == T.z ) {
         tripoint previous_tripoint = F;
-        bresenham( F.x, F.y, T.x, T.y, bresenham_slope,
-        [this, &visible, &T, &previous_tripoint]( const point & new_point ) {
-            // Exit before checking the last square, it's still visible even if opaque.
+        bresenham( F, T, bresenham_slope, 0,
+        [this, &visible, &T, &previous_tripoint]( const tripoint & new_point ) {
+            // Exit before checking the last square, it's still visible even if opaque if no diagonal part is blocking it.
             if( new_point.x != T.x || new_point.y != T.y ) {
-                if( !this->trans( tripoint( new_point, T.z ) ) ) {
+                if( !this->trans( new_point ) ) {
                     visible = false;
                     return false;
                 }
             }
             // Check diagonals
-            if( abs( new_point.x - previous_tripoint.x ) == abs( new_point.y - previous_tripoint.y ) ) {
-                // Check diagonals
-                const tripoint new_x = tripoint( new_point.x, previous_tripoint.y, T.z );
-                const tripoint new_y = tripoint( previous_tripoint.x, new_point.y, T.z );
-                if( !inbounds( new_x ) || !inbounds( new_y ) ) {
-                    return true; // Out of range!
-                }
-                if( !this->trans( new_x ) && !this->trans( new_y ) ) {
-                    visible = false;
-                    return false;
-                }
+            if( this->check_for_diagonal( new_point, previous_tripoint, [this]( const tripoint & p ) {
+            return !this->trans( p );
+            } ) ) {
+                visible = false;
+                return false;
             }
-            previous_tripoint = tripoint( new_point, T.z );
+            previous_tripoint = new_point;
             return true;
         } );
         return visible;
