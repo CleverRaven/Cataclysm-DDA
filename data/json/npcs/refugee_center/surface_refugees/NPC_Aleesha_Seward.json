@@ -72,7 +72,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Aleesha_1",
     "dynamic_line": {
-      "u_has_var": "u_met_Aleesha_Seward", "type": "general", "context": "meeting", "value": "yes",
+      "u_has_var": "u_met_Aleesha_Seward",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
       "yes": [
         "Hey there.",
         "Oh, hey, it's you again.",
@@ -116,10 +119,7 @@
       "no": "I'm not a kid, okay?  I'm fourteen."
     },
     "responses": [
-      {
-        "text": "Sorry, I didn't mean anything by it.  What's up?",
-        "topic": "TALK_REFUGEE_Aleesha_2"
-      },
+      { "text": "Sorry, I didn't mean anything by it.  What's up?", "topic": "TALK_REFUGEE_Aleesha_2" },
       { "text": "Sorry, I didn't mean anything by it.  I'll be on my way.", "topic": "TALK_DONE" }
     ]
   },
@@ -131,16 +131,14 @@
       "yes": "We're just standing around here waiting, like a bunch of idiots.  We're supposedly waiting to go downstairs to the shelter, but it's been over a month.  I don't think it's happening.  I don't know what we're doing here.  I've read all the books, and there's zombies outside so we're stuck in here.  We can hear them at night.",
       "no": "I don't know what's up.  I'm not sure what we've even doing here.  They say we're supposed to wait until we can be moved to the shelter downstairs, but we've been here days and there's no word on how long we'll be waiting.  It's all so stupid, and nobody can tell me anything."
     },
-    "responses": [
-      { "text": "I'd better get going.", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "I'd better get going.", "topic": "TALK_DONE" } ]
   },
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Aleesha_Background",
     "dynamic_line": "You can't just go asking people questions like that nowadays.  I'm a teenaged girl alone in an evacuation center after, like, literally everyone in the world died and came back as zombies.  What do you think my story is?  My entire family died, came back as zombies, and I somehow wound up here.",
     "responses": [
-      { "text": "Who takes care of you here?", "topic": "TALK_REFUGEE_Aleesha_Background_caretaker",
+      { "text": "Who takes care of you here?", "topic": "TALK_REFUGEE_Aleesha_Background_caretaker" },
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
     ]
