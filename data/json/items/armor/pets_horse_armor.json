@@ -1,7 +1,7 @@
 {
     "id": "saddlebag",
     "type": "ARMOR",
-    "name": "Saddle Bags",
+    "name": "saddle bags",
     "description": "A pair of covered pouches laid across the back of a horse behind the saddle.",
     "weight": 1000,
     "volume": 30,
