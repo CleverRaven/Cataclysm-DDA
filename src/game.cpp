@@ -9002,21 +9002,10 @@ bool game::plmove( int dx, int dy, int dz )
 
     tripoint dest_loc;
     if( dz == 0 && u.has_effect( effect_stunned ) ) {
-        unsigned int tries = 0;
-        auto try_more = [&tries]() {
-            ++tries;
-            return tries < 4;
-        };
 
+        dest_loc.x = rng( u.posx() - 1, u.posx() + 1 );
+        dest_loc.y = rng( u.posy() - 1, u.posy() + 1 );
         dest_loc.z = u.posz();
-        do {
-            dest_loc.x = rng( u.posx() - 1, u.posx() + 1 );
-            dest_loc.y = rng( u.posy() - 1, u.posy() + 1 );
-            //++tries;
-        } while( !m.passable_from_point( dest_loc, u.pos() ) && try_more() );
-        if( tries >= 4 ) {
-            dest_loc = u.pos();
-        }
 
     } else {
         if( tile_iso && use_tiles && !u.has_destination() ) {
@@ -9025,18 +9014,18 @@ bool game::plmove( int dx, int dy, int dz )
         dest_loc.x = u.posx() + dx;
         dest_loc.y = u.posy() + dy;
         dest_loc.z = u.posz() + dz;
-
-        // Only check if diagonal parts are blocking.
-        if( m.check_for_diagonal( dest_loc, u.pos(), [this]( const tripoint & np ) {
-        return m.move_cost( np ) == 0;
-        } ) ) {
-            return false;
-        }
     }
 
     if( dest_loc == u.pos() ) {
         // Well that sure was easy
         return true;
+    }
+
+    // Only check if diagonal parts are blocking since we are not moving yet.
+    if( m.check_for_diagonal( dest_loc, u.pos(), [this]( const tripoint & np ) {
+    return m.move_cost( np ) == 0;
+    } ) ) {
+        return false;
     }
 
     if( m.has_flag( TFLAG_MINEABLE, dest_loc ) && mostseen == 0 &&
