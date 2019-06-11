@@ -987,7 +987,7 @@
         "items": [
           "pants",
           "dress_shirt",
-          "skinny_tie",
+          "tie_skinny",
           "waistcoat",
           "trenchcoat",
           "badge_detective",
@@ -2113,7 +2113,7 @@
       "both": {
         "items": [
           "dress_shirt",
-          "skinny_tie",
+          "tie_skinny",
           "sunglasses",
           "pants",
           "socks",
@@ -2320,7 +2320,7 @@
     "items": {
       "both": [
         "suit",
-        "skinny_tie",
+        "tie_necktie",
         "tieclip",
         "socks",
         "dress_shoes",
@@ -3289,7 +3289,7 @@
         "pants",
         "socks",
         "dress_shoes",
-        "skinny_tie",
+        "tie_clipon",
         "tieclip",
         "fancy_sunglasses",
         "knit_scarf",
@@ -3376,7 +3376,7 @@
           "pants",
           "socks",
           "dress_shoes",
-          "skinny_tie",
+          "tie_skinny",
           "tieclip",
           "poetry_book",
           "permanent_marker",
