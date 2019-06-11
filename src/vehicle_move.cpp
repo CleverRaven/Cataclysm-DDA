@@ -1273,7 +1273,7 @@ vehicle *vehicle::act_on_map()
         g->m.on_vehicle_moved( smz );
         // Destroy vehicle (sank to nowhere)
         g->m.destroy_vehicle( this );
-        return this;
+        return nullptr;
     }
 
     // It needs to fall when it has no support OR was falling before
@@ -1410,7 +1410,7 @@ vehicle *vehicle::act_on_map()
         new_pointer = g->m.move_vehicle( *new_pointer, tripoint( dp.x, dp.y, 0 ), mdir );
     }
 
-    if( dp.z != 0 ) {
+    if( new_pointer != nullptr && dp.z != 0 ) {
         new_pointer = g->m.move_vehicle( *new_pointer, tripoint( 0, 0, dp.z ), mdir );
         is_falling = false;
     }
