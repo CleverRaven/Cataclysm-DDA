@@ -681,7 +681,7 @@
     "type": "mutation",
     "id": "MILLIONAIRE",
     "name": "Millionaire",
-    "points": -3,
+    "points": 3,
     "description": "At the time of Cataclysm you were an owner of a fortune stashed in a bank.  Does that have any meaning now?",
     "valid": false,
     "purifiable": false,
