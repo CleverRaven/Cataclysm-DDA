@@ -97,7 +97,7 @@ static void CheckReturn( NoLongCheck &Check, const MatchFinder::MatchResult &Res
     if( !MatchedDecl || !MatchedDecl->getLocation().isValid() ) {
         return;
     }
-    QualType Type = MatchedDecl->getReturnType();
+    QualType Type = MatchedDecl->getDeclaredReturnType();
     std::string alternatives = AlternativesFor( Type );
     if( alternatives.empty() ) {
         return;

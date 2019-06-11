@@ -64,3 +64,8 @@ struct A {
 };
 
 A<long> a;
+
+auto l0 = []( int64_t a )
+{
+    return a;
+};
