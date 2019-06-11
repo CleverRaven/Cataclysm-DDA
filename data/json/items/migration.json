@@ -591,5 +591,10 @@
     "id": "brooch",
     "type": "MIGRATION",
     "replace": "jade_brooch"
+  },
+  {
+    "id": "skinny_tie",
+    "type": "MIGRATION",
+    "replace": "tie_skinny"
   }
 ]

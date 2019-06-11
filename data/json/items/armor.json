@@ -7034,6 +7034,24 @@
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
+    "id": "platinum_watch",
+    "type": "ARMOR",
+    "name": "platinum watch",
+    "name_plural": "platinum watches",
+    "description": "Flex on those gold-watch wearers with the rare, expensive and superior platinum watch.  This one is made from solid platinum.",
+    "weight": 80,
+    "volume": 1,
+   //far more expensive than gold watches, around $100,000 for most platinum watches
+    "price": 10000000,
+    "to_hit": -1,
+    "material": [ "platinum" ],
+    "symbol": "[",
+    "color": "white",
+    "covers": [ "HAND_EITHER" ],
+    "coverage": 5,
+    "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
+  },
+  {
     "id": "police_belt",
     "type": "ARMOR",
     "name": "police duty belt",
@@ -7762,17 +7780,21 @@
     "flags": [ "VARSIZE" ]
   },
   {
-    "id": "skinny_tie",
+    "id": "silver_watch",
     "type": "ARMOR",
-    "name": "skinny tie",
-    "description": "A skinny black and white checkered necktie.",
-    "weight": 12,
-    "volume": 0,
-    "price": 1000,
-    "material": [ "cotton" ],
+    "name": "silver watch",
+    "name_plural": "silver watches",
+    "description": "An elegant silver watch, crafted from silver-plated stainless steel.  It's much cheaper than other metal watches, and more classy than an ordinary wristwatch.",
+    "weight": 80,
+    "volume": 1,
+    "price": 18000,
+    "to_hit": -1,
+    "material": [ "steel", "silver" ],
     "symbol": "[",
-    "color": "dark_gray",
-    "flags": [ "FANCY" ]
+    "color": "light_gray",
+    "covers": [ "HAND_EITHER" ],
+    "coverage": 10,
+    "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
   },
   {
     "id": "skirt",
@@ -8927,6 +8949,58 @@
     "warmth": 20,
     "material_thickness": 2,
     "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "tie_bow",
+    "type": "ARMOR",
+    "name": "bow tie",
+    "description": "A simple black bow tie.  Best worn with a suit.",
+    "weight": 5,
+    "volume": 0,
+    "price": 1000,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "black",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "tie_clipon",
+    "type": "ARMOR",
+    "name": "clip-on tie",
+    "description": "A clip-on necktie, with blue and silver stripes.  It's quick and easy to put on, and much better than the necktie.",
+    "weight": 10,
+    "volume": 0,
+    "price": 500,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "blue",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "tie_necktie",
+    "type": "ARMOR",
+    "name": "necktie",
+    "description": "An ordinary, green necktie.  It's more difficult to put on, but it takes real skill to do so. Wearing a necktie is much better than wearing a clip-on tie.",
+    "weight": 15,
+    "volume": 0,
+    "price": 1000,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "green",
+    "flags": [ "FANCY" ]
+  },
+  {
+    "id": "tie_skinny",
+    "type": "ARMOR",
+    "name": "skinny tie",
+    "description": "A skinny black and white checkered necktie.",
+    "weight": 12,
+    "volume": 0,
+    "price": 750,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "flags": [ "FANCY" ]
   },
   {
     "id": "tights",
