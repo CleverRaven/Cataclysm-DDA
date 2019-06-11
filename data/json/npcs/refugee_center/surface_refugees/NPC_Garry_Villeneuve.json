@@ -79,7 +79,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Garry_1",
     "dynamic_line": {
-      "u_has_var": "u_met_Garry_Villeneuve", "type": "general", "context": "meeting", "value": "yes",
+      "u_has_var": "u_met_Garry_Villeneuve",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
       "yes": [ "Hello again.", "Well, hello.", "Good to see you again." ],
       "no": "Hi.  Hi there.  I'm Garry, Garry Villeneuve."
     },
@@ -140,6 +143,7 @@
     "responses": [
       { "text": "What were you saying before?", "topic": "TALK_NONE" },
       { "text": "I'd better get going.", "topic": "TALK_DONE" }
+    ]
   },
   {
     "type": "talk_topic",
