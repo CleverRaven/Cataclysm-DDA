@@ -6944,8 +6944,8 @@ static object_names_collection enumerate_objects_around_point( const tripoint po
         if( !objects_combined_desc.empty() ) {
             // store objects to description_figures_status
             std::string objects_text = enumerate_as_string( objects_combined_desc );
-            ret_obj.obj_nearby_text = string_format( _( "Nearby %s %s." ),
-                                      objects_combined_desc.size() == 1 ? "is" : "are", objects_text );
+            ret_obj.obj_nearby_text = string_format( _( "%s %s." ),
+                                      objects_combined_desc.size() == 1 ? _( "Nearby is" ) : _( "Nearby are" ), objects_text );
         }
     }
     return ret_obj;
@@ -7132,8 +7132,11 @@ static extended_photo_def photo_def_for_camera_point( const tripoint aim_point,
     if( !obj_coll.items.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.items.begin(), obj_coll.items.end(),
                                format_object_pair_article );
-        photo_text += "\n\n" + string_format( _( "There %s something lying on the ground: %s." ),
-                                              obj_coll.items.size() == 1 ? "is" : "are", obj_list );
+        photo_text += "\n\n" + string_format( _( "%s: %s." ),
+                                              obj_coll.items.size() == 1 ?
+                                              "There is something lying on the ground" :
+                                              "There are some things lying on the ground",
+                                              obj_list );
     }
     if( !obj_coll.furniture.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.furniture.begin(), obj_coll.furniture.end(),
@@ -7144,14 +7147,16 @@ static extended_photo_def photo_def_for_camera_point( const tripoint aim_point,
     if( !obj_coll.vehicles.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.vehicles.begin(), obj_coll.vehicles.end(),
                                format_object_pair );
-        photo_text += "\n\n" + string_format( _( "There %s %s parked in the background." ),
-                                              obj_coll.vehicles.size() == 1 ? "is" : "are", obj_list );
+        photo_text += "\n\n" + ( obj_coll.vehicles.size() == 1 ?
+                                 string_format( _( "There is %s parked in the background." ), obj_list ) :
+                                 string_format( _( "There are %s parked in the background." ), obj_list ) );
     }
     if( !obj_coll.terrain.empty() ) {
         std::string obj_list = enumerate_as_string( obj_coll.terrain.begin(), obj_coll.terrain.end(),
                                format_object_pair_article );
-        photo_text += "\n\n" + string_format( _( "There %s %s in the background." ),
-                                              obj_coll.terrain.size() == 1 ? "is" : "are", obj_list );
+        photo_text += "\n\n" + ( obj_coll.terrain.size() == 1 ?
+                                 string_format( _( "There is %s in the background." ), obj_list ) :
+                                 string_format( _( "There are %s in the background." ), obj_list ) );
     }
 
     const oter_id &cur_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( aim_point ) ) );
