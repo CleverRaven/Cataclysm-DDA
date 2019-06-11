@@ -389,12 +389,12 @@ void map::vehmove()
     dirty_vehicle_list.clear();
 }
 
-bool map::vehproceed( VehicleList &vehs )
+bool map::vehproceed( VehicleList &vehicle_list )
 {
     wrapped_vehicle *cur_veh = nullptr;
     float max_of_turn = 0;
     // First horizontal movement
-    for( wrapped_vehicle &vehs_v : vehs ) {
+    for( wrapped_vehicle &vehs_v : vehicle_list ) {
         if( vehs_v.v->of_turn > max_of_turn ) {
             cur_veh = &vehs_v;
             max_of_turn = cur_veh->v->of_turn;
@@ -403,7 +403,7 @@ bool map::vehproceed( VehicleList &vehs )
 
     // Then vertical-only movement
     if( cur_veh == nullptr ) {
-        for( wrapped_vehicle &vehs_v : vehs ) {
+        for( wrapped_vehicle &vehs_v : vehicle_list ) {
             if( vehs_v.v->is_falling ) {
                 cur_veh = &vehs_v;
                 break;
@@ -416,6 +416,9 @@ bool map::vehproceed( VehicleList &vehs )
     }
 
     cur_veh->v = cur_veh->v->act_on_map();
+    if( cur_veh->v == nullptr ) {
+        vehicle_list = get_vehicles();
+    }
     return true;
 }
 
@@ -523,7 +526,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
 
     if( veh_veh_coll_flag ) {
         // Break here to let the hit vehicle move away
-        return &veh;
+        return nullptr;
     }
 
     // If not enough wheels, mess up the ground a bit.
