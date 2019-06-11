@@ -7265,7 +7265,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         }
 
         reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
-        iScrollPos = 0;
 
         if( action == "HELP_KEYBINDINGS" ) {
             draw_ter();
