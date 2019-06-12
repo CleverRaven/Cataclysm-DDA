@@ -2809,20 +2809,21 @@ void player::pause()
         return;
     }
 
-    VehicleList vehs = g->m.get_vehicles();
-    vehicle *veh = nullptr;
-    for( auto &v : vehs ) {
-        veh = v.v;
-        if( veh && veh->is_moving() && veh->player_in_control( *this ) ) {
-            if( one_in( 8 ) ) {
-                double exp_temp = 1 + veh->total_mass() / 400.0_kilogram + std::abs( veh->velocity / 3200.0 );
+    if( in_vehicle && one_in( 8 ) ) {
+        VehicleList vehs = g->m.get_vehicles();
+        vehicle *veh = nullptr;
+        for( auto &v : vehs ) {
+            veh = v.v;
+            if( veh && veh->is_moving() && veh->player_in_control( *this ) ) {
+                double exp_temp = 1 + veh->total_mass() / 400.0_kilogram +
+                                  std::abs( veh->velocity / 3200.0 );
                 int experience = static_cast<int>( exp_temp );
                 if( exp_temp - experience > 0 && x_in_y( exp_temp - experience, 1.0 ) ) {
                     experience++;
                 }
                 practice( skill_id( "driving" ), experience );
+                break;
             }
-            break;
         }
     }
 
