@@ -1107,7 +1107,7 @@ int known_magic::select_spell( const player &p )
 {
     // max width of spell names
     const size_t max_spell_name_length = get_spellname_max_width();
-    std::vector<spell *> &known_spells = get_spells();
+    std::vector<spell *> known_spells = get_spells();
 
     uilist spell_menu;
     spell_menu.w_height = 24;
