@@ -102,7 +102,8 @@ TEST_CASE( "lru_cache_perf", "[.]" )
         }
     }
     const auto end1 = std::chrono::high_resolution_clock::now();
-    const long diff1 = std::chrono::duration_cast<std::chrono::microseconds>( end1 - start1 ).count();
+    const int64_t diff1 = std::chrono::duration_cast<std::chrono::microseconds>
+                          ( end1 - start1 ).count();
     printf( "completed %d insertions in %ld microseconds.\n", max_size, diff1 );
     /*
      * Original tripoint hash    completed 1000000 insertions in 96136925 microseconds.

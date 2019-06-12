@@ -332,8 +332,10 @@ static void line_to_comparison( const int iterations )
         const auto end2 = std::chrono::high_resolution_clock::now();
 
         if( iterations > 1 ) {
-            const long diff1 = std::chrono::duration_cast<std::chrono::microseconds>( end1 - start1 ).count();
-            const long diff2 = std::chrono::duration_cast<std::chrono::microseconds>( end2 - start2 ).count();
+            const int64_t diff1 =
+                std::chrono::duration_cast<std::chrono::microseconds>( end1 - start1 ).count();
+            const int64_t diff2 =
+                std::chrono::duration_cast<std::chrono::microseconds>( end2 - start2 ).count();
 
             printf( "line_to() executed %d times in %ld microseconds.\n",
                     iterations, diff1 );
