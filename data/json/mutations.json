@@ -2810,6 +2810,18 @@
   },
   {
     "type": "mutation",
+    "id": "FLEET3",
+    "name": "Subsonic-Sprinter",
+    "points": 5,
+    "description": "Your legs move at incredible speeds!  You move 40% faster on flat surfaces.",
+    "prereqs": [ "FLEET2" ],
+    "types": [ "RUNNING" ],
+    "category": [ "BIRD" ],
+    "threshreq": [ "THRESH_BIRD" ],
+    "movecost_flatground_modifier": 0.6
+  },
+  {
+    "type": "mutation",
     "id": "BIRDCROP",
     "name": "Bird Crop",
     "points": 3,
@@ -3133,6 +3145,7 @@
     "points": 3,
     "description": "Your legs are extremely limber and fast-moving.  You move 30% faster on flat surfaces.",
     "prereqs": [ "FLEET" ],
+    "changes_to" : ["FLEET3"],
     "types": [ "RUNNING" ],
     "category": [ "BIRD" ],
     "movecost_flatground_modifier": 0.7
