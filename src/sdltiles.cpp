@@ -2323,7 +2323,7 @@ bool is_string_input( input_context &ctx )
 int get_key_event_from_string( const std::string &str )
 {
     if( str.length() ) {
-        return ( long )str[0];
+        return str[0];
     }
     return -1;
 }
