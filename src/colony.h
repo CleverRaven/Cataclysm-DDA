@@ -25,68 +25,20 @@
 #define COLONY_H
 
 // Compiler-specific defines used by colony:
+#define COLONY_CONSTEXPR
+#define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept
+#define COLONY_NOEXCEPT_SWAP(the_allocator) noexcept
 
+// TODO: Switch to these when we move to C++17
+// #define COLONY_CONSTEXPR constexpr
+// #define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept(std::allocator_traits<the_allocator>::is_always_equal::value)
+// #define COLONY_NOEXCEPT_SWAP(the_allocator) noexcept(std::allocator_traits<the_allocator>::propagate_on_container_swap::value)
+
+// Note: GCC creates faster code without forcing inline
 #if defined(_MSC_VER)
-
 #define COLONY_FORCE_INLINE __forceinline
-#define COLONY_NOEXCEPT noexcept
-#define COLONY_NOEXCEPT_SWAP(the_allocator) noexcept(std::allocator_traits<the_allocator>::propagate_on_container_swap::value)
-#define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept(std::allocator_traits<the_allocator>::is_always_equal::value)
-
-#if defined(_MSVC_LANG) && (_MSVC_LANG >= 201703L)
-#define COLONY_CONSTEXPR constexpr
 #else
-#define COLONY_CONSTEXPR
-#endif
-
-#else
-
-#define COLONY_FORCE_INLINE // note: GCC creates faster code without forcing inline
-
-#if defined(__GNUC__) && defined(__GNUC_MINOR__) && !defined(__clang__) // If compiler is GCC/G++
-
-#if __GNUC__ < 6
-#define COLONY_NOEXCEPT noexcept
-#define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept
-#define COLONY_NOEXCEPT_SWAP(the_allocator) noexcept
-#else // C++17 support
-#define COLONY_NOEXCEPT noexcept
-#define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept(std::allocator_traits<the_allocator>::is_always_equal::value)
-#define COLONY_NOEXCEPT_SWAP(the_allocator) noexcept(std::allocator_traits<the_allocator>::propagate_on_container_swap::value)
-#endif
-
-#elif defined(__GLIBCXX__) // Using another compiler type with libstdc++ - we are assuming full c++11 compliance for compiler - which may not be true
-
-#if __GLIBCXX__ >= 20160111
-#define COLONY_NOEXCEPT noexcept
-#define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept(std::allocator_traits<the_allocator>::is_always_equal::value)
-#define COLONY_NOEXCEPT_SWAP(the_allocator) noexcept(std::allocator_traits<the_allocator>::propagate_on_container_swap::value)
-#else
-#define COLONY_NOEXCEPT noexcept
-#define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept
-#define COLONY_NOEXCEPT_SWAP(the_allocator) noexcept
-#endif
-
-#else
-#define COLONY_NOEXCEPT noexcept
-#define COLONY_NOEXCEPT_MOVE_ASSIGNMENT(the_allocator) noexcept(std::allocator_traits<the_allocator>::is_always_equal::value)
-#define COLONY_NOEXCEPT_SWAP(the_allocator) noexcept
-#endif
-
-#if __cplusplus >= 201703L
-#if defined(__clang__) && ((__clang_major__ == 3 && __clang_minor__ == 9) || __clang_major__ > 3)
-#define COLONY_CONSTEXPR constexpr
-#elif defined(__GNUC__) && __GNUC__ >= 7
-#define COLONY_CONSTEXPR constexpr
-#elif !defined(__clang__) && !defined(__GNUC__)
-#define COLONY_CONSTEXPR constexpr // assume correct C++17 implementation for other compilers
-#else
-#define COLONY_CONSTEXPR
-#endif
-#else
-#define COLONY_CONSTEXPR
-#endif
-
+#define COLONY_FORCE_INLINE
 #endif
 
 // TODO: get rid of these defines
@@ -210,9 +162,11 @@ class colony : private element_allocator_type
                              1u ) ); // &* to avoid problems with non-trivial pointers
             }
 
-            ~group() COLONY_NOEXCEPT {
+            ~group() noexcept {
                 // Null check not necessary (for copied group as above) as delete will also perform a null check.
-                COLONY_DEALLOCATE( uchar_allocator_type, ( *this ), reinterpret_cast<uchar_pointer_type>( elements ), ( capacity * sizeof( aligned_element_type ) ) + ( ( capacity + 1u ) * sizeof( skipfield_type ) ) );
+                COLONY_DEALLOCATE( uchar_allocator_type, ( *this ),
+                                   reinterpret_cast<uchar_pointer_type>( elements ),
+                                   ( capacity * sizeof( aligned_element_type ) ) + ( ( capacity + 1u ) * sizeof( skipfield_type ) ) );
             }
         };
 
@@ -250,14 +204,14 @@ class colony : private element_allocator_type
                 friend class colony_reverse_iterator<false>;
                 friend class colony_reverse_iterator<true>;
 
-                inline colony_iterator &operator=( const colony_iterator &source ) COLONY_NOEXCEPT {
+                inline colony_iterator &operator=( const colony_iterator &source ) noexcept {
                     group_pointer = source.group_pointer;
                     element_pointer = source.element_pointer;
                     skipfield_pointer = source.skipfield_pointer;
                     return *this;
                 }
 
-                inline colony_iterator &operator=( const colony_iterator < !is_const > &source ) COLONY_NOEXCEPT {
+                inline colony_iterator &operator=( const colony_iterator < !is_const > &source ) noexcept {
                     group_pointer = source.group_pointer;
                     element_pointer = source.element_pointer;
                     skipfield_pointer = source.skipfield_pointer;
@@ -266,7 +220,7 @@ class colony : private element_allocator_type
 
                 // Move assignment - only really necessary if the allocator uses non-standard ie. smart pointers
                 inline colony_iterator &operator=( colony_iterator &&source )
-                COLONY_NOEXCEPT { // Move is a copy in this scenario
+                noexcept { // Move is a copy in this scenario
                     assert( &source != this );
                     group_pointer = std::move( source.group_pointer );
                     element_pointer = std::move( source.element_pointer );
@@ -274,7 +228,7 @@ class colony : private element_allocator_type
                     return *this;
                 }
 
-                inline colony_iterator &operator=( colony_iterator < !is_const > &&source ) COLONY_NOEXCEPT {
+                inline colony_iterator &operator=( colony_iterator < !is_const > &&source ) noexcept {
                     assert( &source != this );
                     group_pointer = std::move( source.group_pointer );
                     element_pointer = std::move( source.element_pointer );
@@ -282,42 +236,44 @@ class colony : private element_allocator_type
                     return *this;
                 }
 
-                inline COLONY_FORCE_INLINE bool operator==( const colony_iterator &rh ) const COLONY_NOEXCEPT {
+                inline COLONY_FORCE_INLINE bool operator==( const colony_iterator &rh ) const noexcept {
                     return ( element_pointer == rh.element_pointer );
                 }
 
                 inline COLONY_FORCE_INLINE bool operator==( const colony_iterator < !is_const > &rh ) const
-                COLONY_NOEXCEPT {
+                noexcept {
                     return ( element_pointer == rh.element_pointer );
                 }
 
-                inline COLONY_FORCE_INLINE bool operator!=( const colony_iterator &rh ) const COLONY_NOEXCEPT {
+                inline COLONY_FORCE_INLINE bool operator!=( const colony_iterator &rh ) const noexcept {
                     return ( element_pointer != rh.element_pointer );
                 }
 
                 inline COLONY_FORCE_INLINE bool operator!=( const colony_iterator < !is_const > &rh ) const
-                COLONY_NOEXCEPT {
+                noexcept {
                     return ( element_pointer != rh.element_pointer );
                 }
 
-                inline COLONY_FORCE_INLINE reference operator*()
-                const { // may cause exception with uninitialized iterator
+                // may cause exception with uninitialized iterator
+                inline COLONY_FORCE_INLINE reference operator*() const {
                     return *( reinterpret_cast<pointer>( element_pointer ) );
                 }
 
-                inline COLONY_FORCE_INLINE pointer operator->() const COLONY_NOEXCEPT {
+                inline COLONY_FORCE_INLINE pointer operator->() const noexcept {
                     return reinterpret_cast<pointer>( element_pointer );
                 }
 
                 colony_iterator &operator++() {
-                    assert( group_pointer != NULL ); // covers uninitialised colony_iterator
-                    assert( !( element_pointer == group_pointer->last_endpoint &&
-                               group_pointer->next_group != NULL ) ); // Assert that iterator is not already at end()
+                    // covers uninitialised colony_iterator
+                    assert( group_pointer != NULL );
+                    // Assert that iterator is not already at end()
+                    assert( !( element_pointer == group_pointer->last_endpoint && group_pointer->next_group != NULL ) );
 
                     skipfield_type skip = *( ++skipfield_pointer );
 
+                    // ie. beyond end of available data
                     if( ( element_pointer += skip + 1 ) == group_pointer->last_endpoint &&
-                        group_pointer->next_group != NULL ) { // ie. beyond end of available data
+                        group_pointer->next_group != NULL ) {
                         group_pointer = group_pointer->next_group;
                         skip = *( group_pointer->skipfield );
                         element_pointer = group_pointer->elements + skip;
@@ -377,73 +333,73 @@ class colony : private element_allocator_type
                     return copy;
                 }
 
-                inline bool operator>( const colony_iterator &rh ) const COLONY_NOEXCEPT {
+                inline bool operator>( const colony_iterator &rh ) const noexcept {
                     return ( ( group_pointer == rh.group_pointer ) & ( element_pointer > rh.element_pointer ) ) ||
                            ( group_pointer != rh.group_pointer &&
                              group_pointer->group_number > rh.group_pointer->group_number );
                 }
 
-                inline bool operator<( const colony_iterator &rh ) const COLONY_NOEXCEPT {
+                inline bool operator<( const colony_iterator &rh ) const noexcept {
                     return rh > *this;
                 }
 
-                inline bool operator>=( const colony_iterator &rh ) const COLONY_NOEXCEPT {
+                inline bool operator>=( const colony_iterator &rh ) const noexcept {
                     return !( rh > *this );
                 }
 
-                inline bool operator<=( const colony_iterator &rh ) const COLONY_NOEXCEPT {
+                inline bool operator<=( const colony_iterator &rh ) const noexcept {
                     return !( *this > rh );
                 }
 
-                inline bool operator>( const colony_iterator < !is_const > &rh ) const COLONY_NOEXCEPT {
+                inline bool operator>( const colony_iterator < !is_const > &rh ) const noexcept {
                     return ( ( group_pointer == rh.group_pointer ) & ( element_pointer > rh.element_pointer ) ) ||
                            ( group_pointer != rh.group_pointer &&
                              group_pointer->group_number > rh.group_pointer->group_number );
                 }
 
-                inline bool operator<( const colony_iterator < !is_const > &rh ) const COLONY_NOEXCEPT {
+                inline bool operator<( const colony_iterator < !is_const > &rh ) const noexcept {
                     return rh > *this;
                 }
 
-                inline bool operator>=( const colony_iterator < !is_const > &rh ) const COLONY_NOEXCEPT {
+                inline bool operator>=( const colony_iterator < !is_const > &rh ) const noexcept {
                     return !( rh > *this );
                 }
 
-                inline bool operator<=( const colony_iterator < !is_const > &rh ) const COLONY_NOEXCEPT {
+                inline bool operator<=( const colony_iterator < !is_const > &rh ) const noexcept {
                     return !( *this > rh );
                 }
 
-            colony_iterator() COLONY_NOEXCEPT:
-                group_pointer( NULL ), element_pointer( NULL ), skipfield_pointer( NULL )  {}
+                colony_iterator() noexcept: group_pointer( NULL ), element_pointer( NULL ),
+                    skipfield_pointer( NULL )  {}
 
             private:
                 // Used by cend(), erase() etc:
                 colony_iterator( const group_pointer_type group_p, const aligned_pointer_type element_p,
-                             const skipfield_pointer_type skipfield_p ) COLONY_NOEXCEPT:
-                group_pointer( group_p ), element_pointer( element_p ), skipfield_pointer( skipfield_p ) {}
+                                 const skipfield_pointer_type skipfield_p ) noexcept: group_pointer( group_p ),
+                    element_pointer( element_p ), skipfield_pointer( skipfield_p ) {}
 
             public:
 
-            inline colony_iterator( const colony_iterator &source ) COLONY_NOEXCEPT:
-                group_pointer( source.group_pointer ),
-                               element_pointer( source.element_pointer ),
-                skipfield_pointer( source.skipfield_pointer ) {}
+                inline colony_iterator( const colony_iterator &source ) noexcept:
+                    group_pointer( source.group_pointer ),
+                    element_pointer( source.element_pointer ),
+                    skipfield_pointer( source.skipfield_pointer ) {}
 
-            inline colony_iterator( const colony_iterator < !is_const > &source ) COLONY_NOEXCEPT:
-                group_pointer( source.group_pointer ),
-                element_pointer( source.element_pointer ),
-                skipfield_pointer( source.skipfield_pointer ) {}
+                inline colony_iterator( const colony_iterator < !is_const > &source ) noexcept:
+                    group_pointer( source.group_pointer ),
+                    element_pointer( source.element_pointer ),
+                    skipfield_pointer( source.skipfield_pointer ) {}
 
                 // move constructor
-            inline colony_iterator( colony_iterator &&source ) COLONY_NOEXCEPT:
-                group_pointer( std::move( source.group_pointer ) ),
-                element_pointer( std::move( source.element_pointer ) ),
-                skipfield_pointer( std::move( source.skipfield_pointer ) ) {}
+                inline colony_iterator( colony_iterator &&source ) noexcept:
+                    group_pointer( std::move( source.group_pointer ) ),
+                    element_pointer( std::move( source.element_pointer ) ),
+                    skipfield_pointer( std::move( source.skipfield_pointer ) ) {}
 
-            inline colony_iterator( colony_iterator < !is_const > &&source ) COLONY_NOEXCEPT:
-                group_pointer( std::move( source.group_pointer ) ),
-                element_pointer( std::move( source.element_pointer ) ),
-                skipfield_pointer( std::move( source.skipfield_pointer ) ) {}
+                inline colony_iterator( colony_iterator < !is_const > &&source ) noexcept:
+                    group_pointer( std::move( source.group_pointer ) ),
+                    element_pointer( std::move( source.element_pointer ) ),
+                    skipfield_pointer( std::move( source.skipfield_pointer ) ) {}
         }; // colony_iterator
 
         // Reverse iterators:
@@ -463,33 +419,30 @@ class colony : private element_allocator_type
 
                 friend class colony;
 
-                inline colony_reverse_iterator &operator=( const colony_reverse_iterator &source )
-                COLONY_NOEXCEPT {
+                inline colony_reverse_iterator &operator=( const colony_reverse_iterator &source ) noexcept {
                     it = source.it;
                     return *this;
                 }
 
                 // move assignment
-                inline colony_reverse_iterator &operator=( colony_reverse_iterator &&source ) COLONY_NOEXCEPT {
+                inline colony_reverse_iterator &operator=( colony_reverse_iterator &&source ) noexcept {
                     it = std::move( source.it );
                     return *this;
                 }
 
-                inline COLONY_FORCE_INLINE bool operator==( const colony_reverse_iterator &rh ) const
-                COLONY_NOEXCEPT {
+                inline COLONY_FORCE_INLINE bool operator==( const colony_reverse_iterator &rh ) const noexcept {
                     return ( it == rh.it );
                 }
 
-                inline COLONY_FORCE_INLINE bool operator!=( const colony_reverse_iterator &rh ) const
-                COLONY_NOEXCEPT {
+                inline COLONY_FORCE_INLINE bool operator!=( const colony_reverse_iterator &rh ) const noexcept {
                     return ( it != rh.it );
                 }
 
-                inline COLONY_FORCE_INLINE reference operator*() const COLONY_NOEXCEPT {
+                inline COLONY_FORCE_INLINE reference operator*() const noexcept {
                     return *( reinterpret_cast<pointer>( it.element_pointer ) );
                 }
 
-                inline COLONY_FORCE_INLINE pointer *operator->() const COLONY_NOEXCEPT {
+                inline COLONY_FORCE_INLINE pointer *operator->() const noexcept {
                     return reinterpret_cast<pointer>( it.element_pointer );
                 }
 
@@ -551,72 +504,70 @@ class colony : private element_allocator_type
                     return ++( typename colony::iterator( it ) );
                 }
 
-                inline bool operator>( const colony_reverse_iterator &rh ) const COLONY_NOEXCEPT {
+                inline bool operator>( const colony_reverse_iterator &rh ) const noexcept {
                     return ( rh.it > it );
                 }
 
-                inline bool operator<( const colony_reverse_iterator &rh ) const COLONY_NOEXCEPT {
+                inline bool operator<( const colony_reverse_iterator &rh ) const noexcept {
                     return ( it > rh.it );
                 }
 
-                inline bool operator>=( const colony_reverse_iterator &rh ) const COLONY_NOEXCEPT {
+                inline bool operator>=( const colony_reverse_iterator &rh ) const noexcept {
                     return !( it > rh.it );
                 }
 
-                inline bool operator<=( const colony_reverse_iterator &rh ) const COLONY_NOEXCEPT {
+                inline bool operator<=( const colony_reverse_iterator &rh ) const noexcept {
                     return !( rh.it > it );
                 }
 
                 inline COLONY_FORCE_INLINE bool operator==( const colony_reverse_iterator < !r_is_const > &rh )
-                const COLONY_NOEXCEPT {
+                const noexcept {
                     return ( it == rh.it );
                 }
 
                 inline COLONY_FORCE_INLINE bool operator!=( const colony_reverse_iterator < !r_is_const > &rh )
-                const COLONY_NOEXCEPT {
+                const noexcept {
                     return ( it != rh.it );
                 }
 
-                inline bool operator>( const colony_reverse_iterator < !r_is_const > &rh ) const COLONY_NOEXCEPT {
+                inline bool operator>( const colony_reverse_iterator < !r_is_const > &rh ) const noexcept {
                     return ( rh.it > it );
                 }
 
-                inline bool operator<( const colony_reverse_iterator < !r_is_const > &rh ) const COLONY_NOEXCEPT {
+                inline bool operator<( const colony_reverse_iterator < !r_is_const > &rh ) const noexcept {
                     return ( it > rh.it );
                 }
 
-                inline bool operator>=( const colony_reverse_iterator < !r_is_const > &rh ) const
-                COLONY_NOEXCEPT {
+                inline bool operator>=( const colony_reverse_iterator < !r_is_const > &rh ) const noexcept {
                     return !( it > rh.it );
                 }
 
-                inline bool operator<=( const colony_reverse_iterator < !r_is_const > &rh ) const
-                COLONY_NOEXCEPT {
+                inline bool operator<=( const colony_reverse_iterator < !r_is_const > &rh ) const noexcept {
                     return !( rh.it > it );
                 }
 
-                colony_reverse_iterator() COLONY_NOEXCEPT {}
+                colony_reverse_iterator() noexcept {}
 
-            colony_reverse_iterator( const colony_reverse_iterator &source ) COLONY_NOEXCEPT:
-                it( source.it ) {}
+                colony_reverse_iterator( const colony_reverse_iterator &source ) noexcept:
+                    it( source.it ) {}
 
-            colony_reverse_iterator( const typename colony::iterator &source ) COLONY_NOEXCEPT:
-                it( source ) {}
+                colony_reverse_iterator( const typename colony::iterator &source ) noexcept:
+                    it( source ) {}
 
             private:
                 // Used by rend(), etc:
                 colony_reverse_iterator( const group_pointer_type group_p, const aligned_pointer_type element_p,
-                                     const skipfield_pointer_type skipfield_p ) COLONY_NOEXCEPT:
-                it( group_p, element_p, skipfield_p ) {}
+                                         const skipfield_pointer_type skipfield_p ) noexcept:
+                    it( group_p, element_p, skipfield_p ) {}
 
             public:
 
                 // move constructors
-            colony_reverse_iterator( colony_reverse_iterator &&source ) COLONY_NOEXCEPT:
-                it( std::move( source.it ) ) {}
+                colony_reverse_iterator( colony_reverse_iterator &&source ) noexcept:
+                    it( std::move( source.it ) ) {}
 
-            colony_reverse_iterator( typename colony::iterator &&source ) COLONY_NOEXCEPT:
-                it( std::move( source ) ) {}
+                colony_reverse_iterator( typename colony::iterator &&source ) noexcept:
+                    it( std::move( source ) ) {}
 
         }; // colony_reverse_iterator
 
@@ -641,28 +592,28 @@ class colony : private element_allocator_type
         // Packaging the element pointer allocator with a lesser-used member variable, for empty-base-class optimisation
         struct ebco_pair2 : pointer_allocator_type {
             skipfield_type min_elements_per_group;
-explicit ebco_pair2( const skipfield_type min_elements ) COLONY_NOEXCEPT:
-            min_elements_per_group( min_elements ) {}
+            explicit ebco_pair2( const skipfield_type min_elements ) noexcept:
+                min_elements_per_group( min_elements ) {}
         } pointer_allocator_pair;
 
         struct ebco_pair : group_allocator_type {
             skipfield_type max_elements_per_group;
-explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
-            max_elements_per_group( max_elements ) {}
+            explicit ebco_pair( const skipfield_type max_elements ) noexcept:
+                max_elements_per_group( max_elements ) {}
         } group_allocator_pair;
 
     public:
 
         // Default constuctor:
-    colony() COLONY_NOEXCEPT:
-        element_allocator_type( element_allocator_type() ),
-                                groups_with_erasures_list_head( NULL ),
-                                total_number_of_elements( 0 ),
-                                total_capacity( 0 ),
-                                pointer_allocator_pair( ( sizeof( aligned_element_type ) * 8 > ( sizeof( *this ) + sizeof(
-                                            group ) ) * 2 ) ? 8 : ( ( ( sizeof( *this ) + sizeof( group ) ) * 2 ) / sizeof(
-                                                    aligned_element_type ) ) ),
-        group_allocator_pair( std::numeric_limits<skipfield_type>::max() ) {
+        colony() noexcept:
+            element_allocator_type( element_allocator_type() ),
+            groups_with_erasures_list_head( NULL ),
+            total_number_of_elements( 0 ),
+            total_capacity( 0 ),
+            pointer_allocator_pair( ( sizeof( aligned_element_type ) * 8 > ( sizeof( *this ) + sizeof(
+                                          group ) ) * 2 ) ? 8 : ( ( ( sizeof( *this ) + sizeof( group ) ) * 2 ) / sizeof(
+                                                  aligned_element_type ) ) ),
+            group_allocator_pair( std::numeric_limits<skipfield_type>::max() ) {
             // skipfield type must be of unsigned integer type (uchar, ushort, uint etc)
             assert( std::numeric_limits<skipfield_type>::is_integer &
                     !std::numeric_limits<skipfield_type>::is_signed );
@@ -721,8 +672,11 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
 
     private:
 
-        inline void blank() COLONY_NOEXCEPT {
-            if COLONY_CONSTEXPR( std::is_trivial<group_pointer_type>::value && std::is_trivial<aligned_pointer_type>::value && std::is_trivial<skipfield_pointer_type>::value ) { // if all pointer types are trivial, we can just nuke it from orbit with memset (NULL is always 0 in C++):
+        inline void blank() noexcept {
+            // if all pointer types are trivial, we can just nuke it from orbit with memset (NULL is always 0 in C++):
+            if COLONY_CONSTEXPR( std::is_trivial<group_pointer_type>::value &&
+                                 std::is_trivial<aligned_pointer_type>::value &&
+                                 std::is_trivial<skipfield_pointer_type>::value ) {
                 std::memset( static_cast<void *>( this ), 0, offsetof( colony, pointer_allocator_pair ) );
             } else {
                 end_iterator.group_pointer = NULL;
@@ -740,15 +694,15 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
     public:
 
         // Move constructor:
-    colony( colony &&source ) COLONY_NOEXCEPT:
-        element_allocator_type( source ),
-        end_iterator( std::move( source.end_iterator ) ),
-        begin_iterator( std::move( source.begin_iterator ) ),
-        groups_with_erasures_list_head( std::move( source.groups_with_erasures_list_head ) ),
-        total_number_of_elements( source.total_number_of_elements ),
-        total_capacity( source.total_capacity ),
-        pointer_allocator_pair( source.pointer_allocator_pair.min_elements_per_group ),
-        group_allocator_pair( source.group_allocator_pair.max_elements_per_group ) {
+        colony( colony &&source ) noexcept:
+            element_allocator_type( source ),
+            end_iterator( std::move( source.end_iterator ) ),
+            begin_iterator( std::move( source.begin_iterator ) ),
+            groups_with_erasures_list_head( std::move( source.groups_with_erasures_list_head ) ),
+            total_number_of_elements( source.total_number_of_elements ),
+            total_capacity( source.total_capacity ),
+            pointer_allocator_pair( source.pointer_allocator_pair.min_elements_per_group ),
+            group_allocator_pair( source.group_allocator_pair.max_elements_per_group ) {
             source.blank();
         }
 
@@ -828,29 +782,29 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             insert( element_list );
         }
 
-        inline COLONY_FORCE_INLINE iterator begin() COLONY_NOEXCEPT {
+        inline COLONY_FORCE_INLINE iterator begin() noexcept {
             return begin_iterator;
         }
 
         inline COLONY_FORCE_INLINE const iterator &begin() const
-        COLONY_NOEXCEPT { // To allow for functions which only take const colony & as a source eg. copy constructor
+        noexcept { // To allow for functions which only take const colony & as a source eg. copy constructor
             return begin_iterator;
         }
 
-        inline COLONY_FORCE_INLINE iterator end() COLONY_NOEXCEPT {
+        inline COLONY_FORCE_INLINE iterator end() noexcept {
             return end_iterator;
         }
 
-        inline COLONY_FORCE_INLINE const iterator &end() const COLONY_NOEXCEPT {
+        inline COLONY_FORCE_INLINE const iterator &end() const noexcept {
             return end_iterator;
         }
 
-        inline const_iterator cbegin() const COLONY_NOEXCEPT {
+        inline const_iterator cbegin() const noexcept {
             return const_iterator( begin_iterator.group_pointer, begin_iterator.element_pointer,
                                    begin_iterator.skipfield_pointer );
         }
 
-        inline const_iterator cend() const COLONY_NOEXCEPT {
+        inline const_iterator cend() const noexcept {
             return const_iterator( end_iterator.group_pointer, end_iterator.element_pointer,
                                    end_iterator.skipfield_pointer );
         }
@@ -860,7 +814,7 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             return ++reverse_iterator( end_iterator );
         }
 
-        inline reverse_iterator rend() const COLONY_NOEXCEPT {
+        inline reverse_iterator rend() const noexcept {
             return reverse_iterator( begin_iterator.group_pointer, begin_iterator.element_pointer - 1,
                                      begin_iterator.skipfield_pointer - 1 );
         }
@@ -869,18 +823,18 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             return ++const_reverse_iterator( end_iterator );
         }
 
-        inline const_reverse_iterator crend() const COLONY_NOEXCEPT {
+        inline const_reverse_iterator crend() const noexcept {
             return const_reverse_iterator( begin_iterator.group_pointer, begin_iterator.element_pointer - 1,
                                            begin_iterator.skipfield_pointer - 1 );
         }
 
-        ~colony() COLONY_NOEXCEPT {
+        ~colony() noexcept {
             destroy_all_data();
         }
 
     private:
 
-        void destroy_all_data() COLONY_NOEXCEPT {
+        void destroy_all_data() noexcept {
             // Amusingly enough, these changes from && to logical & actually do make a significant difference in debug mode
             if( ( total_number_of_elements != 0 ) & !( std::is_trivially_destructible<element_type>::value ) ) {
                 total_number_of_elements = 0; // to avoid double-destruction
@@ -1655,7 +1609,7 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
     private:
 
         inline COLONY_FORCE_INLINE void update_subsequent_group_numbers( group_pointer_type current_group )
-        COLONY_NOEXCEPT {
+        noexcept {
             do {
                 --( current_group->group_number );
                 current_group = current_group->next_group;
@@ -1685,14 +1639,14 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             *this = std::move( temp );
         }
 
-        void remove_from_groups_with_erasures_list( const group_pointer_type group_to_remove )
-        COLONY_NOEXCEPT {
+        void remove_from_groups_with_erasures_list( const group_pointer_type group_to_remove ) noexcept {
             if( group_to_remove == groups_with_erasures_list_head ) {
                 groups_with_erasures_list_head = groups_with_erasures_list_head->erasures_list_next_group;
                 return;
             }
 
-            group_pointer_type previous_group = groups_with_erasures_list_head, current_group = groups_with_erasures_list_head->erasures_list_next_group;
+            group_pointer_type previous_group = groups_with_erasures_list_head;
+            group_pointer_type current_group = groups_with_erasures_list_head->erasures_list_next_group;
 
             while( group_to_remove != current_group ) {
                 previous_group = current_group;
@@ -2242,11 +2196,11 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             }
         }
 
-        inline COLONY_FORCE_INLINE bool empty() const COLONY_NOEXCEPT {
+        inline COLONY_FORCE_INLINE bool empty() const noexcept {
             return total_number_of_elements == 0;
         }
 
-        inline size_type size() const COLONY_NOEXCEPT {
+        inline size_type size() const noexcept {
             return total_number_of_elements;
         }
 
@@ -2264,15 +2218,15 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
         }
 #endif
 
-        inline size_type max_size() const COLONY_NOEXCEPT {
+        inline size_type max_size() const noexcept {
             return std::allocator_traits<element_allocator_type>::max_size( *this );
         }
 
-        inline size_type capacity() const COLONY_NOEXCEPT {
+        inline size_type capacity() const noexcept {
             return total_capacity;
         }
 
-        inline size_type approximate_memory_use() const COLONY_NOEXCEPT {
+        inline size_type approximate_memory_use() const noexcept {
             return
                 sizeof( *this ) + // sizeof colony basic structure
                 ( total_capacity * ( sizeof( aligned_element_type ) + sizeof( skipfield_type ) ) )
@@ -2305,20 +2259,20 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
         }
 
         inline void get_group_sizes( skipfield_type &minimum_group_size,
-                                     skipfield_type &maximum_group_size ) const COLONY_NOEXCEPT {
+                                     skipfield_type &maximum_group_size ) const noexcept {
             minimum_group_size = pointer_allocator_pair.min_elements_per_group;
             maximum_group_size = group_allocator_pair.max_elements_per_group;
         }
 
         inline void reinitialize( const skipfield_type min_allocation_amount,
-                                  const skipfield_type max_allocation_amount ) COLONY_NOEXCEPT {
+                                  const skipfield_type max_allocation_amount ) noexcept {
             assert( ( min_allocation_amount > 2 ) & ( min_allocation_amount <= max_allocation_amount ) );
             clear();
             pointer_allocator_pair.min_elements_per_group = min_allocation_amount;
             group_allocator_pair.max_elements_per_group = max_allocation_amount;
         }
 
-        inline COLONY_FORCE_INLINE void clear() COLONY_NOEXCEPT {
+        inline COLONY_FORCE_INLINE void clear() noexcept {
             destroy_all_data();
             blank();
         }
@@ -2357,7 +2311,7 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             return *this;
         }
 
-        bool operator==( const colony &rh ) const COLONY_NOEXCEPT {
+        bool operator==( const colony &rh ) const noexcept {
             assert( this != &rh );
 
             if( total_number_of_elements != rh.total_number_of_elements ) {
@@ -2374,7 +2328,7 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             return true;
         }
 
-        inline bool operator!=( const colony &rh ) const COLONY_NOEXCEPT {
+        inline bool operator!=( const colony &rh ) const noexcept {
             return !( *this == rh );
         }
 
@@ -3026,14 +2980,14 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             return it;
         }
 
-        inline allocator_type get_allocator() const COLONY_NOEXCEPT {
+        inline allocator_type get_allocator() const noexcept {
             return element_allocator_type();
         }
 
     private:
 
         struct less {
-            bool operator()( const element_type &a, const element_type &b ) const COLONY_NOEXCEPT {
+            bool operator()( const element_type &a, const element_type &b ) const noexcept {
                 return a < b;
             }
         };
@@ -3047,8 +3001,7 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                 stored_instance( function_instance )
             {}
 
-            sort_dereferencer() COLONY_NOEXCEPT
-            {}
+            sort_dereferencer() noexcept {}
 
             bool operator()( const pointer first, const pointer second ) {
                 return stored_instance( *first, *second );
@@ -3300,7 +3253,6 @@ inline void swap( colony<element_type, element_allocator_type, element_skipfield
 
 #undef COLONY_FORCE_INLINE
 
-#undef COLONY_NOEXCEPT
 #undef COLONY_NOEXCEPT_SWAP
 #undef COLONY_NOEXCEPT_MOVE_ASSIGNMENT
 #undef COLONY_CONSTEXPR
