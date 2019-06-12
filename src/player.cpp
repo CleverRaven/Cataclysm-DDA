@@ -443,8 +443,6 @@ static const trait_id trait_WHISKERS( "WHISKERS" );
 static const trait_id trait_WHISKERS_RAT( "WHISKERS_RAT" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
-static const itype_id OPTICAL_CLOAK_ITEM_ID( "optical_cloak" );
-
 stat_mod player::get_pain_penalty() const
 {
     stat_mod ret;
@@ -890,7 +888,7 @@ void player::action_taken()
 
 void player::update_morale()
 {
-    morale->decay( 10_turns );
+    morale->decay( 1_minutes );
     apply_persistent_morale();
 }
 
@@ -1166,6 +1164,7 @@ void player::update_bodytemp()
     // Difference between high and low is the "safe" heat - one we only apply if it's beneficial
     const int mutation_heat_bonus = mutation_heat_high - mutation_heat_low;
 
+    const int h_radiation = get_heat_radiation( pos(), false );
     // Current temperature and converging temperature calculations
     for( const body_part bp : all_body_parts ) {
         // Skip eyes
@@ -1220,7 +1219,6 @@ void player::update_bodytemp()
         // Bark : lowers blister count to -5; harder to get blisters
         int blister_count = ( has_bark ? -5 : 0 ); // If the counter is high, your skin starts to burn
 
-        const int h_radiation = get_heat_radiation( pos(), false );
         if( frostbite_timer[bp] > 0 ) {
             frostbite_timer[bp] -= std::max( 5, h_radiation );
         }
@@ -2520,7 +2518,7 @@ std::list<item *> player::get_artifact_items()
 bool player::has_active_optcloak() const
 {
     for( auto &w : worn ) {
-        if( w.active && w.typeId() == OPTICAL_CLOAK_ITEM_ID ) {
+        if( w.active && w.has_flag( "ACTIVE_CLOAKING" ) ) {
             return true;
         }
     }
@@ -3954,8 +3952,8 @@ void player::update_body( const time_point &from, const time_point &to )
 {
     update_stamina( to_turns<int>( to - from ) );
     update_stomach( from, to );
-    if( ticks_between( from, to, 10_turns ) > 0 ) {
-        magic.update_mana( *this, to_turns<float>( 10_turns ) );
+    if( ticks_between( from, to, 3_minutes ) > 0 ) {
+        magic.update_mana( *this, to_turns<float>( 3_minutes ) );
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
@@ -4245,7 +4243,7 @@ void player::check_needs_extremes()
             /** @EFFECT_INT slightly decreases occurrence of short naps when dead tired */
             if( one_in( 50 + int_cur ) ) {
                 // Rivet's idea: look out for microsleeps!
-                fall_asleep( 5_turns );
+                fall_asleep( 30_seconds );
             }
         } else if( get_fatigue() >= EXHAUSTED ) {
             if( calendar::once_every( 30_minutes ) ) {
@@ -4254,7 +4252,7 @@ void player::check_needs_extremes()
             }
             /** @EFFECT_INT slightly decreases occurrence of short naps when exhausted */
             if( one_in( 100 + int_cur ) ) {
-                fall_asleep( 5_turns );
+                fall_asleep( 30_seconds );
             }
         } else if( get_fatigue() >= DEAD_TIRED && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "*yawn* You should really get some sleep." ) );
@@ -4301,7 +4299,7 @@ void player::check_needs_extremes()
             // Note: these can coexist with fatigue-related microsleeps
             /** @EFFECT_INT slightly decreases occurrence of short naps when sleep deprived */
             if( one_in( static_cast<int>( sleep_deprivation_pct * 75 ) + int_cur ) ) {
-                fall_asleep( 5_turns );
+                fall_asleep( 30_seconds );
             }
 
             // Stimulants can be used to stay awake a while longer, but after a while you'll just collapse.
@@ -5003,14 +5001,14 @@ void player::process_one_effect( effect &it, bool is_new )
                 } else {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp_torso ) );
                 }
-                apply_damage( nullptr, bp_torso, val );
+                apply_damage( nullptr, bp_torso, val, true );
             } else {
                 if( val > 5 ) {
                     add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
                 } else {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
                 }
-                apply_damage( nullptr, bp, val );
+                apply_damage( nullptr, bp, val, true );
             }
         }
     }
@@ -5247,13 +5245,13 @@ void player::suffer()
         }
     }
 
-    if( x_in_y( root_vitamins, 96 ) ) {
+    if( x_in_y( root_vitamins, 576 ) ) {
         vitamin_mod( vitamin_id( "iron" ), 1, true );
         vitamin_mod( vitamin_id( "calcium" ), 1, true );
         mod_healthy_mod( 5, 50 );
     }
 
-    if( x_in_y( root_water, 425 ) ) {
+    if( x_in_y( root_water, 2550 ) ) {
         // Plants draw some crazy amounts of water from the ground in real life,
         // so these numbers try to reflect that uncertain but large amount
         // this should take 12 hours to meet your daily needs with ROOTS2, and 8 with ROOTS3
@@ -5755,12 +5753,12 @@ void player::suffer()
         }
     }
 
-    if( x_in_y( sunlight_nutrition, 3000 ) ) {
+    if( x_in_y( sunlight_nutrition, 18000 ) ) {
         vitamin_mod( vitamin_id( "vitA" ), 1, true );
         vitamin_mod( vitamin_id( "vitC" ), 1, true );
     }
 
-    if( x_in_y( sunlight_nutrition, 2000 ) ) {
+    if( x_in_y( sunlight_nutrition, 12000 ) ) {
         mod_hunger( -1 );
         // photosynthesis absorbs kcal directly
         mod_stored_nutr( -1 );
@@ -6708,8 +6706,8 @@ void player::apply_wetness_morale( int temperature )
             morale_effect = -1;
         }
     }
-    // 11_turns because decay is applied in 10_turn increments
-    add_morale( MORALE_WET, morale_effect, total_morale, 11_turns, 11_turns, true );
+    // 61_seconds because decay is applied in 1_minutes increments
+    add_morale( MORALE_WET, morale_effect, total_morale, 61_seconds, 61_seconds, true );
 }
 
 void player::update_body_wetness( const w_point &weather )
@@ -6880,7 +6878,7 @@ void player::process_active_items()
         if( !w.active ) {
             continue;
         }
-        if( w.typeId() == OPTICAL_CLOAK_ITEM_ID ) {
+        if( w.has_flag( "ACTIVE_CLOAKING" ) ) {
             cloak = &w;
         }
         // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
@@ -6892,13 +6890,13 @@ void player::process_active_items()
         if( ch_UPS >= 20 ) {
             use_charges( "UPS", 20 );
             if( ch_UPS < 200 && one_in( 3 ) ) {
-                add_msg_if_player( m_warning, _( "Your optical cloak flickers for a moment!" ) );
+                add_msg_if_player( m_warning, _( "Your cloaking flickers for a moment!" ) );
             }
         } else if( ch_UPS > 0 ) {
             use_charges( "UPS", ch_UPS );
         } else {
-            add_msg_if_player( m_warning,
-                               _( "Your optical cloak flickers for a moment as it becomes opaque." ) );
+            add_msg_if_player( m_bad,
+                               _( "Your cloaking flickers and becomes opaque." ) );
             // Bypass the "you deactivate the ..." message
             cloak->active = false;
         }
@@ -8043,7 +8041,7 @@ bool player::pick_style() // Style selection menu
 
     if( selection >= STYLE_OFFSET ) {
         style_selected = selectable_styles[selection - STYLE_OFFSET];
-        add_msg_if_player( m_info, _( style_selected.obj().get_initiate_player_message() ) );
+        martialart_use_message();
     } else if( selection == KEEP_HANDS_FREE ) {
         keep_hands_free = !keep_hands_free;
     } else {
@@ -11490,7 +11488,7 @@ bool player::can_hear( const tripoint &source, const int volume ) const
     }
     const int dist = rl_dist( source, pos() );
     const float volume_multiplier = hearing_ability();
-    return ( volume - weather_data( g->weather.weather ).sound_attn ) * volume_multiplier >= dist;
+    return ( volume - weather::sound_attn( g->weather.weather ) ) * volume_multiplier >= dist;
 }
 
 float player::hearing_ability() const

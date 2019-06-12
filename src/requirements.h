@@ -277,6 +277,11 @@ struct requirement_data {
         static requirement_data continue_requirements( const std::vector<item_comp> &required_comps,
                 const std::list<item> &remaining_comps );
 
+        /**
+         * Removes duplicated qualities and tools
+         */
+        void consolidate();
+
     private:
         requirement_id id_ = requirement_id::NULL_ID();
 

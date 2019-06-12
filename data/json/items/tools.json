@@ -6715,8 +6715,8 @@
     "symbol": "!",
     "color": "cyan",
     "ammo": "anesthetic",
-    "initial_charges": 3,
-    "max_charges": 3,
+    "initial_charges": 3000,
+    "max_charges": 3000,
     "qualities": [ [ "ANESTHESIA", 1 ] ]
   },
   {

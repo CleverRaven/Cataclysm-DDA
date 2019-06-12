@@ -2,6 +2,7 @@
 #ifndef MAPGEN_FUNCTIONS_H
 #define MAPGEN_FUNCTIONS_H
 
+#include <map>
 #include <string>
 #include <functional>
 
@@ -215,7 +216,8 @@ void place_stairs( map *m, oter_id terrain_type, mapgendata dat );
 mapgen_update_func add_mapgen_update_func( JsonObject &jo, bool &defer );
 bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint &omt_pos,
                              mission *miss = nullptr, bool cancel_on_collision = true );
-
 bool run_mapgen_func( const std::string &mapgen_id, map *m, oter_id terrain_type, mapgendata dat,
                       const time_point &turn, float density );
+std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_update(
+            const std::string &update_mapgen_id );
 #endif

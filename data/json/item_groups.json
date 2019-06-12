@@ -61,6 +61,8 @@
       [ "slingshot", 10 ],
       [ "frisbee", 10 ],
       [ "dnd_handbook", 1 ],
+      [ "RPG_die", 1 ],
+      [ "metal_RPG_die", 1 ],
       [ "milkshake_fastfood", 3 ]
     ]
   },

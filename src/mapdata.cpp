@@ -1122,7 +1122,7 @@ void map_data_common_t::load( JsonObject &jo, const std::string &src )
         }
     }
 
-    optional( jo, false, "description", description, translated_string_reader );
+    mandatory( jo, was_loaded, "description", description, translated_string_reader );
 }
 
 void ter_t::load( JsonObject &jo, const std::string &src )
