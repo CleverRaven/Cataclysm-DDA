@@ -1301,7 +1301,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     catacurses::refresh();
 
     int curtab = 1;
-    size_t min, max;
+    size_t min = 0;
+    size_t max = 0;
     line = 0;
     bool done = false;
     size_t half_y = 0;
