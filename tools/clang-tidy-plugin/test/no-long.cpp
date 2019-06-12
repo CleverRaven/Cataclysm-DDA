@@ -18,6 +18,8 @@ long &i4 = i1;
 int64_t i5;
 uint64_t i6;
 
+auto i7 = int64_t {};
+
 void f1( long e );
 // CHECK-MESSAGES: warning: Variable 'e' declared as 'long'. Prefer int or int64_t to long. [cata-no-long]
 
