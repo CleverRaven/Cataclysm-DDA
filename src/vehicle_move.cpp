@@ -39,7 +39,7 @@ const efftype_id effect_stunned( "stunned" );
 const efftype_id effect_harnessed( "harnessed" );
 const skill_id skill_driving( "driving" );
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 // tile height in meters
 static const float tile_height = 4;

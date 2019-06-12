@@ -213,7 +213,11 @@ IF(MSVC)
 	endif()
 ELSE()
 	SET(CATA_WARNINGS
-		"-Werror -Wall -Wextra -Woverloaded-virtual -Wpedantic -Wmissing-declarations")
+		"-Werror -Wall -Wextra \
+		-Wmissing-declarations \
+		-Wold-style-cast \
+		-Woverloaded-virtual \
+		-Wpedantic")
 	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CATA_WARNINGS} -std=c++14")
 	SET(CMAKE_CXX_FLAGS_DEBUG "-Og -g")
 ENDIF()
