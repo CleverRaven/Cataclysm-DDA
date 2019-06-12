@@ -1566,18 +1566,18 @@ inventory_selector::inventory_selector( const player &u, const inventory_selecto
     , own_gear_column( preset )
     , map_column( preset )
 {
-    ctxt.register_action( "DOWN", _( "Next item" ) );
-    ctxt.register_action( "UP", _( "Previous item" ) );
-    ctxt.register_action( "RIGHT", _( "Next column" ) );
-    ctxt.register_action( "LEFT", _( "Previous column" ) );
-    ctxt.register_action( "CONFIRM", _( "Confirm your selection" ) );
-    ctxt.register_action( "QUIT", _( "Cancel" ) );
-    ctxt.register_action( "CATEGORY_SELECTION", _( "Switch selection mode" ) );
-    ctxt.register_action( "TOGGLE_FAVORITE", _( "Toggle favorite" ) );
-    ctxt.register_action( "NEXT_TAB", _( "Page down" ) );
-    ctxt.register_action( "PREV_TAB", _( "Page up" ) );
-    ctxt.register_action( "HOME", _( "Home" ) );
-    ctxt.register_action( "END", _( "End" ) );
+    ctxt.register_action( "DOWN", translate_marker( "Next item" ) );
+    ctxt.register_action( "UP", translate_marker( "Previous item" ) );
+    ctxt.register_action( "RIGHT", translate_marker( "Next column" ) );
+    ctxt.register_action( "LEFT", translate_marker( "Previous column" ) );
+    ctxt.register_action( "CONFIRM", translate_marker( "Confirm your selection" ) );
+    ctxt.register_action( "QUIT", translate_marker( "Cancel" ) );
+    ctxt.register_action( "CATEGORY_SELECTION", translate_marker( "Switch selection mode" ) );
+    ctxt.register_action( "TOGGLE_FAVORITE", translate_marker( "Toggle favorite" ) );
+    ctxt.register_action( "NEXT_TAB", translate_marker( "Page down" ) );
+    ctxt.register_action( "PREV_TAB", translate_marker( "Page up" ) );
+    ctxt.register_action( "HOME", translate_marker( "Home" ) );
+    ctxt.register_action( "END", translate_marker( "End" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "ANY_INPUT" ); // For invlets
     ctxt.register_action( "INVENTORY_FILTER" );
@@ -1789,8 +1789,8 @@ inventory_multiselector::inventory_multiselector( const player &p,
     inventory_selector( p, preset ),
     selection_col( new selection_column( "SELECTION_COLUMN", selection_column_title ) )
 {
-    ctxt.register_action( "RIGHT", _( "Mark/unmark selected item" ) );
-    ctxt.register_action( "DROP_NON_FAVORITE", _( "Mark/unmark non-favorite items" ) );
+    ctxt.register_action( "RIGHT", translate_marker( "Mark/unmark selected item" ) );
+    ctxt.register_action( "DROP_NON_FAVORITE", translate_marker( "Mark/unmark non-favorite items" ) );
 
     for( auto &elem : get_all_columns() ) {
         elem->set_multiselect( true );

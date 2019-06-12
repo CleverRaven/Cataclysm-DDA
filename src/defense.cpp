@@ -499,11 +499,11 @@ void defense_game::setup()
     refresh_setup( w, selection );
 
     input_context ctxt( "DEFENSE_SETUP" );
-    ctxt.register_action( "UP", _( "Previous option" ) );
-    ctxt.register_action( "DOWN", _( "Next option" ) );
-    ctxt.register_action( "LEFT", _( "Cycle option value" ) );
-    ctxt.register_action( "RIGHT", _( "Cycle option value" ) );
-    ctxt.register_action( "CONFIRM", _( "Toggle option" ) );
+    ctxt.register_action( "UP", translate_marker( "Previous option" ) );
+    ctxt.register_action( "DOWN", translate_marker( "Next option" ) );
+    ctxt.register_action( "LEFT", translate_marker( "Cycle option value" ) );
+    ctxt.register_action( "RIGHT", translate_marker( "Cycle option value" ) );
+    ctxt.register_action( "CONFIRM", translate_marker( "Toggle option" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "START" );

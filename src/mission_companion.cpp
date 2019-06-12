@@ -400,8 +400,8 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                                 part_y + TITLE_TAB_HEIGHT + 1, part_x + MAX_FAC_NAME_SIZE );
 
     input_context ctxt( "FACTIONS" );
-    ctxt.register_action( "UP", _( "Move cursor up" ) );
-    ctxt.register_action( "DOWN", _( "Move cursor down" ) );
+    ctxt.register_action( "UP", translate_marker( "Move cursor up" ) );
+    ctxt.register_action( "DOWN", translate_marker( "Move cursor down" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "PAGE_UP" );
