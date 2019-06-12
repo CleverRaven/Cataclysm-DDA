@@ -1050,7 +1050,8 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
             aoe_string = _( string_format( "Variance: %d", sp.aoe() ) );
         }
     } else if( fx == "spawn_item" ) {
-        damage_string = _( string_format( "Spawn %d %s", sp.damage(), item::nname( sp.effect_data(), sp.damage() ) ) );
+        damage_string = _( string_format( "Spawn %d %s", sp.damage(), item::nname( sp.effect_data(),
+                                          sp.damage() ) ) );
     }
 
     print_colored_text( w_menu, line, h_col1, c_light_gray, c_light_gray, damage_string );
