@@ -878,6 +878,10 @@ class Character : public Creature, public visitable<Character>
         /** How healthy the character is. */
         int healthy;
         int healthy_mod;
+
+        /**height at character creation*/
+        int init_height = 175;
+
         // the player's activity level for metabolism calculations
         float activity_level = NO_EXERCISE;
 
