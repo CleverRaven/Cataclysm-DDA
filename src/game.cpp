@@ -1501,7 +1501,6 @@ bool game::do_turn()
     sounds::process_sounds();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
-    m.invalidate_map_cache( get_levz() );
     m.build_map_cache( get_levz(), true );
     monmove();
     if( calendar::once_every( 3_minutes ) ) {
@@ -3151,7 +3150,6 @@ void game::draw()
 
     //temporary fix for updating visibility for minimap
     ter_view_z = ( u.pos() + u.view_offset ).z;
-    m.invalidate_map_cache( ter_view_z );
     m.build_map_cache( ter_view_z );
     m.update_visibility_cache( ter_view_z );
 
