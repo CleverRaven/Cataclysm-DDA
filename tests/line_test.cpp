@@ -316,14 +316,14 @@ static void line_to_comparison( const int iterations )
         const int y2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
         const int t1 = 0;
         const int t2 = 0;
-        long count1 = 0;
+        int count1 = 0;
         const auto start1 = std::chrono::high_resolution_clock::now();
         while( count1 < iterations ) {
             line_to( x1, y1, x2, y2, t1 );
             count1++;
         }
         const auto end1 = std::chrono::high_resolution_clock::now();
-        long count2 = 0;
+        int count2 = 0;
         const auto start2 = std::chrono::high_resolution_clock::now();
         while( count2 < iterations ) {
             canonical_line_to( x1, y1, x2, y2, t2 );
