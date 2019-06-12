@@ -1496,9 +1496,9 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
             }
         } else if( category == C_FIELD ) {
             const field_id fid = field_from_ident( id );
-            sym = fieldlist[fid].sym;
+            sym = all_field_types_enum_list[fid].sym;
             // TODO: field density?
-            col = fieldlist[fid].color[0];
+            col = all_field_types_enum_list[fid].color[0];
         } else if( category == C_TRAP ) {
             const trap_str_id tmp( id );
             if( tmp.is_valid() ) {
@@ -2071,7 +2071,7 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
 {
     // check for field
     const field &f = g->m.field_at( p );
-    field_id f_id = f.fieldSymbol();
+    field_id f_id = f.field_symbol();
     bool is_draw_field;
     bool do_item;
     switch( f_id ) {
@@ -2115,19 +2115,19 @@ bool cata_tiles::draw_field_or_item( const tripoint &p, lit_level ll, int &heigh
     bool ret_draw_field = true;
     bool ret_draw_item = true;
     if( is_draw_field ) {
-        const std::string fd_name = fieldlist[f.fieldSymbol()].id;
+        const std::string fd_name = all_field_types_enum_list[f.field_symbol()].id;
 
         // for rotation information
         const int neighborhood[4] = {
-            static_cast<int>( g->m.field_at( tripoint( p.x, p.y + 1, p.z ) ).fieldSymbol() ), // south
-            static_cast<int>( g->m.field_at( tripoint( p.x + 1, p.y, p.z ) ).fieldSymbol() ), // east
-            static_cast<int>( g->m.field_at( tripoint( p.x - 1, p.y, p.z ) ).fieldSymbol() ), // west
-            static_cast<int>( g->m.field_at( tripoint( p.x, p.y - 1, p.z ) ).fieldSymbol() ) // north
+            static_cast<int>( g->m.field_at( tripoint( p.x, p.y + 1, p.z ) ).field_symbol() ), // south
+            static_cast<int>( g->m.field_at( tripoint( p.x + 1, p.y, p.z ) ).field_symbol() ), // east
+            static_cast<int>( g->m.field_at( tripoint( p.x - 1, p.y, p.z ) ).field_symbol() ), // west
+            static_cast<int>( g->m.field_at( tripoint( p.x, p.y - 1, p.z ) ).field_symbol() ) // north
         };
 
         int subtile = 0;
         int rotation = 0;
-        get_tile_values( f.fieldSymbol(), neighborhood, subtile, rotation );
+        get_tile_values( f.field_symbol(), neighborhood, subtile, rotation );
 
         ret_draw_field = draw_from_id_string( fd_name, C_FIELD, empty_string, p, subtile, rotation,
                                               ll, nv_goggles_activated );
@@ -2923,7 +2923,7 @@ void cata_tiles::do_tile_loading_report()
     }, "Monsters", "" );
     tile_loading_report( vpart_info::all(), "Vehicle Parts", "vp_" );
     tile_loading_report<trap>( trap::count(), "Traps", "" );
-    tile_loading_report( fieldlist, num_fields, "Fields", "" );
+    tile_loading_report( all_field_types_enum_list, num_fields, "Fields", "" );
 
     // needed until DebugLog ostream::flush bugfix lands
     DebugLog( D_INFO, DC_ALL );

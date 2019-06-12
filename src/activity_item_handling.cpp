@@ -1217,11 +1217,11 @@ static cata::optional<tripoint> find_best_fire(
     time_duration best_fire_age = 1_days;
     for( const tripoint &pt : from ) {
         field_entry *fire = g->m.get_field( pt, fd_fire );
-        if( fire == nullptr || fire->getFieldDensity() > 1 ||
+        if( fire == nullptr || fire->get_field_intensity() > 1 ||
             !g->m.clear_path( center, pt, PICKUP_RANGE, 1, 100 ) ) {
             continue;
         }
-        time_duration fire_age = fire->getFieldAge();
+        time_duration fire_age = fire->get_field_age();
         // Refuel only the best fueled fire (if it needs it)
         if( fire_age < best_fire_age ) {
             best_fire = pt;
