@@ -77,6 +77,7 @@ static const bionic_id bio_remote( "bio_remote" );
 
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_SHELL2( "SHELL2" );
+static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
 
 const skill_id skill_driving( "driving" );
 const skill_id skill_melee( "melee" );
@@ -1045,7 +1046,7 @@ static void loot()
 
 static void wear()
 {
-    player &u = g->u;
+    avatar &u = g->u;
     item_location loc = game_menus::inv::wear( u );
 
     if( loc ) {
@@ -1057,7 +1058,7 @@ static void wear()
 
 static void takeoff()
 {
-    player &u = g->u;
+    avatar &u = g->u;
     item_location loc = game_menus::inv::take_off( u );
 
     if( loc ) {
@@ -1950,7 +1951,6 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't disassemble items while you're riding." ) );
                 } else {
                     u.disassemble();
-                    g->m.invalidate_map_cache( g->get_levz() );
                     refresh_all();
                 }
                 break;
@@ -1962,6 +1962,8 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't construct while you're in your shell." ) );
                 } else if( u.has_effect( effect_riding ) ) {
                     add_msg( m_info, _( "You can't construct while you're riding." ) );
+                } else if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
+                    add_msg( m_info, _( "It is too dark to construct right now." ) );
                 } else {
                     construction_menu();
                 }
@@ -2208,6 +2210,15 @@ bool game::handle_action()
                 add_msg( _( "%s is now set to %s." ),
                          get_options().get_option( "AUTO_FORAGING" ).getMenuText(),
                          get_options().get_option( "AUTO_FORAGING" ).getValueName() );
+                break;
+
+            case ACTION_TOGGLE_AUTO_PICKUP:
+                get_options().get_option( "AUTO_PICKUP" ).setNext();
+                get_options().save();
+                //~ Auto pickup is now set to x
+                add_msg( _( "%s is now set to %s." ),
+                         get_options().get_option( "AUTO_PICKUP" ).getMenuText(),
+                         get_options().get_option( "AUTO_PICKUP" ).getValueName() );
                 break;
 
             case ACTION_DISPLAY_SCENT:

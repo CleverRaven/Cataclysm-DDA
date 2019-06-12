@@ -37,6 +37,7 @@
 #include "clzones.h"
 #include "compatibility.h"
 #include "computer.h"
+#include "construction.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
 #include "creature_tracker.h"
@@ -235,6 +236,8 @@ static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 
+const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
+
 static const faction_id your_followers( "your_followers" );
 
 void intro();
@@ -249,6 +252,7 @@ extern bool add_key_to_quick_shortcuts( long key, const std::string &category, b
 //The one and only game instance
 std::unique_ptr<game> g;
 
+//The one and only uistate instance
 uistatedata uistate;
 
 bool is_valid_in_w_terrain( int x, int y )
@@ -1497,7 +1501,6 @@ bool game::do_turn()
     sounds::process_sounds();
     // Update vision caches for monsters. If this turns out to be expensive,
     // consider a stripped down cache just for monsters.
-    m.invalidate_map_cache( get_levz() );
     m.build_map_cache( get_levz(), true );
     monmove();
     if( calendar::once_every( 3_minutes ) ) {
@@ -1512,7 +1515,7 @@ bool game::do_turn()
     u.process_active_items();
 
     if( get_levz() >= 0 && !u.is_underwater() ) {
-        weather_data( weather.weather ).effect();
+        weather::effect( weather.weather )();
     }
 
     const bool player_is_sleeping = u.has_effect( effect_sleep );
@@ -1696,6 +1699,9 @@ int get_heat_radiation( const tripoint &location, bool direct )
     fires.reserve( 13 * 13 );
     int best_fire = 0;
     for( const tripoint &dest : g->m.points_in_radius( location, 6 ) ) {
+        if( !g->m.sees( location, dest, -1 ) ) {
+            continue;
+        }
         int heat_intensity = 0;
 
         int ffire = g->m.get_field_strength( dest, fd_fire );
@@ -1704,7 +1710,7 @@ int get_heat_radiation( const tripoint &location, bool direct )
         } else if( g->m.tr_at( dest ).loadid == tr_lava ) {
             heat_intensity = 3;
         }
-        if( heat_intensity == 0 || !g->m.sees( location, dest, -1 ) ) {
+        if( heat_intensity == 0 ) {
             // No heat source here
             continue;
         }
@@ -2312,6 +2318,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "toggle_auto_pulp_butcher" );
     ctxt.register_action( "toggle_auto_mining" );
     ctxt.register_action( "toggle_auto_foraging" );
+    ctxt.register_action( "toggle_auto_pickup" );
     ctxt.register_action( "action_menu" );
     ctxt.register_action( "main_menu" );
     ctxt.register_action( "item_action_menu" );
@@ -3143,7 +3150,6 @@ void game::draw()
 
     //temporary fix for updating visibility for minimap
     ter_view_z = ( u.pos() + u.view_offset ).z;
-    m.invalidate_map_cache( ter_view_z );
     m.build_map_cache( ter_view_z );
     m.update_visibility_cache( ter_view_z );
 
@@ -3169,48 +3175,47 @@ void game::draw_panels( size_t column, size_t index, bool force_draw )
     const bool sidebar_right = get_option<std::string>( "SIDEBAR_POSITION" ) == "right";
     int spacer = get_option<bool>( "SIDEBAR_SPACERS" ) ? 1 : 0;
     int log_height = 0;
-    for( const auto &panel : mgr.get_current_layout() ) {
-        if( panel.get_height() != -2 && panel.toggle ) {
+    for( const window_panel &panel : mgr.get_current_layout() ) {
+        if( panel.get_height() != -2 && panel.toggle && panel.render() ) {
             log_height += panel.get_height() + spacer;
         }
     }
     log_height = std::max( TERMY - log_height, 3 );
-    for( const auto &panel : mgr.get_current_layout() ) {
-        if( !panel.render() ) {
-            continue;
-        }
-        // height clamped to window height.
-        int h = std::min( panel.get_height(), TERMY - y );
-        if( h == -2 ) {
-            h = log_height;
-        }
-        h += spacer;
-        if( panel.toggle && h > 0 ) {
-            if( panel.always_draw || draw_this_turn ) {
-                panel.draw( u, catacurses::newwin( h, panel.get_width(), y,
-                                                   sidebar_right ? TERMX - panel.get_width() : 0 ) );
+    for( const window_panel &panel : mgr.get_current_layout() ) {
+        if( panel.render() ) {
+            // height clamped to window height.
+            int h = std::min( panel.get_height(), TERMY - y );
+            if( h == -2 ) {
+                h = log_height;
             }
-            if( show_panel_adm ) {
-                auto label = catacurses::newwin( 1, panel.get_name().length(), y, sidebar_right ?
-                                                 TERMX - panel.get_width() - panel.get_name().length() - 1 : panel.get_width() + 1 );
-                werase( label );
-                mvwprintz( label, 0, 0, c_light_red, _( panel.get_name() ) );
-                wrefresh( label );
-                label = catacurses::newwin( h, 1, y,
-                                            sidebar_right ? TERMX - panel.get_width() - 1 : panel.get_width() );
-                werase( label );
-                if( h == 1 ) {
-                    mvwputch( label, 0, 0, c_light_red, LINE_OXOX );
-                } else {
-                    mvwputch( label, 0, 0, c_light_red, LINE_OXXX );
-                    for( int i = 1; i < h - 1; i++ ) {
-                        mvwputch( label, i, 0, c_light_red, LINE_XOXO );
-                    }
-                    mvwputch( label, h - 1, 0, c_light_red, sidebar_right ? LINE_XXOO : LINE_XOOX );
+            h += spacer;
+            if( panel.toggle && panel.render() && h > 0 ) {
+                if( panel.always_draw || draw_this_turn ) {
+                    panel.draw( u, catacurses::newwin( h, panel.get_width(), y,
+                                                       sidebar_right ? TERMX - panel.get_width() : 0 ) );
                 }
-                wrefresh( label );
+                if( show_panel_adm ) {
+                    auto label = catacurses::newwin( 1, panel.get_name().length(), y, sidebar_right ?
+                                                     TERMX - panel.get_width() - panel.get_name().length() - 1 : panel.get_width() + 1 );
+                    werase( label );
+                    mvwprintz( label, 0, 0, c_light_red, _( panel.get_name() ) );
+                    wrefresh( label );
+                    label = catacurses::newwin( h, 1, y,
+                                                sidebar_right ? TERMX - panel.get_width() - 1 : panel.get_width() );
+                    werase( label );
+                    if( h == 1 ) {
+                        mvwputch( label, 0, 0, c_light_red, LINE_OXOX );
+                    } else {
+                        mvwputch( label, 0, 0, c_light_red, LINE_OXXX );
+                        for( int i = 1; i < h - 1; i++ ) {
+                            mvwputch( label, i, 0, c_light_red, LINE_XOXO );
+                        }
+                        mvwputch( label, h - 1, 0, c_light_red, sidebar_right ? LINE_XXOO : LINE_XOOX );
+                    }
+                    wrefresh( label );
+                }
+                y += h;
             }
-            y += h;
         }
     }
     if( show_panel_adm ) {
@@ -3600,7 +3605,7 @@ float game::natural_light_level( const int zlev ) const
         ret = DAYLIGHT_LEVEL;
     }
 
-    ret += weather_data( weather.weather ).light_modifier;
+    ret += weather::light_modifier( weather.weather );
 
     // Artifact light level changes here. Even though some of these only have an effect
     // aboveground it is cheaper performance wise to simply iterate through the entire
@@ -5793,7 +5798,18 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
 {
     const trap &tr = m.tr_at( lp );
     if( tr.can_see( lp, u ) ) {
-        mvwprintz( w_look, ++line, column, tr.color, tr.name() );
+        partial_con *pc = g->m.partial_con_at( lp );
+        std::string tr_name;
+        if( pc && tr.loadid == tr_unfinished_construction ) {
+            const std::vector<construction> &list_constructions = get_constructions();
+            const construction &built = list_constructions[pc->id];
+            tr_name = string_format( _( "Unfinished task: %s, %d%% complete" ), built.description,
+                                     pc->counter / 100000 );
+        } else {
+            tr_name = tr.name();
+        }
+
+        mvwprintz( w_look, ++line, column, tr.color, tr_name );
     }
 }
 
@@ -7250,7 +7266,6 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
         }
 
         reset_item_list_state( w_items_border, iInfoHeight, sort_radius );
-        iScrollPos = 0;
 
         if( action == "HELP_KEYBINDINGS" ) {
             draw_ter();
@@ -7836,22 +7851,30 @@ static void butcher_submenu( map_stack &items, const std::vector<int> &corpses, 
         }
         return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );
     };
+    const bool enough_light = g->u.fine_detail_vision_mod() <= 4;
+    if( !enough_light ) {
+        popup( _( "Some types of butchery are not possible when it is dark." ) );
+    }
     uilist smenu;
     smenu.desc_enabled = true;
     smenu.text = _( "Choose type of butchery:" );
-    smenu.addentry_col( BUTCHER, true, 'B', _( "Quick butchery" ), cut_time( BUTCHER ),
+
+    smenu.addentry_col( BUTCHER, enough_light, 'B', _( "Quick butchery" ), cut_time( BUTCHER ),
                         _( "This technique is used when you are in a hurry, but still want to harvest something from the corpse.  Yields are lower as you don't try to be precise, but it's useful if you don't want to set up a workshop.  Prevents zombies from raising." ) );
-    smenu.addentry_col( BUTCHER_FULL, true, 'b', _( "Full butchery" ), cut_time( BUTCHER_FULL ),
+    smenu.addentry_col( BUTCHER_FULL, enough_light, 'b', _( "Full butchery" ),
+                        cut_time( BUTCHER_FULL ),
                         _( "This technique is used to properly butcher a corpse, and requires a rope & a tree or a butchering rack, a flat surface (for ex. a table, a leather tarp, etc.) and good tools.  Yields are plentiful and varied, but it is time consuming." ) );
-    smenu.addentry_col( F_DRESS, true, 'f', _( "Field dress corpse" ), cut_time( F_DRESS ),
+    smenu.addentry_col( F_DRESS, enough_light, 'f', _( "Field dress corpse" ),
+                        cut_time( F_DRESS ),
                         _( "Technique that involves removing internal organs and viscera to protect the corpse from rotting from inside. Yields internal organs. Carcass will be lighter and will stay fresh longer.  Can be combined with other methods for better effects." ) );
-    smenu.addentry_col( SKIN, true, 's', ( "Skin corpse" ), cut_time( SKIN ),
+    smenu.addentry_col( SKIN, enough_light, 's', ( "Skin corpse" ), cut_time( SKIN ),
                         _( "Skinning a corpse is an involved and careful process that usually takes some time.  You need skill and an appropriately sharp and precise knife to do a good job.  Some corpses are too small to yield a full-sized hide and will instead produce scraps that can be used in other ways." ) );
-    smenu.addentry_col( QUARTER, true, 'k', _( "Quarter corpse" ), cut_time( QUARTER ),
+    smenu.addentry_col( QUARTER, enough_light, 'k', _( "Quarter corpse" ), cut_time( QUARTER ),
                         _( "By quartering a previously field dressed corpse you will acquire four parts with reduced weight and volume.  It may help in transporting large game.  This action destroys skin, hide, pelt, etc., so don't use it if you want to harvest them later." ) );
     smenu.addentry_col( DISMEMBER, true, 'm', _( "Dismember corpse" ), cut_time( DISMEMBER ),
                         _( "If you're aiming to just destroy a body outright, and don't care about harvesting it, dismembering it will hack it apart in a very short amount of time, but yield little to no usable flesh." ) );
-    smenu.addentry_col( DISSECT, true, 'd', _( "Dissect corpse" ), cut_time( DISSECT ),
+    smenu.addentry_col( DISSECT, enough_light, 'd', _( "Dissect corpse" ),
+                        cut_time( DISSECT ),
                         _( "By careful dissection of the corpse, you will examine it for possible bionic implants, or discrete organs and harvest them if possible.  Requires scalpel-grade cutting tools, ruins corpse, and consumes a lot of time.  Your medical knowledge is most useful here." ) );
     smenu.query();
     switch( smenu.ret ) {
@@ -8487,6 +8510,7 @@ void game::wield( item_location &loc )
         u.unwield();
 
         if( is_unwielding ) {
+            u.martialart_use_message();
             return;
         }
     }

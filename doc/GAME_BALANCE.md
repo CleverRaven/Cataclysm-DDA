@@ -142,7 +142,7 @@ Exotic damage types (currently only fire) do not scale with skills or crits.
 
 # RANGE WEAPONS
 ## Automatic Fire
-Guns with automatic fire are balanced around 1-second of cyclic fire, unless the cyclic or practical fire rate is less than 1 every six seconds.  Rates of fire less than 1 shot every six seconds are increased to 2.
+Guns with automatic fire are balanced around 1-second of cyclic fire, unless the cyclic or practical fire rate is less than 1 every second.  Rates of fire less than 1 shot every second are increased to 2.
 
 ## Magazines
 ### Reload times

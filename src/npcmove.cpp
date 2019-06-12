@@ -504,7 +504,7 @@ void npc::assess_danger()
                                        is_too_close ?  NPC_DANGER_VERY_LOW : 0.0f );
             cur_threat_map[direction_from( pos(), foe.pos() )] += priority;
             if( priority > highest_priority ) {
-                warn_about( warning, 1_minutes, foe.disp_name() );
+                warn_about( warning, 1_minutes );
                 highest_priority = priority;
                 ai_cache.danger = foe_threat;
                 ai_cache.target = g->shared_from( foe );

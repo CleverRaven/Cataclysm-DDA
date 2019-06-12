@@ -375,7 +375,7 @@ float spell::spell_fail( const player &p ) const
     // effective skill of 8 (8 int, 0 spellcraft, 0 spell level, spell difficulty 0) is ~50% failure
     // effective skill of 30 is 0% failure
     const float effective_skill = 2 * ( get_level() - get_difficulty() ) + p.get_int() +
-                                  p.get_skill_level( skill_id( "SPELLCRAFT" ) );
+                                  p.get_skill_level( skill_id( "spellcraft" ) );
     // add an if statement in here because sufficiently large numbers will definitely overflow because of exponents
     if( effective_skill > 30.0f ) {
         return 0.0f;
@@ -599,9 +599,9 @@ float spell::exp_modifier( const player &p ) const
 {
     const float int_modifier = ( p.get_int() - 8.0f ) / 8.0f;
     const float difficulty_modifier = get_difficulty() / 20.0f;
-    const float spellcraft_modifier = p.get_skill_level( skill_id( "SPELLCRAFT" ) ) / 10.0f;
+    const float spellcraft_modifier = p.get_skill_level( skill_id( "spellcraft" ) ) / 10.0f;
 
-    return int_modifier + difficulty_modifier + spellcraft_modifier + 1.0f;
+    return ( int_modifier + difficulty_modifier + spellcraft_modifier ) / 5.0f + 1.0f;
 }
 
 int spell::casting_exp( const player &p ) const
@@ -855,9 +855,9 @@ int known_magic::time_to_learn_spell( const player &p, const std::string &str ) 
 
 int known_magic::time_to_learn_spell( const player &p, spell_id sp ) const
 {
-    const int base_time = 30000;
+    const int base_time = to_moves<int>( 30_minutes );
     return base_time * ( 1.0 + sp.obj().difficulty / ( 1.0 + ( p.get_int() - 8.0 ) / 8.0 ) +
-                         ( p.get_skill_level( skill_id( "SPELLCRAFT" ) ) / 10.0 ) );
+                         ( p.get_skill_level( skill_id( "spellcraft" ) ) / 10.0 ) );
 }
 
 // spell_effect
@@ -1136,9 +1136,6 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
                 bodypart_effected = true;
             }
         }
-        if( bodypart_effected ) {
-            return;
-        }
     }
     if( !bodypart_effected ) {
         critter->add_effect( spell_effect, dur_td, num_bp );
@@ -1161,14 +1158,14 @@ static void damage_targets( spell &sp, std::set<tripoint> targets )
         atk.end_point = target;
         atk.hit_critter = cr;
         atk.proj = bolt;
+        if( !sp.effect_data().empty() ) {
+            add_effect_to_target( target, sp );
+        }
         if( sp.damage() > 0 ) {
             cr->deal_projectile_attack( &g->u, atk, true );
         } else {
             sp.heal( target );
             add_msg( m_good, _( "%s wounds are closing up!" ), cr->disp_name( true ) );
-        }
-        if( !sp.effect_data().empty() ) {
-            add_effect_to_target( target, sp );
         }
     }
 }
@@ -1220,6 +1217,42 @@ void spawn_ethereal_item( spell &sp )
         for( int i = 1; i < sp.damage(); i++ ) {
             g->u.i_add( granted );
         }
+    }
+}
+
+void recover_energy( spell &sp, const tripoint &target )
+{
+    // this spell is not appropriate for healing
+    const int healing = sp.damage();
+    const std::string energy_source = sp.effect_data();
+    // TODO: Change to Character
+    // current limitation is that Character does not have stamina or power_level members
+    player *p = g->critter_at<player>( target );
+
+    if( energy_source == "MANA" ) {
+        p->magic.mod_mana( *p, healing );
+    } else if( energy_source == "STAMINA" ) {
+        if( healing > 0 ) {
+            p->stamina = std::min( p->get_stamina_max(), p->stamina + healing );
+        } else {
+            p->stamina = std::max( 0, p->stamina + healing );
+        }
+    } else if( energy_source == "FATIGUE" ) {
+        // fatigue is backwards
+        p->mod_fatigue( -healing );
+    } else if( energy_source == "BIONIC" ) {
+        if( healing > 0 ) {
+            p->power_level = std::min( p->max_power_level, p->power_level + healing );
+        } else {
+            p->stamina = std::max( 0, p->stamina + healing );
+        }
+    } else if( energy_source == "PAIN" ) {
+        // pain is backwards
+        p->mod_pain_noresist( -healing );
+    } else if( energy_source == "HEALTH" ) {
+        p->mod_healthy( healing );
+    } else {
+        debugmsg( "Invalid effect_str %s for spell %s", energy_source, sp.name() );
     }
 }
 

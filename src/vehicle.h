@@ -618,7 +618,6 @@ class vehicle
         int part_epower_w( int index ) const;
 
         // convert watts over time to battery energy
-        // time duration can't resolve less than 6 seconds so specify time in seconds
         int power_to_energy_bat( const int power_w, const int t_seconds ) const;
 
         // convert vhp to watts.
@@ -1455,8 +1454,8 @@ class vehicle
         rl_vec2d dir_vec() const;
         // update vehicle parts as the vehicle moves
         void on_move();
-        // move the vehicle on the map
-        bool act_on_map();
+        // move the vehicle on the map. Returns updated pointer to self.
+        vehicle *act_on_map();
         // check if the vehicle should be falling or is in water
         void check_falling_or_floating();
 

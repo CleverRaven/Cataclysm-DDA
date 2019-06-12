@@ -491,6 +491,8 @@ class player : public Character
         void add_martialart( const matype_id &ma_id );
         /** Returns true if the player can learn the entered martial art */
         bool can_autolearn( const matype_id &ma_id ) const;
+        /** Displays a message if the player can or cannot use the martial art */
+        void martialart_use_message() const;
 
         /** Returns the to hit bonus from martial arts buffs */
         float mabuff_tohit_bonus() const;
@@ -1719,13 +1721,6 @@ class player : public Character
          * @param target Target NPC to disarm
          */
         void disarm( npc &target );
-
-        /**
-         * Try to steal an item from the NPC's inventory. May result in fail attempt, when NPC not notices you,
-         * notices your steal attempt and getting angry with you, and you successfully stealing the item.
-         * @param target Target NPC to steal from
-         */
-        void steal( npc &target );
 
         /**
          * Accessor method for weapon targeting data, used for interactive weapon aiming.

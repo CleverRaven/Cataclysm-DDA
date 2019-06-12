@@ -337,6 +337,8 @@ std::string action_ident( action_id act )
             return "toggle_auto_mining";
         case ACTION_TOGGLE_AUTO_FORAGING:
             return "toggle_auto_foraging";
+        case ACTION_TOGGLE_AUTO_PICKUP:
+            return "toggle_auto_pickup";
         case ACTION_ACTIONMENU:
             return "action_menu";
         case ACTION_ITEMACTION:

@@ -360,26 +360,23 @@ void map::on_vehicle_moved( const int smz )
 void map::vehmove()
 {
     // give vehicles movement points
-    {
-        VehicleList vehs = get_vehicles();
-        for( auto &vehs_v : vehs ) {
-            vehicle *veh = vehs_v.v;
-            veh->gain_moves();
-            veh->slow_leak();
-        }
+    VehicleList vehicle_list = get_vehicles();
+    for( auto &vehs_v : vehicle_list ) {
+        vehicle *veh = vehs_v.v;
+        veh->gain_moves();
+        veh->slow_leak();
     }
 
     // 15 equals 3 >50mph vehicles, or up to 15 slow (1 square move) ones
     // But 15 is too low for V12 death-bikes, let's put 100 here
     for( int count = 0; count < 100; count++ ) {
-        if( !vehproceed() ) {
+        if( !vehproceed( vehicle_list ) ) {
             break;
         }
     }
     // Process item removal on the vehicles that were modified this turn.
     // Use a copy because part_removal_cleanup can modify the container.
     auto temp = dirty_vehicle_list;
-    VehicleList vehicle_list = get_vehicles();
     for( const auto &elem : temp ) {
         auto same_ptr = [ elem ]( const struct wrapped_vehicle & tgt ) {
             return elem == tgt.v;
@@ -392,25 +389,23 @@ void map::vehmove()
     dirty_vehicle_list.clear();
 }
 
-bool map::vehproceed()
+bool map::vehproceed( VehicleList &vehicle_list )
 {
-    VehicleList vehs = get_vehicles();
-    vehicle *cur_veh = nullptr;
+    wrapped_vehicle *cur_veh = nullptr;
     float max_of_turn = 0;
     // First horizontal movement
-    for( auto &vehs_v : vehs ) {
+    for( wrapped_vehicle &vehs_v : vehicle_list ) {
         if( vehs_v.v->of_turn > max_of_turn ) {
-            cur_veh = vehs_v.v;
-            max_of_turn = cur_veh->of_turn;
+            cur_veh = &vehs_v;
+            max_of_turn = cur_veh->v->of_turn;
         }
     }
 
     // Then vertical-only movement
     if( cur_veh == nullptr ) {
-        for( auto &vehs_v : vehs ) {
-            vehicle &cveh = *vehs_v.v;
-            if( cveh.is_falling ) {
-                cur_veh = vehs_v.v;
+        for( wrapped_vehicle &vehs_v : vehicle_list ) {
+            if( vehs_v.v->is_falling ) {
+                cur_veh = &vehs_v;
                 break;
             }
         }
@@ -420,7 +415,11 @@ bool map::vehproceed()
         return false;
     }
 
-    return cur_veh->act_on_map();
+    cur_veh->v = cur_veh->v->act_on_map();
+    if( cur_veh->v == nullptr ) {
+        vehicle_list = get_vehicles();
+    }
+    return true;
 }
 
 static bool sees_veh( const Creature &c, vehicle &veh, bool force_recalc )
@@ -431,18 +430,18 @@ static bool sees_veh( const Creature &c, vehicle &veh, bool force_recalc )
     } );
 }
 
-void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing )
+vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing )
 {
     const bool vertical = dp.z != 0;
     if( ( dp.x == 0 && dp.y == 0 && dp.z == 0 ) ||
         ( abs( dp.x ) > 1 || abs( dp.y ) > 1 || abs( dp.z ) > 1 ) ||
         ( vertical && ( dp.x != 0 || dp.y != 0 ) ) ) {
         debugmsg( "move_vehicle called with %d,%d,%d displacement vector", dp.x, dp.y, dp.z );
-        return;
+        return &veh;
     }
 
     if( dp.z + veh.smz < -OVERMAP_DEPTH || dp.z + veh.smz > OVERMAP_HEIGHT ) {
-        return;
+        return &veh;
     }
 
     veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir(), veh.pivot_point() );
@@ -462,7 +461,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     if( velocity_before == 0 ) {
         debugmsg( "%s tried to move %s with no velocity",
                   veh.name, vertical ? "vertically" : "horizontally" );
-        return;
+        return &veh;
     }
 
     bool veh_veh_coll_flag = false;
@@ -527,7 +526,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
 
     if( veh_veh_coll_flag ) {
         // Break here to let the hit vehicle move away
-        return;
+        return nullptr;
     }
 
     // If not enough wheels, mess up the ground a bit.
@@ -574,6 +573,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
 
     const bool seen = sees_veh( g->u, veh, false );
 
+    vehicle *new_vehicle = &veh;
     if( can_move ) {
         // Accept new direction
         if( veh.skidding ) {
@@ -590,7 +590,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         veh.on_move();
         // Actually change position
         tripoint pt = veh.global_pos3(); // displace_vehicle needs a non-const reference
-        displace_vehicle( pt, dp1 );
+        new_vehicle = displace_vehicle( pt, dp1 );
     } else if( !vertical ) {
         veh.stop();
     }
@@ -609,6 +609,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         g->draw();
         refresh_display();
     }
+    return new_vehicle;
 }
 
 float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
@@ -5205,6 +5206,42 @@ const trap &map::tr_at( const tripoint &p ) const
     return current_submap->get_trap( l ).obj();
 }
 
+partial_con *map::partial_con_at( const tripoint &p )
+{
+    if( !inbounds( p ) ) {
+        return nullptr;
+    }
+    point l;
+    submap *const current_submap = get_submap_at( p, l );
+    auto it = current_submap->partial_constructions.find( tripoint( l.x, l.y, p.z ) );
+    if( it != current_submap->partial_constructions.end() ) {
+        return &it->second;
+    }
+    return nullptr;
+}
+
+void map::partial_con_remove( const tripoint &p )
+{
+    if( !inbounds( p ) ) {
+        return;
+    }
+    point l;
+    submap *const current_submap = get_submap_at( p, l );
+    current_submap->partial_constructions.erase( tripoint( l.x, l.y, p.z ) );
+}
+
+void map::partial_con_set( const tripoint &p, const partial_con &con )
+{
+    if( !inbounds( p ) ) {
+        return;
+    }
+    point l;
+    submap *const current_submap = get_submap_at( p, l );
+    if( !current_submap->partial_constructions.emplace( tripoint( l.x, l.y, p.z ), con ).second ) {
+        debugmsg( "set partial con on top of terrain which already has a partial con" );
+    }
+}
+
 void map::trap_set( const tripoint &p, const trap_id &type )
 {
     if( !inbounds( p ) ) {
@@ -7745,11 +7782,11 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     }
 }
 
-void map::build_floor_cache( const int zlev )
+bool map::build_floor_cache( const int zlev )
 {
     auto &ch = get_cache( zlev );
     if( !ch.floor_cache_dirty ) {
-        return;
+        return false;
     }
 
     auto &floor_cache = ch.floor_cache;
@@ -7775,6 +7812,7 @@ void map::build_floor_cache( const int zlev )
     }
 
     ch.floor_cache_dirty = false;
+    return zlevels;
 }
 
 void map::build_floor_caches()
@@ -7790,10 +7828,11 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
 {
     const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
     const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
+    bool seen_cache_dirty = false;
     for( int z = minz; z <= maxz; z++ ) {
         build_outside_cache( z );
-        build_transparency_cache( z );
-        build_floor_cache( z );
+        seen_cache_dirty |= build_transparency_cache( z );
+        seen_cache_dirty |= build_floor_cache( z );
     }
 
     tripoint start( 0, 0, minz );
@@ -7840,10 +7879,14 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     const tripoint &p = g->u.pos();
     if( ( has_furn( p ) && !furn( p ).obj().transparent ) || !ter( p ).obj().transparent ) {
         get_cache( p.z ).transparency_cache[p.x][p.y] = LIGHT_TRANSPARENCY_CLEAR;
-        set_transparency_cache_dirty( p.z );
     }
 
-    build_seen_cache( g->u.pos(), zlev );
+    // Initial value is illegal player position.
+    static tripoint player_prev_pos = tripoint_zero;
+    if( seen_cache_dirty || player_prev_pos != p ) {
+        build_seen_cache( g->u.pos(), zlev );
+        player_prev_pos = p;
+    }
     if( !skip_lightmap ) {
         generate_lightmap( zlev );
     }
