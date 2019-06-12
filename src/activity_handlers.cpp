@@ -87,7 +87,7 @@
 
 class npc;
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 const skill_id skill_survival( "survival" );
 const skill_id skill_firstaid( "firstaid" );

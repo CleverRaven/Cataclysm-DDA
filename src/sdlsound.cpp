@@ -32,7 +32,7 @@
 #include "sdl_wrappers.h"
 #include "sounds.h"
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 using id_and_variant = std::pair<std::string, std::string>;
 struct sound_effect_resource {

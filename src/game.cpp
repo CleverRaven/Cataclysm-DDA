@@ -164,7 +164,7 @@
 #   include <tchar.h>
 #endif
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 const int core_version = 6;
 static constexpr int DANGEROUS_PROXIMITY = 5;
