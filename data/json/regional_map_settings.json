@@ -544,6 +544,32 @@
           "mx_portal_in": 1,
           "mx_anomaly": 3
         }
+      },
+      "research_facility_lot": {
+        "chance": 90,
+        "extras": {
+          "mx_helicopter": 40,
+          "mx_military": 65,
+          "mx_collegekids": 1,
+          "mx_portal": 60,
+          "mx_crater": 80,
+          "mx_fumarole": 80,
+          "mx_portal_in": 60,
+          "mx_anomaly": 3,
+          "mx_point_burned_ground": 50
+        }
+      },
+      "research_facility_interior": {
+        "chance": 90,
+        "extras": {
+          "mx_jabberwock": 1,
+          "mx_military": 5,
+          "mx_portal": 60,
+          "mx_crater": 80,
+          "mx_fumarole": 80,
+          "mx_portal_in": 60,
+          "mx_point_burned_ground": 25
+        }
       }
     },
     "city": {
