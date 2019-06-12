@@ -15,6 +15,7 @@
 #include "mutation.h"
 #include "npc.h"
 #include "options.h"
+#include "output.h"
 #include "player.h"
 #include "projectile.h"
 #include "rng.h"
@@ -947,8 +948,8 @@ class spellcasting_callback : public uilist_callback
             for( int i = 1; i < menu->w_height - 1; i++ ) {
                 mvwputch( menu->window, i, menu->w_width - menu->pad_right, c_magenta, LINE_XOXO );
             }
-            std::string ignore_string = "[I] " + casting_ignore ? _( "Ignore Distractions" ) :
-                                        _( "Popup Distractions" );
+            std::string ignore_string = "[I] " + ( casting_ignore ? _( "Ignore Distractions" ) :
+                                        _( "Popup Distractions" ) );
             mvwprintz( menu->window, 0, menu->w_width - menu->pad_right + 2,
                        casting_ignore ? c_red : c_light_green, ignore_string );
             draw_spell_info( *known_spells[entnum], menu );
