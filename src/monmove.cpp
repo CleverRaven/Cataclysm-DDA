@@ -155,7 +155,7 @@ bool monster::can_move_to( const tripoint &p ) const
             }
         } else if( has_flag( MF_AVOID_DANGER_1 ) ) {
             // Don't enter fire or electricity ever (other dangerous fields are fine though)
-            if( target_field.findField( fd_fire ) || target_field.findField( fd_electricity ) ) {
+            if( target_field.find_field( fd_fire ) || target_field.find_field( fd_electricity ) ) {
                 return false;
             }
         }

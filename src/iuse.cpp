@@ -4168,7 +4168,7 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
             const field &gasfield = g->m.field_at( pos );
             for( auto &dfield : gasfield ) {
                 const field_entry &entry = dfield.second;
-                const field_id fid = entry.getFieldType();
+                const field_id fid = entry.get_field_type();
                 switch( fid ) {
                     case fd_smoke:
                         it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + 12 );

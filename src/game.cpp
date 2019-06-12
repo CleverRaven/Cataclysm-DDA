@@ -5358,11 +5358,11 @@ static const std::string get_fire_fuel_string( const tripoint &examp )
         if( fire ) {
             std::stringstream ss;
             ss << string_format( _( "There is a fire here." ) ) << " ";
-            if( fire->getFieldDensity() > 1 ) {
+            if( fire->get_field_intensity() > 1 ) {
                 ss << string_format( _( "It's too big and unpredictable to evaluate how long it will last." ) );
                 return ss.str();
             }
-            time_duration fire_age = fire->getFieldAge();
+            time_duration fire_age = fire->get_field_age();
             // half-life inclusion
             int mod = 5 - g->u.get_skill_level( skill_survival );
             mod = std::max( mod, 0 );
@@ -8717,7 +8717,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
     const auto fields_here = m.field_at( u.pos() );
     for( const auto &e : m.field_at( dest_loc ) ) {
         // warn before moving into a dangerous field except when already standing within a similar field
-        if( u.is_dangerous_field( e.second ) && fields_here.findField( e.first ) == nullptr ) {
+        if( u.is_dangerous_field( e.second ) && fields_here.find_field( e.first ) == nullptr ) {
             harmful_stuff.push_back( e.second.name() );
         }
     }

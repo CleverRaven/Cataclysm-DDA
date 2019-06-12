@@ -124,10 +124,10 @@ bool map::build_transparency_cache( const int zlev )
 
                     for( const auto &fld : cur_submap->fld[sx][sy] ) {
                         const field_entry &cur = fld.second;
-                        const field_id type = cur.getFieldType();
-                        const int density = cur.getFieldDensity();
+                        const field_id type = cur.get_field_type();
+                        const int density = cur.get_field_intensity();
 
-                        if( fieldlist[type].transparent[density - 1] ) {
+                        if( all_field_types_enum_list[type].transparent[density - 1] ) {
                             continue;
                         }
 
@@ -363,11 +363,11 @@ void map::generate_lightmap( const int zlev )
                     for( auto &fld : cur_submap->fld[sx][sy] ) {
                         const field_entry *cur = &fld.second;
                         // TODO: [lightmap] Attach light brightness to fields
-                        switch( cur->getFieldType() ) {
+                        switch( cur->get_field_type() ) {
                             case fd_fire:
-                                if( 3 == cur->getFieldDensity() ) {
+                                if( 3 == cur->get_field_intensity() ) {
                                     add_light_source( p, 160 );
-                                } else if( 2 == cur->getFieldDensity() ) {
+                                } else if( 2 == cur->get_field_intensity() ) {
                                     add_light_source( p, 60 );
                                 } else {
                                     add_light_source( p, 20 );
@@ -379,9 +379,9 @@ void map::generate_lightmap( const int zlev )
                                 break;
                             case fd_electricity:
                             case fd_plasma:
-                                if( 3 == cur->getFieldDensity() ) {
+                                if( 3 == cur->get_field_intensity() ) {
                                     add_light_source( p, 20 );
-                                } else if( 2 == cur->getFieldDensity() ) {
+                                } else if( 2 == cur->get_field_intensity() ) {
                                     add_light_source( p, 4 );
                                 } else {
                                     // Kinda a hack as the square will still get marked.
@@ -389,9 +389,9 @@ void map::generate_lightmap( const int zlev )
                                 }
                                 break;
                             case fd_incendiary:
-                                if( 3 == cur->getFieldDensity() ) {
+                                if( 3 == cur->get_field_intensity() ) {
                                     add_light_source( p, 160 );
-                                } else if( 2 == cur->getFieldDensity() ) {
+                                } else if( 2 == cur->get_field_intensity() ) {
                                     add_light_source( p, 60 );
                                 } else {
                                     add_light_source( p, 20 );
