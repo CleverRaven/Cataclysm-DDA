@@ -109,15 +109,7 @@
         "                                                    ................                                                    "
       ],
       "terrain": {
-        "%": [
-          "t_tree",
-          "t_tree_walnut",
-          "t_tree_chestnut",
-          "t_tree_beech",
-          "t_tree_hazelnut",
-          "t_tree_cottonwood",
-          "t_tree_elm"
-        ],
+        "%": [ "t_tree", "t_tree_walnut", "t_tree_chestnut", "t_tree_beech", "t_tree_hazelnut", "t_tree_cottonwood", "t_tree_elm" ],
         " ": [
           [ "t_grass", 20 ],
           [ "t_grass_dead", 3 ],
@@ -178,10 +170,7 @@
         "T": [ "f_table" ]
       },
       "toilets": { "&": {  } },
-      "place_vendingmachines": [
-        { "item_group": "vending_food", "x": 13, "y": 59 },
-        { "item_group": "vending_drink", "x": 13, "y": 60 }
-      ],
+      "place_vendingmachines": [ { "item_group": "vending_food", "x": 13, "y": 59 }, { "item_group": "vending_drink", "x": 13, "y": 60 } ],
       "items": {
         "f": { "item": "fridge", "chance": 70, "repeat": [ 1, 3 ] },
         "e": { "item": "novels", "chance": 70, "repeat": [ 2, 4 ] },
@@ -190,9 +179,7 @@
         "Q": { "item": "trash_cart", "chance": 50, "repeat": [ 2, 3 ] }
       },
       "place_item": [ { "item": "laptop", "x": 18, "y": 61, "chance": 80 } ],
-      "place_loot": [
-        { "group": "magazines", "x": 18, "y": 58, "chance": 80, "repeat": [ 1, 3 ] }
-      ]
+      "place_loot": [ { "group": "magazines", "x": 18, "y": 58, "chance": 80, "repeat": [ 1, 3 ] } ]
     }
   }
 ]
