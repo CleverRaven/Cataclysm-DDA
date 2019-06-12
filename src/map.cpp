@@ -4563,7 +4563,7 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
                 continue;
             }
             if( n.ammo_capacity() > n.ammo_remaining() ) {
-                // Around 85% efficient, so double discharge every once every 7 seconds
+                // Around 85% efficient, so double discharge once every 7 seconds
                 const int per_charge = one_in( 7 ) ? 2 : 1;
                 const int missing = cur_veh.discharge_battery( per_charge, false );
                 if( missing < per_charge &&
