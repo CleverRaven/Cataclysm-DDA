@@ -948,10 +948,10 @@ class spellcasting_callback : public uilist_callback
             for( int i = 1; i < menu->w_height - 1; i++ ) {
                 mvwputch( menu->window, i, menu->w_width - menu->pad_right, c_magenta, LINE_XOXO );
             }
-            std::string ignore_string = "[I] " + ( casting_ignore ? _( "Ignore Distractions" ) :
-                                        _( "Popup Distractions" ) );
+            std::string ignore_string =  casting_ignore ? _( "Ignore Distractions" ) :
+                                         _( "Popup Distractions" );
             mvwprintz( menu->window, 0, menu->w_width - menu->pad_right + 2,
-                       casting_ignore ? c_red : c_light_green, ignore_string );
+                       casting_ignore ? c_red : c_light_green, string_format( "%s %s", "[I]", ignore_string ) );
             draw_spell_info( *known_spells[entnum], menu );
         }
 };
@@ -981,32 +981,37 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     // various pieces of spell data mean different things depending on the effect of the spell
     const std::string fx = sp.effect();
     int line = 1;
-    line += fold_and_print( w_menu, line++, h_col1, info_width, c_light_gray, sp.description() );
+    nc_color gray = c_light_gray;
+    nc_color light_green = c_light_green;
 
-    print_colored_text( w_menu, line, h_col1, c_light_gray, c_light_gray,
-                        _( string_format( "Spell Level: %d %s", sp.get_level(), sp.is_max_level() ? "(MAX)" : "" ) ) );
-    print_colored_text( w_menu, line++, h_col2, c_light_gray, c_light_gray,
-                        _( string_format( "Max Level: %d", sp.get_max_level() ) ) );
-
-    print_colored_text( w_menu, line, h_col1, c_light_gray, c_light_gray,
-                        sp.colorized_fail_percent( g->u ) );
-    print_colored_text( w_menu, line++, h_col2, c_light_gray, c_light_gray,
-                        _( string_format( "Difficulty: %d", sp.get_difficulty() ) ) );
-
-    print_colored_text( w_menu, line, h_col1, c_light_gray, c_light_gray,
-                        _( string_format( "Current Exp: %s", colorize( to_string( sp.xp() ), c_light_green ) ) ) );
-    print_colored_text( w_menu, line++, h_col2, c_light_gray, c_light_gray,
-                        _( string_format( "to Next Level: %s", colorize( to_string( sp.exp_to_next_level() ),
-                                          c_light_green ) ) ) );
+    line += fold_and_print( w_menu, line, h_col1, info_width, gray, sp.description() );
 
     line++;
 
-    print_colored_text( w_menu, line++, h_col1, c_light_gray, c_light_gray,
+    print_colored_text( w_menu, line, h_col1, gray, gray,
+                        _( string_format( "Spell Level: %d %s", sp.get_level(), sp.is_max_level() ? "(MAX)" : "" ) ) );
+    print_colored_text( w_menu, line++, h_col2, gray, gray,
+                        _( string_format( "Max Level: %d", sp.get_max_level() ) ) );
+
+    print_colored_text( w_menu, line, h_col1, gray, gray,
+                        sp.colorized_fail_percent( g->u ) );
+    print_colored_text( w_menu, line++, h_col2, gray, gray,
+                        _( string_format( "Difficulty: %d", sp.get_difficulty() ) ) );
+
+    print_colored_text( w_menu, line, h_col1, gray, gray,
+                        _( string_format( "Current Exp: %s", colorize( to_string( sp.xp() ), light_green ) ) ) );
+    print_colored_text( w_menu, line++, h_col2, gray, gray,
+                        _( string_format( "to Next Level: %s", colorize( to_string( sp.exp_to_next_level() ),
+                                          light_green ) ) ) );
+
+    line++;
+
+    print_colored_text( w_menu, line++, h_col1, gray, gray,
                         _( string_format( "Casting Cost: %s %s%s", sp.energy_cost_string( g->u ), sp.energy_string(),
                                           sp.energy_source() == hp_energy ? "" :  string_format( " ( % s current )",
                                                   sp.energy_cur_string( g->u ) ) ) ) );
 
-    print_colored_text( w_menu, line++, h_col1, c_light_gray, c_light_gray,
+    print_colored_text( w_menu, line++, h_col1, gray, gray,
                         _( string_format( "Casting Time: %s", moves_to_string( sp.casting_time() ) ) ) );
 
     line++;
@@ -1017,7 +1022,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
     } else {
         targets = sp.enumerate_targets();
     }
-    print_colored_text( w_menu, line++, h_col1, c_light_gray, c_light_gray,
+    print_colored_text( w_menu, line++, h_col1, gray, gray,
                         _( string_format( "Valid Targets: %s", targets ) ) );
 
     line++;
@@ -1034,7 +1039,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                                               colorize( sp.damage_type_string(), sp.damage_type_color() ) ) );
         } else {
             damage_string = _( string_format( "Healing: %s", colorize( "+" + to_string( -damage ),
-                                              c_light_green ) ) );
+                                              light_green ) ) );
         }
         if( sp.aoe() > 0 ) {
             std::string aoe_string_temp = "Spell Radius";
@@ -1056,15 +1061,15 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                                           sp.damage() ) ) );
     }
 
-    print_colored_text( w_menu, line, h_col1, c_light_gray, c_light_gray, damage_string );
-    print_colored_text( w_menu, line++, h_col2, c_light_gray, c_light_gray, aoe_string );
+    print_colored_text( w_menu, line, h_col1, gray, gray, damage_string );
+    print_colored_text( w_menu, line++, h_col2, gray, gray, aoe_string );
 
-    print_colored_text( w_menu, line++, h_col1, c_light_gray, c_light_gray,
+    print_colored_text( w_menu, line++, h_col1, gray, gray,
                         _( string_format( "Range: %s", sp.range() <= 0 ? "self" : to_string( sp.range() ) ) ) );
 
     // todo: damage over time here, when it gets implemeted
 
-    print_colored_text( w_menu, line++, h_col2, c_light_gray, c_light_gray, sp.duration() <= 0 ? "" :
+    print_colored_text( w_menu, line++, h_col2, gray, gray, sp.duration() <= 0 ? "" :
                         _( string_format( "Duration: %s", moves_to_string( sp.duration() ) ) ) );
 }
 
