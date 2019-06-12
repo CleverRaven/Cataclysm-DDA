@@ -3,20 +3,20 @@
 #include <limits.h>
 #include <stdint.h>
 
-long a1;
-// CHECK-MESSAGES: warning: Variable 'a1' declared as 'long'. Prefer int or int64_t to long. [cata-no-long]
+long i1;
+// CHECK-MESSAGES: warning: Variable 'i1' declared as 'long'. Prefer int or int64_t to long. [cata-no-long]
 
-unsigned long a2;
-// CHECK-MESSAGES: warning: Variable 'a2' declared as 'unsigned long'. Prefer unsigned int or uint64_t to unsigned long. [cata-no-long]
+unsigned long i2;
+// CHECK-MESSAGES: warning: Variable 'i2' declared as 'unsigned long'. Prefer unsigned int or uint64_t to unsigned long. [cata-no-long]
 
-const long a3 = 0;
-// CHECK-MESSAGES: warning: Variable 'a3' declared as 'const long'. Prefer int or int64_t to long. [cata-no-long]
+const long i3 = 0;
+// CHECK-MESSAGES: warning: Variable 'i3' declared as 'const long'. Prefer int or int64_t to long. [cata-no-long]
 
-long &a4 = a1;
-// CHECK-MESSAGES: warning: Variable 'a4' declared as 'long &'. Prefer int or int64_t to long. [cata-no-long]
+long &i4 = i1;
+// CHECK-MESSAGES: warning: Variable 'i4' declared as 'long &'. Prefer int or int64_t to long. [cata-no-long]
 
-int64_t c;
-uint64_t d;
+int64_t i5;
+uint64_t i6;
 
 void f1( long e );
 // CHECK-MESSAGES: warning: Variable 'e' declared as 'long'. Prefer int or int64_t to long. [cata-no-long]
@@ -27,9 +27,9 @@ long f2();
 int64_t f3();
 auto f4() -> decltype( 0L );
 
-int i1 = static_cast<long>( 0 );
+int c0 = static_cast<long>( 0 );
 // CHECK-MESSAGES: warning: Static cast to 'long'.  Prefer int or int64_t to long. [cata-no-long]
-int i2 = static_cast<int64_t>( 0 );
+int c1 = static_cast<int64_t>( 0 );
 
 template<typename T>
 void g( T gp0, long gp1 = 0 )
