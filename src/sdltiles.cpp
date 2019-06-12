@@ -3136,10 +3136,13 @@ static void font_folder_list( std::ofstream &fout, const std::string &path,
         if( !fnt ) {
             continue;
         }
+        // TTF_FontFaces returns a long, so use that
+        // NOLINTNEXTLINE(cata-no-long)
         long nfaces = 0;
         nfaces = TTF_FontFaces( fnt.get() );
         fnt.reset();
 
+        // NOLINTNEXTLINE(cata-no-long)
         for( long i = 0; i < nfaces; i++ ) {
             const TTF_Font_Ptr fnt( TTF_OpenFontIndex( f.c_str(), 12, i ) );
             if( !fnt ) {
