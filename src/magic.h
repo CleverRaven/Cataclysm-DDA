@@ -291,7 +291,8 @@ class known_magic
         // gets the spell associated with the spell_id to be edited
         spell &get_spell( spell_id sp );
         // opens up a ui that the player can choose a spell from
-        spell &select_spell( const player &p );
+        // returns the index of the spell in the vector of spells
+        int select_spell( const player &p );
         // get all known spells
         std::vector<spell *> get_spells();
         // how much mana is available to use to cast spells

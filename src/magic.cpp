@@ -947,7 +947,8 @@ class spellcasting_callback : public uilist_callback
             for( int i = 1; i < menu->w_height - 1; i++ ) {
                 mvwputch( menu->window, i, menu->w_width - menu->pad_right, c_magenta, LINE_XOXO );
             }
-            std::string ignore_string = casting_ignore ? _( "Ignore Distractions" ) : _( "Popup Distractions" );
+            std::string ignore_string = "[I] " + casting_ignore ? _( "Ignore Distractions" ) :
+                                        _( "Popup Distractions" );
             mvwprintz( menu->window, 0, menu->w_width - menu->pad_right + 2,
                        casting_ignore ? c_red : c_light_green, ignore_string );
             draw_spell_info( *known_spells[entnum], menu );
@@ -1096,9 +1097,8 @@ int known_magic::get_invlet( spell_id &sp, std::set<int> &used_invlets )
     return 0;
 }
 
-spell &known_magic::select_spell( const player &p )
+int known_magic::select_spell( const player &p )
 {
-    spell *sp = nullptr;
     // max width of spell names
     const size_t max_spell_name_length = get_spellname_max_width();
     std::vector<spell *> &known_spells = get_spells();
@@ -1127,11 +1127,7 @@ spell &known_magic::select_spell( const player &p )
 
     casting_ignore = static_cast<spellcasting_callback *>( spell_menu.callback )->casting_ignore;
 
-    if( spell_menu.ret >= 0 ) {
-        return *known_spells[spell_menu.ret];
-    }
-
-    return *sp;
+    return spell_menu.ret;
 }
 
 // spell_effect

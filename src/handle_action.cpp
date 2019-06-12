@@ -1289,10 +1289,12 @@ static void cast_spell()
         add_msg( m_bad, _( "You can't cast any of the spells you know!" ) );
     }
 
-    spell &sp = u.magic.select_spell( u );
-    if( &sp == nullptr ) {
+    const int spell_index = u.magic.select_spell( u );
+    if( spell_index < 0 ) {
         return;
     }
+
+    spell &sp = *u.magic.get_spells()[spell_index];
 
     if( !u.magic.has_enough_energy( u, sp ) ) {
         add_msg( m_bad, _( "You don't have enough %s to cast the spell." ), sp.energy_string() );
