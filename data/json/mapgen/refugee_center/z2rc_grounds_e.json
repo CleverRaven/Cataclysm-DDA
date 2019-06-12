@@ -2,35 +2,13 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "rc_grounds_E1a_z2", "rc_grounds_E2a_z2", "rc_grounds_E3a_z2", "rc_grounds_E4a_z2", "rc_grounds_E5a_z2" ] ],
-    "weight": 100,
-    "object": { "fill_ter": "t_open_air" }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ [ "rc_grounds_E1b_z2", "rc_grounds_E2b_z2", "rc_grounds_E3b_z2", "rc_grounds_E4b_z2", "rc_grounds_E5b_z2" ] ],
-    "weight": 100,
-    "object": { "fill_ter": "t_open_air" }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ [ "rc_grounds_E1c_z2", "rc_grounds_E2c_z2", "rc_grounds_E3c_z2", "rc_grounds_E4c_z2", "rc_grounds_E5c_z2" ] ],
-    "weight": 100,
-    "object": { "fill_ter": "t_open_air" }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ [ "rc_grounds_E1d_z2", "rc_grounds_E2d_z2", "rc_grounds_E3d_z2", "rc_grounds_E4d_z2", "rc_grounds_E5d_z2" ] ],
-    "weight": 100,
-    "object": { "fill_ter": "t_open_air" }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [ [ "rc_grounds_E1e_z2", "rc_grounds_E2e_z2", "rc_grounds_E3e_z2", "rc_grounds_E4e_z2", "rc_grounds_E5e_z2" ] ],
+    "om_terrain": [
+      [ "rc_grounds_E1a_z2", "rc_grounds_E2a_z2", "rc_grounds_E3a_z2", "rc_grounds_E4a_z2", "rc_grounds_E5a_z2" ],
+      [ "rc_grounds_E1b_z2", "rc_grounds_E2b_z2", "rc_grounds_E3b_z2", "rc_grounds_E4b_z2", "rc_grounds_E5b_z2" ],
+      [ "rc_grounds_E1c_z2", "rc_grounds_E2c_z2", "rc_grounds_E3c_z2", "rc_grounds_E4c_z2", "rc_grounds_E5c_z2" ],
+      [ "rc_grounds_E1d_z2", "rc_grounds_E2d_z2", "rc_grounds_E3d_z2", "rc_grounds_E4d_z2", "rc_grounds_E5d_z2" ],
+      [ "rc_grounds_E1e_z2", "rc_grounds_E2e_z2", "rc_grounds_E3e_z2", "rc_grounds_E4e_z2", "rc_grounds_E5e_z2" ]
+    ],
     "weight": 100,
     "object": { "fill_ter": "t_open_air" }
   }
