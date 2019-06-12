@@ -1073,7 +1073,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                         _( string_format( "Duration: %s", moves_to_string( sp.duration() ) ) ) );
 }
 
-int known_magic::get_invlet( spell_id &sp, std::set<int> &used_invlets )
+int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
 {
     auto found = invlets.find( sp );
     if( found != invlets.end() ) {
@@ -1108,8 +1108,6 @@ int known_magic::select_spell( const player &p )
     // max width of spell names
     const size_t max_spell_name_length = get_spellname_max_width();
     std::vector<spell *> &known_spells = get_spells();
-    // number of spaces the list has shifted
-    unsigned int list_shift = 0;
 
     uilist spell_menu;
     spell_menu.w_height = 24;
