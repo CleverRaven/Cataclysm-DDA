@@ -3344,7 +3344,7 @@ int Character::height() const
     }
 
     // TODO: Make this a player creation option
-    return 175;
+    return height;
 }
 
 int Character::get_bmr() const
