@@ -170,7 +170,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_5b",
-    "dynamic_line": "You know, what what kinda person are you?  What motivates you?",
+    "dynamic_line": "You know, what kinda person are you?  What motivates you?",
     "responses": [
       { "text": "I'll tell you what type I am.", "topic": "TALK_REFUGEE_Draco_5c" },
       { "text": "Leaving.", "topic": "TALK_DONE" }
