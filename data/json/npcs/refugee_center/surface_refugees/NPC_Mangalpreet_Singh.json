@@ -68,11 +68,7 @@
   {
     "type": "talk_topic",
     "//": "common talk responses",
-    "id": [
-      "TALK_REFUGEE_Mangalpreet_2",
-      "TALK_REFUGEE_Mangalpreet_Background",
-      "TALK_REFUGEE_Mangalpreet_Situation"
-    ],
+    "id": [ "TALK_REFUGEE_Mangalpreet_2", "TALK_REFUGEE_Mangalpreet_Background", "TALK_REFUGEE_Mangalpreet_Situation" ],
     "responses": [
       { "text": "What's your story?", "topic": "TALK_REFUGEE_Mangalpreet_Background" },
       { "text": "How are things here?", "topic": "TALK_REFUGEE_Mangalpreet_Situation" }
@@ -82,7 +78,10 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Mangalpreet_1",
     "dynamic_line": {
-      "u_has_var": "u_met_Mangalpreet_Singh", "type": "general", "context": "meeting", "value": "yes",
+      "u_has_var": "u_met_Mangalpreet_Singh",
+      "type": "general",
+      "context": "meeting",
+      "value": "yes",
       "yes": [ "Hello again.", "Hi there.", "Oh, hello there." ],
       "no": "Ah!  You are new.  I'm sorry, I'm Mangalpreet."
     },
