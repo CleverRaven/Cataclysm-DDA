@@ -2932,8 +2932,8 @@ void player::search_surroundings()
         if( !sees( tp ) ) {
             continue;
         }
-        if( tr.name().empty() || tr.can_see( tp, *this ) ) {
-            // Already seen, or has no name -> can never be seen
+        if( tr.is_always_invisible() || tr.can_see( tp, *this ) ) {
+            // Already seen, or can never be seen
             continue;
         }
         // Chance to detect traps we haven't yet seen.
