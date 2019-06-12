@@ -206,13 +206,13 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         const auto line_path = line_to( f, t );
         const auto &pf_cache = get_pathfinding_cache_ref( f.z );
         // Check all points for any special case (including just hard terrain)
+        tripoint prev_point = f;
         bool all_valid = true;
-        for( auto p = line_path.cbegin() ; p != line_path.cend(); ++p ) {
-            if( !( pf_cache.special[p->x][p->y] & non_normal ) ) {
+        for( auto p : line_path ) {
+            if( !( pf_cache.special[p.x][p.y] & non_normal ) ) {
                 // This point is good so check for it's veh diagonals.
                 // If it returns an obstacle then this route is invalid.
-                if( p != line_path.cbegin() &&
-                check_for_diagonal( *p, *( p - 1 ), [&pf_cache, &all_valid]( const tripoint & tp ) {
+                if( check_for_diagonal( p, prev_point, [&pf_cache, &all_valid]( const tripoint & tp ) {
                 return ( pf_cache.special[tp.x][tp.y] & non_normal );
                 } ) ) {
                     all_valid = false;
@@ -222,6 +222,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 all_valid = false;
                 break;
             }
+            prev_point = p;
         }
         if( all_valid ) {
             const std::set<tripoint> sorted_line( line_path.begin(), line_path.end() );
@@ -315,6 +316,11 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
             // Penalize for diagonals or the path will look "unnatural"
             int newg = layer.gscore[parent_index] + ( ( cur.x != p.x && cur.y != p.y ) ? 1 : 0 );
+            
+            if( !passable_from_point( p, cur ) ){
+                layer.state[index] = ASL_CLOSED; // Close since it's not passable.
+                continue;
+            }
 
             const auto p_special = pf_cache.special[p.x][p.y];
             // TODO: De-uglify, de-huge-n
@@ -333,7 +339,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 const auto &furniture = tile.get_furn_t();
                 const vehicle *veh = veh_at_internal( p, part );
 
-                const int cost = move_cost_from_point( p, cur );
+                const int cost = move_cost_internal( furniture, terrain, veh, part );
                 // Don't calculate bash rating unless we intend to actually use it
                 const int rating = ( bash == 0 || cost != 0 ) ? -1 :
                                    bash_rating_internal( bash, furniture, terrain, false, veh, part );

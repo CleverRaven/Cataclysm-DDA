@@ -1692,9 +1692,8 @@ cata::optional<tripoint> map::obstacle_point( const tripoint &to, const tripoint
 
 cata::optional<tripoint> map::check_for_diagonal( const tripoint &to, const tripoint &from,
         const std::function<bool( const tripoint & )> &property ) const
-{
-    const tripoint dmove = to - from;
-    if( abs( dmove.x ) != 1 || abs( dmove.y ) != 1 ) {
+{    
+    if( to.x == from.x || to.y == from.y ) {
         // Not diagonal vector.
         return cata::nullopt;
     }
