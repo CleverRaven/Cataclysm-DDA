@@ -108,8 +108,8 @@
 #include <utility> // std::move
 
 template <class element_type, class element_allocator_type = std::allocator<element_type>, typename element_skipfield_type = unsigned short >
-class colony : private
-    element_allocator_type  // Empty base class optimization - inheriting allocator functions
+// Empty base class optimization - inheriting allocator functions
+class colony : private element_allocator_type
 // Note: unsigned short is equivalent to uint_least16_t ie. Using 16-bit unsigned integer in best-case scenario, greater-than-16-bit unsigned integer where platform doesn't support 16-bit types
 {
     public:
@@ -152,11 +152,13 @@ class colony : private
                                      rebind_alloc<group>;
         using skipfield_allocator_type = typename std::allocator_traits<element_allocator_type>::template
                                          rebind_alloc<skipfield_type>;
-        using uchar_allocator_type = typename std::allocator_traits<element_allocator_type>::template
-                                     rebind_alloc<unsigned char>; // Using uchar as the generic allocator type, as sizeof is always guaranteed to be 1 byte regardless of the number of bits in a byte on given computer, whereas for example, uint8_t would fail on machines where there are more than 8 bits in a byte eg. Texas Instruments C54x DSPs.
 
+        // Using uchar as the generic allocator type, as sizeof is always guaranteed to be 1 byte regardless of the number of bits in a byte on given computer, whereas for example, uint8_t would fail on machines where there are more than 8 bits in a byte eg. Texas Instruments C54x DSPs.
+        using uchar_allocator_type = typename std::allocator_traits<element_allocator_type>::template
+                                     rebind_alloc<unsigned char>;
+        // Different typedef to 'pointer' - this is a pointer to the over aligned element type, not the original element type
         using aligned_pointer_type = typename
-                                     std::allocator_traits<aligned_element_allocator_type>::pointer; // Different typedef to 'pointer' - this is a pointer to the over aligned element type, not the original element type
+                                     std::allocator_traits<aligned_element_allocator_type>::pointer;
         using group_pointer_type = typename std::allocator_traits<group_allocator_type>::pointer;
         using skipfield_pointer_type = typename std::allocator_traits<skipfield_allocator_type>::pointer;
         using uchar_pointer_type = typename std::allocator_traits<uchar_allocator_type>::pointer;
@@ -165,13 +167,14 @@ class colony : private
                                        rebind_alloc<pointer>;
 
         // Colony groups:
-        struct group : private
-            uchar_allocator_type { // Empty base class optimization (EBCO) - inheriting allocator functions
+
+        // Empty base class optimization (EBCO) - inheriting allocator functions
+        struct group : private uchar_allocator_type {
             aligned_pointer_type
             last_endpoint;              // The address that is one past the highest cell number that's been used so far in this group - does not change with erase command but may change with insert (if no previously-erased locations are available) - is necessary because an iterator cannot access the colony's end_iterator. Most-used variable in colony use (operator ++, --) so first in struct
             group_pointer_type
             next_group;                 // Next group in the intrusive list of all groups. NULL if no next group
-            const aligned_pointer_type          elements;                   // Element storage
+            const aligned_pointer_type elements; // Element storage
             const skipfield_pointer_type
             skipfield;                  // Skipfield storage. The element and skipfield arrays are allocated contiguously, hence the skipfield pointer also functions as a 'one-past-end' pointer for the elements array. There will always be one additional skipfield node allocated compared to the number of elements. This is to ensure a faster ++ iterator operation (fewer checks are required when this is present). The extra node is unused and always zero, but checked, and not having it will result in out-of-bounds memory errors.
             group_pointer_type
@@ -179,7 +182,7 @@ class colony : private
             skipfield_type
             free_list_head;             // The index of the last erased element in the group. The last erased element will, in turn, contain the number of the index of the next erased element, and so on. If this is == maximum skipfield_type value then free_list is empty ie. no erasures have occurred in the group (or if they have, the erased locations have then been reused via insert()).
             const skipfield_type
-            capacity;                       // The element capacity of this particular group
+            capacity;                   // The element capacity of this particular group
             skipfield_type
             number_of_elements;         // indicates total number of active elements in group - changes with insert and erase commands - used to check for empty group in erase function, as an indication to remove the group
             group_pointer_type
@@ -306,12 +309,7 @@ class colony : private
                     return reinterpret_cast<pointer>( element_pointer );
                 }
 
-#if defined(_MSC_VER) && _MSC_VER <= 1600 // MSVC 2010 needs a bit of a helping hand when it comes to optimizing
-                inline COLONY_FORCE_INLINE colony_iterator &operator++()
-#else
-                colony_iterator &operator++()
-#endif
-                {
+                colony_iterator &operator++() {
                     assert( group_pointer != NULL ); // covers uninitialised colony_iterator
                     assert( !( element_pointer == group_pointer->last_endpoint &&
                                group_pointer->next_group != NULL ) ); // Assert that iterator is not already at end()
@@ -536,8 +534,9 @@ class colony : private
                 }
 
                 inline COLONY_FORCE_INLINE colony_reverse_iterator &operator--() {
+                    // ie. Check that we are not already at rbegin()
                     assert( !( it.element_pointer == it.group_pointer->last_endpoint - 1 &&
-                               it.group_pointer->next_group == NULL ) ); // ie. Check that we are not already at rbegin()
+                               it.group_pointer->next_group == NULL ) );
                     ++it;
                     return *this;
                 }
@@ -689,16 +688,18 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             groups_with_erasures_list_head( NULL ),
             total_number_of_elements( 0 ),
             total_capacity( 0 ),
+            // Make the first colony group capacity the greater of min_elements_per_group or total_number_of_elements, so long as total_number_of_elements isn't larger than max_elements_per_group
             pointer_allocator_pair( static_cast<skipfield_type>( (
                                         source.pointer_allocator_pair.min_elements_per_group > source.total_number_of_elements ) ?
                                     source.pointer_allocator_pair.min_elements_per_group : ( ( source.total_number_of_elements >
                                             source.group_allocator_pair.max_elements_per_group ) ?
                                             source.group_allocator_pair.max_elements_per_group :
-                                            source.total_number_of_elements ) ) ), // Make the first colony group capacity the greater of min_elements_per_group or total_number_of_elements, so long as total_number_of_elements isn't larger than max_elements_per_group
+                                            source.total_number_of_elements ) ) ),
             group_allocator_pair( source.group_allocator_pair.max_elements_per_group ) {
             insert( source.begin_iterator, source.end_iterator );
+            // reset to correct value for future clear() or erasures
             pointer_allocator_pair.min_elements_per_group =
-                source.pointer_allocator_pair.min_elements_per_group; // reset to correct value for future clear() or erasures
+                source.pointer_allocator_pair.min_elements_per_group;
         }
 
         // Copy constructor (allocator-extended):
@@ -750,7 +751,6 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
         group_allocator_pair( source.group_allocator_pair.max_elements_per_group ) {
             source.blank();
         }
-
 
         // Move constructor (allocator-extended):
         colony( colony &&source, const allocator_type &alloc ):
@@ -806,8 +806,6 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
 
             insert<iterator_type>( first, last );
         }
-
-
 
         // Initializer-list constructor:
         colony( const std::initializer_list<element_type> &element_list,
@@ -949,8 +947,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                 switch( ( ( groups_with_erasures_list_head != NULL ) << 1 ) | ( end_iterator.element_pointer ==
                         reinterpret_cast<aligned_pointer_type>( end_iterator.group_pointer->skipfield ) ) ) {
                     case 0: { // ie. there are no erased elements and end_iterator is not at end of current final group
-                        const iterator return_iterator =
-                            end_iterator; /* Make copy for return before modifying end_iterator */
+                        // Make copy for return before modifying end_iterator
+                        const iterator return_iterator = end_iterator;
 
                         if COLONY_CONSTEXPR( std::is_nothrow_copy_constructible<element_type>::value ) {
                             // For no good reason this compiles to faster code under GCC:
@@ -960,8 +958,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                         } else {
                             COLONY_CONSTRUCT( element_allocator_type, ( *this ),
                                               reinterpret_cast<pointer>( end_iterator.element_pointer ), element );
-                            end_iterator.group_pointer->last_endpoint =
-                                ++end_iterator.element_pointer; // Shift the addition to the second operation, avoiding problems if an exception is thrown during construction
+                            // Shift the addition to the second operation, avoiding problems if an exception is thrown during construction
+                            end_iterator.group_pointer->last_endpoint = ++end_iterator.element_pointer;
                         }
 
                         ++( end_iterator.group_pointer->number_of_elements );
@@ -1008,8 +1006,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                         ++total_number_of_elements;
                         total_capacity += new_group_size;
 
-                        return iterator( end_iterator.group_pointer, next_group.elements,
-                                         next_group.skipfield ); /* returns value before incrementation */
+                        // returns value before incrementation
+                        return iterator( end_iterator.group_pointer, next_group.elements, next_group.skipfield );
                     }
                     default: { // ie. there are erased elements, reuse previous-erased element locations
                         iterator new_location;
@@ -1029,8 +1027,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                         // Update skipblock:
                         const skipfield_type new_value = *( new_location.skipfield_pointer ) - 1;
 
-                        if( new_value !=
-                            0 ) { // ie. skipfield was not 1, ie. a single-node skipblock, with no additional nodes to update
+                        // ie. skipfield was not 1, ie. a single-node skipblock, with no additional nodes to update
+                        if( new_value != 0 ) {
                             // set (new) start and (original) end of skipblock to new value:
                             *( new_location.skipfield_pointer + new_value ) = *( new_location.skipfield_pointer + 1 ) =
                                         new_value;
@@ -1038,8 +1036,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                             // transfer free list node to new start node:
                             ++( groups_with_erasures_list_head->free_list_head );
 
-                            if( prev_free_list_index !=
-                                std::numeric_limits<skipfield_type>::max() ) { // ie. not the tail free list node
+                            // ie. not the tail free list node
+                            if( prev_free_list_index != std::numeric_limits<skipfield_type>::max() ) {
                                 *( reinterpret_cast<skipfield_pointer_type>( new_location.group_pointer->elements +
                                         prev_free_list_index ) + 1 ) = groups_with_erasures_list_head->free_list_head;
                             }
@@ -1051,8 +1049,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                         } else {
                             groups_with_erasures_list_head->free_list_head = prev_free_list_index;
 
-                            if( prev_free_list_index !=
-                                std::numeric_limits<skipfield_type>::max() ) { // ie. not the last free list node
+                            // ie. not the last free list node
+                            if( prev_free_list_index != std::numeric_limits<skipfield_type>::max() ) {
                                 *( reinterpret_cast<skipfield_pointer_type>( new_location.group_pointer->elements +
                                         prev_free_list_index ) + 1 ) = std::numeric_limits<skipfield_type>::max();
                             } else {
@@ -1065,7 +1063,7 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
 
                         if( new_location.group_pointer == begin_iterator.group_pointer &&
                             new_location.element_pointer < begin_iterator.element_pointer ) {
-                            /* ie. begin_iterator was moved forwards as the result of an erasure at some point, this erased element is before the current begin, hence, set current begin iterator to this element */
+                            // ie. begin_iterator was moved forwards as the result of an erasure at some point, this erased element is before the current begin, hence, set current begin iterator to this element
                             begin_iterator = new_location;
                         }
 
@@ -1235,8 +1233,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
         }
 
         template<typename... arguments>
-        iterator emplace( arguments &&...
-                          parameters ) { // The emplace function is near-identical to the regular insert function, with the exception of the element construction method, removal of internal VARIADICS support checks, and change to is_nothrow tests.
+        // The emplace function is near-identical to the regular insert function, with the exception of the element construction method, removal of internal VARIADICS support checks, and change to is_nothrow tests.
+        iterator emplace( arguments &&... parameters ) {
             if( end_iterator.element_pointer != NULL ) {
                 switch( ( ( groups_with_erasures_list_head != NULL ) << 1 ) | ( end_iterator.element_pointer ==
                         reinterpret_cast<aligned_pointer_type>( end_iterator.group_pointer->skipfield ) ) ) {
@@ -1397,8 +1395,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
 
             end_iterator.group_pointer = next_group;
             end_iterator.element_pointer = next_group->elements;
-            next_group->number_of_elements =
-                0; // group constructor sets this to 1 by default to allow for faster insertion during insertion/emplace in other cases
+            // group constructor sets this to 1 by default to allow for faster insertion during insertion/emplace in other cases
+            next_group->number_of_elements = 0;
             total_capacity += number_of_elements;
         }
 
@@ -1450,14 +1448,15 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                 if COLONY_CONSTEXPR( sizeof( aligned_element_type ) == sizeof( element_type ) ) {
                     std::fill_n( reinterpret_cast<pointer>( location ), number_of_elements, element );
                 } else {
-                    alignas( sizeof( aligned_element_type ) ) element_type aligned_copy =
-                        element; // to avoid potentially violating memory boundaries in line below, create an initial copy object of same (but aligned) type
+                    // to avoid potentially violating memory boundaries in line below, create an initial copy object of same (but aligned) type
+                    alignas( sizeof( aligned_element_type ) ) element_type aligned_copy = element;
                     std::fill_n( location, number_of_elements,
                                  *( reinterpret_cast<aligned_pointer_type>( &aligned_copy ) ) );
                 }
             } else {
+                // in case of exception, grabbing indexes before free_list node is reused
                 const skipfield_type prev_free_list_node = *( reinterpret_cast<skipfield_pointer_type>
-                        ( location ) ); // in case of exception, grabbing indexes before free_list node is reused
+                        ( location ) );
                 const aligned_pointer_type fill_end = location + number_of_elements;
 
                 for( aligned_pointer_type current_location = location; current_location != fill_end;
@@ -1494,8 +1493,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                 }
             }
 
-            std::memset( skipfield_pointer, 0,
-                         number_of_elements * sizeof( skipfield_type ) ); // reset skipfield nodes within skipblock to 0
+            // reset skipfield nodes within skipblock to 0
+            std::memset( skipfield_pointer, 0, number_of_elements * sizeof( skipfield_type ) );
             groups_with_erasures_list_head->number_of_elements += number_of_elements;
             total_number_of_elements += number_of_elements;
         }
@@ -1519,8 +1518,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                 begin_iterator.group_pointer->number_of_elements = 0;
             }
 
-            if( total_number_of_elements !=
-                0 ) { // ie. not an uninitialized colony or a situation where reserve has been called
+            // ie. not an uninitialized colony or a situation where reserve has been called
+            if( total_number_of_elements != 0 ) {
                 // Use up erased locations if available:
                 if( groups_with_erasures_list_head != NULL ) {
                     do { // skipblock loop: breaks when group is exhausted of reusable skipblocks, or returns if number_of_elements == 0
@@ -1537,26 +1536,27 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                         }
 
                         if( skipblock_size <= number_of_elements ) {
+                            // set free list head to previous free list node
                             groups_with_erasures_list_head->free_list_head = *( reinterpret_cast<skipfield_pointer_type>
-                                    ( element_pointer ) ); // set free list head to previous free list node
+                                    ( element_pointer ) );
                             fill_skipblock( element, element_pointer, skipfield_pointer, skipblock_size );
                             number_of_elements -= skipblock_size;
 
                             if( groups_with_erasures_list_head->free_list_head != std::numeric_limits<skipfield_type>::max() ) {
+                                // set 'next' index of new free list head to 'end' (numeric max)
                                 *( reinterpret_cast<skipfield_pointer_type>( groups_with_erasures_list_head->elements +
-                                        groups_with_erasures_list_head->free_list_head ) + 1 ) =
-                                            std::numeric_limits<skipfield_type>::max(); // set 'next' index of new free list head to 'end' (numeric max)
+                                        groups_with_erasures_list_head->free_list_head ) + 1 ) = std::numeric_limits<skipfield_type>::max();
                             } else {
-                                groups_with_erasures_list_head =
-                                    groups_with_erasures_list_head->erasures_list_next_group; // change groups
+                                // change groups
+                                groups_with_erasures_list_head = groups_with_erasures_list_head->erasures_list_next_group;
 
                                 if( groups_with_erasures_list_head == NULL ) {
                                     break;
                                 }
                             }
                         } else { // skipblock is larger than remaining number of elements
-                            const skipfield_type prev_index = *( reinterpret_cast<skipfield_pointer_type>
-                                                                 ( element_pointer ) ); // save before element location is overwritten
+                            // save before element location is overwritten
+                            const skipfield_type prev_index = *( reinterpret_cast<skipfield_pointer_type>( element_pointer ) );
                             fill_skipblock( element, element_pointer, skipfield_pointer,
                                             static_cast<skipfield_type>( number_of_elements ) );
                             const skipfield_type new_skipblock_size = static_cast<skipfield_type>( skipblock_size -
@@ -1565,8 +1565,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                             // Update skipfield (earlier nodes already memset'd in fill_skipblock function):
                             *( skipfield_pointer + number_of_elements ) = new_skipblock_size;
                             *( skipfield_pointer + skipblock_size - 1 ) = new_skipblock_size;
-                            groups_with_erasures_list_head->free_list_head += static_cast<skipfield_type>
-                                    ( number_of_elements ); // set free list head to new start node
+                            // set free list head to new start node
+                            groups_with_erasures_list_head->free_list_head += static_cast<skipfield_type>( number_of_elements );
 
                             // Update free list with new head:
                             *( reinterpret_cast<skipfield_pointer_type>( element_pointer + number_of_elements ) ) = prev_index;
@@ -1574,8 +1574,9 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                                 std::numeric_limits<skipfield_type>::max();
 
                             if( prev_index != std::numeric_limits<skipfield_type>::max() ) {
+                                // set 'next' index of previous skipblock to new start of skipblock
                                 *( reinterpret_cast<skipfield_pointer_type>( groups_with_erasures_list_head->elements + prev_index )
-                                   + 1 ) = groups_with_erasures_list_head->free_list_head; // set 'next' index of previous skipblock to new start of skipblock
+                                   + 1 ) = groups_with_erasures_list_head->free_list_head;
                             }
 
                             return;
@@ -1630,8 +1631,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                 group_fill( element, static_cast<skipfield_type>( number_of_elements ) );
             }
 
-            total_number_of_elements +=
-                number_of_elements; // Adds the remainder from the last if-block - the insert functions in the first if/else block will already have incremented total_number_of_elements
+            // Adds the remainder from the last if-block - the insert functions in the first if/else block will already have incremented total_number_of_elements
+            total_number_of_elements += number_of_elements;
             end_iterator.skipfield_pointer = end_iterator.group_pointer->skipfield +
                                              ( end_iterator.element_pointer - end_iterator.group_pointer->elements );
         }
@@ -1664,12 +1665,13 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
         // get all elements contiguous in memory and shrink to fit, remove erasures and erasure free lists
         inline COLONY_FORCE_INLINE void consolidate() {
             colony temp;
+            // Make first allocated group as large total number of elements, where possible
             temp.change_group_sizes( static_cast<skipfield_type>( (
                                          pointer_allocator_pair.min_elements_per_group > total_number_of_elements ) ?
                                      pointer_allocator_pair.min_elements_per_group : ( ( total_number_of_elements >
                                              group_allocator_pair.max_elements_per_group ) ? group_allocator_pair.max_elements_per_group :
                                              total_number_of_elements ) ),
-                                     group_allocator_pair.max_elements_per_group ); // Make first allocated group as large total number of elements, where possible
+                                     group_allocator_pair.max_elements_per_group );
 
             if COLONY_CONSTEXPR( std::is_move_assignable<element_type>::value &&
                                  std::is_move_constructible<element_type>::value ) {
@@ -1677,10 +1679,10 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             } else {
                 temp.insert( begin_iterator, end_iterator );
             }
-
-            temp.pointer_allocator_pair.min_elements_per_group =
-                pointer_allocator_pair.min_elements_per_group; // reset to correct value for future clear() or erasures
-            *this = std::move( temp ); // Avoid generating 2nd temporary
+            // reset to correct value for future clear() or erasures
+            temp.pointer_allocator_pair.min_elements_per_group = pointer_allocator_pair.min_elements_per_group;
+            // Avoid generating 2nd temporary
+            *this = std::move( temp );
         }
 
         void remove_from_groups_with_erasures_list( const group_pointer_type group_to_remove )
@@ -1707,10 +1709,12 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
         iterator erase( const const_iterator &it ) {
             assert( !empty() );
             const group_pointer_type group_pointer = it.group_pointer;
-            assert( group_pointer != NULL ); // ie. not uninitialized iterator
-            assert( it.element_pointer != group_pointer->last_endpoint ); // ie. != end()
-            assert( *( it.skipfield_pointer ) ==
-                    0 ); // ie. element pointed to by iterator has not been erased previously
+            // not uninitialized iterator
+            assert( group_pointer != NULL );
+            // != end()
+            assert( it.element_pointer != group_pointer->last_endpoint );
+            // element pointed to by iterator has not been erased previously
+            assert( *( it.skipfield_pointer ) == 0 );
 
             // This if-statement should be removed by the compiler on resolution of element_type. For some optimizing compilers this step won't be necessary (for MSVC 2013 it makes a difference)
             if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
@@ -1734,8 +1738,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                 // zero (since it is not yet erased), meaning no additional manipulations are necessary for the previous skipfield node comparison - we only have to check against zero
                 const char prev_skipfield = *( it.skipfield_pointer - ( it.skipfield_pointer !=
                                                group_pointer->skipfield ) ) != 0;
-                const char after_skipfield = *( it.skipfield_pointer + 1 ) !=
-                                             0; // NOTE: boundary test (checking against end-of-elements) is able to be skipped due to the extra skipfield node (compared to element field) - which is present to enable faster iterator operator ++ operations
+                // NOTE: boundary test (checking against end-of-elements) is able to be skipped due to the extra skipfield node (compared to element field) - which is present to enable faster iterator operator ++ operations
+                const char after_skipfield = *( it.skipfield_pointer + 1 ) != 0;
                 skipfield_type update_value = 1;
 
                 switch( ( after_skipfield << 1 ) | prev_skipfield ) {
@@ -1744,14 +1748,14 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                         const skipfield_type index = static_cast<skipfield_type>( it.element_pointer -
                                                      group_pointer->elements );
 
-                        if( group_pointer->free_list_head !=
-                            std::numeric_limits<skipfield_type>::max() ) { // ie. if this group already has some erased elements
+                        // ie. if this group already has some erased elements
+                        if( group_pointer->free_list_head != std::numeric_limits<skipfield_type>::max() ) {
+                            // set prev free list head's 'next index' number to the index of the current element
                             *( reinterpret_cast<skipfield_pointer_type>( group_pointer->elements +
-                                    group_pointer->free_list_head ) + 1 ) =
-                                        index; // set prev free list head's 'next index' number to the index of the current element
+                                    group_pointer->free_list_head ) + 1 ) = index;
                         } else {
-                            group_pointer->erasures_list_next_group =
-                                groups_with_erasures_list_head; // add it to the groups-with-erasures free list
+                            // add it to the groups-with-erasures free list
+                            group_pointer->erasures_list_next_group = groups_with_erasures_list_head;
                             groups_with_erasures_list_head = group_pointer;
                         }
 
@@ -1781,13 +1785,14 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                                                      group_pointer->elements );
 
                         if( following_previous != std::numeric_limits<skipfield_type>::max() ) {
+                            // Set next index of previous free list node to this node's 'next' index
                             *( reinterpret_cast<skipfield_pointer_type>( group_pointer->elements + following_previous ) + 1 ) =
-                                index; // Set next index of previous free list node to this node's 'next' index
+                                index;
                         }
 
                         if( following_next != std::numeric_limits<skipfield_type>::max() ) {
-                            *( reinterpret_cast<skipfield_pointer_type>( group_pointer->elements + following_next ) ) =
-                                index; // Set previous index of next free list node to this node's 'previous' index
+                            // Set previous index of next free list node to this node's 'previous' index
+                            *( reinterpret_cast<skipfield_pointer_type>( group_pointer->elements + following_next ) ) = index;
                         } else {
                             group_pointer->free_list_head = index;
                         }
@@ -1810,13 +1815,15 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                                                               ( it.element_pointer + 1 ) + 1 );
 
                         if( following_previous != std::numeric_limits<skipfield_type>::max() ) {
+                            // Set next index of previous free list node to this node's 'next' index
                             *( reinterpret_cast<skipfield_pointer_type>( group_pointer->elements + following_previous ) + 1 ) =
-                                following_next; // Set next index of previous free list node to this node's 'next' index
+                                following_next;
                         }
 
                         if( following_next != std::numeric_limits<skipfield_type>::max() ) {
+                            // Set previous index of next free list node to this node's 'previous' index
                             *( reinterpret_cast<skipfield_pointer_type>( group_pointer->elements + following_next ) ) =
-                                following_previous; // Set previous index of next free list node to this node's 'previous' index
+                                following_previous;
                         } else {
                             group_pointer->free_list_head = following_previous;
                         }
@@ -1830,8 +1837,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                                           it.skipfield_pointer + update_value );
                 return_iterator.check_for_end_of_group_and_progress();
 
-                if( it.element_pointer ==
-                    begin_iterator.element_pointer ) { // If original iterator was first element in colony, update it's value with the next non-erased element:
+                // If original iterator was first element in colony, update it's value with the next non-erased element:
+                if( it.element_pointer == begin_iterator.element_pointer ) {
                     begin_iterator = return_iterator;
                 }
 
@@ -1843,9 +1850,9 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                     << 1 ) ) {
                 case 0: { // ie. group_pointer == begin_iterator.group_pointer && group_pointer->next_group == NULL; only group in colony
                     // Reset skipfield and free list rather than clearing - leads to fewer allocations/deallocations:
+                    // &* to avoid problems with non-trivial pointers. Although there is one more skipfield than group_pointer->capacity, capacity + 1 is not necessary here as the end skipfield is never written to after initialization
                     std::memset( &*( group_pointer->skipfield ), 0,
-                                 sizeof( skipfield_type ) *
-                                 group_pointer->capacity ); // &* to avoid problems with non-trivial pointers. Although there is one more skipfield than group_pointer->capacity, capacity + 1 is not necessary here as the end skipfield is never written to after initialization
+                                 sizeof( skipfield_type ) * group_pointer->capacity );
                     group_pointer->free_list_head = std::numeric_limits<skipfield_type>::max();
                     groups_with_erasures_list_head = NULL;
 
@@ -1862,8 +1869,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
 
                     update_subsequent_group_numbers( begin_iterator.group_pointer );
 
-                    if( group_pointer->free_list_head !=
-                        std::numeric_limits<skipfield_type>::max() ) { // Erasures present within the group, ie. was part of the intrusive list of groups with erasures.
+                    // Erasures present within the group, ie. was part of the intrusive list of groups with erasures.
+                    if( group_pointer->free_list_head != std::numeric_limits<skipfield_type>::max() ) {
                         remove_from_groups_with_erasures_list( group_pointer );
                     }
 
@@ -1872,8 +1879,9 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                     COLONY_DEALLOCATE( group_allocator_type, group_allocator_pair, group_pointer, 1 );
 
                     // note: end iterator only needs to be changed if the deleted group was the final group in the chain ie. not in this case
+                    // If the beginning index has been erased (ie. skipfield != 0), skip to next non-erased element
                     begin_iterator.element_pointer = begin_iterator.group_pointer->elements + *
-                                                     ( begin_iterator.group_pointer->skipfield ); // If the beginning index has been erased (ie. skipfield != 0), skip to next non-erased element
+                                                     ( begin_iterator.group_pointer->skipfield );
                     begin_iterator.skipfield_pointer = begin_iterator.group_pointer->skipfield + *
                                                        ( begin_iterator.group_pointer->skipfield );
 
@@ -1881,8 +1889,9 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                 }
                 case 3: { // this is a non-first group but not final group in chain: delete the group, then link previous group to the next group in the chain:
                     group_pointer->next_group->previous_group = group_pointer->previous_group;
+                    // close the chain, removing this group from it
                     const group_pointer_type return_group = group_pointer->previous_group->next_group =
-                            group_pointer->next_group; // close the chain, removing this group from it
+                            group_pointer->next_group;
 
                     update_subsequent_group_numbers( return_group );
 
@@ -1904,8 +1913,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                     }
 
                     group_pointer->previous_group->next_group = NULL;
-                    end_iterator.group_pointer =
-                        group_pointer->previous_group; // end iterator needs to be changed as element supplied was the back element of the colony
+                    // end iterator needs to be changed as element supplied was the back element of the colony
+                    end_iterator.group_pointer = group_pointer->previous_group;
                     end_iterator.element_pointer = reinterpret_cast<aligned_pointer_type>
                                                    ( end_iterator.group_pointer->skipfield );
                     end_iterator.skipfield_pointer = end_iterator.group_pointer->skipfield +
@@ -1921,16 +1930,16 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
         }
 
         // Range erase:
-        void erase( const const_iterator &iterator1,
-                    const const_iterator
-                    &iterator2 ) { // if uninitialized/invalid iterators supplied, function could generate an exception. If iterator1 > iterator2, behaviour is undefined.
+        void erase( const const_iterator &iterator1, const const_iterator &iterator2 ) {
+            // if uninitialized/invalid iterators supplied, function could generate an exception. If iterator1 > iterator2, behaviour is undefined.
             assert( iterator1 <= iterator2 );
 
             iterator current = iterator1;
 
             if( current.group_pointer != iterator2.group_pointer ) {
                 if( current.element_pointer != current.group_pointer->elements + *
-                    ( current.group_pointer->skipfield ) ) { // if iterator1 is not the first non-erased element in it's group - most common case
+                    ( current.group_pointer->skipfield ) ) {
+                    // if iterator1 is not the first non-erased element in it's group - most common case
                     size_type number_of_group_erasures = 0;
 
                     // Now update skipfield:
@@ -1962,27 +1971,27 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                                 current.element_pointer += *( current.skipfield_pointer );
                                 current.skipfield_pointer += *( current.skipfield_pointer );
 
+                                // if this is the last skipblock in the free list
                                 if( next_free_list_index == std::numeric_limits<skipfield_type>::max() &&
-                                    prev_free_list_index ==
-                                    std::numeric_limits<skipfield_type>::max() ) { // if this is the last skipblock in the free list
-                                    remove_from_groups_with_erasures_list(
-                                        iterator1.group_pointer ); // remove group from list of free-list groups - will be added back in down below, but not worth optimizing for
+                                    prev_free_list_index == std::numeric_limits<skipfield_type>::max() ) {
+                                    // remove group from list of free-list groups - will be added back in down below, but not worth optimizing for
+                                    remove_from_groups_with_erasures_list( iterator1.group_pointer );
                                     iterator1.group_pointer->free_list_head = std::numeric_limits<skipfield_type>::max();
                                     number_of_group_erasures += static_cast<size_type>( end - current.element_pointer );
 
                                     if COLONY_CONSTEXPR( !( std::is_trivially_destructible<element_type>::value ) ) {
-                                        while( current.element_pointer !=
-                                               end ) { // miniloop - avoid checking skipfield for rest of elements in group, as there are no more skipped elements now
+                                        // miniloop - avoid checking skipfield for rest of elements in group, as there are no more skipped elements now
+                                        while( current.element_pointer != end ) {
                                             COLONY_DESTROY( element_allocator_type, ( *this ),
                                                             reinterpret_cast<pointer>( current.element_pointer++ ) ); // Destruct element
                                         }
                                     }
 
                                     break; // end overall while loop
-                                } else if( next_free_list_index ==
-                                           std::numeric_limits<skipfield_type>::max() ) { // if this is the head of the free list
-                                    current.group_pointer->free_list_head =
-                                        prev_free_list_index; // make free list head equal to next free list node
+                                } else if( next_free_list_index == std::numeric_limits<skipfield_type>::max() ) {
+                                    // if this is the head of the free list
+                                    // make free list head equal to next free list node
+                                    current.group_pointer->free_list_head = prev_free_list_index;
                                     *( reinterpret_cast<skipfield_pointer_type>( current.group_pointer->elements +
                                             prev_free_list_index ) + 1 ) = std::numeric_limits<skipfield_type>::max();
                                 } else { // either a tail or middle free list node
@@ -2010,14 +2019,14 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                         const skipfield_type index = static_cast<skipfield_type>( iterator1.element_pointer -
                                                      iterator1.group_pointer->elements );
 
-                        if( iterator1.group_pointer->free_list_head !=
-                            std::numeric_limits<skipfield_type>::max() ) { // ie. if this group already has some erased elements
+                        if( iterator1.group_pointer->free_list_head != std::numeric_limits<skipfield_type>::max() ) {
+                            // if this group already has some erased elements
+                            // set prev free list head's 'next index' number to the index of the iterator1 element
                             *( reinterpret_cast<skipfield_pointer_type>( iterator1.group_pointer->elements +
-                                    iterator1.group_pointer->free_list_head ) + 1 ) =
-                                        index; // set prev free list head's 'next index' number to the index of the iterator1 element
+                                    iterator1.group_pointer->free_list_head ) + 1 ) = index;
                         } else {
-                            iterator1.group_pointer->erasures_list_next_group =
-                                groups_with_erasures_list_head; // add it to the groups-with-erasures free list
+                            // add it to the groups-with-erasures free list
+                            iterator1.group_pointer->erasures_list_next_group = groups_with_erasures_list_head;
                             groups_with_erasures_list_head = iterator1.group_pointer;
                         }
 
@@ -2127,10 +2136,10 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                             current.skipfield_pointer += *( current.skipfield_pointer );
 
                             if( next_free_list_index == std::numeric_limits<skipfield_type>::max() &&
-                                prev_free_list_index ==
-                                std::numeric_limits<skipfield_type>::max() ) { // if this is the last skipblock in the free list
-                                remove_from_groups_with_erasures_list(
-                                    iterator2.group_pointer ); // remove group from list of free-list groups - will be added back in down below, but not worth optimizing for
+                                prev_free_list_index == std::numeric_limits<skipfield_type>::max() ) {
+                                // if this is the last skipblock in the free list
+                                // remove group from list of free-list groups - will be added back in down below, but not worth optimizing for
+                                remove_from_groups_with_erasures_list( iterator2.group_pointer );
                                 iterator2.group_pointer->free_list_head = std::numeric_limits<skipfield_type>::max();
                                 number_of_group_erasures += static_cast<size_type>( iterator2.element_pointer -
                                                             current.element_pointer );
@@ -2167,19 +2176,18 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                 const skipfield_type index = static_cast<skipfield_type>( current_saved.element_pointer -
                                              iterator2.group_pointer->elements );
 
-                if( index == 0 ||
-                    *( current_saved.skipfield_pointer - 1 ) ==
-                    0 ) { // element is either at start of group or previous skipfield node is 0
+                if( index == 0 || *( current_saved.skipfield_pointer - 1 ) == 0 ) {
+                    // element is either at start of group or previous skipfield node is 0
                     *( current_saved.skipfield_pointer ) = distance_to_iterator2;
                     *( iterator2.skipfield_pointer - 1 ) = distance_to_iterator2;
 
-                    if( iterator2.group_pointer->free_list_head !=
-                        std::numeric_limits<skipfield_type>::max() ) { // ie. if this group already has some erased elements
+                    if( iterator2.group_pointer->free_list_head != std::numeric_limits<skipfield_type>::max() ) {
+                        // if this group already has some erased elements
                         *( reinterpret_cast<skipfield_pointer_type>( iterator2.group_pointer->elements +
                                 iterator2.group_pointer->free_list_head ) + 1 ) = index;
                     } else {
-                        iterator2.group_pointer->erasures_list_next_group =
-                            groups_with_erasures_list_head; // add it to the groups-with-erasures free list
+                        // add it to the groups-with-erasures free list
+                        iterator2.group_pointer->erasures_list_next_group = groups_with_erasures_list_head;
                         groups_with_erasures_list_head = iterator2.group_pointer;
                     }
 
@@ -2213,8 +2221,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                     }
                 }
 
-                if( ( total_number_of_elements -= current.group_pointer->number_of_elements ) !=
-                    0 ) { // ie. previous_group != NULL
+                if( ( total_number_of_elements -= current.group_pointer->number_of_elements ) != 0 ) {
+                    // ie. previous_group != NULL
                     current.group_pointer->previous_group->next_group = current.group_pointer->next_group;
                     end_iterator.group_pointer = current.group_pointer->previous_group;
                     end_iterator.element_pointer = current.group_pointer->previous_group->last_endpoint;
@@ -2320,7 +2328,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
 
             destroy_all_data();
             colony temp( source );
-            *this = std::move( temp ); // Avoid generating 2nd temporary
+            // Avoid generating 2nd temporary
+            *this = std::move( temp );
 
             return *this;
         }
@@ -2396,38 +2405,38 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             }
 
             if( total_number_of_elements == 0 ) { // Most common scenario - empty colony
-                if( begin_iterator.group_pointer !=
-                    NULL ) { // Edge case - empty colony but first group is initialized ie. had some insertions but all elements got subsequently erased
+                if( begin_iterator.group_pointer != NULL ) {
+                    // Edge case - empty colony but first group is initialized ie. had some insertions but all elements got subsequently erased
                     COLONY_DESTROY( group_allocator_type, group_allocator_pair, begin_iterator.group_pointer );
                     COLONY_DEALLOCATE( group_allocator_type, group_allocator_pair, begin_iterator.group_pointer, 1 );
                 } // else: Empty colony, no insertions yet, time to allocate
 
                 initialize( reserve_amount );
-                begin_iterator.group_pointer->last_endpoint =
-                    begin_iterator.group_pointer->elements; // last_endpoint initially == elements + 1 via default constructor
+                // last_endpoint initially == elements + 1 via default constructor
+                begin_iterator.group_pointer->last_endpoint = begin_iterator.group_pointer->elements;
                 begin_iterator.group_pointer->number_of_elements = 0; // 1 by default
             } else if( reserve_amount <= total_capacity ) { // Already have enough space allocated
                 return;
             } else { // Non-empty colony, don't have enough space allocated
                 const skipfield_type original_min_elements = pointer_allocator_pair.min_elements_per_group;
-                pointer_allocator_pair.min_elements_per_group = static_cast<skipfield_type>
-                        ( reserve_amount ); // Make sure all groups are at maximum appropriate capacity (this amount already rounded down to a skipfield type earlier in function)
+                // Make sure all groups are at maximum appropriate capacity (this amount already rounded down to a skipfield type earlier in function)
+                pointer_allocator_pair.min_elements_per_group = static_cast<skipfield_type>( reserve_amount );
                 consolidate();
                 pointer_allocator_pair.min_elements_per_group = original_min_elements;
             }
         }
 
         // Advance implementation for iterator and const_iterator:
+        // Cannot be noexcept due to the possibility of an uninitialized iterator
         template <bool is_const>
-        void advance( colony_iterator<is_const> &it,
-                      difference_type distance )
-        const { // Cannot be noexcept due to the possibility of an uninitialized iterator
+        void advance( colony_iterator<is_const> &it, difference_type distance ) const {
             // For code simplicity - should hopefully be optimized out by compiler:
             group_pointer_type &group_pointer = it.group_pointer;
             aligned_pointer_type &element_pointer = it.element_pointer;
             skipfield_pointer_type &skipfield_pointer = it.skipfield_pointer;
 
-            assert( group_pointer != NULL ); // covers uninitialized colony_iterator && empty group
+            // covers uninitialized colony_iterator && empty group
+            assert( group_pointer != NULL );
 
             // Now, run code based on the nature of the distance type - negative, positive or zero:
             if( distance > 0 ) { // ie. +=
@@ -2449,19 +2458,19 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                 assert( !( element_pointer == group_pointer->last_endpoint && group_pointer->next_group == NULL ) );
 
                 // Special case for initial element pointer and initial group (we don't know how far into the group the element pointer is)
-                if( element_pointer != group_pointer->elements + *
-                    ( group_pointer->skipfield ) ) { // ie. != first non-erased element in group
+                if( element_pointer != group_pointer->elements + * ( group_pointer->skipfield ) ) {
+                    // ie. != first non-erased element in group
                     const difference_type distance_from_end = static_cast<difference_type>
                             ( group_pointer->last_endpoint - element_pointer );
 
-                    if( group_pointer->number_of_elements == static_cast<skipfield_type>
-                        ( distance_from_end ) ) { // ie. if there are no erasures in the group (using endpoint - elements_start to determine number of elements in group just in case this is the last group of the colony, in which case group->last_endpoint != group->elements + group->capacity)
+                    if( group_pointer->number_of_elements == static_cast<skipfield_type>( distance_from_end ) ) {
+                        // ie. if there are no erasures in the group (using endpoint - elements_start to determine number of elements in group just in case this is the last group of the colony, in which case group->last_endpoint != group->elements + group->capacity)
                         if( distance < distance_from_end ) {
                             element_pointer += distance;
                             skipfield_pointer += distance;
                             return;
-                        } else if( group_pointer->next_group ==
-                                   NULL ) { // either we've reached end() or gone beyond it, so bound to end()
+                        } else if( group_pointer->next_group == NULL ) {
+                            // either we've reached end() or gone beyond it, so bound to end()
                             element_pointer = group_pointer->last_endpoint;
                             skipfield_pointer += distance_from_end;
                             return;
@@ -2484,8 +2493,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                             }
                         }
 
-                        if( group_pointer->next_group ==
-                            NULL ) { // either we've reached end() or gone beyond it, so bound to end()
+                        if( group_pointer->next_group == NULL ) {
+                            // either we've reached end() or gone beyond it, so bound to end()
                             element_pointer = group_pointer->last_endpoint;
                             return;
                         }
@@ -2502,8 +2511,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
 
                 // Intermediary groups - at the start of this code block and the subsequent block, the position of the iterator is assumed to be the first non-erased element in the current group:
                 while( static_cast<difference_type>( group_pointer->number_of_elements ) <= distance ) {
-                    if( group_pointer->next_group ==
-                        NULL ) { // either we've reached end() or gone beyond it, so bound to end()
+                    if( group_pointer->next_group == NULL ) {
+                        // either we've reached end() or gone beyond it, so bound to end()
                         element_pointer = group_pointer->last_endpoint;
                         skipfield_pointer = group_pointer->skipfield + ( group_pointer->last_endpoint -
                                             group_pointer->elements );
@@ -2519,8 +2528,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                 }
 
                 // Final group (if not already reached):
-                if( group_pointer->free_list_head ==
-                    std::numeric_limits<skipfield_type>::max() ) { // No erasures in this group, use straight pointer addition
+                if( group_pointer->free_list_head == std::numeric_limits<skipfield_type>::max() ) {
+                    // No erasures in this group, use straight pointer addition
                     element_pointer = group_pointer->elements + distance;
                     skipfield_pointer = group_pointer->skipfield + distance;
                     return;
@@ -2539,14 +2548,16 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                 return;
             } else if( distance < 0 ) { // for negative change
                 // Code logic is very similar to += above
+
+                // check that we're not already at begin()
                 assert( !( ( element_pointer == group_pointer->elements + * ( group_pointer->skipfield ) ) &&
-                           group_pointer->previous_group == NULL ) ); // check that we're not already at begin()
+                           group_pointer->previous_group == NULL ) );
                 distance = -distance;
 
                 // Special case for initial element pointer and initial group (we don't know how far into the group the element pointer is)
                 if( element_pointer != group_pointer->last_endpoint ) { // ie. != end()
-                    if( group_pointer->free_list_head ==
-                        std::numeric_limits<skipfield_type>::max() ) { // ie. no prior erasures have occurred in this group
+                    if( group_pointer->free_list_head == std::numeric_limits<skipfield_type>::max() ) {
+                        // ie. no prior erasures have occurred in this group
                         const difference_type distance_from_beginning = static_cast<difference_type>
                                 ( element_pointer - group_pointer->elements );
 
@@ -2554,8 +2565,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                             element_pointer -= distance;
                             skipfield_pointer -= distance;
                             return;
-                        } else if( group_pointer->previous_group ==
-                                   NULL ) { // ie. we've gone before begin(), so bound to begin()
+                        } else if( group_pointer->previous_group == NULL ) {
+                            // ie. we've gone before begin(), so bound to begin()
                             element_pointer = group_pointer->elements;
                             skipfield_pointer = group_pointer->skipfield;
                             return;
@@ -2577,8 +2588,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                         }
 
                         if( group_pointer->previous_group == NULL ) {
-                            element_pointer = group_pointer->elements + *
-                                              ( group_pointer->skipfield ); // This is first group, so bound to begin() (just in case final decrement took us before begin())
+                            // This is first group, so bound to begin() (just in case final decrement took us before begin())
+                            element_pointer = group_pointer->elements + *( group_pointer->skipfield );
                             skipfield_pointer = group_pointer->skipfield + *( group_pointer->skipfield );
                             return;
                         }
@@ -2589,7 +2600,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
 
                 // Intermediary groups - at the start of this code block and the subsequent block, the position of the iterator is assumed to be either the first non-erased element in the next group over, or end():
                 while( static_cast<difference_type>( group_pointer->number_of_elements ) < distance ) {
-                    if( group_pointer->previous_group == NULL ) { // we've gone beyond begin(), so bound to it
+                    if( group_pointer->previous_group == NULL ) {
+                        // we've gone beyond begin(), so bound to it
                         element_pointer = group_pointer->elements + *( group_pointer->skipfield );
                         skipfield_pointer = group_pointer->skipfield + *( group_pointer->skipfield );
                         return;
@@ -2604,8 +2616,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                     element_pointer = group_pointer->elements + *( group_pointer->skipfield );
                     skipfield_pointer = group_pointer->skipfield + *( group_pointer->skipfield );
                     return;
-                } else if( group_pointer->free_list_head ==
-                           std::numeric_limits<skipfield_type>::max() ) { // ie. no erased elements in this group
+                } else if( group_pointer->free_list_head == std::numeric_limits<skipfield_type>::max() ) {
+                    // ie. no erased elements in this group
                     element_pointer = reinterpret_cast<aligned_pointer_type>( group_pointer->skipfield ) - distance;
                     skipfield_pointer = ( group_pointer->skipfield + group_pointer->capacity ) - distance;
                     return;
@@ -2635,8 +2647,9 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             assert( element_pointer != NULL );
 
             if( distance > 0 ) {
+                // Check that we're not already at rend()
                 assert( !( element_pointer == group_pointer->elements - 1 &&
-                           group_pointer->previous_group == NULL ) ); // Check that we're not already at rend()
+                           group_pointer->previous_group == NULL ) );
                 // Special case for initial element pointer and initial group (we don't know how far into the group the element pointer is)
                 // Since a reverse_iterator cannot == last_endpoint (ie. before rbegin()) we don't need to check for that like with iterator
                 if( group_pointer->free_list_head == std::numeric_limits<skipfield_type>::max() ) {
@@ -2647,8 +2660,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                         element_pointer -= distance;
                         skipfield_pointer -= distance;
                         return;
-                    } else if( group_pointer->previous_group ==
-                               NULL ) { // Either we've reached rend() or gone beyond it, so bound to rend()
+                    } else if( group_pointer->previous_group == NULL ) {
+                        // Either we've reached rend() or gone beyond it, so bound to rend()
                         element_pointer = group_pointer->elements - 1;
                         skipfield_pointer = group_pointer->skipfield - 1;
                         return;
@@ -2670,7 +2683,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                     }
 
                     if( group_pointer->previous_group == NULL ) {
-                        element_pointer = group_pointer->elements - 1; // If we've reached rend(), bound to that
+                        // If we've reached rend(), bound to that
+                        element_pointer = group_pointer->elements - 1;
                         skipfield_pointer = group_pointer->skipfield - 1;
                         return;
                     }
@@ -2711,14 +2725,15 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                     return;
                 }
             } else if( distance < 0 ) {
+                // Check that we're not already at rbegin()
                 assert( !( ( element_pointer == ( group_pointer->last_endpoint - 1 ) - *
                              ( group_pointer->skipfield + ( group_pointer->last_endpoint - group_pointer->elements ) - 1 ) ) &&
-                           group_pointer->next_group == NULL ) ); // Check that we're not already at rbegin()
+                           group_pointer->next_group == NULL ) );
 
-                if( element_pointer != group_pointer->elements + *
-                    ( group_pointer->skipfield ) ) { // ie. != first non-erased element in group
-                    if( group_pointer->free_list_head ==
-                        std::numeric_limits<skipfield_type>::max() ) { // ie. if there are no erasures in the group
+                if( element_pointer != group_pointer->elements + * ( group_pointer->skipfield ) ) {
+                    // ie. != first non-erased element in group
+                    if( group_pointer->free_list_head == std::numeric_limits<skipfield_type>::max() ) {
+                        // ie. if there are no erasures in the group
                         const difference_type distance_from_end = static_cast<difference_type>
                                 ( group_pointer->last_endpoint - element_pointer );
 
@@ -2727,8 +2742,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                             skipfield_pointer += distance;
                             return;
                         } else if( group_pointer->next_group == NULL ) { // bound to rbegin()
-                            element_pointer = group_pointer->last_endpoint -
-                                              1; // no erasures so we don't have to subtract skipfield value as we do below
+                            // no erasures so we don't have to subtract skipfield value as we do below
+                            element_pointer = group_pointer->last_endpoint - 1;
                             skipfield_pointer += distance_from_end - 1;
                             return;
                         } else {
@@ -2788,8 +2803,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                 }
 
                 // Final group (if not already reached):
-                if( group_pointer->free_list_head ==
-                    std::numeric_limits<skipfield_type>::max() ) { // No erasures in this group, use straight pointer addition
+                if( group_pointer->free_list_head == std::numeric_limits<skipfield_type>::max() ) {
+                    // No erasures in this group, use straight pointer addition
                     element_pointer = group_pointer->elements + distance;
                     skipfield_pointer = group_pointer->skipfield + distance;
                     return;
@@ -2874,15 +2889,16 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                 iterator2 = first;
             }
 
-            if( iterator1.group_pointer !=
-                iterator2.group_pointer ) { // if not in same group, process intermediate groups
+            if( iterator1.group_pointer != iterator2.group_pointer ) {
+                // if not in same group, process intermediate groups
+
                 // Process initial group:
-                if( iterator1.group_pointer->free_list_head ==
-                    std::numeric_limits<skipfield_type>::max() ) { // If no prior erasures have occured in this group we can do simple addition
+                if( iterator1.group_pointer->free_list_head == std::numeric_limits<skipfield_type>::max() ) {
+                    // If no prior erasures have occured in this group we can do simple addition
                     distance += static_cast<diff_type>( iterator1.group_pointer->last_endpoint -
                                                         iterator1.element_pointer );
-                } else if( iterator1.element_pointer ==
-                           iterator1.group_pointer->elements ) { // ie. element is at start of group - rare case
+                } else if( iterator1.element_pointer == iterator1.group_pointer->elements ) {
+                    // ie. element is at start of group - rare case
                     distance += static_cast<diff_type>( iterator1.group_pointer->number_of_elements );
                 } else {
                     const skipfield_pointer_type endpoint = iterator1.skipfield_pointer +
@@ -2905,11 +2921,11 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                 iterator1.skipfield_pointer = iterator1.group_pointer->skipfield;
             }
 
-            if( iterator1.group_pointer->free_list_head ==
-                std::numeric_limits<skipfield_type>::max() ) { // ie. no erasures in this group, direct subtraction is possible
+            if( iterator1.group_pointer->free_list_head == std::numeric_limits<skipfield_type>::max() ) {
+                // ie. no erasures in this group, direct subtraction is possible
                 distance += static_cast<diff_type>( iterator2.skipfield_pointer - iterator1.skipfield_pointer );
-            } else if( iterator1.group_pointer->last_endpoint - 1 >=
-                       iterator2.element_pointer ) { // ie. if iterator2 is .end() or 1 before
+            } else if( iterator1.group_pointer->last_endpoint - 1 >= iterator2.element_pointer ) {
+                // ie. if iterator2 is .end() or 1 before
                 distance += static_cast<diff_type>( iterator1.group_pointer->number_of_elements -
                                                     ( iterator1.group_pointer->last_endpoint - iterator2.element_pointer ) );
             } else {
@@ -2935,13 +2951,13 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
 
         // Type-changing functions:
 
-        iterator get_iterator_from_pointer( const pointer element_pointer )
-        const { // Cannot be noexcept as colony could be empty or pointer invalid
+        // Cannot be noexcept as colony could be empty or pointer invalid
+        iterator get_iterator_from_pointer( const pointer element_pointer ) const {
             assert( !empty() );
             assert( element_pointer != NULL );
 
-            group_pointer_type current_group =
-                end_iterator.group_pointer; // Start with last group first, as will be the largest group
+            // Start with last group first, as will be the largest group
+            group_pointer_type current_group = end_iterator.group_pointer;
 
             while( current_group != NULL ) {
                 if( reinterpret_cast<aligned_pointer_type>( element_pointer ) >= current_group->elements &&
@@ -2961,8 +2977,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
         }
 
         template <bool is_const>
-        size_type get_index_from_iterator( const colony_iterator<is_const> &it )
-        const { // may throw exception if iterator is invalid/uninitialized
+        // may throw exception if iterator is invalid/uninitialized
+        size_type get_index_from_iterator( const colony_iterator<is_const> &it ) const {
             assert( !empty() );
             assert( it.group_pointer != NULL );
 
@@ -2977,9 +2993,10 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
             }
 
             if( group_pointer->free_list_head == std::numeric_limits<skipfield_type>::max() ) {
-                index += static_cast<size_type>( it.element_pointer -
-                                                 group_pointer->elements ); // If no erased elements in group exist, do straight pointer arithmetic to get distance to start for first element
-            } else { // Otherwise do manual ++ loop - count from beginning of group until location is reached
+                // If no erased elements in group exist, do straight pointer arithmetic to get distance to start for first element
+                index += static_cast<size_type>( it.element_pointer - group_pointer->elements );
+            } else {
+                // Otherwise do manual ++ loop - count from beginning of group until location is reached
                 skipfield_pointer_type skipfield_pointer = group_pointer->skipfield + *( group_pointer->skipfield );
 
                 while( skipfield_pointer != it.skipfield_pointer ) {
@@ -2999,8 +3016,8 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
         }
 
         template <typename index_type>
-        iterator get_iterator_from_index( const index_type index )
-        const { // Cannot be noexcept as colony could be empty
+        // Cannot be noexcept as colony could be empty
+        iterator get_iterator_from_index( const index_type index ) const {
             assert( !empty() );
             assert( std::numeric_limits<index_type>::is_integer );
 
@@ -3181,14 +3198,14 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                     const skipfield_type index = static_cast<skipfield_type>( end_iterator.element_pointer -
                                                  end_iterator.group_pointer->elements );
 
-                    if( end_iterator.group_pointer->free_list_head !=
-                        std::numeric_limits<skipfield_type>::max() ) { // ie. if this group already has some erased elements
+                    if( end_iterator.group_pointer->free_list_head != std::numeric_limits<skipfield_type>::max() ) {
+                        // ie. if this group already has some erased elements
+                        // set prev free list head's 'next index' number to the index of the current element
                         *( reinterpret_cast<skipfield_pointer_type>( end_iterator.group_pointer->elements +
-                                end_iterator.group_pointer->free_list_head ) + 1 ) =
-                                    index; // set prev free list head's 'next index' number to the index of the current element
+                                end_iterator.group_pointer->free_list_head ) + 1 ) = index;
                     } else {
-                        end_iterator.group_pointer->erasures_list_next_group =
-                            groups_with_erasures_list_head; // add it to the groups-with-erasures free list
+                        // add it to the groups-with-erasures free list
+                        end_iterator.group_pointer->erasures_list_next_group = groups_with_erasures_list_head;
                         groups_with_erasures_list_head = end_iterator.group_pointer;
                     }
 
@@ -3244,15 +3261,13 @@ explicit ebco_pair( const skipfield_type max_elements ) COLONY_NOEXCEPT:
                 source = std::move( *this );
                 *this = std::move( temp );
             } else {
-                const iterator                      swap_end_iterator = end_iterator,
-                                                    swap_begin_iterator = begin_iterator;
-                const group_pointer_type        swap_groups_with_erasures_list_head =
-                    groups_with_erasures_list_head;
-                const size_type                 swap_total_number_of_elements = total_number_of_elements,
-                                                swap_total_capacity = total_capacity;
-                const skipfield_type            swap_min_elements_per_group =
-                    pointer_allocator_pair.min_elements_per_group,
-                    swap_max_elements_per_group = group_allocator_pair.max_elements_per_group;
+                const iterator swap_end_iterator = end_iterator;
+                const iterator swap_begin_iterator = begin_iterator;
+                const group_pointer_type swap_groups_with_erasures_list_head = groups_with_erasures_list_head;
+                const size_type swap_total_number_of_elements = total_number_of_elements;
+                const size_type swap_total_capacity = total_capacity;
+                const skipfield_type swap_min_elements_per_group = pointer_allocator_pair.min_elements_per_group;
+                const skipfield_type swap_max_elements_per_group = group_allocator_pair.max_elements_per_group;
 
                 end_iterator = source.end_iterator;
                 begin_iterator = source.begin_iterator;
