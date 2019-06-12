@@ -558,10 +558,10 @@ bool avatar::create( character_type type, const std::string &tempname )
         cash = rng( 500000000, 1000000000 );
     }
     if( has_trait( trait_id( "DEBT" ) ) ) {
-        cash = rng ( -1500000, -3000000 );
+        cash = rng( -1500000, -3000000 );
     }
     if( has_trait( trait_id( "SAVINGS" ) ) ) {
-        cash = rng ( 1500000, 2000000 );
+        cash = rng( 1500000, 2000000 );
     }
 
     // Learn recipes
