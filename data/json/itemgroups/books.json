@@ -49,7 +49,7 @@
     "items": [
       [ "manual_eskrima", 100 ],
       [ "manual_krav_maga", 100 ],
-      [ "manual_ninjutsu", 50 ],
+      [ "manual_ninjutsu", 100 ],
       [ "manual_pankration", 5 ],
       [ "manual_silat", 100 ],
       [ "manual_taekwondo", 100 ],
