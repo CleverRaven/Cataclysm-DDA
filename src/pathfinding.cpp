@@ -316,9 +316,11 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
             // Penalize for diagonals or the path will look "unnatural"
             int newg = layer.gscore[parent_index] + ( ( cur.x != p.x && cur.y != p.y ) ? 1 : 0 );
-            
-            if( !passable_from_point( p, cur ) ){
-                layer.state[index] = ASL_CLOSED; // Close since it's not passable.
+
+            // Avoid routing through rotated vehicle parts.
+            if( check_for_diagonal( p, cur, [this]( const tripoint & np ) {
+            return move_cost( np ) == 0;
+            } ) ) {
                 continue;
             }
 
