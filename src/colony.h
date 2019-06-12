@@ -2204,20 +2204,6 @@ class colony : private element_allocator_type
             return total_number_of_elements;
         }
 
-#ifdef COLONY_TEST_DEBUG // used for debugging during internal testing only:
-        inline size_type group_size_sum() const {
-            group_pointer_type current = begin_iterator.group_pointer;
-            size_type temp = 0;
-
-            while( current != NULL ) {
-                temp += current->number_of_elements;
-                current = current->next_group;
-            }
-
-            return temp;
-        }
-#endif
-
         inline size_type max_size() const noexcept {
             return std::allocator_traits<element_allocator_type>::max_size( *this );
         }
