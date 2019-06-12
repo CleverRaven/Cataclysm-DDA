@@ -6590,7 +6590,8 @@ void player::sound_hallu()
 void player::drench( int saturation, const body_part_set &flags, bool ignore_waterproof )
 {
     if( saturation < 1 ||
-        has_bionic( afs_bio_hydrophobic_epidermis ) ) { // Aftershock's Hydrophobic Epidermis can block all wetness
+        has_bionic(
+            afs_bio_hydrophobic_epidermis ) ) { // Aftershock's Hydrophobic Epidermis can block all wetness
         return;
     }
 

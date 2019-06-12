@@ -1910,7 +1910,8 @@ void monster::process_turn()
             }
             if( g->weather.lightning_active && !has_effect( effect_supercharged ) &&
                 g->m.is_outside( pos() ) &&
-                !g->u.has_active_bionic( bionic_id( "afs_bio_lightning_rod" ) ) ) { // Aftershock lightning rods take priority
+                !g->u.has_active_bionic(
+                    bionic_id( "afs_bio_lightning_rod" ) ) ) { // Aftershock lightning rods take priority
                 g->weather.lightning_active = false; // only one supercharge per strike
                 sounds::sound( pos(), 300, sounds::sound_t::combat, _( "BOOOOOOOM!!!" ), false, "environment",
                                "thunder_near" );
