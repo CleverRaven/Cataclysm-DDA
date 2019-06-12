@@ -376,24 +376,24 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
     item cig;
     if( it->typeId() == "cig" ) {
         cig = item( "cig_lit", calendar::turn );
-        cig.item_counter = 40;
+        cig.item_counter = to_turns<int>( 4_minutes );
         p->mod_hunger( -3 );
         p->mod_thirst( 2 );
     } else if( it->typeId() == "handrolled_cig" ) {
         // This transforms the hand-rolled into a normal cig, which isn't exactly
         // what I want, but leaving it for now.
         cig = item( "cig_lit", calendar::turn );
-        cig.item_counter = 40;
+        cig.item_counter = to_turns<int>( 4_minutes );
         p->mod_thirst( 2 );
         p->mod_hunger( -3 );
     } else if( it->typeId() == "cigar" ) {
         cig = item( "cigar_lit", calendar::turn );
-        cig.item_counter = 120;
+        cig.item_counter = to_turns<int>( 12_minutes );
         p->mod_thirst( 3 );
         p->mod_hunger( -4 );
     } else if( it->typeId() == "joint" ) {
         cig = item( "joint_lit", calendar::turn );
-        cig.item_counter = 40;
+        cig.item_counter = to_turns<int>( 4_minutes );
         p->mod_hunger( 4 );
         p->mod_thirst( 6 );
         if( p->get_painkiller() < 5 ) {
@@ -5336,7 +5336,7 @@ int iuse::towel( player *p, item *it, bool t, const tripoint & )
                               it->tname() );
 
         towelUsed = true;
-        it->item_counter = 300;
+        it->item_counter = to_turns<int>( 30_minutes );
 
         // default message
     } else {

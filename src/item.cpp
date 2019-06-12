@@ -7258,7 +7258,7 @@ bool item::needs_processing() const
 int item::processing_speed() const
 {
     if( is_corpse() || is_food() || is_food_container() ) {
-        return 100;
+        return to_turns<int>( 10_minutes );
     }
     // Unless otherwise indicated, update every turn.
     return 1;
