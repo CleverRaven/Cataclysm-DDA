@@ -3,42 +3,10 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "rc_grounds_NE1a_z-2", "rc_grounds_NE2a_z-2", "rc_grounds_NE3a_z-2", "rc_grounds_NE4a_z-2", "rc_grounds_NE5a_z-2" ]
-    ],
-    "weight": 100,
-    "object": { "fill_ter": "t_rock" }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [
-      [ "rc_grounds_NE1b_z-2", "rc_grounds_NE2b_z-2", "rc_grounds_NE3b_z-2", "rc_grounds_NE4b_z-2", "rc_grounds_NE5b_z-2" ]
-    ],
-    "weight": 100,
-    "object": { "fill_ter": "t_rock" }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [
-      [ "rc_grounds_NE1c_z-2", "rc_grounds_NE2c_z-2", "rc_grounds_NE3c_z-2", "rc_grounds_NE4c_z-2", "rc_grounds_NE5c_z-2" ]
-    ],
-    "weight": 100,
-    "object": { "fill_ter": "t_rock" }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [
-      [ "rc_grounds_NE1d_z-2", "rc_grounds_NE2d_z-2", "rc_grounds_NE3d_z-2", "rc_grounds_NE4d_z-2", "rc_grounds_NE5d_z-2" ]
-    ],
-    "weight": 100,
-    "object": { "fill_ter": "t_rock" }
-  },
-  {
-    "type": "mapgen",
-    "method": "json",
-    "om_terrain": [
+      [ "rc_grounds_NE1a_z-2", "rc_grounds_NE2a_z-2", "rc_grounds_NE3a_z-2", "rc_grounds_NE4a_z-2", "rc_grounds_NE5a_z-2" ],
+      [ "rc_grounds_NE1b_z-2", "rc_grounds_NE2b_z-2", "rc_grounds_NE3b_z-2", "rc_grounds_NE4b_z-2", "rc_grounds_NE5b_z-2" ],
+      [ "rc_grounds_NE1c_z-2", "rc_grounds_NE2c_z-2", "rc_grounds_NE3c_z-2", "rc_grounds_NE4c_z-2", "rc_grounds_NE5c_z-2" ],
+      [ "rc_grounds_NE1d_z-2", "rc_grounds_NE2d_z-2", "rc_grounds_NE3d_z-2", "rc_grounds_NE4d_z-2", "rc_grounds_NE5d_z-2" ],
       [ "rc_grounds_NE1e_z-2", "rc_grounds_NE2e_z-2", "rc_grounds_NE3e_z-2", "rc_grounds_NE4e_z-2", "rc_grounds_NE5e_z-2" ]
     ],
     "weight": 100,
