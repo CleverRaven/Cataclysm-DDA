@@ -23,6 +23,7 @@
 #include "player.h"
 #include "npc.h"
 #include "recipe.h"
+#include "recipe_dictionary.h"
 #include "recipe_groups.h"
 #include "requirements.h"
 #include "rng.h"
@@ -131,7 +132,20 @@ void basecamp::add_expansion( const std::string &terrain, const tripoint &new_po
     directions.push_back( dir );
 }
 
-void basecamp::define_camp( npc &p )
+void basecamp::add_expansion( const std::string &bldg, const tripoint &new_pos,
+                              const std::string &dir )
+{
+    expansion_data e;
+    e.type = base_camps::faction_decode( bldg );
+    e.cur_level = -1;
+    e.pos = new_pos;
+    expansions[ dir ] = e;
+    directions.push_back( dir );
+    update_provides( bldg, expansions[ dir ] );
+    update_resources( bldg );
+}
+
+void basecamp::define_camp( npc &p, const std::string &camp_type )
 {
     query_new_name();
     omt_pos = p.global_omt_location();
@@ -144,8 +158,8 @@ void basecamp::define_camp( npc &p )
     const std::string om_cur = omt_ref.id().c_str();
     if( om_cur.find( base_camps::prefix ) == std::string::npos ) {
         expansion_data e;
-        e.type = "camp";
-        e.cur_level = 0;
+        e.type = base_camps::faction_decode( camp_type );
+        e.cur_level = -1;
         e.pos = omt_pos;
         expansions[ base_camps::base_dir ] = e;
         omt_ref = oter_id( "faction_base_camp_0" );
@@ -245,9 +259,9 @@ const std::vector<basecamp_upgrade> basecamp::available_upgrades( const std::str
     auto e = expansions.find( dir );
     if( e != expansions.end() ) {
         expansion_data &e_data = e->second;
-        for( int number = 1; number < base_camps::max_upgrade_by_type( e_data.type ); number++ ) {
-            const std::string &bldg = base_camps::faction_encode_abs( e_data, number );
-            const recipe &recp = recipe_id( bldg ).obj();
+        for( const recipe *recp_p : recipe_dict.all_blueprints() ) {
+            const recipe &recp = *recp_p;
+            const std::string &bldg = recp.result().c_str();
             // skip buildings that are completed
             if( e_data.provides.find( bldg ) != e_data.provides.end() ) {
                 continue;
@@ -303,19 +317,19 @@ const std::vector<basecamp_upgrade> basecamp::available_upgrades( const std::str
 // recipes and craft support functions
 std::map<std::string, std::string> basecamp::recipe_deck( const std::string &dir ) const
 {
-    if( dir == "ALL" || dir == "COOK" || dir == "BASE" || dir == "FARM" || dir == "SMITH" ) {
-        return recipe_group::get_recipes( dir );
+    std::map<std::string, std::string> recipes = recipe_group::get_recipes_by_bldg( dir );
+    if( !recipes.empty() ) {
+        return recipes;
     }
-    std::map<std::string, std::string> cooking_recipes;
     const auto &e = expansions.find( dir );
     if( e == expansions.end() ) {
-        return cooking_recipes;
+        return recipes;
     }
     for( const auto &provides : e->second.provides ) {
-        std::map<std::string, std::string> test_s = recipe_group::get_recipes( provides.first );
-        cooking_recipes.insert( test_s.begin(), test_s.end() );
+        const auto &test_s = recipe_group::get_recipes_by_id( provides.first );
+        recipes.insert( test_s.begin(), test_s.end() );
     }
-    return cooking_recipes;
+    return recipes;
 }
 
 const std::string basecamp::get_gatherlist() const
@@ -329,7 +343,6 @@ const std::string basecamp::get_gatherlist() const
         }
     }
     return "forest";
-
 }
 
 void basecamp::add_resource( const itype_id &camp_resource )
@@ -622,19 +635,13 @@ std::string basecamp::expansion_tab( const std::string &dir ) const
     if( dir == base_camps::base_dir ) {
         return _( "Base Missions" );
     }
-    auto e = expansions.find( dir );
+    const auto &expansion_types = recipe_group::get_recipes_by_id( "all_faction_base_expansions" );
+
+    const auto &e = expansions.find( dir );
     if( e != expansions.end() ) {
-        if( e->second.type == "garage" ) {
-            return _( "Garage Expansion" );
-        }
-        if( e->second.type == "kitchen" ) {
-            return _( "Kitchen Expansion" );
-        }
-        if( e->second.type == "blacksmith" ) {
-            return _( "Blacksmith Expansion" );
-        }
-        if( e->second.type == "farm" ) {
-            return _( "Farm Expansion" );
+        const auto e_type = expansion_types.find( base_camps::faction_encode_abs( e->second, 0 ) );
+        if( e_type != expansion_types.end() ) {
+            return e_type->second + _( "Expansion" );
         }
     }
     return _( "Empty Expansion" );

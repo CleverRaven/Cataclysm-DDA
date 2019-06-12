@@ -1152,13 +1152,14 @@ const itype *Item_factory::find_template( const itype_id &id ) const
     }
 
     //If we didn't find the item maybe it is a building instead!
-    if( oter_str_id( id.c_str() ).is_valid() ) {
+    const recipe_id &making_id = recipe_id( id.c_str() );
+    if( oter_str_id( id.c_str() ).is_valid() ||
+        ( making_id.is_valid() && making_id.obj().is_blueprint() ) ) {
         itype *def = new itype();
         def->id = id;
         def->name = string_format( "DEBUG: %s", id.c_str() );
         def->name_plural = string_format( "%s", id.c_str() );
-        const recipe *making = &recipe_id( id.c_str() ).obj();
-        def->description = string_format( making->description );
+        def->description = string_format( making_id.obj().description );
         m_runtimes[ id ].reset( def );
         return def;
     }

@@ -112,7 +112,9 @@ class basecamp
         void set_name( const std::string &new_name );
         void query_new_name();
         void add_expansion( const std::string &terrain, const tripoint &new_pos );
-        void define_camp( npc &p );
+        void add_expansion( const std::string &bldg, const tripoint &new_pos,
+                            const std::string &dir );
+        void define_camp( npc &p, const std::string &camp_type = "default" );
 
         std::string expansion_tab( const std::string &dir ) const;
 
