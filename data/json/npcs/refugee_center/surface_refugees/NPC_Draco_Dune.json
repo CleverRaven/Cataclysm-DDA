@@ -106,30 +106,6 @@
         "topic": "TALK_REFUGEE_Draco_5a"
       },
       {
-        "text": "Hi, Draco.  What's up?",
-        "condition": { "days_since_cataclysm": 180 },
-        "topic": "TALK_REFUGEE_Draco_2",
-        "switch": true
-      },
-      {
-        "text": "Hi, Draco.  What's up?",
-        "condition": { "days_since_cataclysm": 60 },
-        "topic": "TALK_REFUGEE_Draco_2",
-        "switch": true
-      },
-      {
-        "text": "Hi, Draco.  What's up?",
-        "condition": { "days_since_cataclysm": 30 },
-        "topic": "TALK_REFUGEE_Draco_2",
-        "switch": true
-      },
-      {
-        "text": "Hi, Draco.  What's up?",
-        "condition": { "u_has_effect": "u_met_Draco_Dune" },
-        "topic": "TALK_REFUGEE_Draco_2",
-        "switch": true
-      },
-      {
         "text": "Hi Draco, nice to meet you.  I gotta go though.",
         "effect": { "u_add_effect": "u_met_Draco_Dune", "duration": "PERMANENT" },
         "condition": { "not": { "u_has_effect": "u_met_Draco_Dune" } },
@@ -164,7 +140,6 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_3",
     "dynamic_line": "Oh you don't have time for all that, do you?  Well, I'll give you the short version.  I've gotten kinda tired of it in the telling.  Frankly, it's not as heroic, not as inspiring, not as tragic, and certainly not as funny as some of the tales around here.  But it's mine, ya know?  I'm a musician.  Guitar's my baby.  You like folk and the blues, friend?  Well, that was my bag and I sure could please my own ear with em, anyway.  Folks who's bein' generous might also say it pleased theirs.  Problem is, I seem to be between guitars right now, you know? Temporarily guitar-light, if you get my saying.  Problem is, in the run for my life, I had to use old Jasmine as a bit of a billy club.  Had to curb some rowdy dudes on my way here.  It was her or me, you understand?  You wouldn't begrudge a man breakin' his instrument to save his life, would ya?",
-    "effect": { "u_add_effect": "u_met_Draco_Dune", "duration": "PERMANENT" },
     "responses": [
       { "text": "I think I would've done the same.  Nobody around here has a guitar?", "topic": "TALK_REFUGEE_Draco_4" },
       { "text": "Yes, yes I would... you monster.", "topic": "TALK_DONE" }
@@ -217,7 +192,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_6a",
-    "dynamic_line": "Me too!  You can understand how folks be wantin' some liveliness in these times. Some music sure would help with that.  Damn, I miss it.  All I hear is those MP3 players with there tin-can drum machines and whiny vocals.  Help me find a guitar and we'll really get this place smokin'!",
+    "dynamic_line": "Me too!  You can understand how folks be wantin' some liveliness in these times. Some music sure would help with that.  Damn, I miss it.  All I hear is those MP3 players with their tin-can drum machines and whiny vocals.  Help me find a guitar and we'll really get this place smokin'!",
     "responses": [
       { "text": "I could be persuaded.", "topic": "TALK_REFUGEE_Draco_7" },
       { "text": "It's called dub-step and I like it.  Goodbye, old man.", "topic": "TALK_DONE" }
@@ -229,7 +204,7 @@
     "dynamic_line": "Me too!  Times are hard for folks and that's no laughing matter.  People need some normality in these times.  Some reminders of how things used to be.  I think a sing-along or two could do folks good.",
     "responses": [
       { "text": "Couldn't hurt.", "topic": "TALK_REFUGEE_Draco_7" },
-      { "text": "I don't need to hear amateur-hour karaoke around here.", "topic": "TALK_DONE" }
+      { "text": "I don't need to hear amateur-hour karaoke around here.  Goodbye.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -239,7 +214,7 @@
     "responses": [
       { "text": "That'd be awesome.", "topic": "TALK_REFUGEE_Draco_7" },
       {
-        "text": "Yeah, wouldn't be that funny when Zed heard all the sound and broke in.  Be responsible.",
+        "text": "Yeah, wouldn't be so funny when Zed heard all the sound and broke in.  Be responsible.",
         "topic": "TALK_DONE"
       }
     ]
