@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "rc_grounds_SE1a", "rc_grounds_SE2a", "rc_grounds_SE3a", "rc_grounds_SE4a", "rc_grounds_SE5a" ] ],
+    "om_terrain": [ [ "refctr_SE1a", "refctr_SE2a", "refctr_SE3a", "refctr_SE4a", "refctr_SE5a" ] ],
     "weight": 100,
     "object": {
       "fill_ter": "t_grass",
@@ -38,7 +38,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "rc_grounds_SE1b", "rc_grounds_SE2b", "rc_grounds_SE3b", "rc_grounds_SE4b", "rc_grounds_SE5b" ] ],
+    "om_terrain": [ [ "refctr_SE1b", "refctr_SE2b", "refctr_SE3b", "refctr_SE4b", "refctr_SE5b" ] ],
     "weight": 100,
     "object": {
       "fill_ter": "t_grass",
@@ -74,7 +74,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "rc_grounds_SE1c", "rc_grounds_SE2c", "rc_grounds_SE3c", "rc_grounds_SE4c", "rc_grounds_SE5c" ] ],
+    "om_terrain": [ [ "refctr_SE1c", "refctr_SE2c", "refctr_SE3c", "refctr_SE4c", "refctr_SE5c" ] ],
     "weight": 100,
     "object": {
       "fill_ter": "t_grass",
@@ -110,7 +110,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "rc_grounds_SE1d", "rc_grounds_SE2d", "rc_grounds_SE3d", "rc_grounds_SE4d", "rc_grounds_SE5d" ] ],
+    "om_terrain": [ [ "refctr_SE1d", "refctr_SE2d", "refctr_SE3d", "refctr_SE4d", "refctr_SE5d" ] ],
     "weight": 100,
     "object": {
       "fill_ter": "t_grass",
@@ -146,7 +146,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "rc_grounds_SE1e", "rc_grounds_SE2e", "rc_grounds_SE3e", "rc_grounds_SE4e", "rc_grounds_SE5e" ] ],
+    "om_terrain": [ [ "refctr_SE1e", "refctr_SE2e", "refctr_SE3e", "refctr_SE4e", "refctr_SE5e" ] ],
     "weight": 100,
     "object": {
       "fill_ter": "t_grass",
@@ -183,11 +183,11 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "rc_grounds_SE1a_z2", "rc_grounds_SE2a_z2", "rc_grounds_SE3a_z2", "rc_grounds_SE4a_z2", "rc_grounds_SE5a_z2" ],
-      [ "rc_grounds_SE1b_z2", "rc_grounds_SE2b_z2", "rc_grounds_SE3b_z2", "rc_grounds_SE4b_z2", "rc_grounds_SE5b_z2" ],
-      [ "rc_grounds_SE1c_z2", "rc_grounds_SE2c_z2", "rc_grounds_SE3c_z2", "rc_grounds_SE4c_z2", "rc_grounds_SE5c_z2" ],
-      [ "rc_grounds_SE1d_z2", "rc_grounds_SE2d_z2", "rc_grounds_SE3d_z2", "rc_grounds_SE4d_z2", "rc_grounds_SE5d_z2" ],
-      [ "rc_grounds_SE1e_z2", "rc_grounds_SE2e_z2", "rc_grounds_SE3e_z2", "rc_grounds_SE4e_z2", "rc_grounds_SE5e_z2" ]
+      [ "refctr_SE1a_z2", "refctr_SE2a_z2", "refctr_SE3a_z2", "refctr_SE4a_z2", "refctr_SE5a_z2" ],
+      [ "refctr_SE1b_z2", "refctr_SE2b_z2", "refctr_SE3b_z2", "refctr_SE4b_z2", "refctr_SE5b_z2" ],
+      [ "refctr_SE1c_z2", "refctr_SE2c_z2", "refctr_SE3c_z2", "refctr_SE4c_z2", "refctr_SE5c_z2" ],
+      [ "refctr_SE1d_z2", "refctr_SE2d_z2", "refctr_SE3d_z2", "refctr_SE4d_z2", "refctr_SE5d_z2" ],
+      [ "refctr_SE1e_z2", "refctr_SE2e_z2", "refctr_SE3e_z2", "refctr_SE4e_z2", "refctr_SE5e_z2" ]
     ],
     "weight": 100,
     "object": { "fill_ter": "t_open_air" }
@@ -196,11 +196,11 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "rc_grounds_SE1a_z1", "rc_grounds_SE2a_z1", "rc_grounds_SE3a_z1", "rc_grounds_SE4a_z1", "rc_grounds_SE5a_z1" ],
-      [ "rc_grounds_SE1b_z1", "rc_grounds_SE2b_z1", "rc_grounds_SE3b_z1", "rc_grounds_SE4b_z1", "rc_grounds_SE5b_z1" ],
-      [ "rc_grounds_SE1c_z1", "rc_grounds_SE2c_z1", "rc_grounds_SE3c_z1", "rc_grounds_SE4c_z1", "rc_grounds_SE5c_z1" ],
-      [ "rc_grounds_SE1d_z1", "rc_grounds_SE2d_z1", "rc_grounds_SE3d_z1", "rc_grounds_SE4d_z1", "rc_grounds_SE5d_z1" ],
-      [ "rc_grounds_SE1e_z1", "rc_grounds_SE2e_z1", "rc_grounds_SE3e_z1", "rc_grounds_SE4e_z1", "rc_grounds_SE5e_z1" ]
+      [ "refctr_SE1a_z1", "refctr_SE2a_z1", "refctr_SE3a_z1", "refctr_SE4a_z1", "refctr_SE5a_z1" ],
+      [ "refctr_SE1b_z1", "refctr_SE2b_z1", "refctr_SE3b_z1", "refctr_SE4b_z1", "refctr_SE5b_z1" ],
+      [ "refctr_SE1c_z1", "refctr_SE2c_z1", "refctr_SE3c_z1", "refctr_SE4c_z1", "refctr_SE5c_z1" ],
+      [ "refctr_SE1d_z1", "refctr_SE2d_z1", "refctr_SE3d_z1", "refctr_SE4d_z1", "refctr_SE5d_z1" ],
+      [ "refctr_SE1e_z1", "refctr_SE2e_z1", "refctr_SE3e_z1", "refctr_SE4e_z1", "refctr_SE5e_z1" ]
     ],
     "weight": 100,
     "object": { "fill_ter": "t_open_air" }
@@ -209,11 +209,11 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "rc_grounds_SE1a_z-1", "rc_grounds_SE2a_z-1", "rc_grounds_SE3a_z-1", "rc_grounds_SE4a_z-1", "rc_grounds_SE5a_z-1" ],
-      [ "rc_grounds_SE1b_z-1", "rc_grounds_SE2b_z-1", "rc_grounds_SE3b_z-1", "rc_grounds_SE4b_z-1", "rc_grounds_SE5b_z-1" ],
-      [ "rc_grounds_SE1c_z-1", "rc_grounds_SE2c_z-1", "rc_grounds_SE3c_z-1", "rc_grounds_SE4c_z-1", "rc_grounds_SE5c_z-1" ],
-      [ "rc_grounds_SE1d_z-1", "rc_grounds_SE2d_z-1", "rc_grounds_SE3d_z-1", "rc_grounds_SE4d_z-1", "rc_grounds_SE5d_z-1" ],
-      [ "rc_grounds_SE1e_z-1", "rc_grounds_SE2e_z-1", "rc_grounds_SE3e_z-1", "rc_grounds_SE4e_z-1", "rc_grounds_SE5e_z-1" ]
+      [ "refctr_SE1a_z-1", "refctr_SE2a_z-1", "refctr_SE3a_z-1", "refctr_SE4a_z-1", "refctr_SE5a_z-1" ],
+      [ "refctr_SE1b_z-1", "refctr_SE2b_z-1", "refctr_SE3b_z-1", "refctr_SE4b_z-1", "refctr_SE5b_z-1" ],
+      [ "refctr_SE1c_z-1", "refctr_SE2c_z-1", "refctr_SE3c_z-1", "refctr_SE4c_z-1", "refctr_SE5c_z-1" ],
+      [ "refctr_SE1d_z-1", "refctr_SE2d_z-1", "refctr_SE3d_z-1", "refctr_SE4d_z-1", "refctr_SE5d_z-1" ],
+      [ "refctr_SE1e_z-1", "refctr_SE2e_z-1", "refctr_SE3e_z-1", "refctr_SE4e_z-1", "refctr_SE5e_z-1" ]
     ],
     "weight": 100,
     "object": { "fill_ter": "t_rock" }
@@ -222,11 +222,11 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "rc_grounds_SE1a_z-2", "rc_grounds_SE2a_z-2", "rc_grounds_SE3a_z-2", "rc_grounds_SE4a_z-2", "rc_grounds_SE5a_z-2" ],
-      [ "rc_grounds_SE1b_z-2", "rc_grounds_SE2b_z-2", "rc_grounds_SE3b_z-2", "rc_grounds_SE4b_z-2", "rc_grounds_SE5b_z-2" ],
-      [ "rc_grounds_SE1c_z-2", "rc_grounds_SE2c_z-2", "rc_grounds_SE3c_z-2", "rc_grounds_SE4c_z-2", "rc_grounds_SE5c_z-2" ],
-      [ "rc_grounds_SE1d_z-2", "rc_grounds_SE2d_z-2", "rc_grounds_SE3d_z-2", "rc_grounds_SE4d_z-2", "rc_grounds_SE5d_z-2" ],
-      [ "rc_grounds_SE1e_z-2", "rc_grounds_SE2e_z-2", "rc_grounds_SE3e_z-2", "rc_grounds_SE4e_z-2", "rc_grounds_SE5e_z-2" ]
+      [ "refctr_SE1a_z-2", "refctr_SE2a_z-2", "refctr_SE3a_z-2", "refctr_SE4a_z-2", "refctr_SE5a_z-2" ],
+      [ "refctr_SE1b_z-2", "refctr_SE2b_z-2", "refctr_SE3b_z-2", "refctr_SE4b_z-2", "refctr_SE5b_z-2" ],
+      [ "refctr_SE1c_z-2", "refctr_SE2c_z-2", "refctr_SE3c_z-2", "refctr_SE4c_z-2", "refctr_SE5c_z-2" ],
+      [ "refctr_SE1d_z-2", "refctr_SE2d_z-2", "refctr_SE3d_z-2", "refctr_SE4d_z-2", "refctr_SE5d_z-2" ],
+      [ "refctr_SE1e_z-2", "refctr_SE2e_z-2", "refctr_SE3e_z-2", "refctr_SE4e_z-2", "refctr_SE5e_z-2" ]
     ],
     "weight": 100,
     "object": { "fill_ter": "t_rock" }
@@ -235,11 +235,11 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "rc_grounds_SE1a_z-3", "rc_grounds_SE2a_z-3", "rc_grounds_SE3a_z-3", "rc_grounds_SE4a_z-3", "rc_grounds_SE5a_z-3" ],
-      [ "rc_grounds_SE1b_z-3", "rc_grounds_SE2b_z-3", "rc_grounds_SE3b_z-3", "rc_grounds_SE4b_z-3", "rc_grounds_SE5b_z-3" ],
-      [ "rc_grounds_SE1c_z-3", "rc_grounds_SE2c_z-3", "rc_grounds_SE3c_z-3", "rc_grounds_SE4c_z-3", "rc_grounds_SE5c_z-3" ],
-      [ "rc_grounds_SE1d_z-3", "rc_grounds_SE2d_z-3", "rc_grounds_SE3d_z-3", "rc_grounds_SE4d_z-3", "rc_grounds_SE5d_z-3" ],
-      [ "rc_grounds_SE1e_z-3", "rc_grounds_SE2e_z-3", "rc_grounds_SE3e_z-3", "rc_grounds_SE4e_z-3", "rc_grounds_SE5e_z-3" ]
+      [ "refctr_SE1a_z-3", "refctr_SE2a_z-3", "refctr_SE3a_z-3", "refctr_SE4a_z-3", "refctr_SE5a_z-3" ],
+      [ "refctr_SE1b_z-3", "refctr_SE2b_z-3", "refctr_SE3b_z-3", "refctr_SE4b_z-3", "refctr_SE5b_z-3" ],
+      [ "refctr_SE1c_z-3", "refctr_SE2c_z-3", "refctr_SE3c_z-3", "refctr_SE4c_z-3", "refctr_SE5c_z-3" ],
+      [ "refctr_SE1d_z-3", "refctr_SE2d_z-3", "refctr_SE3d_z-3", "refctr_SE4d_z-3", "refctr_SE5d_z-3" ],
+      [ "refctr_SE1e_z-3", "refctr_SE2e_z-3", "refctr_SE3e_z-3", "refctr_SE4e_z-3", "refctr_SE5e_z-3" ]
     ],
     "weight": 100,
     "object": { "fill_ter": "t_rock" }
@@ -248,11 +248,11 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "rc_grounds_SE1a_z-4", "rc_grounds_SE2a_z-4", "rc_grounds_SE3a_z-4", "rc_grounds_SE4a_z-4", "rc_grounds_SE5a_z-4" ],
-      [ "rc_grounds_SE1b_z-4", "rc_grounds_SE2b_z-4", "rc_grounds_SE3b_z-4", "rc_grounds_SE4b_z-4", "rc_grounds_SE5b_z-4" ],
-      [ "rc_grounds_SE1c_z-4", "rc_grounds_SE2c_z-4", "rc_grounds_SE3c_z-4", "rc_grounds_SE4c_z-4", "rc_grounds_SE5c_z-4" ],
-      [ "rc_grounds_SE1d_z-4", "rc_grounds_SE2d_z-4", "rc_grounds_SE3d_z-4", "rc_grounds_SE4d_z-4", "rc_grounds_SE5d_z-4" ],
-      [ "rc_grounds_SE1e_z-4", "rc_grounds_SE2e_z-4", "rc_grounds_SE3e_z-4", "rc_grounds_SE4e_z-4", "rc_grounds_SE5e_z-4" ]
+      [ "refctr_SE1a_z-4", "refctr_SE2a_z-4", "refctr_SE3a_z-4", "refctr_SE4a_z-4", "refctr_SE5a_z-4" ],
+      [ "refctr_SE1b_z-4", "refctr_SE2b_z-4", "refctr_SE3b_z-4", "refctr_SE4b_z-4", "refctr_SE5b_z-4" ],
+      [ "refctr_SE1c_z-4", "refctr_SE2c_z-4", "refctr_SE3c_z-4", "refctr_SE4c_z-4", "refctr_SE5c_z-4" ],
+      [ "refctr_SE1d_z-4", "refctr_SE2d_z-4", "refctr_SE3d_z-4", "refctr_SE4d_z-4", "refctr_SE5d_z-4" ],
+      [ "refctr_SE1e_z-4", "refctr_SE2e_z-4", "refctr_SE3e_z-4", "refctr_SE4e_z-4", "refctr_SE5e_z-4" ]
     ],
     "weight": 100,
     "object": { "fill_ter": "t_rock" }

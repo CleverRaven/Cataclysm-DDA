@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "rc_grounds_S1a", "rc_grounds_S2a", "rc_grounds_S3a", "rc_grounds_S4a", "rc_grounds_S5a" ] ],
+    "om_terrain": [ [ "refctr_S1a", "refctr_S2a", "refctr_S3a", "refctr_S4a", "refctr_S5a" ] ],
     "weight": 100,
     "object": {
       "fill_ter": "t_grass",
@@ -38,7 +38,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "rc_grounds_S1b", "rc_grounds_S2b", "rc_grounds_S3b", "rc_grounds_S4b", "rc_grounds_S5b" ] ],
+    "om_terrain": [ [ "refctr_S1b", "refctr_S2b", "refctr_S3b", "refctr_S4b", "refctr_S5b" ] ],
     "weight": 100,
     "object": {
       "fill_ter": "t_grass",
@@ -74,7 +74,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "rc_grounds_S1c", "rc_grounds_S2c", "rc_grounds_S3c", "rc_grounds_S4c", "rc_grounds_S5c" ] ],
+    "om_terrain": [ [ "refctr_S1c", "refctr_S2c", "refctr_S3c", "refctr_S4c", "refctr_S5c" ] ],
     "weight": 100,
     "object": {
       "fill_ter": "t_grass",
@@ -110,7 +110,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "rc_grounds_S1d", "rc_grounds_S2d", "rc_grounds_S3d", "rc_grounds_S4d", "rc_grounds_S5d" ] ],
+    "om_terrain": [ [ "refctr_S1d", "refctr_S2d", "refctr_S3d", "refctr_S4d", "refctr_S5d" ] ],
     "weight": 100,
     "object": {
       "fill_ter": "t_grass",
@@ -146,7 +146,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ [ "rc_grounds_S1e", "rc_grounds_S2e", "rc_grounds_S3e", "rc_grounds_S4e", "rc_grounds_S5e" ] ],
+    "om_terrain": [ [ "refctr_S1e", "refctr_S2e", "refctr_S3e", "refctr_S4e", "refctr_S5e" ] ],
     "weight": 100,
     "object": {
       "fill_ter": "t_grass",
@@ -183,11 +183,11 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "rc_grounds_S1a_z2", "rc_grounds_S2a_z2", "rc_grounds_S3a_z2", "rc_grounds_S4a_z2", "rc_grounds_S5a_z2" ],
-      [ "rc_grounds_S1b_z2", "rc_grounds_S2b_z2", "rc_grounds_S3b_z2", "rc_grounds_S4b_z2", "rc_grounds_S5b_z2" ],
-      [ "rc_grounds_S1c_z2", "rc_grounds_S2c_z2", "rc_grounds_S3c_z2", "rc_grounds_S4c_z2", "rc_grounds_S5c_z2" ],
-      [ "rc_grounds_S1d_z2", "rc_grounds_S2d_z2", "rc_grounds_S3d_z2", "rc_grounds_S4d_z2", "rc_grounds_S5d_z2" ],
-      [ "rc_grounds_S1e_z2", "rc_grounds_S2e_z2", "rc_grounds_S3e_z2", "rc_grounds_S4e_z2", "rc_grounds_S5e_z2" ]
+      [ "refctr_S1a_z2", "refctr_S2a_z2", "refctr_S3a_z2", "refctr_S4a_z2", "refctr_S5a_z2" ],
+      [ "refctr_S1b_z2", "refctr_S2b_z2", "refctr_S3b_z2", "refctr_S4b_z2", "refctr_S5b_z2" ],
+      [ "refctr_S1c_z2", "refctr_S2c_z2", "refctr_S3c_z2", "refctr_S4c_z2", "refctr_S5c_z2" ],
+      [ "refctr_S1d_z2", "refctr_S2d_z2", "refctr_S3d_z2", "refctr_S4d_z2", "refctr_S5d_z2" ],
+      [ "refctr_S1e_z2", "refctr_S2e_z2", "refctr_S3e_z2", "refctr_S4e_z2", "refctr_S5e_z2" ]
     ],
     "weight": 100,
     "object": { "fill_ter": "t_open_air" }
@@ -196,11 +196,11 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "rc_grounds_S1a_z1", "rc_grounds_S2a_z1", "rc_grounds_S3a_z1", "rc_grounds_S4a_z1", "rc_grounds_S5a_z1" ],
-      [ "rc_grounds_S1b_z1", "rc_grounds_S2b_z1", "rc_grounds_S3b_z1", "rc_grounds_S4b_z1", "rc_grounds_S5b_z1" ],
-      [ "rc_grounds_S1c_z1", "rc_grounds_S2c_z1", "rc_grounds_S3c_z1", "rc_grounds_S4c_z1", "rc_grounds_S5c_z1" ],
-      [ "rc_grounds_S1d_z1", "rc_grounds_S2d_z1", "rc_grounds_S3d_z1", "rc_grounds_S4d_z1", "rc_grounds_S5d_z1" ],
-      [ "rc_grounds_S1e_z1", "rc_grounds_S2e_z1", "rc_grounds_S3e_z1", "rc_grounds_S4e_z1", "rc_grounds_S5e_z1" ]
+      [ "refctr_S1a_z1", "refctr_S2a_z1", "refctr_S3a_z1", "refctr_S4a_z1", "refctr_S5a_z1" ],
+      [ "refctr_S1b_z1", "refctr_S2b_z1", "refctr_S3b_z1", "refctr_S4b_z1", "refctr_S5b_z1" ],
+      [ "refctr_S1c_z1", "refctr_S2c_z1", "refctr_S3c_z1", "refctr_S4c_z1", "refctr_S5c_z1" ],
+      [ "refctr_S1d_z1", "refctr_S2d_z1", "refctr_S3d_z1", "refctr_S4d_z1", "refctr_S5d_z1" ],
+      [ "refctr_S1e_z1", "refctr_S2e_z1", "refctr_S3e_z1", "refctr_S4e_z1", "refctr_S5e_z1" ]
     ],
     "weight": 100,
     "object": { "fill_ter": "t_open_air" }
@@ -209,11 +209,11 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "rc_grounds_S1a_z-1", "rc_grounds_S2a_z-1", "rc_grounds_S3a_z-1", "rc_grounds_S4a_z-1", "rc_grounds_S5a_z-1" ],
-      [ "rc_grounds_S1b_z-1", "rc_grounds_S2b_z-1", "rc_grounds_S3b_z-1", "rc_grounds_S4b_z-1", "rc_grounds_S5b_z-1" ],
-      [ "rc_grounds_S1c_z-1", "rc_grounds_S2c_z-1", "rc_grounds_S3c_z-1", "rc_grounds_S4c_z-1", "rc_grounds_S5c_z-1" ],
-      [ "rc_grounds_S1d_z-1", "rc_grounds_S2d_z-1", "rc_grounds_S3d_z-1", "rc_grounds_S4d_z-1", "rc_grounds_S5d_z-1" ],
-      [ "rc_grounds_S1e_z-1", "rc_grounds_S2e_z-1", "rc_grounds_S3e_z-1", "rc_grounds_S4e_z-1", "rc_grounds_S5e_z-1" ]
+      [ "refctr_S1a_z-1", "refctr_S2a_z-1", "refctr_S3a_z-1", "refctr_S4a_z-1", "refctr_S5a_z-1" ],
+      [ "refctr_S1b_z-1", "refctr_S2b_z-1", "refctr_S3b_z-1", "refctr_S4b_z-1", "refctr_S5b_z-1" ],
+      [ "refctr_S1c_z-1", "refctr_S2c_z-1", "refctr_S3c_z-1", "refctr_S4c_z-1", "refctr_S5c_z-1" ],
+      [ "refctr_S1d_z-1", "refctr_S2d_z-1", "refctr_S3d_z-1", "refctr_S4d_z-1", "refctr_S5d_z-1" ],
+      [ "refctr_S1e_z-1", "refctr_S2e_z-1", "refctr_S3e_z-1", "refctr_S4e_z-1", "refctr_S5e_z-1" ]
     ],
     "weight": 100,
     "object": { "fill_ter": "t_rock" }
@@ -222,11 +222,11 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "rc_grounds_S1a_z-2", "rc_grounds_S2a_z-2", "rc_grounds_S3a_z-2", "rc_grounds_S4a_z-2", "rc_grounds_S5a_z-2" ],
-      [ "rc_grounds_S1b_z-2", "rc_grounds_S2b_z-2", "rc_grounds_S3b_z-2", "rc_grounds_S4b_z-2", "rc_grounds_S5b_z-2" ],
-      [ "rc_grounds_S1c_z-2", "rc_grounds_S2c_z-2", "rc_grounds_S3c_z-2", "rc_grounds_S4c_z-2", "rc_grounds_S5c_z-2" ],
-      [ "rc_grounds_S1d_z-2", "rc_grounds_S2d_z-2", "rc_grounds_S3d_z-2", "rc_grounds_S4d_z-2", "rc_grounds_S5d_z-2" ],
-      [ "rc_grounds_S1e_z-2", "rc_grounds_S2e_z-2", "rc_grounds_S3e_z-2", "rc_grounds_S4e_z-2", "rc_grounds_S5e_z-2" ]
+      [ "refctr_S1a_z-2", "refctr_S2a_z-2", "refctr_S3a_z-2", "refctr_S4a_z-2", "refctr_S5a_z-2" ],
+      [ "refctr_S1b_z-2", "refctr_S2b_z-2", "refctr_S3b_z-2", "refctr_S4b_z-2", "refctr_S5b_z-2" ],
+      [ "refctr_S1c_z-2", "refctr_S2c_z-2", "refctr_S3c_z-2", "refctr_S4c_z-2", "refctr_S5c_z-2" ],
+      [ "refctr_S1d_z-2", "refctr_S2d_z-2", "refctr_S3d_z-2", "refctr_S4d_z-2", "refctr_S5d_z-2" ],
+      [ "refctr_S1e_z-2", "refctr_S2e_z-2", "refctr_S3e_z-2", "refctr_S4e_z-2", "refctr_S5e_z-2" ]
     ],
     "weight": 100,
     "object": { "fill_ter": "t_rock" }
@@ -235,11 +235,11 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "rc_grounds_S1a_z-3", "rc_grounds_S2a_z-3", "rc_grounds_S3a_z-3", "rc_grounds_S4a_z-3", "rc_grounds_S5a_z-3" ],
-      [ "rc_grounds_S1b_z-3", "rc_grounds_S2b_z-3", "rc_grounds_S3b_z-3", "rc_grounds_S4b_z-3", "rc_grounds_S5b_z-3" ],
-      [ "rc_grounds_S1c_z-3", "rc_grounds_S2c_z-3", "rc_grounds_S3c_z-3", "rc_grounds_S4c_z-3", "rc_grounds_S5c_z-3" ],
-      [ "rc_grounds_S1d_z-3", "rc_grounds_S2d_z-3", "rc_grounds_S3d_z-3", "rc_grounds_S4d_z-3", "rc_grounds_S5d_z-3" ],
-      [ "rc_grounds_S1e_z-3", "rc_grounds_S2e_z-3", "rc_grounds_S3e_z-3", "rc_grounds_S4e_z-3", "rc_grounds_S5e_z-3" ]
+      [ "refctr_S1a_z-3", "refctr_S2a_z-3", "refctr_S3a_z-3", "refctr_S4a_z-3", "refctr_S5a_z-3" ],
+      [ "refctr_S1b_z-3", "refctr_S2b_z-3", "refctr_S3b_z-3", "refctr_S4b_z-3", "refctr_S5b_z-3" ],
+      [ "refctr_S1c_z-3", "refctr_S2c_z-3", "refctr_S3c_z-3", "refctr_S4c_z-3", "refctr_S5c_z-3" ],
+      [ "refctr_S1d_z-3", "refctr_S2d_z-3", "refctr_S3d_z-3", "refctr_S4d_z-3", "refctr_S5d_z-3" ],
+      [ "refctr_S1e_z-3", "refctr_S2e_z-3", "refctr_S3e_z-3", "refctr_S4e_z-3", "refctr_S5e_z-3" ]
     ],
     "weight": 100,
     "object": { "fill_ter": "t_rock" }
@@ -248,11 +248,11 @@
     "type": "mapgen",
     "method": "json",
     "om_terrain": [
-      [ "rc_grounds_S1a_z-4", "rc_grounds_S2a_z-4", "rc_grounds_S3a_z-4", "rc_grounds_S4a_z-4", "rc_grounds_S5a_z-4" ],
-      [ "rc_grounds_S1b_z-4", "rc_grounds_S2b_z-4", "rc_grounds_S3b_z-4", "rc_grounds_S4b_z-4", "rc_grounds_S5b_z-4" ],
-      [ "rc_grounds_S1c_z-4", "rc_grounds_S2c_z-4", "rc_grounds_S3c_z-4", "rc_grounds_S4c_z-4", "rc_grounds_S5c_z-4" ],
-      [ "rc_grounds_S1d_z-4", "rc_grounds_S2d_z-4", "rc_grounds_S3d_z-4", "rc_grounds_S4d_z-4", "rc_grounds_S5d_z-4" ],
-      [ "rc_grounds_S1e_z-4", "rc_grounds_S2e_z-4", "rc_grounds_S3e_z-4", "rc_grounds_S4e_z-4", "rc_grounds_S5e_z-4" ]
+      [ "refctr_S1a_z-4", "refctr_S2a_z-4", "refctr_S3a_z-4", "refctr_S4a_z-4", "refctr_S5a_z-4" ],
+      [ "refctr_S1b_z-4", "refctr_S2b_z-4", "refctr_S3b_z-4", "refctr_S4b_z-4", "refctr_S5b_z-4" ],
+      [ "refctr_S1c_z-4", "refctr_S2c_z-4", "refctr_S3c_z-4", "refctr_S4c_z-4", "refctr_S5c_z-4" ],
+      [ "refctr_S1d_z-4", "refctr_S2d_z-4", "refctr_S3d_z-4", "refctr_S4d_z-4", "refctr_S5d_z-4" ],
+      [ "refctr_S1e_z-4", "refctr_S2e_z-4", "refctr_S3e_z-4", "refctr_S4e_z-4", "refctr_S5e_z-4" ]
     ],
     "weight": 100,
     "object": { "fill_ter": "t_rock" }
