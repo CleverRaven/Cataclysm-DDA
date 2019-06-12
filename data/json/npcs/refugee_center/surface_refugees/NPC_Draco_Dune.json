@@ -323,7 +323,9 @@
     "responses": [
       {
         "text": "You have yourself a deal.  Here you go.",
-        "condition": { "and": [ { "u_has_items": { "item": "marijuana", "count": 5 } }, { "not": { "u_has_effect": "NC_REFUGEE_Draco_has_guitar" } } ] },
+        "condition": {
+          "and": [ { "u_has_items": { "item": "marijuana", "count": 5 } }, { "not": { "u_has_effect": "NC_REFUGEE_Draco_has_guitar" } } ]
+        },
         "effect": [
           { "u_sell_item": "marijuana" },
           { "u_buy_item": "FMCNote", "count": 4 },
@@ -343,7 +345,9 @@
       },
       {
         "text": "You have yourself a deal.  Here you go.",
-        "condition": { "and": [ { "u_has_items": { "item": "joint", "count": 5 } }, { "not": { "u_has_effect": "NC_REFUGEE_Draco_has_guitar" } } ] },
+        "condition": {
+          "and": [ { "u_has_items": { "item": "joint", "count": 5 } }, { "not": { "u_has_effect": "NC_REFUGEE_Draco_has_guitar" } } ]
+        },
         "effect": [
           { "u_sell_item": "joint" },
           { "u_buy_item": "FMCNote", "count": 4 },
