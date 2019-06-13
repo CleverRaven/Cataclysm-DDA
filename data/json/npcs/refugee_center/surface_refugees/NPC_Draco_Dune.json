@@ -306,7 +306,7 @@
       {
         "text": "Anything you buying or selling, by chance?",
         "condition": { "not": { "u_has_effect": "NC_REFUGEE_Draco_offered_weed_deal" } },
-        "effect": { "npc_add_effect": "NC_REFUGEE_Draco_offered_weed_deal", "duration": "PERMANENT" },
+        "effect": { "u_add_effect": "NC_REFUGEE_Draco_offered_weed_deal", "duration": "PERMANENT" },
         "topic": "TALK_REFUGEE_Draco_8"
       },
       { "text": "See you around, Draco.", "topic": "TALK_DONE" }
@@ -360,7 +360,7 @@
     "type": "talk_topic",
     "id": "TALK_REFUGEE_Draco_10_approve",
     "dynamic_line": {
-      "u_has_effect": "u_sold_to_Draco",
+      "npc_has_effect": "u_sold_to_Draco",
       "yes": "Yeah, no worries, though.  I'm good at the moment.  Ask me again later and maybe I'll have scrounged up some more cash for you.",
       "no": "Amazing!  My lucky day.  Let's see here.  What can I offer... I can scrounge up maybe four Merch bucks for, say, five joints or joints-worth of the good stuff."
     },
@@ -369,44 +369,44 @@
       {
         "text": "You have yourself a deal.  Here you go.",
         "condition": {
-          "and": [ { "u_has_items": { "item": "marijuana", "count": 5 } }, { "not": { "u_has_effect": "NC_REFUGEE_Draco_has_guitar" } } ]
+          "and": [ { "u_has_items": { "item": "marijuana", "count": 5 } }, { "not": { "u_has_effect": "NC_REFUGEE_Draco_has_guitar" } }, { "not": {"npc_has_effect": "u_sold_to_Draco"} } ]
         },
         "effect": [
-          { "u_sell_item": "marijuana" },
+          { "u_sell_item": "marijuana", "count": 5 },
           { "u_buy_item": "FMCNote", "count": 4 },
-          { "npc_add_effect": "u_sold_to_Draco", "duration": 100000 }
+          { "npc_add_effect": "u_sold_to_Draco", "duration": 240000 }
         ],
         "topic": "TALK_REFUGEE_Draco_10_sold"
       },
       {
         "text": "You have yourself a deal.  Here you go.",
-        "condition": { "and": [ { "u_has_items": { "item": "marijuana", "count": 5 } }, { "u_has_effect": "NC_REFUGEE_Draco_has_guitar" } ] },
+        "condition": { "and": [ { "u_has_items": { "item": "marijuana", "count": 5 } }, { "u_has_effect": "NC_REFUGEE_Draco_has_guitar" }, { "not": {"npc_has_effect": "u_sold_to_Draco"} }  ] },
         "effect": [
-          { "u_sell_item": "marijuana" },
+          { "u_sell_item": "marijuana", "count": 5 },
           { "u_buy_item": "FMCNote", "count": 6 },
-          { "npc_add_effect": "u_sold_to_Draco", "duration": 80000 }
+          { "npc_add_effect": "u_sold_to_Draco", "duration": 200000 }
         ],
         "topic": "TALK_REFUGEE_Draco_10_sold"
       },
       {
         "text": "You have yourself a deal.  Here you go.",
         "condition": {
-          "and": [ { "u_has_items": { "item": "joint", "count": 5 } }, { "not": { "u_has_effect": "NC_REFUGEE_Draco_has_guitar" } } ]
+          "and": [ { "u_has_items": { "item": "joint", "count": 5 } }, { "not": { "u_has_effect": "NC_REFUGEE_Draco_has_guitar" } }, { "not": {"npc_has_effect": "u_sold_to_Draco"} } ]
         },
         "effect": [
-          { "u_sell_item": "joint" },
+          { "u_sell_item": "joint", "count": 5 },
           { "u_buy_item": "FMCNote", "count": 4 },
-          { "npc_add_effect": "u_sold_to_Draco", "duration": 100000 }
+          { "npc_add_effect": "u_sold_to_Draco", "duration": 240000 }
         ],
         "topic": "TALK_REFUGEE_Draco_10_sold"
       },
       {
         "text": "You have yourself a deal.  Here you go.",
-        "condition": { "and": [ { "u_has_items": { "item": "joint", "count": 5 } }, { "u_has_effect": "NC_REFUGEE_Draco_has_guitar" } ] },
+        "condition": { "and": [ { "u_has_items": { "item": "joint", "count": 5 } }, { "u_has_effect": "NC_REFUGEE_Draco_has_guitar" }, { "not": {"npc_has_effect": "u_sold_to_Draco"} } ] },
         "effect": [
-          { "u_sell_item": "joint" },
+          { "u_sell_item": "joint", "count": 5 },
           { "u_buy_item": "FMCNote", "count": 6 },
-          { "npc_add_effect": "u_sold_to_Draco", "duration": 80000 }
+          { "npc_add_effect": "u_sold_to_Draco", "duration": 200000 }
         ],
         "topic": "TALK_REFUGEE_Draco_10_sold"
       },
@@ -414,7 +414,7 @@
         "text": "Sounds a little cheap, but we can deal.  I'll be back with the goods.",
         "topic": "TALK_REFUGEE_Draco_7"
       },
-      { "text": "On second thought, this isn't for me.", "topic": "TALK_DONE" }
+      { "text": "On second thought, maybe later.", "topic": "TALK_DONE" }
     ]
   },
   {
@@ -445,7 +445,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "item": "acoustic_guitar",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "end": { "effect": { "npc_add_effect": "NC_REFUGEE_Draco_has_guitar", "duration": "PERMANENT" } },
+    "end": { "effect": { "u_add_effect": "NC_REFUGEE_Draco_has_guitar", "duration": "PERMANENT" } },
     "dialogue": {
       "describe": "Yeah, sure, imagine how things would be if we had some live music around here?  I don't know how much I could thank you, though, if you're looking for payment.  You'd sure be improving the mood, though.",
       "offer": "I just want a functional acoustic guitar.  Preferably one that hasn't been used to cave in any zombie skulls.",
