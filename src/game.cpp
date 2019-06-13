@@ -9567,11 +9567,11 @@ bool game::grabbed_furn_move( const tripoint &dp )
             m.i_clear( fpos );
             for( auto item_iter = m.i_at( fdest ).begin();
                  item_iter != m.i_at( fdest ).end(); ++item_iter ) {
-                m.i_at( fpos ).push_back( *item_iter );
+                m.i_at( fpos ).insert( *item_iter );
             }
             m.i_clear( fdest );
             for( auto &cur_item : temp ) {
-                m.i_at( fdest ).push_back( cur_item );
+                m.i_at( fdest ).insert( cur_item );
             }
         } else {
             add_msg( _( "Stuff spills from the %s!" ), furntype.name() );

@@ -10,6 +10,7 @@
 #include "input.h"
 #include "item_category.h"
 #include "item_search.h"
+#include "item_stack.h"
 #include "map.h"
 #include "mapdata.h"
 #include "messages.h"
@@ -1395,7 +1396,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
         }
         g->u.activity.placement = sarea.off;
 
-        std::list<item>::iterator begin, end;
+        item_stack::iterator begin, end;
         if( panes[src].in_vehicle() ) {
             begin = sarea.veh->get_items( sarea.vstor ).begin();
             end = sarea.veh->get_items( sarea.vstor ).end();
@@ -1774,7 +1775,7 @@ void advanced_inventory::display()
                 }
                 g->u.activity.placement = squares[srcarea].off;
 
-                std::list<item>::iterator begin, end;
+                item_stack::iterator begin, end;
                 if( from_vehicle ) {
                     begin = squares[srcarea].veh->get_items( squares[srcarea].vstor ).begin();
                     end = squares[srcarea].veh->get_items( squares[srcarea].vstor ).end();

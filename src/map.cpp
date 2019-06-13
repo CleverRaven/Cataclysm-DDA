@@ -17,6 +17,7 @@
 #include "artifact.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "colony.h"
 #include "coordinate_conversions.h"
 #include "clzones.h"
 #include "debug.h"
@@ -97,25 +98,19 @@ const efftype_id effect_stunned( "stunned" );
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
-static std::list<item>  nulitems;          // Returned when &i_at() is asked for an OOB value
+static colony<item>     nulitems;          // Returned when &i_at() is asked for an OOB value
 static field            nulfield;          // Returned when &field_at() is asked for an OOB value
 static level_cache      nullcache;         // Dummy cache for z-levels outside bounds
 
 // Map stack methods.
-std::list<item>::iterator map_stack::erase( std::list<item>::iterator it )
+map_stack::iterator map_stack::erase( map_stack::const_iterator it )
 {
     return myorigin->i_rem( location, it );
 }
 
-void map_stack::push_back( const item &newitem )
+void map_stack::insert( const item &newitem )
 {
     myorigin->add_item_or_charges( location, newitem );
-}
-
-void map_stack::insert_at( std::list<item>::iterator index,
-                           const item &newitem )
-{
-    myorigin->add_item_at( location, index, newitem );
 }
 
 units::volume map_stack::max_volume() const
@@ -2009,7 +2004,7 @@ void map::drop_furniture( const tripoint &p )
         auto old_items = i_at( p );
         auto new_items = i_at( current );
         for( const auto &it : old_items ) {
-            new_items.push_back( it );
+            new_items.insert( it );
         }
 
         i_clear( p );
@@ -4058,7 +4053,7 @@ map_stack map::i_at( const int x, const int y )
     return map_stack{ &current_submap->itm[l.x][l.y], tripoint( p, abs_sub.z ), this };
 }
 
-std::list<item>::iterator map::i_rem( const point &location, std::list<item>::iterator it )
+map_stack::iterator map::i_rem( const point &location, map_stack::const_iterator it )
 {
     return i_rem( tripoint( location, abs_sub.z ), it );
 }
@@ -4068,7 +4063,7 @@ int map::i_rem( const int x, const int y, const int index )
     return i_rem( tripoint( x, y, abs_sub.z ), index );
 }
 
-void map::i_rem( const int x, const int y, item *it )
+void map::i_rem( const int x, const int y, const item *it )
 {
     i_rem( tripoint( x, y, abs_sub.z ), it );
 }
@@ -4122,7 +4117,7 @@ map_stack map::i_at( const tripoint &p )
     return map_stack{ &current_submap->itm[l.x][l.y], p, this };
 }
 
-std::list<item>::iterator map::i_rem( const tripoint &p, std::list<item>::iterator it )
+map_stack::iterator map::i_rem( const tripoint &p, map_stack::const_iterator it )
 {
     point l;
     submap *const current_submap = get_submap_at( p, l );
@@ -4380,12 +4375,7 @@ item &map::add_item( const tripoint &p, item new_item )
     if( new_item.is_food() || new_item.has_temperature() ) {
         new_item.process( nullptr, p, false );
     }
-    return add_item_at( p, current_submap->itm[l.x][l.y].end(), new_item );
-}
 
-item &map::add_item_at( const tripoint &p,
-                        std::list<item>::iterator index, item new_item )
-{
     if( new_item.made_of( LIQUID ) && has_flag( "SWIMMABLE", p ) ) {
         return null_item_reference();
     }
@@ -4398,16 +4388,14 @@ item &map::add_item_at( const tripoint &p,
         new_item.active = true;
     }
 
-    point l;
-    submap *const current_submap = get_submap_at( p, l );
-    current_submap->is_uniform = false;
-
     if( new_item.is_map() && !new_item.has_var( "reveal_map_center_omt" ) ) {
         new_item.set_var( "reveal_map_center_omt", ms_to_omt_copy( g->m.getabs( p ) ) );
     }
 
+    current_submap->is_uniform = false;
     current_submap->update_lum_add( l, new_item );
-    const auto new_pos = current_submap->itm[l.x][l.y].insert( index, new_item );
+
+    const map_stack::iterator new_pos = current_submap->itm[l.x][l.y].insert( new_item );
     if( new_item.needs_processing() ) {
         if( current_submap->active_items.empty() ) {
             submaps_with_active_items.insert( abs_sub + tripoint( p.x / SEEX, p.y / SEEY, p.z ) );
@@ -4501,49 +4489,35 @@ void map::update_lum( item_location &loc, bool add )
     }
 }
 
-// This is an ugly and dirty hack to prevent invalidating the item_location
-// references the player is using for an activity.  What needs to happen is
-// activity targets gets refactored in some way that it can reference items
-// between turns that doesn't rely on a pointer to the item.  A really nice
-// solution would be something like UUIDs but that requires special
-// considerations.
-static bool item_is_in_activity( const item *it )
-{
-    const auto targs = &g->u.activity.targets;
-    return !targs->empty() &&
-    std::find_if( targs->begin(), targs->end(), [it]( const item_location & it_loc ) {
-        return it_loc.get_item() == it;
-    } ) != targs->end();
-}
-
-static bool process_item( item_stack &items, std::list<item>::iterator &n, const tripoint &location,
+static bool process_item( item_stack &items, item_stack::iterator &n, const tripoint &location,
                           const bool activate, const float insulation, const temperature_flag flag )
 {
-    if( !item_is_in_activity( &*n ) ) {
-        // make a temporary copy, remove the item (in advance)
-        // and use that copy to process it
-        item temp_item = *n;
-        auto insertion_point = items.erase( n );
-        if( !temp_item.process( nullptr, location, activate, insulation, flag ) ) {
-            // Not destroyed, must be inserted again.
-            // If the item lost its active flag in processing,
-            // it won't be re-added to the active list, tidy!
-            // Re-insert at the item's previous position.
-            // This assumes that the item didn't invalidate any iterators
-            // As a result of activation, because everything that does that
-            // destroys itself.
-            items.insert_at( insertion_point, temp_item );
-            return false;
+    // Process the item out of the map in case it destroys other items
+    // (for example because it is a grenade) since it might destroy itself
+    // and that would be bad.
+    item temp;
+    std::swap( temp, *n );
+
+    // Store a pointer to the target item so we can check if processing destroyed it.
+    const item *const target = &*n;
+
+    if( temp.process( nullptr, location, activate, insulation, flag ) ) {
+        // Item is to be destroyed so erase the null item in the map stack
+        // unless it was already destroyed by processing.
+        if( std::find_if( items.begin(), items.end(), [target]( const item & it ) {
+        return &it == target;
+    } ) != items.end() ) {
+            items.erase( n );
         }
         return true;
-    } else if( n->process( nullptr, location, activate, insulation, flag ) ) {
-        items.erase( n );
-        return true;
+    } else {
+        // Item survived processing so replace it in the map stack
+        *n = std::move( temp );
+        return false;
     }
-    return false;
 }
 
-static bool process_map_items( item_stack &items, std::list<item>::iterator &n,
+static bool process_map_items( item_stack &items, item_stack::iterator &n,
                                const tripoint &location, const std::string &,
                                const float insulation, const temperature_flag flag )
 {
@@ -4704,7 +4678,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap, co
         if( it == end( cargo_parts ) ) {
             continue; // Can't find a cargo part matching the active item.
         }
-        auto &item_iter = active_item.item_iterator;
+        item_stack::iterator &item_iter = active_item.item_iterator;
         // Find the cargo part and coordinates corresponding to the current active item.
         const vehicle_part &pt = it->part();
         const tripoint item_loc = it->pos();
@@ -5134,7 +5108,7 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( int x, int y, int z )
     return rc_pairs;
 }
 
-static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
+static bool trigger_radio_item( item_stack &items, item_stack::iterator &n,
                                 const tripoint &pos, const std::string &signal,
                                 const float, const temperature_flag flag )
 {

@@ -9,12 +9,12 @@
 
 size_t item_stack::size() const
 {
-    return mystack->size();
+    return items->size();
 }
 
 bool item_stack::empty() const
 {
-    return mystack->empty();
+    return items->empty();
 }
 
 void item_stack::clear()
@@ -25,60 +25,60 @@ void item_stack::clear()
     }
 }
 
-std::list<item>::iterator item_stack::begin()
+item_stack::iterator item_stack::begin()
 {
-    return mystack->begin();
+    return items->begin();
 }
 
-std::list<item>::iterator item_stack::end()
+item_stack::iterator item_stack::end()
 {
-    return mystack->end();
+    return items->end();
 }
 
-std::list<item>::const_iterator item_stack::begin() const
+item_stack::const_iterator item_stack::begin() const
 {
-    return mystack->cbegin();
+    return items->cbegin();
 }
 
-std::list<item>::const_iterator item_stack::end() const
+item_stack::const_iterator item_stack::end() const
 {
-    return mystack->cend();
+    return items->cend();
 }
 
-std::list<item>::reverse_iterator item_stack::rbegin()
+item_stack::reverse_iterator item_stack::rbegin()
 {
-    return mystack->rbegin();
+    return items->rbegin();
 }
 
-std::list<item>::reverse_iterator item_stack::rend()
+item_stack::reverse_iterator item_stack::rend()
 {
-    return mystack->rend();
+    return items->rend();
 }
 
-std::list<item>::const_reverse_iterator item_stack::rbegin() const
+item_stack::const_reverse_iterator item_stack::rbegin() const
 {
-    return mystack->crbegin();
+    return items->crbegin();
 }
 
-std::list<item>::const_reverse_iterator item_stack::rend() const
+item_stack::const_reverse_iterator item_stack::rend() const
 {
-    return mystack->crend();
+    return items->crend();
 }
 
 item &item_stack::front()
 {
-    return mystack->front();
+    return *items->begin();
 }
 
 item &item_stack::operator[]( size_t index )
 {
-    return *( std::next( mystack->begin(), index ) );
+    return *( std::next( items->begin(), index ) );
 }
 
 units::volume item_stack::stored_volume() const
 {
     units::volume ret = 0_ml;
-    for( const item &it : *mystack ) {
+    for( const item &it : *items ) {
         ret += it.volume();
     }
     return ret;
@@ -100,7 +100,7 @@ int item_stack::amount_can_fit( const item &it ) const
 
 item *item_stack::stacks_with( const item &it )
 {
-    for( item &here : *mystack ) {
+    for( item &here : *items ) {
         if( here.stacks_with( it ) ) {
             return &here;
         }
@@ -110,7 +110,7 @@ item *item_stack::stacks_with( const item &it )
 
 const item *item_stack::stacks_with( const item &it ) const
 {
-    for( const item &here : *mystack ) {
+    for( const item &here : *items ) {
         if( here.stacks_with( it ) ) {
             return &here;
         }

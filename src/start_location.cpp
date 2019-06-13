@@ -191,7 +191,7 @@ static void board_up( map &m, const tripoint &start, const tripoint &end )
         m.furn_set( fp, f_null );
         auto destination_items = m.i_at( bp );
         for( const item &moved_item : m.i_at( fp ) ) {
-            destination_items.push_back( moved_item );
+            destination_items.insert( moved_item );
         }
         m.i_clear( fp );
     }

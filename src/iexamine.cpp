@@ -2418,7 +2418,7 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
         if( !item_it->is_brewable() || brew_present ) {
             // This isn't a brew or there was already another kind of brew inside,
             // so this has to be moved.
-            items.push_back( *item_it );
+            items.insert( *item_it );
             // This will add items to a space near the vat, because it's flagged as NOITEM.
             item_it = items.erase( item_it );
         } else {

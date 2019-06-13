@@ -5,7 +5,6 @@
 #include <climits>
 #include <cstddef>
 #include <array>
-#include <list>
 #include <map>
 #include <stack>
 #include <vector>
@@ -17,6 +16,7 @@
 
 #include "active_item_cache.h"
 #include "calendar.h"
+#include "colony.h"
 #include "clzones.h"
 #include "damage.h"
 #include "game_constants.h"
@@ -118,11 +118,10 @@ class vehicle_stack : public item_stack
         vehicle *myorigin;
         int part_num;
     public:
-        vehicle_stack( std::list<item> *newstack, point newloc, vehicle *neworigin, int part ) :
+        vehicle_stack( colony<item> *newstack, point newloc, vehicle *neworigin, int part ) :
             item_stack( newstack ), location( newloc ), myorigin( neworigin ), part_num( part ) {}
-        std::list<item>::iterator erase( std::list<item>::iterator it ) override;
-        void push_back( const item &newitem ) override;
-        void insert_at( std::list<item>::iterator index, const item &newitem ) override;
+        iterator erase( const_iterator it ) override;
+        void insert( const item &newitem ) override;
         int count_limit() const override {
             return MAX_ITEM_IN_VEHICLE_STORAGE;
         }
@@ -384,7 +383,7 @@ struct vehicle_part {
         mutable const vpart_info *info_cache = nullptr;
 
         item base;
-        std::list<item> items; // inventory
+        colony<item> items; // inventory
 
         /** Preferred ammo type when multiple are available */
         itype_id ammo_pref = "null";
@@ -1265,16 +1264,11 @@ class vehicle
          * @returns The number of charges added.
          */
         int add_charges( int part, const item &itm );
-        /**
-         * Position specific item insertion that skips a bunch of safety checks
-         * since it should only ever be used by item processing code.
-         */
-        bool add_item_at( int part, std::list<item>::iterator index, item itm );
 
         // remove item from part's cargo
         bool remove_item( int part, int itemdex );
         bool remove_item( int part, const item *it );
-        std::list<item>::iterator remove_item( int part, std::list<item>::iterator it );
+        vehicle_stack::iterator remove_item( int part, vehicle_stack::const_iterator it );
 
         vehicle_stack get_items( int part ) const;
         vehicle_stack get_items( int part );

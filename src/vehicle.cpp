@@ -19,6 +19,7 @@
 #include "ammo.h"
 #include "avatar.h"
 #include "cata_utility.h"
+#include "colony.h"
 #include "coordinate_conversions.h"
 #include "creature.h"
 #include "debug.h"
@@ -80,20 +81,14 @@ inline int modulo( int v, int m );
 point vehicles::cardinal_d[5] = { point( -1, 0 ), point( 1, 0 ), point( 0, -1 ), point( 0, 1 ), point_zero };
 
 // Vehicle stack methods.
-std::list<item>::iterator vehicle_stack::erase( std::list<item>::iterator it )
+vehicle_stack::iterator vehicle_stack::erase( vehicle_stack::const_iterator it )
 {
     return myorigin->remove_item( part_num, it );
 }
 
-void vehicle_stack::push_back( const item &newitem )
+void vehicle_stack::insert( const item &newitem )
 {
     myorigin->add_item( part_num, newitem );
-}
-
-void vehicle_stack::insert_at( std::list<item>::iterator index,
-                               const item &newitem )
-{
-    myorigin->add_item_at( part_num, index, newitem );
 }
 
 units::volume vehicle_stack::max_volume() const
@@ -4387,6 +4382,16 @@ int vehicle::add_charges( int part, const item &itm )
     return add_item( part, itm_copy ) ? ret : 0;
 }
 
+bool vehicle::add_item( vehicle_part &pt, const item &obj )
+{
+    int idx = index_of_part( &pt );
+    if( idx < 0 ) {
+        debugmsg( "Tried to add item to invalid part" );
+        return false;
+    }
+    return add_item( idx, obj );
+}
+
 bool vehicle::add_item( int part, const item &itm )
 {
     if( part < 0 || part >= static_cast<int>( parts.size() ) ) {
@@ -4414,31 +4419,19 @@ bool vehicle::add_item( int part, const item &itm )
             return here->merge_charges( itm );
         }
     }
-    return add_item_at( part, parts[part].items.end(), itm );
-}
 
-bool vehicle::add_item( vehicle_part &pt, const item &obj )
-{
-    int idx = index_of_part( &pt );
-    if( idx < 0 ) {
-        debugmsg( "Tried to add item to invalid part" );
-        return false;
-    }
-    return add_item( idx, obj );
-}
+    item itm_copy = itm;
 
-bool vehicle::add_item_at( int part, std::list<item>::iterator index, item itm )
-{
-    if( itm.is_bucket_nonempty() ) {
-        for( auto &elem : itm.contents ) {
+    if( itm_copy.is_bucket_nonempty() ) {
+        for( auto &elem : itm_copy.contents ) {
             g->m.add_item_or_charges( global_part_pos3( part ), elem );
         }
 
-        itm.contents.clear();
+        itm_copy.contents.clear();
     }
 
-    const auto new_pos = parts[part].items.insert( index, itm );
-    if( itm.needs_processing() ) {
+    const vehicle_stack::iterator new_pos = parts[part].items.insert( itm_copy );
+    if( itm_copy.needs_processing() ) {
         active_items.add( new_pos, parts[part].mount );
     }
 
@@ -4459,9 +4452,9 @@ bool vehicle::remove_item( int part, int itemdex )
 bool vehicle::remove_item( int part, const item *it )
 {
     bool rc = false;
-    std::list<item> &veh_items = parts[part].items;
+    colony<item> &veh_items = parts[part].items;
 
-    for( auto iter = veh_items.begin(); iter != veh_items.end(); iter++ ) {
+    for( auto iter = veh_items.begin(); iter != veh_items.end(); ++iter ) {
         //delete the item if the pointer memory addresses are the same
         if( it == &*iter ) {
             remove_item( part, iter );
@@ -4472,9 +4465,9 @@ bool vehicle::remove_item( int part, const item *it )
     return rc;
 }
 
-std::list<item>::iterator vehicle::remove_item( int part, std::list<item>::iterator it )
+vehicle_stack::iterator vehicle::remove_item( int part, vehicle_stack::const_iterator it )
 {
-    std::list<item> &veh_items = parts[part].items;
+    colony<item> &veh_items = parts[part].items;
 
     if( active_items.has( it, parts[part].mount ) ) {
         active_items.remove( it, parts[part].mount );

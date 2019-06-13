@@ -1269,7 +1269,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         vehicle *source_veh = nullptr;
         const tripoint source_pos = act_ref.coords.at( 0 );
         map_stack source_stack = g->m.i_at( source_pos );
-        std::list<item>::iterator on_ground;
+        map_stack::iterator on_ground;
         monster *source_mon = nullptr;
         item liquid;
         const auto source_type = static_cast<liquid_source_type>( act_ref.values.at( 0 ) );

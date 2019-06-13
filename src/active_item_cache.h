@@ -5,13 +5,15 @@
 #include <list>
 #include <unordered_map>
 
+#include "colony.h"
 #include "enums.h"
 #include "item.h"
+#include "item_stack.h"
 
 // A struct used to uniquely identify an item within a submap or vehicle.
 struct item_reference {
     point location;
-    std::list<item>::iterator item_iterator;
+    item_stack::iterator item_iterator;
     // Do not access this from outside this module, it is only used as an ID for active_item_set.
     item *item_id;
 };
@@ -25,9 +27,9 @@ class active_item_cache
         std::unordered_map<item *, bool> active_item_set;
 
     public:
-        void remove( std::list<item>::iterator it, point location );
-        void add( std::list<item>::iterator it, point location );
-        bool has( std::list<item>::iterator it, point ) const;
+        void remove( item_stack::iterator it, point location );
+        void add( item_stack::iterator it, point location );
+        bool has( item_stack::iterator it, point ) const;
         // Use this one if there's a chance that the item being referenced has been invalidated.
         bool has( const item_reference &itm ) const;
         bool empty() const;
