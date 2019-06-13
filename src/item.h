@@ -1586,7 +1586,7 @@ class item : public visitable<item>
         /** Set of ammo types (@ref ammunition_type) used by item
          *  @param conversion whether to include the effect of any flags or mods which convert the type
          *  @return empty set if item does not use a specific ammo type (and is consequently not reloadable) */
-        std::set<ammotype> ammo_types( bool conversion = true ) const;
+        const std::set<ammotype> &ammo_types( bool conversion = true ) const;
 
         /** Ammo type of an ammo item
          *  @return ammotype of ammo item or a null id if the item is not ammo */

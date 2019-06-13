@@ -1437,9 +1437,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                 }
             }
         } else if( parts->test( iteminfo_parts::GUN_TYPE ) ) {
-            const std::set<ammotype> &atypes = mod->ammo_types();
-            info.emplace_back( "GUN", _( "Type: " ), enumerate_as_string( atypes.begin(),
-            atypes.end(), []( const ammotype & at ) {
+            info.emplace_back( "GUN", _( "Type: " ), enumerate_as_string( mod->ammo_types().begin(),
+            mod->ammo_types().end(), []( const ammotype & at ) {
                 return at->name();
             }, enumeration_conjunction::none ) );
         }
@@ -2120,9 +2119,8 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
             if( !ammo_types().empty() ) {
                 //~ "%s" is ammunition type. This types can't be plural.
                 tmp = ngettext( "Maximum <num> charge of %s.", "Maximum <num> charges of %s.", ammo_capacity() );
-                const std::set<ammotype> atypes = ammo_types();
-                tmp = string_format( tmp, enumerate_as_string( atypes.begin(),
-                atypes.end(), []( const ammotype & at ) {
+                tmp = string_format( tmp, enumerate_as_string( ammo_types().begin(),
+                ammo_types().end(), []( const ammotype & at ) {
                     return at->name();
                 }, enumeration_conjunction::none ) );
 
@@ -5909,7 +5907,7 @@ itype_id item::ammo_current() const
     return ammo ? ammo->get_id() : "null";
 }
 
-std::set<ammotype> item::ammo_types( bool conversion ) const
+const std::set<ammotype> &item::ammo_types( bool conversion ) const
 {
     if( conversion ) {
         auto mods = is_gun() ? gunmods() : toolmods();
@@ -5927,7 +5925,9 @@ std::set<ammotype> item::ammo_types( bool conversion ) const
     } else if( is_magazine() ) {
         return type->magazine->type;
     }
-    return {};
+
+    static std::set<ammotype> atypes = {};
+    return atypes;
 }
 
 ammotype item::ammo_type() const
@@ -5940,9 +5940,8 @@ ammotype item::ammo_type() const
 
 itype_id item::ammo_default( bool conversion ) const
 {
-    std::set<ammotype> atypes = ammo_types( conversion );
-    if( !atypes.empty() ) {
-        itype_id res = ammotype( *atypes.begin() )->default_ammotype();
+    if( !ammo_types( conversion ).empty() ) {
+        itype_id res = ammotype( *ammo_types( conversion ).begin() )->default_ammotype();
         if( !res.empty() ) {
             return res;
         }
@@ -5952,9 +5951,8 @@ itype_id item::ammo_default( bool conversion ) const
 
 itype_id item::common_ammo_default( bool conversion ) const
 {
-    std::set<ammotype> atypes = ammo_types( conversion );
-    if( !atypes.empty() ) {
-        for( const ammotype &at : atypes ) {
+    if( !ammo_types( conversion ).empty() ) {
+        for( const ammotype &at : ammo_types( conversion ) ) {
             const item *mag = magazine_current();
             if( mag && mag->type->magazine->type.count( at ) ) {
                 itype_id res = at->default_ammotype();
@@ -6011,9 +6009,8 @@ bool item::magazine_integral() const
 
 itype_id item::magazine_default( bool conversion ) const
 {
-    std::set<ammotype> atypes = ammo_types( conversion );
-    if( !atypes.empty() ) {
-        auto mag = type->magazine_default.find( ammotype( *atypes.begin() ) );
+    if( !ammo_types( conversion ).empty() ) {
+        auto mag = type->magazine_default.find( ammotype( *ammo_types( conversion ).begin() ) );
         if( mag != type->magazine_default.end() ) {
             return mag->second;
         }
