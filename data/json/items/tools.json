@@ -3045,8 +3045,8 @@
     "id": "elec_jackhammer",
     "type": "TOOL",
     "name": "electric jackhammer",
-    "description": "This is a construction tool for drilling through hard rock or other surfaces.  It runs on batteries.  Use it (if loaded) to blast a hole in adjacent solid terrain.",
-    "weight": 15875,
+    "description": "This is a construction tool for drilling through hard rock or other surfaces.  It runs on a cell compatible with UPS.  Use it to blast a hole in adjacent solid terrain.",
+    "weight": 40000,
     "volume": 20,
     "price": 40000,
     "to_hit": -8,
@@ -3056,13 +3056,11 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "charges_per_use": 25,
+    "initial_charges": 3500,
+    "max_charges": 7000,
+    "charges_per_use": 3500,
     "use_action": "JACKHAMMER",
-    "flags": [ "STAB", "DIG_TOOL", "POWERED" ],
-    "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "magazine_well": 4
+    "flags": [ "STAB", "DIG_TOOL", "POWERED", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "electrohack",
