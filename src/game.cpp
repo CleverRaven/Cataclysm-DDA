@@ -2199,17 +2199,18 @@ input_context get_default_mode_input_context()
     input_context ctxt( "DEFAULTMODE" );
     // Because those keys move the character, they don't pan, as their original name says
     ctxt.set_iso( true );
-    ctxt.register_action( "UP", _( "Move North" ) );
-    ctxt.register_action( "RIGHTUP", _( "Move Northeast" ) );
-    ctxt.register_action( "RIGHT", _( "Move East" ) );
-    ctxt.register_action( "RIGHTDOWN", _( "Move Southeast" ) );
-    ctxt.register_action( "DOWN", _( "Move South" ) );
-    ctxt.register_action( "LEFTDOWN", _( "Move Southwest" ) );
-    ctxt.register_action( "LEFT", _( "Move West" ) );
-    ctxt.register_action( "LEFTUP", _( "Move Northwest" ) );
+    ctxt.register_action( "UP", translate_marker( "Move North" ) );
+    ctxt.register_action( "RIGHTUP", translate_marker( "Move Northeast" ) );
+    ctxt.register_action( "RIGHT", translate_marker( "Move East" ) );
+    ctxt.register_action( "RIGHTDOWN", translate_marker( "Move Southeast" ) );
+    ctxt.register_action( "DOWN", translate_marker( "Move South" ) );
+    ctxt.register_action( "LEFTDOWN", translate_marker( "Move Southwest" ) );
+    ctxt.register_action( "LEFTDOWN", translate_marker( "Move Southwest" ) );
+    ctxt.register_action( "LEFT", translate_marker( "Move West" ) );
+    ctxt.register_action( "LEFTUP", translate_marker( "Move Northwest" ) );
     ctxt.register_action( "pause" );
-    ctxt.register_action( "LEVEL_DOWN", _( "Descend Stairs" ) );
-    ctxt.register_action( "LEVEL_UP", _( "Ascend Stairs" ) );
+    ctxt.register_action( "LEVEL_DOWN", translate_marker( "Descend Stairs" ) );
+    ctxt.register_action( "LEVEL_UP", translate_marker( "Ascend Stairs" ) );
     ctxt.register_action( "toggle_map_memory" );
     ctxt.register_action( "center" );
     ctxt.register_action( "shift_n" );
@@ -7114,10 +7115,10 @@ game::vmenu_ret game::list_items( const std::vector<map_item_stack> &item_list )
 
     std::string action;
     input_context ctxt( "LIST_ITEMS" );
-    ctxt.register_action( "UP", _( "Move cursor up" ) );
-    ctxt.register_action( "DOWN", _( "Move cursor down" ) );
-    ctxt.register_action( "LEFT", _( "Previous item" ) );
-    ctxt.register_action( "RIGHT", _( "Next item" ) );
+    ctxt.register_action( "UP", translate_marker( "Move cursor up" ) );
+    ctxt.register_action( "DOWN", translate_marker( "Move cursor down" ) );
+    ctxt.register_action( "LEFT", translate_marker( "Previous item" ) );
+    ctxt.register_action( "RIGHT", translate_marker( "Next item" ) );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "NEXT_TAB" );
@@ -7474,8 +7475,8 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
 
     std::string action;
     input_context ctxt( "LIST_MONSTERS" );
-    ctxt.register_action( "UP", _( "Move cursor up" ) );
-    ctxt.register_action( "DOWN", _( "Move cursor down" ) );
+    ctxt.register_action( "UP", translate_marker( "Move cursor up" ) );
+    ctxt.register_action( "DOWN", translate_marker( "Move cursor down" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "SAFEMODE_BLACKLIST_ADD" );
