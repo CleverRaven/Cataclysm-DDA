@@ -1812,7 +1812,7 @@ int npc::print_info( const catacurses::window &w, int line, int vLines, int colu
         size_t split;
         do {
             split = ( str_in.length() <= iWidth ) ? std::string::npos : str_in.find_last_of( ' ',
-                    static_cast<long>( iWidth ) );
+                    static_cast<int>( iWidth ) );
             if( split == std::string::npos ) {
                 mvwprintz( w, line, column, color, str_in );
             } else {
