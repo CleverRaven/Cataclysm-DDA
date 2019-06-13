@@ -117,7 +117,6 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "battery",
-    "flags": [ "RECHARGE" ],
     "magazines": [
       [ "battery", [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ],
