@@ -247,6 +247,7 @@
         "                        "
       ],
       "terrain": {
+        " ": "t_open_air",
         ".": "t_flat_roof",
         "#": "t_grate",
         "2": "t_gutter_north",

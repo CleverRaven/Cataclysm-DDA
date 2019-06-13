@@ -174,6 +174,7 @@ class uilist: public ui_container
         std::map<int, int> keymap;
         bool desc_enabled;
         int desc_lines;
+        std::string footer_text; // basically the same as desc, except it doesn't change based on selection
         bool border;
         bool filtering;
         bool filtering_nocase;

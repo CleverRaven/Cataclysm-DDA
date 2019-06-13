@@ -170,6 +170,12 @@ std::string RandomName::getRandomName( NameFlags flag )
         short choice = rng(0, namesWorld.size() - 1);
         return namesWorld[choice];
     }
+    else
+    {
+        // If <flag> does not match any if/else block
+        // we return a special value {Comodin}.
+        return "Comodin";
+    }
 }
 
 void RandomName::toString( )

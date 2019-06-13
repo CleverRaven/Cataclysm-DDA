@@ -2,7 +2,7 @@
 #ifndef WORLDFACTORY_H
 #define WORLDFACTORY_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <functional>
 #include <iosfwd>
 #include <map>

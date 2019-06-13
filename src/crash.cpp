@@ -1,8 +1,8 @@
-#if defined(BACKTRACE)
-
 #include "crash.h"
 
-#include <stdlib.h>
+#if defined(BACKTRACE)
+
+#include <cstdlib>
 #include <csignal>
 #include <cstdio>
 #include <exception>

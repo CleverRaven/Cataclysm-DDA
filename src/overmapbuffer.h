@@ -12,18 +12,16 @@
 #include <utility>
 
 #include "enums.h"
-#include "int_id.h"
 #include "omdata.h"
 #include "overmap_types.h"
 #include "optional.h"
+#include "type_id.h"
 
 struct mongroup;
 class monster;
 class npc;
 struct om_vehicle;
 class overmap_special_batch;
-
-using oter_id = int_id<oter_t>;
 class overmap;
 struct radio_tower;
 struct regional_settings;
@@ -205,7 +203,7 @@ class overmapbuffer
         /**
          * Remove basecamp
          */
-        void remove_camp( const basecamp camp );
+        void remove_camp( const basecamp &camp );
         /**
          * Remove the vehicle from being tracked in the overmap.
          */
@@ -213,7 +211,7 @@ class overmapbuffer
         /**
          * Add Basecamp to overmapbuffer
          */
-        void add_camp( basecamp camp );
+        void add_camp( const basecamp &camp );
 
         cata::optional<basecamp *> find_camp( const int x, const int y );
         /**
@@ -367,8 +365,8 @@ class overmapbuffer
          */
         bool is_omt_generated( const tripoint &loc );
 
-        typedef std::pair<point, std::string> t_point_with_note;
-        typedef std::vector<t_point_with_note> t_notes_vector;
+        using t_point_with_note = std::pair<point, std::string>;
+        using t_notes_vector = std::vector<t_point_with_note>;
         t_notes_vector get_all_notes( int z ) {
             return get_notes( z, nullptr ); // NULL => don't filter notes
         }
@@ -437,6 +435,9 @@ class overmapbuffer
         city_reference closest_known_city( const tripoint &center );
 
         std::string get_description_at( const tripoint &where );
+        inline std::string get_description_at( const point &where, const int z ) {
+            return get_description_at( tripoint( where, z ) );
+        }
 
         /**
          * Place the specified overmap special directly on the map using the provided location and rotation.

@@ -8,18 +8,16 @@
 #include <vector>
 
 #include "itype.h"
-#include "string_id.h"
 #include "calendar.h"
 #include "optional.h"
 #include "ret_val.h"
+#include "type_id.h"
 
 class item;
 class player;
 class vpart_reference;
 struct tripoint;
-struct mtype;
 
-using mtype_id = string_id<mtype>;
 using seed_tuple = std::tuple<itype_id, std::string, int>;
 
 enum hack_result {
@@ -44,9 +42,10 @@ void elevator( player &p, const tripoint &examp );
 void nanofab( player &p, const tripoint &examp );
 void controls_gate( player &p, const tripoint &examp );
 void cardreader( player &p, const tripoint &examp );
+void cardreader_robofac( player &p, const tripoint &examp );
+void intercom( player &p, const tripoint &examp );
 void cvdmachine( player &p, const tripoint &examp );
 void rubble( player &p, const tripoint &examp );
-void crate( player &p, const tripoint &examp );
 void chainfence( player &p, const tripoint &examp );
 void bars( player &p, const tripoint &examp );
 void deployed_furniture( player &p, const tripoint &pos );
@@ -91,6 +90,7 @@ void shrub_wildveggies( player &p, const tripoint &examp );
 void recycle_compactor( player &p, const tripoint &examp );
 void trap( player &p, const tripoint &examp );
 void water_source( player &p, const tripoint &examp );
+void clean_water_source( player &, const tripoint &examp );
 void kiln_empty( player &p, const tripoint &examp );
 void kiln_full( player &p, const tripoint &examp );
 void fireplace( player &p, const tripoint &examp );

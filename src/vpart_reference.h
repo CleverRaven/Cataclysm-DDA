@@ -2,7 +2,7 @@
 #ifndef VPART_REFERENCE_H
 #define VPART_REFERENCE_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <string>
 
 #include "vpart_position.h"

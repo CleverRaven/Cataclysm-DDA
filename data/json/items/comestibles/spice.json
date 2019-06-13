@@ -78,7 +78,7 @@
     "primary_material": "powder",
     "volume": 1,
     "calories": 19,
-    "flags": [ "EDIBLE_FROZEN" ],
+    "flags": [ "EDIBLE_FROZEN", "NUTRIENT_OVERRIDE" ],
     "//": "a tbps is 4.2g of sugar, meaning the volume needed to be adjusted.",
     "charges": 71
   },

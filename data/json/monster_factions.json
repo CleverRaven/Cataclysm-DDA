@@ -78,6 +78,12 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "nurse_bot",
+    "base_faction": "bot",
+    "by_mood": "zombie"
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "animal",
     "neutral": [ "small_animal" ]
   },

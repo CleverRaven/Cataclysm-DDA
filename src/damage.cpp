@@ -1,6 +1,6 @@
 #include "damage.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <map>
 #include <numeric>
@@ -274,7 +274,7 @@ const skill_id &skill_by_dt( damage_type dt )
     }
 }
 
-damage_unit load_damage_unit( JsonObject &curr )
+static damage_unit load_damage_unit( JsonObject &curr )
 {
     damage_type dt = dt_by_name( curr.get_string( "damage_type" ) );
     if( dt == DT_NULL ) {

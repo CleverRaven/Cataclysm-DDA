@@ -31,10 +31,12 @@ class active_item_cache
         // Use this one if there's a chance that the item being referenced has been invalidated.
         bool has( const item_reference &itm ) const;
         bool empty() const;
+
         std::list<item_reference> get();
 
         /** Subtract delta from every item_reference's location */
         void subtract_locations( const point &delta );
+        void rotate_locations( int turns, const point &dim );
 };
 
 #endif

@@ -4,6 +4,7 @@
 #include <set>
 
 #include "action.h"
+#include "avatar.h"
 #include "color.h"
 #include "construction.h"
 #include "debug.h"
@@ -28,10 +29,9 @@
 #include "game_constants.h"
 #include "item.h"
 #include "monster.h"
-#include "omdata.h"
 #include "pldata.h"
-#include "itype.h"
 #include "mapdata.h"
+#include "string_id.h"
 
 #define SPECIAL_WAVE_CHANCE 5 // One in X chance of single-flavor wave
 #define SPECIAL_WAVE_MIN 5 // Don't use a special wave with < X monsters
@@ -88,7 +88,7 @@ defense_game::defense_game()
 bool defense_game::init()
 {
     calendar::turn = HOURS( 12 ); // Start at noon
-    g->temperature = 65;
+    g->weather.temperature = 65;
     if( !g->u.create( PLTYPE_CUSTOM ) ) {
         return false;
     }
@@ -499,11 +499,11 @@ void defense_game::setup()
     refresh_setup( w, selection );
 
     input_context ctxt( "DEFENSE_SETUP" );
-    ctxt.register_action( "UP", _( "Previous option" ) );
-    ctxt.register_action( "DOWN", _( "Next option" ) );
-    ctxt.register_action( "LEFT", _( "Cycle option value" ) );
-    ctxt.register_action( "RIGHT", _( "Cycle option value" ) );
-    ctxt.register_action( "CONFIRM", _( "Toggle option" ) );
+    ctxt.register_action( "UP", translate_marker( "Previous option" ) );
+    ctxt.register_action( "DOWN", translate_marker( "Next option" ) );
+    ctxt.register_action( "LEFT", translate_marker( "Cycle option value" ) );
+    ctxt.register_action( "RIGHT", translate_marker( "Cycle option value" ) );
+    ctxt.register_action( "CONFIRM", translate_marker( "Toggle option" ) );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "START" );

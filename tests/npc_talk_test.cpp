@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "calendar.h"
 #include "coordinate_conversions.h"
@@ -21,12 +22,12 @@
 #include "enums.h"
 #include "inventory.h"
 #include "item.h"
-#include "npc_class.h"
 #include "pimpl.h"
 #include "string_id.h"
 #include "npctalk.h"
 #include "mapdata.h"
-#include "mtype.h"
+#include "material.h"
+#include "type_id.h"
 
 const efftype_id effect_gave_quest_item( "gave_quest_item" );
 const efftype_id effect_currently_busy( "currently_busy" );
@@ -35,7 +36,7 @@ const efftype_id effect_infected( "infected" );
 static const trait_id trait_PROF_FED( "PROF_FED" );
 static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 
-npc &create_test_talker()
+static npc &create_test_talker()
 {
     const string_id<npc_template> test_talker( "test_talker" );
     const int model_id = g->m.place_npc( 25, 25, test_talker, true );
@@ -57,7 +58,7 @@ npc &create_test_talker()
     return *model_npc;
 }
 
-void gen_response_lines( dialogue &d, size_t expected_count )
+static void gen_response_lines( dialogue &d, size_t expected_count )
 {
     d.gen_responses( d.topic_stack.back() );
     for( talk_response &response : d.responses ) {
@@ -72,7 +73,7 @@ void gen_response_lines( dialogue &d, size_t expected_count )
     REQUIRE( d.responses.size() == expected_count );
 }
 
-void change_om_type( const std::string &new_type )
+static void change_om_type( const std::string &new_type )
 {
     const point omt_pos = ms_to_omt_copy( g->m.getabs( g->u.posx(), g->u.posy() ) );
     oter_id &omt_ref = overmap_buffer.ter( omt_pos.x, omt_pos.y, g->u.posz() );
@@ -82,6 +83,7 @@ void change_om_type( const std::string &new_type )
 TEST_CASE( "npc_talk_test" )
 {
     clear_player();
+    CHECK( !g->u.in_vehicle );
     const tripoint test_origin( 15, 15, 0 );
     g->u.setpos( test_origin );
 
@@ -555,16 +557,17 @@ TEST_CASE( "npc_talk_test" )
     CHECK( !has_item( g->u, "beer", 1 ) );
 
     d.add_topic( "TALK_COMBAT_COMMANDS" );
-    gen_response_lines( d, 9 );
+    gen_response_lines( d, 10 );
     CHECK( d.responses[0].text == "Change your engagement rules..." );
     CHECK( d.responses[1].text == "Change your aiming rules..." );
-    CHECK( d.responses[2].text == "If you see me running away, you follow me." );
-    CHECK( d.responses[3].text == "Don't use ranged weapons anymore." );
-    CHECK( d.responses[4].text == "Use only silent weapons." );
-    CHECK( d.responses[5].text == "Don't use grenades anymore." );
-    CHECK( d.responses[6].text == "Don't worry about shooting an ally." );
-    CHECK( d.responses[7].text == "Hold the line: don't move onto obstacles adjacent to me." );
-    CHECK( d.responses[8].text == "Never mind." );
+    CHECK( d.responses[2].text == "Stick close to me, no matter what." );
+    CHECK( d.responses[3].text == "<ally_rule_follow_distance_2_true_text>" );
+    CHECK( d.responses[4].text == "Don't use ranged weapons anymore." );
+    CHECK( d.responses[5].text == "Use only silent weapons." );
+    CHECK( d.responses[6].text == "Don't use grenades anymore." );
+    CHECK( d.responses[7].text == "Don't worry about shooting an ally." );
+    CHECK( d.responses[8].text == "Hold the line: don't move onto obstacles adjacent to me." );
+    CHECK( d.responses[9].text == "Never mind." );
 
     d.add_topic( "TALK_TEST_VARS" );
     gen_response_lines( d, 3 );

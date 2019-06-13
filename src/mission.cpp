@@ -9,6 +9,7 @@
 #include <list>
 #include <utility>
 
+#include "avatar.h"
 #include "debug.h"
 #include "game.h"
 #include "line.h"
@@ -28,7 +29,7 @@
 #include "monster.h"
 #include "player.h"
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 mission mission_type::create( const int npc_id ) const
 {
@@ -77,6 +78,7 @@ mission *mission::find( int id )
 std::vector<mission *> mission::get_all_active()
 {
     std::vector<mission *> ret;
+    ret.reserve( world_missions.size() );
     for( auto &pr : world_missions ) {
         ret.push_back( &pr.second );
     }
@@ -111,6 +113,7 @@ std::vector<mission *> mission::to_ptr_vector( const std::vector<int> &vec )
 std::vector<int> mission::to_uid_vector( const std::vector<mission *> &vec )
 {
     std::vector<int> result;
+    result.reserve( vec.size() );
     for( auto &miss : vec ) {
         result.push_back( miss->uid );
     }
@@ -184,7 +187,7 @@ mission *mission::reserve_random( const mission_origin origin, const tripoint &p
     return mission::reserve_new( type, npc_id );
 }
 
-void mission::assign( player &u )
+void mission::assign( avatar &u )
 {
     if( player_id == u.getID() ) {
         debugmsg( "strange: player is already assigned to mission %d", uid );
@@ -398,9 +401,8 @@ bool mission::is_complete( const int _npc_id ) const
             return npc_id == _npc_id;
 
         case MGOAL_ASSASSINATE:
-            return step >= 1;
-
         case MGOAL_KILL_MONSTER:
+        case MGOAL_COMPUTER_TOGGLE:
             return step >= 1;
 
         case MGOAL_KILL_MONSTER_TYPE:
@@ -408,9 +410,6 @@ bool mission::is_complete( const int _npc_id ) const
 
         case MGOAL_KILL_MONSTER_SPEC:
             return g->kill_count( monster_species ) >= kill_count_to_reach;
-
-        case MGOAL_COMPUTER_TOGGLE:
-            return step >= 1;
 
         default:
             return false;

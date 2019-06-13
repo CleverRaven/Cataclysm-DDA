@@ -1,6 +1,6 @@
 #include "iuse_software_snake.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <string>
 #include <vector>

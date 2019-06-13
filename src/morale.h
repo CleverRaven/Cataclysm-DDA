@@ -13,6 +13,7 @@
 #include "calendar.h"
 #include "morale_types.h"
 #include "string_id.h"
+#include "type_id.h"
 
 class item;
 class JsonIn;
@@ -20,12 +21,6 @@ class JsonOut;
 class JsonObject;
 struct itype;
 struct morale_mult;
-class effect_type;
-
-using efftype_id = string_id<effect_type>;
-struct mutation_branch;
-
-using trait_id = string_id<mutation_branch>;
 
 class player_morale
 {
@@ -164,7 +159,7 @@ class player_morale
         std::array<body_part_data, num_bp> body_parts;
         body_part_data no_body_part;
 
-        typedef std::function<void( player_morale *morale )> mutation_handler;
+        using mutation_handler = std::function<void ( player_morale * )>;
         struct mutation_data {
             public:
                 mutation_data() = default;

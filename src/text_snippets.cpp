@@ -1,6 +1,6 @@
 #include "text_snippets.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <random>
 #include <string>
 #include <iterator>

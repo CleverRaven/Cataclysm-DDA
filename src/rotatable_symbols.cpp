@@ -1,6 +1,6 @@
 #include "rotatable_symbols.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <array>
 #include <vector>
 #include <algorithm>
@@ -47,6 +47,7 @@ void load( JsonObject &jo, const std::string &src )
         jo.throw_error( "Invalid size.  Must be either 2 or 4.", tuple_key );
     }
     std::vector<uint32_t> tuple;
+    tuple.reserve( tuple_temp.size() );
     for( std::string &elem : tuple_temp ) {
         tuple.emplace_back( UTF8_getch( elem ) );
     }

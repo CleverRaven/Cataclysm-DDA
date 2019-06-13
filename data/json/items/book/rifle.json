@@ -14,7 +14,7 @@
     "skill": "rifle",
     "max_level": 1,
     "intelligence": 5,
-    "time": 8,
+    "time": "8 m",
     "fun": 1
   },
   {
@@ -31,6 +31,6 @@
     "skill": "rifle",
     "max_level": 3,
     "intelligence": 4,
-    "time": 18
+    "time": "18 m"
   }
 ]

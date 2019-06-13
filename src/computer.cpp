@@ -1,8 +1,8 @@
 #include "computer.h"
 
-#include <limits.h>
-#include <stdlib.h>
-#include <math.h>
+#include <climits>
+#include <cstdlib>
+#include <cmath>
 #include <algorithm>
 #include <sstream>
 #include <string>
@@ -12,9 +12,11 @@
 #include <memory>
 #include <utility>
 
+#include "avatar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
 #include "effect.h"
+#include "explosion.h"
 #include "event.h"
 #include "field.h"
 #include "game.h"
@@ -41,7 +43,6 @@
 #include "translations.h"
 #include "trap.h"
 #include "bodypart.h"
-#include "character.h"
 #include "color.h"
 #include "creature.h"
 #include "enums.h"
@@ -53,6 +54,7 @@
 #include "optional.h"
 #include "pldata.h"
 #include "string_id.h"
+#include "type_id.h"
 
 const mtype_id mon_manhack( "mon_manhack" );
 const mtype_id mon_secubot( "mon_secubot" );
@@ -65,7 +67,6 @@ const species_id ZOMBIE( "ZOMBIE" );
 const species_id HUMAN( "HUMAN" );
 
 const efftype_id effect_amigara( "amigara" );
-const efftype_id effect_mending( "mending" );
 
 int alerts = 0;
 
@@ -74,7 +75,7 @@ computer_option::computer_option()
 {
 }
 
-computer_option::computer_option( std::string N, computer_action A, int S )
+computer_option::computer_option( const std::string &N, computer_action A, int S )
     : name( N ), action( A ), security( S )
 {
 }
@@ -411,7 +412,7 @@ void computer::activate_function( computer_action action )
         case COMPACT_TOLL:
             //~ the sound of a church bell ringing
             sounds::sound( g->u.pos(), 120, sounds::sound_t::music,
-                           _( "Bohm... Bohm... Bohm..." ) );
+                           _( "Bohm... Bohm... Bohm..." ), true, "environment", "church_bells" );
             break;
 
         case COMPACT_SAMPLE:
@@ -426,7 +427,7 @@ void computer::activate_function( computer_action action )
                                     item sewage( "sewage", calendar::turn );
                                     auto candidates = g->m.i_at( x1, y1 );
                                     for( auto &candidate : candidates ) {
-                                        long capa = candidate.get_remaining_capacity_for_liquid( sewage );
+                                        int capa = candidate.get_remaining_capacity_for_liquid( sewage );
                                         if( capa <= 0 ) {
                                             continue;
                                         }
@@ -455,7 +456,8 @@ void computer::activate_function( computer_action action )
         case COMPACT_RELEASE:
             g->u.add_memorial_log( pgettext( "memorial_male", "Released subspace specimens." ),
                                    pgettext( "memorial_female", "Released subspace specimens." ) );
-            sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ) );
+            sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+                           "alarm" );
             g->m.translate_radius( t_reinforced_glass, t_thconc_floor, 25.0, g->u.pos(), true );
             query_any( _( "Containment shields opened.  Press any key..." ) );
             break;
@@ -465,7 +467,8 @@ void computer::activate_function( computer_action action )
             remove_submap_turrets();
         /* fallthrough */
         case COMPACT_RELEASE_BIONICS:
-            sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ) );
+            sounds::sound( g->u.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+                           "alarm" );
             g->m.translate_radius( t_reinforced_glass, t_thconc_floor, 3.0, g->u.pos(), true );
             query_any( _( "Containment shields opened.  Press any key..." ) );
             break;
@@ -532,7 +535,7 @@ void computer::activate_function( computer_action action )
                     cascade_points.push_back( dest );
                 }
             }
-            g->resonance_cascade( random_entry( cascade_points, g->u.pos() ) );
+            explosion_handler::resonance_cascade( random_entry( cascade_points, g->u.pos() ) );
         }
         break;
 
@@ -613,7 +616,8 @@ void computer::activate_function( computer_action action )
             }
             if( query_yn( _( "Confirm nuclear missile launch." ) ) ) {
                 add_msg( m_info, _( "Nuclear missile launched!" ) );
-                options.clear();//Remove the option to fire another missile.
+                //Remove the option to fire another missile.
+                options.clear();
             } else {
                 add_msg( m_info, _( "Nuclear missile launch aborted." ) );
                 return;
@@ -630,8 +634,9 @@ void computer::activate_function( computer_action action )
                 }
             }
 
-            g->explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200, 0.7,
-                          true ); //Only explode once. But make it large.
+            explosion_handler::explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200,
+                                          0.7,
+                                          true ); //Only explode once. But make it large.
 
             //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
             // For each level between here and the surface, remove the missile
@@ -660,7 +665,7 @@ void computer::activate_function( computer_action action )
                         !( x == ( target.x + 2 ) && ( y == ( target.y - 2 ) ) ) &&
                         !( x == ( target.x + 2 ) && ( y == ( target.y + 2 ) ) ) ) {
                         // TODO: Z
-                        g->nuke( tripoint( x, y, 0 ) );
+                        explosion_handler::nuke( tripoint( x, y, 0 ) );
                     }
 
                 }
@@ -675,7 +680,8 @@ void computer::activate_function( computer_action action )
                 g->u.add_memorial_log( pgettext( "memorial_male", "Disarmed a nuclear missile." ),
                                        pgettext( "memorial_female", "Disarmed a nuclear missile." ) );
                 add_msg( m_info, _( "Nuclear missile disarmed!" ) );
-                options.clear();//disable missile.
+                //disable missile.
+                options.clear();
                 activate_failure( COMPFAIL_SHUTDOWN );
             } else {
                 add_msg( m_neutral, _( "Nuclear missile remains active." ) );
@@ -730,62 +736,28 @@ void computer::activate_function( computer_action action )
             query_any( _( "Elevator activated.  Press any key..." ) );
             break;
 
-        case COMPACT_AMIGARA_LOG: // TODO: This is static, move to data file?
+        case COMPACT_AMIGARA_LOG: {
             g->u.moves -= 30;
             reset_terminal();
             print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
-            print_line( _( "\
-ENTRY 47:\n\
-Our normal mining routine has unearthed a hollow chamber.  This would not be\n\
-out of the ordinary, save for the odd, perfectly vertical faultline found.\n\
-This faultline has several odd concavities in it which have the more\n\
-superstitious crew members alarmed; they seem to be of human origin.\n\
-\n\
-ENTRY 48:\n\
-The concavities are between 10 and 20 feet tall, and run the length of the\n\
-faultline.  Each one is vaguely human in shape, but with the proportions of\n\
-the limbs, neck and head greatly distended, all twisted and curled in on\n\
-themselves.\n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara1" ) ) );
+
             if( !query_bool( _( "Continue reading?" ) ) ) {
                 return;
             }
             g->u.moves -= 30;
             reset_terminal();
             print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
-            print_line( _( "\
-ENTRY 49:\n\
-We've stopped mining operations in this area, obviously, until archaeologists\n\
-have the chance to inspect the area.  This is going to set our schedule back\n\
-by at least a week.  This stupid artifact-preservation law has been in place\n\
-for 50 years, and hasn't even been up for termination despite the fact that\n\
-these mining operations are the backbone of our economy.\n\
-\n\
-ENTRY 52:\n\
-Still waiting on the archaeologists.  We've done a little light inspection of\n\
-the faultline; our sounding equipment is insufficient to measure the depth of\n\
-the concavities.  The equipment is rated at 15 miles depth, but it isn't made\n\
-for such narrow tunnels, so it's hard to say exactly how far back they go.\n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara2" ) ) );
+
             if( !query_bool( _( "Continue reading?" ) ) ) {
                 return;
             }
             g->u.moves -= 30;
             reset_terminal();
             print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
-            print_line( _( "\
-ENTRY 54:\n\
-I noticed a couple of the guys down in the chamber with a chisel, breaking\n\
-off a piece of the sheer wall.  I'm looking the other way.  It's not like\n\
-the eggheads are going to notice a little piece missing.  Fuck em.\n\
-\n\
-ENTRY 55:\n\
-Well, the archaeologists are down there now with a couple of the boys as\n\
-guides.  They're hardly Indiana Jones types; I doubt they been below 20\n\
-feet.  I hate taking guys off assignment just to babysit the scientists, but\n\
-if they get hurt we'll be shut down for god knows how long.\n\
-\n\
-ENTRY 58:\n\
-They're bringing in ANOTHER CREW?  Christ, it's just some cave carvings!  I\n\
-know that's sort of a big deal, but come on, these guys can't handle it?\n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara3" ) ) );
+
             if( !query_bool( _( "Continue reading?" ) ) ) {
                 return;
             }
@@ -808,15 +780,7 @@ know that's sort of a big deal, but come on, these guys can't handle it?\n" ) );
 SITE %d%d%d\n\
 PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
                         g->get_levx(), g->get_levy(), abs( g->get_levz() ) );
-            print_line( _( "\n\
-MINE OPERATIONS SUSPENDED; CONTROL TRANSFERRED TO AMIGARA PROJECT UNDER\n\
-   IMPERATIVE 2:07B\n\
-FAULTLINE SOUNDING HAS PLACED DEPTH AT 30.09 KM\n\
-DAMAGE TO FAULTLINE DISCOVERED; NEPOWER MINE CREW PLACED UNDER ARREST FOR\n\
-   VIOLATION OF REGULATION 87.08 AND TRANSFERRED TO LAB 89-C FOR USE AS\n\
-   SUBJECTS\n\
-QUALITY OF FAULTLINE NOT COMPROMISED\n\
-INITIATING STANDARD TREMOR TEST..." ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara4" ) ) );
             print_gibberish_line();
             print_gibberish_line();
             print_newline();
@@ -824,51 +788,16 @@ INITIATING STANDARD TREMOR TEST..." ) );
             inp_mngr.wait_for_any_key();
             reset_terminal();
             break;
+        }
 
         case COMPACT_AMIGARA_START:
-            g->events.add( EVENT_AMIGARA, calendar::turn + 10_turns );
+            g->events.add( EVENT_AMIGARA, calendar::turn + 1_minutes );
             if( !g->u.has_artifact_with( AEP_PSYSHIELD ) ) {
                 g->u.add_effect( effect_amigara, 2_minutes );
             }
             // Disable this action to prevent further amigara events, which would lead to
             // further amigara monster, which would lead to further artifacts.
             remove_option( COMPACT_AMIGARA_START );
-            break;
-
-        case COMPACT_BONESETTING:
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                const bool broken = g->u.get_hp( static_cast<hp_part>( i ) ) <= 0;
-                body_part part = g->u.hp_to_bp( static_cast<hp_part>( i ) );
-                effect &existing_effect = g->u.get_effect( effect_mending, part );
-                // Skip part if not broken or already healed 50%
-                if( !broken || ( !existing_effect.is_null() &&
-                                 existing_effect.get_duration() >
-                                 existing_effect.get_max_duration() - 5_days - 1_turns ) ) {
-                    continue;
-                }
-                g->u.moves -= 500;
-                print_line( _( "The machine rapidly sets and splints your broken %s." ),
-                            body_part_name( part ) );
-                // TODO: fail here if unable to perform the action, i.e. can't wear more, trait mismatch.
-                if( !g->u.worn_with_flag( "SPLINT", part ) ) {
-                    item splint;
-                    if( i == hp_arm_l || i == hp_arm_r ) {
-                        splint = item( "arm_splint", 0 );
-                    } else if( i == hp_leg_l || i == hp_leg_r ) {
-                        splint = item( "leg_splint", 0 );
-                    }
-                    item &equipped_splint = g->u.i_add( splint );
-                    cata::optional<std::list<item>::iterator> worn_item =
-                        g->u.wear( equipped_splint, false );
-                    if( worn_item && !g->u.worn_with_flag( "SPLINT", part ) ) {
-                        g->u.change_side( **worn_item, false );
-                    }
-                }
-                g->u.add_effect( effect_mending, 0_turns, part, true );
-                effect &mending_effect = g->u.get_effect( effect_mending, part );
-                mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
-            }
-            query_any( _( "Press any key..." ) );
             break;
 
         case COMPACT_COMPLETE_DISABLE_EXTERNAL_POWER:
@@ -1245,7 +1174,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                     tripoint p( x, y, g->get_levz() );
                     if( g->m.ter( x, y ) == t_elevator || g->m.ter( x, y ) == t_vat ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
-                        g->explosion( p, 40, 0.7, true );
+                        explosion_handler::explosion( p, 40, 0.7, true );
                     }
                     if( g->m.ter( x, y ) == t_wall_glass ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
@@ -1256,7 +1185,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                     }
                     if( g->m.ter( x, y ) == t_sewage_pump ) {
                         g->m.make_rubble( p, f_rubble_rock, true );
-                        g->explosion( p, 50, 0.7, true );
+                        explosion_handler::explosion( p, 50, 0.7, true );
                     }
                 }
             }
@@ -1303,14 +1232,15 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                             }
                             // critical failure - radiation spike sets off electronic detonators
                             if( it->typeId() == "mininuke" || it->typeId() == "mininuke_act" || it->typeId() == "c4" ) {
-                                g->explosion( dest, 40 );
+                                explosion_handler::explosion( dest, 40 );
                                 reset_terminal();
                                 print_error( _( "WARNING [409]: Primary sensors offline!" ) );
                                 print_error( _( "  >> Initialize secondary sensors:  Geiger profiling..." ) );
                                 print_error( _( "  >> Radiation spike detected!\n" ) );
                                 print_error( _( "WARNING [912]: Catastrophic malfunction!  Contamination detected! " ) );
                                 print_error( _( "EMERGENCY PROCEDURE [1]:  Evacuate.  Evacuate.  Evacuate.\n" ) );
-                                sounds::sound( g->u.pos(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ) );
+                                sounds::sound( g->u.pos(), 30, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+                                               "alarm" );
                                 g->m.i_rem( dest, it );
                                 g->m.make_rubble( dest );
                                 g->m.propagate_field( dest, fd_nuke_gas, 100, 3 );
@@ -1383,7 +1313,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                     sum_rads += g->m.get_radiation( platform );
                     tiles_counted ++;
                     if( g->m.get_radiation( platform ) > peak_rad ) {
-                        peak_rad = g->m.get_radiation( dest );
+                        peak_rad = g->m.get_radiation( platform );
                     }
                 }
                 print_error( _( "GEIGER COUNTER @ ZONE:... AVG %s mSv/h." ), sum_rads / tiles_counted );
@@ -1425,7 +1355,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
                 break;
             }
             auto items = g->m.i_at( platform );
-            if( items.size() != 0 ) {
+            if( !items.empty() ) {
                 print_line( _( "Moving items: PLATFORM --> UNLOADING BAY." ) );
             } else {
                 print_line( _( "No items detected at: PLATFORM." ) );
@@ -1435,7 +1365,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
             }
             g->m.i_clear( platform );
             items = g->m.i_at( loading );
-            if( items.size() != 0 ) {
+            if( !items.empty() ) {
                 print_line( _( "Moving items: LOADING BAY --> PLATFORM." ) );
             } else {
                 print_line( _( "No items detected at: LOADING BAY." ) );
@@ -1517,7 +1447,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
 
 void computer::activate_random_failure()
 {
-    next_attempt = calendar::turn + 450_turns;
+    next_attempt = calendar::turn + 45_minutes;
     static const computer_failure default_failure( COMPFAIL_SHUTDOWN );
     const computer_failure &fail = random_entry( failures, default_failure );
     activate_failure( fail.type );
@@ -1556,7 +1486,8 @@ void computer::activate_failure( computer_failure_type fail )
         case COMPFAIL_ALARM:
             g->u.add_memorial_log( pgettext( "memorial_male", "Set off an alarm." ),
                                    pgettext( "memorial_female", "Set off an alarm." ) );
-            sounds::sound( g->u.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ) );
+            sounds::sound( g->u.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false, "environment",
+                           "alarm" );
             if( g->get_levz() > 0 && !g->events.queued( EVENT_WANTED ) ) {
                 g->events.add( EVENT_WANTED, calendar::turn + 30_minutes, 0, g->u.global_sm_location() );
             }
@@ -1615,7 +1546,7 @@ void computer::activate_failure( computer_failure_type fail )
                     if( g->m.ter( x, y ) == t_sewage_pump ) {
                         tripoint p( x, y, g->get_levz() );
                         g->m.make_rubble( p );
-                        g->explosion( p, 10 );
+                        explosion_handler::explosion( p, 10 );
                     }
                 }
             }
@@ -1656,12 +1587,14 @@ void computer::activate_failure( computer_failure_type fail )
             break;
 
         case COMPFAIL_AMIGARA:
-            g->events.add( EVENT_AMIGARA, calendar::turn + 5_turns );
+            g->events.add( EVENT_AMIGARA, calendar::turn + 30_seconds );
             g->u.add_effect( effect_amigara, 2_minutes );
-            g->explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ), 10,
-                          0.7, false, 10 );
-            g->explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ), 10,
-                          0.7, false, 10 );
+            explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
+                                          10,
+                                          0.7, false, 10 );
+            explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
+                                          10,
+                                          0.7, false, 10 );
             remove_option( COMPACT_AMIGARA_START );
             break;
 
@@ -1926,7 +1859,6 @@ computer_action computer_action_from_string( const std::string &str )
             { "blood_anal", COMPACT_BLOOD_ANAL },
             { "data_anal", COMPACT_DATA_ANAL },
             { "disconnect", COMPACT_DISCONNECT },
-            { "bonesetting", COMPACT_BONESETTING },
             { "emerg_mess", COMPACT_EMERG_MESS },
             { "emerg_ref_center", COMPACT_EMERG_REF_CENTER },
             { "tower_unresponsive", COMPACT_TOWER_UNRESPONSIVE },

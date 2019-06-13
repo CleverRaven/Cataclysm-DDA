@@ -2,7 +2,7 @@
 #ifndef ROTATABLE_SYMBOLS_H
 #define ROTATABLE_SYMBOLS_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 
 class JsonObject;

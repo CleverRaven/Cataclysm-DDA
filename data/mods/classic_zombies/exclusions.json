@@ -1,0 +1,41 @@
+[
+  {
+    "type": "region_overlay",
+    "id": "classic_overmap",
+    "regions": [ "all" ],
+    "overmap_feature_flag_settings": { "whitelist": [ "CLASSIC" ] }
+  },
+  {
+    "type": "MONSTER_WHITELIST",
+    "mode": "EXCLUSIVE",
+    "categories": [ "CLASSIC", "WILDLIFE" ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "DISABLE_ROBOT_RESPONSE",
+    "info": "Disables robot spawning from alerts and from being wanted.",
+    "stype": "bool",
+    "value": true
+  },
+  {
+    "type": "region_overlay",
+    "id": "classic_extras",
+    "regions": [ "all" ],
+    "map_extras": {
+      "forest": { "chance": 20, "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_anomaly": 0, "mx_spider": 0 } },
+      "forest_thick": {
+        "chance": 20,
+        "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_anomaly": 0, "mx_shia": 0, "mx_spider": 0, "mx_jabberwock": 0 }
+      },
+      "forest_water": { "chance": 20, "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_anomaly": 0, "mx_spider": 0 } },
+      "field": { "chance": 90, "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_anomaly": 0 } },
+      "road": { "chance": 75, "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_anomaly": 0 } },
+      "build": {
+        "chance": 90,
+        "extras": { "mx_house_spider": 0, "mx_house_wasp": 0, "mx_portal": 0, "mx_portal_in": 0, "mx_anomaly": 0 }
+      },
+      "marloss": { "chance": 0, "extras": { "mx_marloss_pilgrimage": 0 } },
+      "subway": { "chance": 75, "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_anomaly": 0 } }
+    }
+  }
+]

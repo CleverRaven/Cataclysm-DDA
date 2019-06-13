@@ -21,7 +21,9 @@
 # Win32 (non-Cygwin)
 #   Run: make NATIVE=win32
 # OS X
-#   Run: make NATIVE=osx
+#   Run: make NATIVE=osx OSX_MIN=10.12
+#     It is highly recommended to supply OSX_MIN > 10.11
+#     otherwise optimizations are automatically disabled with -O0
 
 # Build types:
 # Debug (no optimizations)
@@ -78,20 +80,18 @@
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
-# PROFILE is for use with gprof or a similar program -- don't bother generally
-# RELEASE is flags for release builds, this disables some debugging flags and
-# enforces build failure when warnings are encountered.
-# We want to error on everything to make sure we don't check in code with new warnings.
-RELEASE_FLAGS = -Werror
-WARNINGS = -Wall -Wextra
+# PROFILE is for use with gprof or a similar program -- don't bother generally.
+# RELEASE_FLAGS is flags for release builds.
+RELEASE_FLAGS =
+WARNINGS = \
+  -Werror -Wall -Wextra \
+  -Wmissing-declarations \
+  -Wold-style-cast \
+  -Woverloaded-virtual \
+  -Wpedantic
 # Uncomment below to disable warnings
 #WARNINGS = -w
 DEBUGSYMS = -g
-ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-  DEBUG =
-else
-  DEBUG = -D_GLIBCXX_DEBUG
-endif
 #PROFILE = -pg
 #OTHERS = -O3
 #DEFINES = -DNDEBUG
@@ -148,6 +148,11 @@ endif
 # Enable running tests by default
 ifndef RUNTESTS
   RUNTESTS = 1
+endif
+
+# Auto-detect MSYS2
+ifdef MSYSTEM
+  MSYS2 = 1
 endif
 
 # Enable backtrace by default
@@ -307,9 +312,13 @@ ifndef RELEASE
 endif
 
 ifeq ($(shell sh -c 'uname -o 2>/dev/null || echo not'),Cygwin)
-  OTHERS += -std=gnu++11
+  OTHERS += -std=gnu++14
 else
-  OTHERS += -std=c++11
+  OTHERS += -std=c++14
+endif
+
+ifeq ($(CYGWIN),1)
+WARNINGS += -Wimplicit-fallthrough=0
 endif
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
@@ -670,11 +679,22 @@ ifeq ($(MSYS2),1)
 endif
 
 # Enumerations of all the source files and headers.
-SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
-HEADERS = $(wildcard $(SRC_DIR)/*.h)
-TESTSRC = $(wildcard tests/*.cpp)
-TESTHDR = $(wildcard tests/*.h)
-TOOLSRC = $(wildcard tools/json_tools/format/*.[ch]*)
+SOURCES := $(wildcard $(SRC_DIR)/*.cpp)
+HEADERS := $(wildcard $(SRC_DIR)/*.h)
+TESTSRC := $(wildcard tests/*.cpp)
+TESTHDR := $(wildcard tests/*.h)
+JSON_FORMATTER_SOURCES := tools/format/format.cpp src/json.cpp
+CHKJSON_SOURCES := src/chkjson/chkjson.cpp src/json.cpp
+TOOLHDR := $(wildcard tools/*/*.h)
+# Using sort here because it has the side-effect of deduplicating the list
+ASTYLE_SOURCES := $(sort \
+  $(SOURCES) \
+  $(HEADERS) \
+  $(TESTSRC) \
+  $(TESTHDR) \
+  $(JSON_FORMATTER_SOURCES) \
+  $(CHKJSON_SOURCES) \
+  $(TOOLHDR))
 
 _OBJS = $(SOURCES:$(SRC_DIR)/%.cpp=%.o)
 ifeq ($(TARGETSYSTEM),WINDOWS)
@@ -777,8 +797,8 @@ src/version.cpp: src/version.h
 localization:
 	lang/compile_mo.sh $(LANGUAGES)
 
-$(CHKJSON_BIN): src/chkjson/chkjson.cpp src/json.cpp
-	$(CXX) $(CXXFLAGS) -Isrc/chkjson -Isrc src/chkjson/chkjson.cpp src/json.cpp -o $(CHKJSON_BIN)
+$(CHKJSON_BIN): $(CHKJSON_SOURCES)
+	$(CXX) $(CXXFLAGS) -Isrc/chkjson -Isrc $(CHKJSON_SOURCES) -o $(CHKJSON_BIN)
 
 json-check: $(CHKJSON_BIN)
 	./$(CHKJSON_BIN)
@@ -979,13 +999,12 @@ etags: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
 	etags $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR)
 	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
-astyle: $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR) $(TOOLSRC)
-	$(ASTYLE_BINARY) --options=.astylerc -n $(SOURCES) $(HEADERS)
-	$(ASTYLE_BINARY) --options=.astylerc -n $(TESTSRC) $(TESTHDR)
+astyle: $(ASTYLE_SOURCES)
+	$(ASTYLE_BINARY) --options=.astylerc -n $(ASTYLE_SOURCES)
 
 # Test whether the system has a version of astyle that supports --dry-run
 ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
-  ASTYLE_CHECK=$(shell LC_ALL=C $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q $(SOURCES) $(HEADERS) $(TESTSRC) $(TESTHDR))
+  ASTYLE_CHECK=$(shell LC_ALL=C $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q $(ASTYLE_SOURCES))
 endif
 
 astyle-check:
@@ -997,23 +1016,28 @@ else
 	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
 endif
 
-JSON_FILES = $(shell find data -name *.json | sed "s|^\./||")
+JSON_FILES = $(shell find data -name "*.json" | sed "s|^\./||")
 JSON_WHITELIST = $(filter-out $(shell cat json_blacklist), $(JSON_FILES))
+ifeq ($(MSYS2), 1)
+  JSON_FORMATTER_BIN=tools/format/json_formatter.exe
+else
+  JSON_FORMATTER_BIN=tools/format/json_formatter.cgi
+endif
 
 style-json: $(JSON_WHITELIST)
 
 $(JSON_WHITELIST): json_blacklist json_formatter
 ifndef CROSS
-	@tools/format/json_formatter.cgi $@
+	@$(JSON_FORMATTER_BIN) $@
 else
 	@echo Cannot run json formatter in cross compiles.
 endif
 
 style-all-json: json_formatter
-	find data -name "*.json" -print0 | xargs -0 -L 1 tools/format/json_formatter.cgi
+	find data -name "*.json" -print0 | xargs -0 -L 1 $(JSON_FORMATTER_BIN)
 
-json_formatter: tools/format/format.cpp src/json.cpp
-	$(CXX) $(CXXFLAGS) -Itools/format -Isrc tools/format/format.cpp src/json.cpp -o tools/format/json_formatter.cgi
+json_formatter: $(JSON_FORMATTER_SOURCES)
+	$(CXX) $(CXXFLAGS) -Itools/format -Isrc $(JSON_FORMATTER_SOURCES) -o $(JSON_FORMATTER_BIN)
 
 tests: version $(BUILD_PREFIX)cataclysm.a
 	$(MAKE) -C tests
@@ -1025,7 +1049,9 @@ clean-tests:
 	$(MAKE) -C tests clean
 
 validate-pr:
+ifneq ($(CYGWIN),1)
 	@build-scripts/validate_pr_in_jenkins
+endif
 
 .PHONY: tests check ctags etags clean-tests install lint validate-pr
 

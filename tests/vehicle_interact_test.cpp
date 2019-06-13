@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"
 #include "map.h"
@@ -16,6 +17,7 @@
 #include "enums.h"
 #include "inventory.h"
 #include "item.h"
+#include "type_id.h"
 
 static void test_repair( const std::vector<item> &tools, bool expect_craftable )
 {

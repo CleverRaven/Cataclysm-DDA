@@ -1,6 +1,6 @@
 #include "worldfactory.h"
 
-#include <stdio.h>
+#include <cstdio>
 #include <algorithm>
 #include <array>
 #include <cstdlib>
@@ -23,6 +23,7 @@
 #include "translations.h"
 #include "color.h"
 #include "game.h"
+#include "string_id.h"
 
 using namespace std::placeholders;
 
@@ -644,7 +645,6 @@ void WorldFactory::draw_mod_list( const catacurses::window &w, int &start, size_
 
                 } else {
                     if( iNum == iActive ) {
-                        cursor = iActive - iCatBeforeCursor;
                         //mvwprintw( w, iNum - start + iCatSortOffset, 1, "   " );
                         if( is_active_list ) {
                             mvwprintz( w, iNum - start, 1, c_yellow, ">> " );
@@ -764,15 +764,15 @@ int WorldFactory::show_worldgen_tab_modselection( const catacurses::window &win,
 
     input_context ctxt( "MODMANAGER_DIALOG" );
     ctxt.register_updown();
-    ctxt.register_action( "LEFT", _( "Switch to other list" ) );
-    ctxt.register_action( "RIGHT", _( "Switch to other list" ) );
+    ctxt.register_action( "LEFT", translate_marker( "Switch to other list" ) );
+    ctxt.register_action( "RIGHT", translate_marker( "Switch to other list" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "NEXT_CATEGORY_TAB" );
     ctxt.register_action( "PREV_CATEGORY_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "CONFIRM", _( "Activate / deactivate mod" ) );
+    ctxt.register_action( "CONFIRM", translate_marker( "Activate / deactivate mod" ) );
     ctxt.register_action( "ADD_MOD" );
     ctxt.register_action( "REMOVE_MOD" );
     ctxt.register_action( "SAVE_DEFAULT_MODS" );

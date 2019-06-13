@@ -2,7 +2,7 @@
 #ifndef ITEM_SEARCH_H
 #define ITEM_SEARCH_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm>
 #include <functional>
 #include <string>

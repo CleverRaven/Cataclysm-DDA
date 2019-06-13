@@ -1,6 +1,6 @@
-#include "player.h" // IWYU pragma: associated
+#include "avatar.h" // IWYU pragma: associated
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include <sstream>
 #include <vector>
@@ -8,6 +8,7 @@
 #include <tuple>
 
 #include "addiction.h"
+#include "avatar.h"
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -16,6 +17,8 @@
 #include "json.h"
 #include "mapsharing.h"
 #include "martialarts.h"
+#include "mtype.h"
+#include "monster.h"
 #include "mutation.h"
 #include "name.h"
 #include "options.h"
@@ -33,6 +36,7 @@
 #include "ui.h"
 #include "worldfactory.h"
 #include "recipe.h"
+#include "string_id.h"
 
 // Colors used in this file: (Most else defaults to c_light_gray)
 #define COL_STAT_ACT        c_white   // Selected stat
@@ -117,15 +121,7 @@ struct points_left {
     }
 
     int skill_points_left() const {
-        switch( limit ) {
-            case FREEFORM:
-            case ONE_POOL:
-                return stat_points + trait_points + skill_points;
-            case MULTI_POOL:
-                return stat_points + trait_points + skill_points;
-        }
-
-        return 0;
+        return stat_points + trait_points + skill_points;
     }
 
     bool is_freeform() {
@@ -167,20 +163,20 @@ enum struct tab_direction {
     QUIT
 };
 
-tab_direction set_points( const catacurses::window &w, player &u, points_left &points );
-tab_direction set_stats( const catacurses::window &w, player &u, points_left &points );
-tab_direction set_traits( const catacurses::window &w, player &u, points_left &points );
-tab_direction set_scenario( const catacurses::window &w, player &u, points_left &points,
+tab_direction set_points( const catacurses::window &w, avatar &u, points_left &points );
+tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &points );
+tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &points );
+tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left &points,
                             const tab_direction direction );
-tab_direction set_profession( const catacurses::window &w, player &u, points_left &points,
+tab_direction set_profession( const catacurses::window &w, avatar &u, points_left &points,
                               const tab_direction direction );
-tab_direction set_skills( const catacurses::window &w, player &u, points_left &points );
-tab_direction set_description( const catacurses::window &w, player &u, bool allow_reroll,
+tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &points );
+tab_direction set_description( const catacurses::window &w, avatar &you, bool allow_reroll,
                                points_left &points );
 
 static cata::optional<std::string> query_for_template_name();
-static void save_template( const player &u, const std::string &name, const points_left &points );
-void reset_scenario( player &u, const scenario *scen );
+static void save_template( const avatar &u, const std::string &name, const points_left &points );
+void reset_scenario( avatar &u, const scenario *scen );
 
 void Character::pick_name( bool bUseDefault )
 {
@@ -198,7 +194,7 @@ void Character::pick_name( bool bUseDefault )
     }
 }
 
-matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles )
+static matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles )
 {
     if( type == PLTYPE_NOW || type == PLTYPE_FULL_RANDOM ) {
         return random_entry( styles );
@@ -233,12 +229,12 @@ matype_id choose_ma_style( const character_type type, const std::vector<matype_i
     }
 }
 
-void player::randomize( const bool random_scenario, points_left &points, bool play_now )
+void avatar::randomize( const bool random_scenario, points_left &points, bool play_now )
 {
 
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
     // Reset everything to the defaults to have a clean state.
-    *this = player();
+    *this = avatar();
 
     male = ( rng( 1, 100 ) > 50 );
     if( !MAP_SHARING::isSharing() ) {
@@ -427,7 +423,7 @@ void player::randomize( const bool random_scenario, points_left &points, bool pl
     }
 }
 
-bool player::create( character_type type, const std::string &tempname )
+bool avatar::create( character_type type, const std::string &tempname )
 {
     weapon = item( "null", 0 );
 
@@ -568,7 +564,9 @@ bool player::create( character_type type, const std::string &tempname )
             learn_recipe( &r );
         }
     }
-
+    for( mtype_id elem : prof->pets() ) {
+        starting_pets.push_back( elem );
+    }
     std::list<item> prof_items = prof->items( male, get_mutations() );
 
     for( item &it : prof_items ) {
@@ -714,7 +712,7 @@ void draw_sorting_indicator( const catacurses::window &w_sorting, const input_co
     fold_and_print( w_sorting, 0, 0, ( TERMX / 2 ), c_light_gray, sort_text );
 }
 
-tab_direction set_points( const catacurses::window &w, player &, points_left &points )
+tab_direction set_points( const catacurses::window &w, avatar &, points_left &points )
 {
     tab_direction retval = tab_direction::NONE;
     const int content_height = TERMY - 6;
@@ -807,7 +805,7 @@ Scenarios and professions affect skill point pool" ) );
     return retval;
 }
 
-tab_direction set_stats( const catacurses::window &w, player &u, points_left &points )
+tab_direction set_stats( const catacurses::window &w, avatar &u, points_left &points )
 {
     unsigned char sel = 1;
     const int iSecondColumn = 27;
@@ -1016,7 +1014,7 @@ tab_direction set_stats( const catacurses::window &w, player &u, points_left &po
     } while( true );
 }
 
-tab_direction set_traits( const catacurses::window &w, player &u, points_left &points )
+tab_direction set_traits( const catacurses::window &w, avatar &u, points_left &points )
 {
     const int max_trait_points = get_option<int>( "MAX_TRAIT_POINTS" );
 
@@ -1302,7 +1300,7 @@ struct {
 } profession_sorter;
 
 /** Handle the profession tab of the character generation menu */
-tab_direction set_profession( const catacurses::window &w, player &u, points_left &points,
+tab_direction set_profession( const catacurses::window &w, avatar &u, points_left &points,
                               const tab_direction direction )
 {
     draw_tabs( w, _( "PROFESSION" ) );
@@ -1444,7 +1442,6 @@ tab_direction set_profession( const catacurses::window &w, player &u, points_lef
         }
 
         std::ostringstream buffer;
-
         // Profession addictions
         const auto prof_addictions = sorted_profs[cur_id]->addictions();
         if( !prof_addictions.empty() ) {
@@ -1514,7 +1511,15 @@ tab_direction set_profession( const catacurses::window &w, player &u, points_lef
                 }
             }
         }
-
+        // Profession pet
+        cata::optional<mtype_id> montype;
+        if( !sorted_profs[cur_id]->pets().empty() ) {
+            buffer << "<color_light_blue>" << _( "Pets:" ) << "</color>\n";
+            for( auto elem : sorted_profs[cur_id]->pets() ) {
+                monster mon( elem );
+                buffer << mon.get_name() << "\n";
+            }
+        }
         werase( w_items );
         const auto scroll_msg = string_format(
                                     _( "Press <color_light_green>%1$s</color> or <color_light_green>%2$s</color> to scroll." ),
@@ -1618,7 +1623,7 @@ static int skill_increment_cost( const Character &u, const skill_id &skill )
     return std::max( 1, ( u.get_skill_level( skill ) + 1 ) / 2 );
 }
 
-tab_direction set_skills( const catacurses::window &w, player &u, points_left &points )
+tab_direction set_skills( const catacurses::window &w, avatar &u, points_left &points )
 {
     draw_tabs( w, _( "SKILLS" ) );
     const int iContentHeight = TERMY - 6;
@@ -1831,7 +1836,7 @@ struct {
     }
 } scenario_sorter;
 
-tab_direction set_scenario( const catacurses::window &w, player &u, points_left &points,
+tab_direction set_scenario( const catacurses::window &w, avatar &u, points_left &points,
                             const tab_direction direction )
 {
     draw_tabs( w, _( "SCENARIO" ) );
@@ -2129,7 +2134,7 @@ tab_direction set_scenario( const catacurses::window &w, player &u, points_left 
     return retval;
 }
 
-tab_direction set_description( const catacurses::window &w, player &u, const bool allow_reroll,
+tab_direction set_description( const catacurses::window &w, avatar &you, const bool allow_reroll,
                                points_left &points )
 {
     draw_tabs( w, _( "DESCRIPTION" ) );
@@ -2171,7 +2176,7 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
     for( const auto &loc : start_location::get_all() ) {
         if( g->scen->allowed_start( loc.ident() ) ) {
             select_location.entries.emplace_back( loc.name() );
-            if( loc.ident() == u.start_location ) {
+            if( loc.ident() == you.start_location ) {
                 select_location.selected = offset;
             }
             offset++;
@@ -2179,9 +2184,9 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
     }
     select_location.setup();
     if( MAP_SHARING::isSharing() ) {
-        u.name = MAP_SHARING::getUsername();  // set the current username as default character name
+        you.name = MAP_SHARING::getUsername();  // set the current username as default character name
     } else if( !get_option<std::string>( "DEF_CHAR_NAME" ).empty() ) {
-        u.name = get_option<std::string>( "DEF_CHAR_NAME" );
+        you.name = get_option<std::string>( "DEF_CHAR_NAME" );
     }
     do {
         if( redraw ) {
@@ -2214,14 +2219,14 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
                         utf8_width( vStatNames[i] ) : pos );
                 mvwprintz( w_stats, i + 1, 0, c_light_gray, vStatNames[i] );
             }
-            mvwprintz( w_stats, 1, pos + 1, c_light_gray, "%2d", u.str_max );
-            mvwprintz( w_stats, 2, pos + 1, c_light_gray, "%2d", u.dex_max );
-            mvwprintz( w_stats, 3, pos + 1, c_light_gray, "%2d", u.int_max );
-            mvwprintz( w_stats, 4, pos + 1, c_light_gray, "%2d", u.per_max );
+            mvwprintz( w_stats, 1, pos + 1, c_light_gray, "%2d", you.str_max );
+            mvwprintz( w_stats, 2, pos + 1, c_light_gray, "%2d", you.dex_max );
+            mvwprintz( w_stats, 3, pos + 1, c_light_gray, "%2d", you.int_max );
+            mvwprintz( w_stats, 4, pos + 1, c_light_gray, "%2d", you.per_max );
             wrefresh( w_stats );
 
             mvwprintz( w_traits, 0, 0, COL_HEADER, _( "Traits: " ) );
-            std::vector<trait_id> current_traits = u.get_base_traits();
+            std::vector<trait_id> current_traits = you.get_base_traits();
             if( current_traits.empty() ) {
                 wprintz( w_traits, c_light_red, _( "None!" ) );
             } else {
@@ -2235,16 +2240,16 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
             mvwprintz( w_skills, 0, 0, COL_HEADER, _( "Skills:" ) );
 
             auto skillslist = Skill::get_skills_sorted_by( [&]( const Skill & a, const Skill & b ) {
-                const int level_a = u.get_skill_level_object( a.ident() ).exercised_level();
-                const int level_b = u.get_skill_level_object( b.ident() ).exercised_level();
+                const int level_a = you.get_skill_level_object( a.ident() ).exercised_level();
+                const int level_b = you.get_skill_level_object( b.ident() ).exercised_level();
                 return level_a > level_b || ( level_a == level_b && a.name() < b.name() );
             } );
 
             int line = 1;
             bool has_skills = false;
-            profession::StartingSkillList list_skills = u.prof->skills();
+            profession::StartingSkillList list_skills = you.prof->skills();
             for( auto &elem : skillslist ) {
-                int level = u.get_skill_level( elem->ident() );
+                int level = you.get_skill_level( elem->ident() );
                 profession::StartingSkillList::iterator i = list_skills.begin();
                 while( i != list_skills.end() ) {
                     if( i->first == ( elem )->ident() ) {
@@ -2292,7 +2297,7 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
         //We draw this stuff every loop because this is user-editable
         mvwprintz( w_name, 0, 0, c_light_gray, _( "Name:" ) );
         mvwprintz( w_name, 0, namebar_pos, c_light_gray, "_______________________________" );
-        mvwprintz( w_name, 0, namebar_pos, c_white, u.name );
+        mvwprintz( w_name, 0, namebar_pos, c_white, you.name );
         wprintz( w_name, h_light_gray, "_" );
 
         if( !MAP_SHARING::isSharing() ) { // no random names when sharing maps
@@ -2302,8 +2307,8 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
         wrefresh( w_name );
 
         mvwprintz( w_gender, 0, 0, c_light_gray, _( "Gender:" ) );
-        mvwprintz( w_gender, 0, male_pos, ( u.male ? c_light_red : c_light_gray ), _( "Male" ) );
-        mvwprintz( w_gender, 0, female_pos, ( u.male ? c_light_gray : c_light_red ), _( "Female" ) );
+        mvwprintz( w_gender, 0, male_pos, ( you.male ? c_light_red : c_light_gray ), _( "Male" ) );
+        mvwprintz( w_gender, 0, female_pos, ( you.male ? c_light_gray : c_light_red ), _( "Female" ) );
         mvwprintz( w_gender, 1, 0, c_light_gray, _( "Press %s to switch gender" ),
                    ctxt.get_desc( "CHANGE_GENDER" ) );
         wrefresh( w_gender );
@@ -2316,17 +2321,17 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
         mvwprintz( w_location, 0, prompt_offset + 1, c_light_gray, _( "Starting location:" ) );
         // ::find will return empty location if id was not found. Debug msg will be printed too.
         mvwprintz( w_location, 0, prompt_offset + utf8_width( _( "Starting location:" ) ) + 2,
-                   c_light_gray, u.start_location.obj().name() );
+                   c_light_gray, you.start_location.obj().name() );
         wrefresh( w_location );
 
         werase( w_scenario );
         mvwprintz( w_scenario, 0, 0, COL_HEADER, _( "Scenario: " ) );
-        wprintz( w_scenario, c_light_gray, g->scen->gender_appropriate_name( u.male ) );
+        wprintz( w_scenario, c_light_gray, g->scen->gender_appropriate_name( you.male ) );
         wrefresh( w_scenario );
 
         werase( w_profession );
         mvwprintz( w_profession, 0, 0, COL_HEADER, _( "Profession: " ) );
-        wprintz( w_profession, c_light_gray, u.prof->gender_appropriate_name( u.male ) );
+        wprintz( w_profession, c_light_gray, you.prof->gender_appropriate_name( you.male ) );
         wrefresh( w_profession );
 
         const std::string action = ctxt.handle_input();
@@ -2348,14 +2353,14 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
                        !query_yn( _( "Remaining points will be discarded, are you sure you want to proceed?" ) ) ) {
                 redraw = true;
                 continue;
-            } else if( u.name.empty() ) {
+            } else if( you.name.empty() ) {
                 mvwprintz( w_name, 0, namebar_pos, h_light_gray, _( "_______NO NAME ENTERED!_______" ) );
                 wrefresh( w_name );
                 if( !query_yn( _( "Are you SURE you're finished? Your name will be randomly generated." ) ) ) {
                     redraw = true;
                     continue;
                 } else {
-                    u.pick_name();
+                    you.pick_name();
                     return tab_direction::FORWARD;
                 }
             } else if( query_yn( _( "Are you SURE you're finished?" ) ) ) {
@@ -2368,32 +2373,32 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
             return tab_direction::BACKWARD;
         } else if( action == "REROLL_CHARACTER" && allow_reroll ) {
             points.init_from_options();
-            u.randomize( false, points );
+            you.randomize( false, points );
             // Return tab_direction::NONE so we re-enter this tab again, but it forces a complete redrawing of it.
             return tab_direction::NONE;
         } else if( action == "REROLL_CHARACTER_WITH_SCENARIO" && allow_reroll ) {
             points.init_from_options();
-            u.randomize( true, points );
+            you.randomize( true, points );
             // Return tab_direction::NONE so we re-enter this tab again, but it forces a complete redrawing of it.
             return tab_direction::NONE;
         } else if( action == "SAVE_TEMPLATE" ) {
             if( const auto name = query_for_template_name() ) {
-                ::save_template( u, *name, points );
+                ::save_template( you, *name, points );
             }
             redraw = true;
         } else if( action == "PICK_RANDOM_NAME" ) {
             if( !MAP_SHARING::isSharing() ) { // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
-                u.pick_name();
+                you.pick_name();
             }
         } else if( action == "CHANGE_GENDER" ) {
-            u.male = !u.male;
+            you.male = !you.male;
         } else if( action == "CHOOSE_LOCATION" ) {
             select_location.redraw();
             select_location.query();
             if( select_location.ret >= 0 ) {
                 for( const auto &loc : start_location::get_all() ) {
                     if( loc.name() == select_location.entries[ select_location.ret ].txt ) {
-                        u.start_location = loc.ident();
+                        you.start_location = loc.ident();
                     }
                 }
             }
@@ -2408,22 +2413,22 @@ tab_direction set_description( const catacurses::window &w, player &u, const boo
         } else if( action == "ANY_INPUT" &&
                    !MAP_SHARING::isSharing() ) { // Don't edit names when sharing maps
             const long ch = ctxt.get_raw_input().get_first_input();
-            utf8_wrapper wrap( u.name );
+            utf8_wrapper wrap( you.name );
             if( ch == KEY_BACKSPACE ) {
                 if( !wrap.empty() ) {
                     wrap.erase( wrap.length() - 1, 1 );
-                    u.name = wrap.str();
+                    you.name = wrap.str();
                 }
             } else if( ch == KEY_F( 2 ) ) {
                 utf8_wrapper tmp( get_input_string_from_file() );
                 if( !tmp.empty() && tmp.length() + wrap.length() < 30 ) {
-                    u.name.append( tmp.str() );
+                    you.name.append( tmp.str() );
                 }
             } else if( ch == '\n' ) {
                 // nope, we ignore this newline, don't want it in char names
             } else {
                 wrap.append( ctxt.get_raw_input().text );
-                u.name = wrap.str();
+                you.name = wrap.str();
             }
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             return tab_direction::QUIT;
@@ -2539,7 +2544,7 @@ cata::optional<std::string> query_for_template_name()
     }
 }
 
-void save_template( const player &u, const std::string &name, const points_left &points )
+void save_template( const avatar &u, const std::string &name, const points_left &points )
 {
     std::string native = utf8_to_native( name );
 #if defined(_WIN32)
@@ -2574,7 +2579,7 @@ void save_template( const player &u, const std::string &name, const points_left 
     }, _( "player template" ) );
 }
 
-bool player::load_template( const std::string &template_name, points_left &points )
+bool avatar::load_template( const std::string &template_name, points_left &points )
 {
     Path *path = Path::getInstance( );
 
@@ -2614,7 +2619,7 @@ bool player::load_template( const std::string &template_name, points_left &point
     } );
 }
 
-void reset_scenario( player &u, const scenario *scen )
+void reset_scenario( avatar &u, const scenario *scen )
 {
     auto psorter = profession_sorter;
     psorter.sort_by_points = true;

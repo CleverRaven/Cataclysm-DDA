@@ -12,6 +12,7 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "enum_bitset.h"
+#include "field_type.h"
 #include "init.h"
 #include "int_id.h"
 #include "json.h"
@@ -875,7 +876,6 @@ class typed_flag_reader : public generic_typed_reader<typed_flag_reader<T>>
             return iter->second;
         }
 };
-
 
 template<typename T>
 typed_flag_reader<T> make_flag_reader( const std::map<std::string, T> &m, const std::string &e )

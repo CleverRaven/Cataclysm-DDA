@@ -2,15 +2,9 @@
 #ifndef NPCTALK_H
 #define NPCTALK_H
 
-#include "string_id.h"
+#include "type_id.h"
 
-class martialart;
-
-using matype_id = string_id<martialart>;
 class npc;
-class Skill;
-
-using skill_id = string_id<Skill>;
 class time_duration;
 
 namespace talk_function
@@ -25,10 +19,14 @@ void mission_favor( npc & );
 void give_equipment( npc & );
 void give_aid( npc & );
 void give_all_aid( npc & );
-
+void buy_horse( npc & );
+void buy_cow( npc & );
+void buy_chicken( npc & );
 void bionic_install( npc & );
 void bionic_remove( npc & );
 
+void barber_beard( npc & );
+void barber_hair( npc & );
 void buy_haircut( npc & );
 void buy_shave( npc & );
 void morale_chat( npc & );
@@ -36,6 +34,9 @@ void morale_chat_activity( npc & );
 void buy_10_logs( npc & );
 void buy_100_logs( npc & );
 void start_trade( npc & );
+void sort_loot( npc & );
+void do_construction( npc & );
+void revert_activity( npc & );
 void goto_location( npc & );
 void assign_base( npc & );
 void assign_guard( npc & );
@@ -59,9 +60,12 @@ void stranger_neutral( npc & );      // p is now neutral towards you
 void start_mugging( npc & );
 void player_leaving( npc & );
 
+void remove_stolen_status( npc & );
+
 void drop_weapon( npc & );
 void player_weapon_away( npc & );
 void player_weapon_drop( npc & );
+void drop_stolen_item( npc & );
 
 void lead_to_safety( npc & );
 void start_training( npc & );

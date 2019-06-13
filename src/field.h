@@ -103,6 +103,10 @@ enum field_id : int {
     fd_incendiary,
     fd_relax_gas,
     fd_fungal_haze,
+    fd_cold_air1,
+    fd_cold_air2,
+    fd_cold_air3,
+    fd_cold_air4,
     fd_hot_air1,
     fd_hot_air2,
     fd_hot_air3,
@@ -127,15 +131,6 @@ extern field_id field_from_ident( const std::string &field_ident );
  * Returns if the field has at least one intensity for which dangerous[intensity] is true.
  */
 bool field_type_dangerous( field_id id );
-
-/**
- * converts wind direction to list of co-ords to block neighbours to spread to.
- */
-std::tuple<maptile, maptile, maptile> get_wind_blockers( const int &winddirection,
-        const tripoint &pos );
-/**
- * converts xy of disallowed wind directions to map tiles.
- */
 
 /**
  * An active or passive effect existing on a tile.
