@@ -15,10 +15,16 @@ const long i3 = 0;
 long &i4 = i1;
 // CHECK-MESSAGES: warning: Variable 'i4' declared as 'long &'. Prefer int or int64_t to long. [cata-no-long]
 
-int64_t i5;
-uint64_t i6;
+long &&i5 = 0L;
+// CHECK-MESSAGES: warning: Variable 'i5' declared as 'long &&'. Prefer int or int64_t to long. [cata-no-long]
 
-auto i7 = int64_t {};
+int64_t i6;
+uint64_t i7;
+
+auto i8 = int64_t {};
+auto &i9 = i1;
+const auto &i10 = i1;
+//auto&& i11 = i1; // Shouldn't cause a warning but I can't fix it
 
 void f1( long e );
 // CHECK-MESSAGES: warning: Variable 'e' declared as 'long'. Prefer int or int64_t to long. [cata-no-long]

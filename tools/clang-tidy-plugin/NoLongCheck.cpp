@@ -41,7 +41,8 @@ void NoLongCheck::registerMatchers( MatchFinder *Finder )
 {
     using TypeMatcher = clang::ast_matchers::internal::Matcher<QualType>;
     const TypeMatcher isIntegerOrRef =
-        qualType( anyOf( isInteger(), references( isInteger() ) ), unless( autoType() ) );
+        qualType( anyOf( isInteger(), references( isInteger() ) ),
+                  unless( autoType() ), unless( references( autoType() ) ) );
     Finder->addMatcher( valueDecl( hasType( isIntegerOrRef ) ).bind( "decl" ), this );
     Finder->addMatcher( functionDecl( returns( isIntegerOrRef ) ).bind( "return" ), this );
     Finder->addMatcher( cxxStaticCastExpr( hasDestinationType( isIntegerOrRef ) ).bind( "cast" ),
