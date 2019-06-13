@@ -588,14 +588,15 @@ void debug_write_backtrace( std::ostream &out )
     for( USHORT i = 0; i < num_bt; ++i ) {
         DWORD64 off;
         out << "\n\t(";
-        if( SymFromAddr( proc, ( DWORD64 ) bt[i], &off, &sym ) ) {
+        if( SymFromAddr( proc, reinterpret_cast<DWORD64>( bt[i] ), &off, &sym ) ) {
             out << sym.Name << "+0x" << std::hex << off << std::dec;
         }
         out << "@" << bt[i];
-        DWORD64 mod_base = SymGetModuleBase64( proc, ( DWORD64 ) bt[i] );
+        DWORD64 mod_base = SymGetModuleBase64( proc, reinterpret_cast<DWORD64>( bt[i] ) );
         if( mod_base ) {
             out << "[";
-            DWORD mod_len = GetModuleFileName( ( HMODULE ) mod_base, mod_path, module_path_len );
+            DWORD mod_len = GetModuleFileName( reinterpret_cast<HMODULE>( mod_base ), mod_path,
+                                               module_path_len );
             // mod_len == module_path_len means insufficient buffer
             if( mod_len > 0 && mod_len < module_path_len ) {
                 const char *mod_name = mod_path + mod_len;
@@ -605,7 +606,8 @@ void debug_write_backtrace( std::ostream &out )
             } else {
                 out << "0x" << std::hex << mod_base << std::dec;
             }
-            out << "+0x" << std::hex << ( uintptr_t ) bt[i] - mod_base << std::dec << "]";
+            out << "+0x" << std::hex << reinterpret_cast<uintptr_t>( bt[i] ) - mod_base <<
+                std::dec << "]";
         }
         out << "), ";
     }

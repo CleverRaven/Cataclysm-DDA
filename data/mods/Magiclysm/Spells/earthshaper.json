@@ -8,7 +8,7 @@
     "min_damage": 1,
     "max_damage": 1,
     "effect": "spawn_item",
-    "effect_str": "apt_stonefist",
+    "effect_str": "stonefist",
     "spell_class": "EARTHSHAPER",
     "energy_source": "MANA",
     "difficulty": 2,
@@ -46,5 +46,25 @@
     "energy_source": "MANA",
     "difficulty": 2,
     "damage_type": "bash"
+  },
+  {
+    "id": "recover_stamina",
+    "type": "SPELL",
+    "name": "Stone's Endurance",
+    "description": "You focus on the stones beneath you and draw from their agelessness.  Your mana is converted to stamina.",
+    "effect": "recover_energy",
+    "effect_str": "STAMINA",
+    "valid_targets": [ "self" ],
+    "min_damage": 150,
+    "max_damage": 1000,
+    "damage_increment": 75,
+    "max_level": 12,
+    "spell_class": "EARTHSHAPER",
+    "base_casting_time": 500,
+    "energy_source": "MANA",
+    "base_energy_cost": 150,
+    "energy_increment": 75,
+    "final_energy_cost": 1000,
+    "difficulty": 5
   }
 ]

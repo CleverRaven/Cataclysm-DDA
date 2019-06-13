@@ -76,6 +76,7 @@ struct trap {
         int avoidance;  // 0 to ??, affects avoidance
         int difficulty; // 0 to ??, difficulty of assembly & disassembly
         bool benign = false;
+        bool always_invisible = false;
         trap_function act;
         std::string name_;
         /**
@@ -86,6 +87,12 @@ struct trap {
         std::vector<itype_id> components; // For disassembly?
     public:
         std::string name() const;
+        /**
+         * There are special always invisible traps. See player::search_surroundings
+         */
+        bool is_always_invisible() const {
+            return always_invisible;
+        }
         /**
          * How easy it is to spot the trap. Smaller values means it's easier to spot.
          */

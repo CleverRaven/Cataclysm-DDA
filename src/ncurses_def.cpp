@@ -285,19 +285,19 @@ input_event input_manager::get_input_event()
             return input_event( KEY_BACKSPACE, CATA_INPUT_KEYBOARD );
         }
         rval.type = CATA_INPUT_KEYBOARD;
-        rval.text.append( 1, ( char ) key );
+        rval.text.append( 1, static_cast<char>( key ) );
         // Read the UTF-8 sequence (if any)
         if( key < 127 ) {
             // Single byte sequence
         } else if( 194 <= key && key <= 223 ) {
-            rval.text.append( 1, ( char ) getch() );
+            rval.text.append( 1, static_cast<char>( getch() ) );
         } else if( 224 <= key && key <= 239 ) {
-            rval.text.append( 1, ( char ) getch() );
-            rval.text.append( 1, ( char ) getch() );
+            rval.text.append( 1, static_cast<char>( getch() ) );
+            rval.text.append( 1, static_cast<char>( getch() ) );
         } else if( 240 <= key && key <= 244 ) {
-            rval.text.append( 1, ( char ) getch() );
-            rval.text.append( 1, ( char ) getch() );
-            rval.text.append( 1, ( char ) getch() );
+            rval.text.append( 1, static_cast<char>( getch() ) );
+            rval.text.append( 1, static_cast<char>( getch() ) );
+            rval.text.append( 1, static_cast<char>( getch() ) );
         } else {
             // Other control character, etc. - no text at all, return an event
             // without the text property

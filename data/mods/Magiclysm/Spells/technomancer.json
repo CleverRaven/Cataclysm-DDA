@@ -94,5 +94,25 @@
     "min_duration": 100000,
     "max_duration": 1000000,
     "duration_increment": 2000
+  },
+  {
+    "id": "recover_bionic_power",
+    "type": "SPELL",
+    "name": "Manatricity",
+    "description": "You have found a way to convert your spiritual energy into power you can use for your bionics.",
+    "valid_targets": [ "self" ],
+    "min_damage": 250,
+    "damage_increment": 50,
+    "max_damage": 15000,
+    "base_energy_cost": 250,
+    "energy_increment": 50,
+    "final_energy_cost": 15000,
+    "max_level": 10,
+    "spell_class": "TECHNOMANCER",
+    "effect": "recover_energy",
+    "effect_str": "BIONIC",
+    "energy_source": "MANA",
+    "difficulty": 6,
+    "base_casting_time": 1000
   }
 ]

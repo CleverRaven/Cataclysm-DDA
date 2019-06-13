@@ -66,7 +66,7 @@
 #include "units.h"
 #include "string_id.h"
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 const efftype_id effect_alarm_clock( "alarm_clock" );
 const efftype_id effect_laserlocked( "laserlocked" );
@@ -1278,67 +1278,23 @@ static void cast_spell()
     }
 
     bool can_cast_spells = false;
-    std::vector<uilist_entry> spell_names;
-    {
-        uilist_entry dummy( _( "Spell" ) );
-        dummy.ctxt = string_format( "%3s  %3s  %3s %5s %10s %4s %3s", _( "LVL" ), _( "XP%" ), _( "RNG" ),
-                                    _( "FAIL%" ), _( "Cast Time" ), _( "Cost" ), _( "DMG" ) );
-        dummy.enabled = false;
-        dummy.text_color = c_light_blue;
-        dummy.force_color = true;
-        spell_names.emplace_back( dummy );
-    }
     for( spell_id sp : spells ) {
         spell temp_spell = u.magic.get_spell( sp );
-        std::string nm = temp_spell.name();
-        uilist_entry entry( nm );
         if( temp_spell.can_cast( u ) ) {
             can_cast_spells = true;
-        } else {
-            entry.enabled = false;
         }
-        std::string turns = temp_spell.casting_time() >= 100 ? string_format( _( "%i turns" ),
-                            temp_spell.casting_time() / 100 ) : string_format( _( "%i moves" ), temp_spell.casting_time() );
-        std::string cost = string_format( "%4i", temp_spell.energy_cost() );
-        switch( temp_spell.energy_source() ) {
-            case mana_energy:
-                cost = colorize( cost, c_light_blue );
-                break;
-            case stamina_energy:
-                cost = colorize( cost, c_green );
-                break;
-            case hp_energy:
-                cost = colorize( cost, c_red );
-                break;
-            case bionic_energy:
-                cost = colorize( cost, c_yellow );
-                break;
-            case none_energy:
-                cost = colorize( _( "none" ), c_light_gray );
-                break;
-            default:
-                debugmsg( "ERROR: %s has invalid energy_type", temp_spell.id().c_str() );
-                break;
-        }
-        entry.ctxt = string_format( "%3i (%3s) %3i %3i %% %10s %4s %3i", temp_spell.get_level(),
-                                    temp_spell.is_max_level() ? _( "MAX" ) : temp_spell.exp_progress(), temp_spell.range(),
-                                    static_cast<int>( round( 100.0f * temp_spell.spell_fail( u ) ) ), turns, cost,
-                                    temp_spell.damage() );
-        spell_names.emplace_back( entry );
     }
 
     if( !can_cast_spells ) {
         add_msg( m_bad, _( "You can't cast any of the spells you know!" ) );
     }
 
-    // if there's only one spell we know, we still want to see its information
-    // the 0th "spell" is a header
-    int action = uilist( _( "Choose your spell:" ), spell_names ) - 1;
-    if( action < 0 ) {
+    const int spell_index = u.magic.select_spell( u );
+    if( spell_index < 0 ) {
         return;
     }
 
-    spell sp = u.magic.get_spell( spells[action] );
+    spell &sp = *u.magic.get_spells()[spell_index];
 
     if( !u.magic.has_enough_energy( u, sp ) ) {
         add_msg( m_bad, _( "You don't have enough %s to cast the spell." ), sp.energy_string() );
@@ -1358,6 +1314,21 @@ static void cast_spell()
     // [2] this value overrides the mana cost if set to 0
     cast_spell.values.emplace_back( 1 );
     cast_spell.name = sp.id().c_str();
+    if( u.magic.casting_ignore ) {
+        const std::vector<distraction_type> ignored_distractions = {
+            distraction_type::noise,
+            distraction_type::pain,
+            distraction_type::attacked,
+            distraction_type::hostile_spotted,
+            distraction_type::talked_to,
+            distraction_type::asthma,
+            distraction_type::motion_alarm,
+            distraction_type::weather_change
+        };
+        for( const distraction_type ignored : ignored_distractions ) {
+            cast_spell.ignore_distraction( ignored );
+        }
+    }
     u.assign_activity( cast_spell, false );
 }
 
@@ -1951,7 +1922,6 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't disassemble items while you're riding." ) );
                 } else {
                     u.disassemble();
-                    g->m.invalidate_map_cache( g->get_levz() );
                     refresh_all();
                 }
                 break;

@@ -389,7 +389,7 @@
   {
     "id": "TALK_EVAC_MERCHANT_RANCH",
     "type": "talk_topic",
-    "dynamic_line": "One of the people that got evacuated here was actually on a charter bus taking him back to his ranch, 'til it was commandeered to be an evacuation vehicle and brought him here.  Once the dust shook out we made a deal to get him home and provide him with labour in return for making the ranch into a subsidiary of our dealings here.  It worked out pretty well for everyone, most of the people with skills for that kind of work are already out there.",
+    "dynamic_line": "One of the people that got evacuated here was actually on a charter bus taking him back to his ranch, 'til it was commandeered to be an evacuation vehicle and brought him here.  Once the dust shook out we made a deal to get him home and provide him with labor in return for making the ranch into a subsidiary of our dealings here.  It worked out pretty well for everyone, most of the people with skills for that kind of work are already out there.",
     "responses": [
       {
         "text": "Didn't that free up some space for the beggars and people stuck upstairs?",

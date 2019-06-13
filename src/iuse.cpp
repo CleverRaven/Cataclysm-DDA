@@ -5668,7 +5668,10 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
 
         // can only attach to unmodified tools that use compatible ammo
         return e.is_tool() && e.toolmods().empty() && !e.magazine_current() &&
-               it->type->mod->acceptable_ammo.count( e.ammo_type( false ) );
+               std::any_of( it->type->mod->acceptable_ammo.begin(),
+        it->type->mod->acceptable_ammo.end(), [&]( const ammotype & at ) {
+            return e.ammo_types( false ).count( at );
+        } );
     };
 
     auto loc = g->inv_map_splice( filter, _( "Select tool to modify" ), 1,

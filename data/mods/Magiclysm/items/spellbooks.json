@@ -154,5 +154,19 @@
     "symbol": "?",
     "color": "green",
     "use_action": { "type": "learn_spell", "spells": [ "druid_woodshaft", "druid_veggrasp", "druid_rootstrike", "druid_naturebow1" ] }
+  },
+  {
+    "id": "recovery_spellbook",
+    "type": "GENERIC",
+    "name": "The Utility of Mana as an Energy Source",
+    "description": "This book details spells that use your mana to recover various physiological effects.",
+    "weight": 728,
+    "volume": "3 L",
+    "symbol": "?",
+    "color": "light_blue",
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "recover_mana", "recover_bionic_power", "recover_pain", "recover_fatigue", "recover_stamina" ]
+    }
   }
 ]

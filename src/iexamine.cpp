@@ -3192,8 +3192,8 @@ const itype *furn_t::crafting_pseudo_item_type() const
 const itype *furn_t::crafting_ammo_item_type() const
 {
     const itype *pseudo = crafting_pseudo_item_type();
-    if( pseudo->tool && !pseudo->tool->ammo_id.is_null() ) {
-        return item::find_type( pseudo->tool->ammo_id->default_ammotype() );
+    if( pseudo->tool && !pseudo->tool->ammo_id.empty() ) {
+        return item::find_type( ammotype( *pseudo->tool->ammo_id.begin() )->default_ammotype() );
     }
     return nullptr;
 }
@@ -4102,7 +4102,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
             const float volume_anesth = itemtype->bionic->difficulty * 20 * 2; // 2ml/min
-            if( volume_anesth > drug_count && acomps.empty() ) {
+            if( needs_anesthesia && volume_anesth > drug_count && acomps.empty() ) {
                 add_msg( m_bad, "You don't have enough anesthetic for this operation." );
                 return;
             }
@@ -4164,7 +4164,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
             const time_duration duration = difficulty * 20_minutes;
             const float volume_anesth = difficulty * 20 * 2; // 2ml/min
-            if( volume_anesth > drug_count && acomps.empty() ) {
+            if( needs_anesthesia && volume_anesth > drug_count && acomps.empty() ) {
                 add_msg( m_bad, "You don't have enough anesthetic for this operation." );
                 return;
             }
