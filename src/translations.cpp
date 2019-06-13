@@ -92,7 +92,7 @@ bool isValidLanguage( const std::string &lang )
 {
     const auto languages = OptionsManager::getInstance()->get_option( "USE_LANG" ).getItems();
     return std::find_if( languages.begin(),
-    languages.end(), [&lang]( const OptionsManager::id_and_option & pair ) {
+    languages.end(), [&lang]( const id_and_option & pair ) {
         return pair.first == lang || pair.first == lang.substr( 0, pair.first.length() );
     } ) != languages.end();
 }
@@ -134,7 +134,7 @@ void select_language()
     auto languages = OptionsManager::getInstance()->get_option( "USE_LANG" ).getItems();
 
     languages.erase( std::remove_if( languages.begin(),
-    languages.end(), []( const OptionsManager::id_and_option & lang ) {
+    languages.end(), []( const id_and_option & lang ) {
         return lang.first.empty() || lang.second.empty();
     } ), languages.end() );
 

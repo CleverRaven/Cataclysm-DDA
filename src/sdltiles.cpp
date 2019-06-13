@@ -837,7 +837,7 @@ void find_videodisplays()
     int current_display = get_option<int>( "DISPLAY" );
     OptionsManager::getInstance()->add( "DISPLAY", "graphics", _( "Display" ),
                        _( "Sets which video display will be used to show the game. Requires restart." ),
-                       displays, current_display, 0, OptionsManager::COPT_CURSES_HIDE
+                       displays, current_display, 0, COPT_CURSES_HIDE
                      );
 }
 

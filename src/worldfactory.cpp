@@ -567,7 +567,7 @@ void WorldFactory::save_last_world_info()
 int WorldFactory::show_worldgen_tab_options( const catacurses::window &/*win*/, WORLDPTR world )
 {
     OptionsManager::getInstance()->world_options = &world->WORLD_OPTIONS;
-    const std::string action = OptionsManager::getInstance()->.show( false, true );
+    const std::string action = OptionsManager::getInstance()->show( false, true );
     if( action == "PREV_TAB" ) {
         return -1;
 
