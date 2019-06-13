@@ -12,6 +12,7 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "enum_bitset.h"
+#include "field_type.h"
 #include "init.h"
 #include "int_id.h"
 #include "json.h"
