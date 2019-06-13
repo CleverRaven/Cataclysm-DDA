@@ -3192,8 +3192,8 @@ const itype *furn_t::crafting_pseudo_item_type() const
 const itype *furn_t::crafting_ammo_item_type() const
 {
     const itype *pseudo = crafting_pseudo_item_type();
-    if( pseudo->tool && !pseudo->tool->ammo_id.is_null() ) {
-        return item::find_type( pseudo->tool->ammo_id->default_ammotype() );
+    if( pseudo->tool && !pseudo->tool->ammo_id.empty() ) {
+        return item::find_type( ammotype( *pseudo->tool->ammo_id.begin() )->default_ammotype() );
     }
     return nullptr;
 }

@@ -1045,7 +1045,7 @@ void Character::remove_mission_items( int mission_id )
 std::vector<const item *> Character::get_ammo( const ammotype &at ) const
 {
     return items_with( [at]( const item & it ) {
-        return it.is_ammo() && it.type->ammo->type.count( at );
+        return it.ammo_type() == at;
     } );
 }
 
@@ -1081,7 +1081,7 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
     }
     if( obj.magazine_integral() ) {
         // find suitable ammo excluding that already loaded in magazines
-        ammotype ammo = obj.ammo_type();
+        std::set<ammotype> ammo = obj.ammo_types();
         const auto mags = obj.magazine_compatible();
 
         src.visit_items( [&src, &nested, &out, &mags, ammo]( item * node ) {
@@ -1095,13 +1095,18 @@ void find_ammo_helper( T &src, const item &obj, bool empty, Output out, bool nes
             }
             if( node->is_ammo_container() && !node->contents.empty() &&
                 !node->contents_made_of( SOLID ) ) {
-                if( node->contents.front().type->ammo->type.count( ammo ) ) {
-                    out = item_location( src, node );
+                for( const ammotype &at : ammo ) {
+                    if( node->contents.front().ammo_type() == at ) {
+                        out = item_location( src, node );
+                    }
                 }
                 return VisitResponse::SKIP;
             }
-            if( node->is_ammo() && node->type->ammo->type.count( ammo ) ) {
-                out = item_location( src, node );
+
+            for( const ammotype &at : ammo ) {
+                if( node->ammo_type() == at ) {
+                    out = item_location( src, node );
+                }
             }
             if( node->is_magazine() && node->has_flag( "SPEEDLOADER" ) ) {
                 if( mags.count( node->typeId() ) && node->ammo_remaining() ) {

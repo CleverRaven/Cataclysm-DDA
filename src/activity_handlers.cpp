@@ -1806,6 +1806,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     }
 
     item &reloadable = *act->targets[ 0 ];
+    item &ammo = *act->targets[1];
     const int qty = act->index;
     const bool is_speedloader = act->targets[ 1 ]->has_flag( "SPEEDLOADER" );
 
@@ -1821,7 +1822,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
         if( reloadable.has_flag( "RELOAD_ONE" ) && !is_speedloader ) {
             for( int i = 0; i != qty; ++i ) {
-                if( reloadable.ammo_type() == ammotype( "bolt" ) ) {
+                if( ammo.ammo_type() == ammotype( "bolt" ) )  {
                     msg = _( "You insert a bolt into the %s." );
                 } else {
                     msg = _( "You insert a cartridge into the %s." );

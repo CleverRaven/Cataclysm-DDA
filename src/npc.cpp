@@ -565,7 +565,7 @@ void starting_inv( npc &who, const npc_class_id &type )
     res.emplace_back( "lighter" );
     // If wielding a gun, get some additional ammo for it
     if( who.weapon.is_gun() ) {
-        item ammo( who.weapon.ammo_type()->default_ammotype() );
+        item ammo( who.weapon.ammo_default() );
         ammo = ammo.in_its_container();
         if( ammo.made_of( LIQUID ) ) {
             item container( "bottle_plastic" );
@@ -784,7 +784,7 @@ void npc::starting_weapon( const npc_class_id &type )
     }
 
     if( weapon.is_gun() ) {
-        weapon.ammo_set( weapon.type->gun->ammo->default_ammotype() );
+        weapon.ammo_set( weapon.ammo_default() );
     }
     weapon.set_owner( my_fac );
 }
@@ -1183,7 +1183,7 @@ void npc::decide_needs()
         elem = 20;
     }
     if( weapon.is_gun() ) {
-        needrank[need_ammo] = 5 * get_ammo( weapon.type->gun->ammo ).size();
+        needrank[need_ammo] = 5 * get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
     }
 
     needrank[need_weapon] = weapon_value( weapon );
@@ -1374,14 +1374,11 @@ int npc::value( const item &it, int market_price ) const
     }
 
     if( it.is_ammo() ) {
-        if( weapon.is_gun() && it.type->ammo->type.count( weapon.ammo_type() ) ) {
+        if( weapon.is_gun() && weapon.ammo_types().count( it.ammo_type() ) ) {
             ret += 14; // TODO: magazines - don't count ammo as usable if the weapon isn't.
         }
 
-        if( std::any_of( it.type->ammo->type.begin(), it.type->ammo->type.end(),
-        [&]( const ammotype & e ) {
-        return has_gun_for_ammo( e );
-        } ) ) {
+        if( has_gun_for_ammo( it.ammo_type() ) ) {
             ret += 14; // TODO: consider making this cumulative (once was)
         }
     }

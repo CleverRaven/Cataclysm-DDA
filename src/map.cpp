@@ -4876,8 +4876,8 @@ static void use_charges_from_furn( const furn_t &f, const itype_id &type, int &q
     }
 
     const itype *itt = f.crafting_pseudo_item_type();
-    if( itt != nullptr && itt->tool && itt->tool->ammo_id ) {
-        const itype_id ammo = itt->tool->ammo_id->default_ammotype();
+    if( itt != nullptr && itt->tool && !itt->tool->ammo_id.empty() ) {
+        const itype_id ammo = ammotype( *itt->tool->ammo_id.begin() )->default_ammotype();
         auto stack = m->i_at( p );
         auto iter = std::find_if( stack.begin(), stack.end(),
         [ammo]( const item & i ) {

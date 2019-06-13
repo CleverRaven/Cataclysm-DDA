@@ -4395,7 +4395,7 @@ bool vehicle::add_item( int part, const item &itm )
     // add creaking sounds and damage to overloaded vpart, outright break it past a certain point, or when hitting bumps etc
 
     if( parts[ part ].base.is_gun() ) {
-        if( !itm.is_ammo() || itm.ammo_type() != parts[ part ].base.ammo_type() ) {
+        if( !itm.is_ammo() || !parts[ part ].base.ammo_types().count( itm.ammo_type() ) ) {
             return false;
         }
     }
@@ -4551,7 +4551,7 @@ void vehicle::place_spawn_items()
                             e.contents.emplace_back( e.magazine_default(), e.birthday() );
                         }
                         if( spawn_ammo ) {
-                            e.ammo_set( e.ammo_type()->default_ammotype() );
+                            e.ammo_set( e.ammo_default() );
                         }
                     }
                     add_item( part, e );

@@ -1352,7 +1352,7 @@ void parse_tags( std::string &phrase, const player &u, const player &me, const i
             if( !me.weapon.is_gun() ) {
                 phrase.replace( fa, l, _( "BADAMMO" ) );
             } else {
-                phrase.replace( fa, l, me.weapon.ammo_type()->name() );
+                phrase.replace( fa, l, me.weapon.ammo_current() );
             }
         } else if( tag == "<current_activity>" ) {
             std::string activity_name;

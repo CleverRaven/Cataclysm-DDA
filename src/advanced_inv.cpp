@@ -351,7 +351,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
                 stolen = true;
             }
         }
-        if( it.ammo_type() == "money" ) {
+        if( it.ammo_types().count( ammotype( "money" ) ) ) {
             //Count charges
             // TODO: transition to the item_location system used for the normal inventory
             unsigned long charges_total = 0;

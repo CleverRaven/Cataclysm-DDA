@@ -188,7 +188,7 @@ std::vector<item> item::magazine_convert()
         // limit ammo to base capacity and return any excess as a new item
         charges = std::min( charges, type->gun->clip );
         if( qty > 0 ) {
-            res.emplace_back( ammo_current() != "null" ? ammo_current() : ammo_type()->default_ammotype(),
+            res.emplace_back( ammo_current() != "null" ? ammo_current() : ammo_default(),
                               calendar::turn, qty );
         }
 
@@ -201,7 +201,7 @@ std::vector<item> item::magazine_convert()
 
     // now handle items using the new detachable magazines that haven't yet been converted
     item mag( magazine_default(), calendar::turn );
-    item ammo( ammo_current() != "null" ? ammo_current() : ammo_type()->default_ammotype(),
+    item ammo( ammo_current() != "null" ? ammo_current() : ammo_default(),
                calendar::turn );
 
     // give base item an appropriate magazine and add to that any ammo originally stored in base item
