@@ -1053,7 +1053,7 @@ find_empty_neighbors( const Creature &c )
   */
 static size_t get_random_index( const size_t size )
 {
-    return static_cast<size_t>( rng( 0, static_cast<long>( size - 1 ) ) );
+    return static_cast<size_t>( rng( 0, static_cast<int>( size - 1 ) ) );
 }
 
 //--------------------------------------------------------------------------------------------------
