@@ -2330,9 +2330,12 @@ class colony : private element_allocator_type
         }
 
         void reserve( const size_type original_reserve_amount ) {
-            assert( original_reserve_amount > 2 );
+            if( original_reserve_amount == 0 || original_reserve_amount <= total_capacity ) {
+                // Already have enough space allocated
+                return;
+            }
 
-            skipfield_type reserve_amount = static_cast<skipfield_type>( original_reserve_amount );
+            skipfield_type reserve_amount;
 
             if( original_reserve_amount > static_cast<size_type>
                 ( group_allocator_pair.max_elements_per_group ) ) {
@@ -2342,6 +2345,8 @@ class colony : private element_allocator_type
                 reserve_amount = pointer_allocator_pair.min_elements_per_group;
             } else if( original_reserve_amount > max_size() ) {
                 reserve_amount = static_cast<skipfield_type>( max_size() );
+            } else {
+                reserve_amount = static_cast<skipfield_type>( original_reserve_amount );
             }
 
             if( total_number_of_elements == 0 ) { // Most common scenario - empty colony
@@ -2355,8 +2360,6 @@ class colony : private element_allocator_type
                 // last_endpoint initially == elements + 1 via default constructor
                 begin_iterator.group_pointer->last_endpoint = begin_iterator.group_pointer->elements;
                 begin_iterator.group_pointer->number_of_elements = 0; // 1 by default
-            } else if( reserve_amount <= total_capacity ) { // Already have enough space allocated
-                return;
             } else { // Non-empty colony, don't have enough space allocated
                 const skipfield_type original_min_elements = pointer_allocator_pair.min_elements_per_group;
                 // Make sure all groups are at maximum appropriate capacity (this amount already rounded down to a skipfield type earlier in function)
