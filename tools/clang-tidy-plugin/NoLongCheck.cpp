@@ -74,6 +74,11 @@ static void CheckDecl( NoLongCheck &Check, const MatchFinder::MatchResult &Resul
     if( alternatives.empty() ) {
         return;
     }
+    if( MatchedDecl->getName().startswith( "__" ) ) {
+        // Can happen for e.g. compiler-generated code inside an implicitly
+        // generated function
+        return;
+    }
     Decl::Kind contextKind = MatchedDecl->getDeclContext()->getDeclKind();
     if( contextKind == Decl::Function || contextKind == Decl::CXXMethod ||
         contextKind == Decl::CXXConstructor || contextKind == Decl::CXXConversion ||

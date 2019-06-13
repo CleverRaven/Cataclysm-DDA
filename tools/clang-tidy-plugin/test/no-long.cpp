@@ -64,6 +64,11 @@ void h()
 
 template<typename T>
 struct A {
+    A();
+    A( const A & );
+    A( A && );
+    A &operator=( const A & );
+    A &operator=( A && );
     T Af0();
     long Af1();
     // CHECK-MESSAGES: warning: Function 'Af1' declared as returning 'long'.  Prefer int or int64_t to long. [cata-no-long]
@@ -77,3 +82,17 @@ auto l0 = []( int64_t a )
 {
     return a;
 };
+
+template<int size>
+struct B {
+    A<int> BA[size][size];
+};
+
+void Bf()
+{
+    B<12> b0;
+    B<12> b1;
+    // This exercises an obscure corner case where a defaulted operator= will
+    // cause the compiler to generate code involving an unsigned long variable.
+    b1 = static_cast < B<12> && >( b0 );
+}
