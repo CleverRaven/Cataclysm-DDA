@@ -11545,7 +11545,8 @@ std::string player::visible_mutations( const int visibility_cap ) const
 std::vector<std::string> player::short_description_parts() const
 {
     std::vector<std::string> result;
-
+    std::string gender = male ? _( "Male" ) : _( "Female" );
+    result.push_back( _( "Gender: " ) + gender );
     if( is_armed() ) {
         result.push_back( _( "Wielding: " ) + weapon.tname() );
     }
