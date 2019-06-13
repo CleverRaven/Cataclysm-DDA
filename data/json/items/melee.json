@@ -2283,5 +2283,24 @@
     "techniques": "RAPID",
     "qualities": [ [ "CUT", 1 ], [ "CUT_FINE", 1 ], [ "BUTCHER", 7 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE" ]
+  },
+  {
+    "id": "2h_flail_steel",
+    "type": "GENERIC",
+	"category": "weapons",
+    "name": "war flail",
+    "name_plural": "war flails",
+    "description": "This is a stout pole with a steel ball on a chain atached to it, the ideal weapon to make the zombies repent their undead ways.",
+    "weight": 4550,
+    "volume": 15,
+    "price": 25000,
+    "to_hit": 0,
+    "bashing": 40,
+    "cutting": 0,
+    "material": [ "wood", "steel" ],
+    "symbol": "\",
+    "color": "dark_gray",
+    "techniques": [ "WBLOCK_1", "BRUTAL" ],
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE" ]
   }
 ]
