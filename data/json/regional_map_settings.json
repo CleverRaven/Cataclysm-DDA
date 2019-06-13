@@ -548,13 +548,13 @@
       "research_facility_lot": {
         "chance": 3,
         "extras": {
-          "mx_helicopter": 40,
+          "mx_helicopter": 90,
           "mx_military": 65,
           "mx_collegekids": 1,
-          "mx_portal": 160,
+          "mx_portal": 200,
           "mx_crater": 180,
           "mx_fumarole": 10,
-          "mx_portal_in": 160,
+          "mx_portal_in": 20,
           "mx_anomaly": 10,
           "mx_point_burned_ground": 100
         }
@@ -564,9 +564,9 @@
         "extras": {
           "mx_jabberwock": 1,
           "mx_military": 5,
-          "mx_portal": 160,
-          "mx_crater": 80,
-          "mx_portal_in": 160,
+          "mx_portal": 100,
+          "mx_crater": 300,
+          "mx_portal_in": 40,
           "mx_point_burned_ground": 125
         }
       }
