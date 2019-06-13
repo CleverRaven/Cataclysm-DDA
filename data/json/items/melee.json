@@ -2317,7 +2317,7 @@
     "bashing": 19,
     "cutting": 0,
     "material": [ "wood" ],
-    "symbol": "\",
+    "symbol": "\\",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "REACH_ATTACK", "NONCONDUCTIVE" ]
