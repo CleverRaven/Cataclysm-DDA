@@ -2091,6 +2091,8 @@
       { "point": [ 2, 2, 0 ], "overmap": "golfcourse_22_north" },
       { "point": [ 3, 0, 0 ], "overmap": "golfcourse_30_north" },
       { "point": [ 3, 1, 0 ], "overmap": "golfcourse_31_north" },
+      { "point": [ 3, 1, 1 ], "overmap": "golfcourse_31_2ndfloor_north" },
+      { "point": [ 3, 1, 2 ], "overmap": "golfcourse_31_roof_north" },
       { "point": [ 3, 2, 0 ], "overmap": "golfcourse_32_north" }
     ],
     "connections": [ { "point": [ 3, -1, 0 ], "terrain": "road" } ],
