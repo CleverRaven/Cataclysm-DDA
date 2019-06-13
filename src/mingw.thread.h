@@ -64,7 +64,8 @@ class thread
             using Call = decltype( std::bind( f, args... ) );
             Call *call = new Call( std::bind( f, args... ) );
             mHandle = ( HANDLE )_beginthreadex( NULL, 0, threadfunc<Call>,
-                                                ( LPVOID )call, 0, ( unsigned * ) & ( mThreadId.mId ) );
+                                                static_cast<LPVOID>( call ),
+                                                0, ( unsigned * ) & ( mThreadId.mId ) );
         }
         template <class Call>
         static unsigned int __stdcall threadfunc( void *arg ) {
