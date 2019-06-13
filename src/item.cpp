@@ -2477,10 +2477,10 @@ std::string item::info( std::vector<iteminfo> &info, const iteminfo_query *parts
                     }
                 }
             }
-            if( typeId() == "rad_badge" && parts->test( iteminfo_parts::DESCRIPTION_IRRIDATION ) ) {
+            if( typeId() == "rad_badge" && parts->test( iteminfo_parts::DESCRIPTION_IRRADIATION ) ) {
                 info.push_back( iteminfo( "DESCRIPTION",
                                           string_format( _( "* The film strip on the badge is %s." ),
-                                                  rad_badge_color( irridation ) ) ) );
+                                                  rad_badge_color( irradiation ) ) ) );
             }
         }
 
