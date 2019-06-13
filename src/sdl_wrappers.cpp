@@ -17,7 +17,7 @@
 #   endif
 #endif // TILES
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
 bool printErrorIf( const bool condition, const char *const message )
 {

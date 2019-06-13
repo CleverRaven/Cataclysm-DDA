@@ -87,7 +87,7 @@
 
 class npc;
 
-#define dbg(x) DebugLog((DebugLevel)(x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
+#define dbg(x) DebugLog((x),D_GAME) << __FILE__ << ":" << __LINE__ << ": "
 
 const skill_id skill_survival( "survival" );
 const skill_id skill_firstaid( "firstaid" );
@@ -1806,6 +1806,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     }
 
     item &reloadable = *act->targets[ 0 ];
+    item &ammo = *act->targets[1];
     const int qty = act->index;
     const bool is_speedloader = act->targets[ 1 ]->has_flag( "SPEEDLOADER" );
 
@@ -1821,7 +1822,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
 
         if( reloadable.has_flag( "RELOAD_ONE" ) && !is_speedloader ) {
             for( int i = 0; i != qty; ++i ) {
-                if( reloadable.ammo_type() == ammotype( "bolt" ) ) {
+                if( ammo.ammo_type() == ammotype( "bolt" ) )  {
                     msg = _( "You insert a bolt into the %s." );
                 } else {
                     msg = _( "You insert a cartridge into the %s." );
@@ -2050,6 +2051,7 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
     int non_muscle_attempted = 0;
     int started = 0;
     int non_muscle_started = 0;
+    int non_combustion_started = 0;
     const bool take_control = act->values[0];
 
     for( size_t e = 0; e < veh->engines.size(); ++e ) {
@@ -2062,6 +2064,8 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
                 started++;
                 if( !veh->is_engine_type( e, "muscle" ) && !veh->is_engine_type( e, "animal" ) ) {
                     non_muscle_started++;
+                } else {
+                    non_combustion_started++;
                 }
             }
         }
@@ -2084,6 +2088,9 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
             //Only some of the non-muscle engines started
             add_msg( ngettext( "One of the %s's engines start up.",
                                "Some of the %s's engines start up.", non_muscle_started ), veh->name );
+        } else if( non_combustion_started > 0 ) {
+            //Non-combustions "engines" started
+            add_msg( "The %s is ready for movement.", veh->name );
         } else {
             //All of the non-muscle engines failed
             add_msg( m_bad, ngettext( "The %s's engine fails to start.",
@@ -3921,6 +3928,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
         spell_effect::teleport( casting.range(), casting.range() + casting.aoe() );
     } else if( fx == "spawn_item" ) {
         spell_effect::spawn_ethereal_item( casting );
+    } else if( fx == "recover_energy" ) {
+        spell_effect::recover_energy( casting, target );
     } else {
         debugmsg( "ERROR: Spell effect not defined properly." );
     }

@@ -1164,6 +1164,7 @@ void player::update_bodytemp()
     // Difference between high and low is the "safe" heat - one we only apply if it's beneficial
     const int mutation_heat_bonus = mutation_heat_high - mutation_heat_low;
 
+    const int h_radiation = get_heat_radiation( pos(), false );
     // Current temperature and converging temperature calculations
     for( const body_part bp : all_body_parts ) {
         // Skip eyes
@@ -1218,7 +1219,6 @@ void player::update_bodytemp()
         // Bark : lowers blister count to -5; harder to get blisters
         int blister_count = ( has_bark ? -5 : 0 ); // If the counter is high, your skin starts to burn
 
-        const int h_radiation = get_heat_radiation( pos(), false );
         if( frostbite_timer[bp] > 0 ) {
             frostbite_timer[bp] -= std::max( 5, h_radiation );
         }
@@ -2809,20 +2809,21 @@ void player::pause()
         return;
     }
 
-    VehicleList vehs = g->m.get_vehicles();
-    vehicle *veh = nullptr;
-    for( auto &v : vehs ) {
-        veh = v.v;
-        if( veh && veh->is_moving() && veh->player_in_control( *this ) ) {
-            if( one_in( 8 ) ) {
-                double exp_temp = 1 + veh->total_mass() / 400.0_kilogram + std::abs( veh->velocity / 3200.0 );
+    if( in_vehicle && one_in( 8 ) ) {
+        VehicleList vehs = g->m.get_vehicles();
+        vehicle *veh = nullptr;
+        for( auto &v : vehs ) {
+            veh = v.v;
+            if( veh && veh->is_moving() && veh->player_in_control( *this ) ) {
+                double exp_temp = 1 + veh->total_mass() / 400.0_kilogram +
+                                  std::abs( veh->velocity / 3200.0 );
                 int experience = static_cast<int>( exp_temp );
                 if( exp_temp - experience > 0 && x_in_y( exp_temp - experience, 1.0 ) ) {
                     experience++;
                 }
                 practice( skill_id( "driving" ), experience );
+                break;
             }
-            break;
         }
     }
 
@@ -2931,8 +2932,8 @@ void player::search_surroundings()
         if( !sees( tp ) ) {
             continue;
         }
-        if( tr.name().empty() || tr.can_see( tp, *this ) ) {
-            // Already seen, or has no name -> can never be seen
+        if( tr.is_always_invisible() || tr.can_see( tp, *this ) ) {
+            // Already seen, or can never be seen
             continue;
         }
         // Chance to detect traps we haven't yet seen.
@@ -2976,7 +2977,7 @@ int player::read_speed( bool return_stat_effect ) const
         ret = 100;
     }
     // return_stat_effect actually matters here
-    return ( return_stat_effect ? ret : ret / 10 );
+    return 6 * ( return_stat_effect ? ret : ret / 10 );
 }
 
 int player::rust_rate( bool return_stat_effect ) const
@@ -5001,14 +5002,14 @@ void player::process_one_effect( effect &it, bool is_new )
                 } else {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp_torso ) );
                 }
-                apply_damage( nullptr, bp_torso, val );
+                apply_damage( nullptr, bp_torso, val, true );
             } else {
                 if( val > 5 ) {
                     add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bp ) );
                 } else {
                     add_msg_if_player( _( "Your %s hurts!" ), body_part_name_accusative( bp ) );
                 }
-                apply_damage( nullptr, bp, val );
+                apply_damage( nullptr, bp, val, true );
             }
         }
     }
@@ -5245,13 +5246,13 @@ void player::suffer()
         }
     }
 
-    if( x_in_y( root_vitamins, 96 ) ) {
+    if( x_in_y( root_vitamins, 576 ) ) {
         vitamin_mod( vitamin_id( "iron" ), 1, true );
         vitamin_mod( vitamin_id( "calcium" ), 1, true );
         mod_healthy_mod( 5, 50 );
     }
 
-    if( x_in_y( root_water, 425 ) ) {
+    if( x_in_y( root_water, 2550 ) ) {
         // Plants draw some crazy amounts of water from the ground in real life,
         // so these numbers try to reflect that uncertain but large amount
         // this should take 12 hours to meet your daily needs with ROOTS2, and 8 with ROOTS3
@@ -5753,12 +5754,12 @@ void player::suffer()
         }
     }
 
-    if( x_in_y( sunlight_nutrition, 3000 ) ) {
+    if( x_in_y( sunlight_nutrition, 18000 ) ) {
         vitamin_mod( vitamin_id( "vitA" ), 1, true );
         vitamin_mod( vitamin_id( "vitC" ), 1, true );
     }
 
-    if( x_in_y( sunlight_nutrition, 2000 ) ) {
+    if( x_in_y( sunlight_nutrition, 12000 ) ) {
         mod_hunger( -1 );
         // photosynthesis absorbs kcal directly
         mod_stored_nutr( -1 );
@@ -6359,14 +6360,14 @@ bool player::irradiate( float rads, bool bypass )
 
             // Actual irradiation levels of badges and the player aren't precisely matched.
             // This is intentional.
-            const int before = it->irridation;
+            const int before = it->irradiation;
 
             const int delta = rng( 0, rads_max );
             if( delta == 0 ) {
                 continue;
             }
 
-            it->irridation += delta;
+            it->irradiation += delta;
 
             // If in inventory (not worn), don't print anything.
             if( inv.has_item( *it ) ) {
@@ -6375,7 +6376,7 @@ bool player::irradiate( float rads, bool bypass )
 
             // If the color hasn't changed, don't print anything.
             const std::string &col_before = rad_badge_color( before );
-            const std::string &col_after = rad_badge_color( it->irridation );
+            const std::string &col_after = rad_badge_color( it->irradiation );
             if( col_before == col_after ) {
                 continue;
             }
@@ -7548,7 +7549,7 @@ item::reload_option player::select_ammo( const item &base,
         return row;
     };
 
-    itype_id last = uistate.lastreload[ base.ammo_type() ];
+    itype_id last = uistate.lastreload[ ammotype( base.ammo_default() ) ];
     // We keep the last key so that pressing the key twice (for example, r-r for reload)
     // will always pick the first option on the list.
     int last_key = inp_mngr.get_previously_pressed_key();
@@ -7656,7 +7657,8 @@ item::reload_option player::select_ammo( const item &base,
     }
 
     const item_location &sel = opts[ menu.ret ].ammo;
-    uistate.lastreload[ base.ammo_type() ] = sel->is_ammo_container() ? sel->contents.front().typeId() :
+    uistate.lastreload[ ammotype( base.ammo_default() ) ] = sel->is_ammo_container() ?
+            sel->contents.front().typeId() :
             sel->typeId();
     return std::move( opts[ menu.ret ] );
 }
@@ -7720,7 +7722,10 @@ item::reload_option player::select_ammo( const item &base, bool prompt, bool emp
             } else if( base.is_watertight_container() ) {
                 name = base.is_container_empty() ? "liquid" : base.contents.front().tname();
             } else {
-                name = base.ammo_type()->name();
+                const std::set<ammotype> &atypes = base.ammo_types();
+                name = enumerate_as_string( atypes.begin(), atypes.end(), []( const ammotype & at ) {
+                    return at->name();
+                }, enumeration_conjunction::none );
             }
             add_msg_if_player( m_info, _( "You don't have any %s to reload your %s!" ),
                                name, base.tname() );
@@ -8742,7 +8747,7 @@ bool player::unload( item &it )
     }
 
     // Next check for any reasons why the item cannot be unloaded
-    if( !target->ammo_type() || target->ammo_capacity() <= 0 ) {
+    if( target->ammo_types().empty() || target->ammo_capacity() <= 0 ) {
         add_msg( m_info, _( "You can't unload a %s!" ), target->tname() );
         return false;
     }
@@ -8804,7 +8809,7 @@ bool player::unload( item &it )
     } else if( target->ammo_remaining() ) {
         int qty = target->ammo_remaining();
 
-        if( target->ammo_type() == ammotype( "plutonium" ) ) {
+        if( target->ammo_current() == "plutonium" ) {
             qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
             if( qty > 0 ) {
                 add_msg( _( "You recover %i unused plutonium." ), qty );
@@ -8832,7 +8837,7 @@ bool player::unload( item &it )
         // If successful remove appropriate qty of ammo consuming half as much time as required to load it
         this->moves -= this->item_reload_cost( *target, ammo, qty ) / 2;
 
-        if( target->ammo_type() == ammotype( "plutonium" ) ) {
+        if( target->ammo_current() == "plutonium" ) {
             qty *= PLUTONIUM_CHARGES;
         }
 
@@ -8900,7 +8905,7 @@ hint_rating player::rate_action_unload( const item &it ) const
         }
     }
 
-    if( it.ammo_type().is_null() ) {
+    if( it.ammo_types().empty() ) {
         return HINT_CANT;
     }
 
@@ -10731,7 +10736,7 @@ bool player::has_gun_for_ammo( const ammotype &at ) const
 {
     return has_item_with( [at]( const item & it ) {
         // item::ammo_type considers the active gunmod.
-        return it.is_gun() && it.ammo_type() == at;
+        return it.is_gun() && it.ammo_types().count( at );
     } );
 }
 
@@ -10739,10 +10744,10 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
 {
     return has_item_with( [&at]( const item & it ) {
         return !it.has_flag( "NO_RELOAD" ) &&
-               ( ( it.is_magazine() && it.ammo_type() == at ) ||
-                 ( it.is_gun() && it.magazine_integral() && it.ammo_type() == at ) ||
+               ( ( it.is_magazine() && it.ammo_types().count( at ) ) ||
+                 ( it.is_gun() && it.magazine_integral() && it.ammo_types().count( at ) ) ||
                  ( it.is_gun() && it.magazine_current() != nullptr &&
-                   it.magazine_current()->ammo_type() == at ) );
+                   it.magazine_current()->ammo_types().count( at ) ) );
     } );
 }
 

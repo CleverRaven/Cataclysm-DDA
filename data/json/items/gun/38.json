@@ -155,7 +155,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "(",
     "color": "light_gray",
-    "ammo": "38",
+    "ammo": [ "357mag", "38" ],
     "dispersion": 320,
     "durability": 10,
     "clip_size": 7,

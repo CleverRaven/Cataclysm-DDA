@@ -533,7 +533,7 @@ class map
         // Vehicle movement
         void vehmove();
         // Selects a vehicle to move, returns false if no moving vehicles
-        bool vehproceed();
+        bool vehproceed( VehicleList &vehs );
 
         // 3D vehicles
         VehicleList get_vehicles( const tripoint &start, const tripoint &end );
@@ -574,7 +574,7 @@ class map
 
         // Actually moves the vehicle
         // Unlike displace_vehicle, this one handles collisions
-        void move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing );
+        vehicle *move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing );
 
         // Furniture: 2D overloads
         void set( const int x, const int y, const ter_id &new_terrain, const furn_id &new_furniture );
@@ -1463,11 +1463,15 @@ class map
         void draw_connections( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
                                const float density );
 
-        void build_transparency_cache( int zlev );
+        // Builds a transparency cache and returns true if the cache was invalidated.
+        // Used to determine if seen cache should be rebuilt.
+        bool build_transparency_cache( int zlev );
         void build_sunlight_cache( int zlev );
     public:
         void build_outside_cache( int zlev );
-        void build_floor_cache( int zlev );
+        // Builds a floor cache and returns true if the cache was invalidated.
+        // Used to determine if seen cache should be rebuilt.
+        bool build_floor_cache( int zlev );
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
 

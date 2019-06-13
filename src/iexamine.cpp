@@ -53,6 +53,7 @@
 #include "overmapbuffer.h"
 #include "pickup.h"
 #include "player.h"
+#include "recipe.h"
 #include "requirements.h"
 #include "rng.h"
 #include "sounds.h"
@@ -3191,8 +3192,8 @@ const itype *furn_t::crafting_pseudo_item_type() const
 const itype *furn_t::crafting_ammo_item_type() const
 {
     const itype *pseudo = crafting_pseudo_item_type();
-    if( pseudo->tool && !pseudo->tool->ammo_id.is_null() ) {
-        return item::find_type( pseudo->tool->ammo_id->default_ammotype() );
+    if( pseudo->tool && !pseudo->tool->ammo_id.empty() ) {
+        return item::find_type( ammotype( *pseudo->tool->ammo_id.begin() )->default_ammotype() );
     }
     return nullptr;
 }
@@ -4101,7 +4102,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
             const float volume_anesth = itemtype->bionic->difficulty * 20 * 2; // 2ml/min
-            if( volume_anesth > drug_count && acomps.empty() ) {
+            if( needs_anesthesia && volume_anesth > drug_count && acomps.empty() ) {
                 add_msg( m_bad, "You don't have enough anesthetic for this operation." );
                 return;
             }
@@ -4163,7 +4164,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
             const time_duration duration = difficulty * 20_minutes;
             const float volume_anesth = difficulty * 20 * 2; // 2ml/min
-            if( volume_anesth > drug_count && acomps.empty() ) {
+            if( needs_anesthesia && volume_anesth > drug_count && acomps.empty() ) {
                 add_msg( m_bad, "You don't have enough anesthetic for this operation." );
                 return;
             }
@@ -4317,7 +4318,7 @@ static void mill_activate( player &p, const tripoint &examp )
     }
     g->m.furn_set( examp, next_mill_type );
     item result( "fake_milling_item", calendar::turn );
-    result.item_counter = 3600; // = 6 hours
+    result.item_counter = to_turns<int>( 6_hours );
     result.activate();
     g->m.add_item( examp, result );
     add_msg( _( "You remove the brake on the millstone and it slowly starts to turn." ) );
@@ -4423,7 +4424,7 @@ static void smoker_activate( player &p, const tripoint &examp )
         charcoal->charges -= char_charges;
     }
     item result( "fake_smoke_plume", calendar::turn );
-    result.item_counter = 3600; // = 6 hours
+    result.item_counter = to_turns<int>( 6_hours );
     result.activate();
     g->m.add_item( examp, result );
     add_msg( _( "You light a small fire under the rack and it starts to smoke." ) );
@@ -5243,7 +5244,16 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
             if( !p.can_continue_craft( *selected_craft ) ) {
                 break;
             }
-
+            const recipe &rec = selected_craft->get_making();
+            if( p.has_recipe( &rec, p.crafting_inventory(), p.get_crafting_helpers() ) == -1 ) {
+                p.add_msg_player_or_npc(
+                    string_format( _( "You don't know the recipe for the %s and can't continue crafting." ),
+                                   rec.result_name() ),
+                    string_format( _( "<npcname> doesn't know the recipe for the %s and can't continue crafting." ),
+                                   rec.result_name() )
+                );
+                break;
+            }
             p.add_msg_player_or_npc(
                 string_format( pgettext( "in progress craft", "You start working on the %s." ),
                                selected_craft->tname() ),

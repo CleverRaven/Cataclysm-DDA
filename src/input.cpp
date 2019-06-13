@@ -953,8 +953,8 @@ void input_context::display_menu()
     // Shamelessly stolen from help.cpp
 
     input_context ctxt( "HELP_KEYBINDINGS" );
-    ctxt.register_action( "UP", _( "Scroll up" ) );
-    ctxt.register_action( "DOWN", _( "Scroll down" ) );
+    ctxt.register_action( "UP", translate_marker( "Scroll up" ) );
+    ctxt.register_action( "DOWN", translate_marker( "Scroll down" ) );
     ctxt.register_action( "PAGE_DOWN" );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "REMOVE" );
@@ -1293,7 +1293,7 @@ const std::string input_context::get_action_name( const std::string &action_id )
     const input_manager::t_string_string_map::const_iterator action_name_override =
         action_name_overrides.find( action_id );
     if( action_name_override != action_name_overrides.end() ) {
-        return action_name_override->second;
+        return _( action_name_override->second );
     }
 
     // 2) Check if the hotkey has a name

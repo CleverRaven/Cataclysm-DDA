@@ -1220,6 +1220,13 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "garage_gas_roof_1",
+    "name": "garage - gas station roof",
+    "copy-from": "generic_city_building",
+    "color": "light_blue"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "garage_gas_2",
     "copy-from": "generic_city_building",
     "name": "garage",
@@ -1228,9 +1235,25 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "garage_gas_roof_2",
+    "copy-from": "generic_city_building",
+    "name": "garage roof",
+    "sym": "O",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
     "id": "garage_gas_3",
     "copy-from": "generic_city_building",
     "name": "garage",
+    "sym": "O",
+    "color": "white"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "garage_gas_roof_3",
+    "copy-from": "generic_city_building",
+    "name": "garage roof",
     "sym": "O",
     "color": "white"
   },
@@ -1810,6 +1833,62 @@
     "type": "overmap_terrain",
     "id": "craft_shop",
     "name": "craft shop",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_roof",
+    "name": "craft shop roof",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_upper_roof",
+    "name": "craft shop upper roof",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_1",
+    "name": "craft shop",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_roof_1",
+    "name": "craft shop roof",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_2",
+    "name": "craft shop",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_2ndfloor_2",
+    "name": "craft shop 2nd floor",
+    "copy-from": "generic_city_building",
+    "sym": "s",
+    "color": "cyan"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "craft_shop_roof_2",
+    "name": "craft shop roof",
     "copy-from": "generic_city_building",
     "sym": "s",
     "color": "cyan"

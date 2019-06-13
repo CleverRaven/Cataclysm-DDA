@@ -463,7 +463,7 @@ bool vehicle_part::is_tank() const
 
 bool vehicle_part::is_battery() const
 {
-    return base.is_magazine() && base.ammo_type() == "battery";
+    return base.is_magazine() && base.ammo_types().count( ammotype( "battery" ) );
 }
 
 bool vehicle_part::is_reactor() const

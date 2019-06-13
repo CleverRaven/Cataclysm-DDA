@@ -1091,8 +1091,8 @@ static bool search( tripoint &curs, const tripoint &orig, const bool show_explor
 
     input_context ctxt( "OVERMAP_SEARCH" );
     ctxt.register_leftright();
-    ctxt.register_action( "NEXT_TAB", _( "Next target" ) );
-    ctxt.register_action( "PREV_TAB", _( "Previous target" ) );
+    ctxt.register_action( "NEXT_TAB", translate_marker( "Next target" ) );
+    ctxt.register_action( "PREV_TAB", translate_marker( "Previous target" ) );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );

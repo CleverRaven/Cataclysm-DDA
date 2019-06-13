@@ -9499,7 +9499,7 @@
     "description": "A wooden platform held by a support made of logs dug into the ground.",
     "symbol": "8",
     "color": "brown",
-    "move_cost": 4,
+    "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
     "deconstruct": { "ter_set": "t_water_sh", "items": [ { "item": "nail", "charges": [ 6, 12 ] }, { "item": "2x4", "count": 8 } ] },
     "bash": {
@@ -9519,7 +9519,7 @@
     "looks_like": "t_dock",
     "symbol": "8",
     "color": "brown",
-    "move_cost": 4,
+    "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
     "deconstruct": { "ter_set": "t_water_sh", "items": [ { "item": "nail", "charges": [ 6, 12 ] }, { "item": "2x4", "count": 8 } ] },
     "bash": {
@@ -9538,7 +9538,7 @@
     "description": "A floating temporary bridge, like the ones army used to make to cross rivers.",
     "symbol": "8",
     "color": "brown",
-    "move_cost": 4,
+    "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
     "deconstruct": {
       "ter_set": "t_water_dp",
@@ -9561,7 +9561,7 @@
     "looks_like": "t_pontoon",
     "symbol": "8",
     "color": "brown",
-    "move_cost": 4,
+    "move_cost": 2,
     "flags": [ "TRANSPARENT", "FLAT" ],
     "deconstruct": {
       "ter_set": "t_water_moving_dp",
