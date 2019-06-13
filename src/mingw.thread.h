@@ -71,7 +71,7 @@ class thread
         static unsigned int __stdcall threadfunc( void *arg ) {
             std::unique_ptr<Call> upCall( static_cast<Call *>( arg ) );
             ( *upCall )();
-            return ( unsigned long )0;
+            return static_cast<unsigned long>( 0 );
         }
         bool joinable() const {
             return mHandle != _STD_THREAD_INVALID_HANDLE;
