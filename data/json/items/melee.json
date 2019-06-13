@@ -2298,7 +2298,7 @@
     "bashing": 40,
     "cutting": 0,
     "material": [ "wood", "steel" ],
-    "symbol": "\",
+    "symbol": "\\",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
     "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE" ]
