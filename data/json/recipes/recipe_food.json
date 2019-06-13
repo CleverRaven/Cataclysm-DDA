@@ -4260,9 +4260,10 @@
     "time": "30 m",
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
+    "result_mult": 2,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "meat", 1 ], [ "meat_scrap", 10 ] ] ]
+    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "meat", 2 ], [ "meat_scrap", 20 ] ] ]
   },
   {
     "type": "recipe",
@@ -4318,7 +4319,7 @@
     "components": [
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
       [ [ "jar_glass", 1 ] ],
-      [ [ "mushroom", 6 ], [ "veggy_any_uncooked", 4, "LIST" ] ]
+      [ [ "mushroom", 4 ], [ "veggy_any_uncooked", 2, "LIST" ] ]
     ]
   },
   {
@@ -6371,21 +6372,7 @@
       [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [
-        [ "carrot", 2 ],
-        [ "plant_sac", 1 ],
-        [ "raw_dandelion", 1 ],
-        [ "broccoli", 1 ],
-        [ "zucchini", 1 ],
-        [ "celery", 1 ],
-        [ "onion", 1 ],
-        [ "veggy_wild", 1 ],
-        [ "lettuce", 1 ],
-        [ "potato", 1 ],
-        [ "pumpkin", 1 ],
-        [ "cabbage", 1 ],
-        [ "veggy", 1 ]
-      ]
+      [ [ "mushroom", 2 ], [ "veggy_any_uncooked", 1, "LIST" ] ]
     ]
   },
   {

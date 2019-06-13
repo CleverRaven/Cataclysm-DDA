@@ -23,6 +23,7 @@
 #include "catacharset.h"
 #include "clzones.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
+#include "construction.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
 #include "debug.h"
@@ -121,6 +122,7 @@ static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
+const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
 const zone_type_id z_loot_unsorted( "LOOT_UNSORTED" );
 
@@ -3128,6 +3130,32 @@ void iexamine::trap( player &p, const tripoint &examp )
                  tr.name() );
         return;
     }
+    if( tr.loadid == tr_unfinished_construction ) {
+        partial_con *pc = g->m.partial_con_at( examp );
+        if( pc ) {
+            const std::vector<construction> &list_constructions = get_constructions();
+            const construction &built = list_constructions[pc->id];
+            if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
+                           built.description, pc->counter / 100000 ) ) {
+                if( query_yn( _( "Cancel construction?" ) ) ) {
+                    g->m.disarm_trap( examp );
+                    for( const item &it : pc->components ) {
+                        g->m.add_item_or_charges( g->u.pos(), it );
+                    }
+                    g->m.partial_con_remove( examp );
+                    return;
+                } else {
+                    return;
+                }
+            } else {
+                g->u.assign_activity( activity_id( "ACT_BUILD" ) );
+                g->u.activity.placement = g->m.getabs( examp );
+                return;
+            }
+        } else {
+            return;
+        }
+    }
     // Some traps are not actual traps. Those should get a different query.
     if( seen && possible == 0 &&
         tr.get_avoidance() == 0 ) { // Separated so saying no doesn't trigger the other query.
@@ -3998,6 +4026,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     // Legacy
     std::vector<item_comp> acomps;
     std::vector<tool_comp> anesth_kit;
+    int drug_count = 0;
+
     if( patient.has_trait( trait_NOPAIN ) || patient.has_bionic( bionic_id( "bio_painkiller" ) ) ||
         amenu.ret > 1 ) {
         needs_anesthesia = false;
@@ -4011,6 +4041,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         for( const item *anesthesia_item : a_filter ) {
             if( anesthesia_item->ammo_remaining() >= 1 ) {
                 anesth_kit.push_back( tool_comp( anesthesia_item->typeId(), 1 ) );
+                drug_count += anesthesia_item->ammo_remaining();
             }
         }
         for( const item *anesthesia_item : b_filter ) {
@@ -4069,6 +4100,12 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             const time_duration duration = itemtype->bionic->difficulty * 20_minutes;
+            const float volume_anesth = itemtype->bionic->difficulty * 20 * 2; // 2ml/min
+            if( volume_anesth > drug_count && acomps.empty() ) {
+                add_msg( m_bad, "You don't have enough anesthetic for this operation." );
+                return;
+            }
+
             if( patient.install_bionics( ( *itemtype ), installer, true ) ) {
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 std::vector<item_comp> comps;
@@ -4077,7 +4114,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 if( needs_anesthesia ) {
                     // Consume obsolete anesthesia first
                     if( acomps.empty() ) {
-                        p.consume_tools( anesth_kit, 1 );
+                        p.consume_tools( anesth_kit, volume_anesth );
                     } else {
                         // Legacy
                         p.consume_items( acomps, 1, is_crafting_component );
@@ -4125,6 +4162,11 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             // Malfunctioning bionics don't have associated items and get a difficulty of 12
             const int difficulty = itemtype->bionic ? itemtype->bionic->difficulty : 12;
             const time_duration duration = difficulty * 20_minutes;
+            const float volume_anesth = difficulty * 20 * 2; // 2ml/min
+            if( volume_anesth > drug_count && acomps.empty() ) {
+                add_msg( m_bad, "You don't have enough anesthetic for this operation." );
+                return;
+            }
 
             player &installer = best_installer( p, null_player, difficulty );
             if( &installer == &null_player ) {
@@ -4135,7 +4177,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 patient.introduce_into_anesthesia( duration, installer, needs_anesthesia );
                 if( needs_anesthesia ) {
                     if( acomps.empty() ) { // consume obsolete anesthesia first
-                        p.consume_tools( anesth_kit, 1 );
+                        p.consume_tools( anesth_kit, volume_anesth );
                     } else {
                         p.consume_items( acomps, 1, is_crafting_component ); // legacy
                     }

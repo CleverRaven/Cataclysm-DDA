@@ -194,5 +194,12 @@
     "info": "Disables robot spawning from alerts and from being wanted.",
     "stype": "bool",
     "value": false
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "CRAZY",
+    "info": "A boolean specifically for Crazy Cataclysm.",
+    "stype": "bool",
+    "value": false
   }
 ]

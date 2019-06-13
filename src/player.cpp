@@ -3952,8 +3952,8 @@ void player::update_body( const time_point &from, const time_point &to )
 {
     update_stamina( to_turns<int>( to - from ) );
     update_stomach( from, to );
-    if( ticks_between( from, to, 10_turns ) > 0 ) {
-        magic.update_mana( *this, to_turns<float>( 10_turns ) );
+    if( ticks_between( from, to, 3_minutes ) > 0 ) {
+        magic.update_mana( *this, to_turns<float>( 3_minutes ) );
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
@@ -8041,7 +8041,7 @@ bool player::pick_style() // Style selection menu
 
     if( selection >= STYLE_OFFSET ) {
         style_selected = selectable_styles[selection - STYLE_OFFSET];
-        add_msg_if_player( m_info, _( style_selected.obj().get_initiate_player_message() ) );
+        martialart_use_message();
     } else if( selection == KEEP_HANDS_FREE ) {
         keep_hands_free = !keep_hands_free;
     } else {
@@ -11488,7 +11488,7 @@ bool player::can_hear( const tripoint &source, const int volume ) const
     }
     const int dist = rl_dist( source, pos() );
     const float volume_multiplier = hearing_ability();
-    return ( volume - weather_data( g->weather.weather ).sound_attn ) * volume_multiplier >= dist;
+    return ( volume - weather::sound_attn( g->weather.weather ) ) * volume_multiplier >= dist;
 }
 
 float player::hearing_ability() const

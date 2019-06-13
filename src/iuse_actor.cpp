@@ -1122,6 +1122,7 @@ iuse_actor *firestarter_actor::clone() const
 
 bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
 {
+    // checks for fuel are handled by use and the activity, not here
     if( pos == p.pos() ) {
         if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
             pos = *pnt_;
@@ -1129,10 +1130,6 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
             g->refresh_all();
             return false;
         }
-    }
-    if( !g->m.is_flammable( pos ) ) {
-        p.add_msg_if_player( m_info, _( "There's nothing to light there." ) );
-        return false;
     }
     if( pos == p.pos() ) {
         p.add_msg_if_player( m_info, _( "You would set yourself on fire." ) );
@@ -1256,12 +1253,16 @@ int firestarter_actor::use( player &p, item &it, bool t, const tripoint &spos ) 
         p.mod_moves( -moves );
         return it.type->charges_to_use();
     }
-    p.assign_activity( activity_id( "ACT_START_FIRE" ), moves, -1, p.get_item_position( &it ),
+
+    // skill gains are handled by the activity, but stored here in the index field
+    const int potential_skill_gain = moves_modifier + moves_cost_fast / 100 + 2;
+    p.assign_activity( activity_id( "ACT_START_FIRE" ), moves, potential_skill_gain,
+                       p.get_item_position( &it ),
                        it.tname() );
     p.activity.values.push_back( g->natural_light_level( pos.z ) );
     p.activity.placement = pos;
-    p.practice( skill_survival, moves_modifier + moves_cost_fast / 100 + 2, 5 );
-    return it.type->charges_to_use();
+    // charges to use are handled by the activity
+    return 0;
 }
 
 void salvage_actor::load( JsonObject &obj )
@@ -2232,11 +2233,11 @@ int learn_spell_actor::use( player &p, item &, bool, const tripoint & ) const
     if( knows_spell ) {
         study_spell.str_values[1] = "study";
         const int study_time = uilist( _( "Spend how long studying?" ), {
-            { 30000, true, -1, _( "30 minutes" ) },
-            { 60000, true, -1, _( "1 hour" ) },
-            { 120000, true, -1, _( "2 hours" ) },
-            { 240000, true, -1, _( "4 hours" ) },
-            { 480000, true, -1, _( "8 hours" ) },
+            { to_moves<int>( 30_minutes ), true, -1, _( "30 minutes" ) },
+            { to_moves<int>( 1_hours ), true, -1, _( "1 hour" ) },
+            { to_moves<int>( 2_hours ), true, -1, _( "2 hours" ) },
+            { to_moves<int>( 4_hours ), true, -1, _( "4 hours" ) },
+            { to_moves<int>( 8_hours ), true, -1, _( "8 hours" ) },
             { 10100, true, -1, _( "Until you gain a spell level" ) }
         } );
         if( study_time <= 0 ) {

@@ -3083,6 +3083,15 @@ void basecamp::serialize( JsonOut &json ) const
                 json.end_object();
             }
             json.end_array();
+            json.member( "in_progress" );
+            json.start_array();
+            for( const auto working : expansion.second.in_progress ) {
+                json.start_object();
+                json.member( "id", working.first );
+                json.member( "amount", working.second );
+                json.end_object();
+            }
+            json.end_array();
             json.member( "pos", expansion.second.pos );
             json.end_object();
         }
@@ -3130,6 +3139,13 @@ void basecamp::deserialize( JsonIn &jsin )
         const std::string &initial_provide = base_camps::faction_encode_abs( e, 0 );
         if( e.provides.find( initial_provide ) == e.provides.end() ) {
             e.provides[ initial_provide ] = 1;
+        }
+        JsonArray in_progress_arr = edata.get_array( "in_progress" );
+        while( in_progress_arr.has_more() ) {
+            JsonObject in_progress_data = in_progress_arr.next_object();
+            std::string id = in_progress_data.get_string( "id" );
+            int amount = in_progress_data.get_int( "amount" );
+            e.in_progress[ id ] = amount;
         }
         edata.read( "pos", e.pos );
         expansions[ dir ] = e;
@@ -3328,6 +3344,21 @@ void submap::store( JsonOut &jsout ) const
     }
     jsout.end_array();
 
+    jsout.member( "partial_constructions" );
+    jsout.start_array();
+    for( auto &elem : partial_constructions ) {
+        jsout.write( elem.first.x );
+        jsout.write( elem.first.y );
+        jsout.write( elem.first.z );
+        jsout.write( elem.second.counter );
+        jsout.write( elem.second.id );
+        jsout.start_array();
+        for( auto &it : elem.second.components ) {
+            jsout.write( it );
+        }
+        jsout.end_array();
+    }
+    jsout.end_array();
     // Output the computer
     if( comp != nullptr ) {
         jsout.member( "computers", comp->save_data() );
@@ -3552,6 +3583,24 @@ void submap::load( JsonIn &jsin, const std::string &member_name, bool rubpow_upd
             std::unique_ptr<vehicle> tmp( new vehicle() );
             jsin.read( *tmp );
             vehicles.push_back( std::move( tmp ) );
+        }
+    } else if( member_name == "partial_constructions" ) {
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            partial_con pc;
+            int i = jsin.get_int();
+            int j = jsin.get_int();
+            int k = jsin.get_int();
+            tripoint pt = tripoint( i, j, k );
+            pc.counter = jsin.get_int();
+            pc.id = jsin.get_int();
+            jsin.start_array();
+            while( !jsin.end_array() ) {
+                item tmp;
+                jsin.read( tmp );
+                pc.components.push_back( tmp );
+            }
+            partial_constructions[pt] = pc;
         }
     } else if( member_name == "computers" ) {
         std::string computer_data = jsin.get_string();

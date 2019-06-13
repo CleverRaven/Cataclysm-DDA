@@ -4,6 +4,7 @@
     "id": "default",
     "default_oter": "field",
     "default_groundcover": [ [ "t_grass", 4 ], [ "t_grass_long", 2 ], [ "t_dirt", 1 ] ],
+    "river_scale": 1.0,
     "field_coverage": {
       "percent_coverage": 0.9333,
       "default_ter": "t_shrub",
@@ -641,7 +642,9 @@
         "s_electronics": 500,
         "pawn": 300,
         "mil_surplus": 200,
-        "s_garage": 500,
+        "s_garage": 300,
+        "s_garage_1": 300,
+        "s_garage_2": 300,
         "station_radio": 400,
         "office_doctor": 200,
         "office_doctor_1": 200,

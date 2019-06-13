@@ -75,6 +75,7 @@ void ma_requirements::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "req_flags", req_flags, auto_flags_reader<> {} );
 
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
+    optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
 
     // TODO: De-hardcode the skills and damage types here
     add_if_exists( jo, min_skill, was_loaded, "min_melee", skill_melee );
@@ -216,6 +217,8 @@ void martialart::load( JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "weapons", weapons, auto_flags_reader<itype_id> {} );
 
     optional( jo, was_loaded, "strictly_unarmed", strictly_unarmed, false );
+    optional( jo, was_loaded, "strictly_melee", strictly_melee, false );
+    optional( jo, was_loaded, "allow_melee", allow_melee, false );
     optional( jo, was_loaded, "force_unarmed", force_unarmed, false );
 
     optional( jo, was_loaded, "leg_block", leg_block, 99 );
@@ -669,7 +672,11 @@ bool martialart::has_weapon( const itype_id &itt ) const
 
 bool martialart::weapon_valid( const item &it ) const
 {
-    if( it.is_null() ) {
+    if( allow_melee ) {
+        return true;
+    }
+
+    if( it.is_null() && !strictly_melee ) {
         return true;
     }
 
@@ -677,7 +684,11 @@ bool martialart::weapon_valid( const item &it ) const
         return true;
     }
 
-    return !strictly_unarmed && it.has_flag( "UNARMED_WEAPON" );
+    if( !strictly_unarmed && it.has_flag( "UNARMED_WEAPON" ) ) {
+        return true;
+    }
+
+    return false;
 }
 
 std::string martialart::get_initiate_player_message() const
@@ -1005,6 +1016,23 @@ bool player::can_autolearn( const matype_id &ma_id ) const
 
     return true;
 }
+
+void player::martialart_use_message() const
+{
+    martialart ma = style_selected.obj();
+    if( !ma.force_unarmed && !ma.weapon_valid( weapon ) ) {
+        if( !has_weapon() && ma.strictly_melee ) {
+            add_msg_if_player( m_bad, _( "%s cannot be used unarmed." ), ma.name );
+        } else if( has_weapon() && ma.strictly_unarmed ) {
+            add_msg_if_player( m_bad, _( "%s cannot be used with weapons." ), ma.name );
+        } else {
+            add_msg_if_player( m_bad, _( "The %s is not a valid %s weapon." ), weapname(), ma.name );
+        }
+    } else {
+        add_msg_if_player( m_info, _( ma.get_initiate_player_message() ) );
+    }
+}
+
 
 float ma_technique::damage_bonus( const player &u, damage_type type ) const
 {
