@@ -67,7 +67,6 @@ const species_id ZOMBIE( "ZOMBIE" );
 const species_id HUMAN( "HUMAN" );
 
 const efftype_id effect_amigara( "amigara" );
-const efftype_id effect_mending( "mending" );
 
 int alerts = 0;
 
@@ -737,62 +736,28 @@ void computer::activate_function( computer_action action )
             query_any( _( "Elevator activated.  Press any key..." ) );
             break;
 
-        case COMPACT_AMIGARA_LOG: // TODO: This is static, move to data file?
+        case COMPACT_AMIGARA_LOG: {
             g->u.moves -= 30;
             reset_terminal();
             print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
-            print_line( _( "\
-ENTRY 47:\n\
-Our normal mining routine has unearthed a hollow chamber.  This would not be\n\
-out of the ordinary, save for the odd, perfectly vertical faultline found.\n\
-This faultline has several odd concavities in it which have the more\n\
-superstitious crew members alarmed; they seem to be of human origin.\n\
-\n\
-ENTRY 48:\n\
-The concavities are between 10 and 20 feet tall, and run the length of the\n\
-faultline.  Each one is vaguely human in shape, but with the proportions of\n\
-the limbs, neck and head greatly distended, all twisted and curled in on\n\
-themselves.\n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara1" ) ) );
+
             if( !query_bool( _( "Continue reading?" ) ) ) {
                 return;
             }
             g->u.moves -= 30;
             reset_terminal();
             print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
-            print_line( _( "\
-ENTRY 49:\n\
-We've stopped mining operations in this area, obviously, until archaeologists\n\
-have the chance to inspect the area.  This is going to set our schedule back\n\
-by at least a week.  This stupid artifact-preservation law has been in place\n\
-for 50 years, and hasn't even been up for termination despite the fact that\n\
-these mining operations are the backbone of our economy.\n\
-\n\
-ENTRY 52:\n\
-Still waiting on the archaeologists.  We've done a little light inspection of\n\
-the faultline; our sounding equipment is insufficient to measure the depth of\n\
-the concavities.  The equipment is rated at 15 miles depth, but it isn't made\n\
-for such narrow tunnels, so it's hard to say exactly how far back they go.\n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara2" ) ) );
+
             if( !query_bool( _( "Continue reading?" ) ) ) {
                 return;
             }
             g->u.moves -= 30;
             reset_terminal();
             print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
-            print_line( _( "\
-ENTRY 54:\n\
-I noticed a couple of the guys down in the chamber with a chisel, breaking\n\
-off a piece of the sheer wall.  I'm looking the other way.  It's not like\n\
-the eggheads are going to notice a little piece missing.  Fuck em.\n\
-\n\
-ENTRY 55:\n\
-Well, the archaeologists are down there now with a couple of the boys as\n\
-guides.  They're hardly Indiana Jones types; I doubt they been below 20\n\
-feet.  I hate taking guys off assignment just to babysit the scientists, but\n\
-if they get hurt we'll be shut down for god knows how long.\n\
-\n\
-ENTRY 58:\n\
-They're bringing in ANOTHER CREW?  Christ, it's just some cave carvings!  I\n\
-know that's sort of a big deal, but come on, these guys can't handle it?\n" ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara3" ) ) );
+
             if( !query_bool( _( "Continue reading?" ) ) ) {
                 return;
             }
@@ -815,15 +780,7 @@ know that's sort of a big deal, but come on, these guys can't handle it?\n" ) );
 SITE %d%d%d\n\
 PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
                         g->get_levx(), g->get_levy(), abs( g->get_levz() ) );
-            print_line( _( "\n\
-MINE OPERATIONS SUSPENDED; CONTROL TRANSFERRED TO AMIGARA PROJECT UNDER\n\
-   IMPERATIVE 2:07B\n\
-FAULTLINE SOUNDING HAS PLACED DEPTH AT 30.09 KM\n\
-DAMAGE TO FAULTLINE DISCOVERED; NEPOWER MINE CREW PLACED UNDER ARREST FOR\n\
-   VIOLATION OF REGULATION 87.08 AND TRANSFERRED TO LAB 89-C FOR USE AS\n\
-   SUBJECTS\n\
-QUALITY OF FAULTLINE NOT COMPROMISED\n\
-INITIATING STANDARD TREMOR TEST..." ) );
+            print_text( "%s", SNIPPET.get( SNIPPET.assign( "amigara4" ) ) );
             print_gibberish_line();
             print_gibberish_line();
             print_newline();
@@ -831,51 +788,16 @@ INITIATING STANDARD TREMOR TEST..." ) );
             inp_mngr.wait_for_any_key();
             reset_terminal();
             break;
+        }
 
         case COMPACT_AMIGARA_START:
-            g->events.add( EVENT_AMIGARA, calendar::turn + 10_turns );
+            g->events.add( EVENT_AMIGARA, calendar::turn + 1_minutes );
             if( !g->u.has_artifact_with( AEP_PSYSHIELD ) ) {
                 g->u.add_effect( effect_amigara, 2_minutes );
             }
             // Disable this action to prevent further amigara events, which would lead to
             // further amigara monster, which would lead to further artifacts.
             remove_option( COMPACT_AMIGARA_START );
-            break;
-
-        case COMPACT_BONESETTING:
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                const bool broken = g->u.get_hp( static_cast<hp_part>( i ) ) <= 0;
-                body_part part = g->u.hp_to_bp( static_cast<hp_part>( i ) );
-                effect &existing_effect = g->u.get_effect( effect_mending, part );
-                // Skip part if not broken or already healed 50%
-                if( !broken || ( !existing_effect.is_null() &&
-                                 existing_effect.get_duration() >
-                                 existing_effect.get_max_duration() - 5_days - 1_turns ) ) {
-                    continue;
-                }
-                g->u.moves -= 500;
-                print_line( _( "The machine rapidly sets and splints your broken %s." ),
-                            body_part_name( part ) );
-                // TODO: fail here if unable to perform the action, i.e. can't wear more, trait mismatch.
-                if( !g->u.worn_with_flag( "SPLINT", part ) ) {
-                    item splint;
-                    if( i == hp_arm_l || i == hp_arm_r ) {
-                        splint = item( "arm_splint", 0 );
-                    } else if( i == hp_leg_l || i == hp_leg_r ) {
-                        splint = item( "leg_splint", 0 );
-                    }
-                    item &equipped_splint = g->u.i_add( splint );
-                    cata::optional<std::list<item>::iterator> worn_item =
-                        g->u.wear( equipped_splint, false );
-                    if( worn_item && !g->u.worn_with_flag( "SPLINT", part ) ) {
-                        g->u.change_side( **worn_item, false );
-                    }
-                }
-                g->u.add_effect( effect_mending, 0_turns, part, true );
-                effect &mending_effect = g->u.get_effect( effect_mending, part );
-                mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
-            }
-            query_any( _( "Press any key..." ) );
             break;
 
         case COMPACT_COMPLETE_DISABLE_EXTERNAL_POWER:
@@ -1525,7 +1447,7 @@ SHORTLY. TO ENSURE YOUR SAFETY PLEASE FOLLOW THE STEPS BELOW. \n\
 
 void computer::activate_random_failure()
 {
-    next_attempt = calendar::turn + 450_turns;
+    next_attempt = calendar::turn + 45_minutes;
     static const computer_failure default_failure( COMPFAIL_SHUTDOWN );
     const computer_failure &fail = random_entry( failures, default_failure );
     activate_failure( fail.type );
@@ -1665,7 +1587,7 @@ void computer::activate_failure( computer_failure_type fail )
             break;
 
         case COMPFAIL_AMIGARA:
-            g->events.add( EVENT_AMIGARA, calendar::turn + 5_turns );
+            g->events.add( EVENT_AMIGARA, calendar::turn + 30_seconds );
             g->u.add_effect( effect_amigara, 2_minutes );
             explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
                                           10,
@@ -1937,7 +1859,6 @@ computer_action computer_action_from_string( const std::string &str )
             { "blood_anal", COMPACT_BLOOD_ANAL },
             { "data_anal", COMPACT_DATA_ANAL },
             { "disconnect", COMPACT_DISCONNECT },
-            { "bonesetting", COMPACT_BONESETTING },
             { "emerg_mess", COMPACT_EMERG_MESS },
             { "emerg_ref_center", COMPACT_EMERG_REF_CENTER },
             { "tower_unresponsive", COMPACT_TOWER_UNRESPONSIVE },

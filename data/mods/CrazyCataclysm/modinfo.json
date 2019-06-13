@@ -18,5 +18,12 @@
       "mon_zombie_skeltal",
       "mon_zombie_skeltal_minion"
     ]
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "CRAZY",
+    "info": "It's craaaaaazy!",
+    "stype": "bool",
+    "value": true
   }
 ]

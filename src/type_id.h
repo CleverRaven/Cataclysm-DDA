@@ -20,6 +20,10 @@ using emit_id = string_id<emit>;
 class fault;
 using fault_id = string_id<fault>;
 
+struct field_type;
+using field_type_id = int_id<field_type>;
+using field_type_str_id = string_id<field_type>;
+
 struct furn_t;
 using furn_id = int_id<furn_t>;
 using furn_str_id = string_id<furn_t>;

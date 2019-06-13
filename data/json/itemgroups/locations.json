@@ -592,5 +592,76 @@
     "id": "oa_ig_ts_tires",
     "//": "for cs_tire_shop",
     "items": [ [ "wheel_small", 30 ], [ "wheel", 30 ], [ "wheel_wide", 20 ] ]
+  },
+  {
+    "id": "daycare_misc",
+    "type": "item_group",
+    "items": [
+      [ "magnifying_glass", 2 ],
+      [ "sewing_kit", 1 ],
+      [ "scissors", 1 ],
+      [ "phonebook", 2 ],
+      [ "flashlight", 2 ],
+      [ "mag_comic", 5 ]
+    ]
+  },
+  {
+    "id": "daycare_kitchen",
+    "type": "item_group",
+    "items": [ [ "oj", 35 ], [ "cooked_pumpkin", 25 ], [ "bread", 10 ], [ "fruit_waffles", 5 ], [ "grahmcrackers", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "ss_merch_1",
+    "//": "for cs_sex_shop",
+    "items": [
+      [ "corset", 20 ],
+      [ "vibrator", 20 ],
+      [ "leather_cat_tail", 20 ],
+      [ "leather_cat_ears", 20 ],
+      [ "leather_collar", 20 ],
+      [ "bondage_mask", 20 ],
+      [ "bullwhip", 20 ],
+      [ "candle", 20 ],
+      [ "condom", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ss_merch_2",
+    "//": "for cs_sex_shop",
+    "items": [ [ "mag_porn", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "ss_merch_3",
+    "//": "for cs_sex_shop",
+    "items": [
+      [ "wolfsuit", 15 ],
+      [ "dinosuit", 15 ],
+      [ "bondage_suit", 10 ],
+      [ "chaps_leather", 10 ],
+      [ "hot_pants", 20 ],
+      [ "hot_pants_leather", 20 ],
+      [ "hot_pants_fur", 20 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "backroom",
+    "//": "for cs_sex_shop",
+    "items": [
+      [ "weed", 10 ],
+      [ "coke", 10 ],
+      [ "meth", 10 ],
+      [ "aspirin", 10 ],
+      [ "mag_porn", 10 ],
+      [ "purse", 10 ],
+      [ "hairpin", 5 ],
+      [ "syringe", 10 ],
+      [ "blanket", 20 ],
+      [ "candle", 20 ],
+      [ "pillow", 20 ]
+    ]
   }
 ]

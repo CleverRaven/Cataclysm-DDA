@@ -13,6 +13,7 @@
 #include "basecamp.h"
 #include "calendar.h"
 #include "computer.h"
+#include "construction.h"
 #include "field.h"
 #include "game_constants.h"
 #include "item.h"
@@ -193,6 +194,7 @@ class submap : public maptile_soa<SEEX, SEEY>    // TODO: Use private inheritanc
          * deleted.
          */
         std::vector<std::unique_ptr<vehicle>> vehicles;
+        std::map<tripoint, partial_con> partial_constructions;
         std::unique_ptr<computer> comp;
         basecamp camp;  // only allowing one basecamp per submap
 

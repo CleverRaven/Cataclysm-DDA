@@ -2,6 +2,7 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
+#include <array>
 #include <cassert>
 #include <climits>
 #include <ostream>
@@ -356,6 +357,18 @@ inline bool operator<( const tripoint &a, const tripoint &b )
     return false;
 }
 
+static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
+        { -1, -1, 0 },
+        {  0, -1, 0 },
+        { +1, -1, 0 },
+        { -1,  0, 0 },
+        { +1,  0, 0 },
+        { -1, +1, 0 },
+        {  0, +1, 0 },
+        { +1, +1, 0 },
+    }
+};
+
 struct rectangle {
     point p_min;
     point p_max;
@@ -452,7 +465,28 @@ enum game_message_type : int {
     /* custom SCT colors */
     m_headshot,
     m_critical,
-    m_grazing
+    m_grazing,
+};
+
+enum game_message_flags {
+    /* No specific game message flags */
+    gmf_none = 0,
+    /* Allow the message to bypass message cooldown. */
+    gmf_bypass_cooldown = 1,
+};
+
+/** Structure allowing a combination of `game_message_type` and `game_message_flags`.
+ */
+struct game_message_params {
+    game_message_params( const game_message_type message_type ) : type( message_type ),
+        flags( gmf_none ) {}
+    game_message_params( const game_message_type message_type,
+                         const game_message_flags message_flags ) : type( message_type ), flags( message_flags ) {}
+
+    /* Type of the message */
+    game_message_type type;
+    /* Flags pertaining to the message */
+    game_message_flags flags;
 };
 
 #endif

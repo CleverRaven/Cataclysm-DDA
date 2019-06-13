@@ -88,6 +88,7 @@ void RenderFillRect( const SDL_Renderer_Ptr &renderer, const SDL_Rect *rect );
 void FillRect( const SDL_Surface_Ptr &surface, const SDL_Rect *rect, Uint32 color );
 bool SetTextureColorMod( const SDL_Texture_Ptr &texture, Uint32 r, Uint32 g, Uint32 b );
 void SetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode blendMode );
+void GetRenderDrawBlendMode( const SDL_Renderer_Ptr &renderer, SDL_BlendMode &blend_mode );
 SDL_Surface_Ptr load_image( const char *path );
 void SetRenderTarget( const SDL_Renderer_Ptr &renderer, const SDL_Texture_Ptr &texture );
 void RenderClear( const SDL_Renderer_Ptr &renderer );

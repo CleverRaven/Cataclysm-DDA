@@ -295,8 +295,12 @@ enum action_id : int {
     ACTION_TOGGLE_AUTO_MINING,
     /** Turn auto foraging on/off */
     ACTION_TOGGLE_AUTO_FORAGING,
+    /** Turn auto pickup on/off */
+    ACTION_TOGGLE_AUTO_PICKUP,
     /** Toggle temperature map */
     ACTION_DISPLAY_TEMPERATURE,
+    /** Toggle visibility map */
+    ACTION_DISPLAY_VISIBILITY,
     /** Not an action, serves as count of enumerated actions */
     NUM_ACTIONS
     /**@}*/

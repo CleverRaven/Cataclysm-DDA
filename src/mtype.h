@@ -154,6 +154,7 @@ enum m_flag : int {
     MF_CATFOOD,             // This monster will become friendly when fed cat food.
     MF_CATTLEFODDER,        // This monster will become friendly when fed cattle fodder.
     MF_BIRDFOOD,            // This monster will become friendly when fed bird food.
+    MF_PET_MOUNTABLE,       // This monster can be mounted and ridden when tamed.
     MF_DOGFOOD,             // This monster will become friendly when fed dog food.
     MF_MILKABLE,            // This monster is milkable.
     MF_NO_BREED,            // This monster doesn't breed, even though it has breed data
