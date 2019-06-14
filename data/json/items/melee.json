@@ -2309,7 +2309,7 @@
 	"category": "weapons",
     "name": "peasant flail",
     "name_plural": "peasant flails",
-    "description": "This is a stout pole with a wooden club on a leather cord atached to it, this is a tool used to thresh wheat and occasionally people when the peasants got angry at their feudal lords",
+    "description": "This is a stout pole with a wooden club on a leather cord attached to it, this is a tool used to thresh wheat and occasionally people when the peasants got angry at their feudal lords.",
     "weight": 1700,
     "volume": 15,
     "price": 4000,
