@@ -303,12 +303,12 @@ void avatar::memorize_tile( const tripoint &pos, const std::string &ter, const i
     player_map_memory.memorize_tile( max_memorized_tiles(), pos, ter, subtile, rotation );
 }
 
-void avatar::memorize_symbol( const tripoint &pos, const long symbol )
+void avatar::memorize_symbol( const tripoint &pos, const int symbol )
 {
     player_map_memory.memorize_symbol( max_memorized_tiles(), pos, symbol );
 }
 
-long avatar::get_memorized_symbol( const tripoint &p ) const
+int avatar::get_memorized_symbol( const tripoint &p ) const
 {
     return player_map_memory.get_symbol( p );
 }
