@@ -93,6 +93,15 @@
   },
   {
     "type": "overmap_terrain",
+    "id": "lmoe_roof",
+    "name": "LMOE shelter",
+    "sym": ".",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
+  },
+  {
+    "type": "overmap_terrain",
     "id": "lmoe_under",
     "name": "LMOE shelter",
     "sym": "+",
