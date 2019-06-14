@@ -3517,7 +3517,7 @@ SDL_Color color_loader<SDL_Color>::from_rgb( const int r, const int g, const int
     //Red
     result.r = r;
     //The Alpha, is not used, so just set it to 0
-    //result.a = 0;
+    result.a = 0;
     return result;
 }
 
