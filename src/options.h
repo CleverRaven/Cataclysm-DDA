@@ -1,4 +1,5 @@
 #pragma once
+
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
@@ -10,6 +11,17 @@
 
 #include "translations.h"
 #include "json.h"
+
+/** A mapping(string:string) that stores all tileset values.
+ * Firsts string is tileset NAME from config.
+ * Second string is directory that contain tileset.
+ */
+extern std::map <std::string, std::string> TILESETS;
+/** A mapping(string:string) that stores all soundpack values.
+ * Firsts string is soundpack NAME from config.
+ * Second string is directory that contains soundpack.
+ */
+extern std::map <std::string, std::string> SOUNDPACKS;
 
 enum COPT_VALUE_TYPE
 {
@@ -39,7 +51,9 @@ enum copt_hide_t
 
 class id_and_option : public std::pair <std::string, translation>
 {
+
 public:
+
     id_and_option( const std::string &first, const std::string &second )
             : std::pair <std::string, translation>( first, second )
     {
@@ -53,90 +67,8 @@ public:
 
 class OptionsContainer
 {
-    friend class options_manager;
 
 public:
-    OptionsContainer( );
-
-    void setSortPos( const std::string &sPageIn );
-
-    //helper functions
-    int getSortPos( ) const;
-
-    /**
-     * Option should be hidden in current build.
-     * @return true if option should be hidden, false if not.
-     */
-    bool is_hidden( ) const;
-
-    std::string getName( ) const;
-
-    std::string getPage( ) const;
-
-    /// The translated displayed option name.
-    std::string getMenuText( ) const;
-
-    /// The translated displayed option tool tip.
-    std::string getTooltip( ) const;
-
-    std::string getType( ) const;
-
-    std::string getValue( bool classis_locale = false ) const;
-
-    /// The translated currently selected option value.
-    std::string getValueName( ) const;
-
-    std::string getDefaultText( const bool bTranslated = true ) const;
-
-    int getItemPos( const std::string &sSearch ) const;
-
-    std::vector <id_and_option> getItems( ) const;
-
-    int getIntPos( const int iSearch ) const;
-    cata::optional< std::tuple<int, std::string> > findInt( const int iSearch ) const;
-
-    int getMaxLength( ) const;
-
-    //set to next item
-    void setNext( );
-
-    //set to previous item
-    void setPrev( );
-
-    //set value
-    void setValue( std::string sSetIn );
-
-    void setValue( float fSetIn );
-
-    void setValue( int iSetIn );
-
-    template <typename T>
-    T value_as( ) const;
-
-    bool operator==( const OptionsContainer &rhs ) const;
-
-    bool operator!=( const OptionsContainer &rhs ) const
-    {
-        return !operator==( rhs );
-    }
-
-    static std::vector <std::string> getPrerequisiteSupportedTypes( )
-    {
-        return { "bool", "string", "string_select", "string_input" };
-    };
-
-    void setPrerequisites( const std::string &sOption, const std::vector <std::string> &sAllowedValues );
-
-    void setPrerequisite( const std::string &sOption, const std::string &sAllowedValue = "true" )
-    {
-        setPrerequisites( sOption, { sAllowedValue } );
-    }
-
-    std::string getPrerequisite( ) const;
-
-    bool hasPrerequisite( ) const;
-
-    bool checkPrerequisite( ) const;
 
     std::string sName;
     std::string sPage;
@@ -183,6 +115,84 @@ public:
     float fMax;
     float fDefault;
     float fStep;
+
+    OptionsContainer( );
+
+    //helper functions
+    int getSortPos( ) const;
+
+    /**
+     * Option should be hidden in current build.
+     * @return true if option should be hidden, false if not.
+     */
+    bool is_hidden( ) const;
+
+    std::string getPage( ) const;
+
+    /// The translated displayed option name.
+    std::string getMenuText( ) const;
+
+    /// The translated displayed option tool tip.
+    std::string getTooltip( ) const;
+
+    std::string getType( ) const;
+
+    std::string getValue( bool classis_locale = false ) const;
+
+    /// The translated currently selected option value.
+    std::string getValueName( ) const;
+
+    std::string getDefaultText( const bool bTranslated = true ) const;
+
+    int getItemPos( const std::string &sSearch ) const;
+
+    std::vector <id_and_option> getItems( ) const;
+
+    int getIntPos( const int iSearch ) const;
+    cata::optional< std::tuple<int, std::string> > findInt( const int iSearch ) const;
+
+    void setSortPos( const std::string &sPageIn );
+
+    //set to next item
+    void setNext( );
+
+    //set to previous item
+    void setPrev( );
+
+    //set value
+    void setValue( std::string sSetIn );
+
+    void setValue( float fSetIn );
+
+    void setValue( int iSetIn );
+
+    void setPrerequisites( const std::string &sOption, const std::vector <std::string> &sAllowedValues );
+
+    void setPrerequisite( const std::string &sOption, const std::string &sAllowedValue = "true" )
+    {
+        setPrerequisites( sOption, { sAllowedValue } );
+    }
+
+    std::string getPrerequisite( ) const;
+
+    bool hasPrerequisite( ) const;
+
+    bool checkPrerequisite( ) const;
+
+    template <typename T>
+    T value_as( ) const;
+
+    bool operator==( const OptionsContainer &rhs ) const;
+
+    bool operator!=( const OptionsContainer &rhs ) const
+    {
+        return !operator==( rhs );
+    }
+
+    static std::vector <std::string> getPrerequisiteSupportedTypes( )
+    {
+        return { "bool", "string", "string_select", "string_input" };
+    };
 };
 
 class OptionsManager
@@ -190,56 +200,73 @@ class OptionsManager
 
 private:
 
+    // ---- Static Fields ----
+
     static OptionsManager *instance;
 
-    std::unordered_map <std::string, OptionsContainer> options;
-    // first is page id, second is untranslated page name
-    std::vector <std::pair <std::string, std::string>> vPages;
-    std::map <int, std::vector <std::string>> mPageItems;
+    // ---- Fields ----
+
     int iWorldOptPage;
+
+    /*
+     * First is page id, second is untranslated page name
+     */
+    std::vector <std::pair <std::string, std::string>> vectorPages;
+
+    std::map <std::string, std::pair <std::string, std::map <std::string, std::string> > > mMigrateOption;
+
+    std::map <int, std::vector <std::string>> mPageItems;
+
+    std::map <std::string, std::string> post_json_verify;
+
+    std::unordered_map <std::string, OptionsContainer> options;
+
+    // ---- Static Functions ----
 
     static std::vector <id_and_option> build_tilesets_list( );
 
     static std::vector <id_and_option> build_soundpacks_list( );
 
     static std::vector <id_and_option> load_soundpack_from(
-            const std::string &path );
+    const std::string &path );
+
+    // ---- Functions ----
+
+    void fillVectorWithOptionsGeneral( );
+
+    void fillVectorWithOptionsInterface( );
+
+    void fillVectorWithoptionsGraphics( );
+
+    void fillVectorWithOptionsDebug( );
+
+    void fillVectorWithOptionsWorldDefault( );
+
+    void fillVectorWithOptionsAndroid( );
 
     void enable_json( const std::string &var );
 
     void add_retry( const std::string &var, const std::string &val );
 
-    std::map <std::string, std::string> post_json_verify;
-
-    std::map <std::string, std::pair <std::string, std::map <std::string, std::string> > > mMigrateOption;
+    // ---- Constructs ----
 
     OptionsManager( );
 
 public:
 
+    // ---- Fields ----
+
     std::unordered_map <std::string, OptionsContainer> *world_options;
+
+    // ---- Static Functions ----
 
     static OptionsManager *getInstance( );
 
+    // ---- Functions ----
+
     void init( );
 
-    void add_options_general( );
-
-    void add_options_interface( );
-
-    void add_options_graphics( );
-
-    void add_options_debug( );
-
-    void add_options_world_default( );
-
-    void add_options_android( );
-
     void load( );
-
-    bool save( );
-
-    std::string show( bool ingame = false, bool world_options_only = false );
 
     void add_value( const std::string &myoption, const std::string &myval,
                     const translation &myvaltxt );
@@ -247,6 +274,10 @@ public:
     void serialize( JsonOut &json ) const;
 
     void deserialize( JsonIn &jsin );
+
+    bool save( );
+
+    std::string show( bool ingame = false, bool world_options_only = false );
 
     std::string migrateOptionName( const std::string &name ) const;
 
@@ -257,8 +288,6 @@ public:
      * current value, which acts as the default for new worlds.
      */
     std::unordered_map <std::string, OptionsContainer> get_world_defaults( ) const;
-
-    std::vector <std::string> getWorldOptPageItems( ) const;
 
     /** Check if an option exists? */
     bool has_option( const std::string &name ) const;
@@ -305,7 +334,7 @@ public:
                   const std::string &sMenuTextIn, const std::string &sTooltipIn,
                   const std::vector< std::tuple<int, std::string> > &mIntValuesIn,
                   int iInitialIn, int iDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE,
-                  const bool verbose = false );
+                  bool verbose = false );
 
     //add float option
     void add( const std::string &sNameIn, const std::string &sPageIn,
@@ -315,17 +344,6 @@ public:
               const std::string &format = "%.2f" );
 
 };
-
-/** A mapping(string:string) that stores all tileset values.
- * Firsts string is tileset NAME from config.
- * Second string is directory that contain tileset.
- */
-extern std::map <std::string, std::string> TILESETS;
-/** A mapping(string:string) that stores all soundpack values.
- * Firsts string is soundpack NAME from config.
- * Second string is directory that contains soundpack.
- */
-extern std::map <std::string, std::string> SOUNDPACKS;
 
 template <typename T>
 inline T get_option( const std::string &name )

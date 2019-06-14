@@ -414,11 +414,6 @@ int OptionsContainer::getSortPos() const
     return iSortPos;
 }
 
-std::string OptionsContainer::getName() const
-{
-    return sName;
-}
-
 std::string OptionsContainer::getPage() const
 {
     return sPage;
@@ -622,15 +617,6 @@ cata::optional< std::tuple<int, std::string> > OptionsContainer::findInt(
         return cata::nullopt;
     }
     return mIntValues[i];
-}
-
-int OptionsContainer::getMaxLength() const
-{
-    if( sType == "string_input" ) {
-        return iMaxLength;
-    }
-
-    return 0;
 }
 
 //set to next item
@@ -904,15 +890,41 @@ bool android_get_default_setting( const char *settings_name, bool default_value 
 }
 #endif
 
-// --------------------------
-// Class Options Manager
-// --------------------------
+// -------------------------------
+// ---- Class Options Manager ----
+// -------------------------------
 
 OptionsManager* OptionsManager::instance = nullptr;
 
 OptionsManager::OptionsManager()
 {
-    iWorldOptPage = 0;
+    vectorPages.emplace_back( "general", translate_marker( "General" ) );
+    vectorPages.emplace_back( "interface", translate_marker( "Interface" ) );
+    vectorPages.emplace_back( "graphics", translate_marker( "Graphics" ) );
+
+    // when sharing maps only admin is allowed to change these.
+    if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin() )
+    {
+        vectorPages.emplace_back( "debug", translate_marker( "Debug" ) );
+        vectorPages.emplace_back( "world_default", translate_marker( "World Defaults" ) );
+    }
+
+    // TODO: ¿Why -1?
+    iWorldOptPage = vectorPages.size() - 1;
+
+#if defined(__ANDROID__)
+
+    vectorPages.emplace_back( "android", translate_marker( "Android" ) );
+
+#endif
+
+    fillVectorWithOptionsGeneral( );
+    fillVectorWithOptionsInterface( );
+    fillVectorWithoptionsGraphics( );
+    fillVectorWithOptionsDebug( );
+    fillVectorWithOptionsWorldDefault( );
+    fillVectorWithOptionsAndroid( );
+
     world_options = nullptr;
 
     mMigrateOption = { {"DELETE_WORLD", { "WORLD_END", { {"no", "keep" }, {"yes", "delete"} } } } };
@@ -936,37 +948,13 @@ OptionsManager* OptionsManager::getInstance()
 
 void OptionsManager::init()
 {
-    vPages.emplace_back( "general", translate_marker( "General" ) );
-    vPages.emplace_back( "interface", translate_marker( "Interface" ) );
-    vPages.emplace_back( "graphics", translate_marker( "Graphics" ) );
-    // when sharing maps only admin is allowed to change these.
-    if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin() ) {
-        vPages.emplace_back( "debug", translate_marker( "Debug" ) );
-    }
-    iWorldOptPage = vPages.size();
-    // when sharing maps only admin is allowed to change these.
-    if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin() ) {
-        vPages.emplace_back( "world_default", translate_marker( "World Defaults" ) );
-    }
-
-#if defined(__ANDROID__)
-    vPages.emplace_back( "android", translate_marker( "Android" ) );
-#endif
-
-    add_options_general();
-    add_options_interface();
-    add_options_graphics();
-    add_options_debug();
-    add_options_world_default();
-    add_options_android();
-
-    for( unsigned i = 0; i < vPages.size(); ++i ) {
-        mPageItems[i].resize( mOptionsSort[vPages[i].first] );
+    for( unsigned i = 0; i < vectorPages.size(); ++i ) {
+        mPageItems[i].resize( mOptionsSort[vectorPages[i].first] );
     }
 
     for( auto &elem : options ) {
-        for( unsigned i = 0; i < vPages.size(); ++i ) {
-            if( vPages[i].first == ( elem.second ).getPage() &&
+        for( unsigned i = 0; i < vectorPages.size(); ++i ) {
+            if( vectorPages[i].first == ( elem.second ).getPage() &&
                 ( elem.second ).getSortPos() > -1 ) {
                 mPageItems[i][( elem.second ).getSortPos()] = elem.first;
                 break;
@@ -975,7 +963,7 @@ void OptionsManager::init()
     }
 
     //Sort out possible double empty lines after options are hidden
-    for( unsigned i = 0; i < vPages.size(); ++i ) {
+    for( unsigned i = 0; i < vectorPages.size(); ++i ) {
         bool bLastLineEmpty = false;
         while( mPageItems[i][0].empty() ) {
             //delete empty lines at the beginning
@@ -1039,7 +1027,7 @@ void OptionsManager::add_value( const std::string &lvar, const std::string &lval
 }
 
 
-void OptionsManager::add_options_general()
+void OptionsManager::fillVectorWithOptionsGeneral()
 {
     ////////////////////////////GENERAL//////////////////////////
     add( "DEF_CHAR_NAME", "general", translate_marker( "Default character name" ),
@@ -1247,7 +1235,7 @@ void OptionsManager::add_options_general()
     get_option( "AMBIENT_SOUND_VOLUME" ).setPrerequisite( "SOUND_ENABLED" );
 }
 
-void OptionsManager::add_options_interface()
+void OptionsManager::fillVectorWithOptionsInterface()
 {
     ////////////////////////////INTERFACE////////////////////////
     // TODO: scan for languages like we do for tilesets.
@@ -1524,7 +1512,7 @@ void OptionsManager::add_options_interface()
 
 }
 
-void OptionsManager::add_options_graphics()
+void OptionsManager::fillVectorWithoptionsGraphics()
 {
     ////////////////////////////GRAPHICS/////////////////////////
     add( "ANIMATIONS", "graphics", translate_marker( "Animations" ),
@@ -1778,7 +1766,7 @@ void OptionsManager::add_options_graphics()
 
 }
 
-void OptionsManager::add_options_debug()
+void OptionsManager::fillVectorWithOptionsDebug()
 {
     ////////////////////////////DEBUG////////////////////////////
     add( "DISTANCE_INITIAL_VISIBILITY", "debug", translate_marker( "Distance initial visibility" ),
@@ -1844,7 +1832,7 @@ void OptionsManager::add_options_debug()
        );
 }
 
-void OptionsManager::add_options_world_default()
+void OptionsManager::fillVectorWithOptionsWorldDefault()
 {
     ////////////////////////////WORLD DEFAULT////////////////////
     add( "CORE_VERSION", "world_default", translate_marker( "Core version data" ),
@@ -2012,7 +2000,7 @@ void OptionsManager::add_options_world_default()
        );
 }
 
-void OptionsManager::add_options_android()
+void OptionsManager::fillVectorWithOptionsAndroid()
 {
 #if defined(__ANDROID__)
     add( "ANDROID_QUICKSAVE", "android", translate_marker( "Quicksave on app lose focus" ),
@@ -2450,7 +2438,7 @@ std::string OptionsManager::show( bool ingame, const bool world_options_only )
         //Draw Tabs
         if( !world_options_only ) {
             mvwprintz( w_options_header, 0, 7, c_white, "" );
-            for( int i = 0; i < static_cast<int>( vPages.size() ); i++ ) {
+            for( int i = 0; i < static_cast<int>( vectorPages.size() ); i++ ) {
                 if( mPageItems[i].empty() ) {
                     continue;
                 }
@@ -2460,7 +2448,7 @@ std::string OptionsManager::show( bool ingame, const bool world_options_only )
                              ( iCurrentPage == i ) ? hilite( c_light_green ) : c_light_green, _( "Current world" ) );
                 } else {
                     wprintz( w_options_header, ( iCurrentPage == i ) ?
-                             hilite( c_light_green ) : c_light_green, "%s", _( vPages[i].second ) );
+                             hilite( c_light_green ) : c_light_green, "%s", _( vectorPages[i].second ) );
                 }
                 wprintz( w_options_header, c_white, "]" );
                 wputch( w_options_header, BORDER_COLOR, LINE_OXOX );
@@ -2561,7 +2549,7 @@ std::string OptionsManager::show( bool ingame, const bool world_options_only )
             iCurrentLine = 0;
             iStartPos = 0;
             iCurrentPage++;
-            if( iCurrentPage >= static_cast<int>( vPages.size() ) ) {
+            if( iCurrentPage >= static_cast<int>( vectorPages.size() ) ) {
                 iCurrentPage = 0;
             }
             sfx::play_variant_sound( "menu_move", "default", 100 );
@@ -2570,7 +2558,7 @@ std::string OptionsManager::show( bool ingame, const bool world_options_only )
             iStartPos = 0;
             iCurrentPage--;
             if( iCurrentPage < 0 ) {
-                iCurrentPage = vPages.size() - 1;
+                iCurrentPage = vectorPages.size() - 1;
             }
             sfx::play_variant_sound( "menu_move", "default", 100 );
         } else if( !mPageItems[iCurrentPage].empty() && action == "CONFIRM" ) {
@@ -2704,7 +2692,7 @@ void OptionsManager::serialize( JsonOut &json ) const
 
     // TODO: mPageItems is const here, so we can not use its operator[], therefore the copy
     auto mPageItems = this->mPageItems;
-    for( size_t j = 0; j < vPages.size(); ++j ) {
+    for( size_t j = 0; j < vectorPages.size(); ++j ) {
         for( auto &elem : mPageItems[j] ) {
             // Skip blanks between option groups
             // to avoid empty json entries being stored
@@ -2748,7 +2736,15 @@ void OptionsManager::deserialize( JsonIn &jsin )
 std::string OptionsManager::migrateOptionName( const std::string &name ) const
 {
     const auto iter = mMigrateOption.find( name );
-    return iter != mMigrateOption.end() ? iter->second.first : name;
+
+    if ( iter != mMigrateOption.end( ))
+    {
+        return iter->second.first;
+    }
+    else
+    {
+        return name;
+    }
 }
 
 std::string OptionsManager::migrateOptionValue( const std::string &name,
@@ -2760,7 +2756,15 @@ std::string OptionsManager::migrateOptionValue( const std::string &name,
     }
 
     const auto iter_val = iter->second.second.find( val );
-    return iter_val != iter->second.second.end() ? iter_val->second : val;
+
+    if ( iter_val != iter->second.second.end( ))
+    {
+        return iter_val->second;
+    }
+    else
+    {
+        return val;
+    }
 }
 
 bool OptionsManager::save()
@@ -2844,9 +2848,3 @@ std::unordered_map<std::string, OptionsContainer> OptionsManager::get_world_defa
     return result;
 }
 
-std::vector<std::string> OptionsManager::getWorldOptPageItems() const
-{
-    // TODO: mPageItems is const here, so we can not use its operator[], therefore the copy
-    auto temp = mPageItems;
-    return temp[iWorldOptPage];
-}
