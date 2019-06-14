@@ -2675,8 +2675,7 @@ const std::string calc_category( const itype &obj )
 std::vector<Group_tag> Item_factory::get_all_group_names()
 {
     std::vector<std::string> rval;
-    GroupMap::iterator it;
-    for( it = m_template_groups.begin(); it != m_template_groups.end(); it++ ) {
+    for( GroupMap::iterator it = m_template_groups.begin(); it != m_template_groups.end(); it++ ) {
         rval.push_back( it->first );
     }
     return rval;

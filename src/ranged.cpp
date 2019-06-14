@@ -1042,9 +1042,9 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
         static_cast<int>( ( ( MAX_RECOIL - sight_dispersion ) / 20.0 ) + sight_dispersion ),
         static_cast<int>( sight_dispersion )
     };
-    std::vector<int>::iterator thresholds_it;
     // Remove duplicate thresholds.
-    thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );
+    std::vector<int>::iterator thresholds_it = std::adjacent_find( thresholds.begin(),
+            thresholds.end() );
     while( thresholds_it != thresholds.end() ) {
         thresholds.erase( thresholds_it );
         thresholds_it = std::adjacent_find( thresholds.begin(), thresholds.end() );

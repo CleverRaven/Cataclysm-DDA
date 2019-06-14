@@ -3875,12 +3875,11 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     // choose target for spell (if the spell has a range > 0)
 
     target_handler th;
-    std::vector<tripoint> trajectory;
     tripoint target = p->pos();
     bool target_is_valid = false;
     if( casting.range() > 0 && !casting.is_valid_target( target_none ) ) {
         do {
-            trajectory = th.target_ui( casting, no_fail, no_mana );
+            std::vector<tripoint> trajectory = th.target_ui( casting, no_fail, no_mana );
             if( !trajectory.empty() ) {
                 target = trajectory.back();
                 target_is_valid = casting.is_valid_target( target );
