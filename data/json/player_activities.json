@@ -40,7 +40,8 @@
     "verb": "waiting",
     "rooted": true,
     "based_on": "time",
-    "no_resume": true
+    "no_resume": true,
+    "refuel_fires": true
   },
   {
     "id": "ACT_CRAFT",

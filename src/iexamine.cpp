@@ -3192,8 +3192,8 @@ const itype *furn_t::crafting_pseudo_item_type() const
 const itype *furn_t::crafting_ammo_item_type() const
 {
     const itype *pseudo = crafting_pseudo_item_type();
-    if( pseudo->tool && !pseudo->tool->ammo_id.is_null() ) {
-        return item::find_type( pseudo->tool->ammo_id->default_ammotype() );
+    if( pseudo->tool && !pseudo->tool->ammo_id.empty() ) {
+        return item::find_type( ammotype( *pseudo->tool->ammo_id.begin() )->default_ammotype() );
     }
     return nullptr;
 }
@@ -4318,7 +4318,7 @@ static void mill_activate( player &p, const tripoint &examp )
     }
     g->m.furn_set( examp, next_mill_type );
     item result( "fake_milling_item", calendar::turn );
-    result.item_counter = 3600; // = 6 hours
+    result.item_counter = to_turns<int>( 6_hours );
     result.activate();
     g->m.add_item( examp, result );
     add_msg( _( "You remove the brake on the millstone and it slowly starts to turn." ) );
@@ -4424,7 +4424,7 @@ static void smoker_activate( player &p, const tripoint &examp )
         charcoal->charges -= char_charges;
     }
     item result( "fake_smoke_plume", calendar::turn );
-    result.item_counter = 3600; // = 6 hours
+    result.item_counter = to_turns<int>( 6_hours );
     result.activate();
     g->m.add_item( examp, result );
     add_msg( _( "You light a small fire under the rack and it starts to smoke." ) );

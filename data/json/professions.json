@@ -1003,8 +1003,8 @@
         ],
         "entries": [
           { "group": "charged_cell_phone" },
-          { "item": "l_enforcer_45", "ammo-item": "45_acp", "charges": 6, "container-item": "sholster" },
-          { "item": "45_acp", "charges": 24 }
+          { "item": "l_enforcer_45", "ammo-item": "460_rowland", "charges": 6, "container-item": "sholster" },
+          { "item": "460_rowland", "charges": 24 }
         ]
       },
       "male": [ "briefs" ],

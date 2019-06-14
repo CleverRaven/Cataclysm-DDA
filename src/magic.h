@@ -238,10 +238,13 @@ class spell
         std::string energy_cost_string( const player &p ) const;
         // current energy the player has available as a string
         std::string energy_cur_string( const player &p ) const;
+        // prints out a list of valid targets separated by commas
+        std::string enumerate_targets() const;
         // energy source enum
         energy_type energy_source() const;
         // the color that's representative of the damage type
         nc_color damage_type_color() const;
+        std::string damage_type_string() const;
         // your level in this spell
         int get_level() const;
         // difficulty of the level
@@ -260,11 +263,16 @@ class known_magic
     private:
         // list of spells known
         std::map<spell_id, spell> spellbook;
+        // invlets assigned to spell_id
+        std::map<spell_id, int> invlets;
         // the base mana a player would start with
         int mana_base;
         // current mana
         int mana;
     public:
+        // ignores all distractions when casting a spell when true
+        bool casting_ignore = false;
+
         known_magic();
 
         void learn_spell( const std::string &sp, player &p, bool force = false );
@@ -282,6 +290,9 @@ class known_magic
         std::vector<spell_id> spells() const;
         // gets the spell associated with the spell_id to be edited
         spell &get_spell( spell_id sp );
+        // opens up a ui that the player can choose a spell from
+        // returns the index of the spell in the vector of spells
+        int select_spell( const player &p );
         // get all known spells
         std::vector<spell *> get_spells();
         // how much mana is available to use to cast spells
@@ -297,6 +308,11 @@ class known_magic
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
+    private:
+        // gets length of longest spell name
+        size_t get_spellname_max_width();
+        // gets invlet if assigned, or -1 if not
+        int get_invlet( const spell_id &sp, std::set<int> &used_invlets );
 };
 
 namespace spell_effect

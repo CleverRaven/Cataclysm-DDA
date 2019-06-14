@@ -351,7 +351,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
                 stolen = true;
             }
         }
-        if( it.ammo_type() == "money" ) {
+        if( it.ammo_types().count( ammotype( "money" ) ) ) {
             //Count charges
             // TODO: transition to the item_location system used for the normal inventory
             unsigned long charges_total = 0;
@@ -754,7 +754,7 @@ void advanced_inv_area::init()
     const field &tmpfld = g->m.field_at( pos );
     for( auto &fld : tmpfld ) {
         const field_entry &cur = fld.second;
-        field_id curType = cur.getFieldType();
+        field_id curType = cur.get_field_type();
         switch( curType ) {
             case fd_fire:
                 flags.append( _( " <color_white_red>FIRE</color>" ) );

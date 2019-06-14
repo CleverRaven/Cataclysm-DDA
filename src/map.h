@@ -1463,11 +1463,15 @@ class map
         void draw_connections( const oter_id &terrain_type, mapgendata &dat, const time_point &when,
                                const float density );
 
-        void build_transparency_cache( int zlev );
+        // Builds a transparency cache and returns true if the cache was invalidated.
+        // Used to determine if seen cache should be rebuilt.
+        bool build_transparency_cache( int zlev );
         void build_sunlight_cache( int zlev );
     public:
         void build_outside_cache( int zlev );
-        void build_floor_cache( int zlev );
+        // Builds a floor cache and returns true if the cache was invalidated.
+        // Used to determine if seen cache should be rebuilt.
+        bool build_floor_cache( int zlev );
         // We want this visible in `game`, because we want it built earlier in the turn than the rest
         void build_floor_caches();
 

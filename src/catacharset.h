@@ -8,6 +8,7 @@
 
 #define ANY_LENGTH 5
 #define NULL_UNICODE 0x0000
+#define PERCENT_SIGN_UNICODE 0x0025
 #define UNKNOWN_UNICODE 0xFFFD
 
 class utf8_wrapper;

@@ -1259,10 +1259,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
 
     input_context ctxt( "PLAYER_INFO" );
     ctxt.register_updown();
-    ctxt.register_action( "NEXT_TAB", _( "Cycle to next category" ) );
-    ctxt.register_action( "PREV_TAB", _( "Cycle to previous category" ) );
+    ctxt.register_action( "NEXT_TAB", translate_marker( "Cycle to next category" ) );
+    ctxt.register_action( "PREV_TAB", translate_marker( "Cycle to previous category" ) );
     ctxt.register_action( "QUIT" );
-    ctxt.register_action( "CONFIRM", _( "Toggle skill training" ) );
+    ctxt.register_action( "CONFIRM", translate_marker( "Toggle skill training" ) );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     std::string action;
 
@@ -1301,7 +1301,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4" ) );
     catacurses::refresh();
 
     int curtab = 1;
-    size_t min, max;
+    size_t min = 0;
+    size_t max = 0;
     line = 0;
     bool done = false;
     size_t half_y = 0;
