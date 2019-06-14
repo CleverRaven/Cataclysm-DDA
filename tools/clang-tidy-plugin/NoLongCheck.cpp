@@ -109,6 +109,9 @@ static void CheckReturn( NoLongCheck &Check, const MatchFinder::MatchResult &Res
     if( alternatives.empty() ) {
         return;
     }
+    if( MatchedDecl->isTemplateInstantiation() ) {
+        return;
+    }
 
     Decl::Kind contextKind = MatchedDecl->getDeclContext()->getDeclKind();
     if( contextKind == Decl::ClassTemplateSpecialization ) {

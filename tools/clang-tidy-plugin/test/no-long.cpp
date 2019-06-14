@@ -40,7 +40,7 @@ int c0 = static_cast<long>( 0 );
 int c1 = static_cast<int64_t>( 0 );
 
 template<typename T>
-void g( T gp0, long gp1 = 0 )
+T g0( T gp0, long gp1 = 0 )
 {
     // CHECK-MESSAGES: warning: Variable 'gp1' declared as 'long'.  Prefer int or int64_t to long. [cata-no-long]
     long gi0;
@@ -50,15 +50,15 @@ void g( T gp0, long gp1 = 0 )
 
 void h()
 {
-    g<long>( 0, 0 );
+    g0<long>( 0, 0 );
     // Would like to report an error here for the template argument, but have
     // not found a way to do so.
 
-    g( LONG_MIN );
+    g0( LONG_MIN );
     // CHECK-MESSAGES: warning: Use of long-specific macro LONG_MIN [cata-no-long]
-    g( LONG_MAX );
+    g0( LONG_MAX );
     // CHECK-MESSAGES: warning: Use of long-specific macro LONG_MAX [cata-no-long]
-    g( ULONG_MAX );
+    g0( ULONG_MAX );
     // CHECK-MESSAGES: warning: Use of long-specific macro ULONG_MAX [cata-no-long]
 }
 
@@ -96,3 +96,7 @@ void Bf()
     // cause the compiler to generate code involving an unsigned long variable.
     b1 = static_cast < B<12> && >( b0 );
 }
+
+template<typename T>
+long g1( T g1p0 );
+// CHECK-MESSAGES: warning: Function 'g1' declared as returning 'long'. Prefer int or int64_t to long. [cata-no-long]
