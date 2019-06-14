@@ -5894,6 +5894,17 @@
   },
   {
     "type": "recipe",
+    "result": "vinegar",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "autolearn": true,
+    "charges": 160,
+    "components": [ [ [ "chem_acetic_acid", 1 ] ], [ [ "water", 9 ], [ "water_clean", 9 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "sauerkraut_ferment",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_VEGGI",
