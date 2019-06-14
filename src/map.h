@@ -1660,6 +1660,10 @@ class map
         std::array< std::unique_ptr<level_cache>, OVERMAP_LAYERS > caches;
 
         mutable std::array< std::unique_ptr<pathfinding_cache>, OVERMAP_LAYERS > pathfinding_caches;
+        /**
+         * Set of submaps that contain active items in absolute coordinates.
+         */
+        std::set<tripoint> submaps_with_active_items;
 
         // Note: no bounds check
         level_cache &get_cache( int zlev ) const {

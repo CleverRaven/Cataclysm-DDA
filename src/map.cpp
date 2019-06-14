@@ -4125,6 +4125,9 @@ std::list<item>::iterator map::i_rem( const tripoint &p, std::list<item>::iterat
 
     if( current_submap->active_items.has( it, l ) ) {
         current_submap->active_items.remove( it, l );
+        if( current_submap->active_items.empty() ) {
+            submaps_with_active_items.erase( abs_sub + tripoint( p.x / SEEX, p.y / SEEY, p.z ) );
+        }
     }
 
     current_submap->update_lum_rem( l, *it );
@@ -4172,6 +4175,10 @@ void map::i_clear( const tripoint &p )
          item_it != current_submap->itm[l.x][l.y].end(); ++item_it ) {
         if( current_submap->active_items.has( item_it, l ) ) {
             current_submap->active_items.remove( item_it, l );
+            if( current_submap->active_items.empty() ) {
+                submaps_with_active_items.erase(
+                    abs_sub + tripoint( p.x / SEEX, p.y / SEEY, p.z ) );
+            }
         }
     }
 
@@ -4398,6 +4405,9 @@ item &map::add_item_at( const tripoint &p,
     current_submap->update_lum_add( l, new_item );
     const auto new_pos = current_submap->itm[l.x][l.y].insert( index, new_item );
     if( new_item.needs_processing() ) {
+        if( current_submap->active_items.empty() ) {
+            submaps_with_active_items.insert( abs_sub + tripoint( p.x / SEEX, p.y / SEEY, p.z ) );
+        }
         current_submap->active_items.add( new_pos, l );
     }
 
@@ -4461,6 +4471,10 @@ void map::make_active( item_location &loc )
         return &i == target;
     } );
 
+    if( current_submap->active_items.empty() ) {
+        submaps_with_active_items.insert( abs_sub + tripoint( loc.position().x / SEEX,
+                                          loc.position().y / SEEY, loc.position().z ) );
+    }
     current_submap->active_items.add( iter, l );
 }
 
@@ -4591,29 +4605,24 @@ void map::process_items( const bool active, map::map_process_func processor,
 {
     const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
     const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    tripoint gp( 0, 0, 0 );
-    int &gx = gp.x;
-    int &gy = gp.y;
-    int &gz = gp.z;
-    for( gz = minz; gz <= maxz; ++gz ) {
-        for( gx = 0; gx < my_MAPSIZE; ++gx ) {
-            for( gy = 0; gy < my_MAPSIZE; ++gy ) {
-                submap *const current_submap = get_submap_at_grid( gp );
-                // Vehicles first in case they get blown up and drop active items on the map.
-                if( !current_submap->vehicles.empty() ) {
-                    process_items_in_vehicles( *current_submap, gz, processor, signal );
-                }
-            }
+    for( int gz = minz; gz <= maxz; ++gz ) {
+        level_cache &cache = access_cache( gz );
+        std::set<tripoint> submaps_with_vehicles;
+        for( vehicle *this_vehicle : cache.vehicle_list ) {
+            tripoint pos = this_vehicle->global_pos3();
+            submaps_with_vehicles.emplace( pos.x / SEEX, pos.y / SEEY, pos.z );
+        }
+        for( const tripoint &pos : submaps_with_vehicles ) {
+            submap *const current_submap = get_submap_at_grid( pos );
+            // Vehicles first in case they get blown up and drop active items on the map.
+            process_items_in_vehicles( *current_submap, pos.z, processor, signal );
         }
     }
-    for( gz = minz; gz <= maxz; ++gz ) {
-        for( gx = 0; gx < my_MAPSIZE; ++gx ) {
-            for( gy = 0; gy < my_MAPSIZE; ++gy ) {
-                submap *const current_submap = get_submap_at_grid( gp );
-                if( !active || !current_submap->active_items.empty() ) {
-                    process_items_in_submap( *current_submap, gp, processor, signal );
-                }
-            }
+    for( const tripoint &abs_pos : submaps_with_active_items ) {
+        const tripoint local_pos = abs_pos - abs_sub;
+        submap *const current_submap = get_submap_at_grid( local_pos );
+        if( !active || !current_submap->active_items.empty() ) {
+            process_items_in_submap( *current_submap, local_pos, processor, signal );
         }
     }
 }
@@ -6507,6 +6516,7 @@ void map::load( const int wx, const int wy, const int wz, const bool update_vehi
     for( auto &traps : traplocs ) {
         traps.clear();
     }
+    submaps_with_active_items.clear();
     set_abs_sub( wx, wy, wz );
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
@@ -6602,6 +6612,9 @@ void map::shift( const int sx, const int sy )
             for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
                 if( sy >= 0 ) {
                     for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+                        if( gridx == 0 || gridy == 0 ) {
+                            submaps_with_active_items.erase( { absx + gridx, absy + gridy, gridz } );
+                        }
                         if( gridx + sx < my_MAPSIZE && gridy + sy < my_MAPSIZE ) {
                             copy_grid( tripoint( gridx, gridy, gridz ),
                                        tripoint( gridx + sx, gridy + sy, gridz ) );
@@ -6612,6 +6625,9 @@ void map::shift( const int sx, const int sy )
                     }
                 } else { // sy < 0; work through it backwards
                     for( int gridy = my_MAPSIZE - 1; gridy >= 0; gridy-- ) {
+                        if( gridx == 0 || gridy == my_MAPSIZE - 1 ) {
+                            submaps_with_active_items.erase( { absx + gridx, absy + gridy, gridz } );
+                        }
                         if( gridx + sx < my_MAPSIZE && gridy + sy >= 0 ) {
                             copy_grid( tripoint( gridx, gridy, gridz ),
                                        tripoint( gridx + sx, gridy + sy, gridz ) );
@@ -6626,6 +6642,9 @@ void map::shift( const int sx, const int sy )
             for( int gridx = my_MAPSIZE - 1; gridx >= 0; gridx-- ) {
                 if( sy >= 0 ) {
                     for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
+                        if( gridx == my_MAPSIZE - 1 || gridy == 0 ) {
+                            submaps_with_active_items.erase( { absx + gridx, absy + gridy, gridz } );
+                        }
                         if( gridx + sx >= 0 && gridy + sy < my_MAPSIZE ) {
                             copy_grid( tripoint( gridx, gridy, gridz ),
                                        tripoint( gridx + sx, gridy + sy, gridz ) );
@@ -6636,6 +6655,9 @@ void map::shift( const int sx, const int sy )
                     }
                 } else { // sy < 0; work through it backwards
                     for( int gridy = my_MAPSIZE - 1; gridy >= 0; gridy-- ) {
+                        if( gridx == my_MAPSIZE - 1 || gridy == my_MAPSIZE - 1 ) {
+                            submaps_with_active_items.erase( { absx + gridx, absy + gridy, gridz } );
+                        }
                         if( gridx + sx >= 0 && gridy + sy >= 0 ) {
                             copy_grid( tripoint( gridx, gridy, gridz ),
                                        tripoint( gridx + sx, gridy + sy, gridz ) );
@@ -6823,7 +6845,9 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     set_floor_cache_dirty( gridz );
     set_pathfinding_cache_dirty( gridz );
     setsubmap( gridn, tmpsub );
-
+    if( !tmpsub->active_items.empty() ) {
+        submaps_with_active_items.emplace( absx, absy, gridz );
+    }
     // Destroy bugged no-part vehicles
     auto &veh_vec = tmpsub->vehicles;
     for( auto iter = veh_vec.begin(); iter != veh_vec.end(); ) {
