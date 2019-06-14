@@ -214,11 +214,6 @@
   },
   {
     "type": "tool_quality",
-    "id": "VICE",
-    "name": "vicing"
-  },
-  {
-    "type": "tool_quality",
     "id": "GRIND",
     "name": "grinding"
   },
