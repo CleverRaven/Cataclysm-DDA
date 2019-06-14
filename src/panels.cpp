@@ -61,7 +61,7 @@ const efftype_id effect_got_checked( "got_checked" );
 // constructor
 window_panel::window_panel( std::function<void( avatar &, const catacurses::window & )>
                             draw_func, const std::string &nm, int ht, int wd, bool def_toggle,
-                            std::function<bool( void )> render_func,  bool force_draw )
+                            std::function<bool()> render_func,  bool force_draw )
 {
     draw = draw_func;
     name = nm;
