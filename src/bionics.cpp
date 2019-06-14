@@ -960,7 +960,7 @@ void player::process_bionic( int b )
             add_msg_if_player( m_mixed, _( "Lightning strikes your lightning rod!" ) );
             add_msg_if_player( m_good, _( "Your bionics surge with energy!  Your nerves scream with power!" ) );
             add_msg_if_player( " " );
-            g->u.add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
+            add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
             add_effect( effect_supercharged, 10_minutes );
             add_effect( effect_emp, 24_hours );
             charge_power(
