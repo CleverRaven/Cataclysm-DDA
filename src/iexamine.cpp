@@ -360,6 +360,9 @@ class atm_menu
                 add_choice( withdraw_money, _( "Withdraw Money" ) );
             } else if( u.cash > 0 ) {
                 add_info( withdraw_money, _( "You need a cash card before you can withdraw money!" ) );
+            } else if( u.cash < 0 ) {
+                add_info( withdraw_money,
+                          _( "You need to pay down your debt first!" ) );
             } else {
                 add_info( withdraw_money,
                           _( "You need money in your account before you can withdraw money!" ) );
@@ -380,7 +383,11 @@ class atm_menu
         //! print a bank statement for @p print = true;
         void finish_interaction( const bool print = true ) {
             if( print ) {
-                add_msg( m_info, _( "Your account now holds %s." ), format_money( u.cash ) );
+                if( u.cash < 0 ) {
+                    add_msg( m_info, _( "Your debt is now %s." ), format_money( u.cash ) );
+                } else {
+                    add_msg( m_info, _( "Your account now holds %s." ), format_money( u.cash ) );
+                }
             }
 
             u.moves -= to_turns<int>( 5_seconds );

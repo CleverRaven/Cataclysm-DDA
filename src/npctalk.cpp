@@ -2784,7 +2784,7 @@ void conditional_t::set_npc_allies( JsonObject &jo )
 
 void conditional_t::set_npc_service( JsonObject &jo )
 {
-    const unsigned long service_price = jo.get_int( "npc_service" );
+    const signed long service_price = jo.get_int( "npc_service" );
     condition = [service_price]( const dialogue & d ) {
         return !d.beta->has_effect( effect_currently_busy ) && d.alpha->cash >= service_price;
     };
@@ -2792,7 +2792,7 @@ void conditional_t::set_npc_service( JsonObject &jo )
 
 void conditional_t::set_u_has_cash( JsonObject &jo )
 {
-    const unsigned long min_cash = jo.get_int( "u_has_cash" );
+    const signed long min_cash = jo.get_int( "u_has_cash" );
     condition = [min_cash]( const dialogue & d ) {
         return d.alpha->cash >= min_cash;
     };
