@@ -261,7 +261,7 @@ const std::vector<basecamp_upgrade> basecamp::available_upgrades( const std::str
         expansion_data &e_data = e->second;
         for( const recipe *recp_p : recipe_dict.all_blueprints() ) {
             const recipe &recp = *recp_p;
-            const std::string &bldg = recp.result().c_str();
+            const std::string &bldg = recp.result();
             // skip buildings that are completed
             if( e_data.provides.find( bldg ) != e_data.provides.end() ) {
                 continue;
