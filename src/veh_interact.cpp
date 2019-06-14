@@ -54,8 +54,6 @@
 #include "item.h"
 #include "string_id.h"
 
-static const itype_id fuel_type_animal( "animal" );
-
 static inline const std::string status_color( bool status )
 {
     return status ? "<color_green>" : "<color_red>";

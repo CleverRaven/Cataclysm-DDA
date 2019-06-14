@@ -376,8 +376,7 @@ bool mattack::shriek_alert( monster *z )
 
     Creature *target = z->attack_target();
 
-    int dist;
-    if( target == nullptr || ( dist = rl_dist( z->pos(), target->pos() ) ) > 15 ||
+    if( target == nullptr || rl_dist( z->pos(), target->pos() ) > 15 ||
         !z->sees( *target ) ) {
         return false;
     }

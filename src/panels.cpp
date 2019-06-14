@@ -1979,7 +1979,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
     bool selected = false;
     size_t source_index = 0;
     size_t target_index = 0;
-    std::string saved_name;
 
     bool redraw = true;
     bool exit = false;
@@ -2083,7 +2082,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                 // saving win1 index
                 source_index = row_indices[index - 1];
                 selected = true;
-                saved_name = panels[source_index].get_name();
             }
             // dest window for the swap
             if( counter == 2 ) {

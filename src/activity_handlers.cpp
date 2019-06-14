@@ -99,8 +99,6 @@ const species_id ZOMBIE( "ZOMBIE" );
 const efftype_id effect_milked( "milked" );
 const efftype_id effect_sleep( "sleep" );
 
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-
 using namespace activity_handlers;
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
