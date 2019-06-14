@@ -9175,7 +9175,7 @@
     "id": "pin_reamer",
     "type": "TOOL",
     "name": "pin reamer",
-    "description": "Handheld pin reamers of this kind are used to enlargen existing holes, or remove any burs and such from them",
+    "description": "Handheld pin reamers of this kind are used to enlarge existing holes, or remove any burs and such from them.",
     "weight": 76,
     "volume": 1,
     "price": 0,
