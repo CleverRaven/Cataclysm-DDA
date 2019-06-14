@@ -99,8 +99,6 @@ const species_id ZOMBIE( "ZOMBIE" );
 const efftype_id effect_milked( "milked" );
 const efftype_id effect_sleep( "sleep" );
 
-static const trait_id trait_DEBUG_HS( "DEBUG_HS" );
-
 using namespace activity_handlers;
 
 const std::map< activity_id, std::function<void( player_activity *, player * )> >
@@ -2641,7 +2639,6 @@ static void rod_fish( player *p, const tripoint &fish_point )
     }
 }
 
-
 void activity_handlers::fish_do_turn( player_activity *act, player *p )
 {
     item &it = p->i_at( act->position );
@@ -2921,7 +2918,7 @@ void activity_handlers::multiple_construction_do_turn( player_activity *act, pla
     // If we got here without restarting the activity, it means we're done.
     if( p->is_npc() ) {
         npc *guy = dynamic_cast<npc *>( p );
-        guy->current_activity = "";
+        guy->current_activity.clear();
         guy->revert_after_activity();
     }
 }
@@ -3875,12 +3872,11 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
     // choose target for spell (if the spell has a range > 0)
 
     target_handler th;
-    std::vector<tripoint> trajectory;
     tripoint target = p->pos();
     bool target_is_valid = false;
     if( casting.range() > 0 && !casting.is_valid_target( target_none ) ) {
         do {
-            trajectory = th.target_ui( casting, no_fail, no_mana );
+            std::vector<tripoint> trajectory = th.target_ui( casting, no_fail, no_mana );
             if( !trajectory.empty() ) {
                 target = trajectory.back();
                 target_is_valid = casting.is_valid_target( target );

@@ -59,7 +59,6 @@ class player_morale
         int get_total_positive_value() const;
         int get_total_negative_value() const;
 
-
         void on_mutation_gain( const trait_id &mid );
         void on_mutation_loss( const trait_id &mid );
         void on_stat_change( const std::string &stat, int value );

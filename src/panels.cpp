@@ -61,7 +61,7 @@ const efftype_id effect_got_checked( "got_checked" );
 // constructor
 window_panel::window_panel( std::function<void( avatar &, const catacurses::window & )>
                             draw_func, const std::string &nm, int ht, int wd, bool def_toggle,
-                            std::function<bool( void )> render_func,  bool force_draw )
+                            std::function<bool()> render_func,  bool force_draw )
 {
     draw = draw_func;
     name = nm;
@@ -580,7 +580,7 @@ static std::string temp_delta_string( const avatar &u )
     } else if( delta == 1 ) {
         temp_message = _( " (Rising)" );
     } else if( delta == 0 ) {
-        temp_message = "";
+        temp_message.clear();
     } else if( delta == -1 ) {
         temp_message = _( " (Falling)" );
     } else if( delta == -2 ) {
@@ -1979,7 +1979,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
     bool selected = false;
     size_t source_index = 0;
     size_t target_index = 0;
-    std::string saved_name;
 
     bool redraw = true;
     bool exit = false;
@@ -2083,7 +2082,6 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
                 // saving win1 index
                 source_index = row_indices[index - 1];
                 selected = true;
-                saved_name = panels[source_index].get_name();
             }
             // dest window for the swap
             if( counter == 2 ) {

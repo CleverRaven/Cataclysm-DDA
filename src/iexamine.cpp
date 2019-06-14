@@ -827,7 +827,6 @@ void iexamine::intercom( player &p, const tripoint &examp )
     }
 }
 
-
 /**
  * Prompt removal of rubble. Select best shovel and invoke "CLEAR_RUBBLE" on tile.
  */

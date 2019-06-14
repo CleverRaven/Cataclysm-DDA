@@ -165,7 +165,6 @@ bool monexamine::pet_menu( monster &z )
             return give_items_to( z );
         case mon_armor_add:
             return add_armor( z );
-            break;
         case mon_harness_remove:
             remove_harness( z );
             break;

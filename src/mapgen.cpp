@@ -8494,7 +8494,6 @@ std::pair<std::map<ter_id, int>, std::map<furn_id, int>> get_changed_ids_from_up
     return std::make_pair( terrains, furnitures );
 }
 
-
 bool run_mapgen_func( const std::string &mapgen_id, map *m, oter_id terrain_type, mapgendata dat,
                       const time_point &turn, float density )
 {

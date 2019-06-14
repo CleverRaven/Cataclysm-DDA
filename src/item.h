@@ -1917,7 +1917,6 @@ class item : public visitable<item>
          */
         requirement_data get_continue_reqs() const;
 
-
     private:
         /**
          * Calculate the thermal energy and temperature change of the item

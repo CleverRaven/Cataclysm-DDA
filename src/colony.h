@@ -1538,7 +1538,6 @@ class colony : private element_allocator_type
                     } while( number_of_elements != 0 );
                 }
 
-
                 // Use up remaining available element locations in end group:
                 const skipfield_type group_remainder = ( static_cast<skipfield_type>
                                                        ( reinterpret_cast<aligned_pointer_type>( end_iterator.group_pointer->skipfield ) -
@@ -1561,7 +1560,6 @@ class colony : private element_allocator_type
                 total_number_of_elements = end_iterator.group_pointer->capacity;
                 number_of_elements -= end_iterator.group_pointer->capacity;
             }
-
 
             // If there's some elements left that need to be created, create new groups and fill:
             if( number_of_elements > group_allocator_pair.max_elements_per_group ) {

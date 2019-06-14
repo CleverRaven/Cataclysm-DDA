@@ -16,9 +16,7 @@
 #include <set>
 #include <vector>
 
-
 extern void set_displaybuffer_rendertarget();
-
 
 namespace
 {
@@ -148,7 +146,6 @@ struct pixel_minimap::submap_cache {
     //handle the release of the borrowed texture
     ~submap_cache();
 };
-
 
 pixel_minimap::pixel_minimap( const SDL_Renderer_Ptr &renderer ) :
     renderer( renderer ),

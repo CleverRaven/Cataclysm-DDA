@@ -200,8 +200,6 @@ class basecamp
         /// and ground that needs tilling
         std::string farm_description( const tripoint &omt_pos, size_t &plots_count,
                                       farm_ops operation );
-        /// Returns the description for the recipe of the next building @ref bldg
-        std::string upgrade_description( const std::string &bldg );
         /// Returns the description of a camp crafting options. converts fire charges to charcoal,
         /// allows dark crafting
         std::string craft_description( const std::string &itm );

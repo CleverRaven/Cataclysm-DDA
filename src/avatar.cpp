@@ -44,7 +44,6 @@ static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_PROF_DICEMASTER( "PROF_DICEMASTER" );
 
-
 avatar::avatar() : player()
 {
     show_map_memory = true;
