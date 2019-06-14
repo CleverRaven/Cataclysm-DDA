@@ -12017,7 +12017,7 @@ std::pair<std::string, nc_color> player::get_hunger_description() const
             hunger_string = _( "Peckish" );
             hunger_color = c_dark_gray;
         } else if( !just_ate && ( recently_ate || contains > 0_ml ) ) {
-            hunger_string = "";
+            hunger_string.clear();
         } else {
             hunger_string = _( "Hungry" );
             hunger_color = c_yellow;

@@ -2918,7 +2918,7 @@ void activity_handlers::multiple_construction_do_turn( player_activity *act, pla
     // If we got here without restarting the activity, it means we're done.
     if( p->is_npc() ) {
         npc *guy = dynamic_cast<npc *>( p );
-        guy->current_activity = "";
+        guy->current_activity.clear();
         guy->revert_after_activity();
     }
 }

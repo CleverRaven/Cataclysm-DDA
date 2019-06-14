@@ -219,7 +219,7 @@ void stop_music()
     Mix_HaltMusic();
     current_music = nullptr;
 
-    current_playlist = "";
+    current_playlist.clear();
     current_playlist_at = 0;
     absolute_playlist_at = 0;
 }

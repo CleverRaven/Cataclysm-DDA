@@ -1205,7 +1205,7 @@ void activity_on_turn_move_loot( player_activity &, player &p )
     add_msg( m_info, string_format( _( "%s sorted out every item possible." ), p.disp_name() ) );
     if( p.is_npc() ) {
         npc *guy = dynamic_cast<npc *>( &p );
-        guy->current_activity = "";
+        guy->current_activity.clear();
     }
     mgr.end_sort();
 }

@@ -580,7 +580,7 @@ static std::string temp_delta_string( const avatar &u )
     } else if( delta == 1 ) {
         temp_message = _( " (Rising)" );
     } else if( delta == 0 ) {
-        temp_message = "";
+        temp_message.clear();
     } else if( delta == -1 ) {
         temp_message = _( " (Falling)" );
     } else if( delta == -2 ) {
