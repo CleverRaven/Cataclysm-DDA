@@ -5609,6 +5609,7 @@ void game::peek( const tripoint &p )
     if( result.peek_action && *result.peek_action == PA_BLIND_THROW ) {
         avatar_action::plthrow( u, INT_MIN, p );
     }
+    m.invalidate_map_cache( p.z );
 
     draw_ter();
     wrefresh( w_terrain );
