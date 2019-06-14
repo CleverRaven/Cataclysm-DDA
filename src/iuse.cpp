@@ -3142,7 +3142,6 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-
     int turns = 100;
     if( g->m.move_cost( pnt ) == 2 ) {
         // We're breaking up some flat surface like pavement, which is much easier

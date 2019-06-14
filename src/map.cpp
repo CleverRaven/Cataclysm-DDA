@@ -6376,7 +6376,6 @@ void map::reachable_flood_steps( std::vector<tripoint> &reachable_pts, const tri
     }
 }
 
-
 bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
                       const int cost_min, const int cost_max ) const
 {

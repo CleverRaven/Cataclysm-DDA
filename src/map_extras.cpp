@@ -1747,7 +1747,6 @@ static void burned_ground_parser( map &m, const tripoint &loc )
         m.furn_set( tri, f_wreckage );
     }
 
-
     // grass is converted separately
     // this method is deliberate to allow adding new post-terrains
     // (TODO: expand this list when new destroyed terrain is added)

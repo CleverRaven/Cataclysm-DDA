@@ -382,7 +382,6 @@ void basecamp::update_provides( const std::string &bldg, expansion_data &e_data 
     }
 }
 
-
 void basecamp::update_in_progress( const std::string &bldg, const std::string &dir )
 {
     if( !recipe_id( bldg ).is_valid() ) {

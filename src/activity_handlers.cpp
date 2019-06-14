@@ -2639,7 +2639,6 @@ static void rod_fish( player *p, const tripoint &fish_point )
     }
 }
 
-
 void activity_handlers::fish_do_turn( player_activity *act, player *p )
 {
     item &it = p->i_at( act->position );

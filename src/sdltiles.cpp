@@ -3851,7 +3851,6 @@ void to_map_font_dim_height( int &h )
     h = ( h * fontheight ) / map_font_height();
 }
 
-
 void to_map_font_dimension( int &w, int &h )
 {
     to_map_font_dim_width( w );

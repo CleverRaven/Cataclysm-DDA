@@ -1033,7 +1033,6 @@ void player::martialart_use_message() const
     }
 }
 
-
 float ma_technique::damage_bonus( const player &u, damage_type type ) const
 {
     return bonuses.get_flat( u, AFFECTED_DAMAGE, type );

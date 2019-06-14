@@ -1298,7 +1298,6 @@ std::set<tripoint> spell_effect_line( spell &, const tripoint &source,
     tripoint cclockwise_end_point;
     calc_ray_end( initial_angle + 90, ceil( aoe_radius / 2.0 ), target, cclockwise_end_point );
 
-
     std::vector<tripoint> start_width = line_to( clockwise_starting_point, cclockwise_starting_point );
     start_width.insert( start_width.begin(), clockwise_end_point );
     std::vector<tripoint> end_width = line_to( clockwise_end_point, cclockwise_end_point );

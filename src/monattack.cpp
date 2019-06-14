@@ -2830,7 +2830,6 @@ bool mattack::nurse_operate( monster *z )
         add_msg( m_info, _( "The %s is scanning its surroundings." ), z->name() );
     }
 
-
     if( ( ( g->u.is_wearing( "badge_doctor" ) ||
             z->attitude_to( g->u ) == Creature::Attitude::A_FRIENDLY ) && u_see ) && one_in( 100 ) ) {
 

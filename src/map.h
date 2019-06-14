@@ -468,7 +468,6 @@ class map
         bool clear_path( const tripoint &f, const tripoint &t, const int range,
                          const int cost_min, const int cost_max ) const;
 
-
         /**
          * Populates a vector of points that are reachable within a number of steps from a
          * point. It could be generalized to take advantage of z levels, but would need some
